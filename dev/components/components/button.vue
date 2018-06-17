@@ -574,7 +574,7 @@ export default {
       this.$q.notify('Click called')
     },
     linkClick (e, go) {
-      e.preventDefault() // we choose when we navigate
+      e.navigate = false // we choose when we navigate
 
       console.log('triggering navigation in 2s')
       setTimeout(() => {

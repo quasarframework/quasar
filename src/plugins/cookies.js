@@ -126,7 +126,9 @@ function has (key, ssr) {
   return get(key, ssr) !== undefined
 }
 
-export function ssrGetCookies (ssr) {
+export function ssrGetCookies (ctx) {
+  const ssr = ctx.ssr
+
   return {
     get: key => get(key, ssr),
     set: (key, val, opts) => set(key, val, opts, ssr),

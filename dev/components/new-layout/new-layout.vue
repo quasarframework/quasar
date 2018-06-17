@@ -9,7 +9,7 @@
             Header
             <span slot="subtitle">The Subtiiiitleeee</span>
           </q-toolbar-title>
-          <q-btn round dense flat class="relative-position q-mr-md" icon="announcement">
+          <q-btn round dense flat class="relative-position q-mr-md" icon="announcement" to="/">
             <q-chip dense square floating color="red">1</q-chip>
           </q-btn>
           <q-color hide-underline :dark="$q.theme === 'mat'" v-model="mainColor" />

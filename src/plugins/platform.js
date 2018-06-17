@@ -53,7 +53,7 @@ function getPlatform (userAgent) {
   const
     platformMatch = getPlatformMatch(userAgent),
     matched = getMatch(userAgent, platformMatch),
-    browser = { ssr: isSSR }
+    browser = {}
 
   if (matched.browser) {
     browser[matched.browser] = true
@@ -159,21 +159,24 @@ function getPlatform (userAgent) {
       browser.cordova = true
     }
 
-    browser.fromSSR = fromSSR = browser.cordova === void 0 &&
+    fromSSR = browser.cordova === void 0 &&
       browser.electron === void 0 &&
       !!document.querySelector('[data-server-rendered]')
 
     fromSSR && (onSSR = true)
   }
 
-  browser.onSSR = onSSR
-
   return browser
 }
 
-export function ssrGetPlatform (ssr) {
+export function ssrClientTakeover () {
+  onSSR = false
+  fromSSR = false
+}
+
+export function ssrGetPlatform (ctx) {
   return {
-    is: getPlatform(ssr.req.headers['user-agent']),
+    is: getPlatform(ctx.ssr.req.headers['user-agent']),
     has: {
       touch: false,
       webStorage: false

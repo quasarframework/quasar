@@ -51,9 +51,9 @@ export default {
     click (e) {
       this.__cleanup()
 
-      if (this.isDisabled) {
-        e && stopAndPrevent(e) // fix for submit button
-        return
+      if (this.to !== void 0 || this.isDisabled) {
+        e && stopAndPrevent(e)
+        if (this.isDisabled) { return }
       }
 
       if (e && e.detail !== -1 && this.type === 'submit') {
@@ -68,15 +68,9 @@ export default {
       }
 
       const trigger = () => {
-        if (this.isDisabled) {
-          e && stopAndPrevent(e) // fix for submit button
-          return
-        }
-
-        this.$emit('click', e, go)
-
-        if (this.to !== void 0 && !e.defaultPrevented) {
-          go()
+        if (!this.isDisabled) {
+          this.$emit('click', e, go)
+          this.to !== void 0 && e.navigate !== false && go()
         }
       }
 

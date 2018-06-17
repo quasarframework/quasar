@@ -8,6 +8,6 @@ export default {
     }
   },
   mounted () {
-    this.canRender = true
+    this.canRender === false && (this.canRender = true)
   }
 }

@@ -20,12 +20,19 @@ Vue.use(Quasar, {
   config: {}
 })
 
+const testHydration = true
+
 // export a factory function for creating fresh app, router and store
 // instances
 export function createApp (ssrContext) {
   const router = createRouter()
 
-  if (process.env.VUE_ENV === 'client') {
+  // we get each page from server first!
+  if (testHydration && process.env.VUE_ENV === 'client') {
+    console.log('[Quasar] !!!!')
+    console.log('[Quasar] On route change we deliberately load page from server -- in order to test hydration errors')
+    console.log('[Quasar] !!!!')
+
     let reload = false
     router.beforeEach((to, from, next) => {
       if (reload) {
@@ -42,9 +49,10 @@ export function createApp (ssrContext) {
     ...App
   }
 
+  const ctx = { app }
+
   if (ssrContext) {
-    Quasar.ssrUpdate({
-      app,
+    ctx.ssr = {
       req: ssrContext.req,
       res: ssrContext.res,
       setBodyClasses (cls) {
@@ -57,8 +65,10 @@ export function createApp (ssrContext) {
         }
         ssrContext.htmlAttrs = str.join(' ')
       }
-    })
+    }
   }
+
+  Quasar.ssrUpdate(ctx)
 
   return {
     app: new Vue(app),

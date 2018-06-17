@@ -51,10 +51,10 @@ function setColors (brand) {
   }
 }
 
-export function ssrUpdateBody (ssr) {
-  const update = ssr.setBodyClasses
+export function ssrUpdateBody (ctx) {
+  const update = ctx.ssr.setBodyClasses
   if (typeof update === 'function') {
-    update(getBodyClasses(ssr.app.$q.platform))
+    update(getBodyClasses(ctx.app.$q.platform))
   }
 }
 

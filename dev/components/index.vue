@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="layout-padding" style="max-width: 500px">
-      <div class="row justify-center" style="padding-bottom: 25px">
+      <router-link tag="div" to="/layout-quick/a" class="cursor-pointer text-center" style="margin-bottom: 25px">
         <img src="statics/quasar-logo.png">
-      </div>
+      </router-link>
       <div
         class="list no-border"
         v-for="(category, title) in list"
