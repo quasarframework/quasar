@@ -220,7 +220,6 @@ export default {
       queues.takeover.push(q => {
         onSSR = fromSSR = false
         Object.assign(q.platform, getClientProperties())
-        q.platform.has.touch = true
       })
       Vue.util.defineReactive($q, 'platform', this)
     }
