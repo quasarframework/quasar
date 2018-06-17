@@ -1,6 +1,5 @@
 import { QResizeObservable } from '../observables'
 import CanRenderMixin from '../../mixins/can-render'
-import { fromSSR } from '../../plugins/platform'
 
 export default {
   name: 'QLayoutHeader',
@@ -111,9 +110,6 @@ export default {
     this.layout.instances.header = this
     this.__update('space', this.value)
     this.__update('offset', this.offset)
-  },
-  mounted () {
-    fromSSR && this.value && this.layout.__animate()
   },
   beforeDestroy () {
     if (this.layout.instances.header === this) {

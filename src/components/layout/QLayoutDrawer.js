@@ -84,10 +84,10 @@ export default {
           this.largeScreenState = this.showing
         }
         // ensure we close it for small screen
-        this.hide()
+        this.hide(false)
       }
       else if (!this.overlay) { // from xs to lg
-        this[this.largeScreenState ? 'show' : 'hide']()
+        this[this.largeScreenState ? 'show' : 'hide'](false)
       }
     },
     behavior (val) {
@@ -113,7 +113,6 @@ export default {
     },
     onLayout (val) {
       this.__update('space', val)
-      this.layout.__animate()
     },
     $route () {
       if (this.noHideOnRouteChange) {
@@ -344,8 +343,8 @@ export default {
         this.$refs.content.classList.add('no-transition')
       }
     },
-    __show () {
-      this.layout.__animate()
+    __show (animate = true) {
+      animate && this.layout.__animate()
       this.applyPosition(0)
 
       const otherSide = this.layout.instances[this.rightSide ? 'left' : 'right']
@@ -372,8 +371,8 @@ export default {
         }
       }, duration)
     },
-    __hide () {
-      this.layout.__animate()
+    __hide (animate = true) {
+      animate && this.layout.__animate()
 
       if (this.mobileOpened) {
         this.__preventScroll(false)
