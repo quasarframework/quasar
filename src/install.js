@@ -23,11 +23,11 @@ export default function (Vue, opts = {}) {
   const cfg = opts.config || {}
 
   // required plugins
-  Platform.install({ $q, Vue, queues })
-  Body.install({ $q, queues, cfg })
-  History.install({ $q, cfg })
-  I18n.install({ $q, Vue, queues, cfg, lang: opts.i18n })
-  Icons.install({ $q, Vue, queues, iconSet: opts.iconSet })
+  Platform.install({ Vue })
+  Body.install({ cfg })
+  History.install({ cfg })
+  I18n.install({ Vue, cfg, lang: opts.i18n })
+  Icons.install({ Vue, iconSet: opts.iconSet })
 
   if (isSSR) {
     Vue.mixin({
@@ -59,10 +59,11 @@ export default function (Vue, opts = {}) {
   }
 
   if (opts.plugins) {
+    const param = { Vue, cfg }
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
       if (typeof p.install === 'function' && p !== Platform) {
-        p.install({ $q, Vue, queues, cfg })
+        p.install(param)
       }
     })
   }

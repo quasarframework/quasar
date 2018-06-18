@@ -1,8 +1,9 @@
 import { QDialog } from '../components/dialog'
 import modalFn from '../utils/modal-fn'
+import { $q } from '../install'
 
 export default {
-  install ({ $q, Vue }) {
+  install ({ Vue }) {
     this.create = $q.dialog = modalFn(QDialog, Vue)
   }
 }

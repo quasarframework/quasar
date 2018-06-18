@@ -1,9 +1,10 @@
 import langEn from '../i18n/en-us'
 import { isSSR } from './plugins/platform'
 import { ready } from './utils/dom'
+import { $q, queues } from './install'
 
 export default {
-  install ({ $q, Vue, queues, lang }) {
+  install ({ Vue, lang }) {
     if (isSSR) {
       queues.server.push((q, ctx) => {
         const fn = ctx.ssr.setHtmlAttrs

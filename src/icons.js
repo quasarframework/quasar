@@ -1,9 +1,10 @@
 import { isSSR } from './plugins/platform'
+import { $q } from './install'
 import materialIcons from '../icons/material-icons'
 
 export default {
   __installed: false,
-  install ({ $q, Vue, iconSet }) {
+  install ({ Vue, iconSet }) {
     this.set = (iconDef = materialIcons) => {
       iconDef.set = this.set
 

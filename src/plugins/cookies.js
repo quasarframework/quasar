@@ -1,4 +1,5 @@
 import { isSSR } from './platform'
+import { $q, queues } from '../install'
 
 function encode (string) {
   return encodeURIComponent(string)
@@ -139,7 +140,7 @@ export function getObject (ctx = {}) {
 }
 
 export default {
-  install ({ $q, queues }) {
+  install () {
     if (isSSR) {
       queues.server.push((q, ctx) => {
         q.cookies = getObject(ctx)

@@ -3,6 +3,7 @@ import uid from '../utils/uid'
 import clone from '../utils/clone'
 import { isSSR } from './platform'
 import { ready } from '../utils/dom'
+import { $q } from '../install'
 
 let defaults
 
@@ -12,10 +13,10 @@ const positionList = [
   'top', 'bottom', 'left', 'right', 'center'
 ]
 
-function init ({ $q, Vue }) {
+function init ({ Vue }) {
   if (!document.body) {
     ready(() => {
-      init.call(this, { $q, Vue })
+      init.call(this, { Vue })
     })
     return
   }
@@ -194,8 +195,8 @@ export default {
 
   install (args) {
     if (isSSR) {
-      args.$q.notify = () => {}
-      args.$q.notify.setDefaults = () => {}
+      $q.notify = () => {}
+      $q.notify.setDefaults = () => {}
       return
     }
 
@@ -203,7 +204,7 @@ export default {
 
     args.cfg.notify && this.setDefaults(args.cfg.notify)
 
-    args.$q.notify = this.create.bind(this)
-    args.$q.notify.setDefaults = this.setDefaults
+    $q.notify = this.create.bind(this)
+    $q.notify.setDefaults = this.setDefaults
   }
 }

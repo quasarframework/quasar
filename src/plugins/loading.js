@@ -1,5 +1,6 @@
 import { QSpinner } from '../components/spinner'
 import { isSSR } from './platform'
+import { $q } from '../install'
 
 let
   vm,
@@ -93,7 +94,7 @@ export default {
   },
 
   __Vue: null,
-  install ({ $q, Vue, cfg: { loading } }) {
+  install ({ Vue, cfg: { loading } }) {
     loading && this.setDefaults(loading)
 
     $q.loading = this
