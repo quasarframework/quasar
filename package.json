@@ -51,7 +51,7 @@
     "@babel/preset-stage-2": "7.0.0-beta.51",
     "@babel/runtime": "7.0.0-beta.51",
     "ajv": "^6.2.1",
-    "autoprefixer": "^8.6.2",
+    "autoprefixer": "^8.6.3",
     "babel-eslint": "^8.2.2",
     "babel-loader": "^8.0.0-beta.2",
     "babel-preset-es2015-rollup": "^3.0.0",

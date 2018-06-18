@@ -16,7 +16,7 @@ require('./webpack.inject.base')(chain)
 chain.devtool('#cheap-module-source-map')
 
 chain.entry('client')
-  .add('webpack-hot-middleware/client')
+  .add('webpack-hot-middleware/client?reload=true')
   .add(resolve('dev/app.entry-client.js'))
 
 chain.output
