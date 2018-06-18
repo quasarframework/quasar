@@ -3,7 +3,6 @@ import uid from '../utils/uid'
 import clone from '../utils/clone'
 import { isSSR } from './platform'
 import { ready } from '../utils/dom'
-import { $q } from '../install'
 
 let defaults
 
@@ -195,8 +194,8 @@ export default {
 
   install (args) {
     if (isSSR) {
-      $q.notify = () => {}
-      $q.notify.setDefaults = () => {}
+      args.$q.notify = () => {}
+      args.$q.notify.setDefaults = () => {}
       return
     }
 
@@ -204,7 +203,7 @@ export default {
 
     args.cfg.notify && this.setDefaults(args.cfg.notify)
 
-    $q.notify = this.create.bind(this)
-    $q.notify.setDefaults = this.setDefaults
+    args.$q.notify = this.create.bind(this)
+    args.$q.notify.setDefaults = this.setDefaults
   }
 }

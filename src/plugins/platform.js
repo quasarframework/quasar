@@ -1,5 +1,3 @@
-import { $q, queues } from '../install'
-
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-mixed-operators */
@@ -201,7 +199,7 @@ export default {
     iframe: false
   },
 
-  install ({ Vue }) {
+  install ($q, queues, Vue) {
     if (isSSR) {
       queues.server.push((q, ctx) => {
         q.platform = {

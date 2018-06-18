@@ -1,10 +1,9 @@
 import { isSSR } from './platform'
-import { $q } from '../install'
 
 export default {
   appVisible: false,
 
-  install ({ Vue }) {
+  install ({ $q, Vue }) {
     if (isSSR) {
       this.appVisible = $q.appVisible = true
       return

@@ -1,5 +1,4 @@
 import { onSSR } from './platform'
-import { $q } from '../install'
 
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {
@@ -125,7 +124,7 @@ function getStorage (type) {
 }
 
 export const LocalStorage = {
-  install () {
+  install ({ $q }) {
     if (onSSR) {
       $q.localStorage = getEmptyStorage()
       return
@@ -140,7 +139,7 @@ export const LocalStorage = {
 }
 
 export const SessionStorage = {
-  install () {
+  install ({ $q }) {
     if (onSSR) {
       $q.sessionStorage = getEmptyStorage()
       return

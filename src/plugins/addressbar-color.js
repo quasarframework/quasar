@@ -1,7 +1,6 @@
 import Platform, { isSSR } from './platform'
 import { ready } from '../utils/dom'
 import { getBrand } from '../utils/colors'
-import { $q } from '../install'
 
 let metaValue
 
@@ -47,7 +46,7 @@ function setColor (hexColor) {
 }
 
 export default {
-  install ({ Vue }) {
+  install ({ $q, Vue }) {
     this.set = !isSSR && Platform.is.mobile && (
       Platform.is.cordova ||
       Platform.is.winphone || Platform.is.safari ||

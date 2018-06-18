@@ -1,12 +1,11 @@
 import { isSSR } from './plugins/platform'
-import { $q } from './install'
 
 export default {
   __history: [],
   add: () => {},
   remove: () => {},
 
-  install ({ cfg }) {
+  install ($q, cfg) {
     if (isSSR || !$q.platform.is.cordova) {
       return
     }

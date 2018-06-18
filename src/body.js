@@ -1,7 +1,6 @@
 import { ready } from './utils/dom'
 import { setBrand } from './utils/colors'
 import { isSSR } from './plugins/platform'
-import { $q, queues } from './install'
 
 function getBodyClasses ({ is, has, within }, cfg) {
   const cls = [
@@ -54,7 +53,7 @@ function setColors (brand) {
 }
 
 export default {
-  install ({ cfg }) {
+  install ($q, queues, cfg) {
     if (isSSR) {
       queues.server.push((q, ctx) => {
         const update = ctx.ssr.setBodyClasses
