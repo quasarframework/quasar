@@ -169,20 +169,30 @@ function getPlatform (userAgent) {
   return browser
 }
 
-function getClientProperties () {
-  let webStorage = false
+let webStorage
+
+export function hasWebStorage () {
+  if (webStorage !== void 0) {
+    return webStorage
+  }
 
   try {
     if (window.localStorage) {
       webStorage = true
+      return true
     }
   }
   catch (e) {}
 
+  webStorage = false
+  return false
+}
+
+function getClientProperties () {
   return {
     has: {
       touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)(),
-      webStorage
+      webStorage: hasWebStorage()
     },
     within: {
       iframe: window.self !== window.top

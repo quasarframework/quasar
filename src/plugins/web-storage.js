@@ -1,4 +1,4 @@
-import { onSSR } from './platform'
+import { onSSR, hasWebStorage } from './platform'
 
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {
@@ -130,7 +130,7 @@ export const LocalStorage = {
       return
     }
 
-    if ($q.platform.has.webStorage) {
+    if (hasWebStorage()) {
       const storage = getStorage('local')
       $q.localStorage = storage
       Object.assign(this, storage)
@@ -145,7 +145,7 @@ export const SessionStorage = {
       return
     }
 
-    if ($q.platform.has.webStorage) {
+    if (hasWebStorage()) {
       const storage = getStorage('session')
       $q.sessionStorage = storage
       Object.assign(this, storage)
