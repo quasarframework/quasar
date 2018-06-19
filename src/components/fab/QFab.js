@@ -22,6 +22,12 @@ export default {
       default: 'right'
     }
   },
+  methods: {
+    click (e) {
+      this.toggle(e)
+      this.emit('click', e)
+    }
+  },
   watch: {
     $route () {
       this.hide()
@@ -51,7 +57,7 @@ export default {
           glossy: this.glossy
         },
         on: {
-          click: this.toggle
+          click: this.click
         }
       }, [
         this.$slots.tooltip,
