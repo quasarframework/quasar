@@ -62,7 +62,7 @@ export default {
     resume () {
       this.working = true
       this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
-      this.poll()
+      this.immediatePoll()
     },
     stop () {
       this.working = false
@@ -79,6 +79,7 @@ export default {
       }
 
       this.poll()
+      this.immediatePoll = this.poll
       this.poll = debounce(this.poll, 50)
     })
   },
@@ -91,15 +92,10 @@ export default {
         ref: 'content',
         staticClass: 'q-infinite-scroll-content'
       }, this.$slots.default),
-      h('div', {
-        staticClass: 'q-infinite-scroll-message',
-        directives: [{
-          name: 'show',
-          value: this.fetching
-        }]
-      }, [
-        this.$slots.message
-      ])
+
+      this.fetching
+        ? h('div', { staticClass: 'q-infinite-scroll-message' }, this.$slots.message)
+        : null
     ])
   }
 }
