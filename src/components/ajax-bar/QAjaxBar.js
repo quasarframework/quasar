@@ -4,7 +4,9 @@ import { isSSR } from '../../plugins/platform'
 
 const
   xhr = isSSR ? null : XMLHttpRequest,
-  send = isSSR ? null : xhr.prototype.send
+  send = isSSR ? null : xhr.prototype.send,
+  stack = { start: [], stop: [] }
+
 let highjackCount = 0
 
 function translate ({p, pos, active, horiz, reverse, dir}) {
@@ -40,26 +42,37 @@ function inc (p, amount) {
       amount = 0
     }
   }
-  return between(p + amount, 0, 100)
+  return between(Math.floor(p + amount), 0, 100)
 }
 
-function highjackAjax (startHandler, endHandler) {
+function highjackAjax (start, stop) {
+  stack.start.push(start)
+  stack.stop.push(stop)
+
+  highjackCount++
+
+  if (highjackCount > 1) { return }
+
+  function endHandler () {
+    stack.stop.map(fn => { fn() })
+  }
+
   xhr.prototype.send = function (...args) {
-    startHandler()
+    stack.start.map(fn => { fn() })
 
     this.addEventListener('abort', endHandler, false)
     this.addEventListener('readystatechange', () => {
-      if (this.readyState === 4) {
-        endHandler()
-      }
+      if (this.readyState === 4) { endHandler() }
     }, false)
 
     send.apply(this, args)
   }
-  highjackCount += 1
 }
 
-function restoreAjax () {
+function restoreAjax (start, stop) {
+  stack.start = stack.start.filter(fn => fn !== start)
+  stack.stop = stack.stop.filter(fn => fn !== stop)
+
   highjackCount = Math.max(0, highjackCount - 1)
   if (!highjackCount) {
     xhr.prototype.send = send
@@ -78,20 +91,17 @@ export default {
     },
     size: {
       type: String,
-      default: '4px'
+      default: '2px'
     },
     color: {
       type: String,
-      default: 'red'
+      default: 'secondary'
     },
     speed: {
       type: Number,
-      default: 250
+      default: 100
     },
-    delay: {
-      type: Number,
-      default: 1000
-    },
+    skipHijack: Boolean,
     reverse: Boolean
   },
   data () {
@@ -144,14 +154,14 @@ export default {
         this.$emit('start')
         this.timer = setTimeout(() => {
           this.animate = true
-          this.move()
-        }, this.delay)
+          this.__step()
+        }, 1)
       }
       else if (this.closing) {
         this.closing = false
         clearTimeout(this.timer)
         this.progress = 0
-        this.move()
+        this.__step()
       }
     },
     increment (amount) {
@@ -171,31 +181,33 @@ export default {
         this.active = false
         return
       }
+
       this.closing = true
       this.progress = 100
       this.$emit('stop')
       this.timer = setTimeout(() => {
         this.closing = false
         this.active = false
-      }, 1050)
+      }, 1000)
     },
-    move () {
+
+    __step () {
       this.timer = setTimeout(() => {
         this.increment()
-        this.move()
+        this.__step()
       }, this.speed)
     }
   },
   mounted () {
-    highjackAjax(this.start, this.stop)
+    !this.skipHijack && highjackAjax(this.start, this.stop)
   },
   beforeDestroy () {
     clearTimeout(this.timer)
-    restoreAjax()
+    !this.skipHijack && restoreAjax(this.start, this.stop)
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-loading-bar shadow-4',
+      staticClass: 'q-loading-bar',
       'class': this.classes,
       style: this.style
     }, [

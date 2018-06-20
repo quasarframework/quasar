@@ -46,9 +46,9 @@
 export default {
   data () {
     return {
-      position: 'bottom',
+      position: 'top',
       reverse: false,
-      size: 8,
+      size: 2,
 
       timeouts: []
     }
@@ -66,7 +66,7 @@ export default {
         if (this.$refs.bar) {
           this.$refs.bar.stop()
         }
-      }, Math.random() * 5000 + 2000)
+      }, Math.random() * 3000 + 1000)
     }
   }
 }
