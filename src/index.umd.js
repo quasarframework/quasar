@@ -18,7 +18,9 @@ else {
     components,
     directives,
     plugins,
-    config: window.quasarConfig || {}
+    config: typeof window !== 'undefined'
+      ? (window.quasarConfig || {})
+      : {}
   })
 }
 
