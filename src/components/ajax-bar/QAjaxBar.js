@@ -35,13 +35,13 @@ function inc (p, amount) {
       amount = Math.random() * 2
     }
     else if (p < 99) {
-      amount = 0.5
+      amount = 0.6
     }
     else {
       amount = 0
     }
   }
-  return between(Math.floor(p + amount), 0, 100)
+  return between(p + amount, 0, 100)
 }
 
 function highjackAjax (start, stop) {
@@ -142,7 +142,7 @@ export default {
     }
   },
   methods: {
-    start () {
+    start (speed = 300) {
       this.calls++
       if (this.calls > 1) { return }
 
@@ -156,7 +156,7 @@ export default {
       this.animate = false
       this.timer = setTimeout(() => {
         this.animate = true
-        this.__work()
+        this.__work(speed)
       }, 100)
     },
     increment (amount) {
@@ -185,12 +185,12 @@ export default {
       }
     },
 
-    __work () {
+    __work (speed) {
       if (this.progress < 100) {
         this.timer = setTimeout(() => {
           this.increment()
-          this.__work()
-        }, 100)
+          this.__work(speed)
+        }, speed)
       }
     }
   },

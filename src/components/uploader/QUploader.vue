@@ -44,7 +44,7 @@
       <q-icon
         v-if="uploading"
         slot="after"
-        class="q-if-end self-center"
+        class="q-if-end self-center q-if-control"
         :name="$q.icon.uploader[`clear${isInverted ? 'Inverted' : ''}`]"
         @click.native="abort"
       />
@@ -53,7 +53,7 @@
         v-if="!uploading"
         slot="after"
         :name="$q.icon.uploader.add"
-        class="q-uploader-pick-button q-if-control relative-position overflow-hidden"
+        class="q-uploader-pick-button self-center q-if-control relative-position overflow-hidden"
         @click.native="__pick"
         :disabled="addDisabled"
       >
@@ -71,7 +71,7 @@
         v-if="!hideUploadButton && !uploading"
         slot="after"
         :name="$q.icon.uploader.upload"
-        class="q-if-control"
+        class="q-if-control self-center"
         :disabled="queueLength === 0"
         @click.native="upload"
       />
@@ -80,7 +80,7 @@
         v-if="hasExpandedContent"
         slot="after"
         :name="$q.icon.uploader.expand"
-        class="q-if-control generic_transition"
+        class="q-if-control generic_transition self-center"
         :class="{'rotate-180': expanded}"
         @click.native="expanded = !expanded"
       />
