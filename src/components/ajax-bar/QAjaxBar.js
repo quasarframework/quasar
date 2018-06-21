@@ -15,19 +15,18 @@ function translate ({p, pos, active, horiz, reverse, dir}) {
   if (horiz) {
     if (reverse) { x = -1 }
     if (pos === 'bottom') { y = -1 }
-    return cssTransform(`translate3d(${x * (p - 100)}%, ${active ? 0 : y * -200}%, 0)`)
+    return cssTransform(`translate3d(${x * (p - 100)}%,${active ? 0 : y * -200}%,0)`)
   }
 
   if (reverse) { y = -1 }
   if (pos === 'right') { x = -1 }
-
-  return cssTransform(`translate3d(${active ? 0 : dir * x * -200}%, ${y * (p - 100)}%, 0)`)
+  return cssTransform(`translate3d(${active ? 0 : dir * x * -200}%,${y * (p - 100)}%,0)`)
 }
 
 function inc (p, amount) {
   if (typeof amount !== 'number') {
     if (p < 25) {
-      amount = Math.random() * (5 - 3 + 1) + 3
+      amount = Math.random() * 3 + 3
     }
     else if (p < 65) {
       amount = Math.random() * 3
@@ -95,46 +94,44 @@ export default {
     },
     color: {
       type: String,
-      default: 'secondary'
-    },
-    speed: {
-      type: Number,
-      default: 100
+      default: 'red'
     },
     skipHijack: Boolean,
     reverse: Boolean
   },
   data () {
     return {
-      animate: false,
-      active: false,
+      calls: 0,
       progress: 0,
-      calls: 0
+      onScreen: false,
+      animate: true
     }
   },
   computed: {
     classes () {
       return [
         this.position,
+        `bg-${this.color}`,
         this.animate ? '' : 'no-transition'
       ]
     },
-    innerClasses () {
-      return `bg-${this.color}`
-    },
     style () {
-      const reverse = this.$q.i18n.rtl && ['top', 'bottom'].includes(this.position)
-        ? !this.reverse
-        : this.reverse
+      const active = this.onScreen
+
       let o = translate({
         p: this.progress,
         pos: this.position,
-        active: this.active,
+        active,
         horiz: this.horizontal,
-        reverse,
+        reverse: this.$q.i18n.rtl && ['top', 'bottom'].includes(this.position)
+          ? !this.reverse
+          : this.reverse,
         dir: this.$q.i18n.rtl ? -1 : 1
       })
+
       o[this.sizeProp] = this.size
+      o.opacity = active ? 1 : 0
+
       return o
     },
     horizontal () {
@@ -147,74 +144,72 @@ export default {
   methods: {
     start () {
       this.calls++
-      if (!this.active) {
-        this.progress = 0
-        this.active = true
-        this.animate = false
-        this.$emit('start')
-        this.timer = setTimeout(() => {
-          this.animate = true
-          this.__step()
-        }, 1)
+      if (this.calls > 1) { return }
+
+      clearTimeout(this.timer)
+      this.$emit('start')
+
+      this.progress = 0
+
+      if (this.onScreen) {
+        this.__work()
       }
-      else if (this.closing) {
-        this.closing = false
-        clearTimeout(this.timer)
-        this.progress = 0
-        this.__step()
+      else {
+        this.onScreen = true
+        this.animate = false
+        this.timer = this.$nextTick(() => {
+          this.animate = true
+          this.__work()
+        }, 1)
       }
     },
     increment (amount) {
-      if (this.active) {
-        this.progress = inc(this.progress, amount)
-      }
+      this.calls > 0 && (this.progress = inc(this.progress, amount))
     },
     stop () {
       this.calls = Math.max(0, this.calls - 1)
-      if (this.calls > 0) {
-        return
-      }
+      if (this.calls > 0) { return }
 
       clearTimeout(this.timer)
+      this.$emit('stop')
 
-      if (!this.animate) {
-        this.active = false
-        return
+      const end = () => {
+        this.progress = 100
+        this.timer = setTimeout(() => {
+          this.onScreen = false
+        }, 1000)
       }
 
-      this.closing = true
-      this.progress = 100
-      this.$emit('stop')
-      this.timer = setTimeout(() => {
-        this.closing = false
-        this.active = false
-      }, 1000)
+      if (this.progress === 0) {
+        this.timer = setTimeout(end, 1)
+      }
+      else {
+        end()
+      }
     },
 
-    __step () {
+    __work () {
       this.timer = setTimeout(() => {
         this.increment()
-        this.__step()
-      }, this.speed)
+        this.__work()
+      }, 100)
     }
   },
   mounted () {
-    !this.skipHijack && highjackAjax(this.start, this.stop)
+    if (!this.skipHijack) {
+      this.hijacked = true
+      highjackAjax(this.start, this.stop)
+    }
   },
   beforeDestroy () {
     clearTimeout(this.timer)
-    !this.skipHijack && restoreAjax(this.start, this.stop)
+    this.hijacked && restoreAjax(this.start, this.stop)
   },
   render (h) {
     return h('div', {
       staticClass: 'q-loading-bar',
       'class': this.classes,
       style: this.style
-    }, [
-      h('div', {
-        staticClass: 'q-loading-bar-inner',
-        'class': this.innerClasses
-      })
-    ])
+    })
   }
 }

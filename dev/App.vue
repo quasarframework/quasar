@@ -3,7 +3,6 @@
     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300" @leave="resetScroll">
       <router-view/>
     </transition>
-    <q-ajax-bar ref="bar" />
     <div
       style="padding: 0px 10px; right: 10px; bottom: 100px; padding: 5px; border-radius: 5px;"
       class="bg-white shadow-4 fixed z-top"
@@ -66,12 +65,6 @@ export default {
       import(`../icons/${set}`).then(iconSet => {
         this.$q.icon.set(iconSet.default)
       })
-    }
-  },
-  mounted () {
-    window.bar = this.$refs.bar
-    if (this.$q.platform.is.cordova) {
-      console.log('on CORDOVA')
     }
   },
   methods: {
