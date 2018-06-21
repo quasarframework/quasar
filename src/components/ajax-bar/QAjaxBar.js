@@ -149,19 +149,15 @@ export default {
       clearTimeout(this.timer)
       this.$emit('start')
 
-      this.progress = 0
+      if (this.onScreen) { return }
 
-      if (this.onScreen) {
+      this.progress = 0
+      this.onScreen = true
+      this.animate = false
+      this.timer = setTimeout(() => {
+        this.animate = true
         this.__work()
-      }
-      else {
-        this.onScreen = true
-        this.animate = false
-        this.timer = this.$nextTick(() => {
-          this.animate = true
-          this.__work()
-        }, 1)
-      }
+      }, 100)
     },
     increment (amount) {
       this.calls > 0 && (this.progress = inc(this.progress, amount))
@@ -174,6 +170,7 @@ export default {
       this.$emit('stop')
 
       const end = () => {
+        this.animate = true
         this.progress = 100
         this.timer = setTimeout(() => {
           this.onScreen = false
@@ -189,10 +186,12 @@ export default {
     },
 
     __work () {
-      this.timer = setTimeout(() => {
-        this.increment()
-        this.__work()
-      }, 100)
+      if (this.progress < 100) {
+        this.timer = setTimeout(() => {
+          this.increment()
+          this.__work()
+        }, 100)
+      }
     }
   },
   mounted () {
