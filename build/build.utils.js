@@ -7,10 +7,19 @@ function getSize (code) {
   return (code.length / 1024).toFixed(2) + 'kb'
 }
 
+module.exports.createFolder = function (folder) {
+  const dir = path.join(__dirname, '..', folder)
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir)
+  }
+}
+
 module.exports.writeFile = function (dest, code, zip) {
-  const banner = dest.indexOf('.js') > -1
-    ? '[js] '
-    : '[css]'
+  const banner = dest.indexOf('.json') > -1
+    ? '[json]'
+    : dest.indexOf('.js') > -1
+      ? '[js]  '
+      : '[css] '
 
   return new Promise((resolve, reject) => {
     function report (extra) {

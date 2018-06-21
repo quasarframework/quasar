@@ -80,7 +80,9 @@ const builds = [
 addAssets(builds, 'i18n')
 addAssets(builds, 'icons')
 
-build(builds)
+build(builds).then(() => {
+  require('./build.helpers').generate()
+})
 
 /**
  * Helpers
@@ -137,7 +139,7 @@ function processEntries (entries) {
 }
 
 function build (builds) {
-  Promise
+  return Promise
     .all(processEntries(builds).map(genConfig).map(buildEntry))
     .catch(buildUtils.logError)
 }
