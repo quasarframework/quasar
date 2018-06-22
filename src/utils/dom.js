@@ -38,7 +38,7 @@ export function ready (fn) {
     return
   }
 
-  if (document.readyState === 'complete') {
+  if (document.readyState !== 'loading') {
     return fn()
   }
 
