@@ -118,6 +118,9 @@ export default {
       shadow: {
         val: this.input,
         set: this.add,
+        setNav: val => {
+          this.input = val
+        },
         loading: false,
         selectionOpen: false,
         watched: 0,

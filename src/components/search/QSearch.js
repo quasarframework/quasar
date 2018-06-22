@@ -25,13 +25,15 @@ export default {
     }
   },
   provide () {
+    const set = val => {
+      if (this.model !== val) {
+        this.model = val
+      }
+    }
     return {
       __inputDebounce: {
-        set: val => {
-          if (this.model !== val) {
-            this.model = val
-          }
-        },
+        set,
+        setNav: set,
         setChildDebounce: v => {
           this.childDebounce = v
         }
