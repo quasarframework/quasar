@@ -204,9 +204,7 @@ export default {
       EscapeKey.pop()
       this.__preventScroll(false)
       this.__register(false)
-      if (!this.noRefocus) {
-        setTimeout(() => this.__refocusTarget && this.__refocusTarget.focus(), 300)
-      }
+      !this.noRefocus && this.__refocusTarget && this.__refocusTarget.focus()
     },
     __stopPropagation (e) {
       e.stopPropagation()
@@ -230,6 +228,10 @@ export default {
         }
         document.body.classList[state.action]('q-responsive-modal')
       }
+    },
+    __removeChild () {
+      const parentNode = this.$el.parentNode
+      parentNode && parentNode.removeChild(this.$el)
     }
   },
   mounted () {
@@ -238,9 +240,7 @@ export default {
     }
   },
   beforeDestroy () {
-    if (this.$el.parentNode) {
-      this.$el.parentNode.removeChild(this.$el)
-    }
+    this.__removeChild()
   },
   render (h) {
     return h('transition', {
@@ -251,9 +251,11 @@ export default {
         },
         enterCancelled: () => {
           this.showPromise && this.showPromiseReject()
+          this.__removeChild()
         },
         afterLeave: () => {
           this.hidePromise && this.hidePromiseResolve()
+          this.__removeChild()
         },
         leaveCancelled: () => {
           this.hidePromise && this.hidePromiseReject()

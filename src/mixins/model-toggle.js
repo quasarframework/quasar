@@ -59,6 +59,7 @@ export default {
           resolve(evt)
         }
         this.showPromiseReject = () => {
+          this.showPromise.catch(() => {})
           this.showPromise = null
           reject(null) // eslint prefer-promise-reject-errors: 0
         }
@@ -96,6 +97,7 @@ export default {
           resolve()
         }
         this.hidePromiseReject = () => {
+          this.hidePromise.catch(() => {})
           this.hidePromise = null
           reject(null)
         }

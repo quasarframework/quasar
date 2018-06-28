@@ -138,7 +138,8 @@ export default {
       window.removeEventListener('resize', this.__updatePosition, listenOpts.passive)
       EscapeKey.pop()
 
-      document.body.removeChild(this.$el)
+      const parentNode = this.$el.parentNode
+      parentNode && parentNode.removeChild(this.$el)
       this.hidePromise && this.hidePromiseResolve()
       if (!this.noRefocus && this.__refocusTarget) {
         this.__refocusTarget.focus()
