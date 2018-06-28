@@ -95,32 +95,51 @@ if (!String.prototype.endsWith) {
   }
 }
 
-if (!isSSR && typeof Element.prototype.matches !== 'function') {
-  Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.webkitMatchesSelector || function matches (selector) {
-    let
-      element = this,
-      elements = (element.document || element.ownerDocument).querySelectorAll(selector),
-      index = 0
+if (!isSSR) {
+  if (typeof Element.prototype.matches !== 'function') {
+    Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.webkitMatchesSelector || function matches (selector) {
+      let
+        element = this,
+        elements = (element.document || element.ownerDocument).querySelectorAll(selector),
+        index = 0
 
-    while (elements[index] && elements[index] !== element) {
-      ++index
-    }
-
-    return Boolean(elements[index])
-  }
-}
-
-if (!isSSR && typeof Element.prototype.closest !== 'function') {
-  Element.prototype.closest = function closest (selector) {
-    let el = this
-    while (el && el.nodeType === 1) {
-      if (el.matches(selector)) {
-        return el
+      while (elements[index] && elements[index] !== element) {
+        ++index
       }
-      el = el.parentNode
+
+      return Boolean(elements[index])
     }
-    return null
   }
+
+  if (typeof Element.prototype.closest !== 'function') {
+    Element.prototype.closest = function closest (selector) {
+      let el = this
+      while (el && el.nodeType === 1) {
+        if (el.matches(selector)) {
+          return el
+        }
+        el = el.parentNode
+      }
+      return null
+    }
+  }
+
+  // from:https://github.com/jserz/js_piece/blob/master/DOM/ChildNode/remove()/remove().md
+  (function (arr) {
+    arr.forEach(item => {
+      if (item.hasOwnProperty('remove')) { return }
+      Object.defineProperty(item, 'remove', {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        value () {
+          if (this.parentNode !== null) {
+            this.parentNode.removeChild(this)
+          }
+        }
+      })
+    })
+  })([Element.prototype, CharacterData.prototype, DocumentType.prototype])
 }
 
 if (!Array.prototype.find) {

@@ -228,10 +228,6 @@ export default {
         }
         document.body.classList[state.action]('q-responsive-modal')
       }
-    },
-    __removeChild () {
-      const parentNode = this.$el.parentNode
-      parentNode && parentNode.removeChild(this.$el)
     }
   },
   mounted () {
@@ -240,7 +236,7 @@ export default {
     }
   },
   beforeDestroy () {
-    this.__removeChild()
+    this.$el.remove()
   },
   render (h) {
     return h('transition', {
@@ -251,11 +247,11 @@ export default {
         },
         enterCancelled: () => {
           this.showPromise && this.showPromiseReject()
-          this.__removeChild()
+          this.$el.remove()
         },
         afterLeave: () => {
           this.hidePromise && this.hidePromiseResolve()
-          this.__removeChild()
+          this.$el.remove()
         },
         leaveCancelled: () => {
           this.hidePromise && this.hidePromiseReject()

@@ -68,9 +68,8 @@ export default {
 
       this.scrollTarget.removeEventListener('scroll', this.hide, listenOpts.passive)
       window.removeEventListener('resize', this.__debouncedUpdatePosition, listenOpts.passive)
+      this.$el.remove()
 
-      const parentNode = this.$el.parentNode
-      parentNode && parentNode.removeChild(this.$el)
       if (this.$q.platform.is.mobile) {
         document.body.removeEventListener('click', this.hide, true)
       }

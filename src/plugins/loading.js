@@ -82,8 +82,7 @@ export default {
     else {
       vm.$destroy()
       document.body.classList.remove('with-loading')
-      const parentNode = vm.$el.parentNode
-      parentNode && parentNode.removeChild(vm.$el)
+      vm.$el.remove()
       vm = null
     }
 
