@@ -32,7 +32,7 @@ export default {
   inject: {
     __input: {
       default () {
-        console.error('QAutocomplete needs to be child of QInput or QSearch')
+        console.error('QAutocomplete needs to be child of QInput, QChipsInput or QSearch')
       }
     },
     __inputDebounce: { default: null }
@@ -170,7 +170,7 @@ export default {
     __keyboardIsSelectableIndex (index) {
       return index > -1 && index < this.computedResults.length && !this.computedResults[index].disable
     },
-    setValue (result, noClose) {
+    setValue (result, kbdNav) {
       const value = this.staticData ? result[this.staticData.field] : result.value
       const suffix = this.__inputDebounce ? 'Debounce' : ''
 
@@ -179,10 +179,10 @@ export default {
       }
 
       this.enterKey = this.__input && value !== this.__input.val
-      this[`__input${suffix}`].set(value)
+      this[`__input${suffix}`][kbdNav ? 'setNav' : 'set'](value)
 
       this.$emit('selected', result)
-      if (!noClose) {
+      if (!kbdNav) {
         this.__clearSearch()
         this.hide()
       }

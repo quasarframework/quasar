@@ -174,6 +174,7 @@ export default {
       shadow: {
         val: this.model,
         set: this.__set,
+        setNav: this.__set,
         loading: false,
         watched: 0,
         isDark: () => this.dark,
