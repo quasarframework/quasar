@@ -64,7 +64,7 @@
       slot="after"
       :name="$q.icon.input.clear"
       class="q-if-control"
-      @click.stop.native="clear"
+      @click.native="clear"
     />
     <q-icon slot="after" :name="$q.icon.input.dropdown" class="q-if-control" />
 
@@ -399,6 +399,9 @@ export default {
         }
       })
       this.terms = ''
+      if (!this.focused) {
+        return
+      }
       if (keepFocus) {
         this.$refs.input && this.$refs.input.$el && this.$refs.input.$el.focus()
         return
@@ -442,7 +445,7 @@ export default {
       this.model = val || (this.multiple ? [] : null)
       this.$emit('input', this.model)
       if (forceUpdate || !this.$refs.popover || !this.$refs.popover.showing) {
-        this.__onClose()
+        this.__onClose(forceUpdate)
       }
     },
     __getChipTextColor (optColor) {
