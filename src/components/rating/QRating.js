@@ -94,22 +94,24 @@ export default {
             }
           }
         }
-      }, [h(QIcon, {
-        props: { name: this.icon || this.$q.icon.rating.icon },
-        'class': {
-          active: (!this.mouseModel && this.model >= i) || (this.mouseModel && this.mouseModel >= i),
-          exselected: this.mouseModel && this.model >= i && this.mouseModel < i,
-          hovered: this.mouseModel === i
-        },
-        attrs: { tabindex: -1 },
-        nativeOn: {
-          click: () => this.set(i),
-          mouseover: () => this.__setHoverValue(i),
-          mouseout: () => { this.mouseModel = 0 },
-          focus: () => this.__setHoverValue(i),
-          blur: () => { this.mouseModel = 0 }
-        }
-      })]))
+      }, [
+        h(QIcon, {
+          props: { name: this.icon || this.$q.icon.rating.icon },
+          'class': {
+            active: (!this.mouseModel && this.model >= i) || (this.mouseModel && this.mouseModel >= i),
+            exselected: this.mouseModel && this.model >= i && this.mouseModel < i,
+            hovered: this.mouseModel === i
+          },
+          attrs: { tabindex: -1 },
+          nativeOn: {
+            click: () => this.set(i),
+            mouseover: () => this.__setHoverValue(i),
+            mouseout: () => { this.mouseModel = 0 },
+            focus: () => this.__setHoverValue(i),
+            blur: () => { this.mouseModel = 0 }
+          }
+        })
+      ]))
     }
 
     return h('div', {
