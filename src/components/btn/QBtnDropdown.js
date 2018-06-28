@@ -10,7 +10,15 @@ export default {
     value: Boolean,
     split: Boolean,
     contentClass: [Array, String, Object],
-    contentStyle: [Array, String, Object]
+    contentStyle: [Array, String, Object],
+    popoverAnchor: {
+      type: String,
+      default: 'bottom right'
+    },
+    popoverSelf: {
+      type: String,
+      default: 'top right'
+    }
   },
   data () {
     return {
@@ -32,8 +40,8 @@ export default {
             disable: this.disable,
             fit: true,
             anchorClick: !this.split,
-            anchor: 'bottom right',
-            self: 'top right'
+            anchor: this.popoverAnchor,
+            self: this.popoverSelf
           },
           'class': this.contentClass,
           style: this.contentStyle,
