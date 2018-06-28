@@ -100,7 +100,10 @@ export default {
           on: { change: this.toggle }
         }),
         this.$q.platform.is.desktop
-          ? h('div', { staticClass: 'q-focus-helper' })
+          ? h('div', {
+            staticClass: 'q-focus-helper',
+            'class': this.__kebabTag === 'q-radio' ? 'q-focus-helper-round' : 'q-focus-helper-rounded'
+          })
           : null,
         this.__getContent(h)
       ]),
