@@ -40,6 +40,11 @@
             <strong>Tooltip</strong> on <em>bottom</em> (<q-icon name="keyboard_arrow_down" />)
           </q-tooltip>
         </q-btn>
+        <q-btn color="orange" label="With loading" :loading="loading" @click="setLoading">
+          <q-tooltip anchor="bottom middle" self="top middle" :offset="[10, 10]">
+            <strong>Tooltip</strong> on <em>bottom</em> (<q-icon name="keyboard_arrow_down" />)
+          </q-tooltip>
+        </q-btn>
       </div>
 
       <q-card style="margin-top: 75px">
@@ -104,6 +109,7 @@ export default {
   data () {
     return {
       toggle: false,
+      loading: false,
       anchorOrigin: {vertical: 'bottom', horizontal: 'middle'},
       selfOrigin: {vertical: 'top', horizontal: 'middle'}
     }
@@ -114,6 +120,14 @@ export default {
     },
     self () {
       return `${this.selfOrigin.vertical} ${this.selfOrigin.horizontal}`
+    }
+  },
+  methods: {
+    setLoading () {
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+      }, 1000)
     }
   }
 }

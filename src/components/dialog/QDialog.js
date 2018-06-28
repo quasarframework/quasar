@@ -116,7 +116,6 @@ export default {
 
           node = this.$refs.modal.$el.getElementsByClassName('q-btn')
           if (node.length) {
-            console.log('found btn')
             node[node.length - 1].focus()
           }
         },
@@ -128,7 +127,6 @@ export default {
         },
         'escape-key': () => {
           this.$emit('escape-key')
-          this.$emit('cancel')
         }
       }
     }, child)

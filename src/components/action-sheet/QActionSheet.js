@@ -92,7 +92,6 @@ export default {
         },
         'escape-key': () => {
           this.$emit('escape-key')
-          this.$emit('cancel')
         }
       }
     }, child)

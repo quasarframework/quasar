@@ -6,6 +6,7 @@
         ref="dialog"
         stack-buttons
         @cancel="onCancel"
+        @escape-key="onEscape"
         @ok="onOk"
         @show="onShow"
         @hide="onHide"
@@ -69,16 +70,19 @@ export default {
       this.showDialog = !this.showDialog
     },
     onOk () {
-      console.log('ok')
+      console.log('onOk')
     },
     onCancel () {
-      console.log('cancel')
+      console.log('onCancel')
+    },
+    onEscape () {
+      console.log('onEscape')
     },
     onShow () {
-      console.log('show')
+      console.log('onShow')
     },
     onHide () {
-      console.log('hide')
+      console.log('onHide')
     },
     choose (okFn, hero) {
       if (this.name.length === 0) {

@@ -83,7 +83,8 @@ export function getScrollbarWidth () {
     w2 = outer.clientWidth
   }
 
-  document.body.removeChild(outer)
+  const parentNode = outer.parentNode
+  parentNode && parentNode.removeChild(outer)
   size = w1 - w2
 
   return size

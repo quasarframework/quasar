@@ -85,13 +85,11 @@ export default {
       clearTimeout(this.timer)
     },
     __onKeyDown (e, repeat) {
-      if (this.type || this.isDisabled || e.keyCode !== 13) {
+      if (this.isDisabled || e.keyCode !== 13) {
         return
       }
       this.active = true
-      if (repeat) {
-        this.__startRepeat(e)
-      }
+      repeat ? this.__startRepeat(e) : stopAndPrevent(e)
     },
     __onKeyUp (e, repeat) {
       if (!this.active) {
