@@ -64,31 +64,30 @@ export default {
         : this.debounce
     },
     controlBefore () {
-      return this.before || (
-        this.noIcon
-          ? null
-          : [{
-            icon: this.icon || this.$q.icon.search.icon,
-            handler: this.focus
-          }]
-      )
+      const before = (this.before || []).slice()
+      if (!this.noIcon) {
+        before.unshift({
+          icon: this.icon || this.$q.icon.search.icon,
+          handler: this.focus
+        })
+      }
+      return before
     },
     controlAfter () {
-      if (this.after) {
-        return this.after
-      }
-      if (this.editable && this.clearable) {
-        return [{
+      const after = (this.after || []).slice()
+      if (this.isClearable) {
+        after.push({
           icon: this.$q.icon.search[`clear${this.isInverted ? 'Inverted' : ''}`],
           content: true,
           handler: this.clear
-        }]
+        })
       }
+      return after
     }
   },
   methods: {
-    clear () {
-      this.$refs.input.clear()
+    clear (evt) {
+      this.$refs.input.clear(evt)
     }
   },
   render (h) {

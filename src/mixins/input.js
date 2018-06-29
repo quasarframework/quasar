@@ -32,6 +32,7 @@ export default {
         return
       }
       this.focused = true
+      this.$refs.input && this.$refs.input.focus()
       this.$emit('focus', e)
     },
     __onInputBlur (e) {
