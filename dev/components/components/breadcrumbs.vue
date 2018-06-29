@@ -24,7 +24,7 @@
         <q-breadcrumbs-el label="Home" />
       </q-breadcrumbs>
       <br><br>
-      <q-breadcrumbs icon-separator="chevron_right" active-color="secondary" color="light">
+      <q-breadcrumbs icon-separator="chevron_right" active-color="secondary" color="light" align="right">
         <q-breadcrumbs-el label="Home" to="/" />
         <q-breadcrumbs-el label="Components" to="/components" />
         <q-breadcrumbs-el label="Breadcrumbs" to="/components/breadcrumbs" />
@@ -38,7 +38,14 @@
         <q-breadcrumbs-el>Breadcrumbs</q-breadcrumbs-el>
       </q-breadcrumbs>
       <br><br>
-      <q-breadcrumbs align="justify" style="max-width: 700px">
+      <q-breadcrumbs align="around" style="max-width: 700px" class="q-mx-auto">
+        <q-icon name="arrow_forward" slot="separator" slot-scope="props" />
+        <q-breadcrumbs-el>Home</q-breadcrumbs-el>
+        <q-breadcrumbs-el>Components</q-breadcrumbs-el>
+        <q-breadcrumbs-el>Breadcrumbs</q-breadcrumbs-el>
+      </q-breadcrumbs>
+      <br><br>
+      <q-breadcrumbs align="between" style="max-width: 700px" class="q-mx-auto">
         <q-icon name="arrow_forward" slot="separator" slot-scope="props" />
         <q-breadcrumbs-el>Home</q-breadcrumbs-el>
         <q-breadcrumbs-el>Components</q-breadcrumbs-el>

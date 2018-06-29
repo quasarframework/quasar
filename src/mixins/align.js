@@ -1,17 +1,19 @@
-const alignMap = {
-  left: 'start',
-  center: 'center',
-  right: 'end',
-  between: 'between',
-  around: 'around'
-}
+const
+  alignMap = {
+    left: 'start',
+    center: 'center',
+    right: 'end',
+    between: 'between',
+    around: 'around'
+  },
+  alignValues = Object.keys(alignMap)
 
 export default {
   props: {
     align: {
       type: String,
       default: 'center',
-      validator: v => ['left', 'right', 'center', 'between', 'around'].includes(v)
+      validator: v => alignValues.includes(v)
     }
   },
   computed: {
@@ -20,3 +22,5 @@ export default {
     }
   }
 }
+
+export { alignValues }
