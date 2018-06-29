@@ -244,7 +244,9 @@ export default {
         : 0
     },
     computedClearValue () {
-      return this.isNumber && this.clearValue === 0 ? this.clearValue : this.clearValue || (this.isNumber ? null : '')
+      return this.isNumber && this.clearValue === 0
+        ? this.clearValue
+        : this.clearValue || (this.isNumber ? null : '')
     },
     computedStep () {
       return this.step || (this.decimals ? 10 ** -this.decimals : 'any')
