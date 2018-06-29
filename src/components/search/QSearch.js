@@ -64,7 +64,9 @@ export default {
         : this.debounce
     },
     computedClearValue () {
-      return this.isNumber && this.clearValue === 0 ? this.clearValue : this.clearValue || (this.type === 'number' ? null : '')
+      return this.isNumber && this.clearValue === 0
+        ? this.clearValue
+        : this.clearValue || (this.type === 'number' ? null : '')
     },
     controlBefore () {
       return this.before || (
