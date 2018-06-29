@@ -86,6 +86,12 @@ export default {
       }
       return this.defaultValue
     },
+    computedClearValue () {
+      return this.clearValue === void 0 ? this.defaultValue : this.clearValue
+    },
+    isClearable () {
+      return this.editable && this.clearable && !isSameDate(this.computedClearValue, this.value)
+    },
     modalBtnColor () {
       return process.env.THEME === 'mat'
         ? this.color
@@ -113,7 +119,7 @@ export default {
           stopAndPrevent(e)
           return this.show()
         case 8: // BACKSPACE key
-          if (this.editable && this.clearable && this.actualValue.length) {
+          if (this.isClearable) {
             this.clear()
           }
       }
@@ -336,7 +342,7 @@ export default {
           }
         }, this.__getPicker(h, true)),
 
-      this.editable && this.clearable && this.actualValue.length
+      this.isClearable
         ? h('QIcon', {
           slot: 'after',
           props: { name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`] },

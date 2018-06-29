@@ -35,9 +35,7 @@ export default {
     inverted: Boolean,
     invertedLight: Boolean,
     hideUnderline: Boolean,
-    clearValue: {
-      default: null
-    },
+    clearValue: {},
     noParentField: Boolean
   },
   computed: {
@@ -57,6 +55,12 @@ export default {
     },
     editable () {
       return !this.disable && !this.readonly
+    },
+    computedClearValue () {
+      return this.clearValue === void 0 ? null : this.clearValue
+    },
+    isClearable () {
+      return this.editable && this.clearable && this.computedClearValue !== this.model
     },
     hasError () {
       return !!((!this.noParentField && this.field && this.field.error) || this.error)
@@ -84,7 +88,7 @@ export default {
         return
       }
       evt && stopAndPrevent(evt)
-      const val = this.clearValue
+      const val = this.computedClearValue
       if (this.__setModel) {
         this.__setModel(val, true)
       }

@@ -104,7 +104,7 @@
     />
 
     <q-icon
-      v-if="editable && clearable && length"
+      v-if="isClearable"
       slot="after"
       :name="$q.icon.input[`clear${isInverted ? 'Inverted' : ''}`]"
       class="q-if-control"
@@ -154,7 +154,6 @@ export default {
       type: String,
       validator: v => ['left', 'center', 'right'].includes(v)
     },
-    clearable: Boolean,
     noPassToggle: Boolean,
     numericKeyboardToggle: Boolean,
     readonly: Boolean,
@@ -243,6 +242,9 @@ export default {
       return this.model !== null && this.model !== undefined
         ? ('' + this.model).length
         : 0
+    },
+    computedClearValue () {
+      return this.isNumber && this.clearValue === 0 ? this.clearValue : this.clearValue || (this.isNumber ? null : '')
     },
     computedStep () {
       return this.step || (this.decimals ? 10 ** -this.decimals : 'any')
