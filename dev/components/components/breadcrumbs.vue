@@ -55,12 +55,6 @@
   </div>
 </template>
 
-<style lang="stylus" scoped>
-  .q-mx-auto
-    margin-left auto
-    margin-right auto
-</style>
-
 <script>
 export default {
   data () {
