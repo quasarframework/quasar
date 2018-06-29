@@ -278,7 +278,12 @@ export default {
     __setModel (val) {
       clearTimeout(this.timer)
       this.focus()
-      this.__set(this.isNumber && val === 0 ? val : val || (this.isNumber ? null : ''), true)
+      this.__set(
+        this.isNumber && val === 0
+          ? val
+          : val || (this.isNumber ? null : ''),
+        true
+      )
     },
     __set (e, forceUpdate) {
       let val = e && e.target ? e.target.value : e
