@@ -63,6 +63,11 @@ export default {
         ? 0
         : this.debounce
     },
+    computedClearValue () {
+      return this.isNumber && this.clearValue === 0
+        ? this.clearValue
+        : this.clearValue || (this.type === 'number' ? null : '')
+    },
     controlBefore () {
       const before = (this.before || []).slice()
       if (!this.noIcon) {
@@ -78,7 +83,6 @@ export default {
       if (this.isClearable) {
         after.push({
           icon: this.$q.icon.search[`clear${this.isInverted ? 'Inverted' : ''}`],
-          content: true,
           handler: this.clear
         })
       }

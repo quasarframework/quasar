@@ -38,7 +38,7 @@
         v-for="opt in selectedOptions"
         :key="opt.label"
         small
-        :closable="!disable && !readonly && !opt.disable"
+        :closable="editable && !opt.disable"
         :color="__getChipBgColor(opt.color)"
         :text-color="__getChipTextColor(opt.color)"
         :icon="opt.icon"
@@ -60,7 +60,7 @@
     </div>
 
     <q-icon
-      v-if="!disable && !readonly && clearable && length"
+      v-if="isClearable"
       slot="after"
       :name="$q.icon.input.clear"
       class="q-if-control"
@@ -220,9 +220,7 @@ export default {
     },
     chipsColor: String,
     chipsBgColor: String,
-    displayValue: String,
-    clearable: Boolean,
-    clearValue: {}
+    displayValue: String
   },
   data () {
     return {
@@ -278,6 +276,12 @@ export default {
 
       const opt = this.selectedOptions.map(opt => opt.label)
       return opt.length ? opt.join(', ') : ''
+    },
+    computedClearValue () {
+      return this.clearValue || (this.multiple ? [] : null)
+    },
+    isClearable () {
+      return this.editable && this.clearable && JSON.stringify(this.computedClearValue) !== JSON.stringify(this.model)
     },
     selectedOptions () {
       if (this.multiple) {
