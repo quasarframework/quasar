@@ -71,7 +71,7 @@
     <q-popover
       ref="popover"
       fit
-      :disable="readonly || disable"
+      :disable="!editable"
       :anchor-click="false"
       class="column no-wrap"
       :class="dark ? 'bg-dark' : null"
@@ -108,7 +108,8 @@
             :class="[
               opt.disable ? 'text-faded' : 'cursor-pointer',
               index === keyboardIndex ? 'q-select-highlight' : '',
-              opt.disable ? '' : 'cursor-pointer'
+              opt.disable ? '' : 'cursor-pointer',
+              opt.className || ''
             ]"
             slot-replace
             @click.capture.native="__toggleMultiple(opt.value, opt.disable)"
@@ -144,7 +145,8 @@
             :class="[
               opt.disable ? 'text-faded' : 'cursor-pointer',
               index === keyboardIndex ? 'q-select-highlight' : '',
-              opt.disable ? '' : 'cursor-pointer'
+              opt.disable ? '' : 'cursor-pointer',
+              opt.className || ''
             ]"
             slot-replace
             :active="value === opt.value"
@@ -211,7 +213,6 @@ export default {
     multiple: Boolean,
     toggle: Boolean,
     chips: Boolean,
-    readonly: Boolean,
     options: {
       type: Array,
       required: true,
