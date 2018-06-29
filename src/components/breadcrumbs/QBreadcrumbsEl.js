@@ -13,13 +13,9 @@ export default {
     return h(this.to !== void 0 ? 'router-link' : 'span', {
       staticClass: 'q-link q-breadcrumbs-el flex inline items-center relative-position',
       props: this.to !== void 0 ? this.$props : null
-    },
-    this.label || this.icon
-      ? [
-        this.icon ? h(QIcon, { staticClass: 'q-breacrumbs-el-icon q-mr-sm', props: { name: this.icon } }) : null,
-        this.label
-      ]
-      : this.$slots.default
-    )
+    }, [
+      this.icon ? h(QIcon, { staticClass: 'q-breacrumbs-el-icon q-mr-sm', props: { name: this.icon } }) : null,
+      this.label
+    ].concat(this.$slots.default))
   }
 }
