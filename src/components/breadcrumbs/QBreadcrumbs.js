@@ -1,4 +1,4 @@
-import AlignMixin from '../../mixins/align'
+import AlignMixin, { alignValues } from '../../mixins/align'
 
 export default {
   name: 'QBreadcrumbs',
@@ -17,7 +17,9 @@ export default {
       default: '/'
     },
     align: {
-      default: 'left'
+      type: String,
+      default: 'left',
+      validator: v => alignValues.includes(v)
     }
   },
   computed: {
