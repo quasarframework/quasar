@@ -29,12 +29,12 @@ export default {
       return
     }
 
-    let update = () => {
+    let update = resized => {
       const
         w = window.innerWidth,
         s = this.sizes
 
-      if (w === this.width) {
+      if (resized && w === this.width) {
         return
       }
 
@@ -55,10 +55,7 @@ export default {
       this.xl = w > s.xl
     }
 
-    let
-      updateEvt = debounce(update, 100),
-      updateSizes = {},
-      updateDebounce
+    let updateEvt, updateSizes = {}, updateDebounce
 
     this.setSizes = sizes => {
       sizes.forEach(name => {
@@ -88,18 +85,23 @@ export default {
         update()
       }
       this.setDebounce = delay => {
-        window.removeEventListener('resize', updateEvt, listenOpts.passive)
+        const fn = () => { update(true) }
+        updateEvt && window.removeEventListener('resize', updateEvt, listenOpts.passive)
         updateEvt = delay > 0
-          ? debounce(update, delay)
-          : update
+          ? debounce(fn, delay)
+          : fn
         window.addEventListener('resize', updateEvt, listenOpts.passive)
       }
 
-      updateDebounce && this.setDebounce(updateDebounce)
-      Object.keys(updateSizes).length > 0 && this.setSizes(updateSizes)
-      update()
+      this.setDebounce(updateDebounce || 100)
 
-      window.addEventListener('resize', updateEvt, listenOpts.passive)
+      if (Object.keys(updateSizes).length > 0) {
+        this.setSizes(updateSizes)
+        updateSizes = null
+      }
+      else {
+        update()
+      }
     }
 
     Vue.util.defineReactive($q, 'screen', this)
