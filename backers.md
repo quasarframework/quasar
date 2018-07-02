@@ -48,7 +48,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Max Matteo Staack
 - Bobby Ross
 - Netanel Edri
-- Yatima Kagurazaka
 - Edinei Cipriani
 
 ---
@@ -58,7 +57,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Hansol Song ($25)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
-- Anca-Anamaria Enache ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
 - Pawel Rakowski ($20)
@@ -115,6 +113,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Simon Kimber
 - Arjan Dhupia
 - Stephan Kobald
+- Yatima Kagurazaka
 
 - Jim O'Quinn ($5)
 - Ken ($5)
