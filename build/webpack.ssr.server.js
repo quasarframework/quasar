@@ -37,7 +37,8 @@ chain.plugin('define')
   .use(webpack.DefinePlugin, [{
     'process.env': {
       NODE_ENV: '"development"',
-      VUE_ENV: '"server"',
+      CLIENT: false,
+      SERVER: true,
       THEME: JSON.stringify(env.theme)
     }
   }])

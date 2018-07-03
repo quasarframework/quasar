@@ -28,7 +28,7 @@ export function createApp (ssrContext) {
   const router = createRouter()
 
   // we get each page from server first!
-  if (testHydration && process.env.VUE_ENV === 'client') {
+  if (testHydration && process.env.CLIENT) {
     console.log('[Quasar] !!!!')
     console.log('[Quasar] On route change we deliberately load page from server -- in order to test hydration errors')
     console.log('[Quasar] !!!!')
