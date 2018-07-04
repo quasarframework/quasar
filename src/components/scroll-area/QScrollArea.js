@@ -1,6 +1,6 @@
 import extend from '../../utils/extend'
 import { between } from '../../utils/format'
-import { getMouseWheelDistance } from '../../utils/event'
+import { getMouseWheelDistance, getEventKey } from '../../utils/event'
 import { setScrollPosition } from '../../utils/scroll'
 import { QResizeObservable, QScrollObservable } from '../observables'
 import TouchPan from '../../directives/touch-pan'
@@ -149,6 +149,44 @@ export default {
         this.active = false
         this.timer = null
       }, this.delay)
+    },
+    __handleKeys (e) {
+      const eventKey = getEventKey(e)
+
+      if ([33, 38, 36, 34, 40, 35].includes(eventKey) && !this.thumbHidden) {
+        // Exceptions
+        // ->UP
+        if ([33, 38, 36].includes(eventKey) && this.scrollPosition === 0) {
+          return
+        }
+        // ->DOWN
+        if ([34, 40, 35].includes(eventKey) && this.scrollPosition === this.scrollHeight - this.containerHeight) {
+          return
+        }
+
+        const duration = 100
+        switch (eventKey) {
+          case 33: // PAGE UP key
+            this.setScrollPosition(this.scrollPosition - this.containerHeight, duration)
+            break
+          case 34: // PAGE DOWN key
+            this.setScrollPosition(this.scrollPosition + this.containerHeight, duration)
+            break
+
+          case 38: // UP key
+            this.setScrollPosition(this.scrollPosition - 50, duration)
+            break
+          case 40: // DOWN key
+            this.setScrollPosition(this.scrollPosition + 50, duration)
+            break
+
+          case 36: // HOME key
+            this.setScrollPosition(0, duration)
+            break
+          case 35: // END key
+            this.setScrollPosition(this.scrollHeight, duration)
+        }
+      }
     }
   },
   render (h) {
@@ -167,8 +205,14 @@ export default {
     return h('div', {
       staticClass: 'q-scrollarea relative-position',
       on: {
-        mouseenter: () => { this.hover = true },
-        mouseleave: () => { this.hover = false }
+        mouseenter: () => {
+          this.hover = true
+          window.addEventListener('keydown', this.__handleKeys)
+        },
+        mouseleave: () => {
+          this.hover = false
+          window.removeEventListener('keydown', this.__handleKeys)
+        }
       }
     }, [
       h('div', {
