@@ -29,9 +29,9 @@ export default {
     refresh: 'Actualisando...'
   },
   table: {
-    noData: 'Ni peteĨ mba'e',
+    noData: 'Ni peteĨ mba\'e',
     noResults: 'Ni peteĨ resultado',
-    loading: 'Era'arõ...',
+    loading: 'Era\'arõ...',
     selectedRows: function (rows) {
       return rows > 1
         ? rows + ' fila selesionada.'
