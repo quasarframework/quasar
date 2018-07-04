@@ -9,6 +9,7 @@
     :error="error"
     :warning="warning"
     :disable="disable"
+    :readonly="readonly"
     :inverted="inverted"
     :inverted-light="invertedLight"
     :dark="dark"
@@ -124,6 +125,7 @@ export default {
         loading: false,
         selectionOpen: false,
         watched: 0,
+        isEditable: () => this.editable,
         isDark: () => this.dark,
         hasFocus: () => document.activeElement === this.$refs.input,
         register: () => {

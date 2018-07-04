@@ -77,7 +77,7 @@ export default {
       return this.$refs && this.$refs.popover
     },
     trigger (focus) {
-      if (!this.__input || !this.__input.hasFocus() || !this.isWorking()) {
+      if (!this.__input || !this.__input.isEditable() || !this.__input.hasFocus() || !this.isWorking()) {
         return
       }
 
