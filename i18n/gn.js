@@ -1,5 +1,5 @@
 export default {
-  lang: 'gu',
+  lang: 'gn',
   label: {
     clear: 'Mbogue',
     ok: 'OĨma',
