@@ -22,6 +22,7 @@ createFolder('dist/umd')
 
 if (!type || type === 'js') {
   createFolder('dist/helper-json')
+  createFolder('dist/babel-transforms')
   require('./script.build.javascript')
 }
 if (!type || type === 'css') {

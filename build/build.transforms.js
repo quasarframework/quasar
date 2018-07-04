@@ -14,6 +14,10 @@ const
   glob = require('glob'),
   path = require('path')
 
+const
+  resolve = file => path.resolve(__dirname, '..', file),
+  { writeFile } = require('./build.utils')
+
 function getWithoutExtension (filename) {
   const insertionPoint = filename.lastIndexOf('.')
   return filename.slice(0, insertionPoint)
@@ -29,7 +33,7 @@ function isExternalUtil (name) {
 }
 
 function addComponents (map) {
-  glob.sync('src/components/**/Q*.js')
+  glob.sync(resolve('src/components/**/Q*.js'))
     .forEach(file => {
       const name = path.basename(file)
       map[getWithoutExtension(name)] = file
@@ -37,7 +41,7 @@ function addComponents (map) {
 }
 
 function addDirectives (map) {
-  glob.sync('src/directives/*.js')
+  glob.sync(resolve('src/directives/*.js'))
     .forEach(file => {
       const name = path.basename(file)
       map[camelCase(getWithoutExtension(name))] = file
@@ -45,7 +49,7 @@ function addDirectives (map) {
 }
 
 function addPlugins (map) {
-  glob.sync('src/plugins/*.js')
+  glob.sync(resolve('src/plugins/*.js'))
     .forEach(file => {
       const name = path.basename(file)
       map[camelCase(getWithoutExtension(name))] = file
@@ -53,7 +57,7 @@ function addPlugins (map) {
 }
 
 function addUtils (map) {
-  glob.sync('src/utils/*.js')
+  glob.sync(resolve('src/utils/*.js'))
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
       if (isExternalUtil(name)) {
@@ -63,8 +67,7 @@ function addUtils (map) {
 }
 
 function generateFile (map) {
-  return `
-const map = ${JSON.stringify(map, null, 2)}
+  return `const map = ${JSON.stringify(map, null, 2)}
 
 module.exports = function (importName) {
   const path = 'quasar-framework/' + map[importName]
@@ -82,7 +85,5 @@ module.exports.generate = function () {
   addPlugins(map)
   addUtils(map)
 
-  console.log(generateFile(map))
+  writeFile(resolve('dist/babel-transforms/transform-imports.js'), generateFile(map))
 }
-
-module.exports.generate()

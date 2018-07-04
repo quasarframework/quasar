@@ -80,9 +80,13 @@ const builds = [
 addAssets(builds, 'i18n')
 addAssets(builds, 'icons')
 
-build(builds).then(() => {
-  require('./build.helpers').generate()
-})
+build(builds)
+  .then(() => {
+    require('./build.helpers').generate()
+  })
+  .then(() => {
+    require('./build.transforms').generate()
+  })
 
 /**
  * Helpers
