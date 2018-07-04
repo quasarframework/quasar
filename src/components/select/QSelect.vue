@@ -10,6 +10,7 @@
     :error="error"
     :warning="warning"
     :disable="disable"
+    :readonly="readonly"
     :inverted="inverted"
     :inverted-light="invertedLight"
     :dark="dark"
