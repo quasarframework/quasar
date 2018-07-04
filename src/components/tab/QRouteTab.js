@@ -50,6 +50,9 @@ export default {
         activeClass: 'q-router-link-active',
         exactActiveClass: 'q-router-link-exact-active'
       },
+      attrs: {
+        tabindex: -1
+      },
       nativeOn: {
         click: this.select,
         keyup: e => e.keyCode === 13 && this.select(e)
