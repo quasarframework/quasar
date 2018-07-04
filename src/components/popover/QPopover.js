@@ -95,7 +95,7 @@ export default {
   methods: {
     __show (evt) {
       if (!this.noRefocus) {
-        this.__refocusTarget = this.anchorEl || document.activeElement
+        this.__refocusTarget = (this.anchorClick && this.anchorEl) || document.activeElement
       }
       document.body.appendChild(this.$el)
       EscapeKey.register(() => { this.hide() })

@@ -4,7 +4,7 @@
     <q-btn-dropdown v-model="toggle" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
       <q-list link>
         <q-list-header inset>Folders X</q-list-header>
-        <q-item v-for="n in 3" :key="`x.${n}`" @click.native="toggle = false" :tabindex="0">
+        <q-item v-for="n in 3" :key="`x.${n}`" v-close-overlay :tabindex="0">
           <q-item-side icon="folder" inverted color="grey-6" />
           <q-item-main>
             <q-item-tile label>Photos</q-item-tile>
@@ -14,7 +14,7 @@
         </q-item>
         <q-item-separator inset />
         <q-list-header inset>Files</q-list-header>
-        <q-item v-for="n in 3" :key="`y.${n}`" @click.native="toggle = false" :tabindex="0">
+        <q-item v-for="n in 3" :key="`y.${n}`" v-close-overlay :tabindex="0">
           <q-item-side icon="assignment" inverted color="grey-6" />
           <q-item-main>
             <q-item-tile label>Vacation</q-item-tile>
@@ -28,7 +28,7 @@
     <q-btn-dropdown to="/" color="primary" split glossy label="Link /" style="margin: 15px">
       <q-list link>
         <q-list-header inset>Folders X</q-list-header>
-        <q-item v-for="n in 3" :key="`x.${n}`" @click.native="toggle = false" :tabindex="0">
+        <q-item v-for="n in 3" :key="`x.${n}`" v-close-overlay :tabindex="0">
           <q-item-side icon="folder" inverted color="grey-6" />
           <q-item-main>
             <q-item-tile label>Photos</q-item-tile>
@@ -38,7 +38,7 @@
         </q-item>
         <q-item-separator inset />
         <q-list-header inset>Files</q-list-header>
-        <q-item v-for="n in 3" :key="`y.${n}`" @click.native="toggle = false" :tabindex="0">
+        <q-item v-for="n in 3" :key="`y.${n}`" v-close-overlay :tabindex="0">
           <q-item-side icon="assignment" inverted color="grey-6" />
           <q-item-main>
             <q-item-tile label>Vacation</q-item-tile>
