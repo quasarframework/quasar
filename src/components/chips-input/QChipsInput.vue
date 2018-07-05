@@ -221,6 +221,7 @@ export default {
         return
       }
 
+      this.$emit('add', { index: this.model.length, val })
       this.model.push(val)
       this.$emit('input', this.model)
       this.input = ''
@@ -229,7 +230,7 @@ export default {
       clearTimeout(this.timer)
       this.focus()
       if (this.editable && index >= 0 && index < this.length) {
-        this.model.splice(index, 1)
+        this.$emit('remove', { index, value: this.model.splice(index, 1) })
         this.$emit('input', this.model)
       }
     },
