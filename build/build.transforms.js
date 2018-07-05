@@ -1,14 +1,4 @@
-// === work in progress ===
-// To be used with babel-plugin-transform-imports
-/*
-[
-  "transform-imports", {
-    "quasar": {
-      "transform": "../../transforms.js"
-    }
-  }
-]
-*/
+// Used with babel-plugin-transform-imports
 
 const
   glob = require('glob'),
@@ -34,7 +24,7 @@ function camelCase (name) {
 }
 
 function isExternalUtil (name) {
-  return !['escape-key', 'modal-fn', 'popup', 'sort', 'router-link', 'is', 'noop'].includes(name)
+  return !['escape-key', 'modal-fn', 'popup', 'sort', 'router-link', 'is', 'noop', 'web-storage'].includes(name)
 }
 
 function addComponents (map, theme) {

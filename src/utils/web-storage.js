@@ -1,5 +1,3 @@
-import { onSSR, hasWebStorage } from './platform.js'
-
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {
     return '__q_date|' + value.toUTCString()
@@ -67,7 +65,7 @@ function decode (value) {
   }
 }
 
-function getEmptyStorage () {
+export function getEmptyStorage () {
   const fn = () => {}
 
   return {
@@ -85,7 +83,7 @@ function getEmptyStorage () {
   }
 }
 
-function getStorage (type) {
+export function getStorage (type) {
   const
     webStorage = window[type + 'Storage'],
     get = key => {
@@ -120,35 +118,5 @@ function getStorage (type) {
     remove: key => { webStorage.removeItem(key) },
     clear: () => { webStorage.clear() },
     isEmpty: () => webStorage.length === 0
-  }
-}
-
-export const LocalStorage = {
-  install ({ $q }) {
-    if (onSSR) {
-      $q.localStorage = getEmptyStorage()
-      return
-    }
-
-    if (hasWebStorage()) {
-      const storage = getStorage('local')
-      $q.localStorage = storage
-      Object.assign(this, storage)
-    }
-  }
-}
-
-export const SessionStorage = {
-  install ({ $q }) {
-    if (onSSR) {
-      $q.sessionStorage = getEmptyStorage()
-      return
-    }
-
-    if (hasWebStorage()) {
-      const storage = getStorage('session')
-      $q.sessionStorage = storage
-      Object.assign(this, storage)
-    }
   }
 }

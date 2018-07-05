@@ -8,7 +8,8 @@ import Loading from './plugins/loading.js'
 import Notify from './plugins/notify.js'
 import Platform from './plugins/platform.js'
 import Screen from './plugins/screen.js'
-import { LocalStorage, SessionStorage } from './plugins/web-storage.js'
+import LocalStorage from './plugins/local-storage.js'
+import SessionStorage from './plugins/session-storage.js'
 
 export {
   ActionSheet,
