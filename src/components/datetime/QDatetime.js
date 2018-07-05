@@ -48,6 +48,15 @@ export default {
     }
   },
   computed: {
+    computedFormat () {
+      if (this.format) {
+        return this.format
+      }
+      if (this.type === 'date') {
+        return 'YYYY/MM/DD'
+      }
+      return this.type === 'time' ? 'HH:mm' : 'YYYY/MM/DD HH:mm:ss'
+    },
     actualValue () {
       if (this.displayValue) {
         return this.displayValue
@@ -56,22 +65,7 @@ export default {
         return ''
       }
 
-      let format
-
-      if (this.format) {
-        format = this.format
-      }
-      else if (this.type === 'date') {
-        format = 'YYYY/MM/DD'
-      }
-      else if (this.type === 'time') {
-        format = 'HH:mm'
-      }
-      else {
-        format = 'YYYY/MM/DD HH:mm:ss'
-      }
-
-      return formatDate(this.value, format, /* for reactiveness */ this.$q.i18n.date)
+      return formatDate(this.value, this.computedFormat, /* for reactiveness */ this.$q.i18n.date)
     },
     computedValue () {
       if (isValid(this.value)) {

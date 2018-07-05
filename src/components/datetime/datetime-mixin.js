@@ -9,14 +9,33 @@ import {
   isValid
 } from '../../utils/date'
 
+const reDate = /^\d{4}[^\d]\d{2}[^\d]\d{2}/
+
 export default {
   props,
   computed: {
+    computedValue () {
+      if (this.type === 'date' && this.formatModel === 'string' && reDate.test(this.value)) {
+        return this.value.slice(0, 10).split(/[^\d]/).join('/')
+      }
+      return this.value
+    },
+    computedDefaultValue () {
+      if (this.type === 'date' && this.formatModel === 'string' && reDate.test(this.defaultValue)) {
+        return this.defaultValue.slice(0, 10).split(/[^\d]+/).join('/')
+      }
+      return this.defaultValue
+    },
+    computedDateFormat () {
+      if (this.type === 'date' && this.formatModel === 'string') {
+        return 'YYYY/MM/DD HH:mm:ss'
+      }
+    },
     model: {
       get () {
-        let date = isValid(this.value)
-          ? new Date(this.value)
-          : (this.defaultValue ? new Date(this.defaultValue) : startOfDate(new Date(), 'day'))
+        let date = isValid(this.computedValue)
+          ? new Date(this.computedValue)
+          : (this.computedDefaultValue ? new Date(this.computedDefaultValue) : startOfDate(new Date(), 'day'))
 
         return getDateBetween(
           date,
@@ -26,7 +45,7 @@ export default {
       },
       set (val) {
         const date = getDateBetween(val, this.pmin, this.pmax)
-        const value = convertDateToFormat(date, this.formatModel === 'auto' ? inferDateFormat(this.value) : this.formatModel)
+        const value = convertDateToFormat(date, this.formatModel === 'auto' ? inferDateFormat(this.value) : this.formatModel, this.computedDateFormat)
         this.$emit('input', value)
         this.$nextTick(() => {
           if (!isSameDate(value, this.value)) {

@@ -225,7 +225,7 @@ export function inferDateFormat (example) {
   return 'string'
 }
 
-export function convertDateToFormat (date, type) {
+export function convertDateToFormat (date, type, format) {
   if (!date && date !== 0) {
     return
   }
@@ -236,7 +236,7 @@ export function convertDateToFormat (date, type) {
     case 'number':
       return date.getTime()
     default:
-      return formatDate(date)
+      return formatDate(date, format)
   }
 }
 
