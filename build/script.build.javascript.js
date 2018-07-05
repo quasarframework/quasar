@@ -12,6 +12,9 @@ const
   nodeResolve = require('rollup-plugin-node-resolve'),
   buildConf = require('./build.conf'),
   buildUtils = require('./build.utils'),
+  bubleConfig = {
+    objectAssign: 'Object.assign'
+  },
   vueConfig = {
     css: false,
     compileTemplate: true,
@@ -27,7 +30,7 @@ const builds = [
   {
     rollup: {
       input: {
-        input: resolve(`src/index.all.esm.js`)
+        input: resolve(`src/index.esm.js`)
       },
       output: {
         file: resolve(`dist/quasar.${buildConf.themeToken}.esm.js`),
@@ -39,7 +42,7 @@ const builds = [
   {
     rollup: {
       input: {
-        input: resolve(`src/index.all.common.js`)
+        input: resolve(`src/index.esm.js`)
       },
       output: {
         file: resolve(`dist/quasar.${buildConf.themeToken}.common.js`),
@@ -108,7 +111,7 @@ function resolve (_path) {
 function addAssets (builds, type) {
   const
     files = fs.readdirSync(resolve(type)),
-    plugins = [ buble() ]
+    plugins = [ buble(bubleConfig) ]
 
   files.forEach(file => {
     const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[1].toUpperCase())
@@ -171,7 +174,7 @@ function genConfig (opts) {
     }),
     json(),
     vue(vueConfig),
-    buble()
+    buble(bubleConfig)
   ]
 
   if (theme) {

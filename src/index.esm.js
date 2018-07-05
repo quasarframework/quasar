@@ -1,14 +1,19 @@
-import install from './install.js'
-import { version } from '../package.json'
-import i18n from './i18n.js'
-import icons from './icons.js'
-import ssrUpdate from './ssr-update.js'
+import VuePlugin from './vue-plugin.js'
 
-export default {
-  version,
-  install,
-  i18n,
-  icons,
-  theme: process.env.THEME,
-  ssrUpdate
+import * as components from './components.js'
+import * as directives from './directives.js'
+import * as plugins from './plugins.js'
+
+const Quasar = {
+  ...VuePlugin,
+  install (Vue, opts) {
+    VuePlugin.install(Vue, {
+      components,
+      directives,
+      plugins,
+      ...opts
+    })
+  }
 }
+
+export default Quasar

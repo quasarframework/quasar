@@ -45,7 +45,7 @@ function addComponents (map, theme) {
   glob.sync(resolve('src/components/**/Q*.js'))
     .concat(glob.sync(resolve('src/components/**/Q*.vue')))
     .map(relative)
-    .filter(file => file.indexOf('QSpinner') === -1 && file.indexOf(otherThemeEnding) === -1)
+    .filter(file => file.indexOf(otherThemeEnding) === -1)
     .forEach(file => {
       let name = path.basename(file)
       if (name.indexOf(currentThemeEnding) > -1) {
@@ -55,7 +55,6 @@ function addComponents (map, theme) {
       map[getWithoutExtension(name)] = file
     })
 
-  map['QSpinner'] = relative(resolve('src/components/spinner/QSpinner.js'))
   map['QSpinnerMat'] = relative(resolve('src/components/spinner/QSpinner.mat.js'))
   map['QSpinnerIos'] = relative(resolve('src/components/spinner/QSpinner.ios.js'))
 }
@@ -94,7 +93,6 @@ function generateFile (map) {
 
 module.exports = function (importName) {
   const path = 'quasar-framework/' + map[importName]
-  console.log(importName, path)
   return path
 }
 `
@@ -102,7 +100,7 @@ module.exports = function (importName) {
 
 function generateTheme (theme) {
   const map = {
-    Quasar: relative(resolve('src/index.esm.js'))
+    Quasar: relative(resolve('src/vue-plugin.js'))
   }
 
   addComponents(map, theme)

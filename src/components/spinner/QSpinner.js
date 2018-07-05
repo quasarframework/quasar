@@ -1,4 +1,4 @@
-import DefaultSpinner from './QSpinner.js
+import DefaultSpinner from './QSpinner'
 
 export default {
   mixins: [DefaultSpinner],
