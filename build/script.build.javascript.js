@@ -37,7 +37,7 @@ const builds = [
         format: 'es'
       }
     },
-    build: { unminified: true, minExt: false }
+    build: { minified: true, minExt: false }
   },
   {
     rollup: {
@@ -49,7 +49,7 @@ const builds = [
         format: 'es'
       }
     },
-    build: { unminified: true }
+    build: { minified: true, minExt: false }
   },
   {
     rollup: {
