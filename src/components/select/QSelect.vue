@@ -431,9 +431,10 @@ export default {
         index = model.indexOf(value)
 
       if (index > -1) {
-        model.splice(index, 1)
+        this.$emit('remove', { index, value: model.splice(index, 1) })
       }
       else {
+        this.$emit('add', { index: model.length, value })
         model.push(value)
       }
 

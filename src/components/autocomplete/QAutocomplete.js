@@ -181,7 +181,7 @@ export default {
       this.enterKey = this.__input && value !== this.__input.val
       this[`__input${suffix}`][kbdNav ? 'setNav' : 'set'](value)
 
-      this.$emit('selected', result)
+      this.$emit('selected', result, !!kbdNav)
       if (!kbdNav) {
         this.__clearSearch()
         this.hide()
