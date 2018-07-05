@@ -1,10 +1,10 @@
-import './polyfills'
+import './polyfills.js'
 import { version } from '../package.json'
-import Platform, { isSSR } from './plugins/platform'
-import History from './history'
-import I18n from './i18n'
-import Body from './body'
-import Icons from './icons'
+import Platform, { isSSR } from './plugins/platform.js'
+import History from './history.js'
+import I18n from './i18n.js'
+import Body from './body.js'
+import Icons from './icons.js'
 
 export const queues = {
   server: [], // on SSR update

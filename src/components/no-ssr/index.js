@@ -1,4 +1,4 @@
-import QNoSsr from './QNoSsr'
+import QNoSsr from './QNoSsr.js'
 
 export {
   QNoSsr

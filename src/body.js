@@ -1,6 +1,6 @@
-import { ready } from './utils/dom'
-import { setBrand } from './utils/colors'
-import { isSSR } from './plugins/platform'
+import { ready } from './utils/dom.js'
+import { setBrand } from './utils/colors.js'
+import { isSSR } from './plugins/platform.js'
 
 function getBodyClasses ({ is, has, within }, cfg) {
   const cls = [

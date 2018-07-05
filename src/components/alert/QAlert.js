@@ -1,5 +1,5 @@
-import { QIcon } from '../icon'
-import { QBtn } from '../btn'
+import QIcon from '../icon/QIcon.js'
+import QBtn from '../btn/QBtn.js'
 
 export default {
   name: 'QAlert',

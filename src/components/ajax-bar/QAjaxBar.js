@@ -1,6 +1,6 @@
-import { cssTransform } from '../../utils/dom'
-import { between } from '../../utils/format'
-import { isSSR } from '../../plugins/platform'
+import { cssTransform } from '../../utils/dom.js'
+import { between } from '../../utils/format.js'
+import { isSSR } from '../../plugins/platform.js'
 
 const
   xhr = isSSR ? null : XMLHttpRequest,

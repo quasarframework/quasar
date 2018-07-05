@@ -1,7 +1,7 @@
-import { position, stopAndPrevent } from '../../utils/event'
-import { between } from '../../utils/format'
-import { offset, height, width } from '../../utils/dom'
-import TouchPan from '../../directives/touch-pan'
+import { position, stopAndPrevent } from '../../utils/event.js'
+import { between } from '../../utils/format.js'
+import { offset, height, width } from '../../utils/dom.js'
+import TouchPan from '../../directives/touch-pan.js'
 
 export default {
   name: 'QKnob',

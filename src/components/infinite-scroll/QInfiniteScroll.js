@@ -1,7 +1,7 @@
-import { height, offset } from '../../utils/dom'
-import { debounce } from '../../utils/debounce'
-import { getScrollTarget } from '../../utils/scroll'
-import { listenOpts } from '../../utils/event'
+import { height, offset } from '../../utils/dom.js'
+import debounce from '../../utils/debounce.js'
+import { getScrollTarget } from '../../utils/scroll.js'
+import { listenOpts } from '../../utils/event.js'
 
 export default {
   name: 'QInfiniteScroll',

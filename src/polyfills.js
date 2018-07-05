@@ -1,5 +1,5 @@
 /* eslint-disable no-extend-native, one-var, no-self-compare */
-import { isSSR } from './plugins/platform'
+import { isSSR } from './plugins/platform.js'
 
 function assign (target, firstSource) {
   if (target === undefined || target === null) {

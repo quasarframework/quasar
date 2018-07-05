@@ -1,5 +1,5 @@
-import { QIcon } from '../icon'
-import CanRenderMixin from '../../mixins/can-render'
+import QIcon from '../icon/QIcon.js'
+import CanRenderMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QField',

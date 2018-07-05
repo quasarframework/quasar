@@ -1,5 +1,5 @@
-import { sortDate } from '../../utils/sort'
-import { isNumber, isDate } from '../../utils/is'
+import { sortDate } from '../../utils/sort.js'
+import { isNumber, isDate } from '../../utils/is.js'
 
 export default {
   props: {

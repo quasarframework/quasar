@@ -1,7 +1,7 @@
-import BtnMixin from './btn-mixin'
-import { QSpinner } from '../spinner'
-import { between } from '../../utils/format'
-import { stopAndPrevent } from '../../utils/event'
+import BtnMixin from './btn-mixin.js'
+import QSpinner from '../spinner/QSpinner.js'
+import { between } from '../../utils/format.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QBtn',

@@ -1,6 +1,6 @@
-import Ripple from '../../directives/ripple'
-import { QIcon } from '../icon'
-import AlignMixin from '../../mixins/align'
+import Ripple from '../../directives/ripple.js'
+import QIcon from '../icon/QIcon.js'
+import AlignMixin from '../../mixins/align.js'
 
 const sizes = {
   xs: 8,

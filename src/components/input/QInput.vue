@@ -127,14 +127,14 @@
 </template>
 
 <script>
-import FrameMixin from '../../mixins/input-frame'
-import InputMixin from '../../mixins/input'
-import inputTypes from './input-types'
-import { frameDebounce } from '../../utils/debounce'
-import { between } from '../../utils/format'
-import { QInputFrame } from '../input-frame'
-import { QResizeObservable } from '../observables'
-import { QSpinner } from '../spinner'
+import FrameMixin from '../../mixins/input-frame.js'
+import InputMixin from '../../mixins/input.js'
+import inputTypes from './input-types.js'
+import frameDebounce from '../../utils/frame-debounce.js'
+import { between } from '../../utils/format.js'
+import QResizeObservable from '../observables/QResizeObservable.js'
+import QInputFrame from '../input-frame/QInputFrame.vue'
+import QSpinner from '../spinner/QSpinner.js'
 
 export default {
   name: 'QInput',

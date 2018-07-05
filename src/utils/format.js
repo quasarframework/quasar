@@ -43,3 +43,11 @@ export function pad (v, length = 2, char = '0') {
     ? val
     : new Array(length - val.length + 1).join(char) + val
 }
+
+export default {
+  humanStorageSize,
+  capitalize,
+  between,
+  normalizeToInterval,
+  pad
+}

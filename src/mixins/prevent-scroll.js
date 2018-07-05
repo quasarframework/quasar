@@ -1,5 +1,5 @@
-import { getEventPath } from '../utils/event'
-import { hasScrollbar } from '../utils/scroll'
+import { getEventPath } from '../utils/event.js'
+import { hasScrollbar } from '../utils/scroll.js'
 
 let registered = 0
 

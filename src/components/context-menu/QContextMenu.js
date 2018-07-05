@@ -1,6 +1,6 @@
-import { stopAndPrevent } from '../../utils/event'
-import { QModal } from '../modal'
-import { QPopover } from '../popover'
+import { stopAndPrevent } from '../../utils/event.js'
+import QModal from '../modal/QModal.js'
+import QPopover from '../popover/QPopover.js'
 
 export default {
   name: 'QContextMenu',

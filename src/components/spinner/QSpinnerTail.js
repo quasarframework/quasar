@@ -1,4 +1,4 @@
-import mixin from '../spinner-mixin'
+import mixin from './spinner-mixin.js'
 
 export default {
   name: 'QSpinnerTail',

@@ -1,7 +1,7 @@
-import { QBtn } from '../btn'
-import { QIcon } from '../icon'
-import FabMixin from './fab-mixin'
-import ModelToggleMixin from '../../mixins/model-toggle'
+import QBtn from '../btn/QBtn.js'
+import QIcon from '../icon/QIcon.js'
+import FabMixin from './fab-mixin.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
 
 export default {
   name: 'QFab',

@@ -1,8 +1,8 @@
-import { QIcon } from '../icon'
-import { QCheckbox } from '../checkbox'
-import { QSlideTransition } from '../slide-transition'
-import { QSpinner } from '../spinner'
-import Ripple from '../../directives/ripple'
+import QIcon from '../icon/QIcon.js'
+import QCheckbox from '../checkbox/QCheckbox.js'
+import QSlideTransition from '../slide-transition/QSlideTransition.js'
+import QSpinner from '../spinner/QSpinner.js'
+import Ripple from '../../directives/ripple.js'
 
 export default {
   name: 'QTree',

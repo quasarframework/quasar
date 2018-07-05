@@ -1,7 +1,7 @@
-import QRouteTab from './QRouteTab'
-import QTab from './QTab'
-import QTabPane from './QTabPane'
-import QTabs from './QTabs'
+import QRouteTab from './QRouteTab.js'
+import QTab from './QTab.js'
+import QTabPane from './QTabPane.js'
+import QTabs from './QTabs.js'
 
 export {
   QRouteTab,

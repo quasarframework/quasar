@@ -1,5 +1,5 @@
-import { QIcon } from '../icon'
-import { routerLinkProps } from '../../utils/router-link'
+import QIcon from '../icon/QIcon.js'
+import { routerLinkProps } from '../../utils/router-link.js'
 
 export default {
   name: 'QBreadcrumbsEl',

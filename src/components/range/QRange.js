@@ -1,13 +1,12 @@
-import { stopAndPrevent } from '../../utils/event'
-import { between } from '../../utils/format'
-import extend from '../../utils/extend'
+import { stopAndPrevent } from '../../utils/event.js'
+import { between } from '../../utils/format.js'
 import {
   getModel,
   getPercentage,
   notDivides,
   SliderMixin
-} from '../slider/slider-utils'
-import { QChip } from '../chip'
+} from '../slider/slider-utils.js'
+import QChip from '../chip/QChip.js'
 
 const dragType = {
   MIN: 0,
@@ -38,7 +37,7 @@ export default {
   },
   data () {
     return {
-      model: extend({}, this.value),
+      model: Object.assign({}, this.value),
       dragging: false,
       currentMinPercentage: (this.value.min - this.min) / (this.max - this.min),
       currentMaxPercentage: (this.value.max - this.min) / (this.max - this.min)
@@ -144,7 +143,7 @@ export default {
       else if (percentage < this.currentMaxPercentage - sensitivity) {
         if (this.dragRange || this.dragOnlyRange) {
           type = dragType.RANGE
-          extend(dragging, {
+          Object.assign(dragging, {
             offsetPercentage: percentage,
             offsetModel: getModel(percentage, this.min, this.max, this.step, this.computedDecimals),
             rangeValue: dragging.valueMax - dragging.valueMin,

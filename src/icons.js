@@ -1,5 +1,5 @@
-import { isSSR } from './plugins/platform'
-import materialIcons from '../icons/material-icons'
+import { isSSR } from './plugins/platform.js'
+import materialIcons from '../icons/material-icons.js'
 
 export default {
   __installed: false,

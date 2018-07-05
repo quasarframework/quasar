@@ -1,6 +1,6 @@
-import CheckboxMixin from '../../mixins/checkbox'
-import OptionMixin from '../../mixins/option'
-import { QIcon } from '../icon'
+import CheckboxMixin from '../../mixins/checkbox.js'
+import OptionMixin from '../../mixins/option.js'
+import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QToggle',

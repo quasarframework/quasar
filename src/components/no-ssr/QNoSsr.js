@@ -1,4 +1,4 @@
-import CanRenderMixin from '../../mixins/can-render'
+import CanRenderMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QNoSsr',

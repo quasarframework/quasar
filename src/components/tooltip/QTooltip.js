@@ -1,14 +1,14 @@
-import { debounce } from '../../utils/debounce'
-import { getScrollTarget } from '../../utils/scroll'
+import debounce from '../../utils/debounce.js'
+import { getScrollTarget } from '../../utils/scroll.js'
 import {
   positionValidator,
   offsetValidator,
   parsePosition,
   setPosition
-} from '../../utils/popup'
-import ModelToggleMixin from '../../mixins/model-toggle'
-import { listenOpts } from '../../utils/event'
-import CanRenderMixinMixin from '../../mixins/can-render'
+} from '../../utils/popup.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
+import { listenOpts } from '../../utils/event.js'
+import CanRenderMixinMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QTooltip',

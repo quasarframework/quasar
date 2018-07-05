@@ -1,4 +1,4 @@
-import QJumbotron from './QJumbotron'
+import QJumbotron from './QJumbotron.js'
 
 export {
   QJumbotron

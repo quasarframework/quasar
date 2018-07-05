@@ -1,7 +1,7 @@
-import { width, css, cssTransform } from '../../utils/dom'
-import { debounce } from '../../utils/debounce'
-import { QIcon } from '../icon'
-import { listenOpts } from '../../utils/event'
+import { width, css, cssTransform } from '../../utils/dom.js'
+import debounce from '../../utils/debounce.js'
+import QIcon from '../icon/QIcon.js'
+import { listenOpts } from '../../utils/event.js'
 
 const
   scrollNavigationSpeed = 5, // in pixels

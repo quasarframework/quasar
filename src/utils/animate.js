@@ -1,5 +1,5 @@
-import uid from './uid'
-import { linear } from './easing'
+import uid from './uid.js'
+import { linear } from './easing.js'
 
 let ids = {}
 
@@ -55,4 +55,9 @@ export function stop (id) {
     anim.cancel && anim.cancel(anim.last)
     delete ids[id]
   }
+}
+
+export default {
+  start,
+  stop
 }

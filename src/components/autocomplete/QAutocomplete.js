@@ -1,9 +1,10 @@
-import { width } from '../../utils/dom'
-import filter from '../../utils/filter'
-import uid from '../../utils/uid'
-import { QPopover } from '../popover'
-import { QList, QItemWrapper } from '../list'
-import KeyboardSelectionMixin from '../../mixins/keyboard-selection'
+import { width } from '../../utils/dom.js'
+import filter from '../../utils/filter.js'
+import uid from '../../utils/uid.js'
+import QPopover from '../popover/QPopover.js'
+import QList from '../list/QList.js'
+import QItemWrapper from '../list/QItemWrapper.js'
+import KeyboardSelectionMixin from '../../mixins/keyboard-selection.js'
 
 export default {
   name: 'QAutocomplete',

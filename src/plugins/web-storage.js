@@ -1,4 +1,4 @@
-import { onSSR, hasWebStorage } from './platform'
+import { onSSR, hasWebStorage } from './platform.js'
 
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {

@@ -1,5 +1,5 @@
-import { getEventKey, stopAndPrevent } from '../utils/event'
-import { normalizeToInterval } from '../utils/format'
+import { getEventKey, stopAndPrevent } from '../utils/event.js'
+import { normalizeToInterval } from '../utils/format.js'
 
 export default {
   data: () => ({

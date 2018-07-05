@@ -1,5 +1,5 @@
-import { QIcon } from '../icon'
-import Ripple from '../../directives/ripple'
+import QIcon from '../icon/QIcon.js'
+import Ripple from '../../directives/ripple.js'
 
 export default {
   name: 'QStepTab',

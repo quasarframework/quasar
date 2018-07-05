@@ -1,5 +1,4 @@
-import extend from '../../utils/extend'
-import { QCheckbox } from '../checkbox'
+import QCheckbox from '../checkbox/QCheckbox.js'
 
 export default {
   methods: {
@@ -89,7 +88,7 @@ export default {
       })
 
       data.cols = data.cols.map(col => {
-        const c = extend({}, col)
+        const c = Object.assign({}, col)
         Object.defineProperty(c, 'value', {
           get: () => this.getCellValue(col, data.row)
         })

@@ -1,4 +1,4 @@
-import History from '../history'
+import History from '../history.js'
 
 export default {
   data () {

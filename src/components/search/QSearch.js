@@ -1,6 +1,6 @@
-import { QInput } from '../input'
-import InputMixin from '../../mixins/input'
-import FrameMixin from '../../mixins/input-frame'
+import QInput from '../input/QInput.vue'
+import InputMixin from '../../mixins/input.js'
+import FrameMixin from '../../mixins/input-frame.js'
 
 export default {
   name: 'QSearch',

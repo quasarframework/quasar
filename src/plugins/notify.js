@@ -1,8 +1,8 @@
-import { QAlert } from '../components/alert'
-import uid from '../utils/uid'
-import clone from '../utils/clone'
-import { isSSR } from './platform'
-import { ready } from '../utils/dom'
+import QAlert from '../components/alert/QAlert.js'
+import uid from '../utils/uid.js'
+import clone from '../utils/clone.js'
+import { isSSR } from './platform.js'
+import { ready } from '../utils/dom.js'
 
 let defaults
 

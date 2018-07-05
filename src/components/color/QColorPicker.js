@@ -1,12 +1,11 @@
-import { QBtn } from '../btn'
-import { QSlider } from '../slider'
-import ParentFieldMixin from '../../mixins/parent-field'
-import TouchPan from '../../directives/touch-pan'
-import { stopAndPrevent } from '../../utils/event'
-import throttle from '../../utils/throttle'
-import extend from '../../utils/extend'
-import clone from '../../utils/clone'
-import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors'
+import QBtn from '../btn/QBtn.js'
+import QSlider from '../slider/QSlider.js'
+import ParentFieldMixin from '../../mixins/parent-field.js'
+import TouchPan from '../../directives/touch-pan.js'
+import { stopAndPrevent } from '../../utils/event.js'
+import throttle from '../../utils/throttle.js'
+import clone from '../../utils/clone.js'
+import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors.js'
 
 export default {
   name: 'QColorPicker',
@@ -398,7 +397,7 @@ export default {
         model.a = this.forceAlpha ? 100 : void 0
       }
       model.hex = rgbToHex(model)
-      return extend({ a: 100 }, model, rgbToHsv(model))
+      return Object.assign({ a: 100 }, model, rgbToHsv(model))
     },
 
     __saturationPan (evt) {

@@ -1,4 +1,4 @@
-import { isSSR } from '../plugins/platform'
+import { isSSR } from '../plugins/platform.js'
 
 export default function (Component, Vue) {
   return (props, resolver) => {

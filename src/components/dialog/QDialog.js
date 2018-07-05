@@ -1,10 +1,9 @@
-import { QModal } from '../modal'
-import { QInput } from '../input'
-import { QBtn } from '../btn'
-import { QOptionGroup } from '../option-group'
-import clone from '../../utils/clone'
-import extend from '../../utils/extend'
-import { getEventKey } from '../../utils/event'
+import QModal from '../modal/QModal.js'
+import QInput from '../input/QInput.vue'
+import QBtn from '../btn/QBtn.js'
+import QOptionGroup from '../option-group/QOptionGroup.js'
+import clone from '../../utils/clone.js'
+import { getEventKey } from '../../utils/event.js'
 
 export default {
   name: 'QDialog',
@@ -152,7 +151,7 @@ export default {
     },
     okProps () {
       return Object(this.ok) === this.ok
-        ? extend({
+        ? Object.assign({
           color: this.color,
           label: this.$q.i18n.label.ok,
           noRipple: true
@@ -161,7 +160,7 @@ export default {
     },
     cancelProps () {
       return Object(this.cancel) === this.cancel
-        ? extend({
+        ? Object.assign({
           color: this.color,
           label: this.$q.i18n.label.cancel,
           noRipple: true

@@ -1,4 +1,4 @@
-import { QIcon } from '../icon'
+import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QItemSide',

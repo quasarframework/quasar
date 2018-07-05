@@ -1,4 +1,4 @@
-import TabMixin from './tab-mixin'
+import TabMixin from './tab-mixin.js'
 
 export default {
   name: 'QTab',

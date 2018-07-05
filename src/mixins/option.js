@@ -1,4 +1,4 @@
-import { getEventKey } from '../utils/event'
+import { getEventKey } from '../utils/event.js'
 
 export default {
   props: {

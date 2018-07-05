@@ -1,6 +1,6 @@
-import { QSelect } from '../select'
-import { QBtn } from '../btn'
-import { QIcon } from '../icon'
+import QSelect from '../select/QSelect.vue'
+import QBtn from '../btn/QBtn.js'
+import QIcon from '../icon/QIcon.js'
 
 export default {
   computed: {

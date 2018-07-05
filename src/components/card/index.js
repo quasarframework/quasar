@@ -1,9 +1,9 @@
-import QCard from './QCard'
-import QCardTitle from './QCardTitle'
-import QCardMain from './QCardMain'
-import QCardActions from './QCardActions'
-import QCardMedia from './QCardMedia'
-import QCardSeparator from './QCardSeparator'
+import QCard from './QCard.js'
+import QCardTitle from './QCardTitle.js'
+import QCardMain from './QCardMain.js'
+import QCardActions from './QCardActions.js'
+import QCardMedia from './QCardMedia.js'
+import QCardSeparator from './QCardSeparator.js'
 
 export {
   QCard,

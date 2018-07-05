@@ -1,4 +1,4 @@
-import { QSpinner } from '../spinner'
+import QSpinner from '../spinner/QSpinner.js'
 
 export default {
   name: 'QInnerLoading',

@@ -1,5 +1,5 @@
-import QFab from './QFab'
-import QFabAction from './QFabAction'
+import QFab from './QFab.js'
+import QFabAction from './QFabAction.js'
 
 export {
   QFab,

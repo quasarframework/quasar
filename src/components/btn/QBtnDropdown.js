@@ -1,7 +1,7 @@
-import BtnMixin from './btn-mixin'
-import QBtn from './QBtn'
-import QBtnGroup from './QBtnGroup'
-import { QPopover } from '../popover'
+import BtnMixin from './btn-mixin.js'
+import QBtn from './QBtn.js'
+import QBtnGroup from './QBtnGroup.js'
+import QPopover from '../popover/QPopover.js'
 
 export default {
   name: 'QBtnDropdown',

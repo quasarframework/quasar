@@ -3,14 +3,14 @@ import {
   offsetValidator,
   parsePosition,
   setPosition
-} from '../../utils/popup'
-import { frameDebounce } from '../../utils/debounce'
-import { getScrollTarget } from '../../utils/scroll'
-import { width } from '../../utils/dom'
-import EscapeKey from '../../utils/escape-key'
-import ModelToggleMixin from '../../mixins/model-toggle'
-import { listenOpts } from '../../utils/event'
-import CanRenderMixinMixin from '../../mixins/can-render'
+} from '../../utils/popup.js'
+import frameDebounce from '../../utils/frame-debounce.js'
+import { getScrollTarget } from '../../utils/scroll.js'
+import { width } from '../../utils/dom.js'
+import EscapeKey from '../../utils/escape-key.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
+import { listenOpts } from '../../utils/event.js'
+import CanRenderMixinMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QPopover',

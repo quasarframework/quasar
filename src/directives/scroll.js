@@ -1,5 +1,5 @@
-import { getScrollPosition, getScrollTarget } from '../utils/scroll'
-import { listenOpts } from '../utils/event'
+import { getScrollPosition, getScrollTarget } from '../utils/scroll.js'
+import { listenOpts } from '../utils/event.js'
 
 function updateBinding (el, binding) {
   const ctx = el.__qscroll

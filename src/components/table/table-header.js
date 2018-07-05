@@ -1,6 +1,6 @@
-import { QProgress } from '../progress'
-import { QCheckbox } from '../checkbox'
-import QTh from './QTh'
+import QProgress from '../progress/QProgress.js'
+import QCheckbox from '../checkbox/QCheckbox.js'
+import QTh from './QTh.js'
 
 export default {
   methods: {

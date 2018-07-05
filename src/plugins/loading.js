@@ -1,5 +1,5 @@
-import { QSpinner } from '../components/spinner'
-import { isSSR } from './platform'
+import QSpinner from '../components/spinner/QSpinner.js'
+import { isSSR } from './platform.js'
 
 let
   vm,

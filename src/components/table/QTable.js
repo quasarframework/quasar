@@ -1,15 +1,15 @@
-import Top from './table-top'
-import TableHeader from './table-header'
-import TableBody from './table-body'
-import Bottom from './table-bottom'
+import Top from './table-top.js'
+import TableHeader from './table-header.js'
+import TableBody from './table-body.js'
+import Bottom from './table-bottom.js'
 
-import Sort from './table-sort'
-import Filter from './table-filter'
-import Pagination from './table-pagination'
-import RowSelection from './table-row-selection'
-import ColumnSelection from './table-column-selection'
-import Expand from './table-expand'
-import FullscreenMixin from '../../mixins/fullscreen'
+import Sort from './table-sort.js'
+import Filter from './table-filter.js'
+import Pagination from './table-pagination.js'
+import RowSelection from './table-row-selection.js'
+import ColumnSelection from './table-column-selection.js'
+import Expand from './table-expand.js'
+import FullscreenMixin from '../../mixins/fullscreen.js'
 
 export default {
   name: 'QTable',

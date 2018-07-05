@@ -1,4 +1,4 @@
-import QInnerLoading from './QInnerLoading'
+import QInnerLoading from './QInnerLoading.js'
 
 export {
   QInnerLoading

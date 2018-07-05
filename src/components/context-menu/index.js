@@ -1,4 +1,4 @@
-import QContextMenu from './QContextMenu'
+import QContextMenu from './QContextMenu.js'
 
 export {
   QContextMenu

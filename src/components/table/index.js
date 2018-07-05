@@ -1,8 +1,8 @@
-import QTable from './QTable'
-import QTh from './QTh'
-import QTr from './QTr'
-import QTd from './QTd'
-import QTableColumns from './QTableColumns'
+import QTable from './QTable.js'
+import QTh from './QTh.js'
+import QTr from './QTr.js'
+import QTd from './QTd.js'
+import QTableColumns from './QTableColumns.js'
 
 export {
   QTable,

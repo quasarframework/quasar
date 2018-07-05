@@ -1,5 +1,5 @@
-import { QIcon } from '../icon'
-import { getEventKey, stopAndPrevent } from '../../utils/event'
+import QIcon from '../icon/QIcon.js'
+import { getEventKey, stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QChip',

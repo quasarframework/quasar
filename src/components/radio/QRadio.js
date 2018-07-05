@@ -1,6 +1,6 @@
-import OptionMixin from '../../mixins/option'
-import { QIcon } from '../icon'
-import { stopAndPrevent } from '../../utils/event'
+import OptionMixin from '../../mixins/option.js'
+import QIcon from '../icon/QIcon.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QRadio',

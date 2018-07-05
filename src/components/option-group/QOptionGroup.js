@@ -1,7 +1,7 @@
-import { QRadio } from '../radio'
-import { QCheckbox } from '../checkbox'
-import { QToggle } from '../toggle'
-import ParentFieldMixin from '../../mixins/parent-field'
+import QRadio from '../radio/QRadio.js'
+import QCheckbox from '../checkbox/QCheckbox.js'
+import QToggle from '../toggle/QToggle.js'
+import ParentFieldMixin from '../../mixins/parent-field.js'
 
 export default {
   name: 'QOptionGroup',

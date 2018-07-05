@@ -1,7 +1,10 @@
-import { QItem, QItemSide, QItemTile, QItemWrapper } from '../list'
-import { QSlideTransition } from '../slide-transition'
-import ModelToggleMixin from '../../mixins/model-toggle'
-import ItemMixin from '../../mixins/item'
+import QItem from '../list/QItem.js'
+import QItemSide from '../list/QItemSide.js'
+import QItemTile from '../list/QItemTile.js'
+import QItemWrapper from '../list/QItemWrapper.js'
+import QSlideTransition from '../slide-transition/QSlideTransition.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
+import ItemMixin from '../../mixins/item.js'
 
 const eventName = 'q:collapsible:close'
 

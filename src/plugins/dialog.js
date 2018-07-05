@@ -1,5 +1,5 @@
-import { QDialog } from '../components/dialog'
-import modalFn from '../utils/modal-fn'
+import QDialog from '../components/dialog/QDialog.js'
+import modalFn from '../utils/modal-fn.js'
 
 export default {
   install ({ $q, Vue }) {

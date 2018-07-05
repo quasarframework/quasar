@@ -53,3 +53,13 @@ export function cssTransform (val) {
   })
   return o
 }
+
+export default {
+  offset,
+  style,
+  height,
+  width,
+  css,
+  ready,
+  cssTransform
+}

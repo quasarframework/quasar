@@ -1,6 +1,6 @@
-import { isSSR, fromSSR } from './platform'
-import { listenOpts } from '../utils/event'
-import { debounce } from '../utils/debounce'
+import { isSSR, fromSSR } from './platform.js'
+import { listenOpts } from '../utils/event.js'
+import debounce from '../utils/debounce.js'
 
 export default {
   width: 0,

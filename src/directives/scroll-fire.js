@@ -1,7 +1,7 @@
-import { debounce } from '../utils/debounce'
-import { height, offset } from '../utils/dom'
-import { getScrollTarget } from '../utils/scroll'
-import { listenOpts } from '../utils/event'
+import debounce from '../utils/debounce.js'
+import { height, offset } from '../utils/dom.js'
+import { getScrollTarget } from '../utils/scroll.js'
+import { listenOpts } from '../utils/event.js'
 
 function updateBinding (el, binding) {
   const ctx = el.__qscrollfire

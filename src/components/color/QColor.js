@@ -1,13 +1,12 @@
-import FrameMixin from '../../mixins/input-frame'
-import DisplayModeMixin from '../../mixins/display-mode'
-import extend from '../../utils/extend'
-import { QInputFrame } from '../input-frame'
-import { QPopover } from '../popover'
-import QColorPicker from './QColorPicker'
-import { QBtn } from '../btn'
-import { QModal } from '../modal'
-import clone from '../../utils/clone'
-import { getEventKey, stopAndPrevent } from '../../utils/event'
+import FrameMixin from '../../mixins/input-frame.js'
+import DisplayModeMixin from '../../mixins/display-mode.js'
+import QInputFrame from '../input-frame/QInputFrame.vue'
+import QPopover from '../popover/QPopover.js'
+import QColorPicker from './QColorPicker.js'
+import QBtn from '../btn/QBtn.js'
+import QModal from '../modal/QModal.js'
+import clone from '../../utils/clone.js'
+import { getEventKey, stopAndPrevent } from '../../utils/event.js'
 
 const contentCss = process.env.THEME === 'ios'
   ? {
@@ -176,7 +175,7 @@ export default {
       const child = [
         h(QColorPicker, {
           staticClass: `no-border${modal ? ' full-width' : ''}`,
-          props: extend({
+          props: Object.assign({
             value: this.model,
             disable: this.disable,
             readonly: this.readonly,

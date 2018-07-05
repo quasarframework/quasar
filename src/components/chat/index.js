@@ -1,4 +1,4 @@
-import QChatMessage from './QChatMessage'
+import QChatMessage from './QChatMessage.js'
 
 export {
   QChatMessage

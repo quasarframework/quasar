@@ -1,4 +1,4 @@
-import { $q, queues } from './install'
+import { $q, queues } from './install.js'
 
 const mixin = {
   mounted () {

@@ -1,5 +1,5 @@
-import { QResizeObservable } from '../observables'
-import CanRenderMixin from '../../mixins/can-render'
+import QResizeObservable from '../observables/QResizeObservable.js'
+import CanRenderMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QLayoutHeader',

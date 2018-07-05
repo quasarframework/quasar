@@ -1,5 +1,5 @@
-import ItemMixin from '../../mixins/item'
-import { routerLinkProps } from '../../utils/router-link'
+import ItemMixin from '../../mixins/item.js'
+import { routerLinkProps } from '../../utils/router-link.js'
 
 export default {
   name: 'QItem',

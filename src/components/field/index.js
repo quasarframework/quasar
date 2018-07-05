@@ -1,4 +1,4 @@
-import QField from './QField'
+import QField from './QField.js'
 
 export {
   QField

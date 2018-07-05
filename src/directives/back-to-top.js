@@ -1,6 +1,6 @@
-import { debounce } from '../utils/debounce'
-import { getScrollPosition, setScrollPosition, getScrollTarget } from '../utils/scroll'
-import { listenOpts } from '../utils/event'
+import debounce from '../utils/debounce.js'
+import { getScrollPosition, setScrollPosition, getScrollTarget } from '../utils/scroll.js'
+import { listenOpts } from '../utils/event.js'
 
 function updateBinding (el, { value, modifiers }) {
   const ctx = el.__qbacktotop

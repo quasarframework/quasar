@@ -1,4 +1,4 @@
-import { position, leftClick } from '../utils/event'
+import { position, leftClick } from '../utils/event.js'
 
 function updateBinding (el, binding) {
   const ctx = el.__qtouchhold

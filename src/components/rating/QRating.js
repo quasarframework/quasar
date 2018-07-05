@@ -1,6 +1,6 @@
-import { getEventKey, stopAndPrevent } from '../../utils/event'
-import { between } from '../../utils/format'
-import { QIcon } from '../icon'
+import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import { between } from '../../utils/format.js'
+import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QRating',

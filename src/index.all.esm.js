@@ -4,6 +4,11 @@ import i18n from './i18n.js'
 import icons from './icons.js'
 import ssrUpdate from './ssr-update.js'
 
+export * from './components.js'
+export * from './directives.js'
+export * from './plugins.js'
+export * from './utils.js'
+
 export default {
   version,
   install,

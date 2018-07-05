@@ -1,4 +1,4 @@
-import { isSSR } from './platform'
+import { isSSR } from './platform.js'
 
 export default {
   appVisible: false,

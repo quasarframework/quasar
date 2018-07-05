@@ -1,5 +1,5 @@
-import { RouterLinkMixin, routerLinkEvent, routerLinkEventName } from '../../utils/router-link'
-import TabMixin from './tab-mixin'
+import { RouterLinkMixin, routerLinkEvent, routerLinkEventName } from '../../utils/router-link.js'
+import TabMixin from './tab-mixin.js'
 
 export default {
   name: 'QRouteTab',

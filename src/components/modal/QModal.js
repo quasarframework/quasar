@@ -1,7 +1,6 @@
-import EscapeKey from '../../utils/escape-key'
-import extend from '../../utils/extend'
-import ModelToggleMixin from '../../mixins/model-toggle'
-import PreventScroll from '../../mixins/prevent-scroll'
+import EscapeKey from '../../utils/escape-key.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
+import PreventScroll from '../../mixins/prevent-scroll.js'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -147,7 +146,7 @@ export default {
           ? this.contentCss
           : [this.contentCss]
 
-        css.unshift(extend(
+        css.unshift(Object.assign(
           {},
           positionCSS,
           additionalCSS(this.position)

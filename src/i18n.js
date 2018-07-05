@@ -1,6 +1,6 @@
-import langEn from '../i18n/en-us'
-import { isSSR } from './plugins/platform'
-import { ready } from './utils/dom'
+import langEn from '../i18n/en-us.js'
+import { isSSR } from './plugins/platform.js'
+import { ready } from './utils/dom.js'
 
 export default {
   install ($q, queues, Vue, lang) {

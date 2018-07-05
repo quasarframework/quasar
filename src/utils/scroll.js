@@ -1,4 +1,4 @@
-import { css } from './dom'
+import { css } from './dom.js'
 
 export function getScrollTarget (el) {
   return el.closest('.scroll,.scroll-y') || window
@@ -98,4 +98,14 @@ export function hasScrollbar (el) {
     el.classList.contains('scroll') ||
     ['auto', 'scroll'].includes(window.getComputedStyle(el)['overflow-y'])
   ) && el.scrollHeight > el.clientHeight
+}
+
+export default {
+  getScrollTarget,
+  getScrollHeight,
+  getScrollPosition,
+  animScrollTo,
+  setScrollPosition,
+  getScrollbarWidth,
+  hasScrollbar
 }

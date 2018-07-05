@@ -1,7 +1,7 @@
-import { getScrollTarget, getScrollPosition } from '../../utils/scroll'
-import { cssTransform } from '../../utils/dom'
-import { QIcon } from '../icon'
-import TouchPan from '../../directives/touch-pan'
+import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
+import { cssTransform } from '../../utils/dom.js'
+import QIcon from '../icon/QIcon.js'
+import TouchPan from '../../directives/touch-pan.js'
 
 const height = -65
 

@@ -1,8 +1,8 @@
-import TouchPan from '../../directives/touch-pan'
-import { css, cssTransform } from '../../utils/dom'
-import { between } from '../../utils/format'
-import ModelToggleMixin from '../../mixins/model-toggle'
-import PreventScroll from '../../mixins/prevent-scroll'
+import TouchPan from '../../directives/touch-pan.js'
+import { css, cssTransform } from '../../utils/dom.js'
+import { between } from '../../utils/format.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
+import PreventScroll from '../../mixins/prevent-scroll.js'
 
 const
   bodyClass = 'q-body-drawer-toggle',

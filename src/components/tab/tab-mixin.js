@@ -1,7 +1,7 @@
-import uid from '../../utils/uid'
-import { QIcon } from '../icon'
-import { QChip } from '../chip'
-import Ripple from '../../directives/ripple'
+import uid from '../../utils/uid.js'
+import QIcon from '../icon/QIcon.js'
+import QChip from '../chip/QChip.js'
+import Ripple from '../../directives/ripple.js'
 
 export default {
   directives: {

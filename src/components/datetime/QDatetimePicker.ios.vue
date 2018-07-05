@@ -90,14 +90,14 @@
 </template>
 
 <script>
-import { between, capitalize } from '../../utils/format'
-import { position } from '../../utils/event'
-import { css } from '../../utils/dom'
-import { isSameDate, adjustDate } from '../../utils/date'
-import DateMixin from './datetime-mixin'
-import ParentFieldMixin from '../../mixins/parent-field'
-import TouchPan from '../../directives/touch-pan'
-import CanRenderMixin from '../../mixins/can-render'
+import { between, capitalize } from '../../utils/format.js'
+import { position } from '../../utils/event.js'
+import { css } from '../../utils/dom.js'
+import { isSameDate, adjustDate } from '../../utils/date.js'
+import DateMixin from './datetime-mixin.js'
+import ParentFieldMixin from '../../mixins/parent-field.js'
+import TouchPan from '../../directives/touch-pan.js'
+import CanRenderMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QDatetimePicker',

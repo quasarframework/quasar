@@ -1,4 +1,4 @@
-import { cssTransform } from '../../utils/dom'
+import { cssTransform } from '../../utils/dom.js'
 
 export default {
   name: 'QPageSticky',

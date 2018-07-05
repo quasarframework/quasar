@@ -1,4 +1,4 @@
-import QVideo from './QVideo'
+import QVideo from './QVideo.js'
 
 export {
   QVideo

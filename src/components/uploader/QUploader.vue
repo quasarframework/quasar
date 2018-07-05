@@ -137,14 +137,18 @@
 </template>
 
 <script>
-import { QInputFrame } from '../input-frame'
-import FrameMixin from '../../mixins/input-frame'
-import { humanStorageSize } from '../../utils/format'
-import { QSpinner } from '../spinner'
-import { QIcon } from '../icon'
-import { QProgress } from '../progress'
-import { QItem, QItemSide, QItemMain, QItemTile, QList } from '../list'
-import { QSlideTransition } from '../slide-transition'
+import QInputFrame from '../input-frame/QInputFrame.vue'
+import FrameMixin from '../../mixins/input-frame.js'
+import { humanStorageSize } from '../../utils/format.js'
+import QSpinner from '../spinner/QSpinner.js'
+import QIcon from '../icon/QIcon.js'
+import QProgress from '../progress/QProgress.js'
+import QList from '../list/QList.js'
+import QItem from '../list/QItem.js'
+import QItemSide from '../list/QItemSide.js'
+import QItemMain from '../list/QItemMain.js'
+import QItemTile from '../list/QItemTile.js'
+import QSlideTransition from '../slide-transition/QSlideTransition.js'
 
 function initFile (file) {
   file.__doneUploading = false

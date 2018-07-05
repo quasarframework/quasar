@@ -1,5 +1,4 @@
-import extend from './extend'
-import { position as eventPosition } from './event'
+import { position as eventPosition } from './event.js'
 
 export function getAnchorPosition (el, offset) {
   let
@@ -51,8 +50,8 @@ export function getOverlapMode (anchor, target, median) {
 
 export function getPositions (anchor, target) {
   const
-    a = extend({}, anchor),
-    t = extend({}, target)
+    a = Object.assign({}, anchor),
+    t = Object.assign({}, target)
 
   const positions = {
     x: ['left', 'right'].filter(p => p !== t.horizontal),

@@ -1,4 +1,4 @@
-import { position, leftClick, listenOpts } from '../utils/event'
+import { position, leftClick, listenOpts } from '../utils/event.js'
 
 function getDirection (mod) {
   if (!mod.horizontal && !mod.vertical) {

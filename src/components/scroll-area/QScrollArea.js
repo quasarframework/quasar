@@ -1,9 +1,9 @@
-import extend from '../../utils/extend'
-import { between } from '../../utils/format'
-import { getMouseWheelDistance } from '../../utils/event'
-import { setScrollPosition } from '../../utils/scroll'
-import { QResizeObservable, QScrollObservable } from '../observables'
-import TouchPan from '../../directives/touch-pan'
+import { between } from '../../utils/format.js'
+import { getMouseWheelDistance } from '../../utils/event.js'
+import { setScrollPosition } from '../../utils/scroll.js'
+import QResizeObservable from '../observables/QResizeObservable.js'
+import QScrollObservable from '../observables/QScrollObservable.js'
+import TouchPan from '../../directives/touch-pan.js'
 
 export default {
   name: 'QScrollArea',
@@ -46,7 +46,7 @@ export default {
     },
     style () {
       const top = this.scrollPercentage * (this.containerHeight - this.thumbHeight)
-      return extend({}, this.thumbStyle, {
+      return Object.assign({}, this.thumbStyle, {
         top: `${top}px`,
         height: `${this.thumbHeight}px`
       })

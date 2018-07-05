@@ -1,9 +1,13 @@
-import { QBtn, QBtnDropdown, QBtnGroup } from '../btn'
-import { QInput } from '../input'
-import { QTooltip } from '../tooltip'
-import { QList, QItem, QItemSide, QItemMain } from '../list'
-import extend from '../../utils/extend'
-import { getEventKey } from '../../utils/event'
+import QBtn from '../btn/QBtn.js'
+import QBtnDropdown from '../btn/QBtnDropdown.js'
+import QBtnGroup from '../btn/QBtnGroup.js'
+import QInput from '../input/QInput.vue'
+import QTooltip from '../tooltip/QTooltip.js'
+import QList from '../list/QList.js'
+import QItem from '../list/QItem.js'
+import QItemSide from '../list/QItemSide.js'
+import QItemMain from '../list/QItemMain.js'
+import { getEventKey } from '../../utils/event.js'
 
 function run (e, btn, vm) {
   if (btn.handler) {
@@ -38,7 +42,7 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
   }
 
   return h(QBtn, {
-    props: extend({
+    props: Object.assign({
       icon: btn.icon,
       color: toggled ? btn.toggleColor || vm.toolbarToggleColor : btn.color || vm.toolbarColor,
       textColor: toggled && (vm.toolbarFlat || vm.toolbarOutline) ? null : btn.textColor || vm.toolbarTextColor,
@@ -141,7 +145,7 @@ function getDropdown (h, vm, btn) {
   const Dropdown = h(
     QBtnDropdown,
     {
-      props: extend({
+      props: Object.assign({
         noCaps: true,
         noWrap: true,
         color: highlight ? vm.toolbarToggleColor : vm.toolbarColor,
@@ -251,7 +255,7 @@ export function getLinkEditor (h, vm) {
           attrs: {
             tabindex: -1
           },
-          props: extend({
+          props: Object.assign({
             label: vm.$q.i18n.label.remove,
             noCaps: true
           }, vm.buttonProps),
@@ -265,7 +269,7 @@ export function getLinkEditor (h, vm) {
         }),
         h(QBtn, {
           key: 'qedt_btm_upd',
-          props: extend({
+          props: Object.assign({
             label: vm.$q.i18n.label.update,
             noCaps: true
           }, vm.buttonProps),

@@ -1,5 +1,5 @@
-import { QIcon } from '../icon'
-import { textStyle } from '../../mixins/item'
+import QIcon from '../icon/QIcon.js'
+import { textStyle } from '../../mixins/item.js'
 
 export default {
   name: 'QItemTile',

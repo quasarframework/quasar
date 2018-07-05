@@ -271,14 +271,14 @@
 </template>
 
 <script>
-import { height, width, offset, cssTransform } from '../../utils/dom'
-import { position, stopAndPrevent } from '../../utils/event'
-import { QBtn } from '../btn'
-import { isSameDate, isValid, adjustDate } from '../../utils/date'
-import DateMixin from './datetime-mixin'
-import CanRenderMixin from '../../mixins/can-render'
-import ParentFieldMixin from '../../mixins/parent-field'
-import Ripple from '../../directives/ripple'
+import { height, width, offset, cssTransform } from '../../utils/dom.js'
+import { position, stopAndPrevent } from '../../utils/event.js'
+import QBtn from '../btn/QBtn.js'
+import { isSameDate, isValid, adjustDate } from '../../utils/date.js'
+import DateMixin from './datetime-mixin.js'
+import CanRenderMixin from '../../mixins/can-render.js'
+import ParentFieldMixin from '../../mixins/parent-field.js'
+import Ripple from '../../directives/ripple.js'
 
 function convertToAmPm (hour) {
   return hour === 0 ? 12 : (hour >= 13 ? hour - 12 : hour)

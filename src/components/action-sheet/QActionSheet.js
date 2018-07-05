@@ -1,7 +1,10 @@
-import { QModal } from '../modal'
-import { QIcon } from '../icon'
-import { QList, QItem, QItemSide, QItemMain, QItemSeparator } from '../list'
-import { getEventKey } from '../../utils/event'
+import QModal from '../modal/QModal.js'
+import QIcon from '../icon/QIcon.js'
+import QList from '../list/QList.js'
+import QItem from '../list/QItem.js'
+import QItemSide from '../list/QItemSide.js'
+import QItemMain from '../list/QItemMain.js'
+import { getEventKey } from '../../utils/event.js'
 
 export default {
   name: 'QActionSheet',

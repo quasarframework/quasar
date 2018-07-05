@@ -3,10 +3,10 @@ import {
   getPercentage,
   notDivides,
   SliderMixin
-} from './slider-utils'
-import { between } from '../../utils/format'
-import { QChip } from '../chip'
-import { stopAndPrevent } from '../../utils/event'
+} from './slider-utils.js'
+import { between } from '../../utils/format.js'
+import QChip from '../chip/QChip.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QSlider',

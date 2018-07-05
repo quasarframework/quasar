@@ -1,5 +1,5 @@
-import { listenOpts } from '../../utils/event'
-import { onSSR, fromSSR } from '../../plugins/platform'
+import { listenOpts } from '../../utils/event.js'
+import { onSSR, fromSSR } from '../../plugins/platform.js'
 
 export default {
   name: 'QWindowResizeObservable',

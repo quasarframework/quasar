@@ -1,8 +1,7 @@
 import { between } from '../../utils/format'
-import { QBtn } from '../btn'
-import { QInput } from '../input'
-import extend from '../../utils/extend'
-import { getEventKey } from '../../utils/event'
+import QBtn from '../btn/QBtn.js'
+import QInput from '../input/QInput.vue'
+import { getEventKey } from '../../utils/event.js'
 
 export default {
   name: 'QPagination',
@@ -128,7 +127,7 @@ export default {
         : otherwise
     },
     __getBtn (h, props) {
-      return h(QBtn, extend(true, {
+      return h(QBtn, Object.assign({
         props: {
           color: this.color,
           flat: true,

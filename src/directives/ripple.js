@@ -1,5 +1,5 @@
-import { cssTransform, css } from '../utils/dom'
-import { position } from '../utils/event'
+import { cssTransform, css } from '../utils/dom.js'
+import { position } from '../utils/event.js'
 
 function showRipple (evt, el, { stop, center }) {
   if (stop) {

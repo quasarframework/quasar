@@ -27,14 +27,26 @@ const builds = [
   {
     rollup: {
       input: {
-        input: resolve(`src/index.esm.js`)
+        input: resolve(`src/index.all.esm.js`)
       },
       output: {
         file: resolve(`dist/quasar.${buildConf.themeToken}.esm.js`),
         format: 'es'
       }
     },
-    build: { unminified: true }
+    build: { minified: true, minExt: false }
+  },
+  {
+    rollup: {
+      input: {
+        input: resolve(`src/index.all.common.js`)
+      },
+      output: {
+        file: resolve(`dist/quasar.${buildConf.themeToken}.common.js`),
+        format: 'cjs'
+      }
+    },
+    build: { minified: true, minExt: false }
   },
   {
     rollup: {
@@ -80,13 +92,10 @@ const builds = [
 addAssets(builds, 'i18n')
 addAssets(builds, 'icons')
 
-build(builds)
-  .then(() => {
-    require('./build.helpers').generate()
-  })
-  .then(() => {
-    require('./build.transforms').generate()
-  })
+require('./build.transforms').generate()
+build(builds).then(() => {
+  require('./build.helpers').generate()
+})
 
 /**
  * Helpers
@@ -218,7 +227,9 @@ function buildEntry (config) {
       }
 
       return buildUtils.writeFile(
-        addExtension(config.rollup.output.file),
+        config.build.minExt !== false
+          ? addExtension(config.rollup.output.file)
+          : config.rollup.output.file,
         buildConf.banner + minified.code,
         true
       )

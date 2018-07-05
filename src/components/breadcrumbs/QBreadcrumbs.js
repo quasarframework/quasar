@@ -1,4 +1,4 @@
-import AlignMixin from '../../mixins/align'
+import AlignMixin from '../../mixins/align.js'
 
 export default {
   name: 'QBreadcrumbs',

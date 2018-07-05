@@ -1,9 +1,9 @@
-import { getEventKey, stopAndPrevent } from '../../utils/event'
-import { getToolbar, getFonts, getLinkEditor } from './editor-utils'
-import { Caret } from './editor-caret'
-import extend from '../../utils/extend'
-import FullscreenMixin from '../../mixins/fullscreen'
-import { isSSR } from '../../plugins/platform'
+import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
+import { Caret } from './editor-caret.js'
+import extend from '../../utils/extend.js'
+import FullscreenMixin from '../../mixins/fullscreen.js'
+import { isSSR } from '../../plugins/platform.js'
 
 export default {
   name: 'QEditor',

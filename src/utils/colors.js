@@ -222,3 +222,15 @@ export function getBrand (color, element = document.body) {
 
   return getComputedStyle(element).getPropertyValue(`--q-color-${color}`).trim() || null
 }
+
+export default {
+  rgbToHex,
+  hexToRgb,
+  hsvToRgb,
+  rgbToHsv,
+  textToRgb,
+  lighten,
+  luminosity,
+  setBrand,
+  getBrand
+}

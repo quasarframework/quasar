@@ -1,5 +1,5 @@
-import QToolbar from './QToolbar'
-import QToolbarTitle from './QToolbarTitle'
+import QToolbar from './QToolbar.js'
+import QToolbarTitle from './QToolbarTitle.js'
 
 export {
   QToolbar,

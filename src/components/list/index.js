@@ -1,11 +1,11 @@
-import QItem from './QItem'
-import QItemSeparator from './QItemSeparator'
-import QItemMain from './QItemMain'
-import QItemSide from './QItemSide'
-import QItemTile from './QItemTile'
-import QItemWrapper from './QItemWrapper'
-import QList from './QList'
-import QListHeader from './QListHeader'
+import QItem from './QItem.js'
+import QItemSeparator from './QItemSeparator.js'
+import QItemMain from './QItemMain.js'
+import QItemSide from './QItemSide.js'
+import QItemTile from './QItemTile.js'
+import QItemWrapper from './QItemWrapper.js'
+import QList from './QList.js'
+import QListHeader from './QListHeader.js'
 
 export {
   QItem,

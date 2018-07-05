@@ -1,5 +1,5 @@
-import QTimeline from './QTimeline'
-import QTimelineEntry from './QTimelineEntry'
+import QTimeline from './QTimeline.js'
+import QTimelineEntry from './QTimelineEntry.js'
 
 export {
   QTimeline,

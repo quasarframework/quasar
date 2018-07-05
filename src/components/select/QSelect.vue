@@ -172,18 +172,18 @@
 </template>
 
 <script>
-import { QSearch } from '../search'
-import { QPopover } from '../popover'
-import { QList, QItemWrapper } from '../list'
-import { QCheckbox } from '../checkbox'
-import { QRadio } from '../radio'
-import { QToggle } from '../toggle'
-import { QIcon } from '../icon'
-import { QInputFrame } from '../input-frame'
-import { QChip } from '../chip'
-import FrameMixin from '../../mixins/input-frame'
-import extend from '../../utils/extend'
-import KeyboardSelectionMixin from '../../mixins/keyboard-selection'
+import QSearch from '../search/QSearch.js'
+import QPopover from '../popover/QPopover.js'
+import QList from '../list/QList.js'
+import QItemWrapper from '../list/QItemWrapper.js'
+import QCheckbox from '../checkbox/QCheckbox.js'
+import QRadio from '../radio/QRadio.js'
+import QToggle from '../toggle/QToggle.js'
+import QIcon from '../icon/QIcon.js'
+import QInputFrame from '../input-frame/QInputFrame.vue'
+import QChip from '../chip/QChip.js'
+import FrameMixin from '../../mixins/input-frame.js'
+import KeyboardSelectionMixin from '../../mixins/keyboard-selection.js'
 
 function defaultFilterFn (terms, obj) {
   return obj.label.toLowerCase().indexOf(terms) > -1
@@ -251,7 +251,7 @@ export default {
       }
     },
     visibleOptions () {
-      let opts = this.options.map((opt, index) => extend({}, opt, { index }))
+      let opts = this.options.map((opt, index) => Object.assign({}, opt, { index }))
       if (this.filter && this.terms.length) {
         const lowerTerms = this.terms.toLowerCase()
         opts = opts.filter(opt => this.filterFn(lowerTerms, opt))

@@ -1,4 +1,4 @@
-import QScrollArea from './QScrollArea'
+import QScrollArea from './QScrollArea.js'
 
 export {
   QScrollArea

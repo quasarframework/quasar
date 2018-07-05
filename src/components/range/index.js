@@ -1,4 +1,4 @@
-import QRange from './QRange'
+import QRange from './QRange.js'
 
 export {
   QRange

@@ -1,6 +1,6 @@
-import { listenOpts } from '../../utils/event'
-import CanRenderMixin from '../../mixins/can-render'
-import { isSSR } from '../../plugins/platform'
+import { listenOpts } from '../../utils/event.js'
+import CanRenderMixin from '../../mixins/can-render.js'
+import { isSSR } from '../../plugins/platform.js'
 
 export default {
   name: 'QResizeObservable',

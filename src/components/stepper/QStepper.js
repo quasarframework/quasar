@@ -1,5 +1,5 @@
-import StepTab from './StepTab'
-import { frameDebounce } from '../../utils/debounce'
+import StepTab from './StepTab.js'
+import frameDebounce from '../../utils/frame-debounce.js'
 
 export default {
   name: 'QStepper',

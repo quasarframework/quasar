@@ -1,5 +1,5 @@
-import { QActionSheet } from '../components/action-sheet'
-import modalFn from '../utils/modal-fn'
+import QActionSheet from '../components/action-sheet/QActionSheet.js'
+import modalFn from '../utils/modal-fn.js'
 
 export default {
   install ({ $q, Vue }) {

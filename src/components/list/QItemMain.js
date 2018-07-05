@@ -1,4 +1,4 @@
-import { textStyle } from '../../mixins/item'
+import { textStyle } from '../../mixins/item.js'
 
 function text (h, name, val, n) {
   n = parseInt(n, 10)

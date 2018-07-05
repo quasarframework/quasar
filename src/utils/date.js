@@ -1,8 +1,8 @@
 /* eslint no-fallthrough: 0 */
 
-import { isDate } from './is'
-import { pad, capitalize } from './format'
-import i18n from '../i18n'
+import { isDate } from './is.js'
+import { pad, capitalize } from './format.js'
+import i18n from '../i18n.js'
 
 const
   MILLISECONDS_IN_DAY = 86400000,
@@ -540,4 +540,30 @@ export function matchFormat (format = '') {
 
 export function clone (value) {
   return isDate(value) ? new Date(value.getTime()) : value
+}
+
+export default {
+  isValid,
+  buildDate,
+  getDayOfWeek,
+  getWeekOfYear,
+  isBetweenDates,
+  addToDate,
+  subtractFromDate,
+  adjustDate,
+  startOfDate,
+  endOfDate,
+  getMaxDate,
+  getMinDate,
+  getDateDiff,
+  getDayOfYear,
+  inferDateFormat,
+  convertDateToFormat,
+  getDateBetween,
+  isSameDate,
+  daysInMonth,
+  formatter,
+  formatDate,
+  matchFormat,
+  clone
 }

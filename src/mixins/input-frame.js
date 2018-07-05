@@ -1,6 +1,6 @@
-import { QIcon } from '../components/icon'
-import { stopAndPrevent } from '../utils/event'
-import AlignMixin from './align'
+import QIcon from '../components/icon/QIcon.js'
+import { stopAndPrevent } from '../utils/event.js'
+import AlignMixin from './align.js'
 
 const marginal = {
   type: Array,

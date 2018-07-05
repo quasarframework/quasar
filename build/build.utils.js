@@ -1,7 +1,8 @@
 const
   fs = require('fs'),
   path = require('path'),
-  zlib = require('zlib')
+  zlib = require('zlib'),
+  { green, blue, red } = require('chalk')
 
 function getSize (code) {
   return (code.length / 1024).toFixed(2) + 'kb'
@@ -16,10 +17,10 @@ module.exports.createFolder = function (folder) {
 
 module.exports.writeFile = function (dest, code, zip) {
   const banner = dest.indexOf('.json') > -1
-    ? '[json]'
+    ? red('[json]')
     : dest.indexOf('.js') > -1
-      ? '[js]  '
-      : '[css] '
+      ? green('[js]  ')
+      : blue('[css] ')
 
   return new Promise((resolve, reject) => {
     function report (extra) {
