@@ -37,19 +37,7 @@ const builds = [
         format: 'es'
       }
     },
-    build: { minified: true, minExt: false }
-  },
-  {
-    rollup: {
-      input: {
-        input: resolve(`src/index.esm.js`)
-      },
-      output: {
-        file: resolve(`dist/quasar.${buildConf.themeToken}.common.js`),
-        format: 'cjs'
-      }
-    },
-    build: { minified: true, minExt: false }
+    build: { unminified: true, minExt: false }
   },
   {
     rollup: {

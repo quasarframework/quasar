@@ -26,7 +26,7 @@ module.exports = function (chain) {
 
   chain.resolve.alias
     .merge({
-      quasar: resolve(`src/index.dev`),
+      quasar: resolve(`src/index.esm.js`),
       'quasar-css': resolve(`src/css/${env.theme}.styl`),
       assets: resolve('dev/assets'),
       components: resolve('dev/components'),

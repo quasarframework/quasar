@@ -6,16 +6,13 @@ import { createRouter } from './router'
 
 // "Everything" bit is just a hack.
 // Don't use it in your apps.
-import Quasar, * as Everything from 'quasar'
+import Quasar from 'quasar'
 
 import 'quasar-css'
 import './app.styl'
 // import iconSet from '../icons/fontawesome'
 
 Vue.use(Quasar, {
-  components: Everything,
-  directives: Everything,
-  plugins: Everything,
   // iconSet,
   config: {}
 })

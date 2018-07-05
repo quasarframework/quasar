@@ -92,8 +92,7 @@ function generateFile (map) {
   return `const map = ${JSON.stringify(map, null, 2)}
 
 module.exports = function (importName) {
-  const path = 'quasar-framework/' + map[importName]
-  return path
+  return 'quasar-framework/' + map[importName]
 }
 `
 }
