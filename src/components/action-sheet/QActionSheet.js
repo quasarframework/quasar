@@ -4,6 +4,7 @@ import QList from '../list/QList.js'
 import QItem from '../list/QItem.js'
 import QItemSide from '../list/QItemSide.js'
 import QItemMain from '../list/QItemMain.js'
+import QItemSeparator from '../list/QItemSeparator.js'
 import { getEventKey } from '../../utils/event.js'
 
 export default {

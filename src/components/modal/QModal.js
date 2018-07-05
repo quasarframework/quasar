@@ -171,9 +171,8 @@ export default {
       if (!this.noRefocus) {
         this.__refocusTarget = document.activeElement
       }
-      const body = document.body
 
-      body.appendChild(this.$el)
+      document.body.appendChild(this.$el)
       this.__register(true)
       this.__preventScroll(true)
 
