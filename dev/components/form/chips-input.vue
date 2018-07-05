@@ -20,6 +20,16 @@
       <q-chips-input inverted float-label="Uppercase" upper-case v-model="model" placeholder="Uppercase" />
       <q-chips-input inverted float-label="Lowercase" lower-case v-model="model" placeholder="Lowercase" />
 
+      <q-chips-input float-label="List autocomplete" v-model="options">
+        <q-autocomplete :static-data="{field: 'value', list: countries}" />
+      </q-chips-input>
+      <pre class="shadow-2 q-pa-sm q-mb-md">{{ options }}</pre>
+
+      <q-chips-input float-label="List autocomplete - Complex" :value="optionsComplexParsed" @remove="optionsComplexRemove">
+        <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="optionsComplexAdd" />
+      </q-chips-input>
+      <pre class="shadow-2 q-pa-sm q-mb-md">{{ optionsComplex }}</pre>
+
       <div class="bg-grey-9" style="padding: 15px">
         <q-chips-input dark color="amber" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
       </div>
@@ -66,10 +76,22 @@
 </template>
 
 <script>
+import countries from 'data/autocomplete.json'
+
+const countriesList = countries.map((country, i) => ({
+  label: country,
+  value: country,
+  stamp: country.slice(0, 3).toUpperCase(),
+  disable: Math.random() > 0.9
+}))
+
 export default {
   data () {
     return {
-      model: ['Joe']
+      model: ['Joe'],
+      options: [],
+      optionsComplex: [],
+      countries: countriesList
     }
   },
   watch: {
@@ -77,9 +99,29 @@ export default {
       console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
     }
   },
+  computed: {
+    optionsComplexParsed () {
+      return this.optionsComplex.map(o => `${o.label} - ${o.stamp}`)
+    }
+  },
   methods: {
     log (name, data) {
       console.log(name, JSON.stringify(data))
+    },
+    optionsComplexAdd (value, kbdNav) {
+      if (kbdNav) {
+        return
+      }
+      const index = this.optionsComplex.findIndex(o => o === value)
+      if (index > -1) {
+        this.optionsComplex.splice(index, 1)
+      }
+      this.optionsComplex.push(value)
+    },
+    optionsComplexRemove ({ index }) {
+      if (index > -1) {
+        this.optionsComplex.splice(index, 1)
+      }
     }
   }
 }
