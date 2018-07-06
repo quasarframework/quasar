@@ -54,7 +54,7 @@
 
       <p class="caption">Format Model</p>
       <div class="bg-secondary text-white">
-        Model: <em>{{ modelVar }}</em> <strong>{{ modelVarType }}</strong>
+        Model: <em>{{ modelVar }}</em> - <strong>{{ modelVarType }}</strong>
       </div>
       <div class="bg-secondary text-white">
         Formatted: <em>{{ modelVarFormatted }}</em>
@@ -63,6 +63,7 @@
       <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="date" clearable stack-label="Format Model 'date'" format-model="date" />
       <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="date" clearable stack-label="Format Model 'number'" format-model="number" />
       <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="date" clearable stack-label="Format Model 'string'" format-model="string" />
+      <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="time" clearable stack-label="Set time" />
 
       <p class="caption">
         Lazy Input
