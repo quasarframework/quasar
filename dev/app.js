@@ -4,8 +4,7 @@ import App from './App.vue'
 
 import { createRouter } from './router'
 
-// "Everything" bit is just a hack.
-// Don't use it in your apps.
+// this imports everything from Quasar
 import Quasar from 'quasar'
 
 import 'quasar-css'
@@ -43,7 +42,7 @@ export function createApp (ssrContext) {
 
   const app = {
     router,
-    ...App
+    render: h => h(App)
   }
 
   const ctx = { app }
