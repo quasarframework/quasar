@@ -69,14 +69,14 @@ export function getPositions (anchor, target) {
   if (overlap.y !== 'auto') {
     a.vertical = a.vertical === 'top' ? 'bottom' : 'top'
     if (overlap.y === 'inclusive') {
-      t.vertical = t.vertical
+      a.vertical = t.vertical
     }
   }
 
   if (overlap.x !== 'auto') {
     a.horizontal = a.horizontal === 'left' ? 'right' : 'left'
-    if (overlap.y === 'inclusive') {
-      t.horizontal = t.horizontal
+    if (overlap.x === 'inclusive') {
+      a.horizontal = t.horizontal
     }
   }
 
