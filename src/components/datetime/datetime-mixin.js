@@ -126,6 +126,14 @@ export default {
       this.model = new Date(this.model.setHours(hour + offset))
     },
 
+    disableDaysInWeek (days) {
+      if (!this.disableDays.length) {
+        return []
+      }
+
+      return days.filter(day => this.disableDays.includes(new Date(this.year, this.month, day).getDay()))
+    },
+
     __parseTypeValue (type, value) {
       if (type === 'month') {
         return between(value, 1, 12)

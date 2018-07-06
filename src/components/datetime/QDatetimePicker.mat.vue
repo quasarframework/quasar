@@ -175,16 +175,16 @@
             </template>
             <div
               v-for="monthDay in daysInterval"
-              :key="`md${monthDay}`"
+              :key="`md${monthDay.value}`"
               class="row items-center content-center justify-center cursor-pointer"
-              :class="[color && monthDay === day ? `text-${color}` : null, {
-                'q-datetime-day-active': isValid && monthDay === day,
-                'q-datetime-day-today': monthDay === today,
-                'disabled': !editable
+              :class="[color && monthDay.value === day ? `text-${color}` : null, {
+                'q-datetime-day-active': isValid && monthDay.value === day,
+                'q-datetime-day-today': monthDay.value === today,
+                'disabled': !editable || !monthDay.enabled
               }]"
-              @click="setDay(monthDay)"
+              @click="monthDay.enabled && setDay(monthDay.value)"
             >
-              <span>{{ monthDay }}</span>
+              <span>{{ monthDay.value }}</span>
             </div>
             <template v-if="max">
               <div v-for="fillerDay in afterMaxDays" :key="`fa${fillerDay}`" class="row items-center content-center justify-center disabled">
@@ -219,7 +219,7 @@
                   v-for="n in 24"
                   :key="`hi${n}`"
                   class="q-datetime-clock-position fmt24"
-                  :class="[`q-datetime-clock-pos-${n-1}`, (n - 1) === hour ? 'active' : '']"
+                  :class="[`q-datetime-clock-pos-${n-1}`, (n - 1) === hour ? 'active' : '', __checkHourIsDisabled(n-1) ? 'disabled' : '']"
                 >
                   <span>{{ n - 1 }}</span>
                 </div>
@@ -229,7 +229,7 @@
                   v-for="n in 12"
                   :key="`hi${n}`"
                   class="q-datetime-clock-position"
-                  :class="['q-datetime-clock-pos-' + n, n === hour ? 'active' : '']"
+                  :class="['q-datetime-clock-pos-' + n, n === hour ? 'active' : '', __checkHourIsDisabled(n) ? 'disabled' : '']"
                 >
                   <span>{{ n }}</span>
                 </div>
@@ -388,13 +388,26 @@ export default {
     },
     daysInterval () {
       let after = this.pmax === null || this.afterMaxDays === false ? 0 : this.afterMaxDays
+      let days = []
       if (this.beforeMinDays > 0 || after) {
         let min = this.beforeMinDays > 0 ? this.beforeMinDays + 1 : 1
-        return Array.apply(null, {length: this.daysInMonth - min - after + 1}).map((day, index) => {
+        days = Array.apply(null, {length: this.daysInMonth - min - after + 1}).map((day, index) => {
           return index + min
         })
       }
-      return this.daysInMonth
+      else {
+        days = Array.from(Array(this.daysInMonth).keys(), day => day)
+      }
+
+      let disabledDays = this.disableDaysInWeek(days)
+      let disableDates = this.disableDates(this.year, this.month, days.filter(d => !disabledDays.includes(d)))
+      if (!Array.isArray(disableDates)) {
+        disableDates = []
+      }
+      return days.map(day => ({
+        value: day,
+        enabled: !disabledDays.includes(day) && !disableDates.includes(day)
+      }))
     },
 
     hour () {
@@ -544,14 +557,17 @@ export default {
     __dragStop (ev) {
       stopAndPrevent(ev)
       this.dragging = false
+      let value = this.__getTimeValue(ev)
       if (this.view === 'minute') {
         this.$emit('canClose')
       }
       else {
-        this.view = 'minute'
+        if (!this.__checkHourIsDisabled(value)) {
+          this.view = 'minute'
+        }
       }
     },
-    __updateClock (ev) {
+    __getTimeValue (ev) {
       let
         pos = position(ev),
         height = Math.abs(pos.top - this.centerClockPos.top),
@@ -569,12 +585,39 @@ export default {
       }
 
       if (this.view === 'hour') {
-        this.setHour(Math.round(angle / (this.computedFormat24h ? 15 : 30)))
+        return Math.round(angle / (this.computedFormat24h ? 15 : 30))
       }
       else {
-        this.setMinute(Math.round(angle / 6))
+        return Math.round(angle / 6)
       }
     },
+    __updateClock (ev) {
+      let value = this.__getTimeValue(ev)
+      if (this.view === 'hour') {
+        if (!this.__checkHourIsDisabled(value)) {
+          this.setHour(value)
+        }
+      }
+      else {
+        this.setMinute(value)
+      }
+    },
+
+    __checkHourIsDisabled (hour) {
+      let disabledByMin = false
+      let disabledByMax = false
+      if (this.computedFormat24h) {
+        disabledByMin = hour < this.minHour
+        disabledByMax = hour > this.maxHour
+      }
+      else {
+        disabledByMin = ((hour % 12) + (12 * !this.am)) < this.minHour
+        disabledByMax = ((hour % 12) + (12 * !this.am)) > this.maxHour
+      }
+
+      return (this.maxHour < this.minHour) ? (disabledByMin && disabledByMax) : (disabledByMin || disabledByMax)
+    },
+
     __repeatTimeout (count) {
       return Math.max(100, 300 - count * count * 10)
     }

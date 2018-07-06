@@ -213,6 +213,18 @@
       <q-datetime-picker readonly v-model="model" type="datetime" />
       <p class="caption">Min & Max</p>
       <q-datetime-picker type="datetime" v-model="minMaxModel" :min="min" :max="max" />
+
+      <p class="caption">Minimum and maximum hour 12h format</p>
+      <q-datetime-picker v-model="model" type="time" :minHour="4" :maxHour="20" />
+
+      <p class="caption">Minimum and maximum hour 24hr Format</p>
+      <q-datetime-picker v-model="model" type="time" format24h :minHour="18" :maxHour="5" />
+
+      <p class="caption">Disable days of the week</p>
+      <q-datetime-picker v-model="model" type="date" :disableDays="[0,6]" />
+
+      <p class="caption">Disable dates</p>
+      <q-datetime-picker v-model="model" type="date" :disableDates="(years, month, dates) => { return [16, 9, 23, 2] }" />
     </div>
   </div>
 </template>
