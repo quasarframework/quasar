@@ -61,29 +61,33 @@ export default {
       return this.model.getMinutes()
     },
 
+    currentYear () {
+      return (new Date()).getFullYear()
+    },
+
     yearInterval () {
       let
-        min = this.pmin !== null ? this.pmin.getFullYear() : 1950,
-        max = this.pmax !== null ? this.pmax.getFullYear() : 2050
-      return Math.max(1, max - min + 1)
+        min = this.yearMin,
+        max = this.pmax !== null ? this.pmax.getFullYear() : (this.year || this.currentYear) + 50
+      return Math.max(1, max - min)
     },
     yearMin () {
-      return this.pmin !== null ? this.pmin.getFullYear() - 1 : 1949
+      return this.pmin !== null ? this.pmin.getFullYear() - 1 : (this.year || this.currentYear) - 51
     },
     monthInterval () {
       let
-        min = this.pmin !== null && this.pmin.getFullYear() === this.model.getFullYear() ? this.pmin.getMonth() : 0,
-        max = this.pmax !== null && this.pmax.getFullYear() === this.model.getFullYear() ? this.pmax.getMonth() : 11
+        min = this.monthMin,
+        max = this.pmax !== null && this.pmax.getFullYear() === this.year ? this.pmax.getMonth() : 11
       return Math.max(1, max - min + 1)
     },
     monthMin () {
-      return this.pmin !== null && this.pmin.getFullYear() === this.model.getFullYear()
+      return this.pmin !== null && this.pmin.getFullYear() === this.year
         ? this.pmin.getMonth()
         : 0
     },
 
     daysInMonth () {
-      return (new Date(this.model.getFullYear(), this.model.getMonth() + 1, 0)).getDate()
+      return (new Date(this.year, this.model.getMonth() + 1, 0)).getDate()
     },
 
     editable () {
@@ -112,9 +116,9 @@ export default {
       }
       if (type === 'year') {
         let
-          min = this.pmin ? this.pmin.getFullYear() : 1950,
-          max = this.pmax ? this.pmax.getFullYear() : 2050
-        return between(value, min, max)
+          min = this.yearMin,
+          max = min + this.yearInterval
+        return between(value, min + 1, max)
       }
       if (type === 'hour') {
         return between(value, 0, 23)
