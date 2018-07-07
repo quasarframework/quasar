@@ -52,7 +52,7 @@
 
             <!-- page content; replace this entirely -->
             <div class="column flex-center absolute-full">
-              <div>"npm run test:umd"</div>
+              <div>"yarn dev:umd"</div>
               <div>You need to build & refresh page on each change on Quasar</div>
               <div>Do not include index.mat.umd.html in your commits</div>
             </div>
@@ -87,6 +87,9 @@
           launch: function (url) {
             Quasar.utils.openURL(url)
           }
+        },
+        mounted () {
+          window.Quasar = Quasar
         }
       })
     </script>
