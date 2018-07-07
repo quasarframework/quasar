@@ -1,6 +1,12 @@
+process.env.NODE_ENV = 'production'
+
 const
   type = process.argv[2],
-  { createFolder } = require('./build.utils')
+  parallel = !type && require('os').cpus().length > 1,
+  { join } = require('path'),
+  { createFolder } = require('./build.utils'),
+  runJob = parallel ? require('child_process').fork : require,
+  { green, blue } = require('chalk')
 
 /*
   Build:
@@ -15,7 +21,7 @@ if (!type) {
   require('./script.clean.js')
 }
 
-console.log(` 📦 Building Quasar v${require('../package.json').version}...\n`)
+console.log(` 📦 Building Quasar ${green('v' + require('../package.json').version)}...${parallel ? blue(' [multi-threaded]') : ''}\n`)
 
 createFolder('dist')
 createFolder('dist/umd')
@@ -23,8 +29,8 @@ createFolder('dist/umd')
 if (!type || type === 'js') {
   createFolder('dist/helper-json')
   createFolder('dist/babel-transforms')
-  require('./script.build.javascript')
+  runJob(join(__dirname, './script.build.javascript'))
 }
 if (!type || type === 'css') {
-  require('./script.build.stylus')
+  runJob(join(__dirname, './script.build.stylus'))
 }
