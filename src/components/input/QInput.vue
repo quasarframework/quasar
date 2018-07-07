@@ -25,6 +25,7 @@
 
     @click="__onClick"
     @focus="__onFocus"
+    @blur.native="__onInputBlur"
   >
     <slot name="before"/>
 
