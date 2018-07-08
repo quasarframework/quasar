@@ -11,6 +11,8 @@ import 'quasar-css'
 import './app.styl'
 // import iconSet from '../icons/fontawesome'
 
+import 'quasar-extras/animate'
+
 Vue.use(Quasar, {
   // iconSet,
   config: {}

@@ -972,9 +972,18 @@ ajv@^5.1.0, ajv@^5.2.3, ajv@^5.3.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-ajv@^6.0.1, ajv@^6.1.0, ajv@^6.2.1:
+ajv@^6.0.1, ajv@^6.1.0:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.1.tgz#88ebc1263c7133937d108b80c5572e64e1d9322d"
+  dependencies:
+    fast-deep-equal "^2.0.1"
+    fast-json-stable-stringify "^2.0.0"
+    json-schema-traverse "^0.4.1"
+    uri-js "^4.2.1"
+
+ajv@^6.5.2:
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.2.tgz#678495f9b82f7cca6be248dd92f59bff5e1f4360"
   dependencies:
     fast-deep-equal "^2.0.1"
     fast-json-stable-stringify "^2.0.0"
@@ -6205,9 +6214,9 @@ qs@~6.5.1:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
 
-quasar-extras@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/quasar-extras/-/quasar-extras-2.0.3.tgz#eacb915c8eebccb9dc5f23c20afe5390502dfff3"
+quasar-extras@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/quasar-extras/-/quasar-extras-2.0.4.tgz#63cb738fcd046e57cedd9a57483c4ecb5059e17d"
 
 query-string@^4.1.0:
   version "4.3.4"
