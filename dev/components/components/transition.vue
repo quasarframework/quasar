@@ -5,8 +5,12 @@
         <q-btn push color="orange" @click="show = !show">Toggle</q-btn>
       </q-card-title>
       <q-card-main>
-        <q-select filter v-model="enter" :options="enterSelectOptions" stack-label="CSS Enter Class" />
-        <q-select filter v-model="leave" :options="leaveSelectOptions" stack-label="CSS Leave Class" />
+        <div class="caption">(only 4 anims showcased here)</div>
+        <br>
+        <div class="row no-wrap">
+          <q-select class="col" v-model="enter" :options="enterSelectOptions" stack-label="CSS Enter Class" />
+          <q-select class="col" v-model="leave" :options="leaveSelectOptions" stack-label="CSS Leave Class" />
+        </div>
       </q-card-main>
     </q-card>
 
@@ -49,11 +53,11 @@
 </template>
 
 <script>
-import { generalAnimations, inAnimations, outAnimations } from 'quasar-extras/animate/animate-list.js'
+import 'quasar-extras/animate/fadeIn.css'
+import 'quasar-extras/animate/fadeOut.css'
+import 'quasar-extras/animate/bounceInLeft.css'
+import 'quasar-extras/animate/bounceOutRight.css'
 
-function alphabetically (a, b) {
-  return a.localeCompare(b)
-}
 function generateOptions (name) {
   return {
     label: name,
@@ -61,8 +65,8 @@ function generateOptions (name) {
   }
 }
 
-const enter = generalAnimations.concat(inAnimations).sort(alphabetically)
-const leave = generalAnimations.concat(outAnimations).sort(alphabetically)
+const enter = ['fadeIn', 'bounceInLeft']
+const leave = ['fadeOut', 'bounceOutRight']
 
 export default {
   data () {
