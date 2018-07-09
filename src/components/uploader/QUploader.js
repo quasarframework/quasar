@@ -1,142 +1,3 @@
-<template>
-  <div
-    class="q-uploader relative-position"
-    :class="classes"
-    @dragover.prevent.stop="__onDragOver"
-  >
-    <q-input-frame
-      ref="input"
-
-      :prefix="prefix"
-      :suffix="suffix"
-      :stack-label="stackLabel"
-      :float-label="floatLabel"
-      :error="error"
-      :warning="warning"
-      :disable="disable"
-      :readonly="readonly"
-      :inverted="inverted"
-      :inverted-light="invertedLight"
-      :dark="dark"
-      :hide-underline="hideUnderline"
-      :before="before"
-      :after="after"
-      :color="color"
-      :align="align"
-      :no-parent-field="noParentField"
-
-      :length="queueLength"
-      additional-length
-    >
-      <div
-        class="col q-input-target ellipsis"
-        :class="alignClass"
-      >
-        {{ label }}
-      </div>
-
-      <q-spinner
-        v-if="uploading"
-        slot="after"
-        size="24px"
-        class="q-if-end self-center"
-      />
-
-      <q-icon
-        v-if="uploading"
-        slot="after"
-        class="q-if-end self-center q-if-control"
-        :name="$q.icon.uploader[`clear${isInverted ? 'Inverted' : ''}`]"
-        @click.native="abort"
-      />
-
-      <q-icon
-        v-if="!uploading"
-        slot="after"
-        :name="$q.icon.uploader.add"
-        class="q-uploader-pick-button self-center q-if-control relative-position overflow-hidden"
-        @click.native="__pick"
-        :disabled="addDisabled"
-      >
-        <input
-          type="file"
-          ref="file"
-          class="q-uploader-input absolute-full cursor-pointer"
-          :accept="extensions"
-          v-bind.prop="{multiple: multiple}"
-          @change="__add"
-        >
-      </q-icon>
-
-      <q-icon
-        v-if="!hideUploadButton && !uploading"
-        slot="after"
-        :name="$q.icon.uploader.upload"
-        class="q-if-control self-center"
-        :disabled="queueLength === 0"
-        @click.native="upload"
-      />
-
-      <q-icon
-        v-if="hasExpandedContent"
-        slot="after"
-        :name="$q.icon.uploader.expand"
-        class="q-if-control generic_transition self-center"
-        :class="{'rotate-180': expanded}"
-        @click.native="expanded = !expanded"
-      />
-    </q-input-frame>
-
-    <q-slide-transition>
-      <div v-show="expanded" :class="expandClass" :style="expandStyle">
-        <q-list :dark="dark" class="q-uploader-files q-py-none scroll" :style="filesStyle">
-          <q-item
-            v-for="file in files"
-            :key="file.name + file.__timestamp"
-            class="q-uploader-file q-pa-xs"
-          >
-            <q-progress
-              v-if="!hideUploadProgress"
-              class="q-uploader-progress-bg absolute-full"
-              :color="file.__failed ? 'negative' : progressColor"
-              :percentage="file.__progress"
-              height="100%"
-            />
-            <div class="q-uploader-progress-text absolute" v-if="!hideUploadProgress">
-              {{ file.__progress }}%
-            </div>
-
-            <q-item-side v-if="file.__img" :image="file.__img.src" />
-            <q-item-side v-else :icon="$q.icon.uploader.file" :color="color" />
-
-            <q-item-main :label="file.name" :sublabel="file.__size" />
-
-            <q-item-side right>
-              <q-item-tile
-                :icon="$q.icon.uploader[file.__doneUploading ? 'done' : 'clear']"
-                :color="color"
-                class="cursor-pointer"
-                @click.native="__remove(file)"
-              />
-            </q-item-side>
-          </q-item>
-        </q-list>
-      </div>
-    </q-slide-transition>
-
-    <div
-      v-if="dnd"
-      class="q-uploader-dnd flex row items-center justify-center absolute-full"
-      :class="dndClass"
-      @dragenter.prevent.stop
-      @dragover.prevent.stop
-      @dragleave.prevent.stop="__onDragLeave"
-      @drop.prevent.stop="__onDrop"
-    />
-  </div>
-</template>
-
-<script>
 import QInputFrame from '../input-frame/QInputFrame.vue'
 import FrameMixin from '../../mixins/input-frame.js'
 import { humanStorageSize } from '../../utils/format.js'
@@ -149,6 +10,7 @@ import QItemSide from '../list/QItemSide.js'
 import QItemMain from '../list/QItemMain.js'
 import QItemTile from '../list/QItemTile.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
+import { stopAndPrevent } from '../../utils/event'
 
 function initFile (file) {
   file.__doneUploading = false
@@ -160,18 +22,6 @@ function initFile (file) {
 export default {
   name: 'QUploader',
   mixins: [FrameMixin],
-  components: {
-    QInputFrame,
-    QSpinner,
-    QIcon,
-    QProgress,
-    QList,
-    QItem,
-    QItemSide,
-    QItemMain,
-    QItemTile,
-    QSlideTransition
-  },
   props: {
     name: {
       type: String,
@@ -293,13 +143,16 @@ export default {
       }
     },
 
-    __onDragOver () {
+    __onDragOver (e) {
+      stopAndPrevent(e)
       this.dnd = true
     },
-    __onDragLeave () {
+    __onDragLeave (e) {
+      stopAndPrevent(e)
       this.dnd = false
     },
     __onDrop (e) {
+      stopAndPrevent(e)
       this.dnd = false
       let files = e.dataTransfer.files
 
@@ -559,6 +412,199 @@ export default {
       this.__computeTotalSize()
       this.$emit('reset')
     }
+  },
+
+  render (h) {
+    const child = [
+      h('div', {
+        staticClass: 'col q-input-target ellipsis',
+        'class': this.alignClass
+      }, [ this.label ])
+    ]
+
+    if (this.uploading) {
+      child.push(
+        h(QSpinner, {
+          slot: 'after',
+          staticClass: 'q-if-end self-center',
+          props: { size: '24px' }
+        }),
+        h(QIcon, {
+          slot: 'after',
+          staticClass: 'q-if-end self-center q-if-control',
+          props: {
+            name: this.$q.icon.uploader[`clear${this.isInverted ? 'Inverted' : ''}`]
+          },
+          nativeOn: {
+            click: this.abort
+          }
+        })
+      )
+    }
+    else { // not uploading
+      child.push(
+        h(QIcon, {
+          slot: 'after',
+          staticClass: 'q-uploader-pick-button self-center q-if-control relative-position overflow-hidden',
+          props: {
+            name: this.$q.icon.uploader.add
+          },
+          attrs: {
+            disabled: this.addDisabled
+          }
+        }, [
+          h('input', {
+            ref: 'file',
+            staticClass: 'q-uploader-input absolute-full cursor-pointer',
+            attrs: Object.assign({
+              type: 'file',
+              accept: this.extensions
+            }, this.multiple ? { multiple: true } : {}),
+            on: {
+              change: this.__add
+            }
+          })
+        ])
+      )
+
+      if (!this.hideUploadButton) {
+        child.push(
+          h(QIcon, {
+            slot: 'after',
+            staticClass: 'q-if-control self-center',
+            props: {
+              name: this.$q.icon.uploader.upload
+            },
+            attrs: {
+              disabled: this.queueLength === 0
+            },
+            nativeOn: {
+              click: this.upload
+            }
+          })
+        )
+      }
+    }
+
+    if (this.hasExpandedContent) {
+      child.push(
+        h(QIcon, {
+          slot: 'after',
+          staticClass: 'q-if-control generic_transition self-center',
+          'class': { 'rotate-180': this.expanded },
+          props: {
+            name: this.$q.icon.uploader.expand
+          },
+          nativeOn: {
+            click: () => { this.expanded = !this.expanded }
+          }
+        })
+      )
+    }
+
+    return h('div', {
+      staticClass: 'q-uploader relative-position',
+      'class': this.classes,
+      on: { dragover: this.__onDragOver }
+    }, [
+      h(QInputFrame, {
+        ref: 'input',
+        props: {
+          prefix: this.prefix,
+          suffix: this.suffix,
+          stackLabel: this.stackLabel,
+          floatLabel: this.floatLabel,
+          error: this.error,
+          warning: this.warning,
+          readonly: this.readonly,
+          inverted: this.inverted,
+          invertedLight: this.invertedLight,
+          dark: this.dark,
+          hideUnderline: this.hideUnderline,
+          before: this.before,
+          after: this.after,
+          color: this.color,
+          align: this.align,
+          noParentField: this.noParentField,
+          length: this.queueLength,
+          additionalLength: true
+        }
+      }, child),
+
+      h(QSlideTransition, [
+        h('div', {
+          'class': this.expandClass,
+          style: this.expandStyle,
+          directives: [{
+            name: 'show',
+            value: this.expanded
+          }]
+        }, [
+          h(QList, {
+            staticClass: 'q-uploader-files q-py-none scroll',
+            style: this.filesStyle,
+            props: { dark: this.dark }
+          }, this.files.map(file => {
+            return h(QItem, {
+              key: file.name + file.__timestamp,
+              staticClass: 'q-uploader-file q-pa-xs'
+            }, [
+              (!this.hideUploadProgress && h(QProgress, {
+                staticClass: 'q-uploader-progress-bg absolute-full',
+                props: {
+                  color: file.__failed ? 'negative' : this.progressColor,
+                  percentage: file.__progress,
+                  height: '100%'
+                }
+              })) || void 0,
+
+              (!this.hideUploadProgress && h('div', {
+                staticClass: 'q-uploader-progress-text absolute'
+              }, [ file.__progress + '%' ])) || void 0,
+
+              h(QItemSide, {
+                props: file.__img
+                  ? { image: file.__img.src }
+                  : {
+                    icon: this.$q.icon.uploader.file,
+                    color: this.color
+                  }
+              }),
+
+              h(QItemMain, {
+                props: {
+                  label: file.name,
+                  sublabel: file.__size
+                }
+              }),
+
+              h(QItemSide, { props: { right: true } }, [
+                h(QItemTile, {
+                  staticClass: 'cursor-pointer',
+                  props: {
+                    icon: this.$q.icon.uploader[file.__doneUploading ? 'done' : 'clear'],
+                    color: this.color
+                  },
+                  nativeOn: {
+                    click: () => { this.__remove(file) }
+                  }
+                })
+              ])
+            ])
+          }))
+        ])
+      ]),
+
+      (this.dnd && h('div', {
+        staticClass: 'q-uploader-dnd flex row items-center justify-center absolute-full',
+        'class': this.dndClass,
+        on: {
+          dragenter: stopAndPrevent,
+          dragover: stopAndPrevent,
+          dragleave: this.__onDragLeave,
+          drop: this.__onDrop
+        }
+      })) || void 0
+    ])
   }
 }
-</script>

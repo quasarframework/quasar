@@ -310,6 +310,7 @@ export default {
         : optColor || this.color
     }
   },
+
   render (h) {
     const child = []
 
