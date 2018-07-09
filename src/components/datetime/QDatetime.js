@@ -2,7 +2,8 @@ import FrameMixin from '../../mixins/input-frame.js'
 import DisplayModeMixin from '../../mixins/display-mode.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import { input, inline } from './datetime-props.js'
-import QInputFrame from '../input-frame/QInputFrame.vue'
+import QInputFrame from '../input-frame/QInputFrame.js'
+import QIcon from '../icon/QIcon.js'
 import QPopover from '../popover/QPopover.js'
 import QDatetimePicker from './QDatetimePicker'
 import QBtn from '../btn/QBtn.js'
@@ -333,7 +334,7 @@ export default {
         }, this.__getPicker(h, true)),
 
       this.isClearable
-        ? h('QIcon', {
+        ? h(QIcon, {
           slot: 'after',
           props: { name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`] },
           nativeOn: { click: this.clear },
@@ -341,7 +342,7 @@ export default {
         })
         : null,
 
-      h('QIcon', {
+      h(QIcon, {
         slot: 'after',
         props: { name: this.$q.icon.input.dropdown },
         staticClass: 'q-if-control'

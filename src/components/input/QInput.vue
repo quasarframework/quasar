@@ -133,7 +133,7 @@ import inputTypes from './input-types.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { between } from '../../utils/format.js'
 import QResizeObservable from '../observables/QResizeObservable.js'
-import QInputFrame from '../input-frame/QInputFrame.vue'
+import QInputFrame from '../input-frame/QInputFrame.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 export default {

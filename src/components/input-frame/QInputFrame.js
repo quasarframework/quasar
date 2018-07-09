@@ -1,67 +1,6 @@
-<template>
-  <div
-    class="q-if row no-wrap items-end relative-position"
-    :class="classes"
-    :tabindex="focusable && !disable ? 0 : -1"
-    @click="__onClick"
-  >
-    <template v-if="before">
-      <q-icon
-        v-for="item in before"
-        :key="`b${item.icon}`"
-        class="q-if-control q-if-control-before"
-        :class="{hidden: __additionalHidden(item, hasError, hasWarning, length)}"
-        :name="item.icon"
-        @mousedown.native="__onMouseDown"
-        @touchstart.native="__onMouseDown"
-        @click.native="__baHandler($event, item)"
-      />
-    </template>
-
-    <div class="q-if-inner col row no-wrap relative-position">
-      <div
-        v-if="hasLabel"
-        class="q-if-label ellipsis full-width absolute self-start"
-        :class="{'q-if-label-above': labelIsAbove}"
-        v-html="label"
-      />
-
-      <span
-        v-if="prefix"
-        class="q-if-addon q-if-addon-left"
-        :class="addonClass"
-        v-html="prefix"
-      />
-
-      <slot/>
-
-      <span
-        v-if="suffix"
-        class="q-if-addon q-if-addon-right"
-        :class="addonClass"
-        v-html="suffix"
-      />
-    </div>
-
-    <template v-if="after">
-      <q-icon
-        v-for="item in after"
-        :key="`a${item.icon}`"
-        class="q-if-control"
-        :class="{hidden: __additionalHidden(item, hasError, hasWarning, length)}"
-        :name="item.icon"
-        @mousedown.native="__onMouseDown"
-        @touchstart.native="__onMouseDown"
-        @click.native="__baHandler($event, item)"
-      />
-    </template>
-    <slot name="after"/>
-  </div>
-</template>
-
-<script>
 import FrameMixin from '../../mixins/input-frame.js'
 import ParentFieldMixin from '../../mixins/parent-field.js'
+import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QInputFrame',
@@ -142,6 +81,78 @@ export default {
         item.handler(evt)
       }
     }
+  },
+
+  render (h) {
+    return h('div', {
+      staticClass: 'q-if row no-wrap items-end relative-position',
+      'class': this.classes,
+      attrs: { tabindex: this.focusable && !this.disable ? 0 : -1 },
+      on: { click: this.__onClick }
+    }, [
+      (this.before && this.before.map(item => {
+        return h(QIcon, {
+          key: `b${item.icon}`,
+          staticClass: 'q-if-control q-if-control-before',
+          'class': {
+            hidden: this.__additionalHidden(item, this.hasError, this.hasWarning, this.length)
+          },
+          props: {
+            name: item.icon
+          },
+          nativeOn: {
+            mousedown: this.__onMouseDown,
+            touchstart: this.__onMouseDown,
+            click: e => { this.__baHandler(e, item) }
+          }
+        })
+      })) || void 0,
+
+      h('div', {
+        staticClass: 'q-if-inner col row no-wrap relative-position'
+      }, [
+        (this.hasLabel && h('div', {
+          staticClass: 'q-if-label ellipsis full-width absolute self-start',
+          'class': { 'q-if-label-above': this.labelIsAbove },
+          domProps: {
+            innerHTML: this.label
+          }
+        })) || void 0,
+
+        (this.prefix && h('span', {
+          staticClass: 'q-if-addon q-if-addon-left',
+          'class': this.addonClass,
+          domProps: {
+            innerHTML: this.prefix
+          }
+        })) || void 0
+      ].concat(this.$slots.default).concat([
+        (this.suffix && h('span', {
+          staticClass: 'q-if-addon q-if-addon-right',
+          'class': this.addonClass,
+          domProps: {
+            innerHTML: this.suffix
+          }
+        })) || void 0
+      ])),
+
+      (this.after && this.after.map(item => {
+        return h(QIcon, {
+          key: `a${item.icon}`,
+          staticClass: 'q-if-control',
+          'class': {
+            hidden: this.__additionalHidden(item, this.hasError, this.hasWarning, this.length)
+          },
+          props: {
+            name: item.icon
+          },
+          nativeOn: {
+            mousedown: this.__onMouseDown,
+            touchstart: this.__onMouseDown,
+            click: e => { this.__baHandler(e, item) }
+          }
+        })
+      })) || void 0
+    ].concat(this.$slots.after))
   }
 }
-</script>

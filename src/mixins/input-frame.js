@@ -1,4 +1,3 @@
-import QIcon from '../components/icon/QIcon.js'
 import { stopAndPrevent } from '../utils/event.js'
 import AlignMixin from './align.js'
 
@@ -9,9 +8,6 @@ const marginal = {
 
 export default {
   mixins: [AlignMixin],
-  components: {
-    QIcon
-  },
   props: {
     prefix: String,
     suffix: String,

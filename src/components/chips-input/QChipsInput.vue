@@ -86,7 +86,7 @@
 <script>
 import FrameMixin from '../../mixins/input-frame.js'
 import InputMixin from '../../mixins/input.js'
-import QInputFrame from '../input-frame/QInputFrame.vue'
+import QInputFrame from '../input-frame/QInputFrame.js'
 import QChip from '../chip/QChip.js'
 import QSpinner from '../spinner/QSpinner.js'
 import { getEventKey, stopAndPrevent } from '../../utils/event.js'

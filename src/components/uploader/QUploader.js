@@ -1,4 +1,4 @@
-import QInputFrame from '../input-frame/QInputFrame.vue'
+import QInputFrame from '../input-frame/QInputFrame.js'
 import FrameMixin from '../../mixins/input-frame.js'
 import { humanStorageSize } from '../../utils/format.js'
 import QSpinner from '../spinner/QSpinner.js'
