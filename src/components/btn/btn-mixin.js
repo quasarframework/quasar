@@ -1,5 +1,4 @@
 import Ripple from '../../directives/ripple.js'
-import QIcon from '../icon/QIcon.js'
 import AlignMixin from '../../mixins/align.js'
 
 const sizes = {
@@ -18,9 +17,6 @@ const sizes = {
 
 export default {
   mixins: [AlignMixin],
-  components: {
-    QIcon
-  },
   directives: {
     Ripple
   },

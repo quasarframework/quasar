@@ -1,104 +1,14 @@
-<template>
-  <q-input-frame
-    class="q-chips-input"
-
-    :prefix="prefix"
-    :suffix="suffix"
-    :stack-label="stackLabel"
-    :float-label="floatLabel"
-    :error="error"
-    :warning="warning"
-    :disable="disable"
-    :readonly="readonly"
-    :inverted="inverted"
-    :inverted-light="invertedLight"
-    :dark="dark"
-    :hide-underline="hideUnderline"
-    :before="before"
-    :after="after"
-    :color="color"
-    :no-parent-field="noParentField"
-
-    :focused="focused"
-    :length="length"
-    :additional-length="input.length > 0"
-
-    @click="__onClick"
-  >
-    <div class="col row items-center group q-input-chips">
-      <q-chip
-        small
-        :closable="editable"
-        v-for="(label, index) in model"
-        :key="`${label}#${index}`"
-        :color="computedChipBgColor"
-        :text-color="computedChipTextColor"
-        @blur="__onInputBlur"
-        @blur.native="__onInputBlur"
-        @focus="__clearTimer"
-        @focus.native="__clearTimer"
-        @hide="remove(index)"
-        :tabindex="editable && focused ? 0 : -1"
-      >
-        {{ label }}
-      </q-chip>
-
-      <input
-        ref="input"
-        class="col q-input-target"
-        :class="inputClasses"
-        v-model="input"
-
-        :placeholder="inputPlaceholder"
-        :disabled="disable"
-        :readonly="readonly"
-        v-bind="$attrs"
-
-        @focus="__onFocus"
-        @blur="__onInputBlur"
-        @keydown="__handleKeyDown"
-        @keyup="__onKeyup"
-      >
-    </div>
-
-    <q-spinner
-      v-if="isLoading"
-      slot="after"
-      size="24px"
-      class="q-if-control"
-    />
-
-    <q-icon
-      v-else-if="editable"
-      :name="computedAddIcon"
-      slot="after"
-      class="q-if-control"
-      :class="{invisible: !input.length}"
-      @mousedown.native="__clearTimer"
-      @touchstart.native="__clearTimer"
-      @click.native="add()"
-    />
-
-    <slot/>
-  </q-input-frame>
-</template>
-
-<script>
 import FrameMixin from '../../mixins/input-frame.js'
 import InputMixin from '../../mixins/input.js'
 import QInputFrame from '../input-frame/QInputFrame.js'
 import QChip from '../chip/QChip.js'
+import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import { getEventKey, stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QChipsInput',
   mixins: [FrameMixin, InputMixin],
-  components: {
-    QInputFrame,
-    QChip,
-    QSpinner
-  },
   props: {
     value: {
       type: Array,
@@ -280,6 +190,98 @@ export default {
   },
   beforeDestroy () {
     this.__watcherUnregister(true)
+  },
+
+  render (h) {
+    return h(QInputFrame, {
+      staticClass: 'q-chips-input',
+      props: {
+        prefix: this.prefix,
+        suffix: this.suffix,
+        stackLabel: this.stackLabel,
+        floatLabel: this.floatLabel,
+        error: this.error,
+        warning: this.warning,
+        disable: this.disable,
+        readonly: this.readonly,
+        inverted: this.inverted,
+        invertedLight: this.invertedLight,
+        dark: this.dark,
+        hideUnderline: this.hideUnderline,
+        before: this.before,
+        after: this.after,
+        color: this.color,
+        noParentField: this.noParentField,
+        focused: this.focused,
+        length: this.length,
+        additionalLength: this.input.length > 0
+      },
+      on: { click: this.__onClick }
+    }, [
+      h('div', {
+        staticClass: 'col row items-center group q-input-chips'
+      },
+      this.model.map((label, index) => {
+        return h(QChip, {
+          key: `${label}#${index}`,
+          props: {
+            small: true,
+            closable: this.editable,
+            color: this.computedChipBgColor,
+            textColor: this.computedChipTextColor
+          },
+          attrs: {
+            tabindex: this.editable && this.focused ? 0 : -1
+          },
+          on: {
+            blur: this.__onInputBlur,
+            focus: this.__clearTimer,
+            hide: () => { this.remove(index) }
+          },
+          nativeOn: {
+            blur: this.__onInputBlur,
+            focus: this.__onInputBlur
+          }
+        }, [ label ])
+      }).concat([
+        h('input', {
+          ref: 'input',
+          staticClass: 'col q-input-target',
+          'class': this.inputClasses,
+          domProps: {
+            value: this.input
+          },
+          attrs: Object.assign({}, this.$attrs, {
+            placeholder: this.inputPlaceholder,
+            disabled: this.disable,
+            readonly: this.readonly
+          }),
+          on: {
+            input: e => { this.input = e.target.value },
+            focus: this.__onFocus,
+            blur: this.__onInputBlur,
+            keydown: this.__handleKeyDown,
+            keyup: this.__onKeyup
+          }
+        })
+      ])),
+
+      this.isLoading
+        ? h(QSpinner, {
+          slot: 'after',
+          staticClass: 'q-if-control',
+          props: { size: '24px' }
+        })
+        : ((this.editable && h(QIcon, {
+          slot: 'after',
+          staticClass: 'q-if-control',
+          'class': {invisible: this.input.length === 0},
+          nativeOn: {
+            mousedown: this.__clearTimer,
+            touchstart: this.__clearTimer,
+            click: () => { this.add() }
+          }
+        })) || void 0)
+    ].concat(this.$slots.default))
   }
 }
-</script>

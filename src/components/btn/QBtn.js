@@ -1,4 +1,5 @@
 import BtnMixin from './btn-mixin.js'
+import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -186,7 +187,7 @@ export default {
         ? [ this.$slots.loading || h(QSpinner) ]
         : [
           this.icon
-            ? h('QIcon', {
+            ? h(QIcon, {
               'class': { 'on-left': this.label && this.isRectangle },
               props: { name: this.icon }
             })
@@ -197,7 +198,7 @@ export default {
           this.$slots.default,
 
           this.iconRight && this.isRectangle
-            ? h('QIcon', {
+            ? h(QIcon, {
               staticClass: 'on-right',
               props: { name: this.iconRight }
             })
