@@ -114,6 +114,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Arjan Dhupia
 - Stephan Kobald
 - Yatima Kagurazaka
+- Matyáš Racek
 
 - Jim O'Quinn ($5)
 - Ken ($5)
