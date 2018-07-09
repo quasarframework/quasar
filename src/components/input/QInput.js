@@ -1,132 +1,3 @@
-<template>
-  <q-input-frame
-    class="q-input"
-
-    :prefix="prefix"
-    :suffix="suffix"
-    :stack-label="stackLabel"
-    :float-label="floatLabel"
-    :error="error"
-    :warning="warning"
-    :disable="disable"
-    :readonly="readonly"
-    :inverted="inverted"
-    :inverted-light="invertedLight"
-    :dark="dark"
-    :hide-underline="hideUnderline"
-    :before="before"
-    :after="after"
-    :color="color"
-    :no-parent-field="noParentField"
-
-    :focused="focused"
-    :length="autofilled + length"
-    :top-addons="isTextarea"
-
-    @click="__onClick"
-    @focus="__onFocus"
-  >
-    <slot name="before"/>
-
-    <template v-if="isTextarea">
-      <div class="col row relative-position">
-        <q-resize-observable @resize="__updateArea()"/>
-        <!-- eslint-disable-next-line vue/html-self-closing -->
-        <textarea
-          class="col q-input-target q-input-shadow absolute-top"
-          ref="shadow"
-          :value="model"
-          v-bind="$attrs"
-        ></textarea>
-
-        <!-- eslint-disable-next-line vue/html-self-closing -->
-        <textarea
-          ref="input"
-          class="col q-input-target q-input-area"
-
-          :placeholder="inputPlaceholder"
-          :disabled="disable"
-          :readonly="readonly"
-          v-bind="$attrs"
-
-          :value="model"
-          @input="__set"
-
-          @focus="__onFocus"
-          @blur="__onInputBlur"
-          @keydown="__onKeydown"
-          @keyup="__onKeyup"
-        ></textarea>
-      </div>
-    </template>
-
-    <input
-      v-else
-      ref="input"
-      class="col q-input-target q-no-input-spinner"
-      :class="inputClasses"
-
-      :placeholder="inputPlaceholder"
-      :disabled="disable"
-      :readonly="readonly"
-      :step="computedStep"
-      v-bind="$attrs"
-
-      :type="inputType"
-      :value="model"
-      @input="__set"
-
-      @focus="__onFocus"
-      @blur="__onInputBlur"
-      @keydown="__onKeydown"
-      @keyup="__onKeyup"
-
-      @animationstart="__onAnimationStart"
-    >
-
-    <q-icon
-      v-if="!disable && isPassword && !noPassToggle && length"
-      slot="after"
-      :name="$q.icon.input[showPass ? 'showPass' : 'hidePass']"
-      class="q-if-control"
-      @mousedown.native="__clearTimer"
-      @touchstart.native="__clearTimer"
-      @click.native="togglePass"
-    />
-
-    <q-icon
-      v-if="editable && keyboardToggle"
-      slot="after"
-      :name="$q.icon.input[showNumber ? 'showNumber' : 'hideNumber']"
-      class="q-if-control"
-      @mousedown.native="__clearTimer"
-      @touchstart.native="__clearTimer"
-      @click.native="toggleNumber"
-    />
-
-    <q-icon
-      v-if="isClearable"
-      slot="after"
-      :name="$q.icon.input[`clear${isInverted ? 'Inverted' : ''}`]"
-      class="q-if-control"
-      @mousedown.native="__clearTimer"
-      @touchstart.native="__clearTimer"
-      @click.native="clear"
-    />
-
-    <q-spinner
-      v-if="isLoading"
-      slot="after"
-      size="24px"
-      class="q-if-control"
-    />
-
-    <slot name="after" />
-    <slot />
-  </q-input-frame>
-</template>
-
-<script>
 import FrameMixin from '../../mixins/input-frame.js'
 import InputMixin from '../../mixins/input.js'
 import inputTypes from './input-types.js'
@@ -135,6 +6,7 @@ import { between } from '../../utils/format.js'
 import QResizeObservable from '../observables/QResizeObservable.js'
 import QInputFrame from '../input-frame/QInputFrame.js'
 import QSpinner from '../spinner/QSpinner.js'
+import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QInput',
@@ -342,7 +214,7 @@ export default {
     },
     __watcher (value) {
       if (this.isTextarea) {
-        this.__updateArea(value)
+        this.__updateArea()
       }
       if (this.shadow.watched) {
         this.shadow.val = value
@@ -361,6 +233,65 @@ export default {
         this.watcher()
         this.watcher = null
       }
+    },
+
+    __getTextarea (h) {
+      return h('div', {
+        staticClass: 'col row relative-position'
+      }, [
+        h(QResizeObservable, {
+          on: { resize: this.__updateArea }
+        }),
+
+        h('textarea', {
+          ref: 'shadow',
+          staticClass: 'col q-input-target q-input-shadow absolute-top',
+          domProps: { value: this.model },
+          attrs: this.$attrs
+        }),
+
+        h('textarea', {
+          ref: 'input',
+          staticClass: 'col q-input-target q-input-area',
+          attrs: Object.assign({}, this.$attrs, {
+            placeholder: this.inputPlaceholder,
+            disabled: this.disable,
+            readonly: this.readonly
+          }),
+          domProps: { value: this.model },
+          on: {
+            input: e => { this.model = e.target.value },
+            focus: this.__onFocus,
+            blur: this.__onInputBlur,
+            keydown: this.__onKeydown,
+            keyup: this.__onKeyup
+          }
+        })
+      ])
+    },
+
+    __getInput (h) {
+      return h('input', {
+        ref: 'input',
+        staticClass: 'col q-input-target q-no-input-spinner',
+        'class': this.inputClasses,
+        attrs: Object.assign({}, this.$attrs, {
+          type: this.inputType,
+          placeholder: this.inputPlaceholder,
+          disabled: this.disable,
+          readonly: this.readonly,
+          step: this.computedStep
+        }),
+        domProps: { value: this.model },
+        on: {
+          input: this.__set,
+          focus: this.__onFocus,
+          blur: this.__onInputBlur,
+          keydown: this.__onKeydown,
+          keyup: this.__onKeyup,
+          animationstart: this.__onAnimationStart
+        }
+      })
     }
   },
   mounted () {
@@ -372,6 +303,84 @@ export default {
   },
   beforeDestroy () {
     this.__watcherUnregister(true)
+  },
+
+  render (h) {
+    return h(QInputFrame, {
+      staticClass: 'q-input',
+      props: {
+        prefix: this.prefix,
+        suffix: this.suffix,
+        stackLabel: this.stackLabel,
+        floatLabel: this.floatLabel,
+        error: this.error,
+        warning: this.warning,
+        disable: this.disable,
+        readonly: this.readonly,
+        inverted: this.inverted,
+        invertedLight: this.invertedLight,
+        dark: this.dark,
+        hideUnderline: this.hideUnderline,
+        before: this.before,
+        after: this.after,
+        color: this.color,
+        noParentField: this.noParentField,
+        focused: this.focused,
+        length: this.autofilled + this.length,
+        topAddons: this.isTextarea
+      },
+      on: {
+        click: this.__onClick,
+        focus: this.__onFocus
+      }
+    },
+    [].concat(this.$slots.before).concat([
+      this.isTextarea ? this.__getTextarea(h) : this.__getInput(h),
+
+      (!this.disable && this.isPassword && !this.noPassToggle && this.length && h(QIcon, {
+        slot: 'after',
+        staticClass: 'q-if-control',
+        props: {
+          name: this.$q.icon.input[this.showPass ? 'showPass' : 'hidePass']
+        },
+        nativeOn: {
+          mousedown: this.__clearTimer,
+          touchstart: this.__clearTimer,
+          click: this.togglePass
+        }
+      })) || void 0,
+
+      (this.editable && this.keyboardToggle && h(QIcon, {
+        slot: 'after',
+        staticClass: 'q-if-control',
+        props: {
+          name: this.$q.icon.input[this.showNumber ? 'showNumber' : 'hideNumber']
+        },
+        nativeOn: {
+          mousedown: this.__clearTimer,
+          touchstart: this.__clearTimer,
+          click: this.toggleNumber
+        }
+      })) || void 0,
+
+      (this.isClearable && h(QIcon, {
+        slot: 'after',
+        staticClass: 'q-if-control',
+        props: {
+          name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`]
+        },
+        nativeOn: {
+          mousedown: this.__clearTimer,
+          touchstart: this.__clearTimer,
+          click: this.clear
+        }
+      })) || void 0,
+
+      (this.isLoading && h(QSpinner, {
+        slot: 'after',
+        staticClass: 'q-if-control',
+        props: { size: '24px' }
+      })) || void 0
+    ].concat(this.$slots.after).concat(this.$slots.default)))
   }
 }
-</script>

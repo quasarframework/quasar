@@ -1,4 +1,4 @@
-import QInput from '../input/QInput.vue'
+import QInput from '../input/QInput.js'
 import InputMixin from '../../mixins/input.js'
 import FrameMixin from '../../mixins/input-frame.js'
 

@@ -1,6 +1,6 @@
 import { between } from '../../utils/format'
 import QBtn from '../btn/QBtn.js'
-import QInput from '../input/QInput.vue'
+import QInput from '../input/QInput.js'
 import { getEventKey } from '../../utils/event.js'
 
 export default {

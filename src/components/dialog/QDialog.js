@@ -1,5 +1,5 @@
 import QModal from '../modal/QModal.js'
-import QInput from '../input/QInput.vue'
+import QInput from '../input/QInput.js'
 import QBtn from '../btn/QBtn.js'
 import QOptionGroup from '../option-group/QOptionGroup.js'
 import clone from '../../utils/clone.js'
