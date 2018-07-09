@@ -1,4 +1,4 @@
-import QSelect from '../select/QSelect.vue'
+import QSelect from '../select/QSelect.js'
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 

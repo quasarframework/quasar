@@ -1,4 +1,4 @@
-import QSelect from '../select/QSelect.vue'
+import QSelect from '../select/QSelect.js'
 
 export default {
   name: 'QTableColumns',

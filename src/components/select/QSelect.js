@@ -1,177 +1,3 @@
-<template>
-  <q-input-frame
-    ref="input"
-    class="q-select"
-
-    :prefix="prefix"
-    :suffix="suffix"
-    :stack-label="stackLabel"
-    :float-label="floatLabel"
-    :error="error"
-    :warning="warning"
-    :disable="disable"
-    :readonly="readonly"
-    :inverted="inverted"
-    :inverted-light="invertedLight"
-    :dark="dark"
-    :hide-underline="hideUnderline"
-    :before="before"
-    :after="after"
-    :color="color"
-    :no-parent-field="noParentField"
-
-    :focused="focused"
-    focusable
-    :length="length"
-    :additional-length="additionalLength"
-
-    @click.native="togglePopup"
-    @focus.native="__onFocus"
-    @blur.native="__onBlur"
-    @keydown.native="__keyboardHandleKey"
-  >
-    <div
-      v-if="hasChips"
-      class="col row items-center group q-input-chips"
-      :class="alignClass"
-    >
-      <q-chip
-        v-for="opt in selectedOptions"
-        :key="opt.label"
-        small
-        :closable="editable && !opt.disable"
-        :color="__getChipBgColor(opt.color)"
-        :text-color="__getChipTextColor(opt.color)"
-        :icon="opt.icon"
-        :icon-right="opt.rightIcon"
-        :avatar="opt.avatar"
-        @click.native.stop
-        @hide="__toggleMultiple(opt.value, disable || opt.disable)"
-      >
-        {{ opt.label }}
-      </q-chip>
-    </div>
-
-    <div
-      v-else
-      class="col q-input-target ellipsis"
-      :class="fakeInputClasses"
-    >
-      {{ fakeInputValue }}
-    </div>
-
-    <q-icon
-      v-if="isClearable"
-      slot="after"
-      :name="$q.icon.input.clear"
-      class="q-if-control"
-      @click.native="clear"
-    />
-    <q-icon slot="after" :name="$q.icon.input.dropdown" class="q-if-control" />
-
-    <q-popover
-      ref="popover"
-      fit
-      :disable="!editable"
-      :anchor-click="false"
-      class="column no-wrap"
-      :class="dark ? 'bg-dark' : null"
-      @show="__onShow"
-      @hide="__onClose(true)"
-      @keydown.native="__keyboardHandleKey"
-    >
-      <q-search
-        v-if="filter"
-        ref="filter"
-        v-model="terms"
-        @input="reposition"
-        :placeholder="filterPlaceholder || $q.i18n.label.filter"
-        :debounce="100"
-        :color="color"
-        :dark="dark"
-        no-parent-field
-        no-icon
-        class="col-auto"
-        style="padding: 10px;"
-      />
-
-      <q-list
-        v-if="visibleOptions.length"
-        :separator="separator"
-        :dark="dark"
-        class="no-border scroll"
-      >
-        <template v-if="multiple">
-          <q-item-wrapper
-            v-for="(opt, index) in visibleOptions"
-            :key="index"
-            :cfg="opt"
-            :class="[
-              opt.disable ? 'text-faded' : 'cursor-pointer',
-              index === keyboardIndex ? 'q-select-highlight' : '',
-              opt.disable ? '' : 'cursor-pointer',
-              opt.className || ''
-            ]"
-            slot-replace
-            @click.capture.native="__toggleMultiple(opt.value, opt.disable)"
-            @mouseenter.native="e => !opt.disable && __mouseEnterHandler(e, index)"
-          >
-            <q-toggle
-              v-if="toggle"
-              slot="right"
-              keep-color
-              :color="opt.color || color"
-              :dark="dark"
-              :value="optModel[opt.index]"
-              :disable="opt.disable"
-              no-focus
-            />
-            <q-checkbox
-              v-else
-              slot="left"
-              keep-color
-              :color="opt.color || color"
-              :dark="dark"
-              :value="optModel[opt.index]"
-              :disable="opt.disable"
-              no-focus
-            />
-          </q-item-wrapper>
-        </template>
-        <template v-else>
-          <q-item-wrapper
-            v-for="(opt, index) in visibleOptions"
-            :key="index"
-            :cfg="opt"
-            :class="[
-              opt.disable ? 'text-faded' : 'cursor-pointer',
-              index === keyboardIndex ? 'q-select-highlight' : '',
-              opt.disable ? '' : 'cursor-pointer',
-              opt.className || ''
-            ]"
-            slot-replace
-            :active="value === opt.value"
-            @click.capture.native="__singleSelect(opt.value, opt.disable)"
-            @mouseenter.native="e => !opt.disable && __mouseEnterHandler(e, index)"
-          >
-            <q-radio
-              v-if="radio"
-              keep-color
-              :color="opt.color || color"
-              slot="left"
-              :value="value"
-              :val="opt.value"
-              :disable="opt.disable"
-              no-focus
-            />
-          </q-item-wrapper>
-        </template>
-      </q-list>
-    </q-popover>
-  </q-input-frame>
-</template>
-
-<script>
 import QSearch from '../search/QSearch.js'
 import QPopover from '../popover/QPopover.js'
 import QList from '../list/QList.js'
@@ -483,6 +309,188 @@ export default {
         ? 'white'
         : optColor || this.color
     }
+  },
+  render (h) {
+    const child = []
+
+    if (this.hasChips) {
+      const el = h('div', {
+        staticClass: 'col row items-center group q-input-chips',
+        'class': this.alignClass
+      }, this.selectedOptions.map(opt => {
+        return h(QChip, {
+          key: opt.label,
+          props: {
+            small: true,
+            closable: this.editable && !opt.disable,
+            color: this.__getChipBgColor(opt.color),
+            textColor: this.__getChipTextColor(opt.color),
+            icon: opt.icon,
+            iconRight: opt.rightIcon,
+            avatar: opt.avatar
+          },
+          on: {
+            hide: () => { this.__toggleMultiple(opt.value, this.disable || opt.disable) }
+          },
+          nativeOn: {
+            click: e => { e.stopPropagation() }
+          }
+        }, [ opt.label ])
+      }))
+      child.push(el)
+    }
+    else {
+      const el = h('div', {
+        staticClass: 'col q-input-target ellipsis',
+        'class': this.fakeInputClasses
+      }, [ this.fakeInputValue ])
+      child.push(el)
+    }
+
+    if (this.isClearable) {
+      child.push(h(QIcon, {
+        slot: 'after',
+        staticClass: 'q-if-control',
+        props: { name: this.$q.icon.input.clear },
+        nativeOn: {
+          click: this.clear
+        }
+      }))
+    }
+
+    child.push(h(QIcon, {
+      slot: 'after',
+      staticClass: 'q-if-control',
+      props: { name: this.$q.icon.input.dropdown }
+    }))
+
+    child.push(h(QPopover, {
+      ref: 'popover',
+      staticClass: 'column no-wrap',
+      'class': this.dark ? 'bg-dark' : null,
+      props: {
+        fit: true,
+        disable: !this.editable,
+        anchorClick: false
+      },
+      on: {
+        show: this.__onShow,
+        hide: () => { this.__onClose(true) }
+      },
+      nativeOn: {
+        keydown: this.__keyboardHandleKey
+      }
+    }, [
+      (this.filter && h(QSearch, {
+        ref: 'filter',
+        staticClass: 'col-auto',
+        style: 'padding: 10px;',
+        props: {
+          value: this.terms,
+          placeholder: this.filterPlaceholder || this.$q.i18n.label.filter,
+          debounce: 100,
+          color: this.color,
+          dark: this.dark,
+          noParentField: true,
+          noIcon: true
+        },
+        on: {
+          input: val => {
+            this.terms = val
+            this.reposition()
+          }
+        }
+      })) || void 0,
+
+      (this.visibleOptions.length && h(QList, {
+        staticClass: 'no-border scroll',
+        props: {
+          separator: this.separator,
+          dark: this.dark
+        }
+      }, this.visibleOptions.map((opt, index) => {
+        return h(QItemWrapper, {
+          key: index,
+          'class': [
+            opt.disable ? 'text-faded' : 'cursor-pointer',
+            index === this.keyboardIndex ? 'q-select-highlight' : '',
+            opt.disable ? '' : 'cursor-pointer',
+            opt.className || ''
+          ],
+          props: {
+            cfg: opt,
+            slotReplace: true,
+            active: this.multiple ? void 0 : this.value === opt.value
+          },
+          nativeOn: {
+            '!click': () => {
+              const action = this.multiple ? '__toggleMultiple' : '__singleSelect'
+              this[action](opt.value, opt.disable)
+            },
+            mouseenter: e => {
+              !opt.disable && this.__mouseEnterHandler(e, index)
+            }
+          }
+        }, [
+          this.multiple
+            ? h(this.toggle ? QToggle : QCheckbox, {
+              slot: this.toggle ? 'right' : 'left',
+              props: {
+                keepColor: true,
+                color: opt.color || this.color,
+                dark: this.dark,
+                value: this.optModel[opt.index],
+                disable: opt.disable,
+                noFocus: true
+              }
+            })
+            : (this.radio && h(QRadio, {
+              slot: 'left',
+              props: {
+                keepColor: true,
+                color: opt.color || this.color,
+                dark: this.dark,
+                value: this.value,
+                val: opt.value,
+                disable: opt.disable,
+                noFocus: true
+              }
+            })) || void 0
+        ])
+      }))) || void 0
+    ]))
+
+    return h(QInputFrame, {
+      ref: 'input',
+      staticClass: 'q-select',
+      props: {
+        prefix: this.prefix,
+        suffix: this.suffix,
+        stackLabel: this.stackLabel,
+        floatLabel: this.floatLabel,
+        error: this.error,
+        warning: this.warning,
+        disable: this.disable,
+        readonly: this.readonly,
+        inverted: this.inverted,
+        invertedLight: this.invertedLight,
+        dark: this.dark,
+        hideUnderline: this.hideUnderline,
+        before: this.before,
+        after: this.after,
+        color: this.color,
+        noParentField: this.noParentField,
+        focused: this.focused,
+        focusable: true,
+        length: this.length,
+        additionalLength: this.additionalLength
+      },
+      nativeOn: {
+        click: this.togglePopup,
+        focus: this.__onFocus,
+        blur: this.__onBlur,
+        keydown: this.__keyboardHandleKey
+      }
+    }, child)
   }
 }
-</script>

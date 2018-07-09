@@ -1,4 +1,4 @@
-import QSelect from './QSelect.vue'
+import QSelect from './QSelect.js'
 
 export {
   QSelect
