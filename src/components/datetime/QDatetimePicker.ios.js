@@ -1,97 +1,5 @@
-<template>
-  <div v-if="canRender" class="q-datetime" :class="classes">
-    <slot/>
-    <div class="q-datetime-content non-selectable">
-      <div class="q-datetime-inner full-height flex justify-center" @touchstart.stop.prevent>
-        <template v-if="typeHasDate">
-          <div
-            class="q-datetime-col q-datetime-col-month"
-            v-touch-pan.vertical="__dragMonth"
-          >
-            <div ref="month" class="q-datetime-col-wrapper" :style="__monthStyle">
-              <div
-                v-for="index in monthInterval"
-                :key="`mi${index}`"
-                class="q-datetime-item"
-              >
-                {{ $q.i18n.date.months[index + monthMin - 1] }}
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="q-datetime-col q-datetime-col-day"
-            v-touch-pan.vertical="__dragDate"
-          >
-            <div ref="date" class="q-datetime-col-wrapper" :style="__dayStyle">
-              <div
-                v-for="index in daysInterval"
-                :key="`di${index}`"
-                class="q-datetime-item"
-              >
-                {{ index + dayMin - 1 }}
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="q-datetime-col q-datetime-col-year"
-            v-touch-pan.vertical="__dragYear"
-          >
-            <div ref="year" class="q-datetime-col-wrapper" :style="__yearStyle">
-              <div
-                v-for="n in yearInterval"
-                :key="`yi${n}`"
-                class="q-datetime-item"
-              >
-                {{ n + yearMin }}
-              </div>
-            </div>
-          </div>
-        </template>
-
-        <template v-if="typeHasTime">
-          <div
-            class="q-datetime-col q-datetime-col-hour"
-            v-touch-pan.vertical="__dragHour"
-          >
-            <div ref="hour" class="q-datetime-col-wrapper" :style="__hourStyle">
-              <div
-                v-for="n in hourInterval"
-                :key="`hi${n}`"
-                class="q-datetime-item"
-              >
-                {{ n + hourMin - 1 }}
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="q-datetime-col q-datetime-col-minute"
-            v-touch-pan.vertical="__dragMinute"
-          >
-            <div ref="minute" class="q-datetime-col-wrapper" :style="__minuteStyle">
-              <div
-                v-for="n in minuteInterval"
-                :key="`ni${n}`"
-                class="q-datetime-item"
-              >
-                {{ __pad(n + minuteMin - 1) }}
-              </div>
-            </div>
-          </div>
-        </template>
-      </div>
-
-      <div class="q-datetime-mask"/>
-      <div class="q-datetime-highlight"/>
-    </div>
-  </div>
-</template>
-
-<script>
 import { between, capitalize } from '../../utils/format.js'
-import { position } from '../../utils/event.js'
+import { position, stopAndPrevent } from '../../utils/event.js'
 import { css } from '../../utils/dom.js'
 import { isSameDate, adjustDate } from '../../utils/date.js'
 import DateMixin from './datetime-mixin.js'
@@ -329,10 +237,137 @@ export default {
       this.$nextTick(() => {
         this[type + 'DragOffset'] = 0
       })
+    },
+
+    __getInterval (h, n, fn) {
+      const child = []
+      for (let i = 1; i <= n; i++) {
+        child.push(fn(i))
+      }
+      return child
+    },
+
+    __getSection (h, name, ref, value, style, interval, iterator) {
+      return h('div', {
+        staticClass: `q-datetime-col q-datetime-col-${name}`,
+        directives: [{
+          name: 'touch-pan',
+          modifiers: { vertical: true },
+          value
+        }]
+      }, [
+        h('div', {
+          ref,
+          staticClass: 'q-datetime-col-wrapper',
+          style
+        }, this.__getInterval(h, interval, iterator))
+      ])
+    },
+
+    __getDateSection (h) {
+      return [
+        this.__getSection(
+          h,
+          'month',
+          'month',
+          this.__dragMonth,
+          this.__monthStyle,
+          this.monthInterval,
+          i => {
+            return h('div', {
+              key: `mi${i}`,
+              staticClass: 'q-datetime-item'
+            }, [ this.$q.i18n.date.months[i + this.monthMin - 1] ])
+          }
+        ),
+        this.__getSection(
+          h,
+          'day',
+          'date',
+          this.__dragDate,
+          this.__dayStyle,
+          this.daysInterval,
+          i => {
+            return h('div', {
+              key: `di${i}`,
+              staticClass: 'q-datetime-item'
+            }, [ i + this.dayMin - 1 ])
+          }
+        ),
+        this.__getSection(
+          h,
+          'year',
+          'year',
+          this.__dragYear,
+          this.__yearStyle,
+          this.yearInterval,
+          i => {
+            return h('div', {
+              key: `yi${i}`,
+              staticClass: 'q-datetime-item'
+            }, [ i + this.yearMin ])
+          }
+        )
+      ]
+    },
+
+    __getTimeSection (h) {
+      return [
+        this.__getSection(
+          h,
+          'hour',
+          'hour',
+          this.__dragHour,
+          this.__hourStyle,
+          this.hourInterval,
+          i => {
+            return h('div', {
+              key: `hi${i}`,
+              staticClass: 'q-datetime-item'
+            }, [ i + this.hourMin - 1 ])
+          }
+        ),
+        this.__getSection(
+          h,
+          'minute',
+          'minute',
+          this.__dragMinute,
+          this.__minuteStyle,
+          this.minuteInterval,
+          i => {
+            return h('div', {
+              key: `ni${i}`,
+              staticClass: 'q-datetime-item'
+            }, [ this.__pad(i + this.minuteMin - 1) ])
+          }
+        )
+      ]
     }
   },
   mounted () {
     this.$nextTick(this.__updateAllPositions)
+  },
+
+  render (h) {
+    if (!this.canRender) { return }
+
+    return h('div', {
+      staticClass: 'q-datetime',
+      'class': this.classes
+    },
+    [].concat(this.$slots.default).concat([
+      h('div', { staticClass: 'q-datetime-content non-selectable' }, [
+        h('div', {
+          staticClass: 'q-datetime-inner full-height flex justify-center',
+          on: { touchstart: stopAndPrevent }
+        }, [
+          (this.typeHasDate && this.__getDateSection(h)) || void 0,
+          (this.typeHasTime && this.__getTimeSection(h)) || void 0
+        ]),
+
+        h('div', { staticClass: 'q-datetime-mask' }),
+        h('div', { staticClass: 'q-datetime-highlight' })
+      ])
+    ]))
   }
 }
-</script>
