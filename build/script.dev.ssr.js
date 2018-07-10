@@ -7,7 +7,6 @@ const
   webpack = require('webpack'),
   LRU = require('lru-cache'),
   express = require('express'),
-  microcache = require('route-cache'),
   { createBundleRenderer } = require('vue-server-renderer'),
   MFS = require('memory-fs'),
   chokidar = require('chokidar')
@@ -17,7 +16,6 @@ const
   serverConfig = require('./webpack.ssr.server'),
   env = require('./env'),
   resolve = file => path.resolve(__dirname, '..', file),
-  useMicroCache = true,
   serverInfo =
     `express/${require('express/package.json').version} ` +
     `vue-server-renderer/${require('vue-server-renderer/package.json').version}`,
@@ -160,9 +158,6 @@ const serve = path => express.static(
 )
 
 app.use('/statics', serve('statics'))
-
-// https://www.nginx.com/blog/benefits-of-microcaching-nginx/
-app.use(microcache.cacheSeconds(1, req => useMicroCache && req.originalUrl))
 
 function render (req, res) {
   const s = Date.now()

@@ -2,7 +2,6 @@ const
   path = require('path'),
   webpack = require('webpack'),
   WebpackChain = require('webpack-chain'),
-  WebpackBar = require('webpackbar'),
   VueSSRServerPlugin = require('vue-server-renderer/server-plugin'),
   nodeExternals = require('webpack-node-externals')
 
@@ -41,11 +40,6 @@ chain.plugin('define')
       SERVER: true,
       THEME: JSON.stringify(env.theme)
     }
-  }])
-
-chain.plugin('webpack-bar')
-  .use(WebpackBar, [{
-    name: 'server'
   }])
 
 // This plugins generates `vue-ssr-client-manifest.json`

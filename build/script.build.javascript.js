@@ -7,23 +7,12 @@ const
   uglify = require('uglify-es'),
   buble = require('rollup-plugin-buble'),
   json = require('rollup-plugin-json'),
-  vue = require('rollup-plugin-vue'),
   replace = require('rollup-plugin-replace'),
   nodeResolve = require('rollup-plugin-node-resolve'),
   buildConf = require('./build.conf'),
   buildUtils = require('./build.utils'),
   bubleConfig = {
     objectAssign: 'Object.assign'
-  },
-  vueConfig = {
-    css: false,
-    compileTemplate: true,
-    htmlMinifier: {
-      collapseBooleanAttributes: false,
-      collapseWhitespace: true,
-      removeRedundantAttributes: true,
-      removeComments: true
-    }
   }
 
 const builds = [
@@ -156,12 +145,11 @@ function genConfig (opts) {
   const plugins = opts.rollup.input.plugins || [
     nodeResolve({
       extensions: theme
-        ? [`.${theme}.js`, '.js', `.${theme}.vue`, '.vue']
-        : ['.js', '.vue'],
+        ? [`.${theme}.js`, '.js']
+        : ['.js'],
       preferBuiltins: false
     }),
     json(),
-    vue(vueConfig),
     buble(bubleConfig)
   ]
 

@@ -48,7 +48,7 @@ function generateFiles ({ sources, name, styl }) {
       else { return code }
     })
     .then(code => compileStylus(code))
-    .then(code => postcss([ autoprefixer ]).process(code))
+    .then(code => postcss([ autoprefixer ]).process(code, { from: void 0 }))
     .then(code => {
       code.warnings().forEach(warn => {
         console.warn(warn.toString())
@@ -57,13 +57,13 @@ function generateFiles ({ sources, name, styl }) {
     })
     .then(code => Promise.all([
       generateUMD(name, code),
-      postcss([ rtl({}) ]).process(code).then(code => generateUMD(name, code.css, '.rtl'))
+      postcss([ rtl({}) ]).process(code, { from: void 0 }).then(code => generateUMD(name, code.css, '.rtl'))
     ]))
 }
 
 function generateUMD (name, code, ext = '') {
   return buildUtils.writeFile(`dist/umd/quasar.${name}${ext}.css`, code, true)
-    .then(code => cssnano.process(code))
+    .then(code => cssnano.process(code, { from: void 0 }))
     .then(code => buildUtils.writeFile(`dist/umd/quasar.${name}${ext}.min.css`, code.css, true))
 }
 

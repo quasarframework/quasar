@@ -2,7 +2,6 @@ const
   path = require('path'),
   webpack = require('webpack'),
   WebpackChain = require('webpack-chain'),
-  WebpackBar = require('webpackbar'),
   HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const env = require('./env')
@@ -37,11 +36,6 @@ chain.plugin('html-webpack')
 
 chain.plugin('hot-module-replacement')
   .use(webpack.HotModuleReplacementPlugin)
-
-chain.plugin('webpack-bar')
-  .use(WebpackBar, [{
-    name: 'spa'
-  }])
 
 chain.plugin('friendly-errors')
   .init((Plugin, args) => new Plugin({

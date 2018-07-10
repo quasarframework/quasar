@@ -1,7 +1,8 @@
 const
   path = require('path'),
   VueLoaderPlugin = require('vue-loader/lib/plugin'),
-  FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+  FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'),
+  webpack = require('webpack')
 
 const
   env = require('./env'),
@@ -16,7 +17,7 @@ module.exports = function (chain) {
   chain.devtool('#cheap-module-eval-source-map')
 
   chain.resolve.extensions
-    .merge([`.${env.theme}.js`, '.js', `.${env.theme}.vue`, '.vue'])
+    .merge([`.${env.theme}.js`, '.js', '.vue'])
 
   chain.resolve.modules
     .merge([
@@ -122,6 +123,9 @@ module.exports = function (chain) {
     .use(FriendlyErrorsPlugin, [{
       clearConsole: true
     }])
+
+  chain.plugin('webpack-progress')
+    .use(webpack.ProgressPlugin)
 }
 
 function injectRule (chain, lang, test, loader, options) {

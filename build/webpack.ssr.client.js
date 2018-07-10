@@ -2,7 +2,6 @@ const
   path = require('path'),
   webpack = require('webpack'),
   WebpackChain = require('webpack-chain'),
-  WebpackBar = require('webpackbar'),
   VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 
 const
@@ -40,11 +39,6 @@ chain.plugin('vue-ssr-client')
 
 chain.plugin('hot-module-replacement')
   .use(webpack.HotModuleReplacementPlugin)
-
-chain.plugin('webpack-bar')
-  .use(WebpackBar, [{
-    name: 'client'
-  }])
 
 chain.optimization
   .namedModules(true) // HMR shows filenames in console on update

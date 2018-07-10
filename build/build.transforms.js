@@ -33,14 +33,12 @@ function addComponents (map, theme) {
     otherThemeEnding = `.${theme === 'mat' ? 'ios' : 'mat'}.`
 
   glob.sync(resolve('src/components/**/Q*.js'))
-    .concat(glob.sync(resolve('src/components/**/Q*.vue')))
     .map(relative)
     .filter(file => file.indexOf(otherThemeEnding) === -1)
     .forEach(file => {
       let name = path.basename(file)
       if (name.indexOf(currentThemeEnding) > -1) {
         name = name.replace(currentThemeEnding, '.js')
-        name = name.replace(currentThemeEnding, '.vue')
       }
       map[getWithoutExtension(name)] = file
     })
