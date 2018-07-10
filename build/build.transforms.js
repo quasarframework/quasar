@@ -23,6 +23,10 @@ function camelCase (name) {
   return out.charAt(0).toUpperCase() + out.substr(1)
 }
 
+function lowerCamelCase (name) {
+  return name.replace(/-([a-z])/g, g => g[1].toUpperCase())
+}
+
 function isExternalUtil (name) {
   return !['escape-key', 'modal-fn', 'popup', 'sort', 'router-link', 'is', 'noop', 'web-storage'].includes(name)
 }
@@ -71,7 +75,7 @@ function addUtils (map) {
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
       if (isExternalUtil(name)) {
-        map[name === 'open-url' ? 'openURL' : name] = file
+        map[name === 'open-url' ? 'openURL' : lowerCamelCase(name)] = file
       }
     })
 }
