@@ -126,14 +126,13 @@ export default {
         ? val
         : otherwise
     },
-    __getBtn (h, props) {
-      return h(QBtn, Object.assign({
-        props: {
-          color: this.color,
-          flat: true,
-          size: this.size
-        }
-      }, props))
+    __getBtn (h, data, props) {
+      data.props = Object.assign({
+        color: this.color,
+        flat: true,
+        size: this.size
+      }, props)
+      return h(QBtn, data)
     }
   },
   render (h) {
@@ -145,46 +144,42 @@ export default {
     if (this.__boundaryLinks) {
       contentStart.push(this.__getBtn(h, {
         key: 'bls',
-        props: {
-          disable: this.disable || this.value <= this.min,
-          icon: this.icons[0]
-        },
         on: {
           click: () => this.set(this.min)
         }
+      }, {
+        disable: this.disable || this.value <= this.min,
+        icon: this.icons[0]
       }))
       contentEnd.unshift(this.__getBtn(h, {
         key: 'ble',
-        props: {
-          disable: this.disable || this.value >= this.max,
-          icon: this.icons[3]
-        },
         on: {
           click: () => this.set(this.max)
         }
+      }, {
+        disable: this.disable || this.value >= this.max,
+        icon: this.icons[3]
       }))
     }
 
     if (this.__directionLinks) {
       contentStart.push(this.__getBtn(h, {
         key: 'bdp',
-        props: {
-          disable: this.disable || this.value <= this.min,
-          icon: this.icons[1]
-        },
         on: {
           click: () => this.setByOffset(-1)
         }
+      }, {
+        disable: this.disable || this.value <= this.min,
+        icon: this.icons[1]
       }))
       contentEnd.unshift(this.__getBtn(h, {
         key: 'bdn',
-        props: {
-          disable: this.disable || this.value >= this.max,
-          icon: this.icons[2]
-        },
         on: {
           click: () => this.setByOffset(1)
         }
+      }, {
+        disable: this.disable || this.value >= this.max,
+        icon: this.icons[2]
       }))
     }
 
@@ -207,7 +202,7 @@ export default {
         },
         on: {
           input: value => (this.newPage = value),
-          keydown: event => (getEventKey(event) === 13 && this.__update()),
+          keydown: e => (getEventKey(e) === 13 && this.__update()),
           blur: () => this.__update()
         }
       }))
@@ -254,16 +249,15 @@ export default {
         contentStart.push(this.__getBtn(h, {
           key: 'bns',
           style,
-          props: {
-            disable: this.disable,
-            flat: !active,
-            textColor: active ? this.textColor : null,
-            label: this.min,
-            noRipple: true
-          },
           on: {
             click: () => this.set(this.min)
           }
+        }, {
+          disable: this.disable,
+          flat: !active,
+          textColor: active ? this.textColor : null,
+          label: this.min,
+          noRipple: true
         }))
       }
       if (boundaryEnd) {
@@ -271,42 +265,39 @@ export default {
         contentEnd.unshift(this.__getBtn(h, {
           key: 'bne',
           style,
-          props: {
-            disable: this.disable,
-            flat: !active,
-            textColor: active ? this.textColor : null,
-            label: this.max,
-            noRipple: true
-          },
           on: {
             click: () => this.set(this.max)
           }
+        }, {
+          disable: this.disable,
+          flat: !active,
+          textColor: active ? this.textColor : null,
+          label: this.max,
+          noRipple: true
         }))
       }
       if (ellipsesStart) {
         contentStart.push(this.__getBtn(h, {
           key: 'bes',
           style,
-          props: {
-            disable: this.disable,
-            label: '…'
-          },
           on: {
             click: () => this.set(pgFrom - 1)
           }
+        }, {
+          disable: this.disable,
+          label: '…'
         }))
       }
       if (ellipsesEnd) {
         contentEnd.unshift(this.__getBtn(h, {
           key: 'bee',
           style,
-          props: {
-            disable: this.disable,
-            label: '…'
-          },
           on: {
             click: () => this.set(pgTo + 1)
           }
+        }, {
+          disable: this.disable,
+          label: '…'
         }))
       }
       for (let i = pgFrom; i <= pgTo; i++) {
@@ -314,16 +305,15 @@ export default {
         contentMiddle.push(this.__getBtn(h, {
           key: `bpg${i}`,
           style,
-          props: {
-            disable: this.disable,
-            flat: !active,
-            textColor: active ? this.textColor : null,
-            label: i,
-            noRipple: true
-          },
           on: {
             click: () => this.set(i)
           }
+        }, {
+          disable: this.disable,
+          flat: !active,
+          textColor: active ? this.textColor : null,
+          label: i,
+          noRipple: true
         }))
       }
     }
