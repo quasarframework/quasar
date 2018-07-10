@@ -47,6 +47,7 @@ function addComponents (map, theme) {
       map[getWithoutExtension(name)] = file
     })
 
+  map['QSpinner'] = relative(resolve('src/components/spinner/QSpinner.js'))
   map['QSpinnerMat'] = relative(resolve('src/components/spinner/QSpinner.mat.js'))
   map['QSpinnerIos'] = relative(resolve('src/components/spinner/QSpinner.ios.js'))
 }
