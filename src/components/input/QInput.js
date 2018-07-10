@@ -260,7 +260,7 @@ export default {
           }),
           domProps: { value: this.model },
           on: {
-            input: e => { this.model = e.target.value },
+            input: this.__set,
             focus: this.__onFocus,
             blur: this.__onInputBlur,
             keydown: this.__onKeydown,
