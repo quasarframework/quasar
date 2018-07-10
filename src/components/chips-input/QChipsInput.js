@@ -240,7 +240,7 @@ export default {
           },
           nativeOn: {
             blur: this.__onInputBlur,
-            focus: this.__onInputBlur
+            focus: this.__clearTimer
           }
         }, [ label ])
       }).concat([
@@ -275,7 +275,8 @@ export default {
         : ((this.editable && h(QIcon, {
           slot: 'after',
           staticClass: 'q-if-control',
-          'class': {invisible: this.input.length === 0},
+          'class': { invisible: this.input.length === 0 },
+          props: { name: this.computedAddIcon },
           nativeOn: {
             mousedown: this.__clearTimer,
             touchstart: this.__clearTimer,
