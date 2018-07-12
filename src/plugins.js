@@ -4,6 +4,7 @@ import AppFullscreen from './plugins/app-fullscreen.js'
 import AppVisibility from './plugins/app-visibility.js'
 import Cookies from './plugins/cookies.js'
 import Dialog from './plugins/dialog.js'
+import LoadingBar from './plugins/loading-bar.js'
 import Loading from './plugins/loading.js'
 import Notify from './plugins/notify.js'
 import Platform from './plugins/platform.js'
@@ -18,6 +19,7 @@ export {
   AppVisibility,
   Cookies,
   Dialog,
+  LoadingBar,
   Loading,
   Notify,
   Platform,
