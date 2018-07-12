@@ -1,7 +1,7 @@
 import { isSSR } from '../plugins/platform.js'
 
 export default function (Component, Vue) {
-  return (props, resolver) => {
+  return ({ className, ...props }, resolver) => {
     return new Promise((resolve, reject) => {
       if (isSSR) { return resolve() }
 
@@ -24,8 +24,9 @@ export default function (Component, Vue) {
           return { props }
         },
         render: h => h(Component, {
-          props,
           ref: 'modal',
+          props,
+          'class': className,
           on: {
             ok,
             cancel

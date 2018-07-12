@@ -122,6 +122,7 @@ export default {
     adHoc2 () {
       this.$q.dialog({
         title: 'Options',
+        className: 'some-class',
         message: 'Modern HTML5 Single Page Application front-end framework on steroids.',
         options: {
           type: 'checkbox',
