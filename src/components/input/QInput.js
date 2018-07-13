@@ -11,11 +11,6 @@ import QIcon from '../icon/QIcon.js'
 export default {
   name: 'QInput',
   mixins: [FrameMixin, InputMixin],
-  components: {
-    QInputFrame,
-    QSpinner,
-    QResizeObservable
-  },
   props: {
     value: { required: true },
     type: {

@@ -3,9 +3,6 @@ import frameDebounce from '../../utils/frame-debounce.js'
 
 export default {
   name: 'QStepper',
-  components: {
-    StepTab
-  },
   props: {
     value: [Number, String],
     color: {

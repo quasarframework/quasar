@@ -94,7 +94,7 @@ export default {
     clearTimeout(this.timer)
 
     if (this.hasObserver) {
-      this.observer.unobserve(this.$el.parentNode)
+      this.$el.parentNode && this.observer.unobserve(this.$el.parentNode)
       return
     }
 

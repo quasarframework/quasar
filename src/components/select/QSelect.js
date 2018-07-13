@@ -18,18 +18,6 @@ function defaultFilterFn (terms, obj) {
 export default {
   name: 'QSelect',
   mixins: [FrameMixin, KeyboardSelectionMixin],
-  components: {
-    QSearch,
-    QPopover,
-    QList,
-    QItemWrapper,
-    QCheckbox,
-    QRadio,
-    QToggle,
-    QIcon,
-    QInputFrame,
-    QChip
-  },
   props: {
     filter: [Function, Boolean],
     filterPlaceholder: String,
