@@ -37,12 +37,14 @@ div + .q-datetime-time
     font-size 1.2rem
 
 .q-datetime-link
-  cursor pointer
+  pointer-events none
   opacity .6
   > span
+    cursor pointer
+    pointer-events all
     display inline-block
     width 100%
-    outline none
+    outline 0
   &.active
     opacity 1
 
