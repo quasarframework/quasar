@@ -1,5 +1,6 @@
 .q-chip
   min-height $chip-height
+  max-width 100%
   padding $chip-padding-horizontal $chip-padding-vertical
   font-size $chip-font-size
   border $chip-border
@@ -17,6 +18,7 @@
 
 .q-chip-main
   line-height initial
+  flex 1 1 auto
 
 .q-chip-side
   border-radius 50%
@@ -112,7 +114,7 @@
   min-height $chip-small-height
 
   .q-chip-main
-    padding 4px 0
+    padding 4px 1px
     line-height initial
 
   .q-chip-side
