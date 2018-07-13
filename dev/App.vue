@@ -4,45 +4,48 @@
       <router-view/>
     </transition>
     <div
-      style="padding: 0px 10px; right: 10px; bottom: 100px; padding: 5px; border-radius: 5px;"
+      style="padding: 10px; right: 10px; bottom: 10px"
       class="bg-white shadow-4 fixed z-top"
     >
-      <q-select
-        hide-underline
-        stack-label="I18n"
-        :options="[
-          { label: 'English (US)', value: 'en-us' }
-          ,{ label: 'English (UK)', value: 'en-uk' }
-          ,{ label: 'Romanian', value: 'ro' }
-          ,{ label: 'Hebrew', value: 'he' }
-          ,{ label: 'Chinese (Simplified)', value: 'zh-hans' }
-          ,{ label: 'Italian', value: 'it' }
-          ,{ label: 'Spanish', value: 'es' }
-          ,{ label: 'Swedish', value: 'sv' }
-          ,{ label: 'Farsi', value: 'fa-ir' }
-          ,{ label: 'French', value: 'fr' }
-          ,{ label: 'Dutch', value: 'nl' }
-          ,{ label: 'German', value: 'de' }
-          ,{ label: 'Indonezian', value: 'id' }
-          ,{ label: 'Croatian', value: 'hr' }
-          ,{ label: 'Russian', value: 'ru' }
-          ,{ label: 'Ukrainian', value: 'uk' }
-          ,{ label: 'Polish', value: 'pl' }
-          ,{ label: 'Czech', value: 'cs' }
-        ]"
-        v-model="lang"
-      />
-      <q-select
-        hide-underline
-        stack-label="Icon set"
-        :options="[
-          { label: 'Material', value: 'material-icons' }
-          ,{ label: 'MDI', value: 'mdi' }
-          ,{ label: 'Ionicons', value: 'ionicons' }
-          ,{ label: 'Fontawesome', value: 'fontawesome' }
-        ]"
-        v-model="iconSet"
-      />
+      <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" />
+      <template v-if="showSelector">
+        <q-select
+          hide-underline
+          stack-label="I18n"
+          :options="[
+            { label: 'English (US)', value: 'en-us' }
+            ,{ label: 'English (UK)', value: 'en-uk' }
+            ,{ label: 'Romanian', value: 'ro' }
+            ,{ label: 'Hebrew', value: 'he' }
+            ,{ label: 'Chinese (Simplified)', value: 'zh-hans' }
+            ,{ label: 'Italian', value: 'it' }
+            ,{ label: 'Spanish', value: 'es' }
+            ,{ label: 'Swedish', value: 'sv' }
+            ,{ label: 'Farsi', value: 'fa-ir' }
+            ,{ label: 'French', value: 'fr' }
+            ,{ label: 'Dutch', value: 'nl' }
+            ,{ label: 'German', value: 'de' }
+            ,{ label: 'Indonezian', value: 'id' }
+            ,{ label: 'Croatian', value: 'hr' }
+            ,{ label: 'Russian', value: 'ru' }
+            ,{ label: 'Ukrainian', value: 'uk' }
+            ,{ label: 'Polish', value: 'pl' }
+            ,{ label: 'Czech', value: 'cs' }
+          ]"
+          v-model="lang"
+        />
+        <q-select
+          hide-underline
+          stack-label="Icon set"
+          :options="[
+            { label: 'Material', value: 'material-icons' }
+            ,{ label: 'MDI', value: 'mdi' }
+            ,{ label: 'Ionicons', value: 'ionicons' }
+            ,{ label: 'Fontawesome', value: 'fontawesome' }
+          ]"
+          v-model="iconSet"
+        />
+      </template>
     </div>
   </div>
 </template>
@@ -52,7 +55,8 @@ export default {
   data () {
     return {
       lang: this.$q.i18n.lang,
-      iconSet: this.$q.icon.name
+      iconSet: this.$q.icon.name,
+      showSelector: false
     }
   },
   watch: {

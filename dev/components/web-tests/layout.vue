@@ -1,6 +1,7 @@
 <template>
   <div>
     <q-option-group
+      class="q-mx-none"
       type="radio"
       v-model="tab"
       :options="[
