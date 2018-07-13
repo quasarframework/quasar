@@ -3,9 +3,6 @@ import Ripple from '../../directives/ripple.js'
 
 export default {
   name: 'QStepTab',
-  components: {
-    QIcon
-  },
   directives: {
     Ripple
   },

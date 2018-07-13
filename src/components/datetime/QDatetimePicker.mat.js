@@ -19,9 +19,6 @@ export default {
     disable: Boolean,
     readonly: Boolean
   },
-  components: {
-    QBtn
-  },
   directives: {
     Ripple
   },
