@@ -133,42 +133,25 @@ fg($name, $size)
           > div
             @extends .gutter{$name}-x-{$gname} > div, .gutter{$name}-y-{$gname} > div
 
-    for $i in (0..$flex-cols)
-      $ic = s('%s', $i)
-
-      $row-{$name}-col-{$i}
-        height auto
-        width (round($i / $flex-cols * 100, 4))%
-
-      $row-{$name}-offset-{$i}
-        margin-left (round($i / $flex-cols * 100, 4))%
-
-      $column-{$name}-col-{$i}
-        height (round($i / $flex-cols * 100, 4))%
-        width auto
-
-      for $name2, $size2 in $sizes
+    for $name2, $size2 in $sizes
+      if $size >= $size2
         $name2c = s('-%s', unquote($name2))
+        $noProcNotZero2 = $size2 > 0
 
-        {fr('.row<name>', $name)}
-          if $size >= $size2
-            {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
-              @extends $row-{$name}-col-{$i}
-            {fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
-              @extends $row-{$name}-offset-{$i}
-          else
-            > .col{$name2c}-{$i}
-              @extends $row-{$name}-col-{$i}
-            > .offset{$name2c}-{$i}
-              @extends $row-{$name}-offset-{$i}
+        for $i in (0..$flex-cols)
+          $ic = s('%s', $i)
 
-        {fr('.column<name>', $name)}
-          if $size >= $size2
-            {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
-              @extends $column-{$name}-col-{$i}
-          else
-            > .col{$name2c}-{$i}
-              @extends $column-{$name}-col-{$i}
+          {fr('.row<name>', $name)}
+            {fe('> .col<name>-<i>', $name2c, $noProcNotZero2, $ic)}
+              height auto
+              width (round($i / $flex-cols * 100, 4))%
+            {fe('> .offset<name>-<i>', $name2c, $noProcNotZero2, $ic)}
+              margin-left (round($i / $flex-cols * 100, 4))%
+
+          {fr('.column<name>', $name)}
+            {fe('> .col<name>-<i>', $name2c, $noProcNotZero2, $ic)}
+              height (round($i / $flex-cols * 100, 4))%
+              width auto
 
 for $name, $size in $sizes
   fg(s('-%s', unquote($name)), $size)
