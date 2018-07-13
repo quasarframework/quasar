@@ -6,25 +6,30 @@
       </div>
 
       <div style="margin-top: 15px">
-        <q-search @change="onChange" @input="onInput" @clear="onClear" v-model="search" align="right" suffix="Quasar" style="width: 300px"/>
-        <q-search @change="onChange" @input="onInput" @clear="onClear" clear-value="" v-model="search" color="orange" placeholder="Search" clearable/>
-        <q-search @change="val => { search = val; onChange(val); }" @input="onInput" @clear="onClear" :value="search" color="orange" placeholder="Search (onChange)"/>
-        <q-search v-model="search" color="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"/>
-        <q-search v-model="search" color="primary" icon="local_airport" placeholder="Airports"/>
-        <q-search v-model="search" color="dark" icon="local_hotel" placeholder="Hotels"/>
-        <q-search stack-label="Stack Label" v-model="search" color="amber" icon="local_hotel" placeholder="Hotels"/>
-        <q-search hide-underline stack-label="Stack Label (hide underline)" v-model="search" color="amber" icon="local_hotel" placeholder="Hotels"/>
+        <q-search prefix="PRE" suffix="SUF" @change="onChange" @input="onInput" @clear="onClear" v-model="search" align="right" style="width: 300px" />
+        <q-search prefix="PRE" suffix="SUF" @change="onChange" @input="onInput" @clear="onClear" clear-value="" v-model="search" color="orange" placeholder="Search" />
+        <q-search prefix="PRE" suffix="SUF" @change="onChange" @input="onInput" @clear="onClear" clear-value="" v-model="search" color="orange" upper-case placeholder="Search - UpperCase" />
+        <q-search prefix="PRE" suffix="SUF" @change="onChange" @input="onInput" @clear="onClear" clear-value="" v-model="search" color="orange" lower-case placeholder="Search - LowerCase" />
+        <q-search prefix="PRE" suffix="SUF" @change="val => { search = val; onChange(val); }" @input="onInput" @clear="onClear" :value="search" color="orange" placeholder="Search (onChange)" />
+        <q-search prefix="PRE" suffix="SUF" v-model="search" color="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces" />
+        <q-search prefix="PRE" suffix="SUF" v-model="search" color="primary" icon="local_airport" placeholder="Airports" />
+        <q-search prefix="PRE" suffix="SUF" v-model="search" color="dark" icon="local_hotel" placeholder="Hotels" />
+        <q-search prefix="PRE" suffix="SUF" stack-label="Stack Label" v-model="search" color="amber" icon="local_hotel" placeholder="Hotels" />
+        <q-search prefix="PRE" suffix="SUF" float-label="Float Label" v-model="search" color="amber" icon="local_hotel" placeholder="Hotels" />
+        <q-search prefix="PRE" suffix="SUF" hide-underline stack-label="Stack Label (hide underline)" v-model="search" color="amber" icon="local_hotel" placeholder="Hotels" />
+        <q-search prefix="PRE" suffix="SUF" hide-underline float-label="Float Label (hide underline)" v-model="search" color="amber" icon="local_hotel" placeholder="Hotels" />
       </div>
 
       <div style="margin-top: 15px">
-        <q-search inverted v-model="search" align="right" suffix="Quasar" style="width: 300px"/>
-        <q-search inverted v-model="search" color="orange" clearable/>
-        <q-search inverted v-model="search" color="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"/>
-        <q-search inverted v-model="search" color="primary" icon="local_airport" placeholder="Airports"/>
-        <q-search inverted v-model="search" color="dark" icon="local_hotel" placeholder="Hotels"/>
-        <q-search inverted v-model="search" color="amber" icon="local_hotel" placeholder="Hotels" stack-label="Stack Label"/>
-        <q-search inverted v-model="search" color="white" :dark="false" icon="local_hotel" placeholder="Hotels"/>
-        <q-search inverted v-model="search" color="white" :dark="false" icon="local_hotel" placeholder="Hotels" stack-label="Stack Label"/>
+        <q-search inverted v-model="search" prefix="PRE" suffix="SUF" align="right" style="width: 300px" />
+        <q-search inverted v-model="search" prefix="PRE" suffix="SUF" color="orange" />
+        <q-search inverted v-model="search" prefix="PRE" suffix="SUF" color="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces" />
+        <q-search inverted v-model="search" prefix="PRE" suffix="SUF" color="primary" icon="local_airport" placeholder="Airports" />
+        <q-search inverted v-model="search" prefix="PRE" suffix="SUF" color="dark" icon="local_hotel" placeholder="Hotels" />
+        <q-search inverted v-model="search" prefix="PRE" suffix="SUF" color="amber" icon="local_hotel" placeholder="Hotels" stack-label="Stack Label" />
+        <q-search inverted v-model="search" prefix="PRE" suffix="SUF" color="white" :dark="false" icon="local_hotel" placeholder="Hotels" />
+        <q-search inverted v-model="search" prefix="PRE" suffix="SUF" color="primary" :dark="false" icon="local_hotel" placeholder="Hotels" stack-label="Stack Label" />
+        <q-search inverted v-model="search" prefix="PRE" suffix="SUF" color="primary" :dark="false" icon="local_hotel" placeholder="Hotels" float-label="Float Label" />
       </div>
 
       <p class="caption">Numeric Format</p>
