@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html {{ htmlAttrs }}>
+<html {{ htmlAttrs }} %% Q_HTML_ATTRS %%>
   <head>
+    %% Q_HEAD_TAGS %%
     <meta charset="utf-8">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
@@ -12,8 +13,8 @@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Material+Icons&Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/animate.css@^3.5.2/animate.min.css">
   </head>
-  <body class="demo-site {{ bodyClasses }}">
+  <body class="demo-site {{ bodyClasses }}" %% Q_BODY_ATTRS %%>
+    %% Q_BODY_TAGS %%
     <!--vue-ssr-outlet-->
-    <!-- built files will be auto injected -->
   </body>
 </html>

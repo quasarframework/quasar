@@ -16,8 +16,25 @@ function component (path) {
   }
 }
 
+const metaChildren = [
+  { path: '', redirect: 'first' },
+  { path: 'first', component: load('meta/pages/first') },
+  { path: 'second', component: load('meta/pages/second') },
+  { path: 'third', component: load('meta/pages/third') }
+]
+
 let routes = [
   {path: '/', component: load('index')},
+  {
+    path: '/meta/layout_1',
+    component: load('meta/layout_1'),
+    children: metaChildren
+  },
+  {
+    path: '/meta/layout_2',
+    component: load('meta/layout_2'),
+    children: metaChildren
+  },
   {
     path: '/tabs',
     component: load('components/tabs-playground'),
@@ -53,7 +70,9 @@ let routes = [
 ]
 
 pages.forEach(page => {
-  routes.push(component(page))
+  if (!page.startsWith('meta')) {
+    routes.push(component(page))
+  }
 })
 
 export function createRouter () {
