@@ -3,14 +3,15 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 import QToggle from '../toggle/QToggle.js'
 import ParentFieldMixin from '../../mixins/parent-field.js'
 
+const components = {
+  radio: QRadio,
+  checkbox: QCheckbox,
+  toggle: QToggle
+}
+
 export default {
   name: 'QOptionGroup',
   mixins: [ParentFieldMixin],
-  components: {
-    QRadio,
-    QCheckbox,
-    QToggle
-  },
   props: {
     value: {
       required: true
@@ -35,7 +36,7 @@ export default {
   },
   computed: {
     component () {
-      return `q-${this.type}`
+      return components[this.type]
     },
     model () {
       return Array.isArray(this.value) ? this.value.slice() : this.value

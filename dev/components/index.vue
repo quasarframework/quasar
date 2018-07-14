@@ -36,7 +36,7 @@ pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
   }
   list[folder].push({
     route: page,
-    title: file.charAt(0).toUpperCase() + file.slice(1)
+    title: file.split(/-/).map(f => f.charAt(0).toUpperCase() + f.slice(1)).join(' ')
   })
 })
 

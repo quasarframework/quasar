@@ -7,15 +7,18 @@ fe(selector, name, noProc, i = '')
   return unquote(join(',', fr(selector, '', i) fr(selector, name, i)))
 
 fg($name, $size)
+  $noProcNotZero = $size > 0
   @media (min-width $size)
-    {fe('.col<name>', $name, $size > 0)}
+    {fe('.col<name>', $name, $noProcNotZero)}
       &, &-auto, &-grow
-        height auto
-        min-height 0
-        max-height 100%
-        width auto
-        min-width 0
-        max-width 100%
+        .row > &, .flex > &
+          width auto
+          min-width 0
+          max-width 100%
+        .column > &, .flex > &
+          height auto
+          min-height 0
+          max-height 100%
       &
         flex 10**4 1 0%
       &-auto
@@ -25,17 +28,17 @@ fg($name, $size)
 
     for $i in (0..$flex-cols)
       $ic = s('%s', $i)
-      {fe('.col<name>-<i>', $name, $size > 0, $ic)}
+      {fe('.col<name>-<i>', $name, $noProcNotZero, $ic)}
         @extend .col{$name}-auto
       .row
-        {fe('> .col<name>-<i>', $name, $size > 0, $ic)}
+        {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
           height auto
           width (round($i / $flex-cols * 100, 4))%
         if $i != 0 || $name != ''
-          {fe('> .offset<name>-<i>', $name, $size > 0, $ic)}
+          {fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
             margin-left (round($i / $flex-cols * 100, 4))%
       .column
-        {fe('> .col<name>-<i>', $name, $size > 0, $ic)}
+        {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
           height (round($i / $flex-cols * 100, 4))%
           width auto
 

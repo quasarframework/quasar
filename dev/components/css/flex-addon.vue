@@ -13,7 +13,6 @@
         <div class="column">
           <div class="col-3">
             .col-3
-            <!-- eslint-disable-next-line vue/require-v-for-key -->
             <div class="placeholder" v-for="i in 4" :key="i">{{ i }}</div>
           </div>
           <div class="col">
@@ -649,6 +648,21 @@
   .test-flex
     .placeholder
       color #ccc
+
+    :not(.placeholder)
+      position relative
+      &:hover:before
+        content attr(class)
+        position absolute
+        top 0
+        left 50%
+        transform translateX(-50%) translateY(-100%)
+        min-width 100%
+        padding 2px 5px
+        background-color rgba(0,0,0,.5)
+        color white
+        white-space normal
+
     [class^='column']
       height 100%
       background-color rgba(255, 0, 0, .05)
@@ -657,7 +671,6 @@
         background-color rgba(0, 255, 0, .1)
         text-align center
         outline 1px solid #ccc
-        overflow hidden
         > div.fit
           background-color rgba(0, 0, 255, .2)
     [class^='row']

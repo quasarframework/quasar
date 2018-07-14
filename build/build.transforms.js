@@ -10,7 +10,7 @@ const
   { writeFile } = require('./build.utils')
 
 function relative (name) {
-  return path.relative(root, name)
+  return path.relative(root, name).split('\\').join('/')
 }
 
 function getWithoutExtension (filename) {
