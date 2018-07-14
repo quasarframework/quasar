@@ -12,6 +12,12 @@ export default function (ctx) {
   if (ctx.ssr) {
     const q = Object.assign({}, $q)
 
+    Object.assign(ctx.ssr, {
+      Q_HEAD_TAGS: '',
+      Q_BODY_ATTRS: '',
+      Q_BODY_TAGS: ''
+    })
+
     queues.server.forEach(run => {
       run(q, ctx)
     })

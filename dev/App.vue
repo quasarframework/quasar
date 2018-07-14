@@ -52,6 +52,9 @@
 
 <script>
 export default {
+  meta: {
+    title: 'Quasar Development'
+  },
   data () {
     return {
       lang: this.$q.i18n.lang,

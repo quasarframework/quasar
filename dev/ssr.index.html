@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html {{ htmlAttrs }} %% Q_HTML_ATTRS %%>
+<html {{ Q_HTML_ATTRS }}>
   <head>
-    %% Q_HEAD_TAGS %%
+    {{ Q_HEAD_TAGS }}
     <meta charset="utf-8">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
@@ -13,8 +13,8 @@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Material+Icons&Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/animate.css@^3.5.2/animate.min.css">
   </head>
-  <body class="demo-site {{ bodyClasses }}" %% Q_BODY_ATTRS %%>
-    %% Q_BODY_TAGS %%
+  <body class="demo-site {{ Q_BODY_CLASSES }}" {{ Q_BODY_ATTRS}}>
+    {{ Q_BODY_TAGS }}
     <!--vue-ssr-outlet-->
   </body>
 </html>

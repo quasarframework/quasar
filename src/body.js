@@ -56,9 +56,15 @@ export default {
   install ($q, queues, cfg) {
     if (isSSR) {
       queues.server.push((q, ctx) => {
-        const update = ctx.ssr.setBodyClasses
-        if (typeof update === 'function') {
-          update(getBodyClasses(q.platform, cfg))
+        const
+          cls = getBodyClasses(q.platform, cfg),
+          fn = ctx.ssr.setBodyClasses
+
+        if (typeof fn === 'function') {
+          fn(cls)
+        }
+        else {
+          ctx.ssr.Q_BODY_CLASSES = cls.join(' ')
         }
       })
       return

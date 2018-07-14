@@ -6,12 +6,20 @@ export default {
   install ($q, queues, Vue, lang) {
     if (isSSR) {
       queues.server.push((q, ctx) => {
-        const fn = ctx.ssr.setHtmlAttrs
-        if (typeof fn === 'function') {
-          fn({
+        const
+          opt = {
             lang: q.i18n.lang,
             dir: q.i18n.rtl ? 'rtl' : 'ltr'
-          })
+          },
+          fn = ctx.ssr.setHtmlAttrs
+
+        if (typeof fn === 'function') {
+          fn(opt)
+        }
+        else {
+          ctx.ssr.Q_HTML_ATTRS = Object.keys(opt)
+            .map(key => `${key}=${opt[key]}`)
+            .join(' ')
         }
       })
     }

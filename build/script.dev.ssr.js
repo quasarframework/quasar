@@ -197,11 +197,7 @@ function render (req, res) {
     if (err) {
       return handleError(err)
     }
-    const meta = context.$getMeta()
-    Object.keys(meta).forEach(token => {
-      html = html.replace(token, meta[token])
-    })
-    res.send(html)
+    res.send(context.$getMetaHTML(html))
     console.log(` ⚡️ ${Date.now() - s}ms - ${req.url}`)
   })
 }

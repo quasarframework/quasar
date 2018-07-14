@@ -26,7 +26,7 @@ export default ssrContext => {
       }
 
       // the Promise should resolve to the app instance so it can be rendered
-      ssrContext.$getMeta = app.$getMeta(app)
+      ssrContext.$getMetaHTML = app.$getMetaHTML(app)
       resolve(app)
     }, reject)
   })

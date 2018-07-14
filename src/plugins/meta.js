@@ -186,7 +186,7 @@ function getHead (meta) {
   return output
 }
 
-function getServerMeta (app) {
+function getServerMeta (app, html) {
   const meta = {
     title: '',
     titleTemplate: null,
@@ -196,10 +196,11 @@ function getServerMeta (app) {
     bodyAttrs: {},
     noscripts: {}
   }
+
   parseMeta(app, meta)
   normalize(meta)
 
-  return {
+  const tokens = {
     '%%Q_HTML_ATTRS%%': Object.keys(meta.htmlAttrs)
       .filter(name => !['lang', 'dir'].includes(name))
       .map(getAttr(meta.htmlAttrs))
@@ -214,6 +215,12 @@ function getServerMeta (app) {
       .join('') +
       `<script data-qmeta-init>window.__Q_META__=${delete meta.noscripts && JSON.stringify(meta)}</script>`
   }
+
+  Object.keys(tokens).forEach(key => {
+    html = html.replace(key, tokens[key])
+  })
+
+  return html
 }
 
 function beforeCreate () {
@@ -235,13 +242,24 @@ function triggerMeta () {
 }
 
 export default {
-  install ({ Vue }) {
+  install ({ queues, Vue }) {
     if (isSSR) {
-      Vue.prototype.$getMeta = app => () => getServerMeta(app)
+      Vue.prototype.$getMetaHTML = app => html => getServerMeta(app, html)
       Vue.mixin({ beforeCreate })
+
+      queues.server.push((q, ctx) => {
+        ctx.ssr.Q_HTML_ATTRS += ' %%Q_HTML_ATTRS%%'
+        Object.assign(ctx.ssr, {
+          Q_HEAD_TAGS: '%%Q_HEAD_TAGS%%',
+          Q_BODY_ATTRS: '%%Q_BODY_ATTRS%%',
+          Q_BODY_TAGS: '%%Q_BODY_TAGS%%'
+        })
+        // ssr.Q_BODY_CLASSES
+      })
     }
     else {
       ssrTakeover = fromSSR
+
       Vue.mixin({
         beforeCreate,
         created () {

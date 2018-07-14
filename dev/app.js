@@ -48,26 +48,7 @@ export function createApp (ssrContext) {
     render: h => h(App)
   }
 
-  const ctx = { app }
-
-  if (ssrContext) {
-    ctx.ssr = {
-      req: ssrContext.req,
-      res: ssrContext.res,
-      setBodyClasses (cls) {
-        ssrContext.bodyClasses = cls.join(' ')
-      },
-      setHtmlAttrs (attrs) {
-        const str = []
-        for (let key in attrs) {
-          str.push(`${key}=${attrs[key]}`)
-        }
-        ssrContext.htmlAttrs = str.join(' ')
-      }
-    }
-  }
-
-  Quasar.ssrUpdate(ctx)
+  Quasar.ssrUpdate({ app, ssr: ssrContext })
 
   return {
     app: new Vue(app),
