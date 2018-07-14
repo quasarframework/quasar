@@ -85,6 +85,9 @@ function generateFile (map) {
   return `const map = ${JSON.stringify(map, null, 2)}
 
 module.exports = function (importName) {
+  if (typeof map[importName] === 'undefined') {
+    throw new Error('Unknown import from Quasar: ' + importName)
+  }
   return 'quasar-framework/' + map[importName]
 }
 `
