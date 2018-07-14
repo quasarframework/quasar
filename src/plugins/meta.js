@@ -1,5 +1,7 @@
-import { isSSR } from './platform.js'
+import { isSSR, fromSSR } from './platform.js'
 import extend from '../utils/extend.js'
+
+let updateId, ssrTakeover
 
 function normalize (meta) {
   if (meta.title) {
@@ -137,6 +139,13 @@ function parseMeta (component, meta) {
 }
 
 function updateClient () {
+  if (ssrTakeover) {
+    ssrTakeover = false
+    this.$root.__currentMeta = window.__Q_META__
+    document.querySelector('script[data-qmeta-init]').remove()
+    return
+  }
+
   const meta = {
     title: '',
     titleTemplate: null,
@@ -150,20 +159,6 @@ function updateClient () {
 
   apply(diff(this.$root.__currentMeta, meta))
   this.$root.__currentMeta = meta
-}
-
-function beforeCreate () {
-  if (this.$options.meta) {
-    if (typeof this.$options.meta === 'function') {
-      if (!this.$options.computed) {
-        this.$options.computed = {}
-      }
-      this.$options.computed.__qMeta = this.$options.meta
-    }
-    else {
-      this.__qMeta = this.$options.meta
-    }
-  }
 }
 
 function getAttr (seed) {
@@ -216,11 +211,27 @@ function getServerMeta (app) {
       .join(' '),
     '%% Q_BODY_TAGS %%': Object.keys(meta.noscripts)
       .map(name => `<noscript data-qmeta="${name}">${meta.noscripts[name]}</noscript>`)
-      .join('')
+      .join('') + `<script data-qmeta-init>window.__Q_META__=${JSON.stringify(meta)}</script>`
   }
 }
 
-let updateId
+function beforeCreate () {
+  if (this.$options.meta) {
+    if (typeof this.$options.meta === 'function') {
+      if (!this.$options.computed) {
+        this.$options.computed = {}
+      }
+      this.$options.computed.__qMeta = this.$options.meta
+    }
+    else {
+      this.__qMeta = this.$options.meta
+    }
+  }
+}
+
+function triggerMeta () {
+  this.$options.meta && this.__qMetaUpdate()
+}
 
 export default {
   install ({ Vue }) {
@@ -229,6 +240,7 @@ export default {
       Vue.mixin({ beforeCreate })
     }
     else {
+      ssrTakeover = fromSSR
       Vue.mixin({
         beforeCreate,
         created () {
@@ -236,15 +248,9 @@ export default {
             this.__qMetaUnwatch = this.$watch('__qMeta', this.__qMetaUpdate)
           }
         },
-        activated () {
-          this.$options.meta && this.__qMetaUpdate()
-        },
-        deactivated () {
-          this.$options.meta && this.__qMetaUpdate()
-        },
-        beforeMount () {
-          this.$options.meta && this.__qMetaUpdate()
-        },
+        activated: triggerMeta,
+        deactivated: triggerMeta,
+        beforeMount: triggerMeta,
         destroyed () {
           if (this.$options.meta) {
             this.__qMetaUnwatch()
