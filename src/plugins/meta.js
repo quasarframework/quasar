@@ -142,7 +142,7 @@ function updateClient () {
   if (ssrTakeover) {
     ssrTakeover = false
     this.$root.__currentMeta = window.__Q_META__
-    document.querySelector('script[data-qmeta-init]').remove()
+    document.body.querySelector('script[data-qmeta-init]').remove()
     return
   }
 
@@ -200,18 +200,19 @@ function getServerMeta (app) {
   normalize(meta)
 
   return {
-    '%% Q_HTML_ATTRS %%': Object.keys(meta.htmlAttrs)
+    '%%Q_HTML_ATTRS%%': Object.keys(meta.htmlAttrs)
       .filter(name => !['lang', 'dir'].includes(name))
       .map(getAttr(meta.htmlAttrs))
       .join(' '),
-    '%% Q_HEAD_TAGS %%': getHead(meta),
-    '%% Q_BODY_ATTRS %%': Object.keys(meta.bodyAttrs)
+    '%%Q_HEAD_TAGS%%': getHead(meta),
+    '%%Q_BODY_ATTRS%%': Object.keys(meta.bodyAttrs)
       .filter(name => name !== 'class')
       .map(getAttr(meta.bodyAttrs))
       .join(' '),
-    '%% Q_BODY_TAGS %%': Object.keys(meta.noscripts)
+    '%%Q_BODY_TAGS%%': Object.keys(meta.noscripts)
       .map(name => `<noscript data-qmeta="${name}">${meta.noscripts[name]}</noscript>`)
-      .join('') + `<script data-qmeta-init>window.__Q_META__=${JSON.stringify(meta)}</script>`
+      .join('') +
+      `<script data-qmeta-init>window.__Q_META__=${delete meta.noscripts && JSON.stringify(meta)}</script>`
   }
 }
 
