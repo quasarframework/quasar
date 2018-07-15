@@ -11,7 +11,7 @@ function normalize (meta) {
     delete meta.titleTemplate
   }
 
-  [['tags', 'content'], ['links', 'href']].forEach(type => {
+  ;[['meta', 'content'], ['link', 'href']].forEach(type => {
     const
       metaType = meta[type[0]],
       metaProp = type[1]
@@ -32,7 +32,9 @@ function normalize (meta) {
 }
 
 function changed (old, def) {
-  if (Object.keys(old).length !== Object.keys(def).length) { return true }
+  if (Object.keys(old).length !== Object.keys(def).length) {
+    return true
+  }
   for (let key in old) {
     if (old[key] !== def[key]) { return true }
   }
@@ -49,7 +51,7 @@ function diff (meta, other) {
     add.title = other.title
   }
 
-  ;['tags', 'links', 'htmlAttrs', 'bodyAttrs'].forEach(type => {
+  ;['meta', 'link', 'htmlAttr', 'bodyAttr'].forEach(type => {
     const old = meta[type], cur = other[type]
     remove[type] = []
 
@@ -81,27 +83,25 @@ function apply ({ add, remove }) {
   }
 
   if (Object.keys(remove).length > 0) {
-    remove.tags.forEach(name => {
+    remove.meta.forEach(name => {
       document.head.querySelector(`meta[data-qmeta="${name}"]`).remove()
     })
-    remove.links.forEach(name => {
+    remove.link.forEach(name => {
       document.head.querySelector(`link[data-qmeta="${name}"]`).remove()
     })
-    remove.htmlAttrs.forEach(name => {
+    remove.htmlAttr.forEach(name => {
       document.documentElement.removeAttribute(name)
     })
-    remove.bodyAttrs.forEach(name => {
+    remove.bodyAttr.forEach(name => {
       document.body.removeAttribute(name)
     })
   }
 
-  ;[['tags', 'meta'], ['links', 'link']].forEach(type => {
-    const
-      metaType = add[type[0]],
-      tagName = type[1]
+  ;['meta', 'link'].forEach(type => {
+    const metaType = add[type]
 
     for (let name in metaType) {
-      const tag = document.createElement(tagName)
+      const tag = document.createElement(type)
       for (let att in metaType[name]) {
         tag.setAttribute(att, metaType[name][att])
       }
@@ -109,11 +109,11 @@ function apply ({ add, remove }) {
       document.head.appendChild(tag)
     }
   })
-  Object.keys(add.htmlAttrs).forEach(name => {
-    document.documentElement.setAttribute(name, add.htmlAttrs[name] || '')
+  Object.keys(add.htmlAttr).forEach(name => {
+    document.documentElement.setAttribute(name, add.htmlAttr[name] || '')
   })
-  Object.keys(add.bodyAttrs).forEach(name => {
-    document.body.setAttribute(name, add.bodyAttrs[name] || '')
+  Object.keys(add.bodyAttr).forEach(name => {
+    document.body.setAttribute(name, add.bodyAttr[name] || '')
   })
 }
 
@@ -149,10 +149,10 @@ function updateClient () {
   const meta = {
     title: '',
     titleTemplate: null,
-    tags: {},
-    links: {},
-    htmlAttrs: {},
-    bodyAttrs: {}
+    meta: {},
+    link: {},
+    htmlAttr: {},
+    bodyAttr: {}
   }
   parseMeta(this.$root, meta)
   normalize(meta)
@@ -173,14 +173,12 @@ function getHead (meta) {
   if (meta.title) {
     output += `<title>${meta.title}</title>`
   }
-  ;[['tags', 'meta'], ['links', 'link']].forEach(type => {
-    const
-      metaType = meta[type[0]],
-      tag = type[1]
+  ;['meta', 'link'].forEach(type => {
+    const metaType = meta[type]
 
     for (let att in metaType) {
       const attrs = Object.keys(metaType[att]).map(getAttr(metaType[att]))
-      output += `<${tag} ${attrs.join(' ')} data-qmeta="${att}">`
+      output += `<${type} ${attrs.join(' ')} data-qmeta="${att}">`
     }
   })
   return output
@@ -190,30 +188,30 @@ function getServerMeta (app, html) {
   const meta = {
     title: '',
     titleTemplate: null,
-    tags: {},
-    links: {},
-    htmlAttrs: {},
-    bodyAttrs: {},
-    noscripts: {}
+    meta: {},
+    link: {},
+    htmlAttr: {},
+    bodyAttr: {},
+    noscript: {}
   }
 
   parseMeta(app, meta)
   normalize(meta)
 
   const tokens = {
-    '%%Q_HTML_ATTRS%%': Object.keys(meta.htmlAttrs)
+    '%%Q_HTML_ATTRS%%': Object.keys(meta.htmlAttr)
       .filter(name => !['lang', 'dir'].includes(name))
-      .map(getAttr(meta.htmlAttrs))
+      .map(getAttr(meta.htmlAttr))
       .join(' '),
     '%%Q_HEAD_TAGS%%': getHead(meta),
-    '%%Q_BODY_ATTRS%%': Object.keys(meta.bodyAttrs)
+    '%%Q_BODY_ATTRS%%': Object.keys(meta.bodyAttr)
       .filter(name => name !== 'class')
-      .map(getAttr(meta.bodyAttrs))
+      .map(getAttr(meta.bodyAttr))
       .join(' '),
-    '%%Q_BODY_TAGS%%': Object.keys(meta.noscripts)
-      .map(name => `<noscript data-qmeta="${name}">${meta.noscripts[name]}</noscript>`)
+    '%%Q_BODY_TAGS%%': Object.keys(meta.noscript)
+      .map(name => `<noscript data-qmeta="${name}">${meta.noscript[name]}</noscript>`)
       .join('') +
-      `<script data-qmeta-init>window.__Q_META__=${delete meta.noscripts && JSON.stringify(meta)}</script>`
+      `<script data-qmeta-init>window.__Q_META__=${delete meta.noscript && JSON.stringify(meta)}</script>`
   }
 
   Object.keys(tokens).forEach(key => {
@@ -254,7 +252,6 @@ export default {
           Q_BODY_ATTRS: '%%Q_BODY_ATTRS%%',
           Q_BODY_TAGS: '%%Q_BODY_TAGS%%'
         })
-        // ssr.Q_BODY_CLASSES
       })
     }
     else {
