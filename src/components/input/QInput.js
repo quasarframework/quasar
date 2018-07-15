@@ -90,8 +90,7 @@ export default {
     keyboardToggle () {
       return this.$q.platform.is.mobile &&
         this.isNumber &&
-        this.numericKeyboardToggle &&
-        length
+        this.numericKeyboardToggle
     },
     inputType () {
       if (this.isPassword) {
