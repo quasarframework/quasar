@@ -1,6 +1,5 @@
 import langEn from '../i18n/en-us.js'
 import { isSSR } from './plugins/platform.js'
-import { ready } from './utils/dom.js'
 
 export default {
   install ($q, queues, Vue, lang) {
@@ -30,11 +29,9 @@ export default {
       lang.rtl = lang.rtl || false
 
       if (!isSSR) {
-        ready(() => {
-          const el = document.documentElement
-          el.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
-          el.setAttribute('lang', lang.lang)
-        })
+        const el = document.documentElement
+        el.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
+        el.setAttribute('lang', lang.lang)
       }
 
       if (isSSR || $q.i18n) {

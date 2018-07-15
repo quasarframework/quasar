@@ -13,13 +13,6 @@ const positionList = [
 ]
 
 function init ({ Vue }) {
-  if (!document.body) {
-    ready(() => {
-      init.call(this, { Vue })
-    })
-    return
-  }
-
   const node = document.createElement('div')
   document.body.appendChild(node)
 
@@ -167,25 +160,6 @@ function init ({ Vue }) {
 export default {
   create (opts) {
     if (isSSR) { return () => {} }
-
-    if (!document.body) {
-      let
-        cancelled = false,
-        cancelFn = () => {},
-        cancelFnWrapper = () => {
-          cancelled = true
-          cancelFn()
-        }
-
-      ready(() => {
-        if (!cancelled) {
-          cancelFn = this.create(opts)
-        }
-      })
-
-      return cancelFnWrapper
-    }
-
     return this.__vm.add(opts)
   },
   setDefaults (opts) {

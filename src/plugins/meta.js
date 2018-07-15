@@ -40,6 +40,14 @@ function changed (old, def) {
   }
 }
 
+function bodyFilter (name) {
+  return !['class', 'style'].includes(name)
+}
+
+function htmlFilter (name) {
+  return !['lang', 'dir'].includes(name)
+}
+
 function diff (meta, other) {
   let add = {}, remove = {}
 
@@ -89,10 +97,10 @@ function apply ({ add, remove }) {
     remove.link.forEach(name => {
       document.head.querySelector(`link[data-qmeta="${name}"]`).remove()
     })
-    remove.htmlAttr.forEach(name => {
+    remove.htmlAttr.filter(htmlFilter).forEach(name => {
       document.documentElement.removeAttribute(name)
     })
-    remove.bodyAttr.forEach(name => {
+    remove.bodyAttr.filter(bodyFilter).forEach(name => {
       document.body.removeAttribute(name)
     })
   }
@@ -109,19 +117,12 @@ function apply ({ add, remove }) {
       document.head.appendChild(tag)
     }
   })
-  Object.keys(add.htmlAttr).forEach(name => {
+  Object.keys(add.htmlAttr).filter(htmlFilter).forEach(name => {
     document.documentElement.setAttribute(name, add.htmlAttr[name] || '')
   })
-  Object.keys(add.bodyAttr).forEach(name => {
+  Object.keys(add.bodyAttr).filter(bodyFilter).forEach(name => {
     document.body.setAttribute(name, add.bodyAttr[name] || '')
   })
-}
-
-function merge (main, { title, titleTemplate, ...other }) {
-  title && (main.title = title)
-  titleTemplate && (main.titleTemplate = titleTemplate)
-
-  extend(true, main, other)
 }
 
 function parseMeta (component, meta) {
@@ -129,7 +130,7 @@ function parseMeta (component, meta) {
 
   const hasMeta = component.$options.meta
   if (hasMeta) {
-    merge(meta, component.__qMeta)
+    extend(true, meta, component.__qMeta)
     if (hasMeta.stopPropagation) { return }
   }
 
@@ -200,12 +201,12 @@ function getServerMeta (app, html) {
 
   const tokens = {
     '%%Q_HTML_ATTRS%%': Object.keys(meta.htmlAttr)
-      .filter(name => !['lang', 'dir'].includes(name))
+      .filter(htmlFilter)
       .map(getAttr(meta.htmlAttr))
       .join(' '),
     '%%Q_HEAD_TAGS%%': getHead(meta),
     '%%Q_BODY_ATTRS%%': Object.keys(meta.bodyAttr)
-      .filter(name => name !== 'class')
+      .filter(bodyFilter)
       .map(getAttr(meta.bodyAttr))
       .join(' '),
     '%%Q_BODY_TAGS%%': Object.keys(meta.noscript)

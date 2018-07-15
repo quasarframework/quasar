@@ -1,4 +1,3 @@
-import { ready } from './utils/dom.js'
 import { setBrand } from './utils/colors.js'
 import { isSSR } from './plugins/platform.js'
 
@@ -70,11 +69,7 @@ export default {
       return
     }
 
-    const init = cfg.brand && document.body
-    init && setColors(cfg.brand)
-    ready(() => {
-      !init && setColors(cfg.brand)
-      bodyInit($q.platform, cfg)
-    })
+    cfg.brand && setColors(cfg.brand)
+    bodyInit($q.platform, cfg)
   }
 }

@@ -67,6 +67,9 @@
     <script>
       // optional
       window.quasarConfig = {
+        brand: {
+          primary: '#ff0000'
+        }
       }
     </script>
     <script src="dist/umd/quasar.mat.umd.js"></script>
@@ -74,6 +77,7 @@
 
     <script>
       Quasar.i18n.set(Quasar.i18n.es)
+      Quasar.plugins.Notify.create('Startup notification')
 
       new Vue({
         el: '#q-app',

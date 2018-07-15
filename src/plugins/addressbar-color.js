@@ -1,5 +1,4 @@
 import Platform, { isSSR } from './platform.js'
-import { ready } from '../utils/dom.js'
 import { getBrand } from '../utils/colors.js'
 
 let metaValue
@@ -41,31 +40,31 @@ function setColor (hexColor) {
   metaTag.setAttribute('content', hexColor)
 
   if (newTag) {
-    document.getElementsByTagName('HEAD')[0].appendChild(metaTag)
+    document.head.appendChild(metaTag)
   }
 }
 
 export default {
-  install ({ $q, Vue }) {
+  install ({ $q, Vue, cfg }) {
     this.set = !isSSR && Platform.is.mobile && (
       Platform.is.cordova ||
       Platform.is.winphone || Platform.is.safari ||
       Platform.is.webkit || Platform.is.vivaldi
     )
       ? hexColor => {
-        ready(() => {
-          const val = hexColor || getBrand('primary')
+        const val = hexColor || getBrand('primary')
 
-          if (Platform.is.cordova && window.StatusBar) {
-            window.StatusBar.backgroundColorByHexString(val)
-          }
-          else {
-            setColor(val)
-          }
-        })
+        if (Platform.is.cordova && window.StatusBar) {
+          window.StatusBar.backgroundColorByHexString(val)
+        }
+        else {
+          setColor(val)
+        }
       }
       : () => {}
 
     $q.addressbarColor = this
+
+    cfg.addressbarColor && this.set(cfg.addressbarColor)
   }
 }
