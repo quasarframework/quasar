@@ -37,16 +37,13 @@ export default {
   meta () {
     return {
       title: this.title,
-      tags: {
+      meta: {
         description: { name: 'description', content: 'Page 1' }
       },
-      links: {
+      link: {
         google: { rel: 'stylesheet', href: 'http://bogus.com/1' }
       },
-      scripts: {
-        google: { href: 'http://bogus-script.com/1/1/1' }
-      },
-      noscripts: {
+      noscript: {
         default: `This is for non-JS`
       }
     }

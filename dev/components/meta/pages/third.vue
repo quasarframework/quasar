@@ -22,10 +22,10 @@
 export default {
   name: 'PageThird',
   meta: {
-    bodyAttrs: {
+    bodyAttr: {
       some: 'value'
     },
-    htmlAttrs: {
+    htmlAttr: {
       'third-page': ''
     }
   }

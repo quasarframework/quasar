@@ -21,7 +21,7 @@ export default {
   meta: {
     title: 'LayoutDefault',
     titleTemplate: chunk => `${chunk} - My Website`,
-    tags: {
+    meta: {
       // description: { name: 'description', content: 'Layout 1' }
       description: { template: chunk => `${chunk} - Layout 1` }
     }

@@ -21,10 +21,10 @@ export default {
   meta: {
     // stopPropagation: true,
     title: 'Layout 2',
-    links: {
+    link: {
       google: { template: chunk => `${chunk}/addition` }
     },
-    bodyAttrs: {
+    bodyAttr: {
       layout: 2
     }
   }

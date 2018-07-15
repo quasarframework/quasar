@@ -26,16 +26,16 @@ export default {
   name: 'PageSecond',
   meta: {
     title: 'PAGE 2',
-    tags: {
+    meta: {
       description: { name: 'description', content: 'Page 2' }
     },
-    links: {
+    link: {
       google: { rel: 'stylesheet', href: 'http://bogus.com/2' }
     },
-    bodyAttrs: {
+    bodyAttr: {
       some: 'value'
     },
-    htmlAttrs: {
+    htmlAttr: {
       'third-page': 'w'
     }
   }
