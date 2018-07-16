@@ -205,21 +205,23 @@ export default {
     touch: false,
     webStorage: false
   },
-  within: {
-    iframe: false
+  within: { iframe: false },
+
+  parseSSR (/* ssrContext */ ssr) {
+    return ssr ? {
+      is: getPlatform(ssr.req.headers['user-agent']),
+      has: this.has,
+      within: this.within
+    } : {
+      is: getPlatform(),
+      ...getClientProperties()
+    }
   },
 
   install ($q, queues, Vue) {
     if (isSSR) {
       queues.server.push((q, ctx) => {
-        q.platform = {
-          is: getPlatform(ctx.ssr.req.headers['user-agent']),
-          has: {
-            touch: false,
-            webStorage: false
-          },
-          within: { iframe: false }
-        }
+        q.platform = this.parseSSR(ctx.ssr)
       })
       return
     }

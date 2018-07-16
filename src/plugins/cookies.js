@@ -139,6 +139,10 @@ export function getObject (ctx = {}) {
 }
 
 export default {
+  parseSSR (/* ssrContext */ ssr) {
+    return ssr ? getObject({ ssr }) : this
+  },
+
   install ({ $q, queues }) {
     if (isSSR) {
       queues.server.push((q, ctx) => {
