@@ -59,7 +59,7 @@ function diff (meta, other) {
     add.title = other.title
   }
 
-  ;['meta', 'link', 'htmlAttr', 'bodyAttr'].forEach(type => {
+  ;['meta', 'link', 'script', 'htmlAttr', 'bodyAttr'].forEach(type => {
     const old = meta[type], cur = other[type]
     remove[type] = []
 
@@ -91,11 +91,10 @@ function apply ({ add, remove }) {
   }
 
   if (Object.keys(remove).length > 0) {
-    remove.meta.forEach(name => {
-      document.head.querySelector(`meta[data-qmeta="${name}"]`).remove()
-    })
-    remove.link.forEach(name => {
-      document.head.querySelector(`link[data-qmeta="${name}"]`).remove()
+    ['meta', 'link', 'script'].forEach(type => {
+      remove[type].forEach(name => {
+        document.head.querySelector(`${type}[data-qmeta="${name}"]`).remove()
+      })
     })
     remove.htmlAttr.filter(htmlFilter).forEach(name => {
       document.documentElement.removeAttribute(name)
@@ -105,15 +104,20 @@ function apply ({ add, remove }) {
     })
   }
 
-  ;['meta', 'link'].forEach(type => {
+  ;['meta', 'link', 'script'].forEach(type => {
     const metaType = add[type]
 
     for (let name in metaType) {
       const tag = document.createElement(type)
       for (let att in metaType[name]) {
-        tag.setAttribute(att, metaType[name][att])
+        if (att !== 'innerHTML') {
+          tag.setAttribute(att, metaType[name][att])
+        }
       }
       tag.setAttribute('data-qmeta', name)
+      if (type === 'script') {
+        tag.innerHTML = metaType[name].innerHTML || ''
+      }
       document.head.appendChild(tag)
     }
   })
@@ -152,6 +156,7 @@ function updateClient () {
     titleTemplate: null,
     meta: {},
     link: {},
+    script: {},
     htmlAttr: {},
     bodyAttr: {}
   }
@@ -174,12 +179,18 @@ function getHead (meta) {
   if (meta.title) {
     output += `<title>${meta.title}</title>`
   }
-  ;['meta', 'link'].forEach(type => {
+  ;['meta', 'link', 'script'].forEach(type => {
     const metaType = meta[type]
 
     for (let att in metaType) {
-      const attrs = Object.keys(metaType[att]).map(getAttr(metaType[att]))
+      const attrs = Object.keys(metaType[att])
+        .filter(att => att !== 'innerHTML')
+        .map(getAttr(metaType[att]))
+
       output += `<${type} ${attrs.join(' ')} data-qmeta="${att}">`
+      if (type === 'script') {
+        output += (metaType[att].innerHTML || '') + `</script>`
+      }
     }
   })
   return output
