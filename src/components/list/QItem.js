@@ -4,8 +4,7 @@ import { routerLinkProps } from '../../utils/router-link.js'
 export default {
   name: 'QItem',
   mixins: [
-    ItemMixin,
-    { props: routerLinkProps }
+    ItemMixin, { props: routerLinkProps }
   ],
   props: {
     active: Boolean,
@@ -13,10 +12,12 @@ export default {
   },
   computed: {
     classes () {
-      const cls = this.itemClasses
-      return this.to !== void 0
-        ? ['q-link', cls]
-        : [{active: this.active}, cls]
+      return [
+        this.to !== void 0
+          ? 'q-link'
+          : {active: this.active},
+        this.itemClasses
+      ]
     }
   },
   render (h) {
