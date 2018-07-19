@@ -80,10 +80,7 @@ export default {
         this.$emit('input', false)
       }
 
-      if (this.__historyEntry) {
-        History.remove(this.__historyEntry)
-        this.__historyEntry = null
-      }
+      this.__removeHistory()
 
       if (!this.__hide) {
         this.$emit('hide', evt)
@@ -105,6 +102,13 @@ export default {
 
       this.__hide(evt)
       return this.hidePromise || Promise.resolve(evt)
+    },
+
+    __removeHistory () {
+      if (this.__historyEntry) {
+        History.remove(this.__historyEntry)
+        this.__historyEntry = null
+      }
     }
   },
   beforeDestroy () {
@@ -112,6 +116,7 @@ export default {
       this.showPromise && this.showPromiseReject()
       this.hidePromise && this.hidePromiseReject()
       this.$emit('input', false)
+      this.__removeHistory()
       this.__hide && this.__hide()
     }
   }
