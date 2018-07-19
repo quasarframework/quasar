@@ -116,6 +116,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Yatima Kagurazaka
 - Matyáš Racek
 - Martin Thompson
+- David Urbansky
 
 - Jim O'Quinn ($5)
 - Ken ($5)
@@ -125,6 +126,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Sustained ($3.14)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
+- Shawn Taylor ($1)
 
 ---
 
