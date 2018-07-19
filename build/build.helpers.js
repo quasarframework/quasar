@@ -22,12 +22,41 @@ const PropTypeMap = new Map([
   [Date, { type: 'Date', description: 'Date value.' }]
 ])
 
+const kebabExceptions = ['format24h']
+function kebab (name) {
+  return kebabExceptions.includes(name)
+    ? name
+    : kebabCase(name)
+}
+
 function addProps (comp, list) {
   if (comp.props) {
-    Object.keys(comp.props).forEach(name => {
-      list[kebabCase(name)] = comp.props[name]
-    })
+    Object.keys(comp.props)
+      .filter(name => name !== 'value')
+      .forEach(name => {
+        list[kebab(name)] = comp.props[name]
+      })
   }
+}
+
+const propExceptions = {
+  'q-chips-input': ['max-height'],
+  'q-collapsible': ['link'],
+  'q-search': ['max-value']
+}
+const internalComponents = [
+  'q-item-wrapper',
+  'q-input-frame'
+]
+function applyExceptions (cache) {
+  internalComponents.forEach(name => {
+    delete cache[name]
+  })
+  Object.keys(propExceptions).forEach(name => {
+    propExceptions[name].forEach(prop => {
+      delete cache[name][prop]
+    })
+  })
 }
 
 function parseComponent (comp, list) {
@@ -47,6 +76,7 @@ function parseComponent (comp, list) {
   }
 
   addProps(comp, list)
+
   if (name) {
     cache[name] = cloneDeep(list)
   }
@@ -74,7 +104,7 @@ function getAttributes (cache) {
         types = type.map(val => {
           const v = PropTypeMap.get(val)
           if (!PropTypeMap.has(val)) {
-            console.error(nsKey, v)
+            console.error('PropTypeMap.get', v)
           }
           else {
             return PropTypeMap.get(val).type
@@ -113,6 +143,8 @@ Object.keys(components).forEach(name => {
   const list = {}
   parseComponent(components[name], list)
 })
+
+applyExceptions(cache)
 
 module.exports.generate = function () {
   writeFile(resolve('quasar-tags.json'), beautify(
