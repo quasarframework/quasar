@@ -32,6 +32,7 @@ export default {
         'q-collapsible-opened': this.popup && this.showing,
         'q-collapsible-closed': this.popup && !this.showing,
         'q-collapsible-cursor-pointer': !this.iconToggle,
+        'q-item-dark': this.dark,
         'q-item-separator': this.separator,
         'q-item-inset-separator': this.insetSeparator,
         disabled: this.disable

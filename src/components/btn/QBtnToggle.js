@@ -7,7 +7,6 @@ export default {
     value: {
       required: true
     },
-    type: String,
     // To avoid seeing the active raise shadow through the transparent button, give it a color (even white).
     color: String,
     textColor: String,
@@ -68,7 +67,6 @@ export default {
         key: `${opt.label}${opt.icon}${opt.iconRight}`,
         on: { click: () => this.set(opt.value, opt) },
         props: {
-          type: opt.hasOwnProperty('type') ? opt.type : this.type,
           disable: this.disable,
           label: opt.label,
           // Colors come from the button specific options first, then from general props
