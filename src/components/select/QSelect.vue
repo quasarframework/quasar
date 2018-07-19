@@ -30,7 +30,7 @@
     @keydown.native="__keyboardHandleKey"
   >
     <div
-      v-if="hasChips"
+      v-if="hasChips && length > 0"
       class="col row items-center group q-input-chips"
       :class="alignClass"
     >
