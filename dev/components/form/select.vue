@@ -33,7 +33,7 @@
 
       <p class="caption">Multiple Selection with Chips</p>
       <q-field label="gogu" :count="10">
-        <q-select @change="onChange" @input="onInput" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px" clearable/>
+        <q-select @change="onChange" @input="onInput" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" placeholder="Gigi" max-height="36px" clearable/>
       </q-field>
       <q-field label="gogu" :count="10">
         <q-select @change="onChange" @input="onInput" multiple chips v-model="multipleSelectColor" :options="selectListOptions" float-label="Some label" max-height="36px" clearable/>

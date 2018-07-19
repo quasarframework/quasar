@@ -106,7 +106,7 @@ export default {
       }
     },
     hasChips () {
-      return this.multiple && this.chips
+      return this.multiple && this.chips && this.length > 0
     },
     length () {
       return this.multiple
