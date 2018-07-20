@@ -66,6 +66,7 @@ export default {
     },
     stop () {
       this.working = false
+      this.fetching = false
       this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
     }
   },
