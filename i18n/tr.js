@@ -32,10 +32,10 @@ export default {
     noData: 'Veri yok',
     noResults: 'Uyuşan kayıt bulunamadı',
     loading: 'Yükleniyor...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows + ' seçili kayıt.'
     },
-    rowsPerPage: 'Sayfa başına kayıt:',
+    recordsPerPage: 'Sayfa başına kayıt:',
     allRows: 'Tümü',
     pagination: function (start, end, total) {
       return start + '-' + end + ' toplam ' + total

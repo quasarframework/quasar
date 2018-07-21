@@ -32,12 +32,12 @@ export default {
     noData: 'Ni peteĨ mba\'e',
     noResults: 'Ni peteĨ resultado',
     loading: 'Era\'arõ...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows > 1
         ? rows + ' fila selesionada.'
         : (rows === 0 ? 'Sin' : '1') + ' fila selesionada.'
     },
-    rowsPerPage: 'Fila por páhina:',
+    recordsPerPage: 'Fila por páhina:',
     allRows: 'Entero',
     pagination: function (start, end, total) {
       return start + '-' + end + ' de ' + total

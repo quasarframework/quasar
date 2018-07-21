@@ -33,10 +33,10 @@ export default {
     noData: 'تاریخ دردسترس نیست',
     noResults: 'هیچ موردی یافت نشد',
     loading: 'در حال بارگذاری ...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows === 0 ? 'ردیفی انتخاب نشده' : rows + ' ردیف انتخاب شده'
     },
-    rowsPerPage: 'ردیف بر صفحه:',
+    recordsPerPage: 'ردیف بر صفحه:',
     allRows: 'همه',
     pagination: function (start, end, total) {
       return start + '-' + end + ' از ' + total

@@ -32,12 +32,12 @@ export default {
     noData: 'Ni dosegljivih podatkov',
     noResults: 'Ne najdem ustreznic',
     loading: 'Nalagam...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows === 1
         ? '1 izbrana vrstica.'
         : (rows === 2 ? '2 izbrani vrstici.' : (rows === 0 ? 'Ni' : rows) + ' izbranih vrstic.')
     },
-    rowsPerPage: 'Vrstic na stran:',
+    recordsPerPage: 'Vrstic na stran:',
     allRows: 'Vse',
     pagination: function (start, end, total) {
       return start + '-' + end + ' od ' + total

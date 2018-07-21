@@ -32,12 +32,12 @@ export default {
     noData: 'データがありません', // 'No data available',
     noResults: '検索結果がありません', // 'No matching records found',
     loading: '読込中...', // 'Loading...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows > 0
         ? rows + '行を選択中'
         : '行を選択'
     },
-    rowsPerPage: 'ページあたりの行数', // 'Rows per page:',
+    recordsPerPage: 'ページあたりの行数', // 'Rows per page:',
     allRows: '全て', // 'All',
     pagination: function (start, end, total) {
       return start + '-' + end + ' ／ ' + total

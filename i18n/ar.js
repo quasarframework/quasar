@@ -33,12 +33,12 @@ export default {
     noData: 'عفواً، لا توجد بيانات',
     noResults: 'عفواً، لا توجد سجلات مطابقة',
     loading: 'جاري التحميل...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows === 1
         ? '1 سجل مختار.'
         : (rows === 0 ? 'No' : rows) + ' سجلات مختاره.'
     },
-    rowsPerPage: 'سجلات لكل صفحه:',
+    recordsPerPage: 'سجلات لكل صفحه:',
     allRows: 'الكل',
     pagination: function (start, end, total) {
       return start + '-' + end + ' من ' + total

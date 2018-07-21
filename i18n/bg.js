@@ -32,12 +32,12 @@ export default {
     noData: 'Няма данни',
     noResults: 'Нищо не е намерено',
     loading: 'Зареждане...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows > 1
         ? rows + ' избрани реда.'
         : (rows === 0 ? 'Няма' : '1') + ' избрани редове.'
     },
-    rowsPerPage: 'Редове на страница:',
+    recordsPerPage: 'Редове на страница:',
     allRows: 'Всички',
     pagination: function (start, end, total) {
       return start + '-' + end + ' от ' + total

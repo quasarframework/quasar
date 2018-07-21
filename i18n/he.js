@@ -33,12 +33,12 @@ export default {
     noData: 'לא נמצאו נתונים',
     noResults: 'לא נמצאו תוצאות רלוונטיות',
     loading: 'טוען...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows === 1
         ? 'נבחרה שורה אחת.'
         : (rows === 0 ? 'לא' : rows) + ' שורות נבחרו'
     },
-    rowsPerPage: 'שורות בעמוד:',
+    recordsPerPage: 'שורות בעמוד:',
     allRows: 'הכל',
     pagination: function (start, end, total) {
       return start + '-' + end + ' מתוך ' + total

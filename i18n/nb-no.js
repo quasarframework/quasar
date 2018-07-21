@@ -33,12 +33,12 @@ export default {
     noResults: 'Ingen treff i data funnet',
     loading: 'Laster...',
     row: 'rad',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows > 0
         ? rows + ' row' + (rows === 1 ? '' : 's') + ' valgt.'
         : 'Ingen valgte rader.'
     },
-    rowsPerPage: 'Rader pr side:',
+    recordsPerPage: 'Rader pr side:',
     allRows: 'Alle',
     pagination: function (start, end, total) {
       return start + '-' + end + ' av ' + total

@@ -32,12 +32,12 @@ export default {
     noData: 'Ingen data tilgængelig',
     noResults: 'Ingen matchende resultater fundet',
     loading: 'Indlæser...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows === 1
         ? '1 række valgt.'
         : (rows === 0 ? 'Ingen' : rows) + ' rækker valgt.'
     },
-    rowsPerPage: 'Rækker per side:',
+    recordsPerPage: 'Rækker per side:',
     allRows: 'Alle',
     pagination: function (start, end, total) {
       return start + '-' + end + ' af ' + total

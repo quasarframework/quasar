@@ -32,12 +32,12 @@ export default {
     noData: 'Χωρίς δεδομένα',
     noResults: 'Δεν βρέθηκαν αποτελέσματα',
     loading: 'Φόρτωση...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows === 1
         ? '1 Επιλεγμένη εγγραφή.'
         : (rows === 0 ? 'Καμμία' : rows) + ' Επιλεγμένες Εγγραφές.'
     },
-    rowsPerPage: 'Εγγραφές ανα σελίδα:',
+    recordsPerPage: 'Εγγραφές ανα σελίδα:',
     allRows: 'Όλες',
     pagination: function (start, end, total) {
       return start + '-' + end + ' of ' + total
