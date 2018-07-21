@@ -43,7 +43,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Colin Mollenhour
 - ShipStream.io
 - MG Papelaria (company)
-- Moacir Schmidt
 - Evan Leonardi
 - Max Matteo Staack
 - Bobby Ross
