@@ -6,7 +6,7 @@ export default {
     sortMethod: {
       type: Function,
       default (data, sortBy, descending) {
-        const col = this.computedCols.find(def => def.name === sortBy)
+        const col = this.columns.find(def => def.name === sortBy)
         if (col === null || col.field === void 0) {
           return data
         }
@@ -55,8 +55,7 @@ export default {
       const { sortBy } = this.computedPagination
 
       if (sortBy) {
-        const col = this.computedCols.find(def => def.name === sortBy)
-        return col || null
+        return this.columns.find(def => def.name === sortBy) || null
       }
     }
   },

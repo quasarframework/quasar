@@ -25,6 +25,7 @@
         :loading="loading"
         selection="multiple"
         :selected.sync="selected"
+        :visible-columns="visibleColumns"
         row-key="name"
         :pagination.sync="serverPagination"
         :separator="separator"
