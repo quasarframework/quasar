@@ -15,6 +15,13 @@ export function getScrollPosition (scrollTarget) {
   return scrollTarget.scrollTop
 }
 
+export function getHorizontalScrollPosition (scrollTarget) {
+  if (scrollTarget === window) {
+    return window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
+  }
+  return scrollTarget.scrollLeft
+}
+
 export function animScrollTo (el, to, duration) {
   if (duration <= 0) {
     return

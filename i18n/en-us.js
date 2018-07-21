@@ -35,7 +35,7 @@ export default {
     selectedRecords: function (rows) {
       return rows === 1
         ? '1 record selected.'
-        : (rows === 0 ? 'No' : rows) + ' record selected.'
+        : (rows === 0 ? 'No' : rows) + ' records selected.'
     },
     recordsPerPage: 'Records per page:',
     allRows: 'All',
