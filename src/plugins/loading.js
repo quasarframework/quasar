@@ -6,7 +6,7 @@ let
   timeout,
   props = {},
   defaults = {
-    delay: 500,
+    delay: 0,
     message: false,
     spinnerSize: 80,
     spinnerColor: 'white',
