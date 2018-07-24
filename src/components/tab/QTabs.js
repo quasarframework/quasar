@@ -36,7 +36,8 @@ export default {
     inverted: Boolean,
     twoLines: Boolean,
     noPaneBorder: Boolean,
-    glossy: Boolean
+    glossy: Boolean,
+    panesContainerClass: String
   },
   data () {
     return {
@@ -402,7 +403,10 @@ export default {
         ])
       ]),
 
-      h('div', { staticClass: 'q-tabs-panes' }, this.$slots.default)
+      h('div', { 
+        staticClass: 'q-tabs-panes',
+        'class': this.panesContainerClass
+      }, this.$slots.default)
     ])
   },
   created () {
