@@ -22,6 +22,7 @@ export default {
       type: String,
       validator: v => ['left', 'center', 'right'].includes(v)
     },
+    ellipsis: Boolean,
     noPassToggle: Boolean,
     numericKeyboardToggle: Boolean,
     readonly: Boolean,
@@ -109,6 +110,7 @@ export default {
       const classes = []
       this.align && classes.push(`text-${this.align}`)
       this.autofilled && classes.push('q-input-autofill')
+      this.ellipsis && classes.push('ellipsis')
       return classes
     },
     length () {

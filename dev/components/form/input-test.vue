@@ -119,10 +119,12 @@
       popover
       :after="[ { icon: 'today', handler () { date = null; $nextTick(() => { date = defaultDate }) } }]" />
 
-    <div>Test number - force update: {{ numberTester }}</div>
-    <div>{{ number }}</div>
+    <div class="q-mt-lg">Test number - force update ({{ numberTester }}): {{ number }}</div>
     <q-input type="number" v-model="number" float-label="Test number 1" />
     <q-input type="number" v-model="number" float-label="Test number 2" />
+
+    <div class="q-mt-lg">Ellipsis</div>
+    <q-input ellipsis v-model="text" float-label="Long text with ellipsis" clearable />
 
   </div>
 </template>
@@ -138,7 +140,8 @@ export default {
       defaultDate: new Date(2016, 5, 20),
 
       number: 1.1,
-      numberTester: 0
+      numberTester: 0,
+      text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
     }
   },
   methods: {
