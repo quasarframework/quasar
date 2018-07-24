@@ -37,10 +37,7 @@ export default {
     twoLines: Boolean,
     noPaneBorder: Boolean,
     glossy: Boolean,
-    tabsPanesClass: {
-      type: String,
-      default: ''
-    }
+    panesClasses: String
   },
   data () {
     return {
@@ -408,9 +405,7 @@ export default {
 
       h('div', { 
         staticClass: 'q-tabs-panes',
-        class: {
-          [this.tabsPanesClass]: true
-       }
+        'class': this.panesClasses
       }, this.$slots.default)
     ])
   },
