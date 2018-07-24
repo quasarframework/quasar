@@ -403,7 +403,7 @@ export default {
         ])
       ]),
 
-      h('div', { 
+      h('div', {
         staticClass: 'q-tabs-panes',
         'class': this.panesContainerClass
       }, this.$slots.default)
