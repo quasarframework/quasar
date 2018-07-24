@@ -51,11 +51,17 @@ export default {
     __emit () {
       const isNumberError = this.isNumber && this.isNumberError
       const value = isNumberError ? (this.isNegZero ? -0 : null) : this.model
+      this.model = this.value
       if (isNumberError) {
         this.$emit('input', value)
       }
       this.$nextTick(() => {
-        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+        if (this.isNumber) {
+          if (String(1 / value) !== String(1 / this.value)) {
+            this.$emit('change', value)
+          }
+        }
+        else if (JSON.stringify(value) !== JSON.stringify(this.value)) {
           this.$emit('change', value)
         }
       })
