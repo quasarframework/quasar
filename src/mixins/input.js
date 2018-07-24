@@ -51,7 +51,9 @@ export default {
     __emit () {
       const isNumberError = this.isNumber && this.isNumberError
       const value = isNumberError ? (this.isNegZero ? -0 : null) : this.model
-      this.model = this.value
+      if (this.isNumber) {
+        this.model = this.value
+      }
       if (isNumberError) {
         this.$emit('input', value)
       }
