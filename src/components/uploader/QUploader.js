@@ -54,6 +54,7 @@ export default {
     autoExpand: Boolean,
     expandStyle: [Array, String, Object],
     expandClass: [Array, String, Object],
+    withCredentials: Boolean,
     sendRaw: {
       type: Boolean,
       default: false
@@ -349,6 +350,9 @@ export default {
 
         resolver.then(url => {
           xhr.open(this.method, url, true)
+          if (this.withCredentials) {
+            xhr.withCredentials = true
+          }
           if (this.headers) {
             Object.keys(this.headers).forEach(key => {
               xhr.setRequestHeader(key, this.headers[key])
