@@ -408,7 +408,9 @@ export default {
 
       h('div', { 
         staticClass: 'q-tabs-panes',
-        'class': this.tabsPanesClass
+        class: {
+          [this.tabsPanesClass]: true
+       }
       }, this.$slots.default)
     ])
   },
