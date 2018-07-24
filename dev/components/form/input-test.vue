@@ -119,6 +119,11 @@
       popover
       :after="[ { icon: 'today', handler () { date = null; $nextTick(() => { date = defaultDate }) } }]" />
 
+    <div>Test number - force update: {{ numberTester }}</div>
+    <div>{{ number }}</div>
+    <q-input type="number" v-model="number" float-label="Test number 1" />
+    <q-input type="number" v-model="number" float-label="Test number 2" />
+
   </div>
 </template>
 
@@ -130,7 +135,10 @@ export default {
       defaultColor: '#0f0',
 
       date: new Date(),
-      defaultDate: new Date(2016, 5, 20)
+      defaultDate: new Date(2016, 5, 20),
+
+      number: 1.1,
+      numberTester: 0
     }
   },
   methods: {
@@ -173,6 +181,14 @@ export default {
     donClear (v) {
       console.log('donClear', v)
     }
+  },
+  mounted () {
+    this.$timer = setInterval(() => {
+      this.numberTester += 1
+    }, 1000)
+  },
+  beforeDestroy () {
+    clearInterval(this.$timer)
   }
 }
 </script>
