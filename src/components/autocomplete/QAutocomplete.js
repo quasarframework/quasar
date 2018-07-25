@@ -28,6 +28,10 @@ export default {
       default: filter
     },
     staticData: Object,
+    valueField: {
+      type: [String, Function],
+      default: 'value'
+    },
     separator: Boolean
   },
   inject: {
@@ -62,6 +66,9 @@ export default {
       return this.maxResults && this.results.length > 0
         ? this.results.slice(0, this.maxResults)
         : []
+    },
+    computedValueField () {
+      return this.valueField || (this.staticData ? this.staticData.field : 'value')
     },
     keyboardMaxIndex () {
       return this.computedResults.length - 1
@@ -172,7 +179,7 @@ export default {
       return index > -1 && index < this.computedResults.length && !this.computedResults[index].disable
     },
     setValue (result, kbdNav) {
-      const value = this.staticData ? result[this.staticData.field] : result.value
+      const value = typeof this.computedValueField === 'function' ? this.computedValueField(result) : result[this.computedValueField]
       const suffix = this.__inputDebounce ? 'Debounce' : ''
 
       if (this.inputEl && this.__input && !this.__input.hasFocus()) {
