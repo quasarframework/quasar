@@ -1,6 +1,6 @@
-import { QSlideTransition } from '../slide-transition'
-import StepTab from './StepTab'
-import uid from '../../utils/uid'
+import QSlideTransition from '../slide-transition/QSlideTransition.js'
+import StepTab from './StepTab.js'
+import uid from '../../utils/uid.js'
 
 export default {
   name: 'QStep',
@@ -110,9 +110,9 @@ export default {
           ? h('div', {
             staticClass: 'q-stepper-step-content'
           }, [
-            h('div', { staticClass: 'q-stepper-step-inner' }, [
-              this.$slots.default
-            ])
+            h('div', {
+              staticClass: 'q-stepper-step-inner'
+            }, this.$slots.default)
           ])
           : null
       ])

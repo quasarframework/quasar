@@ -1,7 +1,7 @@
-import { css } from './dom'
+import { css } from './dom.js'
 
 export function getScrollTarget (el) {
-  return el.closest('.scroll') || window
+  return el.closest('.scroll,.scroll-y') || window
 }
 
 export function getScrollHeight (el) {
@@ -15,6 +15,13 @@ export function getScrollPosition (scrollTarget) {
   return scrollTarget.scrollTop
 }
 
+export function getHorizontalScrollPosition (scrollTarget) {
+  if (scrollTarget === window) {
+    return window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
+  }
+  return scrollTarget.scrollLeft
+}
+
 export function animScrollTo (el, to, duration) {
   if (duration <= 0) {
     return
@@ -22,8 +29,8 @@ export function animScrollTo (el, to, duration) {
 
   const pos = getScrollPosition(el)
 
-  window.requestAnimationFrame(() => {
-    setScroll(el, pos + (to - pos) / duration * 16)
+  requestAnimationFrame(() => {
+    setScroll(el, pos + (to - pos) / Math.max(16, duration) * 16)
     if (el.scrollTop !== to) {
       animScrollTo(el, to, duration - 16)
     }
@@ -83,7 +90,7 @@ export function getScrollbarWidth () {
     w2 = outer.clientWidth
   }
 
-  document.body.removeChild(outer)
+  outer.remove()
   size = w1 - w2
 
   return size
@@ -98,4 +105,14 @@ export function hasScrollbar (el) {
     el.classList.contains('scroll') ||
     ['auto', 'scroll'].includes(window.getComputedStyle(el)['overflow-y'])
   ) && el.scrollHeight > el.clientHeight
+}
+
+export default {
+  getScrollTarget,
+  getScrollHeight,
+  getScrollPosition,
+  animScrollTo,
+  setScrollPosition,
+  getScrollbarWidth,
+  hasScrollbar
 }

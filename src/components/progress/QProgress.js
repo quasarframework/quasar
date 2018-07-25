@@ -1,4 +1,4 @@
-import { between } from '../../utils/format'
+import { between } from '../../utils/format.js'
 
 function width (val) {
   return { width: `${val}%` }

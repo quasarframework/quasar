@@ -33,7 +33,7 @@ export default {
     noData: 'Žádná data k dispozici',
     noResults: 'Nebyly nalezeny žádné odpovídající záznamy',
     loading: 'Načítá se...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       switch (rows) {
         case 0:
           return 'Nejsou vybrány žádné řádky.'
@@ -48,7 +48,7 @@ export default {
       }
       return ('Vybráno ' + rows + ' řádků.')
     },
-    rowsPerPage: 'Počet řádků na stránku:',
+    recordsPerPage: 'Počet řádků na stránku:',
     allRows: 'Všechny',
     pagination: function (start, end, total) {
       return start + '-' + end + ' z ' + total

@@ -1,12 +1,12 @@
-import { QBtn } from '../btn'
-import TouchPan from '../../directives/touch-pan'
-import { cssTransform } from '../../utils/dom'
-import { isNumber } from '../../utils/is'
-import { between, normalizeToInterval } from '../../utils/format'
-import { start, stop } from '../../utils/animate'
-import { decelerate, standard } from '../../utils/easing'
-import { getEventKey } from '../../utils/event'
-import FullscreenMixin from '../../mixins/fullscreen'
+import QBtn from '../btn/QBtn.js'
+import TouchPan from '../../directives/touch-pan.js'
+import { cssTransform } from '../../utils/dom.js'
+import { isNumber } from '../../utils/is.js'
+import { between, normalizeToInterval } from '../../utils/format.js'
+import { start, stop } from '../../utils/animate.js'
+import { decelerate, standard } from '../../utils/easing.js'
+import { getEventKey } from '../../utils/event.js'
+import FullscreenMixin from '../../mixins/fullscreen.js'
 
 export default {
   name: 'QCarousel',
@@ -441,9 +441,9 @@ export default {
             'infinite-right': this.infiniteRight
           }
         }, [
-          h('div', { staticClass: 'q-carousel-slide', style: `flex: 0 0 ${100}%`, directives: [{ name: 'show', value: this.infiniteRight }] }),
+          this.infiniteRight ? h('div', { staticClass: 'q-carousel-slide', style: `flex: 0 0 ${100}%` }) : null,
           this.$slots.default,
-          h('div', { staticClass: 'q-carousel-slide', style: `flex: 0 0 ${100}%`, directives: [{ name: 'show', value: this.infiniteLeft }] })
+          this.infiniteLeft ? h('div', { staticClass: 'q-carousel-slide', style: `flex: 0 0 ${100}%` }) : null
         ])
       ]),
       this.arrows ? h(QBtn, {

@@ -1,6 +1,8 @@
-import BtnMixin from './btn-mixin'
-import { QSpinner } from '../spinner'
-import { between } from '../../utils/format'
+import BtnMixin from './btn-mixin.js'
+import QIcon from '../icon/QIcon.js'
+import QSpinner from '../spinner/QSpinner.js'
+import { between } from '../../utils/format.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QBtn',
@@ -9,9 +11,7 @@ export default {
     percentage: Number,
     darkPercentage: Boolean,
     waitForRipple: Boolean,
-    repeatTimeout: [Number, Function],
-    to: [Object, String],
-    replace: Boolean
+    repeatTimeout: [Number, Function]
   },
   computed: {
     hasPercentage () {
@@ -22,15 +22,19 @@ export default {
     },
     events () {
       return this.isDisabled || !this.repeatTimeout
-        ? { click: this.click }
+        ? {
+          click: this.click,
+          keydown: this.__onKeyDown,
+          keyup: this.__onKeyUp
+        }
         : {
           mousedown: this.__startRepeat,
           touchstart: this.__startRepeat,
-          keydown: e => [13, 32].includes(e.keyCode) && this.__startRepeat(e),
+          keydown: e => { this.__onKeyDown(e, true) },
 
           mouseup: this.__endRepeat,
           touchend: this.__endRepeat,
-          keyup: e => [13, 32].includes(e.keyCode) && this.__endRepeat(e),
+          keyup: e => { this.__onKeyUp(e, true) },
 
           mouseleave: this.__abortRepeat,
           touchmove: this.__abortRepeat,
@@ -40,22 +44,34 @@ export default {
   },
   data () {
     return {
-      repeating: false
+      repeating: false,
+      active: false
     }
   },
   methods: {
     click (e) {
       this.__cleanup()
 
+      if (this.to !== void 0 || this.isDisabled) {
+        e && stopAndPrevent(e)
+        if (this.isDisabled) { return }
+      }
+
+      if (e && e.detail !== -1 && this.type === 'submit') {
+        stopAndPrevent(e)
+        const ev = new MouseEvent('click', Object.assign({}, e, {detail: -1}))
+        this.timer = setTimeout(() => this.$el && this.$el.dispatchEvent(ev), 200)
+        return
+      }
+
+      const go = () => {
+        this.$router[this.replace ? 'replace' : 'push'](this.to)
+      }
+
       const trigger = () => {
-        if (this.isDisabled) {
-          return
-        }
-
-        this.$emit('click', e)
-
-        if (this.to !== void 0) {
-          this.$router[this.replace ? 'replace' : 'push'](this.to)
+        if (!this.isDisabled) {
+          this.$emit('click', e, go)
+          this.to !== void 0 && e.navigate !== false && go()
         }
       }
 
@@ -68,6 +84,23 @@ export default {
     },
     __cleanup () {
       clearTimeout(this.timer)
+    },
+    __onKeyDown (e, repeat) {
+      if (this.isDisabled || e.keyCode !== 13) {
+        return
+      }
+      this.active = true
+      repeat ? this.__startRepeat(e) : stopAndPrevent(e)
+    },
+    __onKeyUp (e, repeat) {
+      if (!this.active) {
+        return
+      }
+      this.active = false
+      if (this.isDisabled || e.keyCode !== 13) {
+        return
+      }
+      this[repeat ? '__endRepeat' : 'click'](e)
     },
     __startRepeat (e) {
       if (this.repeating) {
@@ -120,20 +153,21 @@ export default {
     this.__cleanup()
   },
   render (h) {
-    return h('button', {
+    return h(this.isLink ? 'a' : 'button', {
       staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
       'class': this.classes,
       style: this.style,
-      attrs: { tabindex: this.computedTabIndex, type: 'button' },
+      attrs: this.attrs,
       on: this.events,
       directives: this.hasRipple
         ? [{
           name: 'ripple',
-          value: true
+          value: true,
+          modifiers: { center: this.isRound }
         }]
         : null
     }, [
-      __THEME__ === 'ios' || this.$q.platform.is.desktop
+      process.env.THEME === 'ios' || this.$q.platform.is.desktop
         ? h('div', { staticClass: 'q-focus-helper' })
         : null,
 
@@ -153,7 +187,7 @@ export default {
         ? [ this.$slots.loading || h(QSpinner) ]
         : [
           this.icon
-            ? h('QIcon', {
+            ? h(QIcon, {
               'class': { 'on-left': this.label && this.isRectangle },
               props: { name: this.icon }
             })
@@ -164,7 +198,7 @@ export default {
           this.$slots.default,
 
           this.iconRight && this.isRectangle
-            ? h('QIcon', {
+            ? h(QIcon, {
               staticClass: 'on-right',
               props: { name: this.iconRight }
             })

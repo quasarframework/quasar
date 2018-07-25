@@ -1,12 +1,8 @@
-import { QActionSheet } from '../components/action-sheet'
-import modalFn from '../utils/modal-fn'
+import QActionSheet from '../components/action-sheet/QActionSheet.js'
+import modalFn from '../utils/modal-fn.js'
 
 export default {
-  __installed: false,
   install ({ $q, Vue }) {
-    if (this.__installed) { return }
-    this.__installed = true
-
     this.create = $q.actionSheet = modalFn(QActionSheet, Vue)
   }
 }

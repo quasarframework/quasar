@@ -1,5 +1,5 @@
-import { getScrollPosition, getScrollTarget } from '../utils/scroll'
-import { listenOpts } from '../utils/event'
+import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../utils/scroll.js'
+import { listenOpts } from '../utils/event.js'
 
 function updateBinding (el, binding) {
   const ctx = el.__qscroll
@@ -21,7 +21,10 @@ export default {
   bind (el, binding) {
     let ctx = {
       scroll () {
-        ctx.handler(getScrollPosition(ctx.scrollTarget))
+        ctx.handler(
+          getScrollPosition(ctx.scrollTarget),
+          getHorizontalScrollPosition(ctx.scrollTarget)
+        )
       }
     }
     el.__qscroll = ctx

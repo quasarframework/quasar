@@ -27,11 +27,9 @@ $layout-transition = all .12s ease-in
 .q-layout-drawer-left
   left 0
   transform translateX(-100%)
-  width $layout-aside-left-width
 .q-layout-drawer-right
   right 0
   transform translateX(100%)
-  width $layout-aside-right-width
 
 .q-layout, .q-layout-header, .q-layout-footer, .q-layout-page
   position relative
@@ -72,7 +70,7 @@ $layout-transition = all .12s ease-in
   > span
     pointer-events auto
 
-body.cordova.platform-ios
+body.q-ios-statusbar-padding
   .q-layout-header > .q-toolbar:nth-child(2),
   .q-layout-header > .q-tabs:nth-child(2) .q-tabs-head
   .q-layout-drawer.top-padding

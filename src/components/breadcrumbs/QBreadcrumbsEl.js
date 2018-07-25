@@ -1,30 +1,21 @@
-import { QIcon } from '../icon'
-import { RouterLinkMixin } from '../../utils/router-link'
+import QIcon from '../icon/QIcon.js'
+import { routerLinkProps } from '../../utils/router-link.js'
 
 export default {
   name: 'QBreadcrumbsEl',
-  mixins: [{ props: RouterLinkMixin.props }],
+  mixins: [{ props: routerLinkProps }],
   props: {
     label: String,
     icon: String,
     color: String
   },
-  computed: {
-    link () {
-      return this.to !== void 0
-    }
-  },
   render (h) {
-    return h(this.link ? 'router-link' : 'span', {
-      staticClass: 'q-breadcrumbs-el flex inline items-center relative-position',
-      props: this.link ? this.$props : null
-    },
-    this.label || this.icon
-      ? [
-        this.icon ? h(QIcon, { staticClass: 'q-breacrumbs-el-icon q-mr-sm', props: { name: this.icon } }) : null,
-        this.label
-      ]
-      : [ this.$slots.default ]
-    )
+    return h(this.to !== void 0 ? 'router-link' : 'span', {
+      staticClass: 'q-link q-breadcrumbs-el flex inline items-center relative-position',
+      props: this.to !== void 0 ? this.$props : null
+    }, [
+      this.icon ? h(QIcon, { staticClass: 'q-breacrumbs-el-icon q-mr-sm', props: { name: this.icon } }) : null,
+      this.label
+    ].concat(this.$slots.default))
   }
 }

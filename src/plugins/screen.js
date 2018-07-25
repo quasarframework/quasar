@@ -1,9 +1,9 @@
-import { isSSR } from './platform'
-import { listenOpts } from '../utils/event'
-import { debounce } from '../utils/debounce'
+import { isSSR, fromSSR } from './platform.js'
+import { listenOpts } from '../utils/event.js'
+import debounce from '../utils/debounce.js'
 
 export default {
-  width: 1024,
+  width: 0,
 
   sizes: {
     sm: 576,
@@ -13,43 +13,28 @@ export default {
   },
 
   lt: {
+    sm: true,
+    md: true,
     xl: true
   },
-  gt: {
-    xs: true,
-    sm: true,
-    md: true
-  },
-  lg: true,
+  gt: {},
+  xs: true,
 
-  __installed: false,
-  install ({ $q, Vue }) {
-    if (this.__installed) { return }
-    this.__installed = true
+  setSizes () {},
+  setDebounce () {},
 
+  install ({ $q, queues, Vue }) {
     if (isSSR) {
-      this.$q.screen = this
-      this.setSizes = this.setDebounce = () => {}
+      $q.screen = this
       return
     }
 
-    if (document && document.body) {
-      const style = getComputedStyle(document.body)
-
-      // if css props available
-      if (style.getPropertyValue('--q-size-sm')) {
-        ['sm', 'md', 'lg', 'xl'].forEach(name => {
-          this.sizes[name] = parseInt(style.getPropertyValue(`--q-size-${name}`), 10)
-        })
-      }
-    }
-
-    let update = () => {
+    let update = resized => {
       const
         w = window.innerWidth,
         s = this.sizes
 
-      if (w === this.width) {
+      if (resized && w === this.width) {
         return
       }
 
@@ -70,27 +55,62 @@ export default {
       this.xl = w > s.xl
     }
 
-    update()
-    let updateEvt = debounce(update, 100)
-
-    window.addEventListener('resize', updateEvt, listenOpts.passive)
+    let updateEvt, updateSizes = {}, updateDebounce
 
     this.setSizes = sizes => {
-      ['sm', 'md', 'lg', 'xl'].forEach(name => {
-        if (sizes[name]) {
-          this.sizes[name] = sizes[name]
-        }
+      sizes.forEach(name => {
+        updateSizes[name] = sizes[name]
       })
-      update()
     }
-    this.setDebounce = delay => {
-      window.removeEventListener('resize', updateEvt, listenOpts.passive)
-      updateEvt = delay > 0
-        ? debounce(update, delay)
-        : update
-      window.addEventListener('resize', updateEvt, listenOpts.passive)
+    this.setDebounce = deb => {
+      updateDebounce = deb
+    }
+
+    const start = () => {
+      const style = getComputedStyle(document.body)
+
+      // if css props available
+      if (style.getPropertyValue('--q-size-sm')) {
+        ['sm', 'md', 'lg', 'xl'].forEach(name => {
+          this.sizes[name] = parseInt(style.getPropertyValue(`--q-size-${name}`), 10)
+        })
+      }
+
+      this.setSizes = sizes => {
+        ['sm', 'md', 'lg', 'xl'].forEach(name => {
+          if (sizes[name]) {
+            this.sizes[name] = sizes[name]
+          }
+        })
+        update()
+      }
+      this.setDebounce = delay => {
+        const fn = () => { update(true) }
+        updateEvt && window.removeEventListener('resize', updateEvt, listenOpts.passive)
+        updateEvt = delay > 0
+          ? debounce(fn, delay)
+          : fn
+        window.addEventListener('resize', updateEvt, listenOpts.passive)
+      }
+
+      this.setDebounce(updateDebounce || 100)
+
+      if (Object.keys(updateSizes).length > 0) {
+        this.setSizes(updateSizes)
+        updateSizes = null
+      }
+      else {
+        update()
+      }
     }
 
     Vue.util.defineReactive($q, 'screen', this)
+
+    if (fromSSR) {
+      queues.takeover.push(start)
+    }
+    else {
+      start()
+    }
   }
 }

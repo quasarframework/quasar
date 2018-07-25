@@ -1,11 +1,10 @@
-import ItemMixin from '../../mixins/item'
-import { RouterLinkMixin } from '../../utils/router-link'
+import ItemMixin from '../../mixins/item.js'
+import { routerLinkProps } from '../../utils/router-link.js'
 
 export default {
   name: 'QItem',
   mixins: [
-    ItemMixin,
-    { props: RouterLinkMixin.props }
+    ItemMixin, { props: routerLinkProps }
   ],
   props: {
     active: Boolean,
@@ -13,15 +12,26 @@ export default {
   },
   computed: {
     classes () {
-      const cls = this.itemClasses
-      return this.to !== void 0
-        ? cls
-        : [{active: this.active}, cls]
+      return [
+        this.to !== void 0
+          ? 'q-link'
+          : {active: this.active},
+        this.itemClasses
+      ]
     }
   },
   render (h) {
-    return this.to !== void 0
-      ? h('router-link', { props: this.$props, 'class': this.classes }, [ this.$slots.default ])
-      : h(this.tag, { 'class': this.classes }, [ this.$slots.default ])
+    if (this.to !== void 0) {
+      return h('router-link', {
+        props: Object.assign({}, this.$props, { tag: 'a' }),
+        'class': this.classes
+      }, this.$slots.default)
+    }
+
+    return h(
+      this.tag,
+      { 'class': this.classes },
+      this.$slots.default
+    )
   }
 }

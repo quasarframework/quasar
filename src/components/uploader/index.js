@@ -1,4 +1,4 @@
-import QUploader from './QUploader'
+import QUploader from './QUploader.js'
 
 export {
   QUploader

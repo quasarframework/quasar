@@ -8,7 +8,7 @@ export default {
     set: '設定', // 'Set',
     select: '選択', // 'Select',
     reset: 'リセット', // 'Reset',
-    remove: '除外', // 'Remove',
+    remove: '削除', // 'Remove',
     update: '更新', // 'Update',
     create: '作成', // 'Create',
     search: '検索', // 'Search',
@@ -24,7 +24,7 @@ export default {
     format24h: true // true
   },
   pullToRefresh: {
-    pull: 'プルダウンして更新', // 'Pull down to refresh',
+    pull: '引っ張って更新', // 'Pull down to refresh',
     release: '更新', // 'Release to refresh',
     refresh: '更新中...' // 'Refreshing...'
   },
@@ -32,12 +32,12 @@ export default {
     noData: 'データがありません', // 'No data available',
     noResults: '検索結果がありません', // 'No matching records found',
     loading: '読込中...', // 'Loading...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows > 0
         ? rows + '行を選択中'
         : '行を選択'
     },
-    rowsPerPage: 'ページあたりの行数', // 'Rows per page:',
+    recordsPerPage: 'ページあたりの行数', // 'Rows per page:',
     allRows: '全て', // 'All',
     pagination: function (start, end, total) {
       return start + '-' + end + ' ／ ' + total

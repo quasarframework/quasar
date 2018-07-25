@@ -32,12 +32,12 @@ export default {
     noData: 'Nav datu',
     noResults: 'Ieraksti nav atrasti',
     loading: 'Atjaunojas...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows === 1
         ? '1 izvēlēta rinda.'
         : (rows === 0 ? 'Nav' : rows) + ' izvēlētas rindas.'
     },
-    rowsPerPage: 'Rindas lapā:',
+    recordsPerPage: 'Rindas lapā:',
     allRows: 'Visas',
     pagination: function (start, end, total) {
       return start + '-' + end + ' no ' + total

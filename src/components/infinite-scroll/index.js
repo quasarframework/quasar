@@ -1,4 +1,4 @@
-import QInfiniteScroll from './QInfiniteScroll'
+import QInfiniteScroll from './QInfiniteScroll.js'
 
 export {
   QInfiniteScroll

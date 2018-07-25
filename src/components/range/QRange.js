@@ -1,12 +1,12 @@
-import { between } from '../../utils/format'
-import extend from '../../utils/extend'
+import { stopAndPrevent } from '../../utils/event.js'
+import { between } from '../../utils/format.js'
 import {
   getModel,
   getPercentage,
   notDivides,
   SliderMixin
-} from '../slider/slider-utils'
-import { QChip } from '../chip'
+} from '../slider/slider-utils.js'
+import QChip from '../chip/QChip.js'
 
 const dragType = {
   MIN: 0,
@@ -37,7 +37,7 @@ export default {
   },
   data () {
     return {
-      model: extend({}, this.value),
+      model: Object.assign({}, this.value),
       dragging: false,
       currentMinPercentage: (this.value.min - this.min) / (this.max - this.min),
       currentMaxPercentage: (this.value.max - this.min) / (this.max - this.min)
@@ -143,7 +143,7 @@ export default {
       else if (percentage < this.currentMaxPercentage - sensitivity) {
         if (this.dragRange || this.dragOnlyRange) {
           type = dragType.RANGE
-          extend(dragging, {
+          Object.assign(dragging, {
             offsetPercentage: percentage,
             offsetModel: getModel(percentage, this.min, this.max, this.step, this.computedDecimals),
             rangeValue: dragging.valueMax - dragging.valueMin,
@@ -240,6 +240,30 @@ export default {
       this.currentMinPercentage = (this.model.min - this.min) / (this.max - this.min)
       this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
     },
+    __onKeyDown (ev, type) {
+      const keyCode = ev.keyCode
+      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
+        return
+      }
+      stopAndPrevent(ev)
+      const
+        decimals = this.computedDecimals,
+        step = ev.ctrlKey ? 10 * this.computedStep : this.computedStep,
+        offset = [37, 40].includes(keyCode) ? -step : step,
+        model = decimals ? parseFloat((this.model[type] + offset).toFixed(decimals)) : (this.model[type] + offset)
+
+      this.model[type] = between(model, type === 'min' ? this.min : this.model.min, type === 'max' ? this.max : this.model.max)
+      this.currentMinPercentage = (this.model.min - this.min) / (this.max - this.min)
+      this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
+      this.__update()
+    },
+    __onKeyUp (ev, type) {
+      const keyCode = ev.keyCode
+      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
+        return
+      }
+      this.__update(true)
+    },
     __validateProps () {
       if (this.min >= this.max) {
         console.error('Range error: min >= max', this.$el, this.min, this.max)
@@ -266,7 +290,12 @@ export default {
         'class': [
           edge ? 'handle-at-minimum' : null,
           { dragging: this.dragging }
-        ]
+        ],
+        attrs: { tabindex: this.editable ? 0 : -1 },
+        on: {
+          keydown: ev => this.__onKeyDown(ev, lower),
+          keyup: ev => this.__onKeyUp(ev, lower)
+        }
       }, [
         this.label || this.labelAlways
           ? h(QChip, {
@@ -280,7 +309,7 @@ export default {
             'class': { 'label-always': this.labelAlways }
           }, [ label ])
           : null,
-        __THEME__ !== 'ios'
+        process.env.THEME !== 'ios'
           ? h('div', { staticClass: 'q-slider-ring' })
           : null
       ])

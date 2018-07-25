@@ -1,4 +1,4 @@
-import AlignMixin from '../../mixins/align'
+import AlignMixin from '../../mixins/align.js'
 
 export default {
   name: 'QBreadcrumbs',
@@ -16,9 +16,9 @@ export default {
       type: String,
       default: '/'
     },
-    align: {
+    align: Object.assign({}, AlignMixin.props.align, {
       default: 'left'
-    }
+    })
   },
   computed: {
     classes () {

@@ -1,4 +1,4 @@
-const prefix = __THEME__ === 'mat' ? 'md' : 'ios'
+const prefix = process.env.THEME === 'mat' ? 'md' : 'ios'
 
 export default {
   name: 'QIcon',

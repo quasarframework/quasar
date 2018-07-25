@@ -1,6 +1,6 @@
-import { QInput } from '../input'
-import InputMixin from '../../mixins/input'
-import FrameMixin from '../../mixins/input-frame'
+import QInput from '../input/QInput.js'
+import InputMixin from '../../mixins/input.js'
+import FrameMixin from '../../mixins/input-frame.js'
 
 export default {
   name: 'QSearch',
@@ -14,7 +14,9 @@ export default {
     },
     icon: String,
     placeholder: String,
-    noIcon: Boolean
+    noIcon: Boolean,
+    upperCase: Boolean,
+    lowerCase: Boolean
   },
   data () {
     return {
@@ -23,13 +25,15 @@ export default {
     }
   },
   provide () {
+    const set = val => {
+      if (this.model !== val) {
+        this.model = val
+      }
+    }
     return {
       __inputDebounce: {
-        set: val => {
-          if (this.model !== val) {
-            this.model = val
-          }
-        },
+        set,
+        setNav: set,
         setChildDebounce: v => {
           this.childDebounce = v
         }
@@ -59,32 +63,35 @@ export default {
         ? 0
         : this.debounce
     },
+    computedClearValue () {
+      return this.isNumber && this.clearValue === 0
+        ? this.clearValue
+        : this.clearValue || (this.type === 'number' ? null : '')
+    },
     controlBefore () {
-      return this.before || (
-        this.noIcon
-          ? null
-          : [{
-            icon: this.icon || this.$q.icon.search.icon,
-            handler: this.focus
-          }]
-      )
+      const before = (this.before || []).slice()
+      if (!this.noIcon) {
+        before.unshift({
+          icon: this.icon || this.$q.icon.search.icon,
+          handler: this.focus
+        })
+      }
+      return before
     },
     controlAfter () {
-      if (this.after) {
-        return this.after
-      }
-      if (this.editable && this.clearable) {
-        return [{
+      const after = (this.after || []).slice()
+      if (this.isClearable) {
+        after.push({
           icon: this.$q.icon.search[`clear${this.isInverted ? 'Inverted' : ''}`],
-          content: true,
           handler: this.clear
-        }]
+        })
       }
+      return after
     }
   },
   methods: {
-    clear () {
-      this.$refs.input.clear()
+    clear (evt) {
+      this.$refs.input.clear(evt)
     }
   },
   render (h) {
@@ -113,7 +120,9 @@ export default {
         color: this.color,
         before: this.controlBefore,
         after: this.controlAfter,
-        clearValue: this.clearValue
+        clearValue: this.clearValue,
+        upperCase: this.upperCase,
+        lowerCase: this.lowerCase
       },
       attrs: this.$attrs,
       on: {
@@ -128,8 +137,6 @@ export default {
           this.__emit()
         }
       }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

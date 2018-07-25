@@ -1,6 +1,5 @@
-import Ripple from '../../directives/ripple'
-import { QIcon } from '../icon'
-import AlignMixin from '../../mixins/align'
+import Ripple from '../../directives/ripple.js'
+import AlignMixin from '../../mixins/align.js'
 
 const sizes = {
   xs: 8,
@@ -18,13 +17,11 @@ const sizes = {
 
 export default {
   mixins: [AlignMixin],
-  components: {
-    QIcon
-  },
   directives: {
     Ripple
   },
   props: {
+    type: String,
     loading: Boolean,
     disable: Boolean,
     label: [Number, String],
@@ -45,7 +42,9 @@ export default {
     glossy: Boolean,
     dense: Boolean,
     noRipple: Boolean,
-    tabindex: Number
+    tabindex: Number,
+    to: [Object, String],
+    replace: Boolean
   },
   computed: {
     style () {
@@ -68,10 +67,23 @@ export default {
       return this.disable || this.loading
     },
     hasRipple () {
-      return __THEME__ === 'mat' && !this.noRipple && !this.isDisabled
+      return process.env.THEME === 'mat' && !this.noRipple && !this.isDisabled
     },
     computedTabIndex () {
       return this.isDisabled ? -1 : this.tabindex || 0
+    },
+    isLink () {
+      return this.type === 'a' || this.to !== void 0
+    },
+    attrs () {
+      const att = { tabindex: this.computedTabIndex }
+      if (this.type !== 'a') {
+        att.type = this.type
+      }
+      if (this.to !== void 0) {
+        att.href = this.$router.resolve(this.to).href
+      }
+      return att
     },
     classes () {
       const cls = [ this.shape ]
@@ -98,6 +110,7 @@ export default {
       }
       else {
         cls.push('q-focusable q-hoverable')
+        this.active && cls.push('active')
       }
 
       if (this.color) {

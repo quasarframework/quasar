@@ -25,7 +25,15 @@ export default {
     }
   },
   render (h) {
-    const node = h('div', {staticClass: 'q-tab-pane', 'class': {hidden: !this.active}}, [this.$slots.default])
+    const node = h(
+      'div',
+      {
+        staticClass: 'q-tab-pane',
+        'class': { hidden: !this.active }
+      },
+      this.$slots.default
+    )
+
     if (this.keepAlive) {
       if (!this.shown && !this.active) {
         return

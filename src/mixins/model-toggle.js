@@ -1,5 +1,5 @@
 /* eslint prefer-promise-reject-errors: 0 */
-import History from '../plugins/history'
+import History from '../history.js'
 
 export default {
   props: {
@@ -59,6 +59,7 @@ export default {
           resolve(evt)
         }
         this.showPromiseReject = () => {
+          this.showPromise.catch(() => {})
           this.showPromise = null
           reject(null) // eslint prefer-promise-reject-errors: 0
         }
@@ -79,10 +80,7 @@ export default {
         this.$emit('input', false)
       }
 
-      if (this.__historyEntry) {
-        History.remove(this.__historyEntry)
-        this.__historyEntry = null
-      }
+      this.__removeHistory()
 
       if (!this.__hide) {
         this.$emit('hide', evt)
@@ -96,6 +94,7 @@ export default {
           resolve()
         }
         this.hidePromiseReject = () => {
+          this.hidePromise.catch(() => {})
           this.hidePromise = null
           reject(null)
         }
@@ -103,6 +102,13 @@ export default {
 
       this.__hide(evt)
       return this.hidePromise || Promise.resolve(evt)
+    },
+
+    __removeHistory () {
+      if (this.__historyEntry) {
+        History.remove(this.__historyEntry)
+        this.__historyEntry = null
+      }
     }
   },
   beforeDestroy () {
@@ -110,6 +116,7 @@ export default {
       this.showPromise && this.showPromiseReject()
       this.hidePromise && this.hidePromiseReject()
       this.$emit('input', false)
+      this.__removeHistory()
       this.__hide && this.__hide()
     }
   }

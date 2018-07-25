@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="layout-padding">
-      <p class="caption">
+      <div class="caption">
         <span class="desktop-only">Click</span>
         <span class="mobile-only">Tap</span>
         on progress bars to change their binded value.
@@ -9,54 +9,53 @@
           On a real mobile device the Progress bars
           are much thinner by default.
         </span>
-      </p>
+      </div>
 
       <h5>Determinate State</h5>
-      <p class="group">
+      <div class="group">
         <q-btn size="sm" color="primary" @click="randomize">Change Model</q-btn>
-        <q-progress :percentage="progress"></q-progress>
-        <q-progress :percentage="progress" color="positive"></q-progress>
-        <q-progress :percentage="progress" color="info"></q-progress>
-        <q-progress :percentage="progress" color="warning"></q-progress>
-        <q-progress :percentage="progress" color="secondary"></q-progress>
-        <q-progress :percentage="progress" color="tertiary"></q-progress>
-        <q-progress :percentage="progress" color="dark"></q-progress>
-        <q-progress :percentage="progress" color="negative"></q-progress>
-      </p>
+        <q-progress :percentage="progress"/>
+        <q-progress :percentage="progress" color="positive"/>
+        <q-progress :percentage="progress" color="info"/>
+        <q-progress :percentage="progress" color="warning"/>
+        <q-progress :percentage="progress" color="secondary"/>
+        <q-progress :percentage="progress" color="tertiary"/>
+        <q-progress :percentage="progress" color="dark"/>
+        <q-progress :percentage="progress" color="negative"/>
+      </div>
 
       <h5>Stripe</h5>
-      <p class="group">
-        <q-progress :percentage="progress" stripe></q-progress>
-        <q-progress :percentage="progress" stripe color="positive"></q-progress>
-        <q-progress :percentage="progress" stripe color="info"></q-progress>
-        <q-progress :percentage="progress" stripe color="warning"></q-progress>
-      </p>
+      <div class="group">
+        <q-progress :percentage="progress" stripe/>
+        <q-progress :percentage="progress" stripe color="positive"/>
+        <q-progress :percentage="progress" stripe color="info"/>
+        <q-progress :percentage="progress" stripe color="warning"/>
+      </div>
 
       <h5>Stripe and Animate</h5>
-        <q-progress :percentage="progress" stripe animate color="secondary"></q-progress>
-      </p>
+      <q-progress :percentage="progress" stripe animate color="secondary"/>
 
       <h5>Buffering</h5>
-      <p class="group">
+      <div class="group">
         <q-btn size="sm" color="primary" @click="randomizeBuffer">Change Buffer Model</q-btn>
-        <q-progress :percentage="progressBuffer" :buffer="buffer"></q-progress>
-        <q-progress :percentage="progressBuffer" stripe :buffer="buffer"></q-progress>
-        <q-progress :percentage="progressBuffer" stripe animate color="secondary" :buffer="buffer"></q-progress>
-      </p>
+        <q-progress :percentage="progressBuffer" :buffer="buffer"/>
+        <q-progress :percentage="progressBuffer" stripe :buffer="buffer"/>
+        <q-progress :percentage="progressBuffer" stripe animate color="secondary" :buffer="buffer"/>
+      </div>
 
       <h5>Indeterminate State</h5>
-      <p class="group">
-        <q-progress indeterminate></q-progress>
-        <q-progress indeterminate color="positive"></q-progress>
-        <q-progress indeterminate color="warning"></q-progress>
-        <q-progress indeterminate color="negative"></q-progress>
-        <q-progress indeterminate color="dark"></q-progress>
-      </p>
+      <div class="group">
+        <q-progress indeterminate/>
+        <q-progress indeterminate color="positive"/>
+        <q-progress indeterminate color="warning"/>
+        <q-progress indeterminate color="negative"/>
+        <q-progress indeterminate color="dark"/>
+      </div>
 
       <h5>Specific Height</h5>
-      <p>
-        <q-progress :percentage="progress" stripe animate height="45px"></q-progress>
-      </p>
+      <div>
+        <q-progress :percentage="progress" stripe animate height="45px"/>
+      </div>
     </div>
   </div>
 </template>

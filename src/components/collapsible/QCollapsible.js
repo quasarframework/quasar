@@ -1,13 +1,20 @@
-import { QItem, QItemSide, QItemTile, QItemWrapper } from '../list'
-import { QSlideTransition } from '../slide-transition'
-import ModelToggleMixin from '../../mixins/model-toggle'
-import ItemMixin from '../../mixins/item'
+import QItem from '../list/QItem.js'
+import QItemSide from '../list/QItemSide.js'
+import QItemTile from '../list/QItemTile.js'
+import QItemWrapper from '../list/QItemWrapper.js'
+import QSlideTransition from '../slide-transition/QSlideTransition.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
+import ItemMixin, { subItemProps } from '../../mixins/item.js'
 
 const eventName = 'q:collapsible:close'
 
 export default {
   name: 'QCollapsible',
-  mixins: [ModelToggleMixin, ItemMixin],
+  mixins: [
+    ModelToggleMixin,
+    ItemMixin,
+    { props: subItemProps }
+  ],
   modelToggle: {
     history: false
   },
@@ -29,6 +36,7 @@ export default {
         'q-collapsible-opened': this.popup && this.showing,
         'q-collapsible-closed': this.popup && !this.showing,
         'q-collapsible-cursor-pointer': !this.iconToggle,
+        'q-item-dark': this.dark,
         'q-item-separator': this.separator,
         'q-item-inset-separator': this.insetSeparator,
         disabled: this.disable
@@ -96,7 +104,7 @@ export default {
     this.$root.$off(eventName, this.__eventHandler)
   },
   render (h) {
-    return h('div', {
+    return h(this.tag, {
       staticClass: 'q-collapsible q-item-division relative-position',
       'class': this.classes
     }, [
@@ -117,9 +125,7 @@ export default {
             h('div', {
               staticClass: 'q-collapsible-sub-item relative-position',
               'class': { indent: this.indent }
-            }, [
-              this.$slots.default
-            ])
+            }, this.$slots.default)
           ])
         ])
       ])

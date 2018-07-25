@@ -57,6 +57,9 @@ $slider-label-transform     = translateX(-50%) translateY(-139%) scale(1)
   transition all .3s ease
   width $slider-handle-size
   height $slider-handle-size
+  outline 0
+  .q-chip
+    max-width unset
   &.dragging
     transform translate3d(-50%, -50%, 0) scale(1.3)
     transition opacity .3s ease, transform .3s ease
@@ -91,7 +94,7 @@ $slider-label-transform     = translateX(-50%) translateY(-139%) scale(1)
   background currentColor
 
 .q-slider:not(.disabled):not(.readonly)
-  &:focus, &:hover
+  .q-slider-handle:focus, &:focus, &:hover
     .q-slider-ring
       opacity .4
       transform scale(1)

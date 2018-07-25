@@ -1,10 +1,9 @@
-import { QModal } from '../modal'
-import { QInput } from '../input'
-import { QBtn } from '../btn'
-import { QOptionGroup } from '../option-group'
-import clone from '../../utils/clone'
-import extend from '../../utils/extend'
-import { getEventKey } from '../../utils/event'
+import QModal from '../modal/QModal.js'
+import QInput from '../input/QInput.js'
+import QBtn from '../btn/QBtn.js'
+import QOptionGroup from '../option-group/QOptionGroup.js'
+import clone from '../../utils/clone.js'
+import { getEventKey } from '../../utils/event.js'
 
 export default {
   name: 'QDialog',
@@ -97,20 +96,24 @@ export default {
         show: () => {
           this.$emit('show')
 
-          if (!this.$q.platform.is.desktop || (!this.prompt && !this.options)) {
+          if (!this.$q.platform.is.desktop) {
             return
           }
 
-          let node = this.prompt
-            ? this.$refs.modal.$el.getElementsByTagName('INPUT')
-            : this.$refs.modal.$el.getElementsByClassName('q-option')
+          let node
 
-          if (node.length) {
-            node[0].focus()
-            return
+          if (this.prompt || this.options) {
+            node = this.prompt
+              ? this.$refs.modal.$el.getElementsByTagName('INPUT')
+              : this.$refs.modal.$el.getElementsByClassName('q-option')
+
+            if (node.length) {
+              node[0].focus()
+              return
+            }
           }
 
-          node = this.$refs.modal.$el.getElementsByTagName('BUTTON')
+          node = this.$refs.modal.$el.getElementsByClassName('q-btn')
           if (node.length) {
             node[node.length - 1].focus()
           }
@@ -123,7 +126,6 @@ export default {
         },
         'escape-key': () => {
           this.$emit('escape-key')
-          this.$emit('cancel')
         }
       }
     }, child)
@@ -149,7 +151,7 @@ export default {
     },
     okProps () {
       return Object(this.ok) === this.ok
-        ? extend({
+        ? Object.assign({
           color: this.color,
           label: this.$q.i18n.label.ok,
           noRipple: true
@@ -158,7 +160,7 @@ export default {
     },
     cancelProps () {
       return Object(this.cancel) === this.cancel
-        ? extend({
+        ? Object.assign({
           color: this.color,
           label: this.$q.i18n.label.cancel,
           noRipple: true
@@ -171,14 +173,7 @@ export default {
       return this.$refs.modal.show()
     },
     hide () {
-      let data
-
-      return this.$refs.modal.hide().then(() => {
-        if (this.hasForm) {
-          data = clone(this.__getData())
-        }
-        return data
-      })
+      return this.$refs.modal ? this.$refs.modal.hide().then(() => this.hasForm ? clone(this.__getData()) : void 0) : Promise.resolve()
     },
     __getPrompt (h) {
       return [

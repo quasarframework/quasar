@@ -1,15 +1,13 @@
-import materialIcons from '../icons/material-icons'
+import { isSSR } from './plugins/platform.js'
+import materialIcons from '../icons/material-icons.js'
 
 export default {
   __installed: false,
-  install ({ $q, Vue, iconSet }) {
-    if (this.__installed) { return }
-    this.__installed = true
-
+  install ($q, Vue, iconSet) {
     this.set = (iconDef = materialIcons) => {
       iconDef.set = this.set
 
-      if ($q.icon) {
+      if (isSSR || $q.icon) {
         $q.icon = iconDef
       }
       else {

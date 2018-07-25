@@ -1,4 +1,4 @@
-import { QIcon } from '../icon'
+import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QTimelineEntry',
@@ -41,9 +41,11 @@ export default {
       return h('div', { staticClass: 'q-timeline-heading' }, [
         h('div'),
         h('div'),
-        h(this.tag, { staticClass: 'q-timeline-heading-title' }, [
+        h(
+          this.tag,
+          { staticClass: 'q-timeline-heading-title' },
           this.$slots.default
-        ])
+        )
       ])
     }
 
@@ -64,10 +66,13 @@ export default {
           : null
       ]),
 
-      h('div', { staticClass: 'q-timeline-content' }, [
-        h('h6', { staticClass: 'q-timeline-title' }, [ this.title ]),
-        this.$slots.default
-      ])
+      h(
+        'div',
+        { staticClass: 'q-timeline-content' },
+        [
+          h('h6', { staticClass: 'q-timeline-title' }, [ this.title ])
+        ].concat(this.$slots.default)
+      )
     ])
   }
 }

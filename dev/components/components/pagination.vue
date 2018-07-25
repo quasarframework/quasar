@@ -2,7 +2,7 @@
   <div>
     <div class="layout-padding">
       <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{page}}</em></span>
+        Model <span class="right-detail"><em>{{ page }}</em></span>
       </div>
 
       <p class="caption">
@@ -14,60 +14,60 @@
       </p>
 
       <q-pagination @change="onChange" @input="onInput" v-model="page"
-        :min="min"
-        :max="max"
-        :boundaryLinks="boundaryLinks"
-        :directionLinks="directionLinks"
-        :input="inputType"
+                    :min="min"
+                    :max="max"
+                    :boundary-links="boundaryLinks"
+                    :direction-links="directionLinks"
+                    :input="inputType"
       />
 
       <p class="caption">Inline</p>
       <q-pagination class="inline" @change="onChange" @input="onInput" v-model="page"
-        :min="min"
-        :max="max"
-        :boundaryLinks="boundaryLinks"
-        :directionLinks="directionLinks"
-        :input="inputType"
+                    :min="min"
+                    :max="max"
+                    :boundary-links="boundaryLinks"
+                    :direction-links="directionLinks"
+                    :input="inputType"
       />
       <q-pagination class="inline" @change="onChange" @input="onInput" v-model="page"
-        :min="min"
-        :max="max"
-        :boundaryLinks="boundaryLinks"
-        :directionLinks="directionLinks"
-        :input="inputType"
+                    :min="min"
+                    :max="max"
+                    :boundary-links="boundaryLinks"
+                    :direction-links="directionLinks"
+                    :input="inputType"
       />
 
       <p class="caption">Disabled State</p>
       <q-pagination @change="onChange" @input="onInput" v-model="page" disable
-        :min="min"
-        :max="max"
-        :boundaryLinks="boundaryLinks"
-        :directionLinks="directionLinks"
-        :input="inputType"
+                    :min="min"
+                    :max="max"
+                    :boundary-links="boundaryLinks"
+                    :direction-links="directionLinks"
+                    :input="inputType"
       />
 
       <p class="caption">Page buttons</p>
       <q-pagination @change="onChange" @input="onInput" v-model="page" color="red" type="select"
-        :min="min"
-        :max="max"
-        :boundaryLinks="boundaryLinks"
-        :boundaryNumbers="boundaryNumbers"
-        :directionLinks="directionLinks"
-        :ellipses="ellipses"
-        :maxPages="maxPages"
-        :input="inputType"
+                    :min="min"
+                    :max="max"
+                    :boundary-links="boundaryLinks"
+                    :boundary-numbers="boundaryNumbers"
+                    :direction-links="directionLinks"
+                    :ellipses="ellipses"
+                    :max-pages="maxPages"
+                    :input="inputType"
       />
 
       <p class="caption">Page buttons - disabled</p>
       <q-pagination @change="onChange" @input="onInput" v-model="page" color="red" type="select" disable
-        :min="min"
-        :max="max"
-        :boundaryLinks="boundaryLinks"
-        :boundaryNumbers="boundaryNumbers"
-        :directionLinks="directionLinks"
-        :ellipses="ellipses"
-        :maxPages="maxPages"
-        :input="inputType"
+                    :min="min"
+                    :max="max"
+                    :boundary-links="boundaryLinks"
+                    :boundary-numbers="boundaryNumbers"
+                    :direction-links="directionLinks"
+                    :ellipses="ellipses"
+                    :max-pages="maxPages"
+                    :input="inputType"
       />
 
       <p class="caption">Configuration</p>

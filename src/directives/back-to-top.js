@@ -1,6 +1,6 @@
-import { debounce } from '../utils/debounce'
-import { getScrollPosition, setScrollPosition, getScrollTarget } from '../utils/scroll'
-import { listenOpts } from '../utils/event'
+import debounce from '../utils/debounce.js'
+import { getScrollPosition, setScrollPosition, getScrollTarget } from '../utils/scroll.js'
+import { listenOpts } from '../utils/event.js'
 
 function updateBinding (el, { value, modifiers }) {
   const ctx = el.__qbacktotop
@@ -54,6 +54,11 @@ export default {
       },
       goToTop () {
         setScrollPosition(ctx.scrollTarget, 0, ctx.animate ? ctx.duration : 0)
+      },
+      goToTopKey (evt) {
+        if (evt.keyCode === 13) {
+          setScrollPosition(ctx.scrollTarget, 0, ctx.animate ? ctx.duration : 0)
+        }
       }
     }
     ctx.update = debounce(ctx.updateNow, 25)
@@ -68,6 +73,7 @@ export default {
     ctx.scrollTarget.addEventListener('scroll', ctx.update, listenOpts.passive)
     window.addEventListener('resize', ctx.update, listenOpts.passive)
     el.addEventListener('click', ctx.goToTop)
+    el.addEventListener('keyup', ctx.goToTopKey)
   },
   update (el, binding) {
     if (JSON.stringify(binding.oldValue) !== JSON.stringify(binding.value)) {
@@ -85,6 +91,7 @@ export default {
     ctx.scrollTarget.removeEventListener('scroll', ctx.update, listenOpts.passive)
     window.removeEventListener('resize', ctx.update, listenOpts.passive)
     el.removeEventListener('click', ctx.goToTop)
+    el.removeEventListener('keyup', ctx.goToTopKey)
     delete el.__qbacktotop
   }
 }

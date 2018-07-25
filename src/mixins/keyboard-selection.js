@@ -1,5 +1,5 @@
-import { getEventKey, stopAndPrevent } from '../utils/event'
-import { normalizeToInterval } from '../utils/format'
+import { getEventKey, stopAndPrevent } from '../utils/event.js'
+import { normalizeToInterval } from '../utils/format.js'
 
 export default {
   data: () => ({
@@ -7,15 +7,33 @@ export default {
     keyboardMoveDirection: false,
     keyboardMoveTimer: false
   }),
+  watch: {
+    keyboardIndex (val) {
+      if (this.$refs.popover && this.$refs.popover.showing && this.keyboardMoveDirection && val > -1) {
+        this.$nextTick(() => {
+          if (!this.$refs.popover) {
+            return
+          }
+          const selected = this.$refs.popover.$el.querySelector('.q-select-highlight')
+          if (selected && selected.scrollIntoView) {
+            if (selected.scrollIntoViewIfNeeded) {
+              return selected.scrollIntoViewIfNeeded(false)
+            }
+            selected.scrollIntoView(this.keyboardMoveDirection < 0)
+          }
+        })
+      }
+    }
+  },
   methods: {
     __keyboardShow (index = 0) {
       if (this.keyboardIndex !== index) {
         this.keyboardIndex = index
       }
     },
-    __keyboardSetCurrentSelection () {
+    __keyboardSetCurrentSelection (navigation) {
       if (this.keyboardIndex >= 0 && this.keyboardIndex <= this.keyboardMaxIndex) {
-        this.__keyboardSetSelection(this.keyboardIndex)
+        this.__keyboardSetSelection(this.keyboardIndex, navigation)
       }
     },
     __keyboardHandleKey (e) {
@@ -54,7 +72,7 @@ export default {
         do {
           index = normalizeToInterval(
             index + offset,
-            0,
+            -1,
             this.keyboardMaxIndex
           )
         }

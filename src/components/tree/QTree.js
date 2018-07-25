@@ -1,8 +1,8 @@
-import { QIcon } from '../icon'
-import { QCheckbox } from '../checkbox'
-import { QSlideTransition } from '../slide-transition'
-import { QSpinner } from '../spinner'
-import Ripple from '../../directives/ripple'
+import QIcon from '../icon/QIcon.js'
+import QCheckbox from '../checkbox/QCheckbox.js'
+import QSlideTransition from '../slide-transition/QSlideTransition.js'
+import QSpinner from '../spinner/QSpinner.js'
+import Ripple from '../../directives/ripple.js'
 
 export default {
   name: 'QTree',
@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     hasRipple () {
-      return __THEME__ === 'mat' && !this.noRipple
+      return process.env.THEME === 'mat' && !this.noRipple
     },
     classes () {
       return [
@@ -388,7 +388,7 @@ export default {
         return h('img', {
           staticClass: `q-tree-img q-mr-sm`,
           'class': { avatar: node.avatar },
-          domProps: { src: node.img || node.avatar }
+          attrs: { src: node.img || node.avatar }
         })
       }
     },
@@ -435,7 +435,7 @@ export default {
             disabled: meta.disabled
           },
           on: { click: () => { this.__onClick(node, meta) } },
-          directives: __THEME__ === 'mat' && meta.selectable
+          directives: process.env.THEME === 'mat' && meta.selectable
             ? [{ name: 'ripple' }]
             : null
         }, [

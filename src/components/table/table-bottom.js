@@ -1,6 +1,6 @@
-import { QSelect } from '../select'
-import { QBtn } from '../btn'
-import { QIcon } from '../icon'
+import QSelect from '../select/QSelect.js'
+import QBtn from '../btn/QBtn.js'
+import QIcon from '../icon/QIcon.js'
 
 export default {
   computed: {
@@ -43,14 +43,14 @@ export default {
         h('div', { staticClass: 'q-table-control' }, [
           h('div', [
             this.hasSelectionMode && this.rowsSelectedNumber > 0
-              ? (this.selectedRowsLabel || this.$q.i18n.table.selectedRows)(this.rowsSelectedNumber)
+              ? (this.selectedRowsLabel || this.$q.i18n.table.selectedRecords)(this.rowsSelectedNumber)
               : ''
           ])
         ]),
         h('div', { staticClass: 'q-table-separator col' }),
         h('div', { staticClass: 'q-table-control' }, [
           h('span', { staticClass: 'q-table-bottom-item' }, [
-            this.rowsPerPageLabel || this.$q.i18n.table.rowsPerPage
+            this.rowsPerPageLabel || this.$q.i18n.table.recordsPerPage
           ]),
           h(QSelect, {
             staticClass: 'inline q-table-bottom-item',

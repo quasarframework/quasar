@@ -1,5 +1,5 @@
-import { stopAndPrevent } from '../utils/event'
-import TouchSwipe from '../directives/touch-swipe'
+import { stopAndPrevent } from '../utils/event.js'
+import TouchSwipe from '../directives/touch-swipe.js'
 
 export default {
   directives: {

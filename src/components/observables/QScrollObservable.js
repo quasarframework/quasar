@@ -1,8 +1,11 @@
-import { getScrollPosition, getScrollTarget } from '../../utils/scroll'
-import { listenOpts } from '../../utils/event'
+import { getScrollPosition, getScrollTarget } from '../../utils/scroll.js'
+import { listenOpts } from '../../utils/event.js'
 
 export default {
   name: 'QScrollObservable',
+  props: {
+    debounce: Number
+  },
   render () {},
   data () {
     return {
@@ -21,9 +24,14 @@ export default {
         inflexionPosition: this.dirChangePos
       }
     },
-    trigger () {
-      if (!this.timer) {
-        this.timer = window.requestAnimationFrame(this.emit)
+    trigger (immediately) {
+      if (immediately || this.debounce === 0) {
+        this.emit()
+      }
+      else if (!this.timer) {
+        this.timer = this.debounce
+          ? setTimeout(this.emit, this.debounce)
+          : requestAnimationFrame(this.emit)
       }
     },
     emit () {
@@ -46,9 +54,11 @@ export default {
   mounted () {
     this.target = getScrollTarget(this.$el.parentNode)
     this.target.addEventListener('scroll', this.trigger, listenOpts.passive)
-    this.trigger()
+    this.trigger(true)
   },
   beforeDestroy () {
+    clearTimeout(this.timer)
+    cancelAnimationFrame(this.timer)
     this.target.removeEventListener('scroll', this.trigger, listenOpts.passive)
   }
 }

@@ -36,12 +36,12 @@ export default {
     noData: 'Нет данных',
     noResults: 'Совпадений не найдено',
     loading: 'Загрузка...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows > 0
         ? rows + ' ' + plurals(rows, ['строка выбрана', 'строки выбраны', 'строк выбрано']) + '.'
         : 'Ни одна строка не выбрана.'
     },
-    rowsPerPage: 'Строк на странице:',
+    recordsPerPage: 'Строк на странице:',
     allRows: 'Все',
     pagination: function (start, end, total) {
       return start + '-' + end + ' из ' + total

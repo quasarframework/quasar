@@ -1,4 +1,4 @@
-import QPagination from './QPagination'
+import QPagination from './QPagination.js'
 
 export {
   QPagination

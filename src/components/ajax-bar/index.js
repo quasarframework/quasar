@@ -1,4 +1,4 @@
-import QAjaxBar from './QAjaxBar'
+import QAjaxBar from './QAjaxBar.js'
 
 export {
   QAjaxBar

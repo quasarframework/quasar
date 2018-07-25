@@ -6,6 +6,7 @@
         ref="dialog"
         stack-buttons
         @cancel="onCancel"
+        @escape-key="onEscape"
         @ok="onOk"
         @show="onShow"
         @hide="onHide"
@@ -41,10 +42,14 @@
       <q-btn label="Toggle ref" @click="toggle" />
       <q-btn label="Toggle model" @click="toggle2" />
       <q-btn label="Prompt" @click="adHoc" />
+      <q-btn label="Prompt - autoresolve in 3sec" @click="adHoc(3000, 'Autocompleted')" />
+      <q-btn label="Prompt - autoreject in 3sec" @click="adHoc(3000)" />
       <q-btn label="Options" @click="adHoc2" />
       <q-btn label="Confirm" @click="adHoc3" />
       <q-btn label="Method" @click="asMethod" />
     </div>
+
+    <q-input v-model="text" @keyup.enter="adHoc" />
   </div>
 </template>
 
@@ -65,16 +70,19 @@ export default {
       this.showDialog = !this.showDialog
     },
     onOk () {
-      console.log('ok')
+      console.log('onOk')
     },
     onCancel () {
-      console.log('cancel')
+      console.log('onCancel')
+    },
+    onEscape () {
+      console.log('onEscape')
     },
     onShow () {
-      console.log('show')
+      console.log('onShow')
     },
     onHide () {
-      console.log('hide')
+      console.log('onHide')
     },
     choose (okFn, hero) {
       if (this.name.length === 0) {
@@ -88,7 +96,13 @@ export default {
         Promise.resolve(okFn()).then(() => this.$q.notify(`Ok ${this.name}, going with ${hero}`))
       }
     },
-    adHoc () {
+    adHoc (autoclose, autoResolve) {
+      const resolver = autoclose > 0
+        ? new Promise((resolve, reject) => {
+          setTimeout(() => autoResolve ? resolve(autoResolve) : reject(new Error('Autoclosed')), autoclose)
+        })
+        : undefined
+
       this.$q.dialog({
         title: 'Prompt',
         message: 'Modern HTML5 Single Page Application front-end framework on steroids.',
@@ -99,15 +113,16 @@ export default {
         cancel: true,
         // preventClose: true,
         color: 'secondary'
-      }).then(data => {
+      }, resolver).then(data => {
         console.log('>>>> OK, received:', data)
-      }).catch(() => {
-        console.log('>>>> Cancel')
+      }).catch(error => {
+        console.log('>>>> Cancel', String(error))
       })
     },
     adHoc2 () {
       this.$q.dialog({
         title: 'Options',
+        className: 'some-class',
         message: 'Modern HTML5 Single Page Application front-end framework on steroids.',
         options: {
           type: 'checkbox',
@@ -170,7 +185,8 @@ export default {
     return {
       showDialog: false,
       name: '',
-      nameError: false
+      nameError: false,
+      text: ''
     }
   }
 }

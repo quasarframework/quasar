@@ -34,8 +34,6 @@ export default {
     return h('div', {
       staticClass: 'q-list',
       'class': this.classes
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

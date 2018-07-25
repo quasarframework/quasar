@@ -63,7 +63,7 @@
         <q-input float-label="Float" v-model="model" />
       </q-field>
 
-      <div style="height: 50px"></div>
+      <div style="height: 50px"/>
 
       <q-field count>
         <q-input suffix="#" prefix="@" type="password" v-model="model" />
@@ -233,7 +233,7 @@
           :min="knobMin"
           :max="knobMax"
         >
-          <q-icon class="on-left" name="volume_up" /> {{knob}}
+          <q-icon class="on-left" name="volume_up" /> {{ knob }}
         </q-knob>
       </q-field>
 
@@ -250,7 +250,7 @@
             :min="knobMin"
             :max="knobMax"
           >
-            <q-icon class="on-left" name="volume_up" /> {{knob}}
+            <q-icon class="on-left" name="volume_up" /> {{ knob }}
           </q-knob>
         </q-field>
       </div>
@@ -374,28 +374,28 @@
       </q-field>
 
       <q-field icon="cloud">
-        <q-select filter v-model="select" :options="selectListOptions" stack-label="Stack label with filter"></q-select>
+        <q-select filter v-model="select" :options="selectListOptions" stack-label="Stack label with filter"/>
       </q-field>
       <q-field icon="cloud">
-        <q-select filter inverted v-model="select" :options="selectListOptions" stack-label="Stack label with filter"></q-select>
+        <q-select filter inverted v-model="select" :options="selectListOptions" stack-label="Stack label with filter"/>
       </q-field>
       <q-field icon="cloud">
-        <q-select filter v-model="select" :options="selectListOptions" float-label="Float label with filter"></q-select>
+        <q-select filter v-model="select" :options="selectListOptions" float-label="Float label with filter"/>
       </q-field>
       <q-field icon="cloud">
-        <q-select filter inverted v-model="select" :options="selectListOptions" float-label="Float label with filter"></q-select>
+        <q-select filter inverted v-model="select" :options="selectListOptions" float-label="Float label with filter"/>
       </q-field>
       <q-field icon="cloud">
-        <q-select v-model="select" :options="selectListOptions" stack-label="Stack label without filter"></q-select>
+        <q-select v-model="select" :options="selectListOptions" stack-label="Stack label without filter"/>
       </q-field>
       <q-field icon="cloud">
-        <q-select inverted v-model="select" :options="selectListOptions" stack-label="Stack label without filter"></q-select>
+        <q-select inverted v-model="select" :options="selectListOptions" stack-label="Stack label without filter"/>
       </q-field>
       <q-field icon="cloud">
-        <q-select v-model="select" :options="selectListOptions" float-label="Float label without filter"></q-select>
+        <q-select v-model="select" :options="selectListOptions" float-label="Float label without filter"/>
       </q-field>
       <q-field icon="cloud">
-        <q-select inverted v-model="select" :options="selectListOptions" float-label="Float label without filter"></q-select>
+        <q-select inverted v-model="select" :options="selectListOptions" float-label="Float label without filter"/>
       </q-field>
 
       <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
@@ -450,7 +450,6 @@
         />
       </q-field>
 
-
       <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
         <q-input inverted v-model="model" float-label="Float label" />
       </q-field>
@@ -486,7 +485,6 @@
         <q-select inverted v-model="select" :options="selectListOptions" float-label="Float label" />
       </q-field>
 
-
       <q-field v-if="cond1" icon="cloud" :error="error" :warning="warning" label="Test field" helper="Field helper text" error-label="Field error label" :label-width="3">
         <q-input v-if="cond2" v-model="model" placeholder="Test control">
           <q-autocomplete :static-data="{field: 'value', list: numbers}" />
@@ -520,13 +518,13 @@
       <q-field v-if="cond1" icon="cloud" :error="error" :warning="warning" label="Test field" helper="Field helper text" error-label="Field error label" :label-width="3">
         <div v-if="cond2">
           <q-option-group v-if="cond2"
-            type="radio"
-            v-model="model"
-            :options="[
-              { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
-              { label: 'Option 3', value: 'op3', color: 'secondary' },
-              { label: 'Option 4', value: 'op4', color: 'amber' }
-            ]"
+                          type="radio"
+                          v-model="model"
+                          :options="[
+                            { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+                            { label: 'Option 3', value: 'op3', color: 'secondary' },
+                            { label: 'Option 4', value: 'op4', color: 'amber' }
+                          ]"
           />
         </div>
         <div v-else>Control is not rendered now</div>

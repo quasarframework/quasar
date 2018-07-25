@@ -32,12 +32,12 @@ export default {
     noData: 'No hi ha dades disponibles',
     noResults: 'No s\'han trobat resultats',
     loading: 'Carregant...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows > 1
         ? rows + ' files seleccionades.'
         : (rows === 0 ? 'Sense' : '1') + ' fila seleccionada.'
     },
-    rowsPerPage: 'Files per pàgina:',
+    recordsPerPage: 'Files per pàgina:',
     allRows: 'Totes',
     pagination: function (start, end, total) {
       return start + '-' + end + ' de ' + total

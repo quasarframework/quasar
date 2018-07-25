@@ -1,6 +1,5 @@
-import { QIcon } from '../components/icon'
-import { stopAndPrevent } from '../utils/event'
-import AlignMixin from './align'
+import { stopAndPrevent } from '../utils/event.js'
+import AlignMixin from './align.js'
 
 const marginal = {
   type: Array,
@@ -9,9 +8,6 @@ const marginal = {
 
 export default {
   mixins: [AlignMixin],
-  components: {
-    QIcon
-  },
   props: {
     prefix: String,
     suffix: String,
@@ -35,9 +31,7 @@ export default {
     inverted: Boolean,
     invertedLight: Boolean,
     hideUnderline: Boolean,
-    clearValue: {
-      default: null
-    },
+    clearValue: {},
     noParentField: Boolean
   },
   computed: {
@@ -57,6 +51,12 @@ export default {
     },
     editable () {
       return !this.disable && !this.readonly
+    },
+    computedClearValue () {
+      return this.clearValue === void 0 ? null : this.clearValue
+    },
+    isClearable () {
+      return this.editable && this.clearable && this.computedClearValue !== this.model
     },
     hasError () {
       return !!((!this.noParentField && this.field && this.field.error) || this.error)
@@ -84,7 +84,7 @@ export default {
         return
       }
       evt && stopAndPrevent(evt)
-      const val = this.clearValue
+      const val = this.computedClearValue
       if (this.__setModel) {
         this.__setModel(val, true)
       }

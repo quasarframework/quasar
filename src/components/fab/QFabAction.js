@@ -1,5 +1,5 @@
-import { QBtn } from '../btn'
-import FabMixin from './fab-mixin'
+import QBtn from '../btn/QBtn.js'
+import FabMixin from './fab-mixin.js'
 
 export default {
   name: 'QFabAction',
@@ -39,8 +39,6 @@ export default {
       on: {
         click: this.click
       }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

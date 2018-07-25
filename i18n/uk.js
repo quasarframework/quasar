@@ -36,12 +36,12 @@ export default {
     noData: 'Немає даних',
     noResults: 'Співпадінь не знайдено',
     loading: 'Завантаження...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows > 0
         ? rows + ' ' + plurals(rows, ['рядок обраний', 'рядки обрані', 'рядків обрано']) + '.'
         : 'Жодного рядку не обрано.'
     },
-    rowsPerPage: 'Рядків на сторінці:',
+    recordsPerPage: 'Рядків на сторінці:',
     allRows: 'Усі',
     pagination: function (start, end, total) {
       return start + '-' + end + ' з ' + total

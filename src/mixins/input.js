@@ -20,7 +20,7 @@ export default {
       }
     },
     blur () {
-      this.$refs.input.blur()
+      this.$refs.input && this.$refs.input.blur()
     },
     select () {
       this.$refs.input.select()
@@ -28,7 +28,11 @@ export default {
 
     __onFocus (e) {
       clearTimeout(this.timer)
+      if (this.focused) {
+        return
+      }
       this.focused = true
+      this.$refs.input && this.$refs.input.focus()
       this.$emit('focus', e)
     },
     __onInputBlur (e) {
@@ -38,23 +42,36 @@ export default {
       }, 200)
     },
     __onBlur (e) {
-      this.focused = false
-      this.$emit('blur', e)
+      if (this.focused) {
+        this.focused = false
+        this.$emit('blur', e)
+      }
       this.__emit()
     },
     __emit () {
       const isNumberError = this.isNumber && this.isNumberError
       const value = isNumberError ? (this.isNegZero ? -0 : null) : this.model
+      if (this.isNumber) {
+        this.model = this.value
+      }
       if (isNumberError) {
         this.$emit('input', value)
       }
       this.$nextTick(() => {
-        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+        if (this.isNumber) {
+          if (String(1 / value) !== String(1 / this.value)) {
+            this.$emit('change', value)
+          }
+        }
+        else if (JSON.stringify(value) !== JSON.stringify(this.value)) {
           this.$emit('change', value)
         }
       })
     },
     __onKeydown (e) {
+      if (this.type !== 'textarea' && e.keyCode === 13) {
+        this.__emit()
+      }
       this.$emit('keydown', e)
     },
     __onKeyup (e) {

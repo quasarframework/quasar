@@ -9,8 +9,6 @@ export default {
       'class': {
         'q-item-separator-inset-component': this.inset
       }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

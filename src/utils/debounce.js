@@ -1,5 +1,4 @@
-
-export function debounce (fn, wait = 250, immediate) {
+export default function (fn, wait = 250, immediate) {
   let timeout
 
   function debounced (...args) {
@@ -22,18 +21,4 @@ export function debounce (fn, wait = 250, immediate) {
   }
 
   return debounced
-}
-
-export function frameDebounce (fn) {
-  let wait = false
-
-  return function (...args) {
-    if (wait) { return }
-
-    wait = true
-    window.requestAnimationFrame(() => {
-      fn.apply(this, args)
-      wait = false
-    })
-  }
 }

@@ -1,7 +1,9 @@
-import { QResizeObservable } from '../observables'
+import QResizeObservable from '../observables/QResizeObservable.js'
+import CanRenderMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QLayoutFooter',
+  mixins: [ CanRenderMixin ],
   inject: {
     layout: {
       default () {
@@ -55,7 +57,7 @@ export default {
       return this.reveal || this.layout.view.indexOf('F') > -1
     },
     offset () {
-      if (!this.value) {
+      if (!this.canRender || !this.value) {
         return 0
       }
       if (this.fixed) {
@@ -69,7 +71,7 @@ export default {
         'fixed-bottom': this.fixed,
         'absolute-bottom': !this.fixed,
         'hidden': !this.value && !this.fixed,
-        'q-layout-footer-hidden': !this.value || (this.fixed && !this.revealed)
+        'q-layout-footer-hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
       }
     },
     computedStyle () {
@@ -78,10 +80,10 @@ export default {
         css = {}
 
       if (view[0] === 'l' && this.layout.left.space) {
-        css[`margin${this.$q.i18n.rtl ? 'Right' : 'Left'}`] = `${this.layout.left.size}px`
+        css[this.$q.i18n.rtl ? 'right' : 'left'] = `${this.layout.left.size}px`
       }
       if (view[2] === 'r' && this.layout.right.space) {
-        css[`margin${this.$q.i18n.rtl ? 'Left' : 'Right'}`] = `${this.layout.right.size}px`
+        css[this.$q.i18n.rtl ? 'left' : 'right'] = `${this.layout.right.size}px`
       }
 
       return css

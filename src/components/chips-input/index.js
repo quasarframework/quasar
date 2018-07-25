@@ -1,4 +1,4 @@
-import QChipsInput from './QChipsInput'
+import QChipsInput from './QChipsInput.js'
 
 export {
   QChipsInput

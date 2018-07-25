@@ -1,26 +1,25 @@
 <template>
   <div>
     <div class="layout-padding" style="max-width: 500px">
-      <div class="row justify-center" style="padding-bottom: 25px">
+      <router-link tag="a" to="/layout-quick/a" class="cursor-pointer row justify-center" style="margin-bottom: 25px">
         <img src="statics/quasar-logo.png">
-      </div>
+      </router-link>
       <div
         class="list no-border"
         v-for="(category, title) in list"
+        :key="`category-${title}`"
       >
         <h4 class="uppercase">
           {{ title }}
         </h4>
-        <router-link
+        <q-item
           v-for="feature in category"
           :key="`${feature.route}${feature.title}`"
-          tag="div"
-          class="q-item q-item-link"
           :to="feature.route"
         >
           <q-item-main :label="feature.title" />
           <q-item-side right icon="chevron_right" />
-        </router-link>
+        </q-item>
       </div>
     </div>
   </div>
@@ -37,7 +36,7 @@ pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
   }
   list[folder].push({
     route: page,
-    title: file.charAt(0).toUpperCase() + file.slice(1)
+    title: file.split(/-/).map(f => f.charAt(0).toUpperCase() + f.slice(1)).join(' ')
   })
 })
 

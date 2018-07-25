@@ -1,4 +1,4 @@
-import QPopover from './QPopover'
+import QPopover from './QPopover.js'
 
 export {
   QPopover

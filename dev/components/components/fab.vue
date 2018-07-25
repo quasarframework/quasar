@@ -19,7 +19,6 @@
 
         <br>
 
-        <q-toggle v-model="toggle" class="z-max fixed-top" />
         <q-fab v-model="toggle" icon="keyboard_arrow_left" direction="left">
           <q-fab-action @click="notify('mail')" icon="mail" />
           <q-fab-action @click="notify('alarm')" icon="alarm" />
@@ -51,6 +50,8 @@
           <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
         </q-fab>
       </div>
+
+      <q-toggle v-model="toggle" class="z-max fixed-top" />
 
       <p class="caption" style="margin-bottom: 100px;">
         There's also the absolute positioned one on bottom

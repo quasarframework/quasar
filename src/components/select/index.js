@@ -1,4 +1,4 @@
-import QSelect from './QSelect'
+import QSelect from './QSelect.js'
 
 export {
   QSelect

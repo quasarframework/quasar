@@ -1,6 +1,6 @@
-import { between } from '../../utils/format'
-import { position } from '../../utils/event'
-import TouchPan from '../../directives/touch-pan'
+import { between } from '../../utils/format.js'
+import { position } from '../../utils/event.js'
+import TouchPan from '../../directives/touch-pan.js'
 
 export function getPercentage (event, dragging, rtl) {
   const val = between((position(event).left - dragging.left) / dragging.width, 0, 1)
@@ -88,6 +88,9 @@ export let SliderMixin = {
     },
     computedDecimals () {
       return this.decimals !== void 0 ? this.decimals || 0 : (String(this.step).trim('0').split('.')[1] || '').length
+    },
+    computedStep () {
+      return this.decimals !== void 0 ? 1 / Math.pow(10, this.decimals || 0) : this.step
     }
   },
   methods: {

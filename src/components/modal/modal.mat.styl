@@ -13,9 +13,11 @@ maximized-modal()
   background $modal-background
   box-shadow $popover-box-shadow
   overflow-y auto
+  will-change scroll-position
   min-width 280px
   max-height 80vh
   -webkit-backface-visibility hidden
+  outline 0
 
 .modal
   z-index $z-modal

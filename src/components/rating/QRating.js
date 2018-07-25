@@ -1,6 +1,6 @@
-import { getEventKey, stopAndPrevent } from '../../utils/event'
-import { between } from '../../utils/format'
-import { QIcon } from '../icon'
+import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import { between } from '../../utils/format.js'
+import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QRating',
@@ -68,23 +68,11 @@ export default {
       tabindex = this.editable ? 0 : -1
 
     for (let i = 1; i <= this.max; i++) {
-      child.push(h(QIcon, {
+      child.push(h('span', {
         key: i,
         ref: `rt${i}`,
-        props: { name: this.icon || this.$q.icon.rating.icon },
-        'class': {
-          active: (!this.mouseModel && this.model >= i) || (this.mouseModel && this.mouseModel >= i),
-          exselected: this.mouseModel && this.model >= i && this.mouseModel < i,
-          hovered: this.mouseModel === i
-        },
         attrs: { tabindex },
-        nativeOn: {
-          click: e => {
-            e.target.blur()
-            this.set(i)
-          },
-          mouseover: () => this.__setHoverValue(i),
-          mouseout: () => { this.mouseModel = 0 },
+        on: {
           keydown: e => {
             switch (getEventKey(e)) {
               case 13:
@@ -94,21 +82,36 @@ export default {
               case 37: // LEFT ARROW
               case 40: // DOWN ARROW
                 if (this.$refs[`rt${i - 1}`]) {
-                  this.$refs[`rt${i - 1}`].$el.focus()
+                  this.$refs[`rt${i - 1}`].focus()
                 }
                 return stopAndPrevent(e)
               case 39: // RIGHT ARROW
               case 38: // UP ARROW
                 if (this.$refs[`rt${i + 1}`]) {
-                  this.$refs[`rt${i + 1}`].$el.focus()
+                  this.$refs[`rt${i + 1}`].focus()
                 }
                 return stopAndPrevent(e)
             }
-          },
-          focus: () => this.__setHoverValue(i),
-          blur: () => { this.mouseModel = 0 }
+          }
         }
-      }))
+      }, [
+        h(QIcon, {
+          props: { name: this.icon || this.$q.icon.rating.icon },
+          'class': {
+            active: (!this.mouseModel && this.model >= i) || (this.mouseModel && this.mouseModel >= i),
+            exselected: this.mouseModel && this.model >= i && this.mouseModel < i,
+            hovered: this.mouseModel === i
+          },
+          attrs: { tabindex: -1 },
+          nativeOn: {
+            click: () => this.set(i),
+            mouseover: () => this.__setHoverValue(i),
+            mouseout: () => { this.mouseModel = 0 },
+            focus: () => this.__setHoverValue(i),
+            blur: () => { this.mouseModel = 0 }
+          }
+        })
+      ]))
     }
 
     return h('div', {

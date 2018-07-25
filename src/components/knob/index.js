@@ -1,4 +1,4 @@
-import QKnob from './QKnob'
+import QKnob from './QKnob.js'
 
 export {
   QKnob

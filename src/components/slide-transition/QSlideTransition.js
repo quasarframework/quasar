@@ -1,5 +1,5 @@
-import { css } from '../../utils/dom'
-import { start, stop } from '../../utils/animate'
+import { css } from '../../utils/dom.js'
+import { start, stop } from '../../utils/animate.js'
 
 function getHeight (el, style) {
   let initial = {

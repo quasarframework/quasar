@@ -5,7 +5,9 @@ ie_style = @block
       min-width auto
       flex-basis auto
   .q-if-inner
-    min-height 21px
+  .q-input-target
+    min-width auto
+    flex-basis auto
 
   /* QAlert */
   .row > .col
@@ -49,6 +51,11 @@ ie_style = @block
   /* QList */
   .q-item-main
     min-width 1px
+
+  /* QModalLayout */
+  .q-modal-layout
+    min-height 80vh !important
+    overflow hidden
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
   {ie_style}

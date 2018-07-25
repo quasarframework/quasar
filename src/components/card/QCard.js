@@ -31,8 +31,6 @@ export default {
     return h('div', {
       staticClass: 'q-card',
       'class': this.classes
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

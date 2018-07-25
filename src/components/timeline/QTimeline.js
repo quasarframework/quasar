@@ -16,8 +16,6 @@ export default {
     return h('ul', {
       staticClass: 'q-timeline',
       'class': { 'q-timeline-dark': this.dark }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

@@ -1,6 +1,5 @@
-import Platform, { isSSR } from './platform'
-import { ready } from '../utils/dom'
-import { getBrand } from '../utils/colors'
+import Platform, { isSSR } from './platform.js'
+import { getBrand } from '../utils/colors.js'
 
 let metaValue
 
@@ -41,29 +40,31 @@ function setColor (hexColor) {
   metaTag.setAttribute('content', hexColor)
 
   if (newTag) {
-    document.getElementsByTagName('HEAD')[0].appendChild(metaTag)
+    document.head.appendChild(metaTag)
   }
 }
 
 export default {
-  __installed: false,
-  install ({ $q, Vue }) {
-    if (this.__installed) { return }
-    this.__installed = true
+  install ({ $q, Vue, cfg }) {
+    this.set = !isSSR && Platform.is.mobile && (
+      Platform.is.cordova ||
+      Platform.is.winphone || Platform.is.safari ||
+      Platform.is.webkit || Platform.is.vivaldi
+    )
+      ? hexColor => {
+        const val = hexColor || getBrand('primary')
+
+        if (Platform.is.cordova && window.StatusBar) {
+          window.StatusBar.backgroundColorByHexString(val)
+        }
+        else {
+          setColor(val)
+        }
+      }
+      : () => {}
 
     $q.addressbarColor = this
-  },
 
-  set (hexColor) {
-    if (!Platform.is.mobile || Platform.is.cordova || isSSR) {
-      return
-    }
-    if (!Platform.is.winphone && !Platform.is.safari && !Platform.is.webkit && !Platform.is.vivaldi) {
-      return
-    }
-
-    ready(() => {
-      setColor(hexColor || getBrand('primary'))
-    })
+    cfg.addressbarColor && this.set(cfg.addressbarColor)
   }
 }

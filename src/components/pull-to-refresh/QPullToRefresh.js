@@ -1,7 +1,9 @@
-import { getScrollTarget, getScrollPosition } from '../../utils/scroll'
-import { cssTransform } from '../../utils/dom'
-import { QIcon } from '../icon'
-import TouchPan from '../../directives/touch-pan'
+import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
+import { cssTransform } from '../../utils/dom.js'
+import QIcon from '../icon/QIcon.js'
+import TouchPan from '../../directives/touch-pan.js'
+
+const height = -65
 
 export default {
   name: 'QPullToRefresh',
@@ -29,15 +31,17 @@ export default {
     disable: Boolean
   },
   data () {
-    let height = 65
-
     return {
       state: 'pull',
-      pullPosition: -height,
-      height: height,
+      pullPosition: height,
       animating: false,
       pulling: false,
       scrolling: false
+    }
+  },
+  watch: {
+    inline (val) {
+      this.setScrollContainer(val)
     }
   },
   computed: {
@@ -53,7 +57,9 @@ export default {
       }
     },
     style () {
-      return cssTransform(`translateY(${this.pullPosition}px)`)
+      const css = cssTransform(`translateY(${this.pullPosition}px)`)
+      css.marginBottom = `${height}px`
+      return css
     },
     messageClass () {
       return `text-${this.color}`
@@ -74,7 +80,7 @@ export default {
           this.trigger()
         }
         else if (this.state === 'pull') {
-          this.__animateTo(-this.height)
+          this.__animateTo(height)
         }
         return
       }
@@ -88,14 +94,14 @@ export default {
         if (this.pulling) {
           this.pulling = false
           this.state = 'pull'
-          this.__animateTo(-this.height)
+          this.__animateTo(height)
         }
         return true
       }
 
       event.evt.preventDefault()
       this.pulling = true
-      this.pullPosition = -this.height + Math.max(0, Math.pow(event.distance.y, 0.85))
+      this.pullPosition = height + Math.max(0, Math.pow(event.distance.y, 0.85))
       this.state = this.pullPosition > this.distance ? 'pulled' : 'pull'
     },
     __animateTo (target, done, previousCall) {
@@ -106,12 +112,12 @@ export default {
       this.pullPosition -= (this.pullPosition - target) / 7
 
       if (this.pullPosition - target > 1) {
-        this.animating = window.requestAnimationFrame(() => {
+        this.animating = requestAnimationFrame(() => {
           this.__animateTo(target, done, true)
         })
       }
       else {
-        this.animating = window.requestAnimationFrame(() => {
+        this.animating = requestAnimationFrame(() => {
           this.pullPosition = target
           this.animating = false
           done && done()
@@ -120,30 +126,35 @@ export default {
     },
     trigger () {
       this.handler(() => {
-        this.__animateTo(-this.height, () => {
+        this.__animateTo(height, () => {
           this.state = 'pull'
         })
+      })
+    },
+    setScrollContainer (inline) {
+      this.$nextTick(() => {
+        this.scrollContainer = inline ? this.$el.parentNode : getScrollTarget(this.$el)
       })
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      this.scrollContainer = this.inline ? this.$el.parentNode : getScrollTarget(this.$el)
-    })
+    this.setScrollContainer(this.inline)
   },
   render (h) {
-    return h('div', { staticClass: 'pull-to-refresh' }, [
+    return h('div', { staticClass: 'pull-to-refresh overflow-hidden-y' }, [
       h('div', {
         staticClass: 'pull-to-refresh-container',
         style: this.style,
-        directives: [{
-          name: 'touch-pan',
-          modifiers: {
-            vertical: true,
-            mightPrevent: true
-          },
-          value: this.__pull
-        }]
+        directives: this.disable
+          ? null
+          : [{
+            name: 'touch-pan',
+            modifiers: {
+              vertical: true,
+              mightPrevent: true
+            },
+            value: this.__pull
+          }]
       }, [
         h('div', {
           staticClass: 'pull-to-refresh-message row flex-center',

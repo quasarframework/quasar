@@ -2,9 +2,9 @@
   <div class="layout-padding">
     <div>
       <q-icon :name="icon" class="gigi" style="font-size: 5rem;" @click="clicked" />
-      <span style="margin: 0 15px;">{{icon}}</span>
+      <span style="margin: 0 15px;">{{ icon }}</span>
       <q-icon :name="icon" class="gigi" style="font-size: 5rem;">
-        <q-tooltip>{{icon}}</q-tooltip>
+        <q-tooltip>{{ icon }}</q-tooltip>
       </q-icon>
     </div>
     <q-option-group

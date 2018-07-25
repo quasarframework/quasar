@@ -1,7 +1,11 @@
-import { QModal } from '../modal'
-import { QIcon } from '../icon'
-import { QList, QItem, QItemSide, QItemMain, QItemSeparator } from '../list'
-import { getEventKey } from '../../utils/event'
+import QModal from '../modal/QModal.js'
+import QIcon from '../icon/QIcon.js'
+import QList from '../list/QList.js'
+import QItem from '../list/QItem.js'
+import QItemSide from '../list/QItemSide.js'
+import QItemMain from '../list/QItemMain.js'
+import QItemSeparator from '../list/QItemSeparator.js'
+import { getEventKey } from '../../utils/event.js'
 
 export default {
   name: 'QActionSheet',
@@ -14,7 +18,7 @@ export default {
   },
   computed: {
     contentCss () {
-      if (__THEME__ === 'ios') {
+      if (process.env.THEME === 'ios') {
         return {backgroundColor: 'transparent'}
       }
     }
@@ -42,11 +46,11 @@ export default {
               ? h('div', { staticClass: 'q-actionsheet-grid row wrap items-center justify-between' }, this.__getActions(h))
               : h(QList, { staticClass: 'no-border', props: { link: true } }, this.__getActions(h))
           ]
-          : [ this.$slots.default ]
+          : this.$slots.default
       )
     )
 
-    if (__THEME__ === 'ios') {
+    if (process.env.THEME === 'ios') {
       child = [
         h('div', { staticClass: 'q-actionsheet' }, child),
         h('div', { staticClass: 'q-actionsheet' }, [
@@ -59,7 +63,7 @@ export default {
             },
             nativeOn: {
               click: this.__onCancel,
-              keydown: this.__onKeyCancel
+              keyup: this.__onKeyCancel
             }
           }, [
             h(QItemMain, { staticClass: 'text-center text-primary' }, [
@@ -92,7 +96,6 @@ export default {
         },
         'escape-key': () => {
           this.$emit('escape-key')
-          this.$emit('cancel')
         }
       }
     }, child)
@@ -102,7 +105,7 @@ export default {
       return this.$refs.modal.show()
     },
     hide () {
-      return this.$refs.modal.hide()
+      return this.$refs.modal ? this.$refs.modal.hide() : Promise.resolve()
     },
     __getActions (h) {
       return this.actions.map(action => action.label
@@ -116,7 +119,7 @@ export default {
           },
           [this.grid ? 'on' : 'nativeOn']: {
             click: () => this.__onOk(action),
-            keydown: e => {
+            keyup: e => {
               if (getEventKey(e) === /* Enter */ 13) {
                 this.__onOk(action)
               }

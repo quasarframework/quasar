@@ -1,14 +1,10 @@
-import { QProgress } from '../progress'
-import { QCheckbox } from '../checkbox'
-import QTh from './QTh'
+import QProgress from '../progress/QProgress.js'
+import QCheckbox from '../checkbox/QCheckbox.js'
+import QTh from './QTh.js'
 
 export default {
   methods: {
     getTableHeader (h) {
-      if (this.hideHeader) {
-        return
-      }
-
       const child = [ this.getTableHeaderRow(h) ]
 
       if (this.loading) {
@@ -56,7 +52,7 @@ export default {
       }
       const child = this.computedCols.map(mapFn)
 
-      if (this.singleSelection) {
+      if (this.singleSelection && !this.grid) {
         child.unshift(h('th', { staticClass: 'q-table-col-auto-width' }, [' ']))
       }
       else if (this.multipleSelection) {

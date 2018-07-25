@@ -1,5 +1,5 @@
 export function offset (el) {
-  if (el === window) {
+  if (!el || el === window) {
     return {top: 0, left: 0}
   }
   let {top, left} = el.getBoundingClientRect()
@@ -38,7 +38,7 @@ export function ready (fn) {
     return
   }
 
-  if (document.readyState === 'complete') {
+  if (document.readyState !== 'loading') {
     return fn()
   }
 
@@ -52,4 +52,14 @@ export function cssTransform (val) {
     o[p + 'transform'] = val
   })
   return o
+}
+
+export default {
+  offset,
+  style,
+  height,
+  width,
+  css,
+  ready,
+  cssTransform
 }

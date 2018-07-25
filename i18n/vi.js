@@ -32,12 +32,12 @@ export default {
     noData: 'Không có dữ liệu',
     noResults: 'Không tìm thấy kết quả',
     loading: 'Đang tải',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows === 1
         ? '1 hàng đã chọn.'
         : (rows === 0 ? 'Không có hàng nào' : rows) + ' hàng đã chọn.'
     },
-    rowsPerPage: 'Hàng trên mỗi trang:',
+    recordsPerPage: 'Hàng trên mỗi trang:',
     allRows: 'Tất cả',
     pagination: function (start, end, total) {
       return start + '-' + end + ' của ' + total

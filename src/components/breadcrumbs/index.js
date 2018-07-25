@@ -1,5 +1,5 @@
-import QBreadcrumbs from './QBreadcrumbs'
-import QBreadcrumbsEl from './QBreadcrumbsEl'
+import QBreadcrumbs from './QBreadcrumbs.js'
+import QBreadcrumbsEl from './QBreadcrumbsEl.js'
 
 export {
   QBreadcrumbs,

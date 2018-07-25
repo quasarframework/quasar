@@ -6,9 +6,12 @@
         On desktop, Escape key closes the suggestions popover and you can navigate with keyboard arrow keys. Selection is made with either mouse/finger tap or by Enter key.
       </p>
 
-
       <q-search @change="onChange" @input="onInput" v-model="terms" placeholder="Start typing a country name">
         <q-autocomplete @search="search" @selected="selected" />
+      </q-search>
+
+      <q-search @change="onChange" @input="onInput" v-model="terms" placeholder="Country name - Trigger on focus">
+        <q-autocomplete @search="search" @selected="selected" :min-characters="0" />
       </q-search>
 
       <q-search @change="onChange" @input="onInput" v-model="terms" hide-underline placeholder="Start typing a country name (hide underline)">
@@ -19,9 +22,18 @@
         <q-autocomplete @search="search" @selected="selected" />
       </q-search>
 
+      <p class="caption">Usage of valueField for dynamic data</p>
+      <q-search @change="onChange" @input="onInput" v-model="terms" float-label="Country name - Trigger on focus - valueField is icon">
+        <q-autocomplete @search="search" @selected="selected" :min-characters="0" value-field="icon" />
+      </q-search>
+
       <p class="caption">Number selected: {{ JSON.stringify(termsN) }}</p>
       <q-search type="number" v-model="termsN" placeholder="Start typing a number">
         <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
+      </q-search>
+
+      <q-search type="number" v-model="termsN" placeholder="Start typing a number - long list">
+        <q-autocomplete :static-data="{field: 'value', list: lots}" @selected="selected" :max-results="100" max-height="200px" />
       </q-search>
 
       <q-input @change="onChange" @input="onInput" v-model="terms" placeholder="Start typing a country name">
@@ -37,7 +49,7 @@
       </q-input>
 
       <q-search inverted v-model="terms" placeholder="Start typing a country name">
-        <q-autocomplete @search="search" @selected="selected"  />
+        <q-autocomplete @search="search" @selected="selected" />
       </q-search>
 
       <p class="caption">Maximum of 2 results at a time</p>
@@ -78,6 +90,23 @@
       <q-search inverted color="secondary" v-model="terms" placeholder="Featuring static data">
         <q-autocomplete
           :static-data="{field: 'value', list: countries}"
+          @selected="selected"
+        />
+      </q-search>
+
+      <p class="caption">Usage of valueField for Static List</p>
+      <q-search inverted color="dark" class="q-mb-sm" v-model="terms" float-label="Featuring static data - valueField is icon and searching in label">
+        <q-autocomplete
+          :static-data="{field: 'label', list: countriesNoValue}"
+          value-field="icon"
+          @selected="selected"
+        />
+      </q-search>
+
+      <q-search inverted color="dark" class="q-mb-sm" v-model="terms" float-label="Featuring static data - valueField is icon + label and searching in label">
+        <q-autocomplete
+          :static-data="{field: 'label', list: countriesNoValue}"
+          :value-field="v => `${ v.icon } - ${ v.label }`"
           @selected="selected"
         />
       </q-search>
@@ -125,13 +154,26 @@ function parseCountries () {
   })
 }
 
+function parseCountriesNoValue () {
+  return countries.map(country => {
+    return {
+      label: country,
+      sublabel: getRandomSecondLabel(),
+      icon: getRandomIcon(),
+      stamp: getRandomStamp()
+    }
+  })
+}
+
 export default {
   data () {
     return {
       terms: '',
       termsN: null,
       countries: parseCountries(),
-      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v }))
+      countriesNoValue: parseCountriesNoValue(),
+      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v })),
+      lots: Array(100).fill(0).map((v, i) => ({ label: String(i), value: i }))
     }
   },
   methods: {
@@ -141,7 +183,7 @@ export default {
       }, 1000)
     },
     selected (item) {
-      this.$q.notify(`Selected suggestion ${JSON.stringify(item.label)}`)
+      this.$q.notify(`Selected suggestion ${JSON.stringify(item)}`)
     },
     onChange (val) {
       console.log('@change', JSON.stringify(val))

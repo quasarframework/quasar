@@ -175,3 +175,16 @@ export function stopAndPrevent (e) {
   e.preventDefault()
   e.stopPropagation()
 }
+
+export default {
+  listenOpts,
+  leftClick,
+  middleClick,
+  rightClick,
+  getEventKey,
+  position,
+  targetElement,
+  getEventPath,
+  getMouseWheelDistance,
+  stopAndPrevent
+}

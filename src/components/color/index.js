@@ -1,5 +1,5 @@
-import QColor from './QColor'
-import QColorPicker from './QColorPicker'
+import QColor from './QColor.js'
+import QColorPicker from './QColorPicker.js'
 
 export {
   QColor,

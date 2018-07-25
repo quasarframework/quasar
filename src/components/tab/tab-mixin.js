@@ -1,7 +1,7 @@
-import uid from '../../utils/uid'
-import { QIcon } from '../icon'
-import { QChip } from '../chip'
-import Ripple from '../../directives/ripple'
+import uid from '../../utils/uid.js'
+import QIcon from '../icon/QIcon.js'
+import QChip from '../chip/QChip.js'
+import Ripple from '../../directives/ripple.js'
 
 export default {
   directives: {
@@ -24,7 +24,8 @@ export default {
     },
     alert: Boolean,
     count: [Number, String],
-    color: String
+    color: String,
+    tabindex: Number
   },
   inject: {
     data: {
@@ -50,7 +51,9 @@ export default {
         active: this.active,
         hidden: this.hidden,
         disabled: this.disable,
+        'q-tab-full': this.icon && this.label,
         'q-tab-only-label': !this.icon && this.label,
+        'hide-none': !this.hide,
         'hide-icon': this.hide === 'icon',
         'hide-label': this.hide === 'label'
       }
@@ -60,7 +63,7 @@ export default {
         : this.color
 
       if (color) {
-        cls[`text-${color}`] = __THEME__ === 'ios' ? this.active : true
+        cls[`text-${color}`] = process.env.THEME === 'ios' ? this.active : true
       }
 
       return cls
@@ -69,46 +72,65 @@ export default {
       if (!this.active || !this.data.highlight) {
         return 'display: none;'
       }
+    },
+    computedTabIndex () {
+      return this.disable || this.active ? -1 : this.tabindex || 0
     }
   },
   methods: {
-    __getTabContent (h) {
-      const child = []
-
-      this.icon && child.push(h(QIcon, {
-        staticClass: 'q-tab-icon',
-        props: {
-          name: this.icon
-        }
-      }))
-
-      this.label && child.push(h('div', {
-        staticClass: 'q-tab-label',
-        domProps: {
-          innerHTML: this.label
-        }
-      }))
-
+    __getTabMeta (h) {
       if (this.count) {
-        child.push(h(QChip, {
-          props: {
-            floating: true
-          }
-        }, [ this.count ]))
+        return [
+          h(QChip, {
+            staticClass: 'q-tab-meta',
+            props: {
+              floating: true
+            }
+          }, [ this.count ])
+        ]
       }
-      else if (this.alert) {
-        child.push(h('div', {
-          staticClass: 'q-dot'
-        }))
+      if (this.alert) {
+        return [
+          h('div', { staticClass: 'q-tab-meta q-dot' })
+        ]
       }
+    },
+    __getTabContent (h) {
+      let child = []
 
-      child.push(this.$slots.default)
-      if (__THEME__ !== 'ios') {
+      this.icon && child.push(
+        h('div', { staticClass: 'q-tab-icon-parent relative-position' }, [
+          h(QIcon, {
+            staticClass: 'q-tab-icon',
+            props: {
+              name: this.icon
+            }
+          }),
+          this.__getTabMeta(h)
+        ])
+      )
+
+      this.label && child.push(
+        h('div', { staticClass: 'q-tab-label-parent relative-position' }, [
+          h('div', {
+            staticClass: 'q-tab-label'
+          }, [ this.label ]),
+          this.__getTabMeta(h)
+        ])
+      )
+
+      child = child.concat(this.$slots.default)
+      if (process.env.THEME !== 'ios') {
         child.push(h('div', {
           staticClass: 'q-tabs-bar',
           style: this.barStyle
         }))
       }
+
+      child.push(h('div', {
+        staticClass: 'q-tab-focus-helper absolute-full',
+        attrs: { tabindex: this.computedTabIndex }
+      }))
 
       return child
     }

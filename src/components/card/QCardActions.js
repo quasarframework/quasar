@@ -18,8 +18,6 @@ export default {
     return h('div', {
       staticClass: 'q-card-actions',
       'class': this.classes
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

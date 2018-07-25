@@ -32,12 +32,12 @@ export default {
     noData: '没有可用数据',
     noResults: '找不到匹配的数据',
     loading: '正在加载...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows === 1
         ? '1 selected row.'
         : (rows === 0 ? 'No' : rows) + ' selected rows.'
     },
-    rowsPerPage: '每页的行数:',
+    recordsPerPage: '每页的行数:',
     allRows: '全部',
     pagination: function (start, end, total) {
       return start + '-' + end + ' / ' + total

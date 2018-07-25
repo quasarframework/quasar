@@ -1,11 +1,8 @@
-import { QIcon } from '../icon'
-import Ripple from '../../directives/ripple'
+import QIcon from '../icon/QIcon.js'
+import Ripple from '../../directives/ripple.js'
 
 export default {
   name: 'QStepTab',
-  components: {
-    QIcon
-  },
   directives: {
     Ripple
   },
@@ -48,7 +45,7 @@ export default {
       on: {
         click: this.__select
       },
-      directives: __THEME__ === 'mat' && this.hasNavigation
+      directives: process.env.THEME === 'mat' && this.hasNavigation
         ? [{
           name: 'ripple',
           value: this.vm.done

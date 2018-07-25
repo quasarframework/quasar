@@ -1,7 +1,6 @@
-import EscapeKey from '../../utils/escape-key'
-import extend from '../../utils/extend'
-import ModelToggleMixin from '../../mixins/model-toggle'
-import PreventScroll from '../../mixins/prevent-scroll'
+import EscapeKey from '../../utils/escape-key.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
+import PreventScroll from '../../mixins/prevent-scroll.js'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -9,7 +8,7 @@ const positions = {
   right: 'items-center justify-end with-backdrop',
   left: 'items-center justify-start with-backdrop'
 }
-const positionCSS = __THEME__ === 'mat'
+const positionCSS = process.env.THEME === 'mat'
   ? {
     maxHeight: '80vh',
     height: 'auto'
@@ -26,7 +25,7 @@ function additionalCSS (position) {
   if (['left', 'right'].includes(position)) {
     css.maxWidth = '90vw'
   }
-  if (__THEME__ === 'ios') {
+  if (process.env.THEME === 'ios') {
     if (['left', 'top'].includes(position)) {
       css.borderTopLeftRadius = 0
     }
@@ -54,7 +53,18 @@ export default {
   mixins: [ModelToggleMixin, PreventScroll],
   provide () {
     return {
-      __qmodal: true
+      __qmodal: {
+        register: layout => {
+          if (this.layout !== layout) {
+            this.layout = layout
+          }
+        },
+        unregister: layout => {
+          if (this.layout === layout) {
+            this.layout = null
+          }
+        }
+      }
     }
   },
   props: {
@@ -87,6 +97,11 @@ export default {
     minimized: Boolean,
     maximized: Boolean
   },
+  data () {
+    return {
+      layout: null
+    }
+  },
   watch: {
     $route () {
       if (!this.noRouteDismiss) {
@@ -107,6 +122,12 @@ export default {
       }
       return cls
     },
+    contentClassesCalc () {
+      if (this.layout) {
+        return [this.contentClasses, 'column no-wrap']
+      }
+      return this.contentClasses
+    },
     transitionProps () {
       if (this.position) {
         return { name: `q-modal-${this.position}` }
@@ -125,7 +146,7 @@ export default {
           ? this.contentCss
           : [this.contentCss]
 
-        css.unshift(extend(
+        css.unshift(Object.assign(
           {},
           positionCSS,
           additionalCSS(this.position)
@@ -150,9 +171,8 @@ export default {
       if (!this.noRefocus) {
         this.__refocusTarget = document.activeElement
       }
-      const body = document.body
 
-      body.appendChild(this.$el)
+      document.body.appendChild(this.$el)
       this.__register(true)
       this.__preventScroll(true)
 
@@ -160,11 +180,12 @@ export default {
         if (!this.noEscDismiss) {
           this.hide().then(() => {
             this.$emit('escape-key')
+            this.$emit('dismiss')
           })
         }
       })
 
-      let content = this.$refs.content
+      const content = this.$refs.content
       if (this.$q.platform.is.ios) {
         // workaround the iOS hover/touch issue
         content.click()
@@ -175,14 +196,13 @@ export default {
           el.scrollTop = 0
         })
       })
+      this.$nextTick(() => content && content.focus())
     },
     __hide () {
       EscapeKey.pop()
       this.__preventScroll(false)
       this.__register(false)
-      if (!this.noRefocus && this.__refocusTarget) {
-        this.__refocusTarget.focus()
-      }
+      !this.noRefocus && this.__refocusTarget && this.__refocusTarget.focus()
     },
     __stopPropagation (e) {
       e.stopPropagation()
@@ -214,9 +234,7 @@ export default {
     }
   },
   beforeDestroy () {
-    if (this.$el.parentNode) {
-      this.$el.parentNode.removeChild(this.$el)
-    }
+    this.$el.remove()
   },
   render (h) {
     return h('transition', {
@@ -227,9 +245,11 @@ export default {
         },
         enterCancelled: () => {
           this.showPromise && this.showPromiseReject()
+          this.$el.remove()
         },
         afterLeave: () => {
           this.hidePromise && this.hidePromiseResolve()
+          this.$el.remove()
         },
         leaveCancelled: () => {
           this.hidePromise && this.hidePromiseReject()
@@ -249,14 +269,15 @@ export default {
       }, [
         h('div', {
           ref: 'content',
-          staticClass: 'modal-content scroll',
+          staticClass: 'modal-content',
           style: this.modalCss,
-          'class': this.contentClasses,
+          'class': this.contentClassesCalc,
+          attrs: { tabindex: -1 },
           on: {
             click: this.__stopPropagation,
             touchstart: this.__stopPropagation
           }
-        }, [ this.$slots.default ])
+        }, this.$slots.default)
       ])
     ])
   }

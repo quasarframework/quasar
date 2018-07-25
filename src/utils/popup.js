@@ -1,5 +1,4 @@
-import extend from './extend'
-import { position as eventPosition } from './event'
+import { position as eventPosition } from './event.js'
 
 export function getAnchorPosition (el, offset) {
   let
@@ -43,42 +42,30 @@ export function getTargetPosition (el) {
   }
 }
 
-export function getOverlapMode (anchor, target, median) {
-  if ([anchor, target].indexOf(median) >= 0) return 'auto'
-  if (anchor === target) return 'inclusive'
-  return 'exclusive'
-}
-
 export function getPositions (anchor, target) {
   const
-    a = extend({}, anchor),
-    t = extend({}, target)
+    a = Object.assign({}, anchor),
+    t = Object.assign({}, target)
 
   const positions = {
     x: ['left', 'right'].filter(p => p !== t.horizontal),
     y: ['top', 'bottom'].filter(p => p !== t.vertical)
   }
 
-  const overlap = {
-    x: getOverlapMode(a.horizontal, t.horizontal, 'middle'),
-    y: getOverlapMode(a.vertical, t.vertical, 'center')
+  const overlapAuto = {
+    x: [a.horizontal, t.horizontal].indexOf('middle') !== -1,
+    y: [a.vertical, t.vertical].indexOf('center') !== -1
   }
 
-  positions.x.splice(overlap.x === 'auto' ? 0 : 1, 0, 'middle')
-  positions.y.splice(overlap.y === 'auto' ? 0 : 1, 0, 'center')
+  positions.x.splice(overlapAuto.x ? 0 : 1, 0, 'middle')
+  positions.y.splice(overlapAuto.y ? 0 : 1, 0, 'center')
 
-  if (overlap.y !== 'auto') {
+  if (!overlapAuto.y) {
     a.vertical = a.vertical === 'top' ? 'bottom' : 'top'
-    if (overlap.y === 'inclusive') {
-      t.vertical = t.vertical
-    }
   }
 
-  if (overlap.x !== 'auto') {
+  if (!overlapAuto.x) {
     a.horizontal = a.horizontal === 'left' ? 'right' : 'left'
-    if (overlap.y === 'inclusive') {
-      t.horizontal = t.horizontal
-    }
   }
 
   return {

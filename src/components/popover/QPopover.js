@@ -3,17 +3,18 @@ import {
   offsetValidator,
   parsePosition,
   setPosition
-} from '../../utils/popup'
-import { frameDebounce } from '../../utils/debounce'
-import { getScrollTarget } from '../../utils/scroll'
-import { width } from '../../utils/dom'
-import EscapeKey from '../../utils/escape-key'
-import ModelToggleMixin from '../../mixins/model-toggle'
-import { listenOpts } from '../../utils/event'
+} from '../../utils/popup.js'
+import frameDebounce from '../../utils/frame-debounce.js'
+import { getScrollTarget } from '../../utils/scroll.js'
+import { width } from '../../utils/dom.js'
+import EscapeKey from '../../utils/escape-key.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
+import { listenOpts } from '../../utils/event.js'
+import CanRenderMixinMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QPopover',
-  mixins: [ModelToggleMixin],
+  mixins: [ModelToggleMixin, CanRenderMixinMixin],
   props: {
     anchor: {
       type: String,
@@ -38,6 +39,8 @@ export default {
       type: Array,
       validator: offsetValidator
     },
+    noFocus: Boolean,
+    noRefocus: Boolean,
     disable: Boolean
   },
   watch: {
@@ -54,19 +57,19 @@ export default {
     }
   },
   render (h) {
+    if (!this.canRender) { return }
+
     return h('div', {
       staticClass: 'q-popover scroll',
+      ref: 'content',
+      attrs: { tabindex: -1 },
       on: {
         click (e) { e.stopPropagation() }
       }
-    }, [
-      this.$slots.default
-    ])
-  },
-  created () {
-    this.__updatePosition = frameDebounce((_, event, animate) => this.reposition(event, animate))
+    }, this.$slots.default)
   },
   mounted () {
+    this.__updatePosition = frameDebounce((_, event, animate) => this.reposition(event, animate))
     this.$nextTick(() => {
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)
@@ -76,6 +79,7 @@ export default {
       if (this.anchorClick) {
         this.anchorEl.classList.add('cursor-pointer')
         this.anchorEl.addEventListener('click', this.toggle)
+        this.anchorEl.addEventListener('keyup', this.__toggleKey)
       }
     })
     if (this.value) {
@@ -85,10 +89,14 @@ export default {
   beforeDestroy () {
     if (this.anchorClick && this.anchorEl) {
       this.anchorEl.removeEventListener('click', this.toggle)
+      this.anchorEl.removeEventListener('keyup', this.__toggleKey)
     }
   },
   methods: {
     __show (evt) {
+      if (!this.noRefocus) {
+        this.__refocusTarget = (this.anchorClick && this.anchorEl) || document.activeElement
+      }
       document.body.appendChild(this.$el)
       EscapeKey.register(() => { this.hide() })
       this.scrollTarget = getScrollTarget(this.anchorEl)
@@ -97,11 +105,19 @@ export default {
       this.__updatePosition(0, evt, true)
 
       clearTimeout(this.timer)
+      if (!this.noFocus && this.$refs.content) {
+        this.$refs.content.focus()
+      }
       this.timer = setTimeout(() => {
         document.body.addEventListener('click', this.__bodyHide, true)
         document.body.addEventListener('touchstart', this.__bodyHide, true)
         this.showPromise && this.showPromiseResolve()
       }, 0)
+    },
+    __toggleKey (evt) {
+      if (evt.keyCode === 13) {
+        this.toggle(evt)
+      }
     },
     __bodyHide (evt) {
       if (
@@ -122,8 +138,11 @@ export default {
       window.removeEventListener('resize', this.__updatePosition, listenOpts.passive)
       EscapeKey.pop()
 
-      document.body.removeChild(this.$el)
+      this.$el.remove()
       this.hidePromise && this.hidePromiseResolve()
+      if (!this.noRefocus && this.__refocusTarget) {
+        this.__refocusTarget.focus()
+      }
     },
     reposition (event, animate) {
       if (this.fit) {

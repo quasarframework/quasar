@@ -1,177 +1,334 @@
 <template>
   <div>
     <div class="layout-padding" :class="{ guidelines }">
-      <div class="row no-wrap gutter-sm size-test-example">
-        <div class="group">
-          <p class="caption">QInput</p>
-          <div><q-input v-model="text" /></div>
-          <div><q-input stack-label="Stack Label" v-model="text" /></div>
-          <div><q-input float-label="Float Label" v-model="text" /></div>
-        </div>
+      <div v-for="dense in [false, true]" :key="dense">
+        <div v-for="(mode, index) in modes" :key="index">
+          <p class="caption">{{ dense ? 'Dense' : 'Normal' }} {{ filterMode(mode) }}</p>
+          <div class="row no-wrap gutter-x-sm size-test-example">
+            <div>
+              <div>
+                <q-input
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  v-model="text"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+              <div>
+                <q-input
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  stack-label="Stack Label"
+                  v-model="text"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+              <div>
+                <q-input
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  float-label="Float Label"
+                  v-model="text"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+            </div>
 
-        <div class="group">
-          <p class="caption">QSelect</p>
-          <div><q-select v-model="select" :options="selectOptions" /></div>
-          <div><q-select stack-label="Stack Label" v-model="select" :options="selectOptions" /></div>
-          <div><q-select float-label="Float Label" v-model="select" :options="selectOptions" /></div>
-        </div>
+            <div>
+              <div>
+                <q-select
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  v-model="select"
+                  :options="selectOptions"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+              <div>
+                <q-select
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  stack-label="Stack Label"
+                  v-model="select"
+                  :options="selectOptions"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+              <div>
+                <q-select
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  float-label="Float Label"
+                  v-model="select"
+                  :options="selectOptions"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+            </div>
 
-        <div class="group">
-          <p class="caption">QSearch</p>
-          <div><q-search v-model="text" /></div>
-          <div><q-search stack-label="Stack Label" v-model="text" /></div>
-          <div><q-search float-label="Float Label" v-model="text" /></div>
-        </div>
+            <div>
+              <div>
+                <q-search
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  v-model="text"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+              <div>
+                <q-search
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  stack-label="Stack Label"
+                  v-model="text"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+              <div>
+                <q-search
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  float-label="Float Label"
+                  v-model="text"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+            </div>
 
-        <div class="group">
-          <p class="caption">QColor</p>
-          <div><q-color type="time" v-model="color" /></div>
-          <div><q-color type="time" stack-label="Stack Label" v-model="color" /></div>
-          <div><q-color type="time" float-label="Float Label" v-model="color" /></div>
-        </div>
+            <div>
+              <div>
+                <q-color
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  type="time"
+                  v-model="color"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+              <div>
+                <q-color
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  type="time"
+                  stack-label="Stack Label"
+                  v-model="color"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+              <div>
+                <q-color
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  type="time"
+                  float-label="Float Label"
+                  v-model="color"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+            </div>
 
-        <div class="group">
-          <p class="caption">QDatetime</p>
-          <div><q-datetime type="date" v-model="date" /></div>
-          <div><q-datetime type="date" stack-label="Stack Label" v-model="date" /></div>
-          <div><q-datetime type="date" float-label="Float Label" v-model="date" /></div>
-        </div>
+            <div>
+              <div>
+                <q-datetime
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  type="date"
+                  v-model="date"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+              <div>
+                <q-datetime
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  type="date"
+                  stack-label="Stack Label"
+                  v-model="date"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+              <div>
+                <q-datetime
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  type="date"
+                  float-label="Float Label"
+                  v-model="date"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+            </div>
 
-        <div class="group">
-          <p class="caption">QDatetime</p>
-          <div><q-datetime type="datetime" v-model="date" /></div>
-          <div><q-datetime type="datetime" stack-label="Stack Label" v-model="date" /></div>
-          <div><q-datetime type="datetime" float-label="Float Label" v-model="date" /></div>
-        </div>
+            <div>
+              <div>
+                <q-datetime
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  type="datetime"
+                  v-model="date"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+              <div>
+                <q-datetime
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  type="datetime"
+                  stack-label="Stack Label"
+                  v-model="date"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+              <div>
+                <q-datetime
+                  :hide-underline="mode.hideUnderline"
+                  :inverted="mode.inverted"
+                  :box="mode.box"
+                  :outline="mode.outline"
+                  :full-width="mode.fullWidth"
+                  :dense="dense"
+                  type="datetime"
+                  float-label="Float Label"
+                  v-model="date"
+                  :class="classes"
+                  clearable
+                />
+              </div>
+            </div>
 
-        <div class="group">
-          <p class="caption">Button</p>
-          <div><q-btn color="primary" size="form" outline label="Button" /></div>
-          <div><q-btn color="primary" size="form-label" outline label="Button" /></div>
-          <div><q-btn color="primary" size="form-label" outline label="Button" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">Button</p>
-          <div><q-btn color="primary" size="form" flat label="Button" /></div>
-          <div><q-btn color="primary" size="form-label" flat label="Button" /></div>
-          <div><q-btn color="primary" size="form-label" flat label="Button" /></div>
+            <div v-if="!margin && !padding">
+              <div>
+                <q-btn color="primary"
+                       :size="`${ mode.btnSize }${ dense ? '-dense' : '' }`"
+                       :outline="!mode.inverted && !mode.fullWidth"
+                       :flat="mode.fullWidth"
+                       label="Button"
+                       class="row"
+                       :class="btnClasses(mode, dense)"
+                />
+              </div>
+              <div>
+                <q-btn color="primary"
+                       :size="`${ mode.btnSizeLabel }${ dense ? '-dense' : '' }`"
+                       :outline="!mode.inverted && !mode.fullWidth"
+                       :flat="mode.fullWidth"
+                       label="Button"
+                       class="row"
+                       :class="btnClasses(mode, dense)"
+                />
+              </div>
+              <div>
+                <q-btn color="primary"
+                       :size="`${ mode.btnSizeLabel }${ dense ? '-dense' : '' }`"
+                       :outline="!mode.inverted && !mode.fullWidth"
+                       :flat="mode.fullWidth"
+                       label="Button"
+                       class="row"
+                       :class="btnClasses(mode, dense)"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="row no-wrap gutter-sm size-test-example">
-        <div class="group">
-          <p class="caption">QInput</p>
-          <div><q-input hide-underline v-model="text" /></div>
-          <div><q-input hide-underline stack-label="Stack Label" v-model="text" /></div>
-          <div><q-input hide-underline float-label="Float Label" v-model="text" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">QSelect</p>
-          <div><q-select hide-underline v-model="select" :options="selectOptions" /></div>
-          <div><q-select hide-underline stack-label="Stack Label" v-model="select" :options="selectOptions" /></div>
-          <div><q-select hide-underline float-label="Float Label" v-model="select" :options="selectOptions" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">QSearch</p>
-          <div><q-search hide-underline v-model="text" /></div>
-          <div><q-search hide-underline stack-label="Stack Label" v-model="text" /></div>
-          <div><q-search hide-underline float-label="Float Label" v-model="text" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">QColor</p>
-          <div><q-color hide-underline type="time" v-model="color" /></div>
-          <div><q-color hide-underline type="time" stack-label="Stack Label" v-model="color" /></div>
-          <div><q-color hide-underline type="time" float-label="Float Label" v-model="color" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">QDatetime</p>
-          <div><q-datetime hide-underline type="date" v-model="date" /></div>
-          <div><q-datetime hide-underline type="date" stack-label="Stack Label" v-model="date" /></div>
-          <div><q-datetime hide-underline type="date" float-label="Float Label" v-model="date" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">QDatetime</p>
-          <div><q-datetime hide-underline type="datetime" v-model="date" /></div>
-          <div><q-datetime hide-underline type="datetime" stack-label="Stack Label" v-model="date" /></div>
-          <div><q-datetime hide-underline type="datetime" float-label="Float Label" v-model="date" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">Button</p>
-          <div><q-btn color="primary" size="form-hide-underline" outline label="Button" /></div>
-          <div><q-btn color="primary" size="form-label-hide-underline" outline label="Button" /></div>
-          <div><q-btn color="primary" size="form-label-hide-underline" outline label="Button" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">Button</p>
-          <div><q-btn color="primary" size="form-hide-underline" flat label="Button" /></div>
-          <div><q-btn color="primary" size="form-label-hide-underline" flat label="Button" /></div>
-          <div><q-btn color="primary" size="form-label-hide-underline" flat label="Button" /></div>
+      <div class="fixed-top-left bg-grey-3 q-pa-sm" style="top: 8px; left: 8px; z-index: 10;">
+        <div class="row no-wrap gutter-sm">
+          <q-toggle v-model="guidelines" label="Guidelines" />
+          <div>
+            <q-select hide-underline class="q-my-none q-py-none" placeholder="Margin Y" v-model="margin" :options="sizes" clearable />
+          </div>
+          <div>
+            <q-select hide-underline class="q-my-none q-py-none" placeholder="Padding Y" v-model="padding" :options="sizes" clearable />
+          </div>
         </div>
       </div>
-
-      <p class="caption">Inverted</p>
-      <div class="row no-wrap gutter-sm size-test-example">
-        <div class="group">
-          <p class="caption">QInput</p>
-          <div><q-input inverted v-model="text" /></div>
-          <div><q-input inverted stack-label="Stack Label" v-model="text" /></div>
-          <div><q-input inverted float-label="Float Label" v-model="text" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">QSelect</p>
-          <div><q-select inverted v-model="select" :options="selectOptions" /></div>
-          <div><q-select inverted stack-label="Stack Label" v-model="select" :options="selectOptions" /></div>
-          <div><q-select inverted float-label="Float Label" v-model="select" :options="selectOptions" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">QSearch</p>
-          <div><q-search inverted v-model="text" /></div>
-          <div><q-search inverted stack-label="Stack Label" v-model="text" /></div>
-          <div><q-search inverted float-label="Float Label" v-model="text" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">QColor</p>
-          <div><q-color inverted type="time" v-model="color" /></div>
-          <div><q-color inverted type="time" stack-label="Stack Label" v-model="color" /></div>
-          <div><q-color inverted type="time" float-label="Float Label" v-model="color" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">QDatetime</p>
-          <div><q-datetime inverted type="date" v-model="date" /></div>
-          <div><q-datetime inverted type="date" stack-label="Stack Label" v-model="date" /></div>
-          <div><q-datetime inverted type="date" float-label="Float Label" v-model="date" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">QDatetime</p>
-          <div><q-datetime inverted type="datetime" v-model="date" /></div>
-          <div><q-datetime inverted type="datetime" stack-label="Stack Label" v-model="date" /></div>
-          <div><q-datetime inverted type="datetime" float-label="Float Label" v-model="date" /></div>
-        </div>
-
-        <div class="group">
-          <p class="caption">Button</p>
-          <div><q-btn color="primary" size="form-inverted" label="Button" /></div>
-          <div><q-btn color="primary" size="form-label-inverted" label="Button" /></div>
-          <div><q-btn color="primary" size="form-label-inverted" label="Button" /></div>
-        </div>
-      </div>
-
-      <q-toggle v-model="guidelines" label="Guidelines" class="fixed-top-left bg-grey-3 q-pa-sm" style="top: 8px; left: 8px;" />
-
-      <div style="height: 350px"></div>
+      <div style="height: 350px"/>
     </div>
   </div>
 </template>
@@ -183,7 +340,7 @@ export default {
       text: 'AQGqftj',
       date: '2016-09-18T10:45:00.000Z',
       color: '#fea8a8',
-      select: '',
+      select: null,
       selectOptions: [
         {
           label: 'Google',
@@ -206,30 +363,70 @@ export default {
           value: 'ora'
         }
       ],
-      guidelines: false
+      guidelines: false,
+      sizes: ['none', 'xs', 'sm', 'md', 'lg', 'xl'].map(size => ({
+        label: size,
+        value: size
+      })),
+      margin: null,
+      padding: null,
+      modes: [
+        { hideUnderline: false, inverted: false, box: false, outline: false, fullWidth: false, btnSize: 'form', btnSizeLabel: 'form-label' },
+        { hideUnderline: true, inverted: false, box: false, outline: false, fullWidth: false, btnSize: 'form', btnSizeLabel: 'form-label' },
+        { hideUnderline: false, inverted: true, box: false, outline: false, fullWidth: false, btnSize: 'form', btnSizeLabel: 'form-label' },
+        { hideUnderline: false, inverted: false, box: true, outline: false, fullWidth: false, btnSize: 'form', btnSizeLabel: 'form-label' },
+        { hideUnderline: false, inverted: false, box: false, outline: true, fullWidth: false, btnSize: 'form-label', btnSizeLabel: 'form-label' },
+        { hideUnderline: false, inverted: false, box: false, outline: false, fullWidth: true, btnSize: 'form-label', btnSizeLabel: 'form-label' }
+      ]
+    }
+  },
+  computed: {
+    classes () {
+      const classes = [ 'inline' ]
+      classes.push(this.margin ? `q-my-${this.margin}` : 'q-my-form')
+      if (this.padding) {
+        classes.push(`q-py-${this.padding}`)
+      }
+      return classes
+    }
+  },
+  methods: {
+    filterMode (mode) {
+      return Object.keys(mode).filter(k => mode[k] === true).map(k => `${k[0].toUpperCase()}${k.slice(1)}`).join(', ')
+    },
+    btnClasses (mode, dense) {
+      if (this.margin) {
+        return this.margin
+      }
+      if (mode.fullWidth) {
+        return ''
+      }
+      return dense ? ['q-mt-dense', 'q-mb-xs'] : ['q-mt-md', 'q-mb-sm']
     }
   }
 }
 </script>
 
 <style lang="stylus">
-.size-test-example > .group > div
-  margin 1.5em 0
-.guidelines .size-test-example > div > div
-  &:before, &:after
-    content ''
-    display block
-    position absolute
-    left 0
-    right 0
-    height 6px
-    background-color transparent
-  &:before
-    margin-top -6px
-    border-top 1px solid rgba(255, 0, 0, .2)
-  &:after
-    border-bottom 1px solid rgba(0, 255, 0, .2)
-.guidelines .size-test-example > div:last-child > div
-  &:before, &:after
-    border-color rgba(0, 0, 255, .4)
+.q-mt-dense
+  margin-top 12px
+.size-test-example > div > div
+  background-color white
+.guidelines .size-test-example > div
+  > div
+    &:before, &:after
+      content ''
+      display block
+      position absolute
+      left 0
+      right 0
+      height 0
+      background-color transparent
+    &:before
+      border-top 1px solid rgba(255, 0, 0, .2)
+    &:after
+      border-bottom 1px solid rgba(0, 255, 0, .2)
+  &:last-child > div
+    &:before, &:after
+      border-color rgba(0, 0, 255, .4)
 </style>

@@ -2,24 +2,24 @@
   <div>
     <div class="layout-padding">
       <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{ratingModel}}</em></span>
+        Model <span class="right-detail"><em>{{ ratingModel }}</em></span>
       </div>
 
       <div style="font-size: 2rem; margin-top: 20px;">
-        <q-rating v-model="ratingModel" :max="3" @change="onChange" @input="onInput"></q-rating>
+        <q-rating v-model="ratingModel" :max="3" @change="onChange" @input="onInput"/>
         <br>
-        <q-rating color="primary" :value="ratingModel" :max="5" icon="pets" @change="val => { ratingModel = val; onChange(val); }" @input="onInput"></q-rating>
+        <q-rating color="primary" :value="ratingModel" :max="5" icon="pets" @change="val => { ratingModel = val; onChange(val); }" @input="onInput"/>
         <br>
-        <q-rating color="teal" v-model="ratingModel" :max="9" icon="thumb_up"></q-rating>
+        <q-rating color="teal" v-model="ratingModel" :max="9" icon="thumb_up"/>
         <br>
-        <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="favorite_border"></q-rating>
+        <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="favorite_border"/>
       </div>
 
       <p class="caption">Readonly State</p>
-      <q-rating size="2rem" color="primary" v-model="ratingModel" :max="6" icon="loyalty" readonly></q-rating>
+      <q-rating size="2rem" color="primary" v-model="ratingModel" :max="6" icon="loyalty" readonly/>
 
       <p class="caption">Disabled State</p>
-      <q-rating size="2rem" color="primary" v-model="ratingModel" :max="6" icon="create" disable></q-rating>
+      <q-rating size="2rem" color="primary" v-model="ratingModel" :max="6" icon="create" disable/>
     </div>
   </div>
 </template>

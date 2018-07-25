@@ -1,8 +1,9 @@
-import { QAlert } from '../components/alert'
-import uid from '../utils/uid'
-import clone from '../utils/clone'
-import { isSSR } from './platform'
-import { ready } from '../utils/dom'
+import QAlert from '../components/alert/QAlert.js'
+import uid from '../utils/uid.js'
+import clone from '../utils/clone.js'
+import { isSSR } from './platform.js'
+
+let defaults
 
 const positionList = [
   'top-left', 'top-right',
@@ -10,14 +11,7 @@ const positionList = [
   'top', 'bottom', 'left', 'right', 'center'
 ]
 
-function init ({ $q, Vue }) {
-  if (!document.body) {
-    ready(() => {
-      init.call(this, { $q, Vue })
-    })
-    return
-  }
-
+function init ({ Vue }) {
   const node = document.createElement('div')
   document.body.appendChild(node)
 
@@ -42,16 +36,14 @@ function init ({ $q, Vue }) {
           console.error('Notify: parameter required')
           return false
         }
-        let notif
-        if (typeof config === 'string') {
-          notif = {
-            message: config,
-            position: 'bottom'
-          }
-        }
-        else {
-          notif = clone(config)
-        }
+
+        const notif = Object.assign(
+          {},
+          defaults,
+          typeof config === 'string'
+            ? { message: config }
+            : clone(config)
+        )
 
         if (notif.position) {
           if (!positionList.includes(notif.position)) {
@@ -78,12 +70,14 @@ function init ({ $q, Vue }) {
             const
               handler = item.handler,
               action = clone(item)
+
             action.handler = typeof handler === 'function'
               ? () => {
                 handler()
                 !item.noDismiss && close()
               }
               : () => close()
+
             return action
           })
         }
@@ -164,26 +158,25 @@ function init ({ $q, Vue }) {
 
 export default {
   create (opts) {
-    if (!isSSR) {
-      if (!document.body) {
-        ready(() => {
-          this.create(opts)
-        })
-      }
-      else {
-        this.__vm.add(opts)
-      }
-    }
+    if (isSSR) { return () => {} }
+    return this.__vm.add(opts)
+  },
+  setDefaults (opts) {
+    Object.assign(defaults, opts)
   },
 
-  __installed: false,
   install (args) {
-    if (this.__installed) { return }
-    this.__installed = true
-
-    if (!isSSR) {
-      init.call(this, args)
+    if (isSSR) {
+      args.$q.notify = () => {}
+      args.$q.notify.setDefaults = () => {}
+      return
     }
+
+    init.call(this, args)
+
+    args.cfg.notify && this.setDefaults(args.cfg.notify)
+
     args.$q.notify = this.create.bind(this)
+    args.$q.notify.setDefaults = this.setDefaults
   }
 }

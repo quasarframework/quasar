@@ -32,12 +32,12 @@ export default {
     noData: 'Keng Donnéen do',
     noResults: 'Keng Anträg fonnt',
     loading: 'Luedt...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows === 1
         ? '1 ausgewielten Zeil.'
         : (rows === 0 ? 'Keng' : rows) + ' Zeilen ausgewielt.'
     },
-    rowsPerPage: 'Zeilen pro Säit:',
+    recordsPerPage: 'Zeilen pro Säit:',
     allRows: 'All',
     pagination: function (start, end, total) {
       return start + '-' + end + ' vun ' + total

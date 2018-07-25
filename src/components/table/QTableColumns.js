@@ -1,4 +1,4 @@
-import { QSelect } from '../select'
+import QSelect from '../select/QSelect.js'
 
 export default {
   name: 'QTableColumns',

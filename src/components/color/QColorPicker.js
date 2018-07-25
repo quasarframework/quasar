@@ -1,12 +1,11 @@
-import { QBtn } from '../btn'
-import { QSlider } from '../slider'
-import ParentFieldMixin from '../../mixins/parent-field'
-import TouchPan from '../../directives/touch-pan'
-import { stopAndPrevent } from '../../utils/event'
-import throttle from '../../utils/throttle'
-import extend from '../../utils/extend'
-import clone from '../../utils/clone'
-import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors'
+import QBtn from '../btn/QBtn.js'
+import QSlider from '../slider/QSlider.js'
+import ParentFieldMixin from '../../mixins/parent-field.js'
+import TouchPan from '../../directives/touch-pan.js'
+import { stopAndPrevent } from '../../utils/event.js'
+import throttle from '../../utils/throttle.js'
+import clone from '../../utils/clone.js'
+import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors.js'
 
 export default {
   name: 'QColorPicker',
@@ -18,7 +17,7 @@ export default {
     value: [String, Object],
     defaultValue: {
       type: [String, Object],
-      default: '#000'
+      default: null
     },
     formatModel: {
       type: String,
@@ -32,13 +31,7 @@ export default {
   data () {
     return {
       view: !this.value || typeof this.value === 'string' ? 'hex' : 'rgb',
-      model: this.__parseModel(this.value || this.defaultValue),
-      inputError: {
-        hex: false,
-        r: false,
-        g: false,
-        b: false
-      }
+      model: this.__parseModel(this.value || this.defaultValue)
     }
   },
   watch: {
@@ -133,8 +126,7 @@ export default {
           ? [{
             name: 'touch-pan',
             modifiers: {
-              prevent: true,
-              stop: true
+              mightPrevent: true
             },
             value: this.__saturationPan
           }]
@@ -146,7 +138,7 @@ export default {
           staticClass: 'absolute',
           style: this.saturationPointerStyle
         }, [
-          h('div', { staticClass: 'q-color-saturation-circle' })
+          this.model.hex !== void 0 ? h('div', { staticClass: 'q-color-saturation-circle' }) : null
         ])
       ])
     },
@@ -211,7 +203,7 @@ export default {
             },
             staticClass: 'full-width text-center q-no-input-spinner',
             domProps: {
-              value: Math.round(this.model[formatModel])
+              value: this.model.hex === void 0 ? '' : Math.round(this.model[formatModel])
             },
             on: {
               input: evt => this.__onNumericChange(evt, formatModel, max),
@@ -281,8 +273,11 @@ export default {
     },
 
     __onSaturationChange (left, top, change) {
+      const panel = this.$refs.saturation
+      if (!panel) {
+        return
+      }
       const
-        panel = this.$refs.saturation,
         width = panel.clientWidth,
         height = panel.clientHeight,
         rect = panel.getBoundingClientRect()
@@ -393,12 +388,16 @@ export default {
       this.view = this.view === 'hex' ? 'rgba' : 'hex'
     },
     __parseModel (v) {
+      if (v === null || v === void 0) {
+        return { h: 0, s: 0, v: 0, r: 0, g: 0, b: 0, hex: void 0, a: 100 }
+      }
+
       let model = typeof v === 'string' ? hexToRgb(v.trim()) : clone(v)
       if (this.forceAlpha === (model.a === void 0)) {
         model.a = this.forceAlpha ? 100 : void 0
       }
       model.hex = rgbToHex(model)
-      return extend({ a: 100 }, model, rgbToHsv(model))
+      return Object.assign({ a: 100 }, model, rgbToHsv(model))
     },
 
     __saturationPan (evt) {

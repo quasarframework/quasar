@@ -1,8 +1,9 @@
-import { getEventKey, stopAndPrevent } from '../../utils/event'
-import { getToolbar, getFonts, getLinkEditor } from './editor-utils'
-import { Caret } from './editor-caret'
-import extend from '../../utils/extend'
-import FullscreenMixin from '../../mixins/fullscreen'
+import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
+import { Caret } from './editor-caret.js'
+import extend from '../../utils/extend.js'
+import FullscreenMixin from '../../mixins/fullscreen.js'
+import { isSSR } from '../../plugins/platform.js'
 
 export default {
   name: 'QEditor',
@@ -281,13 +282,17 @@ export default {
     }
   },
   created () {
-    document.execCommand('defaultParagraphSeparator', false, 'div')
-    this.defaultFont = window.getComputedStyle(document.body).fontFamily
+    if (!isSSR) {
+      document.execCommand('defaultParagraphSeparator', false, 'div')
+      this.defaultFont = window.getComputedStyle(document.body).fontFamily
+    }
   },
   mounted () {
     this.$nextTick(() => {
-      this.caret = new Caret(this.$refs.content, this)
-      this.$refs.content.innerHTML = this.value
+      if (this.$refs.content) {
+        this.caret = new Caret(this.$refs.content, this)
+        this.$refs.content.innerHTML = this.value
+      }
       this.$nextTick(this.refreshToolbar)
     })
   },
@@ -295,7 +300,7 @@ export default {
     let toolbars
     if (this.hasToolbar) {
       const toolbarConfig = {
-        staticClass: `q-editor-toolbar row no-wrap scroll`,
+        staticClass: `q-editor-toolbar row no-wrap scroll-x`,
         'class': [
           { 'q-editor-toolbar-separator': !this.toolbarOutline && !this.toolbarPush },
           this.toolbarBackgroundClass
@@ -336,6 +341,9 @@ export default {
             style: this.innerStyle,
             class: this.innerClass,
             attrs: { contenteditable: this.editable },
+            domProps: isSSR
+              ? { innerHTML: this.value }
+              : undefined,
             on: {
               input: this.onInput,
               keydown: this.onKeydown,

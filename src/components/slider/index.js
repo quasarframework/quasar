@@ -1,4 +1,4 @@
-import QSlider from './QSlider'
+import QSlider from './QSlider.js'
 
 export {
   QSlider

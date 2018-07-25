@@ -1,4 +1,4 @@
-import TabMixin from './tab-mixin'
+import TabMixin from './tab-mixin.js'
 
 export default {
   name: 'QTab',
@@ -24,9 +24,10 @@ export default {
       staticClass: 'q-tab column flex-center relative-position',
       'class': this.classes,
       on: {
-        click: this.select
+        click: this.select,
+        keyup: e => e.keyCode === 13 && this.select(e)
       },
-      directives: __THEME__ === 'mat'
+      directives: process.env.THEME === 'mat'
         ? [{ name: 'ripple' }]
         : null
     }, this.__getTabContent(h))

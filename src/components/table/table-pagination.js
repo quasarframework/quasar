@@ -1,5 +1,3 @@
-import extend from '../../utils/extend'
-
 function samePagination (oldPag, newPag) {
   for (let prop in newPag) {
     if (newPag[prop] !== oldPag[prop]) {
@@ -39,7 +37,7 @@ export default {
   },
   computed: {
     computedPagination () {
-      return fixPagination(extend({}, this.innerPagination, this.pagination))
+      return fixPagination(Object.assign({}, this.innerPagination, this.pagination))
     },
     firstRowIndex () {
       const { page, rowsPerPage } = this.computedPagination
@@ -94,7 +92,7 @@ export default {
       })
     },
     setPagination (val, forceServerRequest) {
-      const newPagination = fixPagination(extend({}, this.computedPagination, val))
+      const newPagination = fixPagination(Object.assign({}, this.computedPagination, val))
 
       if (samePagination(this.computedPagination, newPagination)) {
         if (this.isServerSide && forceServerRequest) {
@@ -129,6 +127,6 @@ export default {
     }
   },
   created () {
-    this.$emit('update:pagination', extend({}, this.computedPagination))
+    this.$emit('update:pagination', Object.assign({}, this.computedPagination))
   }
 }

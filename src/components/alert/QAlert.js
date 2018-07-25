@@ -1,5 +1,5 @@
-import { QIcon } from '../icon'
-import { QBtn } from '../btn'
+import QIcon from '../icon/QIcon.js'
+import QBtn from '../btn/QBtn.js'
 
 export default {
   name: 'QAlert',
@@ -38,7 +38,7 @@ export default {
       side.push(
         h('img', {
           staticClass: 'avatar',
-          domProps: { src: this.avatar }
+          attrs: { src: this.avatar }
         })
       )
     }

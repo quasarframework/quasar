@@ -175,7 +175,7 @@ export function lighten (color, percent) {
 }
 
 export function luminosity (color) {
-  if (typeof color !== 'string' || color.r === void 0) {
+  if (typeof color !== 'string' && (!color || color.r === void 0)) {
     throw new TypeError('Expected a string or a {r, g, b} object as color')
   }
 
@@ -221,4 +221,16 @@ export function getBrand (color, element = document.body) {
   }
 
   return getComputedStyle(element).getPropertyValue(`--q-color-${color}`).trim() || null
+}
+
+export default {
+  rgbToHex,
+  hexToRgb,
+  hsvToRgb,
+  rgbToHsv,
+  textToRgb,
+  lighten,
+  luminosity,
+  setBrand,
+  getBrand
 }

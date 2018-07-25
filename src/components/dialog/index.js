@@ -1,4 +1,4 @@
-import QDialog from './QDialog'
+import QDialog from './QDialog.js'
 
 export {
   QDialog

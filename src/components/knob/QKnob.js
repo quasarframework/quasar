@@ -1,7 +1,7 @@
-import { position, stopAndPrevent } from '../../utils/event'
-import { between } from '../../utils/format'
-import { offset, height, width } from '../../utils/dom'
-import TouchPan from '../../directives/touch-pan'
+import { position, stopAndPrevent } from '../../utils/event.js'
+import { between } from '../../utils/format.js'
+import { offset, height, width } from '../../utils/dom.js'
+import TouchPan from '../../directives/touch-pan.js'
 
 export default {
   name: 'QKnob',
@@ -66,6 +66,9 @@ export default {
     },
     computedDecimals () {
       return this.decimals !== void 0 ? this.decimals || 0 : (String(this.step).trim('0').split('.')[1] || '').length
+    },
+    computedStep () {
+      return this.decimals !== void 0 ? 1 / Math.pow(10, this.decimals || 0) : this.step
     }
   },
   data () {
@@ -142,18 +145,36 @@ export default {
       }, 100)
       this.__onInput(ev, this.centerPosition, true)
     },
+    __onKeyDown (ev) {
+      const keyCode = ev.keyCode
+      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
+        return
+      }
+      stopAndPrevent(ev)
+      const step = ev.ctrlKey ? 10 * this.computedStep : this.computedStep
+      const offset = [37, 40].includes(keyCode) ? -step : step
+      this.__onInputValue(between(this.model + offset, this.min, this.max))
+    },
+    __onKeyUp (ev) {
+      const keyCode = ev.keyCode
+      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
+        return
+      }
+      this.__emitChange()
+    },
     __onInput (ev, center = this.__getCenter(), emitChange) {
       if (!this.editable) {
         return
       }
-      let
+      const
         pos = position(ev),
         height = Math.abs(pos.top - center.top),
         distance = Math.sqrt(
           Math.pow(Math.abs(pos.top - center.top), 2) +
           Math.pow(Math.abs(pos.left - center.left), 2)
-        ),
-        angle = Math.asin(height / distance) * (180 / Math.PI)
+        )
+
+      let angle = Math.asin(height / distance) * (180 / Math.PI)
 
       if (pos.top < center.top) {
         angle = center.left < pos.left ? 90 - angle : 270 + angle
@@ -166,16 +187,18 @@ export default {
         angle = 360 - angle
       }
 
-      let
+      const
         model = this.min + (angle / 360) * (this.max - this.min),
         modulo = model % this.step
 
-      let value = between(
+      const value = between(
         model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0),
         this.min,
         this.max
       )
-
+      this.__onInputValue(value, emitChange)
+    },
+    __onInputValue (value, emitChange) {
       if (this.computedDecimals) {
         value = parseFloat(value.toFixed(this.computedDecimals))
       }
@@ -192,12 +215,15 @@ export default {
 
       this.$emit('input', value)
       if (emitChange) {
-        this.$nextTick(() => {
-          if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-            this.$emit('change', value)
-          }
-        })
+        this.__emitChange(value)
       }
+    },
+    __emitChange (value = this.model) {
+      this.$nextTick(() => {
+        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+          this.$emit('change', value)
+        }
+      })
     },
     __getCenter () {
       let knobOffset = offset(this.$el)
@@ -253,13 +279,22 @@ export default {
           })
         ]),
 
-        h('div', {
-          staticClass: 'q-knob-label row flex-center content-center'
-        }, [
-          this.$slots.default
-            ? this.$slots.default
-            : h('span', [ this.model ])
-        ])
+        h(
+          'div',
+          {
+            staticClass: 'q-knob-label row flex-center content-center',
+            attrs: {
+              tabindex: this.editable ? 0 : -1
+            },
+            on: {
+              keydown: this.__onKeyDown,
+              keyup: this.__onKeyUp
+            }
+          },
+          this.$slots.default || [
+            h('span', [ this.model ])
+          ]
+        )
       ])
     ])
   }

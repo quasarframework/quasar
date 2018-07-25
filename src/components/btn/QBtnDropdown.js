@@ -1,7 +1,8 @@
-import BtnMixin from './btn-mixin'
-import QBtn from './QBtn'
-import QBtnGroup from './QBtnGroup'
-import { QPopover } from '../popover'
+import BtnMixin from './btn-mixin.js'
+import QIcon from '../icon/QIcon.js'
+import QBtn from './QBtn.js'
+import QBtnGroup from './QBtnGroup.js'
+import QPopover from '../popover/QPopover.js'
 
 export default {
   name: 'QBtnDropdown',
@@ -10,7 +11,15 @@ export default {
     value: Boolean,
     split: Boolean,
     contentClass: [Array, String, Object],
-    contentStyle: [Array, String, Object]
+    contentStyle: [Array, String, Object],
+    popoverAnchor: {
+      type: String,
+      default: 'bottom right'
+    },
+    popoverSelf: {
+      type: String,
+      default: 'top right'
+    }
   },
   data () {
     return {
@@ -19,7 +28,7 @@ export default {
   },
   watch: {
     value (val) {
-      this.$refs.popover[val ? 'show' : 'hide']()
+      this.$refs.popover && this.$refs.popover[val ? 'show' : 'hide']()
     }
   },
   render (h) {
@@ -32,8 +41,8 @@ export default {
             disable: this.disable,
             fit: true,
             anchorClick: !this.split,
-            anchor: 'bottom right',
-            self: 'top right'
+            anchor: this.popoverAnchor,
+            self: this.popoverSelf
           },
           'class': this.contentClass,
           style: this.contentStyle,
@@ -50,43 +59,23 @@ export default {
             }
           }
         },
-        [ this.$slots.default ]
+        this.$slots.default
       ),
-      Icon = h(
-        'QIcon',
-        {
-          props: {
-            name: this.$q.icon.input.dropdown
-          },
-          staticClass: 'transition-generic',
-          'class': {
-            'rotate-180': this.showing,
-            'on-right': !this.split,
-            'q-btn-dropdown-arrow': !this.split
-          }
-        }
-      ),
-      Btn = h(QBtn, {
+      Icon = h(QIcon, {
         props: {
-          loading: this.loading,
-          disable: this.disable,
-          noCaps: this.noCaps,
-          noWrap: this.noWrap,
-          icon: this.icon,
-          label: this.label,
-          iconRight: this.split ? this.iconRight : null,
-          outline: this.outline,
-          flat: this.flat,
-          rounded: this.rounded,
-          push: this.push,
-          size: this.size,
-          color: this.color,
-          textColor: this.textColor,
-          glossy: this.glossy,
-          dense: this.dense,
-          noRipple: this.noRipple,
-          waitForRipple: this.waitForRipple
+          name: this.$q.icon.input.dropdown
         },
+        staticClass: 'transition-generic',
+        'class': {
+          'rotate-180': this.showing,
+          'on-right': !this.split,
+          'q-btn-dropdown-arrow': !this.split
+        }
+      }),
+      Btn = h(QBtn, {
+        props: Object.assign({}, this.$props, {
+          iconRight: this.split ? this.iconRight : null
+        }),
         'class': this.split ? 'q-btn-dropdown-current' : 'q-btn-dropdown q-btn-dropdown-simple',
         on: {
           click: e => {
@@ -102,60 +91,53 @@ export default {
       return Btn
     }
 
-    return h(
-      QBtnGroup,
-      {
+    return h(QBtnGroup, {
+      props: {
+        outline: this.outline,
+        flat: this.flat,
+        rounded: this.rounded,
+        push: this.push
+      },
+      staticClass: 'q-btn-dropdown q-btn-dropdown-split no-wrap q-btn-item'
+    },
+    [
+      Btn,
+      h(QBtn, {
         props: {
+          disable: this.disable,
           outline: this.outline,
           flat: this.flat,
           rounded: this.rounded,
-          push: this.push
+          push: this.push,
+          size: this.size,
+          color: this.color,
+          textColor: this.textColor,
+          dense: this.dense,
+          glossy: this.glossy,
+          noRipple: this.noRipple,
+          waitForRipple: this.waitForRipple
         },
-        staticClass: 'q-btn-dropdown q-btn-dropdown-split no-wrap q-btn-item'
-      },
-      [
-        Btn,
-        h(
-          QBtn,
-          {
-            props: {
-              disable: this.disable,
-              outline: this.outline,
-              flat: this.flat,
-              rounded: this.rounded,
-              push: this.push,
-              size: this.size,
-              color: this.color,
-              textColor: this.textColor,
-              dense: this.dense,
-              glossy: this.glossy,
-              noRipple: this.noRipple,
-              waitForRipple: this.waitForRipple
-            },
-            staticClass: 'q-btn-dropdown-arrow',
-            on: { click: () => { this.toggle() } }
-          },
-          [ Icon ]
-        ),
-        [ Popover ]
-      ]
-    )
+        staticClass: 'q-btn-dropdown-arrow',
+        on: { click: () => { this.toggle() } }
+      }, [ Icon ]),
+      [ Popover ]
+    ])
   },
   methods: {
     toggle () {
-      return this.$refs.popover.toggle()
+      return this.$refs.popover ? this.$refs.popover.toggle() : Promise.resolve()
     },
     show () {
-      return this.$refs.popover.show()
+      return this.$refs.popover ? this.$refs.popover.show() : Promise.resolve()
     },
     hide () {
-      return this.$refs.popover.hide()
+      return this.$refs.popover ? this.$refs.popover.hide() : Promise.resolve()
     }
   },
   mounted () {
     this.$nextTick(() => {
       if (this.value) {
-        this.$refs.popover.show()
+        this.$refs.popover && this.$refs.popover.show()
       }
     })
   }

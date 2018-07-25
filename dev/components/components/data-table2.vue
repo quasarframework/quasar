@@ -1,7 +1,7 @@
 <template>
   <div class="layout-padding">
     <h4>Emulate server-side</h4>
-    {{serverPagination}}
+    {{ serverPagination }}
     <q-table
       ref="server"
       color="primary"
@@ -135,30 +135,30 @@
       <template slot="header" slot-scope="props">
         <q-tr :props="props">
           <q-th rowspan="2" @click="props.sort(props.cols[0].name)" :class="props.cols[0].__thClass">
-            {{props.cols[0].label}} <q-icon :class="props.cols[0].__iconClass" name="arrow_upward" />
+            {{ props.cols[0].label }} <q-icon :class="props.cols[0].__iconClass" name="arrow_upward" />
           </q-th>
           <q-th @click="props.sort(props.cols[1].name)" :class="props.cols[1].__thClass">
-            {{props.cols[1].label}} <q-icon :class="props.cols[1].__iconClass" name="arrow_upward" />
+            {{ props.cols[1].label }} <q-icon :class="props.cols[1].__iconClass" name="arrow_upward" />
           </q-th>
           <q-th @click="props.sort(props.cols[3].name)" :class="props.cols[3].__thClass">
-            {{props.cols[3].label}} <q-icon :class="props.cols[3].__iconClass" name="arrow_upward" />
+            {{ props.cols[3].label }} <q-icon :class="props.cols[3].__iconClass" name="arrow_upward" />
           </q-th>
           <q-th @click="props.sort(props.cols[5].name)" :class="props.cols[5].__thClass">
-            {{props.cols[5].label}} <q-icon :class="props.cols[5].__iconClass" name="arrow_upward" />
+            {{ props.cols[5].label }} <q-icon :class="props.cols[5].__iconClass" name="arrow_upward" />
           </q-th>
           <q-th rowspan="2" @click="props.sort(props.cols[7].name)" :class="props.cols[7].__thClass">
-            {{props.cols[7].label}} <q-icon :class="props.cols[7].__iconClass" name="arrow_upward" />
+            {{ props.cols[7].label }} <q-icon :class="props.cols[7].__iconClass" name="arrow_upward" />
           </q-th>
         </q-tr>
         <q-tr>
           <q-th @click="props.sort(props.cols[2].name)" :class="props.cols[2].__thClass">
-            {{props.cols[2].label}} <q-icon :class="props.cols[2].__iconClass" name="arrow_upward" />
+            {{ props.cols[2].label }} <q-icon :class="props.cols[2].__iconClass" name="arrow_upward" />
           </q-th>
           <q-th @click="props.sort(props.cols[4].name)" :class="props.cols[4].__thClass">
-            {{props.cols[4].label}} <q-icon :class="props.cols[4].__iconClass" name="arrow_upward" />
+            {{ props.cols[4].label }} <q-icon :class="props.cols[4].__iconClass" name="arrow_upward" />
           </q-th>
           <q-th @click="props.sort(props.cols[6].name)" :class="props.cols[6].__thClass">
-            {{props.cols[6].label}} <q-icon :class="props.cols[6].__iconClass" name="arrow_upward" />
+            {{ props.cols[6].label }} <q-icon :class="props.cols[6].__iconClass" name="arrow_upward" />
           </q-th>
         </q-tr>
       </template>
@@ -239,7 +239,7 @@
       <template slot="top-selection" slot-scope="props">
         <q-btn color="secondary" flat label="Action 1" />
         <q-btn color="secondary" flat label="Action 2" />
-        <div class="col"></div>
+        <div class="col"/>
         <q-btn color="negative" flat round dense icon="delete" />
       </template>
     </q-table>

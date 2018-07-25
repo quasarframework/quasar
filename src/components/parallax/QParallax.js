@@ -1,7 +1,8 @@
-import { height, offset, css, cssTransform } from '../../utils/dom'
-import { debounce, frameDebounce } from '../../utils/debounce'
-import { getScrollTarget } from '../../utils/scroll'
-import { listenOpts } from '../../utils/event'
+import { height, offset, css, cssTransform } from '../../utils/dom.js'
+import debounce from '../../utils/debounce.js'
+import frameDebounce from '../../utils/frame-debounce.js'
+import { getScrollTarget } from '../../utils/scroll.js'
+import { listenOpts } from '../../utils/event.js'
 
 export default {
   name: 'QParallax',
@@ -91,7 +92,7 @@ export default {
       }, [
         h('img', {
           ref: 'img',
-          domProps: {
+          attrs: {
             src: this.src
           },
           'class': { ready: this.imageHasBeenLoaded },
@@ -101,16 +102,16 @@ export default {
         })
       ]),
 
-      h('div', {
-        staticClass: 'q-parallax-text absolute-full column flex-center'
-      }, [
+      h(
+        'div',
+        { staticClass: 'q-parallax-text absolute-full column flex-center' },
         this.imageHasBeenLoaded
           ? this.$slots.default
-          : this.$slots.loading
-      ])
+          : [ this.$slots.loading ]
+      )
     ])
   },
-  created () {
+  beforeMount () {
     this.__setPos = frameDebounce(this.__setPos)
   },
   mounted () {

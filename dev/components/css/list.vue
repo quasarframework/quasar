@@ -144,7 +144,7 @@
         <q-item multiline>
           <q-item-side>
             <q-item-tile avatar>
-              <img src="~assets/boy-avatar.png" />
+              <img src="~assets/boy-avatar.png" >
             </q-item-tile>
           </q-item-side>
           <q-item-main>
@@ -152,7 +152,7 @@
             <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
           </q-item-main>
           <q-item-tile right avatar>
-            <img src="~assets/boy-avatar.png" />
+            <img src="~assets/boy-avatar.png" >
           </q-item-tile>
         </q-item>
 
@@ -515,7 +515,7 @@
           />
           <q-item-side right>
             <q-item-tile stamp class="text-center">
-               1 week<br>ago
+              1 week<br>ago
             </q-item-tile>
           </q-item-side>
         </q-item>
@@ -532,7 +532,7 @@
         <q-item multiline>
           <q-item-side>
             <q-item-tile avatar>
-              <img src="~assets/boy-avatar.png" />
+              <img src="~assets/boy-avatar.png" >
             </q-item-tile>
           </q-item-side>
           <q-item-main>
@@ -752,7 +752,7 @@
             <q-item-tile label>Photos</q-item-tile>
             <q-item-tile sublabel>February 22, 2016</q-item-tile>
           </q-item-main>
-          </q-item-side right icon="info" />
+          <q-item-side right icon="info" />
         </q-item>
         <q-item-separator inset />
         <q-list-header inset>Files</q-list-header>
@@ -762,7 +762,7 @@
             <q-item-tile label>Vacation</q-item-tile>
             <q-item-tile sublabel>February 22, 2016</q-item-tile>
           </q-item-main>
-          </q-item-side right icon="info" />
+          <q-item-side right icon="info" />
         </q-item>
       </q-list>
 
@@ -817,13 +817,13 @@
         <q-list-header>Radios</q-list-header>
         <q-item tag="label">
           <q-item-side>
-            <q-radio :dark="dark" v-model="option" val="opt1"></q-radio>
+            <q-radio :dark="dark" v-model="option" val="opt1"/>
           </q-item-side>
           <q-item-main label="Option 1" />
         </q-item>
         <q-item tag="label">
           <q-item-side>
-            <q-radio :dark="dark" color="purple" v-model="option" val="opt2"></q-radio>
+            <q-radio :dark="dark" color="purple" v-model="option" val="opt2"/>
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Option 2</q-item-tile>
@@ -832,7 +832,7 @@
         </q-item>
         <q-item tag="label">
           <q-item-side>
-            <q-radio :dark="dark" color="red" v-model="option" val="opt3"></q-radio>
+            <q-radio :dark="dark" color="red" v-model="option" val="opt3"/>
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Option 3</q-item-tile>
@@ -846,7 +846,7 @@
         <q-item tag="label">
           <q-item-main label="Events and reminders" />
           <q-item-side right>
-            <q-toggle :dark="dark" v-model="checked"></q-toggle>
+            <q-toggle :dark="dark" v-model="checked"/>
           </q-item-side>
         </q-item>
         <q-item tag="label" multiline>
@@ -855,7 +855,7 @@
             <q-item-tile sublabel>Lorem ipsum</q-item-tile>
           </q-item-main>
           <q-item-side right>
-            <q-toggle :dark="dark" v-model="checked" color="purple"></q-toggle>
+            <q-toggle :dark="dark" v-model="checked" color="purple"/>
           </q-item-side>
         </q-item>
         <q-item tag="label" multiline>
@@ -864,7 +864,7 @@
             <q-item-tile sublabel lines="3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</q-item-tile>
           </q-item-main>
           <q-item-side right>
-            <q-toggle :dark="dark" v-model="checked" color="red"></q-toggle>
+            <q-toggle :dark="dark" v-model="checked" color="red"/>
           </q-item-side>
         </q-item>
       </q-list>

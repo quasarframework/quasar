@@ -1,6 +1,5 @@
 <template>
   <div>
-    <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" />
     <div class="layout-padding" style="max-width: 600px;">
       <p class="caption">Ajax Bar component captures Ajax calls automatically. This page here triggers events manually for demonstrating purposes only.</p>
 
@@ -39,6 +38,7 @@
         </q-card-main>
       </q-card>
     </div>
+    <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" />
   </div>
 </template>
 
@@ -46,9 +46,9 @@
 export default {
   data () {
     return {
-      position: 'bottom',
+      position: 'top',
       reverse: false,
-      size: 8,
+      size: 20,
 
       timeouts: []
     }
@@ -66,7 +66,7 @@ export default {
         if (this.$refs.bar) {
           this.$refs.bar.stop()
         }
-      }, Math.random() * 5000 + 2000)
+      }, Math.random() * 3000 + 1000)
     }
   }
 }

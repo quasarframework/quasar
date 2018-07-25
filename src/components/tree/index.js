@@ -1,4 +1,4 @@
-import QTree from './QTree'
+import QTree from './QTree.js'
 
 export {
   QTree

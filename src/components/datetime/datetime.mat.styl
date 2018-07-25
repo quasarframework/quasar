@@ -37,8 +37,14 @@ div + .q-datetime-time
     font-size 1.2rem
 
 .q-datetime-link
-  cursor pointer
+  pointer-events none
   opacity .6
+  > span
+    cursor pointer
+    pointer-events all
+    display inline-block
+    width 100%
+    outline 0
   &.active
     opacity 1
 
@@ -168,10 +174,11 @@ div + .q-datetime-time
     &.q-datetime-day-active > span, &:not(.q-datetime-fillerday):not(.disabled):not(.q-datetime-day-active):hover
       color black
 
-body.desktop .q-datetime-clock-position:not(.active):hover
-  background $grey-2 !important
-body.desktop .q-datetime-dark .q-datetime-clock-position:not(.active):hover
-  color black
+body.desktop
+  .q-datetime-clock-position:not(.active):hover
+    background $grey-2 !important
+  .q-datetime-dark .q-datetime-clock-position:not(.active):hover
+    color black
 
 .q-datetime-clock-position
   position absolute

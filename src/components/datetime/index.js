@@ -1,4 +1,4 @@
-import QDatetime from './QDatetime'
+import QDatetime from './QDatetime.js'
 import QDatetimePicker from './QDatetimePicker'
 
 export {

@@ -1,61 +1,40 @@
 /* eslint-disable no-extend-native */
 
-function assign (target, firstSource) {
-  if (target === undefined || target === null) {
-    throw new TypeError('Cannot convert first argument to object')
+typeof window !== 'undefined' && (function (window) {
+  try {
+    new MouseEvent('test') // eslint-disable-line no-new, no-use-before-define
+    return
+  }
+  catch (e) {}
+
+  var MouseEvent = function (eventType, params) {
+    params = params || {}
+    var mouseEvent = document.createEvent('MouseEvent')
+    mouseEvent.initMouseEvent(
+      eventType,
+      params.bubbles || false,
+      params.cancelable || false,
+      params.view || window,
+      params.detail || 0,
+      params.screenX || 0,
+      params.screenY || 0,
+      params.clientX || 0,
+      params.clientY || 0,
+      params.ctrlKey || false,
+      params.altKey || false,
+      params.shiftKey || false,
+      params.metaKey || false,
+      params.button || 0,
+      params.relatedTarget || null
+    )
+
+    return mouseEvent
   }
 
-  var to = Object(target)
-  for (var i = 1; i < arguments.length; i++) {
-    var nextSource = arguments[i]
-    if (nextSource === undefined || nextSource === null) {
-      continue
-    }
+  MouseEvent.prototype = Event.prototype
 
-    var keysArray = Object.keys(Object(nextSource))
-    for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
-      var nextKey = keysArray[nextIndex]
-      var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey)
-      if (desc !== undefined && desc.enumerable) {
-        to[nextKey] = nextSource[nextKey]
-      }
-    }
-  }
-  return to
-}
-
-if (!Object.assign) {
-  Object.defineProperty(Object, 'assign', {
-    enumerable: false,
-    configurable: true,
-    writable: true,
-    value: assign
-  })
-}
-
-if (!Number.isInteger) {
-  Number.isInteger = function (value) {
-    return typeof value === 'number' &&
-      isFinite(value) &&
-      Math.floor(value) === value
-  }
-}
-
-(function (arr) {
-  arr.forEach(function (item) {
-    if (item.hasOwnProperty('remove')) {
-      return
-    }
-    Object.defineProperty(item, 'remove', {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-      value: function remove () {
-        return this.parentNode ? this.parentNode.removeChild(this) : this
-      }
-    })
-  })
-})([Element.prototype, CharacterData.prototype, DocumentType.prototype])
+  window.MouseEvent = MouseEvent
+}(window))
 
 if (!Array.prototype.findIndex) {
   Object.defineProperty(Array.prototype, 'findIndex', {

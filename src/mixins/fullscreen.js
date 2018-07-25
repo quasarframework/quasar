@@ -1,4 +1,4 @@
-import History from '../plugins/history'
+import History from '../history.js'
 
 export default {
   data () {
@@ -50,7 +50,7 @@ export default {
       this.inFullscreen = false
     }
   },
-  created () {
+  beforeMount () {
     this.fullscreenFillerNode = document.createElement('span')
   },
   beforeDestroy () {

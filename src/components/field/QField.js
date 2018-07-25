@@ -1,7 +1,9 @@
-import { QIcon } from '../icon'
+import QIcon from '../icon/QIcon.js'
+import CanRenderMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QField',
+  mixins: [ CanRenderMixin ],
   props: {
     inset: {
       type: String,
@@ -55,7 +57,7 @@ export default {
       return ['icon', 'full'].includes(this.inset)
     },
     hasNoInput () {
-      return !this.input.$options || this.input.__needsBorder
+      return this.canRender && (!this.input.$options || this.input.__needsBorder)
     },
     counter () {
       if (this.count) {

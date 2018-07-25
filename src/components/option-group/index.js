@@ -1,4 +1,4 @@
-import QOptionGroup from './QOptionGroup'
+import QOptionGroup from './QOptionGroup.js'
 
 export {
   QOptionGroup

@@ -1,7 +1,7 @@
-import { height, offset } from '../../utils/dom'
-import { debounce } from '../../utils/debounce'
-import { getScrollTarget } from '../../utils/scroll'
-import { listenOpts } from '../../utils/event'
+import { height, offset } from '../../utils/dom.js'
+import debounce from '../../utils/debounce.js'
+import { getScrollTarget } from '../../utils/scroll.js'
+import { listenOpts } from '../../utils/event.js'
 
 export default {
   name: 'QInfiniteScroll',
@@ -62,10 +62,11 @@ export default {
     resume () {
       this.working = true
       this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
-      this.poll()
+      this.immediatePoll()
     },
     stop () {
       this.working = false
+      this.fetching = false
       this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
     }
   },
@@ -79,6 +80,7 @@ export default {
       }
 
       this.poll()
+      this.immediatePoll = this.poll
       this.poll = debounce(this.poll, 50)
     })
   },
@@ -90,16 +92,11 @@ export default {
       h('div', {
         ref: 'content',
         staticClass: 'q-infinite-scroll-content'
-      }, [ this.$slots.default ]),
-      h('div', {
-        staticClass: 'q-infinite-scroll-message',
-        directives: [{
-          name: 'show',
-          value: this.fetching
-        }]
-      }, [
-        this.$slots.message
-      ])
+      }, this.$slots.default),
+
+      this.fetching
+        ? h('div', { staticClass: 'q-infinite-scroll-message' }, this.$slots.message)
+        : null
     ])
   }
 }
