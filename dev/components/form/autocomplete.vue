@@ -22,6 +22,11 @@
         <q-autocomplete @search="search" @selected="selected" />
       </q-search>
 
+      <p class="caption">Usage of valueField for dynamic data</p>
+      <q-search @change="onChange" @input="onInput" v-model="terms" float-label="Country name - Trigger on focus - valueField is icon">
+        <q-autocomplete @search="search" @selected="selected" :min-characters="0" value-field="icon" />
+      </q-search>
+
       <p class="caption">Number selected: {{ JSON.stringify(termsN) }}</p>
       <q-search type="number" v-model="termsN" placeholder="Start typing a number">
         <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
@@ -89,6 +94,23 @@
         />
       </q-search>
 
+      <p class="caption">Usage of valueField for Static List</p>
+      <q-search inverted color="dark" class="q-mb-sm" v-model="terms" float-label="Featuring static data - valueField is icon and searching in label">
+        <q-autocomplete
+          :static-data="{field: 'label', list: countriesNoValue}"
+          value-field="icon"
+          @selected="selected"
+        />
+      </q-search>
+
+      <q-search inverted color="dark" class="q-mb-sm" v-model="terms" float-label="Featuring static data - valueField is icon + label and searching in label">
+        <q-autocomplete
+          :static-data="{field: 'label', list: countriesNoValue}"
+          :value-field="v => `${ v.icon } - ${ v.label }`"
+          @selected="selected"
+        />
+      </q-search>
+
       <p class="caption">Separator between results</p>
       <q-search v-model="terms">
         <q-autocomplete
@@ -132,12 +154,24 @@ function parseCountries () {
   })
 }
 
+function parseCountriesNoValue () {
+  return countries.map(country => {
+    return {
+      label: country,
+      sublabel: getRandomSecondLabel(),
+      icon: getRandomIcon(),
+      stamp: getRandomStamp()
+    }
+  })
+}
+
 export default {
   data () {
     return {
       terms: '',
       termsN: null,
       countries: parseCountries(),
+      countriesNoValue: parseCountriesNoValue(),
       numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v })),
       lots: Array(100).fill(0).map((v, i) => ({ label: String(i), value: i }))
     }
@@ -149,7 +183,7 @@ export default {
       }, 1000)
     },
     selected (item) {
-      this.$q.notify(`Selected suggestion ${JSON.stringify(item.label)}`)
+      this.$q.notify(`Selected suggestion ${JSON.stringify(item)}`)
     },
     onChange (val) {
       console.log('@change', JSON.stringify(val))
