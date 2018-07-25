@@ -25,7 +25,7 @@ export default {
   },
   pullToRefresh: {
     pull: 'Τράβηξε κάτω για ανανέωση',
-    release: 'Ελευθέρωσε για ανανέωση',
+    release: 'Άφησε για ανανέωση',
     refresh: 'Ανανέωση...'
   },
   table: {
@@ -34,18 +34,18 @@ export default {
     loading: 'Φόρτωση...',
     selectedRecords: function (rows) {
       return rows === 1
-        ? '1 Επιλεγμένη εγγραφή.'
-        : (rows === 0 ? 'Καμμία' : rows) + ' Επιλεγμένες Εγγραφές.'
+        ? '1 επιλεγμένη εγγραφή.'
+        : (rows === 0 ? 'Καμμία' : rows) + ' επιλεγμένες εγγραφές.'
     },
     recordsPerPage: 'Εγγραφές ανα σελίδα:',
     allRows: 'Όλες',
     pagination: function (start, end, total) {
-      return start + '-' + end + ' of ' + total
+      return start + '-' + end + ' από ' + total
     },
     columns: 'Στήλες'
   },
   editor: {
-    url: 'URL', // Needs Translation
+    url: 'Διεύθυνση URL', // Needs Translation
     bold: 'Έντονα',
     italic: 'Πλάγια',
     strikethrough: 'Διακριτή διαγραφή',
@@ -54,7 +54,7 @@ export default {
     orderedList: 'Ταξινομημένη λίστα',
     subscript: 'Δείκτης',
     superscript: 'Εκθέτης',
-    hyperlink: 'υπερσύνδεση',
+    hyperlink: 'Υπερσύνδεσμος',
     toggleFullscreen: 'Εναλλαγή μεγιστοποίησης οθόνης',
     quote: 'Παράθεση',
     left: 'Αριστερή στοίχιση',
@@ -86,7 +86,7 @@ export default {
     size5: 'Μεγάλο',
     size6: 'Πολύ μεγάλο',
     size7: 'Μέγιστο',
-    defaultFont: 'Προκαθορισμένη Γραμματοσειρά'
+    defaultFont: 'Προκαθορισμένη gραμματοσειρά'
   },
   tree: {
     noNodes: 'Μη διαθέσιμοι κόμβοι',
