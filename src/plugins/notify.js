@@ -3,7 +3,7 @@ import uid from '../utils/uid.js'
 import clone from '../utils/clone.js'
 import { isSSR } from './platform.js'
 
-let defaults
+let defaults = {}
 
 const positionList = [
   'top-left', 'top-right',
