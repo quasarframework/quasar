@@ -1,6 +1,6 @@
 {
   "name": "quasar-framework",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "description": "Build responsive websites, PWAs, hybrid mobile apps and Electron apps, all simultaneously using same codebase",
   "module": "src/index.esm.js",
   "files": [
