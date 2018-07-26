@@ -210,11 +210,13 @@ export default {
       }
     },
     __updateArea () {
-      const shadow = this.$refs.shadow
-      if (shadow) {
+      const
+        shadow = this.$refs.shadow,
+        input = this.$refs.input
+      if (shadow && input) {
         let h = shadow.scrollHeight
-        const minHeight = between(h, 19, this.maxHeight || h)
-        this.$refs.input.style.minHeight = `${minHeight + 19}px`
+        input.style.minHeight = `${between(h, shadow.offsetHeight, this.maxHeight || h)}px`
+        input.style.overflowY = this.maxHeight && this.maxHeight < h ? 'scroll' : 'hidden'
       }
     },
     __watcher (value) {
@@ -252,7 +254,9 @@ export default {
           ref: 'shadow',
           staticClass: 'col q-input-target q-input-shadow absolute-top',
           domProps: { value: this.model },
-          attrs: this.$attrs
+          attrs: Object.assign({}, this.$attrs, {
+            rows: this.$attrs.rows || 1
+          })
         }),
 
         h('textarea', {
@@ -261,7 +265,8 @@ export default {
           attrs: Object.assign({}, this.$attrs, {
             placeholder: this.inputPlaceholder,
             disabled: this.disable,
-            readonly: this.readonly
+            readonly: this.readonly,
+            rows: this.$attrs.rows || 1
           }),
           domProps: { value: this.model },
           on: {
