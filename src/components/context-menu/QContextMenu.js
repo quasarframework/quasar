@@ -66,11 +66,15 @@ export default {
     },
 
     __mobileTouchStartHandler (evt) {
+      this.__mobileCleanup()
+      if (evt.touches.length > 1) {
+        return
+      }
       this.target.classList.add('non-selectable')
       this.touchTimer = setTimeout(() => {
         evt && stopAndPrevent(evt)
+        this.__mobileCleanup()
         setTimeout(() => {
-          this.__mobileCleanup()
           this.show(evt)
         }, 10)
       }, 600)
