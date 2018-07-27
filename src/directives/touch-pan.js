@@ -112,6 +112,7 @@ export default {
         }
 
         if (ctx.event.detected) {
+          el.classList.add('q-touch')
           stopPropagation && evt.stopPropagation()
           preventDefault && evt.preventDefault()
         }
@@ -153,6 +154,7 @@ export default {
         ctx.move(evt)
       },
       end (evt) {
+        el.classList.remove('q-touch')
         if (ctx.event.abort || !ctx.event.detected || ctx.event.isFirst) {
           return
         }
@@ -164,7 +166,6 @@ export default {
     }
 
     el.__qtouchpan = ctx
-    el.classList.add('q-touch')
 
     if (mouse) {
       el.addEventListener('mousedown', ctx.mouseStart, evtOpts)
