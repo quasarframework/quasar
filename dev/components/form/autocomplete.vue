@@ -119,6 +119,20 @@
           @selected="selected"
         />
       </q-search>
+
+      <p class="caption">Open on focus</p>
+      <q-search inverted color="dark" class="q-mb-sm" v-model="terms1" float-label="Featuring static data - 1">
+        <q-autocomplete
+          :static-data="{field: 'label', list: countries}"
+          :min-characters="0"
+        />
+      </q-search>
+      <q-search inverted color="dark" class="q-mb-sm" v-model="terms2" float-label="Featuring static data - 2">
+        <q-autocomplete
+          :static-data="{field: 'label', list: countries}"
+          :min-characters="0"
+        />
+      </q-search>
     </div>
   </div>
 </template>
@@ -169,6 +183,8 @@ export default {
   data () {
     return {
       terms: '',
+      terms1: '',
+      terms2: '',
       termsN: null,
       countries: parseCountries(),
       countriesNoValue: parseCountriesNoValue(),
