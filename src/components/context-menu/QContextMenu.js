@@ -67,7 +67,7 @@ export default {
 
     __mobileTouchStartHandler (evt) {
       this.__mobileCleanup()
-      if (evt.touches && evt.touches.length > 1) {
+      if (evt && evt.touches && evt.touches.length > 1) {
         return
       }
       this.target.classList.add('non-selectable')
