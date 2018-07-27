@@ -150,7 +150,7 @@ export default {
     },
     blurHide () {
       this.__clearSearch()
-      setTimeout(() => this.hide(), 300)
+      this.timer = setTimeout(() => this.hide(), 300)
     },
     __clearSearch () {
       clearTimeout(this.timer)
@@ -173,7 +173,8 @@ export default {
       this.trigger()
     },
     __focusShowTrigger () {
-      this.trigger(true)
+      clearTimeout(this.timer)
+      setTimeout(() => this.trigger(true), 100)
     },
     __keyboardIsSelectableIndex (index) {
       return index > -1 && index < this.computedResults.length && !this.computedResults[index].disable
