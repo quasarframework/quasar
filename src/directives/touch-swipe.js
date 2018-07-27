@@ -64,6 +64,8 @@ export default {
           detected: false,
           abort: false
         }
+
+        el.classList.add('q-touch')
       },
       move (evt) {
         if (ctx.event.abort) {
@@ -105,6 +107,7 @@ export default {
         ctx.move(evt)
       },
       end (evt) {
+        el.classList.remove('q-touch')
         if (ctx.event.abort || !ctx.event.detected) {
           return
         }
@@ -153,7 +156,6 @@ export default {
     }
 
     el.__qtouchswipe = ctx
-    el.classList.add('q-touch')
 
     if (mouse) {
       el.addEventListener('mousedown', ctx.mouseStart)
