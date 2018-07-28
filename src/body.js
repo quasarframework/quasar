@@ -18,7 +18,10 @@ function getBodyClasses ({ is, has, within }, cfg) {
         width = window.screen.width * ratio,
         height = window.screen.height * ratio
 
-      if (width !== 1125 && height !== 2001 /* 2436 for iPhoneX fullscreen */) {
+      if (width === 1125 && height === 2436) { // iPhoneX fullscreen
+        cls.push('q-ios-statusbar-x')
+      }
+      if (width !== 1125 || height !== 2001) { // not iPhoneX on non-fullscreen
         cls.push('q-ios-statusbar-padding')
       }
     }

@@ -15,6 +15,12 @@
 .q-notification-list-bottom
   bottom 0
 
+body.q-ios-statusbar-x
+  .q-notification-list-center, .q-notification-list-top
+    top env(safe-area-inset-top)
+  .q-notification-list-center, .q-notification-list-bottom
+    bottom env(safe-area-inset-bottom)
+
 .q-notification
   border-radius 5px
   pointer-events all

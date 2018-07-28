@@ -33,9 +33,7 @@ export default {
     noResults: '找不到匹配的数据',
     loading: '正在加载...',
     selectedRecords: function (rows) {
-      return rows === 1
-        ? '1 selected row.'
-        : (rows === 0 ? 'No' : rows) + ' selected rows.'
+      return '已选择' + rows + '行'
     },
     recordsPerPage: '每页的行数:',
     allRows: '全部',
@@ -45,15 +43,15 @@ export default {
     columns: '列'
   },
   editor: {
-    url: '地址',
+    url: 'URL',
     bold: '粗体',
     italic: '斜体',
     strikethrough: '删除线',
     underline: '下划线',
     unorderedList: '无序列表',
     orderedList: '有序列表',
-    subscript: '子脚本',
-    superscript: '超级脚本',
+    subscript: '下标',
+    superscript: '上标',
     hyperlink: '超链接',
     toggleFullscreen: '全屏切换',
     quote: '引号',

@@ -16,7 +16,7 @@
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
         <q-page padding class="bg-orange-4" :class="{ 'column no-wrap no-height': hasScroll }">
           <div class="bg-green-4 q-pa-md text-center" v-show="guardTop">Guarding text above QPullToRefresh</div>
-          <component :is="scrollArea ? 'QScrollArea' : 'div'" :class="scrollClass">
+          <component :is="scrollArea ? 'QScrollArea' : (infiniteScroll ? 'QInfiniteScroll' : 'div')" :class="scrollClass" :handler="refresher2" inline>
             <q-pull-to-refresh :handler="refresher" :inline="hasScrollSimple" :disable="disable" class="overflow-hidden-y">
               <div class="bg-white overflow-hidden-y">
                 <div>
@@ -33,6 +33,7 @@
                     <q-toggle v-model="disable" label="Disable" />
                     <q-toggle v-model="scroll" label="Scroll" />
                     <q-toggle v-model="scrollArea" label="QScrollArea" />
+                    <q-toggle v-model="infiniteScroll" label="QInfiniteScroll" />
                   </div>
                 </div>
 
@@ -68,12 +69,13 @@ export default {
       footer: true,
       disable: false,
       scroll: false,
-      scrollArea: false
+      scrollArea: false,
+      infiniteScroll: false
     }
   },
   computed: {
     hasScroll () {
-      return this.scrollArea || this.scroll
+      return this.scroll || this.scrollArea || this.infiniteScroll
     },
     hasScrollSimple () {
       return this.scroll && !this.scrollArea
@@ -82,15 +84,22 @@ export default {
       if (this.scrollArea) {
         return 'col'
       }
-      return this.scroll ? 'scroll' : null
+      return this.scroll || this.infiniteScroll ? 'scroll' : null
     }
   },
   methods: {
     refresher (done) {
       setTimeout(() => {
-        done()
         this.items.push({})
         this.$q.notify('Item #' + this.items.length + ' is new.')
+        done()
+      }, 1000)
+    },
+    refresher2 (index, done) {
+      setTimeout(() => {
+        this.items.push({})
+        this.$q.notify('Item #' + this.items.length + ' is new.')
+        done()
       }, 1000)
     }
   }
