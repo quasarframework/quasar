@@ -25,7 +25,7 @@ export default {
       }
     },
     trigger (immediately) {
-      if (immediately || this.debounce === 0) {
+      if (immediately === true || this.debounce === 0) {
         this.emit()
       }
       else if (!this.timer) {

@@ -39,7 +39,7 @@ export default {
       this.$emit('resize', this.size)
     },
     trigger (immediately) {
-      if (immediately || this.debounce === 0) {
+      if (immediately === true || this.debounce === 0) {
         this.onResize()
       }
       else if (!this.timer) {
