@@ -243,6 +243,8 @@ export default {
     },
 
     __getTextarea (h) {
+      const attrs = Object.assign({ rows: 1 }, this.$attrs)
+
       return h('div', {
         staticClass: 'col row relative-position'
       }, [
@@ -254,19 +256,16 @@ export default {
           ref: 'shadow',
           staticClass: 'col q-input-target q-input-shadow absolute-top',
           domProps: { value: this.model },
-          attrs: Object.assign({}, this.$attrs, {
-            rows: this.$attrs.rows || 1
-          })
+          attrs
         }),
 
         h('textarea', {
           ref: 'input',
           staticClass: 'col q-input-target q-input-area',
-          attrs: Object.assign({}, this.$attrs, {
+          attrs: Object.assign({}, attrs, {
             placeholder: this.inputPlaceholder,
             disabled: this.disable,
-            readonly: this.readonly,
-            rows: this.$attrs.rows || 1
+            readonly: this.readonly
           }),
           domProps: { value: this.model },
           on: {
