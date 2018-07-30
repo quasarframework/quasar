@@ -105,8 +105,8 @@
       <q-input v-model="text" :error="error" inverted color="secondary" type="password" clearable placeholder="Some placeholder" :after="[{icon: 'warning', error: true, handler () {}}]" />
       <q-input v-model="text" inverted stack-label="Colored" color="amber" />
       <q-input v-model="text" inverted stack-label="Colored" :after="[{icon: 'arrow_forward', content: true, handler () {}}]"/>
-      <q-input v-model="text" inverted type="textarea" stack-label="Colored" color="tertiary" :min-rows="5" />
-      <q-input v-model="text" inverted type="textarea" stack-label="Colored" color="white" :dark="false" :min-rows="5" />
+      <q-input v-model="text" inverted type="textarea" stack-label="Colored" color="tertiary" :rows="5" />
+      <q-input v-model="text" inverted type="textarea" stack-label="Colored" color="white" :dark="false" rows="5" />
 
       <p class="caption">On dark background</p>
       <div class="bg-grey-9" style="width: 500px; padding: 25px">
@@ -213,7 +213,7 @@
 
       <br><br>
 
-      <q-input v-model="area" type="textarea" float-label="Textarea" :max-height="100" :min-rows="3" />
+      <q-input v-model="area" type="textarea" float-label="Textarea" :max-height="100" rows="3" />
 
       <div class="fixed" style="bottom: 16px; right: 16px;">
         <q-checkbox v-model="error" label="Error" />

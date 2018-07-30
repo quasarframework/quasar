@@ -34,11 +34,11 @@ export default {
     loading: 'Carregando...',
     selectedRecords: function (rows) {
       return rows > 0
-        ? rows + ' linha' + (rows === 1 ? ' selecionada' : 's selecionadas') + '.'
-        : 'Nenhuma linha selecionada.'
+        ? rows + ' registro' + (rows === 1 ? ' selecionado' : 's selecionados') + '.'
+        : 'Nenhum registro selecionado.'
     },
-    recordsPerPage: 'Linhas por página:',
-    allRows: 'Todas',
+    recordsPerPage: 'Registros por página:',
+    allRows: 'Todos',
     pagination: function (start, end, total) {
       return start + '-' + end + ' de ' + total
     },
@@ -50,12 +50,12 @@ export default {
     italic: 'Itálico',
     strikethrough: 'Riscado',
     underline: 'Sublinhado',
-    unorderedList: 'Lista Não-ordenada',
-    orderedList: 'Lista Ordenada',
+    unorderedList: 'Lista não-ordenada',
+    orderedList: 'Lista ordenada',
     subscript: 'Subscrito',
     superscript: 'Sobrescrito',
     hyperlink: 'Hyperlink',
-    toggleFullscreen: 'Tela Cheia',
+    toggleFullscreen: 'Tela cheia',
     quote: 'Citação',
     left: 'Alinhado à esquerda',
     center: 'Alinhado ao centro',
@@ -66,9 +66,9 @@ export default {
     indent: 'Aumentar indentação',
     removeFormat: 'Remover formatação',
     formatting: 'Formatação',
-    fontSize: 'Tamanho de Fonte',
+    fontSize: 'Tamanho de fonte',
     align: 'Alinhar',
-    hr: 'Inserir Divisória Horizontal',
+    hr: 'Inserir divisória horizontal',
     undo: 'Desfazer',
     redo: 'Refazer',
     header1: 'Cabeçalho 1',
@@ -86,7 +86,7 @@ export default {
     size5: 'Grande',
     size6: 'Enorme',
     size7: 'Máximo',
-    defaultFont: 'Fonte Padrão'
+    defaultFont: 'Fonte padrão'
   },
   tree: {
     noNodes: 'Sem nós disponíveis',

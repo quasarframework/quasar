@@ -215,7 +215,7 @@ export default {
         input = this.$refs.input
       if (shadow && input) {
         let h = shadow.scrollHeight
-        input.style.minHeight = `${between(h, shadow.offsetHeight, this.maxHeight || h)}px`
+        input.style.height = `${between(h, shadow.offsetHeight, this.maxHeight || h)}px`
         input.style.overflowY = this.maxHeight && this.maxHeight < h ? 'scroll' : 'hidden'
       }
     },
@@ -243,6 +243,8 @@ export default {
     },
 
     __getTextarea (h) {
+      const attrs = Object.assign({ rows: 1 }, this.$attrs)
+
       return h('div', {
         staticClass: 'col row relative-position'
       }, [
@@ -254,19 +256,16 @@ export default {
           ref: 'shadow',
           staticClass: 'col q-input-target q-input-shadow absolute-top',
           domProps: { value: this.model },
-          attrs: Object.assign({}, this.$attrs, {
-            rows: this.$attrs.rows || 1
-          })
+          attrs
         }),
 
         h('textarea', {
           ref: 'input',
           staticClass: 'col q-input-target q-input-area',
-          attrs: Object.assign({}, this.$attrs, {
+          attrs: Object.assign({}, attrs, {
             placeholder: this.inputPlaceholder,
             disabled: this.disable,
-            readonly: this.readonly,
-            rows: this.$attrs.rows || 1
+            readonly: this.readonly
           }),
           domProps: { value: this.model },
           on: {
