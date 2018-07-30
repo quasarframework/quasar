@@ -146,3 +146,4 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jochen Geiger $50
 - Martin Beaudet $30
 - Jomo Daniels $30
+- Daniel Connell $20
