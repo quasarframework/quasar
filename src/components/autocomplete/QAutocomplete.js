@@ -174,7 +174,7 @@ export default {
     },
     __focusShowTrigger () {
       clearTimeout(this.timer)
-      setTimeout(() => this.trigger(true), 100)
+      this.timer = setTimeout(() => this.trigger(true), 100)
     },
     __keyboardIsSelectableIndex (index) {
       return index > -1 && index < this.computedResults.length && !this.computedResults[index].disable
