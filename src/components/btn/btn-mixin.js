@@ -78,7 +78,7 @@ export default {
     attrs () {
       const att = { tabindex: this.computedTabIndex }
       if (this.type !== 'a') {
-        att.type = this.type
+        att.type = this.type || 'button'
       }
       if (this.to !== void 0) {
         att.href = this.$router.resolve(this.to).href
