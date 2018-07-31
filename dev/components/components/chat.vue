@@ -85,6 +85,12 @@ export default {
           stamp: 'Yesterday at 13:51'
         },
         {
+          name: 'Vladimir',
+          text: ['I\'m also fine, thank you. But I feel like writing a very long text here too test the avatar.'],
+          avatar: '/statics/boy-avatar.png',
+          stamp: 'Yesterday 13:34'
+        },
+        {
           label: 'Sunday, 19th'
         },
         {
