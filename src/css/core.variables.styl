@@ -538,9 +538,9 @@ $shadow-color ?= black
 $shadow-transition ?= box-shadow .28s cubic-bezier(.4, 0, .2, 1)
 $inset-shadow = 0 7px 9px -7px alpha($shadow-color, .7) inset
 
-$elevation-umbra = rgba(black, .2)
-$elevation-penumbra = rgba(black, .14)
-$elevation-ambient = rgba(black, .12)
+$elevation-umbra = rgba($shadow-color, .2)
+$elevation-penumbra = rgba($shadow-color, .14)
+$elevation-ambient = rgba($shadow-color, .12)
 
 $shadow-0 = 0 0 0 $elevation-umbra, 0 0 0 $elevation-penumbra, 0 0 0 $elevation-ambient
 $shadow-1 = 0 1px 3px $elevation-umbra, 0 1px 1px $elevation-penumbra, 0 2px 1px -1px $elevation-ambient
