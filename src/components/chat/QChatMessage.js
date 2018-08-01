@@ -92,7 +92,7 @@ export default {
         this.$slots.avatar || (
           this.avatar
             ? h('img', {
-              staticClass: 'q-message-avatar',
+              staticClass: 'q-message-avatar col-auto',
               attrs: { src: this.avatar }
             })
             : null

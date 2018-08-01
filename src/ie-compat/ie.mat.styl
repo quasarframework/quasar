@@ -8,6 +8,8 @@ ie_style = @block
   .q-input-target
     min-width auto
     flex-basis auto
+  .q-if-inner:not(.q-if-inner-dynamic), .q-btn:not(.q-btn-round), .q-toolbar
+    height 0 /* avoid flex + min-height issue */
 
   /* QAlert */
   .row > .col

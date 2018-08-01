@@ -123,6 +123,31 @@ export default {
     },
     computedStep () {
       return this.step || (this.decimals ? 10 ** -this.decimals : 'any')
+    },
+
+    frameProps () {
+      return {
+        prefix: this.prefix,
+        suffix: this.suffix,
+        stackLabel: this.stackLabel,
+        floatLabel: this.floatLabel,
+        error: this.error,
+        warning: this.warning,
+        disable: this.disable,
+        readonly: this.readonly,
+        inverted: this.inverted,
+        invertedLight: this.invertedLight,
+        dark: this.dark,
+        hideUnderline: this.hideUnderline,
+        before: this.before,
+        after: this.after,
+        color: this.color,
+        noParentField: this.noParentField,
+        focused: this.focused,
+        length: this.autofilled + this.length,
+        topAddons: this.isTextarea,
+        dynamicInner: this.isTextarea
+      }
     }
   },
   methods: {
@@ -215,7 +240,7 @@ export default {
         input = this.$refs.input
       if (shadow && input) {
         let h = shadow.scrollHeight
-        input.style.minHeight = `${between(h, shadow.offsetHeight, this.maxHeight || h)}px`
+        input.style.height = `${between(h, shadow.offsetHeight, this.maxHeight || h)}px`
         input.style.overflowY = this.maxHeight && this.maxHeight < h ? 'scroll' : 'hidden'
       }
     },
@@ -243,6 +268,8 @@ export default {
     },
 
     __getTextarea (h) {
+      const attrs = Object.assign({ rows: 1 }, this.$attrs)
+
       return h('div', {
         staticClass: 'col row relative-position'
       }, [
@@ -254,19 +281,16 @@ export default {
           ref: 'shadow',
           staticClass: 'col q-input-target q-input-shadow absolute-top',
           domProps: { value: this.model },
-          attrs: Object.assign({}, this.$attrs, {
-            rows: this.$attrs.rows || 1
-          })
+          attrs
         }),
 
         h('textarea', {
           ref: 'input',
           staticClass: 'col q-input-target q-input-area',
-          attrs: Object.assign({}, this.$attrs, {
+          attrs: Object.assign({}, attrs, {
             placeholder: this.inputPlaceholder,
             disabled: this.disable,
-            readonly: this.readonly,
-            rows: this.$attrs.rows || 1
+            readonly: this.readonly
           }),
           domProps: { value: this.model },
           on: {
@@ -318,27 +342,7 @@ export default {
   render (h) {
     return h(QInputFrame, {
       staticClass: 'q-input',
-      props: {
-        prefix: this.prefix,
-        suffix: this.suffix,
-        stackLabel: this.stackLabel,
-        floatLabel: this.floatLabel,
-        error: this.error,
-        warning: this.warning,
-        disable: this.disable,
-        readonly: this.readonly,
-        inverted: this.inverted,
-        invertedLight: this.invertedLight,
-        dark: this.dark,
-        hideUnderline: this.hideUnderline,
-        before: this.before,
-        after: this.after,
-        color: this.color,
-        noParentField: this.noParentField,
-        focused: this.focused,
-        length: this.autofilled + this.length,
-        topAddons: this.isTextarea
-      },
+      props: this.frameProps,
       on: {
         click: this.__onClick,
         focus: this.__onFocus
