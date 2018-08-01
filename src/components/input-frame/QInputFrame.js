@@ -10,7 +10,8 @@ export default {
     focused: Boolean,
     length: Number,
     focusable: Boolean,
-    additionalLength: Boolean
+    additionalLength: Boolean,
+    dynamicInner: Boolean
   },
   computed: {
     hasStackLabel () {
@@ -109,7 +110,8 @@ export default {
       })) || void 0,
 
       h('div', {
-        staticClass: 'q-if-inner col row no-wrap relative-position'
+        staticClass: 'q-if-inner col row no-wrap relative-position',
+        class: { 'q-if-inner-dynamic': this.dynamicInner }
       }, [
         (this.hasLabel && h('div', {
           staticClass: 'q-if-label ellipsis full-width absolute self-start',

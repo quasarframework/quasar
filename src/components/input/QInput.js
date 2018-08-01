@@ -123,6 +123,31 @@ export default {
     },
     computedStep () {
       return this.step || (this.decimals ? 10 ** -this.decimals : 'any')
+    },
+
+    frameProps () {
+      return {
+        prefix: this.prefix,
+        suffix: this.suffix,
+        stackLabel: this.stackLabel,
+        floatLabel: this.floatLabel,
+        error: this.error,
+        warning: this.warning,
+        disable: this.disable,
+        readonly: this.readonly,
+        inverted: this.inverted,
+        invertedLight: this.invertedLight,
+        dark: this.dark,
+        hideUnderline: this.hideUnderline,
+        before: this.before,
+        after: this.after,
+        color: this.color,
+        noParentField: this.noParentField,
+        focused: this.focused,
+        length: this.autofilled + this.length,
+        topAddons: this.isTextarea,
+        dynamicInner: this.isTextarea
+      }
     }
   },
   methods: {
@@ -317,27 +342,7 @@ export default {
   render (h) {
     return h(QInputFrame, {
       staticClass: 'q-input',
-      props: {
-        prefix: this.prefix,
-        suffix: this.suffix,
-        stackLabel: this.stackLabel,
-        floatLabel: this.floatLabel,
-        error: this.error,
-        warning: this.warning,
-        disable: this.disable,
-        readonly: this.readonly,
-        inverted: this.inverted,
-        invertedLight: this.invertedLight,
-        dark: this.dark,
-        hideUnderline: this.hideUnderline,
-        before: this.before,
-        after: this.after,
-        color: this.color,
-        noParentField: this.noParentField,
-        focused: this.focused,
-        length: this.autofilled + this.length,
-        topAddons: this.isTextarea
-      },
+      props: this.frameProps,
       on: {
         click: this.__onClick,
         focus: this.__onFocus
