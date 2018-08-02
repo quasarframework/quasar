@@ -34,11 +34,11 @@
         <div
           slot="item"
           slot-scope="props"
-          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 transition-generic"
+          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-xl-3 transition-generic column"
           :style="props.selected ? 'transform: scale(0.95);' : ''"
         >
-          <q-card class="transition-generic" :class="props.selected ? 'bg-grey-2' : ''">
-            <q-card-title class="relative-position">
+          <q-card class="transition-generic col-grow column" :class="props.selected ? 'bg-grey-2' : ''">
+            <q-card-title class="relative-position col-grow items-center">
               <q-checkbox v-model="props.selected" :label="props.row.name" />
             </q-card-title>
             <q-card-separator />
@@ -66,7 +66,7 @@
         :title="title"
         :filter="filter"
         :loading="loading"
-        selection="multiple"
+        :selection="selection"
         :selected.sync="selected"
         :visible-columns="visibleColumns"
         row-key="name"
@@ -89,7 +89,7 @@
         :title="title"
         :filter="filter"
         :loading="loading"
-        selection="multiple"
+        :selection="selection"
         :selected.sync="selected"
         row-key="name"
       />
