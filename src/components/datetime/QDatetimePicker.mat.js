@@ -1,7 +1,7 @@
 import { height, width, offset, cssTransform } from '../../utils/dom.js'
 import { position, stopAndPrevent, getEventKey } from '../../utils/event.js'
 import QBtn from '../btn/QBtn.js'
-import { isSameDate, isValid, adjustDate } from '../../utils/date.js'
+import { isSameDate, isValid, adjustDate, isInDatesArray } from '../../utils/date.js'
 import DateMixin from './datetime-mixin.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import ParentFieldMixin from '../../mixins/parent-field.js'
@@ -17,7 +17,8 @@ export default {
   props: {
     defaultValue: [String, Number, Date],
     disable: Boolean,
-    readonly: Boolean
+    readonly: Boolean,
+    datesArray: Array
   },
   directives: {
     Ripple
@@ -124,7 +125,7 @@ export default {
       let after = this.pmax === null || this.afterMaxDays === false ? 0 : this.afterMaxDays
       if (this.beforeMinDays > 0 || after) {
         let min = this.beforeMinDays > 0 ? this.beforeMinDays + 1 : 1
-        return { min, max: this.daysInMonth - after + 1 }
+        return { min, max: this.daysInMonth - after }
       }
       return { min: 1, max: this.daysInMonth }
     },
@@ -534,7 +535,7 @@ export default {
     __getMonthView (h) {
       const content = []
 
-      for (let i = this.monthMin; i <= this.monthInterval; i++) {
+      for (let i = this.monthMin; i < this.monthInterval + this.monthMin; i++) {
         content.push(h(QBtn, {
           key: `mi${i}`,
           staticClass: 'q-datetime-btn full-width',
@@ -578,20 +579,29 @@ export default {
 
       const { min, max } = this.daysInterval
       for (let i = min; i <= max; i++) {
-        days.push(h('div', {
-          key: `md${i}`,
-          staticClass: 'row items-center content-center justify-center cursor-pointer',
-          'class': [this.color && i === this.day ? `text-${this.color}` : null, {
-            'q-datetime-day-active': this.isValid && i === this.day,
-            'q-datetime-day-today': i === this.today,
-            'disabled': !this.editable
-          }],
-          on: {
-            click: () => { this.setDay(i) }
-          }
-        }, [
-          h('span', [ i ])
-        ]))
+        let curDate = new Date(this.year, this.month - 1, i)
+        if (!this.datesArray || isInDatesArray(this.datesArray, curDate)) {
+          days.push(h('div', {
+            key: `md${i}`,
+            staticClass: 'row items-center content-center justify-center cursor-pointer',
+            'class': [this.color && i === this.day ? `text-${this.color}` : null, {
+              'q-datetime-day-active': this.isValid && i === this.day,
+              'q-datetime-day-today': i === this.today,
+              'disabled': !this.editable
+            }],
+            on: {
+              click: () => { this.setDay(i) }
+            }
+          }, [
+            h('span', [ i ])
+          ]))
+        }
+        else {
+          days.push(h('div', {
+            key: `fb${i}`,
+            staticClass: 'row items-center content-center justify-center disabled'
+          }, [ i ]))
+        }
       }
 
       if (this.max) {

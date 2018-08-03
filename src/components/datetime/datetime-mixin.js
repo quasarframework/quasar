@@ -88,10 +88,10 @@ export default {
       let
         min = this.yearMin,
         max = this.pmax !== null ? this.pmax.getFullYear() : (this.year || this.currentYear) + 50
-      return Math.max(1, max - min)
+      return Math.max(0, max - min)
     },
     yearMin () {
-      return this.pmin !== null ? this.pmin.getFullYear() - 1 : (this.year || this.currentYear) - 51
+      return this.pmin !== null ? this.pmin.getFullYear() : (this.year || this.currentYear) - 51
     },
     monthInterval () {
       let

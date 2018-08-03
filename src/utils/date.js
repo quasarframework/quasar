@@ -55,6 +55,22 @@ export function isValid (date) {
   return isNaN(t) === false
 }
 
+export function isInDatesArray (datesArray, date) {
+  let boolVal = false
+  if (datesArray === undefined) {
+    return boolVal
+  }
+  else {
+    for (var i = 0; i < datesArray.length; i++) {
+      if (datesArray[i].toDateString() === date.toDateString()) {
+        boolVal = true
+        break
+      }
+    }
+  }
+  return boolVal
+}
+
 export function buildDate (mod, utc) {
   return adjustDate(new Date(), mod, utc)
 }
@@ -544,6 +560,7 @@ export function clone (value) {
 
 export default {
   isValid,
+  isInDatesArray,
   buildDate,
   getDayOfWeek,
   getWeekOfYear,
