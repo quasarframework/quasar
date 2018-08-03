@@ -207,6 +207,10 @@ export default {
         inverted: this.inverted,
         invertedLight: this.invertedLight,
         dark: this.dark,
+        dense: this.dense,
+        box: this.box,
+        fullWidth: this.fullWidth,
+        outline: this.outline,
         hideUnderline: this.hideUnderline,
         before: this.before,
         after: this.after,
@@ -226,6 +230,7 @@ export default {
           key: `${label}#${index}`,
           props: {
             small: true,
+            dense: this.dense,
             closable: this.editable,
             color: this.computedChipBgColor,
             textColor: this.computedChipTextColor
@@ -242,7 +247,7 @@ export default {
             blur: this.__onInputBlur,
             focus: this.__clearTimer
           }
-        }, [ label ])
+        }, label)
       }).concat([
         h('input', {
           ref: 'input',
@@ -283,6 +288,9 @@ export default {
             click: () => { this.add() }
           }
         })) || void 0)
-    ].concat(this.$slots.default))
+    ].concat(this.$slots.default
+      ? h('div', { staticClass: 'absolute-full no-pointer-events', slot: 'after' }, this.$slots.default)
+      : void 0
+    ))
   }
 }

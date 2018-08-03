@@ -13,7 +13,6 @@ export default {
       default: 300
     },
     icon: String,
-    placeholder: String,
     noIcon: Boolean,
     upperCase: Boolean,
     lowerCase: Boolean
@@ -116,8 +115,13 @@ export default {
         inverted: this.inverted,
         invertedLight: this.invertedLight,
         dark: this.dark,
+        dense: this.dense,
+        box: this.box,
+        fullWidth: this.fullWidth,
+        outline: this.outline,
         hideUnderline: this.hideUnderline,
         color: this.color,
+        rows: this.rows,
         before: this.controlBefore,
         after: this.controlAfter,
         clearValue: this.clearValue,
