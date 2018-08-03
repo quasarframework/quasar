@@ -311,6 +311,7 @@ export default {
           key: opt.label,
           props: {
             small: true,
+            dense: this.dense,
             closable: this.editable && !opt.disable,
             color: this.__getChipBgColor(opt.color),
             textColor: this.__getChipTextColor(opt.color),
@@ -336,23 +337,6 @@ export default {
       child.push(el)
     }
 
-    if (this.isClearable) {
-      child.push(h(QIcon, {
-        slot: 'after',
-        staticClass: 'q-if-control',
-        props: { name: this.$q.icon.input.clear },
-        nativeOn: {
-          click: this.clear
-        }
-      }))
-    }
-
-    child.push(h(QIcon, {
-      slot: 'after',
-      staticClass: 'q-if-control',
-      props: { name: this.$q.icon.input.dropdown }
-    }))
-
     child.push(h(QPopover, {
       ref: 'popover',
       staticClass: 'column no-wrap',
@@ -362,6 +346,7 @@ export default {
         disable: !this.editable,
         anchorClick: false
       },
+      slot: 'after',
       on: {
         show: this.__onShow,
         hide: () => { this.__onClose(true) }
@@ -449,6 +434,23 @@ export default {
       }))) || void 0
     ]))
 
+    if (this.isClearable) {
+      child.push(h(QIcon, {
+        slot: 'after',
+        staticClass: 'q-if-control',
+        props: { name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`] },
+        nativeOn: {
+          click: this.clear
+        }
+      }))
+    }
+
+    child.push(h(QIcon, {
+      slot: 'after',
+      staticClass: 'q-if-control',
+      props: { name: this.$q.icon.input.dropdown }
+    }))
+
     return h(QInputFrame, {
       ref: 'input',
       staticClass: 'q-select',
@@ -464,6 +466,10 @@ export default {
         inverted: this.inverted,
         invertedLight: this.invertedLight,
         dark: this.dark,
+        dense: this.dense,
+        box: this.box,
+        fullWidth: this.fullWidth,
+        outline: this.outline,
         hideUnderline: this.hideUnderline,
         before: this.before,
         after: this.after,

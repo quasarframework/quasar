@@ -282,6 +282,10 @@ export default {
         inverted: this.inverted,
         invertedLight: this.invertedLight,
         dark: this.dark,
+        dense: this.dense,
+        box: this.box,
+        fullWidth: this.fullWidth,
+        outline: this.outline,
         hideUnderline: this.hideUnderline,
         before: this.before,
         after: this.after,
@@ -314,6 +318,7 @@ export default {
             anchorClick: false,
             maxHeight: '100vh'
           },
+          slot: 'after',
           on: {
             show: this.__onFocus,
             hide: () => this.__onHide(true, true)

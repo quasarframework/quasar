@@ -124,13 +124,13 @@ export default {
     computedStep () {
       return this.step || (this.decimals ? 10 ** -this.decimals : 'any')
     },
-
     frameProps () {
       return {
         prefix: this.prefix,
         suffix: this.suffix,
         stackLabel: this.stackLabel,
         floatLabel: this.floatLabel,
+        placeholder: this.placeholder,
         error: this.error,
         warning: this.warning,
         disable: this.disable,
@@ -138,15 +138,17 @@ export default {
         inverted: this.inverted,
         invertedLight: this.invertedLight,
         dark: this.dark,
+        dense: this.dense,
+        box: this.box,
+        fullWidth: this.fullWidth,
+        outline: this.outline,
         hideUnderline: this.hideUnderline,
         before: this.before,
         after: this.after,
         color: this.color,
         noParentField: this.noParentField,
         focused: this.focused,
-        length: this.autofilled + this.length,
-        topAddons: this.isTextarea,
-        dynamicInner: this.isTextarea
+        length: this.autofilled + this.length
       }
     }
   },
@@ -395,6 +397,9 @@ export default {
         staticClass: 'q-if-control',
         props: { size: '24px' }
       })) || void 0
-    ].concat(this.$slots.after).concat(this.$slots.default)))
+    ]).concat(this.$slots.after).concat(this.$slots.default
+      ? h('div', { staticClass: 'absolute-full no-pointer-events', slot: 'after' }, this.$slots.default)
+      : void 0
+    ))
   }
 }

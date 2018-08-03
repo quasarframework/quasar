@@ -38,11 +38,13 @@
     </div>
 
     <q-toggle v-model="toggle" class="z-max fixed-top" />
-    <q-modal v-model="toggle" ref="basicModal" :content-css="{padding: '50px', minWidth: '50vw'}">
-      <h4>Basic Modal</h4>
-      <q-input type="textarea" v-model="textarea" :max-height="50" />
-      <p v-for="n in 25" :key="n">{{ n }} Scroll down to close</p>
-      <q-btn color="primary" @click="$refs.basicModal.hide()">Close</q-btn>
+    <q-modal v-model="toggle" ref="basicModal" :content-css="{minWidth: '50vw'}">
+      <div style="padding: 50px;">
+        <h4>Basic Modal</h4>
+        <q-input type="textarea" v-model="textarea" :max-height="50" />
+        <p v-for="n in 25" :key="n">{{ n }} Scroll down to close</p>
+        <q-btn color="primary" @click="$refs.basicModal.hide()">Close</q-btn>
+      </div>
     </q-modal>
 
     <q-modal
@@ -171,7 +173,7 @@ export default {
       return this.autoSize === false ? 15 : (this.autoSize === true ? 30 : 1)
     },
     autoSizeStyle () {
-      return this.autoSize === false ? {minWidth: '80vw', minHeight: '80vh'} : (this.autoSize === true ? {} : {maxWidth: '80vw'})
+      return this.autoSize === false ? {minWidth: '80vw', minHeight: '80vh', height: '0px'} : (this.autoSize === true ? {} : {maxWidth: '80vw'})
     }
   },
   methods: {
