@@ -32,7 +32,6 @@
 <style lang="stylus">
 .play-backtotop
   color white
-  position fixed
   left 0
   top 30%
   padding 15px

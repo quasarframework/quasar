@@ -42,7 +42,6 @@ export default {
       validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
     },
     displayValue: String,
-    placeholder: String,
     okLabel: String,
     cancelLabel: String
   },
@@ -280,6 +279,7 @@ export default {
             anchorClick: false,
             maxHeight: '100vh'
           },
+          slot: 'after',
           on: {
             show: this.__onFocus,
             hide: () => this.__onHide(true, true)

@@ -11,7 +11,7 @@
   outline 0
   padding 0
   background transparent
-  min-height 18px
+  line-height $input-control-size
   font-size inherit
   resize none
   display flex
@@ -30,11 +30,17 @@
   &:invalid
     box-shadow inherit
 
-.q-input-target, input.q-input-target, textarea.q-input-target, textarea.q-input-shadow
-  line-height 19px
+.q-input-target:before
+  content '|'
+  line-height $input-control-size
+  width 0
+  color transparent
+
+input.q-input-target
+  height $input-control-size
   outline 0
-.q-input-chips
-  min-height 36px !important
+  display inline-block
+  -webkit-appearance none
 
 .q-if
   .q-input-target-placeholder

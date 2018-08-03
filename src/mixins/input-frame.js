@@ -13,6 +13,7 @@ export default {
     suffix: String,
     stackLabel: String,
     floatLabel: String,
+    placeholder: String,
     error: Boolean,
     warning: Boolean,
     disable: Boolean,
@@ -44,10 +45,19 @@ export default {
       return this.inverted || this.invertedLight
     },
     isInvertedLight () {
-      return (this.invertedLight && !this.hasError) || (this.inverted && this.hasWarning)
+      return this.isInverted && ((this.invertedLight && !this.hasError) || (this.inverted && this.hasWarning))
+    },
+    isStandard () {
+      return !this.isInverted
+    },
+    isHideUnderline () {
+      return this.isStandard && this.hideUnderline
     },
     labelIsAbove () {
       return this.focused || this.length || this.additionalLength || this.stackLabel
+    },
+    hasContent () {
+      return this.length > 0 || this.additionalLength > 0 || this.placeholder || this.placeholder === 0
     },
     editable () {
       return !this.disable && !this.readonly

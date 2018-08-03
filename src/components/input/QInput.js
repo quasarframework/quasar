@@ -131,6 +131,7 @@ export default {
         suffix: this.suffix,
         stackLabel: this.stackLabel,
         floatLabel: this.floatLabel,
+        placeholder: this.placeholder,
         error: this.error,
         warning: this.warning,
         disable: this.disable,
@@ -144,9 +145,7 @@ export default {
         color: this.color,
         noParentField: this.noParentField,
         focused: this.focused,
-        length: this.autofilled + this.length,
-        topAddons: this.isTextarea,
-        dynamicInner: this.isTextarea
+        length: this.autofilled + this.length
       }
     }
   },
@@ -395,6 +394,9 @@ export default {
         staticClass: 'q-if-control',
         props: { size: '24px' }
       })) || void 0
-    ].concat(this.$slots.after).concat(this.$slots.default)))
+    ]).concat(this.$slots.after).concat(this.$slots.default
+      ? h('div', { staticClass: 'absolute-full no-pointer-events', slot: 'after' }, this.$slots.default)
+      : void 0
+    ))
   }
 }
