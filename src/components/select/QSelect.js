@@ -336,23 +336,6 @@ export default {
       child.push(el)
     }
 
-    if (this.isClearable) {
-      child.push(h(QIcon, {
-        slot: 'after',
-        staticClass: 'q-if-control',
-        props: { name: this.$q.icon.input.clear },
-        nativeOn: {
-          click: this.clear
-        }
-      }))
-    }
-
-    child.push(h(QIcon, {
-      slot: 'after',
-      staticClass: 'q-if-control',
-      props: { name: this.$q.icon.input.dropdown }
-    }))
-
     child.push(h(QPopover, {
       ref: 'popover',
       staticClass: 'column no-wrap',
@@ -362,6 +345,7 @@ export default {
         disable: !this.editable,
         anchorClick: false
       },
+      slot: 'after',
       on: {
         show: this.__onShow,
         hide: () => { this.__onClose(true) }
@@ -448,6 +432,23 @@ export default {
         ])
       }))) || void 0
     ]))
+
+    if (this.isClearable) {
+      child.push(h(QIcon, {
+        slot: 'after',
+        staticClass: 'q-if-control',
+        props: { name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`] },
+        nativeOn: {
+          click: this.clear
+        }
+      }))
+    }
+
+    child.push(h(QIcon, {
+      slot: 'after',
+      staticClass: 'q-if-control',
+      props: { name: this.$q.icon.input.dropdown }
+    }))
 
     return h(QInputFrame, {
       ref: 'input',

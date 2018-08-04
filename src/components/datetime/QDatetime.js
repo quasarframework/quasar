@@ -314,6 +314,7 @@ export default {
             anchorClick: false,
             maxHeight: '100vh'
           },
+          slot: 'after',
           on: {
             show: this.__onFocus,
             hide: () => this.__onHide(true, true)

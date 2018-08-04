@@ -1,15 +1,33 @@
 ie_style = @block
-  /* Flex */
-  .absolute, .fixed
-    .q-if-inner, .q-input-target
-      min-width auto
-      flex-basis auto
-  .q-if-inner
-  .q-input-target
-    min-width auto
+  /* Inputs */
+  .q-if > .q-if-inner
     flex-basis auto
-  .q-if-inner:not(.q-if-inner-dynamic), .q-btn:not(.q-btn-round), .q-toolbar
-    height 0 /* avoid flex + min-height issue */
+    display inline-flex
+    > div
+      > .q-input-target
+        flex-basis auto
+      > input.q-input-target
+        min-width 6rem
+        flex-basis 0% !important
+  .q-input-target:before
+    display block
+
+  /* QEditor */
+  .q-editor-toolbar
+    .q-btn-group.row.inline
+      display block
+      white-space nowrap
+
+  /* Min Height */
+  .q-toolbar
+  .q-actionsheet-title
+  .q-layout-page
+  .q-field-label-inner
+    height 0px
+
+  /* QCarousel */
+  .q-carousel-slide
+    max-width 100%
 
   /* QAlert */
   .row > .col
@@ -19,21 +37,28 @@ ie_style = @block
   /* QSlider, QRange */
   .q-slider-handle
     > .q-chip.inline.row
-      display -ms-inline-grid
+      display table
 
   /* QBtn */
+  a.q-btn:not(.q-btn-round)
+    height 0px
   .q-btn
+    .q-btn-inner
+      flex-basis auto
     &:active
+    &.active
       .q-btn-inner
         margin -1px 1px 1px -1px
       &.q-btn-push
         .q-btn-inner
-          margin 0 1px 0 -1px
+          margin 1px 1px -1px -1px
         &.disabled
           .q-btn-inner
             margin -1px 1px 1px -1px
-  .q-btn-group > .q-btn.q-btn-push:not(.disabled):active .q-btn-inner
-    margin 0
+  .q-btn-group > .q-btn.q-btn-push:not(.disabled)
+    &:active .q-btn-inner
+    &.active .q-btn-inner
+      margin 0
 
   /* QChip */
   .q-chip:not(.q-chip-small):not(.q-chip-dense) .q-chip-main
@@ -53,6 +78,11 @@ ie_style = @block
   /* QList */
   .q-item-main
     min-width 1px
+
+  /* QLayout Drawer Mini*/
+  .q-layout-drawer-mini .q-item
+    padding-left 0
+    padding-right 0
 
   /* QModalLayout */
   .q-modal-layout

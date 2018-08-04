@@ -1,84 +1,25 @@
-import { css } from '../../utils/dom.js'
-import { start, stop } from '../../utils/animate.js'
-
-function getHeight (el, style) {
-  let initial = {
-    visibility: el.style.visibility,
-    maxHeight: el.style.maxHeight
-  }
-
-  css(el, {
-    visibility: 'hidden',
-    maxHeight: ''
-  })
-  const height = style.height
-  css(el, initial)
-
-  return parseFloat(height)
-}
-
-function parseSize (padding) {
-  return padding.split(' ').map(t => {
-    let unit = t.match(/[a-zA-Z]+/) || ''
-    if (unit) {
-      unit = unit[0]
-    }
-    return [parseFloat(t), unit]
-  })
-}
-
-function toggleSlide (el, showing, done) {
-  let store = el.__qslidetoggle || {}
-  function anim () {
-    store.uid = start({
-      to: showing ? 100 : 0,
-      from: store.pos !== null ? store.pos : showing ? 0 : 100,
-      apply (pos) {
-        store.pos = pos
-        css(el, {
-          maxHeight: `${store.height * pos / 100}px`,
-          padding: store.padding ? store.padding.map(t => (t[0] * pos / 100) + t[1]).join(' ') : '',
-          margin: store.margin ? store.margin.map(t => (t[0] * pos / 100) + t[1]).join(' ') : ''
-        })
-      },
-      done () {
-        store.uid = null
-        store.pos = null
-        done()
-        css(el, store.css)
-      }
-    })
-    el.__qslidetoggle = store
-  }
-
-  if (store.uid) {
-    stop(store.uid)
-    return anim()
-  }
-
-  store.css = {
-    overflowY: el.style.overflowY,
-    maxHeight: el.style.maxHeight,
-    padding: el.style.padding,
-    margin: el.style.margin
-  }
-  let style = window.getComputedStyle(el)
-  if (style.padding && style.padding !== '0px') {
-    store.padding = parseSize(style.padding)
-  }
-  if (style.margin && style.margin !== '0px') {
-    store.margin = parseSize(style.margin)
-  }
-  store.height = getHeight(el, style)
-  store.pos = null
-  el.style.overflowY = 'hidden'
-  anim()
-}
-
 export default {
   name: 'QSlideTransition',
   props: {
     appear: Boolean
+  },
+  methods: {
+    __cleanup () {
+      if (this.animListener) {
+        this.el.removeEventListener('transitionend', this.animListener)
+      }
+      clearTimeout(this.timer)
+      this.timer = null
+    },
+    __finalize (el) {
+      el.style.overflowY = null
+      el.style.height = null
+      el.classList.remove('q-slide-transition')
+      this.__cleanup()
+    }
+  },
+  beforeDestroy () {
+    this.__cleanup()
   },
   render (h) {
     return h('transition', {
@@ -89,16 +30,50 @@ export default {
       },
       on: {
         enter: (el, done) => {
-          toggleSlide(el, true, () => {
+          this.animListener = () => {
             this.$emit('show')
+            this.__finalize(el)
             done()
-          })
+          }
+          el.addEventListener('transitionend', this.animListener)
+          this.el = el
+
+          if (!this.timer) {
+            // Get height that is to be scrolled
+            el.style.overflowY = 'hidden'
+            el.style.height = 0
+            el.classList.add('q-slide-transition')
+          }
+
+          this.timer = setTimeout(() => {
+            el.style.height = !el.scrollHeight
+              ? 'auto'
+              : `${el.scrollHeight}px`
+          }, 1)
+        },
+        enterCancelled: () => {
+          this.__cleanup()
         },
         leave: (el, done) => {
-          toggleSlide(el, false, () => {
+          this.animListener = () => {
             this.$emit('hide')
+            this.__finalize(el)
             done()
-          })
+          }
+          el.addEventListener('transitionend', this.animListener)
+          this.el = el
+
+          if (!this.timer) {
+            // Set height before we transition to 0
+            el.style.overflowY = 'hidden'
+            el.style.height = `${el.scrollHeight}px`
+            el.classList.add('q-slide-transition')
+          }
+
+          this.timer = setTimeout(() => { el.style.height = 0 }, 1)
+        },
+        leaveCancelled: () => {
+          this.__cleanup()
         }
       }
     }, this.$slots.default)

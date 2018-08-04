@@ -76,7 +76,8 @@ export default {
         'q-field-no-label': !this.label && !this.$slots.label,
         'q-field-with-error': this.hasError,
         'q-field-with-warning': this.hasWarning,
-        'q-field-dark': this.isDark
+        'q-field-dark': this.isDark,
+        'q-field-no-input': this.hasNoInput
       }
     },
     computedLabelWidth () {
@@ -171,14 +172,13 @@ export default {
           : null,
 
         h('div', {
-          staticClass: 'q-field-content',
+          staticClass: 'q-field-content ellipsis',
           'class': this.inputClasses
         }, [
           this.$slots.default,
           this.__hasBottom()
             ? h('div', {
-              staticClass: 'q-field-bottom row no-wrap',
-              'class': { 'q-field-no-input': this.hasNoInput }
+              staticClass: 'q-field-bottom row no-wrap'
             }, [
               this.__getBottomContent(h),
               this.counter

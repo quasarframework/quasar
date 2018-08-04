@@ -13,7 +13,6 @@ export default {
       default: 300
     },
     icon: String,
-    placeholder: String,
     noIcon: Boolean,
     upperCase: Boolean,
     lowerCase: Boolean
@@ -118,6 +117,7 @@ export default {
         dark: this.dark,
         hideUnderline: this.hideUnderline,
         color: this.color,
+        rows: this.rows,
         before: this.controlBefore,
         after: this.controlAfter,
         clearValue: this.clearValue,

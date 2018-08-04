@@ -64,7 +64,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
 - Marek Urbanowicz
-- Samuel Lin
 - Matsumoto Takamasa
 - Josh Bodine
 - William Marques Vicente Gomes Correa

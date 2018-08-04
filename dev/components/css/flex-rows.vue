@@ -382,5 +382,6 @@
     margin-top 1rem
   .example-minheight .row
     min-height 5rem
+    height 0px
     background rgba(255,0,0,.1)
 </style>
