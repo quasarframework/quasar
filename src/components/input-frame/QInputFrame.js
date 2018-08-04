@@ -27,22 +27,22 @@ export default {
       }
     },
     classes () {
-      const cls = []
-
-      this.label && cls.push('q-if-has-label')
-      this.focused && cls.push('q-if-focused')
-      this.hasError && cls.push('q-if-error')
-      this.hasWarning && cls.push('q-if-warning')
-      this.disable && cls.push('q-if-disabled')
-      this.readonly && cls.push('q-if-readonly')
-      this.focusable && !this.disable && cls.push('q-if-focusable')
-      this.isInverted && cls.push('q-if-inverted')
-      this.isInvertedLight && cls.push('q-if-inverted-light')
-      this.lightColor && cls.push('q-if-light-color')
-      this.dark && cls.push('q-if-dark')
-      this.isHideUnderline && cls.push('q-if-hide-underline')
-      this.isStandard && cls.push('q-if-standard')
-      this.hasContent && cls.push('q-if-has-content')
+      const cls = [{
+        'q-if-has-label': this.label,
+        'q-if-focused': this.focused,
+        'q-if-error': this.hasError,
+        'q-if-warning': this.hasWarning,
+        'q-if-disabled': this.disable,
+        'q-if-readonly': this.readonly,
+        'q-if-focusable': this.focusable && !this.disable,
+        'q-if-inverted': this.isInverted,
+        'q-if-inverted-light': this.isInvertedLight,
+        'q-if-light-color': this.lightColor,
+        'q-if-dark': this.dark,
+        'q-if-hide-underline': this.isHideUnderline,
+        'q-if-standard': this.isStandard,
+        'q-if-has-content': this.hasContent
+      }]
 
       const color = this.hasError ? 'negative' : (this.hasWarning ? 'warning' : this.color)
 
