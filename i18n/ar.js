@@ -17,7 +17,7 @@ export default {
     refresh: 'تحديث'
   },
   date: {
-    days: 'الأحد_الأثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت'.split('_'),
+    days: 'الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت'.split('_'),
     daysShort: 'ح_ن_ث_ر_خ_ج_س'.split('_'),
     months: 'يناير_فبراير_مارس_أبريل_مايو_يونيو_يوليو_أغسطس_سبتمبر_أكتوبر_نوفمبر_ديسمبر'.split('_'),
     monthsShort: 'ينا_فبر_مار_أبر_ماي_يون_يول_أغس_سبت_أكت_نوف_ديس'.split('_'),
@@ -38,20 +38,20 @@ export default {
         ? '1 سجل مختار.'
         : (rows === 0 ? 'No' : rows) + ' سجلات مختاره.'
     },
-    recordsPerPage: 'سجلات لكل صفحه:',
+    recordsPerPage: 'سجلات لكل صفحة:',
     allRows: 'الكل',
     pagination: function (start, end, total) {
       return start + '-' + end + ' من ' + total
     },
-    columns: 'أعمده'
+    columns: 'أعمدة'
   },
   editor: {
     url: 'مسار',
     bold: 'سميك',
     italic: 'مائل',
-    strikethrough: 'يتوسطه',
+    strikethrough: 'يتوسطه خط',
     underline: 'تحته خط',
-    unorderedList: 'قائمة غير مرتبه',
+    unorderedList: 'قائمة غير مرتبة',
     orderedList: 'قائمة مرتبة',
     subscript: 'منخفض',
     superscript: 'مرتفع',
@@ -90,7 +90,7 @@ export default {
     defaultFont: 'الخط الإفتراضي'
   },
   tree: {
-    noNodes: 'لا توجد نقاط متاحه',
+    noNodes: 'لا توجد نقاط متاحة',
     noResults: 'لا توجد نقاط متطابقة'
   }
 }
