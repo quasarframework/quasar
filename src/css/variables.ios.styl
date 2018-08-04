@@ -7,9 +7,9 @@ $action-sheet-background       ?= white
 $action-sheet-border-radius    ?= 13px
 $action-sheet-hover-background ?= #d0d0d0
 
-$alert-padding        ?= 12px
-$alert-border-radius  ?= $generic-border-radius
-$alert-min-width      ?= 200px
+$alert-padding       ?= 12px
+$alert-border-radius ?= $generic-border-radius
+$alert-min-width     ?= 200px
 
 $button-border-radius         ?= $generic-border-radius
 $button-padding               ?= 4px 16px
@@ -95,7 +95,7 @@ $collapsible-indent-left-padding ?= ($item-primary-size + $item-gutter)
 $collapsible-active-color        ?= $item-active-color
 $collapsible-menu-left-padding   ?= 48px
 
-$datetime-range-space    ?= 10px
+$datetime-range-space     ?= 10px
 $datetime-input-min-width ?= 70px
 
 $dot-color             ?= $red
@@ -134,7 +134,31 @@ $table-dark-header-color        ?= rgba(255, 255, 255, .64)
 $table-dark-hover-background    ?= rgba(255, 255, 255, .1)
 $table-dark-selected-background ?= rgba(255, 255, 255, .2)
 
-$input-frame-transition ?= all .45s cubic-bezier(.23, 1, .32, 1)
+$input-margin-top            ?= 16px
+$input-margin-bottom         ?= 8px
+
+$input-font-size       ?= 1rem
+$input-label-top-scale ?= .75
+$input-padding-x       ?= 8px
+$input-padding-top     ?= 25px
+$input-padding-bottom  ?= 7px
+$input-control-size    ?= 24px
+$input-control-margin  ?= 4px
+$input-min-height      ?= $input-control-size
+
+$input-box-padding-top          ?= $input-padding-top
+$input-box-padding-bottom       ?= $input-padding-bottom
+
+$input-inverted-border-radius  ?= $generic-border-radius
+
+$input-label-transform-base           ?= translate(0, 0)
+$input-label-box-transform-base       ?= translate(0, -21px)
+
+$input-label-transform                ?= translate(0, -100%)
+$input-label-box-transform            ?= translate(0, -125%)
+
+$input-frame-transition        ?= all .45s cubic-bezier(.23, 1, .32, 1), display 0s 0s
+$input-frame-transition-border ?= opacity .45s cubic-bezier(.23, 1, .32, 1)
 
 $toolbar-min-height          ?= 50px
 $toolbar-padding             ?= 4px 10px

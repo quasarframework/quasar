@@ -111,6 +111,9 @@ export default {
 
     editable () {
       return !this.disable && !this.readonly
+    },
+    __needsBorder () {
+      return true
     }
   },
 
