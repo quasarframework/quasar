@@ -249,7 +249,7 @@ export default {
             blur: this.__onInputBlur,
             focus: this.__clearTimer
           }
-        }, [ label ])
+        }, label)
       }).concat([
         h('input', {
           ref: 'input',
@@ -304,6 +304,9 @@ export default {
             click: () => { this.add() }
           }
         })) || void 0)
-    ].concat(this.$slots.default))
+    ].concat(this.$slots.default
+      ? h('div', { staticClass: 'absolute-full no-pointer-events', slot: 'after' }, this.$slots.default)
+      : void 0
+    ))
   }
 }
