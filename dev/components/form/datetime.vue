@@ -213,6 +213,8 @@
       <q-datetime-picker readonly v-model="model" type="datetime" />
       <p class="caption">Min & Max</p>
       <q-datetime-picker type="datetime" v-model="minMaxModel" :min="min" :max="max" />
+      <p class="caption">Dates Array</p>
+      <q-datetime-picker type="datetime" v-model="minMaxModel" :min="min" :max="max" :dates-array="datesArray" />
     </div>
   </div>
 </template>
@@ -220,7 +222,31 @@
 <script>
 import { date } from 'quasar'
 
-const day = '2016-10-24T10:40:14.674Z'
+const today = new Date()
+const min = date.subtractFromDate(today, {days: 5})
+const max = date.addToDate(today, {days: 4, month: 1, minutes: 10})
+
+function getRandomDates (startDate, endDate) {
+  const numberOfDays = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24))
+  const numberOfDatesToGenerate = Math.round(numberOfDays * 0.60)// about one third
+  function generateRandomDates (lengthOfArray, totalDays) {
+    let arr = [], tempObj = {}, i = 0
+    for (; i < lengthOfArray; i++) {
+      let randomInt = Math.floor(Math.random() * totalDays)
+      let tempDate
+      if (tempObj['key_' + randomInt] === undefined) {
+        tempObj['key_' + randomInt] = randomInt
+        tempDate = date.addToDate(startDate, {days: randomInt})
+        arr.push(tempDate)
+      }
+      else {
+        i--
+      }
+    }
+    return arr
+  }
+  return generateRandomDates(numberOfDatesToGenerate, numberOfDays)
+}
 
 export default {
   data () {
@@ -230,13 +256,11 @@ export default {
       modelVar: undefined,
       // model: 0,
       defaultValue: '2016-09-18T10:45:00.000Z',
-
       format: 'MMMM D, YYYY [at] h:mm [[]a[\\]]',
-
-      minMaxModel: date.formatDate(day),
-
-      min: date.subtractFromDate(day, {days: 5}),
-      max: date.addToDate(day, {days: 4, month: 1, minutes: 10})
+      minMaxModel: date.formatDate(today),
+      min: min,
+      max: max,
+      datesArray: getRandomDates(min, max)
     }
   },
   computed: {
