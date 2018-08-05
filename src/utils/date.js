@@ -57,11 +57,16 @@ export function isValid (date) {
 
 export function isInDatesArray (datesArray, date) {
   let boolVal = false
+
   if (datesArray === undefined) {
     return boolVal
   }
+  else if (datesArray.length > 1000) {
+    console.log('The dates array is too large. Reduce it to less than 1000 dates.')
+    return boolVal
+  }
   else {
-    for (var i = 0; i < datesArray.length; i++) {
+    for (let i = 0; i < datesArray.length; i++) {
       if (datesArray[i].toDateString() === date.toDateString()) {
         boolVal = true
         break
