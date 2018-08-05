@@ -107,6 +107,9 @@ export default {
       this.lowerCase && cls.push('lowercase')
 
       return cls
+    },
+    isClearable () {
+      return this.editable && this.clearable && this.model.length !== 0
     }
   },
   methods: {
@@ -186,6 +189,10 @@ export default {
         this.watcher = null
         this.shadow.selectionOpen = false
       }
+    },
+    __setModel () {
+      this.model = this.model.slice(0, this.model)
+      this.$emit('input', this.model)
     }
   },
   beforeDestroy () {
@@ -242,7 +249,7 @@ export default {
             blur: this.__onInputBlur,
             focus: this.__clearTimer
           }
-        }, label)
+        }, [ label ])
       }).concat([
         h('input', {
           ref: 'input',
@@ -266,6 +273,20 @@ export default {
         })
       ])),
 
+      this.isClearable
+        ? h(QIcon, {
+          slot: 'after',
+          staticClass: 'q-if-control',
+          props: { name: this.$q.icon.input.clear },
+          nativeOn: {
+            click: this.clear
+          }
+        })
+        : h(QIcon, {
+          slot: 'after',
+          staticClass: 'q-if-control',
+          'class': { invisible: true }
+        }),
       this.isLoading
         ? h(QSpinner, {
           slot: 'after',
@@ -283,9 +304,6 @@ export default {
             click: () => { this.add() }
           }
         })) || void 0)
-    ].concat(this.$slots.default
-      ? h('div', { staticClass: 'absolute-full no-pointer-events', slot: 'after' }, this.$slots.default)
-      : void 0
-    ))
+    ].concat(this.$slots.default))
   }
 }
