@@ -147,6 +147,14 @@ export default {
         this.$emit('input', this.model)
       }
     },
+    clear (evt) {
+      clearTimeout(this.timer)
+      evt && stopAndPrevent(evt)
+      if (this.editable) {
+        this.$emit('input', [])
+        this.$emit('clear')
+      }
+    },
     __clearTimer () {
       this.$nextTick(() => clearTimeout(this.timer))
     },
@@ -189,10 +197,6 @@ export default {
         this.watcher = null
         this.shadow.selectionOpen = false
       }
-    },
-    __setModel () {
-      this.model = this.model.slice(0, this.model)
-      this.$emit('input', this.model)
     }
   },
   beforeDestroy () {
@@ -273,20 +277,6 @@ export default {
         })
       ])),
 
-      this.isClearable
-        ? h(QIcon, {
-          slot: 'after',
-          staticClass: 'q-if-control',
-          props: { name: this.$q.icon.input.clear },
-          nativeOn: {
-            click: this.clear
-          }
-        })
-        : h(QIcon, {
-          slot: 'after',
-          staticClass: 'q-if-control',
-          'class': { invisible: true }
-        }),
       this.isLoading
         ? h(QSpinner, {
           slot: 'after',
@@ -303,7 +293,20 @@ export default {
             touchstart: this.__clearTimer,
             click: () => { this.add() }
           }
-        })) || void 0)
+        })) || void 0),
+
+      (this.isClearable && h(QIcon, {
+        slot: 'after',
+        staticClass: 'q-if-control',
+        props: {
+          name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`]
+        },
+        nativeOn: {
+          mousedown: this.__clearTimer,
+          touchstart: this.__clearTimer,
+          click: this.clear
+        }
+      })) || void 0
     ].concat(this.$slots.default
       ? h('div', { staticClass: 'absolute-full no-pointer-events', slot: 'after' }, this.$slots.default)
       : void 0
