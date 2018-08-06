@@ -107,6 +107,9 @@ export default {
       this.lowerCase && cls.push('lowercase')
 
       return cls
+    },
+    isClearable () {
+      return this.editable && this.clearable && this.model.length !== 0
     }
   },
   methods: {
@@ -142,6 +145,14 @@ export default {
       if (this.editable && index >= 0 && index < this.length) {
         this.$emit('remove', { index, value: this.model.splice(index, 1) })
         this.$emit('input', this.model)
+      }
+    },
+    clear (evt) {
+      clearTimeout(this.timer)
+      evt && stopAndPrevent(evt)
+      if (this.editable) {
+        this.$emit('input', [])
+        this.$emit('clear')
       }
     },
     __clearTimer () {
@@ -282,7 +293,20 @@ export default {
             touchstart: this.__clearTimer,
             click: () => { this.add() }
           }
-        })) || void 0)
+        })) || void 0),
+
+      (this.isClearable && h(QIcon, {
+        slot: 'after',
+        staticClass: 'q-if-control',
+        props: {
+          name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`]
+        },
+        nativeOn: {
+          mousedown: this.__clearTimer,
+          touchstart: this.__clearTimer,
+          click: this.clear
+        }
+      })) || void 0
     ].concat(this.$slots.default
       ? h('div', { staticClass: 'absolute-full no-pointer-events', slot: 'after' }, this.$slots.default)
       : void 0
