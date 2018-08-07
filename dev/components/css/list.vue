@@ -31,17 +31,17 @@
         </q-item>
         <q-item>
           <q-item-side letter="J" />
-          <q-item-main label="John Doe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right letter="J" />
         </q-item>
         <q-item>
           <q-item-side inverted letter="J" />
-          <q-item-main label="John Doe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right inverted letter="J" />
         </q-item>
         <q-item>
           <q-item-side inverted stamp="Stamp" />
-          <q-item-main label="John Doe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right inverted stamp="Stamp" />
         </q-item>
 
@@ -64,17 +64,17 @@
         </q-item>
         <q-item>
           <q-item-side letter="J" color="amber" />
-          <q-item-main label="John Doe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right letter="J" color="amber" />
         </q-item>
         <q-item>
           <q-item-side inverted letter="J" color="amber" />
-          <q-item-main label="John Doe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right inverted letter="J" color="amber" />
         </q-item>
         <q-item>
           <q-item-side inverted letter="J" color="amber" text-color="black" />
-          <q-item-main label="John Doe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right inverted letter="J" color="amber" text-color="black" />
         </q-item>
 
@@ -86,8 +86,8 @@
             <q-item-tile letter>Q</q-item-tile>
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile letter>Q</q-item-tile>
@@ -98,8 +98,8 @@
             <q-item-tile inverted letter>Q</q-item-tile>
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile inverted letter>Q</q-item-tile>
@@ -110,8 +110,8 @@
             <q-item-tile stamp>Stamp</q-item-tile>
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile stamp>Stamp</q-item-tile>
@@ -122,8 +122,8 @@
             <q-item-tile icon="map" />
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile icon="map" />
@@ -134,8 +134,8 @@
             <q-item-tile inverted icon="map" />
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile inverted icon="map" />
@@ -148,8 +148,8 @@
             </q-item-tile>
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-tile right avatar>
             <img src="~assets/boy-avatar.png" >
@@ -163,8 +163,8 @@
             <q-item-tile letter color="amber">Q</q-item-tile>
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile letter color="amber">Q</q-item-tile>
@@ -175,8 +175,8 @@
             <q-item-tile inverted letter color="amber">Q</q-item-tile>
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile inverted letter color="amber">Q</q-item-tile>
@@ -187,8 +187,8 @@
             <q-item-tile inverted letter color="amber" text-color="black">Q</q-item-tile>
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile inverted letter color="amber" text-color="black">Q</q-item-tile>
@@ -199,8 +199,8 @@
             <q-item-tile stamp color="amber">Stamp</q-item-tile>
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile stamp color="amber">Stamp</q-item-tile>
@@ -211,8 +211,8 @@
             <q-item-tile icon="map" color="amber" />
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile icon="map" color="amber" />
@@ -223,8 +223,8 @@
             <q-item-tile inverted icon="map" color="amber" />
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile inverted icon="map" color="amber" />
@@ -235,8 +235,8 @@
             <q-item-tile inverted icon="map" color="amber" text-color="black" />
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile inverted icon="map" color="amber" text-color="black" />
@@ -247,11 +247,11 @@
       <p class="caption">Basic List</p>
       <q-list :dark="dark">
         <q-item>
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
         <q-item>
           <q-item-main>
-            <span slot="label">List Item</span>
+            <span slot="label">List Item g</span>
           </q-item-main>
         </q-item>
       </q-list>
@@ -259,85 +259,85 @@
       <p class="caption">Dense List</p>
       <q-list :dark="dark" dense>
         <q-item :key="'ak' + n" v-for="n in 3">
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
       <q-list :dark="dark">
         <q-item :key="'al' + n" v-for="n in 3" dense>
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
 
       <p class="caption">Sparse List</p>
       <q-list :dark="dark" sparse>
         <q-item :key="'am' + n" v-for="n in 3">
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
       <q-list :dark="dark">
         <q-item :key="'an' + n" v-for="n in 3" sparse>
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
 
       <p class="caption">No Border</p>
       <q-list :dark="dark" no-border>
         <q-item :key="'ao' + n" v-for="n in 3">
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
 
       <p class="caption">Striped</p>
       <q-list :dark="dark" striped>
         <q-item :key="'ap' + n" v-for="n in 6">
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
 
       <q-list :dark="dark" striped-odd>
         <q-item :key="'aq' + n" v-for="n in 3">
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
 
       <p class="caption">Separator Between Items</p>
       <q-list :dark="dark">
         <q-item>
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
         <q-item-separator />
         <q-item>
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
         <q-item-separator />
         <q-item>
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
 
       <p class="caption">Separator within Items</p>
       <q-list :dark="dark" separator>
         <q-item :key="'ba' + n" v-for="n in 3">
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
 
       <q-list :dark="dark">
         <q-item :key="'bb' + n" v-for="n in 3" separator>
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
 
       <p class="caption">Inset Separator within Items</p>
       <q-list :dark="dark" inset-separator>
         <q-item :key="'bc' + n" v-for="n in 3">
-          <q-item-main inset label="List Item" />
+          <q-item-main inset label="List Item g" />
         </q-item>
       </q-list>
 
       <q-list :dark="dark">
         <q-item :key="'bd' + n" v-for="n in 3" inset-separator>
-          <q-item-main inset label="List Item" />
+          <q-item-main inset label="List Item g" />
         </q-item>
       </q-list>
 
@@ -352,28 +352,28 @@
       <q-list :dark="dark">
         <q-list-header>List Label</q-list-header>
         <q-item :key="'bf' + n" v-for="n in 2">
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
         <q-item-separator />
         <q-list-header>Another List Label</q-list-header>
         <q-item :key="'bg' + n" v-for="n in 3">
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
 
       <p class="caption">Inset: Items, Separators and Labels</p>
       <q-list :dark="dark">
         <q-item>
-          <q-item-main inset label="List Item" />
+          <q-item-main inset label="List Item g" />
         </q-item>
         <q-item-separator inset />
         <q-list-header inset>Inset List Label</q-list-header>
         <q-item :key="'bh' + n" v-for="n in 2">
-          <q-item-main inset label="List Item" />
+          <q-item-main inset label="List Item g" />
         </q-item>
         <q-item-separator inset />
         <q-item>
-          <q-item-main inset label="List Item" />
+          <q-item-main inset label="List Item g" />
         </q-item>
       </q-list>
 
@@ -391,7 +391,7 @@
       </p>
       <q-list :dark="dark" highlight>
         <q-item :key="'bi' + n" v-for="n in 2">
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
 
@@ -409,7 +409,7 @@
       </p>
       <q-list :dark="dark" link>
         <q-item :key="'bj' + n" v-for="n in 2">
-          <q-item-main label="List Item" />
+          <q-item-main label="List Item g" />
         </q-item>
       </q-list>
 
@@ -417,7 +417,7 @@
       <q-list :dark="dark" inset-separator>
         <q-item>
           <q-item-side icon="assignment_ind" />
-          <q-item-main label="Icon as Primary" />
+          <q-item-main label="Icon as Primary g" />
         </q-item>
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
@@ -431,23 +431,23 @@
       <q-list :dark="dark" inset-separator>
         <q-item>
           <q-item-side icon="assignment_ind" />
-          <q-item-main label="Icon as Primary" />
+          <q-item-main label="Icon as Primary g" />
         </q-item>
         <q-item>
           <q-item-side icon="cloud" />
-          <q-item-main label="Icon as Primary" />
+          <q-item-main label="Icon as Primary g" />
         </q-item>
         <q-item>
           <q-item-side icon="wifi" />
-          <q-item-main label="Icon as Primary" />
+          <q-item-main label="Icon as Primary g" />
         </q-item>
         <q-item>
           <q-item-side icon="bluetooth" />
-          <q-item-main label="Icon as Primary" />
+          <q-item-main label="Icon as Primary g" />
         </q-item>
         <q-item>
           <q-item-side icon="data_usage" />
-          <q-item-main label="Icon as Primary" />
+          <q-item-main label="Icon as Primary g" />
         </q-item>
       </q-list>
 
@@ -493,7 +493,7 @@
         </q-item>
         <q-item>
           <q-item-side letter="J" />
-          <q-item-main label="John Doe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right avatar="/statics/boy-avatar.png" />
         </q-item>
       </q-list>
@@ -502,15 +502,15 @@
       <q-list :dark="dark" highlight inset-separator style="max-width: 400px">
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
-          <q-item-main label="Brunch this weekend? Brunch this weekend? Brunch this weekend?" label-lines="1" />
+          <q-item-main label="Gg Brunch this weekend? Gg Brunch this weekend? Gg Brunch this weekend?" label-lines="1" />
           <q-item-side right stamp="1 min" />
         </q-item>
         <q-item multiline>
           <q-item-side avatar="/statics/boy-avatar.png" />
           <q-item-main
-            label="Brunch this weekend? Brunch this weekend? Brunch this weekend?"
+            label="Gg Brunch this weekend? Gg Brunch this weekend? Gg Brunch this weekend?"
             label-lines="1"
-            sublabel="John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe"
+            sublabel="John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g"
             sublabel-lines="2"
           />
           <q-item-side right>
@@ -522,9 +522,9 @@
         <q-item multiline>
           <q-item-side avatar="/statics/boy-avatar.png" />
           <q-item-main
-            label="Brunch this weekend? Brunch this weekend? Brunch this weekend?"
+            label="Gg Brunch this weekend? Gg Brunch this weekend? Gg Brunch this weekend?"
             label-lines="1"
-            sublabel="John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe"
+            sublabel="John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g"
           />
           <q-item-side right stamp="10 min" />
         </q-item>
@@ -536,8 +536,8 @@
             </q-item-tile>
           </q-item-side>
           <q-item-main>
-            <q-item-tile label>Brunch <span>5</span></q-item-tile>
-            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+            <q-item-tile label>Gg Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g John Doe g</q-item-tile>
           </q-item-main>
           <q-item-side right>
             <q-item-tile stamp>10 min</q-item-tile>
@@ -547,9 +547,9 @@
         <q-item multiline>
           <q-item-side avatar="/statics/boy-avatar.png" />
           <q-item-main>
-            <q-item-tile label lines="1">Brunch this weekend? Yeah, this weekend. Really. This one.</q-item-tile>
+            <q-item-tile label lines="1">Gg Brunch this weekend? Yeah, this weekend. Really. This one.</q-item-tile>
             <q-item-tile sublabel lines="2">
-              <span>John Doe</span>
+              <span>John Doe g</span>
               -- I'll be in your neighborhood doing errands this
               weekend. Do you want to grab brunch?
             </q-item-tile>
@@ -565,7 +565,7 @@
       <q-list :dark="dark" inset-separator>
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
-          <q-item-main label="Brunch this weekend?" />
+          <q-item-main label="Gg Brunch this weekend?" />
           <q-item-side right icon="more_vert">
             <q-popover ref="popover">
               <q-list :dark="dark" link>
@@ -584,14 +584,14 @@
         </q-item>
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
-          <q-item-main label="Brunch this weekend?" />
+          <q-item-main label="Gg Brunch this weekend?" />
           <q-item-side right>
             <q-chip square color="primary" class="shadow-2">10k</q-chip>
           </q-item-side>
         </q-item>
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
-          <q-item-main label="Brunch this weekend?" />
+          <q-item-main label="Gg Brunch this weekend?" />
           <q-item-side right>
             <q-item-tile stamp>10 min ago</q-item-tile>
             <span class="text-amber">
@@ -636,14 +636,14 @@
         <q-list-header>Recent chats</q-list-header>
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
-          <q-item-main label="John Doe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right>
             <q-item-tile icon="chat_bubble" color="green" />
           </q-item-side>
         </q-item>
         <q-item v-for="n in 3" :key="'bp' + n">
           <q-item-side avatar="/statics/boy-avatar.png" />
-          <q-item-main label="John Doe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right icon="chat_bubble" />
         </q-item>
         <q-item-separator />
@@ -657,7 +657,7 @@
       <q-list :dark="dark">
         <q-item v-for="n in 3" :key="'br' + n">
           <q-item-side icon="star" color="yellow" />
-          <q-item-main label="John Joe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right>
             <q-item-tile avatar>
               <img src="~assets/boy-avatar.png">
@@ -667,33 +667,33 @@
         <q-item-separator inset />
         <q-item v-for="n in 3" :key="'bs' + n">
           <q-item-side letter="A" />
-          <q-item-main label="John Joe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right avatar="/statics/boy-avatar.png" />
         </q-item>
         <q-list-header inset>Normal - default color</q-list-header>
         <q-item v-for="n in 3" :key="'bt' + n" link>
           <q-item-side letter="A" />
-          <q-item-main label="John Joe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right icon="alarm" />
           <q-item-side right stamp="Stamp" />
         </q-item>
         <q-list-header inset>Normal - with color</q-list-header>
         <q-item v-for="n in 3" :key="'bu' + n" link>
           <q-item-side letter="A" :color="`red-${n + 2}`" />
-          <q-item-main label="John Joe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right icon="alarm" :color="`red-${n + 2}`" />
           <q-item-side right stamp="Stamp" :color="`red-${n + 2}`" />
         </q-item>
         <q-list-header inset>Inverted - default color</q-list-header>
         <q-item v-for="n in 3" :key="'bv' + n" link>
           <q-item-side letter="A" inverted />
-          <q-item-main label="John Joe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right icon="alarm" inverted />
         </q-item>
         <q-list-header inset>Inverted - with color</q-list-header>
         <q-item v-for="n in 3" :key="'bx' + n" link>
           <q-item-side letter="A" inverted :color="`red-${n + 2}`" />
-          <q-item-main label="John Joe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right icon="alarm" inverted :color="`red-${n + 2}`" />
         </q-item>
         <q-list-header inset>Normal - Tile - default color</q-list-header>
@@ -701,7 +701,7 @@
           <q-item-side>
             <q-item-tile letter>A</q-item-tile>
           </q-item-side>
-          <q-item-main label="John Joe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right>
             <q-item-tile icon="alarm" />
           </q-item-side>
@@ -714,7 +714,7 @@
           <q-item-side>
             <q-item-tile letter :color="`red-${n + 2}`">A</q-item-tile>
           </q-item-side>
-          <q-item-main label="John Joe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right>
             <q-item-tile icon="alarm" :color="`red-${n + 2}`" />
           </q-item-side>
@@ -727,7 +727,7 @@
           <q-item-side>
             <q-item-tile letter inverted>A</q-item-tile>
           </q-item-side>
-          <q-item-main label="John Joe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right>
             <q-item-tile icon="alarm" inverted />
           </q-item-side>
@@ -737,7 +737,7 @@
           <q-item-side>
             <q-item-tile letter inverted :color="`red-${n + 2}`">A</q-item-tile>
           </q-item-side>
-          <q-item-main label="John Joe" />
+          <q-item-main label="John Doe g" />
           <q-item-side right>
             <q-item-tile icon="alarm" inverted :color="`red-${n + 2}`" />
           </q-item-side>
