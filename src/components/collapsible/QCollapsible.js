@@ -33,8 +33,10 @@ export default {
   computed: {
     classes () {
       return {
-        'q-collapsible-opened': this.popup && this.showing,
-        'q-collapsible-closed': this.popup && !this.showing,
+        'q-collapsible-opened': this.showing,
+        'q-collapsible-closed': !this.showing,
+        'q-collapsible-popup-opened': this.popup && this.showing,
+        'q-collapsible-popup-closed': this.popup && !this.showing,
         'q-collapsible-cursor-pointer': !this.iconToggle,
         'q-item-dark': this.dark,
         'q-item-separator': this.separator,
