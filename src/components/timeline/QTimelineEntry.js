@@ -62,7 +62,10 @@ export default {
         'class': this.colorClass
       }, [
         this.icon
-          ? h(QIcon, { props: { name: this.icon } })
+          ? h(QIcon, {
+            staticClass: 'row items-center justify-center',
+            props: { name: this.icon }
+          })
           : null
       ]),
 
