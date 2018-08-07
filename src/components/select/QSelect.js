@@ -306,9 +306,9 @@ export default {
       const el = h('div', {
         staticClass: 'col row items-center group q-input-chips',
         'class': this.alignClass
-      }, this.selectedOptions.map(opt => {
+      }, this.selectedOptions.map((opt, index) => {
         return h(QChip, {
-          key: opt.value,
+          key: index,
           props: {
             small: true,
             closable: this.editable && !opt.disable,
