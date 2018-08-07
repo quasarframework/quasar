@@ -226,6 +226,7 @@
       infinite
       :autoplay="autoplay"
       height="400px"
+      @fullscreen="onFullscreen"
     >
       <q-carousel-slide
         v-for="n in 7" :key="`car-${n}`"
@@ -346,7 +347,12 @@ export default {
       'grey-2'
     ],
     modal: false
-  })
+  }),
+  methods: {
+    onFullscreen (v) {
+      console.log('fullscreen-toggle', v)
+    }
+  }
 }
 </script>
 
