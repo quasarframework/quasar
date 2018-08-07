@@ -308,7 +308,7 @@ export default {
         'class': this.alignClass
       }, this.selectedOptions.map(opt => {
         return h(QChip, {
-          key: opt.label,
+          key: opt.value,
           props: {
             small: true,
             closable: this.editable && !opt.disable,
