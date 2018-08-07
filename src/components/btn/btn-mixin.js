@@ -8,7 +8,9 @@ const sizes = {
   lg: 20,
   xl: 24,
   form: 14.777,
-  'form-label': 21.777
+  'form-label': 21.777,
+  'form-hide-underline': 9.333,
+  'form-label-hide-underline': 16.333
 }
 
 export default {

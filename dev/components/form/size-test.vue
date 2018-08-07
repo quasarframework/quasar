@@ -372,7 +372,7 @@ export default {
       padding: null,
       modes: [
         { hideUnderline: false, inverted: false, box: false, outline: false, fullWidth: false, btnSize: 'form', btnSizeLabel: 'form-label' },
-        { hideUnderline: true, inverted: false, box: false, outline: false, fullWidth: false, btnSize: 'form', btnSizeLabel: 'form-label' },
+        { hideUnderline: true, inverted: false, box: false, outline: false, fullWidth: false, btnSize: 'form-hide-underline', btnSizeLabel: 'form-label-hide-underline' },
         { hideUnderline: false, inverted: true, box: false, outline: false, fullWidth: false, btnSize: 'form', btnSizeLabel: 'form-label' },
         { hideUnderline: false, inverted: false, box: true, outline: false, fullWidth: false, btnSize: 'form', btnSizeLabel: 'form-label' },
         { hideUnderline: false, inverted: false, box: false, outline: true, fullWidth: false, btnSize: 'form-label', btnSizeLabel: 'form-label' },
