@@ -15,6 +15,7 @@ export default {
   lt: {
     sm: true,
     md: true,
+    lg: true,
     xl: true
   },
   gt: {},
@@ -104,13 +105,13 @@ export default {
       }
     }
 
-    Vue.util.defineReactive($q, 'screen', this)
-
     if (fromSSR) {
       queues.takeover.push(start)
     }
     else {
       start()
     }
+
+    Vue.util.defineReactive($q, 'screen', this)
   }
 }
