@@ -37,7 +37,6 @@ $chat-message-received-color     ?= black
 $chat-message-received-bg        ?= $green-4
 $chat-message-sent-color         ?= black
 $chat-message-sent-bg            ?= $grey-4
-
 $chat-message-avatar-size        ?= 48px
 $chat-message-border-radius      ?= $generic-border-radius
 $chat-message-distance           ?= 8px
@@ -57,7 +56,6 @@ $chip-background         ?= $grey-3
 
 $item-dense-factor                 ?= .2
 $item-sparse-factor                ?= 1.4
-
 $item-base-color                   ?= $grey-5
 $item-highlight-color              ?= alpha($item-base-color, 50%)
 $item-stripe-color                 ?= alpha($item-base-color, 65%)
@@ -137,8 +135,33 @@ $table-dark-header-color        ?= rgba(255, 255, 255, .64)
 $table-dark-hover-background    ?= rgba(255, 255, 255, .1)
 $table-dark-selected-background ?= rgba(255, 255, 255, .2)
 
+$input-margin-top            ?= 16px
+$input-margin-bottom         ?= 8px
 
-$input-frame-transition ?= all .45s cubic-bezier(.23, 1, .32, 1)
+$input-font-size       ?= 1rem
+$input-label-top-scale ?= .75
+$input-padding-x       ?= 8px
+$input-padding-top     ?= 25px
+$input-padding-bottom  ?= 7px
+$input-control-size    ?= 24px
+$input-control-margin  ?= 4px
+$input-min-height      ?= $input-control-size
+
+$input-hide-underline-padding-top ?= 18px
+
+$input-box-padding-top          ?= $input-padding-top
+$input-box-padding-bottom       ?= $input-padding-bottom
+
+$input-inverted-border-radius  ?= $generic-border-radius
+
+$input-label-transform-base           ?= translate(0, 0)
+$input-label-box-transform-base       ?= translate(0, -21px)
+
+$input-label-transform                ?= translate(0, -100%)
+$input-label-box-transform            ?= translate(0, -125%)
+
+$input-frame-transition        ?= all .45s cubic-bezier(.23, 1, .32, 1), display 0s 0s
+$input-frame-transition-border ?= transform .45s cubic-bezier(.23, 1, .32, 1), border-left-width 0s .45s, border-right-width 0s .45s
 
 $toolbar-min-height          ?= 50px
 $toolbar-padding             ?= 4px 12px

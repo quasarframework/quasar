@@ -95,7 +95,7 @@ export default {
   },
   render (h) {
     return h('header', {
-      staticClass: 'q-layout-header q-layout-transition',
+      staticClass: 'q-layout-header q-layout-marginal q-layout-transition',
       'class': this.computedClass,
       style: this.computedStyle
     }, [

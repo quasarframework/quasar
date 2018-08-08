@@ -97,6 +97,9 @@ export default {
         inp.push('a')
       }
       return inp
+    },
+    __needsBorder () {
+      return true
     }
   },
   created () {

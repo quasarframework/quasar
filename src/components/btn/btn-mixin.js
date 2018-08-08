@@ -7,12 +7,10 @@ const sizes = {
   md: 14,
   lg: 20,
   xl: 24,
-  form: 12.446,
-  'form-label': 17.11,
-  'form-hide-underline': 9.335,
-  'form-label-hide-underline': 14,
-  'form-inverted': 15.555,
-  'form-label-inverted': 20.22
+  form: 14.777,
+  'form-label': 21.777,
+  'form-hide-underline': 9.333,
+  'form-label-hide-underline': 16.333
 }
 
 export default {

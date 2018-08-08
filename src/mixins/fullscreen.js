@@ -9,6 +9,9 @@ export default {
   watch: {
     $route () {
       this.exitFullscreen()
+    },
+    inFullscreen (v) {
+      this.$emit('fullscreen', v)
     }
   },
   methods: {

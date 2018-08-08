@@ -1,6 +1,6 @@
 {
   "name": "quasar-framework",
-  "version": "0.17.5",
+  "version": "0.17.7",
   "description": "Build responsive SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase",
   "module": "src/index.esm.js",
   "files": [
@@ -91,12 +91,12 @@
     "sym": "0.0.4",
     "uglify-es": "^3.3.9",
     "url-loader": "^1.0.1",
-    "vue": "^2.5.16",
+    "vue": "^2.5.17",
     "vue-loader": "^15.2.4",
     "vue-router": "^3.0.1",
-    "vue-server-renderer": "^2.5.16",
+    "vue-server-renderer": "^2.5.17",
     "vue-style-loader": "^4.0.2",
-    "vue-template-compiler": "^2.5.16",
+    "vue-template-compiler": "^2.5.17",
     "webpack": "^4.15.1",
     "webpack-chain": "^4.8.0",
     "webpack-dev-middleware": "^3.1.3",

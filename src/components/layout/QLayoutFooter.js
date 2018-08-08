@@ -91,7 +91,7 @@ export default {
   },
   render (h) {
     return h('footer', {
-      staticClass: 'q-layout-footer q-layout-transition',
+      staticClass: 'q-layout-footer q-layout-marginal q-layout-transition',
       'class': this.computedClass,
       style: this.computedStyle
     }, [
