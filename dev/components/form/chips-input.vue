@@ -23,6 +23,7 @@
       <q-chips-input float-label="List autocomplete" v-model="options">
         <q-autocomplete :static-data="{field: 'value', list: countries}" />
       </q-chips-input>
+
       <pre class="shadow-2 q-pa-sm q-mb-md">{{ options }}</pre>
 
       <q-chips-input float-label="List autocomplete - Complex" :value="optionsComplexParsed" @remove="optionsComplexRemove">
@@ -38,6 +39,9 @@
       <q-chips-input v-model="model" add-icon="check" />
       <q-chips-input v-model="model" add-icon="add" />
       <q-chips-input v-model="model" add-icon="add_circle" />
+
+      <p class="caption">With Clearable</p>
+      <q-chips-input align="right" @change="value => log('@change', value)" @input="value => log('@input', value)" color="secondary" float-label="Float Label" v-model="model" placeholder="Some placeholder" clearable />
 
       <p class="caption">v-model.lazy</p>
       <q-chips-input :value="model" @change="value => { model = value; log('@change', value) }"/>

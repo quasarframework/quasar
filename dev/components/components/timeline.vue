@@ -1,6 +1,6 @@
 <template>
   <div class="layout-padding" style="max-width: 800px">
-    <q-timeline color="secondary" style="padding: 0 24px;">
+    <q-timeline responsive color="secondary" style="padding: 0 24px;">
       <q-timeline-entry heading>November, 2017</q-timeline-entry>
 
       <q-timeline-entry
@@ -79,7 +79,7 @@
       </q-timeline-entry>
     </q-timeline>
 
-    <q-timeline color="red" dark class="bg-black" style="padding: 24px; margin-top: 50px;">
+    <q-timeline responsive color="red" dark class="bg-black" style="padding: 24px; margin-top: 50px;">
       <q-timeline-entry
         title="Event Title"
         subtitle="February 22, 1986"
