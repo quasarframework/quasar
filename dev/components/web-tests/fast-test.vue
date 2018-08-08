@@ -8,6 +8,24 @@
       For some test that you think it should be persistent,
       make a new *.vue file here or in another folder under /dev/components.
     -->
+    <q-tabs>
+      <q-route-tab
+        color="red"
+        slot="title"
+        icon="bug_report"
+        replace
+        to="/issue-2394"
+        label="I Should Be Red"
+      />
+
+      <q-tab
+        color="red"
+        slot="title"
+        icon="bug_report"
+        replace
+        label="Red As Expected"
+      />
+    </q-tabs>
   </div>
 </template>
 
