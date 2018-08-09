@@ -53,7 +53,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $10+
 
-- Hansol Song ($25)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Carlos Tulloch ($20)
