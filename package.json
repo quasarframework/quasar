@@ -107,6 +107,10 @@
   "peerDependencies": {
     "vue": "^2.5.0"
   },
+  "vetur": {
+    "tags": "dist/helper-json/quasar-tags.json",
+    "attributes": "dist/helper-json/quasar-attributes.json"
+  },
   "engines": {
     "node": ">= 8.9.0",
     "npm": ">= 5.6.0",
