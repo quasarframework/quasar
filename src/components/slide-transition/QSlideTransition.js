@@ -6,7 +6,9 @@ export default {
   methods: {
     __begin (el, height) {
       el.style.overflowY = 'hidden'
-      el.style.height = `${height}px`
+      if (height !== void 0) {
+        el.style.height = `${height}px`
+      }
       el.classList.add('q-slide-transition')
       this.animating = true
     },
@@ -34,12 +36,18 @@ export default {
       },
       on: {
         enter: (el, done) => {
+          let pos = 0
           this.el = el
 
-          if (this.animating !== true) {
-            this.lastEvent = 'hide'
-            this.__begin(el, 0)
+          if (this.animating === true) {
+            this.__cleanup()
+            pos = el.offsetHeight === el.scrollHeight ? 0 : void 0
           }
+          else {
+            this.lastEvent = 'hide'
+          }
+
+          this.__begin(el, pos)
 
           this.timer = setTimeout(() => {
             el.style.height = `${el.scrollHeight}px`
@@ -50,14 +58,19 @@ export default {
             el.addEventListener('transitionend', this.animListener)
           }, 100)
         },
-        enterCancelled: this.__cleanup,
         leave: (el, done) => {
+          let pos
           this.el = el
 
-          if (this.animating !== true) {
-            this.lastEvent = 'show'
-            this.__begin(el, el.scrollHeight)
+          if (this.animating === true) {
+            this.__cleanup()
           }
+          else {
+            this.lastEvent = 'show'
+            pos = el.scrollHeight
+          }
+
+          this.__begin(el, pos)
 
           this.timer = setTimeout(() => {
             el.style.height = 0
@@ -67,8 +80,7 @@ export default {
             }
             el.addEventListener('transitionend', this.animListener)
           }, 100)
-        },
-        leaveCancelled: this.__cleanup
+        }
       }
     }, this.$slots.default)
   }

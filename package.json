@@ -1,6 +1,6 @@
 {
   "name": "quasar-framework",
-  "version": "0.17.7",
+  "version": "0.17.8",
   "description": "Build responsive SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase",
   "module": "src/index.esm.js",
   "files": [
@@ -106,6 +106,10 @@
   },
   "peerDependencies": {
     "vue": "^2.5.0"
+  },
+  "vetur": {
+    "tags": "dist/helper-json/quasar-tags.json",
+    "attributes": "dist/helper-json/quasar-attributes.json"
   },
   "engines": {
     "node": ">= 8.9.0",

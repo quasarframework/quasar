@@ -8,12 +8,24 @@
         <span class="mobile-only">Tap</span>
         on the Toggle below to see the transition in action.
       </div>
-      <div>
-        <q-toggle v-model="visible" label="Visible image" />
-      </div>
 
+      <div class="q-mt-xl q-mb-xs">
+        <q-toggle v-model="visibleVShow" label="Visible with v-show" />
+      </div>
       <q-slide-transition @show="log('show')" @hide="log('hide')">
-        <div v-show="visible" style="margin: 0">
+        <div v-show="visibleVShow" style="margin: 0">
+          <img
+            class="responsive"
+            src="~assets/quasar.jpg"
+          >
+        </div>
+      </q-slide-transition>
+
+      <div class="q-mt-xl q-mb-xs">
+        <q-toggle v-model="visibleVIf" label="Visible with v-if" />
+      </div>
+      <q-slide-transition @show="log('show')" @hide="log('hide')">
+        <div v-if="visibleVIf" style="margin: 0">
           <img
             class="responsive"
             src="~assets/quasar.jpg"
@@ -28,7 +40,8 @@
 export default {
   data () {
     return {
-      visible: true
+      visibleVShow: true,
+      visibleVIf: true
     }
   },
   methods: {
