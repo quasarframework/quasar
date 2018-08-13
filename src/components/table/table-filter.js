@@ -1,6 +1,6 @@
 export default {
   props: {
-    filter: String,
+    filter: [String, Object],
     filterMethod: {
       type: Function,
       default (rows, terms, cols = this.computedCols, cellValue = this.getCellValue) {
@@ -9,11 +9,6 @@ export default {
           row => cols.some(col => (cellValue(col, row) + '').toLowerCase().indexOf(lowerTerms) !== -1)
         )
       }
-    }
-  },
-  computed: {
-    hasFilter () {
-      return this.filter !== void 0 && this.filter.length > 0
     }
   },
   watch: {

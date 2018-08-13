@@ -86,7 +86,7 @@ export default {
 
       const { sortBy, descending, rowsPerPage } = this.computedPagination
 
-      if (this.hasFilter) {
+      if (this.filter) {
         rows = this.filterMethod(rows, this.filter, this.computedCols, this.getCellValue)
       }
 
