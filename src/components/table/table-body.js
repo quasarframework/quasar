@@ -37,7 +37,11 @@ export default {
                 const slot = this.$scopedSlots[`body-cell-${col.name}`]
                 return slot
                   ? slot(this.addBodyCellMetaData({ row, col: col }))
-                  : h('td', { staticClass: col.__tdClass }, this.getCellValue(col, row))
+                  : h('td', {
+                    staticClass: col.__tdClass,
+                    style: col.style,
+                    'class': col.classes
+                  }, this.getCellValue(col, row))
               })
 
           if (this.hasSelectionMode) {

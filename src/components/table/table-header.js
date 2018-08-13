@@ -47,7 +47,9 @@ export default {
               sort: this.sort,
               colsMap: this.computedColsMap
             }
-          }
+          },
+          style: col.style,
+          'class': col.classes
         }, col.label)
       }
       const child = this.computedCols.map(mapFn)
