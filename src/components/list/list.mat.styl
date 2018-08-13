@@ -30,7 +30,7 @@
   flex 1 1 auto
   min-width 0
 .q-item-main-inset
-  margin-left ($item-gutter + $item-primary-size)
+  margin-left $item-inset
 
 .q-item-label
   line-height 1.2
@@ -86,7 +86,7 @@
     position absolute
     top 0
     right 0
-    left ($item-padding + $item-gutter + $item-primary-size)
+    left ($item-padding + $item-inset)
     height 1px
     background $item-separator-color
 
@@ -116,7 +116,7 @@
   & + .q-list-header
     margin-top (- $item-padding / 2)
 .q-item-separator-inset-component
-  margin-left ($item-padding + $item-gutter + $item-primary-size)
+  margin-left ($item-padding + $item-inset)
 
 .q-list-header
   color $item-label-color
@@ -126,7 +126,7 @@
   min-height 48px
   padding 15px $item-padding
 .q-list-header-inset
-  padding-left ($item-padding + $item-gutter + $item-primary-size)
+  padding-left ($item-padding + $item-inset)
 
 
 .q-list-dark, .q-item-dark
