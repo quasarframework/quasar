@@ -113,6 +113,7 @@ export default {
         {
           label: 'Node 1 - filter',
           icon: 'alarm',
+          iconColor: 'red',
           children: [
             {
               label: 'Node 1.1 - accordion test on children',
