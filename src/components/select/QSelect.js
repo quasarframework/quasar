@@ -433,7 +433,7 @@ export default {
       }))) || void 0
     ]))
 
-    if (this.isClearable) {
+    if (this.isClearable && this.value !== '') {
       child.push(h(QIcon, {
         slot: 'after',
         staticClass: 'q-if-control',
