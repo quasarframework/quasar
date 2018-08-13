@@ -107,6 +107,14 @@ export default {
       if (!this.noRouteDismiss) {
         this.hide()
       }
+    },
+    maximized (newV, oldV) {
+      this.__register(false, oldV)
+      this.__register(true, newV)
+    },
+    minimized (newV, oldV) {
+      this.__register(false, this.maximized, oldV)
+      this.__register(true, this.maximized, newV)
     }
   },
   computed: {
@@ -207,19 +215,19 @@ export default {
     __stopPropagation (e) {
       e.stopPropagation()
     },
-    __register (opening) {
+    __register (opening, maximized = this.maximized, minimized = this.minimized) {
       let state = opening
         ? { action: 'add', step: 1 }
         : { action: 'remove', step: -1 }
 
-      if (this.maximized) {
+      if (maximized) {
         modals.maximized += state.step
         if (!opening && modals.maximized > 0) {
           return
         }
         document.body.classList[state.action]('q-maximized-modal')
       }
-      else if (!this.minimized) {
+      else if (!minimized) {
         modals.responsive += state.step
         if (!opening && modals.responsive > 0) {
           return
