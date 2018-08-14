@@ -21,7 +21,7 @@
       <p class="caption">With offset</p>
       <div class="group">
         <q-btn color="indigo" label="Hover">
-          <q-tooltip v-model="toggle" anchor="top middle" self="bottom middle" :offset="[10, 10]">
+          <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>top</em> (<q-icon name="keyboard_arrow_up" />)
           </q-tooltip>
         </q-btn>
