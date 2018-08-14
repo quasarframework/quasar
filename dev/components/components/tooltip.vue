@@ -14,34 +14,34 @@
 
       <div style="margin-top: 40px;width: 200px; height: 70px;background-color: #26A69A;">
         &nbsp;
-        <q-tooltip :delay="1000">Quasar Rulz!</q-tooltip>
+        <q-tooltip arrow :delay="1000">Quasar Rulz!</q-tooltip>
       </div>
 
       <q-toggle v-model="toggle" class="z-max fixed-top" />
       <p class="caption">With offset</p>
       <div class="group">
         <q-btn color="indigo" label="Hover">
-          <q-tooltip v-model="toggle" anchor="top middle" self="bottom middle" :offset="[10, 10]">
+          <q-tooltip arrow v-model="toggle" anchor="top middle" self="bottom middle" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>top</em> (<q-icon name="keyboard_arrow_up" />)
           </q-tooltip>
         </q-btn>
         <q-btn color="red" label="Over">
-          <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">
+          <q-tooltip arrow anchor="center right" self="center left" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>right</em> (<q-icon name="keyboard_arrow_right" />)
           </q-tooltip>
         </q-btn>
         <q-btn color="purple" label="These">
-          <q-tooltip anchor="center left" self="center right" :offset="[10, 10]">
+          <q-tooltip arrow anchor="center left" self="center right" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>left</em> (<q-icon name="keyboard_arrow_left" />)
           </q-tooltip>
         </q-btn>
         <q-btn color="amber" label="Buttons">
-          <q-tooltip anchor="bottom middle" self="top middle" :offset="[10, 10]">
+          <q-tooltip arrow anchor="bottom middle" self="top middle" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>bottom</em> (<q-icon name="keyboard_arrow_down" />)
           </q-tooltip>
         </q-btn>
         <q-btn color="orange" label="With loading" :loading="loading" @click="setLoading">
-          <q-tooltip anchor="bottom middle" self="top middle" :offset="[10, 10]">
+          <q-tooltip arrow anchor="bottom middle" self="top middle" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>bottom</em> (<q-icon name="keyboard_arrow_down" />)
           </q-tooltip>
         </q-btn>
@@ -50,7 +50,7 @@
       <q-card style="margin-top: 75px">
         <q-card-title class="bg-primary text-center">
           <q-btn push color="orange" label="Mouse Hover">
-            <q-tooltip :anchor="anchor" :self="self" :offset="[10, 10]">
+            <q-tooltip arrow :anchor="anchor" :self="self">
               <div>Quasar is <strong>great</strong>!</div>
               <div class="text-center">Try it.</div>
             </q-tooltip>
