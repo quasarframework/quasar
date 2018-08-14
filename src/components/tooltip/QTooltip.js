@@ -50,7 +50,7 @@ export default {
     },
     arrowClass () {
       if (!this.arrow) { return }
-      
+
       const name = 'q-tooltip-arrow q-tooltip-arrow-'
 
       if (this.anchor === 'center left' && this.self === 'center right') {
