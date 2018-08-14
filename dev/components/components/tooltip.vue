@@ -21,7 +21,7 @@
       <p class="caption">With offset</p>
       <div class="group">
         <q-btn color="indigo" label="Hover">
-          <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+          <q-tooltip v-model="toggle" anchor="top middle" self="bottom middle" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>top</em> (<q-icon name="keyboard_arrow_up" />)
           </q-tooltip>
         </q-btn>
@@ -50,7 +50,7 @@
       <q-card style="margin-top: 75px">
         <q-card-title class="bg-primary text-center">
           <q-btn push color="orange" label="Mouse Hover">
-            <q-tooltip v-model="toggle" :anchor="anchor" :self="self" :offset="[10, 10]">
+            <q-tooltip :anchor="anchor" :self="self" :offset="[10, 10]">
               <div>Quasar is <strong>great</strong>!</div>
               <div class="text-center">Try it.</div>
             </q-tooltip>
