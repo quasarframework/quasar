@@ -1,12 +1,58 @@
-.q-tooltip
+.q-tooltip {
   position fixed
-  font-size $tooltip-fontsize
-  color $tooltip-color
-  background $tooltip-background
-  box-shadow $tooltip-box-shadow
   z-index $z-tooltip
-  padding $tooltip-padding
+  pointer-events none
+}
+
+.q-tooltip .q-tooltip-inner {
+  background $tooltip-background
+  color $tooltip-color
   border-radius $tooltip-border-radius
+  padding $tooltip-padding
   overflow-y auto
   overflow-x hidden
-  pointer-events none
+}
+
+.q-tooltip .arrow-bottom {
+  border-style solid
+  position absolute
+  border-color $tooltip-background
+  border-width 9px 9px 0 9px
+  border-left-color transparent 
+  border-right-color transparent
+  bottom -8px
+  left calc(50% - 10px)
+}
+
+.q-tooltip .arrow-top {
+  border-style solid
+  position absolute
+  border-color $tooltip-background
+  border-width 0 9px 9px 9px
+  border-left-color transparent
+  border-right-color transparent
+  top -8px
+  left calc(50% - 10px)
+}
+
+.q-tooltip .arrow-left {
+  border-style solid
+  position absolute
+  border-color $tooltip-background
+  border-width 9px 9px 9px 0
+  border-top-color transparent
+  border-bottom-color transparent
+  left -8px
+  top calc(50% - 10px)
+}
+
+.q-tooltip .arrow-right {
+  border-style solid
+  position absolute
+  border-color $tooltip-background
+  border-width 9px 0 9px 9px
+  border-top-color transparent
+  border-bottom-color transparent
+  right -8px
+  top calc(50% - 10px)
+}

@@ -50,7 +50,7 @@
       <q-card style="margin-top: 75px">
         <q-card-title class="bg-primary text-center">
           <q-btn push color="orange" label="Mouse Hover">
-            <q-tooltip :anchor="anchor" :self="self">
+            <q-tooltip v-model="toggle" :anchor="anchor" :self="self" :offset="[10, 10]">
               <div>Quasar is <strong>great</strong>!</div>
               <div class="text-center">Try it.</div>
             </q-tooltip>

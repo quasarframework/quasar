@@ -46,6 +46,23 @@ export default {
     },
     selfOrigin () {
       return parsePosition(this.self)
+    },
+    arrowDirection () {
+      if (this.anchor === 'center left' && this.self === 'center right') {
+        return 'arrow-right'
+      }
+      if (this.anchor === 'center right' && this.self === 'center left') {
+        return 'arrow-left'
+      }
+      if (this.anchor === 'top middle' && this.self === 'bottom middle') {
+        return 'arrow-bottom'
+      }
+      if (this.anchor === 'bottom middle' && this.self === 'top middle') {
+        return 'arrow-top'
+      }
+      else {
+        return ''
+      }
     }
   },
   methods: {
@@ -100,7 +117,8 @@ export default {
     if (!this.canRender) { return }
 
     return h('div', { staticClass: 'q-tooltip animate-popup' }, [
-      h('div', this.$slots.default)
+      h('div', { class: this.arrowDirection }),
+      h('div', { staticClass: 'q-tooltip-inner' }, this.$slots.default)
     ])
   },
   beforeMount () {
