@@ -56,6 +56,7 @@
         :behavior="rightBehavior"
         :breakpoint="rightBreakpoint"
         content-class="bg-grey-3"
+        @on-layout="drawerOnLayout"
       >
         <q-scroll-area class="fit" :thumb-style="{right: '4px', borderRadius: '2px', background: 'blue', opacity: .6, width: '4px'}">
           <q-btn to="/layout-quick/a">Go to A</q-btn>
@@ -414,6 +415,9 @@ export default {
     }
   },
   methods: {
+    drawerOnLayout (v) {
+      console.log('drawer on layout:', v)
+    },
     onScroll (data) {
       // console.log('scroll', data.position)
     },

@@ -112,6 +112,7 @@ export default {
       this.__update('offset', val)
     },
     onLayout (val) {
+      this.$emit('on-layout', val)
       this.__update('space', val)
     },
     $route () {
