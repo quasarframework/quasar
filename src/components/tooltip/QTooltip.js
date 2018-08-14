@@ -32,6 +32,7 @@ export default {
       type: Number,
       default: 0
     },
+    arrow: Boolean,
     maxHeight: String,
     disable: Boolean
   },
@@ -47,7 +48,9 @@ export default {
     selfOrigin () {
       return parsePosition(this.self)
     },
-    arrowDirection () {
+    arrowClass () {
+      if (!this.arrow) { return }
+
       if (this.anchor === 'center left' && this.self === 'center right') {
         return 'arrow-right'
       }
@@ -59,9 +62,6 @@ export default {
       }
       if (this.anchor === 'bottom middle' && this.self === 'top middle') {
         return 'arrow-top'
-      }
-      else {
-        return ''
       }
     }
   },
@@ -117,7 +117,7 @@ export default {
     if (!this.canRender) { return }
 
     return h('div', { staticClass: 'q-tooltip animate-popup' }, [
-      h('div', { class: this.arrowDirection }),
+      (this.arrowClass && h('div', { class: this.arrowClass })) || void 0,
       h('div', { staticClass: 'q-tooltip-inner' }, this.$slots.default)
     ])
   },
