@@ -5,6 +5,7 @@ import QItemWrapper from '../list/QItemWrapper.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import ItemMixin, { subItemProps } from '../../mixins/item.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 const eventName = 'q:collapsible:close'
 
@@ -37,12 +38,15 @@ export default {
         'q-collapsible-closed': !this.showing,
         'q-collapsible-popup-opened': this.popup && this.showing,
         'q-collapsible-popup-closed': this.popup && !this.showing,
-        'q-collapsible-cursor-pointer': !this.iconToggle,
+        'q-collapsible-cursor-pointer': !this.separateToggle,
         'q-item-dark': this.dark,
         'q-item-separator': this.separator,
         'q-item-inset-separator': this.insetSeparator,
         disabled: this.disable
       }
+    },
+    separateToggle () {
+      return this.iconToggle || this.to !== void 0
     }
   },
   watch: {
@@ -54,13 +58,13 @@ export default {
   },
   methods: {
     __toggleItem () {
-      if (!this.iconToggle) {
+      if (!this.separateToggle) {
         this.toggle()
       }
     },
     __toggleIcon (e) {
-      if (this.iconToggle) {
-        e && e.stopPropagation()
+      if (this.separateToggle) {
+        e && stopAndPrevent(e)
         this.toggle()
       }
     },

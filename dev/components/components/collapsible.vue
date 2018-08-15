@@ -80,7 +80,7 @@
 
     <p class="caption">Menu</p>
     <q-list separator>
-      <q-collapsible indent icon="mail" label="Inbox" sublabel="5 unread emails" opened>
+      <q-collapsible to="/" exact indent icon="mail" label="Inbox" sublabel="5 unread emails" opened>
 
         <q-collapsible indent icon="receipt" label="Receipts">
 
