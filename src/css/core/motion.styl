@@ -37,6 +37,10 @@
 .animate-bounce
   animation q-bounce 2s infinite /* rtl:ignore */
 
+.animate-shake
+  animation q-shake .15s
+  animation-timing-function cubic-bezier(.25, .8, .25, 1)
+
 @keyframes q-blink
   to
     visibility hidden
@@ -78,6 +82,14 @@
     transform translateY(-30px)
   60%
     transform translateY(-15px)
+
+@keyframes q-shake
+  0%
+    transform scale(1)
+  50%
+    transform scale(1.02)
+  100%
+    transform scale(1)
 
 .animate-popup-up, .animate-popup-down
   animation-timing-function cubic-bezier(0.23, 1, 0.32, 1)

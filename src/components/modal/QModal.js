@@ -169,6 +169,7 @@ export default {
   methods: {
     __dismiss () {
       if (this.noBackdropDismiss) {
+        this.__shake()
         return
       }
       this.hide().then(() => {
@@ -185,7 +186,10 @@ export default {
       this.__preventScroll(true)
 
       EscapeKey.register(() => {
-        if (!this.noEscDismiss) {
+        if (this.noEscDismiss) {
+          this.__shake()
+        }
+        else {
           this.hide().then(() => {
             this.$emit('escape-key')
             this.$emit('dismiss')
@@ -234,6 +238,14 @@ export default {
         }
         document.body.classList[state.action]('q-responsive-modal')
       }
+    },
+    __shake () {
+      this.$el.classList.remove('animate-shake')
+      this.$el.classList.add('animate-shake')
+      clearTimeout(this.shakeTimeout)
+      this.shakeTimeout = setTimeout(() => {
+        this.$el.classList.remove('animate-shake')
+      }, 150)
     }
   },
   mounted () {
@@ -242,6 +254,7 @@ export default {
     }
   },
   beforeDestroy () {
+    clearTimeout(this.shakeTimeout)
     this.$el.remove()
   },
   render (h) {
