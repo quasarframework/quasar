@@ -7,7 +7,10 @@ export default {
   mixins: [FrameMixin, InputMixin],
   props: {
     value: { required: true },
-    type: String,
+    type: {
+      type: String,
+      default: 'search'
+    },
     debounce: {
       type: Number,
       default: 300

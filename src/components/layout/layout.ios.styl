@@ -73,20 +73,23 @@ $layout-transition = all .12s ease-in
     pointer-events auto
 
 body.q-ios-statusbar-padding
-  .q-layout-header > .q-toolbar:nth-child(2),
-  .q-layout-header > .q-tabs:nth-child(2) .q-tabs-head
-  .q-layout-drawer.top-padding
+  .q-layout .q-layout-header > .q-toolbar:nth-child(2),
+  .q-layout .q-layout-header > .q-tabs:nth-child(2) .q-tabs-head
+  .q-layout .q-layout-drawer.top-padding,
+  .modal:not(.minimized) .q-layout-header > .q-toolbar:nth-child(1)
     padding-top $ios-statusbar-height
     min-height ($toolbar-min-height + $ios-statusbar-height)
 
 body.q-ios-statusbar-x
-  .q-layout-header > .q-toolbar:nth-child(2),
-  .q-layout-header > .q-tabs:nth-child(2) .q-tabs-head
-  .q-layout-drawer.top-padding
+  .q-layout .q-layout-header > .q-toolbar:nth-child(2),
+  .q-layout .q-layout-header > .q-tabs:nth-child(2) .q-tabs-head
+  .q-layout .q-layout-drawer.top-padding,
+  .modal:not(.minimized) .q-layout-header > .q-toolbar:nth-child(1)
     padding-top env(safe-area-inset-top)
-  .q-layout-footer > .q-toolbar:last-child,
-  .q-layout-footer > .q-tabs:last-child .q-tabs-head
-  .q-layout-drawer.top-padding
+  .q-layout .q-layout-footer > .q-toolbar:last-child,
+  .q-layout .q-layout-footer > .q-tabs:last-child .q-tabs-head
+  .q-layout .q-layout-drawer.top-padding,
+  .modal:not(.minimized) .q-layout-footer > .q-toolbar:last-child
     padding-bottom env(safe-area-inset-bottom)
     min-height ($toolbar-min-height + $ios-statusbar-height)
 

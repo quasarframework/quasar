@@ -92,7 +92,8 @@ export default {
       const
         terms = [null, void 0].includes(this.__input.val) ? '' : String(this.__input.val),
         termsLength = terms.length,
-        searchId = uid()
+        searchId = uid(),
+        popover = this.$refs.popover
 
       this.searchId = searchId
 
@@ -108,19 +109,12 @@ export default {
       if (this.staticData) {
         this.searchId = ''
         this.results = this.filter(terms, this.staticData)
-        const popover = this.$refs.popover
         if (this.results.length) {
-          this.__keyboardShow(-1)
-          if (popover && popover.showing) {
-            this.$nextTick(() => popover && popover.reposition())
-          }
-          else {
-            popover.show()
-          }
+          this.__showResults()
+          return
         }
-        else {
-          popover.hide()
-        }
+
+        popover.hide()
         return
       }
 
@@ -134,8 +128,7 @@ export default {
 
         if (Array.isArray(results) && results.length > 0) {
           this.results = results
-          this.__keyboardShow(-1)
-          this.$refs.popover.show()
+          this.__showResults()
           return
         }
 
@@ -209,6 +202,17 @@ export default {
         return
       }
       this.timer = setTimeout(this.trigger, this.debounce)
+    },
+    __showResults () {
+      const popover = this.$refs.popover
+
+      this.__keyboardShow(-1)
+      if (popover.showing) {
+        this.$nextTick(() => popover.showing && popover.reposition())
+      }
+      else {
+        popover.show()
+      }
     }
   },
   mounted () {
