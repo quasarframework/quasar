@@ -132,7 +132,7 @@ export default {
     right: 'fas fa-chevron-right'
   },
   table: {
-    arrowUp: 'fas fa-long-arrow-up',
+    arrowUp: 'fas fa-arrow-up',
     warning: 'fas fa-exclamation-triangle',
     prevPage: 'fas fa-chevron-left',
     nextPage: 'fas fa-chevron-right'
