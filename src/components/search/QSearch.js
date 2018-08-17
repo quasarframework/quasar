@@ -135,6 +135,7 @@ export default {
         keyup: this.__onKeyup,
         keydown: this.__onKeydown,
         click: this.__onClick,
+        paste: this.__onPaste,
         clear: val => {
           this.$emit('clear', val)
           this.__emit()

@@ -79,6 +79,9 @@ export default {
     __onClick (e) {
       this.focus()
       this.$emit('click', e)
+    },
+    __onPaste (e) {
+      this.$emit('paste', e)
     }
   },
   mounted () {
