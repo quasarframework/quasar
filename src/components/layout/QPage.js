@@ -13,7 +13,7 @@ export default {
     styleFn: Function
   },
   computed: {
-    computedStyle () {
+    style () {
       const offset =
         (this.layout.header.space ? this.layout.header.size : 0) +
         (this.layout.footer.space ? this.layout.footer.size : 0)
@@ -22,7 +22,7 @@ export default {
         ? this.styleFn(offset)
         : { minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh' }
     },
-    computedClass () {
+    classes () {
       if (this.padding) {
         return 'layout-padding'
       }
@@ -31,8 +31,8 @@ export default {
   render (h) {
     return h('main', {
       staticClass: 'q-layout-page',
-      style: this.computedStyle,
-      'class': this.computedClass
+      style: this.style,
+      'class': this.classes
     }, this.$slots.default)
   }
 }
