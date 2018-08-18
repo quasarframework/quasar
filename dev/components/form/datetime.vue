@@ -212,6 +212,7 @@
       <p class="caption">Readonly State</p>
       <q-datetime-picker readonly v-model="model" type="datetime" />
       <p class="caption">Min & Max</p>
+      <div>{{ min }} - {{ max }}</div>
       <q-datetime-picker type="datetime" v-model="minMaxModel" :min="min" :max="max" />
     </div>
   </div>

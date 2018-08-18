@@ -1,6 +1,6 @@
 import EscapeKey from '../../utils/escape-key.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import PreventScroll from '../../mixins/prevent-scroll.js'
+import preventScroll from '../../utils/prevent-scroll.js'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -50,7 +50,7 @@ let modals = {
 
 export default {
   name: 'QModal',
-  mixins: [ModelToggleMixin, PreventScroll],
+  mixins: [ModelToggleMixin],
   provide () {
     return {
       __qmodal: {
@@ -107,6 +107,14 @@ export default {
       if (!this.noRouteDismiss) {
         this.hide()
       }
+    },
+    maximized (newV, oldV) {
+      this.__register(false, oldV)
+      this.__register(true, newV)
+    },
+    minimized (newV, oldV) {
+      this.__register(false, this.maximized, oldV)
+      this.__register(true, this.maximized, newV)
     }
   },
   computed: {
@@ -161,6 +169,7 @@ export default {
   methods: {
     __dismiss () {
       if (this.noBackdropDismiss) {
+        this.__shake()
         return
       }
       this.hide().then(() => {
@@ -174,10 +183,13 @@ export default {
 
       document.body.appendChild(this.$el)
       this.__register(true)
-      this.__preventScroll(true)
+      preventScroll(true)
 
       EscapeKey.register(() => {
-        if (!this.noEscDismiss) {
+        if (this.noEscDismiss) {
+          this.__shake()
+        }
+        else {
           this.hide().then(() => {
             this.$emit('escape-key')
             this.$emit('dismiss')
@@ -200,32 +212,40 @@ export default {
     },
     __hide () {
       EscapeKey.pop()
-      this.__preventScroll(false)
+      preventScroll(false)
       this.__register(false)
       !this.noRefocus && this.__refocusTarget && this.__refocusTarget.focus()
     },
     __stopPropagation (e) {
       e.stopPropagation()
     },
-    __register (opening) {
+    __register (opening, maximized = this.maximized, minimized = this.minimized) {
       let state = opening
         ? { action: 'add', step: 1 }
         : { action: 'remove', step: -1 }
 
-      if (this.maximized) {
+      if (maximized) {
         modals.maximized += state.step
         if (!opening && modals.maximized > 0) {
           return
         }
         document.body.classList[state.action]('q-maximized-modal')
       }
-      else if (!this.minimized) {
+      else if (!minimized) {
         modals.responsive += state.step
         if (!opening && modals.responsive > 0) {
           return
         }
         document.body.classList[state.action]('q-responsive-modal')
       }
+    },
+    __shake () {
+      this.$el.classList.remove('animate-shake')
+      this.$el.classList.add('animate-shake')
+      clearTimeout(this.shakeTimeout)
+      this.shakeTimeout = setTimeout(() => {
+        this.$el.classList.remove('animate-shake')
+      }, 150)
     }
   },
   mounted () {
@@ -234,6 +254,7 @@ export default {
     }
   },
   beforeDestroy () {
+    clearTimeout(this.shakeTimeout)
     this.$el.remove()
   },
   render (h) {

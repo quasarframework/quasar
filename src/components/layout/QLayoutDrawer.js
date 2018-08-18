@@ -2,11 +2,9 @@ import TouchPan from '../../directives/touch-pan.js'
 import { css, cssTransform } from '../../utils/dom.js'
 import { between } from '../../utils/format.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import PreventScroll from '../../mixins/prevent-scroll.js'
+import preventScroll from '../../utils/prevent-scroll.js'
 
-const
-  bodyClass = 'q-body-drawer-toggle',
-  duration = 150
+const duration = 150
 
 export default {
   name: 'QLayoutDrawer',
@@ -17,7 +15,7 @@ export default {
       }
     }
   },
-  mixins: [ ModelToggleMixin, PreventScroll ],
+  mixins: [ ModelToggleMixin ],
   directives: {
     TouchPan
   },
@@ -112,6 +110,7 @@ export default {
       this.__update('offset', val)
     },
     onLayout (val) {
+      this.$emit('on-layout', val)
       this.__update('space', val)
     },
     $route () {
@@ -226,10 +225,19 @@ export default {
       return css
     },
     computedStyle () {
-      return [this.contentStyle, { width: `${this.size}px` }, this.mobileView ? '' : this.aboveStyle]
+      return [
+        this.contentStyle,
+        { width: `${this.size}px` },
+        this.mobileView ? '' : this.aboveStyle
+      ]
     },
     computedClass () {
-      return [this.contentClass, this.mobileView ? this.belowClass : this.aboveClass]
+      return [
+        `q-layout-drawer-${this.side}`,
+        this.layout.container ? 'overflow-auto' : 'scroll',
+        this.contentClass,
+        this.mobileView ? this.belowClass : this.aboveClass
+      ]
     },
     stateDirection () {
       return (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1)
@@ -263,6 +271,11 @@ export default {
     },
     applyBackdrop (x) {
       this.$refs.backdrop && css(this.$refs.backdrop, { backgroundColor: `rgba(0,0,0,${x * 0.4})` })
+    },
+    __setScrollable (v) {
+      if (!this.layout.container) {
+        document.body.classList[v ? 'add' : 'remove']('q-body-drawer-toggle')
+      }
     },
     __openByTouch (evt) {
       if (!this.belowBreakpoint) {
@@ -355,17 +368,17 @@ export default {
       if (this.belowBreakpoint) {
         this.mobileOpened = true
         this.applyBackdrop(1)
-        this.__preventScroll(true)
+        !this.layout.container && preventScroll(true)
       }
       else {
-        document.body.classList.add(bodyClass)
+        this.__setScrollable(true)
       }
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         if (this.showPromise) {
           this.showPromise.then(() => {
-            document.body.classList.remove(bodyClass)
+            this.__setScrollable(false)
           })
           this.showPromiseResolve()
         }
@@ -375,14 +388,14 @@ export default {
       animate && this.layout.__animate()
 
       if (this.mobileOpened) {
-        this.__preventScroll(false)
+        !this.layout.container && preventScroll(false)
         this.mobileOpened = false
       }
 
       this.applyPosition((this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size)
       this.applyBackdrop(0)
 
-      document.body.classList.remove(bodyClass)
+      this.__setScrollable(false)
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
@@ -451,7 +464,7 @@ export default {
     }, child.concat([
       h('aside', {
         ref: 'content',
-        staticClass: `q-layout-drawer q-layout-transition q-layout-drawer-${this.side} scroll`,
+        staticClass: `q-layout-drawer q-layout-transition`,
         'class': this.computedClass,
         style: this.computedStyle,
         attrs: this.$attrs,

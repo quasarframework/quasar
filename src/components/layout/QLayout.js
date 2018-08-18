@@ -1,6 +1,5 @@
 import QScrollObservable from '../observables/QScrollObservable.js'
 import QResizeObservable from '../observables/QResizeObservable.js'
-import QWindowResizeObservable from '../observables/QWindowResizeObservable.js'
 import { onSSR } from '../../plugins/platform.js'
 
 export default {
@@ -11,6 +10,7 @@ export default {
     }
   },
   props: {
+    container: Boolean,
     view: {
       type: String,
       default: 'hhh lpr fff',
@@ -58,6 +58,11 @@ export default {
         middle: rows[1].split(''),
         bottom: rows[2].split('')
       }
+    },
+    classes () {
+      if (this.container) {
+        return `fullscreen overflow-auto z-inherit`
+      }
     }
   },
   created () {
@@ -69,18 +74,22 @@ export default {
     }
   },
   render (h) {
-    return h('div', { staticClass: 'q-layout' }, [
+    const layout = h('div', {
+      staticClass: 'q-layout',
+      'class': this.classes
+    }, [
       h(QScrollObservable, {
         on: { scroll: this.__onPageScroll }
       }),
       h(QResizeObservable, {
         on: { resize: this.__onLayoutResize }
       }),
-      h(QWindowResizeObservable, {
-        on: { resize: this.__onWindowResize }
-      }),
       this.$slots.default
     ])
+
+    return this.container
+      ? h('div', { staticClass: 'relative-position overflow-hidden q-layout-container' }, [ layout ])
+      : layout
   },
   methods: {
     __animate () {
@@ -99,18 +108,26 @@ export default {
       this.scroll = data
       this.$emit('scroll', data)
     },
-    __onLayoutResize () {
-      this.scrollHeight = this.$el.scrollHeight
-      this.$emit('scrollHeight', this.scrollHeight)
-    },
-    __onWindowResize ({ height, width }) {
+    __onLayoutResize ({ height, width }) {
+      const scroll = this.$el.scrollHeight
+
+      if (this.scrollHeight !== scroll) {
+        this.scrollHeight = scroll
+        this.$emit('scrollHeight', scroll)
+      }
+
+      let resized = false
+
       if (this.height !== height) {
         this.height = height
+        resized = true
       }
       if (this.width !== width) {
         this.width = width
+        resized = true
       }
-      this.$emit('resize', { height, width })
+
+      resized && this.$emit('resize', { height, width })
     }
   }
 }

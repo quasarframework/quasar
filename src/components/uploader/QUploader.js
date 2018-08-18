@@ -46,6 +46,7 @@ export default {
       type: String,
       default: 'POST'
     },
+    filter: Function,
     extensions: String,
     multiple: Boolean,
     hideUploadButton: Boolean,
@@ -189,34 +190,39 @@ export default {
 
       let filesReady = [] // List of image load promises
       files = files.filter(file => !this.queue.some(f => file.name === f.name))
-        .map(file => {
-          initFile(file)
-          file.__size = humanStorageSize(file.size)
-          file.__timestamp = new Date().getTime()
 
-          if (this.noThumbnails || !file.type.toUpperCase().startsWith('IMAGE')) {
-            this.queue.push(file)
-          }
-          else {
-            const reader = new FileReader()
-            let p = new Promise((resolve, reject) => {
-              reader.onload = e => {
-                let img = new Image()
-                img.src = e.target.result
-                file.__img = img
-                this.queue.push(file)
-                this.__computeTotalSize()
-                resolve(true)
-              }
-              reader.onerror = e => { reject(e) }
-            })
+      if (typeof this.filter === 'function') {
+        files = this.filter(files)
+      }
 
-            reader.readAsDataURL(file)
-            filesReady.push(p)
-          }
+      files = files.map(file => {
+        initFile(file)
+        file.__size = humanStorageSize(file.size)
+        file.__timestamp = new Date().getTime()
 
-          return file
-        })
+        if (this.noThumbnails || !file.type.toUpperCase().startsWith('IMAGE')) {
+          this.queue.push(file)
+        }
+        else {
+          const reader = new FileReader()
+          let p = new Promise((resolve, reject) => {
+            reader.onload = e => {
+              let img = new Image()
+              img.src = e.target.result
+              file.__img = img
+              this.queue.push(file)
+              this.__computeTotalSize()
+              resolve(true)
+            }
+            reader.onerror = e => { reject(e) }
+          })
+
+          reader.readAsDataURL(file)
+          filesReady.push(p)
+        }
+
+        return file
+      })
 
       if (files.length > 0) {
         this.files = this.files.concat(files)

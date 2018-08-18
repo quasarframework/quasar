@@ -11,6 +11,9 @@ import 'quasar-css'
 import './app.styl'
 // import iconSet from '../icons/fontawesome'
 
+import 'quasar-extras/fontawesome/fontawesome.css'
+import 'quasar-extras/mdi/mdi.css'
+import 'quasar-extras/ionicons/ionicons.css'
 import 'quasar-extras/animate/fadeIn.css'
 import 'quasar-extras/animate/fadeOut.css'
 

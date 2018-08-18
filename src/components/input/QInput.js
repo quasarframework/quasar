@@ -306,7 +306,7 @@ export default {
     __getInput (h) {
       return h('input', {
         ref: 'input',
-        staticClass: 'col q-input-target q-no-input-spinner',
+        staticClass: 'col q-input-target q-no-input-spinner ellipsis',
         'class': this.inputClasses,
         attrs: Object.assign({}, this.$attrs, {
           type: this.inputType,

@@ -7,10 +7,7 @@ import { listenOpts } from '../../utils/event.js'
 export default {
   name: 'QParallax',
   props: {
-    src: {
-      type: String,
-      required: true
-    },
+    src: String,
     height: {
       type: Number,
       default: 500
@@ -18,51 +15,34 @@ export default {
     speed: {
       type: Number,
       default: 1,
-      validator (value) {
-        return value >= 0 && value <= 1
-      }
+      validator: v => v >= 0 && v <= 1
     }
   },
   data () {
     return {
-      imageHasBeenLoaded: false,
       scrolling: false
     }
   },
   watch: {
-    src () {
-      this.imageHasBeenLoaded = false
-    },
     height () {
       this.__updatePos()
     }
   },
   methods: {
-    __processImage () {
-      this.imageHasBeenLoaded = true
-      this.__onResize()
-    },
     __onResize () {
-      if (!this.imageHasBeenLoaded || !this.scrollTarget) {
+      if (!this.scrollTarget) {
         return
       }
 
-      if (this.scrollTarget === window) {
-        this.viewportHeight = window.innerHeight
-      }
-      this.imageHeight = height(this.image)
+      this.mediaHeight = this.media.naturalHeight || height(this.media)
       this.__updatePos()
     },
     __updatePos () {
-      if (!this.imageHasBeenLoaded) {
-        return
-      }
-
       let containerTop, containerHeight, containerBottom, top, bottom
 
       if (this.scrollTarget === window) {
         containerTop = 0
-        containerHeight = this.viewportHeight
+        containerHeight = window.innerHeight
         containerBottom = containerHeight
       }
       else {
@@ -70,16 +50,17 @@ export default {
         containerHeight = height(this.scrollTarget)
         containerBottom = containerTop + containerHeight
       }
-      top = offset(this.container).top
+
+      top = offset(this.$el).top
       bottom = top + this.height
 
       if (bottom > containerTop && top < containerBottom) {
         const percentScrolled = (containerBottom - top) / (this.height + containerHeight)
-        this.__setPos(Math.round((this.imageHeight - this.height) * percentScrolled * this.speed))
+        this.__setPos((this.mediaHeight - this.height) * percentScrolled * this.speed)
       }
     },
     __setPos (offset) {
-      css(this.$refs.img, cssTransform(`translate3D(-50%,${offset}px, 0)`))
+      css(this.media, cssTransform(`translate3D(-50%,${offset}px, 0)`))
     }
   },
   render (h) {
@@ -88,26 +69,20 @@ export default {
       style: { height: `${this.height}px` }
     }, [
       h('div', {
-        staticClass: 'q-parallax-image absolute-full'
+        staticClass: 'q-parallax-media absolute-full'
       }, [
-        h('img', {
-          ref: 'img',
+        this.$slots.media || h('img', {
+          ref: 'media',
           attrs: {
             src: this.src
-          },
-          'class': { ready: this.imageHasBeenLoaded },
-          on: {
-            load: this.__processImage
           }
         })
       ]),
 
       h(
         'div',
-        { staticClass: 'q-parallax-text absolute-full column flex-center' },
-        this.imageHasBeenLoaded
-          ? this.$slots.default
-          : [ this.$slots.loading ]
+        { staticClass: 'q-parallax-text absolute-full column flex-center no-pointer-events' },
+        this.$slots.default
       )
     ])
   },
@@ -116,19 +91,24 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.container = this.$el
-      this.image = this.$refs.img
+      this.media = this.$slots.media
+        ? this.$slots.media[0].elm
+        : this.$refs.media
+
+      this.media.onload = this.media.onloadstart = this.__onResize
 
       this.scrollTarget = getScrollTarget(this.$el)
       this.resizeHandler = debounce(this.__onResize, 50)
 
       window.addEventListener('resize', this.resizeHandler, listenOpts.passive)
       this.scrollTarget.addEventListener('scroll', this.__updatePos, listenOpts.passive)
+
       this.__onResize()
     })
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.resizeHandler, listenOpts.passive)
     this.scrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)
+    this.media.onload = this.media.onloadstart = null
   }
 }

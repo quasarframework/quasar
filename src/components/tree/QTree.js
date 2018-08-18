@@ -381,7 +381,7 @@ export default {
       if (node.icon) {
         return h(QIcon, {
           staticClass: `q-tree-icon q-mr-sm`,
-          props: { name: node.icon }
+          props: { name: node.icon, color: node.iconColor }
         })
       }
       if (node.img || node.avatar) {

@@ -59,6 +59,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - MSG Group ($20)
 - Pawel Rakowski ($20)
 - Stephen Clarke ($20)
+- Ciprian Popa ($20)
 - Shone Radulovic ($15)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
@@ -115,6 +116,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Martin Thompson
 - David Urbansky
 - Sustained
+- Chad Shryock
 
 - Jim O'Quinn ($5)
 - Ken ($5)

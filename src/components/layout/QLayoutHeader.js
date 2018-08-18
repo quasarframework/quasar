@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     fixed () {
-      return this.reveal || this.layout.view.indexOf('H') > -1
+      return this.reveal || this.layout.view.indexOf('H') > -1 || this.layout.container
     },
     offset () {
       if (!this.canRender || !this.value) {

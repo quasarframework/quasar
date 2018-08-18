@@ -11,7 +11,7 @@ export default {
     pageContainer: true
   },
   computed: {
-    computedStyle () {
+    style () {
       const css = {}
 
       if (this.layout.header.space) {
@@ -33,7 +33,7 @@ export default {
   render (h) {
     return h('div', {
       staticClass: 'q-layout-page-container q-layout-transition',
-      style: this.computedStyle
+      style: this.style
     }, this.$slots.default)
   }
 }

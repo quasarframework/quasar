@@ -11,6 +11,7 @@ export default {
       default: 'primary'
     },
     responsive: Boolean,
+    noHover: Boolean,
     dark: Boolean
   },
   render (h) {
@@ -18,7 +19,8 @@ export default {
       staticClass: 'q-timeline',
       'class': {
         'q-timeline-dark': this.dark,
-        'q-timeline-responsive': this.responsive
+        'q-timeline-responsive': this.responsive,
+        'q-timeline-hover': !this.noHover
       }
     }, this.$slots.default)
   }

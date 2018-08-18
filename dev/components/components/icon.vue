@@ -20,14 +20,53 @@
       ]"
       style="margin-top: 25px"
     />
+
+    <div class="q-mt-xl">
+      <div v-for="set in sets" :key="set.setName">
+        <h3>{{ set.setName }}</h3>
+        <div>
+          <q-chip class="q-ma-xs" v-for="icon in set.icons" :key="icon.val">
+            {{ icon.name }} <q-icon :name="icon.val" />
+          </q-chip>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import matSet from '../../../icons/material-icons.js'
+import mdiSet from '../../../icons/mdi.js'
+import fontawesomeSet from '../../../icons/fontawesome.js'
+import ioniconsSet from '../../../icons/ionicons.js'
+
+function parseSet (setName, set) {
+  const icons = []
+  Object.keys(set).forEach(key => {
+    const prop = set[key]
+    Object.keys(prop).forEach(name => {
+      const val = prop[name]
+      if (typeof val === 'string') {
+        icons.push({ name: `${key}/${name}`, val })
+      }
+    })
+  })
+  return {
+    setName,
+    icons
+  }
+}
+
 export default {
   data () {
     return {
       icon: 'cloud'
+    }
+  },
+  computed: {
+    sets () {
+      return [matSet, mdiSet, fontawesomeSet, ioniconsSet]
+        .map(({ name, ...set }) => parseSet(name, set))
     }
   },
   methods: {
