@@ -120,11 +120,11 @@ export default {
     maxDay () {
       return this.pmax !== null ? this.pmax.getDate() : this.daysInMonth
     },
-    daysInterval () {
+    dateInterval () {
       let after = this.pmax === null || this.afterMaxDays === false ? 0 : this.afterMaxDays
       if (this.beforeMinDays > 0 || after) {
         let min = this.beforeMinDays > 0 ? this.beforeMinDays + 1 : 1
-        return { min, max: this.daysInMonth - after + 1 }
+        return { min, max: this.daysInMonth - after }
       }
       return { min: 1, max: this.daysInMonth }
     },
@@ -243,7 +243,7 @@ export default {
 
       const
         el = this.$refs.selector,
-        rows = this.view === 'year' ? this.year - this.yearMin : this.month - this.monthMin
+        rows = this.view === 'year' ? this.year - this.yearInterval.min + 1 : this.month - this.monthMin
 
       this.$nextTick(() => {
         if (el) {
@@ -504,11 +504,9 @@ export default {
     },
 
     __getYearView (h) {
-      const
-        content = [],
-        max = this.yearInterval + this.yearMin
+      const content = []
 
-      for (let i = this.yearMin; i <= max; i++) {
+      for (let i = this.yearInterval.min; i <= this.yearInterval.max; i++) {
         content.push(h(QBtn, {
           key: `yi${i}`,
           staticClass: 'q-datetime-btn full-width',
@@ -534,7 +532,7 @@ export default {
     __getMonthView (h) {
       const content = []
 
-      for (let i = this.monthMin; i <= this.monthInterval; i++) {
+      for (let i = this.monthInterval.min; i <= this.monthInterval.max; i++) {
         content.push(h(QBtn, {
           key: `mi${i}`,
           staticClass: 'q-datetime-btn full-width',
@@ -576,7 +574,7 @@ export default {
         }
       }
 
-      const { min, max } = this.daysInterval
+      const { min, max } = this.dateInterval
       for (let i = min; i <= max; i++) {
         days.push(h('div', {
           key: `md${i}`,

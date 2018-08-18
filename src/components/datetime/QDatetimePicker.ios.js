@@ -42,35 +42,32 @@ export default {
       this.minimal && cls.push('q-datetime-minimal')
       return cls
     },
-    dayMin () {
-      return this.pmin !== null && isSameDate(this.pmin, this.model, 'month')
-        ? this.pmin.getDate()
-        : 1
-    },
-    dayMax () {
-      return this.pmax !== null && isSameDate(this.pmax, this.model, 'month')
-        ? this.pmax.getDate()
-        : this.daysInMonth
-    },
-    daysInterval () {
-      return this.dayMax - this.dayMin + 1
+    dateInterval () {
+      return {
+        min: this.pmin !== null && isSameDate(this.pmin, this.model, 'month')
+          ? this.pmin.getDate()
+          : 1,
+        max: this.pmax !== null && isSameDate(this.pmax, this.model, 'month')
+          ? this.pmax.getDate()
+          : this.daysInMonth
+      }
     },
 
     hour () {
       return this.model.getHours()
     },
-    hourMin () {
-      return this.pmin && isSameDate(this.pmin, this.model, 'day') ? this.pmin.getHours() : 0
-    },
     hourInterval () {
-      return (this.pmax && isSameDate(this.pmax, this.model, 'day') ? this.pmax.getHours() : 23) - this.hourMin + 1
+      return {
+        min: this.pmin && isSameDate(this.pmin, this.model, 'day') ? this.pmin.getHours() : 0,
+        max: this.pmax && isSameDate(this.pmax, this.model, 'day') ? this.pmax.getHours() : 23
+      }
     },
 
-    minuteMin () {
-      return this.pmin && isSameDate(this.pmin, this.model, 'hour') ? this.pmin.getMinutes() : 0
-    },
     minuteInterval () {
-      return (this.pmax && isSameDate(this.pmax, this.model, 'hour') ? this.pmax.getMinutes() : 59) - this.minuteMin + 1
+      return {
+        min: this.pmin && isSameDate(this.pmin, this.model, 'hour') ? this.pmin.getMinutes() : 0,
+        max: this.pmax && isSameDate(this.pmax, this.model, 'hour') ? this.pmax.getMinutes() : 59
+      }
     },
 
     __monthStyle () {
@@ -145,17 +142,7 @@ export default {
         return
       }
 
-      let delta = -value
-      if (type === 'year') {
-        delta += this.yearMin + 1
-      }
-      else if (type === 'date') {
-        delta += this.dayMin
-      }
-      else {
-        delta += this[type + 'Min']
-      }
-
+      let delta = this[type + 'Interval'].min - value
       ;[].slice.call(root.children).forEach(item => {
         css(item, this.__itemStyle(value * 36, between(delta * -18, -180, 180)))
         delta++
@@ -239,9 +226,9 @@ export default {
       })
     },
 
-    __getInterval (h, n, fn) {
+    __getInterval (h, { min, max }, fn) {
       const child = []
-      for (let i = 1; i <= n; i++) {
+      for (let i = min; i <= max; i++) {
         child.push(fn(i))
       }
       return child
@@ -277,7 +264,7 @@ export default {
             return h('div', {
               key: `mi${i}`,
               staticClass: 'q-datetime-item'
-            }, [ this.$q.i18n.date.months[i + this.monthMin - 1] ])
+            }, [ this.$q.i18n.date.months[i] ])
           }
         ),
         this.__getSection(
@@ -286,12 +273,12 @@ export default {
           'date',
           this.__dragDate,
           this.__dayStyle,
-          this.daysInterval,
+          this.dateInterval,
           i => {
             return h('div', {
               key: `di${i}`,
               staticClass: 'q-datetime-item'
-            }, [ i + this.dayMin - 1 ])
+            }, [ i ])
           }
         ),
         this.__getSection(
@@ -305,7 +292,7 @@ export default {
             return h('div', {
               key: `yi${i}`,
               staticClass: 'q-datetime-item'
-            }, [ i + this.yearMin ])
+            }, [ i ])
           }
         )
       ]
@@ -324,7 +311,7 @@ export default {
             return h('div', {
               key: `hi${i}`,
               staticClass: 'q-datetime-item'
-            }, [ i + this.hourMin - 1 ])
+            }, [ i ])
           }
         ),
         this.__getSection(
@@ -338,7 +325,7 @@ export default {
             return h('div', {
               key: `ni${i}`,
               staticClass: 'q-datetime-item'
-            }, [ this.__pad(i + this.minuteMin - 1) ])
+            }, [ this.__pad(i) ])
           }
         )
       ]

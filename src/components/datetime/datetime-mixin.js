@@ -85,19 +85,16 @@ export default {
     },
 
     yearInterval () {
-      let
-        min = this.yearMin,
-        max = this.pmax !== null ? this.pmax.getFullYear() : (this.year || this.currentYear) + 50
-      return Math.max(1, max - min)
-    },
-    yearMin () {
-      return this.pmin !== null ? this.pmin.getFullYear() - 1 : (this.year || this.currentYear) - 51
+      return {
+        min: this.pmin !== null ? this.pmin.getFullYear() : (this.year || this.currentYear) - 80,
+        max: this.pmax !== null ? this.pmax.getFullYear() : (this.year || this.currentYear) + 80
+      }
     },
     monthInterval () {
-      let
-        min = this.monthMin,
-        max = this.pmax !== null && this.pmax.getFullYear() === this.year ? this.pmax.getMonth() : 11
-      return Math.max(1, max - min + 1)
+      return {
+        min: this.monthMin,
+        max: this.pmax !== null && this.pmax.getFullYear() === this.year ? this.pmax.getMonth() : 11
+      }
     },
     monthMin () {
       return this.pmin !== null && this.pmin.getFullYear() === this.year
@@ -137,10 +134,7 @@ export default {
         return between(value, 1, this.daysInMonth)
       }
       if (type === 'year') {
-        let
-          min = this.yearMin,
-          max = min + this.yearInterval
-        return between(value, min + 1, max)
+        return between(value, this.yearInterval.min, this.yearInterval.max)
       }
       if (type === 'hour') {
         return between(value, 0, 23)
