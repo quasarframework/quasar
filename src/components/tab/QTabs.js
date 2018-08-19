@@ -35,8 +35,8 @@ export default {
     textColor: String,
     inverted: Boolean,
     twoLines: Boolean,
-    noPaneBorder: Boolean,
     glossy: Boolean,
+    noPaneAnimation: Boolean,
     panesContainerClass: String
   },
   data () {
@@ -51,7 +51,8 @@ export default {
         tabName: this.value || '',
         color: this.color,
         textColor: this.textColor,
-        inverted: this.inverted
+        inverted: this.inverted,
+        direction: null
       }
     }
   },
@@ -74,7 +75,6 @@ export default {
       return [
         `q-tabs-position-${this.position}`,
         `q-tabs-${this.inverted ? 'inverted' : 'normal'}`,
-        this.noPaneBorder ? 'q-tabs-no-pane-border' : '',
         this.twoLines ? 'q-tabs-two-lines' : ''
       ]
     },
@@ -104,28 +104,37 @@ export default {
       }
 
       this.data.tabName = value
-      this.$emit('input', value)
-      this.$emit('select', value)
 
       const el = this.__getTabElByName(value)
 
       if (el) {
         this.__scrollToTab(el)
 
-        if (process.env.THEME !== 'ios') {
-          this.currentEl = el
+        this.currentEl = el
 
-          if (this.oldEl) {
+        if (this.oldEl) {
+          if (!this.noPaneAnimation) {
+            const children = this.$refs.scroller.children
+            this.data.direction = Array.prototype.indexOf.call(children, el) < Array.prototype.indexOf.call(children, this.oldEl)
+              ? 'left'
+              : 'right'
+          }
+
+          if (process.env.THEME !== 'ios') {
             this.__repositionBar()
           }
-          else {
-            this.oldEl = el
-          }
+        }
+        else {
+          this.oldEl = el
         }
       }
       else {
         this.oldEl = null
+        this.data.direction = null
       }
+
+      this.$emit('input', value, this.data.direction)
+      this.$emit('select', value, this.data.direction)
     },
     selectTabRouter (params) {
       const
@@ -341,7 +350,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-tabs flex no-wrap',
+      staticClass: 'q-tabs flex no-wrap overflow-hidden',
       'class': this.classes
     }, [
       h('div', {

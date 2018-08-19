@@ -118,6 +118,19 @@
   30%
     opacity 1
 
+.animate-fade-left
+  animation q-fade 1s ease, q-slide-left .36s ease
+.animate-fade-right
+  animation q-fade 1s ease, q-slide-right .36s ease
+
+@keyframes q-slide-left
+  0%
+    transform translateX(-40%)
+
+@keyframes q-slide-right
+  0%
+    transform translateX(40%)
+
 .animated
   animation-duration 1s
   animation-fill-mode both
