@@ -341,7 +341,7 @@ export default {
       staticClass: 'column no-wrap',
       'class': this.dark ? 'bg-dark' : null,
       props: {
-        fit: true,
+        cover: true,
         disable: !this.editable,
         anchorClick: false
       },
