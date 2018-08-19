@@ -25,19 +25,18 @@ function additionalCSS (position) {
   if (['left', 'right'].includes(position)) {
     css.maxWidth = '90vw'
   }
-  if (process.env.THEME === 'ios') {
-    if (['left', 'top'].includes(position)) {
-      css.borderTopLeftRadius = 0
-    }
-    if (['right', 'top'].includes(position)) {
-      css.borderTopRightRadius = 0
-    }
-    if (['left', 'bottom'].includes(position)) {
-      css.borderBottomLeftRadius = 0
-    }
-    if (['right', 'bottom'].includes(position)) {
-      css.borderBottomRightRadius = 0
-    }
+
+  if (['left', 'top'].includes(position)) {
+    css.borderTopLeftRadius = 0
+  }
+  if (['right', 'top'].includes(position)) {
+    css.borderTopRightRadius = 0
+  }
+  if (['left', 'bottom'].includes(position)) {
+    css.borderBottomLeftRadius = 0
+  }
+  if (['right', 'bottom'].includes(position)) {
+    css.borderBottomRightRadius = 0
   }
 
   return css
