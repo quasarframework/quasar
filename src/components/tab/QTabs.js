@@ -2,6 +2,7 @@ import { width, css, cssTransform } from '../../utils/dom.js'
 import debounce from '../../utils/debounce.js'
 import QIcon from '../icon/QIcon.js'
 import { listenOpts } from '../../utils/event.js'
+import TouchSwipe from '../../directives/touch-swipe.js'
 
 const
   scrollNavigationSpeed = 5, // in pixels
@@ -15,6 +16,9 @@ export default {
       selectTab: this.selectTab,
       selectTabRouter: this.selectTabRouter
     }
+  },
+  directives: {
+    TouchSwipe
   },
   props: {
     value: String,
@@ -36,7 +40,8 @@ export default {
     inverted: Boolean,
     twoLines: Boolean,
     glossy: Boolean,
-    noPaneAnimation: Boolean,
+    animated: Boolean,
+    swipable: Boolean,
     panesContainerClass: String
   },
   data () {
@@ -98,13 +103,35 @@ export default {
     }
   },
   methods: {
+    go (offset) {
+      let index = 0
+
+      if (this.data.tabName) {
+        const el = this.$refs.scroller.querySelector(`[data-tab-name="${this.data.tabName}"]`)
+        if (el) {
+          index = Array.prototype.indexOf.call(this.$refs.scroller.children, el)
+        }
+      }
+
+      const nodes = this.$refs.scroller.querySelectorAll('[data-tab-name]')
+      index += offset
+
+      if (index > -1 && index < nodes.length) {
+        this.selectTab(nodes[index].getAttribute('data-tab-name'))
+      }
+    },
+    previous () {
+      this.go(-1)
+    },
+    next () {
+      this.go(1)
+    },
     selectTab (value) {
       if (this.data.tabName === value) {
         return
       }
 
       this.data.tabName = value
-
       const el = this.__getTabElByName(value)
 
       if (el) {
@@ -113,7 +140,7 @@ export default {
         this.currentEl = el
 
         if (this.oldEl) {
-          if (!this.noPaneAnimation) {
+          if (this.animated) {
             const children = this.$refs.scroller.children
             this.data.direction = Array.prototype.indexOf.call(children, el) < Array.prototype.indexOf.call(children, this.oldEl)
               ? 'left'
@@ -165,6 +192,10 @@ export default {
           this.selectTab(tab.value)
         }, 100)
       }
+    },
+
+    __swipe (touch) {
+      this.go(touch.direction === 'left' ? 1 : -1)
     },
     __repositionBar () {
       clearTimeout(this.timer)
@@ -414,7 +445,13 @@ export default {
 
       h('div', {
         staticClass: 'q-tabs-panes',
-        'class': this.panesContainerClass
+        'class': this.panesContainerClass,
+        directives: this.swipable
+          ? [{
+            name: 'touch-swipe',
+            value: this.__swipe
+          }]
+          : null
       }, this.$slots.default)
     ])
   },

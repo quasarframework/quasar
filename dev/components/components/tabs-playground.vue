@@ -31,14 +31,30 @@
       <q-tab default slot="title" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
     </q-tabs>
 
-    <q-tabs>
-      <q-tab :alert="alert" default slot="title" hide="label" name="three" label="Oaua" icon="bluetooth" />
-      <q-tab alert slot="title" hide="icon" name="one" label="Gogu" icon="wifi" />
-      <q-tab alert slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" icon="important_devices" />
+    <p class="caption">Swipable & Animated</p>
+    <q-tabs v-model="tab" swipable animated class="shadow-1">
+      <q-tab :alert="alert" default slot="title" hide="label" name="one" label="Oaua" icon="bluetooth" />
+      <q-tab alert slot="title" hide="icon" name="two" label="Gogu" icon="wifi" />
+      <q-tab alert slot="title" name="three" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" icon="important_devices" />
 
-      <q-tab-pane name="one">Tab One</q-tab-pane>
-      <q-tab-pane name="two">Tab Two</q-tab-pane>
-      <q-tab-pane name="three">Tab Three</q-tab-pane>
+      <q-tab-pane name="one">
+        <div class="flex justify-center q-mb-md">
+          <img src="statics/mountains.jpg" style="width: 250px; height: 250px;">
+        </div>
+        <div>Tab One {{ loremipsum }}</div>
+      </q-tab-pane>
+      <q-tab-pane name="two">
+        <div class="flex justify-center q-mb-md">
+          <img src="statics/parallax1.jpg" style="width: 250px; height: 250px;">
+        </div>
+        <div>Tab Two {{ loremipsum }}</div>
+      </q-tab-pane>
+      <q-tab-pane name="three">
+        <div class="flex justify-center q-mb-md">
+          <img src="statics/parallax2.jpg" style="width: 250px; height: 250px;">
+        </div>
+        <div>Tab Three {{ loremipsum }}</div>
+      </q-tab-pane>
     </q-tabs>
 
     <p class="caption">Router tabs</p>
@@ -248,6 +264,7 @@ export default {
       twoLines: false,
       noPaneBorder: false,
       glossy: false,
+      loremipsum: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
       tabStyles: {
         height: null,
         minHeight: null,

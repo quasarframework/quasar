@@ -23,6 +23,7 @@ export default {
     return h('div', {
       staticClass: 'q-tab column flex-center relative-position',
       'class': this.classes,
+      attrs: { 'data-tab-name': this.name },
       on: {
         click: this.select,
         keyup: e => e.keyCode === 13 && this.select(e)
