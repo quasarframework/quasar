@@ -1,6 +1,7 @@
 import QScrollObservable from '../observables/QScrollObservable.js'
 import QResizeObservable from '../observables/QResizeObservable.js'
 import { onSSR } from '../../plugins/platform.js'
+import { getScrollbarWidth } from '../../utils/scroll.js'
 
 export default {
   name: 'QLayout',
@@ -46,6 +47,7 @@ export default {
         space: false
       },
 
+      scrollbarWidth: 0,
       scroll: {
         position: 0,
         direction: 'down'
@@ -71,7 +73,11 @@ export default {
     }
   },
   render (h) {
-    const layout = h('div', { staticClass: 'q-layout' }, [
+    const layout = h('div', {
+      staticClass: 'q-layout',
+      class: this.container ? 'overflow-auto' : void 0,
+      style: this.container ? { right: `-${this.scrollbarWidth}px` } : void 0
+    }, [
       h(QScrollObservable, {
         on: { scroll: this.__onPageScroll }
       }),
@@ -89,9 +95,11 @@ export default {
           on: { resize: this.__onContainerResize }
         }),
         h('div', {
-          ref: 'content',
-          staticClass: 'fullscreen overflow-auto z-inherit'
-        }, [ layout ])
+          staticClass: 'absolute-full z-inherit',
+          style: { right: `${this.scrollbarWidth}px` }
+        }, [
+          layout
+        ])
       ])
       : layout
   },
@@ -113,6 +121,12 @@ export default {
       this.$emit('scroll', data)
     },
     __onLayoutResize ({ height, width }) {
+      const scrollbarWidth = getScrollbarWidth()
+
+      if (this.scrollbarWidth !== scrollbarWidth) {
+        this.scrollbarWidth = scrollbarWidth
+      }
+
       let resized = false
 
       if (this.height !== height) {

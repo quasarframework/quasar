@@ -5,9 +5,14 @@ $layout-transition = all .12s ease-in
   min-height 100vh
 
 .q-layout-container
-  transform translate3d(0, 0, 0)
+  > div
+    transform translate3d(0, 0, 0)
+    pointer-events none
   .q-layout
+    pointer-events all
+    width auto
     min-height 0
+    max-height 100%
 
 .q-layout-header
   border-bottom $layout-border
@@ -27,6 +32,9 @@ $layout-transition = all .12s ease-in
   z-index $z-side
   &.on-top
     z-index $z-fixed-drawer
+.q-layout-drawer-invisible:not(.no-transition)
+  pointer-events none
+  visibility hidden
 .q-layout-drawer-left
   left 0
   transform translateX(-100%)
@@ -69,7 +77,7 @@ $layout-transition = all .12s ease-in
 
 .q-layout-drawer-opener
   z-index ($z-marginals + 1)
-  height 100vh
+  height 100%
   width 15px
 
 .q-page-sticky-shrink

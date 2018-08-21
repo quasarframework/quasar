@@ -20,7 +20,7 @@ export default {
 
       return typeof this.styleFn === 'function'
         ? this.styleFn(offset)
-        : { minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh' }
+        : { height: offset ? `calc(100% - ${offset}px)` : '100%' }
     },
     classes () {
       if (this.padding) {
