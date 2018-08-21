@@ -117,6 +117,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - David Urbansky
 - Sustained
 - Chad Shryock
+- Ross Ball
 
 - Jim O'Quinn ($5)
 - Ken ($5)
