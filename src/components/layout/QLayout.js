@@ -22,6 +22,9 @@ export default {
       height: onSSR ? 0 : window.innerHeight,
       width: onSSR ? 0 : window.innerWidth,
 
+      // container only prop
+      containerHeight: 0,
+
       header: {
         size: 0,
         offset: 0,
@@ -43,7 +46,6 @@ export default {
         space: false
       },
 
-      scrollHeight: 0,
       scroll: {
         position: 0,
         direction: 'down'
@@ -58,11 +60,6 @@ export default {
         middle: rows[1].split(''),
         bottom: rows[2].split('')
       }
-    },
-    classes () {
-      if (this.container) {
-        return `fullscreen overflow-auto z-inherit`
-      }
     }
   },
   created () {
@@ -74,10 +71,7 @@ export default {
     }
   },
   render (h) {
-    const layout = h('div', {
-      staticClass: 'q-layout',
-      'class': this.classes
-    }, [
+    const layout = h('div', { staticClass: 'q-layout' }, [
       h(QScrollObservable, {
         on: { scroll: this.__onPageScroll }
       }),
@@ -88,7 +82,17 @@ export default {
     ])
 
     return this.container
-      ? h('div', { staticClass: 'relative-position overflow-hidden q-layout-container' }, [ layout ])
+      ? h('div', {
+        staticClass: 'relative-position overflow-hidden q-layout-container'
+      }, [
+        h(QResizeObservable, {
+          on: { resize: this.__onContainerResize }
+        }),
+        h('div', {
+          ref: 'content',
+          staticClass: 'fullscreen overflow-auto z-inherit'
+        }, [ layout ])
+      ])
       : layout
   },
   methods: {
@@ -109,25 +113,24 @@ export default {
       this.$emit('scroll', data)
     },
     __onLayoutResize ({ height, width }) {
-      const scroll = this.$el.scrollHeight
-
-      if (this.scrollHeight !== scroll) {
-        this.scrollHeight = scroll
-        this.$emit('scrollHeight', scroll)
-      }
-
       let resized = false
 
       if (this.height !== height) {
-        this.height = height
         resized = true
+        this.height = height
+        this.$emit('scrollHeight', height)
       }
       if (this.width !== width) {
-        this.width = width
         resized = true
+        this.width = width
       }
 
       resized && this.$emit('resize', { height, width })
+    },
+    __onContainerResize ({ height }) {
+      if (this.containerHeight !== height) {
+        this.containerHeight = height
+      }
     }
   }
 }

@@ -1,5 +1,7 @@
 import QResizeObservable from '../observables/QResizeObservable.js'
+import QWindowResizeObservable from '../observables/QWindowResizeObservable.js'
 import CanRenderMixin from '../../mixins/can-render.js'
+import { onSSR } from '../../plugins/platform.js'
 
 export default {
   name: 'QLayoutFooter',
@@ -21,7 +23,8 @@ export default {
   data () {
     return {
       size: 0,
-      revealed: true
+      revealed: true,
+      windowHeight: onSSR || this.layout.container ? 0 : window.innerHeight
     }
   },
   watch: {
@@ -45,7 +48,7 @@ export default {
     'layout.scroll' () {
       this.__updateRevealed()
     },
-    'layout.scrollHeight' () {
+    'layout.height' () {
       this.__updateRevealed()
     },
     size () {
@@ -56,6 +59,11 @@ export default {
     fixed () {
       return this.reveal || this.layout.view.indexOf('F') > -1 || this.layout.container
     },
+    containerHeight () {
+      return this.layout.container
+        ? this.layout.containerHeight
+        : this.windowHeight
+    },
     offset () {
       if (!this.canRender || !this.value) {
         return 0
@@ -63,7 +71,7 @@ export default {
       if (this.fixed) {
         return this.revealed ? this.size : 0
       }
-      const offset = this.layout.height + this.layout.scroll.position + this.size - this.layout.scrollHeight
+      const offset = this.layout.scroll.position + this.containerHeight + this.size - this.layout.height
       return offset > 0 ? offset : 0
     },
     computedClass () {
@@ -99,6 +107,10 @@ export default {
         props: { debounce: 0 },
         on: { resize: this.__onResize }
       }),
+      (!this.layout.container && h(QWindowResizeObservable, {
+        props: { debounce: 0 },
+        on: { resize: this.__onWindowResize }
+      })) || void 0,
       this.$slots.default
     ])
   },
@@ -120,6 +132,9 @@ export default {
       this.__updateLocal('size', height)
       this.__update('size', height)
     },
+    __onWindowResize ({ height }) {
+      this.__updateLocal('windowHeight', height)
+    },
     __update (prop, val) {
       if (this.layout.footer[prop] !== val) {
         this.layout.footer[prop] = val
@@ -131,19 +146,15 @@ export default {
       }
     },
     __updateRevealed () {
-      if (!this.reveal) {
-        return
-      }
-      const
-        scroll = this.layout.scroll,
-        scrollHeight = this.layout.scrollHeight,
-        height = this.layout.height
+      if (!this.reveal) { return }
 
-      this.__updateLocal('revealed',
-        scroll.direction === 'up' ||
-        scroll.position - scroll.inflexionPosition < 100 ||
-        scrollHeight - height - scroll.position < this.size + 300
-      )
+      const { direction, position, inflexionPosition } = this.layout.scroll
+
+      this.__updateLocal('revealed', (
+        direction === 'up' ||
+        position - inflexionPosition < 100 ||
+        this.layout.height - this.containerHeight - position - this.size < 300
+      ))
     }
   }
 }

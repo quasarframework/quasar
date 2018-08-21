@@ -10,7 +10,7 @@
         </q-toolbar>
       </q-layout-header>
 
-      <q-layout-footer>
+      <q-layout-footer reveal>
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Footer</q-toolbar-title>
@@ -22,7 +22,7 @@
       </q-layout-drawer>
       <q-page-container>
         <q-page style="padding-top: 50px">
-          <div v-for="n in 50" :key="n">My page</div>
+          <div v-for="n in 50" :key="n">My page My page My page My page My page My page My page My page My page</div>
 
           <q-page-sticky position="top-left" :offset="[18, 58]">
             <q-btn round color="primary" icon="arrow_back" class="rotate-45" />
@@ -57,7 +57,7 @@
           </q-toolbar>
         </q-layout-header>
 
-        <q-layout-footer>
+        <q-layout-footer reveal>
           <q-toolbar>
             <q-btn flat @click="drawer2 = !drawer2" round dense icon="menu" />
             <q-toolbar-title>Footer</q-toolbar-title>
