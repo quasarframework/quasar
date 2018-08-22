@@ -2,12 +2,12 @@
   <div class="layout-padding">
     <q-btn @click="modal = true" label="Open" />
 
-    <q-layout view="LHh lpR fff" container style="height: 500px; width: 900px" class="q-mt-xl shadow-2">
+    <q-layout view="Lhh lpR fff" container style="height: 500px; width: 300px" class="q-mt-xl shadow-2">
       <q-layout-header reveal>
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
-          <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+          <q-btn flat @click="drawerR = !drawerR" round dense icon="menu" />
         </q-toolbar>
       </q-layout-header>
 
@@ -15,15 +15,19 @@
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Footer</q-toolbar-title>
+          <q-btn flat @click="drawerR = !drawerR" round dense icon="menu" />
         </q-toolbar>
       </q-layout-footer>
 
-      <q-layout-drawer side="right" v-model="drawer" :width="200" :breakpoint="300">
-        <div v-for="n in 50" :key="n">Drawer</div>
+      <q-layout-drawer v-model="drawer" :width="200" :breakpoint="300">
+        <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+      </q-layout-drawer>
+      <q-layout-drawer side="right" v-model="drawerR" :width="200" :breakpoint="300">
+        <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
       </q-layout-drawer>
       <q-page-container>
         <q-page style="padding-top: 50px" class="bg-yellow">
-          <div v-for="n in 50" :key="n">My page My page My page My page My page My page My page My page My page</div>
+          <div v-for="n in contentSize" :key="n">My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}</div>
 
           <q-page-sticky position="top-left" :offset="[18, 58]">
             <q-btn round color="primary" icon="arrow_back" class="rotate-45" />
@@ -42,6 +46,7 @@
             <q-toolbar>
               <q-btn flat round dense icon="map" />
               <q-toolbar-title>Title</q-toolbar-title>
+              <q-checkbox color="white" v-model="moreContent" label="Scroll" />
             </q-toolbar>
           </q-page-sticky>
         </q-page>
@@ -54,6 +59,7 @@
           <q-toolbar>
             <q-btn flat @click="drawer2 = !drawer2" round dense icon="menu" />
             <q-toolbar-title>Header</q-toolbar-title>
+            <q-btn flat @click="drawer2R = !drawer2R" round dense icon="menu" />
             <q-btn flat @click="modal = false" round dense icon="close" />
           </q-toolbar>
         </q-layout-header>
@@ -62,16 +68,20 @@
           <q-toolbar>
             <q-btn flat @click="drawer2 = !drawer2" round dense icon="menu" />
             <q-toolbar-title>Footer</q-toolbar-title>
+            <q-btn flat @click="drawer2R = !drawer2R" round dense icon="menu" />
           </q-toolbar>
         </q-layout-footer>
 
         <q-layout-drawer v-model="drawer2" :width="200" :breakpoint="900">
-          <div v-for="n in 50" :key="n">Drawer</div>
+          <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+        </q-layout-drawer>
+        <q-layout-drawer side="right" v-model="drawer2R" :width="200" :breakpoint="900">
+          <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
         </q-layout-drawer>
 
         <q-page-container>
           <q-page style="padding-top: 50px" class="bg-yellow">
-            <div v-for="n in 50" :key="n">My page</div>
+            <div v-for="n in contentSize" :key="n">My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}</div>
 
             <q-page-sticky position="top-left" :offset="[18, 58]">
               <q-btn round color="primary" icon="arrow_back" class="rotate-45" />
@@ -90,6 +100,7 @@
               <q-toolbar>
                 <q-btn flat round dense icon="map" />
                 <q-toolbar-title>Title</q-toolbar-title>
+                <q-checkbox color="white" v-model="moreContent" label="Scroll" />
               </q-toolbar>
             </q-page-sticky>
           </q-page>
@@ -98,7 +109,7 @@
     </q-modal>
 
     <q-btn @click="modal = true" label="Open" class="q-my-xl" />
-    <div v-for="n in 50" :key="n">Some text</div>
+    <div v-for="n in 50" :key="n">Some text {{ n }} / 50</div>
   </div>
 </template>
 
@@ -108,7 +119,15 @@ export default {
     return {
       modal: false,
       drawer: false,
-      drawer2: false
+      drawerR: false,
+      drawer2: false,
+      drawer2R: false,
+      moreContent: true
+    }
+  },
+  computed: {
+    contentSize () {
+      return this.moreContent ? 150 : 5
     }
   },
   methods: {

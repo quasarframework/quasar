@@ -240,7 +240,8 @@ export default {
         `q-layout-drawer-${this.side}`,
         this.layout.container ? 'overflow-auto' : 'scroll',
         this.contentClass,
-        this.mobileView ? this.belowClass : this.aboveClass
+        this.mobileView ? this.belowClass : this.aboveClass,
+        this.showing ? void 0 : 'q-layout-drawer-invisible'
       ]
     },
     stateDirection () {
