@@ -33,6 +33,9 @@ $layout-transition = all .12s ease-in
     z-index $z-fixed-drawer
 .q-layout-drawer-delimiter
   box-shadow $layout-aside-shadow
+.q-layout-drawer-invisible:not(.no-transition)
+  pointer-events none
+  visibility hidden
 .q-layout-drawer-left
   left 0
   transform translateX(-100%)
@@ -73,6 +76,7 @@ $layout-transition = all .12s ease-in
   z-index ($z-marginals + 1)
   height 100%
   width 15px
+  user-select none
 
 .q-page-sticky-shrink
   pointer-events none
