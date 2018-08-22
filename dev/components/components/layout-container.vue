@@ -2,7 +2,7 @@
   <div class="layout-padding">
     <q-btn @click="modal = true" label="Open" />
 
-    <q-layout view="LHh lpR fff" container style="height: 500px; width: 300px" class="q-mt-xl shadow-2">
+    <q-layout view="LHh lpR fff" container style="height: 500px; width: 900px" class="q-mt-xl shadow-2">
       <q-layout-header reveal>
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
@@ -18,7 +18,7 @@
         </q-toolbar>
       </q-layout-footer>
 
-      <q-layout-drawer v-model="drawer" :width="200" :breakpoint="300">
+      <q-layout-drawer side="right" v-model="drawer" :width="200" :breakpoint="300">
         <div v-for="n in 50" :key="n">Drawer</div>
       </q-layout-drawer>
       <q-page-container>
