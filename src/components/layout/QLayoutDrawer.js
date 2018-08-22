@@ -241,7 +241,7 @@ export default {
         this.layout.container ? 'overflow-auto' : 'scroll',
         this.contentClass,
         this.mobileView ? this.belowClass : this.aboveClass,
-        this.showing ? void 0 : 'q-layout-drawer-invisible'
+        this.layout.container && !this.showing ? 'q-layout-drawer-invisible' : ''
       ]
     },
     stateDirection () {
@@ -265,14 +265,18 @@ export default {
       if (position === void 0) {
         this.$nextTick(() => {
           position = this.showing
-            ? 0
-            : (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size
+            ? (this.layout.container ? this.layout.scrollbarWidth : 0)
+            : this.size
 
-          this.applyPosition(position)
+          this.applyPosition(this.stateDirection * position)
         })
-        return
       }
-      this.$refs.content && css(this.$refs.content, cssTransform(`translateX(${position}px)`))
+      else if (this.$refs.content) {
+        if (this.layout.container && this.rightSide && position === 0) {
+          position = this.stateDirection * this.layout.scrollbarWidth
+        }
+        css(this.$refs.content, cssTransform(`translateX(${position}px)`))
+      }
     },
     applyBackdrop (x) {
       this.$refs.backdrop && css(this.$refs.backdrop, { backgroundColor: `rgba(0,0,0,${x * 0.4})` })
