@@ -1,6 +1,7 @@
 import QScrollObservable from '../observables/QScrollObservable.js'
 import QResizeObservable from '../observables/QResizeObservable.js'
 import { onSSR } from '../../plugins/platform.js'
+import { getScrollbarWidth } from 'utils/scroll.js'
 
 export default {
   name: 'QLayout',
@@ -19,6 +20,7 @@ export default {
   },
   data () {
     return {
+      // page related
       height: onSSR ? 0 : window.innerHeight,
       width: onSSR ? 0 : window.innerWidth,
 
@@ -60,6 +62,27 @@ export default {
         middle: rows[1].split(''),
         bottom: rows[2].split('')
       }
+    },
+
+    // used by container only
+    scrollbarWidth () {
+      return this.height > this.containerHeight
+        ? getScrollbarWidth()
+        : 0
+    },
+    targetStyle () {
+      if (this.scrollbarWidth !== 0) {
+        return { [this.$q.i18n.rtl ? 'left' : 'right']: `${this.scrollbarWidth}px` }
+      }
+    },
+    targetChildStyle () {
+      if (this.scrollbarWidth !== 0) {
+        return {
+          [this.$q.i18n.rtl ? 'right' : 'left']: 0,
+          [this.$q.i18n.rtl ? 'left' : 'right']: `-${this.scrollbarWidth}px`,
+          width: `calc(100% + ${this.scrollbarWidth}px)`
+        }
+      }
     }
   },
   created () {
@@ -76,22 +99,27 @@ export default {
         on: { scroll: this.__onPageScroll }
       }),
       h(QResizeObservable, {
-        on: { resize: this.__onLayoutResize }
+        on: { resize: this.__onPageResize }
       }),
       this.$slots.default
     ])
 
     return this.container
       ? h('div', {
-        staticClass: 'relative-position overflow-hidden q-layout-container'
+        staticClass: 'q-layout-container relative-position overflow-hidden'
       }, [
         h(QResizeObservable, {
           on: { resize: this.__onContainerResize }
         }),
         h('div', {
-          ref: 'content',
-          staticClass: 'fullscreen overflow-auto z-inherit'
-        }, [ layout ])
+          staticClass: 'absolute-full',
+          style: this.targetStyle
+        }, [
+          h('div', {
+            staticClass: 'overflow-auto',
+            style: this.targetChildStyle
+          }, [ layout ])
+        ])
       ])
       : layout
   },
@@ -112,7 +140,7 @@ export default {
       this.scroll = data
       this.$emit('scroll', data)
     },
-    __onLayoutResize ({ height, width }) {
+    __onPageResize ({ height, width }) {
       let resized = false
 
       if (this.height !== height) {

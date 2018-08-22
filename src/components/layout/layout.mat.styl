@@ -5,9 +5,13 @@ $layout-transition = all .12s ease-in
   min-height 100vh
 
 .q-layout-container
-  transform translate3d(0, 0, 0)
   .q-layout
-    min-height 0
+    min-height 100%
+  > div
+    transform translate3d(0, 0, 0)
+    > div
+      min-height 0
+      max-height 100%
 
 .q-layout-header
   box-shadow $layout-header-shadow
@@ -67,7 +71,7 @@ $layout-transition = all .12s ease-in
 
 .q-layout-drawer-opener
   z-index ($z-marginals + 1)
-  height 100vh
+  height 100%
   width 15px
 
 .q-page-sticky-shrink

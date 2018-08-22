@@ -7,6 +7,7 @@
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
+          <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
         </q-toolbar>
       </q-layout-header>
 
@@ -21,7 +22,7 @@
         <div v-for="n in 50" :key="n">Drawer</div>
       </q-layout-drawer>
       <q-page-container>
-        <q-page style="padding-top: 50px">
+        <q-page style="padding-top: 50px" class="bg-yellow">
           <div v-for="n in 50" :key="n">My page My page My page My page My page My page My page My page My page</div>
 
           <q-page-sticky position="top-left" :offset="[18, 58]">
@@ -69,7 +70,7 @@
         </q-layout-drawer>
 
         <q-page-container>
-          <q-page style="padding-top: 50px">
+          <q-page style="padding-top: 50px" class="bg-yellow">
             <div v-for="n in 50" :key="n">My page</div>
 
             <q-page-sticky position="top-left" :offset="[18, 58]">
