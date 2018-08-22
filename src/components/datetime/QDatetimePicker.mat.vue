@@ -318,7 +318,7 @@ export default {
       return `${this.$q.i18n.date.months[this.month - 1]} ${this.year}`
     },
     weekDayString () {
-      return this.$q.i18n.date.days[this.model.getDay()]
+      return this.headerText || this.$q.i18n.date.days[this.model.getDay()]
     },
 
     fillerDays () {

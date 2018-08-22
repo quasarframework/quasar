@@ -160,6 +160,7 @@ export default {
             type: this.type,
             min: this.min,
             max: this.max,
+            headerText: this.headerText,
             formatModel: this.formatModel,
             format24h: this.format24h,
             firstDayOfWeek: this.firstDayOfWeek,
