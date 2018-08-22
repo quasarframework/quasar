@@ -1,9 +1,15 @@
-import { QBtn } from '../btn'
-import FabMixin from './fab-mixin'
+import QBtn from '../btn/QBtn.js'
+import FabMixin from './fab-mixin.js'
 
 export default {
-  name: 'q-fab-action',
+  name: 'QFabAction',
   mixins: [FabMixin],
+  props: {
+    icon: {
+      type: String,
+      required: true
+    }
+  },
   inject: {
     __qFabClose: {
       default () {
@@ -33,8 +39,6 @@ export default {
       on: {
         click: this.click
       }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

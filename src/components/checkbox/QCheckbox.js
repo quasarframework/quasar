@@ -1,9 +1,9 @@
-import CheckboxMixin from '../../mixins/checkbox'
-import OptionMixin from '../../mixins/option'
-import { QIcon } from '../icon'
+import CheckboxMixin from '../../mixins/checkbox.js'
+import OptionMixin from '../../mixins/option.js'
+import QIcon from '../icon/QIcon.js'
 
 export default {
-  name: 'q-checkbox',
+  name: 'QCheckbox',
   mixins: [CheckboxMixin, OptionMixin],
   props: {
     toggleIndeterminate: Boolean,
@@ -35,23 +35,26 @@ export default {
       return [
         h(QIcon, {
           staticClass: 'q-checkbox-icon cursor-pointer',
-          props: { name: this.uncheckedIcon || this.$q.icon.checkbox.unchecked[__THEME__] },
+          props: { name: this.uncheckedIcon || this.$q.icon.checkbox.unchecked[process.env.THEME] },
           style: this.uncheckedStyle
         }),
         h(QIcon, {
           staticClass: 'q-checkbox-icon cursor-pointer absolute-full',
-          props: { name: this.indeterminateIcon || this.$q.icon.checkbox.indeterminate[__THEME__] },
+          props: { name: this.indeterminateIcon || this.$q.icon.checkbox.indeterminate[process.env.THEME] },
           style: this.indeterminateStyle
         }),
         h(QIcon, {
           staticClass: 'q-checkbox-icon cursor-pointer absolute-full',
-          props: { name: this.checkedIcon || this.$q.icon.checkbox.checked[__THEME__] },
+          props: { name: this.checkedIcon || this.$q.icon.checkbox.checked[process.env.THEME] },
           style: this.checkedStyle
         }),
-        __THEME__ === 'mat'
+        process.env.THEME === 'mat'
           ? h('div', { ref: 'ripple', staticClass: 'q-radial-ripple' })
           : null
       ]
     }
+  },
+  beforeCreate () {
+    this.__kebabTag = 'q-checkbox'
   }
 }

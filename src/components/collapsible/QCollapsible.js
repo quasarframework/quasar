@@ -1,20 +1,23 @@
-import { QItem, QItemSide, QItemTile, QItemWrapper } from '../list'
-import { QSlideTransition } from '../slide-transition'
-import Ripple from '../../directives/ripple'
-import ModelToggleMixin from '../../mixins/model-toggle'
-import ItemMixin from '../../mixins/item'
-import extend from '../../utils/extend'
+import QItem from '../list/QItem.js'
+import QItemSide from '../list/QItemSide.js'
+import QItemTile from '../list/QItemTile.js'
+import QItemWrapper from '../list/QItemWrapper.js'
+import QSlideTransition from '../slide-transition/QSlideTransition.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
+import ItemMixin, { subItemProps } from '../../mixins/item.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 const eventName = 'q:collapsible:close'
 
 export default {
-  name: 'q-collapsible',
-  mixins: [ModelToggleMixin, ItemMixin],
+  name: 'QCollapsible',
+  mixins: [
+    ModelToggleMixin,
+    ItemMixin,
+    { props: subItemProps }
+  ],
   modelToggle: {
     history: false
-  },
-  directives: {
-    Ripple
   },
   props: {
     disable: Boolean,
@@ -22,7 +25,6 @@ export default {
     indent: Boolean,
     group: String,
     iconToggle: Boolean,
-    noRipple: Boolean,
     collapseIcon: String,
     opened: Boolean,
 
@@ -30,22 +32,21 @@ export default {
     headerClass: [Array, String, Object]
   },
   computed: {
-    hasRipple () {
-      return __THEME__ === 'mat' && !this.noRipple && !this.disable
-    },
     classes () {
       return {
-        'q-collapsible-opened': this.popup && this.showing,
-        'q-collapsible-closed': this.popup && !this.showing,
+        'q-collapsible-opened': this.showing,
+        'q-collapsible-closed': !this.showing,
+        'q-collapsible-popup-opened': this.popup && this.showing,
+        'q-collapsible-popup-closed': this.popup && !this.showing,
+        'q-collapsible-cursor-pointer': !this.separateToggle,
+        'q-item-dark': this.dark,
         'q-item-separator': this.separator,
         'q-item-inset-separator': this.insetSeparator,
         disabled: this.disable
       }
     },
-    wrapperCfg () {
-      return extend({}, this.$props, {
-        link: !this.iconToggle
-      })
+    separateToggle () {
+      return this.iconToggle || this.to !== void 0
     }
   },
   watch: {
@@ -57,13 +58,13 @@ export default {
   },
   methods: {
     __toggleItem () {
-      if (!this.iconToggle) {
+      if (!this.separateToggle) {
         this.toggle()
       }
     },
     __toggleIcon (e) {
-      if (this.iconToggle) {
-        e && e.stopPropagation()
+      if (this.separateToggle) {
+        e && stopAndPrevent(e)
         this.toggle()
       }
     },
@@ -76,7 +77,7 @@ export default {
       return [
         h(QItemTile, {
           slot: slot ? 'right' : undefined,
-          staticClass: 'cursor-pointer transition-generic relative-position',
+          staticClass: 'cursor-pointer transition-generic relative-position q-collapsible-toggle-icon',
           'class': {
             'rotate-180': this.showing,
             invisible: this.disable
@@ -84,26 +85,18 @@ export default {
           nativeOn: {
             click: this.__toggleIcon
           },
-          props: { icon: this.collapseIcon || this.$q.icon.collapsible.icon },
-          directives: this.iconToggle && this.hasRipple
-            ? [{ name: 'ripple' }]
-            : null
+          props: { icon: this.collapseIcon || this.$q.icon.collapsible.icon }
         })
       ]
     },
     __getItemProps (wrapper) {
       return {
-        props: wrapper
-          ? { cfg: this.wrapperCfg }
-          : { link: !this.iconToggle },
+        props: { cfg: this.$props },
         style: this.headerStyle,
         'class': this.headerClass,
         nativeOn: {
           click: this.__toggleItem
-        },
-        directives: this.hasRipple && !this.iconToggle
-          ? [{ name: 'ripple' }]
-          : null
+        }
       }
     }
   },
@@ -117,7 +110,7 @@ export default {
     this.$root.$off(eventName, this.__eventHandler)
   },
   render (h) {
-    return h('div', {
+    return h(this.tag, {
       staticClass: 'q-collapsible q-item-division relative-position',
       'class': this.classes
     }, [
@@ -138,9 +131,7 @@ export default {
             h('div', {
               staticClass: 'q-collapsible-sub-item relative-position',
               'class': { indent: this.indent }
-            }, [
-              this.$slots.default
-            ])
+            }, this.$slots.default)
           ])
         ])
       ])

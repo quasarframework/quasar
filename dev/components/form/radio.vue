@@ -2,7 +2,7 @@
   <div>
     <div class="layout-padding" :class="`bg-${dark ? 'black' : 'white'}${dark ? ' text-white' : ''}`">
       <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{option}}</em></span>
+        Model <span class="right-detail"><em>{{ option }}</em></span>
       </div>
       <q-toggle v-model="dark" label="Dark" />
       <q-toggle v-model="keepColor" label="Keep Color" />

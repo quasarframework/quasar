@@ -3,10 +3,8 @@
 /* eslint-disable no-mixed-operators */
 
 export const isSSR = typeof window === 'undefined'
-
-function getUserAgent () {
-  return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
-}
+export let fromSSR = false
+export let onSSR = isSSR
 
 function getMatch (userAgent, platformMatch) {
   const match = /(edge)\/([\w.]+)/.exec(userAgent) ||
@@ -49,9 +47,10 @@ function getPlatformMatch (userAgent) {
     []
 }
 
-function getPlatform () {
-  let
-    userAgent = getUserAgent(),
+function getPlatform (userAgent) {
+  userAgent = (userAgent || navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
+
+  const
     platformMatch = getPlatformMatch(userAgent),
     matched = getMatch(userAgent, platformMatch),
     browser = {}
@@ -159,49 +158,86 @@ function getPlatform () {
     else if (window._cordovaNative || window.cordova) {
       browser.cordova = true
     }
+
+    fromSSR = browser.cordova === void 0 &&
+      browser.electron === void 0 &&
+      !!document.querySelector('[data-server-rendered]')
+
+    fromSSR && (onSSR = true)
   }
 
   return browser
 }
 
-const Platform = {
-  __installed: false,
-  install ({ $q }) {
-    if (this.__installed) { return }
-    this.__installed = true
+let webStorage
 
-    if (isSSR) {
-      Platform.is = { ssr: true }
-      Platform.has = {
-        touch: false,
-        webStorage: false
-      }
-      Platform.within = { iframe: false }
+export function hasWebStorage () {
+  if (webStorage !== void 0) {
+    return webStorage
+  }
+
+  try {
+    if (window.localStorage) {
+      webStorage = true
+      return true
     }
-    else {
-      let webStorage
+  }
+  catch (e) {}
 
-      try {
-        if (window.localStorage) {
-          webStorage = true
-        }
-      }
-      catch (e) {
-        webStorage = false
-      }
+  webStorage = false
+  return false
+}
 
-      Platform.is = getPlatform()
-      Platform.has = {
-        touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)(),
-        webStorage
-      }
-      Platform.within = {
-        iframe: window.self !== window.top
-      }
+function getClientProperties () {
+  return {
+    has: {
+      touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)(),
+      webStorage: hasWebStorage()
+    },
+    within: {
+      iframe: window.self !== window.top
     }
-
-    $q.platform = Platform
   }
 }
 
-export default Platform
+export default {
+  has: {
+    touch: false,
+    webStorage: false
+  },
+  within: { iframe: false },
+
+  parseSSR (/* ssrContext */ ssr) {
+    return ssr ? {
+      is: getPlatform(ssr.req.headers['user-agent']),
+      has: this.has,
+      within: this.within
+    } : {
+      is: getPlatform(),
+      ...getClientProperties()
+    }
+  },
+
+  install ($q, queues, Vue) {
+    if (isSSR) {
+      queues.server.push((q, ctx) => {
+        q.platform = this.parseSSR(ctx.ssr)
+      })
+      return
+    }
+
+    this.is = getPlatform()
+
+    if (fromSSR) {
+      queues.takeover.push(q => {
+        onSSR = fromSSR = false
+        Object.assign(q.platform, getClientProperties())
+      })
+      Vue.util.defineReactive($q, 'platform', this)
+    }
+    else {
+      Object.assign(this, getClientProperties())
+      $q.platform = this
+    }
+  }
+}

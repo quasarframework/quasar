@@ -1,12 +1,27 @@
-import langEn from '../i18n/en-us'
-import { isSSR } from './plugins/platform'
-import { ready } from './utils/dom'
+import langEn from '../i18n/en-us.js'
+import { isSSR } from './plugins/platform.js'
 
 export default {
-  __installed: false,
-  install ({ $q, Vue, lang }) {
-    if (this.__installed) { return }
-    this.__installed = true
+  install ($q, queues, Vue, lang) {
+    if (isSSR) {
+      queues.server.push((q, ctx) => {
+        const
+          opt = {
+            lang: q.i18n.lang,
+            dir: q.i18n.rtl ? 'rtl' : 'ltr'
+          },
+          fn = ctx.ssr.setHtmlAttrs
+
+        if (typeof fn === 'function') {
+          fn(opt)
+        }
+        else {
+          ctx.ssr.Q_HTML_ATTRS = Object.keys(opt)
+            .map(key => `${key}=${opt[key]}`)
+            .join(' ')
+        }
+      })
+    }
 
     this.set = (lang = langEn) => {
       lang.set = this.set
@@ -14,14 +29,12 @@ export default {
       lang.rtl = lang.rtl || false
 
       if (!isSSR) {
-        ready(() => {
-          const el = document.documentElement
-          el.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
-          el.setAttribute('lang', lang.lang)
-        })
+        const el = document.documentElement
+        el.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
+        el.setAttribute('lang', lang.lang)
       }
 
-      if ($q.i18n) {
+      if (isSSR || $q.i18n) {
         $q.i18n = lang
       }
       else {
@@ -36,6 +49,8 @@ export default {
   },
 
   getLocale () {
+    if (isSSR) { return }
+
     let val =
       navigator.language ||
       navigator.languages[0] ||

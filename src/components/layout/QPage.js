@@ -1,5 +1,5 @@
 export default {
-  name: 'q-page',
+  name: 'QPage',
   inject: {
     pageContainer: {
       default () {
@@ -9,19 +9,26 @@ export default {
     layout: {}
   },
   props: {
-    padding: Boolean
+    padding: Boolean,
+    styleFn: Function
   },
   computed: {
-    computedStyle () {
+    style () {
       const offset =
         (this.layout.header.space ? this.layout.header.size : 0) +
         (this.layout.footer.space ? this.layout.footer.size : 0)
 
-      return {
-        minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh'
+      if (typeof this.styleFn === 'function') {
+        return this.styleFn(offset)
       }
+
+      const minHeight = this.layout.container
+        ? (this.layout.containerHeight - offset) + 'px'
+        : (offset ? `calc(100vh - ${offset}px)` : `100vh`)
+
+      return { minHeight }
     },
-    computedClass () {
+    classes () {
       if (this.padding) {
         return 'layout-padding'
       }
@@ -30,10 +37,8 @@ export default {
   render (h) {
     return h('main', {
       staticClass: 'q-layout-page',
-      style: this.computedStyle,
-      'class': this.computedClass
-    }, [
-      this.$slots.default
-    ])
+      style: this.style,
+      'class': this.classes
+    }, this.$slots.default)
   }
 }

@@ -32,12 +32,12 @@ export default {
     noData: 'Aucune donnée à afficher',
     noResults: 'Aucune donnée trouvée',
     loading: 'Chargement...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows > 0
         ? rows + ' ' + (rows === 1 ? 'ligne sélectionnée' : 'lignes sélectionnées') + '.'
         : 'Non lignes sélectionnées.'
     },
-    rowsPerPage: 'Lignes par page:',
+    recordsPerPage: 'Lignes par page:',
     allRows: 'Tous',
     pagination: function (start, end, total) {
       return start + '-' + end + ' sur ' + total

@@ -1,11 +1,12 @@
-import { getEventKey, stopAndPrevent } from '../../utils/event'
-import { getToolbar, getFonts, getLinkEditor } from './editor-utils'
-import { Caret } from './editor-caret'
-import extend from '../../utils/extend'
-import FullscreenMixin from '../../mixins/fullscreen'
+import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
+import { Caret } from './editor-caret.js'
+import extend from '../../utils/extend.js'
+import FullscreenMixin from '../../mixins/fullscreen.js'
+import { isSSR } from '../../plugins/platform.js'
 
 export default {
-  name: 'q-editor',
+  name: 'QEditor',
   mixins: [FullscreenMixin],
   props: {
     value: {
@@ -234,8 +235,11 @@ export default {
   methods: {
     onInput (e) {
       if (this.editWatcher) {
-        this.editWatcher = false
-        this.$emit('input', this.$refs.content.innerHTML)
+        const val = this.$refs.content.innerHTML
+        if (val !== this.value) {
+          this.editWatcher = false
+          this.$emit('input', val)
+        }
       }
     },
     onKeydown (e) {
@@ -243,6 +247,7 @@ export default {
 
       if (!e.ctrlKey) {
         this.refreshToolbar()
+        this.$q.platform.is.ie && this.$nextTick(this.onInput)
         return
       }
 
@@ -251,6 +256,7 @@ export default {
         const { cmd, param } = target
         stopAndPrevent(e)
         this.runCmd(cmd, param, false)
+        this.$q.platform.is.ie && this.$nextTick(this.onInput)
       }
     },
     runCmd (cmd, param, update = true) {
@@ -276,13 +282,17 @@ export default {
     }
   },
   created () {
-    document.execCommand('defaultParagraphSeparator', false, 'div')
-    this.defaultFont = window.getComputedStyle(document.body).fontFamily
+    if (!isSSR) {
+      document.execCommand('defaultParagraphSeparator', false, 'div')
+      this.defaultFont = window.getComputedStyle(document.body).fontFamily
+    }
   },
   mounted () {
     this.$nextTick(() => {
-      this.caret = new Caret(this.$refs.content, this)
-      this.$refs.content.innerHTML = this.value
+      if (this.$refs.content) {
+        this.caret = new Caret(this.$refs.content, this)
+        this.$refs.content.innerHTML = this.value
+      }
       this.$nextTick(this.refreshToolbar)
     })
   },
@@ -290,7 +300,7 @@ export default {
     let toolbars
     if (this.hasToolbar) {
       const toolbarConfig = {
-        staticClass: `q-editor-toolbar row no-wrap scroll`,
+        staticClass: `q-editor-toolbar row no-wrap scroll-x`,
         'class': [
           { 'q-editor-toolbar-separator': !this.toolbarOutline && !this.toolbarPush },
           this.toolbarBackgroundClass
@@ -331,6 +341,9 @@ export default {
             style: this.innerStyle,
             class: this.innerClass,
             attrs: { contenteditable: this.editable },
+            domProps: isSSR
+              ? { innerHTML: this.value }
+              : undefined,
             on: {
               input: this.onInput,
               keydown: this.onKeydown,

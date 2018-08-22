@@ -1,12 +1,13 @@
-import { width } from '../../utils/dom'
-import filter from '../../utils/filter'
-import uid from '../../utils/uid'
-import { QPopover } from '../popover'
-import { QList, QItemWrapper } from '../list'
-import KeyboardSelectionMixin from '../../mixins/keyboard-selection'
+import { width } from '../../utils/dom.js'
+import filter from '../../utils/filter.js'
+import uid from '../../utils/uid.js'
+import QPopover from '../popover/QPopover.js'
+import QList from '../list/QList.js'
+import QItemWrapper from '../list/QItemWrapper.js'
+import KeyboardSelectionMixin from '../../mixins/keyboard-selection.js'
 
 export default {
-  name: 'q-autocomplete',
+  name: 'QAutocomplete',
   mixins: [KeyboardSelectionMixin],
   props: {
     minCharacters: {
@@ -17,6 +18,7 @@ export default {
       type: Number,
       default: 6
     },
+    maxHeight: String,
     debounce: {
       type: Number,
       default: 500
@@ -26,12 +28,16 @@ export default {
       default: filter
     },
     staticData: Object,
+    valueField: {
+      type: [String, Function],
+      default: 'value'
+    },
     separator: Boolean
   },
   inject: {
     __input: {
       default () {
-        console.error('QAutocomplete needs to be child of QInput or QSearch')
+        console.error('QAutocomplete needs to be child of QInput, QChipsInput or QSearch')
       }
     },
     __inputDebounce: { default: null }
@@ -61,6 +67,9 @@ export default {
         ? this.results.slice(0, this.maxResults)
         : []
     },
+    computedValueField () {
+      return this.valueField || (this.staticData ? this.staticData.field : 'value')
+    },
     keyboardMaxIndex () {
       return this.computedResults.length - 1
     },
@@ -75,16 +84,20 @@ export default {
     isWorking () {
       return this.$refs && this.$refs.popover
     },
-    trigger () {
-      if (!this.__input.hasFocus() || !this.isWorking()) {
+    trigger (focus) {
+      if (!this.__input || !this.__input.isEditable() || !this.__input.hasFocus() || !this.isWorking()) {
         return
       }
 
-      const terms = [null, void 0].includes(this.__input.val) ? '' : String(this.__input.val)
-      const searchId = uid()
+      const
+        terms = [null, void 0].includes(this.__input.val) ? '' : String(this.__input.val),
+        termsLength = terms.length,
+        searchId = uid(),
+        popover = this.$refs.popover
+
       this.searchId = searchId
 
-      if (terms.length < this.minCharacters) {
+      if (termsLength < this.minCharacters || (focus === true /* avoid callback params */ && termsLength > 0)) {
         this.searchId = ''
         this.__clearSearch()
         this.hide()
@@ -96,19 +109,12 @@ export default {
       if (this.staticData) {
         this.searchId = ''
         this.results = this.filter(terms, this.staticData)
-        const popover = this.$refs.popover
         if (this.results.length) {
-          this.__keyboardShow(-1)
-          if (popover.showing) {
-            popover.reposition()
-          }
-          else {
-            popover.show()
-          }
+          this.__showResults()
+          return
         }
-        else {
-          popover.hide()
-        }
+
+        popover.hide()
         return
       }
 
@@ -122,8 +128,7 @@ export default {
 
         if (Array.isArray(results) && results.length > 0) {
           this.results = results
-          this.__keyboardShow(-1)
-          this.$refs.popover.show()
+          this.__showResults()
           return
         }
 
@@ -138,7 +143,7 @@ export default {
     },
     blurHide () {
       this.__clearSearch()
-      setTimeout(() => this.hide(), 300)
+      this.timer = setTimeout(() => this.hide(), 300)
     },
     __clearSearch () {
       clearTimeout(this.timer)
@@ -146,18 +151,29 @@ export default {
       this.searchId = ''
     },
     __keyboardCustomKeyHandle (key) {
-      if (key === 27) { // ESCAPE
-        this.__clearSearch()
+      switch (key) {
+        case 27: // ESCAPE
+          this.__clearSearch()
+          break
+        case 38: // UP key
+        case 40: // DOWN key
+        case 9: // TAB key
+          this.__keyboardSetCurrentSelection(true)
+          break
       }
     },
     __keyboardShowTrigger () {
       this.trigger()
     },
+    __focusShowTrigger () {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => this.trigger(true), 100)
+    },
     __keyboardIsSelectableIndex (index) {
       return index > -1 && index < this.computedResults.length && !this.computedResults[index].disable
     },
-    setValue (result) {
-      const value = this.staticData ? result[this.staticData.field] : result.value
+    setValue (result, kbdNav) {
+      const value = typeof this.computedValueField === 'function' ? this.computedValueField(result) : result[this.computedValueField]
       const suffix = this.__inputDebounce ? 'Debounce' : ''
 
       if (this.inputEl && this.__input && !this.__input.hasFocus()) {
@@ -165,14 +181,16 @@ export default {
       }
 
       this.enterKey = this.__input && value !== this.__input.val
-      this[`__input${suffix}`].set(value)
+      this[`__input${suffix}`][kbdNav ? 'setNav' : 'set'](value)
 
-      this.$emit('selected', result)
-      this.__clearSearch()
-      this.hide()
+      this.$emit('selected', result, !!kbdNav)
+      if (!kbdNav) {
+        this.__clearSearch()
+        this.hide()
+      }
     },
-    __keyboardSetSelection (index) {
-      this.setValue(this.results[index])
+    __keyboardSetSelection (index, navigation) {
+      this.setValue(this.results[index], navigation)
     },
     __delayTrigger () {
       this.__clearSearch()
@@ -184,6 +202,17 @@ export default {
         return
       }
       this.timer = setTimeout(this.trigger, this.debounce)
+    },
+    __showResults () {
+      const popover = this.$refs.popover
+
+      this.__keyboardShow(-1)
+      if (popover.showing) {
+        this.$nextTick(() => popover.showing && popover.reposition())
+      }
+      else {
+        popover.show()
+      }
     }
   },
   mounted () {
@@ -192,9 +221,12 @@ export default {
       this.__inputDebounce.setChildDebounce(true)
     }
     this.$nextTick(() => {
-      this.inputEl = this.__input.getEl()
+      if (this.__input) {
+        this.inputEl = this.__input.getEl()
+      }
       this.inputEl.addEventListener('keydown', this.__keyboardHandleKey)
       this.inputEl.addEventListener('blur', this.blurHide)
+      this.inputEl.addEventListener('focus', this.__focusShowTrigger)
     })
   },
   beforeDestroy () {
@@ -206,6 +238,7 @@ export default {
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__keyboardHandleKey)
       this.inputEl.removeEventListener('blur', this.blurHide)
+      this.inputEl.removeEventListener('focus', this.__focusShowTrigger)
       this.hide()
     }
   },
@@ -216,11 +249,20 @@ export default {
       'class': dark ? 'bg-dark' : null,
       props: {
         fit: true,
-        anchorClick: false
+        anchorClick: false,
+        maxHeight: this.maxHeight,
+        noFocus: true,
+        noRefocus: true
       },
       on: {
-        show: () => this.$emit('show'),
-        hide: () => this.$emit('hide')
+        show: () => {
+          this.__input.selectionOpen = true
+          this.$emit('show')
+        },
+        hide: () => {
+          this.__input.selectionOpen = false
+          this.$emit('hide')
+        }
       }
     }, [
       h(QList, {
@@ -232,9 +274,9 @@ export default {
         style: this.computedWidth
       },
       this.computedResults.map((result, index) => h(QItemWrapper, {
-        key: result.id || JSON.stringify(result),
+        key: result.id || index,
         'class': {
-          active: this.keyboardIndex === index,
+          'q-select-highlight': this.keyboardIndex === index,
           'cursor-pointer': !result.disable,
           'text-faded': result.disable
         },

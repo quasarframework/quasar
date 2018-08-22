@@ -1,5 +1,5 @@
 export default {
-  name: 'q-tab-pane',
+  name: 'QTabPane',
   inject: {
     data: {
       default () {
@@ -22,10 +22,25 @@ export default {
   computed: {
     active () {
       return this.data.tabName === this.name
+    },
+    classes () {
+      return {
+        hidden: !this.active,
+        'animate-fade-left': this.data.direction === 'left',
+        'animate-fade-right': this.data.direction === 'right'
+      }
     }
   },
   render (h) {
-    const node = h('div', {staticClass: 'q-tab-pane', 'class': {hidden: !this.active}}, [this.$slots.default])
+    const node = h(
+      'div',
+      {
+        staticClass: 'q-tab-pane',
+        'class': this.classes
+      },
+      this.$slots.default
+    )
+
     if (this.keepAlive) {
       if (!this.shown && !this.active) {
         return

@@ -1,4 +1,4 @@
-import QCheckbox from './QCheckbox'
+import QCheckbox from './QCheckbox.js'
 
 export {
   QCheckbox

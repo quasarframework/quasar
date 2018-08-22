@@ -1,8 +1,8 @@
-import QBtn from './QBtn'
-import QBtnGroup from './QBtnGroup'
+import QBtn from './QBtn.js'
+import QBtnGroup from './QBtnGroup.js'
 
 export default {
-  name: 'q-btn-toggle',
+  name: 'QBtnToggle',
   props: {
     value: {
       required: true

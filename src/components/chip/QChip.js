@@ -1,10 +1,11 @@
-import { QIcon } from '../icon'
-import { getEventKey, stopAndPrevent } from '../../utils/event'
+import QIcon from '../icon/QIcon.js'
+import { getEventKey, stopAndPrevent } from '../../utils/event.js'
 
 export default {
-  name: 'q-chip',
+  name: 'QChip',
   props: {
     small: Boolean,
+    dense: Boolean,
     tag: Boolean,
     square: Boolean,
     floating: Boolean,
@@ -25,9 +26,13 @@ export default {
       const cls = []
 
       this.pointing && cls.push(`q-chip-pointing-${this.pointing}`)
-      ;['tag', 'square', 'floating', 'pointing', 'small'].forEach(prop => {
+      ;['tag', 'square', 'floating', 'pointing', 'small', 'dense'].forEach(prop => {
         this[prop] && cls.push(`q-chip-${prop}`)
       })
+      if (this.floating) {
+        !this.dense && cls.push('q-chip-dense')
+        !this.square && cls.push('q-chip-square')
+      }
 
       if (this.color) {
         cls.push(`bg-${this.color}`)
@@ -72,13 +77,11 @@ export default {
         }, [
           this.icon
             ? h(QIcon, { staticClass: 'q-chip-icon', props: { name: this.icon } })
-            : (this.avatar ? h('img', { domProps: { src: this.avatar } }) : null)
+            : (this.avatar ? h('img', { attrs: { src: this.avatar } }) : null)
         ])
         : null,
 
-      h('div', { staticClass: 'q-chip-main' }, [
-        this.$slots.default
-      ]),
+      h('div', { staticClass: 'q-chip-main ellipsis' }, this.$slots.default),
 
       this.iconRight
         ? h(QIcon, {

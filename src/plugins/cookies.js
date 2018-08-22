@@ -1,5 +1,4 @@
-import extend from '../utils/extend'
-import { isSSR } from './platform'
+import { isSSR } from './platform.js'
 
 function encode (string) {
   return encodeURIComponent(string)
@@ -36,27 +35,61 @@ function read (string) {
   return string
 }
 
-function set (key, val, opts = {}) {
+function set (key, val, opts = {}, ssr) {
   let time = opts.expires
+  const hasExpire = typeof opts.expires === 'number'
 
-  if (typeof opts.expires === 'number') {
+  if (hasExpire) {
     time = new Date()
     time.setMilliseconds(time.getMilliseconds() + opts.expires * 864e+5)
   }
 
-  document.cookie = [
-    encode(key), '=', stringifyCookieValue(val),
-    time ? '; expires=' + time.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-    opts.path ? '; path=' + opts.path : '',
-    opts.domain ? '; domain=' + opts.domain : '',
-    opts.secure ? '; secure' : ''
+  const keyValue = `${encode(key)}=${stringifyCookieValue(val)}`
+
+  const cookie = [
+    keyValue,
+    time ? '; Expires=' + time.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+    opts.path ? '; Path=' + opts.path : '',
+    opts.domain ? '; Domain=' + opts.domain : '',
+    opts.httpOnly ? '; HttpOnly' : '',
+    opts.secure ? '; Secure' : ''
   ].join('')
+
+  if (ssr) {
+    ssr.res.setHeader('Set-Cookie', cookie)
+
+    // make temporary update so future get()
+    // within same SSR timeframe would return the set value
+
+    let all = ssr.req.headers.cookie || ''
+
+    if (hasExpire && opts.expires < 0) {
+      const val = get(key, ssr)
+      if (val !== undefined) {
+        all = all
+          .replace(`${key}=${val}; `, '')
+          .replace(`; ${key}=${val}`, '')
+          .replace(`${key}=${val}`, '')
+      }
+    }
+    else {
+      all = all
+        ? `${keyValue}; ${all}`
+        : cookie
+    }
+
+    ssr.req.headers.cookie = all
+  }
+  else {
+    document.cookie = cookie
+  }
 }
 
-function get (key) {
+function get (key, ssr) {
   let
     result = key ? undefined : {},
-    cookies = document.cookie ? document.cookie.split('; ') : [],
+    cookieSource = ssr ? ssr.req.headers : document,
+    cookies = cookieSource.cookie ? cookieSource.cookie.split('; ') : [],
     i = 0,
     l = cookies.length,
     parts,
@@ -80,37 +113,45 @@ function get (key) {
   return result
 }
 
-function remove (key, options) {
-  set(key, '', extend(true, {}, options, {
-    expires: -1
-  }))
+function remove (key, options, ssr) {
+  set(
+    key,
+    '',
+    Object.assign({}, options, { expires: -1 }),
+    ssr
+  )
 }
 
-function has (key) {
-  return get(key) !== undefined
+function has (key, ssr) {
+  return get(key, ssr) !== undefined
+}
+
+export function getObject (ctx = {}) {
+  const ssr = ctx.ssr
+
+  return {
+    get: key => get(key, ssr),
+    set: (key, val, opts) => set(key, val, opts, ssr),
+    has: key => has(key, ssr),
+    remove: (key, options) => remove(key, options, ssr),
+    all: () => get(null, ssr)
+  }
 }
 
 export default {
-  get,
-  set,
-  has,
-  remove,
-  all: () => get(),
+  parseSSR (/* ssrContext */ ssr) {
+    return ssr ? getObject({ ssr }) : this
+  },
 
-  __installed: false,
-  install ({ $q }) {
-    if (this.__installed) { return }
-    this.__installed = true
-
+  install ({ $q, queues }) {
     if (isSSR) {
-      const noop = () => {}
-      this.get = noop
-      this.set = noop
-      this.has = noop
-      this.remove = noop
-      this.all = noop
+      queues.server.push((q, ctx) => {
+        q.cookies = getObject(ctx)
+      })
     }
-
-    $q.cookies = this
+    else {
+      Object.assign(this, getObject())
+      $q.cookies = this
+    }
   }
 }

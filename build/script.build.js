@@ -1,38 +1,36 @@
+process.env.NODE_ENV = 'production'
+
 const
-  fs = require('fs'),
-  path = require('path'),
-  shell = require('shelljs'),
-  type = process.argv[2]
+  type = process.argv[2],
+  parallel = !type && require('os').cpus().length > 1,
+  { join } = require('path'),
+  { createFolder } = require('./build.utils'),
+  runJob = parallel ? require('child_process').fork : require,
+  { green, blue } = require('chalk')
 
 /*
   Build:
   * all: npm run build
-  * js: npm run build js
+  * js:  npm run build js
   * css: npm run build css
  */
 
-require('colors')
-
-function createFolder (folder) {
-  const dir = path.join(__dirname, '..', folder)
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir)
-  }
-}
+console.log()
 
 if (!type) {
   require('./script.clean.js')
-  shell.mkdir('-p', path.join(__dirname, '../dist/'))
 }
 
-console.log(' Building Quasar...\n')
+console.log(` 📦 Building Quasar ${green('v' + require('../package.json').version)}...${parallel ? blue(' [multi-threaded]') : ''}\n`)
 
 createFolder('dist')
 createFolder('dist/umd')
 
 if (!type || type === 'js') {
-  require('./script.build.javascript')
+  createFolder('dist/helper-json')
+  createFolder('dist/babel-transforms')
+  runJob(join(__dirname, './script.build.javascript'))
 }
 if (!type || type === 'css') {
-  require('./script.build.stylus')
+  runJob(join(__dirname, './script.build.stylus'))
 }

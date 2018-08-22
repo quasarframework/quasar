@@ -52,7 +52,7 @@
 
             <!-- page content; replace this entirely -->
             <div class="column flex-center absolute-full">
-              <div>"npm run test:umd"</div>
+              <div>"yarn dev:umd"</div>
               <div>You need to build & refresh page on each change on Quasar</div>
               <div>Do not include index.mat.umd.html in your commits</div>
             </div>
@@ -64,11 +64,20 @@
 
     <script src="dist/umd/quasar.ie.polyfills.umd.min.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script>
+      // optional
+      window.quasarConfig = {
+        brand: {
+          primary: '#ff0000'
+        }
+      }
+    </script>
     <script src="dist/umd/quasar.mat.umd.js"></script>
     <script src="dist/umd/i18n.es.umd.min.js"></script>
 
     <script>
       Quasar.i18n.set(Quasar.i18n.es)
+      Quasar.plugins.Notify.create('Startup notification')
 
       new Vue({
         el: '#q-app',
@@ -82,6 +91,9 @@
           launch: function (url) {
             Quasar.utils.openURL(url)
           }
+        },
+        mounted () {
+          window.Quasar = Quasar
         }
       })
     </script>

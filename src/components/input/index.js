@@ -1,4 +1,4 @@
-import QInput from './QInput'
+import QInput from './QInput.js'
 
 export {
   QInput

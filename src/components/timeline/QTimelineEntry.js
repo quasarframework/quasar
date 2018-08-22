@@ -1,7 +1,7 @@
-import { QIcon } from '../icon'
+import QIcon from '../icon/QIcon.js'
 
 export default {
-  name: 'q-timeline-entry',
+  name: 'QTimelineEntry',
   inject: {
     __timeline: {
       default () {
@@ -41,9 +41,11 @@ export default {
       return h('div', { staticClass: 'q-timeline-heading' }, [
         h('div'),
         h('div'),
-        h(this.tag, { staticClass: 'q-timeline-heading-title' }, [
+        h(
+          this.tag,
+          { staticClass: 'q-timeline-heading-title' },
           this.$slots.default
-        ])
+        )
       ])
     }
 
@@ -60,14 +62,20 @@ export default {
         'class': this.colorClass
       }, [
         this.icon
-          ? h(QIcon, { props: { name: this.icon } })
+          ? h(QIcon, {
+            staticClass: 'row items-center justify-center',
+            props: { name: this.icon }
+          })
           : null
       ]),
 
-      h('div', { staticClass: 'q-timeline-content' }, [
-        h('h6', { staticClass: 'q-timeline-title' }, [ this.title ]),
-        this.$slots.default
-      ])
+      h(
+        'div',
+        { staticClass: 'q-timeline-content' },
+        [
+          h('h6', { staticClass: 'q-timeline-title' }, [ this.title ])
+        ].concat(this.$slots.default)
+      )
     ])
   }
 }

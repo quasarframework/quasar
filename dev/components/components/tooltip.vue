@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="layout-padding">
-      <p class="caption">
+      <div class="caption">
         <span class="desktop-only">
           Move mouse over the elements below. On a mobile device,
           you need to tap the elements.
@@ -10,7 +10,7 @@
           Tap on elements below. On desktop you can move the mouse
           over the elements.
         </span>
-      </p>
+      </div>
 
       <div style="margin-top: 40px;width: 200px; height: 70px;background-color: #26A69A;">
         &nbsp;
@@ -40,6 +40,11 @@
             <strong>Tooltip</strong> on <em>bottom</em> (<q-icon name="keyboard_arrow_down" />)
           </q-tooltip>
         </q-btn>
+        <q-btn color="orange" label="With loading" :loading="loading" @click="setLoading">
+          <q-tooltip anchor="bottom middle" self="top middle" :offset="[10, 10]">
+            <strong>Tooltip</strong> on <em>bottom</em> (<q-icon name="keyboard_arrow_down" />)
+          </q-tooltip>
+        </q-btn>
       </div>
 
       <q-card style="margin-top: 75px">
@@ -53,10 +58,10 @@
         </q-card-title>
 
         <p class="caption text-center">Configure the Tooltip for button above.</p>
-        <p class="text-center">
-          <q-chip tag color="primary">anchor="{{anchor}}"</q-chip>
-          <q-chip tag color="primary">self="{{self}}"</q-chip>
-        </p>
+        <div class="text-center">
+          <q-chip tag color="primary">anchor="{{ anchor }}"</q-chip>
+          <q-chip tag color="primary">self="{{ self }}"</q-chip>
+        </div>
         <q-card-main class="row">
           <div class="column items-center col-6">
             <p class="caption">Anchor Origin</p>
@@ -104,6 +109,7 @@ export default {
   data () {
     return {
       toggle: false,
+      loading: false,
       anchorOrigin: {vertical: 'bottom', horizontal: 'middle'},
       selfOrigin: {vertical: 'top', horizontal: 'middle'}
     }
@@ -114,6 +120,14 @@ export default {
     },
     self () {
       return `${this.selfOrigin.vertical} ${this.selfOrigin.horizontal}`
+    }
+  },
+  methods: {
+    setLoading () {
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+      }, 1000)
     }
   }
 }

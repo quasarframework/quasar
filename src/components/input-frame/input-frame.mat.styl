@@ -1,144 +1,182 @@
-.q-if, .q-if:before, .q-if:after, .q-if-label, .q-if-addon, .q-field-icon, .q-field-label, .q-if-control, .q-field-bottom
+.q-if, .q-if:before, .q-if-label, .q-if-addon, .q-field-icon, .q-field-label, .q-if-control, .q-field-bottom
   transition $input-frame-transition
 
-.q-if
-  min-height 32px
-  outline 0
-  padding-bottom 8px
+$content-none
+  content none
+$padding-x
+  padding-left $input-padding-x
+  padding-right $input-padding-x
+$margin-y-box
+  margin-top $input-box-padding-bottom
+  margin-bottom $input-box-padding-bottom
+$margin-top-box
+  margin-top $input-box-padding-top
 
-  &:not(.q-if-hide-underline):not(.q-if-inverted)
-    &:before, &:after
-      content ''
+.q-if
   &:before, &:after
     position absolute
+    top 0
     bottom 0
     left 0
     right 0
-    background currentColor
+    border 1px hidden currentColor
+    border-bottom-style solid
+    background transparent
+    pointer-events none
+    content ''
   &:before
-    height 1px
     color $light
-    transform scaleY(1)
+    color var(--q-color-light)
   &:after
-    width 0
-    height 2px
+    border-width 0
+    transform-origin center center 0
+    transform scaleX(0)
+  &:not(.q-if-disabled):not(.q-if-error):not(.q-if-warning):hover:before,
+  &.q-if-readonly:not(.q-if-error):not(.q-if-warning):after
+    color black
+    .q-if-dark&
+      color white
+  &.q-if-hide-underline, &.q-if-inverted
+    &:before, &:after
+      @extends $content-none
+.q-if-focused:after
+  border-width 2px
+  transform scaleX(1)
+  transition $input-frame-transition-border
+
+.q-if
+  outline 0
+  align-items center
+  font-size $input-font-size
+  .q-if-inner
+    min-height $input-min-height
+
+.q-if-standard
+  padding-top $input-padding-bottom
+  padding-bottom $input-padding-bottom
+  &.q-if-has-label
+    padding-top $input-padding-top
+.q-if-hide-underline
+  padding-top 0
+  padding-bottom 0
+  &.q-if-has-label
+    padding-top $input-hide-underline-padding-top
+
+.q-if-standard, .q-if-inverted
+  .q-if-label
+    position absolute
+    left 0
+    transform-origin top left
+    transform $input-label-transform-base
+    &.q-if-label-above
+      font-size ($input-font-size * $input-label-top-scale)
+      transform $input-label-transform
+      line-height $input-control-size * $input-label-top-scale
+
+.q-if-inverted
+  @extends $padding-x
+  .q-if-label
+    top 50%
+    transform $input-label-box-transform-base
+    &.q-if-label-above
+      top 4px
+      transform $input-label-box-transform
+  .q-if-inner
+    @extends $margin-y-box
+  &.q-if-has-label
+    .q-if-inner
+      @extends $margin-top-box
+  box-shadow $shadow-1
+  border-radius $input-inverted-border-radius
+  .q-input-target
+    color inherit
+
+.q-if-focused:not(.q-if-readonly)
+  .q-if-label, .q-if-addon, .q-if-control
     color currentColor
 
+.q-if-warning
+  &:before, &:after, &:not(.q-if-inverted) .q-if-label
+    color $warning
+    color var(--q-color-warning)
   &:hover:before
-    color black
+    color lighten($warning, 46%)
+    color var(--q-color-warning-l)
 
-  .group
-    margin -5px
-    &:not(:first-child)
-      margin-top 0
+.q-if-error
+  &:before, &:after, &:not(.q-if-inverted) .q-if-label
+    color $negative
+    color var(--q-color-negative)
+  &:hover:before
+    color lighten($negative, 46%)
+    color var(--q-color-negative-l)
 
-.q-if-hide-underline:not(.q-if-inverted)
-  min-height 24px
-  padding-bottom 0
+.q-if-disabled
+  cursor not-allowed
+  opacity .6
+  .q-if-label, .q-if-control, .q-input-target, .q-chip
+    cursor not-allowed
+
+.q-if-dark:not(.q-if-inverted-light)
+  .q-input-target:not(.q-input-target-placeholder)
+    color white
 
 .q-if-focusable
   outline 0
   cursor pointer
 
-.q-if-inner
-  min-height 24px !important
-  align-items center
+.q-if-label, .q-input-target, .q-input-target-placeholder
+  line-height $input-control-size
 
-.q-if-has-label
-  min-height 41px
-  .q-if-inner
-    min-height 36px !important
-    padding-top 12px
+.q-if-control
+  font-size $input-control-size
+  width $input-control-size
+  height $input-control-size
+  cursor pointer
+  z-index 2
+  + .q-if-control, + .q-if-inner, .q-if-inner + &
+    margin-left $input-control-margin
+  &:hover
+    opacity .7
+  &.q-icon
+    cursor pointer
 
-.q-if-label
+.q-if-baseline
+  line-height $input-control-size
+  width 0
+  color transparent
+
+.q-if-label-inner, .q-if-label-spacer, .q-if-baseline
   pointer-events none
   user-select none
-  top 15px
-  left 0
-  right 0
-  transform-origin left top 0
-  transform scale(1) translate(0, 0)
-.q-if-label-above
-  transform scale(.75) translate(0, -22px)
+.q-if-label-spacer
+  visibility hidden
+  height 0 !important
+  white-space nowrap
+.q-if-label
+  max-width 100%
+  overflow hidden
+
+.q-if-label, .q-if-addon, .q-if-control
+  color $form-dark
+  line-height $input-control-size
+
+.q-if-inverted
+  .q-if-label, .q-if-addon, .q-if-control
+    color #ddd
+
+.q-if-inverted-light
+  .q-if-label, .q-if-addon, .q-if-control
+    color #656565
 
 .q-if-addon
   pointer-events none
   opacity 0
+.q-if-addon:not(.q-if-addon-visible)
+  display none
 .q-if-addon-left
   padding-right 1px
 .q-if-addon-right
   padding-left 1px
 .q-if-addon-visible
   opacity 1
-
-.q-if-control
-  cursor pointer
-  font-size 24px
-  align-self flex-end
-  &.q-icon
-    cursor pointer
-  &:hover
-    opacity .7
-.q-if-control-before
-  margin-left 0
-  margin-right 4px
-
-.q-if-label, .q-if-addon, .q-if-control
-  color $form-dark
-
-.q-if-inverted
-  min-height 38px
-  border-radius 2px
-  padding 8px
-  box-shadow $shadow-1
-
-  .q-input-target
-    color inherit
-  .q-if-label, .q-if-addon,  .q-if-control
-    color #ddd
-
-div.q-input-target
-  min-width 35px
-
-.q-if-dark
-  &:hover:before
-    color white
-  &:not(.q-if-inverted-light)
-    .q-input-target
-      color white
-
-.q-if-inverted-light
-  .q-if-label, .q-if-addon,  .q-if-control
-    color #656565
-
-.q-if-focused
-  &:after
-    width 100%
-  .q-if-label, .q-if-addon, .q-if-control
-    color currentColor !important
-
-.q-if-error
-  &:before, &:after, &:not(.q-if-inverted) .q-if-label
-    color $negative
-  &:hover:before
-    color lighten($negative, 46%)
-
-.q-if-warning
-  &:before, &:after, &:not(.q-if-inverted) .q-if-label
-    color $warning
-  &:hover:before
-    color lighten($warning, 46%)
-
-.q-if-disabled
-  cursor not-allowed !important
-  .q-if-label, .q-if-control
-    opacity .6
-    cursor not-allowed !important
-  &:before
-    background-image linear-gradient(90deg, rgba(0, 0, 0, .38) 0, rgba(0, 0, 0, .38) 33%, transparent 0)
-    background-color transparent
-    background-position bottom
-    background-size 3px 1px
-    background-repeat repeat-x
-  &.q-if-dark:before
-    background-image linear-gradient(90deg, rgba(255, 255, 255, .7) 0, rgba(255, 255, 255, .7) 33%, transparent 0)

@@ -1,4 +1,4 @@
-import QSearch from './QSearch'
+import QSearch from './QSearch.js'
 
 export {
   QSearch

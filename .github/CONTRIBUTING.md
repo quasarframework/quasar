@@ -12,9 +12,9 @@ Hi! I’m really excited that you are interested in contributing to Quasar. Befo
 
 - The issue list of this repo is **exclusively** for bug reports and feature requests. Non-conforming issues will be closed immediately.
 
-  - For simple beginner questions, you can get quick answers from the [Quasar Discord chat](https://discord.gg/5TDhbDg).
+  - For simple beginner questions, you can get quick answers from the [Quasar Discord chat](http://chat.quasar-framework.org).
 
-  - For more complicated questions, you can use [the official forum](http://forum.quasar-framework.org/). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!
+  - For more complicated questions, you can use [the official forum](https://forum.quasar-framework.org/). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!
 
 - Try to search for your issue, it may have already been answered or even fixed in the development branch (`dev`).
 
@@ -49,12 +49,12 @@ Hi! I’m really excited that you are interested in contributing to Quasar. Befo
 
 ## Development Setup
 
-You will need [Node.js](http://nodejs.org) **version 4+** along [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
+You will need [Node.js](http://nodejs.org) **version 8.9+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
 
 After cloning the repo, run:
 
 ``` bash
-$ npm install
+$ yarn # or: npm install
 ```
 
 ### Commonly used NPM scripts
@@ -62,19 +62,17 @@ $ npm install
 ``` bash
 # Start dev server with a demo app. This app has Quasar source code linked directly so any change will trigger HMR (Hot Module Reload) on the dev server.
 # There's a section for each feature where tests are made.
-$ npm run dev [theme]
+$ yarn dev [theme] # or: npm run dev [theme]
 
 # build all dist files, including npm packages
-$ npm run build
-# build minimum dist files required
-$ npm run build simple
-# build only minimum js dist files
-$ npm run build js simple
-# build only minimum stylus dist files
-$ npm run build css simple
+$ yarn build      # or: npm run build
+# build only js dist files
+$ yarn build js   # or: npm run build js
+# build only css dist files
+$ yarn build css  # or: npm run build css
 
 # lint sources
-$ npm run lint
+$ yarn lint # or: npm run lint
 ```
 
 ## Project Structure
@@ -95,18 +93,18 @@ $ npm run lint
 
   - **`index.js`**: starting point for Quasar
 
-- **`dist`**: contains built files for distribution (only after a build). Note this directory is only updated when a release happens; they do not reflect the latest changes in development branches.
-  - **`quasar.esm.js`**: ES6 formatted Quasar JS distributable. **This is set as the `main` field in `package.json` so it is the default export when you import Vue as an NPM package.**
+- **`i18n`**: Quasar language packs
 
-  - **`quasar.esm.js`**: JS entry point for Quasar distributable.
+- **`icons`**: Quasar icon sets
+
+- **`dist`**: contains built files for distribution (only after a build). Note this directory is only updated when a release happens; they do not reflect the latest changes in development branches.
+  - **`quasar.[theme].esm.js`**: ES6 formatted Quasar JS distributable
 
   - **`core.variables.styl`**: Core Quasar Stylus variables (which you can import in a style tag of your App Vue component files).
 
-  - **`quasar.*.css`**: Compiled CSS from Stylus Quasar source code. It's imported into apps when NOT using a custom theme build.
-
-  - **`quasar.*.styl`**: One big file containing Quasar's Stylus code to be imported in apps when using custom theme builds.
+  - **`quasar.[theme].styl`**: One big file containing Quasar's Stylus code to be imported in apps when using custom theme builds.
 
 - **`dev`**: app with Quasar sources linked directly used for testing purposes. Each feature/component has its own `*.vue` file. Adding a new file automatically creates a route for it and adds it to the "homepage" list (based on the file name).
 
 ## Dev Server for Quasar
-Running `npm run dev [theme]` starts up a dev server which uses HMR (Hot Module Reload) for Quasar source code. You can easily test your changes by making necessary changes to `/dev` `*.vue` files.
+Running `yarn dev [theme]` (or `npm run dev [theme]`) starts up a dev server which uses HMR (Hot Module Reload) for Quasar source code. You can easily test your changes by making necessary changes to `/dev` `*.vue` files.

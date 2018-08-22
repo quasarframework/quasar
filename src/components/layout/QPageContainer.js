@@ -1,5 +1,5 @@
 export default {
-  name: 'q-page-container',
+  name: 'QPageContainer',
   inject: {
     layout: {
       default () {
@@ -11,7 +11,7 @@ export default {
     pageContainer: true
   },
   computed: {
-    computedStyle () {
+    style () {
       const css = {}
 
       if (this.layout.header.space) {
@@ -33,9 +33,7 @@ export default {
   render (h) {
     return h('div', {
       staticClass: 'q-layout-page-container q-layout-transition',
-      style: this.computedStyle
-    }, [
-      this.$slots.default
-    ])
+      style: this.style
+    }, this.$slots.default)
   }
 }

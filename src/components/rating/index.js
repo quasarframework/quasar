@@ -1,4 +1,4 @@
-import QRating from './QRating'
+import QRating from './QRating.js'
 
 export {
   QRating

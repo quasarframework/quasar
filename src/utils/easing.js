@@ -44,3 +44,27 @@ export const standard = t => t < 0.4031
 export const decelerate = easeOutCubic
 export const accelerate = easeInCubic
 export const sharp = easeInOutQuad
+
+export default {
+  linear,
+  easeInQuad,
+  easeOutQuad,
+  easeInOutQuad,
+  easeInCubic,
+  easeOutCubic,
+  easeInOutCubic,
+  easeInQuart,
+  easeOutQuart,
+  easeInOutQuart,
+  easeInQuint,
+  easeOutQuint,
+  easeInOutQuint,
+  easeInCirc,
+  easeOutCirc,
+  easeInOutCirc,
+  overshoot,
+  standard,
+  decelerate,
+  accelerate,
+  sharp
+}

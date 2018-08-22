@@ -1,4 +1,4 @@
-import { getEventKey } from '../utils/event'
+import { getEventKey } from '../utils/event.js'
 
 export default {
   props: {
@@ -22,7 +22,7 @@ export default {
   computed: {
     classes () {
       return [
-        this.$options._componentTag,
+        this.__kebabTag,
         {
           disabled: this.disable,
           reverse: this.leftLabel,
@@ -83,7 +83,7 @@ export default {
         blur: () => { this.$emit('blur') },
         keydown: this.__handleKeyDown
       },
-      directives: this.$options._componentTag === 'q-toggle'
+      directives: this.__kebabTag === 'q-toggle' && !this.disable && !this.readonly
         ? [{
           name: 'touch-swipe',
           modifiers: { horizontal: true },
@@ -100,7 +100,10 @@ export default {
           on: { change: this.toggle }
         }),
         this.$q.platform.is.desktop
-          ? h('div', { staticClass: 'q-focus-helper' })
+          ? h('div', {
+            staticClass: 'q-focus-helper',
+            'class': this.__kebabTag === 'q-radio' ? 'q-focus-helper-round' : 'q-focus-helper-rounded'
+          })
           : null,
         this.__getContent(h)
       ]),

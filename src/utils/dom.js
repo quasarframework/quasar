@@ -1,5 +1,5 @@
 export function offset (el) {
-  if (el === window) {
+  if (!el || el === window) {
     return {top: 0, left: 0}
   }
   let {top, left} = el.getBoundingClientRect()
@@ -13,14 +13,14 @@ export function style (el, property) {
 
 export function height (el) {
   if (el === window) {
-    return viewport().height
+    return window.innerHeight
   }
   return parseFloat(style(el, 'height'))
 }
 
 export function width (el) {
   if (el === window) {
-    return viewport().width
+    return window.innerWidth
   }
   return parseFloat(style(el, 'width'))
 }
@@ -33,28 +33,12 @@ export function css (element, css) {
   })
 }
 
-export function viewport () {
-  let
-    e = window,
-    a = 'inner'
-
-  if (!('innerWidth' in window)) {
-    a = 'client'
-    e = document.documentElement || document.body
-  }
-
-  return {
-    width: e[a + 'Width'],
-    height: e[a + 'Height']
-  }
-}
-
 export function ready (fn) {
   if (typeof fn !== 'function') {
     return
   }
 
-  if (document.readyState === 'complete') {
+  if (document.readyState !== 'loading') {
     return fn()
   }
 
@@ -68,4 +52,14 @@ export function cssTransform (val) {
     o[p + 'transform'] = val
   })
   return o
+}
+
+export default {
+  offset,
+  style,
+  height,
+  width,
+  css,
+  ready,
+  cssTransform
 }

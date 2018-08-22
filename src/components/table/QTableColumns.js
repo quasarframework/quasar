@@ -1,7 +1,7 @@
-import { QSelect } from '../select'
+import QSelect from '../select/QSelect.js'
 
 export default {
-  name: 'q-table-columns',
+  name: 'QTableColumns',
   props: {
     value: {
       type: Array,

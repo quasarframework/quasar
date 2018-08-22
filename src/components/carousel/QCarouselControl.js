@@ -1,5 +1,5 @@
 export default {
-  name: 'q-carousel-control',
+  name: 'QCarouselControl',
   props: {
     position: {
       type: String,

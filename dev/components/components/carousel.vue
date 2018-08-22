@@ -28,6 +28,75 @@
       <q-carousel-slide img-src="statics/parallax2.jpg" />
     </q-carousel>
 
+    <p class="caption">Thumbnails</p>
+    <q-carousel
+      color="white"
+      arrows
+      quick-nav
+      height="300px"
+      :thumbnails="[
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
+
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg'
+      ]"
+    >
+      <q-carousel-slide img-src="statics/mountains.jpg" />
+      <q-carousel-slide img-src="statics/parallax1.jpg" />
+      <q-carousel-slide img-src="statics/parallax2.jpg" />
+
+      <q-carousel-slide img-src="statics/mountains.jpg" />
+      <q-carousel-slide img-src="statics/parallax1.jpg" />
+      <q-carousel-slide img-src="statics/parallax2.jpg" />
+      <q-carousel-slide img-src="statics/mountains.jpg" />
+      <q-carousel-slide img-src="statics/parallax1.jpg" />
+      <q-carousel-slide img-src="statics/parallax2.jpg" />
+      <q-carousel-slide img-src="statics/mountains.jpg" />
+      <q-carousel-slide img-src="statics/parallax1.jpg" />
+      <q-carousel-slide img-src="statics/parallax2.jpg" />
+    </q-carousel>
+
+    <p class="caption">Thumbnails - horizontal</p>
+    <q-carousel
+      color="white"
+      arrows
+      quick-nav
+      height="300px"
+      :thumbnails="[
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
+
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg'
+      ]"
+      thumbnails-horizontal
+    >
+      <q-carousel-slide img-src="statics/mountains.jpg" />
+      <q-carousel-slide img-src="statics/parallax1.jpg" />
+      <q-carousel-slide img-src="statics/parallax2.jpg" />
+
+      <q-carousel-slide img-src="statics/mountains.jpg" />
+      <q-carousel-slide img-src="statics/parallax1.jpg" />
+      <q-carousel-slide img-src="statics/parallax2.jpg" />
+      <q-carousel-slide img-src="statics/mountains.jpg" />
+      <q-carousel-slide img-src="statics/parallax1.jpg" />
+      <q-carousel-slide img-src="statics/parallax2.jpg" />
+    </q-carousel>
+
     <p class="caption">Example creating custom captions for each slide.</p>
     <q-carousel
       color="white"
@@ -135,7 +204,7 @@
       />
     </q-carousel>
 
-    <p class="caption">
+    <div class="caption">
       Carousel with a model (<q-chip small color="primary">{{ slide }}</q-chip>)
       and some custom controls: an autoplay button, a progressbar showing Carousel progress
       and a fullscreen toggle button.
@@ -149,7 +218,7 @@
         label="Navigate to second slide"
         class="q-ml-sm"
       />
-    </p>
+    </div>
     <q-carousel
       v-model="slide"
       color="amber"
@@ -157,6 +226,7 @@
       infinite
       :autoplay="autoplay"
       height="400px"
+      @fullscreen="onFullscreen"
     >
       <q-carousel-slide
         v-for="n in 7" :key="`car-${n}`"
@@ -277,7 +347,12 @@ export default {
       'grey-2'
     ],
     modal: false
-  })
+  }),
+  methods: {
+    onFullscreen (v) {
+      console.log('fullscreen-toggle', v)
+    }
+  }
 }
 </script>
 

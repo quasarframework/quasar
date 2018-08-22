@@ -1,19 +1,20 @@
-import { isSSR } from './platform'
+import { isSSR } from './platform.js'
+
+const prefixes = {}
 
 export default {
   isCapable: false,
   isActive: false,
-  __prefixes: {},
 
   request (target) {
     if (this.isCapable && !this.isActive) {
       target = target || document.documentElement
-      target[this.__prefixes.request]()
+      target[prefixes.request]()
     }
   },
   exit () {
     if (this.isCapable && this.isActive) {
-      document[this.__prefixes.exit]()
+      document[prefixes.exit]()
     }
   },
   toggle (target) {
@@ -25,36 +26,26 @@ export default {
     }
   },
 
-  __installed: false,
   install ({ $q, Vue }) {
-    if (this.__installed) { return }
-    this.__installed = true
+    $q.fullscreen = this
 
-    if (isSSR) {
-      $q.fullscreen = this
-      return
-    }
+    if (isSSR) { return }
 
-    const request = [
+    prefixes.request = [
       'requestFullscreen',
       'msRequestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'
     ].find(request => document.documentElement[request])
 
-    this.isCapable = request !== undefined
+    this.isCapable = prefixes.request !== undefined
     if (!this.isCapable) {
       // it means the browser does NOT support it
       return
     }
 
-    const exit = [
+    prefixes.exit = [
       'exitFullscreen',
       'msExitFullscreen', 'mozCancelFullScreen', 'webkitExitFullscreen'
     ].find(exit => document[exit])
-
-    this.__prefixes = {
-      request,
-      exit
-    }
 
     this.isActive = !!(document.fullscreenElement ||
       document.mozFullScreenElement ||
@@ -71,6 +62,5 @@ export default {
     })
 
     Vue.util.defineReactive(this, 'isActive', this.isActive)
-    $q.fullscreen = this
   }
 }

@@ -1,5 +1,5 @@
 export default {
-  name: 'q-card',
+  name: 'QCard',
   props: {
     square: Boolean,
     flat: Boolean,
@@ -31,8 +31,6 @@ export default {
     return h('div', {
       staticClass: 'q-card',
       'class': this.classes
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

@@ -1,14 +1,35 @@
-import { debounce } from '../../utils/debounce'
-import { listenOpts } from '../../utils/event'
+import { listenOpts } from '../../utils/event.js'
+import CanRenderMixin from '../../mixins/can-render.js'
+import { isSSR } from '../../plugins/platform.js'
 
 export default {
-  name: 'q-resize-observable',
+  name: 'QResizeObservable',
+  mixins: [ CanRenderMixin ],
+  props: {
+    debounce: {
+      type: Number,
+      default: 100
+    }
+  },
+  data () {
+    return this.hasObserver
+      ? {}
+      : { url: this.$q.platform.is.ie ? null : 'about:blank' }
+  },
   methods: {
     onResize () {
-      const size = {
-        width: this.parent.offsetWidth,
-        height: this.parent.offsetHeight
+      this.timer = null
+
+      if (!this.$el || !this.$el.parentNode) {
+        return
       }
+
+      const
+        parent = this.$el.parentNode,
+        size = {
+          width: parent.offsetWidth,
+          height: parent.offsetHeight
+        }
 
       if (size.width === this.size.width && size.height === this.size.height) {
         return
@@ -16,41 +37,69 @@ export default {
 
       this.size = size
       this.$emit('resize', this.size)
+    },
+    trigger (immediately) {
+      if (immediately === true || this.debounce === 0) {
+        this.onResize()
+      }
+      else if (!this.timer) {
+        this.timer = setTimeout(this.onResize, this.debounce)
+      }
     }
   },
   render (h) {
-    return h('span')
+    if (!this.canRender || this.hasObserver) {
+      return
+    }
+
+    return h('object', {
+      style: this.style,
+      attrs: {
+        type: 'text/html',
+        data: this.url,
+        'aria-hidden': true
+      },
+      on: {
+        load: () => {
+          this.$el.contentDocument.defaultView.addEventListener('resize', this.trigger, listenOpts.passive)
+          this.trigger(true)
+        }
+      }
+    })
+  },
+  beforeCreate () {
+    this.size = { width: -1, height: -1 }
+    if (isSSR) { return }
+
+    this.hasObserver = typeof ResizeObserver !== 'undefined'
+
+    if (!this.hasObserver) {
+      this.style = `${this.$q.platform.is.ie ? 'visibility:hidden;' : ''}display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;`
+    }
   },
   mounted () {
-    const
-      object = document.createElement('object'),
-      onIE = this.$q.platform.is.ie
-
-    this.parent = this.$el.parentNode
-    this.size = { width: -1, height: -1 }
-    this.onResize = debounce(this.onResize, 100)
-    this.onResize()
-
-    this.object = object
-    object.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
-    object.onload = () => {
-      object.contentDocument.defaultView.addEventListener('resize', this.onResize, listenOpts.passive)
+    if (this.hasObserver) {
+      this.observer = new ResizeObserver(this.trigger)
+      this.observer.observe(this.$el.parentNode)
+      return
     }
-    object.type = 'text/html'
-    if (onIE) {
-      this.$el.appendChild(object)
-    }
-    object.data = 'about:blank'
-    if (!onIE) {
-      this.$el.appendChild(object)
+
+    this.trigger(true)
+
+    if (this.$q.platform.is.ie) {
+      this.url = 'about:blank'
     }
   },
   beforeDestroy () {
-    if (this.object && this.object.onload) {
-      if (!this.$q.platform.is.ie && this.object.contentDocument) {
-        this.object.contentDocument.defaultView.removeEventListener('resize', this.onResize, listenOpts.passive)
-      }
-      delete this.object.onload
+    clearTimeout(this.timer)
+
+    if (this.hasObserver) {
+      this.$el.parentNode && this.observer.unobserve(this.$el.parentNode)
+      return
+    }
+
+    if (this.$el.contentDocument) {
+      this.$el.contentDocument.defaultView.removeEventListener('resize', this.trigger, listenOpts.passive)
     }
   }
 }

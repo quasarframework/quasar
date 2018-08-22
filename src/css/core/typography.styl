@@ -86,10 +86,12 @@ blockquote
   margin 0
   font-size 16px
   border-left: $spaces.xs.x solid $primary
+  border-left: $spaces.xs.x solid var(--q-color-primary)
   &.text-right
     padding-right: $spaces.md.x
     padding-left 0
     border-right: $spaces.xs.x solid $primary
+    border-right: $spaces.xs.x solid var(--q-color-primary)
     border-left 0
     text-align right
 
@@ -97,6 +99,7 @@ blockquote
     display block
     line-height 1.4
     color $faded
+    color var(--q-color-faded)
     &:before
       content '\2014 \00A0'
 
@@ -104,10 +107,12 @@ blockquote
   padding 10px 20px
   margin 0 0 20px
   border-left 5px solid $primary
+  border-left 5px solid var(--q-color-primary)
   &.text-right
     padding-right 15px
     padding-left 0
     border-right 5px solid $primary
+    border-right 5px solid var(--q-color-primary)
     border-left 0
     text-align right
 
@@ -132,17 +137,13 @@ dl
     dd
       margin-left 30%
 
-::-webkit-selection,
-::-moz-selection,
-::selection
-  background $primary
-  color alpha(opposite-non-color($primary), .87)
-
-textarea::-webkit-selection,
-input::-webkit-selection,
-textarea::-moz-selection,
-input::-moz-selection,
-textarea::selection,
-input::selection
-  background alpha($primary, .4)
-  color alpha(opposite-non-color($primary), .87)
+hr
+  &.q-hr, &.q-hr-dark
+    height 1px
+    min-height 1px
+    display block
+    border none
+    width 100%
+    background rgba(0, 0, 0, .12)
+  &.q-hr-dark
+    background rgba(255, 255, 255, .36)

@@ -75,6 +75,15 @@
       avatar="statics/boy-avatar.png"
       color="amber"
       text-color="black"
+      message="Title"
+    >
+      <span slot="detail">Detail as slot</span>
+    </q-alert>
+    <br>
+    <q-alert
+      avatar="statics/boy-avatar.png"
+      color="amber"
+      text-color="black"
       :actions="[ { label: 'Dismiss', handler: () => {} } ]"
     >Your friend just pinged you</q-alert>
     <br>

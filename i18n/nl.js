@@ -32,12 +32,12 @@ export default {
     noData: 'Geen data bechikbaar',
     noResults: 'Geen records gevonden',
     loading: 'Laden...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows === 1
         ? '1 rij geselecteerd.'
         : (rows === 0 ? 'Geen' : rows) + ' geselecteerde rijen.'
     },
-    rowsPerPage: 'Rijen per pagina:',
+    recordsPerPage: 'Rijen per pagina:',
     allRows: 'Alle',
     pagination: function (start, end, total) {
       return start + '-' + end + ' op ' + total

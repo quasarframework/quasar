@@ -13,11 +13,11 @@
       </p>
 
       <div class="bg-secondary text-white">
-        Model: <em>{{model}}</em>
+        Model: <em>{{ model }}</em>
       </div>
       <q-input v-model="format" float-label="Format string" />
       <div class="bg-secondary text-white">
-        Formatted: <em>{{modelFormatted}}</em>
+        Formatted: <em>{{ modelFormatted }}</em>
       </div>
 
       <p class="caption">
@@ -39,7 +39,7 @@
         </small>
       </p>
       <q-datetime format="YYYY-MMMM-dddd Do Qo Q" v-model="model" type="date" align="right" />
-      @input<q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" stack-label="Stack Label" v-model="model" type="date" clearable />
+      @input<q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" stack-label="Stack Label" v-model="model" type="date" clearable @focus="log('Xfocus')" @blur="log('Xblur')" />
       @change<q-datetime :value="model" @change="value => { model = value; log('@change', value) }" @input="value => log('@input', value)" stack-label="Stack Label" type="date" clearable />
 
       <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" stack-label="Stack Label" v-model="model" type="date" clearable />
@@ -59,15 +59,16 @@
 
       <p class="caption">Format Model</p>
       <div class="bg-secondary text-white">
-        Model: <em>{{modelVar}}</em> <strong>{{modelVarType}}</strong>
+        Model: <em>{{ modelVar }}</em> - <strong>{{ modelVarType }}</strong>
       </div>
       <div class="bg-secondary text-white">
-        Formatted: <em>{{modelVarFormatted}}</em>
+        Formatted: <em>{{ modelVarFormatted }}</em>
       </div>
       <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="date" clearable stack-label="Format Model 'auto'" format-model="auto" />
       <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="date" clearable stack-label="Format Model 'date'" format-model="date" />
       <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="date" clearable stack-label="Format Model 'number'" format-model="number" />
       <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="date" clearable stack-label="Format Model 'string'" format-model="string" />
+      <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="time" clearable stack-label="Set time" />
 
       <p class="caption">
         Lazy Input
@@ -87,26 +88,26 @@
           <span class="mat-only">inside of the clock</span>.
         </small>
       </p>
-      <q-datetime v-model="model" type="time" />
+      <q-datetime minimal v-model="model" type="time" />
 
       <p class="caption">Time 24hr Format (force)</p>
-      <q-datetime v-model="model" type="time" format24h />
+      <q-datetime minimal v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-datetime @change="value => log('@change', value)" v-model="model" type="datetime" />
+      <q-datetime minimal @change="value => log('@change', value)" v-model="model" type="datetime" />
 
       <p class="caption">Default Selection</p>
       <q-datetime v-model="model" :default-value="defaultValue" type="datetime" />
       <q-datetime v-model="model" :default-value="defaultValue" type="time" />
 
       <p class="caption">With explicit popover</p>
-      <q-datetime v-model="model" popover type="date"     float-label="Pick Date" />
-      <q-datetime v-model="model" popover type="time"     float-label="Pick Time" />
+      <q-datetime v-model="model" popover type="date" float-label="Pick Date" />
+      <q-datetime v-model="model" popover type="time" float-label="Pick Time" />
       <q-datetime v-model="model" popover type="datetime" float-label="Pick DateTime" />
 
       <p class="caption">With explicit modal</p>
-      <q-datetime v-model="model" modal type="date"     float-label="Pick Date" />
-      <q-datetime v-model="model" modal type="time"     float-label="Pick Time" />
+      <q-datetime v-model="model" modal type="date" float-label="Pick Date" />
+      <q-datetime v-model="model" modal type="time" float-label="Pick Time" />
       <q-datetime v-model="model" modal type="datetime" float-label="Pick DateTime" />
 
       <p class="caption">With Label</p>
@@ -216,6 +217,7 @@
       <p class="caption">Readonly State</p>
       <q-datetime-picker readonly v-model="model" type="datetime" />
       <p class="caption">Min & Max</p>
+      <div>{{ min }} - {{ max }}</div>
       <q-datetime-picker type="datetime" v-model="minMaxModel" :min="min" :max="max" />
     </div>
   </div>

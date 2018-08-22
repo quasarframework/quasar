@@ -1,5 +1,5 @@
 /* eslint prefer-promise-reject-errors: 0 */
-import History from '../plugins/history'
+import History from '../history.js'
 
 export default {
   props: {
@@ -33,9 +33,7 @@ export default {
         return this.showPromise || Promise.resolve(evt)
       }
 
-      if (this.hidePromise) {
-        this.hidePromiseReject()
-      }
+      this.hidePromise && this.hidePromiseReject()
 
       this.showing = true
       if (this.value === false) {
@@ -50,17 +48,18 @@ export default {
       }
 
       if (!this.__show) {
-        this.$emit('show')
+        this.$emit('show', evt)
         return Promise.resolve(evt)
       }
 
       this.showPromise = new Promise((resolve, reject) => {
         this.showPromiseResolve = () => {
           this.showPromise = null
-          this.$emit('show')
+          this.$emit('show', evt)
           resolve(evt)
         }
         this.showPromiseReject = () => {
+          this.showPromise.catch(() => {})
           this.showPromise = null
           reject(null) // eslint prefer-promise-reject-errors: 0
         }
@@ -74,32 +73,28 @@ export default {
         return this.hidePromise || Promise.resolve(evt)
       }
 
-      if (this.showPromise) {
-        this.showPromiseReject()
-      }
+      this.showPromise && this.showPromiseReject()
 
       this.showing = false
       if (this.value === true) {
         this.$emit('input', false)
       }
 
-      if (this.__historyEntry) {
-        History.remove(this.__historyEntry)
-        this.__historyEntry = null
-      }
+      this.__removeHistory()
 
       if (!this.__hide) {
-        this.$emit('hide')
+        this.$emit('hide', evt)
         return Promise.resolve()
       }
 
       this.hidePromise = new Promise((resolve, reject) => {
         this.hidePromiseResolve = () => {
           this.hidePromise = null
-          this.$emit('hide')
+          this.$emit('hide', evt)
           resolve()
         }
         this.hidePromiseReject = () => {
+          this.hidePromise.catch(() => {})
           this.hidePromise = null
           reject(null)
         }
@@ -107,6 +102,13 @@ export default {
 
       this.__hide(evt)
       return this.hidePromise || Promise.resolve(evt)
+    },
+
+    __removeHistory () {
+      if (this.__historyEntry) {
+        History.remove(this.__historyEntry)
+        this.__historyEntry = null
+      }
     }
   },
   beforeDestroy () {
@@ -114,6 +116,7 @@ export default {
       this.showPromise && this.showPromiseReject()
       this.hidePromise && this.hidePromiseReject()
       this.$emit('input', false)
+      this.__removeHistory()
       this.__hide && this.__hide()
     }
   }

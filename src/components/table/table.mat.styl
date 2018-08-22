@@ -35,8 +35,8 @@
 .q-table-progress
   height 0 !important
   td
-    position relative
     padding 0 !important
+    border-bottom 1px solid transparent !important
   .q-progress
     position absolute
     height 2px
@@ -48,7 +48,8 @@
 .q-table-bottom
   min-height 48px
   padding 4px 14px 4px 24px
-  font-size 12px
+  &, .q-if
+    font-size 12px
   .q-table-control
     min-height 24px
 
@@ -116,6 +117,15 @@
 
 .q-table-bottom-item
   margin-right 24px
+
+.q-table-grid
+  box-shadow none
+  .q-table-bottom
+    border-top 0
+  .q-table
+    height 2px
+    thead
+      border 0
 
 /*
  * Separators

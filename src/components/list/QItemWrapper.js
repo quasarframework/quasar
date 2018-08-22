@@ -1,6 +1,6 @@
-import QItem from './QItem'
-import QItemMain from './QItemMain'
-import QItemSide from './QItemSide'
+import QItem from './QItem.js'
+import QItemMain from './QItemMain.js'
+import QItemSide from './QItemSide.js'
 
 function push (child, h, name, slot, replace, conf) {
   const defaultProps = { props: { right: conf.right } }
@@ -25,7 +25,7 @@ function push (child, h, name, slot, replace, conf) {
 }
 
 export default {
-  name: 'q-item-wrapper',
+  name: 'QItemWrapper',
   props: {
     cfg: {
       type: Object,

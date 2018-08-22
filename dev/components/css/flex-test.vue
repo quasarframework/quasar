@@ -1,9 +1,9 @@
 <template>
   <div class="layout-padding">
-    <div class="xs">XS (<strong>{{first}}</strong>)</div>
-    <div class="sm">SM (<strong>{{second}}</strong>)</div>
-    <div class="md">MD (<strong>{{last}}</strong>)</div>
-    <div>{{conf}}</div>
+    <div class="xs">XS (<strong>{{ first }}</strong>)</div>
+    <div class="sm">SM (<strong>{{ second }}</strong>)</div>
+    <div class="md">MD (<strong>{{ last }}</strong>)</div>
+    <div>{{ conf }}</div>
     <div class="row ex">
       <div :class="conf">First</div>
       <div :class="conf">Second</div>

@@ -1,17 +1,21 @@
-import { QBtn } from '../btn'
-import { QIcon } from '../icon'
-import FabMixin from './fab-mixin'
-import ModelToggleMixin from '../../mixins/model-toggle'
+import QBtn from '../btn/QBtn.js'
+import QIcon from '../icon/QIcon.js'
+import FabMixin from './fab-mixin.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
 
 export default {
-  name: 'q-fab',
+  name: 'QFab',
   mixins: [FabMixin, ModelToggleMixin],
   provide () {
     return {
-      __qFabClose: this.hide
+      __qFabClose: evt => this.hide(evt).then(() => {
+        this.$refs.trigger && this.$refs.trigger.$el && this.$refs.trigger.$el.focus()
+        return evt
+      })
     }
   },
   props: {
+    icon: String,
     activeIcon: String,
     direction: {
       type: String,
@@ -36,6 +40,7 @@ export default {
       }
     }, [
       h(QBtn, {
+        ref: 'trigger',
         props: {
           fab: true,
           outline: this.outline,
@@ -63,9 +68,7 @@ export default {
       h('div', {
         staticClass: 'q-fab-actions flex no-wrap inline items-center',
         'class': `q-fab-${this.direction}`
-      }, [
-        this.$slots.default
-      ])
+      }, this.$slots.default)
     ])
   }
 }

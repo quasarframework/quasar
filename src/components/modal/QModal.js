@@ -1,6 +1,6 @@
-import EscapeKey from '../../utils/escape-key'
-import extend from '../../utils/extend'
-import ModelToggleMixin from '../../mixins/model-toggle'
+import EscapeKey from '../../utils/escape-key.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
+import preventScroll from '../../utils/prevent-scroll.js'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -8,7 +8,7 @@ const positions = {
   right: 'items-center justify-end with-backdrop',
   left: 'items-center justify-start with-backdrop'
 }
-const positionCSS = __THEME__ === 'mat'
+const positionCSS = process.env.THEME === 'mat'
   ? {
     maxHeight: '80vh',
     height: 'auto'
@@ -25,32 +25,45 @@ function additionalCSS (position) {
   if (['left', 'right'].includes(position)) {
     css.maxWidth = '90vw'
   }
-  if (__THEME__ === 'ios') {
-    if (['left', 'top'].includes(position)) {
-      css.borderTopLeftRadius = 0
-    }
-    if (['right', 'top'].includes(position)) {
-      css.borderTopRightRadius = 0
-    }
-    if (['left', 'bottom'].includes(position)) {
-      css.borderBottomLeftRadius = 0
-    }
-    if (['right', 'bottom'].includes(position)) {
-      css.borderBottomRightRadius = 0
-    }
+
+  if (['left', 'top'].includes(position)) {
+    css.borderTopLeftRadius = 0
+  }
+  if (['right', 'top'].includes(position)) {
+    css.borderTopRightRadius = 0
+  }
+  if (['left', 'bottom'].includes(position)) {
+    css.borderBottomLeftRadius = 0
+  }
+  if (['right', 'bottom'].includes(position)) {
+    css.borderBottomRightRadius = 0
   }
 
   return css
 }
 
-let openedModalNumber = 0
+let modals = {
+  responsive: 0,
+  maximized: 0
+}
 
 export default {
-  name: 'q-modal',
+  name: 'QModal',
   mixins: [ModelToggleMixin],
   provide () {
     return {
-      __qmodal: true
+      __qmodal: {
+        register: layout => {
+          if (this.layout !== layout) {
+            this.layout = layout
+          }
+        },
+        unregister: layout => {
+          if (this.layout === layout) {
+            this.layout = null
+          }
+        }
+      }
     }
   },
   props: {
@@ -79,14 +92,28 @@ export default {
       default: false
     },
     noRouteDismiss: Boolean,
+    noRefocus: Boolean,
     minimized: Boolean,
     maximized: Boolean
+  },
+  data () {
+    return {
+      layout: null
+    }
   },
   watch: {
     $route () {
       if (!this.noRouteDismiss) {
         this.hide()
       }
+    },
+    maximized (newV, oldV) {
+      this.__register(false, oldV)
+      this.__register(true, newV)
+    },
+    minimized (newV, oldV) {
+      this.__register(false, this.maximized, oldV)
+      this.__register(true, this.maximized, newV)
     }
   },
   computed: {
@@ -102,17 +129,23 @@ export default {
       }
       return cls
     },
+    contentClassesCalc () {
+      if (this.layout) {
+        return [this.contentClasses, 'column no-wrap']
+      }
+      return this.contentClasses
+    },
     transitionProps () {
       if (this.position) {
         return { name: `q-modal-${this.position}` }
       }
-      if (this.enterClass === void 0 && this.leaveClass === void 0) {
-        return { name: this.transition || 'q-modal' }
+      if (this.enterClass || this.leaveClass) {
+        return {
+          enterActiveClass: this.enterClass,
+          leaveActiveClass: this.leaveClass
+        }
       }
-      return {
-        enterActiveClass: this.enterClass,
-        leaveActiveClass: this.leaveClass
-      }
+      return { name: this.transition || 'q-modal' }
     },
     modalCss () {
       if (this.position) {
@@ -120,7 +153,7 @@ export default {
           ? this.contentCss
           : [this.contentCss]
 
-        css.unshift(extend(
+        css.unshift(Object.assign(
           {},
           positionCSS,
           additionalCSS(this.position)
@@ -135,6 +168,7 @@ export default {
   methods: {
     __dismiss () {
       if (this.noBackdropDismiss) {
+        this.__shake()
         return
       }
       this.hide().then(() => {
@@ -142,38 +176,75 @@ export default {
       })
     },
     __show () {
-      const body = document.body
-
-      body.appendChild(this.$el)
-      if (openedModalNumber === 0) {
-        body.classList.add('with-modal')
+      if (!this.noRefocus) {
+        this.__refocusTarget = document.activeElement
       }
 
+      document.body.appendChild(this.$el)
+      this.__register(true)
+      preventScroll(true)
+
       EscapeKey.register(() => {
-        if (!this.noEscDismiss) {
+        if (this.noEscDismiss) {
+          this.__shake()
+        }
+        else {
           this.hide().then(() => {
             this.$emit('escape-key')
+            this.$emit('dismiss')
           })
         }
       })
 
-      openedModalNumber++
-
-      let content = this.$refs.content
+      const content = this.$refs.content
+      if (this.$q.platform.is.ios) {
+        // workaround the iOS hover/touch issue
+        content.click()
+      }
       content.scrollTop = 0
       ;['modal-scroll', 'layout-view'].forEach(c => {
         [].slice.call(content.getElementsByClassName(c)).forEach(el => {
           el.scrollTop = 0
         })
       })
+      this.$nextTick(() => content && content.focus())
     },
     __hide () {
       EscapeKey.pop()
-      openedModalNumber--
+      preventScroll(false)
+      this.__register(false)
+      !this.noRefocus && this.__refocusTarget && this.__refocusTarget.focus()
+    },
+    __stopPropagation (e) {
+      e.stopPropagation()
+    },
+    __register (opening, maximized = this.maximized, minimized = this.minimized) {
+      let state = opening
+        ? { action: 'add', step: 1 }
+        : { action: 'remove', step: -1 }
 
-      if (openedModalNumber === 0) {
-        document.body.classList.remove('with-modal')
+      if (maximized) {
+        modals.maximized += state.step
+        if (!opening && modals.maximized > 0) {
+          return
+        }
+        document.body.classList[state.action]('q-maximized-modal')
       }
+      else if (!minimized) {
+        modals.responsive += state.step
+        if (!opening && modals.responsive > 0) {
+          return
+        }
+        document.body.classList[state.action]('q-responsive-modal')
+      }
+    },
+    __shake () {
+      this.$el.classList.remove('animate-shake')
+      this.$el.classList.add('animate-shake')
+      clearTimeout(this.shakeTimeout)
+      this.shakeTimeout = setTimeout(() => {
+        this.$el.classList.remove('animate-shake')
+      }, 150)
     }
   },
   mounted () {
@@ -182,9 +253,8 @@ export default {
     }
   },
   beforeDestroy () {
-    if (this.$el.parentNode) {
-      this.$el.parentNode.removeChild(this.$el)
-    }
+    clearTimeout(this.shakeTimeout)
+    this.$el.remove()
   },
   render (h) {
     return h('transition', {
@@ -195,9 +265,11 @@ export default {
         },
         enterCancelled: () => {
           this.showPromise && this.showPromiseReject()
+          this.$el.remove()
         },
         afterLeave: () => {
           this.hidePromise && this.hidePromiseResolve()
+          this.$el.remove()
         },
         leaveCancelled: () => {
           this.hidePromise && this.hidePromiseReject()
@@ -217,18 +289,15 @@ export default {
       }, [
         h('div', {
           ref: 'content',
-          staticClass: 'modal-content scroll',
+          staticClass: 'modal-content',
           style: this.modalCss,
-          'class': this.contentClasses,
+          'class': this.contentClassesCalc,
+          attrs: { tabindex: -1 },
           on: {
-            click (e) {
-              e.stopPropagation()
-            },
-            touchstart (e) {
-              e.stopPropagation()
-            }
+            click: this.__stopPropagation,
+            touchstart: this.__stopPropagation
           }
-        }, [ this.$slots.default ])
+        }, this.$slots.default)
       ])
     ])
   }

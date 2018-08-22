@@ -1,7 +1,7 @@
-import { QIcon } from '../icon'
+import QIcon from '../icon/QIcon.js'
 
 export default {
-  name: 'q-th',
+  name: 'QTh',
   props: {
     props: Object,
     autoWidth: Boolean
@@ -10,13 +10,13 @@ export default {
     if (!this.props) {
       return h('td', {
         'class': { 'q-table-col-auto-width': this.autoWidth }
-      }, [ this.$slots.default ])
+      }, this.$slots.default)
     }
 
     let col
     const
       name = this.$vnode.key,
-      child = [ this.$slots.default ]
+      child = [].concat(this.$slots.default)
 
     if (name) {
       col = this.props.colsMap[name]

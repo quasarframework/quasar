@@ -1,5 +1,4 @@
-import extend from '../../utils/extend'
-import { QCheckbox } from '../checkbox'
+import QCheckbox from '../checkbox/QCheckbox.js'
 
 export default {
   methods: {
@@ -38,7 +37,11 @@ export default {
                 const slot = this.$scopedSlots[`body-cell-${col.name}`]
                 return slot
                   ? slot(this.addBodyCellMetaData({ row, col: col }))
-                  : h('td', { staticClass: col.__tdClass }, this.getCellValue(col, row))
+                  : h('td', {
+                    staticClass: col.__tdClass,
+                    style: col.style,
+                    'class': col.classes
+                  }, this.getCellValue(col, row))
               })
 
           if (this.hasSelectionMode) {
@@ -89,7 +92,7 @@ export default {
       })
 
       data.cols = data.cols.map(col => {
-        const c = extend({}, col)
+        const c = Object.assign({}, col)
         Object.defineProperty(c, 'value', {
           get: () => this.getCellValue(col, data.row)
         })

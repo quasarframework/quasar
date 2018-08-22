@@ -1,6 +1,6 @@
-import { between } from '../../utils/format'
-import { position } from '../../utils/event'
-import TouchPan from '../../directives/touch-pan'
+import { between } from '../../utils/format.js'
+import { position } from '../../utils/event.js'
+import TouchPan from '../../directives/touch-pan.js'
 
 export function getPercentage (event, dragging, rtl) {
   const val = between((position(event).left - dragging.left) / dragging.width, 0, 1)
@@ -59,11 +59,6 @@ export let SliderMixin = {
     readonly: Boolean,
     disable: Boolean
   },
-  data () {
-    return {
-      clickDisabled: false
-    }
-  },
   computed: {
     editable () {
       return !this.disable && !this.readonly
@@ -93,30 +88,52 @@ export let SliderMixin = {
     },
     computedDecimals () {
       return this.decimals !== void 0 ? this.decimals || 0 : (String(this.step).trim('0').split('.')[1] || '').length
+    },
+    computedStep () {
+      return this.decimals !== void 0 ? 1 / Math.pow(10, this.decimals || 0) : this.step
     }
   },
   methods: {
     __pan (event) {
       if (event.isFinal) {
-        this.clickDisabled = true
-        this.$nextTick(() => {
-          this.clickDisabled = false
-        })
-        this.__end(event.evt)
+        if (this.dragging) {
+          this.dragTimer = setTimeout(() => {
+            this.dragging = false
+          }, 100)
+          this.__end(event.evt)
+          this.__update(true)
+        }
       }
       else if (event.isFirst) {
-        this.__setActive(event.evt)
+        clearTimeout(this.dragTimer)
+        this.dragging = this.__getDragging(event.evt)
       }
       else if (this.dragging) {
-        this.__update(event.evt)
+        this.__move(event.evt)
+        this.__update()
+      }
+    },
+    __update (change) {
+      if (JSON.stringify(this.model) === JSON.stringify(this.value)) {
+        return
+      }
+      this.$emit('input', this.model)
+      if (change) {
+        this.$nextTick(() => {
+          if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+            this.$emit('change', this.model)
+          }
+        })
       }
     },
     __click (event) {
-      if (this.clickDisabled) {
-        return
+      if (!this.dragging) {
+        const dragging = this.__getDragging(event)
+        if (dragging) {
+          this.__end(event, dragging)
+          this.__update(true)
+        }
       }
-      this.__setActive(event)
-      this.__end(event)
     },
     __getMarkers (h) {
       if (!this.markers) {

@@ -1,5 +1,5 @@
 export default {
-  name: 'q-td',
+  name: 'QTd',
   props: {
     props: Object,
     autoWidth: Boolean
@@ -8,7 +8,7 @@ export default {
     if (!this.props) {
       return h('td', {
         'class': { 'q-table-col-auto-width': this.autoWidth }
-      }, [ this.$slots.default ])
+      }, this.$slots.default)
     }
 
     let col
@@ -26,6 +26,6 @@ export default {
       'class': [col.__tdClass, {
         'q-table-col-auto-width': this.autoWidth
       }]
-    }, [ this.$slots.default ])
+    }, this.$slots.default)
   }
 }

@@ -1,7 +1,9 @@
-import { QResizeObservable } from '../observables'
+import QResizeObservable from '../observables/QResizeObservable.js'
+import CanRenderMixin from '../../mixins/can-render.js'
 
 export default {
-  name: 'q-layout-header',
+  name: 'QLayoutHeader',
+  mixins: [ CanRenderMixin ],
   inject: {
     layout: {
       default () {
@@ -35,6 +37,11 @@ export default {
     offset (val) {
       this.__update('offset', val)
     },
+    reveal (val) {
+      if (!val) {
+        this.__updateLocal('revealed', this.value)
+      }
+    },
     revealed (val) {
       this.layout.__animate()
       this.$emit('reveal', val)
@@ -52,10 +59,10 @@ export default {
   },
   computed: {
     fixed () {
-      return this.reveal || this.layout.view.indexOf('H') > -1
+      return this.reveal || this.layout.view.indexOf('H') > -1 || this.layout.container
     },
     offset () {
-      if (!this.value) {
+      if (!this.canRender || !this.value) {
         return 0
       }
       if (this.fixed) {
@@ -68,7 +75,7 @@ export default {
       return {
         'fixed-top': this.fixed,
         'absolute-top': !this.fixed,
-        'q-layout-header-hidden': !this.value || (this.fixed && !this.revealed)
+        'q-layout-header-hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
       }
     },
     computedStyle () {
@@ -77,10 +84,10 @@ export default {
         css = {}
 
       if (view[0] === 'l' && this.layout.left.space) {
-        css[`margin${this.$q.i18n.rtl ? 'Right' : 'Left'}`] = `${this.layout.left.size}px`
+        css[this.$q.i18n.rtl ? 'right' : 'left'] = `${this.layout.left.size}px`
       }
       if (view[2] === 'r' && this.layout.right.space) {
-        css[`margin${this.$q.i18n.rtl ? 'Left' : 'Right'}`] = `${this.layout.right.size}px`
+        css[this.$q.i18n.rtl ? 'left' : 'right'] = `${this.layout.right.size}px`
       }
 
       return css
@@ -88,22 +95,29 @@ export default {
   },
   render (h) {
     return h('header', {
-      staticClass: 'q-layout-header q-layout-transition',
+      staticClass: 'q-layout-header q-layout-marginal q-layout-transition',
       'class': this.computedClass,
       style: this.computedStyle
     }, [
-      this.$slots.default,
       h(QResizeObservable, {
+        props: { debounce: 0 },
         on: { resize: this.__onResize }
-      })
+      }),
+      this.$slots.default
     ])
   },
   created () {
+    this.layout.instances.header = this
     this.__update('space', this.value)
+    this.__update('offset', this.offset)
   },
-  destroyed () {
-    this.__update('size', 0)
-    this.__update('space', false)
+  beforeDestroy () {
+    if (this.layout.instances.header === this) {
+      this.layout.instances.header = null
+      this.__update('size', 0)
+      this.__update('offset', 0)
+      this.__update('space', false)
+    }
   },
   methods: {
     __onResize ({ height }) {

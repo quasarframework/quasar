@@ -30,7 +30,7 @@
 
       <q-card inline>
         <q-card-main>
-          {{lorem}}
+          {{ lorem }}
         </q-card-main>
       </q-card>
 
@@ -40,7 +40,7 @@
           <span slot="subtitle">Subtitle</span>
         </q-card-title>
         <q-card-main>
-          {{lorem}}
+          {{ lorem }}
         </q-card-main>
       </q-card>
 
@@ -51,7 +51,7 @@
           <q-icon slot="right" name="alarm" />
         </q-card-title>
         <q-card-main>
-          {{lorem}}
+          {{ lorem }}
         </q-card-main>
         <q-card-separator />
         <q-card-actions>
@@ -81,7 +81,7 @@
           </q-btn>
         </q-card-title>
         <q-card-main>
-          {{lorem}}
+          {{ lorem }}
         </q-card-main>
         <q-card-separator />
         <q-card-actions>
@@ -122,7 +122,7 @@
           <span slot="subtitle">Subtitle</span>
         </q-card-title>
         <q-card-main>
-          {{lorem}}
+          {{ lorem }}
         </q-card-main>
       </q-card>
 
@@ -146,7 +146,7 @@
           </q-card-title>
         </q-card-media>
         <q-card-main>
-          {{lorem}}
+          {{ lorem }}
         </q-card-main>
       </q-card>
 
@@ -304,7 +304,7 @@
           <span slot="subtitle">Subtitle</span>
         </q-card-title>
         <q-card-main>
-          {{lorem}}
+          {{ lorem }}
         </q-card-main>
       </q-card>
 
@@ -313,11 +313,11 @@
           Title
         </q-card-title>
         <q-card-main>
-          {{lorem}}
+          {{ lorem }}
         </q-card-main>
         <q-card-separator inset />
         <q-card-main>
-          {{lorem}}
+          {{ lorem }}
         </q-card-main>
       </q-card>
 
@@ -363,6 +363,7 @@ export default {
 .card-examples
   .q-card
     width 300px
+    margin 0 12px 12px 0
   .bigger
     width 450px
   @media (max-width $breakpoint-xs-max)

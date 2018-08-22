@@ -1,4 +1,4 @@
-import QTooltip from './QTooltip'
+import QTooltip from './QTooltip.js'
 
 export {
   QTooltip

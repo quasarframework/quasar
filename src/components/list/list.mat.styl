@@ -17,25 +17,25 @@
 
 .q-item-letter, .q-item-icon
   font-size $item-icon-size
-.q-item-letter-inverted, .q-item-icon-inverted
+.q-item-inverted
   border-radius 50%
   color white
   background $item-side-color
-.q-item-letter-inverted
-  padding 5px 0
-  text-align center
-.q-item-icon-inverted
-  font-size $item-inverted-icon-size
-  padding 9px
+  height $item-primary-size
+  width $item-primary-size
+  &, .q-icon
+    font-size $item-inverted-icon-size
 
 .q-item-main
   flex 1 1 auto
   min-width 0
 .q-item-main-inset
-  margin-left ($item-gutter + $item-primary-size)
+  margin-left $item-inset
 
-.q-item-label > span
-  color $item-content-secondary-text-color
+.q-item-label
+  line-height 1.2
+  > span
+    color $item-content-secondary-text-color
 .q-item-sublabel
   color $item-content-secondary-text-color
   font-size 90%
@@ -86,7 +86,7 @@
     position absolute
     top 0
     right 0
-    left ($item-padding + $item-gutter + $item-primary-size)
+    left ($item-padding + $item-inset)
     height 1px
     background $item-separator-color
 
@@ -116,22 +116,23 @@
   & + .q-list-header
     margin-top (- $item-padding / 2)
 .q-item-separator-inset-component
-  margin-left ($item-padding + $item-gutter + $item-primary-size)
+  margin-left ($item-padding + $item-inset)
 
 .q-list-header
   color $item-label-color
   font-size 14px
   font-weight 500
-  line-height 48px
-  padding-left $item-padding
+  line-height 18px
+  min-height 48px
+  padding 15px $item-padding
 .q-list-header-inset
-  padding-left ($item-padding + $item-gutter + $item-primary-size)
+  padding-left ($item-padding + $item-inset)
 
 
 .q-list-dark, .q-item-dark
   .q-item-side
     color $item-side-dark-color
-  .q-item-letter-inverted, .q-item-icon-inverted
+  .q-item-inverted
     color black
     background $item-side-dark-color
   .q-item-label > span, .q-item-sublabel

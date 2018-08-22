@@ -1,5 +1,5 @@
 export default {
-  name: 'q-btn-group',
+  name: 'QBtnGroup',
   props: {
     outline: Boolean,
     flat: Boolean,
@@ -17,8 +17,6 @@ export default {
     return h('div', {
       staticClass: 'q-btn-group row no-wrap inline',
       'class': this.classes
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

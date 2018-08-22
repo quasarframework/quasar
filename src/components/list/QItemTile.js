@@ -1,8 +1,8 @@
-import { QIcon } from '../icon'
-import { textStyle } from '../../mixins/item'
+import QIcon from '../icon/QIcon.js'
+import { textStyle } from '../../mixins/item.js'
 
 export default {
-  name: 'q-item-tile',
+  name: 'QItemTile',
   props: {
     icon: String,
     letter: Boolean,
@@ -45,9 +45,10 @@ export default {
       this.textColor && cls.push(`text-${this.textColor}`)
       this.type && cls.push(`q-item-${this.type}`)
 
-      if (this.inverted) {
-        this.icon && cls.push('q-item-icon-inverted')
-        this.letter && cls.push('q-item-letter-inverted')
+      if (this.inverted && (this.icon || this.letter)) {
+        cls.push('q-item-inverted')
+        cls.push('flex')
+        cls.push('flex-center')
       }
 
       if (this.hasLines && (this.lines === '1' || this.lines === 1)) {
@@ -69,9 +70,14 @@ export default {
     }
 
     if (this.icon) {
+      if (this.inverted) {
+        return h(this.tag, data, [
+          h(QIcon, { props: { name: this.icon } }, this.$slots.default)
+        ])
+      }
       data.props = { name: this.icon }
     }
 
-    return h(this.icon ? QIcon : this.tag, data, [ this.$slots.default ])
+    return h(this.icon ? QIcon : this.tag, data, this.$slots.default)
   }
 }

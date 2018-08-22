@@ -32,12 +32,12 @@ export default {
     noData: 'Nema podataka',
     noResults: 'Nema odgovarajućih zapisa',
     loading: 'Učitavanje...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows > 1
         ? rows + ' izabranih redova.'
         : (rows === 0 ? 'Nema' : '1') + ' izabranih redova.'
     },
-    rowsPerPage: 'Redova po stranici:',
+    recordsPerPage: 'Redova po stranici:',
     allRows: 'Sve',
     pagination: function (start, end, total) {
       return start + '-' + end + ' od ' + total

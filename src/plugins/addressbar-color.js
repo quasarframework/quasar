@@ -1,59 +1,70 @@
-import Platform, { isSSR } from './platform'
-import { ready } from '../utils/dom'
-import { rgbToHex } from '../utils/colors'
+import Platform, { isSSR } from './platform.js'
+import { getBrand } from '../utils/colors.js'
 
-function getPrimaryHex () {
-  let tempDiv = document.createElement('div')
-  tempDiv.style.height = '10px'
-  tempDiv.style.position = 'absolute'
-  tempDiv.style.top = '-100000px'
-  tempDiv.className = 'bg-primary'
-  document.body.appendChild(tempDiv)
-  const primaryColor = window.getComputedStyle(tempDiv).getPropertyValue('background-color')
-  document.body.removeChild(tempDiv)
+let metaValue
 
-  const rgb = primaryColor.match(/\d+/g)
-  return `#${rgbToHex(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]))}`
+function getProp () {
+  if (Platform.is.winphone) {
+    return 'msapplication-navbutton-color'
+  }
+  if (Platform.is.safari) {
+    return 'apple-mobile-web-app-status-bar-style'
+  }
+  // Chrome, Firefox OS, Opera, Vivaldi
+  return 'theme-color'
+}
+
+function getMetaTag (v) {
+  const els = document.getElementsByTagName('META')
+  for (let i in els) {
+    if (els[i].name === v) {
+      return els[i]
+    }
+  }
 }
 
 function setColor (hexColor) {
-  // http://stackoverflow.com/a/33193739
-  let metaTag = document.createElement('meta')
+  if (metaValue === void 0) {
+    // cache it
+    metaValue = getProp()
+  }
 
-  if (Platform.is.winphone) {
-    metaTag.setAttribute('name', 'msapplication-navbutton-color')
-  }
-  else if (Platform.is.safari) {
-    metaTag.setAttribute('name', 'apple-mobile-web-app-status-bar-style')
-  }
-  // Chrome, Firefox OS, Opera, Vivaldi
-  else {
-    metaTag.setAttribute('name', 'theme-color')
+  let metaTag = getMetaTag(metaValue)
+  const newTag = metaTag === void 0
+
+  if (newTag) {
+    metaTag = document.createElement('meta')
+    metaTag.setAttribute('name', metaValue)
   }
 
   metaTag.setAttribute('content', hexColor)
-  document.getElementsByTagName('head')[0].appendChild(metaTag)
+
+  if (newTag) {
+    document.head.appendChild(metaTag)
+  }
 }
 
 export default {
-  __installed: false,
-  install ({ $q, Vue }) {
-    if (this.__installed) { return }
-    this.__installed = true
+  install ({ $q, Vue, cfg }) {
+    this.set = !isSSR && Platform.is.mobile && (
+      Platform.is.cordova ||
+      Platform.is.winphone || Platform.is.safari ||
+      Platform.is.webkit || Platform.is.vivaldi
+    )
+      ? hexColor => {
+        const val = hexColor || getBrand('primary')
+
+        if (Platform.is.cordova && window.StatusBar) {
+          window.StatusBar.backgroundColorByHexString(val)
+        }
+        else {
+          setColor(val)
+        }
+      }
+      : () => {}
 
     $q.addressbarColor = this
-  },
 
-  set (hexColor) {
-    if (!Platform.is.mobile || Platform.is.cordova || isSSR) {
-      return
-    }
-    if (!Platform.is.winphone && !Platform.is.safari && !Platform.is.webkit && !Platform.is.vivaldi) {
-      return
-    }
-
-    ready(() => {
-      setColor(hexColor || getPrimaryHex())
-    })
+    cfg.addressbarColor && this.set(cfg.addressbarColor)
   }
 }

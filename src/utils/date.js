@@ -1,8 +1,8 @@
 /* eslint no-fallthrough: 0 */
 
-import { isDate } from './is'
-import { pad, capitalize } from './format'
-import i18n from '../i18n'
+import { isDate } from './is.js'
+import { pad, capitalize } from './format.js'
+import i18n from '../i18n.js'
 
 const
   MILLISECONDS_IN_DAY = 86400000,
@@ -225,7 +225,7 @@ export function inferDateFormat (example) {
   return 'string'
 }
 
-export function convertDateToFormat (date, type) {
+export function convertDateToFormat (date, type, format) {
   if (!date && date !== 0) {
     return
   }
@@ -236,7 +236,7 @@ export function convertDateToFormat (date, type) {
     case 'number':
       return date.getTime()
     default:
-      return formatDate(date)
+      return formatDate(date, format)
   }
 }
 
@@ -271,27 +271,27 @@ export function isSameDate (date, date2, unit) {
 
   switch (unit) {
     case 'second':
-      if (t.getUTCSeconds() !== d.getUTCSeconds()) {
+      if (t.getSeconds() !== d.getSeconds()) {
         return false
       }
     case 'minute': // intentional fall-through
-      if (t.getUTCMinutes() !== d.getUTCMinutes()) {
+      if (t.getMinutes() !== d.getMinutes()) {
         return false
       }
     case 'hour': // intentional fall-through
-      if (t.getUTCHours() !== d.getUTCHours()) {
+      if (t.getHours() !== d.getHours()) {
         return false
       }
     case 'day': // intentional fall-through
-      if (t.getUTCDate() !== d.getUTCDate()) {
+      if (t.getDate() !== d.getDate()) {
         return false
       }
     case 'month': // intentional fall-through
-      if (t.getUTCMonth() !== d.getUTCMonth()) {
+      if (t.getMonth() !== d.getMonth()) {
         return false
       }
     case 'year': // intentional fall-through
-      if (t.getUTCFullYear() !== d.getUTCFullYear()) {
+      if (t.getFullYear() !== d.getFullYear()) {
         return false
       }
       break
@@ -540,4 +540,30 @@ export function matchFormat (format = '') {
 
 export function clone (value) {
   return isDate(value) ? new Date(value.getTime()) : value
+}
+
+export default {
+  isValid,
+  buildDate,
+  getDayOfWeek,
+  getWeekOfYear,
+  isBetweenDates,
+  addToDate,
+  subtractFromDate,
+  adjustDate,
+  startOfDate,
+  endOfDate,
+  getMaxDate,
+  getMinDate,
+  getDateDiff,
+  getDayOfYear,
+  inferDateFormat,
+  convertDateToFormat,
+  getDateBetween,
+  isSameDate,
+  daysInMonth,
+  formatter,
+  formatDate,
+  matchFormat,
+  clone
 }

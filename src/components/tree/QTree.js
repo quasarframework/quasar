@@ -1,11 +1,11 @@
-import { QIcon } from '../icon'
-import { QCheckbox } from '../checkbox'
-import { QSlideTransition } from '../slide-transition'
-import { QSpinner } from '../spinner'
-import Ripple from '../../directives/ripple'
+import QIcon from '../icon/QIcon.js'
+import QCheckbox from '../checkbox/QCheckbox.js'
+import QSlideTransition from '../slide-transition/QSlideTransition.js'
+import QSpinner from '../spinner/QSpinner.js'
+import Ripple from '../../directives/ripple.js'
 
 export default {
-  name: 'q-tree',
+  name: 'QTree',
   directives: {
     Ripple
   },
@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     hasRipple () {
-      return __THEME__ === 'mat' && !this.noRipple
+      return process.env.THEME === 'mat' && !this.noRipple
     },
     classes () {
       return [
@@ -381,14 +381,14 @@ export default {
       if (node.icon) {
         return h(QIcon, {
           staticClass: `q-tree-icon q-mr-sm`,
-          props: { name: node.icon }
+          props: { name: node.icon, color: node.iconColor }
         })
       }
       if (node.img || node.avatar) {
         return h('img', {
           staticClass: `q-tree-img q-mr-sm`,
           'class': { avatar: node.avatar },
-          domProps: { src: node.img || node.avatar }
+          attrs: { src: node.img || node.avatar }
         })
       }
     },
@@ -435,7 +435,7 @@ export default {
             disabled: meta.disabled
           },
           on: { click: () => { this.__onClick(node, meta) } },
-          directives: __THEME__ === 'mat' && meta.selectable
+          directives: process.env.THEME === 'mat' && meta.selectable
             ? [{ name: 'ripple' }]
             : null
         }, [

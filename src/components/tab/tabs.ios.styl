@@ -1,16 +1,15 @@
 .q-tabs
   flex-direction column
+  border-radius $generic-border-radius
+
+.q-layout-marginal .q-tabs
+  border-radius 0
 
 .q-tabs-scroller
   overflow hidden
-  color $tabs-color
 
 .q-tab-pane
   padding $tabs-pane-padding
-  border $tabs-pane-border
-
-.q-tabs-no-pane-border .q-tab-pane
-  border 0
 
 .q-tabs-panes:empty
   display none
@@ -26,24 +25,22 @@
   padding $tabs-padding
   min-height $tabs-min-height
 
-  > .q-icon, .q-tab-label
+  .q-tab-icon, .q-tab-label
     transition transform .2s
-  > .q-icon + .q-tab-label
+  .q-tab-icon-parent + .q-tab-label-parent
     margin-top 3px
 
   .q-chip
-    top 5px
-    right 0
+    top -4px
+    right -10px
     left auto
     min-height auto
-    padding 2px 6px
     color white
     background alpha($dot-color, .75)
 
   &.active
-    > .q-icon, .q-tab-label
-      transform scale(1.1)
     .q-tab-icon, .q-tab-label
+      transform scale(1.1)
       opacity 1
   &:active
     background rgba(255, 255, 255, .3)
@@ -58,14 +55,28 @@
 .q-tab-icon
   font-size $tabs-icon-font-size
 
+.q-tab-focus-helper
+  z-index -1
+  outline 0
+  &:focus
+    z-index unset
+    background currentColor
+    opacity .1
+
 @media (max-width $breakpoint-sm-max)
   .q-tab
-    &.hide-icon .q-tab-icon,
-    &.hide-label .q-tab-label
+    &.hide-icon .q-tab-icon-parent,
+    &.hide-label .q-tab-label-parent
       display none !important
     &.hide-icon .q-tab-label
       font-size $tabs-big-font-size
       margin-top 0
+  .q-tab-full.hide-none .q-tab-label-parent .q-tab-meta
+    display none
+
+@media (min-width $breakpoint-md-min)
+  .q-tab-full .q-tab-label-parent .q-tab-meta
+    display none
 
 @media (max-width $breakpoint-md-max)
   .q-tabs-head:not(.scrollable)
@@ -78,14 +89,13 @@
     padding-right $tabs-big-screen-horiz-padding
   .q-tab-label
     font-size $tabs-big-font-size
-  .q-tabs-head:not(.scrollable)
+  .q-layout-marginal .q-tabs-head:not(.scrollable)
     padding-left $tabs-big-screen-side-padding
     padding-right $tabs-big-screen-side-padding
 
 .q-tabs-head
   min-height $tabs-min-height
   overflow hidden
-  background $tabs-background
   font-size $tabs-font-size
   font-weight $tabs-font-weight
   transition color .18s ease-in, box-shadow .18s ease-in
@@ -137,18 +147,12 @@
   order -1
 
 .q-tabs-inverted
-  background $tabs-inverted-background
   .q-tab
-    &.active
-      color $tabs-background
     &:active
       background rgba(0, 0, 0, .1)
 
-  .q-tabs-scroller
-    color $tabs-inverted-color
-
   .q-tabs-head
-    background transparent
+    background white
 
   &.q-tabs-position-top
     .q-tabs-panes
@@ -167,3 +171,15 @@ body.mobile .q-tabs-scroller
   overflow-x auto
   will-change scroll-position
   -webkit-overflow-scrolling touch
+
+body.desktop .q-tab
+  &:before
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    left 0
+    opacity .1
+    background currentColor
+  &:hover:before
+    content ''

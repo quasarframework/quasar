@@ -5,7 +5,7 @@
     background transparent
 
 .highlight-and-fade
-  animation q-highlight 2s
+  animation q-highlight 2s /* rtl:ignore */
 
 @keyframes q-rotate
   0%
@@ -23,19 +23,23 @@
   transition all .3s
 
 .animate-spin, .animate-spin-reverse
-  animation q-spin 2s infinite linear
+  animation q-spin 2s infinite linear /* rtl:ignore */
 .animate-spin-reverse
   animation-direction reverse
 .animate-blink
-  animation q-blink 1s steps(5, start) infinite
+  animation q-blink 1s steps(5, start) infinite /* rtl:ignore */
 .animate-pop
-  animation q-pop .2s
+  animation q-pop .2s /* rtl:ignore */
 .animate-scale
-  animation q-scale .2s
+  animation q-scale .2s /* rtl:ignore */
 .animate-fade
-  animation q-fade .2s
+  animation q-fade .2s /* rtl:ignore */
 .animate-bounce
-  animation q-bounce 2s infinite
+  animation q-bounce 2s infinite /* rtl:ignore */
+
+.animate-shake
+  animation q-shake .15s
+  animation-timing-function cubic-bezier(.25, .8, .25, 1)
 
 @keyframes q-blink
   to
@@ -79,30 +83,53 @@
   60%
     transform translateY(-15px)
 
+@keyframes q-shake
+  0%
+    transform scale(1)
+  50%
+    transform scale(1.02)
+  100%
+    transform scale(1)
+
 .animate-popup-up, .animate-popup-down
   animation-timing-function cubic-bezier(0.23, 1, 0.32, 1)
+  > *
+    animation q-fade .82s cubic-bezier(.785, .135, .15, .86)
 .animate-popup-down
-  animation q-popup-down .42s
-  transform-origin left top 0px
+  animation q-popup-down .36s /* rtl:ignore */
+  transform-origin left top 0px /* rtl:ignore */
 .animate-popup-up
-  animation q-popup-up .42s
-  transform-origin left bottom 0px
+  animation q-popup-up .36s /* rtl:ignore */
+  transform-origin left bottom 0px /* rtl:ignore */
 
 @keyframes q-popup-down
   0%
     opacity 0
-    transform translateY(-20px) scaleY(.3)
+    transform translateY(-10px) scaleY(.3)
     pointer-events none
-  100%
+  30%
     opacity 1
 
 @keyframes q-popup-up
   0%
     opacity 0
-    transform translateY(20px) scaleY(.3)
+    transform translateY(10px) scaleY(.3)
     pointer-events none
-  100%
+  30%
     opacity 1
+
+.animate-fade-left
+  animation q-fade .36s cubic-bezier(.785, .135, .15, .86), q-slide-left .36s ease
+.animate-fade-right
+  animation q-fade .36s cubic-bezier(.785, .135, .15, .86), q-slide-right .36s ease
+
+@keyframes q-slide-left
+  0%
+    transform translateX(-70%)
+
+@keyframes q-slide-right
+  0%
+    transform translateX(70%)
 
 .animated
   animation-duration 1s

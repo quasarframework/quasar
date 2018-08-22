@@ -1,4 +1,4 @@
-import QActionSheet from './QActionSheet'
+import QActionSheet from './QActionSheet.js'
 
 export {
   QActionSheet

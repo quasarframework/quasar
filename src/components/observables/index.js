@@ -1,6 +1,6 @@
-import QResizeObservable from './QResizeObservable'
-import QScrollObservable from './QScrollObservable'
-import QWindowResizeObservable from './QWindowResizeObservable'
+import QResizeObservable from './QResizeObservable.js'
+import QScrollObservable from './QScrollObservable.js'
+import QWindowResizeObservable from './QWindowResizeObservable.js'
 
 export {
   QResizeObservable,

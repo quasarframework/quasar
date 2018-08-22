@@ -1,5 +1,5 @@
-import { stopAndPrevent } from '../utils/event'
-import TouchSwipe from '../directives/touch-swipe'
+import { stopAndPrevent } from '../utils/event.js'
+import TouchSwipe from '../directives/touch-swipe.js'
 
 export default {
   directives: {
@@ -35,12 +35,8 @@ export default {
       if (this.disable || this.readonly) {
         return
       }
-      if (evt) {
-        stopAndPrevent(evt)
-      }
-      if (blur) {
-        this.$el.blur()
-      }
+      evt && stopAndPrevent(evt)
+      blur && this.$el.blur()
 
       let val
 

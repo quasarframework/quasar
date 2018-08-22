@@ -1,4 +1,5 @@
-$generic-border-radius      ?= 2px
+$generic-border-radius      ?= 3px
+$generic-hover-transition   ?= .3s cubic-bezier(.25, .8, .5, 1)
 $typography-font-family     ?= 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif
 $min-line-height            ?= 1.12
 
@@ -9,21 +10,14 @@ $alert-padding       ?= 12px
 $alert-border-radius ?= $generic-border-radius
 $alert-min-width     ?= 200px
 
-$breadcrumb-radius    ?= $generic-border-radius
-$breadcrumb-height    ?= 34px
-$breadcrumb-separator ?= 15px
-$breadcrumb-primary   ?= $primary
-$breadcrumb-secondary ?= lighten($breadcrumb-primary, 10%)
-$breadcrumb-hover     ?= $tertiary
-$breadcrumb-active    ?= darken($breadcrumb-hover, 15%)
-
 $button-border-radius         ?= $generic-border-radius
 $button-padding               ?= 4px 16px
-$button-dense-padding         ?= 4px
-$button-transition            ?= .3s cubic-bezier(.25, .8, .5, 1)
+$button-dense-padding         ?= .285em
+$button-transition            ?= $generic-hover-transition
 $button-font-size             ?= 14px
 $button-font-weight           ?= 500
 $button-shadow                ?= $shadow-2
+$button-shadow-active         ?= $shadow-8
 $button-rounded-border-radius ?= 28px
 $button-push-border-radius    ?= 7px
 
@@ -43,7 +37,6 @@ $chat-message-received-color     ?= black
 $chat-message-received-bg        ?= $green-4
 $chat-message-sent-color         ?= black
 $chat-message-sent-bg            ?= $grey-4
-
 $chat-message-avatar-size        ?= 48px
 $chat-message-border-radius      ?= $generic-border-radius
 $chat-message-distance           ?= 8px
@@ -63,7 +56,6 @@ $chip-background         ?= $grey-3
 
 $item-dense-factor                 ?= .2
 $item-sparse-factor                ?= 1.4
-
 $item-base-color                   ?= $grey-5
 $item-highlight-color              ?= alpha($item-base-color, 50%)
 $item-stripe-color                 ?= alpha($item-base-color, 65%)
@@ -91,6 +83,14 @@ $item-icon-size                    ?= round($item-primary-size * .63)
 $item-image-size                   ?= round(3 * $item-primary-size)
 $item-font-size                    ?= 1rem
 $item-stamp-font-size              ?= .8rem
+$item-inset                        ?= ($item-gutter + $item-primary-size)
+
+$jumbotron-padding               ?= 2rem 1rem
+$jumbotron-large-padding         ?= 4rem 2rem
+$jumbotron-border-radius         ?= $generic-border-radius
+$jumbotron-bg                    ?= $grey-3
+$jumbotron-dark-bg               ?= $grey-7
+$jumbotron-dark-color            ?= white
 
 $collapsible-padding             ?= 8px 16px
 $collapsible-indent-left-padding ?= ($item-primary-size + $item-gutter)
@@ -103,8 +103,8 @@ $datetime-input-min-width ?= 70px
 $dot-color             ?= $red
 $dot-opacity           ?= .8
 $dot-size              ?= 10px
-$dot-position-top      ?= 10px
-$dot-position-right    ?= 10px
+$dot-position-top      ?= -2px
+$dot-position-right    ?= -10px
 
 $editor-border-color            ?= #ccc
 $editor-border                  ?= 1px solid $editor-border-color
@@ -120,7 +120,7 @@ $field-icon-size        ?= 28px
 $field-label-color      ?= $form-dark
 $field-dark-label-color ?= $form-light
 
-$table-transition               ?= .3s cubic-bezier(.25, .8, .5, 1)
+$table-transition               ?= $generic-hover-transition
 $table-border-radius            ?= $generic-border-radius
 $table-box-shadow               ?= $shadow-2
 
@@ -136,13 +136,34 @@ $table-dark-header-color        ?= rgba(255, 255, 255, .64)
 $table-dark-hover-background    ?= rgba(255, 255, 255, .1)
 $table-dark-selected-background ?= rgba(255, 255, 255, .2)
 
+$input-margin-top            ?= 16px
+$input-margin-bottom         ?= 8px
 
-$input-frame-transition ?= all .45s cubic-bezier(.23, 1, .32, 1)
+$input-font-size       ?= 1rem
+$input-label-top-scale ?= .75
+$input-padding-x       ?= 8px
+$input-padding-top     ?= 25px
+$input-padding-bottom  ?= 7px
+$input-control-size    ?= 24px
+$input-control-margin  ?= 4px
+$input-min-height      ?= $input-control-size
 
-$toolbar-color               ?= white
-$toolbar-background          ?= $primary
-$toolbar-inverted-color      ?= $toolbar-background
-$toolbar-inverted-background ?= $toolbar-color
+$input-hide-underline-padding-top ?= 18px
+
+$input-box-padding-top          ?= $input-padding-top
+$input-box-padding-bottom       ?= $input-padding-bottom
+
+$input-inverted-border-radius  ?= $generic-border-radius
+
+$input-label-transform-base           ?= translate(0, 0)
+$input-label-box-transform-base       ?= translate(0, -21px)
+
+$input-label-transform                ?= translate(0, -100%)
+$input-label-box-transform            ?= translate(0, -125%)
+
+$input-frame-transition        ?= all .45s cubic-bezier(.23, 1, .32, 1), display 0s 0s
+$input-frame-transition-border ?= transform .45s cubic-bezier(.23, 1, .32, 1), border-left-width 0s .45s, border-right-width 0s .45s
+
 $toolbar-min-height          ?= 50px
 $toolbar-padding             ?= 4px 12px
 $toolbar-title-font-size     ?= 18px
@@ -151,11 +172,9 @@ $toolbar-title-font-weight   ?= 500
 $toolbar-title-padding       ?= 0 12px
 
 $layout-aside-background   ?= white
-$layout-aside-left-width   ?= 300px
-$layout-aside-right-width  ?= 300px
-$layout-header-shadow      ?= $shadow-4
-$layout-footer-shadow      ?= $shadow-up-4
-$layout-aside-shadow       ?= $shadow-8
+$layout-header-shadow      ?= $shadow-3
+$layout-footer-shadow      ?= $shadow-up-3
+$layout-aside-shadow       ?= $shadow-5
 
 $loading-background ?= $dimmed-background
 
@@ -177,23 +196,20 @@ $label-offset ?= 8px
 $paralax-text-shadow ?= 0 0 5px white
 
 $popover-background   ?= white
-$popover-box-shadow   ?= $shadow-24
+$popover-box-shadow   ?= $shadow-2
 $popover-max-width    ?= 100vw
 
 $progress-track-height         ?= 5px
 $progress-track-color          ?= currentColor
-$progress-color                ?= $primary
 $progress-track-opacity        ?= .2
 $progress-transition           ?= width .3s linear
 
-$pull-to-refresh-color              ?= $primary
 $pull-to-refresh-font-size          ?= 1rem
 $pull-to-refresh-icon-size          ?= 2rem
 
 $rating-grade-color     ?= $yellow
 $rating-shadow          ?= 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24)
 
-$stepper-color                 ?= $primary
 $stepper-divider-color         ?= rgba(0, 0, 0, .12)
 $stepper-label-color           ?= rgba(0, 0, 0, .56)
 $stepper-label-inactive-color  ?= rgba(0, 0, 0, .42)
@@ -201,13 +217,11 @@ $stepper-hover-background      ?= rgba(0, 0, 0, .05)
 $stepper-pane-padding          ?= 16px
 $stepper-border-radius         ?= $generic-border-radius
 
-$tabs-padding                  ?= 8px
+$tabs-padding                  ?= 8px 10px
 $tabs-big-screen-horiz-padding ?= 25px
 $tabs-min-height               ?= 48px
 $tabs-big-screen-side-padding  ?= 12px
 $tabs-pane-padding             ?= 12px
-$tabs-color                    ?= $toolbar-color
-$tabs-background               ?= $toolbar-background
 $tabs-pane-border              ?= 1px solid rgba(0, 0, 0, .1)
 $tabs-unselected-opacity       ?= .7
 $tabs-font-size                ?= .95rem
@@ -218,6 +232,6 @@ $tabs-border-width             ?= 2px
 
 $tooltip-color         ?= #fafafa
 $tooltip-background    ?= #747474
-$tooltip-box-shadow    ?= $shadow-6
 $tooltip-padding       ?= 10px
 $tooltip-border-radius ?= $generic-border-radius
+$tooltip-fontsize      ?= 12px

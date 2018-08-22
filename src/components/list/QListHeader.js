@@ -1,5 +1,5 @@
 export default {
-  name: 'q-list-header',
+  name: 'QListHeader',
   props: {
     inset: Boolean
   },
@@ -9,8 +9,6 @@ export default {
       'class': {
         'q-list-header-inset': this.inset
       }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

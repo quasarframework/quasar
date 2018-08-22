@@ -1,15 +1,15 @@
-import { QBtn } from '../btn'
-import TouchPan from '../../directives/touch-pan'
-import { cssTransform } from '../../utils/dom'
-import { isNumber } from '../../utils/is'
-import { between, normalizeToInterval } from '../../utils/format'
-import { start, stop } from '../../utils/animate'
-import { decelerate, standard } from '../../utils/easing'
-import { getEventKey } from '../../utils/event'
-import FullscreenMixin from '../../mixins/fullscreen'
+import QBtn from '../btn/QBtn.js'
+import TouchPan from '../../directives/touch-pan.js'
+import { cssTransform } from '../../utils/dom.js'
+import { isNumber } from '../../utils/is.js'
+import { between, normalizeToInterval } from '../../utils/format.js'
+import { start, stop } from '../../utils/animate.js'
+import { decelerate, standard } from '../../utils/easing.js'
+import { getEventKey } from '../../utils/event.js'
+import FullscreenMixin from '../../mixins/fullscreen.js'
 
 export default {
-  name: 'q-carousel',
+  name: 'QCarousel',
   mixins: [FullscreenMixin],
   directives: {
     TouchPan
@@ -38,7 +38,13 @@ export default {
       default: 'bottom',
       validator: v => ['top', 'bottom'].includes(v)
     },
-    quickNavIcon: String
+    quickNavIcon: String,
+    thumbnails: {
+      type: Array,
+      default: () => ([])
+    },
+    thumbnailsIcon: String,
+    thumbnailsHorizontal: Boolean
   },
   provide () {
     return {
@@ -51,7 +57,8 @@ export default {
       slide: 0,
       positionSlide: 0,
       slidesNumber: 0,
-      animUid: false
+      animUid: false,
+      viewThumbnails: false
     }
   },
   watch: {
@@ -119,6 +126,9 @@ export default {
         canGoToNext: this.canGoToNext,
         canGoToPrevious: this.canGoToPrevious
       }
+    },
+    computedThumbnailIcon () {
+      return this.thumbnailsIcon || this.$q.icon.carousel.thumbnails
     }
   },
   methods: {
@@ -133,7 +143,7 @@ export default {
         : Promise.resolve()
     },
     goToSlide (slide, fromSwipe = false) {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         let
           direction = '',
           curSlide = this.slide,
@@ -335,9 +345,7 @@ export default {
               color: this.color
             },
             on: {
-              click: () => {
-                this.goToSlide(i)
-              }
+              click: () => { this.goToSlide(i) }
             }
           }))
         }
@@ -347,6 +355,61 @@ export default {
         staticClass: 'q-carousel-quick-nav scroll text-center',
         'class': [`text-${this.color}`, `absolute-${this.quickNavPosition}`]
       }, items)
+    },
+    __getThumbnails (h) {
+      const slides = this.thumbnails.map((img, index) => {
+        if (!img) {
+          return
+        }
+
+        return h('div', {
+          on: {
+            click: () => { this.goToSlide(index) }
+          }
+        }, [
+          h('img', {
+            attrs: { src: img },
+            'class': { active: this.slide === index }
+          })
+        ])
+      })
+
+      const nodes = [
+        h(QBtn, {
+          staticClass: 'q-carousel-thumbnail-btn absolute',
+          props: {
+            icon: this.computedThumbnailIcon,
+            fabMini: true,
+            flat: true,
+            color: this.color
+          },
+          on: {
+            click: () => {
+              this.viewThumbnails = !this.viewThumbnails
+            }
+          }
+        }),
+        h('div', {
+          staticClass: 'q-carousel-thumbnails scroll absolute-bottom',
+          'class': { active: this.viewThumbnails }
+        }, [h('div', {
+          staticClass: 'row gutter-xs',
+          'class': this.thumbnailsHorizontal ? 'no-wrap' : 'justify-center'
+        }, slides)])
+      ]
+
+      if (this.viewThumbnails) {
+        nodes.unshift(
+          h('div', {
+            staticClass: 'absolute-full',
+            on: {
+              click: () => { this.viewThumbnails = false }
+            }
+          })
+        )
+      }
+
+      return nodes
     }
   },
   render (h) {
@@ -378,9 +441,9 @@ export default {
             'infinite-right': this.infiniteRight
           }
         }, [
-          h('div', { staticClass: 'q-carousel-slide', style: `flex: 0 0 ${100}%`, directives: [{ name: 'show', value: this.infiniteRight }] }),
+          this.infiniteRight ? h('div', { staticClass: 'q-carousel-slide', style: `flex: 0 0 ${100}%` }) : null,
           this.$slots.default,
-          h('div', { staticClass: 'q-carousel-slide', style: `flex: 0 0 ${100}%`, directives: [{ name: 'show', value: this.infiniteLeft }] })
+          this.infiniteLeft ? h('div', { staticClass: 'q-carousel-slide', style: `flex: 0 0 ${100}%` }) : null
         ])
       ]),
       this.arrows ? h(QBtn, {
@@ -397,6 +460,9 @@ export default {
       }) : null,
       this.__getQuickNav(h),
       this.__getScopedSlots(h),
+      this.thumbnails.length
+        ? this.__getThumbnails(h)
+        : null,
       this.$slots.control
     ])
   },

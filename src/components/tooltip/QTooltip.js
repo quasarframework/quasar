@@ -1,17 +1,18 @@
-import { debounce } from '../../utils/debounce'
-import { getScrollTarget } from '../../utils/scroll'
+import debounce from '../../utils/debounce.js'
+import { getScrollTarget } from '../../utils/scroll.js'
 import {
   positionValidator,
   offsetValidator,
   parsePosition,
   setPosition
-} from '../../utils/popup'
-import ModelToggleMixin from '../../mixins/model-toggle'
-import { listenOpts } from '../../utils/event'
+} from '../../utils/popup.js'
+import ModelToggleMixin from '../../mixins/model-toggle.js'
+import { listenOpts } from '../../utils/event.js'
+import CanRenderMixinMixin from '../../mixins/can-render.js'
 
 export default {
-  name: 'q-tooltip',
-  mixins: [ModelToggleMixin],
+  name: 'QTooltip',
+  mixins: [ModelToggleMixin, CanRenderMixinMixin],
   props: {
     anchor: {
       type: String,
@@ -67,7 +68,8 @@ export default {
 
       this.scrollTarget.removeEventListener('scroll', this.hide, listenOpts.passive)
       window.removeEventListener('resize', this.__debouncedUpdatePosition, listenOpts.passive)
-      document.body.removeChild(this.$el)
+      this.$el.remove()
+
       if (this.$q.platform.is.mobile) {
         document.body.removeEventListener('click', this.hide, true)
       }
@@ -95,16 +97,13 @@ export default {
     }
   },
   render (h) {
-    return h('span', {
-      staticClass: 'q-tooltip animate-popup',
-      style: this.transformCSS
-    }, [
-      h('div', [
-        this.$slots.default
-      ])
+    if (!this.canRender) { return }
+
+    return h('div', { staticClass: 'q-tooltip animate-popup' }, [
+      h('div', this.$slots.default)
     ])
   },
-  created () {
+  beforeMount () {
     this.__debouncedUpdatePosition = debounce(() => {
       this.__updatePosition()
     }, 70)

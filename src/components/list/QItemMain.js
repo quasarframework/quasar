@@ -1,4 +1,4 @@
-import { textStyle } from '../../mixins/item'
+import { textStyle } from '../../mixins/item.js'
 
 function text (h, name, val, n) {
   n = parseInt(n, 10)
@@ -9,7 +9,7 @@ function text (h, name, val, n) {
 }
 
 export default {
-  name: 'q-item-main',
+  name: 'QItemMain',
   props: {
     label: String,
     labelLines: [String, Number],
@@ -22,7 +22,7 @@ export default {
     }
   },
   render (h) {
-    return h('div', {
+    return h(this.tag, {
       staticClass: 'q-item-main q-item-section',
       'class': {
         'q-item-main-inset': this.inset

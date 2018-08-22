@@ -2,7 +2,7 @@
   <div>
     <div class="layout-padding" :class="`bg-${dark ? 'black' : 'white'}${dark ? ' text-white' : ''}`">
       <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{checked}}</em></span>
+        Model <span class="right-detail"><em>{{ checked }}</em></span>
       </div>
       <q-toggle v-model="dark" label="Dark" />
       <q-toggle v-model="keepColor" label="Keep Color" />
@@ -12,7 +12,7 @@
       <q-checkbox v-model="checked" checked-icon="visibility" unchecked-icon="visibility_off" style="margin-left: 50px" :dark="dark" :keep-color="keepColor" />
 
       <p class="caption">Indeterminate</p>
-      <q-checkbox v-model="indModel" toggleIndeterminate :dark="dark" :keep-color="keepColor" label="Tap me to change between 3 states" />
+      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :keep-color="keepColor" label="Tap me to change between 3 states" />
 
       <p class="caption">Tests</p>
       <q-checkbox @change="onChange" @input="onInput" v-model="checked" :dark="dark" :keep-color="keepColor" />
@@ -35,7 +35,7 @@
 
       <p class="caption">Array Model</p>
       <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{selection}}</em></span>
+        Model <span class="right-detail"><em>{{ selection }}</em></span>
       </div>
 
       <q-checkbox @change="onChange" v-model="selection" val="one" label="One" :dark="dark" :keep-color="keepColor" />
@@ -46,7 +46,7 @@
 
       <br><br>
       <div class="label bg-secondary text-white">
-        Custom true/false model value: <span class="right-detail"><em>{{customChecked}}</em></span>
+        Custom true/false model value: <span class="right-detail"><em>{{ customChecked }}</em></span>
       </div>
       <q-checkbox v-model="customChecked" true-value="Custom Active" false-value="Custom Not Active" :dark="dark" :keep-color="keepColor" label="Tap me" />
 
@@ -101,7 +101,7 @@
       <q-list link>
         <q-item tag="label">
           <q-item-side>
-            <q-checkbox @change="onChange" v-model="checked" :dark="dark" :keep-color="keepColor"></q-checkbox>
+            <q-checkbox @change="onChange" v-model="checked" :dark="dark" :keep-color="keepColor"/>
           </q-item-side>
           <q-item-main>
             <q-item-tile title>Notification</q-item-tile>
@@ -109,7 +109,7 @@
         </q-item>
         <q-item tag="label">
           <q-item-side>
-            <q-checkbox @change="onChange" v-model="checked" :dark="dark" :keep-color="keepColor"></q-checkbox>
+            <q-checkbox @change="onChange" v-model="checked" :dark="dark" :keep-color="keepColor"/>
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Notification</q-item-tile>
@@ -118,7 +118,7 @@
         </q-item>
         <q-item tag="label">
           <q-item-side>
-            <q-checkbox @change="onChange" v-model="checked" :dark="dark" :keep-color="keepColor"></q-checkbox>
+            <q-checkbox @change="onChange" v-model="checked" :dark="dark" :keep-color="keepColor"/>
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Notification</q-item-tile>

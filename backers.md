@@ -1,8 +1,10 @@
 Quasar Framework is an MIT licensed open source project and completely free to use. However, the amount of effort needed to maintain and develop new features for the project is not sustainable without some financial backing.
 
-## Platinum sponsor:
+## Platinum sponsors:
 
 [![Truelogic](https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/truelogic.png)](http://truelogic.com)
+
+[![Taylored Technology](https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/d589296b/taylored-technology.jpeg)](https://www.tayloredtechnology.net/)
 
 # Backers
 
@@ -26,6 +28,14 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 <a href="http://www.kalisio.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/kalisio.png" width="200px"></a>
 
+<img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/d589296b/kpa-productions.png" width="200px">
+
+<a href="http://platformpurple.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/592beec0/platform-purple.png" width="200px"></a>
+
+<a href="http://www.bgasoft.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/3e1d0d43/bgasoft.png" width="200px"></a>
+
+- Mark Crady
+
 ---
 
 ### $50+
@@ -33,10 +43,11 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Colin Mollenhour
 - ShipStream.io
 - MG Papelaria (company)
-- Moacir Schmidt
 - Evan Leonardi
 - Max Matteo Staack
 - Bobby Ross
+- Netanel Edri
+- Edinei Cipriani
 
 ---
 
@@ -44,20 +55,18 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
-- Edinei Cipriani ($25)
-- Anca-Anamaria Enache ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
 - Pawel Rakowski ($20)
 - Stephen Clarke ($20)
+- Ciprian Popa ($20)
+- Shone Radulovic ($15)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
 - Marek Urbanowicz
-- Samuel Lin
 - Matsumoto Takamasa
 - Josh Bodine
 - William Marques Vicente Gomes Correa
-- Samuel Desconsi
 - John (JCharante)
 - Florent Peyrard
 - Jacob Heruty
@@ -66,21 +75,16 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Simon Hedberg
 - Saloustros Marios
 - Guilherme S L de Souza
-- Jim O'Quinn
 - Bert Jehoul
 - Derrick Bass
-- Catalin Rogojeanu
 - William Correa
-- PHPZM
 - Klemens Witting
 - Jochen Geiger
-- Rok Kogovšek
 - Josh Torres
 - Stian Mikkelsen
 - Thomas Gick
 - Alexey Telyatnikov
 - Ryan Timmins
-- Asif Mehedi
 - Sevenview Studios
 - Rus Brushkoff
 - Scott Brooks
@@ -88,14 +92,41 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Borut
 - Thibaut Renoncourt
 - Benoit Ranque
+- Brian J Petersen
+- Felipe Santiago
+- Heitor Ribeiro
+- Allan Gaunt
+- Kévin Marrec
+- 良平 勝目
+- Jörg Walter
+- Alex Pereira Vieira
+- Ruan de Andrade
+- Tanner Faulkner
+- Luca Borghini
+- Christian Kyony
+- Talles Dantas
+- Mast
+- 上田 進也 (Sandbox Gmbh)
+- altShiftDev
+- Simon Kimber
+- Arjan Dhupia
+- Stephan Kobald
+- Yatima Kagurazaka
+- Matyáš Racek
+- Martin Thompson
+- David Urbansky
+- Sustained
+- Chad Shryock
+- Ross Ball
 
+- Jim O'Quinn ($5)
 - Ken ($5)
-- Oliver ($5)
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
-- Robson Martins ($2.5)
+- Walison Moreira ($5)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
+- Shawn Taylor ($1)
 
 ---
 
@@ -105,7 +136,9 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jurgen Hollfelder 500 EUR
 - Robert Preston $250
 - Remo Laubacher $200
+- Egor Molodov $200
 - Max Matteo Staack 150 EUR
+- Max Matteo Staack $123
 - Musicformellons $100
 - Kyle Tippetts $100 (x2)
 - Gerard Eviston $50
@@ -113,3 +146,5 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Polaris Microsystems, L.L.C. $50
 - Jochen Geiger $50
 - Martin Beaudet $30
+- Jomo Daniels $30
+- Daniel Connell $20

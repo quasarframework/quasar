@@ -1,7 +1,10 @@
 export default {
-  name: 'q-toolbar',
+  name: 'QToolbar',
   props: {
-    color: String,
+    color: {
+      type: String,
+      default: 'primary'
+    },
     textColor: String,
     inverted: Boolean,
     glossy: Boolean
@@ -12,17 +15,12 @@ export default {
 
       this.glossy && cls.push('glossy')
 
-      if (this.color) {
-        if (this.inverted) {
-          cls.push(`text-${this.textColor || this.color}`)
-        }
-        else {
-          cls.push(`bg-${this.color}`)
-          cls.push(`text-${this.textColor || 'white'}`)
-        }
+      if (this.inverted) {
+        cls.push(`text-${this.textColor || this.color}`)
       }
-      else if (this.textColor) {
-        cls.push(`text-${this.textColor}`)
+      else {
+        cls.push(`bg-${this.color}`)
+        cls.push(`text-${this.textColor || 'white'}`)
       }
 
       return cls
@@ -32,8 +30,6 @@ export default {
     return h('div', {
       staticClass: 'q-toolbar row no-wrap items-center relative-position',
       'class': this.classes
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

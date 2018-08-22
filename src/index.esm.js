@@ -1,17 +1,22 @@
-import install from './install'
-import { version } from '../package.json'
+import VuePlugin from './vue-plugin.js'
 
-export * from './components'
-export * from './directives'
-export * from './plugins'
-export * from './utils'
-import i18n from './i18n'
-import icons from './icons'
+import * as components from './components.js'
+import * as directives from './directives.js'
+import * as plugins from './plugins.js'
+
+export * from './components.js'
+export * from './directives.js'
+export * from './plugins.js'
+export * from './utils.js'
 
 export default {
-  version,
-  install,
-  i18n,
-  icons,
-  theme: __THEME__
+  ...VuePlugin,
+  install (Vue, opts) {
+    VuePlugin.install(Vue, {
+      components,
+      directives,
+      plugins,
+      ...opts
+    })
+  }
 }

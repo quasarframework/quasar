@@ -3,7 +3,6 @@
   border 0
   vertical-align middle
   cursor pointer
-  -webkit-appearance button
   padding $button-padding
   font-size $button-font-size
   text-decoration none
@@ -14,6 +13,10 @@
   box-shadow $button-shadow
   font-weight $button-font-weight
   text-transform uppercase
+  button&
+    -webkit-appearance button
+  a&
+    display inline-flex
   .q-icon, .q-spinner
     font-size 1.4em
   // workaround for alignment/sizing change when showing loader
@@ -39,7 +42,8 @@
       z-index -1
       transition $button-transition
     &:active:before
-      box-shadow $shadow-8
+    &.active:before
+      box-shadow $button-shadow-active
 
 .q-btn-progress
   transition all .3s
@@ -54,9 +58,6 @@
 .q-btn-rectangle
   border-radius $button-border-radius
 
-.q-btn-flat, .q-btn-outline
-  box-shadow none
-
 .q-btn-outline
   border 1px solid currentColor
   background transparent !important
@@ -65,9 +66,13 @@
   border-radius $button-push-border-radius
   border-bottom 3px solid rgba(0, 0, 0, .15)
   &:active:not(.disabled)
+  &.active:not(.disabled)
     box-shadow none
     transform translateY(3px)
     border-bottom-color transparent
+  .q-focus-helper, .q-ripple-container
+    height auto
+    bottom -3px
 
 .q-btn-rounded
   border-radius $button-rounded-border-radius
@@ -78,11 +83,12 @@
   min-height 0
   height 3em
   width 3em
-  &:not(.q-btn-flat):not(.q-btn-outline)
-    box-shadow $button-shadow
+
+.q-btn-flat, .q-btn-outline
+  box-shadow none
 
 .q-btn-dense
-  padding .285em
+  padding $button-dense-padding
   min-height 2em
   &.q-btn-round
     padding 0

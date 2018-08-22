@@ -1,5 +1,5 @@
 export default {
-  name: 'q-item-separator',
+  name: 'QItemSeparator',
   props: {
     inset: Boolean
   },
@@ -9,8 +9,6 @@ export default {
       'class': {
         'q-item-separator-inset-component': this.inset
       }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

@@ -50,6 +50,11 @@
       </q-collapsible>
     </q-list>
 
+    <p class="caption">On dark Background</p>
+    <q-collapsible dark class="bg-dark" icon="shopping_cart" label="Toggle by right-side icon only" icon-toggle>
+      <div class="text-white">{{ lorem }}</div>
+    </q-collapsible>
+
     <p class="caption">Multiline</p>
     <q-list inset-separator>
       <q-collapsible icon="mail" label="Inbox" sublabel="5 unread emails">
@@ -75,7 +80,7 @@
 
     <p class="caption">Menu</p>
     <q-list separator>
-      <q-collapsible indent icon="mail" label="Inbox" sublabel="5 unread emails" opened>
+      <q-collapsible to="/" exact indent icon="mail" label="Inbox" sublabel="5 unread emails" opened>
 
         <q-collapsible indent icon="receipt" label="Receipts">
 

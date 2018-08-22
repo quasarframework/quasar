@@ -32,10 +32,10 @@
 <style lang="stylus">
 .play-backtotop
   color white
-  position fixed
   left 0
   top 30%
   padding 15px
+  cursor pointer
   background-color rgba(0, 0, 0, .8)
   border-radius 0 15px 15px 0
 </style>

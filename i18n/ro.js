@@ -32,12 +32,12 @@ export default {
     noData: 'Nu sunt date disponibile',
     noResults: 'Nu am găsit înregistrări care să corespundă',
     loading: 'Se încarcă...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows > 1
-        ? rows + ' rânduri selectate.'
-        : (rows === 0 ? 'Nici un' : '1') + ' rând selectat.'
+        ? rows + ' înregistrări selectate.'
+        : (rows === 0 ? 'Nici o' : '1') + ' înregistrare selectată.'
     },
-    rowsPerPage: 'Rânduri pe pagină:',
+    recordsPerPage: 'Înregistrări pe pagină:',
     allRows: 'Toate',
     pagination: function (start, end, total) {
       return start + '-' + end + ' din ' + total

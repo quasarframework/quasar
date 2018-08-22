@@ -1,5 +1,5 @@
 export default {
-  name: 'q-card-separator',
+  name: 'QCardSeparator',
   props: {
     inset: Boolean
   },
@@ -7,8 +7,6 @@ export default {
     return h('div', {
       staticClass: 'q-card-separator',
       'class': { inset: this.inset }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

@@ -108,13 +108,13 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-sm-8">col-sm-8</div>
-        <div class="col-sm-4">col-sm-4</div>
+        <div class="col-xs-12 col-sm-8">col-sm-8</div>
+        <div class="col-xs-12 col-sm-4">col-sm-4</div>
       </div>
       <div class="row">
-        <div class="col-sm">col-sm</div>
-        <div class="col-sm">col-sm</div>
-        <div class="col-sm">col-sm</div>
+        <div class="col-xs-12 col-sm">col-sm</div>
+        <div class="col-xs-12 col-sm">col-sm</div>
+        <div class="col-xs-12 col-sm">col-sm</div>
       </div>
     </div>
 
@@ -138,6 +138,11 @@
       <div class="row">
         <div class="col-6">.col-6</div>
         <div class="col-6">.col-6</div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-8 col-md-auto col-lg-6">.col-xs-8 .col-md-auto .col-lg-6</div>
+        <div class="col-xs-4 col-md col-lg-6">.col-xs-4 .col-md .col-lg-6</div>
       </div>
     </div>
 
@@ -250,7 +255,6 @@
       </div>
     </div>
 
-
     <div class="container">
       <div class="row">
         <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
@@ -335,34 +339,29 @@
     <div class="container">
       <div class="row">
         <div class="col-7">
-            <div class="row">
-              <div class="col-9">
-                  <div class="row">
-                    <div class="col-4">
-                    </div>
-                    <div class="col-8">
-                    </div>
-                  </div>
-              </div>
-              <div class="col-3">
-                  <div class="row">
-                    <div class="col">
-                    </div>
-                  </div>
+          <div class="row">
+            <div class="col-9">
+              <div class="row">
+                <div class="col-4"/>
+                <div class="col-8"/>
               </div>
             </div>
+            <div class="col-3">
+              <div class="row">
+                <div class="col"/>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-5">
-            <div class="row">
-              <div class="col-12">
-                  <div class="row">
-                    <div class="col-6">
-                    </div>
-                    <div class="col-4">
-                    </div>
-                  </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-6"/>
+                <div class="col-4"/>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -383,5 +382,6 @@
     margin-top 1rem
   .example-minheight .row
     min-height 5rem
+    height 0px
     background rgba(255,0,0,.1)
 </style>

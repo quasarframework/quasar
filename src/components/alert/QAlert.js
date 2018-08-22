@@ -1,8 +1,8 @@
-import { QIcon } from '../icon'
-import { QBtn } from '../btn'
+import QIcon from '../icon/QIcon.js'
+import QBtn from '../btn/QBtn.js'
 
 export default {
-  name: 'q-alert',
+  name: 'QAlert',
   props: {
     type: {
       type: String,
@@ -30,13 +30,15 @@ export default {
     }
   },
   render (h) {
-    const side = []
+    const
+      side = [],
+      detail = this.$slots.detail || this.detail
 
     if (this.avatar) {
       side.push(
         h('img', {
           staticClass: 'avatar',
-          domProps: { src: this.avatar }
+          attrs: { src: this.avatar }
         })
       )
     }
@@ -60,7 +62,7 @@ export default {
           staticClass: 'q-alert-content col self-center'
         }, [
           h('div', this.$slots.default || this.message),
-          this.detail ? h('div', { staticClass: 'q-alert-detail' }, [ this.detail ]) : null
+          detail ? h('div', { staticClass: 'q-alert-detail' }, [ detail ]) : null
         ]),
         this.actions && this.actions.length
           ? h('div', {

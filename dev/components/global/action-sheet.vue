@@ -33,6 +33,7 @@
       @show="onShow"
       @hide="onHide"
       @cancel="onCancel"
+      @escape-key="onEscape"
       @ok="onOk"
       title="Action Sheet"
       :actions="[
@@ -109,6 +110,9 @@ export default {
     },
     onCancel (data) {
       console.log('onCancel', data)
+    },
+    onEscape (data) {
+      console.log('onEscape', data)
     },
     onHide (data) {
       console.log('onHide', data)

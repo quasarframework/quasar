@@ -29,7 +29,8 @@ export default {
   carousel: {
     left: 'mdi-chevron-left',
     right: 'mdi-chevron-right',
-    quickNav: 'mdi-circle'
+    quickNav: 'mdi-circle',
+    thumbnails: 'mdi-view-carousel'
   },
   checkbox: {
     checked: {
@@ -52,7 +53,7 @@ export default {
     add: 'mdi-send'
   },
   collapsible: {
-    icon: 'mdi-chevron-down'
+    icon: 'mdi-menu-down'
   },
   datetime: {
     arrowLeft: 'mdi-chevron-left',

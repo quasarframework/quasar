@@ -11,9 +11,8 @@
   outline 0
   padding 0
   background transparent
-  min-height 18px
+  line-height $input-control-size
   font-size inherit
-  overflow hidden
   resize none
   display flex
   align-items center
@@ -31,11 +30,17 @@
   &:invalid
     box-shadow inherit
 
+.q-input-target:before
+  content '|'
+  line-height $input-control-size
+  width 0
+  color transparent
+
 input.q-input-target
-  height 19px
+  height $input-control-size
   outline 0
-.q-input-chips
-  min-height 36px !important
+  display inline-block
+  -webkit-appearance none
 
 .q-if
   .q-input-target-placeholder
@@ -48,10 +53,6 @@ input.q-input-target
     &:-ms-input-placeholder /* IE 10+ */
       color $form-dark !important
 
-    &::selection
-      background black
-      color white
-
 .q-if-dark
   .q-input-target-placeholder
     color #979797 !important
@@ -62,10 +63,6 @@ input.q-input-target
       color #979797 !important
     &:-ms-input-placeholder /* IE 10+ */
       color #979797 !important
-
-    &::selection
-      background white
-      color black
 
 .q-if-inverted:not(.q-if-inverted-light)
   .q-input-target-placeholder
@@ -78,12 +75,9 @@ input.q-input-target
     &:-ms-input-placeholder /* IE 10+ */
       color #ddd !important
 
-    &::selection
-      background white
-      color black
-
 .q-input-shadow
   overflow hidden
   visibility hidden
   pointer-events none
   height auto
+  width 100% !important

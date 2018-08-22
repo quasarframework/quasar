@@ -20,13 +20,13 @@
             <q-input v-model="filter" stack-label="Filter" />
           </div>
           <div class="col-6 scroll" style="height: 6em;">
-            <span class="text-bold">Ticked</span>:<br>{{ticked}}
+            <span class="text-bold">Ticked</span>:<br>{{ ticked }}
           </div>
           <div class="col-6 scroll" style="height: 6em;">
-            <span class="text-bold">Expanded</span>:<br>{{expanded}}
+            <span class="text-bold">Expanded</span>:<br>{{ expanded }}
           </div>
           <div v-if="selectableNodes" class="col-xs-12 col-md-6">
-            <span class="text-bold">Selected</span>:<br>{{selected}}
+            <span class="text-bold">Selected</span>:<br>{{ selected }}
           </div>
           <div class="col-xs-12 col-md-6">
             <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
@@ -61,13 +61,13 @@
           <div slot="header-custom" slot-scope="prop" class="row items-center">
             <q-icon :name="prop.node.icon" size="32px" class="q-mr-sm" />
             <div>
-              {{prop.node.label}} <q-chip color="red">New</q-chip>
+              {{ prop.node.label }} <q-chip color="red">New</q-chip>
               <br>Wooooow. Custom
             </div>
           </div>
 
           <div slot="body-2-1-2-1" slot-scope="prop">
-            Content for: {{prop.key}}
+            Content for: {{ prop.key }}
           </div>
         </q-tree>
       </div>
@@ -113,6 +113,7 @@ export default {
         {
           label: 'Node 1 - filter',
           icon: 'alarm',
+          iconColor: 'red',
           children: [
             {
               label: 'Node 1.1 - accordion test on children',

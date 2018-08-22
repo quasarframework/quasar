@@ -1,8 +1,8 @@
-import { RouterLinkMixin, routerLinkEvent, routerLinkEventName } from '../../utils/router-link'
-import TabMixin from './tab-mixin'
+import { RouterLinkMixin, routerLinkEvent, routerLinkEventName } from '../../utils/router-link.js'
+import TabMixin from './tab-mixin.js'
 
 export default {
-  name: 'q-route-tab',
+  name: 'QRouteTab',
   mixins: [TabMixin, RouterLinkMixin],
   inject: {
     selectTabRouter: {}
@@ -35,13 +35,13 @@ export default {
       })
     }
   },
-  created () {
+  mounted () {
     this.checkIfSelected()
   },
   render (h) {
     return h('router-link', {
       props: {
-        tag: 'div',
+        tag: 'a',
         to: this.to,
         exact: this.exact,
         append: this.append,
@@ -50,12 +50,16 @@ export default {
         activeClass: 'q-router-link-active',
         exactActiveClass: 'q-router-link-exact-active'
       },
-      nativeOn: {
-        click: this.select
+      attrs: {
+        tabindex: -1
       },
-      staticClass: 'q-tab column flex-center relative-position',
+      nativeOn: {
+        click: this.select,
+        keyup: e => e.keyCode === 13 && this.select(e)
+      },
+      staticClass: 'q-link q-tab column flex-center relative-position',
       'class': this.classes,
-      directives: __THEME__ === 'mat'
+      directives: process.env.THEME === 'mat'
         ? [{ name: 'ripple' }]
         : null
     }, this.__getTabContent(h))

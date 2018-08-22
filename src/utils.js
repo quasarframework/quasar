@@ -1,18 +1,19 @@
-import * as animate from './utils/animate'
-import clone from './utils/clone'
-import * as colors from './utils/colors'
-import * as date from './utils/date'
-import { debounce, frameDebounce } from './utils/debounce'
-import * as dom from './utils/dom'
-import * as easing from './utils/easing'
-import * as event from './utils/event'
-import extend from './utils/extend'
-import filter from './utils/filter'
-import * as format from './utils/format'
-import openURL from './utils/open-url'
-import * as scroll from './utils/scroll'
-import throttle from './utils/throttle'
-import uid from './utils/uid'
+import animate from './utils/animate.js'
+import clone from './utils/clone.js'
+import colors from './utils/colors.js'
+import date from './utils/date.js'
+import debounce from './utils/debounce.js'
+import dom from './utils/dom.js'
+import easing from './utils/easing.js'
+import event from './utils/event.js'
+import extend from './utils/extend.js'
+import filter from './utils/filter.js'
+import format from './utils/format.js'
+import frameDebounce from './utils/frame-debounce.js'
+import openURL from './utils/open-url.js'
+import scroll from './utils/scroll.js'
+import throttle from './utils/throttle.js'
+import uid from './utils/uid.js'
 
 function noop () {}
 
@@ -22,13 +23,13 @@ export {
   colors,
   date,
   debounce,
-  frameDebounce,
   dom,
   easing,
   event,
   extend,
   filter,
   format,
+  frameDebounce,
   noop,
   openURL,
   scroll,

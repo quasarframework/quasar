@@ -1,4 +1,4 @@
-import QProgress from './QProgress'
+import QProgress from './QProgress.js'
 
 export {
   QProgress

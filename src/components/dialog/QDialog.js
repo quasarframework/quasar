@@ -1,12 +1,12 @@
-import { QModal } from '../modal'
-import { QInput } from '../input'
-import { QBtn } from '../btn'
-import { QOptionGroup } from '../option-group'
-import clone from '../../utils/clone'
-import extend from '../../utils/extend'
+import QModal from '../modal/QModal.js'
+import QInput from '../input/QInput.js'
+import QBtn from '../btn/QBtn.js'
+import QOptionGroup from '../option-group/QOptionGroup.js'
+import clone from '../../utils/clone.js'
+import { getEventKey } from '../../utils/event.js'
 
 export default {
-  name: 'q-dialog',
+  name: 'QDialog',
   props: {
     value: Boolean,
     title: String,
@@ -22,6 +22,7 @@ export default {
     preventClose: Boolean,
     noBackdropDismiss: Boolean,
     noEscDismiss: Boolean,
+    noRefocus: Boolean,
     position: String,
     color: {
       type: String,
@@ -85,6 +86,7 @@ export default {
         minimized: true,
         noBackdropDismiss: this.noBackdropDismiss || this.preventClose,
         noEscDismiss: this.noEscDismiss || this.preventClose,
+        noRefocus: this.noRefocus,
         position: this.position
       },
       on: {
@@ -98,16 +100,20 @@ export default {
             return
           }
 
-          let node = this.prompt
-            ? this.$refs.modal.$el.getElementsByTagName('INPUT')
-            : this.$refs.modal.$el.getElementsByClassName('q-option')
+          let node
 
-          if (node.length) {
-            node[0].focus()
-            return
+          if (this.prompt || this.options) {
+            node = this.prompt
+              ? this.$refs.modal.$el.getElementsByTagName('INPUT')
+              : this.$refs.modal.$el.getElementsByClassName('q-option')
+
+            if (node.length) {
+              node[0].focus()
+              return
+            }
           }
 
-          node = this.$refs.modal.$el.getElementsByTagName('BUTTON')
+          node = this.$refs.modal.$el.getElementsByClassName('q-btn')
           if (node.length) {
             node[node.length - 1].focus()
           }
@@ -119,10 +125,7 @@ export default {
           this.$emit('cancel')
         },
         'escape-key': () => {
-          this.hide().then(() => {
-            this.$emit('escape-key')
-            this.$emit('cancel')
-          })
+          this.$emit('escape-key')
         }
       }
     }, child)
@@ -148,7 +151,7 @@ export default {
     },
     okProps () {
       return Object(this.ok) === this.ok
-        ? extend({
+        ? Object.assign({
           color: this.color,
           label: this.$q.i18n.label.ok,
           noRipple: true
@@ -157,7 +160,7 @@ export default {
     },
     cancelProps () {
       return Object(this.cancel) === this.cancel
-        ? extend({
+        ? Object.assign({
           color: this.color,
           label: this.$q.i18n.label.cancel,
           noRipple: true
@@ -170,14 +173,7 @@ export default {
       return this.$refs.modal.show()
     },
     hide () {
-      let data
-
-      return this.$refs.modal.hide().then(() => {
-        if (this.hasForm) {
-          data = clone(this.__getData())
-        }
-        return data
-      })
+      return this.$refs.modal ? this.$refs.modal.hide().then(() => this.hasForm ? clone(this.__getData()) : void 0) : Promise.resolve()
     },
     __getPrompt (h) {
       return [
@@ -190,7 +186,13 @@ export default {
             noPassToggle: true
           },
           on: {
-            change: v => { this.prompt.model = v }
+            input: v => { this.prompt.model = v },
+            keyup: evt => {
+              // if ENTER key
+              if (getEventKey(evt) === 13) {
+                this.__onOk()
+              }
+            }
           }
         })
       ]

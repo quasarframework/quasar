@@ -1,98 +1,85 @@
-import { css } from '../../utils/dom'
-import { start, stop } from '../../utils/animate'
-
-function getHeight (el, style) {
-  let initial = {
-    visibility: el.style.visibility,
-    maxHeight: el.style.maxHeight
-  }
-
-  css(el, {
-    visibility: 'hidden',
-    maxHeight: ''
-  })
-  const height = style.height
-  css(el, initial)
-
-  return parseFloat(height)
-}
-
-function parseSize (padding) {
-  return padding.split(' ').map(t => {
-    let unit = t.match(/[a-zA-Z]+/) || ''
-    if (unit) {
-      unit = unit[0]
-    }
-    return [parseFloat(t), unit]
-  })
-}
-
-function toggleSlide (el, showing, done) {
-  let store = el.__qslidetoggle || {}
-  function anim () {
-    store.uid = start({
-      to: showing ? 100 : 0,
-      from: store.pos !== null ? store.pos : showing ? 0 : 100,
-      apply (pos) {
-        store.pos = pos
-        css(el, {
-          maxHeight: `${store.height * pos / 100}px`,
-          padding: store.padding ? store.padding.map(t => (t[0] * pos / 100) + t[1]).join(' ') : '',
-          margin: store.margin ? store.margin.map(t => (t[0] * pos / 100) + t[1]).join(' ') : ''
-        })
-      },
-      done () {
-        store.uid = null
-        store.pos = null
-        done()
-        css(el, store.css)
-      }
-    })
-    el.__qslidetoggle = store
-  }
-
-  if (store.uid) {
-    stop(store.uid)
-    return anim()
-  }
-
-  store.css = {
-    overflowY: el.style.overflowY,
-    maxHeight: el.style.maxHeight,
-    padding: el.style.padding,
-    margin: el.style.margin
-  }
-  let style = window.getComputedStyle(el)
-  if (style.padding && style.padding !== '0px') {
-    store.padding = parseSize(style.padding)
-  }
-  if (style.margin && style.margin !== '0px') {
-    store.margin = parseSize(style.margin)
-  }
-  store.height = getHeight(el, style)
-  store.pos = null
-  el.style.overflowY = 'hidden'
-  anim()
-}
-
 export default {
-  name: 'q-slide-transition',
+  name: 'QSlideTransition',
   props: {
     appear: Boolean
+  },
+  methods: {
+    __begin (el, height) {
+      el.style.overflowY = 'hidden'
+      if (height !== void 0) {
+        el.style.height = `${height}px`
+      }
+      el.classList.add('q-slide-transition')
+      this.animating = true
+    },
+    __end (el, event) {
+      el.style.overflowY = null
+      el.style.height = null
+      el.classList.remove('q-slide-transition')
+      this.__cleanup()
+      event !== this.lastEvent && this.$emit(event)
+      this.animating = false
+    },
+    __cleanup () {
+      clearTimeout(this.timer)
+      this.el.removeEventListener('transitionend', this.animListener)
+    }
+  },
+  beforeDestroy () {
+    this.animating && this.__cleanup()
   },
   render (h) {
     return h('transition', {
       props: {
-        mode: 'out-in',
         css: false,
         appear: this.appear
       },
       on: {
-        enter (el, done) {
-          toggleSlide(el, true, done)
+        enter: (el, done) => {
+          let pos = 0
+          this.el = el
+
+          if (this.animating === true) {
+            this.__cleanup()
+            pos = el.offsetHeight === el.scrollHeight ? 0 : void 0
+          }
+          else {
+            this.lastEvent = 'hide'
+          }
+
+          this.__begin(el, pos)
+
+          this.timer = setTimeout(() => {
+            el.style.height = `${el.scrollHeight}px`
+            this.animListener = () => {
+              this.__end(el, 'show')
+              done()
+            }
+            el.addEventListener('transitionend', this.animListener)
+          }, 100)
         },
-        leave (el, done) {
-          toggleSlide(el, false, done)
+        leave: (el, done) => {
+          let pos
+          this.el = el
+
+          if (this.animating === true) {
+            this.__cleanup()
+          }
+          else {
+            this.lastEvent = 'show'
+            pos = el.scrollHeight
+          }
+
+          this.__begin(el, pos)
+
+          this.timer = setTimeout(() => {
+            el.style.height = 0
+            this.animListener = () => {
+              this.__end(el, 'hide')
+              done()
+            }
+            el.addEventListener('transitionend', this.animListener)
+          }, 100)
         }
       }
     }, this.$slots.default)

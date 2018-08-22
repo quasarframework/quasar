@@ -1,6 +1,6 @@
 export default {
   props: {
-    filter: String,
+    filter: [String, Object],
     filterMethod: {
       type: Function,
       default (rows, terms, cols = this.computedCols, cellValue = this.getCellValue) {
@@ -11,15 +11,10 @@ export default {
       }
     }
   },
-  computed: {
-    hasFilter () {
-      return this.filter !== void 0 && this.filter.length > 0
-    }
-  },
   watch: {
     filter () {
       this.$nextTick(() => {
-        this.setPagination({ page: 1 })
+        this.setPagination({ page: 1 }, true)
       })
     }
   }

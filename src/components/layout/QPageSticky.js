@@ -1,7 +1,7 @@
-import { cssTransform } from '../../utils/dom'
+import { cssTransform } from '../../utils/dom.js'
 
 export default {
-  name: 'q-page-sticky',
+  name: 'QPageSticky',
   inject: {
     layout: {
       default () {
@@ -80,10 +80,10 @@ export default {
 
       if (attach.vertical) {
         if (this.left) {
-          css.left = `${this.left}px`
+          css[this.$q.i18n.rtl ? 'right' : 'left'] = `${this.left}px`
         }
         if (this.right) {
-          css.right = `${this.right}px`
+          css[this.$q.i18n.rtl ? 'left' : 'right'] = `${this.right}px`
         }
       }
       else if (attach.horizontal) {
@@ -103,15 +103,13 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-page-sticky q-layout-transition z-fixed row flex-center',
+      staticClass: 'q-page-sticky q-layout-transition row flex-center',
       'class': this.classes,
       style: this.computedStyle
-    }, [
-      this.expand
-        ? this.$slots.default
-        : h('span', [
-          this.$slots.default
-        ])
-    ])
+    },
+    this.expand
+      ? this.$slots.default
+      : [ h('span', this.$slots.default) ]
+    )
   }
 }

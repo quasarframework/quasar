@@ -1,7 +1,7 @@
-import { QSpinner } from '../spinner'
+import QSpinner from '../spinner/QSpinner.js'
 
 export default {
-  name: 'q-inner-loading',
+  name: 'QInnerLoading',
   props: {
     dark: Boolean,
     visible: Boolean,
@@ -16,17 +16,20 @@ export default {
       return
     }
 
-    return h('div', {
-      staticClass: 'q-inner-loading animate-fade absolute-full column flex-center',
-      'class': { dark: this.dark }
-    }, [
-      this.$slots.default ||
-      h(QSpinner, {
-        props: {
-          size: this.size,
-          color: this.color
-        }
-      })
-    ])
+    return h(
+      'div',
+      {
+        staticClass: 'q-inner-loading animate-fade absolute-full column flex-center',
+        'class': { dark: this.dark }
+      },
+      this.$slots.default || [
+        h(QSpinner, {
+          props: {
+            size: this.size,
+            color: this.color
+          }
+        })
+      ]
+    )
   }
 }

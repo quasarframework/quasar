@@ -1,35 +1,32 @@
-import { QSpinner } from '../components/spinner'
-import { isSSR } from './platform'
+import QSpinner from '../components/spinner/QSpinner.js'
+import { isSSR } from './platform.js'
 
 let
   vm,
   timeout,
-  props = {}
+  props = {},
+  defaults = {
+    delay: 0,
+    message: false,
+    spinnerSize: 80,
+    spinnerColor: 'white',
+    messageColor: 'white',
+    spinner: QSpinner,
+    customClass: false
+  }
 
 const staticClass = 'q-loading animate-fade fullscreen column flex-center z-max'
 
-const Loading = {
+export default {
   isActive: false,
 
-  show ({
-    delay = 500,
-    message = false,
-    spinnerSize = 80,
-    spinnerColor = 'white',
-    messageColor = 'white',
-    spinner = QSpinner,
-    customClass = false
-  } = {}) {
+  show (opts) {
     if (isSSR) { return }
 
-    props.spinner = spinner
-    props.message = message
-    props.spinnerSize = spinnerSize
-    props.spinnerColor = spinnerColor
-    props.messageColor = messageColor
+    props = Object.assign({}, defaults, opts)
 
-    if (typeof customClass === 'string') {
-      props.customClass = customClass.trim()
+    if (typeof props.customClass === 'string') {
+      props.customClass = props.customClass.trim()
     }
 
     if (this.isActive) {
@@ -45,7 +42,7 @@ const Loading = {
       document.body.classList.add('with-loading')
 
       vm = new this.__Vue({
-        name: 'q-loading',
+        name: 'QLoading',
         el: node,
         render (h) {
           return h('div', {
@@ -58,7 +55,7 @@ const Loading = {
                 size: props.spinnerSize
               }
             }),
-            message
+            props.message
               ? h('div', {
                 'class': `text-${props.messageColor}`,
                 domProps: {
@@ -69,7 +66,7 @@ const Loading = {
           ])
         }
       })
-    }, delay)
+    }, props.delay)
 
     this.isActive = true
   },
@@ -85,22 +82,21 @@ const Loading = {
     else {
       vm.$destroy()
       document.body.classList.remove('with-loading')
-      document.body.removeChild(vm.$el)
+      vm.$el.remove()
       vm = null
     }
 
     this.isActive = false
   },
+  setDefaults (opts) {
+    Object.assign(defaults, opts)
+  },
 
   __Vue: null,
-  __installed: false,
-  install ({ $q, Vue }) {
-    if (this.__installed) { return }
-    this.__installed = true
+  install ({ $q, Vue, cfg: { loading } }) {
+    loading && this.setDefaults(loading)
 
-    $q.loading = Loading
+    $q.loading = this
     this.__Vue = Vue
   }
 }
-
-export default Loading

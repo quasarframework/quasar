@@ -1,15 +1,15 @@
-import FrameMixin from '../../mixins/input-frame'
-import DisplayModeMixin from '../../mixins/display-mode'
-import extend from '../../utils/extend'
-import { QInputFrame } from '../input-frame'
-import { QPopover } from '../popover'
-import QColorPicker from './QColorPicker'
-import { QBtn } from '../btn'
-import { QModal } from '../modal'
-import clone from '../../utils/clone'
-import { getEventKey, stopAndPrevent } from '../../utils/event'
+import FrameMixin from '../../mixins/input-frame.js'
+import DisplayModeMixin from '../../mixins/display-mode.js'
+import QInputFrame from '../input-frame/QInputFrame.js'
+import QPopover from '../popover/QPopover.js'
+import QColorPicker from './QColorPicker.js'
+import QBtn from '../btn/QBtn.js'
+import QModal from '../modal/QModal.js'
+import QIcon from '../icon/QIcon.js'
+import clone from '../../utils/clone.js'
+import { getEventKey, stopAndPrevent } from '../../utils/event.js'
 
-const contentCss = __THEME__ === 'ios'
+const contentCss = process.env.THEME === 'ios'
   ? {
     maxHeight: '80vh',
     height: 'auto',
@@ -22,7 +22,7 @@ const contentCss = __THEME__ === 'ios'
   }
 
 export default {
-  name: 'q-color',
+  name: 'QColor',
   mixins: [FrameMixin, DisplayModeMixin],
   props: {
     value: {
@@ -42,13 +42,19 @@ export default {
       validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
     },
     displayValue: String,
-    placeholder: String,
     okLabel: String,
     cancelLabel: String
   },
+  watch: {
+    value (v) {
+      if (!this.disable && this.isPopover) {
+        this.model = clone(v)
+      }
+    }
+  },
   data () {
     let data = this.isPopover ? {} : {
-      transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
+      transition: process.env.THEME === 'ios' ? 'q-modal-bottom' : 'q-modal'
     }
     data.focused = false
     data.model = clone(this.value || this.defaultValue)
@@ -68,27 +74,30 @@ export default {
 
       return ''
     },
+    computedClearValue () {
+      return this.clearValue === void 0 ? this.defaultValue : this.clearValue
+    },
+    isClearable () {
+      return this.editable && this.clearable && JSON.stringify(this.computedClearValue) !== JSON.stringify(this.value)
+    },
     modalBtnColor () {
-      return this.$q.theme === 'mat'
+      return process.env.THEME === 'mat'
         ? this.color
         : (this.dark ? 'light' : 'dark')
     }
   },
   methods: {
     toggle () {
-      this[this.$refs.popup.showing ? 'hide' : 'show']()
+      this.$refs.popup && this[this.$refs.popup.showing ? 'hide' : 'show']()
     },
     show () {
       if (!this.disable) {
-        if (!this.focused) {
-          this.__setModel(this.value || this.defaultValue)
-        }
+        this.__setModel(this.value || this.defaultValue)
         return this.$refs.popup.show()
       }
     },
     hide () {
-      this.focused = false
-      return this.$refs.popup.hide()
+      return this.$refs.popup ? this.$refs.popup.hide() : Promise.resolve()
     },
 
     __handleKeyDown (e) {
@@ -98,7 +107,7 @@ export default {
           stopAndPrevent(e)
           return this.show()
         case 8: // BACKSPACE key
-          if (this.editable && this.clearable && this.actualValue.length) {
+          if (this.isClearable) {
             this.clear()
           }
       }
@@ -107,40 +116,58 @@ export default {
       if (this.disable || this.focused) {
         return
       }
-      this.__setModel(this.value || this.defaultValue)
+      this.model = clone(this.value || this.defaultValue)
       this.focused = true
       this.$emit('focus')
     },
     __onBlur (e) {
-      this.__onHide()
+      if (!this.focused) {
+        return
+      }
+
       setTimeout(() => {
         const el = document.activeElement
-        if (el !== document.body && !this.$refs.popup.$el.contains(el)) {
+        if (
+          !this.$refs.popup ||
+          !this.$refs.popup.showing ||
+          (el !== document.body && !this.$refs.popup.$el.contains(el))
+        ) {
+          this.__onHide()
           this.hide()
         }
       }, 1)
     },
-    __onHide (forceUpdate) {
-      this.focused = false
-      this.$emit('blur')
-      if (forceUpdate || (this.isPopover && this.$refs.popup.showing)) {
-        this.__update(true)
+    __onHide (forceUpdate, keepFocus) {
+      if (forceUpdate || this.isPopover) {
+        this.__update(forceUpdate)
       }
+      if (!this.focused) {
+        return
+      }
+      if (keepFocus) {
+        this.$el.focus()
+        return
+      }
+      this.$emit('blur')
+      this.focused = false
     },
     __setModel (val, forceUpdate) {
       this.model = clone(val)
-      if (forceUpdate || (this.isPopover && this.$refs.popup.showing)) {
+      if (forceUpdate || this.isPopover) {
         this.__update(forceUpdate)
       }
     },
+    __hasModelChanged () {
+      return JSON.stringify(this.model) !== JSON.stringify(this.value)
+    },
     __update (change) {
       this.$nextTick(() => {
-        this.$emit('input', this.model)
-        this.$nextTick(() => {
-          if (change && JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+        if (this.__hasModelChanged()) {
+          this.$emit('input', this.model)
+          if (change) {
             this.$emit('change', this.model)
           }
-        })
+        }
       })
     },
 
@@ -148,8 +175,8 @@ export default {
       const child = [
         h(QColorPicker, {
           staticClass: `no-border${modal ? ' full-width' : ''}`,
-          props: extend({
-            value: this.model || '#000',
+          props: Object.assign({
+            value: this.model,
             disable: this.disable,
             readonly: this.readonly,
             formatModel: this.formatModel,
@@ -163,7 +190,7 @@ export default {
       ]
 
       if (modal) {
-        child[__THEME__ === 'mat' ? 'push' : 'unshift'](h('div', {
+        child[process.env.THEME === 'mat' ? 'push' : 'unshift'](h('div', {
           staticClass: 'modal-buttons modal-buttons-top row full-width',
           'class': this.dark ? 'bg-black' : null
         }, [
@@ -173,9 +200,14 @@ export default {
               color: this.modalBtnColor,
               flat: true,
               label: this.cancelLabel || this.$q.i18n.label.cancel,
-              waitForRipple: true
+              noRipple: true
             },
-            on: { click: this.hide }
+            on: {
+              click: () => {
+                this.__onHide(false, true)
+                this.hide()
+              }
+            }
           }),
           this.editable
             ? h(QBtn, {
@@ -183,12 +215,13 @@ export default {
                 color: this.modalBtnColor,
                 flat: true,
                 label: this.okLabel || this.$q.i18n.label.set,
-                waitForRipple: true
+                noRipple: true,
+                disable: !this.model
               },
               on: {
                 click: () => {
+                  this.__onHide(true, true)
                   this.hide()
-                  this.__update(true)
                 }
               }
             })
@@ -210,6 +243,7 @@ export default {
         error: this.error,
         warning: this.warning,
         disable: this.disable,
+        readonly: this.readonly,
         inverted: this.inverted,
         invertedLight: this.invertedLight,
         dark: this.dark,
@@ -219,7 +253,7 @@ export default {
         color: this.color,
         noParentField: this.noParentField,
 
-        focused: this.focused,
+        focused: this.focused || (this.$refs.popup && this.$refs.popup.showing),
         focusable: true,
         length: this.actualValue.length
       },
@@ -241,13 +275,15 @@ export default {
         ? h(QPopover, {
           ref: 'popup',
           props: {
+            cover: true,
             disable: this.disable,
             anchorClick: false,
             maxHeight: '100vh'
           },
+          slot: 'after',
           on: {
             show: this.__onFocus,
-            hide: val => this.__onHide(true)
+            hide: () => this.__onHide(true, true)
           }
         }, this.__getPicker(h))
         : h(QModal, {
@@ -255,18 +291,17 @@ export default {
           staticClass: 'with-backdrop',
           props: {
             contentCss,
-            minimized: __THEME__ === 'mat',
-            position: __THEME__ === 'ios' ? 'bottom' : null,
+            minimized: process.env.THEME === 'mat',
+            position: process.env.THEME === 'ios' ? 'bottom' : null,
             transition: this.transition
           },
           on: {
-            show: this.__onFocus,
-            hide: val => this.__onHide(true)
+            dismiss: () => this.__onHide(false, true)
           }
         }, this.__getPicker(h, true)),
 
-      this.editable && this.clearable && this.actualValue.length
-        ? h('q-icon', {
+      this.isClearable
+        ? h(QIcon, {
           slot: 'after',
           props: { name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`] },
           nativeOn: { click: this.clear },
@@ -274,7 +309,7 @@ export default {
         })
         : null,
 
-      h('q-icon', {
+      h(QIcon, {
         slot: 'after',
         props: { name: this.$q.icon.input.dropdown },
         staticClass: 'q-if-control'

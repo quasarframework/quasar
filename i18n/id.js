@@ -32,12 +32,12 @@ export default {
     noData: 'Tidak ada data tersedia',
     noResults: 'Tidak ada yang cocok',
     loading: 'Memuat...',
-    selectedRows: function (rows) {
+    selectedRecords: function (rows) {
       return rows > 1
         ? rows + ' baris terpilih.'
         : (rows === 0 ? 'tidak ada' : '1') + ' baris terpilih.'
     },
-    rowsPerPage: 'Baris per halaman:',
+    recordsPerPage: 'Baris per halaman:',
     allRows: 'Semua',
     pagination: function (start, end, total) {
       return start + '-' + end + ' dari ' + total

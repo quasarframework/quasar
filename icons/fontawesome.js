@@ -29,7 +29,8 @@ export default {
   carousel: {
     left: 'fas fa-chevron-left',
     right: 'fas fa-chevron-right', // TODO
-    quickNav: 'fas fa-circle'
+    quickNav: 'fas fa-circle',
+    thumbnails: 'fas fa-th'
   },
   checkbox: { // TODO
     checked: {
@@ -52,7 +53,7 @@ export default {
     add: 'far fa-paper-plane'
   },
   collapsible: {
-    icon: 'fas fa-chevron-down'
+    icon: 'fas fa-caret-down'
   },
   datetime: {
     arrowLeft: 'fas fa-chevron-left',
@@ -131,7 +132,7 @@ export default {
     right: 'fas fa-chevron-right'
   },
   table: {
-    arrowUp: 'fas fa-long-arrow-up',
+    arrowUp: 'fas fa-arrow-up',
     warning: 'fas fa-exclamation-triangle',
     prevPage: 'fas fa-chevron-left',
     nextPage: 'fas fa-chevron-right'

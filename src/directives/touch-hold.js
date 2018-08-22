@@ -1,9 +1,9 @@
-import { position, leftClick } from '../utils/event'
+import { position, leftClick } from '../utils/event.js'
 
 function updateBinding (el, binding) {
   const ctx = el.__qtouchhold
 
-  ctx.duration = parseInt(binding.arg, 10) || 800
+  ctx.duration = parseInt(binding.arg, 10) || 600
 
   if (binding.oldValue !== binding.value) {
     ctx.handler = binding.value

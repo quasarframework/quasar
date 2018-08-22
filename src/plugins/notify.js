@@ -1,8 +1,9 @@
-import { QAlert } from '../components/alert'
-import uid from '../utils/uid'
-import clone from '../utils/clone'
-import { ready } from '../utils/dom'
-import { isSSR } from './platform'
+import QAlert from '../components/alert/QAlert.js'
+import uid from '../utils/uid.js'
+import clone from '../utils/clone.js'
+import { isSSR } from './platform.js'
+
+let defaults = {}
 
 const positionList = [
   'top-left', 'top-right',
@@ -10,12 +11,12 @@ const positionList = [
   'top', 'bottom', 'left', 'right', 'center'
 ]
 
-function init ({ $q, Vue }) {
+function init ({ Vue }) {
   const node = document.createElement('div')
   document.body.appendChild(node)
 
   this.__vm = new Vue({
-    name: 'q-notifications',
+    name: 'QNotifications',
     data: {
       notifs: {
         center: [],
@@ -35,16 +36,14 @@ function init ({ $q, Vue }) {
           console.error('Notify: parameter required')
           return false
         }
-        let notif
-        if (typeof config === 'string') {
-          notif = {
-            message: config,
-            position: 'bottom'
-          }
-        }
-        else {
-          notif = clone(config)
-        }
+
+        const notif = Object.assign(
+          {},
+          defaults,
+          typeof config === 'string'
+            ? { message: config }
+            : clone(config)
+        )
 
         if (notif.position) {
           if (!positionList.includes(notif.position)) {
@@ -66,19 +65,25 @@ function init ({ $q, Vue }) {
           this.remove(notif)
         }
 
-        if (notif.actions) {
+        if (config.actions) {
           notif.actions = config.actions.map(item => {
             const
               handler = item.handler,
               action = clone(item)
+
             action.handler = typeof handler === 'function'
               ? () => {
                 handler()
-                close()
+                !item.noDismiss && close()
               }
               : () => close()
+
             return action
           })
+        }
+
+        if (typeof config.onDismiss === 'function') {
+          notif.onDismiss = config.onDismiss
         }
 
         if (notif.closeBtn) {
@@ -149,35 +154,29 @@ function init ({ $q, Vue }) {
   })
 
   this.__vm.$mount(node)
-  $q.notify = this.create.bind(this)
 }
 
 export default {
   create (opts) {
+    if (isSSR) { return () => {} }
+    return this.__vm.add(opts)
+  },
+  setDefaults (opts) {
+    Object.assign(defaults, opts)
+  },
+
+  install (args) {
     if (isSSR) {
+      args.$q.notify = () => {}
+      args.$q.notify.setDefaults = () => {}
       return
     }
 
-    if (this.__vm !== void 0) {
-      return this.__vm.add(opts)
-    }
+    init.call(this, args)
 
-    ready(() => {
-      setTimeout(() => {
-        this.create(opts)
-      })
-    })
-  },
+    args.cfg.notify && this.setDefaults(args.cfg.notify)
 
-  __installed: false,
-  install (args) {
-    if (this.__installed) { return }
-    this.__installed = true
-
-    if (!isSSR) {
-      ready(() => {
-        init.call(this, args)
-      })
-    }
+    args.$q.notify = this.create.bind(this)
+    args.$q.notify.setDefaults = this.setDefaults
   }
 }

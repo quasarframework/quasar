@@ -1,18 +1,18 @@
-import Top from './table-top'
-import TableHeader from './table-header'
-import TableBody from './table-body'
-import Bottom from './table-bottom'
+import Top from './table-top.js'
+import TableHeader from './table-header.js'
+import TableBody from './table-body.js'
+import Bottom from './table-bottom.js'
 
-import Sort from './table-sort'
-import Filter from './table-filter'
-import Pagination from './table-pagination'
-import RowSelection from './table-row-selection'
-import ColumnSelection from './table-column-selection'
-import Expand from './table-expand'
-import FullscreenMixin from '../../mixins/fullscreen'
+import Sort from './table-sort.js'
+import Filter from './table-filter.js'
+import Pagination from './table-pagination.js'
+import RowSelection from './table-row-selection.js'
+import ColumnSelection from './table-column-selection.js'
+import Expand from './table-expand.js'
+import FullscreenMixin from '../../mixins/fullscreen.js'
 
 export default {
-  name: 'q-table',
+  name: 'QTable',
   mixins: [
     FullscreenMixin,
     Top,
@@ -39,6 +39,7 @@ export default {
       type: String,
       default: 'grey-8'
     },
+    grid: Boolean,
     dense: Boolean,
     columns: Array,
     loading: Boolean,
@@ -85,7 +86,7 @@ export default {
 
       const { sortBy, descending, rowsPerPage } = this.computedPagination
 
-      if (this.hasFilter) {
+      if (this.filter) {
         rows = this.filterMethod(rows, this.filter, this.computedCols, this.getCellValue)
       }
 
@@ -120,6 +121,7 @@ export default {
     return h('div',
       {
         'class': {
+          'q-table-grid': this.grid,
           'q-table-container': true,
           'q-table-dark': this.dark,
           'q-table-dense': this.dense,
@@ -129,14 +131,7 @@ export default {
       },
       [
         this.getTop(h),
-        h('div', { staticClass: 'q-table-middle scroll', 'class': this.tableClass, style: this.tableStyle }, [
-          h('table', { staticClass: `q-table q-table-${this.separator}-separator${this.dark ? ' q-table-dark' : ''}` },
-            [
-              this.getTableHeader(h),
-              this.getTableBody(h)
-            ]
-          )
-        ]),
+        this.getBody(h),
         this.getBottom(h)
       ]
     )
@@ -150,6 +145,45 @@ export default {
           getCellValue: this.getCellValue
         })
       })
+    },
+    getBody (h) {
+      const hasHeader = !this.hideHeader
+
+      if (this.grid) {
+        const item = this.$scopedSlots.item
+
+        if (item !== void 0) {
+          return [
+            (hasHeader && h('div', { staticClass: 'q-table-middle scroll' }, [
+              h('table', { staticClass: `q-table${this.dark ? ' q-table-dark' : ''}` }, [
+                this.getTableHeader(h)
+              ])
+            ])) || null,
+            h('div', { staticClass: 'row' }, this.computedRows.map(row => {
+              const
+                key = row[this.rowKey],
+                selected = this.isRowSelected(key)
+
+              return item(this.addBodyRowMeta({
+                key,
+                row,
+                cols: this.computedCols,
+                colsMap: this.computedColsMap,
+                __trClass: selected ? 'selected' : ''
+              }))
+            }))
+          ]
+        }
+      }
+
+      return h('div', { staticClass: 'q-table-middle scroll', 'class': this.tableClass, style: this.tableStyle }, [
+        h('table', { staticClass: `q-table q-table-${this.separator}-separator${this.dark ? ' q-table-dark' : ''}` },
+          [
+            (hasHeader && this.getTableHeader(h)) || null,
+            this.getTableBody(h)
+          ]
+        )
+      ])
     }
   }
 }

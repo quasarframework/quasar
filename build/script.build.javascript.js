@@ -7,14 +7,12 @@ const
   uglify = require('uglify-es'),
   buble = require('rollup-plugin-buble'),
   json = require('rollup-plugin-json'),
-  vue = require('rollup-plugin-vue'),
   replace = require('rollup-plugin-replace'),
   nodeResolve = require('rollup-plugin-node-resolve'),
   buildConf = require('./build.conf'),
   buildUtils = require('./build.utils'),
-  vueConfig = {
-    compileTemplate: true,
-    htmlMinifier: {collapseBooleanAttributes: false}
+  bubleConfig = {
+    objectAssign: 'Object.assign'
   }
 
 const builds = [
@@ -28,7 +26,7 @@ const builds = [
         format: 'es'
       }
     },
-    build: { unminified: true }
+    build: { minified: true, minExt: false }
   },
   {
     rollup: {
@@ -40,7 +38,7 @@ const builds = [
         format: 'es'
       }
     },
-    build: { unminified: true }
+    build: { minified: true, minExt: false }
   },
   {
     rollup: {
@@ -74,7 +72,10 @@ const builds = [
 addAssets(builds, 'i18n')
 addAssets(builds, 'icons')
 
-build(builds)
+require('./build.transforms').generate()
+build(builds).then(() => {
+  require('./build.helpers').generate()
+})
 
 /**
  * Helpers
@@ -87,7 +88,7 @@ function resolve (_path) {
 function addAssets (builds, type) {
   const
     files = fs.readdirSync(resolve(type)),
-    plugins = [ buble() ]
+    plugins = [ buble(bubleConfig) ]
 
   files.forEach(file => {
     const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[1].toUpperCase())
@@ -131,7 +132,7 @@ function processEntries (entries) {
 }
 
 function build (builds) {
-  Promise
+  return Promise
     .all(processEntries(builds).map(genConfig).map(buildEntry))
     .catch(buildUtils.logError)
 }
@@ -144,19 +145,18 @@ function genConfig (opts) {
   const plugins = opts.rollup.input.plugins || [
     nodeResolve({
       extensions: theme
-        ? [`.${theme}.js`, '.js', `.${theme}.vue`, '.vue']
-        : ['.js', '.vue'],
+        ? [`.${theme}.js`, '.js']
+        : ['.js'],
       preferBuiltins: false
     }),
     json(),
-    vue(vueConfig),
-    buble()
+    buble(bubleConfig)
   ]
 
   if (theme) {
     plugins.push(
       replace({
-        '__THEME__': JSON.stringify(theme)
+        'process.env.THEME': `'${theme}'`
       })
     )
   }
@@ -206,7 +206,9 @@ function buildEntry (config) {
       }
 
       return buildUtils.writeFile(
-        addExtension(config.rollup.output.file),
+        config.build.minExt !== false
+          ? addExtension(config.rollup.output.file)
+          : config.rollup.output.file,
         buildConf.banner + minified.code,
         true
       )

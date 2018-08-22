@@ -53,15 +53,18 @@
     &:after
       top 41px
       left 14px
-    .q-icon
-      position absolute
-      top 8px
-      left 4px
-      font-size 23px
-      color white
-      transition color .3s ease-in-out
   .q-timeline-subtitle
     padding-top 8px
+
+.q-timeline-dot .q-icon
+  position absolute
+  top 0
+  left 0
+  right 0
+  font-size 16px
+  height 38px
+  color white
+  transition color .3s ease-in-out
 
 .q-timeline-dark
   color white
@@ -76,6 +79,7 @@
     padding-bottom 0
     .q-timeline-dot:after
       content none
+.q-timeline-hover .q-timeline-entry
   &:hover
     .q-timeline-dot:before
       background transparent
@@ -97,62 +101,64 @@
   margin 0
 
 @media (min-width $breakpoint-md-min) and (max-width $breakpoint-md-max)
-  .q-timeline-heading
-    display table-row
-    font-size 200%
-    > div
+  .q-timeline-responsive
+    .q-timeline-heading
+      display table-row
+      font-size 200%
+      > div
+        display table-cell
+    .q-timeline-heading-title
+      margin-left -50px
+    .q-timeline
+      display table
+    .q-timeline-entry
+      display table-row
+      padding 0
+    .q-timeline-subtitle, .q-timeline-dot, .q-timeline-content
       display table-cell
-  .q-timeline-heading-title
-    margin-left -50px
-  .q-timeline
-    display table
-  .q-timeline-entry
-    display table-row
-    padding 0
-  .q-timeline-subtitle, .q-timeline-dot, .q-timeline-content
-    display table-cell
-    vertical-align top
-  .q-timeline-subtitle
-    text-align right
-    width 35%
-  .q-timeline-dot
-    position relative
-  .q-timeline-content
-    padding-left 30px
-  .q-timeline-entry-with-icon .q-timeline-content
-    padding-top 8px
-  .q-timeline-subtitle
-    padding-right 30px
+      vertical-align top
+    .q-timeline-subtitle
+      text-align right
+      width 35%
+    .q-timeline-dot
+      position relative
+    .q-timeline-content
+      padding-left 30px
+    .q-timeline-entry-with-icon .q-timeline-content
+      padding-top 8px
+    .q-timeline-subtitle
+      padding-right 30px
 
 @media (min-width $breakpoint-lg-min)
-  .q-timeline-heading-title
-    text-align center
-    margin-left 0
-  .q-timeline-entry, .q-timeline-subtitle, .q-timeline-dot, .q-timeline-content
-    display block
-    margin 0
-    padding 0
-  .q-timeline-dot
-    position absolute
-    left 50%
-    margin-left -7.15px
-  .q-timeline-entry-with-icon .q-timeline-dot
-    left 50%
-    margin-left -15px
-  .q-timeline-subtitle, .q-timeline-content
-    width 50%
-  .q-timeline-entry-left .q-timeline-content,
-  .q-timeline-entry-right .q-timeline-subtitle
-    float left
-    padding-right 30px
-    text-align right
-  .q-timeline-entry-left .q-timeline-subtitle,
-  .q-timeline-entry-right .q-timeline-content
-    float right
-    text-align left
-    padding-left 30px
-  .q-timeline-entry-with-icon .q-timeline-content
-    padding-top 8px
-  .q-timeline-entry
-    padding-bottom 24px
-    overflow hidden
+  .q-timeline-responsive
+    .q-timeline-heading-title
+      text-align center
+      margin-left 0
+    .q-timeline-entry, .q-timeline-subtitle, .q-timeline-dot, .q-timeline-content
+      display block
+      margin 0
+      padding 0
+    .q-timeline-dot
+      position absolute
+      left 50%
+      margin-left -7.15px
+    .q-timeline-entry-with-icon .q-timeline-dot
+      left 50%
+      margin-left -15px
+    .q-timeline-subtitle, .q-timeline-content
+      width 50%
+    .q-timeline-entry-left .q-timeline-content,
+    .q-timeline-entry-right .q-timeline-subtitle
+      float left
+      padding-right 30px
+      text-align right
+    .q-timeline-entry-left .q-timeline-subtitle,
+    .q-timeline-entry-right .q-timeline-content
+      float right
+      text-align left
+      padding-left 30px
+    .q-timeline-entry-with-icon .q-timeline-content
+      padding-top 8px
+    .q-timeline-entry
+      padding-bottom 24px
+      overflow hidden

@@ -1,6 +1,5 @@
-import { QIcon } from '../components/icon'
-import { stopAndPrevent } from '../utils/event'
-import AlignMixin from './align'
+import { stopAndPrevent } from '../utils/event.js'
+import AlignMixin from './align.js'
 
 const marginal = {
   type: Array,
@@ -9,14 +8,12 @@ const marginal = {
 
 export default {
   mixins: [AlignMixin],
-  components: {
-    QIcon
-  },
   props: {
     prefix: String,
     suffix: String,
     stackLabel: String,
     floatLabel: String,
+    placeholder: String,
     error: Boolean,
     warning: Boolean,
     disable: Boolean,
@@ -35,9 +32,7 @@ export default {
     inverted: Boolean,
     invertedLight: Boolean,
     hideUnderline: Boolean,
-    clearValue: {
-      default: null
-    },
+    clearValue: {},
     noParentField: Boolean
   },
   computed: {
@@ -50,13 +45,28 @@ export default {
       return this.inverted || this.invertedLight
     },
     isInvertedLight () {
-      return (this.invertedLight && !this.hasError) || (this.inverted && this.hasWarning)
+      return this.isInverted && ((this.invertedLight && !this.hasError) || (this.inverted && this.hasWarning))
+    },
+    isStandard () {
+      return !this.isInverted
+    },
+    isHideUnderline () {
+      return this.isStandard && this.hideUnderline
     },
     labelIsAbove () {
       return this.focused || this.length || this.additionalLength || this.stackLabel
     },
+    hasContent () {
+      return this.length > 0 || this.additionalLength > 0 || this.placeholder || this.placeholder === 0
+    },
     editable () {
       return !this.disable && !this.readonly
+    },
+    computedClearValue () {
+      return this.clearValue === void 0 ? null : this.clearValue
+    },
+    isClearable () {
+      return this.editable && this.clearable && this.computedClearValue !== this.model
     },
     hasError () {
       return !!((!this.noParentField && this.field && this.field.error) || this.error)
@@ -83,8 +93,8 @@ export default {
       if (!this.editable) {
         return
       }
-      stopAndPrevent(evt)
-      const val = this.clearValue
+      evt && stopAndPrevent(evt)
+      const val = this.computedClearValue
       if (this.__setModel) {
         this.__setModel(val, true)
       }

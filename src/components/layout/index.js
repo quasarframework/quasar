@@ -1,10 +1,10 @@
-import QLayout from './QLayout'
-import QLayoutDrawer from './QLayoutDrawer'
-import QLayoutFooter from './QLayoutFooter'
-import QLayoutHeader from './QLayoutHeader'
-import QPage from './QPage'
-import QPageContainer from './QPageContainer'
-import QPageSticky from './QPageSticky'
+import QLayout from './QLayout.js'
+import QLayoutDrawer from './QLayoutDrawer.js'
+import QLayoutFooter from './QLayoutFooter.js'
+import QLayoutHeader from './QLayoutHeader.js'
+import QPage from './QPage.js'
+import QPageContainer from './QPageContainer.js'
+import QPageSticky from './QPageSticky.js'
 
 export {
   QLayout,

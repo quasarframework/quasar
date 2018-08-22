@@ -1,4 +1,4 @@
-import QChip from './QChip'
+import QChip from './QChip.js'
 
 export {
   QChip

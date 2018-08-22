@@ -1,15 +1,8 @@
-import { QDialog } from '../components/dialog'
-import { isSSR } from './platform'
-import modalFn from '../utils/modal-fn'
+import QDialog from '../components/dialog/QDialog.js'
+import modalFn from '../utils/modal-fn.js'
 
 export default {
-  __installed: false,
   install ({ $q, Vue }) {
-    if (this.__installed) { return }
-    this.__installed = true
-
-    this.create = $q.dialog = isSSR
-      ? () => new Promise()
-      : modalFn(QDialog, Vue)
+    this.create = $q.dialog = modalFn(QDialog, Vue)
   }
 }
