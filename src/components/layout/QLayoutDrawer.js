@@ -88,6 +88,10 @@ export default {
         this[this.largeScreenState ? 'show' : 'hide'](false)
       }
     },
+    side (_, oldSide) {
+      this.layout[oldSide].space = false
+      this.layout[oldSide].offset = 0
+    },
     behavior (val) {
       this.__updateLocal('belowBreakpoint', (
         val === 'mobile' ||
