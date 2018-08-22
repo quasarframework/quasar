@@ -115,7 +115,7 @@ export default {
     }
 
     return h('div', {
-      staticClass: 'q-rating row inline items-center no-wrap',
+      staticClass: 'q-rating row inline items-center',
       'class': this.classes,
       style: this.size ? `font-size: ${this.size}` : ''
     }, child)
