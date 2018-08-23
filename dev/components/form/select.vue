@@ -144,7 +144,7 @@ export default {
       multipleSelectLong: [],
       selectOptions: [
         {
-          label: 'Google',
+          label: 'VW&#x00B3; Google',
           value: 'goog'
         },
         {
