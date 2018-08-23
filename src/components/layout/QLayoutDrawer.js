@@ -269,7 +269,7 @@ export default {
         })
       }
       else if (this.$refs.content) {
-        if (this.layout.container && (this.mobileView || Math.abs(position) === this.size) && this.rightSide) {
+        if (this.layout.container && this.rightSide && (this.mobileView || Math.abs(position) === this.size)) {
           position += this.stateDirection * this.layout.scrollbarWidth
         }
         css(this.$refs.content, cssTransform(`translateX(${position}px)`))
