@@ -166,7 +166,7 @@ export default {
       ],
       selectDisabledOptions: [
         {
-          label: 'Google',
+          label: 'VW&#x00B3; Google',
           value: 'goog'
         },
         {
@@ -190,7 +190,7 @@ export default {
       ],
       selectListOptions: [
         {
-          label: 'Google',
+          label: 'VW&#x00B3; Google',
           icon: 'email',
           value: 'goog'
         },
@@ -223,7 +223,7 @@ export default {
       ],
       selectListOptionColors: [
         {
-          label: 'Google',
+          label: 'VW&#x00B3; Google',
           icon: 'email',
           value: 'goog'
         },
@@ -256,7 +256,7 @@ export default {
       ],
       selectLongListOptions: [
         {
-          label: 'Google',
+          label: 'VW&#x00B3; Google',
           icon: 'email',
           value: 'goog'
         },

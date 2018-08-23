@@ -323,16 +323,18 @@ export default {
           },
           nativeOn: {
             click: e => { e.stopPropagation() }
-          }
-        }, [ opt.label ])
+          },
+          domProps: { innerHTML: opt.label }
+        })
       }))
       child.push(el)
     }
     else {
       const el = h('div', {
         staticClass: 'col q-input-target ellipsis',
-        'class': this.fakeInputClasses
-      }, [ this.fakeInputValue ])
+        'class': this.fakeInputClasses,
+        domProps: { innerHTML: this.fakeInputValue }
+      })
       child.push(el)
     }
 
