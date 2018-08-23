@@ -46,7 +46,7 @@
             <q-toolbar>
               <q-btn flat round dense icon="map" />
               <q-toolbar-title>Title</q-toolbar-title>
-              <q-checkbox color="white" v-model="moreContent" label="Scroll" />
+              <q-checkbox dark color="white" v-model="moreContent" label="Scroll" />
             </q-toolbar>
           </q-page-sticky>
         </q-page>
@@ -97,7 +97,7 @@
             <q-toolbar>
               <q-btn flat round dense icon="map" />
               <q-toolbar-title>Title</q-toolbar-title>
-              <q-checkbox color="white" v-model="moreContent" label="Scroll" />
+              <q-checkbox dark color="white" v-model="moreContent" label="Scroll" />
             </q-toolbar>
           </q-page-sticky>
         </q-page>

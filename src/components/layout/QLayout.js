@@ -26,6 +26,7 @@ export default {
 
       // container only prop
       containerHeight: 0,
+      scrollbarWidth: onSSR ? 0 : getScrollbarWidth(),
 
       header: {
         size: 0,
@@ -65,11 +66,6 @@ export default {
     },
 
     // used by container only
-    scrollbarWidth () {
-      return this.height > this.containerHeight
-        ? getScrollbarWidth()
-        : 0
-    },
     targetStyle () {
       if (this.scrollbarWidth !== 0) {
         return { [this.$q.i18n.rtl ? 'left' : 'right']: `${this.scrollbarWidth}px` }
@@ -147,6 +143,7 @@ export default {
         resized = true
         this.height = height
         this.$emit('scrollHeight', height)
+        this.__updateScrollbarWidth()
       }
       if (this.width !== width) {
         resized = true
@@ -158,6 +155,18 @@ export default {
     __onContainerResize ({ height }) {
       if (this.containerHeight !== height) {
         this.containerHeight = height
+        this.__updateScrollbarWidth()
+      }
+    },
+    __updateScrollbarWidth () {
+      if (this.container) {
+        const width = this.height > this.containerHeight
+          ? getScrollbarWidth()
+          : 0
+
+        if (this.scrollbarWidth !== width) {
+          this.scrollbarWidth = width
+        }
       }
     }
   }
