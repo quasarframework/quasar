@@ -41,8 +41,22 @@
               </q-field>
             </q-inline-edit>
           </q-td>
-          <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>
-          <q-td key="carbs" :props="props">{{ props.row.carbs }}</q-td>
+          <q-td key="fat" :props="props">
+            <div class="text-pre-wrap">{{ props.row.fat }}</div>
+            <q-inline-edit v-model="props.row.fat">
+              <q-field count>
+                <q-input type="textarea" v-model="props.row.fat" />
+              </q-field>
+            </q-inline-edit>
+          </q-td>
+          <q-td key="carbs" :props="props">
+            {{ props.row.carbs }}
+            <q-inline-edit v-model="props.row.carbs" title="Update carbs" buttons persistent>
+              <q-field count helper="Use buttons to close">
+                <q-input type="number" v-model="props.row.carbs" />
+              </q-field>
+            </q-inline-edit>
+          </q-td>
           <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
           <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
           <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
@@ -682,4 +696,6 @@ export default {
 <style lang="stylus">
 .q-table + .q-table
   margin-top 25px
+.text-pre-wrap
+  white-space pre-wrap
 </style>

@@ -96,7 +96,7 @@ export default {
       },
       on: {
         show: () => {
-          const input = this.$el.querySelector('input')
+          const input = this.$el.querySelector('.q-input-target, input')
           input && input.focus()
           this.$emit('show')
           this.initialValue = clone(this.value)
