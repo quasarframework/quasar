@@ -28,8 +28,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 <a href="http://www.kalisio.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/kalisio.png" width="200px"></a>
 
-<img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/d589296b/kpa-productions.png" width="200px">
-
 <a href="http://platformpurple.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/592beec0/platform-purple.png" width="200px"></a>
 
 <a href="http://www.bgasoft.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/3e1d0d43/bgasoft.png" width="200px"></a>
@@ -118,6 +116,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Sustained
 - Chad Shryock
 - Ross Ball
+- KPA Productions
 
 - Jim O'Quinn ($5)
 - Ken ($5)
