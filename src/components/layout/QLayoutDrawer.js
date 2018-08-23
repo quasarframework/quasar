@@ -110,6 +110,9 @@ export default {
         (this.behavior !== 'desktop' && this.breakpoint >= val)
       ))
     },
+    'layout.scrollbarWidth' () {
+      this.applyPosition(this.showing ? 0 : void 0)
+    },
     offset (val) {
       this.__update('offset', val)
     },
