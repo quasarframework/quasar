@@ -22,7 +22,7 @@ export default {
     return {
       // page related
       height: onSSR ? 0 : window.innerHeight,
-      width: onSSR ? 0 : window.innerWidth,
+      width: onSSR || this.container ? 0 : window.innerWidth,
 
       // container only prop
       containerHeight: 0,

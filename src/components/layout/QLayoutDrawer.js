@@ -401,7 +401,7 @@ export default {
         this.mobileOpened = false
       }
 
-      this.applyPosition((this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size)
+      this.applyPosition(this.stateDirection * this.size)
       this.applyBackdrop(0)
 
       this.__setScrollable(false)
