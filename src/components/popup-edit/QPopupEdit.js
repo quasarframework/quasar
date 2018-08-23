@@ -4,7 +4,7 @@ import clone from '../../utils/clone.js'
 import { getEventKey } from '../../utils/event.js'
 
 export default {
-  name: 'QInlineEdit',
+  name: 'QPopupEdit',
   props: {
     value: {},
     persistent: Boolean,

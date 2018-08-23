@@ -15,7 +15,7 @@
         <q-radio v-model="separator" val="none" label="None" />
       </div>
 
-      <h2>Inline editing</h2>
+      <h2>Popup editing</h2>
       <p class="caption">Click on Dessert or Calories cells.</p>
       <q-table
         :data="data"
@@ -27,35 +27,35 @@
         <q-tr slot="body" slot-scope="props" :props="props">
           <q-td key="desc" :props="props">
             {{ props.row.name }}
-            <q-inline-edit v-model="props.row.name">
+            <q-popup-edit v-model="props.row.name">
               <q-field count>
                 <q-input v-model="props.row.name" />
               </q-field>
-            </q-inline-edit>
+            </q-popup-edit>
           </q-td>
           <q-td key="calories" :props="props">
             {{ props.row.calories }}
-            <q-inline-edit v-model="props.row.calories" title="Update calories" buttons>
+            <q-popup-edit v-model="props.row.calories" title="Update calories" buttons>
               <q-field count>
                 <q-input type="number" v-model="props.row.calories" />
               </q-field>
-            </q-inline-edit>
+            </q-popup-edit>
           </q-td>
           <q-td key="fat" :props="props">
             <div class="text-pre-wrap">{{ props.row.fat }}</div>
-            <q-inline-edit v-model="props.row.fat">
+            <q-popup-edit v-model="props.row.fat">
               <q-field count>
                 <q-input type="textarea" v-model="props.row.fat" />
               </q-field>
-            </q-inline-edit>
+            </q-popup-edit>
           </q-td>
           <q-td key="carbs" :props="props">
             {{ props.row.carbs }}
-            <q-inline-edit v-model="props.row.carbs" title="Update carbs" buttons persistent>
+            <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent>
               <q-field count helper="Use buttons to close">
                 <q-input type="number" v-model="props.row.carbs" />
               </q-field>
-            </q-inline-edit>
+            </q-popup-edit>
           </q-td>
           <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
           <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
