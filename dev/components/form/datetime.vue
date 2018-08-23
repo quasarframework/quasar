@@ -53,9 +53,9 @@
       <q-datetime inverted-light color="white" :dark="false" float-label="Float Label" v-model="model" type="date" />
       
       <p class="caption">
-        Set Header Text
+        Set Header Label
       </p>
-      <q-datetime v-model="model" type="date" header-text="Choose a date..."/>
+      <q-datetime v-model="model" type="date" header-label="Choose a date..."/>
 
       <p class="caption">Format Model</p>
       <div class="bg-secondary text-white">
