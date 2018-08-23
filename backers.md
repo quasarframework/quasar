@@ -145,6 +145,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jacob Heruty $50
 - Polaris Microsystems, L.L.C. $50
 - Jochen Geiger $50
+- Nikolay Ivanov Teofilov $50
 - Martin Beaudet $30
 - Jomo Daniels $30
 - Daniel Connell $20
