@@ -41,7 +41,7 @@ export default {
     twoLines: Boolean,
     glossy: Boolean,
     animated: Boolean,
-    swipable: Boolean,
+    swipeable: Boolean,
     panesContainerClass: String
   },
   data () {
@@ -446,7 +446,7 @@ export default {
       h('div', {
         staticClass: 'q-tabs-panes',
         'class': this.panesContainerClass,
-        directives: this.swipable
+        directives: this.swipeable
           ? [{
             name: 'touch-swipe',
             value: this.__swipe

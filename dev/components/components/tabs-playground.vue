@@ -32,7 +32,7 @@
     </q-tabs>
 
     <p class="caption">Swipable & Animated</p>
-    <q-tabs v-model="tab" swipable animated class="shadow-1">
+    <q-tabs v-model="tab" swipeable animated class="shadow-1">
       <q-tab :alert="alert" default slot="title" hide="label" name="one" label="Oaua" icon="bluetooth" />
       <q-tab alert slot="title" hide="icon" name="two" label="Gogu" icon="wifi" />
       <q-tab alert slot="title" name="three" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" icon="important_devices" />
