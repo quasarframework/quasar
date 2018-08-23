@@ -4,7 +4,7 @@ import clone from '../../utils/clone.js'
 import { getEventKey } from '../../utils/event.js'
 
 export default {
-  name: 'QInlineEdit',
+  name: 'QPopupEdit',
   props: {
     value: {},
     persistent: Boolean,
@@ -96,7 +96,7 @@ export default {
       },
       on: {
         show: () => {
-          const input = this.$el.querySelector('input')
+          const input = this.$el.querySelector('.q-input-target, input')
           input && input.focus()
           this.$emit('show')
           this.initialValue = clone(this.value)
