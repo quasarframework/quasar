@@ -201,7 +201,7 @@ export default {
             type: this.type,
             min: this.min,
             max: this.max,
-            headerText: this.headerText,
+            headerLabel: this.headerLabel,
             minimal: this.minimal,
             formatModel: this.formatModel,
             format24h: this.format24h,
