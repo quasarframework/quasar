@@ -36,10 +36,7 @@ export const inline = {
     validator: modelValidator,
     default: null
   },
-  headerText: {
-    type: String,
-    default: null
-  },
+  headerLabel: String,
   firstDayOfWeek: Number,
   formatModel: {
     type: String,
