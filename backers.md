@@ -117,6 +117,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Chad Shryock
 - Ross Ball
 - KPA Productions
+- Roman Sujatinov
 
 - Jim O'Quinn ($5)
 - Ken ($5)
