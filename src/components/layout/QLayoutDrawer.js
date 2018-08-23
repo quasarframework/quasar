@@ -72,7 +72,7 @@ export default {
     }
   },
   watch: {
-    belowBreakpoint (val, old) {
+    belowBreakpoint (val) {
       if (this.mobileOpened) {
         return
       }
@@ -240,8 +240,7 @@ export default {
         `q-layout-drawer-${this.side}`,
         this.layout.container ? 'overflow-auto' : 'scroll',
         this.contentClass,
-        this.mobileView ? this.belowClass : this.aboveClass,
-        this.layout.container && !this.showing ? 'q-layout-drawer-invisible' : ''
+        this.mobileView ? this.belowClass : this.aboveClass
       ]
     },
     stateDirection () {
@@ -264,16 +263,14 @@ export default {
     applyPosition (position) {
       if (position === void 0) {
         this.$nextTick(() => {
-          position = this.showing
-            ? (this.layout.container ? this.layout.scrollbarWidth : 0)
-            : this.size
+          position = this.showing ? 0 : this.size
 
           this.applyPosition(this.stateDirection * position)
         })
       }
       else if (this.$refs.content) {
-        if (this.layout.container && this.mobileView && this.rightSide && position === 0) {
-          position = this.stateDirection * this.layout.scrollbarWidth
+        if (this.layout.container && this.rightSide && (this.mobileView || Math.abs(position) === this.size)) {
+          position += this.stateDirection * this.layout.scrollbarWidth
         }
         css(this.$refs.content, cssTransform(`translateX(${position}px)`))
       }
@@ -430,9 +427,7 @@ export default {
     this.__update('offset', this.offset)
   },
   mounted () {
-    if (this.showing) {
-      this.applyPosition(0)
-    }
+    this.applyPosition(this.showing ? 0 : void 0)
   },
   beforeDestroy () {
     clearTimeout(this.timer)

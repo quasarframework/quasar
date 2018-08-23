@@ -53,6 +53,57 @@
       </q-page-container>
     </q-layout>
 
+    <q-layout view="Lhh lpR fff" container style="height: 500px; width: 900px" class="q-mt-xl shadow-2">
+      <q-layout-header reveal>
+        <q-toolbar>
+          <q-btn flat @click="drawer3 = !drawer3" round dense icon="menu" />
+          <q-toolbar-title>Header</q-toolbar-title>
+          <q-btn flat @click="drawer3R = !drawer3R" round dense icon="menu" />
+        </q-toolbar>
+      </q-layout-header>
+
+      <q-layout-footer reveal>
+        <q-toolbar>
+          <q-btn flat @click="drawer3 = !drawer3" round dense icon="menu" />
+          <q-toolbar-title>Footer</q-toolbar-title>
+          <q-btn flat @click="drawer3R = !drawer3R" round dense icon="menu" />
+        </q-toolbar>
+      </q-layout-footer>
+
+      <q-layout-drawer v-model="drawer3" :width="200" :breakpoint="300">
+        <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+      </q-layout-drawer>
+      <q-layout-drawer side="right" v-model="drawer3R" :width="200" :breakpoint="300">
+        <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+      </q-layout-drawer>
+      <q-page-container>
+        <q-page style="padding-top: 50px" class="bg-yellow">
+          <div v-for="n in contentSize" :key="n">My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}</div>
+
+          <q-page-sticky position="top-left" :offset="[18, 58]">
+            <q-btn round color="primary" icon="arrow_back" class="rotate-45" />
+          </q-page-sticky>
+          <q-page-sticky position="top-right" :offset="[18, 58]">
+            <q-btn round color="primary" icon="arrow_upward" class="rotate-45" />
+          </q-page-sticky>
+          <q-page-sticky position="bottom-left" :offset="[18, 18]">
+            <q-btn round color="primary" icon="arrow_forward" class="rotate-135" />
+          </q-page-sticky>
+          <q-page-sticky position="bottom-right" :offset="[18, 18]">
+            <q-btn round color="primary" icon="arrow_forward" class="rotate-45" />
+          </q-page-sticky>
+
+          <q-page-sticky position="top" expand>
+            <q-toolbar>
+              <q-btn flat round dense icon="map" />
+              <q-toolbar-title>Title</q-toolbar-title>
+              <q-checkbox color="white" v-model="moreContent" label="Scroll" />
+            </q-toolbar>
+          </q-page-sticky>
+        </q-page>
+      </q-page-container>
+    </q-layout>
+
     <q-modal v-model="modal" no-backdrop-dismiss>
       <q-layout view="LHh lpR fff" container style="min-height: 60vh; min-width: 60vw;">
         <q-layout-header reveal>
@@ -119,9 +170,11 @@ export default {
     return {
       modal: false,
       drawer: false,
-      drawerR: false,
+      drawerR: true,
       drawer2: false,
-      drawer2R: false,
+      drawer2R: true,
+      drawer3: false,
+      drawer3R: true,
       moreContent: true
     }
   },
