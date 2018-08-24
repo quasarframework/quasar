@@ -47,6 +47,9 @@
       <q-btn label="Options" @click="adHoc2" />
       <q-btn label="Confirm" @click="adHoc3" />
       <q-btn label="Method" @click="asMethod" />
+      <q-btn label="Toggle ref and test tooltip on close" @click="toggle">
+        <q-tooltip>Tooltip</q-tooltip>
+      </q-btn>
     </div>
 
     <q-input v-model="text" @keyup.enter="adHoc" />
