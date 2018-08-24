@@ -2,6 +2,7 @@ import { width, css, cssTransform } from '../../utils/dom.js'
 import debounce from '../../utils/debounce.js'
 import QIcon from '../icon/QIcon.js'
 import { listenOpts } from '../../utils/event.js'
+import TouchSwipe from '../../directives/touch-swipe.js'
 
 const
   scrollNavigationSpeed = 5, // in pixels
@@ -15,6 +16,9 @@ export default {
       selectTab: this.selectTab,
       selectTabRouter: this.selectTabRouter
     }
+  },
+  directives: {
+    TouchSwipe
   },
   props: {
     value: String,
@@ -35,8 +39,9 @@ export default {
     textColor: String,
     inverted: Boolean,
     twoLines: Boolean,
-    noPaneBorder: Boolean,
     glossy: Boolean,
+    animated: Boolean,
+    swipeable: Boolean,
     panesContainerClass: String
   },
   data () {
@@ -51,7 +56,8 @@ export default {
         tabName: this.value || '',
         color: this.color,
         textColor: this.textColor,
-        inverted: this.inverted
+        inverted: this.inverted,
+        direction: null
       }
     }
   },
@@ -74,7 +80,6 @@ export default {
       return [
         `q-tabs-position-${this.position}`,
         `q-tabs-${this.inverted ? 'inverted' : 'normal'}`,
-        this.noPaneBorder ? 'q-tabs-no-pane-border' : '',
         this.twoLines ? 'q-tabs-two-lines' : ''
       ]
     },
@@ -98,34 +103,65 @@ export default {
     }
   },
   methods: {
+    go (offset) {
+      let index = 0
+
+      if (this.data.tabName) {
+        const el = this.$refs.scroller.querySelector(`[data-tab-name="${this.data.tabName}"]`)
+        if (el) {
+          index = Array.prototype.indexOf.call(this.$refs.scroller.children, el)
+        }
+      }
+
+      const nodes = this.$refs.scroller.querySelectorAll('[data-tab-name]')
+      index += offset
+
+      if (index > -1 && index < nodes.length) {
+        this.selectTab(nodes[index].getAttribute('data-tab-name'))
+      }
+    },
+    previous () {
+      this.go(-1)
+    },
+    next () {
+      this.go(1)
+    },
     selectTab (value) {
       if (this.data.tabName === value) {
         return
       }
 
       this.data.tabName = value
-      this.$emit('input', value)
-      this.$emit('select', value)
-
       const el = this.__getTabElByName(value)
 
       if (el) {
         this.__scrollToTab(el)
 
-        if (process.env.THEME !== 'ios') {
-          this.currentEl = el
+        this.currentEl = el
 
-          if (this.oldEl) {
+        if (this.oldEl) {
+          if (this.animated) {
+            const children = this.$refs.scroller.children
+            this.data.direction = Array.prototype.indexOf.call(children, el) < Array.prototype.indexOf.call(children, this.oldEl)
+              ? 'left'
+              : 'right'
+          }
+
+          if (process.env.THEME !== 'ios') {
             this.__repositionBar()
           }
-          else {
-            this.oldEl = el
-          }
+        }
+        else {
+          this.oldEl = el
         }
       }
       else {
         this.oldEl = null
+        this.data.direction = null
       }
+
+      this.$emit('input', value, this.data.direction)
+      this.$emit('select', value, this.data.direction)
     },
     selectTabRouter (params) {
       const
@@ -156,6 +192,10 @@ export default {
           this.selectTab(tab.value)
         }, 100)
       }
+    },
+
+    __swipe (touch) {
+      this.go(touch.direction === 'left' ? 1 : -1)
     },
     __repositionBar () {
       clearTimeout(this.timer)
@@ -341,7 +381,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-tabs flex no-wrap',
+      staticClass: 'q-tabs flex no-wrap overflow-hidden',
       'class': this.classes
     }, [
       h('div', {
@@ -405,7 +445,13 @@ export default {
 
       h('div', {
         staticClass: 'q-tabs-panes',
-        'class': this.panesContainerClass
+        'class': this.panesContainerClass,
+        directives: this.swipeable
+          ? [{
+            name: 'touch-swipe',
+            value: this.__swipe
+          }]
+          : null
       }, this.$slots.default)
     ])
   },

@@ -275,6 +275,7 @@ export default {
         ? h(QPopover, {
           ref: 'popup',
           props: {
+            cover: true,
             disable: this.disable,
             anchorClick: false,
             maxHeight: '100vh'

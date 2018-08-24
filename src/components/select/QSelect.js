@@ -323,16 +323,18 @@ export default {
           },
           nativeOn: {
             click: e => { e.stopPropagation() }
-          }
-        }, [ opt.label ])
+          },
+          domProps: { innerHTML: opt.label }
+        })
       }))
       child.push(el)
     }
     else {
       const el = h('div', {
         staticClass: 'col q-input-target ellipsis',
-        'class': this.fakeInputClasses
-      }, [ this.fakeInputValue ])
+        'class': this.fakeInputClasses,
+        domProps: { innerHTML: this.fakeInputValue }
+      })
       child.push(el)
     }
 
@@ -341,7 +343,7 @@ export default {
       staticClass: 'column no-wrap',
       'class': this.dark ? 'bg-dark' : null,
       props: {
-        fit: true,
+        cover: true,
         disable: !this.editable,
         anchorClick: false
       },

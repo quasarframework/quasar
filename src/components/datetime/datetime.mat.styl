@@ -92,11 +92,10 @@ div + .q-datetime-time
     background currentColor
     > span
       color white
-      font-weight bold
   &.q-datetime-day-today
     color currentColor
-    font-weight bold
     font-size 14px
+    border 1px solid currentColor
   &:not(.q-datetime-fillerday):not(.disabled):not(.q-datetime-day-active):hover
     background $grey-4
 
@@ -231,7 +230,7 @@ for $pos in 0..23
     &.small
       margin-top 1.3rem
   .q-datetime
-    width 290px
+    min-width 290px
     &:not(.no-border)
       &:not(.q-datetime-dark) .q-datetime-content
         border-width 0 1px 1px 1px
@@ -240,6 +239,8 @@ for $pos in 0..23
       &.q-datetime-dark
         border 1px solid $dark
         border 1px solid var(--q-color-dark)
+  .q-datetime-modal .q-datetime
+    width 290px
 
 @media (min-width $breakpoint-md-min)
   .q-datetime-datestring
@@ -259,7 +260,7 @@ for $pos in 0..23
   .q-datetime-content
     width 290px
   .q-datetime
-    width 480px
+    min-width 480px
     &:not(.no-border)
       &:not(.q-datetime-dark) .q-datetime-content
         border-width 1px 1px 1px 0
@@ -268,5 +269,7 @@ for $pos in 0..23
       &.q-datetime-dark
         border 1px solid $dark
         border 1px solid var(--q-color-dark)
+  .q-datetime-modal .q-datetime
+    width 480px
   .q-datetime-minimal
     width 320px

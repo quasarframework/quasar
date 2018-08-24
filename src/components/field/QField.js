@@ -172,7 +172,7 @@ export default {
           : null,
 
         h('div', {
-          staticClass: 'q-field-content ellipsis',
+          staticClass: 'q-field-content',
           'class': this.inputClasses
         }, [
           this.$slots.default,

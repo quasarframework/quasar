@@ -1,15 +1,15 @@
 .q-tabs
   flex-direction column
+  border-radius $generic-border-radius
+
+.q-layout-marginal .q-tabs
+  border-radius 0
 
 .q-tabs-scroller
   overflow hidden
 
 .q-tab-pane
   padding $tabs-pane-padding
-  border $tabs-pane-border
-
-.q-tabs-no-pane-border .q-tab-pane
-  border 0
 
 .q-tabs-panes:empty
   display none

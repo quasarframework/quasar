@@ -93,28 +93,43 @@
 
 .animate-popup-up, .animate-popup-down
   animation-timing-function cubic-bezier(0.23, 1, 0.32, 1)
+  > *
+    animation q-fade .82s cubic-bezier(.785, .135, .15, .86)
 .animate-popup-down
-  animation q-popup-down .42s /* rtl:ignore */
+  animation q-popup-down .36s /* rtl:ignore */
   transform-origin left top 0px /* rtl:ignore */
 .animate-popup-up
-  animation q-popup-up .42s /* rtl:ignore */
+  animation q-popup-up .36s /* rtl:ignore */
   transform-origin left bottom 0px /* rtl:ignore */
 
 @keyframes q-popup-down
   0%
     opacity 0
-    transform translateY(-20px) scaleY(.3)
+    transform translateY(-10px) scaleY(.3)
     pointer-events none
-  100%
+  30%
     opacity 1
 
 @keyframes q-popup-up
   0%
     opacity 0
-    transform translateY(20px) scaleY(.3)
+    transform translateY(10px) scaleY(.3)
     pointer-events none
-  100%
+  30%
     opacity 1
+
+.animate-fade-left
+  animation q-fade .36s cubic-bezier(.785, .135, .15, .86), q-slide-left .36s ease
+.animate-fade-right
+  animation q-fade .36s cubic-bezier(.785, .135, .15, .86), q-slide-right .36s ease
+
+@keyframes q-slide-left
+  0%
+    transform translateX(-70%)
+
+@keyframes q-slide-right
+  0%
+    transform translateX(70%)
 
 .animated
   animation-duration 1s

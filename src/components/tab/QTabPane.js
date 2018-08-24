@@ -22,6 +22,13 @@ export default {
   computed: {
     active () {
       return this.data.tabName === this.name
+    },
+    classes () {
+      return {
+        hidden: !this.active,
+        'animate-fade-left': this.data.direction === 'left',
+        'animate-fade-right': this.data.direction === 'right'
+      }
     }
   },
   render (h) {
@@ -29,7 +36,7 @@ export default {
       'div',
       {
         staticClass: 'q-tab-pane',
-        'class': { hidden: !this.active }
+        'class': this.classes
       },
       this.$slots.default
     )

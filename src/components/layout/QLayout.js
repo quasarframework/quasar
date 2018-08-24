@@ -1,6 +1,7 @@
 import QScrollObservable from '../observables/QScrollObservable.js'
 import QResizeObservable from '../observables/QResizeObservable.js'
 import { onSSR } from '../../plugins/platform.js'
+import { getScrollbarWidth } from '../../utils/scroll.js'
 
 export default {
   name: 'QLayout',
@@ -19,8 +20,13 @@ export default {
   },
   data () {
     return {
+      // page related
       height: onSSR ? 0 : window.innerHeight,
-      width: onSSR ? 0 : window.innerWidth,
+      width: onSSR || this.container ? 0 : window.innerWidth,
+
+      // container only prop
+      containerHeight: 0,
+      scrollbarWidth: onSSR ? 0 : getScrollbarWidth(),
 
       header: {
         size: 0,
@@ -43,7 +49,6 @@ export default {
         space: false
       },
 
-      scrollHeight: 0,
       scroll: {
         position: 0,
         direction: 'down'
@@ -59,9 +64,20 @@ export default {
         bottom: rows[2].split('')
       }
     },
-    classes () {
-      if (this.container) {
-        return `fullscreen overflow-auto z-inherit`
+
+    // used by container only
+    targetStyle () {
+      if (this.scrollbarWidth !== 0) {
+        return { [this.$q.i18n.rtl ? 'left' : 'right']: `${this.scrollbarWidth}px` }
+      }
+    },
+    targetChildStyle () {
+      if (this.scrollbarWidth !== 0) {
+        return {
+          [this.$q.i18n.rtl ? 'right' : 'left']: 0,
+          [this.$q.i18n.rtl ? 'left' : 'right']: `-${this.scrollbarWidth}px`,
+          width: `calc(100% + ${this.scrollbarWidth}px)`
+        }
       }
     }
   },
@@ -74,21 +90,33 @@ export default {
     }
   },
   render (h) {
-    const layout = h('div', {
-      staticClass: 'q-layout',
-      'class': this.classes
-    }, [
+    const layout = h('div', { staticClass: 'q-layout' }, [
       h(QScrollObservable, {
         on: { scroll: this.__onPageScroll }
       }),
       h(QResizeObservable, {
-        on: { resize: this.__onLayoutResize }
+        on: { resize: this.__onPageResize }
       }),
       this.$slots.default
     ])
 
     return this.container
-      ? h('div', { staticClass: 'relative-position overflow-hidden q-layout-container' }, [ layout ])
+      ? h('div', {
+        staticClass: 'q-layout-container relative-position overflow-hidden'
+      }, [
+        h(QResizeObservable, {
+          on: { resize: this.__onContainerResize }
+        }),
+        h('div', {
+          staticClass: 'absolute-full',
+          style: this.targetStyle
+        }, [
+          h('div', {
+            staticClass: 'overflow-auto',
+            style: this.targetChildStyle
+          }, [ layout ])
+        ])
+      ])
       : layout
   },
   methods: {
@@ -108,26 +136,38 @@ export default {
       this.scroll = data
       this.$emit('scroll', data)
     },
-    __onLayoutResize ({ height, width }) {
-      const scroll = this.$el.scrollHeight
-
-      if (this.scrollHeight !== scroll) {
-        this.scrollHeight = scroll
-        this.$emit('scrollHeight', scroll)
-      }
-
+    __onPageResize ({ height, width }) {
       let resized = false
 
       if (this.height !== height) {
-        this.height = height
         resized = true
+        this.height = height
+        this.$emit('scrollHeight', height)
+        this.__updateScrollbarWidth()
       }
       if (this.width !== width) {
-        this.width = width
         resized = true
+        this.width = width
       }
 
       resized && this.$emit('resize', { height, width })
+    },
+    __onContainerResize ({ height }) {
+      if (this.containerHeight !== height) {
+        this.containerHeight = height
+        this.__updateScrollbarWidth()
+      }
+    },
+    __updateScrollbarWidth () {
+      if (this.container) {
+        const width = this.height > this.containerHeight
+          ? getScrollbarWidth()
+          : 0
+
+        if (this.scrollbarWidth !== width) {
+          this.scrollbarWidth = width
+        }
+      }
     }
   }
 }

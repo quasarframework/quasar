@@ -6,7 +6,6 @@ import {
 } from '../../utils/popup.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { width } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import { listenOpts } from '../../utils/event.js'
@@ -25,6 +24,8 @@ export default {
       validator: positionValidator
     },
     fit: Boolean,
+    cover: Boolean,
+    persistent: Boolean,
     maxHeight: String,
     touchPosition: Boolean,
     anchorClick: {
@@ -49,11 +50,18 @@ export default {
     }
   },
   computed: {
+    horizSide () {
+      return this.$q.i18n.rtl ? 'right' : 'left'
+    },
     anchorOrigin () {
-      return parsePosition(this.anchor || `bottom ${this.$q.i18n.rtl ? 'right' : 'left'}`)
+      return parsePosition(
+        this.cover
+          ? `top ${this.horizSide}`
+          : this.anchor || `bottom ${this.horizSide}`
+      )
     },
     selfOrigin () {
-      return parsePosition(this.self || `top ${this.$q.i18n.rtl ? 'right' : 'left'}`)
+      return parsePosition(this.self || `top ${this.horizSide}`)
     }
   },
   render (h) {
@@ -98,9 +106,12 @@ export default {
         this.__refocusTarget = (this.anchorClick && this.anchorEl) || document.activeElement
       }
       document.body.appendChild(this.$el)
-      EscapeKey.register(() => { this.hide() })
+      EscapeKey.register(() => { !this.persistent && this.hide() })
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.__updatePosition, listenOpts.passive)
+      if (this.scrollTarget !== window) {
+        window.addEventListener('scroll', this.__updatePosition, listenOpts.passive)
+      }
       window.addEventListener('resize', this.__updatePosition, listenOpts.passive)
       this.__updatePosition(0, evt, true)
 
@@ -111,6 +122,7 @@ export default {
       this.timer = setTimeout(() => {
         document.body.addEventListener('click', this.__bodyHide, true)
         document.body.addEventListener('touchstart', this.__bodyHide, true)
+        this.$emit('show', evt)
         this.showPromise && this.showPromiseResolve()
       }, 0)
     },
@@ -121,8 +133,10 @@ export default {
     },
     __bodyHide (evt) {
       if (
-        evt && evt.target &&
-        (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
+        this.persistent || (
+          evt && evt.target &&
+          (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
+        )
       ) {
         return
       }
@@ -135,6 +149,9 @@ export default {
       document.body.removeEventListener('click', this.__bodyHide, true)
       document.body.removeEventListener('touchstart', this.__bodyHide, true)
       this.scrollTarget.removeEventListener('scroll', this.__updatePosition, listenOpts.passive)
+      if (this.scrollTarget !== window) {
+        window.removeEventListener('scroll', this.__updatePosition, listenOpts.passive)
+      }
       window.removeEventListener('resize', this.__updatePosition, listenOpts.passive)
       EscapeKey.pop()
 
@@ -143,15 +160,21 @@ export default {
       if (!this.noRefocus && this.__refocusTarget) {
         this.__refocusTarget.focus()
       }
+      this.$emit('hide')
     },
     reposition (event, animate) {
-      if (this.fit) {
-        this.$el.style.minWidth = width(this.anchorEl) + 'px'
-      }
       const { top, bottom } = this.anchorEl.getBoundingClientRect()
 
       if (bottom < 0 || top > window.innerHeight) {
         return this.hide()
+      }
+
+      if (this.fit || this.cover) {
+        const style = window.getComputedStyle(this.anchorEl)
+        this.$el.style.minWidth = style.getPropertyValue('width')
+        if (this.cover) {
+          this.$el.style.minHeight = style.getPropertyValue('height')
+        }
       }
 
       setPosition({

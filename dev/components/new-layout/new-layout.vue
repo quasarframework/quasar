@@ -220,7 +220,7 @@
         <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
           <router-view />
         </transition>
-        <div class="fixed-bottom-right bg-grey-5 q-pa-sm z-max" style="bottom: 8px; right: 8px;">
+        <div class="fixed-bottom-right bg-grey-5 q-pa-sm z-max" style="bottom: 8px; right: 8px; left: auto;">
           <q-toggle v-model="showConfig" label="Config" />
         </div>
       </q-page-container>

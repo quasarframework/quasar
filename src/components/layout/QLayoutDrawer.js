@@ -72,7 +72,7 @@ export default {
     }
   },
   watch: {
-    belowBreakpoint (val, old) {
+    belowBreakpoint (val) {
       if (this.mobileOpened) {
         return
       }
@@ -87,6 +87,10 @@ export default {
       else if (!this.overlay) { // from xs to lg
         this[this.largeScreenState ? 'show' : 'hide'](false)
       }
+    },
+    side (_, oldSide) {
+      this.layout[oldSide].space = false
+      this.layout[oldSide].offset = 0
     },
     behavior (val) {
       this.__updateLocal('belowBreakpoint', (
@@ -105,6 +109,9 @@ export default {
         this.behavior === 'mobile' ||
         (this.behavior !== 'desktop' && this.breakpoint >= val)
       ))
+    },
+    'layout.scrollbarWidth' () {
+      this.applyPosition(this.showing ? 0 : void 0)
     },
     offset (val) {
       this.__update('offset', val)
@@ -259,15 +266,17 @@ export default {
     applyPosition (position) {
       if (position === void 0) {
         this.$nextTick(() => {
-          position = this.showing
-            ? 0
-            : (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size
+          position = this.showing ? 0 : this.size
 
-          this.applyPosition(position)
+          this.applyPosition(this.stateDirection * position)
         })
-        return
       }
-      this.$refs.content && css(this.$refs.content, cssTransform(`translateX(${position}px)`))
+      else if (this.$refs.content) {
+        if (this.layout.container && this.rightSide && (this.mobileView || Math.abs(position) === this.size)) {
+          position += this.stateDirection * this.layout.scrollbarWidth
+        }
+        css(this.$refs.content, cssTransform(`translateX(${position}px)`))
+      }
     },
     applyBackdrop (x) {
       this.$refs.backdrop && css(this.$refs.backdrop, { backgroundColor: `rgba(0,0,0,${x * 0.4})` })
@@ -392,7 +401,7 @@ export default {
         this.mobileOpened = false
       }
 
-      this.applyPosition((this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size)
+      this.applyPosition(this.stateDirection * this.size)
       this.applyBackdrop(0)
 
       this.__setScrollable(false)
@@ -421,9 +430,7 @@ export default {
     this.__update('offset', this.offset)
   },
   mounted () {
-    if (this.showing) {
-      this.applyPosition(0)
-    }
+    this.applyPosition(this.showing ? 0 : void 0)
   },
   beforeDestroy () {
     clearTimeout(this.timer)

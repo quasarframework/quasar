@@ -18,9 +18,15 @@ export default {
         (this.layout.header.space ? this.layout.header.size : 0) +
         (this.layout.footer.space ? this.layout.footer.size : 0)
 
-      return typeof this.styleFn === 'function'
-        ? this.styleFn(offset)
-        : { minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh' }
+      if (typeof this.styleFn === 'function') {
+        return this.styleFn(offset)
+      }
+
+      const minHeight = this.layout.container
+        ? (this.layout.containerHeight - offset) + 'px'
+        : (offset ? `calc(100vh - ${offset}px)` : `100vh`)
+
+      return { minHeight }
     },
     classes () {
       if (this.padding) {
