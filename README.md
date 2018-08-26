@@ -17,6 +17,18 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
 
 [![Truelogic](http://quasar-framework.org/images/logo_truelogic.png)](https://truelogic.com)
 
+### Works with Utopian.io
+![utopian-io logo](https://join.utopian.io/img/logo.png)
+
+Quasar is proud to be a technical partner with [utopian.io](https://utopian.io) on steem. You can read the announcement here:  https://busy.org/@quasarframework/the-quasar-framework-joins-forces-with-utopian-io-and-the-steem-community
+
+If you want to know more about steem and utopian, here are a few links to get you started:
+
+- https://signup.utopian.io/ > use this to register and link your github account
+- https://join.utopian.io/guidelines > this page talks about how utopian works
+- https://busy.org/ > the best steem post editor out there
+- https://busy.org/@utopian.edu > introductory videos to utopian and steem
+
 ## Documentation
 
 Head on to the Quasar Framework official website: [https://quasar-framework.org](https://quasar-framework.org)
