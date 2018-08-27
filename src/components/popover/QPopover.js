@@ -122,7 +122,6 @@ export default {
       this.timer = setTimeout(() => {
         document.body.addEventListener('click', this.__bodyHide, true)
         document.body.addEventListener('touchstart', this.__bodyHide, true)
-        this.$emit('show', evt)
         this.showPromise && this.showPromiseResolve()
       }, 0)
     },
@@ -160,7 +159,6 @@ export default {
       if (!this.noRefocus && this.__refocusTarget) {
         this.__refocusTarget.focus()
       }
-      this.$emit('hide')
     },
     reposition (event, animate) {
       const { top, bottom } = this.anchorEl.getBoundingClientRect()
