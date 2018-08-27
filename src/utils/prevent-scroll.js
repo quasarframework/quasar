@@ -1,5 +1,5 @@
 import { getEventPath, stopAndPrevent } from './event.js'
-import { hasScrollbar, hasScrollbarX } from './scroll.js'
+import { hasScrollbar } from './scroll.js'
 import Platform from '../plugins/platform.js'
 
 let registered = 0
@@ -17,13 +17,12 @@ function shouldPreventScroll (e) {
 
   const
     path = getEventPath(e),
-    scrollY = Math.abs(e.deltaX) <= Math.abs(e.deltaY),
-    testFn = scrollY ? hasScrollbar : hasScrollbarX
+    scrollY = Math.abs(e.deltaX) <= Math.abs(e.deltaY)
 
   for (let index = 0; index < path.length; index++) {
     const el = path[index]
 
-    if (testFn(el)) {
+    if (hasScrollbar(el, scrollY)) {
       return scrollY
         ? (
           e.deltaY < 0 && el.scrollTop === 0
