@@ -120,7 +120,7 @@ export default {
     },
     __mouseWheel (e) {
       const el = this.$refs.target
-      el.scrollTop += getMouseWheelDistance(e).pixelY
+      el.scrollTop += getMouseWheelDistance(e).y
       if (el.scrollTop > 0 && el.scrollTop + this.containerHeight < this.scrollHeight) {
         e.preventDefault()
       }

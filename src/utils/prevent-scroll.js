@@ -15,17 +15,19 @@ function shouldPreventScroll (e) {
     return true
   }
 
-  const
-    path = getEventPath(e),
-    delta = e.deltaY || -e.wheelDelta
+  if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+    return false
+  }
+
+  const path = getEventPath(e)
 
   for (let index = 0; index < path.length; index++) {
     const el = path[index]
 
     if (hasScrollbar(el)) {
-      return delta < 0 && el.scrollTop === 0
+      return e.deltaY < 0 && el.scrollTop === 0
         ? true
-        : delta > 0 && el.scrollTop + el.clientHeight === el.scrollHeight
+        : e.deltaY > 0 && el.scrollTop + el.clientHeight === el.scrollHeight
     }
   }
 
