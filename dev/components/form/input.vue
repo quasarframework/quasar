@@ -213,7 +213,9 @@
 
       <br><br>
 
-      <q-input v-model="area" type="textarea" float-label="Textarea" :max-height="100" rows="3" />
+      <q-input v-model="area" type="textarea" float-label="Textarea max-height=40" :max-height="40" />
+      <q-input v-model="area" type="textarea" float-label="Textarea rows=5" rows="5" />
+      <q-input v-model="area" type="textarea" float-label="Textarea max-height=40, rows=5" :max-height="40" rows="5" />
 
       <div class="fixed" style="bottom: 16px; right: 16px;">
         <q-checkbox v-model="error" label="Error" />
