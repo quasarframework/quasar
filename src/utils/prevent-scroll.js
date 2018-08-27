@@ -21,7 +21,6 @@ function shouldPreventScroll (e) {
     scrollY = !shift && Math.abs(e.deltaX) <= Math.abs(e.deltaY),
     delta = shift || scrollY ? e.deltaY : e.deltaX
 
-  console.log(shift, scrollY, delta)
   for (let index = 0; index < path.length; index++) {
     const el = path[index]
 
