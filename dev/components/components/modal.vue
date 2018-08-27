@@ -39,11 +39,21 @@
 
     <q-toggle v-model="toggle" class="z-max fixed-top" />
     <q-modal v-model="toggle" ref="basicModal" :content-css="{minWidth: '50vw'}">
-      <div style="padding: 50px;">
+      <div style="padding: 50px" @wheel="onWheel">
         <h4>Basic Modal</h4>
+        <div style="width: 100%; overflow: auto;" class="q-mt-md">
+          <div style="width: 200vw">
+            Test long horizontal text with scroll
+          </div>
+        </div>
         <q-input type="textarea" v-model="textarea" :max-height="50" />
         <p v-for="n in 25" :key="n">{{ n }} Scroll down to close</p>
         <q-btn color="primary" @click="$refs.basicModal.hide()">Close</q-btn>
+        <div style="width: 100%; overflow: auto;" class="q-mt-md">
+          <div style="width: 200vw">
+            Test long horizontal text with scroll
+          </div>
+        </div>
       </div>
     </q-modal>
 
@@ -60,15 +70,19 @@
     </q-modal>
 
     <div class="fixed-bottom-right z-max bg-yellow">
-      <q-checkbox toggle-indeterminate v-model="autoSize" label="Auto size" />
-      <br>
-      <q-checkbox v-model="hasLayout" label="With Layout" />
-      <br>
-      Ref <q-btn @click="show" label="Show" /><q-btn @click="hide" label="Hide" />
-      <br>
-      Model <q-btn @click="someModel = true" label="Show" /><q-btn @click="someModel = false" label="Hide" />
-      <br>
-      {{ someModel }}
+      <div class="row">
+        <pre class="q-mr-md">Model: {{ someModel }}
+Scroll: {{scrollEvent}}</pre>
+        <div>
+          <q-checkbox toggle-indeterminate v-model="autoSize" label="Auto size" />
+          <br>
+          <q-checkbox v-model="hasLayout" label="With Layout" />
+          <br>
+          Ref <q-btn @click="show" label="Show" /><q-btn @click="hide" label="Hide" />
+          <br>
+          Model <q-btn @click="someModel = true" label="Show" /><q-btn @click="someModel = false" label="Hide" />
+        </div>
+      </div>
     </div>
     <q-modal ref="layoutModal" v-model="someModel" :content-css="autoSizeStyle" @show="onShow" @hide="onHide">
       <q-modal-layout v-if="hasLayout">
@@ -131,6 +145,8 @@
 </template>
 
 <script>
+import { getMouseWheelDistance } from '../../../src/utils/event'
+
 export default {
   data () {
     return {
@@ -140,6 +156,7 @@ export default {
       autoSize: false,
       hasLayout: true,
       someModel: false,
+      scrollEvent: null,
       types: [
         {
           label: 'Basic',
@@ -196,6 +213,9 @@ export default {
     },
     onHide () {
       console.log('onHide')
+    },
+    onWheel (e) {
+      this.scrollEvent = getMouseWheelDistance(e);
     },
     show () {
       console.log('show')
