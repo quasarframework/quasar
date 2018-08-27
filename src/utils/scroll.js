@@ -108,6 +108,18 @@ export function hasScrollbar (el) {
   )
 }
 
+export function hasScrollbarX (el) {
+  if (!el || el.nodeType !== Node.ELEMENT_NODE) {
+    return false
+  }
+
+  return el.scrollWidth > el.clientWidth && (
+    el.classList.contains('scroll') ||
+    el.classList.contains('overflow-auto') ||
+    ['auto', 'scroll'].includes(window.getComputedStyle(el)['overflow-x'])
+  )
+}
+
 export default {
   getScrollTarget,
   getScrollHeight,
