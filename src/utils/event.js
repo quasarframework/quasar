@@ -127,6 +127,10 @@ export function getMouseWheelDistance (e) {
     y *= multiplier
   }
 
+  if (e.shiftKey && !x) {
+    [y, x] = [x, y]
+  }
+
   return { x, y }
 }
 

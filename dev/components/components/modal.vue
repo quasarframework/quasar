@@ -43,7 +43,13 @@
         <h4>Basic Modal</h4>
         <div style="width: 100%; overflow: auto;" class="q-mt-md">
           <div style="width: 200vw">
-            Test long horizontal text with scroll
+            Test long horizontal text with scroll. Test long horizontal text with scroll.
+            Test long horizontal text with scroll. Test long horizontal text with scroll.
+            Test long horizontal text with scroll. Test long horizontal text with scroll.
+            <br>
+            Test long horizontal text with scroll. Test long horizontal text with scroll.
+            Test long horizontal text with scroll. Test long horizontal text with scroll.
+            Test long horizontal text with scroll. Test long horizontal text with scroll.
           </div>
         </div>
         <q-input type="textarea" v-model="textarea" :max-height="50" />
@@ -51,7 +57,13 @@
         <q-btn color="primary" @click="$refs.basicModal.hide()">Close</q-btn>
         <div style="width: 100%; overflow: auto;" class="q-mt-md">
           <div style="width: 200vw">
-            Test long horizontal text with scroll
+            Test long horizontal text with scroll. Test long horizontal text with scroll.
+            Test long horizontal text with scroll. Test long horizontal text with scroll.
+            Test long horizontal text with scroll. Test long horizontal text with scroll.
+            <br>
+            Test long horizontal text with scroll. Test long horizontal text with scroll.
+            Test long horizontal text with scroll. Test long horizontal text with scroll.
+            Test long horizontal text with scroll. Test long horizontal text with scroll.
           </div>
         </div>
       </div>
@@ -71,8 +83,10 @@
 
     <div class="fixed-bottom-right z-max bg-yellow">
       <div class="row">
-        <pre class="q-mr-md">Model: {{ someModel }}
-Scroll: {{scrollEvent}}</pre>
+        <div class="q-mr-md">
+          <pre>Model: {{ someModel }}</pre>
+          <pre>Scroll: {{ scrollEvent }}</pre>
+        </div>
         <div>
           <q-checkbox toggle-indeterminate v-model="autoSize" label="Auto size" />
           <br>
@@ -215,7 +229,7 @@ export default {
       console.log('onHide')
     },
     onWheel (e) {
-      this.scrollEvent = getMouseWheelDistance(e);
+      this.scrollEvent = getMouseWheelDistance(e)
     },
     show () {
       console.log('show')
