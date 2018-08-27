@@ -17,7 +17,9 @@ function shouldPreventScroll (e) {
 
   const
     path = getEventPath(e),
-    scrollY = Math.abs(e.deltaX) <= Math.abs(e.deltaY)
+    shift = e.shiftKey && !e.deltaX,
+    scrollY = !shift && Math.abs(e.deltaX) <= Math.abs(e.deltaY),
+    delta = shift || scrollY ? e.deltaY : e.deltaX
 
   for (let index = 0; index < path.length; index++) {
     const el = path[index]
@@ -25,14 +27,14 @@ function shouldPreventScroll (e) {
     if (hasScrollbar(el, scrollY)) {
       return scrollY
         ? (
-          e.deltaY < 0 && el.scrollTop === 0
+          delta < 0 && el.scrollTop === 0
             ? true
-            : e.deltaY > 0 && el.scrollTop + el.clientHeight === el.scrollHeight
+            : delta > 0 && el.scrollTop + el.clientHeight === el.scrollHeight
         )
         : (
-          e.deltaX < 0 && el.scrollLeft === 0
+          delta < 0 && el.scrollLeft === 0
             ? true
-            : e.deltaX > 0 && el.scrollLeft + el.clientWidth === el.scrollWidth
+            : delta > 0 && el.scrollLeft + el.clientWidth === el.scrollWidth
         )
     }
   }
