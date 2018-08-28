@@ -78,7 +78,7 @@ export default {
     fakeInputValue () {
       return this.actualValue || this.actualValue === 0
         ? this.actualValue
-        : this.placeholder
+        : this.placeholder || ''
     },
     fakeInputClasses () {
       const hasValue = this.actualValue || this.actualValue === 0
