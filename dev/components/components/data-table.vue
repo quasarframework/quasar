@@ -22,6 +22,7 @@
         :columns="columns"
         :filter="filter"
         :title="title"
+        :rows-per-page-options="[]"
         row-key="name"
       >
         <q-tr slot="body" slot-scope="props" :props="props">
