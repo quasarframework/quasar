@@ -213,7 +213,10 @@ export default {
       EscapeKey.pop()
       preventScroll(false)
       this.__register(false)
-      !this.noRefocus && this.__refocusTarget && this.__refocusTarget.focus()
+      if (!this.noRefocus && this.__refocusTarget) {
+        this.__refocusTarget.focus()
+        !this.__refocusTarget.classList.contains('q-if') && this.__refocusTarget.blur()
+      }
     },
     __stopPropagation (e) {
       e.stopPropagation()

@@ -158,6 +158,7 @@ export default {
       this.hidePromise && this.hidePromiseResolve()
       if (!this.noRefocus && this.__refocusTarget) {
         this.__refocusTarget.focus()
+        !this.__refocusTarget.classList.contains('q-if') && this.__refocusTarget.blur()
       }
     },
     reposition (event, animate) {
