@@ -15,6 +15,10 @@ export default {
       type: String,
       required: true
     },
+    labelKey: {
+      type: String,
+      default: 'label'
+    },
 
     color: {
       type: String,
@@ -43,7 +47,8 @@ export default {
       type: Function,
       default (node, filter) {
         const filt = filter.toLowerCase()
-        return node.label && node.label.toLowerCase().indexOf(filt) > -1
+        return node[this.labelKey] &&
+          node[this.labelKey].toLowerCase().indexOf(filt) > -1
       }
     },
 
@@ -481,7 +486,7 @@ export default {
               ? header(slotScope)
               : [
                 this.__getNodeMedia(h, node),
-                h('span', node.label)
+                h('span', node[this.labelKey])
               ]
           ])
         ]),
