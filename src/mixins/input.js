@@ -40,14 +40,14 @@ export default {
         this.__onBlur(e)
       }, 200)
     },
-    __onBlur (e) {
+    __onBlur (e, destroy) {
       if (this.focused) {
         this.focused = false
         this.$emit('blur', e)
       }
-      this.__emit()
+      this.__emit(destroy)
     },
-    __emit () {
+    __emit (destroy) {
       const isNumberError = this.isNumber && this.isNumberError
       const value = isNumberError ? (this.isNegZero ? -0 : null) : this.model
       if (this.isNumber) {
@@ -56,7 +56,7 @@ export default {
       if (isNumberError) {
         this.$emit('input', value)
       }
-      this.$nextTick(() => {
+      const emit = () => {
         if (this.isNumber) {
           if (String(1 / value) !== String(1 / this.value)) {
             this.$emit('change', value)
@@ -65,7 +65,8 @@ export default {
         else if (JSON.stringify(value) !== JSON.stringify(this.value)) {
           this.$emit('change', value)
         }
-      })
+      }
+      destroy ? emit() : this.$nextTick(emit)
     },
     __onKeydown (e) {
       if (e.keyCode === 13) {
@@ -102,5 +103,6 @@ export default {
   },
   beforeDestroy () {
     clearTimeout(this.timer)
+    this.focused && this.__onBlur(void 0, true)
   }
 }
