@@ -230,7 +230,7 @@ export default {
       on: { click: this.__onClick }
     }, [
       h('div', {
-        staticClass: 'col row items-center group q-input-chips'
+        staticClass: 'col row items-center q-input-chips'
       },
       this.model.map((label, index) => {
         return h(QChip, {
