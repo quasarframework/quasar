@@ -64,6 +64,10 @@ export default {
       this.showPromise && this.showPromiseResolve()
     },
     __hide () {
+      this.__cleanup()
+      this.hidePromise && this.hidePromiseResolve()
+    },
+    __cleanup () {
       clearTimeout(this.timer)
 
       this.scrollTarget.removeEventListener('scroll', this.hide, listenOpts.passive)
@@ -73,8 +77,6 @@ export default {
       if (this.$q.platform.is.mobile) {
         document.body.removeEventListener('click', this.hide, true)
       }
-
-      this.hidePromise && this.hidePromiseResolve()
     },
     __updatePosition () {
       setPosition({
@@ -139,6 +141,7 @@ export default {
   },
   beforeDestroy () {
     clearTimeout(this.timer)
+    this.showing && this.__cleanup()
     if (!this.anchorEl) {
       return
     }

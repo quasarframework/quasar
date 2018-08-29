@@ -115,9 +115,7 @@ export default {
     if (this.showing) {
       this.showPromise && this.showPromiseReject()
       this.hidePromise && this.hidePromiseReject()
-      this.$emit('input', false)
       this.__removeHistory()
-      this.__hide && this.__hide()
     }
   }
 }

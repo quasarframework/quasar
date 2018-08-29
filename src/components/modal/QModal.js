@@ -210,13 +210,16 @@ export default {
       this.$nextTick(() => content && content.focus())
     },
     __hide () {
-      EscapeKey.pop()
-      preventScroll(false)
-      this.__register(false)
+      this.__cleanup()
       if (!this.noRefocus && this.__refocusTarget) {
         this.__refocusTarget.focus()
         !this.__refocusTarget.classList.contains('q-if') && this.__refocusTarget.blur()
       }
+    },
+    __cleanup () {
+      EscapeKey.pop()
+      preventScroll(false)
+      this.__register(false)
     },
     __stopPropagation (e) {
       e.stopPropagation()
@@ -258,6 +261,7 @@ export default {
   beforeDestroy () {
     clearTimeout(this.shakeTimeout)
     this.$el.remove()
+    this.showing && this.__cleanup()
   },
   render (h) {
     return h('transition', {

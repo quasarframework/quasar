@@ -95,6 +95,7 @@ export default {
     }
   },
   beforeDestroy () {
+    this.showing && this.__cleanup()
     if (this.anchorClick && this.anchorEl) {
       this.anchorEl.removeEventListener('click', this.toggle)
       this.anchorEl.removeEventListener('keyup', this.__toggleKey)
@@ -143,6 +144,14 @@ export default {
       this.hide(evt)
     },
     __hide () {
+      this.__cleanup()
+      this.hidePromise && this.hidePromiseResolve()
+      if (!this.noRefocus && this.__refocusTarget) {
+        this.__refocusTarget.focus()
+        !this.__refocusTarget.classList.contains('q-if') && this.__refocusTarget.blur()
+      }
+    },
+    __cleanup () {
       clearTimeout(this.timer)
 
       document.body.removeEventListener('click', this.__bodyHide, true)
@@ -155,11 +164,6 @@ export default {
       EscapeKey.pop()
 
       this.$el.remove()
-      this.hidePromise && this.hidePromiseResolve()
-      if (!this.noRefocus && this.__refocusTarget) {
-        this.__refocusTarget.focus()
-        !this.__refocusTarget.classList.contains('q-if') && this.__refocusTarget.blur()
-      }
     },
     reposition (event, animate) {
       const { top, bottom } = this.anchorEl.getBoundingClientRect()
