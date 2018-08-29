@@ -213,6 +213,7 @@
 
       <br><br>
 
+      <p class="caption">Teaxtarea size</p>
       <div class="shadow-1 q-pa-md q-my-sm">
         <q-toggle class="q-my-sm" v-model="textareaOn1" label="Toggle 1" />
         <q-input v-if="textareaOn1" v-model="area" type="textarea" float-label="1: Textarea max-height=40" :max-height="40" />
@@ -234,6 +235,14 @@
           <q-input v-if="textareaOn3" v-model="area" type="textarea" float-label="3: Textarea max-height=40, rows=5" :max-height="40" rows="5" />
         </q-field>
       </div>
+
+      <p class="caption">Blur on destroy</p>
+      <q-toggle v-model="blurTestVisible" label="Field rendered" />
+      <div v-if="blurTestVisible">
+        <q-input :value="text" @change="(v) => { text = v; onChange(v) }" @blur="onBlur" float-label="Test here" />
+        <q-search :value="text" @change="(v) => { text = v; onChange(v) }" @blur="onBlur" float-label="Test here" />
+      </div>
+      <pre>Field value: `{{ text }}`</pre>
 
       <div class="fixed" style="bottom: 16px; right: 16px;">
         <q-checkbox v-model="error" label="Error" />
@@ -259,7 +268,8 @@ export default {
       loading: false,
       textareaOn1: true,
       textareaOn2: true,
-      textareaOn3: true
+      textareaOn3: true,
+      blurTestVisible: true
     }
   },
   computed: {
@@ -270,6 +280,9 @@ export default {
   methods: {
     onChange (val) {
       console.log('@change', JSON.stringify(val))
+    },
+    onBlur (val) {
+      console.log('@blur', JSON.stringify(val))
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))

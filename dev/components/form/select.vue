@@ -130,6 +130,13 @@
       <p class="caption">Object Value1</p>
       <q-select v-model="selectObject" :options="selectObjectOptions"/>
 
+      <p class="caption">Blur on destroy</p>
+      <q-toggle v-model="blurTestVisible" label="Field rendered" />
+      <div v-if="blurTestVisible">
+        <q-select clearable :value="select" @change="(v) => { select = v; onChange(v) }" @blur="onBlur" :options="selectListOptions" float-label="Test here" />
+      </div>
+      <pre>Field value: `{{ select }}`</pre>
+
       <p class="caption">Size tests</p>
       <div class="row">
         <q-select clearable v-model="select" :options="selectListOptions"/>
@@ -178,6 +185,7 @@ export default {
     return {
       select: 'fb',
       selectObject: null,
+      blurTestVisible: true,
       multipleSelect: ['goog', 'twtr'],
       multipleSelectColor: ['goog', 'twtr', 'ora'],
       multipleSelectLong: [],
@@ -474,6 +482,9 @@ export default {
   methods: {
     onChange (val) {
       console.log('@change', JSON.stringify(val))
+    },
+    onBlur (val) {
+      console.log('@blur', JSON.stringify(val))
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))
