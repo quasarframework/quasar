@@ -52,6 +52,7 @@ export default {
       default: 'horizontal',
       validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
     },
+    binaryStateSort: Boolean,
     noDataLabel: String,
     noResultsLabel: String,
     loadingLabel: String,

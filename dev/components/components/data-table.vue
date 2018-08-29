@@ -22,6 +22,7 @@
         :columns="columns"
         :filter="filter"
         :title="title"
+        binary-state-sort
         :rows-per-page-options="[]"
         row-key="name"
       >
