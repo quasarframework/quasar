@@ -129,6 +129,45 @@
 
       <p class="caption">Object Value1</p>
       <q-select v-model="selectObject" :options="selectObjectOptions"/>
+
+      <p class="caption">Size tests</p>
+      <div class="row">
+        <q-select clearable v-model="select" :options="selectListOptions"/>
+      </div>
+      <div class="row">
+        <q-select clearable v-model="select" :options="selectListOptions" placeholder="Placeholder - Long text here, to fill space" />
+      </div>
+      <div class="row">
+        <q-select clearable v-model="select" :options="selectListOptions" stack-label="Stack label - Long text here, to fill space" />
+      </div>
+      <div class="row">
+        <q-select clearable v-model="select" :options="selectListOptions" float-label="Float label - Long text here, to fill space" />
+      </div>
+      <div class="row">
+        <q-select clearable v-model="select" :options="selectListOptions" placeholder="Placeholder - Long text here, to fill space" stack-label="Stack label - Long text here, to fill space" />
+      </div>
+      <div class="row">
+        <q-select clearable v-model="select" :options="selectListOptions" placeholder="Placeholder - Long text here, to fill space" float-label="Float label - Long text here, to fill space" />
+      </div>
+
+      <div class="row">
+        <q-select prefix="Prefix" suffix="Suffix" clearable v-model="select" :options="selectListOptions"/>
+      </div>
+      <div class="row">
+        <q-select prefix="Prefix" suffix="Suffix" clearable v-model="select" :options="selectListOptions" placeholder="Placeholder - Long text here, to fill space" />
+      </div>
+      <div class="row">
+        <q-select prefix="Prefix" suffix="Suffix" clearable v-model="select" :options="selectListOptions" stack-label="Stack label - Long text here, to fill space" />
+      </div>
+      <div class="row">
+        <q-select prefix="Prefix" suffix="Suffix" clearable v-model="select" :options="selectListOptions" float-label="Float label - Long text here, to fill space" />
+      </div>
+      <div class="row">
+        <q-select prefix="Prefix" suffix="Suffix" clearable v-model="select" :options="selectListOptions" placeholder="Placeholder - Long text here, to fill space" stack-label="Stack label - Long text here, to fill space" />
+      </div>
+      <div class="row">
+        <q-select prefix="Prefix" suffix="Suffix" clearable v-model="select" :options="selectListOptions" placeholder="Placeholder - Long text here, to fill space" float-label="Float label - Long text here, to fill space" />
+      </div>
     </div>
   </div>
 </template>
@@ -201,7 +240,7 @@ export default {
           value: 'fb'
         },
         {
-          label: 'Twitter',
+          label: 'Twitter Twitter Twitter Twitter Twitter Twitter Twitter',
           inset: true,
           rightIcon: 'alarm',
           value: 'twtr'
