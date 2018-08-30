@@ -79,6 +79,14 @@ export default {
         '-ms-flex-order': ord,
         order: ord
       }
+    },
+    classes () {
+      if (!this.__stepper.vertical) {
+        const cls = []
+        !this.active && cls.push('hidden')
+        this.__stepper.animation !== null && cls.push(this.__stepper.animation)
+        return cls
+      }
     }
   },
   methods: {
@@ -86,6 +94,23 @@ export default {
       if (this.done) {
         this.__stepper.goToStep(this.name)
       }
+    },
+
+    __getContainer (h) {
+      const content = this.active
+        ? h('div', {
+          staticClass: 'q-stepper-step-content',
+          'class': this.classes
+        }, [
+          h('div', {
+            staticClass: 'q-stepper-step-inner'
+          }, this.$slots.default)
+        ])
+        : null
+
+      return this.__stepper.vertical
+        ? h(QSlideTransition, [ content ])
+        : content
     }
   },
   mounted () {
@@ -105,17 +130,7 @@ export default {
       this.__stepper.vertical
         ? h(StepTab, { props: { vm: this } })
         : null,
-      h(QSlideTransition, [
-        this.active
-          ? h('div', {
-            staticClass: 'q-stepper-step-content'
-          }, [
-            h('div', {
-              staticClass: 'q-stepper-step-inner'
-            }, this.$slots.default)
-          ])
-          : null
-      ])
+      this.__getContainer(h)
     ])
   }
 }
