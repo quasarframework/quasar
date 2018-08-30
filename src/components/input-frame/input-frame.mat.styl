@@ -48,6 +48,8 @@ $margin-top-box
   outline 0
   align-items center
   font-size $input-font-size
+  input, textarea
+    pointer-events none
   .q-if-inner
     min-height $input-min-height
 
@@ -91,9 +93,12 @@ $margin-top-box
   .q-input-target
     color inherit
 
-.q-if-focused:not(.q-if-readonly)
-  .q-if-label, .q-if-addon, .q-if-control
-    color currentColor
+.q-if-focused
+  &:not(.q-if-readonly)
+    input, textarea
+      pointer-events all
+    .q-if-label, .q-if-addon, .q-if-control
+      color currentColor
 
 .q-if-warning
   &:before, &:after, &:not(.q-if-inverted) .q-if-label
