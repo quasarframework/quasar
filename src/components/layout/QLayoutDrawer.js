@@ -44,6 +44,7 @@ export default {
       validator: v => ['default', 'desktop', 'mobile'].includes(v),
       default: 'default'
     },
+    showIfAbove: Boolean,
     contentStyle: Object,
     contentClass: [String, Object, Array],
     noHideOnRouteChange: Boolean,
@@ -52,7 +53,9 @@ export default {
   },
   data () {
     const
-      largeScreenState = this.value !== void 0 ? this.value : true,
+      largeScreenState = this.showIfAbove !== void 0 ? this.showIfAbove : (
+        this.value !== void 0 ? this.value : true
+      ),
       showing = this.behavior !== 'mobile' && this.breakpoint < this.layout.width && !this.overlay
         ? largeScreenState
         : false
@@ -397,19 +400,24 @@ export default {
       animate && this.layout.__animate()
 
       if (this.mobileOpened) {
-        !this.layout.container && preventScroll(false)
         this.mobileOpened = false
       }
 
       this.applyPosition(this.stateDirection * this.size)
       this.applyBackdrop(0)
 
-      this.__setScrollable(false)
+      this.__cleanup()
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.hidePromise && this.hidePromiseResolve()
       }, duration)
+    },
+    __cleanup () {
+      if (this.mobileOpened && !this.layout.container) {
+        preventScroll(false)
+      }
+      this.__setScrollable(false)
     },
 
     __update (prop, val) {
@@ -434,6 +442,7 @@ export default {
   },
   beforeDestroy () {
     clearTimeout(this.timer)
+    this.showing && this.__cleanup()
     if (this.layout.instances[this.side] === this) {
       this.layout.instances[this.side] = null
       this.__update('size', 0)

@@ -32,7 +32,7 @@
     </q-tabs>
 
     <p class="caption">Swipable & Animated</p>
-    <q-tabs v-model="tab" swipeable animated class="shadow-1">
+    <q-tabs underline-color="yellow" v-model="tab" swipeable animated class="shadow-1">
       <q-tab :alert="alert" default slot="title" hide="label" name="one" label="Oaua" icon="bluetooth" />
       <q-tab alert slot="title" hide="icon" name="two" label="Gogu" icon="wifi" />
       <q-tab alert slot="title" name="three" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" icon="important_devices" />
@@ -86,7 +86,7 @@
       <q-route-tab slot="title" name="tabs/c" to="/tabs/c" exact label="/tabs/c" />
     </q-tabs>
 
-    <q-tabs inverted>
+    <q-tabs inverted underline-color="orange">
       <q-tab alert slot="title" v-if="third" label="Oaua" />
       <q-tab count="5" slot="title" label="Gogu" />
       <q-tab slot="title" label="Some Tab" />

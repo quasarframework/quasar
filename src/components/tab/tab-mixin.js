@@ -123,7 +123,8 @@ export default {
       if (process.env.THEME !== 'ios') {
         child.push(h('div', {
           staticClass: 'q-tabs-bar',
-          style: this.barStyle
+          style: this.barStyle,
+          'class': this.data.underlineClass
         }))
       }
 

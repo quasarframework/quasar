@@ -112,9 +112,9 @@ export default {
       })) || void 0,
 
       h('div', {
-        staticClass: 'q-if-inner col row'
+        staticClass: 'q-if-inner col column'
       }, [
-        h('div', { staticClass: 'col-12 row no-wrap relative-position' }, [
+        h('div', { staticClass: 'row no-wrap relative-position' }, [
           (this.prefix && h('span', {
             staticClass: 'q-if-addon q-if-addon-left',
             'class': this.addonClass,
@@ -142,7 +142,7 @@ export default {
           })) || void 0
         ])),
         (this.hasLabel && h('div', {
-          staticClass: 'q-if-label-spacer col-12',
+          staticClass: 'q-if-label-spacer',
           domProps: {
             innerHTML: this.label
           }

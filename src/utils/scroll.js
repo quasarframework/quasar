@@ -96,16 +96,26 @@ export function getScrollbarWidth () {
   return size
 }
 
-export function hasScrollbar (el) {
+export function hasScrollbar (el, onY = true) {
   if (!el || el.nodeType !== Node.ELEMENT_NODE) {
     return false
   }
 
-  return el.scrollHeight > el.clientHeight && (
-    el.classList.contains('scroll') ||
-    el.classList.contains('overflow-auto') ||
-    ['auto', 'scroll'].includes(window.getComputedStyle(el)['overflow-y'])
-  )
+  return onY
+    ? (
+      el.scrollHeight > el.clientHeight && (
+        el.classList.contains('scroll') ||
+        el.classList.contains('overflow-auto') ||
+        ['auto', 'scroll'].includes(window.getComputedStyle(el)['overflow-y'])
+      )
+    )
+    : (
+      el.scrollWidth > el.clientWidth && (
+        el.classList.contains('scroll') ||
+        el.classList.contains('overflow-auto') ||
+        ['auto', 'scroll'].includes(window.getComputedStyle(el)['overflow-x'])
+      )
+    )
 }
 
 export default {

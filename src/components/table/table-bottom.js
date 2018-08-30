@@ -48,7 +48,7 @@ export default {
           ])
         ]),
         h('div', { staticClass: 'q-table-separator col' }),
-        h('div', { staticClass: 'q-table-control' }, [
+        (this.rowsPerPageOptions.length > 1 && h('div', { staticClass: 'q-table-control' }, [
           h('span', { staticClass: 'q-table-bottom-item' }, [
             this.rowsPerPageLabel || this.$q.i18n.table.recordsPerPage
           ]),
@@ -70,7 +70,7 @@ export default {
               }
             }
           })
-        ]),
+        ])) || void 0,
         h('div', { staticClass: 'q-table-control' }, [
           paginationSlot
             ? paginationSlot(this.marginalsProps)

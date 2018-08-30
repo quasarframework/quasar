@@ -19,6 +19,7 @@ export default {
   },
   data () {
     return {
+      animation: null,
       step: this.value || null,
       steps: []
     }
@@ -31,6 +32,17 @@ export default {
   watch: {
     value (v) {
       this.goToStep(v)
+    },
+    step (cur, old) {
+      if (!this.vertical) {
+        const
+          curIndex = this.steps.findIndex(step => step.name === cur),
+          oldIndex = this.steps.findIndex(step => step.name === old)
+
+        this.animation = curIndex < oldIndex
+          ? 'animate-fade-left'
+          : (curIndex > oldIndex ? 'animate-fade-right' : null)
+      }
     }
   },
   computed: {

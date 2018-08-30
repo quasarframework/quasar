@@ -104,6 +104,9 @@ export default {
       color: 'secondary',
       text: ''
     }
+  },
+  mounted () {
+    window.x = this.$refs.stepper
   }
 }
 </script>

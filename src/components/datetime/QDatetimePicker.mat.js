@@ -687,6 +687,7 @@ export default {
 
       return h('div', {
         ref: 'clock',
+        key: 'clock' + this.view,
         staticClass: 'column items-center content-center justify-center'
       }, [
         h('div', {

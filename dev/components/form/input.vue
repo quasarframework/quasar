@@ -213,7 +213,36 @@
 
       <br><br>
 
-      <q-input v-model="area" type="textarea" float-label="Textarea" :max-height="100" rows="3" />
+      <p class="caption">Teaxtarea size</p>
+      <div class="shadow-1 q-pa-md q-my-sm">
+        <q-toggle class="q-my-sm" v-model="textareaOn1" label="Toggle 1" />
+        <q-input v-if="textareaOn1" v-model="area" type="textarea" float-label="1: Textarea max-height=40" :max-height="40" />
+        <q-field icon="wifi" label="Some Label" helper="Some helper">
+          <q-input v-if="textareaOn1" v-model="area" type="textarea" float-label="1: Textarea max-height=40" :max-height="40" />
+        </q-field>
+      </div>
+      <div class="shadow-1 q-pa-md q-my-sm">
+        <q-toggle class="q-my-sm" v-model="textareaOn2" label="Toggle 2" />
+        <q-input v-if="textareaOn2" v-model="area" type="textarea" float-label="2: Textarea rows=5" rows="5" />
+        <q-field icon="wifi" label="Some Label" helper="Some helper">
+          <q-input v-if="textareaOn2" v-model="area" type="textarea" float-label="2: Textarea rows=5" rows="5" />
+        </q-field>
+      </div>
+      <div class="shadow-1 q-pa-md q-my-sm">
+        <q-toggle class="q-my-sm" v-model="textareaOn3" label="Toggle 3" />
+        <q-input v-if="textareaOn3" v-model="area" type="textarea" float-label="3: Textarea max-height=40, rows=5" :max-height="40" rows="5" />
+        <q-field icon="wifi" label="Some Label" helper="Some helper">
+          <q-input v-if="textareaOn3" v-model="area" type="textarea" float-label="3: Textarea max-height=40, rows=5" :max-height="40" rows="5" />
+        </q-field>
+      </div>
+
+      <p class="caption">Blur on destroy</p>
+      <q-toggle v-model="blurTestVisible" label="Field rendered" />
+      <div v-if="blurTestVisible">
+        <q-input :value="text" @change="(v) => { text = v; onChange(v) }" @blur="onBlur" float-label="Test here" />
+        <q-search :value="text" @change="(v) => { text = v; onChange(v) }" @blur="onBlur" float-label="Test here" />
+      </div>
+      <pre>Field value: `{{ text }}`</pre>
 
       <div class="fixed" style="bottom: 16px; right: 16px;">
         <q-checkbox v-model="error" label="Error" />
@@ -236,7 +265,11 @@ export default {
       area: '',
       focus: false,
       error: false,
-      loading: false
+      loading: false,
+      textareaOn1: true,
+      textareaOn2: true,
+      textareaOn3: true,
+      blurTestVisible: true
     }
   },
   computed: {
@@ -247,6 +280,9 @@ export default {
   methods: {
     onChange (val) {
       console.log('@change', JSON.stringify(val))
+    },
+    onBlur (val) {
+      console.log('@blur', JSON.stringify(val))
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))

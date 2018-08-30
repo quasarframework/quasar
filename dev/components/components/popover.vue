@@ -10,7 +10,7 @@
       <div>
         <q-toggle v-model="toggle" class="z-max fixed-top" />
         <q-btn color="primary" icon="assignment">
-          <q-popover v-model="toggle" ref="popover1">
+          <q-popover v-model="toggle" ref="popover1" persistent @show="log('@show popover1 persistent')" @hide="log('@hide popover1 persistent')">
             <q-list no-border link separator style="min-width: 100px">
               <q-item
                 v-for="n in 20"
@@ -27,7 +27,7 @@
         </q-btn>
 
         <q-btn color="primary" icon="map">
-          <q-popover>
+          <q-popover @show="log('@show popover_map persistent')" @hide="log('@hide popover_map persistent')">
             <q-list no-border link separator style="min-width: 100px">
               <q-item
                 v-for="n in 20"
@@ -192,6 +192,9 @@ export default {
   methods: {
     showNotify () {
       this.$q.notify((this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a Popover item')
+    },
+    log (msg) {
+      console.log(msg)
     }
   }
 }

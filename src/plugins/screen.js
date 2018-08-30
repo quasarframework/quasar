@@ -2,6 +2,8 @@ import { isSSR, fromSSR } from './platform.js'
 import { listenOpts } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
 
+const SIZE_LIST = ['sm', 'md', 'lg', 'xl']
+
 export default {
   width: 0,
 
@@ -59,8 +61,10 @@ export default {
     let updateEvt, updateSizes = {}, updateDebounce
 
     this.setSizes = sizes => {
-      sizes.forEach(name => {
-        updateSizes[name] = sizes[name]
+      SIZE_LIST.forEach(name => {
+        if (sizes[name]) {
+          updateSizes[name] = sizes[name]
+        }
       })
     }
     this.setDebounce = deb => {
@@ -72,13 +76,13 @@ export default {
 
       // if css props available
       if (style.getPropertyValue('--q-size-sm')) {
-        ['sm', 'md', 'lg', 'xl'].forEach(name => {
+        SIZE_LIST.forEach(name => {
           this.sizes[name] = parseInt(style.getPropertyValue(`--q-size-${name}`), 10)
         })
       }
 
       this.setSizes = sizes => {
-        ['sm', 'md', 'lg', 'xl'].forEach(name => {
+        SIZE_LIST.forEach(name => {
           if (sizes[name]) {
             this.sizes[name] = sizes[name]
           }
