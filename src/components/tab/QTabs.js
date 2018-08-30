@@ -8,6 +8,12 @@ const
   scrollNavigationSpeed = 5, // in pixels
   debounceDelay = 50 // in ms
 
+function getUnderlineClass (v) {
+  if (v) {
+    return `text-${v}`
+  }
+}
+
 export default {
   name: 'QTabs',
   provide () {
@@ -42,7 +48,8 @@ export default {
     glossy: Boolean,
     animated: Boolean,
     swipeable: Boolean,
-    panesContainerClass: String
+    panesContainerClass: String,
+    underlineColor: String
   },
   data () {
     return {
@@ -57,6 +64,7 @@ export default {
         color: this.color,
         textColor: this.textColor,
         inverted: this.inverted,
+        underlineClass: getUnderlineClass(this.underlineColor),
         direction: null
       }
     }
@@ -73,6 +81,9 @@ export default {
     },
     inverted (v) {
       this.data.inverted = v
+    },
+    underlineColor (v) {
+      this.data.underlineClass = getUnderlineClass(v)
     }
   },
   computed: {
@@ -402,6 +413,7 @@ export default {
               h('div', {
                 ref: 'posbar',
                 staticClass: 'q-tabs-bar q-tabs-global-bar',
+                'class': this.data.underlineClass,
                 on: {
                   transitionend: this.__updatePosbarTransition
                 }
