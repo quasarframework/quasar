@@ -34,7 +34,7 @@ export default {
         'q-if-warning': this.hasWarning,
         'q-if-disabled': this.disable,
         'q-if-readonly': this.readonly,
-        'q-if-focusable': this.focusable && !this.disable,
+        'q-if-focusable': !this.disable,
         'q-if-inverted': this.isInverted,
         'q-if-inverted-light': this.isInvertedLight,
         'q-if-light-color': this.lightColor,
