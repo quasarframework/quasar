@@ -133,10 +133,15 @@ export default {
     },
     clockPointerStyle () {
       let
-        divider = this.view === 'minute' ? 60 : (this.computedFormat24h ? 24 : 12),
-        degrees = Math.round((this.view === 'minute' ? this.minute : this.hour) * (360 / divider)) - 180
+        forMinute = this.view === 'minute',
+        divider = forMinute ? 60 : 12,
+        degrees = Math.round((forMinute ? this.minute : this.hour) * (360 / divider)) - 180,
+        transforms = [`rotate(${degrees}deg)`]
 
-      return cssTransform(`rotate(${degrees}deg)`)
+      if (!forMinute && this.computedFormat24h && !(this.hour > 0 && this.hour < 13)) {
+        transforms.push('scale(.7, .7)')
+      }
+      return cssTransform(transforms.join(' '))
     },
     isValid () {
       return isValid(this.value)
@@ -297,7 +302,16 @@ export default {
       }
 
       if (this.view === 'hour') {
-        this.setHour(Math.round(angle / (this.computedFormat24h ? 15 : 30)))
+        let hour = Math.round(angle / 30)
+        if (this.computedFormat24h) {
+          if (!hour) {
+            hour = distance < 85 ? 0 : 12
+          }
+          else if (distance < 85) {
+            hour += 12
+          }
+        }
+        this.setHour(hour)
       }
       else {
         this.setMinute(Math.round(angle / 6))
@@ -425,7 +439,7 @@ export default {
               on: this.disable ? {} : {
                 click: () => { this.view = 'hour' }
               }
-            }, [ this.hour ])
+            }, [ this.computedFormat24h ? this.__pad(this.hour) : this.hour ])
           ]),
 
           h('span', { style: 'opacity:0.6;' }, [ ':' ]),
@@ -667,7 +681,7 @@ export default {
               '!mousedown': ev => this.__dragStart(ev, i),
               '!mouseup': ev => this.__dragStop(ev, i)
             }
-          }, [ h('span', [ i ]) ]))
+          }, [ h('span', [ i || '00' ]) ]))
         }
       }
       else {
