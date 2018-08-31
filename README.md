@@ -20,14 +20,14 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
 ### Works with Utopian.io
 ![utopian-io logo](https://join.utopian.io/img/logo.png)
 
-Quasar is proud to be a technical partner with [utopian.io](https://utopian.io) on steem. You can read the announcement here:  https://busy.org/@quasarframework/the-quasar-framework-joins-forces-with-utopian-io-and-the-steem-community
+Quasar is proud to be a technical partner with [utopian.io](https://utopian.io) on Steem. You can read the announcement here:  https://busy.org/@quasarframework/the-quasar-framework-joins-forces-with-utopian-io-and-the-steem-community
 
 If you want to know more about steem and utopian, here are a few links to get you started:
 
-- https://signup.utopian.io/ > use this to register and link your github account
-- https://join.utopian.io/guidelines > this page talks about how utopian works
+- https://signup.utopian.io/ > use this to register and link your Github account
+- https://join.utopian.io/guidelines > this page talks about how Utopian works
 - https://busy.org/ > the best steem post editor out there
-- https://busy.org/@utopian.edu > introductory videos to utopian and steem
+- https://busy.org/@utopian.edu > introductory videos to Utopian and Steem
 
 ## Documentation
 
