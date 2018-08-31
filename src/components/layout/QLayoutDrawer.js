@@ -52,7 +52,6 @@ export default {
     noSwipeClose: Boolean
   },
   data () {
-    console.log(this.showIfAbove)
     const
       largeScreenState = this.showIfAbove || (
         this.value !== void 0 ? this.value : true
