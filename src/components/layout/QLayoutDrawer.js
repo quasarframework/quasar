@@ -52,8 +52,9 @@ export default {
     noSwipeClose: Boolean
   },
   data () {
+    console.log(this.showIfAbove)
     const
-      largeScreenState = this.showIfAbove !== void 0 ? this.showIfAbove : (
+      largeScreenState = this.showIfAbove || (
         this.value !== void 0 ? this.value : true
       ),
       showing = this.behavior !== 'mobile' && this.breakpoint < this.layout.width && !this.overlay
@@ -386,6 +387,7 @@ export default {
         }
       }
       else {
+        console.log('set scrollable')
         this.__setScrollable(true)
       }
 
