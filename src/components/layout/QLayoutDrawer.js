@@ -53,7 +53,7 @@ export default {
   },
   data () {
     const
-      largeScreenState = this.showIfAbove !== void 0 ? this.showIfAbove : (
+      largeScreenState = this.showIfAbove || (
         this.value !== void 0 ? this.value : true
       ),
       showing = this.behavior !== 'mobile' && this.breakpoint < this.layout.width && !this.overlay
@@ -380,9 +380,13 @@ export default {
       if (this.belowBreakpoint) {
         this.mobileOpened = true
         this.applyBackdrop(1)
-        !this.layout.container && preventScroll(true)
+        if (!this.layout.container) {
+          this.preventedScroll = true
+          preventScroll(true)
+        }
       }
       else {
+        console.log('set scrollable')
         this.__setScrollable(true)
       }
 
@@ -414,7 +418,8 @@ export default {
       }, duration)
     },
     __cleanup () {
-      if (this.mobileOpened && !this.layout.container) {
+      if (this.preventedScroll) {
+        this.preventedScroll = false
         preventScroll(false)
       }
       this.__setScrollable(false)

@@ -13,6 +13,7 @@
     padding-top 8px
 
 .q-datetime-header
+  pointer-events none
   background currentColor
   > div
     color white
@@ -37,7 +38,6 @@ div + .q-datetime-time
     font-size 1.2rem
 
 .q-datetime-link
-  pointer-events none
   opacity .6
   > span
     cursor pointer
@@ -205,11 +205,19 @@ for $pos in 0..12
     top round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
     left round(((1 + cos($degree * 1deg)) * 100%) / 2, 2) /* rtl:ignore */
 
-for $pos in 0..23
-  $degree = (270 + 15 * $pos)
+for $pos in 1..12
+  $degree = (270 + 30 * $pos)
   .q-datetime-clock-pos-{$pos}.fmt24
     top round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
     left round(((1 + cos($degree * 1deg)) * 100%) / 2, 2) /* rtl:ignore */
+for $pos in 13..23
+  $degree = (270 + 30 * $pos)
+  .q-datetime-clock-pos-{$pos}.fmt24
+    top round(15% + ((1 + sin($degree * 1deg)) * 70%) / 2, 2)
+    left round(15% + ((1 + cos($degree * 1deg)) * 70%) / 2, 2) /* rtl:ignore */
+.q-datetime-clock-pos-0.fmt24
+  top round(15% + ((1 + sin(270deg)) * 70%) / 2, 2)
+  left round(15% + ((1 + cos(270deg)) * 70%) / 2, 2) /* rtl:ignore */
 
 .q-datetime-range
   &.row

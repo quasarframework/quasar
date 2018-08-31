@@ -153,6 +153,7 @@ $margin-top-box
   height 0 !important
   white-space nowrap
 .q-if-label
+  cursor text
   max-width 100%
   overflow hidden
 
@@ -169,10 +170,10 @@ $margin-top-box
     color #656565
 
 .q-if-addon
-  pointer-events none
   opacity 0
-.q-if-addon:not(.q-if-addon-visible)
-  display none
+  cursor inherit
+  &:not(.q-if-addon-visible)
+    display none
 .q-if-addon-left
   padding-right 1px
 .q-if-addon-right

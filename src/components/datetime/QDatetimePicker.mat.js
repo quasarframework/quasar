@@ -26,17 +26,7 @@ export default {
     return {
       view: this.__calcView(this.defaultView),
       dragging: false,
-      centerClockPos: 0,
-
-      __amPmEvents: {
-        keyup: e => {
-          const key = getEventKey(e)
-          if (key === 13 || key === 32) { // enter, space
-            stopAndPrevent(e)
-            this.toggleAmPm()
-          }
-        }
-      }
+      centerClockPos: 0
     }
   },
   watch: {
@@ -143,10 +133,15 @@ export default {
     },
     clockPointerStyle () {
       let
-        divider = this.view === 'minute' ? 60 : (this.computedFormat24h ? 24 : 12),
-        degrees = Math.round((this.view === 'minute' ? this.minute : this.hour) * (360 / divider)) - 180
+        forMinute = this.view === 'minute',
+        divider = forMinute ? 60 : 12,
+        degrees = Math.round((forMinute ? this.minute : this.hour) * (360 / divider)) - 180,
+        transforms = [`rotate(${degrees}deg)`]
 
-      return cssTransform(`rotate(${degrees}deg)`)
+      if (!forMinute && this.computedFormat24h && !(this.hour > 0 && this.hour < 13)) {
+        transforms.push('scale(.7, .7)')
+      }
+      return cssTransform(transforms.join(' '))
     },
     isValid () {
       return isValid(this.value)
@@ -251,7 +246,7 @@ export default {
         }
       })
     },
-    __dragStart (ev) {
+    __dragStart (ev, value) {
       stopAndPrevent(ev)
 
       const
@@ -264,7 +259,7 @@ export default {
       }
 
       this.dragging = true
-      this.__updateClock(ev)
+      this.__updateClock(ev, value)
     },
     __dragMove (ev) {
       if (!this.dragging) {
@@ -273,9 +268,12 @@ export default {
       stopAndPrevent(ev)
       this.__updateClock(ev)
     },
-    __dragStop (ev) {
+    __dragStop (ev, value) {
       stopAndPrevent(ev)
       this.dragging = false
+      if (ev !== void 0) {
+        this.__updateClock(ev, value)
+      }
       if (this.view === 'minute') {
         this.$emit('canClose')
       }
@@ -283,7 +281,10 @@ export default {
         this.view = 'minute'
       }
     },
-    __updateClock (ev) {
+    __updateClock (ev, value) {
+      if (value !== void 0) {
+        return this[this.view === 'hour' ? 'setHour' : 'setMinute'](value)
+      }
       let
         pos = position(ev),
         height = Math.abs(pos.top - this.centerClockPos.top),
@@ -301,7 +302,16 @@ export default {
       }
 
       if (this.view === 'hour') {
-        this.setHour(Math.round(angle / (this.computedFormat24h ? 15 : 30)))
+        let hour = Math.round(angle / 30)
+        if (this.computedFormat24h) {
+          if (!hour) {
+            hour = distance < 85 ? 0 : 12
+          }
+          else if (distance < 85) {
+            hour += 12
+          }
+        }
+        this.setHour(hour)
       }
       else {
         this.setMinute(Math.round(angle / 6))
@@ -407,7 +417,8 @@ export default {
       if (this.typeHasTime) {
         const content = [
           h('span', {
-            staticClass: 'q-datetime-link col-md text-right q-pr-sm',
+            staticClass: 'q-datetime-link col-md q-pr-sm',
+            style: { textAlign: 'right' },
             'class': {active: this.view === 'hour'},
             attrs: { tabindex: 0 },
             on: {
@@ -429,13 +440,14 @@ export default {
               on: this.disable ? {} : {
                 click: () => { this.view = 'hour' }
               }
-            }, [ this.hour ])
+            }, [ this.computedFormat24h ? this.__pad(this.hour) : this.hour ])
           ]),
 
           h('span', { style: 'opacity:0.6;' }, [ ':' ]),
 
           h('span', {
-            staticClass: 'q-datetime-link col-md text-left q-pl-sm',
+            staticClass: 'q-datetime-link col-md q-pl-sm',
+            style: { textAlign: 'left' },
             'class': {active: this.view === 'minute'},
             attrs: { tabindex: 0 },
             on: {
@@ -447,7 +459,7 @@ export default {
                 }
                 else if (key === 38 || key === 39) { // up, right
                   stopAndPrevent(e)
-                  this.setHour(this.minute + 1, true)
+                  this.setMinute(this.minute + 1, true)
                 }
               }
             }
@@ -469,13 +481,13 @@ export default {
           }, content),
 
           (!this.computedFormat24h && h('div', {
-            staticClass: 'q-datetime-ampm column col-auto col-md-12 justify-around'
+            staticClass: 'q-datetime-ampm column col-auto col-md-12 justify-around',
+            attrs: { tabindex: 0 },
+            on: this.__amPmEvents
           }, [
             h('div', {
               staticClass: 'q-datetime-link',
-              'class': { active: this.am },
-              attrs: { tabindex: 0 },
-              on: this.__amPmEvents
+              'class': { active: this.am }
             }, [
               h('span', {
                 attrs: { tabindex: -1 },
@@ -485,9 +497,7 @@ export default {
 
             h('div', {
               staticClass: 'q-datetime-link',
-              'class': { active: !this.am },
-              attrs: { tabindex: 0 },
-              on: this.__amPmEvents
+              'class': { active: !this.am }
             }, [
               h('span', {
                 attrs: { tabindex: -1 },
@@ -668,8 +678,12 @@ export default {
           content.push(h('div', {
             key: `hi${i}`,
             staticClass: `q-datetime-clock-position${cls}`,
-            'class': [`q-datetime-clock-pos-${i}`, i === this.hour ? 'active' : '']
-          }, [ h('span', [ i ]) ]))
+            'class': [`q-datetime-clock-pos-${i}`, i === this.hour ? 'active' : ''],
+            on: {
+              '!mousedown': ev => this.__dragStart(ev, i),
+              '!mouseup': ev => this.__dragStop(ev, i)
+            }
+          }, [ h('span', [ i || '00' ]) ]))
         }
       }
       else {
@@ -678,7 +692,7 @@ export default {
           content.push(h('div', {
             key: `mi${i}`,
             staticClass: 'q-datetime-clock-position',
-            'class': ['q-datetime-clock-pos-' + i, five === this.minute ? 'active' : '']
+            'class': [`q-datetime-clock-pos-${i}`, five === this.minute ? 'active' : '']
           }, [
             h('span', [ five ])
           ]))
@@ -724,6 +738,17 @@ export default {
         case 'hour':
         case 'minute':
           return this.__getClockView(h)
+      }
+    }
+  },
+  created () {
+    this.__amPmEvents = {
+      keydown: e => {
+        const key = getEventKey(e)
+        if ([13, 32, 37, 38, 39, 40].includes(key)) { // enter, space, arrows
+          stopAndPrevent(e)
+          this.toggleAmPm()
+        }
       }
     }
   },
