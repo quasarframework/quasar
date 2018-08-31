@@ -417,7 +417,8 @@ export default {
       if (this.typeHasTime) {
         const content = [
           h('span', {
-            staticClass: 'q-datetime-link col-md text-right q-pr-sm',
+            staticClass: 'q-datetime-link col-md q-pr-sm',
+            style: { textAlign: 'right' },
             'class': {active: this.view === 'hour'},
             attrs: { tabindex: 0 },
             on: {
@@ -445,7 +446,8 @@ export default {
           h('span', { style: 'opacity:0.6;' }, [ ':' ]),
 
           h('span', {
-            staticClass: 'q-datetime-link col-md text-left q-pl-sm',
+            staticClass: 'q-datetime-link col-md q-pl-sm',
+            style: { textAlign: 'left' },
             'class': {active: this.view === 'minute'},
             attrs: { tabindex: 0 },
             on: {
