@@ -1,4 +1,4 @@
-import { between } from '../../utils/format'
+import { normalizeToInterval } from '../../utils/format'
 import { inline as props } from './datetime-props'
 import {
   convertDateToFormat,
@@ -128,19 +128,19 @@ export default {
 
     __parseTypeValue (type, value) {
       if (type === 'month') {
-        return between(value, 1, 12)
+        return normalizeToInterval(value, 1, 12)
       }
       if (type === 'date') {
-        return between(value, 1, this.daysInMonth)
+        return normalizeToInterval(value, 1, this.daysInMonth)
       }
       if (type === 'year') {
-        return between(value, this.yearInterval.min, this.yearInterval.max)
+        return normalizeToInterval(value, this.yearInterval.min, this.yearInterval.max)
       }
       if (type === 'hour') {
-        return between(value, 0, 23)
+        return normalizeToInterval(value, 0, 23)
       }
       if (type === 'minute') {
-        return between(value, 0, 59)
+        return normalizeToInterval(value, 0, 59)
       }
     }
   }

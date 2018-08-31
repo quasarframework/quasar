@@ -26,17 +26,7 @@ export default {
     return {
       view: this.__calcView(this.defaultView),
       dragging: false,
-      centerClockPos: 0,
-
-      __amPmEvents: {
-        keyup: e => {
-          const key = getEventKey(e)
-          if (key === 13 || key === 32) { // enter, space
-            stopAndPrevent(e)
-            this.toggleAmPm()
-          }
-        }
-      }
+      centerClockPos: 0
     }
   },
   watch: {
@@ -251,7 +241,7 @@ export default {
         }
       })
     },
-    __dragStart (ev) {
+    __dragStart (ev, value) {
       stopAndPrevent(ev)
 
       const
@@ -264,7 +254,7 @@ export default {
       }
 
       this.dragging = true
-      this.__updateClock(ev)
+      this.__updateClock(ev, value)
     },
     __dragMove (ev) {
       if (!this.dragging) {
@@ -273,9 +263,12 @@ export default {
       stopAndPrevent(ev)
       this.__updateClock(ev)
     },
-    __dragStop (ev) {
+    __dragStop (ev, value) {
       stopAndPrevent(ev)
       this.dragging = false
+      if (ev !== void 0) {
+        this.__updateClock(ev, value)
+      }
       if (this.view === 'minute') {
         this.$emit('canClose')
       }
@@ -283,7 +276,10 @@ export default {
         this.view = 'minute'
       }
     },
-    __updateClock (ev) {
+    __updateClock (ev, value) {
+      if (value !== void 0) {
+        return this[this.view === 'hour' ? 'setHour' : 'setMinute'](value)
+      }
       let
         pos = position(ev),
         height = Math.abs(pos.top - this.centerClockPos.top),
@@ -447,7 +443,7 @@ export default {
                 }
                 else if (key === 38 || key === 39) { // up, right
                   stopAndPrevent(e)
-                  this.setHour(this.minute + 1, true)
+                  this.setMinute(this.minute + 1, true)
                 }
               }
             }
@@ -469,13 +465,13 @@ export default {
           }, content),
 
           (!this.computedFormat24h && h('div', {
-            staticClass: 'q-datetime-ampm column col-auto col-md-12 justify-around'
+            staticClass: 'q-datetime-ampm column col-auto col-md-12 justify-around',
+            attrs: { tabindex: 0 },
+            on: this.__amPmEvents
           }, [
             h('div', {
               staticClass: 'q-datetime-link',
-              'class': { active: this.am },
-              attrs: { tabindex: 0 },
-              on: this.__amPmEvents
+              'class': { active: this.am }
             }, [
               h('span', {
                 attrs: { tabindex: -1 },
@@ -485,9 +481,7 @@ export default {
 
             h('div', {
               staticClass: 'q-datetime-link',
-              'class': { active: !this.am },
-              attrs: { tabindex: 0 },
-              on: this.__amPmEvents
+              'class': { active: !this.am }
             }, [
               h('span', {
                 attrs: { tabindex: -1 },
@@ -668,7 +662,11 @@ export default {
           content.push(h('div', {
             key: `hi${i}`,
             staticClass: `q-datetime-clock-position${cls}`,
-            'class': [`q-datetime-clock-pos-${i}`, i === this.hour ? 'active' : '']
+            'class': [`q-datetime-clock-pos-${i}`, i === this.hour ? 'active' : ''],
+            on: {
+              '!mousedown': ev => this.__dragStart(ev, i),
+              '!mouseup': ev => this.__dragStop(ev, i)
+            }
           }, [ h('span', [ i ]) ]))
         }
       }
@@ -678,7 +676,7 @@ export default {
           content.push(h('div', {
             key: `mi${i}`,
             staticClass: 'q-datetime-clock-position',
-            'class': ['q-datetime-clock-pos-' + i, five === this.minute ? 'active' : '']
+            'class': [`q-datetime-clock-pos-${i}`, five === this.minute ? 'active' : '']
           }, [
             h('span', [ five ])
           ]))
@@ -724,6 +722,17 @@ export default {
         case 'hour':
         case 'minute':
           return this.__getClockView(h)
+      }
+    }
+  },
+  created () {
+    this.__amPmEvents = {
+      keydown: e => {
+        const key = getEventKey(e)
+        if ([13, 32, 37, 38, 39, 40].includes(key)) { // enter, space, arrows
+          stopAndPrevent(e)
+          this.toggleAmPm()
+        }
       }
     }
   },
