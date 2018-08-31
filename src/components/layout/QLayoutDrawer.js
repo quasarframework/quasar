@@ -380,7 +380,10 @@ export default {
       if (this.belowBreakpoint) {
         this.mobileOpened = true
         this.applyBackdrop(1)
-        !this.layout.container && preventScroll(true)
+        if (!this.layout.container) {
+          this.preventedScroll = true
+          preventScroll(true)
+        }
       }
       else {
         this.__setScrollable(true)
@@ -414,7 +417,8 @@ export default {
       }, duration)
     },
     __cleanup () {
-      if (this.mobileOpened && !this.layout.container) {
+      if (this.preventedScroll) {
+        this.preventedScroll = false
         preventScroll(false)
       }
       this.__setScrollable(false)
