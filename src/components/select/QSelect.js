@@ -93,7 +93,7 @@ export default {
       return opt.length ? opt.join(', ') : ''
     },
     computedClearValue () {
-      return this.clearValue || (this.multiple ? [] : null)
+      return this.clearValue === void 0 ? (this.multiple ? [] : null) : this.clearValue
     },
     isClearable () {
       return this.editable && this.clearable && JSON.stringify(this.computedClearValue) !== JSON.stringify(this.model)
