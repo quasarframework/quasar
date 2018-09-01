@@ -65,7 +65,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Matsumoto Takamasa
 - Josh Bodine
 - William Marques Vicente Gomes Correa
-- John (JCharante)
 - Florent Peyrard
 - Jacob Heruty
 - Scott Ward
@@ -124,6 +123,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
 - Walison Moreira ($5)
+- John (JCharante) ($1)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)
