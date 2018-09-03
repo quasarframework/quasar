@@ -7,6 +7,7 @@ import Scroll from './directives/scroll.js'
 import TouchHold from './directives/touch-hold.js'
 import TouchPan from './directives/touch-pan.js'
 import TouchSwipe from './directives/touch-swipe.js'
+import MaskedInput from './directives/mask.js'
 
 export {
   BackToTop,
@@ -17,5 +18,6 @@ export {
   Scroll,
   TouchHold,
   TouchPan,
-  TouchSwipe
+  TouchSwipe,
+  MaskedInput
 }
