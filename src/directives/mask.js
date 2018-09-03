@@ -78,7 +78,7 @@ const maskInput = {
 }
 
 export default {
-  name: 'q-mask',
+  name: 'mask',
   bind (el, binding) {
     let element = el
     let config = binding.value
