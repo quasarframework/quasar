@@ -1,80 +1,87 @@
-const maskInput = {
-  tokens: {
-    '#': { pattern: /[\x2A\d]/ },
-    0: { pattern: /\d/ },
-    9: { pattern: /\d/ },
-    X: { pattern: /[0-9a-zA-Z]/ },
-    S: { pattern: /[a-zA-Z]/ },
-    A: { pattern: /[a-zA-Z]/, transform: v => v.toLocaleUpperCase() },
-    a: { pattern: /[a-zA-Z]/, transform: v => v.toLocaleLowerCase() },
-    '!': { escape: true }
-  },
-  maskit (v, m, masked = true, tokens) {
-    const value = v || ''
-    const mask = m || ''
-    let iMask = 0
-    let iValue = 0
-    let output = ''
-    while (iMask < mask.length && iValue < value.length) {
-      let cMask = mask[iMask]
-      let masker = tokens[cMask]
-      let cValue = value[iValue]
-      if (masker && !masker.escape) {
-        if (masker.pattern.test(cValue)) {
-          output += masker.transform ? masker.transform(cValue) : cValue
-          iMask++
-        }
-        iValue++
-      }
-      else {
-        if (masker && masker.escape) {
-          iMask++
-          cMask = mask[iMask]
-        }
-        if (masked) output += cMask
-        if (cValue === cMask) iValue++
-        iMask++
-      }
-    }
+const TOKENS = {
+  '#': { pattern: /[\x2A\d]/ },
+  0: { pattern: /\d/ },
+  9: { pattern: /\d/ },
+  X: { pattern: /[0-9a-zA-Z]/ },
+  S: { pattern: /[a-zA-Z]/ },
+  A: { pattern: /[a-zA-Z]/, transform: v => v.toLocaleUpperCase() },
+  a: { pattern: /[a-zA-Z]/, transform: v => v.toLocaleLowerCase() },
+  '!': { escape: true }
+}
 
-    let restOutput = ''
-    if (masked) {
-      while (iMask < mask.length) {
-        let cMask = mask[iMask]
-        if (tokens[cMask]) {
-          restOutput = ''
-          break
-        }
-        restOutput += cMask
-        iMask++
+function maskValue (v, m, masked = true, tokens) {
+  const value = v || ''
+  const mask = m || ''
+  let identificationMask = 0
+  let identificationValue = 0
+  let output = ''
+  while (identificationMask < mask.length && identificationValue < value.length) {
+    let cMask = mask[identificationMask]
+    let masker = tokens[cMask]
+    let cValue = value[identificationValue]
+    if (masker && !masker.escape) {
+      if (masker.pattern.test(cValue)) {
+        output += masker.transform ? masker.transform(cValue) : cValue
+        identificationMask++
       }
+      identificationValue++
     }
-
-    return output + restOutput
-  },
-  dynamicMask (masks, tokens) {
-    let sortedMasks = Array.from(masks).sort((a, b) => a.length - b.length)
-    return function (value, mask, masked = true) {
-      let i = 0
-      while (i < sortedMasks.length) {
-        let currentMask = sortedMasks[i]
-        i++
-        let nextMask = sortedMasks[i]
-        if (!(nextMask && this.maskit(value, nextMask, true, tokens).length > currentMask.length)) {
-          return this.maskit(value, currentMask, masked, tokens)
-        }
+    else {
+      if (masker && masker.escape) {
+        identificationMask++
+        cMask = mask[identificationMask]
       }
-      return ''
+      if (masked) output += cMask
+      if (cValue === cMask) identificationValue++
+      identificationMask++
     }
-  },
-  masker (value, mask, masked = true, tokens) {
-    if (!mask) {
-      return value
-    }
-    return Array.isArray(mask)
-      ? this.dynamicMask(mask, tokens)(value, mask, masked, tokens)
-      : this.maskit(value, mask, masked, tokens)
   }
+
+  let restOutput = ''
+  if (masked) {
+    while (identificationMask < mask.length) {
+      let cMask = mask[identificationMask]
+      if (tokens[cMask]) {
+        restOutput = ''
+        break
+      }
+      restOutput += cMask
+      identificationMask++
+    }
+  }
+
+  return output + restOutput
+};
+
+function arrayMask (masks, tokens) {
+  let sortedMasks = Array.from(masks).sort((a, b) => a.length - b.length)
+  return function (value, mask, masked = true) {
+    let i = 0
+    while (i < sortedMasks.length) {
+      let currentMask = sortedMasks[i]
+      i++
+      let nextMask = sortedMasks[i]
+      if (!(nextMask && maskValue(value, nextMask, true, tokens).length > currentMask.length)) {
+        return maskValue(value, currentMask, masked, tokens)
+      }
+    }
+    return ''
+  }
+}
+
+function maskSelector (value, mask, masked = true, tokens) {
+  if (!mask) {
+    return value
+  }
+  return Array.isArray(mask)
+    ? arrayMask(mask, tokens)(value, mask, masked, tokens)
+    : maskValue(value, mask, masked, tokens)
+}
+
+function event (name) {
+  const evt = document.createEvent('Event')
+  evt.initEvent(name, true, true)
+  return evt
 }
 
 export default {
@@ -86,11 +93,11 @@ export default {
     if (Array.isArray(config) || typeof config === 'string') {
       config = {
         mask: config,
-        tokens: maskInput.tokens
+        tokens: TOKENS
       }
     }
     else if (typeof config === 'object') {
-      Object.assign(maskInput.tokens, config.tokens)
+      Object.assign(TOKENS, config.tokens)
     }
     else {
       throw new Error('Invalid input entered')
@@ -98,18 +105,18 @@ export default {
     if (element.tagName.toLocaleUpperCase() !== 'INPUT') {
       let els = element.getElementsByTagName('input')
       if (els.length !== 1) {
-        throw new Error('q-mask directive requires 1 input. Found ' + els.length)
+        throw new Error('mask directive requires 1 input. Found ' + els.length)
       }
       else {
         element = els[0]
       }
     }
-
+    element.__qmask = config
     element.oninput = function (evt) {
       if (!evt.isTrusted) return
       let position = element.selectionEnd
       let digit = element.value[position - 1]
-      element.value = maskInput.masker(element.value, config.mask, true, config.tokens)
+      element.value = maskSelector(element.value, config.mask, true, config.tokens)
       while (
         position < element.value.length &&
                 element.value.charAt(position - 1) !== digit
@@ -125,11 +132,16 @@ export default {
       element.dispatchEvent(event('input'))
     }
 
-    let newDisplay = maskInput.masker(element.value, config.mask, true, config.tokens)
+    let newDisplay = maskSelector(element.value, config.mask, true, config.tokens)
 
     if (newDisplay !== element.value) {
       element.value = newDisplay
       element.dispatchEvent(event('input'))
     }
+  },
+  unbind (el) {
+    const ctx = el.__qmask
+    if (!ctx) { return }
+    delete el.__qmask
   }
 }
