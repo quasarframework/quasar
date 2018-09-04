@@ -43,7 +43,7 @@ export default {
     },
     set () {
       if (this.__hasChanged() && this.validate(this.value)) {
-        this.$emit('save', this.value)
+        this.$emit('save', this.value, this.initialValue)
       }
       this.__close()
     },
@@ -107,7 +107,7 @@ export default {
 
           if (this.__hasChanged()) {
             if (this.validate(this.value)) {
-              this.$emit('save', this.value)
+              this.$emit('save', this.value, this.initialValue)
             }
             else {
               this.$emit('cancel', this.value, this.initialValue)
