@@ -62,7 +62,7 @@ export default {
       this.$emit('click', e)
     },
     __onMouseDown (e) {
-      this.$nextTick(() => this.$emit('focus', e))
+      !this.disable && this.$nextTick(() => this.$emit('focus', e))
     },
     __additionalHidden (item, hasError, hasWarning, length) {
       if (item.condition !== void 0) {
