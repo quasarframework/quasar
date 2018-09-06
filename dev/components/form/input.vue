@@ -250,9 +250,9 @@
       <q-card>
         <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Masked Input</q-card-title>
         <q-card-main>
-          <q-input v-model="text" v-mask="'###-###-###'" float-label="Text" placeholder="000-000-000" @input="onInput" @change="onChange" clearable />
+          <q-input v-model="text" v-mask="z" float-label="Text" placeholder="000-000-000" @input="onInput" @change="onChange" clearable />
           <q-input v-model="text" v-mask="['###-###-###', '##/###/###-###']" hide-underline float-label="Text (hide underline)" placeholder="###-###-### | ##/###/###-###" @input="onInput" @change="onChange" clearable />
-          <q-input :value="text" v-mask="'AAA->!###-###-###'" float-label="Text (onChange)" placeholder="AAA->!###-###-###" @input="onInput" @change="val => { text = val, onChange(val) }" clearable />
+          <q-input :value="text" v-mask="{mask: '##-@@-SS', tokens: {'@': { pattern: /[0-9a-zA-Z]/ }}}" float-label="Text (onChange)" placeholder="##-@@-SS" @input="onInput" @change="val => { text = val, onChange(val) }" clearable />
         </q-card-main>
       </q-card>
     </div>

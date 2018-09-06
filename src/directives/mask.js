@@ -9,16 +9,14 @@ const TOKENS = {
   '!': { escape: true }
 }
 
-function maskValue (v, m, masked = true, tokens) {
-  const value = v || ''
-  const mask = m || ''
+function maskValue (value = '', mask = '', masked = true, tokens) {
   let identificationMask = 0
   let identificationValue = 0
   let output = ''
   while (identificationMask < mask.length && identificationValue < value.length) {
     let cMask = mask[identificationMask]
-    let masker = tokens[cMask]
-    let cValue = value[identificationValue]
+    const masker = tokens[cMask]
+    const cValue = value[identificationValue]
     if (masker && !masker.escape) {
       if (masker.pattern.test(cValue)) {
         output += masker.transform ? masker.transform(cValue) : cValue
@@ -54,7 +52,7 @@ function maskValue (v, m, masked = true, tokens) {
 };
 
 function arrayMask (masks, tokens) {
-  let sortedMasks = Array.from(masks).sort((a, b) => a.length - b.length)
+  const sortedMasks = Array.from(masks).sort((a, b) => a.length - b.length)
   return function (value, mask, masked = true) {
     let i = 0
     while (i < sortedMasks.length) {
@@ -70,15 +68,13 @@ function arrayMask (masks, tokens) {
 }
 
 function maskSelector (value, mask, masked = true, tokens) {
-  if (!mask) {
-    return value
-  }
+  if (!mask) return value
   return Array.isArray(mask)
     ? arrayMask(mask, tokens)(value, mask, masked, tokens)
     : maskValue(value, mask, masked, tokens)
 }
 
-function event (name) {
+function eventMaker (name) {
   const evt = document.createEvent('Event')
   evt.initEvent(name, true, true)
   return evt
@@ -97,7 +93,7 @@ export default {
       }
     }
     else if (typeof config === 'object') {
-      Object.assign(TOKENS, config.tokens)
+      config.tokens = Object.assign(TOKENS, config.tokens)
     }
     else {
       throw new Error('Invalid input entered')
@@ -129,14 +125,14 @@ export default {
           element.setSelectionRange(position, position)
         }, 0)
       }
-      element.dispatchEvent(event('input'))
+      element.dispatchEvent(eventMaker('input'))
     }
 
     let newDisplay = maskSelector(element.value, config.mask, true, config.tokens)
 
     if (newDisplay !== element.value) {
       element.value = newDisplay
-      element.dispatchEvent(event('input'))
+      element.dispatchEvent(eventMaker('input'))
     }
   },
   unbind (el) {
