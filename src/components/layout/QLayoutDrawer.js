@@ -386,7 +386,6 @@ export default {
         }
       }
       else {
-        console.log('set scrollable')
         this.__setScrollable(true)
       }
 
