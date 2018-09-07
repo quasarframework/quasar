@@ -42,7 +42,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - ShipStream.io
 - MG Papelaria (company)
 - Evan Leonardi
-- Max Matteo Staack
 - Bobby Ross
 - Netanel Edri
 - Edinei Cipriani
@@ -53,12 +52,14 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
+- Max Matteo Staack ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
 - Pawel Rakowski ($20)
 - Stephen Clarke ($20)
 - Ciprian Popa ($20)
 - Shone Radulovic ($15)
+- Sam Cassar ($15)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
 - Marek Urbanowicz
