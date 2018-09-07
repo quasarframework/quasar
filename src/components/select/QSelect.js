@@ -36,7 +36,7 @@ export default {
     chipsColor: String,
     chipsBgColor: String,
     displayValue: String,
-    maxHeight: String
+    popupMaxHeight: String
   },
   data () {
     return {
@@ -347,7 +347,7 @@ export default {
         cover: true,
         disable: !this.editable,
         anchorClick: false,    
-        maxHeight: String
+        maxHeight: this.popupMaxHeight
       },
       slot: 'after',
       on: {
