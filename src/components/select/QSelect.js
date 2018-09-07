@@ -346,7 +346,7 @@ export default {
       props: {
         cover: true,
         disable: !this.editable,
-        anchorClick: false,    
+        anchorClick: false,
         maxHeight: this.popupMaxHeight
       },
       slot: 'after',
