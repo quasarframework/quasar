@@ -324,7 +324,9 @@ export default {
           nativeOn: {
             click: e => { e.stopPropagation() }
           }
-        }, [h('div', { domProps: { innerHTML: opt.label } })])
+        }, [
+          h('div', { domProps: { innerHTML: opt.label } })
+        ])
       }))
       child.push(el)
     }
