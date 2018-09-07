@@ -19,7 +19,8 @@ export default {
     validate: {
       type: Function,
       default: () => true
-    }
+    },
+    disable: Boolean
   },
   data () {
     return {
@@ -92,7 +93,8 @@ export default {
       ref: 'popover',
       props: {
         cover: true,
-        persistent: this.persistent
+        persistent: this.persistent,
+        disable: this.disable
       },
       on: {
         show: () => {
