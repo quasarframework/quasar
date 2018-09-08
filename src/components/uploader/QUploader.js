@@ -91,7 +91,7 @@ export default {
       return this.totalSize ? Math.min(99.99, this.uploadedSize / this.totalSize * 100) : 0
     },
     addDisabled () {
-      return !this.multiple && this.queueLength >= 1
+      return this.disable || (!this.multiple && this.queueLength >= 1)
     },
     filesStyle () {
       if (this.maxHeight) {
