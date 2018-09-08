@@ -1,4 +1,4 @@
-import { height, offset, css, cssTransform } from '../../utils/dom.js'
+import { height, offset } from '../../utils/dom.js'
 import debounce from '../../utils/debounce.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
@@ -60,7 +60,7 @@ export default {
       }
     },
     __setPos (offset) {
-      css(this.media, cssTransform(`translate3D(-50%,${offset}px, 0)`))
+      this.media.style.transform = `translate3D(-50%,${offset}px, 0)`
     }
   },
   render (h) {

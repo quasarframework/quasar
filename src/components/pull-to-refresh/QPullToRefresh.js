@@ -1,5 +1,4 @@
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
-import { cssTransform } from '../../utils/dom.js'
 import QIcon from '../icon/QIcon.js'
 import TouchPan from '../../directives/touch-pan.js'
 
@@ -57,9 +56,10 @@ export default {
       }
     },
     style () {
-      const css = cssTransform(`translateY(${this.pullPosition}px)`)
-      css.marginBottom = `${height}px`
-      return css
+      return {
+        transform: `translateY(${this.pullPosition}px)`,
+        marginBottom: `${height}px`
+      }
     },
     messageClass () {
       return `text-${this.color}`

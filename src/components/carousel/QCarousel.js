@@ -1,6 +1,5 @@
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/touch-pan.js'
-import { cssTransform } from '../../utils/dom.js'
 import { isNumber } from '../../utils/is.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 import { start, stop } from '../../utils/animate.js'
@@ -88,7 +87,7 @@ export default {
         : ico
     },
     trackPosition () {
-      return cssTransform(`translateX(${this.rtlDir * this.position}%)`)
+      return { transform: `translateX(${this.rtlDir * this.position}%)` }
     },
     infiniteLeft () {
       return this.infinite && this.slidesNumber > 1 && this.positionSlide < 0

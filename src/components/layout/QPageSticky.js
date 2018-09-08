@@ -1,5 +1,3 @@
-import { cssTransform } from '../../utils/dom.js'
-
 export default {
   name: 'QPageSticky',
   inject: {
@@ -71,7 +69,7 @@ export default {
       }
 
       const css = transforms.length
-        ? cssTransform(transforms.join(' '))
+        ? { transform: transforms.join(' ') }
         : {}
 
       if (this.offset) {

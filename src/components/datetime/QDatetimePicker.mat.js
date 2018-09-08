@@ -1,4 +1,4 @@
-import { height, width, offset, cssTransform } from '../../utils/dom.js'
+import { height, width, offset } from '../../utils/dom.js'
 import { position, stopAndPrevent, getEventKey } from '../../utils/event.js'
 import QBtn from '../btn/QBtn.js'
 import { isSameDate, isValid, adjustDate } from '../../utils/date.js'
@@ -185,7 +185,7 @@ export default {
       if (!forMinute && this.computedFormat24h && !(this.hour > 0 && this.hour < 13)) {
         transforms.push('scale(.7, .7)')
       }
-      return cssTransform(transforms.join(' '))
+      return { transform: transforms.join(' ') }
     },
     isValid () {
       return isValid(this.value)

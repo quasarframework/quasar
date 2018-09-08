@@ -1,4 +1,4 @@
-import { width, css, cssTransform } from '../../utils/dom.js'
+import { width } from '../../utils/dom.js'
 import debounce from '../../utils/debounce.js'
 import QIcon from '../icon/QIcon.js'
 import { listenOpts } from '../../utils/event.js'
@@ -263,7 +263,8 @@ export default {
       const xPos = this.$q.i18n.rtl
         ? left + width
         : left
-      css(this.$refs.posbar, cssTransform(`translateX(${xPos}px) scaleX(${width})`))
+
+      this.$refs.posbar.style.transform = `translateX(${xPos}px) scaleX(${width})`
     },
     __updatePosbarTransition () {
       if (
