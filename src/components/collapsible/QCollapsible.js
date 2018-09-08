@@ -27,6 +27,7 @@ export default {
     iconToggle: Boolean,
     collapseIcon: String,
     opened: Boolean,
+    duration: Number,
 
     headerStyle: [Array, String, Object],
     headerClass: [Array, String, Object]
@@ -124,7 +125,9 @@ export default {
           ])
           : h(QItemWrapper, this.__getItemProps(true), this.__getToggleSide(h, true)),
 
-        h(QSlideTransition, [
+        h(QSlideTransition, {
+          props: { duration: this.duration }
+        }, [
           h('div', {
             directives: [{ name: 'show', value: this.showing }]
           }, [
