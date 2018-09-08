@@ -33,15 +33,9 @@ export default {
     },
     model: {
       get () {
-        let date = isValid(this.computedValue)
+        return isValid(this.computedValue)
           ? new Date(this.computedValue)
           : (this.computedDefaultValue ? new Date(this.computedDefaultValue) : startOfDate(new Date(), 'day'))
-
-        return getDateBetween(
-          date,
-          this.pmin,
-          this.pmax
-        )
       },
       set (val) {
         const date = getDateBetween(val, this.pmin, this.pmax)
@@ -123,7 +117,7 @@ export default {
         hour = this.model.getHours(),
         offset = this.am ? 12 : -12
 
-      this.model = new Date(this.model.setHours(hour + offset))
+      this.model = new Date(new Date(this.model).setHours(hour + offset))
     },
 
     __parseTypeValue (type, value) {
