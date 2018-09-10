@@ -118,6 +118,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ross Ball
 - KPA Productions
 - Roman Sujatinov
+- Tanya Trimbakova
 
 - Jim O'Quinn ($5)
 - Ken ($5)
