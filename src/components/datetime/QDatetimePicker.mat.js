@@ -267,6 +267,9 @@ export default {
         }
         if (!skipView && this.type === 'date') {
           this.$emit('canClose')
+          if (this.minimal) {
+            this.view = this.__calcView()
+          }
         }
         else if (!skipView) {
           this.view = 'hour'
@@ -375,6 +378,9 @@ export default {
       }
       if (this.view === 'minute') {
         this.$emit('canClose')
+        if (this.minimal) {
+          this.view = this.__calcView()
+        }
       }
       else {
         this.view = 'minute'
