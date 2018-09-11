@@ -152,6 +152,11 @@ export default {
     },
     __keyboardCustomKeyHandle (key, e) {
       switch (key) {
+        case 27: // ESCAPE
+          if (this.$refs.popover.showing) {
+            this.hide()
+          }
+          break
         case 13: // ENTER key
         case 32: // SPACE key
           if (!this.$refs.popover.showing) {
@@ -195,6 +200,7 @@ export default {
       this.__onFocus()
       if (this.filter && this.$refs.filter) {
         this.$refs.filter.focus()
+        this.reposition()
       }
     },
     __onBlur (e) {
@@ -346,6 +352,7 @@ export default {
       'class': this.dark ? 'bg-dark' : null,
       props: {
         cover: true,
+        keepOnScreen: true,
         disable: !this.editable,
         anchorClick: false,
         maxHeight: this.popupMaxHeight

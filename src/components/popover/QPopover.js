@@ -8,7 +8,7 @@ import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import EscapeKey from '../../utils/escape-key.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import { listenOpts } from '../../utils/event.js'
+import { listenOpts, position as eventPosition } from '../../utils/event.js'
 import CanRenderMixinMixin from '../../mixins/can-render.js'
 
 export default {
@@ -26,6 +26,7 @@ export default {
     fit: Boolean,
     cover: Boolean,
     persistent: Boolean,
+    keepOnScreen: Boolean,
     maxHeight: String,
     touchPosition: Boolean,
     anchorClick: {
@@ -81,7 +82,7 @@ export default {
     this.$nextTick(() => {
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)
-      if (this.anchorEl.classList.contains('q-btn-inner') || this.anchorEl.classList.contains('q-if-inner')) {
+      if (this.anchorEl.classList.contains('q-btn-inner') || this.anchorEl.classList.contains('q-if-inner') || this.anchorEl.classList.contains('no-pointer-events')) {
         this.anchorEl = this.anchorEl.parentNode
       }
       if (this.anchorClick) {
@@ -166,9 +167,9 @@ export default {
       this.$el.remove()
     },
     reposition (event, animate) {
-      const { top, bottom } = this.anchorEl.getBoundingClientRect()
+      const { top, bottom, left } = this.anchorEl.getBoundingClientRect()
 
-      if (bottom < 0 || top > window.innerHeight) {
+      if (!this.keepOnScreen && (bottom < 0 || top > window.innerHeight)) {
         return this.hide()
       }
 
@@ -177,6 +178,16 @@ export default {
         this.$el.style.minWidth = style.getPropertyValue('width')
         if (this.cover) {
           this.$el.style.minHeight = style.getPropertyValue('height')
+        }
+      }
+
+      if (animate) {
+        if (this.touchPosition) {
+          const { top: eventTop, left: eventLeft } = eventPosition(event)
+          this.touchOffset = { left: eventLeft - left, top: eventTop - top }
+        }
+        else {
+          delete this.touchOffset
         }
       }
 
@@ -190,7 +201,8 @@ export default {
         selfOrigin: this.selfOrigin,
         maxHeight: this.maxHeight,
         anchorClick: this.anchorClick,
-        touchPosition: this.touchPosition
+        touchPosition: this.touchPosition,
+        touchOffset: this.touchOffset
       })
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="row" style="padding: 1500px 0">
+  <div class="row" style="padding: 1500px 0; width: 2000px">
     <div class="col" style="height:2000px; width:100px; background-color:red;">
       <q-context-menu>
         <q-list link separator style="min-width: 150px; max-height: 300px;">
