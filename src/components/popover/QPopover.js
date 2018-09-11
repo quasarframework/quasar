@@ -167,9 +167,9 @@ export default {
       this.$el.remove()
     },
     reposition (event, animate) {
-      const { top, bottom, left } = this.anchorEl.getBoundingClientRect()
+      const { top, bottom, left, right } = this.anchorEl.getBoundingClientRect()
 
-      if (!this.keepOnScreen && (bottom < 0 || top > window.innerHeight)) {
+      if (!this.keepOnScreen && (bottom < 0 || top > window.innerHeight || right < 0 || left > window.innerWidth)) {
         return this.hide()
       }
 
