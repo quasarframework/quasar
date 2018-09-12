@@ -12,7 +12,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $500
 
-<a href="http://campuscloudservices.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/campus-cloud-services.png" width="350px"></a>
+<a href="http://campuscloudservices.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/4de8637c/campus-cloud-services.png" width="350px"></a>
 
 ---
 
