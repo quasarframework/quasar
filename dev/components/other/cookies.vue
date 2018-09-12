@@ -50,6 +50,7 @@ export default {
     if (this.$isServer) {
       console.log('setting ssr_cookie')
       this.$q.cookies.set('ssr_cookie', 'yes')
+      this.$q.cookies.set('ssr_cookie-second', 'yes')
     }
   }
 }

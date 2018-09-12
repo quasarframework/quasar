@@ -56,7 +56,14 @@ function set (key, val, opts = {}, ssr) {
   ].join('')
 
   if (ssr) {
-    ssr.res.setHeader('Set-Cookie', cookie)
+    if (ssr.req.qCookies) {
+      ssr.req.qCookies.push(cookie)
+    }
+    else {
+      ssr.req.qCookies = [ cookie ]
+    }
+
+    ssr.res.setHeader('Set-Cookie', ssr.req.qCookies)
 
     // make temporary update so future get()
     // within same SSR timeframe would return the set value
