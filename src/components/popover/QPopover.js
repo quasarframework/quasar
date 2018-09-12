@@ -82,18 +82,23 @@ export default {
     this.$nextTick(() => {
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)
-      if (this.anchorEl.classList.contains('q-btn-inner') || this.anchorEl.classList.contains('q-if-inner') || this.anchorEl.classList.contains('no-pointer-events')) {
+
+      if (
+        this.anchorEl.classList.contains('q-btn-inner') ||
+        this.anchorEl.classList.contains('q-if-inner') ||
+        this.anchorEl.classList.contains('no-pointer-events')
+      ) {
         this.anchorEl = this.anchorEl.parentNode
       }
+
       if (this.anchorClick) {
         this.anchorEl.classList.add('cursor-pointer')
         this.anchorEl.addEventListener('click', this.toggle)
         this.anchorEl.addEventListener('keyup', this.__toggleKey)
       }
     })
-    if (this.value) {
-      this.show()
-    }
+
+    this.value && this.show()
   },
   beforeDestroy () {
     this.showing && this.__cleanup()
@@ -169,7 +174,10 @@ export default {
     reposition (event, animate) {
       const { top, bottom, left, right } = this.anchorEl.getBoundingClientRect()
 
-      if (!this.keepOnScreen && (bottom < 0 || top > window.innerHeight || right < 0 || left > window.innerWidth)) {
+      if (
+        !this.keepOnScreen &&
+        (bottom < 0 || top > window.innerHeight || right < 0 || left > window.innerWidth)
+      ) {
         return this.hide()
       }
 
