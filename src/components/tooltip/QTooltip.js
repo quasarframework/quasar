@@ -121,9 +121,14 @@ export default {
 
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)
-      if (this.anchorEl.classList.contains('q-btn-inner') || this.anchorEl.classList.contains('q-if-inner') || this.anchorEl.classList.contains('no-pointer-events')) {
+      if (
+        this.anchorEl.classList.contains('q-btn-inner') ||
+        this.anchorEl.classList.contains('q-if-inner') ||
+        this.anchorEl.classList.contains('no-pointer-events')
+      ) {
         this.anchorEl = this.anchorEl.parentNode
       }
+
       if (this.$q.platform.is.mobile) {
         this.anchorEl.addEventListener('click', this.show)
       }
@@ -134,9 +139,7 @@ export default {
         this.anchorEl.addEventListener('blur', this.__delayHide)
       }
 
-      if (this.value) {
-        this.show()
-      }
+      this.value && this.show()
     })
   },
   beforeDestroy () {
@@ -145,6 +148,7 @@ export default {
     if (!this.anchorEl) {
       return
     }
+
     if (this.$q.platform.is.mobile) {
       this.anchorEl.removeEventListener('click', this.show)
     }
