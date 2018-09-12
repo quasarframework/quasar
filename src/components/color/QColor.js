@@ -276,6 +276,7 @@ export default {
           ref: 'popup',
           props: {
             cover: true,
+            keepOnScreen: true,
             disable: this.disable,
             anchorClick: false,
             maxHeight: '100vh'
