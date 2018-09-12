@@ -1,6 +1,7 @@
 export default {
   name: 'QCard',
   props: {
+    dark: Boolean,
     square: Boolean,
     flat: Boolean,
     inline: Boolean,
@@ -12,12 +13,12 @@ export default {
       const cls = [{
         'no-border-radius': this.square,
         'no-shadow': this.flat,
-        'inline-block': this.inline
+        'inline-block': this.inline,
+        'q-card-dark': this.dark
       }]
 
       if (this.color) {
         cls.push(`bg-${this.color}`)
-        cls.push(`q-card-dark`)
         cls.push(`text-${this.textColor || 'white'}`)
       }
       else if (this.textColor) {
