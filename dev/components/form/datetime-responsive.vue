@@ -1,13 +1,15 @@
 <template>
   <div>
     <div class="layout-padding">
+      <q-toggle v-model="typeDate" label="With date" />
+      <q-toggle v-model="typeTime" label="With time" />
       <div class="bg-secondary text-white">
         Model: <em>{{ model }}</em>
       </div>
       <q-datetime
         class="q-my-md"
         v-model="model"
-        type="datetime"
+        :type="computedType"
         clearable
         format24h
         @change="value => log('@change', value)"
@@ -18,7 +20,7 @@
       <q-datetime
         class="q-my-md"
         v-model="model"
-        type="datetime"
+        :type="computedType"
         clearable
         format24h
         minimal
@@ -31,7 +33,7 @@
         <div>
           <q-datetime
             v-model="model"
-            type="datetime"
+            :type="computedType"
             clearable
             @change="value => log('@change', value)"
             @input="value => log('@input', value)"
@@ -42,7 +44,7 @@
         <div>
           <q-datetime
             v-model="model"
-            type="datetime"
+            :type="computedType"
             clearable
             minimal
             @change="value => log('@change', value)"
@@ -54,7 +56,7 @@
       </div>
       <q-datetime
         v-model="model"
-        type="datetime"
+        :type="computedType"
         clearable
         modal
         @change="value => log('@change', value)"
@@ -64,7 +66,7 @@
       />
       <q-datetime
         v-model="model"
-        type="datetime"
+        :type="computedType"
         clearable
         modal
         minimal
@@ -77,7 +79,7 @@
         <div>
           <q-datetime-picker
             v-model="model"
-            type="datetime"
+            :type="computedType"
             format24h
             default-view="month"
             @change="value => log('@change', value)"
@@ -89,7 +91,7 @@
         <div>
           <q-datetime-picker
             v-model="model"
-            type="datetime"
+            :type="computedType"
             format24h
             minimal
             default-view="year"
@@ -103,7 +105,7 @@
       <q-datetime-picker
         class="q-my-md"
         v-model="model"
-        type="datetime"
+        :type="computedType"
         @change="value => log('@change', value)"
         @input="value => log('@input', value)"
         @focus="log('@focus')"
@@ -112,7 +114,7 @@
       <q-datetime-picker
         class="q-my-md"
         v-model="model"
-        type="datetime"
+        :type="computedType"
         minimal
         @change="value => log('@change', value)"
         @input="value => log('@input', value)"
@@ -127,7 +129,7 @@
       <q-datetime-picker
         class="q-my-md"
         v-model="model"
-        type="datetime"
+        :type="computedType"
         format24h
         :min="min"
         :max="max"
@@ -136,6 +138,31 @@
         @focus="log('@focus')"
         @blur="log('@blur')"
       />
+      <div class="q-my-md">
+        <div style="width: 290px; outline: 2px solid red">
+          <q-datetime-picker
+            v-model="model"
+            :type="computedType"
+            clearable
+            @change="value => log('@change', value)"
+            @input="value => log('@input', value)"
+            @focus="log('@focus')"
+            @blur="log('@blur')"
+          />
+        </div>
+        <div style="width: 320px; outline: 2px solid red">
+          <q-datetime-picker
+            v-model="model"
+            :type="computedType"
+            clearable
+            minimal
+            @change="value => log('@change', value)"
+            @input="value => log('@input', value)"
+            @focus="log('@focus')"
+            @blur="log('@blur')"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -151,7 +178,17 @@ export default {
       model: undefined,
       minMaxModel: date.formatDate(day),
       min: date.subtractFromDate(day, {days: 45}),
-      max: date.addToDate(day, {days: 8, month: 4, minutes: 10})
+      max: date.addToDate(day, {days: 8, month: 4, minutes: 10}),
+      typeDate: true,
+      typeTime: true
+    }
+  },
+  computed: {
+    computedType () {
+      if (this.typeDate && this.typeTime) {
+        return 'datetime'
+      }
+      return this.typeTime ? 'time' : 'date'
     }
   },
   methods: {

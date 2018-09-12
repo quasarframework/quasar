@@ -1,4 +1,5 @@
 import { position as eventPosition } from './event.js'
+import { getScrollbarWidth } from './scroll.js'
 
 export function getAnchorPosition (el, offset) {
   let
@@ -42,11 +43,12 @@ export function getTargetPosition (el) {
   }
 }
 
-export function repositionIfNeeded (anchor, target, selfOrigin, anchorOrigin, targetPosition) {
+export function repositionIfNeeded (anchor, target, selfOrigin, anchorOrigin, targetPosition, cover) {
+  const margin = getScrollbarWidth()
   let { innerHeight, innerWidth } = window
   // don't go bellow scrollbars
-  innerHeight -= 20
-  innerWidth -= 20
+  innerHeight -= margin
+  innerWidth -= margin
 
   if (targetPosition.top < 0 || targetPosition.top + target.bottom > innerHeight) {
     if (selfOrigin.vertical === 'center') {
@@ -67,6 +69,9 @@ export function repositionIfNeeded (anchor, target, selfOrigin, anchorOrigin, ta
     if (selfOrigin.horizontal === 'middle') {
       targetPosition.left = anchor[selfOrigin.horizontal] > innerWidth / 2 ? innerWidth - target.right : 0
     }
+    else if (cover) {
+      targetPosition.left = targetPosition.left < 0 ? 0 : innerWidth - target.right
+    }
     else if (anchor[selfOrigin.horizontal] > innerWidth / 2) {
       const anchorY = Math.min(innerWidth, anchorOrigin.horizontal === 'middle' ? anchor.center : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchor.right : anchor.left))
       targetPosition.maxWidth = Math.min(target.right, anchorY)
@@ -85,9 +90,10 @@ export function parseHorizTransformOrigin (pos) {
   return pos === 'middle' ? 'center' : pos
 }
 
-export function setPosition ({el, animate, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset, touchOffset}) {
+export function setPosition ({el, animate, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset, touchOffset, cover}) {
   let anchor
   el.style.maxHeight = maxHeight || '65vh'
+  el.style.maxWidth = '100vw'
 
   if (event && (!anchorClick || touchPosition)) {
     const {top, left} = eventPosition(event)
@@ -112,7 +118,7 @@ export function setPosition ({el, animate, anchorEl, anchorOrigin, selfOrigin, m
     left: anchor[anchorOrigin.horizontal] - target[selfOrigin.horizontal]
   }
 
-  targetPosition = repositionIfNeeded(anchor, target, selfOrigin, anchorOrigin, targetPosition)
+  targetPosition = repositionIfNeeded(anchor, target, selfOrigin, anchorOrigin, targetPosition, cover)
 
   el.style.top = Math.max(0, targetPosition.top) + 'px'
   el.style.left = Math.max(0, targetPosition.left) + 'px'
