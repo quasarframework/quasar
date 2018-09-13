@@ -136,12 +136,12 @@ export default {
       if ((label = this.$slots.helper || this.helper)) {
         return h('div', { staticClass: 'q-field-helper col' }, label)
       }
-      return h('div', { staticClass: 'col' })
+      return h('div', { staticClass: 'col text-transparent' }, ['|'])
     },
     __hasBottom () {
-      return (this.hasError && (this.$slots['error-label'] || this.errorLabel)) ||
-        (this.hasWarning && (this.$slots['warning-label'] || this.warningLabel)) ||
-        (this.$slots.helper || this.helper) ||
+      return this.$slots['error-label'] || this.errorLabel ||
+        this.$slots['warning-label'] || this.warningLabel ||
+        this.$slots.helper || this.helper ||
         this.count
     }
   },
