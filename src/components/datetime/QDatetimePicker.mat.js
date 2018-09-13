@@ -62,9 +62,6 @@ export default {
       this.color && cls.push(`text-${this.color}`)
       return cls
     },
-    contentClasses () {
-      return this.minimal ? 'col-md-12' : 'col-md-8'
-    },
     dateArrow () {
       const val = [ this.$q.icon.datetime.arrowLeft, this.$q.icon.datetime.arrowRight ]
       return this.$q.i18n.rtl ? val.reverse() : val
@@ -427,14 +424,15 @@ export default {
     },
 
     __getTopSection (h) {
-      const child = []
+      const child = [
+        this.typeHasDate
+          ? h('div', { staticClass: 'q-datetime-weekdaystring' }, [this.weekDayString])
+          : void 0,
+        h('div', { staticClass: 'col' })
+      ]
 
       if (this.typeHasDate) {
         const content = [
-          h('div', { staticClass: 'q-datetime-weekdaystring col-12' }, [
-            this.weekDayString
-          ]),
-
           h('div', { staticClass: 'q-datetime-datestring row flex-center' }, [
             h('span', {
               staticClass: 'q-datetime-link small col-auto col-md-12',
@@ -628,8 +626,10 @@ export default {
         ]))
       }
 
+      child.push(h('div', { staticClass: 'col' }))
+
       return h('div', {
-        staticClass: 'q-datetime-header column col-md-4 justify-center'
+        staticClass: 'q-datetime-header column items-center'
       }, child)
     },
 
@@ -779,7 +779,7 @@ export default {
         ]),
 
         h('div', {
-          staticClass: 'q-datetime-weekdays row items-center justify-start'
+          staticClass: 'q-datetime-weekdays row no-wrap items-center justify-start'
         }, this.headerDayNames.map(day => h('div', [ day ]))),
 
         h('div', {
@@ -892,14 +892,15 @@ export default {
       (!this.minimal && this.__getTopSection(h)) || void 0,
 
       h('div', {
-        staticClass: 'q-datetime-content',
-        'class': this.contentClasses
+        staticClass: 'q-datetime-content'
       }, [
         h('div', {
           ref: 'selector',
-          staticClass: 'q-datetime-selector row flex-center'
+          staticClass: 'q-datetime-selector row items-center'
         }, [
-          this.__getViewSection(h)
+          h('div', { 'class': 'col' }),
+          this.__getViewSection(h),
+          h('div', { 'class': 'col' })
         ])
       ].concat(this.$slots.default))
     ])

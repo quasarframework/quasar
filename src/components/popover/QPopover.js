@@ -210,7 +210,8 @@ export default {
         maxHeight: this.maxHeight,
         anchorClick: this.anchorClick,
         touchPosition: this.touchPosition,
-        touchOffset: this.touchOffset
+        touchOffset: this.touchOffset,
+        cover: this.cover
       })
     }
   }
