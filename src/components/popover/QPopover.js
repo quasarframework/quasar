@@ -109,6 +109,7 @@ export default {
   },
   methods: {
     __show (evt) {
+      this.canBeDismissed = false
       if (!this.noRefocus) {
         this.__refocusTarget = (this.anchorClick && this.anchorEl) || document.activeElement
       }
@@ -127,8 +128,8 @@ export default {
         this.$refs.content.focus()
       }
       this.timer = setTimeout(() => {
-        document.body.addEventListener('click', this.__bodyHide, true)
-        document.body.addEventListener('touchstart', this.__bodyHide, true)
+        document.body.addEventListener('mousedown', this.__bodyHideStart, true)
+        document.body.addEventListener('mouseup', this.__bodyHide, true)
         this.showPromise && this.showPromiseResolve()
       }, 0)
     },
@@ -137,8 +138,22 @@ export default {
         this.toggle(evt)
       }
     },
+    __bodyHideStart (evt) {
+      if (
+        this.persistent || (
+          evt && evt.target &&
+          (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
+        )
+      ) {
+        this.canBeDismissed = false
+        return
+      }
+
+      this.canBeDismissed = true
+    },
     __bodyHide (evt) {
       if (
+        !this.canBeDismissed ||
         this.persistent || (
           evt && evt.target &&
           (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
@@ -147,6 +162,7 @@ export default {
         return
       }
 
+      this.canBeDismissed = false
       this.hide(evt)
     },
     __hide () {
@@ -160,8 +176,8 @@ export default {
     __cleanup () {
       clearTimeout(this.timer)
 
-      document.body.removeEventListener('click', this.__bodyHide, true)
-      document.body.removeEventListener('touchstart', this.__bodyHide, true)
+      document.body.removeEventListener('mousedown', this.__bodyHideStart, true)
+      document.body.removeEventListener('mouseup', this.__bodyHide, true)
       this.scrollTarget.removeEventListener('scroll', this.__updatePosition, listenOpts.passive)
       if (this.scrollTarget !== window) {
         window.removeEventListener('scroll', this.__updatePosition, listenOpts.passive)

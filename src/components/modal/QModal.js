@@ -166,16 +166,29 @@ export default {
     }
   },
   methods: {
-    __dismiss () {
+    __dismissStart (evt) {
+      if (evt.target !== evt.currentTarget || this.noBackdropDismiss) {
+        this.canBeDismissed = false
+        return
+      }
+      this.canBeDismissed = true
+    },
+    __dismiss (evt) {
       if (this.noBackdropDismiss) {
         this.__shake()
         return
       }
+      if (evt.target !== evt.currentTarget || !this.canBeDismissed) {
+        return
+      }
+      this.canBeDismissed = false
       this.hide().then(() => {
         this.$emit('dismiss')
       })
     },
     __show () {
+      this.canBeDismissed = false
+
       if (!this.noRefocus) {
         this.__refocusTarget = document.activeElement
       }
@@ -287,7 +300,8 @@ export default {
         staticClass: 'modal fullscreen row',
         'class': this.modalClasses,
         on: {
-          click: this.__dismiss
+          '&mousedown': this.__dismissStart,
+          '&mouseup': this.__dismiss
         },
         directives: [{
           name: 'show',
