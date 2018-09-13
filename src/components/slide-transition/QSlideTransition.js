@@ -1,7 +1,11 @@
 export default {
   name: 'QSlideTransition',
   props: {
-    appear: Boolean
+    appear: Boolean,
+    duration: {
+      type: Number,
+      default: 300
+    }
   },
   methods: {
     __begin (el, height) {
@@ -9,13 +13,13 @@ export default {
       if (height !== void 0) {
         el.style.height = `${height}px`
       }
-      el.classList.add('q-slide-transition')
+      el.style.transition = `height ${this.duration}ms cubic-bezier(.25, .8, .50, 1)`
       this.animating = true
     },
     __end (el, event) {
       el.style.overflowY = null
       el.style.height = null
-      el.classList.remove('q-slide-transition')
+      el.style.transition = null
       this.__cleanup()
       event !== this.lastEvent && this.$emit(event)
       this.animating = false

@@ -52,6 +52,8 @@ export default {
       }
     },
 
+    duration: Number,
+
     noNodesLabel: String,
     noResultsLabel: String
   },
@@ -492,7 +494,9 @@ export default {
         ]),
 
         isParent
-          ? h(QSlideTransition, [
+          ? h(QSlideTransition, {
+            props: { duration: this.duration }
+          }, [
             h('div', {
               directives: [{ name: 'show', value: meta.expanded }],
               staticClass: 'q-tree-node-collapsible',

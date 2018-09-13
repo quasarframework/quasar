@@ -1,4 +1,3 @@
-import { cssTransform, css } from '../utils/dom.js'
 import { position } from '../utils/event.js'
 
 function showRipple (evt, el, { stop, center }) {
@@ -34,11 +33,11 @@ function showRipple (evt, el, { stop, center }) {
 
   animNode.classList.add('q-ripple-animation-enter')
   animNode.classList.add('q-ripple-animation-visible')
-  css(animNode, cssTransform(`translate(${x}px, ${y}px) scale3d(0, 0, 0)`))
+  animNode.style.transform = `translate(${x}px, ${y}px) scale3d(0, 0, 0)`
 
   setTimeout(() => {
     animNode.classList.remove('q-ripple-animation-enter')
-    css(animNode, cssTransform(`translate(${x}px, ${y}px) scale3d(1, 1, 1)`))
+    animNode.style.transform = `translate(${x}px, ${y}px) scale3d(1, 1, 1)`
     setTimeout(() => {
       animNode.classList.remove('q-ripple-animation-visible')
       setTimeout(() => { container.remove() }, 300)

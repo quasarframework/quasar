@@ -91,7 +91,7 @@ export default {
       return this.totalSize ? Math.min(99.99, this.uploadedSize / this.totalSize * 100) : 0
     },
     addDisabled () {
-      return !this.multiple && this.queueLength >= 1
+      return this.disable || (!this.multiple && this.queueLength >= 1)
     },
     filesStyle () {
       if (this.maxHeight) {
@@ -163,12 +163,6 @@ export default {
       }
 
       files = this.multiple ? files : [ files[0] ]
-      if (this.extensions) {
-        files = this.__filter(files)
-        if (files.length === 0) {
-          return
-        }
-      }
 
       this.__add(null, files)
     },
@@ -186,6 +180,13 @@ export default {
       }
 
       files = Array.prototype.slice.call(files || e.target.files)
+      if (this.extensions) {
+        files = this.__filter(files)
+        if (files.length === 0) {
+          return
+        }
+      }
+
       this.$refs.file.value = ''
 
       let filesReady = [] // List of image load promises

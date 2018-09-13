@@ -1,5 +1,4 @@
 import TouchPan from '../../directives/touch-pan.js'
-import { css, cssTransform } from '../../utils/dom.js'
 import { between } from '../../utils/format.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import preventScroll from '../../utils/prevent-scroll.js'
@@ -278,11 +277,13 @@ export default {
         if (this.layout.container && this.rightSide && (this.mobileView || Math.abs(position) === this.size)) {
           position += this.stateDirection * this.layout.scrollbarWidth
         }
-        css(this.$refs.content, cssTransform(`translateX(${position}px)`))
+        this.$refs.content.style.transform = `translateX(${position}px)`
       }
     },
     applyBackdrop (x) {
-      this.$refs.backdrop && css(this.$refs.backdrop, { backgroundColor: `rgba(0,0,0,${x * 0.4})` })
+      if (this.$refs.backdrop) {
+        this.$refs.backdrop.style.backgroundColor = `rgba(0,0,0,${x * 0.4})`
+      }
     },
     __setScrollable (v) {
       if (!this.layout.container) {
@@ -386,7 +387,6 @@ export default {
         }
       }
       else {
-        console.log('set scrollable')
         this.__setScrollable(true)
       }
 

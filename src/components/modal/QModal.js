@@ -254,9 +254,7 @@ export default {
     }
   },
   mounted () {
-    if (this.value) {
-      this.show()
-    }
+    this.value && this.show()
   },
   beforeDestroy () {
     clearTimeout(this.shakeTimeout)
@@ -286,14 +284,15 @@ export default {
       h('div', {
         staticClass: 'modal fullscreen row',
         'class': this.modalClasses,
-        on: {
-          click: this.__dismiss
-        },
         directives: [{
           name: 'show',
           value: this.showing
         }]
       }, [
+        h('div', {
+          staticClass: 'modal-backdrop absolute-full',
+          on: { click: this.__dismiss }
+        }),
         h('div', {
           ref: 'content',
           staticClass: 'modal-content',

@@ -44,7 +44,7 @@
         </q-card-main>
       </q-card>
 
-      <q-card inline color="secondary">
+      <q-card inline color="secondary" dark>
         <q-card-title>
           Title
           <span slot="subtitle">Subtitle</span>

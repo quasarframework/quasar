@@ -12,7 +12,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $500
 
-<a href="http://campuscloudservices.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/campus-cloud-services.png" width="350px"></a>
+<a href="http://campuscloudservices.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/4de8637c/campus-cloud-services.png" width="350px"></a>
 
 ---
 
@@ -42,7 +42,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - ShipStream.io
 - MG Papelaria (company)
 - Evan Leonardi
-- Max Matteo Staack
 - Bobby Ross
 - Netanel Edri
 - Edinei Cipriani
@@ -53,19 +52,20 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
+- Max Matteo Staack ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
 - Pawel Rakowski ($20)
 - Stephen Clarke ($20)
 - Ciprian Popa ($20)
 - Shone Radulovic ($15)
+- Sam Cassar ($15)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
 - Marek Urbanowicz
 - Matsumoto Takamasa
 - Josh Bodine
 - William Marques Vicente Gomes Correa
-- John (JCharante)
 - Florent Peyrard
 - Jacob Heruty
 - Scott Ward
@@ -118,12 +118,15 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ross Ball
 - KPA Productions
 - Roman Sujatinov
+- Tanya Trimbakova
+- eae
 
 - Jim O'Quinn ($5)
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
 - Walison Moreira ($5)
+- John (JCharante) ($1)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)

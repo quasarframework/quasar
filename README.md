@@ -15,7 +15,75 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
 
 ### Proudly sponsored by:
 
-[![Truelogic](http://quasar-framework.org/images/logo_truelogic.png)](https://truelogic.com)
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://truelogic.com" target="_blank">
+          <img width="300px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/41e5204e/truelogic.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://www.tayloredtechnology.net" target="_blank">
+          <img width="300px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/taylored-technology-big.jpeg">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="http://campuscloudservices.com" target="_blank">
+          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/campus-cloud-services.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://www.jugglestreet.com" target="_blank">
+          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/juggle-street.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="http://comcomservices.com" target="_blank">
+          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/com-com-services.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="http://www.kalisio.com" target="_blank">
+          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/kalisio.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="http://platformpurple.com" target="_blank">
+          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/platform-purple.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="http://www.bgasoft.com" target="_blank">
+          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/bgasoft.png">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Partners
+
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://utopian.io" target="_blank">
+          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/41e5204e/utopian.png">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ## Documentation
 

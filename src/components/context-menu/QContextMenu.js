@@ -101,7 +101,8 @@ export default {
     return h(QPopover, {
       ref: 'popup',
       props: {
-        anchorClick: false
+        anchorClick: false,
+        touchPosition: true
       },
       on: {
         show: this.__desktopOnShow,
