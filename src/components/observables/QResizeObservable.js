@@ -55,6 +55,7 @@ export default {
     return h('object', {
       style: this.style,
       attrs: {
+        tabindex: -1, // fix for Firefox
         type: 'text/html',
         data: this.url,
         'aria-hidden': true
