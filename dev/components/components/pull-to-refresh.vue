@@ -1,13 +1,13 @@
 <template>
   <q-layout view="lHh lpr fFf">
     <q-layout-header :value="header">
-      <q-toolbar :inverted="$q.theme === 'ios'">
+      <q-toolbar>
         <q-toolbar-title>Pull To Refresh - Header</q-toolbar-title>
       </q-toolbar>
     </q-layout-header>
 
     <q-layout-footer :value="footer">
-      <q-toolbar :inverted="$q.theme === 'ios'">
+      <q-toolbar>
         <q-toolbar-title>Pull To Refresh - Footer</q-toolbar-title>
       </q-toolbar>
     </q-layout-footer>

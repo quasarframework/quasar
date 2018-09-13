@@ -1,5 +1,3 @@
-const prefix = process.env.THEME === 'mat' ? 'md' : 'ios'
-
 export default {
   name: 'QIcon',
   props: {
@@ -25,7 +23,7 @@ export default {
         cls = `ionicons ${icon}`
       }
       else if (icon.startsWith('ion-')) {
-        cls = `ionicons ion-${prefix}${icon.substr(3)}`
+        cls = `ionicons ion-md${icon.substr(3)}`
       }
       else if (icon.startsWith('mdi-')) {
         cls = `mdi ${icon}`

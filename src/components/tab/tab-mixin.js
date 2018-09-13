@@ -63,7 +63,7 @@ export default {
         : this.color
 
       if (color) {
-        cls[`text-${color}`] = process.env.THEME === 'ios' ? this.active : true
+        cls[`text-${color}`] = true
       }
 
       return cls
@@ -120,13 +120,11 @@ export default {
       )
 
       child = child.concat(this.$slots.default)
-      if (process.env.THEME !== 'ios') {
-        child.push(h('div', {
-          staticClass: 'q-tabs-bar',
-          style: this.barStyle,
-          'class': this.data.underlineClass
-        }))
-      }
+      child.push(h('div', {
+        staticClass: 'q-tabs-bar',
+        style: this.barStyle,
+        'class': this.data.underlineClass
+      }))
 
       child.push(h('div', {
         staticClass: 'q-tab-focus-helper absolute-full',

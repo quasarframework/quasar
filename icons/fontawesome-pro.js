@@ -32,19 +32,10 @@ export default {
     quickNav: 'fal fa-circle',
     thumbnails: 'fal fa-th'
   },
-  checkbox: { // TODO
-    checked: {
-      ios: 'fal fa-check-circle',
-      mat: 'fal fa-check-square'
-    },
-    unchecked: {
-      ios: 'fal fa-circle',
-      mat: 'fal fa-square'
-    },
-    indeterminate: {
-      ios: 'fal fa-minus-circle',
-      mat: 'fal fa-minus-square'
-    }
+  checkbox: {
+    checked: 'fal fa-check-square',
+    unchecked: 'fal fa-square',
+    indeterminate: 'fal fa-minus-square'
   },
   chip: {
     close: 'fal fa-times-circle'
@@ -110,14 +101,8 @@ export default {
     last: 'fal fa-step-forward'
   },
   radio: {
-    checked: {
-      ios: 'fal fa-check',
-      mat: 'fal fa-check-circle'
-    },
-    unchecked: {
-      ios: '',
-      mat: 'fal fa-circle'
-    }
+    checked: 'fal fa-check-circle',
+    unchecked: 'fal fa-circle'
   },
   rating: {
     icon: 'fal fa-star'

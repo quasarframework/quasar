@@ -27,7 +27,7 @@ export default {
     },
     width: {
       type: Number,
-      default: process.env.THEME === 'mat' ? 300 : 280
+      default: 300
     },
     mini: Boolean,
     miniWidth: {

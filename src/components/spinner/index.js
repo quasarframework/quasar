@@ -13,8 +13,7 @@ import QSpinnerGrid from './QSpinnerGrid.js'
 import QSpinnerHearts from './QSpinnerHearts.js'
 import QSpinnerHourglass from './QSpinnerHourglass.js'
 import QSpinnerInfinity from './QSpinnerInfinity.js'
-import QSpinnerIos from './QSpinner.ios.js'
-import QSpinnerMat from './QSpinner.mat.js'
+import QSpinnerIos from './QSpinnerIos.js'
 import QSpinnerOval from './QSpinnerOval.js'
 import QSpinnerPie from './QSpinnerPie.js'
 import QSpinnerPuff from './QSpinnerPuff.js'
@@ -39,7 +38,6 @@ export {
   QSpinnerHourglass,
   QSpinnerInfinity,
   QSpinnerIos,
-  QSpinnerMat,
   QSpinnerOval,
   QSpinnerPie,
   QSpinnerPuff,

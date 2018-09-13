@@ -9,18 +9,6 @@ import QIcon from '../icon/QIcon.js'
 import clone from '../../utils/clone.js'
 import { getEventKey, stopAndPrevent } from '../../utils/event.js'
 
-const contentCss = process.env.THEME === 'ios'
-  ? {
-    maxHeight: '80vh',
-    height: 'auto',
-    boxShadow: 'none',
-    backgroundColor: '#e4e4e4'
-  }
-  : {
-    maxWidth: '95vw',
-    maxHeight: '98vh'
-  }
-
 export default {
   name: 'QColor',
   mixins: [FrameMixin, DisplayModeMixin],
@@ -53,9 +41,7 @@ export default {
     }
   },
   data () {
-    let data = this.isPopover ? {} : {
-      transition: process.env.THEME === 'ios' ? 'q-modal-bottom' : 'q-modal'
-    }
+    let data = this.isPopover ? {} : { transition: 'q-modal' }
     data.focused = false
     data.model = clone(this.value || this.defaultValue)
     return data
@@ -79,11 +65,6 @@ export default {
     },
     isClearable () {
       return this.editable && this.clearable && JSON.stringify(this.computedClearValue) !== JSON.stringify(this.value)
-    },
-    modalBtnColor () {
-      return process.env.THEME === 'mat'
-        ? this.color
-        : (this.dark ? 'light' : 'dark')
     }
   },
   methods: {
@@ -190,14 +171,14 @@ export default {
       ]
 
       if (modal) {
-        child[process.env.THEME === 'mat' ? 'push' : 'unshift'](h('div', {
+        child.push(h('div', {
           staticClass: 'modal-buttons modal-buttons-top row full-width',
           'class': this.dark ? 'bg-black' : null
         }, [
           h('div', { staticClass: 'col' }),
           h(QBtn, {
             props: {
-              color: this.modalBtnColor,
+              color: this.color,
               flat: true,
               label: this.cancelLabel || this.$q.i18n.label.cancel,
               noRipple: true
@@ -212,7 +193,7 @@ export default {
           this.editable
             ? h(QBtn, {
               props: {
-                color: this.modalBtnColor,
+                color: this.color,
                 flat: true,
                 label: this.okLabel || this.$q.i18n.label.set,
                 noRipple: true,
@@ -289,11 +270,12 @@ export default {
         }, this.__getPicker(h))
         : h(QModal, {
           ref: 'popup',
-          staticClass: 'with-backdrop',
           props: {
-            contentCss,
-            minimized: process.env.THEME === 'mat',
-            position: process.env.THEME === 'ios' ? 'bottom' : null,
+            contentCss: {
+              maxWidth: '95vw',
+              maxHeight: '98vh'
+            },
+            minimized: true,
             transition: this.transition
           },
           on: {

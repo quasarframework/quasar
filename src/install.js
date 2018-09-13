@@ -12,8 +12,7 @@ export const queues = {
 }
 
 export const $q = {
-  version,
-  theme: process.env.THEME
+  version
 }
 
 export default function (Vue, opts = {}) {

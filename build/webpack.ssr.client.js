@@ -28,8 +28,7 @@ chain.plugin('define')
     'process.env': {
       NODE_ENV: '"development"',
       CLIENT: true,
-      SERVER: false,
-      THEME: JSON.stringify(env.theme)
+      SERVER: false
     }
   }])
 

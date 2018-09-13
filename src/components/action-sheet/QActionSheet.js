@@ -16,70 +16,14 @@ export default {
     actions: Array,
     dismissLabel: String
   },
-  computed: {
-    contentCss () {
-      if (process.env.THEME === 'ios') {
-        return {backgroundColor: 'transparent'}
-      }
-    }
-  },
   render (h) {
-    let
-      child = [],
-      title = this.$slots.title || this.title
-
-    if (title) {
-      child.push(
-        h('div', {
-          staticClass: 'q-actionsheet-title column justify-center'
-        }, [ title ])
-      )
-    }
-
-    child.push(
-      h(
-        'div',
-        { staticClass: 'q-actionsheet-body scroll' },
-        this.actions
-          ? [
-            this.grid
-              ? h('div', { staticClass: 'q-actionsheet-grid row wrap items-center justify-between' }, this.__getActions(h))
-              : h(QList, { staticClass: 'no-border', props: { link: true } }, this.__getActions(h))
-          ]
-          : this.$slots.default
-      )
-    )
-
-    if (process.env.THEME === 'ios') {
-      child = [
-        h('div', { staticClass: 'q-actionsheet' }, child),
-        h('div', { staticClass: 'q-actionsheet' }, [
-          h(QItem, {
-            props: {
-              link: true
-            },
-            attrs: {
-              tabindex: 0
-            },
-            nativeOn: {
-              click: this.__onCancel,
-              keyup: this.__onKeyCancel
-            }
-          }, [
-            h(QItemMain, { staticClass: 'text-center text-primary' }, [
-              this.dismissLabel || this.$q.i18n.label.cancel
-            ])
-          ])
-        ])
-      ]
-    }
+    let title = this.$slots.title || this.title
 
     return h(QModal, {
       ref: 'modal',
       props: {
         value: this.value,
-        position: 'bottom',
-        contentCss: this.contentCss
+        position: 'bottom'
       },
       on: {
         input: val => {
@@ -98,7 +42,23 @@ export default {
           this.$emit('escape-key')
         }
       }
-    }, child)
+    }, [
+      (title && h('div', {
+        staticClass: 'q-actionsheet-title column justify-center'
+      }, [ title ])) || void 0,
+
+      h(
+        'div',
+        { staticClass: 'q-actionsheet-body scroll' },
+        this.actions
+          ? [
+            this.grid
+              ? h('div', { staticClass: 'q-actionsheet-grid row wrap items-center justify-between' }, this.__getActions(h))
+              : h(QList, { staticClass: 'no-border', props: { link: true } }, this.__getActions(h))
+          ]
+          : this.$slots.default
+      )
+    ])
   },
   methods: {
     show () {

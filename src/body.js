@@ -3,7 +3,6 @@ import { isSSR } from './plugins/platform.js'
 
 function getBodyClasses ({ is, has, within }, cfg) {
   const cls = [
-    process.env.THEME,
     is.desktop ? 'desktop' : 'mobile',
     has.touch ? 'touch' : 'no-touch',
     `platform-${is.ios ? 'ios' : 'mat'}`

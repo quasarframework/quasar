@@ -32,18 +32,16 @@ export default {
         h(QIcon, {
           staticClass: 'q-radio-unchecked cursor-pointer absolute-full',
           props: {
-            name: this.uncheckedIcon || this.$q.icon.radio.unchecked[process.env.THEME]
+            name: this.uncheckedIcon || this.$q.icon.radio.unchecked
           }
         }),
         h(QIcon, {
           staticClass: 'q-radio-checked cursor-pointer absolute-full',
           props: {
-            name: this.checkedIcon || this.$q.icon.radio.checked[process.env.THEME]
+            name: this.checkedIcon || this.$q.icon.radio.checked
           }
         }),
-        process.env.THEME === 'mat'
-          ? h('div', { ref: 'ripple', staticClass: 'q-radial-ripple' })
-          : null
+        h('div', { ref: 'ripple', staticClass: 'q-radial-ripple' })
       ]
     }
   },

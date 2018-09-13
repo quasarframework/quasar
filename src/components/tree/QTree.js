@@ -58,9 +58,6 @@ export default {
     noResultsLabel: String
   },
   computed: {
-    hasRipple () {
-      return process.env.THEME === 'mat' && !this.noRipple
-    },
     classes () {
       return [
         `text-${this.color}`,
@@ -442,7 +439,7 @@ export default {
             disabled: meta.disabled
           },
           on: { click: () => { this.__onClick(node, meta) } },
-          directives: process.env.THEME === 'mat' && meta.selectable
+          directives: meta.selectable
             ? [{ name: 'ripple' }]
             : null
         }, [

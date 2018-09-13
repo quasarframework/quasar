@@ -5,23 +5,11 @@ import { input, inline } from './datetime-props.js'
 import QInputFrame from '../input-frame/QInputFrame.js'
 import QIcon from '../icon/QIcon.js'
 import QPopover from '../popover/QPopover.js'
-import QDatetimePicker from './QDatetimePicker'
+import QDatetimePicker from './QDatetimePicker.js'
 import QBtn from '../btn/QBtn.js'
-import { clone, formatDate, isSameDate, isValid, startOfDate } from '../../utils/date.js'
+import { clone, formatDate, isSameDate, isValid } from '../../utils/date.js'
 import QModal from '../modal/QModal.js'
 import { getEventKey, stopAndPrevent } from '../../utils/event.js'
-
-const contentCss = process.env.THEME === 'ios'
-  ? {
-    maxHeight: '80vh',
-    height: 'auto',
-    boxShadow: 'none',
-    backgroundColor: '#e4e4e4'
-  }
-  : {
-    maxWidth: '95vw',
-    maxHeight: '98vh'
-  }
 
 export default {
   name: 'QDatetime',
@@ -45,7 +33,7 @@ export default {
     this.model = clone(this.computedValue)
 
     if (!this.isPopover) {
-      this.transition = process.env.THEME === 'ios' ? 'q-modal-bottom' : 'q-modal'
+      this.transition = 'q-modal'
     }
   },
   computed: {
@@ -69,24 +57,15 @@ export default {
       return formatDate(this.value, this.computedFormat, /* for reactiveness */ this.$q.i18n.date)
     },
     computedValue () {
-      if (isValid(this.value)) {
-        return this.value
-      }
-      if (process.env.THEME === 'ios') {
-        return this.defaultValue || startOfDate(new Date(), 'day')
-      }
-      return this.defaultValue
+      return isValid(this.value)
+        ? this.value
+        : this.defaultValue
     },
     computedClearValue () {
       return this.clearValue === void 0 ? this.defaultValue : this.clearValue
     },
     isClearable () {
       return this.editable && this.clearable && !isSameDate(this.computedClearValue, this.value)
-    },
-    modalBtnColor () {
-      return process.env.THEME === 'mat'
-        ? this.color
-        : (this.dark ? 'light' : 'dark')
     }
   },
   methods: {
@@ -119,17 +98,17 @@ export default {
       if (this.disable || this.focused) {
         return
       }
-      if (process.env.THEME === 'mat') {
-        const target = this.$refs.target
-        if (target) {
-          if (this.defaultView) {
-            target.setView(this.defaultView)
-          }
-          else {
-            target.setView()
-          }
+
+      const target = this.$refs.target
+      if (target) {
+        if (this.defaultView) {
+          target.setView(this.defaultView)
+        }
+        else {
+          target.setView()
         }
       }
+
       this.model = clone(this.computedValue)
       this.focused = true
       this.$emit('focus')
@@ -194,9 +173,6 @@ export default {
         h(QDatetimePicker, {
           ref: 'target',
           staticClass: 'no-border',
-          'class': {
-            'datetime-ios-modal': process.env.THEME === 'ios' && modal
-          },
           props: {
             type: this.type,
             min: this.min,
@@ -231,7 +207,7 @@ export default {
               h('div', { staticClass: 'col' }),
               h(QBtn, {
                 props: {
-                  color: this.modalBtnColor,
+                  color: this.color,
                   flat: true,
                   label: this.cancelLabel || this.$q.i18n.label.cancel,
                   noRipple: true
@@ -247,7 +223,7 @@ export default {
               this.editable
                 ? h(QBtn, {
                   props: {
-                    color: this.modalBtnColor,
+                    color: this.color,
                     flat: true,
                     label: this.okLabel || this.$q.i18n.label.set,
                     noRipple: true,
@@ -325,11 +301,13 @@ export default {
         }, this.__getPicker(h))
         : h(QModal, {
           ref: 'popup',
-          staticClass: 'with-backdrop q-datetime-modal',
+          staticClass: 'q-datetime-modal',
           props: {
-            contentCss,
-            minimized: process.env.THEME === 'mat',
-            position: process.env.THEME === 'ios' ? 'bottom' : null,
+            contentCss: {
+              maxWidth: '95vw',
+              maxHeight: '98vh'
+            },
+            minimized: true,
             transition: this.transition
           },
           on: {

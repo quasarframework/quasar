@@ -65,7 +65,7 @@ export default {
       return this.disable || this.loading
     },
     hasRipple () {
-      return process.env.THEME === 'mat' && !this.noRipple && !this.isDisabled
+      return !this.noRipple && !this.isDisabled
     },
     computedTabIndex () {
       return this.isDisabled ? -1 : this.tabindex || 0

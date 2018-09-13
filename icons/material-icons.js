@@ -33,18 +33,9 @@ export default {
     thumbnails: 'view_carousel'
   },
   checkbox: {
-    checked: {
-      ios: 'check_circle',
-      mat: 'check_box'
-    },
-    unchecked: {
-      ios: 'radio_button_unchecked',
-      mat: 'check_box_outline_blank'
-    },
-    indeterminate: {
-      ios: 'remove_circle_outline',
-      mat: 'indeterminate_check_box'
-    }
+    checked: 'check_box',
+    unchecked: 'check_box_outline_blank',
+    indeterminate: 'indeterminate_check_box'
   },
   chip: {
     close: 'cancel'
@@ -110,14 +101,8 @@ export default {
     last: 'last_page'
   },
   radio: {
-    checked: {
-      ios: 'check',
-      mat: 'radio_button_checked'
-    },
-    unchecked: {
-      ios: '',
-      mat: 'radio_button_unchecked'
-    }
+    checked: 'radio_button_checked',
+    unchecked: 'radio_button_unchecked'
   },
   rating: {
     icon: 'grade'

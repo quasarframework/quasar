@@ -33,18 +33,9 @@ export default {
     thumbnails: 'ion-grid'
   },
   checkbox: {
-    checked: {
-      ios: 'ion-checkmark-circle',
-      mat: 'ion-checkbox'
-    },
-    unchecked: {
-      ios: 'ion-radio-button-off',
-      mat: 'ion-square-outline'
-    },
-    indeterminate: {
-      ios: 'ion-remove-circle-outline',
-      mat: 'ion-remove-circle'
-    }
+    checked: 'ion-checkbox',
+    unchecked: 'ion-square-outline',
+    indeterminate: 'ion-remove-circle'
   },
   chip: {
     close: 'ion-close-circle'
@@ -110,14 +101,8 @@ export default {
     last: 'ion-skip-forward'
   },
   radio: {
-    checked: {
-      ios: 'ion-md-checkmark',
-      mat: 'ion-radio-button-on'
-    },
-    unchecked: {
-      ios: '',
-      mat: 'ion-radio-button-off'
-    }
+    checked: 'ion-radio-button-on',
+    unchecked: 'ion-radio-button-off'
   },
   rating: {
     icon: 'ion-star'

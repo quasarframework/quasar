@@ -7,7 +7,7 @@ const
 const
   cache = {},
   { writeFile } = require('./build.utils'),
-  Quasar = require('../dist/umd/quasar.mat.umd.min'),
+  Quasar = require('../dist/quasar.umd.min'),
   components = Quasar.components,
   resolve = file => path.resolve(__dirname, '../dist/helper-json', file)
 

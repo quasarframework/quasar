@@ -30,7 +30,7 @@ export default {
     value: String,
     align: {
       type: String,
-      default: process.env.THEME === 'ios' ? 'center' : 'left',
+      default: 'left',
       validator: v => ['left', 'center', 'right', 'justify'].includes(v)
     },
     position: {
@@ -158,9 +158,7 @@ export default {
               : 'right'
           }
 
-          if (process.env.THEME !== 'ios') {
-            this.__repositionBar()
-          }
+          this.__repositionBar()
         }
         else {
           this.oldEl = el
@@ -406,21 +404,19 @@ export default {
           staticClass: 'q-tabs-scroller row no-wrap'
         }, [
           this.$slots.title,
-          process.env.THEME !== 'ios'
-            ? h('div', {
-              staticClass: 'relative-position self-stretch q-tabs-global-bar-container',
-              'class': this.posbarClasses
-            }, [
-              h('div', {
-                ref: 'posbar',
-                staticClass: 'q-tabs-bar q-tabs-global-bar',
-                'class': this.data.underlineClass,
-                on: {
-                  transitionend: this.__updatePosbarTransition
-                }
-              })
-            ])
-            : null
+          h('div', {
+            staticClass: 'relative-position self-stretch q-tabs-global-bar-container',
+            'class': this.posbarClasses
+          }, [
+            h('div', {
+              ref: 'posbar',
+              staticClass: 'q-tabs-bar q-tabs-global-bar',
+              'class': this.data.underlineClass,
+              on: {
+                transitionend: this.__updatePosbarTransition
+              }
+            })
+          ])
         ]),
 
         h('div', {

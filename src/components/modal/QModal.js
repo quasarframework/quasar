@@ -3,21 +3,11 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import preventScroll from '../../utils/prevent-scroll.js'
 
 const positions = {
-  top: 'items-start justify-center with-backdrop',
-  bottom: 'items-end justify-center with-backdrop',
-  right: 'items-center justify-end with-backdrop',
-  left: 'items-center justify-start with-backdrop'
+  top: 'items-start justify-center',
+  bottom: 'items-end justify-center',
+  right: 'items-center justify-end',
+  left: 'items-center justify-start'
 }
-const positionCSS = process.env.THEME === 'mat'
-  ? {
-    maxHeight: '80vh',
-    height: 'auto'
-  }
-  : {
-    maxHeight: '80vh',
-    height: 'auto',
-    boxShadow: 'none'
-  }
 
 function additionalCSS (position) {
   let css = {}
@@ -154,8 +144,10 @@ export default {
           : [this.contentCss]
 
         css.unshift(Object.assign(
-          {},
-          positionCSS,
+          {
+            maxHeight: '80vh',
+            height: 'auto'
+          },
           additionalCSS(this.position)
         ))
 

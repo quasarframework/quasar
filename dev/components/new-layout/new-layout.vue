@@ -2,7 +2,7 @@
   <div>
     <q-layout :view="view" @scroll="onScroll">
       <q-layout-header v-model="header" :reveal="headerReveal">
-        <q-toolbar :inverted="$q.theme === 'ios'">
+        <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toggle v-model="extraRow" color="amber" dark />
           <q-toolbar-title>
@@ -12,11 +12,11 @@
           <q-btn round dense flat class="relative-position q-mr-md" icon="announcement" to="/">
             <q-chip dense square floating color="red">1</q-chip>
           </q-btn>
-          <q-color hide-underline :dark="$q.theme === 'mat'" v-model="mainColor" />
+          <q-color hide-underline dark v-model="mainColor" />
           <q-toggle v-model="toggle" color="amber" dark />
           <q-btn flat round dense icon="menu" @click="right = !right" />
         </q-toolbar>
-        <q-toolbar v-if="extraRow" :inverted="$q.theme === 'ios'">
+        <q-toolbar v-if="extraRow">
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toolbar-title>
             Header
@@ -24,7 +24,7 @@
           </q-toolbar-title>
           <q-btn flat round dense icon="menu" @click="right = !right" />
         </q-toolbar>
-        <q-tabs :inverted="$q.theme === 'ios'">
+        <q-tabs>
           <q-route-tab slot="title" icon="view_quilt" to="/layout-quick/default" replace hide="icon" label="Default" />
           <q-route-tab slot="title" icon="view_day" to="/layout-quick/a" replace hide="label" label="A" />
           <q-route-tab slot="title" icon="view_day" to="/layout-quick/b" replace label="B" />
@@ -33,14 +33,14 @@
       </q-layout-header>
 
       <q-layout-footer v-model="footer" :reveal="footerReveal">
-        <q-toolbar :inverted="$q.theme === 'ios'">
+        <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toolbar-title>
             Footer
           </q-toolbar-title>
           <q-btn flat round dense icon="menu" @click="right = !right" />
         </q-toolbar>
-        <q-toolbar :inverted="$q.theme === 'ios'">
+        <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toolbar-title>
             Footer

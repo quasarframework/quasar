@@ -13,14 +13,7 @@ export default {
       return (this.isTrue ? this.checkedIcon : this.uncheckedIcon) || this.icon
     },
     iconColor () {
-      return process.env.THEME === 'ios'
-        ? 'dark'
-        : (this.isTrue ? 'white' : 'dark')
-    },
-    baseClass () {
-      if (process.env.THEME === 'ios' && this.dark) {
-        return `q-toggle-base-dark`
-      }
+      return this.isTrue ? 'white' : 'dark'
     }
   },
   methods: {
@@ -38,7 +31,7 @@ export default {
     },
     __getContent (h) {
       return [
-        h('div', { staticClass: 'q-toggle-base', 'class': this.baseClass }),
+        h('div', { staticClass: 'q-toggle-base' }),
         h('div', { staticClass: 'q-toggle-handle row flex-center' }, [
           this.currentIcon
             ? h(QIcon, {
@@ -46,9 +39,7 @@ export default {
               props: { name: this.currentIcon, color: this.iconColor }
             })
             : null,
-          process.env.THEME === 'mat'
-            ? h('div', { ref: 'ripple', staticClass: 'q-radial-ripple' })
-            : null
+          h('div', { ref: 'ripple', staticClass: 'q-radial-ripple' })
         ])
       ]
     }

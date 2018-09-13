@@ -31,25 +31,13 @@ function isExternalUtil (name) {
   return !['escape-key', 'modal-fn', 'popup', 'sort', 'router-link', 'is', 'noop', 'web-storage'].includes(name)
 }
 
-function addComponents (map, theme) {
-  const
-    currentThemeEnding = `.${theme}.`,
-    otherThemeEnding = `.${theme === 'mat' ? 'ios' : 'mat'}.`
-
+function addComponents (map) {
   glob.sync(resolve('src/components/**/Q*.js'))
     .map(relative)
-    .filter(file => file.indexOf(otherThemeEnding) === -1)
     .forEach(file => {
-      let name = path.basename(file)
-      if (name.indexOf(currentThemeEnding) > -1) {
-        name = name.replace(currentThemeEnding, '.js')
-      }
+      const name = path.basename(file)
       map[getWithoutExtension(name)] = file
     })
-
-  map['QSpinner'] = relative(resolve('src/components/spinner/QSpinner.js'))
-  map['QSpinnerMat'] = relative(resolve('src/components/spinner/QSpinner.mat.js'))
-  map['QSpinnerIos'] = relative(resolve('src/components/spinner/QSpinner.ios.js'))
 }
 
 function addDirectives (map) {
@@ -93,23 +81,18 @@ module.exports = function (importName) {
 `
 }
 
-function generateTheme (theme) {
+module.exports.generate = function () {
   const map = {
     Quasar: relative(resolve('src/vue-plugin.js'))
   }
 
-  addComponents(map, theme)
+  addComponents(map)
   addDirectives(map)
   addPlugins(map)
   addUtils(map)
 
   writeFile(
-    resolve(`dist/babel-transforms/imports.${theme}.js`),
+    resolve(`dist/babel-transforms/imports.js`),
     generateFile(map)
   )
-}
-
-module.exports.generate = function () {
-  generateTheme('mat')
-  generateTheme('ios')
 }

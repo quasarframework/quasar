@@ -28,9 +28,7 @@ export default {
         click: this.select,
         keyup: e => e.keyCode === 13 && this.select(e)
       },
-      directives: process.env.THEME === 'mat'
-        ? [{ name: 'ripple' }]
-        : null
+      directives: [{ name: 'ripple' }]
     }, this.__getTabContent(h))
   }
 }

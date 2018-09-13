@@ -59,9 +59,7 @@ export default {
       },
       staticClass: 'q-link q-tab column flex-center relative-position',
       'class': this.classes,
-      directives: process.env.THEME === 'mat'
-        ? [{ name: 'ripple' }]
-        : null
+      directives: [{ name: 'ripple' }]
     }, this.__getTabContent(h))
   }
 }

@@ -32,15 +32,12 @@ export default {
   render (h) {
     const child = []
 
-    if (this.$slots.header || (process.env.THEME !== 'ios' && this.$slots.navigation)) {
+    if (this.$slots.header) {
       child.push(h('div', {
         staticClass: 'q-layout-header',
         style: this.headerStyle,
         'class': this.headerClass
-      }, [
-        this.$slots.header,
-        process.env.THEME !== 'ios' ? this.$slots.navigation : null
-      ]))
+      }, this.$slots.header))
     }
 
     child.push(h('div', {
@@ -49,15 +46,12 @@ export default {
       'class': this.contentClass
     }, this.$slots.default))
 
-    if (this.$slots.footer || (process.env.THEME === 'ios' && this.$slots.navigation)) {
+    if (this.$slots.footer) {
       child.push(h('div', {
         staticClass: 'q-layout-footer',
         style: this.footerStyle,
         'class': this.footerClass
-      }, [
-        this.$slots.footer,
-        process.env.THEME === 'ios' ? this.$slots.navigation : null
-      ]))
+      }, this.$slots.footer))
     }
 
     return h('div', {

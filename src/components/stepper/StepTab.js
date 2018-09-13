@@ -45,7 +45,7 @@ export default {
       on: {
         click: this.__select
       },
-      directives: process.env.THEME === 'mat' && this.hasNavigation
+      directives: this.hasNavigation
         ? [{
           name: 'ripple',
           value: this.vm.done

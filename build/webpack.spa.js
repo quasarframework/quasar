@@ -21,8 +21,7 @@ chain.entry('app')
 chain.plugin('define')
   .use(webpack.DefinePlugin, [{
     'process.env': {
-      NODE_ENV: '"development"',
-      THEME: JSON.stringify(env.theme)
+      NODE_ENV: '"development"'
     }
   }])
 

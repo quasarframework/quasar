@@ -33,18 +33,9 @@ export default {
     thumbnails: 'mdi-view-carousel'
   },
   checkbox: {
-    checked: {
-      ios: 'mdi-checkbox-marked-circle',
-      mat: 'mdi-checkbox-marked'
-    },
-    unchecked: {
-      ios: 'mdi-checkbox-blank-circle-outline',
-      mat: 'mdi-checkbox-blank-outline'
-    },
-    indeterminate: {
-      ios: 'mdi-minus-circle-outline',
-      mat: 'mdi-minus-box'
-    }
+    checked: 'mdi-checkbox-marked',
+    unchecked: 'mdi-checkbox-blank-outline',
+    indeterminate: 'mdi-minus-box'
   },
   chip: {
     close: 'mdi-close-circle'
@@ -110,14 +101,8 @@ export default {
     last: 'mdi-page-last'
   },
   radio: {
-    checked: {
-      ios: 'mdi-check',
-      mat: 'mdi-radiobox-marked'
-    },
-    unchecked: {
-      ios: '',
-      mat: 'mdi-radiobox-blank'
-    }
+    checked: 'mdi-radiobox-marked',
+    unchecked: 'mdi-radiobox-blank'
   },
   rating: {
     icon: 'mdi-star'

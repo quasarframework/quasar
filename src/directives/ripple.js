@@ -45,20 +45,9 @@ function showRipple (evt, el, { stop, center }) {
   }, 10)
 }
 
-function shouldAbort ({ mat, ios }) {
-  return (
-    (mat && process.env.THEME !== 'mat') ||
-    (ios && process.env.THEME !== 'ios')
-  )
-}
-
 export default {
   name: 'ripple',
   inserted (el, { value, modifiers }) {
-    if (shouldAbort(modifiers)) {
-      return
-    }
-
     const ctx = {
       enabled: value !== false,
       modifiers: {
@@ -90,7 +79,7 @@ export default {
   },
   unbind (el, { modifiers }) {
     const ctx = el.__qripple
-    if (ctx && !shouldAbort(modifiers)) {
+    if (ctx) {
       el.removeEventListener('click', ctx.click, false)
       el.removeEventListener('keyup', ctx.keyup, false)
       delete el.__qripple
