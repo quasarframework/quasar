@@ -9,7 +9,7 @@
         v-for="(category, title) in list"
         :key="`category-${title}`"
       >
-        <h4 class="uppercase">
+        <h4 class="text-uppercase">
           {{ title }}
         </h4>
         <q-item

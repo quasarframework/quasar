@@ -1,4 +1,4 @@
-import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import { stopAndPrevent } from '../../utils/event.js'
 import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
 import { Caret } from './editor-caret.js'
 import extend from '../../utils/extend.js'
@@ -243,7 +243,7 @@ export default {
       }
     },
     onKeydown (e) {
-      const key = getEventKey(e)
+      const key = e.keyCode
 
       if (!e.ctrlKey) {
         this.refreshToolbar()

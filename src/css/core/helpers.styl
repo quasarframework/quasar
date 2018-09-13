@@ -1,23 +1,5 @@
-.backdrop
-  display none
-  position fixed
-  top 0
-  right 0
-  bottom 0
-  left 0
-  width 100vw
-  height 100vh
-  background transparent
-  transition background .28s ease-in
-  &.active
-    display block
-    background $backdrop-background
-
-.round-borders
-  border-radius $generic-border-radius !important
-
-.generic-margin, .group > * // @stylint ignore
-  margin 5px
+.generic-border-radius
+  border-radius $generic-border-radius
 
 .no-transition
   transition none !important
@@ -54,6 +36,3 @@ a.q-link
   outline 0
   color inherit
   text-decoration none
-
-.q-select-highlight
-  background $item-highlight-color !important

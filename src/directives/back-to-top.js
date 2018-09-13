@@ -2,7 +2,7 @@ import debounce from '../utils/debounce.js'
 import { getScrollPosition, setScrollPosition, getScrollTarget } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
 
-function updateBinding (el, { value, modifiers }) {
+function updateBinding (el, { value }) {
   const ctx = el.__qbacktotop
 
   if (!value) {

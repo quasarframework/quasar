@@ -78,7 +78,7 @@ export default {
       return [
         h(QItemTile, {
           slot: slot ? 'right' : undefined,
-          staticClass: 'cursor-pointer transition-generic relative-position q-collapsible-toggle-icon',
+          staticClass: 'cursor-pointer generic-transition relative-position q-collapsible-toggle-icon',
           'class': {
             'rotate-180': this.showing,
             invisible: this.disable

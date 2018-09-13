@@ -69,7 +69,7 @@ export default {
     if (!this.canRender) { return }
 
     return h('div', {
-      staticClass: 'q-popover scroll',
+      staticClass: 'q-popover generic-border-radius scroll',
       ref: 'content',
       attrs: { tabindex: -1 },
       on: {

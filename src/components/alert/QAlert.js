@@ -52,7 +52,7 @@ export default {
 
     return h('div', [
       h('div', {
-        staticClass: 'q-alert row no-wrap shadow-2',
+        staticClass: 'q-alert generic-border-radius row no-wrap shadow-2',
         'class': this.classes
       }, [
         side.length

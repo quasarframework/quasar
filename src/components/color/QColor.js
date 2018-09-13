@@ -7,7 +7,7 @@ import QBtn from '../btn/QBtn.js'
 import QModal from '../modal/QModal.js'
 import QIcon from '../icon/QIcon.js'
 import clone from '../../utils/clone.js'
-import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QColor',
@@ -82,7 +82,7 @@ export default {
     },
 
     __handleKeyDown (e) {
-      switch (getEventKey(e)) {
+      switch (e.keyCode) {
         case 13: // ENTER key
         case 32: // SPACE key
           stopAndPrevent(e)

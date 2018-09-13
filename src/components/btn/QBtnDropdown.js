@@ -65,7 +65,7 @@ export default {
         props: {
           name: this.$q.icon.input.dropdown
         },
-        staticClass: 'transition-generic',
+        staticClass: 'generic-transition',
         'class': {
           'rotate-180': this.showing,
           'on-right': !this.split,

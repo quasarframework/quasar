@@ -1,7 +1,6 @@
 import QPopover from '../popover/QPopover.js'
 import QBtn from '../btn/QBtn.js'
 import clone from '../../utils/clone.js'
-import { getEventKey } from '../../utils/event.js'
 
 export default {
   name: 'QPopupEdit',
@@ -122,7 +121,7 @@ export default {
       },
       nativeOn: {
         keydown: e => {
-          if (getEventKey(e) === 13) {
+          if (e.keyCode === 13) {
             this.$refs.popover.hide()
           }
         }

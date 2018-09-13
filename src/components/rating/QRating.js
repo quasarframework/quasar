@@ -1,4 +1,4 @@
-import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import QIcon from '../icon/QIcon.js'
 
@@ -74,7 +74,7 @@ export default {
         attrs: { tabindex },
         on: {
           keydown: e => {
-            switch (getEventKey(e)) {
+            switch (e.keyCode) {
               case 13:
               case 32:
                 this.set(i)

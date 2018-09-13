@@ -4,7 +4,7 @@ import QInputFrame from '../input-frame/QInputFrame.js'
 import QChip from '../chip/QChip.js'
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
-import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QChipsInput',
@@ -103,8 +103,8 @@ export default {
     inputClasses () {
       const cls = [ this.alignClass ]
 
-      this.upperCase && cls.push('uppercase')
-      this.lowerCase && cls.push('lowercase')
+      this.upperCase && cls.push('text-uppercase')
+      this.lowerCase && cls.push('text-lowercase')
 
       return cls
     },
@@ -159,7 +159,7 @@ export default {
       this.$nextTick(() => clearTimeout(this.timer))
     },
     __handleKeyDown (e) {
-      switch (getEventKey(e)) {
+      switch (e.keyCode) {
         case 13: // ENTER key
           if (this.shadow.selectionOpen) {
             return

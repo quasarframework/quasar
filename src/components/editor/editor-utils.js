@@ -7,7 +7,6 @@ import QList from '../list/QList.js'
 import QItem from '../list/QItem.js'
 import QItemSide from '../list/QItemSide.js'
 import QItemMain from '../list/QItemMain.js'
-import { getEventKey } from '../../utils/event.js'
 
 function run (e, btn, vm) {
   if (btn.handler) {
@@ -234,8 +233,8 @@ export function getLinkEditor (h, vm) {
         },
         on: {
           input: val => { link = val },
-          keydown: event => {
-            switch (getEventKey(event)) {
+          keydown: e => {
+            switch (e.keyCode) {
               case 13: // ENTER key
                 return updateLink()
               case 27: // ESCAPE key

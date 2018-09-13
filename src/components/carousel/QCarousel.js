@@ -4,7 +4,6 @@ import { isNumber } from '../../utils/is.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 import { start, stop } from '../../utils/animate.js'
 import { decelerate, standard } from '../../utils/easing.js'
-import { getEventKey } from '../../utils/event.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
 export default {
@@ -280,7 +279,7 @@ export default {
       clearTimeout(this.timer)
     },
     __handleArrowKey (e) {
-      const key = getEventKey(e)
+      const key = e.keyCode
 
       if (key === 37) { // left arrow key
         this.previous()

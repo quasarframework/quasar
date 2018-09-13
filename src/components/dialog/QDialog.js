@@ -3,7 +3,6 @@ import QInput from '../input/QInput.js'
 import QBtn from '../btn/QBtn.js'
 import QOptionGroup from '../option-group/QOptionGroup.js'
 import clone from '../../utils/clone.js'
-import { getEventKey } from '../../utils/event.js'
 
 export default {
   name: 'QDialog',
@@ -189,7 +188,7 @@ export default {
             input: v => { this.prompt.model = v },
             keyup: evt => {
               // if ENTER key
-              if (getEventKey(evt) === 13) {
+              if (evt.keyCode === 13) {
                 this.__onOk()
               }
             }

@@ -16,10 +16,9 @@ export function capitalize (str) {
 }
 
 export function between (v, min, max) {
-  if (max <= min) {
-    return min
-  }
-  return Math.min(max, Math.max(min, v))
+  return max <= min
+    ? min
+    : Math.min(max, Math.max(min, v))
 }
 
 export function normalizeToInterval (v, min, max) {

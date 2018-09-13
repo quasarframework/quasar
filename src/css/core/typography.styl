@@ -1,5 +1,6 @@
 body
   min-width 100px
+  min-height 100vh
   font-family $typography-font-family
   -ms-text-size-adjust 100%
   -webkit-text-size-adjust 100%
@@ -8,7 +9,6 @@ body
   font-smoothing antialiased
   background $body-background
   color $body-color
-  min-height 100vh
 
 for $heading, $value in $h-tags
   {$heading}
@@ -42,14 +42,14 @@ p
   padding 0
   font-weight 300
 
-.uppercase
-  text-transform uppercase
-.lowercase
-  text-transform lowercase
-.capitalize
-  text-transform capitalize
-
 .text-
+  &uppercase
+    text-transform uppercase
+  &lowercase
+    text-transform lowercase
+  &capitalize
+    text-transform capitalize
+
   &center
     text-align center
   &left

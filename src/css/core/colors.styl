@@ -4,14 +4,8 @@
   --q-color-tertiary     $tertiary
   --q-color-positive     $positive
   --q-color-negative     $negative
-  --q-color-negative-l   lighten($negative, 46%)
   --q-color-info         $info
   --q-color-warning      $warning
-  --q-color-warning-l    lighten($warning, 46%)
-  --q-color-light        $light
-  --q-color-light-d      darken($light, 10%)
-  --q-color-faded        $faded
-  --q-color-dark         $dark
 
 .text-primary
   color $primary !important
@@ -33,13 +27,6 @@
 .bg-tertiary
   background $tertiary !important
   background var(--q-color-tertiary) !important
-
-.text-faded
-  color $faded !important
-  color var(--q-color-faded) !important
-.bg-faded
-  background $faded !important
-  background var(--q-color-faded) !important
 
 .text-positive
   color $positive !important
@@ -78,20 +65,6 @@
   color #000 !important
 .bg-black
   background #000 !important
-
-.text-light
-  color $light !important
-  color var(--q-color-light) !important
-.bg-light
-  background $light !important
-  background var(--q-color-light) !important
-
-.text-dark
-  color $dark !important
-  color var(--q-color-dark) !important
-.bg-dark
-  background $dark !important
-  background var(--q-color-dark) !important
 
 .text-transparent
   color transparent !important

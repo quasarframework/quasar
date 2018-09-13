@@ -152,7 +152,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-stepper column overflow-hidden relative-position',
+      staticClass: 'q-stepper generic-border-radius column overflow-hidden relative-position',
       'class': this.classes
     }, [
       this.vertical

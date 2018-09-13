@@ -37,13 +37,7 @@ export function rightClick (e) {
   return e.button === 2
 }
 
-export function getEventKey (e) {
-  return e.which || e.keyCode
-}
-
 export function position (e) {
-  let posx, posy
-
   if (e.touches && e.touches[0]) {
     e = e.touches[0]
   }
@@ -52,22 +46,23 @@ export function position (e) {
   }
 
   if (e.clientX || e.clientY) {
-    posx = e.clientX
-    posy = e.clientY
-  }
-  else if (e.pageX || e.pageY) {
-    posx = e.pageX - document.body.scrollLeft - document.documentElement.scrollLeft
-    posy = e.pageY - document.body.scrollTop - document.documentElement.scrollTop
-  }
-  else {
-    const offset = targetElement(e).getBoundingClientRect()
-    posx = ((offset.right - offset.left) / 2) + offset.left
-    posy = ((offset.bottom - offset.top) / 2) + offset.top
+    return {
+      top: e.clientY,
+      left: e.clientX
+    }
   }
 
+  if (e.pageX || e.pageY) {
+    return {
+      top: e.pageY - document.body.scrollTop - document.documentElement.scrollTop,
+      left: e.pageX - document.body.scrollLeft - document.documentElement.scrollLeft
+    }
+  }
+
+  const offset = targetElement(e).getBoundingClientRect()
   return {
-    top: posy,
-    left: posx
+    top: ((offset.bottom - offset.top) / 2) + offset.top,
+    left: ((offset.right - offset.left) / 2) + offset.left
   }
 }
 
@@ -144,7 +139,6 @@ export default {
   leftClick,
   middleClick,
   rightClick,
-  getEventKey,
   position,
   targetElement,
   getEventPath,

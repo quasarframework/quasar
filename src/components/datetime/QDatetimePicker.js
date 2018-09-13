@@ -1,5 +1,5 @@
 import { height, width, offset } from '../../utils/dom.js'
-import { position, stopAndPrevent, getEventKey } from '../../utils/event.js'
+import { position, stopAndPrevent } from '../../utils/event.js'
 import QBtn from '../btn/QBtn.js'
 import { isSameDate, isValid, adjustDate } from '../../utils/date.js'
 import DateMixin from './datetime-mixin.js'
@@ -440,7 +440,7 @@ export default {
               attrs: { tabindex: 0 },
               on: {
                 keydown: e => {
-                  const key = getEventKey(e)
+                  const key = e.keyCode
                   if (key === 38 || key === 39) { // up, right
                     stopAndPrevent(e)
                     this.setMonth(this.month - 1, true)
@@ -469,7 +469,7 @@ export default {
               attrs: { tabindex: 0 },
               on: {
                 keydown: e => {
-                  const key = getEventKey(e)
+                  const key = e.keyCode
                   if (key === 37 || key === 38) { // left, up
                     stopAndPrevent(e)
                     this.setDay(this.day - (key === 37 ? 1 : 7), true)
@@ -498,7 +498,7 @@ export default {
               attrs: { tabindex: 0 },
               on: {
                 keydown: e => {
-                  const key = getEventKey(e)
+                  const key = e.keyCode
                   if (key === 38 || key === 39) { // up, right
                     stopAndPrevent(e)
                     this.setYear(this.year - 1, true)
@@ -535,7 +535,7 @@ export default {
             attrs: { tabindex: 0 },
             on: {
               keydown: e => {
-                const key = getEventKey(e)
+                const key = e.keyCode
                 if (key === 40 || key === 37) { // down, left
                   stopAndPrevent(e)
                   this.setHour(this.hour - 1, true)
@@ -567,7 +567,7 @@ export default {
             attrs: { tabindex: 0 },
             on: {
               keydown: e => {
-                const key = getEventKey(e)
+                const key = e.keyCode
                 if (key === 40 || key === 37) { // down, left
                   stopAndPrevent(e)
                   this.setMinute(this.minute - 1, true)
@@ -870,7 +870,7 @@ export default {
   created () {
     this.__amPmEvents = {
       keydown: e => {
-        const key = getEventKey(e)
+        const key = e.keyCode
         if ([13, 32, 37, 38, 39, 40].includes(key)) { // enter, space, arrows
           stopAndPrevent(e)
           this.toggleAmPm()

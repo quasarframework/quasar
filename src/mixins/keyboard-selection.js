@@ -1,4 +1,4 @@
-import { getEventKey, stopAndPrevent } from '../utils/event.js'
+import { stopAndPrevent } from '../utils/event.js'
 import { normalizeToInterval } from '../utils/format.js'
 
 export default {
@@ -37,7 +37,7 @@ export default {
       }
     },
     __keyboardHandleKey (e) {
-      const key = getEventKey(e)
+      const key = e.keyCode
 
       switch (key) {
         case 38: // UP key

@@ -30,7 +30,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-card',
+      staticClass: 'q-card generic-border-radius',
       'class': this.classes
     }, this.$slots.default)
   }

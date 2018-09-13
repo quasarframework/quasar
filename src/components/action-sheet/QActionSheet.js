@@ -5,7 +5,6 @@ import QItem from '../list/QItem.js'
 import QItemSide from '../list/QItemSide.js'
 import QItemMain from '../list/QItemMain.js'
 import QItemSeparator from '../list/QItemSeparator.js'
-import { getEventKey } from '../../utils/event.js'
 
 export default {
   name: 'QActionSheet',
@@ -80,7 +79,7 @@ export default {
           [this.grid ? 'on' : 'nativeOn']: {
             click: () => this.__onOk(action),
             keyup: e => {
-              if (getEventKey(e) === /* Enter */ 13) {
+              if (e.keyCode === /* Enter */ 13) {
                 this.__onOk(action)
               }
             }
@@ -113,7 +112,7 @@ export default {
       })
     },
     __onKeyCancel (e) {
-      if (getEventKey(e) === /* Enter */ 13) {
+      if (e.keyCode === /* Enter */ 13) {
         this.__onCancel()
       }
     }

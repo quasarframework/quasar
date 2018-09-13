@@ -9,7 +9,7 @@ import QDatetimePicker from './QDatetimePicker.js'
 import QBtn from '../btn/QBtn.js'
 import { clone, formatDate, isSameDate, isValid } from '../../utils/date.js'
 import QModal from '../modal/QModal.js'
-import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QDatetime',
@@ -83,7 +83,7 @@ export default {
     },
 
     __handleKeyDown (e) {
-      switch (getEventKey(e)) {
+      switch (e.keyCode) {
         case 13: // ENTER key
         case 32: // SPACE key
           stopAndPrevent(e)

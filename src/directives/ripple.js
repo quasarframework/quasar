@@ -77,7 +77,7 @@ export default {
       ctx.modifiers = { stop, center }
     }
   },
-  unbind (el, { modifiers }) {
+  unbind (el) {
     const ctx = el.__qripple
     if (ctx) {
       el.removeEventListener('click', ctx.click, false)

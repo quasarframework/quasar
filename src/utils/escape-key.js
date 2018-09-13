@@ -3,7 +3,6 @@ import Platform from '../plugins/platform.js'
 let handlers = []
 
 export default {
-  __installed: false,
   __install () {
     this.__installed = true
     window.addEventListener('keyup', evt => {
@@ -19,10 +18,7 @@ export default {
 
   register (handler) {
     if (Platform.is.desktop) {
-      if (!this.__installed) {
-        this.__install()
-      }
-
+      !this.__installed && this.__install()
       handlers.push(handler)
     }
   },

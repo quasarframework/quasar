@@ -1,5 +1,3 @@
-import { getEventKey } from '../utils/event.js'
-
 export default {
   props: {
     value: {
@@ -67,7 +65,7 @@ export default {
       })
     },
     __handleKeyDown (e) {
-      if ([13, 32].includes(getEventKey(e))) {
+      if ([13, 32].includes(e.keyCode)) {
         this.toggle(e, false)
       }
     }

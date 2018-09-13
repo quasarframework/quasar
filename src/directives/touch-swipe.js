@@ -170,16 +170,14 @@ export default {
       el.__qtouchswipe.handler = binding.value
     }
   },
-  unbind (el, binding) {
+  unbind (el) {
     const ctx = el.__qtouchswipe
-    if (!ctx) { return }
-
-    el.removeEventListener('mousedown', ctx.mouseStart)
-
-    el.removeEventListener('touchstart', ctx.start)
-    el.removeEventListener('touchmove', ctx.move)
-    el.removeEventListener('touchend', ctx.end)
-
-    delete el.__qtouchswipe
+    if (ctx) {
+      el.removeEventListener('mousedown', ctx.mouseStart)
+      el.removeEventListener('touchstart', ctx.start)
+      el.removeEventListener('touchmove', ctx.move)
+      el.removeEventListener('touchend', ctx.end)
+      delete el.__qtouchswipe
+    }
   }
 }

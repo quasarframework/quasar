@@ -213,7 +213,7 @@ export default {
               blur: evt => this.editable && this.__onNumericChange(evt, formatModel, max, true)
             }
           }),
-          h('div', { staticClass: 'q-color-label text-center uppercase' }, [
+          h('div', { staticClass: 'q-color-label text-center text-uppercase' }, [
             formatModel
           ])
         ])
@@ -233,7 +233,7 @@ export default {
                 change: this.__onHexChange,
                 blur: evt => this.editable && this.__onHexChange(evt, true)
               },
-              staticClass: 'full-width text-center uppercase'
+              staticClass: 'full-width text-center text-uppercase'
             }),
             h('div', { staticClass: 'q-color-label text-center' }, [
               `HEX${this.hasAlpha ? ' / A' : ''}`

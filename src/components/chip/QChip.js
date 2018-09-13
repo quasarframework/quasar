@@ -1,5 +1,5 @@
 import QIcon from '../icon/QIcon.js'
-import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QChip',
@@ -53,7 +53,7 @@ export default {
       this.$emit('focus', e)
     },
     __handleKeyDown (e) {
-      if (this.closable && [8, 13, 32].includes(getEventKey(e))) {
+      if (this.closable && [8, 13, 32].includes(e.keyCode)) {
         stopAndPrevent(e)
         this.$emit('hide')
       }

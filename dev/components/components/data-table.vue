@@ -85,10 +85,10 @@
         <div
           slot="item"
           slot-scope="props"
-          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 transition-generic"
+          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 generic-transition"
           :style="props.selected ? 'transform: scale(0.95);' : ''"
         >
-          <q-card class="transition-generic" :class="props.selected ? 'bg-grey-2' : ''">
+          <q-card class="generic-transition" :class="props.selected ? 'bg-grey-2' : ''">
             <q-card-title class="relative-position">
               <q-checkbox v-model="props.selected" :label="props.row.name" />
             </q-card-title>

@@ -70,15 +70,16 @@ export default {
   update (el, binding) {
     updateBinding(el, binding)
   },
-  unbind (el, binding) {
+  unbind (el) {
     let ctx = el.__qtouchhold
-    if (!ctx) { return }
-    el.removeEventListener('touchstart', ctx.start)
-    el.removeEventListener('touchend', ctx.abort)
-    el.removeEventListener('touchmove', ctx.abort)
-    el.removeEventListener('mousedown', ctx.mouseStart)
-    document.removeEventListener('mousemove', ctx.mouseAbort)
-    document.removeEventListener('mouseup', ctx.mouseAbort)
-    delete el.__qtouchhold
+    if (ctx) {
+      el.removeEventListener('touchstart', ctx.start)
+      el.removeEventListener('touchend', ctx.abort)
+      el.removeEventListener('touchmove', ctx.abort)
+      el.removeEventListener('mousedown', ctx.mouseStart)
+      document.removeEventListener('mousemove', ctx.mouseAbort)
+      document.removeEventListener('mouseup', ctx.mouseAbort)
+      delete el.__qtouchhold
+    }
   }
 }

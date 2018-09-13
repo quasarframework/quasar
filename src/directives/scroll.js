@@ -18,7 +18,7 @@ function updateBinding (el, binding) {
 
 export default {
   name: 'scroll',
-  bind (el, binding) {
+  bind (el) {
     let ctx = {
       scroll () {
         ctx.handler(

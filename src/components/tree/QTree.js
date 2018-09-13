@@ -451,7 +451,7 @@ export default {
             : (
               isParent
                 ? h(QIcon, {
-                  staticClass: 'q-tree-arrow q-mr-xs transition-generic',
+                  staticClass: 'q-tree-arrow q-mr-xs generic-transition',
                   'class': { 'q-tree-arrow-rotate': meta.expanded },
                   props: { name: this.computedIcon },
                   nativeOn: {
