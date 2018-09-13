@@ -11,54 +11,62 @@
   line-height initial
   .modal-buttons
     padding-top 8px
+  &:not(.no-border)
+    &:not(.q-datetime-dark) .q-datetime-content
+      border 1px solid $grey-4
+    &.q-datetime-dark
+      border 1px solid $dark
+      border 1px solid var(--q-color-dark)
 
 .q-datetime-header
-  pointer-events none
   background currentColor
   > div
     color white
-
-.q-datetime-header
-.q-datetime-content
-  min-width 290px
+    width 100%
 
 .q-datetime-weekdaystring
   font-size .8rem
   background rgba(0, 0, 0, .1)
   padding 5px 0
-  width 100%
-  margin-bottom -10px
 
 .q-datetime-time
   padding 10px 0
-
-div + .q-datetime-time
-  padding-top 0
+  will-change scroll-position
+  overflow auto
 
 .q-datetime-ampm
   font-size .9rem
+  padding 5px
 
 .q-datetime-datestring
-  font-size 2.7rem
-  span.small
-    font-size 1.2rem
+  padding 10px 0
+  .q-datetime-link
+    font-size 2.7rem
+    span
+      padding 0 5px
+      width 100%
+    &.small
+      margin 0 5px
+      font-size 1.2rem
+      span
+        padding 5px
 
 .q-datetime-link
   opacity .6
   > span
     cursor pointer
-    pointer-events all
     display inline-block
-    width 100%
     outline 0
   &.active
     opacity 1
 
 .q-datetime-clockstring
+  min-width 210px
   font-size 2.7rem
   direction: ltr /* rtl:ignore */
 
 .q-datetime-selector
+  min-width 290px
   height 310px
   overflow auto
 
@@ -239,47 +247,9 @@ for $pos in 13..23
 @media (max-width $breakpoint-sm-max)
   .q-datetime
     flex-direction column !important
-  .q-datetime-ampm
-    margin-left 1.5rem
-  .q-datetime-datestring .q-datetime-link
-    margin 5px
-    &.small
-      margin-top 1.3rem
-    span
-      padding 10px 5px
-  .q-datetime
-    &:not(.no-border)
-      &:not(.q-datetime-dark) .q-datetime-content
-        border-width 0 1px 1px 1px
-        border-style solid
-        border-color $grey-4
-      &.q-datetime-minimal .q-datetime-content
-        border-top-width 1px
-      &.q-datetime-dark
-        border 1px solid $dark
-        border 1px solid var(--q-color-dark)
 
 @media (min-width $breakpoint-md-min)
-  .q-datetime-datestring
-    padding 10px 0
-  .q-datetime-ampm
-    margin-top 5px
-    div
-      margin 2px 0
   .q-datetime-header
-    position relative
-    flex 1 1 170px !important
-    min-width 170px
+    flex 1 1 auto
   .q-datetime-content
-    flex 2 2 290px !important
-  .q-datetime
-    &:not(.no-border)
-      &:not(.q-datetime-dark) .q-datetime-content
-        border-width 1px 1px 1px 0
-        border-style solid
-        border-color $grey-4
-      &.q-datetime-minimal .q-datetime-content
-        border-left-width 1px
-      &.q-datetime-dark
-        border 1px solid $dark
-        border 1px solid var(--q-color-dark)
+    flex 2 2 auto

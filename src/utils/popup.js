@@ -71,6 +71,7 @@ export function repositionIfNeeded (anchor, target, selfOrigin, anchorOrigin, ta
     }
     else if (cover) {
       targetPosition.left = targetPosition.left < 0 ? 0 : innerWidth - target.right
+      targetPosition.maxWidth = innerWidth
     }
     else if (anchor[selfOrigin.horizontal] > innerWidth / 2) {
       const anchorY = Math.min(innerWidth, anchorOrigin.horizontal === 'middle' ? anchor.center : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchor.right : anchor.left))
