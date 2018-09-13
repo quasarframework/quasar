@@ -11,6 +11,9 @@ maximized-modal()
   .q-layout-container
     min-height 100vh !important
 
+.modal-backdrop
+  background $dimmed-background
+
 .modal-content
   position relative
   background $modal-background
@@ -25,8 +28,6 @@ maximized-modal()
 
 .modal
   z-index $z-modal
-  &.minimized, &.with-backdrop
-    background $dimmed-background
   &.minimized .modal-content
     minimized-modal()
   &.maximized .modal-content
@@ -37,12 +38,13 @@ maximized-modal()
 
 @media (min-width $breakpoint-md-min)
   .modal:not(.maximized)
-    background $dimmed-background
     &.q-modal-enter .modal-content
       transform scale(1.2)
     &.q-modal-leave-active .modal-content
       transform scale(.8)
   .modal.maximized
+    .modal-backdrop
+      display none
     &.q-modal-enter, &.q-modal-leave-active
       .modal-content
         transform translateX(30%)
@@ -51,6 +53,8 @@ maximized-modal()
   .q-responsive-modal
     overflow hidden
   .modal:not(.minimized)
+    .modal-backdrop
+      display none
     .modal-content
       maximized-modal()
     &.q-modal-enter, &.q-modal-leave-active
