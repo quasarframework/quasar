@@ -182,7 +182,7 @@
       <q-field
         icon="cloud"
         helper="Helper"
-        error="error"
+        :error="error"
         error-label="Error!"
         label="Horizontal"
         orientation="horizontal"
@@ -204,12 +204,33 @@
       <q-field
         icon="cloud"
         helper="Helper"
-        error="error"
+        :error="!model.length"
         error-label="Error!"
-        label="Vertical"
+        label="Vertical - Errors"
         orientation="vertical"
       >
         <q-input suffix="#" prefix="@" v-model="model" :count="10" />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+        :error="!model.length"
+        error-label="Error with no helper and count!"
+        label="Vertical - Spacing"
+        orientation="vertical"
+        count
+      >
+        <q-input suffix="#" prefix="@" v-model="model" :count="10" />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+        :error="!model.length"
+        error-label="Error with no helper and no count!"
+        label="Vertical - Spacing"
+        orientation="vertical"
+      >
+        <q-input suffix="#" prefix="@" v-model="model" />
       </q-field>
 
       <q-field
