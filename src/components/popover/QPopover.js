@@ -77,6 +77,9 @@ export default {
       }
     }, this.$slots.default)
   },
+  created () {
+    this.closeEvents = this.$q.platform.has.touch ? ['touchstart', 'touchend'] : ['mousedown', 'mouseup']
+  },
   mounted () {
     this.__updatePosition = frameDebounce((_, event, animate) => this.reposition(event, animate))
     this.$nextTick(() => {
@@ -128,8 +131,8 @@ export default {
         this.$refs.content.focus()
       }
       this.timer = setTimeout(() => {
-        document.body.addEventListener('mousedown', this.__bodyHideStart, true)
-        document.body.addEventListener('mouseup', this.__bodyHide, true)
+        document.body.addEventListener(this.closeEvents[0], this.__bodyHideStart, true)
+        document.body.addEventListener(this.closeEvents[1], this.__bodyHide, true)
         this.showPromise && this.showPromiseResolve()
       }, 0)
     },
@@ -176,8 +179,8 @@ export default {
     __cleanup () {
       clearTimeout(this.timer)
 
-      document.body.removeEventListener('mousedown', this.__bodyHideStart, true)
-      document.body.removeEventListener('mouseup', this.__bodyHide, true)
+      document.body.removeEventListener(this.closeEvents[0], this.__bodyHideStart, true)
+      document.body.removeEventListener(this.closeEvents[1], this.__bodyHide, true)
       this.scrollTarget.removeEventListener('scroll', this.__updatePosition, listenOpts.passive)
       if (this.scrollTarget !== window) {
         window.removeEventListener('scroll', this.__updatePosition, listenOpts.passive)
