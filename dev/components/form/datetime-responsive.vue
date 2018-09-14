@@ -16,6 +16,7 @@
         @input="value => log('@input', value)"
         @focus="log('@focus')"
         @blur="log('@blur')"
+        placeholder="Normal"
       />
       <q-datetime
         class="q-my-md"
@@ -28,6 +29,7 @@
         @input="value => log('@input', value)"
         @focus="log('@focus')"
         @blur="log('@blur')"
+        placeholder="Minimal"
       />
       <div class="q-my-md row gutter-md justify-center">
         <div>
@@ -39,6 +41,20 @@
             @input="value => log('@input', value)"
             @focus="log('@focus')"
             @blur="log('@blur')"
+            placeholder="Normal"
+          />
+        </div>
+        <div>
+          <q-datetime
+            v-model="model"
+            :type="computedType"
+            default-view="year"
+            clearable
+            @change="value => log('@change', value)"
+            @input="value => log('@input', value)"
+            @focus="log('@focus')"
+            @blur="log('@blur')"
+            placeholder="Normal default year"
           />
         </div>
         <div>
@@ -51,6 +67,21 @@
             @input="value => log('@input', value)"
             @focus="log('@focus')"
             @blur="log('@blur')"
+            placeholder="Minimal"
+          />
+        </div>
+        <div>
+          <q-datetime
+            v-model="model"
+            :type="computedType"
+            default-view="year"
+            clearable
+            minimal
+            @change="value => log('@change', value)"
+            @input="value => log('@input', value)"
+            @focus="log('@focus')"
+            @blur="log('@blur')"
+            placeholder="Minimal default year"
           />
         </div>
       </div>
@@ -63,6 +94,7 @@
         @input="value => log('@input', value)"
         @focus="log('@focus')"
         @blur="log('@blur')"
+        placeholder="Normal modal"
       />
       <q-datetime
         v-model="model"
@@ -74,7 +106,66 @@
         @input="value => log('@input', value)"
         @focus="log('@focus')"
         @blur="log('@blur')"
+        placeholder="Minimal modal"
       />
+      <div class="q-my-md row gutter-md justify-center">
+        <div>
+          <q-datetime
+            v-model="model"
+            :type="computedType"
+            clearable
+            modal
+            @change="value => log('@change', value)"
+            @input="value => log('@input', value)"
+            @focus="log('@focus')"
+            @blur="log('@blur')"
+            placeholder="Normal modal"
+          />
+        </div>
+        <div>
+          <q-datetime
+            v-model="model"
+            :type="computedType"
+            default-view="year"
+            clearable
+            modal
+            @change="value => log('@change', value)"
+            @input="value => log('@input', value)"
+            @focus="log('@focus')"
+            @blur="log('@blur')"
+            placeholder="Normal modal default year"
+          />
+        </div>
+        <div>
+          <q-datetime
+            v-model="model"
+            :type="computedType"
+            clearable
+            modal
+            minimal
+            @change="value => log('@change', value)"
+            @input="value => log('@input', value)"
+            @focus="log('@focus')"
+            @blur="log('@blur')"
+            placeholder="Minimal modal"
+          />
+        </div>
+        <div>
+          <q-datetime
+            v-model="model"
+            :type="computedType"
+            default-view="year"
+            clearable
+            modal
+            minimal
+            @change="value => log('@change', value)"
+            @input="value => log('@input', value)"
+            @focus="log('@focus')"
+            @blur="log('@blur')"
+            placeholder="Minimal modal default year"
+          />
+        </div>
+      </div>
       <div class="q-my-md row gutter-md justify-center">
         <div>
           <q-datetime-picker
@@ -138,8 +229,8 @@
         @focus="log('@focus')"
         @blur="log('@blur')"
       />
-      <div class="q-my-md">
-        <div style="width: 290px; outline: 2px solid red">
+      <div class="q-my-md row gutter-sm">
+        <div class="col-md-2">
           <q-datetime-picker
             v-model="model"
             :type="computedType"
@@ -150,12 +241,22 @@
             @blur="log('@blur')"
           />
         </div>
-        <div style="width: 320px; outline: 2px solid red">
+        <div class="col-md-3">
           <q-datetime-picker
             v-model="model"
             :type="computedType"
             clearable
-            minimal
+            @change="value => log('@change', value)"
+            @input="value => log('@input', value)"
+            @focus="log('@focus')"
+            @blur="log('@blur')"
+          />
+        </div>
+        <div class="col-md-4">
+          <q-datetime-picker
+            v-model="model"
+            :type="computedType"
+            clearable
             @change="value => log('@change', value)"
             @input="value => log('@input', value)"
             @focus="log('@focus')"

@@ -100,14 +100,7 @@ export default {
       }
 
       const target = this.$refs.target
-      if (target) {
-        if (this.defaultView) {
-          target.setView(this.defaultView)
-        }
-        else {
-          target.setView()
-        }
-      }
+      target && target.setView(this.defaultView, true)
 
       this.model = clone(this.computedValue)
       this.focused = true
@@ -160,12 +153,11 @@ export default {
         }
       })
     },
-    __resetView () {
+    __scrollView () {
       // go back to initial entry point for that type of control
       // if it has defaultView it's going to be reapplied anyway on focus
-      if (!this.defaultView && this.$refs.target) {
-        this.$refs.target.setView()
-      }
+      const target = this.$refs.target
+      target && target.__scrollView()
     },
 
     __getPicker (h, modal) {
@@ -195,7 +187,6 @@ export default {
             canClose: () => {
               if (this.isPopover) {
                 this.hide()
-                this.__resetView()
               }
             }
           }
@@ -216,7 +207,6 @@ export default {
                   click: () => {
                     this.__onHide(false, true)
                     this.hide()
-                    this.__resetView()
                   }
                 }
               }),
@@ -233,7 +223,6 @@ export default {
                     click: () => {
                       this.__onHide(true, true)
                       this.hide()
-                      this.__resetView()
                     }
                   }
                 })
@@ -295,7 +284,10 @@ export default {
           },
           slot: 'after',
           on: {
-            show: this.__onFocus,
+            show: ev => {
+              this.__onFocus(ev)
+              this.__scrollView()
+            },
             hide: () => this.__onHide(true, true)
           }
         }, this.__getPicker(h))
@@ -311,6 +303,7 @@ export default {
             transition: this.transition
           },
           on: {
+            show: this.__scrollView,
             dismiss: () => this.__onHide(false, true)
           }
         }, this.__getPicker(h, true)),
