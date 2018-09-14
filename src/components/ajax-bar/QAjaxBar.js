@@ -109,7 +109,7 @@ export default {
   computed: {
     classes () {
       return [
-        this.position,
+        `q-loading-bar--${this.position}`,
         `bg-${this.color}`,
         this.animate ? '' : 'no-transition'
       ]
