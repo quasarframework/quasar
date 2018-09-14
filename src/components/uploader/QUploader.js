@@ -10,7 +10,7 @@ import QItemSide from '../list/QItemSide.js'
 import QItemMain from '../list/QItemMain.js'
 import QItemTile from '../list/QItemTile.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
-import { stopAndPrevent } from '../../utils/event'
+import { stopAndPrevent } from '../../utils/event.js'
 
 function initFile (file) {
   file.__doneUploading = false
