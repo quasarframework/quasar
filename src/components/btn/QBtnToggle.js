@@ -31,8 +31,7 @@ export default {
     push: Boolean,
     size: String,
     glossy: Boolean,
-    noRipple: Boolean,
-    waitForRipple: Boolean
+    noRipple: Boolean
   },
   computed: {
     val () {
@@ -41,15 +40,10 @@ export default {
   },
   methods: {
     set (value, opt) {
-      if (this.readonly) {
-        return
+      if (!this.readonly && value !== this.value) {
+        this.$emit('input', value, opt)
+        this.$emit('change', value, opt)
       }
-      this.$emit('input', value, opt)
-      this.$nextTick(() => {
-        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-          this.$emit('change', value, opt)
-        }
-      })
     }
   },
   render (h) {
@@ -84,7 +78,6 @@ export default {
           size: this.size,
           dense: this.dense,
           noRipple: this.noRipple || opt.noRipple,
-          waitForRipple: this.waitForRipple || opt.waitForRipple,
           tabindex: opt.tabindex
         }
       })

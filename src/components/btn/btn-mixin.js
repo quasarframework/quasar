@@ -6,11 +6,7 @@ const sizes = {
   sm: 10,
   md: 14,
   lg: 20,
-  xl: 24,
-  form: 14.777,
-  'form-label': 21.777,
-  'form-hide-underline': 9.333,
-  'form-label-hide-underline': 16.333
+  xl: 24
 }
 
 export default {
@@ -59,7 +55,7 @@ export default {
       return this.round || this.fab || this.fabMini
     },
     shape () {
-      return `q-btn-${this.isRound ? 'round' : 'rectangle'}`
+      return `q-btn--${this.isRound ? 'round' : 'rectangle'}`
     },
     isDisabled () {
       return this.disable || this.loading
@@ -87,20 +83,20 @@ export default {
       const cls = [ this.shape ]
 
       if (this.fab) {
-        cls.push('q-btn-fab')
+        cls.push('q-btn--fab')
       }
       else if (this.fabMini) {
-        cls.push('q-btn-fab-mini')
+        cls.push('q-btn--fab-mini')
       }
 
       if (this.flat) {
-        cls.push('q-btn-flat')
+        cls.push('q-btn--flat')
       }
       else if (this.outline) {
-        cls.push('q-btn-outline')
+        cls.push('q-btn--outline')
       }
       else if (this.push) {
-        cls.push('q-btn-push')
+        cls.push('q-btn--push')
       }
 
       if (this.isDisabled) {
@@ -125,19 +121,20 @@ export default {
       }
 
       cls.push({
-        'q-btn-no-uppercase': this.noCaps,
-        'q-btn-rounded': this.rounded,
-        'q-btn-dense': this.dense,
+        'q-btn--no-uppercase': this.noCaps,
+        'q-btn--rounded': this.rounded,
+        'q-btn--dense': this.dense,
         'glossy': this.glossy
       })
 
       return cls
     },
     innerClasses () {
-      const classes = [ this.alignClass ]
-      this.noWrap && classes.push('no-wrap', 'text-no-wrap')
-      this.repeating && classes.push('non-selectable')
-      return classes
+      return {
+        [this.alignClass]: true,
+        'no-wrap text-no-wrap': this.noWrap,
+        'non-selectable': this.repeating
+      }
     }
   }
 }

@@ -21,23 +21,24 @@
   > .q-btn-item + .q-btn-item
     border-top-left-radius 0
     border-bottom-left-radius 0
-.q-btn-group-push
-  border-radius $button-push-border-radius
-  > .q-btn-push
-    .q-btn-inner
-      transition $button-transition
-    &:active:not(.disabled)
-    &.active:not(.disabled)
-      border-bottom-color rgba(0, 0, 0, .15)
-      transform translateY(0)
-      .q-btn-inner
-        transform translateY(3px)
-.q-btn-group-rounded
-  border-radius $button-rounded-border-radius
-.q-btn-group-flat, .q-btn-group-outline
-  box-shadow none
-.q-btn-group-outline
-  > .q-btn-item + .q-btn-item
-    border-left 0
-  > .q-btn-item:not(:last-child)
-    border-right 0
+
+  &--push
+    border-radius $button-push-border-radius
+    > .q-btn--push
+      .q-btn__inner
+        transition $button-transition
+      &:active:not(.disabled)
+      &.active:not(.disabled)
+        border-bottom-color rgba(0, 0, 0, .15)
+        transform translateY(0)
+        .q-btn__inner
+          transform translateY(3px)
+  &--rounded
+    border-radius $button-rounded-border-radius
+  &--flat, &--outline
+    box-shadow none
+  &--outline
+    > .q-btn-item + .q-btn-item
+      border-left 0
+    > .q-btn-item:not(:last-child)
+      border-right 0

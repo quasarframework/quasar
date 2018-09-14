@@ -39,24 +39,24 @@ ie_style = @block
       display table
 
   /* QBtn */
-  a.q-btn:not(.q-btn-round)
+  a.q-btn:not(.q-btn--round)
     height 0px
   .q-btn
-    .q-btn-inner
+    .q-btn__inner
       flex-basis auto
     &:active
     &.active
-      .q-btn-inner
+      .q-btn__inner
         margin -1px 1px 1px -1px
-      &.q-btn-push
-        .q-btn-inner
+      &.q-btn--push
+        .q-btn__inner
           margin 1px 1px -1px -1px
         &.disabled
-          .q-btn-inner
+          .q-btn__inner
             margin -1px 1px 1px -1px
-  .q-btn-group > .q-btn.q-btn-push:not(.disabled)
-    &:active .q-btn-inner
-    &.active .q-btn-inner
+  .q-btn-group > .q-btn.q-btn--push:not(.disabled)
+    &:active .q-btn__inner
+    &.active .q-btn__inner
       margin 0
 
   /* QChip */

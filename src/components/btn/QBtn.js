@@ -10,7 +10,6 @@ export default {
   props: {
     percentage: Number,
     darkPercentage: Boolean,
-    waitForRipple: Boolean,
     repeatTimeout: [Number, Function]
   },
   computed: {
@@ -75,12 +74,7 @@ export default {
         }
       }
 
-      if (this.waitForRipple && this.hasRipple) {
-        this.timer = setTimeout(trigger, 300)
-      }
-      else {
-        trigger()
-      }
+      trigger()
     },
     __cleanup () {
       clearTimeout(this.timer)
@@ -173,14 +167,14 @@ export default {
 
       this.loading && this.hasPercentage
         ? h('div', {
-          staticClass: 'q-btn-progress absolute-full',
-          'class': { 'q-btn-dark-progress': this.darkPercentage },
+          staticClass: 'q-btn__progress absolute-full',
+          'class': { 'q-btn__progress--dark': this.darkPercentage },
           style: { width: this.width }
         })
         : null,
 
       h('div', {
-        staticClass: 'q-btn-inner row col items-center',
+        staticClass: 'q-btn__inner row col items-center',
         'class': this.innerClasses
       },
       this.loading

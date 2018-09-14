@@ -1,5 +1,5 @@
-import { normalizeToInterval } from '../../utils/format'
-import { inline as props } from './datetime-props'
+import { normalizeToInterval } from '../../utils/format.js'
+import { inline as props } from './datetime-props.js'
 import {
   convertDateToFormat,
   getDateBetween,
@@ -7,7 +7,7 @@ import {
   startOfDate,
   isSameDate,
   isValid
-} from '../../utils/date'
+} from '../../utils/date.js'
 
 const reDate = /^\d{4}[^\d]\d{2}[^\d]\d{2}/
 

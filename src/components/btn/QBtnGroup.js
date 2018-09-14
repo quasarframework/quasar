@@ -10,7 +10,7 @@ export default {
     classes () {
       return ['outline', 'flat', 'rounded', 'push']
         .filter(t => this[t])
-        .map(t => `q-btn-group-${t}`).join(' ')
+        .map(t => `q-btn-group--${t}`).join(' ')
     }
   },
   render (h) {

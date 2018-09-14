@@ -69,14 +69,14 @@ export default {
         'class': {
           'rotate-180': this.showing,
           'on-right': !this.split,
-          'q-btn-dropdown-arrow': !this.split
+          'q-btn-dropdown__arrow': !this.split
         }
       }),
       Btn = h(QBtn, {
         props: Object.assign({}, this.$props, {
           iconRight: this.split ? this.iconRight : null
         }),
-        'class': this.split ? 'q-btn-dropdown-current' : 'q-btn-dropdown q-btn-dropdown-simple',
+        'class': this.split ? 'q-btn-dropdown--current' : 'q-btn-dropdown q-btn-dropdown--simple',
         on: {
           click: e => {
             this.split && this.hide()
@@ -98,7 +98,7 @@ export default {
         rounded: this.rounded,
         push: this.push
       },
-      staticClass: 'q-btn-dropdown q-btn-dropdown-split no-wrap q-btn-item'
+      staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item'
     },
     [
       Btn,
@@ -114,10 +114,9 @@ export default {
           textColor: this.textColor,
           dense: this.dense,
           glossy: this.glossy,
-          noRipple: this.noRipple,
-          waitForRipple: this.waitForRipple
+          noRipple: this.noRipple
         },
-        staticClass: 'q-btn-dropdown-arrow',
+        staticClass: 'q-btn-dropdown__arrow',
         on: { click: () => { this.toggle() } }
       }, [ Icon ]),
       [ Popover ]
