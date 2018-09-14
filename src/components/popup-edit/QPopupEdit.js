@@ -8,6 +8,10 @@ export default {
   props: {
     value: {},
     persistent: Boolean,
+    keepOnScreen: {
+      type: Boolean,
+      default: true
+    },
     title: String,
     buttons: Boolean,
     labelSet: String,
@@ -94,6 +98,7 @@ export default {
       props: {
         cover: true,
         persistent: this.persistent,
+        keepOnScreen: this.keepOnScreen,
         disable: this.disable
       },
       on: {
