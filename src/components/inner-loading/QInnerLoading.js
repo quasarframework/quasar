@@ -20,7 +20,7 @@ export default {
       'div',
       {
         staticClass: 'q-inner-loading animate-fade absolute-full column flex-center',
-        'class': { dark: this.dark }
+        'class': { 'q-inner-loading--dark': this.dark }
       },
       this.$slots.default || [
         h(QSpinner, {
