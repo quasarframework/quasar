@@ -555,7 +555,7 @@ export default {
               attrs: { tabindex: 0 },
               on: {
                 keydown: e => {
-                  const key = getEventKey(e)
+                  const key = e.keyCode
                   if (key === 40 || key === 37) { // down, left
                     stopAndPrevent(e)
                     this.setHour(this.hour - 1, true)
@@ -592,7 +592,7 @@ export default {
               attrs: { tabindex: 0 },
               on: {
                 keydown: e => {
-                  const key = getEventKey(e)
+                  const key = e.keyCode
                   if (key === 40 || key === 37) { // down, left
                     stopAndPrevent(e)
                     this.setMinute(this.minute - 1, true)
