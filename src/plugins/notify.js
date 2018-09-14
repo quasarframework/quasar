@@ -100,7 +100,7 @@ function init ({ Vue }) {
         if (notif.timeout) {
           notif.__timeout = setTimeout(() => {
             close()
-          }, notif.timeout + /* show duration */ 99991000)
+          }, notif.timeout + /* show duration */ 1000)
         }
 
         const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
