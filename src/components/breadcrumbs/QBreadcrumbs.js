@@ -4,25 +4,34 @@ export default {
   name: 'QBreadcrumbs',
   mixins: [AlignMixin],
   props: {
+    separator: {
+      type: String,
+      default: '/'
+    },
     color: {
       type: String,
-      default: 'faded'
+      default: 'grey'
     },
     activeColor: {
       type: String,
       default: 'primary'
     },
-    separator: {
-      type: String,
-      default: '/'
-    },
+    separatorColor: String,
     align: Object.assign({}, AlignMixin.props.align, {
       default: 'left'
     })
   },
   computed: {
     classes () {
-      return [`text-${this.color}`, this.alignClass]
+      return `text-${this.color} ${this.alignClass}`
+    },
+    sepClass () {
+      if (this.separatorColor) {
+        return `text-${this.separatorColor}`
+      }
+    },
+    activeClass () {
+      return `text-${this.activeColor}`
     }
   },
   render (h) {
@@ -30,13 +39,12 @@ export default {
       return
     }
 
+    let els = 1
+
     const
       child = [],
       len = this.$slots.default.filter(c => c.tag !== void 0 && c.tag.endsWith('-QBreadcrumbsEl')).length,
-      separator = this.$scopedSlots.separator || (() => this.separator),
-      color = `text-${this.color}`,
-      active = `text-${this.activeColor}`
-    let els = 1
+      separator = this.$scopedSlots.separator || (() => this.separator)
 
     for (const i in this.$slots.default) {
       const comp = this.$slots.default[i]
@@ -46,11 +54,13 @@ export default {
 
         child.push(h('div', {
           staticClass: 'flex items-center',
-          'class': [ middle ? active : color, middle ? 'text-weight-bold' : 'q-breadcrumbs-last' ]
+          'class': middle ? this.activeClass : 'q-breadcrumbs__last'
         }, [ comp ]))
 
         if (middle) {
-          child.push(h('div', { staticClass: `q-breadcrumbs-separator`, 'class': color }, [ separator() ]))
+          child.push(h('div', {
+            staticClass: 'q-breadcrumbs__separator', 'class': this.sepClass
+          }, [ separator() ]))
         }
       }
       else {

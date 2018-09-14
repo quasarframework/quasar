@@ -17,14 +17,14 @@
       </q-breadcrumbs>
 
       <br><br>
-      <q-breadcrumbs>
-        <q-breadcrumbs-el class="cursor-pointer" label="Home" icon="home" @click.native="path = '/'"/>
+      <q-breadcrumbs separator-color="orange">
+        <q-breadcrumbs-el label="Home" icon="home" />
         <q-breadcrumbs-el label="Home" />
         <q-breadcrumbs-el label="Home" />
         <q-breadcrumbs-el label="Home" />
       </q-breadcrumbs>
       <br><br>
-      <q-breadcrumbs icon-separator="chevron_right" active-color="secondary" color="light" align="right">
+      <q-breadcrumbs icon-separator="chevron_right" active-color="secondary" color="orange" align="right">
         <q-breadcrumbs-el label="Home" to="/" />
         <q-breadcrumbs-el label="Components" to="/components" />
         <q-breadcrumbs-el label="Breadcrumbs" to="/components/breadcrumbs" />
@@ -33,7 +33,7 @@
       <br><br>
       <q-breadcrumbs align="center">
         <q-icon name="trending_flat" slot="separator" slot-scope="props" />
-        <q-breadcrumbs-el active>Home</q-breadcrumbs-el>
+        <q-breadcrumbs-el>Home</q-breadcrumbs-el>
         <q-breadcrumbs-el>Components</q-breadcrumbs-el>
         <q-breadcrumbs-el>Breadcrumbs</q-breadcrumbs-el>
       </q-breadcrumbs>
