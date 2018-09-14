@@ -53,6 +53,7 @@ export function repositionIfNeeded (anchor, target, selfOrigin, anchorOrigin, ta
   if (targetPosition.top < 0 || targetPosition.top + target.bottom > innerHeight) {
     if (selfOrigin.vertical === 'center') {
       targetPosition.top = anchor[selfOrigin.vertical] > innerHeight / 2 ? innerHeight - target.bottom : 0
+      targetPosition.maxHeight = Math.min(target.bottom, innerHeight)
     }
     else if (anchor[selfOrigin.vertical] > innerHeight / 2) {
       const anchorY = Math.min(innerHeight, anchorOrigin.vertical === 'center' ? anchor.center : (anchorOrigin.vertical === selfOrigin.vertical ? anchor.bottom : anchor.top))
@@ -66,12 +67,12 @@ export function repositionIfNeeded (anchor, target, selfOrigin, anchorOrigin, ta
   }
 
   if (targetPosition.left < 0 || targetPosition.left + target.right > innerWidth) {
+    targetPosition.maxWidth = Math.min(target.right, innerWidth)
     if (selfOrigin.horizontal === 'middle') {
       targetPosition.left = anchor[selfOrigin.horizontal] > innerWidth / 2 ? innerWidth - target.right : 0
     }
     else if (cover) {
       targetPosition.left = targetPosition.left < 0 ? 0 : innerWidth - target.right
-      targetPosition.maxWidth = innerWidth
     }
     else if (anchor[selfOrigin.horizontal] > innerWidth / 2) {
       const anchorY = Math.min(innerWidth, anchorOrigin.horizontal === 'middle' ? anchor.center : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchor.right : anchor.left))
