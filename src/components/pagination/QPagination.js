@@ -1,4 +1,4 @@
-import { between } from '../../utils/format'
+import { between } from '../../utils/format.js'
 import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 import { getEventKey } from '../../utils/event.js'
