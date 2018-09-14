@@ -1,4 +1,4 @@
-import QProgress from '../progress/QProgress.js'
+import QLinearProgress from '../progress/QLinearProgress.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QTh from './QTh.js'
 
@@ -10,7 +10,7 @@ export default {
       if (this.loading) {
         child.push(h('tr', { staticClass: 'q-table-progress animate-fade' }, [
           h('td', { attrs: {colspan: '100%'} }, [
-            h(QProgress, {
+            h(QLinearProgress, {
               props: {
                 color: this.color,
                 indeterminate: true,

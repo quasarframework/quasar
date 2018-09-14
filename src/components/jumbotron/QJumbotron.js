@@ -35,7 +35,7 @@ export default {
       staticClass: 'q-jumbotron',
       style: this.computedStyle,
       'class': {
-        'q-jumbotron-dark': this.dark
+        'q-jumbotron--dark': this.dark
       }
     }, this.$slots.default)
   }

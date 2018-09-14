@@ -1,0 +1,95 @@
+<template>
+  <div>
+    <div class="layout-padding">
+      <div class="caption">
+        <span class="desktop-only">Click</span>
+        <span class="mobile-only">Tap</span>
+        on progress bars to change their binded value.
+        <span class="desktop-only">
+          On a real mobile device the Progress bars
+          are much thinner by default.
+        </span>
+      </div>
+
+      <h5>Determinate State</h5>
+      <div class="group">
+        <q-btn size="sm" color="primary" @click="randomize">Change Model</q-btn>
+        <q-linear-progress class="q-my-sm" :value="progress"/>
+        <q-linear-progress height="10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
+        <q-linear-progress class="q-my-sm" :value="progress" color="info"/>
+        <q-linear-progress class="q-my-sm" :value="progress" color="warning"/>
+        <q-linear-progress class="q-my-sm" :value="progress" color="secondary"/>
+        <q-linear-progress class="q-my-sm" :value="progress" color="tertiary"/>
+        <q-linear-progress class="q-my-sm" :value="progress" color="dark"/>
+        <q-linear-progress class="q-my-sm" :value="progress" color="negative"/>
+      </div>
+
+      <h5>Stripe</h5>
+      <div class="group">
+        <q-linear-progress class="q-my-sm" :value="progress" stripe/>
+        <q-linear-progress class="q-my-sm" :value="progress" stripe color="positive"/>
+        <q-linear-progress class="q-my-sm" :value="progress" stripe color="info"/>
+        <q-linear-progress class="q-my-sm" :value="progress" stripe color="warning"/>
+      </div>
+
+      <h5>Stripe and Animate</h5>
+      <q-linear-progress class="q-my-sm" :value="progress" stripe animate color="secondary"/>
+
+      <h5>Buffering</h5>
+      <div class="group">
+        <q-btn size="sm" color="primary" @click="randomizeBuffer">Change Buffer Model</q-btn>
+        <q-linear-progress class="q-my-sm" :value="progressBuffer" :buffer="buffer"/>
+        <q-linear-progress class="q-my-sm" :value="progressBuffer" stripe :buffer="buffer"/>
+        <q-linear-progress class="q-my-sm" :value="progressBuffer" stripe animate color="secondary" :buffer="buffer"/>
+
+        <q-linear-progress class="q-my-sm" :value="progressBuffer" :buffer="buffer" fill-color="yellow"/>
+        <q-linear-progress class="q-my-sm" :value="progressBuffer" stripe :buffer="buffer" fill-color="yellow"/>
+        <q-linear-progress class="q-my-sm" :value="progressBuffer" stripe animate color="secondary" :buffer="buffer" fill-color="yellow" buffer-color="primary" />
+      </div>
+
+      <h5>Indeterminate State</h5>
+      <div class="group">
+        <q-linear-progress class="q-my-sm" indeterminate/>
+        <q-linear-progress class="q-my-sm" indeterminate color="positive"/>
+        <q-linear-progress class="q-my-sm" indeterminate color="warning"/>
+        <q-linear-progress class="q-my-sm" indeterminate color="negative"/>
+        <q-linear-progress class="q-my-sm" indeterminate color="dark"/>
+      </div>
+
+      <h5>Query State</h5>
+      <div class="group">
+        <q-linear-progress class="q-my-sm" query height="10px"/>
+        <q-linear-progress class="q-my-sm" query height="10px" color="positive"/>
+        <q-linear-progress class="q-my-sm" query height="10px" color="warning"/>
+        <q-linear-progress class="q-my-sm" query height="10px" color="negative"/>
+        <q-linear-progress class="q-my-sm" query height="10px" color="dark"/>
+      </div>
+
+      <h5>Specific Height</h5>
+      <div>
+        <q-linear-progress class="q-my-sm" :value="progress" stripe animate height="45px"/>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      progress: 67,
+      progressBuffer: 41,
+      buffer: 17
+    }
+  },
+  methods: {
+    randomize () {
+      this.progress = Math.round(Math.random() * 100)
+    },
+    randomizeBuffer () {
+      this.progressBuffer = Math.round(Math.random() * 51)
+      this.buffer = Math.round(Math.random() * 47)
+    }
+  }
+}
+</script>

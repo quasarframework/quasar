@@ -5,9 +5,9 @@ function width (val) {
 }
 
 export default {
-  name: 'QProgress',
+  name: 'QLinearProgress',
   props: {
-    percentage: {
+    value: {
       type: Number,
       default: 0
     },
@@ -15,9 +15,12 @@ export default {
       type: String,
       default: 'primary'
     },
+    fillColor: String,
+    reverse: Boolean,
     stripe: Boolean,
     animate: Boolean,
     indeterminate: Boolean,
+    query: Boolean,
     buffer: Number,
     height: {
       type: String,
@@ -26,7 +29,7 @@ export default {
   },
   computed: {
     model () {
-      return between(this.percentage, 0, 100)
+      return between(this.value, 0, 100)
     },
     bufferModel () {
       return between(this.buffer || 0, 0, 100 - this.model)
@@ -35,19 +38,26 @@ export default {
       return width(this.bufferModel)
     },
     trackStyle () {
-      return width(this.buffer ? 100 - this.buffer : 100)
+      return width(100 - (this.buffer || 0))
+    },
+    trackClass () {
+      if (this.fillColor) {
+        return `text-${this.fillColor}`
+      }
     },
     computedClass () {
-      return `text-${this.color}`
+      return `text-${this.color}${this.reverse || this.query ? ' q-linear-progress--reverse' : ''}`
     },
     computedStyle () {
       return { height: this.height }
     },
     modelClass () {
+      const motion = this.indeterminate || this.query
       return {
-        animate: this.animate,
-        stripe: this.stripe,
-        indeterminate: this.indeterminate
+        'q-linear-progress__model--animate': this.animate,
+        'q-linear-progress__model--stripe': this.stripe,
+        'q-linear-progress__model--determinate': !motion,
+        'q-linear-progress__model--indeterminate': motion
       }
     },
     modelStyle () {
@@ -56,24 +66,18 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-progress',
+      staticClass: 'q-linear-progress',
       style: this.computedStyle,
       'class': this.computedClass
     }, [
-      this.buffer && !this.indeterminate
-        ? h('div', {
-          staticClass: 'q-progress-buffer',
-          style: this.bufferStyle
-        })
-        : null,
-
       h('div', {
-        staticClass: 'q-progress-track',
+        staticClass: 'q-linear-progress__track',
+        'class': this.trackClass,
         style: this.trackStyle
       }),
 
       h('div', {
-        staticClass: 'q-progress-model',
+        staticClass: 'q-linear-progress__model',
         style: this.modelStyle,
         'class': this.modelClass
       })

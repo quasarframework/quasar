@@ -3,7 +3,7 @@ import FrameMixin from '../../mixins/input-frame.js'
 import { humanStorageSize } from '../../utils/format.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QIcon from '../icon/QIcon.js'
-import QProgress from '../progress/QProgress.js'
+import QLinearProgress from '../progress/QLinearProgress.js'
 import QList from '../list/QList.js'
 import QItem from '../list/QItem.js'
 import QItemSide from '../list/QItemSide.js'
@@ -560,7 +560,7 @@ export default {
               key: file.name + file.__timestamp,
               staticClass: 'q-uploader-file q-pa-xs'
             }, [
-              (!this.hideUploadProgress && h(QProgress, {
+              (!this.hideUploadProgress && h(QLinearProgress, {
                 staticClass: 'q-uploader-progress-bg absolute-full',
                 props: {
                   color: file.__failed ? 'negative' : this.progressColor,

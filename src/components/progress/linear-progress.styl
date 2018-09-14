@@ -1,0 +1,81 @@
+.q-linear-progress
+  position relative
+  display block
+  width 100%
+  background-clip padding-box
+  overflow hidden
+
+  &--reverse
+    transform scaleX(-1)
+
+  &__model
+    background currentColor
+
+    &--animate
+      animation q-linear-progress--stripes 2s linear infinite
+
+    &--determinate
+      position absolute
+      top 0
+      bottom 0
+      transition $progress-transition
+
+    &--indeterminate, &--query
+      &:before, &:after
+        content ''
+        position absolute
+        background inherit
+        top 0
+        left 0
+        bottom 0
+        will-change left, right
+
+      &:before
+        animation q-linear-progress--indeterminate 2.1s cubic-bezier(.65, .815, .735, .395) infinite
+      &:after
+        animation q-linear-progress--indeterminate-short 2.1s cubic-bezier(.165, .84, .44, 1) infinite
+        animation-delay 1.15s
+
+    &--stripe
+      &, &:before, &:after
+        background-image linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent) !important
+        background-size 40px 40px !important
+
+  &__track
+    top 0
+    left 0
+    bottom 0
+    transition $progress-transition
+
+  &__track
+    background $progress-track-color
+    opacity $progress-track-opacity
+    position absolute
+
+@keyframes q-linear-progress--indeterminate
+  0%
+    left -35%
+    right 100%
+  60%
+    left 100%
+    right -90%
+  100%
+    left 100%
+    right -90%
+
+@keyframes q-linear-progress--indeterminate-short
+  0%
+    left -200%
+    right 100%
+  60%
+    left 107%
+    right -8%
+  100%
+    left 107%
+    right -8%
+
+@keyframes q-linear-progress--stripes
+  from
+    background-position 40px 0
+  to
+    background-position 0 0
