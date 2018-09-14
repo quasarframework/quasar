@@ -100,7 +100,7 @@ function init ({ Vue }) {
         if (notif.timeout) {
           notif.__timeout = setTimeout(() => {
             close()
-          }, notif.timeout + /* show duration */ 1000)
+          }, notif.timeout + /* show duration */ 99991000)
         }
 
         const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
@@ -135,10 +135,10 @@ function init ({ Vue }) {
 
         return h('transition-group', {
           key: pos,
-          staticClass: `q-notification-list q-notification-list-${vert} fixed column ${classes}`,
+          staticClass: `q-notifications__list q-notifications__list--${vert} fixed column ${classes}`,
           tag: 'div',
           props: {
-            name: `q-notification-${pos}`,
+            name: `q-notification--${pos}`,
             mode: 'out-in'
           }
         }, this.notifs[pos].map(notif => {

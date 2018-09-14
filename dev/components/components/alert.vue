@@ -58,6 +58,16 @@
     >Learn how you can get there</q-alert>
     <br>
     <q-alert
+      color="primary"
+      :actions="[ { label: 'Reply', icon: 'map', handler: () => {} } ]"
+    >Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis dignissimos sunt recusandae perspiciatis maiores culpa placeat minus, vel repudiandae exercitationem in modi magni eaque dolor quasi. Nesciunt quas ipsa veniam.</q-alert>
+    <br>
+    <q-alert
+      color="primary"
+      :actions="[ { label: 'Reply', icon: 'map', handler: () => {} }, { label: 'Reply long', icon: 'map', handler: () => {} }, { label: 'Dismiss', color: 'purple-3', handler: () => {} } ]"
+    >Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis dignissimos sunt recusandae perspiciatis maiores culpa placeat minus, vel repudiandae exercitationem in modi magni eaque dolor quasi. Nesciunt quas ipsa veniam.</q-alert>
+    <br>
+    <q-alert
       avatar="statics/boy-avatar.png"
       color="dark"
       :actions="[ { label: 'Reply', icon: 'map', handler: () => {} }, { label: 'Dismiss', handler: () => {} } ]"

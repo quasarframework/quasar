@@ -27,6 +27,10 @@ export default {
     },
     classes () {
       return `bg-${this.type || this.color} text-${this.textColor || 'white'}`
+    },
+    contentClass () {
+      const multiple = this.actions.length > 1
+      return `col-${multiple ? '12' : 'auto'}${multiple ? ' q-pt-none q-pr-none' : ''}`
     }
   },
   render (h) {
@@ -52,42 +56,45 @@ export default {
 
     return h('div', [
       h('div', {
-        staticClass: 'q-alert generic-border-radius row no-wrap shadow-2',
+        staticClass: 'q-alert generic-border-radius row',
         'class': this.classes
       }, [
-        side.length
-          ? h('div', { staticClass: 'q-alert-side col-auto row flex-center' }, side)
-          : null,
+        (side.length && h('div', {
+          staticClass: 'q-alert__side col-auto row flex-center'
+        }, side)) || void 0,
         h('div', {
-          staticClass: 'q-alert-content col self-center'
+          staticClass: 'q-alert__main col row'
         }, [
-          h('div', this.$slots.default || this.message),
-          detail ? h('div', { staticClass: 'q-alert-detail' }, [ detail ]) : null
-        ]),
-        this.actions && this.actions.length
-          ? h('div', {
-            staticClass: 'q-alert-actions col-auto gutter-xs column flex-center'
-          },
-          this.actions.map(action =>
-            h('div', { staticClass: 'full-width' }, [
-              h(QBtn, {
-                staticClass: 'full-width',
-                props: {
-                  flat: true,
-                  dense: true,
-                  align: 'left',
-                  icon: action.icon,
-                  label: action.closeBtn === true
-                    ? (typeof action.label === 'string' ? action.label : this.$q.i18n.label.close)
-                    : action.label
-                },
-                on: {
-                  click: () => action.handler()
-                }
-              })
-            ])
-          ))
-          : null
+          h('div', { staticClass: 'q-alert__content col' }, [
+            h('div', this.$slots.default || this.message),
+            detail ? h('div', { staticClass: 'q-alert__detail' }, [ detail ]) : null
+          ]),
+          this.actions && this.actions.length
+            ? h('div', {
+              staticClass: 'q-alert__actions gutter-xs row items-center justify-end',
+              'class': this.contentClass
+            },
+            this.actions.map(action =>
+              h('div', [
+                h(QBtn, {
+                  props: {
+                    flat: true,
+                    align: 'left',
+                    color: action.color,
+                    icon: action.icon,
+                    size: '12px',
+                    label: action.closeBtn === true
+                      ? (typeof action.label === 'string' ? action.label : this.$q.i18n.label.close)
+                      : action.label
+                  },
+                  on: {
+                    click: () => action.handler()
+                  }
+                })
+              ])
+            ))
+            : null
+        ])
       ])
     ])
   }
