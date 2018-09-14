@@ -127,7 +127,7 @@ export default {
         this.$refs.content.focus()
       }
       this.timer = setTimeout(() => {
-        document.body.addEventListener('click', this.__bodyHide, true)
+        document.body.addEventListener('mousedown', this.__bodyHide, true)
         document.body.addEventListener('touchstart', this.__bodyHide, true)
         this.showPromise && this.showPromiseResolve()
       }, 0)
@@ -160,7 +160,7 @@ export default {
     __cleanup () {
       clearTimeout(this.timer)
 
-      document.body.removeEventListener('click', this.__bodyHide, true)
+      document.body.removeEventListener('mousedown', this.__bodyHide, true)
       document.body.removeEventListener('touchstart', this.__bodyHide, true)
       this.scrollTarget.removeEventListener('scroll', this.__updatePosition, listenOpts.passive)
       if (this.scrollTarget !== window) {
