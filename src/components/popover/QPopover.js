@@ -141,25 +141,20 @@ export default {
         this.toggle(evt)
       }
     },
-    __bodyHideStart (evt) {
-      this.canBeDismissed = this.persistent || (
+    __shouldAbortDismiss (evt) {
+      return this.persistent || (
         evt && evt.target &&
         (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
-      ) ? false : true
+      )
+    },
+    __bodyHideStart (evt) {
+      this.canBeDismissed = !this.__shouldAbortDismiss(evt)
     },
     __bodyHide (evt) {
-      if (
-        !this.canBeDismissed ||
-        this.persistent || (
-          evt && evt.target &&
-          (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
-        )
-      ) {
-        return
+      if (this.canBeDismissed && !this.__shouldAbortDismiss(evt)) {
+        this.canBeDismissed = false
+        this.hide(evt)
       }
-
-      this.canBeDismissed = false
-      this.hide(evt)
     },
     __hide () {
       this.__cleanup()
