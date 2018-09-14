@@ -142,17 +142,10 @@ export default {
       }
     },
     __bodyHideStart (evt) {
-      if (
-        this.persistent || (
-          evt && evt.target &&
-          (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
-        )
-      ) {
-        this.canBeDismissed = false
-        return
-      }
-
-      this.canBeDismissed = true
+      this.canBeDismissed = this.persistent || (
+        evt && evt.target &&
+        (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
+      ) ? false : true
     },
     __bodyHide (evt) {
       if (
