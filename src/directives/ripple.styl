@@ -1,18 +1,16 @@
 .q-ripple
+  top 0
+  left 0
+  width 100%
+  height 100%
+  position absolute
+  color inherit
+  border-radius inherit
+  overflow hidden
+  z-index 0
+  pointer-events none
 
-  &-container
-    top 0
-    left 0
-    width 100%
-    height 100%
-    position absolute
-    color inherit
-    border-radius inherit
-    overflow hidden
-    z-index 0
-    pointer-events none
-
-  &-animation
+  &__animation
     top 0
     left 0 /* rtl:ignore */
     opacity 0
@@ -25,10 +23,10 @@
     overflow hidden
     will-change transform, opacity
 
-    &-enter
+    &--enter
       transition none
 
-    &-visible
+    &--visible
       opacity .15
 
 .q-radial-ripple

@@ -13,8 +13,8 @@ function showRipple (evt, el, { stop, center }) {
     offset = el.getBoundingClientRect()
 
   container.appendChild(animNode)
-  container.className = 'q-ripple-container'
-  animNode.className = 'q-ripple-animation'
+  container.className = 'q-ripple'
+  animNode.className = 'q-ripple__animation'
   animNode.style.width = unit
   animNode.style.height = unit
 
@@ -31,15 +31,15 @@ function showRipple (evt, el, { stop, center }) {
     y = pos.top - offset.top - size
   }
 
-  animNode.classList.add('q-ripple-animation-enter')
-  animNode.classList.add('q-ripple-animation-visible')
+  animNode.classList.add('q-ripple__animation--enter')
+  animNode.classList.add('q-ripple__animation--visible')
   animNode.style.transform = `translate(${x}px, ${y}px) scale3d(0, 0, 0)`
 
   setTimeout(() => {
-    animNode.classList.remove('q-ripple-animation-enter')
+    animNode.classList.remove('q-ripple__animation--enter')
     animNode.style.transform = `translate(${x}px, ${y}px) scale3d(1, 1, 1)`
     setTimeout(() => {
-      animNode.classList.remove('q-ripple-animation-visible')
+      animNode.classList.remove('q-ripple__animation--visible')
       setTimeout(() => { container.remove() }, 300)
     }, 300)
   }, 10)
