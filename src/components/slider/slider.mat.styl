@@ -94,7 +94,7 @@ $slider-label-transform     = translateX(-50%) translateY(-139%) scale(1)
   background currentColor
 
 .q-slider:not(.disabled):not(.readonly)
-  .q-slider-handle:focus, &:focus, &:hover
+  .q-slider-handle.dragging, .q-slider-handle:focus, body.desktop &:hover
     .q-slider-ring
       opacity .4
       transform scale(1)

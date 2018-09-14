@@ -13,6 +13,8 @@ maximized-modal()
 
 .modal-backdrop
   background $dimmed-background
+  .modal.maximized &
+    display none
 
 .modal-content
   position relative
@@ -43,8 +45,6 @@ maximized-modal()
     &.q-modal-leave-active .modal-content
       transform scale(.8)
   .modal.maximized
-    .modal-backdrop
-      display none
     &.q-modal-enter, &.q-modal-leave-active
       .modal-content
         transform translateY(30%)
@@ -53,8 +53,6 @@ maximized-modal()
   .q-responsive-modal
     overflow hidden
   .modal:not(.minimized)
-    .modal-backdrop
-      display none
     .modal-content
       maximized-modal()
     &.q-modal-enter, &.q-modal-leave-active

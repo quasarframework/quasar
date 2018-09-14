@@ -291,7 +291,7 @@ export default {
           edge ? 'handle-at-minimum' : null,
           { dragging: this.dragging }
         ],
-        attrs: { tabindex: this.editable ? 0 : -1 },
+        attrs: { tabindex: this.$q.platform.is.desktop ? (this.editable ? 0 : -1) : void 0 },
         on: {
           keydown: ev => this.__onKeyDown(ev, lower),
           keyup: ev => this.__onKeyUp(ev, lower)

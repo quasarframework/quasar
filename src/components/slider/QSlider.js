@@ -147,7 +147,7 @@ export default {
             dragging: this.dragging,
             'handle-at-minimum': !this.fillHandleAlways && this.model === this.min
           },
-          attrs: { tabindex: this.editable ? 0 : -1 },
+          attrs: { tabindex: this.$q.platform.is.desktop ? (this.editable ? 0 : -1) : void 0 },
           on: {
             keydown: this.__onKeyDown,
             keyup: this.__onKeyUp

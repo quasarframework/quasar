@@ -1,4 +1,4 @@
-import { isDate } from '../../utils/is'
+import { isDate } from '../../utils/is.js'
 
 export const modelValidator = v => {
   const type = typeof v

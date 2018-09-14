@@ -49,6 +49,7 @@ export default {
       }
       if (this.fakeValue.year !== this.year) {
         this.fakeValue.year = this.year
+        this.__scrollView()
       }
     }
   },
@@ -265,7 +266,7 @@ export default {
         if (!skipView && this.type === 'date') {
           this.$emit('canClose')
           if (this.minimal) {
-            this.view = this.__calcView()
+            this.setView(this.defaultView)
           }
         }
         else if (!skipView) {
@@ -306,17 +307,11 @@ export default {
     __calcView (view) {
       switch (this.type) {
         case 'time':
-          return view
-            ? (['hour', 'minute'].includes(view) ? view : 'hour')
-            : 'hour'
+          return ['hour', 'minute'].includes(view) ? view : 'hour'
         case 'date':
-          return view
-            ? (['year', 'month', 'day'].includes(view) ? view : 'day')
-            : 'day'
+          return ['year', 'month', 'day'].includes(view) ? view : 'day'
         default:
-          return view
-            ? (['year', 'month', 'day', 'hour', 'minute'].includes(view) ? view : 'day')
-            : 'day'
+          return ['year', 'month', 'day', 'hour', 'minute'].includes(view) ? view : 'day'
       }
     },
     __pad (unit, filler) {
@@ -376,7 +371,7 @@ export default {
       if (this.view === 'minute') {
         this.$emit('canClose')
         if (this.minimal) {
-          this.view = this.__calcView()
+          this.setView(this.defaultView)
         }
       }
       else {
@@ -433,7 +428,7 @@ export default {
 
       if (this.typeHasDate) {
         const content = [
-          h('div', { staticClass: 'q-datetime-datestring row flex-center' }, [
+          h('div', { staticClass: 'q-datetime-datestring row justify-center items-end' }, [
             h('span', {
               staticClass: 'q-datetime-link small col-auto col-md-12',
               'class': {active: this.view === 'month'},
@@ -527,109 +522,119 @@ export default {
       }
 
       if (this.typeHasTime) {
-        const content = [
+        const ampm = (!this.computedFormat24h && h('span', {
+          staticClass: 'q-datetime-ampm column',
+          attrs: { tabindex: 0 },
+          on: this.__amPmEvents
+        }, [
           h('span', {
-            staticClass: 'q-datetime-link col-md q-pr-sm',
-            style: { textAlign: 'right' },
-            'class': {active: this.view === 'hour'},
-            attrs: { tabindex: 0 },
-            on: {
-              keydown: e => {
-                const key = getEventKey(e)
-                if (key === 40 || key === 37) { // down, left
-                  stopAndPrevent(e)
-                  this.setHour(this.hour - 1, true)
-                }
-                else if (key === 38 || key === 39) { // up, right
-                  stopAndPrevent(e)
-                  this.setHour(this.hour + 1, true)
-                }
-                else if (key === 13 || key === 20) { // enter, space
-                  this.view = 'hour'
-                }
-              }
-            }
+            staticClass: 'q-datetime-link',
+            'class': { active: this.am }
           }, [
             h('span', {
               attrs: { tabindex: -1 },
-              on: this.disable ? {} : {
-                click: () => { this.view = 'hour' }
+              on: { click: this.toggleAmPm }
+            }, [ 'AM' ])
+          ]),
+
+          h('span', {
+            staticClass: 'q-datetime-link',
+            'class': { active: !this.am }
+          }, [
+            h('span', {
+              attrs: { tabindex: -1 },
+              on: { click: this.toggleAmPm }
+            }, [ 'PM' ])
+          ])
+        ]))
+        const content = [
+          h('span', {
+            staticClass: 'col',
+            style: { textAlign: 'right' }
+          }, [
+            h('span', {
+              staticClass: 'q-datetime-link',
+              style: { textAlign: 'right' },
+              'class': {active: this.view === 'hour'},
+              attrs: { tabindex: 0 },
+              on: {
+                keydown: e => {
+                  const key = getEventKey(e)
+                  if (key === 40 || key === 37) { // down, left
+                    stopAndPrevent(e)
+                    this.setHour(this.hour - 1, true)
+                  }
+                  else if (key === 38 || key === 39) { // up, right
+                    stopAndPrevent(e)
+                    this.setHour(this.hour + 1, true)
+                  }
+                  else if (key === 13 || key === 20) { // enter, space
+                    this.view = 'hour'
+                  }
+                }
               }
-            }, [ this.computedFormat24h ? this.__pad(this.hour) : this.hour ])
+            }, [
+              h('span', {
+                attrs: { tabindex: -1 },
+                on: this.disable ? {} : {
+                  click: () => { this.view = 'hour' }
+                }
+              }, [ this.computedFormat24h ? this.__pad(this.hour) : this.hour ])
+            ])
           ]),
 
           h('span', { style: 'opacity:0.6;' }, [ ':' ]),
 
           h('span', {
-            staticClass: 'q-datetime-link col-md q-pl-sm',
-            style: { textAlign: 'left' },
-            'class': {active: this.view === 'minute'},
-            attrs: { tabindex: 0 },
-            on: {
-              keydown: e => {
-                const key = getEventKey(e)
-                if (key === 40 || key === 37) { // down, left
-                  stopAndPrevent(e)
-                  this.setMinute(this.minute - 1, true)
-                }
-                else if (key === 38 || key === 39) { // up, right
-                  stopAndPrevent(e)
-                  this.setMinute(this.minute + 1, true)
-                }
-                else if (key === 13 || key === 20) { // enter, space
-                  this.view = 'minute'
-                }
-              }
-            }
+            staticClass: 'col row no-wrap items-center',
+            style: { textAlign: 'left' }
           }, [
             h('span', {
-              attrs: { tabindex: -1 },
-              on: this.disable ? {} : {
-                click: () => { this.view = 'minute' }
+              staticClass: 'q-datetime-link',
+              style: { textAlign: 'left' },
+              'class': {active: this.view === 'minute'},
+              attrs: { tabindex: 0 },
+              on: {
+                keydown: e => {
+                  const key = getEventKey(e)
+                  if (key === 40 || key === 37) { // down, left
+                    stopAndPrevent(e)
+                    this.setMinute(this.minute - 1, true)
+                  }
+                  else if (key === 38 || key === 39) { // up, right
+                    stopAndPrevent(e)
+                    this.setMinute(this.minute + 1, true)
+                  }
+                  else if (key === 13 || key === 20) { // enter, space
+                    this.view = 'minute'
+                  }
+                }
               }
-            }, [ this.__pad(this.minute) ])
+            }, [
+              h('span', {
+                attrs: { tabindex: -1 },
+                on: this.disable ? {} : {
+                  click: () => { this.view = 'minute' }
+                }
+              }, [ this.__pad(this.minute) ])
+            ]),
+            ampm
           ])
         ]
 
         child.push(h('div', {
-          staticClass: 'q-datetime-time row flex-center'
+          staticClass: 'q-datetime-time row scroll flex-center'
         }, [
           h('div', {
-            staticClass: 'q-datetime-clockstring col-auto col-md-12 row no-wrap flex-center'
-          }, content),
-
-          (!this.computedFormat24h && h('div', {
-            staticClass: 'q-datetime-ampm column col-auto col-md-12 justify-around',
-            attrs: { tabindex: 0 },
-            on: this.__amPmEvents
-          }, [
-            h('div', {
-              staticClass: 'q-datetime-link',
-              'class': { active: this.am }
-            }, [
-              h('span', {
-                attrs: { tabindex: -1 },
-                on: { click: this.toggleAmPm }
-              }, [ 'AM' ])
-            ]),
-
-            h('div', {
-              staticClass: 'q-datetime-link',
-              'class': { active: !this.am }
-            }, [
-              h('span', {
-                attrs: { tabindex: -1 },
-                on: { click: this.toggleAmPm }
-              }, [ 'PM' ])
-            ])
-          ]))
+            staticClass: 'q-datetime-clockstring col row justify-center items-start'
+          }, content)
         ]))
       }
 
       child.push(h('div', { staticClass: 'col' }))
 
       return h('div', {
-        staticClass: 'q-datetime-header column items-center'
+        staticClass: 'q-datetime-header column no-wrap items-center'
       }, child)
     },
 
@@ -892,7 +897,7 @@ export default {
       (!this.minimal && this.__getTopSection(h)) || void 0,
 
       h('div', {
-        staticClass: 'q-datetime-content'
+        staticClass: 'q-datetime-content scroll'
       }, [
         h('div', {
           ref: 'selector',
