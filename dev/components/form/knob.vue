@@ -14,7 +14,6 @@
         @input="onInput"
       />
       <q-knob
-        class="text-primary"
         :value="model"
         :min="min"
         :max="max"
@@ -50,10 +49,11 @@
       <p class="caption">Styling</p>
       <div class="group">
         <q-knob
+          style="font-size: 38px"
           v-model="model"
-          size="150px"
+          :size="150"
           color="red"
-          line-width="2px"
+          :thickness="2"
           track-color="white"
           :min="min"
           :max="max"
@@ -62,26 +62,30 @@
         </q-knob>
 
         <q-knob
+          class="text-white"
           v-model="model"
-          style="font-size: 3rem"
           color="amber-7"
+          track-color="transparent"
+          center-color="grey-8"
+          :thickness="5"
           :min="min"
           :max="max"
           :step="5"
         />
 
         <q-knob
+          class="text-white"
+          style="font-size: 42px"
           v-model="model"
-          size="120px"
-          style="font-size: 1.5rem"
+          :size="120"
           color="secondary"
-          track-color="yellow-3"
-          line-width="5px"
+          track-color="tertiary"
+          :thickness="60"
           :min="min"
           :max="max"
           :step="5"
         >
-          <q-icon class="on-left" name="euro_symbol" /> {{ model }}
+          <q-icon name="euro_symbol" /> {{ model }}
         </q-knob>
       </div>
 
@@ -93,7 +97,7 @@
         color="primary"
         readonly
       >
-        <q-icon class="on-left" name="volume_up" /> {{ model }}
+        <q-icon name="volume_up" /> {{ model }}
       </q-knob>
 
       <p class="caption">Disabled state</p>
@@ -103,7 +107,7 @@
         :max="max"
         disable
       >
-        <q-icon class="on-left" name="volume_up" /> {{ model }}
+        <q-icon name="volume_up" /> {{ model }}
       </q-knob>
 
       <p class="caption">Inside Field</p>
@@ -117,7 +121,7 @@
           :min="min"
           :max="max"
         >
-          <q-icon class="on-left" name="volume_up" /> {{ model }}
+          <q-icon name="volume_up" /> {{ model }}
         </q-knob>
       </q-field>
     </div>

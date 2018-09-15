@@ -1,4 +1,4 @@
-import QLinearProgress from '../progress/QLinearProgress.js'
+import QLinearProgress from '../linear-progress/QLinearProgress.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QTh from './QTh.js'
 

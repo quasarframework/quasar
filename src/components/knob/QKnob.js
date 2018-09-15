@@ -1,36 +1,18 @@
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import { offset, height, width } from '../../utils/dom.js'
+import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/touch-pan.js'
 
 export default {
   name: 'QKnob',
+  mixins: [{
+    props: QCircularProgress.props
+  }],
   directives: {
     TouchPan
   },
   props: {
-    value: Number,
-    min: {
-      type: Number,
-      default: 0
-    },
-    max: {
-      type: Number,
-      default: 100
-    },
-    color: String,
-    trackColor: {
-      type: String,
-      default: 'grey-3'
-    },
-    lineWidth: {
-      type: String,
-      default: '6px'
-    },
-    size: {
-      type: String,
-      default: '100px'
-    },
     step: {
       type: Number,
       default: 1
@@ -41,24 +23,9 @@ export default {
   },
   computed: {
     classes () {
-      const cls = []
-      if (this.disable) {
-        cls.push('disabled')
-      }
-      if (!this.readonly) {
-        cls.push('cursor-pointer')
-      }
-      if (this.color) {
-        cls.push(`text-${this.color}`)
-      }
-      return cls
-    },
-    svgStyle () {
-      const dir = this.$q.i18n.rtl ? -1 : 1
       return {
-        'stroke-dasharray': '295.31px, 295.31px',
-        'stroke-dashoffset': (295.31 * dir * (1.0 - (this.model - this.min) / (this.max - this.min))) + 'px',
-        'transition': this.dragging ? '' : 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease'
+        disabled: this.disable,
+        'cursor-pointer': !this.readonly
       }
     },
     editable () {
@@ -69,12 +36,6 @@ export default {
     },
     computedStep () {
       return this.decimals !== void 0 ? 1 / Math.pow(10, this.decimals || 0) : this.step
-    }
-  },
-  data () {
-    return {
-      model: this.value,
-      dragging: false
     }
   },
   watch: {
@@ -101,6 +62,12 @@ export default {
           this.$emit('change', this.model)
         }
       })
+    }
+  },
+  data () {
+    return {
+      model: this.value,
+      dragging: false
     }
   },
   methods: {
@@ -145,13 +112,16 @@ export default {
       }, 100)
       this.__onInput(ev, this.centerPosition, true)
     },
-    __onKeyDown (ev) {
-      const keyCode = ev.keyCode
+    __onClick (evt) {
+      !this.dragging && this.__onInput(evt, void 0, true)
+    },
+    __onKeyDown (evt) {
+      const keyCode = evt.keyCode
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
         return
       }
-      stopAndPrevent(ev)
-      const step = ev.ctrlKey ? 10 * this.computedStep : this.computedStep
+      stopAndPrevent(evt)
+      const step = evt.ctrlKey ? 10 * this.computedStep : this.computedStep
       const offset = [37, 40].includes(keyCode) ? -step : step
       this.__onInputValue(between(this.model + offset, this.min, this.max))
     },
@@ -234,68 +204,31 @@ export default {
     }
   },
   render (h) {
-    return h('div', {
+    return h(QCircularProgress, {
       staticClass: 'q-knob non-selectable',
       'class': this.classes,
-      style: {
-        width: this.size,
-        height: this.size
-      }
-    }, [
-      h('div', {
-        on: {
-          click: e => !this.dragging && this.__onInput(e, void 0, true)
-        },
-        directives: this.editable
-          ? [{
-            name: 'touch-pan',
-            modifiers: {
-              prevent: true,
-              stop: true
-            },
-            value: this.__pan
-          }]
-          : null
-      }, [
-        h('svg', { attrs: { viewBox: '0 0 100 100' } }, [
-          h('path', {
-            attrs: {
-              d: 'M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94',
-              'fill-opacity': '0',
-              stroke: 'currentColor',
-              'stroke-width': this.lineWidth
-            },
-            'class': `text-${this.trackColor}`
-          }),
-          h('path', {
-            attrs: {
-              d: 'M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94',
-              'fill-opacity': '0',
-              stroke: 'currentColor',
-              'stroke-linecap': 'round',
-              'stroke-width': this.lineWidth
-            },
-            style: this.svgStyle
-          })
-        ]),
-
-        h(
-          'div',
-          {
-            staticClass: 'q-knob-label row flex-center content-center',
-            attrs: {
-              tabindex: this.editable ? 0 : -1
-            },
-            on: {
-              keydown: this.__onKeyDown,
-              keyup: this.__onKeyUp
-            }
+      props: Object.assign({}, this.$props, {
+        value: this.model,
+        noMotion: this.dragging
+      }),
+      attrs: {
+        tabindex: this.editable ? 0 : -1
+      },
+      nativeOn: {
+        click: this.__onClick,
+        keydown: this.__onKeyDown,
+        keyup: this.__onKeyUp
+      },
+      directives: this.editable
+        ? [{
+          name: 'touch-pan',
+          modifiers: {
+            prevent: true,
+            stop: true
           },
-          this.$slots.default || [
-            h('span', [ this.model ])
-          ]
-        )
-      ])
-    ])
+          value: this.__pan
+        }]
+        : null
+    }, this.$slots.default)
   }
 }
