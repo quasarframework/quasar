@@ -3,35 +3,32 @@ import QIcon from '../icon/QIcon.js'
 export default {
   name: 'QAvatar',
   props: {
+    size: String,
+    fontSize: String,
+
     color: String,
     textColor: String,
 
     icon: String,
-
-    size: {
-      type: Number,
-      default: 48
-    },
-    ratio: {
-      type: Number,
-      default: 2.2
-    },
     square: Boolean
   },
 
   computed: {
-    classes () {
+    contentClass () {
       return {
         [`bg-${this.color}`]: this.color,
         [`text-${this.textColor} q-chip--colored`]: this.textColor,
-        'q-avatar--square': this.square
+        'q-avatar__content--square': this.square
       }
     },
     style () {
-      return {
-        width: this.size + 'px',
-        height: this.size + 'px',
-        fontSize: Math.round(this.size / this.ratio) + 'px'
+      if (this.size) {
+        return { fontSize: this.size }
+      }
+    },
+    contentStyle () {
+      if (this.fontSize) {
+        return { fontSize: this.fontSize }
       }
     }
   },
@@ -46,9 +43,16 @@ export default {
 
   render (h) {
     return h('div', {
-      staticClass: 'q-avatar row inline flex-center relative-position text-center overflow-hidden',
-      'class': this.classes,
+      staticClass: 'q-avatar',
       style: this.style
-    }, this.__getContent(h))
+    }, [
+      h('div', {
+        staticClass: 'q-avatar__content row flex-center overflow-hidden',
+        'class': this.contentClass,
+        style: this.contentStyle
+      }, [
+        this.__getContent(h)
+      ])
+    ])
   }
 }

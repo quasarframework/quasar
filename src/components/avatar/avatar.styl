@@ -1,10 +1,21 @@
 .q-avatar
-  border-radius 50%
   vertical-align middle
+  display inline-block
 
-  img, .q-icon
+  border-radius 50%
+
+  font-size 48px
+  height 1em
+  width 1em
+
+  &__content
+    font-size .55em
+    line-height .55em
+
+  &__content, img
+    border-radius inherit
     height inherit
     width inherit
 
-.q-avatar--square
+.q-avatar__content--square
   border-radius 0
