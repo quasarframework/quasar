@@ -1,109 +1,125 @@
 import QIcon from '../icon/QIcon.js'
+import Ripple from '../../directives/ripple.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QChip',
+  directives: {
+    Ripple
+  },
   props: {
-    small: Boolean,
     dense: Boolean,
-    tag: Boolean,
-    square: Boolean,
+
+    icon: String,
+    iconRight: String,
+    label: String,
+
+    color: String,
+    textColor: String,
+
+    value: {
+      type: Boolean,
+      default: true
+    },
+    selected: Boolean,
+
     floating: Boolean,
     pointing: {
       type: String,
       validator: v => ['up', 'right', 'down', 'left'].includes(v)
     },
-    color: String,
-    textColor: String,
-    icon: String,
-    iconRight: String,
-    avatar: String,
+    square: Boolean,
+    outline: Boolean,
+    clickable: Boolean,
     closable: Boolean,
-    detail: Boolean
+
+    tabindex: {
+      type: Number,
+      default: 0
+    },
+
+    disable: Boolean
   },
   computed: {
     classes () {
-      const cls = []
+      const text = this.outline
+        ? this.color || this.textColor
+        : this.textColor
 
-      this.pointing && cls.push(`q-chip-pointing-${this.pointing}`)
-      ;['tag', 'square', 'floating', 'pointing', 'small', 'dense'].forEach(prop => {
-        this[prop] && cls.push(`q-chip-${prop}`)
-      })
-      if (this.floating) {
-        !this.dense && cls.push('q-chip-dense')
-        !this.square && cls.push('q-chip-square')
+      return {
+        [`bg-${this.color}`]: !this.outline && this.color,
+        [`text-${text} q-chip--colored`]: text,
+        [`q-chip--pointing q-chip--pointing-${this.pointing}`]: this.pointing,
+        disabled: this.disable,
+        'q-chip--dense': this.dense || this.floating,
+        'q-chip--outline': this.outline,
+        'q-chip--floating': this.floating,
+        'q-chip--selected': this.selected,
+        'q-chip--clickable cursor-pointer non-selectable': this.isClickable,
+        'q-chip--square': this.square || this.floating
       }
-
-      if (this.color) {
-        cls.push(`bg-${this.color}`)
-        !this.textColor && cls.push(`text-white`)
-      }
-      if (this.textColor) {
-        cls.push(`text-${this.textColor}`)
-      }
-
-      return cls
+    },
+    hasLeftIcon () {
+      return this.selected || this.icon
+    },
+    isClickable () {
+      return !this.disable && this.clickable
     }
   },
   methods: {
+    __onKeydown (e) {
+      e.keyCode === 13 /* ENTER */ && this.__onClick(e)
+    },
     __onClick (e) {
-      this.$emit('click', e)
-    },
-    __onMouseDown (e) {
-      this.$emit('focus', e)
-    },
-    __handleKeyDown (e) {
-      if (this.closable && [8, 13, 32].includes(e.keyCode)) {
-        stopAndPrevent(e)
-        this.$emit('hide')
+      if (!this.disable) {
+        this.$emit('update:selected', !this.selected)
+        this.$emit('click', e)
       }
+    },
+    __onClose (e) {
+      stopAndPrevent(e)
+      !this.disable && this.$emit('input', false)
     }
   },
   render (h) {
-    return h('div', {
-      staticClass: 'q-chip row no-wrap inline items-center',
-      'class': this.classes,
+    if (!this.value) { return }
+
+    const data = this.isClickable ? {
+      attrs: {
+        tabindex: this.disable ? -1 : this.tabindex
+      },
       on: {
-        mousedown: this.__onMouseDown,
-        touchstart: this.__onMouseDown,
         click: this.__onClick,
-        keydown: this.__handleKeyDown
-      }
-    }, [
-      this.icon || this.avatar
-        ? h('div', {
-          staticClass: 'q-chip-side q-chip-left row flex-center',
-          'class': { 'q-chip-detail': this.detail }
-        }, [
-          this.icon
-            ? h(QIcon, { staticClass: 'q-chip-icon', props: { name: this.icon } })
-            : (this.avatar ? h('img', { attrs: { src: this.avatar } }) : null)
-        ])
-        : null,
+        keydown: this.__onKeydown
+      },
+      directives: [{ name: 'ripple' }]
+    } : {}
 
-      h('div', { staticClass: 'q-chip-main ellipsis' }, this.$slots.default),
+    data.staticClass = 'q-chip row inline no-wrap items-center'
+    data['class'] = this.classes
 
-      this.iconRight
-        ? h(QIcon, {
-          props: { name: this.iconRight },
-          'class': this.closable ? 'on-right q-chip-icon' : 'q-chip-side q-chip-right'
-        })
-        : null,
+    return h('div', data, [
+      (this.hasLeftIcon && h(QIcon, {
+        staticClass: 'q-chip__icon q-chip__icon--left',
+        props: { name: this.selected ? this.$q.icon.chip.selected : this.icon }
+      })) || void 0,
 
-      this.closable
-        ? h('div', { staticClass: 'q-chip-side q-chip-close q-chip-right row flex-center' }, [
-          h(QIcon, {
-            props: { name: this.$q.icon.chip.close },
-            staticClass: 'cursor-pointer',
-            nativeOn: {
-              click: e => {
-                e && e.stopPropagation()
-                this.$emit('hide')
-              }
-            }
-          })
-        ])
-        : null
+      h('div', {
+        staticClass: 'q-chip__content row items-center'
+      }, this.label ? [ this.label ] : this.$slots.default),
+
+      (this.iconRight && h(QIcon, {
+        staticClass: 'q-chip__icon q-chip__icon--right',
+        props: { name: this.iconRight }
+      })) || void 0,
+
+      (this.closable && h(QIcon, {
+        staticClass: 'q-chip__icon q-chip__icon--close cursor-pointer',
+        props: { name: this.$q.icon.chip.close },
+        nativeOn: {
+          click: this.__onClose
+        }
+      })) || void 0
     ])
   }
 }

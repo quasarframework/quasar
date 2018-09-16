@@ -100,7 +100,7 @@ for type in desktop mobile cordova electron ios mat touch within-iframe platform
   .xl-hide, .xs, .lt-sm, .sm, .lt-md, .md, .lt-lg, .lg, .lt-xl
     display none !important
 
-.q-focus-helper
+body.desktop .q-focus-helper
   position absolute
   top 0
   left 0 /* rtl:ignore */
@@ -110,13 +110,13 @@ for type in desktop mobile cordova electron ios mat touch within-iframe platform
   border-radius inherit
   opacity .15
   transition background-color .3s cubic-bezier(.25, .8, .5, 1)
-.q-focus-helper-rounded
-  border-radius $generic-border-radius
-.q-focus-helper-round
-  border-radius 50%
 
-body
-  &.desktop
-    .q-focusable:focus, .q-hoverable:hover
-      .q-focus-helper
-        background currentColor
+  .q-focusable:focus, .q-hoverable:hover
+    .q-focus-helper
+      background currentColor
+
+.q-focus-helper
+  &--rounded
+    border-radius $generic-border-radius
+  &--round
+    border-radius 50%

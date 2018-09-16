@@ -3,7 +3,9 @@ export default {
   props: {
     name: String,
     color: String,
-    size: String
+    size: String,
+    left: Boolean,
+    right: Boolean
   },
   computed: {
     classes () {
@@ -11,7 +13,7 @@ export default {
       const icon = this.name
 
       if (!icon) {
-        return ''
+        return
       }
       else if (/^fa[s|r|l|b]{0,1} /.test(icon) || icon.startsWith('icon-')) {
         cls = icon
@@ -32,12 +34,15 @@ export default {
         cls = 'material-icons'
       }
 
-      return this.color
-        ? `${cls} text-${this.color}`
-        : cls
+      return {
+        [`text-${this.color}`]: this.color,
+        [cls]: true,
+        'on-left': this.left,
+        'on-right': this.right
+      }
     },
     content () {
-      return this.classes.startsWith('material-icons')
+      return this.classes && this.classes['material-icons']
         ? this.name.replace(/ /g, '_')
         : ' '
     },

@@ -39,6 +39,9 @@ export default {
           touchmove: this.__abortRepeat,
           blur: this.__abortRepeat
         }
+    },
+    hasLabel () {
+      return this.label && this.isRectangle
     }
   },
   data () {
@@ -161,9 +164,7 @@ export default {
         }]
         : null
     }, [
-      this.$q.platform.is.desktop
-        ? h('div', { staticClass: 'q-focus-helper' })
-        : null,
+      h('div', { staticClass: 'q-focus-helper' }),
 
       this.loading && this.hasPercentage
         ? h('div', {
@@ -174,7 +175,7 @@ export default {
         : null,
 
       h('div', {
-        staticClass: 'q-btn__inner row col items-center',
+        staticClass: 'q-btn__content row col items-center',
         'class': this.innerClasses
       },
       this.loading
@@ -182,19 +183,17 @@ export default {
         : [
           this.icon
             ? h(QIcon, {
-              'class': { 'on-left': this.label && this.isRectangle },
-              props: { name: this.icon }
+              props: { name: this.icon, left: this.hasLabel }
             })
             : null,
 
-          this.label && this.isRectangle ? h('div', [ this.label ]) : null,
+          this.hasLabel ? h('div', [ this.label ]) : null,
 
           this.$slots.default,
 
           this.iconRight && this.isRectangle
             ? h(QIcon, {
-              staticClass: 'on-right',
-              props: { name: this.iconRight }
+              props: { name: this.iconRight, right: true }
             })
             : null
         ]

@@ -10,7 +10,7 @@
             <span slot="subtitle">The Subtiiiitleeee</span>
           </q-toolbar-title>
           <q-btn round dense flat class="relative-position q-mr-md" icon="announcement" to="/">
-            <q-chip dense square floating color="red">1</q-chip>
+            <q-chip floating color="red" text-color="white">1</q-chip>
           </q-btn>
           <q-color hide-underline dark v-model="mainColor" />
           <q-toggle v-model="toggle" color="amber" dark />

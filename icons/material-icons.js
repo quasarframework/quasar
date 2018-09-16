@@ -38,7 +38,8 @@ export default {
     indeterminate: 'indeterminate_check_box'
   },
   chip: {
-    close: 'cancel'
+    close: 'cancel',
+    selected: 'check'
   },
   chipsInput: {
     add: 'send'

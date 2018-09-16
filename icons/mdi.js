@@ -38,7 +38,8 @@ export default {
     indeterminate: 'mdi-minus-box'
   },
   chip: {
-    close: 'mdi-close-circle'
+    close: 'mdi-close-circle',
+    selected: 'mdi-check'
   },
   chipsInput: {
     add: 'mdi-send'

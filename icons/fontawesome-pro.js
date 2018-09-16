@@ -38,7 +38,8 @@ export default {
     indeterminate: 'fal fa-minus-square'
   },
   chip: {
-    close: 'fal fa-times-circle'
+    close: 'fal fa-times-circle',
+    selected: 'fal fa-check'
   },
   chipsInput: {
     add: 'fal fa-paper-plane'

@@ -1,206 +1,270 @@
 <template>
   <div>
     <div class="layout-padding">
-      <p class="caption">Basic Label Chips</p>
-      <div>
-        <q-chip icon="alarm" color="primary">
-          q-chip
-        </q-chip>
+      <p>Basic</p>
+      <div class="q-ma-md">
+        <q-chip icon="event" size="10px">Add to calendar</q-chip>
+        <q-chip icon="bookmark">Bookmark</q-chip>
+        <q-chip icon="alarm" label="Set alarm" />
+        <q-chip icon="directions">Get directions</q-chip>
       </div>
-      <div>
-        <q-chip icon="alarm" outline color="primary">
-          q-chip
+      <div class="q-ma-md">
+        <q-chip color="primary" text-color="white" icon="event" closable>Add to calendar</q-chip>
+        <q-chip color="teal" text-color="white" icon="bookmark">Bookmark</q-chip>
+        <q-chip color="orange" text-color="white" icon-right="star">Star</q-chip>
+        <q-chip color="red" text-color="white" icon="alarm" label="Set alarm" closable />
+        <q-chip color="deep-orange" text-color="white" icon="directions" closable>Get directions</q-chip>
+        <q-chip>
+          <q-avatar icon="bookmark" color="red" text-color="white" />
+          Bookmark
         </q-chip>
-        <q-chip icon-right="alarm" color="primary">
-          q-chip
+        <q-chip>
+          <q-avatar color="red" text-color="white">50</q-avatar>
+          Emails
         </q-chip>
-      </div>
-      <div>
-        <q-chip color="primary">q-chip</q-chip>
-        <q-chip color="secondary" class="shadow-1">10k</q-chip>
-        <q-chip small color="secondary" class="shadow-1">10k</q-chip>
-        <q-chip icon="alarm" color="primary">
-          q-chip
+        <q-chip>
+          <q-avatar>
+            <img src="statics/boy-avatar.png">
+          </q-avatar>
+          Emails
         </q-chip>
-        <q-chip icon-right="alarm" color="primary">
-          q-chip
-        </q-chip>
-        <q-chip icon="alarm" icon-right="alarm" color="primary">
-          q-chip
-        </q-chip>
-        <q-chip icon="alarm" icon-right="alarm" color="primary" closable>
-          q-chip
-        </q-chip>
-        <q-chip icon="chat" icon-right="chat" color="primary" closable small>
-          q-chip
-        </q-chip>
-        <q-chip color="secondary" class="shadow-1">10k</q-chip>
-      </div>
-      <div>
-        <q-chip square color="primary">q-chip</q-chip>
-        <q-chip square color="secondary" class="shadow-1">10k</q-chip>
-        <q-chip square small color="secondary" class="shadow-1">10k</q-chip>
-        <q-chip square icon="alarm" color="primary">
-          q-chip
-        </q-chip>
-        <q-chip icon-right="alarm" square color="primary">
-          q-chip
-        </q-chip>
-        <q-chip square icon="alarm" icon-right="alarm" color="primary">
-          q-chip
-        </q-chip>
-        <q-chip square icon="alarm" icon-right="alarm" color="primary" closable>
-          q-chip
-        </q-chip>
-        <q-chip square icon="chat" icon-right="chat" color="primary" closable small>
-          q-chip
-        </q-chip>
-        <q-chip square color="secondary" class="shadow-1">10k</q-chip>
       </div>
 
-      <div>
-        <q-chip dense square color="primary">q-chip</q-chip>
-        <q-chip dense square color="secondary" class="shadow-1">10k</q-chip>
-        <q-chip dense square small color="secondary" class="shadow-1">10k</q-chip>
-        <q-chip dense square icon="alarm" color="primary">
-          q-chip
+      <p>Square</p>
+      <div class="q-ma-md">
+        <q-chip square color="primary" text-color="white" icon="event" closable>Add to calendar</q-chip>
+        <q-chip square color="teal" text-color="white" icon="bookmark">Bookmark</q-chip>
+        <q-chip square color="orange" text-color="white" icon-right="star">Star</q-chip>
+        <q-chip square color="red" text-color="white" icon="alarm" label="Set alarm" closable />
+        <q-chip square color="deep-orange" text-color="white" icon="directions" closable>Get directions</q-chip>
+        <q-chip square>
+          <q-avatar icon="bookmark" color="red" text-color="white" />
+          Bookmark
         </q-chip>
-        <q-chip dense icon-right="alarm" square color="primary">
-          q-chip
+        <q-chip square>
+          <q-avatar color="red" text-color="white">50</q-avatar>
+          Emails
         </q-chip>
-        <q-chip dense square icon="alarm" icon-right="alarm" color="primary">
-          q-chip
+        <q-chip square>
+          <q-avatar>
+            <img src="statics/boy-avatar.png">
+          </q-avatar>
+          Emails
         </q-chip>
-        <q-chip dense square icon="alarm" icon-right="alarm" color="primary" closable>
-          q-chip
-        </q-chip>
-        <q-chip dense square icon="chat" icon-right="chat" color="primary" closable small>
-          q-chip
-        </q-chip>
-        <q-chip dense square color="secondary" class="shadow-1">10k</q-chip>
       </div>
 
-      <p class="caption">Floating Label Chips</p>
-      <div>
-        <q-btn color="light" text-color="black" label="Inbox">
-          <q-chip floating color="primary">22</q-chip>
+      <p>Dense</p>
+      <div class="q-ma-md">
+        <q-chip dense color="primary" text-color="white" icon="event" closable>Add to calendar</q-chip>
+        <q-chip dense color="teal" text-color="white" icon="bookmark">Bookmark</q-chip>
+        <q-chip dense color="orange" text-color="white" icon-right="star">Star</q-chip>
+        <q-chip dense color="red" text-color="white" icon="alarm" label="Set alarm" closable />
+        <q-chip dense color="deep-orange" text-color="white" icon="directions" closable>Get directions</q-chip>
+        <q-chip dense>
+          <q-avatar icon="bookmark" color="red" text-color="white" />
+          Bookmark
+        </q-chip>
+        <q-chip dense>
+          <q-avatar color="red" text-color="white">50</q-avatar>
+          Emails
+        </q-chip>
+        <q-chip dense>
+          <q-avatar>
+            <img src="statics/boy-avatar.png">
+          </q-avatar>
+          Emails
+        </q-chip>
+      </div>
+
+      <p>Dense Square</p>
+      <div class="q-ma-md">
+        <q-chip square dense color="primary" text-color="white" icon="event" closable>Add to calendar</q-chip>
+        <q-chip square dense color="teal" text-color="white" icon="bookmark">Bookmark</q-chip>
+        <q-chip square dense color="orange" text-color="white" icon-right="star">Star</q-chip>
+        <q-chip square dense color="red" text-color="white" icon="alarm" label="Set alarm" closable />
+        <q-chip square dense color="deep-orange" text-color="white" icon="directions" closable>Get directions</q-chip>
+        <q-chip square dense>
+          <q-avatar icon="bookmark" color="red" text-color="white" />
+          Bookmark
+        </q-chip>
+        <q-chip square dense>
+          <q-avatar color="red" text-color="white">50</q-avatar>
+          Emails
+        </q-chip>
+        <q-chip square dense>
+          <q-avatar>
+            <img src="statics/boy-avatar.png">
+          </q-avatar>
+          Emails
+        </q-chip>
+      </div>
+
+      <p>Clickable</p>
+      <div class="q-ma-md">
+        <q-chip clickable color="primary" text-color="white" icon="event" closable>Add to calendar</q-chip>
+        <q-chip clickable icon="bookmark">Bookmark</q-chip>
+        <q-chip clickable color="teal" text-color="white" icon="bookmark">Bookmark</q-chip>
+        <q-chip clickable color="red" text-color="white" icon="alarm" label="Set alarm" closable />
+        <q-chip clickable color="orange" text-color="white" icon="directions" closable>Get directions</q-chip>
+      </div>
+
+      <p>Selected</p>
+      <div class="q-ma-md">
+        <q-chip :selected.sync="selected1" clickable icon="bookmark" closable>Bookmark</q-chip>
+
+        <q-chip :selected.sync="selected2" clickable>
+          <q-avatar>
+            <img src="statics/boy-avatar.png">
+          </q-avatar>
+          Add to calendar
+        </q-chip>
+
+        <q-chip :selected.sync="selected3" clickable>
+          <q-avatar color="primary" text-color="white">J</q-avatar>
+          Add to calendar
+        </q-chip>
+
+        <q-chip :selected.sync="selected4" clickable color="orange">
+          <q-avatar color="teal" text-color="white">J</q-avatar>
+          Add to calendar
+        </q-chip>
+
+        <q-chip :selected.sync="selected5" clickable closable>
+          <q-avatar color="red" text-color="white" icon="directions" />
+          Bookmark
+        </q-chip>
+      </div>
+
+      <p>Closable</p>
+      <div class="q-ma-md">
+        <q-btn label="Reset" flat size="sm" @click="resetClosable" />
+
+        <q-chip v-model="close1" icon="bookmark" closable>Bookmark</q-chip>
+
+        <q-chip v-model="close2" closable>
+          <q-avatar>
+            <img src="statics/boy-avatar.png">
+          </q-avatar>
+          Add to calendar
+        </q-chip>
+
+        <q-chip v-model="close3" closable>
+          <q-avatar color="primary" text-color="white">J</q-avatar>
+          Add to calendar
+        </q-chip>
+
+        <q-chip v-model="close4" closable color="orange">
+          <q-avatar color="teal" text-color="white">J</q-avatar>
+          Add to calendar
+        </q-chip>
+
+        <q-chip v-model="close5" disable closable>
+          <q-avatar color="red" text-color="white" icon="directions" />
+          Bookmark
+        </q-chip>
+      </div>
+
+      <p>Disable</p>
+      <div class="q-ma-md">
+        <q-chip disable :selected.sync="selected1" clickable icon="bookmark" closable>Bookmark</q-chip>
+
+        <q-chip disable :selected.sync="selected2" clickable>
+          <q-avatar>
+            <img src="statics/boy-avatar.png">
+          </q-avatar>
+          Add to calendar
+        </q-chip>
+
+        <q-chip disable :selected.sync="selected3" clickable>
+          <q-avatar color="primary" text-color="white">J</q-avatar>
+          Add to calendar
+        </q-chip>
+
+        <q-chip disable :selected.sync="selected4" clickable color="orange">
+          <q-avatar color="teal" text-color="white">J</q-avatar>
+          Add to calendar
+        </q-chip>
+
+        <q-chip disable :selected.sync="selected5" clickable closable>
+          <q-avatar color="red" text-color="white" icon="directions" />
+          Bookmark
+        </q-chip>
+      </div>
+
+      <p>Outline</p>
+      <div class="q-ma-md">
+        <q-chip outline icon="bookmark">Bookmark</q-chip>
+        <q-chip outline color="primary" icon="event" closable>Add to calendar</q-chip>
+        <q-chip outline color="teal" icon="bookmark">Bookmark</q-chip>
+        <q-chip outline color="red" icon="alarm" label="Set alarm" closable />
+        <q-chip outline color="orange" icon="directions" closable>Get directions</q-chip>
+        <q-chip outline color="teal" icon-right="bookmark">Bookmark</q-chip>
+      </div>
+
+      <p>Floating</p>
+      <div class="q-ma-md">
+        <q-btn color="orange" text-color="black" label="Inbox">
+          <q-chip floating color="black" text-color="white">22</q-chip>
         </q-btn>
         &nbsp;&nbsp;
         <q-btn color="red" label="Inbox">
-          <q-chip floating color="dark">22</q-chip>
+          <q-chip floating color="black" text-color="white">22</q-chip>
         </q-btn>
         &nbsp;&nbsp;
         <q-btn color="red" label="Inbox">
-          <q-chip floating color="dark">22</q-chip>
+          <q-chip floating color="black" text-color="white">22</q-chip>
         </q-btn>
         &nbsp;&nbsp;
-        <q-btn round dense color="dark" icon="announcement">
-          <q-chip floating color="red">22</q-chip>
+        <q-btn round dense color="black" icon="announcement">
+          <q-chip floating color="red" text-color="white">22</q-chip>
         </q-btn>
         &nbsp;&nbsp;
-        <q-btn round dense color="dark" icon="announcement">
-          <q-chip floating color="red">1</q-chip>
+        <q-btn round dense color="black" icon="announcement">
+          <q-chip floating color="red" text-color="white">1</q-chip>
         </q-btn>
       </div>
 
-      <p class="caption">Advanced Label Chips</p>
-      <div class="group">
-        <q-chip avatar="/statics/boy-avatar.png" color="grey-4" class="text-black">John</q-chip>
-        <q-chip avatar="/statics/boy-avatar.png" color="teal">Joe</q-chip>
-        <q-chip avatar="/statics/boy-avatar.png" color="black">Jim</q-chip>
-        <q-chip avatar="/statics/boy-avatar.png" small color="teal">Joe</q-chip>
-        <br>
-        <q-chip avatar="/statics/boy-avatar.png" closable color="light" class="text-black">John</q-chip>
-        <q-chip avatar="/statics/boy-avatar.png" closable color="red">Joe</q-chip>
-        <q-chip avatar="/statics/boy-avatar.png" closable color="primary">Jim</q-chip>
-        <q-chip avatar="/statics/boy-avatar.png" small closable color="red">Joe</q-chip>
-        <q-chip avatar="/statics/boy-avatar.png" dense closable color="red">Joe</q-chip>
-        <br>
-        <q-chip color="grey-4" class="text-black">John</q-chip>
-        <q-chip color="teal">Joe</q-chip>
-        <q-chip color="black">Jim</q-chip>
-        <q-chip small color="teal">Joe</q-chip>
-        <q-chip dense color="teal">Joe</q-chip>
-        <q-chip dense square color="teal">Joe</q-chip>
-      </div>
-
-      <q-chip avatar="/statics/boy-avatar.png" closable color="primary" @click="clickable">Jim</q-chip>
-
-      <p class="caption">Tag Label Chips</p>
+      <p>Pointing</p>
       <div>
-        <q-chip tag icon-right="mail" color="light" class="text-black">New</q-chip>
+        <q-chip pointing="up">1</q-chip>
+        <q-chip pointing="down">2</q-chip>
+        <q-chip pointing="right">3</q-chip>
+        <q-chip pointing="left">4</q-chip>
       </div>
       <div>
-        <q-chip tag closable color="red">Upcoming</q-chip>
-      </div>
-      <div>
-        <q-chip tag square color="primary">Featured</q-chip>
-      </div>
-      <div>
-        <q-chip dense tag icon-right="mail" color="light" class="text-black">New</q-chip>
-        <q-chip dense tag closable color="red">Upcoming</q-chip>
-        <q-chip dense tag square color="primary">Featured</q-chip>
-      </div>
-
-      <p class="caption">Pointing Label Chips</p>
-      <div>
-        <q-chip pointing="up" color="primary">1</q-chip>
-        <q-chip pointing="down" color="primary">2</q-chip>
-        <q-chip pointing="right" color="primary">3</q-chip>
-        <q-chip pointing="left" color="primary">4</q-chip>
-      </div>
-      <div>
-        <q-chip pointing="up" color="primary">Pointing Up</q-chip>
-        <q-chip pointing="down" color="primary">Pointing Down</q-chip>
-        <q-chip pointing="right" color="primary">Pointing Right</q-chip>
-        <q-chip pointing="left" color="primary">Pointing Left</q-chip>
-      </div>
-      <div>
-        <q-chip square pointing="up" color="primary">Pointing Up</q-chip>
-        <q-chip square pointing="down" color="primary">Pointing Down</q-chip>
-        <q-chip square pointing="right" color="primary">Pointing Right</q-chip>
-        <q-chip square pointing="left" color="primary">Pointing Left</q-chip>
-      </div>
-
-      <div>
-        <q-chip dense pointing="up" color="primary">Pointing Up</q-chip>
-        <q-chip dense pointing="down" color="primary">Pointing Down</q-chip>
-        <q-chip dense pointing="right" color="primary">Pointing Right</q-chip>
-        <q-chip dense pointing="left" color="primary">Pointing Left</q-chip>
-      </div>
-      <div>
-        <q-chip dense square pointing="up" color="primary">Pointing Up</q-chip>
-        <q-chip dense square pointing="down" color="primary">Pointing Down</q-chip>
-        <q-chip dense square pointing="right" color="primary">Pointing Right</q-chip>
-        <q-chip dense square pointing="left" color="primary">Pointing Left</q-chip>
-      </div>
-
-      <p class="caption">With Icons</p>
-      <div>
-        <q-chip icon="mail" color="primary">
-          10
+        <q-chip pointing="up">Pointing Up</q-chip>
+        <q-chip pointing="down">Pointing Down</q-chip>
+        <q-chip pointing="right">Pointing Right</q-chip>
+        <q-chip pointing="left" icon="bookmark">Pointing Left</q-chip>
+        <q-chip pointing="left">
+          <q-avatar>
+            <img src="statics/boy-avatar.png">
+          </q-avatar>
+          Pointing Left
         </q-chip>
-        <q-chip icon-right="mail" color="tertiary">
-          10
+        <q-chip pointing="left">
+          <q-avatar color="teal">J</q-avatar>
+          Pointing Left
         </q-chip>
       </div>
       <div>
-        <q-chip dense icon="mail" color="primary">
-          10
-        </q-chip>
-        <q-chip dense icon-right="mail" color="tertiary">
-          10
-        </q-chip>
+        <q-chip square pointing="up">Pointing Up</q-chip>
+        <q-chip square pointing="down">Pointing Down</q-chip>
+        <q-chip square pointing="right">Pointing Right</q-chip>
+        <q-chip square pointing="left">Pointing Left</q-chip>
       </div>
 
-      <p class="caption">With Detail</p>
       <div>
-        <q-chip detail icon="mail">Detail</q-chip>
-        <q-chip detail square icon="mail">Detail</q-chip>
+        <q-chip dense pointing="up">Pointing Up</q-chip>
+        <q-chip dense pointing="down">Pointing Down</q-chip>
+        <q-chip dense pointing="right">Pointing Right</q-chip>
+        <q-chip dense pointing="left">Pointing Left</q-chip>
       </div>
       <div>
-        <q-chip dense detail icon="mail">Detail</q-chip>
-        <q-chip dense detail square icon="mail">Detail</q-chip>
+        <q-chip dense square pointing="up">Pointing Up</q-chip>
+        <q-chip dense square pointing="down">Pointing Down</q-chip>
+        <q-chip dense square pointing="right">Pointing Right</q-chip>
+        <q-chip dense square pointing="left">Pointing Left</q-chip>
       </div>
     </div>
   </div>
@@ -208,7 +272,27 @@
 
 <script>
 export default {
+  data () {
+    return {
+      selected1: false,
+      selected2: false,
+      selected3: false,
+      selected4: false,
+      selected5: false,
+
+      close1: true,
+      close2: true,
+      close3: true,
+      close4: true,
+      close5: true
+    }
+  },
   methods: {
+    resetClosable () {
+      for (let i = 1; i <= 5; i++) {
+        this['close' + i] = true
+      }
+    },
     clickable () {
       console.log('@click')
     }

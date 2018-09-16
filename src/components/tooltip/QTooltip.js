@@ -122,7 +122,7 @@ export default {
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)
       if (
-        this.anchorEl.classList.contains('q-btn__inner') ||
+        this.anchorEl.classList.contains('q-btn__content') ||
         this.anchorEl.classList.contains('q-if-inner') ||
         this.anchorEl.classList.contains('no-pointer-events')
       ) {

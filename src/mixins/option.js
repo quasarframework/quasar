@@ -97,12 +97,10 @@ export default {
           attrs: { type: 'checkbox' },
           on: { change: this.toggle }
         }),
-        this.$q.platform.is.desktop
-          ? h('div', {
-            staticClass: 'q-focus-helper',
-            'class': this.__kebabTag === 'q-radio' ? 'q-focus-helper-round' : 'q-focus-helper-rounded'
-          })
-          : null,
+        h('div', {
+          staticClass: 'q-focus-helper',
+          'class': `q-focus-helper--${this.__kebabTag === 'q-radio' ? 'round' : 'rounded'}`
+        }),
         this.__getContent(h)
       ]),
 
