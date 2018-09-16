@@ -7,8 +7,8 @@
       <q-slider v-model="size" :min="1" :max="500" label />
       <div>Thickness</div>
       <q-slider v-model="thickness" :min="1" :max="maxThickness" label />
-      <div>Rotation</div>
-      <q-slider v-model="rotation" :min="0" :max="360" label />
+      <div>Angle</div>
+      <q-slider v-model="angle" :min="0" :max="360" label />
       <div>Min/Max</div>
       <q-range v-model="range" :min="0" :max="360" label />
       <div>
@@ -31,7 +31,7 @@
         :value="value"
         :size="size"
         :thickness="thickness"
-        :rotation="rotation"
+        :angle="angle"
         :min="range.min"
         :max="range.max"
         :reverse="reverse"
@@ -46,7 +46,7 @@
         :value="value"
         :size="size"
         :thickness="maxThickness"
-        :rotation="rotation"
+        :angle="angle"
         :min="range.min"
         :max="range.max"
         :reverse="reverse"
@@ -60,7 +60,7 @@
         :value="value"
         :size="size"
         :thickness="thickness"
-        :rotation="rotation"
+        :angle="angle"
         :min="range.min"
         :max="range.max"
         :reverse="reverse"
@@ -73,7 +73,7 @@
         :value="value"
         :size="size"
         :thickness="thickness"
-        :rotation="rotation"
+        :angle="angle"
         :min="range.min"
         :max="range.max"
         :reverse="reverse"
@@ -93,7 +93,7 @@ export default {
       value: 70,
       size: 160,
       thickness: 20,
-      rotation: 0,
+      angle: 0,
       range: {
         min: 0,
         max: 100

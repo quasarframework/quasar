@@ -1,5 +1,5 @@
 import { position, stopAndPrevent } from '../../utils/event.js'
-import { between } from '../../utils/format.js'
+import { between, normalizeToInterval } from '../../utils/format.js'
 import { offset, height, width } from '../../utils/dom.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/touch-pan.js'
@@ -151,6 +151,10 @@ export default {
       }
       else {
         angle = center.left < pos.left ? angle + 90 : 270 - angle
+      }
+
+      if (this.angle) {
+        angle = normalizeToInterval(angle - this.angle, 0, 360)
       }
 
       if (this.$q.i18n.rtl) {

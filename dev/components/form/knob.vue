@@ -17,6 +17,7 @@
         :value="model"
         :min="min"
         :max="max"
+        :angle="90"
         @change="val => { model = val; onChange(val) }"
         @input="onInput"
       />
