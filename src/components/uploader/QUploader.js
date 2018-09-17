@@ -435,11 +435,16 @@ export default {
 
     if (this.uploading) {
       child.push(
-        h(QSpinner, {
-          slot: 'after',
-          staticClass: 'q-if-end self-center',
-          props: { size: '24px' }
-        }),
+        this.$slots.loading
+          ? h('div', {
+            slot: 'after',
+            staticClass: 'q-if-end self-center q-if-control'
+          }, this.$slots.loading)
+          : h(QSpinner, {
+            slot: 'after',
+            staticClass: 'q-if-end self-center',
+            props: { size: '24px' }
+          }),
         h(QIcon, {
           slot: 'after',
           staticClass: 'q-if-end self-center q-if-control',

@@ -8,6 +8,10 @@ export default {
   props: {
     value: {},
     persistent: Boolean,
+    keepOnScreen: {
+      type: Boolean,
+      default: true
+    },
     title: String,
     buttons: Boolean,
     labelSet: String,
@@ -43,7 +47,10 @@ export default {
       this.$nextTick(this.__close)
     },
     set () {
-      if (this.__hasChanged() && this.validate(this.value)) {
+      if (this.__hasChanged()) {
+        if (!this.validate(this.value)) {
+          return
+        }
         this.$emit('save', this.value, this.initialValue)
       }
       this.__close()
@@ -94,6 +101,7 @@ export default {
       props: {
         cover: true,
         persistent: this.persistent,
+        keepOnScreen: this.keepOnScreen,
         disable: this.disable
       },
       on: {
@@ -123,7 +131,7 @@ export default {
       nativeOn: {
         keydown: e => {
           if (getEventKey(e) === 13) {
-            this.$refs.popover.hide()
+            this.buttons ? this.set() : this.$refs.popover.hide()
           }
         }
       }

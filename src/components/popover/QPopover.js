@@ -77,9 +77,6 @@ export default {
       }
     }, this.$slots.default)
   },
-  created () {
-    this.closeEvents = this.$q.platform.has.touch ? ['touchstart', 'touchend'] : ['mousedown', 'mouseup']
-  },
   mounted () {
     this.__updatePosition = frameDebounce((_, event, animate) => this.reposition(event, animate))
     this.$nextTick(() => {
@@ -112,7 +109,6 @@ export default {
   },
   methods: {
     __show (evt) {
-      this.canBeDismissed = false
       if (!this.noRefocus) {
         this.__refocusTarget = (this.anchorClick && this.anchorEl) || document.activeElement
       }
@@ -131,8 +127,8 @@ export default {
         this.$refs.content.focus()
       }
       this.timer = setTimeout(() => {
-        document.body.addEventListener(this.closeEvents[0], this.__bodyHideStart, true)
-        document.body.addEventListener(this.closeEvents[1], this.__bodyHide, true)
+        document.body.addEventListener('mousedown', this.__bodyHide, true)
+        document.body.addEventListener('touchstart', this.__bodyHide, true)
         this.showPromise && this.showPromiseResolve()
       }, 0)
     },
@@ -141,20 +137,17 @@ export default {
         this.toggle(evt)
       }
     },
-    __shouldAbortDismiss (evt) {
-      return this.persistent || (
-        evt && evt.target &&
-        (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
-      )
-    },
-    __bodyHideStart (evt) {
-      this.canBeDismissed = !this.__shouldAbortDismiss(evt)
-    },
     __bodyHide (evt) {
-      if (this.canBeDismissed && !this.__shouldAbortDismiss(evt)) {
-        this.canBeDismissed = false
-        this.hide(evt)
+      if (
+        this.persistent || (
+          evt && evt.target &&
+          (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
+        )
+      ) {
+        return
       }
+
+      this.hide(evt)
     },
     __hide () {
       this.__cleanup()
@@ -167,8 +160,8 @@ export default {
     __cleanup () {
       clearTimeout(this.timer)
 
-      document.body.removeEventListener(this.closeEvents[0], this.__bodyHideStart, true)
-      document.body.removeEventListener(this.closeEvents[1], this.__bodyHide, true)
+      document.body.removeEventListener('mousedown', this.__bodyHide, true)
+      document.body.removeEventListener('touchstart', this.__bodyHide, true)
       this.scrollTarget.removeEventListener('scroll', this.__updatePosition, listenOpts.passive)
       if (this.scrollTarget !== window) {
         window.removeEventListener('scroll', this.__updatePosition, listenOpts.passive)

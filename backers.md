@@ -91,7 +91,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Thibaut Renoncourt
 - Benoit Ranque
 - Brian J Petersen
-- Felipe Santiago
 - Heitor Ribeiro
 - Allan Gaunt
 - Kévin Marrec
@@ -120,12 +119,14 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Roman Sujatinov
 - Tanya Trimbakova
 - eae
+- Tomer Shalev
 
 - Jim O'Quinn ($5)
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
 - Walison Moreira ($5)
+- Felipe Santiago ($5)
 - John (JCharante) ($1)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)

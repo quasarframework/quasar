@@ -397,11 +397,16 @@ export default {
         }
       })) || void 0,
 
-      (this.isLoading && h(QSpinner, {
-        slot: 'after',
-        staticClass: 'q-if-control',
-        props: { size: '24px' }
-      })) || void 0
+      (this.isLoading && (this.$slots.loading
+        ? h('div', {
+          staticClass: 'q-if-control',
+          slot: 'after'
+        }, this.$slots.loading)
+        : h(QSpinner, {
+          slot: 'after',
+          staticClass: 'q-if-control',
+          props: { size: '24px' }
+        }))) || void 0
     ]).concat(this.$slots.after).concat(this.$slots.default
       ? h('div', { staticClass: 'absolute-full no-pointer-events', slot: 'after' }, this.$slots.default)
       : void 0
