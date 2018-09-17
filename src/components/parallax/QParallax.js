@@ -20,7 +20,8 @@ export default {
   },
   data () {
     return {
-      scrolling: false
+      scrolling: false,
+      percentScrolled: 0
     }
   },
   watch: {
@@ -29,6 +30,10 @@ export default {
     }
   },
   methods: {
+    __update (percentage) {
+      this.percentScrolled = percentage
+      this.$emit('scroll', percentage)
+    },
     __onResize () {
       if (!this.scrollTarget) {
         return
@@ -55,8 +60,9 @@ export default {
       bottom = top + this.height
 
       if (bottom > containerTop && top < containerBottom) {
-        const percentScrolled = (containerBottom - top) / (this.height + containerHeight)
-        this.__setPos((this.mediaHeight - this.height) * percentScrolled * this.speed)
+        const percent = (containerBottom - top) / (this.height + containerHeight)
+        this.__setPos((this.mediaHeight - this.height) * percent * this.speed)
+        this.__update(percent)
       }
     },
     __setPos (offset) {
@@ -69,7 +75,7 @@ export default {
       style: { height: `${this.height}px` }
     }, [
       h('div', {
-        staticClass: 'q-parallax-media absolute-full'
+        staticClass: 'q-parallax__media absolute-full'
       }, [
         this.$slots.media || h('img', {
           ref: 'media',
@@ -81,8 +87,10 @@ export default {
 
       h(
         'div',
-        { staticClass: 'q-parallax-text absolute-full column flex-center no-pointer-events' },
-        this.$slots.default
+        { staticClass: 'q-parallax__content absolute-full column flex-center' },
+        this.$scopedSlots.content
+          ? [ this.$scopedSlots.content(this.percentScrolled) ]
+          : this.$slots.default
       )
     ])
   },
@@ -90,21 +98,21 @@ export default {
     this.__setPos = frameDebounce(this.__setPos)
   },
   mounted () {
-    this.$nextTick(() => {
-      this.media = this.$slots.media
-        ? this.$slots.media[0].elm
-        : this.$refs.media
+    this.__update = frameDebounce(this.__update)
+    this.resizeHandler = debounce(this.__onResize, 50)
 
-      this.media.onload = this.media.onloadstart = this.__onResize
+    this.media = this.$slots.media
+      ? this.$slots.media[0].elm
+      : this.$refs.media
 
-      this.scrollTarget = getScrollTarget(this.$el)
-      this.resizeHandler = debounce(this.__onResize, 50)
+    this.media.onload = this.media.onloadstart = this.__onResize
 
-      window.addEventListener('resize', this.resizeHandler, listenOpts.passive)
-      this.scrollTarget.addEventListener('scroll', this.__updatePos, listenOpts.passive)
+    this.scrollTarget = getScrollTarget(this.$el)
 
-      this.__onResize()
-    })
+    window.addEventListener('resize', this.resizeHandler, listenOpts.passive)
+    this.scrollTarget.addEventListener('scroll', this.__updatePos, listenOpts.passive)
+
+    this.__onResize()
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.resizeHandler, listenOpts.passive)

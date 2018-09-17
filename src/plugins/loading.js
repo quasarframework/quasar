@@ -55,14 +55,12 @@ export default {
                 size: props.spinnerSize
               }
             }),
-            props.message
-              ? h('div', {
-                'class': `text-${props.messageColor}`,
-                domProps: {
-                  innerHTML: props.message
-                }
-              })
-              : null
+            (props.message && h('div', {
+              'class': `text-${props.messageColor}`,
+              domProps: {
+                innerHTML: props.message
+              }
+            })) || void 0
           ])
         }
       })
