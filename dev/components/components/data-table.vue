@@ -37,8 +37,8 @@
           </q-td>
           <q-td key="calories" :props="props">
             {{ props.row.calories }}
-            <q-popup-edit v-model="props.row.calories" title="Update calories" buttons>
-              <q-field count>
+            <q-popup-edit v-model="props.row.calories" title="Update calories [0-100]" buttons :validate="validateValue">
+              <q-field count error-label="Value between 0 and 100" :error="!validateValue(props.row.calories)">
                 <q-input type="number" v-model="props.row.calories" />
               </q-field>
             </q-popup-edit>
@@ -53,8 +53,8 @@
           </q-td>
           <q-td key="carbs" :props="props">
             {{ props.row.carbs }}
-            <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent>
-              <q-field count helper="Use buttons to close">
+            <q-popup-edit v-model="props.row.carbs" title="Update carbs [0-50]" buttons persistent :validate="val => validateValue(val, 50)">
+              <q-field count helper="Use buttons to close" error-label="Value between 0 and 50" :error="!validateValue(props.row.carbs, 50)">
                 <q-input type="number" v-model="props.row.carbs" />
               </q-field>
             </q-popup-edit>
@@ -647,6 +647,9 @@ export default {
     }
   },
   methods: {
+    validateValue (value, max = 50, min = 0) {
+      return value >= min && value <= max
+    },
     notifyWithProps (done, props) {
       // Row cell event with access to props
       this.$q.notify({
