@@ -1,12 +1,13 @@
 .q-toolbar
+  background $primary
+  color white
+
   padding $toolbar-padding
   min-height $toolbar-min-height
   overflow hidden
   width 100%
-.q-toolbar-inverted
-  background white
 
-.q-toolbar-title
+.q-toolbar__title
   flex 1 1 0%
   min-width 1px
   max-width 100%
@@ -14,11 +15,11 @@
   font-weight $toolbar-title-font-weight
   padding $toolbar-title-padding
 
-.q-toolbar-subtitle
+.q-toolbar__subtitle
   font-size $toolbar-subtitle-font-size
   opacity .7
 
-.q-toolbar-title, .q-toolbar-subtitle
+.q-toolbar__title, .q-toolbar__subtitle
   text-overflow ellipsis
   white-space nowrap
   overflow hidden

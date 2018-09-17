@@ -38,7 +38,8 @@ export default {
     noRipple: Boolean,
     tabindex: Number,
     to: [Object, String],
-    replace: Boolean
+    replace: Boolean,
+    stretch: Boolean
   },
   computed: {
     style () {
@@ -124,7 +125,8 @@ export default {
         'q-btn--no-uppercase': this.noCaps,
         'q-btn--rounded': this.rounded,
         'q-btn--dense': this.dense,
-        'glossy': this.glossy
+        'glossy': this.glossy,
+        'no-border-radius self-stretch': this.stretch
       })
 
       return cls

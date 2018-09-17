@@ -4,11 +4,12 @@ export default {
     outline: Boolean,
     flat: Boolean,
     rounded: Boolean,
-    push: Boolean
+    push: Boolean,
+    stretch: Boolean
   },
   computed: {
     classes () {
-      return ['outline', 'flat', 'rounded', 'push']
+      return ['outline', 'flat', 'rounded', 'push', 'stretch']
         .filter(t => this[t])
         .map(t => `q-btn-group--${t}`).join(' ')
     }

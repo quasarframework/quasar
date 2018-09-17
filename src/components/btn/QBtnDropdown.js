@@ -98,7 +98,8 @@ export default {
         rounded: this.rounded,
         push: this.push
       },
-      staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item'
+      staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
+      'class': { 'self-stretch no-border-radius': this.stretch }
     },
     [
       Btn,

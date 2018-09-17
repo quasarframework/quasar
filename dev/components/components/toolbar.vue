@@ -18,9 +18,7 @@
         </q-btn>
       </q-toolbar>
 
-      <br>
-
-      <q-toolbar inverted>
+      <q-toolbar class="q-my-md">
         <q-btn flat round dense icon="menu" />
         <q-toolbar-title>
           Toolbar
@@ -28,85 +26,125 @@
         <q-btn flat round dense icon="more_vert" />
       </q-toolbar>
 
-      <p class="caption">
-        They come in all colors.
-      </p>
-
-      <q-toolbar color="secondary">
+      <q-toolbar color="secondary" class="q-my-md">
         <q-btn flat round dense icon="assignment_ind" />
         <q-toolbar-title>
           Toolbar
         </q-toolbar-title>
-        <q-btn flat round dense icon="sim_card" />
+        <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
         <q-btn flat round dense icon="gamepad" />
       </q-toolbar>
-      <q-toolbar color="yellow" class="text-dark">
+
+      <q-toolbar color="yellow" class="q-my-md text-black">
         <q-btn flat round dense icon="assignment_ind" />
         <q-toolbar-title>
           Toolbar
           <span slot="subtitle">Subtitle</span>
         </q-toolbar-title>
-        <q-btn flat round dense icon="sim_card" />
+        <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
         <q-btn flat round dense icon="gamepad" />
       </q-toolbar>
-      <q-toolbar color="orange">
+
+      <q-toolbar color="orange" class="q-my-md">
         <q-btn flat round dense icon="mail" />
         <q-toolbar-title>
           Long title for Toolbar. Very very very very very very long title.
         </q-toolbar-title>
-        <q-btn flat round dense icon="alarm" />
-        <q-btn flat round dense icon="router" />
+        <q-btn flat round dense icon="alarm" class="q-mr-xs" />
+        <q-btn flat round dense icon="router" class="q-mr-xs" />
         <q-btn flat round dense icon="keyboard" />
       </q-toolbar>
-      <q-toolbar color="dark">
-        <q-btn flat round dense icon="menu" />
+
+      <q-toolbar color="black" class="q-my-md">
+        <q-btn flat round dense icon="menu" class="q-mr-xs" />
         <q-btn flat round dense icon="security" />
         <q-toolbar-title>
           Toolbar
         </q-toolbar-title>
-        <q-btn flat round dense icon="headset" />
+        <q-btn flat round dense icon="headset" class="q-mr-xs" />
         <q-btn flat round dense icon="tv" />
       </q-toolbar>
 
       <p class="caption">
-        And inverted:
+        Spacing, Separators
       </p>
 
-      <q-toolbar inverted color="secondary">
-        <q-btn flat round dense icon="assignment_ind" />
-        <q-toolbar-title>
-          Toolbar
-        </q-toolbar-title>
-        <q-btn flat round dense icon="sim_card" />
-        <q-btn flat round dense icon="gamepad" />
+      <q-toolbar class="q-my-sm shadow-2">
+        <q-btn flat round dense icon="menu" class="q-mr-sm" />
+        <q-separator dark vertical inset />
+        <q-btn class="self-stretch" flat label="Link" />
+
+        <q-space />
+
+        <q-btn-dropdown stretch flat label="Dropdown">
+          <q-list link>
+            <q-list-header inset>Folders X</q-list-header>
+            <q-item v-for="n in 3" :key="`x.${n}`" v-close-overlay :tabindex="0">
+              <q-item-side icon="folder" inverted color="grey-6" />
+              <q-item-main>
+                <q-item-tile label>Photos</q-item-tile>
+                <q-item-tile sublabel>February 22, 2016</q-item-tile>
+              </q-item-main>
+              <q-item-side right icon="info" />
+            </q-item>
+            <q-item-separator inset />
+            <q-list-header inset>Files</q-list-header>
+            <q-item v-for="n in 3" :key="`y.${n}`" v-close-overlay :tabindex="0">
+              <q-item-side icon="assignment" inverted color="grey-6" />
+              <q-item-main>
+                <q-item-tile label>Vacation</q-item-tile>
+                <q-item-tile sublabel>February 22, 2016</q-item-tile>
+              </q-item-main>
+              <q-item-side right icon="info" />
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+        <q-separator dark vertical />
+        <q-btn stretch flat label="Link" />
+        <q-separator dark vertical />
+        <q-btn stretch flat label="Link" />
       </q-toolbar>
-      <q-toolbar inverted color="purple">
-        <q-btn flat round dense icon="assignment_ind" />
-        <q-toolbar-title>
-          Toolbar
-          <span slot="subtitle">Subtitle</span>
-        </q-toolbar-title>
-        <q-btn flat round dense icon="sim_card" />
-        <q-btn flat round dense icon="gamepad" />
+
+      <q-toolbar class="q-my-sm shadow-2">
+        <div class="q-headline">My Blog</div>
+        <q-separator class="q-mx-sm" dark vertical inset />
+        <div class="q-subheading">Articles</div>
+
+        <q-space />
+
+        <q-btn stretch flat label="Link" />
+        <q-separator dark vertical />
+        <q-btn stretch flat label="Link" />
+        <q-separator dark vertical />
+        <q-btn stretch flat label="Link" />
       </q-toolbar>
-      <q-toolbar inverted color="orange">
-        <q-btn flat round dense icon="mail" />
-        <q-toolbar-title>
-          Long title for Toolbar. Very very very very very very long title.
-        </q-toolbar-title>
-        <q-btn flat round dense icon="alarm" />
-        <q-btn flat round dense icon="router" />
-        <q-btn flat round dense icon="keyboard" />
-      </q-toolbar>
-      <q-toolbar inverted color="dark">
-        <q-btn flat round dense icon="menu" />
-        <q-btn flat round dense icon="security" />
-        <q-toolbar-title>
-          Toolbar
-        </q-toolbar-title>
-        <q-btn flat round dense icon="headset" />
-        <q-btn flat round dense icon="tv" />
+
+      <q-toolbar class="q-my-sm shadow-2">
+        <q-btn flat round dense icon="menu" class="q-mr-sm" />
+
+        <q-space />
+
+        <q-btn-toggle
+          v-model="model"
+          flat stretch
+          toggle-color="yellow"
+          :options="[
+            {label: 'One', value: 'one'},
+            {label: 'Two', value: 'two'},
+            {label: 'Three', value: 'three'}
+          ]"
+        />
       </q-toolbar>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      model: null
+    }
+  }
+}
+</script>

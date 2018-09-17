@@ -31,6 +31,7 @@ export default {
     push: Boolean,
     size: String,
     glossy: Boolean,
+    stretch: Boolean,
     noRipple: Boolean
   },
   computed: {
@@ -53,7 +54,8 @@ export default {
         outline: this.outline,
         flat: this.flat,
         rounded: this.rounded,
-        push: this.push
+        push: this.push,
+        stretch: this.stretch
       }
     },
     this.options.map(
@@ -78,7 +80,8 @@ export default {
           size: this.size,
           dense: this.dense,
           noRipple: this.noRipple || opt.noRipple,
-          tabindex: opt.tabindex
+          tabindex: opt.tabindex,
+          stretch: this.stretch
         }
       })
     ))

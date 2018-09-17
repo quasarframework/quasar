@@ -6,7 +6,7 @@
         This is a simple hero unit, a simple jumbotron-style component for calling extra
         attention to featured content or information.
       </div>
-      <hr class="q-hr q-my-lg">
+      <q-separator class="q-my-lg" />
       <div class="q-title q-mb-md">Check out Quasar Framework components.</div>
       <q-btn color="primary" class="q-py-sm q-px-xl" label="Learn more" />
     </q-jumbotron>
@@ -17,7 +17,7 @@
         This is a simple hero unit, a simple jumbotron-style component for calling extra
         attention to featured content or information.
       </div>
-      <hr class="q-hr q-my-lg">
+      <q-separator class="q-my-lg" dark />
       <div class="q-title q-mb-md">Check out Quasar Framework components.</div>
       <q-btn color="white" text-color="primary" class="q-py-sm q-px-xl" label="Learn more" />
     </q-jumbotron>
@@ -29,7 +29,7 @@
           This is a simple hero unit, a simple jumbotron-style component for calling extra
           attention to featured content or information.
         </div>
-        <hr class="q-hr q-my-lg">
+        <q-separator class="q-my-lg" dark />
         <div class="q-title q-mb-md">Check out Quasar Framework components.</div>
         <q-btn color="secondary" class="q-py-sm q-px-xl" label="Learn more" />
       </q-jumbotron>
@@ -41,7 +41,7 @@
         This is a simple hero unit, a simple jumbotron-style component for calling extra
         attention to featured content or information.
       </div>
-      <hr class="q-hr q-my-lg">
+      <q-separator class="q-my-lg" dark />
       <div class="q-title q-mb-md">Check out Quasar Framework components.</div>
       <q-btn color="primary" class="q-py-sm q-px-xl" label="Learn more" />
     </q-jumbotron>
@@ -52,7 +52,7 @@
         This is a simple hero unit, a simple jumbotron-style component for calling extra
         attention to featured content or information.
       </div>
-      <hr class="q-hr q-my-lg">
+      <q-separator class="q-my-lg" dark />
       <div class="q-title q-mb-md">Check out Quasar Framework components.</div>
       <q-btn color="primary" class="q-py-sm q-px-xl" label="Learn more" />
     </q-jumbotron>
