@@ -16,23 +16,15 @@ for $heading, $value in $h-tags
   {$heading}
     font-size: $value.size
     font-weight: $value.weight
-    if $value.line-height
-      line-height: $value.line-height
-    if $value.letter-spacing
-      letter-spacing: $value.letter-spacing
-    @media screen and (max-width $breakpoint-sm)
-      font-size: ($value.size * .6)
+    line-height: $value.line-height
+    letter-spacing: $value.letter-spacing
 
 for $heading, $value in $headings
-  .q-{$heading}-opacity
-    opacity: $value.opacity
   .q-{$heading}
     font-size: $value.size
     font-weight: $value.weight
-    if $value.line-height
-      line-height: $value.line-height
-    if $value.letter-spacing
-      letter-spacing: $value.letter-spacing
+    line-height: $value.line-height
+    letter-spacing: $value.letter-spacing
 
 p
   margin: 0 0 $spaces.md.y

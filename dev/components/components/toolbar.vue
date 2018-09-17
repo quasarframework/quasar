@@ -106,9 +106,9 @@
       </q-toolbar>
 
       <q-toolbar class="q-my-sm shadow-2">
-        <div class="q-headline">My Blog</div>
-        <q-separator class="q-mx-sm" dark vertical inset />
-        <div class="q-subheading">Articles</div>
+        <div class="q-headline5">My Blog</div>
+        <q-separator vertical inset dark class="q-mx-sm" />
+        <div class="q-subtitle1">Articles</div>
 
         <q-space />
 
@@ -119,7 +119,7 @@
         <q-btn stretch flat label="Link" />
       </q-toolbar>
 
-      <q-toolbar class="q-my-sm shadow-2">
+      <q-toolbar color="secondary" class="q-my-sm shadow-2">
         <q-btn flat round dense icon="menu" class="q-mr-sm" />
 
         <q-space />
@@ -134,6 +134,16 @@
             {label: 'Three', value: 'three'}
           ]"
         />
+      </q-toolbar>
+
+      <q-toolbar class="q-my-sm shadow-2">
+        <q-btn flat label="Homepage" />
+        <q-space />
+        <q-tabs>
+          <q-tab slot="title" label="Tab 1" />
+          <q-tab slot="title" label="Tab 2" />
+          <q-tab slot="title" label="Tab 3" />
+        </q-tabs>
       </q-toolbar>
     </div>
   </div>

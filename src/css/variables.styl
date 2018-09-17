@@ -78,84 +78,85 @@ $breakpoint-lg-max ?= $breakpoint-lg
 $breakpoint-xl-min ?= $sizes[xl]
 $breakpoint-xl-max ?= 9999px
 
-$backdrop-opacity    ?= .3
-$backdrop-background ?= rgba(0, 0, 0, $backdrop-opacity)
-
 $router-link-active       ?= router-link-active
 $router-link-exact-active ?= router-link-exact-active
 
 $headings ?= {
-  display-4: {
-    size: 112px,
+  headline1: {
+    size: 6rem,
+    line-height: 6rem,
     weight: 300,
-    opacity: .54,
-    line-height: $min-line-height,
-    letter-spacing: -.04em
+    letter-spacing: -.01562em
   },
-  display-3: {
-    size: 56px,
-    weight: 400,
-    opacity: .54,
-    line-height: 1.35,
-    letter-spacing: -.02em
+  headline2: {
+    size: 3.75rem,
+    line-height: 3.75rem,
+    letter-spacing: -.00833em,
+    weight: 300
   },
-  display-2: {
-    size: 45px,
-    weight: 400,
-    opacity: .54,
-    line-height: 48px,
-    letter-spacing: normal
+  headline3: {
+    size: 3rem,
+    line-height: 3.125rem,
+    letter-spacing: normal,
+    weight: 400
   },
-  display-1: {
-    size: 34px,
-    weight: 400,
-    opacity: .54,
-    line-height: 40px,
-    letter-spacing: normal
+  headline4: {
+    size: 2.125rem,
+    line-height: 2.5rem,
+    letter-spacing: .00735em,
+    weight: 400
   },
-  headline: {
-    size: 24px,
-    weight: 400,
-    opacity: .87
-    line-height: 32px,
-    letter-spacing: normal
+  headline5: {
+    size: 1.5rem,
+    line-height: 2rem,
+    letter-spacing: normal,
+    weight: 400
   },
-  title: {
-    size: 20px,
-    weight: 500,
-    opacity: .87
-    line-height: $min-line-height,
-    letter-spacing: .02em
+  headline6: {
+    size: 1.25rem,
+    line-height: 2rem,
+    letter-spacing: .0125em,
+    weight: 500
   },
-  subheading: {
-    size: 16px,
-    weight: 400,
-    opacity: .87
+  subtitle1: {
+    size: 1rem,
+    line-height: 1.75rem,
+    letter-spacing: .00937em,
+    weight: 400
   },
-  body-2: {
-    size: 14px,
-    weight: 500,
-    opacity: .87
+  subtitle2: {
+    size: .875rem,
+    line-height: 1.375rem,
+    letter-spacing: .00714em,
+    weight: 500
   },
-  body-1: {
-    size: 14px,
-    weight: 400,
-    opacity: .87
+  body1: {
+    size: 1rem,
+    line-height: 1.5rem,
+    letter-spacing: .03125em,
+    weight: 400
+  },
+  body2: {
+    size: .875rem,
+    line-height: 1.25rem,
+    letter-spacing: .01786em,
+    weight: 400
   },
   caption: {
-    size: 12px,
-    weight: 400,
-    opacity: .54
+    size: .875rem,
+    line-height: 1.25rem,
+    letter-spacing: .01786em,
+    weight: 400
   }
 }
 
 $h-tags ?= {
-  h1: $headings.display-4,
-  h2: $headings.display-3,
-  h3: $headings.display-2,
-  h4: $headings.display-1,
-  h5: $headings.headline,
-  h6: $headings.title
+  h1: $headings.headline1,
+  h2: $headings.headline2,
+  h3: $headings.headline3,
+  h4: $headings.headline4,
+  h5: $headings.headline5,
+  h6: $headings.headline6
 }
 
 $text-weights ?= {

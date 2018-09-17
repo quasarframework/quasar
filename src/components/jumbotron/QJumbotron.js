@@ -1,6 +1,8 @@
 export default {
   name: 'QJumbotron',
   props: {
+    color: String,
+    textColor: String,
     dark: Boolean,
     tag: {
       type: String,
@@ -10,6 +12,13 @@ export default {
     gradient: String
   },
   computed: {
+    classes () {
+      return {
+        [`bg-${this.color}`]: this.color,
+        [`text-${this.textColor}`]: this.textColor,
+        'q-jumbotron--dark': this.dark
+      }
+    },
     gradientType () {
       if (this.gradient) {
         return this.gradient.indexOf('circle') > -1
@@ -34,9 +43,7 @@ export default {
     return h(this.tag, {
       staticClass: 'q-jumbotron',
       style: this.computedStyle,
-      'class': {
-        'q-jumbotron--dark': this.dark
-      }
+      'class': this.classes
     }, this.$slots.default)
   }
 }
