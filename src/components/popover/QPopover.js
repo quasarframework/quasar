@@ -113,7 +113,12 @@ export default {
         this.__refocusTarget = (this.anchorClick && this.anchorEl) || document.activeElement
       }
       document.body.appendChild(this.$el)
-      EscapeKey.register(() => { !this.persistent && this.hide() })
+      EscapeKey.register(() => {
+        if (!this.persistent) {
+          this.$emit('escape-key')
+          this.hide()
+        }
+      })
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.__updatePosition, listenOpts.passive)
       if (this.scrollTarget !== window) {
