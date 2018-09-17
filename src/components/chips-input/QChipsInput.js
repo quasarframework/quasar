@@ -278,11 +278,18 @@ export default {
       ])),
 
       this.isLoading
-        ? h(QSpinner, {
-          slot: 'after',
-          staticClass: 'q-if-control',
-          props: { size: '24px' }
-        })
+        ? (
+          this.$slots.loading
+            ? h('div', {
+              staticClass: 'q-if-control',
+              slot: 'after'
+            }, this.$slots.loading)
+            : h(QSpinner, {
+              slot: 'after',
+              staticClass: 'q-if-control',
+              props: { size: '24px' }
+            })
+        )
         : ((this.editable && h(QIcon, {
           slot: 'after',
           staticClass: 'q-if-control',
