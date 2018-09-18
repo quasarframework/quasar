@@ -7,7 +7,7 @@ export default {
       ? getEmptyStorage()
       : getStorage('session')
 
-    $q.localStorage = storage
+    $q.sessionStorage = storage
     Object.assign(this, storage)
   }
 }
