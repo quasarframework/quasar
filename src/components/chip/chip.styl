@@ -25,24 +25,10 @@ $chip-height = 32px
     background transparent
     border 1px solid currentColor
 
-  &--clickable
-    &:before
-      content ''
-      position absolute
-      border-radius inherit
-      top 0
-      right 0
-      bottom 0
-      left 0
-      background black
-      opacity 0
-      pointer-events none
-    &:hover:before
-      opacity .05
-
   &--selected
     .q-avatar
-      display none !important
+      visibility hidden !important
+      width 12px
 
   &--floating
     position absolute
@@ -50,103 +36,109 @@ $chip-height = 32px
     right -.5em
     pointer-events none
 
-  &--pointing
-    z-index 0
-    &:before
-      content ''
-      z-index -1
-      background inherit
-      width 16px
-      height 16px
-      position absolute
-
-  &--pointing-up
-    margin-top .8rem
-    &:before
-      top 0
-      left 50%
-      transform translateX(-50%) translateY(-22%) rotate(45deg)
-  &--pointing-down
-    margin-bottom .8rem
-    &:before
-      right auto
-      top 100%
-      left 50%
-      transform translateX(-50%) translateY(-78%) rotate(45deg)
-  &--pointing-right
-    margin-right .8rem
-    &:before
-      top 50%
-      right 2px
-      bottom auto
-      left auto
-      transform translateX(33%) translateY(-50%) rotate(45deg)
-  &--pointing-left
-    margin-left .8rem
-    &:before
-      top 50%
-      left 2px
-      bottom auto
-      right auto
-      transform translateX(-33%) translateY(-50%) rotate(45deg)
-
-
   .q-avatar
     font-size $chip-height
     margin-left -12px
     margin-right 8px
 
-.q-chip__icon
-  color rgba(0,0,0,.54)
-  font-size 20px
-  margin -4px
+  &__icon
+    color rgba(0,0,0,.54)
+    font-size 20px
+    margin -4px
 
-  &--left
-    margin-right 4px
-  &--right
-    margin-left 4px
-  &--close
-    margin-left 8px
-    margin-right -6px
-    opacity .6
-    transition .3s
-
-    &:hover
-      opacity 1
-
-.q-chip__content
-  white-space nowrap
-
-.q-chip--dense
-  border-radius 8px
-  height 18px
-  font-size 12px
-  padding 0 3px
-
-  &.q-chip--pointing:before
-    width 9px
-    height 9px
-
-  .q-chip__icon
-    font-size 12px
-    margin 0
     &--left
-      margin-right 3px
+      margin-right 4px
     &--right
-      margin-left 3px
+      margin-left 4px
     &--close
-      margin-left 3px
-      margin-right -2px
+      margin-left 8px
+      margin-right -6px
+      opacity .6
+      transition .3s
 
-  .q-avatar
-    font-size 18px
-    margin-left -4px
-    margin-right 2px
+      &:hover
+        opacity 1
 
-.q-chip--square
-  border-radius $generic-border-radius
-  .q-avatar
-    border-radius $generic-border-radius 0 0 $generic-border-radius
+  &__content
+    white-space nowrap
+
+  &__pointer
+    width 0
+    height 0
+    border-style solid
+    z-index -1
+    &:not(.q-chip__pointer--hover)
+      color #e0e0e0
+
+    &--up
+      top -6px
+      left calc(50% - 8px)
+      border-color transparent transparent currentColor transparent
+      border-width 0 8px 8px 8px
+    &--down
+      bottom -6px
+      left calc(50% - 8px)
+      border-color currentColor transparent transparent transparent
+      border-width 8px 8px 0 8px
+    &--right
+      right -6px
+      top calc(50% - 8px)
+      border-color transparent transparent transparent currentColor
+      border-width 8px 0 8px 8px
+    &--left
+      left -6px
+      top calc(50% - 8px)
+      border-color transparent currentColor transparent transparent
+      border-width 8px 8px 8px 0
+
+    &--hover
+      transition .3s
+      color currentColor
+      opacity 0
+
+  &:hover
+    .q-chip__pointer--hover
+      opacity .15
+
+  &--dense
+    border-radius 8px
+    height 18px
+    font-size 12px
+    padding 0 3px
+
+    .q-chip__pointer
+      &--up
+        top -4px
+      &--down
+        bottom -4px
+      &--right
+        right -4px
+      &--left
+        left -4px
+
+    .q-chip__icon
+      font-size 12px
+      margin 0
+      &--left
+        margin-right 3px
+      &--right
+        margin-left 3px
+      &--close
+        margin-left 3px
+        margin-right -2px
+
+    .q-avatar
+      font-size 18px
+      margin-left -4px
+      margin-right 2px
+
+    &.q-chip--selected .q-avatar
+      width 3px
+
+  &--square
+    border-radius $generic-border-radius
+    .q-avatar
+      border-radius $generic-border-radius 0 0 $generic-border-radius
 
 body.desktop .q-chip--clickable:focus
   box-shadow $shadow-1

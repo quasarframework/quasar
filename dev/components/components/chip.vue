@@ -133,6 +133,11 @@
           <q-avatar color="red" text-color="white" icon="directions" />
           Bookmark
         </q-chip>
+
+        <q-chip dense :selected.sync="selected5" clickable closable>
+          <q-avatar color="red" text-color="white" icon="directions" />
+          Bookmark
+        </q-chip>
       </div>
 
       <p>Closable</p>
@@ -225,18 +230,18 @@
       </div>
 
       <p>Pointing</p>
-      <div>
-        <q-chip pointing="up">1</q-chip>
+      <div class="q-my-md">
+        <q-chip color="orange" pointing="up">1</q-chip>
         <q-chip pointing="down">2</q-chip>
-        <q-chip pointing="right">3</q-chip>
+        <q-chip pointing="right" class="q-mr-md">3</q-chip>
         <q-chip pointing="left">4</q-chip>
       </div>
-      <div>
-        <q-chip pointing="up">Pointing Up</q-chip>
-        <q-chip pointing="down">Pointing Down</q-chip>
-        <q-chip pointing="right">Pointing Right</q-chip>
-        <q-chip pointing="left" icon="bookmark">Pointing Left</q-chip>
-        <q-chip pointing="left">
+      <div class="q-my-md">
+        <q-chip color="primary" text-color="white" pointing="up" clickable>Pointing Up</q-chip>
+        <q-chip color="black" text-color="white" pointing="down" clickable>Pointing Down</q-chip>
+        <q-chip pointing="right" clickable class="q-mr-md">Pointing Right</q-chip>
+        <q-chip pointing="left" icon="bookmark" clickable>Pointing Left</q-chip>
+        <q-chip pointing="left" clickable>
           <q-avatar>
             <img src="statics/boy-avatar.png">
           </q-avatar>
@@ -247,24 +252,24 @@
           Pointing Left
         </q-chip>
       </div>
-      <div>
+      <div class="q-my-md">
         <q-chip square pointing="up">Pointing Up</q-chip>
         <q-chip square pointing="down">Pointing Down</q-chip>
-        <q-chip square pointing="right">Pointing Right</q-chip>
+        <q-chip square pointing="right" class="q-mr-md">Pointing Right</q-chip>
         <q-chip square pointing="left">Pointing Left</q-chip>
       </div>
 
-      <div>
-        <q-chip dense pointing="up">Pointing Up</q-chip>
-        <q-chip dense pointing="down">Pointing Down</q-chip>
-        <q-chip dense pointing="right">Pointing Right</q-chip>
-        <q-chip dense pointing="left">Pointing Left</q-chip>
+      <div class="q-my-md">
+        <q-chip dense pointing="up" clickable>Pointing Up</q-chip>
+        <q-chip dense pointing="down" clickable>Pointing Down</q-chip>
+        <q-chip dense pointing="right" class="q-mr-md" clickable>Pointing Right</q-chip>
+        <q-chip dense pointing="left" clickable>Pointing Left</q-chip>
       </div>
-      <div>
-        <q-chip dense square pointing="up">Pointing Up</q-chip>
-        <q-chip dense square pointing="down">Pointing Down</q-chip>
-        <q-chip dense square pointing="right">Pointing Right</q-chip>
-        <q-chip dense square pointing="left">Pointing Left</q-chip>
+      <div class="q-my-md">
+        <q-chip dense square pointing="up" clickable>Pointing Up</q-chip>
+        <q-chip dense square pointing="down" clickable>Pointing Down</q-chip>
+        <q-chip dense square pointing="right" class="q-mr-md" clickable>Pointing Right</q-chip>
+        <q-chip dense square pointing="left" clickable>Pointing Left</q-chip>
       </div>
     </div>
   </div>

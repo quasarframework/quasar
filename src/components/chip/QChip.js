@@ -49,13 +49,12 @@ export default {
       return {
         [`bg-${this.color}`]: !this.outline && this.color,
         [`text-${text} q-chip--colored`]: text,
-        [`q-chip--pointing q-chip--pointing-${this.pointing}`]: this.pointing,
         disabled: this.disable,
         'q-chip--dense': this.dense || this.floating,
         'q-chip--outline': this.outline,
         'q-chip--floating': this.floating,
         'q-chip--selected': this.selected,
-        'q-chip--clickable cursor-pointer non-selectable': this.isClickable,
+        'q-chip--clickable cursor-pointer non-selectable q-hoverable': this.isClickable,
         'q-chip--square': this.square || this.floating
       }
     },
@@ -79,6 +78,51 @@ export default {
     __onClose (e) {
       stopAndPrevent(e)
       !this.disable && this.$emit('input', false)
+    },
+
+    __getContent (h) {
+      const child = []
+
+      this.isClickable && child.push(h('div', { staticClass: 'q-focus-helper' }))
+
+      if (this.pointing) {
+        child.push(h('div', {
+          staticClass: 'q-chip__pointer absolute',
+          'class': {
+            [`q-chip__pointer--${this.pointing}`]: true,
+            [`text-${this.color}`]: this.color
+          }
+        }))
+
+        this.isClickable && child.push(h('div', {
+          staticClass: 'q-chip__pointer q-chip__pointer--hover absolute',
+          'class': `q-chip__pointer--${this.pointing}`
+        }))
+      }
+
+      this.hasLeftIcon && child.push(h(QIcon, {
+        staticClass: 'q-chip__icon q-chip__icon--left',
+        props: { name: this.selected ? this.$q.icon.chip.selected : this.icon }
+      }))
+
+      child.push(h('div', {
+        staticClass: 'q-chip__content row items-center'
+      }, this.label ? [ this.label ] : this.$slots.default))
+
+      this.iconRight && child.push(h(QIcon, {
+        staticClass: 'q-chip__icon q-chip__icon--right',
+        props: { name: this.iconRight }
+      }))
+
+      this.closable && child.push(h(QIcon, {
+        staticClass: 'q-chip__icon q-chip__icon--close cursor-pointer',
+        props: { name: this.$q.icon.chip.close },
+        nativeOn: {
+          click: this.__onClose
+        }
+      }))
+
+      return child
     }
   },
   render (h) {
@@ -98,28 +142,6 @@ export default {
     data.staticClass = 'q-chip row inline no-wrap items-center'
     data['class'] = this.classes
 
-    return h('div', data, [
-      (this.hasLeftIcon && h(QIcon, {
-        staticClass: 'q-chip__icon q-chip__icon--left',
-        props: { name: this.selected ? this.$q.icon.chip.selected : this.icon }
-      })) || void 0,
-
-      h('div', {
-        staticClass: 'q-chip__content row items-center'
-      }, this.label ? [ this.label ] : this.$slots.default),
-
-      (this.iconRight && h(QIcon, {
-        staticClass: 'q-chip__icon q-chip__icon--right',
-        props: { name: this.iconRight }
-      })) || void 0,
-
-      (this.closable && h(QIcon, {
-        staticClass: 'q-chip__icon q-chip__icon--close cursor-pointer',
-        props: { name: this.$q.icon.chip.close },
-        nativeOn: {
-          click: this.__onClose
-        }
-      })) || void 0
-    ])
+    return h('div', data, this.__getContent(h))
   }
 }
