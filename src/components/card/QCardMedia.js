@@ -9,17 +9,8 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-card-media relative-position'
-    }, [
-      this.$slots.default,
-      this.$slots.overlay
-        ? h('div', {
-          staticClass: 'q-card-media-overlay',
-          'class': `absolute-${this.overlayPosition}`
-        }, [
-          this.$slots.overlay
-        ])
-        : null
-    ])
+      staticClass: 'q-card__media relative-position',
+      'class': `q-card__media--${this.overlayPosition}`
+    }, this.$slots.default)
   }
 }

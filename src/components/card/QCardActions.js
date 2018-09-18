@@ -1,22 +1,21 @@
+import AlignMixin from '../../mixins/align.js'
+
 export default {
   name: 'QCardActions',
+  mixins: [AlignMixin],
   props: {
     vertical: Boolean,
-    align: {
-      type: String,
-      default: 'start',
-      validator: v => ['start', 'center', 'end', 'around', 'between'].includes(v)
-    }
+    align: { default: 'left' }
   },
   computed: {
     classes () {
-      return `q-card-actions-${this.vertical ? 'vert column justify-start' : 'horiz row'} ` +
-        `${this.vertical ? 'items' : 'justify'}-${this.align}`
+      return `q-card__actions--${this.vertical ? 'vert column justify-start' : 'horiz row'} ` +
+        this.alignClass
     }
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-card-actions',
+      staticClass: 'q-card__actions q-card__section',
       'class': this.classes
     }, this.$slots.default)
   }

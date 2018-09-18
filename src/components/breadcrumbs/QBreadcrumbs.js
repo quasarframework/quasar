@@ -17,9 +17,9 @@ export default {
       default: 'primary'
     },
     separatorColor: String,
-    align: Object.assign({}, AlignMixin.props.align, {
+    align: {
       default: 'left'
-    })
+    }
   },
   computed: {
     classes () {
