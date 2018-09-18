@@ -41,8 +41,9 @@ $chip-height = 32px
       opacity .05
 
   &--selected
-    .q-avatar
-      display none !important
+    .q-avatar:first-child
+      visibility hidden
+      width 12px
 
   &--floating
     position absolute
@@ -93,8 +94,12 @@ $chip-height = 32px
 
   .q-avatar
     font-size $chip-height
-    margin-left -12px
-    margin-right 8px
+    &:last-child
+      margin-left 8px
+      margin-right -12px
+    &:first-child
+      margin-left -12px
+      margin-right 8px
 
 .q-chip__icon
   color rgba(0,0,0,.54)
@@ -123,6 +128,10 @@ $chip-height = 32px
   font-size 12px
   padding 0 3px
 
+  &.q-chip--selected
+    .q-avatar:first-child
+      width 3px
+
   &.q-chip--pointing:before
     width 9px
     height 9px
@@ -140,8 +149,12 @@ $chip-height = 32px
 
   .q-avatar
     font-size 18px
-    margin-left -4px
-    margin-right 2px
+    &:last-child
+      margin-left 2px
+      margin-right -4px
+    &:first-child
+      margin-left -4px
+      margin-right 2px
 
 .q-chip--square
   border-radius $generic-border-radius
