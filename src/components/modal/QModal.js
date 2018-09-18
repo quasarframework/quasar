@@ -181,8 +181,8 @@ export default {
           this.__shake()
         }
         else {
+          this.$emit('escape-key')
           this.hide().then(() => {
-            this.$emit('escape-key')
             this.$emit('dismiss')
           })
         }
