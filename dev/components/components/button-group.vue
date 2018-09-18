@@ -12,6 +12,18 @@
       </q-btn>
     </q-btn-group>
 
+    <q-btn-group unelevated>
+      <q-btn color="yellow" unelevated to="/a">
+        Link /a
+      </q-btn>
+      <q-btn color="amber" unelevated to="/b">
+        Link /b
+      </q-btn>
+      <q-btn color="orange" unelevated to="/c">
+        Link /c
+      </q-btn>
+    </q-btn-group>
+
     <div v-for="push in options" :key="push">
       <div v-for="flat in options" :key="flat" v-if="!push || !flat">
         <div v-for="outline in options" :key="outline" v-if="!(push || flat) || !outline">

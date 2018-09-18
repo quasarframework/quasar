@@ -74,7 +74,7 @@
     height 3em
     width 3em
 
-  &--flat, &--outline
+  &--flat, &--outline, &--unelevated
     box-shadow none
 
   &--dense
@@ -99,13 +99,13 @@
     height 40px
     width 40px
 
-// workaround for alignment/sizing change when showing loader
-.q-btn__content:before
-  content ''
+  // workaround for alignment/sizing change when showing loader
+  &__content:before
+    content ''
 
-.q-btn__progress
-  transition all .3s
-  height 100%
-  background rgba(255, 255, 255, .25)
-  &--dark
-    background rgba(0, 0, 0, .2)
+  &__progress
+    transition all .3s
+    height 100%
+    background rgba(255, 255, 255, .25)
+    &--dark
+      background rgba(0, 0, 0, .2)

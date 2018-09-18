@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 25px">
     <q-toggle v-model="toggle" label="Show" />
-    <q-btn-dropdown v-model="toggle" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
+    <q-btn-dropdown unelevated v-model="toggle" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
       <q-list link>
         <q-list-header inset>Folders X</q-list-header>
         <q-item v-for="n in 3" :key="`x.${n}`" v-close-overlay :tabindex="0">
@@ -25,7 +25,7 @@
       </q-list>
     </q-btn-dropdown>
 
-    <q-btn-dropdown to="/" color="primary" split glossy label="Link /" style="margin: 15px">
+    <q-btn-dropdown unelevated to="/" color="primary" split glossy label="Link /" style="margin: 15px">
       <q-list link>
         <q-list-header inset>Folders X</q-list-header>
         <q-item v-for="n in 3" :key="`x.${n}`" v-close-overlay :tabindex="0">

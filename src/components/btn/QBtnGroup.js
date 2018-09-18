@@ -1,6 +1,7 @@
 export default {
   name: 'QBtnGroup',
   props: {
+    unelevated: Boolean,
     outline: Boolean,
     flat: Boolean,
     rounded: Boolean,
@@ -9,7 +10,7 @@ export default {
   },
   computed: {
     classes () {
-      return ['outline', 'flat', 'rounded', 'push', 'stretch']
+      return ['unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch']
         .filter(t => this[t])
         .map(t => `q-btn-group--${t}`).join(' ')
     }

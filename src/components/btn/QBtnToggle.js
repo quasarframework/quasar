@@ -26,6 +26,7 @@ export default {
     noWrap: Boolean,
     outline: Boolean,
     flat: Boolean,
+    unelevated: Boolean,
     dense: Boolean,
     rounded: Boolean,
     push: Boolean,
@@ -55,7 +56,8 @@ export default {
         flat: this.flat,
         rounded: this.rounded,
         push: this.push,
-        stretch: this.stretch
+        stretch: this.stretch,
+        unelevated: this.unelevated
       }
     },
     this.options.map(
@@ -76,6 +78,7 @@ export default {
           flat: this.flat,
           rounded: this.rounded,
           push: this.push,
+          unelevated: this.unelevated,
           glossy: this.glossy,
           size: this.size,
           dense: this.dense,

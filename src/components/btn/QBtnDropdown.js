@@ -96,7 +96,8 @@ export default {
         outline: this.outline,
         flat: this.flat,
         rounded: this.rounded,
-        push: this.push
+        push: this.push,
+        unelevated: this.unelevated
       },
       staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
       'class': { 'self-stretch no-border-radius': this.stretch }

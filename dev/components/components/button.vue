@@ -338,6 +338,12 @@
         <q-btn :type="tag" flat round color="primary" icon="card_giftcard" />
       </div>
 
+      <div class="caption">Unelevated Buttons</div>
+      <div class="group">
+        <q-btn :type="tag" unelevated color="primary" label="Flat" />
+        <q-btn :type="tag" unelevated round color="primary" icon="card_giftcard" />
+      </div>
+
       <div class="caption">Outline Buttons</div>
       <div class="group">
         <q-btn :type="tag" outline color="primary" label="Outline" />

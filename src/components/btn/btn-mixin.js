@@ -26,6 +26,7 @@ export default {
     round: Boolean,
     outline: Boolean,
     flat: Boolean,
+    unelevated: Boolean,
     rounded: Boolean,
     push: Boolean,
     size: String,
@@ -98,6 +99,9 @@ export default {
       }
       else if (this.push) {
         cls.push('q-btn--push')
+      }
+      else if (this.unelevated) {
+        cls.push('q-btn--unelevated')
       }
 
       if (this.isDisabled) {

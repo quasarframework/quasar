@@ -35,8 +35,10 @@
           transform translateY(3px)
   &--rounded
     border-radius $button-rounded-border-radius
-  &--flat, &--outline
+  &--flat, &--outline, &--unelevated
     box-shadow none
+    > .q-btn-item
+      box-shadow none
   &--outline
     > .q-btn-item + .q-btn-item
       border-left 0
