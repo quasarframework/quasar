@@ -106,11 +106,16 @@ export default {
       },
       on: {
         show: () => {
-          const input = this.$el.querySelector('.q-input-target, input')
+          const input = this.$el.querySelector('.q-input-target:not(.q-input-shadow)') || this.$el.querySelector('input') || this.$el.querySelector('textarea')
           input && input.focus()
           this.$emit('show')
           this.initialValue = clone(this.value)
           this.validated = false
+        },
+        'escape-key': () => {
+          this.validated = true
+          this.$emit('cancel', this.value, this.initialValue)
+          this.$emit('input', this.initialValue)
         },
         hide: () => {
           if (this.validated) { return }
