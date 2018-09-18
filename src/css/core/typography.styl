@@ -19,24 +19,17 @@ for $heading, $value in $h-tags
     line-height: $value.line-height
     letter-spacing: $value.letter-spacing
 
-for $heading, $value in $headings
-  .q-{$heading}
-    font-size: $value.size
-    font-weight: $value.weight
-    line-height: $value.line-height
-    letter-spacing: $value.letter-spacing
-
 p
   margin: 0 0 $spaces.md.y
 
-.caption
-  color $grey-9
-  letter-spacing 0
-  line-height 24px
-  padding 0
-  font-weight 300
-
 .text-
+  for $heading, $value in $headings
+    &{$heading}
+      font-size: $value.size
+      font-weight: $value.weight
+      line-height: $value.line-height
+      letter-spacing: $value.letter-spacing
+
   &uppercase
     text-transform uppercase
   &lowercase

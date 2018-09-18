@@ -18,7 +18,7 @@
             </div>
             <div
               class="col-sm-9 col-12 q-pl-md q-pt-md"
-              :class="`q-${heading.cls}`"
+              :class="heading.cls"
               :style="{ fontFamily: testHeight ? testFont : null }"
             >
               {{ heading.label }}{{ testText }}
@@ -126,17 +126,17 @@ export default {
   data () {
     return {
       headings: [
-        { label: 'Headline 1', cls: 'headline1', equivalent: 'h1' },
-        { label: 'Headline 2', cls: 'headline2', equivalent: 'h2' },
-        { label: 'Headline 3', cls: 'headline3', equivalent: 'h3' },
-        { label: 'Headline 4', cls: 'headline4', equivalent: 'h4' },
-        { label: 'Headline 5', cls: 'headline5', equivalent: 'h5' },
-        { label: 'Headline 6', cls: 'headline6', equivalent: 'h6' },
-        { label: 'Subtitle 1', cls: 'subtitle1' },
-        { label: 'Subtitle 2', cls: 'subtitle2' },
-        { label: 'Body 1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.', cls: 'body1' },
-        { label: 'Body 2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate aliquid ad quas sunt voluptatum officia dolorum cumque, possimus nihil molestias sapiente necessitatibus dolor saepe inventore, soluta id accusantium voluptas beatae.', cls: 'body2' },
-        { label: 'Caption text', cls: 'caption' }
+        { label: 'Headline 1', cls: 'text-h1', equivalent: 'h1' },
+        { label: 'Headline 2', cls: 'text-h2', equivalent: 'h2' },
+        { label: 'Headline 3', cls: 'text-h3', equivalent: 'h3' },
+        { label: 'Headline 4', cls: 'text-h4', equivalent: 'h4' },
+        { label: 'Headline 5', cls: 'text-h5', equivalent: 'h5' },
+        { label: 'Headline 6', cls: 'text-h6', equivalent: 'h6' },
+        { label: 'Subtitle 1', cls: 'text-subtitle1' },
+        { label: 'Subtitle 2', cls: 'text-subtitle2' },
+        { label: 'Body 1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.', cls: 'text-body1' },
+        { label: 'Body 2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate aliquid ad quas sunt voluptatum officia dolorum cumque, possimus nihil molestias sapiente necessitatibus dolor saepe inventore, soluta id accusantium voluptas beatae.', cls: 'text-body2' },
+        { label: 'Caption text', cls: 'text-caption' }
       ],
       weights: [
         'thin', 'light', 'regular', 'medium', 'bold', 'bolder'

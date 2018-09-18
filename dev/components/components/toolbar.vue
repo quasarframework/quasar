@@ -106,9 +106,9 @@
       </q-toolbar>
 
       <q-toolbar class="q-my-sm shadow-2">
-        <div class="q-headline5">My Blog</div>
+        <div class="text-h5">My Blog</div>
         <q-separator vertical inset dark class="q-mx-sm" />
-        <div class="q-subtitle1">Articles</div>
+        <div class="text-subtitle1">Articles</div>
 
         <q-space />
 
