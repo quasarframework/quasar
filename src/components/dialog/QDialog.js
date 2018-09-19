@@ -94,9 +94,8 @@ export default {
           this.$emit('input', val)
         },
         show: () => {
-          this.$emit('show')
-
           if (!this.$q.platform.is.desktop) {
+            this.$emit('show')
             return
           }
 
@@ -109,6 +108,7 @@ export default {
 
             if (node.length) {
               node[0].focus()
+              this.$emit('show')
               return
             }
           }
@@ -117,6 +117,7 @@ export default {
           if (node.length) {
             node[node.length - 1].focus()
           }
+          this.$emit('show')
         },
         hide: () => {
           this.$emit('hide')
