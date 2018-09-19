@@ -38,7 +38,7 @@
           <q-td key="calories" :props="props">
             {{ props.row.calories }}
             <q-popup-edit v-model="props.row.calories" title="Update calories [0-100]" buttons :validate="validateValue">
-              <q-field count error-label="Value between 0 and 100" :error="!validateValue(props.row.calories)">
+              <q-field count error-label="Value between 0 and 100" :error="!validateValue(props.row.calories, 100)">
                 <q-input type="number" v-model="props.row.calories" />
               </q-field>
             </q-popup-edit>

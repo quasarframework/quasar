@@ -1,7 +1,6 @@
 const
   fs = require('fs'),
   { resolve } = require('path'),
-  sym = require('sym'),
   opn = require('opn')
 
 const
@@ -14,7 +13,7 @@ if (!fs.existsSync(src)) {
 }
 
 if (!fs.existsSync(dest)) {
-  sym(src, dest, 'dir')
+  fs.symlinkSync(src, dest, 'dir')
 }
 
 opn(

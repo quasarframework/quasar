@@ -1,6 +1,6 @@
 {
   "name": "quasar-framework",
-  "version": "0.17.15",
+  "version": "0.17.16",
   "description": "Build responsive SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase",
   "module": "src/index.esm.js",
   "files": [
@@ -88,7 +88,6 @@
     "stylint": "^1.5.9",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
-    "sym": "0.0.4",
     "uglify-es": "^3.3.9",
     "url-loader": "^1.0.1",
     "vue": "^2.5.17",
