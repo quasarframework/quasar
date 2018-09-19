@@ -57,15 +57,18 @@
   display flex
   align-items center
 
-.q-table-sort-icon
+.q-table-sort-icon, .q-table-filter-icon
   transition $table-transition
   will-change opacity, transform
   opacity 0
   font-size 120%
 .q-table-sort-icon-left,
-.q-table-sort-icon-center
+.q-table-sort-icon-center,
+.q-table-filter-icon-left,
+.q-table-filter-icon-center
   margin-left 4px
-.q-table-sort-icon-right
+.q-table-sort-icon-right,
+.q-table-sort-filter-right
   margin-right 4px
 
 .q-table
@@ -82,11 +85,11 @@
     font-size 12px
     transition $table-transition
     user-select none
-    &.sortable
+    &.sortable, &.filter
       cursor pointer
-      &:hover .q-table-sort-icon
+      &:hover .q-table-sort-icon, &:hover .q-table-filter-icon
         opacity .5
-    &.sorted .q-table-sort-icon
+    &.sorted .q-table-sort-icon, &.filtered .q-table-filter-icon
       opacity 1 !important
     &.sort-desc .q-table-sort-icon
       transform rotate(180deg)
@@ -192,7 +195,7 @@ table-dense()
     border-color $table-border-color
   th
     color $table-header-color
-    &.sortable:hover, &.sorted
+    &.sortable:hover, &.sorted, &.filter:hover, &.filter
       color $table-color
   tbody tr
     &.selected
@@ -214,7 +217,7 @@ table-dense()
     border-color $table-dark-border-color
   th
     color $table-dark-header-color
-    &.sortable:hover, &.sorted
+    &.sortable:hover, &.sorted, &.filter:hover, &.filter
       color $table-dark-color
   tbody tr
     &.selected

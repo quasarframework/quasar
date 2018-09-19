@@ -30,6 +30,7 @@ export default {
       innerPagination: {
         sortBy: null,
         descending: false,
+        filter: {},
         page: 1,
         rowsPerPage: 5
       }

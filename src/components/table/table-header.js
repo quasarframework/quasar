@@ -45,6 +45,8 @@ export default {
               col,
               cols: this.computedCols,
               sort: this.sort,
+              filter: this.computedPagination.filter,
+              filterQuery: this.filterQuery,
               colsMap: this.computedColsMap
             }
           },

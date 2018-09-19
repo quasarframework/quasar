@@ -374,9 +374,27 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: 'name',
-          sortable: true
+          sortable: true,
+          filter: {
+            type: 'input',
+            props: {
+              type: 'text'
+            }
+          }
         },
-        { name: 'calories', label: 'Calories', field: 'calories', sortable: true },
+        {
+          name: 'calories',
+          label: 'Calories',
+          field: 'calories',
+          sortable: true,
+          filter: {
+            type: 'select',
+            props: {
+              options: [{label: 'Good', value: 1}, {label: 'Bad', value: 2}, {label: 'Uggly', value: 3}],
+              multiple: true
+            }
+          }
+        },
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
@@ -441,8 +459,14 @@ export default {
           row.__count = 0
         }
         row.__count += 1
-        const addRow = extend({}, row, { name: `${row.name} (${row.__count})` })
-        this.dataDyn = [...this.dataDyn.slice(0, addPoint), addRow, ...this.dataDyn.slice(addPoint)]
+        const addRow = extend({}, row, {
+          name: `${row.name} (${row.__count})`
+        })
+        this.dataDyn = [
+          ...this.dataDyn.slice(0, addPoint),
+          addRow,
+          ...this.dataDyn.slice(addPoint)
+        ]
         this.loadingDyn = false
       }, 500)
     },
@@ -450,7 +474,10 @@ export default {
       this.loadingDyn = true
       setTimeout(() => {
         const removePoint = Math.floor(Math.random() * this.dataDyn.length)
-        this.dataDyn = [...this.dataDyn.slice(0, removePoint), ...this.dataDyn.slice(removePoint + 1)]
+        this.dataDyn = [
+          ...this.dataDyn.slice(0, removePoint),
+          ...this.dataDyn.slice(removePoint + 1)
+        ]
         this.loadingDyn = false
       }, 500)
     }

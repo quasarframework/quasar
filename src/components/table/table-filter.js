@@ -14,7 +14,20 @@ export default {
   watch: {
     filter () {
       this.$nextTick(() => {
-        this.setPagination({ page: 1 }, true)
+        this.setPagination({
+          page: 1
+        }, true)
+      })
+    }
+  },
+  methods: {
+    filterQuery (col) {
+      let filter = Object.assign({}, this.computedPagination.filter, {
+        [col.name]: col.filter.props.value
+      })
+      this.setPagination({
+        filter,
+        page: 1
       })
     }
   }

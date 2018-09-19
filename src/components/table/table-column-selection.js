@@ -4,7 +4,7 @@ export default {
   },
   computed: {
     computedCols () {
-      let { sortBy, descending } = this.computedPagination
+      let { sortBy, descending, filter } = this.computedPagination
 
       const cols = this.visibleColumns
         ? this.columns.filter(col => col.required || this.visibleColumns.includes(col.name))
@@ -13,7 +13,8 @@ export default {
       return cols.map(col => {
         col.align = col.align || 'right'
         col.__iconClass = `q-table-sort-icon q-table-sort-icon-${col.align}`
-        col.__thClass = `text-${col.align}${col.sortable ? ' sortable' : ''}${col.name === sortBy ? ` sorted ${descending ? 'sort-desc' : ''}` : ''}`
+        col.__filterIconClass = `q-table-filter-icon q-table-filter-icon-${col.align}`
+        col.__thClass = `text-${col.align}${col.sortable ? ' sortable' : ''}${col.name === sortBy ? ` sorted ${descending ? 'sort-desc' : ''}` : ''}${col.filter ? ' filter' : ''}${filter[col.name] ? ` filtered` : ''}`
         col.__tdClass = `text-${col.align}`
         return col
       })
