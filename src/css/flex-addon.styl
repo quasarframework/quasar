@@ -23,6 +23,50 @@ fg($name, $size)
     $column-{$name}-reverse
       flex-direction column-reverse
 
+    for $space, $value in $spaces
+      .q-pa{$name}-{$space}
+        padding: $value.y $value.x
+      .q-pl{$name}-{$space}
+        padding-left: $value.x
+      .q-pr{$name}-{$space}
+        padding-right: $value.x
+      .q-pt{$name}-{$space}
+        padding-top: $value.y
+      .q-pb{$name}-{$space}
+        padding-bottom: $value.y
+      .q-px{$name}-{$space}
+        @extends .q-pl{$name}-{$space}, .q-pr{$name}-{$space}
+      .q-py{$name}-{$space}
+        @extends .q-pt{$name}-{$space}, .q-pb{$name}-{$space}
+      .q-ma{$name}-{$space}
+        margin: $value.y $value.x
+      .q-ml{$name}-{$space}
+        margin-left: $value.x
+      .q-mr{$name}-{$space}
+        margin-right: $value.x
+      .q-mt{$name}-{$space}
+        margin-top: $value.y
+      .q-mb{$name}-{$space}
+        margin-bottom: $value.y
+      .q-mx{$name}-{$space}
+        @extends .q-ml{$name}-{$space}, .q-mr{$name}-{$space}
+      .q-my{$name}-{$space}
+        @extends .q-mt{$name}-{$space}, .q-mb{$name}-{$space}
+
+    .q-ml{$name}-auto
+      margin-left auto
+    .q-mr{$name}-auto
+      margin-right auto
+    .q-mx{$name}-auto
+      @extends .q-ml{$name}-auto, .q-mr{$name}-auto
+
+    .q-my-{$name}-form:not(.q-if-full-width)
+      margin-top $input-margin-top
+      margin-bottom $input-margin-bottom
+      &.q-if-dense
+        margin-top $input-dense-margin-top
+        margin-bottom $input-dense-margin-bottom
+
     .row, .column, .flex
       if $noProcNotZero
         {fr('&.inline<name>', $name)}
