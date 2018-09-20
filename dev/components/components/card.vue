@@ -81,15 +81,15 @@
             <div class="col-auto">
               <q-btn color="grey" round flat icon="more_vert">
                 <q-popover cover>
-                  <q-list link class="no-border">
-                    <q-item v-close-overlay>
-                      <q-item-main label="Remove Card" />
+                  <q-list>
+                    <q-item clickable v-close-overlay>
+                      <q-item-section>Remove Card</q-item-section>
                     </q-item>
-                    <q-item v-close-overlay>
-                      <q-item-main label="Send Feedback" />
+                    <q-item clickable v-close-overlay>
+                      <q-item-section>Send Feedback</q-item-section>
                     </q-item>
-                    <q-item v-close-overlay>
-                      <q-item-main label="Share" />
+                    <q-item clickable v-close-overlay>
+                      <q-item-section>Share</q-item-section>
                     </q-item>
                   </q-list>
                 </q-popover>
@@ -296,31 +296,36 @@
 
         <q-list>
           <q-item>
-            <q-item-side>
-              <q-item-tile color="primary" icon="local bar" />
-            </q-item-side>
-            <q-item-main>
-              <q-item-tile label>Bar XYZ</q-item-tile>
-              <q-item-tile sublabel>Have a drink.</q-item-tile>
-            </q-item-main>
+            <q-item-section avatar>
+              <q-icon color="primary" name="local_bar" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Bar XYZ</q-item-label>
+              <q-item-label caption>Have a drink.</q-item-label>
+            </q-item-section>
           </q-item>
+
           <q-item>
-            <q-item-side>
-              <q-item-tile color="red" icon="local gas station" />
-            </q-item-side>
-            <q-item-main>
-              <q-item-tile label>Gas Station</q-item-tile>
-              <q-item-tile sublabel>Fill your gas tank.</q-item-tile>
-            </q-item-main>
+            <q-item-section avatar>
+              <q-icon color="red" name="local_gas_station" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Gas Station</q-item-label>
+              <q-item-label caption>Fill your gas tank.</q-item-label>
+            </q-item-section>
           </q-item>
+
           <q-item>
-            <q-item-side>
-              <q-item-tile color="amber" icon="local movies" />
-            </q-item-side>
-            <q-item-main>
-              <q-item-tile label>Cinema XYZ</q-item-tile>
-              <q-item-tile sublabel>Watch a movie.</q-item-tile>
-            </q-item-main>
+            <q-item-section avatar>
+              <q-icon color="amber" name="local_movies" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Cinema XYZ</q-item-label>
+              <q-item-label caption>Watch a movie.</q-item-label>
+            </q-item-section>
           </q-item>
         </q-list>
       </q-card>
