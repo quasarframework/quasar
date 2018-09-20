@@ -1,4 +1,7 @@
-import QAlert from '../components/alert/QAlert.js'
+import QBanner from '../components/banner/QBanner.js'
+import QBtn from '../components/btn/QBtn.js'
+import QAvatar from '../components/avatar/QAvatar.js'
+import QIcon from '../components/icon/QIcon.js'
 import uid from '../utils/uid.js'
 import clone from '../utils/clone.js'
 import { isSSR } from './platform.js'
@@ -142,12 +145,33 @@ function init ({ Vue }) {
             mode: 'out-in'
           }
         }, this.notifs[pos].map(notif => {
-          return h(QAlert, {
+          return h(QBanner, {
             ref: `notif_${notif.__uid}`,
             key: notif.__uid,
             staticClass: 'q-notification',
-            props: notif
-          }, [ notif.message ])
+            'class': `bg-${notif.color} text-${notif.textColor || 'white'}`,
+            props: {
+              inlineActions: notif.actions && notif.actions.length === 1,
+              dense: true,
+              rounded: true
+            }
+          }, [
+            notif.icon ? h(QIcon, {
+              slot: 'avatar',
+              props: { name: notif.icon }
+            }) : null,
+            notif.avatar ? h(QAvatar, { slot: 'avatar' }, [
+              h('img', { attrs: { src: notif.avatar } })
+            ]) : null,
+            notif.message,
+            notif.actions
+              ? notif.actions.map(action => h(QBtn, {
+                slot: 'action',
+                props: { flat: true, ...action },
+                on: { click: action.handler }
+              }))
+              : null
+          ])
         }))
       }))
     }

@@ -1,7 +1,9 @@
 export default {
   name: 'QBanner',
   props: {
-    inlineActions: Boolean
+    inlineActions: Boolean,
+    dense: Boolean,
+    rounded: Boolean
   },
 
   computed: {
@@ -17,7 +19,8 @@ export default {
       staticClass: 'q-banner row items-center',
       'class': {
         'q-banner--top-padding': actions && !this.inlineActions,
-        ...this.classes
+        'q-banner--dense': this.dense,
+        'generic-border-radius': this.rounded
       }
     }, [
       h('div', {

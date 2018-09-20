@@ -62,7 +62,7 @@
 const alerts = [
   { color: 'negative', message: 'Woah! Danger! You are getting good at this!', icon: 'report_problem' },
   { color: 'pink', message: 'You need to know about this!', icon: 'warning' },
-  { color: 'orange', textColor: 'black', message: 'Wow! Nice job!', icon: 'thumb_up' },
+  { color: 'black', textColor: 'white', message: 'Wow! Nice job!', icon: 'thumb_up' },
   { color: 'secondary', message: 'Quasar is cool! Right?', icon: 'tag_faces' },
   { color: 'tertiary', message: 'Jim just pinged you', avatar: 'statics/boy-avatar.png' }
 ]
@@ -77,17 +77,23 @@ export default {
   methods: {
     alertAsMethod (position) {
       const { color, textColor, icon, message, avatar } = alerts[ Math.floor(Math.random(5) * 10) % 5 ]
-      // const remove =
+      const random = Math.random() * 100
       this.$q.notify({
         color,
         textColor,
-        icon,
+        icon: random > 30 ? icon : null,
         message,
         position,
         avatar,
-        actions: Math.random() * 100 > 50
-          ? [ { label: 'Reply', handler: () => console.log('wooow') } ]
-          : null,
+        actions: random > 70
+          ? [
+            { label: 'Reply', handler: () => console.log('wooow') },
+            { label: 'Reply', handler: () => console.log('wooow') }
+          ]
+          : (random > 40
+            ? [ { label: 'Reply', handler: () => console.log('wooow') } ]
+            : null
+          ),
         timeout: Math.random() * 5000 + 3000
       })
       /* closeBtn test
