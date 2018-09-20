@@ -175,14 +175,14 @@ export default {
       const child = [
         h(QColorPicker, {
           staticClass: `no-border${modal ? ' full-width' : ''}`,
-          props: Object.assign({
+          props: Object.assign({}, this.$attrs, {
             value: this.model,
             disable: this.disable,
             readonly: this.readonly,
             formatModel: this.formatModel,
             dark: this.dark,
             noParentField: true
-          }, this.$attrs),
+          }),
           on: {
             input: v => this.$nextTick(() => this.__setModel(v))
           }
