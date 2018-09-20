@@ -10,7 +10,8 @@ export default {
     textColor: String,
 
     icon: String,
-    square: Boolean
+    square: Boolean,
+    rounded: Boolean
   },
 
   computed: {
@@ -18,7 +19,8 @@ export default {
       return {
         [`bg-${this.color}`]: this.color,
         [`text-${this.textColor} q-chip--colored`]: this.textColor,
-        'q-avatar__content--square': this.square
+        'q-avatar__content--square': this.square,
+        'generic-border-radius': this.rounded
       }
     },
     style () {

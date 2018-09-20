@@ -93,20 +93,7 @@
 </template>
 
 <script>
-import {
-  QContextMenu,
-  QList,
-  QItem,
-  QItemMain
-} from 'quasar'
-
 export default {
-  components: {
-    QContextMenu,
-    QList,
-    QItem,
-    QItemMain
-  },
   data () {
     return {
       event: null,

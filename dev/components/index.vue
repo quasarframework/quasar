@@ -4,8 +4,7 @@
       <router-link tag="a" to="/layout-quick/a" class="cursor-pointer row justify-center" style="margin-bottom: 25px">
         <img src="statics/quasar-logo.png">
       </router-link>
-      <div
-        class="list no-border"
+      <q-list
         v-for="(category, title) in list"
         :key="`category-${title}`"
       >
@@ -17,10 +16,12 @@
           :key="`${feature.route}${feature.title}`"
           :to="feature.route"
         >
-          <q-item-main :label="feature.title" />
-          <q-item-side right icon="chevron_right" />
+          <q-item-section>{{ feature.title }}</q-item-section>
+          <q-item-section side>
+            <q-icon name="chevron_right" />
+          </q-item-section>
         </q-item>
-      </div>
+      </q-list>
     </div>
   </div>
 </template>

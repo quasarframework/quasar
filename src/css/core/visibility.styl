@@ -109,12 +109,15 @@ body.desktop
     height 100%
     pointer-events none
     border-radius inherit
-    opacity .15
-    transition background-color .3s cubic-bezier(.25, .8, .5, 1)
+    opacity .09
+    transition background-color .3s cubic-bezier(.25, .8, .5, 1), opacity .3s cubic-bezier(.25, .8, .5, 1)
 
   .q-focusable:focus, .q-hoverable:hover
-    .q-focus-helper
+    outline 0
+    > .q-focus-helper
       background currentColor
+  .q-focusable:focus > .q-focus-helper
+    opacity 0.12
 
 .q-focus-helper
   &--rounded
