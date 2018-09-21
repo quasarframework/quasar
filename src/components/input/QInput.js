@@ -29,11 +29,12 @@ export default {
     decimals: Number,
     step: Number,
     upperCase: Boolean,
-    lowerCase: Boolean
+    lowerCase: Boolean,
+    initialShowPassword: Boolean
   },
   data () {
     return {
-      showPass: false,
+      showPass: this.initialShowPassword,
       showNumber: true,
       model: this.value,
       watcher: null,
@@ -358,7 +359,7 @@ export default {
     [].concat(this.$slots.before).concat([
       this.isTextarea ? this.__getTextarea(h) : this.__getInput(h),
 
-      (!this.disable && this.isPassword && !this.noPassToggle && this.length && h(QIcon, {
+      (!this.disable && this.isPassword && !this.noPassToggle && (this.initialShowPassword || this.length) && h(QIcon, {
         slot: 'after',
         staticClass: 'q-if-control',
         props: {
