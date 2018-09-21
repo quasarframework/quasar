@@ -16,12 +16,46 @@
             </div>
           </div>
 
-          <q-rating v-model="stars" :max="5" />
+          <q-rating v-model="stars" :max="5" size="32px" />
         </q-card-section>
 
         <q-card-section>
-          <div>$・Italian, Cafe</div>
-          <div class="text-grey">Small plates, salads & sandwiches in an intimate setting.</div>
+          <div class="text-subtitle1">$・Italian, Cafe</div>
+          <div class="text-subtitle2 text-grey">Small plates, salads & sandwiches in an intimate setting.</div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions>
+          <q-btn flat round icon="event" />
+          <q-btn flat>5:30PM</q-btn>
+          <q-btn flat>7:30PM</q-btn>
+          <q-btn flat>9:00PM</q-btn>
+          <q-btn flat color="primary">Reserve</q-btn>
+        </q-card-actions>
+      </q-card>
+
+      <q-card flat inline class="bigger">
+        <q-card-media>
+          <img src="~assets/donuts.png">
+        </q-card-media>
+
+        <q-card-section>
+          <q-btn fab-mini color="primary" icon="place" class="absolute" style="top: 0; right: 20px; transform: translateY(-50%);" />
+
+          <div class="row no-wrap items-center">
+            <div class="col text-h6 ellipsis">Flat -- Cafe Basilico</div>
+            <div class="col-auto text-grey">
+              <q-icon name="place" /> 250 ft
+            </div>
+          </div>
+
+          <q-rating v-model="stars" :max="5" size="32px" />
+        </q-card-section>
+
+        <q-card-section>
+          <div class="text-subtitle1">$・Italian, Cafe</div>
+          <div class="text-subtitle2 text-grey">Small plates, salads & sandwiches in an intimate setting.</div>
         </q-card-section>
 
         <q-separator />
@@ -52,6 +86,21 @@
         </q-card-section>
       </q-card>
 
+      <div class="inline bg-grey-9 q-pa-md">
+        <q-card dark flat>
+          <q-card-section>
+            <div class="text-h6">Our Changing Planet</div>
+            <div class="text-subtitle2">by Kurt Wagner</div>
+          </q-card-section>
+
+          <q-separator dark inset />
+
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+        </q-card>
+      </div>
+
       <q-card inline class="bg-secondary text-white">
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
@@ -79,7 +128,7 @@
             </div>
 
             <div class="col-auto">
-              <q-btn color="grey" round flat icon="more_vert">
+              <q-btn color="grey-7" round flat icon="more_vert">
                 <q-popover cover>
                   <q-list>
                     <q-item clickable v-close-overlay>

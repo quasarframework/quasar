@@ -2,14 +2,16 @@ export default {
   name: 'QCard',
   props: {
     square: Boolean,
+    dark: Boolean,
     flat: Boolean,
     inline: Boolean
   },
   computed: {
     classes () {
       return {
-        'no-border-radius': this.square,
-        'no-shadow': this.flat,
+        'q-card--dark': this.dark,
+        'q-card--square no-border-radius': this.square,
+        'q-card--flat no-shadow': this.flat,
         'inline-block': this.inline
       }
     }
