@@ -14,7 +14,6 @@ export default {
         el.style.height = `${height}px`
       }
       el.style.transition = `height ${this.duration}ms cubic-bezier(.25, .8, .50, 1)`
-      this.animating = true
     },
     __end (el, event) {
       el.style.overflowY = null
@@ -22,7 +21,6 @@ export default {
       el.style.transition = null
       this.__cleanup()
       event !== this.lastEvent && this.$emit(event)
-      this.animating = false
     },
     __cleanup () {
       clearTimeout(this.timer)
@@ -44,9 +42,9 @@ export default {
           let pos = 0
           this.el = el
 
-          if (this.animating === true) {
-            this.__cleanup()
-            pos = el.offsetHeight === el.scrollHeight ? 0 : void 0
+          if (this.animListener) {
+            pos = el.offsetHeight
+            this.animListener()
           }
           else {
             this.lastEvent = 'hide'
@@ -67,8 +65,9 @@ export default {
           let pos
           this.el = el
 
-          if (this.animating === true) {
-            this.__cleanup()
+          if (this.animListener) {
+            pos = el.offsetHeight
+            this.animListener()
           }
           else {
             this.lastEvent = 'show'
