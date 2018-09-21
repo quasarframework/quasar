@@ -4,12 +4,12 @@
       <p class="caption">Ajax Bar component captures Ajax calls automatically. This page here triggers events manually for demonstrating purposes only.</p>
 
       <q-card style="margin-top: 25px">
-        <q-card-title class="bg-primary text-center">
+        <q-card-section class="bg-primary text-center">
           <q-btn push color="orange" @click="trigger()">Trigger Event</q-btn>
-        </q-card-title>
+        </q-card-section>
 
         <p class="caption text-center">Try out some combinations for Ajax Bar.</p>
-        <q-card-main>
+        <q-card-section>
           <q-field
             label="Position"
           >
@@ -35,7 +35,7 @@
           <q-field label="Size">
             <q-slider v-model="size" :min="2" :max="20" label-always :label-value="`${size}px`" />
           </q-field>
-        </q-card-main>
+        </q-card-section>
       </q-card>
     </div>
     <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" />

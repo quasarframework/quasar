@@ -6,8 +6,8 @@
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toggle v-model="extraRow" color="amber" dark />
           <q-toolbar-title>
-            Header
-            <span slot="subtitle">The Subtiiiitleeee</span>
+            Header g
+            <span slot="subtitle">The Subtitle g</span>
           </q-toolbar-title>
           <q-btn round dense flat class="relative-position q-mr-md" icon="announcement" to="/">
             <q-chip floating color="red" text-color="white">1</q-chip>

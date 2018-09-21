@@ -2,53 +2,53 @@
   <div>
     <div class="layout-padding" :class="{ 'test-height': testHeight }">
       <q-card class="q-my-md">
-        <q-card-title>
-          Headings
-          <div slot="right" class="row">
-            <q-select v-model="testFont" :options="testFonts" hide-underline />
-            <q-toggle v-model="testHeight" left-label label="Test line heights" />
-          </div>
-        </q-card-title>
-        <q-card-separator />
-        <q-card-main>
+        <q-card-section class="row items-center">
+          <div class="text-h6">Headings</div>
+          <q-space />
+          <q-select v-model="testFont" :options="testFonts" hide-underline />
+          <q-toggle v-model="testHeight" left-label label="Test line heights" />
+        </q-card-section>
+        <q-separator />
+        <q-card-section>
           <div v-for="heading in headings" class="row items-center q-mb-lg" :key="heading.label">
             <div class="col-sm-3 col-12">
               <q-chip color="primary" text-color="white" square>.{{ heading.cls }}</q-chip>
               <q-chip color="secondary" text-color="white" square v-if="heading.equivalent">{{ heading.equivalent }}</q-chip>
             </div>
             <div
-              class="col-sm-9 col-12 q-pl-md q-pt-md"
+              class="col-sm-9 col-12"
               :class="heading.cls"
               :style="{ fontFamily: testHeight ? testFont : null }"
             >
               {{ heading.label }}{{ testText }}
             </div>
           </div>
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
       <q-card class="q-my-md">
-        <q-card-title>
-          Weights
-        </q-card-title>
-        <q-card-separator />
-        <q-card-main>
+        <q-card-section>
+          <div class="text-h6">Weights</div>
+        </q-card-section>
+        <q-separator />
+        <q-card-section>
           <div v-for="weight in weights" class="row items-center q-mb-md" :key="weight">
             <div class="col-sm-3 col-12">
-              <q-chip color="primary" square>.text-weight-{{ weight }}</q-chip>
+              <q-chip color="primary" text-color="white" square>.text-weight-{{ weight }}</q-chip>
             </div>
             <div class="col-sm-9 col-12 q-mb-none q-pl-md q-pt-sm q-pb-sm">
               <div :class="`text-weight-${weight}`"> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
             </div>
           </div>
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
       <q-card class="q-my-md">
-        <q-card-title>
-          Blockquotes
-        </q-card-title>
-        <q-card-main>
+        <q-card-section>
+          <div class="text-h6">Blockquotes</div>
+        </q-card-section>
+        <q-separator />
+        <q-card-section>
           <blockquote>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
             <small>Someone famous for <cite title="Quasar Framework">Quasar Framework</cite></small>
@@ -58,14 +58,15 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
             <small>Someone famous for <cite title="Quasar Framework">Quasar Framework</cite></small>
           </blockquote>
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
       <q-card class="q-my-md">
-        <q-card-title>
-          Definition Lists
-        </q-card-title>
-        <q-card-main>
+        <q-card-section>
+          <div class="text-h6">Definition Lists</div>
+        </q-card-section>
+        <q-separator />
+        <q-card-section>
           <p class="caption">Vertical</p>
 
           <dl>
@@ -88,16 +89,17 @@
             <dt>Malesuada porta</dt>
             <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
           </dl>
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
       <q-card class="q-my-md">
-        <q-card-title>
-          Links
-        </q-card-title>
-        <q-card-main>
+        <q-card-section>
+          <div class="text-h6">Links</div>
+        </q-card-section>
+        <q-separator />
+        <q-card-section>
           <p>Links: <a>Some link</a> and <a>Some other link</a>.</p>
-        </q-card-main>
+        </q-card-section>
       </q-card>
     </div>
   </div>
@@ -136,7 +138,8 @@ export default {
         { label: 'Subtitle 2', cls: 'text-subtitle2' },
         { label: 'Body 1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.', cls: 'text-body1' },
         { label: 'Body 2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate aliquid ad quas sunt voluptatum officia dolorum cumque, possimus nihil molestias sapiente necessitatibus dolor saepe inventore, soluta id accusantium voluptas beatae.', cls: 'text-body2' },
-        { label: 'Caption text', cls: 'text-caption' }
+        { label: 'Caption text', cls: 'text-caption' },
+        { label: 'Overline', cls: 'text-overline' }
       ],
       weights: [
         'thin', 'light', 'regular', 'medium', 'bold', 'bolder'

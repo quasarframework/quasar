@@ -41,7 +41,7 @@ function init ({ Vue }) {
         }
 
         const notif = Object.assign(
-          {},
+          { textColor: 'white' },
           defaults,
           typeof config === 'string'
             ? { message: config }
@@ -149,7 +149,7 @@ function init ({ Vue }) {
             ref: `notif_${notif.__uid}`,
             key: notif.__uid,
             staticClass: 'q-notification',
-            'class': `bg-${notif.color} text-${notif.textColor || 'white'}`,
+            'class': `bg-${notif.color} text-${notif.textColor}`,
             props: {
               inlineActions: notif.actions && notif.actions.length === 1,
               dense: true,

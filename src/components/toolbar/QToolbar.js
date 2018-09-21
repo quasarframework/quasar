@@ -1,15 +1,11 @@
 export default {
   name: 'QToolbar',
   props: {
-    color: String,
-    textColor: String,
     glossy: Boolean
   },
   computed: {
     classes () {
       return {
-        [`bg-${this.color}`]: this.color,
-        [`text-${this.textColor}`]: this.textColor,
         'glossy': this.glossy
       }
     }

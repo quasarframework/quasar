@@ -267,11 +267,16 @@
 
       <q-card inline>
         <q-item>
-          <q-item-side avatar="/statics/boy-avatar.png" />
-          <q-item-main>
-            <q-item-tile label>Title</q-item-tile>
-            <q-item-tile sublabel>Subhead</q-item-tile>
-          </q-item-main>
+          <q-item-section avatar>
+            <q-avatar>
+              <img src="/statics/boy-avatar.png">
+            </q-avatar>
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Title</q-item-label>
+            <q-item-label caption>Subhead</q-item-label>
+          </q-item-section>
         </q-item>
 
         <q-card-media>
@@ -295,7 +300,7 @@
         </q-card-media>
 
         <q-list>
-          <q-item>
+          <q-item clickable>
             <q-item-section avatar>
               <q-icon color="primary" name="local_bar" />
             </q-item-section>
@@ -306,7 +311,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item clickable>
             <q-item-section avatar>
               <q-icon color="red" name="local_gas_station" />
             </q-item-section>
@@ -317,7 +322,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item clickable>
             <q-item-section avatar>
               <q-icon color="amber" name="local_movies" />
             </q-item-section>
@@ -333,9 +338,10 @@
       <q-card inline>
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
         </q-card-section>
 
-        <q-list separator>
+        <q-list>
           <q-collapsible icon="explore" label="First">
             <div>
               Lorem ipsum dolor sit amet...
