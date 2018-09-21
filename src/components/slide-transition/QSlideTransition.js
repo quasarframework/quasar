@@ -27,10 +27,11 @@ export default {
     __cleanup () {
       clearTimeout(this.timer)
       this.el.removeEventListener('transitionend', this.animListener)
+      delete this.animListener
     }
   },
   beforeDestroy () {
-    this.animating && this.__cleanup()
+    this.animListener && this.animListener()
   },
   render (h) {
     return h('transition', {
@@ -53,12 +54,12 @@ export default {
 
           this.__begin(el, pos)
 
+          this.animListener = () => {
+            this.__end(el, 'show')
+            done()
+          }
           this.timer = setTimeout(() => {
             el.style.height = `${el.scrollHeight}px`
-            this.animListener = () => {
-              this.__end(el, 'show')
-              done()
-            }
             el.addEventListener('transitionend', this.animListener)
           }, 100)
         },
@@ -76,12 +77,12 @@ export default {
 
           this.__begin(el, pos)
 
+          this.animListener = () => {
+            this.__end(el, 'hide')
+            done()
+          }
           this.timer = setTimeout(() => {
             el.style.height = 0
-            this.animListener = () => {
-              this.__end(el, 'hide')
-              done()
-            }
             el.addEventListener('transitionend', this.animListener)
           }, 100)
         }
