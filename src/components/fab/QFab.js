@@ -20,11 +20,12 @@ export default {
     direction: {
       type: String,
       default: 'right'
-    }
+    },
+    persistent: Boolean
   },
   watch: {
     $route () {
-      this.hide()
+      !this.persistent && this.hide()
     }
   },
   created () {
