@@ -249,6 +249,7 @@ export default {
       'class': dark ? 'bg-dark' : null,
       props: {
         fit: true,
+        keepOnScreen: true,
         anchorClick: false,
         maxHeight: this.maxHeight,
         noFocus: true,
