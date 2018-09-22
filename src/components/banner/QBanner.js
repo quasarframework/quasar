@@ -1,15 +1,10 @@
 export default {
   name: 'QBanner',
+
   props: {
     inlineActions: Boolean,
     dense: Boolean,
     rounded: Boolean
-  },
-
-  computed: {
-    classes () {
-      return {}
-    }
   },
 
   render (h) {
@@ -23,6 +18,7 @@ export default {
         'generic-border-radius': this.rounded
       }
     }, [
+
       h('div', {
         staticClass: 'q-banner__avatar col-auto row items-center'
       }, this.$slots.avatar),
@@ -35,6 +31,7 @@ export default {
         staticClass: 'q-banner__actions row items-center justify-end',
         'class': this.inlineActions ? 'col-auto' : 'col-12'
       }, actions)) || void 0
+
     ])
   }
 }

@@ -17,6 +17,6 @@ if (!fs.existsSync(dest)) {
 }
 
 opn(
-  resolve(__dirname, '../dev-umd/index.mat.umd.html'),
+  resolve(__dirname, '../dev-umd/index.umd.html'),
   { wait: false }
 )

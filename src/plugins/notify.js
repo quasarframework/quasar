@@ -1,4 +1,5 @@
-import QBanner from '../components/banner/QBanner.js'
+import QItem from '../components/list/QItem.js'
+import QItemSection from '../components/list/QItemSection.js'
 import QBtn from '../components/btn/QBtn.js'
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
@@ -103,7 +104,7 @@ function init ({ Vue }) {
         if (notif.timeout) {
           notif.__timeout = setTimeout(() => {
             close()
-          }, notif.timeout + /* show duration */ 1000)
+          }, notif.timeout + /* show duration */ 9991000)
         }
 
         const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
@@ -145,31 +146,31 @@ function init ({ Vue }) {
             mode: 'out-in'
           }
         }, this.notifs[pos].map(notif => {
-          return h(QBanner, {
+          return h(QItem, {
             ref: `notif_${notif.__uid}`,
             key: notif.__uid,
             staticClass: 'q-notification',
-            'class': `bg-${notif.color} text-${notif.textColor}`,
+            'class': `generic-border-radius bg-${notif.color} text-${notif.textColor}`,
             props: {
-              inlineActions: notif.actions && notif.actions.length === 1,
-              dense: true,
-              rounded: true
+              dense: true
             }
           }, [
-            notif.icon ? h(QIcon, {
-              slot: 'avatar',
-              props: { name: notif.icon }
-            }) : null,
-            notif.avatar ? h(QAvatar, { slot: 'avatar' }, [
-              h('img', { attrs: { src: notif.avatar } })
-            ]) : null,
-            notif.message,
+            notif.icon || notif.avatar
+              ? h(QItemSection, { 'class': `text-${notif.textColor}`, props: { avatar: true } }, [
+                notif.icon ? h(QIcon, {
+                  props: { name: notif.icon }
+                }) : null,
+                notif.avatar ? h(QAvatar, [
+                  h('img', { attrs: { src: notif.avatar } })
+                ]) : null
+              ])
+              : null,
+            h(QItemSection, [ notif.message ]),
             notif.actions
-              ? notif.actions.map(action => h(QBtn, {
-                slot: 'action',
+              ? h(QItemSection, { 'class': `text-${notif.textColor}`, props: { side: true } }, notif.actions.map(action => h(QBtn, {
                 props: { flat: true, ...action },
                 on: { click: action.handler }
-              }))
+              })))
               : null
           ])
         }))

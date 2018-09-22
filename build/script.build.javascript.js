@@ -130,13 +130,11 @@ function genConfig (opts) {
   opts.rollup.output.banner = buildConf.banner
   opts.rollup.output.name = opts.rollup.output.name || 'Quasar'
 
-  if (opts.rollup.output.format === 'umd') {
-    opts.rollup.input.external = opts.rollup.input.external || []
-    opts.rollup.input.external.push('vue')
+  opts.rollup.input.external = opts.rollup.input.external || []
+  opts.rollup.input.external.push('vue')
 
-    opts.rollup.output.globals = opts.rollup.output.globals || {}
-    opts.rollup.output.globals.vue = 'Vue'
-  }
+  opts.rollup.output.globals = opts.rollup.output.globals || {}
+  opts.rollup.output.globals.vue = 'Vue'
 
   return opts
 }

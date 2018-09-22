@@ -9,13 +9,13 @@
 
     <title>Quasar UMD test</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet" type="text/css">
-    <link href="dist/umd/quasar.mat.css" rel="stylesheet" type="text/css">
+    <link href="dist/quasar.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="q-app">
       <q-layout view="lHh Lpr fff">
         <q-layout-header>
-          <q-toolbar class="glossy">
+          <q-toolbar class="bg-primary glossy">
             <q-btn flat round dense @click="drawerState = !drawerState" icon="menu"></q-btn>
 
             <q-toolbar-title>
@@ -62,8 +62,8 @@
       </q-layout>
     </div>
 
-    <script src="dist/umd/quasar.ie.polyfills.umd.min.js"></script>
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="dist/quasar.ie.polyfills.umd.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
     <script>
       // optional
       window.quasarConfig = {
@@ -72,8 +72,8 @@
         }
       }
     </script>
-    <script src="dist/umd/quasar.mat.umd.js"></script>
-    <script src="dist/umd/i18n.es.umd.min.js"></script>
+    <script src="dist/quasar.umd.js"></script>
+    <script src="dist/i18n/es.umd.min.js"></script>
 
     <script>
       Quasar.i18n.set(Quasar.i18n.es)
