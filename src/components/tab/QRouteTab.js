@@ -1,9 +1,9 @@
-import { RouterLinkMixin, routerLinkEvent, routerLinkEventName } from '../../utils/router-link.js'
+import { RouterLinkMixin, routerLinkEvent, routerLinkEventName } from '../../mixins/router-link.js'
 import TabMixin from './tab-mixin.js'
 
 export default {
   name: 'QRouteTab',
-  mixins: [TabMixin, RouterLinkMixin],
+  mixins: [ TabMixin, RouterLinkMixin ],
   inject: {
     selectTabRouter: {}
   },
@@ -22,10 +22,10 @@ export default {
     },
     checkIfSelected () {
       this.$nextTick(() => {
-        if (this.$el.classList.contains('q-router-link-exact-active')) {
+        if (this.isExactActiveRoute(this.$el)) {
           this.selectTabRouter({ value: this.name, selectable: true, exact: true })
         }
-        else if (this.$el.classList.contains('q-router-link-active')) {
+        else if (this.isActiveRoute(this.$el)) {
           const path = this.$router.resolve(this.to, undefined, this.append)
           this.selectTabRouter({ value: this.name, selectable: true, priority: path.href.length })
         }
@@ -42,13 +42,8 @@ export default {
     return h('router-link', {
       props: {
         tag: 'a',
-        to: this.to,
-        exact: this.exact,
-        append: this.append,
-        replace: this.replace,
         event: routerLinkEventName,
-        activeClass: 'q-router-link-active',
-        exactActiveClass: 'q-router-link-exact-active'
+        ...this.routerLinkProps
       },
       attrs: {
         tabindex: -1

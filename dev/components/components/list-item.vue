@@ -106,9 +106,47 @@
         </q-item>
       </q-list>
 
-      <q-list dense bordered class="q-my-md" :dark="dark">
-        <q-item-label header>Dense</q-item-label>
+      <p class="caption">Links</p>
+      <q-list bordered class="q-my-md" :dark="dark">
+        <q-item to="/" exact>
+          <q-item-section avatar>
+            <q-icon name="bluetooth" />
+          </q-item-section>
+          <q-item-section>Inactive link</q-item-section>
+        </q-item>
 
+        <q-item :to="$route.path">
+          <q-item-section avatar>
+            <q-icon name="signal_wifi_off" />
+          </q-item-section>
+          <q-item-section>Active link</q-item-section>
+        </q-item>
+
+        <q-item to="/" exact>
+          <q-item-section avatar>
+            <q-icon name="bluetooth" />
+          </q-item-section>
+          <q-item-section>Inactive link</q-item-section>
+        </q-item>
+
+        <q-item :to="$route.path">
+          <q-item-section avatar>
+            <q-icon name="signal_wifi_off" />
+          </q-item-section>
+          <q-item-section>Active link</q-item-section>
+        </q-item>
+
+        <!-- check .my-link CSS class below -->
+        <q-item to="/components/list-item" active-class="my-link">
+          <q-item-section avatar>
+            <q-icon name="signal_wifi_off" />
+          </q-item-section>
+          <q-item-section>Customized active link</q-item-section>
+        </q-item>
+      </q-list>
+
+      <p class="caption">Dense</p>
+      <q-list dense bordered class="q-my-md" :dark="dark">
         <q-item clickable class="text-primary">
           <q-item-section>Single line item</q-item-section>
         </q-item>
@@ -525,3 +563,13 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+@import '~variables'
+
+.my-link
+  color white
+  background $primary
+  .q-item__section--avatar .q-icon
+    color white
+</style>

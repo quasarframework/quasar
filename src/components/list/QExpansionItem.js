@@ -7,7 +7,7 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 
 import QSeparator from '../separator/QSeparator.js'
 
-import { RouterLinkMixin } from '../../utils/router-link.js'
+import { RouterLinkMixin } from '../../mixins/router-link.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
@@ -24,6 +24,7 @@ export default {
     label: String,
     caption: String,
     dark: Boolean,
+    dense: Boolean,
 
     expandIcon: String,
     duration: Number,
@@ -63,17 +64,18 @@ export default {
       ]
     },
     isClickable () {
-      return this.to !== void 0 || !this.expandIconToggle
+      return this.hasRouterLink || !this.expandIconToggle
     }
   },
 
   methods: {
     __toggleItem (e) {
-      !this.expandIconToggle && this.toggle(e)
+      !this.hasRouterLink && this.toggle(e)
     },
     __toggleIcon (e) {
-      if (this.to !== void 0 || this.expandIconToggle) {
+      if (this.hasRouterLink || this.expandIconToggle) {
         stopAndPrevent(e)
+        this.$refs.item.$el.blur()
         this.toggle(e)
       }
     },
@@ -138,27 +140,27 @@ export default {
       child[this.switchToggleSide ? 'unshift' : 'push'](this.__getToggleIcon(h))
 
       const data = {
+        ref: 'item',
         style: this.headerStyle,
         'class': this.headerClass,
         props: {
           dark: this.dark,
           disable: this.disable,
+          dense: this.dense,
           inset: this.headerInset && !this.switchToggleSide
         }
       }
 
       if (this.isClickable) {
+        data.props.clickable = true
         data.on = {
           click: this.__toggleItem
         }
 
-        Object.assign(data.props, {
-          clickable: true,
-          to: this.to,
-          exact: this.exact,
-          append: this.append,
-          replace: this.replace
-        })
+        this.hasRouterLink && Object.assign(
+          data.props,
+          this.routerLinkProps
+        )
       }
 
       return h(QItem, data, child)

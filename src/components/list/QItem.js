@@ -1,10 +1,8 @@
-import { routerLinkProps } from '../../utils/router-link.js'
+import { RouterLinkMixin } from '../../mixins/router-link.js'
 
 export default {
   name: 'QItem',
-  mixins: [{
-    props: routerLinkProps
-  }],
+  mixins: [ RouterLinkMixin ],
   props: {
     clickable: Boolean,
     dense: Boolean,
@@ -24,7 +22,7 @@ export default {
     isClickable () {
       return !this.disable && (
         this.clickable ||
-        this.to !== void 0 ||
+        this.hasRouterLink ||
         this.tag === 'a' ||
         this.tag === 'label'
       )
@@ -64,14 +62,16 @@ export default {
       data.attrs = {
         tabindex: this.tabindex
       }
-      data.on = {
+      data[this.hasRouterLink ? 'nativeOn' : 'on'] = {
         click: this.__onClick,
         keydown: this.__onKeydown
       }
     }
 
-    if (this.to !== void 0) {
-      data.props = Object.assign({}, this.$props, { tag: 'a' })
+    if (this.hasRouterLink) {
+      data.tag = 'a'
+      data.props = this.routerLinkProps
+
       return h('router-link', data, this.__getContent(h))
     }
 

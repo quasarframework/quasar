@@ -55,16 +55,12 @@
         </q-card>
       </q-expansion-item>
 
-      <q-expansion-item expand-separator to="/" exact icon="home" label="Link to home route">
-        <q-card>
-          <q-card-section>
-            {{ lorem }}
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-
       <q-expansion-item expand-separator>
         <template slot="header">
+          <q-item-section avatar>
+            <q-avatar icon="bluetooth" color="primary" text-color="white" />
+          </q-item-section>
+
           <q-item-section>
             <div>
               <q-chip color="secondary" text-color="white" class="q-mr-sm">
@@ -117,7 +113,47 @@
         </q-card>
       </q-expansion-item>
 
-      <q-expansion-item label="Jim">
+      <q-expansion-item expand-separator label="Jim">
+        <q-card>
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-expansion-item expand-separator dense label="Dense" icon="settings">
+        <div class="q-pa-sm">
+          {{ lorem }}
+        </div>
+      </q-expansion-item>
+    </q-list>
+
+    <p class="caption">Links</p>
+    <q-list bordered>
+      <q-expansion-item expand-separator to="/" exact icon="home" label="Inactive link">
+        <q-card>
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-expansion-item expand-separator :to="$route.path" icon="home" label="Active link">
+        <q-card>
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <!-- check .my-expand-link CSS class below -->
+      <q-expansion-item
+        expand-separator
+        :to="$route.path"
+        active-class="my-expand-link"
+        icon="home"
+        label="Customized active link"
+      >
         <q-card>
           <q-card-section>
             {{ lorem }}
@@ -127,7 +163,7 @@
     </q-list>
 
     <p class="caption">Make use of events</p>
-    <q-expansion-item class="shadow-1" style="border-radius: 30px" indent icon="explore" label="Counter" @show="startCounting" @hide="stopCounting">
+    <q-expansion-item class="shadow-1" style="border-radius: 30px" icon="explore" label="Counter" @show="startCounting" @hide="stopCounting">
       <q-card>
         <q-card-section>
           Counting: <q-chip dense color="secondary" text-color="white">{{ counter }}</q-chip>
@@ -288,7 +324,17 @@
 
       <q-separator />
 
-      <q-expansion-item group="somegroup" icon="shopping_cart" label="Third">
+      <q-expansion-item group="somegroup" icon="shopping_cart" label="Third" header-class="text-primary">
+        <q-card>
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-separator />
+
+      <q-expansion-item group="somegroup" icon="bluetooth" label="Fourth">
         <q-card>
           <q-card-section>
             {{ lorem }}
@@ -436,3 +482,13 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+@import '~variables'
+
+.my-expand-link
+  color $secondary
+  background alpha($secondary, .1)
+  .q-item__section--side .q-icon
+    color $secondary
+</style>

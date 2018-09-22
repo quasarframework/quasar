@@ -6,7 +6,7 @@ import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QBtn',
-  mixins: [BtnMixin],
+  mixins: [ BtnMixin ],
   props: {
     percentage: Number,
     darkPercentage: Boolean,
@@ -53,6 +53,7 @@ export default {
   methods: {
     click (e) {
       this.__cleanup()
+      this.$el.blur()
 
       if (this.to !== void 0 || this.isDisabled) {
         e && stopAndPrevent(e)
@@ -159,7 +160,6 @@ export default {
       directives: this.hasRipple
         ? [{
           name: 'ripple',
-          value: true,
           modifiers: { center: this.isRound }
         }]
         : null
