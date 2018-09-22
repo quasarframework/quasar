@@ -14,7 +14,7 @@
         {value: 'cloud', label: 'A Material icon'},
         {value: 'mdi-airballoon', label: 'A MDI icon'},
         {value: 'fab fa-github', label: 'A Font Awesome icon'},
-        {value: 'ion-airplane', label: 'A Ionicon (theme dependency)'},
+        {value: 'ion-airplane', label: 'A Ionicon (platform dependent)'},
         {value: 'ion-md-airplane', label: 'A Ionicon (md)'},
         {value: 'ion-ios-airplane', label: 'A Ionicon (ios)'}
       ]"

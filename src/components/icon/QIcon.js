@@ -25,7 +25,7 @@ export default {
         cls = `ionicons ${icon}`
       }
       else if (icon.startsWith('ion-')) {
-        cls = `ionicons ion-md${icon.substr(3)}`
+        cls = `ionicons ion-${this.$q.platform.is.ios ? 'ios' : 'md'}${icon.substr(3)}`
       }
       else if (icon.startsWith('mdi-')) {
         cls = `mdi ${icon}`
