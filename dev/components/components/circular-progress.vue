@@ -13,6 +13,7 @@
       <q-range v-model="range" :min="0" :max="360" label />
       <div>
         <q-toggle v-model="reverse" label="Reverse" />
+        <q-toggle v-model="showValue" label="Show Value" />
       </div>
       <div>
         <q-btn @click="value = 10" label="Set value to 10" flat color="primary" class="q-mr-sm" />
@@ -24,6 +25,7 @@
       <q-circular-progress
         class="q-ma-sm"
         :value="value"
+        :show-value="showValue"
       />
 
       <q-circular-progress
@@ -35,6 +37,7 @@
         :min="range.min"
         :max="range.max"
         :reverse="reverse"
+        :show-value="showValue"
         color="orange"
         center-color="grey-8"
         track-color="transparent"
@@ -50,6 +53,7 @@
         :min="range.min"
         :max="range.max"
         :reverse="reverse"
+        :show-value="showValue"
         color="grey-8"
         text-color="white"
         track-color="orange"
@@ -64,6 +68,7 @@
         :min="range.min"
         :max="range.max"
         :reverse="reverse"
+        :show-value="showValue"
         color="orange"
       />
 
@@ -78,6 +83,7 @@
         :max="range.max"
         :reverse="reverse"
         :font-size="32"
+        :show-value="showValue"
         color="orange"
         text-color="white"
         center-color="grey-8"
@@ -98,6 +104,7 @@ export default {
         min: 0,
         max: 100
       },
+      showValue: true,
       reverse: false
     }
   },

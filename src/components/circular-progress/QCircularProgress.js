@@ -1,5 +1,3 @@
-import { between } from '../../utils/format.js'
-
 export default {
   name: 'QCircularProgress',
   props: {
@@ -36,17 +34,11 @@ export default {
       type: Number,
       default: 0
     },
+    showValue: Boolean,
     reverse: Boolean,
     noMotion: Boolean
   },
   computed: {
-    progress () {
-      return between(
-        (this.value - this.min) / (this.max - this.min),
-        this.min,
-        this.max
-      )
-    },
     style () {
       return {
         width: this.size + 'px',
@@ -82,7 +74,8 @@ export default {
       return Math.round(this.circumference * 1000) / 1000
     },
     strokeDashOffset () {
-      return (this.dir * (1 - this.progress)) * this.circumference + 'px'
+      const progress = (this.value - this.min) / (this.max - this.min)
+      return (this.dir * (1 - progress)) * this.circumference + 'px'
     },
     strokeWidth () {
       return this.thickness / this.size * this.viewBox
@@ -118,7 +111,7 @@ export default {
           viewBox: this.viewBoxAttr
         }
       }, [
-        (this.centerColor && this.centerColor !== 'transparent' && h('circle', {
+        this.centerColor && this.centerColor !== 'transparent' ? h('circle', {
           'class': `text-${this.centerColor}`,
           attrs: {
             fill: 'currentColor',
@@ -126,11 +119,11 @@ export default {
             cx: this.viewBox,
             cy: this.viewBox
           }
-        })) || void 0,
+        }) : null,
 
-        (this.trackColor && this.trackColor !== 'transparent' && this.__getCircle(h, {
+        this.trackColor && this.trackColor !== 'transparent' ? this.__getCircle(h, {
           thickness: this.strokeWidth, offset: 0, color: this.trackColor
-        })) || void 0,
+        }) : null,
 
         this.__getCircle(h, {
           thickness: this.strokeWidth, offset: this.strokeDashOffset, color: this.color
@@ -139,11 +132,9 @@ export default {
 
       h('div', {
         staticClass: 'q-circular-progress__text absolute-full row flex-center content-center'
-      },
-      this.$slots.default
-        ? this.$slots.default
-        : [ h('div', [ this.value ]) ]
-      )
+      }, this.$slots.default || (
+        this.showValue ? [ h('div', [ this.value ]) ] : null
+      ))
     ])
   }
 }
