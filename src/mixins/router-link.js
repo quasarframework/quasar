@@ -48,11 +48,11 @@ export const RouterLinkMixin = {
 
   methods: {
     isExactActiveRoute (el) {
-      return el.classList.contains('q-router-link--exact-active')
+      return el.classList.contains(this.exactActiveClass || 'q-router-link--exact-active')
     },
 
     isActiveRoute (el) {
-      return el.classList.contains('q-router-link--active')
+      return el.classList.contains(this.activeClass || 'q-router-link--active')
     }
   }
 }

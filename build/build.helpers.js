@@ -41,11 +41,9 @@ function addProps (comp, list) {
 
 const propExceptions = {
   'q-chips-input': ['max-height'],
-  'q-collapsible': ['link'],
   'q-search': ['max-value']
 }
 const internalComponents = [
-  'q-item-wrapper',
   'q-input-frame'
 ]
 function applyExceptions (cache) {
