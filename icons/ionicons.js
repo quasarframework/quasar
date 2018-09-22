@@ -44,9 +44,6 @@ export default {
   chipsInput: {
     add: 'ion-send'
   },
-  collapsible: {
-    icon: 'ion-arrow-dropdown'
-  },
   datetime: {
     arrowLeft: 'ion-ios-arrow-back',
     arrowRight: 'ion-ios-arrow-forward'
@@ -81,6 +78,9 @@ export default {
     code: 'ion-code',
     size: 'format_size',
     font: 'font_download'
+  },
+  expansionItem: {
+    icon: 'ion-arrow-dropdown'
   },
   fab: {
     icon: 'ion-add',

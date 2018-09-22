@@ -19,10 +19,7 @@ export const routerLinkProps = {
   to: [String, Object],
   exact: Boolean,
   append: Boolean,
-  replace: Boolean,
-  event: [String, Array],
-  activeClass: String,
-  exactActiveClass: String
+  replace: Boolean
 }
 
 export { evt as routerLinkEvent }

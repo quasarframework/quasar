@@ -2,6 +2,7 @@ export default {
   name: 'QSeparator',
   props: {
     dark: Boolean,
+    spaced: Boolean,
     inset: [Boolean, String],
     vertical: Boolean,
     color: String
@@ -12,6 +13,7 @@ export default {
         [`bg-${this.color}`]: this.color,
         'q-separator--dark': this.dark,
         'q-separator--inline': this.inline,
+        'q-separator--spaced': this.spaced,
         'q-separator--inset': this.inset === true,
         'q-separator--item-inset': this.inset === 'item',
         'q-separator--item-thumbnail-inset': this.inset === 'item-thumbnail',

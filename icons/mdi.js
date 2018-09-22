@@ -44,9 +44,6 @@ export default {
   chipsInput: {
     add: 'mdi-send'
   },
-  collapsible: {
-    icon: 'mdi-menu-down'
-  },
   datetime: {
     arrowLeft: 'mdi-chevron-left',
     arrowRight: 'mdi-chevron-right'
@@ -81,6 +78,9 @@ export default {
     code: 'mdi-code',
     size: 'mdi-format-size',
     font: 'mdi-format-font'
+  },
+  expansionItem: {
+    icon: 'mdi-chevron-down'
   },
   fab: {
     icon: 'mdi-plus',

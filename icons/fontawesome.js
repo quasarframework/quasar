@@ -44,9 +44,6 @@ export default {
   chipsInput: {
     add: 'far fa-paper-plane'
   },
-  collapsible: {
-    icon: 'fas fa-caret-down'
-  },
   datetime: {
     arrowLeft: 'fas fa-chevron-left',
     arrowRight: 'fas fa-chevron-right'
@@ -81,6 +78,9 @@ export default {
     code: 'fas fa-code',
     size: 'fas fa-text-height',
     font: 'fas fa-font'
+  },
+  expansionItem: {
+    icon: 'fas fa-chevron-down'
   },
   fab: {
     icon: 'fas fa-plus',

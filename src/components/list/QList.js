@@ -3,6 +3,7 @@ export default {
   props: {
     bordered: Boolean,
     dense: Boolean,
+    separator: Boolean,
     dark: Boolean
   },
   computed: {
@@ -10,6 +11,7 @@ export default {
       return {
         'q-list--bordered': this.bordered,
         'q-list--dense': this.dense,
+        'q-list--separator': this.separator,
         'q-list--dark': this.dark
       }
     }

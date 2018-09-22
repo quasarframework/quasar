@@ -2,6 +2,7 @@
   border none
   background rgba(0, 0, 0, .12)
   margin 0
+  transition background .3s, opacity .3s
 
   &--dark
     background rgba(255, 255, 255, .48)
@@ -12,6 +13,9 @@
     min-height 1px
     width 100%
 
+    &.q-separator--spaced
+      margin-top 8px
+      margin-bottom 8px
     &.q-separator--inset
       margin-left 16px
       margin-right 16px
@@ -31,6 +35,9 @@
     height inherit
     min-height 100%
 
+    &.q-separator--spaced
+      margin-left 8px
+      margin-right 8px
     &.q-separator--inset
       margin-top 8px
       margin-bottom 8px

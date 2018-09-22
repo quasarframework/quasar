@@ -17,21 +17,25 @@ export default {
     tag: {
       type: String,
       default: 'div'
-    }
+    },
+    disable: Boolean
   },
   computed: {
     isClickable () {
-      return this.clickable ||
+      return !this.disable && (
+        this.clickable ||
         this.to !== void 0 ||
         this.tag === 'a' ||
         this.tag === 'label'
+      )
     },
     classes () {
       return {
         'q-item--clickable q-link cursor-pointer q-focusable q-hoverable': this.isClickable,
         'q-item--dense': this.dense,
         'q-item--inset': this.inset,
-        'q-item--dark': this.dark
+        'q-item--dark': this.dark,
+        'disabled': this.disable
       }
     }
   },
@@ -52,7 +56,7 @@ export default {
   },
   render (h) {
     const data = {
-      staticClass: 'q-item relative-position row no-wrap',
+      staticClass: 'q-item q-item-type relative-position row',
       'class': this.classes
     }
 

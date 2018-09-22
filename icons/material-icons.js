@@ -44,9 +44,6 @@ export default {
   chipsInput: {
     add: 'send'
   },
-  collapsible: {
-    icon: 'arrow_drop_down'
-  },
   datetime: {
     arrowLeft: 'chevron_left',
     arrowRight: 'chevron_right'
@@ -81,6 +78,9 @@ export default {
     code: 'code',
     size: 'format_size',
     font: 'font_download'
+  },
+  expansionItem: {
+    icon: 'keyboard_arrow_down'
   },
   fab: {
     icon: 'add',

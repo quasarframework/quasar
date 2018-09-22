@@ -1,17 +1,27 @@
 <template>
   <div :class="dark ? 'bg-black text-white' : ''">
     <div class="layout-padding" style="max-width: 500px">
-      <q-item tag="label" :dark="dark">
+      <q-item tag="label" dark class="q-my-sm bg-primary shadow-1" style="border-radius: 30px">
         <q-item-section>
           <q-item-label>Dark background</q-item-label>
         </q-item-section>
 
         <q-item-section side>
-          <q-toggle v-model="dark" color="primary" :dark="dark" />
+          <q-toggle v-model="dark" color="tertiary" :dark="dark" />
         </q-item-section>
       </q-item>
 
-      <q-list bordered class="q-my-md" :dark="dark">
+      <q-item tag="label" dark class="q-my-sm bg-secondary shadow-1" style="border-radius: 30px">
+        <q-item-section>
+          <q-item-label>Separator</q-item-label>
+        </q-item-section>
+
+        <q-item-section side>
+          <q-toggle v-model="separator" color="tertiary" :dark="dark" />
+        </q-item-section>
+      </q-item>
+
+      <q-list bordered class="q-my-md" :dark="dark" :separator="separator">
         <q-item clickable class="text-primary">
           <q-item-section>Single line item</q-item-section>
         </q-item>
@@ -32,6 +42,10 @@
             <q-icon name="signal_wifi_off" />
           </q-item-section>
           <q-item-section>List item</q-item-section>
+        </q-item>
+
+        <q-item clickable inset>
+          <q-item-section>Inset list item</q-item-section>
         </q-item>
 
         <q-item clickable>
@@ -114,7 +128,7 @@
           <q-item-section>List item</q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" />
+        <q-separator spaced :dark="dark" />
         <q-item-label header>Dense</q-item-label>
 
         <q-item clickable>
@@ -231,7 +245,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" />
+        <q-separator spaced :dark="dark" />
         <q-item-label header>Section</q-item-label>
 
         <q-item>
@@ -241,7 +255,7 @@
           <q-item-section>List item</q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" inset="item" />
+        <q-separator spaced :dark="dark" inset="item" />
 
         <q-item>
           <q-item-section top avatar>
@@ -254,7 +268,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" inset="item" />
+        <q-separator spaced :dark="dark" inset="item" />
 
         <q-item>
           <q-item-section top avatar>
@@ -267,7 +281,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" inset="item" />
+        <q-separator spaced :dark="dark" inset="item" />
 
         <q-item>
           <q-item-section top avatar>
@@ -282,7 +296,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" inset="item" />
+        <q-separator spaced :dark="dark" inset="item" />
 
         <q-item>
           <q-item-section top avatar>
@@ -297,7 +311,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" inset="item-thumbnail" />
+        <q-separator spaced :dark="dark" inset="item-thumbnail" />
 
         <q-item>
           <q-item-section thumbnail>
@@ -324,7 +338,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" />
+        <q-separator spaced :dark="dark" />
         <q-item-label header>Section</q-item-label>
 
         <q-item>
@@ -337,7 +351,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" inset="item" />
+        <q-separator spaced :dark="dark" inset="item" />
 
         <q-item>
           <q-item-section top avatar>
@@ -355,7 +369,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" inset="item" />
+        <q-separator spaced :dark="dark" inset="item" />
 
         <q-item>
           <q-item-section top avatar>
@@ -372,7 +386,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" inset="item" />
+        <q-separator spaced :dark="dark" inset="item" />
 
         <q-item>
           <q-item-section top avatar>
@@ -391,7 +405,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" inset="item" />
+        <q-separator spaced :dark="dark" inset="item" />
 
         <q-item>
           <q-item-section top avatar>
@@ -410,7 +424,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" />
+        <q-separator spaced :dark="dark" />
 
         <q-item>
           <q-item-section top thumbnail class="q-ml-none">
@@ -451,7 +465,7 @@
           </q-item-section>
         </q-item>
 
-        <q-separator :dark="dark" />
+        <q-separator spaced :dark="dark" />
         <q-item-label header>General</q-item-label>
 
         <q-item tag="label">
@@ -502,6 +516,7 @@ export default {
   data () {
     return {
       dark: false,
+      separator: false,
 
       check1: true,
       check2: false,

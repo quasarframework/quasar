@@ -44,9 +44,6 @@ export default {
   chipsInput: {
     add: 'fal fa-paper-plane'
   },
-  collapsible: {
-    icon: 'fal fa-caret-down'
-  },
   datetime: {
     arrowLeft: 'fal fa-chevron-left',
     arrowRight: 'fal fa-chevron-right'
@@ -81,6 +78,9 @@ export default {
     code: 'fal fa-code',
     size: 'fal fa-text-height',
     font: 'fal fa-font'
+  },
+  expansionItem: {
+    icon: 'fal fa-chevron-down'
   },
   fab: {
     icon: 'fal fa-plus',

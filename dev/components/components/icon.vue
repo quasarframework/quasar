@@ -25,8 +25,9 @@
       <div v-for="set in sets" :key="set.setName">
         <h3>{{ set.setName }}</h3>
         <div>
-          <q-chip class="q-ma-xs" v-for="icon in set.icons" :key="icon.val">
-            {{ icon.name }} <q-icon :name="icon.val" />
+          <q-chip class="q-ma-xs" v-for="icon in set.icons" :key="set.setName + icon.name + icon.val">
+            <q-avatar :icon="icon.val" color="primary" text-color="white" />
+            {{ icon.name }}
           </q-chip>
         </div>
       </div>

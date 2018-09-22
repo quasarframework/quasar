@@ -1,6 +1,6 @@
 .q-item
   min-height 48px
-  padding 8px 16px
+  padding 4px 16px
 
   &--inset
     padding-left 72px
@@ -58,14 +58,17 @@
 
   &--bordered
     border 1px solid rgba(0, 0, 0, .12)
-
-  > .q-separator
-    margin-top 8px
-    margin-bottom 8px
+  &--separator
+    > .q-item-type + .q-item-type
+      border-top 1px solid rgba(0, 0, 0, .12)
 
 .q-list--dense > .q-item, .q-item--dense
   min-height 32px
   padding 2px 16px
+
+.q-list--dark.q-list--separator
+  > .q-item-type + .q-item-type
+    border-top-color rgba(255, 255, 255, .48)
 
 .q-list--dark, .q-item--dark
   color white
