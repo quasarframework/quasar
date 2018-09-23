@@ -6,14 +6,14 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 export default {
   name: 'QFab',
 
-  mixins: [FabMixin, ModelToggleMixin],
+  mixins: [ FabMixin, ModelToggleMixin ],
 
   provide () {
     return {
-      __qFabClose: evt => this.hide(evt).then(() => {
+      __qFabClose: evt => {
+        this.hide(evt)
         this.$refs.trigger && this.$refs.trigger.$el && this.$refs.trigger.$el.focus()
-        return evt
-      })
+      }
     }
   },
 
@@ -34,9 +34,7 @@ export default {
   },
 
   created () {
-    if (this.value) {
-      this.show()
-    }
+    this.value && this.show()
   },
 
   render (h) {

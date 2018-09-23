@@ -5,6 +5,7 @@ export default {
     square: Boolean,
     dark: Boolean,
     flat: Boolean,
+    bordered: Boolean,
     inline: Boolean
   },
 
@@ -12,6 +13,7 @@ export default {
     classes () {
       return {
         'q-card--dark': this.dark,
+        'q-card--bordered': this.bordered,
         'q-card--square no-border-radius': this.square,
         'q-card--flat no-shadow': this.flat,
         'inline-block': this.inline

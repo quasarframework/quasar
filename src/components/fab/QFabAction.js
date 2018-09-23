@@ -4,7 +4,7 @@ import FabMixin from './fab-mixin.js'
 export default {
   name: 'QFabAction',
 
-  mixins: [FabMixin],
+  mixins: [ FabMixin ],
 
   props: {
     icon: {
@@ -23,9 +23,8 @@ export default {
 
   methods: {
     click (e) {
-      this.__qFabClose().then(() => {
-        this.$emit('click', e)
-      })
+      this.__qFabClose()
+      this.$emit('click', e)
     }
   },
 
