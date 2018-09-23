@@ -4,6 +4,7 @@ import clone from '../../utils/clone.js'
 
 export default {
   name: 'QPopupEdit',
+
   props: {
     value: {},
     persistent: Boolean,
@@ -21,11 +22,13 @@ export default {
     },
     disable: Boolean
   },
+
   data () {
     return {
       initialValue: ''
     }
   },
+
   watch: {
     value () {
       this.$nextTick(() => {
@@ -33,6 +36,7 @@ export default {
       })
     }
   },
+
   methods: {
     cancel () {
       if (this.__hasChanged()) {
@@ -41,6 +45,7 @@ export default {
       }
       this.$nextTick(this.__close)
     },
+
     set () {
       if (this.__hasChanged() && this.validate(this.value)) {
         this.$emit('save', this.value, this.initialValue)
@@ -51,10 +56,12 @@ export default {
     __hasChanged () {
       return JSON.stringify(this.value) !== JSON.stringify(this.initialValue)
     },
+
     __close () {
       this.validated = true
       this.$refs.popover.hide()
     },
+
     __getContent (h) {
       const title = this.$slots.title || this.title
       return [
@@ -86,6 +93,7 @@ export default {
       ])
     }
   },
+
   render (h) {
     return h(QPopover, {
       staticClass: 'q-table-edit q-px-md q-py-sm',

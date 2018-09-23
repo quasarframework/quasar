@@ -4,17 +4,21 @@ import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QRadio',
-  mixins: [OptionMixin],
+
+  mixins: [ OptionMixin ],
+
   props: {
     val: {
       required: true
     }
   },
+
   computed: {
     isTrue () {
       return this.value === this.val
     }
   },
+
   methods: {
     toggle (evt, blur = true) {
       if (this.disable || this.readonly) {
@@ -27,6 +31,7 @@ export default {
         this.__update(this.val)
       }
     },
+
     __getContent (h) {
       return [
         h(QIcon, {
@@ -45,6 +50,7 @@ export default {
       ]
     }
   },
+
   beforeCreate () {
     this.__kebabTag = 'q-radio'
   }

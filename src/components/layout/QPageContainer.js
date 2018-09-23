@@ -1,5 +1,6 @@
 export default {
   name: 'QPageContainer',
+
   inject: {
     layout: {
       default () {
@@ -7,9 +8,11 @@ export default {
       }
     }
   },
+
   provide: {
     pageContainer: true
   },
+
   computed: {
     style () {
       const css = {}
@@ -30,6 +33,7 @@ export default {
       return css
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-layout-page-container q-layout-transition',

@@ -1,5 +1,6 @@
 export default {
   name: 'QCardMedia',
+
   props: {
     overlayPosition: {
       type: String,
@@ -7,6 +8,7 @@ export default {
       validator: v => ['top', 'bottom', 'full'].includes(v)
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-card__media relative-position',

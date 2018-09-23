@@ -1,11 +1,13 @@
 export default {
   name: 'QCard',
+
   props: {
     square: Boolean,
     dark: Boolean,
     flat: Boolean,
     inline: Boolean
   },
+
   computed: {
     classes () {
       return {
@@ -16,6 +18,7 @@ export default {
       }
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-card generic-border-radius',

@@ -16,7 +16,9 @@ const dragType = {
 
 export default {
   name: 'QRange',
-  mixins: [SliderMixin],
+
+  mixins: [ SliderMixin ],
+
   props: {
     value: {
       type: Object,
@@ -35,6 +37,7 @@ export default {
     rightLabelColor: String,
     rightLabelValue: String
   },
+
   data () {
     return {
       model: Object.assign({}, this.value),
@@ -43,40 +46,50 @@ export default {
       currentMaxPercentage: (this.value.max - this.min) / (this.max - this.min)
     }
   },
+
   computed: {
     percentageMin () {
       return this.snap ? (this.model.min - this.min) / (this.max - this.min) : this.currentMinPercentage
     },
+
     percentageMax () {
       return this.snap ? (this.model.max - this.min) / (this.max - this.min) : this.currentMaxPercentage
     },
+
     activeTrackWidth () {
       return 100 * (this.percentageMax - this.percentageMin) + '%'
     },
+
     leftDisplayValue () {
       return this.leftLabelValue !== void 0
         ? this.leftLabelValue
         : this.model.min
     },
+
     rightDisplayValue () {
       return this.rightLabelValue !== void 0
         ? this.rightLabelValue
         : this.model.max
     },
+
     leftTooltipColor () {
       return this.leftLabelColor || this.labelColor
     },
+
     rightTooltipColor () {
       return this.rightLabelColor || this.labelColor
     }
   },
+
   watch: {
     'value.min' (value) {
       this.model.min = value
     },
+
     'value.max' (value) {
       this.model.max = value
     },
+
     'model.min' (value) {
       if (this.dragging) {
         return
@@ -86,6 +99,7 @@ export default {
       }
       this.currentMinPercentage = (value - this.min) / (this.max - this.min)
     },
+
     'model.max' (value) {
       if (this.dragging) {
         return
@@ -95,6 +109,7 @@ export default {
       }
       this.currentMaxPercentage = (value - this.min) / (this.max - this.min)
     },
+
     min (value) {
       if (this.model.min < value) {
         this.__update({min: value})
@@ -104,6 +119,7 @@ export default {
       }
       this.$nextTick(this.__validateProps)
     },
+
     max (value) {
       if (this.model.min > value) {
         this.__update({min: value})
@@ -113,10 +129,12 @@ export default {
       }
       this.$nextTick(this.__validateProps)
     },
+
     step () {
       this.$nextTick(this.__validateProps)
     }
   },
+
   methods: {
     __getDragging (event) {
       let
@@ -167,6 +185,7 @@ export default {
       dragging.type = type
       return dragging
     },
+
     __move (event, dragging = this.dragging) {
       let
         percentage = getPercentage(event, dragging, this.$q.i18n.rtl),
@@ -235,11 +254,13 @@ export default {
         max: pos.max
       }
     },
+
     __end (event, dragging = this.dragging) {
       this.__move(event, dragging)
       this.currentMinPercentage = (this.model.min - this.min) / (this.max - this.min)
       this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
     },
+
     __onKeyDown (ev, type) {
       const keyCode = ev.keyCode
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
@@ -257,6 +278,7 @@ export default {
       this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
       this.__update()
     },
+
     __onKeyUp (ev, type) {
       const keyCode = ev.keyCode
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
@@ -264,6 +286,7 @@ export default {
       }
       this.__update(true)
     },
+
     __validateProps () {
       if (this.min >= this.max) {
         console.error('Range error: min >= max', this.$el, this.min, this.max)
@@ -313,6 +336,7 @@ export default {
         h('div', { staticClass: 'q-slider-ring' })
       ])
     },
+
     __getContent (h) {
       return [
         h('div', {

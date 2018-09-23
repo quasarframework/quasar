@@ -4,6 +4,7 @@ import uid from '../../utils/uid.js'
 
 export default {
   name: 'QStep',
+
   inject: {
     __stepper: {
       default () {
@@ -11,6 +12,7 @@ export default {
       }
     }
   },
+
   props: {
     name: {
       type: [Number, String],
@@ -32,11 +34,13 @@ export default {
     doneIcon: String,
     disable: Boolean
   },
+
   watch: {
     order () {
       this.__stepper.__sortSteps()
     }
   },
+
   data () {
     return {
       innerOrder: 0,
@@ -44,6 +48,7 @@ export default {
       last: false
     }
   },
+
   computed: {
     stepIcon () {
       const data = this.__stepper
@@ -60,18 +65,23 @@ export default {
 
       return this.icon
     },
+
     actualOrder () {
       return parseInt(this.order || this.innerOrder, 10)
     },
+
     active () {
       return this.__stepper.step === this.name
     },
+
     done () {
       return !this.disable && this.__stepper.currentOrder > this.innerOrder
     },
+
     waiting () {
       return !this.disable && this.__stepper.currentOrder < this.innerOrder
     },
+
     style () {
       const ord = this.actualOrder
       return {
@@ -80,6 +90,7 @@ export default {
         order: ord
       }
     },
+
     classes () {
       if (!this.__stepper.vertical) {
         const cls = []
@@ -89,6 +100,7 @@ export default {
       }
     }
   },
+
   methods: {
     select () {
       if (this.done) {
@@ -113,15 +125,16 @@ export default {
         : content
     }
   },
+
   mounted () {
     this.__stepper.__registerStep(this)
-    if (this.default) {
-      this.select()
-    }
+    this.default && this.select()
   },
+
   beforeDestroy () {
     this.__stepper.__unregisterStep(this)
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-stepper-step',

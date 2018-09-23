@@ -4,28 +4,35 @@ import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QInputFrame',
-  mixins: [FrameMixin, ParentFieldMixin],
+
+  mixins: [ FrameMixin, ParentFieldMixin ],
+
   props: {
     focused: Boolean,
     length: Number,
     focusable: Boolean,
     additionalLength: Boolean
   },
+
   computed: {
     hasStackLabel () {
       return typeof this.stackLabel === 'string' && this.stackLabel.length > 0
     },
+
     hasLabel () {
       return this.hasStackLabel || (typeof this.floatLabel === 'string' && this.floatLabel.length > 0)
     },
+
     label () {
       return this.hasStackLabel ? this.stackLabel : this.floatLabel
     },
+
     addonClass () {
       return {
         'q-if-addon-visible': !this.hasLabel || this.labelIsAbove
       }
     },
+
     classes () {
       const cls = [{
         'q-if-has-label': this.label,
@@ -57,13 +64,16 @@ export default {
       return cls
     }
   },
+
   methods: {
     __onClick (e) {
       this.$emit('click', e)
     },
+
     __onMouseDown (e) {
       !this.disable && this.$nextTick(() => this.$emit('focus', e))
     },
+
     __additionalHidden (item, hasError, hasWarning, length) {
       if (item.condition !== void 0) {
         return item.condition === false
@@ -74,6 +84,7 @@ export default {
         (item.warning !== void 0 && !item.warning === hasWarning)
       )
     },
+
     __baHandler (evt, item) {
       if (!item.allowPropagation) {
         evt.stopPropagation()

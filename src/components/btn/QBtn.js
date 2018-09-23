@@ -6,19 +6,24 @@ import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QBtn',
+
   mixins: [ BtnMixin ],
+
   props: {
     percentage: Number,
     darkPercentage: Boolean,
     repeatTimeout: [Number, Function]
   },
+
   computed: {
     hasPercentage () {
       return this.percentage !== void 0
     },
+
     width () {
       return `${between(this.percentage, 0, 100)}%`
     },
+
     events () {
       return this.isDisabled || !this.repeatTimeout
         ? {
@@ -40,16 +45,19 @@ export default {
           blur: this.__abortRepeat
         }
     },
+
     hasLabel () {
       return this.label && this.isRectangle
     }
   },
+
   data () {
     return {
       repeating: false,
       active: false
     }
   },
+
   methods: {
     click (e) {
       this.__cleanup()
@@ -80,9 +88,11 @@ export default {
 
       trigger()
     },
+
     __cleanup () {
       clearTimeout(this.timer)
     },
+
     __onKeyDown (e, repeat) {
       if (this.isDisabled || e.keyCode !== 13) {
         return
@@ -90,6 +100,7 @@ export default {
       this.active = true
       repeat ? this.__startRepeat(e) : stopAndPrevent(e)
     },
+
     __onKeyUp (e, repeat) {
       if (!this.active) {
         return
@@ -100,10 +111,10 @@ export default {
       }
       this[repeat ? '__endRepeat' : 'click'](e)
     },
+
     __startRepeat (e) {
-      if (this.repeating) {
-        return
-      }
+      if (this.repeating) { return }
+
       const setTimer = () => {
         this.timer = setTimeout(
           trigger,
@@ -112,6 +123,7 @@ export default {
             : this.repeatTimeout
         )
       }
+
       const trigger = () => {
         if (this.isDisabled) {
           return
@@ -126,10 +138,12 @@ export default {
       this.repeating = true
       setTimer()
     },
+
     __abortRepeat () {
       this.repeating = false
       this.__cleanup()
     },
+
     __endRepeat (e) {
       if (!this.repeating) {
         return
@@ -147,9 +161,11 @@ export default {
       this.__cleanup()
     }
   },
+
   beforeDestroy () {
     this.__cleanup()
   },
+
   render (h) {
     return h(this.isLink ? 'a' : 'button', {
       staticClass: 'q-btn inline relative-position q-btn-item non-selectable',

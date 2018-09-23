@@ -1,5 +1,6 @@
 export default {
   name: 'QChatMessage',
+
   props: {
     sent: Boolean,
     label: String,
@@ -11,22 +12,26 @@ export default {
     stamp: String,
     size: String
   },
+
   computed: {
     textClass () {
       if (this.textColor) {
         return `text-${this.textColor}`
       }
     },
+
     messageClass () {
       if (this.bgColor) {
         return `text-${this.bgColor}`
       }
     },
+
     sizeClass () {
       if (this.size) {
         return `col-${this.size}`
       }
     },
+
     classes () {
       return {
         'q-message-sent': this.sent,
@@ -34,6 +39,7 @@ export default {
       }
     }
   },
+
   methods: {
     __getText (h) {
       return this.text.map((msg, index) => h('div', {
@@ -54,6 +60,7 @@ export default {
         ])
       ]))
     },
+
     __getMessage (h) {
       return h('div', {
         staticClass: 'q-message-text',
@@ -74,6 +81,7 @@ export default {
       ])
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-message',

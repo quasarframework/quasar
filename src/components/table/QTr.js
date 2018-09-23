@@ -1,8 +1,10 @@
 export default {
   name: 'QTr',
+
   props: {
     props: Object
   },
+
   render (h) {
     return h(
       'tr',

@@ -5,11 +5,13 @@ import { getScrollbarWidth } from '../../utils/scroll.js'
 
 export default {
   name: 'QLayout',
+
   provide () {
     return {
       layout: this
     }
   },
+
   props: {
     container: Boolean,
     view: {
@@ -18,6 +20,7 @@ export default {
       validator: v => /^(h|l)h(h|r) lpr (f|l)f(f|r)$/.test(v.toLowerCase())
     }
   },
+
   data () {
     return {
       // page related
@@ -55,6 +58,7 @@ export default {
       }
     }
   },
+
   computed: {
     rows () {
       const rows = this.view.toLowerCase().split(' ')
@@ -71,6 +75,7 @@ export default {
         return { [this.$q.i18n.rtl ? 'left' : 'right']: `${this.scrollbarWidth}px` }
       }
     },
+
     targetChildStyle () {
       if (this.scrollbarWidth !== 0) {
         return {
@@ -81,6 +86,7 @@ export default {
       }
     }
   },
+
   created () {
     this.instances = {
       header: null,
@@ -89,6 +95,7 @@ export default {
       left: null
     }
   },
+
   render (h) {
     const layout = h('div', { staticClass: 'q-layout' }, [
       h(QScrollObservable, {
@@ -119,6 +126,7 @@ export default {
       ])
       : layout
   },
+
   methods: {
     __animate () {
       if (this.timer) {
@@ -132,10 +140,12 @@ export default {
         this.timer = null
       }, 150)
     },
+
     __onPageScroll (data) {
       this.scroll = data
       this.$emit('scroll', data)
     },
+
     __onPageResize ({ height, width }) {
       let resized = false
 
@@ -152,12 +162,14 @@ export default {
 
       resized && this.$emit('resize', { height, width })
     },
+
     __onContainerResize ({ height }) {
       if (this.containerHeight !== height) {
         this.containerHeight = height
         this.__updateScrollbarWidth()
       }
     },
+
     __updateScrollbarWidth () {
       if (this.container) {
         const width = this.height > this.containerHeight

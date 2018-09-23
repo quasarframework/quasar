@@ -13,7 +13,9 @@ import CanRenderMixinMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QPopover',
-  mixins: [ModelToggleMixin, CanRenderMixinMixin],
+
+  mixins: [ ModelToggleMixin, CanRenderMixinMixin ],
+
   props: {
     anchor: {
       type: String,
@@ -45,15 +47,18 @@ export default {
     noRefocus: Boolean,
     disable: Boolean
   },
+
   watch: {
     $route () {
       this.hide()
     }
   },
+
   computed: {
     horizSide () {
       return this.$q.i18n.rtl ? 'right' : 'left'
     },
+
     anchorOrigin () {
       return parsePosition(
         this.cover
@@ -61,10 +66,12 @@ export default {
           : this.anchor || `bottom ${this.horizSide}`
       )
     },
+
     selfOrigin () {
       return parsePosition(this.self || `top ${this.horizSide}`)
     }
   },
+
   render (h) {
     if (!this.canRender) { return }
 
@@ -77,6 +84,7 @@ export default {
       }
     }, this.$slots.default)
   },
+
   mounted () {
     this.__updatePosition = frameDebounce((_, event, animate) => this.reposition(event, animate))
     this.$nextTick(() => {
@@ -100,6 +108,7 @@ export default {
 
     this.value && this.show()
   },
+
   beforeDestroy () {
     this.showing && this.__cleanup()
     if (this.anchorClick && this.anchorEl) {
@@ -107,6 +116,7 @@ export default {
       this.anchorEl.removeEventListener('keyup', this.__toggleKey)
     }
   },
+
   methods: {
     __show (evt) {
       if (!this.noRefocus) {
@@ -135,11 +145,13 @@ export default {
         this.showPromise && this.showPromiseResolve()
       }, 0)
     },
+
     __toggleKey (evt) {
       if (evt.keyCode === 13) {
         this.toggle(evt)
       }
     },
+
     __bodyHide (evt) {
       if (
         this.persistent || (
@@ -152,6 +164,7 @@ export default {
 
       this.hide(evt)
     },
+
     __hide () {
       this.__cleanup()
       this.hidePromise && this.hidePromiseResolve()
@@ -160,6 +173,7 @@ export default {
         !this.__refocusTarget.classList.contains('q-if') && this.__refocusTarget.blur()
       }
     },
+
     __cleanup () {
       clearTimeout(this.timer)
 
@@ -174,6 +188,7 @@ export default {
 
       this.$el.remove()
     },
+
     reposition (event, animate) {
       const { top, bottom, left, right } = this.anchorEl.getBoundingClientRect()
 

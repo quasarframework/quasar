@@ -11,7 +11,9 @@ import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QColor',
-  mixins: [FrameMixin, DisplayModeMixin],
+
+  mixins: [ FrameMixin, DisplayModeMixin ],
+
   props: {
     value: {
       required: true
@@ -33,6 +35,7 @@ export default {
     okLabel: String,
     cancelLabel: String
   },
+
   watch: {
     value (v) {
       if (!this.disable && this.isPopover) {
@@ -40,12 +43,14 @@ export default {
       }
     }
   },
+
   data () {
     let data = this.isPopover ? {} : { transition: 'q-modal' }
     data.focused = false
     data.model = clone(this.value || this.defaultValue)
     return data
   },
+
   computed: {
     actualValue () {
       if (this.displayValue) {
@@ -60,23 +65,28 @@ export default {
 
       return ''
     },
+
     computedClearValue () {
       return this.clearValue === void 0 ? this.defaultValue : this.clearValue
     },
+
     isClearable () {
       return this.editable && this.clearable && JSON.stringify(this.computedClearValue) !== JSON.stringify(this.value)
     }
   },
+
   methods: {
     toggle () {
       this.$refs.popup && this[this.$refs.popup.showing ? 'hide' : 'show']()
     },
+
     show () {
       if (!this.disable) {
         this.__setModel(this.value || this.defaultValue)
         return this.$refs.popup.show()
       }
     },
+
     hide () {
       return this.$refs.popup ? this.$refs.popup.hide() : Promise.resolve()
     },
@@ -93,6 +103,7 @@ export default {
           }
       }
     },
+
     __onFocus () {
       if (this.disable || this.focused) {
         return
@@ -101,6 +112,7 @@ export default {
       this.focused = true
       this.$emit('focus')
     },
+
     __onBlur (e) {
       if (!this.focused) {
         return
@@ -118,6 +130,7 @@ export default {
         }
       }, 1)
     },
+
     __onHide (forceUpdate, keepFocus) {
       if (forceUpdate || this.isPopover) {
         this.__update(forceUpdate)
@@ -132,15 +145,18 @@ export default {
       this.$emit('blur')
       this.focused = false
     },
+
     __setModel (val, forceUpdate) {
       this.model = clone(val)
       if (forceUpdate || this.isPopover) {
         this.__update(forceUpdate)
       }
     },
+
     __hasModelChanged () {
       return JSON.stringify(this.model) !== JSON.stringify(this.value)
     },
+
     __update (change) {
       this.$nextTick(() => {
         if (this.__hasModelChanged()) {
@@ -213,6 +229,7 @@ export default {
       return child
     }
   },
+
   render (h) {
     return h(QInputFrame, {
       staticClass: 'q-color-input',

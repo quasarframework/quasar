@@ -11,7 +11,9 @@ const components = {
 
 export default {
   name: 'QOptionGroup',
-  mixins: [ParentFieldMixin],
+
+  mixins: [ ParentFieldMixin ],
+
   props: {
     value: {
       required: true
@@ -34,29 +36,36 @@ export default {
     disable: Boolean,
     readonly: Boolean
   },
+
   computed: {
     component () {
       return components[this.type]
     },
+
     model () {
       return Array.isArray(this.value) ? this.value.slice() : this.value
     },
+
     length () {
       return this.value
         ? (this.type === 'radio' ? 1 : this.value.length)
         : 0
     },
+
     __needsBorder () {
       return true
     }
   },
+
   methods: {
     __onFocus () {
       this.$emit('focus')
     },
+
     __onBlur () {
       this.$emit('blur')
     },
+
     __update (value) {
       this.$emit('input', value)
       this.$nextTick(() => {
@@ -66,6 +75,7 @@ export default {
       })
     }
   },
+
   created () {
     const isArray = Array.isArray(this.value)
     if (this.type === 'radio') {
@@ -77,6 +87,7 @@ export default {
       console.error('q-option-group: model should be array in your case')
     }
   },
+
   render (h) {
     return h(
       'div',

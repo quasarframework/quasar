@@ -2,6 +2,7 @@ import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QAvatar',
+
   props: {
     size: String,
     fontSize: String,
@@ -23,11 +24,13 @@ export default {
         'generic-border-radius': this.rounded
       }
     },
+
     style () {
       if (this.size) {
         return { fontSize: this.size }
       }
     },
+
     contentStyle () {
       if (this.fontSize) {
         return { fontSize: this.fontSize }

@@ -1,9 +1,11 @@
 export default {
   name: 'QJumbotron',
+
   props: {
     imgSrc: String,
     gradient: String
   },
+
   computed: {
     gradientType () {
       if (this.gradient) {
@@ -12,6 +14,7 @@ export default {
           : 'linear'
       }
     },
+
     computedStyle () {
       if (this.imgSrc) {
         return {
@@ -25,6 +28,7 @@ export default {
       }
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-jumbotron',

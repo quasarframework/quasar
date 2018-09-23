@@ -1,5 +1,6 @@
 export default {
   name: 'QBtnGroup',
+
   props: {
     unelevated: Boolean,
     outline: Boolean,
@@ -8,6 +9,7 @@ export default {
     push: Boolean,
     stretch: Boolean
   },
+
   computed: {
     classes () {
       return ['unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch']
@@ -15,6 +17,7 @@ export default {
         .map(t => `q-btn-group--${t}`).join(' ')
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-btn-group row no-wrap inline',

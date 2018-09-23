@@ -6,7 +6,9 @@ import QPopover from '../popover/QPopover.js'
 
 export default {
   name: 'QBtnDropdown',
+
   mixins: [BtnMixin],
+
   props: {
     value: Boolean,
     split: Boolean,
@@ -21,16 +23,19 @@ export default {
       default: 'top right'
     }
   },
+
   data () {
     return {
       showing: this.value
     }
   },
+
   watch: {
     value (val) {
       this.$refs.popover && this.$refs.popover[val ? 'show' : 'hide']()
     }
   },
+
   render (h) {
     const
       Popover = h(
@@ -124,6 +129,7 @@ export default {
       [ Popover ]
     ])
   },
+
   methods: {
     toggle () {
       return this.$refs.popover ? this.$refs.popover.toggle() : Promise.resolve()
@@ -135,6 +141,7 @@ export default {
       return this.$refs.popover ? this.$refs.popover.hide() : Promise.resolve()
     }
   },
+
   mounted () {
     this.$nextTick(() => {
       if (this.value) {

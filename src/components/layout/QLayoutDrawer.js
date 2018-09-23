@@ -7,6 +7,7 @@ const duration = 150
 
 export default {
   name: 'QLayoutDrawer',
+
   inject: {
     layout: {
       default () {
@@ -14,10 +15,13 @@ export default {
       }
     }
   },
+
   mixins: [ ModelToggleMixin ],
+
   directives: {
     TouchPan
   },
+
   props: {
     overlay: Boolean,
     side: {
@@ -50,6 +54,7 @@ export default {
     noSwipeOpen: Boolean,
     noSwipeClose: Boolean
   },
+
   data () {
     const
       largeScreenState = this.showIfAbove || (
@@ -73,6 +78,7 @@ export default {
       mobileOpened: false
     }
   },
+
   watch: {
     belowBreakpoint (val) {
       if (this.mobileOpened) {
@@ -90,38 +96,46 @@ export default {
         this[this.largeScreenState ? 'show' : 'hide'](false)
       }
     },
+
     side (_, oldSide) {
       this.layout[oldSide].space = false
       this.layout[oldSide].offset = 0
     },
+
     behavior (val) {
       this.__updateLocal('belowBreakpoint', (
         val === 'mobile' ||
         (val !== 'desktop' && this.breakpoint >= this.layout.width)
       ))
     },
+
     breakpoint (val) {
       this.__updateLocal('belowBreakpoint', (
         this.behavior === 'mobile' ||
         (this.behavior !== 'desktop' && val >= this.layout.width)
       ))
     },
+
     'layout.width' (val) {
       this.__updateLocal('belowBreakpoint', (
         this.behavior === 'mobile' ||
         (this.behavior !== 'desktop' && this.breakpoint >= val)
       ))
     },
+
     'layout.scrollbarWidth' () {
       this.applyPosition(this.showing ? 0 : void 0)
     },
+
     offset (val) {
       this.__update('offset', val)
     },
+
     onLayout (val) {
       this.$emit('on-layout', val)
       this.__update('space', val)
     },
+
     $route () {
       if (this.noHideOnRouteChange) {
         return
@@ -131,51 +145,64 @@ export default {
         this.hide()
       }
     },
+
     rightSide () {
       this.applyPosition()
     },
+
     size (val) {
       this.applyPosition()
       this.__update('size', val)
     },
+
     '$q.i18n.rtl' () {
       this.applyPosition()
     },
+
     mini () {
       if (this.value) {
         this.layout.__animate()
       }
     }
   },
+
   computed: {
     rightSide () {
       return this.side === 'right'
     },
+
     offset () {
       return this.showing && !this.mobileOpened && !this.overlay
         ? this.size
         : 0
     },
+
     size () {
       return this.isMini ? this.miniWidth : this.width
     },
+
     fixed () {
       return this.overlay || this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
     },
+
     onLayout () {
       return this.showing && !this.mobileView && !this.overlay
     },
+
     onScreenOverlay () {
       return this.showing && !this.mobileView && this.overlay
     },
+
     backdropClass () {
       return {
         'no-pointer-events': !this.showing || !this.mobileView
       }
     },
+
     mobileView () {
       return this.belowBreakpoint || this.mobileOpened
     },
+
     headerSlot () {
       return this.overlay
         ? false
@@ -184,6 +211,7 @@ export default {
           : this.layout.rows.top[0] === 'l'
         )
     },
+
     footerSlot () {
       return this.overlay
         ? false
@@ -192,6 +220,7 @@ export default {
           : this.layout.rows.bottom[0] === 'l'
         )
     },
+
     belowClass () {
       return {
         'fixed': true,
@@ -201,6 +230,7 @@ export default {
         'top-padding': true
       }
     },
+
     aboveClass () {
       return {
         'fixed': this.fixed || !this.onLayout,
@@ -210,6 +240,7 @@ export default {
         'top-padding': this.headerSlot
       }
     },
+
     aboveStyle () {
       const css = {}
 
@@ -233,6 +264,7 @@ export default {
 
       return css
     },
+
     computedStyle () {
       return [
         this.contentStyle,
@@ -240,6 +272,7 @@ export default {
         this.mobileView ? '' : this.aboveStyle
       ]
     },
+
     computedClass () {
       return [
         `q-layout-drawer-${this.side}`,
@@ -248,12 +281,15 @@ export default {
         this.mobileView ? this.belowClass : this.aboveClass
       ]
     },
+
     stateDirection () {
       return (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1)
     },
+
     isMini () {
       return this.mini && !this.mobileView
     },
+
     onNativeEvents () {
       if (!this.mobileView) {
         return {
@@ -264,6 +300,7 @@ export default {
       }
     }
   },
+
   methods: {
     applyPosition (position) {
       if (position === void 0) {
@@ -280,16 +317,19 @@ export default {
         this.$refs.content.style.transform = `translateX(${position}px)`
       }
     },
+
     applyBackdrop (x) {
       if (this.$refs.backdrop) {
         this.$refs.backdrop.style.backgroundColor = `rgba(0,0,0,${x * 0.4})`
       }
     },
+
     __setScrollable (v) {
       if (!this.layout.container) {
         document.body.classList[v ? 'add' : 'remove']('q-body-drawer-toggle')
       }
     },
+
     __openByTouch (evt) {
       if (!this.belowBreakpoint) {
         return
@@ -334,6 +374,7 @@ export default {
         el.classList.add('q-layout-drawer-delimiter')
       }
     },
+
     __closeByTouch (evt) {
       if (!this.mobileOpened) {
         return
@@ -369,6 +410,7 @@ export default {
         this.$refs.content.classList.add('no-transition')
       }
     },
+
     __show (animate = true) {
       animate && this.layout.__animate()
       this.applyPosition(0)
@@ -400,6 +442,7 @@ export default {
         }
       }, duration)
     },
+
     __hide (animate = true) {
       animate && this.layout.__animate()
 
@@ -417,6 +460,7 @@ export default {
         this.hidePromise && this.hidePromiseResolve()
       }, duration)
     },
+
     __cleanup () {
       if (this.preventedScroll) {
         this.preventedScroll = false
@@ -430,21 +474,25 @@ export default {
         this.layout[this.side][prop] = val
       }
     },
+
     __updateLocal (prop, val) {
       if (this[prop] !== val) {
         this[prop] = val
       }
     }
   },
+
   created () {
     this.layout.instances[this.side] = this
     this.__update('size', this.size)
     this.__update('space', this.onLayout)
     this.__update('offset', this.offset)
   },
+
   mounted () {
     this.applyPosition(this.showing ? 0 : void 0)
   },
+
   beforeDestroy () {
     clearTimeout(this.timer)
     this.showing && this.__cleanup()
@@ -455,6 +503,7 @@ export default {
       this.__update('space', false)
     }
   },
+
   render (h) {
     const child = [
       this.mobileView && !this.noSwipeOpen

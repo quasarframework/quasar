@@ -1,5 +1,6 @@
 export default {
   name: 'QTabPane',
+
   inject: {
     data: {
       default () {
@@ -7,6 +8,7 @@ export default {
       }
     }
   },
+
   props: {
     name: {
       type: String,
@@ -14,11 +16,13 @@ export default {
     },
     keepAlive: Boolean
   },
+
   data () {
     return {
       shown: false
     }
   },
+
   computed: {
     active () {
       return this.data.tabName === this.name
@@ -31,6 +35,7 @@ export default {
       }
     }
   },
+
   render (h) {
     const node = h(
       'div',

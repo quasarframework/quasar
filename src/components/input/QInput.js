@@ -10,7 +10,9 @@ import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QInput',
-  mixins: [FrameMixin, InputMixin],
+
+  mixins: [ FrameMixin, InputMixin ],
+
   props: {
     value: { required: true },
     type: {
@@ -31,6 +33,7 @@ export default {
     upperCase: Boolean,
     lowerCase: Boolean
   },
+
   data () {
     return {
       showPass: false,
@@ -59,6 +62,7 @@ export default {
       }
     }
   },
+
   watch: {
     value (v) {
       const
@@ -70,36 +74,45 @@ export default {
       this.isNumberError = false
       this.isNegZero = false
     },
+
     isTextarea (v) {
       this[v ? '__watcherRegister' : '__watcherUnregister']()
     },
+
     '$attrs.rows' () {
       this.isTextarea && this.__updateArea()
     }
   },
+
   provide () {
     return {
       __input: this.shadow
     }
   },
+
   computed: {
     isNumber () {
       return this.type === 'number'
     },
+
     isPassword () {
       return this.type === 'password'
     },
+
     isTextarea () {
       return this.type === 'textarea'
     },
+
     isLoading () {
       return this.loading || (this.shadow.watched && this.shadow.loading)
     },
+
     keyboardToggle () {
       return this.$q.platform.is.mobile &&
         this.isNumber &&
         this.numericKeyboardToggle
     },
+
     inputType () {
       if (this.isPassword) {
         return this.showPass && this.editable ? 'text' : 'password'
@@ -108,22 +121,26 @@ export default {
         ? (this.showNumber || !this.editable ? 'number' : 'text')
         : this.type
     },
+
     inputClasses () {
       const classes = []
       this.align && classes.push(`text-${this.align}`)
       this.autofilled && classes.push('q-input-autofill')
       return classes
     },
+
     length () {
       return this.model !== null && this.model !== undefined
         ? ('' + this.model).length
         : 0
     },
+
     computedClearValue () {
       return this.isNumber && this.clearValue === 0
         ? this.clearValue
         : this.clearValue || (this.isNumber ? null : '')
     },
+
     computedStep () {
       return this.step || (this.decimals ? 10 ** -this.decimals : 'any')
     },
@@ -152,12 +169,14 @@ export default {
       }
     }
   },
+
   methods: {
     togglePass () {
       this.showPass = !this.showPass
       clearTimeout(this.timer)
       this.focus()
     },
+
     toggleNumber () {
       this.showNumber = !this.showNumber
       clearTimeout(this.timer)
@@ -189,6 +208,7 @@ export default {
         true
       )
     },
+
     __set (e, forceUpdate) {
       let val = e && e.target ? e.target.value : e
 
@@ -236,6 +256,7 @@ export default {
         })
       }
     },
+
     __updateArea () {
       const
         shadow = this.$refs.shadow,
@@ -248,6 +269,7 @@ export default {
         input.style.overflowY = this.maxHeight && h < sH ? 'scroll' : 'hidden'
       }
     },
+
     __watcher (value) {
       if (this.isTextarea) {
         this.__updateArea()
@@ -256,11 +278,13 @@ export default {
         this.shadow.val = value
       }
     },
+
     __watcherRegister () {
       if (!this.watcher) {
         this.watcher = this.$watch('model', this.__watcher)
       }
     },
+
     __watcherUnregister (forceUnregister) {
       if (
         this.watcher &&
@@ -334,6 +358,7 @@ export default {
       })
     }
   },
+
   mounted () {
     this.__updateArea = frameDebounce(this.__updateArea)
     if (this.isTextarea) {
@@ -341,6 +366,7 @@ export default {
       this.__watcherRegister()
     }
   },
+
   beforeDestroy () {
     this.__watcherUnregister(true)
   },

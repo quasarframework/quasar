@@ -2,6 +2,7 @@ import QSelect from '../select/QSelect.js'
 
 export default {
   name: 'QTableColumns',
+
   props: {
     value: {
       type: Array,
@@ -14,6 +15,7 @@ export default {
     },
     color: String
   },
+
   computed: {
     computedOptions () {
       return this.columns.filter(col => !col.required).map(col => ({
@@ -22,6 +24,7 @@ export default {
       }))
     }
   },
+
   render (h) {
     return h(QSelect, {
       props: {

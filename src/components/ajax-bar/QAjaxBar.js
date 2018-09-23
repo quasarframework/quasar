@@ -79,6 +79,7 @@ function restoreAjax (start, stop) {
 
 export default {
   name: 'QAjaxBar',
+
   props: {
     position: {
       type: String,
@@ -98,6 +99,7 @@ export default {
     skipHijack: Boolean,
     reverse: Boolean
   },
+
   data () {
     return {
       calls: 0,
@@ -106,6 +108,7 @@ export default {
       animate: true
     }
   },
+
   computed: {
     classes () {
       return [
@@ -114,6 +117,7 @@ export default {
         this.animate ? '' : 'no-transition'
       ]
     },
+
     style () {
       const active = this.onScreen
 
@@ -133,13 +137,16 @@ export default {
 
       return o
     },
+
     horizontal () {
       return this.position === 'top' || this.position === 'bottom'
     },
+
     sizeProp () {
       return this.horizontal ? 'height' : 'width'
     }
   },
+
   methods: {
     start (speed = 300) {
       this.calls++
@@ -158,9 +165,11 @@ export default {
         this.__work(speed)
       }, 100)
     },
+
     increment (amount) {
       this.calls > 0 && (this.progress = inc(this.progress, amount))
     },
+
     stop () {
       this.calls = Math.max(0, this.calls - 1)
       if (this.calls > 0) { return }
@@ -193,16 +202,19 @@ export default {
       }
     }
   },
+
   mounted () {
     if (!this.skipHijack) {
       this.hijacked = true
       highjackAjax(this.start, this.stop)
     }
   },
+
   beforeDestroy () {
     clearTimeout(this.timer)
     this.hijacked && restoreAjax(this.start, this.stop)
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-loading-bar',

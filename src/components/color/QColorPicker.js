@@ -9,10 +9,13 @@ import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors.js'
 
 export default {
   name: 'QColorPicker',
+
   mixins: [ParentFieldMixin],
+
   directives: {
     TouchPan
   },
+
   props: {
     value: [String, Object],
     defaultValue: {
@@ -28,12 +31,14 @@ export default {
     readonly: Boolean,
     dark: Boolean
   },
+
   data () {
     return {
       view: !this.value || typeof this.value === 'string' ? 'hex' : 'rgb',
       model: this.__parseModel(this.value || this.defaultValue)
     }
   },
+
   watch: {
     value: {
       handler (v) {
@@ -45,28 +50,34 @@ export default {
       deep: true
     }
   },
+
   computed: {
     forceHex () {
       return this.formatModel === 'auto'
         ? null
         : this.formatModel.indexOf('hex') > -1
     },
+
     forceAlpha () {
       return this.formatModel === 'auto'
         ? null
         : this.formatModel.indexOf('a') > -1
     },
+
     isHex () {
       return typeof this.value === 'string'
     },
+
     isOutputHex () {
       return this.forceHex !== null
         ? this.forceHex
         : this.isHex
     },
+
     editable () {
       return !this.disable && !this.readonly
     },
+
     hasAlpha () {
       if (this.forceAlpha !== null) {
         return this.forceAlpha
@@ -75,22 +86,26 @@ export default {
         ? this.value.trim().length > 7
         : this.value && this.value.a !== void 0
     },
+
     swatchColor () {
       return {
         backgroundColor: `rgba(${this.model.r},${this.model.g},${this.model.b},${(this.model.a === void 0 ? 100 : this.model.a) / 100})`
       }
     },
+
     saturationStyle () {
       return {
         background: `hsl(${this.model.h},100%,50%)`
       }
     },
+
     saturationPointerStyle () {
       return {
         top: `${101 - this.model.v}%`,
         [this.$q.i18n.rtl ? 'right' : 'left']: `${this.model.s}%`
       }
     },
+
     inputsArray () {
       const inp = ['r', 'g', 'b']
       if (this.hasAlpha) {
@@ -98,13 +113,16 @@ export default {
       }
       return inp
     },
+
     __needsBorder () {
       return true
     }
   },
+
   created () {
     this.__saturationChange = throttle(this.__saturationChange, 20)
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-color',
@@ -115,6 +133,7 @@ export default {
       this.__getInputs(h)
     ])
   },
+
   methods: {
     __getSaturation (h) {
       return h('div', {
@@ -145,6 +164,7 @@ export default {
         ])
       ])
     },
+
     __getSliders (h) {
       return h('div', {
         staticClass: 'q-color-sliders row items-center'
@@ -192,6 +212,7 @@ export default {
         ])
       ])
     },
+
     __getNumericInputs (h) {
       return this.inputsArray.map(formatModel => {
         const max = formatModel === 'a' ? 100 : 255
@@ -219,6 +240,7 @@ export default {
         ])
       })
     },
+
     __getInputs (h) {
       const inputs = this.view === 'hex'
         ? [
@@ -305,6 +327,7 @@ export default {
       this.model.v = v
       this.__update(rgb, rgbToHex(rgb), change)
     },
+
     __onHueChange (h, change) {
       h = Math.round(h)
       const val = hsvToRgb({
@@ -317,6 +340,7 @@ export default {
       this.model.h = h
       this.__update(val, rgbToHex(val), change)
     },
+
     __onNumericChange (evt, formatModel, max, change) {
       let val = Number(evt.target.value)
       if (isNaN(val)) {
@@ -347,6 +371,7 @@ export default {
       }
       this.__update(rgb, rgbToHex(rgb), change)
     },
+
     __onHexChange (evt, change) {
       let
         hex = evt.target.value,
@@ -369,6 +394,7 @@ export default {
       this.model.v = hsv.v
       this.__update(rgb, hex, change)
     },
+
     __update (rgb, hex, change) {
       const value = this.isOutputHex ? hex : rgb
 
@@ -387,9 +413,11 @@ export default {
         }
       })
     },
+
     __nextInputView () {
       this.view = this.view === 'hex' ? 'rgba' : 'hex'
     },
+
     __parseModel (v) {
       if (v === null || v === void 0) {
         return { h: 0, s: 0, v: 0, r: 0, g: 0, b: 0, hex: void 0, a: 100 }
@@ -414,12 +442,14 @@ export default {
         this.__dragMove(evt)
       }
     },
+
     __dragStart (event) {
       stopAndPrevent(event.evt)
 
       this.saturationDragging = true
       this.__saturationChange(event)
     },
+
     __dragMove (event) {
       if (!this.saturationDragging) {
         return
@@ -428,6 +458,7 @@ export default {
 
       this.__saturationChange(event)
     },
+
     __dragStop (event) {
       stopAndPrevent(event.evt)
       setTimeout(() => {
@@ -439,12 +470,14 @@ export default {
         true
       )
     },
+
     __saturationChange (evt) {
       this.__onSaturationChange(
         evt.position.left,
         evt.position.top
       )
     },
+
     __saturationClick (evt) {
       if (this.saturationDragging) {
         return

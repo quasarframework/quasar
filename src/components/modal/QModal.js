@@ -39,7 +39,9 @@ let modals = {
 
 export default {
   name: 'QModal',
-  mixins: [ModelToggleMixin],
+
+  mixins: [ ModelToggleMixin ],
+
   provide () {
     return {
       __qmodal: {
@@ -56,6 +58,7 @@ export default {
       }
     }
   },
+
   props: {
     position: {
       type: String,
@@ -86,26 +89,31 @@ export default {
     minimized: Boolean,
     maximized: Boolean
   },
+
   data () {
     return {
       layout: null
     }
   },
+
   watch: {
     $route () {
       if (!this.noRouteDismiss) {
         this.hide()
       }
     },
+
     maximized (newV, oldV) {
       this.__register(false, oldV)
       this.__register(true, newV)
     },
+
     minimized (newV, oldV) {
       this.__register(false, this.maximized, oldV)
       this.__register(true, this.maximized, newV)
     }
   },
+
   computed: {
     modalClasses () {
       const cls = this.position
@@ -119,12 +127,13 @@ export default {
       }
       return cls
     },
+
     contentClassesCalc () {
-      if (this.layout) {
-        return [this.contentClasses, 'column no-wrap']
-      }
-      return this.contentClasses
+      return this.layout
+        ? [ this.contentClasses, 'column no-wrap' ]
+        : this.contentClasses
     },
+
     transitionProps () {
       if (this.position) {
         return { name: `q-modal-${this.position}` }
@@ -137,6 +146,7 @@ export default {
       }
       return { name: this.transition || 'q-modal' }
     },
+
     modalCss () {
       if (this.position) {
         const css = Array.isArray(this.contentCss)
@@ -157,6 +167,7 @@ export default {
       return this.contentCss
     }
   },
+
   methods: {
     __dismiss () {
       if (this.noBackdropDismiss) {
@@ -167,6 +178,7 @@ export default {
         this.$emit('dismiss')
       })
     },
+
     __show () {
       if (!this.noRefocus) {
         this.__refocusTarget = document.activeElement
@@ -201,6 +213,7 @@ export default {
       })
       this.$nextTick(() => content && content.focus())
     },
+
     __hide () {
       this.__cleanup()
       if (!this.noRefocus && this.__refocusTarget) {
@@ -208,14 +221,17 @@ export default {
         !this.__refocusTarget.classList.contains('q-if') && this.__refocusTarget.blur()
       }
     },
+
     __cleanup () {
       EscapeKey.pop()
       preventScroll(false)
       this.__register(false)
     },
+
     __stopPropagation (e) {
       e.stopPropagation()
     },
+
     __register (opening, maximized = this.maximized, minimized = this.minimized) {
       let state = opening
         ? { action: 'add', step: 1 }
@@ -236,6 +252,7 @@ export default {
         document.body.classList[state.action]('q-responsive-modal')
       }
     },
+
     __shake () {
       this.$el.classList.remove('animate-shake')
       this.$el.classList.add('animate-shake')
@@ -245,14 +262,17 @@ export default {
       }, 150)
     }
   },
+
   mounted () {
     this.value && this.show()
   },
+
   beforeDestroy () {
     clearTimeout(this.shakeTimeout)
     this.$el.remove()
     this.showing && this.__cleanup()
   },
+
   render (h) {
     return h('transition', {
       props: this.transitionProps,

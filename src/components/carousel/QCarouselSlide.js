@@ -1,5 +1,6 @@
 export default {
   name: 'QCarouselSlide',
+
   inject: {
     carousel: {
       default () {
@@ -7,9 +8,11 @@ export default {
       }
     }
   },
+
   props: {
     imgSrc: String
   },
+
   computed: {
     computedStyle () {
       const style = {}
@@ -24,15 +27,18 @@ export default {
       return style
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-carousel-slide relative-position scroll',
       style: this.computedStyle
     }, this.$slots.default)
   },
+
   created () {
     this.carousel.__registerSlide()
   },
+
   beforeDestroy () {
     this.carousel.__unregisterSlide()
   }

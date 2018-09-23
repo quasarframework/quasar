@@ -63,6 +63,7 @@ export default {
         this.menuInset ? 'q-expansion-item--menu-inset' : ''
       ]
     },
+
     isClickable () {
       return this.hasRouterLink || !this.expandIconToggle
     }
@@ -72,6 +73,7 @@ export default {
     __toggleItem (e) {
       !this.hasRouterLink && this.toggle(e)
     },
+
     __toggleIcon (e) {
       if (this.hasRouterLink || this.expandIconToggle) {
         stopAndPrevent(e)
@@ -79,6 +81,7 @@ export default {
         this.toggle(e)
       }
     },
+
     __eventHandler (comp) {
       if (this.group && this !== comp && comp.group === this.group) {
         this.hide()

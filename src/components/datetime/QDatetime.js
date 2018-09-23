@@ -13,8 +13,11 @@ import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QDatetime',
-  mixins: [FrameMixin, DisplayModeMixin, CanRenderMixin],
+
+  mixins: [ FrameMixin, DisplayModeMixin, CanRenderMixin ],
+
   props: Object.assign({}, input, inline),
+
   watch: {
     value (v) {
       if (!this.disable && this.isPopover) {
@@ -22,6 +25,7 @@ export default {
       }
     }
   },
+
   data () {
     return {
       transition: null,
@@ -29,6 +33,7 @@ export default {
       focused: false
     }
   },
+
   created () {
     this.model = clone(this.computedValue)
 
@@ -36,6 +41,7 @@ export default {
       this.transition = 'q-modal'
     }
   },
+
   computed: {
     computedFormat () {
       if (this.format) {
@@ -46,6 +52,7 @@ export default {
       }
       return this.type === 'time' ? 'HH:mm' : 'YYYY/MM/DD HH:mm:ss'
     },
+
     actualValue () {
       if (this.displayValue) {
         return this.displayValue
@@ -56,28 +63,34 @@ export default {
 
       return formatDate(this.value, this.computedFormat, /* for reactiveness */ this.$q.i18n.date)
     },
+
     computedValue () {
       return isValid(this.value)
         ? this.value
         : this.defaultValue
     },
+
     computedClearValue () {
       return this.clearValue === void 0 ? this.defaultValue : this.clearValue
     },
+
     isClearable () {
       return this.editable && this.clearable && !isSameDate(this.computedClearValue, this.value)
     }
   },
+
   methods: {
     toggle () {
       this.$refs.popup && this[this.$refs.popup.showing ? 'hide' : 'show']()
     },
+
     show () {
       if (!this.disable) {
         this.__setModel(this.computedValue)
         return this.$refs.popup.show()
       }
     },
+
     hide () {
       return this.$refs.popup ? this.$refs.popup.hide() : Promise.resolve()
     },
@@ -94,6 +107,7 @@ export default {
           }
       }
     },
+
     __onFocus () {
       if (this.disable || this.focused) {
         return
@@ -106,6 +120,7 @@ export default {
       this.focused = true
       this.$emit('focus')
     },
+
     __onBlur (e) {
       if (!this.focused) {
         return
@@ -123,6 +138,7 @@ export default {
         }
       }, 1)
     },
+
     __onHide (forceUpdate, keepFocus) {
       if (forceUpdate || this.isPopover) {
         this.__update(forceUpdate)
@@ -137,12 +153,14 @@ export default {
       this.$emit('blur')
       this.focused = false
     },
+
     __setModel (val, forceUpdate) {
       this.model = clone(val)
       if (forceUpdate || this.isPopover) {
         this.__update(forceUpdate)
       }
     },
+
     __update (change) {
       this.$nextTick(() => {
         if (!isSameDate(this.model, this.value)) {
@@ -153,6 +171,7 @@ export default {
         }
       })
     },
+
     __scrollView () {
       // go back to initial entry point for that type of control
       // if it has defaultView it's going to be reapplied anyway on focus
@@ -233,6 +252,7 @@ export default {
       ]
     }
   },
+
   render (h) {
     return h(QInputFrame, {
       staticClass: 'q-datetime-input',

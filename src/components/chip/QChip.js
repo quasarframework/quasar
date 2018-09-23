@@ -4,9 +4,11 @@ import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QChip',
+
   directives: {
     Ripple
   },
+
   props: {
     dense: Boolean,
 
@@ -40,6 +42,7 @@ export default {
 
     disable: Boolean
   },
+
   computed: {
     classes () {
       const text = this.outline
@@ -58,23 +61,28 @@ export default {
         'q-chip--square': this.square || this.floating
       }
     },
+
     hasLeftIcon () {
       return this.selected || this.icon
     },
+
     isClickable () {
       return !this.disable && this.clickable
     }
   },
+
   methods: {
     __onKeydown (e) {
       e.keyCode === 13 /* ENTER */ && this.__onClick(e)
     },
+
     __onClick (e) {
       if (!this.disable) {
         this.$emit('update:selected', !this.selected)
         this.$emit('click', e)
       }
     },
+
     __onClose (e) {
       stopAndPrevent(e)
       !this.disable && this.$emit('input', false)
@@ -125,6 +133,7 @@ export default {
       return child
     }
   },
+
   render (h) {
     if (!this.value) { return }
 

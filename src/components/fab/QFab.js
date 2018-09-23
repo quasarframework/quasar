@@ -5,7 +5,9 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 
 export default {
   name: 'QFab',
+
   mixins: [FabMixin, ModelToggleMixin],
+
   provide () {
     return {
       __qFabClose: evt => this.hide(evt).then(() => {
@@ -14,6 +16,7 @@ export default {
       })
     }
   },
+
   props: {
     icon: String,
     activeIcon: String,
@@ -23,16 +26,19 @@ export default {
     },
     persistent: Boolean
   },
+
   watch: {
     $route () {
       !this.persistent && this.hide()
     }
   },
+
   created () {
     if (this.value) {
       this.show()
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-fab z-fab row inline justify-center',

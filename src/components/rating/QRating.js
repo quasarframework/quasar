@@ -4,6 +4,7 @@ import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QRating',
+
   props: {
     value: Number,
     max: {
@@ -16,11 +17,13 @@ export default {
     readonly: Boolean,
     disable: Boolean
   },
+
   data () {
     return {
       mouseModel: 0
     }
   },
+
   computed: {
     model: {
       get () {
@@ -35,9 +38,11 @@ export default {
         })
       }
     },
+
     editable () {
       return !this.readonly && !this.disable
     },
+
     classes () {
       const cls = []
 
@@ -48,6 +53,7 @@ export default {
       return cls
     }
   },
+
   methods: {
     set (value) {
       if (this.editable) {
@@ -56,12 +62,14 @@ export default {
         this.mouseModel = 0
       }
     },
+
     __setHoverValue (value) {
       if (this.editable) {
         this.mouseModel = value
       }
     }
   },
+
   render (h) {
     const
       child = [],

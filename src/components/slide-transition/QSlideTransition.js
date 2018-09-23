@@ -1,5 +1,6 @@
 export default {
   name: 'QSlideTransition',
+
   props: {
     appear: Boolean,
     duration: {
@@ -7,6 +8,7 @@ export default {
       default: 300
     }
   },
+
   methods: {
     __begin (el, height) {
       el.style.overflowY = 'hidden'
@@ -16,6 +18,7 @@ export default {
       el.style.transition = `height ${this.duration}ms cubic-bezier(.25, .8, .50, 1)`
       this.animating = true
     },
+
     __end (el, event) {
       el.style.overflowY = null
       el.style.height = null
@@ -24,14 +27,17 @@ export default {
       event !== this.lastEvent && this.$emit(event)
       this.animating = false
     },
+
     __cleanup () {
       clearTimeout(this.timer)
       this.el.removeEventListener('transitionend', this.animListener)
     }
   },
+
   beforeDestroy () {
     this.animating && this.__cleanup()
   },
+
   render (h) {
     return h('transition', {
       props: {

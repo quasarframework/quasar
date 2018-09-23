@@ -1,8 +1,10 @@
 export default {
   name: 'QToolbarTitle',
+
   props: {
     shrink: Boolean
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-toolbar__title text-h6 ellipsis',

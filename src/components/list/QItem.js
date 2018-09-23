@@ -2,7 +2,9 @@ import { RouterLinkMixin } from '../../mixins/router-link.js'
 
 export default {
   name: 'QItem',
+
   mixins: [ RouterLinkMixin ],
+
   props: {
     clickable: Boolean,
     dense: Boolean,
@@ -18,6 +20,7 @@ export default {
     },
     disable: Boolean
   },
+
   computed: {
     isClickable () {
       return !this.disable && (
@@ -27,6 +30,7 @@ export default {
         this.tag === 'label'
       )
     },
+
     classes () {
       return {
         'q-item--clickable q-link cursor-pointer q-focusable q-hoverable': this.isClickable,
@@ -37,6 +41,7 @@ export default {
       }
     }
   },
+
   methods: {
     __getContent (h) {
       const child = [].concat(this.$slots.default)
@@ -44,14 +49,17 @@ export default {
       this.isClickable && child.unshift(h('div', { staticClass: 'q-focus-helper' }))
       return child
     },
+
     __onClick (e) {
       this.$el.blur()
       this.$emit('click', e)
     },
+
     __onKeydown (e) {
       e.keyCode === 13 /* ENTER */ && this.__onClick(e)
     }
   },
+
   render (h) {
     const data = {
       staticClass: 'q-item q-item-type relative-position row',

@@ -1,5 +1,6 @@
 export default {
   name: 'QIcon',
+
   props: {
     name: String,
     color: String,
@@ -7,6 +8,7 @@ export default {
     left: Boolean,
     right: Boolean
   },
+
   computed: {
     classes () {
       let cls
@@ -41,17 +43,20 @@ export default {
         'on-right': this.right
       }
     },
+
     content () {
       return this.classes && this.classes['material-icons']
         ? this.name.replace(/ /g, '_')
         : ' '
     },
+
     style () {
       if (this.size) {
         return { fontSize: this.size }
       }
     }
   },
+
   render (h) {
     return h('i', {
       staticClass: 'q-icon',

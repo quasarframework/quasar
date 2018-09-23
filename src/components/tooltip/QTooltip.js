@@ -12,7 +12,9 @@ import CanRenderMixinMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QTooltip',
-  mixins: [ModelToggleMixin, CanRenderMixinMixin],
+
+  mixins: [ ModelToggleMixin, CanRenderMixinMixin ],
+
   props: {
     anchor: {
       type: String,
@@ -35,19 +37,23 @@ export default {
     maxHeight: String,
     disable: Boolean
   },
+
   watch: {
     $route () {
       this.hide()
     }
   },
+
   computed: {
     anchorOrigin () {
       return parsePosition(this.anchor)
     },
+
     selfOrigin () {
       return parsePosition(this.self)
     }
   },
+
   methods: {
     __show () {
       clearTimeout(this.timer)
@@ -63,10 +69,12 @@ export default {
       this.__updatePosition()
       this.showPromise && this.showPromiseResolve()
     },
+
     __hide () {
       this.__cleanup()
       this.hidePromise && this.hidePromiseResolve()
     },
+
     __cleanup () {
       clearTimeout(this.timer)
 
@@ -78,6 +86,7 @@ export default {
         document.body.removeEventListener('click', this.hide, true)
       }
     },
+
     __updatePosition () {
       setPosition({
         el: this.$el,
@@ -89,15 +98,18 @@ export default {
         maxHeight: this.maxHeight
       })
     },
+
     __delayShow () {
       clearTimeout(this.timer)
       this.timer = setTimeout(this.show, this.delay)
     },
+
     __delayHide () {
       clearTimeout(this.timer)
       this.hide()
     }
   },
+
   render (h) {
     if (!this.canRender) { return }
 
@@ -105,11 +117,13 @@ export default {
       h('div', this.$slots.default)
     ])
   },
+
   beforeMount () {
     this.__debouncedUpdatePosition = debounce(() => {
       this.__updatePosition()
     }, 70)
   },
+
   mounted () {
     this.$nextTick(() => {
       /*
@@ -142,6 +156,7 @@ export default {
       this.value && this.show()
     })
   },
+
   beforeDestroy () {
     clearTimeout(this.timer)
     this.showing && this.__cleanup()

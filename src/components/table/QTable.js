@@ -13,6 +13,7 @@ import FullscreenMixin from '../../mixins/fullscreen.js'
 
 export default {
   name: 'QTable',
+
   mixins: [
     FullscreenMixin,
     Top,
@@ -26,6 +27,7 @@ export default {
     ColumnSelection,
     Expand
   ],
+
   props: {
     data: {
       type: Array,
@@ -68,6 +70,7 @@ export default {
       default: ''
     }
   },
+
   computed: {
     computedData () {
       let rows = this.data.slice().map((row, i) => {
@@ -103,21 +106,26 @@ export default {
 
       return { rowsNumber, rows }
     },
+
     computedRows () {
       return this.computedData.rows
     },
+
     computedRowsNumber () {
       return this.isServerSide
         ? this.computedPagination.rowsNumber || 0
         : this.computedData.rowsNumber
     },
+
     nothingToDisplay () {
       return this.computedRows.length === 0
     },
+
     isServerSide () {
       return this.computedPagination.rowsNumber !== void 0
     }
   },
+
   render (h) {
     return h('div',
       {
@@ -137,6 +145,7 @@ export default {
       ]
     )
   },
+
   methods: {
     requestServerInteraction (prop) {
       this.$nextTick(() => {
@@ -147,6 +156,7 @@ export default {
         })
       })
     },
+
     getBody (h) {
       const hasHeader = !this.hideHeader
 

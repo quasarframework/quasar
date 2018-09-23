@@ -1,5 +1,6 @@
 export default {
   name: 'QModalLayout',
+
   inject: {
     __qmodal: {
       default () {
@@ -7,6 +8,7 @@ export default {
       }
     }
   },
+
   props: {
     headerStyle: [String, Object, Array],
     headerClass: [String, Object, Array],
@@ -17,18 +19,22 @@ export default {
     footerStyle: [String, Object, Array],
     footerClass: [String, Object, Array]
   },
+
   watch: {
     __qmodal (newModal, oldModal) {
       oldModal && oldModal.unregister(this)
       newModal && newModal.register(this)
     }
   },
+
   mounted () {
     this.__qmodal && this.__qmodal.register(this)
   },
+
   beforeDestroy () {
     this.__qmodal && this.__qmodal.unregister(this)
   },
+
   render (h) {
     const child = []
 

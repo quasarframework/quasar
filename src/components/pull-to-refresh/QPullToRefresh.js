@@ -6,9 +6,11 @@ const height = -65
 
 export default {
   name: 'QPullToRefresh',
+
   directives: {
     TouchPan
   },
+
   props: {
     handler: {
       type: Function,
@@ -29,6 +31,7 @@ export default {
     inline: Boolean,
     disable: Boolean
   },
+
   data () {
     return {
       state: 'pull',
@@ -38,11 +41,13 @@ export default {
       scrolling: false
     }
   },
+
   watch: {
     inline (val) {
       this.setScrollContainer(val)
     }
   },
+
   computed: {
     message () {
       switch (this.state) {
@@ -55,16 +60,19 @@ export default {
           return this.pullMessage || this.$q.i18n.pullToRefresh.pull
       }
     },
+
     style () {
       return {
         transform: `translateY(${this.pullPosition}px)`,
         marginBottom: `${height}px`
       }
     },
+
     messageClass () {
       return `text-${this.color}`
     }
   },
+
   methods: {
     __pull (event) {
       if (this.disable) {
@@ -104,6 +112,7 @@ export default {
       this.pullPosition = height + Math.max(0, Math.pow(event.distance.y, 0.85))
       this.state = this.pullPosition > this.distance ? 'pulled' : 'pull'
     },
+
     __animateTo (target, done, previousCall) {
       if (!previousCall && this.animationId) {
         cancelAnimationFrame(this.animating)
@@ -124,6 +133,7 @@ export default {
         })
       }
     },
+
     trigger () {
       this.handler(() => {
         this.__animateTo(height, () => {
@@ -131,15 +141,18 @@ export default {
         })
       })
     },
+
     setScrollContainer (inline) {
       this.$nextTick(() => {
         this.scrollContainer = inline ? this.$el.parentNode : getScrollTarget(this.$el)
       })
     }
   },
+
   mounted () {
     this.setScrollContainer(this.inline)
   },
+
   render (h) {
     return h('div', { staticClass: 'pull-to-refresh overflow-hidden-y' }, [
       h('div', {

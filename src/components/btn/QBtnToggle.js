@@ -3,6 +3,7 @@ import QBtnGroup from './QBtnGroup.js'
 
 export default {
   name: 'QBtnToggle',
+
   props: {
     value: {
       required: true
@@ -35,11 +36,13 @@ export default {
     stretch: Boolean,
     noRipple: Boolean
   },
+
   computed: {
     val () {
       return this.options.map(opt => opt.value === this.value)
     }
   },
+
   methods: {
     set (value, opt) {
       if (!this.readonly && value !== this.value) {
@@ -48,6 +51,7 @@ export default {
       }
     }
   },
+
   render (h) {
     return h(QBtnGroup, {
       staticClass: 'q-btn-toggle',

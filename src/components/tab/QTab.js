@@ -2,10 +2,13 @@ import TabMixin from './tab-mixin.js'
 
 export default {
   name: 'QTab',
-  mixins: [TabMixin],
+
+  mixins: [ TabMixin ],
+
   props: {
     default: Boolean
   },
+
   methods: {
     select () {
       this.$emit('click', this.name)
@@ -14,11 +17,13 @@ export default {
       }
     }
   },
+
   mounted () {
     if (this.default && !this.disable) {
       this.select()
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-tab column flex-center relative-position',

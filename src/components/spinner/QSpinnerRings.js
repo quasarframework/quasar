@@ -2,7 +2,9 @@ import mixin from './spinner-mixin.js'
 
 export default {
   name: 'QSpinnerRings',
+
   mixins: [mixin],
+
   render (h) {
     return h('svg', {
       staticClass: 'q-spinner',

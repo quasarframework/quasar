@@ -13,15 +13,19 @@ function convertToAmPm (hour) {
 
 export default {
   name: 'QDatetimePicker',
-  mixins: [DateMixin, ParentFieldMixin, CanRenderMixin],
+
+  mixins: [ DateMixin, ParentFieldMixin, CanRenderMixin ],
+
   props: {
     defaultValue: [String, Number, Date],
     disable: Boolean,
     readonly: Boolean
   },
+
   directives: {
     Ripple
   },
+
   data () {
     return {
       view: this.__calcView(this.defaultView),
@@ -33,15 +37,18 @@ export default {
       }
     }
   },
+
   watch: {
     value (val) {
       if (!val) {
         this.view = ['date', 'datetime'].includes(this.type) ? 'day' : 'hour'
       }
     },
+
     view () {
       this.__scrollView(true)
     },
+
     model () {
       if (this.fakeValue.month !== this.month) {
         this.fakeValue.month = this.month
@@ -53,6 +60,7 @@ export default {
       }
     }
   },
+
   computed: {
     classes () {
       const cls = []
@@ -63,20 +71,24 @@ export default {
       this.color && cls.push(`text-${this.color}`)
       return cls
     },
+
     dateArrow () {
       const val = [ this.$q.icon.datetime.arrowLeft, this.$q.icon.datetime.arrowRight ]
       return this.$q.i18n.rtl ? val.reverse() : val
     },
+
     computedFormat24h () {
       return this.format24h !== 0
         ? this.format24h
         : this.$q.i18n.date.format24h
     },
+
     computedFirstDayOfWeek () {
       return this.firstDayOfWeek !== void 0
         ? this.firstDayOfWeek
         : this.$q.i18n.date.firstDayOfWeek
     },
+
     headerDayNames () {
       const
         days = this.$q.i18n.date.daysShort,
@@ -90,12 +102,15 @@ export default {
     fakeModel () {
       return new Date(this.fakeYear, this.fakeMonth - 1, 1)
     },
+
     fakeYear () {
       return this.fakeValue.year || this.year
     },
+
     fakeMonth () {
       return this.fakeValue.month || this.month
     },
+
     daysInMonth () {
       return (new Date(this.fakeYear, this.fakeMonth, 0)).getDate()
     },
@@ -103,9 +118,11 @@ export default {
     monthString () {
       return `${this.$q.i18n.date.monthsShort[this.month - 1]}`
     },
+
     monthStamp () {
       return `${this.$q.i18n.date.months[this.fakeMonth - 1]} ${this.fakeYear}`
     },
+
     weekDayString () {
       return this.headerLabel || this.$q.i18n.date.days[this.model.getDay()]
     },
@@ -117,6 +134,7 @@ export default {
       }
       return days
     },
+
     beforeMinDays () {
       if (this.pmin === null) {
         return false
@@ -133,6 +151,7 @@ export default {
       }
       return false
     },
+
     afterMaxDays () {
       if (this.pmax === null) {
         return false
@@ -149,9 +168,11 @@ export default {
       }
       return false
     },
+
     maxDay () {
       return this.pmax !== null ? this.pmax.getDate() : this.daysInMonth
     },
+
     dateInterval () {
       let after = this.pmax === null || this.afterMaxDays === false ? 0 : this.afterMaxDays
       if (this.beforeMinDays > 0 || after) {
@@ -167,12 +188,15 @@ export default {
         ? h
         : convertToAmPm(h)
     },
+
     minute () {
       return this.model.getMinutes()
     },
+
     am () {
       return this.model.getHours() <= 11
     },
+
     clockPointerStyle () {
       let
         forMinute = this.view === 'minute',
@@ -185,9 +209,11 @@ export default {
       }
       return { transform: transforms.join(' ') }
     },
+
     isValid () {
       return isValid(this.value)
     },
+
     today () {
       const today = new Date()
       return isSameDate(today, this.fakeModel, 'month')
@@ -195,6 +221,7 @@ export default {
         : -1
     }
   },
+
   methods: {
     /* date */
     setYear (value, skipView) {
@@ -205,6 +232,7 @@ export default {
         this.model = new Date(new Date(this.model).setFullYear(this.__parseTypeValue('year', value)))
       }
     },
+
     setMonth (value, skipView) {
       if (this.editable) {
         if (!skipView) {
@@ -213,6 +241,7 @@ export default {
         this.model = adjustDate(this.model, { month: value })
       }
     },
+
     moveFakeMonth (direction) {
       let
         month = this.fakeMonth + (direction > 0 ? 1 : -1),
@@ -252,6 +281,7 @@ export default {
       this.fakeValue.year = year
       this.fakeValue.month = month
     },
+
     setDay (value, skipView, year, month) {
       if (this.editable) {
         if (year && month) {
@@ -286,6 +316,7 @@ export default {
 
       this.model = new Date(new Date(this.model).setHours(value))
     },
+
     setMinute (value) {
       if (!this.editable) {
         return
@@ -312,9 +343,11 @@ export default {
           return ['year', 'month', 'day', 'hour', 'minute'].includes(view) ? view : 'day'
       }
     },
+
     __pad (unit, filler) {
       return (unit < 10 ? filler || '0' : '') + unit
     },
+
     __scrollView (delayed) {
       if (this.view !== 'year' && this.view !== 'month') {
         return
@@ -338,6 +371,7 @@ export default {
         }
       })
     },
+
     __dragStart (ev, value) {
       stopAndPrevent(ev)
 
@@ -353,6 +387,7 @@ export default {
       this.dragging = true
       this.__updateClock(ev, value)
     },
+
     __dragMove (ev) {
       if (!this.dragging) {
         return
@@ -360,6 +395,7 @@ export default {
       stopAndPrevent(ev)
       this.__updateClock(ev)
     },
+
     __dragStop (ev, value) {
       stopAndPrevent(ev)
       this.dragging = false
@@ -374,6 +410,7 @@ export default {
         this.view = 'minute'
       }
     },
+
     __updateClock (ev, value) {
       if (value !== void 0) {
         return this[this.view === 'hour' ? 'setHour' : 'setMinute'](value)
@@ -410,6 +447,7 @@ export default {
         this.setMinute(Math.round(angle / 6))
       }
     },
+
     __repeatTimeout (count) {
       return Math.max(100, 300 - count * count * 10)
     },
@@ -868,6 +906,7 @@ export default {
       }
     }
   },
+
   created () {
     this.__amPmEvents = {
       keydown: e => {
@@ -879,6 +918,7 @@ export default {
       }
     }
   },
+
   mounted () {
     this.__scrollView(true)
   },

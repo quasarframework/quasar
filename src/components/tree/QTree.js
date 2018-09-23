@@ -6,9 +6,11 @@ import Ripple from '../../directives/ripple.js'
 
 export default {
   name: 'QTree',
+
   directives: {
     Ripple
   },
+
   props: {
     nodes: Array,
     nodeKey: {
@@ -57,6 +59,7 @@ export default {
     noNodesLabel: String,
     noResultsLabel: String
   },
+
   computed: {
     classes () {
       return [
@@ -64,18 +67,23 @@ export default {
         { 'q-tree-dark': this.dark }
       ]
     },
+
     hasSelection () {
       return this.selected !== void 0
     },
+
     computedIcon () {
       return this.icon || this.$q.icon.tree.icon
     },
+
     computedControlColor () {
       return this.controlColor || this.color
     },
+
     contentClass () {
       return `text-${this.textColor || (this.dark ? 'white' : 'black')}`
     },
+
     meta () {
       const meta = {}
 
@@ -181,6 +189,7 @@ export default {
       return meta
     }
   },
+
   data () {
     return {
       lazy: {},
@@ -188,14 +197,17 @@ export default {
       innerExpanded: this.expanded || []
     }
   },
+
   watch: {
     ticked (val) {
       this.innerTicked = val
     },
+
     expanded (val) {
       this.innerExpanded = val
     }
   },
+
   methods: {
     getNodeByKey (key) {
       const reduce = [].reduce
@@ -217,17 +229,21 @@ export default {
 
       return find(null, this.nodes)
     },
+
     getTickedNodes () {
       return this.innerTicked.map(key => this.getNodeByKey(key))
     },
+
     getExpandedNodes () {
       return this.innerExpanded.map(key => this.getNodeByKey(key))
     },
+
     isExpanded (key) {
       return key && this.meta[key]
         ? this.meta[key].expanded
         : false
     },
+
     collapseAll () {
       if (this.expanded !== void 0) {
         this.$emit('update:expanded', [])
@@ -236,6 +252,7 @@ export default {
         this.innerExpanded = []
       }
     },
+
     expandAll () {
       const
         expanded = this.innerExpanded,
@@ -257,6 +274,7 @@ export default {
         this.innerExpanded = expanded
       }
     },
+
     setExpanded (key, state, node = this.getNodeByKey(key), meta = this.meta[key]) {
       if (meta.lazy && meta.lazy !== 'loaded') {
         if (meta.lazy === 'loading') {
@@ -288,6 +306,7 @@ export default {
         this.__setExpanded(key, state)
       }
     },
+
     __setExpanded (key, state) {
       let target = this.innerExpanded
       const emit = this.expanded !== void 0
@@ -335,11 +354,13 @@ export default {
         this.innerExpanded = target
       }
     },
+
     isTicked (key) {
       return key && this.meta[key]
         ? this.meta[key].ticked
         : false
     },
+
     setTicked (keys, state) {
       let target = this.innerTicked
       const emit = this.ticked !== void 0
@@ -360,6 +381,7 @@ export default {
         this.$emit(`update:ticked`, target)
       }
     },
+
     __getSlotScope (node, meta, key) {
       const scope = { tree: this, node, key, color: this.color, dark: this.dark }
 
@@ -374,6 +396,7 @@ export default {
 
       return scope
     },
+
     __getChildren (h, nodes) {
       return (
         this.filter
@@ -381,6 +404,7 @@ export default {
           : nodes
       ).map(child => this.__getNode(h, child))
     },
+
     __getNodeMedia (h, node) {
       if (node.icon) {
         return h(QIcon, {
@@ -396,6 +420,7 @@ export default {
         })
       }
     },
+
     __getNode (h, node) {
       const
         key = node[this.nodeKey],
@@ -509,6 +534,7 @@ export default {
           : body
       ])
     },
+
     __onClick (node, meta) {
       if (this.hasSelection) {
         if (meta.selectable) {
@@ -523,12 +549,14 @@ export default {
         node.handler(node)
       }
     },
+
     __onExpandClick (node, meta, e) {
       if (e !== void 0) {
         e.stopPropagation()
       }
       this.setExpanded(meta.key, !meta.expanded, node, meta)
     },
+
     __onTickedClick (node, meta, state) {
       if (meta.indeterminate && state) {
         state = false
@@ -556,6 +584,7 @@ export default {
       }
     }
   },
+
   render (h) {
     const children = this.__getChildren(h, this.nodes)
 
@@ -573,6 +602,7 @@ export default {
         : children
     )
   },
+
   created () {
     if (this.defaultExpandAll) {
       this.expandAll()

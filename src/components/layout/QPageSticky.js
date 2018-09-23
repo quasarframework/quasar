@@ -1,5 +1,6 @@
 export default {
   name: 'QPageSticky',
+
   inject: {
     layout: {
       default () {
@@ -7,6 +8,7 @@ export default {
       }
     }
   },
+
   props: {
     position: {
       type: String,
@@ -23,6 +25,7 @@ export default {
     },
     expand: Boolean
   },
+
   computed: {
     attach () {
       const pos = this.position
@@ -36,18 +39,23 @@ export default {
         horizontal: pos === 'left' || pos === 'right'
       }
     },
+
     top () {
       return this.layout.header.offset
     },
+
     right () {
       return this.layout.right.offset
     },
+
     bottom () {
       return this.layout.footer.offset
     },
+
     left () {
       return this.layout.left.offset
     },
+
     computedStyle () {
       const
         attach = this.attach,
@@ -95,10 +103,12 @@ export default {
 
       return css
     },
+
     classes () {
-      return [ `fixed-${this.position}`, `q-page-sticky-${this.expand ? 'expand' : 'shrink'}` ]
+      return `fixed-${this.position} q-page-sticky-${this.expand ? 'expand' : 'shrink'}`
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-page-sticky q-layout-transition row flex-center',

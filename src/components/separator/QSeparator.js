@@ -1,5 +1,6 @@
 export default {
   name: 'QSeparator',
+
   props: {
     dark: Boolean,
     spaced: Boolean,
@@ -7,6 +8,7 @@ export default {
     vertical: Boolean,
     color: String
   },
+
   computed: {
     classes () {
       return {
@@ -21,6 +23,7 @@ export default {
       }
     }
   },
+
   render (h) {
     return h('hr', {
       staticClass: 'q-separator',

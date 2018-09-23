@@ -8,7 +8,9 @@ import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QChipsInput',
-  mixins: [FrameMixin, InputMixin],
+
+  mixins: [ FrameMixin, InputMixin ],
+
   props: {
     value: {
       type: Array,
@@ -21,6 +23,7 @@ export default {
     upperCase: Boolean,
     lowerCase: Boolean
   },
+
   data () {
     return {
       input: '',
@@ -50,28 +53,34 @@ export default {
       }
     }
   },
+
   watch: {
     value (v) {
       this.model = v.slice()
     }
   },
+
   provide () {
     return {
       __input: this.shadow
     }
   },
+
   computed: {
     length () {
       return this.model
         ? this.model.length
         : 0
     },
+
     isLoading () {
       return this.loading || (this.shadow.watched && this.shadow.loading)
     },
+
     computedAddIcon () {
       return this.addIcon || this.$q.icon.chipsInput.add
     },
+
     computedChipTextColor () {
       if (this.chipsColor) {
         return this.chipsColor
@@ -86,6 +95,7 @@ export default {
         ? this.color
         : 'white'
     },
+
     computedChipBgColor () {
       if (this.chipsBgColor) {
         return this.chipsBgColor
@@ -100,6 +110,7 @@ export default {
         ? 'white'
         : this.color
     },
+
     inputClasses () {
       const cls = [ this.alignClass ]
 
@@ -108,10 +119,12 @@ export default {
 
       return cls
     },
+
     isClearable () {
       return this.editable && this.clearable && this.model.length !== 0
     }
   },
+
   methods: {
     add (value = this.input) {
       clearTimeout(this.timer)
@@ -139,6 +152,7 @@ export default {
       this.$emit('input', this.model)
       this.input = ''
     },
+
     remove (index) {
       clearTimeout(this.timer)
       this.focus()
@@ -147,6 +161,7 @@ export default {
         this.$emit('input', this.model)
       }
     },
+
     clear (evt) {
       clearTimeout(this.timer)
       evt && stopAndPrevent(evt)
@@ -155,9 +170,11 @@ export default {
         this.$emit('clear')
       }
     },
+
     __clearTimer () {
       this.$nextTick(() => clearTimeout(this.timer))
     },
+
     __handleKeyDown (e) {
       switch (e.keyCode) {
         case 13: // ENTER key
@@ -175,19 +192,23 @@ export default {
           return this.__onKeydown(e)
       }
     },
+
     __onClick () {
       this.focus()
     },
+
     __watcher (value) {
       if (this.shadow.watched) {
         this.shadow.val = value
       }
     },
+
     __watcherRegister () {
       if (!this.watcher) {
         this.watcher = this.$watch('input', this.__watcher)
       }
     },
+
     __watcherUnregister (forceUnregister) {
       if (
         this.watcher &&
@@ -199,6 +220,7 @@ export default {
       }
     }
   },
+
   beforeDestroy () {
     this.__watcherUnregister(true)
   },

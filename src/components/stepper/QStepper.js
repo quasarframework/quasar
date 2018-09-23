@@ -3,6 +3,7 @@ import frameDebounce from '../../utils/frame-debounce.js'
 
 export default {
   name: 'QStepper',
+
   props: {
     value: [Number, String],
     color: {
@@ -17,6 +18,7 @@ export default {
     activeIcon: Boolean,
     errorIcon: Boolean
   },
+
   data () {
     return {
       animation: null,
@@ -24,15 +26,18 @@ export default {
       steps: []
     }
   },
+
   provide () {
     return {
       __stepper: this
     }
   },
+
   watch: {
     value (v) {
       this.goToStep(v)
     },
+
     step (cur, old) {
       if (!this.vertical) {
         const
@@ -45,6 +50,7 @@ export default {
       }
     }
   },
+
   computed: {
     classes () {
       const cls = [
@@ -54,23 +60,28 @@ export default {
       this.contractable && cls.push(`q-stepper-contractable`)
       return cls
     },
+
     hasSteps () {
       return this.steps.length > 0
     },
+
     currentStep () {
       if (this.hasSteps) {
         return this.steps.find(step => step.name === this.step)
       }
     },
+
     currentOrder () {
       if (this.currentStep) {
         return this.currentStep.innerOrder
       }
     },
+
     length () {
       return this.steps.length
     }
   },
+
   methods: {
     goToStep (value) {
       if (this.step === value || value === void 0) {
@@ -87,12 +98,15 @@ export default {
         }
       })
     },
+
     next () {
       this.__go(1)
     },
+
     previous () {
       this.__go(-1)
     },
+
     reset () {
       if (this.hasSteps) {
         this.goToStep(this.steps[0].name)
@@ -122,6 +136,7 @@ export default {
 
       this.goToStep(name)
     },
+
     __sortSteps () {
       this.steps.sort((a, b) => {
         return a.actualOrder - b.actualOrder
@@ -138,18 +153,22 @@ export default {
         }
       })
     },
+
     __registerStep (vm) {
       this.steps.push(vm)
       this.__sortSteps()
       return this
     },
+
     __unregisterStep (vm) {
       this.steps = this.steps.filter(step => step !== vm)
     }
   },
+
   created () {
     this.__sortSteps = frameDebounce(this.__sortSteps)
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-stepper generic-border-radius column overflow-hidden relative-position',

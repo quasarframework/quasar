@@ -1,4 +1,7 @@
 export default {
   name: 'QAutocomplete',
-  render () {}
+
+  render (h) {
+    return h('div')
+  }
 }

@@ -3,13 +3,16 @@ import FabMixin from './fab-mixin.js'
 
 export default {
   name: 'QFabAction',
+
   mixins: [FabMixin],
+
   props: {
     icon: {
       type: String,
       required: true
     }
   },
+
   inject: {
     __qFabClose: {
       default () {
@@ -17,6 +20,7 @@ export default {
       }
     }
   },
+
   methods: {
     click (e) {
       this.__qFabClose().then(() => {
@@ -24,6 +28,7 @@ export default {
       })
     }
   },
+
   render (h) {
     return h(QBtn, {
       props: {

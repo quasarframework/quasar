@@ -2,6 +2,7 @@ import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QTimelineEntry',
+
   inject: {
     __timeline: {
       default () {
@@ -9,6 +10,7 @@ export default {
       }
     }
   },
+
   props: {
     heading: Boolean,
     tag: {
@@ -25,10 +27,12 @@ export default {
     title: String,
     subtitle: String
   },
+
   computed: {
     colorClass () {
       return `text-${this.color || this.__timeline.color}`
     },
+
     classes () {
       return [
         `q-timeline__entry--${this.side === 'left' ? 'left' : 'right'}`,
@@ -36,6 +40,7 @@ export default {
       ]
     }
   },
+
   render (h) {
     if (this.heading) {
       return h('div', { staticClass: 'q-timeline__heading' }, [

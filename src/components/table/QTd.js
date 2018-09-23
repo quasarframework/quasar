@@ -1,9 +1,11 @@
 export default {
   name: 'QTd',
+
   props: {
     props: Object,
     autoWidth: Boolean
   },
+
   render (h) {
     if (!this.props) {
       return h('td', {

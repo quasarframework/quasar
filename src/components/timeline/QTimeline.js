@@ -1,10 +1,12 @@
 export default {
   name: 'QTimeline',
+
   provide () {
     return {
       __timeline: this
     }
   },
+
   props: {
     color: {
       type: String,
@@ -13,6 +15,7 @@ export default {
     responsive: Boolean,
     dark: Boolean
   },
+
   computed: {
     classes () {
       return {
@@ -21,6 +24,7 @@ export default {
       }
     }
   },
+
   render (h) {
     return h('ul', {
       staticClass: 'q-timeline',

@@ -1,11 +1,13 @@
 export default {
   name: 'QItemLabel',
+
   props: {
     overline: Boolean,
     caption: Boolean,
     header: Boolean,
     lines: [Number, String]
   },
+
   computed: {
     classes () {
       const title = !this.overline && !this.caption
@@ -18,6 +20,7 @@ export default {
         'ellipsis': parseInt(this.lines, 10) === 1
       }
     },
+
     style () {
       if (this.lines !== void 0 && parseInt(this.lines, 10) > 0) {
         return {
@@ -29,6 +32,7 @@ export default {
       }
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-item__label',

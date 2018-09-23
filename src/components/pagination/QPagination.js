@@ -4,6 +4,7 @@ import QInput from '../input/QInput.js'
 
 export default {
   name: 'QPagination',
+
   props: {
     value: {
       type: Number,
@@ -53,19 +54,23 @@ export default {
       }
     }
   },
+
   data () {
     return {
       newPage: null
     }
   },
+
   watch: {
     min (value) {
       this.model = this.value
     },
+
     max (value) {
       this.model = this.value
     }
   },
+
   computed: {
     model: {
       get () {
@@ -84,21 +89,27 @@ export default {
         })
       }
     },
+
     inputPlaceholder () {
       return this.model + ' / ' + this.max
     },
+
     __boundaryLinks () {
       return this.__getBool(this.boundaryLinks, this.input)
     },
+
     __boundaryNumbers () {
       return this.__getBool(this.boundaryNumbers, !this.input)
     },
+
     __directionLinks () {
       return this.__getBool(this.directionLinks, this.input)
     },
+
     __ellipses () {
       return this.__getBool(this.ellipses, !this.input)
     },
+
     icons () {
       const ico = [
         this.$q.icon.pagination.first,
@@ -109,22 +120,27 @@ export default {
       return this.$q.i18n.rtl ? ico.reverse() : ico
     }
   },
+
   methods: {
     set (value) {
       this.model = value
     },
+
     setByOffset (offset) {
       this.model = this.model + offset
     },
+
     __update () {
       this.model = this.newPage
       this.newPage = null
     },
+
     __getBool (val, otherwise) {
       return [true, false].includes(val)
         ? val
         : otherwise
     },
+
     __getBtn (h, data, props) {
       data.props = Object.assign({
         color: this.color,
@@ -134,6 +150,7 @@ export default {
       return h(QBtn, data)
     }
   },
+
   render (h) {
     const
       contentStart = [],

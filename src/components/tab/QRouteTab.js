@@ -3,15 +3,19 @@ import TabMixin from './tab-mixin.js'
 
 export default {
   name: 'QRouteTab',
+
   mixins: [ TabMixin, RouterLinkMixin ],
+
   inject: {
     selectTabRouter: {}
   },
+
   watch: {
     $route () {
       this.checkIfSelected()
     }
   },
+
   methods: {
     select () {
       this.$emit('click', this.name)
@@ -20,6 +24,7 @@ export default {
         this.selectTabRouter({ value: this.name, selected: true })
       }
     },
+
     checkIfSelected () {
       this.$nextTick(() => {
         if (this.isExactActiveRoute(this.$el)) {
@@ -35,9 +40,11 @@ export default {
       })
     }
   },
+
   mounted () {
     this.checkIfSelected()
   },
+
   render (h) {
     return h('router-link', {
       props: {

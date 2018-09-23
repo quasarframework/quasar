@@ -2,7 +2,9 @@ import AlignMixin from '../../mixins/align.js'
 
 export default {
   name: 'QBreadcrumbs',
-  mixins: [AlignMixin],
+
+  mixins: [ AlignMixin ],
+
   props: {
     separator: {
       type: String,
@@ -21,23 +23,25 @@ export default {
       default: 'left'
     }
   },
+
   computed: {
     classes () {
       return `text-${this.color} ${this.alignClass}`
     },
+
     sepClass () {
       if (this.separatorColor) {
         return `text-${this.separatorColor}`
       }
     },
+
     activeClass () {
       return `text-${this.activeColor}`
     }
   },
+
   render (h) {
-    if (!this.$slots.default) {
-      return
-    }
+    if (!this.$slots.default) { return }
 
     let els = 1
 

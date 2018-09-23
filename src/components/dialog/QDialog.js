@@ -6,6 +6,7 @@ import clone from '../../utils/clone.js'
 
 export default {
   name: 'QDialog',
+
   props: {
     value: Boolean,
     title: String,
@@ -28,6 +29,7 @@ export default {
       default: 'primary'
     }
   },
+
   render (h) {
     const
       child = [],
@@ -130,25 +132,30 @@ export default {
       }
     }, child)
   },
+
   computed: {
     hasForm () {
       return this.prompt || this.options
     },
+
     okLabel () {
       return this.ok === true
         ? this.$q.i18n.label.ok
         : this.ok
     },
+
     cancelLabel () {
       return this.cancel === true
         ? this.$q.i18n.label.cancel
         : this.cancel
     },
+
     buttonClass () {
       return this.stackButtons
         ? 'column'
         : 'row'
     },
+
     okProps () {
       return Object(this.ok) === this.ok
         ? Object.assign({
@@ -158,6 +165,7 @@ export default {
         }, this.ok)
         : { color: this.color, flat: true, label: this.okLabel, noRipple: true }
     },
+
     cancelProps () {
       return Object(this.cancel) === this.cancel
         ? Object.assign({
@@ -168,13 +176,16 @@ export default {
         : { color: this.color, flat: true, label: this.cancelLabel, noRipple: true }
     }
   },
+
   methods: {
     show () {
       return this.$refs.modal.show()
     },
+
     hide () {
       return this.$refs.modal ? this.$refs.modal.hide().then(() => this.hasForm ? clone(this.__getData()) : void 0) : Promise.resolve()
     },
+
     __getPrompt (h) {
       return [
         h(QInput, {
@@ -197,6 +208,7 @@ export default {
         })
       ]
     },
+
     __getOptions (h) {
       return [
         h(QOptionGroup, {
@@ -213,6 +225,7 @@ export default {
         })
       ]
     },
+
     __getButtons (h) {
       const child = []
 
@@ -234,16 +247,19 @@ export default {
         'class': this.buttonClass
       }, child)
     },
+
     __onOk () {
       return this.hide().then(data => {
         this.$emit('ok', data)
       })
     },
+
     __onCancel () {
       return this.hide().then(() => {
         this.$emit('cancel')
       })
     },
+
     __getData () {
       if (this.prompt) {
         return this.prompt.model

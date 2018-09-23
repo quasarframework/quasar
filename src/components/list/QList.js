@@ -1,11 +1,13 @@
 export default {
   name: 'QList',
+
   props: {
     bordered: Boolean,
     dense: Boolean,
     separator: Boolean,
     dark: Boolean
   },
+
   computed: {
     classes () {
       return {
@@ -16,6 +18,7 @@ export default {
       }
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-list',

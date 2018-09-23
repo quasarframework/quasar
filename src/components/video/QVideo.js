@@ -1,11 +1,13 @@
 export default {
   name: 'QVideo',
+
   props: {
     src: {
       type: String,
       required: true
     }
   },
+
   computed: {
     iframeData () {
       return {
@@ -17,6 +19,7 @@ export default {
       }
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-video'

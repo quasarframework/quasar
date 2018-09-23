@@ -1,11 +1,13 @@
 export default {
   name: 'QItemSection',
+
   props: {
     avatar: Boolean,
     thumbnail: Boolean,
     side: Boolean,
     top: Boolean
   },
+
   computed: {
     classes () {
       const side = this.avatar || this.side || this.thumbnail
@@ -20,6 +22,7 @@ export default {
       }
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-item__section column text-subtitle1',

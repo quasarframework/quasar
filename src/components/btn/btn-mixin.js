@@ -10,10 +10,12 @@ const sizes = {
 }
 
 export default {
-  mixins: [AlignMixin],
+  mixins: [ AlignMixin ],
+
   directives: {
     Ripple
   },
+
   props: {
     type: String,
     loading: Boolean,
@@ -42,6 +44,7 @@ export default {
     replace: Boolean,
     stretch: Boolean
   },
+
   computed: {
     style () {
       if (this.size && !this.fab && !this.fabMini) {
@@ -50,27 +53,35 @@ export default {
         }
       }
     },
+
     isRectangle () {
       return !this.isRound
     },
+
     isRound () {
       return this.round || this.fab || this.fabMini
     },
+
     shape () {
       return `q-btn--${this.isRound ? 'round' : 'rectangle'}`
     },
+
     isDisabled () {
       return this.disable || this.loading
     },
+
     hasRipple () {
       return !this.noRipple && !this.isDisabled
     },
+
     computedTabIndex () {
       return this.isDisabled ? -1 : this.tabindex || 0
     },
+
     isLink () {
       return this.type === 'a' || this.to !== void 0
     },
+
     attrs () {
       const att = { tabindex: this.computedTabIndex }
       if (this.type !== 'a') {
@@ -81,6 +92,7 @@ export default {
       }
       return att
     },
+
     classes () {
       const cls = [ this.shape ]
 
@@ -135,6 +147,7 @@ export default {
 
       return cls
     },
+
     innerClasses () {
       return {
         [this.alignClass]: true,

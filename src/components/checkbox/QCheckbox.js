@@ -4,32 +4,39 @@ import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QCheckbox',
-  mixins: [CheckboxMixin, OptionMixin],
+
+  mixins: [ CheckboxMixin, OptionMixin ],
+
   props: {
     toggleIndeterminate: Boolean,
     indeterminateValue: { default: null },
     indeterminateIcon: String
   },
+
   computed: {
     isIndeterminate () {
       return this.value === void 0 || this.value === this.indeterminateValue
     },
+
     checkedStyle () {
       return this.isTrue
         ? {transition: 'opacity 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 800ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', opacity: 1, transform: 'scale(1)'}
         : {transition: 'opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms', opacity: 0, transform: 'scale(0)'}
     },
+
     indeterminateStyle () {
       return this.isIndeterminate
         ? {transition: 'opacity 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 800ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', opacity: 1, transform: 'scale(1)'}
         : {transition: 'opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms', opacity: 0, transform: 'scale(0)'}
     },
+
     uncheckedStyle () {
       return this.isFalse
         ? {opacity: 1}
         : {transition: 'opacity 650ms cubic-bezier(0.23, 1, 0.32, 1) 150ms', opacity: 0}
     }
   },
+
   methods: {
     __getContent (h) {
       return [
@@ -52,6 +59,7 @@ export default {
       ]
     }
   },
+
   beforeCreate () {
     this.__kebabTag = 'q-checkbox'
   }

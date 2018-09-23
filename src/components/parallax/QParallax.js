@@ -6,6 +6,7 @@ import { listenOpts } from '../../utils/event.js'
 
 export default {
   name: 'QParallax',
+
   props: {
     src: String,
     height: {
@@ -18,22 +19,26 @@ export default {
       validator: v => v >= 0 && v <= 1
     }
   },
+
   data () {
     return {
       scrolling: false,
       percentScrolled: 0
     }
   },
+
   watch: {
     height () {
       this.__updatePos()
     }
   },
+
   methods: {
     __update (percentage) {
       this.percentScrolled = percentage
       this.$emit('scroll', percentage)
     },
+
     __onResize () {
       if (!this.scrollTarget) {
         return
@@ -42,6 +47,7 @@ export default {
       this.mediaHeight = this.media.naturalHeight || height(this.media)
       this.__updatePos()
     },
+
     __updatePos () {
       let containerTop, containerHeight, containerBottom, top, bottom
 
@@ -65,10 +71,12 @@ export default {
         this.__update(percent)
       }
     },
+
     __setPos (offset) {
       this.media.style.transform = `translate3D(-50%,${offset}px, 0)`
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-parallax',
@@ -94,9 +102,11 @@ export default {
       )
     ])
   },
+
   beforeMount () {
     this.__setPos = frameDebounce(this.__setPos)
   },
+
   mounted () {
     this.__update = frameDebounce(this.__update)
     this.resizeHandler = debounce(this.__onResize, 50)
@@ -114,6 +124,7 @@ export default {
 
     this.__onResize()
   },
+
   beforeDestroy () {
     window.removeEventListener('resize', this.resizeHandler, listenOpts.passive)
     this.scrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)

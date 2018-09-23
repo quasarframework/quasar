@@ -3,13 +3,16 @@ import { onSSR, fromSSR } from '../../plugins/platform.js'
 
 export default {
   name: 'QWindowResizeObservable',
+
   props: {
     debounce: {
       type: Number,
       default: 80
     }
   },
-  render () {},
+
+  render () {}, // eslint-disable-line
+
   methods: {
     trigger () {
       if (this.debounce === 0) {
@@ -19,6 +22,7 @@ export default {
         this.timer = setTimeout(this.emit, this.debounce)
       }
     },
+
     emit (ssr) {
       this.timer = null
       this.$emit('resize', {
@@ -27,13 +31,16 @@ export default {
       })
     }
   },
+
   created () {
     this.emit(onSSR)
   },
+
   mounted () {
     fromSSR && this.emit()
     window.addEventListener('resize', this.trigger, listenOpts.passive)
   },
+
   beforeDestroy () {
     clearTimeout(this.timer)
     window.removeEventListener('resize', this.trigger, listenOpts.passive)

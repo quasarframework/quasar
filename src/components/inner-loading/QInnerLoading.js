@@ -2,6 +2,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 export default {
   name: 'QInnerLoading',
+
   props: {
     dark: Boolean,
     visible: Boolean,
@@ -11,10 +12,9 @@ export default {
     },
     color: String
   },
+
   render (h) {
-    if (!this.visible) {
-      return
-    }
+    if (!this.visible) { return }
 
     return h(
       'div',

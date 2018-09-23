@@ -5,6 +5,7 @@ import { listenOpts } from '../../utils/event.js'
 
 export default {
   name: 'QInfiniteScroll',
+
   props: {
     handler: {
       type: Function,
@@ -16,6 +17,7 @@ export default {
       default: 0
     }
   },
+
   data () {
     return {
       index: 0,
@@ -23,6 +25,7 @@ export default {
       working: true
     }
   },
+
   methods: {
     poll () {
       if (this.fetching || !this.working) {
@@ -38,6 +41,7 @@ export default {
         this.loadMore()
       }
     },
+
     loadMore () {
       if (this.fetching || !this.working) {
         return
@@ -56,20 +60,24 @@ export default {
         }
       })
     },
+
     reset () {
       this.index = 0
     },
+
     resume () {
       this.working = true
       this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
       this.immediatePoll()
     },
+
     stop () {
       this.working = false
       this.fetching = false
       this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
     }
   },
+
   mounted () {
     this.$nextTick(() => {
       this.element = this.$refs.content
@@ -84,9 +92,11 @@ export default {
       this.poll = debounce(this.poll, 50)
     })
   },
+
   beforeDestroy () {
     this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
   },
+
   render (h) {
     return h('div', { staticClass: 'q-infinite-scroll' }, [
       h('div', {

@@ -391,23 +391,23 @@
         </q-card-section>
 
         <q-list>
-          <q-collapsible icon="explore" label="First">
-            <div>
+          <q-expansion-item expand-separator icon="explore" label="First">
+            <div class="q-pa-md">
               Lorem ipsum dolor sit amet...
             </div>
-          </q-collapsible>
+          </q-expansion-item>
 
-          <q-collapsible icon="perm_identity" label="Second">
-            <div>
+          <q-expansion-item expand-separator icon="perm_identity" label="Second">
+            <div class="q-pa-md">
               Lorem ipsum dolor sit amet...
             </div>
-          </q-collapsible>
+          </q-expansion-item>
 
-          <q-collapsible icon="shopping_cart" label="Third">
-            <div>
+          <q-expansion-item expand-separator icon="shopping_cart" label="Third">
+            <div class="q-pa-md">
               Lorem ipsum dolor sit amet...
             </div>
-          </q-collapsible>
+          </q-expansion-item>
         </q-list>
       </q-card>
 

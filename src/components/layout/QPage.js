@@ -1,5 +1,6 @@
 export default {
   name: 'QPage',
+
   inject: {
     pageContainer: {
       default () {
@@ -8,10 +9,12 @@ export default {
     },
     layout: {}
   },
+
   props: {
     padding: Boolean,
     styleFn: Function
   },
+
   computed: {
     style () {
       const offset =
@@ -28,12 +31,14 @@ export default {
 
       return { minHeight }
     },
+
     classes () {
       if (this.padding) {
         return 'layout-padding'
       }
     }
   },
+
   render (h) {
     return h('main', {
       staticClass: 'q-layout-page',

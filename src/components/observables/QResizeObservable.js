@@ -4,18 +4,22 @@ import { isSSR } from '../../plugins/platform.js'
 
 export default {
   name: 'QResizeObservable',
+
   mixins: [ CanRenderMixin ],
+
   props: {
     debounce: {
       type: Number,
       default: 100
     }
   },
+
   data () {
     return this.hasObserver
       ? {}
       : { url: this.$q.platform.is.ie ? null : 'about:blank' }
   },
+
   methods: {
     onResize () {
       this.timer = null
@@ -38,6 +42,7 @@ export default {
       this.size = size
       this.$emit('resize', this.size)
     },
+
     trigger (immediately) {
       if (immediately === true || this.debounce === 0) {
         this.onResize()
@@ -47,6 +52,7 @@ export default {
       }
     }
   },
+
   render (h) {
     if (!this.canRender || this.hasObserver) {
       return
@@ -68,6 +74,7 @@ export default {
       }
     })
   },
+
   beforeCreate () {
     this.size = { width: -1, height: -1 }
     if (isSSR) { return }
@@ -78,6 +85,7 @@ export default {
       this.style = `${this.$q.platform.is.ie ? 'visibility:hidden;' : ''}display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;`
     }
   },
+
   mounted () {
     if (this.hasObserver) {
       this.observer = new ResizeObserver(this.trigger)
@@ -91,6 +99,7 @@ export default {
       this.url = 'about:blank'
     }
   },
+
   beforeDestroy () {
     clearTimeout(this.timer)
 

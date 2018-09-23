@@ -16,6 +16,7 @@ function getUnderlineClass (v) {
 
 export default {
   name: 'QTabs',
+
   provide () {
     return {
       data: this.data,
@@ -23,9 +24,11 @@ export default {
       selectTabRouter: this.selectTabRouter
     }
   },
+
   directives: {
     TouchSwipe
   },
+
   props: {
     value: String,
     align: {
@@ -51,6 +54,7 @@ export default {
     panesContainerClass: String,
     underlineColor: String
   },
+
   data () {
     return {
       currentEl: null,
@@ -69,23 +73,29 @@ export default {
       }
     }
   },
+
   watch: {
     value (name) {
       this.selectTab(name)
     },
+
     color (v) {
       this.data.color = v
     },
+
     textColor (v) {
       this.data.textColor = v
     },
+
     inverted (v) {
       this.data.inverted = v
     },
+
     underlineColor (v) {
       this.data.underlineClass = getUnderlineClass(v)
     }
   },
+
   computed: {
     classes () {
       return [
@@ -94,6 +104,7 @@ export default {
         this.twoLines ? 'q-tabs-two-lines' : ''
       ]
     },
+
     innerClasses () {
       const cls = [ `q-tabs-align-${this.align}` ]
       this.glossy && cls.push('glossy')
@@ -106,6 +117,7 @@ export default {
       }
       return cls
     },
+
     posbarClasses () {
       const cls = []
       this.inverted && cls.push(`text-${this.textColor || this.color}`)
@@ -113,6 +125,7 @@ export default {
       return cls
     }
   },
+
   methods: {
     go (offset) {
       let index = 0
@@ -131,12 +144,15 @@ export default {
         this.selectTab(nodes[index].getAttribute('data-tab-name'))
       }
     },
+
     previous () {
       this.go(-1)
     },
+
     next () {
       this.go(1)
     },
+
     selectTab (value) {
       if (this.data.tabName === value) {
         return
@@ -172,6 +188,7 @@ export default {
       this.$emit('input', value, this.data.direction)
       this.$emit('select', value, this.data.direction)
     },
+
     selectTabRouter (params) {
       const
         { value, selectable, exact, selected, priority } = params,
@@ -206,6 +223,7 @@ export default {
     __swipe (touch) {
       this.go(touch.direction === 'left' ? 1 : -1)
     },
+
     __repositionBar () {
       clearTimeout(this.timer)
 
@@ -252,6 +270,7 @@ export default {
         )
       }, 20)
     },
+
     __setPositionBar (width = 0, left = 0) {
       if (this.posbar.width === width && this.posbar.left === left) {
         this.__updatePosbarTransition()
@@ -264,6 +283,7 @@ export default {
 
       this.$refs.posbar.style.transform = `translateX(${xPos}px) scaleX(${width})`
     },
+
     __updatePosbarTransition () {
       if (
         this.finalPosbar.width === this.posbar.width &&
@@ -279,6 +299,7 @@ export default {
       this.$refs.posbar.classList.add('contract')
       this.__setPositionBar(this.finalPosbar.width, this.finalPosbar.left)
     },
+
     __redraw () {
       if (!this.$q.platform.is.desktop) {
         return
@@ -297,6 +318,7 @@ export default {
         this.scrollable = false
       }
     },
+
     __updateScrollIndicator () {
       if (!this.$q.platform.is.desktop || !this.scrollable) {
         return
@@ -305,17 +327,20 @@ export default {
       this.$refs.leftScroll.classList[this.$refs.scroller.scrollLeft <= 0 ? 'add' : 'remove']('disabled')
       this.$refs.rightScroll.classList[action]('disabled')
     },
+
     __getTabElByName (value) {
       const tab = this.$children.find(child => child.name === value && child.$el && child.$el.nodeType === 1)
       if (tab) {
         return tab.$el
       }
     },
+
     __findTabAndScroll (name, noAnimation) {
       setTimeout(() => {
         this.__scrollToTab(this.__getTabElByName(name), noAnimation)
       }, debounceDelay * 4)
     },
+
     __scrollToTab (tab, noAnimation) {
       if (!tab || !this.scrollable) {
         return
@@ -347,6 +372,7 @@ export default {
         }
       }
     },
+
     __animScrollTo (value) {
       this.__stopAnimScroll()
       this.__scrollTowards(value)
@@ -357,15 +383,19 @@ export default {
         }
       }, 5)
     },
+
     __scrollToStart () {
       this.__animScrollTo(0)
     },
+
     __scrollToEnd () {
       this.__animScrollTo(9999)
     },
+
     __stopAnimScroll () {
       clearInterval(this.scrollTimer)
     },
+
     __scrollTowards (value) {
       let
         scrollPosition = this.$refs.scroller.scrollLeft,
@@ -389,6 +419,7 @@ export default {
       return done
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-tabs flex no-wrap overflow-hidden',
@@ -464,6 +495,7 @@ export default {
       }, this.$slots.default)
     ])
   },
+
   created () {
     this.timer = null
     this.scrollTimer = null
@@ -476,6 +508,7 @@ export default {
     this.__redraw = debounce(this.__redraw, debounceDelay)
     this.__updateScrollIndicator = debounce(this.__updateScrollIndicator, debounceDelay)
   },
+
   mounted () {
     this.$nextTick(() => {
       if (!this.$refs.scroller) {
@@ -492,6 +525,7 @@ export default {
       this.__findTabAndScroll(this.data.tabName, true)
     })
   },
+
   beforeDestroy () {
     clearTimeout(this.timer)
     clearTimeout(this.bufferTimer)

@@ -3,7 +3,9 @@ import CanRenderMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QLayoutHeader',
+
   mixins: [ CanRenderMixin ],
+
   inject: {
     layout: {
       default () {
@@ -11,6 +13,7 @@ export default {
       }
     }
   },
+
   props: {
     value: {
       type: Boolean,
@@ -22,30 +25,36 @@ export default {
       default: 250
     }
   },
+
   data () {
     return {
       size: 0,
       revealed: true
     }
   },
+
   watch: {
     value (val) {
       this.__update('space', val)
       this.__updateLocal('revealed', true)
       this.layout.__animate()
     },
+
     offset (val) {
       this.__update('offset', val)
     },
+
     reveal (val) {
       if (!val) {
         this.__updateLocal('revealed', this.value)
       }
     },
+
     revealed (val) {
       this.layout.__animate()
       this.$emit('reveal', val)
     },
+
     'layout.scroll' (scroll) {
       if (!this.reveal) {
         return
@@ -57,10 +66,12 @@ export default {
       )
     }
   },
+
   computed: {
     fixed () {
       return this.reveal || this.layout.view.indexOf('H') > -1 || this.layout.container
     },
+
     offset () {
       if (!this.canRender || !this.value) {
         return 0
@@ -71,6 +82,7 @@ export default {
       const offset = this.size - this.layout.scroll.position
       return offset > 0 ? offset : 0
     },
+
     computedClass () {
       return {
         'fixed-top': this.fixed,
@@ -78,6 +90,7 @@ export default {
         'q-layout-header-hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
       }
     },
+
     computedStyle () {
       const
         view = this.layout.rows.top,
@@ -93,6 +106,7 @@ export default {
       return css
     }
   },
+
   render (h) {
     return h('header', {
       staticClass: 'q-layout-header q-layout-marginal q-layout-transition',
@@ -106,11 +120,13 @@ export default {
       this.$slots.default
     ])
   },
+
   created () {
     this.layout.instances.header = this
     this.__update('space', this.value)
     this.__update('offset', this.offset)
   },
+
   beforeDestroy () {
     if (this.layout.instances.header === this) {
       this.layout.instances.header = null
@@ -119,16 +135,19 @@ export default {
       this.__update('space', false)
     }
   },
+
   methods: {
     __onResize ({ height }) {
       this.__updateLocal('size', height)
       this.__update('size', height)
     },
+
     __update (prop, val) {
       if (this.layout.header[prop] !== val) {
         this.layout.header[prop] = val
       }
     },
+
     __updateLocal (prop, val) {
       if (this[prop] !== val) {
         this[prop] = val

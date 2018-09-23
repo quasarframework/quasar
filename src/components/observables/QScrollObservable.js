@@ -3,10 +3,13 @@ import { listenOpts } from '../../utils/event.js'
 
 export default {
   name: 'QScrollObservable',
+
   props: {
     debounce: Number
   },
-  render () {},
+
+  render () {}, // eslint-disable-line
+
   data () {
     return {
       pos: 0,
@@ -15,6 +18,7 @@ export default {
       dirChangePos: 0
     }
   },
+
   methods: {
     getPosition () {
       return {
@@ -24,6 +28,7 @@ export default {
         inflexionPosition: this.dirChangePos
       }
     },
+
     trigger (immediately) {
       if (immediately === true || this.debounce === 0) {
         this.emit()
@@ -34,6 +39,7 @@ export default {
           : requestAnimationFrame(this.emit)
       }
     },
+
     emit () {
       const
         pos = Math.max(0, getScrollPosition(this.target)),
@@ -51,11 +57,13 @@ export default {
       this.$emit('scroll', this.getPosition())
     }
   },
+
   mounted () {
     this.target = getScrollTarget(this.$el.parentNode)
     this.target.addEventListener('scroll', this.trigger, listenOpts.passive)
     this.trigger(true)
   },
+
   beforeDestroy () {
     clearTimeout(this.timer)
     cancelAnimationFrame(this.timer)

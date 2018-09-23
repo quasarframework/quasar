@@ -6,6 +6,7 @@ function width (val) {
 
 export default {
   name: 'QLinearProgress',
+
   props: {
     value: {
       type: Number,
@@ -27,30 +28,38 @@ export default {
       default: '4px'
     }
   },
+
   computed: {
     model () {
       return between(this.value, 0, 100)
     },
+
     bufferModel () {
       return between(this.buffer || 0, 0, 100 - this.model)
     },
+
     bufferStyle () {
       return width(this.bufferModel)
     },
+
     trackStyle () {
       return width(100 - (this.buffer || 0))
     },
+
     trackClass () {
       if (this.fillColor) {
         return `text-${this.fillColor}`
       }
     },
+
     computedClass () {
       return `text-${this.color}${this.reverse || this.query ? ' q-linear-progress--reverse' : ''}`
     },
+
     computedStyle () {
       return { height: this.height }
     },
+
     modelClass () {
       const motion = this.indeterminate || this.query
       return {
@@ -60,10 +69,12 @@ export default {
         'q-linear-progress__model--indeterminate': motion
       }
     },
+
     modelStyle () {
       return width(this.model)
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-linear-progress',

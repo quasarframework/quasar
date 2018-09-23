@@ -4,7 +4,9 @@ import FrameMixin from '../../mixins/input-frame.js'
 
 export default {
   name: 'QSearch',
-  mixins: [FrameMixin, InputMixin],
+
+  mixins: [ FrameMixin, InputMixin ],
+
   props: {
     value: { required: true },
     type: {
@@ -20,12 +22,14 @@ export default {
     upperCase: Boolean,
     lowerCase: Boolean
   },
+
   data () {
     return {
       model: this.value,
       childDebounce: false
     }
   },
+
   provide () {
     const set = val => {
       if (this.model !== val) {
@@ -42,10 +46,12 @@ export default {
       }
     }
   },
+
   watch: {
     value (v) {
       this.model = v
     },
+
     model (val) {
       clearTimeout(this.timer)
       if (this.value === val) {
@@ -59,17 +65,20 @@ export default {
       }, this.debounceValue)
     }
   },
+
   computed: {
     debounceValue () {
       return this.childDebounce
         ? 0
         : this.debounce
     },
+
     computedClearValue () {
       return this.isNumber && this.clearValue === 0
         ? this.clearValue
         : this.clearValue || (this.type === 'number' ? null : '')
     },
+
     controlBefore () {
       const before = (this.before || []).slice()
       if (!this.noIcon) {
@@ -80,6 +89,7 @@ export default {
       }
       return before
     },
+
     controlAfter () {
       const after = (this.after || []).slice()
       if (this.isClearable) {
@@ -91,11 +101,13 @@ export default {
       return after
     }
   },
+
   methods: {
     clear (evt) {
       this.$refs.input.clear(evt)
     }
   },
+
   render (h) {
     return h(QInput, {
       ref: 'input',

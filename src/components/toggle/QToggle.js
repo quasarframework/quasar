@@ -4,18 +4,23 @@ import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QToggle',
-  mixins: [CheckboxMixin, OptionMixin],
+
+  mixins: [ CheckboxMixin, OptionMixin ],
+
   props: {
     icon: String
   },
+
   computed: {
     currentIcon () {
       return (this.isTrue ? this.checkedIcon : this.uncheckedIcon) || this.icon
     },
+
     iconColor () {
       return this.isTrue ? 'white' : 'dark'
     }
   },
+
   methods: {
     __swipe (evt) {
       if (evt.direction === 'left') {
@@ -29,6 +34,7 @@ export default {
         }
       }
     },
+
     __getContent (h) {
       return [
         h('div', { staticClass: 'q-toggle-base' }),
@@ -44,6 +50,7 @@ export default {
       ]
     }
   },
+
   beforeCreate () {
     this.__kebabTag = 'q-toggle'
   }

@@ -3,7 +3,9 @@ import CanRenderMixin from '../../mixins/can-render.js'
 
 export default {
   name: 'QField',
+
   mixins: [ CanRenderMixin ],
+
   props: {
     inset: {
       type: String,
@@ -35,30 +37,38 @@ export default {
       }
     }
   },
+
   data () {
     return {
       input: {}
     }
   },
+
   computed: {
     hasError () {
       return this.input.error || this.error
     },
+
     hasWarning () {
       return !this.hasError && (this.input.warning || this.warning)
     },
+
     childHasLabel () {
       return this.input.floatLabel || this.input.stackLabel
     },
+
     isDark () {
       return this.input.dark || this.dark
     },
+
     insetIcon () {
       return ['icon', 'full'].includes(this.inset)
     },
+
     hasNoInput () {
       return this.canRender && (!this.input.$options || this.input.__needsBorder)
     },
+
     counter () {
       if (this.count) {
         const length = this.input.length || '0'
@@ -67,6 +77,7 @@ export default {
           : length
       }
     },
+
     classes () {
       return {
         'q-field-responsive': !this.isVertical && !this.isHorizontal,
@@ -80,25 +91,31 @@ export default {
         'q-field-no-input': this.hasNoInput
       }
     },
+
     computedLabelWidth () {
       return parseInt(this.labelWidth, 10)
     },
+
     isVertical () {
       return this.orientation === 'vertical' || this.computedLabelWidth === 12
     },
+
     isHorizontal () {
       return this.orientation === 'horizontal'
     },
+
     labelClasses () {
       return this.isVertical
         ? `col-12`
         : (this.isHorizontal ? `col-${this.labelWidth}` : `col-xs-12 col-sm-${this.labelWidth}`)
     },
+
     inputClasses () {
       return this.isVertical
         ? `col-xs-12`
         : (this.isHorizontal ? 'col' : 'col-xs-12 col-sm')
     },
+
     iconProps () {
       const prop = { name: this.icon }
       if (this.iconColor && !this.hasError && !this.hasWarning) {
@@ -106,24 +123,29 @@ export default {
       }
       return prop
     },
+
     insetHasLabel () {
       return ['label', 'full'].includes(this.inset)
     }
   },
+
   provide () {
     return {
       __field: this
     }
   },
+
   methods: {
     __registerInput (vm) {
       this.input = vm
     },
+
     __unregisterInput (vm) {
       if (!vm || vm === this.input) {
         this.input = {}
       }
     },
+
     __getBottomContent (h) {
       let label
 
@@ -138,6 +160,7 @@ export default {
       }
       return h('div', { staticClass: 'col text-transparent' }, ['|'])
     },
+
     __hasBottom () {
       return this.$slots['error-label'] || this.errorLabel ||
         this.$slots['warning-label'] || this.warningLabel ||
@@ -145,6 +168,7 @@ export default {
         this.count
     }
   },
+
   render (h) {
     const label = this.$slots.label || this.label
 

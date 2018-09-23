@@ -10,11 +10,14 @@ import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QSlider',
-  mixins: [SliderMixin],
+
+  mixins: [ SliderMixin ],
+
   props: {
     value: Number,
     labelValue: String
   },
+
   data () {
     return {
       model: this.value,
@@ -22,6 +25,7 @@ export default {
       currentPercentage: (this.value - this.min) / (this.max - this.min)
     }
   },
+
   computed: {
     percentage () {
       if (this.snap) {
@@ -29,12 +33,14 @@ export default {
       }
       return 100 * this.currentPercentage + '%'
     },
+
     displayValue () {
       return this.labelValue !== void 0
         ? this.labelValue
         : this.model
     }
   },
+
   watch: {
     value (value) {
       if (this.dragging) {
@@ -51,6 +57,7 @@ export default {
       }
       this.currentPercentage = (this.model - this.min) / (this.max - this.min)
     },
+
     min (value) {
       if (this.model < value) {
         this.model = value
@@ -58,6 +65,7 @@ export default {
       }
       this.$nextTick(this.__validateProps)
     },
+
     max (value) {
       if (this.model > value) {
         this.model = value
@@ -65,10 +73,12 @@ export default {
       }
       this.$nextTick(this.__validateProps)
     },
+
     step () {
       this.$nextTick(this.__validateProps)
     }
   },
+
   methods: {
     __getDragging (evt) {
       const container = this.$refs.handle
@@ -77,6 +87,7 @@ export default {
         width: container.offsetWidth
       }
     },
+
     __move (event) {
       const percentage = getPercentage(
         event,
@@ -87,6 +98,7 @@ export default {
       this.currentPercentage = percentage
       this.model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals)
     },
+
     __end (event, dragging = this.dragging) {
       const percentage = getPercentage(
         event,
@@ -96,6 +108,7 @@ export default {
       this.model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals)
       this.currentPercentage = (this.model - this.min) / (this.max - this.min)
     },
+
     __onKeyDown (ev) {
       const keyCode = ev.keyCode
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
@@ -112,6 +125,7 @@ export default {
       this.currentPercentage = (this.model - this.min) / (this.max - this.min)
       this.__update()
     },
+
     __onKeyUp (ev) {
       const keyCode = ev.keyCode
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
@@ -119,6 +133,7 @@ export default {
       }
       this.__update(true)
     },
+
     __validateProps () {
       if (this.min >= this.max) {
         console.error('Range error: min >= max', this.$el, this.min, this.max)
@@ -127,6 +142,7 @@ export default {
         console.error('Range error: step must be a divisor of max - min', this.min, this.max, this.step, this.computedDecimals)
       }
     },
+
     __getContent (h) {
       return [
         h('div', {

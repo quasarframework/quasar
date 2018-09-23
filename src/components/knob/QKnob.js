@@ -6,12 +6,15 @@ import TouchPan from '../../directives/touch-pan.js'
 
 export default {
   name: 'QKnob',
+
   mixins: [{
     props: QCircularProgress.props
   }],
+
   directives: {
     TouchPan
   },
+
   props: {
     step: {
       type: Number,
@@ -21,6 +24,7 @@ export default {
     disable: Boolean,
     readonly: Boolean
   },
+
   computed: {
     classes () {
       return {
@@ -28,16 +32,20 @@ export default {
         'cursor-pointer': !this.readonly
       }
     },
+
     editable () {
       return !this.disable && !this.readonly
     },
+
     computedDecimals () {
       return this.decimals !== void 0 ? this.decimals || 0 : (String(this.step).trim('0').split('.')[1] || '').length
     },
+
     computedStep () {
       return this.decimals !== void 0 ? 1 / Math.pow(10, this.decimals || 0) : this.step
     }
   },
+
   watch: {
     value (value) {
       if (value < this.min) {
@@ -64,12 +72,14 @@ export default {
       })
     }
   },
+
   data () {
     return {
       model: this.value,
       dragging: false
     }
   },
+
   methods: {
     __pan (event) {
       if (!this.editable) {
@@ -85,6 +95,7 @@ export default {
         this.__dragMove(event.evt)
       }
     },
+
     __dragStart (ev) {
       if (!this.editable) {
         return
@@ -95,6 +106,7 @@ export default {
       this.dragging = true
       this.__onInput(ev)
     },
+
     __dragMove (ev) {
       if (!this.dragging || !this.editable) {
         return
@@ -102,6 +114,7 @@ export default {
       stopAndPrevent(ev)
       this.__onInput(ev, this.centerPosition)
     },
+
     __dragStop (ev) {
       if (!this.editable) {
         return
@@ -112,9 +125,11 @@ export default {
       }, 100)
       this.__onInput(ev, this.centerPosition, true)
     },
+
     __onClick (evt) {
       !this.dragging && this.__onInput(evt, void 0, true)
     },
+
     __onKeyDown (evt) {
       const keyCode = evt.keyCode
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
@@ -125,6 +140,7 @@ export default {
       const offset = [37, 40].includes(keyCode) ? -step : step
       this.__onInputValue(between(this.model + offset, this.min, this.max))
     },
+
     __onKeyUp (ev) {
       const keyCode = ev.keyCode
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
@@ -132,6 +148,7 @@ export default {
       }
       this.__emitChange()
     },
+
     __onInput (ev, center = this.__getCenter(), emitChange) {
       if (!this.editable) {
         return
@@ -172,6 +189,7 @@ export default {
       )
       this.__onInputValue(value, emitChange)
     },
+
     __onInputValue (value, emitChange) {
       if (this.computedDecimals) {
         value = parseFloat(value.toFixed(this.computedDecimals))
@@ -192,6 +210,7 @@ export default {
         this.__emitChange(value)
       }
     },
+
     __emitChange (value = this.model) {
       this.$nextTick(() => {
         if (JSON.stringify(value) !== JSON.stringify(this.value)) {
@@ -199,6 +218,7 @@ export default {
         }
       })
     },
+
     __getCenter () {
       let knobOffset = offset(this.$el)
       return {
@@ -207,6 +227,7 @@ export default {
       }
     }
   },
+
   render (h) {
     return h(QCircularProgress, {
       staticClass: 'q-knob non-selectable',

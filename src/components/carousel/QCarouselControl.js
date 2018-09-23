@@ -1,5 +1,6 @@
 export default {
   name: 'QCarouselControl',
+
   props: {
     position: {
       type: String,
@@ -10,6 +11,7 @@ export default {
       default: () => [18, 18]
     }
   },
+
   computed: {
     computedClass () {
       return `absolute-${this.position}`
@@ -20,6 +22,7 @@ export default {
       }
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-carousel-control absolute',

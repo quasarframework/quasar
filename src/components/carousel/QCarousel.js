@@ -8,10 +8,13 @@ import FullscreenMixin from '../../mixins/fullscreen.js'
 
 export default {
   name: 'QCarousel',
+
   mixins: [FullscreenMixin],
+
   directives: {
     TouchPan
   },
+
   props: {
     value: Number,
     color: {
@@ -44,11 +47,13 @@ export default {
     thumbnailsIcon: String,
     thumbnailsHorizontal: Boolean
   },
+
   provide () {
     return {
       'carousel': this
     }
   },
+
   data () {
     return {
       position: 0,
@@ -59,55 +64,69 @@ export default {
       viewThumbnails: false
     }
   },
+
   watch: {
     value (v) {
       if (v !== this.slide) {
         this.goToSlide(v)
       }
     },
+
     autoplay () {
       this.__planAutoPlay()
     },
+
     infinite () {
       this.__planAutoPlay()
     },
+
     handleArrowKeys (v) {
       this.__setArrowKeys(v)
     }
   },
+
   computed: {
     rtlDir () {
       return this.$q.i18n.rtl ? -1 : 1
     },
+
     arrowIcon () {
       const ico = [ this.$q.icon.carousel.left, this.$q.icon.carousel.right ]
       return this.$q.i18n.rtl
         ? ico.reverse()
         : ico
     },
+
     trackPosition () {
       return { transform: `translateX(${this.rtlDir * this.position}%)` }
     },
+
     infiniteLeft () {
       return this.infinite && this.slidesNumber > 1 && this.positionSlide < 0
     },
+
     infiniteRight () {
       return this.infinite && this.slidesNumber > 1 && this.positionSlide >= this.slidesNumber
     },
+
     canGoToPrevious () {
       return this.infinite ? this.slidesNumber > 1 : this.slide > 0
     },
+
     canGoToNext () {
       return this.infinite ? this.slidesNumber > 1 : this.slide < this.slidesNumber - 1
     },
+
     computedQuickNavIcon () {
       return this.quickNavIcon || this.$q.icon.carousel.quickNav
     },
+
     computedStyle () {
       if (!this.inFullscreen && this.height) {
         return `height: ${this.height}`
       }
     },
+
     slotScope () {
       return {
         slide: this.slide,
@@ -125,21 +144,25 @@ export default {
         canGoToPrevious: this.canGoToPrevious
       }
     },
+
     computedThumbnailIcon () {
       return this.thumbnailsIcon || this.$q.icon.carousel.thumbnails
     }
   },
+
   methods: {
     previous () {
       return this.canGoToPrevious
         ? this.goToSlide(this.slide - 1)
         : Promise.resolve()
     },
+
     next () {
       return this.canGoToNext
         ? this.goToSlide(this.slide + 1)
         : Promise.resolve()
     },
+
     goToSlide (slide, fromSwipe = false) {
       return new Promise(resolve => {
         let
@@ -213,10 +236,12 @@ export default {
         })
       })
     },
+
     stopAnimation () {
       stop(this.animUid)
       this.animationInProgress = false
     },
+
     __pan (event) {
       if (this.infinite && this.animationInProgress) {
         return
@@ -263,6 +288,7 @@ export default {
         })
       }
     },
+
     __planAutoPlay () {
       this.$nextTick(() => {
         if (this.autoplay) {
@@ -274,10 +300,12 @@ export default {
         }
       })
     },
+
     __cleanup () {
       this.stopAnimation()
       clearTimeout(this.timer)
     },
+
     __handleArrowKey (e) {
       const key = e.keyCode
 
@@ -288,16 +316,20 @@ export default {
         this.next()
       }
     },
+
     __setArrowKeys (/* boolean */ state) {
       const op = `${state === true ? 'add' : 'remove'}EventListener`
       document[op]('keydown', this.__handleArrowKey)
     },
+
     __registerSlide () {
       this.slidesNumber++
     },
+
     __unregisterSlide () {
       this.slidesNumber--
     },
+
     __getScopedSlots (h) {
       if (this.slidesNumber === 0) {
         return
@@ -309,6 +341,7 @@ export default {
           .map(key => slots[key](this.slotScope))
       }
     },
+
     __getQuickNav (h) {
       if (this.slidesNumber === 0 || !this.quickNav) {
         return
@@ -354,6 +387,7 @@ export default {
         'class': [`text-${this.color}`, `absolute-${this.quickNavPosition}`]
       }, items)
     },
+
     __getThumbnails (h) {
       const slides = this.thumbnails.map((img, index) => {
         if (!img) {
@@ -410,6 +444,7 @@ export default {
       return nodes
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-carousel',
@@ -464,6 +499,7 @@ export default {
       this.$slots.control
     ])
   },
+
   mounted () {
     this.__planAutoPlay()
     if (this.handleArrowKeys) {
@@ -475,6 +511,7 @@ export default {
       }
     }, { immediate: true })
   },
+
   beforeDestroy () {
     this.__cleanup()
     this.__stopSlideNumberNotifier()

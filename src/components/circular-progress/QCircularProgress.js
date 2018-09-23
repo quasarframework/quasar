@@ -1,5 +1,6 @@
 export default {
   name: 'QCircularProgress',
+
   props: {
     value: {
       type: Number,
@@ -38,6 +39,7 @@ export default {
     reverse: Boolean,
     noMotion: Boolean
   },
+
   computed: {
     style () {
       return {
@@ -45,9 +47,11 @@ export default {
         height: this.size + 'px'
       }
     },
+
     svgStyle () {
       return { transform: `rotate(${this.angle - 90}deg)` }
     },
+
     circleStyle () {
       if (!this.noMotion) {
         return { transition: 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease' }
@@ -61,26 +65,33 @@ export default {
     radius () {
       return this.size / 2
     },
+
     viewBox () {
       return 2 * this.radius / (1 - this.thickness / this.size)
     },
+
     viewBoxAttr () {
       return `${this.viewBox / 2} ${this.viewBox / 2} ${this.viewBox} ${this.viewBox}`
     },
+
     circumference () {
       return this.radius * 2 * Math.PI
     },
+
     strokeDashArray () {
       return Math.round(this.circumference * 1000) / 1000
     },
+
     strokeDashOffset () {
       const progress = (this.value - this.min) / (this.max - this.min)
       return (this.dir * (1 - progress)) * this.circumference + 'px'
     },
+
     strokeWidth () {
       return this.thickness / this.size * this.viewBox
     }
   },
+
   methods: {
     __getCircle (h, { thickness, offset, color }) {
       return h('circle', {
@@ -99,6 +110,7 @@ export default {
       })
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-circular-progress relative-position',

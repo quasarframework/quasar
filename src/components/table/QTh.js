@@ -2,10 +2,12 @@ import QIcon from '../icon/QIcon.js'
 
 export default {
   name: 'QTh',
+
   props: {
     props: Object,
     autoWidth: Boolean
   },
+
   render (h) {
     if (!this.props) {
       return h('td', {
