@@ -31,7 +31,17 @@ export default {
         return
       }
       this.focused = true
-      this.$refs.input && this.$refs.input.focus()
+      if (this.$refs.input) {
+        this.$refs.input.focus()
+        this.$nextTick(() => {
+          this.$refs.input.scrollIntoViewIfNeeded && this.$refs.input.scrollIntoViewIfNeeded(false)
+        })
+      }
+      else if (this.$el.scrollIntoViewIfNeeded) {
+        this.$nextTick(() => {
+          this.$el.scrollIntoViewIfNeeded && this.$el.scrollIntoViewIfNeeded(false)
+        })
+      }
       this.$emit('focus', e)
     },
     __onInputBlur (e) {
