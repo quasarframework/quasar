@@ -32,7 +32,6 @@ export default {
     rounded: Boolean,
     push: Boolean,
     size: String,
-    glossy: Boolean,
     stretch: Boolean,
     noRipple: Boolean
   },
@@ -83,7 +82,6 @@ export default {
           rounded: this.rounded,
           push: this.push,
           unelevated: this.unelevated,
-          glossy: this.glossy,
           size: this.size,
           dense: this.dense,
           noRipple: this.noRipple || opt.noRipple,

@@ -38,7 +38,6 @@
       z-index -1
       transition $button-transition
     &:active:before
-    &.active:before
       box-shadow $button-shadow-active
 
 
@@ -56,7 +55,6 @@
     border-radius $button-push-border-radius
     border-bottom 3px solid rgba(0, 0, 0, .15)
     &:active:not(.disabled)
-    &.active:not(.disabled)
       box-shadow none
       transform translateY(3px)
       border-bottom-color transparent

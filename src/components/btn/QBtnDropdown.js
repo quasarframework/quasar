@@ -7,7 +7,7 @@ import QPopover from '../popover/QPopover.js'
 export default {
   name: 'QBtnDropdown',
 
-  mixins: [BtnMixin],
+  mixins: [ BtnMixin ],
 
   props: {
     value: Boolean,
@@ -85,9 +85,7 @@ export default {
         on: {
           click: e => {
             this.split && this.hide()
-            if (!this.disable) {
-              this.$emit('click', e)
-            }
+            !this.disable && this.$emit('click', e)
           }
         }
       }, this.split ? null : [ Icon, Popover ])
@@ -120,11 +118,10 @@ export default {
           color: this.color,
           textColor: this.textColor,
           dense: this.dense,
-          glossy: this.glossy,
           noRipple: this.noRipple
         },
         staticClass: 'q-btn-dropdown__arrow',
-        on: { click: () => { this.toggle() } }
+        on: { click: this.toggle }
       }, [ Icon ]),
       [ Popover ]
     ])
@@ -132,21 +129,17 @@ export default {
 
   methods: {
     toggle () {
-      return this.$refs.popover ? this.$refs.popover.toggle() : Promise.resolve()
+      this.$refs.popover && this.$refs.popover.toggle()
     },
     show () {
-      return this.$refs.popover ? this.$refs.popover.show() : Promise.resolve()
+      this.$refs.popover && this.$refs.popover.show()
     },
     hide () {
-      return this.$refs.popover ? this.$refs.popover.hide() : Promise.resolve()
+      this.$refs.popover && this.$refs.popover.hide()
     }
   },
 
   mounted () {
-    this.$nextTick(() => {
-      if (this.value) {
-        this.$refs.popover && this.$refs.popover.show()
-      }
-    })
+    this.value && this.show()
   }
 }

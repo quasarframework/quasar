@@ -142,7 +142,7 @@ export default {
       this.timer = setTimeout(() => {
         document.body.addEventListener('mousedown', this.__bodyHide, true)
         document.body.addEventListener('touchstart', this.__bodyHide, true)
-        this.showPromise && this.showPromiseResolve()
+        this.$emit('show')
       }, 0)
     },
 
@@ -167,7 +167,7 @@ export default {
 
     __hide () {
       this.__cleanup()
-      this.hidePromise && this.hidePromiseResolve()
+      this.$emit('hide')
       if (!this.noRefocus && this.__refocusTarget) {
         this.__refocusTarget.focus()
         !this.__refocusTarget.classList.contains('q-if') && this.__refocusTarget.blur()

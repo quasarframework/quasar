@@ -36,7 +36,6 @@ export default {
     fabMini: Boolean,
     color: String,
     textColor: String,
-    glossy: Boolean,
     dense: Boolean,
     noRipple: Boolean,
     tabindex: Number,
@@ -60,10 +59,6 @@ export default {
 
     isRound () {
       return this.round || this.fab || this.fabMini
-    },
-
-    shape () {
-      return `q-btn--${this.isRound ? 'round' : 'rectangle'}`
     },
 
     isDisabled () {
@@ -94,58 +89,36 @@ export default {
     },
 
     classes () {
-      const cls = [ this.shape ]
-
-      if (this.fab) {
-        cls.push('q-btn--fab')
-      }
-      else if (this.fabMini) {
-        cls.push('q-btn--fab-mini')
-      }
-
-      if (this.flat) {
-        cls.push('q-btn--flat')
-      }
-      else if (this.outline) {
-        cls.push('q-btn--outline')
-      }
-      else if (this.push) {
-        cls.push('q-btn--push')
-      }
-      else if (this.unelevated) {
-        cls.push('q-btn--unelevated')
-      }
-
-      if (this.isDisabled) {
-        cls.push('disabled')
-      }
-      else {
-        cls.push('q-focusable q-hoverable')
-        this.active && cls.push('active')
-      }
+      let colors
 
       if (this.color) {
         if (this.flat || this.outline) {
-          cls.push(`text-${this.textColor || this.color}`)
+          colors = `text-${this.textColor || this.color}`
         }
         else {
-          cls.push(`bg-${this.color}`)
-          cls.push(`text-${this.textColor || 'white'}`)
+          colors = `bg-${this.color} text-${this.textColor || 'white'}`
         }
       }
       else if (this.textColor) {
-        cls.push(`text-${this.textColor}`)
+        colors = `text-${this.textColor}`
       }
 
-      cls.push({
+      return {
+        [colors]: colors,
+        [`q-btn--${this.isRound ? 'round' : 'rectangle'}`]: true,
+        'disabled': this.isDisabled,
+        'q-focusable q-hoverable': !this.isDisabled,
+        'q-btn--fab': this.fab,
+        'q-btn--fab-mini': this.fabMini,
+        'q-btn--flat': this.flat,
+        'q-btn--outline': this.outline,
+        'q-btn--push': this.push,
+        'q-btn--unelevated': this.unelevated,
         'q-btn--no-uppercase': this.noCaps,
         'q-btn--rounded': this.rounded,
         'q-btn--dense': this.dense,
-        'glossy': this.glossy,
         'no-border-radius self-stretch': this.stretch
-      })
-
-      return cls
+      }
     },
 
     innerClasses () {
