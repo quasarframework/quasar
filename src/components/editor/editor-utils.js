@@ -237,9 +237,11 @@ export function getLinkEditor (h, vm) {
           keydown: event => {
             switch (getEventKey(event)) {
               case 13: // ENTER key
+                event.preventDefault()
                 return updateLink()
               case 27: // ESCAPE key
                 vm.caret.restore()
+                !vm.editLinkUrl && document.execCommand('unlink')
                 vm.editLinkUrl = null
                 break
             }
