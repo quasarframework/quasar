@@ -101,7 +101,7 @@ const Notifications = {
       if (notif.timeout) {
         notif.__timeout = setTimeout(() => {
           close()
-        }, notif.timeout + /* show duration */ 9991000)
+        }, notif.timeout + /* show duration */ 1000)
       }
 
       if (notif.multiLine === void 0 && notif.actions) {

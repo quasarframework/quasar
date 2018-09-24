@@ -1,102 +1,110 @@
-.q-tree-node
-  margin 0
-  list-style-type none
-  position relative
-  padding 0 0 3px 22px
+.q-tree
+  color $grey
 
-  &:after
-    content ''
-    position absolute
-    top -3px
-    bottom 0
-    width 1px
-    right auto
-    left -13px
-    border-left 1px solid currentColor
-  &:last-child:after
-    display none
+  &__node
+    padding 0 0 3px 22px
 
-.q-tree-node-header:before
-  content ''
-  position absolute
-  top -3px
-  bottom 50%
-  width 35px
-  left -35px
-  border-left 1px solid currentColor
-  border-bottom 1px solid currentColor
-
-.q-tree-children
-  padding-left 25px
-  &.disabled
-    pointer-events none
-.q-tree-node-body
-  padding 5px 0 8px 5px
-
-.q-tree-node-parent
-  padding-left 2px
-  > .q-tree-node-header:before
-    width 15px
-    left -15px
-  > .q-tree-node-collapsible > .q-tree-node-body
-    padding 5px 0 8px 27px
     &:after
       content ''
       position absolute
-      top 0
+      top -3px
+      bottom 0
       width 1px
-      height 100%
       right auto
-      left 12px
+      left -13px
       border-left 1px solid currentColor
-      bottom 50px
+    &:last-child:after
+      display none
 
-.q-tree-node-link
-  cursor pointer
+  &__node-header
+    outline 0
 
-.q-tree-node-selected
-  background rgba(0, 0, 0, .15)
-.q-tree-dark .q-tree-node-selected
-  background rgba(255, 255, 255, .4)
+    &:before
+      content ''
+      position absolute
+      top -3px
+      bottom 50%
+      width 35px
+      left -35px
+      border-left 1px solid currentColor
+      border-bottom 1px solid currentColor
 
-body.desktop
-  .q-tree-node-link:hover
-    background rgba(0, 0, 0, .1)
-  .q-tree-dark .q-tree-node-link:hover
-    background rgba(255, 255, 255, .3)
+  &__children
+    padding-left 25px
+    &.disabled
+      pointer-events none
 
-.q-tree-node-header
-  padding 4px
-  margin-top 3px
-  border-radius $generic-border-radius
-  &.disabled
-    pointer-events none
-.q-tree-icon
-  font-size 1.5em
-.q-tree-img
-  height 3em
-  &.avatar
-    width 2em
-    height 2em
+  &__node-body
+    padding 5px 0 8px 5px
 
-.q-tree-arrow
-  font-size 1rem
-  width 1rem
-  height 1rem
-.q-tree-arrow-rotate
-  transform rotate(90deg)
-[dir=rtl]
-  .q-tree-arrow
-    transform rotate(180deg) /* rtl:ignore */
-  .q-tree-arrow-rotate
-    transform rotate(90deg) /* rtl:ignore */
+  &__node--parent
+    padding-left 2px
+    > .q-tree__node-header:before
+      width 15px
+      left -15px
+    > .q-tree__node-collapsible > .q-tree__node-body
+      padding 5px 0 8px 27px
+      &:after
+        content ''
+        position absolute
+        top 0
+        width 1px
+        height 100%
+        right auto
+        left 12px
+        border-left 1px solid currentColor
+        bottom 50px
 
-.q-tree
-  // Remove connectors before root
-  > .q-tree-node
+  &__node--link
+    cursor pointer
+
+  &__node-header
+    padding 4px
+    margin-top 3px
+    border-radius $generic-border-radius
+    &.disabled
+      pointer-events none
+
+  &__node-header-content
+    color black
+    transition color .3s
+
+  &__node--selected .q-tree__node-header-content
+    color $grey
+
+  &__icon, &__node-header-content .q-icon, &__spinner
+    font-size 21px
+
+  &__img
+    height 42px
+
+  &__avatar, &__node-header-content .q-avatar
+    font-size 28px
+    border-radius 50%
+    width 28px
+    height 28px
+
+  &__arrow, &__spinner
+    font-size 16px
+
+  &__arrow--rotate
+    transform rotate(90deg)
+
+  // remove connectors before root
+  > .q-tree__node
     padding 0
-    &:after, > .q-tree-node-header:before
+    &:after, > .q-tree__node-header:before
       display none
   // leave space for root empty node
-  > .q-tree-node-child > .q-tree-node-header
+  > .q-tree__node--child > .q-tree__node-header
     padding-left 24px
+
+  &--dark .q-tree__node-header-content
+    color white
+
+[dir=rtl]
+  .q-tree__arrow
+    transform rotate(180deg) /* rtl:ignore */
+    &--rotate
+      transform rotate(90deg) /* rtl:ignore */
+

@@ -2,14 +2,10 @@ import QIcon from '../icon/QIcon.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
-import Ripple from '../../directives/ripple.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   name: 'QTree',
-
-  directives: {
-    Ripple
-  },
 
   props: {
     nodes: Array,
@@ -22,12 +18,10 @@ export default {
       default: 'label'
     },
 
-    color: {
-      type: String,
-      default: 'grey'
-    },
+    color: String,
     controlColor: String,
     textColor: String,
+    selectedColor: String,
     dark: Boolean,
 
     icon: String,
@@ -62,10 +56,10 @@ export default {
 
   computed: {
     classes () {
-      return [
-        `text-${this.color}`,
-        { 'q-tree-dark': this.dark }
-      ]
+      return {
+        [`text-${this.color}`]: this.color,
+        'q-tree--dark': this.dark
+      }
     },
 
     hasSelection () {
@@ -80,8 +74,17 @@ export default {
       return this.controlColor || this.color
     },
 
-    contentClass () {
-      return `text-${this.textColor || (this.dark ? 'white' : 'black')}`
+    textColorClass () {
+      if (this.textColor) {
+        return `text-${this.textColor}`
+      }
+    },
+
+    selectedColorClass () {
+      const color = this.selectedColor || this.color
+      if (color) {
+        return `text-${color}`
+      }
     },
 
     meta () {
@@ -117,7 +120,7 @@ export default {
           isLeaf,
           lazy,
           disabled: node.disabled,
-          link: selectable || (expandable && (isParent || lazy === true)),
+          link: !node.disabled && (selectable || (expandable && (isParent || lazy === true))),
           children: [],
           matchesFilter: this.filter ? this.filterMethod(node, this.filter) : true,
 
@@ -408,15 +411,15 @@ export default {
     __getNodeMedia (h, node) {
       if (node.icon) {
         return h(QIcon, {
-          staticClass: `q-tree-icon q-mr-sm`,
+          staticClass: `q-tree__icon q-mr-sm`,
           props: { name: node.icon, color: node.iconColor }
         })
       }
-      if (node.img || node.avatar) {
+      const src = node.img || node.avatar
+      if (src) {
         return h('img', {
-          staticClass: `q-tree-img q-mr-sm`,
-          'class': { avatar: node.avatar },
-          attrs: { src: node.img || node.avatar }
+          staticClass: `q-tree__${node.img ? 'img' : 'avatar'} q-mr-sm`,
+          attrs: { src }
         })
       }
     },
@@ -444,8 +447,8 @@ export default {
           : null
 
       if (body) {
-        body = h('div', { staticClass: 'q-tree-node-body relative-position' }, [
-          h('div', { 'class': this.contentClass }, [
+        body = h('div', { staticClass: 'q-tree__node-body relative-position' }, [
+          h('div', { 'class': this.textColorClass }, [
             body(slotScope)
           ])
         ])
@@ -453,31 +456,39 @@ export default {
 
       return h('div', {
         key,
-        staticClass: 'q-tree-node',
-        'class': { 'q-tree-node-parent': isParent, 'q-tree-node-child': !isParent }
+        staticClass: 'q-tree__node relative-position',
+        'class': { 'q-tree__node--parent': isParent, 'q-tree__node--child': !isParent }
       }, [
         h('div', {
-          staticClass: 'q-tree-node-header relative-position row no-wrap items-center',
+          staticClass: 'q-tree__node-header relative-position row no-wrap items-center',
           'class': {
-            'q-tree-node-link': meta.link,
-            'q-tree-node-selected': meta.selected,
+            'q-tree__node--link q-hoverable q-focusable': meta.link,
+            'q-tree__node--selected': meta.selected,
             disabled: meta.disabled
           },
-          on: { click: () => { this.__onClick(node, meta) } },
-          directives: meta.selectable
-            ? [{ name: 'ripple' }]
-            : null
+          attrs: { tabindex: meta.link ? 0 : -1 },
+          on: {
+            click: () => {
+              this.__onClick(node, meta)
+            },
+            keydown: e => {
+              if (e.keyCode === 13) { this.__onClick(node, meta) }
+              else if (e.keyCode === 32) { this.__onExpandClick(node, meta, e) }
+            }
+          }
         }, [
+          h('div', { staticClass: 'q-focus-helper' }),
+
           meta.lazy === 'loading'
             ? h(QSpinner, {
-              staticClass: 'q-tree-node-header-media q-mr-xs',
+              staticClass: 'q-tree__spinner q-mr-xs',
               props: { color: this.computedControlColor }
             })
             : (
               isParent
                 ? h(QIcon, {
-                  staticClass: 'q-tree-arrow q-mr-xs generic-transition',
-                  'class': { 'q-tree-arrow-rotate': meta.expanded },
+                  staticClass: 'q-tree__arrow q-mr-xs generic-transition',
+                  'class': { 'q-tree__arrow--rotate': meta.expanded },
                   props: { name: this.computedIcon },
                   nativeOn: {
                     click: e => {
@@ -488,29 +499,34 @@ export default {
                 : null
             ),
 
-          h('span', { 'staticClass': 'row no-wrap items-center', 'class': this.contentClass }, [
-            meta.hasTicking && !meta.noTick
-              ? h(QCheckbox, {
-                staticClass: 'q-mr-xs',
-                props: {
-                  value: meta.indeterminate ? null : meta.ticked,
-                  color: this.computedControlColor,
-                  dark: this.dark,
-                  keepColor: true,
-                  disable: !meta.tickable
-                },
-                on: {
-                  input: v => {
-                    this.__onTickedClick(node, meta, v)
-                  }
+          meta.hasTicking && !meta.noTick
+            ? h(QCheckbox, {
+              staticClass: 'q-mr-xs',
+              props: {
+                value: meta.indeterminate ? null : meta.ticked,
+                color: this.computedControlColor,
+                dark: this.dark,
+                keepColor: true,
+                disable: !meta.tickable
+              },
+              on: {
+                keydown: stopAndPrevent,
+                input: v => {
+                  this.__onTickedClick(node, meta, v)
                 }
-              })
-              : null,
+              }
+            })
+            : null,
+
+          h('div', {
+            'staticClass': 'q-tree__node-header-content col row no-wrap items-center',
+            'class': meta.selected ? this.selectedColorClass : this.textColorClass
+          }, [
             header
               ? header(slotScope)
               : [
                 this.__getNodeMedia(h, node),
-                h('span', node[this.labelKey])
+                h('div', node[this.labelKey])
               ]
           ])
         ]),
@@ -520,13 +536,14 @@ export default {
             props: { duration: this.duration }
           }, [
             h('div', {
-              directives: [{ name: 'show', value: meta.expanded }],
-              staticClass: 'q-tree-node-collapsible',
-              'class': `text-${this.color}`
+              staticClass: 'q-tree__node-collapsible',
+              'class': this.textColorClass,
+              directives: [{ name: 'show', value: meta.expanded }]
             }, [
               body,
+
               h('div', {
-                staticClass: 'q-tree-children',
+                staticClass: 'q-tree__children',
                 'class': { disabled: meta.disabled }
               }, children)
             ])
@@ -535,7 +552,13 @@ export default {
       ])
     },
 
+    __blur () {
+      document.activeElement && document.activeElement.blur()
+    },
+
     __onClick (node, meta) {
+      this.__blur()
+
       if (this.hasSelection) {
         if (meta.selectable) {
           this.$emit('update:selected', meta.key !== this.selected ? meta.key : null)
@@ -552,8 +575,9 @@ export default {
 
     __onExpandClick (node, meta, e) {
       if (e !== void 0) {
-        e.stopPropagation()
+        stopAndPrevent(e)
       }
+      this.__blur()
       this.setExpanded(meta.key, !meta.expanded, node, meta)
     },
 

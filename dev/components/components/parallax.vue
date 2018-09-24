@@ -34,8 +34,8 @@
         }"
       >
         <img src="statics/quasar-logo.png" style="width: 150px; height: 150px">
-        <div class="q-display-3 text-white text-center">Quasar Framework</div>
-        <div class="q-headline text-grey-3 text-center">Scoped slot</div>
+        <div class="text-h3 text-white text-center">Quasar Framework</div>
+        <div class="text-h6 text-grey-3 text-center">Scoped slot</div>
       </div>
     </q-parallax>
 

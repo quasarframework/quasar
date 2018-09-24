@@ -5,10 +5,7 @@ export default {
     },
     label: String,
     leftLabel: Boolean,
-    color: {
-      type: String,
-      default: 'primary'
-    },
+    color: String,
     keepColor: Boolean,
     dark: Boolean,
     disable: Boolean,
