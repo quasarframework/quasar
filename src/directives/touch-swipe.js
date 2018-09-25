@@ -33,6 +33,7 @@ function getDirection (mod) {
 
 export default {
   name: 'touch-swipe',
+
   bind (el, binding) {
     const mouse = !binding.modifiers.noMouse
 
@@ -165,11 +166,13 @@ export default {
     el.addEventListener('touchmove', ctx.move)
     el.addEventListener('touchend', ctx.end)
   },
+
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
       el.__qtouchswipe.handler = binding.value
     }
   },
+
   unbind (el) {
     const ctx = el.__qtouchswipe
     if (ctx) {

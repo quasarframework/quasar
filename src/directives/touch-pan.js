@@ -73,6 +73,7 @@ function shouldTrigger (ctx, changes) {
 
 export default {
   name: 'touch-pan',
+
   bind (el, binding) {
     const
       mouse = !binding.modifiers.noMouse,
@@ -174,11 +175,13 @@ export default {
     el.addEventListener('touchmove', ctx.move, evtOpts)
     el.addEventListener('touchend', ctx.end, evtOpts)
   },
+
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
       el.__qtouchpan.handler = binding.value
     }
   },
+
   unbind (el, binding) {
     let ctx = el.__qtouchpan
     if (!ctx) { return }

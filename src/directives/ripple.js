@@ -47,6 +47,7 @@ function showRipple (evt, el, { stop, center }) {
 
 export default {
   name: 'ripple',
+
   inserted (el, { value, modifiers }) {
     const ctx = {
       enabled: value !== false,
@@ -70,6 +71,7 @@ export default {
     el.addEventListener('click', ctx.click, false)
     el.addEventListener('keyup', ctx.keyup, false)
   },
+
   update (el, { value, modifiers: { stop, center } }) {
     const ctx = el.__qripple
     if (ctx) {
@@ -77,6 +79,7 @@ export default {
       ctx.modifiers = { stop, center }
     }
   },
+
   unbind (el) {
     const ctx = el.__qripple
     if (ctx) {

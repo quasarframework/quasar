@@ -12,6 +12,7 @@ function updateBinding (el, binding) {
 
 export default {
   name: 'touch-hold',
+
   bind (el, binding) {
     const
       mouse = !binding.modifiers.noMouse,
@@ -67,9 +68,11 @@ export default {
     el.addEventListener('touchmove', ctx.abort)
     el.addEventListener('touchend', ctx.abort)
   },
+
   update (el, binding) {
     updateBinding(el, binding)
   },
+
   unbind (el) {
     let ctx = el.__qtouchhold
     if (ctx) {

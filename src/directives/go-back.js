@@ -2,6 +2,7 @@ import Platform from '../plugins/platform.js'
 
 export default {
   name: 'go-back',
+
   bind (el, { value, modifiers }, vnode) {
     let ctx = { value, position: window.history.length - 1, single: modifiers.single }
 
@@ -25,16 +26,19 @@ export default {
     el.addEventListener('click', ctx.goBack)
     el.addEventListener('keyup', ctx.goBackKey)
   },
-  update (el, binding) {
-    if (binding.oldValue !== binding.value) {
-      el.__qgoback.value = binding.value
+
+  update (el, { value, oldValue }) {
+    if (value !== oldValue) {
+      el.__qgoback.value = value
     }
   },
+
   unbind (el) {
     const ctx = el.__qgoback
-    if (!ctx) { return }
-    el.removeEventListener('click', ctx.goBack)
-    el.removeEventListener('keyup', ctx.goBackKey)
-    delete el.__qgoback
+    if (ctx) {
+      el.removeEventListener('click', ctx.goBack)
+      el.removeEventListener('keyup', ctx.goBackKey)
+      delete el.__qgoback
+    }
   }
 }

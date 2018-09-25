@@ -1,5 +1,6 @@
 export default {
   name: 'close-overlay',
+
   bind (el, binding, vnode) {
     const
       handler = ev => {
@@ -21,6 +22,7 @@ export default {
     el.addEventListener('click', handler)
     el.addEventListener('keyup', handlerKey)
   },
+
   unbind (el) {
     const ctx = el.__qclose
     if (!ctx) { return }

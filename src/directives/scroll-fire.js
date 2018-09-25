@@ -3,17 +3,17 @@ import { height, offset } from '../utils/dom.js'
 import { getScrollTarget } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
 
-function updateBinding (el, binding) {
+function updateBinding (el, { value, oldValue }) {
   const ctx = el.__qscrollfire
 
-  if (typeof binding.value !== 'function') {
+  if (typeof value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
     console.error('v-scroll-fire requires a function as parameter', el)
     return
   }
 
-  ctx.handler = binding.value
-  if (typeof binding.oldValue !== 'function') {
+  ctx.handler = value
+  if (typeof oldValue !== 'function') {
     ctx.scrollTarget.addEventListener('scroll', ctx.scroll, listenOpts.passive)
     ctx.scroll()
   }
@@ -21,6 +21,7 @@ function updateBinding (el, binding) {
 
 export default {
   name: 'scroll-fire',
+
   bind (el) {
     let ctx = {
       scroll: debounce(() => {
@@ -44,20 +45,24 @@ export default {
 
     el.__qscrollfire = ctx
   },
+
   inserted (el, binding) {
     let ctx = el.__qscrollfire
     ctx.scrollTarget = getScrollTarget(el)
     updateBinding(el, binding)
   },
+
   update (el, binding) {
     if (binding.value !== binding.oldValue) {
       updateBinding(el, binding)
     }
   },
+
   unbind (el) {
     let ctx = el.__qscrollfire
-    if (!ctx) { return }
-    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-    delete el.__qscrollfire
+    if (ctx) {
+      ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
+      delete el.__qscrollfire
+    }
   }
 }

@@ -41,6 +41,7 @@ function updateBinding (el, { value }) {
 
 export default {
   name: 'back-to-top',
+
   bind (el) {
     const ctx = {
       offset: 200,
@@ -65,6 +66,7 @@ export default {
     el.classList.add('hidden')
     el.__qbacktotop = ctx
   },
+
   inserted (el, binding) {
     const ctx = el.__qbacktotop
     ctx.scrollTarget = getScrollTarget(el)
@@ -75,6 +77,7 @@ export default {
     el.addEventListener('click', ctx.goToTop)
     el.addEventListener('keyup', ctx.goToTopKey)
   },
+
   update (el, binding) {
     if (JSON.stringify(binding.oldValue) !== JSON.stringify(binding.value)) {
       updateBinding(el, binding)
@@ -85,6 +88,7 @@ export default {
       }, 0)
     }
   },
+
   unbind (el) {
     const ctx = el.__qbacktotop
     if (!ctx) { return }
