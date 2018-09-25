@@ -41,7 +41,7 @@ export default function (Vue, opts = {}) {
 
   opts.components && Object.keys(opts.components).forEach(key => {
     const c = opts.components[key]
-    if (typeof c === 'function' && c.options && c.options.name) {
+    if (typeof c === 'function' && c.name === 'VueComponent') {
       Vue.component(c.options.name, c)
     }
   })

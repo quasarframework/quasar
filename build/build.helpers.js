@@ -29,16 +29,6 @@ function kebab (name) {
     : kebabCase(name)
 }
 
-function addProps (comp, list) {
-  if (comp.props) {
-    Object.keys(comp.props)
-      .filter(name => name !== 'value')
-      .forEach(name => {
-        list[kebab(name)] = comp.props[name]
-      })
-  }
-}
-
 const propExceptions = {
   'q-chips-input': ['max-height'],
   'q-search': ['max-value']
@@ -59,21 +49,32 @@ function applyExceptions (cache) {
 
 function parseComponent (comp, list) {
   const
-    name = kebabCase(comp.name),
-    cached = name !== void 0 ? cache[comp.name] : false
+    isFn = typeof comp === 'function',
+    obj = isFn ? comp.options : comp,
+    name = kebabCase(obj.name)
 
-  if (cached) {
-    Object.assign(list, cached)
-    return
+  if (name !== void 0) {
+    const cached = cache[name]
+
+    if (cached) {
+      Object.assign(list, cached)
+      return
+    }
   }
 
-  if (comp.mixins) {
-    comp.mixins.forEach(mixin => {
+  if (obj.mixins) {
+    obj.mixins.forEach(mixin => {
       parseComponent(mixin, list)
     })
   }
 
-  addProps(comp, list)
+  if (obj.props) {
+    Object.keys(obj.props)
+      .filter(name => name !== 'value')
+      .forEach(name => {
+        list[kebab(name)] = obj.props[name]
+      })
+  }
 
   if (name) {
     cache[name] = cloneDeep(list)
