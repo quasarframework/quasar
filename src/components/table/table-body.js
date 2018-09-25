@@ -45,7 +45,7 @@ export default {
               })
 
           if (this.hasSelectionMode) {
-            child.unshift(h('td', { staticClass: 'q-table-col-auto-width' }, [
+            child.unshift(h('td', { staticClass: 'q-table--col-auto-width' }, [
               h(QCheckbox, {
                 props: {
                   value: selected,

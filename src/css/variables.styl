@@ -191,6 +191,9 @@ $form-autofill ?= #ff9800
 $dimmed-background       ?= rgba(0, 0, 0, .4)
 $light-dimmed-background ?= rgba(255, 255, 255, .6)
 
+$separator-color      ?= rgba(0, 0, 0, .12)
+$separator-dark-color ?= rgba(255, 255, 255, .48)
+
 $red = #f44336
 $red-1 = #ffebee
 $red-2 = #ffcdd2
@@ -727,13 +730,13 @@ $table-transition               ?= $generic-hover-transition
 $table-border-radius            ?= $generic-border-radius
 $table-box-shadow               ?= $shadow-2
 
-$table-border-color             ?= rgba(0, 0, 0, .12)
+$table-border-color             ?= $separator-color
 $table-color                    ?= rgba(0, 0, 0, .87)
 $table-header-color             ?= rgba(0, 0, 0, .54)
 $table-hover-background         ?= rgba(0, 0, 0, .03)
 $table-selected-background      ?= rgba(0, 0, 0, .06)
 
-$table-dark-border-color        ?= rgba(255, 255, 255, .12)
+$table-dark-border-color        ?= $separator-dark-color
 $table-dark-color               ?= $grey-3
 $table-dark-header-color        ?= rgba(255, 255, 255, .64)
 $table-dark-hover-background    ?= rgba(255, 255, 255, .1)

@@ -22,7 +22,7 @@ export default {
         topRight = this.$scopedSlots['top-right'],
         topSelection = this.$scopedSlots['top-selection'],
         hasSelection = this.hasSelectionMode && topSelection && this.rowsSelectedNumber > 0,
-        staticClass = 'q-table-top relative-position row items-center',
+        staticClass = 'q-table__top relative-position row items-center',
         child = []
 
       if (top) {
@@ -42,17 +42,17 @@ export default {
         }
         else if (this.title) {
           child.push(
-            h('div', { staticClass: 'q-table-control' }, [
-              h('div', { staticClass: 'q-table-title' }, this.title)
+            h('div', { staticClass: 'q-table__control' }, [
+              h('div', { staticClass: 'q-table__title' }, this.title)
             ])
           )
         }
       }
 
       if (topRight) {
-        child.push(h('div', { staticClass: 'q-table-separator col' }))
+        child.push(h('div', { staticClass: 'q-table__separator col' }))
         child.push(
-          h('div', { staticClass: 'q-table-control' }, [
+          h('div', { staticClass: 'q-table__control' }, [
             topRight(this.marginalsProps)
           ])
         )

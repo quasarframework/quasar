@@ -12,7 +12,7 @@ export default {
 
       return cols.map(col => {
         col.align = col.align || 'right'
-        col.__iconClass = `q-table-sort-icon q-table-sort-icon-${col.align}`
+        col.__iconClass = `q-table__sort-icon q-table__sort-icon--${col.align}`
         col.__thClass = `text-${col.align}${col.sortable ? ' sortable' : ''}${col.name === sortBy ? ` sorted ${descending ? 'sort-desc' : ''}` : ''}`
         col.__tdClass = `text-${col.align}`
         return col

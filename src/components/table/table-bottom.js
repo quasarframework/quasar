@@ -20,7 +20,7 @@ export default {
           ? this.noResultsLabel || this.$q.i18n.table.noResults
           : (this.loading ? this.loadingLabel || this.$q.i18n.table.loading : this.noDataLabel || this.$q.i18n.table.noData)
 
-        return h('div', { staticClass: 'q-table-bottom row items-center q-table-nodata' }, [
+        return h('div', { staticClass: 'q-table__bottom row items-center q-table__bottom--nodata' }, [
           h(QIcon, {props: { name: this.$q.icon.table.warning }}),
           message
         ])
@@ -29,7 +29,7 @@ export default {
       const bottom = this.$scopedSlots.bottom
 
       return h('div', {
-        staticClass: 'q-table-bottom row items-center',
+        staticClass: 'q-table__bottom row items-center',
         'class': bottom ? null : 'justify-end'
       }, bottom ? [ bottom(this.marginalsProps) ] : this.getPaginationRow(h))
     },
@@ -40,20 +40,20 @@ export default {
         paginationSlot = this.$scopedSlots.pagination
 
       return [
-        h('div', { staticClass: 'q-table-control' }, [
+        h('div', { staticClass: 'q-table__control' }, [
           h('div', [
             this.hasSelectionMode && this.rowsSelectedNumber > 0
               ? (this.selectedRowsLabel || this.$q.i18n.table.selectedRecords)(this.rowsSelectedNumber)
               : ''
           ])
         ]),
-        h('div', { staticClass: 'q-table-separator col' }),
-        (this.rowsPerPageOptions.length > 1 && h('div', { staticClass: 'q-table-control' }, [
-          h('span', { staticClass: 'q-table-bottom-item' }, [
+        h('div', { staticClass: 'q-table__separator col' }),
+        (this.rowsPerPageOptions.length > 1 && h('div', { staticClass: 'q-table__control' }, [
+          h('span', { staticClass: 'q-table__bottom-item' }, [
             this.rowsPerPageLabel || this.$q.i18n.table.recordsPerPage
           ]),
           h(QSelect, {
-            staticClass: 'inline q-table-bottom-item',
+            staticClass: 'inline q-table__bottom-item',
             props: {
               color: this.color,
               value: rowsPerPage,
@@ -71,11 +71,11 @@ export default {
             }
           })
         ])) || void 0,
-        h('div', { staticClass: 'q-table-control' }, [
+        h('div', { staticClass: 'q-table__control' }, [
           paginationSlot
             ? paginationSlot(this.marginalsProps)
             : [
-              h('span', { staticClass: 'q-table-bottom-item' }, [
+              h('span', { staticClass: 'q-table__bottom-item' }, [
                 rowsPerPage
                   ? paginationLabel(this.firstRowIndex + 1, Math.min(this.lastRowIndex, this.computedRowsNumber), this.computedRowsNumber)
                   : paginationLabel(1, this.computedRowsNumber, this.computedRowsNumber)

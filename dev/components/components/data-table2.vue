@@ -15,6 +15,8 @@
       :pagination.sync="serverPagination"
       @request="request"
       :loading="loading"
+      flat
+      bordered
     >
       <template slot="top-right" slot-scope="props">
         <q-search hide-underline v-model="filter" />

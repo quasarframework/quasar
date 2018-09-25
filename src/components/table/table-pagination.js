@@ -27,6 +27,7 @@ export default {
   },
   data () {
     return {
+      rowsExpanded: {},
       innerPagination: {
         sortBy: null,
         descending: false,

@@ -1,72 +1,5 @@
-.q-table-container
-  border-radius $table-border-radius
-  box-shadow $table-box-shadow
-  position relative
-  &.fullscreen
-    background-color inherit
-
-.q-table-top
-  min-height 64px
-  padding 8px 24px
-  &:before
-    content ''
-    position absolute
-    pointer-events none
-    top 0
-    right 0
-    bottom 0
-    left 0
-    opacity .2
-    transition $table-transition
-  .q-table-control
-    min-height 36px
-    padding 8px 0
-    flex-wrap wrap
-.q-table-title
-  font-size 20px
-  letter-spacing 0.005em
-  font-weight 400
-.q-table-separator
-  min-width 8px !important
-.q-table-nodata .q-icon
-  font-size 200%
-  padding-right 15px
-
-.q-table-progress
-  height 0 !important
-  td
-    padding 0 !important
-    border-bottom 1px solid transparent !important
-  .q-progress
-    position absolute
-    height 2px
-    bottom 0
-
-.q-table-middle
-  max-width 100%
-
-.q-table-bottom
-  min-height 48px
-  padding 4px 14px 4px 24px
-  &, .q-if
-    font-size 12px
-  .q-table-control
-    min-height 24px
-
-.q-table-control
-  display flex
-  align-items center
-
-.q-table-sort-icon
-  transition $table-transition
-  will-change opacity, transform
-  opacity 0
-  font-size 120%
-.q-table-sort-icon-left,
-.q-table-sort-icon-center
-  margin-left 4px
-.q-table-sort-icon-right
-  margin-right 4px
+.q-markup-table
+  overflow auto
 
 .q-table
   width 100%
@@ -84,11 +17,11 @@
     user-select none
     &.sortable
       cursor pointer
-      &:hover .q-table-sort-icon
+      &:hover .q-table__sort-icon
         opacity .5
-    &.sorted .q-table-sort-icon
+    &.sorted .q-table__sort-icon
       opacity 1 !important
-    &.sort-desc .q-table-sort-icon
+    &.sort-desc .q-table__sort-icon
       transform rotate(180deg)
 
   tbody tr
@@ -97,8 +30,9 @@
 
   th, td
     white-space nowrap
-    padding 7px 24px
+    padding 7px 16px
     position relative
+    background-color inherit
 
   thead, td, th
     border-style solid
@@ -109,58 +43,153 @@
     font-weight 400
     font-size 13px
 
-.q-table-col-auto-width
-  width 1px
 
-.q-table-bottom-item
-  margin-right 24px
+  &__container
+    border-radius $table-border-radius
+    box-shadow $table-box-shadow
+    position relative
+    &.fullscreen
+      background-color inherit
 
-.q-table-grid
-  box-shadow none
-  .q-table-bottom
-    border-top 0
-  .q-table
-    height 2px
-    thead
-      border 0
+  &__top
+    min-height 64px
+    padding 8px 16px
+    &:before
+      content ''
+      position absolute
+      pointer-events none
+      top 0
+      right 0
+      bottom 0
+      left 0
+      opacity .2
+      transition $table-transition
+    .q-table__control
+      min-height 36px
+      padding 8px 0
+      flex-wrap wrap
+
+  &__title
+    font-size 20px
+    letter-spacing 0.005em
+    font-weight 400
+  &__separator
+    min-width 8px !important
+
+  &__progress
+    height 0 !important
+    td
+      padding 0 !important
+      border-bottom 1px solid transparent !important
+    .q-linear-progress
+      position absolute
+      bottom -1px
+
+  &__middle
+    max-width 100%
+
+  &__bottom
+    min-height 48px
+    padding 4px 14px 4px 16px
+
+    &, .q-if
+      font-size 12px
+
+    .q-table__control
+      min-height 24px
+
+    &--nodata .q-icon
+      font-size 200%
+      padding-right 15px
+
+  &__bottom-item
+    margin-right 16px
+
+  &__control
+    display flex
+    align-items center
+
+  &__sort-icon
+    transition $table-transition
+    will-change opacity, transform
+    opacity 0
+    font-size 120%
+
+    &--left, &--center
+      margin-left 4px
+    &--right
+      margin-right 4px
+
+  &--col-auto-width
+    width 1px
+    padding-right 0 !important
+
+  &--grid
+    box-shadow none
+    .q-table__bottom
+      border-top 0
+    .q-table
+      height 2px
+      thead
+        border 0
+
+  &--flat
+    box-shadow none
+  &--bordered
+    border 1px solid $table-border-color
 
 /*
  * Separators
  */
-.q-table-horizontal-separator
-  thead, tbody td
+.q-table--horizontal-separator
+  thead, tbody tr:not(:last-child) td
     border-width 0 0 1px 0
 
-.q-table-vertical-separator
-  thead
-    border-width 0 0 1px 0
-  td
+.q-table--vertical-separator
+  td, th
     border-width 0 0 0 1px
-  td:first-child
+  thead tr:last-child th
+    border-bottom-width 1px
+  td:first-child, th:first-child
     border-left 0
 
-.q-table-cell-separator
-  td
+.q-table--cell-separator
+  td, th
     border-width 1px
-  td:first-child
+  td:first-child, th:first-child
     border-left 0
-  td:last-child
+  td:last-child, th:last-child
     border-right 0
+  thead tr:first-child th
+    border-top 0
+  tbody
+    tr:last-child td
+      border-bottom 0
+
+.q-table--vertical-separator, .q-table--cell-separator
+  .q-table__top
+    border-bottom 1px solid $table-border-color
+
+.q-table .q-table--col-auto-width
+  border-left 0
+  border-right 0
+  & + td, & + th
+    border-left 0
 
 /*
  * dense size
  */
 
 table-dense()
-  .q-table-top
+  .q-table__top
     min-height 48px
-  .q-table-top, .q-table-bottom
+  .q-table__top, .q-table__bottom
     padding-left 8px
     padding-right 8px
-  .q-table-bottom
+  .q-table__bottom
     min-height 42px
 
-  .q-table-sort-icon
+  .q-table__sort-icon
     font-size 110%
   .q-table
     th, td
@@ -170,10 +199,10 @@ table-dense()
     tbody td
       height 28px
 
-  .q-table-bottom-item
+  .q-table__bottom-item
     margin-right 8px
 
-.q-table-dense
+.q-table--dense
   table-dense()
 
 @media (max-width $breakpoint-sm-max)
@@ -182,7 +211,7 @@ table-dense()
 /*
  * On light background
  */
-.q-table-bottom // @stylint ignore
+.q-table__bottom // @stylint ignore
   color $table-header-color
   border-top 1px solid $table-border-color
 
@@ -203,11 +232,12 @@ table-dense()
 /*
  * On dark background
  */
-.q-table-dark
+.q-table--dark
   color $table-dark-color
 
-  .q-table-bottom, .q-table-top
+  .q-table__bottom, .q-table__top
     color $table-dark-header-color
+  .q-table__bottom
     border-top 1px solid $table-dark-border-color
 
   thead, tr, th, td
@@ -222,3 +252,6 @@ table-dense()
     &:hover
       background $table-dark-hover-background
 
+  &.q-table--vertical-separator, &.q-table--cell-separator
+    .q-table__top
+      border-bottom 1px solid $table-dark-border-color

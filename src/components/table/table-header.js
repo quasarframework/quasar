@@ -8,7 +8,7 @@ export default {
       const child = [ this.getTableHeaderRow(h) ]
 
       if (this.loading) {
-        child.push(h('tr', { staticClass: 'q-table-progress animate-fade' }, [
+        child.push(h('tr', { staticClass: 'q-table__progress animate-fade' }, [
           h('td', { attrs: {colspan: '100%'} }, [
             h(QLinearProgress, {
               props: {
@@ -55,10 +55,10 @@ export default {
       const child = this.computedCols.map(mapFn)
 
       if (this.singleSelection && !this.grid) {
-        child.unshift(h('th', { staticClass: 'q-table-col-auto-width' }, [' ']))
+        child.unshift(h('th', { staticClass: 'q-table--col-auto-width' }, [' ']))
       }
       else if (this.multipleSelection) {
-        child.unshift(h('th', { staticClass: 'q-table-col-auto-width' }, [
+        child.unshift(h('th', { staticClass: 'q-table--col-auto-width' }, [
           h(QCheckbox, {
             props: {
               color: this.color,

@@ -65,10 +65,10 @@
   padding 8px 0
 
   &--bordered
-    border 1px solid rgba(0, 0, 0, .12)
+    border 1px solid $separator-color
   &--separator
     > .q-item-type + .q-item-type
-      border-top 1px solid rgba(0, 0, 0, .12)
+      border-top 1px solid $separator-color
 
 .q-list--dense > .q-item, .q-item--dense
   min-height 32px
@@ -76,11 +76,11 @@
 
 .q-list--dark.q-list--separator
   > .q-item-type + .q-item-type
-    border-top-color rgba(255, 255, 255, .48)
+    border-top-color $separator-dark-color
 
 .q-list--dark, .q-item--dark
   color white
-  border-color rgba(255, 255, 255, .48)
+  border-color $separator-dark-color
 
   .q-item__label
     &--header

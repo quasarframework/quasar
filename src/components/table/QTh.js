@@ -11,7 +11,7 @@ export default {
   render (h) {
     if (!this.props) {
       return h('td', {
-        'class': { 'q-table-col-auto-width': this.autoWidth }
+        'class': { 'q-table--col-auto-width': this.autoWidth }
       }, this.$slots.default)
     }
 
@@ -43,7 +43,7 @@ export default {
 
     return h('th', {
       'class': [col.__thClass, {
-        'q-table-col-auto-width': this.autoWidth
+        'q-table--col-auto-width': this.autoWidth
       }],
       on: col.sortable
         ? { click: () => { this.props.sort(col) } }
