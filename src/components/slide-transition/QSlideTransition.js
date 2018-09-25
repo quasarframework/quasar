@@ -11,13 +11,15 @@ export default Vue.extend({
   },
 
   methods: {
-    __begin (el, height) {
+    __begin (el, height, done) {
       el.style.overflowY = 'hidden'
       if (height !== void 0) {
         el.style.height = `${height}px`
       }
       el.style.transition = `height ${this.duration}ms cubic-bezier(.25, .8, .50, 1)`
+
       this.animating = true
+      this.done = done
     },
 
     __end (el, event) {
@@ -26,12 +28,16 @@ export default Vue.extend({
       el.style.transition = null
       this.__cleanup()
       event !== this.lastEvent && this.$emit(event)
-      this.animating = false
     },
 
     __cleanup () {
+      this.done && this.done()
+      this.done = null
+      this.animating = false
+
       clearTimeout(this.timer)
       this.el.removeEventListener('transitionend', this.animListener)
+      this.animListener = null
     }
   },
 
@@ -58,13 +64,12 @@ export default Vue.extend({
             this.lastEvent = 'hide'
           }
 
-          this.__begin(el, pos)
+          this.__begin(el, pos, done)
 
           this.timer = setTimeout(() => {
             el.style.height = `${el.scrollHeight}px`
             this.animListener = () => {
               this.__end(el, 'show')
-              done()
             }
             el.addEventListener('transitionend', this.animListener)
           }, 100)
@@ -81,13 +86,12 @@ export default Vue.extend({
             pos = el.scrollHeight
           }
 
-          this.__begin(el, pos)
+          this.__begin(el, pos, done)
 
           this.timer = setTimeout(() => {
             el.style.height = 0
             this.animListener = () => {
               this.__end(el, 'hide')
-              done()
             }
             el.addEventListener('transitionend', this.animListener)
           }, 100)
