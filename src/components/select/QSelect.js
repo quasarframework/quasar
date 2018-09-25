@@ -260,6 +260,11 @@ export default {
       }
 
       this.$emit('input', model)
+      this.$nextTick(() => {
+        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+          this.$emit('change', value)
+        }
+      })
     },
     __emit (value) {
       this.$emit('input', value)
