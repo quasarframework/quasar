@@ -80,18 +80,16 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.$nextTick(() => {
-      this.element = this.$refs.content
+    this.element = this.$refs.content
 
-      this.scrollContainer = this.inline ? this.$el : getScrollTarget(this.$el)
-      if (this.working) {
-        this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
-      }
+    this.scrollContainer = this.inline ? this.$el : getScrollTarget(this.$el)
+    if (this.working) {
+      this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
+    }
 
-      this.poll()
-      this.immediatePoll = this.poll
-      this.poll = debounce(this.poll, 50)
-    })
+    this.poll()
+    this.immediatePoll = this.poll
+    this.poll = debounce(this.poll, 50)
   },
 
   beforeDestroy () {
@@ -102,11 +100,11 @@ export default Vue.extend({
     return h('div', { staticClass: 'q-infinite-scroll' }, [
       h('div', {
         ref: 'content',
-        staticClass: 'q-infinite-scroll-content'
+        staticClass: 'q-infinite-scroll__content'
       }, this.$slots.default),
 
       this.fetching
-        ? h('div', { staticClass: 'q-infinite-scroll-message' }, this.$slots.message)
+        ? h('div', { staticClass: 'q-infinite-scroll__message' }, this.$slots.message)
         : null
     ])
   }
