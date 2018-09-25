@@ -1,6 +1,7 @@
 import TabMixin from './tab-mixin.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QTab',
 
   mixins: [ TabMixin ],
@@ -36,4 +37,4 @@ export default {
       directives: [{ name: 'ripple' }]
     }, this.__getTabContent(h))
   }
-}
+})

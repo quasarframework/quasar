@@ -1,6 +1,7 @@
 import mixin from './spinner-mixin.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QSpinnerIos',
 
   mixins: [mixin],
@@ -218,4 +219,4 @@ export default {
       ])
     ])
   }
-}
+})

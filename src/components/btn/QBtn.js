@@ -4,7 +4,8 @@ import QSpinner from '../spinner/QSpinner.js'
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QBtn',
 
   mixins: [ BtnMixin ],
@@ -112,4 +113,4 @@ export default {
       )
     ])
   }
-}
+})

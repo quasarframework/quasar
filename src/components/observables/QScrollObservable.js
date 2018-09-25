@@ -1,7 +1,8 @@
 import { getScrollPosition, getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QScrollObservable',
 
   props: {
@@ -69,4 +70,4 @@ export default {
     cancelAnimationFrame(this.timer)
     this.target.removeEventListener('scroll', this.trigger, listenOpts.passive)
   }
-}
+})

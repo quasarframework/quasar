@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QIcon',
 
   props: {
@@ -68,4 +69,4 @@ export default {
       this.$slots.default
     ])
   }
-}
+})

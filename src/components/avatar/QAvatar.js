@@ -1,6 +1,7 @@
 import QIcon from '../icon/QIcon.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QAvatar',
 
   props: {
@@ -60,4 +61,4 @@ export default {
       ])
     ])
   }
-}
+})

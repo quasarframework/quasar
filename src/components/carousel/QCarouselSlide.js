@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QCarouselSlide',
 
   inject: {
@@ -42,4 +43,4 @@ export default {
   beforeDestroy () {
     this.carousel.__unregisterSlide()
   }
-}
+})

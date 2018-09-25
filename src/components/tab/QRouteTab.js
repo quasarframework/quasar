@@ -1,7 +1,8 @@
 import { RouterLinkMixin, routerLinkEvent, routerLinkEventName } from '../../mixins/router-link.js'
 import TabMixin from './tab-mixin.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QRouteTab',
 
   mixins: [ TabMixin, RouterLinkMixin ],
@@ -64,4 +65,4 @@ export default {
       directives: [{ name: 'ripple' }]
     }, this.__getTabContent(h))
   }
-}
+})

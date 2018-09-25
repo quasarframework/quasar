@@ -1,7 +1,8 @@
 import QBtn from '../btn/QBtn.js'
 import FabMixin from './fab-mixin.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QFabAction',
 
   mixins: [ FabMixin ],
@@ -45,4 +46,4 @@ export default {
       }
     }, this.$slots.default)
   }
-}
+})

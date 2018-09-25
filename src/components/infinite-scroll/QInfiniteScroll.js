@@ -3,7 +3,8 @@ import debounce from '../../utils/debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QInfiniteScroll',
 
   props: {
@@ -109,4 +110,4 @@ export default {
         : null
     ])
   }
-}
+})

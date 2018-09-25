@@ -8,7 +8,8 @@ import QInputFrame from '../input-frame/QInputFrame.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QIcon from '../icon/QIcon.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QInput',
 
   mixins: [ FrameMixin, InputMixin ],
@@ -433,4 +434,4 @@ export default {
       : void 0
     ))
   }
-}
+})

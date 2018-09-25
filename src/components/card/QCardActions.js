@@ -1,6 +1,7 @@
 import AlignMixin from '../../mixins/align.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QCardActions',
 
   mixins: [ AlignMixin ],
@@ -23,4 +24,4 @@ export default {
       'class': this.classes
     }, this.$slots.default)
   }
-}
+})

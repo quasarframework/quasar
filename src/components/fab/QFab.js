@@ -3,7 +3,8 @@ import QIcon from '../icon/QIcon.js'
 import FabMixin from './fab-mixin.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QFab',
 
   mixins: [ FabMixin, ModelToggleMixin ],
@@ -76,4 +77,4 @@ export default {
       }, this.$slots.default)
     ])
   }
-}
+})

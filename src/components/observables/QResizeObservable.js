@@ -2,7 +2,8 @@ import { listenOpts } from '../../utils/event.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import { isSSR } from '../../plugins/platform.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QResizeObservable',
 
   mixins: [ CanRenderMixin ],
@@ -112,4 +113,4 @@ export default {
       this.$el.contentDocument.defaultView.removeEventListener('resize', this.trigger, listenOpts.passive)
     }
   }
-}
+})

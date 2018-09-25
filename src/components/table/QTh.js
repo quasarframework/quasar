@@ -1,6 +1,7 @@
 import QIcon from '../icon/QIcon.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QTh',
 
   props: {
@@ -50,4 +51,4 @@ export default {
         : null
     }, child)
   }
-}
+})

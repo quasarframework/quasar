@@ -8,7 +8,8 @@ import { between } from '../../utils/format.js'
 import QChip from '../chip/QChip.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QSlider',
 
   mixins: [ SliderMixin ],
@@ -187,4 +188,4 @@ export default {
       ]
     }
   }
-}
+})

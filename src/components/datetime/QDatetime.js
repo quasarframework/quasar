@@ -11,7 +11,8 @@ import { clone, formatDate, isSameDate, isValid } from '../../utils/date.js'
 import QModal from '../modal/QModal.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QDatetime',
 
   mixins: [ FrameMixin, DisplayModeMixin, CanRenderMixin ],
@@ -344,4 +345,4 @@ export default {
       })
     ])
   }
-}
+})

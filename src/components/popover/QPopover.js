@@ -11,7 +11,8 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import { listenOpts, position as eventPosition } from '../../utils/event.js'
 import CanRenderMixinMixin from '../../mixins/can-render.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QPopover',
 
   mixins: [ ModelToggleMixin, CanRenderMixinMixin ],
@@ -233,4 +234,4 @@ export default {
       })
     }
   }
-}
+})

@@ -11,7 +11,8 @@ function convertToAmPm (hour) {
   return hour === 0 ? 12 : (hour >= 13 ? hour - 12 : hour)
 }
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QDatetimePicker',
 
   mixins: [ DateMixin, ParentFieldMixin, CanRenderMixin ],
@@ -946,4 +947,4 @@ export default {
       ].concat(this.$slots.default))
     ])
   }
-}
+})

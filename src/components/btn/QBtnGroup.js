@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QBtnGroup',
 
   props: {
@@ -24,4 +25,4 @@ export default {
       'class': this.classes
     }, this.$slots.default)
   }
-}
+})

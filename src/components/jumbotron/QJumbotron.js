@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QJumbotron',
 
   props: {
@@ -35,4 +36,4 @@ export default {
       style: this.computedStyle
     }, this.$slots.default)
   }
-}
+})

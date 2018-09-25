@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QCardSection',
 
   render (h) {
@@ -6,4 +7,4 @@ export default {
       staticClass: 'q-card__section relative-position'
     }, this.$slots.default)
   }
-}
+})

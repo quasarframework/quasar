@@ -14,7 +14,8 @@ function getUnderlineClass (v) {
   }
 }
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QTabs',
 
   provide () {
@@ -535,4 +536,4 @@ export default {
     this.__redraw.cancel()
     this.__updateScrollIndicator.cancel()
   }
-}
+})

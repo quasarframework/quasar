@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QTimeline',
 
   provide () {
@@ -31,4 +32,4 @@ export default {
       'class': this.classes
     }, this.$slots.default)
   }
-}
+})

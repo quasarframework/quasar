@@ -2,7 +2,8 @@ import { between } from '../../utils/format.js'
 import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QPagination',
 
   props: {
@@ -347,4 +348,4 @@ export default {
       contentEnd
     ])
   }
-}
+})

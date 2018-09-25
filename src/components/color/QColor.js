@@ -9,7 +9,8 @@ import QIcon from '../icon/QIcon.js'
 import clone from '../../utils/clone.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QColor',
 
   mixins: [ FrameMixin, DisplayModeMixin ],
@@ -316,4 +317,4 @@ export default {
       })
     ])
   }
-}
+})

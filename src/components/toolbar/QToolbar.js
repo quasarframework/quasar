@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QToolbar',
 
   render (h) {
@@ -6,4 +7,4 @@ export default {
       staticClass: 'q-toolbar row no-wrap items-center relative-position'
     }, this.$slots.default)
   }
-}
+})

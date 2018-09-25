@@ -4,7 +4,8 @@ import TouchPan from '../../directives/touch-pan.js'
 
 const height = -65
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QPullToRefresh',
 
   directives: {
@@ -195,4 +196,4 @@ export default {
       ])
     ])
   }
-}
+})

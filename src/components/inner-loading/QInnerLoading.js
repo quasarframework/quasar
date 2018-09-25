@@ -1,6 +1,7 @@
 import QSpinner from '../spinner/QSpinner.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QInnerLoading',
 
   props: {
@@ -32,4 +33,4 @@ export default {
       ]
     )
   }
-}
+})

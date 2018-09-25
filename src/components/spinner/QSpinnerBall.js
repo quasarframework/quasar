@@ -1,6 +1,7 @@
 import mixin from './spinner-mixin.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QSpinnerBall',
 
   mixins: [mixin],
@@ -118,4 +119,4 @@ export default {
       ])
     ])
   }
-}
+})

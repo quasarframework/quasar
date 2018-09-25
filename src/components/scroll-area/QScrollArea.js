@@ -5,7 +5,8 @@ import QResizeObservable from '../observables/QResizeObservable.js'
 import QScrollObservable from '../observables/QScrollObservable.js'
 import TouchPan from '../../directives/touch-pan.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QScrollArea',
 
   directives: {
@@ -234,4 +235,4 @@ export default {
       })
     ])
   }
-}
+})

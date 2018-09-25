@@ -4,7 +4,8 @@ import QBtn from '../btn/QBtn.js'
 import QOptionGroup from '../option-group/QOptionGroup.js'
 import clone from '../../utils/clone.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QDialog',
 
   props: {
@@ -269,4 +270,4 @@ export default {
       }
     }
   }
-}
+})

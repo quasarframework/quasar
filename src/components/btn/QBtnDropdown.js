@@ -4,7 +4,8 @@ import QBtn from './QBtn.js'
 import QBtnGroup from './QBtnGroup.js'
 import QPopover from '../popover/QPopover.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QBtnDropdown',
 
   mixins: [ BtnMixin ],
@@ -142,4 +143,4 @@ export default {
   mounted () {
     this.value && this.show()
   }
-}
+})

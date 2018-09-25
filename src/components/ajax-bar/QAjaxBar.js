@@ -77,7 +77,8 @@ function restoreAjax (start, stop) {
   }
 }
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QAjaxBar',
 
   props: {
@@ -222,4 +223,4 @@ export default {
       style: this.style
     })
   }
-}
+})

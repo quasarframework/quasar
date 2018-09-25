@@ -1,7 +1,8 @@
 import StepTab from './StepTab.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QStepper',
 
   props: {
@@ -189,4 +190,4 @@ export default {
       this.$slots.default
     ])
   }
-}
+})

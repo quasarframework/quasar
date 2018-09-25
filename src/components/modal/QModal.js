@@ -37,7 +37,8 @@ let modals = {
   maximized: 0
 }
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QModal',
 
   mixins: [ ModelToggleMixin ],
@@ -319,4 +320,4 @@ export default {
       ])
     ])
   }
-}
+})

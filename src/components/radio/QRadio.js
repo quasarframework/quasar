@@ -2,7 +2,8 @@ import OptionMixin from '../../mixins/option.js'
 import QIcon from '../icon/QIcon.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QRadio',
 
   mixins: [ OptionMixin ],
@@ -54,4 +55,4 @@ export default {
   beforeCreate () {
     this.__kebabTag = 'q-radio'
   }
-}
+})

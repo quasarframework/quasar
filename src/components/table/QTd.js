@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QTd',
 
   props: {
@@ -30,4 +31,4 @@ export default {
       }]
     }, this.$slots.default)
   }
-}
+})

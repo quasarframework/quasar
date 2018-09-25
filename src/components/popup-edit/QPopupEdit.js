@@ -2,7 +2,8 @@ import QPopover from '../popover/QPopover.js'
 import QBtn from '../btn/QBtn.js'
 import clone from '../../utils/clone.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QPopupEdit',
 
   props: {
@@ -141,4 +142,4 @@ export default {
       }
     }, this.__getContent(h))
   }
-}
+})

@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QVideo',
 
   props: {
@@ -27,4 +28,4 @@ export default {
       h('iframe', this.iframeData)
     ])
   }
-}
+})

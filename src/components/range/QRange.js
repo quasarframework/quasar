@@ -14,7 +14,8 @@ const dragType = {
   MAX: 2
 }
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QRange',
 
   mixins: [ SliderMixin ],
@@ -362,4 +363,4 @@ export default {
       ]
     }
   }
-}
+})

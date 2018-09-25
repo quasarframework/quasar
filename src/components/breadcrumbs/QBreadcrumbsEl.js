@@ -1,7 +1,8 @@
 import QIcon from '../icon/QIcon.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QBreadcrumbsEl',
 
   mixins: [ RouterLinkMixin ],
@@ -27,4 +28,4 @@ export default {
 
     ].concat(this.$slots.default))
   }
-}
+})

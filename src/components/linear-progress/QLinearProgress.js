@@ -4,7 +4,8 @@ function width (val) {
   return { width: `${val}%` }
 }
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QLinearProgress',
 
   props: {
@@ -94,4 +95,4 @@ export default {
       })
     ])
   }
-}
+})

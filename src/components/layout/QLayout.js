@@ -3,7 +3,8 @@ import QResizeObservable from '../observables/QResizeObservable.js'
 import { onSSR } from '../../plugins/platform.js'
 import { getScrollbarWidth } from '../../utils/scroll.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QLayout',
 
   provide () {
@@ -182,4 +183,4 @@ export default {
       }
     }
   }
-}
+})

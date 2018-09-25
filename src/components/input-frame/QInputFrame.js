@@ -2,7 +2,8 @@ import FrameMixin from '../../mixins/input-frame.js'
 import ParentFieldMixin from '../../mixins/parent-field.js'
 import QIcon from '../icon/QIcon.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QInputFrame',
 
   mixins: [ FrameMixin, ParentFieldMixin ],
@@ -179,4 +180,4 @@ export default {
       })) || void 0
     ].concat(this.$slots.after))
   }
-}
+})

@@ -1,7 +1,8 @@
 import { listenOpts } from '../../utils/event.js'
 import { onSSR, fromSSR } from '../../plugins/platform.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QWindowResizeObservable',
 
   props: {
@@ -45,4 +46,4 @@ export default {
     clearTimeout(this.timer)
     window.removeEventListener('resize', this.trigger, listenOpts.passive)
   }
-}
+})

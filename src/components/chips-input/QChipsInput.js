@@ -6,7 +6,8 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QChipsInput',
 
   mixins: [ FrameMixin, InputMixin ],
@@ -334,4 +335,4 @@ export default {
       : void 0
     ))
   }
-}
+})

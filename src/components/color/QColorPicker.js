@@ -7,7 +7,8 @@ import throttle from '../../utils/throttle.js'
 import clone from '../../utils/clone.js'
 import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QColorPicker',
 
   mixins: [ParentFieldMixin],
@@ -489,4 +490,4 @@ export default {
       )
     }
   }
-}
+})

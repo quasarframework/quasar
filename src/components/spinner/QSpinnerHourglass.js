@@ -1,6 +1,7 @@
 import mixin from './spinner-mixin.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QSpinnerHourglass',
 
   mixins: [mixin],
@@ -135,4 +136,4 @@ export default {
       ])
     ])
   }
-}
+})

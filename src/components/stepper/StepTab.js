@@ -1,7 +1,8 @@
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/ripple.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QStepTab',
   directives: {
     Ripple
@@ -65,4 +66,4 @@ export default {
         : null
     ])
   }
-}
+})

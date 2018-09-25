@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QSlideTransition',
 
   props: {
@@ -94,4 +95,4 @@ export default {
       }
     }, this.$slots.default)
   }
-}
+})

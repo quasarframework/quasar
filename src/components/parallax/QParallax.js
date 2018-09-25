@@ -4,7 +4,8 @@ import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QParallax',
 
   props: {
@@ -130,4 +131,4 @@ export default {
     this.scrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)
     this.media.onload = this.media.onloadstart = null
   }
-}
+})

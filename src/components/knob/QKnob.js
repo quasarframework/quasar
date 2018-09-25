@@ -4,7 +4,8 @@ import { offset, height, width } from '../../utils/dom.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/touch-pan.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QKnob',
 
   mixins: [{
@@ -256,4 +257,4 @@ export default {
         : null
     }, this.$slots.default)
   }
-}
+})

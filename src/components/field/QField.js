@@ -1,7 +1,8 @@
 import QIcon from '../icon/QIcon.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QField',
 
   mixins: [ CanRenderMixin ],
@@ -214,4 +215,4 @@ export default {
       ])
     ])
   }
-}
+})

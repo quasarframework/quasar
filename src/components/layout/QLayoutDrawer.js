@@ -5,7 +5,8 @@ import preventScroll from '../../utils/prevent-scroll.js'
 
 const duration = 150
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QLayoutDrawer',
 
   inject: {
@@ -551,4 +552,4 @@ export default {
       )
     ]))
   }
-}
+})

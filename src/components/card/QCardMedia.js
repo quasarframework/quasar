@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QCardMedia',
 
   props: {
@@ -15,4 +16,4 @@ export default {
       'class': `q-card__media--${this.overlayPosition}`
     }, this.$slots.default)
   }
-}
+})

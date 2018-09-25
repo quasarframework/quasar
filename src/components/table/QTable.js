@@ -10,7 +10,8 @@ import RowSelection from './table-row-selection.js'
 import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QTable',
 
   mixins: [
@@ -204,4 +205,4 @@ export default {
       ])
     }
   }
-}
+})

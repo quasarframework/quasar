@@ -2,7 +2,8 @@ import CheckboxMixin from '../../mixins/checkbox.js'
 import OptionMixin from '../../mixins/option.js'
 import QIcon from '../icon/QIcon.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QCheckbox',
 
   mixins: [ CheckboxMixin, OptionMixin ],
@@ -63,4 +64,4 @@ export default {
   beforeCreate () {
     this.__kebabTag = 'q-checkbox'
   }
-}
+})

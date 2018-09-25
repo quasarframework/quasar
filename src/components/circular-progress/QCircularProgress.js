@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QCircularProgress',
 
   props: {
@@ -149,4 +150,4 @@ export default {
       ))
     ])
   }
-}
+})

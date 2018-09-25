@@ -3,7 +3,8 @@ import QWindowResizeObservable from '../observables/QWindowResizeObservable.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import { onSSR } from '../../plugins/platform.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QLayoutFooter',
 
   mixins: [ CanRenderMixin ],
@@ -181,4 +182,4 @@ export default {
       ))
     }
   }
-}
+})

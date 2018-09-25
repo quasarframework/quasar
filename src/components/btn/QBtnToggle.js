@@ -1,7 +1,8 @@
 import QBtn from './QBtn.js'
 import QBtnGroup from './QBtnGroup.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QBtnToggle',
 
   props: {
@@ -91,4 +92,4 @@ export default {
       })
     ))
   }
-}
+})

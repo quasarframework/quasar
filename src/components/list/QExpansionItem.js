@@ -14,7 +14,8 @@ import { stopAndPrevent } from '../../utils/event.js'
 
 const eventName = 'q:expansion-item:close'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QExpansionItem',
 
   mixins: [ RouterLinkMixin, ModelToggleMixin ],
@@ -223,4 +224,4 @@ export default {
   beforeDestroy () {
     this.$root.$off(eventName, this.__eventHandler)
   }
-}
+})

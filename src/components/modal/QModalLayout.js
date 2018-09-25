@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QModalLayout',
 
   inject: {
@@ -64,4 +65,4 @@ export default {
       staticClass: 'q-modal-layout col column no-wrap'
     }, child)
   }
-}
+})

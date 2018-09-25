@@ -2,7 +2,8 @@ import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/ripple.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QChip',
 
   directives: {
@@ -153,4 +154,4 @@ export default {
 
     return h('div', data, this.__getContent(h))
   }
-}
+})

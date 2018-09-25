@@ -547,12 +547,6 @@
             </tr>
           </tbody>
         </q-markup-table>
-
-        <q-separator />
-
-        <q-card-section>
-          Lolo
-        </q-card-section>
       </q-card>
     </div>
   </div>

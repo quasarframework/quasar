@@ -1,6 +1,7 @@
 import AlignMixin from '../../mixins/align.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QBreadcrumbs',
 
   mixins: [ AlignMixin ],
@@ -77,4 +78,4 @@ export default {
       'class': this.classes
     }, child)
   }
-}
+})

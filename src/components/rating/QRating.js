@@ -2,7 +2,8 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import QIcon from '../icon/QIcon.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QRating',
 
   props: {
@@ -128,4 +129,4 @@ export default {
       style: this.size ? `font-size: ${this.size}` : ''
     }, child)
   }
-}
+})

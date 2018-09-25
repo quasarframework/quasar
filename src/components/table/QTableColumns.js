@@ -1,6 +1,7 @@
 import QSelect from '../select/QSelect.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QTableColumns',
 
   props: {
@@ -42,4 +43,4 @@ export default {
       }
     })
   }
-}
+})

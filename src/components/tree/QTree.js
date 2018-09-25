@@ -4,7 +4,8 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QTree',
 
   props: {
@@ -632,4 +633,4 @@ export default {
       this.expandAll()
     }
   }
-}
+})

@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QMarkupTable',
 
   props: {
@@ -33,4 +34,4 @@ export default {
       h('table', { staticClass: 'q-table' }, this.$slots.default)
     ])
   }
-}
+})

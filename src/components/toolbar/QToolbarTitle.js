@@ -1,4 +1,5 @@
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QToolbarTitle',
 
   props: {
@@ -16,4 +17,4 @@ export default {
         : null
     ])
   }
-}
+})

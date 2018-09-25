@@ -2,7 +2,8 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import StepTab from './StepTab.js'
 import uid from '../../utils/uid.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QStep',
 
   inject: {
@@ -146,4 +147,4 @@ export default {
       this.__getContainer(h)
     ])
   }
-}
+})

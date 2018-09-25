@@ -6,7 +6,8 @@ import { start, stop } from '../../utils/animate.js'
 import { decelerate, standard } from '../../utils/easing.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'QCarousel',
 
   mixins: [FullscreenMixin],
@@ -519,4 +520,4 @@ export default {
       this.__setArrowKeys(false)
     }
   }
-}
+})
