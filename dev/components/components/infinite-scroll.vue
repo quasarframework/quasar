@@ -3,19 +3,23 @@
     <div class="layout-padding">
       <p class="caption">Scroll down to see it in action.</p>
 
-      <br>
-      <q-infinite-scroll :handler="refresher">
-        <div v-for="(item, index) in items" class="caption">
-          <q-chip square color="secondary" class="shadow-1">
-            {{ index + 1 }}
-          </q-chip>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-        </div>
+      <q-toggle v-model="disable" label="Disable" class="q-mr-sm" />
+      <q-toggle v-model="container" label="Container" />
 
-        <div class="row justify-center" style="margin-bottom: 50px;">
-          <q-spinner name="dots" slot="message" :size="40"/>
-        </div>
-      </q-infinite-scroll>
+      <div :class="container ? 'scroll' : ''" :style="styles">
+        <q-infinite-scroll ref="inf" @load="load" :disable="disable">
+          <div v-for="(item, index) in items" :key="index" class="caption">
+            <q-chip square color="secondary" class="shadow-1">
+              {{ index + 1 }}
+            </q-chip>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          </div>
+
+          <div slot="message" class="row justify-center q-my-md">
+            <q-spinner color="primary" name="dots" :size="40"/>
+          </div>
+        </q-infinite-scroll>
+      </div>
     </div>
   </div>
 </template>
@@ -24,19 +28,28 @@
 export default {
   data () {
     return {
-      items: [{}, {}, {}, {}, {}]
+      items: [{}, {}, {}, {}, {}],
+      disable: false,
+      container: false
+    }
+  },
+  computed: {
+    styles () {
+      return this.container ? 'height: 500px; border: 1px solid black;' : ''
+    }
+  },
+  watch: {
+    container () {
+      this.$nextTick(() => {
+        this.$refs.inf.updateScrollTarget()
+      })
     }
   },
   methods: {
-    refresher (index, done) {
+    load (index, done) {
+      console.log('load called')
       setTimeout(() => {
-        let items = []
-
-        for (let i = 0; i < 7; i++) {
-          items.push({})
-        }
-
-        this.items = this.items.concat(items)
+        this.items.push({}, {}, {}, {}, {}, {}, {})
         done()
       }, 2500)
     }

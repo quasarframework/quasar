@@ -6,6 +6,13 @@ export default Vue.extend({
 
   mixins: [ mixin ],
 
+  props: {
+    thickness: {
+      type: Number,
+      default: 5
+    }
+  },
+
   render (h) {
     return h('svg', {
       staticClass: 'q-spinner q-spinner-mat',
@@ -24,7 +31,7 @@ export default Vue.extend({
           'r': '20',
           'fill': 'none',
           'stroke': 'currentColor',
-          'stroke-width': '3',
+          'stroke-width': this.thickness,
           'stroke-miterlimit': '10'
         }
       })

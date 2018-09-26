@@ -18,8 +18,7 @@ export default {
   },
 
   pullToRefresh: {
-    arrow: 'arrow_downward',
-    refresh: 'refresh'
+    icon: 'refresh'
   },
   search: {
     icon: 'search',

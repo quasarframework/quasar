@@ -1,8 +1,13 @@
-import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
 import QIcon from '../icon/QIcon.js'
+import QSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/touch-pan.js'
 
-const height = -65
+import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
+import { between } from '../../utils/format.js'
+
+const
+  PULLER_HEIGHT = 40,
+  OFFSET_TOP = 20
 
 import Vue from 'vue'
 export default Vue.extend({
@@ -13,86 +18,64 @@ export default Vue.extend({
   },
 
   props: {
-    handler: {
-      type: Function,
-      required: true
-    },
-    color: {
-      type: String,
-      default: 'primary'
-    },
-    distance: {
-      type: Number,
-      default: 35
-    },
-    pullMessage: String,
-    releaseMessage: String,
-    refreshMessage: String,
-    refreshIcon: String,
-    inline: Boolean,
+    color: String,
+    noMouse: Boolean,
     disable: Boolean
   },
 
   data () {
     return {
       state: 'pull',
-      pullPosition: height,
-      animating: false,
+      pullRatio: 0,
       pulling: false,
-      scrolling: false
-    }
-  },
-
-  watch: {
-    inline (val) {
-      this.setScrollContainer(val)
+      pullPosition: -PULLER_HEIGHT,
+      animating: false,
+      positionCSS: {}
     }
   },
 
   computed: {
-    message () {
-      switch (this.state) {
-        case 'pulled':
-          return this.releaseMessage || this.$q.i18n.pullToRefresh.release
-        case 'refreshing':
-          return this.refreshMessage || this.$q.i18n.pullToRefresh.refresh
-        case 'pull':
-        default:
-          return this.pullMessage || this.$q.i18n.pullToRefresh.pull
-      }
-    },
-
     style () {
       return {
-        transform: `translateY(${this.pullPosition}px)`,
-        marginBottom: `${height}px`
+        opacity: this.pullRatio,
+        transform: `translateY(${this.pullPosition}px) rotate(${this.pullRatio * 360}deg)`
       }
-    },
-
-    messageClass () {
-      return `text-${this.color}`
     }
   },
 
   methods: {
+    trigger () {
+      this.$emit('refresh', () => {
+        this.__animateTo({ pos: -PULLER_HEIGHT, ratio: 0 }, () => {
+          this.state = 'pull'
+        })
+      })
+    },
+
+    updateScrollTarget () {
+      this.scrollContainer = getScrollTarget(this.$el)
+    },
+
     __pull (event) {
-      if (this.disable) {
+      if (event.isFinal) {
+        this.scrolling = false
+
+        if (this.pulling) {
+          this.pulling = false
+
+          if (this.state === 'pulled') {
+            this.state = 'refreshing'
+            this.__animateTo({ pos: OFFSET_TOP })
+            this.trigger()
+          }
+          else if (this.state === 'pull') {
+            this.__animateTo({ pos: -PULLER_HEIGHT, ratio: 0 })
+          }
+        }
+
         return
       }
 
-      if (event.isFinal) {
-        this.scrolling = false
-        this.pulling = false
-        if (this.state === 'pulled') {
-          this.state = 'refreshing'
-          this.__animateTo(0)
-          this.trigger()
-        }
-        else if (this.state === 'pull') {
-          this.__animateTo(height)
-        }
-        return
-      }
       if (this.animating || this.scrolling || this.state === 'refreshing') {
         return true
       }
@@ -100,99 +83,112 @@ export default Vue.extend({
       let top = getScrollPosition(this.scrollContainer)
       if (top !== 0 || (top === 0 && event.direction !== 'down')) {
         this.scrolling = true
+
         if (this.pulling) {
           this.pulling = false
           this.state = 'pull'
-          this.__animateTo(height)
+          this.__animateTo({ pos: -PULLER_HEIGHT, ratio: 0 })
         }
+
         return true
       }
 
+      if (event.isFirst) {
+        this.pulling = true
+
+        if (window.getSelection) {
+          const sel = window.getSelection()
+          sel.empty && sel.empty()
+        }
+
+        const { top, left } = this.$el.getBoundingClientRect()
+        this.positionCSS = {
+          top: top + 'px',
+          left: left + 'px',
+          width: window.getComputedStyle(this.$el).getPropertyValue('width')
+        }
+      }
+
       event.evt.preventDefault()
-      this.pulling = true
-      this.pullPosition = height + Math.max(0, Math.pow(event.distance.y, 0.85))
-      this.state = this.pullPosition > this.distance ? 'pulled' : 'pull'
-    },
 
-    __animateTo (target, done, previousCall) {
-      if (!previousCall && this.animationId) {
-        cancelAnimationFrame(this.animating)
-      }
+      const distance = Math.max(0, event.distance.y)
+      this.pullPosition = distance - PULLER_HEIGHT
+      this.pullRatio = between(distance / (OFFSET_TOP + PULLER_HEIGHT), 0, 1)
 
-      this.pullPosition -= (this.pullPosition - target) / 7
-
-      if (this.pullPosition - target > 1) {
-        this.animating = requestAnimationFrame(() => {
-          this.__animateTo(target, done, true)
-        })
-      }
-      else {
-        this.animating = requestAnimationFrame(() => {
-          this.pullPosition = target
-          this.animating = false
-          done && done()
-        })
+      const state = this.pullPosition > OFFSET_TOP ? 'pulled' : 'pull'
+      if (this.state !== state) {
+        this.state = state
       }
     },
 
-    trigger () {
-      this.handler(() => {
-        this.__animateTo(height, () => {
-          this.state = 'pull'
-        })
-      })
-    },
+    __animateTo ({ pos, ratio }, done) {
+      this.animating = true
+      this.pullPosition = pos
 
-    setScrollContainer (inline) {
-      this.$nextTick(() => {
-        this.scrollContainer = inline ? this.$el.parentNode : getScrollTarget(this.$el)
-      })
+      if (ratio !== void 0) {
+        this.pullRatio = ratio
+      }
+
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.animating = false
+        done && done()
+      }, 300)
     }
   },
 
   mounted () {
-    this.setScrollContainer(this.inline)
+    this.updateScrollTarget()
+  },
+
+  beforeDestroy () {
+    clearTimeout(this.timer)
   },
 
   render (h) {
-    return h('div', { staticClass: 'pull-to-refresh overflow-hidden-y' }, [
+    return h('div', {
+      staticClass: 'q-pull-to-refresh relative-position overflow-hidden',
+      directives: this.disable
+        ? null
+        : [{
+          name: 'touch-pan',
+          modifiers: {
+            vertical: true,
+            mightPrevent: true,
+            noMouse: this.noMouse
+          },
+          value: this.__pull
+        }]
+    }, [
       h('div', {
-        staticClass: 'pull-to-refresh-container',
-        style: this.style,
-        directives: this.disable
-          ? null
-          : [{
-            name: 'touch-pan',
-            modifiers: {
-              vertical: true,
-              mightPrevent: true
-            },
-            value: this.__pull
-          }]
+        staticClass: 'q-pull-to-refresh__content',
+        'class': this.pulling ? 'no-pointer-events' : null
+      }, this.$slots.default),
+
+      h('div', {
+        staticClass: 'q-pull-to-refresh__puller-container fixed row flex-center no-pointer-events z-top',
+        style: this.positionCSS
       }, [
         h('div', {
-          staticClass: 'pull-to-refresh-message row flex-center',
-          'class': this.messageClass
+          staticClass: 'q-pull-to-refresh__puller row flex-center',
+          style: this.style,
+          'class': this.animating ? 'q-pull-to-refresh__puller--animating' : null
         }, [
-          h(QIcon, {
-            'class': { 'rotate-180': this.state === 'pulled' },
-            props: { name: this.$q.icon.pullToRefresh.arrow },
-            directives: [{
-              name: 'show',
-              value: this.state !== 'refreshing'
-            }]
-          }),
-          h(QIcon, {
-            staticClass: 'animate-spin',
-            props: { name: this.refreshIcon || this.$q.icon.pullToRefresh.refresh },
-            directives: [{
-              name: 'show',
-              value: this.state === 'refreshing'
-            }]
-          }),
-          ` ${this.message}`
-        ]),
-        this.$slots.default
+          this.state !== 'refreshing'
+            ? h(QIcon, {
+              props: {
+                name: this.$q.icon.pullToRefresh.icon,
+                color: this.color,
+                size: '32px'
+              }
+            })
+            : h(QSpinner, {
+              props: {
+                size: '24px',
+                color: this.color
+              }
+            })
+        ])
       ])
     ])
   }

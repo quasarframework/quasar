@@ -1,10 +1,12 @@
-.pull-to-refresh
-  position relative
+.q-pull-to-refresh
 
-.pull-to-refresh-message
-  height 65px
-  font-size $pull-to-refresh-font-size
-  .q-icon
-    font-size $pull-to-refresh-icon-size
-    margin-right 15px
-    transition all .3s
+  &__puller
+    border-radius 50%
+    width 40px
+    height 40px
+    color black
+    background white
+    box-shadow 0px 0px 6px 0px rgba(0, 0, 0, .5)
+
+    &--animating
+      transition transform .3s, opacity .3s
