@@ -20,7 +20,7 @@ export default {
     daysShort: 'Min_Sen_Sel_Rab_Kam_Jum_Sab'.split('_'),
     months: 'Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_November_Desember'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Mei_Jun_Jul_Ags_Sep_Okt_Nov_Des'.split('_'),
-    firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
+    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
   pullToRefresh: {
