@@ -20,7 +20,7 @@ export default {
     daysShort: 'CN_T2_T3_T4_T5_T6_T7'.split('_'),
     months: 'Tháng Một_Tháng Hai_Tháng Ba_Tháng Tư_Tháng Năm_Tháng Sáu_Tháng Bảy_Tháng Tám_Tháng Chín_Tháng Mười_Tháng Mười Một_Tháng Mười Hai'.split('_'),
     monthsShort: 'Th1_Th2_Th3_Th4_Th5_Th6_Th7_Th8_Th9_Th10_Th11_Th12'.split('_'),
-    firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
+    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false
   },
   pullToRefresh: {
