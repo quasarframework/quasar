@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Povuci dolje za osvježivanje',
-    release: 'Otpusti za osvježivanje',
-    refresh: 'Osvježivanje...'
-  },
   table: {
     noData: 'Nema podataka',
     noResults: 'Nema odgovarajućih zapisa',

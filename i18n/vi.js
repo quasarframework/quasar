@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false
   },
-  pullToRefresh: {
-    pull: 'Kéo xuống để làm mới',
-    release: 'Thả ra để làm mới',
-    refresh: 'Đang làm mới'
-  },
   table: {
     noData: 'Không có dữ liệu',
     noResults: 'Không tìm thấy kết quả',

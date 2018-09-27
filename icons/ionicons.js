@@ -18,8 +18,7 @@ export default {
   },
 
   pullToRefresh: {
-    arrow: 'ion-arrow-round-down',
-    refresh: 'ion-refresh'
+    icon: 'ion-refresh'
   },
   search: {
     icon: 'ion-search',

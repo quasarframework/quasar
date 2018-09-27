@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Tarik untuk menyegarkan',
-    release: 'Lepaskan untuk menyegarkan',
-    refresh: 'Menyegarkan...'
-  },
   table: {
     noData: 'Tidak ada data tersedia',
     noResults: 'Tidak ada yang cocok',

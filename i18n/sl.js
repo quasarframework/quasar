@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Nedelja, 1 Ponedeljek, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Za ponovno nalaganje povleci navzdol',
-    release: 'Za ponovno nalaganje spusti',
-    refresh: 'Ponovno nalagam...'
-  },
   table: {
     noData: 'Ni dosegljivih podatkov',
     noResults: 'Ne najdem ustreznic',

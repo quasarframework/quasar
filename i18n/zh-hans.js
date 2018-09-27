@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false
   },
-  pullToRefresh: {
-    pull: '下拉刷新',
-    release: '释放刷新',
-    refresh: '正在刷新...'
-  },
   table: {
     noData: '没有可用数据',
     noResults: '找不到匹配的数据',

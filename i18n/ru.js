@@ -27,11 +27,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Потяните вниз для обновления',
-    release: 'Отпустите для обновления',
-    refresh: 'Обновление...'
-  },
   table: {
     noData: 'Нет данных',
     noResults: 'Совпадений не найдено',

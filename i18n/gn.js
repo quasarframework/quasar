@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Muatã actualisá hagua',
-    release: 'Jora actualisá hagua',
-    refresh: 'Actualisando...'
-  },
   table: {
     noData: 'Ni peteĨ mba\'e',
     noResults: 'Ni peteĨ resultado',

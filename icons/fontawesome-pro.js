@@ -18,8 +18,7 @@ export default {
   },
 
   pullToRefresh: {
-    arrow: 'fal fa-arrow-alt-circle-down',
-    refresh: 'fal fa-sync-alt'
+    icon: 'fal fa-sync-alt'
   },
   search: {
     icon: 'fal fa-search',

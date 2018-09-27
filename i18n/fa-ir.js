@@ -24,11 +24,6 @@ export default {
     firstDayOfWeek: 5,
     format24h: false
   },
-  pullToRefresh: {
-    pull: 'برای تازه‌سازی بکشید',
-    release: 'برای تازه‌سازی رهاکنید',
-    refresh: 'تازه‌سازی ...'
-  },
   table: {
     noData: 'تاریخ دردسترس نیست',
     noResults: 'هیچ موردی یافت نشد',

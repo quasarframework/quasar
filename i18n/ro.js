@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Trage în jos pentru a actualiza',
-    release: 'Eliberează pentru a actualiza',
-    refresh: 'Se actualizează...'
-  },
   table: {
     noData: 'Nu sunt date disponibile',
     noResults: 'Nu am găsit înregistrări care să corespundă',

@@ -18,8 +18,7 @@ export default {
   },
 
   pullToRefresh: {
-    arrow: 'mdi-arrow-down',
-    refresh: 'mdi-refresh'
+    icon: 'mdi-refresh'
   },
   search: {
     icon: 'mdi-magnify',

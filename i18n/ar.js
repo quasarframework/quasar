@@ -24,11 +24,6 @@ export default {
     firstDayOfWeek: 6, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false
   },
-  pullToRefresh: {
-    pull: 'إسحب للأسفل للتحديث',
-    release: 'أفلت ليتم التحديث',
-    refresh: 'جاري التحديث...'
-  },
   table: {
     noData: 'عفواً، لا توجد بيانات',
     noResults: 'عفواً، لا توجد سجلات مطابقة',

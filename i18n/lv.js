@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Pavelciet uz leju, lai atjaunotu',
-    release: 'Atlaidiet, lai atjaunotu',
-    refresh: 'Atjaunojas...'
-  },
   table: {
     noData: 'Nav datu',
     noResults: 'Ieraksti nav atrasti',
