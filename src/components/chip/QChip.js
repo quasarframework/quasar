@@ -70,7 +70,7 @@ export default Vue.extend({
     isClickable () {
       return !this.disable && this.clickable
     },
-    
+
     computedTabindex () {
       return this.disable ? -1 : this.tabindex
     }
