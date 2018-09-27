@@ -101,6 +101,15 @@
         <q-btn round dense color="dark" icon="announcement">
           <q-chip floating color="red">1</q-chip>
         </q-btn>
+        &nbsp;&nbsp;
+        <q-btn-group>
+          <q-btn label="Button" icon="announcement" color="secondary">
+            <q-chip floating color="red">22</q-chip>
+          </q-btn>
+          <q-btn label="Button" icon="announcement" color="primary">
+            <q-chip floating color="red">22</q-chip>
+          </q-btn>
+        </q-btn-group>
       </div>
 
       <p class="caption">Advanced Label Chips</p>
