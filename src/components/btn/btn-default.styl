@@ -29,6 +29,7 @@
       // Active raise shadow will still be visible under adjacent transparent elements, this is ok and coherent with a desired transparency effect.
       // Visible active raise shadow can be removed by specifying a background color to the button
       // Visible active raise shadow can be removed by specifying a flat or outline button type
+      content ''
       position absolute
       top 0
       right 0
@@ -37,8 +38,10 @@
       border-radius inherit
       z-index -1
       transition $button-transition
-    &:active:before
-      box-shadow $button-shadow-active
+    &:active
+    &.q-btn--active
+      &:before
+        box-shadow $button-shadow-active
 
 
   &--no-uppercase
@@ -54,10 +57,12 @@
   &--push
     border-radius $button-push-border-radius
     border-bottom 3px solid rgba(0, 0, 0, .15)
-    &:active:not(.disabled)
-      box-shadow none
-      transform translateY(3px)
-      border-bottom-color transparent
+    &:active,
+    &.q-btn--active
+      &:not(.disabled)
+        box-shadow none
+        transform translateY(3px)
+        border-bottom-color transparent
     .q-focus-helper, .q-ripple-container
       height auto
       bottom -3px

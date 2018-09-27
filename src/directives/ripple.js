@@ -25,10 +25,14 @@ function showRipple (evt, el, { stop, center }) {
   if (center) {
     x = y = 0
   }
-  else {
+  else if (evt.detail > 0) { // is a mouse or touch event
     const pos = position(evt)
     x = pos.left - offset.left - size
     y = pos.top - offset.top - size
+  }
+  else { // comes from keyboard event
+    x = el.clientWidth / 2 - size
+    y = el.clientHeight / 2 - size
   }
 
   animNode.classList.add('q-ripple__animation--enter')
@@ -56,12 +60,12 @@ export default {
         center: modifiers.center
       },
       click (evt) {
-        if (ctx.enabled && evt.detail !== -1) {
+        if (ctx.enabled && !evt.defaultPrevented) {
           showRipple(evt, el, ctx.modifiers)
         }
       },
       keyup (evt) {
-        if (ctx.enabled && evt.keyCode === 13) {
+        if (ctx.enabled && !evt.defaultPrevented && evt.keyCode === 13) {
           showRipple(evt, el, ctx.modifiers)
         }
       }
