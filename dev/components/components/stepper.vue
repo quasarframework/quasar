@@ -88,6 +88,50 @@
           </q-stepper-navigation>
         </q-step>
       </q-stepper>
+
+      <q-stepper class="q-my-md" :no-header-navigation="!backnav" :alternative-labels="alt" :contractable="contractable">
+        <q-step default title="First Step" subtitle="Here we go">
+          <q-stepper vertical :no-header-navigation="!backnav" :alternative-labels="alt" :contractable="contractable">
+            <q-step default title="First Step" subtitle="Here we go">
+              ...Step content, components, ...
+            </q-step>
+            <q-step title="Step 2">...</q-step>
+            <q-step title="Step 3" subtitle="Review and submit">...</q-step>
+            <q-stepper-navigation>
+              <q-btn :color="color" flat >Back</q-btn>
+              <q-btn :color="color" class="q-ml-sm">Next</q-btn>
+            </q-stepper-navigation>
+          </q-stepper>
+        </q-step>
+        <q-step title="Step 2">...</q-step>
+        <q-step title="Step 3" subtitle="Review and submit">...</q-step>
+        <q-stepper-navigation>
+          <q-btn :color="color" flat >Back</q-btn>
+          <q-btn :color="color" class="q-ml-sm">Next</q-btn>
+        </q-stepper-navigation>
+      </q-stepper>
+
+      <q-stepper vertical class="q-my-md" :no-header-navigation="!backnav" :alternative-labels="alt" :contractable="contractable">
+        <q-step default title="First Step" subtitle="Here we go">
+          <q-stepper :no-header-navigation="!backnav" :alternative-labels="alt" :contractable="contractable">
+            <q-step default title="First Step" subtitle="Here we go">
+              ...Step content, components, ...
+            </q-step>
+            <q-step title="Step 2">...</q-step>
+            <q-step title="Step 3" subtitle="Review and submit">...</q-step>
+            <q-stepper-navigation>
+              <q-btn :color="color" flat >Back</q-btn>
+              <q-btn :color="color" class="q-ml-sm">Next</q-btn>
+            </q-stepper-navigation>
+          </q-stepper>
+        </q-step>
+        <q-step title="Step 2">...</q-step>
+        <q-step title="Step 3" subtitle="Review and submit">...</q-step>
+        <q-stepper-navigation>
+          <q-btn :color="color" flat >Back</q-btn>
+          <q-btn :color="color" class="q-ml-sm">Next</q-btn>
+        </q-stepper-navigation>
+      </q-stepper>
     </div>
   </div>
 </template>
