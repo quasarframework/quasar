@@ -124,8 +124,7 @@ export default {
     innerClasses () {
       return {
         [this.alignClass]: true,
-        'no-wrap text-no-wrap': this.noWrap,
-        'non-selectable': this.repeating
+        'no-wrap text-no-wrap': this.noWrap
       }
     }
   }

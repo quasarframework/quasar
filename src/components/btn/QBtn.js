@@ -31,15 +31,13 @@ export default Vue.extend({
 
   methods: {
     click (e) {
-      clearTimeout(this.timer)
-      this.to !== void 0 && e && stopAndPrevent(e)
-
-      if (this.type === 'submit' && e && e.detail !== -1) {
+      if (document.activeElement !== this.$el) {
         stopAndPrevent(e)
-        const ev = new MouseEvent('click', Object.assign({}, e, {detail: -1}))
-        this.timer = setTimeout(() => this.$el && this.$el.dispatchEvent(ev), 200)
+        this.$el.focus()
         return
       }
+
+      this.to !== void 0 && e && stopAndPrevent(e)
 
       const go = () => {
         this.$router[this.replace ? 'replace' : 'push'](this.to)
@@ -49,15 +47,18 @@ export default Vue.extend({
       this.to !== void 0 && e.navigate !== false && go()
     },
 
+    __onKeyDown (e) {
+      if ([13, 32].includes(e.keyCode)) {
+        stopAndPrevent(e)
+        this.$el.classList.add('q-btn--active')
+      }
+    },
     __onKeyUp (e) {
-      if (e.keyCode === 13) {
-        this.click(e)
+      if ([13, 32].includes(e.keyCode)) {
+        this.$el.classList.remove('q-btn--active')
+        this.$el.dispatchEvent(new MouseEvent('click', Object.assign({}, e)))
       }
     }
-  },
-
-  beforeDestroy () {
-    clearTimeout(this.timer)
   },
 
   render (h) {
@@ -68,6 +69,7 @@ export default Vue.extend({
       attrs: this.attrs,
       on: this.isDisabled ? {} : {
         click: this.click,
+        keydown: this.__onKeyDown,
         keyup: this.__onKeyUp
       },
       directives: this.hasRipple ? [{
