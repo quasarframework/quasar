@@ -1,0 +1,84 @@
+.q-tab
+  padding 0 16px
+  height 48px
+
+  text-transform uppercase
+  white-space nowrap
+
+  &--full
+    height 72px
+
+  &--no-caps
+    text-transform none
+
+  &__content
+    height inherit
+
+    &--inline
+      .q-tab__icon + .q-tab__label
+        padding-left 8px
+
+  &__icon
+    width 24px
+    height 24px
+    font-size 24px
+
+  &__label
+    font-size 14px
+    line-height 24px
+    font-weight 500
+    // letter-spacing 0.08929em
+
+  &__indicator
+    opacity 0
+    height 2px
+    background currentColor
+
+  &--active .q-tab__indicator
+    opacity 1
+    transform translateX(0) scale(1)
+    transition transform .25s cubic-bezier(.4, 0, .2, 1)
+    transform-origin left
+
+.q-tabs-bar
+
+  &--not-scrollable .q-tabs-bar__arrow
+    display none
+
+  &__arrow
+    cursor pointer
+    min-width 36px
+
+  &__content
+    overflow hidden
+    flex 1 1 auto
+
+    &--align
+
+      &-center
+        justify-content center
+
+      &-right
+        justify-content flex-end
+
+      &-justify .q-tab
+        flex 1 1 auto
+
+  &__offset
+    display none
+
+body.mobile
+
+  .q-tabs-bar
+
+    &__content
+      overflow auto
+
+    &--scrollable .q-tabs-bar__offset
+      display flex
+
+      // also update QTabsBar > extraOffset
+      min-width 52px
+
+  .q-tabs-bar__arrow
+    display none

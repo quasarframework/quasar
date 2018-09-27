@@ -11,10 +11,7 @@ export default Vue.extend({
     dense: Boolean,
     inset: Boolean,
     dark: Boolean,
-    tabindex: {
-      type: String,
-      default: '0'
-    },
+    tabindex: String,
     tag: {
       type: String,
       default: 'div'
@@ -69,7 +66,7 @@ export default Vue.extend({
 
     if (this.isClickable) {
       data.attrs = {
-        tabindex: this.tabindex
+        tabindex: this.tabindex || 0
       }
       data[this.hasRouterLink ? 'nativeOn' : 'on'] = {
         click: this.__onClick,

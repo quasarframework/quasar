@@ -12,10 +12,11 @@ export default {
   props: {
     align: {
       type: String,
-      default: 'center',
+      default: 'left',
       validator: v => alignValues.includes(v)
     }
   },
+
   computed: {
     alignClass () {
       return `justify-${alignMap[this.align]}`

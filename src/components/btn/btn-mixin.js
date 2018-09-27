@@ -38,10 +38,11 @@ export default {
     textColor: String,
     dense: Boolean,
     noRipple: Boolean,
-    tabindex: Number,
+    tabindex: String,
     to: [Object, String],
     replace: Boolean,
-    stretch: Boolean
+    stretch: Boolean,
+    align: { default: 'center' }
   },
 
   computed: {

@@ -19,10 +19,7 @@ export default Vue.extend({
       type: String,
       default: 'primary'
     },
-    separatorColor: String,
-    align: {
-      default: 'left'
-    }
+    separatorColor: String
   },
 
   computed: {

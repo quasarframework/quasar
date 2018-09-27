@@ -22,6 +22,7 @@ export default Vue.extend({
       default: 1
     },
     decimals: Number,
+    tabindex: String,
     disable: Boolean,
     readonly: Boolean
   },
@@ -44,6 +45,10 @@ export default Vue.extend({
 
     computedStep () {
       return this.decimals !== void 0 ? 1 / Math.pow(10, this.decimals || 0) : this.step
+    },
+
+    computedTabindex () {
+      return this.editable ? this.tabindex || 0 : -1
     }
   },
 
@@ -238,7 +243,7 @@ export default Vue.extend({
         noMotion: this.dragging
       }),
       attrs: {
-        tabindex: this.editable ? 0 : -1
+        tabindex: this.computedTabindex
       },
       nativeOn: {
         click: this.__onClick,

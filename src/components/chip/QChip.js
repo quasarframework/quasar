@@ -36,10 +36,7 @@ export default Vue.extend({
     clickable: Boolean,
     closable: Boolean,
 
-    tabindex: {
-      type: Number,
-      default: 0
-    },
+    tabindex: String,
 
     disable: Boolean
   },
@@ -72,7 +69,7 @@ export default Vue.extend({
     },
 
     computedTabindex () {
-      return this.disable ? -1 : this.tabindex
+      return this.disable ? -1 : this.tabindex || 0
     }
   },
 

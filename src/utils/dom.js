@@ -1,9 +1,8 @@
 export function offset (el) {
-  if (!el || el === window) {
+  if (el === window) {
     return {top: 0, left: 0}
   }
-  let {top, left} = el.getBoundingClientRect()
-
+  const {top, left} = el.getBoundingClientRect()
   return {top, left}
 }
 
@@ -12,17 +11,15 @@ export function style (el, property) {
 }
 
 export function height (el) {
-  if (el === window) {
-    return window.innerHeight
-  }
-  return parseFloat(style(el, 'height'))
+  return el === window
+    ? window.innerHeight
+    : el.getBoundingClientRect().height
 }
 
 export function width (el) {
-  if (el === window) {
-    return window.innerWidth
-  }
-  return parseFloat(style(el, 'width'))
+  return el === window
+    ? window.innerWidth
+    : el.getBoundingClientRect().width
 }
 
 export function css (element, css) {

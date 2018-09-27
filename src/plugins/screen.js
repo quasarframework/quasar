@@ -6,6 +6,7 @@ const SIZE_LIST = ['sm', 'md', 'lg', 'xl']
 
 export default {
   width: 0,
+  height: 0,
 
   sizes: {
     sm: 576,
@@ -35,10 +36,17 @@ export default {
     let update = resized => {
       const
         w = window.innerWidth,
+        h = window.innerHeight,
         s = this.sizes
 
-      if (resized && w === this.width) {
-        return
+      if (resized) {
+        if (h !== this.height) {
+          this.height = h
+        }
+
+        if (w === this.width) {
+          return
+        }
       }
 
       this.width = w

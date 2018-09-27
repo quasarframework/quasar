@@ -18,7 +18,7 @@
         </q-btn>
       </q-toolbar>
 
-      <q-toolbar class="bg-transparent text-primary q-my-md">
+      <q-toolbar class="text-primary q-my-md">
         <q-btn flat round dense icon="menu" />
         <q-toolbar-title>
           Toolbar
@@ -26,7 +26,7 @@
         <q-btn flat round dense icon="more_vert" />
       </q-toolbar>
 
-      <q-toolbar class="bg-secondary q-my-md">
+      <q-toolbar class="bg-secondary text-white q-my-md">
         <q-btn flat round dense icon="assignment_ind" />
         <q-toolbar-title>
           Toolbar
@@ -35,7 +35,7 @@
         <q-btn flat round dense icon="gamepad" />
       </q-toolbar>
 
-      <q-toolbar class="bg-red q-my-md">
+      <q-toolbar class="bg-red text-white q-my-md">
         <q-btn flat round dense icon="assignment_ind" />
         <q-toolbar-title>
           Toolbar g
@@ -55,7 +55,7 @@
         <q-btn flat round dense icon="gamepad" />
       </q-toolbar>
 
-      <q-toolbar class="bg-orange q-my-md">
+      <q-toolbar class="bg-orange text-white q-my-md">
         <q-btn flat round dense icon="mail" />
         <q-toolbar-title>
           Long title for Toolbar. Very very very very very very long title.
@@ -65,7 +65,7 @@
         <q-btn flat round dense icon="keyboard" />
       </q-toolbar>
 
-      <q-toolbar class="bg-black q-my-md">
+      <q-toolbar class="bg-black text-white q-my-md">
         <q-btn flat round dense icon="menu" class="q-mr-xs" />
         <q-btn flat round dense icon="security" />
         <q-toolbar-title>
@@ -79,7 +79,7 @@
         Spacing, Separators
       </p>
 
-      <q-toolbar class="q-my-sm shadow-2">
+      <q-toolbar class="bg-primary text-white q-my-sm shadow-2">
         <q-btn flat round dense icon="menu" class="q-mr-sm" />
         <q-separator dark vertical inset />
         <q-btn class="self-stretch" flat label="Link" />
@@ -123,7 +123,7 @@
         <q-btn stretch flat label="Link" />
       </q-toolbar>
 
-      <q-toolbar class="q-my-sm shadow-2">
+      <q-toolbar class="bg-primary text-white q-my-sm shadow-2">
         <div class="text-h5">My Blog</div>
         <q-separator vertical inset dark class="q-mx-sm" />
         <div class="text-subtitle1">Articles</div>
@@ -137,7 +137,7 @@
         <q-btn stretch flat label="Link" />
       </q-toolbar>
 
-      <q-toolbar class="bg-secondary q-my-sm shadow-2">
+      <q-toolbar class="bg-secondary text-white q-my-sm shadow-2">
         <q-btn flat round dense icon="menu" class="q-mr-sm" />
 
         <q-space />
@@ -154,14 +154,14 @@
         />
       </q-toolbar>
 
-      <q-toolbar class="q-my-sm shadow-2">
+      <q-toolbar class="bg-primary text-white q-my-sm shadow-2">
         <q-btn flat label="Homepage" />
         <q-space />
-        <q-tabs>
-          <q-tab slot="title" label="Tab 1" />
-          <q-tab slot="title" label="Tab 2" />
-          <q-tab slot="title" label="Tab 3" />
-        </q-tabs>
+        <q-tabs-bar>
+          <q-tab label="Tab 1" />
+          <q-tab label="Tab 2" />
+          <q-tab label="Tab 3" />
+        </q-tabs-bar>
       </q-toolbar>
     </div>
   </div>
