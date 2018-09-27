@@ -69,11 +69,15 @@ export default Vue.extend({
 
     isClickable () {
       return !this.disable && this.clickable
+    },
+    
+    computedTabindex () {
+      return this.disable ? -1 : this.tabindex
     }
   },
 
   methods: {
-    __onKeydown (e) {
+    __onKeyup (e) {
       e.keyCode === 13 /* ENTER */ && this.__onClick(e)
     },
 
@@ -85,8 +89,10 @@ export default Vue.extend({
     },
 
     __onClose (e) {
-      stopAndPrevent(e)
-      !this.disable && this.$emit('input', false)
+      if (e.keyCode === void 0 || e.keyCode === 13) {
+        stopAndPrevent(e)
+        !this.disable && this.$emit('input', false)
+      }
     },
 
     __getContent (h) {
@@ -126,8 +132,10 @@ export default Vue.extend({
       this.closable && child.push(h(QIcon, {
         staticClass: 'q-chip__icon q-chip__icon--close cursor-pointer',
         props: { name: this.$q.icon.chip.close },
+        attrs: { tabindex: this.computedTabindex },
         nativeOn: {
-          click: this.__onClose
+          click: this.__onClose,
+          keyup: this.__onClose
         }
       }))
 
@@ -139,12 +147,10 @@ export default Vue.extend({
     if (!this.value) { return }
 
     const data = this.isClickable ? {
-      attrs: {
-        tabindex: this.disable ? -1 : this.tabindex
-      },
+      attrs: { tabindex: this.computedTabindex },
       on: {
         click: this.__onClick,
-        keydown: this.__onKeydown
+        keyup: this.__onKeyup
       },
       directives: [{ name: 'ripple' }]
     } : {}
