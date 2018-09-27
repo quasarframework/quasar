@@ -8,6 +8,7 @@
       </p>
 
       <div
+        tabindex="0"
         v-ripple
         class="relative-position ripple-example shadow-2"
         :class="classes"
@@ -16,6 +17,7 @@
       <br><br>
 
       <div
+        tabindex="0"
         v-ripple.center
         class="relative-position ripple-example ripple-round shadow-2"
         :class="classes"

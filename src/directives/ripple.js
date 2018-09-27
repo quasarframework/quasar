@@ -5,11 +5,13 @@ function showRipple (evt, el, { stop, center }) {
     evt.stopPropagation()
   }
 
+  center = center || evt.detail <= 0 // comes from keyboard event
+
   const
     container = document.createElement('span'),
     animNode = document.createElement('span'),
     size = el.clientWidth > el.clientHeight ? el.clientWidth : el.clientHeight,
-    unit = `${center ? size : size * 2}px`,
+    unit = `${size * 2}px`,
     offset = el.getBoundingClientRect()
 
   container.appendChild(animNode)
@@ -23,16 +25,13 @@ function showRipple (evt, el, { stop, center }) {
   let x, y
 
   if (center) {
-    x = y = 0
+    x = (el.clientWidth / 2) - size
+    y = (el.clientHeight / 2) - size
   }
-  else if (evt.detail > 0) { // is a mouse or touch event
+  else {
     const pos = position(evt)
     x = pos.left - offset.left - size
     y = pos.top - offset.top - size
-  }
-  else { // comes from keyboard event
-    x = el.clientWidth / 2 - size
-    y = el.clientHeight / 2 - size
   }
 
   animNode.classList.add('q-ripple__animation--enter')
