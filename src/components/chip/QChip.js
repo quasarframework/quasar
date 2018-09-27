@@ -73,7 +73,7 @@ export default Vue.extend({
   },
 
   methods: {
-    __onKeydown (e) {
+    __onKeyup (e) {
       e.keyCode === 13 /* ENTER */ && this.__onClick(e)
     },
 
@@ -85,6 +85,9 @@ export default Vue.extend({
     },
 
     __onClose (e) {
+      if (e && !([void 0, 13].includes(e.keyCode))) {
+        return
+      }
       stopAndPrevent(e)
       !this.disable && this.$emit('input', false)
     },
@@ -126,8 +129,12 @@ export default Vue.extend({
       this.closable && child.push(h(QIcon, {
         staticClass: 'q-chip__icon q-chip__icon--close cursor-pointer',
         props: { name: this.$q.icon.chip.close },
+        attrs: {
+          tabindex: this.disable ? -1 : this.tabindex
+        },
         nativeOn: {
-          click: this.__onClose
+          click: this.__onClose,
+          keyup: this.__onClose
         }
       }))
 
@@ -144,7 +151,7 @@ export default Vue.extend({
       },
       on: {
         click: this.__onClick,
-        keydown: this.__onKeydown
+        keyup: this.__onKeyup
       },
       directives: [{ name: 'ripple' }]
     } : {}
