@@ -74,12 +74,12 @@ export default Vue.extend({
         staticClass: 'generic-transition',
         'class': {
           'rotate-180': this.showing,
-          'on-right': !this.split,
           'q-btn-dropdown__arrow': !this.split
         }
       }),
       Btn = h(QBtn, {
         props: Object.assign({}, this.$props, {
+          noWrap: true,
           iconRight: this.split ? this.iconRight : null
         }),
         'class': this.split ? 'q-btn-dropdown--current' : 'q-btn-dropdown q-btn-dropdown--simple',

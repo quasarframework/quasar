@@ -88,7 +88,7 @@ export default Vue.extend({
         : null,
 
       h('div', {
-        staticClass: 'q-btn__content row col items-center',
+        staticClass: 'q-btn__content col items-center',
         'class': this.innerClasses
       },
       this.loading
@@ -97,7 +97,7 @@ export default Vue.extend({
 
           this.icon
             ? h(QIcon, {
-              props: { name: this.icon, left: this.hasLabel }
+              props: { name: this.icon, left: !this.stack && this.hasLabel }
             })
             : null,
 
@@ -107,7 +107,7 @@ export default Vue.extend({
 
           this.iconRight && this.isRectangle
             ? h(QIcon, {
-              props: { name: this.iconRight, right: true }
+              props: { name: this.iconRight, right: !this.stack }
             })
             : null
 

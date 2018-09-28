@@ -42,6 +42,7 @@ export default {
     to: [Object, String],
     replace: Boolean,
     stretch: Boolean,
+    stack: Boolean,
     align: { default: 'center' }
   },
 
@@ -125,6 +126,8 @@ export default {
     innerClasses () {
       return {
         [this.alignClass]: true,
+        'row': !this.stack,
+        'column': this.stack,
         'no-wrap text-no-wrap': this.noWrap
       }
     }

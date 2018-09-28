@@ -23,6 +23,7 @@
           <br :key="`n_2_6_${ n }`"><br :key="`n_2_7_${ n }`">
         </template>
       </div>
+      <q-btn icon="phone" label="Phone" stack color="primary" />
       <q-toolbar color="secondary" style="width: 500px">
         <q-btn :type="tag" flat dense round icon="menu" />
         <q-btn :type="tag" flat round dense icon="android" />

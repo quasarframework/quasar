@@ -34,6 +34,7 @@ export default Vue.extend({
     push: Boolean,
     size: String,
     stretch: Boolean,
+    stack: Boolean,
     noRipple: Boolean
   },
 
@@ -86,6 +87,7 @@ export default Vue.extend({
           size: this.size,
           dense: this.dense,
           noRipple: this.noRipple || opt.noRipple,
+          stack: this.stack || opt.stack,
           tabindex: opt.tabindex,
           stretch: this.stretch
         }
