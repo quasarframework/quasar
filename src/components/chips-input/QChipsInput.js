@@ -265,7 +265,7 @@ export default Vue.extend({
             textColor: this.computedChipTextColor
           },
           attrs: {
-            tabindex: this.editable && this.focused ? 0 : -1
+            tabindex: this.editable && this.focused ? '0' : '-1'
           },
           on: {
             blur: this.__onInputBlur,

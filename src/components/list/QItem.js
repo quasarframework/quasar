@@ -66,7 +66,7 @@ export default Vue.extend({
 
     if (this.isClickable) {
       data.attrs = {
-        tabindex: this.tabindex || 0
+        tabindex: this.tabindex || '0'
       }
       data[this.hasRouterLink ? 'nativeOn' : 'on'] = {
         click: this.__onClick,

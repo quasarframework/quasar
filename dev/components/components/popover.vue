@@ -18,7 +18,7 @@
                 v-close-overlay
                 @click.native="showNotify()"
                 @keyup.native.13.32="showNotify()"
-                :tabindex="0"
+                tabindex="0"
               >
                 <q-item-main label="Label" sublabel="Click me" />
               </q-item>
@@ -35,7 +35,7 @@
                 v-close-overlay
                 @click.native="showNotify()"
                 @keyup.native.13.32="showNotify()"
-                :tabindex="0"
+                tabindex="0"
               >
                 <q-item-main label="X Label" sublabel="X Click me" />
               </q-item>
@@ -63,7 +63,7 @@
                     v-close-overlay
                     @click.native="showNotify()"
                     @keyup.native.13.32="showNotify()"
-                    :tabindex="0"
+                    tabindex="0"
                   >
                     <q-item-main label="Label" />
                   </q-item>
@@ -82,7 +82,7 @@
                     v-close-overlay
                     @click.native="showNotify()"
                     @keyup.native.13.32="showNotify()"
-                    :tabindex="0"
+                    tabindex="0"
                   >
                     <q-item-main label="Label" />
                   </q-item>
@@ -144,7 +144,7 @@
               style="height: 150px; width: 200px;"
               @click="showNotify(), $refs.popover3.hide()"
               @keyup.13.32="showNotify(), $refs.popover3.hide()"
-              :tabindex="0"
+              tabindex="0"
             >
           </q-popover>
         </q-btn>
@@ -168,7 +168,7 @@
               :key="n"
               @click.native="showNotify(), $refs.popover5.hide()"
               @keyup.native.13.32="showNotify(), $refs.popover5.hide()"
-              :tabindex="0"
+              tabindex="0"
             >
               <q-item-main label="Label" sublabel="Click me" />
             </q-item>

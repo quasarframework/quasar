@@ -680,10 +680,10 @@ export default Vue.extend({
         content.push(h(QBtn, {
           staticClass: 'q-datetime-btn no-border-radius',
           'class': {active: i === this.year},
-          attrs: { tabindex: -1 },
           props: {
             flat: true,
-            disable: !this.editable
+            disable: !this.editable,
+            tabindex: '-1'
           },
           on: {
             click: () => {
@@ -706,10 +706,10 @@ export default Vue.extend({
         content.push(h(QBtn, {
           staticClass: 'q-datetime-btn no-border-radius',
           'class': {active: i + 1 === this.month},
-          attrs: { tabindex: -1 },
           props: {
             flat: true,
-            disable: !this.editable
+            disable: !this.editable,
+            tabindex: '-1'
           },
           on: {
             click: () => {
@@ -783,14 +783,14 @@ export default Vue.extend({
         h('div', { staticClass: 'row items-center content-center' }, [
           h(QBtn, {
             staticClass: 'q-datetime-arrow',
-            attrs: { tabindex: -1 },
             props: {
               round: true,
               dense: true,
               flat: true,
               icon: this.dateArrow[0],
               repeatTimeout: this.__repeatTimeout,
-              disable: this.beforeMinDays > 0 || this.disable || this.readonly
+              disable: this.beforeMinDays > 0 || this.disable || this.readonly,
+              tabindex: '-1'
             },
             on: {
               click: () => { this.moveFakeMonth(-1) }
@@ -803,14 +803,14 @@ export default Vue.extend({
 
           h(QBtn, {
             staticClass: 'q-datetime-arrow',
-            attrs: { tabindex: -1 },
             props: {
               round: true,
               dense: true,
               flat: true,
               icon: this.dateArrow[1],
               repeatTimeout: this.__repeatTimeout,
-              disable: this.afterMaxDays > 0 || this.disable || this.readonly
+              disable: this.afterMaxDays > 0 || this.disable || this.readonly,
+              tabindex: '-1'
             },
             on: {
               click: () => { this.moveFakeMonth(1) }

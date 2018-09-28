@@ -25,7 +25,7 @@ export default {
     alert: Boolean,
     count: [Number, String],
     color: String,
-    tabindex: Number
+    tabindex: String
   },
   inject: {
     data: {
