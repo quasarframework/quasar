@@ -119,17 +119,15 @@ export default Vue.extend({
         return
       }
 
-      setTimeout(() => {
-        const el = document.activeElement
-        if (
-          !this.$refs.popup ||
-          !this.$refs.popup.showing ||
-          (el !== document.body && !this.$refs.popup.$el.contains(el))
-        ) {
-          this.__onHide()
-          this.hide()
-        }
-      }, 1)
+      const el = document.activeElement
+      if (
+        !this.$refs.popup ||
+        !this.$refs.popup.showing ||
+        (el !== document.body && !this.$refs.popup.$el.contains(el))
+      ) {
+        this.__onHide()
+        this.hide()
+      }
     },
 
     __onHide (forceUpdate, keepFocus) {
@@ -159,14 +157,10 @@ export default Vue.extend({
     },
 
     __update (change) {
-      this.$nextTick(() => {
-        if (this.__hasModelChanged()) {
-          this.$emit('input', this.model)
-          if (change) {
-            this.$emit('change', this.model)
-          }
-        }
-      })
+      if (this.__hasModelChanged()) {
+        this.$emit('input', this.model)
+        change && this.$emit('change', this.model)
+      }
     },
 
     __getPicker (h, modal) {

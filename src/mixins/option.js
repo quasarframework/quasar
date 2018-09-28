@@ -55,11 +55,7 @@ export default {
       }
 
       this.$emit('input', value)
-      this.$nextTick(() => {
-        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-          this.$emit('change', value)
-        }
-      })
+      JSON.stringify(value) !== JSON.stringify(this.value) && this.$emit('change', value)
     },
     __handleKeyDown (e) {
       if ([13, 32].includes(e.keyCode)) {

@@ -128,7 +128,6 @@ export default Vue.extend({
 
   methods: {
     add (value = this.input) {
-      clearTimeout(this.timer)
       this.focus()
 
       if (this.isLoading || !this.editable || !value) {
@@ -155,7 +154,6 @@ export default Vue.extend({
     },
 
     remove (index) {
-      clearTimeout(this.timer)
       this.focus()
       if (this.editable && index >= 0 && index < this.length) {
         this.$emit('remove', { index, value: this.model.splice(index, 1) })
@@ -164,16 +162,11 @@ export default Vue.extend({
     },
 
     clear (evt) {
-      clearTimeout(this.timer)
       evt && stopAndPrevent(evt)
       if (this.editable) {
-        this.$emit('input', [])
         this.$emit('clear')
+        this.$emit('input', [])
       }
-    },
-
-    __clearTimer () {
-      this.$nextTick(() => clearTimeout(this.timer))
     },
 
     __handleKeyDown (e) {
@@ -268,13 +261,10 @@ export default Vue.extend({
             tabindex: this.editable && this.focused ? '0' : '-1'
           },
           on: {
-            blur: this.__onInputBlur,
-            focus: this.__clearTimer,
             hide: () => { this.remove(index) }
           },
           nativeOn: {
-            blur: this.__onInputBlur,
-            focus: this.__clearTimer
+            focus: this.focus
           }
         }, label)
       }).concat([
@@ -312,8 +302,6 @@ export default Vue.extend({
           'class': { invisible: this.input.length === 0 },
           props: { name: this.computedAddIcon },
           nativeOn: {
-            mousedown: this.__clearTimer,
-            touchstart: this.__clearTimer,
             click: () => { this.add() }
           }
         })) || void 0),
@@ -325,8 +313,6 @@ export default Vue.extend({
           name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`]
         },
         nativeOn: {
-          mousedown: this.__clearTimer,
-          touchstart: this.__clearTimer,
           click: this.clear
         }
       })) || void 0

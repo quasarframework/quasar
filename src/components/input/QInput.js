@@ -174,18 +174,12 @@ export default Vue.extend({
   methods: {
     togglePass () {
       this.showPass = !this.showPass
-      clearTimeout(this.timer)
       this.focus()
     },
 
     toggleNumber () {
       this.showNumber = !this.showNumber
-      clearTimeout(this.timer)
       this.focus()
-    },
-
-    __clearTimer () {
-      this.$nextTick(() => clearTimeout(this.timer))
     },
 
     __onAnimationStart (e) {
@@ -200,7 +194,6 @@ export default Vue.extend({
     },
 
     __setModel (val) {
-      clearTimeout(this.timer)
       this.focus()
       this.__set(
         this.isNumber && val === 0
@@ -224,11 +217,7 @@ export default Vue.extend({
           this.isNumberError = true
           if (forceUpdate) {
             this.$emit('input', forcedValue)
-            this.$nextTick(() => {
-              if (String(1 / forcedValue) !== String(1 / this.value)) {
-                this.$emit('change', forcedValue)
-              }
-            })
+            String(1 / forcedValue) !== String(1 / this.value) && this.$emit('change', forcedValue)
           }
           return
         }
@@ -249,13 +238,7 @@ export default Vue.extend({
       }
 
       this.$emit('input', val)
-      if (forceUpdate) {
-        this.$nextTick(() => {
-          if (JSON.stringify(val) !== JSON.stringify(this.value)) {
-            this.$emit('change', val)
-          }
-        })
-      }
+      forceUpdate && JSON.stringify(val) !== JSON.stringify(this.value) && this.$emit('change', val)
     },
 
     __updateArea () {
@@ -392,8 +375,6 @@ export default Vue.extend({
           name: this.$q.icon.input[this.showPass ? 'showPass' : 'hidePass']
         },
         nativeOn: {
-          mousedown: this.__clearTimer,
-          touchstart: this.__clearTimer,
           click: this.togglePass
         }
       })) || void 0,
@@ -405,8 +386,6 @@ export default Vue.extend({
           name: this.$q.icon.input[this.showNumber ? 'showNumber' : 'hideNumber']
         },
         nativeOn: {
-          mousedown: this.__clearTimer,
-          touchstart: this.__clearTimer,
           click: this.toggleNumber
         }
       })) || void 0,
@@ -418,8 +397,6 @@ export default Vue.extend({
           name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`]
         },
         nativeOn: {
-          mousedown: this.__clearTimer,
-          touchstart: this.__clearTimer,
           click: this.clear
         }
       })) || void 0,

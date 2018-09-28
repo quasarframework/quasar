@@ -93,11 +93,7 @@ export default Vue.extend({
 
       this.$emit('input', value)
       this.$emit('step', value)
-      this.$nextTick(() => {
-        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-          this.$emit('change', value)
-        }
-      })
+      JSON.stringify(value) !== JSON.stringify(this.value) && this.$emit('change', value)
     },
 
     next () {
