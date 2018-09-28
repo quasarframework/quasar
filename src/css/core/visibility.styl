@@ -111,8 +111,23 @@ body.desktop
     pointer-events none
     border-radius inherit
     outline 0
-    opacity .1
+    opacity 0
     transition background-color .3s cubic-bezier(.25, .8, .5, 1), opacity .3s cubic-bezier(.25, .8, .5, 1)
+
+    &:before, &:after
+      content ''
+      position absolute
+      top 0
+      left 0
+      width 100%
+      height 100%
+      opacity 0
+      transition background-color .3s cubic-bezier(.25, .8, .5, 1), opacity .3s cubic-bezier(.25, .8, .5, 1)
+
+    &:before
+      background black
+    &:after
+      background white
 
   .q-focusable, .q-hoverable
     outline 0
@@ -120,9 +135,14 @@ body.desktop
   .q-focusable:focus, .q-hoverable:hover
     > .q-focus-helper
       background currentColor
+      opacity .15
+      &:before
+        opacity .1
+      &:after
+        opacity .4
 
   .q-focusable:focus > .q-focus-helper
-    opacity 0.14
+    opacity .22
 
 .q-focus-helper
   &--rounded
