@@ -48,7 +48,7 @@ export default Vue.extend({
     },
 
     computedTabindex () {
-      return this.editable ? this.tabindex || 0 : -1
+      return this.editable ? this.tabindex || '0' : '-1'
     }
   },
 
@@ -240,11 +240,9 @@ export default Vue.extend({
       'class': this.classes,
       props: Object.assign({}, this.$props, {
         value: this.model,
-        noMotion: this.dragging
-      }),
-      attrs: {
+        noMotion: this.dragging,
         tabindex: this.computedTabindex
-      },
+      }),
       nativeOn: {
         click: this.__onClick,
         keydown: this.__onKeyDown,

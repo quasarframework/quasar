@@ -251,12 +251,10 @@ export function getLinkEditor (h, vm) {
       }, [
         h(QBtn, {
           key: 'qedt_btm_rem',
-          attrs: {
-            tabindex: -1
-          },
           props: Object.assign({
             label: vm.$q.i18n.label.remove,
-            noCaps: true
+            noCaps: true,
+            tabindex: '-1'
           }, vm.buttonProps),
           on: {
             click: () => {
