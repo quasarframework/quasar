@@ -31,6 +31,9 @@ export default Vue.extend({
 
   methods: {
     click (e) {
+      if (e.defaultPrevented) {
+        return
+      }
       if (document.activeElement !== this.$el) {
         stopAndPrevent(e)
         this.$el.focus()
@@ -48,9 +51,13 @@ export default Vue.extend({
     },
 
     __onKeyDown (e) {
+      const classes = this.$el.classList
       if ([13, 32].includes(e.keyCode)) {
-        stopAndPrevent(e)
-        this.$el.classList.add('q-btn--active')
+        !this.isLink && e.preventDefault()
+        if (!classes.contains('q-btn--active')) {
+          classes.add('q-btn--active')
+          document.addEventListener('keyup', this.__onKeyUpAbort)
+        }
       }
     },
     __onKeyUp (e) {
@@ -58,7 +65,15 @@ export default Vue.extend({
         this.$el.classList.remove('q-btn--active')
         this.$el.dispatchEvent(new MouseEvent('click', Object.assign({}, e)))
       }
+    },
+    __onKeyUpAbort (e) {
+      document.removeEventListener('keyup', this.__onKeyUpAbort)
+      this.$el && this.$el.classList.remove('q-btn--active')
     }
+  },
+
+  beforeDestroy () {
+    document.removeEventListener('keyup', this.__onKeyUpAbort)
   },
 
   render (h) {
