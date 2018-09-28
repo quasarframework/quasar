@@ -71,11 +71,7 @@ export default Vue.extend({
       }
 
       this.$emit('input', this.model)
-      this.$nextTick(() => {
-        if (this.model !== this.value) {
-          this.$emit('change', this.model)
-        }
-      })
+      this.model !== this.value && this.$emit('change', this.model)
     }
   },
 

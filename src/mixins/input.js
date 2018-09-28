@@ -7,7 +7,6 @@ export default {
   data () {
     return {
       focused: false,
-      timer: null,
       isNumberError: false,
       isNegZero: false
     }
@@ -26,7 +25,6 @@ export default {
     },
 
     __onFocus (e) {
-      clearTimeout(this.timer)
       if (this.focused) {
         return
       }
@@ -35,10 +33,7 @@ export default {
       this.$emit('focus', e)
     },
     __onInputBlur (e) {
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.__onBlur(e)
-      }, 200)
+      this.__onBlur(e)
     },
     __onBlur (e, destroy) {
       if (this.focused) {
@@ -58,9 +53,7 @@ export default {
       }
       const emit = () => {
         if (this.isNumber) {
-          if (String(1 / value) !== String(1 / this.value)) {
-            this.$emit('change', value)
-          }
+          String(1 / value) !== String(1 / this.value) && this.$emit('change', value)
         }
         else if (JSON.stringify(value) !== JSON.stringify(this.value)) {
           this.$emit('change', value)
@@ -102,7 +95,6 @@ export default {
     })
   },
   beforeDestroy () {
-    clearTimeout(this.timer)
     this.focused && this.__onBlur(void 0, true)
   }
 }

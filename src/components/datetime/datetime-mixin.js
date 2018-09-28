@@ -41,11 +41,7 @@ export default {
         const date = getDateBetween(val, this.pmin, this.pmax)
         const value = convertDateToFormat(date, this.formatModel === 'auto' ? inferDateFormat(this.value) : this.formatModel, this.computedDateFormat)
         this.$emit('input', value)
-        this.$nextTick(() => {
-          if (!isSameDate(value, this.value)) {
-            this.$emit('change', value)
-          }
-        })
+        !isSameDate(value, this.value) && this.$emit('change', value)
       }
     },
     pmin () {

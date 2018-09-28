@@ -99,10 +99,10 @@ export default {
       }
       evt && stopAndPrevent(evt)
       const val = this.computedClearValue
+      this.$emit('clear', val)
       if (this.__setModel) {
         this.__setModel(val, true)
       }
-      this.$emit('clear', val)
     }
   }
 }

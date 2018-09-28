@@ -32,11 +32,7 @@ export default Vue.extend({
       },
       set (value) {
         this.$emit('input', value)
-        this.$nextTick(() => {
-          if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-            this.$emit('change', value)
-          }
-        })
+        JSON.stringify(value) !== JSON.stringify(this.value) && this.$emit('change', value)
       }
     },
 

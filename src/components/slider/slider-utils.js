@@ -118,13 +118,7 @@ export let SliderMixin = {
         return
       }
       this.$emit('input', this.model)
-      if (change) {
-        this.$nextTick(() => {
-          if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
-            this.$emit('change', this.model)
-          }
-        })
-      }
+      change && JSON.stringify(this.model) !== JSON.stringify(this.value) && this.$emit('change', this.model)
     },
     __click (event) {
       if (!this.dragging) {

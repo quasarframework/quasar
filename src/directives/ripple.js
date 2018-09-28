@@ -39,11 +39,17 @@ function showRipple (evt, el, { stop, center }) {
   animNode.style.transform = `translate(${x}px, ${y}px) scale3d(0, 0, 0)`
 
   setTimeout(() => {
+    if (!animNode) {
+      return
+    }
     animNode.classList.remove('q-ripple__animation--enter')
     animNode.style.transform = `translate(${x}px, ${y}px) scale3d(1, 1, 1)`
     setTimeout(() => {
+      if (!animNode) {
+        return
+      }
       animNode.classList.remove('q-ripple__animation--visible')
-      setTimeout(() => { container.remove() }, 300)
+      setTimeout(() => { container && container.remove() }, 300)
     }, 300)
   }, 10)
 }
