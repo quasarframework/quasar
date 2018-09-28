@@ -119,7 +119,8 @@ body.desktop
 
   .q-focusable:focus, .q-hoverable:hover
     > .q-focus-helper
-      background currentColor
+      background-image linear-gradient(#ccc, #ccc), linear-gradient(currentColor, currentColor)
+      background-blend-mode hard-light
 
   .q-focusable:focus > .q-focus-helper
     opacity 0.14

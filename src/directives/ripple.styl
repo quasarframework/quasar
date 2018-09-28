@@ -17,7 +17,8 @@
     color inherit
     position absolute
     border-radius 50%
-    background currentColor
+    background linear-gradient(#ccc, #ccc), linear-gradient(currentColor, currentColor)
+    background-blend-mode hard-light
     transition .3s transform cubic-bezier(.2, .4, .4, .9), .3s opacity cubic-bezier(.2, .4, .4, .1)
     pointer-events none
     overflow hidden
@@ -47,7 +48,8 @@
     left 0
     right 0
     bottom 0
-    background-image radial-gradient(circle, currentColor 10%, transparent 10.01%)
+    background radial-gradient(circle, #ccc 10%, transparent 10.01%), radial-gradient(circle, currentColor 10%, transparent 10.01%)
+    background-blend-mode hard-light
     background-repeat no-repeat
     background-position 50%
     transform scale(10, 10)
