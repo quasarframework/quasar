@@ -9,7 +9,7 @@ export default Vue.extend({
   name: 'QKnob',
 
   mixins: [{
-    props: QCircularProgress.props
+    props: QCircularProgress.options.props
   }],
 
   directives: {
