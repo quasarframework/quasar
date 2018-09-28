@@ -208,17 +208,11 @@ export default Vue.extend({
       }
 
       this.$emit('input', value)
-      if (emitChange) {
-        this.__emitChange(value)
-      }
+      emitChange && this.__emitChange(value)
     },
 
     __emitChange (value = this.model) {
-      this.$nextTick(() => {
-        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-          this.$emit('change', value)
-        }
-      })
+      JSON.stringify(value) !== JSON.stringify(this.value) && this.$emit('change', value)
     },
 
     __getCenter () {
