@@ -6,6 +6,7 @@ import ScrollFire from './directives/scroll-fire.js'
 import Scroll from './directives/scroll.js'
 import TouchHold from './directives/touch-hold.js'
 import TouchPan from './directives/touch-pan.js'
+import TouchRepeat from './directives/touch-repeat.js'
 import TouchSwipe from './directives/touch-swipe.js'
 
 export {
@@ -17,5 +18,6 @@ export {
   Scroll,
   TouchHold,
   TouchPan,
+  TouchRepeat,
   TouchSwipe
 }

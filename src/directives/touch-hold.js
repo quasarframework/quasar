@@ -36,10 +36,10 @@ export default {
       start (evt) {
         const startTime = new Date().getTime()
 
-        stopPropagation && evt.stopPropagation()
-        preventDefault && evt.preventDefault()
-
         ctx.timer = setTimeout(() => {
+          stopPropagation && evt.stopPropagation()
+          preventDefault && evt.preventDefault()
+
           if (mouse) {
             document.removeEventListener('mousemove', ctx.mouseAbort)
             document.removeEventListener('mouseup', ctx.mouseAbort)
@@ -52,7 +52,7 @@ export default {
           })
         }, ctx.duration)
       },
-      abort (evt) {
+      abort () {
         clearTimeout(ctx.timer)
         ctx.timer = null
       }
