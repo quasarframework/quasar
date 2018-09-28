@@ -36,8 +36,8 @@ let routes = [
     children: metaChildren
   },
   {
-    path: '/tabs',
-    component: load('components/tabs-playground'),
+    path: '/components/tabs',
+    component: load('components/tabs'),
     children: [
       { path: 'a' },
       { path: 'a/a' },
@@ -70,7 +70,7 @@ let routes = [
 ]
 
 pages.forEach(page => {
-  if (!page.startsWith('meta')) {
+  if (!page.startsWith('meta') && page !== 'components/tabs.vue') {
     routes.push(component(page))
   }
 })

@@ -13,7 +13,8 @@ export default Vue.extend({
   provide () {
     return {
       tabs: this.tabs,
-      activateTab: this.activateTab
+      activateTab: this.activateTab,
+      __activateRoute: this.__activateRoute
     }
   },
 
@@ -105,6 +106,37 @@ export default Vue.extend({
       }
     },
 
+    __activateRoute (params) {
+      const
+        { name, selectable, exact, selected, priority } = params,
+        first = !this.buffer.length,
+        existingIndex = first ? -1 : this.buffer.findIndex(t => t.name === name)
+
+      if (existingIndex > -1) {
+        const buffer = this.buffer[existingIndex]
+        exact && (buffer.exact = exact)
+        selectable && (buffer.selectable = selectable)
+        selected && (buffer.selected = selected)
+        priority && (buffer.priority = priority)
+      }
+      else {
+        this.buffer.push(params)
+      }
+
+      if (first) {
+        this.bufferTimer = setTimeout(() => {
+          let tab = this.buffer.find(t => t.exact && t.selected) ||
+            this.buffer.find(t => t.selectable && t.selected) ||
+            this.buffer.find(t => t.exact) ||
+            this.buffer.filter(t => t.selectable).sort((t1, t2) => t2.priority - t1.priority)[0] ||
+            this.buffer[0]
+
+          this.buffer.length = 0
+          this.activateTab(tab.name)
+        }, 100)
+      }
+    },
+
     updateContainer ({ width }) {
       const scroll = this.$refs.content.scrollWidth - (this.scrollable ? this.extraOffset : 0) > width
       if (this.scrollable !== scroll) {
@@ -124,16 +156,35 @@ export default Vue.extend({
         oldTab = oldName
           ? this.$children.find(tab => tab.name === oldName)
           : null,
-        newTab = this.$children.find(tab => tab.name === newName)
+        newTab = newName
+          ? this.$children.find(tab => tab.name === newName)
+          : null
 
       if (oldTab && newTab) {
         const
-          oldPos = oldTab.$el.getElementsByClassName('q-tab__indicator')[0].getBoundingClientRect(),
-          newEl = newTab.$el.getElementsByClassName('q-tab__indicator')[0],
+          oldEl = oldTab.$el.getElementsByClassName('q-tab__indicator')[0],
+          newEl = newTab.$el.getElementsByClassName('q-tab__indicator')[0]
+
+        clearTimeout(this.animateTimer)
+
+        oldEl.style.transition = 'none'
+        oldEl.style.transform = null
+        newEl.style.transition = 'none'
+        newEl.style.transform = null
+
+        const
+          oldPos = oldEl.getBoundingClientRect(),
           newPos = newEl.getBoundingClientRect()
 
         newEl.style.transform = `translateX(${oldPos.left - newPos.left}px) scaleX(${oldPos.width / newPos.width})`
-        this.$nextTick(() => { newEl.style.transform = '' })
+
+        // allow scope updates to kick in
+        this.$nextTick(() => {
+          this.animateTimer = setTimeout(() => {
+            newEl.style.transition = 'transform .25s cubic-bezier(.4, 0, .2, 1)'
+            newEl.style.transform = null
+          }, 30)
+        })
       }
 
       if (newTab && this.scrollable) {
@@ -213,6 +264,15 @@ export default Vue.extend({
       this.__updateArrows()
       return done
     }
+  },
+
+  created () {
+    this.buffer = []
+  },
+
+  beforeDestroy () {
+    clearTimeout(this.bufferTimer)
+    clearTimeout(this.animateTimer)
   },
 
   render (h) {

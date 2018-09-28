@@ -103,7 +103,7 @@ export default Vue.extend({
         : null,
 
       h('div', {
-        staticClass: 'q-btn__content col items-center',
+        staticClass: 'q-btn__content text-center col items-center',
         'class': this.innerClasses
       },
       this.loading

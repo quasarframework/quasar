@@ -101,6 +101,35 @@
         <q-tab icon="favorite" label="Item five" />
         <q-tab icon="location_on" label="Item six" />
       </q-tabs-bar>
+
+      <h4>Router tabs</h4>
+      <div class="row gutter-xs justify-stretch">
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a#123" label="/tabs/a#123 - select most specific tab" />
+        </div>
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a/a#123" label="/tabs/a/a#123 - select most specific tab" />
+        </div>
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a/a" label="/tabs/b#123 - select exact tab" />
+        </div>
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/b#123" label="/tabs/b#123 - select no tab" />
+        </div>
+      </div>
+      <q-tabs-bar class="test q-mt-sm">
+        <q-route-tab name="tabs" to="/components/tabs" exact replace label="/tabs" />
+        <q-route-tab name="tabs/a" to="/components/tabs/a" exact replace label="/tabs/a" />
+        <q-route-tab name="tabs/a *" to="/components/tabs/a" replace label="/tabs/a *" />
+        <q-route-tab name="tabs/a#1" to="/components/tabs/a#1" exact replace label="/tabs/a#1" />
+        <q-route-tab name="tabs/a/a" to="/components/tabs/a/a" exact replace label="/tabs/a/a" />
+        <q-route-tab name="tabs/a/a *" to="/components/tabs/a/a" replace label="/tabs/a/a *" />
+        <q-route-tab name="tabs/a/a#1" to="/components/tabs/a/a#1" exact replace label="/tabs/a/a#1" />
+        <q-route-tab name="tabs/a/b" to="/components/tabs/a/b" exact replace label="/tabs/a/b" />
+        <q-route-tab name="tabs/b" to="/components/tabs/b" exact replace label="/tabs/b" />
+        <q-route-tab name="tabs/b/a" to="/components/tabs/b/a" exact replace label="/tabs/b/a" />
+        <q-route-tab name="tabs/c" to="/components/tabs/c" exact replace label="/tabs/c" />
+      </q-tabs-bar>
     </div>
   </div>
 </template>

@@ -14,7 +14,7 @@ export default Vue.extend({
   inject: {
     tabs: {
       default () {
-        console.error('QTab/QRouteTab components need to be child of QTabs')
+        console.error('QTab/QRouteTab components need to be child of QTabsBar')
       }
     },
     activateTab: {}
@@ -55,13 +55,14 @@ export default Vue.extend({
   },
 
   methods: {
-    activate () {
-      this.activateTab(this.name)
+    activate (e) {
+      this.$emit('click', e)
+      !this.disable && this.activateTab(this.name)
       this.$el.blur()
     },
 
     __onKeyup (e) {
-      e.keyCode === 13 && this.activate()
+      e.keyCode === 13 && this.activate(e)
     },
 
     __getContent (h) {
@@ -96,25 +97,35 @@ export default Vue.extend({
       !narrow && node.push(indicator)
 
       return node.concat(this.$slots.default)
+    },
+
+    __render (h, tag, props) {
+      const data = {
+        staticClass: 'q-tab relative-position self-stretch flex nowrap justify-center text-center generic-transition',
+        'class': this.classes,
+        attrs: {
+          tabindex: this.computedTabIndex,
+          role: 'tab',
+          'aria-selected': this.isActive
+        },
+        directives: this.disable ? null : [
+          { name: 'ripple' }
+        ],
+        [tag === 'div' ? 'on' : 'nativeOn']: {
+          click: this.activate,
+          keyup: this.__onKeyup
+        }
+      }
+
+      if (props !== void 0) {
+        data.props = props
+      }
+
+      return h(tag, data, this.__getContent(h))
     }
   },
 
   render (h) {
-    return h('div', {
-      staticClass: 'q-tab relative-position self-stretch flex nowrap justify-center text-center generic-transition',
-      'class': this.classes,
-      attrs: {
-        tabindex: this.computedTabIndex,
-        role: 'tab',
-        'aria-selected': this.isActive
-      },
-      directives: this.disable ? null : [
-        { name: 'ripple' }
-      ],
-      on: {
-        click: this.activate,
-        keyup: this.__onKeyup
-      }
-    }, this.__getContent(h))
+    return this.__render(h, 'div')
   }
 })
