@@ -26,7 +26,37 @@
         <q-btn flat round dense icon="more_vert" />
       </q-toolbar>
 
+      <q-toolbar class="bg-primary text-white q-my-md">
+        <q-btn flat round dense icon="menu" class="q-mr-sm" />
+        <q-avatar>
+          <img src="statics/quasar-logo.png">
+        </q-avatar>
+
+        <q-toolbar-title>Quasar Framework</q-toolbar-title>
+
+        <q-btn flat round dense icon="whatshot" />
+      </q-toolbar>
+
       <q-toolbar class="bg-secondary text-white q-my-md">
+        <q-btn flat round dense icon="assignment_ind" />
+        <q-toolbar-title>
+          Toolbar
+        </q-toolbar-title>
+        <q-btn flat round dense icon="apps" class="q-mr-xs" />
+        <q-btn flat round dense icon="more_vert" />
+      </q-toolbar>
+
+      <q-toolbar class="bg-primary text-white q-mt-md">
+        <q-btn flat round dense icon="menu" class="q-mr-sm" />
+        <q-space />
+        <q-btn flat round dense icon="search" class="q-mr-xs" />
+        <q-btn flat round dense icon="group_add" />
+      </q-toolbar>
+      <q-toolbar inset class="bg-primary text-white q-mb-md">
+        <q-toolbar-title><strong>Quasar</strong> Framework</q-toolbar-title>
+      </q-toolbar>
+
+      <q-toolbar class="bg-red text-white q-my-md">
         <q-btn flat round dense icon="assignment_ind" />
         <q-toolbar-title>
           Toolbar
@@ -35,24 +65,27 @@
         <q-btn flat round dense icon="gamepad" />
       </q-toolbar>
 
-      <q-toolbar class="bg-red text-white q-my-md">
+      <q-toolbar class="bg-grey-2 text-grey-9 q-my-md">
         <q-btn flat round dense icon="assignment_ind" />
         <q-toolbar-title>
-          Toolbar g
-          <span slot="subtitle">Subtitle g</span>
+          Toolbar
         </q-toolbar-title>
         <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
         <q-btn flat round dense icon="gamepad" />
       </q-toolbar>
 
-      <q-toolbar class="bg-grey-2 text-grey-9 q-my-md">
+      <q-toolbar class="bg-cyan text-white q-mt-md">
         <q-btn flat round dense icon="assignment_ind" />
-        <q-toolbar-title>
-          Toolbar g
-          <span slot="subtitle">Subtitle g</span>
-        </q-toolbar-title>
+
+        <q-space />
+
         <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
         <q-btn flat round dense icon="gamepad" />
+      </q-toolbar>
+      <q-toolbar inset class="bg-cyan text-white q-mb-md">
+        <q-toolbar-title>
+          Toolbar
+        </q-toolbar-title>
       </q-toolbar>
 
       <q-toolbar class="bg-orange text-white q-my-md">
@@ -65,6 +98,19 @@
         <q-btn flat round dense icon="keyboard" />
       </q-toolbar>
 
+      <div class="row no-wrap shadow-1">
+        <q-toolbar class="col-8 bg-grey-3">
+          <q-btn flat round dense icon="arrow_back" />
+          <q-toolbar-title>Title</q-toolbar-title>
+          <q-btn flat round dense icon="search" />
+        </q-toolbar>
+        <q-toolbar class="col-4 bg-black text-white">
+          <q-space />
+          <q-btn flat round dense icon="reply" class="q-mr-sm" />
+          <q-btn flat round dense icon="more_vert" />
+        </q-toolbar>
+      </div>
+
       <q-toolbar class="bg-black text-white q-my-md">
         <q-btn flat round dense icon="menu" class="q-mr-xs" />
         <q-btn flat round dense icon="security" />
@@ -75,14 +121,10 @@
         <q-btn flat round dense icon="tv" />
       </q-toolbar>
 
-      <p class="caption">
-        Spacing, Separators
-      </p>
-
-      <q-toolbar class="bg-primary text-white q-my-sm shadow-2">
+      <q-toolbar class="bg-primary text-white q-my-md shadow-2">
         <q-btn flat round dense icon="menu" class="q-mr-sm" />
         <q-separator dark vertical inset />
-        <q-btn class="self-stretch" flat label="Link" />
+        <q-btn stretch flat label="Link" />
 
         <q-space />
 
@@ -123,21 +165,7 @@
         <q-btn stretch flat label="Link" />
       </q-toolbar>
 
-      <q-toolbar class="bg-primary text-white q-my-sm shadow-2">
-        <div class="text-h5">My Blog</div>
-        <q-separator vertical inset dark class="q-mx-sm" />
-        <div class="text-subtitle1">Articles</div>
-
-        <q-space />
-
-        <q-btn stretch flat label="Link" />
-        <q-separator dark vertical />
-        <q-btn stretch flat label="Link" />
-        <q-separator dark vertical />
-        <q-btn stretch flat label="Link" />
-      </q-toolbar>
-
-      <q-toolbar class="bg-secondary text-white q-my-sm shadow-2">
+      <q-toolbar class="bg-secondary text-white q-my-md shadow-2">
         <q-btn flat round dense icon="menu" class="q-mr-sm" />
 
         <q-space />
@@ -154,7 +182,7 @@
         />
       </q-toolbar>
 
-      <q-toolbar class="bg-primary text-white q-my-sm shadow-2">
+      <q-toolbar class="bg-primary text-white q-my-md shadow-2">
         <q-btn flat label="Homepage" />
         <q-space />
         <q-tabs-bar>

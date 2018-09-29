@@ -548,6 +548,30 @@
           </tbody>
         </q-markup-table>
       </q-card>
+
+      <q-card inline>
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-tabs-bar v-model="tab" class="text-teal">
+          <q-tab label="Tab one" name="one" />
+          <q-tab label="Tab two" name="two" />
+        </q-tabs-bar>
+
+        <q-separator />
+
+        <q-tabs-content v-model="tab" animated>
+          <q-tab-pane name="one">
+            One {{ lorem }}
+          </q-tab-pane>
+
+          <q-tab-pane name="two">
+            Two {{ lorem }}
+          </q-tab-pane>
+        </q-tabs-content>
+      </q-card>
     </div>
   </div>
 </template>
@@ -556,6 +580,7 @@
 export default {
   data () {
     return {
+      tab: 'one',
       stars: 3,
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     }

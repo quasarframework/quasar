@@ -10,11 +10,6 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-toolbar__title ellipsis',
       'class': this.shrink ? 'col-auto' : null
-    }, [
-      this.$slots.default,
-      this.$slots.subtitle
-        ? h('div', { staticClass: 'q-toolbar__subtitle ellipsis' }, this.$slots.subtitle)
-        : null
-    ])
+    }, this.$slots.default)
   }
 })
