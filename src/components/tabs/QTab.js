@@ -24,6 +24,8 @@ export default Vue.extend({
     icon: String,
     label: String,
 
+    alert: Boolean,
+
     name: {
       type: String,
       default: () => uid()
@@ -83,6 +85,10 @@ export default Vue.extend({
         staticClass: 'q-tab__label'
       }, [ this.label ]))
 
+      this.alert && content.push(h('div', {
+        staticClass: 'q-tab__alert'
+      }))
+
       narrow && content.push(indicator)
 
       const node = [
@@ -91,12 +97,12 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-tab__content flex-center relative-position no-pointer-events non-selectable',
           'class': this.tabs.inlineLabel ? 'row no-wrap q-tab__content--inline' : 'column'
-        }, content)
+        }, content.concat(this.$slots.default))
       ]
 
       !narrow && node.push(indicator)
 
-      return node.concat(this.$slots.default)
+      return node
     },
 
     __render (h, tag, props) {

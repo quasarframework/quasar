@@ -44,6 +44,18 @@
         <q-tab icon="location_on" />
       </q-tabs-bar>
 
+      <q-tabs-bar inline-label>
+        <q-tab icon="map">
+          <q-chip color="teal" text-color="white" floating>2</q-chip>
+        </q-tab>
+        <q-tab icon="map" label="Map">
+          <q-chip color="teal" text-color="white" floating>2</q-chip>
+        </q-tab>
+        <q-tab icon="map" alert />
+        <q-tab icon="map" label="Map" alert />
+        <q-tab icon="location_on" />
+      </q-tabs-bar>
+
       <q-tabs-bar class="bg-grey-1 text-teal">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />

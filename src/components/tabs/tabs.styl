@@ -22,6 +22,10 @@
       .q-tab__icon + .q-tab__label
         padding-left 8px
 
+    .q-chip--floating
+      top 0
+      right -16px
+
   &__icon
     width 24px
     height 24px
@@ -31,6 +35,15 @@
     font-size $button-font-size
     line-height $button-line-height
     font-weight $button-font-weight
+
+  &__alert
+    position absolute
+    top 7px
+    right -9px
+    height 10px
+    width 10px
+    border-radius 50%
+    background currentColor
 
   &__indicator
     opacity 0
