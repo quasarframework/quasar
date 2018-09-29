@@ -105,6 +105,12 @@
         </q-btn-dropdown>
       </q-tabs-bar>
 
+      <q-tabs-bar top-indicator inline-label>
+        <q-tab icon="phone" label="Item one" />
+        <q-tab icon="favorite" label="-- Top indicator --" />
+        <q-tab icon="location_on" label="Item three" />
+      </q-tabs-bar>
+
       <q-tabs-bar inline-label align="justify">
         <q-tab icon="phone" label="Item one" />
         <q-tab icon="favorite" label="Item two" />

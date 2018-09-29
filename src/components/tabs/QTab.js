@@ -70,7 +70,7 @@ export default Vue.extend({
         narrow = this.tabs.narrowIndicator,
         content = [],
         indicator = h('div', {
-          staticClass: 'q-tab__indicator absolute-bottom',
+          staticClass: 'q-tab__indicator',
           'class': this.tabs.indicatorClass
         })
 

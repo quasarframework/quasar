@@ -3,8 +3,8 @@ import Vue from 'vue'
 import QIcon from '../icon/QIcon.js'
 import QResizeObservable from '../observables/QResizeObservable.js'
 
-function getIndicatorClass (val) {
-  return val ? `text-${val}` : null
+function getIndicatorClass (color, top) {
+  return `absolute-${top ? 'top' : 'bottom'}${color ? ` text-${color}` : ''}`
 }
 
 export default Vue.extend({
@@ -36,6 +36,7 @@ export default Vue.extend({
     leftIcon: String,
     rightIcon: String,
 
+    topIndicator: Boolean,
     narrowIndicator: Boolean,
     inlineLabel: Boolean,
     noCaps: Boolean
@@ -46,7 +47,7 @@ export default Vue.extend({
       tabs: {
         current: this.value,
         activeColor: this.activeColor,
-        indicatorClass: getIndicatorClass(this.indicatorColor),
+        indicatorClass: getIndicatorClass(this.indicatorColor, this.topIndicator),
         narrowIndicator: this.narrowIndicator,
         inlineLabel: this.inlineLabel,
         noCaps: this.noCaps
@@ -71,7 +72,11 @@ export default Vue.extend({
     },
 
     indicatorColor (v) {
-      this.tabs.indicatorClass = getIndicatorClass(v)
+      this.tabs.indicatorClass = getIndicatorClass(v, this.topIndicator)
+    },
+
+    topIndicator (v) {
+      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, v)
     },
 
     narrowIndicator (v) {
