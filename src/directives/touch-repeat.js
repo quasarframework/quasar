@@ -1,4 +1,4 @@
-import { position, leftClick } from '../utils/event.js'
+import { leftClick } from '../utils/event.js'
 
 const
   keyCodes = {
@@ -80,7 +80,10 @@ export default {
           timer = () => {
             if (!ctx.event.repeatCount) {
               ctx.event.evt = evt
-              ctx.event.position = position(evt)
+              ctx.event.position = {
+                top: evt.clientY,
+                left: evt.clientX
+              }
 
               stopPropagation && evt.stopPropagation()
               preventDefault && evt.preventDefault()

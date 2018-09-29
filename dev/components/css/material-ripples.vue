@@ -8,60 +8,98 @@
       </p>
 
       <div
-        tabindex="0"
         v-ripple
-        class="relative-position ripple-example shadow-2"
-        :class="classes"
+        tabindex="0"
+        class="relative-position ripple-example bg-grey-3 text-black"
+        style="height: 150px;"
       />
-
-      <br><br>
 
       <div
+        v-ripple
         tabindex="0"
-        v-ripple.center
-        class="relative-position ripple-example ripple-round shadow-2"
-        :class="classes"
+        class="relative-position ripple-example bg-primary"
+        style="height: 150px"
       />
+
+      <div
+        v-ripple
+        tabindex="0"
+        class="relative-position ripple-example bg-grey-3 text-black"
+        style="height: 50px"
+      />
+
+      <div
+        v-ripple
+        tabindex="0"
+        class="relative-position ripple-example bg-cyan"
+        style="height: 50px"
+      />
+
+      <div
+        v-ripple:primary
+        tabindex="0"
+        class="relative-position ripple-example bg-grey-3 text-black"
+        style="height: 50px"
+      >
+        Primary colored ripple
+      </div>
+
+      <div class="row items-center justify-around q-mt-md">
+        <div
+          tabindex="0"
+          v-ripple.center
+          class="relative-position ripple-example bg-grey-3 text-black ripple-round"
+        >
+          Center
+        </div>
+
+        <div
+          tabindex="0"
+          v-ripple
+          class="relative-position ripple-example bg-grey-3 text-black ripple-round"
+        >
+          Touch point
+        </div>
+
+        <div
+          tabindex="0"
+          v-ripple.center
+          class="q-ml-sm relative-position ripple-example bg-cyan ripple-round"
+        >
+          Center
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-const colors = ['primary', 'amber', 'secondary', 'orange', 'tertiary', 'lime', 'cyan', 'purple', 'brown', 'blue']
-
 export default {
-  data () {
-    return {
-      color: colors[0],
-      index: 0
-    }
-  },
-  computed: {
-    classes () {
-      return `bg-${this.color}`
-    }
-  },
-  mounted () {
-    this.timer = setInterval(() => {
-      this.index = (this.index + 1) % colors.length
-      this.color = colors[this.index]
-    }, 3000)
-  },
-  beforeDestroy () {
-    clearInterval(this.timer)
-  }
 }
 </script>
 
 <style lang="stylus">
+@import '~variables'
+
 .ripple-example
-  height 150px
   border-radius 3px
   cursor pointer
   color white
-  transition background 1.5s
+  display flex
+  align-items center
+  justify-content center
+  user-select none
+
+  &:focus
+    outline 1px solid $grey
+    outline-offset 3px
+
+  & + &
+    margin-top 24px
 
 .ripple-round
   width 150px
+  height 150px
   border-radius 50%
+  margin-top 0 !important
 </style>

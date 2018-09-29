@@ -1,4 +1,4 @@
-import { position, leftClick } from '../utils/event.js'
+import { leftClick } from '../utils/event.js'
 
 function getDirection (mod) {
   let dir = {}
@@ -56,11 +56,9 @@ export default {
       },
 
       start (evt) {
-        const pos = position(evt)
-
         ctx.event = {
-          x: pos.left,
-          y: pos.top,
+          x: evt.clientX,
+          y: evt.clientY,
           time: new Date().getTime(),
           detected: false,
           abort: false
@@ -85,10 +83,9 @@ export default {
         }
 
         const
-          pos = position(evt),
-          distX = pos.left - ctx.event.x,
+          distX = evt.clientX - ctx.event.x,
           absX = Math.abs(distX),
-          distY = pos.top - ctx.event.y,
+          distY = evt.clientX - ctx.event.y,
           absY = Math.abs(distY)
 
         if (absX === absY) {
@@ -123,10 +120,9 @@ export default {
 
         let
           direction,
-          pos = position(evt),
-          distX = pos.left - ctx.event.x,
+          distX = evt.clientX - ctx.event.x,
           absX = Math.abs(distX),
-          distY = pos.top - ctx.event.y,
+          distY = evt.clientY - ctx.event.y,
           absY = Math.abs(distY)
 
         if (absX >= absY) {

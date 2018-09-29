@@ -1,4 +1,4 @@
-import { position, leftClick, listenOpts } from '../utils/event.js'
+import { leftClick, listenOpts } from '../utils/event.js'
 
 function getDirection (mod) {
   if (!mod.horizontal && !mod.vertical) {
@@ -22,9 +22,8 @@ function getDirection (mod) {
 function processChanges (evt, ctx, isFinal) {
   let
     direction,
-    pos = position(evt),
-    distX = pos.left - ctx.event.x,
-    distY = pos.top - ctx.event.y,
+    distX = evt.clientX - ctx.event.x,
+    distY = evt.clientY - ctx.event.y,
     absDistX = Math.abs(distX),
     absDistY = Math.abs(distY)
 
@@ -43,7 +42,10 @@ function processChanges (evt, ctx, isFinal) {
 
   return {
     evt,
-    position: pos,
+    position: {
+      top: evt.clientY,
+      left: evt.clientX
+    },
     direction,
     isFirst: ctx.event.isFirst,
     isFinal: Boolean(isFinal),
@@ -53,8 +55,8 @@ function processChanges (evt, ctx, isFinal) {
       y: absDistY
     },
     delta: {
-      x: pos.left - ctx.event.lastX,
-      y: pos.top - ctx.event.lastY
+      x: evt.clientX - ctx.event.lastX,
+      y: evt.clientY - ctx.event.lastY
     }
   }
 }
@@ -99,17 +101,15 @@ export default {
       },
 
       start (evt) {
-        const pos = position(evt)
-
         ctx.event = {
-          x: pos.left,
-          y: pos.top,
+          x: evt.clientX,
+          y: evt.clientY,
           time: new Date().getTime(),
           detected: ctx.direction.horizontal && ctx.direction.vertical,
           abort: false,
           isFirst: true,
-          lastX: pos.left,
-          lastY: pos.top
+          lastX: evt.clientX,
+          lastY: evt.clientY
         }
 
         if (ctx.event.detected) {
@@ -139,9 +139,8 @@ export default {
         }
 
         const
-          pos = position(evt),
-          distX = Math.abs(pos.left - ctx.event.x),
-          distY = Math.abs(pos.top - ctx.event.y)
+          distX = Math.abs(evt.clientX - ctx.event.x),
+          distY = Math.abs(evt.clientY - ctx.event.y)
 
         if (distX === distY) {
           return

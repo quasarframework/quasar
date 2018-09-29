@@ -1,24 +1,26 @@
 <template>
   <div class="layout-padding" style="max-width: 600px;">
     <q-card style="margin-top: 25px">
-      <q-card-title class="bg-primary text-center">
+      <q-card-section class="bg-primary text-center">
         <q-btn push color="orange" @click="show = !show">Toggle</q-btn>
-      </q-card-title>
-      <q-card-main>
+      </q-card-section>
+
+      <q-card-section>
         <div class="caption">(only 4 anims showcased here)</div>
         <br>
         <div class="row no-wrap">
           <q-select class="col" v-model="enter" :options="enterSelectOptions" stack-label="CSS Enter Class" />
           <q-select class="col" v-model="leave" :options="leaveSelectOptions" stack-label="CSS Leave Class" />
         </div>
-      </q-card-main>
+      </q-card-section>
     </q-card>
 
     <q-card style="margin-top: 25px" class="overflow-hidden">
-      <q-card-title class="text-center">
-        Single
-      </q-card-title>
-      <q-card-main>
+      <q-card-section class="text-center">
+        <div class="text-h6">Single</div>
+      </q-card-section>
+
+      <q-card-section>
         <transition
           appear
           :enter-active-class="enterClass"
@@ -26,14 +28,15 @@
         >
           <div v-if="show" v-html="loremipsum"/>
         </transition>
-      </q-card-main>
+      </q-card-section>
     </q-card>
 
     <q-card style="margin-top: 25px" class="overflow-hidden">
-      <q-card-title class="text-center">
-        Group
-      </q-card-title>
-      <q-card-main>
+      <q-card-section class="text-center">
+        <div class="text-h6">Group</div>
+      </q-card-section>
+
+      <q-card-section>
         <transition-group
           appear
           :enter-active-class="enterClass"
@@ -47,7 +50,7 @@
             v-html="loremipsum"
           />
         </transition-group>
-      </q-card-main>
+      </q-card-section>
     </q-card>
   </div>
 </template>

@@ -1,77 +1,70 @@
-import { position } from '../utils/event.js'
+import { css } from '../utils/dom.js'
 
-function showRipple (evt, el, { stop, center }) {
-  if (stop) {
+function showRipple (evt, el, ctx) {
+  if (ctx.modifiers.stop) {
     evt.stopPropagation()
   }
 
-  center = center || evt.detail <= 0 // comes from keyboard event
-
   const
-    container = document.createElement('span'),
-    animNode = document.createElement('span'),
-    size = el.clientWidth > el.clientHeight ? el.clientWidth : el.clientHeight,
-    unit = `${size * 2}px`,
-    offset = el.getBoundingClientRect()
+    center = ctx.modifiers.center || evt.detail <= 0, // comes from keyboard event
+    node = document.createElement('span'),
+    innerNode = document.createElement('span'),
 
-  container.appendChild(animNode)
-  container.className = 'q-ripple'
-  animNode.className = 'q-ripple__animation'
-  animNode.style.width = unit
-  animNode.style.height = unit
+    { left, top, width, height } = el.getBoundingClientRect(),
+    diameter = Math.sqrt(width * width + height * height),
+    radius = diameter / 2,
+    centerX = `${(width - diameter) / 2}px`,
+    centerY = `${(height - diameter) / 2}px`,
+    x = center ? centerX : `${evt.clientX - left - radius}px`,
+    y = center ? centerY : `${evt.clientY - top - radius}px`
 
-  el.appendChild(container)
+  node.className = 'q-ripple'
+  ctx.arg && node.classList.add(`text-${ctx.arg}`)
 
-  let x, y
+  innerNode.className = 'q-ripple__inner'
+  css(innerNode, {
+    height: `${diameter}px`,
+    width: `${diameter}px`,
+    transform: `translate(${x}, ${y}) scale3d(0.3, 0.3, 0.3)`,
+    opacity: 0
+  })
 
-  if (center) {
-    x = (el.clientWidth / 2) - size
-    y = (el.clientHeight / 2) - size
-  }
-  else {
-    const pos = position(evt)
-    x = pos.left - offset.left - size
-    y = pos.top - offset.top - size
-  }
+  node.appendChild(innerNode)
+  el.appendChild(node)
 
-  animNode.classList.add('q-ripple__animation--enter')
-  animNode.classList.add('q-ripple__animation--visible')
-  animNode.style.transform = `translate(${x}px, ${y}px) scale3d(0, 0, 0)`
+  ctx.timer = setTimeout(() => {
+    innerNode.classList.add('q-ripple__inner--enter')
+    innerNode.style.transform = `translate(${centerX}, ${centerY}) scale3d(1,1,1)`
+    innerNode.style.opacity = 0.2
 
-  setTimeout(() => {
-    if (!animNode) {
-      return
-    }
-    animNode.classList.remove('q-ripple__animation--enter')
-    animNode.style.transform = `translate(${x}px, ${y}px) scale3d(1, 1, 1)`
-    setTimeout(() => {
-      if (!animNode) {
-        return
-      }
-      animNode.classList.remove('q-ripple__animation--visible')
-      setTimeout(() => { container && container.remove() }, 300)
-    }, 300)
-  }, 10)
+    ctx.timer = setTimeout(() => {
+      innerNode.classList.remove('q-ripple__inner--enter')
+      innerNode.classList.add('q-ripple__inner--leave')
+      innerNode.style.opacity = 0
+
+      ctx.timer = setTimeout(() => {
+        node && node.remove()
+      }, 275)
+    }, 250)
+  }, 50)
 }
 
 export default {
   name: 'ripple',
 
-  inserted (el, { value, modifiers }) {
+  inserted (el, { value, modifiers, arg }) {
     const ctx = {
       enabled: value !== false,
-      modifiers: {
-        stop: modifiers.stop,
-        center: modifiers.center
-      },
+      modifiers,
+      arg,
       click (evt) {
         if (ctx.enabled) {
-          showRipple(evt, el, ctx.modifiers)
+          showRipple(evt, el, ctx)
         }
       },
       keyup (evt) {
         if (ctx.enabled && !evt.defaultPrevented && evt.keyCode === 13) {
-          showRipple(evt, el, ctx.modifiers)
+          showRipple(evt, el, ctx)
         }
       }
     }
@@ -81,17 +74,19 @@ export default {
     el.addEventListener('keyup', ctx.keyup, false)
   },
 
-  update (el, { value, modifiers: { stop, center } }) {
+  update (el, { value, modifiers, arg }) {
     const ctx = el.__qripple
     if (ctx) {
       ctx.enabled = value !== false
-      ctx.modifiers = { stop, center }
+      ctx.modifiers = modifiers
+      ctx.arg = arg
     }
   },
 
   unbind (el) {
     const ctx = el.__qripple
     if (ctx) {
+      clearTimeout(ctx.timer)
       el.removeEventListener('click', ctx.click, false)
       el.removeEventListener('keyup', ctx.keyup, false)
       delete el.__qripple

@@ -1,4 +1,4 @@
-import { position, stopAndPrevent } from '../../utils/event.js'
+import { stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 import { offset, height, width } from '../../utils/dom.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
@@ -151,25 +151,23 @@ export default Vue.extend({
       this.__emitChange()
     },
 
-    __onInput (ev, center = this.__getCenter(), emitChange) {
-      if (!this.editable) {
-        return
-      }
+    __onInput (evt, center = this.__getCenter(), emitChange) {
+      if (!this.editable) { return }
+
       const
-        pos = position(ev),
-        height = Math.abs(pos.top - center.top),
+        height = Math.abs(evt.clientY - center.top),
         distance = Math.sqrt(
-          Math.pow(Math.abs(pos.top - center.top), 2) +
-          Math.pow(Math.abs(pos.left - center.left), 2)
+          height ** 2 +
+          Math.abs(evt.clientX - center.left) ** 2
         )
 
       let angle = Math.asin(height / distance) * (180 / Math.PI)
 
-      if (pos.top < center.top) {
-        angle = center.left < pos.left ? 90 - angle : 270 + angle
+      if (evt.clientY < center.top) {
+        angle = center.left < evt.clientX ? 90 - angle : 270 + angle
       }
       else {
-        angle = center.left < pos.left ? angle + 90 : 270 - angle
+        angle = center.left < evt.clientX ? angle + 90 : 270 - angle
       }
 
       if (this.angle) {
