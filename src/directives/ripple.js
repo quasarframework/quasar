@@ -1,12 +1,14 @@
 import { css } from '../utils/dom.js'
 
 function showRipple (evt, el, ctx) {
-  if (ctx.modifiers.stop) {
+  if (ctx.modifiers.stop === true) {
     evt.stopPropagation()
   }
 
+  let { center, color } = ctx.modifiers
+  center = center || evt.detail <= 0 // comes from keyboard event
+
   const
-    center = ctx.modifiers.center || evt.detail <= 0, // comes from keyboard event
     node = document.createElement('span'),
     innerNode = document.createElement('span'),
 
@@ -14,12 +16,9 @@ function showRipple (evt, el, ctx) {
     diameter = Math.sqrt(width * width + height * height),
     radius = diameter / 2,
     centerX = `${(width - diameter) / 2}px`,
-    centerY = `${(height - diameter) / 2}px`,
     x = center ? centerX : `${evt.clientX - left - radius}px`,
+    centerY = `${(height - diameter) / 2}px`,
     y = center ? centerY : `${evt.clientY - top - radius}px`
-
-  node.className = 'q-ripple'
-  ctx.arg && node.classList.add(`text-${ctx.arg}`)
 
   innerNode.className = 'q-ripple__inner'
   css(innerNode, {
@@ -29,6 +28,7 @@ function showRipple (evt, el, ctx) {
     opacity: 0
   })
 
+  node.className = `q-ripple ${color ? ' text-' + color : ''}`
   node.appendChild(innerNode)
   el.appendChild(node)
 
@@ -49,19 +49,37 @@ function showRipple (evt, el, ctx) {
   }, 50)
 }
 
+function updateCtx (ctx, { value, modifiers, arg }) {
+  ctx.enabled = value !== false
+
+  if (ctx.enabled) {
+    ctx.modifiers = Object(value) === value
+      ? {
+        stop: value.stop || modifiers.stop,
+        center: value.center || modifiers.center,
+        color: value.color || arg
+      }
+      : {
+        stop: modifiers.stop,
+        center: modifiers.center,
+        color: arg
+      }
+  }
+}
+
 export default {
   name: 'ripple',
 
-  inserted (el, { value, modifiers, arg }) {
+  inserted (el, binding) {
     const ctx = {
-      enabled: value !== false,
-      modifiers,
-      arg,
+      modifiers: {},
+
       click (evt) {
         if (ctx.enabled) {
           showRipple(evt, el, ctx)
         }
       },
+
       keyup (evt) {
         if (ctx.enabled && !evt.defaultPrevented && evt.keyCode === 13) {
           showRipple(evt, el, ctx)
@@ -69,18 +87,15 @@ export default {
       }
     }
 
+    updateCtx(ctx, binding)
+
     el.__qripple = ctx
     el.addEventListener('click', ctx.click, false)
     el.addEventListener('keyup', ctx.keyup, false)
   },
 
-  update (el, { value, modifiers, arg }) {
-    const ctx = el.__qripple
-    if (ctx) {
-      ctx.enabled = value !== false
-      ctx.modifiers = modifiers
-      ctx.arg = arg
-    }
+  update (el, binding) {
+    el.__qripple && updateCtx(el.__qripple, binding)
   },
 
   unbind (el) {

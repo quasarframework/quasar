@@ -44,6 +44,15 @@
         Primary colored ripple
       </div>
 
+      <div
+        v-ripple="{ color: 'yellow' }"
+        tabindex="0"
+        class="relative-position ripple-example bg-cyan"
+        style="height: 50px"
+      >
+        Primary colored ripple
+      </div>
+
       <div class="row items-center justify-around q-mt-md">
         <div
           tabindex="0"
