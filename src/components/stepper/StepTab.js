@@ -4,10 +4,13 @@ import Ripple from '../../directives/ripple.js'
 import Vue from 'vue'
 export default Vue.extend({
   name: 'QStepTab',
+
   directives: {
     Ripple
   },
+
   props: ['vm'],
+
   computed: {
     hasNavigation () {
       return !this.vm.__stepper.noHeaderNavigation
@@ -27,6 +30,7 @@ export default Vue.extend({
       }
     }
   },
+
   methods: {
     __select () {
       if (this.hasNavigation) {
@@ -34,6 +38,7 @@ export default Vue.extend({
       }
     }
   },
+
   render (h) {
     const icon = this.vm.stepIcon
       ? h(QIcon, { props: { name: this.vm.stepIcon } })

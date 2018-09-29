@@ -2,14 +2,12 @@ import Vue from 'vue'
 
 import uid from '../../utils/uid.js'
 import QIcon from '../icon/QIcon.js'
-import Ripple from '../../directives/ripple.js'
+import RippleMixin from '../../mixins/ripple.js'
 
 export default Vue.extend({
   name: 'QTab',
 
-  directives: {
-    Ripple
-  },
+  mixins: [ RippleMixin ],
 
   inject: {
     tabs: {
@@ -31,10 +29,6 @@ export default Vue.extend({
       default: () => uid()
     },
 
-    ripple: {
-      type: [Boolean, Object],
-      default: true
-    },
     tabindex: String,
     disable: Boolean
   },

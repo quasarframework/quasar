@@ -1,5 +1,5 @@
-import Ripple from '../../directives/ripple.js'
 import AlignMixin from '../../mixins/align.js'
+import RippleMixin from '../../mixins/ripple.js'
 
 const sizes = {
   xs: 8,
@@ -10,11 +10,7 @@ const sizes = {
 }
 
 export default {
-  mixins: [ AlignMixin ],
-
-  directives: {
-    Ripple
-  },
+  mixins: [ RippleMixin, AlignMixin ],
 
   props: {
     type: String,
@@ -37,10 +33,6 @@ export default {
     color: String,
     textColor: String,
     dense: Boolean,
-    ripple: {
-      type: [Boolean, Object],
-      default: true
-    },
     tabindex: String,
     to: [Object, String],
     replace: Boolean,

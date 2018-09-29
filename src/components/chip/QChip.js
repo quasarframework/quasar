@@ -1,14 +1,12 @@
 import QIcon from '../icon/QIcon.js'
-import Ripple from '../../directives/ripple.js'
+import RippleMixin from '../../mixins/ripple.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
 import Vue from 'vue'
 export default Vue.extend({
   name: 'QChip',
 
-  directives: {
-    Ripple
-  },
+  mixins: [ RippleMixin ],
 
   props: {
     dense: Boolean,
@@ -36,12 +34,7 @@ export default Vue.extend({
     clickable: Boolean,
     closable: Boolean,
 
-    ripple: {
-      type: [Boolean, Object],
-      default: true
-    },
     tabindex: String,
-
     disable: Boolean
   },
 
