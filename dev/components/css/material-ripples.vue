@@ -50,7 +50,7 @@
         class="relative-position ripple-example bg-cyan"
         style="height: 50px"
       >
-        Primary colored ripple
+        Yellow colored ripple
       </div>
 
       <div class="row items-center justify-around q-mt-md">
