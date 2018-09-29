@@ -112,11 +112,11 @@ export default Vue.extend({
     __getContainer (h) {
       const content = this.active
         ? h('div', {
-          staticClass: 'q-stepper-step-content',
+          staticClass: 'q-stepper__step-content',
           'class': this.classes
         }, [
           h('div', {
-            staticClass: 'q-stepper-step-inner'
+            staticClass: 'q-stepper__step-inner'
           }, this.$slots.default)
         ])
         : null
@@ -138,7 +138,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-stepper-step',
+      staticClass: 'q-stepper__step',
       style: this.style
     }, [
       this.__stepper.vertical

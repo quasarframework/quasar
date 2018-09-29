@@ -1,155 +1,178 @@
 .q-stepper
   box-shadow $shadow-2
 
-.q-stepper-title
-  font-size 14px
-.q-stepper-subtitle
-  font-size 12px
-  opacity .7
+  &__title
+    font-size 14px
 
-.q-stepper-dot
-  margin-right 8px
-  font-size 14px
-  width 24px
-  height 24px
-  border-radius 50%
-  background currentColor
-  span
-    color white
+  &__subtitle
+    font-size 12px
+    opacity .7
 
-.q-stepper-tab
-  padding 24px
-  font-size 14px
-  flex-direction row
-  transition color .28s, background .28s
+  &__dot
+    margin-right 8px
+    font-size 14px
+    width 24px
+    height 24px
+    border-radius 50%
+    background currentColor
+    span
+      color white
 
-  &.step-waiting
+  &__tab
+    padding 24px
+    font-size 14px
+    flex-direction row
+    transition color .28s, background .28s
+
+    &--waiting
+      color black
+      .q-stepper__dot
+        color $stepper-label-inactive-color
+    &--navigation
+      user-select none
+      cursor pointer
+    &--color
+      color currentColor
+    &--active .q-stepper__title
+      font-weight bold
+    &--disabled
+      color $separator-color
+    &--error
+      color $negative
+      color var(--q-color-negative)
+      .q-stepper__dot
+        background transparent
+        span
+          color $negative
+          color var(--q-color-negative)
+          font-size 24px
+
+  &__header
+    min-height 72px
+    &--border
+      border-bottom 1px solid $separator-color
+    &:not(.q-stepper--alternative-labels)
+      .q-stepper__tab
+        justify-content center
+      .q-stepper__dot:after
+        display none
+    &.q-stepper--alternative-labels
+      min-height 104px
+      .q-stepper__tab
+        padding 24px 32px
+        flex-direction column
+        justify-content flex-start
+      .q-stepper__dot
+        margin-right 0
+      .q-stepper-label
+        margin-top 8px
+        text-align center
+        &:before, &:after
+          display none
+
+  &__step-content
     color black
-    .q-stepper-dot
-      color $stepper-label-inactive-color
-  &.step-navigation
-    user-select none
-    cursor pointer
-  &.step-color
-    color currentColor
-  &.step-active .q-stepper-title
-    font-weight bold
-  &.step-disabled
-    color $stepper-label-inactive-color
-  &.step-error
-    color $negative
-    color var(--q-color-negative)
-    .q-stepper-dot
-      background transparent
-      span
-        color $negative
-        color var(--q-color-negative)
-        font-size 24px
 
-.q-stepper-header
-  min-height 72px
-  &:not(.alternative-labels)
-    .q-stepper-tab
-      justify-content center
-    .q-stepper-dot:after
-      display none
-  &.alternative-labels
-    min-height 104px
-    .q-stepper-tab
-      padding 24px 32px
-      flex-direction column
-      justify-content flex-start
-    .q-stepper-dot
-      margin-right 0
-    .q-stepper-label
-      margin-top 8px
-      text-align center
-      &:before, &:after
+  &--bordered
+    border 1px solid $separator-color
+
+  &--horizontal
+    .q-stepper__step-inner
+      padding 16px
+    .q-stepper__nav
+      margin 0 16px 8px
+    .q-stepper__step .q-stepper__nav
+      margin 16px 0 0
+      > div.col
         display none
 
-.q-stepper-step-content
-  color black
-
-.q-stepper-horizontal
-  .q-stepper-step-inner
-    padding 24px
-  .q-stepper-nav
-    margin 0 16px 8px
-  .q-stepper-step .q-stepper-nav
-    margin 16px 0 0
-    > div.col
+    .q-stepper__tab--first .q-stepper__dot:before,
+    .q-stepper__tab--last .q-stepper-label:after,
+    .q-stepper__tab--last .q-stepper__dot:after
       display none
-
-  .q-stepper-first .q-stepper-dot:before,
-  .q-stepper-last .q-stepper-label:after,
-  .q-stepper-last .q-stepper-dot:after
-    display none
-  .q-stepper-tab
-    overflow hidden
-  .q-stepper-line
-    &:before, &:after
-      position absolute
-      top 50%
-      height 1px
-      width 100vw
-      background $stepper-divider-color
-  .q-stepper-label:after, .q-stepper-dot:after
-    content ''
-    left 100%
-    margin-left 8px
-  .q-stepper-dot:before
-    content ''
-    right 100%
-    margin-right 8px
-
-.q-stepper-vertical
-  padding 8px 0 18px
-  .q-stepper-tab
-    padding 12px 16px
-  .q-stepper-label
-    padding-top 4px
-  .q-stepper-title
-    line-height 18px
-  .q-stepper-step-inner
-    padding 0 24px 24px 48px
-  .q-stepper-nav
-    margin-top 16px
-    > div.col
-      display none
-
-  .q-stepper-first .q-stepper-dot:before,
-  .q-stepper-last .q-stepper-dot:after
-    display none
-  .q-stepper-step
-    overflow hidden
-  .q-stepper-dot
-    &:before, &:after
+    .q-stepper__tab
+      overflow hidden
+    .q-stepper__line
+      &:before, &:after
+        position absolute
+        top 50%
+        height 1px
+        width 100vw
+        background $separator-color
+    .q-stepper-label:after, .q-stepper__dot:after
       content ''
-      position absolute
-      left 50%
-      width 1px
-      height 100vh
-      background $stepper-divider-color
-  .q-stepper-dot:before
-    bottom 100%
-    margin-bottom 8px
-  .q-stepper-dot:after
-    top 100%
-    margin-top 8px
+      left 100%
+      margin-left 8px
+    .q-stepper__dot:before
+      content ''
+      right 100%
+      margin-right 8px
 
-body.desktop .q-stepper-tab.step-navigation:hover
-  background $stepper-hover-background
+  &--vertical
+    padding 8px 0 18px
+    .q-stepper__tab
+      padding 12px 16px
+    .q-stepper-label
+      padding-top 4px
+    .q-stepper__title
+      line-height 18px
+    .q-stepper__step-inner
+      padding 0 24px 24px 48px
+    .q-stepper__nav
+      margin-top 16px
+      > div.col
+        display none
+
+    .q-stepper__tab--first .q-stepper__dot:before,
+    .q-stepper__tab--last .q-stepper__dot:after
+      display none
+    .q-stepper__step
+      overflow hidden
+    .q-stepper__dot
+      &:before, &:after
+        content ''
+        position absolute
+        left 50%
+        width 1px
+        height 100vh
+        background $separator-color
+    .q-stepper__dot:before
+      bottom 100%
+      margin-bottom 8px
+    .q-stepper__dot:after
+      top 100%
+      margin-top 8px
+
+  &--dark
+    &.q-stepper--bordered,
+    .q-stepper__header--border
+      border-color $separator-dark-color
+    &.q-stepper--horizontal
+      .q-stepper__line
+        &:before, &:after
+          background $separator-dark-color
+    &.q-stepper--vertical
+      .q-stepper__dot
+        &:before, &:after
+          background $separator-dark-color
+    .q-stepper__tab
+      &--waiting
+        color white
+      &--disabled
+        color $separator-dark-color
+    .q-stepper__step-content
+      color white
 
 @media (max-width $breakpoint-sm-max)
-  .q-stepper-horizontal.q-stepper-contractable
-    .q-stepper-header
+  .q-stepper--horizontal.q-stepper--contractable
+    .q-stepper__header
       min-height 72px
-    .q-stepper-tab
+    .q-stepper__tab
       padding 24px 0
-    .q-stepper-tab:not(:last-child)
-      .q-stepper-dot:after
+    .q-stepper__tab:not(:last-child)
+      .q-stepper__dot:after
         display block !important
-    .q-stepper-dot
+    .q-stepper__dot
       margin 0
     .q-stepper-label
       display none

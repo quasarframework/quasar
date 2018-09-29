@@ -7,14 +7,17 @@ export default Vue.extend({
 
   props: {
     value: [Number, String],
-    color: {
-      type: String,
-      default: 'primary'
-    },
+
+    color: String,
+    dark: Boolean,
+
+    flat: Boolean,
+    bordered: Boolean,
     vertical: Boolean,
     alternativeLabels: Boolean,
     noHeaderNavigation: Boolean,
     contractable: Boolean,
+
     doneIcon: Boolean,
     activeIcon: Boolean,
     errorIcon: Boolean
@@ -54,12 +57,14 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      const cls = [
-        `q-stepper-${this.vertical ? 'vertical' : 'horizontal'}`,
-        `text-${this.color}`
-      ]
-      this.contractable && cls.push(`q-stepper-contractable`)
-      return cls
+      return {
+        [`q-stepper--${this.vertical ? 'vertical' : 'horizontal'}`]: true,
+        [`text-${this.color}`]: this.color,
+        'q-stepper--flat no-shadow': this.flat || this.dark,
+        'q-stepper--bordered': this.bordered || (this.dark && !this.flat),
+        'q-stepper--contractable': this.contractable,
+        'q-stepper--dark': this.dark
+      }
     },
 
     hasSteps () {
@@ -93,7 +98,6 @@ export default Vue.extend({
 
       this.$emit('input', value)
       this.$emit('step', value)
-      JSON.stringify(value) !== JSON.stringify(this.value) && this.$emit('change', value)
     },
 
     next () {
@@ -174,8 +178,11 @@ export default Vue.extend({
       this.vertical
         ? null
         : h('div', {
-          staticClass: 'q-stepper-header row items-stretch justify-between shadow-1',
-          'class': { 'alternative-labels': this.alternativeLabels }
+          staticClass: 'q-stepper__header row items-stretch justify-between',
+          'class': {
+            'q-stepper__header--border': !this.flat || this.bordered,
+            'q-stepper--alternative-labels': this.alternativeLabels
+          }
         },
         this.steps.map(step => h(StepTab, {
           key: step.name,
