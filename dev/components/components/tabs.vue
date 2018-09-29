@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs-demo bg-grey-3">
+  <div class="tabs-demo bg-grey-3 q-py-xl">
     <div class="text-primary">
       <q-tabs-bar>
         <q-tab label="Item one" />
@@ -44,7 +44,7 @@
         <q-tab icon="location_on" />
       </q-tabs-bar>
 
-      <q-tabs-bar>
+      <q-tabs-bar class="bg-grey-1 text-teal">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
@@ -56,7 +56,7 @@
         <q-tab icon="location_on" label="Item three" />
       </q-tabs-bar>
 
-      <q-tabs-bar inline-label>
+      <q-tabs-bar inline-label class="bg-primary text-white">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
@@ -130,6 +130,54 @@
         <q-route-tab name="tabs/b/a" to="/components/tabs/b/a" exact replace label="/tabs/b/a" />
         <q-route-tab name="tabs/c" to="/components/tabs/c" exact replace label="/tabs/c" />
       </q-tabs-bar>
+
+      <h4>Tabs content (animated, swipeable)</h4>
+      <q-option-group
+        type="radio"
+        v-model="tab"
+        :options="[
+          {label: 'One', value: 'one'},
+          {label: 'Two', value: 'two'},
+          {label: 'Three', value: 'three'},
+          {label: 'Bogus', value: 'bogus'}
+        ]"
+        inline
+        class="q-ma-md"
+      />
+
+      <div class="shadow-1 q-ma-md">
+        <q-tabs-bar
+          v-model="tab"
+          active-color="white"
+          indicator-color="yellow"
+          class="bg-cyan text-white"
+          style="margin-bottom: 0"
+        >
+          <q-tab name="one" icon="phone" label="One" />
+          <q-tab name="two" icon="favorite" label="Two" />
+          <q-tab name="three" icon="location_on" label="Three" />
+          <q-tab disable name="four" icon="map" label="Four" />
+        </q-tabs-bar>
+
+        <q-tabs-content
+          v-model="tab"
+          swipeable
+          animated
+          class="text-black text-center"
+        >
+          <q-tab-pane name="one">
+            Tab One
+          </q-tab-pane>
+
+          <q-tab-pane name="two">
+            Tab Two
+          </q-tab-pane>
+
+          <q-tab-pane name="three">
+            Tab Three
+          </q-tab-pane>
+        </q-tabs-content>
+      </div>
     </div>
   </div>
 </template>
@@ -137,7 +185,9 @@
 <script>
 export default {
   data () {
-    return {}
+    return {
+      tab: 'one'
+    }
   },
 
   methods: {

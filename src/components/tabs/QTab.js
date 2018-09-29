@@ -89,7 +89,7 @@ export default Vue.extend({
         h('div', { staticClass: 'q-focus-helper' }),
 
         h('div', {
-          staticClass: 'q-tab__content flex-center relative-position no-pointer-events',
+          staticClass: 'q-tab__content flex-center relative-position no-pointer-events non-selectable',
           'class': this.tabs.inlineLabel ? 'row no-wrap q-tab__content--inline' : 'column'
         }, content)
       ]
