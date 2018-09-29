@@ -1,16 +1,16 @@
 <template>
   <div class="layout-padding">
     <h1>Focus helper test</h1>
-    <q-btn class="q-ma-sm" color="black" label="Test" />
-    <q-btn class="q-ma-sm" color="black" label="Test" />
-    <q-btn class="q-ma-sm" color="primary" label="Test" />
-    <q-btn class="q-ma-sm" color="primary" label="Test" />
-    <q-btn class="q-ma-sm" color="orange" label="Test" />
-    <q-btn class="q-ma-sm" color="orange" label="Test" />
-    <q-btn class="q-ma-sm" color="yellow" text-color="black" label="Test" />
-    <q-btn class="q-ma-sm" color="yellow" text-color="black" label="Test" />
-    <q-btn class="q-ma-sm" label="Test" />
-    <q-btn class="q-ma-sm" label="Test" />
+    <q-btn class="q-ma-sm q-pa-lg" color="black" label="Test" />
+    <q-btn class="q-ma-sm q-pa-lg" color="black" label="Test" />
+    <q-btn class="q-ma-sm q-pa-lg" color="primary" label="Test" />
+    <q-btn class="q-ma-sm q-pa-lg" color="primary" label="Test" />
+    <q-btn class="q-ma-sm q-pa-lg" color="orange" label="Test" />
+    <q-btn class="q-ma-sm q-pa-lg" color="orange" label="Test" />
+    <q-btn class="q-ma-sm q-pa-lg" color="yellow" text-color="black" label="Test" />
+    <q-btn class="q-ma-sm q-pa-lg" color="yellow" text-color="black" label="Test" />
+    <q-btn class="q-ma-sm q-pa-lg" label="Test" />
+    <q-btn class="q-ma-sm q-pa-lg" label="Test" />
 
     <q-list class="q-mt-md">
       <q-item v-for="n in 3" :key="'1.'+n" clickable>

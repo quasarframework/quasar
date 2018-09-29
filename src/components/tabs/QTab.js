@@ -31,6 +31,10 @@ export default Vue.extend({
       default: () => uid()
     },
 
+    ripple: {
+      type: [Boolean, Object],
+      default: true
+    },
     tabindex: String,
     disable: Boolean
   },
@@ -114,8 +118,8 @@ export default Vue.extend({
           role: 'tab',
           'aria-selected': this.isActive
         },
-        directives: this.disable ? null : [
-          { name: 'ripple' }
+        directives: this.ripple !== false && this.disable ? null : [
+          { name: 'ripple', value: this.ripple }
         ],
         [tag === 'div' ? 'on' : 'nativeOn']: {
           click: this.activate,

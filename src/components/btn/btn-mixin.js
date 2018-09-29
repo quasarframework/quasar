@@ -37,7 +37,10 @@ export default {
     color: String,
     textColor: String,
     dense: Boolean,
-    noRipple: Boolean,
+    ripple: {
+      type: [Boolean, Object],
+      default: true
+    },
     tabindex: String,
     to: [Object, String],
     replace: Boolean,
@@ -68,7 +71,7 @@ export default {
     },
 
     hasRipple () {
-      return !this.noRipple && !this.isDisabled
+      return this.ripple !== false && !this.isDisabled
     },
 
     computedTabIndex () {

@@ -192,7 +192,7 @@ export default Vue.extend({
               color: this.color,
               flat: true,
               label: this.cancelLabel || this.$q.i18n.label.cancel,
-              noRipple: true
+              ripple: false
             },
             on: {
               click: () => {
@@ -207,7 +207,7 @@ export default Vue.extend({
                 color: this.color,
                 flat: true,
                 label: this.okLabel || this.$q.i18n.label.set,
-                noRipple: true,
+                ripple: false,
                 disable: !this.model
               },
               on: {

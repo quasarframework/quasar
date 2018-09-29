@@ -119,7 +119,7 @@ export default Vue.extend({
           color: this.color,
           textColor: this.textColor,
           dense: this.dense,
-          noRipple: this.noRipple
+          ripple: this.ripple
         },
         staticClass: 'q-btn-dropdown__arrow',
         on: { click: this.toggle }

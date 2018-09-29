@@ -162,9 +162,9 @@ export default Vue.extend({
         ? Object.assign({
           color: this.color,
           label: this.$q.i18n.label.ok,
-          noRipple: true
+          ripple: false
         }, this.ok)
-        : { color: this.color, flat: true, label: this.okLabel, noRipple: true }
+        : { color: this.color, flat: true, label: this.okLabel, ripple: false }
     },
 
     cancelProps () {
@@ -172,9 +172,9 @@ export default Vue.extend({
         ? Object.assign({
           color: this.color,
           label: this.$q.i18n.label.cancel,
-          noRipple: true
+          ripple: false
         }, this.cancel)
-        : { color: this.color, flat: true, label: this.cancelLabel, noRipple: true }
+        : { color: this.color, flat: true, label: this.cancelLabel, ripple: false }
     }
   },
 

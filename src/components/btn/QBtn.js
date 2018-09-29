@@ -31,9 +31,8 @@ export default Vue.extend({
 
   methods: {
     click (e) {
-      if (e.defaultPrevented) {
-        return
-      }
+      if (e.defaultPrevented) { return }
+
       if (document.activeElement !== this.$el) {
         stopAndPrevent(e)
         this.$el.focus()
@@ -89,6 +88,7 @@ export default Vue.extend({
       },
       directives: this.hasRipple ? [{
         name: 'ripple',
+        value: this.ripple,
         modifiers: { center: this.isRound }
       }] : null
     }, [

@@ -90,17 +90,14 @@
       <q-btn :type="tag" text-color="amber" icon="map" label="Some label" @click="onClick" />
 
       <br><br>
-      <div class="caption">Keep holding click</div>
-      <!-- Click and hold to triger every second -->
-      <q-btn :type="tag" @click="clickHandler" :repeat-timeout="1000" label="click me" />
-      <!-- Click and hold to triger faster over time -->
-      <q-btn :type="tag" @click="clickHandler" :repeat-timeout="repeatFunction" label="click me" />
-      <q-chip>{{ clickTimes }}</q-chip>
+      <div class="caption">Ripple management</div>
+      <q-btn :ripple="false" color="secondary" :type="tag" label="No ripple" no-caps />
+      <q-btn :ripple="{ color: 'yellow' }" color="secondary" :type="tag" label="Yellow ripple" no-caps class="q-ml-sm" />
+      <q-btn :ripple="{ center: true }" color="secondary" :type="tag" label="Center ripple" no-caps class="q-ml-sm" />
 
       <div class="caption">Regular (rectangle) and Circular</div>
       <q-btn :type="tag" color="primary" label="Some very, but very long button title that should wrap to the next line without any problems" />
       <div class="group">
-        <q-btn :type="tag" icon="alarm" color="orange" label="No ripple" no-ripple />
         <q-btn :type="tag" icon="alarm" color="orange" label="Icoon" />
         <q-btn :type="tag" icon="ion-shuffle" label="Icoon" />
         <q-btn :type="tag" icon="fa-bath" label="Icoon" />

@@ -270,7 +270,7 @@ export default Vue.extend({
           flat: !active,
           textColor: active ? this.textColor : null,
           label: this.min,
-          noRipple: true
+          ripple: false
         }))
       }
       if (boundaryEnd) {
@@ -286,7 +286,7 @@ export default Vue.extend({
           flat: !active,
           textColor: active ? this.textColor : null,
           label: this.max,
-          noRipple: true
+          ripple: false
         }))
       }
       if (ellipsesStart) {
@@ -326,7 +326,7 @@ export default Vue.extend({
           flat: !active,
           textColor: active ? this.textColor : null,
           label: i,
-          noRipple: true
+          ripple: false
         }))
       }
     }

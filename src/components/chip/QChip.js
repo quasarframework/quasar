@@ -36,6 +36,10 @@ export default Vue.extend({
     clickable: Boolean,
     closable: Boolean,
 
+    ripple: {
+      type: [Boolean, Object],
+      default: true
+    },
     tabindex: String,
 
     disable: Boolean
@@ -149,7 +153,7 @@ export default Vue.extend({
         click: this.__onClick,
         keyup: this.__onKeyup
       },
-      directives: [{ name: 'ripple' }]
+      directives: [{ name: 'ripple', value: this.ripple }]
     } : {}
 
     data.staticClass = 'q-chip row inline no-wrap items-center'
