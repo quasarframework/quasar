@@ -68,7 +68,7 @@
         <q-tab icon="location_on" label="Item three" />
       </q-tabs-bar>
 
-      <q-tabs-bar inline-label class="bg-primary text-white">
+      <q-tabs-bar inline-label class="bg-purple text-white">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
@@ -105,13 +105,13 @@
         </q-btn-dropdown>
       </q-tabs-bar>
 
-      <q-tabs-bar top-indicator inline-label>
+      <q-tabs-bar class="bg-teal text-yellow" top-indicator inline-label>
         <q-tab icon="phone" label="Item one" />
         <q-tab icon="favorite" label="-- Top indicator --" />
         <q-tab icon="location_on" label="Item three" />
       </q-tabs-bar>
 
-      <q-tabs-bar inline-label align="justify">
+      <q-tabs-bar inline-label align="justify" indicator-color="orange">
         <q-tab icon="phone" label="Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
@@ -120,7 +120,6 @@
         <q-tab icon="location_on" label="Item six" />
       </q-tabs-bar>
 
-      <h4>Router tabs</h4>
       <div class="row gutter-xs justify-stretch">
         <div class="col-12 col-sm-6 col-md">
           <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a#123" label="/tabs/a#123 - select most specific tab" />
@@ -162,6 +161,7 @@
         inline
         class="q-ma-md"
       />
+      <q-toggle v-model="zero" label="Enable tab two" />
 
       <div class="shadow-1 q-ma-md">
         <q-tabs-bar
@@ -184,15 +184,19 @@
           class="text-black text-center"
         >
           <q-tab-pane name="one">
-            Tab One
+            Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
           </q-tab-pane>
 
-          <q-tab-pane name="two">
-            Tab Two
+          <q-tab-pane v-if="zero" name="two">
+            Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
           </q-tab-pane>
 
           <q-tab-pane name="three">
-            Tab Three
+            Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+          </q-tab-pane>
+
+          <q-tab-pane disable name="four">
+            Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
           </q-tab-pane>
         </q-tabs-content>
       </div>
@@ -204,7 +208,9 @@
 export default {
   data () {
     return {
-      tab: 'one'
+      tab: 'one',
+      zero: true,
+      some: false
     }
   },
 

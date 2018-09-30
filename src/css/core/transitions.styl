@@ -1,0 +1,22 @@
+.q-transition
+
+  &--slide
+    transition transform .6s cubic-bezier(.86, 0, .07, 1)
+
+    &-left
+      &-enter
+        transform translate(-100%, 0)
+      &-leave, &-leave-to
+        position absolute
+        top 0
+        transform translate(100%, 0)
+
+    &-right
+      &-enter
+        transform translate(100%, 0)
+      &-leave, &-leave-active
+        position absolute
+        top 0
+      &-leave-to
+        position absolute
+        transform translate(-100%, 0)

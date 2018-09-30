@@ -3,12 +3,6 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'QTabsContent',
 
-  provide () {
-    return {
-      tabContent: this.tab
-    }
-  },
-
   props: {
     value: { required: true },
     swipeable: Boolean,
@@ -17,19 +11,17 @@ export default Vue.extend({
 
   data () {
     return {
-      tab: {
-        current: this.value,
-        direction: null
-      }
+      tab: this.value,
+      direction: null
     }
   },
 
   watch: {
     value (newVal, oldVal) {
-      this.tab.current = newVal
+      this.tab = newVal
 
       if (this.animated) {
-        this.tab.direction = newVal && oldVal
+        this.direction = newVal && oldVal
           ? (
             this.__getIndex(newVal) < this.__getIndex(oldVal)
               ? 'left'
@@ -49,41 +41,48 @@ export default Vue.extend({
       this.__go(1)
     },
 
+    __swipe (evt) {
+      this.__go(evt.direction === 'left' ? 1 : -1)
+    },
+
     __getIndex (name) {
-      const ref = this.$children.find(pane => pane.name === name)
-      return ref
-        ? Array.prototype.indexOf.call(this.$el.children, ref.$el)
-        : -1
+      return this.$slots.default.findIndex(
+        pane => pane.componentOptions && pane.componentOptions.propsData.name === name
+      )
     },
 
     __go (offset) {
-      const index = (this.value ? this.__getIndex(this.value) : -1) + offset
+      let index = (this.value ? this.__getIndex(this.value) : -1) + offset
+      const slots = this.$slots.default
 
-      if (index > -1 && index < this.$children.length) {
-        const
-          el = this.$el.children[index],
-          ref = this.$children.find(pane => pane.$el === el)
+      while (index > -1 && index < slots.length) {
+        const opt = slots[index].componentOptions
 
-        if (ref) {
-          this.$emit('input', ref.name)
+        if (opt && opt.propsData.disable !== '' && opt.propsData.disable !== true) {
+          this.$emit('input', slots[index].componentOptions.propsData.name)
+          break
         }
-      }
-    },
 
-    __swipe (evt) {
-      this.__go(evt.direction === 'left' ? 1 : -1)
+        index += offset
+      }
     }
   },
 
   render (h) {
+    const pane = this.tab && this.$slots.default[ this.__getIndex(this.tab) ]
+
     return h('div', {
-      staticClass: 'q-tabs-content',
-      directives: this.swipeable
-        ? [{
-          name: 'touch-swipe',
-          value: this.__swipe
-        }]
-        : null
-    }, this.$slots.default)
+      staticClass: 'q-tabs-content relative-position',
+      directives: this.swipeable ? [{
+        name: 'touch-swipe',
+        value: this.__swipe
+      }] : null
+    }, pane ? [
+      this.animated ? h('transition', {
+        props: { name: 'q-transition--slide-' + this.direction }
+      }, [
+        h('div', { key: this.tab, staticClass: 'q-tabs-content__animator q-transition--slide' }, [ pane ])
+      ]) : pane
+    ] : null)
   }
 })

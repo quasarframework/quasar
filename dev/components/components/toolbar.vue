@@ -37,7 +37,7 @@
         <q-btn flat round dense icon="whatshot" />
       </q-toolbar>
 
-      <q-toolbar class="bg-secondary text-white q-my-md">
+      <q-toolbar class="bg-purple text-white q-my-md">
         <q-btn flat round dense icon="assignment_ind" />
         <q-toolbar-title>
           Toolbar
