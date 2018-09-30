@@ -98,6 +98,17 @@
         </q-card-section>
       </q-card>
 
+      <q-card inline style="background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)">
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-card-section>
+          {{ lorem }}
+        </q-card-section>
+      </q-card>
+
       <q-card flat inline>
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
