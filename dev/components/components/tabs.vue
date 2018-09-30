@@ -161,7 +161,7 @@
         inline
         class="q-ma-md"
       />
-      <q-toggle v-model="zero" label="Enable tab two" />
+      <q-toggle v-model="panelTest" label="Panel test; Swap one with two / Remove tab two" />
 
       <div class="shadow-1 q-ma-md">
         <q-tabs-bar
@@ -183,12 +183,12 @@
           animated
           class="text-black text-center"
         >
-          <q-tab-pane name="one">
-            Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+          <q-tab-pane :name="panelTest ? 'two' : 'one'">
+            Tab One <strong v-if="panelTest">(Swapped)</strong> <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
           </q-tab-pane>
 
-          <q-tab-pane v-if="zero" name="two">
-            Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
+          <q-tab-pane :name="panelTest ? 'one' : 'two'">
+            Tab Two <strong v-if="panelTest">(Swapped)</strong>  <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
           </q-tab-pane>
 
           <q-tab-pane name="three">
@@ -200,6 +200,29 @@
           </q-tab-pane>
         </q-tabs-content>
       </div>
+
+      <q-tabs-content
+        v-model="tab"
+        swipeable
+        animated
+        class="text-black text-center"
+      >
+        <q-tab-pane name="one">
+          v-if test Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+        </q-tab-pane>
+
+        <q-tab-pane v-if="!panelTest" name="two">
+          v-if test Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
+        </q-tab-pane>
+
+        <q-tab-pane name="three">
+          v-if test Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+        </q-tab-pane>
+
+        <q-tab-pane disable name="four">
+          v-if test Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+        </q-tab-pane>
+      </q-tabs-content>
     </div>
   </div>
 </template>
@@ -209,7 +232,7 @@ export default {
   data () {
     return {
       tab: 'one',
-      zero: true,
+      panelTest: false,
       some: false
     }
   },

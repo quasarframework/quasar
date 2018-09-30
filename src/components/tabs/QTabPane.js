@@ -1,15 +1,11 @@
 import Vue from 'vue'
 
+import { PanelChildMixin } from '../../mixins/panel.js'
+
 export default Vue.extend({
   name: 'QTabPane',
 
-  props: {
-    name: {
-      type: String,
-      required: true
-    },
-    disable: Boolean
-  },
+  mixins: [ PanelChildMixin ],
 
   render (h) {
     return h('div', {

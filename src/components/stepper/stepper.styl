@@ -4,7 +4,7 @@
   &__title
     font-size 14px
 
-  &__subtitle
+  &__caption
     font-size 12px
     opacity .7
 
@@ -24,10 +24,6 @@
     flex-direction row
     transition color .28s, background .28s
 
-    &--waiting
-      color black
-      .q-stepper__dot
-        color $stepper-label-inactive-color
     &--navigation
       user-select none
       cursor pointer
@@ -73,22 +69,19 @@
   &__step-content
     color black
 
+  &__nav
+    padding-top 16px
+
   &--bordered
     border 1px solid $separator-color
 
   &--horizontal
     .q-stepper__step-inner
       padding 16px
-    .q-stepper__nav
-      margin 0 16px 8px
-    .q-stepper__step .q-stepper__nav
-      margin 16px 0 0
-      > div.col
-        display none
 
-    .q-stepper__tab--first .q-stepper__dot:before,
-    .q-stepper__tab--last .q-stepper-label:after,
-    .q-stepper__tab--last .q-stepper__dot:after
+    .q-stepper__tab:first-child .q-stepper__dot:before,
+    .q-stepper__tab:last-child .q-stepper-label:after,
+    .q-stepper__tab:last-child .q-stepper__dot:after
       display none
     .q-stepper__tab
       overflow hidden
@@ -108,8 +101,12 @@
       right 100%
       margin-right 8px
 
+    > .q-stepper__nav
+      padding 0 16px 16px
+
   &--vertical
-    padding 8px 0 18px
+    padding 16px 0
+
     .q-stepper__tab
       padding 12px 16px
     .q-stepper-label
@@ -118,13 +115,9 @@
       line-height 18px
     .q-stepper__step-inner
       padding 0 24px 24px 48px
-    .q-stepper__nav
-      margin-top 16px
-      > div.col
-        display none
 
-    .q-stepper__tab--first .q-stepper__dot:before,
-    .q-stepper__tab--last .q-stepper__dot:after
+    .q-stepper__tab:first-child .q-stepper__dot:before,
+    .q-stepper__tab:last-child .q-stepper__dot:after
       display none
     .q-stepper__step
       overflow hidden
@@ -142,6 +135,8 @@
     .q-stepper__dot:after
       top 100%
       margin-top 8px
+    > .q-stepper__nav
+      padding 16px 16px 0
 
   &--dark
     &.q-stepper--bordered,
@@ -156,8 +151,6 @@
         &:before, &:after
           background $separator-dark-color
     .q-stepper__tab
-      &--waiting
-        color white
       &--disabled
         color $separator-dark-color
     .q-stepper__step-content
