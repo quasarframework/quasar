@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-white">
     <div class="layout-padding">
       <p>Basic</p>
       <div class="q-ma-md">

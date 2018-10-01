@@ -23,19 +23,21 @@ export default Vue.extend({
     bordered: Boolean,
     vertical: Boolean,
     alternativeLabels: Boolean,
-    headerNavigation: Boolean,
+    headerNav: Boolean,
     contractable: Boolean,
 
     doneIcon: Boolean,
+    doneColor: String,
     activeIcon: Boolean,
-    errorIcon: Boolean
+    activeColor: String,
+    errorIcon: Boolean,
+    errorColor: String
   },
 
   computed: {
     classes () {
       return {
         [`q-stepper--${this.vertical ? 'vertical' : 'horizontal'}`]: true,
-        [`text-${this.color}`]: this.color,
         'q-stepper--flat no-shadow': this.flat || this.dark,
         'q-stepper--bordered': this.bordered || (this.dark && !this.flat),
         'q-stepper--contractable': this.contractable,
@@ -48,15 +50,17 @@ export default Vue.extend({
     __getContent (h) {
       if (this.vertical) {
         this.value && this.__updatePanelIndex()
-        return this.$slots.default
+        return [
+          h('div', { staticClass: 'q-stepper__content' }, this.$slots.default)
+        ]
       }
 
       return [
         h('div', {
           staticClass: 'q-stepper__header row items-stretch justify-between',
           'class': {
-            'q-stepper__header--border': !this.flat || this.bordered,
-            'q-stepper--alternative-labels': this.alternativeLabels
+            [`q-stepper__header--${this.alternativeLabels ? 'alternative' : 'standard'}-labels`]: true,
+            'q-stepper__header--border': !this.flat || this.bordered
           }
         }, this.__getPanels().map(panel => {
           const step = panel.componentOptions.propsData

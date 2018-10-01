@@ -19,32 +19,31 @@ export default Vue.extend({
 
   props: {
     icon: String,
+    color: String,
     title: {
       type: String,
       required: true
     },
     caption: String,
 
-    activeIcon: String,
-    errorIcon: String,
+    doneIcon: Boolean,
+    doneColor: String,
+    activeIcon: Boolean,
+    activeColor: String,
+    errorIcon: Boolean,
+    errorColor: String,
 
+    headerNav: {
+      type: Boolean,
+      default: true
+    },
+    done: Boolean,
     error: Boolean
   },
 
   computed: {
     isActive () {
       return this.stepper.value === this.name
-    },
-
-    stepIcon () {
-      if (this.isActive) {
-        return this.activeIcon || this.stepper.activeIcon || this.$q.icon.stepper.active
-      }
-      if (this.error) {
-        return this.errorIcon || this.stepper.errorIcon || this.$q.icon.stepper.error
-      }
-
-      return this.icon
     }
   },
 

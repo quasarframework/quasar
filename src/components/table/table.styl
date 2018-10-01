@@ -1,5 +1,6 @@
 .q-markup-table
   overflow auto
+  background white
 
 .q-table
   width 100%
@@ -48,6 +49,8 @@
     border-radius $table-border-radius
     box-shadow $table-box-shadow
     position relative
+    &:not(.q-table--grid)
+      background white
     &.fullscreen
       background-color inherit
 

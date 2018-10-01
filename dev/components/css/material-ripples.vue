@@ -10,7 +10,7 @@
       <div
         v-ripple
         tabindex="0"
-        class="relative-position ripple-example bg-grey-3 text-black"
+        class="relative-position ripple-example bg-white text-black"
         style="height: 150px;"
       />
 
@@ -24,7 +24,7 @@
       <div
         v-ripple
         tabindex="0"
-        class="relative-position ripple-example bg-grey-3 text-black"
+        class="relative-position ripple-example bg-white text-black"
         style="height: 50px"
       />
 
@@ -38,7 +38,7 @@
       <div
         v-ripple:primary
         tabindex="0"
-        class="relative-position ripple-example bg-grey-3 text-black"
+        class="relative-position ripple-example bg-white text-black"
         style="height: 50px"
       >
         Primary colored ripple
@@ -57,7 +57,7 @@
         <div
           tabindex="0"
           v-ripple.center
-          class="relative-position ripple-example bg-grey-3 text-black ripple-round"
+          class="relative-position ripple-example bg-white text-black ripple-round"
         >
           Center
         </div>
@@ -65,7 +65,7 @@
         <div
           tabindex="0"
           v-ripple
-          class="relative-position ripple-example bg-grey-3 text-black ripple-round"
+          class="relative-position ripple-example bg-white text-black ripple-round"
         >
           Touch point
         </div>
