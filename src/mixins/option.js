@@ -57,7 +57,7 @@ export default {
       this.$emit('input', value)
       JSON.stringify(value) !== JSON.stringify(this.value) && this.$emit('change', value)
     },
-    __handleKeyDown (e) {
+    __handleKeydown (e) {
       if ([13, 32].includes(e.keyCode)) {
         this.toggle(e, false)
       }
@@ -72,7 +72,7 @@ export default {
         click: this.toggle,
         focus: () => { this.$emit('focus') },
         blur: () => { this.$emit('blur') },
-        keydown: this.__handleKeyDown
+        keydown: this.__handleKeydown
       },
       directives: this.__kebabTag === 'q-toggle' && !this.disable && !this.readonly
         ? [{

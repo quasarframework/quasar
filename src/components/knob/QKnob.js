@@ -48,7 +48,7 @@ export default Vue.extend({
     },
 
     computedTabindex () {
-      return this.editable ? this.tabindex || '0' : '-1'
+      return this.editable ? this.tabindex || '0' : ''
     }
   },
 
@@ -132,7 +132,7 @@ export default Vue.extend({
       !this.dragging && this.__onInput(evt, void 0, true)
     },
 
-    __onKeyDown (evt) {
+    __onKeydown (evt) {
       const keyCode = evt.keyCode
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
         return
@@ -143,7 +143,7 @@ export default Vue.extend({
       this.__onInputValue(between(this.model + offset, this.min, this.max))
     },
 
-    __onKeyUp (ev) {
+    __onKeyup (ev) {
       const keyCode = ev.keyCode
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
         return
@@ -153,6 +153,8 @@ export default Vue.extend({
 
     __onInput (evt, center = this.__getCenter(), emitChange) {
       if (!this.editable) { return }
+
+      this.$el.focus()
 
       const
         height = Math.abs(evt.clientY - center.top),
@@ -233,8 +235,8 @@ export default Vue.extend({
       }),
       nativeOn: {
         click: this.__onClick,
-        keydown: this.__onKeyDown,
-        keyup: this.__onKeyUp
+        keydown: this.__onKeydown,
+        keyup: this.__onKeyup
       },
       directives: this.editable
         ? [{

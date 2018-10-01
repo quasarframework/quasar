@@ -19,7 +19,7 @@
     <p class="caption">Carousel with a base color, Arrows, Quick Navigation, and slides with images.</p>
     <q-carousel
       color="white"
-      arrows
+      handle-arrow-keys
       quick-nav
       height="300px"
     >
@@ -31,7 +31,7 @@
     <p class="caption">Thumbnails</p>
     <q-carousel
       color="white"
-      arrows
+      handle-arrow-keys
       quick-nav
       height="300px"
       :thumbnails="[
@@ -68,7 +68,7 @@
     <p class="caption">Thumbnails - horizontal</p>
     <q-carousel
       color="white"
-      arrows
+      handle-arrow-keys
       quick-nav
       height="300px"
       :thumbnails="[
@@ -100,7 +100,7 @@
     <p class="caption">Example creating custom captions for each slide.</p>
     <q-carousel
       color="white"
-      arrows
+      handle-arrow-keys
       height="400px"
     >
       <q-carousel-slide img-src="statics/mountains.jpg">
@@ -126,7 +126,7 @@
     <p class="caption">Carousel with infinite scroll, auto-play and custom Quick Navigation icon. Second slide has a Youtube video.</p>
     <q-carousel
       color="white"
-      arrows
+      handle-arrow-keys
       quick-nav
       quick-nav-icon="favorite"
       infinite
@@ -264,7 +264,7 @@
       </q-carousel-control>
 
       <q-carousel-control slot="control-progress" slot-scope="carousel" position="bottom" :offset="[42, 100]">
-        <q-progress :percentage="carousel.percentage" stripe color="amber" :animate="autoplay" />
+        <q-linear-progress :value="carousel.percentage" stripe color="amber" :animate="autoplay" />
       </q-carousel-control>
     </q-carousel>
 
@@ -276,7 +276,7 @@
       :easing="overshoot"
       infinite
       autoplay
-      arrows
+      handle-arrow-keys
       color="white"
       height="250px"
     >
@@ -298,7 +298,7 @@
     <q-modal v-model="modal" maximized>
       <q-carousel
         color="white"
-        arrows
+        handle-arrow-keys
         quick-nav
         class="text-white full-height"
       >

@@ -96,7 +96,7 @@ export default Vue.extend({
       return this.$refs.popup ? this.$refs.popup.hide() : Promise.resolve()
     },
 
-    __handleKeyDown (e) {
+    __onKeyup (e) {
       switch (e.keyCode) {
         case 13: // ENTER key
         case 32: // SPACE key
@@ -277,7 +277,7 @@ export default Vue.extend({
         click: this.toggle,
         focus: this.__onFocus,
         blur: this.__onBlur,
-        keydown: this.__handleKeyDown
+        keyup: this.__onKeyup
       }
     }, [
       h('div', {
