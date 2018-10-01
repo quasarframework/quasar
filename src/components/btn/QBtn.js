@@ -33,8 +33,9 @@ export default Vue.extend({
     click (e) {
       if (e.defaultPrevented) { return }
 
-      if (document.activeElement !== this.$el) {
+      if (document.activeElement !== this.$el || (e instanceof PointerEvent && !e.screenX && !e.screenY)) {
         stopAndPrevent(e)
+        e.preventRipple = true
         this.$el.focus()
         return
       }
