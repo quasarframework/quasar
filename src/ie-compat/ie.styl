@@ -39,21 +39,12 @@ ie_style = @block
       display table
 
   /* QBtn */
+  .q-btn__content
+    position relative
+    flex-basis auto
+    pointer-events none
   a.q-btn:not(.q-btn--round)
     height 0px
-  .q-btn
-    .q-btn__content
-      flex-basis auto
-    &:active
-    &.active
-      .q-btn__content
-        margin -1px 1px 1px -1px
-      &.q-btn--push
-        .q-btn__content
-          margin 1px 1px -1px -1px
-        &.disabled
-          .q-btn__content
-            margin -1px 1px 1px -1px
   .q-btn-group > .q-btn.q-btn--push:not(.disabled)
     &:active .q-btn__content
     &.active .q-btn__content

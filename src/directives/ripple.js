@@ -6,7 +6,7 @@ function showRipple (evt, el, ctx) {
   }
 
   let { center, color } = ctx.modifiers
-  center = center || evt.detail <= 0 // comes from keyboard event
+  center = center || evt instanceof KeyboardEvent // comes from keyboard event
 
   const
     node = document.createElement('span'),
@@ -75,13 +75,13 @@ export default {
       modifiers: {},
 
       click (evt) {
-        if (ctx.enabled) {
+        if (ctx.enabled && !evt.preventRipple) {
           showRipple(evt, el, ctx)
         }
       },
 
       keyup (evt) {
-        if (ctx.enabled && !evt.defaultPrevented && evt.keyCode === 13) {
+        if (ctx.enabled && !evt.preventRipple && evt.keyCode === 13) {
           showRipple(evt, el, ctx)
         }
       }
