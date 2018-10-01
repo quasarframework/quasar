@@ -78,7 +78,7 @@ export default Vue.extend({
         ref: `rt${i}`,
         attrs: { tabindex },
         on: {
-          keydown: e => {
+          keyup: e => {
             switch (e.keyCode) {
               case 13:
               case 32:

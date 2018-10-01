@@ -169,7 +169,7 @@ export default Vue.extend({
       }
     },
 
-    __handleKeyDown (e) {
+    __handleKeyup (e) {
       switch (e.keyCode) {
         case 13: // ENTER key
           if (this.shadow.selectionOpen) {
@@ -183,7 +183,7 @@ export default Vue.extend({
           }
           return
         default:
-          return this.__onKeydown(e)
+          return this.__onKeyup(e)
       }
     },
 
@@ -284,8 +284,8 @@ export default Vue.extend({
             input: e => { this.input = e.target.value },
             focus: this.__onFocus,
             blur: this.__onInputBlur,
-            keydown: this.__handleKeyDown,
-            keyup: this.__onKeyup
+            keyup: this.__handleKeyup,
+            keydown: this.__onKeydown
           }
         })
       ])),

@@ -262,7 +262,7 @@ export default Vue.extend({
       this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
     },
 
-    __onKeyDown (ev, type) {
+    __onKeydown (ev, type) {
       const keyCode = ev.keyCode
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
         return
@@ -280,7 +280,7 @@ export default Vue.extend({
       this.__update()
     },
 
-    __onKeyUp (ev, type) {
+    __onKeyup (ev) {
       const keyCode = ev.keyCode
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
         return
@@ -317,8 +317,8 @@ export default Vue.extend({
         ],
         attrs: { tabindex: this.$q.platform.is.desktop ? (this.editable ? 0 : -1) : void 0 },
         on: {
-          keydown: ev => this.__onKeyDown(ev, lower),
-          keyup: ev => this.__onKeyUp(ev, lower)
+          keydown: ev => this.__onKeydown(ev, lower),
+          keyup: ev => this.__onKeyup(ev, lower)
         }
       }, [
         this.label || this.labelAlways

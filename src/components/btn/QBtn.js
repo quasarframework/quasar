@@ -50,30 +50,30 @@ export default Vue.extend({
       this.to !== void 0 && e.navigate !== false && go()
     },
 
-    __onKeyDown (e) {
+    __onKeydown (e) {
       const classes = this.$el.classList
       if ([13, 32].includes(e.keyCode)) {
         !this.isLink && e.preventDefault()
         if (!classes.contains('q-btn--active')) {
           classes.add('q-btn--active')
-          document.addEventListener('keyup', this.__onKeyUpAbort)
+          document.addEventListener('keyup', this.__onKeyupAbort)
         }
       }
     },
-    __onKeyUp (e) {
+    __onKeyup (e) {
       if ([13, 32].includes(e.keyCode)) {
         this.$el.classList.remove('q-btn--active')
         this.$el.dispatchEvent(new MouseEvent('click', Object.assign({}, e)))
       }
     },
-    __onKeyUpAbort (e) {
-      document.removeEventListener('keyup', this.__onKeyUpAbort)
+    __onKeyupAbort (e) {
+      document.removeEventListener('keyup', this.__onKeyupAbort)
       this.$el && this.$el.classList.remove('q-btn--active')
     }
   },
 
   beforeDestroy () {
-    document.removeEventListener('keyup', this.__onKeyUpAbort)
+    document.removeEventListener('keyup', this.__onKeyupAbort)
   },
 
   render (h) {
@@ -84,8 +84,8 @@ export default Vue.extend({
       attrs: this.attrs,
       on: this.isDisabled ? {} : {
         click: this.click,
-        keydown: this.__onKeyDown,
-        keyup: this.__onKeyUp
+        keydown: this.__onKeydown,
+        keyup: this.__onKeyup
       },
       directives: this.hasRipple ? [{
         name: 'ripple',

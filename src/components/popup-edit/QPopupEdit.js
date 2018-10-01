@@ -134,7 +134,7 @@ export default Vue.extend({
         }
       },
       nativeOn: {
-        keydown: e => {
+        keyup: e => {
           if (e.keyCode === 13) {
             this.$refs.popover.hide()
           }

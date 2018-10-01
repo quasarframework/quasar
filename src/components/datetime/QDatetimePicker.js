@@ -470,15 +470,16 @@ export default Vue.extend({
               on: {
                 keydown: e => {
                   const key = e.keyCode
-                  if (key === 38 || key === 39) { // up, right
+                  console.log(key)
+                  if (key === 38 || key === 37) { // up, left
                     stopAndPrevent(e)
                     this.setMonth(this.month - 1, true)
                   }
-                  else if (key === 40 || key === 37) { // down, left
+                  else if (key === 40 || key === 39) { // down, right
                     stopAndPrevent(e)
                     this.setMonth(this.month + 1, true)
                   }
-                  else if (key === 13 || key === 20) { // enter, space
+                  else if (key === 13) { // enter
                     this.view = 'month'
                   }
                 }
@@ -507,7 +508,7 @@ export default Vue.extend({
                     stopAndPrevent(e)
                     this.setDay(this.day + (key === 39 ? 1 : 7), true)
                   }
-                  else if (key === 13 || key === 20) { // enter, space
+                  else if (key === 13) { // enter
                     this.view = 'day'
                   }
                 }
@@ -528,15 +529,15 @@ export default Vue.extend({
               on: {
                 keydown: e => {
                   const key = e.keyCode
-                  if (key === 38 || key === 39) { // up, right
+                  if (key === 38 || key === 37) { // up, left
                     stopAndPrevent(e)
                     this.setYear(this.year - 1, true)
                   }
-                  else if (key === 40 || key === 37) { // down, left
+                  else if (key === 40 || key === 39) { // down, right
                     stopAndPrevent(e)
                     this.setYear(this.year + 1, true)
                   }
-                  else if (key === 13 || key === 20) { // enter, space
+                  else if (key === 13) { // enter
                     this.view = 'year'
                   }
                 }
@@ -602,7 +603,7 @@ export default Vue.extend({
                     stopAndPrevent(e)
                     this.setHour(this.hour + 1, true)
                   }
-                  else if (key === 13 || key === 20) { // enter, space
+                  else if (key === 13) { // enter
                     this.view = 'hour'
                   }
                 }
@@ -639,7 +640,7 @@ export default Vue.extend({
                     stopAndPrevent(e)
                     this.setMinute(this.minute + 1, true)
                   }
-                  else if (key === 13 || key === 20) { // enter, space
+                  else if (key === 13) { // enter
                     this.view = 'minute'
                   }
                 }
@@ -911,7 +912,7 @@ export default Vue.extend({
     this.__amPmEvents = {
       keydown: e => {
         const key = e.keyCode
-        if ([13, 32, 37, 38, 39, 40].includes(key)) { // enter, space, arrows
+        if ([13, 37, 38, 39, 40].includes(key)) { // enter, arrows
           stopAndPrevent(e)
           this.toggleAmPm()
         }

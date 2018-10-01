@@ -62,6 +62,9 @@ export default {
       destroy ? emit() : this.$nextTick(emit)
     },
     __onKeydown (e) {
+      this.$emit('keydown', e)
+    },
+    __onKeyup (e) {
       if (e.keyCode === 13) {
         if (this.type === 'textarea') {
           e.stopPropagation()
@@ -70,9 +73,6 @@ export default {
           this.__emit()
         }
       }
-      this.$emit('keydown', e)
-    },
-    __onKeyup (e) {
       this.$emit('keyup', e)
     },
     __onClick (e) {

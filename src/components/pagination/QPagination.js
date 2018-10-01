@@ -215,7 +215,7 @@ export default Vue.extend({
         },
         on: {
           input: value => (this.newPage = value),
-          keydown: e => (e.keyCode === 13 && this.__update()),
+          keyup: e => (e.keyCode === 13 && this.__update()),
           blur: () => this.__update()
         }
       }))
