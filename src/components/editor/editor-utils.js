@@ -233,7 +233,7 @@ export function getLinkEditor (h, vm) {
         },
         on: {
           input: val => { link = val },
-          keydown: e => {
+          keyup: e => {
             switch (e.keyCode) {
               case 13: // ENTER key
                 return updateLink()

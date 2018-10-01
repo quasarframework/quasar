@@ -53,7 +53,7 @@ export default Vue.extend({
       this.$emit('click', e)
     },
 
-    __onKeydown (e) {
+    __onKeyup (e) {
       e.keyCode === 13 /* ENTER */ && this.__onClick(e)
     }
   },
@@ -70,7 +70,7 @@ export default Vue.extend({
       }
       data[this.hasRouterLink ? 'nativeOn' : 'on'] = {
         click: this.__onClick,
-        keydown: this.__onKeydown
+        keyup: this.__onKeyup
       }
     }
 

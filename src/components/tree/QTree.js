@@ -472,7 +472,7 @@ export default Vue.extend({
             click: () => {
               this.__onClick(node, meta)
             },
-            keydown: e => {
+            keyup: e => {
               if (e.keyCode === 13) { this.__onClick(node, meta) }
               else if (e.keyCode === 32) { this.__onExpandClick(node, meta, e) }
             }

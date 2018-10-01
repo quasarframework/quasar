@@ -38,7 +38,8 @@ export default Vue.extend({
     },
     showValue: Boolean,
     reverse: Boolean,
-    noMotion: Boolean
+    noMotion: Boolean,
+    tabindex: String
   },
 
   computed: {
@@ -46,6 +47,12 @@ export default Vue.extend({
       return {
         width: this.size + 'px',
         height: this.size + 'px'
+      }
+    },
+
+    classes () {
+      return {
+        'q-focusable': this.hasTabindex
       }
     },
 
@@ -90,6 +97,10 @@ export default Vue.extend({
 
     strokeWidth () {
       return this.thickness / this.size * this.viewBox
+    },
+
+    hasTabindex () {
+      return typeof this.tabindex === 'string' && this.tabindex.length && this.tabindex >= 0
     }
   },
 
@@ -115,8 +126,13 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-circular-progress relative-position',
-      style: this.style
+      'class': this.classes,
+      style: this.style,
+      attrs: {
+        tabindex: this.tabindex
+      }
     }, [
+      this.hasTabindex ? h('div', { staticClass: 'q-focus-helper' }) : null,
       h('svg', {
         style: this.svgStyle,
         attrs: {

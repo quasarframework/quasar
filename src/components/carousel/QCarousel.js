@@ -320,7 +320,7 @@ export default Vue.extend({
 
     __setArrowKeys (/* boolean */ state) {
       const op = `${state === true ? 'add' : 'remove'}EventListener`
-      document[op]('keydown', this.__handleArrowKey)
+      document[op]('keyup', this.__handleArrowKey)
     },
 
     __registerSlide () {
