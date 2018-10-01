@@ -188,7 +188,7 @@ export default Vue.extend({
           this.animateTimer = setTimeout(() => {
             newEl.style.transition = 'transform .25s cubic-bezier(.4, 0, .2, 1)'
             newEl.style.transform = 'none'
-          }, 130)
+          }, 30)
         })
       }
 
