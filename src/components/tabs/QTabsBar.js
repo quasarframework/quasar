@@ -173,9 +173,9 @@ export default Vue.extend({
         clearTimeout(this.animateTimer)
 
         oldEl.style.transition = 'none'
-        oldEl.style.transform = null
+        oldEl.style.transform = 'none'
         newEl.style.transition = 'none'
-        newEl.style.transform = null
+        newEl.style.transform = 'none'
 
         const
           oldPos = oldEl.getBoundingClientRect(),
@@ -187,8 +187,8 @@ export default Vue.extend({
         this.$nextTick(() => {
           this.animateTimer = setTimeout(() => {
             newEl.style.transition = 'transform .25s cubic-bezier(.4, 0, .2, 1)'
-            newEl.style.transform = null
-          }, 30)
+            newEl.style.transform = 'none'
+          }, 130)
         })
       }
 
