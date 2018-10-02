@@ -181,7 +181,7 @@ export default Vue.extend({
           oldPos = oldEl.getBoundingClientRect(),
           newPos = newEl.getBoundingClientRect()
 
-        newEl.style.transform = `translateX(${oldPos.left - newPos.left}px) scaleX(${oldPos.width / newPos.width})`
+        newEl.style.transform = `translate3d(${oldPos.left - newPos.left}px, 0, 0) scaleX(${newPos.width ? oldPos.width / newPos.width : 1})`
 
         // allow scope updates to kick in
         this.$nextTick(() => {
