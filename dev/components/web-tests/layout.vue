@@ -51,9 +51,9 @@
       />
       <q-tab slot="title" name="link" label="Link" icon="cloud" color="amber" />
 
-      <q-tab-pane name="link">
+      <q-tab-panel name="link">
         Link Tab
-      </q-tab-pane>
+      </q-tab-panel>
     </q-tabs>
 
     <router-view />

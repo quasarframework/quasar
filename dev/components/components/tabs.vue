@@ -1,7 +1,7 @@
 <template>
   <div class="tabs-demo bg-grey-3 q-py-xl">
     <div class="text-primary">
-      <q-tabs-bar>
+      <q-tabs>
         <q-tab label="Item one" />
         <q-tab label="Item two" />
         <q-tab label="Item three" />
@@ -36,15 +36,15 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
-      </q-tabs-bar>
+      </q-tabs>
 
-      <q-tabs-bar align="right">
+      <q-tabs align="right">
         <q-tab icon="phone" />
         <q-tab icon="favorite" />
         <q-tab icon="location_on" />
-      </q-tabs-bar>
+      </q-tabs>
 
-      <q-tabs-bar inline-label>
+      <q-tabs inline-label>
         <q-tab icon="map">
           <q-chip color="teal" text-color="white" floating>2</q-chip>
         </q-tab>
@@ -54,21 +54,21 @@
         <q-tab icon="map" alert />
         <q-tab icon="map" label="Map" alert />
         <q-tab icon="location_on" />
-      </q-tabs-bar>
+      </q-tabs>
 
-      <q-tabs-bar class="bg-grey-1 text-teal">
+      <q-tabs class="bg-grey-1 text-teal">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
-      </q-tabs-bar>
+      </q-tabs>
 
-      <q-tabs-bar narrow-indicator>
+      <q-tabs narrow-indicator>
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
-      </q-tabs-bar>
+      </q-tabs>
 
-      <q-tabs-bar inline-label class="bg-purple text-white">
+      <q-tabs inline-label class="bg-purple text-white">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
@@ -103,22 +103,22 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
-      </q-tabs-bar>
+      </q-tabs>
 
-      <q-tabs-bar class="bg-teal text-yellow" top-indicator inline-label>
+      <q-tabs class="bg-teal text-yellow" top-indicator inline-label>
         <q-tab icon="phone" label="Item one" />
         <q-tab icon="favorite" label="-- Top indicator --" />
         <q-tab icon="location_on" label="Item three" />
-      </q-tabs-bar>
+      </q-tabs>
 
-      <q-tabs-bar inline-label align="justify" indicator-color="orange">
+      <q-tabs inline-label align="justify" indicator-color="orange">
         <q-tab icon="phone" label="Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
         <q-tab icon="phone" label="Item four" />
         <q-tab icon="favorite" label="Item five" />
         <q-tab icon="location_on" label="Item six" />
-      </q-tabs-bar>
+      </q-tabs>
 
       <div class="row gutter-xs justify-stretch">
         <div class="col-12 col-sm-6 col-md">
@@ -134,7 +134,7 @@
           <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/b#123" label="/tabs/b#123 - select no tab" />
         </div>
       </div>
-      <q-tabs-bar class="test q-mt-sm">
+      <q-tabs class="test q-mt-sm">
         <q-route-tab name="tabs" to="/components/tabs" exact replace label="/tabs" />
         <q-route-tab name="tabs/a" to="/components/tabs/a" exact replace label="/tabs/a" />
         <q-route-tab name="tabs/a *" to="/components/tabs/a" replace label="/tabs/a *" />
@@ -146,7 +146,7 @@
         <q-route-tab name="tabs/b" to="/components/tabs/b" exact replace label="/tabs/b" />
         <q-route-tab name="tabs/b/a" to="/components/tabs/b/a" exact replace label="/tabs/b/a" />
         <q-route-tab name="tabs/c" to="/components/tabs/c" exact replace label="/tabs/c" />
-      </q-tabs-bar>
+      </q-tabs>
 
       <h4>Tabs content (animated, swipeable)</h4>
       <q-option-group
@@ -164,7 +164,7 @@
       <q-toggle v-model="panelTest" label="Panel test; Swap one with two / Remove tab two" />
 
       <div class="shadow-1 q-ma-md">
-        <q-tabs-bar
+        <q-tabs
           v-model="tab"
           active-color="white"
           indicator-color="yellow"
@@ -175,54 +175,57 @@
           <q-tab name="two" icon="favorite" label="Two" />
           <q-tab name="three" icon="location_on" label="Three" />
           <q-tab disable name="four" icon="map" label="Four" />
-        </q-tabs-bar>
+        </q-tabs>
 
-        <q-tabs-content
+        <q-tab-panels
           v-model="tab"
           swipeable
           animated
+          infinite
           class="text-black text-center"
         >
-          <q-tab-pane :name="panelTest ? 'two' : 'one'">
+          <q-tab-panel :name="panelTest ? 'two' : 'one'">
             Tab One <strong v-if="panelTest">(Swapped)</strong> <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
-          </q-tab-pane>
+          </q-tab-panel>
 
-          <q-tab-pane :name="panelTest ? 'one' : 'two'">
+          <q-tab-panel :name="panelTest ? 'one' : 'two'">
             Tab Two <strong v-if="panelTest">(Swapped)</strong>  <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
-          </q-tab-pane>
+          </q-tab-panel>
 
-          <q-tab-pane name="three">
+          <q-tab-panel name="three">
             Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
-          </q-tab-pane>
+          </q-tab-panel>
 
-          <q-tab-pane disable name="four">
-            Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
-          </q-tab-pane>
-        </q-tabs-content>
+          <q-tab-panel disable name="four">
+            Tab Four <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+          </q-tab-panel>
+        </q-tab-panels>
       </div>
 
-      <q-tabs-content
+      <!--
+      <q-tab-panels
         v-model="tab"
         swipeable
         animated
         class="text-black text-center"
       >
-        <q-tab-pane name="one">
+        <q-tab-panel name="one">
           v-if test Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
-        </q-tab-pane>
+        </q-tab-panel>
 
-        <q-tab-pane v-if="!panelTest" name="two">
+        <q-tab-panel v-if="!panelTest" name="two">
           v-if test Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
-        </q-tab-pane>
+        </q-tab-panel>
 
-        <q-tab-pane name="three">
+        <q-tab-panel name="three">
           v-if test Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
-        </q-tab-pane>
+        </q-tab-panel>
 
-        <q-tab-pane disable name="four">
+        <q-tab-panel disable name="four">
           v-if test Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
-        </q-tab-pane>
-      </q-tabs-content>
+        </q-tab-panel>
+      </q-tab-panels>
+      -->
     </div>
   </div>
 </template>
@@ -244,6 +247,6 @@ export default {
 </script>
 
 <style lang="stylus">
-.tabs-demo .q-tabs-bar
+.tabs-demo .q-tabs
   margin-bottom 24px
 </style>

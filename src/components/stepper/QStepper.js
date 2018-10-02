@@ -18,7 +18,6 @@ export default Vue.extend({
     color: String,
     dark: Boolean,
 
-    animated: Boolean,
     flat: Boolean,
     bordered: Boolean,
     vertical: Boolean,
@@ -73,7 +72,10 @@ export default Vue.extend({
           })
         })),
 
-        h('div', { staticClass: 'q-stepper__content relative-position overflow-hidden' }, [
+        h('div', {
+          staticClass: 'q-stepper__content relative-position overflow-hidden',
+          directives: this.panelDirectives
+        }, [
           this.__getPanelContent(h)
         ])
       ]

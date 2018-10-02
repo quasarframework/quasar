@@ -1,19 +1,24 @@
 .q-transition
 
-  &--slide
+  &-animator
+    height 100%
+    > div
+      height 100%
+
+  &--slide-x
     transition transform .6s cubic-bezier(.86, 0, .07, 1)
 
-    &-left
+    &-prev
       &-enter
         transform translate(-100%, 0)
       &-leave, &-leave-to
+        transform translate(100%, 0)
         position absolute
         top 0
         left 0
         right 0
-        transform translate(100%, 0)
 
-    &-right
+    &-next
       &-enter
         transform translate(100%, 0)
       &-leave, &-leave-active
@@ -22,5 +27,43 @@
         left 0
         right 0
       &-leave-to
-        position absolute
         transform translate(-100%, 0)
+        position absolute
+
+  &--slide-y
+    transition transform .6s cubic-bezier(.86, 0, .07, 1)
+
+    &-prev
+      &-enter
+        transform translate(0, -100%)
+      &-leave, &-leave-to
+        transform translate(0, 100%)
+        position absolute
+        top 0
+        left 0
+        right 0
+
+    &-next
+      &-enter
+        transform translate(0, 100%)
+      &-leave, &-leave-active
+        position absolute
+        top 0
+        left 0
+        right 0
+      &-leave-to
+        transform translate(0, -100%)
+        position absolute
+
+  &--fade
+    transition opacity .6s ease-out
+
+    &-prev, &-next
+      &-enter-active, &-leave-active, &-leave-to
+        position absolute
+        top 0
+        left 0
+        right 0
+
+      &-enter, &-leave, &-leave-to
+        opacity 0

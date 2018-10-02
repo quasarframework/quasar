@@ -4,6 +4,8 @@ import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/ripple.js'
 
 export default Vue.extend({
+  name: 'StepHeader',
+
   directives: {
     Ripple
   },

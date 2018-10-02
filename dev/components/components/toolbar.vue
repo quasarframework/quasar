@@ -185,11 +185,11 @@
       <q-toolbar class="bg-primary text-white q-my-md shadow-2">
         <q-btn flat label="Homepage" />
         <q-space />
-        <q-tabs-bar>
+        <q-tabs>
           <q-tab label="Tab 1" />
           <q-tab label="Tab 2" />
           <q-tab label="Tab 3" />
-        </q-tabs-bar>
+        </q-tabs>
       </q-toolbar>
     </div>
   </div>

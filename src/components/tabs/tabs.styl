@@ -57,9 +57,9 @@
   &--inactive
     opacity .85
 
-.q-tabs-bar
+.q-tabs
 
-  &--not-scrollable .q-tabs-bar__arrow
+  &--not-scrollable .q-tabs__arrow
     display none
 
   &__arrow
@@ -85,23 +85,23 @@
     display none
 
 body.mobile
-  .q-tabs-bar
+  .q-tabs
 
     &__content
       overflow auto
 
-    &--scrollable .q-tabs-bar__offset
+    &--scrollable .q-tabs__offset
       display flex
 
-      // also update QTabsBar > extraOffset
+      // also update QTabs > extraOffset
       min-width 52px
 
-  .q-tabs-bar__arrow
+  .q-tabs__arrow
     display none
 
-.q-tabs-content
+.q-tab-panels
   background white
   overflow hidden
 
-.q-tab-pane
+.q-tab-panel
   padding 16px

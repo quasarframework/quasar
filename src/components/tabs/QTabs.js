@@ -8,7 +8,7 @@ function getIndicatorClass (color, top) {
 }
 
 export default Vue.extend({
-  name: 'QTabsBar',
+  name: 'QTabs',
 
   provide () {
     return {
@@ -57,7 +57,7 @@ export default Vue.extend({
       rightArrow: false,
       justify: false,
 
-      // 2 * mobile .q-tabs-bar__offset min-width
+      // 2 * mobile .q-tabs__offset min-width
       extraOffset: this.$q.platform.is.mobile ? 104 : 0
     }
   },
@@ -98,7 +98,7 @@ export default Vue.extend({
         ? 'left'
         : (this.justify ? 'justify' : this.align)
 
-      return `q-tabs-bar__content--align-${align}`
+      return `q-tabs__content--align-${align}`
     }
   },
 
@@ -282,8 +282,8 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-tabs-bar row no-wrap items-center',
-      'class': `q-tabs-bar--${this.scrollable ? '' : 'not-'}scrollable`,
+      staticClass: 'q-tabs row no-wrap items-center',
+      'class': `q-tabs--${this.scrollable ? '' : 'not-'}scrollable`,
       attrs: { role: 'tablist' }
     }, [
       h(QResizeObservable, {
@@ -291,7 +291,7 @@ export default Vue.extend({
       }),
 
       h(QIcon, {
-        staticClass: 'q-tabs-bar__arrow q-tabs-bar__arrow--left q-tab__icon',
+        staticClass: 'q-tabs__arrow q-tabs__arrow--left q-tab__icon',
         'class': this.leftArrow ? '' : 'invisible',
         props: { name: this.leftIcon || this.$q.icon.tabs.left },
         nativeOn: {
@@ -305,16 +305,16 @@ export default Vue.extend({
 
       h('div', {
         ref: 'content',
-        staticClass: 'q-tabs-bar__content row no-wrap items-center',
+        staticClass: 'q-tabs__content row no-wrap items-center',
         'class': this.alignClass
       }, [
-        h('div', { staticClass: 'q-tabs-bar__offset invisible' }, ['-'])
+        h('div', { staticClass: 'q-tabs__offset invisible' }, ['-'])
       ].concat(this.$slots.default).concat([
-        h('div', { staticClass: 'q-tabs-bar__offset invisible' }, ['-'])
+        h('div', { staticClass: 'q-tabs__offset invisible' }, ['-'])
       ])),
 
       h(QIcon, {
-        staticClass: 'q-tabs-bar__arrow q-tabs-bar__arrow--right q-tab__icon',
+        staticClass: 'q-tabs__arrow q-tabs__arrow--right q-tab__icon',
         'class': this.rightArrow ? '' : 'invisible',
         props: { name: this.rightIcon || this.$q.icon.tabs.right },
         nativeOn: {

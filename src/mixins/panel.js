@@ -1,16 +1,41 @@
+import TouchSwipe from '../directives/touch-swipe'
+
 export const PanelParentMixin = {
+  directives: {
+    TouchSwipe
+  },
+
   props: {
     value: {
       type: [Number, String],
       required: true
     },
-    animated: Boolean
+
+    animated: Boolean,
+    infinite: Boolean,
+    swipeable: Boolean,
+
+    transition: {
+      type: String,
+      default: 'q-transition--slide-x'
+    }
   },
 
   data () {
     return {
       panelIndex: null,
-      panelDirection: null
+      panelTransition: null
+    }
+  },
+
+  computed: {
+    panelDirectives () {
+      if (this.swipeable) {
+        return [{
+          name: 'touch-swipe',
+          value: this.__swipe
+        }]
+      }
     }
   },
 
@@ -19,11 +44,11 @@ export const PanelParentMixin = {
       const index = newVal ? this.__getPanelIndex(newVal) : -1
 
       if (this.animated) {
-        this.panelDirection = newVal && this.panelIndex !== -1
+        this.panelTransition = newVal && this.panelIndex !== -1
           ? (
             index < this.__getPanelIndex(oldVal)
-              ? 'left'
-              : 'right'
+              ? this.transition + '-prev'
+              : this.transition + '-next'
           )
           : null
       }
@@ -48,25 +73,47 @@ export const PanelParentMixin = {
     },
 
     __getPanelIndex (name) {
-      return this.$slots.default.findIndex(
-        panel => panel.componentOptions && panel.componentOptions.propsData.name === name
+      return this.$slots.default.findIndex(panel => {
+        const opt = panel.componentOptions
+        return opt &&
+          opt.propsData.name === name &&
+          opt.propsData.disable !== '' &&
+          opt.propsData.disable !== false
+      })
+    },
+
+    __getPanels () {
+      return this.$slots.default.filter(
+        panel => panel.componentOptions !== void 0 && panel.componentOptions.propsData.name !== void 0
       )
     },
 
-    __go (direction) {
-      let index = this.panelIndex + direction
+    __go (direction, startIndex = this.panelIndex) {
+      let index = startIndex + direction
       const slots = this.$slots.default
 
       while (index > -1 && index < slots.length) {
         const opt = slots[index].componentOptions
 
-        if (opt && opt.propsData.disable !== '' && opt.propsData.disable !== true) {
+        if (
+          opt !== void 0 &&
+          opt.propsData.disable !== '' &&
+          opt.propsData.disable !== true
+        ) {
           this.$emit('input', slots[index].componentOptions.propsData.name)
-          break
+          return
         }
 
         index += direction
       }
+
+      if (this.infinite && slots.length > 0 && startIndex !== -1 && startIndex !== slots.length) {
+        this.__go(direction, direction === -1 ? slots.length : -1)
+      }
+    },
+
+    __swipe (evt) {
+      this.__go(evt.direction === 'left' ? 1 : -1)
     },
 
     __updatePanelIndex () {
@@ -84,23 +131,19 @@ export const PanelParentMixin = {
         this.__updatePanelIndex() &&
         this.$slots.default[this.panelIndex]
 
-      return panel ? [
+      return [
         this.animated ? h('transition', {
           props: {
-            name: this.panelDirection
-              ? 'q-transition--slide-' + this.panelDirection
-              : null
+            name: this.panelTransition
           }
         }, [
-          h('div', { key: this.value, staticClass: 'q-transition--slide' }, [ panel ])
+          h('div', {
+            key: this.value,
+            staticClass: 'q-transition-animator',
+            'class': this.transition
+          }, [ panel ])
         ]) : panel
-      ] : null
-    },
-
-    __getPanels () {
-      return this.$slots.default.filter(
-        panel => panel.componentOptions && panel.componentOptions.propsData.name
-      )
+      ]
     }
   }
 }

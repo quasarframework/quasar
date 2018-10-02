@@ -1,13 +1,13 @@
-import QTabsBar from './QTabsBar.js'
+import QTabs from './QTabs.js'
 import QTab from './QTab.js'
 import QRouteTab from './QRouteTab.js'
-import QTabsContent from './QTabsContent.js'
-import QTabPane from './QTabPane.js'
+import QTabPanels from './QTabPanels.js'
+import QTabPanel from './QTabPanel.js'
 
 export {
-  QTabsBar,
+  QTabs,
   QTab,
   QRouteTab,
-  QTabsContent,
-  QTabPane
+  QTabPanels,
+  QTabPanel
 }
