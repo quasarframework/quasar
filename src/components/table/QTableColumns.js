@@ -12,7 +12,8 @@ export default {
       type: Array,
       required: true
     },
-    color: String
+    color: String,
+    dark: Boolean
   },
   computed: {
     computedOptions () {
@@ -31,6 +32,7 @@ export default {
         options: this.computedOptions,
         displayValue: this.label || this.$q.i18n.table.columns,
         color: this.color,
+        dark: this.dark,
         hideUnderline: true
       },
       on: {
