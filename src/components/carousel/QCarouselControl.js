@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 export default Vue.extend({
   name: 'QCarouselControl',
 
@@ -14,10 +15,10 @@ export default Vue.extend({
   },
 
   computed: {
-    computedClass () {
+    classes () {
       return `absolute-${this.position}`
     },
-    computedStyle () {
+    style () {
       return {
         margin: `${this.offset[1]}px ${this.offset[0]}px`
       }
@@ -26,9 +27,9 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-carousel-control absolute',
-      style: this.computedStyle,
-      'class': this.computedClass
+      staticClass: 'q-carousel__control absolute',
+      style: this.style,
+      'class': this.classes
     }, this.$slots.default)
   }
 })

@@ -28,7 +28,7 @@ export default {
   carousel: {
     left: 'ion-ios-arrow-back',
     right: 'ion-ios-arrow-forward',
-    quickNav: 'ion-square',
+    navigationIcon: 'ion-square',
     thumbnails: 'ion-grid'
   },
   checkbox: {

@@ -61,8 +61,9 @@ export default Vue.extend({
             [`q-stepper__header--${this.alternativeLabels ? 'alternative' : 'standard'}-labels`]: true,
             'q-stepper__header--border': !this.flat || this.bordered
           }
-        }, this.__getPanels().map(panel => {
+        }, this.__getAllPanels().map(panel => {
           const step = panel.componentOptions.propsData
+
           return h(StepHeader, {
             key: step.name,
             props: {

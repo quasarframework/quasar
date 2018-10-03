@@ -1,7 +1,7 @@
 import { between } from '../../utils/format.js'
 
 function width (val) {
-  return { width: `${val}%` }
+  return { width: `${val * 100}%` }
 }
 
 import Vue from 'vue'
@@ -32,11 +32,11 @@ export default Vue.extend({
 
   computed: {
     model () {
-      return between(this.value, 0, 100)
+      return between(this.value, 0, 1)
     },
 
     bufferModel () {
-      return between(this.buffer || 0, 0, 100 - this.model)
+      return between(this.buffer || 0, 0, 1 - this.model)
     },
 
     bufferStyle () {
@@ -44,7 +44,7 @@ export default Vue.extend({
     },
 
     trackStyle () {
-      return width(100 - (this.buffer || 0))
+      return width(1 - (this.buffer || 0))
     },
 
     trackClass () {

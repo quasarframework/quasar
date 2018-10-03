@@ -1,17 +1,85 @@
 .q-carousel
 
+  &__slide
+    height 100%
+    padding $carousel-padding
+
+  &__slides-container
+    height 400px
+
   &__control
     color white
 
-  &__left-arrow,
-  &__right-arrow
-    top 50%
-    transform translateY(-50%)
-    background $carousel-quick-nav-background
 
-  &__left-arrow
-    left 5px
-  &__right-arrow
-    right 5px
+  &__prev-arrow,
+  &__next-arrow
+    .q-icon
+      font-size 46px
 
 
+  &__navigation
+
+    .q-btn
+      margin 6px 4px
+      padding 5px
+    .q-btn:not(.q-carousel__navigation-icon--active)
+      opacity .5
+
+    img
+      margin 2px
+      height 50px
+      width auto
+      display inline-block
+      cursor pointer
+      border 1px solid transparent
+      vertical-align middle
+      opacity .8
+      transition opacity .3s
+
+      &:hover, &.q-carousel__thumbnail--active
+        opacity 1
+      &.q-carousel__thumbnail--active
+        border-color white
+        cursor default
+
+  &--horizontal
+
+    &.q-carousel--navigation .q-carousel__slide
+      padding-bottom 50px
+    &.q-carousel--arrows .q-carousel__slide
+      padding-left 56px
+      padding-right 56px
+
+    .q-carousel
+      &__navigation
+        padding-bottom 8px
+
+      &__prev-arrow,
+      &__next-arrow
+        top 50%
+        transform translateY(-50%)
+      &__prev-arrow
+        left 4px
+      &__next-arrow
+        right 4px
+
+  &--vertical
+
+    &.q-carousel--navigation .q-carousel__slide
+      padding-right 50px
+    &.q-carousel--arrows .q-carousel__slide
+      padding-top 56px
+      padding-bottom 56px
+
+    .q-carousel
+      &__navigation
+        padding-right 8px
+
+      &__prev-arrow,
+      &__next-arrow
+        left 50%
+        transform translateX(-50%) rotate(90deg)
+      &__prev-arrow
+        top 4px
+      &__next-arrow
+        bottom 4px

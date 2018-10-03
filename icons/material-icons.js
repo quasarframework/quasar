@@ -28,7 +28,7 @@ export default {
   carousel: {
     left: 'chevron_left',
     right: 'chevron_right',
-    quickNav: 'lens',
+    navigationIcon: 'lens',
     thumbnails: 'view_carousel'
   },
   checkbox: {

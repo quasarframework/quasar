@@ -38,7 +38,7 @@
         </q-btn-dropdown>
       </q-tabs>
 
-      <q-tabs align="right">
+      <q-tabs :breakpoint="1000" align="right">
         <q-tab icon="phone" />
         <q-tab icon="favorite" />
         <q-tab icon="location_on" />
@@ -202,11 +202,11 @@
         </q-tab-panels>
       </div>
 
-      <!--
       <q-tab-panels
         v-model="tab"
         swipeable
         animated
+        transition="q-transition--slide-y"
         class="text-black text-center"
       >
         <q-tab-panel name="one">
@@ -222,10 +222,34 @@
         </q-tab-panel>
 
         <q-tab-panel disable name="four">
-          v-if test Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+          v-if test Tab Four <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
         </q-tab-panel>
       </q-tab-panels>
-      -->
+
+      <q-tab-panels
+        v-model="tab"
+        swipeable
+        animated
+        transition="q-transition--fade"
+        style="height: 150px"
+        class="q-mt-lg text-black text-center"
+      >
+        <q-tab-panel name="one">
+          Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+        </q-tab-panel>
+
+        <q-tab-panel name="two">
+          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
+        </q-tab-panel>
+
+        <q-tab-panel name="three">
+          Tab Three <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+        </q-tab-panel>
+
+        <q-tab-panel disable name="four">
+          Tab Four <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
+        </q-tab-panel>
+      </q-tab-panels>
     </div>
   </div>
 </template>

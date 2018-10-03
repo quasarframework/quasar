@@ -77,18 +77,18 @@
 export default {
   data () {
     return {
-      progress: 67,
-      progressBuffer: 41,
-      buffer: 17
+      progress: 0.67,
+      progressBuffer: 0.41,
+      buffer: 0.17
     }
   },
   methods: {
     randomize () {
-      this.progress = Math.round(Math.random() * 100)
+      this.progress = Math.random()
     },
     randomizeBuffer () {
-      this.progressBuffer = Math.round(Math.random() * 51)
-      this.buffer = Math.round(Math.random() * 47)
+      this.progressBuffer = Math.random() * 0.51
+      this.buffer = Math.random() * 0.47
     }
   }
 }

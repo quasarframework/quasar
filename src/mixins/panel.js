@@ -55,6 +55,10 @@ export const PanelParentMixin = {
 
       if (this.panelIndex !== index) {
         this.panelIndex = index
+        this.$emit('before-transition', newVal, oldVal)
+        this.$nextTick(() => {
+          this.$emit('transition', newVal, oldVal)
+        })
       }
     }
   },
@@ -82,10 +86,20 @@ export const PanelParentMixin = {
       })
     },
 
-    __getPanels () {
+    __getAllPanels () {
       return this.$slots.default.filter(
         panel => panel.componentOptions !== void 0 && panel.componentOptions.propsData.name !== void 0
       )
+    },
+
+    __getAvailablePanels () {
+      return this.$slots.default.filter(panel => {
+        const opt = panel.componentOptions
+        return opt &&
+          opt.propsData.name !== void 0 &&
+          opt.propsData.disable !== '' &&
+          opt.propsData.disable !== false
+      })
     },
 
     __go (direction, startIndex = this.panelIndex) {
