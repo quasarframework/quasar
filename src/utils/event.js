@@ -37,6 +37,20 @@ export function rightClick (e) {
   return e.button === 2
 }
 
+export function position (e) {
+  if (e.touches && e.touches[0]) {
+    e = e.touches[0]
+  }
+  else if (e.changedTouches && e.changedTouches[0]) {
+    e = e.changedTouches[0]
+  }
+
+  return {
+    top: e.clientY,
+    left: e.clientX
+  }
+}
+
 export function getEventPath (e) {
   if (e.path) {
     return e.path
@@ -92,6 +106,7 @@ export default {
   leftClick,
   middleClick,
   rightClick,
+  position,
   getEventPath,
   getMouseWheelDistance,
   stopAndPrevent

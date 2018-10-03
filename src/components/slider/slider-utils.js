@@ -1,8 +1,12 @@
 import { between } from '../../utils/format.js'
+import { position } from '../../utils/event.js'
 import TouchPan from '../../directives/touch-pan.js'
 
 export function getPercentage (evt, dragging, rtl) {
-  const val = between((evt.clientX - dragging.left) / dragging.width, 0, 1)
+  const
+    pos = position(evt),
+    val = between((pos.left - dragging.left) / dragging.width, 0, 1)
+
   return rtl ? 1.0 - val : val
 }
 

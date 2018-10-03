@@ -1,4 +1,4 @@
-import { leftClick } from '../utils/event.js'
+import { position, leftClick } from '../utils/event.js'
 
 function getDirection (mod) {
   let dir = {}
@@ -40,6 +40,7 @@ export default {
     let ctx = {
       handler: binding.value,
       threshold: parseInt(binding.arg, 10) || 300,
+      mod: binding.modifiers,
       direction: getDirection(binding.modifiers),
 
       mouseStart (evt) {
@@ -56,9 +57,11 @@ export default {
       },
 
       start (evt) {
+        const pos = position(evt)
+
         ctx.event = {
-          x: evt.clientX,
-          y: evt.clientY,
+          x: pos.left,
+          y: pos.top,
           time: new Date().getTime(),
           detected: false,
           abort: false
@@ -83,9 +86,10 @@ export default {
         }
 
         const
-          distX = evt.clientX - ctx.event.x,
+          pos = position(evt),
+          distX = pos.left - ctx.event.x,
           absX = Math.abs(distX),
-          distY = evt.clientX - ctx.event.y,
+          distY = pos.top - ctx.event.y,
           absY = Math.abs(distY)
 
         if (absX === absY) {
@@ -119,10 +123,11 @@ export default {
         evt.preventDefault()
 
         let
+          pos = position(evt),
           direction,
-          distX = evt.clientX - ctx.event.x,
+          distX = pos.left - ctx.event.x,
           absX = Math.abs(distX),
-          distY = evt.clientY - ctx.event.y,
+          distY = pos.top - ctx.event.y,
           absY = Math.abs(distY)
 
         if (absX >= absY) {

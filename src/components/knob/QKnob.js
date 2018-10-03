@@ -1,4 +1,4 @@
-import { stopAndPrevent } from '../../utils/event.js'
+import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 import { offset, height, width } from '../../utils/dom.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
@@ -157,19 +157,20 @@ export default Vue.extend({
       this.$el.focus()
 
       const
-        height = Math.abs(evt.clientY - center.top),
+        pos = position(evt),
+        height = Math.abs(pos.top - center.top),
         distance = Math.sqrt(
           height ** 2 +
-          Math.abs(evt.clientX - center.left) ** 2
+          Math.abs(pos.left - center.left) ** 2
         )
 
       let angle = Math.asin(height / distance) * (180 / Math.PI)
 
-      if (evt.clientY < center.top) {
-        angle = center.left < evt.clientX ? 90 - angle : 270 + angle
+      if (pos.top < center.top) {
+        angle = center.left < pos.left ? 90 - angle : 270 + angle
       }
       else {
-        angle = center.left < evt.clientX ? angle + 90 : 270 - angle
+        angle = center.left < pos.left ? angle + 90 : 270 - angle
       }
 
       if (this.angle) {

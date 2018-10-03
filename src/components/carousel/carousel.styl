@@ -10,14 +10,26 @@
   &__control
     color white
 
-
   &__prev-arrow,
   &__next-arrow
+    top 50%
+    transform translateY(-50%)
     .q-icon
       font-size 46px
 
+  &__prev-arrow
+    left 4px
+  &__next-arrow
+    right 4px
 
   &__navigation
+    padding 0 8px 8px
+    left 0
+    right 0
+    bottom 0
+
+    &-inner
+      flex 1 1 auto
 
     .q-btn
       margin 6px 4px
@@ -42,44 +54,9 @@
         border-color white
         cursor default
 
-  &--horizontal
+  &.q-carousel--navigation .q-carousel__slide
+    padding-bottom 50px
 
-    &.q-carousel--navigation .q-carousel__slide
-      padding-bottom 50px
-    &.q-carousel--arrows .q-carousel__slide
-      padding-left 56px
-      padding-right 56px
-
-    .q-carousel
-      &__navigation
-        padding-bottom 8px
-
-      &__prev-arrow,
-      &__next-arrow
-        top 50%
-        transform translateY(-50%)
-      &__prev-arrow
-        left 4px
-      &__next-arrow
-        right 4px
-
-  &--vertical
-
-    &.q-carousel--navigation .q-carousel__slide
-      padding-right 50px
-    &.q-carousel--arrows .q-carousel__slide
-      padding-top 56px
-      padding-bottom 56px
-
-    .q-carousel
-      &__navigation
-        padding-right 8px
-
-      &__prev-arrow,
-      &__next-arrow
-        left 50%
-        transform translateX(-50%) rotate(90deg)
-      &__prev-arrow
-        top 4px
-      &__next-arrow
-        bottom 4px
+  &.q-carousel--arrows .q-carousel__slide
+    padding-left 56px
+    padding-right 56px

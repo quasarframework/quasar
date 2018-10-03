@@ -1,15 +1,14 @@
 <template>
   <div class="layout-padding docs-carousel" style="max-width: 700px">
     <p class="caption">
-      Basic Carousel. No controls. Just swipe between slides or
-      use you mouse to drag slides to left or right.
+      Basic Carousel. No controls. Just swipe between slides (you can use
+      mouse to swipe too) to navigate left or right.
     </p>
     <p>
-      <q-toggle v-model="vertical" label="Vertical" />
       <q-toggle v-model="arrows" label="Show arrows" class="q-ml-sm" />
     </p>
     <q-carousel
-      :transition="`q-transition--slide-${vertical ? 'y' : 'x'}`"
+      transition="q-transition--slide-x"
       swipeable
       animated
       v-model="slide"
@@ -17,9 +16,8 @@
       navigation-icon="radio_button_unchecked"
       navigation
       padding
-      :vertical="vertical"
       :arrows="arrows"
-      :height="vertical ? '300px' : '200px'"
+      height="200px"
       class="bg-white shadow-1 generic-border-radius"
     >
       <q-carousel-slide :name="1" class="column no-wrap flex-center">
@@ -106,7 +104,6 @@
     </q-carousel>
 
     <p class="caption">Carousel with Arrows, Navigation, and Slides with images.</p>
-    <p><q-toggle v-model="vertical" label="Vertical" /></p>
     <q-carousel
       swipeable
       animated
@@ -115,7 +112,6 @@
       :autoplay="autoplay"
       navigation
       infinite
-      :vertical="vertical"
     >
       <q-carousel-slide :name="1" img-src="statics/mountains.jpg" />
       <q-carousel-slide :name="2" img-src="statics/parallax1.jpg" />
@@ -185,7 +181,6 @@ export default {
     slide3: 1,
     slide4: 'first',
     autoplay: true,
-    vertical: false,
     arrows: false,
     lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
     colors: [

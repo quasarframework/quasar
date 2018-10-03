@@ -1,4 +1,5 @@
 import { css } from '../utils/dom.js'
+import { position } from '../utils/event.js'
 
 function showRipple (evt, el, ctx) {
   if (ctx.modifiers.stop === true) {
@@ -11,14 +12,14 @@ function showRipple (evt, el, ctx) {
   const
     node = document.createElement('span'),
     innerNode = document.createElement('span'),
-
+    pos = position(evt),
     { left, top, width, height } = el.getBoundingClientRect(),
     diameter = Math.sqrt(width * width + height * height),
     radius = diameter / 2,
     centerX = `${(width - diameter) / 2}px`,
-    x = center ? centerX : `${evt.clientX - left - radius}px`,
+    x = center ? centerX : `${pos.left - left - radius}px`,
     centerY = `${(height - diameter) / 2}px`,
-    y = center ? centerY : `${evt.clientY - top - radius}px`
+    y = center ? centerY : `${pos.top - top - radius}px`
 
   innerNode.className = 'q-ripple__inner'
   css(innerNode, {

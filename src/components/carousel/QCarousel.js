@@ -4,8 +4,6 @@ import QBtn from '../btn/QBtn.js'
 import { PanelParentMixin } from '../../mixins/panel.js'
 import { isNumber } from '../../utils/is.js'
 
-const navigationClasses = 'q-carousel__control q-carousel__navigation no-wrap justify-center'
-
 export default Vue.extend({
   name: 'QCarousel',
 
@@ -18,8 +16,6 @@ export default Vue.extend({
     transition: {
       default: 'q-transition--fade'
     },
-
-    vertical: Boolean,
 
     controlColor: String,
     autoplay: [Number, Boolean],
@@ -44,10 +40,11 @@ export default Vue.extend({
     },
 
     classes () {
-      return {
-        [`q-carousel--${this.vertical ? 'vertical' : 'horizontal'}`]: true,
-        'q-carousel--arrows': this.padding && this.arrows,
-        'q-carousel--navigation': this.padding && this.navigation
+      if (this.padding) {
+        return {
+          'q-carousel--arrows': this.arrows,
+          'q-carousel--navigation': this.navigation
+        }
       }
     },
 
@@ -64,14 +61,6 @@ export default Vue.extend({
 
     navIcon () {
       return this.navigationIcon || this.$q.icon.carousel.navigationIcon
-    },
-
-    controlClass () {
-      return {
-        [`text-${this.controlColor}`]: this.controlColor,
-        'absolute-right column scroll-y': this.vertical,
-        'absolute-bottom row scroll-x': !this.vertical
-      }
     }
   },
 
@@ -95,47 +84,15 @@ export default Vue.extend({
   },
 
   methods: {
-    __getNavigation (h) {
+    __getNavigationContainer (h, type, mapping) {
       return h('div', {
-        staticClass: navigationClasses + ' q-carousel__navigation--buttons',
-        'class': this.controlClass
-      }, this.__getAvailablePanels().map(panel => {
-        const name = panel.componentOptions.propsData.name
-
-        return h(QBtn, {
-          key: name,
-          staticClass: 'q-carousel__navigation-icon',
-          'class': { 'q-carousel__navigation-icon--active': name === this.value },
-          props: {
-            icon: this.navIcon,
-            round: true,
-            flat: true,
-            size: 'sm'
-          },
-          on: {
-            click: () => { this.goTo(name) }
-          }
-        })
-      }))
-    },
-
-    __getThumbnails (h) {
-      return h('div', {
-        staticClass: navigationClasses + ' q-carousel__navigation--thumbnails',
-        'class': this.controlClass
-      }, this.__getAvailablePanels().map(panel => {
-        const slide = panel.componentOptions.propsData
-
-        return h('img', {
-          'class': { 'q-carousel__thumbnail--active': slide.name === this.value },
-          attrs: {
-            src: slide.imgSrc
-          },
-          on: {
-            click: () => { this.goTo(slide.name) }
-          }
-        })
-      }))
+        staticClass: 'q-carousel__control q-carousel__navigation no-wrap absolute flex scroll-x q-carousel__navigation--' + type,
+        'class': this.controlColor ? `text-${this.controlColor}` : null
+      }, [
+        h('div', {
+          staticClass: 'q-carousel__navigation-inner flex no-wrap justify-center'
+        }, this.__getAvailablePanels().map(mapping))
+      ])
     },
 
     __getContent (h) {
@@ -159,18 +116,42 @@ export default Vue.extend({
       }
 
       if (this.navigation) {
-        node.push(this.__getNavigation(h))
+        node.push(this.__getNavigationContainer(h, 'buttons', panel => {
+          const name = panel.componentOptions.propsData.name
+
+          return h(QBtn, {
+            key: name,
+            staticClass: 'q-carousel__navigation-icon',
+            'class': { 'q-carousel__navigation-icon--active': name === this.value },
+            props: {
+              icon: this.navIcon,
+              round: true,
+              flat: true,
+              size: 'sm'
+            },
+            on: {
+              click: () => { this.goTo(name) }
+            }
+          })
+        }))
       }
       else if (this.thumbnails) {
-        node.push(this.__getThumbnails(h))
+        node.push(this.__getNavigationContainer(h, 'thumbnails', panel => {
+          const slide = panel.componentOptions.propsData
+
+          return h('img', {
+            'class': { 'q-carousel__thumbnail--active': slide.name === this.value },
+            attrs: {
+              src: slide.imgSrc
+            },
+            on: {
+              click: () => { this.goTo(slide.name) }
+            }
+          })
+        }))
       }
 
       return node.concat(this.$slots.control)
-    },
-
-    __swipe (evt) {
-      const dir = this.vertical ? 'up' : 'left'
-      this.__go(evt.direction === dir ? 1 : -1)
     }
   },
 

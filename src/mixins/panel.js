@@ -33,7 +33,10 @@ export const PanelParentMixin = {
       if (this.swipeable) {
         return [{
           name: 'touch-swipe',
-          value: this.__swipe
+          value: this.__swipe,
+          modifiers: {
+            horizontal: true
+          }
         }]
       }
     }

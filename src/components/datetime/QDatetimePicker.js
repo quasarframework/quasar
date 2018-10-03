@@ -1,5 +1,5 @@
 import { height, width, offset } from '../../utils/dom.js'
-import { stopAndPrevent } from '../../utils/event.js'
+import { position, stopAndPrevent } from '../../utils/event.js'
 import QBtn from '../btn/QBtn.js'
 import { isSameDate, isValid, adjustDate } from '../../utils/date.js'
 import DateMixin from './datetime-mixin.js'
@@ -417,18 +417,19 @@ export default Vue.extend({
         return this[this.view === 'hour' ? 'setHour' : 'setMinute'](value)
       }
       let
-        height = Math.abs(evt.clientY - this.centerClockPos.top),
+        pos = position(evt),
+        height = Math.abs(pos.top - this.centerClockPos.top),
         distance = Math.sqrt(
           height ** 2 +
-          Math.abs(evt.clientX - this.centerClockPos.left)
+          Math.abs(pos.left - this.centerClockPos.left)
         ),
         angle = Math.asin(height / distance) * (180 / Math.PI)
 
-      if (evt.clientY < this.centerClockPos.top) {
-        angle = this.centerClockPos.left < evt.clientX ? 90 - angle : 270 + angle
+      if (pos.top < this.centerClockPos.top) {
+        angle = this.centerClockPos.left < pos.left ? 90 - angle : 270 + angle
       }
       else {
-        angle = this.centerClockPos.left < evt.clientX ? angle + 90 : 270 - angle
+        angle = this.centerClockPos.left < pos.left ? angle + 90 : 270 - angle
       }
 
       if (this.view === 'hour') {

@@ -1,4 +1,4 @@
-import { leftClick } from '../utils/event.js'
+import { position, leftClick } from '../utils/event.js'
 
 function updateBinding (el, binding) {
   const ctx = el.__qtouchhold
@@ -47,10 +47,7 @@ export default {
 
           ctx.handler({
             evt,
-            position: {
-              top: evt.clientY,
-              left: evt.clientX
-            },
+            position: position(evt),
             duration: new Date().getTime() - startTime
           })
         }, ctx.duration)
