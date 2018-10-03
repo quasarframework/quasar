@@ -15,7 +15,8 @@ export default Vue.extend({
       type: Array,
       required: true
     },
-    color: String
+    color: String,
+    dark: Boolean
   },
 
   computed: {
@@ -36,6 +37,7 @@ export default Vue.extend({
         options: this.computedOptions,
         displayValue: this.label || this.$q.i18n.table.columns,
         color: this.color,
+        dark: this.dark,
         hideUnderline: true
       },
       on: {
