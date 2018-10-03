@@ -45,6 +45,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Bobby Ross
 - Netanel Edri
 - Edinei Cipriani
+- Andy Burnett
 
 ---
 
@@ -120,6 +121,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Tanya Trimbakova
 - eae
 - Tomer Shalev
+- Ildemaro Martinez Jr.
+- Uri Levitsky
 
 - Jim O'Quinn ($5)
 - Ken ($5)
