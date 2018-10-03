@@ -44,6 +44,24 @@ function show (options) {
 }
 
 export default {
+  /*
+  mounted () {
+    this.$q.loading.hide()
+    this.$q.loading.hide()
+    this.$q.loading.show()
+    this.$q.loading.hide()
+    this.$q.loading.show()
+    this.$q.loading.show()
+    this.$q.loading.hide()
+    this.$q.loading.show({
+      message: 'gigi'
+    })
+    setTimeout(() => {
+      this.$q.loading.hide()
+    }, 5000)
+  },
+  */
+
   methods: {
     noMessage () {
       show()

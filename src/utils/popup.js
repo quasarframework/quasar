@@ -1,4 +1,5 @@
 import { getScrollbarWidth } from './scroll.js'
+import { position } from './event.js'
 
 export function getAnchorPosition (el, offset) {
   let
@@ -97,10 +98,7 @@ export function setPosition ({el, animate, anchorEl, anchorOrigin, selfOrigin, m
   el.style.maxWidth = '100vw'
 
   if (event && (!anchorClick || touchPosition)) {
-    const
-      top = event.clientY,
-      left = event.clientY
-
+    const { top, left } = position(event)
     anchor = {top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1}
   }
   else {

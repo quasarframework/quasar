@@ -1,8 +1,9 @@
 import QSpinner from '../components/spinner/QSpinner.js'
 import { isSSR } from './platform.js'
+import uid from '../utils/uid.js'
 
 let
-  vm,
+  vm = null,
   timeout,
   props = {},
   defaults = {
@@ -15,7 +16,7 @@ let
     customClass: false
   }
 
-const staticClass = 'q-loading animate-fade fullscreen column flex-center z-max'
+const staticClass = 'q-loading q-transition--fade fullscreen column flex-center z-max'
 
 export default {
   isActive: false,
@@ -30,7 +31,12 @@ export default {
     }
 
     if (this.isActive) {
-      vm && vm.$forceUpdate()
+      if (vm) {
+        if (!vm.isActive) {
+          vm.isActive = true
+        }
+        vm.$forceUpdate()
+      }
       return
     }
 
@@ -44,23 +50,41 @@ export default {
       vm = new this.__Vue({
         name: 'QLoading',
         el: node,
+        data () {
+          return {
+            isActive: true
+          }
+        },
         render (h) {
-          return h('div', {
-            staticClass,
-            'class': props.customClass
+          return h('transition', {
+            props: {
+              name: 'q-transition--fade-next',
+              appear: true
+            },
+            on: {
+              'after-leave': () => {
+                this.$emit('destroy')
+              }
+            }
           }, [
-            h(props.spinner, {
-              props: {
-                color: props.spinnerColor,
-                size: props.spinnerSize
-              }
-            }),
-            (props.message && h('div', {
-              'class': `text-${props.messageColor}`,
-              domProps: {
-                innerHTML: props.message
-              }
-            })) || void 0
+            this.isActive ? h('div', {
+              staticClass,
+              key: uid(),
+              'class': props.customClass
+            }, [
+              h(props.spinner, {
+                props: {
+                  color: props.spinnerColor,
+                  size: props.spinnerSize
+                }
+              }),
+              (props.message && h('div', {
+                'class': `text-${props.messageColor}`,
+                domProps: {
+                  innerHTML: props.message
+                }
+              })) || void 0
+            ]) : null
           ])
         }
       })
@@ -68,6 +92,7 @@ export default {
 
     this.isActive = true
   },
+
   hide () {
     if (!this.isActive) {
       return
@@ -76,16 +101,20 @@ export default {
     if (timeout) {
       clearTimeout(timeout)
       timeout = null
+      this.isActive = false
     }
     else {
-      vm.$destroy()
-      document.body.classList.remove('with-loading')
-      vm.$el.remove()
-      vm = null
+      vm.isActive = false
+      vm.$on('destroy', () => {
+        vm.$destroy()
+        document.body.classList.remove('with-loading')
+        vm.$el.remove()
+        vm = null
+        this.isActive = false
+      })
     }
-
-    this.isActive = false
   },
+
   setDefaults (opts) {
     Object.assign(defaults, opts)
   },

@@ -8,7 +8,7 @@ import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import EscapeKey from '../../utils/escape-key.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import { listenOpts } from '../../utils/event.js'
+import { position, listenOpts } from '../../utils/event.js'
 import CanRenderMixinMixin from '../../mixins/can-render.js'
 
 import Vue from 'vue'
@@ -210,7 +210,8 @@ export default Vue.extend({
 
       if (animate) {
         if (this.touchPosition) {
-          this.touchOffset = { left: evt.clientY - left, top: evt.clientY - top }
+          const pos = position(evt)
+          this.touchOffset = { left: pos.left - left, top: pos.top - top }
         }
         else {
           delete this.touchOffset
