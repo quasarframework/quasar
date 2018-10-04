@@ -1,13 +1,13 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-layout-header>
+    <q-header>
       <q-toolbar color="primary" glossy>
         <q-toolbar-title>
           First Layout
           <div slot="subtitle">Running on Quasar v{{ $q.version }}</div>
         </q-toolbar-title>
       </q-toolbar>
-    </q-layout-header>
+    </q-header>
 
     <q-page-container>
       <router-view />

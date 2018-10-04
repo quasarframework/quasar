@@ -13,24 +13,25 @@ $layout-transition = all .12s ease-in
       min-height 0
       max-height 100%
 
-.q-layout__header
-  &--hidden
-    transform translate3d(0, -110%, 0)
+.q-header--hidden
+  transform translate3d(0, -110%, 0)
 
-.q-layout__footer
-  &--hidden
-    transform translate3d(0, 110%, 0)
+.q-footer--hidden
+  transform translate3d(0, 110%, 0)
 
-.q-layout__drawer
+.q-header, .q-footer
+  z-index $z-marginals
+
+.q-drawer
   position absolute
   top 0
   bottom 0
   background $layout-aside-background
   z-index $z-side
+
   &--on-top
     z-index $z-fixed-drawer
-  &--delimiter
-    // box-shadow $layout-aside-shadow
+
   &--left
     left 0
     transform translate3d(-100%, 0, 0)
@@ -53,56 +54,56 @@ $layout-transition = all .12s ease-in
     .q-mini-drawer-only, .q-mini-drawer-hide
       display none
 
-.q-layout, .q-layout__header, .q-layout__footer, .q-layout__page
+  &__backdrop
+    z-index ($z-fixed-drawer - 1) !important
+    will-change background-color
+
+  &__opener
+    z-index ($z-marginals + 1)
+    height 100%
+    width 15px
+    user-select none
+
+.q-layout, .q-header, .q-footer, .q-page
   position relative
 
-.q-layout__item--marginal
-  z-index $z-marginals
+.q-layout__section
+  &--elevated
+    box-shadow $layout-aside-shadow
+  &--bordered
+    border 1px solid $separator-color
 
-.q-layout__backdrop
-  z-index ($z-fixed-drawer - 1) !important
-  will-change background-color
-
-
-.q-layout__drawer-opener
-  z-index ($z-marginals + 1)
-  height 100%
-  width 15px
-  user-select none
-
-.q-layout__page-sticky--shrink
+.q-page-sticky--shrink
   pointer-events none
   > div
     display inline-block
     pointer-events auto
 
 body.q-ios-statusbar-padding
-  .q-layout .q-layout__header > .q-toolbar:nth-child(2),
-  .q-layout .q-layout__header > .q-tabs:nth-child(2) .q-tabs-head
-  .q-layout .q-layout__drawer--top-padding,
-  .modal:not(.minimized) .q-layout__header > .q-toolbar:nth-child(1)
+  .q-layout .q-header > .q-toolbar:nth-child(2),
+  .q-layout .q-header > .q-tabs:nth-child(2) .q-tabs-head
+  .q-layout .q-drawer--top-padding,
+  .modal:not(.minimized) .q-header > .q-toolbar:nth-child(1)
     padding-top $ios-statusbar-height
     min-height ($toolbar-min-height + $ios-statusbar-height)
 
 body.q-ios-statusbar-x
-  .q-layout .q-layout__header > .q-toolbar:nth-child(2),
-  .q-layout .q-layout__header > .q-tabs:nth-child(2) .q-tabs-head
-  .q-layout .q-layout__drawer--top-padding,
-  .modal:not(.minimized) .q-layout__header > .q-toolbar:nth-child(1)
+  .q-layout .q-header > .q-toolbar:nth-child(2),
+  .q-layout .q-header > .q-tabs:nth-child(2) .q-tabs-head
+  .q-layout .q-drawer--top-padding,
+  .modal:not(.minimized) .q-header > .q-toolbar:nth-child(1)
     padding-top env(safe-area-inset-top)
-  .q-layout .q-layout__footer > .q-toolbar:last-child,
-  .q-layout .q-layout__footer > .q-tabs:last-child .q-tabs-head
-  .q-layout .q-layout__drawer--top-padding,
-  .modal:not(.minimized) .q-layout__footer > .q-toolbar:last-child
+  .q-layout .q-footer > .q-toolbar:last-child,
+  .q-layout .q-footer > .q-tabs:last-child .q-tabs-head
+  .q-layout .q-drawer--top-padding,
+  .modal:not(.minimized) .q-footer > .q-toolbar:last-child
     padding-bottom env(safe-area-inset-bottom)
     min-height ($toolbar-min-height + $ios-statusbar-height)
 
-/* body */
-.q-layout--animate .q-layout__item--transitionable
+.q-body--layout-animate .q-layout__section--animate
   transition $layout-transition !important
 .q-body--drawer-toggle
   overflow-x hidden !important
-/* body - end */
 
 .q-layout-padding
   @media (max-width $breakpoint-sm-max)

@@ -105,13 +105,13 @@ export default Vue.extend({
     },
 
     classes () {
-      return `fixed-${this.position} q-layout__page-sticky--${this.expand ? 'expand' : 'shrink'}`
+      return `fixed-${this.position} q-page-sticky--${this.expand ? 'expand' : 'shrink'}`
     }
   },
 
   render (h) {
     return h('div', {
-      staticClass: 'q-layout__page-sticky q-layout__item--transitionable row flex-center',
+      staticClass: 'q-page-sticky q-layout__section--animate row flex-center',
       'class': this.classes,
       style: this.style
     },

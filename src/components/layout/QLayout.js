@@ -135,10 +135,10 @@ export default Vue.extend({
         clearTimeout(this.timer)
       }
       else {
-        document.body.classList.add('q-layout--animate')
+        document.body.classList.add('q-body--layout-animate')
       }
       this.timer = setTimeout(() => {
-        document.body.classList.remove('q-layout--animate')
+        document.body.classList.remove('q-body--layout-animate')
         this.timer = null
       }, 150)
     },

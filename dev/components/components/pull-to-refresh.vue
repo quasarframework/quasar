@@ -1,16 +1,16 @@
 <template>
   <q-layout view="lHh lpr fFf">
-    <q-layout-header :value="header">
+    <q-header :value="header">
       <q-toolbar>
         <q-toolbar-title>Pull To Refresh - Header</q-toolbar-title>
       </q-toolbar>
-    </q-layout-header>
+    </q-header>
 
-    <q-layout-footer :value="footer">
+    <q-footer :value="footer">
       <q-toolbar>
         <q-toolbar-title>Pull To Refresh - Footer</q-toolbar-title>
       </q-toolbar>
-    </q-layout-footer>
+    </q-footer>
 
     <q-page-container>
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">

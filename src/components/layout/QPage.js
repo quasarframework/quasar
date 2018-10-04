@@ -43,7 +43,7 @@ export default Vue.extend({
 
   render (h) {
     return h('main', {
-      staticClass: 'q-layout__page',
+      staticClass: 'q-page',
       style: this.style,
       'class': this.classes
     }, this.$slots.default)

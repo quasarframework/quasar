@@ -54,11 +54,11 @@ export default Vue.extend({
       }
     },
 
-    computedClass () {
+    classes () {
       return `text-${this.color}${this.reverse || this.query ? ' q-linear-progress--reverse' : ''}`
     },
 
-    computedStyle () {
+    style () {
       return { height: this.height }
     },
 
@@ -80,8 +80,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-linear-progress',
-      style: this.computedStyle,
-      'class': this.computedClass
+      style: this.style,
+      'class': this.classes
     }, [
       h('div', {
         staticClass: 'q-linear-progress__track',

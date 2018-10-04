@@ -9,30 +9,42 @@
 
       <q-list style="max-width: 600px;">
         <q-item
-          link
+          clickable
           v-for="modal in types"
           :key="modal.label"
           @click.native="$refs[modal.ref].show()"
-          v-ripple.mat
+          v-ripple
         >
-          <q-item-side icon="open_in_new" />
-          <q-item-main :label="modal.label" />
-          <q-item-side right icon="keyboard_arrow_right" />
+          <q-item-section side>
+            <q-icon name="open_in_new" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ modal.label }}</q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-icon name="keyboard_arrow_right" />
+          </q-item-section>
         </q-item>
       </q-list>
 
       <p class="caption">Appear from Edges</p>
       <q-list style="max-width: 600px;">
         <q-item
-          link
+          clickable
           v-for="position in ['top', 'bottom', 'left', 'right']"
           :key="position"
           @click.native="openSpecialPosition(position)"
-          v-ripple.mat
+          v-ripple
         >
-          <q-item-side icon="open_in_new" />
-          <q-item-main :label="`Modal from ${position}`" />
-          <q-item-side right icon="keyboard_arrow_right" />
+          <q-item-section side>
+            <q-icon name="open_in_new" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Modal from {{ position }}</q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-icon name="keyboard_arrow_right" />
+          </q-item-section>
         </q-item>
       </q-list>
     </div>

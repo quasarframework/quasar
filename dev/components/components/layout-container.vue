@@ -3,28 +3,28 @@
     <q-btn @click="modal = true" label="Open" />
 
     <q-layout view="Lhh lpR fff" container style="height: 500px; width: 300px" class="q-mt-xl shadow-2">
-      <q-layout-header reveal>
+      <q-header reveal>
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
           <q-btn flat @click="drawerR = !drawerR" round dense icon="menu" />
         </q-toolbar>
-      </q-layout-header>
+      </q-header>
 
-      <q-layout-footer reveal>
+      <q-footer reveal>
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Footer</q-toolbar-title>
           <q-btn flat @click="drawerR = !drawerR" round dense icon="menu" />
         </q-toolbar>
-      </q-layout-footer>
+      </q-footer>
 
-      <q-layout-drawer v-model="drawer" :width="200" :breakpoint="300">
+      <q-drawer v-model="drawer" :width="200" :breakpoint="300">
         <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
-      </q-layout-drawer>
-      <q-layout-drawer side="right" v-model="drawerR" :width="200" :breakpoint="300">
+      </q-drawer>
+      <q-drawer side="right" v-model="drawerR" :width="200" :breakpoint="300">
         <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
-      </q-layout-drawer>
+      </q-drawer>
       <q-page-container>
         <q-page style="padding-top: 50px" class="bg-yellow">
           <div v-for="n in contentSize" :key="n">My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}</div>
@@ -54,28 +54,28 @@
     </q-layout>
 
     <q-layout view="Lhh lpR fff" container style="height: 500px; width: 900px" class="q-mt-xl shadow-2">
-      <q-layout-header reveal>
+      <q-header reveal>
         <q-toolbar>
           <q-btn flat @click="drawer3 = !drawer3" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
           <q-btn flat @click="drawer3R = !drawer3R" round dense icon="menu" />
         </q-toolbar>
-      </q-layout-header>
+      </q-header>
 
-      <q-layout-footer reveal>
+      <q-footer reveal>
         <q-toolbar>
           <q-btn flat @click="drawer3 = !drawer3" round dense icon="menu" />
           <q-toolbar-title>Footer</q-toolbar-title>
           <q-btn flat @click="drawer3R = !drawer3R" round dense icon="menu" />
         </q-toolbar>
-      </q-layout-footer>
+      </q-footer>
 
-      <q-layout-drawer v-model="drawer3" :width="200" :breakpoint="300">
+      <q-drawer v-model="drawer3" :width="200" :breakpoint="300">
         <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
-      </q-layout-drawer>
-      <q-layout-drawer side="right" v-model="drawer3R" :width="200" :breakpoint="300">
+      </q-drawer>
+      <q-drawer side="right" v-model="drawer3R" :width="200" :breakpoint="300">
         <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
-      </q-layout-drawer>
+      </q-drawer>
       <q-page-container>
         <q-page style="padding-top: 50px" class="bg-yellow">
           <div v-for="n in contentSize" :key="n">My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}</div>
@@ -106,29 +106,29 @@
 
     <q-modal v-model="modal" no-backdrop-dismiss>
       <q-layout view="LHh lpR fff" container style="min-height: 60vh; min-width: 60vw;">
-        <q-layout-header reveal>
+        <q-header reveal>
           <q-toolbar>
             <q-btn flat @click="drawer2 = !drawer2" round dense icon="menu" />
             <q-toolbar-title>Header</q-toolbar-title>
             <q-btn flat @click="drawer2R = !drawer2R" round dense icon="menu" />
             <q-btn flat @click="modal = false" round dense icon="close" />
           </q-toolbar>
-        </q-layout-header>
+        </q-header>
 
-        <q-layout-footer reveal>
+        <q-footer reveal>
           <q-toolbar>
             <q-btn flat @click="drawer2 = !drawer2" round dense icon="menu" />
             <q-toolbar-title>Footer</q-toolbar-title>
             <q-btn flat @click="drawer2R = !drawer2R" round dense icon="menu" />
           </q-toolbar>
-        </q-layout-footer>
+        </q-footer>
 
-        <q-layout-drawer v-model="drawer2" :width="200" :breakpoint="900">
+        <q-drawer v-model="drawer2" :width="200" :breakpoint="900">
           <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
-        </q-layout-drawer>
-        <q-layout-drawer side="right" v-model="drawer2R" :width="200" :breakpoint="900">
+        </q-drawer>
+        <q-drawer side="right" v-model="drawer2R" :width="200" :breakpoint="900">
           <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
-        </q-layout-drawer>
+        </q-drawer>
 
         <q-page-container>
           <q-page style="padding-top: 50px" class="bg-yellow">

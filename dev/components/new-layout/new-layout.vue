@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-layout :view="view" @scroll="onScroll">
-      <q-layout-header v-model="header" :reveal="headerReveal" class="bg-primary text-white">
+      <q-header v-model="header" :reveal="headerReveal" class="bg-primary text-white">
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-space />
@@ -27,9 +27,9 @@
           <q-route-tab icon="view_day" to="/layout-quick/b" replace label="B" />
           <q-route-tab icon="input" to="/layout-quick/c" replace label="C" />
         </q-tabs>
-      </q-layout-header>
+      </q-header>
 
-      <q-layout-footer v-model="footer" :reveal="footerReveal" class="bg-primary text-white">
+      <q-footer v-model="footer" :reveal="footerReveal" class="bg-primary text-white">
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toolbar-title>
@@ -44,9 +44,9 @@
           </q-toolbar-title>
           <q-btn flat round dense icon="menu" @click="right = !right" />
         </q-toolbar>
-      </q-layout-footer>
+      </q-footer>
 
-      <q-layout-drawer
+      <q-drawer
         v-model="right"
         side="right"
         :overlay="rightOverlay"
@@ -69,7 +69,7 @@
           <q-btn to="/layout-quick/c" replace>Replace Go to C</q-btn>
           <div v-for="n in 60" :key="n">{{ n }} Left drawer</div>
         </q-scroll-area>
-      </q-layout-drawer>
+      </q-drawer>
 
       <!--
         @mouseover="leftMini = false"
@@ -84,7 +84,7 @@
         }"
       -->
       <q-page-container>
-        <q-layout-drawer
+        <q-drawer
           side="left"
           :mini="leftMini"
           @click.capture="e => {
@@ -223,7 +223,7 @@
               </q-item-section>
             </q-item>
           </q-list>
-        </q-layout-drawer>
+        </q-drawer>
 
         <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
           <router-view />

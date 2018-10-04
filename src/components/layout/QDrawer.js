@@ -8,12 +8,12 @@ import preventScroll from '../../utils/prevent-scroll.js'
 const duration = 150
 
 export default Vue.extend({
-  name: 'QLayoutDrawer',
+  name: 'QDrawer',
 
   inject: {
     layout: {
       default () {
-        console.error('QLayoutDrawer needs to be child of QLayout')
+        console.error('QDrawer needs to be child of QLayout')
       }
     }
   },
@@ -226,20 +226,20 @@ export default Vue.extend({
     belowClass () {
       return {
         'fixed': true,
-        'q-layout__drawer--on-top': true,
-        'q-layout__drawer--delimiter': this.fixed && this.showing,
-        'q-layout__drawer--mobile': true,
-        'q-layout__drawer--top-padding': true
+        'q-drawer--on-top': true,
+        'q-drawer--delimiter': this.fixed && this.showing,
+        'q-drawer--mobile': true,
+        'q-drawer--top-padding': true
       }
     },
 
     aboveClass () {
       return {
         'fixed': this.fixed || !this.onLayout,
-        'q-layout__drawer--mini': this.isMini,
-        'q-layout__drawer--normal': !this.isMini,
-        'q-layout__drawer--delimiter': this.fixed && this.showing,
-        'q-layout__drawer--top-padding': this.headerSlot
+        'q-drawer--mini': this.isMini,
+        'q-drawer--normal': !this.isMini,
+        'q-drawer--delimiter': this.fixed && this.showing,
+        'q-drawer--top-padding': this.headerSlot
       }
     },
 
@@ -267,7 +267,7 @@ export default Vue.extend({
       return css
     },
 
-    computedStyle () {
+    style () {
       return [
         this.contentStyle,
         { width: `${this.size}px` },
@@ -275,9 +275,9 @@ export default Vue.extend({
       ]
     },
 
-    computedClass () {
+    classes () {
       return [
-        `q-layout__drawer--${this.side}`,
+        `q-drawer--${this.side}`,
         this.layout.container ? 'overflow-auto' : 'scroll',
         this.contentClass,
         this.mobileView ? this.belowClass : this.aboveClass
@@ -355,7 +355,7 @@ export default Vue.extend({
           this.layout.__animate()
           this.applyBackdrop(0)
           this.applyPosition(this.stateDirection * width)
-          el.classList.remove('q-layout__drawer--delimiter')
+          el.classList.remove('q-drawer--delimiter')
         }
 
         return
@@ -373,7 +373,7 @@ export default Vue.extend({
       if (evt.isFirst) {
         const el = this.$refs.content
         el.classList.add('no-transition')
-        el.classList.add('q-layout__drawer--delimiter')
+        el.classList.add('q-drawer--delimiter')
       }
     },
 
@@ -506,7 +506,7 @@ export default Vue.extend({
     const child = [
       this.mobileView && !this.noSwipeOpen
         ? h('div', {
-          staticClass: `q-layout__drawer-opener fixed-${this.side}`,
+          staticClass: `q-drawer__opener fixed-${this.side}`,
           directives: [{
             name: 'touch-pan',
             modifiers: { horizontal: true },
@@ -516,7 +516,7 @@ export default Vue.extend({
         : null,
       h('div', {
         ref: 'backdrop',
-        staticClass: 'fullscreen q-layout__backdrop q-layout__item--transitionable',
+        staticClass: 'fullscreen q-drawer__backdrop q-layout__section--animate',
         'class': this.backdropClass,
         on: { click: this.hide },
         directives: [{
@@ -532,9 +532,9 @@ export default Vue.extend({
     }, child.concat([
       h('aside', {
         ref: 'content',
-        staticClass: `q-layout__drawer q-layout__item--transitionable`,
-        'class': this.computedClass,
-        style: this.computedStyle,
+        staticClass: `q-drawer q-layout__section--animate`,
+        'class': this.classes,
+        style: this.style,
         attrs: this.$attrs,
         on: this.onNativeEvents,
         directives: this.mobileView && !this.noSwipeClose ? [{

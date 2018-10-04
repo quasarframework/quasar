@@ -6,14 +6,14 @@ import CanRenderMixin from '../../mixins/can-render.js'
 import { onSSR } from '../../plugins/platform.js'
 
 export default Vue.extend({
-  name: 'QLayoutFooter',
+  name: 'QFooter',
 
   mixins: [ CanRenderMixin ],
 
   inject: {
     layout: {
       default () {
-        console.error('QLayoutFooter needs to be child of QLayout')
+        console.error('QFooter needs to be child of QLayout')
       }
     }
   },
@@ -91,16 +91,16 @@ export default Vue.extend({
       return offset > 0 ? offset : 0
     },
 
-    computedClass () {
+    classes () {
       return {
         'fixed-bottom': this.fixed,
         'absolute-bottom': !this.fixed,
         'hidden': !this.value && !this.fixed,
-        'q-layout__footer--hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
+        'q-footer--hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
       }
     },
 
-    computedStyle () {
+    style () {
       const
         view = this.layout.rows.bottom,
         css = {}
@@ -118,9 +118,9 @@ export default Vue.extend({
 
   render (h) {
     return h('footer', {
-      staticClass: 'q-layout__footer q-layout__item--marginal q-layout__item--transitionable',
-      'class': this.computedClass,
-      style: this.computedStyle
+      staticClass: 'q-footer q-layout__section--marginal q-layout__section--animate',
+      'class': this.classes,
+      style: this.style
     }, [
       h(QResizeObservable, {
         props: { debounce: 0 },

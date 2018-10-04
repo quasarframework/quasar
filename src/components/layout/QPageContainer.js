@@ -38,7 +38,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-layout__page-container q-layout__item--transitionable',
+      staticClass: 'q-page-container q-layout__section--animate',
       style: this.style
     }, this.$slots.default)
   }

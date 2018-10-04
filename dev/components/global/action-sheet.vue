@@ -9,15 +9,21 @@
 
       <q-list style="max-width: 600px;">
         <q-item
-          link
+          clickable
           v-for="dialog in types"
           :key="dialog.label"
-          @click.native="dialog.handler()"
-          v-ripple.mat
+          @click.native="dialog.handler"
+          v-ripple
         >
-          <q-item-side icon="settings" />
-          <q-item-main :label="dialog.label" />
-          <q-item-side right icon="keyboard_arrow_right" />
+          <q-item-section side>
+            <q-icon name="settings" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ dialog.label }}</q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-icon name="keyboard_arrow_right" />
+          </q-item-section>
         </q-item>
       </q-list>
     </div>
