@@ -12,11 +12,10 @@ let
     spinnerSize: 80,
     spinnerColor: 'white',
     messageColor: 'white',
+    backgroundColor: 'black',
     spinner: QSpinner,
-    customClass: false
+    customClass: ''
   }
-
-const staticClass = 'q-loading q-transition--fade fullscreen column flex-center z-max'
 
 export default {
   isActive: false,
@@ -26,9 +25,7 @@ export default {
 
     props = Object.assign({}, defaults, opts)
 
-    if (typeof props.customClass === 'string') {
-      props.customClass = props.customClass.trim()
-    }
+    props.customClass += ` text-${props.backgroundColor}`
 
     if (this.isActive) {
       if (vm) {
@@ -68,9 +65,9 @@ export default {
             }
           }, [
             this.isActive ? h('div', {
-              staticClass,
+              staticClass: 'q-loading q-transition--fade fullscreen column flex-center z-max',
               key: uid(),
-              'class': props.customClass
+              'class': props.customClass.trim()
             }, [
               h(props.spinner, {
                 props: {

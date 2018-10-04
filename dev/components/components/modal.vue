@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="q-layout-padding">
+    <div class="layout-padding">
       <p class="caption">
         <span class="desktop-only">Click</span>
         <span class="mobile-only">Tap</span>
@@ -120,7 +120,7 @@
           </q-toolbar-title>
         </q-toolbar>
 
-        <div class="q-layout-padding">
+        <div class="layout-padding">
           <h3>Modal</h3>
 
           <q-btn color="primary" @click="$refs.layoutModal.hide()">Close</q-btn>

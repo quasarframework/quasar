@@ -83,7 +83,9 @@ export default {
       setTimeout(() => {
         show({
           spinner: QSpinnerGears,
-          spinnerColor: 'amber',
+          spinnerColor: 'red',
+          messageColor: 'black',
+          backgroundColor: 'yellow',
           message: 'Updated message'
         })
       }, 3000)

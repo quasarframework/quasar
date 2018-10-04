@@ -2,9 +2,20 @@ body.with-loading
   overflow hidden
 
 .q-loading
-  background $loading-background
+  color black
+
+  &:before
+    content ''
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    left 0
+    background currentColor
+    opacity .5
+    z-index -1
+
   > div
     margin 40px 20px 0
     max-width 450px
     text-align center
-    text-shadow 0 0 7px black
