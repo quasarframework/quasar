@@ -79,8 +79,25 @@ ie_style = @block
     min-height 80vh !important
     overflow hidden
 
+  /* QSpinner */
+  .q-spinner
+    &:not(.q-spinner-mat)
+      animation q-ie-spinner 2s linear infinite /* rtl:ignore */
+      transform-origin center center /* rtl:ignore */
+      opacity .5
+    &.q-spinner-mat .path
+      stroke-dasharray 89, 200
+
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
   {ie_style}
 
 @supports (-ms-ime-align:auto)
   {ie_style}
+
+@keyframes q-ie-spinner
+  0%
+    opacity .5
+  50%
+    opacity 1
+  100%
+    opacity .5
