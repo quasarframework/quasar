@@ -117,6 +117,7 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not ie <= 10"
+    "ie >= 11",
+    "not dead"
   ]
 }
