@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">
         Click or tap below, to see the innerLoading component work with a div.
         It is simulating a delay from a server reply.
@@ -9,7 +9,7 @@
         Show Text Loading
       </q-btn>
     </div>
-    <div class="layout-padding relative-position"
+    <div class="q-layout-padding relative-position"
          style="height: 450px; width: 600px; background-color: lightgrey; padding: 15px;">
       <transition
         appear

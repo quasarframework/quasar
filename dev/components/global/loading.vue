@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">
         Notify the user something is going on under the covers.
       </p>

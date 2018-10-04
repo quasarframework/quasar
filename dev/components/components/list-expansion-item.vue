@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white">
-    <div class="layout-padding" style="max-width: 600px;">
+    <div class="q-layout-padding" style="max-width: 600px;">
       <p class="caption">Explore the possibilities</p>
       <q-list bordered>
         <q-expansion-item
@@ -245,7 +245,7 @@
 
       <p class="caption">Menu</p>
       <q-list bordered>
-        <q-expansion-item expand-separator menu-inset icon="mail" label="Inbox" caption="5 unread emails" opened>
+        <q-expansion-item expand-separator menu-inset icon="mail" label="Inbox" caption="5 unread emails" default-opened>
           <q-expansion-item expand-separator menu-inset icon="receipt" label="Receipts">
 
             <q-expansion-item label="Today">
@@ -305,7 +305,7 @@
 
       <p class="caption">Group a.k.a Accordion (opening one closes the other)</p>
       <q-list bordered>
-        <q-expansion-item group="somegroup" icon="explore" label="First" opened>
+        <q-expansion-item group="somegroup" icon="explore" label="First" default-opened>
           <q-card>
             <q-card-section>
               {{ lorem }}
@@ -354,7 +354,7 @@
           </q-card>
         </q-expansion-item>
 
-        <q-expansion-item icon="perm_identity" label="Second" opened>
+        <q-expansion-item icon="perm_identity" label="Second" default-opened>
           <q-card>
             <q-card-section>
               {{ lorem }}

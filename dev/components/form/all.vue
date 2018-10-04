@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding column" style="height: 100vh;" :class="dark ? 'text-orange bg-black' : null">
+    <div class="q-layout-padding column" style="height: 100vh;" :class="dark ? 'text-orange bg-black' : null">
       <div class="col-auto">
         <q-toggle :dark="dark" v-model="dark" label="Dark mode" />
         <q-toggle :dark="dark" v-model="disable" label="Disabled" />

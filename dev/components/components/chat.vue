@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding" style="max-width: 500px;">
+    <div class="q-layout-padding" style="max-width: 500px;">
       <h4>Chat with avatar</h4>
       <p>To mix messages with avatar and without avatar in the same thread, use a placeholder avatar image.</p>
       <q-chat-message

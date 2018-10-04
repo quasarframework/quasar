@@ -1,5 +1,5 @@
 <template>
-  <div class="no-ssr-page layout-padding">
+  <div class="no-ssr-page q-layout-padding">
     <div class="q-title">1. Basic</div>
     <q-no-ssr>
       <div>This won't be rendered on server</div>

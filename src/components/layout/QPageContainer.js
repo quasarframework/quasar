@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 export default Vue.extend({
   name: 'QPageContainer',
 
@@ -37,7 +38,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-layout-page-container q-layout-transition',
+      staticClass: 'q-layout__page-container q-layout__item--transitionable',
       style: this.style
     }, this.$slots.default)
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="view-parallax">
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">
         Scroll down (best using scrollbar instead of mouse scroll
         if on desktop) to see Parallax in action.
@@ -15,7 +15,7 @@
       <h1 class="text-white">Basic</h1>
     </q-parallax>
 
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
@@ -39,7 +39,7 @@
       </div>
     </q-parallax>
 
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
@@ -52,7 +52,7 @@
       <h1 class="text-white">Video</h1>
     </q-parallax>
 
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
@@ -61,7 +61,7 @@
       <h1 class="text-white">Parallax  Title</h1>
     </q-parallax>
 
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
@@ -69,7 +69,7 @@
       <h1 class="text-white">Bridge</h1>
     </q-parallax>
 
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
@@ -77,7 +77,7 @@
       <h1 class="text-white">Title</h1>
     </q-parallax>
 
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
@@ -85,7 +85,7 @@
       <h1 class="text-white">Mountains</h1>
     </q-parallax>
 
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
   </div>

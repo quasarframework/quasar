@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <q-toggle v-model="typeDate" label="With date" />
       <q-toggle v-model="typeTime" label="With time" />
       <div class="bg-secondary text-white">

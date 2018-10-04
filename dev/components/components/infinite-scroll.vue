@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">Scroll down to see it in action.</p>
 
       <q-toggle v-model="disable" label="Disable" class="q-mr-sm" />

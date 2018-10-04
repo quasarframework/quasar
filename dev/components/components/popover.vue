@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <div class="caption" style="margin-top: 120px;">
         Click on buttons and image below to open Popovers.
         <br>

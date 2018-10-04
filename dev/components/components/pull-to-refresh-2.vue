@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <q-pull-to-refresh
       color="primary"
       @refresh="refresher"

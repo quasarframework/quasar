@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">Please scroll down to see the image have a short bounce effect when being visible for first time.</p>
       <p v-for="n in 15">{{ n }} {{ loremipsum }}</p>
 

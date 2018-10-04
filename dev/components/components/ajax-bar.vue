@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding" style="max-width: 600px;">
+    <div class="q-layout-padding" style="max-width: 600px;">
       <p class="caption">Ajax Bar component captures Ajax calls automatically. This page here triggers events manually for demonstrating purposes only.</p>
 
       <q-card style="margin-top: 25px">

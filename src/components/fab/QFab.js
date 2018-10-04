@@ -41,9 +41,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-fab z-fab row inline justify-center',
-      'class': {
-        'q-fab-opened': this.showing
-      }
+      'class': this.showing ? 'q-fab--opened' : null
     }, [
       h(QBtn, {
         ref: 'trigger',
@@ -62,18 +60,18 @@ export default Vue.extend({
       }, [
         this.$slots.tooltip,
         h(QIcon, {
-          staticClass: 'q-fab-icon absolute-full',
+          staticClass: 'q-fab__icon absolute-full',
           props: { name: this.icon || this.$q.icon.fab.icon }
         }),
         h(QIcon, {
-          staticClass: 'q-fab-active-icon absolute-full',
+          staticClass: 'q-fab__active-icon absolute-full',
           props: { name: this.activeIcon || this.$q.icon.fab.activeIcon }
         })
       ]),
 
       h('div', {
-        staticClass: 'q-fab-actions flex no-wrap inline items-center',
-        'class': `q-fab-${this.direction}`
+        staticClass: 'q-fab__actions flex no-wrap inline items-center',
+        'class': `q-fab__actions--${this.direction}`
       }, this.$slots.default)
     ])
   }

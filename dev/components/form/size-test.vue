@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding" :class="{ guidelines }">
+    <div class="q-layout-padding" :class="{ guidelines }">
       <div v-for="dense in [false, true]" :key="dense">
         <div v-for="(mode, index) in modes" :key="index">
           <p class="caption">{{ dense ? 'Dense' : 'Normal' }} {{ filterMode(mode) }}</p>

@@ -1,20 +1,18 @@
+import Vue from 'vue'
+
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
 import QItemLabel from '../list/QItemLabel.js'
-
 import QIcon from '../icon/QIcon.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
-
 import QSeparator from '../separator/QSeparator.js'
 
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-
 import { stopAndPrevent } from '../../utils/event.js'
 
 const eventName = 'q:expansion-item:close'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QExpansionItem',
 
@@ -35,7 +33,7 @@ export default Vue.extend({
     menuInset: Boolean,
 
     expandSeparator: Boolean,
-    opened: Boolean,
+    defaultOpened: Boolean,
     expandIconToggle: Boolean,
     switchToggleSide: Boolean,
     group: String,
@@ -216,7 +214,7 @@ export default Vue.extend({
 
   created () {
     this.$root.$on(eventName, this.__eventHandler)
-    if (this.opened || this.value) {
+    if (this.defaultOpened || this.value) {
       this.show()
     }
   },

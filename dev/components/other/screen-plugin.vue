@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <span v-if="$q.screen.lt.md">lt-md</span>
     <span v-if="$q.screen.md">md</span>
     <span v-if="$q.screen.gt.md">gt-md</span>

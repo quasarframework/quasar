@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <q-input v-model="url" />
       <br>
       <div class="bg-black q-pa-sm" style="max-width: 500px">

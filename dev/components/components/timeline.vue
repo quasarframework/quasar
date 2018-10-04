@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding" style="max-width: 800px">
+  <div class="q-layout-padding" style="max-width: 800px">
     <q-timeline responsive color="secondary" style="padding: 0 24px;">
       <q-timeline-entry heading>November, 2017</q-timeline-entry>
 

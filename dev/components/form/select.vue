@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">Single Selection</p>
       <q-select v-model="select" @change="onChange" @input="onInput" :options="selectOptions" align="right" clearable />
       <q-select v-model="select" :options="selectOptions" separator/>

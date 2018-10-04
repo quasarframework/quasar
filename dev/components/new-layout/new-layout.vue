@@ -1,38 +1,35 @@
 <template>
   <div>
     <q-layout :view="view" @scroll="onScroll">
-      <q-layout-header v-model="header" :reveal="headerReveal">
+      <q-layout-header v-model="header" :reveal="headerReveal" class="bg-primary text-white">
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
-          <q-toggle v-model="extraRow" color="amber" dark />
-          <q-toolbar-title>
-            Header g
-            <span slot="subtitle">The Subtitle g</span>
-          </q-toolbar-title>
-          <q-btn round dense flat class="relative-position q-mr-md" icon="announcement" to="/">
+          <q-space />
+          <q-toggle v-model="extraRow" color="amber" dark label="Extra row" />
+          <q-btn round dense flat class="relative-position q-mx-md" icon="announcement" to="/">
             <q-chip floating color="red" text-color="white">1</q-chip>
           </q-btn>
           <q-color hide-underline dark v-model="mainColor" />
           <q-toggle v-model="toggle" color="amber" dark />
           <q-btn flat round dense icon="menu" @click="right = !right" />
         </q-toolbar>
-        <q-toolbar v-if="extraRow">
-          <q-btn flat round dense icon="menu" @click="left = !left" />
+        <q-toolbar v-if="extraRow" inset>
+          <q-avatar>
+            <img src="statics/quasar-logo.png">
+          </q-avatar>
           <q-toolbar-title>
-            Header
-            <span slot="subtitle">The Subtiiiitleeee</span>
+            <strong>Quasar</strong> Framework
           </q-toolbar-title>
-          <q-btn flat round dense icon="menu" @click="right = !right" />
         </q-toolbar>
         <q-tabs>
-          <q-route-tab slot="title" icon="view_quilt" to="/layout-quick/default" replace hide="icon" label="Default" />
-          <q-route-tab slot="title" icon="view_day" to="/layout-quick/a" replace hide="label" label="A" />
-          <q-route-tab slot="title" icon="view_day" to="/layout-quick/b" replace label="B" />
-          <q-route-tab slot="title" icon="input" to="/layout-quick/c" replace label="C" />
+          <q-route-tab icon="view_quilt" to="/layout-quick/default" replace label="Default" />
+          <q-route-tab icon="view_day" to="/layout-quick/a" replace label="A" />
+          <q-route-tab icon="view_day" to="/layout-quick/b" replace label="B" />
+          <q-route-tab icon="input" to="/layout-quick/c" replace label="C" />
         </q-tabs>
       </q-layout-header>
 
-      <q-layout-footer v-model="footer" :reveal="footerReveal">
+      <q-layout-footer v-model="footer" :reveal="footerReveal" class="bg-primary text-white">
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toolbar-title>
@@ -120,99 +117,110 @@
           />
           <div class="q-mini-drawer-hide">Maxi only</div>
           <div class="q-mini-drawer-only">Mini only</div>
-          <q-collapsible
-            icon="perm_identity"
-            label="With a model and events"
-          >
-            <div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, fuga voluptatem! Debitis, numquam! Velit excepturi harum sint explicabo, rerum dolores illum nihil aperiam praesentium, consectetur delectus sapiente in sed provident.</div>
-          </q-collapsible>
-          <q-list link no-border>
-            <q-list-header>Folders</q-list-header>
+          <q-list>
+            <q-expansion-item clickable icon="perm_identity" label="With a model and events">
+              <q-card>
+                <q-card-section>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, fuga voluptatem! Debitis, numquam! Velit excepturi harum sint explicabo, rerum dolores illum nihil aperiam praesentium, consectetur delectus sapiente in sed provident.
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
+
+            <q-item-label header>Folders</q-item-label>
+
             <q-item to="/layout-quick/a" replace>
-              <q-item-side icon="folder" inverted color="primary" />
-              <q-item-main>
-                <q-item-tile label>Link A</q-item-tile>
-                <q-item-tile sublabel>February 22, 2016</q-item-tile>
-              </q-item-main>
-              <q-item-side right icon="info" color="green" />
-            </q-item>
-            <q-item to="/layout-quick/b" replace>
-              <q-item-side icon="folder" inverted color="secondary" />
-              <q-item-main>
-                <q-item-tile label>Link B</q-item-tile>
-                <q-item-tile sublabel>March 1st, 2017</q-item-tile>
-              </q-item-main>
-              <q-item-side right icon="info" />
-            </q-item>
-            <q-item to="/layout-quick/c" replace>
-              <q-item-side icon="folder" inverted color="amber" />
-              <q-item-main>
-                <q-item-tile label>Link C</q-item-tile>
-                <q-item-tile sublabel>Latest</q-item-tile>
-              </q-item-main>
-              <q-item-side right icon="info" />
-            </q-item>
-            <q-item-separator />
-            <q-list-header>Files</q-list-header>
-            <q-item>
-              <q-item-side icon="assignment" inverted color="grey-6" />
-              <q-item-main>
-                <q-item-tile label>Expenses spreadsheet</q-item-tile>
-                <q-item-tile sublabel>March 2nd, 2016</q-item-tile>
-              </q-item-main>
-              <q-item-side right icon="info" />
-            </q-item>
-            <q-item>
-              <q-item-side icon="place" inverted color="grey-6" />
-              <q-item-main>
-                <q-item-tile label>Places to visit</q-item-tile>
-                <q-item-tile sublabel>February 22, 2016</q-item-tile>
-              </q-item-main>
-              <q-item-side right icon="info" color="amber" />
-            </q-item>
-            <q-item>
-              <q-item-side icon="library_music" inverted color="grey-6" />
-              <q-item-main>
-                <q-item-tile label>My favorite song</q-item-tile>
-                <q-item-tile sublabel>Singing it all day</q-item-tile>
-              </q-item-main>
-              <q-item-side right icon="info" />
-            </q-item>
-            <q-item>
-              <q-item-side icon="videogame_asset" inverted color="grey-6" />
-              <q-item-main>
-                <q-item-tile label>Quasar Game</q-item-tile>
-                <q-item-tile sublabel>Have fun while building apps</q-item-tile>
-              </q-item-main>
-              <q-item-side right icon="info" />
+              <q-item-section side>
+                <q-avatar icon="folder" color="primary" text-color="white" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label>Link A</q-item-label>
+                <q-item-label caption>February 22, 2016</q-item-label>
+              </q-item-section>
+
+              <q-item-section side>
+                <q-icon name="info" color="green" />
+              </q-item-section>
             </q-item>
 
-            <q-item-separator />
-            <q-list-header>People</q-list-header>
-            <q-item>
-              <q-item-side avatar="/statics/boy-avatar.png" />
-              <q-item-main>
-                <q-item-tile label>John</q-item-tile>
-              </q-item-main>
-              <q-item-side right>
-                <q-item-tile icon="chat_bubble" color="green" />
-              </q-item-side>
+            <q-item to="/layout-quick/b" replace>
+              <q-item-section side>
+                <q-avatar icon="folder" color="primary" text-color="white" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label>Link B</q-item-label>
+                <q-item-label caption>February 22, 2016</q-item-label>
+              </q-item-section>
+
+              <q-item-section side>
+                <q-icon name="info" color="green" />
+              </q-item-section>
             </q-item>
-            <q-item>
-              <q-item-side avatar="/statics/boy-avatar.png" />
-              <q-item-main>
-                <q-item-tile label>Jim</q-item-tile>
-                <q-item-tile sublabel>Javascript wiz kid</q-item-tile>
-              </q-item-main>
-              <q-item-side right icon="chat_bubble" />
+
+            <q-item to="/layout-quick/c" replace>
+              <q-item-section side>
+                <q-avatar icon="folder" color="primary" text-color="white" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label>Link C</q-item-label>
+                <q-item-label caption>February 22, 2016</q-item-label>
+              </q-item-section>
+
+              <q-item-section side>
+                <q-icon name="info" color="green" />
+              </q-item-section>
             </q-item>
-            <q-item>
-              <q-item-side avatar="/statics/boy-avatar.png" />
-              <q-item-main>
-                <q-item-tile label>Jake</q-item-tile>
-                <q-item-tile sublabel>Passionate about Quasar</q-item-tile>
-              </q-item-main>
-              <q-item-side right icon="chat_bubble" />
+
+            <q-separator spaced />
+            <q-item-label header>Files</q-item-label>
+
+            <q-item clickable>
+              <q-item-section side>
+                <q-avatar icon="assignment" color="grey-6" text-color="white" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label>Link C</q-item-label>
+                <q-item-label caption>February 22, 2016</q-item-label>
+              </q-item-section>
+
+              <q-item-section side>
+                <q-icon name="info" />
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable>
+              <q-item-section side>
+                <q-avatar icon="place" color="grey-6" text-color="white" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label>Link C</q-item-label>
+                <q-item-label caption>February 22, 2016</q-item-label>
+              </q-item-section>
+
+              <q-item-section side>
+                <q-icon name="info" color="amber" />
+              </q-item-section>
+            </q-item>
+
+            <q-separator spaced />
+            <q-item-label header>People</q-item-label>
+
+            <q-item v-for="n in 3" :key="'item.' + n">
+              <q-item-section side>
+                <q-avatar>
+                  <img src="/statics/boy-avatar.png">
+                </q-avatar>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>John</q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-icon name="chat_bubble" color="green" />
+              </q-item-section>
             </q-item>
           </q-list>
         </q-layout-drawer>
@@ -220,6 +228,7 @@
         <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
           <router-view />
         </transition>
+
         <div class="fixed-bottom-right bg-grey-5 q-pa-sm z-max" style="bottom: 8px; right: 8px; left: auto;">
           <q-toggle v-model="showConfig" label="Config" />
         </div>
@@ -294,7 +303,7 @@
               <q-radio color="secondary" v-model="topright" val="h" label="h" />
             </div>
           </div>
-          <q-card-separator />
+          <q-separator />
 
           <div class="doc-layout-grid row justify-center">
             <div class="doc-row-definition row flex-center no-border">
@@ -312,7 +321,7 @@
               <q-radio color="secondary" v-model="middleright" val="R" label="R" />
             </div>
           </div>
-          <q-card-separator />
+          <q-separator />
 
           <div class="doc-layout-grid row justify-center">
             <div class="doc-row-definition row flex-center no-border">
@@ -336,6 +345,7 @@
         </div>
       </div>
     </div>
+
     <q-modal minimized v-model="toggle" :content-css="{padding: '50px', minWidth: '50vw'}">
       <h4>Basic Modal</h4>
       <p v-for="n in 25" :key="`basic-${n}`">Scroll down to close</p>

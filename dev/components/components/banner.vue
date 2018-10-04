@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding bg-grey-3" style="min-height: 100vh">
+  <div class="q-layout-padding bg-grey-3" style="min-height: 100vh">
     <div style="max-width: 500px">
 
       <q-toggle v-model="dense" label="Dense banners" />

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <q-dialog
         v-model="showDialog"
         ref="dialog"

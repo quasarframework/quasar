@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 export default Vue.extend({
   name: 'QPage',
 
@@ -35,14 +36,14 @@ export default Vue.extend({
 
     classes () {
       if (this.padding) {
-        return 'layout-padding'
+        return 'q-layout-padding'
       }
     }
   },
 
   render (h) {
     return h('main', {
-      staticClass: 'q-layout-page',
+      staticClass: 'q-layout__page',
       style: this.style,
       'class': this.classes
     }, this.$slots.default)

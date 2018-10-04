@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding avatar-page">
+  <div class="q-layout-padding avatar-page">
     <p>Basic</p>
     <div>
       <q-avatar color="red" text-color="white" icon="directions" />

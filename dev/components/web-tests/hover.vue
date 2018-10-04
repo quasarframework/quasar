@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <h1>Focus helper test</h1>
     <q-btn class="q-ma-sm q-pa-lg" color="black" label="Test" />
     <q-btn class="q-ma-sm q-pa-lg" color="black" label="Test" />

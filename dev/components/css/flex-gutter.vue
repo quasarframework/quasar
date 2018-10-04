@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding gutter-demo">
+  <div class="q-layout-padding gutter-demo">
     <h1>Default</h1>
     <div class="my-container" v-for="n in ['none', 'xs', 'sm', 'md', 'lg', 'xl']" :key="`gutter_xy_${n}`">
       <div class="row" :class="`gutter-${n}`">

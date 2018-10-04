@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding" style="max-width: 1400px;">
+    <div class="q-layout-padding" style="max-width: 1400px;">
       <q-field icon="search">
         <q-input v-model="filter" float-label="Float" />
       </q-field>

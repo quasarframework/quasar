@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <div class="q-pa-md" :class="dark ? 'bg-black' : null">
         <q-input :readonly="readonly" :disable="disable" :dark="dark" color="warning" class="q-my-sm" v-model="text" placeholder="Placeholder" float-label="With placeholder" clearable suffix="SUF" prefix="PRE" />
         <q-input :readonly="readonly" :disable="disable" :dark="dark" inverted-light color="warning" class="q-my-sm" v-model="text" placeholder="Placeholder" float-label="With placeholder" clearable suffix="SUF" prefix="PRE" />

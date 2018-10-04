@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding docs-touch row justify-center">
+  <div class="q-layout-padding docs-touch row justify-center">
     <div style="width: 500px; max-width: 90vw;">
       <p class="caption">
         <span class="desktop-only">Swipe with your mouse</span>

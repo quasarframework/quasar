@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding" :class="{ 'test-height': testHeight }">
+    <div class="q-layout-padding" :class="{ 'test-height': testHeight }">
       <q-card class="q-my-md">
         <q-card-section class="row items-center">
           <div class="text-h6">Headings</div>

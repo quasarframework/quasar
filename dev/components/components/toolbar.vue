@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding row justify-center">
+  <div class="q-layout-padding row justify-center">
     <div style="width: 500px; max-width: 90vw;">
       <p class="caption">
         Toolbars are mainly used in Layout headers and footers, but they can be used

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding" style="max-width: 500px">
+    <div class="q-layout-padding" style="max-width: 500px">
       <router-link tag="a" to="/layout-quick/a" class="cursor-pointer row justify-center" style="margin-bottom: 25px">
         <img src="statics/quasar-logo.png">
       </router-link>

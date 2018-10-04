@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
 
       {{ inputModelRgb }} <q-btn @click="inputModelRgb = null" label="Clear" />
       <p>Immediate</p>

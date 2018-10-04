@@ -1,9 +1,10 @@
+import Vue from 'vue'
+
 import QResizeObservable from '../observables/QResizeObservable.js'
 import QWindowResizeObservable from '../observables/QWindowResizeObservable.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import { onSSR } from '../../plugins/platform.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QLayoutFooter',
 
@@ -95,7 +96,7 @@ export default Vue.extend({
         'fixed-bottom': this.fixed,
         'absolute-bottom': !this.fixed,
         'hidden': !this.value && !this.fixed,
-        'q-layout-footer-hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
+        'q-layout__footer--hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
       }
     },
 
@@ -117,7 +118,7 @@ export default Vue.extend({
 
   render (h) {
     return h('footer', {
-      staticClass: 'q-layout-footer q-layout-marginal q-layout-transition',
+      staticClass: 'q-layout__footer q-layout__item--marginal q-layout__item--transitionable',
       'class': this.computedClass,
       style: this.computedStyle
     }, [

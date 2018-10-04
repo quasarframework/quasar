@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding button-toggle-group-test">
+  <div class="q-layout-padding button-toggle-group-test">
     <p class="caption">
       <span>Model: </span>
       <strong>{{ model }}</strong>

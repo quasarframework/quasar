@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <div>
       <q-icon :name="icon" class="gigi" style="font-size: 5rem;" @click="clicked" />
       <span style="margin: 0 15px;">{{ icon }}</span>

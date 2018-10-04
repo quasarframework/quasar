@@ -1,4 +1,3 @@
-/* eslint prefer-promise-reject-errors: 0 */
 import History from '../history.js'
 
 export default {
@@ -19,11 +18,9 @@ export default {
         return
       }
 
-      this.$nextTick(() => {
-        if (this.value !== this.showing) {
-          this[val ? 'show' : 'hide']()
-        }
-      })
+      if (val !== this.showing) {
+        this[val ? 'show' : 'hide']()
+      }
     }
   },
 
@@ -37,6 +34,7 @@ export default {
         return
       }
 
+      this.$emit('before-show', evt)
       this.showing = true
       this.$emit('input', false)
 
@@ -47,7 +45,7 @@ export default {
         History.add(this.__historyEntry)
       }
 
-      if (this.__show) {
+      if (this.__show !== void 0) {
         this.__show(evt)
       }
       else {
@@ -60,6 +58,7 @@ export default {
         return
       }
 
+      this.$emit('before-hide', evt)
       this.showing = false
       this.value !== false && this.$emit('input', false)
 

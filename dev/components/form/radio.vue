@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding" :class="`bg-${dark ? 'black' : 'white'}${dark ? ' text-white' : ''}`">
+    <div class="q-layout-padding" :class="`bg-${dark ? 'black' : 'white'}${dark ? ' text-white' : ''}`">
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{ option }}</em></span>
       </div>

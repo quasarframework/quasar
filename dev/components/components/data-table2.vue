@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <h4>Emulate server-side</h4>
     {{ serverPagination }}
     <q-table

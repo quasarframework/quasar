@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">
         Based on the device you are using to view this, Quasar detects the following:
       </p>

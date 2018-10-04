@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <div>
         <div class="row gutter-sm items-center">
           <div class="col-xs-12 col-md-4">

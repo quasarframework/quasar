@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding card-examples row items-start">
+    <div class="q-layout-padding card-examples row items-start">
       <q-card inline class="bigger">
         <q-card-media>
           <img src="~assets/donuts.png">

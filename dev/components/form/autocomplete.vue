@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding" style="max-width: 600px;">
+    <div class="q-layout-padding" style="max-width: 600px;">
       <p class="caption" style="margin-bottom: 40px">
         These examples feature countries autocomplete.<br>
         On desktop, Escape key closes the suggestions popover and you can navigate with keyboard arrow keys. Selection is made with either mouse/finger tap or by Enter key.

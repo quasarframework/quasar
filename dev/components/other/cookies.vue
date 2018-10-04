@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <q-btn label="Set Cookie A" no-caps @click="add('a')" color="primary" class="q-ma-sm" />
     <q-btn label="DEL Cookie A" no-caps @click="del('a')" color="primary" class="q-ma-sm" />
     <q-btn label="Set Cookie B" no-caps @click="add('b')" color="secondary" class="q-ma-sm" />

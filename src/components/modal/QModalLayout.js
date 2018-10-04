@@ -41,7 +41,7 @@ export default Vue.extend({
 
     if (this.$slots.header) {
       child.push(h('div', {
-        staticClass: 'q-layout-header',
+        staticClass: 'q-layout__header',
         style: this.headerStyle,
         'class': this.headerClass
       }, this.$slots.header))
@@ -55,7 +55,7 @@ export default Vue.extend({
 
     if (this.$slots.footer) {
       child.push(h('div', {
-        staticClass: 'q-layout-footer',
+        staticClass: 'q-layout__footer',
         style: this.footerStyle,
         'class': this.footerClass
       }, this.$slots.footer))

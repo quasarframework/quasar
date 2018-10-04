@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 export default Vue.extend({
   name: 'QPageSticky',
 
@@ -57,7 +58,7 @@ export default Vue.extend({
       return this.layout.left.offset
     },
 
-    computedStyle () {
+    style () {
       const
         attach = this.attach,
         transforms = [],
@@ -106,19 +107,19 @@ export default Vue.extend({
     },
 
     classes () {
-      return `fixed-${this.position} q-page-sticky-${this.expand ? 'expand' : 'shrink'}`
+      return `fixed-${this.position} q-layout__page-sticky--${this.expand ? 'expand' : 'shrink'}`
     }
   },
 
   render (h) {
     return h('div', {
-      staticClass: 'q-page-sticky q-layout-transition row flex-center',
+      staticClass: 'q-layout__page-sticky q-layout__item--transitionable row flex-center',
       'class': this.classes,
-      style: this.computedStyle
+      style: this.style
     },
     this.expand
       ? this.$slots.default
-      : [ h('span', this.$slots.default) ]
+      : [ h('div', this.$slots.default) ]
     )
   }
 })

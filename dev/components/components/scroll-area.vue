@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <div style="height: 300px"/>
 
     <q-scroll-area ref="scroll" style="width: 400px; height: 500px;" class="bg-yellow">

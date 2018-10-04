@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">With Component</p>
       <q-video
         src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"

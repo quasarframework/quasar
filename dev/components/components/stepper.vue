@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <q-toggle label="Vertical" v-model="vertical" />
       <q-toggle label="Animated" v-model="animated" />
       <q-toggle label="Alternative Labels" v-model="alt" />

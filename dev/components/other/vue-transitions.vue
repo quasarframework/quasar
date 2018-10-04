@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <h5>"Slide" Transition</h5>
 
       <div class="caption">

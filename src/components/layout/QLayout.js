@@ -1,9 +1,10 @@
+import Vue from 'vue'
+
 import QScrollObservable from '../observables/QScrollObservable.js'
 import QResizeObservable from '../observables/QResizeObservable.js'
 import { onSSR } from '../../plugins/platform.js'
 import { getScrollbarWidth } from '../../utils/scroll.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QLayout',
 
@@ -134,10 +135,10 @@ export default Vue.extend({
         clearTimeout(this.timer)
       }
       else {
-        document.body.classList.add('q-layout-animate')
+        document.body.classList.add('q-layout--animate')
       }
       this.timer = setTimeout(() => {
-        document.body.classList.remove('q-layout-animate')
+        document.body.classList.remove('q-layout--animate')
         this.timer = null
       }, 150)
     },

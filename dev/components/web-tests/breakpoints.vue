@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <div v-for="type in types" :class="type">{{ type }}</div>
     <q-window-resize-observable @resize="resize" />
     <p class="caption" :class="`bg-${color}`">{{ w }} - {{ width }}</p>

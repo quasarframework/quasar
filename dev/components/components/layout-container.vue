@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <q-btn @click="modal = true" label="Open" />
 
     <q-layout view="Lhh lpR fff" container style="height: 500px; width: 300px" class="q-mt-xl shadow-2">

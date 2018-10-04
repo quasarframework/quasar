@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <p class="caption">
       Scroll down <q-icon style="font-size: 3rem" class="animate-bounce" name="keyboard_arrow_down" />
     </p>

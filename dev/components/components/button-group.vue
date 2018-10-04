@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding button-group-test">
+  <div class="q-layout-padding button-group-test">
     <q-btn-group push>
       <q-btn color="yellow" push to="/a">
         Link /a

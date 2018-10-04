@@ -1,7 +1,8 @@
+import Vue from 'vue'
+
 import QResizeObservable from '../observables/QResizeObservable.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QLayoutHeader',
 
@@ -88,7 +89,7 @@ export default Vue.extend({
       return {
         'fixed-top': this.fixed,
         'absolute-top': !this.fixed,
-        'q-layout-header-hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
+        'q-layout__header--hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
       }
     },
 
@@ -110,7 +111,7 @@ export default Vue.extend({
 
   render (h) {
     return h('header', {
-      staticClass: 'q-layout-header q-layout-marginal q-layout-transition',
+      staticClass: 'q-layout__header q-layout__item--marginal q-layout__item--transitionable',
       'class': this.computedClass,
       style: this.computedStyle
     }, [

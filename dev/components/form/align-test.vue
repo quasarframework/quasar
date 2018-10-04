@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <div class="row no-wrap gutter-sm size-test-example-base" :class="alignClass" style="width: 100%">
         <div class="col-auto">Text</div>
         <div class="col"><q-input v-model="text" clearable /></div>

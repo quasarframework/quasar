@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">
         <span class="desktop-only">Click</span>
         <span class="mobile-only">Tap</span>

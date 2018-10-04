@@ -11,7 +11,7 @@ function onWheel (e) {
 }
 
 function shouldPreventScroll (e) {
-  if (e.target === document.body || e.target.classList.contains('q-layout-backdrop')) {
+  if (e.target === document.body || e.target.classList.contains('q-layout__backdrop')) {
     return true
   }
 
@@ -49,7 +49,7 @@ export default function (register) {
   const action = register ? 'add' : 'remove'
 
   if (Platform.is.mobile) {
-    document.body.classList[action]('q-body-prevent-scroll')
+    document.body.classList[action]('q-body--prevent-scroll')
   }
   else if (Platform.is.desktop) {
     window[`${action}EventListener`]('wheel', onWheel)

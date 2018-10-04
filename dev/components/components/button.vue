@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding buttons-test">
+    <div class="q-layout-padding buttons-test">
       <q-toggle v-model="tag" :label="tag === 'button' ? 'Button' : 'Link'" true-value="button" false-value="a" />
       <div class="group">
         <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">

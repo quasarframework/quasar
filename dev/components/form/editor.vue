@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <q-toggle v-model="hideToolbar" label="Hide Toolbar" class="q-mb-lg" />
     <q-editor
       v-model="model"

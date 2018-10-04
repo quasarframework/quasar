@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <div class="caption">
         <span class="desktop-only">
           Move mouse over the elements below. On a mobile device,

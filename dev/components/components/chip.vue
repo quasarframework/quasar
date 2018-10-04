@@ -1,6 +1,6 @@
 <template>
   <div class="bg-white">
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p>Basic</p>
       <div class="q-ma-md">
         <q-chip icon="event" size="10px">Add to calendar</q-chip>

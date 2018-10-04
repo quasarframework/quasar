@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding test-flex-demo">
+  <div class="q-layout-padding test-flex-demo">
     <h1>
       Columns - container height auto
       <small class="pull-right q-px-xs text-red">XS</small>

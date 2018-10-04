@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <div class="q-my-sm row gutter-sm items-center">
         <div>
           <q-btn type="button" size="lg" label="Button" @click="onClick" />

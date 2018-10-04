@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <div>Value</div>
       <q-slider v-model="value" :min="range.min" :max="range.max" label />
       <div>Size</div>

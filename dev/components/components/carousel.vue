@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding docs-carousel" style="max-width: 700px">
+  <div class="q-layout-padding docs-carousel" style="max-width: 700px">
     <p class="caption">
       Basic Carousel. No controls. Just swipe between slides (you can use
       mouse to swipe too) to navigate left or right.

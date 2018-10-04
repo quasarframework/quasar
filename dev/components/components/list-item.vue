@@ -1,6 +1,6 @@
 <template>
   <div :class="dark ? 'bg-black text-white' : 'bg-white'">
-    <div class="layout-padding" style="max-width: 500px">
+    <div class="q-layout-padding" style="max-width: 500px">
       <q-item tag="label" dark class="q-my-sm bg-primary shadow-1" style="border-radius: 30px">
         <q-item-section>
           <q-item-label>Dark background</q-item-label>

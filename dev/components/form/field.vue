@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding" style="max-width: 600px; border: 1px solid black;">
+    <div class="q-layout-padding" style="max-width: 600px; border: 1px solid black;">
       <q-field label="With Tooltip">
         <q-input v-model="model" :count="10">
           <q-tooltip :offset="[0, 10]">
