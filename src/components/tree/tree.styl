@@ -85,7 +85,7 @@
     font-size 16px
 
   &__arrow--rotate
-    transform rotate(90deg)
+    transform rotate3d(0, 0, 1, 90deg)
 
   // remove connectors before root
   > .q-tree__node
@@ -101,7 +101,7 @@
 
 [dir=rtl]
   .q-tree__arrow
-    transform rotate(180deg) /* rtl:ignore */
+    transform rotate3d(0, 0, 1, 180deg) /* rtl:ignore */
     &--rotate
-      transform rotate(90deg) /* rtl:ignore */
+      transform rotate3d(0, 0, 1, 90deg) /* rtl:ignore */
 

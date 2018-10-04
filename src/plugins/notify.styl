@@ -70,7 +70,7 @@ body.q-ios-statusbar-x .q-notifications__list
   &--top-enter, &--top-leave-to,
   &--top-right-enter, &--top-right-leave-to
     opacity 0
-    transform translateY(-50px)
+    transform translate3d(0, -50px, 0)
     z-index ($z-notify - 1)
 
   &--left-enter, &--left-leave-to,
@@ -80,7 +80,7 @@ body.q-ios-statusbar-x .q-notifications__list
   &--bottom-enter, &--bottom-leave-to,
   &--bottom-right-enter, &--bottom-right-leave-to
     opacity 0
-    transform translateY(50px)
+    transform translate3d(0, 50px, 0)
     z-index ($z-notify - 1)
 
   &--top-left-leave-active,

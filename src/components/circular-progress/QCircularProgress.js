@@ -58,7 +58,7 @@ export default Vue.extend({
     },
 
     svgStyle () {
-      return { transform: `rotate(${this.angle - 90}deg)` }
+      return { transform: `rotate3d(0, 0, 1, ${this.angle - 90}deg)` }
     },
 
     circleStyle () {

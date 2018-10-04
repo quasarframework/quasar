@@ -204,10 +204,10 @@ export default Vue.extend({
         forMinute = this.view === 'minute',
         divider = forMinute ? 60 : 12,
         degrees = Math.round((forMinute ? this.minute : this.hour) * (360 / divider)) - 180,
-        transforms = [`rotate(${degrees}deg)`]
+        transforms = [`rotate3d(0, 0, 1, ${degrees}deg)`]
 
       if (!forMinute && this.computedFormat24h && !(this.hour > 0 && this.hour < 13)) {
-        transforms.push('scale(.7, .7)')
+        transforms.push('scale3d(.7, .7, 1)')
       }
       return { transform: transforms.join(' ') }
     },
@@ -422,7 +422,7 @@ export default Vue.extend({
         height = Math.abs(pos.top - this.centerClockPos.top),
         distance = Math.sqrt(
           height ** 2 +
-          Math.abs(pos.left - this.centerClockPos.left)
+          Math.abs(pos.left - this.centerClockPos.left) ** 2
         ),
         angle = Math.asin(height / distance) * (180 / Math.PI)
 

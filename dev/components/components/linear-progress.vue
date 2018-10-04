@@ -24,6 +24,12 @@
         <q-linear-progress class="q-my-sm" :value="progress" color="negative"/>
       </div>
 
+      <h5>Determinate State - Reverse</h5>
+      <div class="group">
+        <q-linear-progress reverse class="q-my-sm" :value="progress"/>
+        <q-linear-progress reverse height="10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
+      </div>
+
       <h5>Stripe</h5>
       <div class="group">
         <q-linear-progress class="q-my-sm" :value="progress" stripe/>

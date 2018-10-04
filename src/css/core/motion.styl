@@ -1,14 +1,14 @@
 @keyframes q-rotate
   0%
-    transform rotate(0) /* rtl:ignore */
+    transform rotate3d(0, 0, 1, 0) /* rtl:ignore */
   25%
-    transform rotate(90deg) /* rtl:ignore */
+    transform rotate3d(0, 0, 1, 90deg) /* rtl:ignore */
   50%
-    transform rotate(180deg) /* rtl:ignore */
+    transform rotate3d(0, 0, 1, 180deg) /* rtl:ignore */
   75%
-    transform rotate(270deg) /* rtl:ignore */
+    transform rotate3d(0, 0, 1, 270deg) /* rtl:ignore */
   100%
-    transform rotate(360deg) /* rtl:ignore */
+    transform rotate3d(0, 0, 1, 360deg) /* rtl:ignore */
 
 .generic-transition
   transition all .3s
@@ -38,19 +38,19 @@
 
 @keyframes q-spin
   0%
-    transform rotate(0deg) /* rtl:ignore */
+    transform rotate3d(0, 0, 1, 0deg) /* rtl:ignore */
   100%
-    transform rotate(359deg) /* rtl:ignore */
+    transform rotate3d(0, 0, 1, 359deg) /* rtl:ignore */
 
 @keyframes q-pop
   0%
     opacity 0
-    transform scale(.7)
+    transform scale3d(.7, .7, 1)
   70%
     opacity 1
-    transform scale(1.07)
+    transform scale3d(1.07, 1.07, 1)
   100%
-    transform scale(1)
+    transform scale3d(1, 1, 1)
 
 @keyframes q-fade
   0%
@@ -61,26 +61,26 @@
 @keyframes q-scale
   0%
     opacity 0
-    transform scale(.7)
+    transform scale3d(.7, .7, 1)
   100%
     opacity 1
-    transform scale(1)
+    transform scale3d(1, 1, 1)
 
 @keyframes q-bounce
   0%, 20%, 50%, 80%, 100%
-    transform translateY(0)
+    transform translate3d(0, 0, 0)
   40%
-    transform translateY(-30px)
+    transform translate3d(0, -30px, 0)
   60%
-    transform translateY(-15px)
+    transform translate3d(0, -15px, 0)
 
 @keyframes q-shake
   0%
-    transform scale(1)
+    transform scale3d(1, 1, 1)
   50%
-    transform scale(1.02)
+    transform scale3d(1.02, 1.02, 1)
   100%
-    transform scale(1)
+    transform scale3d(1, 1, 1)
 
 .animate-popup-up, .animate-popup-down
   animation-timing-function cubic-bezier(0.23, 1, 0.32, 1)
@@ -96,7 +96,7 @@
 @keyframes q-popup-down
   0%
     opacity 0
-    transform translateY(-10px) scaleY(.3)
+    transform translate3d(0, -10px, 0) scale3d(1, .3, 1)
     pointer-events none
   30%
     opacity 1
@@ -104,7 +104,7 @@
 @keyframes q-popup-up
   0%
     opacity 0
-    transform translateY(10px) scaleY(.3)
+    transform translate3d(0, 10px, 0) scale3d(1, .3, 1)
     pointer-events none
   30%
     opacity 1
@@ -116,11 +116,11 @@
 
 @keyframes q-slide-left
   0%
-    transform translateX(-70%)
+    transform translate3d(-70%, 0, 0)
 
 @keyframes q-slide-right
   0%
-    transform translateX(70%)
+    transform translate3d(70%, 0, 0)
 
 .animated
   animation-duration 1s

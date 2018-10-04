@@ -751,11 +751,11 @@ $input-box-padding-bottom       ?= $input-padding-bottom
 
 $input-inverted-border-radius  ?= $generic-border-radius
 
-$input-label-transform-base           ?= translate(0, 0)
-$input-label-box-transform-base       ?= translate(0, -21px)
+$input-label-transform-base           ?= translate3d(0, 0, 0)
+$input-label-box-transform-base       ?= translate3d(0, -21px, 0)
 
-$input-label-transform                ?= translate(0, -100%)
-$input-label-box-transform            ?= translate(0, -125%)
+$input-label-transform                ?= translate3d(0, -100%, 0)
+$input-label-box-transform            ?= translate3d(0, -125%, 0)
 
 $input-frame-transition        ?= all .45s cubic-bezier(.23, 1, .32, 1), display 0s 0s
 $input-frame-transition-border ?= transform .45s cubic-bezier(.23, 1, .32, 1), border-left-width 0s .45s, border-right-width 0s .45s
