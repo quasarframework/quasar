@@ -31,7 +31,7 @@
         @blur="log('@blur')"
         placeholder="Minimal"
       />
-      <div class="q-my-md row gutter-md justify-center">
+      <div class="q-my-md row q-gutter-md justify-center">
         <div>
           <q-datetime
             v-model="model"
@@ -108,7 +108,7 @@
         @blur="log('@blur')"
         placeholder="Minimal modal"
       />
-      <div class="q-my-md row gutter-md justify-center">
+      <div class="q-my-md row q-gutter-md justify-center">
         <div>
           <q-datetime
             v-model="model"
@@ -166,7 +166,7 @@
           />
         </div>
       </div>
-      <div class="q-my-md row gutter-md justify-center">
+      <div class="q-my-md row q-gutter-md justify-center">
         <div>
           <q-datetime-picker
             v-model="model"
@@ -229,7 +229,7 @@
         @focus="log('@focus')"
         @blur="log('@blur')"
       />
-      <div class="q-my-md row gutter-sm">
+      <div class="q-my-md row q-gutter-sm">
         <div class="col-md-2">
           <q-datetime-picker
             v-model="model"

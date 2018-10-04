@@ -11,20 +11,22 @@ export default Vue.extend({
       type: String,
       default: '/'
     },
-    color: {
-      type: String,
-      default: 'grey'
-    },
+    color: String,
     activeColor: {
       type: String,
       default: 'primary'
+    },
+    gutter: {
+      type: String,
+      validator: v => ['none', 'xs', 'sm', 'md', 'lg', 'xl'].includes(v),
+      default: 'sm'
     },
     separatorColor: String
   },
 
   computed: {
     classes () {
-      return `text-${this.color} ${this.alignClass}`
+      return `${this.alignClass}${this.gutter === 'none' ? '' : ` q-gutter-${this.gutter}`}`
     },
 
     sepClass () {
@@ -56,7 +58,7 @@ export default Vue.extend({
 
         child.push(h('div', {
           staticClass: 'flex items-center',
-          'class': middle ? this.activeClass : 'q-breadcrumbs__last'
+          'class': middle ? this.activeClass : 'q-breadcrumbs--last'
         }, [ comp ]))
 
         if (middle) {
@@ -71,7 +73,7 @@ export default Vue.extend({
     }
 
     return h('div', {
-      staticClass: 'q-breadcrumbs flex gutter-xs items-center overflow-hidden',
+      staticClass: 'q-breadcrumbs flex items-center',
       'class': this.classes
     }, child)
   }

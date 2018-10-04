@@ -4,7 +4,7 @@
       <div v-for="dense in [false, true]" :key="dense">
         <div v-for="(mode, index) in modes" :key="index">
           <p class="caption">{{ dense ? 'Dense' : 'Normal' }} {{ filterMode(mode) }}</p>
-          <div class="row no-wrap gutter-x-sm size-test-example">
+          <div class="row no-wrap q-gutter-x-sm size-test-example">
             <div>
               <div>
                 <q-input
@@ -318,7 +318,7 @@
       </div>
 
       <div class="fixed-top-left bg-grey-3 q-pa-sm" style="top: 8px; left: 8px; z-index: 10;">
-        <div class="row no-wrap gutter-sm">
+        <div class="row no-wrap q-gutter-sm">
           <q-toggle v-model="guidelines" label="Guidelines" />
           <div>
             <q-select hide-underline class="q-my-none q-py-none" placeholder="Margin Y" v-model="margin" :options="sizes" clearable />

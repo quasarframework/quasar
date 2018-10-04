@@ -22,7 +22,7 @@
       <br><br>
       <q-btn color="primary" label="Set to yellow" @click="setToYellow"/>
 
-      <div class="row gutter-md" style="width: 550px">
+      <div class="row q-gutter-md" style="width: 550px">
         <div class="col-6">
           <q-color-picker v-model="modelHex" @input="value => log('@input', value)" @change="value => log('@change', value)" />
           <div class="inline-block text-white" style="text-shadow: black 0px 0px 7px; padding: 10px" :style="{ backgroundColor: this.modelHex }">
@@ -50,7 +50,7 @@
       </div>
 
       <h4>Lazy</h4>
-      <div class="row gutter-md" style="width: 550px">
+      <div class="row q-gutter-md" style="width: 550px">
         <div class="col-6">
           <q-color-picker :value="modelHex" @change="model => { modelHex = model; log('@change', model) }" @input="value => log('@input', value)" />
           <div class="inline-block text-white" style="text-shadow: black 0px 0px 7px; padding: 10px" :style="{ backgroundColor: this.modelHex }">
@@ -88,7 +88,7 @@
       <q-color modal v-model="inputModelRgb" float-label="RGB Modal Readonly " readonly />
 
       <h4>Readonly</h4>
-      <div class="row gutter-md" style="width: 550px">
+      <div class="row q-gutter-md" style="width: 550px">
         <div class="col-6">
           <q-color-picker v-model="modelHex" readonly />
         </div>
@@ -104,7 +104,7 @@
       </div>
 
       <h4>Disable</h4>
-      <div class="row gutter-md" style="width: 550px">
+      <div class="row q-gutter-md" style="width: 550px">
         <div class="col-6">
           <q-color-picker v-model="modelHex" disable />
         </div>

@@ -4,7 +4,7 @@
       <p class="caption">
         Notify the user something is going on under the covers.
       </p>
-      <div class="group">
+      <div class="q-gutter-sm">
         <q-btn push color="secondary" @click="noMessage()">
           Show
         </q-btn>

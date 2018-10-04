@@ -1,11 +1,13 @@
-.q-breadcrumbs__el
-  color inherit
+.q-breadcrumbs
 
-  .q-icon
-    font-size 125%
+  &__el
+    color inherit
 
-.q-breadcrumbs__last a
-  pointer-events none
+    .q-icon
+      font-size 125%
+
+  &--last a
+    pointer-events none
 
 [dir=rtl] .q-breadcrumbs__separator .q-icon
   transform scaleX(-1) /* rtl:ignore */

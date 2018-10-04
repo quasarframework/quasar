@@ -69,7 +69,7 @@
         <q-toggle v-model="testD" label="Disable form buttons" />
         <q-toggle v-model="testR" label="Wait for ripple" />
         <form @submit.prevent="submit" @reset.prevent="reset" class="shadow-2 q-pa-md row items-center">
-          <div class="col row items-center gutter-md">
+          <div class="col row items-center q-gutter-md">
             <div class="col">
               <q-input v-model="test" />
             </div>

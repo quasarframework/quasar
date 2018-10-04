@@ -6,25 +6,27 @@
         <br>
         If window is wide enough then labels are also displayed.
       </p>
-      <q-toggle v-model="first" label="first" />
-      <q-toggle v-model="second" label="second" />
-      <q-toggle v-model="third" label="third" />
+      <div class="q-gutter-sm">
+        <q-toggle v-model="first" label="first" />
+        <q-toggle v-model="second" label="second" />
+        <q-toggle v-model="third" label="third" />
+      </div>
       <br><br>
-      <q-breadcrumbs>
+      <q-breadcrumbs class="text-teal">
         <q-breadcrumbs-el v-if="first" label="Home" icon="home" />
         <q-breadcrumbs-el v-if="second" label="Components" icon="widgets" />
         <q-breadcrumbs-el v-if="third" label="Breadcrumbs" icon="navigation" />
       </q-breadcrumbs>
 
       <br><br>
-      <q-breadcrumbs separator-color="orange">
+      <q-breadcrumbs separator-color="deep-orange" style="font-size: 24px">
         <q-breadcrumbs-el label="Home" icon="home" />
         <q-breadcrumbs-el label="Home" />
         <q-breadcrumbs-el label="Home" />
         <q-breadcrumbs-el label="Home" />
       </q-breadcrumbs>
       <br><br>
-      <q-breadcrumbs icon-separator="chevron_right" active-color="secondary" color="orange" align="right">
+      <q-breadcrumbs icon-separator="chevron_right" active-color="secondary" class="text-orange" align="right">
         <q-breadcrumbs-el label="Home" to="/" />
         <q-breadcrumbs-el label="Components" to="/components" />
         <q-breadcrumbs-el label="Breadcrumbs" to="/components/breadcrumbs" />

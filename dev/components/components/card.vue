@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="q-layout-padding card-examples row items-start">
+    <div class="q-layout-padding card-examples row items-start q-gutter-md">
       <q-card inline class="bigger">
         <q-card-media>
           <img src="~assets/donuts.png">
@@ -603,7 +603,6 @@ export default {
 .card-examples
   .q-card
     width 300px
-    margin 0 12px 12px 0
   .bigger
     width 450px
   @media (max-width $breakpoint-xs-max)

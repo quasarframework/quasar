@@ -120,7 +120,7 @@
         <q-tab icon="location_on" label="Item six" />
       </q-tabs>
 
-      <div class="row gutter-xs justify-stretch">
+      <div class="row q-gutter-xs justify-stretch">
         <div class="col-12 col-sm-6 col-md">
           <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a#123" label="/tabs/a#123 - select most specific tab" />
         </div>

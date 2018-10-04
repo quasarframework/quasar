@@ -124,7 +124,7 @@
           </q-input>
 
           <p class="q-subtitle">Options selected: {{ JSON.stringify(options) }}</p>
-          <div class="row gutter-sm">
+          <div class="row q-gutter-sm">
             <div>
               <div>
                 <q-checkbox :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="options" val="Romania" label="Romania" />
@@ -168,7 +168,7 @@
           </div>
 
           <p class="q-subtitle">Options selected: {{ JSON.stringify(options) }}</p>
-          <div class="row gutter-sm">
+          <div class="row q-gutter-sm">
             <div>
               <div>
                 <q-toggle :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="options" val="Romania" label="Romania" />
@@ -212,7 +212,7 @@
           </div>
 
           <p class="q-subtitle">Option selected: {{ JSON.stringify(option) }}</p>
-          <div class="row gutter-sm">
+          <div class="row q-gutter-sm">
             <div>
               <div>
                 <q-radio :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="option" val="Romania" label="Romania" />
@@ -296,7 +296,7 @@
           <q-color prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" placeholder="Color - popover (RGBA)" popover format-model="rgba" :after="[ { icon: 'colorize', handler () { color = '#f00' } }]" />
 
           <p class="q-subtitle">Color selected: {{ JSON.stringify(colorP) }}</p>
-          <div class="row gutter-sm">
+          <div class="row q-gutter-sm">
             <div>
               <div>Color</div>
               <q-color-picker :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="colorP" />
@@ -327,7 +327,7 @@
           <q-datetime prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="date" format-model="date" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" placeholder="Date - popover" popover :after="[ { icon: 'today', handler () { date = new Date('2018-10-21') } }]" />
 
           <p class="q-subtitle">Date selected: {{ JSON.stringify(date) }}</p>
-          <div class="row gutter-sm">
+          <div class="row q-gutter-sm">
             <div>
               <div>Date</div>
               <q-datetime-picker :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="date" format-model="date" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" />
@@ -386,7 +386,7 @@
           <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="number" inverted :clearable="clearable" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="val => { termsNS = val; onChange(val) }" @input="onInput" @clear="onClear" :value="termsNS" float-label="Number (onChange)" />
 
           <p class="q-subtitle">Knob: {{ JSON.stringify(termsK) }}</p>
-          <div class="row gutter-sm">
+          <div class="row q-gutter-sm">
             <div class="col-6">
               <div>Between {{ minVal }} and {{ maxVal }}, step {{ step }}</div>
               <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :step="step" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
@@ -406,7 +406,7 @@
           </div>
 
           <p class="q-subtitle">Slider: {{ JSON.stringify(termsK) }}</p>
-          <div class="row gutter-sm">
+          <div class="row q-gutter-sm">
             <div class="col-6">
               <div>Between {{ minVal }} and {{ maxVal }}, step {{ step }}</div>
               <q-slider :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :step="step" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
@@ -426,7 +426,7 @@
           </div>
 
           <p class="q-subtitle">Range: {{ JSON.stringify(termsR) }}</p>
-          <div class="row gutter-sm">
+          <div class="row q-gutter-sm">
             <div class="col-6">
               <div>Between {{ minVal }} and {{ maxVal }}, step {{ step }}</div>
               <q-range :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" drag-range :step="step" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsR" :min="minVal" :max="maxVal" />
@@ -446,7 +446,7 @@
           </div>
 
           <p class="q-subtitle">Rating: {{ JSON.stringify(termT) }}</p>
-          <div class="row gutter-sm">
+          <div class="row q-gutter-sm">
             <div>
               <div>Rating</div>
               <q-rating class="q-ma-md" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" size="3rem" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termT" :max="maxVal" icon="create" />
@@ -458,7 +458,7 @@
           </div>
 
           <p class="q-subtitle">Option: {{ JSON.stringify(optionValue) }}</p>
-          <div class="row gutter-sm items-baseline">
+          <div class="row q-gutter-sm items-baseline">
             <div class="col">
               <q-select :dark="dark" v-model="optionType" :options="optionTypes" />
             </div>
@@ -467,7 +467,7 @@
               <component v-if="optionType === 'QRadio'" :is="optionType" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" :label="`${optionType} (false)`" :val="false" />
             </div>
           </div>
-          <div class="row gutter-sm">
+          <div class="row q-gutter-sm">
             <QToggle ref="qtoggle1" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="QToggle" />
             <qToggle ref="qtoggle2" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="qToggle" />
             <q-toggle ref="qtoggle3" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="q-toggle" />

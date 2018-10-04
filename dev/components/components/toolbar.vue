@@ -46,15 +46,17 @@
         <q-btn flat round dense icon="more_vert" />
       </q-toolbar>
 
-      <q-toolbar class="bg-primary text-white q-mt-md">
-        <q-btn flat round dense icon="menu" class="q-mr-sm" />
-        <q-space />
-        <q-btn flat round dense icon="search" class="q-mr-xs" />
-        <q-btn flat round dense icon="group_add" />
-      </q-toolbar>
-      <q-toolbar inset class="bg-primary text-white q-mb-md">
-        <q-toolbar-title><strong>Quasar</strong> Framework</q-toolbar-title>
-      </q-toolbar>
+      <div class="bg-primary text-white q-my-md">
+        <q-toolbar>
+          <q-btn flat round dense icon="menu" class="q-mr-sm" />
+          <q-space />
+          <q-btn flat round dense icon="search" class="q-mr-xs" />
+          <q-btn flat round dense icon="group_add" />
+        </q-toolbar>
+        <q-toolbar inset>
+          <q-toolbar-title><strong>Quasar</strong> Framework</q-toolbar-title>
+        </q-toolbar>
+      </div>
 
       <q-toolbar class="bg-red text-white q-my-md">
         <q-btn flat round dense icon="assignment_ind" />
@@ -74,19 +76,24 @@
         <q-btn flat round dense icon="gamepad" />
       </q-toolbar>
 
-      <q-toolbar class="bg-cyan text-white q-mt-md">
-        <q-btn flat round dense icon="assignment_ind" />
+      <div class="bg-cyan text-white q-my-md">
+        <q-toolbar>
+          <q-btn flat round dense icon="assignment_ind" />
 
-        <q-space />
+          <q-space />
 
-        <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
-        <q-btn flat round dense icon="gamepad" />
-      </q-toolbar>
-      <q-toolbar inset class="bg-cyan text-white q-mb-md">
-        <q-toolbar-title>
-          Toolbar
-        </q-toolbar-title>
-      </q-toolbar>
+          <q-btn flat round dense icon="sim_card" class="q-mr-xs" />
+          <q-btn flat round dense icon="gamepad" />
+        </q-toolbar>
+
+        <q-toolbar inset>
+          <q-breadcrumbs active-color="white" style="font-size: 16px">
+            <q-breadcrumbs-el label="Home" icon="home" />
+            <q-breadcrumbs-el label="Components" icon="widgets" />
+            <q-breadcrumbs-el label="Toolbar" />
+          </q-breadcrumbs>
+        </q-toolbar>
+      </div>
 
       <q-toolbar class="bg-orange text-white q-my-md">
         <q-btn flat round dense icon="mail" />

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="q-layout-padding">
-      <div class="q-my-sm row gutter-sm items-center">
+      <div class="q-my-sm row q-gutter-sm items-center">
         <div>
           <q-btn type="button" size="lg" label="Button" @click="onClick" />
         </div>
@@ -49,7 +49,7 @@
       </div>
 
       <form @submit.prevent="submit" @reset.prevent="reset" class="shadow-2 q-pa-md q-my-sm row items-center">
-        <div class="col row items-center gutter-md">
+        <div class="col row items-center q-gutter-md">
           <div class="col">
             <q-input v-model="test" type="textarea" />
           </div>
@@ -65,7 +65,7 @@
       </form>
 
       <form @submit.prevent="submit" class="shadow-2 q-pa-md q-my-sm row items-center">
-        <div class="col row items-center gutter-md">
+        <div class="col row items-center q-gutter-md">
           <div class="col">
             <q-input v-model="test" type="textarea" />
           </div>
