@@ -61,10 +61,7 @@ export default Vue.extend({
     style () {
       const
         attach = this.attach,
-        translate = {
-          x: 0,
-          y: 0
-        },
+        translate = { x: 0, y: 0 },
         dir = this.$q.i18n.rtl ? -1 : 1
 
       if (attach.top && this.top) {
@@ -81,9 +78,7 @@ export default Vue.extend({
         translate.x = `${-dir * this.right}px`
       }
 
-      const css = translate.x !== translate.y
-        ? { transform: `translate3d(${translate.x}, ${translate.y}, 0)` }
-        : {}
+      const css = { transform: `translate3d(${translate.x}, ${translate.y}, 0)` }
 
       if (this.offset) {
         css.margin = `${this.offset[1]}px ${this.offset[0]}px`
