@@ -36,7 +36,7 @@ export default {
 
       this.$emit('before-show', evt)
       this.showing = true
-      this.$emit('input', false)
+      this.$emit('input', true)
 
       if (this.$options.modelToggle !== void 0 && this.$options.modelToggle.history === true) {
         this.__historyEntry = {
