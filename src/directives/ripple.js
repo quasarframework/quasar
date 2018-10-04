@@ -25,7 +25,7 @@ function showRipple (evt, el, ctx) {
   css(innerNode, {
     height: `${diameter}px`,
     width: `${diameter}px`,
-    transform: `translate(${x}, ${y}) scale3d(0.3, 0.3, 0.3)`,
+    transform: `translate3d(${x}, ${y}, 0) scale3d(0.3, 0.3, 1)`,
     opacity: 0
   })
 
@@ -35,7 +35,7 @@ function showRipple (evt, el, ctx) {
 
   ctx.timer = setTimeout(() => {
     innerNode.classList.add('q-ripple__inner--enter')
-    innerNode.style.transform = `translate(${centerX}, ${centerY}) scale3d(1,1,1)`
+    innerNode.style.transform = `translate3d(${centerX}, ${centerY}, 0) scale3d(1, 1, 1)`
     innerNode.style.opacity = 0.2
 
     ctx.timer = setTimeout(() => {

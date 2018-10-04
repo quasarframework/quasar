@@ -61,26 +61,24 @@ export default Vue.extend({
     style () {
       const
         attach = this.attach,
-        transforms = [],
+        translate = { x: 0, y: 0 },
         dir = this.$q.i18n.rtl ? -1 : 1
 
       if (attach.top && this.top) {
-        transforms.push(`translateY(${this.top}px)`)
+        translate.y = `${this.top}px`
       }
       else if (attach.bottom && this.bottom) {
-        transforms.push(`translateY(${-this.bottom}px)`)
+        translate.y = `${-this.bottom}px`
       }
 
       if (attach.left && this.left) {
-        transforms.push(`translateX(${dir * this.left}px)`)
+        translate.x = `${dir * this.left}px`
       }
       else if (attach.right && this.right) {
-        transforms.push(`translateX(${-dir * this.right}px)`)
+        translate.x = `${-dir * this.right}px`
       }
 
-      const css = transforms.length
-        ? { transform: transforms.join(' ') }
-        : {}
+      const css = { transform: `translate3d(${translate.x}, ${translate.y}, 0)` }
 
       if (this.offset) {
         css.margin = `${this.offset[1]}px ${this.offset[0]}px`

@@ -15,11 +15,11 @@ $layout-transition = all .12s ease-in
 
 .q-layout__header
   &--hidden
-    transform translateY(-110%)
+    transform translate3d(0, -110%, 0)
 
 .q-layout__footer
   &--hidden
-    transform translateY(110%)
+    transform translate3d(0, 110%, 0)
 
 .q-layout__drawer
   position absolute
@@ -33,10 +33,10 @@ $layout-transition = all .12s ease-in
     // box-shadow $layout-aside-shadow
   &--left
     left 0
-    transform translateX(-100%)
+    transform translate3d(-100%, 0, 0)
   &--right
     right 0
-    transform translateX(100%)
+    transform translate3d(100%, 0, 0)
 
   &--mini
     padding 0 !important
@@ -50,8 +50,8 @@ $layout-transition = all .12s ease-in
     .q-mini-drawer-only
       display none
   &--mobile
-  .q-mini-drawer-only, .q-mini-drawer-hide
-    display none
+    .q-mini-drawer-only, .q-mini-drawer-hide
+      display none
 
 .q-layout, .q-layout__header, .q-layout__footer, .q-layout__page
   position relative

@@ -10,9 +10,9 @@
 
     &-prev
       &-enter
-        transform translate(-100%, 0)
+        transform translate3d(-100%, 0, 0)
       &-leave, &-leave-to
-        transform translate(100%, 0)
+        transform translate3d(100%, 0, 0)
         position absolute
         top 0
         left 0
@@ -20,14 +20,14 @@
 
     &-next
       &-enter
-        transform translate(100%, 0)
+        transform translate3d(100%, 0, 0)
       &-leave, &-leave-active
         position absolute
         top 0
         left 0
         right 0
       &-leave-to
-        transform translate(-100%, 0)
+        transform translate3d(-100%, 0, 0)
         position absolute
 
   &--slide-y
@@ -35,9 +35,9 @@
 
     &-prev
       &-enter
-        transform translate(0, -100%)
+        transform translate3d(0, -100%, 0)
       &-leave, &-leave-to
-        transform translate(0, 100%)
+        transform translate3d(0, 100%, 0)
         position absolute
         top 0
         left 0
@@ -45,14 +45,14 @@
 
     &-next
       &-enter
-        transform translate(0, 100%)
+        transform translate3d(0, 100%, 0)
       &-leave, &-leave-active
         position absolute
         top 0
         left 0
         right 0
       &-leave-to
-        transform translate(0, -100%)
+        transform translate3d(0, -100%, 0)
         position absolute
 
   &--fade

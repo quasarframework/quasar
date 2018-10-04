@@ -316,7 +316,7 @@ export default Vue.extend({
         if (this.layout.container && this.rightSide && (this.mobileView || Math.abs(position) === this.size)) {
           position += this.stateDirection * this.layout.scrollbarWidth
         }
-        this.$refs.content.style.transform = `translateX(${position}px)`
+        this.$refs.content.style.transform = `translate3d(${position}px, 0, 0)`
       }
     },
 

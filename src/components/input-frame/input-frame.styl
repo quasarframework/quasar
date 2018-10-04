@@ -30,7 +30,7 @@ $margin-top-box
   &:after
     border-width 0
     transform-origin center center 0
-    transform scaleX(0)
+    transform scale3d(0, 1, 1)
   &:not(.q-if-disabled):not(.q-if-error):not(.q-if-warning):hover:before,
   &.q-if-readonly:not(.q-if-error):not(.q-if-warning):after
     color black
@@ -41,7 +41,7 @@ $margin-top-box
       @extends $content-none
 .q-if-focused:after
   border-width 2px
-  transform scaleX(1)
+  transform scale3d(1, 1, 1)
   transition $input-frame-transition-border
 
 .q-if

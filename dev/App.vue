@@ -7,7 +7,8 @@
       style="padding: 10px; right: 10px; bottom: 10px"
       class="bg-white shadow-4 fixed z-top"
     >
-      <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" />
+      <!-- <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" /> -->
+      <q-btn dense flat size="sm" icon="visibility" @click="lang = lang === 'en-us' ? 'he' : 'en-us'" class="absolute-top-right z-top" />
       <template v-if="showSelector">
         <q-select
           hide-underline
