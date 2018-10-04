@@ -118,7 +118,7 @@ export default Vue.extend({
 
   render (h) {
     return h('footer', {
-      staticClass: 'q-footer q-layout__section--marginal q-layout__section--animate',
+      staticClass: 'q-footer q-layout__section q-layout__section--marginal q-layout__section--animate',
       'class': this.classes,
       style: this.style
     }, [

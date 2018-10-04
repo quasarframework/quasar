@@ -532,7 +532,7 @@ export default Vue.extend({
     }, child.concat([
       h('aside', {
         ref: 'content',
-        staticClass: `q-drawer q-layout__section--animate`,
+        staticClass: `q-drawer q-layout__section q-layout__section--animate`,
         'class': this.classes,
         style: this.style,
         attrs: this.$attrs,

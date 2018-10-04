@@ -17,6 +17,7 @@
 
   &__content
     height inherit
+    min-width 40px
 
     &--inline
       .q-tab__icon + .q-tab__label
@@ -105,3 +106,8 @@ body.mobile
 
 .q-tab-panel
   padding 16px
+
+@media (min-width $breakpoint-lg-min)
+  .q-header, .q-footer
+    .q-tab__content
+      min-width 128px
