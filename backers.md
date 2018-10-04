@@ -108,7 +108,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - altShiftDev
 - Simon Kimber
 - Arjan Dhupia
-- Stephan Kobald
+- RED CAD Solutions AG
 - Yatima Kagurazaka
 - Matyáš Racek
 - Martin Thompson
