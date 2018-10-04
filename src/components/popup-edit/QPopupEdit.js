@@ -1,8 +1,9 @@
+import Vue from 'vue'
+
 import QPopover from '../popover/QPopover.js'
 import QBtn from '../btn/QBtn.js'
 import clone from '../../utils/clone.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QPopupEdit',
 

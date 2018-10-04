@@ -1,7 +1,8 @@
+import Vue from 'vue'
+
 import { listenOpts } from '../../utils/event.js'
 import { onSSR, fromSSR } from '../../plugins/platform.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QWindowResizeObservable',
 

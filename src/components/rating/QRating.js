@@ -1,8 +1,9 @@
+import Vue from 'vue'
+
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import QIcon from '../icon/QIcon.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QRating',
 

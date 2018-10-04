@@ -1,6 +1,7 @@
+import Vue from 'vue'
+
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QItem',
 

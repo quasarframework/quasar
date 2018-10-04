@@ -1,7 +1,8 @@
+import Vue from 'vue'
+
 import QBtn from './QBtn.js'
 import QBtnGroup from './QBtnGroup.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QBtnToggle',
 

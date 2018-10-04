@@ -1,10 +1,11 @@
+import Vue from 'vue'
+
 import BtnMixin from './btn-mixin.js'
 import QIcon from '../icon/QIcon.js'
 import QBtn from './QBtn.js'
 import QBtnGroup from './QBtnGroup.js'
 import QPopover from '../popover/QPopover.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QBtnDropdown',
 

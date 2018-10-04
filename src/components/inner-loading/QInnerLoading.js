@@ -1,6 +1,7 @@
+import Vue from 'vue'
+
 import QSpinner from '../spinner/QSpinner.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QInnerLoading',
 

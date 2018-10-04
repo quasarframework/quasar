@@ -1,8 +1,9 @@
+import Vue from 'vue'
+
 import CheckboxMixin from '../../mixins/checkbox.js'
 import OptionMixin from '../../mixins/option.js'
 import QIcon from '../icon/QIcon.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QCheckbox',
 

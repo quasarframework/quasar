@@ -1,6 +1,7 @@
+import Vue from 'vue'
+
 import AlignMixin from '../../mixins/align.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QBreadcrumbs',
 

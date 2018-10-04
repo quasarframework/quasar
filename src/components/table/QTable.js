@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import Top from './table-top.js'
 import TableHeader from './table-header.js'
 import TableBody from './table-body.js'
@@ -10,7 +12,6 @@ import RowSelection from './table-row-selection.js'
 import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QTable',
 

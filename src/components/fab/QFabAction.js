@@ -1,7 +1,8 @@
+import Vue from 'vue'
+
 import QBtn from '../btn/QBtn.js'
 import FabMixin from './fab-mixin.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QFabAction',
 

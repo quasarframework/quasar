@@ -1,10 +1,11 @@
+import Vue from 'vue'
+
 import BtnMixin from './btn-mixin.js'
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QBtn',
 

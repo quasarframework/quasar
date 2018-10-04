@@ -1,10 +1,11 @@
+import Vue from 'vue'
+
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 import { offset, height, width } from '../../utils/dom.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/touch-pan.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QKnob',
 

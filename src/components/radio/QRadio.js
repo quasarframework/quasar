@@ -1,8 +1,9 @@
+import Vue from 'vue'
+
 import OptionMixin from '../../mixins/option.js'
 import QIcon from '../icon/QIcon.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QRadio',
 

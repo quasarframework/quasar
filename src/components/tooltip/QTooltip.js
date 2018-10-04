@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import debounce from '../../utils/debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import {
@@ -10,7 +12,6 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import { listenOpts } from '../../utils/event.js'
 import CanRenderMixinMixin from '../../mixins/can-render.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QTooltip',
 

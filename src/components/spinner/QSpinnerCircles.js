@@ -1,6 +1,7 @@
+import Vue from 'vue'
+
 import mixin from './spinner-mixin.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QSpinnerCircles',
 

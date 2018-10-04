@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import FrameMixin from '../../mixins/input-frame.js'
 import InputMixin from '../../mixins/input.js'
 import inputTypes from './input-types.js'
@@ -8,7 +10,6 @@ import QInputFrame from '../input-frame/QInputFrame.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QIcon from '../icon/QIcon.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QInput',
 

@@ -1,8 +1,9 @@
+import Vue from 'vue'
+
 import QIcon from '../icon/QIcon.js'
 import RippleMixin from '../../mixins/ripple.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QChip',
 

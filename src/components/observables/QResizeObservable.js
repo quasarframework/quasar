@@ -1,8 +1,9 @@
+import Vue from 'vue'
+
 import { listenOpts } from '../../utils/event.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import { isSSR } from '../../plugins/platform.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QResizeObservable',
 

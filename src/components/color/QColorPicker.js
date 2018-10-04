@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import QBtn from '../btn/QBtn.js'
 import QSlider from '../slider/QSlider.js'
 import ParentFieldMixin from '../../mixins/parent-field.js'
@@ -7,7 +9,6 @@ import throttle from '../../utils/throttle.js'
 import clone from '../../utils/clone.js'
 import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QColorPicker',
 

@@ -1,7 +1,8 @@
+import Vue from 'vue'
+
 import QIcon from '../icon/QIcon.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QBreadcrumbsEl',
 

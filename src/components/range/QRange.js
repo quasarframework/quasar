@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import {
@@ -14,7 +16,6 @@ const dragType = {
   MAX: 2
 }
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QRange',
 

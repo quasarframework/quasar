@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import EscapeKey from '../../utils/escape-key.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import preventScroll from '../../utils/prevent-scroll.js'
@@ -37,7 +39,6 @@ let modals = {
   maximized: 0
 }
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QModal',
 

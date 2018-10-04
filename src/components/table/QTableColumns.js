@@ -1,6 +1,7 @@
+import Vue from 'vue'
+
 import QSelect from '../select/QSelect.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QTableColumns',
 

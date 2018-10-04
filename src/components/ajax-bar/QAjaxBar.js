@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import { between } from '../../utils/format.js'
 import { isSSR } from '../../plugins/platform.js'
 
@@ -77,7 +79,6 @@ function restoreAjax (start, stop) {
   }
 }
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QAjaxBar',
 

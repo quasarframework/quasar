@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import QRadio from '../radio/QRadio.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QToggle from '../toggle/QToggle.js'
@@ -9,7 +11,6 @@ const components = {
   toggle: QToggle
 }
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QOptionGroup',
 

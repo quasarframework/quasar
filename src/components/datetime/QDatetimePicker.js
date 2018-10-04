@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import { height, width, offset } from '../../utils/dom.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
 import QBtn from '../btn/QBtn.js'
@@ -11,7 +13,6 @@ function convertToAmPm (hour) {
   return hour === 0 ? 12 : (hour >= 13 ? hour - 12 : hour)
 }
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QDatetimePicker',
 

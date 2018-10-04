@@ -1,7 +1,8 @@
+import Vue from 'vue'
+
 import { getScrollPosition, getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QScrollObservable',
 

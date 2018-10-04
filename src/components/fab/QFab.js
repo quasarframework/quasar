@@ -1,9 +1,10 @@
+import Vue from 'vue'
+
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 import FabMixin from './fab-mixin.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QFab',
 

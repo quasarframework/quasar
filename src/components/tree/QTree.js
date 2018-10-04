@@ -1,10 +1,11 @@
+import Vue from 'vue'
+
 import QIcon from '../icon/QIcon.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QTree',
 

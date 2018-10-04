@@ -1,10 +1,11 @@
+import Vue from 'vue'
+
 import { height, offset } from '../../utils/dom.js'
 import debounce from '../../utils/debounce.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QParallax',
 

@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import {
   getModel,
   getPercentage,
@@ -8,7 +10,6 @@ import { between } from '../../utils/format.js'
 import QChip from '../chip/QChip.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QSlider',
 

@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import FrameMixin from '../../mixins/input-frame.js'
 import DisplayModeMixin from '../../mixins/display-mode.js'
 import QInputFrame from '../input-frame/QInputFrame.js'
@@ -9,7 +11,6 @@ import QIcon from '../icon/QIcon.js'
 import clone from '../../utils/clone.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QColor',
 

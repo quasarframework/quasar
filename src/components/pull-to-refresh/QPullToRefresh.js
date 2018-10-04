@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/touch-pan.js'
@@ -9,7 +11,6 @@ const
   PULLER_HEIGHT = 40,
   OFFSET_TOP = 20
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QPullToRefresh',
 

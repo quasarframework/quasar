@@ -1,7 +1,8 @@
+import Vue from 'vue'
+
 import QIcon from '../icon/QIcon.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QField',
 

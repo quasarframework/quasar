@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import {
   positionValidator,
   offsetValidator,
@@ -11,7 +13,6 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import { position, listenOpts } from '../../utils/event.js'
 import CanRenderMixinMixin from '../../mixins/can-render.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QPopover',
 

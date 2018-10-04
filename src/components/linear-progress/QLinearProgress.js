@@ -1,10 +1,11 @@
+import Vue from 'vue'
+
 import { between } from '../../utils/format.js'
 
 function width (val) {
   return { width: `${val * 100}%` }
 }
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QLinearProgress',
 

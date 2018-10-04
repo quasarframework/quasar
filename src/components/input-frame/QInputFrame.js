@@ -1,8 +1,9 @@
+import Vue from 'vue'
+
 import FrameMixin from '../../mixins/input-frame.js'
 import ParentFieldMixin from '../../mixins/parent-field.js'
 import QIcon from '../icon/QIcon.js'
 
-import Vue from 'vue'
 export default Vue.extend({
   name: 'QInputFrame',
 
