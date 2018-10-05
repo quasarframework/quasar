@@ -1,4 +1,5 @@
 $layout-transition = all .12s ease-in
+$layout-border = 1px solid $separator-color
 
 .q-layout
   width 100%
@@ -13,11 +14,37 @@ $layout-transition = all .12s ease-in
       min-height 0
       max-height 100%
 
-.q-header--hidden
-  transform translate3d(0, -110%, 0)
+.q-layout__shadow
+  width 100%
+  &:after
+    content ''
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    left 0
 
-.q-footer--hidden
-  transform translate3d(0, 110%, 0)
+.q-header
+  &--hidden
+    transform translate3d(0, -110%, 0)
+  &--bordered
+    border-bottom $layout-border
+  .q-layout__shadow
+    bottom -10px
+    &:after
+      box-shadow $shadow-4
+      bottom 10px
+
+.q-footer
+  &--hidden
+    transform translate3d(0, 110%, 0)
+  &--bordered
+    border-top $layout-border
+  .q-layout__shadow
+    top -10px
+    &:after
+      box-shadow $shadow-up-4
+      top 10px
 
 .q-header, .q-footer
   z-index $z-marginals
@@ -35,9 +62,14 @@ $layout-transition = all .12s ease-in
   &--left
     left 0
     transform translate3d(-100%, 0, 0)
+    &.q-drawer--bordered
+      border-right $layout-border
+
   &--right
     right 0
     transform translate3d(100%, 0, 0)
+    &.q-drawer--bordered
+      border-left $layout-border
 
   &--mini
     padding 0 !important
@@ -54,6 +86,9 @@ $layout-transition = all .12s ease-in
     .q-mini-drawer-only, .q-mini-drawer-hide
       display none
 
+  &--elevated
+    box-shadow $shadow-4
+
   &__backdrop
     z-index ($z-fixed-drawer - 1) !important
     will-change background-color
@@ -66,13 +101,6 @@ $layout-transition = all .12s ease-in
 
 .q-layout, .q-header, .q-footer, .q-page
   position relative
-
-.q-layout__section
-
-  &--elevated
-    box-shadow $layout-aside-shadow
-  &--bordered
-    border 1px solid $separator-color
 
 .q-page-sticky--shrink
   pointer-events none

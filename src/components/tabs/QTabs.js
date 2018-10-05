@@ -28,7 +28,7 @@ export default Vue.extend({
     },
     breakpoint: {
       type: Number,
-      default: 450
+      default: 600
     },
 
     activeColor: String,

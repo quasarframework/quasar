@@ -25,7 +25,9 @@ export default Vue.extend({
     revealOffset: {
       type: Number,
       default: 250
-    }
+    },
+    bordered: Boolean,
+    elevated: Boolean
   },
 
   data () {
@@ -89,6 +91,7 @@ export default Vue.extend({
       return {
         'fixed-top': this.fixed,
         'absolute-top': !this.fixed,
+        'q-header--bordered': this.bordered,
         'q-header--hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
       }
     },
@@ -111,7 +114,7 @@ export default Vue.extend({
 
   render (h) {
     return h('header', {
-      staticClass: 'q-header q-layout__section q-layout__section--marginal q-layout__section--animate',
+      staticClass: 'q-header q-layout__section--marginal q-layout__section--animate',
       'class': this.classes,
       style: this.style
     }, [
@@ -119,8 +122,13 @@ export default Vue.extend({
         props: { debounce: 0 },
         on: { resize: this.__onResize }
       }),
-      this.$slots.default
-    ])
+
+      this.elevated
+        ? h('div', {
+          staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
+        })
+        : null
+    ].concat(this.$slots.default))
   },
 
   created () {

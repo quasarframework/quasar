@@ -49,6 +49,8 @@ export default Vue.extend({
       validator: v => ['default', 'desktop', 'mobile'].includes(v),
       default: 'default'
     },
+    bordered: Boolean,
+    elevated: Boolean,
     showIfAbove: Boolean,
     contentStyle: Object,
     contentClass: [String, Object, Array],
@@ -227,7 +229,6 @@ export default Vue.extend({
       return {
         'fixed': true,
         'q-drawer--on-top': true,
-        'q-drawer--delimiter': this.fixed && this.showing,
         'q-drawer--mobile': true,
         'q-drawer--top-padding': true
       }
@@ -238,7 +239,6 @@ export default Vue.extend({
         'fixed': this.fixed || !this.onLayout,
         'q-drawer--mini': this.isMini,
         'q-drawer--normal': !this.isMini,
-        'q-drawer--delimiter': this.fixed && this.showing,
         'q-drawer--top-padding': this.headerSlot
       }
     },
@@ -278,6 +278,8 @@ export default Vue.extend({
     classes () {
       return [
         `q-drawer--${this.side}`,
+        this.bordered ? 'q-drawer--bordered' : '',
+        this.elevated && this.showing ? 'q-drawer--elevated' : '',
         this.layout.container ? 'overflow-auto' : 'scroll',
         this.contentClass,
         this.mobileView ? this.belowClass : this.aboveClass
@@ -532,7 +534,7 @@ export default Vue.extend({
     }, child.concat([
       h('aside', {
         ref: 'content',
-        staticClass: `q-drawer q-layout__section q-layout__section--animate`,
+        staticClass: `q-drawer q-layout__section--animate`,
         'class': this.classes,
         style: this.style,
         attrs: this.$attrs,
@@ -542,11 +544,7 @@ export default Vue.extend({
           modifiers: { horizontal: true },
           value: this.__closeByTouch
         }] : null
-      },
-      this.isMini && this.$slots.mini
-        ? [ this.$slots.mini ]
-        : this.$slots.default
-      )
+      }, this.isMini && this.$slots.mini ? this.$slots.mini : this.$slots.default)
     ]))
   }
 })

@@ -23,7 +23,9 @@ export default Vue.extend({
       type: Boolean,
       default: true
     },
-    reveal: Boolean
+    reveal: Boolean,
+    bordered: Boolean,
+    elevated: Boolean
   },
 
   data () {
@@ -96,6 +98,7 @@ export default Vue.extend({
         'fixed-bottom': this.fixed,
         'absolute-bottom': !this.fixed,
         'hidden': !this.value && !this.fixed,
+        'q-footer--bordered': this.bordered,
         'q-footer--hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
       }
     },
@@ -118,7 +121,7 @@ export default Vue.extend({
 
   render (h) {
     return h('footer', {
-      staticClass: 'q-footer q-layout__section q-layout__section--marginal q-layout__section--animate',
+      staticClass: 'q-footer q-layout__section--marginal q-layout__section--animate',
       'class': this.classes,
       style: this.style
     }, [
@@ -126,12 +129,18 @@ export default Vue.extend({
         props: { debounce: 0 },
         on: { resize: this.__onResize }
       }),
+
       (!this.layout.container && h(QWindowResizeObservable, {
         props: { debounce: 0 },
         on: { resize: this.__onWindowResize }
       })) || void 0,
-      this.$slots.default
-    ])
+
+      this.elevated
+        ? h('div', {
+          staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
+        })
+        : null
+    ].concat(this.$slots.default))
   },
 
   created () {

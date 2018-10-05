@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-layout :view="view" @scroll="onScroll">
-      <q-header v-model="header" :reveal="headerReveal" class="bg-primary text-white">
+      <q-header v-model="header" :bordered="bordered" :elevated="elevated" :reveal="headerReveal" :class="marginalClass">
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-space />
@@ -29,7 +29,7 @@
         </q-tabs>
       </q-header>
 
-      <q-footer v-model="footer" :reveal="footerReveal" class="bg-primary text-white">
+      <q-footer v-model="footer" :bordered="bordered" :elevated="elevated" :reveal="footerReveal" :class="marginalClass">
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toolbar-title>
@@ -49,25 +49,37 @@
       <q-drawer
         v-model="right"
         side="right"
+        :bordered="bordered"
+        :elevated="elevated"
         :overlay="rightOverlay"
         :behavior="rightBehavior"
         :breakpoint="rightBreakpoint"
         content-class="bg-grey-3"
         @on-layout="drawerOnLayout"
       >
-        <q-scroll-area class="fit" :thumb-style="{right: '4px', borderRadius: '2px', background: 'blue', opacity: .6, width: '4px'}">
-          <q-btn to="/layout-quick/a">Go to A</q-btn>
-          <q-btn to="/layout-quick/b">Go to B</q-btn>
-          <q-btn to="/layout-quick/c">Go to C</q-btn>
+        <q-scroll-area
+          class="fit"
+          :thumb-style="{
+            right: '4px',
+            borderRadius: '2px',
+            background: 'blue',
+            opacity: .6,
+            width: '4px'
+        }">
+          <div class="q-pa-sm">
+            <q-btn to="/layout-quick/a">Go to A</q-btn>
+            <q-btn to="/layout-quick/b">Go to B</q-btn>
+            <q-btn to="/layout-quick/c">Go to C</q-btn>
 
-          <br><br>fffdfs
-          {{ right }}
-          <q-input v-model="inp" />
+            <br><br>fffdfs
+            {{ right }}
+            <q-input v-model="inp" />
 
-          <q-btn to="/layout-quick/a" replace>Replace Go to A</q-btn>
-          <q-btn to="/layout-quick/b" replace>Replace Go to B</q-btn>
-          <q-btn to="/layout-quick/c" replace>Replace Go to C</q-btn>
-          <div v-for="n in 60" :key="n">{{ n }} Left drawer</div>
+            <q-btn to="/layout-quick/a" replace>Replace Go to A</q-btn>
+            <q-btn to="/layout-quick/b" replace>Replace Go to B</q-btn>
+            <q-btn to="/layout-quick/c" replace>Replace Go to C</q-btn>
+            <div v-for="n in 60" :key="n">{{ n }} Left drawer</div>
+          </div>
         </q-scroll-area>
       </q-drawer>
 
@@ -87,6 +99,8 @@
         <q-drawer
           side="left"
           :mini="leftMini"
+          :bordered="bordered"
+          :elevated="elevated"
           @click.capture="e => {
             if (leftMini) {
               leftMini = false
@@ -340,8 +354,10 @@
               <q-radio color="secondary" v-model="bottomright" val="f" label="f" />
             </div>
           </div>
-          <q-toggle v-model="leftMini" label="Left mini drawer" />
-          <q-toggle v-model="rightMini" label="Right mini drawer" />
+          <q-toggle v-model="leftMini" label="Left mini" />
+          <q-toggle v-model="rightMini" label="Right mini" />
+          <q-toggle v-model="bordered" label="Bordered" />
+          <q-toggle v-model="elevated" label="Elevated" />
         </div>
       </div>
     </div>
@@ -388,6 +404,9 @@ export default {
       leftMini: true,
       rightMini: false,
 
+      bordered: false,
+      elevated: false,
+
       scrolling: true,
 
       topleft: v[0],
@@ -417,11 +436,22 @@ export default {
         bottom = `${this.bottomleft}${this.bottomcenter}${this.bottomright}`
 
       return `${top} ${middle} ${bottom}`
+    },
+    marginalClass () {
+      return this.bordered
+        ? 'bg-white text-black'
+        : 'bg-primary text-white'
     }
   },
   watch: {
     mainColor (v) {
       colors.setBrand(`primary`, v)
+    },
+    bordered (v) {
+      v && (this.elevated = false)
+    },
+    elevated (v) {
+      v && (this.bordered = false)
     }
   },
   methods: {
