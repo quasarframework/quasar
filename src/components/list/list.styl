@@ -30,7 +30,7 @@
         height 56px
 
   &__label
-    line-height 1rem !important
+    line-height 1.2em !important
 
     &--overline
       color rgba(0, 0, 0, .7)
@@ -43,6 +43,9 @@
       font-weight 500 !important
       padding 8px 16px 16px
 
+    &--inset
+      padding-left 72px
+
     & + .q-item__label
       margin-top 4px
 
@@ -52,10 +55,14 @@
       &, & .q-icon
         color $primary
 
-.q-item__section--main ~ .q-item__section--side
-  align-items flex-end
-  padding-right 0
-  padding-left 16px
+.q-item__section--main
+  & + &
+    margin-left 8px
+
+  ~ .q-item__section--side
+    align-items flex-end
+    padding-right 0
+    padding-left 16px
 
   &.q-item__section--thumbnail
     margin-left 0

@@ -7,6 +7,7 @@ export default Vue.extend({
     overline: Boolean,
     caption: Boolean,
     header: Boolean,
+    inset: Boolean,
     lines: [Number, String]
   },
 
@@ -19,12 +20,13 @@ export default Vue.extend({
         'q-item__label--title': title,
         'q-item__label--caption text-caption': this.caption,
         'q-item__label--header text-body2': this.header,
+        'q-item__label--inset': this.inset,
         'ellipsis': parseInt(this.lines, 10) === 1
       }
     },
 
     style () {
-      if (this.lines !== void 0 && parseInt(this.lines, 10) > 0) {
+      if (this.lines !== void 0 && parseInt(this.lines, 10) > 1) {
         return {
           overflow: 'hidden',
           display: '-webkit-box',

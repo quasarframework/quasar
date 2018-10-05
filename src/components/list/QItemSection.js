@@ -19,7 +19,7 @@ export default Vue.extend({
         'q-item__section--avatar': this.avatar,
         'q-item__section--thumbnail': this.thumbnail,
         'q-item__section--side': side,
-        'q-item__section--main col': !side,
+        [`q-item__section--main col`]: !side,
         [`justify-${this.top ? 'start' : 'center'}`]: true
       }
     }
