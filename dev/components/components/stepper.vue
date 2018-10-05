@@ -8,35 +8,35 @@
 
       <q-stepper :no-header-navigation="!backnav" :color="color" flat ref="stepper" v-model="step" :alternative-labels="alt" :contractable="contractable">
         <q-step default name="first" title="Ad style">
-          <div v-for="n in 10">{{ n }} Step 1</div>
+          <div v-for="n in 10" :key="n">{{ n }} Step 1</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper.next()">Continue</q-btn>
             <q-btn :color="color" @click="$refs.stepper.goToStep('fifth')" class="q-ml-sm">Go to Step 4</q-btn>
           </q-stepper-navigation>
         </q-step>
         <q-step error title="Custom channels" subtitle="Alert message">
-          <div v-for="n in 10">{{ n }} Step 2</div>
+          <div v-for="n in 10" :key="n">{{ n }} Step 2</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper.next()">Next</q-btn>
             <q-btn :color="color" flat @click="$refs.stepper.previous()" class="q-ml-sm">Back</q-btn>
           </q-stepper-navigation>
         </q-step>
         <q-step title="Get code">
-          <div v-for="n in 3">{{ n }} Step 3</div>
+          <div v-for="n in 3" :key="n">{{ n }} Step 3</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper.next()">Next</q-btn>
             <q-btn :color="color" flat @click="$refs.stepper.previous()" class="q-ml-sm">Back</q-btn>
           </q-stepper-navigation>
         </q-step>
         <q-step name="fifth" disable title="Disabled">
-          <div v-for="n in 3">{{ n }} Step 4</div>
+          <div v-for="n in 3" :key="n">{{ n }} Step 4</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper.next()">Next</q-btn>
             <q-btn :color="color" flat @click="$refs.stepper.previous()" class="q-ml-sm">Back</q-btn>
           </q-stepper-navigation>
         </q-step>
         <q-step name="fourth" title="Editable">
-          <div v-for="n in 3">{{ n }} Step 5</div>
+          <div v-for="n in 3" :key="n">{{ n }} Step 5</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper.goToStep('first')">Restart</q-btn>
             <q-btn :color="color" flat @click="$refs.stepper.previous()" class="q-ml-sm">Back</q-btn>
@@ -51,41 +51,86 @@
 
       <br><br>
 
-      <q-stepper :no-header-navigation="!backnav" ref="stepper2" :color="color" v-model="step2" :alternative-labels="alt" vertical>
+      <q-toggle v-model="vertical" label="Vertical" />
+      <q-stepper :no-header-navigation="!backnav" ref="stepper2" :color="color" v-model="step2" :alternative-labels="alt" :vertical="vertical">
         <q-step default name="first" title="Ad style">
-          <div v-for="n in 10">{{ n }} Step 1</div>
+          <div v-for="n in 10" :key="n">{{ n }} Step 1</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper2.next()">Continue</q-btn>
           </q-stepper-navigation>
         </q-step>
         <q-step error title="Custom channels" subtitle="Alert message">
-          <div v-for="n in 10">{{ n }} Step 2</div>
+          <div v-for="n in 10" :key="n">{{ n }} Step 2</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper2.next()">Next</q-btn>
             <q-btn :color="color" flat @click="$refs.stepper2.previous()" class="q-ml-sm">Back</q-btn>
           </q-stepper-navigation>
         </q-step>
         <q-step title="Get code">
-          <div v-for="n in 3">{{ n }} Step 3</div>
+          <div v-for="n in 3" :key="n">{{ n }} Step 3</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper2.next()">Next</q-btn>
             <q-btn :color="color" flat @click="$refs.stepper2.previous()" class="q-ml-sm">Back</q-btn>
           </q-stepper-navigation>
         </q-step>
         <q-step name="fifth" disable title="Disabled">
-          <div v-for="n in 3">{{ n }} Step 4</div>
+          <div v-for="n in 3" :key="n">{{ n }} Step 4</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper2.next()">Next</q-btn>
             <q-btn :color="color" flat @click="$refs.stepper2.previous()" class="q-ml-sm">Back</q-btn>
           </q-stepper-navigation>
         </q-step>
         <q-step name="fourth" title="Editable">
-          <div v-for="n in 3">{{ n }} Step 5</div>
+          <div v-for="n in 3" :key="n">{{ n }} Step 5</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper2.goToStep('first')">Restart</q-btn>
             <q-btn :color="color" flat @click="$refs.stepper2.previous()" class="q-ml-sm">Back</q-btn>
           </q-stepper-navigation>
         </q-step>
+      </q-stepper>
+
+      <q-stepper class="q-my-md" :no-header-navigation="!backnav" :alternative-labels="alt" :contractable="contractable">
+        <q-step default title="First Step" subtitle="Here we go">
+          <q-stepper vertical :no-header-navigation="!backnav" :alternative-labels="alt" :contractable="contractable">
+            <q-step default title="First Step" subtitle="Here we go">
+              ...Step content, components, ...
+            </q-step>
+            <q-step title="Step 2">...</q-step>
+            <q-step title="Step 3" subtitle="Review and submit">...</q-step>
+            <q-stepper-navigation>
+              <q-btn :color="color" flat >Back</q-btn>
+              <q-btn :color="color" class="q-ml-sm">Next</q-btn>
+            </q-stepper-navigation>
+          </q-stepper>
+        </q-step>
+        <q-step title="Step 2">...</q-step>
+        <q-step title="Step 3" subtitle="Review and submit">...</q-step>
+        <q-stepper-navigation>
+          <q-btn :color="color" flat >Back</q-btn>
+          <q-btn :color="color" class="q-ml-sm">Next</q-btn>
+        </q-stepper-navigation>
+      </q-stepper>
+
+      <q-stepper vertical class="q-my-md" :no-header-navigation="!backnav" :alternative-labels="alt" :contractable="contractable">
+        <q-step default title="First Step" subtitle="Here we go">
+          <q-stepper :no-header-navigation="!backnav" :alternative-labels="alt" :contractable="contractable">
+            <q-step default title="First Step" subtitle="Here we go">
+              ...Step content, components, ...
+            </q-step>
+            <q-step title="Step 2">...</q-step>
+            <q-step title="Step 3" subtitle="Review and submit">...</q-step>
+            <q-stepper-navigation>
+              <q-btn :color="color" flat >Back</q-btn>
+              <q-btn :color="color" class="q-ml-sm">Next</q-btn>
+            </q-stepper-navigation>
+          </q-stepper>
+        </q-step>
+        <q-step title="Step 2">...</q-step>
+        <q-step title="Step 3" subtitle="Review and submit">...</q-step>
+        <q-stepper-navigation>
+          <q-btn :color="color" flat >Back</q-btn>
+          <q-btn :color="color" class="q-ml-sm">Next</q-btn>
+        </q-stepper-navigation>
       </q-stepper>
     </div>
   </div>
@@ -96,6 +141,7 @@
 export default {
   data () {
     return {
+      vertical: true,
       step: 'first',
       step2: 'first',
       alt: false,

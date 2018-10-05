@@ -73,86 +73,87 @@
 .q-stepper-step-content
   color black
 
-.q-stepper-horizontal
-  .q-stepper-step-inner
-    padding 24px
+.q-stepper-horizontal >
+  .q-stepper-header
+    .q-stepper-tab
+      overflow hidden
+    .q-stepper-first .q-stepper-dot:before,
+    .q-stepper-last .q-stepper-label:after,
+    .q-stepper-last .q-stepper-dot:after
+      display none
+    .q-stepper-line
+      &:before, &:after
+        position absolute
+        top 50%
+        height 1px
+        width 100vw
+        background $stepper-divider-color
+    .q-stepper-label:after, .q-stepper-dot:after
+      content ''
+      left 100%
+      margin-left 8px
+    .q-stepper-dot:before
+      content ''
+      right 100%
+      margin-right 8px
   .q-stepper-nav
     margin 0 16px 8px
-  .q-stepper-step .q-stepper-nav
-    margin 16px 0 0
-    > div.col
-      display none
-
-  .q-stepper-first .q-stepper-dot:before,
-  .q-stepper-last .q-stepper-label:after,
-  .q-stepper-last .q-stepper-dot:after
-    display none
-  .q-stepper-tab
-    overflow hidden
-  .q-stepper-line
-    &:before, &:after
-      position absolute
-      top 50%
-      height 1px
-      width 100vw
-      background $stepper-divider-color
-  .q-stepper-label:after, .q-stepper-dot:after
-    content ''
-    left 100%
-    margin-left 8px
-  .q-stepper-dot:before
-    content ''
-    right 100%
-    margin-right 8px
+  .q-stepper-step
+    .q-stepper-nav
+      margin 16px 0 0
+      > div.col
+        display none
+    > .q-stepper-step-content > .q-stepper-step-inner
+      padding 24px
 
 .q-stepper-vertical
   padding 8px 0 18px
-  .q-stepper-tab
-    padding 12px 16px
-  .q-stepper-label
-    padding-top 4px
-  .q-stepper-title
-    line-height 18px
-  .q-stepper-step-inner
-    padding 0 24px 24px 48px
+.q-stepper-vertical >
   .q-stepper-nav
     margin-top 16px
     > div.col
       display none
-
-  .q-stepper-first .q-stepper-dot:before,
-  .q-stepper-last .q-stepper-dot:after
-    display none
   .q-stepper-step
     overflow hidden
-  .q-stepper-dot
-    &:before, &:after
-      content ''
-      position absolute
-      left 50%
-      width 1px
-      height 100vh
-      background $stepper-divider-color
-  .q-stepper-dot:before
-    bottom 100%
-    margin-bottom 8px
-  .q-stepper-dot:after
-    top 100%
-    margin-top 8px
+    > .q-stepper-step-content > .q-stepper-step-inner
+      padding 0 24px 24px 48px
+    > .q-stepper-tab
+      padding 12px 16px
+      .q-stepper-dot
+        &:before, &:after
+          content ''
+          position absolute
+          left 50%
+          width 1px
+          height 100vh
+          background $stepper-divider-color
+      .q-stepper-dot:before
+        bottom 100%
+        margin-bottom 8px
+      .q-stepper-dot:after
+        top 100%
+        margin-top 8px
+      .q-stepper-label
+        padding-top 4px
+        .q-stepper-title
+          line-height 18px
+      &.q-stepper-first .q-stepper-dot:before,
+      &.q-stepper-last .q-stepper-dot:after
+        display none
 
 body.desktop .q-stepper-tab.step-navigation:hover
   background $stepper-hover-background
 
 @media (max-width $breakpoint-sm-max)
-  .q-stepper-horizontal.q-stepper-contractable
+  .q-stepper-horizontal.q-stepper-contractable >
     .q-stepper-header
       min-height 72px
-    .q-stepper-tab
-      padding 24px 0
-    .q-stepper-tab:not(:last-child)
-      .q-stepper-dot:after
-        display block !important
-    .q-stepper-dot
-      margin 0
-    .q-stepper-label
-      display none
+      .q-stepper-tab
+        padding 24px 0
+        &:not(:last-child)
+          .q-stepper-dot:after
+            display block !important
+      .q-stepper-dot
+        margin 0
+      .q-stepper-label
+        display none

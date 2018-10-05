@@ -206,8 +206,8 @@ export class Caret {
         if (!url.length) {
           return
         }
-        this.vm.editLinkUrl = urlRegex.test(url) ? url : `https://${url}`
-        document.execCommand('createLink', false, this.vm.editLinkUrl)
+        this.vm.editLinkUrl = urlRegex.test(url) ? url : ''
+        document.execCommand('createLink', false, this.vm.editLinkUrl === '' ? ' ' : this.vm.editLinkUrl)
       }
       else {
         this.vm.editLinkUrl = link
