@@ -21,7 +21,7 @@
     </q-page-sticky>
 
     <q-page-sticky position="top" expand>
-      <q-toolbar class="bg-deep-orange text-white">
+      <q-toolbar class="bg-white text-black">
         <q-btn flat round dense icon="map" />
         <q-toolbar-title>Title</q-toolbar-title>
       </q-toolbar>

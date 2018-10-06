@@ -94,13 +94,10 @@ export default Vue.extend({
     },
 
     classes () {
-      return {
-        'fixed-bottom': this.fixed,
-        'absolute-bottom': !this.fixed,
-        'hidden': !this.value && !this.fixed,
-        'q-footer--bordered': this.bordered,
-        'q-footer--hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
-      }
+      return ((this.fixed ? 'fixed' : 'absolute') + '-bottom') +
+        (this.value || this.fixed ? '' : ' hidden') +
+        (this.bordered ? ' q-footer--bordered' : '') +
+        (!this.canRender || !this.value || (this.fixed && !this.revealed) ? ' q-footer--hidden' : '')
     },
 
     style () {

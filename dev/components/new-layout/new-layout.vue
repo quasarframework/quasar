@@ -54,7 +54,7 @@
         :overlay="rightOverlay"
         :behavior="rightBehavior"
         :breakpoint="rightBreakpoint"
-        content-class="bg-grey-3"
+        :content-class="drawerClass"
         @on-layout="drawerOnLayout"
       >
         <q-scroll-area
@@ -112,7 +112,7 @@
           :overlay="leftOverlay"
           :behavior="leftBehavior"
           :breakpoint="leftBreakpoint"
-          :content-style="{'font-size': '16px'}"
+          :content-class="drawerClass"
         >
           <!--
         <div slot="mini">
@@ -358,6 +358,7 @@
           <q-toggle v-model="rightMini" label="Right mini" />
           <q-toggle v-model="bordered" label="Bordered" />
           <q-toggle v-model="elevated" label="Elevated" />
+          <q-toggle v-model="whiteLayout" label="White bg" />
         </div>
       </div>
     </div>
@@ -406,6 +407,7 @@ export default {
 
       bordered: false,
       elevated: false,
+      whiteLayout: true,
 
       scrolling: true,
 
@@ -438,20 +440,19 @@ export default {
       return `${top} ${middle} ${bottom}`
     },
     marginalClass () {
-      return this.bordered
+      return this.whiteLayout
         ? 'bg-white text-black'
         : 'bg-primary text-white'
+    },
+    drawerClass () {
+      return this.whiteLayout
+        ? 'bg-white'
+        : 'bg-grey-3'
     }
   },
   watch: {
     mainColor (v) {
       colors.setBrand(`primary`, v)
-    },
-    bordered (v) {
-      v && (this.elevated = false)
-    },
-    elevated (v) {
-      v && (this.bordered = false)
     }
   },
   methods: {

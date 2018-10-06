@@ -1,5 +1,4 @@
 $layout-transition = all .12s ease-in
-$layout-border = 1px solid $separator-color
 
 .q-layout
   width 100%
@@ -23,8 +22,12 @@ $layout-border = 1px solid $separator-color
     right 0
     bottom 0
     left 0
+    box-shadow $layout-shadow
 
 .q-header
+  background $layout-header-background
+  color $layout-header-color
+
   &--hidden
     transform translate3d(0, -110%, 0)
   &--bordered
@@ -32,10 +35,12 @@ $layout-border = 1px solid $separator-color
   .q-layout__shadow
     bottom -10px
     &:after
-      box-shadow $shadow-4
       bottom 10px
 
 .q-footer
+  background $layout-footer-background
+  color $layout-footer-color
+
   &--hidden
     transform translate3d(0, 110%, 0)
   &--bordered
@@ -43,7 +48,6 @@ $layout-border = 1px solid $separator-color
   .q-layout__shadow
     top -10px
     &:after
-      box-shadow $shadow-up-4
       top 10px
 
 .q-header, .q-footer
@@ -53,7 +57,7 @@ $layout-border = 1px solid $separator-color
   position absolute
   top 0
   bottom 0
-  background $layout-aside-background
+  background white
   z-index $z-side
 
   &--on-top
@@ -64,12 +68,22 @@ $layout-border = 1px solid $separator-color
     transform translate3d(-100%, 0, 0)
     &.q-drawer--bordered
       border-right $layout-border
+    .q-layout__shadow
+      left 10px
+      right -10px
+      &:after
+        right 10px
 
   &--right
     right 0
     transform translate3d(100%, 0, 0)
     &.q-drawer--bordered
       border-left $layout-border
+
+    .q-layout__shadow
+      left -10px
+      &:after
+        left 10px
 
   &--mini
     padding 0 !important
@@ -79,15 +93,12 @@ $layout-border = 1px solid $separator-color
     .q-mini-drawer-hide,
     .q-expansion-item__content, .q-item__label, .q-item__section--main, .q-item__section--side:last-child
       display none
-  &--normal
+  &--standard
     .q-mini-drawer-only
       display none
   &--mobile
     .q-mini-drawer-only, .q-mini-drawer-hide
       display none
-
-  &--elevated
-    box-shadow $shadow-4
 
   &__backdrop
     z-index ($z-fixed-drawer - 1) !important

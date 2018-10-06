@@ -3,7 +3,7 @@
     <q-btn @click="modal = true" label="Open" />
 
     <q-layout view="Lhh lpR fff" container style="height: 500px; width: 300px" class="q-mt-xl shadow-2">
-      <q-header reveal>
+      <q-header reveal class="bg-black">
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
@@ -42,7 +42,7 @@
             <q-btn round color="primary" icon="arrow_forward" class="rotate-45" />
           </q-page-sticky>
 
-          <q-page-sticky position="top" expand>
+          <q-page-sticky position="top" expand class="bg-purple text-white">
             <q-toolbar>
               <q-btn flat round dense icon="map" />
               <q-toolbar-title>Title</q-toolbar-title>
@@ -54,7 +54,7 @@
     </q-layout>
 
     <q-layout view="Lhh lpR fff" container style="height: 500px; width: 900px" class="q-mt-xl shadow-2">
-      <q-header reveal>
+      <q-header reveal class="bg-black">
         <q-toolbar>
           <q-btn flat @click="drawer3 = !drawer3" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
@@ -93,7 +93,7 @@
             <q-btn round color="primary" icon="arrow_forward" class="rotate-45" />
           </q-page-sticky>
 
-          <q-page-sticky position="top" expand>
+          <q-page-sticky position="top" expand class="bg-purple text-white">
             <q-toolbar>
               <q-btn flat round dense icon="map" />
               <q-toolbar-title>Title</q-toolbar-title>
@@ -106,7 +106,7 @@
 
     <q-modal v-model="modal" no-backdrop-dismiss>
       <q-layout view="LHh lpR fff" container style="min-height: 60vh; min-width: 60vw;">
-        <q-header reveal>
+        <q-header reveal class="bg-black">
           <q-toolbar>
             <q-btn flat @click="drawer2 = !drawer2" round dense icon="menu" />
             <q-toolbar-title>Header</q-toolbar-title>
@@ -147,7 +147,7 @@
               <q-btn round color="primary" icon="arrow_forward" class="rotate-45" />
             </q-page-sticky>
 
-            <q-page-sticky position="top" expand>
+            <q-page-sticky position="top" expand class="bg-purple text-white">
               <q-toolbar>
                 <q-btn flat round dense icon="map" />
                 <q-toolbar-title>Title</q-toolbar-title>

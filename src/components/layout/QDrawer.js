@@ -51,10 +51,10 @@ export default Vue.extend({
     },
     bordered: Boolean,
     elevated: Boolean,
+    persistent: Boolean,
     showIfAbove: Boolean,
-    contentStyle: Object,
+    contentStyle: [String, Object, Array],
     contentClass: [String, Object, Array],
-    noHideOnRouteChange: Boolean,
     noSwipeOpen: Boolean,
     noSwipeClose: Boolean
   },
@@ -141,11 +141,7 @@ export default Vue.extend({
     },
 
     $route () {
-      if (this.noHideOnRouteChange) {
-        return
-      }
-
-      if (this.mobileOpened || this.onScreenOverlay) {
+      if (!this.persistent && (this.mobileOpened || this.onScreenOverlay)) {
         this.hide()
       }
     },
@@ -198,9 +194,7 @@ export default Vue.extend({
     },
 
     backdropClass () {
-      return {
-        'no-pointer-events': !this.showing || !this.mobileView
-      }
+      return !this.showing || !this.mobileView ? 'no-pointer-events' : null
     },
 
     mobileView () {
@@ -208,39 +202,15 @@ export default Vue.extend({
     },
 
     headerSlot () {
-      return this.overlay
-        ? false
-        : (this.rightSide
-          ? this.layout.rows.top[2] === 'r'
-          : this.layout.rows.top[0] === 'l'
-        )
+      return this.rightSide
+        ? this.layout.rows.top[2] === 'r'
+        : this.layout.rows.top[0] === 'l'
     },
 
     footerSlot () {
-      return this.overlay
-        ? false
-        : (this.rightSide
-          ? this.layout.rows.bottom[2] === 'r'
-          : this.layout.rows.bottom[0] === 'l'
-        )
-    },
-
-    belowClass () {
-      return {
-        'fixed': true,
-        'q-drawer--on-top': true,
-        'q-drawer--mobile': true,
-        'q-drawer--top-padding': true
-      }
-    },
-
-    aboveClass () {
-      return {
-        'fixed': this.fixed || !this.onLayout,
-        'q-drawer--mini': this.isMini,
-        'q-drawer--normal': !this.isMini,
-        'q-drawer--top-padding': this.headerSlot
-      }
+      return this.rightSide
+        ? this.layout.rows.bottom[2] === 'r'
+        : this.layout.rows.bottom[0] === 'l'
     },
 
     aboveStyle () {
@@ -268,22 +238,23 @@ export default Vue.extend({
     },
 
     style () {
-      return [
-        this.contentStyle,
-        { width: `${this.size}px` },
-        this.mobileView ? '' : this.aboveStyle
-      ]
+      const style = { width: `${this.size}px` }
+      return this.mobileView
+        ? style
+        : Object.assign(style, this.aboveStyle)
     },
 
     classes () {
-      return [
-        `q-drawer--${this.side}`,
-        this.bordered ? 'q-drawer--bordered' : '',
-        this.elevated && this.showing ? 'q-drawer--elevated' : '',
-        this.layout.container ? 'overflow-auto' : 'scroll',
-        this.contentClass,
-        this.mobileView ? this.belowClass : this.aboveClass
-      ]
+      return `q-drawer--${this.side}` +
+        (this.bordered ? ' q-drawer--bordered' : '') +
+        (
+          this.mobileView
+            ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'
+            : ` q-drawer--${this.isMini ? 'mini' : 'standard'}` +
+              (this.fixed || !this.onLayout ? ' fixed' : '') +
+              (this.overlay ? ' q-drawer--on-top' : '') +
+              (this.headerSlot ? ' q-drawer--top-padding' : '')
+        )
     },
 
     stateDirection () {
@@ -529,6 +500,22 @@ export default Vue.extend({
       })
     ]
 
+    const content = [
+      h('div', {
+        staticClass: 'q-drawer__content fit ' + (this.layout.container ? 'overflow-auto' : 'scroll'),
+        'class': this.contentClass,
+        style: this.contentStyle
+      }, this.isMini && this.$slots.mini ? this.$slots.mini : this.$slots.default)
+    ]
+
+    if (this.elevated && this.showing) {
+      content.push(
+        h('div', {
+          staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
+        })
+      )
+    }
+
     return h('div', {
       staticClass: 'q-drawer-container'
     }, child.concat([
@@ -537,14 +524,13 @@ export default Vue.extend({
         staticClass: `q-drawer q-layout__section--animate`,
         'class': this.classes,
         style: this.style,
-        attrs: this.$attrs,
         on: this.onNativeEvents,
         directives: this.mobileView && !this.noSwipeClose ? [{
           name: 'touch-pan',
           modifiers: { horizontal: true },
           value: this.__closeByTouch
         }] : null
-      }, this.isMini && this.$slots.mini ? this.$slots.mini : this.$slots.default)
+      }, content)
     ]))
   }
 })

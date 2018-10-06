@@ -60,10 +60,7 @@ export default Vue.extend({
     },
 
     'layout.scroll' (scroll) {
-      if (!this.reveal) {
-        return
-      }
-      this.__updateLocal('revealed',
+      this.reveal === true && this.__updateLocal('revealed',
         scroll.direction === 'up' ||
         scroll.position <= this.revealOffset ||
         scroll.position - scroll.inflexionPosition < 100
@@ -88,12 +85,9 @@ export default Vue.extend({
     },
 
     classes () {
-      return {
-        'fixed-top': this.fixed,
-        'absolute-top': !this.fixed,
-        'q-header--bordered': this.bordered,
-        'q-header--hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
-      }
+      return (this.fixed ? 'fixed' : 'absolute') + '-top' +
+        (this.bordered ? ' q-header--bordered' : '') +
+        (!this.canRender || !this.value || (this.fixed && !this.revealed) ? ' q-header--hidden' : '')
     },
 
     style () {
