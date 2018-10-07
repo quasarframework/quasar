@@ -1,6 +1,8 @@
+import Vue from 'vue'
+
 import { isSSR } from '../plugins/platform.js'
 
-export default function (Component, Vue) {
+export default function (Component) {
   return ({ className, ...props }, resolver) => {
     return new Promise((resolve, reject) => {
       if (isSSR) { return resolve() }

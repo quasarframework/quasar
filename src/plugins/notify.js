@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
 import QBtn from '../components/btn/QBtn.js'
@@ -193,7 +195,7 @@ const Notifications = {
   }
 }
 
-function init ({ Vue }) {
+function init () {
   const node = document.createElement('div')
   document.body.appendChild(node)
 

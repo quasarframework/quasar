@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import QSpinner from '../components/spinner/QSpinner.js'
 import { isSSR } from './platform.js'
 import uid from '../utils/uid.js'
@@ -44,7 +46,7 @@ export default {
       document.body.appendChild(node)
       document.body.classList.add('with-loading')
 
-      vm = new this.__Vue({
+      vm = new Vue({
         name: 'QLoading',
         el: node,
         data () {
@@ -116,11 +118,9 @@ export default {
     Object.assign(defaults, opts)
   },
 
-  __Vue: null,
-  install ({ $q, Vue, cfg: { loading } }) {
+  install ({ $q, cfg: { loading } }) {
     loading && this.setDefaults(loading)
 
     $q.loading = this
-    this.__Vue = Vue
   }
 }

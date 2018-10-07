@@ -23,12 +23,12 @@ export default function (Vue, opts = {}) {
   const cfg = opts.config || {}
 
   // required plugins
-  Platform.install($q, queues, Vue)
+  Platform.install($q, queues)
   Body.install($q, queues, cfg)
-  Screen.install($q, queues, Vue)
+  Screen.install($q, queues)
   History.install($q, cfg)
-  I18n.install($q, queues, Vue, opts.i18n)
-  Icons.install($q, Vue, opts.iconSet)
+  I18n.install($q, queues, opts.i18n)
+  Icons.install($q, opts.iconSet)
 
   if (isSSR) {
     Vue.mixin({
@@ -56,7 +56,7 @@ export default function (Vue, opts = {}) {
   })
 
   if (opts.plugins) {
-    const param = { $q, queues, Vue, cfg }
+    const param = { $q, queues, cfg }
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
       if (typeof p.install === 'function' && p !== Platform && p !== Screen) {

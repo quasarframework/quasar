@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import { isSSR, fromSSR } from './platform.js'
 import { listenOpts } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
@@ -27,7 +29,7 @@ export default {
   setSizes () {},
   setDebounce () {},
 
-  install ($q, queues, Vue) {
+  install ($q, queues) {
     if (isSSR) {
       $q.screen = this
       return

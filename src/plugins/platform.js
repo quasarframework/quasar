@@ -2,6 +2,8 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 
+import Vue from 'vue'
+
 export const isSSR = typeof window === 'undefined'
 export let fromSSR = false
 export let onSSR = isSSR
@@ -218,7 +220,7 @@ export default {
     }
   },
 
-  install ($q, queues, Vue) {
+  install ($q, queues) {
     if (isSSR) {
       queues.server.push((q, ctx) => {
         q.platform = this.parseSSR(ctx.ssr)

@@ -1,8 +1,10 @@
+import Vue from 'vue'
+
 import langEn from '../i18n/en-us.js'
 import { isSSR } from './plugins/platform.js'
 
 export default {
-  install ($q, queues, Vue, lang) {
+  install ($q, queues, lang) {
     if (isSSR) {
       queues.server.push((q, ctx) => {
         const
