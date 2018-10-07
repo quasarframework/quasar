@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
-import QResizeObservable from '../observables/QResizeObservable.js'
-import QWindowResizeObservable from '../observables/QWindowResizeObservable.js'
+import QResizeObserver from '../observer/QResizeObserver.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import { onSSR } from '../../plugins/platform.js'
 
@@ -68,6 +67,10 @@ export default Vue.extend({
 
     size () {
       this.__updateRevealed()
+    },
+
+    '$q.screen.height' (val) {
+      !this.layout.container && this.__updateLocal('windowHeight', val)
     }
   },
 
@@ -122,15 +125,10 @@ export default Vue.extend({
       'class': this.classes,
       style: this.style
     }, [
-      h(QResizeObservable, {
+      h(QResizeObserver, {
         props: { debounce: 0 },
         on: { resize: this.__onResize }
       }),
-
-      (!this.layout.container && h(QWindowResizeObservable, {
-        props: { debounce: 0 },
-        on: { resize: this.__onWindowResize }
-      })) || void 0,
 
       this.elevated
         ? h('div', {
@@ -159,10 +157,6 @@ export default Vue.extend({
     __onResize ({ height }) {
       this.__updateLocal('size', height)
       this.__update('size', height)
-    },
-
-    __onWindowResize ({ height }) {
-      this.__updateLocal('windowHeight', height)
     },
 
     __update (prop, val) {

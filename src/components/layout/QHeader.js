@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import QResizeObservable from '../observables/QResizeObservable.js'
+import QResizeObserver from '../observer/QResizeObserver.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 
 export default Vue.extend({
@@ -112,7 +112,7 @@ export default Vue.extend({
       'class': this.classes,
       style: this.style
     }, [
-      h(QResizeObservable, {
+      h(QResizeObserver, {
         props: { debounce: 0 },
         on: { resize: this.__onResize }
       }),

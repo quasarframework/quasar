@@ -5,7 +5,7 @@ import CanRenderMixin from '../../mixins/can-render.js'
 import { isSSR } from '../../plugins/platform.js'
 
 export default Vue.extend({
-  name: 'QResizeObservable',
+  name: 'QResizeObserver',
 
   mixins: [ CanRenderMixin ],
 

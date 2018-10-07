@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
-import QScrollObservable from '../observables/QScrollObservable.js'
-import QResizeObservable from '../observables/QResizeObservable.js'
+import QScrollObserver from '../observer/QScrollObserver.js'
+import QResizeObserver from '../observer/QResizeObserver.js'
 import { onSSR } from '../../plugins/platform.js'
 import { getScrollbarWidth } from '../../utils/scroll.js'
 
@@ -100,10 +100,10 @@ export default Vue.extend({
 
   render (h) {
     const layout = h('div', { staticClass: 'q-layout' }, [
-      h(QScrollObservable, {
+      h(QScrollObserver, {
         on: { scroll: this.__onPageScroll }
       }),
-      h(QResizeObservable, {
+      h(QResizeObserver, {
         on: { resize: this.__onPageResize }
       }),
       this.$slots.default
@@ -113,7 +113,7 @@ export default Vue.extend({
       ? h('div', {
         staticClass: 'q-layout-container relative-position overflow-hidden'
       }, [
-        h(QResizeObservable, {
+        h(QResizeObserver, {
           on: { resize: this.__onContainerResize }
         }),
         h('div', {

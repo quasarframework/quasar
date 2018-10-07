@@ -25,7 +25,7 @@ function showRipple (evt, el, ctx) {
   css(innerNode, {
     height: `${diameter}px`,
     width: `${diameter}px`,
-    transform: `translate3d(${x}, ${y}, 0) scale3d(0.3, 0.3, 1)`,
+    transform: `translate3d(${x}, ${y}, 0) scale3d(0.2, 0.2, 1)`,
     opacity: 0
   })
 

@@ -1,6 +1,7 @@
 import './polyfills.js'
 import { version } from '../package.json'
 import Platform, { isSSR } from './plugins/platform.js'
+import Screen from './plugins/screen.js'
 import History from './history.js'
 import I18n from './i18n.js'
 import Body from './body.js'
@@ -24,6 +25,7 @@ export default function (Vue, opts = {}) {
   // required plugins
   Platform.install($q, queues, Vue)
   Body.install($q, queues, cfg)
+  Screen.install($q, queues, Vue)
   History.install($q, cfg)
   I18n.install($q, queues, Vue, opts.i18n)
   Icons.install($q, Vue, opts.iconSet)
@@ -57,7 +59,7 @@ export default function (Vue, opts = {}) {
     const param = { $q, queues, Vue, cfg }
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
-      if (typeof p.install === 'function' && p !== Platform) {
+      if (typeof p.install === 'function' && p !== Platform && p !== Screen) {
         p.install(param)
       }
     })

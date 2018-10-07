@@ -5,7 +5,7 @@ import InputMixin from '../../mixins/input.js'
 import inputTypes from './input-types.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { between } from '../../utils/format.js'
-import QResizeObservable from '../observables/QResizeObservable.js'
+import QResizeObserver from '../observer/QResizeObserver.js'
 import QInputFrame from '../input-frame/QInputFrame.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QIcon from '../icon/QIcon.js'
@@ -286,7 +286,7 @@ export default Vue.extend({
       return h('div', {
         staticClass: 'col row relative-position'
       }, [
-        h(QResizeObservable, {
+        h(QResizeObserver, {
           on: { resize: this.__updateArea }
         }),
 

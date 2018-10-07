@@ -27,7 +27,7 @@ export default {
   setSizes () {},
   setDebounce () {},
 
-  install ({ $q, queues, Vue }) {
+  install ($q, queues, Vue) {
     if (isSSR) {
       $q.screen = this
       return

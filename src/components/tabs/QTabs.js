@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
-import QResizeObservable from '../observables/QResizeObservable.js'
+import QResizeObserver from '../observer/QResizeObserver.js'
 
 function getIndicatorClass (color, top) {
   return `absolute-${top ? 'top' : 'bottom'}${color ? ` text-${color}` : ''}`
@@ -286,7 +286,7 @@ export default Vue.extend({
       'class': `q-tabs--${this.scrollable ? '' : 'not-'}scrollable`,
       attrs: { role: 'tablist' }
     }, [
-      h(QResizeObservable, {
+      h(QResizeObserver, {
         on: { resize: this.updateContainer }
       }),
 
