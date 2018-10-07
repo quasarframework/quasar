@@ -57,6 +57,13 @@
         :content-class="drawerClass"
         @on-layout="drawerOnLayout"
       >
+        <q-img class="absolute-top" src="statics/material.png" style="height: 200px">
+          <div class="absolute-bottom bg-transparent">
+            <div class="text-subtitle1">Razvan Stoenescu</div>
+            <div class="text-body2">@rstoenescu</div>
+          </div>
+        </q-img>
+
         <q-scroll-area
           class="fit"
           :thumb-style="{
@@ -65,7 +72,9 @@
             background: 'blue',
             opacity: .6,
             width: '4px'
-        }">
+          }"
+          style="padding-top: 200px"
+        >
           <div class="q-pa-sm">
             <q-btn to="/layout-quick/a">Go to A</q-btn>
             <q-btn to="/layout-quick/b">Go to B</q-btn>
@@ -78,7 +87,7 @@
             <q-btn to="/layout-quick/a" replace>Replace Go to A</q-btn>
             <q-btn to="/layout-quick/b" replace>Replace Go to B</q-btn>
             <q-btn to="/layout-quick/c" replace>Replace Go to C</q-btn>
-            <div v-for="n in 60" :key="n">{{ n }} Left drawer</div>
+            <div v-for="n in 30" :key="n">{{ n }} Left drawer</div>
           </div>
         </q-scroll-area>
       </q-drawer>

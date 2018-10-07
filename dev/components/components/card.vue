@@ -2,9 +2,7 @@
   <div>
     <div class="q-layout-padding card-examples row items-start q-gutter-md">
       <q-card inline class="bigger">
-        <q-card-media>
-          <img src="~assets/donuts.png">
-        </q-card-media>
+        <q-img :src="require('assets/donuts.png')" />
 
         <q-card-section>
           <q-btn
@@ -42,9 +40,7 @@
       </q-card>
 
       <q-card flat bordered inline class="bigger">
-        <q-card-media>
-          <img src="~assets/donuts.png">
-        </q-card-media>
+        <img src="~assets/donuts.png">
 
         <q-card-section>
           <q-btn
@@ -218,9 +214,7 @@
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/mountains.jpg">
-        </q-card-media>
+        <img src="~assets/mountains.jpg">
 
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
@@ -233,27 +227,25 @@
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/parallax2.jpg">
-
-          <q-card-section>
-            <div class="text-subtitle2 text-center">
-              Title
-            </div>
-          </q-card-section>
-        </q-card-media>
+        <q-img
+          :src="require('assets/parallax2.jpg')"
+          basic
+        >
+          <div class="absolute-bottom text-subtitle2 text-center">
+            Title
+          </div>
+        </q-img>
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/parallax2.jpg">
-
-          <q-card-section>
-            <div class="text-subtitle2">
-              Title
-            </div>
-          </q-card-section>
-        </q-card-media>
+        <q-img
+          src="statics/parallax2.jpg"
+          basic
+        >
+          <div class="absolute-bottom text-h6">
+            Title
+          </div>
+        </q-img>
 
         <q-card-section>
           {{ lorem }}
@@ -261,50 +253,36 @@
       </q-card>
 
       <q-card inline>
-        <q-card-media overlay-position="top">
-          <img src="~assets/parallax2.jpg">
-
-          <q-card-section>
-            <div class="text-subtitle2 text-center">
-              Title
-            </div>
-          </q-card-section>
-        </q-card-media>
+        <q-img src="statics/parallax2.jpg">
+          <div class="text-subtitle2 absolute-top text-center">
+            Title
+          </div>
+        </q-img>
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/parallax2.jpg">
-
-          <q-card-section>
-            <div class="text-h5">
-              Title
-            </div>
-          </q-card-section>
-        </q-card-media>
+        <q-img src="statics/parallax2.jpg">
+          <div class="text-h5 absolute-bottom text-right">
+            Title
+          </div>
+        </q-img>
       </q-card>
 
       <q-card inline>
-        <q-card-media overlay-position="full">
-          <img src="~assets/parallax2.jpg">
-
-          <q-card-section>
-            <div class="text-subtitle2">
-              Title
-            </div>
-          </q-card-section>
-        </q-card-media>
+        <q-img src="statics/parallax2.jpg">
+          <div class="text-subtitle2 absolute-full text-center">
+            Title
+          </div>
+        </q-img>
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/parallax2.jpg">
-
-          <q-card-section>
+        <q-img src="statics/parallax2.jpg">
+          <div class="absolute-bottom">
             <div class="text-h6">Our Changing Planet</div>
             <div class="text-subtitle2">by Kurt Wagner</div>
-          </q-card-section>
-        </q-card-media>
+          </div>
+        </q-img>
 
         <q-card-actions>
           <q-btn flat>Action 1</q-btn>
@@ -313,9 +291,7 @@
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <q-parallax src="statics/parallax1.jpg" :height="150" />
-        </q-card-media>
+        <q-parallax src="statics/parallax1.jpg" :height="150" />
 
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
@@ -323,22 +299,6 @@
         </q-card-section>
 
         <q-separator />
-
-        <q-card-actions>
-          <q-btn flat>Action 1</q-btn>
-          <q-btn flat>Action 2</q-btn>
-        </q-card-actions>
-      </q-card>
-
-      <q-card inline>
-        <q-card-media>
-          <q-parallax src="statics/parallax2.jpg" :height="250" />
-
-          <q-card-section>
-            <div class="text-h6">Our Changing Planet</div>
-            <div class="text-subtitle2">by Kurt Wagner</div>
-          </q-card-section>
-        </q-card-media>
 
         <q-card-actions>
           <q-btn flat>Action 1</q-btn>
@@ -360,9 +320,7 @@
           </q-item-section>
         </q-item>
 
-        <q-card-media>
-          <img src="~assets/parallax2.jpg">
-        </q-card-media>
+        <img src="~assets/parallax2.jpg">
 
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
@@ -376,9 +334,7 @@
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/parallax2.jpg">
-        </q-card-media>
+        <img src="~assets/parallax2.jpg">
 
         <q-list>
           <q-item clickable>
@@ -444,9 +400,7 @@
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <q-video src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0" />
-        </q-card-media>
+        <q-video src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0" />
 
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
@@ -476,9 +430,7 @@
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/mountains.jpg">
-        </q-card-media>
+        <img src="~assets/mountains.jpg">
 
         <q-card-actions align="around">
           <q-btn flat round color="red" icon="favorite" />
@@ -488,9 +440,7 @@
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/mountains.jpg">
-        </q-card-media>
+        <img src="~assets/mountains.jpg">
 
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
