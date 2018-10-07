@@ -30,10 +30,10 @@ $spaces ?= {
 
 // Max width at which point
 // current size ends
-$breakpoint-xs ?= 575px
-$breakpoint-sm ?= 767px
-$breakpoint-md ?= 991px
-$breakpoint-lg ?= 1199px
+$breakpoint-xs ?= 599px
+$breakpoint-sm ?= 1023px
+$breakpoint-md ?= 1439px
+$breakpoint-lg ?= 1919px
 
 $flex-cols      ?= 12
 $flex-gutter-xs ?= ($space-base * .25)
@@ -54,11 +54,11 @@ $flex-gutter ?= {
   xl: $flex-gutter-xl
 }
 $sizes ?= {
-  xs: 0,
-  sm: $breakpoint-xs + 1, // Extra small screen / phone
-  md: $breakpoint-sm + 1, // Small screen / phone
-  lg: $breakpoint-md + 1, // Medium screen / tablet
-  xl: $breakpoint-lg + 1  // Large screen / desktop
+  xs: 0,                  // Extra small screen
+  sm: $breakpoint-xs + 1, // Small screen
+  md: $breakpoint-sm + 1, // Medium screen
+  lg: $breakpoint-md + 1, // Large screen
+  xl: $breakpoint-lg + 1  // Extra large screen
 }
 
 $breakpoint-xs-min ?= 0
