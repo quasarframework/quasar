@@ -60,7 +60,7 @@
         </q-item>
       </q-slide-item>
 
-      <q-slide-item @left="onLeft" @right="onRight" left-color="amber" right-color="black">
+      <q-slide-item @left="onLeft" @right="onRight" left-color="amber" right-color="primary">
         <div slot="left" class="row items-center text-black">
           <q-icon left name="done" /> Left
         </div>
@@ -68,9 +68,9 @@
           Right content.. long <q-icon right name="alarm" />
         </div>
 
-        <q-item class="bg-teal text-amber">
+        <q-item class="bg-black text-white">
           <q-item-section avatar>
-            <q-avatar color="amber" text-color="teal" icon="bluetooth" />
+            <q-avatar color="grey-9" text-color="grey-4" icon="bluetooth" />
           </q-item-section>
           <q-item-section>Custom colors 2</q-item-section>
         </q-item>
