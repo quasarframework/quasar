@@ -78,12 +78,11 @@
           class="fit"
           :thumb-style="{
             right: '4px',
-            borderRadius: '2px',
-            background: 'blue',
-            opacity: .6,
+            background: '#027be3',
+            opacity: .8,
             width: '4px'
           }"
-          style="padding-top: 200px"
+          style="padding-top: 204px"
         >
           <div class="q-pa-sm">
             <q-btn to="/layout-quick/a">Go to A</q-btn>
