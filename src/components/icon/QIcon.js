@@ -64,7 +64,8 @@ export default Vue.extend({
       staticClass: 'q-icon',
       'class': this.classes,
       style: this.style,
-      attrs: { 'aria-hidden': true }
+      attrs: { 'aria-hidden': true },
+      on: this.$listeners
     }, [
       this.content,
       this.$slots.default

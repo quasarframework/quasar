@@ -2,6 +2,16 @@
   <div>
     <q-layout :view="view" @scroll="onScroll">
       <q-header v-model="header" :bordered="bordered" :elevated="elevated" :reveal="headerReveal" :class="marginalClass">
+        <q-bar>
+          <q-icon name="network_wifi" />
+          <div>9:34</div>
+          <q-space />
+          <q-btn round dense flat icon="help" class="q-mr-md" />
+          <q-btn dense flat icon="minimize" />
+          <q-btn dense flat icon="crop_square" />
+          <q-btn dense flat icon="close" />
+        </q-bar>
+
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-space />
@@ -57,7 +67,7 @@
         :content-class="drawerClass"
         @on-layout="drawerOnLayout"
       >
-        <q-img class="absolute-top" src="statics/material.png" style="height: 200px">
+        <q-img class="absolute-top" src="statics/material.png" style="height: 204px">
           <div class="absolute-bottom bg-transparent">
             <div class="text-subtitle1">Razvan Stoenescu</div>
             <div class="text-body2">@rstoenescu</div>
@@ -416,7 +426,7 @@ export default {
 
       bordered: false,
       elevated: false,
-      whiteLayout: true,
+      whiteLayout: false,
 
       scrolling: true,
 
