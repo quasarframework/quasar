@@ -9,6 +9,12 @@
     stroke-dashoffset 0
     animation q-mat-dash 1.5s ease-in-out infinite /* rtl:ignore */
 
+@keyframes q-spin
+  0%
+    transform rotate3d(0, 0, 1, 0deg) /* rtl:ignore */
+  100%
+    transform rotate3d(0, 0, 1, 359deg) /* rtl:ignore */
+
 @keyframes q-mat-dash
   0%
     stroke-dasharray 1, 200

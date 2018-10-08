@@ -57,7 +57,7 @@ export default {
         render (h) {
           return h('transition', {
             props: {
-              name: 'q-transition--fade-next',
+              name: 'q-transition--loading',
               appear: true
             },
             on: {
@@ -67,7 +67,7 @@ export default {
             }
           }, [
             this.isActive ? h('div', {
-              staticClass: 'q-loading q-transition--fade fullscreen column flex-center z-max',
+              staticClass: 'q-loading q-transition--loading fullscreen column flex-center z-max',
               key: uid(),
               'class': props.customClass.trim()
             }, [
