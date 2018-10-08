@@ -1,8 +1,8 @@
 <template>
   <div class="bg-white">
-    <div class="q-layout-padding" style="max-width: 600px;">
+    <div class="q-layout-padding q-mx-auto" style="max-width: 600px;">
       <p class="caption">Explore the possibilities</p>
-      <q-list bordered>
+      <q-list bordered padding>
         <q-expansion-item
           v-model="open"
           expand-separator
@@ -201,7 +201,7 @@
       </q-list>
 
       <p class="caption">Switch toggle side</p>
-      <q-list bordered inset-separator>
+      <q-list bordered padding inset-separator>
         <q-expansion-item switch-toggle-side icon="mail" label="Inbox" caption="5 unread emails">
           <q-card>
             <q-card-section>

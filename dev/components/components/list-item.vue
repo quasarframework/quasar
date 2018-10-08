@@ -1,6 +1,6 @@
 <template>
   <div :class="dark ? 'bg-black text-white' : 'bg-white'">
-    <div class="q-layout-padding" style="max-width: 500px">
+    <div class="q-layout-padding q-mx-auto" style="max-width: 500px">
       <q-item tag="label" dark class="q-my-sm bg-primary shadow-1" style="border-radius: 30px">
         <q-item-section>
           <q-item-label>Dark background</q-item-label>
@@ -21,7 +21,7 @@
         </q-item-section>
       </q-item>
 
-      <q-list bordered class="q-my-md" :dark="dark" :separator="separator">
+      <q-list bordered padding class="q-my-md" :dark="dark" :separator="separator">
         <q-item clickable class="text-primary">
           <q-item-section>Single line item</q-item-section>
         </q-item>
@@ -146,7 +146,7 @@
       </q-list>
 
       <p class="caption">Dense</p>
-      <q-list dense bordered class="q-my-md" :dark="dark">
+      <q-list dense padding bordered class="q-my-md" :dark="dark">
         <q-item clickable class="text-primary">
           <q-item-section>Single line item</q-item-section>
         </q-item>
@@ -218,7 +218,7 @@
         </q-item>
       </q-list>
 
-      <q-list bordered class="q-my-md" :dark="dark">
+      <q-list bordered padding class="q-my-md" :dark="dark">
         <q-item>
           <q-item-section>Single line item</q-item-section>
         </q-item>
@@ -274,7 +274,7 @@
         </q-item>
       </q-list>
 
-      <q-list bordered class="q-my-md" :dark="dark">
+      <q-list bordered padding class="q-my-md" :dark="dark">
         <q-item>
           <q-item-section>
             <q-item-label overline>OVERLINE</q-item-label>
@@ -363,7 +363,7 @@
         </q-item>
       </q-list>
 
-      <q-list bordered class="q-my-md" :dark="dark">
+      <q-list bordered padding class="q-my-md" :dark="dark">
         <q-item>
           <q-item-section>
             <q-item-label overline>OVERLINE</q-item-label>
@@ -480,7 +480,7 @@
         </q-item>
       </q-list>
 
-      <q-list bordered :dark="dark">
+      <q-list bordered padding :dark="dark">
         <q-item-label header>User Controls</q-item-label>
 
         <q-item>

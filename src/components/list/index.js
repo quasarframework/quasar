@@ -5,6 +5,7 @@ import QItemSection from './QItemSection.js'
 import QItemLabel from './QItemLabel.js'
 
 import QExpansionItem from './QExpansionItem.js'
+import QSlideItem from './QSlideItem.js'
 
 export {
   QList,
@@ -13,5 +14,6 @@ export {
   QItemSection,
   QItemLabel,
 
-  QExpansionItem
+  QExpansionItem,
+  QSlideItem
 }

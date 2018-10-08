@@ -7,7 +7,8 @@ export default Vue.extend({
     bordered: Boolean,
     dense: Boolean,
     separator: Boolean,
-    dark: Boolean
+    dark: Boolean,
+    padding: Boolean
   },
 
   computed: {
@@ -16,7 +17,8 @@ export default Vue.extend({
         'q-list--bordered': this.bordered,
         'q-list--dense': this.dense,
         'q-list--separator': this.separator,
-        'q-list--dark': this.dark
+        'q-list--dark': this.dark,
+        'q-list--padding': this.padding
       }
     }
   },

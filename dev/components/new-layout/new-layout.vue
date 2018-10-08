@@ -67,13 +67,6 @@
         :content-class="drawerClass"
         @on-layout="drawerOnLayout"
       >
-        <q-img class="absolute-top" src="statics/material.png" style="height: 204px">
-          <div class="absolute-bottom bg-transparent">
-            <div class="text-subtitle1">Razvan Stoenescu</div>
-            <div class="text-body2">@rstoenescu</div>
-          </div>
-        </q-img>
-
         <q-scroll-area
           class="fit"
           :thumb-style="{
@@ -82,7 +75,7 @@
             opacity: .8,
             width: '4px'
           }"
-          style="padding-top: 204px"
+          style="padding-top: 150px"
         >
           <div class="q-pa-sm">
             <q-btn to="/layout-quick/a">Go to A</q-btn>
@@ -99,6 +92,16 @@
             <div v-for="n in 30" :key="n">{{ n }} Left drawer</div>
           </div>
         </q-scroll-area>
+
+        <q-img class="absolute-top" src="statics/material.png" style="height: 150px">
+          <div class="absolute-bottom bg-transparent">
+            <q-avatar size="56px" class="q-mb-sm">
+              <img src="statics/boy-avatar.png">
+            </q-avatar>
+            <div class="text-weight-bold">Razvan Stoenescu</div>
+            <div>@rstoenescu</div>
+          </div>
+        </q-img>
       </q-drawer>
 
       <!--
