@@ -68,14 +68,13 @@
         @on-layout="drawerOnLayout"
       >
         <q-scroll-area
-          class="fit"
           :thumb-style="{
             right: '4px',
             background: '#027be3',
             opacity: .8,
             width: '4px'
           }"
-          style="padding-top: 150px"
+          style="height: calc(100% - 150px); margin-top: 150px"
         >
           <div class="q-pa-sm">
             <q-btn to="/layout-quick/a">Go to A</q-btn>
