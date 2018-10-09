@@ -23,10 +23,10 @@ export default {
   },
   methods: {
     bounceImage (el) {
-      el.classList.add('animate-bounce')
+      el.classList.add('q-animate-bounce')
       setTimeout(() => {
         if (document.body.contains(el)) {
-          el.classList.remove('animate-bounce')
+          el.classList.remove('q-animate-bounce')
         }
       }, 2000)
     }

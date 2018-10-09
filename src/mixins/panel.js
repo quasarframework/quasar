@@ -15,9 +15,13 @@ export const PanelParentMixin = {
     infinite: Boolean,
     swipeable: Boolean,
 
-    transition: {
+    transitionPrev: {
       type: String,
-      default: 'q-transition--slide-x'
+      default: 'q-transition--slide-right'
+    },
+    transitionNext: {
+      type: String,
+      default: 'q-transition--slide-left'
     }
   },
 
@@ -50,8 +54,8 @@ export const PanelParentMixin = {
         this.panelTransition = newVal && this.panelIndex !== -1
           ? (
             index < this.__getPanelIndex(oldVal)
-              ? this.transition + '-prev'
-              : this.transition + '-next'
+              ? this.transitionPrev
+              : this.transitionNext
           )
           : null
       }
@@ -156,8 +160,7 @@ export const PanelParentMixin = {
         }, [
           h('div', {
             key: this.value,
-            staticClass: 'q-transition-animator',
-            'class': this.transition
+            staticClass: 'q-panel'
           }, [ panel ])
         ]) : panel
       ]

@@ -1,12 +1,15 @@
-body.with-loading
+.q-body--loading
   overflow hidden
 
 .q-loading
   color black
 
+  // override q-transition--fade's absolute position
+  position fixed !important
+
   &:before
     content ''
-    position absolute
+    position fixed
     top 0
     right 0
     bottom 0

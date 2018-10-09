@@ -13,7 +13,10 @@ export default Vue.extend({
     height: String,
     padding: Boolean,
 
-    transition: {
+    transitionPrev: {
+      default: 'q-transition--fade'
+    },
+    transitionNext: {
       default: 'q-transition--fade'
     },
 

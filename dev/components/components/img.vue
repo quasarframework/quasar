@@ -35,7 +35,6 @@
       <q-img
         :src="url"
         alt="Image"
-        height="100px"
         style="max-width: 400px"
       >
         <div slot="loading" class="text-h2 text-white">
@@ -61,7 +60,7 @@
         :ratio="16/9"
         spinner-color="white"
         style="max-width: 400px"
-        transition="q-transition--slide-x"
+        transition="q-transition--slide-left"
       />
 
       <q-img
@@ -77,6 +76,7 @@
         :src="url"
         placeholder-src="https://picsum.photos/500/300/?blur"
         ratio="1"
+        transition="q-transition--slide-up"
         spinner-color="white"
         style="max-width: 225px"
       >

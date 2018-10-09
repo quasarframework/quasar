@@ -1,7 +1,7 @@
 <template>
   <div class="q-layout-padding">
     <p class="caption">
-      Scroll down <q-icon style="font-size: 3rem" class="animate-bounce" name="keyboard_arrow_down" />
+      Scroll down <q-icon style="font-size: 3rem" class="q-animate-bounce" name="keyboard_arrow_down" />
     </p>
     <p class="caption">
       A circular button is set to appear after scrolling 500px.
@@ -14,13 +14,13 @@
       fab
       icon="keyboard_arrow_up"
       v-back-to-top.animate="{offset: 500, duration: 200}"
-      class="fixed-bottom-right animate-pop"
+      class="fixed-bottom-right q-animate-pop"
       style="margin: 0 15px 15px 0"
     />
 
     <a
       v-back-to-top.animate="1000"
-      class="animate-pop play-backtotop non-selectable"
+      class="q-animate-pop play-backtotop non-selectable"
     >
       Back to top
     </a>

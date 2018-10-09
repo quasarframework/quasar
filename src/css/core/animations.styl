@@ -1,9 +1,9 @@
 /*
- * Animated CSS
+ * Animate.css additions
  */
 
 .animated
-  animation-duration 1s
+  animation-duration .6s
   animation-fill-mode both
 
 .animated.infinite
@@ -15,13 +15,13 @@
 .animated.flipOutY,
 .animated.bounceIn,
 .animated.bounceOut
-  animation-duration .75s
+  animation-duration .6s
 
 /*
  * Quasar animations
  */
 
-.animate-shake
+.q-animate-shake
   animation q-shake .15s
   animation-timing-function cubic-bezier(.25, .8, .25, 1)
 
@@ -33,7 +33,7 @@
   100%
     transform scale3d(1, 1, 1)
 
-.animate-fade
+.q-animate-fade
   animation q-fade .2s /* rtl:ignore */
 
 @keyframes q-fade

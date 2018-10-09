@@ -115,7 +115,7 @@ export default Vue.extend({
   render (h) {
     if (!this.canRender) { return }
 
-    return h('div', { staticClass: 'q-tooltip animate-popup' }, [
+    return h('div', { staticClass: 'q-tooltip q-animate-popup' }, [
       h('div', this.$slots.default)
     ])
   },

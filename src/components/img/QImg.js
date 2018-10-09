@@ -54,7 +54,7 @@ export default Vue.extend({
       return this.ratio || this.naturalRatio
     },
 
-    paddingBottom () {
+    padding () {
       return this.aspectRatio !== void 0
         ? (1 / this.aspectRatio) * 100 + '%'
         : void 0
@@ -147,7 +147,6 @@ export default Vue.extend({
       const content = h('div', {
         key: url,
         staticClass: 'q-img__image absolute-full',
-        'class': this.transition,
         style: {
           backgroundImage: `url("${url}")`,
           backgroundSize: this.contain ? 'contain' : 'cover',
@@ -160,7 +159,7 @@ export default Vue.extend({
       }
 
       return h('transition', {
-        props: { name: this.transition + '-next' }
+        props: { name: this.transition }
       }, [ content ])
     },
 
@@ -174,7 +173,7 @@ export default Vue.extend({
       const content = this.isLoading
         ? h('div', {
           key: 'placeholder',
-          staticClass: 'q-img__loading absolute-full flex flex-center q-transition--fade'
+          staticClass: 'q-img__loading absolute-full flex flex-center'
         }, this.$slots.loading || [
           h(QSpinner, {
             props: {
@@ -185,11 +184,11 @@ export default Vue.extend({
         ])
         : h('div', {
           key: 'content',
-          staticClass: 'q-img__content absolute-full q-transition--fade'
+          staticClass: 'q-img__content absolute-full'
         }, this.hasError ? this.$slots.error : this.$slots.default)
 
       return h('transition', {
-        props: { name: this.transition + '-next' }
+        props: { name: 'q-transition--fade' }
       }, [ content ])
     }
   },
@@ -203,7 +202,7 @@ export default Vue.extend({
       } : null
     }, [
       h('div', {
-        style: { paddingBottom: this.paddingBottom }
+        style: { paddingBottom: this.padding }
       }),
       this.__getImage(h),
       this.__getContent(h)

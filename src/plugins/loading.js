@@ -44,7 +44,7 @@ export default {
 
       const node = document.createElement('div')
       document.body.appendChild(node)
-      document.body.classList.add('with-loading')
+      document.body.classList.add('q-body--loading')
 
       vm = new Vue({
         name: 'QLoading',
@@ -57,7 +57,7 @@ export default {
         render (h) {
           return h('transition', {
             props: {
-              name: 'q-transition--loading',
+              name: 'q-transition--fade',
               appear: true
             },
             on: {
@@ -67,7 +67,7 @@ export default {
             }
           }, [
             this.isActive ? h('div', {
-              staticClass: 'q-loading q-transition--loading fullscreen column flex-center z-max',
+              staticClass: 'q-loading fullscreen column flex-center z-max',
               key: uid(),
               'class': props.customClass.trim()
             }, [
@@ -106,7 +106,7 @@ export default {
       vm.isActive = false
       vm.$on('destroy', () => {
         vm.$destroy()
-        document.body.classList.remove('with-loading')
+        document.body.classList.remove('q-body--loading')
         vm.$el.remove()
         vm = null
         this.isActive = false

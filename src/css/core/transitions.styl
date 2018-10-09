@@ -1,74 +1,99 @@
 .q-transition
 
-  &-animator
-    height 100%
-    > div
-      height 100%
+  &--slide-right,
+  &--slide-left,
+  &--slide-up,
+  &--slide-down
 
-  &--slide-x
-    transition transform .6s cubic-bezier(.86, 0, .07, 1)
+    &-enter-active, &-leave-active
+        transition transform .6s cubic-bezier(.86, 0, .07, 1)
 
-    &-prev
-      &-enter
-        transform translate3d(-100%, 0, 0)
-      &-leave, &-leave-to
-        transform translate3d(100%, 0, 0)
-        position absolute
-        top 0
-        left 0
-        right 0
+  &--slide-right
+    &-enter
+      transform translate3d(-100%, 0, 0)
+    &-leave, &-leave-to
+      transform translate3d(100%, 0, 0)
+      position absolute
 
-    &-next
-      &-enter
-        transform translate3d(100%, 0, 0)
-      &-leave, &-leave-active
-        position absolute
-        top 0
-        left 0
-        right 0
-      &-leave-to
-        transform translate3d(-100%, 0, 0)
-        position absolute
+  &--slide-left
+    &-enter
+      transform translate3d(100%, 0, 0)
+    &-leave, &-leave-to
+      transform translate3d(-100%, 0, 0)
+      position absolute
 
-  &--slide-y
-    transition transform .6s cubic-bezier(.86, 0, .07, 1)
+  &--slide-up
+    &-enter
+      transform translate3d(0, 100%, 0)
+    &-leave, &-leave-to
+      transform translate3d(0, -100%, 0)
+      position absolute
 
-    &-prev
-      &-enter
-        transform translate3d(0, -100%, 0)
-      &-leave, &-leave-to
-        transform translate3d(0, 100%, 0)
-        position absolute
-        top 0
-        left 0
-        right 0
+  &--slide-down
+    &-enter
+      transform translate3d(0, -100%, 0)
+    &-leave, &-leave-to
+      transform translate3d(0, 100%, 0)
+      position absolute
 
-    &-next
-      &-enter
-        transform translate3d(0, 100%, 0)
-      &-leave, &-leave-active
-        position absolute
-        top 0
-        left 0
-        right 0
-      &-leave-to
-        transform translate3d(0, -100%, 0)
-        position absolute
+
+  &--jump-right,
+  &--jump-left,
+  &--jump-up,
+  &--jump-down
+    &-enter-active, &-leave-active
+      transition opacity .6s, transform .6s
+    &-enter, &-leave-to
+      opacity 0
+
+  &--jump-right
+    &-enter
+      transform translateX(-15px)
+    &-leave-to
+      transform translateX(15px)
+
+  &--jump-left
+    &-enter
+      transform translateX(15px)
+    &-leave-to
+      transform translateX(-15px)
+
+  &--jump-up
+    &-enter
+      transform translateY(15px)
+    &-leave-to
+      transform translateY(-15px)
+
+  &--jump-down
+    &-enter
+      transform translateY(-15px)
+    &-leave-to
+      transform translateY(15px)
+
 
   &--fade
-    transition opacity .4s ease-out
-
-    &-prev, &-next
-      &-enter-active, &-leave-active, &-leave-to
-        position absolute
-        top 0
-        left 0
-        right 0
-
-      &-enter, &-leave, &-leave-to
-        opacity 0
-
-  &--loading
-    transition opacity .4s ease-out
+    &-enter-active, &-leave-active
+      transition opacity .4s ease-out
+    &-leave-active
+      position absolute
     &-enter, &-leave, &-leave-to
       opacity 0
+
+
+  &--scale
+    &-enter-active, &-leave-active
+      transition opacity .6s, transform .6s cubic-bezier(.86, 0, .07, 1)
+    &-leave-active
+      position absolute
+    &-enter, &-leave, &-leave-to
+      opacity 0
+      transform scale(0)
+
+  &--rotate
+    &-enter-active, &-leave-active
+      transition opacity .6s, transform .6s cubic-bezier(.86, 0, .07, 1)
+    &-leave-active
+      position absolute
+    &-enter, &-leave, &-leave-to
+      opacity 0
+      transform scale(0) rotate(90deg)

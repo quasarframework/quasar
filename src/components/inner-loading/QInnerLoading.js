@@ -21,7 +21,7 @@ export default Vue.extend({
     return h(
       'div',
       {
-        staticClass: 'q-inner-loading animate-fade absolute-full column flex-center',
+        staticClass: 'q-inner-loading q-animate-fade absolute-full column flex-center',
         'class': { 'q-inner-loading--dark': this.dark }
       },
       this.$slots.default || [
