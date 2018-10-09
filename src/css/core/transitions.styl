@@ -3,44 +3,58 @@
   &--slide-right,
   &--slide-left,
   &--slide-up,
+  &--slide-down,
+  &--jump-right,
+  &--jump-left,
+  &--jump-up,
+  &--jump-down,
+  &--fade,
+  &--scale,
+  &--rotate,
+  &--flip
+
+    &-leave-active
+      position absolute
+
+
+  &--slide-right,
+  &--slide-left,
+  &--slide-up,
   &--slide-down
 
     &-enter-active, &-leave-active
-        transition transform .6s cubic-bezier(.86, 0, .07, 1)
+      transition transform .6s cubic-bezier(.86, 0, .07, 1)
 
   &--slide-right
     &-enter
       transform translate3d(-100%, 0, 0)
-    &-leave, &-leave-to
+    &-leave-active
       transform translate3d(100%, 0, 0)
-      position absolute
 
   &--slide-left
     &-enter
       transform translate3d(100%, 0, 0)
-    &-leave, &-leave-to
+    &-leave-active
       transform translate3d(-100%, 0, 0)
-      position absolute
 
   &--slide-up
     &-enter
       transform translate3d(0, 100%, 0)
-    &-leave, &-leave-to
+    &-leave-active
       transform translate3d(0, -100%, 0)
-      position absolute
 
   &--slide-down
     &-enter
       transform translate3d(0, -100%, 0)
-    &-leave, &-leave-to
+    &-leave-active
       transform translate3d(0, 100%, 0)
-      position absolute
 
 
   &--jump-right,
   &--jump-left,
   &--jump-up,
   &--jump-down
+
     &-enter-active, &-leave-active
       transition opacity .6s, transform .6s
     &-enter, &-leave-to
@@ -48,34 +62,32 @@
 
   &--jump-right
     &-enter
-      transform translateX(-15px)
+      transform translate3d(-15px, 0, 0)
     &-leave-to
-      transform translateX(15px)
+      transform translate3d(15px, 0, 0)
 
   &--jump-left
     &-enter
-      transform translateX(15px)
+      transform translate3d(15px, 0, 0)
     &-leave-to
       transform translateX(-15px)
 
   &--jump-up
     &-enter
-      transform translateY(15px)
+      transform translate3d(0, 15px, 0)
     &-leave-to
-      transform translateY(-15px)
+      transform translate3d(0, -15px, 0)
 
   &--jump-down
     &-enter
-      transform translateY(-15px)
+      transform translate3d(0, -15px, 0)
     &-leave-to
-      transform translateY(15px)
+      transform translate3d(0, 15px, 0)
 
 
   &--fade
     &-enter-active, &-leave-active
       transition opacity .4s ease-out
-    &-leave-active
-      position absolute
     &-enter, &-leave, &-leave-to
       opacity 0
 
@@ -83,17 +95,49 @@
   &--scale
     &-enter-active, &-leave-active
       transition opacity .6s, transform .6s cubic-bezier(.86, 0, .07, 1)
-    &-leave-active
-      position absolute
     &-enter, &-leave, &-leave-to
       opacity 0
-      transform scale(0)
+      transform scale3d(0, 0, 1)
 
   &--rotate
     &-enter-active, &-leave-active
       transition opacity .6s, transform .6s cubic-bezier(.86, 0, .07, 1)
-    &-leave-active
-      position absolute
+      transform-style preserve-3d
     &-enter, &-leave, &-leave-to
       opacity 0
-      transform scale(0) rotate(90deg)
+      transform scale3d(0, 0, 1) rotate3d(0, 0, 1, 90deg)
+
+  &--flip-right,
+  &--flip-left,
+  &--flip-up,
+  &--flip-down
+
+    &-enter-active, &-leave-active
+      transition transform .6s
+      backface-visibility hidden
+    &-enter-to, &-leave
+      transform perspective(400px) rotate3d(1, 1, 0, 0deg)
+
+  &--flip-right
+    &-enter
+      transform perspective(400px) rotate3d(0, 1, 0, -180deg)
+    &-leave-to
+      transform perspective(400px) rotate3d(0, 1, 0, 180deg)
+
+  &--flip-left
+    &-enter
+      transform perspective(400px) rotate3d(0, 1, 0, 180deg)
+    &-leave-to
+      transform perspective(400px) rotate3d(0, 1, 0, -180deg)
+
+  &--flip-up
+    &-enter
+      transform perspective(400px) rotate3d(1, 0, 0, -180deg)
+    &-leave-to
+      transform perspective(400px) rotate3d(1, 0, 0, 180deg)
+
+  &--flip-down
+    &-enter
+      transform perspective(400px) rotate3d(1, 0, 0, 180deg)
+    &-leave-to
+      transform perspective(400px) rotate3d(1, 0, 0, -180deg)

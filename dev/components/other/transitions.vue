@@ -9,11 +9,11 @@
         :key="transition"
         :transition="'q-transition--' + transition"
         :src="url"
-        style="width: 200px"
+        style="width: 150px"
         ratio="1"
       >
         <div class="absolute-bottom text-center text-body2">
-          q-transition--{{ transition }}
+          {{ transition }}
         </div>
       </q-img>
 
@@ -34,6 +34,10 @@ export default {
         'fade',
         'scale',
         'rotate',
+        'flip-right',
+        'flip-left',
+        'flip-up',
+        'flip-down',
         'jump-right',
         'jump-left',
         'jump-up',

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-layout-padding" style="max-width: 600px;">
+  <div class="q-layout-padding q-mx-auto" style="max-width: 600px;">
     <q-card style="margin-top: 25px">
       <q-card-section class="bg-primary text-center">
         <q-btn push color="orange" @click="show = !show">Toggle</q-btn>
