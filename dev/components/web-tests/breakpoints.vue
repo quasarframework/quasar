@@ -1,8 +1,7 @@
 <template>
   <div class="q-layout-padding">
-    <div v-for="type in types" :class="type">{{ type }}</div>
-    <q-window-resize-observable @resize="resize" />
-    <p class="caption" :class="`bg-${color}`">{{ w }} - {{ width }}</p>
+    <div v-for="type in types" :key="type" :class="type">{{ type }}</div>
+    <p class="caption" :class="`bg-${color}`">{{ w }} - {{ $q.screen.sizes[w] }} - {{ $q.screen.width }}</p>
   </div>
 </template>
 
@@ -10,25 +9,18 @@
 export default {
   data () {
     return {
-      width: 0,
       types: ['xs', 'gt-xs', 'lt-sm', 'sm', 'gt-sm', 'lt-md', 'md', 'gt-md', 'lt-lg', 'lg', 'gt-lg', 'lt-xl', 'xl']
     }
   },
+
   computed: {
     w () {
-      if (this.width <= 575) {
-        return 'xs'
-      }
-      if (this.width <= 767) {
-        return 'sm'
-      }
-      if (this.width <= 991) {
-        return 'md'
-      }
-      if (this.width <= 1199) {
-        return 'lg'
-      }
-      return 'xl'
+      const screen = this.$q.screen
+      if (screen.xl) { return 'xl' }
+      if (screen.lg) { return 'lg' }
+      if (screen.md) { return 'md' }
+      if (screen.sm) { return 'sm' }
+      return 'xs'
     },
     color () {
       if (this.w === 'xs') {
@@ -44,13 +36,6 @@ export default {
         return 'yellow-8'
       }
       return 'yellow-10'
-    }
-  },
-  methods: {
-    resize ({width}) {
-      if (width !== this.width) {
-        this.width = width
-      }
     }
   }
 }

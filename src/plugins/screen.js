@@ -11,10 +11,10 @@ export default {
   height: 0,
 
   sizes: {
-    sm: 576,
-    md: 768,
-    lg: 992,
-    xl: 1200
+    sm: 600,
+    md: 1024,
+    lg: 1440,
+    xl: 1920
   },
 
   lt: {
@@ -41,7 +41,7 @@ export default {
         h = window.innerHeight,
         s = this.sizes
 
-      if (resized) {
+      if (resized === true) {
         if (h !== this.height) {
           this.height = h
         }
@@ -72,7 +72,7 @@ export default {
 
     this.setSizes = sizes => {
       SIZE_LIST.forEach(name => {
-        if (sizes[name]) {
+        if (sizes[name] !== void 0) {
           updateSizes[name] = sizes[name]
         }
       })
