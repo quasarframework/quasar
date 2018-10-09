@@ -22,7 +22,7 @@ export default Vue.extend({
     ratio: [String, Number],
     transition: {
       type: String,
-      default: 'q-transition--fade'
+      default: 'fade'
     },
 
     spinnerColor: String,
@@ -159,7 +159,7 @@ export default Vue.extend({
       }
 
       return h('transition', {
-        props: { name: this.transition }
+        props: { name: 'q-transition--' + this.transition }
       }, [ content ])
     },
 

@@ -14,10 +14,10 @@ export default Vue.extend({
     padding: Boolean,
 
     transitionPrev: {
-      default: 'q-transition--fade'
+      default: 'fade'
     },
     transitionNext: {
-      default: 'q-transition--fade'
+      default: 'fade'
     },
 
     controlColor: String,
@@ -68,25 +68,31 @@ export default Vue.extend({
   },
 
   watch: {
-    autoplay: {
-      handler (val) {
-        this.$nextTick(() => {
-          if (val) {
-            this.timer = setInterval(
-              this.next,
-              isNumber(this.autoplay) ? this.autoplay : 5000
-            )
-          }
-          else {
-            clearInterval(this.timer)
-          }
-        })
-      },
-      immediate: true
+    value () {
+      if (this.autoplay) {
+        clearInterval(this.timer)
+        this.__startTimer()
+      }
+    },
+
+    autoplay (val) {
+      if (val) {
+        this.__startTimer()
+      }
+      else {
+        clearInterval(this.timer)
+      }
     }
   },
 
   methods: {
+    __startTimer () {
+      this.timer = setTimeout(
+        this.next,
+        isNumber(this.autoplay) ? this.autoplay : 5000
+      )
+    },
+
     __getNavigationContainer (h, type, mapping) {
       return h('div', {
         staticClass: 'q-carousel__control q-carousel__navigation no-wrap absolute flex scroll-x q-carousel__navigation--' + type,
@@ -158,10 +164,6 @@ export default Vue.extend({
     }
   },
 
-  beforeDestroy () {
-    clearInterval(this.timer)
-  },
-
   render (h) {
     return h('div', {
       staticClass: 'q-carousel relative-position overflow-hidden',
@@ -175,5 +177,13 @@ export default Vue.extend({
         this.__getPanelContent(h)
       ])
     ].concat(this.__getContent(h)))
+  },
+
+  mounted () {
+    this.autoplay && this.__startTimer()
+  },
+
+  beforeDestroy () {
+    clearInterval(this.timer)
   }
 })

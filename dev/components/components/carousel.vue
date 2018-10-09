@@ -8,8 +8,8 @@
       <q-toggle v-model="arrows" label="Show arrows" class="q-ml-sm" />
     </p>
     <q-carousel
-      transition-prev="q-transition--slide-right"
-      transition-next="q-transition--slide-left"
+      transition-prev="slide-right"
+      transition-next="slide-left"
       swipeable
       animated
       v-model="slide"
@@ -51,8 +51,8 @@
       Scroll. Padding. Video on second slide.
     </p>
     <q-carousel
-      transition-prev="q-transition--rotate"
-      transition-next="q-transition--rotate"
+      transition-prev="rotate"
+      transition-next="rotate"
       swipeable
       animated
       v-model="slide"

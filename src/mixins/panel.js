@@ -17,11 +17,11 @@ export const PanelParentMixin = {
 
     transitionPrev: {
       type: String,
-      default: 'q-transition--slide-right'
+      default: 'slide-right'
     },
     transitionNext: {
       type: String,
-      default: 'q-transition--slide-left'
+      default: 'slide-left'
     }
   },
 
@@ -52,7 +52,7 @@ export const PanelParentMixin = {
 
       if (this.animated) {
         this.panelTransition = newVal && this.panelIndex !== -1
-          ? (
+          ? 'q-transition--' + (
             index < this.__getPanelIndex(oldVal)
               ? this.transitionPrev
               : this.transitionNext

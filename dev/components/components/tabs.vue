@@ -206,8 +206,8 @@
         v-model="tab"
         swipeable
         animated
-        transition-prev="q-transition--scale"
-        transition-next="q-transition--scale"
+        transition-prev="scale"
+        transition-next="scale"
         class="text-black text-center"
       >
         <q-tab-panel name="one">
@@ -231,8 +231,8 @@
         v-model="tab"
         swipeable
         animated
-        transition-prev="q-transition--fade"
-        transition-next="q-transition--fade"
+        transition-prev="fade"
+        transition-next="fade"
         class="q-mt-lg text-black text-center"
       >
         <q-tab-panel name="one">

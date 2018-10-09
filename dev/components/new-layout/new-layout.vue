@@ -74,7 +74,7 @@
             opacity: .8,
             width: '4px'
           }"
-          style="height: calc(100% - 150px); margin-top: 150px"
+          style="height: calc(100% - 150px); margin-top: 204px"
         >
           <div class="q-pa-sm">
             <q-btn to="/layout-quick/a">Go to A</q-btn>
@@ -92,7 +92,7 @@
           </div>
         </q-scroll-area>
 
-        <q-img class="absolute-top" src="statics/material.png" style="height: 150px">
+        <q-img class="absolute-top" src="statics/material.png" style="height: 204px">
           <div class="absolute-bottom bg-transparent">
             <q-avatar size="56px" class="q-mb-sm">
               <img src="statics/boy-avatar.png">

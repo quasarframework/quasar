@@ -60,7 +60,7 @@
         :ratio="16/9"
         spinner-color="white"
         style="max-width: 400px"
-        transition="q-transition--slide-left"
+        transition="slide-left"
       />
 
       <q-img
@@ -76,7 +76,7 @@
         :src="url"
         placeholder-src="https://picsum.photos/500/300/?blur"
         ratio="1"
-        transition="q-transition--slide-up"
+        transition="slide-up"
         spinner-color="white"
         style="max-width: 225px"
       >

@@ -7,7 +7,7 @@
       <q-img
         v-for="transition in transitions"
         :key="transition"
-        :transition="'q-transition--' + transition"
+        :transition="transition"
         :src="url"
         style="width: 150px"
         ratio="1"
