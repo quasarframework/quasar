@@ -14,6 +14,6 @@ export default (url, reject) => {
     return win
   }
   else {
-    reject()
+    reject && reject()
   }
 }
