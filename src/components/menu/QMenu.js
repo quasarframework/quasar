@@ -4,7 +4,7 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import ClickOutside from '../../directives/click-outside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { listenOpts } from '../../utils/event.js'
+import { position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 
 import {
@@ -45,6 +45,8 @@ export default Vue.extend({
       validator: validateOffset
     },
 
+    contextMenu: Boolean,
+    touchPosition: Boolean,
     persistent: Boolean,
     disable: Boolean
   },
@@ -84,12 +86,26 @@ export default Vue.extend({
       this.transitionShow !== this.transitionHide && this.$nextTick(() => {
         this.transitionState = val
       })
+    },
+
+    contextMenu (val) {
+      this.__unconfigureParent(!val)
+      this.__configureParent(val)
     }
   },
 
   methods: {
+    __showCondition (evt) {
+      // abort on multi-touch
+      if (evt !== void 0 && evt.touches !== void 0 && evt.touches.length > 1) {
+        return false
+      }
+      return true
+    },
+
     __show (evt) {
       clearTimeout(this.timer)
+      evt.preventDefault()
 
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
@@ -104,11 +120,30 @@ export default Vue.extend({
 
       document.body.appendChild(this.$el)
       this.$nextTick(() => {
-        this.updatePosition(evt)
+        const { width, height, top, left } = this.anchorEl.getBoundingClientRect()
+
+        if (this.fit || this.cover) {
+          this.$el.style.minWidth = width + 'px'
+          if (this.cover) {
+            this.$el.style.minHeight = height + 'px'
+          }
+        }
+
+        if (this.touchPosition || this.contextMenu) {
+          const pos = position(evt)
+          this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
+        }
+        else {
+          this.absoluteOffset = void 0
+        }
+
+        this.updatePosition()
+
         if (this.unwatch === void 0) {
           this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
         }
       })
+
       this.timer = setTimeout(() => {
         this.$emit('show', evt)
       }, 600)
@@ -116,6 +151,7 @@ export default Vue.extend({
 
     __hide (evt) {
       this.__cleanup()
+      evt.preventDefault()
 
       this.timer = setTimeout(() => {
         this.$el.remove()
@@ -125,6 +161,7 @@ export default Vue.extend({
 
     __cleanup () {
       clearTimeout(this.timer)
+      this.absoluteOffset = void 0
 
       EscapeKey.pop()
 
@@ -147,22 +184,41 @@ export default Vue.extend({
       }
     },
 
-    updatePosition (evt) {
-      if (this.fit || this.cover) {
-        const { width, height } = this.anchorEl.getBoundingClientRect()
-        this.$el.style.minWidth = width + 'px'
-        if (this.cover) {
-          this.$el.style.minHeight = height + 'px'
-        }
-      }
+    __contextClick (evt) {
+      this.hide(evt)
+      this.show(evt)
+    },
 
+    __unconfigureParent (context = this.contextMenu) {
+      if (context === true) {
+        this.anchorEl.removeEventListener('click', this.hide)
+        this.anchorEl.removeEventListener('contextmenu', this.__contextClick)
+      }
+      else {
+        this.anchorEl.removeEventListener('click', this.toggle)
+        this.anchorEl.removeEventListener('keyup', this.__toggleKey)
+      }
+    },
+
+    __configureParent (context = this.contextMenu) {
+      if (context === true) {
+        this.anchorEl.addEventListener('click', this.hide)
+        this.anchorEl.addEventListener('contextmenu', this.__contextClick)
+      }
+      else {
+        this.anchorEl.addEventListener('click', this.toggle)
+        this.anchorEl.addEventListener('keyup', this.__toggleKey)
+      }
+    },
+
+    updatePosition () {
       setPosition({
-        // evt,
         el: this.$el,
         offset: this.offset,
         anchorEl: this.anchorEl,
         anchorOrigin: this.anchorOrigin,
         selfOrigin: this.selfOrigin,
+        absoluteOffset: this.absoluteOffset,
         fit: this.fit,
         cover: this.cover
       })
@@ -194,18 +250,13 @@ export default Vue.extend({
       this.anchorEl = this.anchorEl.parentNode
     }
 
-    this.anchorEl.classList.add('cursor-pointer')
-    this.anchorEl.addEventListener('click', this.toggle)
-    this.anchorEl.addEventListener('keyup', this.__toggleKey)
-
+    this.__configureParent()
     this.value && this.show()
   },
 
   beforeDestroy () {
     this.__cleanup()
-
     this.$el.remove()
-    this.anchorEl.removeEventListener('click', this.toggle)
-    this.anchorEl.removeEventListener('keyup', this.__toggleKey)
+    this.__unconfigureParent()
   }
 })

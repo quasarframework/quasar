@@ -33,6 +33,9 @@ export default {
       if (this.disable === true || this.showing === true) {
         return
       }
+      if (this.__showCondition !== void 0 && this.__showCondition(evt) !== true) {
+        return
+      }
 
       this.$emit('before-show', evt)
       this.showing = true

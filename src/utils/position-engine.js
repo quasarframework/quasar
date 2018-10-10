@@ -1,4 +1,3 @@
-import { position } from './event.js'
 import { getScrollbarWidth } from './scroll.js'
 
 export function validatePosition (pos) {
@@ -72,17 +71,21 @@ export function getTargetProps (el) {
   }
 }
 
-export function setPosition ({ evt, el, anchorEl, anchorOrigin, selfOrigin, offset, cover }) {
+export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset, absoluteOffset, cover }) {
   let
     targetProps = getTargetProps(el),
     anchorProps
 
-  if (evt !== void 0) {
-    const { top, left } = position(evt)
-    anchorProps = { top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1 }
+  if (absoluteOffset === void 0) {
+    anchorProps = getAnchorProps(anchorEl, cover === false ? offset : [0, 0])
   }
   else {
-    anchorProps = getAnchorProps(anchorEl, cover === false ? offset : [0, 0])
+    const
+      { top: anchorTop, left: anchorLeft } = anchorEl.getBoundingClientRect(),
+      top = anchorTop + absoluteOffset.top,
+      left = anchorLeft + absoluteOffset.left
+
+    anchorProps = {top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1}
   }
 
   const props = {

@@ -72,6 +72,9 @@
             This Popover content won't be shown because of "disable"
           </q-menu>
         </q-btn>
+      </div>
+
+      <div class="q-gutter-md q-my-md">
 
         <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
           <q-card-section class="bg-primary text-center">
@@ -172,47 +175,94 @@
           </q-card-section>
         </q-card>
 
-        <div style="margin-bottom: 700px;"/>
-
-        <q-btn color="secondary" class="fixed-top-right" icon="directions" style="top: 65px; right: 16px;">
-          <q-menu ref="popover3">
-            <img
-              src="~assets/map.png"
-              style="height: 150px; width: 200px;"
-              @click="showNotify(), $refs.popover3.hide()"
-              @keyup.13.32="showNotify(), $refs.popover3.hide()"
-              tabindex="0"
-            >
-          </q-menu>
-        </q-btn>
-
-        <q-btn color="tertiary" class="fixed-bottom-right" icon="plus_one" style="bottom: 10px; right: 16px;">
-          <q-menu ref="popover4">
-            <div class="group" style="width: 220px; text-align: center;">
-              <q-btn icon="thumb_up" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />
-              <q-btn icon="thumb_down" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />
-              <q-btn icon="share" flat color="secondary" @click="showNotify(), $refs.popover4.hide()" />
+        <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
+          <q-card-section>
+            <div class="q-gutter-sm">
+              <q-toggle label="touch-position" v-model="touchPosition" />
+              <q-toggle label="context-menu" v-model="contextMenu" />
             </div>
+          </q-card-section>
+          <q-img src="statics/material.png" style="height: 100px">
+            <q-menu :touch-position="touchPosition" :context-menu="contextMenu">
+              <q-list>
+                <q-item
+                  v-for="n in 5"
+                  :key="n"
+                  v-close-menu
+                  clickable
+                  @click="showNotify()"
+                  @keyup.native.13.32="showNotify()"
+                >
+                  <q-item-section>Label</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-img>
+        </q-card>
+
+        <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
+          <q-card-section>
+            target
+          </q-card-section>
+          <q-img src="statics/material.png" id="menu-target" style="height: 100px" />
+          <q-menu target="#menu-target">
+            <q-list>
+              <q-item
+                v-for="n in 5"
+                :key="n"
+                v-close-menu
+                clickable
+                @click="showNotify()"
+                @keyup.native.13.32="showNotify()"
+              >
+                <q-item-section>Label</q-item-section>
+              </q-item>
+            </q-list>
           </q-menu>
-        </q-btn>
+        </q-card>
+
       </div>
 
-      <q-btn icon="menu" color="primary" class="fixed-bottom-left" style="bottom: 10px; left: 10px;">
-        <q-menu ref="popover5">
-          <q-list style="min-width: 200px">
-            <q-item
-              v-for="n in 20"
-              :key="n"
-              clickable
-              @click.native="showNotify(), $refs.popover5.hide()"
-              @keyup.native.13.32="showNotify(), $refs.popover5.hide()"
-            >
-              <q-item-section>Label</q-item-section>
-            </q-item>
-          </q-list>
+      <div style="margin-bottom: 700px;"/>
+
+      <q-btn color="secondary" class="fixed-top-right" icon="directions" style="top: 65px; right: 16px;">
+        <q-menu ref="popover3">
+          <img
+            src="~assets/map.png"
+            style="height: 150px; width: 200px;"
+            @click="showNotify(), $refs.popover3.hide()"
+            @keyup.13.32="showNotify(), $refs.popover3.hide()"
+            tabindex="0"
+          >
+        </q-menu>
+      </q-btn>
+
+      <q-btn color="tertiary" class="fixed-bottom-right" icon="plus_one" style="bottom: 10px; right: 16px;">
+        <q-menu ref="popover4">
+          <div class="group" style="width: 220px; text-align: center;">
+            <q-btn icon="thumb_up" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />
+            <q-btn icon="thumb_down" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />
+            <q-btn icon="share" flat color="secondary" @click="showNotify(), $refs.popover4.hide()" />
+          </div>
         </q-menu>
       </q-btn>
     </div>
+
+    <q-btn icon="menu" color="primary" class="fixed-bottom-left" style="bottom: 10px; left: 10px;">
+      <q-menu ref="popover5">
+        <q-list style="min-width: 200px">
+          <q-item
+            v-for="n in 20"
+            :key="n"
+            clickable
+            @click.native="showNotify(), $refs.popover5.hide()"
+            @keyup.native.13.32="showNotify(), $refs.popover5.hide()"
+          >
+            <q-item-section>Label</q-item-section>
+          </q-item>
+        </q-list>
+      </q-menu>
+    </q-btn>
   </div>
 </template>
 
@@ -236,7 +286,10 @@ export default {
       model: 30,
       min: 0,
       max: 50,
-      list
+      list,
+
+      touchPosition: true,
+      contextMenu: false
     }
   },
   computed: {
