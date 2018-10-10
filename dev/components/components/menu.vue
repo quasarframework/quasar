@@ -202,23 +202,60 @@
 
         <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
           <q-card-section>
-            target
+            <q-toggle v-model="vIfTest" label="v-if test" />
           </q-card-section>
-          <q-img src="statics/material.png" id="menu-target" style="height: 100px" />
-          <q-menu target="#menu-target">
-            <q-list>
-              <q-item
-                v-for="n in 5"
-                :key="n"
-                v-close-menu
-                clickable
-                @click="showNotify()"
-                @keyup.native.13.32="showNotify()"
-              >
-                <q-item-section>Label</q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
+          <q-img src="statics/material.png" style="height: 100px">
+            <q-menu touch-position v-if="vIfTest">
+              <q-list>
+                <q-item
+                  v-for="n in 5"
+                  :key="n"
+                  v-close-menu
+                  clickable
+                  @click="showNotify()"
+                  @keyup.native.13.32="showNotify()"
+                >
+                  <q-item-section>Label</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-img>
+        </q-card>
+
+        <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
+          <q-card-section>
+            <div class="row items-center q-gutter-sm">
+              <q-chip square color="primary" text-color="white">target</q-chip>
+              <q-radio v-model="targetEl" :val="false" label="false (no target whatsoever)" />
+              <q-radio v-model="targetEl" :val="true" label="true (original parent)" />
+              <q-radio v-model="targetEl" val="#target-img-1" label="#target-img-1" />
+              <q-radio v-model="targetEl" val="#target-img-2" label="#target-img-2" />
+              <q-radio v-model="targetEl" val="#bogus" label="#bogus" />
+            </div>
+          </q-card-section>
+          <q-img src="statics/material.png" id="target-img-1" style="height: 100px">
+            <div class="absolute-bottom-right">#target-img-1</div>
+          </q-img>
+          <q-img src="statics/parallax2.jpg" id="target-img-2" style="height: 100px">
+            <div class="absolute-bottom-right">#target-img-2</div>
+          </q-img>
+          <q-img src="statics/blueish.jpg" style="height: 100px">
+            <div class="absolute-bottom-right">Original parent</div>
+            <q-menu touch-position :target="targetEl">
+              <q-list>
+                <q-item
+                  v-for="n in 5"
+                  :key="n"
+                  v-close-menu
+                  clickable
+                  @click="showNotify()"
+                  @keyup.native.13.32="showNotify()"
+                >
+                  <q-item-section>Label</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-img>
         </q-card>
 
       </div>
@@ -288,8 +325,10 @@ export default {
       max: 50,
       list,
 
+      vIfTest: true,
       touchPosition: true,
-      contextMenu: false
+      contextMenu: false,
+      targetEl: '#target-img-1'
     }
   },
   computed: {

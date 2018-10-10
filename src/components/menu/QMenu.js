@@ -45,6 +45,10 @@ export default Vue.extend({
       validator: validateOffset
     },
 
+    target: {
+      type: [Boolean, String],
+      default: true
+    },
     contextMenu: Boolean,
     touchPosition: Boolean,
     persistent: Boolean,
@@ -89,15 +93,25 @@ export default Vue.extend({
     },
 
     contextMenu (val) {
-      this.__unconfigureParent(!val)
-      this.__configureParent(val)
+      if (this.anchorEl !== void 0) {
+        this.__unconfigureAnchorEl(!val)
+        this.__configureAnchorEl(val)
+      }
+    },
+
+    target (val) {
+      if (this.anchorEl !== void 0) {
+        this.__unconfigureAnchorEl()
+      }
+
+      this.__pickAnchorEl()
     }
   },
 
   methods: {
     __showCondition (evt) {
-      // abort on multi-touch
-      if (evt !== void 0 && evt.touches !== void 0 && evt.touches.length > 1) {
+      // abort with no parent configured or on multi-touch
+      if (this.anchorEl === void 0 || (evt !== void 0 && evt.touches !== void 0 && evt.touches.length > 1)) {
         return false
       }
       return true
@@ -189,7 +203,7 @@ export default Vue.extend({
       this.show(evt)
     },
 
-    __unconfigureParent (context = this.contextMenu) {
+    __unconfigureAnchorEl (context = this.contextMenu) {
       if (context === true) {
         this.anchorEl.removeEventListener('click', this.hide)
         this.anchorEl.removeEventListener('contextmenu', this.__contextClick)
@@ -200,7 +214,7 @@ export default Vue.extend({
       }
     },
 
-    __configureParent (context = this.contextMenu) {
+    __configureAnchorEl (context = this.contextMenu) {
       if (context === true) {
         this.anchorEl.addEventListener('click', this.hide)
         this.anchorEl.addEventListener('contextmenu', this.__contextClick)
@@ -208,6 +222,29 @@ export default Vue.extend({
       else {
         this.anchorEl.addEventListener('click', this.toggle)
         this.anchorEl.addEventListener('keyup', this.__toggleKey)
+      }
+    },
+
+    __setAnchorEl (el) {
+      this.anchorEl = el
+      while (this.anchorEl.classList.contains('q-menu--skip')) {
+        this.anchorEl = this.anchorEl.parentNode
+      }
+      this.__configureAnchorEl()
+    },
+
+    __pickAnchorEl () {
+      if (this.target && typeof this.target === 'string') {
+        const el = document.querySelector(this.target)
+        if (el !== null) {
+          this.__setAnchorEl(el)
+        }
+        else {
+          console.error(`QMenu: target "${this.target}" not found`, this)
+        }
+      }
+      else if (this.target !== false) {
+        this.__setAnchorEl(this.parentEl)
       }
     },
 
@@ -243,20 +280,29 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.anchorEl = this.$el.parentNode
-    this.anchorEl.removeChild(this.$el)
+    this.parentEl = this.$el.parentNode
+    this.parentEl.removeChild(this.$el)
 
-    while (this.anchorEl.classList.contains('q-menu--skip')) {
-      this.anchorEl = this.anchorEl.parentNode
-    }
+    this.$nextTick(() => {
+      this.__pickAnchorEl()
 
-    this.__configureParent()
-    this.value && this.show()
+      if (this.value === true) {
+        if (this.anchorEl === void 0) {
+          this.$emit('input', false)
+        }
+        else {
+          this.show()
+        }
+      }
+    })
   },
 
   beforeDestroy () {
     this.__cleanup()
     this.$el.remove()
-    this.__unconfigureParent()
+
+    if (this.anchorEl !== void 0) {
+      this.__unconfigureAnchorEl()
+    }
   }
 })
