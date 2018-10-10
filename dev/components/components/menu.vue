@@ -2,9 +2,7 @@
   <div>
     <div class="q-layout-padding">
       <div class="caption" style="margin-top: 120px;">
-        Click on buttons and image below to open Popovers.
-        <br>
-        <em>This page has intended scroll so you can see multiple scenarios.</em>
+        This page has intended scroll so you can see multiple scenarios.
       </div>
 
       <div class="q-gutter-sm">
@@ -327,7 +325,7 @@ export default {
 
       vIfTest: true,
       touchPosition: true,
-      contextMenu: false,
+      contextMenu: true,
       targetEl: '#target-img-1'
     }
   },

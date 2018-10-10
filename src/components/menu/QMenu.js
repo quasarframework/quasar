@@ -203,10 +203,38 @@ export default Vue.extend({
       this.show(evt)
     },
 
+    __mobileTouch (evt) {
+      this.__mobileCleanup()
+      if (evt && evt.touches && evt.touches.length > 1) {
+        return
+      }
+      this.hide(evt)
+      this.anchorEl.classList.add('non-selectable')
+      this.touchTimer = setTimeout(() => {
+        this.__mobileCleanup()
+        this.touchTimer = setTimeout(() => {
+          this.show(evt)
+        }, 10)
+      }, 600)
+    },
+
+    __mobileCleanup () {
+      this.anchorEl.classList.remove('non-selectable')
+      clearTimeout(this.touchTimer)
+    },
+
     __unconfigureAnchorEl (context = this.contextMenu) {
       if (context === true) {
-        this.anchorEl.removeEventListener('click', this.hide)
-        this.anchorEl.removeEventListener('contextmenu', this.__contextClick)
+        if (this.$q.platform.is.mobile) {
+          this.anchorEl.removeEventListener('touchstart', this.__mobileTouch)
+          ;['touchcancel', 'touchmove', 'touchend'].forEach(evt => {
+            this.anchorEl.removeEventListener(evt, this.__mobileCleanup)
+          })
+        }
+        else {
+          this.anchorEl.removeEventListener('click', this.hide)
+          this.anchorEl.removeEventListener('contextmenu', this.__contextClick)
+        }
       }
       else {
         this.anchorEl.removeEventListener('click', this.toggle)
@@ -216,8 +244,16 @@ export default Vue.extend({
 
     __configureAnchorEl (context = this.contextMenu) {
       if (context === true) {
-        this.anchorEl.addEventListener('click', this.hide)
-        this.anchorEl.addEventListener('contextmenu', this.__contextClick)
+        if (this.$q.platform.is.mobile) {
+          this.anchorEl.addEventListener('touchstart', this.__mobileTouch)
+          ;['touchcancel', 'touchmove', 'touchend'].forEach(evt => {
+            this.anchorEl.addEventListener(evt, this.__mobileCleanup)
+          })
+        }
+        else {
+          this.anchorEl.addEventListener('click', this.hide)
+          this.anchorEl.addEventListener('contextmenu', this.__contextClick)
+        }
       }
       else {
         this.anchorEl.addEventListener('click', this.toggle)
@@ -298,6 +334,7 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
+    clearTimeout(this.touchTimer)
     this.__cleanup()
     this.$el.remove()
 
