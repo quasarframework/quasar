@@ -930,7 +930,7 @@ export default Vue.extend({
     if (!this.canRender) { return }
 
     return h('div', {
-      staticClass: 'q-datetime row',
+      staticClass: 'q-datetime row non-selectable',
       'class': this.classes
     }, [
       (!this.minimal && this.__getTopSection(h)) || void 0,

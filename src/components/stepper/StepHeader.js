@@ -77,7 +77,7 @@ export default Vue.extend({
         'q-stepper__tab--error': this.isError,
         'q-stepper__tab--active': this.isActive,
         'q-stepper__tab--done': this.isDone,
-        'q-stepper__tab--navigation q-focusable q-hoverable': this.headerNav,
+        'q-stepper__tab--navigation non-selectable q-focusable q-hoverable': this.headerNav,
         'q-stepper__tab--disabled': this.isDisable
       }
     }

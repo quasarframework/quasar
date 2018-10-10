@@ -124,7 +124,7 @@ export default Vue.extend({
     content.push(
       h('div', {
         ref: 'content',
-        staticClass: 'q-slide-item__content',
+        staticClass: 'q-slide-item__content non-selectable',
         directives: left || right ? [{
           name: 'touch-pan',
           value: this.__pan,

@@ -479,7 +479,7 @@ export default Vue.extend({
     const child = [
       this.mobileView && !this.noSwipeOpen
         ? h('div', {
-          staticClass: `q-drawer__opener fixed-${this.side}`,
+          staticClass: `q-drawer__opener non-selectable fixed-${this.side}`,
           directives: [{
             name: 'touch-pan',
             modifiers: { horizontal: true },
