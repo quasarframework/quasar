@@ -56,7 +56,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    if (!this.canRender || this.hasObserver) {
+    if (this.canRender === false || this.hasObserver === true) {
       return
     }
 

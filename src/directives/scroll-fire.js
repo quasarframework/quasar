@@ -60,7 +60,7 @@ export default {
 
   unbind (el) {
     let ctx = el.__qscrollfire
-    if (ctx) {
+    if (ctx !== void 0) {
       ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
       delete el.__qscrollfire
     }

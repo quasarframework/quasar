@@ -59,7 +59,7 @@ export default Vue.extend({
       if (this.displayValue) {
         return this.displayValue
       }
-      if (!isValid(this.value) || !this.canRender) {
+      if (!isValid(this.value) || this.canRender === false) {
         return ''
       }
 

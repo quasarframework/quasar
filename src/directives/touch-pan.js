@@ -76,7 +76,7 @@ export default {
 
   bind (el, binding) {
     const
-      mouse = !binding.modifiers.noMouse,
+      mouse = binding.modifiers.noMouse !== true,
       stopPropagation = binding.modifiers.stop,
       preventDefault = binding.modifiers.prevent,
       evtOpts = preventDefault || binding.modifiers.mightPrevent ? null : listenOpts.passive
@@ -184,15 +184,16 @@ export default {
 
   unbind (el, binding) {
     let ctx = el.__qtouchpan
-    if (!ctx) { return }
-    const evtOpts = binding.modifiers.prevent ? null : listenOpts.passive
+    if (ctx !== void 0) {
+      const evtOpts = binding.modifiers.prevent ? null : listenOpts.passive
 
-    el.removeEventListener('mousedown', ctx.mouseStart, evtOpts)
+      el.removeEventListener('mousedown', ctx.mouseStart, evtOpts)
 
-    el.removeEventListener('touchstart', ctx.start, evtOpts)
-    el.removeEventListener('touchmove', ctx.move, evtOpts)
-    el.removeEventListener('touchend', ctx.end, evtOpts)
+      el.removeEventListener('touchstart', ctx.start, evtOpts)
+      el.removeEventListener('touchmove', ctx.move, evtOpts)
+      el.removeEventListener('touchend', ctx.end, evtOpts)
 
-    delete el.__qtouchpan
+      delete el.__qtouchpan
+    }
   }
 }

@@ -7,106 +7,143 @@
         <em>This page has intended scroll so you can see multiple scenarios.</em>
       </div>
 
-      <div style="width: 400%">
+      <div class="q-gutter-sm">
         <q-toggle v-model="toggle" class="z-max fixed-top" />
-        <q-btn color="primary" icon="assignment">
-          <q-popover v-model="toggle" ref="popover1" persistent @show="log('@show popover1 persistent')" @hide="log('@hide popover1 persistent')">
-            <q-list no-border link separator style="min-width: 100px">
+        <q-btn color="primary" label="Persistent">
+          <q-menu
+            v-model="toggle"
+            ref="popover1"
+            persistent
+            transition-show="jump-down"
+            @show="log('@show popover1 persistent')"
+            @hide="log('@hide popover1 persistent')"
+          >
+            <q-list padding style="min-width: 100px">
               <q-item
                 v-for="n in 20"
                 :key="n"
-                v-close-overlay
-                @click.native="showNotify()"
+                clickable
+                v-close-menu
+                @click="showNotify()"
                 @keyup.native.13.32="showNotify()"
-                tabindex="0"
               >
-                <q-item-main label="Label" sublabel="Click me" />
+                <q-item-section>Label</q-item-section>
               </q-item>
             </q-list>
-          </q-popover>
+          </q-menu>
         </q-btn>
 
         <q-btn color="primary" icon="map">
-          <q-popover @show="log('@show popover_map persistent')" @hide="log('@hide popover_map persistent')">
-            <q-list no-border link separator style="min-width: 100px">
+          <q-menu @show="log('@show popover_map')" @hide="log('@hide popover_map')">
+            <q-list style="min-width: 100px">
               <q-item
                 v-for="n in 20"
                 :key="n"
-                v-close-overlay
-                @click.native="showNotify()"
+                clickable
+                v-close-menu
+                @click="showNotify()"
                 @keyup.native.13.32="showNotify()"
-                tabindex="0"
               >
-                <q-item-main label="X Label" sublabel="X Click me" />
+                <q-item-section>Label</q-item-section>
               </q-item>
             </q-list>
-          </q-popover>
+          </q-menu>
+        </q-btn>
+
+        <q-btn color="primary" label="Cover">
+          <q-menu cover @show="log('@show cover')" @hide="log('@hide cover')">
+            <q-list style="min-width: 100px">
+              <q-item
+                v-for="n in 20"
+                :key="n"
+                clickable
+                v-close-menu
+                @click="showNotify()"
+                @keyup.native.13.32="showNotify()"
+              >
+                <q-item-section>Label</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-btn>
 
         <q-btn ref="target4" color="negative" label="Disabled Popover">
-          <q-popover disable>
+          <q-menu disable>
             This Popover content won't be shown because of "disable"
-          </q-popover>
+          </q-menu>
         </q-btn>
 
-        <q-card style="margin-top: 800px; width: 500px; max-width: 90vw; margin-left: auto; margin-right: auto;">
-          <q-card-title class="bg-primary text-center">
+        <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
+          <q-card-section class="bg-primary text-center">
             <q-btn push color="orange" label="Tap Me Large">
-              <q-popover
+              <q-menu
+                :fit="fit"
+                :cover="cover"
                 :anchor="anchor"
                 :self="self"
               >
-                <q-list no-border link style="min-width: 100px">
+                <q-list style="min-width: 400px">
                   <q-item
                     v-for="n in 50"
                     :key="n"
-                    v-close-overlay
-                    @click.native="showNotify()"
+                    v-close-menu
+                    clickable
+                    @click="showNotify()"
                     @keyup.native.13.32="showNotify()"
-                    tabindex="0"
                   >
-                    <q-item-main label="Label" />
+                    <q-item-section>Label</q-item-section>
                   </q-item>
                 </q-list>
-              </q-popover>
+              </q-menu>
             </q-btn>
             <q-btn push color="orange" label="Tap Me Small" class="on-right">
-              <q-popover
+              <q-menu
+                :fit="fit"
+                :cover="cover"
                 :anchor="anchor"
                 :self="self"
               >
-                <q-list no-border link style="min-width: 100px">
+                <q-list>
                   <q-item
                     v-for="n in 5"
                     :key="n"
-                    v-close-overlay
-                    @click.native="showNotify()"
+                    v-close-menu
+                    clickable
+                    @click="showNotify()"
                     @keyup.native.13.32="showNotify()"
-                    tabindex="0"
                   >
-                    <q-item-main label="Label" />
+                    <q-item-section>Label</q-item-section>
                   </q-item>
                 </q-list>
-              </q-popover>
+              </q-menu>
             </q-btn>
-          </q-card-title>
+          </q-card-section>
 
-          <p class="caption text-center">Configure the Popover for button above.</p>
-          <div class="text-center">
-            <q-chip tag color="primary">anchor="{{ anchor }}"</q-chip>
-            <q-chip tag color="primary">self="{{ self }}"</q-chip>
+          <div class="text-weight-bold text-center q-my-md">Configure the Popover for button above.</div>
+          <div class="text-center" v-if="cover">
+            <q-chip square color="primary" text-color="white">cover</q-chip>
+            <q-chip square color="primary" text-color="white">anchor="{{ anchor }}"</q-chip>
           </div>
-          <q-card-main class="row">
+          <div class="text-center" v-else>
+            <q-chip v-if="fit" square color="primary" text-color="white">fit</q-chip>
+            <q-chip square color="primary" text-color="white">anchor="{{ anchor }}"</q-chip>
+            <q-chip square color="primary" text-color="white">self="{{ self }}"</q-chip>
+          </div>
+          <div class="row flex-center q-my-sm q-gutter-md">
+            <q-toggle v-model="fit" label="Fit" />
+            <q-toggle v-model="cover" label="Cover" />
+          </div>
+          <q-card-section class="row" :class="cover ? 'justify-center' : ''">
             <div class="column items-center col-6">
-              <p class="caption">Anchor Origin</p>
-              <div class="flex">
-                <div class="column group">
+              <div class="text-weight-bold">Anchor Origin</div>
+              <div class="flex q-gutter-sm">
+                <div class="column">
                   <div>Vertical</div>
                   <q-radio v-model="anchorOrigin.vertical" val="top" label="Top" />
                   <q-radio v-model="anchorOrigin.vertical" val="center" label="Center" />
                   <q-radio v-model="anchorOrigin.vertical" val="bottom" label="Bottom" />
                 </div>
-                <div class="column group">
+                <div class="column">
                   <div>Horizontal</div>
                   <q-radio v-model="anchorOrigin.horizontal" val="left" label="Left" />
                   <q-radio v-model="anchorOrigin.horizontal" val="middle" label="Middle" />
@@ -115,16 +152,16 @@
               </div>
             </div>
 
-            <div class="column items-center col-6">
-              <p class="caption">Self Origin</p>
-              <div class="flex">
-                <div class="column group">
+            <div class="column items-center col-6" v-if="!cover">
+              <div class="text-weight-bold">Self Origin</div>
+              <div class="flex q-gutter-sm">
+                <div class="column">
                   <div>Vertical</div>
                   <q-radio v-model="selfOrigin.vertical" val="top" label="Top" />
                   <q-radio v-model="selfOrigin.vertical" val="center" label="Center" />
                   <q-radio v-model="selfOrigin.vertical" val="bottom" label="Bottom" />
                 </div>
-                <div class="column group">
+                <div class="column">
                   <div>Horizontal</div>
                   <q-radio v-model="selfOrigin.horizontal" val="left" label="Left" />
                   <q-radio v-model="selfOrigin.horizontal" val="middle" label="Middle" />
@@ -132,13 +169,13 @@
                 </div>
               </div>
             </div>
-          </q-card-main>
+          </q-card-section>
         </q-card>
 
         <div style="margin-bottom: 700px;"/>
 
         <q-btn color="secondary" class="fixed-top-right" icon="directions" style="top: 65px; right: 16px;">
-          <q-popover ref="popover3">
+          <q-menu ref="popover3">
             <img
               src="~assets/map.png"
               style="height: 150px; width: 200px;"
@@ -146,34 +183,34 @@
               @keyup.13.32="showNotify(), $refs.popover3.hide()"
               tabindex="0"
             >
-          </q-popover>
+          </q-menu>
         </q-btn>
 
         <q-btn color="tertiary" class="fixed-bottom-right" icon="plus_one" style="bottom: 10px; right: 16px;">
-          <q-popover ref="popover4">
+          <q-menu ref="popover4">
             <div class="group" style="width: 220px; text-align: center;">
               <q-btn icon="thumb_up" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />
               <q-btn icon="thumb_down" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />
               <q-btn icon="share" flat color="secondary" @click="showNotify(), $refs.popover4.hide()" />
             </div>
-          </q-popover>
+          </q-menu>
         </q-btn>
       </div>
 
       <q-btn icon="menu" color="primary" class="fixed-bottom-left" style="bottom: 10px; left: 10px;">
-        <q-popover ref="popover5">
-          <q-list no-border link separator style="min-width: 200px">
+        <q-menu ref="popover5">
+          <q-list style="min-width: 200px">
             <q-item
               v-for="n in 20"
               :key="n"
+              clickable
               @click.native="showNotify(), $refs.popover5.hide()"
               @keyup.native.13.32="showNotify(), $refs.popover5.hide()"
-              tabindex="0"
             >
-              <q-item-main label="Label" sublabel="Click me" />
+              <q-item-section>Label</q-item-section>
             </q-item>
           </q-list>
-        </q-popover>
+        </q-menu>
       </q-btn>
     </div>
   </div>
@@ -189,6 +226,8 @@ export default {
       list.push({ label: v, value: v })
     }
     return {
+      fit: false,
+      cover: false,
       toggle: false,
       anchorOrigin: {vertical: 'bottom', horizontal: 'left'},
       selfOrigin: {vertical: 'top', horizontal: 'left'},

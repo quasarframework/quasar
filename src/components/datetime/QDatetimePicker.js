@@ -927,7 +927,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    if (!this.canRender) { return }
+    if (this.canRender === false) { return }
 
     return h('div', {
       staticClass: 'q-datetime row',

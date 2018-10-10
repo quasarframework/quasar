@@ -96,12 +96,12 @@ export default {
   },
 
   update (el, binding) {
-    el.__qripple && updateCtx(el.__qripple, binding)
+    el.__qripple !== void 0 && updateCtx(el.__qripple, binding)
   },
 
   unbind (el) {
     const ctx = el.__qripple
-    if (ctx) {
+    if (ctx !== void 0) {
       clearTimeout(ctx.timer)
       el.removeEventListener('click', ctx.click, false)
       el.removeEventListener('keyup', ctx.keyup, false)

@@ -1,5 +1,7 @@
+// TODO v1: remove, obsolete
+
 import { getScrollbarWidth } from './scroll.js'
-import { position } from './event.js'
+// import { position } from './event.js'
 
 export function getAnchorPosition (el, offset) {
   let
@@ -43,7 +45,7 @@ export function getTargetPosition (el) {
   }
 }
 
-export function repositionIfNeeded (anchor, target, selfOrigin, anchorOrigin, targetPosition, cover) {
+export function repositionIfNeeded (anchor, target, selfOrigin, anchorOrigin, targetPosition) {
   const margin = getScrollbarWidth()
   let { innerHeight, innerWidth } = window
   // don't go bellow scrollbars
@@ -71,9 +73,6 @@ export function repositionIfNeeded (anchor, target, selfOrigin, anchorOrigin, ta
     if (selfOrigin.horizontal === 'middle') {
       targetPosition.left = anchor[selfOrigin.horizontal] > innerWidth / 2 ? innerWidth - target.right : 0
     }
-    else if (cover) {
-      targetPosition.left = targetPosition.left < 0 ? 0 : innerWidth - target.right
-    }
     else if (anchor[selfOrigin.horizontal] > innerWidth / 2) {
       const anchorY = Math.min(innerWidth, anchorOrigin.horizontal === 'middle' ? anchor.center : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchor.right : anchor.left))
       targetPosition.maxWidth = Math.min(target.right, anchorY)
@@ -84,35 +83,16 @@ export function repositionIfNeeded (anchor, target, selfOrigin, anchorOrigin, ta
       targetPosition.maxWidth = Math.min(target.right, innerWidth - targetPosition.left)
     }
   }
-
-  return targetPosition
 }
 
 export function parseHorizTransformOrigin (pos) {
   return pos === 'middle' ? 'center' : pos
 }
 
-export function setPosition ({el, animate, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset, touchOffset, cover}) {
+export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset }) {
   let anchor
-  el.style.maxHeight = maxHeight || '65vh'
-  el.style.maxWidth = '100vw'
 
-  if (event && (!anchorClick || touchPosition)) {
-    const { top, left } = position(event)
-    anchor = {top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1}
-  }
-  else {
-    if (touchOffset) {
-      const
-        { top: anchorTop, left: anchorLeft } = anchorEl.getBoundingClientRect(),
-        top = anchorTop + touchOffset.top,
-        left = anchorLeft + touchOffset.left
-      anchor = {top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1}
-    }
-    else {
-      anchor = getAnchorPosition(anchorEl, offset)
-    }
-  }
+  anchor = getAnchorPosition(anchorEl, offset)
 
   let target = getTargetPosition(el)
   let targetPosition = {
@@ -120,7 +100,7 @@ export function setPosition ({el, animate, anchorEl, anchorOrigin, selfOrigin, m
     left: anchor[anchorOrigin.horizontal] - target[selfOrigin.horizontal]
   }
 
-  targetPosition = repositionIfNeeded(anchor, target, selfOrigin, anchorOrigin, targetPosition, cover)
+  repositionIfNeeded(anchor, target, selfOrigin, anchorOrigin, targetPosition)
 
   el.style.top = Math.max(0, targetPosition.top) + 'px'
   el.style.left = Math.max(0, targetPosition.left) + 'px'
@@ -129,12 +109,6 @@ export function setPosition ({el, animate, anchorEl, anchorOrigin, selfOrigin, m
   }
   if (targetPosition.maxWidth) {
     el.style.maxWidth = `${targetPosition.maxWidth}px`
-  }
-
-  if (animate) {
-    const directions = targetPosition.top < anchor.top ? ['up', 'down'] : ['down', 'up']
-    el.classList.add(`q-animate-popup-${directions[0]}`)
-    el.classList.remove(`q-animate-popup-${directions[1]}`)
   }
 }
 

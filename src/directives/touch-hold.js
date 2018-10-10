@@ -15,7 +15,7 @@ export default {
 
   bind (el, binding) {
     const
-      mouse = !binding.modifiers.noMouse,
+      mouse = binding.modifiers.noMouse !== true,
       stopPropagation = binding.modifiers.stop,
       preventDefault = binding.modifiers.prevent
 
@@ -75,7 +75,7 @@ export default {
 
   unbind (el) {
     let ctx = el.__qtouchhold
-    if (ctx) {
+    if (ctx !== void 0) {
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchend', ctx.abort)
       el.removeEventListener('touchmove', ctx.abort)

@@ -13,7 +13,7 @@ export default {
 
   watch: {
     value (val) {
-      if (this.disable && val) {
+      if (this.disable === true && val === true) {
         this.$emit('input', false)
         return
       }
@@ -30,7 +30,7 @@ export default {
     },
 
     show (evt) {
-      if (this.disable || this.showing) {
+      if (this.disable === true || this.showing === true) {
         return
       }
 
@@ -54,7 +54,7 @@ export default {
     },
 
     hide (evt) {
-      if (this.disable || this.showing !== true) {
+      if (this.disable === true || this.showing === false) {
         return
       }
 

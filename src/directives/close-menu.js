@@ -1,25 +1,22 @@
-// TODO v1: remove, obsolete
-
 export default {
-  name: 'close-overlay',
+  name: 'close-menu',
 
-  bind (el, binding, vnode) {
+  bind (el, _, vnode) {
     const
       handler = ev => {
         let vm = vnode.componentInstance
         while ((vm = vm.$parent)) {
           const name = vm.$options.name
-          if (name === 'QPopover' || name === 'QModal') {
+          if (name === 'QMenu') {
             vm.hide(ev)
             break
           }
         }
       },
       handlerKey = ev => {
-        if (ev.keyCode === 13) {
-          handler(ev)
-        }
+        ev.keyCode === 13 && handler(ev)
       }
+
     el.__qclose = { handler, handlerKey }
     el.addEventListener('click', handler)
     el.addEventListener('keyup', handlerKey)
@@ -27,10 +24,10 @@ export default {
 
   unbind (el) {
     const ctx = el.__qclose
-    if (ctx === void 0) { return }
-
-    el.removeEventListener('click', ctx.handler)
-    el.removeEventListener('keyup', ctx.handlerKey)
-    delete el.__qclose
+    if (ctx !== void 0) {
+      el.removeEventListener('click', ctx.handler)
+      el.removeEventListener('keyup', ctx.handlerKey)
+      delete el.__qclose
+    }
   }
 }

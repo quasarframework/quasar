@@ -45,8 +45,9 @@ export default {
 
   unbind (el) {
     let ctx = el.__qscroll
-    if (!ctx) { return }
-    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-    delete el.__qscroll
+    if (ctx !== void 0) {
+      ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
+      delete el.__qscroll
+    }
   }
 }

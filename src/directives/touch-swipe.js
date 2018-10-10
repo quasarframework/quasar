@@ -35,7 +35,7 @@ export default {
   name: 'touch-swipe',
 
   bind (el, binding) {
-    const mouse = !binding.modifiers.noMouse
+    const mouse = binding.modifiers.noMouse !== true
 
     let ctx = {
       handler: binding.value,
@@ -176,7 +176,7 @@ export default {
 
   unbind (el) {
     const ctx = el.__qtouchswipe
-    if (ctx) {
+    if (ctx !== void 0) {
       el.removeEventListener('mousedown', ctx.mouseStart)
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchmove', ctx.move)

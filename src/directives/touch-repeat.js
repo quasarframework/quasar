@@ -30,7 +30,7 @@ export default {
 
   bind (el, binding) {
     const
-      mouse = !binding.modifiers.noMouse,
+      mouse = binding.modifiers.noMouse !== true,
       keyboard = Object.keys(binding.modifiers).reduce((acc, key) => {
         if (keyRegex.test(key)) {
           const keyCode = parseInt(key, 10)
@@ -128,7 +128,7 @@ export default {
 
   unbind (el) {
     let ctx = el.__qtouchrepeat
-    if (ctx) {
+    if (ctx !== void 0) {
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchend', ctx.abort)
       el.removeEventListener('touchmove', ctx.abort)

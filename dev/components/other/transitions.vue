@@ -11,6 +11,7 @@
         :src="url"
         style="width: 150px"
         ratio="1"
+        spinner-color="white"
       >
         <div class="absolute-bottom text-center text-body2">
           {{ transition }}

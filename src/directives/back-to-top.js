@@ -91,11 +91,12 @@ export default {
 
   unbind (el) {
     const ctx = el.__qbacktotop
-    if (!ctx) { return }
-    ctx.scrollTarget.removeEventListener('scroll', ctx.update, listenOpts.passive)
-    window.removeEventListener('resize', ctx.update, listenOpts.passive)
-    el.removeEventListener('click', ctx.goToTop)
-    el.removeEventListener('keyup', ctx.goToTopKey)
-    delete el.__qbacktotop
+    if (ctx !== void 0) {
+      ctx.scrollTarget.removeEventListener('scroll', ctx.update, listenOpts.passive)
+      window.removeEventListener('resize', ctx.update, listenOpts.passive)
+      el.removeEventListener('click', ctx.goToTop)
+      el.removeEventListener('keyup', ctx.goToTopKey)
+      delete el.__qbacktotop
+    }
   }
 }

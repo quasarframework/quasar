@@ -35,7 +35,7 @@ export default {
 
   unbind (el) {
     const ctx = el.__qgoback
-    if (ctx) {
+    if (ctx !== void 0) {
       el.removeEventListener('click', ctx.goBack)
       el.removeEventListener('keyup', ctx.goBackKey)
       delete el.__qgoback
