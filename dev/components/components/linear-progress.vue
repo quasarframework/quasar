@@ -15,7 +15,7 @@
       <div class="group">
         <q-btn size="sm" color="primary" @click="randomize">Change Model</q-btn>
         <q-linear-progress class="q-my-sm" :value="progress"/>
-        <q-linear-progress height="10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
+        <q-linear-progress style="height: 10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
         <q-linear-progress class="q-my-sm" :value="progress" color="info"/>
         <q-linear-progress class="q-my-sm" :value="progress" color="warning"/>
         <q-linear-progress class="q-my-sm" :value="progress" color="secondary"/>
@@ -27,7 +27,7 @@
       <h5>Determinate State - Reverse</h5>
       <div class="group">
         <q-linear-progress reverse class="q-my-sm" :value="progress"/>
-        <q-linear-progress reverse height="10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
+        <q-linear-progress reverse style="height: 10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
       </div>
 
       <h5>Stripe</h5>
@@ -64,16 +64,16 @@
 
       <h5>Query State</h5>
       <div class="group">
-        <q-linear-progress class="q-my-sm" query height="10px"/>
-        <q-linear-progress class="q-my-sm" query height="10px" color="positive"/>
-        <q-linear-progress class="q-my-sm" query height="10px" color="warning"/>
-        <q-linear-progress class="q-my-sm" query height="10px" color="negative"/>
-        <q-linear-progress class="q-my-sm" query height="10px" color="dark"/>
+        <q-linear-progress class="q-my-sm" query />
+        <q-linear-progress class="q-my-sm" query color="positive"/>
+        <q-linear-progress class="q-my-sm" query color="warning"/>
+        <q-linear-progress class="q-my-sm" query color="negative"/>
+        <q-linear-progress class="q-my-sm" query color="dark"/>
       </div>
 
       <h5>Specific Height</h5>
       <div>
-        <q-linear-progress class="q-my-sm" :value="progress" stripe animate height="45px"/>
+        <q-linear-progress class="q-my-sm" :value="progress" stripe animate style="height: 45px"/>
       </div>
     </div>
   </div>
@@ -85,7 +85,7 @@ export default {
     return {
       progress: 0.67,
       progressBuffer: 0.41,
-      buffer: 0.17
+      buffer: 0.67
     }
   },
   methods: {
@@ -94,7 +94,7 @@ export default {
     },
     randomizeBuffer () {
       this.progressBuffer = Math.random() * 0.51
-      this.buffer = Math.random() * 0.47
+      this.buffer = this.progressBuffer + Math.random() * 0.47
     }
   }
 }

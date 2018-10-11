@@ -1,9 +1,7 @@
 import Vue from 'vue'
 
-import { between } from '../../utils/format.js'
-
 function width (val) {
-  return { width: `${val * 100}%` }
+  return { transform: `scale3d(${val},1,1)` }
 }
 
 export default Vue.extend({
@@ -14,86 +12,75 @@ export default Vue.extend({
       type: Number,
       default: 0
     },
-    color: {
-      type: String,
-      default: 'primary'
-    },
-    fillColor: String,
+    buffer: Number,
+
+    color: String,
+    trackColor: String,
+
     reverse: Boolean,
     stripe: Boolean,
-    animate: Boolean,
     indeterminate: Boolean,
     query: Boolean,
-    buffer: Number,
-    height: {
-      type: String,
-      default: '4px'
-    }
+
+    height: String
   },
 
   computed: {
-    model () {
-      return between(this.value, 0, 1)
-    },
-
-    bufferModel () {
-      return between(this.buffer || 0, 0, 1 - this.model)
-    },
-
-    bufferStyle () {
-      return width(this.bufferModel)
-    },
-
-    trackStyle () {
-      return width(1 - (this.buffer || 0))
-    },
-
-    trackClass () {
-      if (this.fillColor) {
-        return `text-${this.fillColor}`
-      }
+    motion () {
+      return this.indeterminate || this.query
     },
 
     classes () {
-      return `text-${this.color}${this.reverse || this.query ? ' q-linear-progress--reverse' : ''}`
-    },
-
-    style () {
-      return { height: this.height }
-    },
-
-    modelClass () {
-      const motion = this.indeterminate || this.query
       return {
-        'q-linear-progress__model--animate': this.animate,
-        'q-linear-progress__model--stripe': this.stripe,
-        'q-linear-progress__model--determinate': !motion,
-        'q-linear-progress__model--indeterminate': motion
+        [`text-${this.color}`]: this.color,
+        'q-linear-progress--reverse': this.reverse || this.query
+      }
+    },
+
+    trackStyle () {
+      return width(this.buffer !== void 0 ? this.buffer : 1)
+    },
+
+    trackClass () {
+      if (this.trackColor) {
+        return `text-${this.trackColor}`
       }
     },
 
     modelStyle () {
-      return width(this.model)
+      return width(this.motion ? 1 : this.value)
+    },
+
+    modelClasses () {
+      return `q-linear-progress__model--${this.motion ? 'in' : ''}determinate`
+    },
+
+    stripeStyle () {
+      return { width: (this.value * 100) + '%' }
     }
   },
 
   render (h) {
     return h('div', {
       staticClass: 'q-linear-progress',
-      style: this.style,
       'class': this.classes
     }, [
       h('div', {
-        staticClass: 'q-linear-progress__track',
-        'class': this.trackClass,
-        style: this.trackStyle
+        staticClass: 'q-linear-progress__track absolute-full',
+        style: this.trackStyle,
+        'class': this.trackClass
       }),
 
       h('div', {
-        staticClass: 'q-linear-progress__model',
+        staticClass: 'q-linear-progress__model absolute-full',
         style: this.modelStyle,
-        'class': this.modelClass
-      })
+        'class': this.modelClasses
+      }),
+
+      this.stripe && !this.motion ? h('div', {
+        staticClass: 'q-linear-progress__stripe absolute-full',
+        style: this.stripeStyle
+      }) : null
     ])
   }
 })
