@@ -110,18 +110,22 @@
         <q-search hide-underline color="primary" class="q-mr-sm" v-model="filter" />
         <q-table-columns color="primary" class="q-mr-sm" v-model="visibleColumns" :columns="columns" />
         <q-btn color="primary" flat round dense icon="more_vert">
-          <q-popover ref="popover">
-            <q-list link>
-              <q-item @click.native="$refs.popover.hide()">
-                <q-item-side icon="map" />
-                <q-item-main label="View map" />
+          <q-menu cover>
+            <q-list>
+              <q-item clickable v-close-menu>
+                <q-item-section avatar>
+                  <q-icon name="map" />
+                </q-item-section>
+                <q-item-section>View map</q-item-section>
               </q-item>
-              <q-item @click.native="$refs.popover.hide()">
-                <q-item-side icon="add" />
-                <q-item-main label="Create new table" />
+              <q-item clickable v-close-menu>
+                <q-item-section avatar>
+                  <q-icon name="add" />
+                </q-item-section>
+                <q-item-section>Create new table</q-item-section>
               </q-item>
             </q-list>
-          </q-popover>
+          </q-menu>
         </q-btn>
       </template>
     </q-table>

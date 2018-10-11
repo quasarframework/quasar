@@ -157,19 +157,19 @@
 
             <div class="col-auto">
               <q-btn color="grey-7" round flat icon="more_vert">
-                <q-popover cover>
+                <q-menu cover>
                   <q-list>
-                    <q-item clickable v-close-overlay>
+                    <q-item clickable v-close-menu>
                       <q-item-section>Remove Card</q-item-section>
                     </q-item>
-                    <q-item clickable v-close-overlay>
+                    <q-item clickable v-close-menu>
                       <q-item-section>Send Feedback</q-item-section>
                     </q-item>
-                    <q-item clickable v-close-overlay>
+                    <q-item clickable v-close-menu>
                       <q-item-section>Share</q-item-section>
                     </q-item>
                   </q-list>
-                </q-popover>
+                </q-menu>
               </q-btn>
             </div>
           </div>

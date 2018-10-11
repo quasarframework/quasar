@@ -10,20 +10,20 @@
       </q-field>
       <q-field label="With Popover">
         <q-input v-model="model" :count="10">
-          <q-popover fit :offset="[0, 10]">
+          <q-menu fit :offset="[0, 10]">
             <div style="padding: 10px" class="bg-primary text-white">
               Some Popover
             </div>
-          </q-popover>
+          </q-menu>
         </q-input>
       </q-field>
       <q-field label="With Popover (hide underline)">
         <q-input v-model="model" :count="10" hide-underline>
-          <q-popover fit :offset="[0, 10]">
+          <q-menu fit :offset="[0, 10]">
             <div style="padding: 10px" class="bg-primary text-white">
               Some Popover
             </div>
-          </q-popover>
+          </q-menu>
         </q-input>
       </q-field>
 
