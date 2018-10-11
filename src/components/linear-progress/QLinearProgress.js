@@ -20,9 +20,7 @@ export default Vue.extend({
     reverse: Boolean,
     stripe: Boolean,
     indeterminate: Boolean,
-    query: Boolean,
-
-    height: String
+    query: Boolean
   },
 
   computed: {
