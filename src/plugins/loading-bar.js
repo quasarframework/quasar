@@ -15,6 +15,7 @@ export default {
     }
 
     const bar = $q.loadingBar = new Vue({
+      name: 'LoadingBar',
       render: h => h(QAjaxBar, {
         ref: 'bar',
         props: cfg.loadingBar
