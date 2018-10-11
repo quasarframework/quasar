@@ -82,12 +82,12 @@
                 :cover="cover"
                 :anchor="anchor"
                 :self="self"
+                auto-close
               >
                 <q-list style="min-width: 400px">
                   <q-item
                     v-for="n in 50"
                     :key="n"
-                    v-close-menu
                     clickable
                     @click="showNotify()"
                     @keyup.native.13.32="showNotify()"

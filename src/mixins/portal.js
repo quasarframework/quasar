@@ -18,11 +18,8 @@ export default {
   },
 
   render (h) {
-    if (this.__portal !== void 0) {
-      this.__portal.$forceUpdate()
-    }
-
-    return h('span', { staticClass: 'hidden' })
+    this.__portal !== void 0 && this.__portal.$forceUpdate()
+    return null
   },
 
   beforeMount () {
