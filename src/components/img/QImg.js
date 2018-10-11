@@ -58,6 +58,10 @@ export default Vue.extend({
       return this.aspectRatio !== void 0
         ? (1 / this.aspectRatio) * 100 + '%'
         : void 0
+    },
+
+    url () {
+      return this.currentSrc || this.placeholderSrc || void 0
     }
   },
 
@@ -142,17 +146,15 @@ export default Vue.extend({
     },
 
     __getImage (h) {
-      const url = this.currentSrc || this.placeholderSrc
-
-      const content = h('div', {
-        key: url,
+      const content = this.url !== void 0 ? h('div', {
+        key: this.url,
         staticClass: 'q-img__image absolute-full',
         style: {
-          backgroundImage: `url("${url}")`,
+          backgroundImage: `url("${this.url}")`,
           backgroundSize: this.contain ? 'contain' : 'cover',
           backgroundPosition: this.position
         }
-      })
+      }) : null
 
       if (this.basic) {
         return content

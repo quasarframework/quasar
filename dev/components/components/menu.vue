@@ -357,7 +357,7 @@ export default {
   },
   methods: {
     showNotify () {
-      this.$q.notify((this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a Popover item')
+      this.$q.notify((this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a QMenu item')
     },
     log (msg) {
       console.log(msg)
