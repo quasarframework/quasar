@@ -3,18 +3,14 @@ export default {
 
   bind (el, _, vnode) {
     const
-      handler = ev => {
+      handler = evt => {
         let vm = vnode.componentInstance
-        while ((vm = vm.$parent)) {
-          const name = vm.$options.name
-          if (name === 'QMenu') {
-            vm.hide(ev)
-            break
-          }
+        if (vm.$root.__qPortalClose !== void 0) {
+          vm.$root.__qPortalClose(evt)
         }
       },
-      handlerKey = ev => {
-        ev.keyCode === 13 && handler(ev)
+      handlerKey = evt => {
+        evt.keyCode === 13 && handler(evt)
       }
 
     el.__qclose = { handler, handlerKey }

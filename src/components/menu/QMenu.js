@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import CanRenderMixin from '../../mixins/can-render.js'
+import PortalMixin from '../../mixins/portal.js'
 import ClickOutside from '../../directives/click-outside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { position, listenOpts } from '../../utils/event.js'
@@ -14,7 +14,7 @@ import {
 export default Vue.extend({
   name: 'QMenu',
 
-  mixins: [ ModelToggleMixin, CanRenderMixin ],
+  mixins: [ ModelToggleMixin, PortalMixin ],
 
   directives: {
     ClickOutside
@@ -51,8 +51,7 @@ export default Vue.extend({
     },
     contextMenu: Boolean,
     touchPosition: Boolean,
-    persistent: Boolean,
-    disable: Boolean
+    persistent: Boolean
   },
 
   data () {
@@ -119,7 +118,7 @@ export default Vue.extend({
 
     __show (evt) {
       clearTimeout(this.timer)
-      evt.preventDefault()
+      evt !== void 0 && evt.preventDefault()
 
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
@@ -132,14 +131,15 @@ export default Vue.extend({
         this.hide()
       })
 
-      document.body.appendChild(this.$el)
+      this.__showPortal()
+
       this.$nextTick(() => {
         const { width, height, top, left } = this.anchorEl.getBoundingClientRect()
 
         if (this.fit || this.cover) {
-          this.$el.style.minWidth = width + 'px'
+          this.__portal.$el.style.minWidth = width + 'px'
           if (this.cover) {
-            this.$el.style.minHeight = height + 'px'
+            this.__portal.$el.style.minHeight = height + 'px'
           }
         }
 
@@ -165,10 +165,10 @@ export default Vue.extend({
 
     __hide (evt) {
       this.__cleanup()
-      evt.preventDefault()
+      evt !== void 0 && evt.preventDefault()
 
       this.timer = setTimeout(() => {
-        this.$el.remove()
+        this.__hidePortal()
         this.$emit('hide', evt)
       }, 600)
     },
@@ -286,7 +286,7 @@ export default Vue.extend({
 
     updatePosition () {
       setPosition({
-        el: this.$el,
+        el: this.__portal.$el,
         offset: this.offset,
         anchorEl: this.anchorEl,
         anchorOrigin: this.anchorOrigin,
@@ -295,29 +295,26 @@ export default Vue.extend({
         fit: this.fit,
         cover: this.cover
       })
+    },
+
+    __render (h) {
+      return h('transition', {
+        props: { name: this.transition }
+      }, [
+        this.showing ? h('div', {
+          staticClass: 'q-menu scroll',
+          directives: this.persistent !== true ? [{
+            name: 'click-outside',
+            value: this.hide,
+            arg: [ this.anchorEl ]
+          }] : null
+        }, this.$slots.default) : null
+      ])
     }
-  },
-
-  render (h) {
-    if (this.canRender === false || this.disable === true) { return }
-
-    return h('transition', {
-      props: { name: this.transition }
-    }, [
-      this.showing ? h('div', {
-        staticClass: 'q-menu scroll',
-        directives: this.persistent !== true ? [{
-          name: 'click-outside',
-          value: this.hide,
-          arg: [ this.anchorEl ]
-        }] : null
-      }, this.$slots.default) : null
-    ])
   },
 
   mounted () {
     this.parentEl = this.$el.parentNode
-    this.parentEl.removeChild(this.$el)
 
     this.$nextTick(() => {
       this.__pickAnchorEl()
@@ -336,7 +333,6 @@ export default Vue.extend({
   beforeDestroy () {
     clearTimeout(this.touchTimer)
     this.__cleanup()
-    this.$el.remove()
 
     if (this.anchorEl !== void 0) {
       this.__unconfigureAnchorEl()

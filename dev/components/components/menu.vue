@@ -202,7 +202,25 @@
           <q-card-section>
             <q-toggle v-model="vIfTest" label="v-if test" />
           </q-card-section>
+          <q-img src="statics/material.png" style="height: 100px" v-if="vIfTest">
+            <div class="absolute-bottom-right">attached to q-img</div>
+            <q-menu touch-position>
+              <q-list>
+                <q-item
+                  v-for="n in 5"
+                  :key="n"
+                  v-close-menu
+                  clickable
+                  @click="showNotify()"
+                  @keyup.native.13.32="showNotify()"
+                >
+                  <q-item-section>Label</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-img>
           <q-img src="statics/material.png" style="height: 100px">
+            <div class="absolute-bottom-right">attached to q-menu</div>
             <q-menu touch-position v-if="vIfTest">
               <q-list>
                 <q-item
