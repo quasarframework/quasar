@@ -26,15 +26,12 @@ export default {
   },
 
   beforeMount () {
-    const el = document.createElement('div')
-
     this.__portal = new Vue({
-      name: 'QPortal',
       render: h => this.__render(h),
       methods: {
         __qPortalClose: this.hide
       }
-    }).$mount(el)
+    }).$mount()
   },
 
   beforeDestroy () {
