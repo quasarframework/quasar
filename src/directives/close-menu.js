@@ -1,13 +1,12 @@
+import { closeRootMenu } from '../components/menu/menu-tree.js'
+
 export default {
   name: 'close-menu',
 
   bind (el, _, vnode) {
     const
-      handler = evt => {
-        let vm = vnode.componentInstance
-        if (vm.$root.__qPortalClose !== void 0) {
-          vm.$root.__qPortalClose(evt)
-        }
+      handler = () => {
+        closeRootMenu(vnode.componentInstance.$root.portalParentId)
       },
       handlerKey = evt => {
         evt.keyCode === 13 && handler(evt)

@@ -28,11 +28,15 @@ export default {
   },
 
   beforeMount () {
+    const id = this.portalId
+
     this.__portal = new Vue({
-      data: () => ({
-        portalParentId: this.portalId
-      }),
       render: h => this.__render(h),
+
+      created () {
+        this.portalParentId = id
+      },
+
       methods: {
         __qPortalClose: this.hide
       }

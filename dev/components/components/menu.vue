@@ -282,6 +282,13 @@
             <q-menu touch-position>
               <q-list>
                 <q-item
+                  v-close-menu
+                  clickable
+                >
+                  <q-item-section>v-close-menu</q-item-section>
+                </q-item>
+
+                <q-item
                   v-for="n in 3"
                   :key="n"
                   clickable
@@ -290,8 +297,16 @@
                   <q-item-section side>
                     <q-icon name="keyboard_arrow_right" />
                   </q-item-section>
+
                   <q-menu anchor="top right" self="top left">
                     <q-list>
+                      <q-item
+                        v-close-menu
+                        clickable
+                      >
+                        <q-item-section>v-close-menu</q-item-section>
+                      </q-item>
+
                       <q-item
                         v-for="n in 3"
                         :key="n"
@@ -303,6 +318,13 @@
                         </q-item-section>
                         <q-menu anchor="top right" self="top left">
                           <q-list>
+                            <q-item
+                              v-close-menu
+                              clickable
+                            >
+                              <q-item-section>v-close-menu</q-item-section>
+                            </q-item>
+
                             <q-item
                               v-for="n in 3"
                               :key="n"

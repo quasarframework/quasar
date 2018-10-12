@@ -6,7 +6,7 @@ import ClickOutside from '../../directives/click-outside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
-import MenuTree from './menu-tree.js'
+import { MenuTreeMixin, closeRootMenu } from './menu-tree.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition
@@ -15,7 +15,7 @@ import {
 export default Vue.extend({
   name: 'QMenu',
 
-  mixins: [ ModelToggleMixin, PortalMixin, MenuTree ],
+  mixins: [ ModelToggleMixin, PortalMixin, MenuTreeMixin ],
 
   directives: {
     ClickOutside
@@ -197,6 +197,10 @@ export default Vue.extend({
       }
     },
 
+    __onAutoClose () {
+      closeRootMenu(this.portalId)
+    },
+
     __toggleKey (evt) {
       if (evt.keyCode === 13) {
         this.toggle(evt)
@@ -309,7 +313,7 @@ export default Vue.extend({
         this.showing ? h('div', {
           staticClass: 'q-menu scroll',
           on: this.autoClose === true ? {
-            click: this.hide
+            click: this.__onAutoClose
           } : null,
           directives: this.persistent !== true ? [{
             name: 'click-outside',
