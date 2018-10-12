@@ -316,20 +316,12 @@
                         <q-item-section side>
                           <q-icon name="keyboard_arrow_right" />
                         </q-item-section>
-                        <q-menu anchor="top right" self="top left">
+                        <q-menu auto-close anchor="top right" self="top left">
                           <q-list>
-                            <q-item
-                              v-close-menu
-                              clickable
-                            >
-                              <q-item-section>v-close-menu</q-item-section>
-                            </q-item>
-
                             <q-item
                               v-for="n in 3"
                               :key="n"
                               clickable
-                              v-close-menu
                             >
                               <q-item-section>3rd level Label</q-item-section>
                             </q-item>
@@ -350,13 +342,13 @@
 
       <q-btn color="secondary" class="fixed-top-right" icon="directions" style="top: 65px; right: 16px;">
         <q-menu ref="popover3">
-          <img
-            src="~assets/map.png"
+          <q-img
+            src="statics/map.png"
             style="height: 150px; width: 200px;"
-            @click="showNotify(), $refs.popover3.hide()"
-            @keyup.13.32="showNotify(), $refs.popover3.hide()"
+            @click.native="showNotify(), $refs.popover3.hide()"
+            @keyup.13.32.native="showNotify(), $refs.popover3.hide()"
             tabindex="0"
-          >
+          />
         </q-menu>
       </q-btn>
 
