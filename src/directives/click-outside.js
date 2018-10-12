@@ -19,6 +19,13 @@ export default {
               }
             }
           }
+
+          let parent = target
+          while ((parent = parent.parentNode) !== document.body) {
+            if (parent.classList.contains('q-menu')) {
+              return
+            }
+          }
         }
 
         ctx.trigger(evt)

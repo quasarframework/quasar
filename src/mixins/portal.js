@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import uid from '../utils/uid.js'
 
 export default {
   methods: {
@@ -17,6 +18,10 @@ export default {
     }
   },
 
+  data: () => ({
+    portalId: uid()
+  }),
+
   render (h) {
     this.__portal !== void 0 && this.__portal.$forceUpdate()
     return null
@@ -24,6 +29,9 @@ export default {
 
   beforeMount () {
     this.__portal = new Vue({
+      data: () => ({
+        portalParentId: this.portalId
+      }),
       render: h => this.__render(h),
       methods: {
         __qPortalClose: this.hide

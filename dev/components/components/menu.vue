@@ -219,7 +219,7 @@
               </q-list>
             </q-menu>
           </q-img>
-          <q-img src="statics/material.png" style="height: 100px">
+          <q-img src="statics/parallax2.jpg" style="height: 100px">
             <div class="absolute-bottom-right">attached to q-menu</div>
             <q-menu touch-position v-if="vIfTest">
               <q-list>
@@ -268,6 +268,54 @@
                   @keyup.native.13.32="showNotify()"
                 >
                   <q-item-section>Label</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-img>
+        </q-card>
+
+        <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
+          <q-card-section>
+            Menu in menu
+          </q-card-section>
+          <q-img src="statics/parallax1.jpg" style="height: 100px">
+            <q-menu touch-position>
+              <q-list>
+                <q-item
+                  v-for="n in 3"
+                  :key="n"
+                  clickable
+                >
+                  <q-item-section>Label</q-item-section>
+                  <q-item-section side>
+                    <q-icon name="keyboard_arrow_right" />
+                  </q-item-section>
+                  <q-menu anchor="top right" self="top left">
+                    <q-list>
+                      <q-item
+                        v-for="n in 3"
+                        :key="n"
+                        clickable
+                      >
+                        <q-item-section>Submenu Label</q-item-section>
+                        <q-item-section side>
+                          <q-icon name="keyboard_arrow_right" />
+                        </q-item-section>
+                        <q-menu anchor="top right" self="top left">
+                          <q-list>
+                            <q-item
+                              v-for="n in 3"
+                              :key="n"
+                              clickable
+                              v-close-menu
+                            >
+                              <q-item-section>3rd level Label</q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
                 </q-item>
               </q-list>
             </q-menu>

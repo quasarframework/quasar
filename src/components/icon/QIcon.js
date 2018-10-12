@@ -48,7 +48,7 @@ export default Vue.extend({
 
     content () {
       return this.classes && this.classes['material-icons']
-        ? this.name.replace(/ /g, '_')
+        ? this.name
         : ' '
     },
 

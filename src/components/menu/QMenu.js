@@ -6,6 +6,7 @@ import ClickOutside from '../../directives/click-outside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
+import MenuTree from './menu-tree.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition
@@ -14,7 +15,7 @@ import {
 export default Vue.extend({
   name: 'QMenu',
 
-  mixins: [ ModelToggleMixin, PortalMixin ],
+  mixins: [ ModelToggleMixin, PortalMixin, MenuTree ],
 
   directives: {
     ClickOutside
@@ -133,6 +134,7 @@ export default Vue.extend({
       })
 
       this.__showPortal()
+      this.__registerTree()
 
       this.$nextTick(() => {
         const { width, height, top, left } = this.anchorEl.getBoundingClientRect()
@@ -166,6 +168,7 @@ export default Vue.extend({
 
     __hide (evt) {
       this.__cleanup()
+
       evt !== void 0 && evt.preventDefault()
 
       this.timer = setTimeout(() => {
@@ -179,6 +182,7 @@ export default Vue.extend({
       this.absoluteOffset = void 0
 
       EscapeKey.pop()
+      this.__unregisterTree()
 
       if (this.unwatch !== void 0) {
         this.unwatch()
