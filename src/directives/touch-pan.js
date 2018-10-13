@@ -1,20 +1,16 @@
 import { position, leftClick, listenOpts } from '../utils/event.js'
 
 function getDirection (mod) {
-  if (!mod.horizontal && !mod.vertical) {
-    return {
-      horizontal: true,
-      vertical: true
-    }
+  const
+    none = mod.horizontal !== true && mod.vertical !== true,
+    dir = {}
+
+  if (mod.horizontal === true || none === true) {
+    dir.horizontal = true
   }
-
-  let dir = {}
-
-  ;['horizontal', 'vertical'].forEach(direction => {
-    if (mod[direction]) {
-      dir[direction] = true
-    }
-  })
+  if (mod.vertical === true || none === true) {
+    dir.vertical = true
+  }
 
   return dir
 }
@@ -176,9 +172,18 @@ export default {
     el.addEventListener('touchend', ctx.end, evtOpts)
   },
 
-  update (el, binding) {
-    if (binding.oldValue !== binding.value) {
-      el.__qtouchpan.handler = binding.value
+  update (el, { oldValue, value, modifiers }) {
+    const ctx = el.__qtouchpan
+
+    if (oldValue !== value) {
+      ctx.handler = value
+    }
+
+    if (
+      (modifiers.horizontal !== ctx.direction.horizontal) ||
+      (modifiers.vertical !== ctx.direction.vertical)
+    ) {
+      ctx.direction = getDirection(modifiers)
     }
   },
 
