@@ -9,13 +9,9 @@
         Show Text Loading
       </q-btn>
     </div>
-    <div class="q-layout-padding relative-position"
+    <div class="q-layout-padding relative-position q-mx-auto"
          style="height: 450px; width: 600px; background-color: lightgrey; padding: 15px;">
-      <transition
-        appear
-        enter-active-class="animated fadeIn"
-        leave-active-class="animated fadeOut"
-      >
+      <transition name="q-transition--fade">
         <div v-show="showSimulatedReturnData">
           <h4>Lorem Ipsum</h4>
           <p>
@@ -26,8 +22,9 @@
           </p>
         </div>
       </transition>
+
       <q-inner-loading :visible="visible">
-        <q-spinner-gears :size="50" color="primary"/>
+        <q-spinner-gears size="50px" color="primary"/>
       </q-inner-loading>
     </div>
   </div>
