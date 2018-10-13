@@ -39,6 +39,7 @@ export default Vue.extend({
     },
     offset: {
       type: Array,
+      default: () => [14, 14],
       validator: validateOffset
     },
 
@@ -122,10 +123,6 @@ export default Vue.extend({
 
       this.$nextTick(() => {
         this.updatePosition()
-
-        if (this.unwatch === void 0) {
-          this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
-        }
       })
 
       this.timer = setTimeout(() => {
@@ -144,11 +141,6 @@ export default Vue.extend({
 
     __cleanup () {
       clearTimeout(this.timer)
-
-      if (this.unwatch !== void 0) {
-        this.unwatch()
-        this.unwatch = void 0
-      }
 
       if (this.scrollTarget) {
         this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
