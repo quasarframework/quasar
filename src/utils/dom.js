@@ -30,6 +30,10 @@ export function css (element, css) {
   })
 }
 
+export function cssBatch (elements, style) {
+  elements.forEach(el => css(el, style))
+}
+
 export function ready (fn) {
   if (typeof fn !== 'function') {
     return
@@ -48,5 +52,6 @@ export default {
   height,
   width,
   css,
+  cssBatch,
   ready
 }
