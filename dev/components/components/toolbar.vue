@@ -107,13 +107,13 @@
 
       <div class="row no-wrap shadow-1">
         <q-toolbar class="col-8 bg-grey-3">
-          <q-btn flat round dense icon="arrow_back" />
+          <q-btn flat round dense icon="menu" />
           <q-toolbar-title>Title</q-toolbar-title>
           <q-btn flat round dense icon="search" />
         </q-toolbar>
-        <q-toolbar class="col-4 bg-black text-white">
+        <q-toolbar class="col-4 bg-primary text-white">
           <q-space />
-          <q-btn flat round dense icon="reply" class="q-mr-sm" />
+          <q-btn flat round dense icon="bluetooth" class="q-mr-sm" />
           <q-btn flat round dense icon="more_vert" />
         </q-toolbar>
       </div>
@@ -136,7 +136,7 @@
         <q-space />
 
         <q-btn-dropdown stretch flat label="Dropdown">
-          <q-list link>
+          <q-list>
             <q-item-label header>Folders</q-item-label>
             <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-overlay tabindex="0">
               <q-item-section avatar>
@@ -150,7 +150,7 @@
                 <q-icon name="info" />
               </q-item-section>
             </q-item>
-            <q-separator inset />
+            <q-separator inset spaced />
             <q-item-label header>Files</q-item-label>
             <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-overlay tabindex="0">
               <q-item-section avatar>

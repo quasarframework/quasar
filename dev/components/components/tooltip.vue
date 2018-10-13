@@ -4,22 +4,17 @@
       <div class="caption">
         <span class="desktop-only">
           Move mouse over the elements below. On a mobile device,
-          you need to tap the elements.
+          you need to touch and hold.
         </span>
         <span class="mobile-only">
-          Tap on elements below. On desktop you can move the mouse
+          Touch and hold on elements below. On desktop you can move the mouse
           over the elements.
         </span>
       </div>
 
-      <div style="margin-top: 40px;width: 200px; height: 70px;background-color: #26A69A;">
-        &nbsp;
-        <q-tooltip :delay="1000">Quasar Rulz!</q-tooltip>
-      </div>
-
       <q-toggle v-model="toggle" class="z-max fixed-top" />
       <p class="caption">With offset</p>
-      <div class="group">
+      <div class="q-gutter-sm">
         <q-btn color="indigo" label="Hover">
           <q-tooltip v-model="toggle" anchor="top middle" self="bottom middle" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>top</em> (<q-icon name="keyboard_arrow_up" />)
@@ -47,59 +42,130 @@
         </q-btn>
       </div>
 
-      <q-card style="margin-top: 75px">
-        <q-card-title class="bg-primary text-center">
-          <q-btn push color="orange" label="Mouse Hover">
-            <q-tooltip :anchor="anchor" :self="self">
-              <div>Quasar is <strong>great</strong>!</div>
-              <div class="text-center">Try it.</div>
+      <div class="q-gutter-y-md">
+        <q-card style="margin-top: 75px">
+          <q-card-section class="bg-primary text-center">
+            <q-btn push color="orange" label="Mouse Hover">
+              <q-tooltip :anchor="anchor" :self="self">
+                <div>Quasar is <strong>great</strong>!</div>
+                <div class="text-center">Try it.</div>
+              </q-tooltip>
+            </q-btn>
+          </q-card-section>
+
+          <q-card-section>
+            <p class="text-weight-bold text-center q-my-md">Configure the Tooltip for button above.</p>
+            <div class="text-center">
+              <q-chip tag color="primary" text-color="white">anchor="{{ anchor }}"</q-chip>
+              <q-chip tag color="primary" text-color="white">self="{{ self }}"</q-chip>
+            </div>
+          </q-card-section>
+
+          <q-card-section class="row">
+            <div class="column items-center col-6">
+              <p class="text-weight-bold">Anchor Origin</p>
+              <div class="flex q-gutter-sm">
+                <div class="column">
+                  <div>Vertical</div>
+                  <q-radio v-model="anchorOrigin.vertical" val="top" label="Top" />
+                  <q-radio v-model="anchorOrigin.vertical" val="center" label="Center" />
+                  <q-radio v-model="anchorOrigin.vertical" val="bottom" label="Bottom" />
+                </div>
+                <div class="column">
+                  <div>Horizontal</div>
+                  <q-radio v-model="anchorOrigin.horizontal" val="left" label="Left" />
+                  <q-radio v-model="anchorOrigin.horizontal" val="middle" label="Middle" />
+                  <q-radio v-model="anchorOrigin.horizontal" val="right" label="Right" />
+                </div>
+              </div>
+            </div>
+
+            <div class="column items-center col-6">
+              <p class="text-weight-bold">Self Origin</p>
+              <div class="flex q-gutter-sm">
+                <div class="column">
+                  <div>Vertical</div>
+                  <q-radio v-model="selfOrigin.vertical" val="top" label="Top" />
+                  <q-radio v-model="selfOrigin.vertical" val="center" label="Center" />
+                  <q-radio v-model="selfOrigin.vertical" val="bottom" label="Bottom" />
+                </div>
+                <div class="column">
+                  <div>Horizontal</div>
+                  <q-radio v-model="selfOrigin.horizontal" val="left" label="Left" />
+                  <q-radio v-model="selfOrigin.horizontal" val="middle" label="Middle" />
+                  <q-radio v-model="selfOrigin.horizontal" val="right" label="Right" />
+                </div>
+              </div>
+            </div>
+          </q-card-section>
+        </q-card>
+
+        <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
+          <q-card-section>
+            <div class="q-gutter-sm">
+              <q-toggle label="Delay (0.5s)" v-model="delay" :true-value="500" :false-value="0" />
+              <q-toggle label="Colored" v-model="color" />
+            </div>
+          </q-card-section>
+          <q-img src="statics/material.png" style="height: 100px">
+            <q-tooltip
+              :delay="delay"
+              anchor="center middle"
+              self="center middle"
+              :color="color ? 'red' : null"
+            >
+              Quasar Rulz!
             </q-tooltip>
-          </q-btn>
-        </q-card-title>
+          </q-img>
+        </q-card>
 
-        <p class="caption text-center">Configure the Tooltip for button above.</p>
-        <div class="text-center">
-          <q-chip tag color="primary">anchor="{{ anchor }}"</q-chip>
-          <q-chip tag color="primary">self="{{ self }}"</q-chip>
-        </div>
-        <q-card-main class="row">
-          <div class="column items-center col-6">
-            <p class="caption">Anchor Origin</p>
-            <div class="flex">
-              <div class="column group">
-                <div>Vertical</div>
-                <q-radio v-model="anchorOrigin.vertical" val="top" label="Top" />
-                <q-radio v-model="anchorOrigin.vertical" val="center" label="Center" />
-                <q-radio v-model="anchorOrigin.vertical" val="bottom" label="Bottom" />
-              </div>
-              <div class="column group">
-                <div>Horizontal</div>
-                <q-radio v-model="anchorOrigin.horizontal" val="left" label="Left" />
-                <q-radio v-model="anchorOrigin.horizontal" val="middle" label="Middle" />
-                <q-radio v-model="anchorOrigin.horizontal" val="right" label="Right" />
-              </div>
+        <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
+          <q-card-section>
+            <div class="row items-center q-gutter-sm">
+              <q-chip square color="primary" text-color="white">target</q-chip>
+              <q-radio v-model="targetEl" :val="false" label="false (no target whatsoever)" />
+              <q-radio v-model="targetEl" :val="true" label="true (original parent)" />
+              <q-radio v-model="targetEl" val="#target-img-1" label="#target-img-1" />
+              <q-radio v-model="targetEl" val="#target-img-2" label="#target-img-2" />
+              <q-radio v-model="targetEl" val="#bogus" label="#bogus" />
             </div>
-          </div>
+          </q-card-section>
+          <q-img src="statics/material.png" id="target-img-1" style="height: 100px">
+            <div class="absolute-bottom-right">#target-img-1</div>
+          </q-img>
+          <q-img src="statics/parallax2.jpg" id="target-img-2" style="height: 100px">
+            <div class="absolute-bottom-right">#target-img-2</div>
+          </q-img>
+          <q-img src="statics/blueish.jpg" style="height: 100px">
+            <div class="absolute-bottom-right">Original parent</div>
+            <q-tooltip
+              :target="targetEl"
+              anchor="center middle"
+              self="center middle"
+            >Quasar Rulz!</q-tooltip>
+          </q-img>
+        </q-card>
 
-          <div class="column items-center col-6">
-            <p class="caption">Self Origin</p>
-            <div class="flex">
-              <div class="column group">
-                <div>Vertical</div>
-                <q-radio v-model="selfOrigin.vertical" val="top" label="Top" />
-                <q-radio v-model="selfOrigin.vertical" val="center" label="Center" />
-                <q-radio v-model="selfOrigin.vertical" val="bottom" label="Bottom" />
-              </div>
-              <div class="column group">
-                <div>Horizontal</div>
-                <q-radio v-model="selfOrigin.horizontal" val="left" label="Left" />
-                <q-radio v-model="selfOrigin.horizontal" val="middle" label="Middle" />
-                <q-radio v-model="selfOrigin.horizontal" val="right" label="Right" />
-              </div>
-            </div>
-          </div>
-        </q-card-main>
-      </q-card>
+        <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
+          <q-card-section>
+            <q-toggle v-model="vIfTest" label="v-if test" />
+          </q-card-section>
+          <q-img src="statics/material.png" style="height: 100px" v-if="vIfTest">
+            <div class="absolute-bottom-right">attached to q-img</div>
+            <q-tooltip anchor="center middle" self="center middle">
+              Quasar Rulz!
+            </q-tooltip>
+          </q-img>
+          <q-img src="statics/parallax2.jpg" style="height: 100px">
+            <div class="absolute-bottom-right">attached to q-tooltip</div>
+            <q-tooltip v-if="vIfTest" anchor="center middle" self="center middle">
+              Quasar Rulz!
+            </q-tooltip>
+          </q-img>
+        </q-card>
+      </div>
+
+      <div style="margin-bottom: 700px;"/>
     </div>
   </div>
 </template>
@@ -110,8 +176,12 @@ export default {
     return {
       toggle: false,
       loading: false,
+      delay: 500,
+      vIfTest: true,
+      color: true,
       anchorOrigin: {vertical: 'bottom', horizontal: 'middle'},
-      selfOrigin: {vertical: 'top', horizontal: 'middle'}
+      selfOrigin: {vertical: 'top', horizontal: 'middle'},
+      targetEl: '#target-img-1'
     }
   },
   computed: {

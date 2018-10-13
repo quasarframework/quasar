@@ -1,5 +1,5 @@
 .q-tooltip
-  position fixed
+  position fixed !important
   font-size $tooltip-fontsize
   color $tooltip-color
   background $tooltip-background
@@ -9,3 +9,7 @@
   overflow-y auto
   overflow-x hidden
   pointer-events none
+
+  @media (max-width $breakpoint-xs-max)
+    font-size $tooltip-mobile-fontsize
+    padding $tooltip-mobile-padding

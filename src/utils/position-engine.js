@@ -77,7 +77,7 @@ export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset, a
     anchorProps
 
   if (absoluteOffset === void 0) {
-    anchorProps = getAnchorProps(anchorEl, cover === false ? offset : [0, 0])
+    anchorProps = getAnchorProps(anchorEl, cover === true ? [0, 0] : offset)
   }
   else {
     const
