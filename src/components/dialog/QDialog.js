@@ -2,17 +2,31 @@ import Vue from 'vue'
 
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
-import TransitionMixin from '../../mixins/transition.js'
 
 import preventScroll from '../../utils/prevent-scroll.js'
 import EscapeKey from '../../utils/escape-key.js'
 
 let modalsOpened = 0
 
+const positionClass = {
+  standard: 'flex-center',
+  top: 'items-start justify-center',
+  bottom: 'items-end justify-center',
+  right: 'items-center justify-end',
+  left: 'items-center justify-start'
+}
+
+const transitions = {
+  top: ['down', 'up'],
+  bottom: ['up', 'down'],
+  right: ['left', 'right'],
+  left: ['right', 'left']
+}
+
 export default Vue.extend({
   name: 'QDialog',
 
-  mixins: [ ModelToggleMixin, PortalMixin, TransitionMixin ],
+  mixins: [ ModelToggleMixin, PortalMixin ],
 
   modelToggle: {
     history: true
@@ -22,18 +36,58 @@ export default Vue.extend({
     persistent: Boolean,
     maximized: Boolean,
     noEscKey: Boolean,
+    seamless: Boolean,
+
+    position: {
+      type: String,
+      default: 'standard',
+      validator (val) {
+        return val === 'standard' || ['top', 'bottom', 'left', 'right'].includes(val)
+      }
+    },
 
     transitionShow: {
+      type: String,
       default: 'scale'
     },
     transitionHide: {
+      type: String,
       default: 'scale'
+    }
+  },
+
+  data () {
+    return {
+      transitionState: this.showing
     }
   },
 
   watch: {
     $route () {
-      this.persistent !== true && this.hide()
+      this.persistent !== true && this.seamless !== true && this.hide()
+    },
+
+    showing (val) {
+      if (this.position !== 'standard' || this.transitionShow !== this.transitionHide) {
+        this.$nextTick(() => {
+          this.transitionState = val
+        })
+      }
+    }
+  },
+
+  computed: {
+    classes () {
+      return `q-dialog__inner--${this.maximized ? 'maximized' : 'minimized'} ` +
+        `q-dialog__inner--${this.position} ${positionClass[this.position]}`
+    },
+
+    transition () {
+      return 'q-transition--' + (
+        this.position === 'standard'
+          ? (this.transitionState === true ? this.transitionHide : this.transitionShow)
+          : 'slide-' + transitions[this.position][this.transitionState === true ? 1 : 0]
+      )
     }
   },
 
@@ -41,19 +95,22 @@ export default Vue.extend({
     __show (evt) {
       clearTimeout(this.timer)
 
-      this.__register(true)
-      preventScroll(true)
-      this.__showPortal()
+      if (this.seamless !== true) {
+        this.__register(true)
+        preventScroll(true)
 
-      EscapeKey.register(() => {
-        if (this.persistent || this.noEscKey === true) {
-          this.maximized !== true && this.__shake()
-        }
-        else {
-          this.$emit('escape-key')
-          this.hide()
-        }
-      })
+        EscapeKey.register(() => {
+          if (this.persistent || this.noEscKey === true) {
+            this.maximized !== true && this.__shake()
+          }
+          else {
+            this.$emit('escape-key')
+            this.hide()
+          }
+        })
+      }
+
+      this.__showPortal()
 
       if (this.$q.platform.is.ios) {
         // workaround the iOS hover/touch issue
@@ -78,7 +135,7 @@ export default Vue.extend({
       clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
 
-      if (hiding === true || this.showing === true) {
+      if (this.seamless !== true && (hiding === true || this.showing === true)) {
         EscapeKey.pop()
         preventScroll(false)
         this.__register(false)
@@ -112,9 +169,9 @@ export default Vue.extend({
 
     __render (h) {
       return h('div', {
-        staticClass: 'q-dialog fullscreen'
+        staticClass: 'q-dialog fullscreen no-pointer-events'
       }, [
-        h('transition', {
+        this.seamless !== true ? h('transition', {
           props: { name: 'q-transition--fade' }
         }, this.showing ? [
           h('div', {
@@ -123,15 +180,15 @@ export default Vue.extend({
               click: this.persistent === false ? this.hide : this.__shake
             }
           })
-        ] : null),
+        ] : null) : null,
 
         h('transition', {
           props: { name: this.transition }
         }, [
           this.showing ? h('div', {
             ref: 'inner',
-            staticClass: 'q-dialog__inner fullscreen flex flex-center no-pointer-events',
-            'class': `q-dialog__inner--${this.maximized ? 'maximized' : 'minimized'}`
+            staticClass: 'q-dialog__inner fullscreen flex no-pointer-events',
+            'class': this.classes
           }, this.$slots.default) : null
         ])
       ])

@@ -12,6 +12,7 @@
         <q-btn label="Scroll 2" flat color="primary" @click="scroll2 = true" />
         <q-btn label="Maximized" flat color="primary" @click="maximized = true" />
         <q-btn label="Positioned" flat color="primary" @click="positioned = true" />
+        <q-btn label="Seamless" flat color="primary" @click="seamless = true" />
         <q-btn label="Layout" flat color="primary" @click="layout = true" />
         <q-btn label="Movable" flat color="primary" @click="movable = true" />
         <q-btn label="Inception" flat color="primary" @click="inception = true" />
@@ -116,7 +117,22 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="prompt">TODO</q-dialog>
+    <q-dialog v-model="prompt" persistent>
+      <q-card style="min-width: 400px">
+        <q-card-section>
+          <div class="text-h6">Your address</div>
+        </q-card-section>
+
+        <q-card-section>
+          <q-input v-model="address" autofocus />
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="Abort" color="teal" v-close-dialog />
+          <q-btn flat label="Register address" color="primary" v-close-dialog />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
 
     <q-dialog v-model="scroll" transition-show="rotate" transition-hide="rotate">
       <q-card>
@@ -180,7 +196,43 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="positioned">TODO</q-dialog>
+    <q-dialog v-model="positioned" position="bottom">
+      <q-card style="width: 350px">
+        <q-linear-progress :value="0.6" color="pink" />
+
+        <q-card-section class="row items-center no-wrap">
+          <div>
+            <div class="text-weight-bold">The Walker</div>
+            <div class="text-grey">Fitz & The Tantrums</div>
+          </div>
+
+          <q-space />
+
+          <q-btn flat round icon="fast_rewind" />
+          <q-btn flat round icon="pause" />
+          <q-btn flat round icon="fast_forward" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="seamless" seamless position="bottom">
+      <q-card style="width: 350px">
+        <q-linear-progress :value="0.6" color="pink" />
+
+        <q-card-section class="row items-center no-wrap">
+          <div>
+            <div class="text-weight-bold">The Walker</div>
+            <div class="text-grey">Fitz & The Tantrums</div>
+          </div>
+
+          <q-space />
+
+          <q-btn flat round icon="play_arrow" />
+          <q-btn flat round icon="pause" />
+          <q-btn flat round icon="close" v-close-dialog />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
 
     <q-dialog v-model="layout">
       <q-layout view="Lhh lpR fff" container>
@@ -364,6 +416,7 @@ export default {
       scroll2: false,
       maximized: false,
       positioned: false,
+      seamless: false,
       layout: false,
       movable: false,
       inception: false,
@@ -371,6 +424,8 @@ export default {
       complexCard: false,
 
       maximizedToggle: true,
+
+      address: '',
 
       moreContent: true,
       drawer: false,

@@ -30,8 +30,32 @@
         width 100%
         border-radius 0 !important
 
+    &--top
+      padding-top 0
+    &--right
+      padding-right 0
+    &--bottom
+      padding-bottom 0
+    &--left
+      padding-left 0
+
+    &--left, &--top
+      > div
+        border-top-left-radius 0
+    &--right, &--top
+      > div
+        border-top-right-radius 0
+    &--left, &--bottom
+      > div
+        border-bottom-left-radius 0
+    &--right, &--bottom
+      > div
+        border-bottom-right-radius 0
+
+
   &__backdrop
     z-index -1
+    pointer-events all
     background $dimmed-background
 
 
