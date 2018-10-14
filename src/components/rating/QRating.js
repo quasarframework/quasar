@@ -10,7 +10,7 @@ export default Vue.extend({
   props: {
     value: Number,
     max: {
-      type: Number,
+      type: [String, Number],
       default: 5
     },
     icon: String,
@@ -33,7 +33,6 @@ export default Vue.extend({
       },
       set (value) {
         this.$emit('input', value)
-        JSON.stringify(value) !== JSON.stringify(this.value) && this.$emit('change', value)
       }
     },
 
@@ -42,20 +41,16 @@ export default Vue.extend({
     },
 
     classes () {
-      const cls = []
-
-      this.disable && cls.push('disabled')
-      this.editable && cls.push('editable')
-      this.color && cls.push(`text-${this.color}`)
-
-      return cls
+      return `q-rating--${this.editable ? '' : 'non-'}editable` +
+        (this.disable === true ? ' disable' : '') +
+        (this.color !== void 0 ? ` text-${this.color}` : '')
     }
   },
 
   methods: {
     set (value) {
       if (this.editable) {
-        const model = between(parseInt(value, 10), 1, this.max)
+        const model = between(parseInt(value, 10), 1, parseInt(this.max, 10))
         this.model = this.model === model ? 0 : model
         this.mouseModel = 0
       }
@@ -103,10 +98,11 @@ export default Vue.extend({
       }, [
         h(QIcon, {
           props: { name: this.icon || this.$q.icon.rating.icon },
+          staticClass: 'q-rating__icon',
           'class': {
-            active: (!this.mouseModel && this.model >= i) || (this.mouseModel && this.mouseModel >= i),
-            exselected: this.mouseModel && this.model >= i && this.mouseModel < i,
-            hovered: this.mouseModel === i
+            'q-rating__icon--active': (!this.mouseModel && this.model >= i) || (this.mouseModel && this.mouseModel >= i),
+            'q-rating__icon--exselected': this.mouseModel && this.model >= i && this.mouseModel < i,
+            'q-rating__icon--hovered': this.mouseModel === i
           },
           attrs: { tabindex: -1 },
           nativeOn: {
