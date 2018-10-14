@@ -1,0 +1,40 @@
+.q-dialog
+  z-index $z-dialog
+
+  &__inner
+
+    > div
+      pointer-events all
+      overflow auto
+
+    > .q-card
+      > .q-card__section
+        padding-left 24px
+        padding-right 24px
+      > .q-card__section + .q-card__section
+        padding-top 8px
+      > .q-card__section + .q-card__actions
+        margin-top 8px
+      > .q-card__actions .q-btn--rectangle
+        min-width 64px
+
+    &--minimized
+      padding 24px
+
+      > div
+        max-height calc(100vh - 32px)
+
+    &--maximized
+      > div
+        height 100%
+        width 100%
+        border-radius 0 !important
+
+  &__backdrop
+    z-index -1
+    background $dimmed-background
+
+
+@media (min-width $breakpoint-sm-min)
+  .q-dialog__inner--minimized > div
+    max-width 560px

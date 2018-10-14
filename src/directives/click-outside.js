@@ -32,23 +32,23 @@ export default {
       }
     }
 
-    el.__qcloseoutside = ctx
+    el.__qclickoutside = ctx
     document.body.addEventListener('mousedown', ctx.handler, true)
     document.body.addEventListener('touchstart', ctx.handler, true)
   },
 
   update (el, { value, oldValue }) {
     if (value !== oldValue) {
-      el.__qcloseoutside.trigger = value
+      el.__qclickoutside.trigger = value
     }
   },
 
   unbind (el) {
-    const ctx = el.__qcloseoutside
+    const ctx = el.__qclickoutside
     if (ctx !== void 0) {
       document.body.removeEventListener('mousedown', ctx.handler, true)
       document.body.removeEventListener('touchstart', ctx.handler, true)
-      delete el.__qcloseoutside
+      delete el.__qclickoutside
     }
   }
 }

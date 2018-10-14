@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
+import TransitionMixin from '../../mixins/transition.js'
 import ClickOutside from '../../directives/click-outside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { position, listenOpts } from '../../utils/event.js'
@@ -15,22 +16,13 @@ import {
 export default Vue.extend({
   name: 'QMenu',
 
-  mixins: [ ModelToggleMixin, PortalMixin, MenuTreeMixin ],
+  mixins: [ ModelToggleMixin, PortalMixin, MenuTreeMixin, TransitionMixin ],
 
   directives: {
     ClickOutside
   },
 
   props: {
-    transitionShow: {
-      type: String,
-      default: 'fade'
-    },
-    transitionHide: {
-      type: String,
-      default: 'fade'
-    },
-
     fit: Boolean,
     cover: Boolean,
     anchor: {
@@ -56,17 +48,7 @@ export default Vue.extend({
     autoClose: Boolean
   },
 
-  data () {
-    return {
-      transitionState: this.showing
-    }
-  },
-
   computed: {
-    transition () {
-      return 'q-transition--' + (this.transitionState === true ? this.transitionHide : this.transitionShow)
-    },
-
     horizSide () {
       return this.$q.i18n.rtl ? 'right' : 'left'
     },
@@ -87,12 +69,6 @@ export default Vue.extend({
   },
 
   watch: {
-    showing (val) {
-      this.transitionShow !== this.transitionHide && this.$nextTick(() => {
-        this.transitionState = val
-      })
-    },
-
     contextMenu (val) {
       if (this.anchorEl !== void 0) {
         this.__unconfigureAnchorEl(!val)

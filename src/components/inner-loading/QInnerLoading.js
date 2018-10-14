@@ -1,12 +1,15 @@
 import Vue from 'vue'
 
+import TransitionMixin from '../../mixins/transition.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 export default Vue.extend({
   name: 'QInnerLoading',
 
+  mixins: [ TransitionMixin ],
+
   props: {
-    visible: Boolean,
+    showing: Boolean,
     color: String,
 
     size: {
@@ -14,36 +17,7 @@ export default Vue.extend({
       default: 42
     },
 
-    transitionShow: {
-      type: String,
-      default: 'fade'
-    },
-    transitionHide: {
-      type: String,
-      default: 'fade'
-    },
-
     dark: Boolean
-  },
-
-  data () {
-    return {
-      transitionState: this.visible
-    }
-  },
-
-  watch: {
-    visible (val) {
-      this.transitionShow !== this.transitionHide && this.$nextTick(() => {
-        this.transitionState = val
-      })
-    }
-  },
-
-  computed: {
-    transition () {
-      return 'q-transition--' + (this.transitionState === true ? this.transitionHide : this.transitionShow)
-    }
   },
 
   render (h) {
@@ -59,7 +33,7 @@ export default Vue.extend({
     return h('transition', {
       props: { name: this.transition }
     }, [
-      this.visible ? h('div', {
+      this.showing ? h('div', {
         staticClass: 'q-inner-loading absolute-full column flex-center',
         'class': this.dark ? 'q-inner-loading--dark' : null
       }, content) : null

@@ -12,17 +12,17 @@ export default {
         evt.keyCode === 13 && handler(evt)
       }
 
-    el.__qclose = { handler, handlerKey }
+    el.__qclosemenu = { handler, handlerKey }
     el.addEventListener('click', handler)
     el.addEventListener('keyup', handlerKey)
   },
 
   unbind (el) {
-    const ctx = el.__qclose
+    const ctx = el.__qclosemenu
     if (ctx !== void 0) {
       el.removeEventListener('click', ctx.handler)
       el.removeEventListener('keyup', ctx.handlerKey)
-      delete el.__qclose
+      delete el.__qclosemenu
     }
   }
 }

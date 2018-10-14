@@ -23,7 +23,7 @@
         </div>
       </transition>
 
-      <q-inner-loading :visible="visible">
+      <q-inner-loading :showing="showing">
         <q-spinner-gears size="50px" color="primary"/>
       </q-inner-loading>
     </div>
@@ -35,7 +35,7 @@ import { QSpinnerGears } from 'quasar'
 export default {
   data () {
     return {
-      visible: false,
+      showing: false,
       showSimulatedReturnData: false
     }
   },
@@ -47,11 +47,11 @@ export default {
       this.show()
     },
     show () {
-      this.visible = true
+      this.showing = true
       this.showSimulatedReturnData = false
 
       setTimeout(() => {
-        this.visible = false
+        this.showing = false
         this.showSimulatedReturnData = true
       }, 3000)
     }

@@ -20,7 +20,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-card__actions q-card__section',
+      staticClass: 'q-card__actions',
       'class': this.classes
     }, this.$slots.default)
   }

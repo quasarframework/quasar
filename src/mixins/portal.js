@@ -4,14 +4,14 @@ import uid from '../utils/uid.js'
 export default {
   methods: {
     __showPortal () {
-      if (this.__portal.showing !== true) {
+      if (this.__portal !== void 0 && this.__portal.showing !== true) {
         document.body.appendChild(this.__portal.$el)
         this.__portal.showing = true
       }
     },
 
     __hidePortal () {
-      if (this.__portal.showing === true) {
+      if (this.__portal !== void 0 && this.__portal.showing === true) {
         this.__portal.$el.remove()
         this.__portal.showing = false
       }

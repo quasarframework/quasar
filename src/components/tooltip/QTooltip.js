@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
+import TransitionMixin from '../../mixins/transition.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
@@ -12,18 +13,16 @@ import {
 export default Vue.extend({
   name: 'QTooltip',
 
-  mixins: [ ModelToggleMixin, PortalMixin ],
+  mixins: [ ModelToggleMixin, PortalMixin, TransitionMixin ],
 
   props: {
     color: String,
     textColor: String,
 
     transitionShow: {
-      type: String,
       default: 'jump-down'
     },
     transitionHide: {
-      type: String,
       default: 'jump-up'
     },
 
@@ -54,21 +53,9 @@ export default Vue.extend({
     }
   },
 
-  data () {
-    return {
-      transitionState: this.showing
-    }
-  },
-
   watch: {
     $route () {
       this.hide()
-    },
-
-    showing (val) {
-      this.transitionShow !== this.transitionHide && this.$nextTick(() => {
-        this.transitionState = val
-      })
     },
 
     target (val) {
@@ -81,10 +68,6 @@ export default Vue.extend({
   },
 
   computed: {
-    transition () {
-      return 'q-transition--' + (this.transitionState === true ? this.transitionHide : this.transitionShow)
-    },
-
     anchorOrigin () {
       return parsePosition(this.anchor)
     },
@@ -96,7 +79,7 @@ export default Vue.extend({
     classes () {
       return {
         [`bg-${this.color}`]: this.color,
-        [`text-${this.color}`]: this.textColor
+        [`text-${this.textColor}`]: this.textColor
       }
     }
   },
@@ -222,7 +205,7 @@ export default Vue.extend({
         props: { name: this.transition }
       }, [
         this.showing ? h('div', {
-          staticClass: 'q-tooltip',
+          staticClass: 'q-tooltip no-pointer-events',
           'class': this.classes
         }, this.$slots.default) : null
       ])
