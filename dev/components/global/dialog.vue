@@ -15,6 +15,8 @@
         <q-btn label="Layout" flat color="primary" @click="layout = true" />
         <q-btn label="Movable" flat color="primary" @click="movable = true" />
         <q-btn label="Inception" flat color="primary" @click="inception = true" />
+        <q-btn label="Non standard content" flat color="primary" @click="nonStandard = true" />
+        <q-btn label="Complex card" flat color="primary" @click="complexCard = true" />
       </div>
     </div>
 
@@ -100,7 +102,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="confirm">
+    <q-dialog v-model="confirm" persistent>
       <q-card>
         <q-card-section class="row items-center">
           <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
@@ -253,6 +255,87 @@
       </q-card>
     </q-dialog>
 
+    <q-dialog v-model="nonStandard">
+      <q-carousel
+        transition-prev="slide-right"
+        transition-next="slide-left"
+        swipeable
+        animated
+        v-model="slide"
+        control-color="primary"
+        navigation-icon="radio_button_unchecked"
+        navigation
+        padding
+        height="200px"
+        class="bg-white shadow-1 generic-border-radius"
+      >
+        <q-carousel-slide :name="1" class="column no-wrap flex-center">
+          <q-icon name="style" color="primary" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="2" class="column no-wrap flex-center">
+          <q-icon name="live_tv" color="primary" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="3" class="column no-wrap flex-center">
+          <q-icon name="layers" color="primary" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="4" class="column no-wrap flex-center">
+          <q-icon name="terrain" color="primary" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+      </q-carousel>
+    </q-dialog>
+
+    <q-dialog v-model="complexCard">
+      <q-card>
+        <q-img :src="require('assets/donuts.png')" />
+
+        <q-card-section>
+          <q-btn
+            fab
+            color="primary"
+            icon="place"
+            class="absolute"
+            style="top: 0; right: 20px; transform: translateY(-50%);"
+          />
+
+          <div class="row no-wrap items-center">
+            <div class="col text-h6 ellipsis">Cafe Basilico</div>
+            <div class="col-auto text-grey q-pt-md">
+              <q-icon name="place" /> 250 ft
+            </div>
+          </div>
+
+          <q-rating v-model="stars" :max="5" size="32px" />
+        </q-card-section>
+
+        <q-card-section>
+          <div class="text-subtitle1">$・Italian, Cafe</div>
+          <div class="text-subtitle2 text-grey">Small plates, salads & sandwiches in an intimate setting.</div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions>
+          <q-btn flat round icon="event" v-close-dialog />
+          <q-btn flat v-close-dialog>5:30PM</q-btn>
+          <q-btn flat v-close-dialog>7:30PM</q-btn>
+          <q-btn flat v-close-dialog>9:00PM</q-btn>
+          <q-btn flat color="primary" v-close-dialog>Reserve</q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
     <div class="text-center q-mt-xl" style="height: 1500px">Page has scroll on purpose</div>
   </div>
 </template>
@@ -284,12 +367,19 @@ export default {
       layout: false,
       movable: false,
       inception: false,
+      nonStandard: false,
+      complexCard: false,
 
       maximizedToggle: true,
 
       moreContent: true,
       drawer: false,
-      drawerR: false
+      drawerR: false,
+
+      slide: 1,
+      lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
+
+      stars: 3
     }
   },
 
