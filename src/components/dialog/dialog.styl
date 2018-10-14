@@ -6,6 +6,8 @@
     > div
       pointer-events all
       overflow auto
+      border-radius 4px
+      box-shadow $shadow-4
 
     > .q-card
       > .q-card__section
@@ -13,8 +15,6 @@
         padding-right 24px
       > .q-card__section + .q-card__section
         padding-top 8px
-      > .q-card__section + .q-card__actions
-        margin-top 8px
       > .q-card__actions .q-btn--rectangle
         min-width 64px
 
@@ -38,3 +38,6 @@
 @media (min-width $breakpoint-sm-min)
   .q-dialog__inner--minimized > div
     max-width 560px
+
+.q-body--dialog
+  overflow hidden

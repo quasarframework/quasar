@@ -12,8 +12,9 @@
         <q-btn label="Scroll 2" flat color="primary" @click="scroll2 = true" />
         <q-btn label="Maximized" flat color="primary" @click="maximized = true" />
         <q-btn label="Positioned" flat color="primary" @click="positioned = true" />
-        <q-btn label="Container" flat color="primary" @click="container = true" />
+        <q-btn label="Layout" flat color="primary" @click="layout = true" />
         <q-btn label="Movable" flat color="primary" @click="movable = true" />
+        <q-btn label="Inception" flat color="primary" @click="inception = true" />
       </div>
     </div>
 
@@ -179,7 +180,80 @@
 
     <q-dialog v-model="positioned">TODO</q-dialog>
 
+    <q-dialog v-model="layout">
+      <q-layout view="Lhh lpR fff" container>
+        <q-header reveal class="bg-black">
+          <q-toolbar>
+            <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+            <q-toolbar-title>Header</q-toolbar-title>
+            <q-btn flat @click="drawerR = !drawerR" round dense icon="menu" />
+            <q-btn flat v-close-dialog round dense icon="close" />
+          </q-toolbar>
+        </q-header>
+
+        <q-footer reveal class="bg-black text-white">
+          <q-toolbar>
+            <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+            <q-toolbar-title>Footer</q-toolbar-title>
+            <q-btn flat @click="drawerR = !drawerR" round dense icon="menu" />
+          </q-toolbar>
+        </q-footer>
+
+        <q-drawer v-model="drawer" :width="200" :breakpoint="600">
+          <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+        </q-drawer>
+        <q-drawer side="right" v-model="drawerR" :width="200" :breakpoint="300">
+          <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+        </q-drawer>
+        <q-page-container>
+          <q-page style="padding-top: 50px" class="bg-yellow">
+            <div v-for="n in contentSize" :key="n">My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}</div>
+
+            <q-page-sticky position="top-left" :offset="[18, 58]">
+              <q-btn round color="primary" icon="arrow_back" class="rotate-45" />
+            </q-page-sticky>
+            <q-page-sticky position="top-right" :offset="[18, 58]">
+              <q-btn round color="primary" icon="arrow_upward" class="rotate-45" />
+            </q-page-sticky>
+            <q-page-sticky position="bottom-left" :offset="[18, 18]">
+              <q-btn round color="primary" icon="arrow_forward" class="rotate-135" />
+            </q-page-sticky>
+            <q-page-sticky position="bottom-right" :offset="[18, 18]">
+              <q-btn round color="primary" icon="arrow_forward" class="rotate-45" />
+            </q-page-sticky>
+
+            <q-page-sticky position="top" expand class="bg-purple text-white">
+              <q-toolbar>
+                <q-btn flat round dense icon="map" />
+                <q-toolbar-title>Title</q-toolbar-title>
+                <q-checkbox dark color="white" v-model="moreContent" label="Scroll" />
+              </q-toolbar>
+            </q-page-sticky>
+          </q-page>
+        </q-page-container>
+      </q-layout>
+    </q-dialog>
+
     <q-dialog v-model="movable">TODO</q-dialog>
+
+    <q-dialog v-model="inception">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Inception</div>
+        </q-card-section>
+
+        <q-card-section>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis laudantium minus earum totam modi laborum illo, corporis fuga saepe animi aliquam ea enim assumenda ut nulla natus aperiam quis. Iste.
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Open another dialog" @click="persistent = true" />
+          <q-btn flat label="Close" v-close-dialog />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <div class="text-center q-mt-xl" style="height: 1500px">Page has scroll on purpose</div>
   </div>
 </template>
 
@@ -207,10 +281,21 @@ export default {
       scroll2: false,
       maximized: false,
       positioned: false,
-      container: false,
+      layout: false,
       movable: false,
+      inception: false,
 
-      maximizedToggle: true
+      maximizedToggle: true,
+
+      moreContent: true,
+      drawer: false,
+      drawerR: false
+    }
+  },
+
+  computed: {
+    contentSize () {
+      return this.moreContent ? 150 : 5
     }
   }
 }
