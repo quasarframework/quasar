@@ -42,11 +42,15 @@ function processChanges (evt, ctx, isFinal) {
     position: pos,
     direction,
     isFirst: ctx.event.isFirst,
-    isFinal: Boolean(isFinal),
+    isFinal,
     duration: new Date().getTime() - ctx.event.time,
     distance: {
       x: absDistX,
       y: absDistY
+    },
+    offset: {
+      x: distX,
+      y: distY
     },
     delta: {
       x: pos.left - ctx.event.lastX,

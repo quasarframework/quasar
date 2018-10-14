@@ -73,6 +73,10 @@ export default Vue.extend({
           this.transitionState = val
         })
       }
+    },
+
+    seamless (v) {
+      this.showing === true && this.__updateSeamless(!v)
     }
   },
 
@@ -96,18 +100,7 @@ export default Vue.extend({
       clearTimeout(this.timer)
 
       if (this.seamless !== true) {
-        this.__register(true)
-        preventScroll(true)
-
-        EscapeKey.register(() => {
-          if (this.persistent || this.noEscKey === true) {
-            this.maximized !== true && this.__shake()
-          }
-          else {
-            this.$emit('escape-key')
-            this.hide()
-          }
-        })
+        this.__updateSeamless(true)
       }
 
       this.__showPortal()
@@ -136,6 +129,26 @@ export default Vue.extend({
       clearTimeout(this.shakeTimeout)
 
       if (this.seamless !== true && (hiding === true || this.showing === true)) {
+        this.__updateSeamless(false)
+      }
+    },
+
+    __updateSeamless (val) {
+      if (val === true) {
+        this.__register(true)
+        preventScroll(true)
+
+        EscapeKey.register(() => {
+          if (this.persistent || this.noEscKey === true) {
+            this.maximized !== true && this.__shake()
+          }
+          else {
+            this.$emit('escape-key')
+            this.hide()
+          }
+        })
+      }
+      else {
         EscapeKey.pop()
         preventScroll(false)
         this.__register(false)

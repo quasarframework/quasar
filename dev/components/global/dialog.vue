@@ -4,6 +4,7 @@
       <div class="q-gutter-md" style="max-width: 700px">
         <q-btn label="Alert" flat color="primary" @click="alert = true" />
         <q-btn label="Persistent" flat color="primary" @click="persistent = true" />
+        <q-btn label="Close Icon" flat color="primary" @click="icon = true" />
         <q-btn label="Bar" flat color="primary" @click="bar = true" />
         <q-btn label="Bar 2" flat color="primary" @click="bar2 = true" />
         <q-btn label="Confirm" flat color="primary" @click="confirm = true" />
@@ -14,7 +15,6 @@
         <q-btn label="Positioned" flat color="primary" @click="positioned = true" />
         <q-btn label="Seamless" flat color="primary" @click="seamless = true" />
         <q-btn label="Layout" flat color="primary" @click="layout = true" />
-        <q-btn label="Movable" flat color="primary" @click="movable = true" />
         <q-btn label="Inception" flat color="primary" @click="inception = true" />
         <q-btn label="Non standard content" flat color="primary" @click="nonStandard = true" />
         <q-btn label="Complex card" flat color="primary" @click="complexCard = true" />
@@ -50,6 +50,20 @@
         <q-card-actions align="right" class="bg-white text-teal">
           <q-btn flat label="OK" v-close-dialog />
         </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="icon">
+      <q-card>
+        <q-card-section class="row items-center">
+          <div class="text-h6">Close icon</div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-dialog />
+        </q-card-section>
+
+        <q-card-section>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+        </q-card-section>
       </q-card>
     </q-dialog>
 
@@ -288,8 +302,6 @@
       </q-layout>
     </q-dialog>
 
-    <q-dialog v-model="movable">TODO</q-dialog>
-
     <q-dialog v-model="inception">
       <q-card>
         <q-card-section>
@@ -410,6 +422,7 @@ export default {
       persistent: false,
       confirm: false,
       prompt: false,
+      icon: false,
       bar: false,
       bar2: false,
       scroll: false,
@@ -418,7 +431,6 @@ export default {
       positioned: false,
       seamless: false,
       layout: false,
-      movable: false,
       inception: false,
       nonStandard: false,
       complexCard: false,
