@@ -3,12 +3,13 @@
     <div class="row justify-center">
       <div class="q-gutter-md" style="max-width: 700px">
         <q-btn label="Alert" flat color="primary" @click="alert = true" />
+        <q-btn label="Confirm" flat color="primary" @click="confirm = true" />
+        <q-btn label="Prompt" flat color="primary" @click="prompt = true" />
         <q-btn label="Persistent" flat color="primary" @click="persistent = true" />
         <q-btn label="Close Icon" flat color="primary" @click="icon = true" />
         <q-btn label="Bar" flat color="primary" @click="bar = true" />
         <q-btn label="Bar 2" flat color="primary" @click="bar2 = true" />
-        <q-btn label="Confirm" flat color="primary" @click="confirm = true" />
-        <q-btn label="Prompt" flat color="primary" @click="prompt = true" />
+        <q-btn label="Toolbar" flat color="primary" @click="toolbar = true" />
         <q-btn label="Scroll" flat color="primary" @click="scroll = true" />
         <q-btn label="Scroll 2" flat color="primary" @click="scroll2 = true" />
         <q-btn label="Maximized" flat color="primary" @click="maximized = true" />
@@ -110,6 +111,24 @@
         <q-card-section>
           <div class="text-h6">Alert</div>
         </q-card-section>
+
+        <q-card-section>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="toolbar">
+      <q-card>
+        <q-toolbar>
+          <q-avatar>
+            <img src="statics/quasar-logo.png">
+          </q-avatar>
+
+          <q-toolbar-title><span class="text-weight-bold">Quasar</span> Framework</q-toolbar-title>
+
+          <q-btn flat round dense icon="close" v-close-dialog />
+        </q-toolbar>
 
         <q-card-section>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
@@ -427,6 +446,7 @@ export default {
       icon: false,
       bar: false,
       bar2: false,
+      toolbar: false,
       scroll: false,
       scroll2: false,
       maximized: false,

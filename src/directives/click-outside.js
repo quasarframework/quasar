@@ -7,7 +7,7 @@ export default {
       handler (evt) {
         const target = evt && evt.target
 
-        if (target) {
+        if (target && target !== document.body) {
           if (el.contains(target)) {
             return
           }
