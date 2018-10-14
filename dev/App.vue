@@ -18,6 +18,7 @@
             ,{ label: 'Romanian', value: 'ro' }
             ,{ label: 'Hebrew', value: 'he' }
             ,{ label: 'Chinese (Simplified)', value: 'zh-hans' }
+            ,{ label: 'Chinese (Traditional)', value: 'zh-hant' }
             ,{ label: 'Italian', value: 'it' }
             ,{ label: 'Spanish', value: 'es' }
             ,{ label: 'Swedish', value: 'sv' }
