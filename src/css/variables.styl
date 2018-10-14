@@ -491,7 +491,6 @@ $z-side         ?= 1000
 $z-marginals    ?= 2000
 $z-fixed-drawer ?= 3000
 $z-modal        ?= 5000 // TODO remove
-$z-dialog       ?= 5000
 $z-fullscreen   ?= 6000
 $z-top          ?= 7000
 $z-popover      ?= 8000
@@ -560,7 +559,7 @@ $shadow-up-23 = 0 -11px 14px -7px $elevation-umbra, 0 -23px 36px 3px $elevation-
 $shadow-up-24 = 0 -11px 15px -7px $elevation-umbra, 0 -24px 38px 3px $elevation-penumbra, 0 -9px 46px 8px $elevation-ambient
 
 
-$generic-border-radius      ?= 3px
+$generic-border-radius      ?= 4px
 $generic-hover-transition   ?= .3s cubic-bezier(.25, .8, .5, 1)
 $typography-font-family     ?= 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif
 $min-line-height            ?= 1.12
@@ -572,7 +571,7 @@ $alert-padding       ?= 12px
 $alert-border-radius ?= $generic-border-radius
 $alert-min-width     ?= 200px
 
-$button-border-radius         ?= $generic-border-radius
+$button-border-radius         ?= 3px
 $button-padding               ?= 4px 16px
 $button-dense-padding         ?= .285em
 $button-transition            ?= $generic-hover-transition
@@ -644,13 +643,6 @@ $item-image-size                   ?= round(3 * $item-primary-size)
 $item-font-size                    ?= 1rem
 $item-stamp-font-size              ?= .8rem
 $item-inset                        ?= ($item-gutter + $item-primary-size)
-
-$jumbotron-padding               ?= 2rem 1rem
-$jumbotron-large-padding         ?= 4rem 2rem
-$jumbotron-border-radius         ?= $generic-border-radius
-$jumbotron-bg                    ?= $grey-3
-$jumbotron-dark-bg               ?= $grey-7
-$jumbotron-dark-color            ?= white
 
 $collapsible-padding             ?= 8px 16px
 $collapsible-indent-left-padding ?= ($item-primary-size + $item-gutter)

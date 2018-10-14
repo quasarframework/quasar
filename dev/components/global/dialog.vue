@@ -141,9 +141,9 @@
           <q-input v-model="address" autofocus />
         </q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn flat label="Abort" color="teal" v-close-dialog />
-          <q-btn flat label="Register address" color="primary" v-close-dialog />
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancel" v-close-dialog />
+          <q-btn flat label="Add address" v-close-dialog />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -159,7 +159,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="OK" color="primary" v-close-dialog />
+          <q-btn flat label="Decline" color="primary" v-close-dialog />
+          <q-btn flat label="Accept" color="primary" v-close-dialog />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -179,7 +180,8 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn flat label="OK" color="primary" v-close-dialog />
+          <q-btn flat label="Decline" color="primary" v-close-dialog />
+          <q-btn flat label="Accept" color="primary" v-close-dialog />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -211,7 +213,7 @@
     </q-dialog>
 
     <q-dialog v-model="positioned" position="bottom">
-      <q-card style="width: 350px">
+      <q-card style="width: 500px">
         <q-linear-progress :value="0.6" color="pink" />
 
         <q-card-section class="row items-center no-wrap">
@@ -400,7 +402,7 @@
       </q-card>
     </q-dialog>
 
-    <div class="text-center q-mt-xl" style="height: 1500px">Page has scroll on purpose</div>
+    <div class="text-center text-caption q-mt-xl" style="height: 1500px">Page has scroll on purpose</div>
   </div>
 </template>
 

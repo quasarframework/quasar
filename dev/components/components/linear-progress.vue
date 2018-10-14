@@ -14,9 +14,9 @@
       <h5>Determinate State</h5>
       <div class="group">
         <q-btn size="sm" color="primary" @click="randomize">Change Model</q-btn>
-        <q-linear-progress class="q-my-sm" :value="progress"/>
+        <q-linear-progress class="q-my-sm" rounded :value="progress"/>
         <q-linear-progress style="height: 10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
-        <q-linear-progress class="q-my-sm" :value="progress" color="info"/>
+        <q-linear-progress style="height: 20px" rounded class="q-my-sm" :value="progress" color="info"/>
         <q-linear-progress class="q-my-sm" :value="progress" color="warning"/>
         <q-linear-progress class="q-my-sm" :value="progress" color="secondary"/>
         <q-linear-progress class="q-my-sm" :value="progress" color="tertiary"/>

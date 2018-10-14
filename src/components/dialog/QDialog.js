@@ -34,9 +34,12 @@ export default Vue.extend({
 
   props: {
     persistent: Boolean,
-    maximized: Boolean,
     noEscKey: Boolean,
     seamless: Boolean,
+
+    maximized: Boolean,
+    fullWidth: Boolean,
+    fullHeight: Boolean,
 
     position: {
       type: String,
@@ -83,7 +86,9 @@ export default Vue.extend({
   computed: {
     classes () {
       return `q-dialog__inner--${this.maximized ? 'maximized' : 'minimized'} ` +
-        `q-dialog__inner--${this.position} ${positionClass[this.position]}`
+        `q-dialog__inner--${this.position} ${positionClass[this.position]}` +
+        (this.fullWidth ? ' q-dialog__inner--fullwidth' : '') +
+        (this.fullHeight ? ' q-dialog__inner--fullheight' : '')
     },
 
     transition () {
@@ -102,6 +107,18 @@ export default Vue.extend({
       if (this.seamless !== true) {
         this.__updateSeamless(true)
       }
+
+      EscapeKey.register(() => {
+        if (this.seamless !== true) {
+          if (this.persistent || this.noEscKey === true) {
+            this.maximized !== true && this.__shake()
+          }
+          else {
+            this.$emit('escape-key')
+            this.hide()
+          }
+        }
+      })
 
       this.__showPortal()
 
@@ -128,6 +145,8 @@ export default Vue.extend({
       clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
 
+      EscapeKey.pop()
+
       if (this.seamless !== true && (hiding === true || this.showing === true)) {
         this.__updateSeamless(false)
       }
@@ -137,19 +156,8 @@ export default Vue.extend({
       if (val === true) {
         this.__register(true)
         preventScroll(true)
-
-        EscapeKey.register(() => {
-          if (this.persistent || this.noEscKey === true) {
-            this.maximized !== true && this.__shake()
-          }
-          else {
-            this.$emit('escape-key')
-            this.hide()
-          }
-        })
       }
       else {
-        EscapeKey.pop()
         preventScroll(false)
         this.__register(false)
       }
@@ -184,23 +192,23 @@ export default Vue.extend({
       return h('div', {
         staticClass: 'q-dialog fullscreen no-pointer-events'
       }, [
-        this.seamless !== true ? h('transition', {
+        h('transition', {
           props: { name: 'q-transition--fade' }
-        }, this.showing ? [
+        }, this.showing && this.seamless !== true ? [
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
               click: this.persistent === false ? this.hide : this.__shake
             }
           })
-        ] : null) : null,
+        ] : null),
 
         h('transition', {
           props: { name: this.transition }
         }, [
           this.showing ? h('div', {
             ref: 'inner',
-            staticClass: 'q-dialog__inner fullscreen flex no-pointer-events',
+            staticClass: 'q-dialog__inner fixed-full flex no-pointer-events',
             'class': this.classes
           }, this.$slots.default) : null
         ])

@@ -20,7 +20,8 @@ export default Vue.extend({
     reverse: Boolean,
     stripe: Boolean,
     indeterminate: Boolean,
-    query: Boolean
+    query: Boolean,
+    rounded: Boolean
   },
 
   computed: {
@@ -31,7 +32,8 @@ export default Vue.extend({
     classes () {
       return {
         [`text-${this.color}`]: this.color,
-        'q-linear-progress--reverse': this.reverse || this.query
+        'q-linear-progress--reverse': this.reverse || this.query,
+        'generic-border-radius': this.rounded
       }
     },
 

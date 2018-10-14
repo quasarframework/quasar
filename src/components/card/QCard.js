@@ -25,7 +25,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-card generic-border-radius',
+      staticClass: 'q-card',
       'class': this.classes
     }, this.$slots.default)
   }
