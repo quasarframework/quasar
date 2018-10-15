@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { isSSR } from '../plugins/platform.js'
 
 export default function (Component) {
-  return ({ className, ...props }, resolver) => {
+  return ({ className, style, ...props }, resolver) => {
     return new Promise((resolve, reject) => {
       if (isSSR) { return resolve() }
 
@@ -13,29 +13,35 @@ export default function (Component) {
       const
         ok = data => {
           resolve(data)
-          vm.$destroy()
         },
         cancel = reason => {
           reject(reason || new Error())
-          vm.$destroy()
         }
 
-      const vm = new Vue({
+      let vm = new Vue({
         el: node,
+
         data () {
           return { props }
         },
+
         render: h => h(Component, {
-          ref: 'modal',
+          ref: 'dialog',
           props,
+          style,
           'class': className,
           on: {
             ok,
-            cancel
+            cancel,
+            hide: () => {
+              vm.$destroy()
+              vm = null
+            }
           }
         }),
+
         mounted () {
-          this.$refs.modal.show()
+          this.$refs.dialog.show()
         }
       })
 

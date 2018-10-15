@@ -25,13 +25,13 @@
         border-radius 0 !important
 
     &--top
-      padding-top 0
+      padding-top 0 !important
     &--right
-      padding-right 0
+      padding-right 0 !important
     &--bottom
-      padding-bottom 0
+      padding-bottom 0 !important
     &--left
-      padding-left 0
+      padding-left 0 !important
 
     &--left, &--top
       > div
@@ -63,6 +63,8 @@
 
 @media (max-width $breakpoint-xs-max)
   .q-dialog__inner
+    &--minimized
+      padding 16px
     &--top, &--bottom
       padding-left 0
       padding-right 0
