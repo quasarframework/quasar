@@ -56,7 +56,9 @@ export default Vue.extend({
     transitionHide: {
       type: String,
       default: 'scale'
-    }
+    },
+
+    noRefocus: Boolean
   },
 
   data () {
@@ -101,8 +103,27 @@ export default Vue.extend({
   },
 
   methods: {
+    wobble () {
+      const node = this.__portal.$refs.inner
+
+      node.classList.remove('q-animate-wobble')
+      node.classList.add('q-animate-wobble')
+      clearTimeout(this.shakeTimeout)
+      this.shakeTimeout = setTimeout(() => {
+        node.classList.remove('q-animate-wobble')
+      }, 170)
+    },
+
     __show (evt) {
       clearTimeout(this.timer)
+
+      this.__refocusTarget = this.noRefocus === false
+        ? document.activeElement
+        : void 0
+
+      if (this.__refocusTarget !== void 0) {
+        this.__refocusTarget.blur()
+      }
 
       if (this.seamless !== true) {
         this.__updateSeamless(true)
@@ -111,7 +132,7 @@ export default Vue.extend({
       EscapeKey.register(() => {
         if (this.seamless !== true) {
           if (this.persistent || this.noEscKey === true) {
-            this.maximized !== true && this.__shake()
+            this.maximized !== true && this.__wobble()
           }
           else {
             this.$emit('escape-key')
@@ -122,10 +143,16 @@ export default Vue.extend({
 
       this.__showPortal()
 
-      if (this.$q.platform.is.ios) {
-        // workaround the iOS hover/touch issue
-        this.__portal.$refs.inner.click()
-      }
+      this.$nextTick(() => {
+        const node = this.__portal.$refs.inner
+
+        if (this.$q.platform.is.ios) {
+          // workaround the iOS hover/touch issue
+          node.click()
+        }
+
+        node.focus()
+      })
 
       this.timer = setTimeout(() => {
         this.$emit('show', evt)
@@ -137,6 +164,11 @@ export default Vue.extend({
 
       this.timer = setTimeout(() => {
         this.__hidePortal(evt)
+
+        if (this.__refocusTarget !== void 0) {
+          this.__refocusTarget.focus()
+        }
+
         this.$emit('hide', evt)
       }, 600)
     },
@@ -177,17 +209,6 @@ export default Vue.extend({
       document.body.classList[state.action]('q-body--dialog')
     },
 
-    __shake () {
-      const node = this.__portal.$refs.inner
-
-      node.classList.remove('q-animate-shake')
-      node.classList.add('q-animate-shake')
-      clearTimeout(this.shakeTimeout)
-      this.shakeTimeout = setTimeout(() => {
-        node.classList.remove('q-animate-shake')
-      }, 170)
-    },
-
     __render (h) {
       return h('div', {
         staticClass: 'q-dialog fullscreen no-pointer-events'
@@ -198,7 +219,7 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
-              click: this.persistent === false ? this.hide : this.__shake
+              click: this.persistent === false ? this.hide : this.__wobble
             }
           })
         ] : null),
@@ -209,7 +230,8 @@ export default Vue.extend({
           this.showing ? h('div', {
             ref: 'inner',
             staticClass: 'q-dialog__inner fixed-full flex no-pointer-events',
-            'class': this.classes
+            'class': this.classes,
+            attrs: { tabindex: -1 }
           }, this.$slots.default) : null
         ])
       ])

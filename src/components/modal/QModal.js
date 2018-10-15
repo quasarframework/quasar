@@ -256,11 +256,11 @@ export default Vue.extend({
     },
 
     __shake () {
-      this.$el.classList.remove('q-animate-shake')
-      this.$el.classList.add('q-animate-shake')
+      this.$el.classList.remove('q-animate-wobble')
+      this.$el.classList.add('q-animate-wobble')
       clearTimeout(this.shakeTimeout)
       this.shakeTimeout = setTimeout(() => {
-        this.$el.classList.remove('q-animate-shake')
+        this.$el.classList.remove('q-animate-wobble')
       }, 150)
     }
   },

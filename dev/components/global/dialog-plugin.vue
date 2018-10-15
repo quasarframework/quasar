@@ -9,6 +9,7 @@
         <q-btn label="Checkbox Options" flat color="primary" @click="checkbox" />
         <q-btn label="Positioned" flat color="primary" @click="positioned" />
         <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
+        <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
       </div>
     </div>
 
@@ -38,9 +39,11 @@ export default {
           color: 'negative'
         },
         persistent: true
-      }).then(data => {
-        console.log('>>>> OK, received:', data)
-      }).catch(() => {
+      }).onOk(() => {
+        console.log('>>>> OK')
+      }).onOk(() => {
+        console.log('>>>> second OK catcher')
+      }).onCancel(() => {
         console.log('>>>> Cancel')
       })
     },
@@ -56,9 +59,9 @@ export default {
         cancel: true,
         persistent: true,
         color: 'secondary'
-      }).then(data => {
-        console.log('>>>> OK, received:', data)
-      }).catch(() => {
+      }).onOk(data => {
+        console.log('>>>> OK, received', data)
+      }).onCancel(() => {
         console.log('>>>> Cancel')
       })
     },
@@ -79,9 +82,9 @@ export default {
         },
         cancel: true,
         persistent: true
-      }).then(data => {
-        console.log('>>>> OK, received:', data)
-      }).catch(() => {
+      }).onOk(data => {
+        console.log('>>>> OK, received', data)
+      }).onCancel(() => {
         console.log('>>>> Cancel')
       })
     },
@@ -102,9 +105,9 @@ export default {
         },
         cancel: true,
         persistent: true
-      }).then(data => {
-        console.log('>>>> OK, received:', data)
-      }).catch(() => {
+      }).onOk(data => {
+        console.log('>>>> OK, received', data)
+      }).onCancel(() => {
         console.log('>>>> Cancel')
       })
     },
@@ -123,6 +126,23 @@ export default {
         stackButtons: true,
         cancel: true
       })
+    },
+
+    autoClose () {
+      const dialog = this.$q.dialog({
+        title: 'Alert',
+        message: 'Autoclosing in 3 seconds.'
+      }).onOk(() => {
+        console.log('OK')
+        clearTimeout(timer)
+      }).onCancel(() => {
+        console.log('Cancel')
+        clearTimeout(timer)
+      })
+
+      const timer = setTimeout(() => {
+        dialog.hide()
+      }, 3000)
     }
   }
 }

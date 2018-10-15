@@ -2,50 +2,69 @@ import Vue from 'vue'
 
 import { isSSR } from '../plugins/platform.js'
 
+const ssrAPI = { onOk () {}, okCancel () {}, hide () {} }
+
 export default function (Component) {
-  return ({ className, style, ...props }, resolver) => {
-    return new Promise((resolve, reject) => {
-      if (isSSR) { return resolve() }
+  return ({ className, style, ...props }) => {
+    if (isSSR) { return ssrAPI }
 
-      const node = document.createElement('div')
-      document.body.appendChild(node)
-
-      const
-        ok = data => {
-          resolve(data)
+    const
+      okFns = [],
+      cancelFns = [],
+      API = {
+        onOk (fn) {
+          okFns.push(fn)
+          return API
         },
-        cancel = reason => {
-          reject(reason || new Error())
+        onCancel (fn) {
+          cancelFns.push(fn)
+          return API
+        },
+        hide () {
+          vm.$refs.dialog.hide()
+          cancel()
+          return API
         }
+      }
 
-      let vm = new Vue({
-        el: node,
+    const node = document.createElement('div')
+    document.body.appendChild(node)
 
-        data () {
-          return { props }
-        },
+    const
+      ok = data => {
+        okFns.forEach(fn => { fn(data) })
+      },
+      cancel = () => {
+        cancelFns.forEach(fn => { fn() })
+      }
 
-        render: h => h(Component, {
-          ref: 'dialog',
-          props,
-          style,
-          'class': className,
-          on: {
-            ok,
-            cancel,
-            hide: () => {
-              vm.$destroy()
-              vm = null
-            }
+    let vm = new Vue({
+      el: node,
+
+      data () {
+        return { props }
+      },
+
+      render: h => h(Component, {
+        ref: 'dialog',
+        props,
+        style,
+        'class': className,
+        on: {
+          ok,
+          cancel,
+          hide: () => {
+            vm.$destroy()
+            vm = null
           }
-        }),
-
-        mounted () {
-          this.$refs.dialog.show()
         }
-      })
+      }),
 
-      resolver && resolver.then(ok, cancel)
+      mounted () {
+        this.$refs.dialog.show()
+      }
     })
+
+    return API
   }
 }

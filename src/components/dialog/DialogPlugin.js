@@ -25,11 +25,6 @@ export default Vue.extend({
     },
     cancel: [String, Object, Boolean],
 
-    maximized: Boolean,
-    persistent: Boolean,
-    noEscKey: Boolean,
-    position: String,
-
     width: {
       type: String,
       default: '400px'
@@ -39,7 +34,18 @@ export default Vue.extend({
     color: {
       type: String,
       default: 'primary'
-    }
+    },
+
+    // QDialog props -- avoid duplicating the validations
+    maximized: {},
+    persistent: {},
+    seamless: {},
+    noEscKey: {},
+    position: {},
+    fullWidth: {},
+    fullHeight: {},
+    transitionShow: {},
+    transitionHide: {}
   },
 
   computed: {
@@ -93,6 +99,10 @@ export default Vue.extend({
   methods: {
     show () {
       this.$refs.dialog.show()
+    },
+
+    hide () {
+      this.$refs.dialog.hide()
     },
 
     getPrompt (h) {
@@ -160,12 +170,12 @@ export default Vue.extend({
 
     onOk () {
       this.$emit('ok', this.getData())
-      this.$refs.dialog.hide()
+      this.hide()
     },
 
     onCancel () {
       this.$emit('cancel')
-      this.$refs.dialog.hide()
+      this.hide()
     },
 
     getData () {
