@@ -219,7 +219,7 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
-              click: this.persistent === false ? this.hide : this.__wobble
+              click: this.persistent === false ? this.hide : this.wobble
             }
           })
         ] : null),
