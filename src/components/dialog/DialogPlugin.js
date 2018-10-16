@@ -202,7 +202,7 @@ export default Vue.extend({
     if (this.message) {
       child.push(
         h(QCardSection, {
-          staticClass: 'text-grey scroll'
+          staticClass: 'text-grey-8 scroll'
         }, [ this.message ])
       )
     }

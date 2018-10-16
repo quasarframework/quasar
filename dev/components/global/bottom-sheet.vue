@@ -1,18 +1,14 @@
 <template>
-  <div>
-    <div class="q-layout-padding">
-      <p class="caption">
-        <span class="desktop-only">Click</span>
-        <span class="mobile-only">Tap</span>
-        on each type to see an Action Sheet in action.
-      </p>
+  <div class="q-layout-padding">
+    <div style="max-width: 500px" class="q-mx-auto">
+      <h1>Bottom Sheet</h1>
 
       <q-list style="max-width: 600px;">
         <q-item
           clickable
           v-for="dialog in types"
           :key="dialog.label"
-          @click.native="dialog.handler"
+          @click="dialog.handler"
           v-ripple
         >
           <q-item-section side>
@@ -27,47 +23,6 @@
         </q-item>
       </q-list>
     </div>
-
-    {{ showActionSheet }}
-
-    <q-btn label="Toggle ref" @click="toggle" />
-    <q-btn label="Toggle model" @click="toggle2" />
-
-    <q-action-sheet
-      v-model="showActionSheet"
-      ref="modal"
-      @show="onShow"
-      @hide="onHide"
-      @cancel="onCancel"
-      @escape-key="onEscape"
-      @ok="onOk"
-      title="Action Sheet"
-      :actions="[
-        {
-          label: 'Delete',
-          icon: 'delete',
-          color: 'red',
-          id: 'delete'
-        },
-        {
-          label: 'Share',
-          icon: 'share',
-          color: 'primary',
-          id: 'share'
-        },
-        {
-          label: 'Play',
-          icon: 'gamepad',
-          id: 'play'
-        },
-        {},
-        {
-          label: 'Favorite',
-          icon: 'favorite',
-          id: 'favorite'
-        }
-      ]"
-    />
   </div>
 </template>
 
@@ -75,7 +30,6 @@
 export default {
   data () {
     return {
-      showActionSheet: false,
       types: [
         {
           label: 'List with Icons',
@@ -127,8 +81,8 @@ export default {
       console.log('onShow', data)
     },
     showActionSheetWithIcons (grid) {
-      this.$q.actionSheet({
-        title: 'Article Actions',
+      this.$q.bottomSheet({
+        message: 'Article Actions',
         grid,
         actions: [
           {
@@ -155,14 +109,14 @@ export default {
             id: 'favorite'
           }
         ]
-      }).then(name => {
+      }).onOk(name => {
         console.log('name', name)
-      }).catch(() => {
+      }).onCancel(() => {
         console.log('dismissed')
       })
     },
     showActionSheetWithAvatar (grid) {
-      this.$q.actionSheet({
+      this.$q.bottomSheet({
         title: 'Share to',
         grid,
         actions: [
@@ -188,9 +142,9 @@ export default {
             id: 'jack'
           }
         ]
-      }).then(name => {
+      }).onOk(name => {
         console.log('name', name)
-      }).catch(() => {
+      }).onCancel(() => {
         console.log('dismissed')
       })
     }

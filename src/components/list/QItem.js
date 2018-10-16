@@ -12,7 +12,7 @@ export default Vue.extend({
     dense: Boolean,
     inset: Boolean,
     dark: Boolean,
-    tabindex: String,
+    tabindex: [String, Number],
     tag: {
       type: String,
       default: 'div'

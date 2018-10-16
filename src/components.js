@@ -1,4 +1,3 @@
-export * from './components/action-sheet/index.js'
 export * from './components/ajax-bar/index.js'
 export * from './components/autocomplete/index.js'
 export * from './components/avatar/index.js'
