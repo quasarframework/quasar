@@ -1,29 +1,31 @@
-.q-actionsheet-title
-  min-height 56px
-  padding 0 16px
-  color $faded
-  color var(--q-color-faded)
+.q-bottom-sheet
+  padding-bottom 8px
 
-.q-actionsheet-body
-  max-height 500px
+  &__avatar
+    border-radius 50%
 
-.q-actionsheet-grid
-  padding 8px 16px
-  .q-item-separator-component
-    margin 24px 0
+  &--list
+    width 400px
 
-.q-actionsheet-grid-item
-  padding 8px 16px
-  transition background .3s
-  &:hover, &:focus
-    background $action-sheet-hover-background
-    outline 0
-  i, img
-    font-size 48px
-    margin-bottom 8px
-  .avatar
-    width 48px
-    height 48px
-  span
-    color $faded
-    color var(--q-color-faded)
+    .q-icon, img
+      font-size 24px
+      width 24px
+      height 24px
+
+  &--grid
+    width 700px
+    color $grey-7
+
+    .q-bottom-sheet__item
+      padding 8px
+      text-align center
+      min-width 100px
+
+    .q-icon, img
+      font-size 48px
+      width 48px
+      height 48px
+      margin-bottom 8px
+
+    .q-separator
+      margin 12px 0

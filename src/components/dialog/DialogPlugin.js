@@ -36,16 +36,16 @@ export default Vue.extend({
       default: 'primary'
     },
 
-    // QDialog props -- avoid duplicating the validations
-    maximized: {},
-    persistent: {},
-    seamless: {},
-    noEscKey: {},
-    position: {},
-    fullWidth: {},
-    fullHeight: {},
-    transitionShow: {},
-    transitionHide: {}
+    // QDialog props
+    maximized: Boolean,
+    persistent: Boolean,
+    seamless: Boolean,
+    noEscKey: Boolean,
+    position: { required: false },
+    fullWidth: Boolean,
+    fullHeight: Boolean,
+    transitionShow: { required: false },
+    transitionHide: { required: false }
   },
 
   computed: {
@@ -98,6 +98,7 @@ export default Vue.extend({
 
   methods: {
     show () {
+      this.cancelled = true
       this.$refs.dialog.show()
     },
 
@@ -169,12 +170,12 @@ export default Vue.extend({
     },
 
     onOk () {
+      this.cancelled = false
       this.$emit('ok', this.getData())
       this.hide()
     },
 
     onCancel () {
-      this.$emit('cancel')
       this.hide()
     },
 
@@ -202,7 +203,7 @@ export default Vue.extend({
     if (this.message) {
       child.push(
         h(QCardSection, {
-          staticClass: 'text-grey-8 scroll'
+          staticClass: 'text-grey-7  scroll'
         }, [ this.message ])
       )
     }
@@ -234,6 +235,7 @@ export default Vue.extend({
 
       on: {
         hide: () => {
+          this.cancelled === true && this.$emit('cancel')
           this.$emit('hide')
         }
       }

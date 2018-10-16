@@ -24,6 +24,10 @@ export default {
       this.$q.dialog({
         title: 'Alert',
         message: 'Some message'
+      }).onOk(() => {
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
       })
     },
 

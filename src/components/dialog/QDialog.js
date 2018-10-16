@@ -132,7 +132,7 @@ export default Vue.extend({
       EscapeKey.register(() => {
         if (this.seamless !== true) {
           if (this.persistent || this.noEscKey === true) {
-            this.maximized !== true && this.__wobble()
+            this.maximized !== true && this.wobble()
           }
           else {
             this.$emit('escape-key')
