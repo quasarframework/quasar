@@ -58,6 +58,9 @@ export default {
     }
   },
   computed: {
+    multiple () {
+      return Array.isArray(this.model)
+    },
     optModel () {
       if (this.multiple) {
         return this.model.length > 0
