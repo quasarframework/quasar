@@ -83,7 +83,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Stian Mikkelsen
 - Thomas Gick
 - Alexey Telyatnikov
-- Ryan Timmins
 - Sevenview Studios
 - Rus Brushkoff
 - Scott Brooks
