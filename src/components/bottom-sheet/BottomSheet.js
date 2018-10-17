@@ -53,9 +53,9 @@ export default Vue.extend({
         return action.label === void 0
           ? h(QSeparator, { staticClass: 'col-12' })
           : h('div', {
-            staticClass: 'q-bottom-sheet__item col-4 col-sm-3 q-hoverable cursor-pointer relative-position',
+            staticClass: 'q-bottom-sheet__item col-4 col-sm-3 q-hoverable q-focusable cursor-pointer relative-position',
             'class': action.classes,
-            props: { tabindex: 0 },
+            attrs: { tabindex: 0 },
             on: {
               click: () => this.onOk(action),
               keyup: e => {
