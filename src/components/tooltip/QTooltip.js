@@ -16,8 +16,8 @@ export default Vue.extend({
   mixins: [ ModelToggleMixin, PortalMixin, TransitionMixin ],
 
   props: {
-    color: String,
-    textColor: String,
+    contentClass: [Array, String, Object],
+    contentStyle: [Array, String, Object],
 
     transitionShow: {
       default: 'jump-down'
@@ -74,13 +74,6 @@ export default Vue.extend({
 
     selfOrigin () {
       return parsePosition(this.self)
-    },
-
-    classes () {
-      return {
-        [`bg-${this.color}`]: this.color,
-        [`text-${this.textColor}`]: this.textColor
-      }
     }
   },
 
@@ -206,7 +199,8 @@ export default Vue.extend({
       }, [
         this.showing ? h('div', {
           staticClass: 'q-tooltip no-pointer-events',
-          'class': this.classes
+          'class': this.contentClass,
+          style: this.contentStyle
         }, this.$slots.default) : null
       ])
     }

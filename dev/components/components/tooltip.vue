@@ -112,7 +112,7 @@
               :delay="delay"
               anchor="center middle"
               self="center middle"
-              :color="color ? 'red' : null"
+              :content-class="color ? 'bg-red' : null"
             >
               Quasar Rulz!
             </q-tooltip>
