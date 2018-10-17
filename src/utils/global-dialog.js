@@ -55,6 +55,7 @@ export default function (Component) {
           cancel,
           hide: () => {
             vm.$destroy()
+            vm.$el.remove()
             vm = null
           }
         }
