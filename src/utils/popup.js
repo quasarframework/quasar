@@ -55,32 +55,36 @@ export function repositionIfNeeded (anchor, target, selfOrigin, anchorOrigin, ta
   if (targetPosition.top < 0 || targetPosition.top + target.bottom > innerHeight) {
     if (selfOrigin.vertical === 'center') {
       targetPosition.top = anchor[selfOrigin.vertical] > innerHeight / 2 ? innerHeight - target.bottom : 0
-      targetPosition.maxHeight = Math.min(target.bottom, innerHeight)
+      targetPosition.maxHeight = Math.min(target.bottom, innerHeight) + 'px'
     }
     else if (anchor[selfOrigin.vertical] > innerHeight / 2) {
-      const anchorY = Math.min(innerHeight, anchorOrigin.vertical === 'center' ? anchor.center : (anchorOrigin.vertical === selfOrigin.vertical ? anchor.bottom : anchor.top))
-      targetPosition.maxHeight = Math.min(target.bottom, anchorY)
+      const
+        anchorY = Math.min(innerHeight, anchorOrigin.vertical === 'center' ? anchor.center : (anchorOrigin.vertical === selfOrigin.vertical ? anchor.bottom : anchor.top)),
+        maxHeight = Math.min(target.bottom, anchorY)
+      targetPosition.maxHeight = `${maxHeight}px`
       targetPosition.top = Math.max(0, anchorY - targetPosition.maxHeight)
     }
     else {
       targetPosition.top = anchorOrigin.vertical === 'center' ? anchor.center : (anchorOrigin.vertical === selfOrigin.vertical ? anchor.top : anchor.bottom)
-      targetPosition.maxHeight = Math.min(target.bottom, innerHeight - targetPosition.top)
+      targetPosition.maxHeight = Math.min(target.bottom, innerHeight - targetPosition.top) + 'px'
     }
   }
 
   if (targetPosition.left < 0 || targetPosition.left + target.right > innerWidth) {
-    targetPosition.maxWidth = Math.min(target.right, innerWidth)
+    targetPosition.maxWidth = Math.min(target.right, innerWidth) + 'px'
     if (selfOrigin.horizontal === 'middle') {
       targetPosition.left = anchor[selfOrigin.horizontal] > innerWidth / 2 ? innerWidth - target.right : 0
     }
     else if (anchor[selfOrigin.horizontal] > innerWidth / 2) {
-      const anchorY = Math.min(innerWidth, anchorOrigin.horizontal === 'middle' ? anchor.center : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchor.right : anchor.left))
-      targetPosition.maxWidth = Math.min(target.right, anchorY)
-      targetPosition.left = Math.max(0, anchorY - targetPosition.maxWidth)
+      const
+        anchorX = Math.min(innerWidth, anchorOrigin.horizontal === 'middle' ? anchor.center : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchor.right : anchor.left)),
+        maxWidth = Math.min(target.right, anchorX)
+      targetPosition.maxWidth = `${maxWidth}px`
+      targetPosition.left = Math.max(0, anchorX - targetPosition.maxWidth)
     }
     else {
       targetPosition.left = anchorOrigin.horizontal === 'middle' ? anchor.center : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchor.left : anchor.right)
-      targetPosition.maxWidth = Math.min(target.right, innerWidth - targetPosition.left)
+      targetPosition.maxWidth = Math.min(target.right, innerWidth - targetPosition.left) + 'px'
     }
   }
 }
@@ -89,7 +93,7 @@ export function parseHorizTransformOrigin (pos) {
   return pos === 'middle' ? 'center' : pos
 }
 
-export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset }) {
+export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset, maxHeight = 'none', maxWidth = 'none' }) {
   let anchor
 
   anchor = getAnchorPosition(anchorEl, offset)
@@ -97,19 +101,17 @@ export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset })
   let target = getTargetPosition(el)
   let targetPosition = {
     top: anchor[anchorOrigin.vertical] - target[selfOrigin.vertical],
-    left: anchor[anchorOrigin.horizontal] - target[selfOrigin.horizontal]
+    left: anchor[anchorOrigin.horizontal] - target[selfOrigin.horizontal],
+    maxHeight,
+    maxWidth
   }
 
   repositionIfNeeded(anchor, target, selfOrigin, anchorOrigin, targetPosition)
 
   el.style.top = Math.max(0, targetPosition.top) + 'px'
   el.style.left = Math.max(0, targetPosition.left) + 'px'
-  if (targetPosition.maxHeight) {
-    el.style.maxHeight = `${targetPosition.maxHeight}px`
-  }
-  if (targetPosition.maxWidth) {
-    el.style.maxWidth = `${targetPosition.maxWidth}px`
-  }
+  el.style.maxHeight = targetPosition.maxHeight
+  el.style.maxWidth = targetPosition.maxWidth
 }
 
 export function positionValidator (pos) {
