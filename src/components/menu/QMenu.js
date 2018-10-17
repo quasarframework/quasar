@@ -45,7 +45,10 @@ export default Vue.extend({
     contextMenu: Boolean,
     touchPosition: Boolean,
     persistent: Boolean,
-    autoClose: Boolean
+    autoClose: Boolean,
+
+    contentClass: [Array, String, Object],
+    contentStyle: [Array, String, Object]
   },
 
   computed: {
@@ -288,9 +291,13 @@ export default Vue.extend({
       }, [
         this.showing ? h('div', {
           staticClass: 'q-menu scroll',
+          'class': this.contentClass,
+          style: this.contentStyle,
+          attrs: this.$attrs,
           on: this.autoClose === true ? {
-            click: this.__onAutoClose
-          } : null,
+            click: this.__onAutoClose,
+            ...this.$listeners
+          } : this.$listeners,
           directives: this.persistent !== true ? [{
             name: 'click-outside',
             value: this.hide,

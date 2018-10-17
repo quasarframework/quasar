@@ -87,7 +87,7 @@
             {{ props.row.name }}
             <q-popup-edit v-model="props.row.name">
               <q-field count>
-                <q-input v-model="props.row.name" />
+                <q-input v-model="props.row.name" autofocus />
               </q-field>
             </q-popup-edit>
           </q-td>
@@ -95,7 +95,7 @@
             {{ props.row.calories }}
             <q-popup-edit v-model="props.row.calories" title="Update calories" buttons>
               <q-field count>
-                <q-input type="number" v-model="props.row.calories" />
+                <q-input type="number" v-model="props.row.calories" autofocus />
               </q-field>
             </q-popup-edit>
           </q-td>
@@ -103,7 +103,7 @@
             <div class="text-pre-wrap">{{ props.row.fat }}</div>
             <q-popup-edit v-model="props.row.fat">
               <q-field count>
-                <q-input type="textarea" v-model="props.row.fat" />
+                <q-input type="textarea" v-model="props.row.fat" autofocus />
               </q-field>
             </q-popup-edit>
           </q-td>
@@ -111,7 +111,7 @@
             {{ props.row.carbs }}
             <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent>
               <q-field count helper="Use buttons to close">
-                <q-input type="number" v-model="props.row.carbs" />
+                <q-input type="number" v-model="props.row.carbs" autofocus />
               </q-field>
             </q-popup-edit>
           </q-td>
