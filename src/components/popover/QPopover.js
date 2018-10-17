@@ -32,6 +32,7 @@ export default Vue.extend({
     persistent: Boolean,
     keepOnScreen: Boolean,
     maxHeight: String,
+    maxWidth: String,
     touchPosition: Boolean,
     anchorClick: {
       /*
@@ -228,6 +229,7 @@ export default Vue.extend({
         anchorOrigin: this.anchorOrigin,
         selfOrigin: this.selfOrigin,
         maxHeight: this.maxHeight,
+        maxWidth: this.maxWidth,
         anchorClick: this.anchorClick,
         touchPosition: this.touchPosition,
         touchOffset: this.touchOffset,
