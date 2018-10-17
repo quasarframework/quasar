@@ -115,7 +115,7 @@ export default Vue.extend({
     if (this.title) {
       child.push(
         h(QCardSection, {
-          staticClass: 'text-h6'
+          staticClass: 'q-dialog__title'
         }, [ this.title ])
       )
     }
@@ -123,21 +123,18 @@ export default Vue.extend({
     if (this.message) {
       child.push(
         h(QCardSection, {
-          staticClass: 'text-grey-7 scroll'
+          staticClass: 'q-dialog__message scroll'
         }, [ this.message ])
       )
     }
 
-    if (this.grid === true) {
-      child.push(
-        h('div', {
+    child.push(
+      this.grid === true
+        ? h('div', {
           staticClass: 'scroll row items-stretch justify-start'
         }, this.__getGrid(h))
-      )
-    }
-    else {
-      child = child.concat(this.__getList(h))
-    }
+        : h('div', { staticClass: 'scroll' }, this.__getList(h))
+    )
 
     return h(QDialog, {
       ref: 'dialog',

@@ -75,7 +75,7 @@ export default Vue.extend({
         title = this.$slots.title || this.title
 
       title && child.unshift(
-        h('div', { staticClass: 'text-h6 q-mt-sm q-mb-sm' }, [ title ])
+        h('div', { staticClass: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title ])
       )
 
       this.buttons === true && child.push(

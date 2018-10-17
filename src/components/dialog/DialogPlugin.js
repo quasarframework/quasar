@@ -195,7 +195,7 @@ export default Vue.extend({
     if (this.title) {
       child.push(
         h(QCardSection, {
-          staticClass: 'text-h6'
+          staticClass: 'q-dialog__title'
         }, [ this.title ])
       )
     }
@@ -203,7 +203,7 @@ export default Vue.extend({
     if (this.message) {
       child.push(
         h(QCardSection, {
-          staticClass: 'text-grey-7  scroll'
+          staticClass: 'q-dialog__message scroll'
         }, [ this.message ])
       )
     }
