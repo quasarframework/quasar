@@ -586,7 +586,7 @@ export default Vue.extend({
         ]))
         const content = [
           h('span', {
-            staticClass: 'col',
+            staticClass: 'col-auto',
             style: { textAlign: 'right' }
           }, [
             h('span', {
@@ -623,7 +623,7 @@ export default Vue.extend({
           h('span', { style: 'opacity:0.6;' }, [ ':' ]),
 
           h('span', {
-            staticClass: 'col row no-wrap items-center',
+            staticClass: 'col-auto row no-wrap items-center',
             style: { textAlign: 'left' }
           }, [
             h('span', {
