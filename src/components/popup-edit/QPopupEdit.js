@@ -105,13 +105,14 @@ export default Vue.extend({
   },
 
   render (h) {
+    if (this.disable === true) { return }
+
     return h(QMenu, {
       ref: 'menu',
       props: {
         contentClass: 'q-popup-edit  q-py-sm q-px-md',
         cover: true,
-        persistent: this.persistent,
-        disable: this.disable
+        persistent: this.persistent
       },
       on: {
         show: () => {

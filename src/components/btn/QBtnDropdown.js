@@ -1,10 +1,11 @@
 import Vue from 'vue'
 
 import BtnMixin from './btn-mixin.js'
+
 import QIcon from '../icon/QIcon.js'
 import QBtn from './QBtn.js'
 import QBtnGroup from './QBtnGroup.js'
-import QPopover from '../popover/QPopover.js'
+import QMenu from '../menu/QMenu.js'
 
 export default Vue.extend({
   name: 'QBtnDropdown',
@@ -14,13 +15,15 @@ export default Vue.extend({
   props: {
     value: Boolean,
     split: Boolean,
+
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object],
-    popoverAnchor: {
+
+    menuAnchor: {
       type: String,
       default: 'bottom right'
     },
-    popoverSelf: {
+    menuSelf: {
       type: String,
       default: 'top right'
     }
@@ -34,25 +37,24 @@ export default Vue.extend({
 
   watch: {
     value (val) {
-      this.$refs.popover && this.$refs.popover[val ? 'show' : 'hide']()
+      this.$refs.menu && this.$refs.menu[val ? 'show' : 'hide']()
     }
   },
 
   render (h) {
     const
-      Popover = h(
-        QPopover,
+      Menu = h(
+        QMenu,
         {
-          ref: 'popover',
+          ref: 'menu',
           props: {
             disable: this.disable,
             fit: true,
-            anchorClick: !this.split,
-            anchor: this.popoverAnchor,
-            self: this.popoverSelf
+            anchor: this.menuAnchor,
+            self: this.menuSelf,
+            contentClass: this.contentClass,
+            contentStyle: this.contentStyle
           },
-          'class': this.contentClass,
-          style: this.contentStyle,
           on: {
             show: e => {
               this.showing = true
@@ -90,7 +92,7 @@ export default Vue.extend({
             !this.disable && this.$emit('click', e)
           }
         }
-      }, this.split ? null : [ Icon, Popover ])
+      }, this.split ? null : [ Icon, Menu ])
 
     if (!this.split) {
       return Btn
@@ -125,19 +127,19 @@ export default Vue.extend({
         staticClass: 'q-btn-dropdown__arrow',
         on: { click: this.toggle }
       }, [ Icon ]),
-      [ Popover ]
+      [ Menu ]
     ])
   },
 
   methods: {
     toggle () {
-      this.$refs.popover && this.$refs.popover.toggle()
+      this.$refs.menu && this.$refs.menu.toggle()
     },
     show () {
-      this.$refs.popover && this.$refs.popover.show()
+      this.$refs.menu && this.$refs.menu.show()
     },
     hide () {
-      this.$refs.popover && this.$refs.popover.hide()
+      this.$refs.menu && this.$refs.menu.hide()
     }
   },
 
