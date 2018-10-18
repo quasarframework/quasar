@@ -37,6 +37,33 @@
       <p class="caption">Disabled State</p>
       <q-toggle v-model="checked" disable label="Toggle Label" :dark="dark" :keep-color="keepColor" />
 
+      <p class="caption">Option Group</p>
+      <q-option-group
+        inline
+        type="toggle"
+        v-model="group"
+        @change="onChange"
+        @input="onInput"
+        :dark="dark"
+        :keep-color="keepColor"
+        :options="[
+          { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+          { label: 'Option 3', value: 'op3', color: 'secondary' },
+          { label: 'Option 4', value: 'op4', color: 'tertiary' }
+        ]"
+      />
+
+      <p class="caption">Another Option Group</p>
+      <q-option-group
+        type="toggle"
+        v-model="group"
+        :options="[
+          { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2', dark, keepColor },
+          { label: 'Option 3', value: 'op3', dark, keepColor },
+          { label: 'Option 4', value: 'op4', dark, keepColor }
+        ]"
+      />
+
       <p class="caption">Inside of a List</p>
       <q-list :dark="dark">
         <q-item tag="label">

@@ -44,6 +44,35 @@
       <p class="caption">Disabled State</p>
       <q-checkbox v-model="checked" disable label="Disabled Checkbox" :dark="dark" :keep-color="keepColor" />
 
+      <p class="caption">Option Group</p>
+      <q-option-group
+        inline
+        type="checkbox"
+        color="secondary"
+        v-model="group"
+        @input="onInput"
+        :dark="dark"
+        :keep-color="keepColor"
+        :options="[
+          { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+          { label: 'Option 3', value: 'op3' },
+          { label: 'Option 4', value: 'op4' }
+        ]"
+      />
+
+      <p class="caption">Another Option Group</p>
+      <q-option-group
+        type="checkbox"
+        v-model="group"
+        @focus="onFocus"
+        @blur="onBlur"
+        :options="[
+          { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2', dark, keepColor },
+          { label: 'Option 3', value: 'op3', dark, keepColor },
+          { label: 'Option 4', value: 'op4', dark, keepColor }
+        ]"
+      />
+
       <p class="caption">Inside of a List</p>
       <q-list :dark="dark">
         <q-item tag="label">

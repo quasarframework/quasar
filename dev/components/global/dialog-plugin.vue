@@ -7,6 +7,7 @@
         <q-btn label="Prompt" flat color="primary" @click="prompt" />
         <q-btn label="Radio Options" flat color="primary" @click="radio" />
         <q-btn label="Checkbox Options" flat color="primary" @click="checkbox" />
+        <q-btn label="Toggle Options" flat color="primary" @click="toggle" />
         <q-btn label="Positioned" flat color="primary" @click="positioned" />
         <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
         <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
@@ -101,6 +102,29 @@ export default {
           type: 'checkbox',
           model: [],
           // inline: true
+          items: [
+            {label: 'Option 1', value: 'opt1', color: 'secondary'},
+            {label: 'Option 2', value: 'opt2'},
+            {label: 'Option 3', value: 'opt3'}
+          ]
+        },
+        cancel: true,
+        persistent: true
+      }).onOk(data => {
+        console.log('>>>> OK, received', data)
+      }).onCancel(() => {
+        console.log('>>>> Cancel')
+      })
+    },
+
+    toggle () {
+      this.$q.dialog({
+        title: 'Options',
+        message: 'Choose your options',
+        options: {
+          type: 'toggle',
+          model: [],
+          // inline: true,
           items: [
             {label: 'Option 1', value: 'opt1', color: 'secondary'},
             {label: 'Option 2', value: 'opt2'},

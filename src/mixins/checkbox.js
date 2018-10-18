@@ -50,7 +50,7 @@ export default {
   },
 
   methods: {
-    toggle (evt) {
+    toggle () {
       if (this.disable === true) {
         return
       }

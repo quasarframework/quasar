@@ -3,6 +3,8 @@ import Vue from 'vue'
 import QDialog from './QDialog.js'
 import QBtn from '../btn/QBtn.js'
 
+import clone from '../../utils/clone.js'
+
 import QCard from '../card/QCard.js'
 import QCardSection from '../card/QCardSection.js'
 import QCardActions from '../card/QCardActions.js'
@@ -139,7 +141,7 @@ export default Vue.extend({
             options: this.options.items
           },
           on: {
-            change: v => { this.options.model = v }
+            input: v => { this.options.model = v }
           }
         })
       ]
@@ -171,7 +173,7 @@ export default Vue.extend({
 
     onOk () {
       this.cancelled = false
-      this.$emit('ok', this.getData())
+      this.$emit('ok', clone(this.getData()))
       this.hide()
     },
 

@@ -53,7 +53,7 @@ export default Vue.extend({
 
   methods: {
     set () {
-      if (this.disable === false && this.isTrue === false) {
+      if (!this.disable && !this.isTrue) {
         this.$emit('input', this.val)
       }
     },
