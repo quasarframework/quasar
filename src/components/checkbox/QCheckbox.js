@@ -1,18 +1,15 @@
 import Vue from 'vue'
 
 import CheckboxMixin from '../../mixins/checkbox.js'
-import OptionMixin from '../../mixins/option.js'
-import QIcon from '../icon/QIcon.js'
 
 export default Vue.extend({
   name: 'QCheckbox',
 
-  mixins: [ CheckboxMixin, OptionMixin ],
+  mixins: [ CheckboxMixin ],
 
   props: {
     toggleIndeterminate: Boolean,
-    indeterminateValue: { default: null },
-    indeterminateIcon: String
+    indeterminateValue: { default: null }
   },
 
   computed: {
@@ -20,49 +17,71 @@ export default Vue.extend({
       return this.value === void 0 || this.value === this.indeterminateValue
     },
 
-    checkedStyle () {
-      return this.isTrue
-        ? {transition: 'opacity 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 800ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', opacity: 1, transform: 'scale3d(1, 1, 1)'}
-        : {transition: 'opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms', opacity: 0, transform: 'scale3d(0, 0, 1)'}
+    classes () {
+      return {
+        'disabled': this.disable,
+        'q-checkbox--dark': this.dark,
+        'reverse': this.leftLabel
+      }
     },
 
-    indeterminateStyle () {
-      return this.isIndeterminate
-        ? {transition: 'opacity 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 800ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', opacity: 1, transform: 'scale3d(1, 1, 1)'}
-        : {transition: 'opacity 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 0ms cubic-bezier(0.23, 1, 0.32, 1) 450ms', opacity: 0, transform: 'scale3d(0, 0, 1)'}
-    },
+    innerClass () {
+      const color = 'text-' + this.color
 
-    uncheckedStyle () {
-      return this.isFalse
-        ? {opacity: 1}
-        : {transition: 'opacity 650ms cubic-bezier(0.23, 1, 0.32, 1) 150ms', opacity: 0}
+      if (this.isTrue) {
+        return `q-checkbox__inner--active${this.color ? ' ' + color : ''}`
+      }
+      else if (this.isIndeterminate) {
+        return `q-checkbox__inner--indeterminate${this.color ? ' ' + color : ''}`
+      }
+      else if (this.keepColor && this.color) {
+        return color
+      }
     }
   },
 
-  methods: {
-    __getContent (h) {
-      return [
-        h(QIcon, {
-          staticClass: 'q-checkbox-icon cursor-pointer',
-          props: { name: this.uncheckedIcon || this.$q.icon.checkbox.unchecked },
-          style: this.uncheckedStyle
+  render (h) {
+    return h('div', {
+      staticClass: 'q-checkbox cursor-pointer no-outline row inline no-wrap items-center',
+      'class': this.classes,
+      attrs: { tabindex: this.computedTabindex },
+      on: {
+        click: this.toggle,
+        keydown: this.__keyDown
+      }
+    }, [
+      h('div', {
+        staticClass: 'q-checkbox__inner relative-position',
+        'class': this.innerClass
+      }, [
+        this.disable ? null : h('input', {
+          staticClass: 'q-checkbox__native q-ma-none q-pa-none invisible',
+          attrs: { type: 'checkbox' },
+          on: { change: this.toggle }
         }),
-        h(QIcon, {
-          staticClass: 'q-checkbox-icon cursor-pointer absolute-full',
-          props: { name: this.indeterminateIcon || this.$q.icon.checkbox.indeterminate },
-          style: this.indeterminateStyle
-        }),
-        h(QIcon, {
-          staticClass: 'q-checkbox-icon cursor-pointer absolute-full',
-          props: { name: this.checkedIcon || this.$q.icon.checkbox.checked },
-          style: this.checkedStyle
-        }),
-        h('div', { ref: 'ripple', staticClass: 'q-radial-ripple' })
-      ]
-    }
-  },
 
-  beforeCreate () {
-    this.__kebabTag = 'q-checkbox'
+        h('div', {
+          staticClass: 'q-checkbox__bg absolute'
+        }, [
+          h('svg', {
+            staticClass: 'q-checkbox__check fit absolute-full',
+            attrs: { viewBox: '0 0 24 24' }
+          }, [
+            h('path', {
+              attrs: {
+                fill: 'none',
+                d: 'M1.73,12.91 8.1,19.28 22.79,4.59'
+              }
+            })
+          ]),
+
+          h('div', { staticClass: 'q-checkbox__check-indet absolute' })
+        ])
+      ]),
+
+      (this.label !== void 0 || this.$slots.default !== void 0) && h('div', {
+        staticClass: 'q-checkbox__label q-menu--skip'
+      }, (this.label !== void 0 ? [ this.label ] : []).concat(this.$slots.default))
+    ])
   }
 })

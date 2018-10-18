@@ -5,11 +5,13 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { isSSR } from '../../plugins/platform.js'
+// import { isSSR } from '../../plugins/platform.js'
 
+/*
 const isIESubmit = isSSR || window.PointerEvent === void 0
   ? () => false
   : e => e instanceof PointerEvent && !e.screenX && !e.screenY
+*/
 
 export default Vue.extend({
   name: 'QBtn',
@@ -39,12 +41,14 @@ export default Vue.extend({
     click (e) {
       if (e.defaultPrevented) { return }
 
+      /*
       if (document.activeElement !== this.$el || isIESubmit(e)) {
         stopAndPrevent(e)
         e.preventRipple = true
         this.$el.focus()
         return
       }
+      */
 
       this.to !== void 0 && e && stopAndPrevent(e)
 

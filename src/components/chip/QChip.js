@@ -35,7 +35,7 @@ export default Vue.extend({
     clickable: Boolean,
     closable: Boolean,
 
-    tabindex: String,
+    tabindex: [String, Number],
     disable: Boolean
   },
 

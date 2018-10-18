@@ -1,42 +1,59 @@
 import { stopAndPrevent } from '../utils/event.js'
-import TouchSwipe from '../directives/touch-swipe.js'
 
 export default {
-  directives: {
-    TouchSwipe
-  },
   props: {
+    value: {
+      required: true
+    },
     val: {},
+
     trueValue: { default: true },
-    falseValue: { default: false }
+    falseValue: { default: false },
+
+    label: String,
+    leftLabel: Boolean,
+
+    color: String,
+    keepColor: Boolean,
+    dark: Boolean,
+
+    disable: Boolean,
+    tabindex: [String, Number]
   },
+
   computed: {
     isTrue () {
       return this.modelIsArray
         ? this.index > -1
         : this.value === this.trueValue
     },
+
     isFalse () {
       return this.modelIsArray
         ? this.index === -1
         : this.value === this.falseValue
     },
+
     index () {
       if (this.modelIsArray) {
         return this.value.indexOf(this.val)
       }
     },
+
     modelIsArray () {
       return Array.isArray(this.value)
+    },
+
+    computedTabindex () {
+      return this.disable ? -1 : this.tabindex || 0
     }
   },
+
   methods: {
-    toggle (evt, blur = true) {
-      if (this.disable || this.readonly) {
+    toggle (evt) {
+      if (this.disable === true) {
         return
       }
-      evt && stopAndPrevent(evt)
-      blur && this.$el.blur()
 
       let val
 
@@ -59,7 +76,14 @@ export default {
         val = this.falseValue
       }
 
-      this.__update(val)
+      this.$emit('input', val)
+    },
+
+    __keyDown (e) {
+      if (e.keyCode === 13 || e.keyCode === 32) {
+        stopAndPrevent(e)
+        this.toggle()
+      }
     }
   }
 }

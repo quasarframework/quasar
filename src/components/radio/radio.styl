@@ -1,21 +1,77 @@
-$radio-size = 21px
+$radio-transition = .22s cubic-bezier(0,0,.2,1) 0ms
 
-.q-radio-unchecked, .q-radio-checked, .q-radio .q-option-inner
-  height $radio-size
-  width $radio-size
-  min-width $radio-size
-  font-size $radio-size
-  transition transform .45s cubic-bezier(.23, 1, .32, 1)
-  opacity 1
+.q-radio
 
-.q-radio-unchecked
-  opacity 1
-.q-radio-checked
-  transform-origin 50% 50% 0
-  transform scale3d(0, 0, 1)
+  &__bg
+    left 10px
+    top 10px
+    width 50%
+    height 50%
 
-.q-radio .q-option-inner.active
-  .q-radio-unchecked
-    opacity 0
-  .q-radio-checked
-    transform scale3d(1, 1, 1)
+  &__outer-circle
+    border-width 2px
+    border-style solid
+    border-radius 50%
+    transition color $radio-transition
+
+  &__inner-circle
+    border-width 10px
+    border-style solid
+    border-radius 50%
+    transform scale3d(0, 0, 0)
+    transition color $radio-transition, transform $radio-transition
+
+  &__label
+    padding-left 4px
+  &.reverse &__label
+    padding-right 4px
+
+  &__inner
+    width 40px
+    height 40px
+    padding 10px
+    outline 0
+    border-radius 50%
+    color rgba(0, 0, 0, .54)
+
+    &--active
+      color $primary
+      .q-radio__inner-circle
+        transform scale3d(.5, .5, .5)
+
+  &.disabled
+    opacity 1 !important
+    .q-radio__inner, .q-radio__label
+      color rgba(0,0,0,.26)
+
+  &--dark
+    .q-radio__inner
+      color rgba(255, 255, 255, .7)
+      &:before
+        opacity .32 !important
+      &--active
+        color $primary
+
+    &.disabled
+      .q-radio__inner, .q-radio__label
+        color rgba(255,255,255,.3)
+
+body.desktop
+
+  .q-radio
+    &__inner:before
+      content ''
+      position absolute
+      top 0
+      right 0
+      bottom 0
+      left 0
+      border-radius 50%
+      background currentColor
+      opacity .12
+      transform scale3d(0, 0, 0)
+      transition transform $radio-transition
+
+    &:focus
+      .q-radio__inner:before
+        transform scale3d(1, 1, 1)

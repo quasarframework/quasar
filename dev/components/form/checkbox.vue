@@ -4,8 +4,8 @@
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{ checked }}</em></span>
       </div>
-      <q-toggle v-model="dark" label="Dark" />
-      <q-toggle v-model="keepColor" label="Keep Color" />
+      <q-toggle v-model="dark" :dark="dark" label="Dark" />
+      <q-toggle v-model="keepColor" :dark="dark" label="Keep Color" />
 
       <p class="caption">Standalone</p>
       <q-checkbox v-model="checked" checked-icon="sentiment very satisfied" unchecked-icon="sentiment very dissatisfied" indeterminate-icon="help" :dark="dark" :keep-color="keepColor" />
@@ -16,21 +16,15 @@
 
       <p class="caption">Tests</p>
       <q-checkbox @change="onChange" @input="onInput" v-model="checked" :dark="dark" :keep-color="keepColor" />
-      <br><br>
       <q-checkbox v-model="checked" label="Label" :dark="dark" :keep-color="keepColor" />
-      <br><br>
 
       <q-checkbox v-model="checked" label="Checkbox Label" :dark="dark" :keep-color="keepColor" />
-      <br><br>
       <q-checkbox v-model="checked" no-focus color="teal" label="Checkbox Label - skip focus" :dark="dark" :keep-color="keepColor" />
-      <br><br>
       <q-checkbox v-model="checked" color="orange" label="Checkbox Label" :dark="dark" :keep-color="keepColor" />
 
       <p class="caption">Label on the left side</p>
       <q-checkbox v-model="checked" color="teal" left-label label="Checkbox Label" :dark="dark" :keep-color="keepColor" />
-      <br><br>
       <q-checkbox v-model="checked" color="orange" left-label label="Checkbox Label" :dark="dark" :keep-color="keepColor" />
-      <br><br>
       <q-checkbox v-model="checked" color="dark" left-label label="Checkbox Label" :dark="dark" :keep-color="keepColor" />
 
       <p class="caption">Array Model</p>
@@ -39,12 +33,9 @@
       </div>
 
       <q-checkbox @change="onChange" v-model="selection" val="one" label="One" :dark="dark" :keep-color="keepColor" />
-      <br><br>
       <q-checkbox @change="onChange" v-model="selection" val="two" label="Two" :dark="dark" :keep-color="keepColor" />
-      <br><br>
       <q-checkbox @change="onChange" v-model="selection" val="three" label="Three" :dark="dark" :keep-color="keepColor" />
 
-      <br><br>
       <div class="label bg-secondary text-white">
         Custom true/false model value: <span class="right-detail"><em>{{ customChecked }}</em></span>
       </div>
@@ -53,77 +44,33 @@
       <p class="caption">Disabled State</p>
       <q-checkbox v-model="checked" disable label="Disabled Checkbox" :dark="dark" :keep-color="keepColor" />
 
-      <q-field
-        icon="cloud"
-        helper="Helper"
-        label="Horizontal"
-        :dark="dark"
-        error-label="Max 10 characters!"
-      >
-        <q-option-group
-          inline
-          type="checkbox"
-          color="secondary"
-          v-model="group"
-          @change="onChange"
-          @input="onInput"
-          :dark="dark"
-          :keep-color="keepColor"
-          :options="[
-            { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
-            { label: 'Option 3', value: 'op3' },
-            { label: 'Option 4', value: 'op4' }
-          ]"
-        />
-      </q-field>
-
-      <q-field
-        icon="cloud"
-        helper="Helper"
-        label="Horizontal"
-        :dark="dark"
-        error-label="Max 10 characters!"
-      >
-        <q-option-group
-          type="checkbox"
-          v-model="group"
-          @focus="onFocus"
-          @blur="onBlur"
-          :options="[
-            { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2', dark, keepColor },
-            { label: 'Option 3', value: 'op3', dark, keepColor },
-            { label: 'Option 4', value: 'op4', dark, keepColor }
-          ]"
-        />
-      </q-field>
-
       <p class="caption">Inside of a List</p>
-      <q-list link>
+      <q-list :dark="dark">
         <q-item tag="label">
-          <q-item-side>
+          <q-item-section avatar>
             <q-checkbox @change="onChange" v-model="checked" :dark="dark" :keep-color="keepColor"/>
-          </q-item-side>
-          <q-item-main>
-            <q-item-tile title>Notification</q-item-tile>
-          </q-item-main>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Notification</q-item-label>
+          </q-item-section>
         </q-item>
         <q-item tag="label">
-          <q-item-side>
+          <q-item-section avatar>
             <q-checkbox @change="onChange" v-model="checked" :dark="dark" :keep-color="keepColor"/>
-          </q-item-side>
-          <q-item-main>
-            <q-item-tile label>Notification</q-item-tile>
-            <q-item-tile sublabel>Allow notification</q-item-tile>
-          </q-item-main>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Notification</q-item-label>
+            <q-item-label caption>Allow notification</q-item-label>
+          </q-item-section>
         </q-item>
         <q-item tag="label">
-          <q-item-side>
+          <q-item-section avatar>
             <q-checkbox @change="onChange" v-model="checked" :dark="dark" :keep-color="keepColor"/>
-          </q-item-side>
-          <q-item-main>
-            <q-item-tile label>Notification</q-item-tile>
-            <q-item-tile sublabel>Allow notifications Allow notifications Allow notifications Allow notifications Allow notifications</q-item-tile>
-          </q-item-main>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label label>Notification</q-item-label>
+            <q-item-label caption>Allow notifications Allow notifications Allow notifications Allow notifications Allow notifications</q-item-label>
+          </q-item-section>
         </q-item>
       </q-list>
     </div>
