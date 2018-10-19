@@ -14,12 +14,13 @@
     background rgba(0, 0, 0, .26)
 
   &__track
-    will-change width
+    will-change width, left
     background currentColor
 
   &__track-markers
     color black
     background-image repeating-linear-gradient(to right, currentColor, currentColor 2px, transparent 0, transparent)
+
     &:after
       content ''
       position absolute
@@ -95,7 +96,7 @@
     .q-slider__thumb-container
       transition left .28s ease
     .q-slider__track
-      transition width .28s ease
+      transition width .28s ease, left .28s ease
 
   &--label
     &.q-slider--active, &.q-slider--focus, &.q-slider--label-always

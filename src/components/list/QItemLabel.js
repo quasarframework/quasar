@@ -19,7 +19,7 @@ export default Vue.extend({
         'q-item__label--overline text-overline': this.overline,
         'q-item__label--title': title,
         'q-item__label--caption text-caption': this.caption,
-        'q-item__label--header text-body2': this.header,
+        'q-item__label--header': this.header,
         'q-item__label--inset': this.inset,
         'ellipsis': parseInt(this.lines, 10) === 1
       }

@@ -508,7 +508,7 @@
 
         <q-item tag="label">
           <q-item-section side>
-            <q-checkbox v-model="check1" />
+            <q-checkbox :dark="dark" v-model="check1" />
           </q-item-section>
 
           <q-item-section>
@@ -521,7 +521,7 @@
 
         <q-item tag="label">
           <q-item-section side>
-            <q-checkbox v-model="check2" />
+            <q-checkbox :dark="dark" v-model="check2" />
           </q-item-section>
 
           <q-item-section>
@@ -534,7 +534,7 @@
 
         <q-item tag="label">
           <q-item-section side>
-            <q-checkbox v-model="check3" />
+            <q-checkbox :dark="dark" v-model="check3" />
           </q-item-section>
 
           <q-item-section>

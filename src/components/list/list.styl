@@ -10,7 +10,7 @@
   &__section
 
     &--side
-      color $grey
+      color $grey-7
       align-items flex-start
       padding-right 16px
 
@@ -39,9 +39,14 @@
       color rgba(0, 0, 0, .54)
 
     &--header
-      color rgba(0, 0, 0, .6)
-      font-weight 500 !important
-      padding 8px 16px 16px
+      color $grey-7
+      padding 16px
+      font-size 0.875rem
+      line-height 1.25rem
+      letter-spacing 0.01786em
+
+      .q-separator--spaced + &, .q-list--padding &
+        padding-top 8px
 
     &--inset
       padding-left 72px

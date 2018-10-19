@@ -316,7 +316,7 @@
               <q-toolbar>
                 <q-btn flat round dense icon="map" />
                 <q-toolbar-title>Title</q-toolbar-title>
-                <q-checkbox dark color="white" v-model="moreContent" label="Scroll" />
+                <q-checkbox dark color="yellow" v-model="moreContent" label="Scroll" />
               </q-toolbar>
             </q-page-sticky>
           </q-page>
@@ -428,11 +428,7 @@
           <div class="text-h6">Volumes</div>
         </q-card-section>
 
-        <q-item dense>
-          <q-item-section>
-            <div class="text-grey-7">Media volume</div>
-          </q-item-section>
-        </q-item>
+        <q-item-label header>Media volume</q-item-label>
         <q-item dense>
           <q-item-section avatar>
             <q-icon name="volume_up" />
@@ -442,11 +438,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item dense>
-          <q-item-section>
-            <div class="text-grey-7">Alarm volume</div>
-          </q-item-section>
-        </q-item>
+        <q-item-label header>Alarm volume</q-item-label>
         <q-item dense>
           <q-item-section avatar>
             <q-icon name="alarm" />
@@ -456,11 +448,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item dense>
-          <q-item-section>
-            <div class="text-grey-7">Ring volume</div>
-          </q-item-section>
-        </q-item>
+        <q-item-label header>Ring volume</q-item-label>
         <q-item dense>
           <q-item-section avatar>
             <q-icon name="vibration" />
