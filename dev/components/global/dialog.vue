@@ -19,6 +19,7 @@
         <q-btn label="Inception" flat color="primary" @click="inception = true" />
         <q-btn label="Non standard content" flat color="primary" @click="nonStandard = true" />
         <q-btn label="Complex card" flat color="primary" @click="complexCard = true" />
+        <q-btn label="Sliders" flat color="primary" @click="sliders = true" />
       </div>
     </div>
 
@@ -421,6 +422,56 @@
       </q-card>
     </q-dialog>
 
+    <q-dialog v-model="sliders">
+      <q-card style="width: 300px" class="q-px-sm q-pb-md">
+        <q-card-section>
+          <div class="text-h6">Volumes</div>
+        </q-card-section>
+
+        <q-item dense>
+          <q-item-section>
+            <div class="text-grey-7">Media volume</div>
+          </q-item-section>
+        </q-item>
+        <q-item dense>
+          <q-item-section avatar>
+            <q-icon name="volume_up" />
+          </q-item-section>
+          <q-item-section>
+            <q-slider color="teal" v-model="slideVol" :step="0" />
+          </q-item-section>
+        </q-item>
+
+        <q-item dense>
+          <q-item-section>
+            <div class="text-grey-7">Alarm volume</div>
+          </q-item-section>
+        </q-item>
+        <q-item dense>
+          <q-item-section avatar>
+            <q-icon name="alarm" />
+          </q-item-section>
+          <q-item-section>
+            <q-slider color="teal" v-model="slideAlarm" :step="0" />
+          </q-item-section>
+        </q-item>
+
+        <q-item dense>
+          <q-item-section>
+            <div class="text-grey-7">Ring volume</div>
+          </q-item-section>
+        </q-item>
+        <q-item dense>
+          <q-item-section avatar>
+            <q-icon name="vibration" />
+          </q-item-section>
+          <q-item-section>
+            <q-slider color="teal" v-model="slideVibration" :step="0" />
+          </q-item-section>
+        </q-item>
+      </q-card>
+    </q-dialog>
+
     <div class="text-center text-caption q-mt-xl" style="height: 1500px">Page has scroll on purpose</div>
   </div>
 </template>
@@ -456,6 +507,7 @@ export default {
       inception: false,
       nonStandard: false,
       complexCard: false,
+      sliders: false,
 
       maximizedToggle: true,
 
@@ -468,7 +520,11 @@ export default {
       slide: 1,
       lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
 
-      stars: 3
+      stars: 3,
+
+      slideVol: 39,
+      slideAlarm: 56,
+      slideVibration: 63
     }
   },
 
