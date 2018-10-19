@@ -16,6 +16,7 @@ export default Vue.extend({
 
     color: String,
     trackColor: String,
+    dark: Boolean,
 
     reverse: Boolean,
     stripe: Boolean,
@@ -32,6 +33,7 @@ export default Vue.extend({
     classes () {
       return {
         [`text-${this.color}`]: this.color,
+        'q-linear-progress--dark': this.dark,
         'q-linear-progress--reverse': this.reverse || this.query,
         'generic-border-radius': this.rounded
       }
