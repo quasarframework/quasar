@@ -1,13 +1,11 @@
 import Vue from 'vue'
 
 import {
+  getRatio,
   getModel,
-  getPercentage,
-  notDivides,
   SliderMixin
 } from './slider-utils.js'
 import { between } from '../../utils/format.js'
-import QChip from '../chip/QChip.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
 export default Vue.extend({
@@ -16,177 +14,220 @@ export default Vue.extend({
   mixins: [ SliderMixin ],
 
   props: {
-    value: Number,
-    labelValue: String
+    value: {
+      type: Number,
+      required: true
+    }
   },
 
   data () {
     return {
       model: this.value,
-      dragging: false,
-      currentPercentage: (this.value - this.min) / (this.max - this.min)
-    }
-  },
-
-  computed: {
-    percentage () {
-      if (this.snap) {
-        return (this.model - this.min) / (this.max - this.min) * 100 + '%'
-      }
-      return 100 * this.currentPercentage + '%'
-    },
-
-    displayValue () {
-      return this.labelValue !== void 0
-        ? this.labelValue
-        : this.model
+      curRatio: (this.value - this.min) / (this.max - this.min),
+      active: false,
+      preventFocus: false,
+      focus: false
     }
   },
 
   watch: {
-    value (value) {
-      if (this.dragging) {
-        return
+    value (v) {
+      this.model = v
+    }
+  },
+
+  computed: {
+    classes () {
+      return {
+        [`text-${this.color}`]: this.color,
+        [`q-slider--${this.active ? 'active' : 'animated'}`]: true,
+        'q-slider--disable': this.disable,
+        'q-slider--focus': this.preventFocus === false && this.focus,
+        'q-slider--label': this.label || this.labelAlways,
+        'q-slider--label-always': this.labelAlways
       }
-      if (value < this.min) {
-        this.model = this.min
-      }
-      else if (value > this.max) {
-        this.model = this.max
-      }
-      else {
-        this.model = value
-      }
-      this.currentPercentage = (this.model - this.min) / (this.max - this.min)
     },
 
-    min (value) {
-      if (this.model < value) {
-        this.model = value
-        return
-      }
-      this.$nextTick(this.__validateProps)
+    computedStep () {
+      return this.step === 0 ? 1 : this.step
     },
 
-    max (value) {
-      if (this.model > value) {
-        this.model = value
-        return
-      }
-      this.$nextTick(this.__validateProps)
+    ratio () {
+      return this.active === true ? this.curRatio : this.modelRatio
     },
 
-    step () {
-      this.$nextTick(this.__validateProps)
+    modelRatio () {
+      return (this.model - this.min) / (this.max - this.min)
+    },
+
+    trackStyle () {
+      return { width: (100 * this.ratio) + '%' }
+    },
+
+    thumbContainerStyle () {
+      return { left: (100 * this.ratio) + '%' }
+    },
+
+    markerStyle () {
+      return {
+        backgroundSize: 100 * this.computedStep / (this.max - this.min) + '% 2px'
+      }
     }
   },
 
   methods: {
-    __getDragging (evt) {
-      const container = this.$refs.handle
-      return {
-        left: container.getBoundingClientRect().left,
-        width: container.offsetWidth
+    __updateValue (change) {
+      if (this.model !== this.value) {
+        this.$emit('input', this.model)
+        change === true && this.$emit('change', this.model)
       }
     },
 
-    __move (event) {
-      const percentage = getPercentage(
-        event,
-        this.dragging,
-        this.$q.i18n.rtl
-      )
-
-      this.currentPercentage = percentage
-      this.model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals)
-    },
-
-    __end (event, dragging = this.dragging) {
-      const percentage = getPercentage(
+    __updatePosition (event, dragging = this.dragging) {
+      const ratio = getRatio(
         event,
         dragging,
         this.$q.i18n.rtl
       )
-      this.model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals)
-      this.currentPercentage = (this.model - this.min) / (this.max - this.min)
+
+      this.curRatio = ratio
+      this.model = getModel(ratio, this.min, this.max, this.step, this.decimals)
     },
 
-    __onKeydown (ev) {
-      const keyCode = ev.keyCode
-      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
+    __activate (evt) {
+      this.preventFocus = true
+      this.active = true
+
+      this.__updatePosition(evt, this.$el.getBoundingClientRect())
+
+      document.body.addEventListener('mouseup', this.__deactivate)
+      document.body.addEventListener('touchend', this.__deactivate)
+    },
+
+    __deactivate () {
+      this.preventFocus = false
+      this.active = false
+
+      this.__updateValue(true)
+      this.curRatio = (this.model - this.min) / (this.max - this.min)
+
+      document.body.removeEventListener('mouseup', this.__deactivate)
+      document.body.removeEventListener('touchend', this.__deactivate)
+    },
+
+    __focus () {
+      this.focus = true
+    },
+
+    __blur () {
+      this.focus = false
+    },
+
+    __keyDown (evt) {
+      if (!this.editable || ![37, 40, 39, 38].includes(evt.keyCode)) {
         return
       }
-      stopAndPrevent(ev)
+      stopAndPrevent(evt)
+
       const
-        decimals = this.computedDecimals,
-        step = ev.ctrlKey ? 10 * this.computedStep : this.computedStep,
-        offset = [37, 40].includes(keyCode) ? -step : step,
-        model = decimals ? parseFloat((this.model + offset).toFixed(decimals)) : (this.model + offset)
+        step = (evt.ctrlKey ? 10 : 1) * this.computedStep,
+        offset = [37, 40].includes(evt.keyCode) ? -step : step
+
+      let model = this.model + offset
+
+      if (this.decimals) {
+        model = parseFloat(model.toFixed(this.decimals))
+      }
 
       this.model = between(model, this.min, this.max)
-      this.currentPercentage = (this.model - this.min) / (this.max - this.min)
-      this.__update()
+      this.__updateValue()
     },
 
-    __onKeyup (ev) {
-      const keyCode = ev.keyCode
-      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
-        return
-      }
-      this.__update(true)
-    },
-
-    __validateProps () {
-      if (this.min >= this.max) {
-        console.error('Range error: min >= max', this.$el, this.min, this.max)
-      }
-      else if (notDivides((this.max - this.min) / this.step, this.computedDecimals)) {
-        console.error('Range error: step must be a divisor of max - min', this.min, this.max, this.step, this.computedDecimals)
+    __keyUp (evt) {
+      if (this.editable && [37, 40, 39, 38].includes(evt.keyCode)) {
+        this.__updateValue(true)
       }
     },
 
-    __getContent (h) {
-      return [
-        h('div', {
-          staticClass: 'q-slider-track active-track',
-          style: { width: this.percentage },
-          'class': {
-            'no-transition': this.dragging,
-            'handle-at-minimum': this.model === this.min
-          }
-        }),
-        h('div', {
-          staticClass: 'q-slider-handle',
-          style: {
-            [this.$q.i18n.rtl ? 'right' : 'left']: this.percentage,
-            borderRadius: this.square ? '0' : '50%'
-          },
-          'class': {
-            dragging: this.dragging,
-            'handle-at-minimum': !this.fillHandleAlways && this.model === this.min
-          },
-          attrs: { tabindex: this.$q.platform.is.desktop ? (this.editable ? 0 : -1) : void 0 },
-          on: {
-            keydown: this.__onKeydown,
-            keyup: this.__onKeyup
-          }
-        }, [
-          this.label || this.labelAlways
-            ? h(QChip, {
-              staticClass: 'q-slider-label no-pointer-events',
-              'class': { 'label-always': this.labelAlways },
-              props: {
-                pointing: 'down',
-                square: true,
-                dense: true,
-                color: this.labelColor
-              }
-            }, [ this.displayValue ])
-            : null,
-
-          h('div', { staticClass: 'q-slider-ring' })
-        ])
-      ]
+    __resize ({ width }) {
+      this.width = width
     }
+  },
+
+  render (h) {
+    return h('div', {
+      staticClass: 'q-slider',
+      attrs: {
+        role: 'slider',
+        'aria-valuemin': this.min,
+        'aria-valuemax': this.max,
+        'aria-valuenow': this.value,
+        'data-step': this.step,
+        'aria-disabled': this.disable,
+        tabindex: this.computedTabindex
+      },
+      'class': this.classes,
+
+      on: this.editable ? {
+        mousedown: this.__activate,
+        touchstart: this.__activate,
+        focus: this.__focus,
+        blur: this.__blur,
+        keydown: this.__keyDown,
+        keyup: this.__keyUp
+      } : null,
+
+      directives: this.editable
+        ? [{
+          name: 'touch-pan',
+          value: this.__pan,
+          modifiers: {
+            horizontal: true,
+            prevent: true,
+            stop: true
+          }
+        }]
+        : null
+    }, [
+      h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
+        h('div', {
+          staticClass: 'q-slider__track absolute-full',
+          style: this.trackStyle
+        }),
+
+        this.markers === true
+          ? h('div', {
+            staticClass: 'q-slider__track-markers absolute-full fit',
+            style: this.markerStyle
+          })
+          : null
+      ]),
+
+      h('div', {
+        staticClass: 'q-slider__thumb-container absolute non-selectable',
+        style: this.thumbContainerStyle
+      }, [
+        h('svg', {
+          staticClass: 'q-slider__thumb absolute',
+          attrs: { width: '21', height: '21' }
+        }, [
+          h('circle', {
+            attrs: {
+              cx: '10.5',
+              cy: '10.5',
+              r: '7.875'
+            }
+          })
+        ]),
+
+        this.label === true || this.labelAlways === true ? h('div', {
+          staticClass: 'q-slider__pin absolute flex flex-center'
+        }, [
+          h('span', { staticClass: 'q-slider__pin-value-marker' }, [ this.model ])
+        ]) : null,
+
+        h('div', { staticClass: 'q-slider__focus-ring' })
+      ])
+    ])
   }
 })

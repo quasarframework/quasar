@@ -92,6 +92,7 @@ export default {
           ctx.start(evt)
         }
       },
+
       mouseEnd (evt) {
         document.removeEventListener('mousemove', ctx.move, evtOpts)
         document.removeEventListener('mouseup', ctx.mouseEnd, evtOpts)
@@ -118,6 +119,7 @@ export default {
           preventDefault && evt.preventDefault()
         }
       },
+
       move (evt) {
         if (ctx.event.abort) {
           return
@@ -154,6 +156,7 @@ export default {
 
         ctx.move(evt)
       },
+
       end (evt) {
         el.classList.remove('q-touch')
         if (ctx.event.abort || !ctx.event.detected || ctx.event.isFirst) {

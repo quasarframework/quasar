@@ -11,18 +11,21 @@
       <q-slider @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label/>
       <q-slider v-model="standalone" :min="0" :max="50" square/>
 
-      <p class="caption">
-        With Floating Point Precision
-        <span class="label inline bg-secondary text-white">
-          Model <span class="right-detail"><em>{{ precision }}</em> &nbsp;&nbsp;(0.1 to 2.0, step 0.01) - decimals set to 1</span>
-        </span>
-      </p>
-      <q-slider v-model="precision" :min="0.1" :max="2" :step="0.01" :decimals="1"/>
+      <p class="caption">Label</p>
+      <q-slider label v-model="standalone" :min="0" :max="50"/>
 
       <p class="caption">
         With Floating Point Precision
         <span class="label inline bg-secondary text-white">
-          Model <span class="right-detail"><em>{{ precision }}</em> &nbsp;&nbsp;(0.1 to 2.0, step 0.01) - decimals not set (auto 2)</span>
+          Model <span class="right-detail"><em>{{ precision }}</em> &nbsp;&nbsp;(0.1 to 2.0, step 0.01)</span>
+        </span>
+      </p>
+      <q-slider v-model="precision" :min="0.1" :max="2" :step="0.01" />
+
+      <p class="caption">
+        With Floating Point Precision
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ precision }}</em> &nbsp;&nbsp;(0.1 to 2.0, step 0.01)</span>
         </span>
       </p>
       <q-slider v-model="precision" :min="0.1" :max="2" :step="0.01"/>
@@ -57,7 +60,7 @@
           Model <span class="right-detail"><em>{{ marker }}</em> &nbsp;&nbsp;(0 to 10, step 2)</span>
         </span>
       </p>
-      <q-slider v-model="marker" :min="0" :max="10" :step="2" label snap markers/>
+      <q-slider color="orange" v-model="marker" :min="0" :max="10" :step="2" label snap markers/>
 
       <p class="caption">
         Display Label Always
@@ -73,7 +76,7 @@
           Model <span class="right-detail"><em>{{ label }}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
         </span>
       </p>
-      <q-slider v-model="label" :min="-20" :max="20" :step="4" label :label-value="`${label}px`" label-always />
+      <q-slider v-model="label" markers :min="-20" :max="20" :step="4" label :label-value="`${label}px`" label-always />
 
       <p class="caption">Disabled State</p>
       <q-slider v-model="standalone" :min="0" :max="50" disable/>
@@ -97,22 +100,30 @@
       <p class="caption">Inside of a List</p>
       <q-list>
         <q-item>
-          <q-item-side icon="volume_up" />
-          <q-item-main>
+          <q-item-section avatar>
+            <q-icon name="volume_up" />
+          </q-item-section>
+          <q-item-section>
             <q-slider v-model="standalone" :min="0" :max="50" label />
-          </q-item-main>
+          </q-item-section>
         </q-item>
+
         <q-item>
-          <q-item-side icon="brightness_medium" />
-          <q-item-main>
+          <q-item-section avatar>
+            <q-icon name="brightness_medium" />
+          </q-item-section>
+          <q-item-section>
             <q-slider v-model="standalone" :min="0" :max="50" label />
-          </q-item-main>
+          </q-item-section>
         </q-item>
+
         <q-item>
-          <q-item-side icon="mic" />
-          <q-item-main>
+          <q-item-section avatar>
+            <q-icon name="mic" />
+          </q-item-section>
+          <q-item-section>
             <q-slider v-model="standalone" :min="0" :max="50" label />
-          </q-item-main>
+          </q-item-section>
         </q-item>
       </q-list>
     </div>

@@ -2,7 +2,7 @@ import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
 import TouchPan from '../../directives/touch-pan.js'
 
-export function getPercentage (evt, dragging, rtl) {
+export function getRatio (evt, dragging, rtl) {
   const
     pos = position(evt),
     val = between((pos.left - dragging.left) / dragging.width, 0, 1)
@@ -10,22 +10,15 @@ export function getPercentage (evt, dragging, rtl) {
   return rtl ? 1.0 - val : val
 }
 
-export function notDivides (res, decimals) {
-  let number = decimals
-    ? parseFloat(res.toFixed(decimals))
-    : res
+export function getModel (ratio, min, max, step, decimals) {
+  let model = min + ratio * (max - min)
 
-  return number !== parseInt(number, 10)
-}
+  if (step > 0) {
+    const modulo = (model - min) % step
+    model += (Math.abs(modulo) >= step / 2 ? (modulo < 0 ? -1 : 1) * step : 0) - modulo
+  }
 
-export function getModel (percentage, min, max, step, decimals) {
-  let
-    model = min + percentage * (max - min),
-    modulo = (model - min) % step
-
-  model += (Math.abs(modulo) >= step / 2 ? (modulo < 0 ? -1 : 1) * step : 0) - modulo
-
-  if (decimals) {
+  if (decimals > 0) {
     model = parseFloat(model.toFixed(decimals))
   }
 
@@ -36,66 +29,50 @@ export let SliderMixin = {
   directives: {
     TouchPan
   },
+
   props: {
     min: {
       type: Number,
-      default: 1
+      default: 0
     },
     max: {
       type: Number,
-      default: 5
+      default: 100
     },
     step: {
       type: Number,
-      default: 1
+      default: 1,
+      validator: v => v >= 0
     },
-    decimals: Number,
-    snap: Boolean,
-    markers: Boolean,
+
+    color: String,
+
     label: Boolean,
     labelAlways: Boolean,
-    square: Boolean,
-    color: String,
-    fillHandleAlways: Boolean,
-    error: Boolean,
-    warning: Boolean,
+    markers: Boolean,
+
+    disable: Boolean,
     readonly: Boolean,
-    disable: Boolean
+    tabindex: {
+      type: [String, Number],
+      default: 0
+    }
   },
+
   computed: {
     editable () {
       return !this.disable && !this.readonly
     },
-    classes () {
-      const cls = {
-        disabled: this.disable,
-        readonly: this.readonly,
-        'label-always': this.labelAlways,
-        'has-error': this.error,
-        'has-warning': this.warning
-      }
 
-      if (!this.error && !this.warning && this.color) {
-        cls[`text-${this.color}`] = true
-      }
+    decimals () {
+      return (String(this.step).trim('0').split('.')[1] || '').length
+    },
 
-      return cls
-    },
-    markersLen () {
-      return (this.max - this.min) / this.step + 1
-    },
-    labelColor () {
-      return this.error
-        ? 'negative'
-        : (this.warning ? 'warning' : (this.color || 'primary'))
-    },
-    computedDecimals () {
-      return this.decimals !== void 0 ? this.decimals || 0 : (String(this.step).trim('0').split('.')[1] || '').length
-    },
-    computedStep () {
-      return this.decimals !== void 0 ? 1 / Math.pow(10, this.decimals || 0) : this.step
+    computedTabindex () {
+      return this.editable ? this.tabindex : -1
     }
   },
+
   methods: {
     __pan (event) {
       if (event.isFinal) {
@@ -103,82 +80,24 @@ export let SliderMixin = {
           this.dragTimer = setTimeout(() => {
             this.dragging = false
           }, 100)
-          this.__end(event.evt)
-          this.__update(true)
+          this.__updatePosition(event.evt)
+          this.curRatio = (this.model - this.min) / (this.max - this.min)
+          this.__updateValue(true)
         }
       }
       else if (event.isFirst) {
         clearTimeout(this.dragTimer)
-        this.dragging = this.__getDragging(event.evt)
+        this.dragging = this.$el.getBoundingClientRect()
       }
       else if (this.dragging) {
-        this.__move(event.evt)
-        this.__update()
+        this.__updatePosition(event.evt)
+        this.__updateValue()
       }
-    },
-    __update (change) {
-      if (JSON.stringify(this.model) === JSON.stringify(this.value)) {
-        return
-      }
-      this.$emit('input', this.model)
-      change && JSON.stringify(this.model) !== JSON.stringify(this.value) && this.$emit('change', this.model)
-    },
-    __click (event) {
-      if (!this.dragging) {
-        const dragging = this.__getDragging(event)
-        if (dragging) {
-          this.__end(event, dragging)
-          this.__update(true)
-        }
-      }
-    },
-    __getMarkers (h) {
-      if (!this.markers) {
-        return
-      }
-
-      const markers = []
-
-      for (let i = 0; i < this.markersLen; i++) {
-        markers.push(h('div', {
-          staticClass: 'q-slider-mark',
-          key: `marker${i}`,
-          style: {
-            left: `${i * 100 * this.step / (this.max - this.min)}%`
-          }
-        }))
-      }
-
-      return markers
     }
   },
-  created () {
-    this.__validateProps()
-  },
-  render (h) {
-    return h('div', {
-      staticClass: 'q-slider non-selectable',
-      'class': this.classes,
-      on: this.editable ? { click: this.__click } : null,
-      directives: this.editable
-        ? [{
-          name: 'touch-pan',
-          modifiers: {
-            horizontal: true,
-            prevent: true,
-            stop: true
-          },
-          value: this.__pan
-        }]
-        : null
-    }, [
-      h('div', {
-        ref: 'handle',
-        staticClass: 'q-slider-handle-container'
-      }, [
-        h('div', { staticClass: 'q-slider-track' }),
-        this.__getMarkers(h)
-      ].concat(this.__getContent(h)))
-    ])
+
+  beforeDestroy () {
+    clearTimeout(this.dragTimer)
+    this.__deactivate()
   }
 }
