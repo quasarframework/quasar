@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div class="q-layout-padding">
+    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
+      <q-toggle v-model="dark" :dark="dark" label="Dark" />
 
       <p class="caption">
         Standalone
@@ -8,9 +9,17 @@
           Model <span class="right-detail"><em>{{ standalone.min }} to {{ standalone.max }}</em> &nbsp;&nbsp;(0 to 50)</span>
         </span>
       </p>
-      <q-range @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50"/>
-      <q-range @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label/>
-      <q-range v-model="standalone" :min="0" :max="50" square/>
+      <q-range :dark="dark" @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50"/>
+      <q-range :dark="dark" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label/>
+      <q-range :dark="dark" v-model="standalone" :min="0" :max="50" />
+
+      <p class="caption">
+        Step 0
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ stepZero.min }} to {{ stepZero.max }}</em> &nbsp;&nbsp;(0 to 100)</span>
+        </span>
+      </p>
+      <q-range :dark="dark" v-model="stepZero" :step="0" />
 
       <p class="caption">
         With Floating Point Precision
@@ -18,7 +27,7 @@
           Model <span class="right-detail"><em>{{ precision }}</em> &nbsp;&nbsp;(0.1 to 2.0, step 0.01) - decimals set to 1</span>
         </span>
       </p>
-      <q-range v-model="precision" :min="0.1" :max="2" :step="0.01" :decimals="1"/>
+      <q-range :dark="dark" v-model="precision" :min="0.1" :max="2" :step="0.01" />
 
       <p class="caption">
         With Floating Point Precision
@@ -26,7 +35,7 @@
           Model <span class="right-detail"><em>{{ precision }}</em> &nbsp;&nbsp;(0.1 to 2.0, step 0.01) - decimals not set (auto 2)</span>
         </span>
       </p>
-      <q-range v-model="precision" :min="0.1" :max="2" :step="0.01"/>
+      <q-range :dark="dark" v-model="precision" :min="0.1" :max="2" :step="0.01"/>
 
       <p class="caption">
         With Label
@@ -34,7 +43,7 @@
           Model <span class="right-detail"><em>{{ label.min }} to {{ label.max }}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
         </span>
       </p>
-      <q-range v-model="label" :min="-20" :max="20" :step="4" label/>
+      <q-range :dark="dark" v-model="label" :min="-20" :max="20" :step="4" label/>
 
       <p class="caption">
         With Step
@@ -42,7 +51,7 @@
           Model <span class="right-detail"><em>{{ step.min }} to {{ step.max }}</em> &nbsp;&nbsp;(0 to 45, step 5)</span>
         </span>
       </p>
-      <q-range v-model="step" :min="0" :max="45" :step="5" label/>
+      <q-range :dark="dark" v-model="step" :min="0" :max="45" :step="5" label/>
 
       <p class="caption">
         Snap to Step
@@ -50,7 +59,7 @@
           Model <span class="right-detail"><em>{{ snap.min }} to {{ snap.max }}</em> &nbsp;&nbsp;(0 to 10, step 2)</span>
         </span>
       </p>
-      <q-range v-model="snap" :min="0" :max="10" :step="2" label snap/>
+      <q-range :dark="dark" v-model="snap" :min="0" :max="10" :step="2" label snap/>
 
       <p class="caption">
         With Markers + Snap to Step
@@ -58,7 +67,7 @@
           Model <span class="right-detail"><em>{{ marker.min }} to {{ marker.max }}</em> &nbsp;&nbsp;(-6 to 10, step 2)</span>
         </span>
       </p>
-      <q-range v-model="marker" :min="-6" :max="10" :step="2" label snap markers/>
+      <q-range :dark="dark" v-model="marker" :min="-6" :max="10" :step="2" label snap markers/>
 
       <p class="caption">
         Display Label Always
@@ -66,7 +75,7 @@
           Model <span class="right-detail"><em>{{ label.min }} to {{ label.max }}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
         </span>
       </p>
-      <q-range v-model="label" :min="-20" :max="20" :step="4" label-always/>
+      <q-range :dark="dark" v-model="label" :min="-20" :max="20" :step="4" label-always/>
 
       <p class="caption">
         With custom values for labels
@@ -74,7 +83,7 @@
           Model <span class="right-detail"><em>{{ label.min }} to {{ label.max }}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
         </span>
       </p>
-      <q-range v-model="label" :min="-20" :max="20" :step="4" label-always :left-label-value="`${label.min}px`" :right-label-value="`${label.max}px`"/>
+      <q-range :dark="dark" v-model="label" :min="-20" :max="20" :step="4" label-always :left-label-value="`${label.min}px`" :right-label-value="`${label.max}px`"/>
 
       <p class="caption">
         Drag Range
@@ -82,8 +91,8 @@
           Model <span class="right-detail"><em>{{ range.min }} to {{ range.max }}</em> &nbsp;&nbsp;(0 to 100, step 1)</span>
         </span>
       </p>
-      <q-range @change="onChange" @input="onInput" v-model="range" :min="0" :max="100" label drag-range/>
-      <q-range @change="val => { range = val; onChange(val); }" @input="onInput" :value="range" :min="0" :max="100" label drag-range/>
+      <q-range :dark="dark" @change="onChange" @input="onInput" v-model="range" :min="0" :max="100" label drag-range/>
+      <q-range :dark="dark" @change="val => { range = val; onChange(val); }" @input="onInput" :value="range" :min="0" :max="100" label drag-range/>
 
       <p class="caption">
         Drag Range + Snap to Step
@@ -91,7 +100,7 @@
           Model <span class="right-detail"><em>{{ rangeSnap.min }} to {{ rangeSnap.max }}</em> &nbsp;&nbsp;(0 to 100, step 5)</span>
         </span>
       </p>
-      <q-range v-model="rangeSnap" :min="0" :max="100" :step="5" drag-range label markers snap/>
+      <q-range :dark="dark" v-model="rangeSnap" :min="0" :max="100" :step="5" drag-range label markers snap/>
 
       <p class="caption">
         Drag Only Range (Fixed Interval)
@@ -99,33 +108,37 @@
           Model <span class="right-detail"><em>{{ onlyRange.min }} to {{ onlyRange.max }}</em> &nbsp;&nbsp;(0 to 100, step 5)</span>
         </span>
       </p>
-      <q-range v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range label/>
+      <q-range :dark="dark" v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range label/>
 
       <p class="caption">Disabled State</p>
-      <q-range v-model="standalone" :min="0" :max="50" disable/>
+      <q-range :dark="dark" v-model="standalone" :min="0" :max="50" disable/>
 
       <p class="caption">Error State</p>
-      <q-range error v-model="standalone" :min="0" :max="50"/>
-      <q-range error label-always v-model="standalone" :min="0" :max="50" left-label-color="secondary" right-label-color="grey-8"/>
+      <q-range :dark="dark" error v-model="standalone" :min="0" :max="50"/>
+      <q-range :dark="dark" error label-always v-model="standalone" :min="0" :max="50" left-label-color="secondary" right-label-color="grey-8"/>
 
       <p class="caption">Coloring</p>
-      <q-range color="secondary" v-model="standalone" :min="0" :max="50" label/>
-      <q-range color="orange" v-model="standalone" :min="0" :max="50" label/>
-      <q-range color="dark" v-model="standalone" :min="0" :max="50" label/>
+      <q-range :dark="dark" color="secondary" v-model="standalone" :min="0" :max="50" label/>
+      <q-range :dark="dark" color="orange" v-model="standalone" :min="0" :max="50" label/>
+      <q-range :dark="dark" color="dark" v-model="standalone" :min="0" :max="50" label/>
 
       <p class="caption">Inside of a List</p>
       <q-list>
         <q-item>
-          <q-item-side icon="local_atm" />
-          <q-item-main>
-            <q-range v-model="standalone" :min="0" :max="50" label />
-          </q-item-main>
+          <q-item-section avatar>
+            <q-icon name="local_atm" />
+          </q-item-section>
+          <q-item-section>
+            <q-range :dark="dark" v-model="standalone" :min="0" :max="50" label />
+          </q-item-section>
         </q-item>
         <q-item>
-          <q-item-side icon="euro symbol" />
-          <q-item-main>
-            <q-range v-model="standalone" :min="0" :max="50" label />
-          </q-item-main>
+          <q-item-section avatar>
+            <q-icon name="euro_symbol" />
+          </q-item-section>
+          <q-item-section>
+            <q-range :dark="dark" v-model="standalone" :min="0" :max="50" label />
+          </q-item-section>
         </q-item>
       </q-list>
     </div>
@@ -136,9 +149,16 @@
 export default {
   data () {
     return {
+      dark: false,
+
       standalone: {
         min: 10,
         max: 35
+      },
+
+      stepZero: {
+        min: 34.05,
+        max: 64.023
       },
 
       precision: {

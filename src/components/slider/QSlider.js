@@ -5,6 +5,7 @@ import {
   getModel,
   SliderMixin
 } from './slider-utils.js'
+
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
@@ -23,35 +24,25 @@ export default Vue.extend({
   data () {
     return {
       model: this.value,
-      curRatio: (this.value - this.min) / (this.max - this.min),
-      active: false,
-      preventFocus: false,
-      focus: false
+      curRatio: (this.value - this.min) / (this.max - this.min)
     }
   },
 
   watch: {
     value (v) {
-      this.model = v
+      this.model = between(v, this.min, this.max)
+    },
+
+    min (v) {
+      this.model = between(this.model, v, this.max)
+    },
+
+    max (v) {
+      this.model = between(this.model, this.min, v)
     }
   },
 
   computed: {
-    classes () {
-      return {
-        [`text-${this.color}`]: this.color,
-        [`q-slider--${this.active ? 'active' : 'animated'}`]: true,
-        'q-slider--disable': this.disable,
-        'q-slider--focus': this.preventFocus === false && this.focus,
-        'q-slider--label': this.label || this.labelAlways,
-        'q-slider--label-always': this.labelAlways
-      }
-    },
-
-    computedStep () {
-      return this.step === 0 ? 1 : this.step
-    },
-
     ratio () {
       return this.active === true ? this.curRatio : this.modelRatio
     },
@@ -64,14 +55,8 @@ export default Vue.extend({
       return { width: (100 * this.ratio) + '%' }
     },
 
-    thumbContainerStyle () {
+    thumbStyle () {
       return { left: (100 * this.ratio) + '%' }
-    },
-
-    markerStyle () {
-      return {
-        backgroundSize: 100 * this.computedStep / (this.max - this.min) + '% 2px'
-      }
     }
   },
 
@@ -81,6 +66,14 @@ export default Vue.extend({
         this.$emit('input', this.model)
         change === true && this.$emit('change', this.model)
       }
+
+      if (change === true) {
+        this.curRatio = (this.model - this.min) / (this.max - this.min)
+      }
+    },
+
+    __getDragging () {
+      return this.$el.getBoundingClientRect()
     },
 
     __updatePosition (event, dragging = this.dragging) {
@@ -94,39 +87,11 @@ export default Vue.extend({
       this.model = getModel(ratio, this.min, this.max, this.step, this.decimals)
     },
 
-    __activate (evt) {
-      this.preventFocus = true
-      this.active = true
-
-      this.__updatePosition(evt, this.$el.getBoundingClientRect())
-
-      document.body.addEventListener('mouseup', this.__deactivate)
-      document.body.addEventListener('touchend', this.__deactivate)
-    },
-
-    __deactivate () {
-      this.preventFocus = false
-      this.active = false
-
-      this.__updateValue(true)
-      this.curRatio = (this.model - this.min) / (this.max - this.min)
-
-      document.body.removeEventListener('mouseup', this.__deactivate)
-      document.body.removeEventListener('touchend', this.__deactivate)
-    },
-
-    __focus () {
-      this.focus = true
-    },
-
-    __blur () {
-      this.focus = false
-    },
-
-    __keyDown (evt) {
-      if (!this.editable || ![37, 40, 39, 38].includes(evt.keyCode)) {
+    __keydown (evt) {
+      if (![37, 40, 39, 38].includes(evt.keyCode)) {
         return
       }
+
       stopAndPrevent(evt)
 
       const
@@ -141,16 +106,6 @@ export default Vue.extend({
 
       this.model = between(model, this.min, this.max)
       this.__updateValue()
-    },
-
-    __keyUp (evt) {
-      if (this.editable && [37, 40, 39, 38].includes(evt.keyCode)) {
-        this.__updateValue(true)
-      }
-    },
-
-    __resize ({ width }) {
-      this.width = width
     }
   },
 
@@ -167,27 +122,16 @@ export default Vue.extend({
         tabindex: this.computedTabindex
       },
       'class': this.classes,
-
-      on: this.editable ? {
-        mousedown: this.__activate,
-        touchstart: this.__activate,
-        focus: this.__focus,
-        blur: this.__blur,
-        keydown: this.__keyDown,
-        keyup: this.__keyUp
-      } : null,
-
-      directives: this.editable
-        ? [{
-          name: 'touch-pan',
-          value: this.__pan,
-          modifiers: {
-            horizontal: true,
-            prevent: true,
-            stop: true
-          }
-        }]
-        : null
+      on: this.events,
+      directives: this.editable ? [{
+        name: 'touch-pan',
+        value: this.__pan,
+        modifiers: {
+          horizontal: true,
+          prevent: true,
+          stop: true
+        }
+      }] : null
     }, [
       h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
         h('div', {
@@ -205,7 +149,7 @@ export default Vue.extend({
 
       h('div', {
         staticClass: 'q-slider__thumb-container absolute non-selectable',
-        style: this.thumbContainerStyle
+        style: this.thumbStyle
       }, [
         h('svg', {
           staticClass: 'q-slider__thumb absolute',

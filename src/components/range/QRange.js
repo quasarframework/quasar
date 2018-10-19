@@ -1,14 +1,13 @@
 import Vue from 'vue'
 
-import { stopAndPrevent } from '../../utils/event.js'
-import { between } from '../../utils/format.js'
 import {
+  getRatio,
   getModel,
-  getPercentage,
-  notDivides,
   SliderMixin
 } from '../slider/slider-utils.js'
-import QChip from '../chip/QChip.js'
+
+import { stopAndPrevent } from '../../utils/event.js'
+import { between } from '../../utils/format.js'
 
 const dragType = {
   MIN: 0,
@@ -28,150 +27,155 @@ export default Vue.extend({
         min: 0,
         max: 0
       }),
-      validator (value) {
-        return value.hasOwnProperty('min') && value.hasOwnProperty('max')
+      validator (val) {
+        return 'min' in val && 'max' in val
       }
     },
+
     dragRange: Boolean,
     dragOnlyRange: Boolean,
+
+    labelColor: String,
     leftLabelColor: String,
-    leftLabelValue: String,
-    rightLabelColor: String,
-    rightLabelValue: String
+    rightLabelColor: String
   },
 
   data () {
     return {
       model: Object.assign({}, this.value),
-      dragging: false,
-      currentMinPercentage: (this.value.min - this.min) / (this.max - this.min),
-      currentMaxPercentage: (this.value.max - this.min) / (this.max - this.min)
-    }
-  },
-
-  computed: {
-    percentageMin () {
-      return this.snap ? (this.model.min - this.min) / (this.max - this.min) : this.currentMinPercentage
-    },
-
-    percentageMax () {
-      return this.snap ? (this.model.max - this.min) / (this.max - this.min) : this.currentMaxPercentage
-    },
-
-    activeTrackWidth () {
-      return 100 * (this.percentageMax - this.percentageMin) + '%'
-    },
-
-    leftDisplayValue () {
-      return this.leftLabelValue !== void 0
-        ? this.leftLabelValue
-        : this.model.min
-    },
-
-    rightDisplayValue () {
-      return this.rightLabelValue !== void 0
-        ? this.rightLabelValue
-        : this.model.max
-    },
-
-    leftTooltipColor () {
-      return this.leftLabelColor || this.labelColor
-    },
-
-    rightTooltipColor () {
-      return this.rightLabelColor || this.labelColor
+      curMinRatio: (this.value.min - this.min) / (this.max - this.min),
+      curMaxRatio: (this.value.max - this.min) / (this.max - this.min)
     }
   },
 
   watch: {
-    'value.min' (value) {
-      this.model.min = value
+    'value.min' (val) {
+      this.model.min = val
     },
 
-    'value.max' (value) {
-      this.model.max = value
-    },
-
-    'model.min' (value) {
-      if (this.dragging) {
-        return
-      }
-      if (value > this.model.max) {
-        value = this.model.max
-      }
-      this.currentMinPercentage = (value - this.min) / (this.max - this.min)
-    },
-
-    'model.max' (value) {
-      if (this.dragging) {
-        return
-      }
-      if (value < this.model.min) {
-        value = this.model.min
-      }
-      this.currentMaxPercentage = (value - this.min) / (this.max - this.min)
+    'value.max' (val) {
+      this.model.max = val
     },
 
     min (value) {
       if (this.model.min < value) {
-        this.__update({min: value})
+        this.model.min = value
       }
       if (this.model.max < value) {
-        this.__update({max: value})
+        this.model.max = value
       }
-      this.$nextTick(this.__validateProps)
     },
 
     max (value) {
+      let update = false
+
       if (this.model.min > value) {
-        this.__update({min: value})
+        this.model.min = value
+        update = true
       }
       if (this.model.max > value) {
-        this.__update({max: value})
+        this.model.max = value
       }
-      this.$nextTick(this.__validateProps)
+
+      if (update === true) {
+      }
+    }
+  },
+
+  computed: {
+    ratioMin () {
+      return this.active === true ? this.curMinRatio : this.modelMinRatio
     },
 
-    step () {
-      this.$nextTick(this.__validateProps)
+    ratioMax () {
+      return this.active === true ? this.curMaxRatio : this.modelMaxRatio
+    },
+
+    modelMinRatio () {
+      return (this.model.min - this.min) / (this.max - this.min)
+    },
+
+    modelMaxRatio () {
+      return (this.model.max - this.min) / (this.max - this.min)
+    },
+
+    trackStyle () {
+      return {
+        left: 100 * this.ratioMin + '%',
+        width: 100 * (this.ratioMax - this.ratioMin) + '%'
+      }
+    },
+
+    minThumbStyle () {
+      return { left: (100 * this.ratioMin) + '%' }
+    },
+
+    maxThumbStyle () {
+      return { left: (100 * this.ratioMax) + '%' }
+    },
+
+    leftColor () {
+      const color = this.leftLabelColor || this.labelColor
+      if (color) {
+        return `text-${color}`
+      }
+    },
+
+    rightColor () {
+      const color = this.rightLabelColor || this.labelColor
+      if (color) {
+        return `text-${color}`
+      }
     }
   },
 
   methods: {
+    __updateValue (change) {
+      if (this.model.min !== this.value.min || this.model.max !== this.value.max) {
+        this.$emit('input', this.model)
+        change === true && this.$emit('change', this.model)
+      }
+
+      if (change === true) {
+        const diff = (this.max - this.min)
+        this.curMinRatio = (this.model.min - this.min) / diff
+        this.curMaxRatio = (this.model.max - this.min) / diff
+      }
+    },
+
     __getDragging (event) {
       let
-        container = this.$refs.handle,
-        width = container.offsetWidth,
-        sensitivity = (this.dragOnlyRange ? -1 : 1) * this.$refs.handleMin.offsetWidth / (2 * width)
+        { left, width } = this.$el.getBoundingClientRect(),
+        sensitivity = (this.dragOnlyRange ? -1 : 1) * this.$refs.minThumb.offsetWidth / (2 * width)
 
       let dragging = {
-        left: container.getBoundingClientRect().left,
+        left,
         width,
         valueMin: this.model.min,
         valueMax: this.model.max,
-        percentageMin: this.currentMinPercentage,
-        percentageMax: this.currentMaxPercentage
+        ratioMin: this.curMinRatio,
+        ratioMax: this.curMaxRatio
       }
 
       let
-        percentage = getPercentage(event, dragging, this.$q.i18n.rtl),
+        ratio = getRatio(event, dragging, this.$q.i18n.rtl),
         type
 
-      if (percentage < this.currentMinPercentage + sensitivity) {
+      if (ratio < this.curMinRatio + sensitivity) {
         type = dragType.MIN
       }
-      else if (percentage < this.currentMaxPercentage - sensitivity) {
+      else if (ratio < this.curMaxRatio - sensitivity) {
         if (this.dragRange || this.dragOnlyRange) {
           type = dragType.RANGE
           Object.assign(dragging, {
-            offsetPercentage: percentage,
-            offsetModel: getModel(percentage, this.min, this.max, this.step, this.computedDecimals),
+            offsetRatio: ratio,
+            offsetModel: getModel(ratio, this.min, this.max, this.step, this.decimals),
             rangeValue: dragging.valueMax - dragging.valueMin,
-            rangePercentage: this.currentMaxPercentage - this.currentMinPercentage
+            rangeRatio: this.curMaxRatio - this.curMinRatio
           })
         }
         else {
-          type = this.currentMaxPercentage - percentage < percentage - this.currentMinPercentage
+          type = this.curMaxRatio - ratio < ratio - this.curMinRatio
             ? dragType.MAX
             : dragType.MIN
         }
@@ -188,26 +192,26 @@ export default Vue.extend({
       return dragging
     },
 
-    __move (event, dragging = this.dragging) {
+    __updatePosition (event, dragging = this.dragging) {
       let
-        percentage = getPercentage(event, dragging, this.$q.i18n.rtl),
-        model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals),
+        ratio = getRatio(event, dragging, this.$q.i18n.rtl),
+        model = getModel(ratio, this.min, this.max, this.step, this.decimals),
         pos
 
       switch (dragging.type) {
         case dragType.MIN:
-          if (percentage <= dragging.percentageMax) {
+          if (ratio <= dragging.ratioMax) {
             pos = {
-              minP: percentage,
-              maxP: dragging.percentageMax,
+              minP: ratio,
+              maxP: dragging.ratioMax,
               min: model,
               max: dragging.valueMax
             }
           }
           else {
             pos = {
-              minP: dragging.percentageMax,
-              maxP: percentage,
+              minP: dragging.ratioMax,
+              maxP: ratio,
               min: dragging.valueMax,
               max: model
             }
@@ -215,18 +219,18 @@ export default Vue.extend({
           break
 
         case dragType.MAX:
-          if (percentage >= dragging.percentageMin) {
+          if (ratio >= dragging.ratioMin) {
             pos = {
-              minP: dragging.percentageMin,
-              maxP: percentage,
+              minP: dragging.ratioMin,
+              maxP: ratio,
               min: dragging.valueMin,
               max: model
             }
           }
           else {
             pos = {
-              minP: percentage,
-              maxP: dragging.percentageMin,
+              minP: ratio,
+              maxP: dragging.ratioMin,
               min: model,
               max: dragging.valueMin
             }
@@ -235,133 +239,122 @@ export default Vue.extend({
 
         case dragType.RANGE:
           let
-            percentageDelta = percentage - dragging.offsetPercentage,
-            minP = between(dragging.percentageMin + percentageDelta, 0, 1 - dragging.rangePercentage),
+            ratioDelta = ratio - dragging.offsetRatio,
+            minP = between(dragging.ratioMin + ratioDelta, 0, 1 - dragging.rangeRatio),
             modelDelta = model - dragging.offsetModel,
             min = between(dragging.valueMin + modelDelta, this.min, this.max - dragging.rangeValue)
 
           pos = {
             minP,
-            maxP: minP + dragging.rangePercentage,
-            min: parseFloat(min.toFixed(this.computedDecimals)),
-            max: parseFloat((min + dragging.rangeValue).toFixed(this.computedDecimals))
+            maxP: minP + dragging.rangeRatio,
+            min: parseFloat(min.toFixed(this.decimals)),
+            max: parseFloat((min + dragging.rangeValue).toFixed(this.decimals))
           }
           break
       }
 
-      this.currentMinPercentage = pos.minP
-      this.currentMaxPercentage = pos.maxP
+      this.curMinRatio = pos.minP
+      this.curMaxRatio = pos.maxP
       this.model = {
         min: pos.min,
         max: pos.max
       }
     },
 
-    __end (event, dragging = this.dragging) {
-      this.__move(event, dragging)
-      this.currentMinPercentage = (this.model.min - this.min) / (this.max - this.min)
-      this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
-    },
-
-    __onKeydown (ev, type) {
-      const keyCode = ev.keyCode
-      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
+    __keydown (evt, which) {
+      if (![37, 40, 39, 38].includes(evt.keyCode)) {
         return
       }
-      stopAndPrevent(ev)
+
+      stopAndPrevent(evt)
+
       const
-        decimals = this.computedDecimals,
-        step = ev.ctrlKey ? 10 * this.computedStep : this.computedStep,
-        offset = [37, 40].includes(keyCode) ? -step : step,
-        model = decimals ? parseFloat((this.model[type] + offset).toFixed(decimals)) : (this.model[type] + offset)
+        step = (evt.ctrlKey ? 10 : 1) * this.computedStep,
+        offset = [37, 40].includes(evt.keyCode) ? -step : step
 
-      this.model[type] = between(model, type === 'min' ? this.min : this.model.min, type === 'max' ? this.max : this.model.max)
-      this.currentMinPercentage = (this.model.min - this.min) / (this.max - this.min)
-      this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
-      this.__update()
+      let model = this.model[which] + offset
+
+      if (this.decimals) {
+        model = parseFloat(model.toFixed(this.decimals))
+      }
+
+      this.model[which] = between(
+        model,
+        which === 'min' ? this.min : this.model.min,
+        which === 'max' ? this.max : this.model.max
+      )
+      this.__updateValue()
     },
 
-    __onKeyup (ev) {
-      const keyCode = ev.keyCode
-      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
-        return
-      }
-      this.__update(true)
-    },
-
-    __validateProps () {
-      if (this.min >= this.max) {
-        console.error('Range error: min >= max', this.$el, this.min, this.max)
-      }
-      else if (notDivides((this.max - this.min) / this.step, this.computedDecimals)) {
-        console.error('Range error: step must be a divisor of max - min', this.min, this.max, this.step)
-      }
-      else if (notDivides((this.model.min - this.min) / this.step, this.computedDecimals)) {
-        console.error('Range error: step must be a divisor of initial value.min - min', this.model.min, this.min, this.step)
-      }
-      else if (notDivides((this.model.max - this.min) / this.step, this.computedDecimals)) {
-        console.error('Range error: step must be a divisor of initial value.max - min', this.model.max, this.max, this.step)
-      }
-    },
-
-    __getHandle (h, lower, upper, edge, percentage, color, label) {
+    __getThumb (h, which) {
       return h('div', {
-        ref: `handle${upper}`,
-        staticClass: `q-slider-handle q-slider-handle-${lower}`,
-        style: {
-          [this.$q.i18n.rtl ? 'right' : 'left']: `${percentage * 100}%`,
-          borderRadius: this.square ? '0' : '50%'
-        },
-        'class': [
-          edge ? 'handle-at-minimum' : null,
-          { dragging: this.dragging }
-        ],
-        attrs: { tabindex: this.$q.platform.is.desktop ? (this.editable ? 0 : -1) : void 0 },
-        on: {
-          keydown: ev => this.__onKeydown(ev, lower),
-          keyup: ev => this.__onKeyup(ev, lower)
-        }
+        ref: which + 'Thumb',
+        staticClass: 'q-slider__thumb-container absolute non-selectable',
+        style: this[which + 'ThumbStyle']
       }, [
-        this.label || this.labelAlways
-          ? h(QChip, {
-            props: {
-              pointing: 'down',
-              square: true,
-              dense: true,
-              color
-            },
-            staticClass: 'q-slider-label no-pointer-events',
-            'class': { 'label-always': this.labelAlways }
-          }, [ label ])
-          : null,
+        h('svg', {
+          staticClass: 'q-slider__thumb absolute',
+          attrs: { width: '21', height: '21' }
+        }, [
+          h('circle', {
+            attrs: {
+              cx: '10.5',
+              cy: '10.5',
+              r: '7.875'
+            }
+          })
+        ]),
 
-        h('div', { staticClass: 'q-slider-ring' })
+        this.label === true || this.labelAlways === true ? h('div', {
+          staticClass: 'q-slider__pin absolute flex flex-center'
+        }, [
+          h('span', { staticClass: 'q-slider__pin-value-marker' }, [ this.model[which] ])
+        ]) : null,
+
+        h('div', { staticClass: 'q-slider__focus-ring' })
       ])
-    },
+    }
+  },
 
-    __getContent (h) {
-      return [
+  render (h) {
+    return h('div', {
+      staticClass: 'q-slider',
+      attrs: {
+        role: 'slider',
+        'aria-valuemin': this.min,
+        'aria-valuemax': this.max,
+        'data-step': this.step,
+        'aria-disabled': this.disable,
+        tabindex: this.computedTabindex
+      },
+      'class': this.classes,
+      on: this.events,
+      directives: this.editable ? [{
+        name: 'touch-pan',
+        value: this.__pan,
+        modifiers: {
+          horizontal: true,
+          prevent: true,
+          stop: true
+        }
+      }] : null
+    }, [
+      h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
         h('div', {
-          staticClass: 'q-slider-track active-track',
-          style: {
-            [this.$q.i18n.rtl ? 'right' : 'left']: `${this.percentageMin * 100}%`,
-            width: this.activeTrackWidth
-          },
-          'class': {
-            dragging: this.dragging,
-            'track-draggable': this.dragRange || this.dragOnlyRange
-          }
+          staticClass: 'q-slider__track absolute-full',
+          style: this.trackStyle
         }),
 
-        this.__getHandle(
-          h, 'min', 'Min', !this.fillHandleAlways && this.model.min === this.min, this.percentageMin,
-          this.leftTooltipColor, this.leftDisplayValue
-        ),
-        this.__getHandle(
-          h, 'max', 'Max', false, this.percentageMax,
-          this.rightTooltipColor, this.rightDisplayValue
-        )
-      ]
-    }
+        this.markers === true
+          ? h('div', {
+            staticClass: 'q-slider__track-markers absolute-full fit',
+            style: this.markerStyle
+          })
+          : null
+      ]),
+
+      this.__getThumb(h, 'min'),
+      this.__getThumb(h, 'max')
+    ])
   }
 })
