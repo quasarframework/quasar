@@ -137,7 +137,6 @@ export default Vue.extend({
       h('svg', {
         style: this.svgStyle,
         attrs: {
-          xmlns: 'http://www.w3.org/2000/svg',
           viewBox: this.viewBoxAttr
         }
       }, [
