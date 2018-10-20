@@ -114,6 +114,44 @@ export default Vue.extend({
       return { left: (100 * this.ratioMax) + '%' }
     },
 
+    minThumbClass () {
+      return this.preventFocus === false && this.focus === 'min' ? 'q-slider--focus' : null
+    },
+
+    maxThumbClass () {
+      return this.preventFocus === false && this.focus === 'max' ? 'q-slider--focus' : null
+    },
+
+    events () {
+      if (this.editable) {
+        return this.$q.platform.is.mobile
+          ? { click: this.__mobileClick }
+          : { mousedown: this.__activate }
+      }
+    },
+
+    minEvents () {
+      if (this.editable && !this.$q.platform.is.mobile) {
+        return {
+          focus: () => { this.__focus('min') },
+          blur: this.__blur,
+          keydown: this.__keydown,
+          keyup: this.__keyup
+        }
+      }
+    },
+
+    maxEvents () {
+      if (this.editable && !this.$q.platform.is.mobile) {
+        return {
+          focus: () => { this.__focus('max') },
+          blur: this.__blur,
+          keydown: this.__keydown,
+          keyup: this.__keyup
+        }
+      }
+    },
+
     leftColor () {
       const color = this.leftLabelColor || this.labelColor
       if (color) {
@@ -189,6 +227,8 @@ export default Vue.extend({
       }
 
       dragging.type = type
+      this.__nextFocus = void 0
+
       return dragging
     },
 
@@ -207,6 +247,7 @@ export default Vue.extend({
               min: model,
               max: dragging.valueMax
             }
+            this.__nextFocus = 'min'
           }
           else {
             pos = {
@@ -215,6 +256,7 @@ export default Vue.extend({
               min: dragging.valueMax,
               max: model
             }
+            this.__nextFocus = 'max'
           }
           break
 
@@ -226,6 +268,7 @@ export default Vue.extend({
               min: dragging.valueMin,
               max: model
             }
+            this.__nextFocus = 'max'
           }
           else {
             pos = {
@@ -234,6 +277,7 @@ export default Vue.extend({
               min: model,
               max: dragging.valueMin
             }
+            this.__nextFocus = 'min'
           }
           break
 
@@ -261,7 +305,11 @@ export default Vue.extend({
       }
     },
 
-    __keydown (evt, which) {
+    __focus (which) {
+      this.focus = which
+    },
+
+    __keydown (evt) {
       if (![37, 40, 39, 38].includes(evt.keyCode)) {
         return
       }
@@ -270,7 +318,8 @@ export default Vue.extend({
 
       const
         step = (evt.ctrlKey ? 10 : 1) * this.computedStep,
-        offset = [37, 40].includes(evt.keyCode) ? -step : step
+        offset = [37, 40].includes(evt.keyCode) ? -step : step,
+        which = this.focus
 
       let model = this.model[which] + offset
 
@@ -290,7 +339,10 @@ export default Vue.extend({
       return h('div', {
         ref: which + 'Thumb',
         staticClass: 'q-slider__thumb-container absolute non-selectable',
-        style: this[which + 'ThumbStyle']
+        style: this[which + 'ThumbStyle'],
+        'class': this[which + 'ThumbClass'],
+        on: this[which + 'Events'],
+        attrs: { tabindex: this.computedTabindex }
       }, [
         h('svg', {
           staticClass: 'q-slider__thumb absolute',
@@ -324,8 +376,7 @@ export default Vue.extend({
         'aria-valuemin': this.min,
         'aria-valuemax': this.max,
         'data-step': this.step,
-        'aria-disabled': this.disable,
-        tabindex: this.computedTabindex
+        'aria-disabled': this.disable
       },
       'class': this.classes,
       on: this.events,

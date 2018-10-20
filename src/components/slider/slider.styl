@@ -36,6 +36,7 @@
     width 21px
     transform translate3d(-10px, 0, 0)
     will-change left
+    outline 0
 
   &__thumb
     top 0
@@ -90,16 +91,16 @@
       transform scale3d(1.55, 1.55, 1.55)
       opacity .25
 
-  &--animated
+  &--inactive
     .q-slider__thumb
       transition-delay .14s
     .q-slider__thumb-container
-      transition left .28s ease
+      transition left .28s
     .q-slider__track
-      transition width .28s ease, left .28s ease
+      transition width .28s, left .28s
 
   &--label
-    &.q-slider--active, &.q-slider--focus, &.q-slider--label-always
+    &.q-slider--active, .q-slider--focus, &.q-slider--label-always
       .q-slider__thumb
         animation none
         transform scale(0)

@@ -57,6 +57,24 @@ export default Vue.extend({
 
     thumbStyle () {
       return { left: (100 * this.ratio) + '%' }
+    },
+
+    thumbClass () {
+      return this.preventFocus === false && this.focus === true ? 'q-slider--focus' : null
+    },
+
+    events () {
+      if (this.editable) {
+        return this.$q.platform.is.mobile
+          ? { click: this.__mobileClick }
+          : {
+            mousedown: this.__activate,
+            focus: this.__focus,
+            blur: this.__blur,
+            keydown: this.__keydown,
+            keyup: this.__keyup
+          }
+      }
     }
   },
 
@@ -85,6 +103,10 @@ export default Vue.extend({
 
       this.curRatio = ratio
       this.model = getModel(ratio, this.min, this.max, this.step, this.decimals)
+    },
+
+    __focus () {
+      this.focus = true
     },
 
     __keydown (evt) {
@@ -149,6 +171,7 @@ export default Vue.extend({
 
       h('div', {
         staticClass: 'q-slider__thumb-container absolute non-selectable',
+        'class': this.thumbClass,
         style: this.thumbStyle
       }, [
         h('svg', {

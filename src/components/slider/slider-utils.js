@@ -72,9 +72,8 @@ export let SliderMixin = {
     classes () {
       return {
         [`text-${this.color}`]: this.color,
-        [`q-slider--${this.active ? 'active' : 'animated'}`]: true,
+        [`q-slider--${this.active ? '' : 'in'}active`]: true,
         'q-slider--disable': this.disable,
-        'q-slider--focus': this.preventFocus === false && this.focus,
         'q-slider--label': this.label || this.labelAlways,
         'q-slider--label-always': this.labelAlways,
         'q-slider--dark': this.dark
@@ -99,21 +98,6 @@ export let SliderMixin = {
       }
     },
 
-    events () {
-      if (this.editable) {
-        return this.$q.platform.is.mobile
-          ? { click: this.__mobileClick }
-          : {
-            mousedown: this.__activate,
-            touchstart: this.__activate,
-            focus: this.__focus,
-            blur: this.__blur,
-            keydown: this.__keydown,
-            keyup: this.__keyup
-          }
-      }
-    },
-
     computedTabindex () {
       return this.editable ? this.tabindex : -1
     }
@@ -123,18 +107,15 @@ export let SliderMixin = {
     __pan (event) {
       if (event.isFinal) {
         if (this.dragging) {
-          this.dragTimer = setTimeout(() => {
-            this.dragging = false
-          }, 100)
           this.__updatePosition(event.evt)
           this.__updateValue(true)
+          this.dragging = false
         }
         if (this.$q.platform.is.mobile) {
           this.active = false
         }
       }
       else if (event.isFirst) {
-        clearTimeout(this.dragTimer)
         this.dragging = this.__getDragging(event.evt)
         if (this.$q.platform.is.mobile) {
           this.active = true
@@ -146,9 +127,8 @@ export let SliderMixin = {
       }
     },
 
-    __mobileClick (evt) {
-      this.__updatePosition(evt, this.__getDragging(evt))
-      this.__updateValue(true)
+    __blur () {
+      this.focus = false
     },
 
     __activate (evt) {
@@ -157,8 +137,7 @@ export let SliderMixin = {
 
       this.__updatePosition(evt, this.__getDragging(evt))
 
-      document.body.addEventListener('mouseup', this.__deactivate)
-      document.body.addEventListener('touchend', this.__deactivate)
+      document.addEventListener('mouseup', this.__deactivate, true)
     },
 
     __deactivate () {
@@ -167,16 +146,16 @@ export let SliderMixin = {
 
       this.__updateValue(true)
 
-      document.body.removeEventListener('mouseup', this.__deactivate)
-      document.body.removeEventListener('touchend', this.__deactivate)
+      if (this.__nextFocus !== void 0 && !this.$q.platform.is.mobile) {
+        this.$refs[this.__nextFocus + 'Thumb'].focus()
+      }
+
+      document.removeEventListener('mouseup', this.__deactivate, true)
     },
 
-    __focus () {
-      this.focus = true
-    },
-
-    __blur () {
-      this.focus = false
+    __mobileClick (evt) {
+      this.__updatePosition(evt, this.__getDragging(evt))
+      this.__updateValue()
     },
 
     __keyup (evt) {
@@ -187,7 +166,6 @@ export let SliderMixin = {
   },
 
   beforeDestroy () {
-    clearTimeout(this.dragTimer)
-    this.__deactivate()
+    document.removeEventListener('mouseup', this.__deactivate, true)
   }
 }
