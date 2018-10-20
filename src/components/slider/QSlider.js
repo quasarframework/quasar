@@ -63,6 +63,10 @@ export default Vue.extend({
       return this.preventFocus === false && this.focus === true ? 'q-slider--focus' : null
     },
 
+    pinClass () {
+      return this.labelColor ? `text-${this.labelColor}` : null
+    },
+
     events () {
       if (this.editable) {
         return this.$q.platform.is.mobile
@@ -188,7 +192,8 @@ export default Vue.extend({
         ]),
 
         this.label === true || this.labelAlways === true ? h('div', {
-          staticClass: 'q-slider__pin absolute flex flex-center'
+          staticClass: 'q-slider__pin absolute flex flex-center',
+          'class': this.pinClass
         }, [
           h('span', { staticClass: 'q-slider__pin-value-marker' }, [ this.model ])
         ]) : null,

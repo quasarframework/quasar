@@ -85,17 +85,17 @@
       </p>
       <q-slider :dark="dark" v-model="label" markers :min="-20" :max="20" :step="4" label :label-value="`${label}px`" label-always />
 
+      <p class="caption">Readonly State</p>
+      <q-slider :dark="dark" v-model="standalone" :min="0" :max="50" readonly/>
+
       <p class="caption">Disabled State</p>
       <q-slider :dark="dark" v-model="standalone" :min="0" :max="50" disable/>
-
-      <p class="caption">Error State</p>
-      <q-slider :dark="dark" error v-model="standalone" :min="0" :max="50"/>
-      <q-slider :dark="dark" error color="amber" v-model="standalone" :min="0" :max="50" label-always/>
 
       <p class="caption">Coloring</p>
       <q-slider :dark="dark" color="secondary" v-model="standalone" :min="0" :max="50" label/>
       <q-slider :dark="dark" color="orange" v-model="standalone" :min="0" :max="50" label/>
       <q-slider :dark="dark" color="dark" v-model="standalone" :min="0" :max="50" label/>
+      <q-slider :dark="dark" color="teal" label-color="black" v-model="standalone" :min="0" :max="50" label-always class="q-mt-md"/>
 
       <q-field
         label="Range label"

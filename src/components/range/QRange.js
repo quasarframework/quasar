@@ -35,7 +35,6 @@ export default Vue.extend({
     dragRange: Boolean,
     dragOnlyRange: Boolean,
 
-    labelColor: String,
     leftLabelColor: String,
     rightLabelColor: String
   },
@@ -152,14 +151,14 @@ export default Vue.extend({
       }
     },
 
-    leftColor () {
+    minPinClass () {
       const color = this.leftLabelColor || this.labelColor
       if (color) {
         return `text-${color}`
       }
     },
 
-    rightColor () {
+    maxPinClass () {
       const color = this.rightLabelColor || this.labelColor
       if (color) {
         return `text-${color}`
@@ -358,7 +357,8 @@ export default Vue.extend({
         ]),
 
         this.label === true || this.labelAlways === true ? h('div', {
-          staticClass: 'q-slider__pin absolute flex flex-center'
+          staticClass: 'q-slider__pin absolute flex flex-center',
+          'class': this[which + 'PinClass']
         }, [
           h('span', { staticClass: 'q-slider__pin-value-marker' }, [ this.model[which] ])
         ]) : null,

@@ -110,17 +110,18 @@
       </p>
       <q-range :dark="dark" v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range label/>
 
+      <p class="caption">Readonly State</p>
+      <q-range :dark="dark" v-model="standalone" :min="0" :max="50" readonly/>
+
       <p class="caption">Disabled State</p>
       <q-range :dark="dark" v-model="standalone" :min="0" :max="50" disable/>
-
-      <p class="caption">Error State</p>
-      <q-range :dark="dark" error v-model="standalone" :min="0" :max="50"/>
-      <q-range :dark="dark" error label-always v-model="standalone" :min="0" :max="50" left-label-color="secondary" right-label-color="grey-8"/>
 
       <p class="caption">Coloring</p>
       <q-range :dark="dark" color="secondary" v-model="standalone" :min="0" :max="50" label/>
       <q-range :dark="dark" color="orange" v-model="standalone" :min="0" :max="50" label/>
       <q-range :dark="dark" color="dark" v-model="standalone" :min="0" :max="50" label/>
+
+      <q-range :dark="dark" color="purple" left-label-color="deep-orange" right-label-color="black" v-model="standalone" :min="0" :max="50" label-always class="q-mt-md"/>
 
       <p class="caption">Inside of a List</p>
       <q-list>

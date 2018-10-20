@@ -46,6 +46,7 @@ export let SliderMixin = {
     },
 
     color: String,
+    labelColor: String,
     dark: Boolean,
 
     label: Boolean,
@@ -73,7 +74,8 @@ export let SliderMixin = {
       return {
         [`text-${this.color}`]: this.color,
         [`q-slider--${this.active ? '' : 'in'}active`]: true,
-        'q-slider--disable': this.disable,
+        'disabled': this.disable,
+        'q-slider--editable': this.editable,
         'q-slider--label': this.label || this.labelAlways,
         'q-slider--label-always': this.labelAlways,
         'q-slider--dark': this.dark
