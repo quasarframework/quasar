@@ -24,7 +24,7 @@ export default Vue.extend({
   data () {
     return {
       model: this.value,
-      curRatio: (this.value - this.min) / (this.max - this.min)
+      curRatio: 0
     }
   },
 
@@ -87,10 +87,6 @@ export default Vue.extend({
       if (this.model !== this.value) {
         this.$emit('input', this.model)
         change === true && this.$emit('change', this.model)
-      }
-
-      if (change === true) {
-        this.curRatio = (this.model - this.min) / (this.max - this.min)
       }
     },
 

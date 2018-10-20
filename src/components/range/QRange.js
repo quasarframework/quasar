@@ -42,8 +42,8 @@ export default Vue.extend({
   data () {
     return {
       model: Object.assign({}, this.value),
-      curMinRatio: (this.value.min - this.min) / (this.max - this.min),
-      curMaxRatio: (this.value.max - this.min) / (this.max - this.min)
+      curMinRatio: 0,
+      curMaxRatio: 0
     }
   },
 
@@ -66,17 +66,11 @@ export default Vue.extend({
     },
 
     max (value) {
-      let update = false
-
       if (this.model.min > value) {
         this.model.min = value
-        update = true
       }
       if (this.model.max > value) {
         this.model.max = value
-      }
-
-      if (update === true) {
       }
     }
   },
@@ -122,7 +116,7 @@ export default Vue.extend({
     },
 
     events () {
-      if (this.editable) {
+      if (this.editable && this.dragOnlyRange !== true) {
         return this.$q.platform.is.mobile
           ? { click: this.__mobileClick }
           : { mousedown: this.__activate }
@@ -130,7 +124,7 @@ export default Vue.extend({
     },
 
     minEvents () {
-      if (this.editable && !this.$q.platform.is.mobile) {
+      if (this.editable && !this.$q.platform.is.mobile && this.dragOnlyRange !== true) {
         return {
           focus: () => { this.__focus('min') },
           blur: this.__blur,
@@ -141,7 +135,7 @@ export default Vue.extend({
     },
 
     maxEvents () {
-      if (this.editable && !this.$q.platform.is.mobile) {
+      if (this.editable && !this.$q.platform.is.mobile && this.dragOnlyRange !== true) {
         return {
           focus: () => { this.__focus('max') },
           blur: this.__blur,
@@ -172,57 +166,47 @@ export default Vue.extend({
         this.$emit('input', this.model)
         change === true && this.$emit('change', this.model)
       }
-
-      if (change === true) {
-        const diff = (this.max - this.min)
-        this.curMinRatio = (this.model.min - this.min) / diff
-        this.curMaxRatio = (this.model.max - this.min) / diff
-      }
     },
 
     __getDragging (event) {
       let
         { left, width } = this.$el.getBoundingClientRect(),
-        sensitivity = (this.dragOnlyRange ? -1 : 1) * this.$refs.minThumb.offsetWidth / (2 * width)
+        sensitivity = this.dragOnlyRange ? 0 : this.$refs.minThumb.offsetWidth / (2 * width)
 
       let dragging = {
         left,
         width,
         valueMin: this.model.min,
         valueMax: this.model.max,
-        ratioMin: this.curMinRatio,
-        ratioMax: this.curMaxRatio
+        ratioMin: (this.value.min - this.min) / (this.max - this.min),
+        ratioMax: (this.value.max - this.min) / (this.max - this.min)
       }
 
       let
         ratio = getRatio(event, dragging, this.$q.i18n.rtl),
         type
 
-      if (ratio < this.curMinRatio + sensitivity) {
+      if (this.dragOnlyRange !== true && ratio < dragging.ratioMin + sensitivity) {
         type = dragType.MIN
       }
-      else if (ratio < this.curMaxRatio - sensitivity) {
+      else if (this.dragOnlyRange === true || ratio < dragging.ratioMax - sensitivity) {
         if (this.dragRange || this.dragOnlyRange) {
           type = dragType.RANGE
           Object.assign(dragging, {
             offsetRatio: ratio,
             offsetModel: getModel(ratio, this.min, this.max, this.step, this.decimals),
             rangeValue: dragging.valueMax - dragging.valueMin,
-            rangeRatio: this.curMaxRatio - this.curMinRatio
+            rangeRatio: dragging.ratioMax - dragging.ratioMin
           })
         }
         else {
-          type = this.curMaxRatio - ratio < ratio - this.curMinRatio
+          type = dragging.ratioMax - ratio < ratio - dragging.ratioMin
             ? dragType.MAX
             : dragType.MIN
         }
       }
       else {
         type = dragType.MAX
-      }
-
-      if (this.dragOnlyRange && type !== dragType.RANGE) {
-        return false
       }
 
       dragging.type = type
@@ -241,8 +225,8 @@ export default Vue.extend({
         case dragType.MIN:
           if (ratio <= dragging.ratioMax) {
             pos = {
-              minP: ratio,
-              maxP: dragging.ratioMax,
+              minR: ratio,
+              maxR: dragging.ratioMax,
               min: model,
               max: dragging.valueMax
             }
@@ -250,8 +234,8 @@ export default Vue.extend({
           }
           else {
             pos = {
-              minP: dragging.ratioMax,
-              maxP: ratio,
+              minR: dragging.ratioMax,
+              maxR: ratio,
               min: dragging.valueMax,
               max: model
             }
@@ -262,8 +246,8 @@ export default Vue.extend({
         case dragType.MAX:
           if (ratio >= dragging.ratioMin) {
             pos = {
-              minP: dragging.ratioMin,
-              maxP: ratio,
+              minR: dragging.ratioMin,
+              maxR: ratio,
               min: dragging.valueMin,
               max: model
             }
@@ -271,8 +255,8 @@ export default Vue.extend({
           }
           else {
             pos = {
-              minP: ratio,
-              maxP: dragging.ratioMin,
+              minR: ratio,
+              maxR: dragging.ratioMin,
               min: model,
               max: dragging.valueMin
             }
@@ -283,21 +267,21 @@ export default Vue.extend({
         case dragType.RANGE:
           let
             ratioDelta = ratio - dragging.offsetRatio,
-            minP = between(dragging.ratioMin + ratioDelta, 0, 1 - dragging.rangeRatio),
+            minR = between(dragging.ratioMin + ratioDelta, 0, 1 - dragging.rangeRatio),
             modelDelta = model - dragging.offsetModel,
             min = between(dragging.valueMin + modelDelta, this.min, this.max - dragging.rangeValue)
 
           pos = {
-            minP,
-            maxP: minP + dragging.rangeRatio,
+            minR,
+            maxR: minR + dragging.rangeRatio,
             min: parseFloat(min.toFixed(this.decimals)),
             max: parseFloat((min + dragging.rangeValue).toFixed(this.decimals))
           }
           break
       }
 
-      this.curMinRatio = pos.minP
-      this.curMaxRatio = pos.maxP
+      this.curMinRatio = pos.minR
+      this.curMaxRatio = pos.maxR
       this.model = {
         min: pos.min,
         max: pos.max

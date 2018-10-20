@@ -113,17 +113,14 @@ export let SliderMixin = {
           this.__updateValue(true)
           this.dragging = false
         }
-        if (this.$q.platform.is.mobile) {
-          this.active = false
-        }
+        this.active = false
       }
       else if (event.isFirst) {
         this.dragging = this.__getDragging(event.evt)
-        if (this.$q.platform.is.mobile) {
-          this.active = true
-        }
+        this.__updatePosition(event.evt)
+        this.active = true
       }
-      else if (this.dragging) {
+      else {
         this.__updatePosition(event.evt)
         this.__updateValue()
       }
@@ -134,10 +131,10 @@ export let SliderMixin = {
     },
 
     __activate (evt) {
+      this.__updatePosition(evt, this.__getDragging(evt))
+
       this.preventFocus = true
       this.active = true
-
-      this.__updatePosition(evt, this.__getDragging(evt))
 
       document.addEventListener('mouseup', this.__deactivate, true)
     },
