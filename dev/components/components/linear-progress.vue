@@ -22,7 +22,7 @@
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="warning"/>
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="secondary"/>
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="tertiary"/>
-        <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="dark"/>
+        <q-linear-progress :dark="dark" track-color="orange" class="q-my-sm" :value="progress" color="purple"/>
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="negative"/>
       </div>
 

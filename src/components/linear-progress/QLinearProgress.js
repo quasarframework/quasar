@@ -45,7 +45,7 @@ export default Vue.extend({
 
     trackClass () {
       if (this.trackColor) {
-        return `text-${this.trackColor}`
+        return `bg-${this.trackColor}`
       }
     },
 
