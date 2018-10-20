@@ -56,10 +56,7 @@ export let SliderMixin = {
 
     disable: Boolean,
     readonly: Boolean,
-    tabindex: {
-      type: [String, Number],
-      default: 0
-    }
+    tabindex: [String, Number]
   },
 
   data () {
@@ -77,6 +74,7 @@ export let SliderMixin = {
         [`q-slider--${this.active ? '' : 'in'}active`]: true,
         'disabled': this.disable,
         'q-slider--editable': this.editable,
+        'q-slider--focus': this.focus === 'both',
         'q-slider--label': this.label || this.labelAlways,
         'q-slider--label-always': this.labelAlways,
         'q-slider--dark': this.dark
@@ -102,7 +100,7 @@ export let SliderMixin = {
     },
 
     computedTabindex () {
-      return this.editable ? this.tabindex : -1
+      return this.editable ? this.tabindex || 0 : -1
     }
   },
 

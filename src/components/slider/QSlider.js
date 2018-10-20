@@ -123,13 +123,12 @@ export default Vue.extend({
         step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
         offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
 
-      let model = this.model + offset
+      this.model = between(
+        parseFloat((this.model + offset).toFixed(this.decimals)),
+        this.min,
+        this.max
+      )
 
-      if (this.decimals) {
-        model = parseFloat(model.toFixed(this.decimals))
-      }
-
-      this.model = between(model, this.min, this.max)
       this.__updateValue()
     }
   },

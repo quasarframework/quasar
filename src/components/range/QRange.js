@@ -116,10 +116,21 @@ export default Vue.extend({
     },
 
     events () {
-      if (this.editable && this.dragOnlyRange !== true) {
-        return this.$q.platform.is.mobile
-          ? { click: this.__mobileClick }
-          : { mousedown: this.__activate }
+      if (this.editable) {
+        if (this.$q.platform.is.mobile) {
+          return { click: this.__mobileClick }
+        }
+
+        const evt = { mousedown: this.__activate }
+
+        this.dragOnlyRange === true && Object.assign(evt, {
+          focus: () => { this.__focus('both') },
+          blur: this.__blur,
+          keydown: this.__keydown,
+          keyup: this.__keyup
+        })
+
+        return evt
       }
     },
 
@@ -311,20 +322,29 @@ export default Vue.extend({
 
       const
         step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step,
-        which = this.focus
+        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
 
-      let model = this.model[which] + offset
+      if (this.dragOnlyRange) {
+        const interval = this.dragOnlyRange ? this.model.max - this.model.min : 0
 
-      if (this.decimals) {
-        model = parseFloat(model.toFixed(this.decimals))
+        this.model.min = between(
+          parseFloat((this.model.min + offset).toFixed(this.decimals)),
+          this.min,
+          this.max - interval
+        )
+
+        this.model.max = parseFloat((this.model.min + interval).toFixed(this.decimals))
+      }
+      else {
+        const which = this.focus
+
+        this.model[which] = between(
+          parseFloat((this.model[which] + offset).toFixed(this.decimals)),
+          which === 'min' ? this.min : this.model.min,
+          which === 'max' ? this.max : this.model.max
+        )
       }
 
-      this.model[which] = between(
-        model,
-        which === 'min' ? this.min : this.model.min,
-        which === 'max' ? this.max : this.model.max
-      )
       this.__updateValue()
     },
 
@@ -370,7 +390,10 @@ export default Vue.extend({
         'aria-valuemin': this.min,
         'aria-valuemax': this.max,
         'data-step': this.step,
-        'aria-disabled': this.disable
+        'aria-disabled': this.disable,
+        tabindex: this.dragOnlyRange && !this.$q.platform.is.mobile
+          ? this.computedTabindex
+          : null
       },
       'class': this.classes,
       on: this.events,
