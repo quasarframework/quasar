@@ -112,15 +112,16 @@ export default Vue.extend({
     },
 
     __keydown (evt) {
-      if (![37, 40, 39, 38].includes(evt.keyCode)) {
+      // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
+      if (![34, 37, 40, 33, 39, 38].includes(evt.keyCode)) {
         return
       }
 
       stopAndPrevent(evt)
 
       const
-        step = (evt.ctrlKey ? 10 : 1) * this.computedStep,
-        offset = [37, 40].includes(evt.keyCode) ? -step : step
+        step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
+        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
 
       let model = this.model + offset
 
