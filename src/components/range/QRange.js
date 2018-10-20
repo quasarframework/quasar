@@ -171,15 +171,16 @@ export default Vue.extend({
     __getDragging (event) {
       let
         { left, width } = this.$el.getBoundingClientRect(),
-        sensitivity = this.dragOnlyRange ? 0 : this.$refs.minThumb.offsetWidth / (2 * width)
+        sensitivity = this.dragOnlyRange ? 0 : this.$refs.minThumb.offsetWidth / (2 * width),
+        diff = this.max - this.min
 
       let dragging = {
         left,
         width,
         valueMin: this.model.min,
         valueMax: this.model.max,
-        ratioMin: (this.value.min - this.min) / (this.max - this.min),
-        ratioMax: (this.value.max - this.min) / (this.max - this.min)
+        ratioMin: (this.value.min - this.min) / diff,
+        ratioMax: (this.value.max - this.min) / diff
       }
 
       let
@@ -280,11 +281,19 @@ export default Vue.extend({
           break
       }
 
-      this.curMinRatio = pos.minR
-      this.curMaxRatio = pos.maxR
       this.model = {
         min: pos.min,
         max: pos.max
+      }
+
+      if (this.snap !== true || this.step === 0) {
+        this.curMinRatio = pos.minR
+        this.curMaxRatio = pos.maxR
+      }
+      else {
+        const diff = this.max - this.min
+        this.curMinRatio = (this.model.min - this.min) / diff
+        this.curMaxRatio = (this.model.max - this.min) / diff
       }
     },
 

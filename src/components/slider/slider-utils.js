@@ -52,6 +52,7 @@ export let SliderMixin = {
     label: Boolean,
     labelAlways: Boolean,
     markers: Boolean,
+    snap: Boolean,
 
     disable: Boolean,
     readonly: Boolean,

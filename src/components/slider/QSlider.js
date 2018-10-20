@@ -101,8 +101,10 @@ export default Vue.extend({
         this.$q.i18n.rtl
       )
 
-      this.curRatio = ratio
       this.model = getModel(ratio, this.min, this.max, this.step, this.decimals)
+      this.curRatio = this.snap !== true || this.step === 0
+        ? ratio
+        : (this.model - this.min) / (this.max - this.min)
     },
 
     __focus () {
