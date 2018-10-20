@@ -355,7 +355,7 @@ export default Vue.extend({
         style: this[which + 'ThumbStyle'],
         'class': this[which + 'ThumbClass'],
         on: this[which + 'Events'],
-        attrs: { tabindex: this.computedTabindex }
+        attrs: { tabindex: this.dragOnlyRange !== true ? this.computedTabindex : null }
       }, [
         h('svg', {
           staticClass: 'q-slider__thumb absolute',
