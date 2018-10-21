@@ -2,17 +2,11 @@
   color $rating-grade-color
   vertical-align middle
 
-  span
-    pointer-events none
-    display inherit
-
   &__icon
     color currentColor
     text-shadow $rating-shadow
     position relative
-    cursor default
     opacity .4
-    pointer-events all
     transition transform .2s ease-in, opacity .2s ease-in
 
     &--hovered
@@ -21,8 +15,6 @@
       opacity .7
     &--active
       opacity 1
-    & + i
-      margin-left .3rem
 
 
   &--editable i
