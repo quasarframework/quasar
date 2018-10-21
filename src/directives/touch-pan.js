@@ -117,6 +117,7 @@ export default {
           el.classList.add('q-touch')
           stopPropagation && evt.stopPropagation()
           preventDefault && evt.preventDefault()
+          ctx.move(evt)
         }
       },
 

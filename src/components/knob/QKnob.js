@@ -2,9 +2,11 @@ import Vue from 'vue'
 
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
-import { offset, height, width } from '../../utils/dom.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/touch-pan.js'
+
+// PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
+const keyCodes = [34, 37, 40, 33, 39, 38]
 
 export default Vue.extend({
   name: 'QKnob',
@@ -20,36 +22,23 @@ export default Vue.extend({
   props: {
     step: {
       type: Number,
-      default: 1
+      default: 1,
+      validator: v => v >= 0
     },
-    decimals: Number,
-    tabindex: String,
+
+    tabindex: {
+      type: [Number, String],
+      default: 0
+    },
+
     disable: Boolean,
     readonly: Boolean
   },
 
-  computed: {
-    classes () {
-      return {
-        disabled: this.disable,
-        'cursor-pointer': !this.readonly
-      }
-    },
-
-    editable () {
-      return !this.disable && !this.readonly
-    },
-
-    computedDecimals () {
-      return this.decimals !== void 0 ? this.decimals || 0 : (String(this.step).trim('0').split('.')[1] || '').length
-    },
-
-    computedStep () {
-      return this.decimals !== void 0 ? 1 / Math.pow(10, this.decimals || 0) : this.step
-    },
-
-    computedTabindex () {
-      return this.editable ? this.tabindex || '0' : ''
+  data () {
+    return {
+      model: this.value,
+      dragging: false
     }
   },
 
@@ -62,102 +51,89 @@ export default Vue.extend({
         this.model = this.max
       }
       else {
-        const newVal = this.computedDecimals && typeof value === 'number'
-          ? parseFloat(value.toFixed(this.computedDecimals))
-          : value
-        if (newVal !== this.model) {
-          this.model = newVal
+        if (value !== this.model) {
+          this.model = value
         }
         return
       }
 
-      this.$emit('input', this.model)
-      this.model !== this.value && this.$emit('change', this.model)
+      if (this.model !== this.value) {
+        this.$emit('input', this.model)
+        this.$emit('change', this.model)
+      }
     }
   },
 
-  data () {
-    return {
-      model: this.value,
-      dragging: false
+  computed: {
+    classes () {
+      return {
+        disabled: this.disable,
+        'q-knob--editable': this.editable
+      }
+    },
+
+    editable () {
+      return !this.disable && !this.readonly
+    },
+
+    decimals () {
+      return (String(this.step).trim('0').split('.')[1] || '').length
+    },
+
+    computedStep () {
+      return this.step === 0 ? 1 : this.step
     }
   },
 
   methods: {
     __pan (event) {
-      if (!this.editable) {
-        return
-      }
       if (event.isFinal) {
-        this.__dragStop(event.evt)
+        this.__updatePosition(event.evt, true)
+        this.dragging = false
       }
       else if (event.isFirst) {
-        this.__dragStart(event.evt)
+        const { top, left, width, height } = this.$el.getBoundingClientRect()
+        this.centerPosition = {
+          top: top + height / 2,
+          left: left + width / 2
+        }
+        this.dragging = true
+        this.__updatePosition(event.evt)
       }
       else {
-        this.__dragMove(event.evt)
+        this.__updatePosition(event.evt)
       }
     },
 
-    __dragStart (ev) {
-      if (!this.editable) {
+    __keydown (evt) {
+      if (!keyCodes.includes(evt.keyCode)) {
         return
       }
-      stopAndPrevent(ev)
-      this.centerPosition = this.__getCenter()
-      clearTimeout(this.timer)
-      this.dragging = true
-      this.__onInput(ev)
-    },
 
-    __dragMove (ev) {
-      if (!this.dragging || !this.editable) {
-        return
-      }
-      stopAndPrevent(ev)
-      this.__onInput(ev, this.centerPosition)
-    },
-
-    __dragStop (ev) {
-      if (!this.editable) {
-        return
-      }
-      stopAndPrevent(ev)
-      this.timer = setTimeout(() => {
-        this.dragging = false
-      }, 100)
-      this.__onInput(ev, this.centerPosition, true)
-    },
-
-    __onClick (evt) {
-      !this.dragging && this.__onInput(evt, void 0, true)
-    },
-
-    __onKeydown (evt) {
-      const keyCode = evt.keyCode
-      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
-        return
-      }
       stopAndPrevent(evt)
-      const step = evt.ctrlKey ? 10 * this.computedStep : this.computedStep
-      const offset = [37, 40].includes(keyCode) ? -step : step
-      this.__onInputValue(between(this.model + offset, this.min, this.max))
-    },
-
-    __onKeyup (ev) {
-      const keyCode = ev.keyCode
-      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
-        return
-      }
-      this.__emitChange()
-    },
-
-    __onInput (evt, center = this.__getCenter(), emitChange) {
-      if (!this.editable) { return }
-
-      this.$el.focus()
 
       const
+        step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
+        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
+
+      this.model = between(
+        parseFloat((this.model + offset).toFixed(this.decimals)),
+        this.min,
+        this.max
+      )
+
+      this.__updateValue()
+    },
+
+    __keyup (evt) {
+      if (keyCodes.includes(evt.keyCode)) {
+        this.__updateValue(true)
+      }
+    },
+
+    __updatePosition (evt, change) {
+      const
+        center = this.centerPosition,
         pos = position(evt),
         height = Math.abs(pos.top - center.top),
         distance = Math.sqrt(
@@ -182,74 +158,63 @@ export default Vue.extend({
         angle = 360 - angle
       }
 
-      const
-        model = this.min + (angle / 360) * (this.max - this.min),
-        modulo = model % this.step
+      let model = this.min + (angle / 360) * (this.max - this.min)
 
-      const value = between(
-        model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0),
-        this.min,
-        this.max
-      )
-      this.__onInputValue(value, emitChange)
+      if (this.step !== 0) {
+        const
+          step = this.computedStep,
+          modulo = model % step
+
+        model = model - modulo +
+          (Math.abs(modulo) >= step / 2 ? (modulo < 0 ? -1 : 1) * step : 0)
+
+        model = parseFloat(model.toFixed(this.decimals))
+      }
+
+      model = between(model, this.min, this.max)
+
+      this.$emit('drag-value', model)
+
+      if (this.model !== model) {
+        this.model = model
+      }
+
+      this.__updateValue(change)
     },
 
-    __onInputValue (value, emitChange) {
-      if (this.computedDecimals) {
-        value = parseFloat(value.toFixed(this.computedDecimals))
-      }
-
-      if (this.model !== value) {
-        this.model = value
-      }
-
-      this.$emit('drag-value', value)
-
-      if (this.value === value) {
-        return
-      }
-
-      this.$emit('input', value)
-      emitChange && this.__emitChange(value)
-    },
-
-    __emitChange (value = this.model) {
-      JSON.stringify(value) !== JSON.stringify(this.value) && this.$emit('change', value)
-    },
-
-    __getCenter () {
-      let knobOffset = offset(this.$el)
-      return {
-        top: knobOffset.top + height(this.$el) / 2,
-        left: knobOffset.left + width(this.$el) / 2
-      }
+    __updateValue (change) {
+      this.value !== this.model && this.$emit('input', this.model)
+      change === true && this.$emit('change', this.model)
     }
   },
 
   render (h) {
-    return h(QCircularProgress, {
+    const data = {
       staticClass: 'q-knob non-selectable',
       'class': this.classes,
+
       props: Object.assign({}, this.$props, {
         value: this.model,
-        noMotion: this.dragging,
-        tabindex: this.computedTabindex
-      }),
-      nativeOn: {
-        click: this.__onClick,
-        keydown: this.__onKeydown,
-        keyup: this.__onKeyup
-      },
-      directives: this.editable
-        ? [{
-          name: 'touch-pan',
-          modifiers: {
-            prevent: true,
-            stop: true
-          },
-          value: this.__pan
-        }]
-        : null
-    }, this.$slots.default)
+        noMotion: this.dragging
+      })
+    }
+
+    if (this.editable === true) {
+      data.attrs = { tabindex: this.tabindex }
+      data.on = {
+        keydown: this.__keydown,
+        keyup: this.__keyup
+      }
+      data.directives = [{
+        name: 'touch-pan',
+        value: this.__pan,
+        modifiers: {
+          prevent: true,
+          stop: true
+        }
+      }]
+    }
+
+    return h(QCircularProgress, data, this.$slots.default)
   }
 })

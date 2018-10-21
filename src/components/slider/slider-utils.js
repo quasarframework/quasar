@@ -2,6 +2,9 @@ import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
 import TouchPan from '../../directives/touch-pan.js'
 
+// PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
+export const keyCodes = [34, 37, 40, 33, 39, 38]
+
 export function getRatio (evt, dragging, rtl) {
   const
     pos = position(evt),
@@ -157,7 +160,7 @@ export let SliderMixin = {
     },
 
     __keyup (evt) {
-      if ([37, 40, 39, 38].includes(evt.keyCode)) {
+      if (keyCodes.includes(evt.keyCode)) {
         this.__updateValue(true)
       }
     }

@@ -57,10 +57,10 @@
         @show="openFab"
         @hide="closeFab"
       >
-        <q-fab-action color="blue" class="white" icon="person add">
+        <q-fab-action color="blue" class="white" icon="person_add">
           <q-tooltip ref="tooltip1" anchor="center left" self="center right" :offset="[20, 0]">Add a person</q-tooltip>
         </q-fab-action>
-        <q-fab-action color="blue" class="white" icon="group add">
+        <q-fab-action color="blue" class="white" icon="group_add">
           <q-tooltip ref="tooltip2" anchor="center left" self="center right" :offset="[20, 0]">Add a group</q-tooltip>
         </q-fab-action>
       </q-fab>

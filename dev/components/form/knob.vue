@@ -5,22 +5,24 @@
         Model <span class="right-detail"><em>{{ model }}</em></span>
       </div>
 
-      <p class="caption">Default</p>
-      <q-knob
-        v-model="model"
-        :min="min"
-        :max="max"
-        @change="onChange"
-        @input="onInput"
-      />
-      <q-knob
-        :value="model"
-        :min="min"
-        :max="max"
-        :angle="90"
-        @change="val => { model = val; onChange(val) }"
-        @input="onInput"
-      />
+      <p class="caption">Default (@input, @change)</p>
+      <div class="q-gutter-sm">
+        <q-knob
+          v-model="model"
+          :min="min"
+          :max="max"
+          @change="onChange"
+          @input="onInput"
+        />
+        <q-knob
+          :value="model"
+          :min="min"
+          :max="max"
+          :angle="90"
+          @change="val => { model = val; onChange(val) }"
+          @input="onInput"
+        />
+      </div>
 
       <p class="caption">With Step ({{ min }} to {{ max }}, step 10)</p>
       <q-knob
@@ -30,25 +32,24 @@
         :step="10"
       />
 
-      <p class="caption">With Step ({{ min }} to {{ maxSmall }}, step 0.01) - decimals set to 1</p>
+      <p class="caption">With Step ({{ min }} to {{ maxSmall }}, step 0.01)</p>
       <q-knob
         v-model="modelSmall"
         :min="min"
         :max="maxSmall"
         :step="0.01"
-        :decimals="1"
       />
 
-      <p class="caption">With Step ({{ min }} to {{ maxSmall }}, step 0.01) - decimals not set (auto 2)</p>
+      <p class="caption">With Step ({{ min }} to {{ max }}, step 0) -- {{ modelZero }}</p>
       <q-knob
-        v-model="modelSmall"
+        v-model="modelZero"
         :min="min"
-        :max="maxSmall"
-        :step="0.01"
+        :max="max"
+        :step="0"
       />
 
       <p class="caption">Styling</p>
-      <div class="group">
+      <div class="q-gutter-md">
         <q-knob
           style="font-size: 38px"
           v-model="model"
@@ -134,6 +135,7 @@ export default {
   data () {
     return {
       model: 30,
+      modelZero: 20.03,
       modelSmall: 1.1,
       min: 0,
       max: 50,

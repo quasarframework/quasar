@@ -8,6 +8,7 @@ export default Vue.extend({
       type: Number,
       requires: true
     },
+
     min: {
       type: Number,
       default: 0
@@ -16,6 +17,7 @@ export default Vue.extend({
       type: Number,
       default: 100
     },
+
     color: {
       type: String,
       default: 'primary'
@@ -25,6 +27,7 @@ export default Vue.extend({
       type: String,
       default: 'grey-3'
     },
+
     size: {
       type: Number,
       default: 100
@@ -33,14 +36,15 @@ export default Vue.extend({
       type: Number,
       default: 20
     },
+
     angle: {
       type: Number,
       default: 0
     },
+
     showValue: Boolean,
     reverse: Boolean,
-    noMotion: Boolean,
-    tabindex: String
+    noMotion: Boolean
   },
 
   computed: {
@@ -48,12 +52,6 @@ export default Vue.extend({
       return {
         width: this.size + 'px',
         height: this.size + 'px'
-      }
-    },
-
-    classes () {
-      return {
-        'q-focusable': this.hasTabindex
       }
     },
 
@@ -98,10 +96,6 @@ export default Vue.extend({
 
     strokeWidth () {
       return this.thickness / this.size * this.viewBox
-    },
-
-    hasTabindex () {
-      return typeof this.tabindex === 'string' && this.tabindex.length && this.tabindex >= 0
     }
   },
 
@@ -127,13 +121,9 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-circular-progress relative-position',
-      'class': this.classes,
       style: this.style,
-      attrs: {
-        tabindex: this.tabindex
-      }
+      on: this.$listeners
     }, [
-      this.hasTabindex ? h('div', { staticClass: 'q-focus-helper' }) : null,
       h('svg', {
         style: this.svgStyle,
         attrs: {

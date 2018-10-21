@@ -3,7 +3,8 @@ import Vue from 'vue'
 import {
   getRatio,
   getModel,
-  SliderMixin
+  SliderMixin,
+  keyCodes
 } from './slider-utils.js'
 
 import { between } from '../../utils/format.js'
@@ -112,8 +113,7 @@ export default Vue.extend({
     },
 
     __keydown (evt) {
-      // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
-      if (![34, 37, 40, 33, 39, 38].includes(evt.keyCode)) {
+      if (!keyCodes.includes(evt.keyCode)) {
         return
       }
 
