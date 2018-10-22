@@ -1,82 +1,302 @@
-.q-field-icon
-  width $field-icon-size
-  height $field-icon-size
-  min-width $field-icon-size
-  font-size $field-icon-size
-  margin-right 16px
-  color $field-label-color
+$field-transition = .36s cubic-bezier(.4,0,.2,1)
 
-.q-field-label
-  padding-right 8px
-  color $field-label-color
-.q-field-label-inner
-  min-height $field-icon-size
-.q-field-label-hint
-  padding-left 8px
+.q-field
 
-.q-field-bottom
-  font-size 12px
-  padding-top $input-margin-bottom
-  color $form-dark
-.q-field-no-input .q-field-bottom
-  margin-top 8px
-  border-top 1px solid rgba(0, 0, 0, .12)
-.q-field-counter
-  color $field-label-color
-  padding-left 8px
+  &__marginal
+    color rgba(0, 0, 0, .54)
+    font-size 24px
+    z-index 1
+    transition color $field-transition
 
-.q-field-dark
-  .q-field-label, .q-field-icon, .q-field-counter, .q-field-bottom
-    color $form-light
-  .q-field-no-input .q-field-bottom
-    border-top 1px solid $field-label-color
+    > * + *
+      margin-left 2px
 
-.q-field-with-error
-  .q-field-icon, .q-field-label, .q-field-bottom
-    color $negative
-    color var(--q-color-negative)
-  .q-field-no-input .q-field-bottom
-    border-top 1px solid $negative
-    border-top 1px solid var(--q-color-negative)
+  &__before, &__prepend
+    padding-right 12px
 
-.q-field-with-warning
-  .q-field-icon, .q-field-label, .q-field-bottom
-    color $warning
-    color var(--q-color-warning)
-  .q-field-no-input .q-field-bottom
-    border-top 1px solid $warning
-    border-top 1px solid var(--q-color-warning)
+  &__after, &__append
+    padding-left 12px
 
-.q-field-margin
-  margin-top 5px
-.q-field-floating .q-field-margin
-  margin-top 23px
-.q-field-no-input .q-field-margin
-  margin-top 3px
-.q-field-content
-  .q-if.q-if-has-label:not(.q-if-standard)
-    margin-top 9px
-  .q-if-standard:not(.q-if-has-label)
-    padding-top 6px
-  .q-option-group
-    padding-top 0
-.q-field-no-input .q-field-content
-  padding-top 6px
+  &__inner
+    text-align left
 
-qfield-vertical()
-  &:not(.q-field-no-label)
-    .q-field-margin
-      margin-top 0
-    .q-if-standard:not(.q-if-has-label)
-      padding-top 0
-    .q-if.q-if-has-label:not(.q-if-standard)
-      margin-top 0px
-  &.q-field-no-label .q-field-label
-    display none
+  &__bottom
+    font-size 11px
+    line-height 1
+    color rgba(0, 0, 0, .54)
+    padding 0 2px
 
-.q-field-vertical
-  qfield-vertical()
+    .q-field__control + &
+      margin-top 8px
 
-@media (max-width $breakpoint-xs-max)
-  .q-field-responsive
-    qfield-vertical()
+  &__messages
+    word-break break-word
+    word-wrap break-word
+    overflow-wrap break-word
+    line-height 1
+
+  &__counter
+    padding-left 8px
+    line-height 1
+
+  &--item-aligned
+    padding 8px 16px
+
+    .q-field__before
+      min-width 56px
+
+  &__control-container
+    height inherit
+
+  &__control
+    color $primary
+
+    &:before, &:after
+      content ''
+      position absolute
+      top 0
+      right 0
+      bottom 0
+      left 0
+      pointer-events none
+    &:before
+      border-radius inherit
+
+  &__native
+    font-weight 400
+    font-size 14px
+    line-height 28px
+    letter-spacing .00937em
+    text-decoration inherit
+    text-transform inherit
+    width 100%
+    height 100%
+    border none
+    border-radius 0
+    background none
+    color rgba(0,0,0,.87)
+    outline 0
+
+  &__label
+    right auto
+    bottom 20px
+    color rgba(0,0,0,.6)
+    font-size 16px
+    line-height 18px
+    font-weight 400
+    letter-spacing .00937em
+    text-decoration inherit
+    text-transform inherit
+    transform-origin left top
+    transition transform $field-transition, color $field-transition
+
+  &--float
+    .q-field__label
+      transform translate3d(0, -50%, 0) scale3d(.75, .75, .75)
+
+  &--focused
+    .q-field__label
+      color currentColor
+
+  &--filled
+
+    .q-field__native
+      padding 6px 0
+
+    .q-field__control, .q-field__marginal
+      height 56px
+
+    .q-field__control
+      padding 0 12px
+      background #f5f5f5
+      border-radius $generic-border-radius $generic-border-radius 0 0
+
+      &:before
+        background rgba(0,0,0,.05)
+        border-bottom 1px solid rgba(0,0,0,.42)
+        opacity 0
+        transition opacity $field-transition, background $field-transition
+
+      &:hover:before
+        opacity 1
+
+      &:after
+        height 2px
+        top unset
+        transform-origin center bottom
+        transform scale3d(0, 1, 1)
+        background currentColor
+        transition transform .24s cubic-bezier(.4,0,.2,1)
+
+    &.q-field--rounded .q-field__control
+      border-radius 28px 28px 0 0
+
+    &.q-field--focused
+      .q-field__control
+        &:before
+          opacity 1
+          background rgba(0,0,0,.12)
+        &:after
+          transform scale3d(1, 1, 1)
+
+    .q-field__bottom
+      padding 0 14px
+
+  &--outlined
+
+    .q-field__native
+      padding 6px 0
+      height inherit
+
+    .q-field__control, .q-field__marginal
+      height 56px
+
+    .q-field__control
+      border-radius $generic-border-radius
+      padding 0 12px
+
+      &:before
+        border 1px solid rgba(0,0,0,.24)
+        transition border-color $field-transition
+      &:hover:before
+        border-color black
+
+      &:after
+        height inherit
+        border-radius inherit
+        border 2px solid transparent
+        transition border-color $field-transition
+
+    &.q-field--rounded .q-field__control
+      border-radius 28px
+
+    &.q-field--focused
+      .q-field__control:after
+        border-color currentColor
+        border-width 2px
+        transform scale3d(1, 1, 1)
+
+    .q-field__bottom
+      padding 0 14px
+
+  &--borderless
+
+    .q-field__control, .q-field__marginal
+      height 56px
+
+    .q-field__native
+      padding 6px 0
+
+  &--standard
+
+    .q-field__native
+      padding 0 0 4px
+
+    &.q-field--labeled
+      .q-field__control, .q-field__marginal
+        height 46px
+      .q-field__native
+        padding 14px 0 4px
+
+    .q-field__label
+      bottom 14px
+
+    &.q-field--float
+      .q-field__label
+        transform translate3d(0, -70%, 0) scale3d(.75, .75, .75)
+
+    .q-field__control, .q-field__marginal
+      height 32px
+
+    .q-field__control
+      &:before
+        border-bottom 1px solid rgba(0,0,0,.24)
+        transition border-color $field-transition
+
+      &:hover:before
+        border-color black
+
+      &:after
+        height 2px
+        top unset
+        border-bottom-left-radius inherit
+        border-bottom-right-radius inherit
+        transform-origin center bottom
+        transform scale3d(0, 1, 1)
+        background currentColor
+        transition transform .24s cubic-bezier(.4,0,.2,1)
+
+    &.q-field--focused
+      .q-field__control:after
+        transform scale3d(1, 1, 1)
+
+  &--dark
+    &.q-field--filled .q-field__control
+      background #222
+
+    .q-field__control:before
+      border-color rgba(255, 255, 255, .6)
+
+    .q-field__control:hover:before
+      border-color white
+
+    .q-field__native
+      color white
+
+    &:not(.q-field--focused) .q-field__label, .q-field__marginal, .q-field__bottom
+      color rgba(255, 255, 255, .7)
+
+  &--standout
+
+    .q-field__native
+      padding 6px 0
+
+    .q-field__control, .q-field__marginal
+      height 56px
+
+    .q-field__control
+      padding 0 12px
+      background rgba(0,0,0,.05)
+      border-radius $generic-border-radius
+      transition box-shadow $field-transition
+
+      &:before
+        background rgba(0,0,0,.07)
+        opacity 0
+        transition opacity $field-transition, background $field-transition
+
+      &:hover:before
+        opacity 1
+
+    &.q-field--rounded .q-field__control
+      border-radius 28px
+
+    &.q-field--focused
+      .q-field__control
+        box-shadow $shadow-2
+        &:before
+          opacity 1
+          background black
+      .q-field__native, .q-field__prepend, .q-field__append
+        color white
+
+    .q-field__bottom
+      padding 0 14px
+
+    &.q-field--dark
+      .q-field__control
+        background rgba(255, 255, 255, .07)
+        &:before
+          background rgba(255, 255, 255, .07)
+      &.q-field--focused
+        .q-field__control
+          &:before
+            opacity 1
+            background white
+        .q-field__native, .q-field__prepend, .q-field__append
+          color black
+
+  &--labeled
+    .q-field__native
+      padding-top 20px
+      padding-bottom 4px

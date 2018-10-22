@@ -1,219 +1,146 @@
 import Vue from 'vue'
 
-import QIcon from '../icon/QIcon.js'
-import CanRenderMixin from '../../mixins/can-render.js'
-
 export default Vue.extend({
   name: 'QField',
 
-  mixins: [ CanRenderMixin ],
+  fieldOptions: {
+    classes: null
+  },
 
   props: {
-    inset: {
-      type: String,
-      validator: v => ['icon', 'label', 'full'].includes(v)
-    },
     label: String,
-    count: {
-      type: [Number, Boolean],
-      default: false
-    },
-    error: Boolean,
-    errorLabel: String,
-    warning: Boolean,
-    warningLabel: String,
-    helper: String,
-    icon: String,
-    iconColor: String,
+    stackLabel: Boolean,
+
+    color: String,
+    bgColor: String,
     dark: Boolean,
-    orientation: {
-      type: String,
-      validator: v => ['vertical', 'horizontal'].includes(v)
-    },
-    labelWidth: {
-      type: [Number, String],
-      default: 5,
-      validator (val) {
-        const v = parseInt(val, 10)
-        return v > 0 && v < 13
-      }
-    }
+
+    filled: Boolean,
+    outlined: Boolean,
+    rounded: Boolean,
+    borderless: Boolean,
+    standout: Boolean,
+
+    itemAligned: Boolean,
+
+    disable: Boolean,
+    readonly: Boolean
   },
 
   data () {
     return {
-      input: {}
+      focused: false
     }
   },
 
   computed: {
-    hasError () {
-      return this.input.error || this.error
+    editable () {
+      return !this.disable && !this.readonly
     },
 
-    hasWarning () {
-      return !this.hasError && (this.input.warning || this.warning)
-    },
-
-    childHasLabel () {
-      return this.input.floatLabel || this.input.stackLabel
-    },
-
-    isDark () {
-      return this.input.dark || this.dark
-    },
-
-    insetIcon () {
-      return ['icon', 'full'].includes(this.inset)
-    },
-
-    hasNoInput () {
-      return this.canRender && (!this.input.$options || this.input.__needsBorder)
-    },
-
-    counter () {
-      if (this.count) {
-        const length = this.input.length || '0'
-        return Number.isInteger(this.count)
-          ? `${length} / ${this.count}`
-          : length
-      }
+    floatingLabel () {
+      return this.stackLabel || this.focused || (this.value && this.value.length > 0)
     },
 
     classes () {
       return {
-        'q-field-responsive': !this.isVertical && !this.isHorizontal,
-        'q-field-vertical': this.isVertical,
-        'q-field-horizontal': this.isHorizontal,
-        'q-field-floating': this.childHasLabel,
-        'q-field-no-label': !this.label && !this.$slots.label,
-        'q-field-with-error': this.hasError,
-        'q-field-with-warning': this.hasWarning,
-        'q-field-dark': this.isDark,
-        'q-field-no-input': this.hasNoInput
+        [this.$options.fieldOptions.classes]: this.$options.fieldOptions.classes,
+
+        [`q-field--${this.styleType}`]: true,
+        'q-field--rounded': this.rounded,
+
+        'q-field--focused': this.focused,
+        'q-field--float': this.floatingLabel,
+        'q-field--labeled': this.label !== void 0,
+
+        'q-field--item-aligned q-item-type': this.itemAligned === true,
+        'q-field--dark': this.dark === true
       }
     },
 
-    computedLabelWidth () {
-      return parseInt(this.labelWidth, 10)
+    styleType () {
+      if (this.filled) { return 'filled' }
+      if (this.outlined) { return 'outlined' }
+      if (this.borderless) { return 'borderless' }
+      if (this.standout) { return 'standout' }
+      return 'standard'
     },
 
-    isVertical () {
-      return this.orientation === 'vertical' || this.computedLabelWidth === 12
-    },
-
-    isHorizontal () {
-      return this.orientation === 'horizontal'
-    },
-
-    labelClasses () {
-      return this.isVertical
-        ? `col-12`
-        : (this.isHorizontal ? `col-${this.labelWidth}` : `col-xs-12 col-sm-${this.labelWidth}`)
-    },
-
-    inputClasses () {
-      return this.isVertical
-        ? `col-xs-12`
-        : (this.isHorizontal ? 'col' : 'col-xs-12 col-sm')
-    },
-
-    iconProps () {
-      const prop = { name: this.icon }
-      if (this.iconColor && !this.hasError && !this.hasWarning) {
-        prop.color = this.iconColor
+    contentClass () {
+      return {
+        [`text-${this.color}`]: this.color,
+        [`bg-${this.bgColor}`]: this.bgColor
       }
-      return prop
-    },
-
-    insetHasLabel () {
-      return ['label', 'full'].includes(this.inset)
-    }
-  },
-
-  provide () {
-    return {
-      __field: this
     }
   },
 
   methods: {
-    __registerInput (vm) {
-      this.input = vm
-    },
+    __getContent (h) {
+      return [
 
-    __unregisterInput (vm) {
-      if (!vm || vm === this.input) {
-        this.input = {}
-      }
-    },
+        this.$slots.prepend !== void 0 ? h('div', {
+          staticClass: 'q-field__prepend q-field__marginal row no-wrap items-center'
+        }, this.$slots.prepend) : null,
 
-    __getBottomContent (h) {
-      let label
+        h('div', {
+          staticClass: 'q-field__control-container col relative-position'
+        }, [
+          this.label !== void 0 ? h('div', {
+            staticClass: 'q-field__label no-pointer-events absolute ellipsis'
+          }, [ this.label ]) : null,
 
-      if (this.hasError && (label = this.$slots['error-label'] || this.errorLabel)) {
-        return h('div', { staticClass: 'q-field-error col' }, label)
-      }
-      if (this.hasWarning && (label = this.$slots['warning-label'] || this.warningLabel)) {
-        return h('div', { staticClass: 'q-field-warning col' }, label)
-      }
-      if ((label = this.$slots.helper || this.helper)) {
-        return h('div', { staticClass: 'q-field-helper col' }, label)
-      }
-      return h('div', { staticClass: 'col text-transparent' }, ['|'])
-    },
+          this.__getControl !== void 0
+            ? this.__getControl(h)
+            : this.$slots.default
+        ]),
 
-    __hasBottom () {
-      return this.$slots['error-label'] || this.errorLabel ||
-        this.$slots['warning-label'] || this.warningLabel ||
-        this.$slots.helper || this.helper ||
-        this.count
+        this.$slots.append !== void 0 ? h('div', {
+          staticClass: 'q-field__append q-field__marginal row no-wrap items-center'
+        }, this.$slots.append) : null
+
+      ]
     }
   },
 
   render (h) {
-    const label = this.$slots.label || this.label
-
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
       'class': this.classes
     }, [
-      this.icon
-        ? h(QIcon, {
-          props: this.iconProps,
-          staticClass: 'q-field-icon q-field-margin'
-        })
-        : (this.insetIcon ? h('div', { staticClass: 'q-field-icon' }) : null),
+      this.$slots.before !== void 0 ? h('div', {
+        staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
+      }, this.$slots.before) : null,
 
-      h('div', { staticClass: 'row col' }, [
-        label || this.insetHasLabel
-          ? h('div', {
-            staticClass: 'q-field-label q-field-margin',
-            'class': this.labelClasses
-          }, [
-            h('div', { staticClass: 'q-field-label-inner row items-center' }, [
-              this.$slots.label || this.label
-            ])
-          ])
-          : null,
+      h('div', {
+        staticClass: 'q-field__inner col self-stretch column justify-center'
+      }, [
 
         h('div', {
-          staticClass: 'q-field-content',
-          'class': this.inputClasses
+          staticClass: 'q-field__control relative-position row no-wrap',
+          'class': this.contentClass
+        }, this.__getContent(h)),
+
+        (this.$slots.message !== void 0 || this.$slots.counter !== void 0) ? h('div', {
+          staticClass: 'q-field__bottom row items-start'
         }, [
-          this.$slots.default,
-          this.__hasBottom()
-            ? h('div', {
-              staticClass: 'q-field-bottom row no-wrap'
-            }, [
-              this.__getBottomContent(h),
-              this.counter
-                ? h('div', { staticClass: 'q-field-counter col-auto' }, [ this.counter ])
-                : null
-            ])
-            : null
-        ])
-      ])
+          h('div', {
+            staticClass: 'q-field__messages-container col'
+          }, [
+            this.$slots.message !== void 0 ? h('div', {
+              staticClass: 'q-field__messages'
+            }, this.$slots.message) : null
+          ]),
+
+          this.counter !== void 0 ? h('div', {
+            staticClass: 'q-field__counter'
+          }, [ this.computedCounter ]) : null
+        ]) : null
+
+      ]),
+
+      this.$slots.after !== void 0 ? h('div', {
+        staticClass: 'q-field__after q-field__marginal row no-wrap items-center'
+      }, this.$slots.after) : null
     ])
   }
 })
