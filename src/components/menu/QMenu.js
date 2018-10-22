@@ -102,7 +102,7 @@ export default Vue.extend({
       this.__showPortal()
       this.__registerTree()
 
-      this.$nextTick(() => {
+      this.timer = setTimeout(() => {
         const { top, left } = this.anchorEl.getBoundingClientRect()
 
         if (this.touchPosition || this.contextMenu) {
@@ -118,11 +118,11 @@ export default Vue.extend({
         if (this.unwatch === void 0) {
           this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
         }
-      })
 
-      this.timer = setTimeout(() => {
-        this.$emit('show', evt)
-      }, 600)
+        this.timer = setTimeout(() => {
+          this.$emit('show', evt)
+        }, 600)
+      }, 0)
     },
 
     __hide (evt) {
