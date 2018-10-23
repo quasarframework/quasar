@@ -6,7 +6,6 @@ import QBtn from '../btn/QBtn.js'
 import { isSameDate, isValid, adjustDate } from '../../utils/date.js'
 import DateMixin from './datetime-mixin.js'
 import CanRenderMixin from '../../mixins/can-render.js'
-import ParentFieldMixin from '../../mixins/parent-field.js'
 import Ripple from '../../directives/ripple.js'
 
 function convertToAmPm (hour) {
@@ -16,7 +15,7 @@ function convertToAmPm (hour) {
 export default Vue.extend({
   name: 'QDatetimePicker',
 
-  mixins: [ DateMixin, ParentFieldMixin, CanRenderMixin ],
+  mixins: [ DateMixin, CanRenderMixin ],
 
   props: {
     defaultValue: [String, Number, Date],

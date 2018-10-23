@@ -171,8 +171,9 @@
 
       <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
-        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
-        <q-icon slot="append" name="delete" />
+        <q-avatar slot="append">
+          <img src="statics/quasar-logo.png">
+        </q-avatar>
       </q-input>
 
       <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" counter="12">

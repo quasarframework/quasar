@@ -2,7 +2,6 @@ import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QSlider from '../slider/QSlider.js'
-import ParentFieldMixin from '../../mixins/parent-field.js'
 import TouchPan from '../../directives/touch-pan.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import throttle from '../../utils/throttle.js'
@@ -11,8 +10,6 @@ import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors.js'
 
 export default Vue.extend({
   name: 'QColorPicker',
-
-  mixins: [ParentFieldMixin],
 
   directives: {
     TouchPan
