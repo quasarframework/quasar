@@ -57,7 +57,7 @@ export default Vue.extend({
         attrs: {
           ...this.$attrs,
           type: this.type,
-          disable: this.disable,
+          disabled: this.disable,
           readonly: this.readonly
         },
         domProps: {

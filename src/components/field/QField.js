@@ -19,10 +19,10 @@ export default Vue.extend({
 
     filled: Boolean,
     outlined: Boolean,
-    rounded: Boolean,
     borderless: Boolean,
     standout: Boolean,
 
+    rounded: Boolean,
     dense: Boolean,
     itemAligned: Boolean,
 
@@ -38,7 +38,7 @@ export default Vue.extend({
 
   computed: {
     editable () {
-      return !this.disable && !this.readonly
+      return this.disable !== true && this.readonly !== true
     },
 
     floatingLabel () {
@@ -58,7 +58,10 @@ export default Vue.extend({
 
         'q-field--dense': this.dense,
         'q-field--item-aligned q-item-type': this.itemAligned === true,
-        'q-field--dark': this.dark === true
+        'q-field--dark': this.dark === true,
+
+        'q-field--disable no-pointer-events': this.editable !== true,
+        'disabled': this.disable === true
       }
     },
 
