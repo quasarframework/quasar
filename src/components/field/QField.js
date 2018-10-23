@@ -21,6 +21,7 @@ export default Vue.extend({
     borderless: Boolean,
     standout: Boolean,
 
+    dense: Boolean,
     itemAligned: Boolean,
 
     disable: Boolean,
@@ -53,6 +54,7 @@ export default Vue.extend({
         'q-field--float': this.floatingLabel,
         'q-field--labeled': this.label !== void 0,
 
+        'q-field--dense': this.dense,
         'q-field--item-aligned q-item-type': this.itemAligned === true,
         'q-field--dark': this.dark === true
       }

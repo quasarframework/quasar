@@ -142,6 +142,14 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     .q-field__bottom
       padding 0 14px
 
+    &.q-field--dense
+      .q-field__control, .q-field__marginal
+        height 40px
+      .q-field__control
+        padding 0 6px
+      .q-field__bottom
+        padding 0 8px
+
   &--outlined
 
     .q-field__native
@@ -179,6 +187,14 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     .q-field__bottom
       padding 0 14px
 
+    &.q-field--dense
+      .q-field__control, .q-field__marginal
+        height 40px
+      .q-field__control
+        padding 0 6px
+      .q-field__bottom
+        padding 0 8px
+
   &--borderless
 
     .q-field__control, .q-field__marginal
@@ -187,16 +203,20 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     .q-field__native
       padding 6px 0
 
+    &.q-field--dense
+      .q-field__control, .q-field__marginal
+        height 40px
+
   &--standard
 
     .q-field__native
-      padding 0 0 4px
+      padding 4px 0
 
     &.q-field--labeled
       .q-field__control, .q-field__marginal
         height 46px
       .q-field__native
-        padding 14px 0 4px
+        padding 16px 0 6px
 
     .q-field__label
       bottom 14px
@@ -229,6 +249,13 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     &.q-field--focused
       .q-field__control:after
         transform scale3d(1, 1, 1)
+
+    &.q-field--dense
+      &.q-field--labeled
+        .q-field__control, .q-field__marginal
+          height 40px
+        .q-field__native
+          padding 13px 0 6px
 
   &--dark
     &.q-field--filled .q-field__control
@@ -296,7 +323,27 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         .q-field__native, .q-field__prepend, .q-field__append
           color black
 
+    &.q-field--dense
+      .q-field__control, .q-field__marginal
+        height 40px
+      .q-field__control
+        padding 0 6px
+      .q-field__bottom
+        padding 0 8px
+
   &--labeled
     .q-field__native
       padding-top 20px
       padding-bottom 4px
+    &.q-field--dense .q-field__native
+      padding-top 12px
+      padding-bottom 3px
+
+  &--dense
+    .q-field__label
+      font-size 14px
+      bottom 11px
+    .q-field__before, .q-field__prepend
+      padding-right 6px
+    .q-field__after, .q-field__append
+      padding-left 6px

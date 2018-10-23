@@ -30,6 +30,10 @@
           <q-toolbar-title>
             <strong>Quasar</strong> Framework
           </q-toolbar-title>
+
+          <q-input value="" dense standout dark>
+            <q-icon slot="append" name="search" />
+          </q-input>
         </q-toolbar>
         <q-tabs>
           <q-route-tab icon="view_quilt" to="/layout-quick/default" replace label="Default" />
@@ -271,7 +275,7 @@
 
     <div class="fixed-center bg-amber z-fullscreen" v-if="showConfig">
       <div class="row no-wrap">
-        <div class="col q-gutter-xs q-ma-xs">
+        <div class="col q-ma-xs">
           <div>
             <q-toggle v-model="header" label="Header" />
           </div>
@@ -291,7 +295,7 @@
             <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" />
           </div>
         </div>
-        <div class="col q-gutter-xs q-ma-xs">
+        <div class="col q-ma-xs">
           <div>
             <q-toggle v-model="footer" label="Footer" />
           </div>
@@ -324,15 +328,15 @@
             <div class="doc-row-definition row flex-center no-border">
               Header
             </div>
-            <div class="col column group flex-center">
+            <div class="col column flex-center">
               <q-radio color="orange" v-model="topleft" val="l" label="l" />
               <q-radio color="orange" v-model="topleft" val="h" label="h" />
             </div>
-            <div class="col column group flex-center">
+            <div class="col column flex-center">
               <q-radio v-model="topcenter" val="h" label="h" />
               <q-radio v-model="topcenter" val="H" label="H" />
             </div>
-            <div class="col column group flex-center">
+            <div class="col column flex-center">
               <q-radio color="secondary" v-model="topright" val="r" label="r" />
               <q-radio color="secondary" v-model="topright" val="h" label="h" />
             </div>
@@ -343,14 +347,14 @@
             <div class="doc-row-definition row flex-center no-border">
               Middle
             </div>
-            <div class="col column group flex-center">
+            <div class="col column flex-center">
               <q-radio color="orange" v-model="middleleft" val="l" label="l" />
               <q-radio color="orange" v-model="middleleft" val="L" label="L" />
             </div>
-            <div class="col column group flex-center">
+            <div class="col column flex-center">
               <q-radio v-model="middlecenter" val="p" label="p" />
             </div>
-            <div class="col column group flex-center">
+            <div class="col column flex-center">
               <q-radio color="secondary" v-model="middleright" val="r" label="r" />
               <q-radio color="secondary" v-model="middleright" val="R" label="R" />
             </div>
@@ -361,15 +365,15 @@
             <div class="doc-row-definition row flex-center no-border">
               Footer
             </div>
-            <div class="col column group flex-center">
+            <div class="col column flex-center">
               <q-radio color="orange" v-model="bottomleft" val="l" label="l" />
               <q-radio color="orange" v-model="bottomleft" val="f" label="f" />
             </div>
-            <div class="col column group flex-center">
+            <div class="col column flex-center">
               <q-radio v-model="bottomcenter" val="f" label="f" />
               <q-radio v-model="bottomcenter" val="F" label="F" />
             </div>
-            <div class="col column group flex-center">
+            <div class="col column flex-center">
               <q-radio color="secondary" v-model="bottomright" val="r" label="r" />
               <q-radio color="secondary" v-model="bottomright" val="f" label="f" />
             </div>
@@ -383,11 +387,21 @@
       </div>
     </div>
 
-    <q-modal minimized v-model="toggle" :content-css="{padding: '50px', minWidth: '50vw'}">
-      <h4>Basic Modal</h4>
-      <p v-for="n in 25" :key="`basic-${n}`">Scroll down to close</p>
-      <q-btn color="primary" @click="toggle = false">Close</q-btn>
-    </q-modal>
+    <q-dialog v-model="toggle">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Dialog</div>
+        </q-card-section>
+
+        <q-card-section>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat color="primary" label="Close" v-close-dialog />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
