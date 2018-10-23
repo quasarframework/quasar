@@ -10,6 +10,8 @@ export default Vue.extend({
   props: {
     label: String,
     stackLabel: Boolean,
+    prefix: String,
+    suffix: String,
 
     color: String,
     bgColor: String,
@@ -85,16 +87,24 @@ export default Vue.extend({
         }, this.$slots.prepend) : null,
 
         h('div', {
-          staticClass: 'q-field__control-container col relative-position'
+          staticClass: 'q-field__control-container col relative-position row no-wrap'
         }, [
           this.label !== void 0 ? h('div', {
             staticClass: 'q-field__label no-pointer-events absolute ellipsis'
           }, [ this.label ]) : null,
 
+          this.prefix !== void 0 && this.prefix !== null ? h('div', {
+            staticClass: 'q-field__prefix no-pointer-events row items-center'
+          }, [ this.prefix ]) : null,
+
           this.__getControl !== void 0
             ? this.__getControl(h)
-            : this.$slots.default
-        ]),
+            : null,
+
+          this.suffix !== void 0 && this.suffix !== null ? h('div', {
+            staticClass: 'q-field__suffix no-pointer-events row items-center'
+          }, [ this.suffix ]) : null
+        ].concat(this.$slots.default)),
 
         this.$slots.append !== void 0 ? h('div', {
           staticClass: 'q-field__append q-field__marginal row no-wrap items-center'

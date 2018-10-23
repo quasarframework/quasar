@@ -113,11 +113,7 @@
       </q-knob>
 
       <p class="caption">Inside Field</p>
-      <q-field
-        label="Knob"
-        helper="Touch to change"
-        icon="cake"
-      >
+      <q-field>
         <q-knob
           v-model="model"
           :min="min"
@@ -125,6 +121,9 @@
         >
           <q-icon name="volume_up" /> {{ model }}
         </q-knob>
+
+        <q-icon slot="before" name="cake" />
+        <div slot="message">Touch to change</div>
       </q-field>
     </div>
   </div>

@@ -62,20 +62,29 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     &:before
       border-radius inherit
 
-  &__native
+  &__native, &__prefix, &__suffix
     font-weight 400
     font-size 14px
     line-height 28px
     letter-spacing .00937em
     text-decoration inherit
     text-transform inherit
-    width 100%
     height 100%
     border none
     border-radius 0
     background none
     color rgba(0,0,0,.87)
     outline 0
+    padding 0
+
+  &__native
+    width 100%
+  &__prefix, &__suffix
+    transition opacity $field-transition
+  &__prefix
+    padding-right 4px
+  &__suffix
+    padding-left 4px
 
   &__label
     right auto
@@ -100,8 +109,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
   &--filled
 
-    .q-field__native
-      padding 6px 0
+    .q-field__native, .q-field__prefix, .q-field__suffix
+      padding-top 6px
+      padding-bottom 6px
 
     .q-field__control, .q-field__marginal
       height 56px
@@ -152,8 +162,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
   &--outlined
 
-    .q-field__native
-      padding 6px 0
+    .q-field__native, .q-field__prefix, .q-field__suffix
+      padding-top 6px
+      padding-bottom 6px
       height inherit
 
     .q-field__control, .q-field__marginal
@@ -200,8 +211,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     .q-field__control, .q-field__marginal
       height 56px
 
-    .q-field__native
-      padding 6px 0
+    .q-field__native, .q-field__prefix, .q-field__suffix
+      padding-top 6px
+      padding-bottom 6px
 
     &.q-field--dense
       .q-field__control, .q-field__marginal
@@ -209,14 +221,16 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
   &--standard
 
-    .q-field__native
-      padding 4px 0
+    .q-field__native, .q-field__prefix, .q-field__suffix
+      padding-top 4px
+      padding-bottom 4px
 
     &.q-field--labeled
       .q-field__control, .q-field__marginal
         height 46px
-      .q-field__native
-        padding 16px 0 6px
+      .q-field__native, .q-field__prefix, .q-field__suffix
+        padding-top 16px
+        padding-bottom 6px
 
     .q-field__label
       bottom 14px
@@ -254,8 +268,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       &.q-field--labeled
         .q-field__control, .q-field__marginal
           height 40px
-        .q-field__native
-          padding 13px 0 6px
+        .q-field__native, .q-field__prefix, .q-field__suffix
+          padding-top 13px
+          padding-bottom 6px
 
   &--dark
     &.q-field--filled .q-field__control
@@ -267,7 +282,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     .q-field__control:hover:before
       border-color white
 
-    .q-field__native
+    .q-field__native, .q-field__prefix, .q-field__suffix
       color white
 
     &:not(.q-field--focused) .q-field__label, .q-field__marginal, .q-field__bottom
@@ -275,8 +290,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
   &--standout
 
-    .q-field__native
-      padding 6px 0
+    .q-field__native, .q-field__prefix, .q-field__suffix
+      padding-top 6px
+      padding-bottom 6px
 
     .q-field__control, .q-field__marginal
       height 56px
@@ -304,7 +320,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         &:before
           opacity 1
           background black
-      .q-field__native, .q-field__prepend, .q-field__append
+      .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append
         color white
 
     .q-field__bottom
@@ -320,7 +336,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
           &:before
             opacity 1
             background white
-        .q-field__native, .q-field__prepend, .q-field__append
+        .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append
           color black
 
     &.q-field--dense
@@ -332,12 +348,29 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         padding 0 8px
 
   &--labeled
-    .q-field__native
+    .q-field__native, .q-field__prefix, .q-field__suffix
       padding-top 20px
       padding-bottom 4px
-    &.q-field--dense .q-field__native
-      padding-top 12px
-      padding-bottom 3px
+
+    &:not(.q-field--float)
+      .q-field__prefix, .q-field__suffix
+        opacity 0
+
+    &:not(.q-field--focused) .q-field__native
+
+      &::-webkit-input-placeholder
+        color transparent
+
+      &::-moz-placeholder
+        color transparent
+
+      &:-ms-input-placeholder
+        color transparent
+
+    &.q-field--dense
+      .q-field__native, .q-field__prefix, .q-field__suffix
+        padding-top 12px
+        padding-bottom 3px
 
   &--dense
     .q-field__label

@@ -5,27 +5,28 @@
       <div class="q-gutter-x-md">
         <q-toggle :dark="dark" v-model="dark" label="Dark" />
         <q-toggle :dark="dark" v-model="dense" label="Dense" />
+        <q-toggle :dark="dark" v-model="prefSuf" label="Prefix + Suffix" />
       </div>
 
       <div class="text-h6">Standard</div>
 
-      <q-input :dark="dark" :dense="dense" v-model="text" />
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" />
 
-      <q-input :dark="dark" :dense="dense" v-model="text" label="Label (stacked)" stack-label/>
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :dense="dense" v-model="text" label="Label" />
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label" />
 
-      <q-input :dark="dark" :dense="dense" v-model="text">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" v-model="text" label="Label">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label" counter="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
@@ -39,34 +40,34 @@
 
       <div class="text-h6">Filled</div>
 
-      <q-input :dark="dark" :dense="dense" filled v-model="text" />
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" />
 
-      <q-input :dark="dark" :dense="dense" filled v-model="text" label="Label (stacked)" stack-label/>
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :dense="dense" filled v-model="text" label="Label" />
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" />
 
       <q-input :dense="dense" dark filled v-model="text" label="Label" color="orange" bg-color="black">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" filled v-model="text">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" filled v-model="text" label="Label">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" filled v-model="text" label="Label">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" filled v-model="text" label="Label" counter>
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" counter>
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
@@ -74,7 +75,7 @@
         <div slot="message">Field message</div>
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" filled v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" counter="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
@@ -88,31 +89,31 @@
 
       <div class="text-h6">Outline</div>
 
-      <q-input :dark="dark" :dense="dense" outlined v-model="text" />
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" />
 
-      <q-input :dark="dark" :dense="dense" outlined v-model="text" label="Label (stacked)" stack-label/>
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :dense="dense" outlined v-model="text" label="Label" />
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label" />
 
-      <q-input :dark="dark" :dense="dense" outlined v-model="text" label="Label (stacked)" stack-label>
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label (stacked)" stack-label>
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" outlined v-model="text">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" outlined v-model="text" label="Label">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" outlined v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label" counter="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
@@ -126,29 +127,29 @@
 
       <div class="text-h6">Standout</div>
 
-      <q-input :dark="dark" :dense="dense" standout v-model="text" />
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" />
 
-      <q-input :dark="dark" :dense="dense" standout v-model="text" label="Label (stacked)" stack-label/>
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :dense="dense" standout v-model="text" label="Label" />
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" />
 
-      <q-input :dark="dark" :dense="dense" standout v-model="text">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" standout v-model="text" label="Label">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" standout v-model="text" label="Label">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" standout v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" counter="12">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
@@ -156,7 +157,7 @@
         <div slot="message">Field message</div>
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" standout v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" counter="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
@@ -182,31 +183,31 @@
 
       <div class="text-h6">Borderless</div>
 
-      <q-input :dark="dark" :dense="dense" borderless v-model="text" />
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" />
 
-      <q-input :dark="dark" :dense="dense" borderless v-model="text" label="Label (stacked)" stack-label/>
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :dense="dense" borderless v-model="text" label="Label" />
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label" />
 
-      <q-input :dark="dark" :dense="dense" borderless v-model="text" label="Label (stacked)" stack-label>
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label (stacked)" stack-label>
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" borderless v-model="text">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" borderless v-model="text" label="Label">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" borderless v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label" counter="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
@@ -220,23 +221,39 @@
 
       <div class="text-h6">Rounded</div>
 
-      <q-input :dark="dark" :dense="dense" rounded filled v-model="text" label="Label">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" rounded filled v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :dense="dense" rounded outlined v-model="text" label="Label">
-        <q-icon slot="prepend" name="event" />
-        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
-        <q-icon slot="append" name="delete" />
-      </q-input>
-
-      <q-input :dark="dark" :dense="dense" rounded standout v-model="text" label="Label">
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" rounded outlined v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" :dense="dense" rounded standout v-model="text" label="Label" @focus="onFocus" @blur="onBlur">
+        <q-icon slot="prepend" name="event" />
+        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+        <q-icon slot="append" name="delete" />
+      </q-input>
+
+      <div class="text-h6">Various tests</div>
+
+      <q-input :dark="dark" :prefix="prefix" :suffix="suffix" filled v-model="text" label="Events" @input="onInput" @focus="onFocus" @blur="onBlur">
+        <q-icon slot="prepend" name="event" />
+        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+        <q-icon slot="append" name="delete" />
+      </q-input>
+
+      <q-input placeholder="Gigi" :dark="dark" filled v-model="text" label="With placeholder">
+        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+      </q-input>
+
+      <q-input placeholder="Gigi" :dark="dark" filled v-model="text">
+        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+        <div slot="message">With placeholder, no label</div>
+      </q-input>
     </div>
   </div>
 </template>
@@ -247,7 +264,23 @@ export default {
     return {
       dark: false,
       dense: false,
-      text: ''
+      prefSuf: false,
+
+      text: '',
+
+      prefix: null,
+      suffix: null
+    }
+  },
+  watch: {
+    prefSuf (v) {
+      if (v) {
+        this.prefix = '$'
+        this.suffix = 'TSP'
+      }
+      else {
+        this.prefix = this.suffix = null
+      }
     }
   },
   computed: {
@@ -256,22 +289,21 @@ export default {
     }
   },
   methods: {
-    onChange (val) {
-      console.log('@change', JSON.stringify(val))
+    onBlur () {
+      console.log('@blur')
     },
-    onBlur (val) {
-      console.log('@blur', JSON.stringify(val))
+    onFocus () {
+      console.log('@focus')
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))
+    },
+    onChange (val) {
+      console.log('@change', JSON.stringify(val))
     }
   }
 }
 </script>
 
 <style lang="stylus">
-.q-field
-  // border 1px solid black
-.q-input
-  // border 1px solid black
 </style>
