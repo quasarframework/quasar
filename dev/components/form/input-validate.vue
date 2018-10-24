@@ -77,6 +77,7 @@
         label="Label"
         hint="Hint"
         :error="error"
+        style="margin-bottom: 30px"
       >
         <div slot="error">Slotted error message</div>
         <div slot="error">Second slotted error message</div>
