@@ -107,7 +107,7 @@
         <q-icon slot="after" name="delete" />
       </q-input>
 
-      <div class="text-h6">Outline</div>
+      <div class="text-h6">Outlined</div>
 
       <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" />
 

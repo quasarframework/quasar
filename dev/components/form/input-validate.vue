@@ -5,8 +5,8 @@
 
       <div class="q-gutter-sm">
         <q-radio v-model="type" val="filled" label="Filled" />
-        <q-radio v-model="type" val="standout" label="Standout" />
         <q-radio v-model="type" val="outlined" label="Outlined" />
+        <q-radio v-model="type" val="standout" label="Standout" />
         <q-radio v-model="type" val="standard" label="Standard" />
         <q-radio v-model="type" val="borderless" label="Borderless" />
       </div>

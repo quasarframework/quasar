@@ -76,8 +76,8 @@ export default Vue.extend({
         'q-field--with-bottom': this.hasBottom === true,
         'q-field--error': this.hasError === true,
 
-        'q-field--disable no-pointer-events': this.editable !== true,
-        'disabled': this.disable === true
+        'q-field--readonly no-pointer-events': this.readonly === true,
+        'disabled no-pointer-events': this.disable === true
       }
     },
 

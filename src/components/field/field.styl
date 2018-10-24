@@ -6,6 +6,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     padding-bottom 22px
 
   &__marginal
+    height 56px
     color rgba(0, 0, 0, .54)
     font-size 24px
     z-index 1
@@ -29,6 +30,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     line-height 1
     color rgba(0, 0, 0, .54)
     transform translate3d(0, 100%, 0)
+    padding 8px 12px 0
 
   &__messages
     line-height 1
@@ -49,6 +51,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     font-size 32px
 
   &--item-aligned
+    // TODO
     padding 8px 16px
 
     .q-field__before
@@ -59,6 +62,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
   &__control
     color $primary
+    height 56px
 
     &:before, &:after
       content ''
@@ -84,7 +88,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     background none
     color rgba(0,0,0,.87)
     outline 0
-    padding 0
+    padding 6px 0
 
   &__native
     width 100%
@@ -117,13 +121,6 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       color currentColor
 
   &--filled
-
-    .q-field__native, .q-field__prefix, .q-field__suffix
-      padding-top 6px
-      padding-bottom 6px
-
-    .q-field__control, .q-field__marginal
-      height 56px
 
     .q-field__control
       padding 0 12px
@@ -158,30 +155,13 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         &:after
           transform scale3d(1, 1, 1)
 
-    &.q-field--disable
+    &.q-field--readonly
       .q-field__control:before
+        opacity 1
+        background transparent
         border-bottom-style dashed
 
-    .q-field__bottom
-      padding 8px 12px 0
-
-    &.q-field--dense
-      .q-field__control, .q-field__marginal
-        height 40px
-      .q-field__control
-        padding 0 6px
-      .q-field__bottom
-        padding 4px 4px 0
-
   &--outlined
-
-    .q-field__native, .q-field__prefix, .q-field__suffix
-      padding-top 6px
-      padding-bottom 6px
-      height inherit
-
-    .q-field__control, .q-field__marginal
-      height 56px
 
     .q-field__control
       border-radius $generic-border-radius
@@ -208,56 +188,11 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         border-width 2px
         transform scale3d(1, 1, 1)
 
-    &.q-field--disable
+    &.q-field--readonly
       .q-field__control:before
         border-style dashed
 
-    .q-field__bottom
-      padding 8px 12px 0
-
-    &.q-field--dense
-      .q-field__control, .q-field__marginal
-        height 40px
-      .q-field__control
-        padding 0 6px
-      .q-field__bottom
-        padding 4px 4px 0
-
-  &--borderless
-
-    .q-field__control, .q-field__marginal
-      height 56px
-
-    .q-field__native, .q-field__prefix, .q-field__suffix
-      padding-top 6px
-      padding-bottom 6px
-
-    &.q-field--dense
-      .q-field__control, .q-field__marginal
-        height 40px
-
   &--standard
-
-    .q-field__native, .q-field__prefix, .q-field__suffix
-      padding-top 4px
-      padding-bottom 4px
-
-    &.q-field--labeled
-      .q-field__control, .q-field__marginal
-        height 46px
-      .q-field__native, .q-field__prefix, .q-field__suffix
-        padding-top 16px
-        padding-bottom 6px
-
-    .q-field__label
-      bottom 14px
-
-    &.q-field--float
-      .q-field__label
-        transform translate3d(0, -70%, 0) scale3d(.75, .75, .75)
-
-    .q-field__control, .q-field__marginal
-      height 32px
 
     .q-field__control
       &:before
@@ -281,23 +216,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       .q-field__control:after
         transform scale3d(1, 1, 1)
 
-    &.q-field--disable
+    &.q-field--readonly
       .q-field__control:before
         border-bottom-style dashed
-
-    .q-field__bottom
-      padding 8px 0 0
-
-    &.q-field--dense
-      &.q-field--labeled
-        .q-field__control, .q-field__marginal
-          height 40px
-        .q-field__native, .q-field__prefix, .q-field__suffix
-          padding-top 13px
-          padding-bottom 6px
-      .q-field__bottom
-        padding 4px 0 0
-
 
   &--dark
     &.q-field--filled .q-field__control
@@ -316,13 +237,6 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       color rgba(255, 255, 255, .7)
 
   &--standout
-
-    .q-field__native, .q-field__prefix, .q-field__suffix
-      padding-top 6px
-      padding-bottom 6px
-
-    .q-field__control, .q-field__marginal
-      height 56px
 
     .q-field__control
       padding 0 12px
@@ -350,8 +264,11 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append
         color white
 
-    .q-field__bottom
-      padding 8px 12px 0
+    &.q-field--readonly
+      .q-field__control:before
+        opacity 1
+        background transparent
+        border 1px dashed rgba(0,0,0,.24)
 
     &.q-field--dark
       .q-field__control
@@ -365,14 +282,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
             background white
         .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append
           color black
-
-    &.q-field--dense
-      .q-field__control, .q-field__marginal
-        height 40px
-      .q-field__control
-        padding 0 6px
-      .q-field__bottom
-        padding 4px 4px 0
+      &.q-field--readonly
+        .q-field__control:before
+          border-color rgba(255, 255, 255, .24)
 
   &--labeled
     .q-field__native, .q-field__prefix, .q-field__suffix
@@ -400,6 +312,13 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         padding-bottom 3px
 
   &--dense
+    .q-field__control, .q-field__marginal
+      height 40px
+    .q-field__control
+      padding 0 6px
+    .q-field__bottom
+      padding 4px 4px 0
+
     .q-field__label
       font-size 14px
       bottom 11px
@@ -410,6 +329,13 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
     .q-avatar
       font-size 24px
+
+  &--borderless, &--standard
+
+    .q-field__bottom,
+    &.q-field--dense .q-field__control
+      padding-left 0
+      padding-right 0
 
   &--error
     .q-field__label
