@@ -30,7 +30,7 @@ export default Vue.extend({
     borderless: Boolean,
     standout: Boolean,
 
-    hasMsg: Boolean,
+    bottomSlots: Boolean,
     rounded: Boolean,
     dense: Boolean,
     itemAligned: Boolean,
@@ -55,7 +55,7 @@ export default Vue.extend({
     },
 
     hasBottom () {
-      return this.hasMsg === true || this.hint !== void 0 || this.rules !== void 0
+      return this.bottomSlots === true || this.hint !== void 0 || this.rules !== void 0
     },
 
     classes () {
@@ -73,7 +73,7 @@ export default Vue.extend({
         'q-field--item-aligned q-item-type': this.itemAligned === true,
         'q-field--dark': this.dark === true,
 
-        'q-field--messages': this.hasBottom === true,
+        'q-field--with-bottom': this.hasBottom === true,
         'q-field--error': this.hasError === true,
 
         'q-field--disable no-pointer-events': this.editable !== true,
@@ -182,7 +182,7 @@ export default Vue.extend({
           }, msg)
         ]),
 
-        this.counter !== void 0 ? h('div', {
+        this.counter === true ? h('div', {
           staticClass: 'q-field__counter'
         }, [ this.computedCounter ]) : null
       ])

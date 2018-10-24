@@ -61,6 +61,17 @@
         :error="error"
         :error-message="errorMessage"
       />
+
+      <q-input
+        ref="inputExternal"
+        filled
+        v-model="modelExternal"
+        label="Label"
+        hint="Hint"
+        :error="error"
+      >
+        <div slot="error">Slotted error message</div>
+      </q-input>
     </div>
   </div>
 </template>

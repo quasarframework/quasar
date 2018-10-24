@@ -22,10 +22,7 @@ export default Vue.extend({
       validator: t => inputTypes.includes(t)
     },
 
-    counter: {
-      type: Boolean,
-      default: void 0
-    },
+    counter: Boolean,
     maxlength: [Number, String]
   },
 
