@@ -2,6 +2,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
 .q-field
 
+  &--messages
+    padding-bottom 20px
+
   &__marginal
     color rgba(0, 0, 0, .54)
     font-size 24px
@@ -21,18 +24,22 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     text-align left
 
   &__bottom
-    font-size 11px
+    font-size 12px
+    min-height 12px
     line-height 1
     color rgba(0, 0, 0, .54)
-
-    .q-field__control + &
-      margin-top 8px
+    transform translate3d(0, 100%, 0)
 
   &__messages
-    word-break break-word
-    word-wrap break-word
-    overflow-wrap break-word
     line-height 1
+
+    > div
+      word-break break-word
+      word-wrap break-word
+      overflow-wrap break-word
+
+      & + div
+        margin-top 4px
 
   &__counter
     padding-left 8px
@@ -156,7 +163,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         border-bottom-style dashed
 
     .q-field__bottom
-      padding 0 12px
+      padding 8px 12px 0
 
     &.q-field--dense
       .q-field__control, .q-field__marginal
@@ -164,7 +171,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       .q-field__control
         padding 0 6px
       .q-field__bottom
-        padding 0 4px
+        padding 4px 4px 0
 
   &--outlined
 
@@ -206,7 +213,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         border-style dashed
 
     .q-field__bottom
-      padding 0 12px
+      padding 8px 12px 0
 
     &.q-field--dense
       .q-field__control, .q-field__marginal
@@ -214,7 +221,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       .q-field__control
         padding 0 6px
       .q-field__bottom
-        padding 0 4px
+        padding 4px 4px 0
 
   &--borderless
 
@@ -278,6 +285,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       .q-field__control:before
         border-bottom-style dashed
 
+    .q-field__bottom
+      padding 8px 0 0
+
     &.q-field--dense
       &.q-field--labeled
         .q-field__control, .q-field__marginal
@@ -285,6 +295,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         .q-field__native, .q-field__prefix, .q-field__suffix
           padding-top 13px
           padding-bottom 6px
+      .q-field__bottom
+        padding 4px 0 0
+
 
   &--dark
     &.q-field--filled .q-field__control
@@ -338,7 +351,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         color white
 
     .q-field__bottom
-      padding 0 12px
+      padding 8px 12px 0
 
     &.q-field--dark
       .q-field__control
@@ -359,7 +372,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       .q-field__control
         padding 0 6px
       .q-field__bottom
-        padding 0 4px
+        padding 4px 4px 0
 
   &--labeled
     .q-field__native, .q-field__prefix, .q-field__suffix
@@ -394,8 +407,35 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       padding-right 6px
     .q-field__after, .q-field__append
       padding-left 6px
-    .q-field__control + .q-field__bottom
-      margin-top 4px
 
     .q-avatar
       font-size 24px
+
+  &--error
+    .q-field__label
+      animation q-field-label .36s
+
+    .q-field__bottom
+      color $negative
+
+.q-transition--field-message
+  &-enter-active,
+  &-leave-active
+    transition transform .6s cubic-bezier(.86, 0, .07, 1), opacity .6s cubic-bezier(.86, 0, .07, 1)
+
+  &-enter, &-leave-to
+    opacity 0
+    transform translate3d(0, -10px, 0)
+
+  &-leave, &-leave-active
+    position absolute
+
+@keyframes q-field-label
+  40%
+    margin-left 2px
+
+  60%, 80%
+    margin-left -2px
+
+  70%, 90%
+    margin-left 2px

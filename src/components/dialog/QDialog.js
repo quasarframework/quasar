@@ -103,14 +103,14 @@ export default Vue.extend({
   },
 
   methods: {
-    wobble () {
+    shake () {
       const node = this.__portal.$refs.inner
 
-      node.classList.remove('q-animate-wobble')
-      node.classList.add('q-animate-wobble')
+      node.classList.remove('q-animate--scale')
+      node.classList.add('q-animate--scale')
       clearTimeout(this.shakeTimeout)
       this.shakeTimeout = setTimeout(() => {
-        node.classList.remove('q-animate-wobble')
+        node.classList.remove('q-animate--scale')
       }, 170)
     },
 
@@ -132,7 +132,7 @@ export default Vue.extend({
       EscapeKey.register(() => {
         if (this.seamless !== true) {
           if (this.persistent || this.noEscKey === true) {
-            this.maximized !== true && this.wobble()
+            this.maximized !== true && this.shake()
           }
           else {
             this.$emit('escape-key')
@@ -219,7 +219,7 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
-              click: this.persistent === false ? this.hide : this.wobble
+              click: this.persistent === false ? this.hide : this.shake
             }
           })
         ] : null),

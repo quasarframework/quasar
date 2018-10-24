@@ -7,199 +7,201 @@
         <q-toggle :dark="dark" v-model="dense" label="Dense" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
+        <q-toggle :dark="dark" v-model="hasMsg" label="Has Messages" />
         <q-toggle :dark="dark" v-model="prefSuf" label="Prefix + Suffix" />
+        <q-toggle :dark="dark" v-model="hideHint" label="Hide Hint" />
       </div>
 
       <div class="text-h6">Standard</div>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" />
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" />
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label (stacked)" stack-label/>
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label" />
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label" />
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="search" />
 
-        <div slot="message">Field message</div>
+        <div slot="hint">Field hint</div>
 
         <q-icon slot="after" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
-        <div slot="message">Field message</div>
+        <div slot="hint">Field hint</div>
 
         <q-icon slot="after" name="delete" />
       </q-input>
 
       <div class="text-h6">Filled</div>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" />
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" />
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label (stacked)" stack-label/>
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" />
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" />
 
       <q-input :dense="dense" dark filled v-model="text" label="Label" color="orange" bg-color="black">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label">
-        <q-icon slot="prepend" name="event" />
-        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
-        <q-icon slot="append" name="delete" />
-      </q-input>
-
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" counter>
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
-
-        <div slot="message">Field message</div>
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" counter>
+        <q-icon slot="prepend" name="event" />
+        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+        <q-icon slot="append" name="delete" />
+
+        <div slot="hint">Field hint</div>
+      </q-input>
+
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="search" />
 
-        <div slot="message">Field message</div>
+        <div slot="hint">Field hint</div>
 
         <q-icon slot="after" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
-        <div slot="message">Field message</div>
+        <div slot="hint">Field hint</div>
 
         <q-icon slot="after" name="delete" />
       </q-input>
 
       <div class="text-h6">Outline</div>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" />
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" />
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label (stacked)" stack-label/>
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label" />
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label" />
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label (stacked)" stack-label>
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label (stacked)" stack-label>
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="search" />
 
-        <div slot="message">Field message</div>
+        <div slot="hint">Field hint</div>
 
         <q-icon slot="after" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
-        <div slot="message">Field message</div>
+        <div slot="hint">Field hint</div>
 
         <q-icon slot="after" name="delete" />
       </q-input>
 
       <div class="text-h6">Standout</div>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" />
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" />
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label (stacked)" stack-label/>
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" />
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" />
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-avatar slot="append">
           <img src="statics/quasar-logo.png">
         </q-avatar>
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
 
-        <div slot="message">Field message</div>
+        <div slot="hint">Field hint</div>
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="search" />
 
-        <div slot="message">Field message</div>
+        <div slot="hint">Field hint</div>
 
         <q-icon slot="after" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
-        <div slot="message">Field message</div>
+        <div slot="hint">Field hint</div>
 
         <q-icon slot="after" name="delete" />
       </q-input>
@@ -218,64 +220,64 @@
 
       <div class="text-h6">Borderless</div>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" />
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" />
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label (stacked)" stack-label/>
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label" />
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label" />
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label (stacked)" stack-label>
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label (stacked)" stack-label>
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="search" />
 
-        <div slot="message">Field message</div>
+        <div slot="hint">Field hint</div>
 
         <q-icon slot="after" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label" counter="12">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
-        <div slot="message">Field message</div>
+        <div slot="hint">Field hint</div>
 
         <q-icon slot="after" name="delete" />
       </q-input>
 
       <div class="text-h6">Rounded</div>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" rounded filled v-model="text" label="Label">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" rounded filled v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" rounded outlined v-model="text" label="Label">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" rounded outlined v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" rounded standout v-model="text" label="Label" @focus="onFocus" @blur="onBlur">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" rounded standout v-model="text" label="Label" @focus="onFocus" @blur="onBlur">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
@@ -283,9 +285,9 @@
 
       <div class="text-h6">Various tests</div>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" filled v-model="text" label="Events" @input="onInput" @focus="onFocus" @blur="onBlur">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" filled v-model="events" label="Events" @input="onInput" @focus="onFocus" @blur="onBlur">
         <q-icon slot="prepend" name="event" />
-        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+        <q-icon slot="append" name="close" @click="events = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
@@ -295,12 +297,12 @@
 
       <q-input placeholder="Gigi" :dark="dark" filled v-model="text">
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
-        <div slot="message">With placeholder, no label</div>
+        <div slot="hint">With placeholder, no label</div>
       </q-input>
 
-      <q-input :dark="dark" :disable="disable" :readonly="readonly" filled suffix="@gmail.com" v-model="text" label="Password" :type="password ? 'password' : 'text'">
+      <q-input :dark="dark" :has-msg="hasMsg" :hide-hint="hideHint" :disable="disable" :readonly="readonly" filled suffix="@gmail.com" v-model="text" label="Password" :type="password ? 'password' : 'text'">
         <q-icon slot="append" :name="password ? 'visibility_off' : 'visibility'" @click="password = !password" class="cursor-pointer" />
-        <div slot="message">With placeholder, no label</div>
+        <div slot="hint">With placeholder, no label</div>
       </q-input>
     </div>
   </div>
@@ -315,8 +317,11 @@ export default {
       disable: false,
       readonly: false,
       prefSuf: false,
+      hideHint: false,
+      hasMsg: true,
 
       text: '',
+      events: '',
 
       pass: '',
       password: true,

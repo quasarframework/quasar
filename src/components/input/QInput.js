@@ -23,15 +23,16 @@ export default Vue.extend({
     },
 
     counter: {
-      type: [Boolean, String, Number],
+      type: Boolean,
       default: void 0
-    }
+    },
+    maxlength: [Number, String]
   },
 
   computed: {
     computedCounter () {
       if (this.counter !== false) {
-        return this.value.length + (this.counter !== true ? '/' + this.counter : '')
+        return this.value.length + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
       }
     }
   },
@@ -57,6 +58,7 @@ export default Vue.extend({
         attrs: {
           ...this.$attrs,
           type: this.type,
+          maxlength: this.maxlength,
           disabled: this.disable,
           readonly: this.readonly
         },
