@@ -309,6 +309,24 @@
         <q-icon slot="append" :name="password ? 'visibility_off' : 'visibility'" @click="password = !password" class="cursor-pointer" />
         <div slot="hint">With placeholder & suffix</div>
       </q-input>
+
+      <q-input :dark="dark" v-model="text" filled hint="With tooltip">
+        <q-tooltip>Some tooltip</q-tooltip>
+      </q-input>
+
+      <q-input :dark="dark" v-model="text" filled hint="With menu" style="margin-bottom: 100px">
+        <q-menu fit auto-close>
+          <q-list padding style="min-width: 100px">
+            <q-item
+              v-for="n in 2"
+              :key="n"
+              clickable
+            >
+              <q-item-section>Label</q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu>
+      </q-input>
     </div>
   </div>
 </template>
