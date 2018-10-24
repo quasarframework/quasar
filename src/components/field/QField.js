@@ -182,9 +182,9 @@ export default Vue.extend({
           }, msg)
         ]),
 
-        this.counter === true ? h('div', {
+        this.counter === true || this.$slots.counter !== void 0 ? h('div', {
           staticClass: 'q-field__counter'
-        }, [ this.computedCounter ]) : null
+        }, this.$slots.counter || [ this.computedCounter ]) : null
       ])
     }
   },

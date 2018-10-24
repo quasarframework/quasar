@@ -295,14 +295,19 @@
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
       </q-input>
 
+      <q-input placeholder="Gigi" bottom-slots :dark="dark" filled v-model="text" label="With counter slot">
+        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+        <div slot="counter">Slotted counter</div>
+      </q-input>
+
       <q-input placeholder="Gigi" :dark="dark" filled v-model="text">
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <div slot="hint">With placeholder, no label</div>
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" filled suffix="@gmail.com" v-model="text" label="Password" :type="password ? 'password' : 'text'">
+      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" filled suffix="@gmail.com" v-model="text" label="Password" :type="password ? 'password' : 'text'" placeholder="Placeholder">
         <q-icon slot="append" :name="password ? 'visibility_off' : 'visibility'" @click="password = !password" class="cursor-pointer" />
-        <div slot="hint">With placeholder, no label</div>
+        <div slot="hint">With placeholder & suffix</div>
       </q-input>
     </div>
   </div>

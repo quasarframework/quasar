@@ -3,6 +3,14 @@
     <div style="max-width: 600px" class="q-gutter-y-md">
       <h1>Input Validate</h1>
 
+      <div class="q-gutter-sm">
+        <q-radio v-model="type" val="filled" label="Filled" />
+        <q-radio v-model="type" val="standout" label="Standout" />
+        <q-radio v-model="type" val="outlined" label="Outlined" />
+        <q-radio v-model="type" val="standard" label="Standard" />
+        <q-radio v-model="type" val="borderless" label="Borderless" />
+      </div>
+
       <div class="text-h6">
         Internal validation
         <q-btn label="Reset" @click="reset" color="primary" flat />
@@ -10,7 +18,7 @@
 
       <q-input
         ref="input1"
-        filled
+        v-bind="{[type]: true}"
         v-model="model1"
         label="Label *"
         :rules="[
@@ -20,7 +28,7 @@
 
       <q-input
         ref="input2"
-        filled
+        v-bind="{[type]: true}"
         v-model="model2"
         label="len <= 3"
         counter
@@ -34,7 +42,7 @@
 
       <q-input
         ref="input3"
-        filled
+        v-bind="{[type]: true}"
         v-model="model3"
         label="Required, Lazy, Len < 2"
         counter
@@ -54,7 +62,7 @@
       </div>
       <q-input
         ref="inputExternal"
-        filled
+        v-bind="{[type]: true}"
         v-model="modelExternal"
         label="Label"
         hint="Hint"
@@ -64,13 +72,14 @@
 
       <q-input
         ref="inputExternal"
-        filled
+        v-bind="{[type]: true}"
         v-model="modelExternal"
         label="Label"
         hint="Hint"
         :error="error"
       >
         <div slot="error">Slotted error message</div>
+        <div slot="error">Second slotted error message</div>
       </q-input>
     </div>
   </div>
@@ -83,6 +92,7 @@ export default {
 
     const data = {
       n,
+      type: 'filled',
       modelExternal: '',
       error: false,
       errorMessage: 'First error'
