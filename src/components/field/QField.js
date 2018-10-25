@@ -60,7 +60,7 @@ export default Vue.extend({
 
     classes () {
       return {
-        [this.$options.fieldOptions.classes]: this.$options.fieldOptions.classes,
+        [this.fieldClass]: this.fieldClass !== void 0,
 
         [`q-field--${this.styleType}`]: true,
         'q-field--rounded': this.rounded,

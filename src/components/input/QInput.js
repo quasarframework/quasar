@@ -9,10 +9,6 @@ export default Vue.extend({
 
   mixins: [ QField ],
 
-  fieldOptions: {
-    classes: 'q-input'
-  },
-
   props: {
     value: { required: true },
 
@@ -23,10 +19,17 @@ export default Vue.extend({
     },
 
     counter: Boolean,
-    maxlength: [Number, String]
+    maxlength: [Number, String],
+
+    // only for type="textarea"
+    height: String
   },
 
   computed: {
+    fieldClass () {
+      return `q-${this.type === 'textarea' ? 'textarea' : 'input'}`
+    },
+
     computedCounter () {
       if (this.counter !== false) {
         return this.value.length + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
@@ -50,10 +53,14 @@ export default Vue.extend({
     },
 
     __getControl (h) {
-      return h('input', {
+      return h(this.type === 'textarea' ? 'textarea' : 'input', {
         staticClass: 'q-field__native',
+        style: this.type === 'textarea' && this.height !== void 0
+          ? { height: this.height }
+          : null,
         attrs: {
           ...this.$attrs,
+          'aria-label': this.label,
           type: this.type,
           maxlength: this.maxlength,
           disabled: this.disable,

@@ -10,27 +10,28 @@
         <q-toggle :dark="dark" v-model="bottomSlots" label="Bottom Slots" />
         <q-toggle :dark="dark" v-model="prefSuf" label="Prefix + Suffix" />
         <q-toggle :dark="dark" v-model="hideHint" label="Hide Hint" />
+        <q-toggle :dark="dark" v-model="textarea" label="Textarea" />
       </div>
 
       <div class="text-h6">Standard</div>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" />
+      <q-input v-bind="props" v-model="text" />
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label (stacked)" stack-label/>
+      <q-input v-bind="props" v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label" />
+      <q-input v-bind="props" v-model="text" label="Label" />
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text">
+      <q-input v-bind="props" v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label">
+      <q-input v-bind="props" v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label" counter maxlength="12">
+      <q-input v-bind="props" :bottom-slots="bottomSlots" v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
@@ -42,7 +43,7 @@
         <q-icon slot="after" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" v-model="text" label="Label" counter maxlength="12">
+      <q-input v-bind="props" :bottom-slots="bottomSlots" v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <div slot="hint">Field hint</div>
@@ -52,34 +53,34 @@
 
       <div class="text-h6">Filled</div>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" />
+      <q-input v-bind="props" filled v-model="text" />
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label (stacked)" stack-label/>
+      <q-input v-bind="props" filled v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" />
+      <q-input v-bind="props" filled v-model="text" label="Label" />
 
       <q-input :dense="dense" dark filled v-model="text" label="Label" color="orange" bg-color="black">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text">
+      <q-input v-bind="props" filled v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label">
+      <q-input v-bind="props" filled v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label">
+      <q-input v-bind="props" filled v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" counter>
+      <q-input v-bind="props" :bottom-slots="bottomSlots" filled v-model="text" label="Label" counter>
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
@@ -87,7 +88,7 @@
         <div slot="hint">Field hint</div>
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" counter maxlength="12">
+      <q-input v-bind="props" :bottom-slots="bottomSlots" filled v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
@@ -99,7 +100,7 @@
         <q-icon slot="after" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" filled v-model="text" label="Label" counter maxlength="12">
+      <q-input v-bind="props" :bottom-slots="bottomSlots" filled v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <div slot="hint">Field hint</div>
@@ -109,31 +110,31 @@
 
       <div class="text-h6">Outlined</div>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" />
+      <q-input v-bind="props" outlined v-model="text" />
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label (stacked)" stack-label/>
+      <q-input v-bind="props" outlined v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label" />
+      <q-input v-bind="props" outlined v-model="text" label="Label" />
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label (stacked)" stack-label>
+      <q-input v-bind="props" outlined v-model="text" label="Label (stacked)" stack-label>
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text">
+      <q-input v-bind="props" outlined v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label">
+      <q-input v-bind="props" outlined v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label" counter maxlength="12">
+      <q-input v-bind="props" :bottom-slots="bottomSlots" outlined v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
@@ -145,7 +146,7 @@
         <q-icon slot="after" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" outlined v-model="text" label="Label" counter maxlength="12">
+      <q-input v-bind="props" :bottom-slots="bottomSlots" outlined v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <div slot="hint">Field hint</div>
@@ -155,30 +156,30 @@
 
       <div class="text-h6">Standout</div>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" />
+      <q-input v-bind="props" standout v-model="text" />
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label (stacked)" stack-label/>
+      <q-input v-bind="props" standout v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" />
+      <q-input v-bind="props" standout v-model="text" label="Label" />
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text">
+      <q-input v-bind="props" standout v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label">
+      <q-input v-bind="props" standout v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label">
+      <q-input v-bind="props" standout v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-avatar slot="append">
           <img src="statics/quasar-logo.png">
         </q-avatar>
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" counter maxlength="12">
+      <q-input v-bind="props" :bottom-slots="bottomSlots" standout v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
@@ -186,7 +187,7 @@
         <div slot="hint">Field hint</div>
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" counter maxlength="12">
+      <q-input v-bind="props" :bottom-slots="bottomSlots" standout v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
@@ -198,7 +199,7 @@
         <q-icon slot="after" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" standout v-model="text" label="Label" counter maxlength="12">
+      <q-input v-bind="props" :bottom-slots="bottomSlots" standout v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <div slot="hint">Field hint</div>
@@ -220,31 +221,31 @@
 
       <div class="text-h6">Borderless</div>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" />
+      <q-input v-bind="props" borderless v-model="text" />
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label (stacked)" stack-label/>
+      <q-input v-bind="props" borderless v-model="text" label="Label (stacked)" stack-label/>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label" />
+      <q-input v-bind="props" borderless v-model="text" label="Label" />
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label (stacked)" stack-label>
+      <q-input v-bind="props" borderless v-model="text" label="Label (stacked)" stack-label>
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text">
+      <q-input v-bind="props" borderless v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label">
+      <q-input v-bind="props" borderless v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label" counter maxlength="12">
+      <q-input v-bind="props" :bottom-slots="bottomSlots" borderless v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <q-icon slot="prepend" name="schedule" />
@@ -256,7 +257,7 @@
         <q-icon slot="after" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :bottom-slots="bottomSlots" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" borderless v-model="text" label="Label" counter maxlength="12">
+      <q-input v-bind="props" :bottom-slots="bottomSlots" borderless v-model="text" label="Label" counter maxlength="12">
         <q-icon slot="before" name="event" />
 
         <div slot="hint">Field hint</div>
@@ -266,18 +267,18 @@
 
       <div class="text-h6">Rounded</div>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" rounded filled v-model="text" label="Label">
+      <q-input v-bind="props" rounded filled v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" rounded outlined v-model="text" label="Label">
+      <q-input v-bind="props" rounded outlined v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
       </q-input>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" :dense="dense" rounded standout v-model="text" label="Label" @focus="onFocus" @blur="onBlur">
+      <q-input v-bind="props" rounded standout v-model="text" label="Label" @focus="onFocus" @blur="onBlur">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
@@ -285,7 +286,7 @@
 
       <div class="text-h6">Various tests</div>
 
-      <q-input :dark="dark" :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" filled v-model="events" label="Events" @input="onInput" @focus="onFocus" @blur="onBlur">
+      <q-input :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" filled v-model="events" label="Events" @input="onInput" @focus="onFocus" @blur="onBlur">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="events = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
@@ -310,11 +311,11 @@
         <div slot="hint">With placeholder & suffix</div>
       </q-input>
 
-      <q-input :dark="dark" v-model="text" filled hint="With tooltip">
+      <q-input v-model="text" filled hint="With tooltip">
         <q-tooltip>Some tooltip</q-tooltip>
       </q-input>
 
-      <q-input :dark="dark" v-model="text" filled hint="With menu" style="margin-bottom: 100px">
+      <q-input v-model="text" filled hint="With menu" style="margin-bottom: 100px">
         <q-menu fit auto-close>
           <q-list padding style="min-width: 100px">
             <q-item
@@ -342,6 +343,7 @@ export default {
       prefSuf: false,
       hideHint: false,
       bottomSlots: true,
+      textarea: false,
 
       text: '',
       events: '',
@@ -365,6 +367,23 @@ export default {
     }
   },
   computed: {
+    type () {
+      return 'text' + (this.textarea ? 'area' : '')
+    },
+
+    props () {
+      return {
+        dark: this.dark,
+        type: this.type,
+        hideHint: this.hideHint,
+        disable: this.disable,
+        readonly: this.readonly,
+        prefix: this.prefix,
+        suffix: this.suffix,
+        dense: this.dense
+      }
+    },
+
     length () {
       return this.text.length
     }
