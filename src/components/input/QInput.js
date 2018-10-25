@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QField from '../field/QField.js'
 
 import inputTypes from './input-types.js'
+import debounce from '../../utils/debounce.js'
 
 export default Vue.extend({
   name: 'QInput',
@@ -20,14 +21,26 @@ export default Vue.extend({
 
     counter: Boolean,
     maxlength: [Number, String],
+    autoGrow: Boolean, // makes a textarea
 
-    // only for type="textarea"
-    height: String
+    inputClass: [Array, String, Object],
+    inputStyle: [Array, String, Object]
+  },
+
+  watch: {
+    value () {
+      // textarea only
+      this.autoGrow === true && this.$nextTick(this.__adjustHeightDebounce)
+    }
   },
 
   computed: {
+    isTextarea () {
+      return this.type === 'textarea' || this.autoGrow === true
+    },
+
     fieldClass () {
-      return `q-${this.type === 'textarea' ? 'textarea' : 'input'}`
+      return `q-${this.isTextarea ? 'textarea' : 'input'}${this.autoGrow ? ' q-textarea--autogrow' : ''}`
     },
 
     computedCounter () {
@@ -39,6 +52,7 @@ export default Vue.extend({
 
   methods: {
     __onInput (e) {
+      this.autoGrow === true && this.__adjustHeight()
       this.$emit('input', e.target.value)
     },
 
@@ -52,12 +66,19 @@ export default Vue.extend({
       this.$emit('blur', e)
     },
 
+    // textarea only
+    __adjustHeight () {
+      const inp = this.$refs.input
+      inp.style.height = '1px'
+      inp.style.height = inp.scrollHeight + 'px'
+    },
+
     __getControl (h) {
-      return h(this.type === 'textarea' ? 'textarea' : 'input', {
+      return h(this.isTextarea ? 'textarea' : 'input', {
+        ref: 'input',
         staticClass: 'q-field__native',
-        style: this.type === 'textarea' && this.height !== void 0
-          ? { height: this.height }
-          : null,
+        style: this.inputStyle,
+        'class': this.inputClass,
         attrs: {
           ...this.$attrs,
           'aria-label': this.label,
@@ -76,5 +97,15 @@ export default Vue.extend({
         })
       })
     }
+  },
+
+  created () {
+    // textarea only
+    this.__adjustHeightDebounce = debounce(this.__adjustHeight, 100)
+  },
+
+  mounted () {
+    // textarea only
+    this.autoGrow === true && this.__adjustHeight()
   }
 })

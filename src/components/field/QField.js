@@ -9,10 +9,6 @@ export default Vue.extend({
 
   mixins: [ ValidateMixin ],
 
-  fieldOptions: {
-    classes: null
-  },
-
   props: {
     label: String,
     stackLabel: Boolean,
