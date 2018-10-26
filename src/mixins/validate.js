@@ -51,7 +51,7 @@ export default {
       this.innerErrorMessage = void 0
     },
 
-    validate (val) {
+    validate (val = this.value) {
       let msg, error = false
 
       for (let i = 0; i < this.rules.length; i++) {

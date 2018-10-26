@@ -3,12 +3,13 @@ import Vue from 'vue'
 import QField from '../field/QField.js'
 
 import inputTypes from './input-types.js'
+import MaskMixin from '../../mixins/mask.js'
 import debounce from '../../utils/debounce.js'
 
 export default Vue.extend({
   name: 'QInput',
 
-  mixins: [ QField ],
+  mixins: [ QField, MaskMixin ],
 
   props: {
     value: { required: true },
@@ -28,10 +29,26 @@ export default Vue.extend({
   },
 
   watch: {
-    value () {
+    value (v) {
+      if (this.hasMask === true) {
+        if (this.stopValueWatcher === true) {
+          this.stopValueWatcher = false
+          return
+        }
+
+        this.__updateMaskValue(v)
+      }
+      else if (this.innerValue !== v) {
+        this.innerValue = v
+      }
+
       // textarea only
       this.autoGrow === true && this.$nextTick(this.__adjustHeightDebounce)
     }
+  },
+
+  data () {
+    return { innerValue: this.__getInitialMaskedValue() }
   },
 
   computed: {
@@ -52,8 +69,18 @@ export default Vue.extend({
 
   methods: {
     __onInput (e) {
+      const val = e.target.value
+
+      if (this.hasMask === true) {
+        this.__updateMaskValue(val)
+      }
+      else {
+        this.$emit('input', val)
+      }
+
+      // we need to trigger it immediately too,
+      // to avoid "flickering"
       this.autoGrow === true && this.__adjustHeight()
-      this.$emit('input', e.target.value)
     },
 
     __onFocus (e) {
@@ -74,6 +101,16 @@ export default Vue.extend({
     },
 
     __getControl (h) {
+      const on = Object.assign({}, this.$listeners, {
+        input: this.__onInput,
+        focus: this.__onFocus,
+        blur: this.__onBlur
+      })
+
+      if (this.hasMask === true) {
+        on.keydown = this.__onMaskedKeydown
+      }
+
       return h(this.isTextarea ? 'textarea' : 'input', {
         ref: 'input',
         staticClass: 'q-field__native',
@@ -87,14 +124,10 @@ export default Vue.extend({
           disabled: this.disable,
           readonly: this.readonly
         },
+        on,
         domProps: {
-          value: this.value
-        },
-        on: Object.assign({}, this.$listeners, {
-          input: this.__onInput,
-          focus: this.__onFocus,
-          blur: this.__onBlur
-        })
+          value: this.innerValue
+        }
       })
     }
   },

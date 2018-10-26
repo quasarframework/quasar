@@ -47,7 +47,7 @@ export default Vue.extend({
     },
 
     floatingLabel () {
-      return this.stackLabel || this.focused || (this.value && this.value.length > 0)
+      return this.stackLabel || this.focused || (this.innerValue && this.innerValue.length > 0)
     },
 
     hasBottom () {
