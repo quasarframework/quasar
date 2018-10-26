@@ -130,7 +130,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Rogério Queiroz ($5)
 - Walison Moreira ($5)
 - Felipe Santiago ($5)
-- John (JCharante) ($1)
+- Hugo Ramses Moreno Ramos (5$)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)
