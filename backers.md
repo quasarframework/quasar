@@ -123,6 +123,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ildemaro Martinez Jr.
 - Uri Levitsky
 - Pascal Guérin
+- Jo Lee
 
 - Jim O'Quinn ($5)
 - Ken ($5)
