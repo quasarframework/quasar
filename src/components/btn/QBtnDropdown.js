@@ -72,7 +72,7 @@ export default Vue.extend({
       ),
       Icon = h(QIcon, {
         props: {
-          name: this.$q.icon.input.dropdown
+          name: 'arrow_drop_down' // this.$q.icon.input.dropdown
         },
         staticClass: 'generic-transition',
         'class': {

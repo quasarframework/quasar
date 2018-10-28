@@ -85,15 +85,6 @@ export default {
     icon: 'add',
     activeIcon: 'close'
   },
-  input: {
-    showPass: 'visibility',
-    hidePass: 'visibility_off',
-    showNumber: 'keyboard',
-    hideNumber: 'keyboard_hide',
-    clear: 'cancel',
-    clearInverted: 'clear',
-    dropdown: 'arrow_drop_down'
-  },
   pagination: {
     first: 'first_page',
     prev: 'keyboard_arrow_left',

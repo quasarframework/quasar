@@ -85,15 +85,6 @@ export default {
     icon: 'fal fa-plus',
     activeIcon: 'fal fa-times'
   },
-  input: {
-    showPass: 'fal fa-eye',
-    hidePass: 'fal fa-eye-slash',
-    showNumber: 'fal fa-calculator',
-    hideNumber: 'fal fa-keyboard',
-    clear: 'fal fa-times-circle',
-    clearInverted: 'fal fa-times',
-    dropdown: 'fal fa-caret-down'
-  },
   pagination: {
     first: 'fal fa-step-backward',
     prev: 'fal fa-chevron-left',

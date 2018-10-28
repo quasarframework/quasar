@@ -85,15 +85,6 @@ export default {
     icon: 'ion-add',
     activeIcon: 'ion-close'
   },
-  input: {
-    showPass: 'ion-eye',
-    hidePass: 'ion-eye-off',
-    showNumber: 'ion-calculator',
-    hideNumber: 'ion-keypad',
-    clear: 'ion-close-circle',
-    clearInverted: 'ion-close-circle-outline',
-    dropdown: 'ion-arrow-dropdown'
-  },
   pagination: {
     first: 'ion-skip-backward',
     prev: 'ion-arrow-back',

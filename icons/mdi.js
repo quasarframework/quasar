@@ -85,15 +85,6 @@ export default {
     icon: 'mdi-plus',
     activeIcon: 'mdi-close'
   },
-  input: {
-    showPass: 'mdi-eye',
-    hidePass: 'mdi-eye-off',
-    showNumber: 'mdi-keyboard',
-    hideNumber: 'mdi-keyboard-close',
-    clear: 'mdi-close-circle',
-    clearInverted: 'mdi-close',
-    dropdown: 'mdi-menu-down'
-  },
   pagination: {
     first: 'mdi-page-first',
     prev: 'mdi-chevron-left',
