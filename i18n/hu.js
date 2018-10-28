@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Húzza le a frissítéshez',
-    release: 'Engedje el a frissítéshez',
-    refresh: 'Frissítés...'
-  },
   table: {
     noData: 'Nincs elérhető adat',
     noResults: 'Nincsenek egyező találatok',
