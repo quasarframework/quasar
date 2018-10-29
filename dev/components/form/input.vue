@@ -285,6 +285,14 @@
         <q-icon slot="append" name="delete" />
       </q-input>
 
+      <div class="text-h6">Debounced</div>
+      <div>Model: {{ debounced }}</div>
+      <q-input filled v-model="debounced" debounce="400" label="Debounced">
+        <q-icon slot="prepend" name="history" />
+        <q-icon slot="append" name="close" @click="debounced = ''" class="cursor-pointer" />
+        <q-icon slot="append" name="delete" />
+      </q-input>
+
       <div class="text-h6">Various tests</div>
 
       <q-input :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" filled v-model="events" label="Events" @input="onInput" @focus="onFocus" @blur="onBlur">
@@ -349,6 +357,7 @@ export default {
 
       text: '',
       events: '',
+      debounced: '',
 
       pass: '',
       password: true,

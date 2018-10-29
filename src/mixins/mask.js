@@ -107,10 +107,7 @@ export default {
         val = this.__unmask(val)
       }
 
-      if (this.value !== val) {
-        this.stopValueWatcher = true
-        this.$emit('input', val)
-      }
+      this.value !== val && this.__emitValue(val, true)
     },
 
     __getCursor (inp) {

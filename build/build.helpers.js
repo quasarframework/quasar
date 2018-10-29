@@ -30,11 +30,8 @@ function kebab (name) {
 }
 
 const propExceptions = {
-  'q-chips-input': ['max-height'],
-  'q-search': ['max-value']
 }
 const internalComponents = [
-  'q-input-frame'
 ]
 function applyExceptions (cache) {
   internalComponents.forEach(name => {

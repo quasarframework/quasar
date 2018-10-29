@@ -20,6 +20,8 @@ export default Vue.extend({
       validator: t => inputTypes.includes(t)
     },
 
+    debounce: [String, Number],
+
     counter: Boolean,
     maxlength: [Number, String],
     autoGrow: Boolean, // makes a textarea
@@ -75,12 +77,29 @@ export default Vue.extend({
         this.__updateMaskValue(val)
       }
       else {
-        this.$emit('input', val)
+        this.__emitValue(val)
       }
 
       // we need to trigger it immediately too,
       // to avoid "flickering"
       this.autoGrow === true && this.__adjustHeight()
+    },
+
+    __emitValue (val, stopWatcher) {
+      const fn = () => {
+        if (this.value !== val) {
+          stopWatcher === true && (this.stopValueWatcher = true)
+          this.$emit('input', val)
+        }
+      }
+
+      if (this.debounce !== void 0) {
+        clearTimeout(this.emitTimer)
+        this.emitTimer = setTimeout(fn, this.debounce)
+      }
+      else {
+        fn()
+      }
     },
 
     __onFocus (e) {
@@ -140,5 +159,9 @@ export default Vue.extend({
   mounted () {
     // textarea only
     this.autoGrow === true && this.__adjustHeight()
+  },
+
+  beforeDestroy () {
+    clearTimeout(this.emitTimer)
   }
 })
