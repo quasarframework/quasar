@@ -91,7 +91,11 @@ export default Vue.extend({
           this.$emit('input', model)
           this.$emit('remove', { index, value: model.splice(index, 1) })
         }
-        else if (model.length < this.maxValues) {
+        else {
+          if (this.maxValues !== void 0 && model.length < this.maxValues) {
+            return
+          }
+
           this.$emit('input', model)
           model.push(val)
           this.$emit('add', { index: model.length - 1, value: opt })
