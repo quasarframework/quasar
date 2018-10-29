@@ -35,7 +35,8 @@ export default Vue.extend({
       default: 'value'
     },
 
-    counter: Boolean
+    counter: Boolean,
+    maxValues: [Number, String]
   },
 
   data () {
@@ -63,7 +64,7 @@ export default Vue.extend({
 
     computedCounter () {
       if (this.multiple === true && this.counter === true) {
-        return this.value.length
+        return this.value.length + (this.maxValues !== void 0 ? ' / ' + this.maxValues : '')
       }
     },
 
@@ -87,14 +88,14 @@ export default Vue.extend({
           index = model.findIndex(v => isDeepEqual(v, val))
 
         if (index > -1) {
+          this.$emit('input', model)
           this.$emit('remove', { index, value: model.splice(index, 1) })
         }
-        else {
-          this.$emit('add', { index: model.length, value: opt })
+        else if (model.length < this.maxValues) {
+          this.$emit('input', model)
           model.push(val)
+          this.$emit('add', { index: model.length - 1, value: opt })
         }
-
-        this.$emit('input', model)
       }
       else {
         !isDeepEqual(this.value, val) && this.$emit('input', val)

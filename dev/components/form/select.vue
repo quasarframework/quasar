@@ -157,6 +157,21 @@
         </q-chip>
       </q-select>
 
+      <div class="text-h6">Max values (in this case 2)</div>
+      <q-select
+        v-bind="props"
+        v-model="multi1"
+        :options="selectOptions"
+        multiple
+        counter
+        max-values="2"
+      >
+        <q-chip slot="selected" color="white" text-color="black" v-for="sel in multi1" :key="sel">
+          <q-avatar color="primary" text-color="white" icon="directions" />
+          {{ sel }}
+        </q-chip>
+      </q-select>
+
       <div class="text-h6">Use Object</div>
       <q-select
         ref="select"
@@ -232,7 +247,7 @@
 export default {
   data () {
     const heavyOptions = []
-    for (let i = 0; i <= 1000; i++) {
+    for (let i = 0; i <= 5000; i++) {
       heavyOptions.push({
         label: 'Opt ' + Math.random(),
         value: Math.random()

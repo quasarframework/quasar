@@ -13,7 +13,7 @@ export function isDeepEqual (a, b) {
 
   const props = Object.keys(a)
 
-  if (Object.keys(a).length !== Object.keys(b).length) {
+  if (props.length !== Object.keys(b).length) {
     return false
   }
 
