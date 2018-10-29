@@ -37,7 +37,7 @@ export default {
     indeterminate: 'mdi-minus-box'
   },
   chip: {
-    close: 'mdi-close-circle',
+    remove: 'mdi-close-circle',
     selected: 'mdi-check'
   },
   chipsInput: {

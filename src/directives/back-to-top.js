@@ -1,6 +1,7 @@
 import debounce from '../utils/debounce.js'
 import { getScrollPosition, setScrollPosition, getScrollTarget } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
+import { isDeepEqual } from '../utils/is.js'
 
 function updateBinding (el, { value }) {
   const ctx = el.__qbacktotop
@@ -79,7 +80,7 @@ export default {
   },
 
   update (el, binding) {
-    if (JSON.stringify(binding.oldValue) !== JSON.stringify(binding.value)) {
+    if (!isDeepEqual(binding.oldValue, binding.value)) {
       updateBinding(el, binding)
     }
     else {

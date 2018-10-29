@@ -6,6 +6,8 @@ import QMenu from '../menu/QMenu.js'
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
 
+import { isDeepEqual } from '../../utils/is.js'
+
 export default Vue.extend({
   name: 'QSelect',
 
@@ -16,6 +18,7 @@ export default Vue.extend({
       required: true
     },
 
+    useObject: Boolean,
     multiple: Boolean,
 
     options: {
@@ -24,11 +27,11 @@ export default Vue.extend({
     },
 
     optionLabel: {
-      type: String,
+      type: [Function, String],
       default: 'label'
     },
     optionValue: {
-      type: String,
+      type: [Function, String],
       default: 'value'
     },
 
@@ -43,15 +46,13 @@ export default Vue.extend({
     },
 
     selected () {
-      if (this.multiple === true) {
-        return this.options
-          .filter(opt => this.value.includes(opt[this.optionValue]))
-          .map(opt => opt[this.optionLabel])
-          .join(', ')
-      }
+      const filter = this.options
+        .filter(opt => this.__isActive(opt))
+        .map(opt => this.__getOptionLabel(opt))
 
-      const opt = this.options.find(opt => opt[this.optionValue] === this.value)
-      return opt ? opt[this.optionLabel] : ''
+      return this.multiple === true
+        ? filter.join(', ')
+        : (filter[0] !== void 0 ? filter[0] : '')
     },
 
     computedCounter () {
@@ -64,36 +65,59 @@ export default Vue.extend({
       return this.options.map((opt, i) => ({
         index: i,
         opt,
-        active: this.multiple === true
-          ? this.value.includes(opt[this.optionValue])
-          : this.value === opt[this.optionValue],
-        click: () => { this.__pick(opt) }
+        active: this.__isActive(opt),
+        click: () => { this.toggleOption(opt) }
       }))
     }
   },
 
   methods: {
-    __pick (opt) {
+    toggleOption (opt) {
+      const val = this.__getOptionValue(opt)
+
       if (this.multiple) {
         const
-          value = opt[this.optionValue],
           model = [].concat(this.value),
-          index = model.indexOf(value)
+          index = model.findIndex(v => isDeepEqual(v, val))
 
         if (index > -1) {
           this.$emit('remove', { index, value: model.splice(index, 1) })
         }
         else {
-          this.$emit('add', { index: model.length, value })
-          model.push(value)
+          this.$emit('add', { index: model.length, value: opt })
+          model.push(val)
         }
 
         this.$emit('input', model)
       }
       else {
-        const val = opt[this.optionValue]
-        this.value !== val && this.$emit('input', val)
+        !isDeepEqual(this.value, val) && this.$emit('input', val)
       }
+    },
+
+    __getOptionValue (opt) {
+      if (this.useObject === true) {
+        return opt
+      }
+
+      const prop = this.optionValue
+      return typeof prop === 'function'
+        ? prop(opt)
+        : opt[prop]
+    },
+
+    __getOptionLabel (opt) {
+      const prop = this.optionLabel
+      return typeof prop === 'function'
+        ? prop(opt)
+        : opt[prop]
+    },
+
+    __isActive (opt) {
+      const optVal = this.__getOptionValue(opt)
+      return this.multiple === true
+        ? this.value.find(val => isDeepEqual(val, optVal)) !== void 0
+        : isDeepEqual(this.value, optVal)
     },
 
     __onFocus (e) {
@@ -109,6 +133,11 @@ export default Vue.extend({
     __getControl (h) {
       return h('div', {
         staticClass: 'q-field__native row items-center no-wrap',
+        attrs: { tabindex: this.editable === true ? 0 : null },
+        on: this.editable === true ? {
+          focus: this.__onFocus,
+          blur: this.__onBlur
+        } : null,
         domProps: this.$slots.selected === void 0 ? {
           innerHTML: this.selected
         } : null
@@ -128,7 +157,7 @@ export default Vue.extend({
       }, [
         h(QItemSection, {
           domProps: {
-            innerHTML: scope.opt[this.optionLabel]
+            innerHTML: this.__getOptionLabel(scope.opt)
           }
         })
       ]))

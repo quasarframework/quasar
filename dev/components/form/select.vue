@@ -151,9 +151,32 @@
         :options="selectOptions"
         multiple
       >
-        <q-chip slot="selected" closable color="orange" v-for="sel in multi1" :key="sel">
-          <q-avatar color="teal" text-color="white" icon="directions" />
+        <q-chip slot="selected" color="white" text-color="black" v-for="sel in multi1" :key="sel">
+          <q-avatar color="primary" text-color="white" icon="directions" />
           {{ sel }}
+        </q-chip>
+      </q-select>
+
+      <div class="text-h6">Use Object</div>
+      <q-select
+        ref="select"
+        v-bind="props"
+        v-model="obj"
+        use-object
+        :options="selectOptions"
+        multiple
+      >
+        <q-chip
+          slot="selected"
+          v-for="sel in obj"
+          :key="sel.value"
+          removable
+          color="white"
+          text-color="primary"
+          @remove="$refs.select.toggleOption(sel)"
+        >
+          <q-avatar color="primary" text-color="white" :icon="sel.icon" />
+          <span v-html="sel.label" />
         </q-chip>
       </q-select>
 
@@ -226,6 +249,7 @@ export default {
       select2: 'fb',
       multi1: ['goog', 'twtr'],
       multi2: [],
+      obj: [],
 
       selectOptions: [
         {

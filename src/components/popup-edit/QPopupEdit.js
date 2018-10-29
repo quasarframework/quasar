@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
 import clone from '../../utils/clone.js'
+import { isDeepEqual } from '../../utils/is.js'
 
 export default Vue.extend({
   name: 'QPopupEdit',
@@ -55,7 +56,7 @@ export default Vue.extend({
     },
 
     __hasChanged () {
-      return JSON.stringify(this.value) !== JSON.stringify(this.initialValue)
+      return !isDeepEqual(this.value, this.initialValue)
     },
 
     __close () {

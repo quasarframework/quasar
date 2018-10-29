@@ -9,6 +9,10 @@ export default Vue.extend({
 
   mixins: [ RippleMixin ],
 
+  model: {
+    event: 'remove'
+  },
+
   props: {
     dense: Boolean,
 
@@ -33,7 +37,7 @@ export default Vue.extend({
     square: Boolean,
     outline: Boolean,
     clickable: Boolean,
-    closable: Boolean,
+    removable: Boolean,
 
     tabindex: [String, Number],
     disable: Boolean
@@ -83,10 +87,10 @@ export default Vue.extend({
       }
     },
 
-    __onClose (e) {
+    __onRemove (e) {
       if (e.keyCode === void 0 || e.keyCode === 13) {
         stopAndPrevent(e)
-        !this.disable && this.$emit('input', false)
+        !this.disable && this.$emit('remove', false)
       }
     },
 
@@ -124,13 +128,13 @@ export default Vue.extend({
         props: { name: this.iconRight }
       }))
 
-      this.closable && child.push(h(QIcon, {
-        staticClass: 'q-chip__icon q-chip__icon--close cursor-pointer',
-        props: { name: this.$q.icon.chip.close },
+      this.removable && child.push(h(QIcon, {
+        staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
+        props: { name: this.$q.icon.chip.remove },
         attrs: { tabindex: this.computedTabindex },
         nativeOn: {
-          click: this.__onClose,
-          keyup: this.__onClose
+          click: this.__onRemove,
+          keyup: this.__onRemove
         }
       }))
 

@@ -1,8 +1,10 @@
 import Vue from 'vue'
 
-import { between } from '../../utils/format.js'
 import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
+
+import { between } from '../../utils/format.js'
+import { isDeepEqual } from '../../utils/is.js'
 
 export default Vue.extend({
   name: 'QPagination',
@@ -84,7 +86,7 @@ export default Vue.extend({
         }
         const value = between(parseInt(val, 10), this.min, this.max)
         this.$emit('input', value)
-        JSON.stringify(value) !== JSON.stringify(this.value) && this.$emit('change', value)
+        !isDeepEqual(value, this.value) && this.$emit('change', value)
       }
     },
 

@@ -6,6 +6,7 @@ import TouchPan from '../../directives/touch-pan.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import throttle from '../../utils/throttle.js'
 import clone from '../../utils/clone.js'
+import { isDeepEqual } from '../../utils/is.js'
 import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors.js'
 
 export default Vue.extend({
@@ -406,7 +407,7 @@ export default Vue.extend({
 
       // emit new value
       this.$emit('input', value)
-      change && JSON.stringify(value) !== JSON.stringify(this.value) && this.$emit('change', value)
+      change && !isDeepEqual(value, this.value) && this.$emit('change', value)
     },
 
     __nextInputView () {

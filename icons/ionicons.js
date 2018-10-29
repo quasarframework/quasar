@@ -37,7 +37,7 @@ export default {
     indeterminate: 'ion-remove-circle'
   },
   chip: {
-    close: 'ion-close-circle',
+    remove: 'ion-close-circle',
     selected: 'ion-checkmark'
   },
   chipsInput: {

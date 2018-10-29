@@ -1,3 +1,25 @@
+export function isDeepEqual (a, b) {
+  if (a === b) {
+    return true
+  }
+
+  if (a instanceof Date && b instanceof Date) {
+    return a.getTime() === b.getTime()
+  }
+
+  if (a !== Object(a) || b !== Object(b)) {
+    return false
+  }
+
+  const props = Object.keys(a)
+
+  if (Object.keys(a).length !== Object.keys(b).length) {
+    return false
+  }
+
+  return props.every(prop => isDeepEqual(a[prop], b[prop]))
+}
+
 export function isPrintableChar (v) {
   return (v > 47 && v < 58) || // number keys
     v === 32 || v === 13 || // spacebar & return key(s) (if you want to allow carriage returns)
