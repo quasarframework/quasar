@@ -173,8 +173,9 @@ export default Vue.extend({
       }
     },
 
-    __onAutoClose () {
+    __onAutoClose (e) {
       closeRootMenu(this.portalId)
+      this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 
     __toggleKey (evt) {

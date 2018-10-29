@@ -249,7 +249,12 @@ export default {
       select2: 'fb',
       multi1: ['goog', 'twtr'],
       multi2: [],
-      obj: [],
+      obj: [{
+        label: 'Facebook',
+        value: 'fb',
+        description: 'Social media',
+        icon: 'bluetooth'
+      }],
 
       selectOptions: [
         {

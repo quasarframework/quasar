@@ -38,6 +38,12 @@ export default Vue.extend({
     counter: Boolean
   },
 
+  data () {
+    return {
+      optionsToShow: 20
+    }
+  },
+
   computed: {
     innerValue () {
       return this.value === void 0 || this.value === null
@@ -62,7 +68,7 @@ export default Vue.extend({
     },
 
     optionScope () {
-      return this.options.map((opt, i) => ({
+      return this.options.slice(0, this.optionsToShow).map((opt, i) => ({
         index: i,
         opt,
         active: this.__isActive(opt),
@@ -122,12 +128,23 @@ export default Vue.extend({
 
     __onFocus (e) {
       this.focused = true
+      this.optionsToShow = 20
       this.$emit('focus', e)
     },
 
     __onBlur (e) {
       this.focused = false
       this.$emit('blur', e)
+    },
+
+    __onScroll () {
+      if (this.optionsToShow < this.options.length) {
+        const el = this.$refs.menu.__portal.$el
+
+        if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) {
+          this.optionsToShow += 20
+        }
+      }
     },
 
     __getControl (h) {
@@ -169,13 +186,15 @@ export default Vue.extend({
       if (this.editable === false) { return }
 
       return h(QMenu, {
+        ref: 'menu',
         props: {
           cover: true,
           autoClose: this.multiple !== true
         },
         on: {
           'before-show': this.__onFocus,
-          'before-hide': this.__onBlur
+          'before-hide': this.__onBlur,
+          '&scroll': this.__onScroll
         }
       }, this.__getOptions(h))
     }
