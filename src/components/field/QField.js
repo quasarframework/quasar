@@ -51,7 +51,7 @@ export default Vue.extend({
     },
 
     hasBottom () {
-      return this.bottomSlots === true || this.hint !== void 0 || this.rules !== void 0
+      return this.bottomSlots === true || this.hint !== void 0 || this.rules !== void 0 || this.counter === true
     },
 
     classes () {
@@ -129,7 +129,11 @@ export default Vue.extend({
           this.suffix !== void 0 && this.suffix !== null ? h('div', {
             staticClass: 'q-field__suffix no-pointer-events row items-center'
           }, [ this.suffix ]) : null
-        ].concat(this.$slots.default)),
+        ].concat(
+          this.__getDefaultSlot !== void 0
+            ? this.__getDefaultSlot(h)
+            : this.$slots.default
+        )),
 
         this.$slots.append !== void 0 || this.hasError === true ? h('div', {
           staticClass: 'q-field__append q-field__marginal row no-wrap items-center'

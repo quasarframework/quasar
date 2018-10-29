@@ -91,10 +91,7 @@ export default Vue.extend({
   methods: {
     __showCondition (evt) {
       // abort with no parent configured or on multi-touch
-      if (this.anchorEl === void 0 || (evt !== void 0 && evt.touches !== void 0 && evt.touches.length > 1)) {
-        return false
-      }
-      return true
+      return !(this.anchorEl === void 0 || (evt !== void 0 && evt.touches !== void 0 && evt.touches.length > 1))
     },
 
     __show (evt) {

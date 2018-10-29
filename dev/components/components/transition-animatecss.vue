@@ -9,8 +9,8 @@
         <div class="caption">(only 4 anims showcased here)</div>
         <br>
         <div class="row no-wrap">
-          <q-select class="col" v-model="enter" :options="enterSelectOptions" stack-label="CSS Enter Class" />
-          <q-select class="col" v-model="leave" :options="leaveSelectOptions" stack-label="CSS Leave Class" />
+          <q-select class="col" v-model="enter" :options="enterSelectOptions" stack-label label="CSS Enter Class" />
+          <q-select class="col" v-model="leave" :options="leaveSelectOptions" stack-label label="CSS Leave Class" />
         </div>
       </q-card-section>
     </q-card>

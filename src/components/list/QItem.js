@@ -8,6 +8,7 @@ export default Vue.extend({
   mixins: [ RouterLinkMixin ],
 
   props: {
+    active: Boolean,
     clickable: Boolean,
     dense: Boolean,
     inset: Boolean,
@@ -36,6 +37,7 @@ export default Vue.extend({
         'q-item--dense': this.dense,
         'q-item--inset': this.inset,
         'q-item--dark': this.dark,
+        'q-item--active': this.active,
         'disabled': this.disable
       }
     }

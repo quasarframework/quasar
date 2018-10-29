@@ -1,180 +1,206 @@
 <template>
   <div>
-    <div class="q-layout-padding">
-      <p class="caption">Single Selection</p>
-      <q-select v-model="select" @change="onChange" @input="onInput" :options="selectOptions" align="right" clearable />
-      <q-select v-model="select" :options="selectOptions" separator/>
-      <q-select v-model="select" :options="selectListOptions"/>
-      <q-select v-model="select" :options="selectDisabledOptions"/>
+    <div class="q-layout-padding q-gutter-y-md">
+      <div class="q-gutter-sm">
+        <q-radio v-model="type" val="filled" label="Filled" />
+        <q-radio v-model="type" val="outlined" label="Outlined" />
+        <q-radio v-model="type" val="standout" label="Standout" />
+        <q-radio v-model="type" val="standard" label="Standard" />
+        <q-radio v-model="type" val="borderless" label="Borderless" />
+      </div>
 
-      <p class="caption">Hide Underline</p>
-      <q-select hide-underline v-model="select" :options="selectDisabledOptions"/>
-      <q-select hide-underline color="amber" v-model="select" :options="selectListOptions"/>
-      <q-select hide-underline inverted color="secondary" v-model="select" :options="selectListOptions"/>
+      <div class="text-h6">Single</div>
+      <q-select
+        v-bind="props"
+        v-model="select1"
+        :options="selectOptions"
+        label="Single"
+      />
 
-      <p class="caption">Coloring</p>
-      <q-select color="amber" v-model="select" :options="selectListOptions"/>
-      <q-select inverted color="secondary" v-model="select" :options="selectListOptions"/>
-      <q-select inverted float-label="Float Label" color="amber" v-model="select" :options="selectListOptions"/>
-      <q-select inverted float-label="Float Label" color="white" :dark="false" v-model="select" :options="selectListOptions"/>
-
-      <p class="caption">Single Selection with Radio</p>
-      <q-field label="gogu">
-        <q-select @change="onChange" @input="onInput" v-model="select" float-label="Gogu" radio :options="selectListOptions" :count="10"/>
-      </q-field>
-      <q-field label="gogu">
-        <q-select @change="onChange" @input="onInput" v-model="select" float-label="Gogu" radio :options="selectDisabledOptions" :count="10"/>
-      </q-field>
-
-      <p class="caption">Multiple Selection</p>
-      <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :options="selectListOptions" clearable/>
-      <q-select @change="val => { multipleSelect = val; onChange(val); }" @input="onInput" multiple :value="multipleSelect" :options="selectListOptions" clearable/>
-      <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :options="selectDisabledOptions"/>
-
-      <p class="caption">Multiple Selection with Chips</p>
-      <q-field label="gogu" :count="10">
-        <q-select @change="onChange" @input="onInput" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" placeholder="Gigi" max-height="36px" clearable/>
-      </q-field>
-      <q-field label="gogu" :count="10">
-        <q-select @change="onChange" @input="onInput" multiple chips v-model="multipleSelectColor" :options="selectListOptions" float-label="Some label" max-height="36px" clearable/>
-      </q-field>
-      <q-field label="gogu" :count="10">
-        <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"/>
-      </q-field>
-      <q-select inverted inverted-light color="amber" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"/>
-      <q-select inverted inverted-light color="amber" multiple chips v-model="multipleSelect" :options="selectDisabledOptions" float-label="Some label" max-height="36px"/>
-
-      <p class="caption">Multiple Selection with Checkboxes</p>
-      <q-select multiple checkbox v-model="multipleSelect" :options="selectListOptions"/>
-      <q-select multiple checkbox v-model="multipleSelect" :options="selectListOptionColors"/>
-      <q-select multiple checkbox v-model="multipleSelect" :options="selectDisabledOptions"/>
-
-      <p class="caption">Multiple Selection with Toggle</p>
-      <q-select multiple toggle v-model="multipleSelect" :options="selectListOptions"/>
-      <q-select multiple toggle v-model="multipleSelect" :options="selectListOptionColors"/>
-      <q-select multiple toggle v-model="multipleSelect" :options="selectDisabledOptions"/>
-
-      <p class="caption">Simple</p>
-      <q-select simple v-model="select" :options="selectOptions"/>
-
-      <p class="caption">With Filter</p>
-      <q-select filter v-model="select" :options="selectListOptions" />
-      <q-select filter v-model="select" :options="selectLongListOptions" />
-      <q-select filter inverted v-model="select" :options="selectListOptions" />
-      <q-select filter inverted v-model="select" :options="selectLongListOptions" />
-      <q-select filter multiple checkbox v-model="multipleSelect" :options="selectListOptions" />
-
-      <p class="caption">With Static Label</p>
-      <q-select multiple v-model="multipleSelect" :options="selectOptions" static-label="Company"/>
-
-      <p class="caption">Disabled State</p>
-      <q-select disable float-label="Disabled Select" multiple v-model="multipleSelect" :options="selectOptions"/>
-      <q-select disable @change="onChange" @input="onInput" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Disabled Select" max-height="36px" clearable/>
-      <q-select disable inverted inverted-light color="amber" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Disabled Select" max-height="36px"/>
-
-      <p class="caption">Error State</p>
-      <q-select error multiple v-model="multipleSelect" :options="selectOptions"/>
-
-      <p class="caption">Inside of a List</p>
-      <q-list>
-        <q-list-header>Single Selection</q-list-header>
-        <q-item>
-          <q-item-side icon="supervisor_account" />
-          <q-item-main>
-            <q-select
-              v-model="select"
-              :options="selectOptions"
-            />
-          </q-item-main>
+      <q-select
+        v-bind="props"
+        label="Option slot"
+        v-model="select2"
+        :options="selectOptions"
+      >
+        <q-item
+          slot="option"
+          slot-scope="scope"
+          clickable
+          :active="scope.active"
+          @click="select2 = scope.opt.value"
+        >
+          <q-item-section>
+            <q-item-label v-html="scope.opt.label" />
+            <q-item-label caption>Click on me</q-item-label>
+          </q-item-section>
         </q-item>
-        <q-item-separator />
-        <q-list-header>Multiple Selection</q-list-header>
-        <q-item>
-          <q-item-side icon="supervisor_account" />
-          <q-item-main>
-            <q-select
-              multiple
-              v-model="multipleSelect"
-              :options="selectOptions"
-            />
-          </q-item-main>
+
+        <q-icon slot="append" name="clear" @click.stop="select2 = null" />
+      </q-select>
+
+      <div class="text-h6">Multiple</div>
+      <q-select
+        v-bind="props"
+        v-model="multi1"
+        :options="selectOptions"
+        label="Multiple"
+        multiple
+      />
+
+      <q-select
+        v-bind="props"
+        label="Multiple & option slot"
+        v-model="multi2"
+        :options="selectOptions"
+        multiple
+      >
+        <q-item
+          slot="option"
+          slot-scope="scope"
+          clickable
+          :active="scope.active"
+          @click="scope.click"
+        >
+          <q-item-section>
+            <q-item-label v-html="scope.opt.label" />
+            <q-item-label caption>Click on me</q-item-label>
+          </q-item-section>
         </q-item>
-      </q-list>
 
-      <p class="caption">Scroll into View</p>
-      <q-select v-model="select" :options="selectLongListOptions"/>
-      <q-select multiple v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select multiple toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select filter v-model="select" :options="selectLongListOptions"/>
-      <q-select filter multiple v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select filter multiple toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select multiple multiple-toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select multiple multiple-toggle toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select filter multiple multiple-toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select filter multiple multiple-toggle toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select inverted multiple multiple-toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select inverted multiple multiple-toggle toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select inverted filter v-model="select" :options="selectLongListOptions"/>
-      <q-select inverted filter multiple multiple-toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select inverted filter multiple multiple-toggle toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select color="orange" inverted multiple multiple-toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select color="orange" inverted multiple multiple-toggle toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select color="orange" inverted filter v-model="select" :options="selectLongListOptions"/>
-      <q-select color="orange" inverted filter multiple multiple-toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
-      <q-select color="orange" inverted filter multiple multiple-toggle toggle v-model="multipleSelectLong" :options="selectLongListOptions"/>
+        <q-icon slot="append" name="clear" @click.stop="multi2 = []" />
+      </q-select>
 
-      <p class="caption">Display Value</p>
-      <q-select multiple v-model="multipleSelect" float-label="Gigi" :options="selectLongListOptions" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"/>
-      <q-select multiple toggle v-model="multipleSelect" :options="selectLongListOptions" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"/>
+      <div class="text-h6">Slot: option</div>
+      <q-select
+        v-bind="props"
+        v-model="multi1"
+        :options="selectOptions"
+        label="Label"
+        counter
+        multiple
+      >
+        <q-icon slot="before" name="add_location" />
+        <q-btn slot="append" icon="clear" @click.stop="multi1 = []" flat round dense />
+        <q-btn slot="append" icon="send" @click.stop flat round dense />
 
-      <p class="caption">Object Value1</p>
-      <q-select v-model="selectObject" :options="selectObjectOptions"/>
+        <q-item
+          slot="option"
+          slot-scope="scope"
+          clickable
+          :active="scope.active"
+          @click="scope.click"
+        >
+          <q-item-section avatar>
+            <q-icon :name="scope.opt.icon" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label v-html="scope.opt.label" />
+            <q-item-label caption>{{ scope.opt.description }}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-select>
 
-      <p class="caption">Blur on destroy</p>
-      <q-toggle v-model="blurTestVisible" label="Field rendered" />
-      <div v-if="blurTestVisible">
-        <q-select clearable :value="select" @change="(v) => { select = v; onChange(v) }" @blur="onBlur" :options="selectListOptions" float-label="Test here" />
-      </div>
-      <pre>Field value: `{{ select }}`</pre>
+      <q-select
+        v-bind="props"
+        v-model="multi1"
+        :options="selectOptions"
+        label="Label"
+        multiple
+      >
+        <q-item
+          dense
+          slot="option"
+          slot-scope="scope"
+          clickable
+          :active="scope.active"
+          @click="scope.click"
+        >
+          <q-item-section side>
+            <q-checkbox :value="scope.active" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label v-html="scope.opt.label" />
+            <q-item-label caption>{{ scope.opt.description }}</q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-icon :name="scope.opt.icon" />
+          </q-item-section>
+        </q-item>
+      </q-select>
 
-      <p class="caption">Size tests</p>
-      <div class="row">
-        <q-select clearable v-model="select" :options="selectListOptions"/>
-      </div>
-      <div class="row">
-        <q-select clearable v-model="select" :options="selectListOptions" placeholder="Placeholder - Long text here, to fill space" />
-      </div>
-      <div class="row">
-        <q-select clearable v-model="select" :options="selectListOptions" stack-label="Stack label - Long text here, to fill space" />
-      </div>
-      <div class="row">
-        <q-select clearable v-model="select" :options="selectListOptions" float-label="Float label - Long text here, to fill space" />
-      </div>
-      <div class="row">
-        <q-select clearable v-model="select" :options="selectListOptions" placeholder="Placeholder - Long text here, to fill space" stack-label="Stack label - Long text here, to fill space" />
-      </div>
-      <div class="row">
-        <q-select clearable v-model="select" :options="selectListOptions" placeholder="Placeholder - Long text here, to fill space" float-label="Float label - Long text here, to fill space" />
-      </div>
+      <div class="text-h6">Slot: selected</div>
+      <q-select
+        v-bind="props"
+        v-model="multi1"
+        :options="selectOptions"
+        multiple
+      >
+        <div slot="selected">
+          <em v-if="multi1.length === 0">None</em>
+          <span v-else>
+            {{ multi1[0] }}
+            <em v-if="multi1.length > 1">+ {{ multi1.length - 1 }} more</em>
+          </span>
+        </div>
+      </q-select>
 
-      <div class="row">
-        <q-select prefix="Prefix" suffix="Suffix" clearable v-model="select" :options="selectListOptions"/>
-      </div>
-      <div class="row">
-        <q-select prefix="Prefix" suffix="Suffix" clearable v-model="select" :options="selectListOptions" placeholder="Placeholder - Long text here, to fill space" />
-      </div>
-      <div class="row">
-        <q-select prefix="Prefix" suffix="Suffix" clearable v-model="select" :options="selectListOptions" stack-label="Stack label - Long text here, to fill space" />
-      </div>
-      <div class="row">
-        <q-select prefix="Prefix" suffix="Suffix" clearable v-model="select" :options="selectListOptions" float-label="Float label - Long text here, to fill space" />
-      </div>
-      <div class="row">
-        <q-select prefix="Prefix" suffix="Suffix" clearable v-model="select" :options="selectListOptions" placeholder="Placeholder - Long text here, to fill space" stack-label="Stack label - Long text here, to fill space" />
-      </div>
-      <div class="row">
-        <q-select prefix="Prefix" suffix="Suffix" clearable v-model="select" :options="selectListOptions" placeholder="Placeholder - Long text here, to fill space" float-label="Float label - Long text here, to fill space" />
-      </div>
+      <q-select
+        v-bind="props"
+        v-model="multi1"
+        :options="selectOptions"
+        multiple
+      >
+        <q-chip slot="selected" closable color="orange" v-for="sel in multi1" :key="sel">
+          <q-avatar color="teal" text-color="white" icon="directions" />
+          {{ sel }}
+        </q-chip>
+      </q-select>
+
+      <div class="text-h6">Readonly</div>
+      <q-select
+        v-bind="props"
+        readonly
+        v-model="select1"
+        :options="selectOptions"
+        label="Single"
+      />
+
+      <q-select
+        v-bind="props"
+        readonly
+        v-model="multi1"
+        :options="selectOptions"
+        label="Multiple"
+        multiple
+      />
+
+      <div class="text-h6">Disable</div>
+      <q-select
+        v-bind="props"
+        disable
+        v-model="select1"
+        :options="selectOptions"
+        label="Single"
+      />
+
+      <q-select
+        v-bind="props"
+        disable
+        v-model="multi1"
+        :options="selectOptions"
+        label="Multiple"
+        multiple
+      />
+
+      <div class="text-h6">Heavy test</div>
+      <q-select
+        v-bind="props"
+        v-model="heavyModel"
+        :options="heavyOptions"
+        label="Heavy"
+        multiple
+      />
     </div>
   </div>
 </template>
@@ -182,33 +208,55 @@
 <script>
 export default {
   data () {
+    const heavyOptions = []
+    for (let i = 0; i <= 1000; i++) {
+      heavyOptions.push({
+        label: 'Opt ' + Math.random(),
+        value: Math.random()
+      })
+    }
+
     return {
-      select: 'fb',
-      selectObject: null,
-      blurTestVisible: true,
-      multipleSelect: ['goog', 'twtr'],
-      multipleSelectColor: ['goog', 'twtr', 'ora'],
-      multipleSelectLong: [],
+      type: 'filled',
+
+      heavyModel: [],
+      heavyOptions,
+
+      select1: 'fb',
+      select2: 'fb',
+      multi1: ['goog', 'twtr'],
+      multi2: [],
+
       selectOptions: [
         {
           label: 'VW&#x00B3; Google',
-          value: 'goog'
+          value: 'goog',
+          description: 'Search engine',
+          icon: 'mail'
         },
         {
           label: 'Facebook',
-          value: 'fb'
+          value: 'fb',
+          description: 'Social media',
+          icon: 'bluetooth'
         },
         {
           label: 'Twitter',
-          value: 'twtr'
+          value: 'twtr',
+          description: 'Quick updates',
+          icon: 'map'
         },
         {
           label: 'Apple Inc.',
-          value: 'appl'
+          value: 'appl',
+          description: 'iStuff',
+          icon: 'golf_course'
         },
         {
           label: 'Oracle',
-          value: 'ora'
+          value: 'ora',
+          description: 'Databases',
+          icon: 'casino'
         }
       ],
       selectDisabledOptions: [
@@ -488,6 +536,14 @@ export default {
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))
+    }
+  },
+
+  computed: {
+    props () {
+      return {
+        [this.type]: true
+      }
     }
   }
 }
