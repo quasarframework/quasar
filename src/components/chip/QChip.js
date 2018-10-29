@@ -120,7 +120,7 @@ export default Vue.extend({
       }))
 
       child.push(h('div', {
-        staticClass: 'q-chip__content row items-center'
+        staticClass: 'q-chip__content row no-wrap items-center'
       }, this.label ? [ this.label ] : this.$slots.default))
 
       this.iconRight && child.push(h(QIcon, {

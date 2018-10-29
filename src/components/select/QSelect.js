@@ -41,20 +41,29 @@ export default Vue.extend({
 
   data () {
     return {
-      optionsToShow: 20
+      optionsToShow: 20,
+      innerValue: this.__getInnerValue(this.options)
+    }
+  },
+
+  watch: {
+    value (v) {
+      if (this.avoidValueWatcher === true) {
+        this.avoidValueWatcher = false
+      }
+      else {
+        this.innerValue = this.__getInnerValue(this.options)
+      }
+    },
+
+    options (opts) {
+      this.innerValue = this.__getInnerValue(opts)
     }
   },
 
   computed: {
-    innerValue () {
-      return this.value === void 0 || this.value === null
-        ? false
-        : this.value
-    },
-
     selected () {
-      const filter = this.options
-        .filter(opt => this.__isActive(opt))
+      const filter = this.innerValue
         .map(opt => this.__getOptionLabel(opt))
 
       return this.multiple === true
@@ -66,6 +75,15 @@ export default Vue.extend({
       if (this.multiple === true && this.counter === true) {
         return this.value.length + (this.maxValues !== void 0 ? ' / ' + this.maxValues : '')
       }
+    },
+
+    selectedScope () {
+      return this.innerValue.map((opt, i) => ({
+        index: i,
+        opt,
+        active: this.__isActive(opt),
+        remove: () => { this.toggleOption(opt) }
+      }))
     },
 
     optionScope () {
@@ -85,25 +103,43 @@ export default Vue.extend({
       if (this.multiple) {
         const
           model = [].concat(this.value),
-          index = model.findIndex(v => isDeepEqual(v, val))
+          index = this.innerValue.findIndex(v => v === opt)
 
         if (index > -1) {
-          this.$emit('input', model)
+          this.innerValue.splice(index, 1)
           this.$emit('remove', { index, value: model.splice(index, 1) })
+          this.avoidValueWatcher = true
+          this.$emit('input', model)
         }
         else {
-          if (this.maxValues !== void 0 && model.length < this.maxValues) {
+          if (this.maxValues !== void 0 && model.length >= this.maxValues) {
             return
           }
 
-          this.$emit('input', model)
+          this.$emit('add', { index: model.length, value: opt })
+          this.innerValue.push(opt)
           model.push(val)
-          this.$emit('add', { index: model.length - 1, value: opt })
+          this.avoidValueWatcher = true
+          this.$emit('input', model)
         }
       }
-      else {
-        !isDeepEqual(this.value, val) && this.$emit('input', val)
+      else if (!isDeepEqual(this.value, val)) {
+        this.innerValue = this.__getInnerValue(this.options, val)
+        this.avoidValueWatcher = true
+        this.$emit('input', val)
       }
+    },
+
+    __getInnerValue (opts, value = this.value) {
+      if (value === void 0 || value === null) {
+        return []
+      }
+
+      if (this.multiple === true) {
+        return value.map(val => opts.find(opt => isDeepEqual(this.__getOptionValue(opt), val)))
+      }
+
+      return [ opts.find(opt => isDeepEqual(this.__getOptionValue(opt), value)) ]
     },
 
     __getOptionValue (opt) {
@@ -125,10 +161,7 @@ export default Vue.extend({
     },
 
     __isActive (opt) {
-      const optVal = this.__getOptionValue(opt)
-      return this.multiple === true
-        ? this.value.find(val => isDeepEqual(val, optVal)) !== void 0
-        : isDeepEqual(this.value, optVal)
+      return this.innerValue.includes(opt)
     },
 
     __onFocus (e) {
@@ -153,6 +186,10 @@ export default Vue.extend({
     },
 
     __getControl (h) {
+      const child = this.$scopedSlots.selected !== void 0
+        ? this.selectedScope.map(scope => this.$scopedSlots.selected(scope))
+        : (this.$slots.selected !== void 0 ? this.$slots.selected : void 0)
+
       return h('div', {
         staticClass: 'q-field__native row items-center no-wrap',
         attrs: { tabindex: this.editable === true ? 0 : null },
@@ -160,10 +197,10 @@ export default Vue.extend({
           focus: this.__onFocus,
           blur: this.__onBlur
         } : null,
-        domProps: this.$slots.selected === void 0 ? {
+        domProps: child === void 0 ? {
           innerHTML: this.selected
         } : null
-      }, this.$slots.selected)
+      }, child)
     },
 
     __getOptions (h) {

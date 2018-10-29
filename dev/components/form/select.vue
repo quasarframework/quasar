@@ -9,6 +9,9 @@
         <q-radio v-model="type" val="borderless" label="Borderless" />
       </div>
 
+      <div>{{ select1 }}</div>
+      <div>{{ multi1 }}</div>
+
       <div class="text-h6">Single</div>
       <q-select
         v-bind="props"
@@ -129,31 +132,21 @@
         </q-item>
       </q-select>
 
-      <div class="text-h6">Slot: selected</div>
+      <div class="text-h6">Scoped slot: selected</div>
       <q-select
         v-bind="props"
         v-model="multi1"
         :options="selectOptions"
         multiple
       >
-        <div slot="selected">
-          <em v-if="multi1.length === 0">None</em>
-          <span v-else>
-            {{ multi1[0] }}
-            <em v-if="multi1.length > 1">+ {{ multi1.length - 1 }} more</em>
-          </span>
-        </div>
-      </q-select>
-
-      <q-select
-        v-bind="props"
-        v-model="multi1"
-        :options="selectOptions"
-        multiple
-      >
-        <q-chip slot="selected" color="white" text-color="black" v-for="sel in multi1" :key="sel">
-          <q-avatar color="primary" text-color="white" icon="directions" />
-          {{ sel }}
+        <q-chip
+          slot="selected"
+          slot-scope="scope"
+          color="white"
+          text-color="black"
+        >
+          <q-avatar color="primary" text-color="white" :icon="scope.opt.icon" />
+          <span v-html="scope.opt.label" />
         </q-chip>
       </q-select>
 
@@ -165,34 +158,71 @@
         multiple
         counter
         max-values="2"
-      >
-        <q-chip slot="selected" color="white" text-color="black" v-for="sel in multi1" :key="sel">
-          <q-avatar color="primary" text-color="white" icon="directions" />
-          {{ sel }}
-        </q-chip>
-      </q-select>
-
-      <div class="text-h6">Use Object</div>
-      <q-select
-        ref="select"
-        v-bind="props"
-        v-model="obj"
-        use-object
-        :options="selectOptions"
-        multiple
+        color="teal"
       >
         <q-chip
           slot="selected"
-          v-for="sel in obj"
-          :key="sel.value"
-          removable
+          slot-scope="scope"
           color="white"
-          text-color="primary"
-          @remove="$refs.select.toggleOption(sel)"
+          text-color="teal"
         >
-          <q-avatar color="primary" text-color="white" :icon="sel.icon" />
-          <span v-html="sel.label" />
+          <q-avatar color="teal" text-color="white" :icon="scope.opt.icon" />
+          <span v-html="scope.opt.label" />
         </q-chip>
+      </q-select>
+
+      <div class="text-h6">Use object</div>
+      <q-select
+        use-object
+        v-bind="props"
+        v-model="objSingle"
+        :options="selectOptions"
+        label="Single"
+      />
+
+      <q-select
+        use-object
+        v-bind="props"
+        v-model="objMulti"
+        :options="selectOptions"
+        label="Multiple"
+        multiple
+      />
+
+      <div class="text-h6">Use object, slot: selected</div>
+      <q-select
+        use-object
+        v-bind="props"
+        v-model="objSingle"
+        :options="selectOptions"
+        label="Single"
+      >
+        <q-chip
+          slot="selected"
+          dense
+          color="white"
+          text-color="teal"
+        >
+          <q-avatar color="teal" text-color="white" :icon="objSingle.icon" />
+          <span v-html="objSingle.label" />
+        </q-chip>
+      </q-select>
+
+      <q-select
+        use-object
+        v-bind="props"
+        v-model="objMulti"
+        :options="selectOptions"
+        label="Multiple"
+        multiple
+      >
+        <div slot="selected">
+          <em v-if="objMulti.length === 0">None</em>
+          <span v-else>
+            {{ objMulti[0].label }}
+            <em v-if="objMulti.length > 1">+ {{ objMulti.length - 1 }} more</em>
+          </span>
+        </div>
       </q-select>
 
       <div class="text-h6">Readonly</div>
@@ -231,7 +261,7 @@
         multiple
       />
 
-      <div class="text-h6">Heavy test</div>
+      <div class="text-h6">Heavy test (10k options)</div>
       <q-select
         v-bind="props"
         v-model="heavyModel"
@@ -239,6 +269,24 @@
         label="Heavy"
         multiple
       />
+
+      <q-select
+        v-bind="props"
+        v-model="heavyModel"
+        :options="heavyOptions"
+        label="Heavy"
+        multiple
+        color="teal"
+      >
+        <q-chip
+          slot="selected"
+          slot-scope="scope"
+          color="white"
+          text-color="teal"
+        >
+          <span v-html="scope.opt.label" />
+        </q-chip>
+      </q-select>
     </div>
   </div>
 </template>
@@ -247,7 +295,7 @@
 export default {
   data () {
     const heavyOptions = []
-    for (let i = 0; i <= 5000; i++) {
+    for (let i = 0; i <= 10000; i++) {
       heavyOptions.push({
         label: 'Opt ' + Math.random(),
         value: Math.random()
@@ -264,7 +312,14 @@ export default {
       select2: 'fb',
       multi1: ['goog', 'twtr'],
       multi2: [],
-      obj: [{
+
+      objSingle: {
+        label: 'Facebook',
+        value: 'fb',
+        description: 'Social media',
+        icon: 'bluetooth'
+      },
+      objMulti: [{
         label: 'Facebook',
         value: 'fb',
         description: 'Social media',
