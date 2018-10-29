@@ -71,7 +71,7 @@ export function getTargetProps (el) {
   }
 }
 
-export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset, absoluteOffset, cover }) {
+export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset, absoluteOffset, cover, fit }) {
   let
     targetProps = getTargetProps(el),
     anchorProps
@@ -97,6 +97,14 @@ export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset, a
 
   el.style.top = Math.max(0, props.top) + 'px'
   el.style.left = Math.max(0, props.left) + 'px'
+
+  if (fit === true || cover === true) {
+    el.style.minWidth = anchorProps.width + 'px'
+    if (cover === true) {
+      el.style.minHeight = anchorProps.height + 'px'
+    }
+  }
+
   if (props.maxHeight !== void 0) {
     el.style.maxHeight = props.maxHeight + 'px'
   }

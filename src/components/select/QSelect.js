@@ -81,7 +81,7 @@ export default Vue.extend({
       return this.innerValue.map((opt, i) => ({
         index: i,
         opt,
-        active: this.__isActive(opt),
+        selected: this.__isSelected(opt),
         remove: () => { this.toggleOption(opt) }
       }))
     },
@@ -90,7 +90,7 @@ export default Vue.extend({
       return this.options.slice(0, this.optionsToShow).map((opt, i) => ({
         index: i,
         opt,
-        active: this.__isActive(opt),
+        selected: this.__isSelected(opt),
         click: () => { this.toggleOption(opt) }
       }))
     }
@@ -160,7 +160,7 @@ export default Vue.extend({
         : opt[prop]
     },
 
-    __isActive (opt) {
+    __isSelected (opt) {
       return this.innerValue.includes(opt)
     },
 
@@ -191,7 +191,7 @@ export default Vue.extend({
         : (this.$slots.selected !== void 0 ? this.$slots.selected : void 0)
 
       return h('div', {
-        staticClass: 'q-field__native row items-center no-wrap',
+        staticClass: 'q-field__native row items-center',
         attrs: { tabindex: this.editable === true ? 0 : null },
         on: this.editable === true ? {
           focus: this.__onFocus,
@@ -208,7 +208,7 @@ export default Vue.extend({
         key: scope.index,
         props: {
           clickable: true,
-          active: scope.active
+          active: scope.selected
         },
         on: {
           click: scope.click

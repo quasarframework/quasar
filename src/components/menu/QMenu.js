@@ -113,14 +113,7 @@ export default Vue.extend({
       this.__registerTree()
 
       this.$nextTick(() => {
-        const { width, height, top, left } = this.anchorEl.getBoundingClientRect()
-
-        if (this.fit || this.cover) {
-          this.__portal.$el.style.minWidth = width + 'px'
-          if (this.cover) {
-            this.__portal.$el.style.minHeight = height + 'px'
-          }
-        }
+        const { top, left } = this.anchorEl.getBoundingClientRect()
 
         if (this.touchPosition || this.contextMenu) {
           const pos = position(evt)

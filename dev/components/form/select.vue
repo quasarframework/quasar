@@ -30,7 +30,7 @@
           slot="option"
           slot-scope="scope"
           clickable
-          :active="scope.active"
+          :active="scope.selected"
           @click="select2 = scope.opt.value"
         >
           <q-item-section>
@@ -62,7 +62,7 @@
           slot="option"
           slot-scope="scope"
           clickable
-          :active="scope.active"
+          :active="scope.selected"
           @click="scope.click"
         >
           <q-item-section>
@@ -91,7 +91,7 @@
           slot="option"
           slot-scope="scope"
           clickable
-          :active="scope.active"
+          :active="scope.selected"
           @click="scope.click"
         >
           <q-item-section avatar>
@@ -116,11 +116,11 @@
           slot="option"
           slot-scope="scope"
           clickable
-          :active="scope.active"
+          :active="scope.selected"
           @click="scope.click"
         >
           <q-item-section side>
-            <q-checkbox :value="scope.active" />
+            <q-checkbox :value="scope.selected" />
           </q-item-section>
           <q-item-section>
             <q-item-label v-html="scope.opt.label" />
@@ -130,6 +130,32 @@
             <q-icon :name="scope.opt.icon" />
           </q-item-section>
         </q-item>
+      </q-select>
+
+      <q-select
+        v-bind="props"
+        v-model="multi1"
+        :options="selectOptions"
+        label="Cards for fun"
+        multiple
+      >
+        <q-card
+          inline
+          flat
+          slot="option"
+          slot-scope="scope"
+          class="select-card"
+          :class="`q-my-sm q-ml-sm text-center cursor-pointer${scope.selected ? ' bg-black text-white' : ''}`"
+          @click.native="scope.click"
+        >
+          <q-card-section :class="scope.selected ? 'text-primary' : 'text-black'">
+            <q-icon :name="scope.opt.icon" size="24px" />
+          </q-card-section>
+          <q-card-section>
+            <q-item-label v-html="scope.opt.label" />
+            <small>{{ scope.opt.description }}</small>
+          </q-card-section>
+        </q-card>
       </q-select>
 
       <div class="text-h6">Scoped slot: selected</div>
@@ -142,8 +168,10 @@
         <q-chip
           slot="selected"
           slot-scope="scope"
+          removable
+          @remove="scope.remove"
           color="white"
-          text-color="black"
+          text-color="primary"
         >
           <q-avatar color="primary" text-color="white" :icon="scope.opt.icon" />
           <span v-html="scope.opt.label" />
@@ -282,6 +310,8 @@
           slot="selected"
           slot-scope="scope"
           color="white"
+          removable
+          @remove="scope.remove"
           text-color="teal"
         >
           <span v-html="scope.opt.label" />
@@ -647,3 +677,12 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+@import '~variables'
+
+.select-card
+  transition .3s background-color
+  &:hover
+    background $grey-3
+</style>
