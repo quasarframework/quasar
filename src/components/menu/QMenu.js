@@ -47,7 +47,15 @@ export default Vue.extend({
     autoClose: Boolean,
 
     contentClass: [Array, String, Object],
-    contentStyle: [Array, String, Object]
+    contentStyle: [Array, String, Object],
+    maxHeight: {
+      type: String,
+      default: null
+    },
+    maxWidth: {
+      type: String,
+      default: null
+    }
   },
 
   computed: {
@@ -162,15 +170,22 @@ export default Vue.extend({
     },
 
     updatePosition () {
-      setPosition({
-        el: this.__portal.$el,
-        offset: this.offset,
-        anchorEl: this.anchorEl,
-        anchorOrigin: this.anchorOrigin,
-        selfOrigin: this.selfOrigin,
-        absoluteOffset: this.absoluteOffset,
-        fit: this.fit,
-        cover: this.cover
+      const el = this.__portal.$el
+
+      el.style.maxHeight = this.maxHeight
+      el.style.maxWidth = this.maxWidth
+
+      this.$nextTick(() => {
+        el && setPosition({
+          el,
+          offset: this.offset,
+          anchorEl: this.anchorEl,
+          anchorOrigin: this.anchorOrigin,
+          selfOrigin: this.selfOrigin,
+          absoluteOffset: this.absoluteOffset,
+          fit: this.fit,
+          cover: this.cover
+        })
       })
     },
 

@@ -18,6 +18,14 @@ export default Vue.extend({
   props: {
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object],
+    maxHeight: {
+      type: String,
+      default: null
+    },
+    maxWidth: {
+      type: String,
+      default: null
+    },
 
     transitionShow: {
       default: 'jump-down'
@@ -127,12 +135,19 @@ export default Vue.extend({
     },
 
     updatePosition () {
-      setPosition({
-        el: this.__portal.$el,
-        offset: this.offset,
-        anchorEl: this.anchorEl,
-        anchorOrigin: this.anchorOrigin,
-        selfOrigin: this.selfOrigin
+      const el = this.__portal.$el
+
+      el.style.maxHeight = this.maxHeight
+      el.style.maxWidth = this.maxWidth
+
+      this.$nextTick(() => {
+        el && setPosition({
+          el,
+          offset: this.offset,
+          anchorEl: this.anchorEl,
+          anchorOrigin: this.anchorOrigin,
+          selfOrigin: this.selfOrigin
+        })
       })
     },
 
