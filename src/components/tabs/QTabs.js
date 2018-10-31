@@ -32,6 +32,7 @@ export default Vue.extend({
     },
 
     activeColor: String,
+    activeBgColor: String,
     indicatorColor: String,
     leftIcon: String,
     rightIcon: String,
@@ -49,6 +50,7 @@ export default Vue.extend({
       tabs: {
         current: this.value,
         activeColor: this.activeColor,
+        activeBgColor: this.activeBgColor,
         indicatorClass: getIndicatorClass(this.indicatorColor, this.topIndicator),
         narrowIndicator: this.narrowIndicator,
         inlineLabel: this.inlineLabel,
@@ -71,6 +73,10 @@ export default Vue.extend({
 
     activeColor (v) {
       this.tabs.activeColor = v
+    },
+
+    activeBgColor (v) {
+      this.tabs.activeBgColor = v
     },
 
     indicatorColor (v) {

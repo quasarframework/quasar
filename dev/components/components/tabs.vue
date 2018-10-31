@@ -115,6 +115,12 @@
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
 
+      <q-tabs :dense="dense" class="bg-white" inline-label active-bg-color="purple" active-color="white" indicator-color="transparent">
+        <q-tab icon="phone" label="Item one" />
+        <q-tab icon="favorite" label="Item two" />
+        <q-tab icon="location_on" label="Item three" />
+      </q-tabs>
+
       <q-tabs :dense="dense" inline-label align="justify" indicator-color="orange">
         <q-tab icon="phone" label="Item one" />
         <q-tab icon="favorite" label="Item two" />
