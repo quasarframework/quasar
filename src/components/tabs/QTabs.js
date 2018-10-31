@@ -39,7 +39,9 @@ export default Vue.extend({
     topIndicator: Boolean,
     narrowIndicator: Boolean,
     inlineLabel: Boolean,
-    noCaps: Boolean
+    noCaps: Boolean,
+
+    dense: Boolean
   },
 
   data () {
@@ -99,6 +101,10 @@ export default Vue.extend({
         : (this.justify ? 'justify' : this.align)
 
       return `q-tabs__content--align-${align}`
+    },
+
+    classes () {
+      return `q-tabs--${this.scrollable ? '' : 'not-'}scrollable${this.dense ? ' q-tabs--dense' : ''}`
     }
   },
 
@@ -283,7 +289,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-tabs row no-wrap items-center',
-      'class': `q-tabs--${this.scrollable ? '' : 'not-'}scrollable`,
+      'class': this.classes,
       attrs: { role: 'tablist' }
     }, [
       h(QResizeObserver, {

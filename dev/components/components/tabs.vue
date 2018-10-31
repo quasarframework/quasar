@@ -1,7 +1,11 @@
 <template>
   <div class="tabs-demo bg-grey-3 q-py-xl">
     <div class="text-primary">
-      <q-tabs>
+      <div>
+        <q-checkbox v-model="dense" label="Dense" />
+      </div>
+
+      <q-tabs :dense="dense">
         <q-tab label="Item one" />
         <q-tab label="Item two" />
         <q-tab label="Item three" />
@@ -38,13 +42,13 @@
         </q-btn-dropdown>
       </q-tabs>
 
-      <q-tabs :breakpoint="1000" align="right">
+      <q-tabs :dense="dense" :breakpoint="1000" align="right">
         <q-tab icon="phone" />
         <q-tab icon="favorite" />
         <q-tab icon="location_on" />
       </q-tabs>
 
-      <q-tabs inline-label>
+      <q-tabs :dense="dense" inline-label>
         <q-tab icon="map">
           <q-chip color="teal" text-color="white" floating>2</q-chip>
         </q-tab>
@@ -56,19 +60,19 @@
         <q-tab icon="location_on" />
       </q-tabs>
 
-      <q-tabs class="bg-grey-1 text-teal">
+      <q-tabs :dense="dense" class="bg-grey-1 text-teal">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
 
-      <q-tabs narrow-indicator>
+      <q-tabs :dense="dense" narrow-indicator>
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
 
-      <q-tabs inline-label class="bg-purple text-white">
+      <q-tabs :dense="dense" inline-label class="bg-purple text-white">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
@@ -105,13 +109,13 @@
         </q-btn-dropdown>
       </q-tabs>
 
-      <q-tabs class="bg-teal text-yellow" top-indicator inline-label>
+      <q-tabs :dense="dense" class="bg-teal text-yellow" top-indicator inline-label>
         <q-tab icon="phone" label="Item one" />
         <q-tab icon="favorite" label="-- Top indicator --" />
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
 
-      <q-tabs inline-label align="justify" indicator-color="orange">
+      <q-tabs :dense="dense" inline-label align="justify" indicator-color="orange">
         <q-tab icon="phone" label="Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
@@ -134,7 +138,7 @@
           <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/b#123" label="/tabs/b#123 - select no tab" />
         </div>
       </div>
-      <q-tabs class="test q-mt-sm">
+      <q-tabs :dense="dense" class="test q-mt-sm">
         <q-route-tab name="tabs" to="/components/tabs" exact replace label="/tabs" />
         <q-route-tab name="tabs/a" to="/components/tabs/a" exact replace label="/tabs/a" />
         <q-route-tab name="tabs/a *" to="/components/tabs/a" replace label="/tabs/a *" />
@@ -165,6 +169,7 @@
 
       <div class="shadow-1 q-ma-md">
         <q-tabs
+          :dense="dense"
           v-model="tab"
           active-color="white"
           indicator-color="yellow"
@@ -259,6 +264,7 @@
 export default {
   data () {
     return {
+      dense: false,
       tab: 'one',
       panelTest: false,
       some: false
