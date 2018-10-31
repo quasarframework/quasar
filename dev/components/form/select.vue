@@ -8,6 +8,9 @@
         <q-radio v-model="type" val="standard" label="Standard" />
         <q-radio v-model="type" val="borderless" label="Borderless" />
       </div>
+      <div>
+        <q-checkbox v-model="dense" label="Dense" />
+      </div>
 
       <div>{{ select1 }}</div>
       <div>{{ multi1 }}</div>
@@ -31,6 +34,7 @@
           slot-scope="scope"
           clickable
           :active="scope.selected"
+          :disable="scope.opt.disable"
           @click="select2 = scope.opt.value"
         >
           <q-item-section>
@@ -63,6 +67,7 @@
           slot-scope="scope"
           clickable
           :active="scope.selected"
+          :disable="scope.opt.disable"
           @click="scope.click"
         >
           <q-item-section>
@@ -92,6 +97,7 @@
           slot-scope="scope"
           clickable
           :active="scope.selected"
+          :disable="scope.opt.disable"
           @click="scope.click"
         >
           <q-item-section avatar>
@@ -116,6 +122,7 @@
           slot="option"
           slot-scope="scope"
           clickable
+          :disable="scope.opt.disable"
           :active="scope.selected"
           @click="scope.click"
         >
@@ -145,7 +152,7 @@
           slot="option"
           slot-scope="scope"
           class="select-card"
-          :class="`q-my-sm q-ml-sm text-center cursor-pointer${scope.selected ? ' bg-black text-white' : ''}`"
+          :class="`q-my-sm q-ml-sm text-center cursor-pointer${scope.selected ? ' bg-black text-white' : ''}${scope.opt.disable ? ' disabled' : ''}`"
           @click.native="scope.click"
         >
           <q-card-section :class="scope.selected ? 'text-primary' : 'text-black'">
@@ -163,6 +170,7 @@
         v-bind="props"
         v-model="multi1"
         :options="selectOptions"
+        label="Label"
         multiple
       >
         <q-chip
@@ -327,13 +335,14 @@ export default {
     const heavyOptions = []
     for (let i = 0; i <= 10000; i++) {
       heavyOptions.push({
-        label: 'Opt ' + Math.random(),
+        label: 'Opt ' + i,
         value: Math.random()
       })
     }
 
     return {
       type: 'filled',
+      dense: false,
 
       heavyModel: [],
       heavyOptions,
@@ -384,6 +393,7 @@ export default {
         {
           label: 'Oracle',
           value: 'ora',
+          disable: true,
           description: 'Databases',
           icon: 'casino'
         }
@@ -671,7 +681,8 @@ export default {
   computed: {
     props () {
       return {
-        [this.type]: true
+        [this.type]: true,
+        dense: this.dense
       }
     }
   }
@@ -683,6 +694,6 @@ export default {
 
 .select-card
   transition .3s background-color
-  &:hover
+  &:not(.disabled):hover
     background $grey-3
 </style>

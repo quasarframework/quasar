@@ -98,6 +98,8 @@ export default Vue.extend({
 
   methods: {
     toggleOption (opt) {
+      if (opt.disable === true) { return }
+
       const val = this.__getOptionValue(opt)
 
       if (this.multiple) {
@@ -176,11 +178,15 @@ export default Vue.extend({
     },
 
     __onScroll () {
-      if (this.optionsToShow < this.options.length) {
+      if (this.avoidScroll !== true && this.optionsToShow < this.options.length) {
         const el = this.$refs.menu.__portal.$el
 
         if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) {
           this.optionsToShow += 20
+          this.avoidScroll = true
+          this.$nextTick(() => {
+            this.avoidScroll = false
+          })
         }
       }
     },
@@ -208,6 +214,8 @@ export default Vue.extend({
         key: scope.index,
         props: {
           clickable: true,
+          disable: scope.opt.disable,
+          dense: this.dense,
           active: scope.selected
         },
         on: {
@@ -243,6 +251,6 @@ export default Vue.extend({
   },
 
   created () {
-    this.fieldClass = 'q-select'
+    this.fieldClass = 'q-select q-field--auto-height'
   }
 })

@@ -108,7 +108,7 @@ export default {
         window.addEventListener('resize', updateEvt, listenOpts.passive)
       }
 
-      this.setDebounce(updateDebounce || 100)
+      this.setDebounce(updateDebounce || 16)
 
       if (Object.keys(updateSizes).length > 0) {
         this.setSizes(updateSizes)
