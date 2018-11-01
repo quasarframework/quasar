@@ -16,7 +16,11 @@ export default {
     left: 'mdi-chevron-left',
     right: 'mdi-chevron-right'
   },
-
+  colorPicker: {
+    spectrum: 'mdi-gradient',
+    tune: 'mdi-tune',
+    palette: 'mdi-palette-swatch'
+  },
   pullToRefresh: {
     icon: 'mdi-refresh'
   },

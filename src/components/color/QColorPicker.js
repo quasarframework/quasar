@@ -237,7 +237,7 @@ export default Vue.extend({
             h(QIcon, {
               ref: 'errorIcon',
               staticClass: 'q-color-picker__error-icon absolute no-pointer-events',
-              props: { name: 'warning' }
+              props: { name: this.$q.icon.type.negative }
             })
           ])
         ])
@@ -282,7 +282,7 @@ export default Vue.extend({
       }, [
         h(QTab, {
           props: {
-            icon: 'gradient',
+            icon: this.$q.icon.colorPicker.spectrum,
             name: 'spectrum',
             ripple: false
           }
@@ -290,7 +290,7 @@ export default Vue.extend({
 
         h(QTab, {
           props: {
-            icon: 'tune',
+            icon: this.$q.icon.colorPicker.tune,
             name: 'tune',
             ripple: false
           }
@@ -298,7 +298,7 @@ export default Vue.extend({
 
         h(QTab, {
           props: {
-            icon: 'style',
+            icon: this.$q.icon.colorPicker.palette,
             name: 'palette',
             ripple: false
           }

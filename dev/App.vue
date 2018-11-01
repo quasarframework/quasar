@@ -7,12 +7,13 @@
       style="padding: 10px; right: 10px; bottom: 10px"
       class="bg-white shadow-4 fixed z-top"
     >
-      <!-- <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" /> -->
-      <q-btn dense flat size="sm" icon="visibility" @click="lang = lang === 'en-us' ? 'he' : 'en-us'" class="absolute-top-right z-top" />
+      <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" />
       <template v-if="showSelector">
+        <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="lang = lang === 'en-us' ? 'he' : 'en-us'" class="absolute-bottom-right z-top" />
         <q-select
-          hide-underline
-          stack-label="I18n"
+          label="I18n"
+          dense
+          borderless
           :options="[
             { label: 'English (US)', value: 'en-us' }
             ,{ label: 'English (UK)', value: 'en-uk' }
@@ -36,8 +37,9 @@
           v-model="lang"
         />
         <q-select
-          hide-underline
-          stack-label="Icon set"
+          label="Icon set"
+          dense
+          borderless
           :options="[
             { label: 'Material', value: 'material-icons' }
             ,{ label: 'MDI', value: 'mdi' }

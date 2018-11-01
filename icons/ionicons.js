@@ -16,7 +16,11 @@ export default {
     left: 'ion-ios-arrow-back',
     right: 'ion-ios-arrow-forward'
   },
-
+  colorPicker: {
+    spectrum: 'ion-aperture',
+    tune: 'ion-options',
+    palette: 'ion-apps'
+  },
   pullToRefresh: {
     icon: 'ion-refresh'
   },

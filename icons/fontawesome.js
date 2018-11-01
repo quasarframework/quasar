@@ -16,7 +16,11 @@ export default {
     left: 'fas fa-chevron-left',
     right: 'fas fa-chevron-right'
   },
-
+  colorPicker: {
+    spectrum: 'fas fa-eye-dropper',
+    tune: 'fas fa-sliders-h',
+    palette: 'fas fa-swatchbook'
+  },
   pullToRefresh: {
     icon: 'fas fa-sync-alt'
   },

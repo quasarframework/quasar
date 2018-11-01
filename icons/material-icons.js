@@ -16,7 +16,11 @@ export default {
     left: 'chevron_left',
     right: 'chevron_right'
   },
-
+  colorPicker: {
+    spectrum: 'gradient',
+    tune: 'tune',
+    palette: 'style'
+  },
   pullToRefresh: {
     icon: 'refresh'
   },
