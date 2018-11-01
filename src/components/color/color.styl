@@ -12,8 +12,6 @@
     input
       line-height 24px
       border 0
-      color inherit
-      background transparent
     .q-tab--inactive
       background linear-gradient(to top, rgba(0,0,0,.3) 0%, rgba(0,0,0,.15) 25%, rgba(0,0,0,.1))
 
@@ -76,21 +74,20 @@
     background linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%) // @stylint ignore
     opacity 1
 
-  &__alpha
-    .q-slider__track-container
-      color white
-      opacity 1
-      height 8px
-      background-color white
-      background-image url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==') !important
-      &:after
-        content ''
-        position absolute
-        top 0
-        right 0
-        bottom 0
-        left 0
-        background linear-gradient(90deg, rgba(255, 255, 255, 0), $grey-7)
+  &__alpha .q-slider__track-container
+    color white
+    opacity 1
+    height 8px
+    background-color white
+    background-image url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==') !important
+    &:after
+      content ''
+      position absolute
+      top 0
+      right 0
+      bottom 0
+      left 0
+      background linear-gradient(90deg, rgba(255, 255, 255, 0), $grey-7)
 
   &__sliders
     padding 4px 0 12px
@@ -105,16 +102,12 @@
       top 4px
 
     .q-slider__thumb
-      color $grey-9
       stroke-width 13px
 
     .q-slider
       height 20px
       margin-top 8px
-      color black
-    .q-slider-handle
-    .q-slider-ring
-      display none
+      color $grey-9
 
   /* Tune Tab */
 
@@ -139,6 +132,8 @@
   /* Generic  */
 
   input
+    color inherit
+    background transparent
     outline 0
     text-align center
   .q-tabs
@@ -150,3 +145,15 @@
         display none
   .q-tab__indicator
     display none
+  .q-tab-panels
+    background inherit
+
+  &--dark
+    background $grey-9
+    color white
+
+    .q-color-picker__tune-tab input
+      border 1px solid alpha(#fff, .3)
+
+    .q-slider
+      color $grey-5

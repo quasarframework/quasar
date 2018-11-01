@@ -220,6 +220,9 @@ export default Vue.extend({
             h('input', {
               staticClass: 'fit',
               domProps: { value: this.editorModel },
+              attrs: !this.editable ? {
+                readonly: true
+              } : null,
               on: {
                 input: evt => {
                   this.__updateErrorIcon(this.__onEditorChange(evt) === true)
@@ -382,7 +385,9 @@ export default Vue.extend({
               value: this.model.r,
               min: 0,
               max: 255,
-              color: 'red'
+              color: 'red',
+              dark: this.dark,
+              readonly: !this.editable
             },
             on: {
               input: value => this.__onNumericChange({ target: { value } }, 'r', 255)
@@ -392,7 +397,10 @@ export default Vue.extend({
             domProps: {
               value: this.model.r
             },
-            attrs: { maxlength: 3 },
+            attrs: {
+              maxlength: 3,
+              readonly: !this.editable
+            },
             on: {
               input: evt => this.__onNumericChange(evt, 'r', 255),
               blur: evt => this.__onNumericChange(evt, 'r', 255, true)
@@ -407,7 +415,9 @@ export default Vue.extend({
               value: this.model.g,
               min: 0,
               max: 255,
-              color: 'green'
+              color: 'green',
+              dark: this.dark,
+              readonly: !this.editable
             },
             on: {
               input: value => this.__onNumericChange({ target: { value } }, 'g', 255)
@@ -417,7 +427,10 @@ export default Vue.extend({
             domProps: {
               value: this.model.g
             },
-            attrs: { maxlength: 3 },
+            attrs: {
+              maxlength: 3,
+              readonly: !this.editable
+            },
             on: {
               input: evt => this.__onNumericChange(evt, 'g', 255),
               blur: evt => this.__onNumericChange(evt, 'g', 255, true)
@@ -432,7 +445,9 @@ export default Vue.extend({
               value: this.model.b,
               min: 0,
               max: 255,
-              color: 'blue'
+              color: 'blue',
+              readonly: !this.editable,
+              dark: this.dark
             },
             on: {
               input: value => this.__onNumericChange({ target: { value } }, 'b', 255)
@@ -442,7 +457,10 @@ export default Vue.extend({
             domProps: {
               value: this.model.b
             },
-            attrs: { maxlength: 3 },
+            attrs: {
+              maxlength: 3,
+              readonly: !this.editable
+            },
             on: {
               input: evt => this.__onNumericChange(evt, 'b', 255),
               blur: evt => this.__onNumericChange(evt, 'b', 255, true)
@@ -455,7 +473,9 @@ export default Vue.extend({
           h(QSlider, {
             props: {
               value: this.model.a,
-              color: 'grey'
+              color: 'grey',
+              readonly: !this.editable,
+              dark: this.dark
             },
             on: {
               input: value => this.__onNumericChange({ target: { value } }, 'a', 100)
@@ -465,7 +485,10 @@ export default Vue.extend({
             domProps: {
               value: this.model.a
             },
-            attrs: { maxlength: 3 },
+            attrs: {
+              maxlength: 3,
+              readonly: !this.editable
+            },
             on: {
               input: evt => this.__onNumericChange(evt, 'a', 100),
               blur: evt => this.__onNumericChange(evt, 'a', 100, true)
@@ -478,15 +501,16 @@ export default Vue.extend({
     __getPaletteTab (h) {
       return [
         h('div', {
-          staticClass: 'row items-center cursor-pointer'
+          staticClass: 'row items-center',
+          'class': this.editable ? 'cursor-pointer' : null
         }, palette.map(color => h('div', {
           staticClass: 'q-color-picker__cube col-1',
           style: { backgroundColor: color },
-          on: {
+          on: this.editable ? {
             click: () => {
               this.__onPaletteChange(color)
             }
-          }
+          } : null
         })))
       ]
     },
