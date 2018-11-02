@@ -54,7 +54,7 @@ export default {
         return this.format
       }
       if (this.type === 'date') {
-        return 'YYYY/MM/DD'
+        return this.$q.i18n.date.dateFormat || 'YYYY/MM/DD'
       }
       return this.type === 'time' ? 'HH:mm' : 'YYYY/MM/DD HH:mm:ss'
     },
