@@ -51,6 +51,7 @@ export let SliderMixin = {
     color: String,
     labelColor: String,
     dark: Boolean,
+    dense: Boolean,
 
     label: Boolean,
     labelAlways: Boolean,
@@ -80,7 +81,8 @@ export let SliderMixin = {
         'q-slider--focus': this.focus === 'both',
         'q-slider--label': this.label || this.labelAlways,
         'q-slider--label-always': this.labelAlways,
-        'q-slider--dark': this.dark
+        'q-slider--dark': this.dark,
+        'q-slider--dense': this.dense
       }
     },
 
