@@ -19,6 +19,7 @@ export default Vue.extend({
     color: String,
     keepColor: Boolean,
     dark: Boolean,
+    dense: Boolean,
 
     disable: Boolean,
     tabindex: [String, Number]
@@ -33,6 +34,7 @@ export default Vue.extend({
       return {
         'disabled': this.disable,
         'q-radio--dark': this.dark,
+        'q-radio--dense': this.dense,
         'reverse': this.leftLabel
       }
     },

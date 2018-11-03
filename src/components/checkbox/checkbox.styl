@@ -15,6 +15,9 @@ $checkbox-transition = .22s cubic-bezier(0,0,.2,1) 0ms
 
   &__label
     padding-left 4px
+    font-size 14px
+    line-height 20px
+
   &.reverse &__label
     padding-right 4px
 
@@ -79,6 +82,19 @@ $checkbox-transition = .22s cubic-bezier(0,0,.2,1) 0ms
       .q-checkbox__inner, .q-checkbox__label
         color rgba(255, 255, 255, .3)
 
+  &--dense
+
+    .q-checkbox__inner
+      width 20px
+      height 20px
+      padding 0
+
+    .q-checkbox__bg
+      left 1px
+      top 1px
+      width 18px
+      height 18px
+
 body.desktop
 
   .q-checkbox
@@ -98,4 +114,7 @@ body.desktop
     &:focus
       .q-checkbox__inner:before
         transform scale3d(1, 1, 1)
+
+    &--dense:focus .q-checkbox__inner:before
+      transform scale3d(2, 2, 2)
 

@@ -23,8 +23,13 @@ $radio-transition = .22s cubic-bezier(0,0,.2,1) 0ms
 
   &__label
     padding-left 4px
+    padding-right 0
+    font-size 14px
+    line-height 20px
+
   &.reverse &__label
     padding-right 4px
+    padding-left 0
 
   &__inner
     width 40px
@@ -56,6 +61,18 @@ $radio-transition = .22s cubic-bezier(0,0,.2,1) 0ms
       .q-radio__inner, .q-radio__label
         color rgba(255,255,255,.3)
 
+  &--dense
+
+    .q-radio__bg
+      left 0
+      top 0
+      width 100%
+      height 100%
+
+    .q-radio__inner
+      width 20px
+      height 20px
+
 body.desktop
 
   .q-radio
@@ -72,6 +89,8 @@ body.desktop
       transform scale3d(0, 0, 0)
       transition transform $radio-transition
 
-    &:focus
-      .q-radio__inner:before
-        transform scale3d(1, 1, 1)
+    &:focus .q-radio__inner:before
+      transform scale3d(1, 1, 1)
+
+    &--dense:focus .q-radio__inner:before
+      transform scale3d(2, 2, 2)

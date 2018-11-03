@@ -24,6 +24,7 @@ export default Vue.extend({
       return {
         'disabled': this.disable,
         'q-toggle--dark': this.dark,
+        'q-toggle--dense': this.dense,
         'reverse': this.leftLabel
       }
     },

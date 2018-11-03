@@ -21,6 +21,7 @@ export default Vue.extend({
       return {
         'disabled': this.disable,
         'q-checkbox--dark': this.dark,
+        'q-checkbox--dense': this.dense,
         'reverse': this.leftLabel
       }
     },

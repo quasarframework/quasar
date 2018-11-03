@@ -4,26 +4,27 @@
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{ option }}</em></span>
       </div>
-      <q-toggle v-model="dark" :dark="dark" label="Dark" />
-      <q-toggle v-model="keepColor" :dark="dark" label="Keep Color" />
+      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" />
+      <q-toggle v-model="keepColor" :dark="dark" :dense="dense" label="Keep Color" />
+      <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 
       <p class="caption">Standalone</p>
       <div class="q-gutter-md">
-        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt1" :dark="dark" :keep-color="keepColor" />
-        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt2" label="Option 2" :dark="dark" :keep-color="keepColor" />
-        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt3" color="teal" label="Option 3" :dark="dark" :keep-color="keepColor" />
-        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt4" color="orange" label="Option 4" :dark="dark" :keep-color="keepColor" />
+        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt2" label="Option 2" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt3" color="teal" label="Option 3" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt4" color="orange" label="Option 4" :dark="dark" :dense="dense" :keep-color="keepColor" />
       </div>
 
       <p class="caption">Label on the left side</p>
       <div class="q-gutter-md">
-        <q-radio v-model="option" val="opt2" left-label label="Option 2" :dark="dark" :keep-color="keepColor" />
-        <q-radio v-model="option" val="opt3" left-label color="teal" label="Option 3" :dark="dark" :keep-color="keepColor" />
-        <q-radio v-model="option" val="opt4" left-label color="orange" label="Option 4" :dark="dark" :keep-color="keepColor" />
+        <q-radio v-model="option" val="opt2" left-label label="Option 2" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio v-model="option" val="opt3" left-label color="teal" label="Option 3" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio v-model="option" val="opt4" left-label color="orange" label="Option 4" :dark="dark" :dense="dense" :keep-color="keepColor" />
       </div>
 
       <p class="caption">Disabled State</p>
-      <q-radio v-model="option" val="opt1" disable label="Disabled Option 1" :dark="dark" :keep-color="keepColor" />
+      <q-radio v-model="option" val="opt1" disable label="Disabled Option 1" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <p class="caption">Option Group</p>
       <q-option-group
@@ -31,7 +32,7 @@
         v-model="group"
         @change="onChange"
         @input="onInput"
-        :dark="dark"
+        :dark="dark" :dense="dense"
         :keep-color="keepColor"
         :options="[
           { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
@@ -44,7 +45,7 @@
       <q-option-group
         inline
         v-model="group"
-        :dark="dark"
+        :dark="dark" :dense="dense"
         :keep-color="keepColor"
         :options="[
           { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2', dark, keepColor },
@@ -54,10 +55,10 @@
       />
 
       <p class="caption">Inside of a List</p>
-      <q-list :dark="dark">
+      <q-list :dark="dark" :dense="dense">
         <q-item tag="label">
           <q-item-section avatar>
-            <q-radio @change="onChange" v-model="option" val="opt1" :dark="dark" :keep-color="keepColor" />
+            <q-radio @change="onChange" v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor" />
           </q-item-section>
           <q-item-section>
             Option 1
@@ -65,7 +66,7 @@
         </q-item>
         <q-item tag="label">
           <q-item-section avatar>
-            <q-radio @change="onChange" v-model="option" val="opt2" :dark="dark" :keep-color="keepColor" />
+            <q-radio @change="onChange" v-model="option" val="opt2" :dark="dark" :dense="dense" :keep-color="keepColor" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Option 2</q-item-label>
@@ -74,7 +75,7 @@
         </q-item>
         <q-item tag="label">
           <q-item-section avatar>
-            <q-radio @change="onChange" v-model="option" val="opt3" :dark="dark" :keep-color="keepColor" />
+            <q-radio @change="onChange" v-model="option" val="opt3" :dark="dark" :dense="dense" :keep-color="keepColor" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Option 3</q-item-label>
@@ -93,6 +94,7 @@ export default {
       option: 'opt1',
       group: 'op3',
       dark: false,
+      dense: false,
       keepColor: false
     }
   },

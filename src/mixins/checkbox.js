@@ -16,6 +16,7 @@ export default {
     color: String,
     keepColor: Boolean,
     dark: Boolean,
+    dense: Boolean,
 
     disable: Boolean,
     tabindex: [String, Number]

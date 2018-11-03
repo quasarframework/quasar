@@ -2,6 +2,10 @@ $toggle-transition = .22s cubic-bezier(.4,0,.2,1)
 
 .q-toggle
 
+  &__label
+    font-size 14px
+    line-height 20px
+
   &__track
     height 14px
     border-radius 7px
@@ -75,6 +79,14 @@ $toggle-transition = .22s cubic-bezier(.4,0,.2,1)
         color rgba(255, 255, 255, .2)
       .q-toggle__label
         color rgba(255, 255, 255, .3)
+
+  &--dense
+
+    .q-toggle__inner
+      height 20px
+      padding 3px 12px
+    .q-toggle__thumb-container
+      top 0
 
 body.desktop
 
