@@ -1,0 +1,146 @@
+.q-time
+  max-width 100%
+  box-shadow $shadow-2
+  border-radius $generic-border-radius
+  background white
+
+  &__header
+    border-top-left-radius inherit
+    color white
+    background $primary
+    padding 16px
+
+  &__header-label
+    font-size 42px
+    font-weight 300
+    line-height 1
+    letter-spacing -0.00833em
+
+    > div + div
+      margin-left 4px
+
+  &__item
+    opacity .64
+    cursor pointer
+    &--active
+      opacity 1
+
+  &__header-ampm
+    font-size 16px
+
+  &__content-container
+    padding 16px
+
+  &__content
+    max-width 250px
+
+  &__content-fill
+    padding-bottom 100%
+
+  &__clock
+    font-size 14px
+    border-radius 50%
+    background $grey-4
+    padding 24px
+
+  &__clock-circle
+    position relative
+
+  &__clock-center
+    height 6px
+    width 6px
+    margin auto
+    border-radius 50%
+    min-height 0
+    background currentColor
+
+  &__clock-pointer
+    width 1px
+    height 50%
+    transform-origin top center /* rtl:ignore */
+    min-height 0
+    position absolute
+    left 50%
+    right 0
+    bottom 0
+    background currentColor
+    transform translate3d(-50%, 0, 0)
+    &:before, &:after
+      content ''
+      position absolute
+      left 0
+      border-radius 50%
+      background currentColor
+      transform translate3d(-44%, 0, 0)
+    &:before
+      bottom -4px
+      width 8px
+      height 8px
+    &:after
+      top -3px
+      height 6px
+      width 6px
+
+  &__clock-position
+    position absolute
+    min-height 32px
+    width 32px
+    height 32px
+    font-size 12px
+    line-height 32px
+    margin 0
+    padding 0
+    transform translate3d(-50%, -50%, 0) /* rtl:ignore */
+    border-radius 50%
+    &:not(.active)
+      color black
+    &.active
+      background currentColor
+      > span
+        color white
+
+  for $pos in 0..12
+    $degree = (270 + 30 * $pos)
+    &__clock-pos-{$pos}
+      top round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
+      left round(((1 + cos($degree * 1deg)) * 100%) / 2, 2) /* rtl:ignore */
+
+  for $pos in 1..12
+    $degree = (270 + 30 * $pos)
+    &__clock-pos-{$pos}.fmt24
+      top round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
+      left round(((1 + cos($degree * 1deg)) * 100%) / 2, 2) /* rtl:ignore */
+  for $pos in 13..23
+    $degree = (270 + 30 * $pos)
+    &__clock-pos-{$pos}.fmt24
+      top round(15% + ((1 + sin($degree * 1deg)) * 70%) / 2, 2)
+      left round(15% + ((1 + cos($degree * 1deg)) * 70%) / 2, 2) /* rtl:ignore */
+  &__clock-pos-0.fmt24
+    top round(15% + ((1 + sin(270deg)) * 70%) / 2, 2)
+    left round(15% + ((1 + cos(270deg)) * 70%) / 2, 2) /* rtl:ignore */
+
+  &--portrait
+    display inline-block
+    width 290px
+
+    .q-time__header
+      border-top-right-radius inherit
+
+    .q-time__header-ampm
+      margin-left 20px
+
+  &--landscape
+    display inline-flex
+    align-items stretch
+    width 390px
+
+    > div
+      display flex
+      flex-direction column
+      justify-content center
+
+    .q-time__header
+      border-bottom-left-radius inherit
+
+    .q-time__header-ampm
+      margin-top 16px

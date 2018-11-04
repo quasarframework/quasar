@@ -1,0 +1,71 @@
+.q-date
+  box-shadow $shadow-2
+  border-radius $generic-border-radius
+  background white
+  max-width 100%
+
+  &__header
+    border-top-left-radius inherit
+    color white
+    background $primary
+    padding 16px
+
+  &__header-title
+    font-size 14px
+    line-height 1.75
+    letter-spacing 0.00938em
+    opacity .64
+
+  &__header-label
+    font-size 30px
+    line-height 1.17
+    letter-spacing 0.00735em
+
+  &__calendar
+    padding 16px
+
+  &__calendar-navigation-btn
+    width 14.285% !important
+
+  &__calendar-weekdays
+    margin 12px 0 8px
+    > div
+      width 14.285% !important
+      text-align center
+      opacity .52
+      font-size 12px
+
+  &__calendar-day
+    width 14.285% !important
+    height 36px !important
+    position relative
+    &.row:hover:before
+      content ''
+      position absolute
+      height inherit
+      width 36px
+      top 0
+      left 50%
+      transform translate3d(-50%, 0, 0)
+      border-radius 50%
+      background black
+
+  &--portrait
+    display inline-block
+    width 290px
+
+    .q-date__header
+      border-top-right-radius inherit
+
+  &--landscape
+    display inline-flex
+    align-items stretch
+    width 390px
+
+    > div
+      display flex
+      flex-direction column
+      justify-content center
+
+    .q-date__header
+      border-bottom-left-radius inherit
