@@ -34,7 +34,14 @@ export default Vue.extend({
 
   watch: {
     value (v) {
-      this.innerModel = this.__getInnerModel(v)
+      const model = this.__getInnerModel(v)
+      this.monthDirection = this.innerModel.string < v ? 'left' : 'right'
+      if (model.year !== this.innerModel.year) {
+        this.yearDirection = this.monthDirection
+      }
+      this.$nextTick(() => {
+        this.innerModel = model
+      })
     }
   },
 
@@ -122,6 +129,7 @@ export default Vue.extend({
     __getInnerModel (v) {
       const date = v.split('/'), year = Number(date[0])
       return {
+        string: v,
         startYear: year - year % yearsInterval,
         year,
         month: parseInt(date[1], 10),
@@ -193,7 +201,7 @@ export default Vue.extend({
     __getNavigation (h, { label, view, dir, goTo, classes }) {
       return [
         h('div', {
-          staticClass: 'row flex-center'
+          staticClass: 'row items-center'
         }, [
           h(QBtn, {
             props: {
@@ -236,7 +244,7 @@ export default Vue.extend({
         ]),
 
         h('div', {
-          staticClass: 'row flex-center'
+          staticClass: 'row items-center'
         }, [
           h(QBtn, {
             props: {
@@ -258,7 +266,7 @@ export default Vue.extend({
       return [
         h('div', {
           key: 'calendar-view',
-          staticClass: 'q-date__view q-date__calendar'
+          staticClass: 'q-date__view q-date__calendar column'
         }, [
           h('div', {
             staticClass: 'q-date__navigation row items-center no-wrap'
@@ -277,7 +285,11 @@ export default Vue.extend({
           }))),
 
           h('div', {
-            staticClass: 'relative-position'
+            staticClass: 'q-date__calendar-weekdays row items-center no-wrap'
+          }, this.daysOfWeek.map(day => h('div', { staticClass: 'q-date__calendar-item' }, [ h('div', [ day ]) ]))),
+
+          h('div', {
+            staticClass: 'col relative-position overflow-hidden'
           }, [
             h('transition', {
               props: {
@@ -286,21 +298,23 @@ export default Vue.extend({
             }, [
               h('div', {
                 key: this.innerModel.year + '/' + this.innerModel.month,
-                staticClass: 'q-date__calendar-content fit'
+                staticClass: 'q-date__calendar-days fit'
+              }, this.days.map(day => h('div', {
+                staticClass: `q-date__calendar-item q-date__calendar-item--${day.in === true ? 'in' : 'out'}`
               }, [
-                h('div', {
-                  staticClass: 'q-date__calendar-weekdays row items-center no-wrap'
-                }, this.daysOfWeek.map(day => h('div', [ day ]))),
-
-                h('div', {
-                  staticClass: 'q-date__calendar-days row'
-                }, this.days.map(day => h('div', {
-                  staticClass: `q-date__calendar-day col-1 row flex-center q-date__calendar-day--${day.in === true ? 'in' : 'out'}side`,
-                  on: day.in === true ? {
-                    click: () => { this.__setDay(day.i) }
-                  } : null
-                }, [ day.i ])))
-              ])
+                day.in === true
+                  ? h(QBtn, {
+                    props: {
+                      dense: true,
+                      flat: true,
+                      label: day.i
+                    },
+                    on: {
+                      click: () => { this.__setDay(day.i) }
+                    }
+                  })
+                  : h('div', [ day.i ])
+              ])))
             ])
           ])
         ])
@@ -398,8 +412,9 @@ export default Vue.extend({
     },
 
     __goToMonth (offset) {
-      let month = Number(this.innerModel.month) + offset
-      let yearDir = this.yearDirection
+      let
+        month = Number(this.innerModel.month) + offset,
+        yearDir = this.yearDirection
 
       if (month === 13) {
         month = 1
@@ -412,26 +427,13 @@ export default Vue.extend({
         yearDir = 'right'
       }
 
-      const dir = offset > 0 ? 'left' : 'right'
-      if (this.monthDirection !== dir) {
-        this.monthDirection = dir
-      }
-
-      if (this.yearDirection !== yearDir) {
-        this.yearDirection = yearDir
-      }
-
+      this.monthDirection = offset > 0 ? 'left' : 'right'
+      this.yearDirection = yearDir
       this.innerModel.month = month
     },
 
     __goToYear (offset) {
-      const dir = offset > 0 ? 'left' : 'right'
-      if (this.monthDirection !== dir) {
-        this.monthDirection = dir
-      }
-      if (this.yearDirection !== dir) {
-        this.yearDirection = dir
-      }
+      this.monthDirection = this.yearDirection = offset > 0 ? 'left' : 'right'
       this.innerModel.year = Number(this.innerModel.year) + offset
     },
 
@@ -488,7 +490,7 @@ export default Vue.extend({
       this.__getHeader(h),
 
       h('div', {
-        staticClass: 'q-date__content relative-position overflow-hidden'
+        staticClass: 'q-date__content col relative-position overflow-auto'
       }, [
         h('transition', {
           props: {

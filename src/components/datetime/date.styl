@@ -1,4 +1,5 @@
 .q-date
+  display inline-flex
   box-shadow $shadow-2
   border-radius $generic-border-radius
   background white
@@ -29,56 +30,57 @@
     line-height 1.2
     letter-spacing 0.00735em
 
-  &__content
-    height 322px
-
   &__view
     height 100%
     width 100%
-    padding 16px 0
+    min-width 290px
+    min-height 324px
+    padding 16px
 
   &__navigation
-    height 35px
-    padding 0 16px
-    margin-bottom 12px
+    height 12.5%
 
-  &__calendar-content
-    padding 0 16px
+    > div:first-child
+      width 8%
+      justify-content flex-end
+    > div:last-child
+      width 8%
+      justify-content flex-start
 
   &__calendar-weekdays
-    margin-bottom 8px
+    height 12.5%
     > div
-      width 14.285% !important
-      text-align center
       opacity .52
       font-size 12px
 
-  &__calendar-day
+  &__calendar-item
+    display inline-flex
+    align-items center
+    justify-content center
+    vertical-align middle
     width 14.285% !important
-    height 36px !important
+    height 12.5% !important
     position relative
 
-  &__calendar-day--inside:hover:before
-    content ''
-    position absolute
-    height inherit
-    width 36px
-    top 0
-    left 50%
-    transform translate3d(-50%, 0, 0)
-    border-radius 50%
-    background black
+    > div, button
+      width 32px
+      height 32px
+    > div
+      line-height 32px
+      text-align center
 
-  &__calendar-day--outside
-    opacity .24
+    &--out
+      opacity .24
 
-  &__years
-    padding 8px
+  &__calendar-days > div
+    height 16.66% !important
+
   &__years-content
     padding 0 8px
 
   &--portrait
-    display inline-block
+    flex-direction column
+    height 410px
     width 290px
 
     .q-date__header
@@ -87,14 +89,18 @@
       align-items center
 
   &--landscape
-    display inline-flex
+    flex-direction row
     align-items stretch
+    height 321px
     width 420px
 
     > div
       display flex
       flex-direction column
       justify-content center
+
+    .q-date__content
+      height 100%
 
     .q-date__header
       border-bottom-left-radius inherit
