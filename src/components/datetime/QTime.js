@@ -17,7 +17,7 @@ export default Vue.extend({
   props: {
     value: {
       validator: v => typeof v === 'string'
-        ? /^[0-2]?[\d]{1}:[0-5]{1}[\d]{1}(:[0-5]{1}[\d]{1})?$/.test(v)
+        ? /^[0-2]?\d:[0-5]\d(:[0-5]\d)?$/.test(v)
         : true
     },
 

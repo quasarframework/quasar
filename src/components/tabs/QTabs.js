@@ -19,7 +19,7 @@ export default Vue.extend({
   },
 
   props: {
-    value: String,
+    value: [Number, String],
 
     align: {
       type: String,

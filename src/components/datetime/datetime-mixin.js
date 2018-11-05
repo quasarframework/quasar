@@ -29,7 +29,7 @@ export default {
   },
 
   computed: {
-    editable () {
+    editable () { // TODO
       return this.disable !== true && this.readonly !== true
     }
   },

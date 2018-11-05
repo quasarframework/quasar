@@ -20,12 +20,12 @@ export default Vue.extend({
 
   props: {
     icon: String,
-    label: String,
+    label: [Number, String],
 
     alert: Boolean,
 
     name: {
-      type: String,
+      type: [Number, String],
       default: () => uid()
     },
 

@@ -6,6 +6,7 @@
         <q-toggle :dark="dark" v-model="dark" label="Dark" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
+        <q-toggle :dark="dark" v-model="fullWidth" label="Full Width" />
       </div>
 
       <div>{{ date }}</div>
@@ -13,11 +14,13 @@
       <q-date
         v-model="date"
         v-bind="props"
+        :class="classes"
       />
 
       <q-date
         v-model="date"
         v-bind="props"
+        :class="classes"
         orientation="landscape"
       />
     </div>
@@ -31,6 +34,7 @@ export default {
       dark: false,
       disable: false,
       readonly: false,
+      fullWidth: false,
 
       date: '2018/11/03'
     }
@@ -42,6 +46,11 @@ export default {
         dark: this.dark,
         disable: this.disable,
         readonly: this.readonly
+      }
+    },
+    classes () {
+      if (this.fullWidth) {
+        return 'full-width'
       }
     }
   }
