@@ -33,7 +33,7 @@ export default {
     color: String,
     textColor: String,
     dense: Boolean,
-    tabindex: String,
+    tabindex: [Number, String],
     to: [Object, String],
     replace: Boolean,
     stretch: Boolean,

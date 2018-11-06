@@ -32,6 +32,18 @@ export default {
   },
 
   computed: {
+    editable () {
+      return this.disable !== true && this.readonly !== true
+    },
+
+    computedColor () {
+      return this.color || 'primary'
+    },
+
+    computedTextColor () {
+      return this.textColor || 'white'
+    },
+
     headerClass () {
       const cls = []
       this.color !== void 0 && cls.push(`bg-${this.color}`)

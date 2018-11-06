@@ -18,7 +18,7 @@ export default Vue.extend({
     },
 
     firstDayOfWeek: [String, Number],
-    todayButton: Boolean, // TODO
+    todayButton: Boolean,
     minimal: Boolean
   },
 
@@ -97,7 +97,12 @@ export default Vue.extend({
     },
 
     today () {
-      return new Date()
+      const d = new Date()
+      return {
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d.getDate()
+      }
     },
 
     days () {
@@ -125,13 +130,13 @@ export default Vue.extend({
         Object.assign(res[i], {
           unelevated: true,
           flat: false,
-          color: this.color || 'primary',
-          textColor: this.textColor || 'white'
+          color: this.computedColor,
+          textColor: this.computedTextColor
         })
       }
 
-      if (this.innerModel.year === this.today.getFullYear() && this.innerModel.month === this.today.getMonth() + 1) {
-        res[index + this.today.getDate() - 1].today = true
+      if (this.innerModel.year === this.today.year && this.innerModel.month === this.today.month) {
+        res[index + this.today.day - 1].today = true
       }
 
       const left = res.length % 7
@@ -350,19 +355,29 @@ export default Vue.extend({
     },
 
     __getMonthsView (h) {
-      const content = this.$q.i18n.date.monthsShort.map((month, i) => h('div', {
-        staticClass: 'col-4 flex flex-center'
-      }, [
-        h(QBtn, {
-          props: {
-            flat: true,
-            label: month
-          },
-          on: {
-            click: () => { this.__setMonth(i + 1) }
-          }
-        })
-      ]))
+      const currentYear = this.innerModel.year === this.today.year
+
+      const content = this.$q.i18n.date.monthsShort.map((month, i) => {
+        const active = this.innerModel.month === i + 1
+
+        return h('div', {
+          staticClass: 'col-4 flex flex-center'
+        }, [
+          h(QBtn, {
+            staticClass: currentYear === true && this.today.month === i + 1 ? 'q-date__today' : null,
+            props: {
+              flat: !active,
+              label: month,
+              unelevated: active,
+              color: active ? this.computedColor : null,
+              textColor: active ? this.computedTextColor : null
+            },
+            on: {
+              click: () => { this.__setMonth(i + 1) }
+            }
+          })
+        ])
+      })
 
       return h('div', {
         key: 'months-view',
@@ -381,14 +396,20 @@ export default Vue.extend({
         years = []
 
       for (let i = start; i <= stop; i++) {
+        const active = this.innerModel.year === i
+
         years.push(
           h('div', {
             staticClass: 'col-4 flex flex-center'
           }, [
             h(QBtn, {
+              staticClass: this.today.year === i ? 'q-date__today' : null,
               props: {
-                flat: true,
-                label: '' + i
+                flat: !active,
+                label: i,
+                unelevated: active,
+                color: active ? this.computedColor : null,
+                textColor: active ? this.computedTextColor : null
               },
               on: {
                 click: () => { this.__setYear(i) }
@@ -480,11 +501,7 @@ export default Vue.extend({
     },
 
     __setToday () {
-      this.__updateValue({
-        year: this.today.getFullYear(),
-        month: this.today.getMonth() + 1,
-        day: this.today.getDate()
-      })
+      this.__updateValue({ ...this.today })
       this.view = 'Calendar'
     },
 
