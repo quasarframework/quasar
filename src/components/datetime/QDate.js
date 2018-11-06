@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
-
 import DateTimeMixin from './datetime-mixin.js'
 
 const yearsInterval = 20
@@ -19,8 +18,8 @@ export default Vue.extend({
     },
 
     firstDayOfWeek: [String, Number],
-    today: Boolean, // TODO
-    minimal: Boolean // TODO
+    todayButton: Boolean, // TODO
+    minimal: Boolean
   },
 
   data () {
@@ -49,7 +48,8 @@ export default Vue.extend({
     classes () {
       return {
         'q-date--dark': this.dark,
-        'disable': this.disable,
+        'q-date--readonly': this.readonly,
+        'disabled': this.disable,
         [`q-date--${this.orientation}`]: true
       }
     },
@@ -57,15 +57,16 @@ export default Vue.extend({
     extModel () {
       const date = this.value.split('/')
       return {
-        year: date[0],
-        month: date[1],
-        day: date[2][0] === '0' ? date[2][1] : date[2],
-        date: new Date(this.value)
+        value: this.value,
+        year: parseInt(date[0], 10),
+        month: parseInt(date[1], 10),
+        day: parseInt(date[2], 10)
       }
     },
 
     headerTitle () {
-      return this.$q.i18n.date.daysShort[ this.extModel.date.getDay() ] + ', ' +
+      const date = new Date(this.extModel.value)
+      return this.$q.i18n.date.daysShort[ date.getDay() ] + ', ' +
         this.$q.i18n.date.monthsShort[ this.extModel.month - 1 ] + ' ' +
         this.extModel.day
     },
@@ -95,11 +96,15 @@ export default Vue.extend({
       return (new Date(this.innerModel.year, this.innerModel.month, 0)).getDate()
     },
 
+    today () {
+      return new Date()
+    },
+
     days () {
       const
         date = new Date(this.innerModel.year, this.innerModel.month - 1, 1),
         endDay = (new Date(this.innerModel.year, this.innerModel.month - 1, 0)).getDate(),
-        days = (date.getDay() - this.computedFirstDayOfWeek),
+        days = (date.getDay() - this.computedFirstDayOfWeek - 1),
         res = []
 
       const len = days < 0 ? days + 7 : days
@@ -109,8 +114,24 @@ export default Vue.extend({
         }
       }
 
+      const index = res.length
+
       for (let i = 1; i <= this.daysInMonth; i++) {
-        res.push({ i, in: true })
+        res.push({ i, in: true, flat: true })
+      }
+
+      if (this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
+        const i = index + this.innerModel.day - 1
+        Object.assign(res[i], {
+          unelevated: true,
+          flat: false,
+          color: this.color || 'primary',
+          textColor: this.textColor || 'white'
+        })
+      }
+
+      if (this.innerModel.year === this.today.getFullYear() && this.innerModel.month === this.today.getMonth() + 1) {
+        res[index + this.today.getDate() - 1].today = true
       }
 
       const left = res.length % 7
@@ -138,8 +159,11 @@ export default Vue.extend({
     },
 
     __getHeader (h) {
+      if (this.minimal === true) { return }
+
       return h('div', {
-        staticClass: 'q-date__header'
+        staticClass: 'q-date__header',
+        'class': this.headerClass
       }, [
         h('div', {
           staticClass: 'relative-position'
@@ -172,7 +196,7 @@ export default Vue.extend({
               }
             }, [
               h('div', {
-                key: this.headerTitle,
+                key: this.value,
                 staticClass: 'q-date__header-title-label q-date__header-link',
                 'class': this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
                 on: {
@@ -182,7 +206,7 @@ export default Vue.extend({
             ])
           ]),
 
-          h(QBtn, {
+          this.todayButton === true ? h(QBtn, {
             staticClass: 'q-date__header-today',
             props: {
               icon: 'today',
@@ -193,15 +217,15 @@ export default Vue.extend({
             on: {
               click: this.__setToday
             }
-          })
+          }) : null
         ])
       ])
     },
 
-    __getNavigation (h, { label, view, dir, goTo, classes }) {
+    __getNavigation (h, { label, view, key, dir, goTo, cls }) {
       return [
         h('div', {
-          staticClass: 'row items-center'
+          staticClass: 'row items-center q-date__arrow'
         }, [
           h(QBtn, {
             props: {
@@ -218,16 +242,14 @@ export default Vue.extend({
         ]),
 
         h('div', {
-          staticClass: 'relative-position overflow-hidden flex flex-center' + classes
+          staticClass: 'relative-position overflow-hidden flex flex-center' + cls
         }, [
           h('transition', {
             props: {
               name: 'q-transition--jump-' + dir
             }
           }, [
-            h('div', {
-              key: label
-            }, [
+            h('div', { key }, [
               h(QBtn, {
                 props: {
                   flat: true,
@@ -244,7 +266,7 @@ export default Vue.extend({
         ]),
 
         h('div', {
-          staticClass: 'row items-center'
+          staticClass: 'row items-center q-date__arrow'
         }, [
           h(QBtn, {
             props: {
@@ -273,15 +295,17 @@ export default Vue.extend({
           }, this.__getNavigation(h, {
             label: this.$q.i18n.date.months[ this.innerModel.month - 1 ],
             view: 'Months',
+            key: this.innerModel.month,
             dir: this.monthDirection,
             goTo: this.__goToMonth,
-            classes: ' col'
+            cls: ' col'
           }).concat(this.__getNavigation(h, {
             label: this.innerModel.year,
             view: 'Years',
+            key: this.innerModel.year,
             dir: this.yearDirection,
             goTo: this.__goToYear,
-            classes: ''
+            cls: ''
           }))),
 
           h('div', {
@@ -304,9 +328,13 @@ export default Vue.extend({
               }, [
                 day.in === true
                   ? h(QBtn, {
+                    staticClass: day.today === true ? 'q-date__today' : null,
                     props: {
                       dense: true,
-                      flat: true,
+                      flat: day.flat,
+                      unelevated: day.unelevated,
+                      color: day.color,
+                      textColor: day.textColor,
                       label: day.i
                     },
                     on: {
@@ -452,11 +480,10 @@ export default Vue.extend({
     },
 
     __setToday () {
-      const today = new Date()
       this.__updateValue({
-        year: today.getFullYear(),
-        month: today.getMonth() + 1,
-        day: today.getDate()
+        year: this.today.getFullYear(),
+        month: this.today.getMonth() + 1,
+        day: this.today.getDate()
       })
       this.view = 'Calendar'
     },

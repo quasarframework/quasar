@@ -25,12 +25,18 @@ export default {
 
     color: String,
     textColor: String,
-    dark: Boolean
+    dark: Boolean,
+
+    readonly: Boolean,
+    disable: Boolean
   },
 
   computed: {
-    editable () { // TODO
-      return this.disable !== true && this.readonly !== true
+    headerClass () {
+      const cls = []
+      this.color !== void 0 && cls.push(`bg-${this.color}`)
+      this.textColor !== void 0 && cls.push(`text-${this.textColor}`)
+      return cls.join(' ')
     }
   },
 

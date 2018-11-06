@@ -7,7 +7,9 @@
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
         <q-toggle :dark="dark" v-model="fullWidth" label="Full Width" />
-        <q-toggle :dark="dark" v-model="moreHeight" label="More Height" />
+        <q-toggle :dark="dark" v-model="biggerHeight" label="More Height" />
+        <q-toggle :dark="dark" v-model="minimal" label="Minimal" />
+        <q-toggle :dark="dark" v-model="todayButton" label="Today Button" />
       </div>
 
       <div>{{ date }}</div>
@@ -24,6 +26,24 @@
         :style="style"
         orientation="landscape"
       />
+
+      <div class="text-h6">Colored</div>
+      <div class="q-gutter-md">
+        <q-date
+          v-model="date"
+          v-bind="props"
+          color="orange"
+          :style="style"
+        />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          color="yellow"
+          text-color="black"
+          :style="style"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -36,7 +56,9 @@ export default {
       disable: false,
       readonly: false,
       fullWidth: false,
-      moreHeight: false,
+      biggerHeight: false,
+      minimal: false,
+      todayButton: false,
 
       date: '2018/11/03'
     }
@@ -47,7 +69,9 @@ export default {
       return {
         dark: this.dark,
         disable: this.disable,
-        readonly: this.readonly
+        readonly: this.readonly,
+        minimal: this.minimal,
+        todayButton: this.todayButton
       }
     },
     style () {
@@ -55,7 +79,7 @@ export default {
       if (this.fullWidth) {
         style += 'width: 100%;'
       }
-      if (this.moreHeight) {
+      if (this.biggerHeight) {
         style += 'height: 650px'
       }
       return style

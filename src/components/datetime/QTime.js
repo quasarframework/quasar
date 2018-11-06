@@ -39,7 +39,8 @@ export default Vue.extend({
     classes () {
       return {
         'q-time--dark': this.dark,
-        'disable': this.disable,
+        'q-time--readonly': this.readonly,
+        'disabled': this.disable,
         [`q-time--${this.orientation}`]: true
       }
     },
@@ -175,16 +176,16 @@ export default Vue.extend({
     __getHeader (h) {
       const label = [
         h('div', {
-          staticClass: 'q-time__item',
-          'class': this.view === 'Hour' ? 'q-time__item--active' : false,
+          staticClass: 'q-time__link',
+          'class': this.view === 'Hour' ? 'q-time__link--active' : false,
           on: {
             click: () => { this.view = 'Hour' }
           }
         }, [ this.stringModel.hour ]),
         h('div', [ ':' ]),
         h('div', {
-          staticClass: 'q-time__item',
-          'class': this.view === 'Minute' ? 'q-time__item--active' : false,
+          staticClass: 'q-time__link',
+          'class': this.view === 'Minute' ? 'q-time__link--active' : false,
           on: {
             click: () => { this.view = 'Minute' }
           }
@@ -195,8 +196,8 @@ export default Vue.extend({
         label.push(
           h('div', [ ':' ]),
           h('div', {
-            staticClass: 'q-time__item',
-            'class': this.view === 'Second' ? 'q-time__item--active' : false,
+            staticClass: 'q-time__link',
+            'class': this.view === 'Second' ? 'q-time__link--active' : false,
             on: {
               click: () => { this.view = 'Second' }
             }
@@ -205,7 +206,8 @@ export default Vue.extend({
       }
 
       return h('div', {
-        staticClass: 'q-time__header flex flex-center no-wrap'
+        staticClass: 'q-time__header flex flex-center no-wrap',
+        'class': this.headerClass
       }, [
         h('div', {
           staticClass: 'q-time__header-label row items-center no-wrap'
@@ -215,16 +217,16 @@ export default Vue.extend({
           staticClass: 'q-time__header-ampm column items-between no-wrap'
         }, [
           h('div', {
-            staticClass: 'q-time__item',
-            'class': this.isAM === true ? 'q-time__item--active' : null,
+            staticClass: 'q-time__link',
+            'class': this.isAM === true ? 'q-time__link--active' : null,
             on: {
               click: this.__setAm
             }
           }, [ 'AM' ]),
 
           h('div', {
-            staticClass: 'q-time__item',
-            'class': this.isAM !== true ? 'q-time__item--active' : null,
+            staticClass: 'q-time__link',
+            'class': this.isAM !== true ? 'q-time__link--active' : null,
             on: {
               click: this.__setPm
             }
@@ -254,7 +256,7 @@ export default Vue.extend({
           hours.push(
             h('div', {
               staticClass: `q-time__clock-position row flex-center${cls}`,
-              'class': [`q-time__clock-pos-${i}`, i === hr ? 'active' : '']
+              'class': [`q-time__clock-pos-${i}`].concat(i === hr ? this.headerClass.concat(' q-time__clock-position--active') : [])
             }, [ h('span', [ i || '00' ]) ])
           )
         }
@@ -269,7 +271,7 @@ export default Vue.extend({
           hours.push(
             h('div', {
               staticClass: 'q-time__clock-position row flex-center',
-              'class': [`q-time__clock-pos-${i}`, five === val ? 'active' : '']
+              'class': [`q-time__clock-pos-${i}`].concat(five === val ? this.headerClass.concat(' q-time__clock-position--active') : [])
             }, [
               h('span', [ five ])
             ])
@@ -278,37 +280,33 @@ export default Vue.extend({
       }
 
       return h('div', {
-        staticClass: 'q-time__content-container col flex justify-center'
+        staticClass: 'q-time__content col'
       }, [
         h('div', {
-          staticClass: 'q-time__content fit'
+          staticClass: 'q-time__view fit relative-position'
         }, [
-          h('div', {
-            staticClass: 'q-time__content-fill relative-position'
+          h('transition', {
+            props: { name: 'q-transition--scale' }
           }, [
-            h('transition', {
-              props: { name: 'q-transition--scale' }
+            h('div', {
+              ref: 'clock',
+              key: 'clock' + this.view,
+              staticClass: 'q-time__clock cursor-pointer absolute-full',
+              directives: [{
+                name: 'touch-pan',
+                value: this.__drag,
+                modifiers: {
+                  stop: true,
+                  prevent: true
+                }
+              }]
             }, [
-              h('div', {
-                ref: 'clock',
-                key: 'clock' + this.view,
-                staticClass: 'q-time__clock cursor-pointer absolute-full',
-                directives: [{
-                  name: 'touch-pan',
-                  value: this.__drag,
-                  modifiers: {
-                    stop: true,
-                    prevent: true
-                  }
-                }]
-              }, [
-                h('div', { staticClass: 'q-time__clock-circle fit' }, [
-                  h('div', {
-                    staticClass: 'q-time__clock-pointer',
-                    style: this.pointerStyle
-                  }),
-                  hours
-                ])
+              h('div', { staticClass: 'q-time__clock-circle fit' }, [
+                h('div', {
+                  staticClass: 'q-time__clock-pointer',
+                  style: this.pointerStyle
+                }),
+                hours
               ])
             ])
           ])

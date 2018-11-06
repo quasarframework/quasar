@@ -5,7 +5,7 @@
     </transition>
     <div
       style="padding: 10px; right: 10px; bottom: 10px"
-      class="bg-white shadow-4 fixed z-top"
+      class="generic-border-radius bg-white shadow-4 fixed z-top"
     >
       <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" />
       <template v-if="showSelector">
