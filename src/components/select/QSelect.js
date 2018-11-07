@@ -443,18 +443,15 @@ export default {
         }
       }))
     }
-    if (this.readonly) {
-      child.push(h(QIcon, {
-        slot: 'after'
-      }))
-    }
-    else {
-      child.push(h(QIcon, {
+
+    child.push(
+      h(QIcon, this.readonly ? { slot: 'after' } : {
         slot: 'after',
         staticClass: 'q-if-control',
         props: { name: this.$q.icon.input.dropdown }
-      }))
-    }
+      })
+    )
+
     return h(QInputFrame, {
       ref: 'input',
       staticClass: 'q-select',
