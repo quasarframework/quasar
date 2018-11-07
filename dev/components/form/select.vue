@@ -72,6 +72,13 @@
       <q-select disable @change="onChange" @input="onInput" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Disabled Select" max-height="36px" clearable/>
       <q-select disable inverted inverted-light color="amber" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Disabled Select" max-height="36px"/>
 
+      <p class="caption">Read Only State</p>
+      <q-select readonly float-label="Read Only Select with Custom Icon" multiple v-model="multipleSelect" :options="selectOptions" :after="[{icon: 'visibility_off'}]"/>
+      <q-select readonly @change="onChange" @input="onInput" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Read Only Select" max-height="36px" clearable/>
+
+      <p class="caption">With Custom Right Side Icon </p>
+      <q-select color="amber" multiple v-model="multipleSelect" :options="selectListOptions" float-label="With Custom Icon" max-height="36px" :after="[{icon: 'radio_button_checked'}]"/>
+
       <p class="caption">Error State</p>
       <q-select error multiple v-model="multipleSelect" :options="selectOptions"/>
 
