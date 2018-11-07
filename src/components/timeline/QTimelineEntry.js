@@ -53,10 +53,9 @@ export default {
       staticClass: `q-timeline-entry`,
       'class': this.classes
     }, [
-      h('div', { staticClass: 'q-timeline-subtitle' }, [
+      this.$slots.subtitle || h('div', { staticClass: 'q-timeline-subtitle' }, [
         h('span', this.subtitle)
       ]),
-
       h('div', {
         staticClass: 'q-timeline-dot',
         'class': this.colorClass
@@ -72,9 +71,9 @@ export default {
       h(
         'div',
         { staticClass: 'q-timeline-content' },
-        [
+        (this.$slots.title || [
           h('h6', { staticClass: 'q-timeline-title' }, [ this.title ])
-        ].concat(this.$slots.default)
+        ]).concat(this.$slots.default)
       )
     ])
   }
