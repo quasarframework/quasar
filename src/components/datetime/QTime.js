@@ -178,16 +178,20 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-time__link',
           'class': this.view === 'Hour' ? 'q-time__link--active' : false,
+          attrs: { tabindex: this.computedTabindex },
           on: {
-            click: () => { this.view = 'Hour' }
+            click: () => { this.view = 'Hour' },
+            keyup: e => { e.keyCode === 13 && (this.view = 'Hour') }
           }
         }, [ this.stringModel.hour ]),
         h('div', [ ':' ]),
         h('div', {
           staticClass: 'q-time__link',
           'class': this.view === 'Minute' ? 'q-time__link--active' : false,
+          attrs: { tabindex: this.computedTabindex },
           on: {
-            click: () => { this.view = 'Minute' }
+            click: () => { this.view = 'Minute' },
+            keyup: e => { e.keyCode === 13 && (this.view = 'Minute') }
           }
         }, [ this.stringModel.minute ])
       ]
@@ -198,8 +202,10 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-time__link',
             'class': this.view === 'Second' ? 'q-time__link--active' : false,
+            attrs: { tabindex: this.computedTabindex },
             on: {
-              click: () => { this.view = 'Second' }
+              click: () => { this.view = 'Second' },
+              keyup: e => { e.keyCode === 13 && (this.view = 'Second') }
             }
           }, [ this.stringModel.second ])
         )
@@ -219,16 +225,20 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-time__link',
             'class': this.isAM === true ? 'q-time__link--active' : null,
+            attrs: { tabindex: this.computedTabindex },
             on: {
-              click: this.__setAm
+              click: this.__setAm,
+              keyup: e => { e.keyCode === 13 && this.__setAm() }
             }
           }, [ 'AM' ]),
 
           h('div', {
             staticClass: 'q-time__link',
             'class': this.isAM !== true ? 'q-time__link--active' : null,
+            attrs: { tabindex: this.computedTabindex },
             on: {
-              click: this.__setPm
+              click: this.__setPm,
+              keyup: e => { e.keyCode === 13 && this.__setPm() }
             }
           }, [ 'PM' ])
         ]) : null

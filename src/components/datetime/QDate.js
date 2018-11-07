@@ -182,8 +182,10 @@ export default Vue.extend({
               key: this.extModel.year,
               staticClass: 'q-date__header-subtitle q-date__header-link',
               'class': this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
+              attrs: { tabindex: this.computedTabindex },
               on: {
-                click: () => { this.view = 'Years' }
+                click: () => { this.view = 'Years' },
+                keyup: e => { e.keyCode === 13 && (this.view = 'Years') }
               }
             }, [ this.extModel.year ])
           ])
@@ -204,8 +206,10 @@ export default Vue.extend({
                 key: this.value,
                 staticClass: 'q-date__header-title-label q-date__header-link',
                 'class': this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
+                attrs: { tabindex: this.computedTabindex },
                 on: {
-                  click: () => { this.view = 'Calendar' }
+                  click: () => { this.view = 'Calendar' },
+                  keyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
                 }
               }, [ this.headerTitle ])
             ])
@@ -217,7 +221,8 @@ export default Vue.extend({
               icon: 'today',
               flat: true,
               size: 'sm',
-              round: true
+              round: true,
+              tabindex: this.computedTabindex
             },
             on: {
               click: this.__setToday
@@ -238,7 +243,8 @@ export default Vue.extend({
               dense: true,
               size: 'sm',
               flat: true,
-              icon: this.dateArrow[0]
+              icon: this.dateArrow[0],
+              tabindex: this.computedTabindex
             },
             on: {
               click () { goTo(-1) }
@@ -260,7 +266,8 @@ export default Vue.extend({
                   flat: true,
                   dense: true,
                   noCaps: true,
-                  label
+                  label,
+                  tabindex: this.computedTabindex
                 },
                 on: {
                   click: () => { this.view = view }
@@ -279,7 +286,8 @@ export default Vue.extend({
               dense: true,
               size: 'sm',
               flat: true,
-              icon: this.dateArrow[1]
+              icon: this.dateArrow[1],
+              tabindex: this.computedTabindex
             },
             on: {
               click () { goTo(1) }
@@ -340,7 +348,8 @@ export default Vue.extend({
                       unelevated: day.unelevated,
                       color: day.color,
                       textColor: day.textColor,
-                      label: day.i
+                      label: day.i,
+                      tabindex: this.computedTabindex
                     },
                     on: {
                       click: () => { this.__setDay(day.i) }
@@ -370,7 +379,8 @@ export default Vue.extend({
               label: month,
               unelevated: active,
               color: active ? this.computedColor : null,
-              textColor: active ? this.computedTextColor : null
+              textColor: active ? this.computedTextColor : null,
+              tabindex: this.computedTabindex
             },
             on: {
               click: () => { this.__setMonth(i + 1) }
@@ -409,7 +419,8 @@ export default Vue.extend({
                 label: i,
                 unelevated: active,
                 color: active ? this.computedColor : null,
-                textColor: active ? this.computedTextColor : null
+                textColor: active ? this.computedTextColor : null,
+                tabindex: this.computedTabindex
               },
               on: {
                 click: () => { this.__setYear(i) }
@@ -430,7 +441,8 @@ export default Vue.extend({
               round: true,
               dense: true,
               flat: true,
-              icon: this.dateArrow[0]
+              icon: this.dateArrow[0],
+              tabindex: this.computedTabindex
             },
             on: {
               click: () => { this.innerModel.startYear -= yearsInterval }
@@ -450,7 +462,8 @@ export default Vue.extend({
               round: true,
               dense: true,
               flat: true,
-              icon: this.dateArrow[1]
+              icon: this.dateArrow[1],
+              tabindex: this.computedTabindex
             },
             on: {
               click: () => { this.innerModel.startYear += yearsInterval }

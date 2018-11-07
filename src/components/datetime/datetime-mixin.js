@@ -44,6 +44,10 @@ export default {
       return this.textColor || 'white'
     },
 
+    computedTabindex () {
+      return this.editable === true ? 0 : -1
+    },
+
     headerClass () {
       const cls = []
       this.color !== void 0 && cls.push(`bg-${this.color}`)

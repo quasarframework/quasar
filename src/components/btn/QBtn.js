@@ -69,13 +69,18 @@ export default Vue.extend({
           document.addEventListener('keyup', this.__onKeyupAbort)
         }
       }
+      this.$listeners.keydown !== void 0 && this.$emit('keydown', e)
     },
+
     __onKeyup (e) {
       if ([13, 32].includes(e.keyCode)) {
+        stopAndPrevent(e)
         this.$el.classList.remove('q-btn--active')
         this.$el.dispatchEvent(new MouseEvent('click', Object.assign({}, e)))
       }
+      this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
     },
+
     __onKeyupAbort (e) {
       document.removeEventListener('keyup', this.__onKeyupAbort)
       this.$el && this.$el.classList.remove('q-btn--active')
@@ -93,6 +98,7 @@ export default Vue.extend({
       style: this.style,
       attrs: this.attrs,
       on: this.isDisabled ? {} : {
+        ...this.$listeners,
         click: this.click,
         keydown: this.__onKeydown,
         keyup: this.__onKeyup

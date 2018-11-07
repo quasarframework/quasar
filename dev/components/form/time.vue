@@ -9,7 +9,6 @@
         <q-toggle :dark="dark" v-model="withSeconds" label="With Seconds" />
         <q-toggle :dark="dark" v-model="format24h" label="24H format" />
         <q-toggle :dark="dark" v-model="fullWidth" label="Full Width" />
-        <q-toggle :dark="dark" v-model="minimal" label="Minimal" />
       </div>
 
       <div>{{ time }}</div>
@@ -57,7 +56,6 @@ export default {
       readonly: false,
       withSeconds: false,
       format24h: false,
-      minimal: false,
       fullWidth: false,
 
       time: '10:56'
@@ -69,7 +67,6 @@ export default {
       return {
         withSeconds: this.withSeconds,
         format24h: this.format24h,
-        minimal: false,
         dark: this.dark,
         disable: this.disable,
         readonly: this.readonly
