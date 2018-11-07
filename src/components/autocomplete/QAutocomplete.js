@@ -28,10 +28,7 @@ export default {
       default: filter
     },
     staticData: Object,
-    valueField: {
-      type: [String, Function],
-      default: 'value'
-    },
+    valueField: [String, Function],
     separator: Boolean
   },
   inject: {

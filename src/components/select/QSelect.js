@@ -456,11 +456,13 @@ export default {
       }))
     }
 
-    child.push(h(QIcon, {
-      slot: 'after',
-      staticClass: 'q-if-control',
-      props: { name: this.$q.icon.input.dropdown }
-    }))
+    child.push(
+      h(QIcon, this.readonly ? { slot: 'after' } : {
+        slot: 'after',
+        staticClass: 'q-if-control',
+        props: { name: this.$q.icon.input.dropdown }
+      })
+    )
 
     return h(QInputFrame, {
       ref: 'input',

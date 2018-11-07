@@ -83,7 +83,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Stian Mikkelsen
 - Thomas Gick
 - Alexey Telyatnikov
-- Ryan Timmins
 - Sevenview Studios
 - Rus Brushkoff
 - Scott Brooks
@@ -123,6 +122,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Tomer Shalev
 - Ildemaro Martinez Jr.
 - Uri Levitsky
+- Pascal Guérin
+- Jo Lee
 
 - Jim O'Quinn ($5)
 - Ken ($5)
@@ -130,7 +131,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Rogério Queiroz ($5)
 - Walison Moreira ($5)
 - Felipe Santiago ($5)
-- John (JCharante) ($1)
+- Hugo Ramses Moreno Ramos (5$)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)
