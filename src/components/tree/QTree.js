@@ -508,6 +508,7 @@ export default Vue.extend({
                 value: meta.indeterminate ? null : meta.ticked,
                 color: this.computedControlColor,
                 dark: this.dark,
+                dense: true,
                 keepColor: true,
                 disable: !meta.tickable
               },

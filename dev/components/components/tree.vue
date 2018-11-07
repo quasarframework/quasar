@@ -9,7 +9,7 @@
               {label: 'Leaf', value: 'leaf'},
               {label: 'Leaf Filtered', value: 'leaf-filtered'},
               {label: 'Strict', value: 'strict'}
-            ]" stack-label="Tick Strategy" />
+            ]" label="Tick Strategy" />
           </div>
           <div class="col-xs-12 col-md-4">
             <q-toggle v-model="accordion" label="Accordion mode" />
@@ -17,7 +17,7 @@
             <q-toggle v-model="selectableNodes" label="Selectable nodes" />
           </div>
           <div class="col-xs-12 col-md-4">
-            <q-input v-model="filter" stack-label="Filter" />
+            <q-input v-model="filter" label="Filter" />
           </div>
           <div class="col-6 scroll" style="height: 6em;">
             <span class="text-bold">Ticked</span>:<br>{{ ticked }}
