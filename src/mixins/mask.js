@@ -1,6 +1,6 @@
 const TOKENS = {
-  '#': { pattern: /[\d]/ },
-
+  '#': { pattern: /[\x2A\d+]/ },
+  9: { pattern: /[\d]/ },
   S: { pattern: /[a-zA-Z]/ },
   N: { pattern: /[0-9a-zA-Z]/ },
 
@@ -14,17 +14,17 @@ const TOKENS = {
 const tokenRegex = new RegExp('[' + Object.keys(TOKENS).join('') + ']', 'g')
 
 const NAMED_MASKS = {
-  'date': '##/##/##',
-  'datetime': '##/##/## ##:##',
-  'time': '##:##',
-  'fulltime': '##:##:##',
-  'phone': '(###) ### - ####'
+  'date': '99/99/99',
+  'datetime': '99/99/99 99:99',
+  'time': '99:99',
+  'fulltime': '99:99:99',
+  'phone': '(999) 999 - 9999'
 }
 
 export default {
   props: {
     mask: {
-      type: [Object, String]
+      type: [Array, Object, String]
     },
     fillMask: Boolean,
     unmaskedValue: Boolean
@@ -57,6 +57,10 @@ export default {
 
     computedMask () {
       return NAMED_MASKS[this.mask] || this.mask
+    },
+
+    isArrayOfMasks () {
+      return Array.isArray(this.mask)
     }
   },
 
@@ -64,7 +68,9 @@ export default {
     __getInitialMaskedValue () {
       if (this.mask !== void 0 && this.mask.length > 0) {
         const mask = NAMED_MASKS[this.mask] || this.mask
-        const masked = this.__mask(this.__unmask(this.value), mask)
+        const masked = Array.isArray(mask)
+          ? this.__arrayMask(this.__unmask(this.value), mask)
+          : this.__mask(this.__unmask(this.value), mask)
 
         return this.fillMask === true
           ? this.__fillWithMask(masked, mask)
@@ -78,10 +84,9 @@ export default {
       const inp = this.$refs.input
 
       const unmasked = this.__unmask(rawVal)
-      const masked = this.__mask(
-        unmasked,
-        this.computedMask
-      )
+      const masked = this.isArrayOfMasks
+        ? this.__arrayMask(unmasked, this.computedMask)
+        : this.__mask(unmasked, this.computedMask)
 
       let val = this.fillMask === true
         ? this.__fillWithMask(masked, this.computedMask)
@@ -169,6 +174,22 @@ export default {
       this.$listeners.keydown !== void 0 && this.$emit('keydown', e)
     },
 
+    __arrayMask (val, mask) {
+      const sortedMasks = Array.from(mask).sort((a, b) => a.length - b.length)
+
+      let i = 0
+
+      while (i < sortedMasks.length) {
+        let currentMask = sortedMasks[i]
+        i++
+        let nextMask = sortedMasks[i]
+        if (!(nextMask && this.__mask(val, nextMask).length > currentMask.length)) {
+          return this.__mask(val, currentMask)
+        }
+      }
+      return ''
+    },
+
     __mask (val, mask) {
       if (val === void 0 || val === null || val === '') { return '' }
 
@@ -208,10 +229,11 @@ export default {
     },
 
     __fillWithMask (val, mask) {
-      const diff = mask.length - val.length
+      const tempMask = Array.isArray(mask) ? mask[0] : mask
+      const diff = tempMask.length - val.length
 
       return diff > 0
-        ? val + mask.slice(val.length).replace(tokenRegex, '_')
+        ? val + tempMask.slice(val.length).replace(tokenRegex, '_')
         : val
     }
   }
