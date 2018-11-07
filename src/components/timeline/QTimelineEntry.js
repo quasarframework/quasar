@@ -62,7 +62,6 @@ export default {
       }, [
         this.icon
           ? h(QIcon, {
-            staticClass: 'row items-center justify-center',
             props: { name: this.icon }
           })
           : null
