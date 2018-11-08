@@ -17,8 +17,8 @@ export default Vue.extend({
         : true
     },
 
-    events: Array,
-    eventColor: String,
+    events: [Array, Function],
+    eventColor: [String, Function],
 
     firstDayOfWeek: [String, Number],
     todayButton: Boolean,
@@ -108,6 +108,18 @@ export default Vue.extend({
       }
     },
 
+    evtFn () {
+      return typeof this.events === 'function'
+        ? this.events
+        : date => this.events.includes(date)
+    },
+
+    evtColor () {
+      return typeof this.eventColor === 'function'
+        ? this.eventColor
+        : date => this.eventColor
+    },
+
     days () {
       const
         date = new Date(this.innerModel.year, this.innerModel.month - 1, 1),
@@ -127,7 +139,10 @@ export default Vue.extend({
         prefix = this.innerModel.year + '/' + this.__pad(this.innerModel.month) + '/'
 
       for (let i = 1; i <= this.daysInMonth; i++) {
-        const event = this.events !== void 0 && this.events.includes(prefix + this.__pad(i))
+        const event = this.events !== void 0 && this.evtFn(prefix + this.__pad(i)) === true
+          ? this.evtColor(prefix + this.__pad(i))
+          : false
+
         res.push({ i, in: true, flat: true, event })
       }
 
@@ -304,8 +319,6 @@ export default Vue.extend({
     },
 
     __getCalendarView (h) {
-      const evtColor = this.eventColor !== void 0 ? ` bg-${this.eventColor}` : ''
-
       return [
         h('div', {
           key: 'calendar-view',
@@ -362,8 +375,8 @@ export default Vue.extend({
                     on: {
                       click: () => { this.__setDay(day.i) }
                     }
-                  }, day.event === true ? [
-                    h('div', { staticClass: 'q-date__event' + evtColor })
+                  }, day.event !== false ? [
+                    h('div', { staticClass: 'q-date__event bg-' + day.event })
                   ] : null)
                   : h('div', [ day.i ])
               ])))

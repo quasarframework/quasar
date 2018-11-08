@@ -46,13 +46,23 @@
       </div>
 
       <div class="text-h6">Events</div>
-      <q-date
-        v-model="date"
-        v-bind="props"
-        :events="events"
-        event-color="orange"
-        :style="style"
-      />
+      <div class="q-gutter-md">
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :events="events"
+          event-color="orange"
+          :style="style"
+        />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :events="eventFn"
+          :event-color="eventColor"
+          :style="style"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -84,6 +94,7 @@ export default {
         todayButton: this.todayButton
       }
     },
+
     style () {
       let style = ''
       if (this.fullWidth) {
@@ -93,6 +104,16 @@ export default {
         style += 'height: 650px'
       }
       return style
+    }
+  },
+
+  methods: {
+    eventFn (date) {
+      return date[9] % 3 === 0
+    },
+
+    eventColor (date) {
+      return date[9] % 2 === 0 ? 'teal' : 'orange'
     }
   }
 }
