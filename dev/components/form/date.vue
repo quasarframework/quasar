@@ -44,6 +44,15 @@
           :style="style"
         />
       </div>
+
+      <div class="text-h6">Events</div>
+      <q-date
+        v-model="date"
+        v-bind="props"
+        :events="events"
+        event-color="orange"
+        :style="style"
+      />
     </div>
   </div>
 </template>
@@ -60,7 +69,8 @@ export default {
       minimal: false,
       todayButton: false,
 
-      date: '2018/11/03'
+      date: '2018/11/03',
+      events: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
     }
   },
 

@@ -17,6 +17,9 @@ export default Vue.extend({
         : true
     },
 
+    events: Array,
+    eventColor: String,
+
     firstDayOfWeek: [String, Number],
     todayButton: Boolean,
     minimal: Boolean
@@ -119,10 +122,13 @@ export default Vue.extend({
         }
       }
 
-      const index = res.length
+      const
+        index = res.length,
+        prefix = this.innerModel.year + '/' + this.__pad(this.innerModel.month) + '/'
 
       for (let i = 1; i <= this.daysInMonth; i++) {
-        res.push({ i, in: true, flat: true })
+        const event = this.events !== void 0 && this.events.includes(prefix + this.__pad(i))
+        res.push({ i, in: true, flat: true, event })
       }
 
       if (this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
@@ -298,6 +304,8 @@ export default Vue.extend({
     },
 
     __getCalendarView (h) {
+      const evtColor = this.eventColor !== void 0 ? ` bg-${this.eventColor}` : ''
+
       return [
         h('div', {
           key: 'calendar-view',
@@ -354,7 +362,9 @@ export default Vue.extend({
                     on: {
                       click: () => { this.__setDay(day.i) }
                     }
-                  })
+                  }, day.event === true ? [
+                    h('div', { staticClass: 'q-date__event' + evtColor })
+                  ] : null)
                   : h('div', [ day.i ])
               ])))
             ])
