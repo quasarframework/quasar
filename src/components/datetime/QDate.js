@@ -20,6 +20,8 @@ export default Vue.extend({
     events: [Array, Function],
     eventColor: [String, Function],
 
+    options: [Array, Function],
+
     firstDayOfWeek: [String, Number],
     todayButton: Boolean,
     minimal: Boolean
@@ -120,6 +122,12 @@ export default Vue.extend({
         : date => this.eventColor
     },
 
+    dayIsAvailable () {
+      return typeof this.options === 'function'
+        ? this.options
+        : date => this.options.includes(date)
+    },
+
     days () {
       const
         date = new Date(this.innerModel.year, this.innerModel.month - 1, 1),
@@ -139,11 +147,18 @@ export default Vue.extend({
         prefix = this.innerModel.year + '/' + this.__pad(this.innerModel.month) + '/'
 
       for (let i = 1; i <= this.daysInMonth; i++) {
-        const event = this.events !== void 0 && this.evtFn(prefix + this.__pad(i)) === true
-          ? this.evtColor(prefix + this.__pad(i))
-          : false
+        const day = prefix + this.__pad(i)
 
-        res.push({ i, in: true, flat: true, event })
+        if (this.options !== void 0 && this.dayIsAvailable(day) !== true) {
+          res.push({ i })
+        }
+        else {
+          const event = this.events !== void 0 && this.evtFn(day) === true
+            ? this.evtColor(day)
+            : false
+
+          res.push({ i, in: true, flat: true, event })
+        }
       }
 
       if (this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {

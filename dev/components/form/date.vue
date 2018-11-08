@@ -63,6 +63,30 @@
           :style="style"
         />
       </div>
+
+      <div class="text-h6">Limited options</div>
+      <div class="q-gutter-md">
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :options="options"
+          :style="style"
+        />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :options="optionsFn"
+          :style="style"
+        />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :options="optionsFn2"
+          :style="style"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -80,7 +104,8 @@ export default {
       todayButton: false,
 
       date: '2018/11/03',
-      events: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
+      events: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23'],
+      options: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
     }
   },
 
@@ -114,6 +139,14 @@ export default {
 
     eventColor (date) {
       return date[9] % 2 === 0 ? 'teal' : 'orange'
+    },
+
+    optionsFn (date) {
+      return date[9] % 3 === 0
+    },
+
+    optionsFn2 (date) {
+      return date >= '2018/11/03' && date <= '2018/11/15'
     }
   }
 }
