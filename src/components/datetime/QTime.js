@@ -27,18 +27,25 @@ export default Vue.extend({
       default: null
     },
 
-    hourOptions: [Array, Function],
-    minuteOptions: [Array, Function],
-    secondOptions: [Array, Function],
+    options: Function,
+    hourOptions: Array,
+    minuteOptions: Array,
+    secondOptions: Array,
 
     withSeconds: Boolean,
-    nowBtn: Boolean,
-    autoSwitchView: Boolean
+    nowBtn: Boolean
   },
 
   data () {
     return {
-      view: 'Hour'
+      view: 'Hour',
+      numberModel: this.__getNumberModel(this.value)
+    }
+  },
+
+  watch: {
+    value (v) {
+      this.numberModel = this.__getNumberModel(v)
     }
   },
 
@@ -52,27 +59,27 @@ export default Vue.extend({
       }
     },
 
-    numberModel () {
-      const val = this.value.split(':')
-      return {
-        hour: parseInt(val[0], 10),
-        minute: parseInt(val[1], 10),
-        second: parseInt(val[2], 10) || 0
-      }
-    },
-
     stringModel () {
       const time = this.numberModel
+
       return {
-        hour: this.computedFormat24h === true
-          ? this.__pad(time.hour)
+        hour: time.hour === null
+          ? '--'
           : (
-            this.isAM === true
-              ? (time.hour === 0 ? 12 : time.hour)
-              : (time.hour > 12 ? time.hour - 12 : time.hour)
+            this.computedFormat24h === true
+              ? this.__pad(time.hour)
+              : (
+                this.isAM === true
+                  ? (time.hour === 0 ? 12 : time.hour)
+                  : (time.hour > 12 ? time.hour - 12 : time.hour)
+              )
           ),
-        minute: this.__pad(time.minute),
-        second: this.__pad(time.second)
+        minute: time.minute === null
+          ? '--'
+          : this.__pad(time.minute),
+        second: time.second === null
+          ? '--'
+          : this.__pad(time.second)
       }
     },
 
@@ -98,27 +105,52 @@ export default Vue.extend({
       return { transform }
     },
 
+    minLink () {
+      return this.numberModel.hour !== null
+    },
+
+    secLink () {
+      return this.minLink && this.numberModel.minute !== null
+    },
+
     isAM () {
-      return this.numberModel.hour < 12
+      return this.numberModel.hour === null || this.numberModel.hour < 12
     },
 
     hourInSelection () {
-      return this.__getSelection(this.hourOptions)
+      return this.hourOptions !== void 0
+        ? val => this.hourOptions.includes(val)
+        : (
+          this.options !== void 0
+            ? val => this.options(val, null, null)
+            : void 0
+        )
     },
 
     minuteInSelection () {
-      return this.__getSelection(this.minuteOptions)
+      return this.minuteOptions !== void 0
+        ? val => this.minuteOptions.includes(val)
+        : (
+          this.options !== void 0
+            ? val => this.options(this.numberModel.hour, val, null)
+            : void 0
+        )
     },
 
     secondInSelection () {
-      return this.__getSelection(this.secondOptions)
+      return this.secondOptions !== void 0
+        ? val => this.secondOptions.includes(val)
+        : (
+          this.options !== void 0
+            ? val => this.options(this.numberModel.hour, this.numberModel.minute, val)
+            : void 0
+        )
     },
 
     positions () {
-      let start, end, offset = 0, step = 1, opt, inSel
+      let start, end, offset = 0, step = 1, inSel
 
       if (this.view === 'Hour') {
-        opt = this.hourOptions
         inSel = this.hourInSelection
 
         if (this.computedFormat24h === true) {
@@ -140,11 +172,9 @@ export default Vue.extend({
         step = 5
 
         if (this.view === 'Minute') {
-          opt = this.minuteOptions
           inSel = this.minuteInSelection
         }
         else {
-          opt = this.secondOptions
           inSel = this.secondInSelection
         }
       }
@@ -154,7 +184,7 @@ export default Vue.extend({
       for (let val = start, index = start; val <= end; val += step, index++) {
         const
           actualVal = val + offset,
-          disable = opt !== void 0 && inSel(actualVal) === false,
+          disable = inSel !== void 0 && inSel(actualVal) === false,
           label = this.view === 'Hour' && val === 0
             ? (this.format24h === true ? '00' : '12')
             : val
@@ -185,13 +215,11 @@ export default Vue.extend({
         this.__updateClock(event.evt)
         this.dragging = false
 
-        if (this.autoSwitchView === true) {
-          if (this.view === 'Hour') {
-            this.view = 'Minute'
-          }
-          else if (this.withSeconds && this.view === 'Minute') {
-            this.view = 'Second'
-          }
+        if (this.view === 'Hour') {
+          this.view = 'Minute'
+        }
+        else if (this.withSeconds && this.view === 'Minute') {
+          this.view = 'Second'
         }
       }
       else {
@@ -242,7 +270,7 @@ export default Vue.extend({
           hour = 0
         }
 
-        if (this.hourOptions !== void 0 && this.hourInSelection(hour) !== true) {
+        if (this.hourInSelection !== void 0 && this.hourInSelection(hour) !== true) {
           return
         }
 
@@ -255,10 +283,11 @@ export default Vue.extend({
           val = 0
         }
 
-        if (
-          (this.view === 'Minute' && this.minuteOptions !== void 0 && this.minuteInSelection(val) !== true) ||
-          (this.view === 'Second' && this.secondOptions !== void 0 && this.secondInSelection(val) !== true)
-        ) {
+        const opt = this.view === 'Minute'
+          ? this.minuteInSelection
+          : this.secondInSelection
+
+        if (opt !== void 0 && opt(val) !== true) {
           return
         }
 
@@ -278,29 +307,40 @@ export default Vue.extend({
           }
         }, [ this.stringModel.hour ]),
         h('div', [ ':' ]),
-        h('div', {
-          staticClass: 'q-time__link',
-          'class': this.view === 'Minute' ? 'q-time__link--active' : false,
-          attrs: { tabindex: this.computedTabindex },
-          on: {
-            click: () => { this.view = 'Minute' },
-            keyup: e => { e.keyCode === 13 && (this.view = 'Minute') }
-          }
-        }, [ this.stringModel.minute ])
+        h(
+          'div',
+          this.minLink === true
+            ? {
+              staticClass: 'q-time__link',
+              'class': this.view === 'Minute' ? 'q-time__link--active' : false,
+              attrs: { tabindex: this.computedTabindex },
+              on: {
+                click: () => { this.view = 'Minute' },
+                keyup: e => { e.keyCode === 13 && (this.view = 'Minute') }
+              }
+            }
+            : null,
+          [ this.stringModel.minute ]
+        )
       ]
 
       if (this.withSeconds === true) {
         label.push(
           h('div', [ ':' ]),
-          h('div', {
-            staticClass: 'q-time__link',
-            'class': this.view === 'Second' ? 'q-time__link--active' : false,
-            attrs: { tabindex: this.computedTabindex },
-            on: {
-              click: () => { this.view = 'Second' },
-              keyup: e => { e.keyCode === 13 && (this.view = 'Second') }
-            }
-          }, [ this.stringModel.second ])
+          h(
+            'div',
+            this.secLink === true
+              ? {
+                staticClass: 'q-time__link',
+                'class': this.view === 'Second' ? 'q-time__link--active' : false,
+                attrs: { tabindex: this.computedTabindex },
+                on: {
+                  click: () => { this.view = 'Second' },
+                  keyup: e => { e.keyCode === 13 && (this.view = 'Second') }
+                }
+              } : null,
+            [ this.stringModel.second ]
+          )
         )
       }
 
@@ -340,7 +380,8 @@ export default Vue.extend({
 
     __getClock (h) {
       const
-        current = this.numberModel[this.view.toLowerCase()],
+        view = this.view.toLowerCase(),
+        current = this.numberModel[view],
         f24 = this.view === 'Hour' && this.computedFormat24h === true
           ? ' fmt24'
           : ''
@@ -368,10 +409,12 @@ export default Vue.extend({
               }]
             }, [
               h('div', { staticClass: 'q-time__clock-circle fit' }, [
-                h('div', {
-                  staticClass: 'q-time__clock-pointer',
-                  style: this.pointerStyle
-                }),
+                this.numberModel[view] !== null
+                  ? h('div', {
+                    staticClass: 'q-time__clock-pointer',
+                    style: this.pointerStyle
+                  })
+                  : null,
 
                 this.positions.map(pos => h('div', {
                   staticClass: `q-time__clock-position row flex-center${f24} q-time__clock-pos-${pos.index}`,
@@ -402,18 +445,37 @@ export default Vue.extend({
       ])
     },
 
-    __getSelection (which) {
-      return typeof which === 'function'
-        ? which
-        : val => which.includes(val)
+    __getNumberModel (v) {
+      if (v === void 0 || v === null) {
+        return {
+          hour: null,
+          minute: null,
+          second: null
+        }
+      }
+
+      const val = v.split(':')
+      return {
+        hour: parseInt(val[0], 10),
+        minute: parseInt(val[1], 10),
+        second: parseInt(val[2], 10) || 0
+      }
     },
 
     __setHour (hour) {
-      this.numberModel.hour !== hour && this.__updateValue({ hour })
+      if (this.numberModel.hour !== hour) {
+        this.numberModel.hour = hour
+        this.numberModel.minute = null
+        this.numberModel.second = null
+      }
     },
 
     __setMinute (minute) {
-      this.numberModel.minute !== minute && this.__updateValue({ minute })
+      if (this.numberModel.minute !== minute) {
+        this.numberModel.minute = minute
+        this.numberModel.second = null
+        this.withSeconds !== true && this.__updateValue({ minute })
+      }
     },
 
     __setSecond (second) {

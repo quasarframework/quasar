@@ -9,10 +9,10 @@
     color white
     background $primary
     padding 16px
+    font-weight 300
 
   &__header-label
     font-size 28px
-    font-weight 300
     line-height 1
     letter-spacing -0.00833em
 
@@ -28,6 +28,7 @@
 
   &__header-ampm
     font-size 16px
+    letter-spacing 0.1em
 
   &__content
     padding 16px
@@ -130,6 +131,16 @@
   &__now-button
     background $primary
     color white
+
+  &__event
+    position absolute
+    bottom 2px
+    left 50%
+    height 5px
+    width 10px
+    border-radius 5px
+    background $secondary
+    transform translate3d(-50%, 0, 0)
 
   &.disabled, &--readonly
     .q-time__header-ampm, .q-time__content

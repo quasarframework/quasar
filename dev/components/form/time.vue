@@ -81,9 +81,7 @@
         <q-time
           v-model="timeLimit"
           v-bind="props"
-          :hour-options="hourOptionsFn"
-          :minute-options="minuteOptionsFn"
-          :second-options="secondOptionsFn"
+          :options="optionsFn"
           :style="style"
         />
       </div>
@@ -146,16 +144,11 @@ export default {
       return date[9] % 2 === 0 ? 'teal' : 'orange'
     },
 
-    hourOptionsFn (hr) {
-      return hr % 2 === 0
-    },
-
-    minuteOptionsFn (min) {
-      return min > 25 && min < 58
-    },
-
-    secondOptionsFn (sec) {
-      return sec % 10 === 0
+    optionsFn (hr, min, sec) {
+      if (hr % 2 !== 0) { return false }
+      if (min !== null && (min <= 25 || min >= 58)) { return false }
+      if (sec !== null && sec % 10 !== 0) { return false }
+      return true
     }
   }
 }
