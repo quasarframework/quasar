@@ -46,6 +46,7 @@
         />
       </div>
 
+      <!--
       <div class="text-h6">Events</div>
       <div class="q-gutter-md">
         <q-time
@@ -64,27 +65,25 @@
           :style="style"
         />
       </div>
+      -->
 
       <div class="text-h6">Limited options</div>
       <div class="q-gutter-md">
         <q-time
-          v-model="time"
+          v-model="timeLimit"
           v-bind="props"
-          :options="options"
+          :hour-options="hourOptions"
+          :minute-options="minuteOptions"
+          :second-options="secondOptions"
           :style="style"
         />
 
         <q-time
-          v-model="time"
+          v-model="timeLimit"
           v-bind="props"
-          :options="optionsFn"
-          :style="style"
-        />
-
-        <q-time
-          v-model="time"
-          v-bind="props"
-          :options="optionsFn2"
+          :hour-options="hourOptionsFn"
+          :minute-options="minuteOptionsFn"
+          :second-options="secondOptionsFn"
           :style="style"
         />
       </div>
@@ -106,8 +105,11 @@ export default {
       autoSwitchView: false,
 
       time: '10:56',
-      events: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23'],
-      options: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
+
+      timeLimit: '10:56',
+      hourOptions: [9, 10, 11, 13],
+      minuteOptions: [0, 15, 30, 45],
+      secondOptions: [0, 10, 20, 30, 40, 50]
     }
   },
 
@@ -144,12 +146,16 @@ export default {
       return date[9] % 2 === 0 ? 'teal' : 'orange'
     },
 
-    optionsFn (date) {
-      return date[9] % 3 === 0
+    hourOptionsFn (hr) {
+      return hr % 2 === 0
     },
 
-    optionsFn2 (date) {
-      return date >= '2018/11/03' && date <= '2018/11/15'
+    minuteOptionsFn (min) {
+      return min > 25 && min < 58
+    },
+
+    secondOptionsFn (sec) {
+      return sec % 10 === 0
     }
   }
 }

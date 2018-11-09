@@ -100,11 +100,14 @@
     transform translate3d(-50%, -50%, 0) /* rtl:ignore */
     border-radius 50%
 
+    &--disable
+      opacity .4
+
     &--active
       background $primary
       color white
 
-  for $pos in 0..12
+  for $pos in 0..11
     $degree = (270 + 30 * $pos)
     &__clock-pos-{$pos}
       top round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
