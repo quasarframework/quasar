@@ -23,7 +23,7 @@ export default Vue.extend({
     options: [Array, Function],
 
     firstDayOfWeek: [String, Number],
-    todayButton: Boolean,
+    todayBtn: Boolean,
     minimal: Boolean
   },
 
@@ -55,7 +55,7 @@ export default Vue.extend({
         'q-date--dark': this.dark,
         'q-date--readonly': this.readonly,
         'disabled': this.disable,
-        [`q-date--${this.orientation}`]: true
+        [`q-date--${this.landscape === true ? 'landscape' : 'portrait'}`]: true
       }
     },
 
@@ -122,7 +122,7 @@ export default Vue.extend({
         : date => this.eventColor
     },
 
-    dayIsAvailable () {
+    isInSelection () {
       return typeof this.options === 'function'
         ? this.options
         : date => this.options.includes(date)
@@ -149,7 +149,7 @@ export default Vue.extend({
       for (let i = 1; i <= this.daysInMonth; i++) {
         const day = prefix + this.__pad(i)
 
-        if (this.options !== void 0 && this.dayIsAvailable(day) !== true) {
+        if (this.options !== void 0 && this.isInSelection(day) !== true) {
           res.push({ i })
         }
         else {
@@ -251,7 +251,7 @@ export default Vue.extend({
             ])
           ]),
 
-          this.todayButton === true ? h(QBtn, {
+          this.todayBtn === true ? h(QBtn, {
             staticClass: 'q-date__header-today',
             props: {
               icon: 'today',

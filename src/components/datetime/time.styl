@@ -124,6 +124,10 @@
     top round(15% + ((1 + sin(270deg)) * 70%) / 2, 2)
     left round(15% + ((1 + cos(270deg)) * 70%) / 2, 2) /* rtl:ignore */
 
+  &__now-button
+    background $primary
+    color white
+
   &.disabled, &--readonly
     .q-time__header-ampm, .q-time__content
       pointer-events none

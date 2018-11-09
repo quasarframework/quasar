@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/touch-pan.js'
 
 import { position } from '../../utils/event.js'
@@ -26,7 +27,9 @@ export default Vue.extend({
       default: null
     },
 
-    withSeconds: Boolean
+    withSeconds: Boolean,
+    nowBtn: Boolean,
+    autoSwitchView: Boolean
   },
 
   data () {
@@ -41,7 +44,7 @@ export default Vue.extend({
         'q-time--dark': this.dark,
         'q-time--readonly': this.readonly,
         'disabled': this.disable,
-        [`q-time--${this.orientation}`]: true
+        [`q-time--${this.landscape === true ? 'landscape' : 'portrait'}`]: true
       }
     },
 
@@ -115,11 +118,13 @@ export default Vue.extend({
         this.__updateClock(event.evt)
         this.dragging = false
 
-        if (this.view === 'Hour') {
-          this.view = 'Minute'
-        }
-        else if (this.withSeconds && this.view === 'Minute') {
-          this.view = 'Second'
+        if (this.autoSwitchView === true) {
+          if (this.view === 'Hour') {
+            this.view = 'Minute'
+          }
+          else if (this.withSeconds && this.view === 'Minute') {
+            this.view = 'Second'
+          }
         }
       }
       else {
@@ -179,20 +184,20 @@ export default Vue.extend({
           staticClass: 'q-time__link',
           'class': this.view === 'Hour' ? 'q-time__link--active' : false,
           attrs: { tabindex: this.computedTabindex },
-          on: {
+          on: this.autoSwitchView === true ? {
             click: () => { this.view = 'Hour' },
             keyup: e => { e.keyCode === 13 && (this.view = 'Hour') }
-          }
+          } : null
         }, [ this.stringModel.hour ]),
         h('div', [ ':' ]),
         h('div', {
           staticClass: 'q-time__link',
           'class': this.view === 'Minute' ? 'q-time__link--active' : false,
           attrs: { tabindex: this.computedTabindex },
-          on: {
+          on: this.autoSwitchView === true ? {
             click: () => { this.view = 'Minute' },
             keyup: e => { e.keyCode === 13 && (this.view = 'Minute') }
-          }
+          } : null
         }, [ this.stringModel.minute ])
       ]
 
@@ -203,10 +208,10 @@ export default Vue.extend({
             staticClass: 'q-time__link',
             'class': this.view === 'Second' ? 'q-time__link--active' : false,
             attrs: { tabindex: this.computedTabindex },
-            on: {
+            on: this.autoSwitchView === true ? {
               click: () => { this.view = 'Second' },
               keyup: e => { e.keyCode === 13 && (this.view = 'Second') }
-            }
+            } : null
           }, [ this.stringModel.second ])
         )
       }
@@ -267,7 +272,7 @@ export default Vue.extend({
             h('div', {
               staticClass: `q-time__clock-position row flex-center${cls}`,
               'class': [`q-time__clock-pos-${i}`].concat(i === hr ? this.headerClass.concat(' q-time__clock-position--active') : [])
-            }, [ h('span', [ i || '00' ]) ])
+            }, [ h('span', [ i === 0 ? '00' : i ]) ])
           )
         }
       }
@@ -280,8 +285,8 @@ export default Vue.extend({
           const five = i * 5
           hours.push(
             h('div', {
-              staticClass: 'q-time__clock-position row flex-center',
-              'class': [`q-time__clock-pos-${i}`].concat(five === val ? this.headerClass.concat(' q-time__clock-position--active') : [])
+              staticClass: 'q-time__clock-position row flex-center q-time__clock-pos-' + i,
+              'class': five === val ? this.headerClass.concat(' q-time__clock-position--active') : null
             }, [
               h('span', [ five ])
             ])
@@ -319,7 +324,23 @@ export default Vue.extend({
                 hours
               ])
             ])
-          ])
+          ]),
+
+          this.nowBtn === true ? h(QBtn, {
+            staticClass: 'q-time__now-button absolute-top-right',
+            props: {
+              icon: 'access_time',
+              unelevated: true,
+              size: 'sm',
+              round: true,
+              color: this.color,
+              textColor: this.textColor,
+              tabindex: this.computedTabindex
+            },
+            on: {
+              click: this.__setNow
+            }
+          }) : null
         ])
       ])
     },
@@ -346,6 +367,16 @@ export default Vue.extend({
       this.isAM && this.__updateValue({
         hour: this.numberModel.hour + 12
       })
+    },
+
+    __setNow () {
+      const now = new Date()
+      this.__updateValue({
+        hour: now.getHours(),
+        minute: now.getMinutes(),
+        second: now.getSeconds()
+      })
+      this.view = 'Hour'
     },
 
     __updateValue (obj) {

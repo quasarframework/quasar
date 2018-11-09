@@ -9,7 +9,7 @@
         <q-toggle :dark="dark" v-model="fullWidth" label="Full Width" />
         <q-toggle :dark="dark" v-model="biggerHeight" label="More Height" />
         <q-toggle :dark="dark" v-model="minimal" label="Minimal" />
-        <q-toggle :dark="dark" v-model="todayButton" label="Today Button" />
+        <q-toggle :dark="dark" v-model="todayBtn" label="Today Button" />
       </div>
 
       <div>{{ date }}</div>
@@ -24,7 +24,7 @@
         v-model="date"
         v-bind="props"
         :style="style"
-        orientation="landscape"
+        landscape
       />
 
       <div class="text-h6">Colored</div>
@@ -101,7 +101,7 @@ export default {
       fullWidth: false,
       biggerHeight: false,
       minimal: false,
-      todayButton: false,
+      todayBtn: false,
 
       date: '2018/11/03',
       events: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23'],
@@ -116,7 +116,7 @@ export default {
         disable: this.disable,
         readonly: this.readonly,
         minimal: this.minimal,
-        todayButton: this.todayButton
+        todayBtn: this.todayBtn
       }
     },
 

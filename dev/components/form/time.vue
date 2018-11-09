@@ -9,6 +9,8 @@
         <q-toggle :dark="dark" v-model="withSeconds" label="With Seconds" />
         <q-toggle :dark="dark" v-model="format24h" label="24H format" />
         <q-toggle :dark="dark" v-model="fullWidth" label="Full Width" />
+        <q-toggle :dark="dark" v-model="nowBtn" label="Now Button" />
+        <q-toggle :dark="dark" v-model="autoSwitchView" label="Auto switch view" />
       </div>
 
       <div>{{ time }}</div>
@@ -23,7 +25,7 @@
         v-model="time"
         v-bind="props"
         :style="style"
-        orientation="landscape"
+        landscape
       />
 
       <div class="text-h6">Colored</div>
@@ -43,6 +45,49 @@
           :style="style"
         />
       </div>
+
+      <div class="text-h6">Events</div>
+      <div class="q-gutter-md">
+        <q-time
+          v-model="time"
+          v-bind="props"
+          :events="events"
+          event-color="orange"
+          :style="style"
+        />
+
+        <q-time
+          v-model="time"
+          v-bind="props"
+          :events="eventFn"
+          :event-color="eventColor"
+          :style="style"
+        />
+      </div>
+
+      <div class="text-h6">Limited options</div>
+      <div class="q-gutter-md">
+        <q-time
+          v-model="time"
+          v-bind="props"
+          :options="options"
+          :style="style"
+        />
+
+        <q-time
+          v-model="time"
+          v-bind="props"
+          :options="optionsFn"
+          :style="style"
+        />
+
+        <q-time
+          v-model="time"
+          v-bind="props"
+          :options="optionsFn2"
+          :style="style"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -57,8 +102,12 @@ export default {
       withSeconds: false,
       format24h: false,
       fullWidth: false,
+      nowBtn: false,
+      autoSwitchView: false,
 
-      time: '10:56'
+      time: '10:56',
+      events: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23'],
+      options: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
     }
   },
 
@@ -67,6 +116,8 @@ export default {
       return {
         withSeconds: this.withSeconds,
         format24h: this.format24h,
+        nowBtn: this.nowBtn,
+        autoSwitchView: this.autoSwitchView,
         dark: this.dark,
         disable: this.disable,
         readonly: this.readonly
@@ -83,6 +134,22 @@ export default {
   methods: {
     onInput (val) {
       console.log('@input', val)
+    },
+
+    eventFn (date) {
+      return date[9] % 3 === 0
+    },
+
+    eventColor (date) {
+      return date[9] % 2 === 0 ? 'teal' : 'orange'
+    },
+
+    optionsFn (date) {
+      return date[9] % 3 === 0
+    },
+
+    optionsFn2 (date) {
+      return date >= '2018/11/03' && date <= '2018/11/15'
     }
   }
 }

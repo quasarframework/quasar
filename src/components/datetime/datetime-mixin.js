@@ -4,24 +4,13 @@ export default {
       type: String,
       required: true
     },
-    min: {
-      type: String,
-      default: null
-    },
-    max: {
-      type: String,
-      default: null
-    },
 
     defaultValue: {
       type: String,
       default: null
     },
-    orientation: {
-      type: String,
-      default: 'portrait',
-      validator: v => ['portrait', 'landscape'].includes(v)
-    },
+
+    landscape: Boolean,
 
     color: String,
     textColor: String,
