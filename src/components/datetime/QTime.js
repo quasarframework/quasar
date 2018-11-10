@@ -38,9 +38,11 @@ export default Vue.extend({
   },
 
   data () {
+    const model = this.__getNumberModel(this.value)
     return {
       view: 'Hour',
-      numberModel: this.__getNumberModel(this.value)
+      isAM: model.hour === null || model.hour < 12,
+      numberModel: model
     }
   },
 
@@ -50,8 +52,12 @@ export default Vue.extend({
 
       if (isDeepEqual(model, this.numberModel) === false) {
         this.numberModel = model
+
         if (this.numberModel.hour === null) {
           this.view = 'Hour'
+        }
+        else {
+          this.isAM = model.hour < 12
         }
       }
     }
@@ -119,10 +125,6 @@ export default Vue.extend({
 
     secLink () {
       return this.minLink && this.numberModel.minute !== null
-    },
-
-    isAM () {
-      return this.numberModel.hour === null || this.numberModel.hour < 12
     },
 
     hourInSelection () {
@@ -474,9 +476,15 @@ export default Vue.extend({
 
       const val = v.split(':')
       return {
-        hour: parseInt(val[0], 10),
-        minute: parseInt(val[1], 10),
-        second: parseInt(val[2], 10)
+        hour: val[0] !== void 0
+          ? parseInt(val[0], 10)
+          : null,
+        minute: val[1] !== void 0
+          ? parseInt(val[1], 10)
+          : null,
+        second: val[2] === void 0
+          ? null
+          : parseInt(val[2], 10)
       }
     },
 
@@ -501,15 +509,23 @@ export default Vue.extend({
     },
 
     __setAm () {
-      !this.isAM && this.__updateValue({
-        hour: this.numberModel.hour - 12
-      })
+      if (this.isAM) { return }
+
+      this.isAM = true
+
+      if (this.numberModel.hour === null) { return }
+      this.numberModel.hour -= 12
+      this.__verifyAndUpdate()
     },
 
     __setPm () {
-      this.isAM && this.__updateValue({
-        hour: this.numberModel.hour + 12
-      })
+      if (!this.isAM) { return }
+
+      this.isAM = false
+
+      if (this.numberModel.hour === null) { return }
+      this.numberModel.hour += 12
+      this.__verifyAndUpdate()
     },
 
     __setNow () {
@@ -520,6 +536,29 @@ export default Vue.extend({
         second: now.getSeconds()
       })
       this.view = 'Hour'
+    },
+
+    __verifyAndUpdate () {
+      if (this.hourInSelection !== void 0 && this.hourInSelection(this.numberModel.hour) !== true) {
+        this.numberModel = this.__getNumberModel(void 0)
+        this.view = 'Hour'
+        return
+      }
+
+      if (this.minuteInSelection !== void 0 && this.minuteInSelection(this.numberModel.minute) !== true) {
+        this.numberModel.minute = null
+        this.numberModel.second = null
+        this.view = 'Minute'
+        return
+      }
+
+      if (this.withSeconds === true && this.secondInSelection !== void 0 && this.secondInSelection(this.numberModel.second) !== true) {
+        this.numberModel.second = null
+        this.view = 'Second'
+        return
+      }
+
+      this.__updateValue({})
     },
 
     __updateValue (obj) {
