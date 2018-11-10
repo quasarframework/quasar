@@ -27,6 +27,26 @@
         landscape
       />
 
+      <div class="text-h6">
+        Null/Undefined model
+        <q-btn outline color="primary" size="sm" label="Reset" @click="nullDate = null" />
+      </div>
+      <div class="q-gutter-md">
+        <q-date
+          v-model="nullDate"
+          v-bind="props"
+          :style="style"
+        />
+
+        <q-date
+          default-year-month="1986/02"
+          v-model="nullDate"
+          v-bind="props"
+          :style="style"
+          landscape
+        />
+      </div>
+
       <div class="text-h6">Colored</div>
       <div class="q-gutter-md">
         <q-date
@@ -105,7 +125,9 @@ export default {
 
       date: '2018/11/03',
       events: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23'],
-      options: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
+      options: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23'],
+
+      nullDate: null
     }
   },
 

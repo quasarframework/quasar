@@ -49,7 +49,9 @@ export default {
   },
   datetime: {
     arrowLeft: 'mdi-chevron-left',
-    arrowRight: 'mdi-chevron-right'
+    arrowRight: 'mdi-chevron-right',
+    now: 'mdi-clock-outline',
+    today: 'mdi-calendar-today'
   },
   editor: {
     bold: 'mdi-format-bold',

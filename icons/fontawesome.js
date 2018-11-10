@@ -49,7 +49,9 @@ export default {
   },
   datetime: {
     arrowLeft: 'fas fa-chevron-left',
-    arrowRight: 'fas fa-chevron-right'
+    arrowRight: 'fas fa-chevron-right',
+    now: 'far fa-clock',
+    today: 'far fa-calendar-check'
   },
   editor: {
     bold: 'fas fa-bold',

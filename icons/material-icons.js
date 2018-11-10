@@ -49,7 +49,9 @@ export default {
   },
   datetime: {
     arrowLeft: 'chevron_left',
-    arrowRight: 'chevron_right'
+    arrowRight: 'chevron_right',
+    now: 'access_time',
+    today: 'today'
   },
   editor: {
     bold: 'format_bold',

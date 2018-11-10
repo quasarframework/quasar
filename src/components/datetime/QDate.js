@@ -18,6 +18,11 @@ export default Vue.extend({
         : true
     },
 
+    defaultYearMonth: {
+      type: String,
+      validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
+    },
+
     events: [Array, Function],
     eventColor: [String, Function],
 
@@ -67,9 +72,20 @@ export default Vue.extend({
     },
 
     extModel () {
-      const date = this.value.split('/')
+      const v = this.value
+
+      if (v === void 0 || v === null || v === '') {
+        return {
+          value: null,
+          year: null,
+          month: null,
+          day: null
+        }
+      }
+
+      const date = v.split('/')
       return {
-        value: this.value,
+        value: v,
         year: parseInt(date[0], 10),
         month: parseInt(date[1], 10),
         day: parseInt(date[2], 10)
@@ -77,10 +93,19 @@ export default Vue.extend({
     },
 
     headerTitle () {
-      const date = new Date(this.extModel.value)
+      const model = this.extModel
+      if (model.value === null) { return ' --- ' }
+
+      const date = new Date(model.value)
       return this.$q.i18n.date.daysShort[ date.getDay() ] + ', ' +
-        this.$q.i18n.date.monthsShort[ this.extModel.month - 1 ] + ' ' +
-        this.extModel.day
+        this.$q.i18n.date.monthsShort[ model.month - 1 ] + ' ' +
+        model.day
+    },
+
+    headerSubtitle () {
+      return this.extModel.value !== null
+        ? this.extModel.year
+        : ' --- '
     },
 
     dateArrow () {
@@ -196,13 +221,40 @@ export default Vue.extend({
 
   methods: {
     __getInnerModel (v) {
-      const date = v.split('/'), year = parseInt(date[0], 10)
+      let string, year, month, day
+
+      if (v === void 0 || v === null || v === '') {
+        day = 1
+
+        if (this.defaultYearMonth !== void 0) {
+          const d = this.defaultYearMonth.split('/')
+          year = d[0]
+          month = d[1]
+        }
+        else {
+          const d = new Date()
+          year = d.getFullYear()
+          month = d.getMonth() + 1
+        }
+
+        string = year + '/' + month + '/' + day
+      }
+      else {
+        const d = v.split('/')
+
+        string = v
+
+        year = parseInt(d[0], 10)
+        month = parseInt(d[1], 10)
+        day = parseInt(d[2], 10)
+      }
+
       return {
-        string: v,
+        string,
         startYear: year - year % yearsInterval,
         year,
-        month: parseInt(date[1], 10),
-        day: parseInt(date[2], 10)
+        month,
+        day
       }
     },
 
@@ -222,7 +274,7 @@ export default Vue.extend({
             }
           }, [
             h('div', {
-              key: this.extModel.year,
+              key: 'h-yr-' + this.headerSubtitle,
               staticClass: 'q-date__header-subtitle q-date__header-link',
               'class': this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
               attrs: { tabindex: this.computedTabindex },
@@ -230,7 +282,7 @@ export default Vue.extend({
                 click: () => { this.view = 'Years' },
                 keyup: e => { e.keyCode === 13 && (this.view = 'Years') }
               }
-            }, [ this.extModel.year ])
+            }, [ this.headerSubtitle ])
           ])
         ]),
 
@@ -251,7 +303,7 @@ export default Vue.extend({
                 'class': this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
                 attrs: { tabindex: this.computedTabindex },
                 on: {
-                  click: () => { this.view = 'Calendar' },
+                  click: e => { this.view = 'Calendar' },
                   keyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
                 }
               }, [ this.headerTitle ])
@@ -261,7 +313,7 @@ export default Vue.extend({
           this.todayBtn === true ? h(QBtn, {
             staticClass: 'q-date__header-today',
             props: {
-              icon: 'today',
+              icon: this.$q.icon.datetime.today,
               flat: true,
               size: 'sm',
               round: true,

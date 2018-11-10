@@ -49,7 +49,9 @@ export default {
   },
   datetime: {
     arrowLeft: 'ion-ios-arrow-back',
-    arrowRight: 'ion-ios-arrow-forward'
+    arrowRight: 'ion-ios-arrow-forward',
+    now: 'ion-time',
+    today: 'ion-calendar'
   },
   editor: { // requires Material icons for some as Ionicons simply does not have everything needed
     bold: 'format_bold',

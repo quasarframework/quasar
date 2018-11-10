@@ -16,11 +16,13 @@
 
   &__header-link
     opacity .64
+    outline 0
     transition opacity .3s ease-out
     &--active, &:hover, &:focus
       opacity 1
 
   &__header-subtitle
+    height 24px
     font-size 14px
     line-height 1.75
     letter-spacing 0.00938em
@@ -122,7 +124,6 @@
     > div
       display flex
       flex-direction column
-      justify-content center
 
     .q-date__content
       height 100%

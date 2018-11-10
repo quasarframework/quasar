@@ -5,11 +5,6 @@ export default {
       required: true
     },
 
-    defaultValue: {
-      type: String,
-      default: null
-    },
-
     landscape: Boolean,
 
     color: String,

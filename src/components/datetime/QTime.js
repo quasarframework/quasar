@@ -42,7 +42,7 @@ export default Vue.extend({
     return {
       view: 'Hour',
       isAM: model.hour === null || model.hour < 12,
-      numberModel: model
+      innerModel: model
     }
   },
 
@@ -50,10 +50,10 @@ export default Vue.extend({
     value (v) {
       const model = this.__getNumberModel(v)
 
-      if (isDeepEqual(model, this.numberModel) === false) {
-        this.numberModel = model
+      if (isDeepEqual(model, this.innerModel) === false) {
+        this.innerModel = model
 
-        if (this.numberModel.hour === null) {
+        if (this.innerModel.hour === null) {
           this.view = 'Hour'
         }
         else {
@@ -74,7 +74,7 @@ export default Vue.extend({
     },
 
     stringModel () {
-      const time = this.numberModel
+      const time = this.innerModel
 
       return {
         hour: time.hour === null
@@ -107,12 +107,12 @@ export default Vue.extend({
       const
         forHour = this.view === 'Hour',
         divider = forHour ? 12 : 60,
-        amount = this.numberModel[this.view.toLowerCase()],
+        amount = this.innerModel[this.view.toLowerCase()],
         degrees = Math.round(amount * (360 / divider)) - 180
 
       let transform = `rotate3d(0,0,1,${degrees}deg) translate3d(-50%,0,0)`
 
-      if (forHour && this.computedFormat24h && !(this.numberModel.hour > 0 && this.numberModel.hour < 13)) {
+      if (forHour && this.computedFormat24h && !(this.innerModel.hour > 0 && this.innerModel.hour < 13)) {
         transform += ' scale3d(.7,.7,.7)'
       }
 
@@ -120,11 +120,11 @@ export default Vue.extend({
     },
 
     minLink () {
-      return this.numberModel.hour !== null
+      return this.innerModel.hour !== null
     },
 
     secLink () {
-      return this.minLink && this.numberModel.minute !== null
+      return this.minLink && this.innerModel.minute !== null
     },
 
     hourInSelection () {
@@ -142,7 +142,7 @@ export default Vue.extend({
         ? val => this.minuteOptions.includes(val)
         : (
           this.options !== void 0
-            ? val => this.options(this.numberModel.hour, val, null)
+            ? val => this.options(this.innerModel.hour, val, null)
             : void 0
         )
     },
@@ -152,7 +152,7 @@ export default Vue.extend({
         ? val => this.secondOptions.includes(val)
         : (
           this.options !== void 0
-            ? val => this.options(this.numberModel.hour, this.numberModel.minute, val)
+            ? val => this.options(this.innerModel.hour, this.innerModel.minute, val)
             : void 0
         )
     },
@@ -281,13 +281,6 @@ export default Vue.extend({
         if (val === 24) {
           val = 0
         }
-
-        if (
-          this.dragCache === val ||
-          (this.hourInSelection !== void 0 && this.hourInSelection(val) !== true)
-        ) {
-          return
-        }
       }
       else {
         val = Math.round(angle / 6)
@@ -295,18 +288,16 @@ export default Vue.extend({
         if (val === 60) {
           val = 0
         }
+      }
 
-        if (this.dragCache === val) {
-          return
-        }
+      if (this.dragCache === val) {
+        return
+      }
 
-        const opt = this.view === 'Minute'
-          ? this.minuteInSelection
-          : this.secondInSelection
+      const opt = this[`${this.view.toLowerCase()}InSelection`]
 
-        if (opt !== void 0 && opt(val) !== true) {
-          return
-        }
+      if (opt !== void 0 && opt(val) !== true) {
+        return
       }
 
       this.dragCache = val
@@ -400,7 +391,7 @@ export default Vue.extend({
     __getClock (h) {
       const
         view = this.view.toLowerCase(),
-        current = this.numberModel[view],
+        current = this.innerModel[view],
         f24 = this.view === 'Hour' && this.computedFormat24h === true
           ? ' fmt24'
           : ''
@@ -428,7 +419,7 @@ export default Vue.extend({
               }]
             }, [
               h('div', { staticClass: 'q-time__clock-circle fit' }, [
-                this.numberModel[view] !== null
+                this.innerModel[view] !== null
                   ? h('div', {
                     staticClass: 'q-time__clock-pointer',
                     style: this.pointerStyle,
@@ -449,7 +440,7 @@ export default Vue.extend({
           this.nowBtn === true ? h(QBtn, {
             staticClass: 'q-time__now-button absolute-top-right',
             props: {
-              icon: 'access_time',
+              icon: this.$q.icon.datetime.now,
               unelevated: true,
               size: 'sm',
               round: true,
@@ -489,23 +480,23 @@ export default Vue.extend({
     },
 
     __setHour (hour) {
-      if (this.numberModel.hour !== hour) {
-        this.numberModel.hour = hour
-        this.numberModel.minute = null
-        this.numberModel.second = null
+      if (this.innerModel.hour !== hour) {
+        this.innerModel.hour = hour
+        this.innerModel.minute = null
+        this.innerModel.second = null
       }
     },
 
     __setMinute (minute) {
-      if (this.numberModel.minute !== minute) {
-        this.numberModel.minute = minute
-        this.numberModel.second = null
+      if (this.innerModel.minute !== minute) {
+        this.innerModel.minute = minute
+        this.innerModel.second = null
         this.withSeconds !== true && this.__updateValue({ minute })
       }
     },
 
     __setSecond (second) {
-      this.numberModel.second !== second && this.__updateValue({ second })
+      this.innerModel.second !== second && this.__updateValue({ second })
     },
 
     __setAm () {
@@ -513,8 +504,8 @@ export default Vue.extend({
 
       this.isAM = true
 
-      if (this.numberModel.hour === null) { return }
-      this.numberModel.hour -= 12
+      if (this.innerModel.hour === null) { return }
+      this.innerModel.hour -= 12
       this.__verifyAndUpdate()
     },
 
@@ -523,8 +514,8 @@ export default Vue.extend({
 
       this.isAM = false
 
-      if (this.numberModel.hour === null) { return }
-      this.numberModel.hour += 12
+      if (this.innerModel.hour === null) { return }
+      this.innerModel.hour += 12
       this.__verifyAndUpdate()
     },
 
@@ -539,21 +530,21 @@ export default Vue.extend({
     },
 
     __verifyAndUpdate () {
-      if (this.hourInSelection !== void 0 && this.hourInSelection(this.numberModel.hour) !== true) {
-        this.numberModel = this.__getNumberModel(void 0)
+      if (this.hourInSelection !== void 0 && this.hourInSelection(this.innerModel.hour) !== true) {
+        this.innerModel = this.__getNumberModel(void 0)
         this.view = 'Hour'
         return
       }
 
-      if (this.minuteInSelection !== void 0 && this.minuteInSelection(this.numberModel.minute) !== true) {
-        this.numberModel.minute = null
-        this.numberModel.second = null
+      if (this.minuteInSelection !== void 0 && this.minuteInSelection(this.innerModel.minute) !== true) {
+        this.innerModel.minute = null
+        this.innerModel.second = null
         this.view = 'Minute'
         return
       }
 
-      if (this.withSeconds === true && this.secondInSelection !== void 0 && this.secondInSelection(this.numberModel.second) !== true) {
-        this.numberModel.second = null
+      if (this.withSeconds === true && this.secondInSelection !== void 0 && this.secondInSelection(this.innerModel.second) !== true) {
+        this.innerModel.second = null
         this.view = 'Second'
         return
       }
@@ -564,7 +555,7 @@ export default Vue.extend({
     __updateValue (obj) {
       const
         time = {
-          ...this.numberModel,
+          ...this.innerModel,
           ...obj
         },
         val = Math.min(time.hour, 23) + ':' +

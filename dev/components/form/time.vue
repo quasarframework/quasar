@@ -28,7 +28,7 @@
       />
 
       <div class="text-h6">
-        Undefined model
+        Null/Undefined model
         <q-btn outline color="primary" size="sm" label="Reset" @click="nullTime = null" />
       </div>
       <q-time
@@ -142,14 +142,6 @@ export default {
   methods: {
     onInput (val) {
       console.log('@input', val)
-    },
-
-    eventFn (date) {
-      return date[9] % 3 === 0
-    },
-
-    eventColor (date) {
-      return date[9] % 2 === 0 ? 'teal' : 'orange'
     },
 
     optionsFn (hr, min, sec) {
