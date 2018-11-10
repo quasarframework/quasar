@@ -33,7 +33,7 @@ export default Vue.extend({
     },
 
     hasLabel () {
-      return this.label && this.isRectangle
+      return this.isRectangle && this.label !== void 0 && this.label !== null && this.label !== ''
     }
   },
 

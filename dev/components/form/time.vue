@@ -10,7 +10,6 @@
         <q-toggle :dark="dark" v-model="format24h" label="24H format" />
         <q-toggle :dark="dark" v-model="fullWidth" label="Full Width" />
         <q-toggle :dark="dark" v-model="nowBtn" label="Now Button" />
-        <q-toggle :dark="dark" v-model="autoSwitchView" label="Auto switch view" />
       </div>
 
       <div>{{ time }}</div>
@@ -26,6 +25,16 @@
         v-bind="props"
         :style="style"
         landscape
+      />
+
+      <div class="text-h6">
+        Undefined model
+        <q-btn outline color="primary" size="sm" label="Reset" @click="nullTime = null" />
+      </div>
+      <q-time
+        v-model="nullTime"
+        v-bind="props"
+        :style="style"
       />
 
       <div class="text-h6">Colored</div>
@@ -100,9 +109,9 @@ export default {
       format24h: false,
       fullWidth: false,
       nowBtn: false,
-      autoSwitchView: false,
 
       time: '10:56',
+      nullTime: null,
 
       timeLimit: '10:56',
       hourOptions: [9, 10, 11, 13],
@@ -117,7 +126,6 @@ export default {
         withSeconds: this.withSeconds,
         format24h: this.format24h,
         nowBtn: this.nowBtn,
-        autoSwitchView: this.autoSwitchView,
         dark: this.dark,
         disable: this.disable,
         readonly: this.readonly

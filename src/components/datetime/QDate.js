@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from './datetime-mixin.js'
+import { isDeepEqual } from '../../utils/is.js'
 
 const yearsInterval = 20
 
@@ -39,10 +40,16 @@ export default Vue.extend({
   watch: {
     value (v) {
       const model = this.__getInnerModel(v)
+
+      if (isDeepEqual(model, this.innerModel) === true) {
+        return
+      }
+
       this.monthDirection = this.innerModel.string < v ? 'left' : 'right'
       if (model.year !== this.innerModel.year) {
         this.yearDirection = this.monthDirection
       }
+
       this.$nextTick(() => {
         this.innerModel = model
       })
@@ -189,7 +196,7 @@ export default Vue.extend({
 
   methods: {
     __getInnerModel (v) {
-      const date = v.split('/'), year = Number(date[0])
+      const date = v.split('/'), year = parseInt(date[0], 10)
       return {
         string: v,
         startYear: year - year % yearsInterval,
