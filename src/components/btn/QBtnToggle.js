@@ -10,6 +10,7 @@ export default Vue.extend({
     value: {
       required: true
     },
+
     // To avoid seeing the active raise shadow through the transparent button, give it a color (even white).
     color: String,
     textColor: String,
@@ -18,24 +19,30 @@ export default Vue.extend({
       default: 'primary'
     },
     toggleTextColor: String,
+
+    outline: Boolean,
+    flat: Boolean,
+    unelevated: Boolean,
+    rounded: Boolean,
+    push: Boolean,
+
     options: {
       type: Array,
       required: true,
       validator: v => v.every(opt => ('label' in opt || 'icon' in opt) && 'value' in opt)
     },
-    readonly: Boolean,
-    disable: Boolean,
+
+    size: String,
+
     noCaps: Boolean,
     noWrap: Boolean,
-    outline: Boolean,
-    flat: Boolean,
-    unelevated: Boolean,
     dense: Boolean,
-    rounded: Boolean,
-    push: Boolean,
-    size: String,
+    readonly: Boolean,
+    disable: Boolean,
+
     stretch: Boolean,
     stack: Boolean,
+
     ripple: {
       type: [Boolean, Object],
       default: true
@@ -52,7 +59,6 @@ export default Vue.extend({
     set (value, opt) {
       if (!this.readonly && value !== this.value) {
         this.$emit('input', value, opt)
-        this.$emit('change', value, opt)
       }
     }
   },
@@ -71,7 +77,7 @@ export default Vue.extend({
     },
     this.options.map(
       (opt, i) => h(QBtn, {
-        key: `${opt.label}${opt.icon}${opt.iconRight}`,
+        key: i,
         on: { click: () => this.set(opt.value, opt) },
         props: {
           disable: this.disable,

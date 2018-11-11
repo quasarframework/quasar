@@ -19,6 +19,9 @@ export default Vue.extend({
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object],
 
+    cover: Boolean,
+    persistent: Boolean,
+    autoClose: Boolean,
     menuAnchor: {
       type: String,
       default: 'bottom right'
@@ -42,59 +45,61 @@ export default Vue.extend({
   },
 
   render (h) {
-    const
-      Menu = h(
-        QMenu,
-        {
-          ref: 'menu',
-          props: {
-            disable: this.disable,
-            fit: true,
-            anchor: this.menuAnchor,
-            self: this.menuSelf,
-            contentClass: this.contentClass,
-            contentStyle: this.contentStyle
-          },
-          on: {
-            show: e => {
-              this.showing = true
-              this.$emit('show', e)
-              this.$emit('input', true)
-            },
-            hide: e => {
-              this.showing = false
-              this.$emit('hide', e)
-              this.$emit('input', false)
-            }
-          }
-        },
-        this.$slots.default
-      ),
-      Icon = h(QIcon, {
+    const Arrow = [
+      h(QIcon, {
         props: {
           name: 'arrow_drop_down' // this.$q.icon.input.dropdown
         },
-        staticClass: 'generic-transition',
+        staticClass: 'q-btn-dropdown__arrow',
         'class': {
           'rotate-180': this.showing,
-          'q-btn-dropdown__arrow': !this.split
+          'q-btn-dropdown__arrow-container': this.split === false
         }
       }),
-      Btn = h(QBtn, {
-        props: Object.assign({}, this.$props, {
-          noWrap: true,
-          iconRight: this.split ? this.iconRight : null
-        }),
-        'class': this.split ? 'q-btn-dropdown--current' : 'q-btn-dropdown q-btn-dropdown--simple',
+
+      h(QMenu, {
+        ref: 'menu',
+        props: {
+          disable: this.disable,
+          cover: this.cover,
+          fit: true,
+          persistent: this.persistent,
+          autoClose: this.autoClose,
+          anchor: this.menuAnchor,
+          self: this.menuSelf,
+          contentClass: this.contentClass,
+          contentStyle: this.contentStyle
+        },
         on: {
-          click: e => {
-            this.split && this.hide()
-            !this.disable && this.$emit('click', e)
+          'before-show': e => {
+            this.showing = true
+            this.$emit('show', e)
+            this.$emit('input', true)
+          },
+          'before-hide': e => {
+            this.showing = false
+            this.$emit('hide', e)
+            this.$emit('input', false)
           }
         }
-      }, this.split ? null : [ Icon, Menu ])
+      }, this.$slots.default)
+    ]
 
-    if (!this.split) {
+    const Btn = h(QBtn, {
+      'class': `q-btn-dropdown${this.split === true ? '--current' : ' q-btn-dropdown--simple'}`,
+      props: Object.assign({}, this.$props, {
+        noWrap: true,
+        iconRight: this.split === true ? this.iconRight : null
+      }),
+      on: {
+        click: e => {
+          this.split && this.hide()
+          !this.disable && this.$emit('click', e)
+        }
+      }
+    }, this.split !== true ? Arrow : null)
+
+    if (this.split === false) {
       return Btn
     }
 
@@ -107,11 +112,12 @@ export default Vue.extend({
         unelevated: this.unelevated
       },
       staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
-      'class': { 'self-stretch no-border-radius': this.stretch }
-    },
-    [
+      'class': this.stretch === true ? 'self-stretch no-border-radius' : null
+    }, [
       Btn,
+
       h(QBtn, {
+        staticClass: 'q-btn-dropdown__arrow-container',
         props: {
           disable: this.disable,
           outline: this.outline,
@@ -123,11 +129,8 @@ export default Vue.extend({
           textColor: this.textColor,
           dense: this.dense,
           ripple: this.ripple
-        },
-        staticClass: 'q-btn-dropdown__arrow',
-        on: { click: this.toggle }
-      }, [ Icon ]),
-      [ Menu ]
+        }
+      }, Arrow)
     ])
   },
 

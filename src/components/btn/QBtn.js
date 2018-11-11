@@ -1,17 +1,11 @@
 import Vue from 'vue'
 
-import BtnMixin from './btn-mixin.js'
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
-import { between } from '../../utils/format.js'
-import { stopAndPrevent } from '../../utils/event.js'
-// import { isSSR } from '../../plugins/platform.js'
 
-/*
-const isIESubmit = isSSR || window.PointerEvent === void 0
-  ? () => false
-  : e => e instanceof PointerEvent && !e.screenX && !e.screenY
-*/
+import BtnMixin from './btn-mixin.js'
+
+import { stopAndPrevent } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QBtn',
@@ -24,51 +18,37 @@ export default Vue.extend({
   },
 
   computed: {
-    hasPercentage () {
-      return this.percentage !== void 0
-    },
-
-    width () {
-      return `${between(this.percentage, 0, 100)}%`
-    },
-
     hasLabel () {
-      return this.isRectangle && this.label !== void 0 && this.label !== null && this.label !== ''
+      return this.isRound === false && this.label !== void 0 && this.label !== null && this.label !== ''
     }
   },
 
   methods: {
     click (e) {
-      if (e.defaultPrevented) { return }
+      if (this.pressed === true) { return }
 
-      /*
-      if (document.activeElement !== this.$el || isIESubmit(e)) {
-        stopAndPrevent(e)
-        e.preventRipple = true
-        this.$el.focus()
-        return
-      }
-      */
-
-      this.to !== void 0 && e && stopAndPrevent(e)
+      this.to !== void 0 && e !== void 0 && stopAndPrevent(e)
 
       const go = () => {
-        this.$router[this.replace ? 'replace' : 'push'](this.to)
+        this.$router[this.replace === true ? 'replace' : 'push'](this.to)
       }
 
       this.$emit('click', e, go)
       this.to !== void 0 && e.navigate !== false && go()
+
+      e !== void 0 && e.qKeyEvent !== true && this.$el.blur()
     },
 
     __onKeydown (e) {
-      const classes = this.$el.classList
       if ([13, 32].includes(e.keyCode)) {
-        !this.isLink && e.preventDefault()
-        if (!classes.contains('q-btn--active')) {
-          classes.add('q-btn--active')
+        stopAndPrevent(e)
+        if (this.pressed !== true) {
+          this.pressed = true
+          this.$el.classList.add('q-btn--active')
           document.addEventListener('keyup', this.__onKeyupAbort)
         }
       }
+
       this.$listeners.keydown !== void 0 && this.$emit('keydown', e)
     },
 
@@ -76,12 +56,17 @@ export default Vue.extend({
       if ([13, 32].includes(e.keyCode)) {
         stopAndPrevent(e)
         this.$el.classList.remove('q-btn--active')
-        this.$el.dispatchEvent(new MouseEvent('click', Object.assign({}, e)))
+        this.pressed = false
+        const evt = new MouseEvent('click', Object.assign({}, e))
+        evt.qKeyEvent = true
+        this.$el.dispatchEvent(evt)
       }
+
       this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
     },
 
     __onKeyupAbort (e) {
+      this.pressed = false
       document.removeEventListener('keyup', this.__onKeyupAbort)
       this.$el && this.$el.classList.remove('q-btn--active')
     }
@@ -92,30 +77,38 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h(this.isLink ? 'a' : 'button', {
+    const data = {
       staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
       'class': this.classes,
       style: this.style,
-      attrs: this.attrs,
-      on: this.isDisabled ? {} : {
+      attrs: this.attrs
+    }
+
+    if (this.isDisabled === false) {
+      data.on = {
         ...this.$listeners,
         click: this.click,
         keydown: this.__onKeydown,
         keyup: this.__onKeyup
-      },
-      directives: this.hasRipple ? [{
-        name: 'ripple',
-        value: this.ripple,
-        modifiers: { center: this.isRound }
-      }] : null
-    }, [
+      }
+
+      if (this.ripple !== false) {
+        data.directives = [{
+          name: 'ripple',
+          value: this.ripple,
+          modifiers: { center: this.isRound }
+        }]
+      }
+    }
+
+    return h(this.isLink ? 'a' : 'button', data, [
       h('div', { staticClass: 'q-focus-helper' }),
 
-      this.loading && this.hasPercentage
+      this.loading === true && this.percentage !== void 0
         ? h('div', {
           staticClass: 'q-btn__progress absolute-full',
-          'class': { 'q-btn__progress--dark': this.darkPercentage },
-          style: { width: this.width }
+          'class': this.darkPercentage ? 'q-btn__progress--dark' : null,
+          style: { transform: `scale3d(${this.percentage / 100},1,1)` }
         })
         : null,
 
@@ -123,23 +116,24 @@ export default Vue.extend({
         staticClass: 'q-btn__content text-center col items-center q-menu--skip',
         'class': this.innerClasses
       },
-      this.loading
-        ? [ this.$slots.loading || h(QSpinner) ]
+
+      this.loading === true
+        ? this.$slots.loading || [ h(QSpinner) ]
         : [
 
-          this.icon
+          this.icon !== void 0
             ? h(QIcon, {
-              props: { name: this.icon, left: !this.stack && this.hasLabel }
+              props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
             })
             : null,
 
-          this.hasLabel ? h('div', [ this.label ]) : null
+          this.hasLabel === true ? h('div', [ this.label ]) : null
 
         ].concat(this.$slots.default).concat([
 
-          this.iconRight && this.isRectangle
+          this.iconRight !== void 0 && this.isRound === false
             ? h(QIcon, {
-              props: { name: this.iconRight, right: !this.stack }
+              props: { name: this.iconRight, right: this.stack === false }
             })
             : null
 

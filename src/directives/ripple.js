@@ -1,13 +1,13 @@
 import { css } from '../utils/dom.js'
 import { position } from '../utils/event.js'
 
-function showRipple (evt, el, ctx) {
+function showRipple (evt, el, ctx, forceCenter) {
   if (ctx.modifiers.stop === true) {
     evt.stopPropagation()
   }
 
   let { center, color } = ctx.modifiers
-  center = center || evt instanceof KeyboardEvent // comes from keyboard event
+  center = center === true || forceCenter === true
 
   const
     node = document.createElement('span'),
@@ -53,11 +53,11 @@ function showRipple (evt, el, ctx) {
 function updateCtx (ctx, { value, modifiers, arg }) {
   ctx.enabled = value !== false
 
-  if (ctx.enabled) {
+  if (ctx.enabled === true) {
     ctx.modifiers = Object(value) === value
       ? {
-        stop: value.stop || modifiers.stop,
-        center: value.center || modifiers.center,
+        stop: value.stop === true || modifiers.stop === true,
+        center: value.center === true || modifiers.center === true,
         color: value.color || arg
       }
       : {
@@ -76,14 +76,14 @@ export default {
       modifiers: {},
 
       click (evt) {
-        if (ctx.enabled && !evt.preventRipple) {
+        if (ctx.enabled === true && evt.qKeyEvent !== true) {
           showRipple(evt, el, ctx)
         }
       },
 
       keyup (evt) {
-        if (ctx.enabled && !evt.preventRipple && evt.keyCode === 13) {
-          showRipple(evt, el, ctx)
+        if (ctx.enabled === true && evt.keyCode === 13) {
+          showRipple(evt, el, ctx, true)
         }
       }
     }

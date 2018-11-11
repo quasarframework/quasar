@@ -15,7 +15,7 @@ export default Vue.extend({
   computed: {
     classes () {
       return ['unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch']
-        .filter(t => this[t])
+        .filter(t => this[t] === true)
         .map(t => `q-btn-group--${t}`).join(' ')
     }
   },
