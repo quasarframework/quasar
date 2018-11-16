@@ -14,6 +14,7 @@
     "dev": "node build/script.dev.spa.js",
     "dev:ssr": "node build/script.dev.ssr.js",
     "dev:umd": "node build/script.test-umd.js",
+    "dev:quploader": "cd dev/upload-server && yarn && cd ../.. && node dev/upload-server/server.js",
     "build": "node build/script.build.js",
     "test": "eslint --ext .js,.vue src dev",
     "lint": "eslint --ext .js,.vue src dev"

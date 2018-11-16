@@ -78,10 +78,10 @@ export default Vue.extend({
     },
 
     styleType () {
-      if (this.filled) { return 'filled' }
-      if (this.outlined) { return 'outlined' }
-      if (this.borderless) { return 'borderless' }
-      if (this.standout) { return 'standout' }
+      if (this.filled === true) { return 'filled' }
+      if (this.outlined === true) { return 'outlined' }
+      if (this.borderless === true) { return 'borderless' }
+      if (this.standout === true) { return 'standout' }
       return 'standard'
     },
 
