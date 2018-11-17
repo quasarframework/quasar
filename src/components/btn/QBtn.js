@@ -55,8 +55,7 @@ export default Vue.extend({
     __onKeyup (e) {
       if ([13, 32].includes(e.keyCode)) {
         stopAndPrevent(e)
-        this.$el.classList.remove('q-btn--active')
-        this.pressed = false
+        this.__onKeyupAbort()
         const evt = new MouseEvent('click', Object.assign({}, e))
         evt.qKeyEvent = true
         this.$el.dispatchEvent(evt)

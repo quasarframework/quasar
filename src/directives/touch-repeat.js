@@ -59,13 +59,13 @@ export default {
       keyboardStart (evt) {
         if (keyboard.includes(evt.keyCode)) {
           el.removeEventListener('keydown', ctx.keyboardStart)
-          document.addEventListener('keyup', ctx.keyboardAbort)
+          document.addEventListener('keyup', ctx.keyboardAbort, true)
           ctx.start(evt, true)
         }
       },
       keyboardAbort (evt) {
         ctx.event && ctx.event.keyboard && keyboard.length && el.addEventListener('keydown', ctx.keyboardStart)
-        document.removeEventListener('keyup', ctx.keyboardAbort)
+        document.removeEventListener('keyup', ctx.keyboardAbort, true)
         ctx.abort(evt)
       },
 
@@ -136,7 +136,7 @@ export default {
       el.removeEventListener('keydown', ctx.keyboardStart)
       document.removeEventListener('mousemove', ctx.mouseAbort)
       document.removeEventListener('click', ctx.mouseAbort, true)
-      document.removeEventListener('keyup', ctx.keyboardAbort)
+      document.removeEventListener('keyup', ctx.keyboardAbort, true)
       delete el.__qtouchrepeat
     }
   }

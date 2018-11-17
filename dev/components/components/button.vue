@@ -74,7 +74,7 @@
               <q-input v-model="test" />
             </div>
             <div class="col">
-              <q-input :value="testC" @change="v => testC = v" />
+              <q-input :value="testC" @change="v => testC = v.target.value" />
             </div>
             <div class="col">
               <q-input type="number" v-model="testN" />
