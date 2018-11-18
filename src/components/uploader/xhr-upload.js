@@ -79,9 +79,20 @@ export default {
         })
       }
 
-      let uploadIndex = 0, uploadIndexSize = 0
+      let
+        uploadIndex = 0,
+        uploadIndexSize = 0,
+        uploadedSize = 0,
+        maxUploadSize = 0,
+        aborted
+
       xhr.upload.addEventListener('progress', e => {
-        const uploadedSize = e.loaded || 0
+        if (aborted === true) { return }
+
+        const loaded = Math.min(maxUploadSize, e.loaded)
+
+        this.uploadedSize += loaded - uploadedSize
+        uploadedSize = loaded
 
         let size = uploadedSize - uploadIndexSize
         for (let i = uploadIndex; size > 0 && i < files.length; i++) {
@@ -108,27 +119,34 @@ export default {
         }
 
         if (xhr.status && xhr.status < 400) {
-          files.forEach(f => { this.__updateFile(f, 'uploaded') })
           this.uploadedFiles = this.uploadedFiles.concat(files)
+          files.forEach(f => { this.__updateFile(f, 'uploaded') })
+          this.__emit('uploaded', { files })
         }
         else {
-          files.forEach(f => { this.__updateFile(f, 'failed') })
+          aborted = true
+          this.uploadedSize -= uploadedSize
           this.queuedFiles = this.queuedFiles.concat(files)
+          files.forEach(f => { this.__updateFile(f, 'failed') })
+          this.__emit('failed', { files })
         }
 
         this.xhrs = this.xhrs.filter(x => x !== xhr)
       }
 
-      files.forEach(file => {
-        this.__updateFile(file, 'uploading', 0)
-        form.append(file.name, file)
-      })
-
       xhr.open(
         this.xhrProps.method(files),
         this.xhrProps.url(files)
       )
+
+      this.__emit('uploading', { files })
       this.xhrs.push(xhr)
+
+      files.forEach(file => {
+        this.__updateFile(file, 'uploading', 0)
+        form.append(file.name, file)
+        maxUploadSize += file.size
+      })
       xhr.send(form)
     },
 
@@ -146,7 +164,11 @@ export default {
       }
 
       xhr.upload.addEventListener('progress', e => {
-        file.__status !== 'failed' && this.__updateFile(file, 'uploading', e.loaded || 0)
+        if (file.__status !== 'failed') {
+          const loaded = Math.min(file.size, e.loaded)
+          this.uploadedSize += loaded - file.__uploaded
+          this.__updateFile(file, 'uploading', loaded)
+        }
       }, false)
 
       xhr.onreadystatechange = () => {
@@ -157,20 +179,20 @@ export default {
         if (xhr.status && xhr.status < 400) {
           this.uploadedFiles.push(file)
           this.__updateFile(file, 'uploaded')
+          this.__emit('uploaded', { files })
+          this.uploadedSize += file.size - file.__uploaded
         }
         else {
-          console.log('failed')
           this.queuedFiles.push(file)
           this.__updateFile(file, 'failed')
+          this.__emit('failed', { files })
+          this.uploadedSize -= file.__uploaded
         }
 
         this.xhrs = this.xhrs.filter(x => x !== xhr)
       }
 
       this.__updateFile(file, 'uploading', 0)
-      file.xhr = xhr
-
-      form.append(file.name, file)
 
       xhr.open(
         this.xhrProps.method(files),
@@ -178,6 +200,10 @@ export default {
       )
 
       this.xhrs.push(xhr)
+      this.__emit('uploading', { files })
+      file.xhr = xhr
+
+      form.append(file.name, file)
       xhr.send(form)
     }
   }

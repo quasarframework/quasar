@@ -30,6 +30,7 @@ export default Vue.extend({
     maxTotalSize: [String, Number],
     filter: Function,
     noThumbnails: Boolean,
+    autoUpload: Boolean,
 
     disable: Boolean
   },
@@ -39,7 +40,10 @@ export default Vue.extend({
       files: [],
       queuedFiles: [],
       uploadedFiles: [],
-      dnd: false
+      dnd: false,
+
+      uploadSize: 0,
+      uploadedSize: 0
     }
   },
 
@@ -59,15 +63,33 @@ export default Vue.extend({
           return ext
         })
       }
+    },
+
+    uploadProgress () {
+      return this.uploadSize === 0
+        ? 0
+        : this.uploadedSize / this.uploadSize
+    },
+
+    uploadProgressLabel () {
+      return this.__getProgressLabel(this.uploadProgress)
+    },
+
+    uploadedSizeLabel () {
+      return humanStorageSize(this.uploadedSize)
+    },
+
+    uploadSizeLabel () {
+      return humanStorageSize(this.uploadSize)
     }
   },
 
   methods: {
-    pick () {
+    pickFiles () {
       !this.disable && this.$refs.input.click()
     },
 
-    add (files) {
+    addFiles (files) {
       if (!this.disable && files) {
         this.__addFiles(null, files)
       }
@@ -76,7 +98,11 @@ export default Vue.extend({
     reset () {
       if (!this.disable) {
         this.abort()
-        this.removeAllFiles()
+        this.uploadedSize = 0
+        this.uploadSize = 0
+        this.files = []
+        this.queuedFiles = []
+        this.uploadedFiles = []
       }
     },
 
@@ -87,26 +113,25 @@ export default Vue.extend({
       }
     },
 
-    removeAllFiles () {
-      if (!this.disable) {
-        this.files = []
-        this.queuedFiles = []
-        this.uploadedFiles = []
-      }
-    },
-
     removeFile (file) {
       if (this.disable) { return }
 
-      if (file.__status === 'uploading') {
+      if (file.__status === 'uploaded') {
+        this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== file.name)
+      }
+      else if (file.__status === 'uploading') {
         file.xhr.abort()
       }
-      else if (file.__status === 'uploaded') {
-        this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== file.name)
+      else {
+        this.uploadSize -= file.size
       }
 
       this.files = this.files.filter(f => f.name !== file.name)
       this.queuedFiles = this.queuedFiles.filter(f => f.name !== file.name)
+    },
+
+    __emit (evt, payload) {
+      this.$listeners[evt] !== void 0 && this.$emit(evt, payload)
     },
 
     __getProgressLabel (p) {
@@ -115,7 +140,6 @@ export default Vue.extend({
 
     __updateFile (file, status, uploadedSize) {
       file.__status = status
-      this.$forceUpdate()
 
       if (status === 'idle') {
         file.__uploaded = 0
@@ -125,6 +149,7 @@ export default Vue.extend({
         return
       }
       if (status === 'failed') {
+        this.$forceUpdate()
         return
       }
 
@@ -132,8 +157,12 @@ export default Vue.extend({
         ? file.size
         : uploadedSize
 
-      file.__progress = Math.min(1, file.__uploaded / file.size)
+      file.__progress = status === 'uploaded'
+        ? 1
+        : Math.min(0.9999, file.__uploaded / file.size)
+
       file.__progressLabel = this.__getProgressLabel(file.__progress)
+      this.$forceUpdate()
     },
 
     __addFiles (e, files) {
@@ -189,6 +218,7 @@ export default Vue.extend({
 
       files.forEach(file => {
         this.__updateFile(file, 'idle')
+        this.uploadSize += file.size
 
         if (this.noThumbnails !== true && file.type.toUpperCase().startsWith('IMAGE')) {
           const reader = new FileReader()
@@ -210,7 +240,8 @@ export default Vue.extend({
       Promise.all(filesReady).then(() => {
         this.files = this.files.concat(files)
         this.queuedFiles = this.queuedFiles.concat(files)
-        this.$emit('add', files)
+        this.__emit('add', files)
+        this.autoUpload === true && this.upload()
       })
     },
 
@@ -254,7 +285,7 @@ export default Vue.extend({
             label: 'Browse'
           },
           on: {
-            click: this.pick
+            click: this.pickFiles
           }
         })
       ])

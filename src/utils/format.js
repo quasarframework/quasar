@@ -1,4 +1,4 @@
-const units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB']
+const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 
 export function humanStorageSize (bytes) {
   let u = 0
