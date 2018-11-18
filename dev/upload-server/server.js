@@ -32,6 +32,7 @@ app.use((req, res, next) => {
 })
 
 app.post('/upload', (req, res) => {
+  rimraf.sync(path.join(folder, '*'))
   const form = new formidable.IncomingForm()
 
   form.uploadDir = folder

@@ -1,18 +1,12 @@
 import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
-import QSpinner from '../spinner/QSpinner.js'
+import QCircularProgress from '../circular-progress/QCircularProgress.js'
 
 import XHRUploadMixin from './xhr-upload.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
-
-function initFile (file) {
-  file.__status = 'idle'
-  file.__uploaded = 0
-  file.__progress = 0
-}
 
 export default Vue.extend({
   name: 'QUploader',
@@ -43,55 +37,15 @@ export default Vue.extend({
   data () {
     return {
       files: [],
-      status: 'idle', // idle, uploading, done, failed
-      dnd: false,
-
-      uploadedSize: 0,
-      uploadSize: 0
+      queuedFiles: [],
+      uploadedFiles: [],
+      dnd: false
     }
   },
 
   computed: {
-    isIdle () {
-      return this.status !== 'uploading'
-    },
-
-    isUploading () {
-      return this.status === 'uploading'
-    },
-
-    isDone () {
-      return this.status === 'done'
-    },
-
-    isFailed () {
-      return this.status === 'failed'
-    },
-
-    uploadedSizeLabel () {
-      return humanStorageSize(this.uploadedSize)
-    },
-
-    uploadSizeLabel () {
-      return humanStorageSize(this.uploadSize)
-    },
-
-    uploadProgress () {
-      return this.uploadSize > 0
-        ? this.uploadedSize / this.uploadSize
-        : 0
-    },
-
-    uploadedPercentageLabel () {
-      return (this.uploadProgress * 100).toFixed(2) + '%'
-    },
-
-    queue () {
-      return this.files.filter(f => f.__status !== 'done')
-    },
-
-    filesUploadedNumber () {
-      return this.files.length - this.queue.length
+    canUpload () {
+      return !this.disable && this.queuedFiles.length > 0
     },
 
     extensions () {
@@ -110,44 +64,76 @@ export default Vue.extend({
 
   methods: {
     pick () {
-      !this.disable && this.isIdle && this.$refs.input.click()
+      !this.disable && this.$refs.input.click()
     },
 
     add (files) {
-      if (!this.disable && this.isIdle && files) {
+      if (!this.disable && files) {
         this.__addFiles(null, files)
       }
     },
 
     reset () {
-      if (this.disable) { return }
-
-      this.abort()
-      this.status = 'idle'
-      this.removeAllFiles()
+      if (!this.disable) {
+        this.abort()
+        this.removeAllFiles()
+      }
     },
 
     removeUploadedFiles () {
-      if (!this.disable && this.isIdle) {
-        this.files = this.files.filter(f => f.__status !== 'done')
-        this.__computeTotalSize()
+      if (!this.disable) {
+        this.files = this.files.filter(f => f.__status !== 'uploaded')
+        this.uploadedFiles = []
       }
     },
 
     removeAllFiles () {
-      if (!this.disable && this.isIdle) {
+      if (!this.disable) {
         this.files = []
-        this.uploadedSize = 0
-        this.uploadSize = 0
+        this.queuedFiles = []
+        this.uploadedFiles = []
       }
     },
 
     removeFile (file) {
-      if (!this.disable && this.isIdle) {
-        this.files = this.files.filter(f => f.name !== file.name)
-        this.__computeTotalSize()
-        this.$emit(`remove:${file.__status === 'done' ? 'done' : 'cancel'}`, file)
+      if (this.disable) { return }
+
+      if (file.__status === 'uploading') {
+        file.xhr.abort()
       }
+      else if (file.__status === 'uploaded') {
+        this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== file.name)
+      }
+
+      this.files = this.files.filter(f => f.name !== file.name)
+      this.queuedFiles = this.queuedFiles.filter(f => f.name !== file.name)
+    },
+
+    __getProgressLabel (p) {
+      return (p * 100).toFixed(2) + '%'
+    },
+
+    __updateFile (file, status, uploadedSize) {
+      file.__status = status
+      this.$forceUpdate()
+
+      if (status === 'idle') {
+        file.__uploaded = 0
+        file.__progress = 0
+        file.__sizeLabel = humanStorageSize(file.size)
+        file.__progressLabel = '0.00%'
+        return
+      }
+      if (status === 'failed') {
+        return
+      }
+
+      file.__uploaded = status === 'uploaded'
+        ? file.size
+        : uploadedSize
+
+      file.__progress = Math.min(1, file.__uploaded / file.size)
+      file.__progressLabel = this.__getProgressLabel(file.__progress)
     },
 
     __addFiles (e, files) {
@@ -175,6 +161,23 @@ export default Vue.extend({
         if (files.length === 0) { return }
       }
 
+      if (this.maxTotalSize !== void 0) {
+        let size = 0
+        for (let i = 0; i < files.length; i++) {
+          size += files[i].size
+          if (size > this.maxTotalSize) {
+            if (i > 0) {
+              files = files.slice(0, i - 1)
+              break
+            }
+            else {
+              return
+            }
+          }
+        }
+        if (files.length === 0) { return }
+      }
+
       // do we have custom filter function?
       if (typeof this.filter === 'function') {
         files = this.filter(files)
@@ -184,24 +187,16 @@ export default Vue.extend({
 
       let filesReady = [] // List of image load promises
 
-      files = files.map(file => {
-        initFile(file)
+      files.forEach(file => {
+        this.__updateFile(file, 'idle')
 
-        file.__size = humanStorageSize(file.size)
-        file.__timestamp = new Date().getTime()
-
-        if (this.noThumbnails === true || !file.type.toUpperCase().startsWith('IMAGE')) {
-          this.files.push(file)
-        }
-        else {
+        if (this.noThumbnails !== true && file.type.toUpperCase().startsWith('IMAGE')) {
           const reader = new FileReader()
           let p = new Promise((resolve, reject) => {
             reader.onload = e => {
               let img = new Image()
               img.src = e.target.result
               file.__img = img
-              this.files.push(file)
-              this.__computeTotalSize()
               resolve(true)
             }
             reader.onerror = e => { reject(e) }
@@ -210,23 +205,13 @@ export default Vue.extend({
           reader.readAsDataURL(file)
           filesReady.push(p)
         }
-
-        return file
       })
-
-      if (this.uploadedSize !== 0) {
-        this.uploadedSize = 0
-      }
 
       Promise.all(filesReady).then(() => {
+        this.files = this.files.concat(files)
+        this.queuedFiles = this.queuedFiles.concat(files)
         this.$emit('add', files)
       })
-    },
-
-    __computeTotalSize () {
-      this.uploadSize = this.queue.length > 0
-        ? this.queue.map(f => f.size).reduce((total, size) => total + size)
-        : 0
     },
 
     __onDragOver (e) {
@@ -296,19 +281,26 @@ export default Vue.extend({
             h('div', {
               staticClass: 'q-uploader__subtitle row items-center no-wrap'
             }, [
-              h('div', { staticClass: 'col' }, [ file.__size ]),
-              h('div', [ this.uploading === true ? file.__progress : '' ])
+              file.__sizeLabel + ' / ' + file.__progressLabel
             ])
           ]),
 
           file.__status === 'uploading'
-            ? h(QSpinner)
+            ? h(QCircularProgress, {
+              props: {
+                value: file.__progress,
+                min: 0,
+                max: 1,
+                size: 24,
+                thickness: 3
+              }
+            })
             : h(QBtn, {
               props: {
                 round: true,
                 dense: true,
                 flat: true,
-                icon: 'clear'
+                icon: file.__status === 'uploaded' ? 'done' : 'clear'
               },
               on: {
                 click: () => { this.removeFile(file) }

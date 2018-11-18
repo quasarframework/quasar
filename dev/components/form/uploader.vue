@@ -9,19 +9,14 @@
 
       <div class="q-gutter-sm">
         <q-uploader v-bind="props" multiple xhr-url="http://localhost:4444/upload" />
-        <q-uploader v-bind="props" multiple xhr-url="http://localhost:4444/upload">
+        <q-uploader v-bind="props" multiple xhr-batch xhr-url="http://localhost:4444/upload">
           <div slot="header" slot-scope="scope" class="row no-wrap items-center q-gutter-xs">
-            <div class="col">
-              <div class="q-uploader__title">
-                {{ scope.uploadSizeLabel }} ( {{ scope.queue.length }} files )
-              </div>
-              <div class="q-uploader__subtitle">
-                {{ scope.uploadedPercentageLabel }} / {{ scope.uploadedSizeLabel }}
-              </div>
-            </div>
-            <q-btn v-if="scope.files.length > 0" icon="clear" @click="scope.isIdle ? scope.reset() : scope.abort()" round dense flat />
-            <q-btn v-if="scope.isIdle" icon="add_box" @click="scope.pick" round dense flat />
-            <q-btn v-if="scope.isIdle && scope.queue.length > 0" icon="cloud_upload" @click="scope.upload" round dense flat />
+            <q-btn v-if="scope.uploadedFiles.length > 0" icon="clear_all" @click="scope.removeUploadedFiles" round dense flat />
+            <q-space />
+            <q-btn icon="add_box" @click="scope.pick" round dense flat />
+            <q-btn v-if="scope.queuedFiles.length > 0" icon="cloud_upload" @click="scope.upload" round dense flat />
+
+            <q-btn v-if="scope.isUploading" icon="clear" @click="scope.abort" round dense flat />
           </div>
         </q-uploader>
       </div>
@@ -37,7 +32,7 @@ export default {
       square: false,
       flat: false,
       bordered: false,
-      inline: false
+      inline: true
     }
   },
 

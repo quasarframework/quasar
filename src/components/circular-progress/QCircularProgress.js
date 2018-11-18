@@ -18,10 +18,7 @@ export default Vue.extend({
       default: 100
     },
 
-    color: {
-      type: String,
-      default: 'primary'
-    },
+    color: String,
     centerColor: String,
     trackColor: {
       type: String,
@@ -100,9 +97,10 @@ export default Vue.extend({
   },
 
   methods: {
-    __getCircle (h, { thickness, offset, color }) {
+    __getCircle (h, { thickness, offset, color, cls }) {
       return h('circle', {
-        'class': color ? `text-${color}` : null,
+        staticClass: 'q-circular-progress__' + cls,
+        'class': color !== void 0 ? `text-${color}` : null,
         style: this.circleStyle,
         attrs: {
           fill: 'transparent',
@@ -130,7 +128,8 @@ export default Vue.extend({
           viewBox: this.viewBoxAttr
         }
       }, [
-        this.centerColor && this.centerColor !== 'transparent' ? h('circle', {
+        this.centerColor !== void 0 && this.centerColor !== 'transparent' ? h('circle', {
+          staticClass: 'q-circular-progress__center',
           'class': `text-${this.centerColor}`,
           attrs: {
             fill: 'currentColor',
@@ -141,11 +140,17 @@ export default Vue.extend({
         }) : null,
 
         this.trackColor && this.trackColor !== 'transparent' ? this.__getCircle(h, {
-          thickness: this.strokeWidth, offset: 0, color: this.trackColor
+          cls: 'track',
+          thickness: this.strokeWidth,
+          offset: 0,
+          color: this.trackColor
         }) : null,
 
         this.__getCircle(h, {
-          thickness: this.strokeWidth, offset: this.strokeDashOffset, color: this.color
+          cls: 'circle',
+          thickness: this.strokeWidth,
+          offset: this.strokeDashOffset,
+          color: this.color
         })
       ]),
 
