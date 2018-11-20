@@ -26,7 +26,7 @@ export default Vue.extend({
 
   watch: {
     disable (val) {
-      if (val) {
+      if (val === true) {
         this.stop()
       }
       else {
@@ -37,7 +37,7 @@ export default Vue.extend({
 
   methods: {
     poll () {
-      if (this.disable || this.fetching || !this.working) {
+      if (this.disable === true || this.fetching === true || this.working === false) {
         return
       }
 
@@ -52,14 +52,14 @@ export default Vue.extend({
     },
 
     trigger () {
-      if (this.disable || this.fetching || !this.working) {
+      if (this.disable === true || this.fetching === true || this.working === false) {
         return
       }
 
       this.index++
       this.fetching = true
       this.$emit('load', this.index, () => {
-        if (this.working) {
+        if (this.working === true) {
           this.fetching = false
           this.$nextTick(() => {
             this.$el.closest('body') && this.poll()
@@ -73,15 +73,15 @@ export default Vue.extend({
     },
 
     resume () {
-      if (!this.working) {
+      if (this.working === false) {
         this.working = true
         this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
-        this.immediatePoll()
       }
+      this.immediatePoll()
     },
 
     stop () {
-      if (this.working) {
+      if (this.working === true) {
         this.working = false
         this.fetching = false
         this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
@@ -89,13 +89,13 @@ export default Vue.extend({
     },
 
     updateScrollTarget () {
-      if (this.scrollContainer && this.working) {
+      if (this.scrollContainer && this.working === true) {
         this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
       }
 
       this.scrollContainer = getScrollTarget(this.$el)
 
-      if (this.working) {
+      if (this.working === true) {
         this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
       }
     }
@@ -110,7 +110,9 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
-    this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
+    if (this.working === true) {
+      this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
+    }
   },
 
   render (h) {
