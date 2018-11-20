@@ -15,12 +15,12 @@
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-space />
-          <q-toggle v-model="extraRow" color="amber" dark label="Extra row" />
+          <q-toggle dense v-model="extraRow" color="amber" dark label="Extra row" />
           <q-btn round dense flat class="relative-position q-mx-md" icon="announcement" to="/">
             <q-chip floating color="red" text-color="white">1</q-chip>
           </q-btn>
           <q-color hide-underline dark v-model="mainColor" />
-          <q-toggle v-model="toggle" color="amber" dark />
+          <q-toggle dense v-model="toggle" color="amber" dark />
           <q-btn flat round dense icon="menu" @click="right = !right" />
         </q-toolbar>
         <q-toolbar v-if="extraRow" inset>
@@ -268,7 +268,7 @@
         </transition>
 
         <div class="fixed-bottom-right bg-grey-5 q-pa-sm z-max" style="bottom: 8px; right: 8px; left: auto;">
-          <q-toggle v-model="showConfig" label="Config" />
+          <q-toggle dense v-model="showConfig" label="Config" />
         </div>
       </q-page-container>
     </q-layout>
@@ -277,16 +277,16 @@
       <div class="row no-wrap">
         <div class="col q-ma-xs">
           <div>
-            <q-toggle v-model="header" label="Header" />
+            <q-toggle dense v-model="header" label="Header" />
           </div>
           <div>
-            <q-toggle v-model="headerReveal" label="Header Reveal" />
+            <q-toggle dense v-model="headerReveal" label="Header Reveal" />
           </div>
           <div class="q-mt-sm">
-            <q-toggle v-model="left" label="Left Drawer" />
+            <q-toggle dense v-model="left" label="Left Drawer" />
           </div>
           <div>
-            <q-toggle v-model="leftOverlay" label="Left as Overlay" />
+            <q-toggle dense v-model="leftOverlay" label="Left as Overlay" />
           </div>
           <div>
             <q-select v-model="leftBehavior" :options="drawerBehaviorOptions" />
@@ -297,16 +297,16 @@
         </div>
         <div class="col q-ma-xs">
           <div>
-            <q-toggle v-model="footer" label="Footer" />
+            <q-toggle dense v-model="footer" label="Footer" />
           </div>
           <div>
-            <q-toggle v-model="footerReveal" label="Footer Reveal" />
+            <q-toggle dense v-model="footerReveal" label="Footer Reveal" />
           </div>
           <div class="q-mt-sm">
-            <q-toggle v-model="right" label="Right Drawer" />
+            <q-toggle dense v-model="right" label="Right Drawer" />
           </div>
           <div>
-            <q-toggle v-model="rightOverlay" label="Right as Overlay" />
+            <q-toggle dense v-model="rightOverlay" label="Right as Overlay" />
           </div>
           <div>
             <q-select v-model="rightBehavior" :options="drawerBehaviorOptions" />
@@ -329,16 +329,16 @@
               Header
             </div>
             <div class="col column flex-center">
-              <q-radio color="orange" v-model="topleft" val="l" label="l" />
-              <q-radio color="orange" v-model="topleft" val="h" label="h" />
+              <q-radio dense color="orange" v-model="topleft" val="l" label="l" />
+              <q-radio dense color="orange" v-model="topleft" val="h" label="h" />
             </div>
             <div class="col column flex-center">
-              <q-radio v-model="topcenter" val="h" label="h" />
-              <q-radio v-model="topcenter" val="H" label="H" />
+              <q-radio dense v-model="topcenter" val="h" label="h" />
+              <q-radio dense v-model="topcenter" val="H" label="H" />
             </div>
             <div class="col column flex-center">
-              <q-radio color="secondary" v-model="topright" val="r" label="r" />
-              <q-radio color="secondary" v-model="topright" val="h" label="h" />
+              <q-radio dense color="secondary" v-model="topright" val="r" label="r" />
+              <q-radio dense color="secondary" v-model="topright" val="h" label="h" />
             </div>
           </div>
           <q-separator />
@@ -348,15 +348,15 @@
               Middle
             </div>
             <div class="col column flex-center">
-              <q-radio color="orange" v-model="middleleft" val="l" label="l" />
-              <q-radio color="orange" v-model="middleleft" val="L" label="L" />
+              <q-radio dense color="orange" v-model="middleleft" val="l" label="l" />
+              <q-radio dense color="orange" v-model="middleleft" val="L" label="L" />
             </div>
             <div class="col column flex-center">
-              <q-radio v-model="middlecenter" val="p" label="p" />
+              <q-radio dense v-model="middlecenter" val="p" label="p" />
             </div>
             <div class="col column flex-center">
-              <q-radio color="secondary" v-model="middleright" val="r" label="r" />
-              <q-radio color="secondary" v-model="middleright" val="R" label="R" />
+              <q-radio dense color="secondary" v-model="middleright" val="r" label="r" />
+              <q-radio dense color="secondary" v-model="middleright" val="R" label="R" />
             </div>
           </div>
           <q-separator />
@@ -366,23 +366,23 @@
               Footer
             </div>
             <div class="col column flex-center">
-              <q-radio color="orange" v-model="bottomleft" val="l" label="l" />
-              <q-radio color="orange" v-model="bottomleft" val="f" label="f" />
+              <q-radio dense color="orange" v-model="bottomleft" val="l" label="l" />
+              <q-radio dense color="orange" v-model="bottomleft" val="f" label="f" />
             </div>
             <div class="col column flex-center">
-              <q-radio v-model="bottomcenter" val="f" label="f" />
-              <q-radio v-model="bottomcenter" val="F" label="F" />
+              <q-radio dense v-model="bottomcenter" val="f" label="f" />
+              <q-radio dense v-model="bottomcenter" val="F" label="F" />
             </div>
             <div class="col column flex-center">
-              <q-radio color="secondary" v-model="bottomright" val="r" label="r" />
-              <q-radio color="secondary" v-model="bottomright" val="f" label="f" />
+              <q-radio dense color="secondary" v-model="bottomright" val="r" label="r" />
+              <q-radio dense color="secondary" v-model="bottomright" val="f" label="f" />
             </div>
           </div>
-          <q-toggle v-model="leftMini" label="Left mini" />
-          <q-toggle v-model="rightMini" label="Right mini" />
-          <q-toggle v-model="bordered" label="Bordered" />
-          <q-toggle v-model="elevated" label="Elevated" />
-          <q-toggle v-model="whiteLayout" label="White bg" />
+          <q-toggle dense v-model="leftMini" label="Left mini" />
+          <q-toggle dense v-model="rightMini" label="Right mini" />
+          <q-toggle dense v-model="bordered" label="Bordered" />
+          <q-toggle dense v-model="elevated" label="Elevated" />
+          <q-toggle dense v-model="whiteLayout" label="White bg" />
         </div>
       </div>
     </div>
