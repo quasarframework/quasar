@@ -22,39 +22,46 @@ export default {
     let ctx = {
       mouseStart (evt) {
         if (leftClick(evt)) {
-          document.addEventListener('mousemove', ctx.mouseAbort)
+          document.addEventListener('mousemove', ctx.mouseAbortMove)
           document.addEventListener('mouseup', ctx.mouseAbort)
           ctx.start(evt)
         }
       },
+      mouseAbortMove (evt) {
+        new Date().getTime() - ctx.event.time > 20 && ctx.mouseAbort(evt)
+      },
       mouseAbort (evt) {
-        document.removeEventListener('mousemove', ctx.mouseAbort)
+        document.removeEventListener('mousemove', ctx.mouseAbortMove)
         document.removeEventListener('mouseup', ctx.mouseAbort)
         ctx.abort(evt)
       },
 
       start (evt) {
-        const startTime = new Date().getTime()
+        ctx.event = { time: new Date().getTime() }
 
         ctx.timer = setTimeout(() => {
           stopPropagation && evt.stopPropagation()
           preventDefault && evt.preventDefault()
 
           if (mouse) {
-            document.removeEventListener('mousemove', ctx.mouseAbort)
+            document.removeEventListener('mousemove', ctx.mouseAbortMove)
             document.removeEventListener('mouseup', ctx.mouseAbort)
           }
 
           ctx.handler({
             evt,
             position: position(evt),
-            duration: new Date().getTime() - startTime
+            duration: new Date().getTime() - ctx.event.time
           })
         }, ctx.duration)
+      },
+      abortMove () {
+        new Date().getTime() - ctx.event.time > 20 && ctx.abort()
       },
       abort () {
         clearTimeout(ctx.timer)
         ctx.timer = null
+        ctx.event = {}
       }
     }
 
@@ -69,7 +76,7 @@ export default {
       el.addEventListener('mousedown', ctx.mouseStart)
     }
     el.addEventListener('touchstart', ctx.start)
-    el.addEventListener('touchmove', ctx.abort)
+    el.addEventListener('touchmove', ctx.abortMove)
     el.addEventListener('touchend', ctx.abort)
   },
 
@@ -82,9 +89,9 @@ export default {
     if (ctx !== void 0) {
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchend', ctx.abort)
-      el.removeEventListener('touchmove', ctx.abort)
+      el.removeEventListener('touchmove', ctx.abortMove)
       el.removeEventListener('mousedown', ctx.mouseStart)
-      document.removeEventListener('mousemove', ctx.mouseAbort)
+      document.removeEventListener('mousemove', ctx.mouseAbortMove)
       document.removeEventListener('mouseup', ctx.mouseAbort)
       delete el[el.__qtouchhold_old ? '__qtouchhold_old' : '__qtouchhold']
     }

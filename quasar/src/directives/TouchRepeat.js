@@ -44,14 +44,18 @@ export default {
     let ctx = {
       mouseStart (evt) {
         if (leftClick(evt)) {
-          document.addEventListener('mousemove', ctx.mouseAbort)
+          document.addEventListener('mousemove', ctx.mouseAbortMove)
           document.addEventListener('click', ctx.mouseAbort, true)
           ctx.start(evt)
         }
       },
 
+      mouseAbortMove (evt) {
+        new Date().getTime() - ctx.event.time > 20 && ctx.mouseAbort(evt)
+      },
+
       mouseAbort (evt) {
-        document.removeEventListener('mousemove', ctx.mouseAbort)
+        document.removeEventListener('mousemove', ctx.mouseAbortMove)
         document.removeEventListener('click', ctx.mouseAbort, true)
         ctx.abort(evt)
       },
@@ -65,7 +69,7 @@ export default {
       },
 
       keyboardAbort (evt) {
-        ctx.event && ctx.event.keyboard && keyboard.length && el.addEventListener('keydown', ctx.keyboardStart)
+        ctx.event.keyboard && keyboard.length && el.addEventListener('keydown', ctx.keyboardStart)
         document.removeEventListener('keyup', ctx.keyboardAbort, true)
         ctx.abort(evt)
       },
@@ -73,7 +77,7 @@ export default {
       start (evt, keyboard) {
         ctx.event = {
           keyboard,
-          startTime: new Date().getTime(),
+          time: new Date().getTime(),
           repeatCount: 0
         }
 
@@ -86,7 +90,7 @@ export default {
             preventDefault && evt.preventDefault()
           }
 
-          ctx.event.duration = new Date().getTime() - ctx.event.startTime
+          ctx.event.duration = new Date().getTime() - ctx.event.time
           ctx.event.repeatCount += 1
 
           ctx.handler(ctx.event)
@@ -97,8 +101,12 @@ export default {
         ctx.timer = setTimeout(timer, ctx.durations[0])
       },
 
+      abortMove () {
+        new Date().getTime() - ctx.event.time > 20 && ctx.abort()
+      },
+
       abort (evt) {
-        if (ctx.event && ctx.event.repeatCount) {
+        if (ctx.event.repeatCount) {
           stopPropagation && evt.stopPropagation()
           preventDefault && evt.preventDefault()
         }
@@ -123,7 +131,7 @@ export default {
       el.addEventListener('keydown', ctx.keyboardStart)
     }
     el.addEventListener('touchstart', ctx.start)
-    el.addEventListener('touchmove', ctx.abort)
+    el.addEventListener('touchmove', ctx.abortMove)
     el.addEventListener('touchend', ctx.abort)
   },
 
@@ -136,10 +144,10 @@ export default {
     if (ctx !== void 0) {
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchend', ctx.abort)
-      el.removeEventListener('touchmove', ctx.abort)
+      el.removeEventListener('touchmove', ctx.abortMove)
       el.removeEventListener('mousedown', ctx.mouseStart)
       el.removeEventListener('keydown', ctx.keyboardStart)
-      document.removeEventListener('mousemove', ctx.mouseAbort)
+      document.removeEventListener('mousemove', ctx.mouseAbortMove)
       document.removeEventListener('click', ctx.mouseAbort, true)
       document.removeEventListener('keyup', ctx.keyboardAbort, true)
       delete el[el.__qtouchrepeat_old ? '__qtouchrepeat_old' : '__qtouchrepeat']
