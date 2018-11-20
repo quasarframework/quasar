@@ -6,13 +6,13 @@ function getFn (prop) {
 
 export default {
   props: {
-    xhrUrl: [Function, String],
-    xhrMethod: {
+    url: [Function, String],
+    method: {
       type: [Function, String],
       default: 'POST'
     },
-    xhrHeaders: [Function, Array],
-    xhrBatch: [Function, Boolean]
+    headers: [Function, Array],
+    batch: [Function, Boolean]
   },
 
   data () {
@@ -24,10 +24,10 @@ export default {
   computed: {
     xhrProps () {
       return {
-        url: getFn(this.xhrUrl),
-        method: getFn(this.xhrMethod),
-        headers: getFn(this.xhrHeaders),
-        batch: getFn(this.xhrBatch)
+        url: getFn(this.url),
+        method: getFn(this.method),
+        headers: getFn(this.headers),
+        batch: getFn(this.batch)
       }
     },
 
@@ -50,7 +50,7 @@ export default {
     upload () {
       if (this.disable || this.isUploading || !this.queuedFiles.length) { return }
 
-      if (this.xhrUrl === void 0) {
+      if (this.url === void 0) {
         console.error('q-uploader: no xhr-url prop specified')
         return
       }
