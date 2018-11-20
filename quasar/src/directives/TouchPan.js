@@ -154,9 +154,11 @@ export default {
         }
 
         ctx.event.detected = true
-        ctx.event.abort = ctx.direction.vertical
-          ? distX > distY
-          : distX < distY
+        if (new Date().getTime() - ctx.event.time > 20) {
+          ctx.event.abort = ctx.direction.vertical
+            ? distX > distY
+            : distX < distY
+        }
 
         ctx.move(evt)
       },
