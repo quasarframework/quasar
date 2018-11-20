@@ -124,11 +124,10 @@ export default {
   },
   uploader: {
     done: 'ion-checkmark',
-    clear: 'ion-close-circle',
-    clearInverted: 'ion-close-circle-outline',
-    add: 'ion-add',
+    clear: 'ion-close',
+    add: 'ion-add-circle',
     upload: 'ion-cloud-upload',
-    expand: 'ion-arrow-dropdown',
-    file: 'ion-document'
+    removeQueue: 'ion-trash',
+    removeUploaded: 'ion-done-all'
   }
 }

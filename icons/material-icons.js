@@ -124,11 +124,10 @@ export default {
   },
   uploader: {
     done: 'done',
-    clear: 'cancel',
-    clearInverted: 'clear',
-    add: 'add',
+    clear: 'clear',
+    add: 'add_box',
     upload: 'cloud_upload',
-    expand: 'keyboard_arrow_down',
-    file: 'insert_drive_file'
+    removeQueue: 'clear_all',
+    removeUploaded: 'done_all'
   }
 }

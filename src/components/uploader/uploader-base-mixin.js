@@ -291,7 +291,7 @@ export default {
       if (show === true) {
         return h(QBtn, {
           props: {
-            icon,
+            icon: this.$q.icon.uploader[icon],
             flat: true,
             dense: true,
             round: true
@@ -309,8 +309,8 @@ export default {
       return h('div', {
         staticClass: 'q-uploader__header-content flex flex-center no-wrap q-gutter-sm'
       }, [
-        this.__getBtn(h, this.queuedFiles.length > 0, 'clear_all', this.removeQueuedFiles),
-        this.__getBtn(h, this.uploadedFiles.length > 0, 'done_all', this.removeUploadedFiles),
+        this.__getBtn(h, this.queuedFiles.length > 0, 'removeQueue', this.removeQueuedFiles),
+        this.__getBtn(h, this.uploadedFiles.length > 0, 'removeUploaded', this.removeUploadedFiles),
         h('div', { staticClass: 'col column justify-center' }, [
           this.label !== void 0
             ? h('div', { staticClass: 'q-uploader__title' }, [ this.label ])
@@ -320,8 +320,8 @@ export default {
             this.uploadSizeLabel + ' / ' + this.uploadProgressLabel
           ])
         ]),
-        this.__getBtn(h, this.editable, 'add_box', this.pickFiles),
-        this.__getBtn(h, this.editable && this.queuedFiles.length > 0, 'cloud_upload', this.upload),
+        this.__getBtn(h, this.editable, 'add', this.pickFiles),
+        this.__getBtn(h, this.editable && this.queuedFiles.length > 0, 'upload', this.upload),
         this.__getBtn(h, this.editable && this.isUploading, 'clear', this.abort)
       ])
     },
@@ -366,7 +366,7 @@ export default {
                 round: true,
                 dense: true,
                 flat: true,
-                icon: file.__status === 'uploaded' ? 'done' : 'clear'
+                icon: this.$q.icon.uploader[file.__status === 'uploaded' ? 'done' : 'clear']
               },
               on: {
                 click: () => { this.removeFile(file) }

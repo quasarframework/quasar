@@ -124,11 +124,10 @@ export default {
   },
   uploader: {
     done: 'mdi-check',
-    clear: 'mdi-close-circle',
-    clearInverted: 'mdi-close',
-    add: 'mdi-plus',
+    clear: 'mdi-close',
+    add: 'mdi-plus-box',
     upload: 'mdi-cloud-upload',
-    expand: 'mdi-chevron-down',
-    file: 'mdi-file'
+    removeQueue: 'mdi-notification-clear-all',
+    removeUploaded: 'mdi-check-all'
   }
 }

@@ -124,11 +124,10 @@ export default {
   },
   uploader: {
     done: 'fas fa-check',
-    clear: 'fas fa-times-circle',
-    clearInverted: 'fas fa-times',
+    clear: 'fas fa-times',
     add: 'fas fa-plus-square',
-    upload: 'fas fa-cloud-upload-alt',
-    expand: 'fas fa-chevron-down',
-    file: 'fas fa-file'
+    upload: 'fas fa-upload',
+    removeQueue: 'fas fa-stream',
+    removeUploaded: 'fas fa-clipboard-check'
   }
 }
