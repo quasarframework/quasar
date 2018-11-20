@@ -60,8 +60,10 @@ export default {
       this.index = 0
     },
     resume () {
-      this.working = true
-      this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
+      if (this.working !== true) {
+        this.working = true
+        this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
+      }
       this.immediatePoll()
     },
     stop () {
@@ -75,13 +77,14 @@ export default {
       this.element = this.$refs.content
 
       this.scrollContainer = this.inline ? this.$el : getScrollTarget(this.$el)
-      if (this.working) {
-        this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
-      }
 
       this.poll()
       this.immediatePoll = this.poll
       this.poll = debounce(this.poll, 50)
+
+      if (this.working === true) {
+        this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
+      }
     })
   },
   beforeDestroy () {
