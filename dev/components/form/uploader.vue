@@ -52,7 +52,7 @@ export default {
       autoUpload: false,
       batch: true,
       noThumbnails: false,
-      label: false,
+      label: true,
 
       readonly: false,
       disable: false
