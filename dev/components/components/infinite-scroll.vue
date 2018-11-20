@@ -40,7 +40,6 @@ export default {
         }
 
         this.items = this.items.concat(items)
-        console.log('refresh')
         done()
       }, 2500)
     }
