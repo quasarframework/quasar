@@ -40,7 +40,7 @@ export default {
                   : h('td', {
                     staticClass: col.__tdClass,
                     style: col.style,
-                    'class': col.classes
+                    class: col.classes
                   }, this.getCellValue(col, row))
               })
 
@@ -61,7 +61,7 @@ export default {
             ]))
           }
 
-          return h('tr', { key, 'class': { selected } }, child)
+          return h('tr', { key, class: { selected } }, child)
         })
       }
 

@@ -42,7 +42,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-fab z-fab row inline justify-center',
-      'class': this.showing ? 'q-fab--opened' : null
+      class: this.showing ? 'q-fab--opened' : null
     }, [
       h(QBtn, {
         ref: 'trigger',
@@ -72,7 +72,7 @@ export default Vue.extend({
 
       h('div', {
         staticClass: 'q-fab__actions flex no-wrap inline items-center',
-        'class': `q-fab__actions--${this.direction}`
+        class: `q-fab__actions--${this.direction}`
       }, this.$slots.default)
     ])
   }

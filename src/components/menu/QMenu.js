@@ -282,7 +282,7 @@ export default Vue.extend({
       }, [
         this.showing ? h('div', {
           staticClass: 'q-menu scroll',
-          'class': this.contentClass,
+          class: this.contentClass,
           style: this.contentStyle,
           attrs: this.$attrs,
           on: this.autoClose === true ? {

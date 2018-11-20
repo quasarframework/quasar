@@ -230,7 +230,7 @@ export default Vue.extend({
           this.showing ? h('div', {
             ref: 'inner',
             staticClass: 'q-dialog__inner fixed-full flex no-pointer-events',
-            'class': this.classes,
+            class: this.classes,
             attrs: { tabindex: -1 }
           }, this.$slots.default) : null
         ])

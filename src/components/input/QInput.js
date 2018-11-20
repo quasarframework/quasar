@@ -134,7 +134,7 @@ export default Vue.extend({
         ref: 'input',
         staticClass: 'q-field__native',
         style: this.inputStyle,
-        'class': this.inputClass,
+        class: this.inputClass,
         attrs: {
           ...this.$attrs,
           'aria-label': this.label,

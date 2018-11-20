@@ -450,7 +450,7 @@ export default Vue.extend({
 
       if (body) {
         body = h('div', { staticClass: 'q-tree__node-body relative-position' }, [
-          h('div', { 'class': this.textColorClass }, [
+          h('div', { class: this.textColorClass }, [
             body(slotScope)
           ])
         ])
@@ -459,11 +459,11 @@ export default Vue.extend({
       return h('div', {
         key,
         staticClass: 'q-tree__node relative-position',
-        'class': { 'q-tree__node--parent': isParent, 'q-tree__node--child': !isParent }
+        class: { 'q-tree__node--parent': isParent, 'q-tree__node--child': !isParent }
       }, [
         h('div', {
           staticClass: 'q-tree__node-header relative-position row no-wrap items-center',
-          'class': {
+          class: {
             'q-tree__node--link q-hoverable q-focusable': meta.link,
             'q-tree__node--selected': meta.selected,
             disabled: meta.disabled
@@ -490,7 +490,7 @@ export default Vue.extend({
               isParent
                 ? h(QIcon, {
                   staticClass: 'q-tree__arrow q-mr-xs generic-transition',
-                  'class': { 'q-tree__arrow--rotate': meta.expanded },
+                  class: { 'q-tree__arrow--rotate': meta.expanded },
                   props: { name: this.computedIcon },
                   nativeOn: {
                     click: e => {
@@ -523,7 +523,7 @@ export default Vue.extend({
 
           h('div', {
             'staticClass': 'q-tree__node-header-content col row no-wrap items-center',
-            'class': meta.selected ? this.selectedColorClass : this.textColorClass
+            class: meta.selected ? this.selectedColorClass : this.textColorClass
           }, [
             header
               ? header(slotScope)
@@ -540,14 +540,14 @@ export default Vue.extend({
           }, [
             h('div', {
               staticClass: 'q-tree__node-collapsible',
-              'class': this.textColorClass,
+              class: this.textColorClass,
               directives: [{ name: 'show', value: meta.expanded }]
             }, [
               body,
 
               h('div', {
                 staticClass: 'q-tree__children',
-                'class': { disabled: meta.disabled }
+                class: { disabled: meta.disabled }
               }, children)
             ])
           ])
@@ -618,7 +618,7 @@ export default Vue.extend({
     return h(
       'div', {
         staticClass: 'q-tree relative-position',
-        'class': this.classes
+        class: this.classes
       },
       children.length === 0
         ? (

@@ -192,7 +192,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
-      'class': this.classes
+      class: this.classes
     }, [
       this.$slots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
@@ -203,7 +203,7 @@ export default Vue.extend({
       }, [
         h('div', {
           staticClass: 'q-field__control relative-position row no-wrap',
-          'class': this.contentClass
+          class: this.contentClass
         }, this.__getContent(h)),
 
         this.__getBottom(h)

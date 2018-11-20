@@ -69,7 +69,7 @@ export default {
             this.isActive ? h('div', {
               staticClass: 'q-loading fullscreen column flex-center z-max',
               key: uid(),
-              'class': props.customClass.trim()
+              class: props.customClass.trim()
             }, [
               h(props.spinner, {
                 props: {
@@ -78,7 +78,7 @@ export default {
                 }
               }),
               (props.message && h('div', {
-                'class': `text-${props.messageColor}`,
+                class: `text-${props.messageColor}`,
                 domProps: {
                   innerHTML: props.message
                 }

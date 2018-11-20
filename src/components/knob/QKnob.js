@@ -191,7 +191,7 @@ export default Vue.extend({
   render (h) {
     const data = {
       staticClass: 'q-knob non-selectable',
-      'class': this.classes,
+      class: this.classes,
 
       props: Object.assign({}, this.$props, {
         value: this.model,

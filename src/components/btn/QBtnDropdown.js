@@ -51,7 +51,7 @@ export default Vue.extend({
           name: 'arrow_drop_down' // this.$q.icon.input.dropdown
         },
         staticClass: 'q-btn-dropdown__arrow',
-        'class': {
+        class: {
           'rotate-180': this.showing,
           'q-btn-dropdown__arrow-container': this.split === false
         }
@@ -86,7 +86,7 @@ export default Vue.extend({
     ]
 
     const Btn = h(QBtn, {
-      'class': `q-btn-dropdown${this.split === true ? '--current' : ' q-btn-dropdown--simple'}`,
+      class: `q-btn-dropdown${this.split === true ? '--current' : ' q-btn-dropdown--simple'}`,
       props: Object.assign({}, this.$props, {
         noWrap: true,
         iconRight: this.split === true ? this.iconRight : null
@@ -112,7 +112,7 @@ export default Vue.extend({
         unelevated: this.unelevated
       },
       staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
-      'class': this.stretch === true ? 'self-stretch no-border-radius' : null
+      class: this.stretch === true ? 'self-stretch no-border-radius' : null
     }, [
       Btn,
 

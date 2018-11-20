@@ -353,7 +353,7 @@ export default Vue.extend({
         ref: which + 'Thumb',
         staticClass: 'q-slider__thumb-container absolute non-selectable',
         style: this[which + 'ThumbStyle'],
-        'class': this[which + 'ThumbClass'],
+        class: this[which + 'ThumbClass'],
         on: this[which + 'Events'],
         attrs: { tabindex: this.dragOnlyRange !== true ? this.computedTabindex : null }
       }, [
@@ -372,7 +372,7 @@ export default Vue.extend({
 
         this.label === true || this.labelAlways === true ? h('div', {
           staticClass: 'q-slider__pin absolute flex flex-center',
-          'class': this[which + 'PinClass']
+          class: this[which + 'PinClass']
         }, [
           h('span', { staticClass: 'q-slider__pin-value-marker' }, [ this.model[which] ])
         ]) : null,
@@ -395,7 +395,7 @@ export default Vue.extend({
           ? this.computedTabindex
           : null
       },
-      'class': this.classes,
+      class: this.classes,
       on: this.events,
       directives: this.editable ? [{
         name: 'touch-pan',

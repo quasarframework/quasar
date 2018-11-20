@@ -164,7 +164,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-color-picker',
-      'class': {
+      class: {
         disabled: this.disable,
         'q-color-picker--dark': this.dark
       }
@@ -184,7 +184,7 @@ export default Vue.extend({
 
         h('div', {
           staticClass: 'q-color-picker__header-content absolute-full',
-          'class': this.headerClass,
+          class: this.headerClass,
           style: this.currentBgColor
         }, [
           h(QTabs, {
@@ -312,7 +312,7 @@ export default Vue.extend({
           ref: 'spectrum',
           staticClass: 'q-color-picker__spectrum non-selectable relative-position cursor-pointer',
           style: this.spectrumStyle,
-          'class': { readonly: !this.editable },
+          class: { readonly: !this.editable },
           on: this.editable
             ? { click: this.__spectrumClick }
             : null,
@@ -502,7 +502,7 @@ export default Vue.extend({
       return [
         h('div', {
           staticClass: 'row items-center',
-          'class': this.editable ? 'cursor-pointer' : null
+          class: this.editable ? 'cursor-pointer' : null
         }, palette.map(color => h('div', {
           staticClass: 'q-color-picker__cube col-1',
           style: { backgroundColor: color },

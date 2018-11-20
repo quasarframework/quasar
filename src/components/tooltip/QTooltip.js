@@ -199,7 +199,7 @@ export default Vue.extend({
       }, [
         this.showing ? h('div', {
           staticClass: 'q-tooltip no-pointer-events',
-          'class': this.contentClass,
+          class: this.contentClass,
           style: this.contentStyle
         }, this.$slots.default) : null
       ])

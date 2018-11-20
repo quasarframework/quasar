@@ -164,7 +164,7 @@ export default Vue.extend({
     }, [
       h('div', {
         staticClass: 'q-pull-to-refresh__content',
-        'class': this.pulling ? 'no-pointer-events' : null
+        class: this.pulling ? 'no-pointer-events' : null
       }, this.$slots.default),
 
       h('div', {
@@ -174,7 +174,7 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-pull-to-refresh__puller row flex-center',
           style: this.style,
-          'class': this.animating ? 'q-pull-to-refresh__puller--animating' : null
+          class: this.animating ? 'q-pull-to-refresh__puller--animating' : null
         }, [
           this.state !== 'refreshing'
             ? h(QIcon, {

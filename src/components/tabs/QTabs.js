@@ -295,7 +295,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-tabs row no-wrap items-center',
-      'class': this.classes,
+      class: this.classes,
       attrs: { role: 'tablist' }
     }, [
       h(QResizeObserver, {
@@ -304,7 +304,7 @@ export default Vue.extend({
 
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--left q-tab__icon',
-        'class': this.leftArrow ? '' : 'invisible',
+        class: this.leftArrow ? '' : 'invisible',
         props: { name: this.leftIcon || this.$q.icon.tabs.left },
         nativeOn: {
           mousedown: this.__scrollToStart,
@@ -318,7 +318,7 @@ export default Vue.extend({
       h('div', {
         ref: 'content',
         staticClass: 'q-tabs__content row no-wrap items-center',
-        'class': this.alignClass
+        class: this.alignClass
       }, [
         h('div', { staticClass: 'q-tabs__offset invisible' }, ['-'])
       ].concat(this.$slots.default).concat([
@@ -327,7 +327,7 @@ export default Vue.extend({
 
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--right q-tab__icon',
-        'class': this.rightArrow ? '' : 'invisible',
+        class: this.rightArrow ? '' : 'invisible',
         props: { name: this.rightIcon || this.$q.icon.tabs.right },
         nativeOn: {
           mousedown: this.__scrollToEnd,

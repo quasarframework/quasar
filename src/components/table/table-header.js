@@ -49,7 +49,7 @@ export default {
             }
           },
           style: col.style,
-          'class': col.classes
+          class: col.classes
         }, col.label)
       }
       const child = this.computedCols.map(mapFn)

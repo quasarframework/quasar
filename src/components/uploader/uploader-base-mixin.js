@@ -334,7 +334,7 @@ export default {
       return this.files.map(file => h('div', {
         key: file.name,
         staticClass: 'q-uploader__file relative-position',
-        'class': file.__img !== void 0 ? 'q-uploader__file--img' : null,
+        class: file.__img !== void 0 ? 'q-uploader__file--img' : null,
         style: file.__img !== void 0 ? {
           backgroundImage: 'url(' + file.__img.src + ')'
         } : null
@@ -380,7 +380,7 @@ export default {
   render (h) {
     return h('div', {
       staticClass: 'q-uploader column no-wrap',
-      'class': {
+      class: {
         'q-uploader--dark': this.dark,
         'q-uploader--bordered': this.bordered,
         'q-uploader--square no-border-radius': this.square,
@@ -406,7 +406,7 @@ export default {
 
       h('div', {
         staticClass: 'q-uploader__header flex items-center',
-        'class': this.colorClass
+        class: this.colorClass
       }, [ this.__getHeader(h) ]),
 
       h('div', {

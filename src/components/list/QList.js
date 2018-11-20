@@ -26,7 +26,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-list',
-      'class': this.classes
+      class: this.classes
     }, this.$slots.default)
   }
 })

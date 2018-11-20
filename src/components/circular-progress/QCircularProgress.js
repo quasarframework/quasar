@@ -100,7 +100,7 @@ export default Vue.extend({
     __getCircle (h, { thickness, offset, color, cls }) {
       return h('circle', {
         staticClass: 'q-circular-progress__' + cls,
-        'class': color !== void 0 ? `text-${color}` : null,
+        class: color !== void 0 ? `text-${color}` : null,
         style: this.circleStyle,
         attrs: {
           fill: 'transparent',
@@ -130,7 +130,7 @@ export default Vue.extend({
       }, [
         this.centerColor !== void 0 && this.centerColor !== 'transparent' ? h('circle', {
           staticClass: 'q-circular-progress__center',
-          'class': `text-${this.centerColor}`,
+          class: `text-${this.centerColor}`,
           attrs: {
             fill: 'currentColor',
             r: this.radius - this.strokeWidth / 2,

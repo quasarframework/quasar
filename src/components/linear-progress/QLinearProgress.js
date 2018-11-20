@@ -65,18 +65,18 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-linear-progress',
-      'class': this.classes
+      class: this.classes
     }, [
       h('div', {
         staticClass: 'q-linear-progress__track absolute-full',
         style: this.trackStyle,
-        'class': this.trackClass
+        class: this.trackClass
       }),
 
       h('div', {
         staticClass: 'q-linear-progress__model absolute-full',
         style: this.modelStyle,
-        'class': this.modelClasses
+        class: this.modelClasses
       }),
 
       this.stripe && !this.motion ? h('div', {

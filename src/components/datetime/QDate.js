@@ -263,7 +263,7 @@ export default Vue.extend({
 
       return h('div', {
         staticClass: 'q-date__header',
-        'class': this.headerClass
+        class: this.headerClass
       }, [
         h('div', {
           staticClass: 'relative-position'
@@ -276,7 +276,7 @@ export default Vue.extend({
             h('div', {
               key: 'h-yr-' + this.headerSubtitle,
               staticClass: 'q-date__header-subtitle q-date__header-link',
-              'class': this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
+              class: this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
               attrs: { tabindex: this.computedTabindex },
               on: {
                 click: () => { this.view = 'Years' },
@@ -300,7 +300,7 @@ export default Vue.extend({
               h('div', {
                 key: this.value,
                 staticClass: 'q-date__header-title-label q-date__header-link',
-                'class': this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
+                class: this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
                 attrs: { tabindex: this.computedTabindex },
                 on: {
                   click: e => { this.view = 'Calendar' },
@@ -639,7 +639,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-date',
-      'class': this.classes
+      class: this.classes
     }, [
       this.__getHeader(h),
 

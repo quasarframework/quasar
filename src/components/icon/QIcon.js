@@ -62,7 +62,7 @@ export default Vue.extend({
   render (h) {
     return h('i', {
       staticClass: 'q-icon',
-      'class': this.classes,
+      class: this.classes,
       style: this.style,
       attrs: { 'aria-hidden': true },
       on: this.$listeners

@@ -30,7 +30,7 @@ export default {
 
       return h('div', {
         staticClass: 'q-table__bottom row items-center',
-        'class': bottom ? null : 'justify-end'
+        class: bottom ? null : 'justify-end'
       }, bottom ? [ bottom(this.marginalsProps) ] : this.getPaginationRow(h))
     },
     getPaginationRow (h) {

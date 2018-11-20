@@ -13,7 +13,7 @@ export default Vue.extend({
   render (h) {
     if (!this.props) {
       return h('td', {
-        'class': { 'q-table--col-auto-width': this.autoWidth }
+        class: { 'q-table--col-auto-width': this.autoWidth }
       }, this.$slots.default)
     }
 
@@ -44,7 +44,7 @@ export default Vue.extend({
     }
 
     return h('th', {
-      'class': [col.__thClass, {
+      class: [col.__thClass, {
         'q-table--col-auto-width': this.autoWidth
       }],
       on: col.sortable

@@ -78,7 +78,7 @@ export default Vue.extend({
   render (h) {
     const data = {
       staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
-      'class': this.classes,
+      class: this.classes,
       style: this.style,
       attrs: this.attrs
     }
@@ -106,14 +106,14 @@ export default Vue.extend({
       this.loading === true && this.percentage !== void 0
         ? h('div', {
           staticClass: 'q-btn__progress absolute-full',
-          'class': this.darkPercentage ? 'q-btn__progress--dark' : null,
+          class: this.darkPercentage ? 'q-btn__progress--dark' : null,
           style: { transform: `scale3d(${this.percentage / 100},1,1)` }
         })
         : null,
 
       h('div', {
         staticClass: 'q-btn__content text-center col items-center q-menu--skip',
-        'class': this.innerClasses
+        class: this.innerClasses
       },
 
       this.loading === true

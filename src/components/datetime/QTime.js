@@ -308,7 +308,7 @@ export default Vue.extend({
       const label = [
         h('div', {
           staticClass: 'q-time__link',
-          'class': this.view === 'Hour' ? 'q-time__link--active' : 'cursor-pointer',
+          class: this.view === 'Hour' ? 'q-time__link--active' : 'cursor-pointer',
           attrs: { tabindex: this.computedTabindex },
           on: {
             click: () => { this.view = 'Hour' },
@@ -321,7 +321,7 @@ export default Vue.extend({
           this.minLink === true
             ? {
               staticClass: 'q-time__link',
-              'class': this.view === 'Minute' ? 'q-time__link--active' : 'cursor-pointer',
+              class: this.view === 'Minute' ? 'q-time__link--active' : 'cursor-pointer',
               attrs: { tabindex: this.computedTabindex },
               on: {
                 click: () => { this.view = 'Minute' },
@@ -341,7 +341,7 @@ export default Vue.extend({
             this.secLink === true
               ? {
                 staticClass: 'q-time__link',
-                'class': this.view === 'Second' ? 'q-time__link--active' : 'cursor-pointer',
+                class: this.view === 'Second' ? 'q-time__link--active' : 'cursor-pointer',
                 attrs: { tabindex: this.computedTabindex },
                 on: {
                   click: () => { this.view = 'Second' },
@@ -356,7 +356,7 @@ export default Vue.extend({
 
       return h('div', {
         staticClass: 'q-time__header flex flex-center no-wrap',
-        'class': this.headerClass
+        class: this.headerClass
       }, [
         h('div', {
           staticClass: 'q-time__header-label row items-center no-wrap'
@@ -367,7 +367,7 @@ export default Vue.extend({
         }, [
           h('div', {
             staticClass: 'q-time__link',
-            'class': this.isAM === true ? 'q-time__link--active' : 'cursor-pointer',
+            class: this.isAM === true ? 'q-time__link--active' : 'cursor-pointer',
             attrs: { tabindex: this.computedTabindex },
             on: {
               click: this.__setAm,
@@ -377,7 +377,7 @@ export default Vue.extend({
 
           h('div', {
             staticClass: 'q-time__link',
-            'class': this.isAM !== true ? 'q-time__link--active' : 'cursor-pointer',
+            class: this.isAM !== true ? 'q-time__link--active' : 'cursor-pointer',
             attrs: { tabindex: this.computedTabindex },
             on: {
               click: this.__setPm,
@@ -423,13 +423,13 @@ export default Vue.extend({
                   ? h('div', {
                     staticClass: 'q-time__clock-pointer',
                     style: this.pointerStyle,
-                    'class': this.color !== void 0 ? `text-${this.color}` : null
+                    class: this.color !== void 0 ? `text-${this.color}` : null
                   })
                   : null,
 
                 this.positions.map(pos => h('div', {
                   staticClass: `q-time__clock-position row flex-center${f24} q-time__clock-pos-${pos.index}`,
-                  'class': pos.val === current
+                  class: pos.val === current
                     ? this.headerClass.concat(' q-time__clock-position--active')
                     : (pos.disable ? 'q-time__clock-position--disable' : null)
                 }, [ h('span', [ pos.label ]) ]))
@@ -571,7 +571,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-time',
-      'class': this.classes
+      class: this.classes
     }, [
       this.__getHeader(h),
       this.__getClock(h)

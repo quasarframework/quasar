@@ -29,7 +29,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-carousel__control absolute',
       style: this.style,
-      'class': this.classes
+      class: this.classes
     }, this.$slots.default)
   }
 })

@@ -55,7 +55,7 @@ export default Vue.extend({
     }, [
       h('div', {
         staticClass: 'q-avatar__content row flex-center overflow-hidden',
-        'class': this.contentClass,
+        class: this.contentClass,
         style: this.contentStyle
       }, [
         this.__getContent(h)
