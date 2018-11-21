@@ -1,4 +1,6 @@
 import QBtn from '../btn/QBtn.js'
+import QIcon from '../icon/QIcon.js'
+import QSpinner from '../spinner/QSpinner.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
@@ -140,7 +142,7 @@ export default {
         this.uploadedFiles = this.uploadedFiles.filter(f => f.name !== file.name)
       }
       else if (file.__status === 'uploading') {
-        file.xhr.abort()
+        file.__abort()
       }
       else {
         this.uploadSize -= file.size
@@ -293,8 +295,7 @@ export default {
           props: {
             icon: this.$q.icon.uploader[icon],
             flat: true,
-            dense: true,
-            round: true
+            dense: true
           },
           on: { click: fn }
         })
@@ -307,10 +308,15 @@ export default {
       }
 
       return h('div', {
-        staticClass: 'q-uploader__header-content flex flex-center no-wrap q-gutter-sm'
+        staticClass: 'q-uploader__header-content flex flex-center no-wrap q-gutter-xs'
       }, [
         this.__getBtn(h, this.queuedFiles.length > 0, 'removeQueue', this.removeQueuedFiles),
         this.__getBtn(h, this.uploadedFiles.length > 0, 'removeUploaded', this.removeUploadedFiles),
+
+        this.isUploading === true
+          ? h(QSpinner, { staticClass: 'q-uploader__spinner' })
+          : null,
+
         h('div', { staticClass: 'col column justify-center' }, [
           this.label !== void 0
             ? h('div', { staticClass: 'q-uploader__title' }, [ this.label ])
@@ -320,6 +326,7 @@ export default {
             this.uploadSizeLabel + ' / ' + this.uploadProgressLabel
           ])
         ]),
+
         this.__getBtn(h, this.editable, 'add', this.pickFiles),
         this.__getBtn(h, this.editable && this.queuedFiles.length > 0, 'upload', this.upload),
         this.__getBtn(h, this.editable && this.isUploading, 'clear', this.abort)
@@ -334,7 +341,11 @@ export default {
       return this.files.map(file => h('div', {
         key: file.name,
         staticClass: 'q-uploader__file relative-position',
-        class: file.__img !== void 0 ? 'q-uploader__file--img' : null,
+        class: {
+          'q-uploader__file--img': file.__img !== void 0,
+          'q-uploader__file--failed': file.__status === 'failed',
+          'q-uploader__file--uploaded': file.__status === 'uploaded'
+        },
         style: file.__img !== void 0 ? {
           backgroundImage: 'url(' + file.__img.src + ')'
         } : null
@@ -342,6 +353,16 @@ export default {
         h('div', {
           staticClass: 'q-uploader__file-header row flex-center no-wrap'
         }, [
+          file.__status === 'failed'
+            ? h(QIcon, {
+              staticClass: 'q-uploader__file-status',
+              props: {
+                name: this.$q.icon.type.negative,
+                color: 'negative'
+              }
+            })
+            : null,
+
           h('div', { staticClass: 'q-uploader__file-header-content col' }, [
             h('div', { staticClass: 'q-uploader__title' }, [ file.name ]),
             h('div', {
@@ -357,8 +378,7 @@ export default {
                 value: file.__progress,
                 min: 0,
                 max: 1,
-                size: 24,
-                thickness: 3
+                indeterminate: file.__progress === 0
               }
             })
             : h(QBtn, {
@@ -377,6 +397,10 @@ export default {
     }
   },
 
+  beforeDestroy () {
+    this.isUploading && this.abort()
+  },
+
   render (h) {
     return h('div', {
       staticClass: 'q-uploader column no-wrap',
@@ -386,7 +410,7 @@ export default {
         'q-uploader--square no-border-radius': this.square,
         'q-uploader--flat no-shadow': this.flat,
         'inline': this.inline,
-        'disabled': this.disable
+        'disabled q-uploader--disable': this.disable
       },
       on: this.editable === true && this.isIdle === true
         ? { dragover: this.__onDragOver }
@@ -405,9 +429,11 @@ export default {
       }),
 
       h('div', {
-        staticClass: 'q-uploader__header flex items-center',
+        staticClass: 'q-uploader__header',
         class: this.colorClass
-      }, [ this.__getHeader(h) ]),
+      }, [
+        this.__getHeader(h)
+      ]),
 
       h('div', {
         staticClass: 'q-uploader__list scroll'

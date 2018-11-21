@@ -48,7 +48,7 @@ export default {
     },
 
     upload () {
-      if (this.disable || this.isUploading || !this.queuedFiles.length) { return }
+      if (this.disable || !this.queuedFiles.length) { return }
 
       if (this.url === void 0) {
         console.error('q-uploader: no xhr-url prop specified')
@@ -121,14 +121,14 @@ export default {
         if (xhr.status && xhr.status < 400) {
           this.uploadedFiles = this.uploadedFiles.concat(files)
           files.forEach(f => { this.__updateFile(f, 'uploaded') })
-          this.__emit('uploaded', { files })
+          this.__emit('uploaded', { files, xhr })
         }
         else {
           aborted = true
           this.uploadedSize -= uploadedSize
           this.queuedFiles = this.queuedFiles.concat(files)
           files.forEach(f => { this.__updateFile(f, 'failed') })
-          this.__emit('failed', { files })
+          this.__emit('failed', { files, xhr })
         }
 
         this.xhrs = this.xhrs.filter(x => x !== xhr)
@@ -139,14 +139,17 @@ export default {
         this.xhrProps.url(files)
       )
 
-      this.__emit('uploading', { files })
-      this.xhrs.push(xhr)
-
       files.forEach(file => {
         this.__updateFile(file, 'uploading', 0)
         form.append(file.name, file)
+        file.xhr = xhr
+        file.__abort = xhr.abort
         maxUploadSize += file.size
       })
+
+      this.__emit('uploading', { files, xhr })
+      this.xhrs.push(xhr)
+
       xhr.send(form)
     },
 
@@ -179,13 +182,13 @@ export default {
         if (xhr.status && xhr.status < 400) {
           this.uploadedFiles.push(file)
           this.__updateFile(file, 'uploaded')
-          this.__emit('uploaded', { files })
+          this.__emit('uploaded', { files, xhr })
           this.uploadedSize += file.size - file.__uploaded
         }
         else {
           this.queuedFiles.push(file)
           this.__updateFile(file, 'failed')
-          this.__emit('failed', { files })
+          this.__emit('failed', { files, xhr })
           this.uploadedSize -= file.__uploaded
         }
 
@@ -200,8 +203,9 @@ export default {
       )
 
       this.xhrs.push(xhr)
-      this.__emit('uploading', { files })
       file.xhr = xhr
+      file.__abort = xhr.abort
+      this.__emit('uploading', { files, xhr })
 
       form.append(file.name, file)
       xhr.send(form)

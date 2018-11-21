@@ -1,12 +1,18 @@
 import Vue from 'vue'
 
+const
+  radius = 50,
+  diameter = 2 * radius,
+  circumference = diameter * Math.PI,
+  strokeDashArray = Math.round(circumference * 1000) / 1000
+
 export default Vue.extend({
   name: 'QCircularProgress',
 
   props: {
     value: {
       type: Number,
-      requires: true
+      default: 0
     },
 
     min: {
@@ -20,18 +26,16 @@ export default Vue.extend({
 
     color: String,
     centerColor: String,
-    trackColor: {
-      type: String,
-      default: 'grey-3'
-    },
+    trackColor: String,
 
-    size: {
-      type: Number,
-      default: 100
-    },
+    size: String,
+    fontSize: String,
+
+    // ratio
     thickness: {
       type: Number,
-      default: 20
+      default: 0.2,
+      validator: v => v >= 0 && v <= 1
     },
 
     angle: {
@@ -39,6 +43,7 @@ export default Vue.extend({
       default: 0
     },
 
+    indeterminate: Boolean,
     showValue: Boolean,
     reverse: Boolean,
     noMotion: Boolean
@@ -46,9 +51,10 @@ export default Vue.extend({
 
   computed: {
     style () {
-      return {
-        width: this.size + 'px',
-        height: this.size + 'px'
+      if (this.size !== void 0) {
+        return {
+          fontSize: this.size
+        }
       }
     },
 
@@ -57,7 +63,7 @@ export default Vue.extend({
     },
 
     circleStyle () {
-      if (!this.noMotion) {
+      if (this.noMotion !== true && this.indeterminate !== true) {
         return { transition: 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease' }
       }
     },
@@ -66,33 +72,21 @@ export default Vue.extend({
       return (this.$q.i18n.rtl ? -1 : 1) * (this.reverse ? -1 : 1)
     },
 
-    radius () {
-      return this.size / 2
-    },
-
     viewBox () {
-      return 2 * this.radius / (1 - this.thickness / this.size)
+      return diameter / (1 - this.thickness / 2)
     },
 
     viewBoxAttr () {
       return `${this.viewBox / 2} ${this.viewBox / 2} ${this.viewBox} ${this.viewBox}`
     },
 
-    circumference () {
-      return this.radius * 2 * Math.PI
-    },
-
-    strokeDashArray () {
-      return Math.round(this.circumference * 1000) / 1000
-    },
-
     strokeDashOffset () {
-      const progress = (this.value - this.min) / (this.max - this.min)
-      return (this.dir * (1 - progress)) * this.circumference + 'px'
+      const progress = 1 - (this.value - this.min) / (this.max - this.min)
+      return (this.dir * progress) * circumference
     },
 
     strokeWidth () {
-      return this.thickness / this.size * this.viewBox
+      return this.thickness / 2 * this.viewBox
     }
   },
 
@@ -106,11 +100,11 @@ export default Vue.extend({
           fill: 'transparent',
           stroke: 'currentColor',
           'stroke-width': thickness,
-          'stroke-dasharray': this.strokeDashArray,
+          'stroke-dasharray': strokeDashArray,
           'stroke-dashoffset': offset,
           cx: this.viewBox,
           cy: this.viewBox,
-          r: this.radius
+          r: radius
         }
       })
     }
@@ -119,10 +113,18 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-circular-progress relative-position',
+      'class': `q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
       style: this.style,
-      on: this.$listeners
+      on: this.$listeners,
+      attrs: {
+        'role': 'progressbar',
+        'aria-valuemin': this.min,
+        'aria-valuemax': this.max,
+        'aria-valuenow': this.indeterminate !== true ? this.value : null
+      }
     }, [
       h('svg', {
+        staticClass: 'q-circular-progress__svg',
         style: this.svgStyle,
         attrs: {
           viewBox: this.viewBoxAttr
@@ -133,13 +135,13 @@ export default Vue.extend({
           class: `text-${this.centerColor}`,
           attrs: {
             fill: 'currentColor',
-            r: this.radius - this.strokeWidth / 2,
+            r: radius - this.strokeWidth / 2,
             cx: this.viewBox,
             cy: this.viewBox
           }
         }) : null,
 
-        this.trackColor && this.trackColor !== 'transparent' ? this.__getCircle(h, {
+        this.trackColor !== void 0 && this.trackColor !== 'transparent' ? this.__getCircle(h, {
           cls: 'track',
           thickness: this.strokeWidth,
           offset: 0,
@@ -154,11 +156,12 @@ export default Vue.extend({
         })
       ]),
 
-      h('div', {
-        staticClass: 'q-circular-progress__text absolute-full row flex-center content-center'
-      }, this.$slots.default || (
-        this.showValue ? [ h('div', [ this.value ]) ] : null
-      ))
+      this.showValue === true
+        ? h('div', {
+          staticClass: 'q-circular-progress__text absolute-full row flex-center content-center',
+          style: { fontSize: this.fontSize }
+        }, this.$slots.default || [ h('div', [ this.value ]) ])
+        : null
     ])
   }
 })

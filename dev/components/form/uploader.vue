@@ -20,9 +20,10 @@
       <div class="q-gutter-sm">
         <q-uploader v-bind="props" multiple url="http://localhost:4444/upload" />
         <q-uploader v-bind="props" multiple url="http://localhost:4444/upload">
-          <div slot="header" slot-scope="scope" class="row no-wrap items-center q-gutter-xs">
+          <div slot="header" slot-scope="scope" class="row no-wrap items-center q-pa-sm q-gutter-xs">
             <q-btn v-if="scope.queuedFiles.length > 0" icon="clear_all" @click="scope.removeQueuedFiles" round dense flat />
             <q-btn v-if="scope.uploadedFiles.length > 0" icon="done_all" @click="scope.removeUploadedFiles" round dense flat />
+            <q-spinner v-if="scope.isUploading" class="q-uploader__spinner" />
             <div class="col">
               <div class="q-uploader__title">Upload your files</div>
               <div class="q-uploader__subtitle">{{ scope.uploadSizeLabel }} / {{ scope.uploadProgressLabel }}</div>

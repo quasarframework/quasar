@@ -14,70 +14,6 @@
   &__input
     display none
 
-  &__header
-    position relative
-    padding 8px 16px
-    border-top-left-radius inherit
-    border-top-right-radius inherit
-    background $primary
-    color white
-    min-height 52px
-    width 100%
-    > div
-      flex 1 1 auto
-
-  &__dnd
-    outline 1px dashed currentColor
-    outline-offset -4px
-    background rgba(255, 255, 255, .6)
-
-  &__list
-    position relative
-    padding 8px
-    min-height 60px
-    flex 1 1 auto
-    background white
-
-  &__file
-    border-radius $generic-border-radius $generic-border-radius 0 0
-    border 1px solid $separator-color
-
-    &--img
-      color white
-      height 200px
-      min-width 200px
-      background-position 50% 50%
-      background-size cover
-      background-repeat no-repeat
-
-      .q-uploader__file-header
-        padding-bottom 16px
-        background linear-gradient(to bottom, rgba(0,0,0,.7), transparent)
-
-    .q-circular-progress
-      color $primary
-
-    & + &
-      margin-top 8px
-
-  &__file-header
-    padding 4px 8px
-    border-top-left-radius inherit
-    border-top-right-radius inherit
-
-  &__file-header-content
-    padding-right 8px
-
-  &__title
-    font-size 14px
-    font-weight bold
-    line-height 18px
-    word-break break-word
-  &__subtitle
-    font-size 12px
-    line-height 18px
-    opacity .7
-
   &__header, &__file
     &:before
       content ''
@@ -90,9 +26,89 @@
       left 0
       pointer-events none
       background currentColor
-      opacity .1
+      opacity .04
 
-  &.disabled
+  &__header
+    position relative
+    border-top-left-radius inherit
+    border-top-right-radius inherit
+    background $primary
+    color white
+    width 100%
+
+  &__spinner
+    font-size 24px
+    margin-right 4px
+
+  &__header-content
+    padding 8px
+
+  &__dnd
+    outline 1px dashed currentColor
+    outline-offset -4px
+    background rgba(255, 255, 255, .6)
+
+  &__list
+    position relative
+    border-bottom-left-radius inherit
+    border-bottom-right-radius inherit
+    padding 8px
+    min-height 60px
+    flex 1 1 auto
+    background white
+
+  &__file
+    border-radius $generic-border-radius $generic-border-radius 0 0
+    border 1px solid $separator-color
+
+    .q-circular-progress
+      color black
+      font-size 24px
+
+    &--img
+      color white
+      height 200px
+      min-width 200px
+      background-position 50% 50%
+      background-size cover
+      background-repeat no-repeat
+
+      &:before
+        content none
+
+      .q-circular-progress
+        color white
+
+      .q-uploader__file-header
+        padding-bottom 24px
+        background linear-gradient(to bottom, rgba(0,0,0,.7) 20%, transparent)
+
+    & + &
+      margin-top 8px
+
+  &__file-header
+    position relative
+    padding 4px 8px
+    border-top-left-radius inherit
+    border-top-right-radius inherit
+
+  &__file-header-content
+    padding-right 8px
+
+  &__file-status
+    font-size 24px
+    margin-right 4px
+
+  &__title
+    font-size 14px
+    font-weight bold
+    line-height 18px
+    word-break break-word
+  &__subtitle
+    font-size 12px
+    line-height 18px
+
+  &--disable
     .q-uploader__header, .q-uploader__list
       pointer-events none
 
