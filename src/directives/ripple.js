@@ -90,6 +90,10 @@ export default {
 
     updateCtx(ctx, binding)
 
+    if (el.__qripple) {
+      el.__qripple_old = el.__qripple
+    }
+
     el.__qripple = ctx
     el.addEventListener('click', ctx.click, false)
     el.addEventListener('keyup', ctx.keyup, false)
@@ -100,12 +104,12 @@ export default {
   },
 
   unbind (el) {
-    const ctx = el.__qripple
+    const ctx = el.__qripple_old || el.__qripple
     if (ctx !== void 0) {
       clearTimeout(ctx.timer)
       el.removeEventListener('click', ctx.click, false)
       el.removeEventListener('keyup', ctx.keyup, false)
-      delete el.__qripple
+      delete el[el.__qripple_old ? '__qripple_old' : '__qripple']
     }
   }
 }
