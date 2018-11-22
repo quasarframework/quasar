@@ -78,6 +78,41 @@ export default {
     }
   },
   methods: {
+    getResultItems (h) {
+      const resultItems = this.$scopedSlots['result-items']
+      const nativeOn = (result, index) => {
+        return {
+          mouseenter: () => { !result.disable && (this.keyboardIndex = index) },
+          click: () => { !result.disable && this.setValue(result) }
+        }
+      }
+      let child = []
+
+      if (resultItems) {
+        child = this.computedResults.map((result, index) => {
+          return h('span', {
+            key: result.id || index,
+            on: nativeOn(result, index)
+          }, resultItems(result))
+        })
+      }
+      else {
+        child = this.computedResults.map((result, index) => {
+          return h(QItemWrapper, {
+            key: result.id || index,
+            'class': {
+              'q-select-highlight': this.keyboardIndex === index,
+              'cursor-pointer': !result.disable,
+              'text-faded': result.disable
+            },
+            props: { cfg: result },
+            nativeOn: nativeOn(result, index)
+          })
+        })
+      }
+
+      return child
+    },
     isWorking () {
       return this.$refs && this.$refs.popover
     },
@@ -271,19 +306,8 @@ export default {
         },
         style: this.computedWidth
       },
-      this.computedResults.map((result, index) => h(QItemWrapper, {
-        key: result.id || index,
-        'class': {
-          'q-select-highlight': this.keyboardIndex === index,
-          'cursor-pointer': !result.disable,
-          'text-faded': result.disable
-        },
-        props: { cfg: result },
-        nativeOn: {
-          mouseenter: () => { !result.disable && (this.keyboardIndex = index) },
-          click: () => { !result.disable && this.setValue(result) }
-        }
-      })))
+      this.getResultItems(h)
+      )
     ])
   }
 }

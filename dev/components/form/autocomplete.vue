@@ -94,6 +94,23 @@
         />
       </q-search>
 
+      <p class="caption">Custom Results</p>
+      <q-search class="q-mb-sm" v-model="terms" float-label="Custom autocomplete results with slots">
+        <q-autocomplete
+          :static-data="{field: 'label', list: countriesNoValue}"
+          @selected="selected"
+        >
+          <template
+            slot="result-items"
+            slot-scope="props"
+          >
+            <div class="flex cursor-pointer text-red q-pa-sm">
+              ***{{ props.label }}***
+            </div>
+          </template>
+        </q-autocomplete>
+      </q-search>
+
       <p class="caption">Usage of valueField for Static List</p>
       <q-search inverted color="dark" class="q-mb-sm" v-model="terms" float-label="Featuring static data - valueField is icon and searching in label">
         <q-autocomplete
