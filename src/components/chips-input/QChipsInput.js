@@ -19,7 +19,8 @@ export default {
     readonly: Boolean,
     addIcon: String,
     upperCase: Boolean,
-    lowerCase: Boolean
+    lowerCase: Boolean,
+    limit: Number
   },
   data () {
     return {
@@ -52,7 +53,7 @@ export default {
   },
   watch: {
     value (v) {
-      this.model = v.slice()
+      this.model = (this.limit && v.length > this.limit) ? this.model : v.slice()
     }
   },
   provide () {
@@ -117,7 +118,7 @@ export default {
       clearTimeout(this.timer)
       this.focus()
 
-      if (this.isLoading || !this.editable || !value) {
+      if (this.isLoading || !this.editable || !value || this.model.length >= this.limit) {
         return
       }
 

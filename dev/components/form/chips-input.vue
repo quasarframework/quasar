@@ -43,6 +43,9 @@
       <p class="caption">With Clearable</p>
       <q-chips-input align="right" @change="value => log('@change', value)" @input="value => log('@input', value)" color="secondary" float-label="Float Label" v-model="model" placeholder="Some placeholder" clearable />
 
+      <p class="caption">With Limit</p>
+      <q-chips-input :limit="2" align="right" @change="value => log('@change', value)" @input="value => log('@input', value)" color="secondary" float-label="Float Label" v-model="model" placeholder="You can not select more than 2" />
+
       <p class="caption">v-model.lazy</p>
       <q-chips-input :value="model" @change="value => { model = value; log('@change', value) }"/>
 
