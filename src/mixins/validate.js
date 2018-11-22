@@ -1,3 +1,5 @@
+import patterns from '../utils/patterns.js'
+
 export default {
   props: {
     error: Boolean,
@@ -62,6 +64,12 @@ export default {
           if (typeof res === 'string') {
             error = true
             msg = res
+            break
+          }
+        }
+        else if (typeof rule === 'string' && patterns[rule] !== void 0) {
+          if (patterns[rule].test(val) !== true) {
+            error = true
             break
           }
         }

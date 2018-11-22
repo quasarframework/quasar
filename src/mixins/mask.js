@@ -14,11 +14,12 @@ const TOKENS = {
 const tokenRegex = new RegExp('[' + Object.keys(TOKENS).join('') + ']', 'g')
 
 const NAMED_MASKS = {
-  'date': '##/##/##',
-  'datetime': '##/##/## ##:##',
-  'time': '##:##',
-  'fulltime': '##:##:##',
-  'phone': '(###) ### - ####'
+  date: '####/##/##',
+  datetime: '####/##/## ##:##',
+  time: '##:##',
+  fulltime: '##:##:##',
+  phone: '(###) ### - ####',
+  card: '#### #### #### ####'
 }
 
 export default {
@@ -204,7 +205,9 @@ export default {
     },
 
     __unmask (val) {
-      return val.replace(/[\W _]/g, '')
+      return val !== void 0 && val !== null
+        ? val.replace(/[\W _]/g, '')
+        : val
     },
 
     __fillWithMask (val, mask) {

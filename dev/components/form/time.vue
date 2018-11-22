@@ -94,6 +94,21 @@
           :style="style"
         />
       </div>
+
+      <div class="text-h6">Input: {{ input }}</div>
+      <div class="q-gutter-md">
+        <q-input filled v-model="input" mask="time" :rules="['time']">
+          <q-icon slot="append" name="access_time" class="cursor-pointer">
+            <q-menu>
+              <q-time
+                v-model="input"
+                v-bind="props"
+                :style="style"
+              />
+            </q-menu>
+          </q-icon>
+        </q-input>
+      </div>
     </div>
   </div>
 </template>
@@ -112,6 +127,7 @@ export default {
 
       time: '10:56',
       nullTime: null,
+      input: null,
 
       timeLimit: '10:56',
       hourOptions: [9, 10, 11, 13, 15],

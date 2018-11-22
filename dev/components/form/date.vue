@@ -107,6 +107,21 @@
           :style="style"
         />
       </div>
+
+      <div class="text-h6">Input: {{ input }}</div>
+      <div class="q-gutter-md">
+        <q-input filled v-model="input" mask="date" :rules="['date']">
+          <q-icon slot="append" name="event" class="cursor-pointer">
+            <q-menu>
+              <q-date
+                v-model="input"
+                v-bind="props"
+                :style="style"
+              />
+            </q-menu>
+          </q-icon>
+        </q-input>
+      </div>
     </div>
   </div>
 </template>
@@ -127,7 +142,9 @@ export default {
       events: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23'],
       options: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23'],
 
-      nullDate: null
+      nullDate: null,
+
+      input: null
     }
   },
 

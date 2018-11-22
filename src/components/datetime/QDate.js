@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from './datetime-mixin.js'
+
+import patterns from '../../utils/patterns.js'
 import { isDeepEqual } from '../../utils/is.js'
 
 const yearsInterval = 20
@@ -12,12 +14,6 @@ export default Vue.extend({
   mixins: [ DateTimeMixin ],
 
   props: {
-    value: {
-      validator: v => typeof v === 'string'
-        ? /^-?[\d]+\/[0-1]\d\/[0-3]\d$/.test(v)
-        : true
-    },
-
     defaultYearMonth: {
       type: String,
       validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
@@ -74,7 +70,7 @@ export default Vue.extend({
     extModel () {
       const v = this.value
 
-      if (v === void 0 || v === null || v === '') {
+      if (this.__isInvalid(v) === true) {
         return {
           value: null,
           year: null,
@@ -220,10 +216,14 @@ export default Vue.extend({
   },
 
   methods: {
+    __isInvalid (v) {
+      return v === void 0 || v === null || v === '' || typeof v !== 'string' || !patterns.date.test(v)
+    },
+
     __getInnerModel (v) {
       let string, year, month, day
 
-      if (v === void 0 || v === null || v === '') {
+      if (this.__isInvalid(v) === true) {
         day = 1
 
         if (this.defaultYearMonth !== void 0) {
