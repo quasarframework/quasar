@@ -38,8 +38,8 @@ export default {
     displayValue: String,
     popupMaxHeight: String,
     popupCover: {
-    	type: Boolean,
-    	default: true
+      type: Boolean,
+      default: true
     }
   },
   data () {
