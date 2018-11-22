@@ -9,7 +9,8 @@
         <q-radio v-model="type" val="borderless" label="Borderless" />
       </div>
       <div>
-        <q-checkbox v-model="dense" label="Dense" />
+        <q-toggle v-model="dense" label="Dense" />
+        <q-toggle v-model="expandBesides" label="Expand besides" />
       </div>
 
       <div>{{ select1 }}</div>
@@ -343,6 +344,7 @@ export default {
     return {
       type: 'filled',
       dense: false,
+      expandBesides: false,
 
       heavyModel: [],
       heavyOptions,
@@ -682,7 +684,8 @@ export default {
     props () {
       return {
         [this.type]: true,
-        dense: this.dense
+        dense: this.dense,
+        expandBesides: this.expandBesides
       }
     }
   }

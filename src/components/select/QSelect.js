@@ -36,7 +36,9 @@ export default Vue.extend({
     },
 
     counter: Boolean,
-    maxValues: [Number, String]
+    maxValues: [Number, String],
+
+    expandBesides: Boolean
   },
 
   data () {
@@ -238,7 +240,7 @@ export default Vue.extend({
       return h(QMenu, {
         ref: 'menu',
         props: {
-          cover: true,
+          [this.expandBesides === true ? 'fit' : 'cover']: true,
           autoClose: this.multiple !== true
         },
         on: {
