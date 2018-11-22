@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
+
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/touch-pan.js'
 
