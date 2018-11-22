@@ -108,6 +108,10 @@ export default {
       }
     }
 
+    if (el.__qtouchrepeat) {
+      el.__qtouchrepeat_old = el.__qtouchrepeat
+    }
+
     el.__qtouchrepeat = ctx
     updateBinding(el, binding)
 
@@ -127,7 +131,7 @@ export default {
   },
 
   unbind (el) {
-    let ctx = el.__qtouchrepeat
+    let ctx = el.__qtouchrepeat_old || el.__qtouchrepeat
     if (ctx !== void 0) {
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchend', ctx.abort)
@@ -137,7 +141,7 @@ export default {
       document.removeEventListener('mousemove', ctx.mouseAbort)
       document.removeEventListener('click', ctx.mouseAbort, true)
       document.removeEventListener('keyup', ctx.keyboardAbort, true)
-      delete el.__qtouchrepeat
+      delete el[el.__qtouchrepeat_old ? '__qtouchrepeat_old' : '__qtouchrepeat']
     }
   }
 }

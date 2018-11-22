@@ -157,6 +157,10 @@ export default {
       }
     }
 
+    if (el.__qtouchswipe) {
+      el.__qtouchswipe_old = el.__qtouchswipe
+    }
+
     el.__qtouchswipe = ctx
 
     if (mouse) {
@@ -175,13 +179,13 @@ export default {
   },
 
   unbind (el) {
-    const ctx = el.__qtouchswipe
+    const ctx = el.__qtouchswipe_old || el.__qtouchswipe
     if (ctx !== void 0) {
       el.removeEventListener('mousedown', ctx.mouseStart)
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchmove', ctx.move)
       el.removeEventListener('touchend', ctx.end)
-      delete el.__qtouchswipe
+      delete el[el.__qtouchswipe_old ? '__qtouchswipe_old' : '__qtouchswipe']
     }
   }
 }

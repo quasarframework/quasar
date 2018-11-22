@@ -58,6 +58,10 @@ export default {
       }
     }
 
+    if (el.__qtouchhold) {
+      el.__qtouchhold_old = el.__qtouchhold
+    }
+
     el.__qtouchhold = ctx
     updateBinding(el, binding)
 
@@ -74,7 +78,7 @@ export default {
   },
 
   unbind (el) {
-    let ctx = el.__qtouchhold
+    let ctx = el.__qtouchhold_old || el.__qtouchhold
     if (ctx !== void 0) {
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchend', ctx.abort)
@@ -82,7 +86,7 @@ export default {
       el.removeEventListener('mousedown', ctx.mouseStart)
       document.removeEventListener('mousemove', ctx.mouseAbort)
       document.removeEventListener('mouseup', ctx.mouseAbort)
-      delete el.__qtouchhold
+      delete el[el.__qtouchhold_old ? '__qtouchhold_old' : '__qtouchhold']
     }
   }
 }
