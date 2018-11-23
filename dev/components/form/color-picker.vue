@@ -1,125 +1,69 @@
 <template>
-  <div>
-    <div class="q-layout-padding">
+  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
+    <div style="max-width: 600px" class="q-gutter-y-md">
+
+      <div class="q-gutter-x-md">
+        <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="disable" label="Disable" />
+        <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
+        <q-toggle :dark="dark" v-model="inline" label="Inline" />
+      </div>
 
       <div>
-        {{ inputModelRgb }}
+        <q-chip>{{ hex }}</q-chip>
+        <q-chip>{{ hexa }}</q-chip>
+        <q-chip>{{ rgb }}</q-chip>
+        <q-chip>{{ rgba }}</q-chip>
+      </div>
+      <div class="q-gutter-md">
+        <q-color v-bind="props" v-model="hex" />
+        <q-color v-bind="props" v-model="hexa" />
+        <q-color v-bind="props" v-model="rgb" />
+        <q-color v-bind="props" v-model="rgba" />
       </div>
 
-      <p>Immediate</p>
-      <q-color v-model="inputModelRgb" label="simple" />
-      <q-color v-model="inputModelRgb" clearable label="clearable" />
-      <q-color v-model="inputModelRgb" default-value="#ccc" label="default-value" />
-      <q-color v-model="inputModelRgb" default-value="#ccc" clearable label="default-value, clearable" />
-      <p>Lazy</p>
-      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" label="simple" />
-      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" clearable label="clearable" />
-      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-value="#ccc" label="default-value" />
-      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-value="#ccc" clearable label="default-value, clearable" />
-
-      <div class="bg-black q-pa-md q-my-md">
-        <q-color dark v-model="inputModelRgb" />
-        <q-color-picker dark v-model="modelHexa" />
+      <div class="text-h6">
+        Null/Undefined model
+        <q-btn outline color="primary" size="sm" label="Reset" @click="setNull" />
+      </div>
+      <div>
+        <q-chip>{{ nullHex }}</q-chip>
+        <q-chip>{{ nullHexa }}</q-chip>
+        <q-chip>{{ nullRgb }}</q-chip>
+        <q-chip>{{ nullRgba }}</q-chip>
+      </div>
+      <div class="q-gutter-md">
+        <q-color v-bind="props" v-model="nullHex" />
+        <q-color v-bind="props" v-model="nullHexa" />
+        <q-color v-bind="props" v-model="nullRgb" />
+        <q-color v-bind="props" v-model="nullRgba" />
       </div>
 
-      <br><br>
-      <q-btn color="primary" label="Set to yellow" @click="setToYellow"/>
-
-      <div class="row q-gutter-md" style="width: 550px">
-        <div class="col-6">
-          <q-color-picker v-model="modelHex" @input="value => log('@input', value)" @change="value => log('@change', value)" />
-          <div class="inline-block text-white" style="text-shadow: black 0px 0px 7px; padding: 10px" :style="{ backgroundColor: this.modelHex }">
-            <pre>Hex: {{ modelHex }}</pre>
-          </div>
-        </div>
-        <div class="col-6">
-          <q-color-picker v-model="modelHexa" />
-          <div class="inline-block text-white" style="text-shadow: black 0px 0px 7px; padding: 10px" :style="{ backgroundColor: this.modelHexa }">
-            <pre>Hexa: {{ modelHexa }}</pre>
-          </div>
-        </div>
-        <div class="col-6">
-          <q-color-picker v-model="modelRgb" />
-          <div class="inline-block text-white" style="text-shadow: black 0px 0px 7px; padding: 10px" :style="{ backgroundColor: rgb(this.modelRgb) }">
-            <pre>RGB: {{ modelRgb }}</pre>
-          </div>
-        </div>
-        <div class="col-6">
-          <q-color-picker v-model="modelRgba" />
-          <div class="inline-block text-white" style="text-shadow: black 0px 0px 7px; padding: 10px" :style="{ backgroundColor: rgb(this.modelRgba) }">
-            <pre>RGBA: {{ modelRgba }}</pre>
-          </div>
-        </div>
+      <div class="text-h6">
+        Lazy
+      </div>
+      <div>
+        <q-chip>{{ hex }}</q-chip>
+        <q-chip>{{ hexa }}</q-chip>
+        <q-chip>{{ rgb }}</q-chip>
+        <q-chip>{{ rgba }}</q-chip>
+      </div>
+      <div class="q-gutter-md">
+        <q-color v-bind="props" :value="hex" @change="val => hex = val" />
+        <q-color v-bind="props" :value="hexa" @change="val => hexa = val" />
+        <q-color v-bind="props" :value="rgb" @change="val => rgb = val" />
+        <q-color v-bind="props" :value="rgba" @change="val => rgba = val" />
       </div>
 
-      <h4>Lazy</h4>
-      <div class="row q-gutter-md" style="width: 550px">
-        <div class="col-6">
-          <q-color-picker :value="modelHex" @change="model => { modelHex = model; log('@change', model) }" @input="value => log('@input', value)" />
-          <div class="inline-block text-white" style="text-shadow: black 0px 0px 7px; padding: 10px" :style="{ backgroundColor: this.modelHex }">
-            <pre>Hex: {{ modelHex }}</pre>
-          </div>
-        </div>
-        <div class="col-6">
-          <q-color-picker :value="modelHexa" @change="model => { modelHexa = model }" />
-          <div class="inline-block text-white" style="text-shadow: black 0px 0px 7px; padding: 10px" :style="{ backgroundColor: this.modelHexa }">
-            <pre>Hexa: {{ modelHexa }}</pre>
-          </div>
-        </div>
-      </div>
-
-      <h4>Input</h4>
-      <q-color v-model="inputModelHex" clearable default-value="#ffffff" @input="value => log('@input', value)" @change="value => log('@change', value)" />
-      <q-color v-model="inputModelHex" inverted readonly float-label="Readonly" />
-      <q-color v-model="inputModelRgb" float-label="RGB" />
-      <q-color v-model="inputModelRgb" inverted disable float-label="Disable" />
-
-      <h4>Lazy Input</h4>
-      <q-color :value="inputModelHex" @change="val => { inputModelHex = val; log('@change', val)}" @input="value => log('@input', value)" clearable />
-
-      <h4>Type: <small>{{ modelVar }}</small></h4>
-      <q-color v-model="modelVar" clearable @input="value => log('@input', value)" @change="value => log('@change', value)" label="Type 'auto'" format-model="auto" />
-      <q-color v-model="modelVar" clearable @input="value => log('@input', value)" @change="value => log('@change', value)" label="Type 'hexa'" format-model="hexa" />
-      <q-color v-model="modelVar" clearable @input="value => log('@input', value)" @change="value => log('@change', value)" label="Type 'hex'" format-model="hex" />
-      <q-color v-model="modelVar" clearable @input="value => log('@input', value)" @change="value => log('@change', value)" label="Type 'rgba'" format-model="rgba" />
-      <q-color v-model="modelVar" clearable @input="value => log('@input', value)" @change="value => log('@change', value)" label="Type 'rgb'" format-model="rgb" />
-
-      <h4>Explicit Popover or Modal</h4>
-      <q-color v-model="inputModelRgb" float-label="RGB Default" />
-      <q-color popover v-model="inputModelRgb" float-label="RGB Popover" />
-      <q-color modal v-model="inputModelRgb" float-label="RGB Modal" />
-      <q-color modal v-model="inputModelRgb" float-label="RGB Modal Readonly " readonly />
-
-      <h4>Readonly</h4>
-      <div class="row q-gutter-md" style="width: 550px">
-        <div class="col-6">
-          <q-color-picker v-model="modelHex" readonly />
-        </div>
-        <div class="col-6">
-          <q-color-picker v-model="modelHexa" readonly />
-        </div>
-        <div class="col-6">
-          <q-color-picker v-model="modelRgb" readonly />
-        </div>
-        <div class="col-6">
-          <q-color-picker v-model="modelRgba" readonly />
-        </div>
-      </div>
-
-      <h4>Disable</h4>
-      <div class="row q-gutter-md" style="width: 550px">
-        <div class="col-6">
-          <q-color-picker v-model="modelHex" disable />
-        </div>
-        <div class="col-6">
-          <q-color-picker v-model="modelHexa" disable />
-        </div>
-        <div class="col-6">
-          <q-color-picker v-model="modelRgb" disable />
-        </div>
-        <div class="col-6">
-          <q-color-picker v-model="modelRgba" disable />
-        </div>
+      <div class="text-h6">Input: {{ inputModelHex }}</div>
+      <div class="q-gutter-md">
+        <q-input filled v-model="inputModelHex" :rules="['hexcolor']">
+          <q-icon slot="append" name="colorize" class="cursor-pointer">
+            <q-menu>
+              <q-color v-model="inputModelHex" />
+            </q-menu>
+          </q-icon>
+        </q-input>
       </div>
     </div>
   </div>
@@ -129,27 +73,39 @@
 export default {
   data () {
     return {
-      modelHex: '#FF00FF',
-      modelHexa: '#FF00FFCC',
-      modelRgb: { r: 0, g: 0, b: 0 },
-      modelRgba: { r: 255, g: 0, b: 255, a: 100 },
-      modelVar: '#FF00FF',
-      inputModelHex: null,
-      inputModelRgb: { r: 245, g: 20, b: 150 }
+      dark: false,
+      disable: false,
+      readonly: false,
+      inline: true,
+
+      hex: '#FF00FF',
+      hexa: '#FF00FFCC',
+      rgb: 'rgb(0,0,0)',
+      rgba: 'rgba(255,0,255,1)',
+
+      nullHex: null,
+      nullHexa: null,
+      nullRgb: null,
+      nullRgba: null,
+
+      inputModelHex: '#FF00FF'
     }
   },
+
+  computed: {
+    props () {
+      return {
+        dark: this.dark,
+        disable: this.disable,
+        readonly: this.readonly,
+        inline: this.inline
+      }
+    }
+  },
+
   methods: {
-    rgb (color) {
-      return `rgb${color.a !== void 0 ? 'a' : ''}(${color.r},${color.g},${color.b}${color.a !== void 0 ? `,${color.a / 100}` : ''})`
-    },
-    setToYellow () {
-      this.modelHex = '#FFFF00'
-      this.modelHexa = '#FFFF00FF'
-      this.modelRgb = {r: 255, g: 255, b: 0}
-      this.modelRgba = {r: 255, g: 255, b: 0, a: 100}
-    },
-    log (name, data) {
-      console.log(name, JSON.stringify(data))
+    setNull () {
+      this.nullHex = this.nullHexa = this.nullRgb = this.nullRgba = null
     }
   }
 }

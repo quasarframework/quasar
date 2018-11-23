@@ -9,6 +9,7 @@ import filter from './utils/filter.js'
 import format from './utils/format.js'
 import frameDebounce from './utils/frame-debounce.js'
 import openURL from './utils/open-url.js'
+import patterns from './utils/patterns.js'
 import scroll from './utils/scroll.js'
 import throttle from './utils/throttle.js'
 import uid from './utils/uid.js'
@@ -28,6 +29,7 @@ export {
   frameDebounce,
   noop,
   openURL,
+  patterns,
   scroll,
   throttle,
   uid

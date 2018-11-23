@@ -1,4 +1,4 @@
-import patterns from '../utils/patterns.js'
+import { testPattern } from '../utils/patterns.js'
 
 export default {
   props: {
@@ -67,8 +67,8 @@ export default {
             break
           }
         }
-        else if (typeof rule === 'string' && patterns[rule] !== void 0) {
-          if (patterns[rule].test(val) !== true) {
+        else if (typeof rule === 'string' && testPattern[rule] !== void 0) {
+          if (testPattern[rule](val) !== true) {
             error = true
             break
           }

@@ -21,6 +21,27 @@ export function rgbToHex ({ r, g, b, a }) {
   return '#' + ((b | g << 8 | r << 16) | 1 << 24).toString(16).slice(1) + a
 }
 
+export function rgbToString ({ r, g, b, a }) {
+  return `rgb${a !== void 0 ? 'a' : ''}(${r},${g},${b}${a !== void 0 ? ',' + (a / 100) : ''})`
+}
+
+export function stringToRgb (str) {
+  str = str.replace(/ /g, '')
+
+  if (str.startsWith('#')) {
+    return hexToRgb(str)
+  }
+
+  const model = str.substring(str.indexOf('(') + 1, str.length - 1).split(',')
+
+  return {
+    r: parseInt(model[0], 10),
+    g: parseInt(model[1], 10),
+    b: parseInt(model[2], 10),
+    a: model[3] !== void 0 ? parseFloat(model[3]) * 100 : void 0
+  }
+}
+
 export function hexToRgb (hex) {
   if (typeof hex !== 'string') {
     throw new TypeError('Expected a string')

@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/touch-pan.js'
 
-import patterns from '../../utils/patterns.js'
+import { testPattern } from '../../utils/patterns.js'
 import { position } from '../../utils/event.js'
 import { isDeepEqual } from '../../utils/is.js'
 import DateTimeMixin from './datetime-mixin.js'
@@ -452,7 +452,11 @@ export default Vue.extend({
     },
 
     __getNumberModel (v) {
-      if (v === void 0 || v === null || v === '' || typeof v !== 'string' || !patterns.timeOrFulltime.test(v)) {
+      if (
+        v === void 0 || v === null || v === '' ||
+        typeof v !== 'string' ||
+        testPattern.timeOrFulltime(v) === false
+      ) {
         return {
           hour: null,
           minute: null,

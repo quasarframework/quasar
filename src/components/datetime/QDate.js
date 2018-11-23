@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from './datetime-mixin.js'
 
-import patterns from '../../utils/patterns.js'
+import { testPattern } from '../../utils/patterns.js'
 import { isDeepEqual } from '../../utils/is.js'
 
 const yearsInterval = 20
@@ -217,7 +217,7 @@ export default Vue.extend({
 
   methods: {
     __isInvalid (v) {
-      return v === void 0 || v === null || v === '' || typeof v !== 'string' || !patterns.date.test(v)
+      return v === void 0 || v === null || v === '' || typeof v !== 'string' || testPattern.date(v) === false
     },
 
     __getInnerModel (v) {
