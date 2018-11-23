@@ -24,9 +24,7 @@ const NAMED_MASKS = {
 
 export default {
   props: {
-    mask: {
-      type: [Object, String]
-    },
+    mask: String,
     fillMask: Boolean,
     unmaskedValue: Boolean
   },

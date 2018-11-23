@@ -557,7 +557,7 @@ export default Vue.extend({
           ...this.innerModel,
           ...obj
         },
-        val = Math.min(time.hour, 23) + ':' +
+        val = this.__pad(Math.min(time.hour, 23)) + ':' +
           this.__pad(Math.min(time.minute, 59)) +
           (this.withSeconds ? ':' + this.__pad(Math.min(time.second, 59)) : '')
 
