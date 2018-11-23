@@ -26,6 +26,10 @@ export function rgbToString ({ r, g, b, a }) {
 }
 
 export function stringToRgb (str) {
+  if (typeof str !== 'string') {
+    throw new TypeError('Expected a string')
+  }
+
   str = str.replace(/ /g, '')
 
   if (str.startsWith('#')) {

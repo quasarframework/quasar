@@ -34,9 +34,9 @@
       </div>
       <div class="q-gutter-md">
         <q-color v-bind="props" v-model="nullHex" />
-        <q-color v-bind="props" v-model="nullHexa" />
-        <q-color v-bind="props" v-model="nullRgb" />
-        <q-color v-bind="props" v-model="nullRgba" />
+        <q-color v-bind="props" format-model="hexa" v-model="nullHexa" />
+        <q-color v-bind="props" format-model="rgb" v-model="nullRgb" />
+        <q-color v-bind="props" format-model="rgba" v-model="nullRgba" />
       </div>
 
       <div class="text-h6">
@@ -57,7 +57,7 @@
 
       <div class="text-h6">Input: {{ inputModelHex }}</div>
       <div class="q-gutter-md">
-        <q-input filled v-model="inputModelHex" :rules="['hexcolor']">
+        <q-input filled v-model="inputModelHex" :rules="['anyColor']">
           <q-icon slot="append" name="colorize" class="cursor-pointer">
             <q-menu>
               <q-color v-model="inputModelHex" />

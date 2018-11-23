@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import { testPattern } from '../../utils/patterns.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import throttle from '../../utils/throttle.js'
 import { hexToRgb, rgbToHex, rgbToString, stringToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
@@ -53,7 +54,13 @@ export default Vue.extend({
 
   data () {
     return {
-      topView: this.value === void 0 || this.value === null || this.value === '' || this.value.startsWith('#') ? 'hex' : 'rgb',
+      topView: this.formatModel === 'auto'
+        ? (
+          (this.value === void 0 || this.value === null || this.value === '' || this.value.startsWith('#'))
+            ? 'hex'
+            : 'rgb'
+        )
+        : (this.formatModel.startsWith('hex') ? 'hex' : 'rgb'),
       view: 'spectrum',
       model: this.__parseModel(this.value)
     }
@@ -131,7 +138,7 @@ export default Vue.extend({
 
     inputsArray () {
       const inp = ['r', 'g', 'b']
-      if (this.hasAlpha) {
+      if (this.hasAlpha === true) {
         inp.push('a')
       }
       return inp
@@ -181,7 +188,7 @@ export default Vue.extend({
           }, [
             h(QTab, {
               props: {
-                label: 'HEX' + (this.hasAlpha ? 'A' : ''),
+                label: 'HEX' + (this.hasAlpha === true ? 'A' : ''),
                 name: 'hex',
                 ripple: false
               }
@@ -189,7 +196,7 @@ export default Vue.extend({
 
             h(QTab, {
               props: {
-                label: 'RGB' + (this.hasAlpha ? 'A' : ''),
+                label: 'RGB' + (this.hasAlpha === true ? 'A' : ''),
                 name: 'rgb',
                 ripple: false
               }
@@ -337,7 +344,7 @@ export default Vue.extend({
               }
             })
           ]),
-          this.hasAlpha
+          this.hasAlpha === true
             ? h('div', { staticClass: 'q-mx-sm q-color-picker__alpha non-selectable' }, [
               h(QSlider, {
                 props: {
@@ -520,7 +527,7 @@ export default Vue.extend({
           h: this.model.h,
           s,
           v,
-          a: this.hasAlpha ? this.model.a : void 0
+          a: this.hasAlpha === true ? this.model.a : void 0
         })
 
       this.model.s = s
@@ -534,7 +541,7 @@ export default Vue.extend({
         h,
         s: this.model.s,
         v: this.model.v,
-        a: this.hasAlpha ? this.model.a : void 0
+        a: this.hasAlpha === true ? this.model.a : void 0
       })
 
       this.model.h = h
@@ -558,7 +565,7 @@ export default Vue.extend({
         r: formatModel === 'r' ? val : this.model.r,
         g: formatModel === 'g' ? val : this.model.g,
         b: formatModel === 'b' ? val : this.model.b,
-        a: this.hasAlpha
+        a: this.hasAlpha === true
           ? (formatModel === 'a' ? val : this.model.a)
           : void 0
       }
@@ -582,11 +589,11 @@ export default Vue.extend({
 
     __onEditorChange (evt, change) {
       let rgb
-      const inp = evt.target.value.toLowerCase().replace(/ /g, '')
+      const inp = evt.target.value
 
       if (this.topView === 'hex') {
         if (
-          inp.length !== (this.hasAlpha ? 9 : 7) ||
+          inp.length !== (this.hasAlpha === true ? 9 : 7) ||
           !/^#[0-9A-Fa-f]+$/.test(inp)
         ) {
           return true
@@ -600,7 +607,7 @@ export default Vue.extend({
         if (!inp.endsWith(')')) {
           return true
         }
-        else if (!this.hasAlpha && inp.startsWith('rgb(')) {
+        else if (this.hasAlpha !== true && inp.startsWith('rgb(')) {
           model = inp.substring(4, inp.length - 1).split(',').map(n => parseInt(n, 10))
 
           if (
@@ -610,7 +617,7 @@ export default Vue.extend({
             return true
           }
         }
-        else if (this.hasAlpha && inp.startsWith('rgba(')) {
+        else if (this.hasAlpha === true && inp.startsWith('rgba(')) {
           model = inp.substring(5, inp.length - 1).split(',')
 
           if (
@@ -642,7 +649,7 @@ export default Vue.extend({
           model[0] < 0 || model[0] > 255 ||
           model[1] < 0 || model[1] > 255 ||
           model[2] < 0 || model[2] > 255 ||
-          (this.hasAlpha && (model[3] < 0 || model[3] > 1))
+          (this.hasAlpha === true && (model[3] < 0 || model[3] > 1))
         ) {
           return true
         }
@@ -651,7 +658,7 @@ export default Vue.extend({
           r: model[0],
           g: model[1],
           b: model[2],
-          a: this.hasAlpha
+          a: this.hasAlpha === true
             ? model[3] * 100
             : void 0
         }
@@ -713,7 +720,15 @@ export default Vue.extend({
     },
 
     __parseModel (v) {
-      if (v === null || v === void 0 || v === '') {
+      const forceAlpha = this.forceAlpha !== void 0
+        ? this.forceAlpha
+        : (
+          this.formatModel === 'auto'
+            ? null
+            : this.formatModel.indexOf('a') > -1
+        )
+
+      if (v === null || v === void 0 || v === '' || testPattern.anyColor(v) !== true) {
         return {
           h: 0,
           s: 0,
@@ -721,7 +736,7 @@ export default Vue.extend({
           r: 0,
           g: 0,
           b: 0,
-          a: this.forceAlpha === true ? 100 : void 0,
+          a: forceAlpha === true ? 100 : void 0,
           hex: void 0,
           rgb: void 0
         }
@@ -729,7 +744,7 @@ export default Vue.extend({
 
       let model = stringToRgb(v)
 
-      if (this.forceAlpha === true && model.a === void 0) {
+      if (forceAlpha === true && model.a === void 0) {
         model.a = 100
       }
 
