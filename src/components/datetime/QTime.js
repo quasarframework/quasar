@@ -581,5 +581,9 @@ export default Vue.extend({
       this.__getHeader(h),
       this.__getClock(h)
     ])
+  },
+
+  beforeDestroy () {
+    this.__verifyAndUpdate()
   }
 })
