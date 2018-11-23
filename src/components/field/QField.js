@@ -108,7 +108,8 @@ export default Vue.extend({
       return [
 
         this.$slots.prepend !== void 0 ? h('div', {
-          staticClass: 'q-field__prepend q-field__marginal row no-wrap items-center'
+          staticClass: 'q-field__prepend q-field__marginal row no-wrap items-center',
+          key: 'prepend'
         }, this.$slots.prepend) : null,
 
         h('div', {
@@ -135,13 +136,19 @@ export default Vue.extend({
             : this.$slots.default
         )),
 
-        this.$slots.append !== void 0 || this.hasError === true ? h('div', {
-          staticClass: 'q-field__append q-field__marginal row no-wrap items-center'
-        }, (
-          this.hasError === true
-            ? [ h(QIcon, { props: { name: 'error', color: 'negative' } }) ]
-            : []
-        ).concat(this.$slots.append)) : null
+        this.hasError === true
+          ? h('div', {
+            staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
+            key: 'error'
+          }, [ h(QIcon, { props: { name: 'error', color: 'negative' } }) ])
+          : null,
+
+        this.$slots.append !== void 0
+          ? h('div', {
+            staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
+            key: 'append'
+          }, this.$slots.append)
+          : null
 
       ]
     },
