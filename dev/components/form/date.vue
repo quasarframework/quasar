@@ -110,7 +110,7 @@
 
       <div class="text-h6">Input: {{ input }}</div>
       <div class="q-gutter-md">
-        <q-input filled v-model="input" mask="date" :rules="['date']">
+        <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
           <q-icon slot="append" name="event" class="cursor-pointer">
             <q-menu>
               <q-date

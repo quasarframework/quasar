@@ -57,7 +57,7 @@
 
       <div class="text-h6">Input: {{ inputModelHex }}</div>
       <div class="q-gutter-md">
-        <q-input filled v-model="inputModelHex" :rules="['anyColor']">
+        <q-input :dark="dark" filled v-model="inputModelHex" :rules="['anyColor']">
           <q-icon slot="append" name="colorize" class="cursor-pointer">
             <q-menu>
               <q-color v-model="inputModelHex" />
