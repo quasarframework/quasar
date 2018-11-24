@@ -115,7 +115,8 @@ export default Vue.extend({
             value: this.prompt.model,
             type: this.prompt.type || 'text',
             color: this.color,
-            autofocus: true
+            dense: true,
+            autoFocus: true
           },
           on: {
             input: v => { this.prompt.model = v },
@@ -163,12 +164,15 @@ export default Vue.extend({
         }))
       }
 
-      return h(QCardActions, {
-        props: {
-          vertical: this.stackButtons,
-          align: 'right'
-        }
-      }, child)
+      if (child.length > 0) {
+        return h(QCardActions, {
+          staticClass: this.stackButtons === true ? 'items-end' : null,
+          props: {
+            vertical: this.stackButtons,
+            align: 'right'
+          }
+        }, child)
+      }
     },
 
     onOk () {

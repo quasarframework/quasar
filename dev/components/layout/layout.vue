@@ -19,7 +19,11 @@
           <q-btn round dense flat class="relative-position q-mx-md" icon="announcement" to="/">
             <q-chip floating color="red" text-color="white">1</q-chip>
           </q-btn>
-          <q-color hide-underline dark v-model="mainColor" />
+          <q-btn flat round dense icon="colorize">
+            <q-menu>
+              <q-color hide-underline dark v-model="mainColor" />
+            </q-menu>
+          </q-btn>
           <q-toggle dense v-model="toggle" color="amber" dark />
           <q-btn flat round dense icon="menu" @click="right = !right" />
         </q-toolbar>

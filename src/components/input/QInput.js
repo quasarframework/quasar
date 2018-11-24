@@ -25,6 +25,7 @@ export default Vue.extend({
     counter: Boolean,
     maxlength: [Number, String],
     autoGrow: Boolean, // makes a textarea
+    autoFocus: Boolean,
 
     inputClass: [Array, String, Object],
     inputStyle: [Array, String, Object]
@@ -159,6 +160,7 @@ export default Vue.extend({
   mounted () {
     // textarea only
     this.autoGrow === true && this.__adjustHeight()
+    this.autoFocus === true && this.$nextTick(() => { this.$refs.input.focus() })
   },
 
   beforeDestroy () {
