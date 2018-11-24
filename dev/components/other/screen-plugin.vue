@@ -18,14 +18,14 @@ export default {
     '$q.screen.gt.md' (state) {
       console.log('watcher $q.screen.gt.md', state)
     }
-  },
-  mounted () {
+  }
+  /* mounted () {
     this.$q.screen.setSizes({
       sm: 300,
       md: 500,
       lg: 1000,
       xl: 2000
     })
-  }
+  } */
 }
 </script>
