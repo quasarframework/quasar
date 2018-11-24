@@ -207,14 +207,16 @@ export default Vue.extend({
         },
         props: {
           type: 'number',
+          dense: true,
           value: this.newPage,
-          noNumberToggle: true,
-          min: this.min,
-          max: this.max,
           color: this.color,
-          placeholder: this.inputPlaceholder,
           disable: this.disable,
-          hideUnderline: true
+          borderless: true
+        },
+        attrs: {
+          placeholder: this.inputPlaceholder,
+          min: this.min,
+          max: this.max
         },
         on: {
           input: value => (this.newPage = value),
