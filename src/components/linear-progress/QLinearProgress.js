@@ -32,10 +32,9 @@ export default Vue.extend({
 
     classes () {
       return {
-        [`text-${this.color}`]: this.color,
-        'q-linear-progress--dark': this.dark,
-        'q-linear-progress--reverse': this.reverse || this.query,
-        'generic-border-radius': this.rounded
+        [`text-${this.color}`]: this.color !== void 0,
+        'q-linear-progress--reverse': this.reverse === true || this.query === true,
+        'generic-border-radius': this.rounded === true
       }
     },
 
@@ -44,9 +43,8 @@ export default Vue.extend({
     },
 
     trackClass () {
-      if (this.trackColor) {
-        return `bg-${this.trackColor}`
-      }
+      return 'q-linear-progress__track--' + (this.dark === true ? 'dark' : 'light') +
+        (this.trackColor !== void 0 ? ` bg-${this.trackColor}` : '')
     },
 
     modelStyle () {
