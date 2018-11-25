@@ -172,7 +172,7 @@ export default Vue.extend({
 
     __setAnchorEl (el) {
       this.anchorEl = el
-      while (this.anchorEl.classList.contains('q-menu--skip')) {
+      while (this.anchorEl.classList.contains('q-anchor--skip')) {
         this.anchorEl = this.anchorEl.parentNode
       }
       this.__configureAnchorEl()

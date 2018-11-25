@@ -81,7 +81,7 @@ export default Vue.extend({
       ]),
 
       (this.label !== void 0 || this.$slots.default !== void 0) && h('div', {
-        staticClass: 'q-checkbox__label q-menu--skip'
+        staticClass: 'q-checkbox__label q-anchor--skip'
       }, (this.label !== void 0 ? [ this.label ] : []).concat(this.$slots.default))
     ])
   }

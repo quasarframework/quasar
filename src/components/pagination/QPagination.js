@@ -201,7 +201,7 @@ export default Vue.extend({
 
     if (this.input) {
       contentMiddle.push(h(QInput, {
-        staticClass: 'inline no-padding',
+        staticClass: 'inline',
         style: {
           width: `${this.inputPlaceholder.length}rem`
         },

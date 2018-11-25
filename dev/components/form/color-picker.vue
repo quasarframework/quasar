@@ -59,9 +59,9 @@
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="inputModelHex" :rules="['anyColor']">
           <q-icon slot="append" name="colorize" class="cursor-pointer">
-            <q-menu>
+            <q-popup>
               <q-color v-model="inputModelHex" />
-            </q-menu>
+            </q-popup>
           </q-icon>
         </q-input>
       </div>

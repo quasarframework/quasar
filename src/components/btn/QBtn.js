@@ -112,7 +112,7 @@ export default Vue.extend({
         : null,
 
       h('div', {
-        staticClass: 'q-btn__content text-center col items-center q-menu--skip',
+        staticClass: 'q-btn__content text-center col items-center q-anchor--skip',
         class: this.innerClasses
       },
 

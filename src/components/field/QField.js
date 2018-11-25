@@ -113,7 +113,7 @@ export default Vue.extend({
         }, this.$slots.prepend) : null,
 
         h('div', {
-          staticClass: 'q-field__control-container col relative-position row no-wrap q-menu--skip'
+          staticClass: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
         }, [
           this.label !== void 0 ? h('div', {
             staticClass: 'q-field__label no-pointer-events absolute ellipsis'

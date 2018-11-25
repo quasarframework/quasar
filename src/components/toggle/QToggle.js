@@ -88,7 +88,7 @@ export default Vue.extend({
       ]),
 
       h('div', {
-        staticClass: 'q-toggle__label q-menu--skip'
+        staticClass: 'q-toggle__label q-anchor--skip'
       }, (this.label !== void 0 ? [ this.label ] : []).concat(this.$slots.default))
     ])
   }

@@ -99,13 +99,13 @@
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="input" :mask="withSeconds ? 'fulltime' : 'time'" :rules="[withSeconds ? 'fulltime' : 'time']">
           <q-icon slot="append" name="access_time" class="cursor-pointer">
-            <q-menu>
+            <q-popup>
               <q-time
                 v-model="input"
                 v-bind="props"
                 :style="style"
               />
-            </q-menu>
+            </q-popup>
           </q-icon>
         </q-input>
       </div>
