@@ -27,6 +27,7 @@ export default Vue.extend({
   props: {
     fit: Boolean,
     cover: Boolean,
+
     anchor: {
       type: String,
       validator: validatePosition
@@ -57,7 +58,7 @@ export default Vue.extend({
     anchorOrigin () {
       return parsePosition(
         this.anchor || (
-          this.cover === true ? `top ${this.horizSide}` : `bottom ${this.horizSide}`
+          this.cover === true ? `center middle` : `bottom ${this.horizSide}`
         )
       )
     },
