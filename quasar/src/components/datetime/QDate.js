@@ -3,7 +3,6 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from './datetime-mixin.js'
 
-import { testPattern } from '../../utils/patterns.js'
 import { isDeepEqual } from '../../utils/is.js'
 
 const yearsInterval = 20
@@ -80,12 +79,22 @@ export default Vue.extend({
       }
 
       const date = v.split('/')
-      return {
+      const model = {
         value: v,
-        year: parseInt(date[0], 10),
-        month: parseInt(date[1], 10),
-        day: parseInt(date[2], 10)
+        year: isNaN(parseInt(date[0], 10)) ? null : parseInt(date[0], 10),
+        month: isNaN(parseInt(date[1], 10)) ? null : parseInt(date[1], 10),
+        day: isNaN(parseInt(date[2], 10)) ? null : parseInt(date[2], 10)
       }
+
+      if (model.year === null || model.month === null || model.day === null) {
+        model.value = null
+      }
+
+      if (model.year !== null && model.month === null) {
+        model.month = 1
+      }
+
+      return model
     },
 
     headerTitle () {
@@ -93,13 +102,16 @@ export default Vue.extend({
       if (model.value === null) { return ' --- ' }
 
       const date = new Date(model.value)
+
+      if (isNaN(date.valueOf())) { return ' --- ' }
+
       return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
         this.$q.lang.date.monthsShort[ model.month - 1 ] + ' ' +
         model.day
     },
 
     headerSubtitle () {
-      return this.extModel.value !== null
+      return this.extModel.year !== null
         ? this.extModel.year
         : ' --- '
     },
@@ -191,7 +203,7 @@ export default Vue.extend({
 
       if (this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
         const i = index + this.innerModel.day - 1
-        Object.assign(res[i], {
+        res[i] && Object.assign(res[i], {
           unelevated: true,
           flat: false,
           color: this.computedColor,
@@ -217,7 +229,7 @@ export default Vue.extend({
 
   methods: {
     __isInvalid (v) {
-      return v === void 0 || v === null || v === '' || typeof v !== 'string' || testPattern.date(v) === false
+      return v === void 0 || v === null || v === '' || typeof v !== 'string'
     },
 
     __getInnerModel (v) {
@@ -244,9 +256,9 @@ export default Vue.extend({
 
         string = v
 
-        year = parseInt(d[0], 10)
-        month = parseInt(d[1], 10)
-        day = parseInt(d[2], 10)
+        year = isNaN(parseInt(d[0], 10)) ? null : parseInt(d[0], 10)
+        month = isNaN(parseInt(d[1], 10)) ? (year === null ? null : 1) : parseInt(d[1], 10)
+        day = isNaN(parseInt(d[2], 10)) ? null : parseInt(d[2], 10)
       }
 
       return {
@@ -655,5 +667,9 @@ export default Vue.extend({
         ])
       ])
     ])
+  },
+
+  beforeDestroy () {
+    this.__updateValue({})
   }
 })
