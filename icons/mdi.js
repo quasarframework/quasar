@@ -24,21 +24,11 @@ export default {
   pullToRefresh: {
     icon: 'mdi-refresh'
   },
-  search: {
-    icon: 'mdi-magnify',
-    clear: 'mdi-close-circle',
-    clearInverted: 'mdi-close'
-  },
   carousel: {
     left: 'mdi-chevron-left',
     right: 'mdi-chevron-right',
     navigationIcon: 'mdi-circle',
     thumbnails: 'mdi-view-carousel'
-  },
-  checkbox: {
-    checked: 'mdi-checkbox-marked',
-    unchecked: 'mdi-checkbox-blank-outline',
-    indeterminate: 'mdi-minus-box'
   },
   chip: {
     remove: 'mdi-close-circle',
@@ -97,12 +87,11 @@ export default {
     next: 'mdi-chevron-right',
     last: 'mdi-page-last'
   },
-  radio: {
-    checked: 'mdi-radiobox-marked',
-    unchecked: 'mdi-radiobox-blank'
-  },
   rating: {
     icon: 'mdi-star'
+  },
+  select: {
+    dropdownIcon: 'mdi-menu-down'
   },
   stepper: {
     done: 'mdi-check',

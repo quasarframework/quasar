@@ -143,6 +143,13 @@ export default Vue.extend({
           }, [ h(QIcon, { props: { name: 'error', color: 'negative' } }) ])
           : null,
 
+        this.__getInnerAppend !== void 0
+          ? h('div', {
+            staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
+            key: 'inner-append'
+          }, this.__getInnerAppend(h))
+          : null,
+
         this.$slots.append !== void 0
           ? h('div', {
             staticClass: 'q-field__append q-field__marginal row no-wrap items-center',

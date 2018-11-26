@@ -24,21 +24,11 @@ export default {
   pullToRefresh: {
     icon: 'fal fa-sync-alt'
   },
-  search: {
-    icon: 'fal fa-search',
-    clear: 'fal fa-times-circle',
-    clearInverted: 'fal fa-times'
-  },
   carousel: {
     left: 'fal fa-chevron-left',
     right: 'fal fa-chevron-right', // TODO
     navigationIcon: 'fal fa-circle',
     thumbnails: 'fal fa-th'
-  },
-  checkbox: {
-    checked: 'fal fa-check-square',
-    unchecked: 'fal fa-square',
-    indeterminate: 'fal fa-minus-square'
   },
   chip: {
     remove: 'fal fa-times-circle',
@@ -97,12 +87,11 @@ export default {
     next: 'fal fa-chevron-right',
     last: 'fal fa-step-forward'
   },
-  radio: {
-    checked: 'fal fa-check-circle',
-    unchecked: 'fal fa-circle'
-  },
   rating: {
     icon: 'fal fa-star'
+  },
+  select: {
+    dropdownIcon: 'fal fa-caret-down'
   },
   stepper: {
     done: 'fal fa-check',

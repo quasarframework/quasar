@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import QField from '../field/QField.js'
 import QMenu from '../menu/QMenu.js'
+import QIcon from '../icon/QIcon.js'
 
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
@@ -22,6 +23,7 @@ export default Vue.extend({
     multiple: Boolean,
 
     displayValue: [String, Number],
+    dropdownIcon: String,
 
     options: {
       type: Array,
@@ -97,6 +99,12 @@ export default Vue.extend({
         selected: this.__isSelected(opt),
         click: () => { this.toggleOption(opt) }
       }))
+    },
+
+    dropdownArrowIcon () {
+      return this.dropdownIcon !== void 0
+        ? this.dropdownIcon
+        : this.$q.icon.select.dropdownIcon
     }
   },
 
@@ -252,6 +260,14 @@ export default Vue.extend({
           '&scroll': this.__onScroll
         }
       }, this.__getOptions(h))
+    },
+
+    __getInnerAppend (h) {
+      return [
+        h(QIcon, {
+          props: { name: this.dropdownArrowIcon }
+        })
+      ]
     }
   },
 

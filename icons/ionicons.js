@@ -24,21 +24,11 @@ export default {
   pullToRefresh: {
     icon: 'ion-refresh'
   },
-  search: {
-    icon: 'ion-search',
-    clear: 'ion-close-circle',
-    clearInverted: 'ion-close-circle-outline'
-  },
   carousel: {
     left: 'ion-ios-arrow-back',
     right: 'ion-ios-arrow-forward',
     navigationIcon: 'ion-square',
     thumbnails: 'ion-grid'
-  },
-  checkbox: {
-    checked: 'ion-checkbox',
-    unchecked: 'ion-square-outline',
-    indeterminate: 'ion-remove-circle'
   },
   chip: {
     remove: 'ion-close-circle',
@@ -97,12 +87,11 @@ export default {
     next: 'ion-arrow-forward',
     last: 'ion-skip-forward'
   },
-  radio: {
-    checked: 'ion-radio-button-on',
-    unchecked: 'ion-radio-button-off'
-  },
   rating: {
     icon: 'ion-star'
+  },
+  select: {
+    dropdownIcon: 'ion-arrow-dropdown'
   },
   stepper: {
     done: 'ion-checkmark',

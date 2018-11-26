@@ -24,21 +24,11 @@ export default {
   pullToRefresh: {
     icon: 'refresh'
   },
-  search: {
-    icon: 'search',
-    clear: 'cancel',
-    clearInverted: 'clear'
-  },
   carousel: {
     left: 'chevron_left',
     right: 'chevron_right',
     navigationIcon: 'lens',
     thumbnails: 'view_carousel'
-  },
-  checkbox: {
-    checked: 'check_box',
-    unchecked: 'check_box_outline_blank',
-    indeterminate: 'indeterminate_check_box'
   },
   chip: {
     remove: 'cancel',
@@ -97,12 +87,11 @@ export default {
     next: 'keyboard_arrow_right',
     last: 'last_page'
   },
-  radio: {
-    checked: 'radio_button_checked',
-    unchecked: 'radio_button_unchecked'
-  },
   rating: {
     icon: 'grade'
+  },
+  select: {
+    dropdownIcon: 'arrow_drop_down'
   },
   stepper: {
     done: 'check',
