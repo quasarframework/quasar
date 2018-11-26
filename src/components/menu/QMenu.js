@@ -175,17 +175,15 @@ export default Vue.extend({
       el.style.maxHeight = this.maxHeight
       el.style.maxWidth = this.maxWidth
 
-      this.$nextTick(() => {
-        el && setPosition({
-          el,
-          offset: this.offset,
-          anchorEl: this.anchorEl,
-          anchorOrigin: this.anchorOrigin,
-          selfOrigin: this.selfOrigin,
-          absoluteOffset: this.absoluteOffset,
-          fit: this.fit,
-          cover: this.cover
-        })
+      setPosition({
+        el,
+        offset: this.offset,
+        anchorEl: this.anchorEl,
+        anchorOrigin: this.anchorOrigin,
+        selfOrigin: this.selfOrigin,
+        absoluteOffset: this.absoluteOffset,
+        fit: this.fit,
+        cover: this.cover
       })
     },
 
