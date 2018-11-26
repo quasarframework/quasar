@@ -12,6 +12,7 @@
         <q-toggle :dark="dark" v-model="hideHint" label="Hide Hint" />
         <q-toggle :dark="dark" v-model="textarea" label="Textarea" />
         <q-toggle :dark="dark" v-model="autogrow" label="Auto Grow (converts to textarea)" />
+        <q-input :dark="dark" v-model="rows" :disable="textarea !== true || autogrow === true" label="Rows (for textarea)" class="inline" />
       </div>
 
       <div class="text-h6">Standard</div>
@@ -352,8 +353,10 @@ export default {
       prefSuf: false,
       hideHint: false,
       bottomSlots: true,
+
       textarea: false,
       autogrow: false,
+      rows: '6',
 
       text: '',
       events: '',
@@ -383,7 +386,7 @@ export default {
     },
 
     props () {
-      return {
+      const props = {
         dark: this.dark,
         type: this.type,
         autogrow: this.autogrow,
@@ -394,6 +397,12 @@ export default {
         suffix: this.suffix,
         dense: this.dense
       }
+
+      if (this.rows !== '') {
+        props.rows = this.rows
+      }
+
+      return props
     },
 
     length () {

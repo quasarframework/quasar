@@ -47,6 +47,11 @@ export default Vue.extend({
 
       // textarea only
       this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
+    },
+
+    autogrow () {
+      // textarea only
+      this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
     }
   },
 
@@ -104,13 +109,17 @@ export default Vue.extend({
     },
 
     __onFocus (e) {
-      this.focused = true
-      this.$emit('focus', e)
+      if (this.editable === true && this.focused === false) {
+        this.focused = true
+        this.$emit('focus', e)
+      }
     },
 
     __onBlur (e) {
-      this.focused = false
-      this.$emit('blur', e)
+      if (this.focused === true) {
+        this.focused = false
+        this.$emit('blur', e)
+      }
     },
 
     // textarea only
@@ -131,19 +140,26 @@ export default Vue.extend({
         on.keydown = this.__onMaskedKeydown
       }
 
+      const attrs = {
+        rows: this.type === 'textarea' ? 6 : void 0,
+        ...this.$attrs,
+        'aria-label': this.label,
+        type: this.type,
+        maxlength: this.maxlength,
+        disabled: this.disable,
+        readonly: this.readonly
+      }
+
+      if (this.autogrow === true) {
+        attrs.rows = 1
+      }
+
       return h(this.isTextarea ? 'textarea' : 'input', {
         ref: 'input',
         staticClass: 'q-field__native',
         style: this.inputStyle,
         class: this.inputClass,
-        attrs: {
-          ...this.$attrs,
-          'aria-label': this.label,
-          type: this.type,
-          maxlength: this.maxlength,
-          disabled: this.disable,
-          readonly: this.readonly
-        },
+        attrs,
         on,
         domProps: {
           value: this.innerValue
