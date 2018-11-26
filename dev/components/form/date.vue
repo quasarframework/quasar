@@ -112,13 +112,13 @@
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
           <q-icon slot="append" name="event" class="cursor-pointer">
-            <q-popup>
+            <q-popup-proxy>
               <q-date
                 v-model="input"
                 v-bind="props"
                 :style="style"
               />
-            </q-popup>
+            </q-popup-proxy>
           </q-icon>
         </q-input>
       </div>

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import AnchorMixin from '../../mixins/anchor.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
@@ -13,7 +14,7 @@ import {
 export default Vue.extend({
   name: 'QTooltip',
 
-  mixins: [ ModelToggleMixin, PortalMixin, TransitionMixin ],
+  mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
 
   props: {
     contentClass: [Array, String, Object],
@@ -88,10 +89,7 @@ export default Vue.extend({
   methods: {
     __showCondition (evt) {
       // abort with no parent configured or on multi-touch
-      if (this.anchorEl === void 0 || (evt !== void 0 && evt.touches !== void 0 && evt.touches.length > 1)) {
-        return false
-      }
-      return true
+      return !(this.anchorEl === void 0 || (evt !== void 0 && evt.touches !== void 0 && evt.touches.length > 1))
     },
 
     __show (evt) {

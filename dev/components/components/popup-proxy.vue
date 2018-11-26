@@ -8,25 +8,25 @@
       <div class="popup-surface-test">
         <div>Handles click</div>
 
-        <q-popup>
+        <q-popup-proxy>
           <q-banner>
             <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
 
             You have lost connection to the internet. This app is offline.
           </q-banner>
-        </q-popup>
+        </q-popup-proxy>
       </div>
 
       <div class="popup-surface-test">
         <div>Handles right-click (context)</div>
 
-        <q-popup context-menu>
+        <q-popup-proxy context-menu>
           <q-banner>
             <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
 
             You have lost connection to the internet. This app is offline.
           </q-banner>
-        </q-popup>
+        </q-popup-proxy>
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@ export default {
 
   watch: {
     '$q.screen.width' (width) {
-      const type = width < 600
+      const type = width < 450
         ? 'dialog'
         : 'menu'
 

@@ -6,7 +6,7 @@ import QMenu from '../menu/QMenu.js'
 import AnchorMixin from '../../mixins/anchor.js'
 
 export default Vue.extend({
-  name: 'QPopup',
+  name: 'QPopupProxy',
 
   mixins: [ AnchorMixin ],
 
@@ -15,7 +15,7 @@ export default Vue.extend({
 
     breakpoint: {
       type: Number,
-      default: 600
+      default: 450
     },
 
     disable: Boolean
