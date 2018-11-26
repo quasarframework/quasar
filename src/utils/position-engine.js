@@ -152,14 +152,14 @@ function applyBoundaries (props, anchorProps, targetProps, anchorOrigin, selfOri
       props.left = anchorProps[selfOrigin.horizontal] > innerWidth / 2 ? innerWidth - targetProps.right : 0
     }
     else if (anchorProps[selfOrigin.horizontal] > innerWidth / 2) {
-      const anchorY = Math.min(
+      const anchorX = Math.min(
         innerWidth,
         anchorOrigin.horizontal === 'middle'
           ? anchorProps.center
           : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchorProps.right : anchorProps.left)
       )
-      props.maxWidth = Math.min(targetProps.right, anchorY)
-      props.left = Math.max(0, anchorY - props.maxWidth)
+      props.maxWidth = Math.min(targetProps.right, anchorX)
+      props.left = Math.max(0, anchorX - props.maxWidth)
     }
     else {
       props.left = anchorOrigin.horizontal === 'middle'
