@@ -48,6 +48,7 @@ export default Vue.extend({
       // textarea only
       this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
     },
+
     autogrow () {
       // textarea only
       this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
