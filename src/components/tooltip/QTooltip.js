@@ -97,13 +97,13 @@ export default Vue.extend({
 
       this.__showPortal()
 
-      this.$nextTick(() => {
-        this.updatePosition()
-      })
-
       this.timer = setTimeout(() => {
-        this.$emit('show', evt)
-      }, 600)
+        this.updatePosition()
+
+        this.timer = setTimeout(() => {
+          this.$emit('show', evt)
+        }, 600)
+      }, 0)
     },
 
     __hide (evt) {
