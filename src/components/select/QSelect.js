@@ -208,7 +208,11 @@ export default Vue.extend({
     __getControl (h) {
       const child = this.$scopedSlots.selected !== void 0
         ? this.selectedScope.map(scope => this.$scopedSlots.selected(scope))
-        : (this.$slots.selected !== void 0 ? this.$slots.selected : this.displayValue || void 0)
+        : (
+          this.$slots.selected !== void 0
+            ? this.$slots.selected
+            : [ this.displayValue || h('span', { domProps: { innerHTML: this.selected } }) ]
+        )
 
       return h('div', {
         staticClass: 'q-field__native row items-center',
@@ -216,9 +220,6 @@ export default Vue.extend({
         on: this.editable === true ? {
           focus: this.__onFocus,
           blur: this.__onBlur
-        } : null,
-        domProps: child === void 0 ? {
-          innerHTML: this.selected
         } : null
       }, child)
     },
