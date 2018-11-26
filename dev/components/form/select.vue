@@ -326,6 +326,24 @@
           <span v-html="scope.opt.label" />
         </q-chip>
       </q-select>
+
+      <div class="text-h6">
+        Bogus model test
+        <q-btn color="primary" outline label="Reset" @click="resetBogus" />
+      </div>
+      <div>{{ bogusModel }}</div>
+      <q-select
+        v-bind="props"
+        v-model="bogusModel"
+        :options="selectOptions"
+      />
+      <div>{{ bogusMultiModel }}</div>
+      <q-select
+        v-bind="props"
+        v-model="bogusMultiModel"
+        :options="selectOptions"
+        multiple
+      />
     </div>
   </div>
 </template>
@@ -353,6 +371,9 @@ export default {
       select2: 'fb',
       multi1: ['goog', 'twtr'],
       multi2: [],
+
+      bogusModel: 'bogus',
+      bogusMultiModel: ['bogus', 'gigi'],
 
       objSingle: {
         label: 'Facebook',
@@ -677,6 +698,11 @@ export default {
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))
+    },
+
+    resetBogus () {
+      this.bogusModel = 'bogus'
+      this.bogusMultiModel = ['bogus', 'gigi']
     }
   },
 

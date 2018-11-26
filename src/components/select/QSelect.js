@@ -114,16 +114,14 @@ export default Vue.extend({
 
       const val = this.__getOptionValue(opt)
 
-      if (this.multiple) {
+      if (this.multiple === true) {
         const
           model = [].concat(this.value),
-          index = this.innerValue.findIndex(v => v === opt)
+          index = model.findIndex(v => isDeepEqual(v, val))
 
         if (index > -1) {
-          this.innerValue.splice(index, 1)
           this.$emit('remove', { index, value: model.splice(index, 1) })
-          this.avoidValueWatcher = true
-          this.$emit('input', model)
+          this.innerValue = this.innerValue.filter(v => v !== opt)
         }
         else {
           if (this.maxValues !== void 0 && model.length >= this.maxValues) {
@@ -131,11 +129,12 @@ export default Vue.extend({
           }
 
           this.$emit('add', { index: model.length, value: opt })
-          this.innerValue.push(opt)
           model.push(val)
-          this.avoidValueWatcher = true
-          this.$emit('input', model)
+          this.innerValue.push(opt)
         }
+
+        this.avoidValueWatcher = true
+        this.$emit('input', model)
       }
       else if (!isDeepEqual(this.value, val)) {
         this.innerValue = this.__getInnerValue(this.options, val)
@@ -150,11 +149,13 @@ export default Vue.extend({
       }
 
       if (this.multiple === true) {
-        return value.map(val => opts.find(opt => isDeepEqual(this.__getOptionValue(opt), val)))
-          .filter(v => v !== void 0 && v !== null)
+        const optValue = opts.map(opt => this.__getOptionValue(opt))
+        return value.map(val => opts.find((opt, i) => isDeepEqual(optValue[i], val)))
+          .filter(v => v !== void 0)
       }
 
-      return [ opts.find(opt => isDeepEqual(this.__getOptionValue(opt), value)) ]
+      const res = opts.find(opt => isDeepEqual(this.__getOptionValue(opt), value))
+      return res !== void 0 ? [ res ] : []
     },
 
     __getOptionValue (opt) {
