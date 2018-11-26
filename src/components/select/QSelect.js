@@ -21,6 +21,8 @@ export default Vue.extend({
     useObject: Boolean,
     multiple: Boolean,
 
+    displayValue: [String, Number],
+
     options: {
       type: Array,
       default: () => []
@@ -141,6 +143,7 @@ export default Vue.extend({
 
       if (this.multiple === true) {
         return value.map(val => opts.find(opt => isDeepEqual(this.__getOptionValue(opt), val)))
+          .filter(v => v !== void 0 && v !== null)
       }
 
       return [ opts.find(opt => isDeepEqual(this.__getOptionValue(opt), value)) ]
@@ -196,7 +199,7 @@ export default Vue.extend({
     __getControl (h) {
       const child = this.$scopedSlots.selected !== void 0
         ? this.selectedScope.map(scope => this.$scopedSlots.selected(scope))
-        : (this.$slots.selected !== void 0 ? this.$slots.selected : void 0)
+        : (this.$slots.selected !== void 0 ? this.$slots.selected : this.displayValue || void 0)
 
       return h('div', {
         staticClass: 'q-field__native row items-center',

@@ -13,9 +13,9 @@ export default {
             h(QLinearProgress, {
               props: {
                 color: this.color,
-                indeterminate: true,
-                height: '2px'
-              }
+                indeterminate: true
+              },
+              style: { height: '2px' }
             })
           ])
         ]))

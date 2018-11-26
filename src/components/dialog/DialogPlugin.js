@@ -116,7 +116,7 @@ export default Vue.extend({
             type: this.prompt.type || 'text',
             color: this.color,
             dense: true,
-            autoFocus: true
+            autofocus: true
           },
           on: {
             input: v => { this.prompt.model = v },

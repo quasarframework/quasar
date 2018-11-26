@@ -11,7 +11,7 @@
         <q-toggle :dark="dark" v-model="prefSuf" label="Prefix + Suffix" />
         <q-toggle :dark="dark" v-model="hideHint" label="Hide Hint" />
         <q-toggle :dark="dark" v-model="textarea" label="Textarea" />
-        <q-toggle :dark="dark" v-model="autoGrow" label="Auto Grow (converts to textarea)" />
+        <q-toggle :dark="dark" v-model="autogrow" label="Auto Grow (converts to textarea)" />
       </div>
 
       <div class="text-h6">Standard</div>
@@ -353,7 +353,7 @@ export default {
       hideHint: false,
       bottomSlots: true,
       textarea: false,
-      autoGrow: false,
+      autogrow: false,
 
       text: '',
       events: '',
@@ -386,7 +386,7 @@ export default {
       return {
         dark: this.dark,
         type: this.type,
-        autoGrow: this.autoGrow,
+        autogrow: this.autogrow,
         hideHint: this.hideHint,
         disable: this.disable,
         readonly: this.readonly,

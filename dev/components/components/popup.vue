@@ -8,7 +8,7 @@
       <div class="popup-surface-test">
         <div>Handles click</div>
 
-        <q-popup cover position="top">
+        <q-popup>
           <q-banner>
             <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
 

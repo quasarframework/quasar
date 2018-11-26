@@ -24,8 +24,8 @@ export default Vue.extend({
 
     counter: Boolean,
     maxlength: [Number, String],
-    autoGrow: Boolean, // makes a textarea
-    autoFocus: Boolean,
+    autogrow: Boolean, // makes a textarea
+    autofocus: Boolean,
 
     inputClass: [Array, String, Object],
     inputStyle: [Array, String, Object]
@@ -46,7 +46,7 @@ export default Vue.extend({
       }
 
       // textarea only
-      this.autoGrow === true && this.$nextTick(this.__adjustHeightDebounce)
+      this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
     }
   },
 
@@ -56,11 +56,11 @@ export default Vue.extend({
 
   computed: {
     isTextarea () {
-      return this.type === 'textarea' || this.autoGrow === true
+      return this.type === 'textarea' || this.autogrow === true
     },
 
     fieldClass () {
-      return `q-${this.isTextarea ? 'textarea' : 'input'}${this.autoGrow ? ' q-textarea--autogrow' : ''}`
+      return `q-${this.isTextarea ? 'textarea' : 'input'}${this.autogrow ? ' q-textarea--autogrow' : ''}`
     },
 
     computedCounter () {
@@ -83,7 +83,7 @@ export default Vue.extend({
 
       // we need to trigger it immediately too,
       // to avoid "flickering"
-      this.autoGrow === true && this.__adjustHeight()
+      this.autogrow === true && this.__adjustHeight()
     },
 
     __emitValue (val, stopWatcher) {
@@ -159,8 +159,8 @@ export default Vue.extend({
 
   mounted () {
     // textarea only
-    this.autoGrow === true && this.__adjustHeight()
-    this.autoFocus === true && this.$nextTick(() => { this.$refs.input.focus() })
+    this.autogrow === true && this.__adjustHeight()
+    this.autofocus === true && this.$nextTick(() => { this.$refs.input.focus() })
   },
 
   beforeDestroy () {
