@@ -72,9 +72,7 @@ export function getTargetProps (el) {
 }
 
 export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset, absoluteOffset, cover, fit }) {
-  let
-    targetProps = getTargetProps(el),
-    anchorProps
+  let anchorProps
 
   if (absoluteOffset === void 0) {
     anchorProps = getAnchorProps(anchorEl, cover === true ? [0, 0] : offset)
@@ -88,22 +86,24 @@ export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset, a
     anchorProps = {top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1}
   }
 
-  const props = {
-    top: anchorProps[anchorOrigin.vertical] - targetProps[selfOrigin.vertical],
-    left: anchorProps[anchorOrigin.horizontal] - targetProps[selfOrigin.horizontal]
-  }
-
-  applyBoundaries(props, anchorProps, targetProps, anchorOrigin, selfOrigin)
-
-  el.style.top = Math.max(0, props.top) + 'px'
-  el.style.left = Math.max(0, props.left) + 'px'
-
   if (fit === true || cover === true) {
     el.style.minWidth = anchorProps.width + 'px'
     if (cover === true) {
       el.style.minHeight = anchorProps.height + 'px'
     }
   }
+
+  const
+    targetProps = getTargetProps(el),
+    props = {
+      top: anchorProps[anchorOrigin.vertical] - targetProps[selfOrigin.vertical],
+      left: anchorProps[anchorOrigin.horizontal] - targetProps[selfOrigin.horizontal]
+    }
+
+  applyBoundaries(props, anchorProps, targetProps, anchorOrigin, selfOrigin)
+
+  el.style.top = Math.max(0, props.top) + 'px'
+  el.style.left = Math.max(0, props.left) + 'px'
 
   if (props.maxHeight !== void 0) {
     el.style.maxHeight = props.maxHeight + 'px'
