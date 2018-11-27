@@ -9,59 +9,112 @@
         <q-radio v-model="type" val="borderless" label="Borderless" />
       </div>
       <div>
+        <q-toggle v-model="readonly" label="Readonly" />
+        <q-toggle v-model="disable" label="Disable" />
         <q-toggle v-model="dense" label="Dense" />
         <q-toggle v-model="expandBesides" label="Expand besides" />
       </div>
 
-      <div>{{ select1 }}</div>
-      <div>{{ multi1 }}</div>
+      <div class="text-h6">String options</div>
 
-      <div class="text-h6">Single</div>
+      <div>{{ stringSingle }}</div>
       <q-select
         v-bind="props"
-        v-model="select1"
-        :options="selectOptions"
+        v-model="stringSingle"
+        :options="stringOptions"
         label="Single"
       />
 
+      <div>{{ stringMultiple }}</div>
       <q-select
         v-bind="props"
-        label="Option slot"
-        v-model="select2"
-        :options="selectOptions"
-      >
-        <q-item
-          slot="option"
-          slot-scope="scope"
-          clickable
-          :active="scope.selected"
-          :disable="scope.opt.disable"
-          @click="select2 = scope.opt.value"
-        >
-          <q-item-section>
-            <q-item-label v-html="scope.opt.label" />
-            <q-item-label caption>Click on me</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-icon slot="append" name="clear" @click.stop="select2 = null" />
-      </q-select>
-
-      <div class="text-h6">Multiple</div>
-      <q-select
-        v-bind="props"
-        v-model="multi1"
-        :options="selectOptions"
+        v-model="stringMultiple"
+        :options="stringOptions"
         label="Multiple"
         multiple
       />
 
+      <div class="text-h6">Object options</div>
+
+      <div>{{ objectSingle }}</div>
       <q-select
         v-bind="props"
-        label="Multiple & option slot"
-        v-model="multi2"
-        :options="selectOptions"
+        v-model="objectSingle"
+        :options="objectOptions"
+        label="Single"
+      />
+
+      <div>{{ objectMultiple }}</div>
+      <q-select
+        v-bind="props"
+        v-model="objectMultiple"
+        :options="objectOptions"
+        label="Multiple"
         multiple
+      />
+
+      <div class="text-h6">
+        Null model
+        <q-btn outline color="primary" label="Reset" @click="resetNull" />
+      </div>
+
+      <div>{{ stringNullSingle }}</div>
+      <q-select
+        v-bind="props"
+        v-model="stringNullSingle"
+        :options="stringOptions"
+        label="Single - string"
+      />
+      <div>{{ objectNullSingle }}</div>
+      <q-select
+        v-bind="props"
+        v-model="objectNullSingle"
+        :options="objectOptions"
+        label="Single - object"
+      />
+
+      <div>{{ stringNullMultiple }}</div>
+      <q-select
+        v-bind="props"
+        v-model="stringNullMultiple"
+        :options="stringOptions"
+        label="Multiple - string"
+        multiple
+      />
+
+      <div>{{ objectNullMultiple }}</div>
+      <q-select
+        v-bind="props"
+        v-model="objectNullMultiple"
+        :options="objectOptions"
+        label="Multiple - object"
+        multiple
+      />
+
+      <div class="text-h6">
+        Model value not in options
+        <q-btn color="primary" outline label="Reset" @click="resetBogus" />
+      </div>
+      <div>{{ bogusModel }}</div>
+      <q-select
+        v-bind="props"
+        v-model="bogusModel"
+        :options="stringOptions"
+      />
+      <div>{{ bogusMultiModel }}</div>
+      <q-select
+        v-bind="props"
+        v-model="bogusMultiModel"
+        :options="stringOptions"
+        multiple
+      />
+
+      <div class="text-h6">Scoped Slot: option</div>
+      <q-select
+        v-bind="props"
+        v-model="objectSingle"
+        label="Single"
+        :options="objectOptions"
       >
         <q-item
           slot="option"
@@ -69,37 +122,7 @@
           clickable
           :active="scope.selected"
           :disable="scope.opt.disable"
-          @click="scope.click"
-        >
-          <q-item-section>
-            <q-item-label v-html="scope.opt.label" />
-            <q-item-label caption>Click on me</q-item-label>
-          </q-item-section>
-        </q-item>
-
-        <q-icon slot="append" name="clear" @click.stop="multi2 = []" />
-      </q-select>
-
-      <div class="text-h6">Slot: option</div>
-      <q-select
-        v-bind="props"
-        v-model="multi1"
-        :options="selectOptions"
-        label="Label"
-        counter
-        multiple
-      >
-        <q-icon slot="before" name="add_location" />
-        <q-btn slot="append" icon="clear" @click.stop="multi1 = []" flat round dense />
-        <q-btn slot="append" icon="send" @click.stop flat round dense />
-
-        <q-item
-          slot="option"
-          slot-scope="scope"
-          clickable
-          :active="scope.selected"
-          :disable="scope.opt.disable"
-          @click="scope.click"
+          @click="scope.toggleOption(scope.opt)"
         >
           <q-item-section avatar>
             <q-icon :name="scope.opt.icon" />
@@ -109,68 +132,42 @@
             <q-item-label caption>{{ scope.opt.description }}</q-item-label>
           </q-item-section>
         </q-item>
+
+        <q-icon slot="append" name="clear" @click.stop="objectSingle = null" />
       </q-select>
 
       <q-select
         v-bind="props"
-        v-model="multi1"
-        :options="selectOptions"
-        label="Label"
+        v-model="objectMultiple"
+        label="Multiple"
+        :options="objectOptions"
         multiple
       >
         <q-item
-          dense
           slot="option"
           slot-scope="scope"
           clickable
-          :disable="scope.opt.disable"
           :active="scope.selected"
-          @click="scope.click"
+          :disable="scope.opt.disable"
+          @click="scope.toggleOption(scope.opt)"
         >
-          <q-item-section side>
-            <q-checkbox :value="scope.selected" />
+          <q-item-section avatar>
+            <q-icon :name="scope.opt.icon" />
           </q-item-section>
           <q-item-section>
             <q-item-label v-html="scope.opt.label" />
             <q-item-label caption>{{ scope.opt.description }}</q-item-label>
           </q-item-section>
-          <q-item-section side>
-            <q-icon :name="scope.opt.icon" />
-          </q-item-section>
         </q-item>
-      </q-select>
 
-      <q-select
-        v-bind="props"
-        v-model="multi1"
-        :options="selectOptions"
-        label="Cards for fun"
-        multiple
-      >
-        <q-card
-          inline
-          flat
-          slot="option"
-          slot-scope="scope"
-          class="select-card"
-          :class="`q-my-sm q-ml-sm text-center cursor-pointer${scope.selected ? ' bg-black text-white' : ''}${scope.opt.disable ? ' disabled' : ''}`"
-          @click.native="scope.click"
-        >
-          <q-card-section :class="scope.selected ? 'text-primary' : 'text-black'">
-            <q-icon :name="scope.opt.icon" size="24px" />
-          </q-card-section>
-          <q-card-section>
-            <q-item-label v-html="scope.opt.label" />
-            <small>{{ scope.opt.description }}</small>
-          </q-card-section>
-        </q-card>
+        <q-icon slot="append" name="clear" @click.stop="objectMultiple = null" />
       </q-select>
 
       <div class="text-h6">Scoped slot: selected</div>
       <q-select
         v-bind="props"
-        v-model="multi1"
-        :options="selectOptions"
+        v-model="objectMultiple"
+        :options="objectOptions"
         label="Label"
         multiple
       >
@@ -178,7 +175,7 @@
           slot="selected"
           slot-scope="scope"
           removable
-          @remove="scope.remove"
+          @remove="scope.toggleOption(scope.opt)"
           color="white"
           text-color="primary"
         >
@@ -190,112 +187,12 @@
       <div class="text-h6">Max values (in this case 2)</div>
       <q-select
         v-bind="props"
-        v-model="multi1"
-        :options="selectOptions"
+        v-model="objectMultiple"
+        :options="objectOptions"
         multiple
         counter
         max-values="2"
         color="teal"
-      >
-        <q-chip
-          slot="selected"
-          slot-scope="scope"
-          color="white"
-          text-color="teal"
-        >
-          <q-avatar color="teal" text-color="white" :icon="scope.opt.icon" />
-          <span v-html="scope.opt.label" />
-        </q-chip>
-      </q-select>
-
-      <div class="text-h6">Use object</div>
-      <q-select
-        use-object
-        v-bind="props"
-        v-model="objSingle"
-        :options="selectOptions"
-        label="Single"
-      />
-
-      <q-select
-        use-object
-        v-bind="props"
-        v-model="objMulti"
-        :options="selectOptions"
-        label="Multiple"
-        multiple
-      />
-
-      <div class="text-h6">Use object, slot: selected</div>
-      <q-select
-        use-object
-        v-bind="props"
-        v-model="objSingle"
-        :options="selectOptions"
-        label="Single"
-      >
-        <q-chip
-          slot="selected"
-          dense
-          color="white"
-          text-color="teal"
-        >
-          <q-avatar color="teal" text-color="white" :icon="objSingle.icon" />
-          <span v-html="objSingle.label" />
-        </q-chip>
-      </q-select>
-
-      <q-select
-        use-object
-        v-bind="props"
-        v-model="objMulti"
-        :options="selectOptions"
-        label="Multiple"
-        multiple
-      >
-        <div slot="selected">
-          <em v-if="objMulti.length === 0">None</em>
-          <span v-else>
-            {{ objMulti[0].label }}
-            <em v-if="objMulti.length > 1">+ {{ objMulti.length - 1 }} more</em>
-          </span>
-        </div>
-      </q-select>
-
-      <div class="text-h6">Readonly</div>
-      <q-select
-        v-bind="props"
-        readonly
-        v-model="select1"
-        :options="selectOptions"
-        label="Single"
-      />
-
-      <q-select
-        v-bind="props"
-        readonly
-        v-model="multi1"
-        :options="selectOptions"
-        label="Multiple"
-        multiple
-      />
-
-      <div class="text-h6">Disable</div>
-      <q-select
-        v-bind="props"
-        disable
-        v-model="select1"
-        :options="selectOptions"
-        label="Single"
-      />
-
-      <q-select
-        v-bind="props"
-        disable
-        v-model="multi1"
-        :options="selectOptions"
-        label="Multiple"
-        multiple
       />
 
       <div class="text-h6">Heavy test (10k options)</div>
@@ -320,30 +217,51 @@
           slot-scope="scope"
           color="white"
           removable
-          @remove="scope.remove"
+          @remove="scope.toggleOption(scope.opt)"
           text-color="teal"
         >
           <span v-html="scope.opt.label" />
         </q-chip>
       </q-select>
 
-      <div class="text-h6">
-        Bogus model test
-        <q-btn color="primary" outline label="Reset" @click="resetBogus" />
-      </div>
-      <div>{{ bogusModel }}</div>
+      <div class="text-h6">No options</div>
       <q-select
         v-bind="props"
-        v-model="bogusModel"
-        :options="selectOptions"
+        v-model="stringSingle"
+        label="String - single"
       />
-      <div>{{ bogusMultiModel }}</div>
       <q-select
         v-bind="props"
-        v-model="bogusMultiModel"
-        :options="selectOptions"
+        v-model="stringMultiple"
+        label="String - multiple"
         multiple
       />
+      <q-select
+        v-bind="props"
+        v-model="objectSingle"
+        label="Object - single"
+      />
+      <q-select
+        v-bind="props"
+        v-model="objectMultiple"
+        label="Object - multiple"
+        multiple
+      />
+
+      <div class="text-h6">No options, slot: no-options</div>
+      <q-select
+        v-bind="props"
+        v-model="stringSingle"
+        label="String - single"
+      >
+        <q-item
+          slot="no-option"
+        >
+          <q-item-section>
+            No options slot
+          </q-item-section>
+        </q-item>
+      </q-select>
     </div>
   </div>
 </template>
@@ -361,343 +279,90 @@ export default {
 
     return {
       type: 'filled',
+      readonly: false,
+      disable: false,
       dense: false,
       expandBesides: false,
 
-      heavyModel: [],
-      heavyOptions,
+      stringSingle: 'Facebook',
+      stringMultiple: ['Facebook', 'Twitter'],
+      stringOptions: [
+        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+      ],
 
-      select1: 'fb',
-      select2: 'fb',
-      multi1: ['goog', 'twtr'],
-      multi2: [],
-
-      bogusModel: 'bogus',
-      bogusMultiModel: ['bogus', 'gigi'],
-
-      objSingle: {
+      objectSingle: {
         label: 'Facebook',
-        value: 'fb',
+        value: 'Facebook',
         description: 'Social media',
         icon: 'bluetooth'
       },
-      objMulti: [{
-        label: 'Facebook',
-        value: 'fb',
-        description: 'Social media',
-        icon: 'bluetooth'
-      }],
-
-      selectOptions: [
+      objectMultiple: [
         {
-          label: 'VW&#x00B3; Google',
-          value: 'goog',
+          label: 'Google',
+          value: 'Google',
           description: 'Search engine',
           icon: 'mail'
         },
         {
           label: 'Facebook',
-          value: 'fb',
+          value: 'Facebook',
+          description: 'Social media',
+          icon: 'bluetooth'
+        }
+      ],
+      objectOptions: [
+        {
+          label: 'Google',
+          value: 'Google',
+          description: 'Search engine',
+          icon: 'mail'
+        },
+        {
+          label: 'Facebook',
+          value: 'Facebook',
           description: 'Social media',
           icon: 'bluetooth'
         },
         {
           label: 'Twitter',
-          value: 'twtr',
+          value: 'Twitter',
           description: 'Quick updates',
           icon: 'map'
         },
         {
-          label: 'Apple Inc.',
-          value: 'appl',
+          label: 'Apple',
+          value: 'Apple',
           description: 'iStuff',
           icon: 'golf_course'
         },
         {
           label: 'Oracle',
-          value: 'ora',
+          value: 'Oracle',
           disable: true,
           description: 'Databases',
           icon: 'casino'
         }
       ],
-      selectDisabledOptions: [
-        {
-          label: 'VW&#x00B3; Google',
-          value: 'goog'
-        },
-        {
-          label: 'Facebook',
-          value: 'fb',
-          disable: true
-        },
-        {
-          label: 'Twitter',
-          value: 'twtr'
-        },
-        {
-          label: 'Apple Inc.',
-          value: 'appl',
-          disable: true
-        },
-        {
-          label: 'Oracle',
-          value: 'ora'
-        }
-      ],
-      selectListOptions: [
-        {
-          label: 'VW&#x00B3; Google',
-          icon: 'email',
-          value: 'goog'
-        },
-        {
-          label: 'Facebook',
-          inset: true,
-          description: 'Enables communication',
-          value: 'fb'
-        },
-        {
-          label: 'Twitter Twitter Twitter Twitter Twitter Twitter Twitter',
-          inset: true,
-          rightIcon: 'alarm',
-          value: 'twtr'
-        },
-        {
-          label: 'Apple Inc.',
-          inset: true,
-          stamp: '10 min',
-          value: 'appl'
-        },
-        {
-          label: 'Oracle',
-          description: 'Some Java for today?',
-          icon: 'mail',
-          rightIcon: 'alarm',
-          value: 'ora',
-          color: 'red-4'
-        }
-      ],
-      selectListOptionColors: [
-        {
-          label: 'VW&#x00B3; Google',
-          icon: 'email',
-          value: 'goog'
-        },
-        {
-          label: 'Facebook',
-          inset: true,
-          description: 'Enables communication',
-          value: 'fb'
-        },
-        {
-          label: 'Twitter',
-          inset: true,
-          rightIcon: 'alarm',
-          value: 'twtr'
-        },
-        {
-          label: 'Apple Inc.',
-          inset: true,
-          stamp: '10 min',
-          value: 'appl'
-        },
-        {
-          label: 'Oracle',
-          description: 'Some Java for today?',
-          icon: 'mail',
-          rightIcon: 'alarm',
-          value: 'ora',
-          color: 'red-4'
-        }
-      ],
-      selectLongListOptions: [
-        {
-          label: 'VW&#x00B3; Google',
-          icon: 'email',
-          value: 'goog'
-        },
-        {
-          label: 'Facebook',
-          inset: true,
-          description: 'Enables communication',
-          value: 'fb'
-        },
-        {
-          label: 'Twitter',
-          inset: true,
-          rightIcon: 'alarm',
-          value: 'twtr'
-        },
-        {
-          label: 'Apple Inc.',
-          inset: true,
-          stamp: '10 min',
-          value: 'appl'
-        },
-        {
-          label: 'Oracle',
-          sublabel: 'Oracle that is',
-          inset: true,
-          description: 'Some Java for today?',
-          icon: 'mail',
-          rightIcon: 'alarm',
-          value: 'ora'
-        },
-        {
-          label: 'Google - again',
-          icon: 'email',
-          value: 'goog-a'
-        },
-        {
-          label: 'Facebook - again',
-          inset: true,
-          description: 'Enables communication',
-          value: 'fb-a'
-        },
-        {
-          label: 'Twitter - again',
-          inset: true,
-          rightIcon: 'alarm',
-          value: 'twtr-a'
-        },
-        {
-          label: 'Apple Inc. - again',
-          inset: true,
-          stamp: '10 min',
-          value: 'appl-a'
-        },
-        {
-          label: 'Oracle - again',
-          description: 'Some Java for today?',
-          icon: 'mail',
-          rightIcon: 'alarm',
-          value: 'ora-a'
-        },
-        {
-          label: 'Google - trice',
-          icon: 'email',
-          value: 'goog-b'
-        },
-        {
-          label: 'Facebook - trice',
-          inset: true,
-          description: 'Enables communication',
-          value: 'fb-b'
-        },
-        {
-          label: 'Twitter - trice',
-          inset: true,
-          rightIcon: 'alarm',
-          value: 'twtr-b'
-        },
-        {
-          label: 'Apple Inc. - trice',
-          inset: true,
-          stamp: '10 min',
-          value: 'appl-b'
-        },
-        {
-          label: 'Oracle - trice',
-          description: 'Some Java for today?',
-          icon: 'mail',
-          rightIcon: 'alarm',
-          value: 'ora-b'
-        },
-        {
-          label: 'Google - more',
-          icon: 'email',
-          value: 'goog-c'
-        },
-        {
-          label: 'Facebook - more',
-          inset: true,
-          description: 'Enables communication',
-          value: 'fb-c'
-        },
-        {
-          label: 'Twitter - more',
-          inset: true,
-          rightIcon: 'alarm',
-          value: 'twtr-c'
-        },
-        {
-          label: 'Apple Inc. - more',
-          inset: true,
-          stamp: '10 min',
-          value: 'appl-c'
-        },
-        {
-          label: 'Oracle - more',
-          description: 'Some Java for today?',
-          icon: 'mail',
-          rightIcon: 'alarm',
-          value: 'ora-c'
-        },
-        {
-          label: 'Google - extra',
-          icon: 'email',
-          value: 'goog-d'
-        },
-        {
-          label: 'Facebook - extra',
-          inset: true,
-          description: 'Enables communication',
-          value: 'fb-d'
-        },
-        {
-          label: 'Twitter - extra',
-          inset: true,
-          rightIcon: 'alarm',
-          value: 'twtr-d'
-        },
-        {
-          label: 'Apple Inc. - extra',
-          inset: true,
-          stamp: '10 min',
-          value: 'appl-d'
-        },
-        {
-          label: 'Oracle - extra',
-          description: 'Some Java for today?',
-          icon: 'mail',
-          rightIcon: 'alarm',
-          value: 'ora-d'
-        }
-      ],
-      selectObjectOptions: [
-        {
-          label: 'Option 1',
-          value: { id: 1 }
-        },
-        {
-          label: 'Option 2',
-          value: { id: 2 }
-        },
-        {
-          label: 'Option 3',
-          value: { id: 3 }
-        }
-      ]
+
+      stringNullSingle: null,
+      stringNullMultiple: null,
+      objectNullSingle: null,
+      objectNullMultiple: null,
+
+      heavyModel: [],
+      heavyOptions,
+
+      bogusModel: 'bogus',
+      bogusMultiModel: ['bogus', 'gigi']
     }
   },
-  watch: {
-    select (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
-    },
-    multipleSelect (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
-    }
-  },
+
   methods: {
-    onChange (val) {
-      console.log('@change', JSON.stringify(val))
-    },
-    onBlur (val) {
-      console.log('@blur', JSON.stringify(val))
-    },
-    onInput (val) {
-      console.log('@input', JSON.stringify(val))
+    resetNull () {
+      this.stringNullSingle = null
+      this.stringNullMultiple = null
+      this.objectNullSingle = null
+      this.objectNullMultiple = null
     },
 
     resetBogus () {
@@ -710,6 +375,8 @@ export default {
     props () {
       return {
         [this.type]: true,
+        readonly: this.readonly,
+        disable: this.disable,
         dense: this.dense,
         expandBesides: this.expandBesides
       }

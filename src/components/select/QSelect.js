@@ -19,7 +19,6 @@ export default Vue.extend({
       required: true
     },
 
-    useObject: Boolean,
     multiple: Boolean,
 
     displayValue: [String, Number],
@@ -30,14 +29,8 @@ export default Vue.extend({
       default: () => []
     },
 
-    optionLabel: {
-      type: [Function, String],
-      default: 'label'
-    },
-    optionValue: {
-      type: [Function, String],
-      default: 'value'
-    },
+    optionValue: [Function, String],
+    optionLabel: [Function, String],
 
     counter: Boolean,
     maxValues: [Number, String],
@@ -47,34 +40,34 @@ export default Vue.extend({
 
   data () {
     return {
-      optionsToShow: 20,
-      innerValue: this.__getInnerValue(this.options)
-    }
-  },
-
-  watch: {
-    value (v) {
-      if (this.avoidValueWatcher === true) {
-        this.avoidValueWatcher = false
-      }
-      else {
-        this.innerValue = this.__getInnerValue(this.options)
-      }
-    },
-
-    options (opts) {
-      this.innerValue = this.__getInnerValue(opts)
+      optionsToShow: 20
     }
   },
 
   computed: {
-    selected () {
-      const filter = this.innerValue
-        .map(opt => this.__getOptionLabel(opt))
+    innerValue () {
+      return this.value !== void 0 && this.value !== null
+        ? (this.multiple === true ? this.value : [ this.value ])
+        : []
+    },
 
-      return this.multiple === true
-        ? filter.join(', ')
-        : (filter[0] !== void 0 ? filter[0] : '')
+    noOptions () {
+      return this.options.length === 0
+    },
+
+    selectedString () {
+      return this.innerValue
+        .map(opt => this.__getOptionLabel(opt))
+        .join(', ')
+    },
+
+    selectedScope () {
+      return this.innerValue.map((opt, i) => ({
+        index: i,
+        opt,
+        selected: true,
+        toggleOption: this.toggleOption
+      }))
     },
 
     computedCounter () {
@@ -83,21 +76,12 @@ export default Vue.extend({
       }
     },
 
-    selectedScope () {
-      return this.innerValue.map((opt, i) => ({
-        index: i,
-        opt,
-        selected: this.__isSelected(opt),
-        remove: () => { this.toggleOption(opt) }
-      }))
-    },
-
     optionScope () {
       return this.options.slice(0, this.optionsToShow).map((opt, i) => ({
         index: i,
         opt,
         selected: this.__isSelected(opt),
-        click: () => { this.toggleOption(opt) }
+        toggleOption: this.toggleOption
       }))
     },
 
@@ -112,72 +96,66 @@ export default Vue.extend({
     toggleOption (opt) {
       if (opt.disable === true) { return }
 
-      const val = this.__getOptionValue(opt)
-
-      if (this.multiple === true) {
-        const
-          model = [].concat(this.value),
-          index = model.findIndex(v => isDeepEqual(v, val))
-
-        if (index > -1) {
-          this.$emit('remove', { index, value: model.splice(index, 1) })
-          this.innerValue = this.innerValue.filter(v => v !== opt)
-        }
-        else {
-          if (this.maxValues !== void 0 && model.length >= this.maxValues) {
-            return
-          }
-
-          this.$emit('add', { index: model.length, value: opt })
-          model.push(val)
-          this.innerValue.push(opt)
+      if (this.multiple !== true) {
+        if (!isDeepEqual(this.value, opt)) {
+          this.$emit('input', opt)
         }
 
-        this.avoidValueWatcher = true
-        this.$emit('input', model)
-      }
-      else if (!isDeepEqual(this.value, val)) {
-        this.innerValue = this.__getInnerValue(this.options, val)
-        this.avoidValueWatcher = true
-        this.$emit('input', val)
-      }
-    },
-
-    __getInnerValue (opts, value = this.value) {
-      if (value === void 0 || value === null) {
-        return []
+        return
       }
 
-      if (this.multiple === true) {
-        const optValue = opts.map(opt => this.__getOptionValue(opt))
-        return value.map(val => opts.find((opt, i) => isDeepEqual(optValue[i], val)))
-          .filter(v => v !== void 0)
+      if (this.innerValue.length === 0) {
+        this.$emit('add', { index: 0, value: opt })
+        this.$emit('input', this.multiple === true ? [ opt ] : opt)
+        return
       }
 
-      const res = opts.find(opt => isDeepEqual(this.__getOptionValue(opt), value))
-      return res !== void 0 ? [ res ] : []
+      const
+        model = [].concat(this.value),
+        index = this.value.findIndex(v => isDeepEqual(v, opt))
+
+      if (index > -1) {
+        this.$emit('remove', { index, value: model.splice(index, 1) })
+      }
+      else {
+        if (this.maxValues !== void 0 && model.length >= this.maxValues) {
+          return
+        }
+
+        this.$emit('add', { index: model.length, value: opt })
+        model.push(opt)
+      }
+
+      this.$emit('input', model)
     },
 
     __getOptionValue (opt) {
-      if (this.useObject === true) {
-        return opt
+      if (typeof this.optionValue === 'function') {
+        return this.optionValue(opt)
       }
-
-      const prop = this.optionValue
-      return typeof prop === 'function'
-        ? prop(opt)
-        : opt[prop]
+      if (Object(opt) === opt) {
+        return typeof this.optionValue === 'string'
+          ? opt[this.optionValue]
+          : opt.value
+      }
+      return opt
     },
 
     __getOptionLabel (opt) {
-      const prop = this.optionLabel
-      return typeof prop === 'function'
-        ? prop(opt)
-        : opt[prop]
+      if (typeof this.optionLabel === 'function') {
+        return this.optionLabel(opt)
+      }
+      if (Object(opt) === opt) {
+        return typeof this.optionLabel === 'string'
+          ? opt[this.optionLabel]
+          : opt.label
+      }
+      return opt
     },
 
     __isSelected (opt) {
-      return this.innerValue.includes(opt)
+      const val = this.__getOptionValue(opt)
+      return this.innerValue.find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
     },
 
     __onFocus (e) {
@@ -211,7 +189,7 @@ export default Vue.extend({
         : (
           this.$slots.selected !== void 0
             ? this.$slots.selected
-            : [ this.displayValue || h('span', { domProps: { innerHTML: this.selected } }) ]
+            : [ this.displayValue || h('span', { domProps: { innerHTML: this.selectedString } }) ]
         )
 
       return h('div', {
@@ -234,7 +212,7 @@ export default Vue.extend({
           active: scope.selected
         },
         on: {
-          click: scope.click
+          click: () => { scope.toggleOption(scope.opt) }
         }
       }, [
         h(QItemSection, {
@@ -248,20 +226,25 @@ export default Vue.extend({
     },
 
     __getDefaultSlot (h) {
-      if (this.editable === false) { return }
+      if (
+        this.editable === false ||
+        (this.noOptions === true && this.$slots['no-option'] === void 0)
+      ) {
+        return
+      }
 
       return h(QMenu, {
         ref: 'menu',
         props: {
-          [this.expandBesides === true ? 'fit' : 'cover']: true,
-          autoClose: this.multiple !== true
+          [this.expandBesides === true || this.noOptions === true ? 'fit' : 'cover']: true,
+          autoClose: this.multiple !== true && this.noOptions !== true
         },
         on: {
           'before-show': this.__onFocus,
           'before-hide': this.__onBlur,
           '&scroll': this.__onScroll
         }
-      }, this.__getOptions(h))
+      }, this.options.length === 0 ? this.$slots['no-option'] : this.__getOptions(h))
     },
 
     __getInnerAppend (h) {
