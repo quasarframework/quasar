@@ -328,8 +328,8 @@ export default {
 
       const
         el = this.$refs.selector,
-        itemInactive = el.querySelector('.q-btn:not(.active)'),
-        itemActive = el.querySelector('.q-btn.active'),
+        itemInactive = el ? el.querySelector('.q-btn:not(.active)') : null,
+        itemActive = el ? el.querySelector('.q-btn.active') : null,
         viewHeight = el ? el.offsetHeight : 0
 
       this.$nextTick(() => {
