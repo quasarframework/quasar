@@ -18,7 +18,7 @@ export default {
       return this.percentage !== void 0
     },
     isRectangleWithLabel () {
-      return this.label && this.isRectangle
+      return this.isRectangle && typeof this.label !== 'undefined' && this.label !== ''
     },
     width () {
       return `${between(this.percentage, 0, 100)}%`
