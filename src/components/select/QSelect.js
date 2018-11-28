@@ -7,12 +7,14 @@ import QIcon from '../icon/QIcon.js'
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
 
+import SelectAutocompleteMixin from './select-autocomplete-mixin.js'
+
 import { isDeepEqual } from '../../utils/is.js'
 
 export default Vue.extend({
   name: 'QSelect',
 
-  mixins: [ QField ],
+  mixins: [ QField, SelectAutocompleteMixin ],
 
   props: {
     value: {
@@ -52,7 +54,7 @@ export default Vue.extend({
     },
 
     noOptions () {
-      return this.options.length === 0
+      return this.options === void 0 || this.options === null || this.options.length === 0
     },
 
     selectedString () {
@@ -189,8 +191,20 @@ export default Vue.extend({
         : (
           this.$slots.selected !== void 0
             ? this.$slots.selected
-            : [ this.displayValue || h('span', { domProps: { innerHTML: this.selectedString } }) ]
+            : [
+              h('span', {
+                domProps: {
+                  innerHTML: this.displayValue !== void 0
+                    ? this.displayValue
+                    : this.selectedString
+                }
+              })
+            ]
         )
+
+      if (this.hasInput === true) {
+        child.push(this.__getInput(h))
+      }
 
       return h('div', {
         staticClass: 'q-field__native row items-center',
@@ -236,7 +250,7 @@ export default Vue.extend({
       return h(QMenu, {
         ref: 'menu',
         props: {
-          [this.expandBesides === true || this.noOptions === true ? 'fit' : 'cover']: true,
+          [this.expandBesides === true || this.noOptions === true || this.filter !== void 0 ? 'fit' : 'cover']: true,
           autoClose: this.multiple !== true && this.noOptions !== true
         },
         on: {
@@ -244,7 +258,7 @@ export default Vue.extend({
           'before-hide': this.__onBlur,
           '&scroll': this.__onScroll
         }
-      }, this.options.length === 0 ? this.$slots['no-option'] : this.__getOptions(h))
+      }, this.noOptions === true ? this.$slots['no-option'] : this.__getOptions(h))
     },
 
     __getInnerAppend (h) {

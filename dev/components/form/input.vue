@@ -19,7 +19,7 @@
 
       <q-input v-bind="props" v-model="text" />
 
-      <q-input v-bind="props" v-model="text" label="Label (stacked)" stack-label/>
+      <q-input v-bind="props" v-model="text" label="Label (stacked) g" stack-label/>
 
       <q-input v-bind="props" v-model="text" label="Label" />
 
