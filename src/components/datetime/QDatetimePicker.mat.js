@@ -328,8 +328,8 @@ export default {
 
       const
         el = this.$refs.selector,
-        itemInactive = el.querySelector('.q-btn:not(.active)'),
-        itemActive = el.querySelector('.q-btn.active'),
+        itemInactive = el ? el.querySelector('.q-btn:not(.active)') : null,
+        itemActive = el ? el.querySelector('.q-btn.active') : null,
         viewHeight = el ? el.offsetHeight : 0
 
       this.$nextTick(() => {
@@ -549,7 +549,7 @@ export default {
         ]))
         const content = [
           h('span', {
-            staticClass: 'col',
+            staticClass: 'col-auto',
             style: { textAlign: 'right' }
           }, [
             h('span', {
@@ -586,7 +586,7 @@ export default {
           h('span', { style: 'opacity:0.6;' }, [ ':' ]),
 
           h('span', {
-            staticClass: 'col row no-wrap items-center',
+            staticClass: 'col-auto row no-wrap items-center',
             style: { textAlign: 'left' }
           }, [
             h('span', {

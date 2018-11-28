@@ -155,31 +155,29 @@
     -webkit-line-clamp 2
 
 .q-tabs-position-top
-  .q-tabs-bar
-    bottom 0
-    border-bottom-width $tabs-border-width
-
+  > .q-tabs-head
+    .q-tabs-bar
+      bottom 0
+      border-bottom-width $tabs-border-width
 .q-tabs-position-bottom
-  .q-tabs-bar
-    top 0
-    border-top-width $tabs-border-width
-  .q-tabs-panes
+  > .q-tabs-head
+    .q-tabs-bar
+      top 0
+      border-top-width $tabs-border-width
+  > .q-tabs-panes
     order -1
-
 .q-tabs-inverted
   .q-tabs-head
     background white
-
   &.q-tabs-position-top
-    .q-tabs-panes
+    > .q-tabs-panes
       border-top $tabs-pane-border
-    .q-tab-pane
+    > .q-tab-pane
       border-top 0
-
   &.q-tabs-position-bottom
-    .q-tabs-panes
+    > .q-tabs-panes
       border-bottom $tabs-pane-border
-    .q-tab-pane
+    > .q-tab-pane
       border-bottom 0
 
 body.mobile .q-tabs-scroller

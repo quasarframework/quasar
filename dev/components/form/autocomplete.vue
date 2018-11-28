@@ -111,6 +111,15 @@
         />
       </q-search>
 
+      <q-chips-input inverted color="dark" class="q-mb-sm" v-model="termsL" float-label="Featuring static data - valueField is icon + label and searching in label">
+        <q-autocomplete
+          :static-data="{field: 'label', list: countriesNoValue}"
+          :value-field="v => `${ v.icon } - ${ v.label }`"
+          :debounce="250"
+          @selected="selected"
+        />
+      </q-chips-input>
+
       <p class="caption">Separator between results</p>
       <q-search v-model="terms">
         <q-autocomplete
@@ -186,6 +195,7 @@ export default {
       terms1: '',
       terms2: '',
       termsN: null,
+      termsL: [],
       countries: parseCountries(),
       countriesNoValue: parseCountriesNoValue(),
       numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v })),

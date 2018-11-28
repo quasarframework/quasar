@@ -121,9 +121,7 @@ export default {
         : 0
     },
     computedClearValue () {
-      return this.isNumber && this.clearValue === 0
-        ? this.clearValue
-        : this.clearValue || (this.isNumber ? null : '')
+      return this.clearValue === void 0 ? (this.isNumber ? null : '') : this.clearValue
     },
     computedStep () {
       return this.step || (this.decimals ? 10 ** -this.decimals : 'any')

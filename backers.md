@@ -61,6 +61,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ciprian Popa ($20)
 - Shone Radulovic ($15)
 - Sam Cassar ($15)
+- 上田 進也 (Sandbox Gmbh) ($20)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
 - Marek Urbanowicz
@@ -83,7 +84,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Stian Mikkelsen
 - Thomas Gick
 - Alexey Telyatnikov
-- Ryan Timmins
 - Sevenview Studios
 - Rus Brushkoff
 - Scott Brooks
@@ -104,7 +104,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Christian Kyony
 - Talles Dantas
 - Mast
-- 上田 進也 (Sandbox Gmbh)
 - altShiftDev
 - Simon Kimber
 - Arjan Dhupia
@@ -123,6 +122,10 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Tomer Shalev
 - Ildemaro Martinez Jr.
 - Uri Levitsky
+- Pascal Guérin
+- Jo Lee
+- Justin Coker
+- Jonathan G
 
 - Jim O'Quinn ($5)
 - Ken ($5)
@@ -130,7 +133,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Rogério Queiroz ($5)
 - Walison Moreira ($5)
 - Felipe Santiago ($5)
-- John (JCharante) ($1)
+- Hugo Ramses Moreno Ramos (5$)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)
