@@ -17,6 +17,19 @@ $chip-height = 32px
   padding 7px 12px
   transition .3s
 
+  z-index 0
+
+  &:after
+    content ''
+    background inherit
+    border-radius inherit
+    position absolute
+    left 0
+    right 0
+    top 0
+    bottom 0
+    z-index -1
+
   &--colored
     .q-chip__icon
       color inherit
@@ -70,6 +83,8 @@ $chip-height = 32px
     width 0
     height 0
     border-style solid
+    z-index -1
+
     &:not(.q-chip__pointer--hover)
       color #e0e0e0
 
@@ -101,7 +116,7 @@ $chip-height = 32px
 
   &:hover
     .q-chip__pointer--hover
-      opacity .15
+      opacity .08
 
   &--dense
     border-radius 12px
@@ -122,6 +137,7 @@ $chip-height = 32px
     .q-chip__icon
       font-size 14px
       margin 0
+
       &--left
         margin-right 5px
       &--right
@@ -141,6 +157,7 @@ $chip-height = 32px
 
   &--square
     border-radius $generic-border-radius
+
     .q-avatar
       border-radius ($generic-border-radius - 1px) 0 0 ($generic-border-radius - 1px)
 

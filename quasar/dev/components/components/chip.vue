@@ -269,7 +269,7 @@
 
       <div class="q-my-md">
         <q-chip dense pointing="up" clickable>Pointing Up</q-chip>
-        <q-chip dense pointing="down" clickable>Pointing Down</q-chip>
+        <q-chip dense pointing="down" color="red" clickable>Pointing Down</q-chip>
         <q-chip dense pointing="right" class="q-mr-md" clickable>Pointing Right</q-chip>
         <q-chip dense pointing="left" clickable>Pointing Left</q-chip>
       </div>
@@ -277,7 +277,7 @@
         <q-chip dense square pointing="up" clickable>Pointing Up</q-chip>
         <q-chip dense square pointing="down" clickable>Pointing Down</q-chip>
         <q-chip dense square pointing="right" class="q-mr-md" clickable>Pointing Right</q-chip>
-        <q-chip dense square pointing="left" clickable>Pointing Left</q-chip>
+        <q-chip dense square pointing="left" color="orange" clickable>Pointing Left</q-chip>
       </div>
     </div>
   </div>
