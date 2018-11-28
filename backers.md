@@ -124,6 +124,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Uri Levitsky
 - Pascal Guérin
 - Jo Lee
+- Justin Coker
+- Jonathan G
 
 - Jim O'Quinn ($5)
 - Ken ($5)
