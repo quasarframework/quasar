@@ -17,6 +17,9 @@ export default {
     hasPercentage () {
       return this.percentage !== void 0
     },
+    isRectangleWithLabel () {
+      return this.label && this.isRectangle
+    },
     width () {
       return `${between(this.percentage, 0, 100)}%`
     },
@@ -188,12 +191,12 @@ export default {
         : [
           this.icon
             ? h(QIcon, {
-              'class': { 'on-left': this.label && this.isRectangle },
+              'class': { 'on-left': this.isRectangleWithLabel },
               props: { name: this.icon }
             })
             : null,
 
-          this.label && this.isRectangle ? h('div', [ this.label ]) : null,
+          this.isRectangleWithLabel ? h('div', [ this.label ]) : null,
 
           this.$slots.default,
 
