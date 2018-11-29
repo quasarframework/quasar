@@ -131,10 +131,10 @@
       </div>
 
       <div class="q-gutter-sm">
-        <q-btn :type="tag" :loading="!!loading[0]" @click="simulateProgress(0)" label="Button">
+        <q-btn color="primary" :type="tag" :loading="!!loading[0]" @click="simulateProgress(0)" label="Button">
           <q-spinner-oval slot="loading" />
         </q-btn>
-        <q-btn :type="tag" :loading="!!loading[1]" @click="simulateProgress(1)" label="Button">
+        <q-btn color="primary" :type="tag" :loading="!!loading[1]" @click="simulateProgress(1)" label="Button">
           <span slot="loading">Loading...</span>
         </q-btn>
         <q-btn :type="tag" :loading="!!loading[2]" color="orange" @click="simulateProgress(2)" label="Button">
@@ -146,19 +146,19 @@
         <q-btn :type="tag" :loading="!!loading[4]" color="amber" @click="simulateProgress(4)" label="Button">
           <q-spinner-comment slot="loading" />
         </q-btn>
-        <q-btn :type="tag" :loading="!!loading[5]" color="dark" size="xs" @click="simulateProgress(5)" label="Button">
+        <q-btn :type="tag" :loading="!!loading[5]" color="primary" size="xs" @click="simulateProgress(5)" label="Button">
           <q-spinner-cube slot="loading" />
         </q-btn>
-        <q-btn :type="tag" :loading="!!loading[6]" color="dark" size="sm" @click="simulateProgress(6)" label="Button">
+        <q-btn :type="tag" :loading="!!loading[6]" color="primary" size="sm" @click="simulateProgress(6)" label="Button">
           <q-spinner-dots slot="loading" />
         </q-btn>
-        <q-btn :type="tag" :loading="!!loading[7]" color="dark" size="md" @click="simulateProgress(7)" label="Button">
+        <q-btn :type="tag" :loading="!!loading[7]" color="primary" size="md" @click="simulateProgress(7)" label="Button">
           <q-spinner-facebook slot="loading" />
         </q-btn>
-        <q-btn :type="tag" :loading="!!loading[8]" color="dark" size="lg" @click="simulateProgress(8)" label="Button">
+        <q-btn :type="tag" :loading="!!loading[8]" color="primary" size="lg" @click="simulateProgress(8)" label="Button">
           <q-spinner-grid slot="loading" />
         </q-btn>
-        <q-btn :type="tag" :loading="!!loading[9]" color="dark" size="xl" @click="simulateProgress(9)" label="Button">
+        <q-btn :type="tag" :loading="!!loading[9]" color="primary" size="xl" @click="simulateProgress(9)" label="Button">
           <q-spinner-hearts slot="loading" />
         </q-btn>
         <q-btn :type="tag" size="xs" round :loading="!!loading[10]" @click="simulateProgress(10)" color="primary" icon="mail">
@@ -186,7 +186,7 @@
           <q-spinner-tail slot="loading" />
         </q-btn>
 
-        <q-btn :type="tag" color="dark" :loading="!!loading[18]" size="sm" @click="simulateProgress(18)" icon-right="alarm" label="Button">
+        <q-btn :type="tag" color="primary" :loading="!!loading[18]" size="sm" @click="simulateProgress(18)" icon-right="alarm" label="Button">
           <q-spinner-audio slot="loading" />
         </q-btn>
         <q-btn :type="tag" round :loading="!!loading[19]" @click="simulateProgress(19)" color="primary" size="lg" icon="alarm">
@@ -305,7 +305,7 @@
       <div class="caption">Color Examples</div>
       <div class="q-gutter-sm">
         <q-btn :type="tag" color="secondary" label="Secondary" />
-        <q-btn :type="tag" color="dark" label="Dark" />
+        <q-btn :type="tag" color="primary" label="Dark" />
         <q-btn :type="tag" color="orange" label="Orange" />
         <q-btn :type="tag" color="light" class="text-black" label="Light" />
         <q-btn :type="tag" color="indigo" label="Indigo" />

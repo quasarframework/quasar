@@ -104,8 +104,12 @@
     width 40px
 
   // workaround for alignment/sizing change when showing loader
-  &__content:before
-    content ''
+  &__content
+    transition opacity .6s
+    &--hidden
+      opacity 0
+    &:before
+      content ''
 
   &__progress
     transition transform .3s

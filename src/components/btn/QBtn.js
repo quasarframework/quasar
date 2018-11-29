@@ -76,12 +76,14 @@ export default Vue.extend({
   },
 
   render (h) {
-    const data = {
-      staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
-      class: this.classes,
-      style: this.style,
-      attrs: this.attrs
-    }
+    const
+      inner = [].concat(this.$slots.default),
+      data = {
+        staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
+        class: this.classes,
+        style: this.style,
+        attrs: this.attrs
+      }
 
     if (this.isDisabled === false) {
       data.on = {
@@ -100,6 +102,28 @@ export default Vue.extend({
       }
     }
 
+    if (this.icon !== void 0) {
+      inner.unshift(
+        h(QIcon, {
+          props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
+        })
+      )
+    }
+
+    if (this.hasLabel === true) {
+      inner.unshift(
+        h('div', [ this.label ])
+      )
+    }
+
+    if (this.iconRight !== void 0 && this.isRound === false) {
+      inner.push(
+        h(QIcon, {
+          props: { name: this.iconRight, right: this.stack === false }
+        })
+      )
+    }
+
     return h(this.isLink ? 'a' : 'button', data, [
       h('div', { staticClass: 'q-focus-helper' }),
 
@@ -114,30 +138,18 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-btn__content text-center col items-center q-anchor--skip',
         class: this.innerClasses
-      },
+      }, inner),
 
-      this.loading === true
-        ? this.$slots.loading || [ h(QSpinner) ]
-        : [
-
-          this.icon !== void 0
-            ? h(QIcon, {
-              props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
-            })
-            : null,
-
-          this.hasLabel === true ? h('div', [ this.label ]) : null
-
-        ].concat(this.$slots.default).concat([
-
-          this.iconRight !== void 0 && this.isRound === false
-            ? h(QIcon, {
-              props: { name: this.iconRight, right: this.stack === false }
-            })
-            : null
-
-        ])
-      )
+      this.loading !== null
+        ? h('transition', {
+          props: { name: 'q-transition--fade' }
+        }, this.loading === true ? [
+          h('div', {
+            key: 'loading',
+            staticClass: 'absolute-full flex flex-center'
+          }, this.$slots.loading !== void 0 ? this.$slots.loading : [ h(QSpinner) ])
+        ] : void 0)
+        : null
     ])
   }
 })

@@ -43,7 +43,10 @@ export default {
     align: { default: 'center' },
     stack: Boolean,
     stretch: Boolean,
-    loading: Boolean,
+    loading: {
+      type: Boolean,
+      default: null
+    },
     disable: Boolean
   },
 
@@ -118,7 +121,9 @@ export default {
     },
 
     innerClasses () {
-      return this.alignClass + (this.stack === true ? ' column' : ' row') + (this.noWrap === true ? ' no-wrap text-no-wrap' : '')
+      return this.alignClass + (this.stack === true ? ' column' : ' row') +
+        (this.noWrap === true ? ' no-wrap text-no-wrap' : '') +
+        (this.loading === true ? ' q-btn__content--hidden' : '')
     }
   }
 }
