@@ -108,7 +108,7 @@ function getDropdown (h, vm, btn) {
         QItem,
         {
           props: { active, link: !disable },
-          'class': { disabled: disable },
+          class: { disabled: disable },
           nativeOn: {
             click (e) {
               if (disable) { return }
@@ -221,7 +221,7 @@ export function getLinkEditor (h, vm) {
     }
 
     return [
-      h('div', { staticClass: 'q-mx-xs', 'class': `text-${color}` }, [`${vm.$q.i18n.editor.url}: `]),
+      h('div', { staticClass: 'q-mx-xs', class: `text-${color}` }, [`${vm.$q.i18n.editor.url}: `]),
       h(QInput, {
         key: 'qedt_btm_input',
         staticClass: 'q-ma-none q-pa-none col q-editor-input',

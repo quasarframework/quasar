@@ -109,7 +109,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-splitter no-wrap',
-      'class': this.classes
+      class: this.classes
     }, [
       h('div', {
         ref: 'before',
@@ -120,7 +120,7 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-splitter__separator',
         style: this.separatorStyle,
-        'class': this.separatorClass,
+        class: this.separatorClass,
         directives: this.disable === false ? [{
           name: 'touch-pan',
           value: this.__pan,

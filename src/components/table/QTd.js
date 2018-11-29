@@ -11,7 +11,7 @@ export default Vue.extend({
   render (h) {
     if (!this.props) {
       return h('td', {
-        'class': { 'q-table--col-auto-width': this.autoWidth }
+        class: { 'q-table--col-auto-width': this.autoWidth }
       }, this.$slots.default)
     }
 
@@ -27,7 +27,7 @@ export default Vue.extend({
     }
 
     return h('td', {
-      'class': [col.__tdClass, {
+      class: [col.__tdClass, {
         'q-table--col-auto-width': this.autoWidth
       }]
     }, this.$slots.default)

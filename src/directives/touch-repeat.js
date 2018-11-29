@@ -30,7 +30,6 @@ export default {
 
   bind (el, binding) {
     const
-      mouse = binding.modifiers.noMouse !== true,
       keyboard = Object.keys(binding.modifiers).reduce((acc, key) => {
         if (keyRegex.test(key)) {
           const keyCode = parseInt(key, 10)
@@ -50,6 +49,7 @@ export default {
           ctx.start(evt)
         }
       },
+
       mouseAbort (evt) {
         document.removeEventListener('mousemove', ctx.mouseAbort)
         document.removeEventListener('click', ctx.mouseAbort, true)
@@ -63,6 +63,7 @@ export default {
           ctx.start(evt, true)
         }
       },
+
       keyboardAbort (evt) {
         ctx.event && ctx.event.keyboard && keyboard.length && el.addEventListener('keydown', ctx.keyboardStart)
         document.removeEventListener('keyup', ctx.keyboardAbort, true)
@@ -76,26 +77,26 @@ export default {
           repeatCount: 0
         }
 
-        const
-          timer = () => {
-            if (!ctx.event.repeatCount) {
-              ctx.event.evt = evt
-              ctx.event.position = position(evt)
+        const timer = () => {
+          if (!ctx.event.repeatCount) {
+            ctx.event.evt = evt
+            ctx.event.position = position(evt)
 
-              stopPropagation && evt.stopPropagation()
-              preventDefault && evt.preventDefault()
-            }
-
-            ctx.event.duration = new Date().getTime() - ctx.event.startTime
-            ctx.event.repeatCount += 1
-
-            ctx.handler(ctx.event)
-
-            ctx.timer = setTimeout(timer, ctx.durations[ctx.durationsLast < ctx.event.repeatCount ? ctx.durationsLast : ctx.event.repeatCount])
+            stopPropagation && evt.stopPropagation()
+            preventDefault && evt.preventDefault()
           }
+
+          ctx.event.duration = new Date().getTime() - ctx.event.startTime
+          ctx.event.repeatCount += 1
+
+          ctx.handler(ctx.event)
+
+          ctx.timer = setTimeout(timer, ctx.durations[ctx.durationsLast < ctx.event.repeatCount ? ctx.durationsLast : ctx.event.repeatCount])
+        }
 
         ctx.timer = setTimeout(timer, ctx.durations[0])
       },
+
       abort (evt) {
         if (ctx.event && ctx.event.repeatCount) {
           stopPropagation && evt.stopPropagation()
@@ -108,13 +109,17 @@ export default {
       }
     }
 
+    if (el.__qtouchrepeat) {
+      el.__qtouchrepeat_old = el.__qtouchrepeat
+    }
+
     el.__qtouchrepeat = ctx
     updateBinding(el, binding)
 
-    if (mouse) {
+    if (binding.modifiers.noMouse !== true) {
       el.addEventListener('mousedown', ctx.mouseStart)
     }
-    if (keyboard.length) {
+    if (keyboard.length > 0) {
       el.addEventListener('keydown', ctx.keyboardStart)
     }
     el.addEventListener('touchstart', ctx.start)
@@ -127,7 +132,7 @@ export default {
   },
 
   unbind (el) {
-    let ctx = el.__qtouchrepeat
+    let ctx = el.__qtouchrepeat_old || el.__qtouchrepeat
     if (ctx !== void 0) {
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchend', ctx.abort)
@@ -137,7 +142,7 @@ export default {
       document.removeEventListener('mousemove', ctx.mouseAbort)
       document.removeEventListener('click', ctx.mouseAbort, true)
       document.removeEventListener('keyup', ctx.keyboardAbort, true)
-      delete el.__qtouchrepeat
+      delete el[el.__qtouchrepeat_old ? '__qtouchrepeat_old' : '__qtouchrepeat']
     }
   }
 }

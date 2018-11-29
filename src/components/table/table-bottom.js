@@ -30,7 +30,7 @@ export default {
 
       return h('div', {
         staticClass: 'q-table__bottom row items-center',
-        'class': bottom ? null : 'justify-end'
+        class: bottom ? null : 'justify-end'
       }, bottom ? [ bottom(this.marginalsProps) ] : this.getPaginationRow(h))
     },
     getPaginationRow (h) {
@@ -59,7 +59,8 @@ export default {
               value: rowsPerPage,
               options: this.computedRowsPerPageOptions,
               dark: this.dark,
-              hideUnderline: true
+              borderless: true,
+              dense: true
             },
             on: {
               input: rowsPerPage => {

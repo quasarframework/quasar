@@ -115,7 +115,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-page-sticky q-layout__section--animate row flex-center',
-      'class': this.classes,
+      class: this.classes,
       style: this.style
     },
     this.expand

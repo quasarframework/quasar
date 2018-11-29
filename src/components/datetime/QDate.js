@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from './datetime-mixin.js'
+
+import { testPattern } from '../../utils/patterns.js'
 import { isDeepEqual } from '../../utils/is.js'
 
 const yearsInterval = 20
@@ -12,12 +14,6 @@ export default Vue.extend({
   mixins: [ DateTimeMixin ],
 
   props: {
-    value: {
-      validator: v => typeof v === 'string'
-        ? /^-?[\d]+\/[0-1]\d\/[0-3]\d$/.test(v)
-        : true
-    },
-
     defaultYearMonth: {
       type: String,
       validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
@@ -74,7 +70,7 @@ export default Vue.extend({
     extModel () {
       const v = this.value
 
-      if (v === void 0 || v === null || v === '') {
+      if (this.__isInvalid(v) === true) {
         return {
           value: null,
           year: null,
@@ -220,10 +216,14 @@ export default Vue.extend({
   },
 
   methods: {
+    __isInvalid (v) {
+      return v === void 0 || v === null || v === '' || typeof v !== 'string' || testPattern.date(v) === false
+    },
+
     __getInnerModel (v) {
       let string, year, month, day
 
-      if (v === void 0 || v === null || v === '') {
+      if (this.__isInvalid(v) === true) {
         day = 1
 
         if (this.defaultYearMonth !== void 0) {
@@ -263,7 +263,7 @@ export default Vue.extend({
 
       return h('div', {
         staticClass: 'q-date__header',
-        'class': this.headerClass
+        class: this.headerClass
       }, [
         h('div', {
           staticClass: 'relative-position'
@@ -276,7 +276,7 @@ export default Vue.extend({
             h('div', {
               key: 'h-yr-' + this.headerSubtitle,
               staticClass: 'q-date__header-subtitle q-date__header-link',
-              'class': this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
+              class: this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
               attrs: { tabindex: this.computedTabindex },
               on: {
                 click: () => { this.view = 'Years' },
@@ -300,7 +300,7 @@ export default Vue.extend({
               h('div', {
                 key: this.value,
                 staticClass: 'q-date__header-title-label q-date__header-link',
-                'class': this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
+                class: this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
                 attrs: { tabindex: this.computedTabindex },
                 on: {
                   click: e => { this.view = 'Calendar' },
@@ -639,7 +639,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-date',
-      'class': this.classes
+      class: this.classes
     }, [
       this.__getHeader(h),
 

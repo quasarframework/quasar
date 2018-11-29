@@ -28,6 +28,11 @@ export default {
         )
       }
     }
+
+    if (el.__qscroll) {
+      el.__qscroll_old = el.__qscroll
+    }
+
     el.__qscroll = ctx
   },
 
@@ -44,10 +49,10 @@ export default {
   },
 
   unbind (el) {
-    let ctx = el.__qscroll
+    let ctx = el.__qscroll_old || el.__qscroll
     if (ctx !== void 0) {
       ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-      delete el.__qscroll
+      delete el[el.__qscroll_old ? '__qscroll_old' : '__qscroll']
     }
   }
 }

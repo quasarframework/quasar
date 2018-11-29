@@ -24,6 +24,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
   &__after, &__append
     padding-left 12px
 
+  &__append + &__append
+    padding-left 2px
+
   &__inner
     text-align left
 
@@ -92,6 +95,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
   &__native
     width 100%
+    outline 0 !important // needed for FF
   &__prefix, &__suffix
     transition opacity $field-transition
   &__prefix
@@ -104,7 +108,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     top 18px
     color rgba(0,0,0,.6)
     font-size 16px
-    line-height 18px
+    line-height 20px
     font-weight 400
     letter-spacing .00937em
     text-decoration inherit
@@ -318,7 +322,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       padding 0 6px
     .q-field__bottom
       font-size 11px
-      padding 4px 4px 0
+      padding 8px 4px 0
 
     .q-field__label
       font-size 14px
@@ -327,6 +331,8 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       padding-right 6px
     .q-field__after, .q-field__append
       padding-left 6px
+    .q-field__append + .q-field__append
+      padding-left 2px
 
     .q-avatar
       font-size 24px

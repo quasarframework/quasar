@@ -96,7 +96,7 @@ export default Vue.extend({
     __getNavigationContainer (h, type, mapping) {
       return h('div', {
         staticClass: 'q-carousel__control q-carousel__navigation no-wrap absolute flex scroll-x q-carousel__navigation--' + type,
-        'class': this.controlColor ? `text-${this.controlColor}` : null
+        class: this.controlColor ? `text-${this.controlColor}` : null
       }, [
         h('div', {
           staticClass: 'q-carousel__navigation-inner flex no-wrap justify-center'
@@ -131,7 +131,7 @@ export default Vue.extend({
           return h(QBtn, {
             key: name,
             staticClass: 'q-carousel__navigation-icon',
-            'class': { 'q-carousel__navigation-icon--active': name === this.value },
+            class: { 'q-carousel__navigation-icon--active': name === this.value },
             props: {
               icon: this.navIcon,
               round: true,
@@ -149,7 +149,7 @@ export default Vue.extend({
           const slide = panel.componentOptions.propsData
 
           return h('img', {
-            'class': { 'q-carousel__thumbnail--active': slide.name === this.value },
+            class: { 'q-carousel__thumbnail--active': slide.name === this.value },
             attrs: {
               src: slide.imgSrc
             },
@@ -167,7 +167,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-carousel relative-position overflow-hidden',
-      'class': this.classes
+      class: this.classes
     }, [
       h('div', {
         staticClass: 'q-carousel__slides-container',

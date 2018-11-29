@@ -104,7 +104,7 @@ export default Vue.extend({
           key: i,
           ref: `rt${i}`,
           staticClass: 'q-rating__icon',
-          'class': {
+          class: {
             'q-rating__icon--active': (!this.mouseModel && this.model >= i) || (this.mouseModel && this.mouseModel >= i),
             'q-rating__icon--exselected': this.mouseModel && this.model >= i && this.mouseModel < i,
             'q-rating__icon--hovered': this.mouseModel === i
@@ -125,7 +125,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-rating row inline items-center',
-      'class': this.classes,
+      class: this.classes,
       style: this.style
     }, child)
   }

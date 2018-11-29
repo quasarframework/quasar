@@ -64,7 +64,7 @@ export default Vue.extend({
   render (h) {
     const data = {
       staticClass: 'q-item q-item-type relative-position row',
-      'class': this.classes
+      class: this.classes
     }
 
     if (this.isClickable) {

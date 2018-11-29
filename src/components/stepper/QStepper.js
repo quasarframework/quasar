@@ -57,7 +57,7 @@ export default Vue.extend({
       return [
         h('div', {
           staticClass: 'q-stepper__header row items-stretch justify-between',
-          'class': {
+          class: {
             [`q-stepper__header--${this.alternativeLabels ? 'alternative' : 'standard'}-labels`]: true,
             'q-stepper__header--border': !this.flat || this.bordered
           }
@@ -86,7 +86,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-stepper generic-border-radius',
-      'class': this.classes
+      class: this.classes
     }, this.__getContent(h).concat(this.$slots.navigation))
   }
 })

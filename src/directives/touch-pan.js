@@ -170,6 +170,10 @@ export default {
       }
     }
 
+    if (el.__qtouchpan) {
+      el.__qtouchpan_old = el.__qtouchpan
+    }
+
     el.__qtouchpan = ctx
 
     if (mouse) {
@@ -196,7 +200,7 @@ export default {
   },
 
   unbind (el, binding) {
-    let ctx = el.__qtouchpan
+    let ctx = el.__qtouchpan_old || el.__qtouchpan
     if (ctx !== void 0) {
       const evtOpts = binding.modifiers.prevent ? null : listenOpts.passive
 
@@ -206,7 +210,7 @@ export default {
       el.removeEventListener('touchmove', ctx.move, evtOpts)
       el.removeEventListener('touchend', ctx.end, evtOpts)
 
-      delete el.__qtouchpan
+      delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
     }
   }
 }

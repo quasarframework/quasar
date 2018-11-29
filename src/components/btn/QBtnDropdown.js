@@ -51,7 +51,7 @@ export default Vue.extend({
           name: 'arrow_drop_down' // this.$q.icon.input.dropdown
         },
         staticClass: 'q-btn-dropdown__arrow',
-        'class': {
+        class: {
           'rotate-180': this.showing,
           'q-btn-dropdown__arrow-container': this.split === false
         }
@@ -73,11 +73,17 @@ export default Vue.extend({
         on: {
           'before-show': e => {
             this.showing = true
+            this.$emit('before-show', e)
+          },
+          show: e => {
             this.$emit('show', e)
             this.$emit('input', true)
           },
           'before-hide': e => {
             this.showing = false
+            this.$emit('before-hide', e)
+          },
+          hide: e => {
             this.$emit('hide', e)
             this.$emit('input', false)
           }
@@ -86,7 +92,7 @@ export default Vue.extend({
     ]
 
     const Btn = h(QBtn, {
-      'class': `q-btn-dropdown${this.split === true ? '--current' : ' q-btn-dropdown--simple'}`,
+      class: `q-btn-dropdown${this.split === true ? '--current' : ' q-btn-dropdown--simple'}`,
       props: Object.assign({}, this.$props, {
         noWrap: true,
         iconRight: this.split === true ? this.iconRight : null
@@ -112,7 +118,7 @@ export default Vue.extend({
         unelevated: this.unelevated
       },
       staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
-      'class': this.stretch === true ? 'self-stretch no-border-radius' : null
+      class: this.stretch === true ? 'self-stretch no-border-radius' : null
     }, [
       Btn,
 
@@ -135,14 +141,14 @@ export default Vue.extend({
   },
 
   methods: {
-    toggle () {
-      this.$refs.menu && this.$refs.menu.toggle()
+    toggle (evt) {
+      this.$refs.menu && this.$refs.menu.toggle(evt)
     },
-    show () {
-      this.$refs.menu && this.$refs.menu.show()
+    show (evt) {
+      this.$refs.menu && this.$refs.menu.show(evt)
     },
-    hide () {
-      this.$refs.menu && this.$refs.menu.hide()
+    hide (evt) {
+      this.$refs.menu && this.$refs.menu.hide(evt)
     }
   },
 

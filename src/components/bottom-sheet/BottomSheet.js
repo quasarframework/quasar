@@ -54,7 +54,7 @@ export default Vue.extend({
           ? h(QSeparator, { staticClass: 'col-12' })
           : h('div', {
             staticClass: 'q-bottom-sheet__item col-4 col-sm-3 q-hoverable q-focusable cursor-pointer relative-position',
-            'class': action.classes,
+            class: action.classes,
             attrs: { tabindex: 0 },
             on: {
               click: () => this.onOk(action),
@@ -83,7 +83,7 @@ export default Vue.extend({
           ? h(QSeparator, { props: { spaced: true } })
           : h(QItem, {
             staticClass: 'q-bottom-sheet__item',
-            'class': action.classes,
+            class: action.classes,
             props: {
               tabindex: 0,
               clickable: true

@@ -71,7 +71,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-radio cursor-pointer no-outline row inline no-wrap items-center',
-      'class': this.classes,
+      class: this.classes,
       attrs: { tabindex: this.computedTabindex },
       on: {
         click: this.set,
@@ -80,7 +80,7 @@ export default Vue.extend({
     }, [
       h('div', {
         staticClass: 'q-radio__inner relative-position',
-        'class': this.innerClass
+        class: this.innerClass
       }, [
         this.disable ? null : h('input', {
           staticClass: 'q-radio__native q-ma-none q-pa-none invisible',
@@ -97,7 +97,7 @@ export default Vue.extend({
       ]),
 
       (this.label !== void 0 || this.$slots.default !== void 0) && h('div', {
-        staticClass: 'q-radio__label q-menu--skip'
+        staticClass: 'q-radio__label q-anchor--skip'
       }, (this.label !== void 0 ? [ this.label ] : []).concat(this.$slots.default))
     ])
   }

@@ -102,7 +102,7 @@ export default Vue.extend({
       if (this.pointing) {
         child.push(h('div', {
           staticClass: 'q-chip__pointer absolute',
-          'class': {
+          class: {
             [`q-chip__pointer--${this.pointing}`]: true,
             [`text-${this.color}`]: this.color
           }
@@ -110,7 +110,7 @@ export default Vue.extend({
 
         this.isClickable && child.push(h('div', {
           staticClass: 'q-chip__pointer q-chip__pointer--hover absolute',
-          'class': `q-chip__pointer--${this.pointing}`
+          class: `q-chip__pointer--${this.pointing}`
         }))
       }
 
@@ -155,7 +155,7 @@ export default Vue.extend({
     } : {}
 
     data.staticClass = 'q-chip row inline no-wrap items-center'
-    data['class'] = this.classes
+    data.class = this.classes
 
     return h('div', data, this.__getContent(h))
   }

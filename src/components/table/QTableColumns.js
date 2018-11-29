@@ -21,10 +21,7 @@ export default Vue.extend({
 
   computed: {
     computedOptions () {
-      return this.columns.filter(col => !col.required).map(col => ({
-        value: col.name,
-        label: col.label
-      }))
+      return this.columns.filter(col => col.required !== true)
     }
   },
 
@@ -32,18 +29,15 @@ export default Vue.extend({
     return h(QSelect, {
       props: {
         multiple: true,
-        toggle: true,
         value: this.value,
         options: this.computedOptions,
+        optionValue: 'name', // col.name
         displayValue: this.label || this.$q.i18n.table.columns,
         color: this.color,
         dark: this.dark,
-        hideUnderline: true
+        borderless: true
       },
-      on: {
-        input: v => { this.$emit('input', v) },
-        change: v => { this.$emit('change', v) }
-      }
+      on: this.$listeners
     })
   }
 })

@@ -72,7 +72,7 @@ export default Vue.extend({
         content = [],
         indicator = h('div', {
           staticClass: 'q-tab__indicator',
-          'class': this.tabs.indicatorClass
+          class: this.tabs.indicatorClass
         })
 
       this.icon && content.push(h(QIcon, {
@@ -95,7 +95,7 @@ export default Vue.extend({
 
         h('div', {
           staticClass: 'q-tab__content flex-center relative-position no-pointer-events non-selectable',
-          'class': this.tabs.inlineLabel ? 'row no-wrap q-tab__content--inline' : 'column'
+          class: this.tabs.inlineLabel ? 'row no-wrap q-tab__content--inline' : 'column'
         }, content.concat(this.$slots.default))
       ]
 
@@ -107,7 +107,7 @@ export default Vue.extend({
     __render (h, tag, props) {
       const data = {
         staticClass: 'q-tab relative-position self-stretch flex nowrap justify-center text-center generic-transition',
-        'class': this.classes,
+        class: this.classes,
         attrs: {
           tabindex: this.computedTabIndex,
           role: 'tab',

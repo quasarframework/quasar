@@ -12,7 +12,7 @@ export default Vue.extend({
       'tr',
       !this.props || this.props.header
         ? {}
-        : { 'class': this.props.__trClass },
+        : { class: this.props.__trClass },
       this.$slots.default
     )
   }

@@ -99,7 +99,7 @@ export default Vue.extend({
       }, [
         h(QIcon, {
           staticClass: 'generic-transition',
-          'class': {
+          class: {
             'rotate-180': this.showing,
             invisible: this.disable
           },
@@ -144,7 +144,7 @@ export default Vue.extend({
       const data = {
         ref: 'item',
         style: this.headerStyle,
-        'class': this.headerClass,
+        class: this.headerClass,
         props: {
           dark: this.dark,
           disable: this.disable,
@@ -202,7 +202,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-expansion-item q-item-type',
-      'class': this.classes
+      class: this.classes
     }, [
       h(
         'div',

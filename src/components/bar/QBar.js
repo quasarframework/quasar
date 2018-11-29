@@ -17,7 +17,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-bar row no-wrap items-center',
-      'class': this.classes
+      class: this.classes
     }, this.$slots.default)
   }
 })

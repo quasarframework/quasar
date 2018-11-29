@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import AnchorMixin from '../../mixins/anchor.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
@@ -13,11 +14,19 @@ import {
 export default Vue.extend({
   name: 'QTooltip',
 
-  mixins: [ ModelToggleMixin, PortalMixin, TransitionMixin ],
+  mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
 
   props: {
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object],
+    maxHeight: {
+      type: String,
+      default: null
+    },
+    maxWidth: {
+      type: String,
+      default: null
+    },
 
     transitionShow: {
       default: 'jump-down'
@@ -80,10 +89,7 @@ export default Vue.extend({
   methods: {
     __showCondition (evt) {
       // abort with no parent configured or on multi-touch
-      if (this.anchorEl === void 0 || (evt !== void 0 && evt.touches !== void 0 && evt.touches.length > 1)) {
-        return false
-      }
-      return true
+      return !(this.anchorEl === void 0 || (evt !== void 0 && evt.touches !== void 0 && evt.touches.length > 1))
     },
 
     __show (evt) {
@@ -97,13 +103,13 @@ export default Vue.extend({
 
       this.__showPortal()
 
-      this.$nextTick(() => {
-        this.updatePosition()
-      })
-
       this.timer = setTimeout(() => {
-        this.$emit('show', evt)
-      }, 600)
+        this.updatePosition()
+
+        this.timer = setTimeout(() => {
+          this.$emit('show', evt)
+        }, 600)
+      }, 0)
     },
 
     __hide (evt) {
@@ -127,8 +133,13 @@ export default Vue.extend({
     },
 
     updatePosition () {
+      const el = this.__portal.$el
+
+      el.style.maxHeight = this.maxHeight
+      el.style.maxWidth = this.maxWidth
+
       setPosition({
-        el: this.__portal.$el,
+        el,
         offset: this.offset,
         anchorEl: this.anchorEl,
         anchorOrigin: this.anchorOrigin,
@@ -172,7 +183,7 @@ export default Vue.extend({
 
     __setAnchorEl (el) {
       this.anchorEl = el
-      while (this.anchorEl.classList.contains('q-menu--skip')) {
+      while (this.anchorEl.classList.contains('q-anchor--skip')) {
         this.anchorEl = this.anchorEl.parentNode
       }
       this.__configureAnchorEl()
@@ -199,7 +210,7 @@ export default Vue.extend({
       }, [
         this.showing ? h('div', {
           staticClass: 'q-tooltip no-pointer-events',
-          'class': this.contentClass,
+          class: this.contentClass,
           style: this.contentStyle
         }, this.$slots.default) : null
       ])

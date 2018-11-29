@@ -6,7 +6,7 @@
       <div>Size</div>
       <q-slider v-model="size" :min="1" :max="500" label />
       <div>Thickness</div>
-      <q-slider v-model="thickness" :min="1" :max="maxThickness" label />
+      <q-slider v-model="thickness" :min="0" :max="1" :step="0" />
       <div>Angle</div>
       <q-slider v-model="angle" :min="0" :max="360" label />
       <div>Min/Max</div>
@@ -14,6 +14,7 @@
       <div>
         <q-toggle v-model="reverse" label="Reverse" />
         <q-toggle v-model="showValue" label="Show Value" />
+        <q-toggle v-model="indeterminate" label="Indeterminate" />
       </div>
       <div>
         <q-btn @click="value = 10" label="Set value to 10" flat color="primary" class="q-mr-sm" />
@@ -25,19 +26,22 @@
       <q-circular-progress
         class="q-ma-sm"
         :value="value"
+        size="100px"
         :show-value="showValue"
+        :indeterminate="indeterminate"
       />
 
       <q-circular-progress
         class="q-ma-sm text-grey"
         :value="value"
-        :size="size"
+        :size="size + 'px'"
         :thickness="thickness"
         :angle="angle"
         :min="range.min"
         :max="range.max"
         :reverse="reverse"
         :show-value="showValue"
+        :indeterminate="indeterminate"
         color="orange"
         center-color="grey-8"
         track-color="transparent"
@@ -45,15 +49,15 @@
 
       <q-circular-progress
         class="q-ma-sm text-white"
-        style="font-size: 42px"
         :value="value"
-        :size="size"
-        :thickness="maxThickness"
+        :size="size / 2 + 'px'"
+        :thickness="1"
         :angle="angle"
         :min="range.min"
         :max="range.max"
         :reverse="reverse"
         :show-value="showValue"
+        :indeterminate="indeterminate"
         color="grey-8"
         text-color="white"
         track-color="orange"
@@ -62,28 +66,29 @@
       <q-circular-progress
         class="q-ma-sm"
         :value="value"
-        :size="size"
+        :size="size + 'px'"
         :thickness="thickness"
         :angle="angle"
         :min="range.min"
         :max="range.max"
         :reverse="reverse"
         :show-value="showValue"
+        :indeterminate="indeterminate"
         color="orange"
       />
 
       <q-circular-progress
         class="q-ma-sm text-orange"
-        style="font-size: 56px"
         :value="value"
-        :size="size"
+        :size="size / 1.5 + 'px'"
         :thickness="thickness"
         :angle="angle"
         :min="range.min"
         :max="range.max"
         :reverse="reverse"
-        :font-size="32"
+        font-size="50px"
         :show-value="showValue"
+        :indeterminate="indeterminate"
         color="orange"
         text-color="white"
         center-color="grey-8"
@@ -98,19 +103,15 @@ export default {
     return {
       value: 70,
       size: 160,
-      thickness: 20,
+      thickness: 0.2,
       angle: 0,
       range: {
         min: 0,
         max: 100
       },
       showValue: true,
-      reverse: false
-    }
-  },
-  computed: {
-    maxThickness () {
-      return Math.round(this.size / 2)
+      reverse: false,
+      indeterminate: false
     }
   },
   methods: {

@@ -13,9 +13,9 @@ export default {
             h(QLinearProgress, {
               props: {
                 color: this.color,
-                indeterminate: true,
-                height: '2px'
-              }
+                indeterminate: true
+              },
+              style: { height: '2px' }
             })
           ])
         ]))
@@ -49,7 +49,7 @@ export default {
             }
           },
           style: col.style,
-          'class': col.classes
+          class: col.classes
         }, col.label)
       }
       const child = this.computedCols.map(mapFn)

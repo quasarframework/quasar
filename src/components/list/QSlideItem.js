@@ -102,7 +102,7 @@ export default Vue.extend({
         h('div', {
           ref: 'left',
           staticClass: 'q-slide-item__left absolute-full row no-wrap items-center justify-start',
-          'class': this.leftColor ? `bg-${this.leftColor}` : null
+          class: this.leftColor ? `bg-${this.leftColor}` : null
         }, [
           h('div', { ref: 'leftContent' }, this.$slots.left)
         ])
@@ -114,7 +114,7 @@ export default Vue.extend({
         h('div', {
           ref: 'right',
           staticClass: 'q-slide-item__right absolute-full row no-wrap items-center justify-end',
-          'class': this.rightColor ? `bg-${this.rightColor}` : null
+          class: this.rightColor ? `bg-${this.rightColor}` : null
         }, [
           h('div', { ref: 'rightContent' }, this.$slots.right)
         ])

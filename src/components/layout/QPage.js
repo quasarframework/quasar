@@ -46,7 +46,7 @@ export default Vue.extend({
     return h('main', {
       staticClass: 'q-page',
       style: this.style,
-      'class': this.classes
+      class: this.classes
     }, this.$slots.default)
   }
 })

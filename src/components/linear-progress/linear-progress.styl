@@ -37,16 +37,16 @@
         animation-delay 1.15s
 
   &__track
-    background rgba(0, 0, 0, .26)
     opacity $progress-track-opacity
+    &--light
+      background rgba(0, 0, 0, .26)
+    &--dark
+      background rgba(255, 255, 255, .6)
 
   &__stripe
     transition width .3s
     background-image linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent) !important
     background-size 40px 40px !important
-
-  &--dark .q-linear-progress__track
-    background rgba(255, 255, 255, .3)
 
 @keyframes q-linear-progress--indeterminate
   0%

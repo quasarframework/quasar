@@ -49,7 +49,7 @@ export default function (Component) {
         ref: 'dialog',
         props,
         style,
-        'class': className,
+        class: className,
         on: {
           ok,
           cancel,

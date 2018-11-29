@@ -220,7 +220,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-loading-bar',
-      'class': this.classes,
+      class: this.classes,
       style: this.style
     })
   }

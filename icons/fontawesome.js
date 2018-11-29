@@ -24,21 +24,11 @@ export default {
   pullToRefresh: {
     icon: 'fas fa-sync-alt'
   },
-  search: {
-    icon: 'fas fa-search',
-    clear: 'fas fa-times-circle',
-    clearInverted: 'fas fa-times'
-  },
   carousel: {
     left: 'fas fa-chevron-left',
     right: 'fas fa-chevron-right', // TODO
     navigationIcon: 'fas fa-circle',
     thumbnails: 'fas fa-th'
-  },
-  checkbox: {
-    checked: 'fas fa-check-square',
-    unchecked: 'far fa-square',
-    indeterminate: 'fas fa-minus-square'
   },
   chip: {
     remove: 'fas fa-times-circle',
@@ -97,12 +87,11 @@ export default {
     next: 'fas fa-chevron-right',
     last: 'fas fa-step-forward'
   },
-  radio: {
-    checked: 'fas fa-check-circle',
-    unchecked: 'far fa-circle'
-  },
   rating: {
     icon: 'fas fa-star'
+  },
+  select: {
+    dropdownIcon: 'fas fa-caret-down'
   },
   stepper: {
     done: 'fas fa-check',
@@ -124,11 +113,10 @@ export default {
   },
   uploader: {
     done: 'fas fa-check',
-    clear: 'fas fa-times-circle',
-    clearInverted: 'fas fa-times',
+    clear: 'fas fa-times',
     add: 'fas fa-plus-square',
-    upload: 'fas fa-cloud-upload-alt',
-    expand: 'fas fa-chevron-down',
-    file: 'fas fa-file'
+    upload: 'fas fa-upload',
+    removeQueue: 'fas fa-stream',
+    removeUploaded: 'fas fa-clipboard-check'
   }
 }
