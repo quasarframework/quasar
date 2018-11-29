@@ -670,7 +670,7 @@ export default Vue.extend({
             }
           })
         }),
-        h('p', this.$q.i18n.media.oldBrowser, this.$slots.default)
+        h('p', this.$q.i18n.media.oldBrowser, this.$slots.oldbrowser)
       ]),
 
       h('div', {
@@ -679,13 +679,13 @@ export default Vue.extend({
           click: this.__videoClick
         }
       }, [
-        h('div', '', this.$slots.default)
+        h('div', this.$slots.overlay)
       ]),
 
       this.state.errorText && h('div', {
         staticClass: 'q-media__error-window'
       }, [
-        h('div', this.state.errorText, this.$slots.default)
+        h('div', this.state.errorText, this.$slots.errorWindow)
       ]),
 
       h(QSlideTransition, {
@@ -846,7 +846,7 @@ export default Vue.extend({
           ])
 
         ])
-      ], this.$slots.default),
+      ], this.$slots.controls),
 
       this.showSpinner && this.state.loading && !this.state.playReady && !this.state.errorText && h('div', {
         staticClass: 'q-media__loading--container'
@@ -856,7 +856,7 @@ export default Vue.extend({
             size: '3rem'
           }
         })
-      ], this.$slots.default),
+      ], this.$slots.spinner),
 
       this.showBigPlayButton && this.state.playReady && !this.state.playing && h('div', {
         staticClass: 'q-media__big-button--container'
