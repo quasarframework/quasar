@@ -17,7 +17,8 @@
     "dev:quploader": "cd dev/upload-server && yarn && cd ../.. && node dev/upload-server/server.js",
     "build": "node build/script.build.js",
     "test": "eslint --ext .js,.vue src dev",
-    "lint": "eslint --ext .js,.vue src dev"
+    "lint": "eslint --ext .js,.vue src dev",
+    "lint-fix": "eslint --ext .js,.vue src dev --fix"
   },
   "repository": {
     "type": "git",
