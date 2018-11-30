@@ -121,6 +121,7 @@
           slot-scope="scope"
           clickable
           :active="scope.selected"
+          :focused="scope.focused"
           :disable="scope.opt.disable"
           @click="scope.toggleOption(scope.opt)"
         >
@@ -148,6 +149,7 @@
           slot-scope="scope"
           clickable
           :active="scope.selected"
+          :focused="scope.focused"
           :disable="scope.opt.disable"
           @click="scope.toggleOption(scope.opt)"
         >

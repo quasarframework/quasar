@@ -191,7 +191,7 @@ export default Vue.extend({
       return h('transition', {
         props: { name: this.transition }
       }, [
-        this.showing ? h('div', {
+        this.showing === true ? h('div', {
           staticClass: 'q-menu scroll',
           class: this.contentClass,
           style: this.contentStyle,

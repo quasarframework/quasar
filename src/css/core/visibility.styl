@@ -133,7 +133,7 @@ body.desktop
   .q-focusable, .q-hoverable
     outline 0
 
-  .q-focusable:focus, .q-hoverable:hover
+  .q-focusable:focus, .q-focusable--focused, .q-hoverable:hover
     > .q-focus-helper
       background currentColor
       opacity .15
@@ -142,8 +142,9 @@ body.desktop
       &:after
         opacity .4
 
-  .q-focusable:focus > .q-focus-helper
-    opacity .22
+  .q-focusable:focus, .q-focusable--focused
+    > .q-focus-helper
+      opacity .22
 
 .q-focus-helper
   &--rounded

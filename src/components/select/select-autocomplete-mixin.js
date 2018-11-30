@@ -1,8 +1,12 @@
-import { stopAndPrevent } from '../../utils/event.js'
+// import { stopAndPrevent } from '../../utils/event.js'
 
 export default {
   props: {
     filter: String,
+    filterDebounce: {
+      type: [Number, String],
+      default: 300
+    },
 
     loading: {
       type: Boolean,
@@ -32,36 +36,41 @@ export default {
 
     __onInputValue (e) {
       console.log('__onInputValue')
-      const val = e.target.value
+      clearTimeout(this.filterTimer)
 
-      if (this.filter !== val) {
-        this.__triggerFilter(val)
-      }
+      this.filterTimer = setTimeout(() => {
+        const val = e.target.value
+
+        if (this.filter !== val) {
+          this.triggerFilter(val)
+        }
+      }, this.filterDebounce)
     },
 
     __onInputClick (e) {
-      console.log('__onInputClick', this.loading)
-      stopAndPrevent(e)
-      this.loading === null && this.$refs.menu.show()
+      // console.log('__onInputClick', this.loading)
+      // stopAndPrevent(e)
+      // this.loading === null && this.$refs.menu.show()
     },
 
     __onInputFocus (e) {
       console.log('__onInputFocus')
-      stopAndPrevent(e)
-      this.focused = true
-      this.__triggerFilter(e.target.value)
+      // stopAndPrevent(e)
+      this.__onFocus(e)
+      // this.focused = true
+      this.triggerFilter(e.target.value)
     },
 
     __onInputBlur (e) {
       console.log('__onInputBlur')
-      this.focused = false
+      this.__onBlur(e)
 
       if (this.filter !== '') {
         this.$emit('update:filter', '')
       }
     },
 
-    __triggerFilter (val) {
+    triggerFilter (val) {
       console.log('__triggerFilter')
       this.$emit('update:filter', val)
       console.log('__triggerFilter - before emit')
@@ -70,12 +79,12 @@ export default {
 
       this.$nextTick(() => {
         if (this.loading !== true) {
-          this.$refs.menu.show()
+          // this.$refs.menu.show()
         }
         else {
           const fn = loading => {
             if (loading === false) {
-              this.$refs.menu.show()
+              // this.$refs.menu.show()
               this.unWatchLoading()
               this.unWatchLoading = void 0
             }
@@ -87,6 +96,7 @@ export default {
   },
 
   beforeDestroy () {
-    this.unWatchOptions !== void 0 && this.unWatchOptions()
+    this.unWatchLoading !== void 0 && this.unWatchLoading()
+    clearTimeout(this.filterTimer)
   }
 }

@@ -1,12 +1,21 @@
-.q-menu
-  position fixed !important
+.q-menu, .q-local-menu
   box-shadow $menu-box-shadow
   background $menu-background
   border-radius $generic-border-radius
-  z-index $z-popover
   overflow-y auto
   overflow-x hidden
   outline 0
-  max-width $menu-max-width
   max-height 65vh
+  z-index $z-popover
+
+.q-menu
+  position fixed !important
   display inline-block
+  max-width $menu-max-width
+
+.q-local-menu
+  position absolute
+  color initial
+  left 0
+  right 0
+  top 100%

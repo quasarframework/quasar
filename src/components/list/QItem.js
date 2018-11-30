@@ -14,6 +14,7 @@ export default Vue.extend({
     inset: Boolean,
     dark: Boolean,
     tabindex: [String, Number],
+    focused: Boolean,
     tag: {
       type: String,
       default: 'div'
@@ -38,6 +39,7 @@ export default Vue.extend({
         'q-item--inset': this.inset,
         'q-item--dark': this.dark,
         'q-item--active': this.active,
+        'q-focusable--focused': this.isClickable && this.focused,
         'disabled': this.disable
       }
     }

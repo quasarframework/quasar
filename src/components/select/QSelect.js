@@ -1,20 +1,32 @@
 import Vue from 'vue'
 
 import QField from '../field/QField.js'
-import QMenu from '../menu/QMenu.js'
 import QIcon from '../icon/QIcon.js'
+import QSpinner from '../spinner/QSpinner.js'
 
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
 
 import SelectAutocompleteMixin from './select-autocomplete-mixin.js'
+import TransitionMixin from '../../mixins/transition.js'
+
+import ClickOutside from '../../directives/click-outside.js'
 
 import { isDeepEqual } from '../../utils/is.js'
+import { stopAndPrevent } from '../../utils/event.js'
+import { normalizeToInterval } from '../../utils/format.js'
 
 export default Vue.extend({
   name: 'QSelect',
 
-  mixins: [ QField, SelectAutocompleteMixin ],
+  mixins: [ QField, SelectAutocompleteMixin, TransitionMixin ],
+
+  directives: {
+    ClickOutside
+  },
+
+  // field options
+  fieldDataFocus: false,
 
   props: {
     value: {
@@ -42,11 +54,27 @@ export default Vue.extend({
 
   data () {
     return {
+      menu: false,
+      controlFocus: false,
+      optionIndex: -1,
       optionsToShow: 20
     }
   },
 
+  watch: {
+    menu (show) {
+      this.optionIndex = -1
+      if (show === true) {
+        this.optionsToShow = 20
+      }
+    }
+  },
+
   computed: {
+    focused () {
+      return this.controlFocus === true || this.menu === true
+    },
+
     innerValue () {
       return this.value !== void 0 && this.value !== null
         ? (this.multiple === true ? this.value : [ this.value ])
@@ -74,7 +102,7 @@ export default Vue.extend({
 
     computedCounter () {
       if (this.multiple === true && this.counter === true) {
-        return this.value.length + (this.maxValues !== void 0 ? ' / ' + this.maxValues : '')
+        return (this.value !== void 0 && this.value !== null ? this.value.length : '0') + (this.maxValues !== void 0 ? ' / ' + this.maxValues : '')
       }
     },
 
@@ -83,6 +111,7 @@ export default Vue.extend({
         index: i,
         opt,
         selected: this.__isSelected(opt),
+        focused: this.optionIndex === i,
         toggleOption: this.toggleOption
       }))
     },
@@ -103,6 +132,7 @@ export default Vue.extend({
           this.$emit('input', opt)
         }
 
+        this.menu = false
         return
       }
 
@@ -160,20 +190,76 @@ export default Vue.extend({
       return this.innerValue.find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
     },
 
+    __onClick  (evt) {
+      console.log('click', this.menu)
+      this.menu = !this.menu
+      this.$refs.native.focus()
+    },
+
     __onFocus (e) {
-      this.focused = true
-      this.optionsToShow = 20
+      console.log('focus')
+      this.controlFocus = true
       this.$emit('focus', e)
     },
 
     __onBlur (e) {
-      this.focused = false
+      console.log('blur')
+      this.controlFocus = false
       this.$emit('blur', e)
+    },
+
+    __onKeydown (e) {
+      switch (e.keyCode) {
+        case 13: // enter
+          if (this.optionIndex > -1) {
+            this.toggleOption(this.options[this.optionIndex])
+          }
+          else {
+            this.menu = !this.menu
+          }
+          break
+        case 27: // escape
+          this.menu = false
+          break
+        case 38: // up
+          stopAndPrevent(e)
+          if (this.menu === true) {
+            let index = this.optionIndex
+            do {
+              index = normalizeToInterval(
+                index - 1,
+                0,
+                this.options.length - 1
+              )
+            }
+            while (index !== this.optionIndex && this.options[index].disable === true)
+            this.optionIndex = index
+          }
+          break
+        case 40: // down
+          stopAndPrevent(e)
+          if (this.menu !== true) {
+            this.menu = true
+          }
+          else {
+            let index = this.optionIndex
+            do {
+              index = normalizeToInterval(
+                index + 1,
+                0,
+                this.options.length - 1
+              )
+            }
+            while (index !== this.optionIndex && this.options[index].disable === true)
+            this.optionIndex = index
+          }
+          break
+      }
     },
 
     __onScroll () {
       if (this.avoidScroll !== true && this.optionsToShow < this.options.length) {
-        const el = this.$refs.menu.__portal.$el
+        const el = this.$refs.menu
 
         if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) {
           this.optionsToShow += 20
@@ -207,11 +293,13 @@ export default Vue.extend({
       }
 
       return h('div', {
+        ref: 'native',
         staticClass: 'q-field__native row items-center',
-        attrs: { tabindex: this.editable === true ? 0 : null },
-        on: this.editable === true ? {
+        attrs: { tabindex: this.editable === true && this.hasInput === false ? 0 : null },
+        on: this.editable === true && this.hasInput === false ? {
           focus: this.__onFocus,
-          blur: this.__onBlur
+          blur: this.__onBlur,
+          keydown: this.__onKeydown
         } : null
       }, child)
     },
@@ -223,7 +311,8 @@ export default Vue.extend({
           clickable: true,
           disable: scope.opt.disable,
           dense: this.dense,
-          active: scope.selected
+          active: scope.selected,
+          focused: scope.focused
         },
         on: {
           click: () => { scope.toggleOption(scope.opt) }
@@ -239,7 +328,7 @@ export default Vue.extend({
       return this.optionScope.map(fn)
     },
 
-    __getDefaultSlot (h) {
+    __getLocalMenu (h) {
       if (
         this.editable === false ||
         (this.noOptions === true && this.$slots['no-option'] === void 0)
@@ -247,22 +336,46 @@ export default Vue.extend({
         return
       }
 
-      return h(QMenu, {
-        ref: 'menu',
-        props: {
-          [this.expandBesides === true || this.noOptions === true || this.filter !== void 0 ? 'fit' : 'cover']: true,
-          autoClose: this.multiple !== true && this.noOptions !== true
-        },
-        on: {
-          'before-show': this.__onFocus,
-          'before-hide': this.__onBlur,
-          '&scroll': this.__onScroll
-        }
-      }, this.noOptions === true ? this.$slots['no-option'] : this.__getOptions(h))
+      // const fit = this.expandBesides === true || this.noOptions === true || this.filter !== void 0
+
+      return h('transition', {
+        props: { name: this.transition }
+      }, [
+        this.menu === true
+          ? h('div', {
+            ref: 'menu',
+            staticClass: 'q-local-menu scroll',
+            on: {
+              click: stopAndPrevent,
+              'focusin': () => {
+                this.optionIndex = -1
+              },
+              'focusout': (evt) => {
+                setTimeout(() => {
+                  const el = document.activeElement
+                  if (el !== document.body && this.$refs.control.contains(el) === false) {
+                    this.menu = false
+                  }
+                })
+              },
+              '&scroll': this.__onScroll
+            },
+            directives: [{
+              name: 'click-outside',
+              value: () => { this.menu = false },
+              arg: [ this.$refs.control ]
+            }]
+          }, this.noOptions === true ? this.$slots['no-option'] : this.__getOptions(h))
+          : null
+      ])
     },
 
     __getInnerAppend (h) {
       return [
+        this.loading === true
+          ? (this.$slots.loading !== void 0 ? this.$slots.loading : h(QSpinner))
+          : null,
+
         h(QIcon, {
           props: { name: this.dropdownArrowIcon }
         })

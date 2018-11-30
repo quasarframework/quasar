@@ -36,9 +36,9 @@ export default Vue.extend({
   },
 
   data () {
-    return {
-      focused: false
-    }
+    return this.$options.fieldDataFocus !== false
+      ? { focused: false }
+      : {}
   },
 
   computed: {
@@ -145,7 +145,7 @@ export default Vue.extend({
 
         this.__getInnerAppend !== void 0
           ? h('div', {
-            staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
+            staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-popup--skip',
             key: 'inner-append'
           }, this.__getInnerAppend(h))
           : null,
@@ -155,6 +155,10 @@ export default Vue.extend({
             staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
             key: 'append'
           }, this.$slots.append)
+          : null,
+
+        this.__getLocalMenu !== void 0
+          ? this.__getLocalMenu(h)
           : null
 
       ]
@@ -216,8 +220,12 @@ export default Vue.extend({
         staticClass: 'q-field__inner relative-position col self-stretch column justify-center'
       }, [
         h('div', {
+          ref: 'control',
           staticClass: 'q-field__control relative-position row no-wrap',
-          class: this.contentClass
+          class: this.contentClass,
+          on: this.__onClick !== void 0 ? {
+            click: this.__onClick
+          } : null
         }, this.__getContent(h)),
 
         this.__getBottom(h)
