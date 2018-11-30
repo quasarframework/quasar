@@ -29,22 +29,28 @@ function showRipple (evt, el, ctx, forceCenter) {
     opacity: 0
   })
 
-  node.className = `q-ripple ${color ? ' text-' + color : ''}`
+  node.className = `q-ripple${color ? ' text-' + color : ''}`
   node.appendChild(innerNode)
   el.appendChild(node)
 
-  ctx.timer = setTimeout(() => {
+  ctx.abort = () => {
+    node && node.remove()
+    clearTimeout(timer)
+  }
+
+  let timer = setTimeout(() => {
     innerNode.classList.add('q-ripple__inner--enter')
     innerNode.style.transform = `translate3d(${centerX}, ${centerY}, 0) scale3d(1, 1, 1)`
     innerNode.style.opacity = 0.2
 
-    ctx.timer = setTimeout(() => {
+    timer = setTimeout(() => {
       innerNode.classList.remove('q-ripple__inner--enter')
       innerNode.classList.add('q-ripple__inner--leave')
       innerNode.style.opacity = 0
 
-      ctx.timer = setTimeout(() => {
+      timer = setTimeout(() => {
         node && node.remove()
+        ctx.abort = void 0
       }, 275)
     }, 250)
   }, 50)
@@ -106,7 +112,7 @@ export default {
   unbind (el) {
     const ctx = el.__qripple_old || el.__qripple
     if (ctx !== void 0) {
-      clearTimeout(ctx.timer)
+      ctx.abort !== void 0 && ctx.abort()
       el.removeEventListener('click', ctx.click, false)
       el.removeEventListener('keyup', ctx.keyup, false)
       delete el[el.__qripple_old ? '__qripple_old' : '__qripple']
