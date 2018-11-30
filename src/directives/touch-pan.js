@@ -1,28 +1,24 @@
 import { position, leftClick, listenOpts } from '../utils/event.js'
 
 function getDirection (mod) {
-  if (!mod.horizontal && !mod.vertical) {
-    return {
-      horizontal: true,
-      vertical: true
-    }
+  const
+    none = mod.horizontal !== true && mod.vertical !== true,
+    dir = {}
+
+  if (mod.horizontal === true || none === true) {
+    dir.horizontal = true
   }
-
-  let dir = {}
-
-  ;['horizontal', 'vertical'].forEach(direction => {
-    if (mod[direction]) {
-      dir[direction] = true
-    }
-  })
+  if (mod.vertical === true || none === true) {
+    dir.vertical = true
+  }
 
   return dir
 }
 
 function processChanges (evt, ctx, isFinal) {
   let
-    direction,
     pos = position(evt),
+    direction,
     distX = pos.left - ctx.event.x,
     distY = pos.top - ctx.event.y,
     absDistX = Math.abs(distX),
@@ -46,11 +42,15 @@ function processChanges (evt, ctx, isFinal) {
     position: pos,
     direction,
     isFirst: ctx.event.isFirst,
-    isFinal: Boolean(isFinal),
+    isFinal,
     duration: new Date().getTime() - ctx.event.time,
     distance: {
       x: absDistX,
       y: absDistY
+    },
+    offset: {
+      x: distX,
+      y: distY
     },
     delta: {
       x: pos.left - ctx.event.lastX,
@@ -73,9 +73,10 @@ function shouldTrigger (ctx, changes) {
 
 export default {
   name: 'touch-pan',
+
   bind (el, binding) {
     const
-      mouse = !binding.modifiers.noMouse,
+      mouse = binding.modifiers.noMouse !== true,
       stopPropagation = binding.modifiers.stop,
       preventDefault = binding.modifiers.prevent,
       evtOpts = preventDefault || binding.modifiers.mightPrevent ? null : listenOpts.passive
@@ -88,23 +89,24 @@ export default {
         if (leftClick(evt)) {
           document.addEventListener('mousemove', ctx.move, evtOpts)
           document.addEventListener('mouseup', ctx.mouseEnd, evtOpts)
-          ctx.start(evt)
+          ctx.start(evt, true)
         }
       },
+
       mouseEnd (evt) {
         document.removeEventListener('mousemove', ctx.move, evtOpts)
         document.removeEventListener('mouseup', ctx.mouseEnd, evtOpts)
         ctx.end(evt)
       },
 
-      start (evt) {
+      start (evt, mouseEvent) {
         const pos = position(evt)
 
         ctx.event = {
           x: pos.left,
           y: pos.top,
           time: new Date().getTime(),
-          detected: ctx.direction.horizontal && ctx.direction.vertical,
+          detected: mouseEvent === true || (ctx.direction.horizontal && ctx.direction.vertical),
           abort: false,
           isFirst: true,
           lastX: pos.left,
@@ -113,16 +115,21 @@ export default {
 
         if (ctx.event.detected) {
           el.classList.add('q-touch')
-          stopPropagation && evt.stopPropagation()
-          preventDefault && evt.preventDefault()
+
+          if (mouseEvent !== true) {
+            stopPropagation && evt.stopPropagation()
+            preventDefault && evt.preventDefault()
+            ctx.move(evt)
+          }
         }
       },
+
       move (evt) {
-        if (ctx.event.abort) {
+        if (ctx.event.abort === true) {
           return
         }
 
-        if (ctx.event.detected) {
+        if (ctx.event.detected === true) {
           stopPropagation && evt.stopPropagation()
           preventDefault && evt.preventDefault()
 
@@ -153,6 +160,7 @@ export default {
 
         ctx.move(evt)
       },
+
       end (evt) {
         el.classList.remove('q-touch')
         if (ctx.event.abort || !ctx.event.detected || ctx.event.isFirst) {
@@ -165,6 +173,10 @@ export default {
       }
     }
 
+    if (el.__qtouchpan) {
+      el.__qtouchpan_old = el.__qtouchpan
+    }
+
     el.__qtouchpan = ctx
 
     if (mouse) {
@@ -174,22 +186,34 @@ export default {
     el.addEventListener('touchmove', ctx.move, evtOpts)
     el.addEventListener('touchend', ctx.end, evtOpts)
   },
-  update (el, binding) {
-    if (binding.oldValue !== binding.value) {
-      el.__qtouchpan.handler = binding.value
+
+  update (el, { oldValue, value, modifiers }) {
+    const ctx = el.__qtouchpan
+
+    if (oldValue !== value) {
+      ctx.handler = value
+    }
+
+    if (
+      (modifiers.horizontal !== ctx.direction.horizontal) ||
+      (modifiers.vertical !== ctx.direction.vertical)
+    ) {
+      ctx.direction = getDirection(modifiers)
     }
   },
+
   unbind (el, binding) {
-    let ctx = el.__qtouchpan
-    if (!ctx) { return }
-    const evtOpts = binding.modifiers.prevent ? null : listenOpts.passive
+    let ctx = el.__qtouchpan_old || el.__qtouchpan
+    if (ctx !== void 0) {
+      const evtOpts = binding.modifiers.prevent ? null : listenOpts.passive
 
-    el.removeEventListener('mousedown', ctx.mouseStart, evtOpts)
+      el.removeEventListener('mousedown', ctx.mouseStart, evtOpts)
 
-    el.removeEventListener('touchstart', ctx.start, evtOpts)
-    el.removeEventListener('touchmove', ctx.move, evtOpts)
-    el.removeEventListener('touchend', ctx.end, evtOpts)
+      el.removeEventListener('touchstart', ctx.start, evtOpts)
+      el.removeEventListener('touchmove', ctx.move, evtOpts)
+      el.removeEventListener('touchend', ctx.end, evtOpts)
 
-    delete el.__qtouchpan
+      delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
+    }
   }
 }
