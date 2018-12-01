@@ -23,11 +23,14 @@ export default {
   methods: {
     __getInput (h) {
       return h('input', {
+        ref: 'target',
         staticClass: 'q-select__filter col',
         domProps: { value: this.filter },
+        attrs: {
+          disabled: this.editable !== true
+        },
         on: {
           input: this.__onInputValue,
-          click: this.__onInputClick,
           focus: this.__onInputFocus,
           blur: this.__onInputBlur
         }
@@ -47,23 +50,17 @@ export default {
       }, this.filterDebounce)
     },
 
-    __onInputClick (e) {
-      // console.log('__onInputClick', this.loading)
-      // stopAndPrevent(e)
-      // this.loading === null && this.$refs.menu.show()
-    },
-
     __onInputFocus (e) {
       console.log('__onInputFocus')
       // stopAndPrevent(e)
-      this.__onFocus(e)
+      this.__onTargetFocus(e)
       // this.focused = true
       this.triggerFilter(e.target.value)
     },
 
     __onInputBlur (e) {
       console.log('__onInputBlur')
-      this.__onBlur(e)
+      this.__onTargetBlur(e)
 
       if (this.filter !== '') {
         this.$emit('update:filter', '')
@@ -83,7 +80,7 @@ export default {
         }
         else {
           const fn = loading => {
-            if (loading === false) {
+            if (loading === false && this.unWatchLoading !== void 0) {
               // this.$refs.menu.show()
               this.unWatchLoading()
               this.unWatchLoading = void 0

@@ -67,6 +67,7 @@ export default Vue.extend({
       if (show === true) {
         this.optionsToShow = 20
       }
+      document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
     }
   },
 
@@ -102,7 +103,8 @@ export default Vue.extend({
 
     computedCounter () {
       if (this.multiple === true && this.counter === true) {
-        return (this.value !== void 0 && this.value !== null ? this.value.length : '0') + (this.maxValues !== void 0 ? ' / ' + this.maxValues : '')
+        return (this.value !== void 0 && this.value !== null ? this.value.length : '0') +
+          (this.maxValues !== void 0 ? ' / ' + this.maxValues : '')
       }
     },
 
@@ -193,71 +195,72 @@ export default Vue.extend({
     __onClick  (evt) {
       console.log('click', this.menu)
       this.menu = !this.menu
-      this.$refs.native.focus()
+      this.$refs.target.focus()
     },
 
-    __onFocus (e) {
+    __onTargetFocus (e) {
       console.log('focus')
       this.controlFocus = true
       this.$emit('focus', e)
     },
 
-    __onBlur (e) {
+    __onTargetBlur (e) {
       console.log('blur')
       this.controlFocus = false
       this.$emit('blur', e)
     },
 
-    __onKeydown (e) {
-      switch (e.keyCode) {
-        case 13: // enter
-          if (this.optionIndex > -1) {
-            this.toggleOption(this.options[this.optionIndex])
-          }
-          else {
-            this.menu = !this.menu
-          }
-          break
-        case 27: // escape
-          this.menu = false
-          break
-        case 38: // up
-          stopAndPrevent(e)
-          if (this.menu === true) {
-            let index = this.optionIndex
-            do {
-              index = normalizeToInterval(
-                index - 1,
-                0,
-                this.options.length - 1
-              )
-            }
-            while (index !== this.optionIndex && this.options[index].disable === true)
-            this.optionIndex = index
-          }
-          break
-        case 40: // down
-          stopAndPrevent(e)
-          if (this.menu !== true) {
-            this.menu = true
-          }
-          else {
-            let index = this.optionIndex
-            do {
-              index = normalizeToInterval(
-                index + 1,
-                0,
-                this.options.length - 1
-              )
-            }
-            while (index !== this.optionIndex && this.options[index].disable === true)
-            this.optionIndex = index
-          }
-          break
+    __onTargetKeydown (e) {
+      if (e.keyCode === 13) {
+        if (this.optionIndex > -1) {
+          this.toggleOption(this.options[this.optionIndex])
+        }
+        else {
+          this.menu = !this.menu
+        }
       }
     },
 
-    __onScroll () {
+    __onGlobalKeydown (e) {
+      // escape
+      if (e.keyCode === 27) {
+        this.menu = false
+        return
+      }
+
+      // up, down
+      if (e.keyCode === 38 || e.keyCode === 40) {
+        stopAndPrevent(e)
+
+        if (this.menu === true) {
+          let index = this.optionIndex
+          do {
+            index = normalizeToInterval(
+              index + (e.keyCode === 38 ? -1 : 1),
+              0,
+              this.options.length - 1
+            )
+          }
+          while (index !== this.optionIndex && this.options[index].disable === true)
+          this.optionIndex = index
+        }
+      }
+    },
+
+    __onMenuFocusin () {
+      this.optionIndex = -1
+    },
+
+    __onMenuFocusout () {
+      setTimeout(() => {
+        const el = document.activeElement
+        if (el !== document.body && this.$refs.control.contains(el) === false) {
+          this.menu = false
+        }
+      })
+    },
+
+    __onMenuScroll () {
       if (this.avoidScroll !== true && this.optionsToShow < this.options.length) {
         const el = this.$refs.menu
 
@@ -292,16 +295,21 @@ export default Vue.extend({
         child.push(this.__getInput(h))
       }
 
-      return h('div', {
-        ref: 'native',
-        staticClass: 'q-field__native row items-center',
-        attrs: { tabindex: this.editable === true && this.hasInput === false ? 0 : null },
-        on: this.editable === true && this.hasInput === false ? {
-          focus: this.__onFocus,
-          blur: this.__onBlur,
-          keydown: this.__onKeydown
-        } : null
-      }, child)
+      const data = this.editable === true && this.hasInput === false
+        ? {
+          ref: 'target',
+          attrs: { tabindex: 0 },
+          on: {
+            focus: this.__onTargetFocus,
+            blur: this.__onTargetBlur,
+            keydown: this.__onTargetKeydown
+          }
+        }
+        : {}
+
+      data.staticClass = 'q-field__native row items-center'
+
+      return h('div', data, child)
     },
 
     __getOptions (h) {
@@ -347,18 +355,9 @@ export default Vue.extend({
             staticClass: 'q-local-menu scroll',
             on: {
               click: stopAndPrevent,
-              'focusin': () => {
-                this.optionIndex = -1
-              },
-              'focusout': (evt) => {
-                setTimeout(() => {
-                  const el = document.activeElement
-                  if (el !== document.body && this.$refs.control.contains(el) === false) {
-                    this.menu = false
-                  }
-                })
-              },
-              '&scroll': this.__onScroll
+              focusin: this.__onMenuFocusin,
+              focusout: this.__onMenuFocusout,
+              '&scroll': this.__onMenuScroll
             },
             directives: [{
               name: 'click-outside',
@@ -385,5 +384,11 @@ export default Vue.extend({
 
   created () {
     this.fieldClass = 'q-select q-field--auto-height'
+  },
+
+  beforeDestroy () {
+    if (this.menu === true) {
+      document.body.removeEventListener('keydown', this.__onGlobalKeydown)
+    }
   }
 })
