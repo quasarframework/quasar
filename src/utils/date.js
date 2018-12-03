@@ -340,13 +340,13 @@ export const formatter = {
   },
 
   // Month Short Name: Jan, Feb, ...
-  MMM (date) {
-    return i18n.lang.date.monthsShort[date.getMonth()]
+  MMM (date, opts = {}) {
+    return (opts.monthNamesShort || i18n.lang.date.monthsShort)[date.getMonth()]
   },
 
   // Month Name: January, February, ...
-  MMMM (date) {
-    return i18n.lang.date.months[date.getMonth()]
+  MMMM (date, opts = {}) {
+    return (opts.monthNames || i18n.lang.date.months)[date.getMonth()]
   },
 
   // Quarter: 1, 2, 3, 4
@@ -395,13 +395,13 @@ export const formatter = {
   },
 
   // Day of week: Sun, Mon, ...
-  ddd (date) {
-    return i18n.lang.date.daysShort[date.getDay()]
+  ddd (date, opts = {}) {
+    return (opts.dayNamesShort || i18n.lang.date.daysShort)[date.getDay()]
   },
 
   // Day of week: Sunday, Monday, ...
-  dddd (date) {
-    return i18n.lang.date.days[date.getDay()]
+  dddd (date, opts = {}) {
+    return (opts.dayNames || i18n.lang.date.days)[date.getDay()]
   },
 
   // Day of ISO week: 1, 2, ..., 7
@@ -517,7 +517,7 @@ export const formatter = {
   }
 }
 
-export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ') {
+export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ', opts) {
   if (val !== 0 && !val) {
     return
   }
@@ -526,7 +526,7 @@ export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ') {
 
   return mask.replace(token, function (match, text) {
     if (match in formatter) {
-      return formatter[match](date)
+      return formatter[match](date, opts)
     }
     return text === void 0
       ? match
