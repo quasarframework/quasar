@@ -24,6 +24,9 @@ export function getHorizontalScrollPosition (scrollTarget) {
 
 export function animScrollTo (el, to, duration) {
   if (duration <= 0) {
+    if (el.scrollTop !== to) {
+      setScroll(el, to)
+    }
     return
   }
 
