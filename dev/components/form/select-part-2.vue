@@ -50,7 +50,7 @@
         v-model="minFilterInput"
         use-input
         input-debounce="0"
-        label="Simple filter - min 3 chars"
+        label="Simple filter - min 2 chars"
         :options="minFilterInputOptions"
         @filter="minFilterInputFn"
       >
@@ -82,6 +82,8 @@
         v-bind="props"
         v-model="delayedFilterInput"
         use-input
+        use-chips
+        color="teal"
         :loading="delayedLoading"
         label="Delayed filter"
         :options="delayedFilterInputOptions"

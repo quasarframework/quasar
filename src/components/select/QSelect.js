@@ -72,7 +72,7 @@ export default Vue.extend({
       targetFocused: false,
       optionIndex: -1,
       optionsToShow: 20,
-      filter: ''
+      inputValue: ''
     }
   },
 
@@ -212,7 +212,7 @@ export default Vue.extend({
       }
       else {
         if (this.$listeners.filter !== void 0) {
-          this.__filter(this.filter)
+          this.filter(this.inputValue)
         }
         else {
           this.menu = true
@@ -238,7 +238,7 @@ export default Vue.extend({
         this.menu = false
       }
       else if (this.$listeners.filter !== void 0) {
-        this.__filter(this.filter)
+        this.filter(this.inputValue)
       }
       else {
         this.menu = true
@@ -327,7 +327,6 @@ export default Vue.extend({
 
       if (this.useChips === true) {
         return this.selectedScope.map(scope => h(QChip, {
-          staticClass: 'q-select__chip',
           props: {
             removable: true,
             dense: true,
@@ -440,7 +439,11 @@ export default Vue.extend({
     __getInnerAppend (h) {
       return [
         this.loading === true
-          ? (this.$slots.loading !== void 0 ? this.$slots.loading : h(QSpinner))
+          ? (
+            this.$slots.loading !== void 0
+              ? this.$slots.loading
+              : h(QSpinner, { props: { color: this.color } })
+          )
           : null,
 
         h(QIcon, {
@@ -454,7 +457,7 @@ export default Vue.extend({
         ref: 'target',
         staticClass: 'q-select__input col',
         'class': this.innerValue && this.innerValue.length > 0 ? 'q-select__input--padding' : null,
-        domProps: { value: this.filter },
+        domProps: { value: this.inputValue },
         attrs: {
           disabled: this.editable !== true
         },
@@ -468,18 +471,17 @@ export default Vue.extend({
     },
 
     __onInputValue (e) {
-      console.log('__onInputValue')
-      clearTimeout(this.filterTimer)
-      this.filter = e.target.value
+      clearTimeout(this.inputTimer)
+      this.inputValue = e.target.value
 
-      this.filterTimer = setTimeout(() => {
-        this.__filter(this.filter)
+      this.inputTimer = setTimeout(() => {
+        this.filter(this.inputValue)
       }, this.inputDebounce)
     },
 
-    __filter (val) {
+    filter (val) {
       this.menu = false
-      this.filter = val
+      this.inputValue = val
 
       this.$emit('filter', val, () => {
         if (this.focused === true) {
@@ -494,7 +496,7 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
-    clearTimeout(this.filterTimer)
+    clearTimeout(this.inputTimer)
     document.body.removeEventListener('keydown', this.__onGlobalKeydown)
   }
 })
