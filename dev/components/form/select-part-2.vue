@@ -61,41 +61,6 @@
         </q-item>
       </q-select>
 
-      <!--
-      <div class="text-h6">Autocomplete with static data</div>
-      <q-select
-        v-bind="props"
-        v-model="stringSingle"
-        with-filter
-        label="Filter - single"
-        :options="filterOptions"
-        @filter="filterFn"
-      >
-        <q-item slot="no-option">
-          <q-item-section class="text-grey">
-            No results
-          </q-item-section>
-        </q-item>
-      </q-select>
-
-      <div class="text-h6">Autocomplete with dynamic data</div>
-      <q-select
-        v-bind="props"
-        v-model="stringSingle"
-        with-filter
-        label="Filter - single"
-        :loading="loading"
-        :options="filterOptions"
-        @filter="filterDynamicFn"
-      >
-        <q-item slot="no-option">
-          <q-item-section class="text-grey">
-            No results
-          </q-item-section>
-        </q-item>
-      </q-select>
-
-      -->
       <div style="height: 400px">Scroll on purpose</div>
     </div>
   </div>
@@ -181,11 +146,7 @@ export default {
           description: 'Databases',
           icon: 'casino'
         }
-      ],
-
-      loading: false,
-      // dynamicOptions: null,
-      filterOptions: stringOptions
+      ]
     }
   },
 
@@ -222,27 +183,6 @@ export default {
         const needle = val.toLowerCase()
         this.delayedFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
       }, 2500)
-    },
-
-    filterFn (val) {
-      console.log('filtering')
-      if (val === '') {
-        this.filterOptions = this.stringOptions
-        return
-      }
-
-      const needle = val.toLowerCase()
-      this.filterOptions = this.stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-    },
-
-    filterDynamicFn (val) {
-      console.log('filterDynamicFn')
-      this.loading = true
-
-      setTimeout(() => {
-        this.filterFn(val)
-        this.loading = false
-      }, 1000)
     }
   },
 
