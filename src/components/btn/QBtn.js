@@ -180,7 +180,7 @@ export default {
         : null,
 
       h('div', {
-        staticClass: 'q-btn-inner row col items-center',
+        staticClass: 'q-btn-inner row col items-center q-popup--skip',
         'class': this.innerClasses
       },
       this.loading

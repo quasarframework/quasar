@@ -81,7 +81,7 @@ export default {
         ])
         : null,
 
-      h('div', { staticClass: 'q-chip-main ellipsis' }, this.$slots.default),
+      h('div', { staticClass: 'q-chip-main ellipsis q-popup--skip' }, this.$slots.default),
 
       this.iconRight
         ? h(QIcon, {
