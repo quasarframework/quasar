@@ -1,4 +1,4 @@
-import { position, leftClick } from '../utils/event.js'
+import { position, leftClick, listenOpts } from '../utils/event.js'
 
 function getDirection (mod) {
   let dir = {}
@@ -161,8 +161,8 @@ export default {
       el.addEventListener('mousedown', ctx.mouseStart)
     }
 
-    el.addEventListener('touchstart', ctx.start)
-    el.addEventListener('touchmove', ctx.move)
+    el.addEventListener('touchstart', ctx.start, listenOpts.passive)
+    el.addEventListener('touchmove', ctx.move, listenOpts.passive)
     el.addEventListener('touchend', ctx.end)
   },
   update (el, binding) {

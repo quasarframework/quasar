@@ -1,4 +1,4 @@
-import { position, leftClick } from '../utils/event.js'
+import { position, leftClick, listenOpts } from '../utils/event.js'
 
 function updateBinding (el, binding) {
   const ctx = el.__qtouchhold
@@ -63,8 +63,8 @@ export default {
     if (mouse) {
       el.addEventListener('mousedown', ctx.mouseStart)
     }
-    el.addEventListener('touchstart', ctx.start)
-    el.addEventListener('touchmove', ctx.abort)
+    el.addEventListener('touchstart', ctx.start, listenOpts.passive)
+    el.addEventListener('touchmove', ctx.abort, listenOpts.passive)
     el.addEventListener('touchend', ctx.abort)
   },
   update (el, binding) {
