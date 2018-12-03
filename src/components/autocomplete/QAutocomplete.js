@@ -65,7 +65,7 @@ export default {
         : []
     },
     computedValueField () {
-      return this.valueField || (this.staticData ? this.staticData.field : 'value')
+      return this.valueField || (this.staticData ? this.staticData.field || 'value' : 'value')
     },
     keyboardMaxIndex () {
       return this.computedResults.length - 1
