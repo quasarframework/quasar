@@ -3,7 +3,6 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import { testPattern } from '../../utils/patterns.js'
 import { position } from '../../utils/event.js'
 import { isDeepEqual } from '../../utils/is.js'
 import DateTimeMixin from './datetime-mixin.js'
@@ -34,8 +33,20 @@ export default Vue.extend({
 
   data () {
     const model = this.__getNumberModel(this.value)
+
+    let view = 'Hour'
+
+    if (model.hour !== null) {
+      if (model.minute === null) {
+        view = 'Minute'
+      }
+      else if (this.withSeconds && model.second === null) {
+        view = 'Second'
+      }
+    }
+
     return {
-      view: 'Hour',
+      view,
       isAM: model.hour === null || model.hour < 12,
       innerModel: model
     }
@@ -48,7 +59,7 @@ export default Vue.extend({
       if (isDeepEqual(model, this.innerModel) === false) {
         this.innerModel = model
 
-        if (this.innerModel.hour === null) {
+        if (model.hour === null) {
           this.view = 'Hour'
         }
         else {
@@ -77,7 +88,7 @@ export default Vue.extend({
           : (
             this.computedFormat24h === true
               ? this.__pad(time.hour)
-              : (
+              : String(
                 this.isAM === true
                   ? (time.hour === 0 ? 12 : time.hour)
                   : (time.hour > 12 ? time.hour - 12 : time.hour)
@@ -452,11 +463,7 @@ export default Vue.extend({
     },
 
     __getNumberModel (v) {
-      if (
-        v === void 0 || v === null || v === '' ||
-        typeof v !== 'string' ||
-        testPattern.timeOrFulltime(v) === false
-      ) {
+      if (v === void 0 || v === null || v === '' || typeof v !== 'string') {
         return {
           hour: null,
           minute: null,
@@ -466,15 +473,9 @@ export default Vue.extend({
 
       const val = v.split(':')
       return {
-        hour: val[0] !== void 0
-          ? parseInt(val[0], 10)
-          : null,
-        minute: val[1] !== void 0
-          ? parseInt(val[1], 10)
-          : null,
-        second: val[2] === void 0
-          ? null
-          : parseInt(val[2], 10)
+        hour: isNaN(parseInt(val[0], 10)) === true ? null : parseInt(val[0], 10) % 24,
+        minute: isNaN(parseInt(val[1], 10)) === true ? null : parseInt(val[1], 10) % 60,
+        second: isNaN(parseInt(val[2], 10)) === true ? null : parseInt(val[2], 10) % 60
       }
     },
 
@@ -531,6 +532,7 @@ export default Vue.extend({
     __verifyAndUpdate () {
       if (this.hourInSelection !== void 0 && this.hourInSelection(this.innerModel.hour) !== true) {
         this.innerModel = this.__getNumberModel(void 0)
+        this.isAM = this.innerModel.hour === null || this.innerModel.hour < 12
         this.view = 'Hour'
         return
       }
@@ -548,6 +550,10 @@ export default Vue.extend({
         return
       }
 
+      if (this.innerModel.hour === null || this.innerModel.minute === null || (this.withSeconds === true && this.innerModel.second === null)) {
+        return
+      }
+
       this.__updateValue({})
     },
 
@@ -557,9 +563,9 @@ export default Vue.extend({
           ...this.innerModel,
           ...obj
         },
-        val = this.__pad(Math.min(time.hour, 23)) + ':' +
-          this.__pad(Math.min(time.minute, 59)) +
-          (this.withSeconds ? ':' + this.__pad(Math.min(time.second, 59)) : '')
+        val = this.__pad(time.hour % 24) + ':' +
+          this.__pad(time.minute % 60) +
+          (this.withSeconds ? ':' + this.__pad(time.second % 60) : '')
 
       if (val !== this.value) {
         this.$emit('input', val)
@@ -575,5 +581,9 @@ export default Vue.extend({
       this.__getHeader(h),
       this.__getClock(h)
     ])
+  },
+
+  beforeDestroy () {
+    this.__verifyAndUpdate()
   }
 })
