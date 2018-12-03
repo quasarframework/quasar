@@ -3,11 +3,11 @@ import Vue from 'vue'
 import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
+import QChip from '../chip/QChip.js'
 
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
 
-import SelectAutocompleteMixin from './select-filter-mixin.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from '../../directives/click-outside.js'
@@ -19,7 +19,7 @@ import { normalizeToInterval } from '../../utils/format.js'
 export default Vue.extend({
   name: 'QSelect',
 
-  mixins: [ QField, SelectAutocompleteMixin, TransitionMixin ],
+  mixins: [ QField, TransitionMixin ],
 
   directives: {
     ClickOutside
@@ -46,8 +46,22 @@ export default Vue.extend({
     optionValue: [Function, String],
     optionLabel: [Function, String],
 
+    hideSelected: Boolean,
     counter: Boolean,
     maxValues: [Number, String],
+
+    useInput: Boolean,
+    useChips: Boolean,
+
+    inputDebounce: {
+      type: [Number, String],
+      default: 500
+    },
+
+    loading: {
+      type: Boolean,
+      default: null
+    },
 
     expandBesides: Boolean
   },
@@ -130,13 +144,8 @@ export default Vue.extend({
     toggleOption (opt) {
       if (this.editable !== true || opt === void 0 || opt.disable === true) { return }
 
-      console.log('toggleOption', opt)
-
       if (this.multiple !== true) {
-        if (!isDeepEqual(this.value, opt)) {
-          this.$emit('input', opt)
-        }
-
+        this.$emit('input', isDeepEqual(this.value, opt) ? null : opt)
         this.menu = false
         return
       }
@@ -196,8 +205,8 @@ export default Vue.extend({
     },
 
     __onClick  (e) {
-      console.log('click', this.menu)
       this.$refs.target.focus()
+
       if (this.menu === true) {
         this.menu = false
       }
@@ -212,30 +221,27 @@ export default Vue.extend({
     },
 
     __onTargetFocus (e) {
-      console.log('focus')
       this.targetFocused = true
     },
 
     __onTargetBlur (e) {
-      console.log('blur')
       this.targetFocused = false
     },
 
     __onTargetKeydown (e) {
-      if (e.keyCode === 13) {
-        console.log('__onTargetKeydown', this.optionIndex)
-        if (this.optionIndex > -1) {
-          this.toggleOption(this.options[this.optionIndex])
-        }
-        else if (this.menu === true) {
-          this.menu = false
-        }
-        else if (this.$listeners.filter !== void 0) {
-          this.__filter(this.filter)
-        }
-        else {
-          this.menu = true
-        }
+      if (e.keyCode !== 13) { return }
+
+      if (this.optionIndex > -1) {
+        this.toggleOption(this.options[this.optionIndex])
+      }
+      else if (this.menu === true) {
+        this.menu = false
+      }
+      else if (this.$listeners.filter !== void 0) {
+        this.__filter(this.filter)
+      }
+      else {
+        this.menu = true
       }
     },
 
@@ -306,28 +312,58 @@ export default Vue.extend({
       }
     },
 
-    __getControl (h) {
-      const child = this.$scopedSlots.selected !== void 0
-        ? this.selectedScope.map(scope => this.$scopedSlots.selected(scope))
-        : (
-          this.$slots.selected !== void 0
-            ? this.$slots.selected
-            : [
-              h('span', {
-                domProps: {
-                  innerHTML: this.displayValue !== void 0
-                    ? this.displayValue
-                    : this.selectedString
-                }
-              })
-            ]
-        )
-
-      if (this.withFilter === true) {
-        child.push(this.__getFilter(h))
+    __getSelection (h) {
+      if (this.hideSelected === true) {
+        return []
       }
 
-      const data = this.editable === true && this.withFilter === false
+      if (this.$scopedSlots.selected !== void 0) {
+        return this.selectedScope.map(scope => this.$scopedSlots.selected(scope))
+      }
+
+      if (this.$slots.selected !== void 0) {
+        return this.$slots.selected
+      }
+
+      if (this.useChips === true) {
+        return this.selectedScope.map(scope => h(QChip, {
+          staticClass: 'q-select__chip',
+          props: {
+            removable: true,
+            dense: true,
+            textColor: this.color
+          },
+          on: {
+            remove: () => { scope.toggleOption(scope.opt) }
+          }
+        }, [
+          h('span', {
+            domProps: {
+              innerHTML: this.__getOptionLabel(scope.opt)
+            }
+          })
+        ]))
+      }
+
+      return [
+        h('span', {
+          domProps: {
+            innerHTML: this.displayValue !== void 0
+              ? this.displayValue
+              : this.selectedString
+          }
+        })
+      ]
+    },
+
+    __getControl (h) {
+      const child = this.__getSelection(h)
+
+      if (this.useInput === true) {
+        child.push(this.__getInput(h))
+      }
+
+      const data = this.editable === true && this.useInput === false
         ? {
           ref: 'target',
           attrs: { tabindex: 0 },
@@ -411,6 +447,45 @@ export default Vue.extend({
           props: { name: this.dropdownArrowIcon }
         })
       ]
+    },
+
+    __getInput (h) {
+      return h('input', {
+        ref: 'target',
+        staticClass: 'q-select__input col',
+        'class': this.innerValue && this.innerValue.length > 0 ? 'q-select__input--padding' : null,
+        domProps: { value: this.filter },
+        attrs: {
+          disabled: this.editable !== true
+        },
+        on: {
+          input: this.__onInputValue,
+          focus: this.__onTargetFocus,
+          blur: this.__onTargetBlur,
+          keydown: this.__onTargetKeydown
+        }
+      })
+    },
+
+    __onInputValue (e) {
+      console.log('__onInputValue')
+      clearTimeout(this.filterTimer)
+      this.filter = e.target.value
+
+      this.filterTimer = setTimeout(() => {
+        this.__filter(this.filter)
+      }, this.inputDebounce)
+    },
+
+    __filter (val) {
+      this.menu = false
+      this.filter = val
+
+      this.$emit('filter', val, () => {
+        if (this.focused === true) {
+          this.menu = true
+        }
+      })
     }
   },
 
@@ -419,6 +494,7 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
+    clearTimeout(this.filterTimer)
     document.body.removeEventListener('keydown', this.__onGlobalKeydown)
   }
 })

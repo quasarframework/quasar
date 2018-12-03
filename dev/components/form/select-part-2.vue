@@ -8,14 +8,13 @@
         <q-radio v-model="type" val="standard" label="Standard" />
         <q-radio v-model="type" val="borderless" label="Borderless" />
       </div>
-      <div>
+      <div class="q-mb-lg">
         <q-toggle v-model="readonly" label="Readonly" />
         <q-toggle v-model="disable" label="Disable" />
         <q-toggle v-model="dense" label="Dense" />
         <q-toggle v-model="expandBesides" label="Expand besides" />
       </div>
 
-      <div class="text-h6">Autocomplete with static data</div>
       <q-select
         v-bind="props"
         v-model="simpleFilter"
@@ -33,7 +32,8 @@
       <q-select
         v-bind="props"
         v-model="simpleFilterInput"
-        with-filter
+        use-input
+        input-debounce="0"
         label="Simple filter"
         :options="simpleFilterInputOptions"
         @filter="simpleFilterInputFn"
@@ -47,8 +47,41 @@
 
       <q-select
         v-bind="props"
+        v-model="minFilterInput"
+        use-input
+        input-debounce="0"
+        label="Simple filter - min 3 chars"
+        :options="minFilterInputOptions"
+        @filter="minFilterInputFn"
+      >
+        <q-item slot="no-option">
+          <q-item-section class="text-grey">
+            No results
+          </q-item-section>
+        </q-item>
+      </q-select>
+
+      <q-select
+        v-bind="props"
+        v-model="chipFilterInput"
+        use-input
+        use-chips
+        input-debounce="0"
+        label="Simple filter - selected slot"
+        :options="chipFilterInputOptions"
+        @filter="chipFilterInputFn"
+      >
+        <q-item slot="no-option">
+          <q-item-section class="text-grey">
+            No results
+          </q-item-section>
+        </q-item>
+      </q-select>
+
+      <q-select
+        v-bind="props"
         v-model="delayedFilterInput"
-        with-filter
+        use-input
         :loading="delayedLoading"
         label="Delayed filter"
         :options="delayedFilterInputOptions"
@@ -85,6 +118,12 @@ export default {
 
       simpleFilterInput: null,
       simpleFilterInputOptions: null,
+
+      minFilterInput: null,
+      minFilterInputOptions: null,
+
+      chipFilterInput: null,
+      chipFilterInputOptions: null,
 
       delayedFilterInput: null,
       delayedFilterInputOptions: null,
@@ -151,7 +190,9 @@ export default {
   },
 
   methods: {
-    simpleFilterFn (val) {
+    simpleFilterFn (val, done) {
+      done()
+
       if (this.simpleFilterOptions !== null) {
         return
       }
@@ -159,17 +200,39 @@ export default {
       this.simpleFilterOptions = stringOptions
     },
 
-    simpleFilterInputFn (val) {
+    simpleFilterInputFn (val, done) {
       if (val === '') {
         this.simpleFilterInputOptions = stringOptions
+        done()
         return
       }
 
       const needle = val.toLowerCase()
       this.simpleFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      done()
     },
 
-    delayedFilterInputFn (val) {
+    minFilterInputFn (val, done) {
+      if (val.length < 2) { return }
+
+      const needle = val.toLowerCase()
+      this.minFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      done()
+    },
+
+    chipFilterInputFn (val, done) {
+      done()
+
+      if (val === '') {
+        this.chipFilterInputOptions = stringOptions
+        return
+      }
+
+      const needle = val.toLowerCase()
+      this.chipFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+    },
+
+    delayedFilterInputFn (val, done) {
       this.delayedLoading = true
 
       setTimeout(() => {
@@ -177,11 +240,13 @@ export default {
 
         if (val === '') {
           this.delayedFilterInputOptions = stringOptions
+          done()
           return
         }
 
         const needle = val.toLowerCase()
         this.delayedFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        done()
       }, 2500)
     }
   },
