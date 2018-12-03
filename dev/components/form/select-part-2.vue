@@ -18,9 +18,56 @@
       <div class="text-h6">Autocomplete with static data</div>
       <q-select
         v-bind="props"
+        v-model="simpleFilter"
+        label="Simple filter"
+        :options="simpleFilterOptions"
+        @filter="simpleFilterFn"
+      >
+        <q-item slot="no-option">
+          <q-item-section class="text-grey">
+            No results
+          </q-item-section>
+        </q-item>
+      </q-select>
+
+      <q-select
+        v-bind="props"
+        v-model="simpleFilterInput"
+        with-filter
+        label="Simple filter"
+        :options="simpleFilterInputOptions"
+        @filter="simpleFilterInputFn"
+      >
+        <q-item slot="no-option">
+          <q-item-section class="text-grey">
+            No results
+          </q-item-section>
+        </q-item>
+      </q-select>
+
+      <q-select
+        v-bind="props"
+        v-model="delayedFilterInput"
+        with-filter
+        :loading="delayedLoading"
+        label="Delayed filter"
+        :options="delayedFilterInputOptions"
+        @filter="delayedFilterInputFn"
+      >
+        <q-item slot="no-option">
+          <q-item-section class="text-grey">
+            No results
+          </q-item-section>
+        </q-item>
+      </q-select>
+
+      <!--
+      <div class="text-h6">Autocomplete with static data</div>
+      <q-select
+        v-bind="props"
         v-model="stringSingle"
+        with-filter
         label="Filter - single"
-        :filter.sync="filter"
         :options="filterOptions"
         @filter="filterFn"
       >
@@ -35,8 +82,8 @@
       <q-select
         v-bind="props"
         v-model="stringSingle"
+        with-filter
         label="Filter - single"
-        :filter.sync="filter"
         :loading="loading"
         :options="filterOptions"
         @filter="filterDynamicFn"
@@ -48,18 +95,19 @@
         </q-item>
       </q-select>
 
+      -->
       <div style="height: 400px">Scroll on purpose</div>
     </div>
   </div>
 </template>
 
 <script>
+const stringOptions = [
+  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+]
+
 export default {
   data () {
-    const stringOptions = [
-      'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-    ]
-
     return {
       type: 'filled',
       readonly: false,
@@ -67,11 +115,19 @@ export default {
       dense: false,
       expandBesides: false,
 
+      simpleFilter: null,
+      simpleFilterOptions: null,
+
+      simpleFilterInput: null,
+      simpleFilterInputOptions: null,
+
+      delayedFilterInput: null,
+      delayedFilterInputOptions: null,
+      delayedLoading: false,
+
       stringSingle: 'Facebook',
       stringMultiple: ['Facebook', 'Twitter'],
-      stringOptions: [
-        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-      ],
+      stringOptions,
 
       objectSingle: {
         label: 'Facebook',
@@ -127,7 +183,6 @@ export default {
         }
       ],
 
-      filter: '',
       loading: false,
       // dynamicOptions: null,
       filterOptions: stringOptions
@@ -135,7 +190,42 @@ export default {
   },
 
   methods: {
+    simpleFilterFn (val) {
+      if (this.simpleFilterOptions !== null) {
+        return
+      }
+
+      this.simpleFilterOptions = stringOptions
+    },
+
+    simpleFilterInputFn (val) {
+      if (val === '') {
+        this.simpleFilterInputOptions = stringOptions
+        return
+      }
+
+      const needle = val.toLowerCase()
+      this.simpleFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+    },
+
+    delayedFilterInputFn (val) {
+      this.delayedLoading = true
+
+      setTimeout(() => {
+        this.delayedLoading = false
+
+        if (val === '') {
+          this.delayedFilterInputOptions = stringOptions
+          return
+        }
+
+        const needle = val.toLowerCase()
+        this.delayedFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      }, 2500)
+    },
+
     filterFn (val) {
+      console.log('filtering')
       if (val === '') {
         this.filterOptions = this.stringOptions
         return

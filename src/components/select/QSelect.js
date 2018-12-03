@@ -7,7 +7,7 @@ import QSpinner from '../spinner/QSpinner.js'
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
 
-import SelectAutocompleteMixin from './select-autocomplete-mixin.js'
+import SelectAutocompleteMixin from './select-filter-mixin.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from '../../directives/click-outside.js'
@@ -55,9 +55,10 @@ export default Vue.extend({
   data () {
     return {
       menu: false,
-      controlFocus: false,
+      targetFocused: false,
       optionIndex: -1,
-      optionsToShow: 20
+      optionsToShow: 20,
+      filter: ''
     }
   },
 
@@ -73,7 +74,7 @@ export default Vue.extend({
 
   computed: {
     focused () {
-      return this.controlFocus === true || this.menu === true
+      return this.targetFocused === true || this.menu === true
     },
 
     innerValue () {
@@ -127,7 +128,9 @@ export default Vue.extend({
 
   methods: {
     toggleOption (opt) {
-      if (opt.disable === true) { return }
+      if (this.editable !== true || opt === void 0 || opt.disable === true) { return }
+
+      console.log('toggleOption', opt)
 
       if (this.multiple !== true) {
         if (!isDeepEqual(this.value, opt)) {
@@ -192,31 +195,46 @@ export default Vue.extend({
       return this.innerValue.find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
     },
 
-    __onClick  (evt) {
+    __onClick  (e) {
       console.log('click', this.menu)
-      this.menu = !this.menu
       this.$refs.target.focus()
+      if (this.menu === true) {
+        this.menu = false
+      }
+      else {
+        if (this.$listeners.filter !== void 0) {
+          this.__filter(this.filter)
+        }
+        else {
+          this.menu = true
+        }
+      }
     },
 
     __onTargetFocus (e) {
       console.log('focus')
-      this.controlFocus = true
-      this.$emit('focus', e)
+      this.targetFocused = true
     },
 
     __onTargetBlur (e) {
       console.log('blur')
-      this.controlFocus = false
-      this.$emit('blur', e)
+      this.targetFocused = false
     },
 
     __onTargetKeydown (e) {
       if (e.keyCode === 13) {
+        console.log('__onTargetKeydown', this.optionIndex)
         if (this.optionIndex > -1) {
           this.toggleOption(this.options[this.optionIndex])
         }
+        else if (this.menu === true) {
+          this.menu = false
+        }
+        else if (this.$listeners.filter !== void 0) {
+          this.__filter(this.filter)
+        }
         else {
-          this.menu = !this.menu
+          this.menu = true
         }
       }
     },
@@ -242,7 +260,21 @@ export default Vue.extend({
             )
           }
           while (index !== this.optionIndex && this.options[index].disable === true)
+
+          const dir = index > this.optionIndex ? 1 : -1
           this.optionIndex = index
+
+          this.$nextTick(() => {
+            const el = this.$refs.menu.querySelector('.q-focusable--focused')
+            if (el !== null && el.scrollIntoView !== void 0) {
+              if (el.scrollIntoViewIfNeeded !== void 0) {
+                el.scrollIntoViewIfNeeded(false)
+              }
+              else {
+                el.scrollIntoView(dir === -1)
+              }
+            }
+          })
         }
       }
     },
@@ -291,11 +323,11 @@ export default Vue.extend({
             ]
         )
 
-      if (this.hasInput === true) {
-        child.push(this.__getInput(h))
+      if (this.withFilter === true) {
+        child.push(this.__getFilter(h))
       }
 
-      const data = this.editable === true && this.hasInput === false
+      const data = this.editable === true && this.withFilter === false
         ? {
           ref: 'target',
           attrs: { tabindex: 0 },
@@ -387,8 +419,6 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
-    if (this.menu === true) {
-      document.body.removeEventListener('keydown', this.__onGlobalKeydown)
-    }
+    document.body.removeEventListener('keydown', this.__onGlobalKeydown)
   }
 })

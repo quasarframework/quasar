@@ -2,10 +2,11 @@
 
 export default {
   props: {
-    filter: String,
+    withFilter: Boolean,
+
     filterDebounce: {
       type: [Number, String],
-      default: 300
+      default: 500
     },
 
     loading: {
@@ -14,14 +15,8 @@ export default {
     }
   },
 
-  computed: {
-    hasInput () {
-      return this.filter !== void 0
-    }
-  },
-
   methods: {
-    __getInput (h) {
+    __getFilter (h) {
       return h('input', {
         ref: 'target',
         staticClass: 'q-select__filter col',
@@ -31,8 +26,9 @@ export default {
         },
         on: {
           input: this.__onInputValue,
-          focus: this.__onInputFocus,
-          blur: this.__onInputBlur
+          focus: this.__onTargetFocus,
+          blur: this.__onTargetBlur,
+          keydown: this.__onTargetKeydown
         }
       })
     },
@@ -42,46 +38,28 @@ export default {
       clearTimeout(this.filterTimer)
 
       this.filterTimer = setTimeout(() => {
-        const val = e.target.value
-
-        if (this.filter !== val) {
-          this.triggerFilter(val)
-        }
+        this.__filter(e.target.value)
       }, this.filterDebounce)
     },
 
-    __onInputFocus (e) {
-      console.log('__onInputFocus')
-      // stopAndPrevent(e)
-      this.__onTargetFocus(e)
-      // this.focused = true
-      this.triggerFilter(e.target.value)
-    },
-
-    __onInputBlur (e) {
-      console.log('__onInputBlur')
-      this.__onTargetBlur(e)
-
-      if (this.filter !== '') {
-        this.$emit('update:filter', '')
-      }
-    },
-
-    triggerFilter (val) {
-      console.log('__triggerFilter')
-      this.$emit('update:filter', val)
-      console.log('__triggerFilter - before emit')
+    __filter (val) {
+      this.menu = false
+      this.filter = val
       this.$emit('filter', val)
-      console.log('__triggerFilter - after emit')
 
       this.$nextTick(() => {
+        if (this.focused === false) { return }
+
         if (this.loading !== true) {
-          // this.$refs.menu.show()
+          console.log('set menu', true)
+          this.menu = true
         }
         else {
           const fn = loading => {
             if (loading === false && this.unWatchLoading !== void 0) {
-              // this.$refs.menu.show()
+              if (this.focused === true) {
+                this.menu = true
+              }
               this.unWatchLoading()
               this.unWatchLoading = void 0
             }
