@@ -17,8 +17,12 @@
   .q-icon, .q-spinner
     font-size 1.4em
   // workaround for alignment/sizing change when showing loader
-  .q-btn-inner:before
-    content ''
+  .q-btn-inner
+    transition opacity .6s
+    &--hidden
+      opacity 0
+    &:before
+      content ''
 
   &.disabled
     opacity .7 !important
@@ -79,3 +83,16 @@
 .q-btn-fab-mini
   height 40px
   width 40px
+
+.q-transition
+
+  &--fade
+
+    &-leave-active
+      position absolute
+
+  &--fade
+    &-enter-active, &-leave-active
+      transition opacity .4s ease-out
+    &-enter, &-leave, &-leave-to
+      opacity 0
