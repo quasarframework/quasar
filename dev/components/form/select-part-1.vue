@@ -177,7 +177,7 @@
           slot="selected"
           slot-scope="scope"
           removable
-          @remove="scope.toggleOption(scope.opt)"
+          @remove="scope.removeValue(scope.opt)"
           color="white"
           text-color="primary"
         >
@@ -219,7 +219,7 @@
           slot-scope="scope"
           color="white"
           removable
-          @remove="scope.toggleOption(scope.opt)"
+          @remove="scope.removeValue(scope.opt)"
           text-color="teal"
         >
           <span v-html="scope.opt.label" />

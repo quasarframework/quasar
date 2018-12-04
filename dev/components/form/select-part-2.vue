@@ -8,17 +8,21 @@
         <q-radio v-model="type" val="standard" label="Standard" />
         <q-radio v-model="type" val="borderless" label="Borderless" />
       </div>
-      <div class="q-mb-lg">
+      <div>
         <q-toggle v-model="readonly" label="Readonly" />
         <q-toggle v-model="disable" label="Disable" />
         <q-toggle v-model="dense" label="Dense" />
         <q-toggle v-model="expandBesides" label="Expand besides" />
       </div>
+      <div class="q-mb-lg q-gutter-sm">
+        <q-btn label="Set Google" @click="setGoogle" color="primary" outline />
+        <q-btn label="Set Null" @click="setNull" color="primary" outline />
+      </div>
 
       <q-select
         v-bind="props"
         v-model="simpleFilter"
-        label="Simple filter"
+        label="Simple filter - lazy load options"
         :options="simpleFilterOptions"
         @filter="simpleFilterFn"
       >
@@ -34,7 +38,24 @@
         v-model="simpleFilterInput"
         use-input
         input-debounce="0"
-        label="Simple filter"
+        label="Simple filter - useInput"
+        :options="simpleFilterInputOptions"
+        @filter="simpleFilterInputFn"
+      >
+        <q-item slot="no-option">
+          <q-item-section class="text-grey">
+            No results
+          </q-item-section>
+        </q-item>
+      </q-select>
+
+      <q-select
+        v-bind="props"
+        v-model="simpleFilterInput"
+        use-input
+        input-debounce="0"
+        hide-selected
+        label="Simple filter - hide selected + useInput"
         :options="simpleFilterInputOptions"
         @filter="simpleFilterInputFn"
       >
@@ -192,63 +213,77 @@ export default {
   },
 
   methods: {
-    simpleFilterFn (val, done) {
-      done()
+    setGoogle () {
+      this.simpleFilter = this.simpleFilterInput = this.minFilterInput = this.chipFilterInput = this.delayedFilterInput = 'Google'
+    },
 
+    setNull () {
+      this.simpleFilter = this.simpleFilterInput = this.minFilterInput = this.chipFilterInput = this.delayedFilterInput = null
+    },
+
+    simpleFilterFn (val, update) {
       if (this.simpleFilterOptions !== null) {
+        update()
         return
       }
 
-      this.simpleFilterOptions = stringOptions
+      update(() => {
+        this.simpleFilterOptions = stringOptions
+      })
     },
 
-    simpleFilterInputFn (val, done) {
+    simpleFilterInputFn (val, update) {
       if (val === '') {
-        this.simpleFilterInputOptions = stringOptions
-        done()
+        update(() => {
+          this.simpleFilterInputOptions = stringOptions
+        })
         return
       }
 
-      const needle = val.toLowerCase()
-      this.simpleFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-      done()
+      update(() => {
+        const needle = val.toLowerCase()
+        this.simpleFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
     },
 
-    minFilterInputFn (val, done) {
+    minFilterInputFn (val, update) {
       if (val.length < 2) { return }
 
-      const needle = val.toLowerCase()
-      this.minFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-      done()
+      update(() => {
+        const needle = val.toLowerCase()
+        this.minFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
     },
 
-    chipFilterInputFn (val, done) {
-      done()
-
+    chipFilterInputFn (val, update) {
       if (val === '') {
-        this.chipFilterInputOptions = stringOptions
+        update(() => {
+          this.chipFilterInputOptions = stringOptions
+        })
         return
       }
 
-      const needle = val.toLowerCase()
-      this.chipFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      update(() => {
+        const needle = val.toLowerCase()
+        this.chipFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
     },
 
-    delayedFilterInputFn (val, done) {
+    delayedFilterInputFn (val, update) {
       this.delayedLoading = true
 
       setTimeout(() => {
-        this.delayedLoading = false
+        update(() => {
+          this.delayedLoading = false
 
-        if (val === '') {
-          this.delayedFilterInputOptions = stringOptions
-          done()
-          return
-        }
+          if (val === '') {
+            this.delayedFilterInputOptions = stringOptions
+            return
+          }
 
-        const needle = val.toLowerCase()
-        this.delayedFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-        done()
+          const needle = val.toLowerCase()
+          this.delayedFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        })
       }, 2500)
     }
   },

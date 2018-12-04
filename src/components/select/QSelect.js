@@ -77,6 +77,12 @@ export default Vue.extend({
   },
 
   watch: {
+    selectedString (val) {
+      if (this.multiple !== true && this.hideSelected === true && this.inputValue !== val) {
+        this.inputValue = val
+      }
+    },
+
     menu (show) {
       this.optionIndex = -1
       if (show === true) {
@@ -112,6 +118,7 @@ export default Vue.extend({
         index: i,
         opt,
         selected: true,
+        removeValue: this.removeValue,
         toggleOption: this.toggleOption
       }))
     },
@@ -141,12 +148,30 @@ export default Vue.extend({
   },
 
   methods: {
+    removeValue (opt) {
+      if (this.multiple !== true) {
+        this.$emit('input', null)
+        return
+      }
+
+      const index = this.value.findIndex(v => isDeepEqual(v, opt))
+      if (index > -1) {
+        const model = [].concat(this.value)
+        this.$emit('remove', { index, value: model.splice(index, 1) })
+        this.$emit('input', model)
+      }
+    },
+
     toggleOption (opt) {
       if (this.editable !== true || opt === void 0 || opt.disable === true) { return }
 
       if (this.multiple !== true) {
-        this.$emit('input', isDeepEqual(this.value, opt) ? null : opt)
         this.menu = false
+
+        if (isDeepEqual(this.value, opt) !== true) {
+          this.$emit('input', opt)
+        }
+
         return
       }
 
@@ -222,6 +247,10 @@ export default Vue.extend({
 
     __onTargetFocus (e) {
       this.targetFocused = true
+
+      if (this.useInput === true && this.inputValue.length > 0) {
+        e.target.setSelectionRange(0, this.inputValue.length)
+      }
     },
 
     __onTargetBlur (e) {
@@ -229,6 +258,20 @@ export default Vue.extend({
     },
 
     __onTargetKeydown (e) {
+      if (this.loading !== true && this.menu === false && e.keyCode === 40) { // down
+        stopAndPrevent(e)
+
+        if (this.$listeners.filter !== void 0) {
+          this.filter(this.inputValue)
+        }
+        else {
+          this.menu = true
+        }
+
+        return
+      }
+
+      // enter
       if (e.keyCode !== 13) { return }
 
       if (this.optionIndex > -1) {
@@ -237,11 +280,13 @@ export default Vue.extend({
       else if (this.menu === true) {
         this.menu = false
       }
-      else if (this.$listeners.filter !== void 0) {
-        this.filter(this.inputValue)
-      }
-      else {
-        this.menu = true
+      else if (this.loading !== true) {
+        if (this.$listeners.filter !== void 0) {
+          this.filter(this.inputValue)
+        }
+        else {
+          this.menu = true
+        }
       }
     },
 
@@ -289,11 +334,24 @@ export default Vue.extend({
       this.optionIndex = -1
     },
 
-    __onMenuFocusout () {
+    __onFocusout () {
       setTimeout(() => {
-        const el = document.activeElement
-        if (el !== document.body && this.$refs.control.contains(el) === false) {
-          this.menu = false
+        clearTimeout(this.inputTimer)
+
+        if (this.$refs !== void 0 && this.$refs.control !== void 0) {
+          const el = document.activeElement
+          if (el !== document.body && this.$refs.control.contains(el) === false) {
+            if (this.menu === true) {
+              this.menu = false
+            }
+            const val = this.multiple !== true && this.hideSelected === true
+              ? this.selectedString
+              : ''
+
+            if (this.inputValue !== val) {
+              this.inputValue = val
+            }
+          }
         }
       })
     },
@@ -333,7 +391,7 @@ export default Vue.extend({
             textColor: this.color
           },
           on: {
-            remove: () => { scope.toggleOption(scope.opt) }
+            remove: () => { scope.removeValue(scope.opt) }
           }
         }, [
           h('span', {
@@ -368,6 +426,7 @@ export default Vue.extend({
           attrs: { tabindex: 0 },
           on: {
             focus: this.__onTargetFocus,
+            focusout: this.__onFocusout,
             blur: this.__onTargetBlur,
             keydown: this.__onTargetKeydown
           }
@@ -423,7 +482,7 @@ export default Vue.extend({
             on: {
               click: stopAndPrevent,
               focusin: this.__onMenuFocusin,
-              focusout: this.__onMenuFocusout,
+              focusout: this.__onFocusout,
               '&scroll': this.__onMenuScroll
             },
             directives: [{
@@ -456,7 +515,9 @@ export default Vue.extend({
       return h('input', {
         ref: 'target',
         staticClass: 'q-select__input col',
-        'class': this.innerValue && this.innerValue.length > 0 ? 'q-select__input--padding' : null,
+        class: this.hideSelected !== true && this.innerValue.length > 0
+          ? 'q-select__input--padding'
+          : null,
         domProps: { value: this.inputValue },
         attrs: {
           disabled: this.editable !== true
@@ -464,6 +525,7 @@ export default Vue.extend({
         on: {
           input: this.__onInputValue,
           focus: this.__onTargetFocus,
+          focusout: this.__onFocusout,
           blur: this.__onTargetBlur,
           keydown: this.__onTargetKeydown
         }
@@ -472,7 +534,7 @@ export default Vue.extend({
 
     __onInputValue (e) {
       clearTimeout(this.inputTimer)
-      this.inputValue = e.target.value
+      this.inputValue = e.target.value || ''
 
       this.inputTimer = setTimeout(() => {
         this.filter(this.inputValue)
@@ -483,8 +545,9 @@ export default Vue.extend({
       this.menu = false
       this.inputValue = val
 
-      this.$emit('filter', val, () => {
-        if (this.focused === true) {
+      this.$emit('filter', val, fn => {
+        if (this.focused === true && this.inputValue === val) {
+          typeof fn === 'function' && fn()
           this.menu = true
         }
       })
