@@ -165,7 +165,7 @@ export default {
     }
 
     return h('div', {
-      staticClass: 'q-scrollarea relative-position',
+      staticClass: 'q-scroll-area relative-position',
       on: {
         mouseenter: () => { this.hover = true },
         mouseleave: () => { this.hover = false }
