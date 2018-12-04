@@ -12,6 +12,7 @@ import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from '../../directives/click-outside.js'
 
+import uid from '../../utils/uid.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
@@ -58,11 +59,6 @@ export default Vue.extend({
       default: 500
     },
 
-    loading: {
-      type: Boolean,
-      default: null
-    },
-
     expandBesides: Boolean
   },
 
@@ -72,7 +68,8 @@ export default Vue.extend({
       targetFocused: false,
       optionIndex: -1,
       optionsToShow: 20,
-      inputValue: ''
+      inputValue: '',
+      loading: false
     }
   },
 
@@ -344,12 +341,20 @@ export default Vue.extend({
             if (this.menu === true) {
               this.menu = false
             }
+
             const val = this.multiple !== true && this.hideSelected === true
               ? this.selectedString
               : ''
 
             if (this.inputValue !== val) {
               this.inputValue = val
+            }
+
+            this.filterId = void 0
+
+            if (this.loading === true) {
+              this.$emit('filter-abort')
+              this.loading = false
             }
           }
         }
@@ -545,12 +550,32 @@ export default Vue.extend({
       this.menu = false
       this.inputValue = val
 
-      this.$emit('filter', val, fn => {
-        if (this.focused === true && this.inputValue === val) {
-          typeof fn === 'function' && fn()
-          this.menu = true
+      if (this.loading === true) {
+        this.$emit('filter-abort')
+      }
+      else {
+        this.loading = true
+      }
+
+      const filterId = uid()
+      this.filterId = filterId
+
+      this.$emit(
+        'filter',
+        val,
+        fn => {
+          if (this.focused === true && this.filterId === filterId) {
+            this.loading = false
+            this.menu = true
+            typeof fn === 'function' && fn()
+          }
+        },
+        () => {
+          if (this.focused === true && this.filterId === filterId) {
+            this.loading = false
+          }
         }
-      })
+      )
     }
   },
 

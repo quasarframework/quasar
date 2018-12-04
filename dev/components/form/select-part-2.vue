@@ -105,10 +105,10 @@
         use-input
         use-chips
         color="teal"
-        :loading="delayedLoading"
         label="Delayed filter"
         :options="delayedFilterInputOptions"
         @filter="delayedFilterInputFn"
+        @filter-abort="delayedAbort"
       >
         <q-item slot="no-option">
           <q-item-section class="text-grey">
@@ -150,7 +150,6 @@ export default {
 
       delayedFilterInput: null,
       delayedFilterInputOptions: null,
-      delayedLoading: false,
 
       stringSingle: 'Facebook',
       stringMultiple: ['Facebook', 'Twitter'],
@@ -269,22 +268,24 @@ export default {
       })
     },
 
-    delayedFilterInputFn (val, update) {
-      this.delayedLoading = true
+    delayedFilterInputFn (val, update, abort) {
+      // call abort() at any time if you can't retrieve data somehow
 
       setTimeout(() => {
         update(() => {
-          this.delayedLoading = false
-
           if (val === '') {
             this.delayedFilterInputOptions = stringOptions
-            return
           }
-
-          const needle = val.toLowerCase()
-          this.delayedFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+          else {
+            const needle = val.toLowerCase()
+            this.delayedFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+          }
         })
       }, 2500)
+    },
+
+    delayedAbort () {
+      console.log('delayed filter aborted')
     }
   },
 
