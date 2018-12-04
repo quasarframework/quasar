@@ -75,9 +75,9 @@ export default Vue.extend({
 
   watch: {
     selectedString (val) {
-      if (this.multiple !== true && this.hideSelected === true && this.inputValue !== val) {
-        this.inputValue = val
-      }
+      this.inputValue = this.multiple !== true && this.hideSelected === true && this.inputValue !== val
+        ? val
+        : ''
     },
 
     menu (show) {
@@ -161,6 +161,25 @@ export default Vue.extend({
         this.$emit('remove', { index, value: model.splice(index, 1) })
         this.$emit('input', model)
       }
+    },
+
+    addValue (opt) {
+      if (this.multiple !== true) {
+        this.$emit('input', opt)
+        return
+      }
+
+      if (this.innerValue.length === 0) {
+        this.$emit('add', { index: 0, value: opt })
+        this.$emit('input', this.multiple === true ? [ opt ] : opt)
+        return
+      }
+
+      const model = [].concat(this.value)
+
+      this.$emit('add', { index: model.length, value: opt })
+      model.push(opt)
+      this.$emit('input', model)
     },
 
     toggleOption (opt) {
@@ -272,13 +291,27 @@ export default Vue.extend({
         return
       }
 
+      if (this.multiple === true && this.inputValue.length === 0 && e.keyCode === 8) { // delete
+        this.removeValue(this.value[this.value.length - 1])
+        return
+      }
+
       // enter
       if (e.keyCode !== 13) { return }
 
       if (this.optionIndex > -1) {
         this.toggleOption(this.options[this.optionIndex])
+        return
       }
-      else if (this.menu === true) {
+
+      if (this.multiple === true && this.$listeners['new-value'] !== void 0 && this.inputValue.length > 0) {
+        this.$emit('new-value', this.inputValue, val => {
+          val !== void 0 && val !== null && this.addValue(val)
+          this.inputValue = ''
+        })
+      }
+
+      if (this.menu === true) {
         this.menu = false
       }
       else if (this.loading !== true) {
@@ -548,9 +581,11 @@ export default Vue.extend({
       clearTimeout(this.inputTimer)
       this.inputValue = e.target.value || ''
 
-      this.inputTimer = setTimeout(() => {
-        this.filter(this.inputValue)
-      }, this.inputDebounce)
+      if (this.$listeners.filter !== void 0) {
+        this.inputTimer = setTimeout(() => {
+          this.filter(this.inputValue)
+        }, this.inputDebounce)
+      }
     },
 
     filter (val) {

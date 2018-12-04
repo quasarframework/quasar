@@ -51,6 +51,19 @@
 
       <q-select
         v-bind="props"
+        v-model="createInput"
+        use-input
+        use-chips
+        multiple
+        input-debounce="0"
+        label="Create new values"
+        @new-value="createInputNewValue"
+        :options="createInputOptions"
+        @filter="createInputFn"
+      />
+
+      <q-select
+        v-bind="props"
         v-model="simpleFilterInput"
         use-input
         input-debounce="0"
@@ -139,6 +152,9 @@ export default {
       simpleFilter: null,
       simpleFilterOptions: null,
 
+      createInput: null,
+      createInputOptions: null,
+
       simpleFilterInput: null,
       simpleFilterInputOptions: null,
 
@@ -218,6 +234,25 @@ export default {
 
     setNull () {
       this.simpleFilter = this.simpleFilterInput = this.minFilterInput = this.chipFilterInput = this.delayedFilterInput = null
+    },
+
+    createInputNewValue (val, done) {
+      console.log('createInputValue', val)
+      if (val.length > 0) {
+        done(val)
+      }
+    },
+
+    createInputFn (val, update) {
+      update(() => {
+        if (val === '') {
+          this.createInputOptions = stringOptions
+        }
+        else {
+          const needle = val.toLowerCase()
+          this.createInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        }
+      })
     },
 
     simpleFilterFn (val, update) {
