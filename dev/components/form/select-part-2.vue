@@ -258,16 +258,14 @@ export default {
     },
 
     chipFilterInputFn (val, update) {
-      if (val === '') {
-        update(() => {
-          this.chipFilterInputOptions = stringOptions
-        })
-        return
-      }
-
       update(() => {
-        const needle = val.toLowerCase()
-        this.chipFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        if (val === '') {
+          this.chipFilterInputOptions = stringOptions
+        }
+        else {
+          const needle = val.toLowerCase()
+          this.chipFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        }
       })
     },
 

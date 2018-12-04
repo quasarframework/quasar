@@ -337,8 +337,8 @@ export default Vue.extend({
 
         if (this.$refs !== void 0 && this.$refs.control !== void 0) {
           const el = document.activeElement
-          if (el !== document.body && this.$refs.control.contains(el) === false) {
-            if (this.menu === true) {
+          if (this.$refs.control.contains(el) === false) {
+            if (this.menu === true && el !== document.body) {
               this.menu = false
             }
 
