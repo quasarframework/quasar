@@ -90,6 +90,10 @@ export default Vue.extend({
   },
 
   computed: {
+    fieldClass () {
+      return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input`
+    },
+
     focused () {
       return this.targetFocused === true || this.menu === true
     },
@@ -337,25 +341,28 @@ export default Vue.extend({
 
         if (this.$refs !== void 0 && this.$refs.control !== void 0) {
           const el = document.activeElement
-          if (this.$refs.control.contains(el) === false) {
-            if (this.menu === true && el !== document.body) {
-              this.menu = false
-            }
 
-            const val = this.multiple !== true && this.hideSelected === true
-              ? this.selectedString
-              : ''
+          if (this.$refs.control.contains(el) !== false) {
+            return
+          }
 
-            if (this.inputValue !== val) {
-              this.inputValue = val
-            }
+          if (this.menu === true && el !== document.body) {
+            this.menu = false
+          }
 
-            this.filterId = void 0
+          const val = this.multiple !== true && this.hideSelected === true
+            ? this.selectedString
+            : ''
 
-            if (this.loading === true) {
-              this.$emit('filter-abort')
-              this.loading = false
-            }
+          if (this.inputValue !== val) {
+            this.inputValue = val
+          }
+
+          this.filterId = void 0
+
+          if (this.loading === true) {
+            this.$emit('filter-abort')
+            this.loading = false
           }
         }
       })
@@ -577,10 +584,6 @@ export default Vue.extend({
         }
       )
     }
-  },
-
-  created () {
-    this.fieldClass = 'q-select q-field--auto-height'
   },
 
   beforeDestroy () {
