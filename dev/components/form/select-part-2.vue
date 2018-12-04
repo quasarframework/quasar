@@ -245,8 +245,11 @@ export default {
       })
     },
 
-    minFilterInputFn (val, update) {
-      if (val.length < 2) { return }
+    minFilterInputFn (val, update, abort) {
+      if (val.length < 2) {
+        abort()
+        return
+      }
 
       update(() => {
         const needle = val.toLowerCase()
