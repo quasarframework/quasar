@@ -345,7 +345,6 @@ export default {
         this.videoIndex = 0
       }
       this.setSource()
-      this.autoPlay = true
     }
   }
 }
