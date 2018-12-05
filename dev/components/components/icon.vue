@@ -16,7 +16,8 @@
         {value: 'fab fa-github', label: 'A Font Awesome icon'},
         {value: 'ion-airplane', label: 'A Ionicon (platform dependent)'},
         {value: 'ion-md-airplane', label: 'A Ionicon (md)'},
-        {value: 'ion-ios-airplane', label: 'A Ionicon (ios)'}
+        {value: 'ion-ios-airplane', label: 'A Ionicon (ios)'},
+        {value: 'eva-paper-plane-outline', label: 'A Eva icon'}
       ]"
       style="margin-top: 25px"
     />
