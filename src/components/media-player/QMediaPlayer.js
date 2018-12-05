@@ -531,7 +531,27 @@ export default Vue.extend({
     __cueChanged: function (data) {
     },
 
-    __videoClick: function () {
+    __checkCursor () {
+      if (this.state.inFullscreen && this.state.playing && !this.state.showControls) {
+        this.$el.classList.remove('cursor-inherit')
+        this.$el.classList.add('cursor-none')
+      }
+      else {
+        this.$el.classList.remove('cursor-none')
+        this.$el.classList.add('cursor-inherit')
+      }
+    },
+
+    __adjustMenu () {
+      const qmenu = this.$refs['menu']
+      if (qmenu) {
+        setTimeout(() => {
+          qmenu.updatePosition()
+        }, 350)
+      }
+    },
+
+    __videoClick () {
       if (this.mobileMode) {
         this.toggleControls()
       }
