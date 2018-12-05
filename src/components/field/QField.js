@@ -36,9 +36,9 @@ export default Vue.extend({
   },
 
   data () {
-    return this.$options.fieldDataFocus !== false
-      ? { focused: false }
-      : {}
+    return {
+      focused: false
+    }
   },
 
   computed: {
@@ -223,9 +223,7 @@ export default Vue.extend({
           ref: 'control',
           staticClass: 'q-field__control relative-position row no-wrap',
           class: this.contentClass,
-          on: this.__onClick !== void 0 ? {
-            click: this.__onClick
-          } : null
+          on: this.controlEvents
         }, this.__getContent(h)),
 
         this.__getBottom(h)

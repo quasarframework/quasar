@@ -10,8 +10,6 @@ import QItemSection from '../list/QItemSection.js'
 
 import TransitionMixin from '../../mixins/transition.js'
 
-import ClickOutside from '../../directives/click-outside.js'
-
 import uid from '../../utils/uid.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -21,13 +19,6 @@ export default Vue.extend({
   name: 'QSelect',
 
   mixins: [ QField, TransitionMixin ],
-
-  directives: {
-    ClickOutside
-  },
-
-  // field options
-  fieldDataFocus: false,
 
   props: {
     value: {
@@ -65,7 +56,6 @@ export default Vue.extend({
   data () {
     return {
       menu: false,
-      targetFocused: false,
       optionIndex: -1,
       optionsToShow: 20,
       inputValue: '',
@@ -92,10 +82,6 @@ export default Vue.extend({
   computed: {
     fieldClass () {
       return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input`
-    },
-
-    focused () {
-      return this.targetFocused === true || this.menu === true
     },
 
     innerValue () {
@@ -137,7 +123,8 @@ export default Vue.extend({
         opt,
         selected: this.__isSelected(opt),
         focused: this.optionIndex === i,
-        toggleOption: this.toggleOption
+        toggleOption: this.toggleOption,
+        setOptionIndex: this.setOptionIndex
       }))
     },
 
@@ -187,6 +174,7 @@ export default Vue.extend({
 
       if (this.multiple !== true) {
         this.menu = false
+        this.$refs.target.focus()
 
         if (isDeepEqual(this.value, opt) !== true) {
           this.$emit('input', opt)
@@ -220,6 +208,16 @@ export default Vue.extend({
       this.$emit('input', model)
     },
 
+    setOptionIndex (index) {
+      const val = index >= -1 && index < this.options.length
+        ? index
+        : -1
+
+      if (this.optionIndex !== val) {
+        this.optionIndex = val
+      }
+    },
+
     __getOptionValue (opt) {
       if (typeof this.optionValue === 'function') {
         return this.optionValue(opt)
@@ -249,34 +247,6 @@ export default Vue.extend({
       return this.innerValue.find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
     },
 
-    __onClick  (e) {
-      this.$refs.target.focus()
-
-      if (this.menu === true) {
-        this.menu = false
-      }
-      else {
-        if (this.$listeners.filter !== void 0) {
-          this.filter(this.inputValue)
-        }
-        else {
-          this.menu = true
-        }
-      }
-    },
-
-    __onTargetFocus (e) {
-      this.targetFocused = true
-
-      if (this.useInput === true && this.inputValue.length > 0) {
-        e.target.setSelectionRange(0, this.inputValue.length)
-      }
-    },
-
-    __onTargetBlur (e) {
-      this.targetFocused = false
-    },
-
     __onTargetKeydown (e) {
       if (this.loading !== true && this.menu === false && e.keyCode === 40) { // down
         stopAndPrevent(e)
@@ -299,12 +269,16 @@ export default Vue.extend({
       // enter
       if (e.keyCode !== 13) { return }
 
-      if (this.optionIndex > -1) {
+      if (this.optionIndex > -1 && this.optionIndex < this.options.length) {
         this.toggleOption(this.options[this.optionIndex])
         return
       }
 
-      if (this.multiple === true && this.$listeners['new-value'] !== void 0 && this.inputValue.length > 0) {
+      if (
+        this.multiple === true &&
+        this.$listeners['new-value'] !== void 0 &&
+        this.inputValue.length > 0
+      ) {
         this.$emit('new-value', this.inputValue, val => {
           val !== void 0 && val !== null && this.addValue(val)
           this.inputValue = ''
@@ -362,43 +336,6 @@ export default Vue.extend({
           })
         }
       }
-    },
-
-    __onMenuFocusin () {
-      this.optionIndex = -1
-    },
-
-    __onFocusout () {
-      setTimeout(() => {
-        clearTimeout(this.inputTimer)
-
-        if (this.$refs !== void 0 && this.$refs.control !== void 0) {
-          const el = document.activeElement
-
-          if (this.$refs.control.contains(el) !== false) {
-            return
-          }
-
-          if (this.menu === true && el !== document.body) {
-            this.menu = false
-          }
-
-          const val = this.multiple !== true && this.hideSelected === true
-            ? this.selectedString
-            : ''
-
-          if (this.inputValue !== val) {
-            this.inputValue = val
-          }
-
-          this.filterId = void 0
-
-          if (this.loading === true) {
-            this.$emit('filter-abort')
-            this.loading = false
-          }
-        }
-      })
     },
 
     __onMenuScroll () {
@@ -470,9 +407,6 @@ export default Vue.extend({
           ref: 'target',
           attrs: { tabindex: 0 },
           on: {
-            focus: this.__onTargetFocus,
-            focusout: this.__onFocusout,
-            blur: this.__onTargetBlur,
             keydown: this.__onTargetKeydown
           }
         }
@@ -491,10 +425,12 @@ export default Vue.extend({
           disable: scope.opt.disable,
           dense: this.dense,
           active: scope.selected,
-          focused: scope.focused
+          focused: scope.focused,
+          tabindex: -1
         },
         on: {
-          click: () => { scope.toggleOption(scope.opt) }
+          click () { scope.toggleOption(scope.opt) },
+          mouseenter: () => { scope.setOptionIndex(scope.index) }
         }
       }, [
         h(QItemSection, {
@@ -526,15 +462,8 @@ export default Vue.extend({
             staticClass: 'q-local-menu scroll',
             on: {
               click: stopAndPrevent,
-              focusin: this.__onMenuFocusin,
-              focusout: this.__onFocusout,
               '&scroll': this.__onMenuScroll
-            },
-            directives: [{
-              name: 'click-outside',
-              value: () => { this.menu = false },
-              arg: [ this.$refs.control ]
-            }]
+            }
           }, this.noOptions === true ? this.$slots['no-option'] : this.__getOptions(h))
           : null
       ])
@@ -569,9 +498,6 @@ export default Vue.extend({
         },
         on: {
           input: this.__onInputValue,
-          focus: this.__onTargetFocus,
-          focusout: this.__onFocusout,
-          blur: this.__onTargetBlur,
           keydown: this.__onTargetKeydown
         }
       })
@@ -580,6 +506,10 @@ export default Vue.extend({
     __onInputValue (e) {
       clearTimeout(this.inputTimer)
       this.inputValue = e.target.value || ''
+
+      if (this.optionIndex !== -1) {
+        this.optionIndex = -1
+      }
 
       if (this.$listeners.filter !== void 0) {
         this.inputTimer = setTimeout(() => {
@@ -618,6 +548,78 @@ export default Vue.extend({
           }
         }
       )
+    },
+
+    __onControlClick () {
+      console.log('click', this.menu)
+      this.$refs.target.focus()
+
+      if (this.menu === true) {
+        this.menu = false
+      }
+      else {
+        if (this.$listeners.filter !== void 0) {
+          this.filter(this.inputValue)
+        }
+        else {
+          this.menu = true
+        }
+      }
+    },
+
+    __onControlFocusin (e) {
+      console.log('focusin')
+      this.focused = true
+
+      if (this.useInput === true && this.inputValue.length > 0) {
+        this.$refs.target.setSelectionRange(0, this.inputValue.length)
+      }
+    },
+
+    __onControlFocusout () {
+      setTimeout(() => {
+        console.log('focusout')
+        clearTimeout(this.inputTimer)
+
+        if (this.$refs === void 0 || this.$refs.control === void 0) {
+          console.log('focusout return 1')
+          return
+        }
+
+        if (this.$refs.control.contains(document.activeElement) !== false) {
+          console.log('focusout return 2')
+          return
+        }
+
+        this.focused = false
+
+        if (this.menu === true) {
+          this.menu = false
+        }
+
+        const val = this.multiple !== true && this.hideSelected === true
+          ? this.selectedString
+          : ''
+
+        if (this.inputValue !== val) {
+          this.inputValue = val
+        }
+
+        this.filterId = void 0
+
+        if (this.loading === true) {
+          this.$emit('filter-abort')
+          this.loading = false
+        }
+      })
+    }
+  },
+
+  created () {
+    this.controlEvents = {
+      click: this.__onControlClick,
+      focusin: this.__onControlFocusin,
+      focusout: this.__onControlFocusout
     }
   },
 

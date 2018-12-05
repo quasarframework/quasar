@@ -54,11 +54,12 @@ export default Vue.extend({
     },
 
     __onClick (e) {
-      this.$el.blur()
-      this.$emit('click', e)
+      (this.tabindex === void 0 || this.tabindex > 0) && this.$el.blur()
+      this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 
     __onKeyup (e) {
+      this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
       e.keyCode === 13 /* ENTER */ && this.__onClick(e)
     }
   },
@@ -73,10 +74,10 @@ export default Vue.extend({
       data.attrs = {
         tabindex: this.tabindex || '0'
       }
-      data[this.hasRouterLink ? 'nativeOn' : 'on'] = {
+      data[this.hasRouterLink ? 'nativeOn' : 'on'] = Object.assign({}, this.$listeners, {
         click: this.__onClick,
         keyup: this.__onKeyup
-      }
+      })
     }
 
     if (this.hasRouterLink) {
