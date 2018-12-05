@@ -119,11 +119,8 @@
         <q-item
           slot="option"
           slot-scope="scope"
-          clickable
-          :active="scope.selected"
-          :focused="scope.focused"
-          :disable="scope.opt.disable"
-          @click="scope.toggleOption(scope.opt)"
+          v-bind="scope.itemProps"
+          v-on="scope.itemEvents"
         >
           <q-item-section avatar>
             <q-icon :name="scope.opt.icon" />
@@ -147,11 +144,8 @@
         <q-item
           slot="option"
           slot-scope="scope"
-          clickable
-          :active="scope.selected"
-          :focused="scope.focused"
-          :disable="scope.opt.disable"
-          @click="scope.toggleOption(scope.opt)"
+          v-bind="scope.itemProps"
+          v-on="scope.itemEvents"
         >
           <q-item-section avatar>
             <q-icon :name="scope.opt.icon" />

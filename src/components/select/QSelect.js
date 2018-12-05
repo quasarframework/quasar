@@ -118,14 +118,30 @@ export default Vue.extend({
     },
 
     optionScope () {
-      return this.options.slice(0, this.optionsToShow).map((opt, i) => ({
-        index: i,
-        opt,
-        selected: this.__isSelected(opt),
-        focused: this.optionIndex === i,
-        toggleOption: this.toggleOption,
-        setOptionIndex: this.setOptionIndex
-      }))
+      return this.options.slice(0, this.optionsToShow).map((opt, i) => {
+        const itemProps = {
+          clickable: true,
+          active: this.__isSelected(opt),
+          focused: this.optionIndex === i,
+          disable: opt.disable,
+          tabindex: -1,
+          dense: this.dense
+        }
+
+        return {
+          index: i,
+          opt,
+          selected: itemProps.active,
+          focused: itemProps.focused,
+          toggleOption: this.toggleOption,
+          setOptionIndex: this.setOptionIndex,
+          itemProps,
+          itemEvents: {
+            click: () => { this.toggleOption(opt) },
+            mouseenter: () => { this.setOptionIndex(i) }
+          }
+        }
+      })
     },
 
     dropdownArrowIcon () {
@@ -420,18 +436,8 @@ export default Vue.extend({
     __getOptions (h) {
       const fn = this.$scopedSlots.option || (scope => h(QItem, {
         key: scope.index,
-        props: {
-          clickable: true,
-          disable: scope.opt.disable,
-          dense: this.dense,
-          active: scope.selected,
-          focused: scope.focused,
-          tabindex: -1
-        },
-        on: {
-          click () { scope.toggleOption(scope.opt) },
-          mouseenter: () => { scope.setOptionIndex(scope.index) }
-        }
+        props: scope.itemProps,
+        on: scope.itemEvents
       }, [
         h(QItemSection, {
           domProps: {
