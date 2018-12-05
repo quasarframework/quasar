@@ -43,6 +43,7 @@
             ,{ label: 'MDI', value: 'mdi' }
             ,{ label: 'Ionicons', value: 'ionicons' }
             ,{ label: 'Fontawesome', value: 'fontawesome' }
+            ,{ label: 'Themify', value: 'themify-icons' }
           ]"
           v-model="iconSet"
         />

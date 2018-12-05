@@ -14,6 +14,7 @@ import './app.styl'
 import 'quasar-extras/fontawesome/fontawesome.css'
 import 'quasar-extras/mdi/mdi.css'
 import 'quasar-extras/ionicons/ionicons.css'
+import 'quasar-extras/themify-icons/themify-icons.css'
 import 'quasar-extras/animate/fadeIn.css'
 import 'quasar-extras/animate/fadeOut.css'
 

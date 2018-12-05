@@ -39,6 +39,7 @@ import matSet from '../../../icons/material-icons.js'
 import mdiSet from '../../../icons/mdi.js'
 import fontawesomeSet from '../../../icons/fontawesome.js'
 import ioniconsSet from '../../../icons/ionicons.js'
+import themifySet from '../../../icons/themify-icons.js'
 
 function parseSet (setName, set) {
   const icons = []
@@ -65,7 +66,7 @@ export default {
   },
   computed: {
     sets () {
-      return [matSet, mdiSet, fontawesomeSet, ioniconsSet]
+      return [matSet, mdiSet, fontawesomeSet, ioniconsSet, themifySet]
         .map(({ name, ...set }) => parseSet(name, set))
     }
   },
