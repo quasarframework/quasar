@@ -97,6 +97,7 @@ export default {
     unmute: 'Unmute',
     speed: 'Speed', // Playback rate
     language: 'Language',
+    playbackRate: 'Playback Rate',
     waitingVideo: 'Waiting for video',
     waitingAudio: 'Waiting for audio',
     ratePoint5: '.5x',
