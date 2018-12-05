@@ -120,7 +120,8 @@ export default Vue.extend({
         opt,
         selected: true,
         removeValue: this.removeValue,
-        toggleOption: this.toggleOption
+        toggleOption: this.toggleOption,
+        control: this
       }))
     },
 
@@ -137,7 +138,8 @@ export default Vue.extend({
         opt,
         selected: this.__isSelected(opt),
         focused: this.optionIndex === i,
-        toggleOption: this.toggleOption
+        toggleOption: this.toggleOption,
+        setOptionIndex: this.setOptionIndex
       }))
     },
 
@@ -182,17 +184,28 @@ export default Vue.extend({
       this.$emit('input', model)
     },
 
-    toggleOption (opt) {
+    toggleOption (opt, optionIndex) {
       if (this.editable !== true || opt === void 0 || opt.disable === true) { return }
 
       if (this.multiple !== true) {
         this.menu = false
+
+        if (this.hideSelected === true && this.inputValue !== this.selectedString) {
+          this.inputValue = this.selectedString
+        }
 
         if (isDeepEqual(this.value, opt) !== true) {
           this.$emit('input', opt)
         }
 
         return
+      }
+
+      if (optionIndex !== void 0) {
+        if (this.optionIndex !== optionIndex) {
+          this.optionIndex = optionIndex
+        }
+        this.$refs.target.focus()
       }
 
       if (this.innerValue.length === 0) {
@@ -218,6 +231,12 @@ export default Vue.extend({
       }
 
       this.$emit('input', model)
+    },
+
+    setOptionIndex (optionIndex) {
+      if (this.optionIndex !== optionIndex) {
+        this.optionIndex = optionIndex
+      }
     },
 
     __getOptionValue (opt) {
@@ -265,16 +284,14 @@ export default Vue.extend({
       }
     },
 
-    __onTargetFocus (e) {
+    __onFocusin (e) {
       this.targetFocused = true
+    },
 
+    __onTargetFocus (e) {
       if (this.useInput === true && this.inputValue.length > 0) {
         e.target.setSelectionRange(0, this.inputValue.length)
       }
-    },
-
-    __onTargetBlur (e) {
-      this.targetFocused = false
     },
 
     __onTargetKeydown (e) {
@@ -299,12 +316,13 @@ export default Vue.extend({
       // enter
       if (e.keyCode !== 13) { return }
 
-      if (this.optionIndex > -1) {
+      if (this.optionIndex > -1 && this.options.length > this.optionIndex) {
         this.toggleOption(this.options[this.optionIndex])
         return
       }
 
       if (this.multiple === true && this.$listeners['new-value'] !== void 0 && this.inputValue.length > 0) {
+        this.menu = false
         this.$emit('new-value', this.inputValue, val => {
           val !== void 0 && val !== null && this.addValue(val)
           this.inputValue = ''
@@ -335,7 +353,7 @@ export default Vue.extend({
       if (e.keyCode === 38 || e.keyCode === 40) {
         stopAndPrevent(e)
 
-        if (this.menu === true) {
+        if (this.menu === true && this.options.length > 0) {
           let index = this.optionIndex
           do {
             index = normalizeToInterval(
@@ -372,31 +390,36 @@ export default Vue.extend({
       setTimeout(() => {
         clearTimeout(this.inputTimer)
 
-        if (this.$refs !== void 0 && this.$refs.control !== void 0) {
-          const el = document.activeElement
+        if (this.$refs === void 0 || this.$refs.control === void 0) {
+          this.targetFocused = false
+          return
+        }
 
-          if (this.$refs.control.contains(el) !== false) {
-            return
-          }
+        const el = document.activeElement
 
-          if (this.menu === true && el !== document.body) {
-            this.menu = false
-          }
+        if (this.$refs.control.contains(el) !== false) {
+          return
+        }
 
-          const val = this.multiple !== true && this.hideSelected === true
-            ? this.selectedString
-            : ''
+        this.targetFocused = false
 
-          if (this.inputValue !== val) {
-            this.inputValue = val
-          }
+        if (this.menu === true && el !== document.body) {
+          this.menu = false
+        }
 
-          this.filterId = void 0
+        const val = this.multiple !== true && this.hideSelected === true
+          ? this.selectedString
+          : ''
 
-          if (this.loading === true) {
-            this.$emit('filter-abort')
-            this.loading = false
-          }
+        if (this.inputValue !== val) {
+          this.inputValue = val
+        }
+
+        this.filterId = void 0
+
+        if (this.loading === true) {
+          this.$emit('filter-abort')
+          this.loading = false
         }
       })
     },
@@ -429,9 +452,15 @@ export default Vue.extend({
       }
 
       if (this.useChips === true) {
+        const
+          disable = this.editable !== true,
+          tabindex = this.targetFocused === true && disable === false ? 0 : -1
+
         return this.selectedScope.map(scope => h(QChip, {
           props: {
             removable: true,
+            disable,
+            tabindex,
             dense: true,
             textColor: this.color
           },
@@ -470,9 +499,6 @@ export default Vue.extend({
           ref: 'target',
           attrs: { tabindex: 0 },
           on: {
-            focus: this.__onTargetFocus,
-            focusout: this.__onFocusout,
-            blur: this.__onTargetBlur,
             keydown: this.__onTargetKeydown
           }
         }
@@ -491,10 +517,14 @@ export default Vue.extend({
           disable: scope.opt.disable,
           dense: this.dense,
           active: scope.selected,
-          focused: scope.focused
+          focused: scope.focused,
+          tabindex: -1
         },
         on: {
-          click: () => { scope.toggleOption(scope.opt) }
+          click: () => { scope.toggleOption(scope.opt, scope.index) }
+        },
+        nativeOn: {
+          mouseenter: () => { scope.setOptionIndex(scope.index) }
         }
       }, [
         h(QItemSection, {
@@ -570,8 +600,6 @@ export default Vue.extend({
         on: {
           input: this.__onInputValue,
           focus: this.__onTargetFocus,
-          focusout: this.__onFocusout,
-          blur: this.__onTargetBlur,
           keydown: this.__onTargetKeydown
         }
       })
@@ -590,6 +618,7 @@ export default Vue.extend({
 
     filter (val) {
       this.menu = false
+      this.optionIndex = -1
       this.inputValue = val
 
       if (this.loading === true) {

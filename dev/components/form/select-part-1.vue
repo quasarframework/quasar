@@ -123,7 +123,9 @@
           :active="scope.selected"
           :focused="scope.focused"
           :disable="scope.opt.disable"
-          @click="scope.toggleOption(scope.opt)"
+          @click="scope.toggleOption(scope.opt, scope.index)"
+          @mouseenter.native="scope.setOptionIndex(scope.index)"
+          tabindex="-1"
         >
           <q-item-section avatar>
             <q-icon :name="scope.opt.icon" />
@@ -151,7 +153,9 @@
           :active="scope.selected"
           :focused="scope.focused"
           :disable="scope.opt.disable"
-          @click="scope.toggleOption(scope.opt)"
+          @click="scope.toggleOption(scope.opt, scope.index)"
+          @mouseenter.native="scope.setOptionIndex(scope.index)"
+          tabindex="-1"
         >
           <q-item-section avatar>
             <q-icon :name="scope.opt.icon" />
@@ -180,6 +184,8 @@
           @remove="scope.removeValue(scope.opt)"
           color="white"
           text-color="primary"
+          :tabindex="scope.control.targetFocused === true && scope.control.menu === false && this.readonly !== true && this.disable !== true ? 0 : -1"
+          :disable="this.readonly === true || this.disable === true"
         >
           <q-avatar color="primary" text-color="white" :icon="scope.opt.icon" />
           <span v-html="scope.opt.label" />
@@ -221,6 +227,8 @@
           removable
           @remove="scope.removeValue(scope.opt)"
           text-color="teal"
+          :tabindex="scope.control.targetFocused === true && scope.control.menu === false && this.readonly !== true && this.disable !== true ? 0 : -1"
+          :disable="this.readonly === true || this.disable === true"
         >
           <span v-html="scope.opt.label" />
         </q-chip>

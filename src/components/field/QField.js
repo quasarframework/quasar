@@ -204,13 +204,21 @@ export default Vue.extend({
           staticClass: 'q-field__counter'
         }, this.$slots.counter || [ this.computedCounter ]) : null
       ])
-    }
+    },
+
+    __onFocusout () { },
+
+    __onFocusin () { }
   },
 
   render (h) {
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
-      class: this.classes
+      class: this.classes,
+      on: {
+        focusout: this.__onFocusout,
+        focusin: this.__onFocusin
+      }
     }, [
       this.$slots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
