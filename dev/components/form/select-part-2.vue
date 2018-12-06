@@ -56,10 +56,21 @@
         use-chips
         multiple
         input-debounce="0"
-        label="Create new values"
+        label="Create new values (& filter)"
         @new-value="createInputNewValue"
         :options="createInputOptions"
         @filter="createInputFn"
+      />
+
+      <q-select
+        v-bind="props"
+        v-model="createInput"
+        use-input
+        use-chips
+        multiple
+        input-debounce="0"
+        label="Create new values (no filter)"
+        @new-value="createInputNewValue"
       />
 
       <q-select

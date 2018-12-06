@@ -105,12 +105,15 @@ export default Vue.extend({
     },
 
     selectedScope () {
+      const tabindex = this.focused === true ? 0 : -1
+
       return this.innerValue.map((opt, i) => ({
         index: i,
         opt,
         selected: true,
         removeValue: this.removeValue,
-        toggleOption: this.toggleOption
+        toggleOption: this.toggleOption,
+        tabindex
       }))
     },
 
@@ -132,6 +135,13 @@ export default Vue.extend({
           tabindex: -1,
           dense: this.dense
         }
+        const itemEvents = {
+          click: () => { this.toggleOption(opt) }
+        }
+
+        if (this.$q.platform.is.desktop === true) {
+          itemEvents.mousemove = () => { this.setOptionIndex(i) }
+        }
 
         return {
           index: i,
@@ -141,10 +151,7 @@ export default Vue.extend({
           toggleOption: this.toggleOption,
           setOptionIndex: this.setOptionIndex,
           itemProps,
-          itemEvents: {
-            click: () => { this.toggleOption(opt) },
-            mousemove: () => { this.setOptionIndex(i) }
-          }
+          itemEvents
         }
       })
     },
@@ -237,6 +244,8 @@ export default Vue.extend({
     },
 
     setOptionIndex (index) {
+      if (this.$q.platform.is.desktop !== true) { return }
+
       const val = index >= -1 && index < this.optionsToShow
         ? index
         : -1
@@ -299,6 +308,16 @@ export default Vue.extend({
 
       if (this.optionIndex > -1 && this.optionIndex < this.optionsToShow) {
         this.toggleOption(this.options[this.optionIndex])
+
+        if (this.multiple === true) {
+          if (this.$listeners.filter !== void 0) {
+            this.filter('')
+            this.optionIndex = -1
+          }
+          else {
+            this.inputValue = ''
+          }
+        }
         return
       }
 
@@ -342,9 +361,14 @@ export default Vue.extend({
           do {
             index = normalizeToInterval(
               index + (e.keyCode === 38 ? -1 : 1),
-              0,
+              -1,
               this.options.length - 1
             )
+
+            if (index === -1) {
+              this.optionIndex = -1
+              return
+            }
           }
           while (index !== this.optionIndex && this.options[index].disable === true)
 
@@ -394,11 +418,14 @@ export default Vue.extend({
       }
 
       if (this.useChips === true) {
+        const tabindex = this.focused === true ? 0 : -1
+
         return this.selectedScope.map(scope => h(QChip, {
           props: {
             removable: true,
             dense: true,
-            textColor: this.color
+            textColor: this.color,
+            tabindex
           },
           on: {
             remove: () => { scope.removeValue(scope.opt) }

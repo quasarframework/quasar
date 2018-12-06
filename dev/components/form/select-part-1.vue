@@ -172,6 +172,7 @@
           slot-scope="scope"
           removable
           @remove="scope.removeValue(scope.opt)"
+          :tabindex="scope.tabindex"
           color="white"
           text-color="primary"
         >
@@ -214,6 +215,7 @@
           color="white"
           removable
           @remove="scope.removeValue(scope.opt)"
+          :tabindex="scope.tabindex"
           text-color="teal"
         >
           <span v-html="scope.opt.label" />
