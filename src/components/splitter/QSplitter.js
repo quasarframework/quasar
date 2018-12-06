@@ -120,16 +120,18 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-splitter__separator',
         style: this.separatorStyle,
-        class: this.separatorClass,
-        directives: this.disable === false ? [{
+        class: this.separatorClass
+      }, [ this.disable === false ? h('div', {
+        directives: [{
           name: 'touch-pan',
           value: this.__pan,
           modifiers: {
             horizontal: !this.horizontal,
-            vertical: this.horizontal
+            vertical: this.horizontal,
+            prevent: true
           }
-        }] : null
-      }),
+        }]
+      }) : null ]),
 
       h('div', {
         ref: 'after',
