@@ -105,13 +105,29 @@ export default Vue.extend({
     },
 
     selectedScope () {
-      return this.innerValue.map((opt, i) => ({
-        index: i,
-        opt,
-        selected: true,
-        removeValue: this.removeValue,
-        toggleOption: this.toggleOption
-      }))
+      return this.innerValue.map((opt, i) => {
+        const
+          disable = opt.disable === true || this.editable !== true,
+          chipProps = {
+            removable: true,
+            dense: true,
+            textColor: this.color,
+            disable,
+            tabindex: disable !== true && this.focused === true && this.menu !== true ? 0 : -1
+          }
+
+        return {
+          index: i,
+          opt,
+          selected: true,
+          removeValue: this.removeValue,
+          toggleOption: this.toggleOption,
+          chipProps,
+          chipEvents: {
+            remove: () => { this.removeValue(opt) }
+          }
+        }
+      })
     },
 
     computedCounter () {
@@ -123,14 +139,23 @@ export default Vue.extend({
 
     optionScope () {
       return this.options.slice(0, this.optionsToShow).map((opt, i) => {
-        const itemProps = {
-          clickable: true,
-          active: this.__isSelected(opt),
-          manualFocus: true,
-          focused: this.optionIndex === i,
-          disable: opt.disable,
-          tabindex: -1,
-          dense: this.dense
+        const
+          itemProps = {
+            clickable: true,
+            active: this.__isSelected(opt),
+            manualFocus: true,
+            focused: this.optionIndex === i,
+            disable: opt.disable === true,
+            tabindex: -1,
+            dense: this.dense
+          },
+          itemEvents = {
+            click: () => { this.toggleOption(opt) }
+          }
+
+        // Prevent setting optionIndex on mobile where it's not visible
+        if (this.$q.platform.is.desktop) {
+          itemEvents.mousemove = () => { this.setOptionIndex(i) }
         }
 
         return {
@@ -141,10 +166,7 @@ export default Vue.extend({
           toggleOption: this.toggleOption,
           setOptionIndex: this.setOptionIndex,
           itemProps,
-          itemEvents: {
-            click: () => { this.toggleOption(opt) },
-            mousemove: () => { this.setOptionIndex(i) }
-          }
+          itemEvents
         }
       })
     },
@@ -299,10 +321,19 @@ export default Vue.extend({
 
       if (this.optionIndex > -1 && this.optionIndex < this.optionsToShow) {
         this.toggleOption(this.options[this.optionIndex])
-        return
-      }
 
-      if (
+        if (
+          this.inputValue.length === 0 ||
+          (this.multiple !== true && this.hideSelected === true)
+        ) {
+          return
+        }
+
+        // reset filter and allow refilter
+        this.inputValue = ''
+        this.menu = false
+      }
+      else if (
         this.multiple === true &&
         this.$listeners['new-value'] !== void 0 &&
         this.inputValue.length > 0
@@ -311,6 +342,11 @@ export default Vue.extend({
           val !== void 0 && val !== null && this.addValue(val)
           this.inputValue = ''
         })
+
+        // force refilter if multiple
+        if (this.menu === true && this.multiple === true) {
+          this.menu = false
+        }
       }
 
       if (this.menu === true) {
@@ -395,14 +431,8 @@ export default Vue.extend({
 
       if (this.useChips === true) {
         return this.selectedScope.map(scope => h(QChip, {
-          props: {
-            removable: true,
-            dense: true,
-            textColor: this.color
-          },
-          on: {
-            remove: () => { scope.removeValue(scope.opt) }
-          }
+          props: scope.chipProps,
+          on: scope.chipEvents
         }, [
           h('span', {
             domProps: {

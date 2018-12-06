@@ -171,9 +171,10 @@
           slot="selected"
           slot-scope="scope"
           removable
-          @remove="scope.removeValue(scope.opt)"
+          v-on="scope.chipEvents"
           color="white"
           text-color="primary"
+          :tabindex="scope.chipProps.tabindex"
         >
           <q-avatar color="primary" text-color="white" :icon="scope.opt.icon" />
           <span v-html="scope.opt.label" />
@@ -211,10 +212,11 @@
         <q-chip
           slot="selected"
           slot-scope="scope"
-          color="white"
           removable
-          @remove="scope.removeValue(scope.opt)"
+          v-on="scope.chipEvents"
+          color="white"
           text-color="teal"
+          :tabindex="scope.chipProps.tabindex"
         >
           <span v-html="scope.opt.label" />
         </q-chip>
