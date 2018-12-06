@@ -20,10 +20,7 @@ export default Vue.extend({
     },
 
     focused: Boolean,
-    hoverable: {
-      type: Boolean,
-      default: true
-    },
+    manualFocus: Boolean,
 
     disable: Boolean
   },
@@ -40,13 +37,17 @@ export default Vue.extend({
 
     classes () {
       return {
-        'q-item--clickable q-link cursor-pointer q-focusable': this.isClickable,
-        'q-hoverable': this.isClickable && this.hoverable,
+        'q-item--clickable q-link cursor-pointer': this.isClickable,
+        'q-focusable q-hoverable': this.isClickable && this.manualFocus === false,
+
+        'q-manual-focusable': this.isClickable && this.manualFocus === true,
+        'q-manual-focusable--focused': this.isClickable && this.focused,
+
         'q-item--dense': this.dense,
         'q-item--inset': this.inset,
         'q-item--dark': this.dark,
         'q-item--active': this.active,
-        'q-focusable--focused': this.isClickable && this.focused,
+
         'disabled': this.disable
       }
     }
@@ -55,13 +56,12 @@ export default Vue.extend({
   methods: {
     __getContent (h) {
       const child = [].concat(this.$slots.default)
-
-      this.isClickable && child.unshift(h('div', { staticClass: 'q-focus-helper' }))
+      this.isClickable === true && child.unshift(h('div', { staticClass: 'q-focus-helper' }))
       return child
     },
 
     __onClick (e) {
-      (this.tabindex === void 0 || this.tabindex > 0) && this.$el.blur()
+      this.$el.blur()
       this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 

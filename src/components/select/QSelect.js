@@ -126,10 +126,10 @@ export default Vue.extend({
         const itemProps = {
           clickable: true,
           active: this.__isSelected(opt),
+          manualFocus: true,
           focused: this.optionIndex === i,
           disable: opt.disable,
           tabindex: -1,
-          hoverable: false,
           dense: this.dense
         }
 
@@ -193,9 +193,10 @@ export default Vue.extend({
     toggleOption (opt) {
       if (this.editable !== true || opt === void 0 || opt.disable === true) { return }
 
+      this.$refs.target.focus()
+
       if (this.multiple !== true) {
         this.menu = false
-        this.$refs.target.focus()
 
         if (isDeepEqual(this.value, opt) !== true) {
           this.$emit('input', opt)
