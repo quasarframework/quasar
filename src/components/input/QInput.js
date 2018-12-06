@@ -76,6 +76,10 @@ export default Vue.extend({
   },
 
   methods: {
+    focus () {
+      this.$refs.input.focus()
+    },
+
     __onInput (e) {
       const val = e.target.value
 
@@ -176,7 +180,7 @@ export default Vue.extend({
   mounted () {
     // textarea only
     this.autogrow === true && this.__adjustHeight()
-    this.autofocus === true && this.$nextTick(() => { this.$refs.input.focus() })
+    this.autofocus === true && this.$nextTick(this.focus)
   },
 
   beforeDestroy () {

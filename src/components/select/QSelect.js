@@ -50,7 +50,8 @@ export default Vue.extend({
       default: 500
     },
 
-    expandBesides: Boolean
+    expandBesides: Boolean,
+    autofocus: Boolean
   },
 
   data () {
@@ -164,6 +165,10 @@ export default Vue.extend({
   },
 
   methods: {
+    focus () {
+      this.$refs.target.focus()
+    },
+
     removeValue (opt) {
       if (this.multiple !== true) {
         this.$emit('input', null)
@@ -200,7 +205,7 @@ export default Vue.extend({
     toggleOption (opt) {
       if (this.editable !== true || opt === void 0 || opt.disable === true) { return }
 
-      this.$refs.target.focus()
+      this.focus()
 
       if (this.multiple !== true) {
         this.menu = false
@@ -596,7 +601,7 @@ export default Vue.extend({
     },
 
     __onControlClick () {
-      this.$refs.target.focus()
+      this.focus()
 
       if (this.menu === true) {
         this.menu = false
@@ -661,6 +666,10 @@ export default Vue.extend({
       focusin: this.__onControlFocusin,
       focusout: this.__onControlFocusout
     }
+  },
+
+  mounted () {
+    this.autofocus === true && this.$nextTick(this.focus)
   },
 
   beforeDestroy () {
