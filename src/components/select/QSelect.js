@@ -65,9 +65,13 @@ export default Vue.extend({
 
   watch: {
     selectedString (val) {
-      this.inputValue = this.multiple !== true && this.hideSelected === true && this.inputValue !== val
+      const value = this.multiple !== true && this.hideSelected === true
         ? val
         : ''
+
+      if (this.inputValue !== value) {
+        this.inputValue = value
+      }
     },
 
     menu (show) {
@@ -125,6 +129,7 @@ export default Vue.extend({
           focused: this.optionIndex === i,
           disable: opt.disable,
           tabindex: -1,
+          hoverable: false,
           dense: this.dense
         }
 
@@ -138,7 +143,7 @@ export default Vue.extend({
           itemProps,
           itemEvents: {
             click: () => { this.toggleOption(opt) },
-            mouseenter: () => { this.setOptionIndex(i) }
+            mousemove: () => { this.setOptionIndex(i) }
           }
         }
       })
@@ -195,6 +200,12 @@ export default Vue.extend({
         if (isDeepEqual(this.value, opt) !== true) {
           this.$emit('input', opt)
         }
+        else {
+          const val = this.__getOptionLabel(opt)
+          if (val !== this.inputValue) {
+            this.inputValue = val
+          }
+        }
 
         return
       }
@@ -225,7 +236,7 @@ export default Vue.extend({
     },
 
     setOptionIndex (index) {
-      const val = index >= -1 && index < this.options.length
+      const val = index >= -1 && index < this.optionsToShow
         ? index
         : -1
 
@@ -285,7 +296,7 @@ export default Vue.extend({
       // enter
       if (e.keyCode !== 13) { return }
 
-      if (this.optionIndex > -1 && this.optionIndex < this.options.length) {
+      if (this.optionIndex > -1 && this.optionIndex < this.optionsToShow) {
         this.toggleOption(this.options[this.optionIndex])
         return
       }
@@ -557,7 +568,6 @@ export default Vue.extend({
     },
 
     __onControlClick () {
-      console.log('click', this.menu)
       this.$refs.target.focus()
 
       if (this.menu === true) {
@@ -574,7 +584,6 @@ export default Vue.extend({
     },
 
     __onControlFocusin (e) {
-      console.log('focusin')
       this.focused = true
 
       if (this.useInput === true && this.inputValue.length > 0) {
@@ -584,16 +593,13 @@ export default Vue.extend({
 
     __onControlFocusout () {
       setTimeout(() => {
-        console.log('focusout')
         clearTimeout(this.inputTimer)
 
         if (this.$refs === void 0 || this.$refs.control === void 0) {
-          console.log('focusout return 1')
           return
         }
 
         if (this.$refs.control.contains(document.activeElement) !== false) {
-          console.log('focusout return 2')
           return
         }
 

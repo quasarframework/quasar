@@ -14,11 +14,17 @@ export default Vue.extend({
     inset: Boolean,
     dark: Boolean,
     tabindex: [String, Number],
-    focused: Boolean,
     tag: {
       type: String,
       default: 'div'
     },
+
+    focused: Boolean,
+    hoverable: {
+      type: Boolean,
+      default: true
+    },
+
     disable: Boolean
   },
 
@@ -34,7 +40,8 @@ export default Vue.extend({
 
     classes () {
       return {
-        'q-item--clickable q-link cursor-pointer q-focusable q-hoverable': this.isClickable,
+        'q-item--clickable q-link cursor-pointer q-focusable': this.isClickable,
+        'q-hoverable': this.isClickable && this.hoverable,
         'q-item--dense': this.dense,
         'q-item--inset': this.inset,
         'q-item--dark': this.dark,
