@@ -676,6 +676,7 @@ export default Vue.extend({
   created () {
     this.controlEvents = {
       click: this.__onControlClick,
+      mousedown: stopAndPrevent,
       focusin: this.__onControlFocusin,
       focusout: this.__onControlFocusout
     }
