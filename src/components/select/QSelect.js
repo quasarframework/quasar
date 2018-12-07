@@ -81,7 +81,7 @@ export default Vue.extend({
       this.optionIndex = -1
       if (show === true) {
         this.optionsToShow = 20
-        this.$nextTick(this.__updateMenuPosition)
+        this.$nextTick(this.updateMenuPosition)
       }
       document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
     }
@@ -660,7 +660,7 @@ export default Vue.extend({
       })
     },
 
-    __updateMenuPosition () {
+    updateMenuPosition () {
       const el = this.$refs.menu
 
       if (el === void 0) { return }

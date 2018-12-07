@@ -58,15 +58,18 @@ export default {
               color: this.color,
               value: rowsPerPage,
               options: this.computedRowsPerPageOptions,
+              displayValue: rowsPerPage === 0
+                ? this.$q.i18n.table.allRows
+                : rowsPerPage,
               dark: this.dark,
               borderless: true,
               dense: true
             },
             on: {
-              input: rowsPerPage => {
+              input: pag => {
                 this.setPagination({
                   page: 1,
-                  rowsPerPage
+                  rowsPerPage: pag.value
                 })
               }
             }
