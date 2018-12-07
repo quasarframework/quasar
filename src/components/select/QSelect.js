@@ -15,6 +15,8 @@ import { isDeepEqual } from '../../utils/is.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 
+import { updatePosition } from './select-menu-position.js'
+
 export default Vue.extend({
   name: 'QSelect',
 
@@ -79,6 +81,7 @@ export default Vue.extend({
       this.optionIndex = -1
       if (show === true) {
         this.optionsToShow = 20
+        this.$nextTick(this.__updateMenuPosition)
       }
       document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
     }
@@ -381,7 +384,7 @@ export default Vue.extend({
           this.optionIndex = index
 
           this.$nextTick(() => {
-            const el = this.$refs.menu.querySelector('.q-focusable--focused')
+            const el = this.$refs.menu.querySelector('.q-manual-focusable--focused')
             if (el !== null && el.scrollIntoView !== void 0) {
               if (el.scrollIntoViewIfNeeded !== void 0) {
                 el.scrollIntoViewIfNeeded(false)
@@ -500,8 +503,6 @@ export default Vue.extend({
       ) {
         return
       }
-
-      // const fit = this.expandBesides === true || this.noOptions === true || this.filter !== void 0
 
       return h('transition', {
         props: { name: this.transition }
@@ -657,6 +658,18 @@ export default Vue.extend({
           this.loading = false
         }
       })
+    },
+
+    __updateMenuPosition () {
+      const el = this.$refs.menu
+
+      if (el === void 0) { return }
+
+      updatePosition(
+        el,
+        this.$refs.control,
+        this.expandBesides !== true && this.noOptions !== true && this.useInput !== true
+      )
     }
   },
 
