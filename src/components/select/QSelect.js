@@ -49,6 +49,7 @@ export default Vue.extend({
     useInput: Boolean,
     useChips: Boolean,
 
+    mapOptions: Boolean,
     emitValue: Boolean,
 
     inputDebounce: {
@@ -97,9 +98,13 @@ export default Vue.extend({
     },
 
     innerValue () {
-      return this.value !== void 0 && this.value !== null
+      const val = this.value !== void 0 && this.value !== null
         ? (this.multiple === true ? this.value : [ this.value ])
         : []
+
+      return this.mapOptions === true
+        ? val.map(v => this.__getOption(v))
+        : val
     },
 
     noOptions () {
@@ -281,6 +286,10 @@ export default Vue.extend({
       if (this.optionIndex !== val) {
         this.optionIndex = val
       }
+    },
+
+    __getOption (value) {
+      return this.options.find(opt => isDeepEqual(this.__getOptionValue(opt), value)) || value
     },
 
     __getOptionValue (opt) {

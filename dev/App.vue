@@ -34,6 +34,9 @@
             ,{ label: 'Polish', value: 'pl' }
             ,{ label: 'Czech', value: 'cs' }
           ]"
+          emit-value
+          map-options
+          dense-options
           v-model="lang"
         />
         <q-select
@@ -46,6 +49,9 @@
             ,{ label: 'Ionicons', value: 'ionicons' }
             ,{ label: 'Fontawesome', value: 'fontawesome' }
           ]"
+          emit-value
+          map-options
+          dense-options
           v-model="iconSet"
         />
       </template>
