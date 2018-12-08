@@ -81,6 +81,20 @@ export default {
     icon: 'mdi-plus',
     activeIcon: 'mdi-close'
   },
+  mediaPlayer: {
+    play: 'mdi-play',
+    pause: 'mdi-pause',
+    volumeOff: 'mdi-volume-off',
+    volumeDown: 'mdi-volume-medium',
+    volumeUp: 'mdi-volume-high',
+    settings: 'mdi-settings',
+    speed: 'mdi-run',
+    language: 'mdi-closed-caption',
+    selected: 'mdi-check',
+    fullscreen: 'mdi-fullscreen',
+    fullscreenExit: 'mdi-fullscreen-exit',
+    bigPlayButton: 'mdi-play'
+  },
   pagination: {
     first: 'mdi-page-first',
     prev: 'mdi-chevron-left',
