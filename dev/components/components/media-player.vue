@@ -4,7 +4,7 @@
     <div class="row flex-center">
       <p>This page is intended to test multiple scenarios of QMediaPlayer.</p>
       <p>Music courtesy of <a href="http://freemusicarchive.org/music/Dee_Yan-Key/years_and_years_ago/01--Dee_Yan-Key-Driving_Home" target="blank">Free Music Archive</a></p>
-      <p style="text-align: center;">Videos and subtitles courtesy of <a href="https://mango.blender.org/download/" target="blank">Blender Organization</a>.<br>Let video play to end to see next one.</p>
+      <p style="text-align: center;">Videos and subtitles courtesy of <a href="https://mango.blender.org/download/" target="blank">Blender Organization</a>.</p>
     </div>
 
     <div class="row flex-center">
