@@ -11,7 +11,7 @@ export default {
       let
         child = []
 
-      if (body) {
+      if (body !== void 0) {
         child = this.computedRows.map(row => {
           const
             key = row[this.rowKey],
@@ -50,7 +50,8 @@ export default {
                 props: {
                   value: selected,
                   color: this.color,
-                  dark: this.dark
+                  dark: this.dark,
+                  dense: this.computedDense
                 },
                 on: {
                   input: adding => {
@@ -65,15 +66,16 @@ export default {
         })
       }
 
-      if (topRow) {
+      if (topRow !== void 0) {
         child.unshift(topRow({cols: this.computedCols}))
       }
-      if (bottomRow) {
+      if (bottomRow !== void 0) {
         child.push(bottomRow({cols: this.computedCols}))
       }
 
       return h('tbody', child)
     },
+
     addBodyRowMeta (data) {
       if (this.hasSelectionMode) {
         Object.defineProperty(data, 'selected', {
@@ -101,15 +103,17 @@ export default {
 
       return data
     },
+
     addBodyCellMetaData (data) {
       Object.defineProperty(data, 'value', {
         get: () => this.getCellValue(data.col, data.row)
       })
       return data
     },
+
     getCellValue (col, row) {
       const val = typeof col.field === 'function' ? col.field(row) : row[col.field]
-      return col.format ? col.format(val) : val
+      return col.format !== void 0 ? col.format(val) : val
     }
   }
 }

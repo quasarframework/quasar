@@ -11,9 +11,9 @@ export default Vue.extend({
   },
 
   render (h) {
-    if (!this.props) {
+    if (this.props === void 0) {
       return h('td', {
-        class: { 'q-table--col-auto-width': this.autoWidth }
+        class: this.autoWidth === true ? 'q-table--col-auto-width' : null
       }, this.$slots.default)
     }
 
@@ -24,13 +24,13 @@ export default Vue.extend({
 
     if (name) {
       col = this.props.colsMap[name]
-      if (!col) { return }
+      if (col === void 0) { return }
     }
     else {
       col = this.props.col
     }
 
-    if (col.sortable) {
+    if (col.sortable === true) {
       const action = col.align === 'right'
         ? 'unshift'
         : 'push'
@@ -44,10 +44,9 @@ export default Vue.extend({
     }
 
     return h('th', {
-      class: [col.__thClass, {
-        'q-table--col-auto-width': this.autoWidth
-      }],
-      on: col.sortable
+      class: col.__thClass +
+        (this.autoWidth === true ? ' q-table--col-auto-width' : ''),
+      on: col.sortable === true
         ? { click: () => { this.props.sort(col) } }
         : null
     }, child)

@@ -10,7 +10,7 @@ export default Vue.extend({
   render (h) {
     return h(
       'tr',
-      !this.props || this.props.header
+      this.props === void 0 || this.props.header === true
         ? {}
         : { class: this.props.__trClass },
       this.$slots.default

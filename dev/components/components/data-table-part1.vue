@@ -1,20 +1,6 @@
 <template>
   <div>
     <div class="q-layout-padding" style="max-width: 1400px;">
-      <q-input filled v-model="filter" label="Search" debounce="300">
-        <q-icon slot="append" name="search" />
-      </q-input>
-
-      <div>
-        <q-toggle color="primary" v-model="loading" label="Show loading" />
-        <q-toggle color="primary" v-model="selectionToggle" label="Multiple selection" />
-        <q-select filled multiple v-model="visibleColumns" :options="visibleColumnsOptions" option-value="name" />
-        <q-radio v-model="separator" val="horizontal" label="Horizontal" />
-        <q-radio v-model="separator" val="vertical" label="Vertical" />
-        <q-radio v-model="separator" val="cell" label="Cell" />
-        <q-radio v-model="separator" val="none" label="None" />
-      </div>
-
       <h4>QMarkupTable</h4>
       <q-markup-table :separator="separator">
         <thead>
@@ -127,7 +113,7 @@
         row-key="name"
       >
         <template slot="top-right" slot-scope="props">
-          <q-input borderless debounce="300" v-model="filter" placeholder="Search">
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
             <q-icon slot="append" name="search" />
           </q-input>
         </template>
@@ -156,6 +142,17 @@
           </q-card>
         </div>
       </q-table>
+
+      <q-input filled v-model="filter" label="Search" debounce="300">
+        <q-icon slot="append" name="search" />
+      </q-input>
+
+      <div>
+        <q-toggle color="primary" v-model="loading" label="Show loading" />
+        <q-toggle color="primary" v-model="selectionToggle" label="Multiple selection" />
+        <q-select filled multiple v-model="visibleColumns" :options="columns" option-value="name" option-disable="required" emit-value />
+        <q-select class="q-mt-md" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" />
+      </div>
 
       <h2>Emulate server-side</h2>
       <q-table
@@ -217,7 +214,17 @@
           {{ visibleColumns }}
         </template>
         <template slot="top-right" slot-scope="props">
-          <q-table-columns color="secondary" v-model="visibleColumns" :columns="columns" />
+          <q-select
+            v-model="visibleColumns"
+            :options="columns"
+            multiple
+            option-value="name"
+            option-disable="required"
+            emit-value
+            :display-value="$q.i18n.table.columns"
+            dense
+            borderless
+          />
         </template>
 
         <q-td slot="body-cell-desc" slot-scope="props" :props="props">
@@ -688,9 +695,6 @@ export default {
   computed: {
     selection () {
       return this.selectionToggle ? 'multiple' : 'single'
-    },
-    visibleColumnsOptions () {
-      return this.columns.filter(col => !col.required)
     }
   },
   methods: {

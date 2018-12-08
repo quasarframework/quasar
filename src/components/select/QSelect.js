@@ -39,13 +39,17 @@ export default Vue.extend({
 
     optionValue: [Function, String],
     optionLabel: [Function, String],
+    optionDisable: [Function, String],
 
     hideSelected: Boolean,
     counter: Boolean,
     maxValues: [Number, String],
+    denseOptions: Boolean,
 
     useInput: Boolean,
     useChips: Boolean,
+
+    emitValue: Boolean,
 
     inputDebounce: {
       type: [Number, String],
@@ -115,7 +119,7 @@ export default Vue.extend({
         index: i,
         opt,
         selected: true,
-        removeValue: this.removeValue,
+        removeAtIndex: this.removeAtIndex,
         toggleOption: this.toggleOption,
         tabindex
       }))
@@ -130,15 +134,23 @@ export default Vue.extend({
 
     optionScope () {
       return this.options.slice(0, this.optionsToShow).map((opt, i) => {
+        const disable = this.__isDisabled(opt)
+
         const itemProps = {
           clickable: true,
-          active: this.__isSelected(opt),
+          active: false,
           manualFocus: true,
-          focused: this.optionIndex === i,
-          disable: opt.disable,
+          focused: false,
+          disable,
           tabindex: -1,
-          dense: this.dense
+          dense: this.denseOptions
         }
+
+        if (disable !== true) {
+          this.__isSelected(opt) === true && (itemProps.active = true)
+          this.optionIndex === i && (itemProps.focused = true)
+        }
+
         const itemEvents = {
           click: () => { this.toggleOption(opt) }
         }
@@ -172,49 +184,54 @@ export default Vue.extend({
       this.$refs.target.focus()
     },
 
-    removeValue (opt) {
-      if (this.multiple !== true) {
-        this.$emit('input', null)
-        return
-      }
-
-      const index = this.value.findIndex(v => isDeepEqual(v, opt))
-      if (index > -1) {
-        const model = [].concat(this.value)
-        this.$emit('remove', { index, value: model.splice(index, 1) })
-        this.$emit('input', model)
+    removeAtIndex (index) {
+      if (index > -1 && index < this.innerValue.length) {
+        if (this.multiple === true) {
+          const model = [].concat(this.value)
+          this.$emit('remove', { index, value: model.splice(index, 1) })
+          this.$emit('input', model)
+        }
+        else {
+          this.$emit('input', null)
+        }
       }
     },
 
-    addValue (opt) {
+    add (opt) {
+      const val = this.emitValue === true
+        ? this.__getOptionValue(opt)
+        : opt
+
       if (this.multiple !== true) {
-        this.$emit('input', opt)
+        this.$emit('input', val)
         return
       }
 
       if (this.innerValue.length === 0) {
-        this.$emit('add', { index: 0, value: opt })
-        this.$emit('input', this.multiple === true ? [ opt ] : opt)
+        this.$emit('add', { index: 0, value: val })
+        this.$emit('input', this.multiple === true ? [ val ] : val)
         return
       }
 
       const model = [].concat(this.value)
 
-      this.$emit('add', { index: model.length, value: opt })
-      model.push(opt)
+      this.$emit('add', { index: model.length, value: val })
+      model.push(val)
       this.$emit('input', model)
     },
 
     toggleOption (opt) {
-      if (this.editable !== true || opt === void 0 || opt.disable === true) { return }
+      if (this.editable !== true || opt === void 0 || this.__isDisabled(opt) === true) { return }
 
       this.focus()
+
+      const optValue = this.__getOptionValue(opt)
 
       if (this.multiple !== true) {
         this.menu = false
 
-        if (isDeepEqual(this.value, opt) !== true) {
-          this.$emit('input', opt)
+        if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
+          this.$emit('input', this.emitValue === true ? optValue : opt)
         }
         else {
           const val = this.__getOptionLabel(opt)
@@ -227,14 +244,15 @@ export default Vue.extend({
       }
 
       if (this.innerValue.length === 0) {
-        this.$emit('add', { index: 0, value: opt })
-        this.$emit('input', this.multiple === true ? [ opt ] : opt)
+        const val = this.emitValue === true ? optValue : opt
+        this.$emit('add', { index: 0, value: val })
+        this.$emit('input', this.multiple === true ? [ val ] : val)
         return
       }
 
       const
         model = [].concat(this.value),
-        index = this.value.findIndex(v => isDeepEqual(v, opt))
+        index = this.value.findIndex(v => isDeepEqual(this.__getOptionValue(v), optValue))
 
       if (index > -1) {
         this.$emit('remove', { index, value: model.splice(index, 1) })
@@ -244,8 +262,10 @@ export default Vue.extend({
           return
         }
 
-        this.$emit('add', { index: model.length, value: opt })
-        model.push(opt)
+        const val = this.emitValue === true ? optValue : opt
+
+        this.$emit('add', { index: model.length, value: val })
+        model.push(val)
       }
 
       this.$emit('input', model)
@@ -287,6 +307,18 @@ export default Vue.extend({
       return opt
     },
 
+    __isDisabled (opt) {
+      if (typeof this.optionDisable === 'function') {
+        return this.optionDisable(opt) === true
+      }
+      if (Object(opt) === opt) {
+        return typeof this.optionDisable === 'string'
+          ? opt[this.optionDisable] === true
+          : opt.disable === true
+      }
+      return false
+    },
+
     __isSelected (opt) {
       const val = this.__getOptionValue(opt)
       return this.innerValue.find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
@@ -307,7 +339,7 @@ export default Vue.extend({
       }
 
       if (this.multiple === true && this.inputValue.length === 0 && e.keyCode === 8) { // delete
-        this.removeValue(this.value[this.value.length - 1])
+        this.removeAtIndex(this.value.length - 1)
         return
       }
 
@@ -335,7 +367,7 @@ export default Vue.extend({
         this.inputValue.length > 0
       ) {
         this.$emit('new-value', this.inputValue, val => {
-          val !== void 0 && val !== null && this.addValue(val)
+          val !== void 0 && val !== null && this.add(val)
           this.inputValue = ''
         })
       }
@@ -378,7 +410,7 @@ export default Vue.extend({
               return
             }
           }
-          while (index !== this.optionIndex && this.options[index].disable === true)
+          while (index !== this.optionIndex && this.__isDisabled(this.options[index]) === true)
 
           const dir = index > this.optionIndex ? 1 : -1
           this.optionIndex = index
@@ -428,7 +460,8 @@ export default Vue.extend({
       if (this.useChips === true) {
         const tabindex = this.focused === true ? 0 : -1
 
-        return this.selectedScope.map(scope => h(QChip, {
+        return this.selectedScope.map((scope, i) => h(QChip, {
+          key: 'option-' + i,
           props: {
             removable: true,
             dense: true,
@@ -436,7 +469,7 @@ export default Vue.extend({
             tabindex
           },
           on: {
-            remove: () => { scope.removeValue(scope.opt) }
+            remove () { scope.removeAtIndex(i) }
           }
         }, [
           h('span', {

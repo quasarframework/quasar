@@ -109,6 +109,46 @@
         multiple
       />
 
+      <div class="text-h6">Emit value</div>
+
+      <div>{{ stringEmitSingle }}</div>
+      <q-select
+        emit-value
+        v-bind="props"
+        v-model="stringEmitSingle"
+        :options="stringOptions"
+        label="Single - string"
+      />
+
+      <div>{{ stringEmitMultiple }}</div>
+      <q-select
+        emit-value
+        v-bind="props"
+        v-model="stringEmitMultiple"
+        :options="stringOptions"
+        label="Multiple - string"
+        multiple
+      />
+
+      <div>{{ objectEmitSingle }}</div>
+      <q-select
+        emit-value
+        v-bind="props"
+        v-model="objectEmitSingle"
+        :options="objectOptions"
+        label="Single - object"
+      />
+
+      <div>{{ objectEmitMultiple }}</div>
+      <q-select
+        emit-value
+        v-bind="props"
+        v-model="objectEmitMultiple"
+        :options="objectOptions"
+        label="Multiple - object"
+        multiple
+      />
+
       <div class="text-h6">Scoped Slot: option</div>
       <q-select
         v-bind="props"
@@ -171,7 +211,7 @@
           slot="selected"
           slot-scope="scope"
           removable
-          @remove="scope.removeValue(scope.opt)"
+          @remove="scope.removeAtIndex(scope.index)"
           :tabindex="scope.tabindex"
           color="white"
           text-color="primary"
@@ -212,10 +252,10 @@
         <q-chip
           slot="selected"
           slot-scope="scope"
-          color="white"
           removable
-          @remove="scope.removeValue(scope.opt)"
+          @remove="scope.removeAtIndex(scope.index)"
           :tabindex="scope.tabindex"
+          color="white"
           text-color="teal"
         >
           <span v-html="scope.opt.label" />
@@ -346,6 +386,11 @@ export default {
       stringNullMultiple: null,
       objectNullSingle: null,
       objectNullMultiple: null,
+
+      stringEmitSingle: 'Facebook',
+      stringEmitMultiple: ['Facebook'],
+      objectEmitSingle: 'Facebook',
+      objectEmitMultiple: ['Facebook'],
 
       heavyModel: [],
       heavyOptions,

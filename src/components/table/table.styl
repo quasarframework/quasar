@@ -183,12 +183,9 @@
  * dense size
  */
 
-table-dense()
+.q-table--dense
   .q-table__top
     min-height 48px
-  .q-table__top, .q-table__bottom
-    padding-left 8px
-    padding-right 8px
   .q-table__bottom
     min-height 42px
 
@@ -201,15 +198,13 @@ table-dense()
       height 40px
     tbody td
       height 28px
+    th:first-child, td:first-child
+      padding-left 16px
+    th:last-child, td:last-child
+      padding-right 16px
 
   .q-table__bottom-item
     margin-right 8px
-
-.q-table--dense
-  table-dense()
-
-@media (max-width $breakpoint-sm-max)
-  table-dense()
 
 /*
  * On light background

@@ -14,6 +14,7 @@ export default {
       }
     }
   },
+
   methods: {
     getTop (h) {
       const
@@ -25,15 +26,15 @@ export default {
         staticClass = 'q-table__top relative-position row items-center',
         child = []
 
-      if (top) {
+      if (top !== void 0) {
         return h('div', { staticClass }, [ top(this.marginalsProps) ])
       }
 
-      if (hasSelection) {
+      if (hasSelection === true) {
         child.push(topSelection(this.marginalsProps))
       }
       else {
-        if (topLeft) {
+        if (topLeft !== void 0) {
           child.push(
             h('div', { staticClass: 'q-table-control' }, [
               topLeft(this.marginalsProps)
@@ -49,7 +50,7 @@ export default {
         }
       }
 
-      if (topRight) {
+      if (topRight !== void 0) {
         child.push(h('div', { staticClass: 'q-table__separator col' }))
         child.push(
           h('div', { staticClass: 'q-table__control' }, [

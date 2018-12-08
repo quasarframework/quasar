@@ -19,7 +19,7 @@
       bordered
     >
       <template slot="top-right" slot-scope="props">
-        <q-input borderless debounce="300" v-model="filter" placeholder="Search">
+        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
           <q-icon slot="append" name="search" />
         </q-input>
       </template>
@@ -94,7 +94,7 @@
         <q-btn class="on-right" flat dense color="primary" :disable="loadingDyn" icon="remove" label="Remove row" @click="removeRow" />
         <q-btn class="on-right" flat dense color="primary" :disable="loadingDyn" icon="refresh" label="Refresh" />
         <div class="col" />
-        <q-input borderless debounce="300" color="primary" v-model="filterDyn">
+        <q-input borderless dense debounce="300" color="primary" v-model="filterDyn">
           <q-icon slot="append" name="search" />
         </q-input>
       </template>
@@ -111,10 +111,20 @@
       color="primary"
     >
       <template slot="top-right" slot-scope="props">
-        <q-input borderless debounce="300" color="primary" class="q-mr-sm" v-model="filter">
+        <q-input borderless dense debounce="300" color="primary" class="q-mr-sm" v-model="filter">
           <q-icon slot="append" name="search" />
         </q-input>
-        <q-table-columns color="primary" class="q-mr-sm" v-model="visibleColumns" :columns="columns" />
+        <q-select
+          v-model="visibleColumns"
+          :options="columns"
+          multiple
+          option-value="name"
+          option-disable="required"
+          emit-value
+          :display-value="$q.i18n.table.columns"
+          dense
+          borderless
+        />
         <q-btn color="primary" flat round dense icon="more_vert">
           <q-menu cover>
             <q-list>
