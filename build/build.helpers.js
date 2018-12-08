@@ -97,10 +97,10 @@ function getAttributes (cache) {
       let entry
       let type = props[prop].type || 'any'
       if (Array.isArray(type)) {
-        types = type.map(val => {
+        const types = type.map(val => {
           const v = PropTypeMap.get(val)
           if (!PropTypeMap.has(val)) {
-            console.error('PropTypeMap.get', v)
+            console.error('PropTypeMap.get', name, prop, val, v)
           }
           else {
             return PropTypeMap.get(val).type
@@ -108,14 +108,15 @@ function getAttributes (cache) {
         })
         type = types.join('|')
         let description = 'One of '
-        if (types.length == 2) {
+        if (types.length === 2) {
           description += `${types[0]} or ${types[1]}.`
         }
         else {
           for (let i = 0; i < types.length; i++) {
             if (i < types.length - 1) {
               description += `${types[i]}, `
-            } else {
+            }
+            else {
               description += `or ${types[i]}.`
             }
           }
