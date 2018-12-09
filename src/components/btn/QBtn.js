@@ -155,18 +155,18 @@ export default {
   render (h) {
     const inner = [].concat(this.$slots.default)
 
+    if (this.label !== void 0 && this.isRectangle === true) {
+      inner.unshift(
+        h('div', [this.label])
+      )
+    }
+
     if (this.icon !== void 0) {
       inner.unshift(
         h(QIcon, {
           class: { 'on-left': this.label !== void 0 && this.isRectangle === true },
           props: { name: this.icon }
         })
-      )
-    }
-
-    if (this.label !== void 0 && this.isRectangle === true) {
-      inner.unshift(
-        h('div', [this.label])
       )
     }
 
