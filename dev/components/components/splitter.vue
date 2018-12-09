@@ -38,7 +38,7 @@
       :disable="disable"
 
       class="q-mt-md stylish-splitter"
-      style="height: 700px;"
+      separator-class="bg-deep-orange"
     >
 
       <div slot="before" class="q-layout-padding">
@@ -46,7 +46,13 @@
         <div v-for="n in 20" :key="n" class="q-my-md">{{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</div>
       </div>
 
-      <q-splitter slot="after" v-model="insideModel" horizontal :disable="disable">
+      <q-splitter
+        slot="after"
+        v-model="insideModel"
+        horizontal
+        :disable="disable"
+        separator-class="bg-deep-orange"
+      >
         <div slot="before" class="q-layout-padding">
           <div class="text-h1 q-mb-md">After - Before</div>
           <div v-for="n in 20" :key="n" class="q-my-md">{{ n }}. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</div>
@@ -88,8 +94,6 @@ export default {
 @import '~variables'
 
 .stylish-splitter
-  border 3px solid $primary
-
-  .q-splitter__separator
-    background $primary
+  border 3px solid $deep-orange
+  height 700px
 </style>
