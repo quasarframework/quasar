@@ -102,17 +102,17 @@ export default Vue.extend({
       }
     }
 
+    if (this.hasLabel === true) {
+      inner.unshift(
+        h('div', [ this.label ])
+      )
+    }
+
     if (this.icon !== void 0) {
       inner.unshift(
         h(QIcon, {
           props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
         })
-      )
-    }
-
-    if (this.hasLabel === true) {
-      inner.unshift(
-        h('div', [ this.label ])
       )
     }
 
