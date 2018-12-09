@@ -220,10 +220,10 @@ export default {
     this.$nextTick(() => {
       if (this.__input) {
         this.inputEl = this.__input.getEl()
+        this.inputEl.addEventListener('keydown', this.__keyboardHandleKey)
+        this.inputEl.addEventListener('blur', this.blurHide)
+        this.inputEl.addEventListener('focus', this.__focusShowTrigger)
       }
-      this.inputEl.addEventListener('keydown', this.__keyboardHandleKey)
-      this.inputEl.addEventListener('blur', this.blurHide)
-      this.inputEl.addEventListener('focus', this.__focusShowTrigger)
     })
   },
   beforeDestroy () {
