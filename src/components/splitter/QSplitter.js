@@ -50,7 +50,9 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return (this.horizontal ? 'column' : 'row') + ` q-splitter--${this.horizontal ? 'horizontal' : 'vertical'}` + ` q-splitter--${this.disable === true ? 'disabled' : 'workable'}`
+      return (this.horizontal ? 'column' : 'row') +
+        ` q-splitter--${this.horizontal ? 'horizontal' : 'vertical'}` +
+        ` q-splitter--${this.disable === true ? 'disabled' : 'workable'}`
     },
 
     prop () {
@@ -121,17 +123,19 @@ export default Vue.extend({
         staticClass: 'q-splitter__separator',
         style: this.separatorStyle,
         class: this.separatorClass
-      }, [ this.disable === false ? h('div', {
-        directives: [{
-          name: 'touch-pan',
-          value: this.__pan,
-          modifiers: {
-            horizontal: !this.horizontal,
-            vertical: this.horizontal,
-            prevent: true
-          }
-        }]
-      }) : null ]),
+      }, this.disable === false ? [
+        h('div', {
+          directives: [{
+            name: 'touch-pan',
+            value: this.__pan,
+            modifiers: {
+              horizontal: !this.horizontal,
+              vertical: this.horizontal,
+              prevent: true
+            }
+          }]
+        })
+      ] : null),
 
       h('div', {
         ref: 'after',
