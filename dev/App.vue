@@ -48,6 +48,7 @@
             ,{ label: 'MDI', value: 'mdi' }
             ,{ label: 'Ionicons', value: 'ionicons' }
             ,{ label: 'Fontawesome', value: 'fontawesome' }
+            ,{ label: 'Eva Icons', value: 'eva-icons' }
           ]"
           emit-value
           map-options

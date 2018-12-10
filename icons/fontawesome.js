@@ -34,9 +34,6 @@ export default {
     remove: 'fas fa-times-circle',
     selected: 'fas fa-check'
   },
-  chipsInput: {
-    add: 'far fa-paper-plane'
-  },
   datetime: {
     arrowLeft: 'fas fa-chevron-left',
     arrowRight: 'fas fa-chevron-right',

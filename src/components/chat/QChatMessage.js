@@ -45,6 +45,7 @@ export default Vue.extend({
   methods: {
     __getText (h) {
       return this.text.map((msg, index) => h('div', {
+        key: index,
         staticClass: 'q-message-text',
         class: this.messageClass
       }, [

@@ -171,7 +171,7 @@
         @request="request"
       >
         <template slot="top-right" slot-scope="props">
-          <q-input borderless debounce="300" v-model="filter" placeholder="Search">
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
             <q-icon slot="append" name="search" />
           </q-input>
         </template>
@@ -181,6 +181,7 @@
       <q-table
         dark
         class="bg-black"
+        color="orange"
         :separator="separator"
         :data="data"
         :columns="columns"

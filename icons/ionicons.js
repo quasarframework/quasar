@@ -34,9 +34,6 @@ export default {
     remove: 'ion-close-circle',
     selected: 'ion-checkmark'
   },
-  chipsInput: {
-    add: 'ion-send'
-  },
   datetime: {
     arrowLeft: 'ion-ios-arrow-back',
     arrowRight: 'ion-ios-arrow-forward',

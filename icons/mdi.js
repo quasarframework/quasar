@@ -34,9 +34,6 @@ export default {
     remove: 'mdi-close-circle',
     selected: 'mdi-check'
   },
-  chipsInput: {
-    add: 'mdi-send'
-  },
   datetime: {
     arrowLeft: 'mdi-chevron-left',
     arrowRight: 'mdi-chevron-right',

@@ -34,9 +34,6 @@ export default {
     remove: 'cancel',
     selected: 'check'
   },
-  chipsInput: {
-    add: 'send'
-  },
   datetime: {
     arrowLeft: 'chevron_left',
     arrowRight: 'chevron_right',
