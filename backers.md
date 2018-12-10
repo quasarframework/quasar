@@ -34,6 +34,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 - Mark Crady
 
+- Haitham Al-Beik
+
 ---
 
 ### $50+
@@ -126,6 +128,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jo Lee
 - Justin Coker
 - Jonathan G
+- rangepoker
 
 - Jim O'Quinn ($5)
 - Ken ($5)
