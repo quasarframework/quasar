@@ -58,7 +58,7 @@ export default Vue.extend({
         'q-chip--floating': this.floating,
         'q-chip--selected': this.selected,
         'q-chip--clickable cursor-pointer non-selectable q-hoverable': this.isClickable,
-        'q-chip--square': this.square || this.floating
+        'q-chip--square': this.square
       }
     },
 
