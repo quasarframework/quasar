@@ -81,7 +81,7 @@ export default {
       return this.clearValue === void 0 ? this.defaultValue : this.clearValue
     },
     isClearable () {
-      return this.editable && this.clearable && !isSameDate(this.computedClearValue, this.value)
+      return this.editable && this.clearable && this.value && !isSameDate(this.computedClearValue, this.value)
     },
     modalBtnColor () {
       return process.env.THEME === 'mat'
