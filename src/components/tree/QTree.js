@@ -41,7 +41,12 @@ export default {
 
     defaultExpandAll: Boolean,
     accordion: Boolean,
-
+    extensions: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
     filter: String,
     filterMethod: {
       type: Function,
@@ -429,6 +434,23 @@ export default {
         ])
       }
 
+      let events = {
+        click: () => {
+          this.__onClick(node, meta)
+        }
+      }
+      let attrs = {}
+
+      this.extensions.forEach(e => {
+        if (e.nodeEvents != null && typeof e.nodeEvents === 'function') {
+          Object.assign(events, e.nodeEvents(node, meta))
+        }
+
+        if (e.nodeAttrs != null && typeof e.nodeAttrs === 'function') {
+          Object.assign(attrs, e.nodeAttrs(node, meta))
+        }
+      })
+
       return h('div', {
         key,
         staticClass: 'q-tree-node',
@@ -441,9 +463,10 @@ export default {
             'q-tree-node-selected': meta.selected,
             disabled: meta.disabled
           },
-          on: { click: () => { this.__onClick(node, meta) } },
+          attrs: attrs,
+          on: events,
           directives: process.env.THEME === 'mat' && meta.selectable
-            ? [{ name: 'ripple' }]
+            ? [{name: 'ripple'}]
             : null
         }, [
           meta.lazy === 'loading'
