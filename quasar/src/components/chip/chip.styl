@@ -26,7 +26,7 @@ $chip-height = 32px
     border 1px solid currentColor
 
   &--selected
-    .q-avatar
+    .q-avatar:first-child:not(.q-avatar--right)
       visibility hidden !important
       width 10px
 
@@ -34,6 +34,11 @@ $chip-height = 32px
     font-size $chip-height
     margin-left -12px
     margin-right 6px
+
+    ~ .q-avatar,
+    &--right
+      margin-left 6px
+      margin-right -12px
 
   &__icon
     color rgba(0,0,0,.54)
@@ -69,6 +74,11 @@ $chip-height = 32px
       margin-left -6px
       margin-right 4px
 
+      ~ .q-avatar,
+      &--right
+        margin-left 4px
+        margin-right -6px
+
     .q-chip__icon
       font-size 14px
       margin 0
@@ -81,13 +91,18 @@ $chip-height = 32px
         margin-right -2px
 
     &.q-chip--selected
-      .q-avatar
+      .q-avatar:first-child:not(.q-avatar--right)
         width 5px
 
   &--square
     border-radius $generic-border-radius
+
     .q-avatar
       border-radius ($generic-border-radius - 1px) 0 0 ($generic-border-radius - 1px)
+
+      ~ .q-avatar,
+      &--right
+        border-radius 0 ($generic-border-radius - 1px) ($generic-border-radius - 1px) 0
 
 body.desktop .q-chip--clickable:focus
   box-shadow $shadow-1

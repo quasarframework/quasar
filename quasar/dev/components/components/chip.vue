@@ -31,6 +31,15 @@
           </q-avatar>
           Emails
         </q-chip>
+        <q-chip>
+          <q-avatar icon="bookmark" color="red" text-color="white" />
+          Bookmark
+          <q-avatar color="red" text-color="white">50</q-avatar>
+        </q-chip>
+        <q-chip>
+          Bookmark
+          <q-avatar color="red" text-color="white" class="q-avatar--right">50</q-avatar>
+        </q-chip>
       </div>
 
       <p>Tooltip test</p>
@@ -62,6 +71,15 @@
           </q-avatar>
           Emails
         </q-chip>
+        <q-chip square>
+          <q-avatar icon="bookmark" color="red" text-color="white" />
+          Bookmark
+          <q-avatar color="red" text-color="white">50</q-avatar>
+        </q-chip>
+        <q-chip square>
+          Bookmark
+          <q-avatar color="red" text-color="white" class="q-avatar--right">50</q-avatar>
+        </q-chip>
       </div>
 
       <p>Dense</p>
@@ -85,6 +103,15 @@
           </q-avatar>
           Emails
         </q-chip>
+        <q-chip dense>
+          <q-avatar icon="bookmark" color="red" text-color="white" />
+          Bookmark
+          <q-avatar color="red" text-color="white">50</q-avatar>
+        </q-chip>
+        <q-chip dense>
+          Bookmark
+          <q-avatar color="red" text-color="white" class="q-avatar--right">50</q-avatar>
+        </q-chip>
       </div>
 
       <p>Dense Square</p>
@@ -107,6 +134,15 @@
             <img src="statics/boy-avatar.png">
           </q-avatar>
           Emails
+        </q-chip>
+        <q-chip square dense>
+          <q-avatar icon="bookmark" color="red" text-color="white" />
+          Bookmark
+          <q-avatar color="red" text-color="white">50</q-avatar>
+        </q-chip>
+        <q-chip square dense>
+          Bookmark
+          <q-avatar color="red" text-color="white" class="q-avatar--right">50</q-avatar>
         </q-chip>
       </div>
 
@@ -148,6 +184,22 @@
 
         <q-chip dense :selected.sync="selected5" removable>
           <q-avatar color="red" text-color="white" icon="directions" />
+          Bookmark
+        </q-chip>
+
+        <q-chip :selected.sync="selected6" clickable>
+          <q-avatar icon="bookmark" color="red" text-color="white" />
+          Bookmarks
+          <q-avatar color="red" text-color="white">50</q-avatar>
+        </q-chip>
+
+        <q-chip :selected.sync="selected6" clickable>
+          Bookmarks
+          <q-avatar color="red" text-color="white" class="q-avatar--right">50</q-avatar>
+        </q-chip>
+
+        <q-chip :selected.sync="selected7" clickable dense>
+          <q-avatar color="primary" text-color="white">J</q-avatar>
           Bookmark
         </q-chip>
       </div>
@@ -233,6 +285,8 @@ export default {
       selected3: false,
       selected4: false,
       selected5: false,
+      selected6: false,
+      selected7: false,
 
       close1: true,
       close2: true,
