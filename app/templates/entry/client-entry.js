@@ -101,6 +101,11 @@ async function start () {
       })
     }
     catch (err) {
+      if (err && err.url) {
+        window.location.href = err.url
+        return
+      }
+
       console.error('[Quasar] boot error:', err)
       return
     }
