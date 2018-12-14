@@ -1,0 +1,9 @@
+{
+  "packages": [
+    "app/*",
+    "cli/*",
+    "extras/*",
+    "quasar/*"
+  ],
+  "version": "1.0.0"
+}

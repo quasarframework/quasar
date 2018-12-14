@@ -1,0 +1,28 @@
+{
+  "name": "quasar",
+  "version": "1.0.0",
+  "description": "Build responsive SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "test:all": "pnpm recursive test",
+    "install:all": "pnpm recursive install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quasarframework/quasar.git"
+  },
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "http://quasar-framework.org"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/quasarframework/quasar/issues"
+  },
+  "homepage": "https://github.com/quasarframework/quasar#readme",
+  "devDependencies": {
+    "lerna": "^3.6.0",
+    "pnpm": "^2.21.1"
+  }
+}
