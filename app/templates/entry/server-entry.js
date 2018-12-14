@@ -36,7 +36,7 @@ if (boot) {
     const name = str.replace(/\W+/g, '')
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
-  boot.filter(asset => asset.path !== 'boot' && asset.server !== false).forEach(asset => {
+  boot.filter(asset => asset.server !== false).forEach(asset => {
     let importName = 'plugin' + hash(asset.path)
     bootNames.push(importName)
 %>
@@ -53,15 +53,22 @@ export default context => {
     const { app, <%= store ? 'store, ' : '' %>router } = createApp(context)
 
     <% if (bootNames.length > 0) { %>
-    ;[<%= bootNames.join(',') %>].forEach(plugin => {
-      plugin({
-        app,
-        router,
-        <%= store ? 'store,' : '' %>
-        Vue,
-        ssrContext: context
-      })
-    })
+    const bootFiles = [<%= bootNames.join(',') %>]
+    for (let i = 0; i < bootFiles.length; i++) {
+      try {
+        await bootFiles[i]({
+          app,
+          router,
+          <%= store ? 'store,' : '' %>
+          Vue,
+          ssrContext: context
+        })
+      }
+      catch (err) {
+        reject(err)
+        return
+      }
+    }
     <% } %>
 
     const

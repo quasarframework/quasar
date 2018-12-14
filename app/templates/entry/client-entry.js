@@ -41,8 +41,8 @@ if (boot) {
     const name = str.replace(/\W+/g, '')
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
-  boot.filter(asset => asset.path !== 'boot' && asset.client !== false).forEach(asset => {
-    let importName = 'p' + hash(asset.path)
+  boot.filter(asset => asset.client !== false).forEach(asset => {
+    let importName = 'b_' + hash(asset.path)
     bootNames.push(importName)
 %>
 import <%= importName %> from 'boot/<%= asset.path %>'
@@ -64,15 +64,6 @@ import electron from 'electron'
 Vue.prototype.$q.electron = electron
 <% } %>
 
-<%
-let hasBootPlugin = false
-if (!ctx.mode.ssr) {
-hasBootPlugin = boot && boot.find(asset => asset.path === 'boot')
-
-if (hasBootPlugin) { %>
-import boot from 'boot/boot.js'
-<% } } %>
-
 <% if (ctx.dev) { %>
 Vue.config.devtools = true
 Vue.config.productionTip = false
@@ -87,70 +78,75 @@ const { app, <%= store ? 'store, ' : '' %>router } = createApp()
 
 <% if (needsFastClick) { %>
 <% if (ctx.mode.pwa) { %>
-  // Needed only for iOS PWAs
+// Needed only for iOS PWAs
 if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
 <% } %>
   document.addEventListener('DOMContentLoaded', () => {
     FastClick.attach(document.body)
   }, false)
-<% if (ctx.mode.pwa) { %>
-}
-<% } %>
+<% if (ctx.mode.pwa) { %>}<% } %>
 <% } %>
 
-<% if (bootNames.length > 0) { %>
-;[<%= bootNames.join(',') %>].forEach(bootFile => {
-  bootFile({
-    app,
-    router,
-    <%= store ? 'store,' : '' %>
-    Vue,
-    ssrContext: null
-  })
-})
-<% } %>
-
-<% if (ctx.mode.ssr) { %>
-
-  // prime the store with server-initialized state.
-// the state is determined during SSR and inlined in the page markup.
-<% if (store) { %>
-if (window.__INITIAL_STATE__) {
-  store.replaceState(window.__INITIAL_STATE__)
-}
-<% } %>
-
-const appInstance = new Vue(app)
-
-// wait until router has resolved all async before hooks
-// and async components...
-router.onReady(() => {
-  <% if (preFetch) { %>
-  addPreFetchHooks(router<%= store ? ', store' : '' %>)
+async function start () {
+  <% if (bootNames.length > 0) { %>
+  const bootFiles = [<%= bootNames.join(',') %>]
+  for (let i = 0; i < bootFiles.length; i++) {
+    try {
+      await bootFiles[i]({
+        app,
+        router,
+        <%= store ? 'store,' : '' %>
+        Vue,
+        ssrContext: null
+      })
+    }
+    catch (err) {
+      console.error('[Quasar] boot error:', err)
+      return
+    }
+  }
   <% } %>
-  appInstance.$mount('#q-app')
-})
 
-<% } else { // not SSR %>
+  <% if (ctx.mode.ssr) { %>
 
-<% if (preFetch) { %>
-addPreFetchHooks(router<%= store ? ', store' : '' %>)
-<% } %>
+    // prime the store with server-initialized state.
+    // the state is determined during SSR and inlined in the page markup.
+    <% if (store) { %>
+    if (window.__INITIAL_STATE__) {
+      store.replaceState(window.__INITIAL_STATE__)
+    }
+    <% } %>
 
-<% if (ctx.mode.cordova) { %>
-document.addEventListener('deviceready', () => {
-Vue.prototype.$q.cordova = window.cordova
-<% } %>
+    const appInstance = new Vue(app)
 
-<% if (hasBootPlugin) { %>
-boot({ app, router,<% if (store) { %> store,<% } %> Vue })
-<% } else { %>
-new Vue(app)
-<% } %>
+    // wait until router has resolved all async before hooks
+    // and async components...
+    router.onReady(() => {
+      <% if (preFetch) { %>
+      addPreFetchHooks(router<%= store ? ', store' : '' %>)
+      <% } %>
+      appInstance.$mount('#q-app')
+    })
 
-<% if (ctx.mode.cordova) { %>
-}, false) // on deviceready
-<% } %>
+  <% } else { // not SSR %>
 
+    <% if (preFetch) { %>
+    addPreFetchHooks(router<%= store ? ', store' : '' %>)
+    <% } %>
 
-<% } // end of Non SSR %>
+    <% if (ctx.mode.cordova) { %>
+    document.addEventListener('deviceready', () => {
+    Vue.prototype.$q.cordova = window.cordova
+    <% } %>
+
+      new Vue(app)
+
+    <% if (ctx.mode.cordova) { %>
+    }, false) // on deviceready
+    <% } %>
+
+  <% } // end of Non SSR %>
+
+}
+
+start()
