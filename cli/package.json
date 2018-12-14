@@ -1,11 +1,15 @@
 {
   "name": "@quasar/cli",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.2",
   "description": "Quasar Framework CLI",
   "bin": {
     "quasar": "./bin/quasar"
   },
-  "files": [],
+  "files": [
+    "assets",
+    "bin",
+    "lib"
+  ],
   "keywords": [
     "quasar",
     "cli",
