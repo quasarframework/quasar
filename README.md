@@ -101,12 +101,6 @@ Ask questions at the official community Discord server: [http://chat.quasar-fram
 
 Ask questions at the official community forum: [https://forum.quasar-framework.org](https://forum.quasar-framework.org)
 
-## Quasar Repositories
-
-* [Quasar Framework](https://github.com/quasarframework/quasar)
-* [Quasar CLI](https://github.com/quasarframework/quasar-cli)
-* [Quasar Play App](https://github.com/quasarframework/quasar-play)
-
 ## Contributing
 
 I'm excited if you want to contribute to Quasar under any form (report bugs, write a plugin, fix an issue, write a new feature).
