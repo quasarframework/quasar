@@ -8,11 +8,11 @@
  * plugins: ['file', ...] // do not add ".js" extension to it.
  **/
 <% extras && extras.filter(asset => asset).forEach(asset => { %>
-import 'quasar-extras/<%= asset %>/<%= asset %>.css'
+import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 <% }) %>
 
 <% animations && animations.filter(asset => asset).forEach(asset => { %>
-import 'quasar-extras/animate/<%= asset %>.css'
+import '@quasar/extras/animate/<%= asset %>.css'
 <% }) %>
 
 import 'quasar-app-styl'
