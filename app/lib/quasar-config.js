@@ -160,7 +160,7 @@ class QuasarConfig {
     const cfg = merge({
       ctx: this.ctx,
       css: false,
-      plugins: false,
+      boot: false,
       animations: false,
       extras: false
     }, this.quasarConfigFunction(this.ctx))
@@ -314,15 +314,15 @@ class QuasarConfig {
       }
     }
 
-    if (cfg.plugins) {
-      cfg.plugins = cfg.plugins.filter(_ => _).map(asset => {
+    if (cfg.boot) {
+      cfg.boot = cfg.boot.filter(_ => _).map(asset => {
         return typeof asset === 'string'
           ? { path: asset }
           : asset
       }).filter(asset => asset.path)
 
-      if (cfg.plugins.length === 0) {
-        cfg.plugins = false
+      if (cfg.boot.length === 0) {
+        cfg.boot = false
       }
     }
 

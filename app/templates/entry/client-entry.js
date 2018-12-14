@@ -2,10 +2,12 @@
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
  *
- * You are probably looking on adding initialization code.
- * Use "quasar new plugin <name>" and add it there.
- * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
- * plugins: ['file', ...] // do not add ".js" extension to it.
+ * You are probably looking on adding startup/initialization code.
+ * Use "quasar new boot <name>" and add it there.
+ * One boot file per concern. Then reference the file(s) in quasar.conf.js > boot:
+ * boot: ['file', ...] // do not add ".js" extension to it.
+ *
+ * Boot files are your "main.js"
  **/
 <% if (supportIE) { %>
 import 'quasar/dist/quasar.ie.polyfills.js'
@@ -33,17 +35,17 @@ import 'app/<%= sourceFiles.registerServiceWorker %>'
 <% } %>
 
 <%
-const pluginNames = []
-if (plugins) {
+const bootNames = []
+if (boot) {
   function hash (str) {
     const name = str.replace(/\W+/g, '')
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
-  plugins.filter(asset => asset.path !== 'boot' && asset.client !== false).forEach(asset => {
+  boot.filter(asset => asset.path !== 'boot' && asset.client !== false).forEach(asset => {
     let importName = 'p' + hash(asset.path)
-    pluginNames.push(importName)
+    bootNames.push(importName)
 %>
-import <%= importName %> from 'src/plugins/<%= asset.path %>'
+import <%= importName %> from 'boot/<%= asset.path %>'
 <% }) } %>
 
 <% if (preFetch) { %>
@@ -65,10 +67,10 @@ Vue.prototype.$q.electron = electron
 <%
 let hasBootPlugin = false
 if (!ctx.mode.ssr) {
-hasBootPlugin = plugins && plugins.find(asset => asset.path === 'boot')
+hasBootPlugin = boot && boot.find(asset => asset.path === 'boot')
 
 if (hasBootPlugin) { %>
-import boot from 'src/plugins/boot.js'
+import boot from 'boot/boot.js'
 <% } } %>
 
 <% if (ctx.dev) { %>
@@ -96,9 +98,9 @@ if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.n
 <% } %>
 <% } %>
 
-<% if (pluginNames.length > 0) { %>
-;[<%= pluginNames.join(',') %>].forEach(plugin => {
-  plugin({
+<% if (bootNames.length > 0) { %>
+;[<%= bootNames.join(',') %>].forEach(bootFile => {
+  bootFile({
     app,
     router,
     <%= store ? 'store,' : '' %>

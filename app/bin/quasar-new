@@ -18,7 +18,7 @@ function showHelp () {
     $ quasar new [p|page] <page_file_name>
     $ quasar new [l|layout] <layout_file_name>
     $ quasar new [c|component] <component_file_name>
-    $ quasar new plugin <plugin_name>
+    $ quasar new [b|boot] <boot_name>
     $ quasar new [s|store] <store_module_name>
 
     # Examples:
@@ -60,7 +60,7 @@ if (argv._.length < 2) {
 
 let [ type, ...names ] = argv._
 
-if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store', 'plugin'].includes(type)) {
+if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store', 'b', 'boot'].includes(type)) {
   console.log()
   warn(`⚠️  Invalid asset type: ${type}`)
   showHelp()
@@ -71,7 +71,8 @@ if (type.length === 1) {
     p: 'page',
     l: 'layout',
     c: 'component',
-    s: 'store'
+    s: 'store',
+    b: 'boot'
   }
   type = fullCmd[type]
 }
@@ -136,10 +137,10 @@ const
       folder: 'store',
       reference: 'src/store/index.js'
     },
-    plugin: {
-      folder: 'plugins',
+    boot: {
+      folder: 'boot',
       ext: '.js',
-      reference: 'quasar.conf.js > plugins'
+      reference: 'quasar.conf.js > boot'
     }
   },
   asset = mapping[type]

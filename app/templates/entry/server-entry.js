@@ -2,10 +2,12 @@
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
  *
- * You are probably looking on adding initialization code.
- * Use "quasar new plugin <name>" and add it there.
- * One plugin per concern. Then reference the file(s) in quasar.conf.js > plugins:
- * plugins: ['file', ...] // do not add ".js" extension to it.
+ * You are probably looking on adding startup/initialization code.
+ * Use "quasar new boot <name>" and add it there.
+ * One boot file per concern. Then reference the file(s) in quasar.conf.js > boot:
+ * boot: ['file', ...] // do not add ".js" extension to it.
+ *
+ * Boot files are your "main.js"
  **/
 <% extras && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
@@ -15,7 +17,7 @@ import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 import '@quasar/extras/animate/<%= asset %>.css'
 <% }) %>
 
-import 'quasar-app-styl'
+import 'quasar-styl'
 
 <% css && css.forEach(asset => { %>
 import '<%= asset %>'
@@ -28,17 +30,17 @@ import App from 'app/<%= sourceFiles.rootComponent %>'
 <% } %>
 
 <%
-const pluginNames = []
-if (plugins) {
+const bootNames = []
+if (boot) {
   function hash (str) {
     const name = str.replace(/\W+/g, '')
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
-  plugins.filter(asset => asset.path !== 'boot' && asset.server !== false).forEach(asset => {
+  boot.filter(asset => asset.path !== 'boot' && asset.server !== false).forEach(asset => {
     let importName = 'plugin' + hash(asset.path)
-    pluginNames.push(importName)
+    bootNames.push(importName)
 %>
-import <%= importName %> from 'src/plugins/<%= asset.path %>'
+import <%= importName %> from 'boot/<%= asset.path %>'
 <% }) } %>
 
 // This exported function will be called by `bundleRenderer`.
@@ -50,8 +52,8 @@ export default context => {
   return new Promise(async (resolve, reject) => {
     const { app, <%= store ? 'store, ' : '' %>router } = createApp(context)
 
-    <% if (pluginNames.length > 0) { %>
-    ;[<%= pluginNames.join(',') %>].forEach(plugin => {
+    <% if (bootNames.length > 0) { %>
+    ;[<%= bootNames.join(',') %>].forEach(plugin => {
       plugin({
         app,
         router,

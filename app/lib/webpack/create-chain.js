@@ -53,7 +53,7 @@ module.exports = function (cfg, configName) {
       layouts: appPaths.resolve.src(`layouts`),
       pages: appPaths.resolve.src(`pages`),
       assets: appPaths.resolve.src(`assets`),
-      plugins: appPaths.resolve.src(`plugins`),
+      boot: appPaths.resolve.src(`boot`),
       'quasar-variables': appPaths.resolve.app(`.quasar/app.quasar-variables.styl`),
 
       // CLI/App using this one:
