@@ -1,39 +1,32 @@
-export default {
+import Vue from 'vue'
+
+import { PanelChildMixin } from '../../mixins/panel.js'
+
+export default Vue.extend({
   name: 'QCarouselSlide',
-  inject: {
-    carousel: {
-      default () {
-        console.error('QCarouselSlide needs to be child of QCarousel')
-      }
-    }
-  },
+
+  mixins: [ PanelChildMixin ],
+
   props: {
     imgSrc: String
   },
+
   computed: {
-    computedStyle () {
-      const style = {}
+    style () {
       if (this.imgSrc) {
-        style.backgroundImage = `url(${this.imgSrc})`
-        style.backgroundSize = `cover`
-        style.backgroundPosition = `50%`
+        return {
+          backgroundImage: `url(${this.imgSrc})`,
+          backgroundSize: 'cover',
+          backgroundPosition: '50%'
+        }
       }
-      if (!this.carousel.inFullscreen && this.carousel.height) {
-        style.maxHeight = this.carousel.height
-      }
-      return style
     }
   },
+
   render (h) {
     return h('div', {
-      staticClass: 'q-carousel-slide relative-position scroll',
-      style: this.computedStyle
+      staticClass: 'q-carousel__slide relative-position scroll',
+      style: this.style
     }, this.$slots.default)
-  },
-  created () {
-    this.carousel.__registerSlide()
-  },
-  beforeDestroy () {
-    this.carousel.__unregisterSlide()
   }
-}
+})

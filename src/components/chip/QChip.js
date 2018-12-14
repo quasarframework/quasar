@@ -1,109 +1,162 @@
-import QIcon from '../icon/QIcon.js'
-import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import Vue from 'vue'
 
-export default {
+import QIcon from '../icon/QIcon.js'
+import RippleMixin from '../../mixins/ripple.js'
+import { stopAndPrevent } from '../../utils/event.js'
+
+export default Vue.extend({
   name: 'QChip',
+
+  mixins: [ RippleMixin ],
+
+  model: {
+    event: 'remove'
+  },
+
   props: {
-    small: Boolean,
     dense: Boolean,
-    tag: Boolean,
-    square: Boolean,
+
+    icon: String,
+    iconRight: String,
+    label: String,
+
+    color: String,
+    textColor: String,
+
+    value: {
+      type: Boolean,
+      default: true
+    },
+    selected: Boolean,
+
     floating: Boolean,
     pointing: {
       type: String,
       validator: v => ['up', 'right', 'down', 'left'].includes(v)
     },
-    color: String,
-    textColor: String,
-    icon: String,
-    iconRight: String,
-    avatar: String,
-    closable: Boolean,
-    detail: Boolean
+    square: Boolean,
+    outline: Boolean,
+    clickable: Boolean,
+    removable: Boolean,
+
+    tabindex: [String, Number],
+    disable: Boolean
   },
+
   computed: {
     classes () {
-      const cls = []
+      const text = this.outline
+        ? this.color || this.textColor
+        : this.textColor
 
-      this.pointing && cls.push(`q-chip-pointing-${this.pointing}`)
-      ;['tag', 'square', 'floating', 'pointing', 'small', 'dense'].forEach(prop => {
-        this[prop] && cls.push(`q-chip-${prop}`)
-      })
-      if (this.floating) {
-        !this.dense && cls.push('q-chip-dense')
-        !this.square && cls.push('q-chip-square')
+      return {
+        [`bg-${this.color}`]: !this.outline && this.color,
+        [`text-${text} q-chip--colored`]: text,
+        disabled: this.disable,
+        'q-chip--dense': this.dense || this.floating,
+        'q-chip--outline': this.outline,
+        'q-chip--floating': this.floating,
+        'q-chip--selected': this.selected,
+        'q-chip--clickable cursor-pointer non-selectable q-hoverable': this.isClickable,
+        'q-chip--square': this.square
       }
+    },
 
-      if (this.color) {
-        cls.push(`bg-${this.color}`)
-        !this.textColor && cls.push(`text-white`)
-      }
-      if (this.textColor) {
-        cls.push(`text-${this.textColor}`)
-      }
+    hasLeftIcon () {
+      return this.selected || this.icon
+    },
 
-      return cls
+    isClickable () {
+      return !this.disable && this.clickable
+    },
+
+    computedTabindex () {
+      return this.disable ? -1 : this.tabindex || 0
     }
   },
+
   methods: {
+    __onKeyup (e) {
+      e.keyCode === 13 /* ENTER */ && this.__onClick(e)
+    },
+
     __onClick (e) {
-      this.$emit('click', e)
-    },
-    __onMouseDown (e) {
-      this.$emit('focus', e)
-    },
-    __handleKeyDown (e) {
-      if (this.closable && [8, 13, 32].includes(getEventKey(e))) {
-        stopAndPrevent(e)
-        this.$emit('hide')
+      if (!this.disable) {
+        this.$emit('update:selected', !this.selected)
+        this.$emit('click', e)
       }
+    },
+
+    __onRemove (e) {
+      if (e.keyCode === void 0 || e.keyCode === 13) {
+        stopAndPrevent(e)
+        !this.disable && this.$emit('remove', false)
+      }
+    },
+
+    __getContent (h) {
+      const child = []
+
+      this.isClickable && child.push(h('div', { staticClass: 'q-focus-helper' }))
+
+      if (this.pointing) {
+        child.push(h('div', {
+          staticClass: 'q-chip__pointer absolute',
+          class: {
+            [`q-chip__pointer--${this.pointing}`]: true,
+            [`text-${this.color}`]: this.color
+          }
+        }))
+
+        this.isClickable && child.push(h('div', {
+          staticClass: 'q-chip__pointer q-chip__pointer--hover absolute',
+          class: `q-chip__pointer--${this.pointing}`
+        }))
+      }
+
+      this.hasLeftIcon && child.push(h(QIcon, {
+        staticClass: 'q-chip__icon q-chip__icon--left',
+        props: { name: this.selected ? this.$q.icon.chip.selected : this.icon }
+      }))
+
+      child.push(h('div', {
+        staticClass: 'q-chip__content row no-wrap items-center q-anchor--skip'
+      }, this.label ? [ this.label ] : this.$slots.default))
+
+      this.iconRight && child.push(h(QIcon, {
+        staticClass: 'q-chip__icon q-chip__icon--right',
+        props: { name: this.iconRight }
+      }))
+
+      this.removable && child.push(h(QIcon, {
+        staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
+        props: { name: this.$q.icon.chip.remove },
+        attrs: { tabindex: this.computedTabindex },
+        nativeOn: {
+          click: this.__onRemove,
+          keyup: this.__onRemove
+        }
+      }))
+
+      return child
     }
   },
+
   render (h) {
-    return h('div', {
-      staticClass: 'q-chip row no-wrap inline items-center',
-      'class': this.classes,
+    if (!this.value) { return }
+
+    const data = this.isClickable ? {
+      attrs: { tabindex: this.computedTabindex },
       on: {
-        mousedown: this.__onMouseDown,
-        touchstart: this.__onMouseDown,
         click: this.__onClick,
-        keydown: this.__handleKeyDown
-      }
-    }, [
-      this.icon || this.avatar
-        ? h('div', {
-          staticClass: 'q-chip-side q-chip-left row flex-center',
-          'class': { 'q-chip-detail': this.detail }
-        }, [
-          this.icon
-            ? h(QIcon, { staticClass: 'q-chip-icon', props: { name: this.icon } })
-            : (this.avatar ? h('img', { attrs: { src: this.avatar } }) : null)
-        ])
-        : null,
+        keyup: this.__onKeyup
+      },
+      directives: [{ name: 'ripple', value: this.ripple }]
+    } : {}
 
-      h('div', { staticClass: 'q-chip-main ellipsis q-popup--skip' }, this.$slots.default),
+    data.staticClass = 'q-chip row inline no-wrap items-center'
+    data.class = this.classes
 
-      this.iconRight
-        ? h(QIcon, {
-          props: { name: this.iconRight },
-          'class': this.closable ? 'on-right q-chip-icon' : 'q-chip-side q-chip-right'
-        })
-        : null,
-
-      this.closable
-        ? h('div', { staticClass: 'q-chip-side q-chip-close q-chip-right row flex-center' }, [
-          h(QIcon, {
-            props: { name: this.$q.icon.chip.close },
-            staticClass: 'cursor-pointer',
-            nativeOn: {
-              click: e => {
-                e && e.stopPropagation()
-                this.$emit('hide')
-              }
-            }
-          })
-        ])
-        : null
-    ])
+    return h('div', data, this.__getContent(h))
   }
-}
+})

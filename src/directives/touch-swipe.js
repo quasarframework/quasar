@@ -33,12 +33,14 @@ function getDirection (mod) {
 
 export default {
   name: 'touch-swipe',
+
   bind (el, binding) {
-    const mouse = !binding.modifiers.noMouse
+    const mouse = binding.modifiers.noMouse !== true
 
     let ctx = {
       handler: binding.value,
       threshold: parseInt(binding.arg, 10) || 300,
+      mod: binding.modifiers,
       direction: getDirection(binding.modifiers),
 
       mouseStart (evt) {
@@ -121,8 +123,8 @@ export default {
         evt.preventDefault()
 
         let
-          direction,
           pos = position(evt),
+          direction,
           distX = pos.left - ctx.event.x,
           absX = Math.abs(distX),
           distY = pos.top - ctx.event.y,
@@ -155,6 +157,10 @@ export default {
       }
     }
 
+    if (el.__qtouchswipe) {
+      el.__qtouchswipe_old = el.__qtouchswipe
+    }
+
     el.__qtouchswipe = ctx
 
     if (mouse) {
@@ -165,21 +171,21 @@ export default {
     el.addEventListener('touchmove', ctx.move)
     el.addEventListener('touchend', ctx.end)
   },
+
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
       el.__qtouchswipe.handler = binding.value
     }
   },
-  unbind (el, binding) {
-    const ctx = el.__qtouchswipe
-    if (!ctx) { return }
 
-    el.removeEventListener('mousedown', ctx.mouseStart)
-
-    el.removeEventListener('touchstart', ctx.start)
-    el.removeEventListener('touchmove', ctx.move)
-    el.removeEventListener('touchend', ctx.end)
-
-    delete el.__qtouchswipe
+  unbind (el) {
+    const ctx = el.__qtouchswipe_old || el.__qtouchswipe
+    if (ctx !== void 0) {
+      el.removeEventListener('mousedown', ctx.mouseStart)
+      el.removeEventListener('touchstart', ctx.start)
+      el.removeEventListener('touchmove', ctx.move)
+      el.removeEventListener('touchend', ctx.end)
+      delete el[el.__qtouchswipe_old ? '__qtouchswipe_old' : '__qtouchswipe']
+    }
   }
 }

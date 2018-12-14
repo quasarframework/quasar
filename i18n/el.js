@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Τράβηξε κάτω για ανανέωση',
-    release: 'Άφησε για ανανέωση',
-    refresh: 'Ανανέωση...'
-  },
   table: {
     noData: 'Χωρίς δεδομένα',
     noResults: 'Δεν βρέθηκαν αποτελέσματα',

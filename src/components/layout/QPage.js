@@ -1,5 +1,8 @@
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   name: 'QPage',
+
   inject: {
     pageContainer: {
       default () {
@@ -8,10 +11,13 @@ export default {
     },
     layout: {}
   },
+
   props: {
     padding: Boolean,
+    center: Boolean,
     styleFn: Function
   },
+
   computed: {
     style () {
       const offset =
@@ -28,17 +34,19 @@ export default {
 
       return { minHeight }
     },
+
     classes () {
       if (this.padding) {
-        return 'layout-padding'
+        return 'q-layout-padding'
       }
     }
   },
+
   render (h) {
     return h('main', {
-      staticClass: 'q-layout-page',
+      staticClass: 'q-page',
       style: this.style,
-      'class': this.classes
+      class: this.classes
     }, this.$slots.default)
   }
-}
+})

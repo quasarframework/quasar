@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true // true
   },
-  pullToRefresh: {
-    pull: '引っ張って更新', // 'Pull down to refresh',
-    release: '更新', // 'Release to refresh',
-    refresh: '更新中...' // 'Refreshing...'
-  },
   table: {
     noData: 'データがありません', // 'No data available',
     noResults: '検索結果がありません', // 'No matching records found',

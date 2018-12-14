@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <template v-for="b in bp">
       <h5 :key="`h${ b }`">Breakpoint {{ b || 'NONE' }}</h5>
       <div class="row items-center" :key="`h${ b }`">

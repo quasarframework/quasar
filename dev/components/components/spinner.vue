@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <q-field
         icon="format size"
         :label="`Size: ${size}px`"
@@ -31,8 +31,8 @@
         Hover over them to see their names
       </p>
 
-      <div style="margin-top: 20px" class="group">
-        <div v-for="spinner in spinners" class="inline-block">
+      <div style="margin-top: 20px">
+        <div v-for="spinner in spinners" :key="spinner" class="inline-block q-ma-xs">
           <component
             :is="`q-spinner-${spinner}`"
             :size="size"
@@ -43,7 +43,7 @@
       </div>
 
       <p class="caption">
-        Default Theme Spinner:
+        Default Spinner:
         <q-spinner :color="color" :size="size" style="margin-left: 1rem;" />
       </p>
     </div>
@@ -59,7 +59,7 @@ export default {
       spinners: [
         'audio', 'ball', 'bars', 'circles', 'comment',
         'cube', 'dots', 'facebook', 'gears', 'grid', 'hearts',
-        'hourglass', 'infinity', 'ios', 'mat', 'oval',
+        'hourglass', 'infinity', 'ios', 'oval',
         'pie', 'puff', 'radio', 'rings', 'tail'
       ],
       colorOptions: [

@@ -16,48 +16,29 @@ export default {
     left: 'fal fa-chevron-left',
     right: 'fal fa-chevron-right'
   },
-
-  pullToRefresh: {
-    arrow: 'fal fa-arrow-alt-circle-down',
-    refresh: 'fal fa-sync-alt'
+  colorPicker: {
+    spectrum: 'fal fa-eye-dropper',
+    tune: 'fal fa-sliders-h',
+    palette: 'fal fa-swatchbook'
   },
-  search: {
-    icon: 'fal fa-search',
-    clear: 'fal fa-times-circle',
-    clearInverted: 'fal fa-times'
+  pullToRefresh: {
+    icon: 'fal fa-sync-alt'
   },
   carousel: {
     left: 'fal fa-chevron-left',
     right: 'fal fa-chevron-right', // TODO
-    quickNav: 'fal fa-circle',
+    navigationIcon: 'fal fa-circle',
     thumbnails: 'fal fa-th'
   },
-  checkbox: { // TODO
-    checked: {
-      ios: 'fal fa-check-circle',
-      mat: 'fal fa-check-square'
-    },
-    unchecked: {
-      ios: 'fal fa-circle',
-      mat: 'fal fa-square'
-    },
-    indeterminate: {
-      ios: 'fal fa-minus-circle',
-      mat: 'fal fa-minus-square'
-    }
-  },
   chip: {
-    close: 'fal fa-times-circle'
-  },
-  chipsInput: {
-    add: 'fal fa-paper-plane'
-  },
-  collapsible: {
-    icon: 'fal fa-caret-down'
+    remove: 'fal fa-times-circle',
+    selected: 'fal fa-check'
   },
   datetime: {
     arrowLeft: 'fal fa-chevron-left',
-    arrowRight: 'fal fa-chevron-right'
+    arrowRight: 'fal fa-chevron-right',
+    now: 'fal fa-clock',
+    today: 'fal fa-calendar-check'
   },
   editor: {
     bold: 'fal fa-bold',
@@ -90,18 +71,12 @@ export default {
     size: 'fal fa-text-height',
     font: 'fal fa-font'
   },
+  expansionItem: {
+    icon: 'fal fa-chevron-down'
+  },
   fab: {
     icon: 'fal fa-plus',
     activeIcon: 'fal fa-times'
-  },
-  input: {
-    showPass: 'fal fa-eye',
-    hidePass: 'fal fa-eye-slash',
-    showNumber: 'fal fa-calculator',
-    hideNumber: 'fal fa-keyboard',
-    clear: 'fal fa-times-circle',
-    clearInverted: 'fal fa-times',
-    dropdown: 'fal fa-caret-down'
   },
   pagination: {
     first: 'fal fa-step-backward',
@@ -109,18 +84,11 @@ export default {
     next: 'fal fa-chevron-right',
     last: 'fal fa-step-forward'
   },
-  radio: {
-    checked: {
-      ios: 'fal fa-check',
-      mat: 'fal fa-check-circle'
-    },
-    unchecked: {
-      ios: '',
-      mat: 'fal fa-circle'
-    }
-  },
   rating: {
     icon: 'fal fa-star'
+  },
+  select: {
+    dropdownIcon: 'fal fa-caret-down'
   },
   stepper: {
     done: 'fal fa-check',
@@ -142,11 +110,10 @@ export default {
   },
   uploader: {
     done: 'fal fa-check',
-    clear: 'fal fa-times-circle',
-    clearInverted: 'fal fa-times',
+    clear: 'fal fa-times',
     add: 'fal fa-plus-square',
-    upload: 'fal fa-cloud-upload-alt',
-    expand: 'fal fa-chevron-down',
-    file: 'fal fa-file'
+    upload: 'fal fa-upload',
+    removeQueue: 'fal fa-stream',
+    removeUploaded: 'fal fa-clipboard-check'
   }
 }

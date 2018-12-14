@@ -1,0 +1,116 @@
+$toggle-transition = .22s cubic-bezier(.4,0,.2,1)
+
+.q-toggle
+  vertical-align middle
+
+  &__label
+    font-size 14px
+    line-height 20px
+
+  &__native
+    width 1px
+    height 1px
+
+  &__track
+    height 14px
+    border-radius 7px
+    opacity .38
+    background-color currentColor
+
+  &__thumb-container
+    left 10px
+    right auto
+    top 10px
+    transform translate3d(0, 0, 0)
+    transition transform $toggle-transition, background-color $toggle-transition, border-color .22s
+
+  &__thumb
+    width 20px
+    height 20px
+    border 10px solid
+    border-radius 50%
+    border-color #fff
+    box-shadow 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)
+
+    .q-icon
+      font-size 12px
+      color black
+      opacity .54
+
+  &__inner
+    width 56px
+    height 40px
+    padding 13px 12px
+
+    &--active
+      color $primary
+      .q-toggle__track
+        opacity .54
+      .q-toggle__thumb-container
+        transform translate3d(16px, 0, 0)
+      .q-toggle__thumb
+        background-color currentColor
+        border-color currentColor
+        .q-icon
+          color #fff
+          opacity 1
+
+  &.disabled
+    opacity 1 !important
+    .q-toggle__inner
+      color $grey-5
+    .q-toggle__thumb
+      border-color $grey-5
+    .q-toggle__track
+      opacity 1
+      color rgba(0, 0, 0, .12)
+    .q-toggle__label
+      color rgba(0, 0, 0, .26)
+
+  &--dark
+    .q-toggle__inner
+      color rgba(255, 255, 255, .7)
+      &--active
+        color $primary
+    .q-toggle__thumb:before
+      opacity .32 !important
+
+    &.disabled
+      .q-toggle__inner
+        color $grey-9
+      .q-toggle__thumb
+        border-color $grey-9
+      .q-toggle__track
+        color rgba(255, 255, 255, .2)
+      .q-toggle__label
+        color rgba(255, 255, 255, .3)
+
+  &--dense
+
+    .q-toggle__inner
+      height 20px
+      padding 3px 12px
+    .q-toggle__thumb-container
+      top 0
+
+body.desktop
+
+  .q-toggle
+    &__thumb:before
+      content ''
+      z-index -1
+      position absolute
+      top 0
+      right 0
+      bottom 0
+      left 0
+      border-radius 50%
+      background currentColor
+      opacity .12
+      transform scale3d(0, 0, 0)
+      transition transform $option-focus-transition
+
+    &:focus
+      .q-toggle__thumb:before
+        transform scale3d(2, 2, 2)
+

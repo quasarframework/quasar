@@ -1,39 +1,32 @@
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   name: 'QList',
+
   props: {
-    noBorder: Boolean,
-    dark: Boolean,
+    bordered: Boolean,
     dense: Boolean,
-    sparse: Boolean,
-    striped: Boolean,
-    stripedOdd: Boolean,
     separator: Boolean,
-    insetSeparator: Boolean,
-    multiline: Boolean,
-    highlight: Boolean,
-    link: Boolean
+    dark: Boolean,
+    padding: Boolean
   },
+
   computed: {
     classes () {
       return {
-        'no-border': this.noBorder,
-        'q-list-dark': this.dark,
-        'q-list-dense': this.dense,
-        'q-list-sparse': this.sparse,
-        'q-list-striped': this.striped,
-        'q-list-striped-odd': this.stripedOdd,
-        'q-list-separator': this.separator,
-        'q-list-inset-separator': this.insetSeparator,
-        'q-list-multiline': this.multiline,
-        'q-list-highlight': this.highlight,
-        'q-list-link': this.link
+        'q-list--bordered': this.bordered,
+        'q-list--dense': this.dense,
+        'q-list--separator': this.separator,
+        'q-list--dark': this.dark,
+        'q-list--padding': this.padding
       }
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-list',
-      'class': this.classes
+      class: this.classes
     }, this.$slots.default)
   }
-}
+})

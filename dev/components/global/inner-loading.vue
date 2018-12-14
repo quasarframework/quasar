@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">
         Click or tap below, to see the innerLoading component work with a div.
         It is simulating a delay from a server reply.
@@ -9,13 +9,9 @@
         Show Text Loading
       </q-btn>
     </div>
-    <div class="layout-padding relative-position"
+    <div class="q-layout-padding relative-position q-mx-auto"
          style="height: 450px; width: 600px; background-color: lightgrey; padding: 15px;">
-      <transition
-        appear
-        enter-active-class="animated fadeIn"
-        leave-active-class="animated fadeOut"
-      >
+      <transition name="q-transition--fade">
         <div v-show="showSimulatedReturnData">
           <h4>Lorem Ipsum</h4>
           <p>
@@ -26,8 +22,9 @@
           </p>
         </div>
       </transition>
-      <q-inner-loading :visible="visible">
-        <q-spinner-gears :size="50" color="primary"/>
+
+      <q-inner-loading :showing="showing">
+        <q-spinner-gears size="50px" color="primary"/>
       </q-inner-loading>
     </div>
   </div>
@@ -38,7 +35,7 @@ import { QSpinnerGears } from 'quasar'
 export default {
   data () {
     return {
-      visible: false,
+      showing: false,
       showSimulatedReturnData: false
     }
   },
@@ -50,11 +47,11 @@ export default {
       this.show()
     },
     show () {
-      this.visible = true
+      this.showing = true
       this.showSimulatedReturnData = false
 
       setTimeout(() => {
-        this.visible = false
+        this.showing = false
         this.showSimulatedReturnData = true
       }, 3000)
     }

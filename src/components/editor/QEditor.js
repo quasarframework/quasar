@@ -1,13 +1,19 @@
-import { getEventKey, stopAndPrevent } from '../../utils/event.js'
+import Vue from 'vue'
+
 import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
 import { Caret } from './editor-caret.js'
-import extend from '../../utils/extend.js'
+
 import FullscreenMixin from '../../mixins/fullscreen.js'
 import { isSSR } from '../../plugins/platform.js'
 
-export default {
+import { stopAndPrevent } from '../../utils/event.js'
+import extend from '../../utils/extend.js'
+
+export default Vue.extend({
   name: 'QEditor',
-  mixins: [FullscreenMixin],
+
+  mixins: [ FullscreenMixin ],
+
   props: {
     value: {
       type: String,
@@ -51,18 +57,22 @@ export default {
     contentStyle: Object,
     contentClass: [Object, Array, String]
   },
+
   computed: {
     editable () {
       return !this.readonly && !this.disable
     },
+
     hasToolbar () {
       return this.toolbar && this.toolbar.length > 0
     },
+
     toolbarBackgroundClass () {
       if (this.toolbarBg) {
         return `bg-${this.toolbarBg}`
       }
     },
+
     buttonProps () {
       return {
         outline: this.toolbarOutline,
@@ -74,6 +84,7 @@ export default {
         disable: !this.editable
       }
     },
+
     buttonDef () {
       const
         e = this.$q.i18n.editor,
@@ -112,7 +123,7 @@ export default {
         h5: {cmd: 'formatBlock', param: 'H5', icon: i.header, tip: e.header5, htmlTip: `<h5 class="q-ma-none">${e.header5}</h5>`},
         h6: {cmd: 'formatBlock', param: 'H6', icon: i.header, tip: e.header6, htmlTip: `<h6 class="q-ma-none">${e.header6}</h6>`},
         p: {cmd: 'formatBlock', param: 'DIV', icon: i.header, tip: e.paragraph},
-        code: {cmd: 'formatBlock', param: 'PRE', icon: i.code, tip: `<code>${e.code}</code>`},
+        code: {cmd: 'formatBlock', param: 'PRE', icon: i.code, htmlTip: `<code>${e.code}</code>`},
 
         'size-1': {cmd: 'fontSize', param: '1', icon: i.size, tip: e.size1, htmlTip: `<font size="1">${e.size1}</font>`},
         'size-2': {cmd: 'fontSize', param: '2', icon: i.size, tip: e.size2, htmlTip: `<font size="2">${e.size2}</font>`},
@@ -123,6 +134,7 @@ export default {
         'size-7': {cmd: 'fontSize', param: '7', icon: i.size, tip: e.size7, htmlTip: `<font size="7">${e.size7}</font>`}
       }
     },
+
     buttons () {
       const userDef = this.definitions || {}
       const def = this.definitions || this.fonts
@@ -173,6 +185,7 @@ export default {
         })
       )
     },
+
     keys () {
       const
         k = {},
@@ -197,6 +210,7 @@ export default {
       })
       return k
     },
+
     innerStyle () {
       return this.inFullscreen
         ? this.contentStyle
@@ -216,12 +230,14 @@ export default {
       ]
     }
   },
+
   data () {
     return {
       editWatcher: true,
       editLinkUrl: null
     }
   },
+
   watch: {
     value (v) {
       if (this.editWatcher) {
@@ -232,6 +248,7 @@ export default {
       }
     }
   },
+
   methods: {
     onInput (e) {
       if (this.editWatcher) {
@@ -242,8 +259,9 @@ export default {
         }
       }
     },
+
     onKeydown (e) {
-      const key = getEventKey(e)
+      const key = e.keyCode
 
       if (!e.ctrlKey) {
         this.refreshToolbar()
@@ -259,6 +277,7 @@ export default {
         this.$q.platform.is.ie && this.$nextTick(this.onInput)
       }
     },
+
     runCmd (cmd, param, update = true) {
       this.focus()
       this.caret.apply(cmd, param, () => {
@@ -268,25 +287,30 @@ export default {
         }
       })
     },
+
     refreshToolbar () {
       setTimeout(() => {
         this.editLinkUrl = null
         this.$forceUpdate()
       }, 1)
     },
+
     focus () {
       this.$refs.content.focus()
     },
+
     getContentEl () {
       return this.$refs.content
     }
   },
+
   created () {
     if (!isSSR) {
       document.execCommand('defaultParagraphSeparator', false, 'div')
       this.defaultFont = window.getComputedStyle(document.body).fontFamily
     }
   },
+
   mounted () {
     this.$nextTick(() => {
       if (this.$refs.content) {
@@ -296,6 +320,7 @@ export default {
       this.$nextTick(this.refreshToolbar)
     })
   },
+
   render (h) {
     let toolbars
     if (this.hasToolbar) {
@@ -357,4 +382,4 @@ export default {
       ]
     )
   }
-}
+})

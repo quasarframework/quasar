@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false
   },
-  pullToRefresh: {
-    pull: 'Pull down to refresh',
-    release: 'Release to refresh',
-    refresh: 'Refreshing...'
-  },
   table: {
     noData: 'No data available',
     noResults: 'No matching records found',
@@ -91,5 +86,25 @@ export default {
   tree: {
     noNodes: 'No nodes available',
     noResults: 'No matching nodes found'
+  },
+  media: {
+    oldBrowser: 'To view this video please enable JavaScript and/or consider upgrading to a browser that supports HTML5 video.',
+    pause: 'Pause',
+    play: 'Play',
+    settings: 'Settings',
+    fullscreen: 'Full Screen',
+    mute: 'Mute',
+    unmute: 'Unmute',
+    speed: 'Speed', // Playback rate
+    language: 'Language',
+    waitingVideo: 'Waiting for video',
+    waitingAudio: 'Waiting for audio',
+    ratePoint5: '.5x',
+    rateNormal: 'Normal',
+    rate1Point5: '1.5x',
+    rate2: '2x',
+    trackLanguageOff: 'Off',
+    noLoadVideo: 'Unable to load video',
+    noLoadAudio: 'Unable to load audio'
   }
 }

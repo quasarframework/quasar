@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import { isSSR } from './platform.js'
 import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
 
@@ -6,13 +8,14 @@ export default {
   stop () {},
   increment () {},
 
-  install ({ $q, Vue, cfg }) {
+  install ({ $q, cfg }) {
     if (isSSR) {
       $q.loadingBar = this
       return
     }
 
     const bar = $q.loadingBar = new Vue({
+      name: 'LoadingBar',
       render: h => h(QAjaxBar, {
         ref: 'bar',
         props: cfg.loadingBar

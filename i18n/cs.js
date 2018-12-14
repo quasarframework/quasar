@@ -24,11 +24,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Táhněte pro obnovení',
-    release: 'Pusťte pro obnovení',
-    refresh: 'Načítá se...'
-  },
   table: {
     noData: 'Žádná data k dispozici',
     noResults: 'Nebyly nalezeny žádné odpovídající záznamy',

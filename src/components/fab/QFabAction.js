@@ -1,15 +1,20 @@
+import Vue from 'vue'
+
 import QBtn from '../btn/QBtn.js'
 import FabMixin from './fab-mixin.js'
 
-export default {
+export default Vue.extend({
   name: 'QFabAction',
-  mixins: [FabMixin],
+
+  mixins: [ FabMixin ],
+
   props: {
     icon: {
       type: String,
       required: true
     }
   },
+
   inject: {
     __qFabClose: {
       default () {
@@ -17,13 +22,14 @@ export default {
       }
     }
   },
+
   methods: {
     click (e) {
-      this.__qFabClose().then(() => {
-        this.$emit('click', e)
-      })
+      this.__qFabClose()
+      this.$emit('click', e)
     }
   },
+
   render (h) {
     return h(QBtn, {
       props: {
@@ -41,4 +47,4 @@ export default {
       }
     }, this.$slots.default)
   }
-}
+})

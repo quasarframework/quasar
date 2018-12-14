@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding row justify-center">
+  <div class="q-layout-padding row justify-center">
     <div style="width: 500px; max-width: 90vw;">
       <div class="fixed-center z-max">
         <div class="row group">
@@ -61,10 +61,11 @@
 <script>
 const alerts = [
   { color: 'negative', message: 'Woah! Danger! You are getting good at this!', icon: 'report_problem' },
-  { color: 'pink', message: 'You need to know about this!', icon: 'warning' },
-  { color: 'orange', textColor: 'black', message: 'Wow! Nice job!', icon: 'thumb_up' },
-  { color: 'secondary', message: 'Quasar is cool! Right?', icon: 'tag_faces' },
-  { color: 'tertiary', message: 'Jim just pinged you', avatar: 'statics/boy-avatar.png' }
+  { message: 'You need to know about this!', icon: 'warning' },
+  { message: 'Wow! Nice job!', icon: 'thumb_up' },
+  { color: 'teal', message: 'Quasar is cool! Right?', icon: 'tag_faces' },
+  { color: 'purple', message: 'Jim just pinged you', avatar: 'statics/boy-avatar.png' },
+  { multiLine: true, message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic quisquam non ad sit assumenda consequuntur esse inventore officia. Corrupti reiciendis impedit vel, fugit odit quisquam quae porro exercitationem eveniet quasi.' }
 ]
 
 export default {
@@ -76,18 +77,29 @@ export default {
   },
   methods: {
     alertAsMethod (position) {
-      const { color, textColor, icon, message, avatar } = alerts[ Math.floor(Math.random(5) * 10) % 5 ]
-      // const remove =
+      const { color, textColor, multiLine, icon, message, avatar } = alerts[ Math.floor(Math.random(alerts.length) * 10) % alerts.length ]
+      const random = Math.random() * 100
+
+      const twoActions = random > 70
+      const buttonColor = color ? 'white' : void 0
+
       this.$q.notify({
         color,
         textColor,
-        icon,
+        icon: random > 30 ? icon : null,
         message,
         position,
         avatar,
-        actions: Math.random() * 100 > 50
-          ? [ { label: 'Reply', handler: () => console.log('wooow') } ]
-          : null,
+        multiLine,
+        actions: twoActions
+          ? [
+            { label: 'Reply', color: buttonColor, handler: () => console.log('wooow') },
+            { label: 'Dismiss', color: 'yellow', handler: () => console.log('wooow') }
+          ]
+          : (random > 40
+            ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('wooow') } ]
+            : null
+          ),
         timeout: Math.random() * 5000 + 3000
       })
       /* closeBtn test

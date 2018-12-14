@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <div class="xs">XS (<strong>{{ first }}</strong>)</div>
     <div class="sm">SM (<strong>{{ second }}</strong>)</div>
     <div class="md">MD (<strong>{{ last }}</strong>)</div>

@@ -24,11 +24,12 @@ if (!type) {
 console.log(` 📦 Building Quasar ${green('v' + require('../package.json').version)}...${parallel ? blue(' [multi-threaded]') : ''}\n`)
 
 createFolder('dist')
-createFolder('dist/umd')
 
 if (!type || type === 'js') {
   createFolder('dist/helper-json')
   createFolder('dist/babel-transforms')
+  createFolder('dist/i18n')
+  createFolder('dist/icons')
   runJob(join(__dirname, './script.build.javascript'))
 }
 if (!type || type === 'css') {

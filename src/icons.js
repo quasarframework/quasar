@@ -1,9 +1,11 @@
+import Vue from 'vue'
+
 import { isSSR } from './plugins/platform.js'
 import materialIcons from '../icons/material-icons.js'
 
 export default {
   __installed: false,
-  install ($q, Vue, iconSet) {
+  install ($q, iconSet) {
     this.set = (iconDef = materialIcons) => {
       iconDef.set = this.set
 

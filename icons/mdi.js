@@ -16,48 +16,29 @@ export default {
     left: 'mdi-chevron-left',
     right: 'mdi-chevron-right'
   },
-
-  pullToRefresh: {
-    arrow: 'mdi-arrow-down',
-    refresh: 'mdi-refresh'
+  colorPicker: {
+    spectrum: 'mdi-gradient',
+    tune: 'mdi-tune',
+    palette: 'mdi-palette-swatch'
   },
-  search: {
-    icon: 'mdi-magnify',
-    clear: 'mdi-close-circle',
-    clearInverted: 'mdi-close'
+  pullToRefresh: {
+    icon: 'mdi-refresh'
   },
   carousel: {
     left: 'mdi-chevron-left',
     right: 'mdi-chevron-right',
-    quickNav: 'mdi-circle',
+    navigationIcon: 'mdi-circle',
     thumbnails: 'mdi-view-carousel'
   },
-  checkbox: {
-    checked: {
-      ios: 'mdi-checkbox-marked-circle',
-      mat: 'mdi-checkbox-marked'
-    },
-    unchecked: {
-      ios: 'mdi-checkbox-blank-circle-outline',
-      mat: 'mdi-checkbox-blank-outline'
-    },
-    indeterminate: {
-      ios: 'mdi-minus-circle-outline',
-      mat: 'mdi-minus-box'
-    }
-  },
   chip: {
-    close: 'mdi-close-circle'
-  },
-  chipsInput: {
-    add: 'mdi-send'
-  },
-  collapsible: {
-    icon: 'mdi-menu-down'
+    remove: 'mdi-close-circle',
+    selected: 'mdi-check'
   },
   datetime: {
     arrowLeft: 'mdi-chevron-left',
-    arrowRight: 'mdi-chevron-right'
+    arrowRight: 'mdi-chevron-right',
+    now: 'mdi-clock-outline',
+    today: 'mdi-calendar-today'
   },
   editor: {
     bold: 'mdi-format-bold',
@@ -90,18 +71,12 @@ export default {
     size: 'mdi-format-size',
     font: 'mdi-format-font'
   },
+  expansionItem: {
+    icon: 'mdi-chevron-down'
+  },
   fab: {
     icon: 'mdi-plus',
     activeIcon: 'mdi-close'
-  },
-  input: {
-    showPass: 'mdi-eye',
-    hidePass: 'mdi-eye-off',
-    showNumber: 'mdi-keyboard',
-    hideNumber: 'mdi-keyboard-close',
-    clear: 'mdi-close-circle',
-    clearInverted: 'mdi-close',
-    dropdown: 'mdi-menu-down'
   },
   pagination: {
     first: 'mdi-page-first',
@@ -109,18 +84,11 @@ export default {
     next: 'mdi-chevron-right',
     last: 'mdi-page-last'
   },
-  radio: {
-    checked: {
-      ios: 'mdi-check',
-      mat: 'mdi-radiobox-marked'
-    },
-    unchecked: {
-      ios: '',
-      mat: 'mdi-radiobox-blank'
-    }
-  },
   rating: {
     icon: 'mdi-star'
+  },
+  select: {
+    dropdownIcon: 'mdi-menu-down'
   },
   stepper: {
     done: 'mdi-check',
@@ -142,11 +110,10 @@ export default {
   },
   uploader: {
     done: 'mdi-check',
-    clear: 'mdi-close-circle',
-    clearInverted: 'mdi-close',
-    add: 'mdi-plus',
+    clear: 'mdi-close',
+    add: 'mdi-plus-box',
     upload: 'mdi-cloud-upload',
-    expand: 'mdi-chevron-down',
-    file: 'mdi-file'
+    removeQueue: 'mdi-notification-clear-all',
+    removeUploaded: 'mdi-check-all'
   }
 }

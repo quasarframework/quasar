@@ -1,10 +1,14 @@
-import { between } from '../../utils/format.js'
+import Vue from 'vue'
+
 import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
-import { getEventKey } from '../../utils/event.js'
 
-export default {
+import { between } from '../../utils/format.js'
+import { isDeepEqual } from '../../utils/is.js'
+
+export default Vue.extend({
   name: 'QPagination',
+
   props: {
     value: {
       type: Number,
@@ -54,19 +58,23 @@ export default {
       }
     }
   },
+
   data () {
     return {
       newPage: null
     }
   },
+
   watch: {
     min (value) {
       this.model = this.value
     },
+
     max (value) {
       this.model = this.value
     }
   },
+
   computed: {
     model: {
       get () {
@@ -78,28 +86,30 @@ export default {
         }
         const value = between(parseInt(val, 10), this.min, this.max)
         this.$emit('input', value)
-        this.$nextTick(() => {
-          if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-            this.$emit('change', value)
-          }
-        })
+        !isDeepEqual(value, this.value) && this.$emit('change', value)
       }
     },
+
     inputPlaceholder () {
       return this.model + ' / ' + this.max
     },
+
     __boundaryLinks () {
       return this.__getBool(this.boundaryLinks, this.input)
     },
+
     __boundaryNumbers () {
       return this.__getBool(this.boundaryNumbers, !this.input)
     },
+
     __directionLinks () {
       return this.__getBool(this.directionLinks, this.input)
     },
+
     __ellipses () {
       return this.__getBool(this.ellipses, !this.input)
     },
+
     icons () {
       const ico = [
         this.$q.icon.pagination.first,
@@ -110,22 +120,27 @@ export default {
       return this.$q.i18n.rtl ? ico.reverse() : ico
     }
   },
+
   methods: {
     set (value) {
       this.model = value
     },
+
     setByOffset (offset) {
       this.model = this.model + offset
     },
+
     __update () {
       this.model = this.newPage
       this.newPage = null
     },
+
     __getBool (val, otherwise) {
       return [true, false].includes(val)
         ? val
         : otherwise
     },
+
     __getBtn (h, data, props) {
       data.props = Object.assign({
         color: this.color,
@@ -135,6 +150,7 @@ export default {
       return h(QBtn, data)
     }
   },
+
   render (h) {
     const
       contentStart = [],
@@ -185,24 +201,26 @@ export default {
 
     if (this.input) {
       contentMiddle.push(h(QInput, {
-        staticClass: 'inline no-padding',
+        staticClass: 'inline',
         style: {
           width: `${this.inputPlaceholder.length}rem`
         },
         props: {
           type: 'number',
+          dense: true,
           value: this.newPage,
-          noNumberToggle: true,
-          min: this.min,
-          max: this.max,
           color: this.color,
-          placeholder: this.inputPlaceholder,
           disable: this.disable,
-          hideUnderline: true
+          borderless: true
+        },
+        attrs: {
+          placeholder: this.inputPlaceholder,
+          min: this.min,
+          max: this.max
         },
         on: {
           input: value => (this.newPage = value),
-          keydown: e => (getEventKey(e) === 13 && this.__update()),
+          keyup: e => (e.keyCode === 13 && this.__update()),
           blur: () => this.__update()
         }
       }))
@@ -257,7 +275,7 @@ export default {
           flat: !active,
           textColor: active ? this.textColor : null,
           label: this.min,
-          noRipple: true
+          ripple: false
         }))
       }
       if (boundaryEnd) {
@@ -273,7 +291,7 @@ export default {
           flat: !active,
           textColor: active ? this.textColor : null,
           label: this.max,
-          noRipple: true
+          ripple: false
         }))
       }
       if (ellipsesStart) {
@@ -313,14 +331,14 @@ export default {
           flat: !active,
           textColor: active ? this.textColor : null,
           label: i,
-          noRipple: true
+          ripple: false
         }))
       }
     }
 
     return h('div', {
       staticClass: 'q-pagination row no-wrap items-center',
-      'class': { disabled: this.disable }
+      class: { disabled: this.disable }
     }, [
       contentStart,
 
@@ -331,4 +349,4 @@ export default {
       contentEnd
     ])
   }
-}
+})

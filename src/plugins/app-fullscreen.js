@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import { isSSR } from './platform.js'
 
 const prefixes = {}
@@ -26,7 +28,7 @@ export default {
     }
   },
 
-  install ({ $q, Vue }) {
+  install ({ $q }) {
     $q.fullscreen = this
 
     if (isSSR) { return }

@@ -1,9 +1,8 @@
 export function offset (el) {
-  if (!el || el === window) {
+  if (el === window) {
     return {top: 0, left: 0}
   }
-  let {top, left} = el.getBoundingClientRect()
-
+  const {top, left} = el.getBoundingClientRect()
   return {top, left}
 }
 
@@ -12,17 +11,15 @@ export function style (el, property) {
 }
 
 export function height (el) {
-  if (el === window) {
-    return window.innerHeight
-  }
-  return parseFloat(style(el, 'height'))
+  return el === window
+    ? window.innerHeight
+    : el.getBoundingClientRect().height
 }
 
 export function width (el) {
-  if (el === window) {
-    return window.innerWidth
-  }
-  return parseFloat(style(el, 'width'))
+  return el === window
+    ? window.innerWidth
+    : el.getBoundingClientRect().width
 }
 
 export function css (element, css) {
@@ -31,6 +28,10 @@ export function css (element, css) {
   Object.keys(css).forEach(prop => {
     style[prop] = css[prop]
   })
+}
+
+export function cssBatch (elements, style) {
+  elements.forEach(el => css(el, style))
 }
 
 export function ready (fn) {
@@ -45,21 +46,12 @@ export function ready (fn) {
   document.addEventListener('DOMContentLoaded', fn, false)
 }
 
-const prefix = ['-webkit-', '-moz-', '-ms-', '-o-']
-export function cssTransform (val) {
-  let o = {transform: val}
-  prefix.forEach(p => {
-    o[p + 'transform'] = val
-  })
-  return o
-}
-
 export default {
   offset,
   style,
   height,
   width,
   css,
-  ready,
-  cssTransform
+  cssBatch,
+  ready
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <div>
       <q-icon :name="icon" class="gigi" style="font-size: 5rem;" @click="clicked" />
       <span style="margin: 0 15px;">{{ icon }}</span>
@@ -14,9 +14,10 @@
         {value: 'cloud', label: 'A Material icon'},
         {value: 'mdi-airballoon', label: 'A MDI icon'},
         {value: 'fab fa-github', label: 'A Font Awesome icon'},
-        {value: 'ion-airplane', label: 'A Ionicon (theme dependency)'},
+        {value: 'ion-airplane', label: 'A Ionicon (platform dependent)'},
         {value: 'ion-md-airplane', label: 'A Ionicon (md)'},
-        {value: 'ion-ios-airplane', label: 'A Ionicon (ios)'}
+        {value: 'ion-ios-airplane', label: 'A Ionicon (ios)'},
+        {value: 'eva-paper-plane-outline', label: 'A Eva icon'}
       ]"
       style="margin-top: 25px"
     />
@@ -25,8 +26,9 @@
       <div v-for="set in sets" :key="set.setName">
         <h3>{{ set.setName }}</h3>
         <div>
-          <q-chip class="q-ma-xs" v-for="icon in set.icons" :key="icon.val">
-            {{ icon.name }} <q-icon :name="icon.val" />
+          <q-chip class="q-ma-xs" v-for="icon in set.icons" :key="set.setName + icon.name + icon.val">
+            <q-avatar :icon="icon.val" color="primary" text-color="white" />
+            {{ icon.name }}
           </q-chip>
         </div>
       </div>
@@ -39,6 +41,7 @@ import matSet from '../../../icons/material-icons.js'
 import mdiSet from '../../../icons/mdi.js'
 import fontawesomeSet from '../../../icons/fontawesome.js'
 import ioniconsSet from '../../../icons/ionicons.js'
+// import evaSet from '../../../icons/eva-icons.js'
 
 function parseSet (setName, set) {
   const icons = []
@@ -65,7 +68,7 @@ export default {
   },
   computed: {
     sets () {
-      return [matSet, mdiSet, fontawesomeSet, ioniconsSet]
+      return [matSet, mdiSet, fontawesomeSet, ioniconsSet] /*, evaSet */
         .map(({ name, ...set }) => parseSet(name, set))
     }
   },

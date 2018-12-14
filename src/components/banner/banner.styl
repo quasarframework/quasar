@@ -1,0 +1,38 @@
+.q-banner
+  min-height 54px
+  padding 8px 16px
+  background white
+
+  &--top-padding
+    padding-top 14px
+
+  &__avatar
+    min-width 1px !important
+    > .q-avatar
+      font-size 46px
+    > .q-icon
+      font-size 40px
+
+  &__avatar:not(:empty) + &__content
+    padding-left 16px
+
+  &__actions
+    &.col-auto
+      padding-left 16px
+    &.col-12
+      .q-btn-item
+        margin 4px 0 0 4px
+
+  &--dense
+    min-height 32px
+    padding 8px
+    &.q-banner--top-padding
+      padding-top 12px
+    .q-banner__avatar
+      > .q-avatar, > .q-icon
+        font-size 28px
+    .q-banner__avatar:not(:empty) + .q-banner__content
+      padding-left 8px
+    .q-banner__actions
+      &.col-auto
+        padding-left 8px

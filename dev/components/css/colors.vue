@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding text-center" id="view-colors">
+    <div class="q-layout-padding text-center" id="view-colors">
       <h5>Main Colors</h5>
       <div
         class="main-color shadow-1 row inline flex-center text-white"

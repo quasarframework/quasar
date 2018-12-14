@@ -17,7 +17,7 @@ module.exports = function (chain) {
   chain.devtool('#cheap-module-eval-source-map')
 
   chain.resolve.extensions
-    .merge([`.${env.theme}.js`, '.js', '.vue'])
+    .merge(['.js', '.vue'])
 
   chain.resolve.modules
     .merge([
@@ -28,11 +28,11 @@ module.exports = function (chain) {
   chain.resolve.alias
     .merge({
       quasar: resolve(`src/index.esm.js`),
-      'quasar-css': resolve(`src/css/${env.theme}.styl`),
+      'quasar-css': resolve(`src/css/index.styl`),
       assets: resolve('dev/assets'),
       components: resolve('dev/components'),
       data: resolve('dev/data'),
-      variables: resolve(`src/css/core.variables.styl`)
+      'quasar-variables': resolve(`src/css/variables.styl`)
     })
 
   chain.module.rule('lint')
@@ -90,7 +90,10 @@ module.exports = function (chain) {
         name: 'fonts/[name].[ext]'
       })
 
-  injectStyleRules(chain)
+  injectRule(chain, 'css', /\.css$/)
+  injectRule(chain, 'stylus', /\.styl(us)?$/, 'stylus-loader', {
+    preferPathResolver: 'webpack'
+  })
 
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
@@ -172,11 +175,4 @@ function injectRule (chain, lang, test, loader, options) {
         options
       ))
   }
-}
-
-function injectStyleRules (chain, options) {
-  injectRule(chain, 'css', /\.css$/)
-  injectRule(chain, 'stylus', /\.styl(us)?$/, 'stylus-loader', {
-    preferPathResolver: 'webpack'
-  })
 }

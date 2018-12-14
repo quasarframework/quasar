@@ -37,13 +37,7 @@ export function rightClick (e) {
   return e.button === 2
 }
 
-export function getEventKey (e) {
-  return e.which || e.keyCode
-}
-
 export function position (e) {
-  let posx, posy
-
   if (e.touches && e.touches[0]) {
     e = e.touches[0]
   }
@@ -51,42 +45,10 @@ export function position (e) {
     e = e.changedTouches[0]
   }
 
-  if (e.clientX || e.clientY) {
-    posx = e.clientX
-    posy = e.clientY
-  }
-  else if (e.pageX || e.pageY) {
-    posx = e.pageX - document.body.scrollLeft - document.documentElement.scrollLeft
-    posy = e.pageY - document.body.scrollTop - document.documentElement.scrollTop
-  }
-  else {
-    const offset = targetElement(e).getBoundingClientRect()
-    posx = ((offset.right - offset.left) / 2) + offset.left
-    posy = ((offset.bottom - offset.top) / 2) + offset.top
-  }
-
   return {
-    top: posy,
-    left: posx
+    top: e.clientY,
+    left: e.clientX
   }
-}
-
-export function targetElement (e) {
-  let target
-
-  if (e.target) {
-    target = e.target
-  }
-  else if (e.srcElement) {
-    target = e.srcElement
-  }
-
-  // defeat Safari bug
-  if (target.nodeType === 3) {
-    target = target.parentNode
-  }
-
-  return target
 }
 
 export function getEventPath (e) {
@@ -144,9 +106,7 @@ export default {
   leftClick,
   middleClick,
   rightClick,
-  getEventKey,
   position,
-  targetElement,
   getEventPath,
   getMouseWheelDistance,
   stopAndPrevent

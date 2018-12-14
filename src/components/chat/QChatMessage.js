@@ -1,5 +1,8 @@
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   name: 'QChatMessage',
+
   props: {
     sent: Boolean,
     label: String,
@@ -11,22 +14,26 @@ export default {
     stamp: String,
     size: String
   },
+
   computed: {
     textClass () {
       if (this.textColor) {
         return `text-${this.textColor}`
       }
     },
+
     messageClass () {
       if (this.bgColor) {
         return `text-${this.bgColor}`
       }
     },
+
     sizeClass () {
       if (this.size) {
         return `col-${this.size}`
       }
     },
+
     classes () {
       return {
         'q-message-sent': this.sent,
@@ -34,15 +41,17 @@ export default {
       }
     }
   },
+
   methods: {
     __getText (h) {
       return this.text.map((msg, index) => h('div', {
+        key: index,
         staticClass: 'q-message-text',
-        'class': this.messageClass
+        class: this.messageClass
       }, [
         h('span', {
           staticClass: 'q-message-text-content',
-          'class': this.textClass
+          class: this.textClass
         }, [
           h('div', { domProps: { innerHTML: msg } }),
           this.stamp
@@ -54,14 +63,15 @@ export default {
         ])
       ]))
     },
+
     __getMessage (h) {
       return h('div', {
         staticClass: 'q-message-text',
-        'class': this.messageClass
+        class: this.messageClass
       }, [
         h('span', {
           staticClass: 'q-message-text-content',
-          'class': this.textClass
+          class: this.textClass
         }, [
           this.$slots.default,
           this.stamp
@@ -74,10 +84,11 @@ export default {
       ])
     }
   },
+
   render (h) {
     return h('div', {
       staticClass: 'q-message',
-      'class': this.classes
+      class: this.classes
     }, [
       this.label
         ? h('div', {
@@ -98,7 +109,7 @@ export default {
             : null
         ),
 
-        h('div', { 'class': this.sizeClass }, [
+        h('div', { class: this.sizeClass }, [
           this.name
             ? h('div', {
               staticClass: 'q-message-name',
@@ -112,4 +123,4 @@ export default {
       ])
     ])
   }
-}
+})

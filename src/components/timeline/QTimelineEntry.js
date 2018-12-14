@@ -1,7 +1,10 @@
+import Vue from 'vue'
+
 import QIcon from '../icon/QIcon.js'
 
-export default {
+export default Vue.extend({
   name: 'QTimelineEntry',
+
   inject: {
     __timeline: {
       default () {
@@ -9,6 +12,7 @@ export default {
       }
     }
   },
+
   props: {
     heading: Boolean,
     tag: {
@@ -25,55 +29,54 @@ export default {
     title: String,
     subtitle: String
   },
+
   computed: {
     colorClass () {
       return `text-${this.color || this.__timeline.color}`
     },
+
     classes () {
       return [
-        `q-timeline-entry-${this.side === 'left' ? 'left' : 'right'}`,
-        this.icon ? 'q-timeline-entry-with-icon' : ''
+        `q-timeline__entry--${this.side === 'left' ? 'left' : 'right'}`,
+        this.icon ? 'q-timeline__entry--icon' : ''
       ]
     }
   },
+
   render (h) {
     if (this.heading) {
-      return h('div', { staticClass: 'q-timeline-heading' }, [
+      return h('div', { staticClass: 'q-timeline__heading' }, [
         h('div'),
         h('div'),
         h(
           this.tag,
-          { staticClass: 'q-timeline-heading-title' },
+          { staticClass: 'q-timeline__heading-title' },
           this.$slots.default
         )
       ])
     }
 
     return h('li', {
-      staticClass: `q-timeline-entry`,
-      'class': this.classes
+      staticClass: `q-timeline__entry`,
+      class: this.classes
     }, [
-      this.$slots.subtitle || h('div', { staticClass: 'q-timeline-subtitle' }, [
+      h('div', { staticClass: 'q-timeline__subtitle' }, [
         h('span', this.subtitle)
       ]),
-      h('div', {
-        staticClass: 'q-timeline-dot',
-        'class': this.colorClass
-      }, [
-        this.icon
-          ? h(QIcon, {
-            props: { name: this.icon }
-          })
-          : null
-      ]),
 
-      h(
-        'div',
-        { staticClass: 'q-timeline-content' },
-        (this.$slots.title || [
-          h('h6', { staticClass: 'q-timeline-title' }, [ this.title ])
-        ]).concat(this.$slots.default)
-      )
+      h('div', {
+        staticClass: 'q-timeline__dot',
+        class: this.colorClass
+      }, this.icon ? [
+        h(QIcon, {
+          staticClass: 'row items-center justify-center',
+          props: { name: this.icon }
+        })
+      ] : null),
+
+      h('div', { staticClass: 'q-timeline__content' }, [
+        h('h6', { staticClass: 'q-timeline__title' }, [ this.title ])
+      ].concat(this.$slots.default))
     ])
   }
-}
+})

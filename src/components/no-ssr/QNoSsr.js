@@ -1,8 +1,12 @@
+import Vue from 'vue'
+
 import CanRenderMixin from '../../mixins/can-render.js'
 
-export default {
+export default Vue.extend({
   name: 'QNoSsr',
+
   mixins: [ CanRenderMixin ],
+
   props: {
     tag: {
       type: String,
@@ -10,6 +14,7 @@ export default {
     },
     placeholder: String
   },
+
   render (h) {
     if (this.canRender) {
       const slot = this.$slots.default
@@ -31,4 +36,4 @@ export default {
       ])
     }
   }
-}
+})

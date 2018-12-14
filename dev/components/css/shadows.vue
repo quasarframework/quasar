@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <p class="caption text-left">Standard shadows</p>
     <div class="flex inline shadow-box flex-center" v-for="n in 24" :class="['shadow-' + n]" :key="`a-${n}`">.shadow-{{ n }}</div>
     <p class="caption text-left">Shadows pointing up</p>

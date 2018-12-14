@@ -11,7 +11,7 @@ export default {
       let
         child = []
 
-      if (body) {
+      if (body !== void 0) {
         child = this.computedRows.map(row => {
           const
             key = row[this.rowKey],
@@ -40,17 +40,18 @@ export default {
                   : h('td', {
                     staticClass: col.__tdClass,
                     style: col.style,
-                    'class': col.classes
+                    class: col.classes
                   }, this.getCellValue(col, row))
               })
 
           if (this.hasSelectionMode) {
-            child.unshift(h('td', { staticClass: 'q-table-col-auto-width' }, [
+            child.unshift(h('td', { staticClass: 'q-table--col-auto-width' }, [
               h(QCheckbox, {
                 props: {
                   value: selected,
                   color: this.color,
-                  dark: this.dark
+                  dark: this.dark,
+                  dense: this.computedDense
                 },
                 on: {
                   input: adding => {
@@ -61,19 +62,20 @@ export default {
             ]))
           }
 
-          return h('tr', { key, 'class': { selected } }, child)
+          return h('tr', { key, class: { selected } }, child)
         })
       }
 
-      if (topRow) {
+      if (topRow !== void 0) {
         child.unshift(topRow({cols: this.computedCols}))
       }
-      if (bottomRow) {
+      if (bottomRow !== void 0) {
         child.push(bottomRow({cols: this.computedCols}))
       }
 
       return h('tbody', child)
     },
+
     addBodyRowMeta (data) {
       if (this.hasSelectionMode) {
         Object.defineProperty(data, 'selected', {
@@ -101,15 +103,17 @@ export default {
 
       return data
     },
+
     addBodyCellMetaData (data) {
       Object.defineProperty(data, 'value', {
         get: () => this.getCellValue(data.col, data.row)
       })
       return data
     },
+
     getCellValue (col, row) {
       const val = typeof col.field === 'function' ? col.field(row) : row[col.field]
-      return col.format ? col.format(val) : val
+      return col.format !== void 0 ? col.format(val) : val
     }
   }
 }

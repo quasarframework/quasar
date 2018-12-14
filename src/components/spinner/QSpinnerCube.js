@@ -1,8 +1,12 @@
+import Vue from 'vue'
+
 import mixin from './spinner-mixin.js'
 
-export default {
+export default Vue.extend({
   name: 'QSpinnerCube',
+
   mixins: [mixin],
+
   render (h) {
     return h('svg', {
       staticClass: 'q-spinner',
@@ -152,4 +156,4 @@ export default {
       ])
     ])
   }
-}
+})

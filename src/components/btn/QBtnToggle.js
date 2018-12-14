@@ -1,12 +1,16 @@
+import Vue from 'vue'
+
 import QBtn from './QBtn.js'
 import QBtnGroup from './QBtnGroup.js'
 
-export default {
+export default Vue.extend({
   name: 'QBtnToggle',
+
   props: {
     value: {
       required: true
     },
+
     // To avoid seeing the active raise shadow through the transparent button, give it a color (even white).
     color: String,
     textColor: String,
@@ -15,43 +19,50 @@ export default {
       default: 'primary'
     },
     toggleTextColor: String,
+
+    outline: Boolean,
+    flat: Boolean,
+    unelevated: Boolean,
+    rounded: Boolean,
+    push: Boolean,
+
     options: {
       type: Array,
       required: true,
       validator: v => v.every(opt => ('label' in opt || 'icon' in opt) && 'value' in opt)
     },
-    readonly: Boolean,
-    disable: Boolean,
+
+    size: String,
+
     noCaps: Boolean,
     noWrap: Boolean,
-    outline: Boolean,
-    flat: Boolean,
     dense: Boolean,
-    rounded: Boolean,
-    push: Boolean,
-    size: String,
-    glossy: Boolean,
-    noRipple: Boolean,
-    waitForRipple: Boolean
+    readonly: Boolean,
+    disable: Boolean,
+
+    stretch: Boolean,
+    stack: Boolean,
+
+    ripple: {
+      type: [Boolean, Object],
+      default: true
+    }
   },
+
   computed: {
     val () {
       return this.options.map(opt => opt.value === this.value)
     }
   },
+
   methods: {
     set (value, opt) {
-      if (this.readonly) {
-        return
+      if (!this.readonly && value !== this.value) {
+        this.$emit('input', value, opt)
       }
-      this.$emit('input', value, opt)
-      this.$nextTick(() => {
-        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-          this.$emit('change', value, opt)
-        }
-      })
     }
   },
+
   render (h) {
     return h(QBtnGroup, {
       staticClass: 'q-btn-toggle',
@@ -59,15 +70,17 @@ export default {
         outline: this.outline,
         flat: this.flat,
         rounded: this.rounded,
-        push: this.push
+        push: this.push,
+        stretch: this.stretch,
+        unelevated: this.unelevated
       }
     },
     this.options.map(
       (opt, i) => h(QBtn, {
-        key: `${opt.label}${opt.icon}${opt.iconRight}`,
+        key: i,
         on: { click: () => this.set(opt.value, opt) },
         props: {
-          disable: this.disable || opt.disable,
+          disable: this.disable,
           label: opt.label,
           // Colors come from the button specific options first, then from general props
           color: this.val[i] ? opt.toggleColor || this.toggleColor : opt.color || this.color,
@@ -80,14 +93,15 @@ export default {
           flat: this.flat,
           rounded: this.rounded,
           push: this.push,
-          glossy: this.glossy,
+          unelevated: this.unelevated,
           size: this.size,
           dense: this.dense,
-          noRipple: this.noRipple || opt.noRipple,
-          waitForRipple: this.waitForRipple || opt.waitForRipple,
-          tabindex: opt.tabindex
+          ripple: this.ripple || opt.ripple,
+          stack: this.stack || opt.stack,
+          tabindex: opt.tabindex,
+          stretch: this.stretch
         }
       })
     ))
   }
-}
+})

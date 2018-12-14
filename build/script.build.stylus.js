@@ -10,23 +10,22 @@ const
   pathList = [path.join(__dirname, '../src/css/')]
 
 Promise
-  .all(
-    buildConf.themes.map(generateTheme)
-      .concat(generateAddon())
-  )
+  .all([
+    generateBase(),
+    generateAddon()
+  ])
   .catch(e => {
     console.error(e)
   })
 
-function generateTheme (theme) {
-  const src = `src/css/${theme}.styl`
+function generateBase () {
+  const src = `src/css/index.styl`
   const deps = stylus(buildUtils.readFile(src))
     .set('paths', pathList)
     .deps()
 
   return generateFiles({
     sources: [src].concat(deps),
-    name: theme,
     styl: true
   })
 }
@@ -34,17 +33,17 @@ function generateTheme (theme) {
 function generateAddon () {
   return generateFiles({
     sources: [
-      'src/css/core.variables.styl',
+      'src/css/variables.styl',
       'src/css/flex-addon.styl'
     ],
-    name: 'addon'
+    name: '.addon'
   })
 }
 
-function generateFiles ({ sources, name, styl }) {
+function generateFiles ({ sources, name = '', styl }) {
   return prepareStylus(sources)
     .then(code => {
-      if (styl) { return buildUtils.writeFile(`dist/quasar.${name}.styl`, code) }
+      if (styl) { return buildUtils.writeFile(`dist/quasar${name}.styl`, code) }
       else { return code }
     })
     .then(code => compileStylus(code))
@@ -62,9 +61,9 @@ function generateFiles ({ sources, name, styl }) {
 }
 
 function generateUMD (name, code, ext = '') {
-  return buildUtils.writeFile(`dist/umd/quasar.${name}${ext}.css`, code, true)
+  return buildUtils.writeFile(`dist/quasar${name}${ext}.css`, code, true)
     .then(code => cssnano.process(code, { from: void 0 }))
-    .then(code => buildUtils.writeFile(`dist/umd/quasar.${name}${ext}.min.css`, code.css, true))
+    .then(code => buildUtils.writeFile(`dist/quasar${name}${ext}.min.css`, code.css, true))
 }
 
 function prepareStylus (src) {

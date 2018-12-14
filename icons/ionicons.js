@@ -16,48 +16,29 @@ export default {
     left: 'ion-ios-arrow-back',
     right: 'ion-ios-arrow-forward'
   },
-
-  pullToRefresh: {
-    arrow: 'ion-arrow-round-down',
-    refresh: 'ion-refresh'
+  colorPicker: {
+    spectrum: 'ion-aperture',
+    tune: 'ion-options',
+    palette: 'ion-apps'
   },
-  search: {
-    icon: 'ion-search',
-    clear: 'ion-close-circle',
-    clearInverted: 'ion-close-circle-outline'
+  pullToRefresh: {
+    icon: 'ion-refresh'
   },
   carousel: {
     left: 'ion-ios-arrow-back',
     right: 'ion-ios-arrow-forward',
-    quickNav: 'ion-square',
+    navigationIcon: 'ion-square',
     thumbnails: 'ion-grid'
   },
-  checkbox: {
-    checked: {
-      ios: 'ion-checkmark-circle',
-      mat: 'ion-checkbox'
-    },
-    unchecked: {
-      ios: 'ion-radio-button-off',
-      mat: 'ion-square-outline'
-    },
-    indeterminate: {
-      ios: 'ion-remove-circle-outline',
-      mat: 'ion-remove-circle'
-    }
-  },
   chip: {
-    close: 'ion-close-circle'
-  },
-  chipsInput: {
-    add: 'ion-send'
-  },
-  collapsible: {
-    icon: 'ion-arrow-dropdown'
+    remove: 'ion-close-circle',
+    selected: 'ion-checkmark'
   },
   datetime: {
     arrowLeft: 'ion-ios-arrow-back',
-    arrowRight: 'ion-ios-arrow-forward'
+    arrowRight: 'ion-ios-arrow-forward',
+    now: 'ion-time',
+    today: 'ion-calendar'
   },
   editor: { // requires Material icons for some as Ionicons simply does not have everything needed
     bold: 'format_bold',
@@ -90,18 +71,12 @@ export default {
     size: 'format_size',
     font: 'font_download'
   },
+  expansionItem: {
+    icon: 'ion-arrow-dropdown'
+  },
   fab: {
     icon: 'ion-add',
     activeIcon: 'ion-close'
-  },
-  input: {
-    showPass: 'ion-eye',
-    hidePass: 'ion-eye-off',
-    showNumber: 'ion-calculator',
-    hideNumber: 'ion-keypad',
-    clear: 'ion-close-circle',
-    clearInverted: 'ion-close-circle-outline',
-    dropdown: 'ion-arrow-dropdown'
   },
   pagination: {
     first: 'ion-skip-backward',
@@ -109,18 +84,11 @@ export default {
     next: 'ion-arrow-forward',
     last: 'ion-skip-forward'
   },
-  radio: {
-    checked: {
-      ios: 'ion-md-checkmark',
-      mat: 'ion-radio-button-on'
-    },
-    unchecked: {
-      ios: '',
-      mat: 'ion-radio-button-off'
-    }
-  },
   rating: {
     icon: 'ion-star'
+  },
+  select: {
+    dropdownIcon: 'ion-arrow-dropdown'
   },
   stepper: {
     done: 'ion-checkmark',
@@ -142,11 +110,10 @@ export default {
   },
   uploader: {
     done: 'ion-checkmark',
-    clear: 'ion-close-circle',
-    clearInverted: 'ion-close-circle-outline',
-    add: 'ion-add',
+    clear: 'ion-close',
+    add: 'ion-add-circle',
     upload: 'ion-cloud-upload',
-    expand: 'ion-arrow-dropdown',
-    file: 'ion-document'
+    removeQueue: 'ion-trash',
+    removeUploaded: 'ion-done-all'
   }
 }

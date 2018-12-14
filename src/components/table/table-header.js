@@ -1,4 +1,4 @@
-import QProgress from '../progress/QProgress.js'
+import QLinearProgress from '../linear-progress/QLinearProgress.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QTh from './QTh.js'
 
@@ -7,15 +7,15 @@ export default {
     getTableHeader (h) {
       const child = [ this.getTableHeaderRow(h) ]
 
-      if (this.loading) {
-        child.push(h('tr', { staticClass: 'q-table-progress animate-fade' }, [
+      if (this.loading === true) {
+        child.push(h('tr', { staticClass: 'q-table__progress q-animate--fade' }, [
           h('td', { attrs: {colspan: '100%'} }, [
-            h(QProgress, {
+            h(QLinearProgress, {
               props: {
                 color: this.color,
-                indeterminate: true,
-                height: '2px'
-              }
+                indeterminate: true
+              },
+              style: { height: '2px' }
             })
           ])
         ]))
@@ -23,18 +23,19 @@ export default {
 
       return h('thead', child)
     },
+
     getTableHeaderRow (h) {
       const
         header = this.$scopedSlots.header,
         headerCell = this.$scopedSlots['header-cell']
 
-      if (header) {
+      if (header !== void 0) {
         return header(this.addTableHeaderRowMeta({header: true, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap}))
       }
 
       let mapFn
 
-      if (headerCell) {
+      if (headerCell !== void 0) {
         mapFn = col => headerCell({col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap})
       }
       else {
@@ -49,21 +50,22 @@ export default {
             }
           },
           style: col.style,
-          'class': col.classes
+          class: col.classes
         }, col.label)
       }
       const child = this.computedCols.map(mapFn)
 
-      if (this.singleSelection && !this.grid) {
-        child.unshift(h('th', { staticClass: 'q-table-col-auto-width' }, [' ']))
+      if (this.singleSelection === true && this.grid !== true) {
+        child.unshift(h('th', { staticClass: 'q-table--col-auto-width' }, [' ']))
       }
-      else if (this.multipleSelection) {
-        child.unshift(h('th', { staticClass: 'q-table-col-auto-width' }, [
+      else if (this.multipleSelection === true) {
+        child.unshift(h('th', { staticClass: 'q-table--col-auto-width' }, [
           h(QCheckbox, {
             props: {
               color: this.color,
               value: this.someRowsSelected ? null : this.allRowsSelected,
-              dark: this.dark
+              dark: this.dark,
+              dense: this.computedDense
             },
             on: {
               input: val => {
@@ -83,8 +85,9 @@ export default {
 
       return h('tr', child)
     },
+
     addTableHeaderRowMeta (data) {
-      if (this.multipleSelection) {
+      if (this.multipleSelection === true) {
         Object.defineProperty(data, 'selected', {
           get: () => this.someRowsSelected ? 'some' : this.allRowsSelected,
           set: val => {

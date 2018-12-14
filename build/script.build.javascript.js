@@ -7,7 +7,6 @@ const
   uglify = require('uglify-es'),
   buble = require('rollup-plugin-buble'),
   json = require('rollup-plugin-json'),
-  replace = require('rollup-plugin-replace'),
   nodeResolve = require('rollup-plugin-node-resolve'),
   buildConf = require('./build.conf'),
   buildUtils = require('./build.utils'),
@@ -22,7 +21,7 @@ const builds = [
         input: resolve(`src/index.esm.js`)
       },
       output: {
-        file: resolve(`dist/quasar.${buildConf.themeToken}.esm.js`),
+        file: resolve(`dist/quasar.esm.js`),
         format: 'es'
       }
     },
@@ -46,7 +45,7 @@ const builds = [
         input: resolve('src/ie-compat/ie.js')
       },
       output: {
-        file: resolve('dist/umd/quasar.ie.polyfills.umd.js'),
+        file: resolve('dist/quasar.ie.polyfills.umd.js'),
         format: 'umd'
       }
     },
@@ -58,7 +57,7 @@ const builds = [
         input: resolve(`src/index.umd.js`)
       },
       output: {
-        file: resolve(`dist/umd/quasar.${buildConf.themeToken}.umd.js`),
+        file: resolve(`dist/quasar.umd.js`),
         format: 'umd'
       }
     },
@@ -99,7 +98,7 @@ function addAssets (builds, type) {
           plugins
         },
         output: {
-          file: addExtension(resolve(`dist/umd/${type}.${file}`), 'umd'),
+          file: addExtension(resolve(`dist/${type}/${file}`), 'umd'),
           format: 'umd',
           name: `Quasar.${type}.${name}`
         }
@@ -111,67 +110,31 @@ function addAssets (builds, type) {
   })
 }
 
-function processEntries (entries) {
-  const builds = []
-
-  entries.forEach(entry => {
-    if (entry.rollup.output.file.indexOf(buildConf.themeToken) === -1) {
-      builds.push(entry)
-      return
-    }
-
-    buildConf.themes.forEach(theme => {
-      const clone = JSON.parse(JSON.stringify(entry))
-      clone.rollup.output.file = entry.rollup.output.file.replace(buildConf.themeToken, theme)
-      clone.build.theme = theme
-      builds.push(clone)
-    })
-  })
-
-  return builds
-}
-
 function build (builds) {
   return Promise
-    .all(processEntries(builds).map(genConfig).map(buildEntry))
+    .all(builds.map(genConfig).map(buildEntry))
     .catch(buildUtils.logError)
 }
 
 function genConfig (opts) {
-  const theme = opts.build && opts.build.theme
-    ? opts.build.theme
-    : null
-
   const plugins = opts.rollup.input.plugins || [
     nodeResolve({
-      extensions: theme
-        ? [`.${theme}.js`, '.js']
-        : ['.js'],
+      extensions: ['.js'],
       preferBuiltins: false
     }),
     json(),
     buble(bubleConfig)
   ]
 
-  if (theme) {
-    plugins.push(
-      replace({
-        'process.env.THEME': `'${theme}'`
-      })
-    )
-  }
-
   opts.rollup.input.plugins = plugins
   opts.rollup.output.banner = buildConf.banner
   opts.rollup.output.name = opts.rollup.output.name || 'Quasar'
 
-  if (opts.rollup.output.format === 'umd') {
-    opts.rollup.input.external = opts.rollup.input.external || []
-    opts.rollup.input.external.push('vue')
+  opts.rollup.input.external = opts.rollup.input.external || []
+  opts.rollup.input.external.push('vue')
 
-    opts.rollup.output.globals = opts.rollup.output.globals || {}
-    opts.rollup.output.globals.vue = 'Vue'
-  }
+  opts.rollup.output.globals = opts.rollup.output.globals || {}
+  opts.rollup.output.globals.vue = 'Vue'
 
   return opts
 }

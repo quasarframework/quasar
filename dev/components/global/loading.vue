@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">
         Notify the user something is going on under the covers.
       </p>
-      <div class="group">
+      <div class="q-gutter-sm">
         <q-btn push color="secondary" @click="noMessage()">
           Show
         </q-btn>
@@ -44,6 +44,24 @@ function show (options) {
 }
 
 export default {
+  /*
+  mounted () {
+    this.$q.loading.hide()
+    this.$q.loading.hide()
+    this.$q.loading.show()
+    this.$q.loading.hide()
+    this.$q.loading.show()
+    this.$q.loading.show()
+    this.$q.loading.hide()
+    this.$q.loading.show({
+      message: 'gigi'
+    })
+    setTimeout(() => {
+      this.$q.loading.hide()
+    }, 5000)
+  },
+  */
+
   methods: {
     noMessage () {
       show()
@@ -65,7 +83,9 @@ export default {
       setTimeout(() => {
         show({
           spinner: QSpinnerGears,
-          spinnerColor: 'amber',
+          spinnerColor: 'red',
+          messageColor: 'black',
+          backgroundColor: 'yellow',
           message: 'Updated message'
         })
       }, 3000)

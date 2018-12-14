@@ -1,52 +1,55 @@
-import Ripple from '../../directives/ripple.js'
 import AlignMixin from '../../mixins/align.js'
+import RippleMixin from '../../mixins/ripple.js'
 
 const sizes = {
   xs: 8,
   sm: 10,
   md: 14,
   lg: 20,
-  xl: 24,
-  form: 14.777,
-  'form-label': 21.777,
-  'form-hide-underline': 9.333,
-  'form-label-hide-underline': 16.333
+  xl: 24
 }
 
 export default {
-  mixins: [AlignMixin],
-  directives: {
-    Ripple
-  },
+  mixins: [ RippleMixin, AlignMixin ],
+
   props: {
     type: String,
+    to: [Object, String],
+    replace: Boolean,
+
+    label: [Number, String],
+    icon: String,
+    iconRight: String,
+
+    round: Boolean,
+    outline: Boolean,
+    flat: Boolean,
+    unelevated: Boolean,
+    rounded: Boolean,
+    push: Boolean,
+
+    size: String,
+    fab: Boolean,
+    fabMini: Boolean,
+
+    color: String,
+    textColor: String,
+    noCaps: Boolean,
+    noWrap: Boolean,
+    dense: Boolean,
+
+    tabindex: [Number, String],
+
+    align: { default: 'center' },
+    stack: Boolean,
+    stretch: Boolean,
     loading: {
       type: Boolean,
       default: null
     },
-    disable: Boolean,
-    label: [Number, String],
-    noCaps: Boolean,
-    noWrap: Boolean,
-    icon: String,
-    iconRight: String,
-    round: Boolean,
-    outline: Boolean,
-    flat: Boolean,
-    rounded: Boolean,
-    push: Boolean,
-    size: String,
-    fab: Boolean,
-    fabMini: Boolean,
-    color: String,
-    textColor: String,
-    glossy: Boolean,
-    dense: Boolean,
-    noRipple: Boolean,
-    tabindex: Number,
-    to: [Object, String],
-    replace: Boolean
+    disable: Boolean
   },
+
   computed: {
     style () {
       if (this.size && !this.fab && !this.fabMini) {
@@ -55,27 +58,23 @@ export default {
         }
       }
     },
-    isRectangle () {
-      return !this.isRound
-    },
+
     isRound () {
-      return this.round || this.fab || this.fabMini
+      return this.round === true || this.fab === true || this.fabMini === true
     },
-    shape () {
-      return `q-btn-${this.isRound ? 'round' : 'rectangle'}`
-    },
+
     isDisabled () {
-      return this.disable || this.loading
+      return this.disable === true || this.loading === true
     },
-    hasRipple () {
-      return process.env.THEME === 'mat' && !this.noRipple && !this.isDisabled
-    },
+
     computedTabIndex () {
-      return this.isDisabled ? -1 : this.tabindex || 0
+      return this.isDisabled === true ? -1 : this.tabindex || 0
     },
+
     isLink () {
       return this.type === 'a' || this.to !== void 0
     },
+
     attrs () {
       const att = { tabindex: this.computedTabIndex }
       if (this.type !== 'a') {
@@ -86,62 +85,45 @@ export default {
       }
       return att
     },
+
     classes () {
-      const cls = [ this.shape ]
-
-      if (this.fab) {
-        cls.push('q-btn-fab')
-      }
-      else if (this.fabMini) {
-        cls.push('q-btn-fab-mini')
-      }
-
-      if (this.flat) {
-        cls.push('q-btn-flat')
-      }
-      else if (this.outline) {
-        cls.push('q-btn-outline')
-      }
-      else if (this.push) {
-        cls.push('q-btn-push')
-      }
-
-      if (this.isDisabled) {
-        cls.push('disabled')
-      }
-      else {
-        cls.push('q-focusable q-hoverable')
-        this.active && cls.push('active')
-      }
+      let colors
 
       if (this.color) {
         if (this.flat || this.outline) {
-          cls.push(`text-${this.textColor || this.color}`)
+          colors = `text-${this.textColor || this.color}`
         }
         else {
-          cls.push(`bg-${this.color}`)
-          cls.push(`text-${this.textColor || 'white'}`)
+          colors = `bg-${this.color} text-${this.textColor || 'white'}`
         }
       }
       else if (this.textColor) {
-        cls.push(`text-${this.textColor}`)
+        colors = `text-${this.textColor}`
       }
 
-      cls.push({
-        'q-btn-no-uppercase': this.noCaps,
-        'q-btn-rounded': this.rounded,
-        'q-btn-dense': this.dense,
-        'glossy': this.glossy
-      })
-
-      return cls
+      return `q-btn--${this.isRound ? 'round' : 'rectangle'}` +
+        (colors !== void 0 ? ' ' + colors : '') +
+        (this.isDisabled === true ? ' disabled' : ' q-focusable q-hoverable') +
+        (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +
+        (
+          this.flat === true ? ' q-btn--flat' : (
+            this.outline === true ? ' q-btn--outline' : (
+              this.push === true ? ' q-btn-push' : (
+                this.unelevated === true ? ' q-btn--unelevated' : ''
+              )
+            )
+          )
+        ) +
+        (this.noCaps === true ? ' q-btn--no-uppercase' : '') +
+        (this.rounded === true ? ' q-btn--rounded' : '') +
+        (this.dense === true ? ' q-btn--dense' : '') +
+        (this.stretch === true ? ' no-border-radius self-stretch' : '')
     },
+
     innerClasses () {
-      const classes = [ this.alignClass ]
-      this.noWrap === true && classes.push('no-wrap', 'text-no-wrap')
-      this.repeating === true && classes.push('non-selectable')
-      this.loading === true && classes.push('q-btn-inner--hidden')
-      return classes
+      return this.alignClass + (this.stack === true ? ' column' : ' row') +
+        (this.noWrap === true ? ' no-wrap text-no-wrap' : '') +
+        (this.loading === true ? ' q-btn__content--hidden' : '')
     }
   }
 }

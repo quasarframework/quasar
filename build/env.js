@@ -1,10 +1,8 @@
 const
-  theme = process.argv[2] || 'mat',
   host = process.env.HOST || '0.0.0.0',
   port = process.env.PORT || (process.env.QUASAR_SSR ? 8554 : 8080)
 
 module.exports = {
-  theme,
   quasarVersion: require('../package.json').version,
   host,
   port,

@@ -1,30 +1,32 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">
         Breadcrumbs are great for navigation.
         <br>
         If window is wide enough then labels are also displayed.
       </p>
-      <q-toggle v-model="first" label="first" />
-      <q-toggle v-model="second" label="second" />
-      <q-toggle v-model="third" label="third" />
+      <div class="q-gutter-sm">
+        <q-toggle v-model="first" label="first" />
+        <q-toggle v-model="second" label="second" />
+        <q-toggle v-model="third" label="third" />
+      </div>
       <br><br>
-      <q-breadcrumbs>
+      <q-breadcrumbs class="text-teal">
         <q-breadcrumbs-el v-if="first" label="Home" icon="home" />
         <q-breadcrumbs-el v-if="second" label="Components" icon="widgets" />
         <q-breadcrumbs-el v-if="third" label="Breadcrumbs" icon="navigation" />
       </q-breadcrumbs>
 
       <br><br>
-      <q-breadcrumbs>
-        <q-breadcrumbs-el class="cursor-pointer" label="Home" icon="home" @click.native="path = '/'"/>
+      <q-breadcrumbs separator-color="deep-orange" style="font-size: 24px">
+        <q-breadcrumbs-el label="Home" icon="home" />
         <q-breadcrumbs-el label="Home" />
         <q-breadcrumbs-el label="Home" />
         <q-breadcrumbs-el label="Home" />
       </q-breadcrumbs>
       <br><br>
-      <q-breadcrumbs icon-separator="chevron_right" active-color="secondary" color="light" align="right">
+      <q-breadcrumbs active-color="secondary" class="text-orange" align="right">
         <q-breadcrumbs-el label="Home" to="/" />
         <q-breadcrumbs-el label="Components" to="/components" />
         <q-breadcrumbs-el label="Breadcrumbs" to="/components/breadcrumbs" />
@@ -33,7 +35,7 @@
       <br><br>
       <q-breadcrumbs align="center">
         <q-icon name="trending_flat" slot="separator" slot-scope="props" />
-        <q-breadcrumbs-el active>Home</q-breadcrumbs-el>
+        <q-breadcrumbs-el>Home</q-breadcrumbs-el>
         <q-breadcrumbs-el>Components</q-breadcrumbs-el>
         <q-breadcrumbs-el>Breadcrumbs</q-breadcrumbs-el>
       </q-breadcrumbs>

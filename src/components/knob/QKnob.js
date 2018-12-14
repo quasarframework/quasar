@@ -1,82 +1,48 @@
+import Vue from 'vue'
+
 import { position, stopAndPrevent } from '../../utils/event.js'
-import { between } from '../../utils/format.js'
-import { offset, height, width } from '../../utils/dom.js'
+import { between, normalizeToInterval } from '../../utils/format.js'
+
+import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/touch-pan.js'
 
-export default {
+// PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
+const keyCodes = [34, 37, 40, 33, 39, 38]
+
+export default Vue.extend({
   name: 'QKnob',
+
+  mixins: [{
+    props: QCircularProgress.options.props
+  }],
+
   directives: {
     TouchPan
   },
+
   props: {
-    value: Number,
-    min: {
-      type: Number,
-      default: 0
-    },
-    max: {
-      type: Number,
-      default: 100
-    },
-    color: String,
-    trackColor: {
-      type: String,
-      default: 'grey-3'
-    },
-    lineWidth: {
-      type: String,
-      default: '6px'
-    },
-    size: {
-      type: String,
-      default: '100px'
-    },
     step: {
       type: Number,
-      default: 1
+      default: 1,
+      validator: v => v >= 0
     },
-    decimals: Number,
+
+    tabindex: {
+      type: [Number, String],
+      default: 0
+    },
+
     disable: Boolean,
     readonly: Boolean
   },
-  computed: {
-    classes () {
-      const cls = []
-      if (this.disable) {
-        cls.push('disabled')
-      }
-      if (!this.readonly) {
-        cls.push('cursor-pointer')
-      }
-      if (this.color) {
-        cls.push(`text-${this.color}`)
-      }
-      return cls
-    },
-    svgStyle () {
-      const dir = this.$q.i18n.rtl ? -1 : 1
-      return {
-        'stroke-dasharray': '295.31px, 295.31px',
-        'stroke-dashoffset': (295.31 * dir * (1.0 - (this.model - this.min) / (this.max - this.min))) + 'px',
-        'transition': this.dragging ? '' : 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease'
-      }
-    },
-    editable () {
-      return !this.disable && !this.readonly
-    },
-    computedDecimals () {
-      return this.decimals !== void 0 ? this.decimals || 0 : (String(this.step).trim('0').split('.')[1] || '').length
-    },
-    computedStep () {
-      return this.decimals !== void 0 ? 1 / Math.pow(10, this.decimals || 0) : this.step
-    }
-  },
+
   data () {
     return {
       model: this.value,
       dragging: false
     }
   },
+
   watch: {
     value (value) {
       if (value < this.min) {
@@ -86,92 +52,94 @@ export default {
         this.model = this.max
       }
       else {
-        const newVal = this.computedDecimals && typeof value === 'number'
-          ? parseFloat(value.toFixed(this.computedDecimals))
-          : value
-        if (newVal !== this.model) {
-          this.model = newVal
+        if (value !== this.model) {
+          this.model = value
         }
         return
       }
 
-      this.$emit('input', this.model)
-      this.$nextTick(() => {
-        if (this.model !== this.value) {
-          this.$emit('change', this.model)
-        }
-      })
+      if (this.model !== this.value) {
+        this.$emit('input', this.model)
+        this.$emit('change', this.model)
+      }
     }
   },
+
+  computed: {
+    classes () {
+      return {
+        disabled: this.disable,
+        'q-knob--editable': this.editable
+      }
+    },
+
+    editable () {
+      return !this.disable && !this.readonly
+    },
+
+    decimals () {
+      return (String(this.step).trim('0').split('.')[1] || '').length
+    },
+
+    computedStep () {
+      return this.step === 0 ? 1 : this.step
+    }
+  },
+
   methods: {
     __pan (event) {
-      if (!this.editable) {
-        return
-      }
       if (event.isFinal) {
-        this.__dragStop(event.evt)
+        this.__updatePosition(event.evt, true)
+        this.dragging = false
       }
       else if (event.isFirst) {
-        this.__dragStart(event.evt)
+        const { top, left, width, height } = this.$el.getBoundingClientRect()
+        this.centerPosition = {
+          top: top + height / 2,
+          left: left + width / 2
+        }
+        this.dragging = true
+        this.__updatePosition(event.evt)
       }
       else {
-        this.__dragMove(event.evt)
+        this.__updatePosition(event.evt)
       }
     },
-    __dragStart (ev) {
-      if (!this.editable) {
+
+    __keydown (evt) {
+      if (!keyCodes.includes(evt.keyCode)) {
         return
       }
-      stopAndPrevent(ev)
-      this.centerPosition = this.__getCenter()
-      clearTimeout(this.timer)
-      this.dragging = true
-      this.__onInput(ev)
-    },
-    __dragMove (ev) {
-      if (!this.dragging || !this.editable) {
-        return
-      }
-      stopAndPrevent(ev)
-      this.__onInput(ev, this.centerPosition)
-    },
-    __dragStop (ev) {
-      if (!this.editable) {
-        return
-      }
-      stopAndPrevent(ev)
-      this.timer = setTimeout(() => {
-        this.dragging = false
-      }, 100)
-      this.__onInput(ev, this.centerPosition, true)
-    },
-    __onKeyDown (ev) {
-      const keyCode = ev.keyCode
-      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
-        return
-      }
-      stopAndPrevent(ev)
-      const step = ev.ctrlKey ? 10 * this.computedStep : this.computedStep
-      const offset = [37, 40].includes(keyCode) ? -step : step
-      this.__onInputValue(between(this.model + offset, this.min, this.max))
-    },
-    __onKeyUp (ev) {
-      const keyCode = ev.keyCode
-      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
-        return
-      }
-      this.__emitChange()
-    },
-    __onInput (ev, center = this.__getCenter(), emitChange) {
-      if (!this.editable) {
-        return
-      }
+
+      stopAndPrevent(evt)
+
       const
-        pos = position(ev),
+        step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
+        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
+
+      this.model = between(
+        parseFloat((this.model + offset).toFixed(this.decimals)),
+        this.min,
+        this.max
+      )
+
+      this.__updateValue()
+    },
+
+    __keyup (evt) {
+      if (keyCodes.includes(evt.keyCode)) {
+        this.__updateValue(true)
+      }
+    },
+
+    __updatePosition (evt, change) {
+      const
+        center = this.centerPosition,
+        pos = position(evt),
         height = Math.abs(pos.top - center.top),
         distance = Math.sqrt(
-          Math.pow(Math.abs(pos.top - center.top), 2) +
-          Math.pow(Math.abs(pos.left - center.left), 2)
+          height ** 2 +
+          Math.abs(pos.left - center.left) ** 2
         )
 
       let angle = Math.asin(height / distance) * (180 / Math.PI)
@@ -183,119 +151,71 @@ export default {
         angle = center.left < pos.left ? angle + 90 : 270 - angle
       }
 
+      if (this.angle) {
+        angle = normalizeToInterval(angle - this.angle, 0, 360)
+      }
+
       if (this.$q.i18n.rtl) {
         angle = 360 - angle
       }
 
-      const
-        model = this.min + (angle / 360) * (this.max - this.min),
-        modulo = model % this.step
+      let model = this.min + (angle / 360) * (this.max - this.min)
 
-      const value = between(
-        model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0),
-        this.min,
-        this.max
-      )
-      this.__onInputValue(value, emitChange)
+      if (this.step !== 0) {
+        const
+          step = this.computedStep,
+          modulo = model % step
+
+        model = model - modulo +
+          (Math.abs(modulo) >= step / 2 ? (modulo < 0 ? -1 : 1) * step : 0)
+
+        model = parseFloat(model.toFixed(this.decimals))
+      }
+
+      model = between(model, this.min, this.max)
+
+      this.$emit('drag-value', model)
+
+      if (this.model !== model) {
+        this.model = model
+      }
+
+      this.__updateValue(change)
     },
-    __onInputValue (value, emitChange) {
-      if (this.computedDecimals) {
-        value = parseFloat(value.toFixed(this.computedDecimals))
-      }
 
-      if (this.model !== value) {
-        this.model = value
-      }
-
-      this.$emit('drag-value', value)
-
-      if (this.value === value) {
-        return
-      }
-
-      this.$emit('input', value)
-      if (emitChange) {
-        this.__emitChange(value)
-      }
-    },
-    __emitChange (value = this.model) {
-      this.$nextTick(() => {
-        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-          this.$emit('change', value)
-        }
-      })
-    },
-    __getCenter () {
-      let knobOffset = offset(this.$el)
-      return {
-        top: knobOffset.top + height(this.$el) / 2,
-        left: knobOffset.left + width(this.$el) / 2
-      }
+    __updateValue (change) {
+      this.value !== this.model && this.$emit('input', this.model)
+      change === true && this.$emit('change', this.model)
     }
   },
-  render (h) {
-    return h('div', {
-      staticClass: 'q-knob non-selectable',
-      'class': this.classes,
-      style: {
-        width: this.size,
-        height: this.size
-      }
-    }, [
-      h('div', {
-        on: {
-          click: e => !this.dragging && this.__onInput(e, void 0, true)
-        },
-        directives: this.editable
-          ? [{
-            name: 'touch-pan',
-            modifiers: {
-              prevent: true,
-              stop: true
-            },
-            value: this.__pan
-          }]
-          : null
-      }, [
-        h('svg', { attrs: { viewBox: '0 0 100 100' } }, [
-          h('path', {
-            attrs: {
-              d: 'M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94',
-              'fill-opacity': '0',
-              stroke: 'currentColor',
-              'stroke-width': this.lineWidth
-            },
-            'class': `text-${this.trackColor}`
-          }),
-          h('path', {
-            attrs: {
-              d: 'M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94',
-              'fill-opacity': '0',
-              stroke: 'currentColor',
-              'stroke-linecap': 'round',
-              'stroke-width': this.lineWidth
-            },
-            style: this.svgStyle
-          })
-        ]),
 
-        h(
-          'div',
-          {
-            staticClass: 'q-knob-label row flex-center content-center',
-            attrs: {
-              tabindex: this.editable ? 0 : -1
-            },
-            on: {
-              keydown: this.__onKeyDown,
-              keyup: this.__onKeyUp
-            }
-          },
-          this.$slots.default || [
-            h('span', [ this.model ])
-          ]
-        )
-      ])
-    ])
+  render (h) {
+    const data = {
+      staticClass: 'q-knob non-selectable',
+      class: this.classes,
+
+      props: Object.assign({}, this.$props, {
+        value: this.model,
+        noMotion: this.dragging
+      })
+    }
+
+    if (this.editable === true) {
+      data.attrs = { tabindex: this.tabindex }
+      data.on = {
+        keydown: this.__keydown,
+        keyup: this.__keyup
+      }
+      data.directives = [{
+        name: 'touch-pan',
+        value: this.__pan,
+        modifiers: {
+          prevent: true,
+          stop: true
+        }
+      }]
+    }
+
+    return h(QCircularProgress, data, this.$slots.default)
   }
-}
+})

@@ -1,9 +1,18 @@
 <template>
-  <div class="layout-padding button-toggle-group-test">
+  <div class="q-layout-padding button-toggle-group-test">
     <p class="caption">
       <span>Model: </span>
       <strong>{{ model }}</strong>
     </p>
+
+    <q-btn-toggle v-model="model" toggle-color="primary"
+                  unelevated rounded
+                  :options="[
+                    {label: 'One', value: 'one'},
+                    {label: 'Two', value: 'two'},
+                    {label: 'Three', value: 'three'}
+                  ]"
+    />
 
     <div v-for="push in options" :key="push">
       <div v-for="flat in options" :key="flat" v-if="!push || !flat">

@@ -2,12 +2,11 @@ import QBtn from '../btn/QBtn.js'
 import QBtnDropdown from '../btn/QBtnDropdown.js'
 import QBtnGroup from '../btn/QBtnGroup.js'
 import QInput from '../input/QInput.js'
+import QIcon from '../icon/QIcon.js'
 import QTooltip from '../tooltip/QTooltip.js'
 import QList from '../list/QList.js'
 import QItem from '../list/QItem.js'
-import QItemSide from '../list/QItemSide.js'
-import QItemMain from '../list/QItemMain.js'
-import { getEventKey } from '../../utils/event.js'
+import QItemSection from '../list/QItemSection.js'
 
 function run (e, btn, vm) {
   if (btn.handler) {
@@ -57,7 +56,6 @@ function getDropdown (h, vm, btn) {
   let
     label = btn.label,
     icon = btn.icon,
-    noIcons = btn.list === 'no-icons',
     onlyIcons = btn.list === 'only-icons',
     contentClass,
     Items
@@ -108,11 +106,9 @@ function getDropdown (h, vm, btn) {
       return h(
         QItem,
         {
-          props: { active, link: !disable },
-          'class': { disabled: disable },
-          nativeOn: {
+          props: { active, link: true, clickable: true, disable: disable },
+          on: {
             click (e) {
-              if (disable) { return }
               closeDropdown()
               vm.$refs.content && vm.$refs.content.focus()
               vm.caret.restore()
@@ -121,23 +117,27 @@ function getDropdown (h, vm, btn) {
           }
         },
         [
-          noIcons ? '' : h(QItemSide, {props: {icon: btn.icon}}),
-          h(QItemMain, {
-            props: !htmlTip && btn.tip
-              ? { label: btn.tip }
-              : null,
-            domProps: htmlTip
-              ? { innerHTML: btn.htmlTip }
-              : null
-          })
+          btn.list === 'no-icons'
+            ? null
+            : h(QItemSection, {
+              props: { side: true }
+            }, [
+              h(QIcon, { props: { name: btn.icon } })
+            ]),
+
+          h(QItemSection, [
+            htmlTip
+              ? h('div', {
+                domProps: { innerHTML: btn.htmlTip }
+              })
+              : (btn.tip ? h('div', [ btn.tip ]) : null)
+          ])
         ]
       )
     })
     contentClass = [vm.toolbarBackgroundClass, vm.toolbarTextColor ? `text-${vm.toolbarTextColor}` : '']
     Items = [
-      h(QList, {
-        props: { separator: true }
-      }, [ Items ])
+      h(QList, [ Items ])
     ]
   }
 
@@ -230,12 +230,13 @@ export function getLinkEditor (h, vm) {
           value: link,
           color,
           autofocus: true,
-          hideUnderline: true
+          borderless: true,
+          dense: true
         },
         on: {
           input: val => { link = val },
           keydown: event => {
-            switch (getEventKey(event)) {
+            switch (event.keyCode) {
               case 13: // ENTER key
                 event.preventDefault()
                 return updateLink()

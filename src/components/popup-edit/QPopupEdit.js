@@ -1,21 +1,23 @@
-import QPopover from '../popover/QPopover.js'
+import Vue from 'vue'
+
+import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
 import clone from '../../utils/clone.js'
-import { getEventKey } from '../../utils/event.js'
+import { isDeepEqual } from '../../utils/is.js'
 
-export default {
+export default Vue.extend({
   name: 'QPopupEdit',
+
   props: {
-    value: {},
-    persistent: Boolean,
-    keepOnScreen: {
-      type: Boolean,
-      default: true
+    value: {
+      required: true
     },
     title: String,
     buttons: Boolean,
     labelSet: String,
     labelCancel: String,
+
+    persistent: Boolean,
     color: {
       type: String,
       default: 'primary'
@@ -24,31 +26,20 @@ export default {
       type: Function,
       default: () => true
     },
+
     disable: Boolean
   },
+
   data () {
     return {
       initialValue: ''
     }
   },
-  watch: {
-    value () {
-      this.$nextTick(() => {
-        this.$refs.popover.reposition()
-      })
-    }
-  },
+
   methods: {
-    cancel () {
-      if (this.__hasChanged()) {
-        this.$emit('cancel', this.value, this.initialValue)
-        this.$emit('input', this.initialValue)
-      }
-      this.$nextTick(this.__close)
-    },
     set () {
       if (this.__hasChanged()) {
-        if (!this.validate(this.value)) {
+        if (this.validate(this.value) === false) {
           return
         }
         this.$emit('save', this.value, this.initialValue)
@@ -56,28 +47,47 @@ export default {
       this.__close()
     },
 
-    __hasChanged () {
-      return JSON.stringify(this.value) !== JSON.stringify(this.initialValue)
+    cancel () {
+      if (this.__hasChanged()) {
+        this.$emit('cancel', this.value, this.initialValue)
+        this.$emit('input', this.initialValue)
+      }
+      this.__close()
     },
+
+    __hasChanged () {
+      return !isDeepEqual(this.value, this.initialValue)
+    },
+
     __close () {
       this.validated = true
-      this.$refs.popover.hide()
+      this.$refs.menu.hide()
     },
+
+    __reposition () {
+      this.$nextTick(() => {
+        this.$refs.menu.updatePosition()
+      })
+    },
+
     __getContent (h) {
-      const title = this.$slots.title || this.title
-      return [
-        (title && h('div', { staticClass: 'q-title q-mt-sm q-mb-sm' }, [ title ])) || void 0
-      ].concat(this.$slots.default).concat([
-        (this.buttons && h('div', { staticClass: 'row justify-center no-wrap q-mt-sm' }, [
+      const
+        child = [].concat(this.$slots.default),
+        title = this.$slots.title || this.title
+
+      title && child.unshift(
+        h('div', { staticClass: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title ])
+      )
+
+      this.buttons === true && child.push(
+        h('div', { staticClass: 'row justify-center no-wrap q-mt-sm' }, [
           h(QBtn, {
             props: {
               flat: true,
               color: this.color,
               label: this.labelCancel || this.$q.i18n.label.cancel
             },
-            on: {
-              click: this.cancel
-            }
+            on: { click: this.cancel }
           }),
           h(QBtn, {
             staticClass: 'q-ml-sm',
@@ -86,60 +96,47 @@ export default {
               color: this.color,
               label: this.labelSet || this.$q.i18n.label.set
             },
-            on: {
-              click: this.set
-            }
+            on: { click: this.set }
           })
-        ])) || void 0
-      ])
+        ])
+      )
+
+      return child
     }
   },
+
   render (h) {
-    return h(QPopover, {
-      staticClass: 'q-table-edit q-px-md q-py-sm',
-      ref: 'popover',
+    if (this.disable === true) { return }
+
+    return h(QMenu, {
+      ref: 'menu',
       props: {
+        contentClass: 'q-popup-edit  q-py-sm q-px-md',
         cover: true,
-        persistent: this.persistent,
-        keepOnScreen: this.keepOnScreen,
-        disable: this.disable
+        persistent: this.persistent
       },
       on: {
         show: () => {
-          const input = this.$el.querySelector('.q-input-target:not(.q-input-shadow)') || this.$el.querySelector('input') || this.$el.querySelector('textarea')
-          input && input.focus()
           this.$emit('show')
-          this.initialValue = clone(this.value)
           this.validated = false
+          this.initialValue = clone(this.value)
+          this.watcher = this.$watch('value', this.__reposition)
         },
-        'escape-key': () => {
-          this.validated = true
-          this.$emit('cancel', this.value, this.initialValue)
-          this.$emit('input', this.initialValue)
+        'before-hide': () => {
+          this.watcher()
+
+          if (this.validated === false && this.__hasChanged()) {
+            this.$emit('cancel', this.value, this.initialValue)
+            this.$emit('input', this.initialValue)
+          }
         },
         hide: () => {
-          if (this.validated) { return }
-
-          if (this.__hasChanged()) {
-            if (this.validate(this.value)) {
-              this.$emit('save', this.value, this.initialValue)
-            }
-            else {
-              this.$emit('cancel', this.value, this.initialValue)
-              this.$emit('input', this.initialValue)
-            }
-          }
-
           this.$emit('hide')
-        }
-      },
-      nativeOn: {
-        keydown: e => {
-          if (getEventKey(e) === 13) {
-            this.buttons ? this.set() : this.$refs.popover.hide()
-          }
+        },
+        keyup: e => {
+          e.keyCode === 13 && this.set()
         }
       }
     }, this.__getContent(h))
   }
-}
+})

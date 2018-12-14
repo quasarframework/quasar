@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Yenilemek için aşağı çekin',
-    release: 'Yenilemek için bırakın',
-    refresh: 'Yenileniyor...'
-  },
   table: {
     noData: 'Veri yok',
     noResults: 'Uyuşan kayıt bulunamadı',

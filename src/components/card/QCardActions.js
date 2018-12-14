@@ -1,23 +1,27 @@
-export default {
+import Vue from 'vue'
+
+import AlignMixin from '../../mixins/align.js'
+
+export default Vue.extend({
   name: 'QCardActions',
+
+  mixins: [ AlignMixin ],
+
   props: {
     vertical: Boolean,
-    align: {
-      type: String,
-      default: 'start',
-      validator: v => ['start', 'center', 'end', 'around', 'between'].includes(v)
-    }
+    align: { default: 'left' }
   },
+
   computed: {
     classes () {
-      return `q-card-actions-${this.vertical ? 'vert column justify-start' : 'horiz row'} ` +
-        `${this.vertical ? 'items' : 'justify'}-${this.align}`
+      return `q-card__actions--${this.vertical ? 'vert column justify-start' : 'horiz row ' + this.alignClass}`
     }
   },
+
   render (h) {
     return h('div', {
-      staticClass: 'q-card-actions',
-      'class': this.classes
+      staticClass: 'q-card__actions',
+      class: this.classes
     }, this.$slots.default)
   }
-}
+})

@@ -126,19 +126,19 @@ fg($name, $size)
   @extend .justify-center
 
 for $name, $size in $flex-gutter
-  .gutter-
-    &x-{$name}
+  .q-gutter
+    &-x-{$name}
       margin-left (- $size)
-      > div
-        padding-left $size
-    &y-{$name}
+      > *
+        margin-left $size
+    &-y-{$name}
       margin-top (- $size)
-      > div
-        padding-top $size
-    &{$name}
-      @extends .gutter-x-{$name}, .gutter-y-{$name}
-      > div
-        @extends .gutter-x-{$name} > div, .gutter-y-{$name} > div
+      > *
+        margin-top $size
+    &-{$name}
+      @extends .q-gutter-x-{$name}, .q-gutter-y-{$name}
+      > *
+        @extends .q-gutter-x-{$name} > *, .q-gutter-y-{$name} > *
 
 for $name, $size in $sizes
   fg(s('-%s', unquote($name)), $size)

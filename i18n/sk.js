@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Potiahnite pre obnovenie',
-    release: 'Uvoľnite pre obnovenie',
-    refresh: 'Obnovujem...'
-  },
   table: {
     noData: 'Nie sú dostupné údaje',
     noResults: 'Neboli nájdené vyhovujúce záznamy',

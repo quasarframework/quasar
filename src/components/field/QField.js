@@ -1,193 +1,237 @@
-import QIcon from '../icon/QIcon.js'
-import CanRenderMixin from '../../mixins/can-render.js'
+import Vue from 'vue'
 
-export default {
+import QIcon from '../icon/QIcon.js'
+
+import ValidateMixin from '../../mixins/validate.js'
+
+export default Vue.extend({
   name: 'QField',
-  mixins: [ CanRenderMixin ],
+
+  mixins: [ ValidateMixin ],
+
   props: {
-    inset: {
-      type: String,
-      validator: v => ['icon', 'label', 'full'].includes(v)
-    },
     label: String,
-    count: {
-      type: [Number, Boolean],
-      default: false
-    },
-    error: Boolean,
-    errorLabel: String,
-    warning: Boolean,
-    warningLabel: String,
-    helper: String,
-    icon: String,
-    iconColor: String,
+    stackLabel: Boolean,
+    hint: String,
+    hideHint: Boolean,
+    prefix: String,
+    suffix: String,
+
+    color: String,
+    bgColor: String,
     dark: Boolean,
-    orientation: {
-      type: String,
-      validator: v => ['vertical', 'horizontal'].includes(v)
-    },
-    labelWidth: {
-      type: [Number, String],
-      default: 5,
-      validator (val) {
-        const v = parseInt(val, 10)
-        return v > 0 && v < 13
-      }
-    }
+
+    filled: Boolean,
+    outlined: Boolean,
+    borderless: Boolean,
+    standout: Boolean,
+
+    bottomSlots: Boolean,
+    rounded: Boolean,
+    dense: Boolean,
+    itemAligned: Boolean,
+
+    disable: Boolean,
+    readonly: Boolean
   },
+
   data () {
     return {
-      input: {}
+      focused: false
     }
   },
+
   computed: {
-    hasError () {
-      return this.input.error || this.error
+    editable () {
+      return this.disable !== true && this.readonly !== true
     },
-    hasWarning () {
-      return !this.hasError && (this.input.warning || this.warning)
+
+    floatingLabel () {
+      return this.stackLabel || this.focused || (this.innerValue && this.innerValue.length > 0)
     },
-    childHasLabel () {
-      return this.input.floatLabel || this.input.stackLabel
+
+    hasBottom () {
+      return this.bottomSlots === true || this.hint !== void 0 || this.rules !== void 0 || this.counter === true
     },
-    isDark () {
-      return this.input.dark || this.dark
-    },
-    insetIcon () {
-      return ['icon', 'full'].includes(this.inset)
-    },
-    hasNoInput () {
-      return this.canRender && (!this.input.$options || this.input.__needsBorder)
-    },
-    counter () {
-      if (this.count) {
-        const length = this.input.length || '0'
-        return Number.isInteger(this.count)
-          ? `${length} / ${this.count}`
-          : length
-      }
-    },
+
     classes () {
       return {
-        'q-field-responsive': !this.isVertical && !this.isHorizontal,
-        'q-field-vertical': this.isVertical,
-        'q-field-horizontal': this.isHorizontal,
-        'q-field-floating': this.childHasLabel,
-        'q-field-no-label': !this.label && !this.$slots.label,
-        'q-field-with-error': this.hasError,
-        'q-field-with-warning': this.hasWarning,
-        'q-field-dark': this.isDark,
-        'q-field-no-input': this.hasNoInput
+        [this.fieldClass]: this.fieldClass !== void 0,
+
+        [`q-field--${this.styleType}`]: true,
+        'q-field--rounded': this.rounded,
+
+        'q-field--focused': this.focused === true || this.hasError === true,
+        'q-field--float': this.floatingLabel || this.hasError === true,
+        'q-field--labeled': this.label !== void 0,
+
+        'q-field--dense': this.dense,
+        'q-field--item-aligned q-item-type': this.itemAligned === true,
+        'q-field--dark': this.dark === true,
+
+        'q-field--with-bottom': this.hasBottom === true,
+        'q-field--error': this.hasError === true,
+
+        'q-field--readonly no-pointer-events': this.readonly === true,
+        'disabled no-pointer-events': this.disable === true
       }
     },
-    computedLabelWidth () {
-      return parseInt(this.labelWidth, 10)
+
+    styleType () {
+      if (this.filled === true) { return 'filled' }
+      if (this.outlined === true) { return 'outlined' }
+      if (this.borderless === true) { return 'borderless' }
+      if (this.standout === true) { return 'standout' }
+      return 'standard'
     },
-    isVertical () {
-      return this.orientation === 'vertical' || this.computedLabelWidth === 12
-    },
-    isHorizontal () {
-      return this.orientation === 'horizontal'
-    },
-    labelClasses () {
-      return this.isVertical
-        ? `col-12`
-        : (this.isHorizontal ? `col-${this.labelWidth}` : `col-xs-12 col-sm-${this.labelWidth}`)
-    },
-    inputClasses () {
-      return this.isVertical
-        ? `col-xs-12`
-        : (this.isHorizontal ? 'col' : 'col-xs-12 col-sm')
-    },
-    iconProps () {
-      const prop = { name: this.icon }
-      if (this.iconColor && !this.hasError && !this.hasWarning) {
-        prop.color = this.iconColor
+
+    contentClass () {
+      const cls = []
+
+      if (this.hasError) {
+        cls.push('text-negative')
       }
-      return prop
-    },
-    insetHasLabel () {
-      return ['label', 'full'].includes(this.inset)
+      else if (this.color !== void 0) {
+        cls.push('text-' + this.color)
+      }
+
+      if (this.bgColor !== void 0) {
+        cls.push(`bg-${this.bgColor}`)
+      }
+
+      return cls
     }
   },
-  provide () {
-    return {
-      __field: this
-    }
-  },
+
   methods: {
-    __registerInput (vm) {
-      this.input = vm
-    },
-    __unregisterInput (vm) {
-      if (!vm || vm === this.input) {
-        this.input = {}
-      }
-    },
-    __getBottomContent (h) {
-      let label
+    __getContent (h) {
+      return [
 
-      if (this.hasError && (label = this.$slots['error-label'] || this.errorLabel)) {
-        return h('div', { staticClass: 'q-field-error col' }, label)
-      }
-      if (this.hasWarning && (label = this.$slots['warning-label'] || this.warningLabel)) {
-        return h('div', { staticClass: 'q-field-warning col' }, label)
-      }
-      if ((label = this.$slots.helper || this.helper)) {
-        return h('div', { staticClass: 'q-field-helper col' }, label)
-      }
-      return h('div', { staticClass: 'col text-transparent' }, ['|'])
-    },
-    __hasBottom () {
-      return this.$slots['error-label'] || this.errorLabel ||
-        this.$slots['warning-label'] || this.warningLabel ||
-        this.$slots.helper || this.helper ||
-        this.count
-    }
-  },
-  render (h) {
-    const label = this.$slots.label || this.label
-
-    return h('div', {
-      staticClass: 'q-field row no-wrap items-start',
-      'class': this.classes
-    }, [
-      this.icon
-        ? h(QIcon, {
-          props: this.iconProps,
-          staticClass: 'q-field-icon q-field-margin'
-        })
-        : (this.insetIcon ? h('div', { staticClass: 'q-field-icon' }) : null),
-
-      h('div', { staticClass: 'row col' }, [
-        label || this.insetHasLabel
-          ? h('div', {
-            staticClass: 'q-field-label q-field-margin',
-            'class': this.labelClasses
-          }, [
-            h('div', { staticClass: 'q-field-label-inner row items-center' }, [
-              this.$slots.label || this.label
-            ])
-          ])
-          : null,
+        this.$slots.prepend !== void 0 ? h('div', {
+          staticClass: 'q-field__prepend q-field__marginal row no-wrap items-center',
+          key: 'prepend'
+        }, this.$slots.prepend) : null,
 
         h('div', {
-          staticClass: 'q-field-content',
-          'class': this.inputClasses
+          staticClass: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
         }, [
-          this.$slots.default,
-          this.__hasBottom()
-            ? h('div', {
-              staticClass: 'q-field-bottom row no-wrap'
-            }, [
-              this.__getBottomContent(h),
-              this.counter
-                ? h('div', { staticClass: 'q-field-counter col-auto' }, [ this.counter ])
-                : null
-            ])
-            : null
-        ])
+          this.label !== void 0 ? h('div', {
+            staticClass: 'q-field__label no-pointer-events absolute ellipsis'
+          }, [ this.label ]) : null,
+
+          this.prefix !== void 0 && this.prefix !== null ? h('div', {
+            staticClass: 'q-field__prefix no-pointer-events row items-center'
+          }, [ this.prefix ]) : null,
+
+          this.__getControl !== void 0
+            ? this.__getControl(h)
+            : null,
+
+          this.suffix !== void 0 && this.suffix !== null ? h('div', {
+            staticClass: 'q-field__suffix no-pointer-events row items-center'
+          }, [ this.suffix ]) : null
+        ].concat(
+          this.__getDefaultSlot !== void 0
+            ? this.__getDefaultSlot(h)
+            : this.$slots.default
+        )),
+
+        this.hasError === true
+          ? h('div', {
+            staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
+            key: 'error'
+          }, [ h(QIcon, { props: { name: 'error', color: 'negative' } }) ])
+          : null,
+
+        this.__getInnerAppend !== void 0
+          ? h('div', {
+            staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-popup--skip',
+            key: 'inner-append'
+          }, this.__getInnerAppend(h))
+          : null,
+
+        this.$slots.append !== void 0
+          ? h('div', {
+            staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
+            key: 'append'
+          }, this.$slots.append)
+          : null,
+
+        this.__getLocalMenu !== void 0
+          ? this.__getLocalMenu(h)
+          : null
+
+      ]
+    },
+
+    __getBottom (h) {
+      if (this.hasBottom !== true) { return }
+
+      let msg, key
+
+      if (this.hasError === true) {
+        if (this.computedErrorMessage !== void 0) {
+          msg = [ h('div', [ this.computedErrorMessage ]) ]
+          key = this.computedErrorMessage
+        }
+        else {
+          msg = this.$slots.error
+          key = 'q--slot-error'
+        }
+      }
+      else if (this.hideHint !== true || this.focused === true) {
+        if (this.hint !== void 0) {
+          msg = [ h('div', [ this.hint ]) ]
+          key = this.hint
+        }
+        else {
+          msg = this.$slots.hint
+          key = 'q--slot-hint'
+        }
+      }
+
+      return h('div', {
+        staticClass: 'q-field__bottom absolute-bottom row items-start relative-position'
+      }, [
+        h('transition', { props: { name: 'q-transition--field-message' } }, [
+          h('div', {
+            staticClass: 'q-field__messages col',
+            key
+          }, msg)
+        ]),
+
+        this.counter === true || this.$slots.counter !== void 0 ? h('div', {
+          staticClass: 'q-field__counter'
+        }, this.$slots.counter || [ this.computedCounter ]) : null
       ])
+    }
+  },
+
+  render (h) {
+    return h('div', {
+      staticClass: 'q-field row no-wrap items-start',
+      class: this.classes
+    }, [
+      this.$slots.before !== void 0 ? h('div', {
+        staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
+      }, this.$slots.before) : null,
+
+      h('div', {
+        staticClass: 'q-field__inner relative-position col self-stretch column justify-center'
+      }, [
+        h('div', {
+          ref: 'control',
+          staticClass: 'q-field__control relative-position row no-wrap',
+          class: this.contentClass,
+          on: this.controlEvents
+        }, this.__getContent(h)),
+
+        this.__getBottom(h)
+      ]),
+
+      this.$slots.after !== void 0 ? h('div', {
+        staticClass: 'q-field__after q-field__marginal row no-wrap items-center'
+      }, this.$slots.after) : null
     ])
   }
-}
+})

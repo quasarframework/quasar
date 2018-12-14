@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">Please scroll down to see the image have a short bounce effect when being visible for first time.</p>
-      <p v-for="n in 6">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 15">{{ n }} {{ loremipsum }}</p>
 
       <p class="caption">Scroll Fire below. Reload page to see the bounce effect again.</p>
       <p class="text-center">
         <img v-scroll-fire="bounceImage" src="~assets/quasar.jpg" style="width: 200px">
       </p>
 
-      <p v-for="n in 3">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 15">{{ n }} {{ loremipsum }}</p>
     </div>
   </div>
 </template>
@@ -33,3 +33,16 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.animate-bounce
+  animation q-bounce 2s infinite /* rtl:ignore */
+
+@keyframes q-bounce
+  0%, 20%, 50%, 80%, 100%
+    transform translateY(0)
+  40%
+    transform translateY(-30px)
+  60%
+    transform translateY(-15px)
+</style>

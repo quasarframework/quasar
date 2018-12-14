@@ -45,7 +45,7 @@ function setColor (hexColor) {
 }
 
 export default {
-  install ({ $q, Vue, cfg }) {
+  install ({ $q, cfg }) {
     this.set = !isSSR && Platform.is.mobile && (
       Platform.is.cordova ||
       Platform.is.winphone || Platform.is.safari ||

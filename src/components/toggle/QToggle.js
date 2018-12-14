@@ -1,59 +1,95 @@
+import Vue from 'vue'
+
 import CheckboxMixin from '../../mixins/checkbox.js'
-import OptionMixin from '../../mixins/option.js'
+import TouchSwipe from '../../directives/touch-swipe.js'
 import QIcon from '../icon/QIcon.js'
 
-export default {
+export default Vue.extend({
   name: 'QToggle',
-  mixins: [CheckboxMixin, OptionMixin],
-  props: {
-    icon: String
+
+  mixins: [ CheckboxMixin ],
+
+  directives: {
+    TouchSwipe
   },
+
+  props: {
+    icon: String,
+    checkedIcon: String,
+    uncheckedIcon: String
+  },
+
   computed: {
-    currentIcon () {
-      return (this.isTrue ? this.checkedIcon : this.uncheckedIcon) || this.icon
-    },
-    iconColor () {
-      return process.env.THEME === 'ios'
-        ? 'dark'
-        : (this.isTrue ? 'white' : 'dark')
-    },
-    baseClass () {
-      if (process.env.THEME === 'ios' && this.dark) {
-        return `q-toggle-base-dark`
+    classes () {
+      return {
+        'disabled': this.disable,
+        'q-toggle--dark': this.dark,
+        'q-toggle--dense': this.dense,
+        'reverse': this.leftLabel
       }
+    },
+
+    innerClass () {
+      const color = 'text-' + this.color
+
+      if (this.isTrue) {
+        return `q-toggle__inner--active${this.color ? ' ' + color : ''}`
+      }
+      else if (this.keepColor && this.color) {
+        return color
+      }
+    },
+
+    computedIcon () {
+      return (this.isTrue ? this.checkedIcon : this.uncheckedIcon) || this.icon
     }
   },
+
   methods: {
     __swipe (evt) {
       if (evt.direction === 'left') {
-        if (this.isTrue) {
-          this.toggle()
-        }
+        this.isTrue && this.toggle()
       }
       else if (evt.direction === 'right') {
-        if (this.isFalse) {
-          this.toggle()
-        }
+        this.isFalse && this.toggle()
       }
-    },
-    __getContent (h) {
-      return [
-        h('div', { staticClass: 'q-toggle-base', 'class': this.baseClass }),
-        h('div', { staticClass: 'q-toggle-handle row flex-center' }, [
-          this.currentIcon
-            ? h(QIcon, {
-              staticClass: 'q-toggle-icon',
-              props: { name: this.currentIcon, color: this.iconColor }
-            })
-            : null,
-          process.env.THEME === 'mat'
-            ? h('div', { ref: 'ripple', staticClass: 'q-radial-ripple' })
-            : null
-        ])
-      ]
     }
   },
-  beforeCreate () {
-    this.__kebabTag = 'q-toggle'
+
+  render (h) {
+    return h('div', {
+      staticClass: 'q-toggle cursor-pointer no-outline row inline no-wrap items-center',
+      class: this.classes,
+      attrs: { tabindex: this.computedTabindex },
+      on: {
+        click: this.toggle,
+        keydown: this.__keyDown
+      }
+    }, [
+      h('div', {
+        staticClass: 'q-toggle__inner relative-position',
+        class: this.innerClass
+      }, [
+        this.disable ? null : h('input', {
+          staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
+          attrs: { type: 'toggle' },
+          on: { change: this.toggle }
+        }),
+
+        h('div', { staticClass: 'q-toggle__track' }),
+        h('div', { staticClass: 'q-toggle__thumb-container absolute' }, [
+          h('div', {
+            staticClass: 'q-toggle__thumb row flex-center'
+          }, this.computedIcon !== void 0
+            ? [ h(QIcon, { props: { name: this.computedIcon } }) ]
+            : null
+          )
+        ])
+      ]),
+
+      h('div', {
+        staticClass: 'q-toggle__label q-anchor--skip'
+      }, (this.label !== void 0 ? [ this.label ] : []).concat(this.$slots.default))
+    ])
   }
-}
+})

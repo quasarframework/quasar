@@ -7,7 +7,7 @@ const
 const
   cache = {},
   { writeFile } = require('./build.utils'),
-  Quasar = require('../dist/umd/quasar.mat.umd.min'),
+  Quasar = require('../dist/quasar.umd.min'),
   components = Quasar.components,
   resolve = file => path.resolve(__dirname, '../dist/helper-json', file)
 
@@ -29,24 +29,9 @@ function kebab (name) {
     : kebabCase(name)
 }
 
-function addProps (comp, list) {
-  if (comp.props) {
-    Object.keys(comp.props)
-      .filter(name => name !== 'value')
-      .forEach(name => {
-        list[kebab(name)] = comp.props[name]
-      })
-  }
-}
-
 const propExceptions = {
-  'q-chips-input': ['max-height'],
-  'q-collapsible': ['link'],
-  'q-search': ['max-value']
 }
 const internalComponents = [
-  'q-item-wrapper',
-  'q-input-frame'
 ]
 function applyExceptions (cache) {
   internalComponents.forEach(name => {
@@ -61,21 +46,32 @@ function applyExceptions (cache) {
 
 function parseComponent (comp, list) {
   const
-    name = kebabCase(comp.name),
-    cached = name !== void 0 ? cache[comp.name] : false
+    isFn = typeof comp === 'function',
+    obj = isFn ? comp.options : comp,
+    name = kebabCase(obj.name)
 
-  if (cached) {
-    Object.assign(list, cached)
-    return
+  if (name !== void 0) {
+    const cached = cache[name]
+
+    if (cached) {
+      Object.assign(list, cached)
+      return
+    }
   }
 
-  if (comp.mixins) {
-    comp.mixins.forEach(mixin => {
+  if (obj.mixins) {
+    obj.mixins.forEach(mixin => {
       parseComponent(mixin, list)
     })
   }
 
-  addProps(comp, list)
+  if (obj.props) {
+    Object.keys(obj.props)
+      .filter(name => name !== 'value')
+      .forEach(name => {
+        list[kebab(name)] = obj.props[name]
+      })
+  }
 
   if (name) {
     cache[name] = cloneDeep(list)
@@ -101,10 +97,10 @@ function getAttributes (cache) {
       let entry
       let type = props[prop].type || 'any'
       if (Array.isArray(type)) {
-        types = type.map(val => {
+        const types = type.map(val => {
           const v = PropTypeMap.get(val)
           if (!PropTypeMap.has(val)) {
-            console.error('PropTypeMap.get', v)
+            console.error('PropTypeMap.get', name, prop, val, v)
           }
           else {
             return PropTypeMap.get(val).type
@@ -112,14 +108,15 @@ function getAttributes (cache) {
         })
         type = types.join('|')
         let description = 'One of '
-        if (types.length == 2) {
+        if (types.length === 2) {
           description += `${types[0]} or ${types[1]}.`
         }
         else {
           for (let i = 0; i < types.length; i++) {
             if (i < types.length - 1) {
               description += `${types[i]}, `
-            } else {
+            }
+            else {
               description += `or ${types[i]}.`
             }
           }

@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding grid-columns">
+  <div class="q-layout-padding grid-columns">
     <h1>Grid: Columns</h1>
     Utilize breakpoint-specific row classes for equal-width rows. Add any number of unit-less classes for each breakpoint you need and every row will be the same height.
 

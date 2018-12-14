@@ -1,19 +1,15 @@
-import Vue from 'vue'
 import { createApp } from './app'
-import { QAjaxBar } from 'quasar'
-
-const bar = new Vue(QAjaxBar).$mount()
-document.body.appendChild(bar.$el)
+import { LoadingBar } from 'quasar'
 
 const { app, router } = createApp()
 
 router.onReady(() => {
   router.beforeResolve((to, from, next) => {
-    bar.start()
+    LoadingBar.start()
     next()
   })
   router.afterEach((to, from, next) => {
-    bar.stop()
+    LoadingBar.stop()
   })
   app.$mount('#q-app')
 })

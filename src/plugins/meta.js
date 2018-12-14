@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import { isSSR, fromSSR } from './platform.js'
 import extend from '../utils/extend.js'
 
@@ -252,7 +254,7 @@ function triggerMeta () {
 }
 
 export default {
-  install ({ queues, Vue }) {
+  install ({ queues }) {
     if (isSSR) {
       Vue.prototype.$getMetaHTML = app => html => getServerMeta(app, html)
       Vue.mixin({ beforeCreate })

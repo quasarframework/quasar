@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <span v-if="$q.screen.lt.md">lt-md</span>
     <span v-if="$q.screen.md">md</span>
     <span v-if="$q.screen.gt.md">gt-md</span>
@@ -18,14 +18,14 @@ export default {
     '$q.screen.gt.md' (state) {
       console.log('watcher $q.screen.gt.md', state)
     }
-  },
-  mounted () {
+  }
+  /* mounted () {
     this.$q.screen.setSizes({
       sm: 300,
       md: 500,
       lg: 1000,
       xl: 2000
     })
-  }
+  } */
 }
 </script>

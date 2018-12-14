@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Zéien fir ze aktualiséieren',
-    release: 'Lassloossen fir ze aktualiséieren',
-    refresh: 'Luedt...'
-  },
   table: {
     noData: 'Keng Donnéen do',
     noResults: 'Keng Anträg fonnt',

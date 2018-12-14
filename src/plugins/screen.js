@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import { isSSR, fromSSR } from './platform.js'
 import { listenOpts } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
@@ -6,12 +8,13 @@ const SIZE_LIST = ['sm', 'md', 'lg', 'xl']
 
 export default {
   width: 0,
+  height: 0,
 
   sizes: {
-    sm: 576,
-    md: 768,
-    lg: 992,
-    xl: 1200
+    sm: 600,
+    md: 1024,
+    lg: 1440,
+    xl: 1920
   },
 
   lt: {
@@ -26,7 +29,7 @@ export default {
   setSizes () {},
   setDebounce () {},
 
-  install ({ $q, queues, Vue }) {
+  install ($q, queues) {
     if (isSSR) {
       $q.screen = this
       return
@@ -35,10 +38,17 @@ export default {
     let update = resized => {
       const
         w = window.innerWidth,
+        h = window.innerHeight,
         s = this.sizes
 
-      if (resized && w === this.width) {
-        return
+      if (resized === true) {
+        if (h !== this.height) {
+          this.height = h
+        }
+
+        if (w === this.width) {
+          return
+        }
       }
 
       this.width = w
@@ -62,7 +72,7 @@ export default {
 
     this.setSizes = sizes => {
       SIZE_LIST.forEach(name => {
-        if (sizes[name]) {
+        if (sizes[name] !== void 0) {
           updateSizes[name] = sizes[name]
         }
       })
@@ -98,7 +108,7 @@ export default {
         window.addEventListener('resize', updateEvt, listenOpts.passive)
       }
 
-      this.setDebounce(updateDebounce || 100)
+      this.setDebounce(updateDebounce || 16)
 
       if (Object.keys(updateSizes).length > 0) {
         this.setSizes(updateSizes)

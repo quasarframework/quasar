@@ -16,48 +16,29 @@ export default {
     left: 'chevron_left',
     right: 'chevron_right'
   },
-
-  pullToRefresh: {
-    arrow: 'arrow_downward',
-    refresh: 'refresh'
+  colorPicker: {
+    spectrum: 'gradient',
+    tune: 'tune',
+    palette: 'style'
   },
-  search: {
-    icon: 'search',
-    clear: 'cancel',
-    clearInverted: 'clear'
+  pullToRefresh: {
+    icon: 'refresh'
   },
   carousel: {
     left: 'chevron_left',
     right: 'chevron_right',
-    quickNav: 'lens',
+    navigationIcon: 'lens',
     thumbnails: 'view_carousel'
   },
-  checkbox: {
-    checked: {
-      ios: 'check_circle',
-      mat: 'check_box'
-    },
-    unchecked: {
-      ios: 'radio_button_unchecked',
-      mat: 'check_box_outline_blank'
-    },
-    indeterminate: {
-      ios: 'remove_circle_outline',
-      mat: 'indeterminate_check_box'
-    }
-  },
   chip: {
-    close: 'cancel'
-  },
-  chipsInput: {
-    add: 'send'
-  },
-  collapsible: {
-    icon: 'arrow_drop_down'
+    remove: 'cancel',
+    selected: 'check'
   },
   datetime: {
     arrowLeft: 'chevron_left',
-    arrowRight: 'chevron_right'
+    arrowRight: 'chevron_right',
+    now: 'access_time',
+    today: 'today'
   },
   editor: {
     bold: 'format_bold',
@@ -90,18 +71,12 @@ export default {
     size: 'format_size',
     font: 'font_download'
   },
+  expansionItem: {
+    icon: 'keyboard_arrow_down'
+  },
   fab: {
     icon: 'add',
     activeIcon: 'close'
-  },
-  input: {
-    showPass: 'visibility',
-    hidePass: 'visibility_off',
-    showNumber: 'keyboard',
-    hideNumber: 'keyboard_hide',
-    clear: 'cancel',
-    clearInverted: 'clear',
-    dropdown: 'arrow_drop_down'
   },
   pagination: {
     first: 'first_page',
@@ -109,18 +84,11 @@ export default {
     next: 'keyboard_arrow_right',
     last: 'last_page'
   },
-  radio: {
-    checked: {
-      ios: 'check',
-      mat: 'radio_button_checked'
-    },
-    unchecked: {
-      ios: '',
-      mat: 'radio_button_unchecked'
-    }
-  },
   rating: {
     icon: 'grade'
+  },
+  select: {
+    dropdownIcon: 'arrow_drop_down'
   },
   stepper: {
     done: 'check',
@@ -142,11 +110,10 @@ export default {
   },
   uploader: {
     done: 'done',
-    clear: 'cancel',
-    clearInverted: 'clear',
-    add: 'add',
+    clear: 'clear',
+    add: 'add_box',
     upload: 'cloud_upload',
-    expand: 'keyboard_arrow_down',
-    file: 'insert_drive_file'
+    removeQueue: 'clear_all',
+    removeUploaded: 'done_all'
   }
 }

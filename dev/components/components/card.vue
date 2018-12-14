@@ -1,24 +1,73 @@
 <template>
   <div>
-    <div class="layout-padding card-examples row items-start">
+    <div class="q-layout-padding card-examples row items-start q-gutter-md">
       <q-card inline class="bigger">
-        <q-card-media>
-          <img src="~assets/donuts.png">
-        </q-card-media>
-        <q-card-title class="relative-position">
-          <q-btn fab color="primary" icon="place" class="absolute" style="top: 0; right: 8px; transform: translateY(-50%);" />
+        <q-img :src="require('assets/donuts.png')" />
 
-          <div class="ellipsis">Cafe Basilico Cafe Basilico Cafe Basilico Cafe Basilico Cafe Basilico Cafe Basilico Cafe Basilico</div>
-          <q-rating slot="subtitle" v-model="stars" :max="5" />
-          <div slot="right" class="row items-center">
-            <q-icon name="place" /> 250 ft
+        <q-card-section>
+          <q-btn
+            fab
+            color="primary"
+            icon="place"
+            class="absolute"
+            style="top: 0; right: 12px; transform: translateY(-50%);"
+          />
+
+          <div class="row no-wrap items-center">
+            <div class="col text-h6 ellipsis">Cafe Basilico</div>
+            <div class="col-auto text-grey q-pt-md">
+              <q-icon name="place" /> 250 ft
+            </div>
           </div>
-        </q-card-title>
-        <q-card-main>
-          <p>$・Italian, Cafe</p>
-          <p class="text-faded">Small plates, salads & sandwiches in an intimate setting.</p>
-        </q-card-main>
-        <q-card-separator />
+
+          <q-rating v-model="stars" :max="5" size="32px" />
+        </q-card-section>
+
+        <q-card-section>
+          <div class="text-subtitle1">$・Italian, Cafe</div>
+          <div class="text-subtitle2 text-grey">Small plates, salads & sandwiches in an intimate setting.</div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions>
+          <q-btn flat round icon="event" />
+          <q-btn flat>5:30PM</q-btn>
+          <q-btn flat>7:30PM</q-btn>
+          <q-btn flat>9:00PM</q-btn>
+          <q-btn flat color="primary">Reserve</q-btn>
+        </q-card-actions>
+      </q-card>
+
+      <q-card flat bordered inline class="bigger">
+        <img src="~assets/donuts.png">
+
+        <q-card-section>
+          <q-btn
+            fab
+            color="primary"
+            icon="place"
+            class="absolute"
+            style="top: 0; right: 12px; transform: translateY(-50%);"
+          />
+
+          <div class="row no-wrap items-center">
+            <div class="col text-h6 ellipsis">Cafe Basilico</div>
+            <div class="col-auto text-grey q-pt-md">
+              <q-icon name="place" /> 250 ft
+            </div>
+          </div>
+
+          <q-rating v-model="stars" :max="5" size="32px" />
+        </q-card-section>
+
+        <q-card-section>
+          <div class="text-subtitle1">$・Italian, Cafe</div>
+          <div class="text-subtitle2 text-grey">Small plates, salads & sandwiches in an intimate setting.</div>
+        </q-card-section>
+
+        <q-separator />
+
         <q-card-actions>
           <q-btn flat round icon="event" />
           <q-btn flat>5:30PM</q-btn>
@@ -29,31 +78,69 @@
       </q-card>
 
       <q-card inline>
-        <q-card-main>
+        <q-card-section>
           {{ lorem }}
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
       <q-card inline>
-        <q-card-title>
-          Title
-          <span slot="subtitle">Subtitle</span>
-        </q-card-title>
-        <q-card-main>
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-card-section>
           {{ lorem }}
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
-      <q-card inline color="secondary" dark>
-        <q-card-title>
-          Title
-          <span slot="subtitle">Subtitle</span>
-          <q-icon slot="right" name="alarm" />
-        </q-card-title>
-        <q-card-main>
+      <q-card class="bigger" inline style="background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)">
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-card-section>
           {{ lorem }}
-        </q-card-main>
-        <q-card-separator />
+        </q-card-section>
+      </q-card>
+
+      <q-card flat inline>
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-card-section>
+          {{ lorem }}
+        </q-card-section>
+      </q-card>
+
+      <q-card inline dark bordered class="bg-grey-9">
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-separator dark inset />
+
+        <q-card-section>
+          {{ lorem }}
+        </q-card-section>
+      </q-card>
+
+      <q-card inline class="bg-secondary text-white">
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-card-section>
+          {{ lorem }}
+        </q-card-section>
+
+        <q-separator dark />
+
         <q-card-actions>
           <q-btn flat>Action 1</q-btn>
           <q-btn flat>Action 2</q-btn>
@@ -61,29 +148,39 @@
       </q-card>
 
       <q-card inline>
-        <q-card-title>
-          Title
-          <span slot="subtitle">Subtitle</span>
-          <q-btn round flat icon="more_vert" slot="right">
-            <q-popover ref="popover">
-              <q-list link class="no-border">
-                <q-item @click.native="$refs.popover.hide()">
-                  <q-item-main label="Remove Card" />
-                </q-item>
-                <q-item @click.native="$refs.popover.hide()">
-                  <q-item-main label="Send Feedback" />
-                </q-item>
-                <q-item @click.native="$refs.popover.hide()">
-                  <q-item-main label="Share" />
-                </q-item>
-              </q-list>
-            </q-popover>
-          </q-btn>
-        </q-card-title>
-        <q-card-main>
+        <q-card-section>
+          <div class="row items-center no-wrap">
+            <div class="col">
+              <div class="text-h6">Our Changing Planet</div>
+              <div class="text-subtitle2">by Kurt Wagner</div>
+            </div>
+
+            <div class="col-auto">
+              <q-btn color="grey-7" round flat icon="more_vert">
+                <q-menu cover>
+                  <q-list>
+                    <q-item clickable v-close-menu>
+                      <q-item-section>Remove Card</q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-menu>
+                      <q-item-section>Send Feedback</q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-menu>
+                      <q-item-section>Share</q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-btn>
+            </div>
+          </div>
+        </q-card-section>
+
+        <q-card-section>
           {{ lorem }}
-        </q-card-main>
-        <q-card-separator />
+        </q-card-section>
+
+        <q-separator />
+
         <q-card-actions>
           <q-btn flat>Action 1</q-btn>
           <q-btn flat>Action 2</q-btn>
@@ -91,11 +188,13 @@
       </q-card>
 
       <q-card inline>
-        <q-card-title>
-          Title
-          <span slot="subtitle">Subtitle</span>
-        </q-card-title>
-        <q-card-separator />
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-separator />
+
         <q-card-actions vertical>
           <q-btn flat>Action 1</q-btn>
           <q-btn flat>Action 2</q-btn>
@@ -103,10 +202,11 @@
       </q-card>
 
       <q-card inline>
-        <q-card-title>
-          Title
-          <span slot="subtitle">Subtitle</span>
-        </q-card-title>
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
         <q-card-actions>
           <q-btn flat>Action 1</q-btn>
           <q-btn flat>Action 2</q-btn>
@@ -114,83 +214,76 @@
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/mountains.jpg">
-        </q-card-media>
-        <q-card-title>
-          Title
-          <span slot="subtitle">Subtitle</span>
-        </q-card-title>
-        <q-card-main>
+        <img src="~assets/mountains.jpg">
+
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-card-section>
           {{ lorem }}
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/parallax2.jpg">
-
-          <q-card-title slot="overlay">
+        <q-img
+          :src="require('assets/parallax2.jpg')"
+          basic
+        >
+          <div class="absolute-bottom text-subtitle2 text-center">
             Title
-          </q-card-title>
-        </q-card-media>
+          </div>
+        </q-img>
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/parallax2.jpg">
-
-          <q-card-title slot="overlay">
+        <q-img
+          src="statics/parallax2.jpg"
+          basic
+        >
+          <div class="absolute-bottom text-h6">
             Title
-            <span slot="subtitle">Subtitle</span>
-          </q-card-title>
-        </q-card-media>
-        <q-card-main>
+          </div>
+        </q-img>
+
+        <q-card-section>
           {{ lorem }}
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
       <q-card inline>
-        <q-card-media overlay-position="top">
-          <img src="~assets/parallax2.jpg">
-
-          <q-card-title slot="overlay">
+        <q-img src="statics/parallax2.jpg">
+          <div class="text-subtitle2 absolute-top text-center">
             Title
-            <span slot="subtitle">Subtitle</span>
-          </q-card-title>
-        </q-card-media>
+          </div>
+        </q-img>
       </q-card>
 
       <q-card inline>
-        <q-card-media overlay-position="top">
-          <img src="~assets/parallax2.jpg">
-
-          <q-card-title slot="overlay">
-            <div slot="subtitle" class="text-right">Subtitle</div>
-          </q-card-title>
-        </q-card-media>
-      </q-card>
-
-      <q-card inline>
-        <q-card-media overlay-position="full">
-          <img src="~assets/parallax2.jpg">
-
-          <q-card-title slot="overlay">
+        <q-img src="statics/parallax2.jpg">
+          <div class="text-h5 absolute-bottom text-right">
             Title
-            <span slot="subtitle">Subtitle</span>
-          </q-card-title>
-        </q-card-media>
+          </div>
+        </q-img>
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/parallax2.jpg">
-
-          <q-card-title slot="overlay">
+        <q-img src="statics/parallax2.jpg">
+          <div class="text-subtitle2 absolute-full text-center">
             Title
-            <span slot="subtitle">Subtitle</span>
-          </q-card-title>
-        </q-card-media>
+          </div>
+        </q-img>
+      </q-card>
+
+      <q-card inline>
+        <q-img src="statics/parallax2.jpg">
+          <div class="absolute-bottom">
+            <div class="text-h6">Our Changing Planet</div>
+            <div class="text-subtitle2">by Kurt Wagner</div>
+          </div>
+        </q-img>
+
         <q-card-actions>
           <q-btn flat>Action 1</q-btn>
           <q-btn flat>Action 2</q-btn>
@@ -198,16 +291,15 @@
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <q-parallax :src="'statics/parallax1.jpg'" :height="150">
-            <div slot="loading">Loading...</div>
-          </q-parallax>
-        </q-card-media>
-        <q-card-title>
-          Parallax
-          <span slot="subtitle">Subtitle</span>
-        </q-card-title>
-        <q-card-separator />
+        <q-parallax src="statics/parallax1.jpg" :height="150" />
+
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-separator />
+
         <q-card-actions>
           <q-btn flat>Action 1</q-btn>
           <q-btn flat>Action 2</q-btn>
@@ -216,19 +308,25 @@
 
       <q-card inline>
         <q-item>
-          <q-item-side avatar="/statics/boy-avatar.png" />
-          <q-item-main>
-            <q-item-tile label>Title</q-item-tile>
-            <q-item-tile sublabel>Subhead</q-item-tile>
-          </q-item-main>
+          <q-item-section avatar>
+            <q-avatar>
+              <img src="/statics/boy-avatar.png">
+            </q-avatar>
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Title</q-item-label>
+            <q-item-label caption>Subhead</q-item-label>
+          </q-item-section>
         </q-item>
-        <q-card-media>
-          <img src="~assets/parallax2.jpg">
-        </q-card-media>
-        <q-card-title>
-          Title
-          <span slot="subtitle">Subtitle</span>
-        </q-card-title>
+
+        <img src="~assets/parallax2.jpg">
+
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
         <q-card-actions>
           <q-btn flat>Action 1</q-btn>
           <q-btn flat>Action 2</q-btn>
@@ -236,113 +334,204 @@
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/parallax2.jpg">
-        </q-card-media>
+        <img src="~assets/parallax2.jpg">
+
         <q-list>
-          <q-item>
-            <q-item-side>
-              <q-item-tile color="primary" icon="local bar" />
-            </q-item-side>
-            <q-item-main>
-              <q-item-tile label>Bar XYZ</q-item-tile>
-              <q-item-tile sublabel>Have a drink.</q-item-tile>
-            </q-item-main>
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon color="primary" name="local_bar" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Bar XYZ</q-item-label>
+              <q-item-label caption>Have a drink.</q-item-label>
+            </q-item-section>
           </q-item>
-          <q-item>
-            <q-item-side>
-              <q-item-tile color="red" icon="local gas station" />
-            </q-item-side>
-            <q-item-main>
-              <q-item-tile label>Gas Station</q-item-tile>
-              <q-item-tile sublabel>Fill your gas tank.</q-item-tile>
-            </q-item-main>
+
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon color="red" name="local_gas_station" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Gas Station</q-item-label>
+              <q-item-label caption>Fill your gas tank.</q-item-label>
+            </q-item-section>
           </q-item>
-          <q-item>
-            <q-item-side>
-              <q-item-tile color="amber" icon="local movies" />
-            </q-item-side>
-            <q-item-main>
-              <q-item-tile label>Cinema XYZ</q-item-tile>
-              <q-item-tile sublabel>Watch a movie.</q-item-tile>
-            </q-item-main>
+
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon color="amber" name="local_movies" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Cinema XYZ</q-item-label>
+              <q-item-label caption>Watch a movie.</q-item-label>
+            </q-item-section>
           </q-item>
         </q-list>
       </q-card>
 
       <q-card inline>
-        <q-card-title>
-          Title
-        </q-card-title>
-        <q-list separator>
-          <q-collapsible icon="explore" label="First">
-            <div>
-              Lorem ipsum dolor sit amet...
-            </div>
-          </q-collapsible>
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
 
-          <q-collapsible icon="perm_identity" label="Second">
-            <div>
+        <q-list>
+          <q-expansion-item expand-separator icon="explore" label="First">
+            <div class="q-pa-md">
               Lorem ipsum dolor sit amet...
             </div>
-          </q-collapsible>
+          </q-expansion-item>
 
-          <q-collapsible icon="shopping_cart" label="Third">
-            <div>
+          <q-expansion-item expand-separator icon="perm_identity" label="Second">
+            <div class="q-pa-md">
               Lorem ipsum dolor sit amet...
             </div>
-          </q-collapsible>
+          </q-expansion-item>
+
+          <q-expansion-item expand-separator icon="shopping_cart" label="Third">
+            <div class="q-pa-md">
+              Lorem ipsum dolor sit amet...
+            </div>
+          </q-expansion-item>
         </q-list>
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <q-video src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0" />
-        </q-card-media>
-        <q-card-title>
-          Title
-          <span slot="subtitle">Subtitle</span>
-        </q-card-title>
-        <q-card-main>
+        <q-video src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0" />
+
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-card-section>
           {{ lorem }}
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
       <q-card inline>
-        <q-card-title>
-          Title
-        </q-card-title>
-        <q-card-main>
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-card-section>
           {{ lorem }}
-        </q-card-main>
-        <q-card-separator inset />
-        <q-card-main>
+        </q-card-section>
+
+        <q-separator inset />
+
+        <q-card-section>
           {{ lorem }}
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/mountains.jpg">
-        </q-card-media>
+        <img src="~assets/mountains.jpg">
+
         <q-card-actions align="around">
           <q-btn flat round color="red" icon="favorite" />
-          <q-btn flat round color="faded" icon="bookmark" />
+          <q-btn flat round color="teal" icon="bookmark" />
           <q-btn flat round color="primary" icon="share" />
         </q-card-actions>
       </q-card>
 
       <q-card inline>
-        <q-card-media>
-          <img src="~assets/mountains.jpg">
-        </q-card-media>
-        <q-card-title>
-          Title
-          <q-rating slot="subtitle" v-model="stars" :max="5" />
-          <span slot="right" class="row items-center">
-            <q-icon name="place" /> 20 miles
-          </span>
-        </q-card-title>
+        <img src="~assets/mountains.jpg">
+
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <q-rating size="24px" color="primary" v-model="stars" :max="5" />
+        </q-card-section>
+      </q-card>
+
+      <q-card inline>
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-markup-table>
+          <thead>
+            <tr>
+              <th class="text-left">Dessert (100g serving)</th>
+              <th class="text-right">Calories</th>
+              <th class="text-right">Fat (g)</th>
+              <th class="text-right">Carbs (g)</th>
+              <th class="text-right">Protein (g)</th>
+              <th class="text-right">Sodium (mg)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left">Frozen Yogurt</td>
+              <td class="text-right">159</td>
+              <td class="text-right">6</td>
+              <td class="text-right">24</td>
+              <td class="text-right">4</td>
+              <td class="text-right">87</td>
+            </tr>
+            <tr>
+              <td class="text-left">Ice cream sandwich</td>
+              <td class="text-right">237</td>
+              <td class="text-right">9</td>
+              <td class="text-right">37</td>
+              <td class="text-right">4.3</td>
+              <td class="text-right">129</td>
+            </tr>
+            <tr>
+              <td class="text-left">Eclair</td>
+              <td class="text-right">262</td>
+              <td class="text-right">16</td>
+              <td class="text-right">23</td>
+              <td class="text-right">6</td>
+              <td class="text-right">337</td>
+            </tr>
+            <tr>
+              <td class="text-left">Cupcake</td>
+              <td class="text-right">305</td>
+              <td class="text-right">3.7</td>
+              <td class="text-right">67</td>
+              <td class="text-right">4.3</td>
+              <td class="text-right">413</td>
+            </tr>
+            <tr>
+              <td class="text-left">Gingerbread</td>
+              <td class="text-right">356</td>
+              <td class="text-right">16</td>
+              <td class="text-right">49</td>
+              <td class="text-right">3.9</td>
+              <td class="text-right">327</td>
+            </tr>
+          </tbody>
+        </q-markup-table>
+      </q-card>
+
+      <q-card inline>
+        <q-card-section>
+          <div class="text-h6">Our Changing Planet</div>
+          <div class="text-subtitle2">by Kurt Wagner</div>
+        </q-card-section>
+
+        <q-tabs v-model="tab" class="text-teal">
+          <q-tab label="Tab one" name="one" />
+          <q-tab label="Tab two" name="two" />
+        </q-tabs>
+
+        <q-separator />
+
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="one">
+            One {{ lorem }}
+          </q-tab-panel>
+
+          <q-tab-panel name="two">
+            Two {{ lorem }}
+          </q-tab-panel>
+        </q-tab-panels>
       </q-card>
     </div>
   </div>
@@ -352,6 +541,7 @@
 export default {
   data () {
     return {
+      tab: 'one',
       stars: 3,
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     }
@@ -363,7 +553,6 @@ export default {
 .card-examples
   .q-card
     width 300px
-    margin 0 12px 12px 0
   .bigger
     width 450px
   @media (max-width $breakpoint-xs-max)

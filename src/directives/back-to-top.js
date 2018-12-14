@@ -1,8 +1,9 @@
 import debounce from '../utils/debounce.js'
 import { getScrollPosition, setScrollPosition, getScrollTarget } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
+import { isDeepEqual } from '../utils/is.js'
 
-function updateBinding (el, { value, modifiers }) {
+function updateBinding (el, { value }) {
   const ctx = el.__qbacktotop
 
   if (!value) {
@@ -41,6 +42,7 @@ function updateBinding (el, { value, modifiers }) {
 
 export default {
   name: 'back-to-top',
+
   bind (el) {
     const ctx = {
       offset: 200,
@@ -63,8 +65,14 @@ export default {
     }
     ctx.update = debounce(ctx.updateNow, 25)
     el.classList.add('hidden')
+
+    if (el.__qbacktotop) {
+      el.__qbacktotop_old = el.__qbacktotop
+    }
+
     el.__qbacktotop = ctx
   },
+
   inserted (el, binding) {
     const ctx = el.__qbacktotop
     ctx.scrollTarget = getScrollTarget(el)
@@ -75,8 +83,9 @@ export default {
     el.addEventListener('click', ctx.goToTop)
     el.addEventListener('keyup', ctx.goToTopKey)
   },
+
   update (el, binding) {
-    if (JSON.stringify(binding.oldValue) !== JSON.stringify(binding.value)) {
+    if (!isDeepEqual(binding.oldValue, binding.value)) {
       updateBinding(el, binding)
     }
     else {
@@ -85,13 +94,15 @@ export default {
       }, 0)
     }
   },
+
   unbind (el) {
-    const ctx = el.__qbacktotop
-    if (!ctx) { return }
-    ctx.scrollTarget.removeEventListener('scroll', ctx.update, listenOpts.passive)
-    window.removeEventListener('resize', ctx.update, listenOpts.passive)
-    el.removeEventListener('click', ctx.goToTop)
-    el.removeEventListener('keyup', ctx.goToTopKey)
-    delete el.__qbacktotop
+    const ctx = el.__qbacktotop_old || el.__qbacktotop
+    if (ctx !== void 0) {
+      ctx.scrollTarget.removeEventListener('scroll', ctx.update, listenOpts.passive)
+      window.removeEventListener('resize', ctx.update, listenOpts.passive)
+      el.removeEventListener('click', ctx.goToTop)
+      el.removeEventListener('keyup', ctx.goToTopKey)
+      delete el[el.__qbacktotop_old ? '__qbacktotop_old' : '__qbacktotop']
+    }
   }
 }

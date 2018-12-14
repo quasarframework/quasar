@@ -18,22 +18,22 @@
     <br><br>
 
     <q-tabs inverted align="center" v-model="tab" @input="onInput" @select="onSelect">
-      <q-tab slot="title" name="one" label="One" @select="onTabSelect" />
-      <q-tab default slot="title" name="two" label="Two" @select="onTabSelect" />
-      <q-tab slot="title" name="three" label="Three" @select="onTabSelect" />
-      <q-tab slot="title" name="four" label="Four" @select="onTabSelect" />
-      <q-tab slot="title" name="five" label="Five" @select="onTabSelect" />
-      <q-tab slot="title" name="six" label="Six" @select="onTabSelect" />
+      <q-tab name="one" label="One" @select="onTabSelect" />
+      <q-tab name="two" label="Two" @select="onTabSelect" />
+      <q-tab name="three" label="Three" @select="onTabSelect" />
+      <q-tab name="four" label="Four" @select="onTabSelect" />
+      <q-tab name="five" label="Five" @select="onTabSelect" />
+      <q-tab name="six" label="Six" @select="onTabSelect" />
     </q-tabs>
     <br>
 
     <q-tabs inverted @input="onInput" @select="onSelect">
-      <q-tab slot="title" name="one" label="One" @select="onTabSelect" />
-      <q-tab default slot="title" name="two" label="Two" @select="onTabSelect" />
-      <q-tab slot="title" name="three" label="Three" @select="onTabSelect" />
-      <q-tab slot="title" name="four" label="Four" @select="onTabSelect" />
-      <q-tab slot="title" name="five" label="Five" @select="onTabSelect" />
-      <q-tab slot="title" name="six" label="Six" @select="onTabSelect" />
+      <q-tab name="one" label="One" @select="onTabSelect" />
+      <q-tab name="two" label="Two" @select="onTabSelect" />
+      <q-tab name="three" label="Three" @select="onTabSelect" />
+      <q-tab name="four" label="Four" @select="onTabSelect" />
+      <q-tab name="five" label="Five" @select="onTabSelect" />
+      <q-tab name="six" label="Six" @select="onTabSelect" />
     </q-tabs>
     <br>
 
@@ -41,7 +41,7 @@
       <q-route-tab
         v-for="route in ['a', 'b', 'c']"
         :key="route"
-        slot="title"
+
         :name="route"
         :to="`/lay/${route}`"
         :label="`Route ${route}`"
@@ -49,11 +49,11 @@
         replace
         icon="receipt"
       />
-      <q-tab slot="title" name="link" label="Link" icon="cloud" color="amber" />
+      <q-tab name="link" label="Link" icon="cloud" color="amber" />
 
-      <q-tab-pane name="link">
+      <q-tab-panel name="link">
         Link Tab
-      </q-tab-pane>
+      </q-tab-panel>
     </q-tabs>
 
     <router-view />

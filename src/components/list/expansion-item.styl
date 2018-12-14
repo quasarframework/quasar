@@ -1,0 +1,55 @@
+.q-expansion-item
+  overflow hidden
+
+  &__border
+    opacity 0
+
+  &--standard
+    &.q-expansion-item--expanded
+      > div > .q-expansion-item__border
+        opacity 1
+
+  &--popup
+    transition padding .5s
+
+    > .q-expansion-item__container
+      border 1px solid $separator-color
+      > .q-separator
+        display none
+
+    &.q-expansion-item
+
+      &--collapsed
+        padding 0 15px
+      &--expanded
+        padding 15px 0
+
+        & + &
+          padding-top 0
+
+    &.q-expansion-item--collapsed:not(:first-child)
+      > .q-expansion-item__container
+        border-top-width 0
+
+    &.q-expansion-item--expanded + &.q-expansion-item--collapsed
+      > .q-expansion-item__container
+        border-top-width 1px
+
+  &--content-inset > div > .q-expansion-item__content
+    padding-left 72px
+
+  &--menu-inset > div > .q-expansion-item__content
+    padding-left 56px
+
+  &__content > .q-card
+    box-shadow none
+    border-radius 0
+
+  &:first-child > div > .q-expansion-item__border--top
+    opacity 0
+  &:last-child > div > .q-expansion-item__border--bottom
+    opacity 0
+
+  &--expanded + &--expanded
+    > div > .q-expansion-item__border--top
+      opacity 0

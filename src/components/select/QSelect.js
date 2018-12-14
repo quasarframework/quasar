@@ -1,504 +1,735 @@
-import QSearch from '../search/QSearch.js'
-import QPopover from '../popover/QPopover.js'
-import QList from '../list/QList.js'
-import QItemWrapper from '../list/QItemWrapper.js'
-import QCheckbox from '../checkbox/QCheckbox.js'
-import QRadio from '../radio/QRadio.js'
-import QToggle from '../toggle/QToggle.js'
+import Vue from 'vue'
+
+import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
-import QInputFrame from '../input-frame/QInputFrame.js'
+import QSpinner from '../spinner/QSpinner.js'
 import QChip from '../chip/QChip.js'
-import FrameMixin from '../../mixins/input-frame.js'
-import KeyboardSelectionMixin from '../../mixins/keyboard-selection.js'
 
-function defaultFilterFn (terms, obj) {
-  return obj.label.toLowerCase().indexOf(terms) > -1
-}
+import QItem from '../list/QItem.js'
+import QItemSection from '../list/QItemSection.js'
 
-export default {
+import TransitionMixin from '../../mixins/transition.js'
+
+import uid from '../../utils/uid.js'
+import { isDeepEqual } from '../../utils/is.js'
+import { stopAndPrevent } from '../../utils/event.js'
+import { normalizeToInterval } from '../../utils/format.js'
+
+import { updatePosition } from './select-menu-position.js'
+
+export default Vue.extend({
   name: 'QSelect',
-  mixins: [FrameMixin, KeyboardSelectionMixin],
+
+  mixins: [ QField, TransitionMixin ],
+
   props: {
-    filter: [Function, Boolean],
-    filterPlaceholder: String,
-    radio: Boolean,
-    placeholder: String,
-    separator: Boolean,
-    value: { required: true },
+    value: {
+      required: true
+    },
+
     multiple: Boolean,
-    toggle: Boolean,
-    chips: Boolean,
+
+    displayValue: [String, Number],
+    dropdownIcon: String,
+
     options: {
       type: Array,
-      required: true,
-      validator: v => v.every(o => 'label' in o && 'value' in o)
+      default: () => []
     },
-    chipsColor: String,
-    chipsBgColor: String,
-    displayValue: String,
-    popupMaxHeight: String,
-    popupCover: {
-      type: Boolean,
-      default: true
-    }
+
+    optionValue: [Function, String],
+    optionLabel: [Function, String],
+    optionDisable: [Function, String],
+
+    hideSelected: Boolean,
+    counter: Boolean,
+    maxValues: [Number, String],
+    denseOptions: Boolean,
+
+    useInput: Boolean,
+    useChips: Boolean,
+
+    mapOptions: Boolean,
+    emitValue: Boolean,
+
+    inputDebounce: {
+      type: [Number, String],
+      default: 500
+    },
+
+    expandBesides: Boolean,
+    autofocus: Boolean
   },
+
   data () {
     return {
-      model: this.multiple && Array.isArray(this.value)
-        ? this.value.slice()
-        : this.value,
-      terms: '',
-      focused: false
+      menu: false,
+      optionIndex: -1,
+      optionsToShow: 20,
+      inputValue: '',
+      loading: false
     }
   },
+
   watch: {
-    value (val) {
-      this.model = this.multiple && Array.isArray(val)
-        ? val.slice()
+    selectedString (val) {
+      const value = this.multiple !== true && this.hideSelected === true
+        ? val
+        : ''
+
+      if (this.inputValue !== value) {
+        this.inputValue = value
+      }
+    },
+
+    menu (show) {
+      this.optionIndex = -1
+      if (show === true) {
+        this.optionsToShow = 20
+        this.$nextTick(this.updateMenuPosition)
+      }
+      document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
+    }
+  },
+
+  computed: {
+    fieldClass () {
+      return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input`
+    },
+
+    innerValue () {
+      const val = this.value !== void 0 && this.value !== null
+        ? (this.multiple === true ? this.value : [ this.value ])
+        : []
+
+      return this.mapOptions === true
+        ? val.map(v => this.__getOption(v))
         : val
     },
-    visibleOptions () {
-      this.__keyboardCalcIndex()
-    }
-  },
-  computed: {
-    optModel () {
-      if (this.multiple) {
-        return this.model.length > 0
-          ? this.options.map(opt => this.model.includes(opt.value))
-          : this.options.map(opt => false)
-      }
-    },
-    visibleOptions () {
-      let opts = this.options.map((opt, index) => Object.assign({}, opt, { index }))
-      if (this.filter && this.terms.length) {
-        const lowerTerms = this.terms.toLowerCase()
-        opts = opts.filter(opt => this.filterFn(lowerTerms, opt))
-      }
-      return opts
-    },
-    keyboardMaxIndex () {
-      return this.visibleOptions.length - 1
-    },
-    filterFn () {
-      return typeof this.filter === 'boolean'
-        ? defaultFilterFn
-        : this.filter
-    },
-    actualValue () {
-      if (this.displayValue) {
-        return this.displayValue
-      }
-      if (!this.multiple) {
-        const opt = this.options.find(opt => opt.value === this.model)
-        return opt ? opt.label : ''
-      }
 
-      const opt = this.selectedOptions.map(opt => opt.label)
-      return opt.length ? opt.join(', ') : ''
+    noOptions () {
+      return this.options === void 0 || this.options === null || this.options.length === 0
     },
-    computedClearValue () {
-      return this.clearValue === void 0 ? (this.multiple ? [] : null) : this.clearValue
+
+    selectedString () {
+      return this.innerValue
+        .map(opt => this.__getOptionLabel(opt))
+        .join(', ')
     },
-    isClearable () {
-      return this.editable && this.clearable && JSON.stringify(this.computedClearValue) !== JSON.stringify(this.model)
+
+    selectedScope () {
+      const tabindex = this.focused === true ? 0 : -1
+
+      return this.innerValue.map((opt, i) => ({
+        index: i,
+        opt,
+        selected: true,
+        removeAtIndex: this.removeAtIndex,
+        toggleOption: this.toggleOption,
+        tabindex
+      }))
     },
-    selectedOptions () {
-      if (this.multiple) {
-        return this.length > 0
-          ? this.options.filter(opt => this.model.includes(opt.value))
-          : []
+
+    computedCounter () {
+      if (this.multiple === true && this.counter === true) {
+        return (this.value !== void 0 && this.value !== null ? this.value.length : '0') +
+          (this.maxValues !== void 0 ? ' / ' + this.maxValues : '')
       }
     },
-    hasChips () {
-      return this.multiple && this.chips && this.length > 0
+
+    optionScope () {
+      return this.options.slice(0, this.optionsToShow).map((opt, i) => {
+        const disable = this.__isDisabled(opt)
+
+        const itemProps = {
+          clickable: true,
+          active: false,
+          manualFocus: true,
+          focused: false,
+          disable,
+          tabindex: -1,
+          dense: this.denseOptions
+        }
+
+        if (disable !== true) {
+          this.__isSelected(opt) === true && (itemProps.active = true)
+          this.optionIndex === i && (itemProps.focused = true)
+        }
+
+        const itemEvents = {
+          click: () => { this.toggleOption(opt) }
+        }
+
+        if (this.$q.platform.is.desktop === true) {
+          itemEvents.mousemove = () => { this.setOptionIndex(i) }
+        }
+
+        return {
+          index: i,
+          opt,
+          selected: itemProps.active,
+          focused: itemProps.focused,
+          toggleOption: this.toggleOption,
+          setOptionIndex: this.setOptionIndex,
+          itemProps,
+          itemEvents
+        }
+      })
     },
-    length () {
-      return this.multiple
-        ? this.model.length
-        : ([null, undefined, ''].includes(this.model) ? 0 : 1)
-    },
-    additionalLength () {
-      return this.displayValue && this.displayValue.length > 0
+
+    dropdownArrowIcon () {
+      return this.dropdownIcon !== void 0
+        ? this.dropdownIcon
+        : this.$q.icon.select.dropdownIcon
     }
   },
+
   methods: {
-    togglePopup () {
-      this.$refs.popover && this[this.$refs.popover.showing ? 'hide' : 'show']()
+    focus () {
+      this.$refs.target.focus()
     },
-    show () {
-      this.__keyboardCalcIndex()
-      if (this.$refs.popover) {
-        return this.$refs.popover.show()
-      }
-    },
-    hide () {
-      return this.$refs.popover ? this.$refs.popover.hide() : Promise.resolve()
-    },
-    reposition () {
-      const popover = this.$refs.popover
-      if (popover && popover.showing) {
-        this.$nextTick(() => popover && popover.reposition())
+
+    removeAtIndex (index) {
+      if (index > -1 && index < this.innerValue.length) {
+        if (this.multiple === true) {
+          const model = [].concat(this.value)
+          this.$emit('remove', { index, value: model.splice(index, 1) })
+          this.$emit('input', model)
+        }
+        else {
+          this.$emit('input', null)
+        }
       }
     },
 
-    __keyboardCalcIndex () {
-      this.keyboardIndex = -1
-      const sel = this.multiple ? this.selectedOptions.map(o => o.value) : [this.model]
-      this.$nextTick(() => {
-        const index = sel === void 0 ? -1 : Math.max(-1, this.visibleOptions.findIndex(opt => sel.includes(opt.value)))
-        if (index > -1) {
-          this.keyboardMoveDirection = true
-          setTimeout(() => { this.keyboardMoveDirection = false }, 500)
-          this.__keyboardShow(index)
-        }
-      })
-    },
-    __keyboardCustomKeyHandle (key, e) {
-      switch (key) {
-        case 27: // ESCAPE
-          if (this.$refs.popover.showing) {
-            this.hide()
-          }
-          break
-        case 13: // ENTER key
-        case 32: // SPACE key
-          if (!this.$refs.popover.showing) {
-            this.show()
-          }
-          break
-      }
-    },
-    __keyboardShowTrigger () {
-      this.show()
-    },
-    __keyboardSetSelection (index) {
-      const opt = this.visibleOptions[index]
+    add (opt) {
+      const val = this.emitValue === true
+        ? this.__getOptionValue(opt)
+        : opt
 
-      if (this.multiple) {
-        this.__toggleMultiple(opt.value, opt.disable)
-      }
-      else {
-        this.__singleSelect(opt.value, opt.disable)
-      }
-    },
-    __keyboardIsSelectableIndex (index) {
-      return index > -1 && index < this.visibleOptions.length && !this.visibleOptions[index].disable
-    },
-    __mouseEnterHandler (e, index) {
-      if (!this.keyboardMoveDirection) {
-        this.keyboardIndex = index
-      }
-    },
-    __onFocus () {
-      if (this.disable || this.focused) {
+      if (this.multiple !== true) {
+        this.$emit('input', val)
         return
       }
-      this.focused = true
-      this.$emit('focus')
-    },
-    __onShow () {
-      if (this.disable) {
+
+      if (this.innerValue.length === 0) {
+        this.$emit('add', { index: 0, value: val })
+        this.$emit('input', this.multiple === true ? [ val ] : val)
         return
       }
-      this.__onFocus()
-      if (this.filter && this.$refs.filter) {
-        this.$refs.filter.focus()
-        this.reposition()
-      }
+
+      const model = [].concat(this.value)
+
+      this.$emit('add', { index: model.length, value: val })
+      model.push(val)
+      this.$emit('input', model)
     },
-    __onBlur (e) {
-      if (!this.focused) {
-        return
-      }
-      setTimeout(() => {
-        const el = document.activeElement
-        if (
-          !this.$refs.popover ||
-          !this.$refs.popover.showing ||
-          (el !== document.body && !this.$refs.popover.$el.contains(el))
-        ) {
-          this.__onClose()
-          this.hide()
+
+    toggleOption (opt) {
+      if (this.editable !== true || opt === void 0 || this.__isDisabled(opt) === true) { return }
+
+      this.focus()
+
+      const optValue = this.__getOptionValue(opt)
+
+      if (this.multiple !== true) {
+        this.menu = false
+
+        if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
+          this.$emit('input', this.emitValue === true ? optValue : opt)
         }
-      }, 1)
-    },
-    __onClose (keepFocus) {
-      this.$nextTick(() => {
-        if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
-          this.$emit('change', this.model)
+        else {
+          const val = this.__getOptionLabel(opt)
+          if (val !== this.inputValue) {
+            this.inputValue = val
+          }
         }
-      })
-      this.terms = ''
-      if (!this.focused) {
+
         return
       }
-      if (keepFocus) {
-        this.$refs.input && this.$refs.input.$el && this.$refs.input.$el.focus()
+
+      if (this.innerValue.length === 0) {
+        const val = this.emitValue === true ? optValue : opt
+        this.$emit('add', { index: 0, value: val })
+        this.$emit('input', this.multiple === true ? [ val ] : val)
         return
       }
-      this.focused = false
-      this.$emit('blur')
-    },
-    __singleSelect (val, disable) {
-      if (disable) {
-        return
-      }
-      this.__emit(val)
-      this.hide()
-    },
-    __toggleMultiple (value, disable) {
-      if (disable) {
-        return
-      }
+
       const
-        model = this.model,
-        index = model.indexOf(value)
+        model = [].concat(this.value),
+        index = this.value.findIndex(v => isDeepEqual(this.__getOptionValue(v), optValue))
 
       if (index > -1) {
         this.$emit('remove', { index, value: model.splice(index, 1) })
       }
       else {
-        this.$emit('add', { index: model.length, value })
-        model.push(value)
+        if (this.maxValues !== void 0 && model.length >= this.maxValues) {
+          return
+        }
+
+        const val = this.emitValue === true ? optValue : opt
+
+        this.$emit('add', { index: model.length, value: val })
+        model.push(val)
       }
 
       this.$emit('input', model)
     },
-    __emit (value) {
-      this.$emit('input', value)
-      this.$nextTick(() => {
-        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-          this.$emit('change', value)
+
+    setOptionIndex (index) {
+      if (this.$q.platform.is.desktop !== true) { return }
+
+      const val = index >= -1 && index < this.optionsToShow
+        ? index
+        : -1
+
+      if (this.optionIndex !== val) {
+        this.optionIndex = val
+      }
+    },
+
+    __getOption (value) {
+      return this.options.find(opt => isDeepEqual(this.__getOptionValue(opt), value)) || value
+    },
+
+    __getOptionValue (opt) {
+      if (typeof this.optionValue === 'function') {
+        return this.optionValue(opt)
+      }
+      if (Object(opt) === opt) {
+        return typeof this.optionValue === 'string'
+          ? opt[this.optionValue]
+          : opt.value
+      }
+      return opt
+    },
+
+    __getOptionLabel (opt) {
+      if (typeof this.optionLabel === 'function') {
+        return this.optionLabel(opt)
+      }
+      if (Object(opt) === opt) {
+        return typeof this.optionLabel === 'string'
+          ? opt[this.optionLabel]
+          : opt.label
+      }
+      return opt
+    },
+
+    __isDisabled (opt) {
+      if (typeof this.optionDisable === 'function') {
+        return this.optionDisable(opt) === true
+      }
+      if (Object(opt) === opt) {
+        return typeof this.optionDisable === 'string'
+          ? opt[this.optionDisable] === true
+          : opt.disable === true
+      }
+      return false
+    },
+
+    __isSelected (opt) {
+      const val = this.__getOptionValue(opt)
+      return this.innerValue.find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
+    },
+
+    __onTargetKeydown (e) {
+      if (this.loading !== true && this.menu === false && e.keyCode === 40) { // down
+        stopAndPrevent(e)
+
+        if (this.$listeners.filter !== void 0) {
+          this.filter(this.inputValue)
+        }
+        else {
+          this.menu = true
+        }
+
+        return
+      }
+
+      if (this.multiple === true && this.inputValue.length === 0 && e.keyCode === 8) { // delete
+        this.removeAtIndex(this.value.length - 1)
+        return
+      }
+
+      // enter
+      if (e.keyCode !== 13) { return }
+
+      if (this.optionIndex > -1 && this.optionIndex < this.optionsToShow) {
+        this.toggleOption(this.options[this.optionIndex])
+
+        if (this.multiple === true) {
+          if (this.$listeners.filter !== void 0) {
+            this.filter('')
+            this.optionIndex = -1
+          }
+          else {
+            this.inputValue = ''
+          }
+        }
+        return
+      }
+
+      if (
+        this.multiple === true &&
+        this.$listeners['new-value'] !== void 0 &&
+        this.inputValue.length > 0
+      ) {
+        this.$emit('new-value', this.inputValue, val => {
+          val !== void 0 && val !== null && this.add(val)
+          this.inputValue = ''
+        })
+      }
+
+      if (this.menu === true) {
+        this.menu = false
+      }
+      else if (this.loading !== true) {
+        if (this.$listeners.filter !== void 0) {
+          this.filter(this.inputValue)
+        }
+        else {
+          this.menu = true
+        }
+      }
+    },
+
+    __onGlobalKeydown (e) {
+      // escape
+      if (e.keyCode === 27) {
+        this.menu = false
+        return
+      }
+
+      // up, down
+      if (e.keyCode === 38 || e.keyCode === 40) {
+        stopAndPrevent(e)
+
+        if (this.menu === true) {
+          let index = this.optionIndex
+          do {
+            index = normalizeToInterval(
+              index + (e.keyCode === 38 ? -1 : 1),
+              -1,
+              this.options.length - 1
+            )
+
+            if (index === -1) {
+              this.optionIndex = -1
+              return
+            }
+          }
+          while (index !== this.optionIndex && this.__isDisabled(this.options[index]) === true)
+
+          const dir = index > this.optionIndex ? 1 : -1
+          this.optionIndex = index
+
+          this.$nextTick(() => {
+            const el = this.$refs.menu.querySelector('.q-manual-focusable--focused')
+            if (el !== null && el.scrollIntoView !== void 0) {
+              if (el.scrollIntoViewIfNeeded !== void 0) {
+                el.scrollIntoViewIfNeeded(false)
+              }
+              else {
+                el.scrollIntoView(dir === -1)
+              }
+            }
+          })
+        }
+      }
+    },
+
+    __onMenuScroll () {
+      if (this.avoidScroll !== true && this.optionsToShow < this.options.length) {
+        const el = this.$refs.menu
+
+        if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) {
+          this.optionsToShow += 20
+          this.avoidScroll = true
+          this.$nextTick(() => {
+            this.avoidScroll = false
+          })
+        }
+      }
+    },
+
+    __getSelection (h) {
+      if (this.hideSelected === true) {
+        return []
+      }
+
+      if (this.$scopedSlots.selected !== void 0) {
+        return this.selectedScope.map(scope => this.$scopedSlots.selected(scope))
+      }
+
+      if (this.$slots.selected !== void 0) {
+        return this.$slots.selected
+      }
+
+      if (this.useChips === true) {
+        const tabindex = this.focused === true ? 0 : -1
+
+        return this.selectedScope.map((scope, i) => h(QChip, {
+          key: 'option-' + i,
+          props: {
+            removable: true,
+            dense: true,
+            textColor: this.color,
+            tabindex
+          },
+          on: {
+            remove () { scope.removeAtIndex(i) }
+          }
+        }, [
+          h('span', {
+            domProps: {
+              innerHTML: this.__getOptionLabel(scope.opt)
+            }
+          })
+        ]))
+      }
+
+      return [
+        h('span', {
+          domProps: {
+            innerHTML: this.displayValue !== void 0
+              ? this.displayValue
+              : this.selectedString
+          }
+        })
+      ]
+    },
+
+    __getControl (h) {
+      const child = this.__getSelection(h)
+
+      if (this.useInput === true) {
+        child.push(this.__getInput(h))
+      }
+
+      const data = this.editable === true && this.useInput === false
+        ? {
+          ref: 'target',
+          attrs: { tabindex: 0 },
+          on: {
+            keydown: this.__onTargetKeydown
+          }
+        }
+        : {}
+
+      data.staticClass = 'q-field__native row items-center'
+
+      return h('div', data, child)
+    },
+
+    __getOptions (h) {
+      const fn = this.$scopedSlots.option || (scope => h(QItem, {
+        key: scope.index,
+        props: scope.itemProps,
+        on: scope.itemEvents
+      }, [
+        h(QItemSection, {
+          domProps: {
+            innerHTML: this.__getOptionLabel(scope.opt)
+          }
+        })
+      ]))
+
+      return this.optionScope.map(fn)
+    },
+
+    __getLocalMenu (h) {
+      if (
+        this.editable === false ||
+        (this.noOptions === true && this.$slots['no-option'] === void 0)
+      ) {
+        return
+      }
+
+      return h('transition', {
+        props: { name: this.transition }
+      }, [
+        this.menu === true
+          ? h('div', {
+            ref: 'menu',
+            staticClass: 'q-local-menu scroll',
+            on: {
+              click: stopAndPrevent,
+              '&scroll': this.__onMenuScroll
+            }
+          }, this.noOptions === true ? this.$slots['no-option'] : this.__getOptions(h))
+          : null
+      ])
+    },
+
+    __getInnerAppend (h) {
+      return [
+        this.loading === true
+          ? (
+            this.$slots.loading !== void 0
+              ? this.$slots.loading
+              : h(QSpinner, { props: { color: this.color } })
+          )
+          : null,
+
+        h(QIcon, {
+          props: { name: this.dropdownArrowIcon }
+        })
+      ]
+    },
+
+    __getInput (h) {
+      return h('input', {
+        ref: 'target',
+        staticClass: 'q-select__input col',
+        class: this.hideSelected !== true && this.innerValue.length > 0
+          ? 'q-select__input--padding'
+          : null,
+        domProps: { value: this.inputValue },
+        attrs: {
+          disabled: this.editable !== true
+        },
+        on: {
+          input: this.__onInputValue,
+          keydown: this.__onTargetKeydown
         }
       })
     },
-    __setModel (val, forceUpdate) {
-      this.model = val || (this.multiple ? [] : null)
-      this.$emit('input', this.model)
-      if (forceUpdate || !this.$refs.popover || !this.$refs.popover.showing) {
-        this.__onClose(forceUpdate)
+
+    __onInputValue (e) {
+      clearTimeout(this.inputTimer)
+      this.inputValue = e.target.value || ''
+
+      if (this.optionIndex !== -1) {
+        this.optionIndex = -1
+      }
+
+      if (this.$listeners.filter !== void 0) {
+        this.inputTimer = setTimeout(() => {
+          this.filter(this.inputValue)
+        }, this.inputDebounce)
       }
     },
-    __getChipTextColor (optColor) {
-      if (this.chipsColor) {
-        return this.chipsColor
+
+    filter (val) {
+      this.menu = false
+      this.inputValue = val
+
+      if (this.loading === true) {
+        this.$emit('filter-abort')
       }
-      if (this.isInvertedLight) {
-        return this.invertedLight ? optColor || this.color : 'white'
+      else {
+        this.loading = true
       }
-      if (this.isInverted) {
-        return optColor || (this.invertedLight ? 'grey-10' : this.color)
-      }
-      return this.dark
-        ? optColor || this.color
-        : 'white'
+
+      const filterId = uid()
+      this.filterId = filterId
+
+      this.$emit(
+        'filter',
+        val,
+        fn => {
+          if (this.focused === true && this.filterId === filterId) {
+            this.loading = false
+            this.menu = true
+            typeof fn === 'function' && fn()
+          }
+        },
+        () => {
+          if (this.focused === true && this.filterId === filterId) {
+            this.loading = false
+          }
+        }
+      )
     },
-    __getChipBgColor (optColor) {
-      if (this.chipsBgColor) {
-        return this.chipsBgColor
+
+    __onControlClick () {
+      this.focus()
+
+      if (this.menu === true) {
+        this.menu = false
       }
-      if (this.isInvertedLight) {
-        return this.invertedLight ? 'grey-10' : optColor || this.color
+      else {
+        if (this.$listeners.filter !== void 0) {
+          this.filter(this.inputValue)
+        }
+        else {
+          this.menu = true
+        }
       }
-      if (this.isInverted) {
-        return this.invertedLight ? this.color : 'white'
+    },
+
+    __onControlFocusin (e) {
+      this.focused = true
+
+      if (this.useInput === true && this.inputValue.length > 0) {
+        this.$refs.target.setSelectionRange(0, this.inputValue.length)
       }
-      return this.dark
-        ? 'white'
-        : optColor || this.color
+    },
+
+    __onControlFocusout () {
+      setTimeout(() => {
+        clearTimeout(this.inputTimer)
+
+        if (this.$refs === void 0 || this.$refs.control === void 0) {
+          return
+        }
+
+        if (this.$refs.control.contains(document.activeElement) !== false) {
+          return
+        }
+
+        this.focused = false
+
+        if (this.menu === true) {
+          this.menu = false
+        }
+
+        const val = this.multiple !== true && this.hideSelected === true
+          ? this.selectedString
+          : ''
+
+        if (this.inputValue !== val) {
+          this.inputValue = val
+        }
+
+        this.filterId = void 0
+
+        if (this.loading === true) {
+          this.$emit('filter-abort')
+          this.loading = false
+        }
+      })
+    },
+
+    updateMenuPosition () {
+      const el = this.$refs.menu
+
+      if (el === void 0) { return }
+
+      updatePosition(
+        el,
+        this.$refs.control,
+        this.expandBesides !== true && this.noOptions !== true && this.useInput !== true
+      )
     }
   },
 
-  render (h) {
-    const child = []
-
-    if (this.hasChips) {
-      const el = h('div', {
-        staticClass: 'col row items-center q-input-chips',
-        'class': this.alignClass
-      }, this.selectedOptions.map((opt, index) => {
-        return h(QChip, {
-          key: index,
-          props: {
-            small: true,
-            closable: this.editable && !opt.disable,
-            color: this.__getChipBgColor(opt.color),
-            textColor: this.__getChipTextColor(opt.color),
-            icon: opt.icon,
-            iconRight: opt.rightIcon,
-            avatar: opt.avatar
-          },
-          on: {
-            hide: () => { this.__toggleMultiple(opt.value, this.disable || opt.disable) }
-          },
-          nativeOn: {
-            click: e => { e.stopPropagation() }
-          }
-        }, [
-          h('div', { domProps: { innerHTML: opt.label } })
-        ])
-      }))
-      child.push(el)
+  created () {
+    this.controlEvents = {
+      click: this.__onControlClick,
+      mousedown: stopAndPrevent,
+      focusin: this.__onControlFocusin,
+      focusout: this.__onControlFocusout
     }
-    else {
-      const el = h('div', {
-        staticClass: 'col q-input-target ellipsis',
-        'class': this.fakeInputClasses,
-        domProps: { innerHTML: this.fakeInputValue }
-      })
-      child.push(el)
-    }
+  },
 
-    child.push(h(QPopover, {
-      ref: 'popover',
-      staticClass: 'column no-wrap',
-      'class': this.dark ? 'bg-dark' : null,
-      props: {
-        cover: this.popupCover,
-        keepOnScreen: true,
-        disable: !this.editable,
-        anchorClick: false,
-        maxHeight: this.popupMaxHeight
-      },
-      slot: 'after',
-      on: {
-        show: this.__onShow,
-        hide: () => { this.__onClose(true) }
-      },
-      nativeOn: {
-        keydown: this.__keyboardHandleKey
-      }
-    }, [
-      (this.filter && h(QSearch, {
-        ref: 'filter',
-        staticClass: 'col-auto',
-        style: 'padding: 10px;',
-        props: {
-          value: this.terms,
-          placeholder: this.filterPlaceholder || this.$q.i18n.label.filter,
-          debounce: 100,
-          color: this.color,
-          dark: this.dark,
-          noParentField: true,
-          noIcon: true
-        },
-        on: {
-          input: val => {
-            this.terms = val
-            this.reposition()
-          }
-        }
-      })) || void 0,
+  mounted () {
+    this.autofocus === true && this.$nextTick(this.focus)
+  },
 
-      (this.visibleOptions.length && h(QList, {
-        staticClass: 'no-border scroll',
-        props: {
-          separator: this.separator,
-          dark: this.dark
-        }
-      }, this.visibleOptions.map((opt, index) => {
-        return h(QItemWrapper, {
-          key: index,
-          'class': [
-            opt.disable ? 'text-faded' : 'cursor-pointer',
-            index === this.keyboardIndex ? 'q-select-highlight' : '',
-            opt.disable ? '' : 'cursor-pointer',
-            opt.className || ''
-          ],
-          props: {
-            cfg: opt,
-            slotReplace: true,
-            active: this.multiple ? void 0 : this.value === opt.value
-          },
-          nativeOn: {
-            '!click': () => {
-              const action = this.multiple ? '__toggleMultiple' : '__singleSelect'
-              this[action](opt.value, opt.disable)
-            },
-            mouseenter: e => {
-              !opt.disable && this.__mouseEnterHandler(e, index)
-            }
-          }
-        }, [
-          this.multiple
-            ? h(this.toggle ? QToggle : QCheckbox, {
-              slot: this.toggle ? 'right' : 'left',
-              props: {
-                keepColor: true,
-                color: opt.color || this.color,
-                dark: this.dark,
-                value: this.optModel[opt.index],
-                disable: opt.disable,
-                noFocus: true
-              }
-            })
-            : (this.radio && h(QRadio, {
-              slot: 'left',
-              props: {
-                keepColor: true,
-                color: opt.color || this.color,
-                dark: this.dark,
-                value: this.value,
-                val: opt.value,
-                disable: opt.disable,
-                noFocus: true
-              }
-            })) || void 0
-        ])
-      }))) || void 0
-    ]))
-
-    if (this.isClearable) {
-      child.push(h(QIcon, {
-        slot: 'after',
-        staticClass: 'q-if-control',
-        props: { name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`] },
-        nativeOn: {
-          click: this.clear
-        }
-      }))
-    }
-
-    child.push(
-      h(QIcon, this.readonly ? { slot: 'after' } : {
-        slot: 'after',
-        staticClass: 'q-if-control',
-        props: { name: this.$q.icon.input.dropdown }
-      })
-    )
-
-    return h(QInputFrame, {
-      ref: 'input',
-      staticClass: 'q-select',
-      props: {
-        prefix: this.prefix,
-        suffix: this.suffix,
-        stackLabel: this.stackLabel,
-        floatLabel: this.floatLabel,
-        error: this.error,
-        warning: this.warning,
-        disable: this.disable,
-        readonly: this.readonly,
-        inverted: this.inverted,
-        invertedLight: this.invertedLight,
-        dark: this.dark,
-        hideUnderline: this.hideUnderline,
-        before: this.before,
-        after: this.after,
-        color: this.color,
-        noParentField: this.noParentField,
-        focused: this.focused,
-        focusable: true,
-        length: this.length,
-        additionalLength: this.additionalLength
-      },
-      nativeOn: {
-        click: this.togglePopup,
-        focus: this.__onFocus,
-        blur: this.__onBlur,
-        keydown: this.__keyboardHandleKey
-      }
-    }, child)
+  beforeDestroy () {
+    clearTimeout(this.inputTimer)
+    document.body.removeEventListener('keydown', this.__onGlobalKeydown)
   }
-}
+})

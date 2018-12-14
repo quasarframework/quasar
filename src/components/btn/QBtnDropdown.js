@@ -1,93 +1,111 @@
+import Vue from 'vue'
+
 import BtnMixin from './btn-mixin.js'
+
 import QIcon from '../icon/QIcon.js'
 import QBtn from './QBtn.js'
 import QBtnGroup from './QBtnGroup.js'
-import QPopover from '../popover/QPopover.js'
+import QMenu from '../menu/QMenu.js'
 
-export default {
+export default Vue.extend({
   name: 'QBtnDropdown',
-  mixins: [BtnMixin],
+
+  mixins: [ BtnMixin ],
+
   props: {
     value: Boolean,
     split: Boolean,
+
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object],
-    popoverAnchor: {
+
+    cover: Boolean,
+    persistent: Boolean,
+    autoClose: Boolean,
+    menuAnchor: {
       type: String,
       default: 'bottom right'
     },
-    popoverSelf: {
+    menuSelf: {
       type: String,
       default: 'top right'
     }
   },
+
   data () {
     return {
       showing: this.value
     }
   },
+
   watch: {
     value (val) {
-      this.$refs.popover && this.$refs.popover[val ? 'show' : 'hide']()
+      this.$refs.menu && this.$refs.menu[val ? 'show' : 'hide']()
     }
   },
+
   render (h) {
-    const
-      Popover = h(
-        QPopover,
-        {
-          ref: 'popover',
-          props: {
-            disable: this.disable,
-            fit: true,
-            anchorClick: !this.split,
-            anchor: this.popoverAnchor,
-            self: this.popoverSelf
-          },
-          'class': this.contentClass,
-          style: this.contentStyle,
-          on: {
-            show: e => {
-              this.showing = true
-              this.$emit('show', e)
-              this.$emit('input', true)
-            },
-            hide: e => {
-              this.showing = false
-              this.$emit('hide', e)
-              this.$emit('input', false)
-            }
-          }
-        },
-        this.$slots.default
-      ),
-      Icon = h(QIcon, {
+    const Arrow = [
+      h(QIcon, {
         props: {
-          name: this.$q.icon.input.dropdown
+          name: 'arrow_drop_down' // this.$q.icon.input.dropdown
         },
-        staticClass: 'transition-generic',
-        'class': {
+        staticClass: 'q-btn-dropdown__arrow',
+        class: {
           'rotate-180': this.showing,
-          'on-right': !this.split,
-          'q-btn-dropdown-arrow': !this.split
+          'q-btn-dropdown__arrow-container': this.split === false
         }
       }),
-      Btn = h(QBtn, {
-        props: Object.assign({}, this.$props, {
-          iconRight: this.split ? this.iconRight : null
-        }),
-        'class': this.split ? 'q-btn-dropdown-current' : 'q-btn-dropdown q-btn-dropdown-simple',
+
+      h(QMenu, {
+        ref: 'menu',
+        props: {
+          disable: this.disable,
+          cover: this.cover,
+          fit: true,
+          persistent: this.persistent,
+          autoClose: this.autoClose,
+          anchor: this.menuAnchor,
+          self: this.menuSelf,
+          contentClass: this.contentClass,
+          contentStyle: this.contentStyle
+        },
         on: {
-          click: e => {
-            this.split && this.hide()
-            if (!this.disable) {
-              this.$emit('click', e)
-            }
+          'before-show': e => {
+            this.showing = true
+            this.$emit('before-show', e)
+          },
+          show: e => {
+            this.$emit('show', e)
+            this.$emit('input', true)
+          },
+          'before-hide': e => {
+            this.showing = false
+            this.$emit('before-hide', e)
+          },
+          hide: e => {
+            this.$emit('hide', e)
+            this.$emit('input', false)
           }
         }
-      }, this.split ? null : [ Icon, Popover ])
+      }, this.$slots.default)
+    ]
 
-    if (!this.split) {
+    const Btn = h(QBtn, {
+      class: `q-btn-dropdown${this.split === true ? '--current' : ' q-btn-dropdown--simple'}`,
+      props: Object.assign({}, this.$props, {
+        noWrap: true,
+        iconRight: this.split === true ? this.iconRight : null
+      }),
+      on: {
+        click: e => {
+          this.split && this.hide()
+          !this.disable && this.$emit('click', e)
+        }
+      }
+    }, this.split !== true ? Arrow : null)
+
+    if (this.split === false) {
       return Btn
     }
 
@@ -96,13 +114,16 @@ export default {
         outline: this.outline,
         flat: this.flat,
         rounded: this.rounded,
-        push: this.push
+        push: this.push,
+        unelevated: this.unelevated
       },
-      staticClass: 'q-btn-dropdown q-btn-dropdown-split no-wrap q-btn-item'
-    },
-    [
+      staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
+      class: this.stretch === true ? 'self-stretch no-border-radius' : null
+    }, [
       Btn,
+
       h(QBtn, {
+        staticClass: 'q-btn-dropdown__arrow-container',
         props: {
           disable: this.disable,
           outline: this.outline,
@@ -113,32 +134,25 @@ export default {
           color: this.color,
           textColor: this.textColor,
           dense: this.dense,
-          glossy: this.glossy,
-          noRipple: this.noRipple,
-          waitForRipple: this.waitForRipple
-        },
-        staticClass: 'q-btn-dropdown-arrow',
-        on: { click: () => { this.toggle() } }
-      }, [ Icon ]),
-      [ Popover ]
+          ripple: this.ripple
+        }
+      }, Arrow)
     ])
   },
+
   methods: {
-    toggle () {
-      return this.$refs.popover ? this.$refs.popover.toggle() : Promise.resolve()
+    toggle (evt) {
+      this.$refs.menu && this.$refs.menu.toggle(evt)
     },
-    show () {
-      return this.$refs.popover ? this.$refs.popover.show() : Promise.resolve()
+    show (evt) {
+      this.$refs.menu && this.$refs.menu.show(evt)
     },
-    hide () {
-      return this.$refs.popover ? this.$refs.popover.hide() : Promise.resolve()
+    hide (evt) {
+      this.$refs.menu && this.$refs.menu.hide(evt)
     }
   },
+
   mounted () {
-    this.$nextTick(() => {
-      if (this.value) {
-        this.$refs.popover && this.$refs.popover.show()
-      }
-    })
+    this.value && this.show()
   }
-}
+})

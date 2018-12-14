@@ -1,173 +1,92 @@
-import StepTab from './StepTab.js'
-import frameDebounce from '../../utils/frame-debounce.js'
+import Vue from 'vue'
 
-export default {
+import { PanelParentMixin } from '../../mixins/panel.js'
+import StepHeader from './StepHeader.js'
+
+export default Vue.extend({
   name: 'QStepper',
-  props: {
-    value: [Number, String],
-    color: {
-      type: String,
-      default: 'primary'
-    },
-    vertical: Boolean,
-    alternativeLabels: Boolean,
-    noHeaderNavigation: Boolean,
-    contractable: Boolean,
-    doneIcon: Boolean,
-    activeIcon: Boolean,
-    errorIcon: Boolean
-  },
-  data () {
-    return {
-      animation: null,
-      step: this.value || null,
-      steps: []
-    }
-  },
+
   provide () {
     return {
-      __stepper: this
+      stepper: this
     }
   },
-  watch: {
-    value (v) {
-      this.goToStep(v)
-    },
-    step (cur, old) {
-      if (!this.vertical) {
-        const
-          curIndex = this.steps.findIndex(step => step.name === cur),
-          oldIndex = this.steps.findIndex(step => step.name === old)
 
-        this.animation = curIndex < oldIndex
-          ? 'animate-fade-left'
-          : (curIndex > oldIndex ? 'animate-fade-right' : null)
-      }
-    }
+  mixins: [ PanelParentMixin ],
+
+  props: {
+    color: String,
+    dark: Boolean,
+
+    flat: Boolean,
+    bordered: Boolean,
+    vertical: Boolean,
+    alternativeLabels: Boolean,
+    headerNav: Boolean,
+    contractable: Boolean,
+
+    doneIcon: Boolean,
+    doneColor: String,
+    activeIcon: Boolean,
+    activeColor: String,
+    errorIcon: Boolean,
+    errorColor: String
   },
+
   computed: {
     classes () {
-      const cls = [
-        `q-stepper-${this.vertical ? 'vertical' : 'horizontal'}`,
-        `text-${this.color}`
-      ]
-      this.contractable && cls.push(`q-stepper-contractable`)
-      return cls
-    },
-    hasSteps () {
-      return this.steps.length > 0
-    },
-    currentStep () {
-      if (this.hasSteps) {
-        return this.steps.find(step => step.name === this.step)
+      return {
+        [`q-stepper--${this.vertical ? 'vertical' : 'horizontal'}`]: true,
+        'q-stepper--flat no-shadow': this.flat || this.dark,
+        'q-stepper--bordered': this.bordered || (this.dark && !this.flat),
+        'q-stepper--contractable': this.contractable,
+        'q-stepper--dark': this.dark
       }
-    },
-    currentOrder () {
-      if (this.currentStep) {
-        return this.currentStep.innerOrder
-      }
-    },
-    length () {
-      return this.steps.length
     }
   },
+
   methods: {
-    goToStep (value) {
-      if (this.step === value || value === void 0) {
-        return
+    __getContent (h) {
+      if (this.vertical) {
+        this.value && this.__updatePanelIndex()
+        return [
+          h('div', { staticClass: 'q-stepper__content' }, this.$slots.default)
+        ]
       }
 
-      this.step = value
+      return [
+        h('div', {
+          staticClass: 'q-stepper__header row items-stretch justify-between',
+          class: {
+            [`q-stepper__header--${this.alternativeLabels ? 'alternative' : 'standard'}-labels`]: true,
+            'q-stepper__header--border': !this.flat || this.bordered
+          }
+        }, this.__getAllPanels().map(panel => {
+          const step = panel.componentOptions.propsData
 
-      this.$emit('input', value)
-      this.$emit('step', value)
-      this.$nextTick(() => {
-        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-          this.$emit('change', value)
-        }
-      })
-    },
-    next () {
-      this.__go(1)
-    },
-    previous () {
-      this.__go(-1)
-    },
-    reset () {
-      if (this.hasSteps) {
-        this.goToStep(this.steps[0].name)
-      }
-    },
+          return h(StepHeader, {
+            key: step.name,
+            props: {
+              stepper: this,
+              step
+            }
+          })
+        })),
 
-    __go (offset) {
-      let
-        name,
-        index = this.currentOrder
-
-      if (index === void 0) {
-        if (!this.hasSteps) {
-          return
-        }
-        name = this.steps[0].name
-      }
-      else {
-        do {
-          index += offset
-        } while (index >= 0 && index < this.length - 1 && this.steps[index].disable)
-        if (index < 0 || index > this.length - 1 || this.steps[index].disable) {
-          return
-        }
-        name = this.steps[index].name
-      }
-
-      this.goToStep(name)
-    },
-    __sortSteps () {
-      this.steps.sort((a, b) => {
-        return a.actualOrder - b.actualOrder
-      })
-      const last = this.steps.length - 1
-      this.steps.forEach((step, index) => {
-        step.innerOrder = index
-        step.first = index === 0
-        step.last = index === last
-      })
-      this.$nextTick(() => {
-        if (!this.steps.some(step => step.active)) {
-          this.goToStep(this.steps[0].name)
-        }
-      })
-    },
-    __registerStep (vm) {
-      this.steps.push(vm)
-      this.__sortSteps()
-      return this
-    },
-    __unregisterStep (vm) {
-      this.steps = this.steps.filter(step => step !== vm)
+        h('div', {
+          staticClass: 'q-stepper__content relative-position overflow-hidden',
+          directives: this.panelDirectives
+        }, [
+          this.__getPanelContent(h)
+        ])
+      ]
     }
   },
-  created () {
-    this.__sortSteps = frameDebounce(this.__sortSteps)
-  },
+
   render (h) {
     return h('div', {
-      staticClass: 'q-stepper column overflow-hidden relative-position',
-      'class': this.classes
-    }, [
-      this.vertical
-        ? null
-        : h('div', {
-          staticClass: 'q-stepper-header row items-stretch justify-between shadow-1',
-          'class': { 'alternative-labels': this.alternativeLabels }
-        },
-        this.steps.map(step => h(StepTab, {
-          key: step.name,
-          props: {
-            vm: step
-          }
-        }))),
-      this.$slots.default
-    ])
+      staticClass: 'q-stepper generic-border-radius',
+      class: this.classes
+    }, this.__getContent(h).concat(this.$slots.navigation))
   }
-}
+})

@@ -1,59 +1,54 @@
 <template>
   <div>
-    <div class="layout-padding" :class="{ 'test-height': testHeight }">
-      <q-card>
-        <q-card-title>
-          Headings
-          <div slot="right" class="row">
-            <q-select v-model="testFont" :options="testFonts" hide-underline />
-            <q-toggle v-model="testHeight" left-label label="Test line heights" />
-          </div>
-        </q-card-title>
-        <q-card-separator />
-        <q-card-main>
+    <div class="q-layout-padding" :class="{ 'test-height': testHeight }">
+      <q-card class="q-my-md">
+        <q-card-section class="row items-center">
+          <div class="text-h6">Headings</div>
+          <q-space />
+          <q-select v-model="testFont" :options="testFonts" hide-underline />
+          <q-toggle v-model="testHeight" left-label label="Test line heights" />
+        </q-card-section>
+        <q-separator />
+        <q-card-section>
           <div v-for="heading in headings" class="row items-center q-mb-lg" :key="heading.label">
             <div class="col-sm-3 col-12">
-              <q-chip color="primary" square>.{{ heading.class }}</q-chip>
-              <q-chip color="secondary" square v-if="heading.equivalent">{{ heading.equivalent }}</q-chip>
+              <q-chip color="primary" text-color="white" square>.{{ heading.cls }}</q-chip>
+              <q-chip color="secondary" text-color="white" square v-if="heading.equivalent">{{ heading.equivalent }}</q-chip>
             </div>
-            <div class="col-sm-9 col-12 q-pl-md q-pt-md">
-              <div
-                class="q-mb-md test-row"
-                :class="[heading.class, `${heading.class}-opacity`]"
-                :style="{ fontFamily: testHeight ? testFont : null }"
-              >
-                {{ heading.label }}{{ testText }}
-              </div>
-              <div class="text-weight-light">
-                black <strong>{{ heading.color }}%</strong>, font weight <strong>{{ heading.weight }}</strong>
-              </div>
+            <div
+              class="col-sm-9 col-12"
+              :class="heading.cls"
+              :style="{ fontFamily: testHeight ? testFont : null }"
+            >
+              {{ heading.label }}{{ testText }}
             </div>
           </div>
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
-      <q-card>
-        <q-card-title>
-          Weights
-        </q-card-title>
-        <q-card-separator />
-        <q-card-main>
+      <q-card class="q-my-md">
+        <q-card-section>
+          <div class="text-h6">Weights</div>
+        </q-card-section>
+        <q-separator />
+        <q-card-section>
           <div v-for="weight in weights" class="row items-center q-mb-md" :key="weight">
             <div class="col-sm-3 col-12">
-              <q-chip color="primary" square>.text-weight-{{ weight }}</q-chip>
+              <q-chip color="primary" text-color="white" square>.text-weight-{{ weight }}</q-chip>
             </div>
             <div class="col-sm-9 col-12 q-mb-none q-pl-md q-pt-sm q-pb-sm">
               <div :class="`text-weight-${weight}`"> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
             </div>
           </div>
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
-      <q-card>
-        <q-card-title>
-          Blockquotes
-        </q-card-title>
-        <q-card-main>
+      <q-card class="q-my-md">
+        <q-card-section>
+          <div class="text-h6">Blockquotes</div>
+        </q-card-section>
+        <q-separator />
+        <q-card-section>
           <blockquote>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
             <small>Someone famous for <cite title="Quasar Framework">Quasar Framework</cite></small>
@@ -63,14 +58,15 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
             <small>Someone famous for <cite title="Quasar Framework">Quasar Framework</cite></small>
           </blockquote>
-        </q-card-main>
+        </q-card-section>
       </q-card>
 
-      <q-card>
-        <q-card-title>
-          Definition Lists
-        </q-card-title>
-        <q-card-main>
+      <q-card class="q-my-md">
+        <q-card-section>
+          <div class="text-h6">Definition Lists</div>
+        </q-card-section>
+        <q-separator />
+        <q-card-section>
           <p class="caption">Vertical</p>
 
           <dl>
@@ -93,16 +89,7 @@
             <dt>Malesuada porta</dt>
             <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
           </dl>
-        </q-card-main>
-      </q-card>
-
-      <q-card>
-        <q-card-title>
-          Links
-        </q-card-title>
-        <q-card-main>
-          <p>Links: <a>Some link</a> and <a>Some other link</a>.</p>
-        </q-card-main>
+        </q-card-section>
       </q-card>
     </div>
   </div>
@@ -131,16 +118,18 @@ export default {
   data () {
     return {
       headings: [
-        {label: 'Light 112sp', 'class': 'q-display-4', equivalent: 'h1', color: 54, weight: 300},
-        {label: 'Regular 56sp', 'class': 'q-display-3', equivalent: 'h2', color: 54, weight: 400},
-        {label: 'Regular 45sp', 'class': 'q-display-2', equivalent: 'h3', color: 54, weight: 400},
-        {label: 'Regular 34sp', 'class': 'q-display-1', equivalent: 'h4', color: 54, weight: 400},
-        {label: 'Regular 24sp', 'class': 'q-headline', equivalent: 'h5', color: 87, weight: 400},
-        {label: 'Medium 20sp', 'class': 'q-title', equivalent: 'h6', color: 87, weight: 500},
-        {label: 'Regular 16sp', 'class': 'q-subheading', color: 87, weight: 400},
-        {label: 'Medium 14sp', 'class': 'q-body-2', color: 87, weight: 500},
-        {label: 'Regular 14sp', 'class': 'q-body-1', color: 87, weight: 400},
-        {label: 'Regular 12sp', 'class': 'q-caption', color: 54, weight: 400}
+        { label: 'Headline 1', cls: 'text-h1', equivalent: 'h1' },
+        { label: 'Headline 2', cls: 'text-h2', equivalent: 'h2' },
+        { label: 'Headline 3', cls: 'text-h3', equivalent: 'h3' },
+        { label: 'Headline 4', cls: 'text-h4', equivalent: 'h4' },
+        { label: 'Headline 5', cls: 'text-h5', equivalent: 'h5' },
+        { label: 'Headline 6', cls: 'text-h6', equivalent: 'h6' },
+        { label: 'Subtitle 1', cls: 'text-subtitle1' },
+        { label: 'Subtitle 2', cls: 'text-subtitle2' },
+        { label: 'Body 1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.', cls: 'text-body1' },
+        { label: 'Body 2. Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate aliquid ad quas sunt voluptatum officia dolorum cumque, possimus nihil molestias sapiente necessitatibus dolor saepe inventore, soluta id accusantium voluptas beatae.', cls: 'text-body2' },
+        { label: 'Caption text', cls: 'text-caption' },
+        { label: 'Overline', cls: 'text-overline' }
       ],
       weights: [
         'thin', 'light', 'regular', 'medium', 'bold', 'bolder'

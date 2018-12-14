@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding docs-touch row justify-center">
+  <div class="q-layout-padding docs-touch row justify-center">
     <div style="width: 500px; max-width: 90vw;">
       <p class="caption">
         <span class="desktop-only">Click and hold with your mouse</span>
@@ -17,7 +17,7 @@
           <pre>{{ info }}</pre>
         </div>
         <div v-else class="text-center">
-          Click/touch and hold for at least 800ms.
+          Click/touch and hold for at least 600ms.
         </div>
       </div>
 
@@ -52,8 +52,11 @@ export default {
       // native Javascript event
       console.log(evt)
     },
-    holdExtended ({ position, duration }) {
+    holdExtended ({ position, duration, evt }) {
       this.infoExtended = { position, duration }
+
+      // native Javascript event
+      console.log(evt)
     }
   }
 }

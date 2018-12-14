@@ -1,55 +1,40 @@
 body
   min-width 100px
+  min-height 100vh
   font-family $typography-font-family
   -ms-text-size-adjust 100%
   -webkit-text-size-adjust 100%
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   font-smoothing antialiased
-  background $body-background
-  color $body-color
-  min-height 100vh
+  line-height $body-line-height
+  font-size $body-font-size
 
 for $heading, $value in $h-tags
   {$heading}
     font-size: $value.size
     font-weight: $value.weight
-    if $value.line-height
-      line-height: $value.line-height
-    if $value.letter-spacing
-      letter-spacing: $value.letter-spacing
-    @media screen and (max-width $breakpoint-sm)
-      font-size: ($value.size * .6)
-
-for $heading, $value in $headings
-  .q-{$heading}-opacity
-    opacity: $value.opacity
-  .q-{$heading}
-    font-size: $value.size
-    font-weight: $value.weight
-    if $value.line-height
-      line-height: $value.line-height
-    if $value.letter-spacing
-      letter-spacing: $value.letter-spacing
+    line-height: $value.line-height
+    letter-spacing: $value.letter-spacing
 
 p
   margin: 0 0 $spaces.md.y
 
-.caption
-  color $grey-9
-  letter-spacing 0
-  line-height 24px
-  padding 0
-  font-weight 300
-
-.uppercase
-  text-transform uppercase
-.lowercase
-  text-transform lowercase
-.capitalize
-  text-transform capitalize
-
 .text-
+  for $heading, $value in $headings
+    &{$heading}
+      font-size: $value.size
+      font-weight: $value.weight
+      line-height: $value.line-height
+      letter-spacing: $value.letter-spacing
+
+  &uppercase
+    text-transform uppercase
+  &lowercase
+    text-transform lowercase
+  &capitalize
+    text-transform capitalize
+
   &center
     text-align center
   &left
@@ -136,14 +121,3 @@ dl
       white-space nowrap
     dd
       margin-left 30%
-
-hr
-  &.q-hr, &.q-hr-dark
-    height 1px
-    min-height 1px
-    display block
-    border none
-    width 100%
-    background rgba(0, 0, 0, .12)
-  &.q-hr-dark
-    background rgba(255, 255, 255, .36)

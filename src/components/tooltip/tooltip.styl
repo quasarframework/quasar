@@ -1,0 +1,15 @@
+.q-tooltip
+  position fixed !important
+  font-size $tooltip-fontsize
+  color $tooltip-color
+  background $tooltip-background
+  z-index $z-tooltip
+  padding $tooltip-padding
+  border-radius $tooltip-border-radius
+  overflow-y auto
+  overflow-x hidden
+  pointer-events none
+
+  @media (max-width $breakpoint-xs-max)
+    font-size $tooltip-mobile-fontsize
+    padding $tooltip-mobile-padding

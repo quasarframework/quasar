@@ -1,4 +1,4 @@
-const units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB']
+const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 
 export function humanStorageSize (bytes) {
   let u = 0
@@ -16,10 +16,9 @@ export function capitalize (str) {
 }
 
 export function between (v, min, max) {
-  if (max <= min) {
-    return min
-  }
-  return Math.min(max, Math.max(min, v))
+  return max <= min
+    ? min
+    : Math.min(max, Math.max(min, v))
 }
 
 export function normalizeToInterval (v, min, max) {

@@ -1,6 +1,7 @@
 import './polyfills.js'
 import { version } from '../package.json'
 import Platform, { isSSR } from './plugins/platform.js'
+import Screen from './plugins/screen.js'
 import History from './history.js'
 import I18n from './i18n.js'
 import Body from './body.js'
@@ -12,8 +13,7 @@ export const queues = {
 }
 
 export const $q = {
-  version,
-  theme: process.env.THEME
+  version
 }
 
 export default function (Vue, opts = {}) {
@@ -23,11 +23,12 @@ export default function (Vue, opts = {}) {
   const cfg = opts.config || {}
 
   // required plugins
-  Platform.install($q, queues, Vue)
+  Platform.install($q, queues)
   Body.install($q, queues, cfg)
+  Screen.install($q, queues)
   History.install($q, cfg)
-  I18n.install($q, queues, Vue, opts.i18n)
-  Icons.install($q, Vue, opts.iconSet)
+  I18n.install($q, queues, opts.i18n)
+  Icons.install($q, opts.iconSet)
 
   if (isSSR) {
     Vue.mixin({
@@ -42,8 +43,8 @@ export default function (Vue, opts = {}) {
 
   opts.components && Object.keys(opts.components).forEach(key => {
     const c = opts.components[key]
-    if (c.name !== undefined && (c.render !== void 0 || c.mixins !== void 0)) {
-      Vue.component(c.name, c)
+    if (typeof c === 'function') {
+      Vue.component(c.options.name, c)
     }
   })
 
@@ -55,10 +56,10 @@ export default function (Vue, opts = {}) {
   })
 
   if (opts.plugins) {
-    const param = { $q, queues, Vue, cfg }
+    const param = { $q, queues, cfg }
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
-      if (typeof p.install === 'function' && p !== Platform) {
+      if (typeof p.install === 'function' && p !== Platform && p !== Screen) {
         p.install(param)
       }
     })

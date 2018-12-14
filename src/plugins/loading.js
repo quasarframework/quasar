@@ -1,8 +1,11 @@
+import Vue from 'vue'
+
 import QSpinner from '../components/spinner/QSpinner.js'
 import { isSSR } from './platform.js'
+import uid from '../utils/uid.js'
 
 let
-  vm,
+  vm = null,
   timeout,
   props = {},
   defaults = {
@@ -11,11 +14,10 @@ let
     spinnerSize: 80,
     spinnerColor: 'white',
     messageColor: 'white',
+    backgroundColor: 'black',
     spinner: QSpinner,
-    customClass: false
+    customClass: ''
   }
-
-const staticClass = 'q-loading animate-fade fullscreen column flex-center z-max'
 
 export default {
   isActive: false,
@@ -25,12 +27,15 @@ export default {
 
     props = Object.assign({}, defaults, opts)
 
-    if (typeof props.customClass === 'string') {
-      props.customClass = props.customClass.trim()
-    }
+    props.customClass += ` text-${props.backgroundColor}`
 
     if (this.isActive) {
-      vm && vm.$forceUpdate()
+      if (vm) {
+        if (!vm.isActive) {
+          vm.isActive = true
+        }
+        vm.$forceUpdate()
+      }
       return
     }
 
@@ -39,30 +44,46 @@ export default {
 
       const node = document.createElement('div')
       document.body.appendChild(node)
-      document.body.classList.add('with-loading')
+      document.body.classList.add('q-body--loading')
 
-      vm = new this.__Vue({
+      vm = new Vue({
         name: 'QLoading',
         el: node,
+        data () {
+          return {
+            isActive: true
+          }
+        },
         render (h) {
-          return h('div', {
-            staticClass,
-            'class': props.customClass
-          }, [
-            h(props.spinner, {
-              props: {
-                color: props.spinnerColor,
-                size: props.spinnerSize
+          return h('transition', {
+            props: {
+              name: 'q-transition--fade',
+              appear: true
+            },
+            on: {
+              'after-leave': () => {
+                this.$emit('destroy')
               }
-            }),
-            props.message
-              ? h('div', {
-                'class': `text-${props.messageColor}`,
+            }
+          }, [
+            this.isActive ? h('div', {
+              staticClass: 'q-loading fullscreen column flex-center z-max',
+              key: uid(),
+              class: props.customClass.trim()
+            }, [
+              h(props.spinner, {
+                props: {
+                  color: props.spinnerColor,
+                  size: props.spinnerSize
+                }
+              }),
+              (props.message && h('div', {
+                class: `text-${props.messageColor}`,
                 domProps: {
                   innerHTML: props.message
                 }
-              })
-              : null
+              })) || void 0
+            ]) : null
           ])
         }
       })
@@ -70,6 +91,7 @@ export default {
 
     this.isActive = true
   },
+
   hide () {
     if (!this.isActive) {
       return
@@ -78,25 +100,27 @@ export default {
     if (timeout) {
       clearTimeout(timeout)
       timeout = null
+      this.isActive = false
     }
     else {
-      vm.$destroy()
-      document.body.classList.remove('with-loading')
-      vm.$el.remove()
-      vm = null
+      vm.isActive = false
+      vm.$on('destroy', () => {
+        vm.$destroy()
+        document.body.classList.remove('q-body--loading')
+        vm.$el.remove()
+        vm = null
+        this.isActive = false
+      })
     }
-
-    this.isActive = false
   },
+
   setDefaults (opts) {
     Object.assign(defaults, opts)
   },
 
-  __Vue: null,
-  install ({ $q, Vue, cfg: { loading } }) {
+  install ({ $q, cfg: { loading } }) {
     loading && this.setDefaults(loading)
 
     $q.loading = this
-    this.__Vue = Vue
   }
 }

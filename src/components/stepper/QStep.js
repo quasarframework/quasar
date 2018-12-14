@@ -1,136 +1,78 @@
-import QSlideTransition from '../slide-transition/QSlideTransition.js'
-import StepTab from './StepTab.js'
-import uid from '../../utils/uid.js'
+import Vue from 'vue'
 
-export default {
+import QSlideTransition from '../slide-transition/QSlideTransition.js'
+import { PanelChildMixin } from '../../mixins/panel.js'
+import StepHeader from './StepHeader.js'
+
+export default Vue.extend({
   name: 'QStep',
+
   inject: {
-    __stepper: {
+    stepper: {
       default () {
         console.error('QStep needs to be child of QStepper')
       }
     }
   },
+
+  mixins: [ PanelChildMixin ],
+
   props: {
-    name: {
-      type: [Number, String],
-      default () {
-        return uid()
-      }
-    },
-    default: Boolean,
+    icon: String,
+    color: String,
     title: {
       type: String,
       required: true
     },
-    subtitle: String,
-    icon: String,
-    order: [Number, String],
-    error: Boolean,
-    activeIcon: String,
-    errorIcon: String,
-    doneIcon: String,
-    disable: Boolean
+    caption: String,
+
+    doneIcon: Boolean,
+    doneColor: String,
+    activeIcon: Boolean,
+    activeColor: String,
+    errorIcon: Boolean,
+    errorColor: String,
+
+    headerNav: {
+      type: Boolean,
+      default: true
+    },
+    done: Boolean,
+    error: Boolean
   },
-  watch: {
-    order () {
-      this.__stepper.__sortSteps()
-    }
-  },
-  data () {
-    return {
-      innerOrder: 0,
-      first: false,
-      last: false
-    }
-  },
+
   computed: {
-    stepIcon () {
-      const data = this.__stepper
-
-      if (this.active) {
-        return this.activeIcon || data.activeIcon || this.$q.icon.stepper.active
-      }
-      if (this.error) {
-        return this.errorIcon || data.errorIcon || this.$q.icon.stepper.error
-      }
-      if (this.done && !this.disable) {
-        return this.doneIcon || data.doneIcon || this.$q.icon.stepper.done
-      }
-
-      return this.icon
-    },
-    actualOrder () {
-      return parseInt(this.order || this.innerOrder, 10)
-    },
-    active () {
-      return this.__stepper.step === this.name
-    },
-    done () {
-      return !this.disable && this.__stepper.currentOrder > this.innerOrder
-    },
-    waiting () {
-      return !this.disable && this.__stepper.currentOrder < this.innerOrder
-    },
-    style () {
-      const ord = this.actualOrder
-      return {
-        '-webkit-box-ordinal-group': ord,
-        '-ms-flex-order': ord,
-        order: ord
-      }
-    },
-    classes () {
-      if (!this.__stepper.vertical) {
-        const cls = []
-        !this.active && cls.push('hidden')
-        this.__stepper.animation !== null && cls.push(this.__stepper.animation)
-        return cls
-      }
+    isActive () {
+      return this.stepper.value === this.name
     }
   },
-  methods: {
-    select () {
-      if (this.done) {
-        this.__stepper.goToStep(this.name)
-      }
-    },
 
-    __getContainer (h) {
-      const content = this.active
-        ? h('div', {
-          staticClass: 'q-stepper-step-content',
-          'class': this.classes
-        }, [
-          h('div', {
-            staticClass: 'q-stepper-step-inner'
-          }, this.$slots.default)
-        ])
-        : null
+  render (h) {
+    const content = this.isActive
+      ? h('div', {
+        staticClass: 'q-stepper__step-content'
+      }, [
+        h('div', {
+          staticClass: 'q-stepper__step-inner'
+        }, this.$slots.default)
+      ])
+      : null
 
-      return this.__stepper.vertical
+    return h('div', {
+      staticClass: 'q-stepper__step'
+    }, [
+      this.stepper.vertical
+        ? h(StepHeader, {
+          props: {
+            stepper: this.stepper,
+            step: this
+          }
+        })
+        : null,
+
+      this.stepper.vertical && this.stepper.animated
         ? h(QSlideTransition, [ content ])
         : content
-    }
-  },
-  mounted () {
-    this.__stepper.__registerStep(this)
-    if (this.default) {
-      this.select()
-    }
-  },
-  beforeDestroy () {
-    this.__stepper.__unregisterStep(this)
-  },
-  render (h) {
-    return h('div', {
-      staticClass: 'q-stepper-step',
-      style: this.style
-    }, [
-      this.__stepper.vertical
-        ? h(StepTab, { props: { vm: this } })
-        : null,
-      this.__getContainer(h)
     ])
   }
-}
+})

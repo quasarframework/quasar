@@ -1,26 +1,28 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{ model }}</em></span>
       </div>
 
-      <p class="caption">Default</p>
-      <q-knob
-        v-model="model"
-        :min="min"
-        :max="max"
-        @change="onChange"
-        @input="onInput"
-      />
-      <q-knob
-        class="text-primary"
-        :value="model"
-        :min="min"
-        :max="max"
-        @change="val => { model = val; onChange(val) }"
-        @input="onInput"
-      />
+      <p class="caption">Default (@input, @change)</p>
+      <div class="q-gutter-sm">
+        <q-knob
+          v-model="model"
+          :min="min"
+          :max="max"
+          @change="onChange"
+          @input="onInput"
+        />
+        <q-knob
+          :value="model"
+          :min="min"
+          :max="max"
+          :angle="90"
+          @change="val => { model = val; onChange(val) }"
+          @input="onInput"
+        />
+      </div>
 
       <p class="caption">With Step ({{ min }} to {{ max }}, step 10)</p>
       <q-knob
@@ -30,30 +32,30 @@
         :step="10"
       />
 
-      <p class="caption">With Step ({{ min }} to {{ maxSmall }}, step 0.01) - decimals set to 1</p>
+      <p class="caption">With Step ({{ min }} to {{ maxSmall }}, step 0.01)</p>
       <q-knob
         v-model="modelSmall"
         :min="min"
         :max="maxSmall"
         :step="0.01"
-        :decimals="1"
       />
 
-      <p class="caption">With Step ({{ min }} to {{ maxSmall }}, step 0.01) - decimals not set (auto 2)</p>
+      <p class="caption">With Step ({{ min }} to {{ max }}, step 0) -- {{ modelZero }}</p>
       <q-knob
-        v-model="modelSmall"
+        v-model="modelZero"
         :min="min"
-        :max="maxSmall"
-        :step="0.01"
+        :max="max"
+        :step="0"
       />
 
       <p class="caption">Styling</p>
-      <div class="group">
+      <div class="q-gutter-md">
         <q-knob
           v-model="model"
           size="150px"
+          font-size="38px"
           color="red"
-          line-width="2px"
+          :thickness="0.05"
           track-color="white"
           :min="min"
           :max="max"
@@ -62,26 +64,30 @@
         </q-knob>
 
         <q-knob
+          class="text-white"
           v-model="model"
-          style="font-size: 3rem"
           color="amber-7"
+          track-color="transparent"
+          center-color="grey-8"
+          :thickness="0.2"
           :min="min"
           :max="max"
           :step="5"
         />
 
         <q-knob
+          class="text-white"
           v-model="model"
           size="120px"
-          style="font-size: 1.5rem"
+          font-size="42px"
           color="secondary"
-          track-color="yellow-3"
-          line-width="5px"
+          track-color="tertiary"
+          :thickness="0.3"
           :min="min"
           :max="max"
           :step="5"
         >
-          <q-icon class="on-left" name="euro_symbol" /> {{ model }}
+          <q-icon name="euro_symbol" /> {{ model }}
         </q-knob>
       </div>
 
@@ -93,7 +99,7 @@
         color="primary"
         readonly
       >
-        <q-icon class="on-left" name="volume_up" /> {{ model }}
+        <q-icon name="volume_up" /> {{ model }}
       </q-knob>
 
       <p class="caption">Disabled state</p>
@@ -103,22 +109,21 @@
         :max="max"
         disable
       >
-        <q-icon class="on-left" name="volume_up" /> {{ model }}
+        <q-icon name="volume_up" /> {{ model }}
       </q-knob>
 
       <p class="caption">Inside Field</p>
-      <q-field
-        label="Knob"
-        helper="Touch to change"
-        icon="cake"
-      >
+      <q-field>
         <q-knob
           v-model="model"
           :min="min"
           :max="max"
         >
-          <q-icon class="on-left" name="volume_up" /> {{ model }}
+          <q-icon name="volume_up" /> {{ model }}
         </q-knob>
+
+        <q-icon slot="before" name="cake" />
+        <div slot="message">Touch to change</div>
       </q-field>
     </div>
   </div>
@@ -129,6 +134,7 @@ export default {
   data () {
     return {
       model: 30,
+      modelZero: 20.03,
       modelSmall: 1.1,
       min: 0,
       max: 50,

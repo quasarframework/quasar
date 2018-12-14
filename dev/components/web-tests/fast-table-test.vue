@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <!--
       This is for fast tests.
       Use this page but don't add it into your commits (leave it outside

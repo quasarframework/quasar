@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="q-layout-padding">
     <div>{{ storage }}</div>
     <q-btn-group>
       <q-btn label="Toggle test1" @click="toggle('test1')" />
@@ -46,6 +46,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables'
+@import '~quasar-variables'
 
 </style>

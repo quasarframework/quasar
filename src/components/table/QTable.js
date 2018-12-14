@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import Top from './table-top.js'
 import TableHeader from './table-header.js'
 import TableBody from './table-body.js'
@@ -8,11 +10,11 @@ import Filter from './table-filter.js'
 import Pagination from './table-pagination.js'
 import RowSelection from './table-row-selection.js'
 import ColumnSelection from './table-column-selection.js'
-import Expand from './table-expand.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
-export default {
+export default Vue.extend({
   name: 'QTable',
+
   mixins: [
     FullscreenMixin,
     Top,
@@ -23,9 +25,9 @@ export default {
     Filter,
     Pagination,
     RowSelection,
-    ColumnSelection,
-    Expand
+    ColumnSelection
   ],
+
   props: {
     data: {
       type: Array,
@@ -41,12 +43,18 @@ export default {
     },
     grid: Boolean,
     dense: Boolean,
+    breakpoint: {
+      type: Number,
+      default: 1023
+    },
     columns: Array,
     loading: Boolean,
     title: String,
     hideHeader: Boolean,
     hideBottom: Boolean,
     dark: Boolean,
+    flat: Boolean,
+    bordered: Boolean,
     separator: {
       type: String,
       default: 'horizontal',
@@ -68,6 +76,30 @@ export default {
       default: ''
     }
   },
+
+  data () {
+    return {
+      aboveBreakpoint: this.$q.screen.width > this.breakpoint,
+
+      rowsExpanded: {},
+      innerPagination: {
+        sortBy: null,
+        descending: false,
+        page: 1,
+        rowsPerPage: 5
+      }
+    }
+  },
+
+  watch: {
+    '$q.screen.width' (val) {
+      const v = val > this.breakpoint
+      if (this.aboveBreakpoint !== v) {
+        this.aboveBreakpoint = v
+      }
+    }
+  },
+
   computed: {
     computedData () {
       let rows = this.data.slice().map((row, i) => {
@@ -103,29 +135,41 @@ export default {
 
       return { rowsNumber, rows }
     },
+
     computedRows () {
       return this.computedData.rows
     },
+
     computedRowsNumber () {
       return this.isServerSide
         ? this.computedPagination.rowsNumber || 0
         : this.computedData.rowsNumber
     },
+
     nothingToDisplay () {
       return this.computedRows.length === 0
     },
+
     isServerSide () {
       return this.computedPagination.rowsNumber !== void 0
+    },
+
+    computedDense () {
+      return this.dense === true || this.aboveBreakpoint === false
     }
   },
+
   render (h) {
     return h('div',
       {
-        'class': {
-          'q-table-grid': this.grid,
-          'q-table-container': true,
-          'q-table-dark': this.dark,
-          'q-table-dense': this.dense,
+        staticClass: 'q-table__container',
+        class: {
+          'q-table--grid': this.grid,
+          'q-table--dark': this.dark,
+          'q-table--dense': this.computedDense,
+          'q-table--flat': this.flat,
+          'q-table--bordered': this.bordered,
+          [`q-table--${this.separator}-separator`]: true,
           fullscreen: this.inFullscreen,
           scroll: this.inFullscreen
         }
@@ -137,6 +181,7 @@ export default {
       ]
     )
   },
+
   methods: {
     requestServerInteraction (prop) {
       this.$nextTick(() => {
@@ -147,16 +192,20 @@ export default {
         })
       })
     },
+
     getBody (h) {
       const hasHeader = !this.hideHeader
 
-      if (this.grid) {
+      if (this.grid === true) {
         const item = this.$scopedSlots.item
 
         if (item !== void 0) {
           return [
-            (hasHeader && h('div', { staticClass: 'q-table-middle scroll' }, [
-              h('table', { staticClass: `q-table${this.dark ? ' q-table-dark' : ''}` }, [
+            (hasHeader && h('div', { staticClass: 'q-table__middle scroll' }, [
+              h('table', {
+                staticClass: 'q-table',
+                class: { 'q-table--dark': this.dark }
+              }, [
                 this.getTableHeader(h)
               ])
             ])) || null,
@@ -177,14 +226,15 @@ export default {
         }
       }
 
-      return h('div', { staticClass: 'q-table-middle scroll', 'class': this.tableClass, style: this.tableStyle }, [
-        h('table', { staticClass: `q-table q-table-${this.separator}-separator${this.dark ? ' q-table-dark' : ''}` },
-          [
-            (hasHeader && this.getTableHeader(h)) || null,
-            this.getTableBody(h)
-          ]
-        )
+      return h('div', { staticClass: 'q-table__middle scroll', class: this.tableClass, style: this.tableStyle }, [
+        h('table', {
+          staticClass: 'q-table',
+          class: this.dark ? ' q-table--dark' : ''
+        }, [
+          (hasHeader && this.getTableHeader(h)) || null,
+          this.getTableBody(h)
+        ])
       ])
     }
   }
-}
+})

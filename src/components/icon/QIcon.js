@@ -1,19 +1,23 @@
-const prefix = process.env.THEME === 'mat' ? 'md' : 'ios'
+import Vue from 'vue'
 
-export default {
+export default Vue.extend({
   name: 'QIcon',
+
   props: {
     name: String,
     color: String,
-    size: String
+    size: String,
+    left: Boolean,
+    right: Boolean
   },
+
   computed: {
     classes () {
       let cls
       const icon = this.name
 
       if (!icon) {
-        return ''
+        return
       }
       else if (/^fa[s|r|l|b]{0,1} /.test(icon) || icon.startsWith('icon-')) {
         cls = icon
@@ -28,7 +32,7 @@ export default {
         cls = `ionicons ${icon}`
       }
       else if (icon.startsWith('ion-')) {
-        cls = `ionicons ion-${prefix}${icon.substr(3)}`
+        cls = `ionicons ion-${this.$q.platform.is.ios ? 'ios' : 'md'}${icon.substr(3)}`
       }
       else if (icon.startsWith('mdi-')) {
         cls = `mdi ${icon}`
@@ -37,30 +41,37 @@ export default {
         cls = 'material-icons'
       }
 
-      return this.color
-        ? `${cls} text-${this.color}`
-        : cls
+      return {
+        [`text-${this.color}`]: this.color,
+        [cls]: true,
+        'on-left': this.left,
+        'on-right': this.right
+      }
     },
+
     content () {
-      return this.classes.startsWith('material-icons')
-        ? this.name.replace(/ /g, '_')
+      return this.classes && this.classes['material-icons']
+        ? this.name
         : ' '
     },
+
     style () {
       if (this.size) {
         return { fontSize: this.size }
       }
     }
   },
+
   render (h) {
     return h('i', {
       staticClass: 'q-icon',
-      'class': this.classes,
+      class: this.classes,
       style: this.style,
-      attrs: { 'aria-hidden': true }
+      attrs: { 'aria-hidden': true },
+      on: this.$listeners
     }, [
       this.content,
       this.$slots.default
     ])
   }
-}
+})

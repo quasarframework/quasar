@@ -5,20 +5,21 @@
     </transition>
     <div
       style="padding: 10px; right: 10px; bottom: 10px"
-      class="bg-white shadow-4 fixed z-top"
+      class="generic-border-radius bg-white shadow-4 fixed z-top"
     >
       <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" />
       <template v-if="showSelector">
+        <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="lang = lang === 'en-us' ? 'he' : 'en-us'" class="absolute-bottom-right z-top" />
         <q-select
-          hide-underline
-          stack-label="I18n"
+          label="I18n"
+          dense
+          borderless
           :options="[
             { label: 'English (US)', value: 'en-us' }
             ,{ label: 'English (UK)', value: 'en-uk' }
             ,{ label: 'Romanian', value: 'ro' }
             ,{ label: 'Hebrew', value: 'he' }
             ,{ label: 'Chinese (Simplified)', value: 'zh-hans' }
-            ,{ label: 'Chinese (Traditional)', value: 'zh-hant' }
             ,{ label: 'Italian', value: 'it' }
             ,{ label: 'Spanish', value: 'es' }
             ,{ label: 'Swedish', value: 'sv' }
@@ -33,17 +34,25 @@
             ,{ label: 'Polish', value: 'pl' }
             ,{ label: 'Czech', value: 'cs' }
           ]"
+          emit-value
+          map-options
+          dense-options
           v-model="lang"
         />
         <q-select
-          hide-underline
-          stack-label="Icon set"
+          label="Icon set"
+          dense
+          borderless
           :options="[
             { label: 'Material', value: 'material-icons' }
             ,{ label: 'MDI', value: 'mdi' }
             ,{ label: 'Ionicons', value: 'ionicons' }
             ,{ label: 'Fontawesome', value: 'fontawesome' }
+            ,{ label: 'Eva Icons', value: 'eva-icons' }
           ]"
+          emit-value
+          map-options
+          dense-options
           v-model="iconSet"
         />
       </template>

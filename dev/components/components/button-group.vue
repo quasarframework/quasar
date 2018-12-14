@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding button-group-test">
+  <div class="q-layout-padding button-group-test">
     <q-btn-group push>
       <q-btn color="yellow" push to="/a">
         Link /a
@@ -8,6 +8,18 @@
         Link /b
       </q-btn>
       <q-btn color="orange" push to="/c">
+        Link /c
+      </q-btn>
+    </q-btn-group>
+
+    <q-btn-group unelevated>
+      <q-btn color="yellow" unelevated to="/a">
+        Link /a
+      </q-btn>
+      <q-btn color="amber" unelevated to="/b">
+        Link /b
+      </q-btn>
+      <q-btn color="orange" unelevated to="/c">
         Link /c
       </q-btn>
     </q-btn-group>

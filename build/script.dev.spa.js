@@ -11,7 +11,7 @@ const
 console.log()
 console.log(` ☕️ Preparing for Quasar v${env.quasarVersion}`)
 console.log()
-console.log(` 🚀 Starting dev server with ${env.theme.toUpperCase()} theme...`)
+console.log(` 🚀 Starting dev server...`)
 console.log(`    Will listen at ${env.uri}`)
 console.log(`    Browser will open when build is ready.\n`)
 

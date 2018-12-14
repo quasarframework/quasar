@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <div>
-        <div class="row gutter-sm items-center">
+        <div class="row q-gutter-sm items-center">
           <div class="col-xs-12 col-md-4">
             <q-select v-model="tickStrategy" :options="[
               {label: 'None', value: 'none'},
               {label: 'Leaf', value: 'leaf'},
               {label: 'Leaf Filtered', value: 'leaf-filtered'},
               {label: 'Strict', value: 'strict'}
-            ]" stack-label="Tick Strategy" />
+            ]" label="Tick Strategy" />
           </div>
           <div class="col-xs-12 col-md-4">
             <q-toggle v-model="accordion" label="Accordion mode" />
@@ -17,7 +17,7 @@
             <q-toggle v-model="selectableNodes" label="Selectable nodes" />
           </div>
           <div class="col-xs-12 col-md-4">
-            <q-input v-model="filter" stack-label="Filter" />
+            <q-input v-model="filter" label="Filter" />
           </div>
           <div class="col-6 scroll" style="height: 6em;">
             <span class="text-bold">Ticked</span>:<br>{{ ticked }}
@@ -25,7 +25,7 @@
           <div class="col-6 scroll" style="height: 6em;">
             <span class="text-bold">Expanded</span>:<br>{{ expanded }}
           </div>
-          <div v-if="selectableNodes" class="col-xs-12 col-md-6">
+          <div v-if="selectableNodes" class="col-xs-12 col-md-6" style="min-height: 60px">
             <span class="text-bold">Selected</span>:<br>{{ selected }}
           </div>
           <div class="col-xs-12 col-md-6">
@@ -59,10 +59,16 @@
             </div>
           -->
           <div slot="header-custom" slot-scope="prop" class="row items-center">
-            <q-icon :name="prop.node.icon" size="32px" class="q-mr-sm" />
+            <q-icon :name="prop.node.icon" class="q-tree__icon q-mr-sm" />
+            <q-avatar class="q-mr-sm">
+              <img src="statics/boy-avatar.png">
+            </q-avatar>
             <div>
-              {{ prop.node.label }} <q-chip color="red">New</q-chip>
-              <br>Wooooow. Custom
+              <div class="row items-center">
+                <span>{{ prop.node.label }}</span>
+                <q-chip color="red" text-color="white" dense>New</q-chip>
+              </div>
+              <div>Wooooow. Custom</div>
             </div>
           </div>
 
@@ -71,6 +77,8 @@
           </div>
         </q-tree>
       </div>
+
+      <div class="invisible" style="height: 500px">Scroll (on purpose)</div>
     </div>
   </div>
 </template>

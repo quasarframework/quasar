@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="q-layout-padding">
       <p class="caption">
         <span class="desktop-only">Click</span>
         <span class="mobile-only">Tap</span>
@@ -10,43 +10,32 @@
 
       <div class="column items-center" style="margin-top: 100px; margin-bottom: 100px;">
         <q-fab color="purple" icon="keyboard_arrow_up" direction="up">
-          <q-fab-action @click="notify('mail')" icon="mail" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
         </q-fab>
 
         <br>
 
         <q-fab v-model="toggle" icon="keyboard_arrow_left" direction="left">
-          <q-fab-action @click="notify('mail')" icon="mail" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="primary" @click="notify('mail')" icon="mail" />
+          <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
         </q-fab>
 
         <br>
 
         <q-fab color="secondary" push icon="keyboard_arrow_right" direction="right">
           <q-fab-action color="primary" @click="notify('mail')" icon="mail" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
-          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
         </q-fab>
 
         <br>
 
         <q-fab color="tertiary" glossy icon="keyboard_arrow_down" direction="down">
           <q-fab-action color="amber" @click="notify('mail')" icon="mail" />
-          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
-          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
-          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
-          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
           <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
         </q-fab>
       </div>
@@ -68,10 +57,10 @@
         @show="openFab"
         @hide="closeFab"
       >
-        <q-fab-action color="blue" class="white" icon="person add">
+        <q-fab-action color="blue" class="white" icon="person_add">
           <q-tooltip ref="tooltip1" anchor="center left" self="center right" :offset="[20, 0]">Add a person</q-tooltip>
         </q-fab-action>
-        <q-fab-action color="blue" class="white" icon="group add">
+        <q-fab-action color="blue" class="white" icon="group_add">
           <q-tooltip ref="tooltip2" anchor="center left" self="center right" :offset="[20, 0]">Add a group</q-tooltip>
         </q-fab-action>
       </q-fab>

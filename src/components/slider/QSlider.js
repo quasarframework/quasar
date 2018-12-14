@@ -1,175 +1,203 @@
+import Vue from 'vue'
+
 import {
+  getRatio,
   getModel,
-  getPercentage,
-  notDivides,
-  SliderMixin
+  SliderMixin,
+  keyCodes
 } from './slider-utils.js'
+
 import { between } from '../../utils/format.js'
-import QChip from '../chip/QChip.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-export default {
+export default Vue.extend({
   name: 'QSlider',
-  mixins: [SliderMixin],
+
+  mixins: [ SliderMixin ],
+
   props: {
-    value: Number,
-    labelValue: String
+    value: {
+      type: Number,
+      required: true
+    }
   },
+
   data () {
     return {
       model: this.value,
-      dragging: false,
-      currentPercentage: (this.value - this.min) / (this.max - this.min)
+      curRatio: 0
     }
   },
-  computed: {
-    percentage () {
-      if (this.snap) {
-        return (this.model - this.min) / (this.max - this.min) * 100 + '%'
-      }
-      return 100 * this.currentPercentage + '%'
-    },
-    displayValue () {
-      return this.labelValue !== void 0
-        ? this.labelValue
-        : this.model
-    }
-  },
-  watch: {
-    value (value) {
-      if (this.dragging) {
-        return
-      }
-      if (value < this.min) {
-        this.model = this.min
-      }
-      else if (value > this.max) {
-        this.model = this.max
-      }
-      else {
-        this.model = value
-      }
-      this.currentPercentage = (this.model - this.min) / (this.max - this.min)
-    },
-    min (value) {
-      if (this.model < value) {
-        this.model = value
-        return
-      }
-      this.$nextTick(this.__validateProps)
-    },
-    max (value) {
-      if (this.model > value) {
-        this.model = value
-        return
-      }
-      this.$nextTick(this.__validateProps)
-    },
-    step () {
-      this.$nextTick(this.__validateProps)
-    }
-  },
-  methods: {
-    __getDragging (evt) {
-      const container = this.$refs.handle
-      return {
-        left: container.getBoundingClientRect().left,
-        width: container.offsetWidth
-      }
-    },
-    __move (event) {
-      const percentage = getPercentage(
-        event,
-        this.dragging,
-        this.$q.i18n.rtl
-      )
 
-      this.currentPercentage = percentage
-      this.model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals)
+  watch: {
+    value (v) {
+      this.model = between(v, this.min, this.max)
     },
-    __end (event, dragging = this.dragging) {
-      const percentage = getPercentage(
+
+    min (v) {
+      this.model = between(this.model, v, this.max)
+    },
+
+    max (v) {
+      this.model = between(this.model, this.min, v)
+    }
+  },
+
+  computed: {
+    ratio () {
+      return this.active === true ? this.curRatio : this.modelRatio
+    },
+
+    modelRatio () {
+      return (this.model - this.min) / (this.max - this.min)
+    },
+
+    trackStyle () {
+      return { width: (100 * this.ratio) + '%' }
+    },
+
+    thumbStyle () {
+      return { left: (100 * this.ratio) + '%' }
+    },
+
+    thumbClass () {
+      return this.preventFocus === false && this.focus === true ? 'q-slider--focus' : null
+    },
+
+    pinClass () {
+      return this.labelColor ? `text-${this.labelColor}` : null
+    },
+
+    events () {
+      if (this.editable) {
+        return this.$q.platform.is.mobile
+          ? { click: this.__mobileClick }
+          : {
+            mousedown: this.__activate,
+            focus: this.__focus,
+            blur: this.__blur,
+            keydown: this.__keydown,
+            keyup: this.__keyup
+          }
+      }
+    }
+  },
+
+  methods: {
+    __updateValue (change) {
+      if (this.model !== this.value) {
+        this.$emit('input', this.model)
+        change === true && this.$emit('change', this.model)
+      }
+    },
+
+    __getDragging () {
+      return this.$el.getBoundingClientRect()
+    },
+
+    __updatePosition (event, dragging = this.dragging) {
+      const ratio = getRatio(
         event,
         dragging,
         this.$q.i18n.rtl
       )
-      this.model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals)
-      this.currentPercentage = (this.model - this.min) / (this.max - this.min)
-    },
-    __onKeyDown (ev) {
-      const keyCode = ev.keyCode
-      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
-        return
-      }
-      stopAndPrevent(ev)
-      const
-        decimals = this.computedDecimals,
-        step = ev.ctrlKey ? 10 * this.computedStep : this.computedStep,
-        offset = [37, 40].includes(keyCode) ? -step : step,
-        model = decimals ? parseFloat((this.model + offset).toFixed(decimals)) : (this.model + offset)
 
-      this.model = between(model, this.min, this.max)
-      this.currentPercentage = (this.model - this.min) / (this.max - this.min)
-      this.__update()
+      this.model = getModel(ratio, this.min, this.max, this.step, this.decimals)
+      this.curRatio = this.snap !== true || this.step === 0
+        ? ratio
+        : (this.model - this.min) / (this.max - this.min)
     },
-    __onKeyUp (ev) {
-      const keyCode = ev.keyCode
-      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
+
+    __focus () {
+      this.focus = true
+    },
+
+    __keydown (evt) {
+      if (!keyCodes.includes(evt.keyCode)) {
         return
       }
-      this.__update(true)
-    },
-    __validateProps () {
-      if (this.min >= this.max) {
-        console.error('Range error: min >= max', this.$el, this.min, this.max)
-      }
-      else if (notDivides((this.max - this.min) / this.step, this.computedDecimals)) {
-        console.error('Range error: step must be a divisor of max - min', this.min, this.max, this.step, this.computedDecimals)
-      }
-    },
-    __getContent (h) {
-      return [
-        h('div', {
-          staticClass: 'q-slider-track active-track',
-          style: { width: this.percentage },
-          'class': {
-            'no-transition': this.dragging,
-            'handle-at-minimum': this.model === this.min
-          }
-        }),
-        h('div', {
-          staticClass: 'q-slider-handle',
-          style: {
-            [this.$q.i18n.rtl ? 'right' : 'left']: this.percentage,
-            borderRadius: this.square ? '0' : '50%'
-          },
-          'class': {
-            dragging: this.dragging,
-            'handle-at-minimum': !this.fillHandleAlways && this.model === this.min
-          },
-          attrs: { tabindex: this.$q.platform.is.desktop ? (this.editable ? 0 : -1) : void 0 },
-          on: {
-            keydown: this.__onKeyDown,
-            keyup: this.__onKeyUp
-          }
-        }, [
-          this.label || this.labelAlways
-            ? h(QChip, {
-              staticClass: 'q-slider-label no-pointer-events',
-              'class': { 'label-always': this.labelAlways },
-              props: {
-                pointing: 'down',
-                square: true,
-                dense: true,
-                color: this.labelColor
-              }
-            }, [ this.displayValue ])
-            : null,
-          process.env.THEME !== 'ios'
-            ? h('div', { staticClass: 'q-slider-ring' })
-            : null
-        ])
-      ]
+
+      stopAndPrevent(evt)
+
+      const
+        step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
+        offset = [34, 37, 40].includes(evt.keyCode) ? -step : step
+
+      this.model = between(
+        parseFloat((this.model + offset).toFixed(this.decimals)),
+        this.min,
+        this.max
+      )
+
+      this.__updateValue()
     }
+  },
+
+  render (h) {
+    return h('div', {
+      staticClass: 'q-slider',
+      attrs: {
+        role: 'slider',
+        'aria-valuemin': this.min,
+        'aria-valuemax': this.max,
+        'aria-valuenow': this.value,
+        'data-step': this.step,
+        'aria-disabled': this.disable,
+        tabindex: this.computedTabindex
+      },
+      class: this.classes,
+      on: this.events,
+      directives: this.editable ? [{
+        name: 'touch-pan',
+        value: this.__pan,
+        modifiers: {
+          horizontal: true,
+          prevent: true,
+          stop: true
+        }
+      }] : null
+    }, [
+      h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
+        h('div', {
+          staticClass: 'q-slider__track absolute-full',
+          style: this.trackStyle
+        }),
+
+        this.markers === true
+          ? h('div', {
+            staticClass: 'q-slider__track-markers absolute-full fit',
+            style: this.markerStyle
+          })
+          : null
+      ]),
+
+      h('div', {
+        staticClass: 'q-slider__thumb-container absolute non-selectable',
+        class: this.thumbClass,
+        style: this.thumbStyle
+      }, [
+        h('svg', {
+          staticClass: 'q-slider__thumb absolute',
+          attrs: { width: '21', height: '21' }
+        }, [
+          h('circle', {
+            attrs: {
+              cx: '10.5',
+              cy: '10.5',
+              r: '7.875'
+            }
+          })
+        ]),
+
+        this.label === true || this.labelAlways === true ? h('div', {
+          staticClass: 'q-slider__pin absolute flex flex-center',
+          class: this.pinClass
+        }, [
+          h('span', { staticClass: 'q-slider__pin-value-marker' }, [ this.model ])
+        ]) : null,
+
+        h('div', { staticClass: 'q-slider__focus-ring' })
+      ])
+    ])
   }
-}
+})

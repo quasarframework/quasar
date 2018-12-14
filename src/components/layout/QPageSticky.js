@@ -1,5 +1,8 @@
-export default {
+import Vue from 'vue'
+
+export default Vue.extend({
   name: 'QPageSticky',
+
   inject: {
     layout: {
       default () {
@@ -7,6 +10,7 @@ export default {
       }
     }
   },
+
   props: {
     position: {
       type: String,
@@ -23,6 +27,7 @@ export default {
     },
     expand: Boolean
   },
+
   computed: {
     attach () {
       const pos = this.position
@@ -36,41 +41,47 @@ export default {
         horizontal: pos === 'left' || pos === 'right'
       }
     },
+
     top () {
       return this.layout.header.offset
     },
+
     right () {
       return this.layout.right.offset
     },
+
     bottom () {
       return this.layout.footer.offset
     },
+
     left () {
       return this.layout.left.offset
     },
-    computedStyle () {
+
+    style () {
+      let
+        posX = 0,
+        posY = 0
+
       const
         attach = this.attach,
-        transforms = [],
         dir = this.$q.i18n.rtl ? -1 : 1
 
       if (attach.top && this.top) {
-        transforms.push(`translateY(${this.top}px)`)
+        posY = `${this.top}px`
       }
       else if (attach.bottom && this.bottom) {
-        transforms.push(`translateY(${-this.bottom}px)`)
+        posY = `${-this.bottom}px`
       }
 
       if (attach.left && this.left) {
-        transforms.push(`translateX(${dir * this.left}px)`)
+        posX = `${dir * this.left}px`
       }
       else if (attach.right && this.right) {
-        transforms.push(`translateX(${-dir * this.right}px)`)
+        posX = `${-dir * this.right}px`
       }
 
-      const css = transforms.length
-        ? { transform: transforms.join(' ') }
-        : {}
+      const css = { transform: `translate3d(${posX}, ${posY}, 0)` }
 
       if (this.offset) {
         css.margin = `${this.offset[1]}px ${this.offset[0]}px`
@@ -95,19 +106,21 @@ export default {
 
       return css
     },
+
     classes () {
-      return [ `fixed-${this.position}`, `q-page-sticky-${this.expand ? 'expand' : 'shrink'}` ]
+      return `fixed-${this.position} q-page-sticky--${this.expand ? 'expand' : 'shrink'}`
     }
   },
+
   render (h) {
     return h('div', {
-      staticClass: 'q-page-sticky q-layout-transition row flex-center',
-      'class': this.classes,
-      style: this.computedStyle
+      staticClass: 'q-page-sticky q-layout__section--animate row flex-center',
+      class: this.classes,
+      style: this.style
     },
     this.expand
       ? this.$slots.default
-      : [ h('span', this.$slots.default) ]
+      : [ h('div', this.$slots.default) ]
     )
   }
-}
+})

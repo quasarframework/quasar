@@ -23,11 +23,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Ziehen zum aktualisieren',
-    release: 'Loslassen zum aktualisieren',
-    refresh: 'Aktualisiere...'
-  },
   table: {
     noData: 'Keine Daten vorhanden.',
     noResults: 'Keine Einträge gefunden',
