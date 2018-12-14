@@ -204,7 +204,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables'
+@import '~quasar-variables'
 
 .docs-carousel
   p.caption:not(:first-of-type)

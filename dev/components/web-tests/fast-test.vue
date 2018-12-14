@@ -8,6 +8,7 @@
       For some test that you think it should be persistent,
       make a new *.vue file here or in another folder under /dev/components.
     -->
+
   </div>
 </template>
 
@@ -23,6 +24,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables'
+@import '~quasar-variables'
 
 </style>

@@ -429,7 +429,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables'
+@import '~quasar-variables'
 
 .select-card
   transition .3s background-color
