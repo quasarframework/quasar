@@ -19,7 +19,7 @@ import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 import '@quasar/extras/animate/<%= asset %>.css'
 <% }) %>
 
-import 'quasar-app-styl'
+import 'quasar-styl'
 
 <% css && css.forEach(asset => { %>
 import '<%= asset %>'

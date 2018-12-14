@@ -49,8 +49,8 @@ class Generator {
     const
       now = Date.now() / 1000,
       then = now - 100,
-      appVariablesFile = appPaths.resolve.cli('templates/app/variables.styl'),
-      appStylFile = appPaths.resolve.cli('templates/app/app.styl'),
+      appVariablesFile = appPaths.resolve.cli('templates/app/app.quasar-variables.styl'),
+      appStylFile = appPaths.resolve.cli('templates/app/app.quasar.styl'),
       emptyStylFile = path.join(quasarFolder, 'empty.styl')
 
     function copy (file) {

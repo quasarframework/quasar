@@ -19,8 +19,7 @@ function getAppDir () {
     logger = require('./helpers/logger')
     warn = logger('app:paths', 'red')
 
-  warn(`⚠️  Error. This command must be executed inside a Quasar v0.15+ project folder.`)
-  warn(`For Quasar pre v0.15 projects, npm uninstall -g quasar-cli; npm i -g quasar-cli@0.6.5`)
+  warn(`⚠️  Error. This command must be executed inside a Quasar v1+ project folder.`)
   warn()
   process.exit(1)
 }

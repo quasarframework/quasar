@@ -54,9 +54,10 @@ module.exports = function (cfg, configName) {
       pages: appPaths.resolve.src(`pages`),
       assets: appPaths.resolve.src(`assets`),
       plugins: appPaths.resolve.src(`plugins`),
-      'quasar-variables': appPaths.resolve.app(`.quasar/variables.styl`),
+      'quasar-variables': appPaths.resolve.app(`.quasar/app.quasar-variables.styl`),
 
       // CLI/App using this one:
+      'quasar-styl': appPaths.resolve.app(`.quasar/app.quasar.styl`),
       'quasar-addon-styl': cfg.framework.cssAddon
         ? `quasar/src/css/flex-addon.styl`
         : appPaths.resolve.app(`.quasar/empty.styl`)

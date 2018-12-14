@@ -76,7 +76,7 @@ module.exports = function (importName) {
   if (typeof map[importName] === 'undefined') {
     throw new Error('Unknown import from Quasar: ' + importName)
   }
-  return 'quasar-framework/' + map[importName]
+  return 'quasar/' + map[importName]
 }
 `
 }

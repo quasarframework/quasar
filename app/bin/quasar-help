@@ -17,7 +17,7 @@ console.log(`
     $ quasar <command> -h
 
   Options
-    --version, -v Print Quasar CLI version
+    --version, -v Print Quasar App CLI version
 
   Commands
     dev           Start a dev server for your App

@@ -17,8 +17,8 @@ module.exports = function (argv, cmd, details) {
 
   banner += `
  ${cmd === 'dev' ? 'Dev mode..........' : 'Build mode........'} ${green(argv.mode)}
- Quasar Framework.. ${green('v' + quasarVersion)}
- Quasar CLI App.... ${green('v' + version)}
+ Pkg quasar........ ${green('v' + quasarVersion)}
+ Pkg @quasar/app... ${green('v' + version)}
  Debugging......... ${cmd === 'dev' || argv.debug ? green('enabled') : grey('no')}`
 
   if (details) {
@@ -70,7 +70,7 @@ module.exports = function (argv, cmd, details) {
 module.exports.devCompilationSuccess = function (ctx, url) {
   return `App URL........... ${green(url)}
     Dev mode.......... ${green(ctx.modeName + (ctx.mode.ssr && ctx.mode.pwa ? ' + pwa' : ''))}
-    Quasar Framework.. ${green('v' + quasarVersion)}
-    Quasar CLI App.... ${green('v' + version)}
+    Pkg quasar........ ${green('v' + quasarVersion)}
+    Pkg @quasar/app... ${green('v' + version)}
   `
 }
