@@ -1,0 +1,75 @@
+#!/usr/bin/env node
+
+require('../lib/node-version-check')
+
+const
+  path = require('path'),
+  resolveFrom = require('resolve-from')
+
+let cmd = process.argv[2]
+
+if (cmd === 'c' || cmd === 'create') {
+  process.argv.splice(2, 1)
+  require(`./quasar-create`)
+}
+else if (cmd === 's' || cmd  === 'serve') {
+  process.argv.splice(2, 1)
+  require(`./quasar-serve`)
+}
+else {
+  const localFile = resolveFrom.silent(process.cwd(), path.join('@quasar/app/bin/quasar'))
+
+  if (localFile && path.relative(localFile, __filename) !== '') {
+    // deferring to local @quasar/app
+    require(localFile)
+  }
+  else {
+    // legacy <1.0
+    const localFile = resolveFrom.silent(process.cwd(), path.join('quasar-cli/bin/quasar'))
+    if (localFile && path.relative(localFile, __filename) !== '') {
+      // deferring to local quasar-cli
+      require(localFile)
+    }
+    else {
+      const commands = [
+        'info',
+        'serve',
+        'help'
+      ]
+
+      if (cmd) {
+        if (cmd.length === 1) {
+          const mapToCmd = {
+            i: 'info',
+            s: 'serve',
+            h: 'help'
+          }
+          cmd = mapToCmd[cmd]
+        }
+
+        if (commands.includes(cmd)) {
+          process.argv.splice(2, 1)
+        }
+        else {
+          if (cmd === '-v' || cmd === '--version') {
+            console.log(require('../package.json').version)
+            process.exit(0)
+          }
+
+          console.log(`\n ${chalk.red(`Error`)} Unknown command "${ cmd }"`)
+          if (cmd.indexOf('-') === 0) {
+            console.log(`\n ${chalk.red(`Error`)} Command must come before the options`)
+          }
+
+          warn()
+          cmd = 'help'
+        }
+      }
+      else {
+        cmd = 'help'
+      }
+
+      require(`./quasar-${cmd}`)
+    }
+  }
+}

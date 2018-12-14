@@ -34,8 +34,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 - Mark Crady
 
-- Haitham Al-Beik
-
 ---
 
 ### $50+
@@ -47,7 +45,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Bobby Ross
 - Netanel Edri
 - Edinei Cipriani
-- Andy Burnett
 
 ---
 
@@ -63,7 +60,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ciprian Popa ($20)
 - Shone Radulovic ($15)
 - Sam Cassar ($15)
-- 上田 進也 (Sandbox Gmbh) ($20)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
 - Marek Urbanowicz
@@ -86,6 +82,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Stian Mikkelsen
 - Thomas Gick
 - Alexey Telyatnikov
+- Ryan Timmins
 - Sevenview Studios
 - Rus Brushkoff
 - Scott Brooks
@@ -94,6 +91,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Thibaut Renoncourt
 - Benoit Ranque
 - Brian J Petersen
+- Felipe Santiago
 - Heitor Ribeiro
 - Allan Gaunt
 - Kévin Marrec
@@ -106,6 +104,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Christian Kyony
 - Talles Dantas
 - Mast
+- 上田 進也 (Sandbox Gmbh)
 - altShiftDev
 - Simon Kimber
 - Arjan Dhupia
@@ -121,21 +120,13 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Roman Sujatinov
 - Tanya Trimbakova
 - eae
-- Tomer Shalev
-- Ildemaro Martinez Jr.
-- Uri Levitsky
-- Pascal Guérin
-- Justin Coker
-- Jonathan G
-- rangepoker
 
 - Jim O'Quinn ($5)
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
 - Walison Moreira ($5)
-- Felipe Santiago ($5)
-- Hugo Ramses Moreno Ramos (5$)
+- John (JCharante) ($1)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)

@@ -1,0 +1,30 @@
+#!/usr/bin/env node
+
+console.log()
+console.log(
+  require('fs').readFileSync(
+    require('path').join(__dirname, '../assets/logo.art'),
+    'utf8'
+  )
+)
+
+console.log(`
+  Example usage
+    $ quasar <command> <options>
+
+  Help for a command
+    $ quasar <command> --help
+    $ quasar <command> -h
+
+  Options
+    --version, -v Print Quasar CLI version
+
+  Commands
+    dev           Start a dev server for your App
+    build         Build your app for production
+    clean         Clean all build artifacts
+    new           Quickly scaffold page/layout/component/... vue file
+    mode          Add/remove Quasar Modes for your App
+    info          Display info about your machine and your App
+    help          Displays this message
+`)

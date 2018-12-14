@@ -1,0 +1,151 @@
+#!/usr/bin/env node
+
+const parseArgs = require('minimist')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    h: 'help'
+  },
+  boolean: ['h']
+})
+
+function showHelp () {
+  console.log(`
+  Description
+    Quickly scaffold a page/layout/component/store module.
+
+  Usage
+    $ quasar new [p|page] <page_file_name>
+    $ quasar new [l|layout] <layout_file_name>
+    $ quasar new [c|component] <component_file_name>
+    $ quasar new plugin <plugin_name>
+    $ quasar new [s|store] <store_module_name>
+
+    # Examples:
+
+    # Create src/pages/MyNewPage.vue:
+    $ quasar new p MyNewPage
+
+    # Create src/pages/MyNewPage.vue and src/pages/OtherPage.vue:
+    $ quasar new p MyNewPage OtherPage
+
+    # Create src/layouts/shop/Checkout.vue
+    $ quasar new layout shop/Checkout.vue
+
+  Options
+    --help, -h     Displays this message
+  `)
+  process.exit(0)
+}
+
+if (argv.help) {
+  showHelp()
+}
+
+const
+  logger = require('../lib/helpers/logger'),
+  log = logger('app:new'),
+  warn = logger('app:new', 'red'),
+  appPaths = require('../lib/app-paths'),
+  path = require('path'),
+  fs = require('fs'),
+  fse = require('fs-extra')
+
+if (argv._.length < 2) {
+  console.log()
+  warn(`⚠️  Wrong number of parameters (${argv._.length}).`)
+  showHelp()
+  process.exit(1)
+}
+
+let [ type, ...names ] = argv._
+
+if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store', 'plugin'].includes(type)) {
+  console.log()
+  warn(`⚠️  Invalid asset type: ${type}`)
+  showHelp()
+}
+
+if (type.length === 1) {
+  const fullCmd = {
+    p: 'page',
+    l: 'layout',
+    c: 'component',
+    s: 'store'
+  }
+  type = fullCmd[type]
+}
+
+function getPaths (asset, names) {
+  return names.map(name => {
+    const
+      hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext)),
+      ext = hasExtension ? '' : asset.ext
+
+    return appPaths.resolve.src(path.join(asset.folder, name + ext))
+  })
+}
+
+function createFile (asset, file) {
+  const relativePath = path.relative(appPaths.appDir, file)
+
+  if (fs.existsSync(file)) {
+    warn(`[SKIPPED] ${relativePath} already exists.`)
+    console.log()
+    return
+  }
+
+  fse.mkdirp(path.dirname(file))
+  fse.copy(
+    appPaths.resolve.cli(path.join('templates/app', type + (asset.ext || ''))),
+    file,
+    err => {
+
+      if (err) {
+        console.warn(err)
+        warn('[FAIL] Could not generate ${relativePath}.')
+        return
+      }
+
+      log(`Generated ${type}: ${relativePath}`)
+      if (asset.reference) {
+        log(`Make sure to reference it in ${asset.reference}`)
+      }
+      log()
+    }
+  )
+}
+
+const
+  mapping = {
+    page: {
+      folder: 'pages',
+      ext: '.vue',
+      reference: 'src/router/routes.js'
+    },
+    layout: {
+      folder: 'layouts',
+      ext: '.vue',
+      reference: 'src/router/routes.js'
+    },
+    component: {
+      folder: 'components',
+      ext: '.vue'
+    },
+    store: {
+      folder: 'store',
+      reference: 'src/store/index.js'
+    },
+    plugin: {
+      folder: 'plugins',
+      ext: '.js',
+      reference: 'quasar.conf.js > plugins'
+    }
+  },
+  asset = mapping[type]
+
+const filesToCreate = getPaths(asset, names)
+
+filesToCreate.forEach(file => {
+  createFile(asset, file)
+})

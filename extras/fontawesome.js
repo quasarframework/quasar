@@ -1,0 +1,1 @@
+require('./fontawesome/fontawesome.css')
