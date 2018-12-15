@@ -1,1 +1,0 @@
-require('./ionicons/ionicons.css')

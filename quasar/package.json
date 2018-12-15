@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Build responsive SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase",
   "module": "src/index.esm.js",
   "files": [
@@ -103,9 +103,6 @@
     "webpack-dev-server": "^3.1.4",
     "webpack-hot-middleware": "^2.22.2",
     "webpack-node-externals": "^1.7.2"
-  },
-  "peerDependencies": {
-    "vue": "^2.5.0"
   },
   "vetur": {
     "tags": "dist/helper-json/quasar-tags.json",

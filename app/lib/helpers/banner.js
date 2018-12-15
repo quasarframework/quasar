@@ -1,10 +1,8 @@
 const { green, grey, underline } = require('chalk')
 const
   appPaths = require('../app-paths'),
-  {
-    version,
-    dependencies: { quasar: quasarVersion }
-  } = require(appPaths.resolve.cli('package.json'))
+  quasarVersion = require(appPaths.resolve.app('node_modules/quasar/package.json')).version,
+  cliAppVersion = require(appPaths.resolve.cli('package.json')).version
 
 module.exports = function (argv, cmd, details) {
   let banner = ''
@@ -18,7 +16,7 @@ module.exports = function (argv, cmd, details) {
   banner += `
  ${cmd === 'dev' ? 'Dev mode..........' : 'Build mode........'} ${green(argv.mode)}
  Pkg quasar........ ${green('v' + quasarVersion)}
- Pkg @quasar/app... ${green('v' + version)}
+ Pkg @quasar/app... ${green('v' + cliAppVersion)}
  Debugging......... ${cmd === 'dev' || argv.debug ? green('enabled') : grey('no')}`
 
   if (details) {
@@ -71,6 +69,6 @@ module.exports.devCompilationSuccess = function (ctx, url) {
   return `App URL........... ${green(url)}
     Dev mode.......... ${green(ctx.modeName + (ctx.mode.ssr && ctx.mode.pwa ? ' + pwa' : ''))}
     Pkg quasar........ ${green('v' + quasarVersion)}
-    Pkg @quasar/app... ${green('v' + version)}
+    Pkg @quasar/app... ${green('v' + cliAppVersion)}
   `
 }
