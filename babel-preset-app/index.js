@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = (context, opts) => {
   const presetEnvOptions = {
     modules: false,
@@ -33,7 +35,17 @@ module.exports = (context, opts) => {
         loose: false
       }
     ],
-    require('@babel/plugin-proposal-json-strings')
+    require('@babel/plugin-proposal-json-strings'),
+
+    // transform runtime, but only for helpers
+    [
+      require('@babel/plugin-transform-runtime'), {
+        regenerator: presetEnvOptions.useBuiltIns !== 'usage',
+        corejs: presetEnvOptions.useBuiltIns !== false ? false : 2,
+        helpers: presetEnvOptions.useBuiltIns === 'usage',
+        absoluteRuntime: path.dirname(require.resolve('@babel/runtime/package.json'))
+      }
+    ]
   ]
 
   return {

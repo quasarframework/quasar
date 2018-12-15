@@ -37,6 +37,7 @@
   "dependencies": {
     "@quasar/babel-preset-app": "^1.0.0-alpha.0",
     "@quasar/extras": "^1.0.0-alpha.0",
+    "@babel/core": "7.2.2",
     "@vue/preload-webpack-plugin": "^1.1.0",
     "ajv": "6.6.1",
     "autoprefixer": "9.4.2",
