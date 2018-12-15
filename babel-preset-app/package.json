@@ -4,7 +4,7 @@
   "description": "Babel preset for Quasar CLI",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
     "@babel/core": "7.2.2",

@@ -1,0 +1,43 @@
+language: node_js
+node_js:
+  - 9
+  - 8
+os: osx
+osx_image: xcode8.3
+sudo: false
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
+cache:
+  directories:
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
+    - $HOME/Library/Caches/Homebrew
+env:
+  global:
+    - HOMEBREW_NO_AUTO_UPDATE=1
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+    - USE_SDK_WRAPPER=true
+    - ANDROID_HOME=/usr/local/share/android-sdk
+    - ANDROID_NDK_HOME=/usr/local/share/android-ndk
+    - ANDROID_SDK_ROOT=/usr/local/share/android-sdk
+    - WINEDLLOVERRIDES="mscoree,mshtml="
+    - WINEDEBUG="-all"
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.10.1
+  - export PATH="$HOME/.yarn/bin:$PATH"
+  - npm install wine-darwin@1.9.17-1
+  - yarn wine hostname
+  - brew install ant gradle
+  - brew cask install android-sdk android-ndk
+  - android update sdk > /dev/null
+  - sdkmanager "platform-tools" "platforms;android-27" > /dev/null
+  - npm install -g pnpm electron-installer-zip cordova ios-deploy
+install:
+  - pnpm recursive install
+script:
+  - pnpm recursive test
+on:
+  branches:
+    - dev
+    - master

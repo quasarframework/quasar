@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "test:all": "pnpm recursive test",
+    "install:all": "pnpm recursive install"
+  },
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "http://quasar-framework.org"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^3.6.0",
+    "pnpm": "^2.21.1"
+  }
+}
