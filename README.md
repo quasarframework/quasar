@@ -71,7 +71,7 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
     <tr></tr>
     <tr>
       <td align="center" valign="middle">
-        <a href="http://www.allyhomecare.com" target="_blank">
+        <a href="https://www.letsbutterfly.com/" target="_blank">
           <img width="170px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/letsbutterfly.png">
         </a>
       </td>

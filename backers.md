@@ -2,9 +2,9 @@ Quasar Framework is an MIT licensed open source project and completely free to u
 
 ## Platinum sponsors:
 
-[![Truelogic](https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/truelogic.png)](http://truelogic.com)
+[![Truelogic](https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/truelogic.png)](http://truelogic.com)
 
-[![Taylored Technology](https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/d589296b/taylored-technology.jpeg)](https://www.tayloredtechnology.net/)
+[![Taylored Technology](https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/taylored-technology.jpeg)](https://www.tayloredtechnology.net/)
 
 # Backers
 
@@ -12,29 +12,29 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $500
 
-<a href="http://campuscloudservices.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/4de8637c/campus-cloud-services.png" width="350px"></a>
+<a href="http://campuscloudservices.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/campus-cloud-services.png" width="350px"></a>
 
 ---
 
 ### $250
 
-<a href="https://www.jugglestreet.com.au/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/juggle-street.png" width="200px"></a>
+<a href="https://www.jugglestreet.com.au/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/juggle-street.png" width="200px"></a>
 
 ---
 
 ### $100+
 
-<a href="http://comcomservices.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/com-com-services.png" width="200px"></a>
+<a href="http://comcomservices.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/com-com-services.png" width="200px"></a>
 
-<a href="http://www.kalisio.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/kalisio.png" width="200px"></a>
+<a href="http://www.kalisio.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/kalisio.png" width="200px"></a>
 
-<a href="http://platformpurple.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/592beec0/platform-purple.png" width="200px"></a>
+<a href="http://platformpurple.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/platform-purple.png" width="200px"></a>
 
-<a href="http://www.bgasoft.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/3e1d0d43/bgasoft.png" width="200px"></a>
+<a href="http://www.bgasoft.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/bgasoft.png" width="200px"></a>
 
 - Mark Crady
 
-- Haitham Al-Beik
+<a href="https://www.letsbutterfly.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/letsbutterfly.png" width="200px"></a>
 
 ---
 
@@ -128,6 +128,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Justin Coker
 - Jonathan G
 - rangepoker
+- Amitabh Akolkar
+- Ryohei Katsume
 
 - Jim O'Quinn ($5)
 - Ken ($5)
