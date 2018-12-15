@@ -1,6 +1,6 @@
 module.exports = function (chain, cfg) {
   if (cfg.ctx.prod && cfg.build.preloadChunks) {
-    const PreloadPlugin = require('preload-webpack-plugin')
+    const PreloadPlugin = require('@vue/preload-webpack-plugin')
 
     chain.plugin('preload')
       .use(PreloadPlugin, [{

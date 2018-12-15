@@ -40,7 +40,7 @@ module.exports = function (cfg, configName) {
   chain.resolve.symlinks(false)
 
   chain.resolve.extensions
-    .merge([ '.js', '.vue' ])
+    .merge([ '.js', '.vue', '.json' ])
 
   chain.resolve.modules
     .merge(resolveModules)

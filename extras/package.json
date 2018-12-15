@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/quasarframework/quasar-extras/issues"
   },
-  "homepage": "https://github.com/quasarframework/quasar-extras#readme"
+  "homepage": "https://github.com/quasarframework/quasar-extras#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }

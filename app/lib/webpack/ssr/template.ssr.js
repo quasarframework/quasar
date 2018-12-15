@@ -25,7 +25,7 @@ const rendererOptions = {
   template,
   clientManifest,
   // for component caching
-  cache: LRU(settings.componentCache),
+  cache: new LRU(settings.componentCache),
   basedir: __dirname,
   // recommended for performance
   runInNewContext: false

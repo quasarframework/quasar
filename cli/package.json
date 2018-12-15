@@ -67,5 +67,8 @@
     "tildify": "1.2.0",
     "user-home": "2.0.0",
     "validate-npm-package-name": "3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
