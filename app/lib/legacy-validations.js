@@ -158,9 +158,9 @@ ${green('NEW WAY:')}
     }
   }
 
-  file = appPaths.resolve.app('.babelrc')
+  file = appPaths.resolve.app('babel.config.js')
   if (!fs.existsSync(file)) {
-    console.log('⚠️  Missing .babelrc file...')
+    console.log('⚠️  Missing babel.config.js file...')
     console.log()
     process.exit(1)
   }

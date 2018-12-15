@@ -112,7 +112,7 @@ module.exports = function (cfg, configName) {
     .use('babel-loader')
       .loader('babel-loader')
         .options({
-          extends: appPaths.resolve.app('.babelrc'),
+          extends: appPaths.resolve.app('babel.config.js'),
           plugins: cfg.framework.all !== true ? [
             [
               'transform-imports', {

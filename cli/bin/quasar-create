@@ -26,12 +26,14 @@ if (argv.help) {
 
     $ quasar create my-project
          # installs latest Quasar
-    $ quasar create my-project -b v0.17
+    $ quasar create my-project --branch v0.17
          # installs specific version (only major+minor version)
     $ quasar create my-project --kit umd
          # installs umd demo
     $ quasar create my-project --kit user/github-starter-kit
          # uses custom starter kit
+    $ quasar create my-project --kit ./starter-kit-folder
+         # use custom starter kit located at ./starter-kit-folder
 
   Options
     --kit, -k      Use specific starter kit

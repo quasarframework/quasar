@@ -28,10 +28,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/quasarframework/quasar-cli"
+    "url": "https://github.com/quasarframework/quasar"
   },
   "license": "MIT",
-  "bugs": "https://github.com/quasarframework/quasar-cli/issues",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
   "homepage": "http://quasar-framework.org",
   "engines": {
     "node": ">= 8.9.0",
