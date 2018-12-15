@@ -1,6 +1,6 @@
 ![Quasar Framework logo](https://cdn.rawgit.com/quasarframework/quasar-art/863c14bd/dist/svg/quasar-logo-full-inline.svg)
 
-# Quasar Framework
+# Quasar Framework (v1.0 coming soon!)
 
 > Build responsive Single Page Apps, **SSR Apps**, PWAs, Hybrid Mobile Apps and Electron Apps, all using the same codebase!, powered with Vue.
 
@@ -20,12 +20,12 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
     <tr>
       <td align="center" valign="middle">
         <a href="https://truelogic.com" target="_blank">
-          <img width="300px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/41e5204e/truelogic.png">
+          <img width="300px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/truelogic.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="https://www.tayloredtechnology.net" target="_blank">
-          <img width="300px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/taylored-technology-big.jpeg">
+          <img width="300px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/taylored-technology-big.jpeg">
         </a>
       </td>
     </tr>
@@ -33,12 +33,12 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
     <tr>
       <td align="center" valign="middle">
         <a href="http://campuscloudservices.com" target="_blank">
-          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/campus-cloud-services.png">
+          <img width="222px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/campus-cloud-services.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="https://www.jugglestreet.com" target="_blank">
-          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/juggle-street.png">
+          <img width="222px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/juggle-street.png">
         </a>
       </td>
     </tr>
@@ -46,12 +46,12 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
     <tr>
       <td align="center" valign="middle">
         <a href="http://comcomservices.com" target="_blank">
-          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/com-com-services.png">
+          <img width="222px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/com-com-services.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="http://www.kalisio.com" target="_blank">
-          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/kalisio.png">
+          <img width="222px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/kalisio.png">
         </a>
       </td>
     </tr>
@@ -59,12 +59,20 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
     <tr>
       <td align="center" valign="middle">
         <a href="http://platformpurple.com" target="_blank">
-          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/platform-purple.png">
+          <img width="222px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/platform-purple.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="http://www.bgasoft.com" target="_blank">
-          <img width="222px" src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/63939d4e/bgasoft.png">
+          <img width="222px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/bgasoft.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="http://www.allyhomecare.com" target="_blank">
+          <img width="170px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/letsbutterfly.png">
         </a>
       </td>
     </tr>
