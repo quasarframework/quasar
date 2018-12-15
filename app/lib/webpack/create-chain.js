@@ -271,20 +271,19 @@ module.exports = function (cfg, configName) {
 
     if (cfg.ctx.debug) {
       // reset default webpack 4 minimizer
-      chain.optimization.minimizer([])
+      chain.optimization.minimizer.clear()
     }
     else if (cfg.build.minify) {
-      const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+      const TerserPlugin = require('terser-webpack-plugin')
 
       chain.optimization
-        .minimizer([
-          new UglifyJSPlugin({
-            uglifyOptions: cfg.build.uglifyOptions,
-            cache: true,
-            parallel: true,
-            sourceMap: cfg.build.sourceMap
-          })
-        ])
+        .minimizer('js')
+        .use(TerserPlugin, [{
+          terserOptions: cfg.build.uglifyOptions,
+          cache: true,
+          parallel: true,
+          sourceMap: cfg.build.sourceMap
+        }])
     }
 
     // configure CSS extraction & optimize

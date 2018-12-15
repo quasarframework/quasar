@@ -384,11 +384,6 @@ class QuasarConfig {
           evaluate: true
         },
         mangle: {
-          /*
-            Support non-standard Safari 10/11.
-            By default `uglify-es` will not work around
-            Safari 10/11 bugs.
-          */
           safari10: true
         }
       }

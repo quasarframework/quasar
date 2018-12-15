@@ -83,17 +83,16 @@ module.exports = function (cfg, configName) {
 
   if (cfg.ctx.prod) {
     if (cfg.build.minify) {
-      const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+      const TerserPlugin = require('terser-webpack-plugin')
 
       chain.optimization
-        .minimizer([
-          new UglifyJSPlugin({
-            uglifyOptions: cfg.build.uglifyOptions,
-            cache: true,
-            parallel: true,
-            sourceMap: cfg.build.sourceMap
-          })
-        ])
+        .minimizer('js')
+        .use(TerserPlugin, [{
+          terserOptions: cfg.build.uglifyOptions,
+          cache: true,
+          parallel: true,
+          sourceMap: cfg.build.sourceMap
+        }])
     }
 
     const ElectronPackageJson = require('./plugin.electron-package-json')
