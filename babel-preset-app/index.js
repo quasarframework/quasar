@@ -7,7 +7,7 @@ module.exports = (context, opts) => {
     useBuiltIns: 'usage'
   }
 
-  if (opts.presetEnvOptions !== void 0) {
+  if (opts !== void 0 && opts.presetEnvOptions !== void 0) {
     Object.assign(presetEnv, opts.presetEnvOptions)
   }
 
