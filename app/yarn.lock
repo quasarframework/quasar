@@ -716,9 +716,9 @@
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
 "@quasar/babel-preset-app@^1.0.0-alpha.0":
-  version "1.0.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@quasar/babel-preset-app/-/babel-preset-app-1.0.0-alpha.0.tgz#b193ae58a66788fd5a35b01c5f471dad22f38daf"
-  integrity sha512-QX8ou3wSrjde9jePi9EN7JMlwlESQ6O6VhfmdmA7IR151KhstJRP14Lbm4rkSRKAJUNTOe9ifpERF9nShNS64w==
+  version "1.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@quasar/babel-preset-app/-/babel-preset-app-1.0.0-alpha.1.tgz#c18fc47b407beca673e6f449148095316bd0a545"
+  integrity sha512-oXEyST832deddbwcFokbh+4SsmM+REcvMbRWiwMEP21pOZVSl04fiJgkZ55BV/mNCojYINAGWFnqQYYJzhdkTg==
   dependencies:
     "@babel/core" "^7.2.2"
     "@babel/plugin-proposal-class-properties" "^7.2.1"

@@ -1,12 +1,16 @@
-module.exports = () => {
+module.exports = (context, opts) => {
+  const presetEnvOptions = {
+    modules: false,
+    loose: false,
+    useBuiltIns: 'usage'
+  }
+
+  if (opts.presetEnvOptions !== void 0) {
+    Object.assign(presetEnv, opts.presetEnvOptions)
+  }
+
   const presets = [
-    [
-      require('@babel/preset-env'), {
-        modules: false,
-        loose: false,
-        useBuiltIns: 'usage'
-      }
-    ]
+    [ require('@babel/preset-env'), presetEnvOptions ]
   ]
 
   const plugins = [
@@ -29,7 +33,7 @@ module.exports = () => {
         loose: false
       }
     ],
-    require('@babel/plugin-proposal-json-strings'
+    require('@babel/plugin-proposal-json-strings')
   ]
 
   return {
