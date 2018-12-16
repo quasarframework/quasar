@@ -1,40 +1,7 @@
 #!/usr/bin/env node
-const resolveFrom = require('resolve-from')
-const path = require('path')
 //TODO: Workspace management resolve conflicting modules
 const CLI = require('../../cli')
 const inversify = require('inversify')
-
-/**
- * Create a basic config for the runner
- */
-class CliInjectParams {
-  /**
-   * Configuration for The Runner
-   */
-  constructor () {
-    /**
-     * Should always run start() cmd by default
-     * @type {boolean}
-     */
-    this.auto = process.env.Q_CLI_AUTO || true
-    /**
-     * Slice the process arguments at this index
-     * @type {number}
-     */
-    this.sliceAt = 2
-    /**
-     * minimist configuration or false
-     * @type {boolean}
-     */
-    this.parseArgs = false
-
-    this.pkgName = '@quasar/cli'
-  }
-}
-// Decorate
-inversify.decorate(inversify.injectable(), CliInjectParams)
-
 
 /**
  * Basic CLI Runner with a start override. Should find
@@ -102,20 +69,9 @@ class CliRunner extends CLI {
   }
 }
 
-// TODO: Iron out this abstraction in vanilla js
-// https://github.com/inversify/inversify-vanillajs-helpers
-
-// Decorate
-inversify.decorate(inversify.injectable(), CliRunner)
-// Inject the configuration to the first parameter
-inversify.decorate(inversify.inject('@quasar/cli-base-runtime-config'), CliRunner, 0)
-
-// Declare bindings
-let container = new inversify.Container()
-container.bind('@quasar/cli-base-runtime-config').to(CliInjectParams)
-container.bind('@quasar/cli').to(CliRunner)
-
-// Override example
-// container.rebind('@quasar/cli-runtime-config').to(CliInjectTest);
-
-container.get('@quasar/cli')
+new CliRunner({
+  auto: process.env.Q_CLI_AUTO || true,
+  sliceAt: 2,
+  parseArgs: false,
+  pkgName: '@quasar/cli'
+})

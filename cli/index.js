@@ -5,8 +5,15 @@ require('reflect-metadata')
  * Create the shared container
  * @type {Container}
  */
-const CONTAINER = new inversify.Container()
+let CONTAINER
+if( typeof CONTAINER === 'undefined') {
+  CONTAINER = new inversify.Container()
+}
+/**
+ * Constants
+ */
 const TOP_COMMANDS = require('./constants/commands')
+
 /**
  * Runner should load all available dependencies into each of the top level commands
  * this will look something like future=@quasar/cli-build that maps to
@@ -82,7 +89,7 @@ class Runner {
    * @param pkg
    */
   fetch (pkg) {
-    // return this.container.get(pkg)
+    return this.container.get(pkg)
   }
 
   /**

@@ -5,7 +5,7 @@
   "bin": {
     "quasar": "./bin/quasar"
   },
-  "main": "src/index.js",
+  "main": "index.js",
   "files": [
     "assets",
     "bin",
