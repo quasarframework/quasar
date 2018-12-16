@@ -9,16 +9,14 @@ jobs: # a collection of steps
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest pnpm'
-      - restore_cache: # special step to restore the dependency cache
-          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: install-npm-wee
           command: pnpm recursive install
-      - save_cache: # special step to save the dependency cache
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
       - run: # run tests
           name: test
           command: pnpm recursive test
+workflows:
+  version: 2
+  workflow:
+    jobs:
+    - build
