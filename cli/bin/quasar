@@ -1,75 +1,132 @@
 #!/usr/bin/env node
-
+const CLI = require('../src/index')
+const inversify = require('inversify')
 require('../lib/node-version-check')
 
-const
-  path = require('path'),
-  resolveFrom = require('resolve-from')
+/**
+ * Create a basic config for the runner
+ */
+class CliInjectParams {
+  /**
+   * Configuration for The Runner
+   */
+  constructor () {
+    /**
+     * Should always run start() cmd by default
+     * @type {boolean}
+     */
+    this.auto = process.env.Q_CLI_AUTO || true
+    /**
+     * Slice the process arguments at this index
+     * @type {number}
+     */
+    this.sliceAt = 2
+    /**
+     * minimist configuration or false
+     * @type {boolean}
+     */
+    this.parseArgs = false
 
-let cmd = process.argv[2]
-
-if (cmd === 'c' || cmd === 'create') {
-  process.argv.splice(2, 1)
-  require(`./quasar-create`)
-}
-else if (cmd === 's' || cmd  === 'serve') {
-  process.argv.splice(2, 1)
-  require(`./quasar-serve`)
-}
-else {
-  const localFile = resolveFrom.silent(process.cwd(), path.join('@quasar/app/bin/quasar'))
-
-  if (localFile && path.relative(localFile, __filename) !== '') {
-    // deferring to local @quasar/app
-    require(localFile)
+    this.pkgName = '@quasar/cli'
   }
-  else {
-    // legacy <1.0
-    const localFile = resolveFrom.silent(process.cwd(), path.join('quasar-cli/bin/quasar'))
-    if (localFile && path.relative(localFile, __filename) !== '') {
-      // deferring to local quasar-cli
-      require(localFile)
+}
+// Decorate
+inversify.decorate(inversify.injectable(), CliInjectParams)
+
+/**
+ * Basic CLI Runner with a start override. Should find
+ * the right package and start it
+ */
+class CliRunner extends CLI {
+  start () {
+    const
+      path = require('path'),
+      resolveFrom = require('resolve-from')
+
+    let cmd = process.argv[2]
+
+    if (cmd === 'c' || cmd === 'create') {
+      process.argv.splice(2, 1)
+      require(`./quasar-create`)
+    }
+    else if (cmd === 's' || cmd  === 'serve') {
+      process.argv.splice(2, 1)
+      require(`./quasar-serve`)
     }
     else {
-      const commands = [
-        'info',
-        'serve',
-        'help'
-      ]
+      const localFile = resolveFrom.silent(process.cwd(), path.join('@quasar/app/bin/quasar'))
 
-      if (cmd) {
-        if (cmd.length === 1) {
-          const mapToCmd = {
-            i: 'info',
-            s: 'serve',
-            h: 'help'
-          }
-          cmd = mapToCmd[cmd]
-        }
-
-        if (commands.includes(cmd)) {
-          process.argv.splice(2, 1)
-        }
-        else {
-          if (cmd === '-v' || cmd === '--version') {
-            console.log(require('../package.json').version)
-            process.exit(0)
-          }
-
-          console.log(`\n ${chalk.red(`Error`)} Unknown command "${ cmd }"`)
-          if (cmd.indexOf('-') === 0) {
-            console.log(`\n ${chalk.red(`Error`)} Command must come before the options`)
-          }
-
-          warn()
-          cmd = 'help'
-        }
+      if (localFile && path.relative(localFile, __filename) !== '') {
+        // deferring to local @quasar/app
+        require(localFile)
       }
       else {
-        cmd = 'help'
-      }
+        // legacy <1.0
+        const localFile = resolveFrom.silent(process.cwd(), path.join('quasar-cli/bin/quasar'))
+        if (localFile && path.relative(localFile, __filename) !== '') {
+          // deferring to local quasar-cli
+          require(localFile)
+        }
+        else {
+          const commands = [
+            'info',
+            'serve',
+            'help'
+          ]
 
-      require(`./quasar-${cmd}`)
+          if (cmd) {
+            if (cmd.length === 1) {
+              const mapToCmd = {
+                i: 'info',
+                s: 'serve',
+                h: 'help'
+              }
+              cmd = mapToCmd[cmd]
+            }
+
+            if (commands.includes(cmd)) {
+              process.argv.splice(2, 1)
+            }
+            else {
+              if (cmd === '-v' || cmd === '--version') {
+                console.log(require('../package.json').version)
+                process.exit(0)
+              }
+
+              console.log(`\n ${chalk.red(`Error`)} Unknown command "${ cmd }"`)
+              if (cmd.indexOf('-') === 0) {
+                console.log(`\n ${chalk.red(`Error`)} Command must come before the options`)
+              }
+
+              warn()
+              cmd = 'help'
+            }
+          }
+          else {
+            cmd = 'help'
+          }
+
+          require(`./quasar-${cmd}`)
+        }
+      }
     }
   }
 }
+
+// TODO: Iron out this abstraction in vanilla js
+// https://github.com/inversify/inversify-vanillajs-helpers
+
+// Decorate
+inversify.decorate(inversify.injectable(), CliRunner)
+// Inject the configuration to the first parameter
+inversify.decorate(inversify.inject('@quasar/cli-base-runtime-config'), CliRunner, 0)
+
+// Declare bindings
+let container = new inversify.Container()
+container.bind('@quasar/cli-base-runtime-config').to(CliInjectParams)
+container.bind('@quasar/cli').to(CliRunner)
+
+// Override example
+// container.rebind('@quasar/cli-runtime-config').to(CliInjectTest);
+
+container.get('@quasar/cli')
