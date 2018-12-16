@@ -736,11 +736,6 @@
     babel-plugin-dynamic-import-node "2.2.0"
     core-js "2.6.0"
 
-"@quasar/extras@^1.0.0-alpha.0":
-  version "1.0.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.0.0-alpha.0.tgz#622d0107a359af9f9669201952af60d12d438e56"
-  integrity sha512-XZxmm1LYXTD8lXQkmeRgE3p1gJ2C5t0R9ltyQN6NMoOcv0/ePAe+zH2f+CuDQ7GsPaDLz2rssiw5axspmBMi9g==
-
 "@types/q@^1.5.1":
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
@@ -2403,7 +2398,7 @@ domutils@^1.7.0:
     dom-serializer "0"
     domelementtype "1"
 
-dot-prop@^4.1.1:
+dot-prop@^4.1.1, dot-prop@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/dot-prop/-/dot-prop-4.2.0.tgz#1f19e0c2e1aa0e32797c49799f2837ac6af69c57"
   integrity sha512-tUMXrxlExSW6U2EXiiKGSBVdYgtV8qlHL+C10TsW4PURY/ic+eaysnSkwB4kA/mBlCyy/IKDJ+Lc3wbWeaXtuQ==
@@ -5318,11 +5313,6 @@ qs@6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
-
-quasar@^1.0.0-alpha.1:
-  version "1.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-alpha.1.tgz#472ae06cfe11a3c5980ecbedc483737485a57bf8"
-  integrity sha512-Xk7OtoIyGMlx0zaXeYFCV1oXfxq6ZNTt0w3EOcJRr2vDrOh3Y05MyglypSt0PkgYhAUBB2RyOhQFFjzq/I1Tmw==
 
 querystring-es3@^0.2.0:
   version "0.2.1"

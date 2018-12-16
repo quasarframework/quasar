@@ -22,7 +22,6 @@ const argv = parseArgs(process.argv.slice(2), {
   boolean: ['h'],
   string: ['m', 'T', 'H'],
   default: {
-    t: 'mat',
     m: 'spa'
   }
 })

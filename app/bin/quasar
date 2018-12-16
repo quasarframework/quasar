@@ -7,6 +7,7 @@ const commands = [
   'dev',
   'build',
   'clean',
+  'inspect',
   'mode',
   'info',
   'new',

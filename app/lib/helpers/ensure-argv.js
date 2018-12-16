@@ -22,6 +22,10 @@ module.exports = function (argv, cmd) {
     process.exit(1)
   }
 
+  if (cmd === 'inspect') {
+    return
+  }
+
   if (argv.mode === 'cordova') {
     const targets = ['android', 'ios', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows']
     if (!argv.target) {

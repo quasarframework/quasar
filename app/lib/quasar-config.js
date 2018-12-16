@@ -202,7 +202,9 @@ class QuasarConfig {
           host: cfg.devServer.host,
           port: cfg.devServer.port
         }
-        const to = await this.opts.onAddress(addr)
+        const to = this.opts.onAddress !== void 0
+          ? await this.opts.onAddress(addr)
+          : addr
 
         // if network error while running
         if (to === null) {
