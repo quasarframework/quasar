@@ -61,6 +61,7 @@
     "html-minifier": "3.5.21",
     "html-webpack-plugin": "3.2.0",
     "inquirer": "6.2.1",
+    "inversify": "^5.0.1",
     "lodash.debounce": "4.0.8",
     "lodash.template": "4.4.0",
     "lodash.throttle": "4.1.1",
