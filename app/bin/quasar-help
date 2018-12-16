@@ -20,12 +20,13 @@ console.log(`
     --version, -v Print Quasar App CLI version
 
   Commands
-    dev, d      Start a dev server for your App
-    build, b    Build your app for production
-    clean, c    Clean all build artifacts
-    new, n      Quickly scaffold page/layout/component/... vue file
-    mode, m     Add/remove Quasar Modes for your App
-    inspect     Inspect generated Webpack config
-    info, i     Display info about your machine and your App
-    help, h     Displays this message
+    dev, d        Start a dev server for your App
+    build, b      Build your app for production
+    clean, c      Clean all build artifacts
+    new, n        Quickly scaffold page/layout/component/... vue file
+    mode, m       Add/remove Quasar Modes for your App
+    inspect       Inspect generated Webpack config
+    extension, e  Manage Quasar App CLI extensions
+    info, i       Display info about your machine and your App
+    help, h       Displays this message
 `)

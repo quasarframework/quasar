@@ -25,8 +25,7 @@ const argv = parseArgs(process.argv.slice(2), {
 if (argv.help) {
   console.log(`
   Description
-    Starts the app in development mode (hot-code reloading, error
-    reporting, etc)
+    Inspect Quasar generated Webpack config
 
   Usage
     $ quasar inspect

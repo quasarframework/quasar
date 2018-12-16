@@ -1,0 +1,86 @@
+#!/usr/bin/env node
+
+const
+  parseArgs = require('minimist')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    a: 'add',
+    r: 'remove',
+
+    h: 'help'
+  },
+  boolean: ['h'],
+  string: ['a', 'r']
+})
+
+if (argv.help) {
+  console.log(`
+  Description
+    Manage Quasar App CLI extensions
+
+  Usage
+    $ quasar extension [-a|-r]
+
+  Options
+    --add, -a        Add Quasar App CLI extension
+    --remove, -r     Remove Quasar App CLI extension
+    --help, -h       Displays this message
+  `)
+  process.exit(0)
+}
+
+function stripVersion (name) {
+  const index = name.indexOf('@')
+
+  return index > -1
+    ? name.substring(0, index)
+    : name
+}
+
+function parseName (name) {
+  if (!name || !name.length) {
+    warn(`⚠️  Please specify app cli extension name`)
+    process.exit(1)
+  }
+
+  if (name[0] === '@') {
+    const slashIndex = name.indexOf('/')
+    if (slashIndex === -1) {
+      warn(`⚠️  Invalid app cli extension name: "${name}"`)
+      process.exit(1)
+    }
+
+    const pkg = name.substring(0, slashIndex + 1) + 'quasar-cli-extension-' + name.substring(slashIndex + 1)
+
+    return [
+      pkg,
+      '@' + stripVersion(pkg.substring(1))
+    ]
+  }
+
+  return [
+    'quasar-cli-extension-' + name,
+    stripVersion('quasar-cli-extension-' + name)
+  ]
+}
+
+async function run () {
+  if (argv.add) {
+    await require('../lib/cli-extension/add')
+      .apply(null, parseName(argv.add))
+
+    process.exit(0)
+  }
+
+  if (argv.remove) {
+    await require('../lib/cli-extension/remove')
+      .apply(null, parseName(argv.remove))
+
+    process.exit(0)
+  }
+
+  require('../lib/cli-extension/list')
+}
+
+run()

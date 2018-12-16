@@ -8,6 +8,7 @@ const commands = [
   'build',
   'clean',
   'inspect',
+  'extension',
   'mode',
   'info',
   'new',
@@ -21,6 +22,7 @@ if (cmd) {
     const mapToCmd = {
       d: 'dev',
       b: 'build',
+      e: 'extension',
       c: 'clean',
       m: 'mode',
       i: 'info',
