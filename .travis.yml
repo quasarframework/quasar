@@ -13,7 +13,6 @@ env:
     - WINEDLLOVERRIDES="mscoree,mshtml="
     - WINEDEBUG="-all"
 cache:
-  yarn: true
   directories:
     - node_modules
     - "$HOME/.npm/_prebuilds"
@@ -25,10 +24,6 @@ before_install:
   - npm install wine-darwin@1.9.17-1
   - yarn wine hostname
   - brew install ant gradle
-#  - brew unlink android-sdk
-#  - brew cask install android-sdk android-ndk
-#  - android update sdk > /dev/null
-#  - sdkmanager "platform-tools" "platforms;android-27" > /dev/null
   - npm install -g cordova ios-deploy pnpm
 install:
   - pnpm recursive install
