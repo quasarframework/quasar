@@ -29,7 +29,3 @@ install:
   - pnpm recursive install
 script:
   - pnpm recursive test
-on:
-  branches:
-    - dev
-    - master
