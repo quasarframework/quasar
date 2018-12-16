@@ -1,0 +1,10 @@
+import Vue from 'vue'
+import {{name}} from '@components/{{name}}';
+
+describe('{{name}}', () => {
+  it('can be mounted', () => {
+    const Constructor = Vue.extend({{name}})
+    const vm = new Constructor().$mount()
+    expect(typeof vm).toBe('object')
+  })
+})
