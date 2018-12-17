@@ -5,88 +5,95 @@ const
   path = require('path'),
   home = require('user-home'),
   tildify = require('tildify'),
-  inquirer = require('inquirer')
+  inquirer = require('inquirer'),
+  ora = require('ora'),
+  chalk = require('chalk')
 
-// const { generate, logger } = require('@quasar/cli-helpers')
-const { generate, logger, localPath, banner } = require('@quasar/cli-helpers')
-const { isLocalPath, getTemplatePath } = localPath
-
-// const QuasarCLI = require('@quasar/cli')
 const QuasarCLI = require('@quasar/cli')
-class QuasarCLIPluginCreate extends QuasarCLI {
-  constructor(){
-    super({sliceAt:2, min: {
-      alias: {
-        b: 'branch',
-        k: 'kit',
-        c: 'clone',
-        o: 'offline',
-        h: 'help'
-      },
-      boolean: ['c', 'o', 'h'],
-      string: ['k', 'b']
-    }})
-    const argv = this.argv
+const {generate, logger, localPath, banner} = require('@quasar/cli-helpers')
+const {isLocalPath, getTemplatePath} = localPath
 
-    if (argv.help) {
-      this.help()
-    }
+class QuasarCLIPluginCreate extends QuasarCLI {
+  constructor ({init = true, sliceAt = 2, auto = true}) {
+    super({
+      init,
+      auto,
+      sliceAt,
+      min: {
+        alias: {
+          b: 'branch',
+          k: 'kit',
+          c: 'clone',
+          o: 'offline',
+          h: 'help'
+        },
+        boolean: ['c', 'o', 'h'],
+        string: ['k', 'b']
+      }
+    })
 
     console.log()
     console.log(
       banner
     )
 
-// Following is adapted from Vue CLI v2 "init" command
-
-    let this.template = template = argv.kit
+    this.template = this.argv.kit
       ? (
-        argv.kit.indexOf('/') > -1
-          ? argv.kit
-          : 'quasarframework/quasar-starter-kit-' + argv.kit
+        this.argv.kit.indexOf('/') > -1
+          ? this.argv.kit
+          : 'quasarframework/quasar-starter-kit-' + this.argv.kit
       )
       : 'quasarframework/quasar-starter-kit'
+    this.rawName = this.argv._[0]
+    this.inPlace = !this.rawName || this.rawName === '.'
+    this.name = this.inPlace ? path.relative('../', process.cwd()) : this.rawName
+    this.to = path.resolve(this.rawName || '.')
+    this.tmp = path.join(home, '.quasar-starter-kits', this.template.replace(/[\/:]/g, '-'))
+  }
 
-    if (argv.branch) {
-      template += '#' + argv.branch
+  start () {
+    console.log(this.argv)
+    if (this.argv.help) {
+      this.help()
     }
 
-    const
-      rawName = argv._[0],
-      inPlace = !rawName || rawName === '.',
-      this.name = name = inPlace ? path.relative('../', process.cwd()) : rawName,
-      this.to = to = path.resolve(rawName || '.')
+    // Following is adapted from Vue CLI v2 "init" command
 
-    const this.tmp = tmp = path.join(home, '.quasar-starter-kits', template.replace(/[\/:]/g, '-'))
-    if (argv.offline) {
-      console.log(`> Use cached template at ${chalk.yellow(tildify(tmp))}`)
-      template = tmp
+    if (this.argv.branch) {
+      this.template += '#' + this.argv.branch
     }
 
-    console.log()
-    process.on('exit', () => {
-      console.log()
-    })
+    if (this.argv.offline) {
+      console.log(`> Use cached template at ${chalk.yellow(tildify(this.tmp))}`)
+      this.template = this.tmp
+    }
 
-    if (inPlace || exists(to)) {
+    // console.log()
+    // process.on('exit', () => {
+    //   console.log()
+    // })
+    if (this.auto && (this.inPlace || exists(this.to))) {
       inquirer.prompt([{
         type: 'confirm',
-        message: inPlace
+        message: this.inPlace
           ? 'Generate project in current directory?'
           : 'Target directory exists. Continue?',
         name: 'ok'
       }]).then(answers => {
-        if (answers.ok) {
-          this.start()
+        if (answers.ok && this.auto) {
+          this.run()
         }
       }).catch(logger.fatal)
     }
     else {
-      this.start()
+      if (this.auto) {
+        this.run()
+      }
     }
   }
 
-  start () {
+  run () {
+    throw new Error('DONT START')
     // check if template isn't local
     if (isLocalPath(this.template) !== true) {
       this.downloadAndGenerate()
@@ -105,6 +112,7 @@ class QuasarCLIPluginCreate extends QuasarCLI {
       logger.fatal('Local template "%s" not found.', this.template)
     }
   }
+
   downloadAndGenerate () {
     const spinner = ora('downloading template')
     spinner.start()
@@ -114,7 +122,7 @@ class QuasarCLIPluginCreate extends QuasarCLI {
       rm(this.tmp)
     }
 
-    download(this.template, this.tmp, { clone: this.argv.clone }, err => {
+    download(this.template, this.tmp, {clone: this.argv.clone}, err => {
       spinner.stop()
 
       if (err) {
@@ -131,7 +139,8 @@ class QuasarCLIPluginCreate extends QuasarCLI {
       })
     })
   }
-  help(){
+
+  help () {
     console.log(`
   Description
     Creates a Quasar project folder
@@ -157,14 +166,15 @@ class QuasarCLIPluginCreate extends QuasarCLI {
     --offline, -o  Use cached starter kit
     --help, -h     Displays this message
   `)
+    this.stop()
   }
 }
 
-var isCLI = !module.parent;
+var isCLI = !module.parent
 var isTesting = process.env.Q_APP_ENV === 'testing' || process.env.NODE_ENV === 'testing'
 
 // Export Class if it was required for extending
 // This could include an extra flag for testing
 module.exports = isCLI || isTesting
-  ? new QuasarCLIPluginCreate({auto:true})
+  ? new QuasarCLIPluginCreate({auto: true})
   : QuasarCLIPluginCreate

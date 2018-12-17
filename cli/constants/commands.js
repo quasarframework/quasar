@@ -18,6 +18,7 @@ const localCmds = '../bin/quasar'
  */
 function cmdMap (cmd, remote = false) {
   let meta = { name: cmd }
+
   if (!remote) {
     meta.current = `${localCmds}-${cmd}`
     meta.future = `${ns}-${cmd}`
@@ -25,6 +26,14 @@ function cmdMap (cmd, remote = false) {
   else {
     meta.current = `${ns}-${cmd}`
   }
+
+  Object.keys(meta).forEach(()=>{
+    meta.filepaths = {
+
+    }
+  })
+
+
   return meta
 }
 

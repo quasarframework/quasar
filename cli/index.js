@@ -103,11 +103,10 @@ class QuasarCLI {
 
   /**
    * Stop running with an optional error
-   * @param err
+   * @param code
    */
-  stop (err) {
-    console.log('Stopping the program')
-    if (this.shouldExit) process.exit(err)
+  stop (code=0) {
+    if (this.shouldExit) process.exit(code)
   }
 
   /**
