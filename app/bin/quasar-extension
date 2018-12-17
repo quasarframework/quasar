@@ -30,57 +30,23 @@ if (argv.help) {
   process.exit(0)
 }
 
-function stripVersion (name) {
-  const index = name.indexOf('@')
-
-  return index > -1
-    ? name.substring(0, index)
-    : name
-}
-
-function parseName (name) {
-  if (!name || !name.length) {
-    warn(`⚠️  Please specify app cli extension name`)
-    process.exit(1)
-  }
-
-  if (name[0] === '@') {
-    const slashIndex = name.indexOf('/')
-    if (slashIndex === -1) {
-      warn(`⚠️  Invalid app cli extension name: "${name}"`)
+async function run () {
+  const name = argv.add || argv.remove
+  if (name) {
+    if (!name || !name.length) {
+      warn(`⚠️  Please specify app cli extension name`)
       process.exit(1)
     }
 
-    const pkg = name.substring(0, slashIndex + 1) + 'quasar-cli-extension-' + name.substring(slashIndex + 1)
+    const Extension = require('../lib/cli-extension/Extension')
+    const extension = new Extension(name)
 
-    return [
-      pkg,
-      '@' + stripVersion(pkg.substring(1))
-    ]
-  }
-
-  return [
-    'quasar-cli-extension-' + name,
-    stripVersion('quasar-cli-extension-' + name)
-  ]
-}
-
-async function run () {
-  if (argv.add) {
-    await require('../lib/cli-extension/add')
-      .apply(null, parseName(argv.add))
-
+    await extension[argv.add ? 'install' : 'uninstall']()
     process.exit(0)
   }
 
-  if (argv.remove) {
-    await require('../lib/cli-extension/remove')
-      .apply(null, parseName(argv.remove))
-
-    process.exit(0)
-  }
-
-  require('../lib/cli-extension/list')
+  const extensionJson = require('../lib/cli-extension/extension-json')
+  extensionJson.list()
 }
 
 run()
