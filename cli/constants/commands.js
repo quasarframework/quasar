@@ -42,6 +42,7 @@ const TOP_COMMANDS = {
   mode: cmdMap('mode'),
   new: cmdMap('new'),
   serve: cmdMap('serve'),
+  create: cmdMap('create'),
   test: cmdMap('test', true)
 }
 module.exports = TOP_COMMANDS;

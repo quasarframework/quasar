@@ -1,29 +1,33 @@
 #!/usr/bin/env node
-const CLI = require('../index')
-const inversify = require('inversify')
+//TODO: via package maybe? @quasar/cli
+const QuasarCLI = require('../index')
 require('../lib/node-version-check')
 
 /**
  * Basic CLI Runner with a start override. Should find
  * the right package and start it
  */
-class CliRunner extends CLI {
+class QuasarCLIRunner extends QuasarCLI {
   start () {
     const
       path = require('path'),
       resolveFrom = require('resolve-from')
 
+    //TODO this.cmd
     let cmd = process.argv[2]
 
     if (cmd === 'c' || cmd === 'create') {
       process.argv.splice(2, 1)
+      //TODO this.container.get('@quasar/cli-create')
       require(`./quasar-create`)
     }
     else if (cmd === 's' || cmd  === 'serve') {
       process.argv.splice(2, 1)
+      //TODO this.container.get('@quasar/cli-serve')
       require(`./quasar-serve`)
     }
     else {
+      //TODO this.container.get('@quasar/app')
       const localFile = resolveFrom.silent(process.cwd(), path.join('@quasar/app/bin/quasar'))
 
       if (localFile && path.relative(localFile, __filename) !== '') {
@@ -32,12 +36,14 @@ class CliRunner extends CLI {
       }
       else {
         // legacy <1.0
+        // TODO this.container.get('@quasar/cli')
         const localFile = resolveFrom.silent(process.cwd(), path.join('quasar-cli/bin/quasar'))
         if (localFile && path.relative(localFile, __filename) !== '') {
           // deferring to local quasar-cli
           require(localFile)
         }
         else {
+          // TODO this.container.get('@quasar/cli') should resolve legacy quasar-cli runner if no namespaced packages found
           const commands = [
             'info',
             'serve',
@@ -75,12 +81,46 @@ class CliRunner extends CLI {
           else {
             cmd = 'help'
           }
-
-          require(`./quasar-${cmd}`)
+          if(cmd === 'help') this.help()
+          else require(`./quasar-${cmd}`)
         }
       }
     }
   }
+  help(){
+    console.log()
+    console.log(
+      require('fs').readFileSync(
+        require('path').join(__dirname, '../assets/logo.art'),
+        'utf8'
+      )
+    )
+
+    console.log(`
+  Example usage
+    $ quasar <command> <options>
+
+  Help for a command
+    $ quasar <command> --help
+    $ quasar <command> -h
+
+  Options
+    --version, -v Print Quasar CLI version
+
+  Commands
+    create        Create a project folder
+    info          Display info about your machine
+                  (and your App if in a project folder)
+    serve         Create an ad-hoc server on App's distributables
+    help          Displays this message
+`)
+  }
 }
 
-new CliRunner({auto:true})
+var isCLI = !module.parent;
+var isTesting = process.env.Q_APP_ENV === 'testing' || process.env.NODE_ENV === 'testing'
+// Export Class if it was required for extending
+// This could include an extra flag for testing
+module.exports = isCLI || isTesting
+  ? new QuasarCLIRunner({auto:true})
+  : QuasarCLIRunner

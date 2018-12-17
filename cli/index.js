@@ -7,6 +7,7 @@ require('reflect-metadata')
  */
 let CONTAINER
 if( typeof CONTAINER === 'undefined') {
+  console.log('creating container')
   CONTAINER = new inversify.Container()
 }
 /**
@@ -15,18 +16,18 @@ if( typeof CONTAINER === 'undefined') {
 const TOP_COMMANDS = require('./constants/commands')
 
 /**
- * Runner should load all available dependencies into each of the top level commands
+ * QuasarCLI should load all available dependencies into each of the top level commands
  * this will look something like future=@quasar/cli-build that maps to
  * current=./bin/quasar-build.
  *
- * The main CLI script *quasar* injects a Runner with basic options and uses
+ * The main CLI script *quasar* injects a QuasarCLI with basic options and uses
  * the default init bootstrapping. This should automatically load all installed
  * dependencies into it's own container
  */
-class Runner {
+class QuasarCLI {
   /**
-   * Runner takes a runner configuration instance
-   * @param {RunnerConfig}
+   * QuasarCLI takes a QuasarCLIRunner configuration instance
+   * @param {QuasarCLIConfig}
    */
   constructor ({ init = true, auto = false, sliceAt = 2, min = false, exit = true }) {
     this.shouldExit = exit
@@ -126,6 +127,6 @@ class Runner {
   }
 }
 
-inversify.decorate(inversify.injectable(), Runner)
+inversify.decorate(inversify.injectable(), QuasarCLI)
 
-module.exports = Runner
+module.exports = QuasarCLI

@@ -4,3 +4,5 @@
 .idea/
 debug.log
 package-lock.json
+coverage
+__example__

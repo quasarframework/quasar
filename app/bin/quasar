@@ -23,7 +23,7 @@ class CliRunner extends CLI {
       'help'
     ]
 
-    let cmd = process.argv[2]
+    let cmd = this.cmd
 
     if (cmd) {
       if (cmd.length === 1) {

@@ -1,0 +1,89 @@
+{
+  "name": "@quasar/cli-plugin-create",
+  "version": "1.0.0-alpha.2",
+  "description": "Quasar Framework CLI Create Plugin",
+  "bin": {
+    "qcreate": "./index.js"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "quasar",
+    "cli",
+    "web",
+    "spa",
+    "pwa",
+    "electron",
+    "vue",
+    "vuejs",
+    "cordova"
+  ],
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "homepage": "http://quasar-framework.org",
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  },
+  "dependencies": {
+    "@quasar/cli": "../../",
+    "@quasar/cli-helpers": "../quasar-cli-helpers/",
+    "chalk": "2.4.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "jest": "^23.6.0"
+  },
+  "jest": {
+    "globals": {
+      "__DEV__": true
+    },
+    "verbose": true,
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "<rootDir>/index.{js}"
+    ],
+    "coverageDirectory": "<rootDir>/coverage",
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    },
+    "testMatch": [
+      "<rootDir>/__test__/**/?(*.)(spec).js?(x)",
+      "<rootDir>/__test__/**/?(*.)(test).js?(x)"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/coverage/"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "resolver": null,
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    }
+  }
+}
