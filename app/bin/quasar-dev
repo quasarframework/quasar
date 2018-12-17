@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-const
-  parseArgs = require('minimist'),
-  chalk = require('chalk')
+const parseArgs = require('minimist')
 
 const
   logger = require('../lib/helpers/logger'),
@@ -119,7 +117,11 @@ async function goLive () {
   const
     DevServer = require('../lib/dev-server'),
     QuasarConfig = require('../lib/quasar-config'),
-    Generator = require('../lib/generator')
+    Generator = require('../lib/generator'),
+    extensionRunner = require('../lib/cli-extension/extensions-runner')
+
+  // register app cli extensions
+  await extensionRunner.registerExtensions()
 
   const
     quasarConfig = new QuasarConfig({

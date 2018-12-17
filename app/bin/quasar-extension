@@ -30,6 +30,10 @@ if (argv.help) {
   process.exit(0)
 }
 
+const
+  logger = require('../lib/helpers/logger'),
+  warn = logger('app:extension', 'red')
+
 async function run () {
   const name = argv.add || argv.remove
   if (name) {

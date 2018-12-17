@@ -116,6 +116,7 @@ module.exports = class Extension {
     const extensionJson = require('./extension-json')
 
     const api = new IndexAPI({
+      extId: this.extId,
       opts: extensionJson.get(this.extId)
     })
 

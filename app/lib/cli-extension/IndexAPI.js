@@ -2,13 +2,15 @@ const
   appPaths = require('../app-paths')
 
 module.exports = class IndexAPI {
-  constructor (opts) {
+  constructor ({ extId, opts }) {
+    this.extId = extId
     this.opts = opts
 
     this.__hooks = {
+      extendQuasarConf: [],
       extendWebpack: [],
       chainWebpack: [],
-      commands: []
+      commands: {}
     }
   }
 
@@ -32,13 +34,13 @@ module.exports = class IndexAPI {
   }
 
   /**
-   * Extend webpack config
+   * Extend quasar.conf
    *
    * @param {function} fn
    *   (cfg: Object, ctx: Object) => undefined
    */
-  extendWebpack (fn) {
-    this.__hooks.extendWebpack.push(fn)
+  extendQuasarConf (fn) {
+    this.__hooks.extendQuasarConf.push({ extId: this.extId, fn })
   }
 
   /**
@@ -48,24 +50,29 @@ module.exports = class IndexAPI {
    *   (cfg: ChainObject, ctx: Object) => undefined
    */
   chainWebpack (fn) {
-    this.__hooks.chainWebpack.push(fn)
+    this.__hooks.chainWebpack.push({ extId: this.extId, fn })
   }
 
   /**
-   * Register a command that will become available as `quasar run <cmd> [args]`.
+   * Extend webpack config
    *
-   * @param {string} name
-   * @param {object} [opts]
-   *   {
-   *     description: string,
-   *     usage: string,
-   *     options: { [string]: string }
-   *   }
    * @param {function} fn
-   *   (argv: { [string name]: value }, rawArgs: string[]) => ?Promise
+   *   (cfg: Object, ctx: Object) => undefined
    */
-  registerCommand (name, opts, fn) {
-    this.__hooks.commands.push({ name, opts, fn })
+  extendWebpack (fn) {
+    this.__hooks.extendWebpack.push({ extId: this.extId, fn })
+  }
+
+  /**
+   * Register a command that will become available as
+   * `quasar run <ext-id> <cmd> [args]`.
+   *
+   * @param {string} commandName
+   * @param {function} fn
+   *   (args: { [ string ] }, params: {object} }) => ?Promise
+   */
+  registerCommand (commandName, fn) {
+    this.__hooks.commands[commandName] = fn
   }
 
   /**

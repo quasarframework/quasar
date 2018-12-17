@@ -13,17 +13,17 @@
 import 'quasar/dist/quasar.ie.polyfills.js'
 <% } %>
 
-<% extras && extras.filter(asset => asset).forEach(asset => { %>
+<% extras.length > 0 && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 <% }) %>
 
-<% animations && animations.filter(asset => asset).forEach(asset => { %>
+<% animations.length > 0 && animations.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/animate/<%= asset %>.css'
 <% }) %>
 
 import 'quasar-styl'
 
-<% css && css.forEach(asset => { %>
+<% css.length > 0 && css.forEach(asset => { %>
 import '<%= asset %>'
 <% }) %>
 
@@ -36,7 +36,7 @@ import 'app/<%= sourceFiles.registerServiceWorker %>'
 
 <%
 const bootNames = []
-if (boot) {
+if (boot.length > 0) {
   function hash (str) {
     const name = str.replace(/\W+/g, '')
     return name.charAt(0).toUpperCase() + name.slice(1)

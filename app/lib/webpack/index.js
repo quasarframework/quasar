@@ -1,6 +1,7 @@
 const
   createChain = require('./create-chain'),
-  log = require('../helpers/logger')('app:webpack')
+  log = require('../helpers/logger')('app:webpack'),
+  extensionRunner = require('../lib/cli-extension/extensions-runner')
 
 function getWebpackConfig (chain, cfg, {
   name,
@@ -8,12 +9,22 @@ function getWebpackConfig (chain, cfg, {
   cfgExtendBase = cfg.build,
   invokeParams
 }) {
+  extensionRunner.runHook('chainWebpack', hook => {
+    log(`Extension(${hook.extId}): Chaining ${name ? name + ' ' : ''}Webpack config`)
+    hook.fn(chain, invokeParams)
+  })
+
   if (typeof cfgExtendBase.chainWebpack === 'function') {
     log(`Chaining ${name ? name + ' ' : ''}Webpack config`)
     cfgExtendBase.chainWebpack(chain, invokeParams)
   }
 
   const webpackConfig = chain.toConfig()
+
+  extensionRunner.runHook('extendWebpack', hook => {
+    log(`Extension(${hook.extId}): Extending ${name ? name + ' ' : ''}Webpack config`)
+    hook.fn(webpackConfig, invokeParams)
+  })
 
   if (typeof cfgExtendBase.extendWebpack === 'function') {
     log(`Extending ${name ? name + ' ' : ''}Webpack config`)

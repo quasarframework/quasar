@@ -6,11 +6,12 @@ const
 class ExtensionsRunner {
   constructor () {
     const list = extensionJson.getList()
+
     this.hooks = {}
     this.extensions = Object.keys(list).map(ext => new Extension(ext))
   }
 
-  register () {
+  async registerExtensions () {
     this.hooks = {}
     this.extensions.forEach(async (ext) => {
       const hooks = await ext.run()
@@ -20,7 +21,7 @@ class ExtensionsRunner {
 
   runHook (hookName, fn) {
     if (this.hooks[hookName] && this.hooks[hookName].length > 0) {
-      this.hooks[hookName].forEach(hook => hook(fn))
+      this.hooks[hookName].forEach(hook => fn(hook))
     }
   }
 }

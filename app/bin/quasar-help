@@ -27,6 +27,8 @@ console.log(`
     mode, m       Add/remove Quasar Modes for your App
     inspect       Inspect generated Webpack config
     extension, e  Manage Quasar App CLI extensions
+    run, r        Run specific command provided by an installed
+                    Quasar App CLI extension
     info, i       Display info about your machine and your App
     help, h       Displays this message
 `)

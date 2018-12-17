@@ -10,7 +10,8 @@ const
   logger = require('./helpers/logger'),
   log = logger('app:quasar-conf'),
   warn = logger('app:quasar-conf', 'red'),
-  legacyValidations = require('./legacy-validations')
+  legacyValidations = require('./legacy-validations'),
+  extensionRunner = require('../lib/cli-extension/extensions-runner')
 
 function getQuasarConfigCtx (opts) {
   const ctx = {
@@ -159,10 +160,10 @@ class QuasarConfig {
 
     const cfg = merge({
       ctx: this.ctx,
-      css: false,
-      boot: false,
-      animations: false,
-      extras: false
+      css: [],
+      boot: [],
+      animations: [],
+      extras: []
     }, this.quasarConfigFunction(this.ctx))
 
     if (cfg.framework === void 0 || cfg.framework === 'all') {
@@ -262,6 +263,11 @@ class QuasarConfig {
   compile () {
     let cfg = this.quasarConfig
 
+    extensionRunner.runHook('extendQuasarConf', hook => {
+      log(`Extension(${hook.extId}): Extending quasar.conf...`)
+      hook.fn(cfg)
+    })
+
     // if watching for changes,
     // then determine the type (webpack related or not)
     if (this.watch) {
@@ -306,26 +312,18 @@ class QuasarConfig {
       }
     }
 
-    if (cfg.css) {
+    if (cfg.css.length > 0) {
       cfg.css = cfg.css.filter(_ => _).map(
         asset => asset[0] === '~' ? asset.substring(1) : `src/css/${asset}`
       )
-
-      if (cfg.css.length === 0) {
-        cfg.css = false
-      }
     }
 
-    if (cfg.boot) {
+    if (cfg.boot.length > 0) {
       cfg.boot = cfg.boot.filter(_ => _).map(asset => {
         return typeof asset === 'string'
           ? { path: asset }
           : asset
       }).filter(asset => asset.path)
-
-      if (cfg.boot.length === 0) {
-        cfg.boot = false
-      }
     }
 
     cfg.build = merge({
