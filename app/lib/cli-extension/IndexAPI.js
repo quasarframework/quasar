@@ -10,6 +10,7 @@ module.exports = class IndexAPI {
       extendQuasarConf: [],
       extendWebpack: [],
       chainWebpack: [],
+      beforeDevStart: [],
       commands: {}
     }
   }
@@ -47,7 +48,7 @@ module.exports = class IndexAPI {
    * Chain webpack config
    *
    * @param {function} fn
-   *   (cfg: ChainObject, ctx: Object) => undefined
+   *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
    */
   chainWebpack (fn) {
     this.__hooks.chainWebpack.push({ extId: this.extId, fn })
@@ -57,7 +58,7 @@ module.exports = class IndexAPI {
    * Extend webpack config
    *
    * @param {function} fn
-   *   (cfg: Object, ctx: Object) => undefined
+   *   (cfg: Object, invoke: Object {isClient, isServer}) => undefined
    */
   extendWebpack (fn) {
     this.__hooks.extendWebpack.push({ extId: this.extId, fn })
@@ -73,6 +74,16 @@ module.exports = class IndexAPI {
    */
   registerCommand (commandName, fn) {
     this.__hooks.commands[commandName] = fn
+  }
+
+  /**
+   * Prepare external services before dev command runs.
+   *
+   * @param {function} fn
+   *   () => ?Promise
+   */
+  beforeDevStart (fn) {
+    this.__hooks.beforeDevStart.push({ extId: this.extId, fn })
   }
 
   /**

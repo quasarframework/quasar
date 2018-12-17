@@ -1,7 +1,7 @@
 const
   createChain = require('./create-chain'),
   log = require('../helpers/logger')('app:webpack'),
-  extensionRunner = require('../lib/cli-extension/extensions-runner')
+  extensionRunner = require('../cli-extension/extensions-runner')
 
 function getWebpackConfig (chain, cfg, {
   name,

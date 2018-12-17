@@ -11,7 +11,7 @@ const
   log = logger('app:quasar-conf'),
   warn = logger('app:quasar-conf', 'red'),
   legacyValidations = require('./legacy-validations'),
-  extensionRunner = require('../lib/cli-extension/extensions-runner')
+  extensionRunner = require('./cli-extension/extensions-runner')
 
 function getQuasarConfigCtx (opts) {
   const ctx = {

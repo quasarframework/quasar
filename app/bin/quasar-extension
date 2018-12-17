@@ -7,10 +7,11 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     a: 'add',
     r: 'remove',
+    s: 'skip-pkg',
 
     h: 'help'
   },
-  boolean: ['h'],
+  boolean: ['h', 's'],
   string: ['a', 'r']
 })
 
@@ -25,6 +26,7 @@ if (argv.help) {
   Options
     --add, -a        Add Quasar App CLI extension
     --remove, -r     Remove Quasar App CLI extension
+    --skip-pkg       Skip yarn/npm package install/uninstall
     --help, -h       Displays this message
   `)
   process.exit(0)
@@ -45,7 +47,7 @@ async function run () {
     const Extension = require('../lib/cli-extension/Extension')
     const extension = new Extension(name)
 
-    await extension[argv.add ? 'install' : 'uninstall']()
+    await extension[argv.add ? 'install' : 'uninstall'](argv['skip-pkg'])
     process.exit(0)
   }
 

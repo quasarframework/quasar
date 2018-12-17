@@ -39,11 +39,6 @@ const
   log = logger('app:run'),
   warn = logger('app:run', 'red')
 
-if (!cmd) {
-  warn(`⚠️  Please also specify the extension command`)
-  process.exit(1)
-}
-
 function getArgv (argv) {
   const { _, ...params } = argv
 
@@ -59,14 +54,37 @@ async function run () {
 
   const hooks = await extension.run()
 
+  const list = () => {
+    if (Object.keys(hooks.commands).length === 0) {
+      warn(`⚠️  "${extId}" app cli extension has no commands registered`)
+      return
+    }
+
+    log(`Listing "${extId}" app cli extension commands`)
+    log()
+
+    for (let cmd in hooks.commands) {
+      console.log(`  > ${cmd}`)
+    }
+
+    console.log()
+  }
+
+  if (!cmd) {
+    list()
+    process.exit(0)
+  }
   if (!hooks.commands[cmd]) {
-    warn(`⚠️  ${extId} app cli extension has no command called "${cmd}"`)
+    warn()
+    warn(`⚠️  "${extId}" app cli extension has no command called "${cmd}"`)
+    warn()
+    list()
     process.exit(1)
   }
 
   const command = hooks.commands[cmd]
 
-  log(`Running ${command.extId} > "${cmd}" command`)
+  log(`Running "${extId}" > "${cmd}" command`)
   log()
 
   await command(getArgv(argv))

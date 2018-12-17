@@ -13,15 +13,17 @@ class ExtensionsRunner {
 
   async registerExtensions () {
     this.hooks = {}
-    this.extensions.forEach(async (ext) => {
+    for (let ext of this.extensions) {
       const hooks = await ext.run()
       this.hooks = merge(this.hooks, hooks)
-    })
+    }
   }
 
-  runHook (hookName, fn) {
+  async runHook (hookName, fn) {
     if (this.hooks[hookName] && this.hooks[hookName].length > 0) {
-      this.hooks[hookName].forEach(hook => fn(hook))
+      for (let hook of this.hooks[hookName]) {
+        await fn(hook)
+      }
     }
   }
 }

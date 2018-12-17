@@ -123,6 +123,12 @@ async function goLive () {
   // register app cli extensions
   await extensionRunner.registerExtensions()
 
+  // run possible beforeDevStart hooks
+  await extensionRunner.runHook('beforeDevStart', hook => {
+    log(`Extension(${hook.extId}): Running beforeDevStart hook...`)
+    hook.fn()
+  })
+
   const
     quasarConfig = new QuasarConfig({
       mode: argv.mode,

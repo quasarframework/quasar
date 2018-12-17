@@ -101,6 +101,11 @@ function finalize (mode, quasarConfig) {
 }
 
 async function build () {
+  const extensionRunner = require('../lib/cli-extension/extensions-runner')
+
+  // register app cli extensions
+  await extensionRunner.registerExtensions()
+
   const quasarConfig = new QuasarConfig({
     mode: argv.mode,
     target: argv.target,
