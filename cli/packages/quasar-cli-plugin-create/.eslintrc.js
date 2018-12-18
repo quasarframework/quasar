@@ -1,3 +1,7 @@
 module.exports = {
-    "extends": "standard"
-};
+  'extends': 'standard',
+  'env': {
+    'jest/globals': true
+  },
+  'plugins': [ 'jest' ]
+}

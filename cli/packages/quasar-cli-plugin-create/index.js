@@ -1,20 +1,21 @@
 #!/usr/bin/env node
 
-const
-  exists = require('fs').existsSync,
-  path = require('path'),
-  home = require('user-home'),
-  tildify = require('tildify'),
-  inquirer = require('inquirer'),
-  ora = require('ora'),
-  chalk = require('chalk')
+const exists = require('fs').existsSync
+const path = require('path')
+const home = require('user-home')
+const tildify = require('tildify')
+const inquirer = require('inquirer')
+const ora = require('ora')
+const chalk = require('chalk')
+const rm = require('rimraf')
+const download = require('')
 
 const QuasarCLI = require('@quasar/cli')
-const {generate, logger, localPath, banner} = require('@quasar/cli-helpers')
-const {isLocalPath, getTemplatePath} = localPath
+const { generate, logger, localPath, banner } = require('@quasar/cli-helpers')
+const { isLocalPath, getTemplatePath } = localPath
 
 class QuasarCLIPluginCreate extends QuasarCLI {
-  constructor ({init = true, sliceAt = 2, auto = true}) {
+  constructor ({ init = true, sliceAt = 2, auto = true }) {
     super({
       init,
       auto,
@@ -27,8 +28,8 @@ class QuasarCLIPluginCreate extends QuasarCLI {
           o: 'offline',
           h: 'help'
         },
-        boolean: ['c', 'o', 'h'],
-        string: ['k', 'b']
+        boolean: [ 'c', 'o', 'h' ],
+        string: [ 'k', 'b' ]
       }
     })
 
@@ -44,7 +45,7 @@ class QuasarCLIPluginCreate extends QuasarCLI {
           : 'quasarframework/quasar-starter-kit-' + this.argv.kit
       )
       : 'quasarframework/quasar-starter-kit'
-    this.rawName = this.argv._[0]
+    this.rawName = this.argv._[ 0 ]
     this.inPlace = !this.rawName || this.rawName === '.'
     this.name = this.inPlace ? path.relative('../', process.cwd()) : this.rawName
     this.to = path.resolve(this.rawName || '.')
@@ -73,13 +74,13 @@ class QuasarCLIPluginCreate extends QuasarCLI {
     //   console.log()
     // })
     if (this.auto && (this.inPlace || exists(this.to))) {
-      inquirer.prompt([{
+      inquirer.prompt([ {
         type: 'confirm',
         message: this.inPlace
           ? 'Generate project in current directory?'
           : 'Target directory exists. Continue?',
         name: 'ok'
-      }]).then(answers => {
+      } ]).then(answers => {
         if (answers.ok && this.auto) {
           this.run()
         }
@@ -97,15 +98,14 @@ class QuasarCLIPluginCreate extends QuasarCLI {
     // check if template isn't local
     if (isLocalPath(this.template) !== true) {
       this.downloadAndGenerate()
-      return
     }
 
     const templatePath = getTemplatePath(this.template)
     if (exists(templatePath)) {
-      generate(name, templatePath, to, err => {
+      generate(this.name, templatePath, this.to, err => {
         if (err) logger.fatal(err)
         console.log()
-        logger.success('Generated "%s".', name)
+        logger.success('Generated "%s".', this.name)
       })
     }
     else {
@@ -122,7 +122,7 @@ class QuasarCLIPluginCreate extends QuasarCLI {
       rm(this.tmp)
     }
 
-    download(this.template, this.tmp, {clone: this.argv.clone}, err => {
+    download(this.template, this.tmp, { clone: this.argv.clone }, err => {
       spinner.stop()
 
       if (err) {
@@ -170,11 +170,11 @@ class QuasarCLIPluginCreate extends QuasarCLI {
   }
 }
 
-var isCLI = !module.parent
-var isTesting = process.env.Q_APP_ENV === 'testing' || process.env.NODE_ENV === 'testing'
+const isCLI = !module.parent
+const isTesting = process.env.Q_APP_ENV === 'testing' || process.env.NODE_ENV === 'testing'
 
 // Export Class if it was required for extending
 // This could include an extra flag for testing
 module.exports = isCLI || isTesting
-  ? new QuasarCLIPluginCreate({auto: true})
+  ? new QuasarCLIPluginCreate()
   : QuasarCLIPluginCreate
