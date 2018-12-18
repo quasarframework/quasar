@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/quasar-app.iml" filepath="$PROJECT_DIR$/app/quasar-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/babel-preset-app/quasar-babel-preset-app.iml" filepath="$PROJECT_DIR$/babel-preset-app/quasar-babel-preset-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cli/quasar-cli.iml" filepath="$PROJECT_DIR$/cli/quasar-cli.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cli/packages/quasar-cli-helpers/quasar-cli-helpers.iml" filepath="$PROJECT_DIR$/cli/packages/quasar-cli-helpers/quasar-cli-helpers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cli/packages/quasar-cli-plugin-create/quasar-cli-plugin-create.iml" filepath="$PROJECT_DIR$/cli/packages/quasar-cli-plugin-create/quasar-cli-plugin-create.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cli/packages/quasar-cli-plugin-info/quasar-cli-plugin-info.iml" filepath="$PROJECT_DIR$/cli/packages/quasar-cli-plugin-info/quasar-cli-plugin-info.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cli/packages/quasar-cli-plugin-serve/quasar-cli-plugin-serve.iml" filepath="$PROJECT_DIR$/cli/packages/quasar-cli-plugin-serve/quasar-cli-plugin-serve.iml" />
+      <module fileurl="file://$PROJECT_DIR$/extras/quasar-extras.iml" filepath="$PROJECT_DIR$/extras/quasar-extras.iml" />
+      <module fileurl="file://$PROJECT_DIR$/quasar/quasar-framework.iml" filepath="$PROJECT_DIR$/quasar/quasar-framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/quasar-mono.iml" filepath="$PROJECT_DIR$/.idea/quasar-mono.iml" />
+    </modules>
+  </component>
+</project>
