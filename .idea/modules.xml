@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/quasar.iml" filepath="$PROJECT_DIR$/.idea/quasar.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/quasar-app.iml" filepath="$PROJECT_DIR$/app/quasar-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/babel-preset-app/quasar-babel-preset-app.iml" filepath="$PROJECT_DIR$/babel-preset-app/quasar-babel-preset-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/cli/quasar-cli.iml" filepath="$PROJECT_DIR$/cli/quasar-cli.iml" />
@@ -11,7 +12,6 @@
       <module fileurl="file://$PROJECT_DIR$/cli/packages/quasar-cli-plugin-serve/quasar-cli-plugin-serve.iml" filepath="$PROJECT_DIR$/cli/packages/quasar-cli-plugin-serve/quasar-cli-plugin-serve.iml" />
       <module fileurl="file://$PROJECT_DIR$/extras/quasar-extras.iml" filepath="$PROJECT_DIR$/extras/quasar-extras.iml" />
       <module fileurl="file://$PROJECT_DIR$/quasar/quasar-framework.iml" filepath="$PROJECT_DIR$/quasar/quasar-framework.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/quasar-mono.iml" filepath="$PROJECT_DIR$/.idea/quasar-mono.iml" />
     </modules>
   </component>
 </project>
