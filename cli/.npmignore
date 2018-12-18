@@ -1,1 +1,3 @@
 .editorconfig
+.idea
+quasar-cli.iml
