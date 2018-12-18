@@ -1,5 +1,6 @@
 const
-  appPaths = require('../app-paths')
+  appPaths = require('../app-paths'),
+  { removeSync } = require('fs-extra')
 
 /**
  * API for extension's /uninstall.js script
@@ -28,12 +29,19 @@ module.exports = class UninstallAPI {
   }
 
   /**
-   * Remove a file or folder from the app on which the extension has been installed.
+   * Remove a file or folder from devland which the
+   * extension has installed and is no longer needed.
+   *
+   * Be careful about it and do not delete the files
+   * that would break developer's app.
+   *
+   * The __path (file or folder) needs to be relative
+   * to project's root folder.
    *
    * @param {string} __path
    */
   removePath (__path) {
-    //
+    removeSync(appPaths.resolve.app(__path))
   }
 
   /**

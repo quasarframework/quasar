@@ -75,6 +75,7 @@ module.exports = class Extension {
       hooks.exitLog.forEach(msg => {
         console.log(msg)
       })
+      console.log()
     }
   }
 
@@ -105,6 +106,7 @@ module.exports = class Extension {
       hooks.exitLog.forEach(msg => {
         console.log(msg)
       })
+      console.log()
     }
   }
 
