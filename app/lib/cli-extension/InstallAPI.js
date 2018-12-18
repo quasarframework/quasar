@@ -1,22 +1,28 @@
 const
   fs = require('fs'),
-  appPaths = require('../app-paths')
+  path = require('path'),
+  merge = require('webpack-merge'),
+  compileTemplate = require('lodash.template')
 
+const
+  appPaths = require('../app-paths'),
+  logger = require('../helpers/logger'),
+  warn = logger('app:install-api', 'red')
+
+/**
+ * API for extension's /install.js script
+ */
 module.exports = class InstallAPI {
-  constructor ({ prompts }) {
+  constructor ({ extId, prompts }) {
+    this.extId = extId
     this.prompts = prompts
+    this.resolve = appPaths.resolve
+    this.appDir = appPaths.appDir
 
+    this.__needsNodeModulesUpdate = false
     this.__hooks = {
       exitLog: []
     }
-  }
-
-  get resolve () {
-    return appPaths.resolve
-  }
-
-  get appDir () {
-    return appPaths.appDir
   }
 
   /**
@@ -39,23 +45,87 @@ module.exports = class InstallAPI {
   extendPackageJson (extPkg) {
     if (extPkg !== void 0 && Object(extPkg) === extPkg && Object.keys(extPkg).length > 0) {
       const
-        filePath = appPaths.resolve.app('package.json')
-        pkg = require(filePath)
+        filePath = appPaths.resolve.app('package.json'),
+        pkg = merge(require(filePath), extPkg)
 
-      Object.assign(pkg, extPkg)
-      fs.writeFileSync(appPath.resolve.app('new.package.json'), JSON.stringify(pkg, null, 2), 'utf-8')
-      this.__packageJsonChanged = true
+      fs.writeFileSync(
+        appPaths.resolve.app('package.json'),
+        JSON.stringify(pkg, null, 2),
+        'utf-8'
+      )
+
+      if (
+        extPkg.dependencies ||
+        extPkg.devDependencies ||
+        extPkg.optionalDependencies ||
+        extPkg.bundleDependencies ||
+        extPkg.peerDependencies
+      ) {
+        this.__needsNodeModulesUpdate = true
+      }
     }
   }
 
   /**
-   * Render a folder/file from extension templates.
-   * Needs a relative path to extension's install script.
+   * Render a folder from extension templates into devland.
+   * Needs a relative path to extension's /install.js script.
    *
-   * @param {string} templatePath
+   * @param {string} templateFolder
+   * @param {object} additionalOpts (rendering opts)
    */
-  render (templatePath) {
-    //
+  render (templatePath, additionalOpts) {
+    const
+      dir = getCallerPath(),
+      source = path.resolve(dir, templatePath),
+      scope = additionalOpts
+        ? Object.assign({}, this.prompts, additionalOpts || {})
+        : this.prompts
+
+    if (!fs.existsSync(source)) {
+      warn()
+      warn(`⚠️  Extension(${this.extId}): render() - cannot locate ${templatePath}. Skipping...`)
+      warn()
+      return
+    }
+    if (!fs.lstatSync(source).isDirectory()) {
+      warn()
+      warn(`⚠️  Extension(${this.extId}): render() - "${templatePath}" is a file instead of folder. Skipping...`)
+      warn()
+      return
+    }
+
+    const
+      fglob = require('fast-glob'),
+      isBinary = require('isbinaryfile')
+
+    const files = fglob.sync(['**/*'], { cwd: source })
+
+    for (const rawPath of files) {
+      const targetRelativePath = rawPath.split('/').map(name => {
+        // dotfiles are ignored when published to npm, therefore in templates
+        // we need to use underscore instead (e.g. "_gitignore")
+        if (name.charAt(0) === '_' && name.charAt(1) !== '_') {
+          return `.${name.slice(1)}`
+        }
+        if (name.charAt(0) === '_' && name.charAt(1) === '_') {
+          return `${name.slice(1)}`
+        }
+        return name
+      }).join('/')
+
+      const targetPath = appPaths.resolve.app(targetRelativePath)
+      const sourcePath = path.resolve(source, rawPath)
+
+      if (isBinary.sync(sourcePath)) {
+        fs.copyFileSync(sourcePath, targetPath)
+      }
+      else {
+        const rawContent = fs.readFileSync(sourcePath, 'utf-8')
+        const template = compileTemplate(rawContent)
+
+        fs.writeFileSync(targetPath, template(scope), 'utf-8')
+      }
+    }
   }
 
   /**
@@ -74,4 +144,12 @@ module.exports = class InstallAPI {
   __getHooks () {
     return this.__hooks
   }
+}
+
+function getCallerPath () {
+  const _prepareStackTrace = Error.prepareStackTrace
+	Error.prepareStackTrace = (_, stack) => stack
+	const stack = new Error().stack.slice(1)
+  Error.prepareStackTrace = _prepareStackTrace
+  return path.dirname(stack[1].getFileName())
 }

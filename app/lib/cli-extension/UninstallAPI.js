@@ -1,19 +1,19 @@
 const
   appPaths = require('../app-paths')
 
+/**
+ * API for extension's /uninstall.js script
+ */
 module.exports = class UninstallAPI {
-  constructor () {
+  constructor ({ extId, prompts }) {
+    this.extId = extId
+    this.prompts = prompts
+    this.resolve = appPaths.resolve
+    this.appDir = appPaths.appDir
+
     this.__hooks = {
       exitLog: []
     }
-  }
-
-  get appDir () {
-    return appPaths.appDir
-  }
-
-  get resolve () {
-    return appPaths.resolve
   }
 
   /**

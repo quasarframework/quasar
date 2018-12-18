@@ -1,10 +1,15 @@
 const
   appPaths = require('../app-paths')
 
+/**
+ * API for extension's /index.js script
+ */
 module.exports = class IndexAPI {
-  constructor ({ extId, opts }) {
+  constructor ({ extId, prompts }) {
     this.extId = extId
-    this.opts = opts
+    this.prompts = prompts
+    this.resolve = appPaths.resolve
+    this.appDir = appPaths.appDir
 
     this.__hooks = {
       extendQuasarConf: [],
@@ -13,14 +18,6 @@ module.exports = class IndexAPI {
       beforeDevStart: [],
       commands: {}
     }
-  }
-
-  get resolve () {
-    return appPaths.resolve
-  }
-
-  get appDir () {
-    return appPaths.appDir
   }
 
   /**

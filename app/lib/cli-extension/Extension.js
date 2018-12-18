@@ -27,19 +27,6 @@ module.exports = class Extension {
     }
   }
 
-  get prompts () {
-    return (async () => {
-      const questions = this.__getScript('prompts')
-
-      if (!questions) {
-        return {}
-      }
-
-      const inquirer = require('inquirer')
-      return await inquirer.prompt(questions())
-    })()
-  }
-
   isInstalled () {
     try {
       require(this.packageName)
@@ -52,7 +39,7 @@ module.exports = class Extension {
   }
 
   async install (skipPkgInstall) {
-    log(`Trying to install "${this.extId}" app cli extension`)
+    log(`Installing "${this.extId}" app cli extension`)
     log()
 
     // verify if already installed
@@ -73,11 +60,13 @@ module.exports = class Extension {
     // yarn/npm install
     skipPkgInstall !== true && this.__installPackage()
 
+    const prompts = await this.__getPrompts()
+
     // run extension install
-    const hooks = await this.__runInstallScript()
+    const hooks = await this.__runInstallScript(prompts)
 
     const extensionJson = require('./extension-json')
-    extensionJson.add(this.extId, this.prompts)
+    extensionJson.add(this.extId, prompts)
 
     log(`Extension "${this.extId}" successfully installed.`)
     log()
@@ -90,7 +79,7 @@ module.exports = class Extension {
   }
 
   async uninstall (skipPkgUninstall) {
-    log(`Trying to uninstall "${this.extId}" app cli extension`)
+    log(`Uninstalling "${this.extId}" app cli extension`)
     log()
 
     // verify if installed
@@ -99,9 +88,11 @@ module.exports = class Extension {
       return
     }
 
-    const hooks = await this.__runUninstallScript()
-
     const extensionJson = require('./extension-json')
+    const prompts = extensionJson.get(this.extId)
+
+    const hooks = await this.__runUninstallScript(prompts)
+
     extensionJson.remove(this.extId)
 
     // yarn/npm uninstall
@@ -146,6 +137,20 @@ module.exports = class Extension {
       : packageFullName
   }
 
+  async __getPrompts () {
+    const questions = this.__getScript('prompts')
+
+    if (!questions) {
+      return {}
+    }
+
+    const inquirer = require('inquirer')
+    const prompts = await inquirer.prompt(questions())
+
+    console.log()
+    return prompts
+  }
+
   __installPackage () {
     const
       spawn = require('../helpers/spawn'),
@@ -184,7 +189,10 @@ module.exports = class Extension {
     let script
 
     try {
-      script = require(this.packageName + '/' + scriptName)
+      const __path = require.resolve(this.packageName + '/' + scriptName, {
+        paths: [ appPaths.appDir ]
+      })
+      script = require(__path)
     }
     catch (e) {
       if (fatal) {
@@ -196,7 +204,7 @@ module.exports = class Extension {
     return script
   }
 
-  async __runInstallScript () {
+  async __runInstallScript (prompts) {
     const script = this.__getScript('install')
 
     if (!script) {
@@ -208,12 +216,13 @@ module.exports = class Extension {
     const InstallAPI = require('./InstallAPI')
 
     const api = new InstallAPI({
-      prompts: this.prompts
+      extId: this.extId,
+      prompts
     })
 
     await script(api)
 
-    if (api.__packageJsonChanged) {
+    if (api.__needsNodeModulesUpdate) {
       const
         spawn = require('../helpers/spawn'),
         nodePackager = require('../helpers/node-packager'),
@@ -233,7 +242,7 @@ module.exports = class Extension {
     return api.__getHooks()
   }
 
-  async __runUninstallScript () {
+  async __runUninstallScript (prompts) {
     const script = this.__getScript('uninstall')
 
     if (!script) {
@@ -244,7 +253,8 @@ module.exports = class Extension {
 
     const UninstallAPI = require('./UninstallAPI')
     const api = new UninstallAPI({
-      prompts: this.prompts
+      extId: this.extId,
+      prompts
     })
 
     await script(api)
