@@ -36,6 +36,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 <a href="https://www.letsbutterfly.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/letsbutterfly.png" width="200px"></a>
 
+- Jeff Cole
+
 ---
 
 ### $50+
@@ -130,6 +132,9 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - rangepoker
 - Amitabh Akolkar
 - Ryohei Katsume
+- David Flasterstein
+- Jay McGuinness
+- Matheus Botura Pimenta
 
 - Jim O'Quinn ($5)
 - Ken ($5)
