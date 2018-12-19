@@ -8,7 +8,7 @@ const argv = parseArgs(process.argv.slice(2), {
     T: 'target',
     A: 'arch',
     b: 'bundler',
-    u: 'ui-only',
+    s: 'skip-pkg',
     d: 'debug',
     h: 'help'
   },
@@ -26,24 +26,24 @@ if (argv.help) {
   Usage
     $ quasar build -p <port number>
   Options
-    --mode, -m     App mode [spa|ssr|pwa|cordova|electron] (default: spa)
-    --target, -T   App target
+    --mode, -m      App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
                       - Electron with default "electron-packager" bundler (default: yours)
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
-    --debug, -d    Build for debugging purposes
-    --ui-only, -u  Build only UI (skips creating Cordova/Electron executables)
+    --debug, -d     Build for debugging purposes
+    --skip-pkg, -s  Build only UI (skips creating Cordova/Electron executables)
                       - Cordova (it only fills in /src/cordova/www folder with the UI code)
                       - Electron (it only creates the /dist/electron/UnPackaged folder)
-    --help, -h     Displays this message
+    --help, -h      Displays this message
 
     ONLY for Electron mode:
-    --bundler, -b  Bundler (electron-packager or electron-builder)
+    --bundler, -b   Bundler (electron-packager or electron-builder)
                       [packager|builder]
-    --arch, -A     App architecture (default: yours)
+    --arch, -A      App architecture (default: yours)
                       - with default "electron-packager" bundler:
                           [ia32|x64|armv7l|arm64|mips64el|all]
                       - with "electron-builder" bundler:
@@ -75,7 +75,9 @@ const
   QuasarConfig = require('../lib/quasar-config'),
   Generator = require('../lib/generator'),
   artifacts = require('../lib/artifacts'),
-  ensureDeps = require('../lib/helpers/ensure-deps')
+  ensureDeps = require('../lib/helpers/ensure-deps'),
+  getQuasarCtx = require('../lib/helpers/get-quasar-ctx'),
+  extensionRunner = require('../lib/cli-extension/extensions-runner')
 
 function parseWebpackConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
@@ -88,7 +90,7 @@ function parseWebpackConfig (webpackConfig, mode) {
 }
 
 function finalize (mode, quasarConfig) {
-  if (argv['ui-only'] !== true) {
+  if (argv['skip-pkg'] !== true) {
     if (mode === 'cordova') {
       return require('../lib/cordova').build(quasarConfig)
     }
@@ -101,12 +103,7 @@ function finalize (mode, quasarConfig) {
 }
 
 async function build () {
-  const extensionRunner = require('../lib/cli-extension/extensions-runner')
-
-  // register app cli extensions
-  await extensionRunner.registerExtensions()
-
-  const quasarConfig = new QuasarConfig({
+  const ctx = getQuasarCtx({
     mode: argv.mode,
     target: argv.target,
     arch: argv.arch,
@@ -114,6 +111,11 @@ async function build () {
     debug: argv.debug,
     prod: true
   })
+
+  // register app cli extensions
+  await extensionRunner.registerExtensions(ctx)
+
+  const quasarConfig = new QuasarConfig(ctx)
 
   try {
     await quasarConfig.prepare()

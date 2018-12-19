@@ -11,10 +11,10 @@ class ExtensionsRunner {
     this.extensions = Object.keys(list).map(ext => new Extension(ext))
   }
 
-  async registerExtensions () {
+  async registerExtensions (ctx) {
     this.hooks = {}
     for (let ext of this.extensions) {
-      const hooks = await ext.run()
+      const hooks = await ext.run(ctx)
       this.hooks = merge(this.hooks, hooks)
     }
   }

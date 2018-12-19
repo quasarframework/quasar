@@ -29,7 +29,9 @@ module.exports = class Extension {
 
   isInstalled () {
     try {
-      require(this.packageName)
+      require.resolve(this.packageName, {
+        paths: [ appPaths.appDir ]
+      })
     }
     catch (e) {
       return false
@@ -110,7 +112,7 @@ module.exports = class Extension {
     }
   }
 
-  async run () {
+  async run (ctx) {
     if (!this.isInstalled()) {
       warn(`⚠️  Quasar app cli extension "${this.extId}" is missing...`)
       process.exit(1)
@@ -122,11 +124,12 @@ module.exports = class Extension {
 
     const api = new IndexAPI({
       extId: this.extId,
-      opts: extensionJson.get(this.extId)
+      prompts: extensionJson.get(this.extId),
+      ctx
     })
 
     log(`Running "${this.extId}" extension...`)
-    await script(api)
+    await script(api, ctx)
 
     return api.__getHooks()
   }
@@ -191,19 +194,20 @@ module.exports = class Extension {
     let script
 
     try {
-      const __path = require.resolve(this.packageName + '/' + scriptName, {
+      script = require.resolve(this.packageName + '/' + scriptName, {
         paths: [ appPaths.appDir ]
       })
-      script = require(__path)
     }
     catch (e) {
       if (fatal) {
         warn(`⚠️  Extension "${this.extId}" has missing ${scriptName} script...`)
         process.exit(1)
       }
+
+      return
     }
 
-    return script
+    return require(script)
   }
 
   async __runInstallScript (prompts) {

@@ -13,36 +13,6 @@ const
   legacyValidations = require('./legacy-validations'),
   extensionRunner = require('./cli-extension/extensions-runner')
 
-function getQuasarConfigCtx (opts) {
-  const ctx = {
-    dev: opts.dev || false,
-    prod: opts.prod || false,
-    mode: {},
-    modeName: opts.mode,
-    target: {},
-    targetName: opts.target,
-    emulator: opts.emulator,
-    arch: {},
-    archName: opts.arch,
-    bundler: {},
-    bundlerName: opts.bundler,
-    debug: opts.debug
-  }
-  ctx.mode[opts.mode] = true
-
-  if (opts.target) {
-    ctx.target[opts.target] = true
-  }
-  if (opts.arch) {
-    ctx.arch[opts.arch] = true
-  }
-  if (opts.bundler) {
-    ctx.bundler[opts.bundler] = true
-  }
-
-  return ctx
-}
-
 function encode (obj) {
   return JSON.stringify(obj, (key, value) => {
     return typeof value === 'function'
@@ -84,11 +54,11 @@ function parseBuildEnv (env) {
  */
 
 class QuasarConfig {
-  constructor (opts) {
+  constructor (ctx, opts = {}) {
+    this.ctx = ctx
+    this.opts = opts
     this.filename = appPaths.resolve.app('quasar.conf.js')
     this.pkg = require(appPaths.resolve.app('package.json'))
-    this.opts = opts
-    this.ctx = getQuasarConfigCtx(opts)
     this.watch = opts.onBuildChange || opts.onAppChange
 
     if (this.watch) {

@@ -118,10 +118,18 @@ async function goLive () {
     DevServer = require('../lib/dev-server'),
     QuasarConfig = require('../lib/quasar-config'),
     Generator = require('../lib/generator'),
+    getQuasarCtx = require('../lib/helpers/get-quasar-ctx'),
     extensionRunner = require('../lib/cli-extension/extensions-runner')
 
+  const ctx = getQuasarCtx({
+    mode: argv.mode,
+    target: argv.target,
+    emulator: argv.emulator,
+    dev: true
+  })
+
   // register app cli extensions
-  await extensionRunner.registerExtensions()
+  await extensionRunner.registerExtensions(ctx)
 
   // run possible beforeDevStart hooks
   await extensionRunner.runHook('beforeDevStart', hook => {
@@ -130,13 +138,9 @@ async function goLive () {
   })
 
   const
-    quasarConfig = new QuasarConfig({
-      mode: argv.mode,
-      target: argv.target,
-      emulator: argv.emulator,
+    quasarConfig = new QuasarConfig(ctx, {
       port: argv.port,
       host: argv.hostname,
-      dev: true,
       onAddress: parseAddress,
       onBuildChange () {
         log(`Build changes detected. Rebuilding app...`)

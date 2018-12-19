@@ -77,18 +77,22 @@ function getCfgEntries (webpackConfig, mode) {
 }
 
 async function inspect () {
-  const extensionRunner = require('../lib/cli-extension/extensions-runner')
+  const
+    extensionRunner = require('../lib/cli-extension/extensions-runner'),
+    getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
 
-  // register app cli extensions
-  await extensionRunner.registerExtensions()
-
-  const quasarConfig = new QuasarConfig({
+  const ctx = getQuasarCtx({
     mode: argv.mode,
     target: argv.target,
     debug: argv.debug,
     dev: argv.cmd === 'dev',
     prod: argv.cmd === 'build'
   })
+
+  // register app cli extensions
+  await extensionRunner.registerExtensions(ctx)
+
+  const quasarConfig = new QuasarConfig(ctx)
 
   try {
     await quasarConfig.prepare()

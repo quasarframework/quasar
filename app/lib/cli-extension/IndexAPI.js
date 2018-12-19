@@ -5,7 +5,8 @@ const
  * API for extension's /index.js script
  */
 module.exports = class IndexAPI {
-  constructor ({ extId, prompts }) {
+  constructor ({ extId, prompts, ctx }) {
+    this.ctx = ctx
     this.extId = extId
     this.prompts = prompts
     this.resolve = appPaths.resolve
