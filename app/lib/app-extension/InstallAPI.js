@@ -7,7 +7,8 @@ const
 const
   appPaths = require('../app-paths'),
   logger = require('../helpers/logger'),
-  warn = logger('app:install-api', 'red')
+  warn = logger('app:extension(install)', 'red'),
+  quasarAppVersion = require('../../package.json').version
 
 /**
  * API for extension's /install.js script
@@ -15,6 +16,7 @@ const
 module.exports = class InstallAPI {
   constructor ({ extId, prompts }) {
     this.extId = extId
+    this.quasarAppVersion = quasarAppVersion
     this.prompts = prompts
     this.resolve = appPaths.resolve
     this.appDir = appPaths.appDir
@@ -22,6 +24,28 @@ module.exports = class InstallAPI {
     this.__needsNodeModulesUpdate = false
     this.__hooks = {
       exitLog: []
+    }
+  }
+
+  /**
+   * Ensure the App Extension is compatible with
+   * locally installed @quasar/app through a
+   * semver condition.
+   *
+   * If the semver condition is not met, then
+   * @quasar/app errors out and halts execution
+   *
+   * Example of semver condition:
+   *   '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
+   *
+   * @param {string} semverCondition
+   */
+  compatibleWithQuasarApp (semverCondition) {
+    const semver = require('semver')
+
+    if (!semver.satisfies(quasarAppVersion, semverCondition)) {
+      warn(`⚠️  Extension(${this.extId}): is not compatible with @quasar/app v${quasarAppVersion}`)
+      process.exit(1)
     }
   }
 
