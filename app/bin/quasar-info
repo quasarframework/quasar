@@ -47,7 +47,7 @@ function safePkgInfo (pkg) {
     const content = require(appPaths.resolve.app(`node_modules/${pkg}/package.json`))
     return {
       key: `  ${String(content.name).trim()}`,
-      value: `${chalk.green(String(content.version).trim())}${content.description ? `\t(${content.description})` : ''}`
+      value: `${chalk.green(String(content.version).trim())}${content.description ? ` -- ${content.description}` : ''}`
     }
   }
   catch (err) {
@@ -58,18 +58,18 @@ function safePkgInfo (pkg) {
   }
 }
 
-const
-  getExternalIPs = require('../lib/helpers/net').getExternalNetworkInterface,
-  output = [
-    { key: 'Operating System', value: chalk.green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`), section: true },
-    { key: 'NodeJs', value: chalk.green(process.version.slice(1)) },
-    { key: 'Global packages', section: true },
-    { key: '  NPM', value: getSpawnOutput('npm') },
-    { key: '  yarn', value: getSpawnOutput('yarn') },
-    { key: '  @quasar/cli', value: getSpawnOutput('quasar') },
-    { key: '  cordova', value: getSpawnOutput('cordova') },
-    { key: 'Important local packages', section: true }
-  ]
+function print(m) {
+  console.log(`${m.section ? '\n' : ''}${ m.key }${ m.value === undefined ? '' : ' - ' + m.value }`)
+}
+
+print({ key: 'Operating System', value: chalk.green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`), section: true })
+print({ key: 'NodeJs', value: chalk.green(process.version.slice(1)) })
+print({ key: 'Global packages', section: true })
+print({ key: '  NPM', value: getSpawnOutput('npm') })
+print({ key: '  yarn', value: getSpawnOutput('yarn') })
+print({ key: '  @quasar/cli', value: chalk.green(process.env.QUASAR_CLI_VERSION) })
+print({ key: '  cordova', value: getSpawnOutput('cordova') })
+print({ key: 'Important local packages', section: true })
 
 ;[
   'quasar',
@@ -86,22 +86,33 @@ const
   'webpack-dev-server',
   'workbox-webpack-plugin',
   'register-service-worker'
-].forEach(pkg => output.push(safePkgInfo(pkg)))
+].forEach(pkg => print(safePkgInfo(pkg)))
 
-output.push(
-  { key: 'Networking', section: true },
-  { key: '  Host', value: chalk.green(os.hostname()) }
-)
+print({ key: 'Quasar App Extensions', section: true })
+
+const extensionJson = require('../lib/app-extension/extension-json')
+const extensions = Object.keys(extensionJson.getList())
+
+if (extensions.length > 0) {
+  const Extension = require('../lib/app-extension/Extension.js')
+  extensions.forEach(ext => {
+    const instance = new Extension(ext)
+    print(safePkgInfo(instance.packageName))
+  })
+}
+else {
+  print({ key: '  *None installed*' })
+}
+
+print({ key: 'Networking', section: true })
+print({ key: '  Host', value: chalk.green(os.hostname()) })
+
+const getExternalIPs = require('../lib/helpers/net').getExternalNetworkInterface
 getExternalIPs().forEach(intf => {
-  output.push({
+  print({
     key: `  ${ intf.deviceName }`,
     value: chalk.green(intf.address)
   })
 })
 
-const spaces = output.reduce((acc, v) => Math.max(acc, v.key.length), 0)
-console.log(
-  output
-    .map(m => `${m.section ? '\n' : ''}${ m.key }${' '.repeat(spaces - m.key.length)}\t${ m.value === undefined ? '' : m.value }`).join('\n')
-)
 console.log()

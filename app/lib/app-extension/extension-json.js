@@ -2,7 +2,6 @@ const
   fs = require('fs'),
   logger = require('../helpers/logger'),
   log = logger('app:extension-manager'),
-  warn = logger('app:extension-manager', 'red'),
   chalk = require('chalk'),
   appPaths = require('../app-paths')
 

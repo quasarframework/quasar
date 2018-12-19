@@ -20,6 +20,8 @@ else {
   const localFile = resolveFrom.silent(process.cwd(), path.join('@quasar/app/bin/quasar'))
 
   if (localFile && path.relative(localFile, __filename) !== '') {
+    process.env.QUASAR_CLI_VERSION = require('../package.json').version
+
     // deferring to local @quasar/app
     require(localFile)
   }

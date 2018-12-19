@@ -47,7 +47,7 @@ const
     { key: 'Global packages', section: true },
     { key: '  NPM', value: getSpawnOutput('npm') },
     { key: '  yarn', value: getSpawnOutput('yarn') },
-    { key: '  quasar-cli', value: chalk.green(require('../package.json').version) },
+    { key: '  @quasar/cli', value: chalk.green(require('../package.json').version) },
     { key: '  cordova', value: getSpawnOutput('cordova') }
   ]
 

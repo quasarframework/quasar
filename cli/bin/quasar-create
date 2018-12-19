@@ -45,6 +45,8 @@ if (argv.help) {
   process.exit(0)
 }
 
+require('../lib/ensure-outside-project')()
+
 console.log()
 console.log(
   require('fs').readFileSync(
@@ -137,7 +139,7 @@ function run () {
 }
 
 function downloadAndGenerate (template) {
-  const spinner = ora('downloading template')
+  const spinner = ora(' Downloading Quasar starter kit')
   spinner.start()
 
   // Remove if local template exists
