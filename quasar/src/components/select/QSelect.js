@@ -45,6 +45,10 @@ export default Vue.extend({
     counter: Boolean,
     maxValues: [Number, String],
     denseOptions: Boolean,
+    darkOptions: {
+      type: Boolean,
+      default: null
+    },
 
     useInput: Boolean,
     useChips: Boolean,
@@ -137,6 +141,10 @@ export default Vue.extend({
       }
     },
 
+    computedDark () {
+      return this.darkOptions !== null ? this.darkOptions : this.dark
+    },
+
     optionScope () {
       return this.options.slice(0, this.optionsToShow).map((opt, i) => {
         const disable = this.__isDisabled(opt)
@@ -148,7 +156,8 @@ export default Vue.extend({
           focused: false,
           disable,
           tabindex: -1,
-          dense: this.denseOptions
+          dense: this.denseOptions,
+          dark: this.computedDark
         }
 
         if (disable !== true) {
@@ -525,6 +534,7 @@ export default Vue.extend({
     __getOptions (h) {
       const fn = this.$scopedSlots.option || (scope => h(QItem, {
         key: scope.index,
+        class: scope.selected === true && this.color !== void 0 ? `text-${this.color}` : void 0,
         props: scope.itemProps,
         on: scope.itemEvents
       }, [
@@ -553,6 +563,7 @@ export default Vue.extend({
           ? h('div', {
             ref: 'menu',
             staticClass: 'q-local-menu scroll',
+            class: this.computedDark === true ? 'bg-grey-10' : void 0,
             on: {
               click: stopAndPrevent,
               '&scroll': this.__onMenuScroll
@@ -573,6 +584,7 @@ export default Vue.extend({
           : null,
 
         h(QIcon, {
+          staticClass: 'cursor-pointer',
           props: { name: this.dropdownArrowIcon }
         })
       ]

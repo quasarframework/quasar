@@ -13,6 +13,8 @@
         <q-toggle v-model="disable" label="Disable" />
         <q-toggle v-model="dense" label="Dense" />
         <q-toggle v-model="expandBesides" label="Expand besides" />
+        <q-toggle v-model="dark" label="Dark" />
+        <q-checkbox toggle-indeterminate v-model="darkOptions" label="Dark Options" />
       </div>
 
       <div class="text-h6">String options</div>
@@ -23,6 +25,7 @@
         v-model="stringSingle"
         :options="stringOptions"
         label="Single"
+        color="red"
       />
 
       <div>{{ stringMultiple }}</div>
@@ -32,6 +35,7 @@
         :options="stringOptions"
         label="Multiple"
         multiple
+        color="green"
       />
 
       <div class="text-h6">Object options</div>
@@ -317,6 +321,8 @@ export default {
 
     return {
       type: 'filled',
+      dark: false,
+      darkOptions: void 0,
       readonly: false,
       disable: false,
       dense: false,
@@ -418,6 +424,8 @@ export default {
     props () {
       return {
         [this.type]: true,
+        dark: this.dark,
+        darkOptions: this.darkOptions,
         readonly: this.readonly,
         disable: this.disable,
         dense: this.dense,
