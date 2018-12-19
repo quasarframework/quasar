@@ -1,6 +1,6 @@
 {
   "name": "@quasar/babel-preset-app",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "description": "Babel preset for Quasar CLI",
   "main": "index.js",
   "scripts": {
