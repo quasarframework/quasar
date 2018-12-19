@@ -20,17 +20,17 @@ class ExtensionJson {
 
   list () {
     if (Object.keys(this.extensions).length === 0) {
-      log(' No app cli extensions are installed')
+      log(' No App Extensions are installed')
       log(' You can look for "quasar-app-extension-*" in npm registry.')
       return
     }
 
-    log('Listing installed app cli extensions')
+    log('Listing installed App Extensions')
     log()
 
     for (let ext in this.extensions) {
-      console.log(' Extension id: ' + chalk.green(ext))
-      console.log(' Extension opts: ' + JSON.stringify(this.extensions[ext], null, 2))
+      console.log(' Extension name: ' + chalk.green(ext))
+      console.log(' Extension prompts: ' + JSON.stringify(this.extensions[ext], null, 2))
       console.log()
     }
   }
@@ -40,14 +40,14 @@ class ExtensionJson {
   }
 
   add (extId, opts) {
-    log(`Adding "${extId}" extension opts to /quasar.extensions.json ...`)
+    log(`Adding "${extId}" extension prompts to /quasar.extensions.json ...`)
     this.extensions[extId] = opts
     this.__save()
   }
 
   remove (extId) {
     if (this.has(extId)) {
-      log(`Removing "${extId}" extension opts from /quasar.extensions.json ...`)
+      log(`Removing "${extId}" extension prompts from /quasar.extensions.json ...`)
       delete this.extensions[extId]
       this.__save()
     }
