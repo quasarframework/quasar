@@ -24,7 +24,7 @@ if (!extId || argv.help) {
     $ quasar run iconify create -s
         # Note: "iconify" is an example and not a real extension.
         # Looks for installed extension called "iconify"
-        # (quasar-cli-extension-iconify extension package)
+        # (quasar-app-extension-iconify extension package)
         # and runs its custom defined "create" command
         # with "-s --mark some_file" params
 
@@ -49,7 +49,7 @@ function getArgv (argv) {
 }
 
 async function run () {
-  const Extension = require('../lib/cli-extension/Extension')
+  const Extension = require('../lib/app-extension/Extension')
   const extension = new Extension(extId)
 
   const hooks = await extension.run()

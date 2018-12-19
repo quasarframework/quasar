@@ -18,14 +18,14 @@ const argv = parseArgs(process.argv.slice(2), {
 if (argv.help) {
   console.log(`
   Description
-    Manage Quasar App CLI extensions
+    Manage Quasar App Extensions
 
   Usage
-    $ quasar extension [-a|-r]
+    $ quasar ext [-a|-r]
 
   Options
-    --add, -a        Add Quasar App CLI extension
-    --remove, -r     Remove Quasar App CLI extension
+    --add, -a        Add Quasar App Extension
+    --remove, -r     Remove Quasar App Extension
     --skip-pkg       Skip yarn/npm package install/uninstall
     --help, -h       Displays this message
   `)
@@ -44,14 +44,14 @@ async function run () {
       process.exit(1)
     }
 
-    const Extension = require('../lib/cli-extension/Extension')
+    const Extension = require('../lib/app-extension/Extension')
     const extension = new Extension(name)
 
     await extension[argv.add ? 'install' : 'uninstall'](argv['skip-pkg'])
     process.exit(0)
   }
 
-  const extensionJson = require('../lib/cli-extension/extension-json')
+  const extensionJson = require('../lib/app-extension/extension-json')
   extensionJson.list()
 }
 

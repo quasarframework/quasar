@@ -11,7 +11,7 @@ const
   log = logger('app:quasar-conf'),
   warn = logger('app:quasar-conf', 'red'),
   legacyValidations = require('./legacy-validations'),
-  extensionRunner = require('./cli-extension/extensions-runner')
+  extensionRunner = require('./app-extension/extensions-runner')
 
 function encode (obj) {
   return JSON.stringify(obj, (key, value) => {

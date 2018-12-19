@@ -119,7 +119,7 @@ async function goLive () {
     QuasarConfig = require('../lib/quasar-config'),
     Generator = require('../lib/generator'),
     getQuasarCtx = require('../lib/helpers/get-quasar-ctx'),
-    extensionRunner = require('../lib/cli-extension/extensions-runner')
+    extensionRunner = require('../lib/app-extension/extensions-runner')
 
   const ctx = getQuasarCtx({
     mode: argv.mode,

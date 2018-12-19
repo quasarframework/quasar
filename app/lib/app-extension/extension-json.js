@@ -21,7 +21,7 @@ class ExtensionJson {
   list () {
     if (Object.keys(this.extensions).length === 0) {
       log(' No app cli extensions are installed')
-      log(' You can look for "quasar-cli-extension-*" in npm registry.')
+      log(' You can look for "quasar-app-extension-*" in npm registry.')
       return
     }
 

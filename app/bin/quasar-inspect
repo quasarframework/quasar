@@ -78,7 +78,7 @@ function getCfgEntries (webpackConfig, mode) {
 
 async function inspect () {
   const
-    extensionRunner = require('../lib/cli-extension/extensions-runner'),
+    extensionRunner = require('../lib/app-extension/extensions-runner'),
     getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
 
   const ctx = getQuasarCtx({

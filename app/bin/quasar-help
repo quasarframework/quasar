@@ -26,9 +26,9 @@ console.log(`
     new, n        Quickly scaffold page/layout/component/... vue file
     mode, m       Add/remove Quasar Modes for your App
     inspect       Inspect generated Webpack config
-    extension, e  Manage Quasar App CLI extensions
+    ext, e        Manage Quasar App Extensions
     run, r        Run specific command provided by an installed
-                    Quasar App CLI extension
+                    Quasar App Extension
     info, i       Display info about your machine and your App
     help, h       Displays this message
 `)

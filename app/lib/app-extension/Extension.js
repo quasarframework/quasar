@@ -9,20 +9,20 @@ module.exports = class Extension {
     if (name.charAt(0) === '@') {
       const slashIndex = name.indexOf('/')
       if (slashIndex === -1) {
-        warn(`⚠️  Invalid app cli extension name: "${name}"`)
+        warn(`⚠️  Invalid App Extension name: "${name}"`)
         process.exit(1)
       }
 
       this.packageFullName = name.substring(0, slashIndex + 1) +
-        'quasar-cli-extension-' +
+        'quasar-app-extension-' +
         name.substring(slashIndex + 1)
 
       this.packageName = '@' + this.__stripVersion(this.packageFullName.substring(1))
       this.extId = '@' + this.__stripVersion(name.substring(1))
     }
     else {
-      this.packageFullName = 'quasar-cli-extension-' + name
-      this.packageName = this.__stripVersion('quasar-cli-extension-' + name)
+      this.packageFullName = 'quasar-app-extension-' + name
+      this.packageName = this.__stripVersion('quasar-app-extension-' + name)
       this.extId = this.__stripVersion(name)
     }
   }
@@ -41,7 +41,7 @@ module.exports = class Extension {
   }
 
   async install (skipPkgInstall) {
-    log(`Installing "${this.extId}" app cli extension`)
+    log(`Installing "${this.extId}" App Extension`)
     log()
 
     // verify if already installed
@@ -70,7 +70,7 @@ module.exports = class Extension {
     const extensionJson = require('./extension-json')
     extensionJson.add(this.extId, prompts)
 
-    log(`Extension "${this.extId}" successfully installed.`)
+    log(`App Extension "${this.extId}" successfully installed.`)
     log()
 
     if (hooks && hooks.exitLog.length > 0) {
@@ -82,12 +82,12 @@ module.exports = class Extension {
   }
 
   async uninstall (skipPkgUninstall) {
-    log(`Uninstalling "${this.extId}" app cli extension`)
+    log(`Uninstalling "${this.extId}" App Extension`)
     log()
 
     // verify if installed
     if (skipPkgUninstall !== true && !this.isInstalled()) {
-      warn(`⚠️  Quasar app cli extension "${this.packageName}" is not installed...`)
+      warn(`⚠️  Quasar App Extension "${this.packageName}" is not installed...`)
       return
     }
 
@@ -101,7 +101,7 @@ module.exports = class Extension {
     // yarn/npm uninstall
     skipPkgUninstall !== true && this.__uninstallPackage()
 
-    log(`Extension "${this.extId}" successfully removed.`)
+    log(`App Extension "${this.extId}" successfully removed.`)
     log()
 
     if (hooks && hooks.exitLog.length > 0) {
@@ -114,7 +114,7 @@ module.exports = class Extension {
 
   async run (ctx) {
     if (!this.isInstalled()) {
-      warn(`⚠️  Quasar app cli extension "${this.extId}" is missing...`)
+      warn(`⚠️  Quasar App Extension "${this.extId}" is missing...`)
       process.exit(1)
     }
 
@@ -128,7 +128,7 @@ module.exports = class Extension {
       ctx
     })
 
-    log(`Running "${this.extId}" extension...`)
+    log(`Running "${this.extId}" App Extension...`)
     await script(api, ctx)
 
     return api.__getHooks()
@@ -200,7 +200,7 @@ module.exports = class Extension {
     }
     catch (e) {
       if (fatal) {
-        warn(`⚠️  Extension "${this.extId}" has missing ${scriptName} script...`)
+        warn(`⚠️  App Extension "${this.extId}" has missing ${scriptName} script...`)
         process.exit(1)
       }
 
@@ -217,7 +217,7 @@ module.exports = class Extension {
       return
     }
 
-    log('Running extension install script...')
+    log('Running App Extension install script...')
 
     const InstallAPI = require('./InstallAPI')
 
@@ -255,7 +255,7 @@ module.exports = class Extension {
       return
     }
 
-    log('Running extension uninstall script...')
+    log('Running App Extension uninstall script...')
 
     const UninstallAPI = require('./UninstallAPI')
     const api = new UninstallAPI({

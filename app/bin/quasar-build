@@ -77,7 +77,7 @@ const
   artifacts = require('../lib/artifacts'),
   ensureDeps = require('../lib/helpers/ensure-deps'),
   getQuasarCtx = require('../lib/helpers/get-quasar-ctx'),
-  extensionRunner = require('../lib/cli-extension/extensions-runner')
+  extensionRunner = require('../lib/app-extension/extensions-runner')
 
 function parseWebpackConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
