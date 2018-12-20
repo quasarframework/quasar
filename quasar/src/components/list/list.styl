@@ -21,6 +21,7 @@
         font-size 40px
 
     &--avatar
+      color inherit
       min-width 56px
 
     &--thumbnail
@@ -56,12 +57,6 @@
 
     & + .q-item__label
       margin-top 4px
-
-  &.q-router-link--active, &--active
-    color $primary
-    .q-item__section--avatar
-      &, & .q-icon
-        color $primary
 
 .q-item__section--main
   & + &
@@ -105,3 +100,7 @@
       color rgba(255, 255, 255, .64)
     &--overline, &--caption
       color rgba(255, 255, 255, .8)
+
+.q-item
+  &.q-router-link--active, &--active
+    color $primary

@@ -64,7 +64,7 @@ module.exports = function (cfg, configName) {
     })
 
   if (cfg.framework.all === true) {
-    chain.resolve.alias.set('quasar', appPaths.resolve.app(`node_modules/quasar/dist/quasar.esm.js`))
+    chain.resolve.alias.set('quasar$', appPaths.resolve.app(`node_modules/quasar/dist/quasar.esm.js`))
   }
   if (cfg.build.vueCompiler) {
     chain.resolve.alias.set('vue$', 'vue/dist/vue.esm.js')

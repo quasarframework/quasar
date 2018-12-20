@@ -44,7 +44,10 @@ export default Vue.extend({
     hideSelected: Boolean,
     counter: Boolean,
     maxValues: [Number, String],
-    denseOptions: Boolean,
+
+    optionsDense: Boolean,
+    optionsDark: Boolean,
+    optionsSelectedClass: String,
 
     useInput: Boolean,
     useChips: Boolean,
@@ -144,11 +147,13 @@ export default Vue.extend({
         const itemProps = {
           clickable: true,
           active: false,
+          activeClass: this.optionsSelectedClass,
           manualFocus: true,
           focused: false,
           disable,
           tabindex: -1,
-          dense: this.denseOptions
+          dense: this.optionsDense,
+          dark: this.optionsDark
         }
 
         if (disable !== true) {
@@ -553,6 +558,10 @@ export default Vue.extend({
           ? h('div', {
             ref: 'menu',
             staticClass: 'q-local-menu scroll',
+            class: {
+              'q-local-menu--dark': this.optionsDark,
+              'q-local-menu--square': this.expandBesides
+            },
             on: {
               click: stopAndPrevent,
               '&scroll': this.__onMenuScroll
@@ -573,6 +582,7 @@ export default Vue.extend({
           : null,
 
         h(QIcon, {
+          staticClass: 'q-select__dropdown-icon',
           props: { name: this.dropdownArrowIcon }
         })
       ]
@@ -653,7 +663,7 @@ export default Vue.extend({
         if (this.$listeners.filter !== void 0) {
           this.filter(this.inputValue)
         }
-        else {
+        else if (this.noOptions !== true || this.$slots['no-option'] !== void 0) {
           this.menu = true
         }
       }

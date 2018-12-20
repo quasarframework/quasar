@@ -90,6 +90,13 @@ function getDropdown (h, vm, btn) {
     ]
   }
   else {
+    const activeClass = vm.toolbarToggleColor !== void 0
+      ? `text-${vm.toolbarToggleColor}`
+      : null
+    const inactiveClass = vm.toolbarTextColor !== void 0
+      ? `text-${vm.toolbarTextColor}`
+      : null
+
     Items = btn.options.map(btn => {
       const disable = btn.disable ? btn.disable(vm) : false
       const active = btn.type === void 0
@@ -106,7 +113,7 @@ function getDropdown (h, vm, btn) {
       return h(
         QItem,
         {
-          props: { active, link: true, clickable: true, disable: disable },
+          props: { active, activeClass, clickable: true, disable: disable },
           on: {
             click (e) {
               closeDropdown()
@@ -120,6 +127,7 @@ function getDropdown (h, vm, btn) {
           btn.list === 'no-icons'
             ? null
             : h(QItemSection, {
+              class: active ? activeClass : inactiveClass,
               props: { side: true }
             }, [
               h(QIcon, { props: { name: btn.icon } })
@@ -135,7 +143,7 @@ function getDropdown (h, vm, btn) {
         ]
       )
     })
-    contentClass = [vm.toolbarBackgroundClass, vm.toolbarTextColor ? `text-${vm.toolbarTextColor}` : '']
+    contentClass = [vm.toolbarBackgroundClass, inactiveClass]
     Items = [
       h(QList, [ Items ])
     ]

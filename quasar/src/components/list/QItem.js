@@ -9,10 +9,11 @@ export default Vue.extend({
 
   props: {
     active: Boolean,
+    dark: Boolean,
+
     clickable: Boolean,
     dense: Boolean,
     inset: Boolean,
-    dark: Boolean,
     tabindex: [String, Number],
     tag: {
       type: String,
@@ -47,6 +48,7 @@ export default Vue.extend({
         'q-item--inset': this.inset,
         'q-item--dark': this.dark,
         'q-item--active': this.active,
+        [this.activeClass]: this.active && !this.hasRouterLink && this.activeClass,
 
         'disabled': this.disable
       }
@@ -73,7 +75,7 @@ export default Vue.extend({
 
   render (h) {
     const data = {
-      staticClass: 'q-item q-item-type relative-position row',
+      staticClass: 'q-item q-item-type relative-position row no-wrap',
       class: this.classes
     }
 

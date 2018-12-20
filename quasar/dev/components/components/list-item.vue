@@ -145,6 +145,31 @@
         </q-item>
       </q-list>
 
+      <p class="caption">Active</p>
+      <q-list padding bordered :dark="dark">
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="signal_wifi_off" />
+          </q-item-section>
+          <q-item-section>Normal</q-item-section>
+          <q-item-section side>Side</q-item-section>
+        </q-item>
+        <q-item clickable v-ripple active>
+          <q-item-section avatar>
+            <q-icon name="signal_wifi_off" />
+          </q-item-section>
+          <q-item-section>Active</q-item-section>
+          <q-item-section side>Side</q-item-section>
+        </q-item>
+        <q-item clickable v-ripple active active-class="text-orange">
+          <q-item-section avatar>
+            <q-icon name="signal_wifi_off" />
+          </q-item-section>
+          <q-item-section>Active, Active Color</q-item-section>
+          <q-item-section side>Side</q-item-section>
+        </q-item>
+      </q-list>
+
       <p class="caption">Dense</p>
       <q-list dense padding bordered class="q-my-md" :dark="dark">
         <q-item clickable class="text-primary">
@@ -638,7 +663,5 @@ export default {
 
 .my-link
   color white
-  background $primary
-  .q-item__section--avatar .q-icon
-    color white
+  background $deep-orange
 </style>

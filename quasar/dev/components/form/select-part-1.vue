@@ -12,7 +12,10 @@
         <q-toggle v-model="readonly" label="Readonly" />
         <q-toggle v-model="disable" label="Disable" />
         <q-toggle v-model="dense" label="Dense" />
+        <q-toggle v-model="optionsDense" label="(Options) Dense" />
         <q-toggle v-model="expandBesides" label="Expand besides" />
+        <q-toggle v-model="dark" label="Dark" />
+        <q-toggle v-model="optionsDark" label="(Options) Dark" />
       </div>
 
       <div class="text-h6">String options</div>
@@ -107,6 +110,7 @@
         v-model="bogusMultiModel"
         :options="stringOptions"
         multiple
+        options-selected-class="text-orange"
       />
 
       <div class="text-h6">Emit value</div>
@@ -155,6 +159,7 @@
         v-model="objectSingle"
         label="Single"
         :options="objectOptions"
+        options-selected-class="text-deep-orange"
       >
         <q-item
           slot="option"
@@ -320,6 +325,9 @@ export default {
       readonly: false,
       disable: false,
       dense: false,
+      dark: false,
+      optionsDark: false,
+      optionsDense: false,
       expandBesides: false,
 
       stringSingle: 'Facebook',
@@ -421,6 +429,9 @@ export default {
         readonly: this.readonly,
         disable: this.disable,
         dense: this.dense,
+        dark: this.dark,
+        optionsDense: this.optionsDense,
+        optionsDark: this.optionsDark,
         expandBesides: this.expandBesides
       }
     }
