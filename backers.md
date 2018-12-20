@@ -2,9 +2,31 @@ Quasar Framework is an MIT licensed open source project and completely free to u
 
 ## Platinum sponsors:
 
-[![Truelogic](https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/truelogic.png)](http://truelogic.com)
-
-[![Taylored Technology](https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/taylored-technology.jpeg)](https://www.tayloredtechnology.net/)
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a>
+          <img width="300px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/291ffbcac39f6a98dd8bf526c1c58188152a571b/think-health-data.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://truelogic.com" target="_blank">
+          <img width="300px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/truelogic.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <tr>
+      <td align="center" valign="middle">
+        <a href="https://www.tayloredtechnology.net" target="_blank">
+          <img width="300px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/taylored-technology-big.jpeg">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 # Backers
 
@@ -12,33 +34,80 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $500
 
-<a href="http://campuscloudservices.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/campus-cloud-services.png" width="350px"></a>
-
----
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="http://campuscloudservices.com" target="_blank">
+          <img width="222px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/campus-cloud-services.png">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ### $250
 
-<a href="https://www.jugglestreet.com.au/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/juggle-street.png" width="200px"></a>
-
----
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://www.jugglestreet.com" target="_blank">
+          <img width="222px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/juggle-street.png">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ### $100+
 
-<a href="http://comcomservices.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/com-com-services.png" width="200px"></a>
-
-<a href="http://www.kalisio.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/kalisio.png" width="200px"></a>
-
-<a href="http://platformpurple.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/platform-purple.png" width="200px"></a>
-
-<a href="http://www.bgasoft.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/bgasoft.png" width="200px"></a>
-
-- Mark Crady
-
-<a href="https://www.letsbutterfly.com/" target="_blank"><img src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/letsbutterfly.png" width="200px"></a>
-
-- Jeff Cole
-
----
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="http://comcomservices.com" target="_blank">
+          <img width="222px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/com-com-services.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="http://www.kalisio.com" target="_blank">
+          <img width="222px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/kalisio.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="http://platformpurple.com" target="_blank">
+          <img width="222px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/platform-purple.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="http://www.bgasoft.com" target="_blank">
+          <img width="222px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/bgasoft.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        Mark Crady
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://www.letsbutterfly.com/" target="_blank">
+          <img width="170px" src="https://rawcdn.githack.com/rstoenescu/quasar-backers-logo/feabde879e18a333c6b0f482f1acc8b4b69c14b2/letsbutterfly.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        Jeff Cole
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ### $50+
 
@@ -50,8 +119,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Netanel Edri
 - Edinei Cipriani
 - Andy Burnett
-
----
 
 ### $10+
 
@@ -146,8 +213,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)
-
----
 
 ### Notable one time
 
