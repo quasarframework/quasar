@@ -1,6 +1,16 @@
 {
   "components": {
     "props": {
+      "readonly": {
+        "type": "Boolean",
+        "desc": "Put component in readonly mode"
+      },
+
+      "disable": {
+        "type": "Boolean",
+        "desc": "Put component in disabled mode"
+      },
+
       "color": {
         "type": "String",
         "desc": "Color name for component from the Quasar Color Palette",
@@ -35,6 +45,16 @@
         "examples": [ "map", "ion-add" ]
       },
 
+      "flat": {
+        "type": "Boolean",
+        "desc": "Applies a 'flat' design (no default shadow)"
+      },
+
+      "bordered": {
+        "type": "Boolean",
+        "desc": "Applies a default border to the component"
+      },
+
       "square": {
         "type": "Boolean",
         "desc": "Removes border-radius so borders are squared"
@@ -43,12 +63,101 @@
       "rounded": {
         "type": "Boolean",
         "desc": "Applies a small standard border-radius for a squared shape of the component"
+      },
+
+      "tabindex": {
+        "type": "Number or String",
+        "desc": "Tabindex HTML attribute value",
+        "examples": [ "0", "100" ]
+      },
+
+      "transition": {
+        "type": "String",
+        "desc": "One of Quasar's embedded transitions",
+        "examples": [ "fade", "slide-down" ]
+      },
+
+      "to": {
+        "type": "String or Object",
+        "desc": "Equivalent to Vue Router <router-link> 'to' property",
+        "examples": [
+          "/home/dashboard",
+          "{ name: 'my-route-name' }"
+        ]
+      },
+
+      "exact": {
+        "type": "Boolean",
+        "desc": "Equivalent to Vue Router <router-link> 'exact' property"
+      },
+
+      "append": {
+        "type": "Boolean",
+        "desc": "Equivalent to Vue Router <router-link> 'append' property"
+      },
+
+      "replace": {
+        "type": "Boolean",
+        "desc": "Equivalent to Vue Router <router-link> 'replace' property"
+      },
+
+      "active-class": {
+        "type": "String",
+        "desc": "Equivalent to Vue Router <router-link> 'active-class' property",
+        "examples": [ "my-active-class" ]
+      },
+
+      "exact-active-class": {
+        "type": "String",
+        "desc": "Equivalent to Vue Router <router-link> 'active-class' property",
+        "examples": [ "my-exact-active-class" ]
       }
     },
 
     "slots": {
       "default": {
-        "desc": "Default slot is the devland unslotted content of the component"
+        "desc": "Default slot in the devland unslotted content of the component"
+      }
+    },
+
+    "scopedSlots": {
+      "default": {
+        "desc": "Default scoped slot in the devland content of the component"
+      }
+    },
+
+    "methods": {
+      "show": {
+        "params": {
+          "evt": {
+            "type": "Object",
+            "required": false,
+            "desc": "JS event object"
+          }
+        },
+        "desc": "Triggers component to show"
+      },
+
+      "hide": {
+        "params": {
+          "evt": {
+            "type": "Object",
+            "required": false,
+            "desc": "JS event object"
+          }
+        },
+        "desc": "Triggers component to hide"
+      },
+
+      "toggle": {
+        "params": {
+          "evt": {
+            "type": "Object",
+            "required": false,
+            "desc": "JS event object"
+          }
+        },
+        "desc": "Triggers component to toggle between show/hide"
       }
     }
   }

@@ -40,14 +40,35 @@ function parseAPI (file, extendApi) {
         logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "desc" prop`)
         process.exit(1)
       }
+
       if (type === 'props') {
         if (obj.type === void 0) {
           logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "type" prop`)
           process.exit(1)
         }
+
         if (obj.type !== 'Boolean' && obj.examples === void 0) {
           logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "examples" prop`)
           process.exit(1)
+        }
+      }
+      else if (type === 'methods') {
+        if (obj.params === void 0) {
+          logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "params" prop`)
+          process.exit(1)
+        }
+
+        for (let paramName in obj.params) {
+          const param = obj.params[paramName]
+
+          if (
+            param.type === void 0 ||
+            param.required === void 0 ||
+            param.desc === void 0
+          ) {
+            logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"${paramName}" missing either "type"/"required"/"desc" props`)
+            process.exit(1)
+          }
         }
       }
     }
