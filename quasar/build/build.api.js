@@ -3,6 +3,7 @@
 const
   glob = require('glob'),
   path = require('path'),
+  merge = require('webpack-merge'),
   { logError, writeFile } = require('./build.utils')
 
 const
@@ -26,7 +27,7 @@ function parseAPI (file, extendApi) {
 
       if (extendApi[type] !== void 0) {
         if (definition.extends !== void 0) {
-          api[type][item] = Object.assign(
+          api[type][item] = merge(
             extendApi[type][definition.extends],
             api[type][item]
           )
