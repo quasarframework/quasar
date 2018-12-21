@@ -1,5 +1,5 @@
 {
-  "name": "quasar-framework",
+  "name": "quasar",
   "version": "1.0.0-alpha.0",
   "description": "Build responsive SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase",
   "module": "src/index.esm.js",
@@ -14,9 +14,11 @@
     "dev": "node build/script.dev.spa.js",
     "dev:ssr": "node build/script.dev.ssr.js",
     "dev:umd": "node build/script.test-umd.js",
+    "dev:quploader": "cd dev/upload-server && yarn && cd ../.. && node dev/upload-server/server.js",
     "build": "node build/script.build.js",
     "test": "eslint --ext .js,.vue src dev",
-    "lint": "eslint --ext .js,.vue src dev"
+    "lint": "eslint --ext .js,.vue src dev",
+    "lint-fix": "eslint --ext .js,.vue src dev --fix"
   },
   "repository": {
     "type": "git",

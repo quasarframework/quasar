@@ -24,32 +24,21 @@ export default {
   pullToRefresh: {
     icon: 'fal fa-sync-alt'
   },
-  search: {
-    icon: 'fal fa-search',
-    clear: 'fal fa-times-circle',
-    clearInverted: 'fal fa-times'
-  },
   carousel: {
     left: 'fal fa-chevron-left',
     right: 'fal fa-chevron-right', // TODO
     navigationIcon: 'fal fa-circle',
     thumbnails: 'fal fa-th'
   },
-  checkbox: {
-    checked: 'fal fa-check-square',
-    unchecked: 'fal fa-square',
-    indeterminate: 'fal fa-minus-square'
-  },
   chip: {
     remove: 'fal fa-times-circle',
     selected: 'fal fa-check'
   },
-  chipsInput: {
-    add: 'fal fa-paper-plane'
-  },
   datetime: {
     arrowLeft: 'fal fa-chevron-left',
-    arrowRight: 'fal fa-chevron-right'
+    arrowRight: 'fal fa-chevron-right',
+    now: 'fal fa-clock',
+    today: 'fal fa-calendar-check'
   },
   editor: {
     bold: 'fal fa-bold',
@@ -95,12 +84,11 @@ export default {
     next: 'fal fa-chevron-right',
     last: 'fal fa-step-forward'
   },
-  radio: {
-    checked: 'fal fa-check-circle',
-    unchecked: 'fal fa-circle'
-  },
   rating: {
     icon: 'fal fa-star'
+  },
+  select: {
+    dropdownIcon: 'fal fa-caret-down'
   },
   stepper: {
     done: 'fal fa-check',
@@ -122,11 +110,10 @@ export default {
   },
   uploader: {
     done: 'fal fa-check',
-    clear: 'fal fa-times-circle',
-    clearInverted: 'fal fa-times',
+    clear: 'fal fa-times',
     add: 'fal fa-plus-square',
-    upload: 'fal fa-cloud-upload-alt',
-    expand: 'fal fa-chevron-down',
-    file: 'fal fa-file'
+    upload: 'fal fa-upload',
+    removeQueue: 'fal fa-stream',
+    removeUploaded: 'fal fa-clipboard-check'
   }
 }

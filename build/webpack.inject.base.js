@@ -32,7 +32,7 @@ module.exports = function (chain) {
       assets: resolve('dev/assets'),
       components: resolve('dev/components'),
       data: resolve('dev/data'),
-      variables: resolve(`src/css/variables.styl`)
+      'quasar-variables': resolve(`src/css/variables.styl`)
     })
 
   chain.module.rule('lint')

@@ -59,12 +59,12 @@ export default Vue.extend({
 
         child.push(h('div', {
           staticClass: 'flex items-center',
-          'class': middle ? this.activeClass : 'q-breadcrumbs--last'
+          class: middle ? this.activeClass : 'q-breadcrumbs--last'
         }, [ comp ]))
 
         if (middle) {
           child.push(h('div', {
-            staticClass: 'q-breadcrumbs__separator', 'class': this.sepClass
+            staticClass: 'q-breadcrumbs__separator', class: this.sepClass
           }, [ separator() ]))
         }
       }
@@ -75,7 +75,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-breadcrumbs flex items-center',
-      'class': this.classes
+      class: this.classes
     }, child)
   }
 })

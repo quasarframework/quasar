@@ -2,12 +2,13 @@ export default {
   props: {
     visibleColumns: Array
   },
+
   computed: {
     computedCols () {
       let { sortBy, descending } = this.computedPagination
 
-      const cols = this.visibleColumns
-        ? this.columns.filter(col => col.required || this.visibleColumns.includes(col.name))
+      const cols = this.visibleColumns !== void 0
+        ? this.columns.filter(col => col.required === true || this.visibleColumns.includes(col.name) === true)
         : this.columns
 
       return cols.map(col => {
@@ -18,6 +19,7 @@ export default {
         return col
       })
     },
+
     computedColsMap () {
       const names = {}
       this.computedCols.forEach(col => {

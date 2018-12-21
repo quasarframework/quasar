@@ -1,115 +1,40 @@
 <template>
   <div>
-    <div class="q-layout-padding">
-      <q-input v-model="url" />
-      <br>
-      <div class="bg-black q-pa-sm" style="max-width: 500px">
-        <q-uploader dark :url="url" multiple color="lime" float-label="Float label" />
-        <br>
-        <q-uploader dark hide-underline :url="url" multiple color="orange" float-label="Float label" />
-        <br>
-        <q-field
-          icon="wifi"
-          label="Wifi network"
-          :count="10"
-          helper="We need this for connecting you"
-        >
-          <q-uploader dark :url="url" multiple color="orange" float-label="Float label" />
-        </q-field>
-        <br>
-        <q-field
-          icon="wifi"
-          label="Wifi network"
-          :count="10"
-          helper="We need this for connecting you"
-        >
-          <q-uploader dark inverted :url="url" multiple color="orange" float-label="Float label" />
-        </q-field>
+    <div class="q-layout-padding" :class="`bg-${dark ? 'black' : 'white'}${dark ? ' text-white' : ''}`">
+      <div class="q-gutter-sm q-mb-md">
+        <q-toggle v-model="dark" :dark="dark" label="Dark" />
+        <q-toggle v-model="square" :dark="dark" label="Square" />
+        <q-toggle v-model="flat" :dark="dark" label="Flat" />
+        <q-toggle v-model="bordered" :dark="dark" label="Bordered" />
+        <q-toggle v-model="inline" :dark="dark" label="Inline" />
+        <q-toggle v-model="autoUpload" :dark="dark" label="Auto Upload" />
+        <q-toggle v-model="batch" :dark="dark" label="Batch" />
+        <q-toggle v-model="noThumbnails" :dark="dark" label="No Thumbnails" />
+        <q-toggle v-model="label" :dark="dark" label="Label" />
+        <q-toggle v-model="readonly" :dark="dark" label="Readonly (cannot upload)" />
+        <q-toggle v-model="disable" :dark="dark" label="Disable" />
       </div>
 
-      <p class="caption">Single File Upload</p>
-      <q-uploader style="max-width: 320px" color="amber" stack-label="Stack Label" :url="url" />
+      <div class="text-h6 q-my-md">Run "yarn dev:quploader" / "npm run dev:quploader"</div>
 
-      <p class="caption">No Thumbnails</p>
-      <q-uploader style="max-width: 320px" no-thumbnails color="amber" :url="url" />
+      <div class="q-gutter-sm">
+        <q-uploader v-bind="props" multiple url="http://localhost:4444/upload" />
+        <q-uploader v-bind="props" multiple url="http://localhost:4444/upload">
+          <div slot="header" slot-scope="scope" class="row no-wrap items-center q-pa-sm q-gutter-xs">
+            <q-btn v-if="scope.queuedFiles.length > 0" icon="clear_all" @click="scope.removeQueuedFiles" round dense flat />
+            <q-btn v-if="scope.uploadedFiles.length > 0" icon="done_all" @click="scope.removeUploadedFiles" round dense flat />
+            <q-spinner v-if="scope.isUploading" class="q-uploader__spinner" />
+            <div class="col">
+              <div class="q-uploader__title">Upload your files</div>
+              <div class="q-uploader__subtitle">{{ scope.uploadSizeLabel }} / {{ scope.uploadProgressLabel }}</div>
+            </div>
+            <q-btn v-if="scope.editable" icon="add_box" @click="scope.pickFiles" round dense flat />
+            <q-btn v-if="scope.editable && scope.queuedFiles.length > 0" icon="cloud_upload" @click="scope.upload" round dense flat />
 
-      <q-toggle v-model="inverted" label="Inverted" />
-      <q-toggle v-model="dark" label="Dark" />
-      <p class="caption">Multiple File Upload (Only .jpg)</p>
-      <div class="q-pa-sm" :class="this.dark ? 'bg-grey-10 text-orange' : ''">
-        <q-uploader
-          extensions=".jpg"
-          :inverted="inverted"
-          :dark="dark"
-          auto-expand
-          style="max-width: 320px"
-          float-label="Upload files"
-          multiple
-          :url="url"
-          ref="upld"
-          @start="emit('start')"
-          @finish="emit('finish')"
-          @uploaded="uploaded"
-          @add="add"
-          @remove:done="removeDone"
-          @remove:abort="removeAbort"
-          @remove:cancel="removeCancel"
-        />
-      </div>
-
-      <q-btn color="primary" @click="pick" style="margin-top: 15px">Pick Files</q-btn>
-      <q-btn color="primary" @click="reset" style="margin-top: 15px">Reset the above Uploader</q-btn>
-
-      <p class="caption">Single File Upload - No Upload Button</p>
-      <q-uploader style="max-width: 320px" hide-upload-button color="amber" stack-label="Stack Label" :url="url" />
-
-      <p class="caption">No Thumbnails - No Upload Button</p>
-      <q-uploader style="max-width: 320px" hide-upload-button no-thumbnails color="amber" :url="url" />
-
-      <p class="caption">Multiple File Upload - No Upload Button</p>
-      <q-uploader
-        style="max-width: 320px"
-        float-label="Upload files"
-        multiple
-        hide-upload-button
-        :url="url"
-        @start="emit('start')"
-        @finish="emit('finish')"
-        @uploaded="uploaded"
-        @add="add"
-        @remove:done="removeDone"
-        @remove:abort="removeAbort"
-        @remove:cancel="removeCancel"
-      />
-
-      <p class="caption">Single File Upload - No Upload Button - No Upload Progress</p>
-      <q-uploader style="max-width: 320px" hide-upload-button hide-upload-progress color="amber" stack-label="Stack Label" :url="url" />
-
-      <p class="caption">No Thumbnails - No Upload Button - No Upload Progress</p>
-      <q-uploader style="max-width: 320px" hide-upload-button hide-upload-progress no-thumbnails color="amber" :url="url" />
-
-      <p class="caption">Multiple File Upload - No Upload Button - No Upload Progress</p>
-      <q-uploader
-        style="max-width: 320px"
-        float-label="Upload files"
-        multiple
-        hide-upload-button
-        hide-upload-progress
-        :url="url"
-        @start="emit('start')"
-        @finish="emit('finish')"
-        @uploaded="uploaded"
-        @add="add"
-        @remove:done="removeDone"
-        @remove:abort="removeAbort"
-        @remove:cancel="removeCancel"
-      />
-
-      <div class="absolute-right no-pointer-events">
-        <q-btn @click="clear" style="pointer-events: all" color="primary">Clear Debug Log</q-btn>
-        <div v-for="evt in events" :key="evt">
-          {{ evt }}
-        </div>
+            <q-btn v-if="scope.editable && scope.isUploading" icon="clear" @click="scope.abort" round dense flat />
+          </div>
+        </q-uploader>
+        <q-uploader v-bind="props" color="yellow" text-color="black" multiple url="http://localhost:4444/upload" />
       </div>
     </div>
   </div>
@@ -119,40 +44,48 @@
 export default {
   data () {
     return {
-      url: 'http://1.1.1.195/upload.php',
-      events: [],
-      inverted: false,
-      dark: false
+      dark: false,
+      square: false,
+      flat: false,
+      bordered: false,
+      inline: true,
+
+      autoUpload: false,
+      batch: true,
+      noThumbnails: false,
+      label: true,
+
+      readonly: false,
+      disable: false
     }
   },
-  methods: {
-    pick () {
-      this.$refs.upld.pick()
-    },
-    clear () {
-      this.events = []
-    },
-    emit (evt) {
-      this.events.push(evt)
-    },
-    uploaded (file) {
-      this.events.push(`uploaded ${file.name}`)
-    },
-    add (files) {
-      this.events.push(`add ${files.length}`)
-    },
-    removeCancel (file) {
-      this.events.push(`remove:cancel ${file.name}`)
-    },
-    removeAbort (file) {
-      this.events.push(`remove:abort ${file.name}`)
-    },
-    removeDone (file) {
-      this.events.push(`remove:done ${file.name}`)
-    },
 
-    reset () {
-      this.$refs.upld.reset()
+  computed: {
+    props () {
+      return {
+        dark: this.dark,
+        square: this.square,
+        flat: this.flat,
+        bordered: this.bordered,
+        inline: this.inline,
+
+        autoUpload: this.autoUpload,
+        batch: this.batch,
+        noThumbnails: this.noThumbnails,
+        label: this.label ? 'Upload files' : null,
+
+        readonly: this.readonly,
+        disable: this.disable
+      }
+    }
+  },
+
+  methods: {
+    onChange (val) {
+      console.log('@change', JSON.stringify(val))
+    },
+    onInput (val) {
+      console.log('@input', JSON.stringify(val))
     }
   }
 }

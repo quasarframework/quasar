@@ -11,6 +11,7 @@ export default {
       }
     }
   },
+
   watch: {
     filter () {
       this.$nextTick(() => {

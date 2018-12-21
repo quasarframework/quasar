@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 25px">
     <q-toggle v-model="toggle" label="Show" />
-    <q-btn-dropdown v-model="toggle" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
+    <q-btn-dropdown persistent v-model="toggle" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
       <q-list>
         <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-menu @click="showNotification">
           <q-item-section avatar>

@@ -59,6 +59,9 @@
         { label: 'Outline', value: 'outline' },
         { label: 'Push', value: 'push' }
       ]"
+      emit-value
+      map-options
+      class="q-mb-md"
     />
     <q-editor
       ref="editor"
@@ -136,14 +139,18 @@
     >
       <q-btn dense color="yellow" slot="custom_btn">Wow</q-btn>
       <q-btn-dropdown dense no-caps ref="token" no-wrap slot="token" color="green" label="Token">
-        <q-list link separator>
-          <q-item tag="label" @click.native="add('email')">
-            <q-item-side icon="mail" />
-            <q-item-main label="Email" />
+        <q-list>
+          <q-item tag="label" clickable @click="add('email')">
+            <q-item-section side>
+              <q-icon name="mail" />
+            </q-item-section>
+            <q-item-section>Email</q-item-section>
           </q-item>
-          <q-item tag="label" @click.native="add('title')">
-            <q-item-side icon="title" />
-            <q-item-main label="Title" />
+          <q-item tag="label" clickable @click="add('title')">
+            <q-item-section side>
+              <q-icon name="title" />
+            </q-item-section>
+            <q-item-section>Title</q-item-section>
           </q-item>
         </q-list>
       </q-btn-dropdown>

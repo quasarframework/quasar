@@ -29,7 +29,7 @@ export default Vue.extend({
   render (h) {
     return h('hr', {
       staticClass: 'q-separator',
-      'class': this.classes
+      class: this.classes
     })
   }
 })

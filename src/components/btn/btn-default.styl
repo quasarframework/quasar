@@ -104,11 +104,16 @@
     width 40px
 
   // workaround for alignment/sizing change when showing loader
-  &__content:before
-    content ''
+  &__content
+    transition opacity .6s
+    &--hidden
+      opacity 0
+    &:before
+      content ''
 
   &__progress
-    transition all .3s
+    transition transform .3s
+    transform-origin top left
     height 100%
     background rgba(255, 255, 255, .25)
     &--dark

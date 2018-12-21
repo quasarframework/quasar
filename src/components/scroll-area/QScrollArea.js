@@ -224,7 +224,7 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-scrollarea__thumb absolute-right',
         style: this.style,
-        'class': { 'q-scrollarea__thumb--invisible': this.thumbHidden },
+        class: { 'q-scrollarea__thumb--invisible': this.thumbHidden },
         directives: [{
           name: 'touch-pan',
           modifiers: {

@@ -58,13 +58,13 @@ let routes = [
   },
   {
     path: '/layout-quick',
-    component: load('new-layout/new-layout'),
+    component: load('layout/layout'),
     children: [
       {path: '', redirect: 'default'},
-      {path: 'default', component: load('new-layout/pages/default')},
-      {path: 'a', component: load('new-layout/pages/a')},
-      {path: 'b', component: load('new-layout/pages/b')},
-      {path: 'c', component: load('new-layout/pages/c')}
+      {path: 'default', component: load('layout/pages/default')},
+      {path: 'a', component: load('layout/pages/a')},
+      {path: 'b', component: load('layout/pages/b')},
+      {path: 'c', component: load('layout/pages/c')}
     ]
   }
 ]

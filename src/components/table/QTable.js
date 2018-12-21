@@ -43,6 +43,10 @@ export default Vue.extend({
     },
     grid: Boolean,
     dense: Boolean,
+    breakpoint: {
+      type: Number,
+      default: 1023
+    },
     columns: Array,
     loading: Boolean,
     title: String,
@@ -70,6 +74,29 @@ export default Vue.extend({
     tableClass: {
       type: [String, Array, Object],
       default: ''
+    }
+  },
+
+  data () {
+    return {
+      aboveBreakpoint: this.$q.screen.width > this.breakpoint,
+
+      rowsExpanded: {},
+      innerPagination: {
+        sortBy: null,
+        descending: false,
+        page: 1,
+        rowsPerPage: 5
+      }
+    }
+  },
+
+  watch: {
+    '$q.screen.width' (val) {
+      const v = val > this.breakpoint
+      if (this.aboveBreakpoint !== v) {
+        this.aboveBreakpoint = v
+      }
     }
   },
 
@@ -125,6 +152,10 @@ export default Vue.extend({
 
     isServerSide () {
       return this.computedPagination.rowsNumber !== void 0
+    },
+
+    computedDense () {
+      return this.dense === true || this.aboveBreakpoint === false
     }
   },
 
@@ -132,10 +163,10 @@ export default Vue.extend({
     return h('div',
       {
         staticClass: 'q-table__container',
-        'class': {
+        class: {
           'q-table--grid': this.grid,
           'q-table--dark': this.dark,
-          'q-table--dense': this.dense,
+          'q-table--dense': this.computedDense,
           'q-table--flat': this.flat,
           'q-table--bordered': this.bordered,
           [`q-table--${this.separator}-separator`]: true,
@@ -165,7 +196,7 @@ export default Vue.extend({
     getBody (h) {
       const hasHeader = !this.hideHeader
 
-      if (this.grid) {
+      if (this.grid === true) {
         const item = this.$scopedSlots.item
 
         if (item !== void 0) {
@@ -173,7 +204,7 @@ export default Vue.extend({
             (hasHeader && h('div', { staticClass: 'q-table__middle scroll' }, [
               h('table', {
                 staticClass: 'q-table',
-                'class': { 'q-table--dark': this.dark }
+                class: { 'q-table--dark': this.dark }
               }, [
                 this.getTableHeader(h)
               ])
@@ -195,10 +226,10 @@ export default Vue.extend({
         }
       }
 
-      return h('div', { staticClass: 'q-table__middle scroll', 'class': this.tableClass, style: this.tableStyle }, [
+      return h('div', { staticClass: 'q-table__middle scroll', class: this.tableClass, style: this.tableStyle }, [
         h('table', {
           staticClass: 'q-table',
-          'class': this.dark ? ' q-table--dark' : ''
+          class: this.dark ? ' q-table--dark' : ''
         }, [
           (hasHeader && this.getTableHeader(h)) || null,
           this.getTableBody(h)

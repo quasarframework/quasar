@@ -18,6 +18,10 @@ export default Vue.extend({
       type: String,
       default: 'div'
     },
+
+    focused: Boolean,
+    manualFocus: Boolean,
+
     disable: Boolean
   },
 
@@ -33,11 +37,17 @@ export default Vue.extend({
 
     classes () {
       return {
-        'q-item--clickable q-link cursor-pointer q-focusable q-hoverable': this.isClickable,
+        'q-item--clickable q-link cursor-pointer': this.isClickable,
+        'q-focusable q-hoverable': this.isClickable && this.manualFocus === false,
+
+        'q-manual-focusable': this.isClickable && this.manualFocus === true,
+        'q-manual-focusable--focused': this.isClickable && this.focused,
+
         'q-item--dense': this.dense,
         'q-item--inset': this.inset,
         'q-item--dark': this.dark,
         'q-item--active': this.active,
+
         'disabled': this.disable
       }
     }
@@ -46,17 +56,17 @@ export default Vue.extend({
   methods: {
     __getContent (h) {
       const child = [].concat(this.$slots.default)
-
-      this.isClickable && child.unshift(h('div', { staticClass: 'q-focus-helper' }))
+      this.isClickable === true && child.unshift(h('div', { staticClass: 'q-focus-helper' }))
       return child
     },
 
     __onClick (e) {
       this.$el.blur()
-      this.$emit('click', e)
+      this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 
     __onKeyup (e) {
+      this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
       e.keyCode === 13 /* ENTER */ && this.__onClick(e)
     }
   },
@@ -64,17 +74,17 @@ export default Vue.extend({
   render (h) {
     const data = {
       staticClass: 'q-item q-item-type relative-position row',
-      'class': this.classes
+      class: this.classes
     }
 
     if (this.isClickable) {
       data.attrs = {
         tabindex: this.tabindex || '0'
       }
-      data[this.hasRouterLink ? 'nativeOn' : 'on'] = {
+      data[this.hasRouterLink ? 'nativeOn' : 'on'] = Object.assign({}, this.$listeners, {
         click: this.__onClick,
         keyup: this.__onKeyup
-      }
+      })
     }
 
     if (this.hasRouterLink) {

@@ -7,7 +7,8 @@ export default Vue.extend({
     avatar: Boolean,
     thumbnail: Boolean,
     side: Boolean,
-    top: Boolean
+    top: Boolean,
+    noWrap: Boolean
   },
 
   computed: {
@@ -19,6 +20,7 @@ export default Vue.extend({
         'q-item__section--avatar': this.avatar,
         'q-item__section--thumbnail': this.thumbnail,
         'q-item__section--side': side,
+        'q-item__section--nowrap': this.noWrap,
         [`q-item__section--main col`]: !side,
         [`justify-${this.top ? 'start' : 'center'}`]: true
       }
@@ -28,7 +30,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-item__section column',
-      'class': this.classes
+      class: this.classes
     }, this.$slots.default)
   }
 })

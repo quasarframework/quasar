@@ -96,7 +96,7 @@ export default Vue.extend({
   render (h) {
     const data = {
       staticClass: 'q-stepper__tab col-grow flex items-center no-wrap relative-position',
-      'class': this.classes,
+      class: this.classes,
       directives: this.stepper.headerNav ? [{
         name: 'ripple',
         value: this.headerNav

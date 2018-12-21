@@ -3,6 +3,9 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from './datetime-mixin.js'
 
+import { testPattern } from '../../utils/patterns.js'
+import { isDeepEqual } from '../../utils/is.js'
+
 const yearsInterval = 20
 
 export default Vue.extend({
@@ -11,14 +14,18 @@ export default Vue.extend({
   mixins: [ DateTimeMixin ],
 
   props: {
-    value: {
-      validator: v => typeof v === 'string'
-        ? /^-?[\d]+\/[0-1]\d\/[0-3]\d$/.test(v)
-        : true
+    defaultYearMonth: {
+      type: String,
+      validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
     },
 
+    events: [Array, Function],
+    eventColor: [String, Function],
+
+    options: [Array, Function],
+
     firstDayOfWeek: [String, Number],
-    todayButton: Boolean,
+    todayBtn: Boolean,
     minimal: Boolean
   },
 
@@ -34,10 +41,16 @@ export default Vue.extend({
   watch: {
     value (v) {
       const model = this.__getInnerModel(v)
+
+      if (isDeepEqual(model, this.innerModel) === true) {
+        return
+      }
+
       this.monthDirection = this.innerModel.string < v ? 'left' : 'right'
       if (model.year !== this.innerModel.year) {
         this.yearDirection = this.monthDirection
       }
+
       this.$nextTick(() => {
         this.innerModel = model
       })
@@ -50,14 +63,25 @@ export default Vue.extend({
         'q-date--dark': this.dark,
         'q-date--readonly': this.readonly,
         'disabled': this.disable,
-        [`q-date--${this.orientation}`]: true
+        [`q-date--${this.landscape === true ? 'landscape' : 'portrait'}`]: true
       }
     },
 
     extModel () {
-      const date = this.value.split('/')
+      const v = this.value
+
+      if (this.__isInvalid(v) === true) {
+        return {
+          value: null,
+          year: null,
+          month: null,
+          day: null
+        }
+      }
+
+      const date = v.split('/')
       return {
-        value: this.value,
+        value: v,
         year: parseInt(date[0], 10),
         month: parseInt(date[1], 10),
         day: parseInt(date[2], 10)
@@ -65,10 +89,19 @@ export default Vue.extend({
     },
 
     headerTitle () {
-      const date = new Date(this.extModel.value)
+      const model = this.extModel
+      if (model.value === null) { return ' --- ' }
+
+      const date = new Date(model.value)
       return this.$q.i18n.date.daysShort[ date.getDay() ] + ', ' +
-        this.$q.i18n.date.monthsShort[ this.extModel.month - 1 ] + ' ' +
-        this.extModel.day
+        this.$q.i18n.date.monthsShort[ model.month - 1 ] + ' ' +
+        model.day
+    },
+
+    headerSubtitle () {
+      return this.extModel.value !== null
+        ? this.extModel.year
+        : ' --- '
     },
 
     dateArrow () {
@@ -105,6 +138,24 @@ export default Vue.extend({
       }
     },
 
+    evtFn () {
+      return typeof this.events === 'function'
+        ? this.events
+        : date => this.events.includes(date)
+    },
+
+    evtColor () {
+      return typeof this.eventColor === 'function'
+        ? this.eventColor
+        : date => this.eventColor
+    },
+
+    isInSelection () {
+      return typeof this.options === 'function'
+        ? this.options
+        : date => this.options.includes(date)
+    },
+
     days () {
       const
         date = new Date(this.innerModel.year, this.innerModel.month - 1, 1),
@@ -119,10 +170,23 @@ export default Vue.extend({
         }
       }
 
-      const index = res.length
+      const
+        index = res.length,
+        prefix = this.innerModel.year + '/' + this.__pad(this.innerModel.month) + '/'
 
       for (let i = 1; i <= this.daysInMonth; i++) {
-        res.push({ i, in: true, flat: true })
+        const day = prefix + this.__pad(i)
+
+        if (this.options !== void 0 && this.isInSelection(day) !== true) {
+          res.push({ i })
+        }
+        else {
+          const event = this.events !== void 0 && this.evtFn(day) === true
+            ? this.evtColor(day)
+            : false
+
+          res.push({ i, in: true, flat: true, event })
+        }
       }
 
       if (this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
@@ -152,14 +216,45 @@ export default Vue.extend({
   },
 
   methods: {
+    __isInvalid (v) {
+      return v === void 0 || v === null || v === '' || typeof v !== 'string' || testPattern.date(v) === false
+    },
+
     __getInnerModel (v) {
-      const date = v.split('/'), year = Number(date[0])
+      let string, year, month, day
+
+      if (this.__isInvalid(v) === true) {
+        day = 1
+
+        if (this.defaultYearMonth !== void 0) {
+          const d = this.defaultYearMonth.split('/')
+          year = d[0]
+          month = d[1]
+        }
+        else {
+          const d = new Date()
+          year = d.getFullYear()
+          month = d.getMonth() + 1
+        }
+
+        string = year + '/' + month + '/' + day
+      }
+      else {
+        const d = v.split('/')
+
+        string = v
+
+        year = parseInt(d[0], 10)
+        month = parseInt(d[1], 10)
+        day = parseInt(d[2], 10)
+      }
+
       return {
-        string: v,
+        string,
         startYear: year - year % yearsInterval,
         year,
-        month: parseInt(date[1], 10),
-        day: parseInt(date[2], 10)
+        month,
+        day
       }
     },
 
@@ -168,7 +263,7 @@ export default Vue.extend({
 
       return h('div', {
         staticClass: 'q-date__header',
-        'class': this.headerClass
+        class: this.headerClass
       }, [
         h('div', {
           staticClass: 'relative-position'
@@ -179,13 +274,15 @@ export default Vue.extend({
             }
           }, [
             h('div', {
-              key: this.extModel.year,
+              key: 'h-yr-' + this.headerSubtitle,
               staticClass: 'q-date__header-subtitle q-date__header-link',
-              'class': this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
+              class: this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
+              attrs: { tabindex: this.computedTabindex },
               on: {
-                click: () => { this.view = 'Years' }
+                click: () => { this.view = 'Years' },
+                keyup: e => { e.keyCode === 13 && (this.view = 'Years') }
               }
-            }, [ this.extModel.year ])
+            }, [ this.headerSubtitle ])
           ])
         ]),
 
@@ -203,21 +300,24 @@ export default Vue.extend({
               h('div', {
                 key: this.value,
                 staticClass: 'q-date__header-title-label q-date__header-link',
-                'class': this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
+                class: this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
+                attrs: { tabindex: this.computedTabindex },
                 on: {
-                  click: () => { this.view = 'Calendar' }
+                  click: e => { this.view = 'Calendar' },
+                  keyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
                 }
               }, [ this.headerTitle ])
             ])
           ]),
 
-          this.todayButton === true ? h(QBtn, {
+          this.todayBtn === true ? h(QBtn, {
             staticClass: 'q-date__header-today',
             props: {
-              icon: 'today',
+              icon: this.$q.icon.datetime.today,
               flat: true,
               size: 'sm',
-              round: true
+              round: true,
+              tabindex: this.computedTabindex
             },
             on: {
               click: this.__setToday
@@ -238,7 +338,8 @@ export default Vue.extend({
               dense: true,
               size: 'sm',
               flat: true,
-              icon: this.dateArrow[0]
+              icon: this.dateArrow[0],
+              tabindex: this.computedTabindex
             },
             on: {
               click () { goTo(-1) }
@@ -260,7 +361,8 @@ export default Vue.extend({
                   flat: true,
                   dense: true,
                   noCaps: true,
-                  label
+                  label,
+                  tabindex: this.computedTabindex
                 },
                 on: {
                   click: () => { this.view = view }
@@ -279,7 +381,8 @@ export default Vue.extend({
               dense: true,
               size: 'sm',
               flat: true,
-              icon: this.dateArrow[1]
+              icon: this.dateArrow[1],
+              tabindex: this.computedTabindex
             },
             on: {
               click () { goTo(1) }
@@ -340,12 +443,15 @@ export default Vue.extend({
                       unelevated: day.unelevated,
                       color: day.color,
                       textColor: day.textColor,
-                      label: day.i
+                      label: day.i,
+                      tabindex: this.computedTabindex
                     },
                     on: {
                       click: () => { this.__setDay(day.i) }
                     }
-                  })
+                  }, day.event !== false ? [
+                    h('div', { staticClass: 'q-date__event bg-' + day.event })
+                  ] : null)
                   : h('div', [ day.i ])
               ])))
             ])
@@ -370,7 +476,8 @@ export default Vue.extend({
               label: month,
               unelevated: active,
               color: active ? this.computedColor : null,
-              textColor: active ? this.computedTextColor : null
+              textColor: active ? this.computedTextColor : null,
+              tabindex: this.computedTabindex
             },
             on: {
               click: () => { this.__setMonth(i + 1) }
@@ -409,7 +516,8 @@ export default Vue.extend({
                 label: i,
                 unelevated: active,
                 color: active ? this.computedColor : null,
-                textColor: active ? this.computedTextColor : null
+                textColor: active ? this.computedTextColor : null,
+                tabindex: this.computedTabindex
               },
               on: {
                 click: () => { this.__setYear(i) }
@@ -430,7 +538,8 @@ export default Vue.extend({
               round: true,
               dense: true,
               flat: true,
-              icon: this.dateArrow[0]
+              icon: this.dateArrow[0],
+              tabindex: this.computedTabindex
             },
             on: {
               click: () => { this.innerModel.startYear -= yearsInterval }
@@ -450,7 +559,8 @@ export default Vue.extend({
               round: true,
               dense: true,
               flat: true,
-              icon: this.dateArrow[1]
+              icon: this.dateArrow[1],
+              tabindex: this.computedTabindex
             },
             on: {
               click: () => { this.innerModel.startYear += yearsInterval }
@@ -529,7 +639,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-date',
-      'class': this.classes
+      class: this.classes
     }, [
       this.__getHeader(h),
 

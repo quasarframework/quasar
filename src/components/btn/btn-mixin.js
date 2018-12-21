@@ -14,31 +14,40 @@ export default {
 
   props: {
     type: String,
-    loading: Boolean,
-    disable: Boolean,
+    to: [Object, String],
+    replace: Boolean,
+
     label: [Number, String],
-    noCaps: Boolean,
-    noWrap: Boolean,
     icon: String,
     iconRight: String,
+
     round: Boolean,
     outline: Boolean,
     flat: Boolean,
     unelevated: Boolean,
     rounded: Boolean,
     push: Boolean,
+
     size: String,
     fab: Boolean,
     fabMini: Boolean,
+
     color: String,
     textColor: String,
+    noCaps: Boolean,
+    noWrap: Boolean,
     dense: Boolean,
+
     tabindex: [Number, String],
-    to: [Object, String],
-    replace: Boolean,
-    stretch: Boolean,
+
+    align: { default: 'center' },
     stack: Boolean,
-    align: { default: 'center' }
+    stretch: Boolean,
+    loading: {
+      type: Boolean,
+      default: null
+    },
+    disable: Boolean
   },
 
   computed: {
@@ -50,24 +59,16 @@ export default {
       }
     },
 
-    isRectangle () {
-      return !this.isRound
-    },
-
     isRound () {
-      return this.round || this.fab || this.fabMini
+      return this.round === true || this.fab === true || this.fabMini === true
     },
 
     isDisabled () {
-      return this.disable || this.loading
-    },
-
-    hasRipple () {
-      return this.ripple !== false && !this.isDisabled
+      return this.disable === true || this.loading === true
     },
 
     computedTabIndex () {
-      return this.isDisabled ? -1 : this.tabindex || 0
+      return this.isDisabled === true ? -1 : this.tabindex || 0
     },
 
     isLink () {
@@ -100,31 +101,29 @@ export default {
         colors = `text-${this.textColor}`
       }
 
-      return {
-        [colors]: colors,
-        [`q-btn--${this.isRound ? 'round' : 'rectangle'}`]: true,
-        'disabled': this.isDisabled,
-        'q-focusable q-hoverable': !this.isDisabled,
-        'q-btn--fab': this.fab,
-        'q-btn--fab-mini': this.fabMini,
-        'q-btn--flat': this.flat,
-        'q-btn--outline': this.outline,
-        'q-btn--push': this.push,
-        'q-btn--unelevated': this.unelevated,
-        'q-btn--no-uppercase': this.noCaps,
-        'q-btn--rounded': this.rounded,
-        'q-btn--dense': this.dense,
-        'no-border-radius self-stretch': this.stretch
-      }
+      return `q-btn--${this.isRound ? 'round' : 'rectangle'}` +
+        (colors !== void 0 ? ' ' + colors : '') +
+        (this.isDisabled === true ? ' disabled' : ' q-focusable q-hoverable') +
+        (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +
+        (
+          this.flat === true ? ' q-btn--flat' : (
+            this.outline === true ? ' q-btn--outline' : (
+              this.push === true ? ' q-btn-push' : (
+                this.unelevated === true ? ' q-btn--unelevated' : ''
+              )
+            )
+          )
+        ) +
+        (this.noCaps === true ? ' q-btn--no-uppercase' : '') +
+        (this.rounded === true ? ' q-btn--rounded' : '') +
+        (this.dense === true ? ' q-btn--dense' : '') +
+        (this.stretch === true ? ' no-border-radius self-stretch' : '')
     },
 
     innerClasses () {
-      return {
-        [this.alignClass]: true,
-        'row': !this.stack,
-        'column': this.stack,
-        'no-wrap text-no-wrap': this.noWrap
-      }
+      return this.alignClass + (this.stack === true ? ' column' : ' row') +
+        (this.noWrap === true ? ' no-wrap text-no-wrap' : '') +
+        (this.loading === true ? ' q-btn__content--hidden' : '')
     }
   }
 }

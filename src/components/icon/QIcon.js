@@ -25,6 +25,9 @@ export default Vue.extend({
       else if (icon.startsWith('bt-')) {
         cls = `bt ${icon}`
       }
+      else if (icon.startsWith('eva-')) {
+        cls = `eva ${icon}`
+      }
       else if (/^ion-(md|ios|logo)/.test(icon)) {
         cls = `ionicons ${icon}`
       }
@@ -62,7 +65,7 @@ export default Vue.extend({
   render (h) {
     return h('i', {
       staticClass: 'q-icon',
-      'class': this.classes,
+      class: this.classes,
       style: this.style,
       attrs: { 'aria-hidden': true },
       on: this.$listeners

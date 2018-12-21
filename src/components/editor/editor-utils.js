@@ -2,11 +2,11 @@ import QBtn from '../btn/QBtn.js'
 import QBtnDropdown from '../btn/QBtnDropdown.js'
 import QBtnGroup from '../btn/QBtnGroup.js'
 import QInput from '../input/QInput.js'
+import QIcon from '../icon/QIcon.js'
 import QTooltip from '../tooltip/QTooltip.js'
 import QList from '../list/QList.js'
 import QItem from '../list/QItem.js'
-import QItemSide from '../list/QItemSide.js'
-import QItemMain from '../list/QItemMain.js'
+import QItemSection from '../list/QItemSection.js'
 
 function run (e, btn, vm) {
   if (btn.handler) {
@@ -41,13 +41,13 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
   }
 
   return h(QBtn, {
-    props: Object.assign({
+    props: Object.assign({}, vm.buttonProps, {
       icon: btn.icon,
       color: toggled ? btn.toggleColor || vm.toolbarToggleColor : btn.color || vm.toolbarColor,
       textColor: toggled && (vm.toolbarFlat || vm.toolbarOutline) ? null : btn.textColor || vm.toolbarTextColor,
       label: btn.label,
       disable: btn.disable ? (typeof btn.disable === 'function' ? btn.disable(vm) : true) : false
-    }, vm.buttonProps),
+    }),
     on: events
   }, child)
 }
@@ -56,7 +56,6 @@ function getDropdown (h, vm, btn) {
   let
     label = btn.label,
     icon = btn.icon,
-    noIcons = btn.list === 'no-icons',
     onlyIcons = btn.list === 'only-icons',
     contentClass,
     Items
@@ -107,11 +106,9 @@ function getDropdown (h, vm, btn) {
       return h(
         QItem,
         {
-          props: { active, link: !disable },
-          'class': { disabled: disable },
-          nativeOn: {
+          props: { active, link: true, clickable: true, disable: disable },
+          on: {
             click (e) {
-              if (disable) { return }
               closeDropdown()
               vm.$refs.content && vm.$refs.content.focus()
               vm.caret.restore()
@@ -120,23 +117,27 @@ function getDropdown (h, vm, btn) {
           }
         },
         [
-          noIcons ? '' : h(QItemSide, {props: {icon: btn.icon}}),
-          h(QItemMain, {
-            props: !htmlTip && btn.tip
-              ? { label: btn.tip }
-              : null,
-            domProps: htmlTip
-              ? { innerHTML: btn.htmlTip }
-              : null
-          })
+          btn.list === 'no-icons'
+            ? null
+            : h(QItemSection, {
+              props: { side: true }
+            }, [
+              h(QIcon, { props: { name: btn.icon } })
+            ]),
+
+          h(QItemSection, [
+            htmlTip
+              ? h('div', {
+                domProps: { innerHTML: btn.htmlTip }
+              })
+              : (btn.tip ? h('div', [ btn.tip ]) : null)
+          ])
         ]
       )
     })
     contentClass = [vm.toolbarBackgroundClass, vm.toolbarTextColor ? `text-${vm.toolbarTextColor}` : '']
     Items = [
-      h(QList, {
-        props: { separator: true }
-      }, [ Items ])
+      h(QList, [ Items ])
     ]
   }
 
@@ -144,7 +145,7 @@ function getDropdown (h, vm, btn) {
   const Dropdown = h(
     QBtnDropdown,
     {
-      props: Object.assign({
+      props: Object.assign({}, vm.buttonProps, {
         noCaps: true,
         noWrap: true,
         color: highlight ? vm.toolbarToggleColor : vm.toolbarColor,
@@ -152,7 +153,7 @@ function getDropdown (h, vm, btn) {
         label: btn.fixedLabel ? btn.label : label,
         icon: btn.fixedIcon ? btn.icon : icon,
         contentClass
-      }, vm.buttonProps)
+      })
     },
     Items
   )
@@ -229,16 +230,19 @@ export function getLinkEditor (h, vm) {
           value: link,
           color,
           autofocus: true,
-          hideUnderline: true
+          borderless: true,
+          dense: true
         },
         on: {
           input: val => { link = val },
-          keyup: e => {
-            switch (e.keyCode) {
+          keydown: event => {
+            switch (event.keyCode) {
               case 13: // ENTER key
+                event.preventDefault()
                 return updateLink()
               case 27: // ESCAPE key
                 vm.caret.restore()
+                !vm.editLinkUrl && document.execCommand('unlink')
                 vm.editLinkUrl = null
                 break
             }
@@ -251,11 +255,13 @@ export function getLinkEditor (h, vm) {
       }, [
         h(QBtn, {
           key: 'qedt_btm_rem',
-          props: Object.assign({
+          attrs: {
+            tabindex: -1
+          },
+          props: Object.assign({}, vm.buttonProps, {
             label: vm.$q.i18n.label.remove,
-            noCaps: true,
-            tabindex: '-1'
-          }, vm.buttonProps),
+            noCaps: true
+          }),
           on: {
             click: () => {
               vm.caret.restore()
@@ -266,10 +272,10 @@ export function getLinkEditor (h, vm) {
         }),
         h(QBtn, {
           key: 'qedt_btm_upd',
-          props: Object.assign({
+          props: Object.assign({}, vm.buttonProps, {
             label: vm.$q.i18n.label.update,
             noCaps: true
-          }, vm.buttonProps),
+          }),
           on: {
             click: updateLink
           }

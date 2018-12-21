@@ -45,12 +45,13 @@ export default Vue.extend({
   methods: {
     __getText (h) {
       return this.text.map((msg, index) => h('div', {
+        key: index,
         staticClass: 'q-message-text',
-        'class': this.messageClass
+        class: this.messageClass
       }, [
         h('span', {
           staticClass: 'q-message-text-content',
-          'class': this.textClass
+          class: this.textClass
         }, [
           h('div', { domProps: { innerHTML: msg } }),
           this.stamp
@@ -66,11 +67,11 @@ export default Vue.extend({
     __getMessage (h) {
       return h('div', {
         staticClass: 'q-message-text',
-        'class': this.messageClass
+        class: this.messageClass
       }, [
         h('span', {
           staticClass: 'q-message-text-content',
-          'class': this.textClass
+          class: this.textClass
         }, [
           this.$slots.default,
           this.stamp
@@ -87,7 +88,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-message',
-      'class': this.classes
+      class: this.classes
     }, [
       this.label
         ? h('div', {
@@ -108,7 +109,7 @@ export default Vue.extend({
             : null
         ),
 
-        h('div', { 'class': this.sizeClass }, [
+        h('div', { class: this.sizeClass }, [
           this.name
             ? h('div', {
               staticClass: 'q-message-name',

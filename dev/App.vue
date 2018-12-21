@@ -34,6 +34,9 @@
             ,{ label: 'Polish', value: 'pl' }
             ,{ label: 'Czech', value: 'cs' }
           ]"
+          emit-value
+          map-options
+          dense-options
           v-model="lang"
         />
         <q-select
@@ -45,7 +48,11 @@
             ,{ label: 'MDI', value: 'mdi' }
             ,{ label: 'Ionicons', value: 'ionicons' }
             ,{ label: 'Fontawesome', value: 'fontawesome' }
+            ,{ label: 'Eva Icons', value: 'eva-icons' }
           ]"
+          emit-value
+          map-options
+          dense-options
           v-model="iconSet"
         />
       </template>

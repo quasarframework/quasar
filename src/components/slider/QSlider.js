@@ -145,7 +145,7 @@ export default Vue.extend({
         'aria-disabled': this.disable,
         tabindex: this.computedTabindex
       },
-      'class': this.classes,
+      class: this.classes,
       on: this.events,
       directives: this.editable ? [{
         name: 'touch-pan',
@@ -173,7 +173,7 @@ export default Vue.extend({
 
       h('div', {
         staticClass: 'q-slider__thumb-container absolute non-selectable',
-        'class': this.thumbClass,
+        class: this.thumbClass,
         style: this.thumbStyle
       }, [
         h('svg', {
@@ -191,7 +191,7 @@ export default Vue.extend({
 
         this.label === true || this.labelAlways === true ? h('div', {
           staticClass: 'q-slider__pin absolute flex flex-center',
-          'class': this.pinClass
+          class: this.pinClass
         }, [
           h('span', { staticClass: 'q-slider__pin-value-marker' }, [ this.model ])
         ]) : null,

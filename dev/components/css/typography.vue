@@ -91,16 +91,6 @@
           </dl>
         </q-card-section>
       </q-card>
-
-      <q-card class="q-my-md">
-        <q-card-section>
-          <div class="text-h6">Links</div>
-        </q-card-section>
-        <q-separator />
-        <q-card-section>
-          <p>Links: <a>Some link</a> and <a>Some other link</a>.</p>
-        </q-card-section>
-      </q-card>
     </div>
   </div>
 </template>

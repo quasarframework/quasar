@@ -30,7 +30,7 @@ export default Vue.extend({
   render (h) {
     return h('ul', {
       staticClass: 'q-timeline',
-      'class': this.classes
+      class: this.classes
     }, this.$slots.default)
   }
 })

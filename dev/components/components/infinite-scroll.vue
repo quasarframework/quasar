@@ -3,11 +3,12 @@
     <div class="q-layout-padding">
       <p class="caption">Scroll down to see it in action.</p>
 
+      <q-toggle v-model="active" label="Active" />
       <q-toggle v-model="disable" label="Disable" class="q-mr-sm" />
       <q-toggle v-model="container" label="Container" />
 
       <div :class="container ? 'scroll' : ''" :style="styles">
-        <q-infinite-scroll ref="inf" @load="load" :disable="disable">
+        <q-infinite-scroll ref="inf" @load="load" :disable="disable" v-if="active">
           <div v-for="(item, index) in items" :key="index" class="caption">
             <q-chip square color="secondary" class="shadow-1">
               {{ index + 1 }}
@@ -19,6 +20,7 @@
             <q-spinner color="primary" name="dots" :size="40"/>
           </div>
         </q-infinite-scroll>
+        <div v-else style="height: 300vh">Placeholder for scroll</div>
       </div>
     </div>
   </div>
@@ -30,7 +32,8 @@ export default {
     return {
       items: [{}, {}, {}, {}, {}],
       disable: false,
-      container: false
+      container: false,
+      active: true
     }
   },
   computed: {

@@ -73,25 +73,25 @@
       <p class="caption">Configuration</p>
       <div class="row q-gutter-sm items-center">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-input type="number" v-model="min" stack-label="Minimum page number" />
+          <q-input type="number" v-model="min" filled stack-label label="Minimum page number" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-input type="number" v-model="max" :min="min" stack-label="Maximum page number" />
+          <q-input type="number" v-model="max" :min="min" filled stack-label label="Maximum page number" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-select v-model="boundaryLinks" :options="options" stack-label="Show boundary buttons" />
+          <q-select v-model="boundaryLinks" :options="options" filled stack-label label="Show boundary buttons" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-select v-model="directionLinks" :options="options" stack-label="Show direction buttons" />
+          <q-select v-model="directionLinks" :options="options" filled stack-label label="Show direction buttons" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-select v-model="boundaryNumbers" :options="options" stack-label="Always show first and last page" />
+          <q-select v-model="boundaryNumbers" :options="options" filled stack-label label="Always show first and last page" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-select v-model="ellipses" :options="options" stack-label="Show ellipses" />
+          <q-select v-model="ellipses" :options="options" filled stack-label label="Show ellipses" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-input type="number" v-model="maxPages" stack-label="Maximum number of page buttons" />
+          <q-input type="number" v-model="maxPages" filled stack-label label="Maximum number of page buttons" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-toggle v-model="inputType" label="Input type" />

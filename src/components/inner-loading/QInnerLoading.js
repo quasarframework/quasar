@@ -35,7 +35,7 @@ export default Vue.extend({
     }, [
       this.showing ? h('div', {
         staticClass: 'q-inner-loading absolute-full column flex-center',
-        'class': this.dark ? 'q-inner-loading--dark' : null
+        class: this.dark ? 'q-inner-loading--dark' : null
       }, content) : null
     ])
   }

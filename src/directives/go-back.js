@@ -22,6 +22,10 @@ export default {
       }
     }
 
+    if (el.__qgoback) {
+      el.__qgoback_old = el.__qgoback
+    }
+
     el.__qgoback = ctx
     el.addEventListener('click', ctx.goBack)
     el.addEventListener('keyup', ctx.goBackKey)
@@ -34,11 +38,11 @@ export default {
   },
 
   unbind (el) {
-    const ctx = el.__qgoback
+    const ctx = el.__qgoback_old || el.__qgoback
     if (ctx !== void 0) {
       el.removeEventListener('click', ctx.goBack)
       el.removeEventListener('keyup', ctx.goBackKey)
-      delete el.__qgoback
+      delete el[el.__qgoback_old ? '__qgoback_old' : '__qgoback']
     }
   }
 }

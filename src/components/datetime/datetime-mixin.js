@@ -1,27 +1,10 @@
 export default {
   props: {
     value: {
-      type: String,
       required: true
     },
-    min: {
-      type: String,
-      default: null
-    },
-    max: {
-      type: String,
-      default: null
-    },
 
-    defaultValue: {
-      type: String,
-      default: null
-    },
-    orientation: {
-      type: String,
-      default: 'portrait',
-      validator: v => ['portrait', 'landscape'].includes(v)
-    },
+    landscape: Boolean,
 
     color: String,
     textColor: String,
@@ -42,6 +25,10 @@ export default {
 
     computedTextColor () {
       return this.textColor || 'white'
+    },
+
+    computedTabindex () {
+      return this.editable === true ? 0 : -1
     },
 
     headerClass () {

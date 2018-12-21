@@ -24,32 +24,21 @@ export default {
   pullToRefresh: {
     icon: 'refresh'
   },
-  search: {
-    icon: 'search',
-    clear: 'cancel',
-    clearInverted: 'clear'
-  },
   carousel: {
     left: 'chevron_left',
     right: 'chevron_right',
     navigationIcon: 'lens',
     thumbnails: 'view_carousel'
   },
-  checkbox: {
-    checked: 'check_box',
-    unchecked: 'check_box_outline_blank',
-    indeterminate: 'indeterminate_check_box'
-  },
   chip: {
     remove: 'cancel',
     selected: 'check'
   },
-  chipsInput: {
-    add: 'send'
-  },
   datetime: {
     arrowLeft: 'chevron_left',
-    arrowRight: 'chevron_right'
+    arrowRight: 'chevron_right',
+    now: 'access_time',
+    today: 'today'
   },
   editor: {
     bold: 'format_bold',
@@ -95,12 +84,11 @@ export default {
     next: 'keyboard_arrow_right',
     last: 'last_page'
   },
-  radio: {
-    checked: 'radio_button_checked',
-    unchecked: 'radio_button_unchecked'
-  },
   rating: {
     icon: 'grade'
+  },
+  select: {
+    dropdownIcon: 'arrow_drop_down'
   },
   stepper: {
     done: 'check',
@@ -122,11 +110,10 @@ export default {
   },
   uploader: {
     done: 'done',
-    clear: 'cancel',
-    clearInverted: 'clear',
-    add: 'add',
+    clear: 'clear',
+    add: 'add_box',
     upload: 'cloud_upload',
-    expand: 'keyboard_arrow_down',
-    file: 'insert_drive_file'
+    removeQueue: 'clear_all',
+    removeUploaded: 'done_all'
   }
 }

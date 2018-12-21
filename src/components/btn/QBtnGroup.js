@@ -15,7 +15,7 @@ export default Vue.extend({
   computed: {
     classes () {
       return ['unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch']
-        .filter(t => this[t])
+        .filter(t => this[t] === true)
         .map(t => `q-btn-group--${t}`).join(' ')
     }
   },
@@ -23,7 +23,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-btn-group row no-wrap inline',
-      'class': this.classes
+      class: this.classes
     }, this.$slots.default)
   }
 })

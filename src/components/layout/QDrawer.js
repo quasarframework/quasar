@@ -490,7 +490,7 @@ export default Vue.extend({
       h('div', {
         ref: 'backdrop',
         staticClass: 'fullscreen q-drawer__backdrop q-layout__section--animate',
-        'class': this.backdropClass,
+        class: this.backdropClass,
         on: { click: this.hide },
         directives: [{
           name: 'touch-pan',
@@ -503,7 +503,7 @@ export default Vue.extend({
     const content = [
       h('div', {
         staticClass: 'q-drawer__content fit ' + (this.layout.container ? 'overflow-auto' : 'scroll'),
-        'class': this.contentClass,
+        class: this.contentClass,
         style: this.contentStyle
       }, this.isMini && this.$slots.mini ? this.$slots.mini : this.$slots.default)
     ]
@@ -522,7 +522,7 @@ export default Vue.extend({
       h('aside', {
         ref: 'content',
         staticClass: `q-drawer q-layout__section--animate`,
-        'class': this.classes,
+        class: this.classes,
         style: this.style,
         on: this.onNativeEvents,
         directives: this.mobileView && !this.noSwipeClose ? [{

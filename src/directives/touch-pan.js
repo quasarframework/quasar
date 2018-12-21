@@ -89,7 +89,7 @@ export default {
         if (leftClick(evt)) {
           document.addEventListener('mousemove', ctx.move, evtOpts)
           document.addEventListener('mouseup', ctx.mouseEnd, evtOpts)
-          ctx.start(evt)
+          ctx.start(evt, true)
         }
       },
 
@@ -99,14 +99,14 @@ export default {
         ctx.end(evt)
       },
 
-      start (evt) {
+      start (evt, mouseEvent) {
         const pos = position(evt)
 
         ctx.event = {
           x: pos.left,
           y: pos.top,
           time: new Date().getTime(),
-          detected: ctx.direction.horizontal && ctx.direction.vertical,
+          detected: mouseEvent === true || (ctx.direction.horizontal && ctx.direction.vertical),
           abort: false,
           isFirst: true,
           lastX: pos.left,
@@ -115,18 +115,21 @@ export default {
 
         if (ctx.event.detected) {
           el.classList.add('q-touch')
-          stopPropagation && evt.stopPropagation()
-          preventDefault && evt.preventDefault()
-          ctx.move(evt)
+
+          if (mouseEvent !== true) {
+            stopPropagation && evt.stopPropagation()
+            preventDefault && evt.preventDefault()
+            ctx.move(evt)
+          }
         }
       },
 
       move (evt) {
-        if (ctx.event.abort) {
+        if (ctx.event.abort === true) {
           return
         }
 
-        if (ctx.event.detected) {
+        if (ctx.event.detected === true) {
           stopPropagation && evt.stopPropagation()
           preventDefault && evt.preventDefault()
 
@@ -170,6 +173,10 @@ export default {
       }
     }
 
+    if (el.__qtouchpan) {
+      el.__qtouchpan_old = el.__qtouchpan
+    }
+
     el.__qtouchpan = ctx
 
     if (mouse) {
@@ -196,7 +203,7 @@ export default {
   },
 
   unbind (el, binding) {
-    let ctx = el.__qtouchpan
+    let ctx = el.__qtouchpan_old || el.__qtouchpan
     if (ctx !== void 0) {
       const evtOpts = binding.modifiers.prevent ? null : listenOpts.passive
 
@@ -206,7 +213,7 @@ export default {
       el.removeEventListener('touchmove', ctx.move, evtOpts)
       el.removeEventListener('touchend', ctx.end, evtOpts)
 
-      delete el.__qtouchpan
+      delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
     }
   }
 }

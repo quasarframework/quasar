@@ -9,7 +9,7 @@
         <q-chip icon="directions">Get directions</q-chip>
       </div>
       <div class="q-ma-md">
-        <q-chip color="primary" text-color="white" icon="event" removable>Add to calendar</q-chip>
+        <q-chip color="primary" text-color="white" icon="event" removable>Add to calendar </q-chip>
         <q-chip color="teal" text-color="white" icon="bookmark">Bookmark</q-chip>
         <q-chip color="orange" text-color="white" icon-right="star">Star</q-chip>
         <q-chip color="red" text-color="white" icon="alarm" label="Set alarm" removable />
@@ -27,6 +27,14 @@
             <img src="statics/boy-avatar.png">
           </q-avatar>
           Emails
+        </q-chip>
+      </div>
+
+      <p>Tooltip test</p>
+      <div class="q-ma-md">
+        <q-chip color="primary" text-color="white" icon="event" removable>
+          With tooltip
+          <q-tooltip>Tooltip</q-tooltip>
         </q-chip>
       </div>
 

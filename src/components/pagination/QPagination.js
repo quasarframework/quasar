@@ -201,20 +201,22 @@ export default Vue.extend({
 
     if (this.input) {
       contentMiddle.push(h(QInput, {
-        staticClass: 'inline no-padding',
+        staticClass: 'inline',
         style: {
           width: `${this.inputPlaceholder.length}rem`
         },
         props: {
           type: 'number',
+          dense: true,
           value: this.newPage,
-          noNumberToggle: true,
-          min: this.min,
-          max: this.max,
           color: this.color,
-          placeholder: this.inputPlaceholder,
           disable: this.disable,
-          hideUnderline: true
+          borderless: true
+        },
+        attrs: {
+          placeholder: this.inputPlaceholder,
+          min: this.min,
+          max: this.max
         },
         on: {
           input: value => (this.newPage = value),
@@ -336,7 +338,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-pagination row no-wrap items-center',
-      'class': { disabled: this.disable }
+      class: { disabled: this.disable }
     }, [
       contentStart,
 

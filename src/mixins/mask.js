@@ -18,7 +18,8 @@ const NAMED_MASKS = {
   'datetime': '99/99/99 99:99',
   'time': '99:99',
   'fulltime': '99:99:99',
-  'phone': '(999) 999 - 9999'
+  'phone': '(999) 999 - 9999',
+  card: '9999 9999 9999 9999'
 }
 
 export default {
@@ -225,7 +226,9 @@ export default {
     },
 
     __unmask (val) {
-      return val.replace(/[\W _]/g, '')
+      return val !== void 0 && val !== null
+        ? val.replace(/[\W _]/g, '')
+        : val
     },
 
     __fillWithMask (val, mask) {

@@ -28,7 +28,7 @@ $chip-height = 32px
   &--selected
     .q-avatar
       visibility hidden !important
-      width 12px
+      width 10px
 
   &--floating
     position absolute
@@ -36,6 +36,7 @@ $chip-height = 32px
     right -.5em
     pointer-events none
     z-index 1
+    opacity .9
 
   .q-avatar
     font-size $chip-height
@@ -48,9 +49,9 @@ $chip-height = 32px
     margin -4px
 
     &--left
-      margin-right 4px
+      margin-right 6px
     &--right
-      margin-left 4px
+      margin-left 6px
     &--remove
       margin-left 8px
       margin-right -6px
@@ -103,10 +104,10 @@ $chip-height = 32px
       opacity .15
 
   &--dense
-    border-radius 8px
-    height 18px
+    border-radius 12px
+    height 24px
     font-size 12px
-    padding 0 3px
+    padding 0 8px
 
     .q-chip__pointer
       &--up
@@ -119,28 +120,29 @@ $chip-height = 32px
         left -4px
 
     .q-chip__icon
-      font-size 12px
+      font-size 14px
       margin 0
       &--left
-        margin-right 3px
+        margin-right 5px
       &--right
-        margin-left 3px
+        margin-left 5px
       &--remove
         margin-left 3px
         margin-right -2px
 
     .q-avatar
-      font-size 18px
-      margin-left -4px
-      margin-right 2px
+      font-size 24px
+      margin-left -8px
+      margin-right 4px
 
-    &.q-chip--selected .q-avatar
-      width 3px
+    &.q-chip--selected
+      .q-avatar
+        width 5px
 
   &--square
     border-radius $generic-border-radius
     .q-avatar
-      border-radius $generic-border-radius 0 0 $generic-border-radius
+      border-radius ($generic-border-radius - 1px) 0 0 ($generic-border-radius - 1px)
 
 body.desktop .q-chip--clickable:focus
   box-shadow $shadow-1

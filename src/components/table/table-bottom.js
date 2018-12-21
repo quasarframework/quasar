@@ -9,16 +9,17 @@ export default {
       return this.$q.i18n.rtl ? ico.reverse() : ico
     }
   },
+
   methods: {
     getBottom (h) {
-      if (this.hideBottom) {
+      if (this.hideBottom === true) {
         return
       }
 
-      if (this.nothingToDisplay) {
+      if (this.nothingToDisplay === true) {
         const message = this.filter
           ? this.noResultsLabel || this.$q.i18n.table.noResults
-          : (this.loading ? this.loadingLabel || this.$q.i18n.table.loading : this.noDataLabel || this.$q.i18n.table.noData)
+          : (this.loading === true ? this.loadingLabel || this.$q.i18n.table.loading : this.noDataLabel || this.$q.i18n.table.noData)
 
         return h('div', { staticClass: 'q-table__bottom row items-center q-table__bottom--nodata' }, [
           h(QIcon, {props: { name: this.$q.icon.table.warning }}),
@@ -30,9 +31,10 @@ export default {
 
       return h('div', {
         staticClass: 'q-table__bottom row items-center',
-        'class': bottom ? null : 'justify-end'
-      }, bottom ? [ bottom(this.marginalsProps) ] : this.getPaginationRow(h))
+        class: bottom !== void 0 ? null : 'justify-end'
+      }, bottom !== void 0 ? [ bottom(this.marginalsProps) ] : this.getPaginationRow(h))
     },
+
     getPaginationRow (h) {
       const
         { rowsPerPage } = this.computedPagination,
@@ -47,32 +49,42 @@ export default {
               : ''
           ])
         ]),
+
         h('div', { staticClass: 'q-table__separator col' }),
-        (this.rowsPerPageOptions.length > 1 && h('div', { staticClass: 'q-table__control' }, [
-          h('span', { staticClass: 'q-table__bottom-item' }, [
-            this.rowsPerPageLabel || this.$q.i18n.table.recordsPerPage
-          ]),
-          h(QSelect, {
-            staticClass: 'inline q-table__bottom-item',
-            props: {
-              color: this.color,
-              value: rowsPerPage,
-              options: this.computedRowsPerPageOptions,
-              dark: this.dark,
-              hideUnderline: true
-            },
-            on: {
-              input: rowsPerPage => {
-                this.setPagination({
-                  page: 1,
-                  rowsPerPage
-                })
+
+        this.rowsPerPageOptions.length > 1
+          ? h('div', { staticClass: 'q-table__control' }, [
+            h('span', { staticClass: 'q-table__bottom-item' }, [
+              this.rowsPerPageLabel || this.$q.i18n.table.recordsPerPage
+            ]),
+            h(QSelect, {
+              staticClass: 'inline q-table__bottom-item',
+              props: {
+                color: this.color,
+                value: rowsPerPage,
+                options: this.computedRowsPerPageOptions,
+                displayValue: rowsPerPage === 0
+                  ? this.$q.i18n.table.allRows
+                  : rowsPerPage,
+                dark: this.dark,
+                borderless: true,
+                dense: true,
+                denseOptions: true
+              },
+              on: {
+                input: pag => {
+                  this.setPagination({
+                    page: 1,
+                    rowsPerPage: pag.value
+                  })
+                }
               }
-            }
-          })
-        ])) || void 0,
+            })
+          ])
+          : null,
+
         h('div', { staticClass: 'q-table__control' }, [
-          paginationSlot
+          paginationSlot !== void 0
             ? paginationSlot(this.marginalsProps)
             : [
               h('span', { staticClass: 'q-table__bottom-item' }, [

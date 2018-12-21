@@ -59,7 +59,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-toggle cursor-pointer no-outline row inline no-wrap items-center',
-      'class': this.classes,
+      class: this.classes,
       attrs: { tabindex: this.computedTabindex },
       on: {
         click: this.toggle,
@@ -68,7 +68,7 @@ export default Vue.extend({
     }, [
       h('div', {
         staticClass: 'q-toggle__inner relative-position',
-        'class': this.innerClass
+        class: this.innerClass
       }, [
         this.disable ? null : h('input', {
           staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
@@ -88,7 +88,7 @@ export default Vue.extend({
       ]),
 
       h('div', {
-        staticClass: 'q-toggle__label q-menu--skip'
+        staticClass: 'q-toggle__label q-anchor--skip'
       }, (this.label !== void 0 ? [ this.label ] : []).concat(this.$slots.default))
     ])
   }

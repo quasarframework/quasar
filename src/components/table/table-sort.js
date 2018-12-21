@@ -28,13 +28,13 @@ export default {
           if (B === null || B === void 0) {
             return 1 * dir
           }
-          if (col.sort) {
+          if (col.sort !== void 0) {
             return col.sort(A, B) * dir
           }
-          if (isNumber(A) && isNumber(B)) {
+          if (isNumber(A) === true && isNumber(B) === true) {
             return (A - B) * dir
           }
-          if (isDate(A) && isDate(B)) {
+          if (isDate(A) === true && isDate(B) === true) {
             return sortDate(A, B) * dir
           }
           if (typeof A === 'boolean' && typeof B === 'boolean') {
@@ -50,6 +50,7 @@ export default {
       }
     }
   },
+
   computed: {
     columnToSort () {
       const { sortBy } = this.computedPagination
@@ -59,6 +60,7 @@ export default {
       }
     }
   },
+
   methods: {
     sort (col /* String(col name) or Object(col definition) */) {
       if (col === Object(col)) {
@@ -72,11 +74,11 @@ export default {
         descending = false
       }
       else {
-        if (this.binaryStateSort) {
+        if (this.binaryStateSort === true) {
           descending = !descending
         }
         else {
-          if (descending) {
+          if (descending === true) {
             sortBy = null
           }
           else {

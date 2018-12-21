@@ -58,7 +58,7 @@ export default Vue.extend({
         'q-chip--floating': this.floating,
         'q-chip--selected': this.selected,
         'q-chip--clickable cursor-pointer non-selectable q-hoverable': this.isClickable,
-        'q-chip--square': this.square || this.floating
+        'q-chip--square': this.square
       }
     },
 
@@ -102,7 +102,7 @@ export default Vue.extend({
       if (this.pointing) {
         child.push(h('div', {
           staticClass: 'q-chip__pointer absolute',
-          'class': {
+          class: {
             [`q-chip__pointer--${this.pointing}`]: true,
             [`text-${this.color}`]: this.color
           }
@@ -110,7 +110,7 @@ export default Vue.extend({
 
         this.isClickable && child.push(h('div', {
           staticClass: 'q-chip__pointer q-chip__pointer--hover absolute',
-          'class': `q-chip__pointer--${this.pointing}`
+          class: `q-chip__pointer--${this.pointing}`
         }))
       }
 
@@ -120,7 +120,7 @@ export default Vue.extend({
       }))
 
       child.push(h('div', {
-        staticClass: 'q-chip__content row no-wrap items-center'
+        staticClass: 'q-chip__content row no-wrap items-center q-anchor--skip'
       }, this.label ? [ this.label ] : this.$slots.default))
 
       this.iconRight && child.push(h(QIcon, {
@@ -155,7 +155,7 @@ export default Vue.extend({
     } : {}
 
     data.staticClass = 'q-chip row inline no-wrap items-center'
-    data['class'] = this.classes
+    data.class = this.classes
 
     return h('div', data, this.__getContent(h))
   }

@@ -14,7 +14,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-banner row items-center',
-      'class': {
+      class: {
         'q-banner--top-padding': actions && !this.inlineActions,
         'q-banner--dense': this.dense,
         'generic-border-radius': this.rounded
@@ -31,7 +31,7 @@ export default Vue.extend({
 
       (actions && h('div', {
         staticClass: 'q-banner__actions row items-center justify-end',
-        'class': this.inlineActions ? 'col-auto' : 'col-12'
+        class: this.inlineActions ? 'col-auto' : 'col-12'
       }, actions)) || void 0
 
     ])

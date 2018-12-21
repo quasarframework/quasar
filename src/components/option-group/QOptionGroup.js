@@ -71,7 +71,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-option-group q-gutter-x-sm',
-      'class': this.inline ? 'q-option-group--inline' : null
+      class: this.inline ? 'q-option-group--inline' : null
     }, this.options.map(opt => h('div', [
       h(this.component, {
         props: {

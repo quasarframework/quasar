@@ -58,7 +58,7 @@ export default Vue.extend({
 
     return h('li', {
       staticClass: `q-timeline__entry`,
-      'class': this.classes
+      class: this.classes
     }, [
       h('div', { staticClass: 'q-timeline__subtitle' }, [
         h('span', this.subtitle)
@@ -66,7 +66,7 @@ export default Vue.extend({
 
       h('div', {
         staticClass: 'q-timeline__dot',
-        'class': this.colorClass
+        class: this.colorClass
       }, this.icon ? [
         h(QIcon, {
           staticClass: 'row items-center justify-center',

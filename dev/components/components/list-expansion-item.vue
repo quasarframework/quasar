@@ -484,7 +484,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables'
+@import '~quasar-variables'
 
 .my-expand-link
   color $secondary

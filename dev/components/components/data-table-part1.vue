@@ -1,20 +1,6 @@
 <template>
   <div>
     <div class="q-layout-padding" style="max-width: 1400px;">
-      <q-field icon="search">
-        <q-input v-model="filter" float-label="Float" />
-      </q-field>
-
-      <div>
-        <q-toggle color="primary" v-model="loading" label="Show loading" />
-        <q-toggle color="primary" v-model="selectionToggle" label="Multiple selection" />
-        <q-select multiple toggle v-model="visibleColumns" :options="visibleColumnsOptions" />
-        <q-radio v-model="separator" val="horizontal" label="Horizontal" />
-        <q-radio v-model="separator" val="vertical" label="Vertical" />
-        <q-radio v-model="separator" val="cell" label="Cell" />
-        <q-radio v-model="separator" val="none" label="None" />
-      </div>
-
       <h4>QMarkupTable</h4>
       <q-markup-table :separator="separator">
         <thead>
@@ -86,33 +72,25 @@
           <q-td key="desc" :props="props">
             {{ props.row.name }}
             <q-popup-edit v-model="props.row.name">
-              <q-field count>
-                <q-input v-model="props.row.name" autofocus />
-              </q-field>
+              <q-input v-model="props.row.name" dense autofocus counter />
             </q-popup-edit>
           </q-td>
           <q-td key="calories" :props="props">
             {{ props.row.calories }}
             <q-popup-edit v-model="props.row.calories" title="Update calories" buttons>
-              <q-field count>
-                <q-input type="number" v-model="props.row.calories" autofocus />
-              </q-field>
+              <q-input type="number" v-model="props.row.calories" dense autofocus />
             </q-popup-edit>
           </q-td>
           <q-td key="fat" :props="props">
             <div class="text-pre-wrap">{{ props.row.fat }}</div>
             <q-popup-edit v-model="props.row.fat">
-              <q-field count>
-                <q-input type="textarea" v-model="props.row.fat" autofocus />
-              </q-field>
+              <q-input type="textarea" v-model="props.row.fat" dense autofocus />
             </q-popup-edit>
           </q-td>
           <q-td key="carbs" :props="props">
             {{ props.row.carbs }}
             <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent>
-              <q-field count helper="Use buttons to close">
-                <q-input type="number" v-model="props.row.carbs" autofocus />
-              </q-field>
+              <q-input type="number" v-model="props.row.carbs" dense autofocus hint="Use buttons to close" />
             </q-popup-edit>
           </q-td>
           <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
@@ -135,7 +113,9 @@
         row-key="name"
       >
         <template slot="top-right" slot-scope="props">
-          <q-search hide-underline v-model="filter" />
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+            <q-icon slot="append" name="search" />
+          </q-input>
         </template>
 
         <div
@@ -163,6 +143,17 @@
         </div>
       </q-table>
 
+      <q-input filled v-model="filter" label="Search" debounce="300">
+        <q-icon slot="append" name="search" />
+      </q-input>
+
+      <div>
+        <q-toggle color="primary" v-model="loading" label="Show loading" />
+        <q-toggle color="primary" v-model="selectionToggle" label="Multiple selection" />
+        <q-select filled multiple v-model="visibleColumns" :options="columns" option-value="name" option-disable="required" emit-value />
+        <q-select class="q-mt-md" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" />
+      </div>
+
       <h2>Emulate server-side</h2>
       <q-table
         ref="server"
@@ -180,7 +171,9 @@
         @request="request"
       >
         <template slot="top-right" slot-scope="props">
-          <q-search hide-underline v-model="filter" />
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+            <q-icon slot="append" name="search" />
+          </q-input>
         </template>
       </q-table>
 
@@ -188,6 +181,7 @@
       <q-table
         dark
         class="bg-black"
+        color="orange"
         :separator="separator"
         :data="data"
         :columns="columns"
@@ -221,7 +215,17 @@
           {{ visibleColumns }}
         </template>
         <template slot="top-right" slot-scope="props">
-          <q-table-columns color="secondary" v-model="visibleColumns" :columns="columns" />
+          <q-select
+            v-model="visibleColumns"
+            :options="columns"
+            multiple
+            option-value="name"
+            option-disable="required"
+            emit-value
+            :display-value="$q.i18n.table.columns"
+            dense
+            borderless
+          />
         </template>
 
         <q-td slot="body-cell-desc" slot-scope="props" :props="props">
@@ -692,12 +696,6 @@ export default {
   computed: {
     selection () {
       return this.selectionToggle ? 'multiple' : 'single'
-    },
-    visibleColumnsOptions () {
-      return this.columns.filter(col => !col.required).map(col => ({
-        value: col.name,
-        label: col.label
-      }))
     }
   },
   methods: {

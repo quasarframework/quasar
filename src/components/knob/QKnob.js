@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
+
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/touch-pan.js'
 
@@ -191,7 +192,7 @@ export default Vue.extend({
   render (h) {
     const data = {
       staticClass: 'q-knob non-selectable',
-      'class': this.classes,
+      class: this.classes,
 
       props: Object.assign({}, this.$props, {
         value: this.model,

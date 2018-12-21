@@ -23,15 +23,19 @@ export function getHorizontalScrollPosition (scrollTarget) {
 }
 
 export function animScrollTo (el, to, duration) {
+  const pos = getScrollPosition(el)
+
   if (duration <= 0) {
+    if (pos !== to) {
+      setScroll(el, to)
+    }
     return
   }
 
-  const pos = getScrollPosition(el)
-
   requestAnimationFrame(() => {
-    setScroll(el, pos + (to - pos) / Math.max(16, duration) * 16)
-    if (el.scrollTop !== to) {
+    const newPos = pos + (to - pos) / Math.max(16, duration) * 16
+    setScroll(el, newPos)
+    if (newPos !== to) {
       animScrollTo(el, to, duration - 16)
     }
   })

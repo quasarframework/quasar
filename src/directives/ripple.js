@@ -1,13 +1,13 @@
 import { css } from '../utils/dom.js'
 import { position } from '../utils/event.js'
 
-function showRipple (evt, el, ctx) {
+function showRipple (evt, el, ctx, forceCenter) {
   if (ctx.modifiers.stop === true) {
     evt.stopPropagation()
   }
 
   let { center, color } = ctx.modifiers
-  center = center || evt instanceof KeyboardEvent // comes from keyboard event
+  center = center === true || forceCenter === true
 
   const
     node = document.createElement('span'),
@@ -29,22 +29,28 @@ function showRipple (evt, el, ctx) {
     opacity: 0
   })
 
-  node.className = `q-ripple ${color ? ' text-' + color : ''}`
+  node.className = `q-ripple${color ? ' text-' + color : ''}`
   node.appendChild(innerNode)
   el.appendChild(node)
 
-  ctx.timer = setTimeout(() => {
+  ctx.abort = () => {
+    node && node.remove()
+    clearTimeout(timer)
+  }
+
+  let timer = setTimeout(() => {
     innerNode.classList.add('q-ripple__inner--enter')
     innerNode.style.transform = `translate3d(${centerX}, ${centerY}, 0) scale3d(1, 1, 1)`
     innerNode.style.opacity = 0.2
 
-    ctx.timer = setTimeout(() => {
+    timer = setTimeout(() => {
       innerNode.classList.remove('q-ripple__inner--enter')
       innerNode.classList.add('q-ripple__inner--leave')
       innerNode.style.opacity = 0
 
-      ctx.timer = setTimeout(() => {
+      timer = setTimeout(() => {
         node && node.remove()
+        ctx.abort = void 0
       }, 275)
     }, 250)
   }, 50)
@@ -53,11 +59,11 @@ function showRipple (evt, el, ctx) {
 function updateCtx (ctx, { value, modifiers, arg }) {
   ctx.enabled = value !== false
 
-  if (ctx.enabled) {
+  if (ctx.enabled === true) {
     ctx.modifiers = Object(value) === value
       ? {
-        stop: value.stop || modifiers.stop,
-        center: value.center || modifiers.center,
+        stop: value.stop === true || modifiers.stop === true,
+        center: value.center === true || modifiers.center === true,
         color: value.color || arg
       }
       : {
@@ -76,19 +82,23 @@ export default {
       modifiers: {},
 
       click (evt) {
-        if (ctx.enabled && !evt.preventRipple) {
+        if (ctx.enabled === true && evt.qKeyEvent !== true) {
           showRipple(evt, el, ctx)
         }
       },
 
       keyup (evt) {
-        if (ctx.enabled && !evt.preventRipple && evt.keyCode === 13) {
-          showRipple(evt, el, ctx)
+        if (ctx.enabled === true && evt.keyCode === 13) {
+          showRipple(evt, el, ctx, true)
         }
       }
     }
 
     updateCtx(ctx, binding)
+
+    if (el.__qripple) {
+      el.__qripple_old = el.__qripple
+    }
 
     el.__qripple = ctx
     el.addEventListener('click', ctx.click, false)
@@ -100,12 +110,12 @@ export default {
   },
 
   unbind (el) {
-    const ctx = el.__qripple
+    const ctx = el.__qripple_old || el.__qripple
     if (ctx !== void 0) {
-      clearTimeout(ctx.timer)
+      ctx.abort !== void 0 && ctx.abort()
       el.removeEventListener('click', ctx.click, false)
       el.removeEventListener('keyup', ctx.keyup, false)
-      delete el.__qripple
+      delete el[el.__qripple_old ? '__qripple_old' : '__qripple']
     }
   }
 }

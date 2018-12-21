@@ -9,10 +9,10 @@
     color white
     background $primary
     padding 16px
+    font-weight 300
 
   &__header-label
     font-size 28px
-    font-weight 300
     line-height 1
     letter-spacing -0.00833em
 
@@ -21,13 +21,14 @@
 
   &__link
     opacity .56
-    cursor pointer
+    outline 0
     transition opacity .3s ease-out
-    &--active
+    &--active, &:hover, &:focus
       opacity 1
 
   &__header-ampm
     font-size 16px
+    letter-spacing 0.1em
 
   &__content
     padding 16px
@@ -69,6 +70,7 @@
     left 50%
     right 0
     bottom 0
+    color $primary
     background currentColor
     transform translate3d(-50%, 0, 0)
 
@@ -100,11 +102,14 @@
     transform translate3d(-50%, -50%, 0) /* rtl:ignore */
     border-radius 50%
 
+    &--disable
+      opacity .4
+
     &--active
       background $primary
       color white
 
-  for $pos in 0..12
+  for $pos in 0..11
     $degree = (270 + 30 * $pos)
     &__clock-pos-{$pos}
       top round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
@@ -123,6 +128,20 @@
   &__clock-pos-0.fmt24
     top round(15% + ((1 + sin(270deg)) * 70%) / 2, 2)
     left round(15% + ((1 + cos(270deg)) * 70%) / 2, 2) /* rtl:ignore */
+
+  &__now-button
+    background $primary
+    color white
+
+  &__event
+    position absolute
+    bottom 2px
+    left 50%
+    height 5px
+    width 10px
+    border-radius 5px
+    background $secondary
+    transform translate3d(-50%, 0, 0)
 
   &.disabled, &--readonly
     .q-time__header-ampm, .q-time__content

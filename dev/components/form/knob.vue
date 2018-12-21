@@ -51,11 +51,11 @@
       <p class="caption">Styling</p>
       <div class="q-gutter-md">
         <q-knob
-          style="font-size: 38px"
           v-model="model"
-          :size="150"
+          size="150px"
+          font-size="38px"
           color="red"
-          :thickness="2"
+          :thickness="0.05"
           track-color="white"
           :min="min"
           :max="max"
@@ -69,7 +69,7 @@
           color="amber-7"
           track-color="transparent"
           center-color="grey-8"
-          :thickness="5"
+          :thickness="0.2"
           :min="min"
           :max="max"
           :step="5"
@@ -77,12 +77,12 @@
 
         <q-knob
           class="text-white"
-          style="font-size: 42px"
           v-model="model"
-          :size="120"
+          size="120px"
+          font-size="42px"
           color="secondary"
           track-color="tertiary"
-          :thickness="60"
+          :thickness="0.3"
           :min="min"
           :max="max"
           :step="5"
