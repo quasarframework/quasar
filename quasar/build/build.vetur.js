@@ -9,7 +9,7 @@ const
   { writeFile } = require('./build.utils'),
   Quasar = require('../dist/quasar.umd.min'),
   components = Quasar.components,
-  resolve = file => path.resolve(__dirname, '../dist/helper-json', file)
+  resolve = file => path.resolve(__dirname, '../dist/vetur', file)
 
 const PropTypeMap = new Map([
   [String, { type: 'string', description: 'String value.' }],

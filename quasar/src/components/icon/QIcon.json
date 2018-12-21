@@ -1,0 +1,28 @@
+{
+  "type": "component",
+  "props": {
+    "name": {
+      "type": "String",
+      "desc": "Name of the icon, following Quasar convention",
+      "examples": [ "map" ]
+    },
+    "color": {
+      "type": "String",
+      "desc": "Color name from the Quasar Color Palette",
+      "examples": [ "primary", "teal-10" ]
+    },
+    "size": {
+      "type": "String",
+      "desc": "Size of icon in CSS units, including unit name.",
+      "examples": [ "16px", "2rem" ]
+    },
+    "left": {
+      "type": "Boolean",
+      "desc": "Apply a standard margin on the left side. Useful if icon is on the right side of something."
+    },
+    "right": {
+      "type": "Boolean",
+      "desc": "Apply a standard margin on the right side. Useful if icon is on the left side of something."
+    }
+  }
+}

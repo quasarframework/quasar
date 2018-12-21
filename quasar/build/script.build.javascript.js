@@ -72,8 +72,10 @@ addAssets(builds, 'i18n')
 addAssets(builds, 'icons')
 
 require('./build.transforms').generate()
+
 build(builds).then(() => {
-  require('./build.helpers').generate()
+  require('./build.vetur').generate()
+  require('./build.api').generate()
 })
 
 /**
