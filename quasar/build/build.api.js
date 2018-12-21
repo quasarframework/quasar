@@ -3,29 +3,52 @@
 const
   glob = require('glob'),
   path = require('path'),
-  fs = require('fs'),
-  { writeFile } = require('./build.utils')
+  { logError, writeFile } = require('./build.utils')
+
+const
+  root = path.resolve(__dirname, '..'),
+  resolve = file => path.resolve(root, file),
+  dest = path.join(root, 'dist/api'),
+  extendApi = require(resolve('src/api.extends.json'))
 
 function getWithoutExtension (filename) {
   const insertionPoint = filename.lastIndexOf('.')
   return filename.slice(0, insertionPoint)
 }
 
-function parseAPI (api, extendApi) {
+function parseAPI (file, extendApi) {
+  const api = require(file)
+
   // "props", "slots", ...
   for (let type in api) {
-    if (extendApi[type] === void 0) {
-      continue
-    }
-
     for (let item in api[type]) {
       const definition = api[type][item]
-      if (definition.extends !== void 0) {
-        api[type][item] = Object.assign(
-          extendApi[type][definition.extends],
-          api[type][item]
-        )
-        delete api[type][item].extends
+
+      if (extendApi[type] !== void 0) {
+        if (definition.extends !== void 0) {
+          api[type][item] = Object.assign(
+            extendApi[type][definition.extends],
+            api[type][item]
+          )
+          delete api[type][item].extends
+        }
+      }
+
+      const obj = api[type][item]
+
+      if (obj.desc === void 0) {
+        logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "desc" prop`)
+        process.exit(1)
+      }
+      if (type === 'props') {
+        if (obj.type === void 0) {
+          logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "type" prop`)
+          process.exit(1)
+        }
+        if (obj.type !== 'Boolean' && obj.examples === void 0) {
+          logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "examples" prop`)
+          process.exit(1)
+        }
       }
     }
   }
@@ -36,12 +59,6 @@ function parseAPI (api, extendApi) {
 }
 
 module.exports.generate = function () {
-  const
-    root = path.resolve(__dirname, '..'),
-    resolve = file => path.resolve(root, file),
-    dest = path.join(root, 'dist/api'),
-    extendApi = require(resolve('src/api.extends.json'))
-
   const API = {}
 
   glob.sync(resolve('src/components/**/Q*.json'))
@@ -50,7 +67,7 @@ module.exports.generate = function () {
         name = path.basename(file),
         filePath = path.join(dest, name)
 
-      const api = parseAPI(require(file), extendApi.components)
+      const api = parseAPI(file, extendApi.components)
 
       // copy API file to dest
       writeFile(filePath, JSON.stringify(api, null, 2))

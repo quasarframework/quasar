@@ -3,21 +3,46 @@
     "props": {
       "color": {
         "type": "String",
-        "desc": "Color name from the Quasar Color Palette",
+        "desc": "Color name for component from the Quasar Color Palette",
         "examples": [ "primary", "teal-10" ]
       },
+
+      "text-color": {
+        "type": "String",
+        "desc": "Overrides text color (if needed); color name from the Quasar Color Palette",
+        "examples": [ "primary", "teal-10" ]
+      },
+
       "dense": {
         "type": "Boolean",
         "desc": "Dense mode; occupies less space"
       },
+
       "size": {
         "type": "String",
         "desc": "Size in CSS units, including unit name.",
         "examples": [ "16px", "2rem" ]
       },
+
       "dark": {
         "type": "Boolean",
         "desc": "Notify the component that the background is a dark color"
+      },
+
+      "icon": {
+        "type": "String",
+        "desc": "Icon name following Quasar convention; make sure you got the icon library installed",
+        "examples": [ "map", "ion-add" ]
+      },
+
+      "square": {
+        "type": "Boolean",
+        "desc": "Removes border-radius so borders are squared"
+      },
+
+      "rounded": {
+        "type": "Boolean",
+        "desc": "Applies a small standard border-radius for a squared shape of the component"
       }
     },
 

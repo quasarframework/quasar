@@ -3,18 +3,22 @@
     "name": {
       "type": "String",
       "desc": "Name of the icon, following Quasar convention",
-      "examples": [ "map" ]
+      "examples": [ "map", "ion-add" ]
     },
+
     "color": {
       "extends": "color"
     },
+
     "size": {
       "extends": "size"
     },
+
     "left": {
       "type": "Boolean",
       "desc": "Apply a standard margin on the left side. Useful if icon is on the right side of something."
     },
+
     "right": {
       "type": "Boolean",
       "desc": "Apply a standard margin on the right side. Useful if icon is on the left side of something."

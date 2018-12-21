@@ -3,6 +3,7 @@
     "dense": {
       "extends": "dense"
     },
+
     "dark": {
       "extends": "dark"
     }
