@@ -1,0 +1,30 @@
+{
+  "components": {
+    "props": {
+      "color": {
+        "type": "String",
+        "desc": "Color name from the Quasar Color Palette",
+        "examples": [ "primary", "teal-10" ]
+      },
+      "dense": {
+        "type": "Boolean",
+        "desc": "Dense mode; occupies less space"
+      },
+      "size": {
+        "type": "String",
+        "desc": "Size in CSS units, including unit name.",
+        "examples": [ "16px", "2rem" ]
+      },
+      "dark": {
+        "type": "Boolean",
+        "desc": "Notify the component that the background is a dark color"
+      }
+    },
+
+    "slots": {
+      "default": {
+        "desc": "Default slot is the devland unslotted content of the component"
+      }
+    }
+  }
+}

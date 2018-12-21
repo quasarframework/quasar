@@ -1,5 +1,4 @@
 {
-  "type": "component",
   "props": {
     "name": {
       "type": "String",
@@ -7,14 +6,10 @@
       "examples": [ "map" ]
     },
     "color": {
-      "type": "String",
-      "desc": "Color name from the Quasar Color Palette",
-      "examples": [ "primary", "teal-10" ]
+      "extends": "color"
     },
     "size": {
-      "type": "String",
-      "desc": "Size of icon in CSS units, including unit name.",
-      "examples": [ "16px", "2rem" ]
+      "extends": "size"
     },
     "left": {
       "type": "Boolean",

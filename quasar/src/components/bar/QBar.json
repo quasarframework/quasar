@@ -1,0 +1,16 @@
+{
+  "props": {
+    "dense": {
+      "extends": "dense"
+    },
+    "dark": {
+      "extends": "dark"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}
