@@ -111,6 +111,17 @@
         "type": "String",
         "desc": "Equivalent to Vue Router <router-link> 'active-class' property",
         "examples": [ "my-exact-active-class" ]
+      },
+
+      "ripple": {
+        "type": "Boolean or Object",
+        "desc": "Configure material ripple (disable it by setting it to 'false' or supply a config object)",
+        "default": true,
+        "examples": [ false, "{ center: true, color: 'teal' }" ]
+      },
+
+      "value": {
+        "desc": "Model of the component; Either use this property or use v-model directive"
       }
     },
 
@@ -126,27 +137,83 @@
       }
     },
 
-    "methods": {
+    "events": {
+      "input": {
+        "desc": "Emitted when component's model changes; Is also used by v-model",
+        "params": {
+          "value": {
+            "type": "Any",
+            "desc": "New model value"
+          }
+        }
+      },
+
       "show": {
+        "desc": "Emitted after component has triggered show()",
         "params": {
           "evt": {
             "type": "Object",
             "required": false,
             "desc": "JS event object"
           }
-        },
-        "desc": "Triggers component to show"
+        }
+      },
+
+      "before-show": {
+        "desc": "Emitted when component triggers show() but before it finishes doing it",
+        "params": {
+          "evt": {
+            "type": "Object",
+            "required": false,
+            "desc": "JS event object"
+          }
+        }
       },
 
       "hide": {
+        "desc": "Emitted after component has triggered hide()",
         "params": {
           "evt": {
             "type": "Object",
             "required": false,
             "desc": "JS event object"
           }
-        },
-        "desc": "Triggers component to hide"
+        }
+      },
+
+      "before-hide": {
+        "desc": "Emitted when component triggers hide() but before it finishes doing it",
+        "params": {
+          "evt": {
+            "type": "Object",
+            "required": false,
+            "desc": "JS event object"
+          }
+        }
+      }
+    },
+
+    "methods": {
+      "show": {
+        "desc": "Triggers component to show",
+        "params": {
+          "evt": {
+            "type": "Object",
+            "required": false,
+            "desc": "JS event object"
+          }
+        }
+      },
+
+      "hide": {
+        "desc": "Triggers component to hide",
+        "params": {
+          "evt": {
+            "type": "Object",
+            "required": false,
+            "desc": "JS event object"
+          }
+        }
       },
 
       "toggle": {

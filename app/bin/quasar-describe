@@ -100,6 +100,32 @@ function describeComponent (api) {
     }
   }
 
+  console.log('\n ' + chalk.underline('Events'))
+  if (api.events === void 0 || Object.keys(api.events).length === 0) {
+    console.log('\n   ' + chalk.italic('*No events*'))
+  }
+  else {
+    for (let eventName in api.events) {
+      console.log('\n   ' + chalk.green(eventName))
+      const event = api.events[eventName]
+      console.log('     ' + event.desc)
+      if (!event.params) {
+        console.log('     Parameters: ' + chalk.italic('*None*'))
+      }
+      else {
+        console.log('     Parameters:')
+        for (let paramName in event.params) {
+          const param = event.params[paramName]
+          console.log(`       - ${paramName} (${param.type})`)
+          console.log(`           ${param.desc}`)
+          if (param.required) {
+            console.log(`           Required`)
+          }
+        }
+      }
+    }
+  }
+
   console.log('\n ' + chalk.underline('Methods'))
   if (api.methods === void 0 || Object.keys(api.methods).length === 0) {
     console.log('\n   ' + chalk.italic('*No methods*'))

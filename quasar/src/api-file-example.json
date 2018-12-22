@@ -50,6 +50,22 @@
     }
   },
 
+  "events": {
+    "input": {
+      "extends": "input"
+    },
+
+    "click": {
+      "desc": "Emitted on QChip click if 'clickable' property is set",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object"
+        }
+      }
+    }
+  },
+
   "methods": {
     "show": {
      "extends": "show"
