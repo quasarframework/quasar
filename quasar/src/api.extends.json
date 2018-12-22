@@ -153,7 +153,6 @@
         "params": {
           "evt": {
             "type": "Object",
-            "required": false,
             "desc": "JS event object"
           }
         }
@@ -164,7 +163,6 @@
         "params": {
           "evt": {
             "type": "Object",
-            "required": false,
             "desc": "JS event object"
           }
         }
@@ -175,7 +173,6 @@
         "params": {
           "evt": {
             "type": "Object",
-            "required": false,
             "desc": "JS event object"
           }
         }
@@ -186,7 +183,16 @@
         "params": {
           "evt": {
             "type": "Object",
-            "required": false,
+            "desc": "JS event object"
+          }
+        }
+      },
+
+      "click": {
+        "desc": "Emitted when user clicks/taps on the component",
+        "params": {
+          "evt": {
+            "type": "Object",
             "desc": "JS event object"
           }
         }
