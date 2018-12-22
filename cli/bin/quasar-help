@@ -8,6 +8,8 @@ console.log(
   )
 )
 
+const chalk = require('chalk')
+
 console.log(`
   Example usage
     $ quasar <command> <options>
@@ -25,4 +27,6 @@ console.log(`
                   (and your App if in a project folder)
     serve         Create an ad-hoc server on App's distributables
     help          Displays this message
+
+  ${chalk.italic('Trigger this inside of a Quasar project for more commands.')}
 `)
