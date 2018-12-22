@@ -1,0 +1,11 @@
+{
+  "props": {
+    "size": {
+      "extends": "size"
+    },
+
+    "color": {
+      "extends": "color"
+    }
+  }
+}
