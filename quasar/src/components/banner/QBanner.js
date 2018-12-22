@@ -15,7 +15,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-banner row items-center',
       class: {
-        'q-banner--top-padding': actions && !this.inlineActions,
+        'q-banner--top-padding': actions !== void 0 && !this.inlineActions,
         'q-banner--dense': this.dense,
         'generic-border-radius': this.rounded
       }
@@ -29,10 +29,12 @@ export default Vue.extend({
         staticClass: 'q-banner__content col text-body2'
       }, this.$slots.default),
 
-      (actions && h('div', {
-        staticClass: 'q-banner__actions row items-center justify-end',
-        class: this.inlineActions ? 'col-auto' : 'col-12'
-      }, actions)) || void 0
+      actions !== void 0
+        ? h('div', {
+          staticClass: 'q-banner__actions row items-center justify-end',
+          class: this.inlineActions ? 'col-auto' : 'col-12'
+        }, actions)
+        : null
 
     ])
   }
