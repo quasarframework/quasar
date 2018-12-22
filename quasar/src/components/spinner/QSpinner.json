@@ -1,0 +1,18 @@
+{
+  "props": {
+    "size": {
+      "extends": "size"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "thickness": {
+      "type": "Number",
+      "desc": "Override value to use for stroke-width",
+      "default": 5,
+      "examples": [ "2", "5" ]
+    }
+  }
+}

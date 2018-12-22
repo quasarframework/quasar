@@ -53,7 +53,7 @@ function getApi (item) {
 function describeComponent (api) {
   console.log('\n ' + chalk.underline('Properties'))
   if (api.props === void 0 || Object.keys(api.props).length === 0) {
-    console.log(chalk.italic('   *No properties*'))
+    console.log('\n   ' + chalk.italic('*No properties*'))
   }
   else {
     for (let propName in api.props) {

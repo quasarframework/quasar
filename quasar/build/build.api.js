@@ -54,20 +54,17 @@ function parseAPI (file, extendApi) {
         }
       }
       else if (type === 'events' || type === 'methods') {
-        if (obj.params === void 0) {
-          logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "params" prop`)
-          process.exit(1)
-        }
+        if (obj.params !== void 0) {
+          for (let paramName in obj.params) {
+            const param = obj.params[paramName]
 
-        for (let paramName in obj.params) {
-          const param = obj.params[paramName]
-
-          if (
-            param.type === void 0 ||
-            param.desc === void 0
-          ) {
-            logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"${paramName}" missing either "type" or "desc" props`)
-            process.exit(1)
+            if (
+              param.type === void 0 ||
+              param.desc === void 0
+            ) {
+              logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"${paramName}" missing either "type" or "desc" props`)
+              process.exit(1)
+            }
           }
         }
       }
