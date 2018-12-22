@@ -25,12 +25,12 @@
       "extends": "color"
     },
 
-    "centerColor": {
+    "center-color": {
       "extends": "color",
       "desc": "Color name for the center part of the component from the Quasar Color Palette"
     },
 
-    "trackColor": {
+    "track-color": {
       "extends": "color",
       "desc": "Color name for the track of the component from the Quasar Color Palette"
     },
