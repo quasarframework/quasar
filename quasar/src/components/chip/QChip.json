@@ -1,0 +1,122 @@
+{
+  "props": {
+    "ripple": {
+      "extends": "ripple"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "icon-right": {
+      "extends": "icon"
+    },
+
+    "label": {
+      "type": "String",
+      "desc": "Chip's content as string",
+      "examples": [ "John Doe", "Book" ]
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "value": {
+      "type": "Boolean",
+      "desc": "Model of the component determining if QChip should be rendered or not",
+      "default": true
+    },
+
+    "selected": {
+      "type": "Boolean",
+      "sync": true,
+      "desc": "Model for QChip if it's selected or not"
+    },
+
+    "floating": {
+      "type": "Boolean",
+      "desc": "Tell the QChip if it should float to the top right side of the relative positioned parent element or not"
+    },
+
+    "pointing": {
+      "type": "String",
+      "desc": "Does the QChip to display a pointer arrow",
+      "values": [ "up", "right", "down", "left" ],
+      "examples": [ "up" ]
+    },
+
+    "square": {
+      "extends": "square"
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Display using the 'outline' design"
+    },
+
+    "clickable": {
+      "type": "Boolean",
+      "desc": "Is QChip clickable? If it's the case, then it will add hover effects and emit 'click' events"
+    },
+
+    "removable": {
+      "type": "Boolean",
+      "desc": "If set, then it displays a 'remove' icon that when clicked the QChip emits 'remove' event"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where QChip content goes, if not using 'label' property"
+    }
+  },
+
+  "events": {
+    "click": {
+      "desc": "Emitted on QChip click if 'clickable' property is set",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object"
+        }
+      }
+    },
+
+    "update:selected": {
+      "desc": "Emitted when 'selected' state changes; Works along the sync prop 'selected'",
+      "params": {
+        "state": {
+          "type": "Boolean",
+          "desc": "Selected state"
+        }
+      }
+    },
+
+    "remove": {
+      "desc": "Works along with 'value' and 'removable' prop. Emitted when toggling rendering state of the QChip",
+      "params": {
+        "state": {
+          "type": "Boolean",
+          "desc": "Render state (render or not)"
+        }
+      }
+    }
+  }
+}
