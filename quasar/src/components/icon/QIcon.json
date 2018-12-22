@@ -23,5 +23,11 @@
       "type": "Boolean",
       "desc": "Apply a standard margin on the right side. Useful if icon is on the left side of something."
     }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestions: QTooltip or QMenu"
+    }
   }
 }

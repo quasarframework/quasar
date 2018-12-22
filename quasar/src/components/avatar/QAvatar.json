@@ -29,5 +29,11 @@
     "rounded": {
       "extends": "rounded"
     }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Optional; Suggestions: one character string, <img> tag"
+    }
   }
 }

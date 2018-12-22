@@ -1,0 +1,30 @@
+{
+  "props": {
+    "dark": {
+      "extends": "dark"
+    },
+
+    "square": {
+      "extends": "square"
+    },
+
+    "flat": {
+      "extends": "flat"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "inline": {
+      "type": "Boolean",
+      "desc": "Show component as inline-block"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

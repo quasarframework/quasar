@@ -8,8 +8,7 @@ export default Vue.extend({
   mixins: [ AlignMixin ],
 
   props: {
-    vertical: Boolean,
-    align: { default: 'left' }
+    vertical: Boolean
   },
 
   computed: {
