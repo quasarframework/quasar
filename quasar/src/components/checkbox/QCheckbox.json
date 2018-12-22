@@ -15,21 +15,21 @@
     "true-value": {
       "type": "Any",
       "desc": "What model value should be considered as checked/ticked?",
-      "default": "true",
+      "default": true,
       "examples": [ "Agreed" ]
     },
 
     "false-value": {
       "type": "Any",
       "desc": "What model value should be considered as unchecked/unticked?",
-      "default": "false",
+      "default": false,
       "examples": [ "Disagree" ]
     },
 
     "indeterminate-value": {
       "type": "Any",
       "desc": "What model value should be considered as 'indeterminate'?",
-      "default": "null",
+      "default": null,
       "examples": [ 0, "not_answered" ]
     },
 

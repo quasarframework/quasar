@@ -66,8 +66,8 @@ function describeComponent (api) {
       if (prop.values) {
         console.log(`     Values: [ '${prop.values.join(`' '`)}' ]`)
       }
-      if (prop.default) {
-        console.log(`     Default value: '${prop.default}'`)
+      if (prop.default !== void 0) {
+        console.log(`     Default value: ${prop.default}`)
       }
       if (prop.examples) {
         console.log(`     Examples:`)
