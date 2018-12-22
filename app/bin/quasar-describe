@@ -60,6 +60,9 @@ function describeComponent (api) {
       const prop = api.props[propName]
       console.log(`\n ${prop.required ? chalk.red('*') : ' '} ${chalk.green(propName)} (${prop.type})`)
       console.log(`     ${prop.desc}`)
+      if (prop.link) {
+        console.log(`     Link: ${prop.link}`)
+      }
       if (prop.required) {
         console.log(`     Required`)
       }

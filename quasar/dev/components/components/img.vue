@@ -94,6 +94,14 @@
           Contain
         </div>
       </q-img>
+
+      <q-img
+        src="https://bogu.bogus"
+        spinner-color="white"
+        style="min-height: 100px; max-width: 225px"
+      >
+        <div slot="error">Error...</div>
+      </q-img>
     </div>
   </div>
 </template>
