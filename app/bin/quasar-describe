@@ -58,7 +58,7 @@ function describeComponent (api) {
   else {
     for (let propName in api.props) {
       const prop = api.props[propName]
-      console.log(`\n  ${prop.required ? chalk.red('*') : ' '} ${chalk.green(propName)} (${prop.type})`)
+      console.log(`\n ${prop.required ? chalk.red('*') : ' '} ${chalk.green(propName)} (${prop.type})`)
       console.log(`     ${prop.desc}`)
       if (prop.required) {
         console.log(`     Required`)
@@ -102,7 +102,7 @@ function describeComponent (api) {
 
   console.log('\n ' + chalk.underline('Methods'))
   if (api.methods === void 0 || Object.keys(api.methods).length === 0) {
-    console.log('\n  ' + chalk.italic('*No methods*'))
+    console.log('\n   ' + chalk.italic('*No methods*'))
   }
   else {
     for (let methodName in api.methods) {
