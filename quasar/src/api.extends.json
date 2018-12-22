@@ -121,7 +121,7 @@
       },
 
       "value": {
-        "desc": "Model of the component; Either use this property or use v-model directive"
+        "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive"
       }
     },
 

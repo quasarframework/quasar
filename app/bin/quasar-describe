@@ -162,7 +162,7 @@ function describe (api) {
 const api = getApi(item)
 
 console.log()
-console.log(` Describing ${item} ${api.type} API`)
+console.log(` Describing ${chalk.green(item)} ${api.type} API`)
 console.log(` ${chalk.italic(`Description is based on your project's Quasar version`)}`)
 describe(api)
 console.log()
