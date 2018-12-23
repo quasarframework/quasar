@@ -1,0 +1,22 @@
+{
+  "props": {
+    "color": {
+      "extends": "color"
+    },
+
+    "responsive": {
+      "type": "Boolean",
+      "desc": "Use responsive mode"
+    },
+
+    "dark": {
+      "extends": "dark"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Used for content of component"
+    }
+  }
+}
