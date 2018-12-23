@@ -18,14 +18,20 @@
       "extends": "disable"
     }
   },
+  
+  "slots": {
+    "default": {
+      "desc": "Content (area controlled by the component) goes here"
+    }
+  },
 
   "events": {
     "refresh": {
-      "desc": "Called whenever a refresh is trigger. At this time, your function should load more data",
+      "desc": "Called whenever a refresh is trigger; at this time, your function should load more data",
       "params": {
         "done": {
           "type": "Function",
-          "desc": "Call the done() function when your data has been refreshed."
+          "desc": "Call the done() function when your data has been refreshed"
         }
       }
     }
@@ -33,12 +39,11 @@
  
   "methods": {
     "trigger": {
-      "desc": "Triggers a refresh."
+      "desc": "Triggers a refresh"
     },
 
     "updateScrollTarget": {
-      "desc": "Updates the scroll target"
+      "desc": "Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes"
     }
   }
- 
 }
