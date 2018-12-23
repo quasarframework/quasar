@@ -1,0 +1,91 @@
+{
+  "props": {
+    "value": {
+      "extends": "value",
+      "type": "Number",
+      "desc": "Current value (must be between min/max).",
+      "examples": [ "v-model=\"positionModel\"" ]
+    },
+
+    "min": {
+      "type": "Number",
+      "desc": "Minimum value of the model.",
+      "default": 0,
+      "examples": [ ":min=\"0\"" ]
+    },
+
+    "max": {
+      "type": "Number",
+      "desc": "Maximum value of the model.",
+      "default": 100,
+      "examples": [ ":max=\"100\"" ]
+    },
+
+    "step": {
+      "type": "Number",
+      "desc": "Specify step amount between valid values.",
+      "default": 1,
+      "examples": [ ":step=\"1\"" ]
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "label": {
+      "type": "Boolean",
+      "desc": "If set to true, popup a label when user clicks/taps on the slider thumb and moves it."
+    },
+
+    "label-color": {
+      "extends": "color"
+    },
+
+    "label-always": {
+      "type": "Boolean",
+      "desc": "Always display the label."
+    },
+
+    "markers": {
+      "type": "Boolean",
+      "desc": "If set to true, display markers on background, one for each possible value for the model."
+    },
+
+    "snap": {
+      "type": "Boolean",
+      "desc": "If set to true, Range handler will snap on values, rather than sliding freely; good to use along step; also displays step markers on the Range."
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    },
+
+    "change": {
+      "extends": "input",
+      "desc": "Triggered on lazy model value change."
+    }
+  }
+ 
+}
