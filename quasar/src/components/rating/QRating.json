@@ -46,7 +46,8 @@
       "params": {
         "value": {
           "type": "String or Number",
-          "desc": "Value to set"
+          "desc": "Value to set",
+          "required": true
         }
       }
     }
