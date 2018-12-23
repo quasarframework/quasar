@@ -2,15 +2,20 @@
   "props": {
     "appear": {
       "type": "Boolean",
-      "desc": "If set to true, the transition will be applied on the initial render.",
-      "examples": [ "true" ]
+      "desc": "If set to true, the transition will be applied on the initial render."
     },
 
     "duration": {
       "type": "Number",
-      "default": 300,
       "desc": "Duration (in milliseconds) enabling animated scroll.",
-      "examples": [ "500", ":duration=\"500\"" ]
+      "default": 300,
+      "examples": [ 500, ":duration=\"500\"" ]
+    }
+  },
+  
+  "slots": {
+    "default": {
+      "desc": "This is where content goes"
     }
   }
 }
