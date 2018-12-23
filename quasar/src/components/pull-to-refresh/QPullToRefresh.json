@@ -27,7 +27,7 @@
 
   "events": {
     "refresh": {
-      "desc": "Called whenever a refresh is trigger; at this time, your function should load more data",
+      "desc": "Called whenever a refresh is triggered; at this time, your function should load more data",
       "params": {
         "done": {
           "type": "Function",
