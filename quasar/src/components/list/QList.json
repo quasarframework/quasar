@@ -1,0 +1,27 @@
+{
+  "props": {
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "separator": {
+      "type": "Boolean",
+      "desc": "Applies a separator between contained items"
+    },
+
+    "padding": {
+      "type": "Boolean",
+      "desc": "Applies a material design-like padding on top and bottom"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where the content goes; Suggestion: QItem, QExpansionItem, ..."
+    }
+  }
+}
