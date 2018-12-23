@@ -28,7 +28,7 @@ export default Vue.extend({
       default: () => ({})
     },
     delay: {
-      type: Number,
+      type: [String, Number],
       default: 1000
     }
   },
