@@ -1,0 +1,47 @@
+{
+  "props": {
+    "thumbStyle": {
+      "type": "Object",
+      "desc": "Object with CSS properties and values for styling the thumb of custom scrollbar.",
+      "default": "{}",
+      "examples": [ "{
+        right: '4px',
+        borderRadius: '5px',
+        background: 'red',
+        width: '10px',
+        opacity: 1
+      }" ]
+    },
+
+    "contentStyle": {
+      "type": "Object",
+      "desc": "Object with CSS properties and values for styling the container of QScrollArea.",
+      "default": "{}",
+      "examples": [ "{
+        backgroundColor: '#C0C0C0'
+        "} ]
+    },
+
+    "contentActiveStyle": {
+      "type": "Object",
+      "desc": "Object with CSS properties and values for styling the container of QScrollArea when scroll area becomes active (is mouse hovered).",
+      "default": "{}",
+      "examples": [ "{
+        backgroundColor: 'white'
+      }" ]
+    },
+
+    "delay": {
+      "type": "Number",
+      "desc": "Number (in milliseconds, default is 1000) defining a delay before custom scrollbars become visible after mouse is hovering the container.",
+      "default": "1000",
+      "examples": [ "500" ]
+    }
+  },
+
+  "methods": {
+    "setScrollPosition(offset[, duration])": {
+      "desc": "Set scroll position to an offset. If a duration (in milliseconds) is specified then the scroll is animated."
+    }
+  }
+}
