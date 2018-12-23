@@ -1,0 +1,51 @@
+{
+  "props": {
+    "value": {
+      "type": "Number",
+      "extends": "value",
+      "examples": [ "ratingModel" ]
+    },
+
+    "max": {
+      "type": "String or Number",
+      "desc": "Number of icons to display.",
+      "examples": [ "3", "5" ]
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "size": {
+      "extends": "size"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+
+  "events": {
+    "@input(newVal)": {
+      "desc": "Triggered on model value change."
+    },
+
+    "@change(newVal)": {
+      "desc": "Triggered on model value change."
+    }
+  },
+
+  "methods": {
+    "set(value)": {
+      "desc": "Parses and sets that value."
+    }
+  }
+}
