@@ -1,0 +1,50 @@
+{
+  "props": {
+    "value": {
+      "extends": "value",
+      "type": "String",
+      "examples": [ "v-model=\"#c0c0c0\"" ]
+    },
+
+    "default-value": {
+      "type": "String",
+      "desc": "todo",
+      "examples": [ "todo" ]
+    },
+
+    "format-model": {
+      "type": "String",
+      "default": "auto",
+      "desc": "How to fomat the v-model data.",
+      "values": [ "auto", "hex", "rgb", "hexa", "rgba" ],
+      "examples": [ "format-model=\"hex\"" ]
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "inline": {
+      "type": "Boolean",
+      "desc": "Show component as inline-block"
+    },
+
+    "dark": {
+      "extends": "dark"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    },
+
+    "change": {
+      "extends": "input"
+    }
+  }
+}
