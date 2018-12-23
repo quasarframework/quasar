@@ -55,12 +55,10 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return [
-        `q-expansion-item--${this.showing ? 'expanded' : 'collapsed'}`,
-        `q-expansion-item--${this.popup ? 'popup' : 'standard'}`,
-        this.contentInset ? 'q-expansion-item--content-inset' : '',
-        this.menuInset ? 'q-expansion-item--menu-inset' : ''
-      ]
+      return `q-expansion-item--${this.showing ? 'expanded' : 'collapsed'}` +
+        ` q-expansion-item--${this.popup ? 'popup' : 'standard'}` +
+        (this.contentInset === true ? ' q-expansion-item--content-inset' : '') +
+        (this.menuInset === true ? ' q-expansion-item--menu-inset' : '')
     },
 
     isClickable () {

@@ -1,0 +1,59 @@
+{
+  "props": {
+    "left-color": {
+      "extends": "color",
+      "desc": "Color name for left-side background from the Quasar Color Palette"
+    },
+
+    "right-color": {
+      "extends": "color",
+      "desc": "Color name for right-side background from the Quasar Color Palette"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where item's sections go; Suggestion: QItemSection"
+    },
+
+    "left": {
+      "desc": "Left side content when sliding"
+    },
+
+    "right": {
+      "desc": "Right side content when sliding"
+    }
+  },
+
+  "events": {
+    "left": {
+      "desc": "Emitted when user finished sliding the item to the left",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Syntax: { reset }"
+        }
+      }
+    },
+
+    "right": {
+      "desc": "Emitted when user finished sliding the item to the right",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Syntax: { reset }"
+        }
+      }
+    },
+
+    "action": {
+      "desc": "Emitted when user finished sliding the item to either sides",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Syntax: { side, reset }"
+        }
+      }
+    }
+  }
+}

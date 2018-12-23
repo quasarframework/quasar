@@ -1,0 +1,34 @@
+{
+  "props": {
+    "avatar": {
+      "type": "Boolean",
+      "desc": "Render an avatar item side (does not needs 'side' prop to be set)"
+    },
+
+    "thumbnail": {
+      "type": "Boolean",
+      "desc": "Render a thumbnail item side (does not needs 'side' prop to be set)"
+    },
+
+    "side": {
+      "type": "Boolean",
+      "desc": "Renders as a side of the item"
+    },
+
+    "top": {
+      "type": "Boolean",
+      "desc": "Align content to top (useful for multi-line items)"
+    },
+
+    "no-wrap": {
+      "type": "Boolean",
+      "desc": "Do not wrap text (useful for item's main content)"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Section's actual content"
+    }
+  }
+}

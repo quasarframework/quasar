@@ -81,6 +81,6 @@ export default Vue.extend({
         staticClass: 'q-linear-progress__stripe absolute-full',
         style: this.stripeStyle
       }) : null
-    ])
+    ].concat(this.$slots.default))
   }
 })
