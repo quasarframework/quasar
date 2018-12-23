@@ -1,0 +1,37 @@
+{
+  "props": {
+    "debounce": {
+      "type": "String or Number",
+      "desc": "Debounce amount (in milliseconds)",
+      "examples": [ 0, 530 ]
+    }
+  },
+
+  "events": {
+    "scroll": {
+      "desc": "Emitted when scroll position changes",
+      "params": {
+        "position": {
+          "type": "Object",
+          "desc": "{ position, direction, directionChanged, inflexionPosition }"
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "trigger": {
+      "desc": "Emit a 'scroll' event",
+      "params": {
+        "immediately": {
+          "type": "Boolean",
+          "desc": "Skip over the debounce amount"
+        }
+      }
+    },
+
+    "getPosition": {
+      "desc": "Get current scroll details under the form of an Object: { position, direction, directionChanged, inflexionPosition }"
+    }
+  }
+}
