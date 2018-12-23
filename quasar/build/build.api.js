@@ -52,6 +52,15 @@ function parseAPI (file, extendApi) {
           logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "examples" prop`)
           process.exit(1)
         }
+
+        if (obj.examples && !Array.isArray(obj.examples)) {
+          logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"examples" is not an Array`)
+          process.exit(1)
+        }
+        if (obj.values && !Array.isArray(obj.values)) {
+          logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"values" is not an Array`)
+          process.exit(1)
+        }
       }
       else if (type === 'events' || type === 'methods') {
         if (obj.params !== void 0) {

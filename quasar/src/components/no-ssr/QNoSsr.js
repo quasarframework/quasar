@@ -18,14 +18,14 @@ export default Vue.extend({
   render (h) {
     if (this.canRender) {
       const slot = this.$slots.default
-      return slot && slot.length > 1
+      return slot !== void 0 && slot.length > 1
         ? h(this.tag, slot)
         : (slot ? slot[0] : null)
     }
 
     if (this.$slots.placeholder) {
       const slot = this.$slots.placeholder
-      return slot && slot.length > 1
+      return slot !== void 0 && slot.length > 1
         ? h(this.tag, { staticClass: 'q-no-ssr-placeholder' }, slot)
         : (slot ? slot[0] : null)
     }

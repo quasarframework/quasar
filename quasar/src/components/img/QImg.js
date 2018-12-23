@@ -74,6 +74,7 @@ export default Vue.extend({
     },
 
     __onError (err) {
+      this.isLoading = false
       this.hasError = true
       this.$emit('error', err)
     },

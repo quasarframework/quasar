@@ -60,14 +60,17 @@ function describeComponent (api) {
       const prop = api.props[propName]
       console.log(`\n ${prop.required ? chalk.red('*') : ' '} ${chalk.green(propName)} (${prop.type})`)
       console.log(`     ${prop.desc}`)
+      if (prop.link) {
+        console.log(`     Link: ${prop.link}`)
+      }
       if (prop.required) {
         console.log(`     Required`)
       }
       if (prop.values) {
         console.log(`     Values: [ '${prop.values.join(`' '`)}' ]`)
       }
-      if (prop.default) {
-        console.log(`     Default value: '${prop.default}'`)
+      if (prop.default !== void 0) {
+        console.log(`     Default value: ${prop.default}`)
       }
       if (prop.examples) {
         console.log(`     Examples:`)
@@ -162,7 +165,7 @@ function describe (api) {
 const api = getApi(item)
 
 console.log()
-console.log(` Describing ${item} ${api.type} API`)
+console.log(` Describing ${chalk.green(item)} ${api.type} API`)
 console.log(` ${chalk.italic(`Description is based on your project's Quasar version`)}`)
 describe(api)
 console.log()

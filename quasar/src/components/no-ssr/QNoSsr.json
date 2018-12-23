@@ -1,0 +1,26 @@
+{
+  "props": {
+    "tag": {
+      "type": "String",
+      "desc": "HTML tag to render",
+      "default": "div",
+      "examples": [ "span", "blockquote" ]
+    },
+
+    "placeholder": {
+      "type": "String",
+      "desc": "Text to display on server-side render (unless using 'placeholder' slot)",
+      "examples": [ "This is server-side only" ]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot is used to render content on client-side"
+    },
+
+    "placeholder": {
+      "desc": "Slot used as placeholder on server-side render, which gets replaced by the default slot on client-side; overrides 'placeholder' prop"
+    }
+  }
+}

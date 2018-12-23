@@ -1,0 +1,34 @@
+{
+  "props": {
+    "debounce": {
+      "type": "String or Number",
+      "desc": "Debounce amount (in milliseconds)",
+      "default": 100,
+      "examples": [ 0, 530 ]
+    }
+  },
+
+  "events": {
+    "resize": {
+      "desc": "Parent element has resized (width or height changed)",
+      "params": {
+        "size": {
+          "type": "Object",
+          "desc": "Object of type: { width, height }"
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "trigger": {
+      "desc": "Emit a 'resize' event",
+      "params": {
+        "immediately": {
+          "type": "Boolean",
+          "desc": "Skip over the debounce amount"
+        }
+      }
+    }
+  }
+}

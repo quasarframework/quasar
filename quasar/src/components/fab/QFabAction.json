@@ -1,0 +1,48 @@
+{
+  "props": {
+    "icon": {
+      "extends": "icon",
+      "required": true
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design for Fab button"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design for Fab button"
+    },
+
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design for Fab button"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "glossy": {
+      "type": "Boolean",
+      "desc": "Apply the glossy effect over the button"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion for this slot: QTooltip"
+    }
+  },
+
+  "events": {
+    "click": {
+      "extends": "click"
+    }
+  }
+}

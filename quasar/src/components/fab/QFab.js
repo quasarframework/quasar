@@ -24,7 +24,8 @@ export default Vue.extend({
     activeIcon: String,
     direction: {
       type: String,
-      default: 'right'
+      default: 'right',
+      validator: v => ['top', 'right', 'bottom', 'left'].includes(v)
     },
     persistent: Boolean
   },

@@ -7,7 +7,7 @@ export default Vue.extend({
   name: 'QScrollObserver',
 
   props: {
-    debounce: Number
+    debounce: [String, Number]
   },
 
   render () {}, // eslint-disable-line
@@ -32,17 +32,17 @@ export default Vue.extend({
     },
 
     trigger (immediately) {
-      if (immediately === true || this.debounce === 0) {
-        this.emit()
+      if (immediately === true || this.debounce === 0 || this.debounce === '0') {
+        this.__emit()
       }
       else if (!this.timer) {
         this.timer = this.debounce
-          ? setTimeout(this.emit, this.debounce)
-          : requestAnimationFrame(this.emit)
+          ? setTimeout(this.__emit, this.debounce)
+          : requestAnimationFrame(this.__emit)
       }
     },
 
-    emit () {
+    __emit () {
       const
         pos = Math.max(0, getScrollPosition(this.target)),
         delta = pos - this.pos,

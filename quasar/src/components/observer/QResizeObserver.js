@@ -11,7 +11,7 @@ export default Vue.extend({
 
   props: {
     debounce: {
-      type: Number,
+      type: [String, Number],
       default: 100
     }
   },
@@ -23,7 +23,16 @@ export default Vue.extend({
   },
 
   methods: {
-    onResize () {
+    trigger (immediately) {
+      if (immediately === true || this.debounce === 0 || this.debounce === '0') {
+        this.__onResize()
+      }
+      else if (!this.timer) {
+        this.timer = setTimeout(this.__onResize, this.debounce)
+      }
+    },
+
+    __onResize () {
       this.timer = null
 
       if (!this.$el || !this.$el.parentNode) {
@@ -43,15 +52,6 @@ export default Vue.extend({
 
       this.size = size
       this.$emit('resize', this.size)
-    },
-
-    trigger (immediately) {
-      if (immediately === true || this.debounce === 0) {
-        this.onResize()
-      }
-      else if (!this.timer) {
-        this.timer = setTimeout(this.onResize, this.debounce)
-      }
     }
   },
 
