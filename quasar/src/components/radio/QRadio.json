@@ -1,0 +1,66 @@
+{
+  "props": {
+    "value": {
+      "extends": "value",
+      "required": true,
+      "type": "String or Number",
+      "examples": [ "v-model=\"option\"" ]
+    },
+
+    "val": {
+      "type": "String or Number",
+      "required": true,
+      "desc": "Used to modify the v-model of the Radio",
+      "examples": [ "val=\"opt1\"" ]
+    },
+
+    "label": {
+      "type": "String",
+      "desc": "The text label for the Radio",
+      "examples": [ "label=\"Option 1\"" ]
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "keep-color": {
+      "extends": "color",
+      "desc": "Keep color when not selected"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    }
+  },
+
+  "methods": {
+    "set": {
+      "desc": "Sets the Radio's v-model to equal the val"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}
