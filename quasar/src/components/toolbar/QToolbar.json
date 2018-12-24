@@ -1,0 +1,14 @@
+{
+  "props": {
+    "inset": {
+      "type": "Boolean",
+      "desc": "Apply an inset"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}
