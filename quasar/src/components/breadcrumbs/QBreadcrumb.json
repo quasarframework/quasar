@@ -2,47 +2,52 @@
   "props": {
     "separator": {
       "type": "String",
+      "desc": "The string used to separate the breadcrumbs",
       "default": "/",
-      "desc": "The character used to separate the breadcrumbs.",
-      "examples": ["-", "|", ">"]
+      "examples": [ "-", "|", ">" ]
     },
+
     "color": {
       "extends": "color"
     },
-    "activeColor": {
-      "type": "String",
-      "default": "primary",
+
+    "active-color": {
+      "extends": "color",
       "desc": "The color of the active breadcrumb, which can be any color from the Quasar Color Palette",
-      "examples": ["secondary", "deep-purple-9", "positive"]
+      "default": "primary"
     },
+
     "gutter": {
       "type": "String",
-      "default": "sm",
       "desc": "The gutter value allows you control over the space between the breadcrumb elements.",
+      "default": "sm",
       "values": ["none", "xs", "sm", "md", "lg", "xl"],
       "examples": ["md", "lg"]
     },
-    "separatorColor": {
-      "type": "String",
-      "desc": "The color used to color the separator.",
-      "examples": ["secondary", "deep-purple-9", "positive"]
+
+    "separator-color": {
+      "extends": "color",
+      "desc": "The color used to color the separator, which can be any color from the Quasar Color Palette"
     },
+
     "align": {
       "type": "String",
       "default": "left",
-      "desc": "One of ‘left’, ‘right’, ‘center’, ‘between’ or ‘around’ and sets the alignment of the breadcrumbs.",
-      "values": ["left", "center", "right", "between", "around"],
-      "examples": ["left", "center"]
+      "desc": "Specify how to align the breadcrumbs horizontally",
+      "values": [ "left", "center", "right", "between", "around" ],
+      "examples": [ "left", "center" ]
     }
   },
+
   "slots": {
     "default": {
       "extends": "default"
     }
   },
+
   "scopedSlots": {
     "separator": {
-      "desc": "HTML or component you can slot in to separate the breadcrumbs."
+      "desc": "HTML or component you can slot in to separate the breadcrumbs"
     }
   }
 }
