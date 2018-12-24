@@ -2,22 +2,27 @@
   "props": {
     "value": {
       "extends": "value",
-      "required": true,
       "type": "String or Number",
+      "required": true,
       "examples": [ "v-model=\"option\"" ]
     },
 
     "val": {
       "type": "String or Number",
       "required": true,
-      "desc": "Used to modify the v-model of the Radio",
-      "examples": [ "val=\"opt1\"" ]
+      "desc": "The actual value of the option with which model value is changed",
+      "examples": [ "opt1", 50 ]
     },
 
     "label": {
       "type": "String",
-      "desc": "The text label for the Radio",
+      "desc": "Label to display along the radio control (or use the default slot instead of this prop)",
       "examples": [ "label=\"Option 1\"" ]
+    },
+    
+    "left-label": {
+      "type": "Boolean",
+      "desc": "Label (if any specified) should be displayed on the left side of the checkbox"
     },
 
     "color": {
@@ -25,8 +30,8 @@
     },
 
     "keep-color": {
-      "extends": "color",
-      "desc": "Keep color when not selected"
+      "type": "Boolean",
+      "desc": "Should the color (if specified any) be kept when checkbox is unticked?"
     },
 
     "dark": {
@@ -45,6 +50,12 @@
       "extends": "tabindex"
     }
   },
+  
+  "slots": {
+    "default": {
+      "desc": "Default slot can be used as label, unless 'label' prop is specified; Suggestion: string"
+    }
+  },
 
   "events": {
     "input": {
@@ -55,12 +66,6 @@
   "methods": {
     "set": {
       "desc": "Sets the Radio's v-model to equal the val"
-    }
-  },
-
-  "slots": {
-    "default": {
-      "extends": "default"
     }
   }
 }
