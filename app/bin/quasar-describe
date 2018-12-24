@@ -95,7 +95,7 @@ function describeComponent (api) {
       if (prop.default !== void 0) {
         console.log(`     Default value: ${prop.default}`)
       }
-      if (prop.examples) {
+      if (prop.values === void 0 && prop.examples !== void 0) {
         console.log(`     Examples:`)
         prop.examples.forEach(example => {
           console.log(`       ${example}`)
