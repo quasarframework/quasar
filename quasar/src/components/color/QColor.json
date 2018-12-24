@@ -8,8 +8,8 @@
 
     "default-value": {
       "type": "String",
-      "desc": "todo",
-      "examples": [ "todo" ]
+      "desc": "The default value",
+      "examples": [ "default-value=\"#c0c0c0\"" ]
     },
 
     "format-model": {
