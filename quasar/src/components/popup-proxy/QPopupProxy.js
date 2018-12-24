@@ -14,7 +14,7 @@ export default Vue.extend({
     value: Boolean,
 
     breakpoint: {
-      type: Number,
+      type: [String, Number],
       default: 450
     },
 
@@ -57,7 +57,7 @@ export default Vue.extend({
       evt !== void 0 && evt.preventDefault()
 
       this.showing = true
-      this.type = this.$q.screen.width < this.breakpoint
+      this.type = this.$q.screen.width < parseInt(this.breakpoint, 10)
         ? 'dialog'
         : 'menu'
     },
