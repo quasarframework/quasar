@@ -9,7 +9,8 @@
         :class="'bg-' + color"
       >
         <div class="col">{{ color }}</div>
-        <q-btn flat dense round icon="colorize" @click="selectColor(color)" v-if="color !== 'black'" />
+        <q-btn flat dense round size="0.65rem" icon="colorize" @click="selectColor(color)" v-if="color !== 'black'" />
+        <q-btn flat dense round size="0.65rem" icon="undo" @click="undoColor(color)" v-if="color !== 'black' && mainColorValues[color] !== mainColorValuesOrig[color]" />
       </div>
       <div
         class="main-color shadow-1 row inline flex-center text-dark"
@@ -18,11 +19,12 @@
         :class="'bg-' + color"
       >
         <div class="col">{{ color }}</div>
-        <q-btn flat dense round icon="colorize" @click="selectColor(color)" v-if="color !== 'white'" />
+        <q-btn flat dense round size="0.65rem" icon="colorize" @click="selectColor(color)" v-if="color !== 'white'" />
+        <q-btn flat dense round size="0.65rem" icon="undo" @click="undoColor(color)" v-if="color !== 'white' && mainColorValues[color] !== mainColorValuesOrig[color]" />
       </div>
       <div v-if="currentColor" class="row justify-center items-end q-mt-md">
         <div class="q-px-md q-py-sm shadow-2">
-          <q-color color="dark" hide-underline :value="mainColorValues[currentColor]" @input="val => setColor(currentColor, val)" :after="[ { icon: 'undo', handler () { undoColor(currentColor) } }]" />
+          <q-color :value="mainColorValues[currentColor]" @input="val => setColor(currentColor, val)" />
         </div>
       </div>
 
