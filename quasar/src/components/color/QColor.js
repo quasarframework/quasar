@@ -62,15 +62,24 @@ export default Vue.extend({
         )
         : (this.formatModel.startsWith('hex') ? 'hex' : 'rgb'),
       view: 'spectrum',
-      model: this.__parseModel(this.value)
+      model: this.__parseModel(this.value || this.defaultValue)
     }
   },
 
   watch: {
     value (v) {
-      const model = this.__parseModel(v)
+      const model = this.__parseModel(v || this.defaultValue)
       if (model.hex !== this.model.hex) {
         this.model = model
+      }
+    },
+
+    defaultValue (v) {
+      if (!this.value && v) {
+        const model = this.__parseModel(v)
+        if (model.hex !== this.model.hex) {
+          this.model = model
+        }
       }
     }
   },
