@@ -2,61 +2,46 @@
   "props": {
     "label": {
       "type": "String",
-      "desc": "The label text for the breadcrumb.",
+      "desc": "The label text for the breadcrumb",
       "examples": ["Home", "Index"]
     },
+
     "icon": {
-      "type": "String",
-      "desc": "The name of the icon, should you want one in front of the label.",
-      "examples": ["mail", "home"]
+      "extends": "icon"
     },
+
     "color": {
       "extends": "color"
     },
+
     "to": {
-      "type": ["String", "Object"],
-      "desc":"The route to navigate to.",
-      "examples": ["home", "index", "{ path: 'register', query: { plan: 'private' }}"]
+      "extends": "to"
     },
+
     "exact": {
-      "type": "Boolean",
-      "desc": "Match the exact route specified (and not its children) when adding router-link-active CSS class."
+      "extends": "exact"
     },
-    "append":{
-      "type": "Boolean",
-      "desc": "Append route definition to current route when navigating."
+    
+    "append": {
+      "extends": "append"
     },
+    
     "replace": {
-      "type": "Boolean",
-      "desc": "Replaces the current route with the new one instead of adding it to the window history queue."
+      "extends": "replace"
     },
+    
     "active-class": {
       "extends": "active-class"
     },
-    "exact-active-class":{
+    
+    "exact-active-class": {
       "extends": "exact-active-class"
     }
   },
-  "methods": {
-    "isExactActiveRoute": {
-      "desc": "Returns true, if the element being tested is the exact active route/ breadcrumb.",
-      "params": {
-        "el": {
-          "type": "Object",
-          "required": false,
-          "desc": "The element to test, if it's the exact active route/ breadcrumb."
-        }
-      }  
-    },
-    "isActiveRoute": {
-      "desc": "Returns true, if the element being tested is the active route/ breadcrumb.",
-      "params": {
-        "el": {
-          "type": "Object",
-          "required": false,
-          "desc": "The element to test, if it's the active route/ breadcrumb."
-        }
-      }  
+  
+  "slots": {
+    "default": {
+      "desc": "This is where custom content goes, unless 'icon' and 'label' props are not enough"
     }
   }
 }
