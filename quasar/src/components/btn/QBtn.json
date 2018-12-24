@@ -1,0 +1,173 @@
+{
+  "props": {
+    "icon": {
+      "extends": "icon",
+      "desc": "Icon to be used on the left side or as the button text."
+    },
+    "icon-right": {
+      "extends": "icon",
+      "desc": "Icon to be used on the right side."
+    },
+
+    "loading": {
+      "type": "Boolean",
+      "desc": "Set the button to loading state with a loading spinner.",
+      "default": "false"
+    },
+
+    "percentage": {
+      "type": "Number",
+      "desc": "Optional property to be used along with loading, to determinate the progress.",
+      "examples": ["0"]
+    },
+
+    "dark-percentage": {
+      "extends": "dark",
+      "desc": "Optional property to display the percentage on a light button color."
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "label":{
+      "type": "String or Number",
+      "desc": "The text that will be shown on the button.",
+      "examples": ["Button Label", "10"]
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    },
+
+    "repeat-timeout": {
+      "type": "Number or Function",
+      "desc": "Enables multiple @click events on click or tap and hold. The funcion will receive an Number argument 'timesTriggered'.",
+      "examples": ["0", "(timesTriggered) => 1000 / (timesTriggered + 1)"]
+    },
+
+    "wait-for-ripple": {
+      "type": "Boolean",
+      "desc": "Wait for the ripple effect to finish before emitting the @click event.",
+      "default": "false"
+    },
+
+    "type":{
+      "type": "String",
+      "desc": "Define the button HTML DOM type.",
+      "values": [ "a", "submit", "button", "reset" ],
+      "examples": [ "button" ]
+    },
+
+    "to": {
+      "extends" : "to",
+      "desc": "Vue-Router direction for the button to call when clicked.",
+      "examples": ["'/help', '{name: 'Help'"]
+    },
+
+    "replace": {
+      "extends" : "replace",
+      "desc": "Replace the current route, not pushing it to the window history."
+    },
+
+    "size": {
+      "extends": "size",
+      "desc": "Button size as one of the examples or a css unit string size.",
+      "examples": ["xs", "sm", "md", "lg", "xl", "form", "form-label", "form-hide-underline", "form-label-hide-underline", "form-inverted", "form-label-inverted", "25px", "2rem", "3vw"]
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "align": {
+      "type": "String",
+      "desc": "Label or content alignment.",
+      "examples": ["left", "right", "center", "around", "between"]
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design for button."
+    },
+
+    "glossy": {
+      "type": "Boolean",
+      "desc": "Apply the glossy effect over the button."
+    },
+
+    "flat": {
+      "extends": "flat"
+    },
+
+    "round": {
+      "type": "Boolean",
+      "desc": "Make the button round."
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design for button."
+    },
+
+    "rounded": {
+      "extends": "rounded"
+    },
+
+    "fab": {
+      "type": "Boolean",
+      "desc": "Makes the button as a Floating Action Button"
+    },
+
+    "fab-mini": {
+      "type": "Boolean",
+      "desc": "Make the Fab button smaller."
+    },
+
+    "no-wrap": {
+      "type": "Boolean",
+      "desc": "Prevents the text from wrapping."
+    },
+
+    "no-caps": {
+      "type": "Boolean",
+      "desc": "Define as true if you dont want the material design uppercase letter."
+    },
+
+    "no-ripple": {
+      "type": "Boolean",
+      "desc": "Disable the material design ripple effect."
+    }
+
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    },
+
+    "loading": {
+      "desc": "Slot for the loading spinner"
+    }
+  },
+
+  "events": {
+    "click": {
+      "desc": "Emitted on QBtn click if 'disabled' property is not defined as 'true'",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object"
+        }
+      }
+    }
+  }
+}
