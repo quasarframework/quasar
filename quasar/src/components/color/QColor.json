@@ -1,0 +1,51 @@
+{
+  "props": {
+    "value": {
+      "extends": "value",
+      "type": "String",
+      "examples": [ "v-model=\"myColor\"" ]
+    },
+
+    "default-value": {
+      "type": "String",
+      "desc": "The default value to show when the model doesn't has one",
+      "examples": [ "default-value=\"#c0c0c0\"" ]
+    },
+
+    "format-model": {
+      "type": "String",
+      "default": "auto",
+      "desc": "Forces a certain model format upon the model",
+      "values": [ "auto", "hex", "rgb", "hexa", "rgba" ],
+      "examples": [ "hex" ]
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "inline": {
+      "type": "Boolean",
+      "desc": "Show component as inline-block"
+    },
+
+    "dark": {
+      "extends": "dark"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    },
+
+    "change": {
+      "extends": "input",
+      "desc": "Emitted on lazy model value change (after user finishes selecting a color)"
+    }
+  }
+}
