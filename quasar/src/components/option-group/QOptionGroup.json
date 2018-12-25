@@ -2,22 +2,24 @@
   "props": {
     "value": {
       "extends": "value",
-      "type": "Number or String",
+      "type": "Any",
       "examples": [ "v-model=\"group\"" ]
     },
 
     "options": {
       "type": "Array",
-      "desc": "An array of objects with value and label properties. The binary components will be created according to this array",
+      "desc": "Array of objects with value and label props. The binary components will be created according to this array",
       "examples": [ 
-        ":options=\"[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]\"" ]
+        ":options=\"[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]\""
+      ]
     },
 
     "type": {
       "type": "String",
       "desc": "The type of input component to be used",
       "values": [ "radio", "checkbox", "toggle" ],
-      "examples": [ "type=\"radio\"" ]
+      "default": "radio",
+      "examples": [ "checkbox" ]
     },
 
     "color": {
@@ -26,7 +28,7 @@
 
     "keep-color": {
       "type": "Boolean",
-      "desc": "Keep color when not selected/truthy too"
+      "desc": "Should the color (if specified any) be kept when input components are unticked?"
     },
 
     "dark": {
@@ -39,12 +41,12 @@
 
     "left-label":  {
       "type": "Boolean",
-      "desc": "When set to true, the labels will be put on the left side"
+      "desc": "Label (if any specified) should be displayed on the left side of the input components"
     },
 
     "inline": {
       "type": "Boolean",
-      "desc": "Show component as inline-block"
+      "desc": "Show input component as inline-block rather than each having their own row"
     },
 
     "disable": {
