@@ -1,0 +1,48 @@
+{
+  "props": {
+    "sent": { 
+      "type": "Boolean",
+      "desc": "Render as a sent message (so from current user)"
+    },
+    "label": {
+      "type": "String",
+      "desc": "Label of message",
+      "examples": ["Friday, 18th", "Yesterday at 13:51"]
+    },
+    "bg-color": {
+      "type": "String",
+      "desc": "Color of the chat message bubble",
+      "examples": ["red-1", "secondary", "blue-10"]
+    },
+    "textColor": {
+      "type": "String",
+      "desc": "Color of the text",
+      "examples": ["white", "black", "grey-10"]
+    },
+    "name": {
+      "type": "String",
+      "desc": "Name of the message creator", 
+      "examples": ["Bob", "John", "Gigi", "Razvan"]
+    },
+    "avatar": {
+      "type": "String",
+      "desc": "URL to the avatar image of the creator (use a static resource)",
+      "examples": ["statics/boy-avatar.png", "statics/linux-avatar.png"]
+    },
+    "text": {
+      "type": "String",
+      "desc": "Array of strings that are the message body. Strings are not sanitized, see details below",
+      "examples": ["['How are you?']", "['I\\'m good, thank you!', 'And you?']"] 
+    },
+    "stamp": {
+      "type": "String",
+      "desc": "Creation timestamp string",
+      "examples": ["13:55", "Yesterday at 13:51"]
+    },
+    "size": {
+      "type": "String",
+      "desc": "1-12 out of 12 (same as col-*)", 
+      "examples": ["4", "6", "12"]
+    }
+  }
+}
