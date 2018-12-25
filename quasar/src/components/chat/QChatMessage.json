@@ -4,45 +4,57 @@
       "type": "Boolean",
       "desc": "Render as a sent message (so from current user)"
     },
+
     "label": {
       "type": "String",
-      "desc": "Label of message",
-      "examples": ["Friday, 18th", "Yesterday at 13:51"]
+      "desc": "Renders a label header/section only",
+      "examples": [ "Friday, 18th" ]
     },
+
     "bg-color": {
-      "type": "String",
-      "desc": "Color of the chat message bubble",
-      "examples": ["red-1", "secondary", "blue-10"]
+      "extends": "color",
+      "desc": "Color name for chat bubble background from the Quasar Color Palette"
     },
+    
     "textColor": {
-      "type": "String",
-      "desc": "Color of the text",
-      "examples": ["white", "black", "grey-10"]
+      "extens": "color",
+      "desc": "Color name for chat bubble text from the Quasar Color Palette"
     },
+    
     "name": {
       "type": "String",
-      "desc": "Name of the message creator", 
-      "examples": ["Bob", "John", "Gigi", "Razvan"]
+      "desc": "Author's name", 
+      "examples": [ "John Doe" ]
     },
+    
     "avatar": {
       "type": "String",
-      "desc": "URL to the avatar image of the creator (use a static resource)",
-      "examples": ["statics/boy-avatar.png", "statics/linux-avatar.png"]
+      "desc": "URL to the avatar image of the author; Suggestion: use a static resource",
+      "examples": [ "statics/boy-avatar.png", "statics/linux-avatar.png" ]
     },
+    
     "text": {
       "type": "String",
-      "desc": "Array of strings that are the message body. Strings are not sanitized, see details below",
-      "examples": ["['How are you?']", "['I\\'m good, thank you!', 'And you?']"] 
+      "desc": "Array of strings that are the message body. Strings are not sanitized (see details in docs)",
+      "examples": [ ":text=\"['How are you?']\"", ":text=\"['I\\'m good, thank you!', 'And you?']\"" ] 
     },
+    
     "stamp": {
       "type": "String",
-      "desc": "Creation timestamp string",
-      "examples": ["13:55", "Yesterday at 13:51"]
+      "desc": "Creation timestamp",
+      "examples": [ "13:55", "Yesterday at 13:51" ]
     },
+    
     "size": {
       "type": "String",
       "desc": "1-12 out of 12 (same as col-*)", 
-      "examples": ["4", "6", "12"]
+      "examples": [ "4", "6", "12" ]
+    }
+  },
+  
+  "slots": {
+    "default": {
+      "desc": "Can you this slot to define a custom message (overrides props)"
     }
   }
 }
