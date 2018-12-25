@@ -14,7 +14,7 @@
 
   "events": {
     "load": {
-      "desc": "Emitted when Infinite Scroll needs to load more data.",
+      "desc": "Emitted when Infinite Scroll needs to load more data",
       "params": {
         "index": {
           "type": "Number",
