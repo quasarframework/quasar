@@ -1,0 +1,43 @@
+{
+  "props": {
+    "contentClass": {
+    },
+    "contentStyle": {
+    },
+    "maxHeight": {
+      "type": "String",
+      "default": null
+    },
+    "maxWidth": {
+      "type": "String",
+      "default": null
+    },
+    "transitionShow": {
+      "default": "jump-down"
+    },
+    "transitionHide": {
+      "default": "jump-up"
+    },
+    "anchor": {
+      "type": "String",
+      "default": "bottom middle"
+    },
+    "offset": {
+      "type": "Array"
+    },
+    "target": {
+      "type": "Boolean or String",
+      "default": true
+    },
+    "delay": {
+      "type": "Number",
+      "default": 0
+    },
+    "shrink": {
+      "type": "Boolean",
+      "desc": "By default, QToolbarTitle is set to grow to the available space. However, you can reverse that with this prop"
+    }
+  },
+  "slots": {
+  }
+}
