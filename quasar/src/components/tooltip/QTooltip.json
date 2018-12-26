@@ -45,9 +45,31 @@
       "default": 0
     }
   },
+
   "slots": {
     "default": {
       "desc": "Default slot can be used as label, unless 'label' prop is specified; Suggestion: string"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    }
+  },
+
+  "methods": {
+    "toggle": {
+      "desc": "Toggle Tooltip's visibility"
+    },
+    "show": {
+      "desc": "Show the Tooltip"
+    },
+    "hide": {
+      "desc": "Hide the Tooltip"
+    },
+    "updatePosition": {
+      "desc": "Sets the Tooltip's position"
     }
   }
 }
