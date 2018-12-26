@@ -1,0 +1,42 @@
+{
+  "props": {
+    "value": {
+      "extends": "value",
+      "required": true  
+    },
+
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Allows the splitter to split its two panes horizontally, instead of vertically"
+    },
+
+    "limits": {
+      "type": "Array",
+      "desc": "An array of two values representing a ratio of minimum and maximum split area of the two panes. The two values must be between 0 and 100",
+      "default": "[10, 90]",
+      "examples": [ ":limits=\"[30, 70]\"" ]
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "separator-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the splitter",
+      "examples": [
+        "my-special-class",
+        ":content-class=\"{ 'my-special-class': <condition> }\""
+      ]
+    },
+
+    "separator-style": {
+      "type": ["Array", "String", "Object"],
+      "desc": "Style definitions to be attributed to the splitter",
+      "examples": [
+        "background-color: #ff0000",
+        ":content-style=\"{ backgroundColor: '#ff0000' }\""
+      ]
+    }
+  }
+}
