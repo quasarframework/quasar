@@ -145,7 +145,7 @@ export default Vue.extend({
 
     __onPageScroll (data) {
       this.scroll = data
-      this.$emit('scroll', data)
+      this.$listeners.scroll !== void 0 && this.$emit('scroll', data)
     },
 
     __onPageResize ({ height, width }) {
@@ -154,7 +154,9 @@ export default Vue.extend({
       if (this.height !== height) {
         resized = true
         this.height = height
-        this.$emit('scrollHeight', height)
+        if (this.$listeners['scroll-height'] !== void 0) {
+          this.$emit('scroll-height', height)
+        }
         this.__updateScrollbarWidth()
       }
       if (this.width !== width) {
@@ -162,7 +164,9 @@ export default Vue.extend({
         this.width = width
       }
 
-      resized && this.$emit('resize', { height, width })
+      if (resized === true && this.$listeners.resize !== void 0) {
+        this.$emit('resize', { height, width })
+      }
     },
 
     __onContainerResize ({ height }) {

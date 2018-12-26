@@ -1,0 +1,20 @@
+{
+  "props": {
+    "props": {
+      "type": "Object",
+      "desc": "QTable's column scoped slot property",
+      "examples": [ ":props=\"props\"" ]
+    },
+
+    "auto-width": {
+      "type": "Boolean",
+      "desc": "Tries to shrink column width size; Useful for columns with a checkbox/radio/toggle"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

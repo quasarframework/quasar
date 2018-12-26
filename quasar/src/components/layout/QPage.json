@@ -1,0 +1,21 @@
+{
+  "props": {
+    "padding": {
+      "type": "Boolean",
+      "desc": "Applies a default responsive page padding"
+    },
+
+    "style-fn": {
+      "type": "Function",
+      "desc": "Override default CSS style applied to the component (sets minHeight); Function(offset: Number) => CSS props/value: Object",
+      "default": "(see source code)",
+      "examples": [ "(see source code)" ]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

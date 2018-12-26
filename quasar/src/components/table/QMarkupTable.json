@@ -1,0 +1,33 @@
+{
+  "props": {
+    "dense": {
+      "extends": "dense"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "flat": {
+      "extends": "flat"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "separator": {
+      "type": "String",
+      "desc": "Use a separator/border between rows, columns or all cells",
+      "default": "horizontal",
+      "values": [ "horizontal", "vertical", "cell", "none" ],
+      "examples": [ "cell" ]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

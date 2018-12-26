@@ -30,7 +30,7 @@
 
       "size": {
         "type": "String",
-        "desc": "Size in CSS units, including unit name.",
+        "desc": "Size in CSS units, including unit name",
         "examples": [ "16px", "2rem" ]
       },
 
