@@ -24,8 +24,8 @@ export default Vue.extend({
     autoplay: [Number, Boolean],
 
     arrows: Boolean,
-    arrowPrev: String,
-    arrowNext: String,
+    prevIcon: String,
+    nextIcon: String,
 
     navigation: Boolean,
     navigationIcon: String,
@@ -53,8 +53,8 @@ export default Vue.extend({
 
     arrowIcons () {
       const ico = [
-        this.arrowPrev || this.$q.icon.carousel.left,
-        this.arrowNext || this.$q.icon.carousel.right
+        this.prevIcon || this.$q.icon.carousel.left,
+        this.nextIcon || this.$q.icon.carousel.right
       ]
 
       return this.$q.i18n.rtl

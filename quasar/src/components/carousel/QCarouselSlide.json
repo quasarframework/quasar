@@ -1,0 +1,31 @@
+{
+  "props": {
+    "name": {
+      "type": "Number or String",
+      "desc": "Slide name",
+      "required": true,
+      "examples": [
+        "accounts", "firstSlide", ":name=\"1\""
+      ]
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "img-src": {
+      "type": "String",
+      "desc": "URL pointing to a slide background image (use statics folder)",
+      "examples": [
+        "statics/my-background.png",
+        "https://placeimg.com/500/300/nature"
+      ]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}
