@@ -1,73 +1,112 @@
 {
   "props": {
-    "contentClass": {
-      "type": "String"
+    "content-class": {
+        "type": [ "Array", "String", "Object" ],
+        "desc": "Class definitions to be attributed to the Tooltip",
+        "examples": [
+          "my-special-class",
+          ":content-class=\"{ 'my-special-class': <condition> }\""
+        ]
     },
 
-    "contentStyle": {
-      "type": "String"
+    "content-style": {
+        "type": [ "Array", "String", "Object" ],
+        "desc": "Style definitions to be attributed to the Tooltip",
+        "examples": [
+          "background-color: #ff0000",
+          ":content-style=\"{ backgroundColor: '#ff0000' }\""
+        ]
     },
 
-    "maxHeight": {
-      "type": "String",
-      "default": null
+    "max-height": {
+      "extends": "size",
+      "desc": "The maximimum height of the Tooltip; Size in CSS units, including unit name"
     },
 
-    "maxWidth": {
-      "type": "String",
-      "default": null
+    "max-width": {
+      "extends": "size",
+      "desc": "The maximimum width of the Tooltip; Size in CSS units, including unit name"
     },
 
-    "transitionShow": {
+    "transition-show": {
+      "extends": "transition",
       "default": "jump-down"
     },
 
-    "transitionHide": {
+    "transition-hide": {
+      "extends": "transition",
       "default": "jump-up"
     },
 
     "anchor": {
       "type": "String",
-      "default": "bottom middle"
+      "desc": "Two values setting the starting position or anchor point of the Tooltip relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom center", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ]
     },
 
     "offset": {
-      "type": "Array"
+      "type": "Array",
+      "desc": "An array of two numbers to offset the Tooltip horizontally and vertically in pixels",
+      "examples": [ "[8, 8]", "[5, 10]" ]
     },
 
     "target": {
       "type": "Boolean or String",
-      "default": true
+      "desc": "Configure a target element to trigger Tooltip toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) it attaches the events to the specified DOM element (if it exists)",
+      "default": true,
+      "examples": [
+        ":target=\"false\"",
+        "target=\".my-parent\""
+      ]
     },
 
     "delay": {
-      "type": "Number",
-      "default": 0
+      "type": "String or Number",
+      "desc": "Set the delay, when Tooltip should appear",
+      "default": 0,
+      "examples": [ 500, ":delay=\"550\"" ]
     }
   },
 
   "slots": {
     "default": {
-      "desc": "Default slot can be used as label, unless 'label' prop is specified; Suggestion: string"
+      "extends": "default"
     }
   },
 
   "events": {
     "input": {
-      "extends": "input"
+      "desc": "Emitted when Tooltip's showing/hidden state changes; Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "desc": "New state (showing/hidden)"
+        }
+      }
     }
   },
 
   "methods": {
     "toggle": {
-      "desc": "Toggle Tooltip's visibility"
+      "extends": "toggle",
+      "desc": "Toggle the Tooltip's visibility"
     },
+
     "show": {
+      "extends": "show",
       "desc": "Show the Tooltip"
     },
+
     "hide": {
+      "extends": "hide",
       "desc": "Hide the Tooltip"
     },
+
     "updatePosition": {
       "desc": "Sets the Tooltip's position"
     }
