@@ -14,7 +14,6 @@ export default Vue.extend({
 
   props: {
     padding: Boolean,
-    center: Boolean,
     styleFn: Function
   },
 

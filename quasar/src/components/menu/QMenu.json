@@ -4,12 +4,12 @@
       "type": "Boolean",
       "desc": "Allows the menu to match at least the full width of its target"
     },
-    
+
     "cover": {
       "type": "Boolean",
       "desc": "Allows the menu to cover its target. When used, the 'self' and 'fit' props are no longer effective"
     },
-    
+
     "anchor": {
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
@@ -20,7 +20,7 @@
       ],
       "examples": [ "top left", "bottom right" ]
     },
-    
+
     "self": {
       "type": "String",
       "desc": "Two values setting the menu's own position relative to its target",
@@ -31,61 +31,61 @@
       ],
       "examples": [ "top left", "bottom right" ]
     },
-    
+
     "offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
-      "examples": [ "[8, 8]", "[5, 10" ]      
+      "examples": [ "[8, 8]", "[5, 10" ]
     },
-    
+
     "no-parent-event":{
       "type": "Boolean",
       "desc": "Skips attaching events to the target DOM element (that trigger the menu to get shown)"
-    }, 
-    
+    },
+
     "touch-position": {
       "type": "Boolean",
       "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched"
     },
-    
+
     "persistent": {
       "type": "Boolean",
       "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key"
     },
-    
+
     "auto-close": {
       "type": "Boolean",
       "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap"
     },
-    
+
     "content-class": {
-      "type": ["Array", "String", "Object"],
+      "type": [ "Array", "String", "Object" ],
       "desc": "Class definitions to be attributed to the menu",
       "examples": [
         "my-special-class",
         ":content-class=\"{ 'my-special-class': <condition> }\""
       ]
-    }, 
-    
+    },
+
     "content-style": {
-      "type": ["Array", "String", "Object"],
+      "type": [ "Array", "String", "Object" ],
       "desc": "Style definitions to be attributed to the menu",
       "examples": [
         "background-color: #ff0000",
         ":content-style=\"{ backgroundColor: '#ff0000' }\""
       ]
-    }, 
-    
+    },
+
     "max-height": {
       "extends": "size",
       "desc": "The maximimum height of the menu; Size in CSS units, including unit name"
     },
-    
+
     "max-width": {
       "extends": "size",
       "desc": "The maximimum width of the menu; Size in CSS units, including unit name"
     },
-    
+
     "target": {
       "type": "Boolean or String",
       "desc": "Configure a target element to trigger menu toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) it attaches the events to the specified DOM element (if it exists)",
@@ -95,29 +95,29 @@
         "target=\".my-parent\""
       ]
     },
-    
+
     "context-menu": {
       "type": "Boolean",
       "desc": "Allows the menu to behave like a context menu, which opens with a right mouse click (or long tap on mobile)"
     },
-    
+
     "transition-show": {
       "extends": "transition",
       "default": "fade"
     },
-    
+
     "transition-hide": {
       "extends": "transition",
       "default": "fade"
     }
   },
-  
+
   "slots": {
     "default": {
       "extends": "default"
     }
   },
-  
+
   "events": {
     "show": {
       "extends": "show"
@@ -134,17 +134,17 @@
     "before-hide": {
       "extends": "before-hide"
     },
-    
+
     "escape-key": {
       "desc": "Emitted when ESC key is pressed; Does not gets emitted if Menu is 'persistent'"
     }
   },
-  
+
   "methods": {
     "show": {
       "extends": "show"
     },
-    
+
     "hide": {
       "extends": "hide"
     },
