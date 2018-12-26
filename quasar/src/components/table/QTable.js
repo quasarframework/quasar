@@ -183,7 +183,7 @@ export default Vue.extend({
   },
 
   methods: {
-    requestServerInteraction (prop) {
+    requestServerInteraction (prop = {}) {
       this.$nextTick(() => {
         this.$emit('request', {
           pagination: prop.pagination || this.computedPagination,
