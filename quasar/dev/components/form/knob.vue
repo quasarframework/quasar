@@ -122,8 +122,8 @@
         :max="max"
         size="75px"
         font-size="18px"
-        showValue
-        noMotion
+        show-value
+        no-motion
       >
         <q-icon name="volume_up" /> {{ model }}
       </q-knob>
