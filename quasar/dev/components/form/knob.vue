@@ -112,6 +112,22 @@
         <q-icon name="volume_up" /> {{ model }}
       </q-knob>
 
+      <p class="caption">Icon and value added with default slot</p>
+      <q-knob
+        v-model="model"
+        :thickness="0.15"
+        color="blue-10"
+        track-color="blue-3"
+        :min="min"
+        :max="max"
+        size="75px"
+        font-size="18px"
+        show-value
+        no-motion
+      >
+        <q-icon name="volume_up" /> {{ model }}
+      </q-knob>
+
       <p class="caption">Inside Field</p>
       <q-field>
         <q-knob
