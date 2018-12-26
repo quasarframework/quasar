@@ -146,7 +146,7 @@
       "desc": "CSS classes to apply to native HTML <table> element's wrapper (which is a <div>)",
       "examples": [
         "my-special-class",
-        ":table-style=\"{ 'my-special-class': <condition> }\""
+        ":table-class=\"{ 'my-special-class': <condition> }\""
       ]
     },
 
