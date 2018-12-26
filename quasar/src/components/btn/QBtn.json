@@ -40,12 +40,6 @@
       "extends": "tabindex"
     },
 
-    "repeat-timeout": {
-      "type": "Number or Function",
-      "desc": "Enables multiple @click events on click or tap and hold. The funcion will receive an Number argument 'timesTriggered'.",
-      "examples": ["0", "(timesTriggered) => 1000 / (timesTriggered + 1)"]
-    },
-
     "wait-for-ripple": {
       "type": "Boolean",
       "desc": "Wait for the ripple effect to finish before emitting the @click event.",
@@ -62,7 +56,7 @@
     "to": {
       "extends" : "to",
       "desc": "Vue-Router direction for the button to call when clicked.",
-      "examples": ["'/help', '{name: 'Help'"]
+      "examples": ["'/help', '{name: 'Help'}"]
     },
 
     "replace": {
@@ -87,6 +81,7 @@
     "align": {
       "type": "String",
       "desc": "Label or content alignment.",
+      "default": "center",
       "examples": ["left", "right", "center", "around", "between"]
     },
 
@@ -99,11 +94,6 @@
       "desc": "Use 'push' design for button."
     },
 
-    "glossy": {
-      "type": "Boolean",
-      "desc": "Apply the glossy effect over the button."
-    },
-
     "flat": {
       "extends": "flat"
     },
@@ -113,9 +103,24 @@
       "desc": "Make the button round."
     },
 
+    "unelevated": {
+      "type": "Boolean",
+      "desc": "Make the button flat with no shadow."
+    },
+
     "outline": {
       "type": "Boolean",
       "desc": "Use 'outline' design for button."
+    },
+
+    "stack": {
+      "type": "Boolean",
+      "desc": "Make the buttons stacked on each other like rows."
+    },
+
+    "stretch": {
+      "type": "Boolean",
+      "desc": "Make the button takes the whole parent height, as a flexbox streched element."
     },
 
     "rounded": {
@@ -142,9 +147,8 @@
       "desc": "Define as true if you dont want the material design uppercase letter."
     },
 
-    "no-ripple": {
-      "type": "Boolean",
-      "desc": "Disable the material design ripple effect."
+    "ripple": {
+      "extends": "ripple"
     }
 
   },
