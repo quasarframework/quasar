@@ -1,0 +1,65 @@
+{
+  "props": {
+    "value": {
+      "type": "Number",
+      "desc": "Any number to indicate the given value of the knob. Either use this property (along with a listener for 'input' event) OR use the v-model directive"
+    },
+    "min": {
+      "type": "Number",
+      "desc": "The minimum value that the model (the knob value) should start at",
+      "examples": ["20", "5"]
+    },
+    "max": {
+      "type": "Number",
+      "desc": "The maximimum value that the model (the knob value) should go to",
+      "examples": ["100", "50"]
+    },
+    "step": {
+      "type": "Number",
+      "default": "1",
+      "desc": "A number representing steps in the value of the model, while adjusting the knob",
+      "examples": ["1", "5"]
+    },
+    "tab-index": {
+      "extends": "tab-index"
+    },
+    "disable": {
+      "extends": "disable"
+    },
+    "readonly": {
+      "extends": "readonly"
+    },
+    "color": {
+      "extends": "color"
+    },
+    "track-color": {
+      "extends": "color",
+      "desc": "The color of the knob's track"
+    },
+    "center-color": {
+      "extends": "color",
+      "desc": "The color of the area within the knob's track"
+    },
+    "size": {
+      "extends": "size"
+    },
+    "font-size": {
+      "extends": "font-size"
+    },
+    "thickness": {
+      "type": "Number",
+      "desc": "A number between 0 and 1 determining the thickness of the knob's ring",
+      "examples": ["0.2", "0.5"]
+    },
+    "angle": {
+      "type": "Number",
+      "default": "0",
+      "desc": "An offset angle, which will rotate the knob",
+      "examples": ["180", "90"]
+    },
+    "show-value": {
+      "type": "Boolean",
+      "desc": "Allows the knob to display its model value. Also allows any default slot content to be rendered"
+    }
+  } 
+}
