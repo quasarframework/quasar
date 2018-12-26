@@ -61,5 +61,21 @@
       "type": "Boolean",
       "desc": "Allows the knob to display its model value. Also allows any default slot content to be rendered"
     }
-  } 
+  },
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  },
+  "events": {
+    "input": {
+      "extends": "input"
+    },
+    "change": {
+      "desc": "Fires at the end of a knob's adjustment and offers the value of the model"
+    },
+    "drag-value": {
+      "desc": "The value of the model after a dragging motion has been accomplished"
+    }
+  }
 }
