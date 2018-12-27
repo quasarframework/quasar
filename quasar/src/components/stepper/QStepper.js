@@ -25,11 +25,11 @@ export default Vue.extend({
     headerNav: Boolean,
     contractable: Boolean,
 
-    doneIcon: Boolean,
+    doneIcon: String,
     doneColor: String,
-    activeIcon: Boolean,
+    activeIcon: String,
     activeColor: String,
-    errorIcon: Boolean,
+    errorIcon: String,
     errorColor: String
   },
 

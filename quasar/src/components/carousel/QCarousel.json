@@ -71,17 +71,5 @@
     "control": {
       "desc": "Slot specific for QCarouselControl"
     }
-  },
-
-  "events": {
-    "input": {
-      "desc": "Emitted when component's model changes (current panel name); Is also used by v-model",
-      "params": {
-        "value": {
-          "type": "String or Number",
-          "desc": "New current panel name"
-        }
-      }
-    }
   }
 }

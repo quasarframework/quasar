@@ -2,18 +2,18 @@
   "props": {
     "value": {
       "type": "String or Number",
-      "desc": "Model of the component defining current slide's name; If used as Number, it does not defines slide index though but slide name's which may be an Integer; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "examples": [ "v-model=\"slideName\"" ]
+      "desc": "Model of the component defining current panel's name; If used as Number, it does not defines panel index though but slide name's which may be an Integer; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [ "v-model=\"panelName\"" ]
     },
 
     "animated": {
       "type": "Boolean",
-      "desc": "Enable transitions between slides (also see 'transition-prev' and 'transition-next' props)"
+      "desc": "Enable transitions between panel (also see 'transition-prev' and 'transition-next' props)"
     },
 
     "infinite": {
       "type": "Boolean",
-      "desc": "Makes Carousel appear as infinite (when reaching last slide, next one will become the first one)"
+      "desc": "Makes component appear as infinite (when reaching last panel, next one will become the first one)"
     },
 
     "swipeable": {
@@ -35,6 +35,16 @@
   },
 
   "events": {
+    "input": {
+      "desc": "Emitted when component's model changes (current panel name); Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "String or Number",
+          "desc": "New current panel name"
+        }
+      }
+    },
+
     "before-transition": {
       "desc": "Emitted before transitioning to a new panel",
       "params": {
