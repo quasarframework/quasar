@@ -1,21 +1,26 @@
 {
   "props": {
+    "value": {
+      "type": "Boolean",
+      "desc": "Model of the component defining shown/hidden state; Either use this property (along with a listener for 'input' event) OR use v-model directive"
+    },
+
     "content-class": {
-        "type": [ "Array", "String", "Object" ],
-        "desc": "Class definitions to be attributed to the Tooltip",
-        "examples": [
-          "my-special-class",
-          ":content-class=\"{ 'my-special-class': <condition> }\""
-        ]
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the Tooltip",
+      "examples": [
+        "my-special-class",
+        ":content-class=\"{ 'my-special-class': <condition> }\""
+      ]
     },
 
     "content-style": {
-        "type": [ "Array", "String", "Object" ],
-        "desc": "Style definitions to be attributed to the Tooltip",
-        "examples": [
-          "background-color: #ff0000",
-          ":content-style=\"{ backgroundColor: '#ff0000' }\""
-        ]
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the Tooltip",
+      "examples": [
+        "background-color: #ff0000",
+        ":content-style=\"{ backgroundColor: '#ff0000' }\""
+      ]
     },
 
     "max-height": {
@@ -52,6 +57,7 @@
     "offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the Tooltip horizontally and vertically in pixels",
+      "default": "[14, 14]",
       "examples": [ "[8, 8]", "[5, 10]" ]
     },
 
@@ -66,10 +72,10 @@
     },
 
     "delay": {
-      "type": "String or Number",
-      "desc": "Set the delay, when Tooltip should appear",
+      "type": "Number",
+      "desc": "Configure Tooltip to appear with delay",
       "default": 0,
-      "examples": [ 500, ":delay=\"550\"" ]
+      "examples": [ ":delay=\"550\"" ]
     }
   },
 
@@ -81,34 +87,47 @@
 
   "events": {
     "input": {
-      "desc": "Emitted when Tooltip's showing/hidden state changes; Is also used by v-model",
+      "desc": "Emitted when showing/hidden state changes; Is also used by v-model",
       "params": {
         "value": {
           "type": "Boolean",
           "desc": "New state (showing/hidden)"
         }
       }
+    },
+    
+    "show": {
+      "extends": "show"
+    },
+
+    "before-show": {
+      "extends": "before-show"
+    },
+
+    "hide": {
+      "extends": "hide"
+    },
+
+    "before-hide": {
+      "extends": "before-hide"
     }
   },
 
   "methods": {
-    "toggle": {
-      "extends": "toggle",
-      "desc": "Toggle the Tooltip's visibility"
-    },
-
     "show": {
-      "extends": "show",
-      "desc": "Show the Tooltip"
+      "extends": "show"
     },
 
     "hide": {
-      "extends": "hide",
-      "desc": "Hide the Tooltip"
+      "extends": "hide"
+    },
+
+    "toggle": {
+      "extends": "toggle"
     },
 
     "updatePosition": {
-      "desc": "Sets the Tooltip's position"
+      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the tooltip without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
     }
   }
 }
