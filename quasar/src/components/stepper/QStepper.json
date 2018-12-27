@@ -1,0 +1,75 @@
+{
+  "mixins": [ "mixins/panel-parent" ],
+
+  "props": {
+    "color": {
+      "extends": "color"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "flat": {
+      "extends": "flat"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Put Stepper in vertical mode (instead of horizontal by default)"
+    },
+
+    "alternative-labels": {
+      "type": "Boolean",
+      "desc": "Use alternative labels (applies only to horizontal stepper)"
+    },
+
+    "header-nav": {
+      "type": "Boolean",
+      "desc": "Allow navigation through the header"
+    },
+
+    "contractable": {
+      "type": "Boolean",
+      "desc": "Hide header labels on narrow windows"
+    },
+
+    "done-icon": {
+      "extends": "icon"
+    },
+
+    "done-color": {
+      "extends": "color"
+    },
+
+    "active-icon": {
+      "extends": "icon"
+    },
+
+    "active-color": {
+      "extends": "color"
+    },
+
+    "error-icon": {
+      "extends": "icon"
+    },
+
+    "error-color": {
+      "extends": "color"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QStep"
+    },
+    
+    "navigation": {
+      "desc": "Slot specific for the global navigation; Suggestion: QStepperNavigation"
+    }
+  }
+}
