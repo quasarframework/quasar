@@ -3,7 +3,7 @@
     "debounce": {
       "type": "String or Number",
       "desc": "Debounce amount (in milliseconds)",
-      "examples": [ 0, 530 ]
+      "examples": [ "0", "530" ]
     }
   },
 

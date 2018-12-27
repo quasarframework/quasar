@@ -18,23 +18,34 @@ function getWithoutExtension (filename) {
   return filename.slice(0, insertionPoint)
 }
 
+function getMixedInAPI (api, mainFile) {
+  api.mixins.forEach(mixin => {
+    const mixinFile = resolve('src/' + mixin + '.json')
+
+    if (!fs.existsSync(mixinFile)) {
+      logError(`api.build.js: ${path.relative(root, mainFile)} -> no such mixin ${mixin}`)
+      process.exit(1)
+    }
+
+    const content = require(mixinFile)
+
+    api = merge(
+      content.mixins !== void 0
+        ? getMixedInAPI(content, mixinFile)
+        : content,
+      api
+    )
+  })
+
+  const { mixins, ...finalApi } = api
+  return finalApi
+}
+
 function parseAPI (file, extendApi) {
   let api = require(file)
 
   if (api.mixins !== void 0) {
-    let mixins
-    while ((mixins = api.mixins) !== void 0) {
-      delete api.mixins
-
-      mixins.forEach(mixin => {
-        const mixinFile = resolve('src/' + mixin + '.json')
-        if (!fs.existsSync(mixinFile)) {
-          logError(`api.build.js: ${path.relative(root, file)} -> no such mixin ${mixin}`)
-          process.exit(1)
-        }
-        api = merge(require(mixinFile), api)
-      })
-    }
+    api = getMixedInAPI(api, file)
   }
 
   // "props", "slots", ...
