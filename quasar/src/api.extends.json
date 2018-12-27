@@ -41,7 +41,7 @@
 
       "icon": {
         "type": "String",
-        "desc": "Icon name following Quasar convention; make sure you got the icon library installed",
+        "desc": "Icon name following Quasar convention; make sure you have the icon library installed",
         "examples": [ "map", "ion-add" ]
       },
 
