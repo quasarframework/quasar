@@ -12,7 +12,7 @@
 
     "title": {
       "type": "String",
-      "desc": "Step title.",
+      "desc": "Step title",
       "required": true,
       "examples": [
         "Ad Groups", "Payment"
@@ -21,15 +21,14 @@
 
     "caption": {
       "type": "String",
-      "desc": "Step’s additional information that appears beneath the title.",
+      "desc": "Step’s additional information that appears beneath the title",
       "examples": [
-        "Create an account", "Enter your payment details"
+        "Create an account", "Payment details"
       ]
     },
 
     "done-icon": {
-      "type": "Boolean",
-      "desc": "Show or hide the 'done' icon."
+      "extends": "icon"
     },
 
     "done-color": {
@@ -37,8 +36,7 @@
     },
 
     "active-icon": {
-      "type": "Boolean",
-      "desc": "Show or hide the 'active' icon."
+      "extends": "icon"
     },
 
     "active-color": {
@@ -46,8 +44,7 @@
     },
 
     "error-icon": {
-      "type": "Boolean",
-      "desc": "Show or hide the 'error' icon."
+      "extends": "icon"
     },
 
     "error-color": {
@@ -57,23 +54,23 @@
     "header-nav": {
       "type": "Boolean",
       "default": true,
-      "desc": "Allow navigation through the header."
+      "desc": "Allow navigation through the header"
     },
 
     "done": {
       "type": "Boolean",
-      "desc": "Mark the step as 'done'."
+      "desc": "Mark the step as 'done'"
     },
 
     "error": {
       "type": "Boolean",
-      "desc": "Mark the step as having an error."
+      "desc": "Mark the step as having an error"
     }
   },
 
   "slots": {
     "default": {
-      "desc": "The content of the step. Can contain a QStepperNavigation if you want to override the default navigation."
+      "desc": "The content of the step; Can also contain a QStepperNavigation if you want to handle step navigation and don't have a global navigation in place"
     }
   }
 }
