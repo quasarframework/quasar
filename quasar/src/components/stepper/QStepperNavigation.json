@@ -1,1 +1,7 @@
-{}
+{
+  "slots": {
+    "default": {
+      "desc": "The content of the custom navigation. Typically this would be your own custom buttons. Must be a child of a QStep."
+    }
+  }
+}
