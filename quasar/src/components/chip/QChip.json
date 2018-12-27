@@ -1,9 +1,7 @@
 {
-  "props": {
-    "ripple": {
-      "extends": "ripple"
-    },
+  "mixins": [ "mixins/ripple" ],
 
+  "props": {
     "dense": {
       "extends": "dense"
     },

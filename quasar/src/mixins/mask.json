@@ -1,0 +1,21 @@
+{
+  "props": {
+    "mask": {
+      "type": "String",
+      "desc": "Custom mask or one of the predefined mask names",
+      "examples": [
+        "date", "###-##"
+      ]
+    },
+
+    "fill-mask": {
+      "type": "Boolean",
+      "desc": "Fills string with underscore characters to fill mask's length"
+    },
+
+    "unmasked-value": {
+      "type": "Boolean",
+      "desc": "Model will be unmasked (won't contain tokens/separation characters)"
+    }
+  }
+}

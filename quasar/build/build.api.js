@@ -4,6 +4,7 @@ const
   glob = require('glob'),
   path = require('path'),
   merge = require('webpack-merge'),
+  fs = require('fs'),
   { logError, writeFile } = require('./build.utils')
 
 const
@@ -18,7 +19,23 @@ function getWithoutExtension (filename) {
 }
 
 function parseAPI (file, extendApi) {
-  const api = require(file)
+  let api = require(file)
+
+  if (api.mixins !== void 0) {
+    let mixins
+    while ((mixins = api.mixins) !== void 0) {
+      delete api.mixins
+
+      mixins.forEach(mixin => {
+        const mixinFile = resolve('src/' + mixin + '.json')
+        if (!fs.existsSync(mixinFile)) {
+          logError(`api.build.js: ${path.relative(root, file)} -> no such mixin ${mixin}`)
+          process.exit(1)
+        }
+        api = merge(require(mixinFile), api)
+      })
+    }
+  }
 
   // "props", "slots", ...
   for (let type in api) {

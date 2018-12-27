@@ -1,5 +1,11 @@
 {
+  "mixins": [ "mixins/model-toggle" ],
+
   "props": {
+    "value": {
+      "desc": "Controls state of fab actions (showing/hidden); Works best with v-model directive, otherwise use along listening to 'input' event"
+    },
+
     "icon": {
       "extends": "icon"
     },
@@ -47,11 +53,6 @@
     "glossy": {
       "type": "Boolean",
       "desc": "Apply the glossy effect over the button"
-    },
-
-    "value": {
-      "type": "Boolean",
-      "desc": "Controls state of fab actions (showing/hidden); Works best with v-model directive, otherwise use along listening to 'input' event"
     }
   },
 
@@ -67,40 +68,16 @@
 
   "events": {
     "input": {
-      "desc": "Emitted when fab actions are shown/hidden; Captured by v-model directive",
-      "params": {
-        "value": {
-          "type": "Boolean",
-          "desc": "State of fab actions (showing/hidden)"
-        }
-      }
-    },
-
-    "show": {
-      "extends": "show"
-    },
-
-    "before-show": {
-      "extends": "before-show"
-    },
-
-    "hide": {
-      "extends": "hide"
-    },
-
-    "before-hide": {
-      "extends": "before-hide"
+      "desc": "Emitted when fab actions are shown/hidden; Captured by v-model directive"
     }
   },
 
   "methods": {
     "show": {
-      "extends": "show",
       "desc": "Expands fab actions list"
     },
 
     "hide": {
-      "extends": "hide",
       "desc": "Collapses fab actions list"
     }
   }
