@@ -11,6 +11,7 @@
         3
       ]
     },
+
     "min": {
       "type": "Number",
       "default": 1,
@@ -21,6 +22,7 @@
         3
       ]
     },
+
     "max": {
       "type": "Number",
       "default": 100,
@@ -32,19 +34,24 @@
         3
       ]
     },
+
     "color": {
       "extends": "color"
     },
+
     "text-color": {
       "extends": "text-color"
     },
+
     "size": {
       "type": "Number",
       "desc": "Button size"
     },
+
     "disable": {
       "extends": "disable"
     },
+
     "input": {
       "type": [
         "String",
@@ -52,33 +59,40 @@
       ],
       "desc": "??"
     },
+
     "boundary-links": {
       "type": "Boolean",
       "desc": "Show boundary button links"
     },
+
     "boundary-numbers": {
       "type": "Boolean",
       "desc": "Show boundary number buttons"
     },
+
     "direction-links": {
       "type": "Boolean",
       "desc": "Show direction buttons"
     },
+
     "ellipses": {
       "type": "Boolean",
       "desc": "Show ellipses (...) when pages are available"
     },
+
     "max-pages": {
       "type": "Number",
       "default": 0,
       "desc": "Maximum number of page links to display at a time."
     }
   },
+
   "slots": {
     "default": {
       "extends": "default"
     }
   },
+
   "events": {
     "input": {
       "extends": "input",
@@ -87,14 +101,16 @@
           "type": "String or Number"
         }
       }
+    }
+  },
+  
+  "methods": {
+    "set": {
+      "desc": "Go directly to the specified page"
     },
-    "methods": {
-      "set": {
-        "desc": "Go directly to the specified page"
-      },
-      "setOffset": {
-        "desc": "Increment page size by number"
-      }
+
+    "setOffset": {
+      "desc": "Increment page size by number"
     }
   }
 }
