@@ -108,9 +108,27 @@
   },
 
   "events": {
+    "input": {}
   },
 
   "methods": {
+    "goTo": {
+      "desc": "Go to a specific step.",
+      "params": {
+        "stepName": {
+          "type": "String or Number",
+          "desc": "Step's name, which may be a String or Number; me, which may be a String or Number; Number does not refer to step index, but to its name, which may be an Integer",
+          "required": true
+        }
+      }
+    },
 
+    "next": {
+      "desc": "Go to next step."
+    },
+
+    "previous": {
+      "desc": "Go to the previous step."
+    }
   }
 }

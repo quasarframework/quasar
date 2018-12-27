@@ -1,0 +1,90 @@
+{
+  "props": {
+    "name": {
+      "type": "Number or String",
+      "desc": "Step name",
+      "required": true,
+      "examples": [
+        "payment", "firstStep", ":name=\"1\""
+      ]
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "title": {
+      "type": "String",
+      "desc": "Step title.",
+      "required": true,
+      "examples": [
+        "Ad Groups", "Payment"
+      ]
+    },
+
+    "caption": {
+      "type": "String",
+      "desc": "Step’s additional information that appears beneath the title.",
+      "examples": [
+        "Create an account", "Enter your payment details"
+      ]
+    },
+
+    "done-icon": {
+      "type": "Boolean",
+      "desc": ""
+    },
+
+    "done-color": {
+
+    },
+
+    "active-icon": {
+
+    },
+
+    "active-color": {
+
+    },
+
+    "error-icon": {
+
+    },
+
+    "error-color": {
+
+    },
+
+    "header-nav": {
+
+    },
+
+    "done": {
+
+    },
+
+    "error": {
+
+    }
+  },
+
+  "slots": {
+
+  },
+
+  "events": {
+
+  },
+
+  "methods": {
+
+  }
+}
