@@ -1,38 +1,7 @@
 {
+  "mixins": [ "mixins/panel-parent" ],
+
   "props": {
-    "value": {
-      "type": "String or Number",
-      "desc": "Model of the component defining current stepper's name; If used as Number, it does not define stepper index though but stepper names which may be an Integer; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "examples": [ "v-model=\"stepperName\"" ]
-    },
-
-    "animated": {
-      "type": "Boolean",
-      "desc": "Enable transitions between steps (also see 'transition-prev' and 'transition-next' props)"
-    },
-
-    "infinite": {
-      "type": "Boolean",
-      "desc": "Makes Stepper appear as infinite (when reaching last step, next one will become the first one)"
-    },
-
-    "swipeable": {
-      "type": "Boolean",
-      "desc": "Enable swipe events (may interfere with content's touch/mouse events)"
-    },
-
-    "transition-prev": {
-      "extends": "transition",
-      "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
-      "default": "fade"
-    },
-
-    "transition-next": {
-      "extends": "transition",
-      "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
-      "default": "fade"
-    },
-
     "color": {
       "extends": "color"
     },
@@ -61,43 +30,40 @@
 
     "header-nav": {
       "type": "Boolean",
-      "desc": "Set the ability to navigate to previous steps through header."
+      "desc": "Allow navigation through the header."
     },
 
     "contractable": {
       "type": "Boolean",
-      "desc": "Labels are hidden on narrow windows."
+      "desc": "Hide labels on narrow windows."
 
     },
 
     "done-icon": {
       "type": "Boolean",
-      "desc": ""
+      "desc": "Show or hide the 'done' icon for any 'done' step."
     },
 
     "done-color": {
-      "type": "String",
-      "desc": ""
+      "extends": "color"
     },
 
     "active-icon": {
       "type": "Boolean",
-      "desc": ""
+      "desc": "Show or hide the 'active' icon for any 'active' step."
     },
 
     "active-color": {
-      "type": "String",
-      "desc": ""
+      "extends": "color"
     },
 
     "error-icon": {
       "type": "Boolean",
-      "desc": ""
+      "desc": "Show or hide the 'error' icon for any 'error' step."
     },
 
     "error-color": {
-      "type": "String",
-      "desc": ""
+      "extends": "color"
     }
   },
 
@@ -108,27 +74,14 @@
   },
 
   "events": {
-    "input": {}
-  },
-
-  "methods": {
-    "goTo": {
-      "desc": "Go to a specific step.",
+    "input": {
+      "desc": "Emitted when component's model changes (current panel name); Is also used by v-model",
       "params": {
-        "stepName": {
+        "value": {
           "type": "String or Number",
-          "desc": "Step's name, which may be a String or Number; me, which may be a String or Number; Number does not refer to step index, but to its name, which may be an Integer",
-          "required": true
+          "desc": "New current panel name"
         }
       }
-    },
-
-    "next": {
-      "desc": "Go to next step."
-    },
-
-    "previous": {
-      "desc": "Go to the previous step."
     }
   }
 }
