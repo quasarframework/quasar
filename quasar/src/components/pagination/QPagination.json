@@ -1,0 +1,96 @@
+{
+  "props": {
+    "value": {
+      "type": "Number",
+      "default": 0,
+      "required": true,
+      "desc": "Current page (must be between min/max)",
+      "examples": [ 1, 2, 3 ]
+    },
+
+    "min": {
+      "type": "Number",
+      "default": 1,
+      "desc": "Minimum page (must be lower than 'max')",
+      "examples": [ 1, 2, 3 ]
+    },
+
+    "max": {
+      "type": "Number",
+      "default": 100,
+      "required": true,
+      "desc": "Number of last page (must be higher than 'min')",
+      "examples": [ 1, 2, 3 ]
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "size": {
+      "type": "Number",
+      "desc": "Button size"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "input": {
+      "type": "Number",
+      "desc": "The current position"
+    },
+
+    "boundary-links": {
+      "type": "Boolean",
+      "desc": "Show boundary button links"
+    },
+
+    "boundary-numbers": {
+      "type": "Boolean",
+      "desc": "Show boundary number buttons"
+    },
+
+    "direction-links": {
+      "type": "Boolean",
+      "desc": "Show direction buttons"
+    },
+
+    "ellipses": {
+      "type": "Boolen",
+      "desc": "Show ellipses (...) when pages available"
+    },
+
+    "max-pages": {
+      "type": "Number",
+      "default": 0,
+      "desc": "Maximum number of page links to display at a time."
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  },
+
+  "events": {
+    "input": {
+      "desc": "Triggered immediately on model value change"
+    }
+  },
+
+  "methods": {
+    "set": {
+      "desc": "Go directly to the specified page"
+    },
+
+    "setOffset": {
+      "desc": "Increment page size by number"
+    }
+  }
+}
