@@ -1,0 +1,64 @@
+.z-fab
+  z-index $z-fab
+
+.q-fab
+  position relative
+  vertical-align middle
+
+  &--opened
+    .q-fab__actions
+      opacity 1
+      transform scale3d(1, 1, 1) translate3d(0, 0, 0)
+      pointer-events all
+    .q-fab__icon
+      transform rotate3d(0, 0, 1, 180deg)
+      opacity 0
+    .q-fab__active-icon
+      transform rotate3d(0, 0, 1, 0deg)
+      opacity 1
+
+  &__icon, &__active-icon
+    transition opacity .4s, transform .4s
+  &__icon
+    opacity 1
+    transform rotate3d(0, 0, 1, 0deg)
+  &__active-icon
+    opacity 0
+    transform rotate3d(0, 0, 1, -180deg)
+
+  &__actions
+    position absolute
+    opacity 0
+    transition all .2s ease-in
+    pointer-events none
+    .q-btn
+      margin $fab-margin
+
+    &--right
+      transform scale3d(.4, .4, 1) translate3d(-100%, 0, 0)
+      top 0
+      bottom 0
+      left 120%
+
+    &--left
+      transform scale3d(.4, .4, 1) translate3d(100%, 0, 0)
+      top 0
+      bottom 0
+      right 120%
+      flex-direction row-reverse
+
+    &--up
+      transform scale3d(.4, .4, 1) translate3d(0, 100%, 0)
+      flex-direction column-reverse
+      justify-content center
+      bottom 120%
+      left 0
+      right 0
+
+    &--down
+      transform scale3d(.4, .4, 1) translate3d(0, -100%, 0)
+      flex-direction column
+      justify-content center
+      top 120%
+      left 0
+      right 0

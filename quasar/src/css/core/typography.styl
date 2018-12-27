@@ -1,0 +1,123 @@
+body
+  min-width 100px
+  min-height 100vh
+  font-family $typography-font-family
+  -ms-text-size-adjust 100%
+  -webkit-text-size-adjust 100%
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+  font-smoothing antialiased
+  line-height $body-line-height
+  font-size $body-font-size
+
+for $heading, $value in $h-tags
+  {$heading}
+    font-size: $value.size
+    font-weight: $value.weight
+    line-height: $value.line-height
+    letter-spacing: $value.letter-spacing
+
+p
+  margin: 0 0 $spaces.md.y
+
+.text-
+  for $heading, $value in $headings
+    &{$heading}
+      font-size: $value.size
+      font-weight: $value.weight
+      line-height: $value.line-height
+      letter-spacing: $value.letter-spacing
+
+  &uppercase
+    text-transform uppercase
+  &lowercase
+    text-transform lowercase
+  &capitalize
+    text-transform capitalize
+
+  &center
+    text-align center
+  &left
+    text-align left
+  &right
+    text-align right
+  &justify
+    text-align justify
+    hyphens auto
+
+  &italic
+    font-style italic
+  &bold
+    font-weight bold
+
+  &no-wrap
+    white-space nowrap
+
+  for $weight, $value in $text-weights
+    &weight-{$weight}
+      font-weight $value
+
+small
+  font-size 80%
+big
+  font-size 170%
+sub
+  bottom -.25em
+sup
+  top -.5em
+
+blockquote
+  padding: $spaces.sm.y $spaces.md.x
+  margin 0
+  font-size 16px
+  border-left: $spaces.xs.x solid $primary
+  border-left: $spaces.xs.x solid var(--q-color-primary)
+  &.text-right
+    padding-right: $spaces.md.x
+    padding-left 0
+    border-right: $spaces.xs.x solid $primary
+    border-right: $spaces.xs.x solid var(--q-color-primary)
+    border-left 0
+    text-align right
+
+  small
+    display block
+    line-height 1.4
+    color $faded
+    color var(--q-color-faded)
+    &:before
+      content '\2014 \00A0'
+
+.quote
+  padding 10px 20px
+  margin 0 0 20px
+  border-left 5px solid $primary
+  border-left 5px solid var(--q-color-primary)
+  &.text-right
+    padding-right 15px
+    padding-left 0
+    border-right 5px solid $primary
+    border-right 5px solid var(--q-color-primary)
+    border-left 0
+    text-align right
+
+dt
+  font-weight bold
+dd
+  margin-left 0
+dt, dd
+  line-height 1.4
+dl
+  margin-top 0
+  margin-bottom 20px
+  &.horizontal
+    dt
+      float left
+      width 25%
+      clear left
+      text-align right
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
+    dd
+      margin-left 30%

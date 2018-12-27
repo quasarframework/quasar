@@ -1,0 +1,55 @@
+{
+  "props": {
+    "view": {
+      "type": "String",
+      "desc": "Defines how your layout components (header/footer/drawer) should be placed on screen; See docs examples",
+      "default": "hhh lpr fff",
+      "examples": [
+        "hHh lpR fFf"
+      ]
+    },
+
+    "container": {
+      "type": "Boolean",
+      "desc": "Containerize the layout which means it changes the default behavior of expanding to the whole window; Useful (but not limited to) for when using on a QDialog"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QHeader, QFooter, QDrawer, QPageContainer"
+    }
+  },
+
+  "events": {
+    "resize": {
+      "desc": "Emitted when layout size (height, width) changes",
+      "params": {
+        "size": {
+          "type": "Object",
+          "desc": "Syntax: { height: Number, width: Number }"
+        }
+      }
+    },
+
+    "scroll": {
+      "desc": "Emitted when user scrolls within layout",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Syntax: { position: Number, direction: String, directionChanged: Boolean, inflexionPosition: Number }"
+        }
+      }
+    },
+
+    "scroll-height": {
+      "desc": "Emitted when the scroll size of layout changes",
+      "params": {
+        "height": {
+          "type": "Number",
+          "desc": "New scroll height of layout"
+        }
+      }
+    }
+  }
+}

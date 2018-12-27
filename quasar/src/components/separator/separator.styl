@@ -1,0 +1,43 @@
+.q-separator
+  border none
+  background $separator-color
+  margin 0
+  transition background .3s, opacity .3s
+
+  &--dark
+    background $separator-dark-color
+
+  &--horizontal
+    display block
+    height 1px
+    min-height 1px
+    width 100%
+
+    &.q-separator--spaced
+      margin-top 8px
+      margin-bottom 8px
+    &.q-separator--inset
+      margin-left 16px
+      margin-right 16px
+      width calc(100% - 32px)
+    &.q-separator--item-inset
+      margin-left 72px
+      margin-right 0
+      width calc(100% - 72px)
+    &.q-separator--item-thumbnail-inset
+      margin-left 116px
+      margin-right 0
+      width calc(100% - 116px)
+
+  &--vertical
+    width 1px
+    min-width 1px
+    height inherit
+    min-height 100%
+
+    &.q-separator--spaced
+      margin-left 8px
+      margin-right 8px
+    &.q-separator--inset
+      margin-top 8px
+      margin-bottom 8px

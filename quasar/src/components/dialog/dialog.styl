@@ -1,0 +1,94 @@
+.q-dialog
+
+  &__title
+    font-size 1.25rem
+    font-weight 500
+    line-height 2rem
+    letter-spacing 0.0125em
+
+  &__message
+    color $grey-7
+
+  &__inner
+    outline 0
+
+    > .scroll
+      max-height 40vh
+
+    > div
+      pointer-events all
+      overflow auto
+      border-radius $generic-border-radius
+      box-shadow $shadow-4
+
+    > .q-card
+      > .q-card__actions .q-btn--rectangle
+        min-width 64px
+
+    &--minimized
+      padding 24px
+
+      > div
+        max-height calc(100vh - 32px)
+
+    &--maximized
+      > div
+        height 100% !important
+        width 100% !important
+        border-radius 0 !important
+
+    &--top
+      padding-top 0 !important
+    &--right
+      padding-right 0 !important
+    &--bottom
+      padding-bottom 0 !important
+    &--left
+      padding-left 0 !important
+
+    &--left, &--top
+      > div
+        border-top-left-radius 0
+    &--right, &--top
+      > div
+        border-top-right-radius 0
+    &--left, &--bottom
+      > div
+        border-bottom-left-radius 0
+    &--right, &--bottom
+      > div
+        border-bottom-right-radius 0
+
+    &--fullwidth
+      > div
+        width 100% !important
+        max-width 100% !important
+    &--fullheight
+      > div
+        height 100% !important
+        max-height 100% !important
+
+  &__backdrop
+    z-index -1
+    pointer-events all
+    background $dimmed-background
+
+
+@media (max-width $breakpoint-xs-max)
+  .q-dialog__inner
+    &--minimized
+      padding 16px
+    &--top, &--bottom
+      padding-left 0
+      padding-right 0
+
+      > div
+        width 100% !important
+        border-radius 0 !important
+
+@media (min-width $breakpoint-sm-min)
+  .q-dialog__inner--minimized > div
+    max-width 560px
+
+.q-body--dialog
+  overflow hidden

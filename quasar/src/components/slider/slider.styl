@@ -1,0 +1,133 @@
+.q-slider
+
+  position relative
+  width 100%
+  height 40px
+  color $primary
+  outline 0
+
+  &__track-container
+    top 50%
+    width 100%
+    height 2px
+    background rgba(0, 0, 0, .26)
+
+  &__track
+    will-change width, left
+    background currentColor
+
+  &__track-markers
+    color black
+    background-image repeating-linear-gradient(to right, currentColor, currentColor 2px, transparent 0, transparent)
+
+    &:after
+      content ''
+      position absolute
+      right 0
+      top 0
+      bottom 0
+      height 2px
+      width 2px
+      background currentColor
+
+  &__thumb-container
+    top 11px
+    width 21px
+    transform translate3d(-10px, 0, 0)
+    will-change left
+    outline 0
+
+  &__thumb
+    top 0
+    left 0
+    transform scale3d(.571, .571, .571)
+    transition transform .18s ease-out, fill .18s ease-out, stroke .18s ease-out
+    stroke-width 3.5
+    stroke currentColor
+
+    circle
+      stroke currentColor
+      fill currentColor
+
+  &__focus-ring
+    width 21px
+    height 21px
+    transition transform 266.67ms ease-out, opacity 266.67ms ease-out, background-color 266.67ms ease-out
+    border-radius 50%
+    opacity 0
+
+  &__pin
+    top 0
+    width 26px
+    height 26px
+    margin-top -2px
+    margin-left -2px
+    background currentColor
+    transform rotate(-45deg) scale3d(0, 0, 0) translate3d(0, 0, 0)
+    transition transform 100ms ease-out
+    will-change left
+    border-radius 50% 50% 50% 0%
+    z-index 1
+
+  &__pin-value-marker
+    color white
+    font-size 12px
+    transform rotate(45deg)
+
+  &--editable
+    cursor grab
+
+  &--active
+    cursor grabbing
+
+    .q-slider__thumb
+      transform scale3d(1, 1, 1)
+
+  &--focus
+    .q-slider__thumb
+      animation q-slider-emphasize 266.67ms linear
+
+    .q-slider__focus-ring
+      background currentColor
+      transform scale3d(1.55, 1.55, 1.55)
+      opacity .25
+
+  &--inactive
+    .q-slider__thumb
+      transition-delay .14s
+    .q-slider__thumb-container
+      transition left .28s
+    .q-slider__track
+      transition width .28s, left .28s
+
+  &--label
+    &.q-slider--active, .q-slider--focus, &.q-slider--label-always
+      .q-slider__thumb
+        animation none
+        transform scale(0)
+
+      .q-slider__pin
+        transform rotate(-45deg) scale3d(1, 1, 1) translate3d(19px, -20px, 0)
+
+  &--dark
+    .q-slider__track-container
+      background alpha(#fff, .3)
+    .q-slider__track-markers
+      color white
+
+  &--dense
+    height 20px
+
+    .q-slider__thumb-container
+      top 0
+
+@keyframes q-slider-emphasize
+  0%
+    animation-timing-function ease-out
+
+  50%
+    animation-timing-function ease-in
+    transform scale3d(.85, .85, .85)
+
+  100%
+    transform scale3d(.571, .571, .571)

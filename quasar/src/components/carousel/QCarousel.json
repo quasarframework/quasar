@@ -1,0 +1,159 @@
+{
+  "props": {
+    "value": {
+      "type": "String or Number",
+      "desc": "Model of the component defining current slide's name; If used as Number, it does not defines slide index though but slide name's which may be an Integer; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [ "v-model=\"slideName\"" ]
+    },
+
+    "animated": {
+      "type": "Boolean",
+      "desc": "Enable transitions between slides (also see 'transition-prev' and 'transition-next' props)"
+    },
+
+    "infinite": {
+      "type": "Boolean",
+      "desc": "Makes Carousel appear as infinite (when reaching last slide, next one will become the first one)"
+    },
+
+    "swipeable": {
+      "type": "Boolean",
+      "desc": "Enable swipe events (may interfere with content's touch/mouse events)"
+    },
+
+    "height": {
+      "extends": "size",
+      "desc": "Height of Carousel in CSS units, including unit name"
+    },
+
+    "padding": {
+      "type": "Boolean",
+      "desc": "Applies a default padding to each slide, according to the usage of 'arrows' and 'navigation' props"
+    },
+
+    "transition-prev": {
+      "extends": "transition",
+      "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
+      "default": "fade"
+    },
+
+    "transition-next": {
+      "extends": "transition",
+      "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
+      "default": "fade"
+    },
+
+    "control-color": {
+      "extends": "color"
+    },
+
+    "autoplay": {
+      "type": "Number or Boolean",
+      "desc": "Jump to next slide at fixed time intervals (in milliseconds); 'false' disables autoplay, 'true' enables it for 5000ms intervals",
+      "default": false,
+      "examples": [
+        ":autoplay=\"2500\"",
+        true,
+        false
+      ]
+    },
+
+    "arrows": {
+      "type": "Boolean",
+      "desc": "Show navigation arrow buttons"
+    },
+
+    "prev-icon": {
+      "extends": "icon"
+    },
+
+    "next-icon": {
+      "extends": "icon"
+    },
+
+    "navigation": {
+      "type": "Boolean",
+      "desc": "Show navigation dots"
+    },
+
+    "navigation-icon": {
+      "extends": "icon"
+    },
+
+    "thumbnails": {
+      "type": "Boolean",
+      "desc": "Show thumbnails"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QCarouselSlide"
+    },
+
+    "control": {
+      "desc": "Slot specific for QCarouselControl"
+    }
+  },
+
+  "events": {
+    "input": {
+      "desc": "Emitted when component's model changes (current slide name); Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "String or Number",
+          "desc": "New current slide name"
+        }
+      }
+    },
+
+    "before-transition": {
+      "desc": "Emitted before transitioning to a new slide",
+      "params": {
+        "newVal": {
+          "type": "String or Number",
+          "desc": "Slide name towards transition is going"
+        },
+        "oldVal": {
+          "type": "String or Number",
+          "desc": "Slide name from which transition is happening"
+        }
+      }
+    },
+
+    "transition": {
+      "desc": "Emitted after Carousel transitioned to a new slide",
+      "params": {
+        "newVal": {
+          "type": "String or Number",
+          "desc": "Slide name towards transition has occurred"
+        },
+        "oldVal": {
+          "type": "String or Number",
+          "desc": "Slide name from which transition has happened"
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "next": {
+      "desc": "Go to next slide"
+    },
+
+    "previous": {
+      "desc": "Go to previous slide"
+    },
+
+    "goTo": {
+      "desc": "Go to specific slide",
+      "params": {
+        "slideName": {
+          "type": "String or Number",
+          "desc": "Slide's name, which may be a String or Number; Number does not refers to slide index, but to its name, which may be an Integer",
+          "required": true
+        }
+      }
+    }
+  }
+}

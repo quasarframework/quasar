@@ -1,0 +1,55 @@
+{
+  "props": {
+    "value": {
+      "extends": "value",
+      "type": "Number",
+      "examples": [ ":value=\"2\"" ]
+    },
+
+    "max": {
+      "type": "String or Number",
+      "desc": "Number of icons to display",
+      "default": 5,
+      "examples": [ "3", ":max=\"5\"" ]
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "size": {
+      "extends": "size"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    }
+  },
+
+  "methods": {
+    "set": {
+      "desc": "Parses and sets a new value for model",
+      "params": {
+        "value": {
+          "type": "String or Number",
+          "desc": "Value to set",
+          "required": true
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,366 @@
+{
+  "props": {
+    "data": {
+      "type": "Array",
+      "desc": "Rows of data to display",
+      "examples": [ ":data=\"myData\"" ]
+    },
+
+    "row-key": {
+      "type": "String",
+      "desc": "Property of each row that defines the unique key of each row; The value of property must be string or number",
+      "default": "id",
+      "examples": [ "myprop" ]
+    },
+
+    "color": {
+      "extends": "color",
+      "default": "grey-8"
+    },
+
+    "grid": {
+      "type": "Boolean",
+      "desc": "Display data as a grid instead of the default table"
+    },
+
+    "dense": {
+      "extends": "dense",
+      "desc": "Dense mode; occupies less space; overrides 'breakpoint' prop if used"
+    },
+
+    "breakpoint": {
+      "type": "Number",
+      "desc": "Breakpoint (in pixels) of window width up to which 'dense' mode is used; Overriden by 'dense' prop if used",
+      "default": 450,
+      "examples": [ 992, ":breakpoint=\"1024\"" ]
+    },
+
+    "columns": {
+      "type": "Array",
+      "desc": "The column definitions (Array of Objects)",
+      "examples": [ ":columns=\"tableColumns\"" ]
+    },
+
+    "visible-columns": {
+      "type": "Array",
+      "desc": "Array of Strings defining column names ('name' property of each column from 'columns' prop definitions)",
+      "examples": [
+        ":visible-columns=\"myCols\"",
+        "[ 'desc', 'carbs', 'protein' ]"
+      ]
+    },
+
+    "loading": {
+      "type": "Boolean",
+      "desc": "Put Table into 'loading' state; Notify the user something is happening behind the covers"
+    },
+
+    "title": {
+      "type": "String",
+      "desc": "Table title",
+      "examples": [ "Device list" ]
+    },
+
+    "hide-header": {
+      "type": "Boolean",
+      "desc": "Hide table header layer"
+    },
+
+    "hide-bottom": {
+      "type": "Boolean",
+      "desc": "Hide table bottom layer"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "flat": {
+      "extends": "flat"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "separator": {
+      "type": "String",
+      "desc": "Use a separator/border between rows, columns or all cells",
+      "default": "horizontal",
+      "values": [ "horizontal", "vertical", "cell", "none" ],
+      "examples": [ "cell" ]
+    },
+
+    "binary-state-sort": {
+      "type": "Boolean",
+      "desc": "Skip the third state (unsorted) when user toggles column sort direction"
+    },
+
+    "no-data-label": {
+      "type": "String",
+      "desc": "Override default text to display when no data is available",
+      "examples": [ "No devices available" ]
+    },
+
+    "no-results-label": {
+      "type": "String",
+      "desc": "Override default text to display when user filters the table and no matched results are found",
+      "examples": [ "No matched records" ]
+    },
+
+    "loading-label": {
+      "type": "String",
+      "desc": "Override default text to display when table is in loading state (see 'loading' prop)",
+      "examples": [ "Loading devices..." ]
+    },
+
+    "selected-rows-label": {
+      "type": "Function",
+      "desc": "Text to display when user selected at least one row; Function(numberOfRows) => String",
+      "examples": [ ":selected-rows-label=\"getSelectedString\"" ]
+    },
+
+    "rows-per-page-label": {
+      "type": "String",
+      "desc": "Text to override default rows per page label at bottom of table",
+      "examples": [ "Records per page:" ]
+    },
+
+    "pagination-label": {
+      "type": "Function",
+      "desc": "Text to override default pagination label at bottom of table (unless 'pagination' scoped slot is used); Function (firstRowIndex, endRowIndex, totalRowsNumber) => String",
+      "examples": [ ":rows-per-page=\"getPaginationLabel\"" ]
+    },
+
+    "table-style": {
+      "type": "String or Array or Object",
+      "desc": "CSS style to apply to native HTML <table> element's wrapper (which is a <div>)",
+      "examples": [
+        "background-color: #ff0000",
+        ":table-style=\"{ backgroundColor: '#ff0000' }\""
+      ]
+    },
+
+    "table-class": {
+      "type": "String or Array or Object",
+      "desc": "CSS classes to apply to native HTML <table> element's wrapper (which is a <div>)",
+      "examples": [
+        "my-special-class",
+        ":table-class=\"{ 'my-special-class': <condition> }\""
+      ]
+    },
+
+    "filter": {
+      "type": "String or Object",
+      "desc": "String/Object to filter table with; When using an Object it requires 'filter-method' to also be specified since it will be a custom filtering",
+      "examples": [ ":filter=\"myFilterInput\"" ]
+    },
+
+    "filter-method": {
+      "type": "Function",
+      "desc": "The actual filtering mechanism. Function (rows, terms[, cols, getCellValue]) => filtered rows",
+      "default": "(see source code)",
+      "examples": [
+        "(see source code)"
+      ]
+    },
+
+    "pagination": {
+      "type": "Object",
+      "desc": "Pagination object of form: { sortBy: String, descending: Boolean, page: Number, rowsPerPage: Number }; REQUIRES .sync vue modifier",
+      "examples": [
+        ":pagination.sync=\"myPagination\""
+      ]
+    },
+
+    "rows-per-page-options": {
+      "type": "Array",
+      "desc": "Options for user to pick (Numbers); Number 0 means 'Show all rows in one page'",
+      "default": "[3, 5, 7, 10, 15, 20, 25, 50, 0]",
+      "examples": [
+        ":rows-per-page-options=\"[10, 20]\""
+      ]
+    },
+
+    "selection": {
+      "type": "String",
+      "desc": "Selection type",
+      "default": "none",
+      "values": [ "single", "multiple", "none" ],
+      "examples": [ "multiple" ]
+    },
+
+    "selected": {
+      "type": "Array",
+      "desc": "Keeps the user selection array; REQUIRES .sync vue modifier",
+      "default": "[]",
+      "examples": [
+        ":selected.sync=\"selection\""
+      ]
+    },
+
+    "sort-method": {
+      "type": "Function",
+      "desc": "The actual sort mechanism. Function (rows, sortBy, descending) => sorted rows",
+      "default": "(see source code)",
+      "examples": [
+        "(see source code)"
+      ]
+    }
+  },
+
+  "scopedSlots": {
+    "item": {
+      "desc": "Slot to use for defining an item when in 'grid' mode; Suggestion: QCard"
+    },
+
+    "body": {
+      "desc": "Slot to define how a body row looks like; Suggestion: QTr + Td"
+    },
+
+    "body-cell": {
+      "desc": "Slot to define how all body cells look like; Suggestion: QTd"
+    },
+
+    "top-row": {
+      "desc": "Slot to define how top extra row looks like"
+    },
+
+    "bottom-row": {
+      "desc": "Slot to define how bottom extra row looks like"
+    },
+
+    "body-cell-[name]": {
+      "desc": "Slot to define how a specific column cell looks like; replace '[name]' with column name (from columns definition object)"
+    },
+
+    "bottom": {
+      "desc": "Slot to define how table bottom looks like"
+    },
+
+    "pagination": {
+      "desc": "Slot to override default pagination label and buttons"
+    },
+
+    "header": {
+      "desc": "Slot to define how header looks like; Suggestion: QTr + QTh"
+    },
+
+    "header-cell": {
+      "desc": "Slot to define how each header cell looks like; Suggestion: QTh"
+    },
+
+    "top-left": {
+      "desc": "Slot to define how left part of the table top looks like"
+    },
+
+    "top-right": {
+      "desc": "Slot to define how right part of the table top looks like"
+    },
+
+    "top-selection": {
+      "desc": "Slot to define how top table section looks like when user has selected at least one row"
+    }
+  },
+
+  "events": {
+    "request": {
+      "desc": "Emitted when a server request is triggered",
+      "params": {
+        "pagination": {
+          "type": "Object",
+          "desc": "Pagination object"
+        },
+        "filter": {
+          "type": "Function",
+          "desc": "Filter method"
+        },
+        "getCellValue": {
+          "type": "Function",
+          "desc": "(col, row) => cell formatted value"
+        }
+      }
+    },
+
+    "update:pagination": {
+      "desc": "Used by Vue on 'pagination.sync' prop for updating its value",
+      "params": {
+        "newPagination": {
+          "type": "Object",
+          "desc": "The updated pagination object"
+        }
+      }
+    },
+
+    "update:selected": {
+      "desc": "Used by Vue on 'selected.sync' prop for updating its value",
+      "params": {
+        "newPagination": {
+          "type": "Array",
+          "desc": "The updated selected array"
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "requestServerInteraction": {
+      "desc": "Trigger a server request (emits 'request' event)",
+      "params": {
+        "props": {
+          "type": "Object",
+          "desc": "Contains optional 'pagination' Object and/or 'filter' Function"
+        }
+      }
+    },
+
+    "setPagination": {
+      "desc": "Unless using an external pagination Object (through 'pagination.sync' prop), you can use this method and force the internal pagination to change",
+      "params": {
+        "value": {
+          "type": "Object",
+          "desc": "Pagination object",
+          "required": true
+        },
+        "forceServerRequest": {
+          "type": "Boolean",
+          "desc": "Also force a server request"
+        }
+      }
+    },
+
+    "prevPage": {
+      "desc": "Navigates to previous page, if available"
+    },
+
+    "nextPage": {
+      "desc": "Navigates to next page, if available"
+    },
+
+    "isRowSelected": {
+      "desc": "Determine if a row has been selected by user",
+      "params": {
+        "key": {
+          "type": "Any",
+          "desc": "Row key value",
+          "required": true
+        }
+      }
+    },
+
+    "clearSelection": {
+      "desc": "Clears user selection (emits 'update:selected' with empty array)"
+    },
+
+    "sort": {
+      "desc": "Trigger a table sort",
+      "params": {
+        "col": {
+          "type": "String or Object",
+          "desc": "Column name or column definition object",
+          "required": true
+        }
+      }
+    }
+  }
+}

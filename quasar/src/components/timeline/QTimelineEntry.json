@@ -1,0 +1,49 @@
+{
+  "props": {
+    "heading": {
+      "type": "Boolean",
+      "desc": "Defines a heading timeline item"
+    },
+
+    "tag": {
+      "type": "String",
+      "desc": "Tag to use, if of type 'heading' only",
+      "default": "h3",
+      "examples": [ "h1" ]
+    },
+
+    "side": {
+      "type": "String",
+      "desc": "Side to place the timeline entry",
+      "default": "right",
+      "values": [ "left", "right" ],
+      "examples": [ "left" ]
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "title": {
+      "type": "String",
+      "desc": "Title of timeline entry",
+      "examples": [ "December party" ]
+    },
+
+    "subtitle": {
+      "type": "String",
+      "desc": "Subtitle of timeline entry",
+      "examples": [ "All invited" ]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Timeline entry content"
+    }
+  }
+}

@@ -1,0 +1,88 @@
+ie_style = @block
+  /* Inputs */
+  .q-if > .q-if-inner
+    flex-basis auto
+    display inline-flex
+    > div
+      > .q-input-target
+        flex-basis auto
+      > input.q-input-target
+        min-width 6rem
+        flex-basis 0% !important
+  .q-input-target:before
+    display block
+
+  /* QEditor */
+  .q-editor-toolbar
+    .q-btn-group.row.inline
+      display block
+      white-space nowrap
+
+  /* Min Height */
+  .q-toolbar
+  .q-actionsheet-title
+  .q-field-label-inner
+    height 0px
+
+  /* QCarousel */
+  .q-carousel-slide
+    max-width 100%
+
+  /* QBtn */
+  .q-btn__content
+    position relative
+    flex-basis auto
+    pointer-events none
+  a.q-btn:not(.q-btn--round)
+    height 0px
+  .q-btn-group > .q-btn.q-btn--push:not(.disabled)
+    &:active .q-btn__content
+    &.active .q-btn__content
+      margin 0
+
+  /* QChip */
+  .q-chip:not(.q-chip-small):not(.q-chip-dense) .q-chip-main
+    line-height $chip-height
+  .q-btn .q-chip
+    display inline-block
+  .q-tab .q-chip .q-chip-main
+    line-height normal
+
+  /* QFab */
+  .q-fab__actions
+    &.q-fab-left
+    &.q-fab-right
+      display block
+      white-space nowrap
+
+  /* QList */
+  .q-item-main
+    min-width 1px
+
+  /* QLayout Drawer Mini*/
+  .q-layout__drawer--mini .q-item
+    padding-left 0
+    padding-right 0
+
+  /* QSpinner */
+  .q-spinner
+    &:not(.q-spinner-mat)
+      animation q-ie-spinner 2s linear infinite /* rtl:ignore */
+      transform-origin center center /* rtl:ignore */
+      opacity .5
+    &.q-spinner-mat .path
+      stroke-dasharray 89, 200
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+  {ie_style}
+
+@supports (-ms-ime-align:auto)
+  {ie_style}
+
+@keyframes q-ie-spinner
+  0%
+    opacity .5
+  50%
+    opacity 1
+  100%
+    opacity .5

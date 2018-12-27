@@ -1,0 +1,89 @@
+{
+  "props": {
+    "value": {
+      "type": "Number",
+      "desc": "Model of the component (must be between min/max); Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [ "v-model=\"positionModel\"" ]
+    },
+
+    "min": {
+      "type": "Number",
+      "desc": "Minimum value of the model",
+      "default": 0,
+      "examples": [ ":min=\"0\"" ]
+    },
+
+    "max": {
+      "type": "Number",
+      "desc": "Maximum value of the model",
+      "default": 100,
+      "examples": [ ":max=\"100\"" ]
+    },
+
+    "step": {
+      "type": "Number",
+      "desc": "Specify step amount between valid values (> 0.0); When step equals to 0 it defines infinite granularity",
+      "default": 1,
+      "examples": [ ":step=\"1\"" ]
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "label": {
+      "type": "Boolean",
+      "desc": "Popup a label when user clicks/taps on the slider thumb and moves it"
+    },
+
+    "label-color": {
+      "extends": "color"
+    },
+
+    "label-always": {
+      "type": "Boolean",
+      "desc": "Always display the label"
+    },
+
+    "markers": {
+      "type": "Boolean",
+      "desc": "Display markers on the track, one for each possible value for the model"
+    },
+
+    "snap": {
+      "type": "Boolean",
+      "desc": "Snap on valid values, rather than sliding freely; Suggestion: use with 'step' prop"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    },
+
+    "change": {
+      "extends": "input",
+      "desc": "Emitted on lazy model value change (after user slides then releases the thumb)"
+    }
+  }
+}

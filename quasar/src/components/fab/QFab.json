@@ -1,0 +1,107 @@
+{
+  "props": {
+    "icon": {
+      "extends": "icon"
+    },
+
+    "active-icon": {
+      "extends": "icon"
+    },
+
+    "direction": {
+      "type": "String",
+      "desc": "Direction to expand Fab Actions to",
+      "default": "right",
+      "values": [ "top", "right", "bottom", "left" ],
+      "examples": [ "bottom" ]
+    },
+
+    "persistent": {
+      "type": "Boolean",
+      "desc": "By default, Fab Actions are hidden when user navigates to another route and this prop disables this behavior"
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design for Fab button"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design for Fab button"
+    },
+
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design for Fab button"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "glossy": {
+      "type": "Boolean",
+      "desc": "Apply the glossy effect over the button"
+    },
+
+    "value": {
+      "type": "Boolean",
+      "desc": "Controls state of fab actions (showing/hidden); Works best with v-model directive, otherwise use along listening to 'input' event"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where QFabActions may go into"
+    },
+
+    "tooltip": {
+      "desc": "Slot specifically designed for a QTooltip"
+    }
+  },
+
+  "events": {
+    "input": {
+      "desc": "Emitted when fab actions are shown/hidden; Captured by v-model directive",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "desc": "State of fab actions (showing/hidden)"
+        }
+      }
+    },
+
+    "show": {
+      "extends": "show"
+    },
+
+    "before-show": {
+      "extends": "before-show"
+    },
+
+    "hide": {
+      "extends": "hide"
+    },
+
+    "before-hide": {
+      "extends": "before-hide"
+    }
+  },
+
+  "methods": {
+    "show": {
+      "extends": "show",
+      "desc": "Expands fab actions list"
+    },
+
+    "hide": {
+      "extends": "hide",
+      "desc": "Collapses fab actions list"
+    }
+  }
+}

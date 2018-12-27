@@ -1,0 +1,19 @@
+.q-select
+  &--without-input
+    .q-field__control
+      cursor pointer
+  &--with-input
+    .q-field__control
+      cursor text
+
+  &__input
+    border 0
+    outline 0 !important // needed for FF
+    background transparent
+    min-width 50px !important
+
+    &--padding
+      padding-left 4px
+
+  &__dropdown-icon
+    cursor pointer

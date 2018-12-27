@@ -1,0 +1,27 @@
+.q-spinner
+  vertical-align middle
+
+.q-spinner-mat
+  animation q-spin 2s linear infinite /* rtl:ignore */
+  transform-origin center center /* rtl:ignore */
+  .path
+    stroke-dasharray 1, 200
+    stroke-dashoffset 0
+    animation q-mat-dash 1.5s ease-in-out infinite /* rtl:ignore */
+
+@keyframes q-spin
+  0%
+    transform rotate3d(0, 0, 1, 0deg) /* rtl:ignore */
+  100%
+    transform rotate3d(0, 0, 1, 359deg) /* rtl:ignore */
+
+@keyframes q-mat-dash
+  0%
+    stroke-dasharray 1, 200
+    stroke-dashoffset 0
+  50%
+    stroke-dasharray 89, 200
+    stroke-dashoffset -35px
+  100%
+    stroke-dasharray 89, 200
+    stroke-dashoffset -124px

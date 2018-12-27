@@ -1,0 +1,38 @@
+{
+  "props": {
+    "showing": {
+      "type": "Boolean",
+      "desc": "State - loading or not"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "size": {
+      "extends": "size",
+      "desc": "Size in CSS units, including unit name, for Spinner (unless using the default slot)",
+      "default": "42px"
+    },
+
+    "transition-show": {
+      "extends": "transition",
+      "default": "fade"
+    },
+
+    "transition-hide": {
+      "extends": "transition",
+      "default": "fade"
+    },
+
+    "dark": {
+      "extends": "dark"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot is used for replacing default Spinner; Suggestions: a spinner or text"
+    }
+  }
+}

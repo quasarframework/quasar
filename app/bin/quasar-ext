@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+
+const
+  parseArgs = require('minimist')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    a: 'add',
+    r: 'remove',
+    s: 'skip-pkg',
+
+    h: 'help'
+  },
+  boolean: ['h', 's'],
+  string: ['a', 'r']
+})
+
+if (argv.help) {
+  console.log(`
+  Description
+    Manage Quasar App Extensions
+
+  Usage
+    $ quasar ext [-a|-r]
+
+  Options
+    --add, -a        Add Quasar App Extension
+    --remove, -r     Remove Quasar App Extension
+    --skip-pkg       Skip yarn/npm package install/uninstall
+    --help, -h       Displays this message
+  `)
+  process.exit(0)
+}
+
+const
+  logger = require('../lib/helpers/logger'),
+  warn = logger('app:extension', 'red')
+
+async function run () {
+  const name = argv.add || argv.remove
+  if (name) {
+    if (!name || !name.length) {
+      warn(`⚠️  Please specify app cli extension name`)
+      process.exit(1)
+    }
+
+    const Extension = require('../lib/app-extension/Extension')
+    const extension = new Extension(name)
+
+    await extension[argv.add ? 'install' : 'uninstall'](argv['skip-pkg'])
+    process.exit(0)
+  }
+
+  const extensionJson = require('../lib/app-extension/extension-json')
+  extensionJson.list()
+}
+
+run()

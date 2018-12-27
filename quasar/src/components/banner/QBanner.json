@@ -1,0 +1,30 @@
+{
+  "props": {
+    "inline-actions": {
+      "type": "Boolean",
+      "desc": "Display actions on same row as content"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "rounded": {
+      "extends": "rounded"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where Banner content goes"
+    },
+
+    "avatar": {
+      "desc": "Slot for displaying an avatar (suggestions: QIcon, QAvatar)"
+    },
+
+    "actions": {
+      "desc": "Slot for Banner action (suggestions: QBtn)"
+    }
+  }
+}

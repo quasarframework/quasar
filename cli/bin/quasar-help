@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+console.log()
+console.log(
+  require('fs').readFileSync(
+    require('path').join(__dirname, '../assets/logo.art'),
+    'utf8'
+  )
+)
+
+const chalk = require('chalk')
+
+console.log(`
+  Example usage
+    $ quasar <command> <options>
+
+  Help for a command
+    $ quasar <command> --help
+    $ quasar <command> -h
+
+  Options
+    --version, -v Print Quasar CLI version
+
+  Commands
+    create        Create a project folder
+    info          Display info about your machine
+                  (and your App if in a project folder)
+    serve         Create an ad-hoc server on App's distributables
+    help          Displays this message
+
+  ${chalk.italic('Trigger this inside of a Quasar project for more commands.')}
+`)

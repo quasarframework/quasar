@@ -1,0 +1,40 @@
+.q-splitter
+
+  &__panel > .q-splitter
+    width 100%
+    height 100%
+
+  &__separator
+    background currentColor
+    user-select none
+    position relative
+    z-index 1
+
+  &--vertical
+    > .q-splitter__panel
+      height 100%
+    &.q-splitter--active
+      cursor col-resize
+    > .q-splitter__separator
+      width 1px
+      > div
+        left -6px
+        right -6px
+    &.q-splitter--workable > .q-splitter__separator
+      cursor col-resize
+
+  &--horizontal
+    > .q-splitter__panel
+      width 100%
+    &.q-splitter--active
+      cursor row-resize
+    > .q-splitter__separator
+      height 1px
+      > div
+        top -6px
+        bottom -6px
+    &.q-splitter--workable > .q-splitter__separator
+      cursor row-resize
+
+  &__before, &__after
+    overflow auto

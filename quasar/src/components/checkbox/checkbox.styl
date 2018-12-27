@@ -1,0 +1,125 @@
+$checkbox-transition = .22s cubic-bezier(0,0,.2,1) 0ms
+
+.q-checkbox
+  vertical-align middle
+
+  &__bg
+    left 11px
+    top 11px
+    right auto
+    bottom 0
+    width 45%
+    height 45%
+    border 2px solid currentColor
+    border-radius 2px
+    transition background $checkbox-transition
+
+  &__native
+    width 1px
+    height 1px
+
+  &__label
+    padding-left 4px
+    font-size 14px
+    line-height 20px
+
+  &.reverse &__label
+    padding-right 4px
+
+  &__check
+    color white
+
+    path
+      stroke currentColor
+      stroke-width 3.12px
+      stroke-dashoffset 29.78334
+      stroke-dasharray 29.78334
+
+  &__check-indet
+    width 100%
+    height 0
+    left 0
+    top 50%
+    border-color white
+    border-width 1px
+    border-style solid
+    transform translate3d(0, -50%, 0) rotate3d(0, 0, 1, -280deg) scale3d(0, 0, 0)
+
+  &__inner
+    width 40px
+    height 40px
+    padding 11px
+    outline 0
+    border-radius 50%
+    color rgba(0, 0, 0, .54)
+
+    &--active, &--indeterminate
+      color $primary
+      .q-checkbox__bg
+        background currentColor
+
+    &--active
+      path
+        stroke-dashoffset 0
+        transition stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms
+
+    &--indeterminate
+      .q-checkbox__check-indet
+        transform translate3d(0, -50%, 0) rotate3d(0, 0, 1, 0) scale3d(1, 1, 1)
+        transition transform $checkbox-transition
+
+  &.disabled
+    opacity 1 !important
+    .q-checkbox__inner, .q-checkbox__label
+      color rgba(0, 0, 0, .26)
+    .q-checkbox__inner--active .q-checkbox__bg
+      border-color transparent
+
+  &--dark
+    .q-checkbox__inner
+      color rgba(255, 255, 255, .7)
+      &:before
+        opacity .32 !important
+      &--active, &--indeterminate
+        color $primary
+
+    &.disabled
+      .q-checkbox__inner, .q-checkbox__label
+        color rgba(255, 255, 255, .3)
+
+  &--dense
+
+    .q-checkbox__inner
+      width 20px
+      height 20px
+      padding 0
+
+    .q-checkbox__bg
+      left 1px
+      top 1px
+      width 18px
+      height 18px
+
+body.desktop
+
+  .q-checkbox
+    &__inner:before
+      content ''
+      position absolute
+      top 0
+      right 0
+      bottom 0
+      left 0
+      border-radius 50%
+      background currentColor
+      opacity .12
+      transform scale3d(0, 0, 0)
+      transition transform $option-focus-transition
+
+    &:focus
+      .q-checkbox__inner:before
+        transform scale3d(1, 1, 1)
+
+    &--dense:focus .q-checkbox__inner:before
+      transform scale3d(2, 2, 2)
+

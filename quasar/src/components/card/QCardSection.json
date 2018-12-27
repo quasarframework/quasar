@@ -1,0 +1,7 @@
+{
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

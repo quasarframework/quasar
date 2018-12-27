@@ -1,0 +1,188 @@
+#!/usr/bin/env node
+
+const
+  parseArgs = require('minimist'),
+  chalk = require('chalk')
+
+const
+  appPaths = require('../lib/app-paths'),
+  logger = require('../lib/helpers/logger'),
+  warn = logger('app:describe', 'red')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    h: 'help'
+  },
+  boolean: ['h']
+})
+
+const item = argv._[0]
+
+if (!item || argv.help) {
+  console.log(`
+  Description
+    Describes a component API for project's Quasar version being used
+
+  Usage
+    $ quasar describe <component-name>
+
+    $ quasar describe QIcon
+
+  Options
+    --help, -h     Displays this message
+  `)
+  process.exit(0)
+}
+
+function getApi (item) {
+  try {
+    const api = require(
+      require.resolve(`quasar/dist/api/${item}.json`, {
+        paths: [ appPaths.appDir ]
+      })
+    )
+    return api
+  }
+  catch (e) {
+    warn(`No API found for requested "${item}"`)
+    warn()
+    process.exit(1)
+  }
+}
+
+function getEventParams (event) {
+  const params = event.params === void 0 || event.params.length === 0
+    ? ''
+    : Object.keys(event.params).join(', ')
+
+  return ' -> function(' + params + ')'
+}
+
+function getMethodParams (method) {
+  if (method.params === void 0 || method.params.length === 0) {
+    return ' ()'
+  }
+
+  const params = Object.keys(method.params)
+  const optionalIndex = params.findIndex(param => method.params[param].required !== true)
+
+  const str = optionalIndex !== -1
+    ? params.slice(0, optionalIndex).join(', ') +
+      (optionalIndex < params.length
+        ? '[' + (optionalIndex > 0 ? ', ' : '') + params.slice(optionalIndex).join(', ') + ']'
+        : '')
+    : params.join(', ')
+
+  return ' (' + str + ')'
+}
+
+function describeComponent (api) {
+  console.log('\n ' + chalk.underline('Properties'))
+  if (api.props === void 0 || Object.keys(api.props).length === 0) {
+    console.log('\n   ' + chalk.italic('*No properties*'))
+  }
+  else {
+    for (let propName in api.props) {
+      const prop = api.props[propName]
+      console.log(`\n ${prop.required ? chalk.red('*') : ' '} ${chalk.green(propName)} (${prop.type})${prop.required ? chalk.red(' [Required]') : ''}`)
+      console.log(`     ${prop.desc}`)
+      if (prop.link) {
+        console.log(`     Link: ${prop.link}`)
+      }
+      if (prop.values) {
+        console.log(`     Values: [ '${prop.values.join(`' '`)}' ]`)
+      }
+      if (prop.default !== void 0) {
+        console.log(`     Default value: ${prop.default}`)
+      }
+      if (prop.values === void 0 && prop.examples !== void 0) {
+        console.log(`     Examples:`)
+        prop.examples.forEach(example => {
+          console.log(`       ${example}`)
+        })
+      }
+    }
+  }
+
+  console.log('\n ' + chalk.underline('Slots'))
+  if (api.slots === void 0 || Object.keys(api.slots).length === 0) {
+    console.log('\n   ' + chalk.italic('*No slots*'))
+  }
+  else {
+    for (let slot in api.slots) {
+      console.log('\n   ' + chalk.green(slot))
+      console.log('     ' + api.slots[slot].desc)
+    }
+  }
+
+  console.log('\n ' + chalk.underline('Scoped Slots'))
+  if (api.scopedSlots === void 0 || Object.keys(api.scopedSlots).length === 0) {
+    console.log('\n   ' + chalk.italic('*No scoped slots*'))
+  }
+  else {
+    for (let slot in api.scopedSlots) {
+      console.log('\n   ' + chalk.green(slot))
+      console.log('     ' + api.scopedSlots[slot].desc)
+    }
+  }
+
+  console.log('\n ' + chalk.underline('Events'))
+  if (api.events === void 0 || Object.keys(api.events).length === 0) {
+    console.log('\n   ' + chalk.italic('*No events*'))
+  }
+  else {
+    for (let eventName in api.events) {
+      const event = api.events[eventName]
+      console.log('\n   @' + chalk.green(eventName) + getEventParams(event))
+      console.log('     ' + event.desc)
+      if (!event.params) {
+        console.log('     Parameters: ' + chalk.italic('*None*'))
+      }
+      else {
+        console.log('     Parameters:')
+        for (let paramName in event.params) {
+          const param = event.params[paramName]
+          console.log(`       - ${paramName} (${param.type})`)
+          console.log(`           ${param.desc}`)
+        }
+      }
+    }
+  }
+
+  console.log('\n ' + chalk.underline('Methods'))
+  if (api.methods === void 0 || Object.keys(api.methods).length === 0) {
+    console.log('\n   ' + chalk.italic('*No methods*'))
+  }
+  else {
+    for (let methodName in api.methods) {
+      const method = api.methods[methodName]
+      console.log('\n   ' + chalk.green(methodName) + getMethodParams(method))
+      console.log('     ' + method.desc)
+      if (!method.params) {
+        console.log('     Parameters: ' + chalk.italic('*None*'))
+      }
+      else {
+        console.log('     Parameters:')
+        for (let paramName in method.params) {
+          const param = method.params[paramName]
+          console.log(`       - ${paramName} (${param.type})${param.required ? chalk.red(' [Required]') : ''}`)
+          console.log(`           ${param.desc}`)
+        }
+      }
+    }
+  }
+}
+
+function describe (api) {
+  if (api.type === 'component') {
+    describeComponent(api)
+  }
+}
+
+const api = getApi(item)
+
+console.log()
+console.log(` Describing ${chalk.green(item)} ${api.type} API`)
+console.log(` ${chalk.italic(`Description is based on your project's Quasar version`)}`)
+describe(api)
+console.log()

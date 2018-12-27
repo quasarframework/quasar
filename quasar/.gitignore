@@ -1,0 +1,14 @@
+.DS_Store
+.Thumbs.db
+node_modules/
+dev-umd/dist
+dist/
+deploy/
+npm-debug.log
+test/unit/coverage/
+test/e2e/dist/
+cordova
+*.sublime*
+.idea/
+debug.log
+package-lock.json

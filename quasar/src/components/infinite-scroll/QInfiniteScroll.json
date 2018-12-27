@@ -1,0 +1,66 @@
+{
+  "props": {
+    "offset": {
+      "type": "Number",
+      "desc": "Offset (pixels) to bottom of Infinite Scroll container from which the component should start loading more content in advance",
+      "default": 500,
+      "examples": [ ":offset=\"250\"" ]
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+
+  "events": {
+    "load": {
+      "desc": "Emitted when Infinite Scroll needs to load more data",
+      "params": {
+        "index": {
+          "type": "Number",
+          "desc": "The index parameter can be used to make some sort of pagination on the content you load. It takes numeric values starting with 1 and incrementing with each call"
+        },
+        "done": {
+          "type": "Function",
+          "desc": "Function to call when you made all necessary updates. DO NOT forget to call it otherwise your loading message will continue to be displayed"
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "poll": {
+      "desc": "Checks scroll position and loads more content if necessary"
+    },
+
+    "trigger": {
+      "desc": "Tells Infinite Scroll to load more content, regardless of the scroll position"
+    },
+
+    "reset": {
+      "desc": "Resets calling index to 0"
+    },
+
+    "stop": {
+      "desc": "Stops working, regardless of scroll position"
+    },
+
+    "resume": {
+      "desc": "Starts working. Checks scroll position upon call and if trigger is hit, it loads more content"
+    },
+
+    "updateScrollTarget": {
+      "desc": "Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    },
+
+    "message": {
+      "desc": "Slot for replacing the default scroll message (QSpinner)"
+    }
+  }
+}

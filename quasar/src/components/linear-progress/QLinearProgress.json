@@ -1,0 +1,59 @@
+{
+  "props": {
+    "value": {
+      "type": "Number",
+      "desc": "Progress value (0.0 < x < 1.0)",
+      "default": 0,
+      "examples": [ ":value=\"0.28\"" ]
+    },
+
+    "buffer": {
+      "type": "Number",
+      "desc": "Optional buffer value (0.0 < x < 1.0)",
+      "examples": [ ":buffer=\"0.78\"" ]
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "track-color": {
+      "extends": "color",
+      "desc": "Color name for component's track from the Quasar Color Palette"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "reverse":  {
+      "type": "Boolean",
+      "desc": "Reverse direction of progress"
+    },
+
+    "stripe": {
+      "type": "Boolean",
+      "desc":  "Draw stripes"
+    },
+
+    "indeterminate": {
+      "type": "Boolean",
+      "desc": "Put component into indeterminate mode"
+    },
+
+    "query": {
+      "type": "Boolean",
+      "desc": "Put component into query mode"
+    },
+
+    "rounded": {
+      "extends": "rounded"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QTooltip"
+    }
+  }
+}

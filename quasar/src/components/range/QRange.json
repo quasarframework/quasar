@@ -1,0 +1,110 @@
+{
+  "props": {
+    "value": {
+      "type": "Object",
+      "desc": "Model of the component of type { min, max } (both values must be between global min/max); Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [ "v-model=\"positionModel\"" ]
+    },
+
+    "min": {
+      "type": "Number",
+      "desc": "Minimum value of the model",
+      "default": 0,
+      "examples": [ ":min=\"0\"" ]
+    },
+
+    "max": {
+      "type": "Number",
+      "desc": "Maximum value of the model",
+      "default": 100,
+      "examples": [ ":max=\"100\"" ]
+    },
+
+    "step": {
+      "type": "Number",
+      "desc": "Specify step amount between valid values (> 0.0); When step equals to 0 it defines infinite granularity",
+      "default": 1,
+      "examples": [ ":step=\"1\"" ]
+    },
+
+    "drag-range": {
+      "type": "Boolean",
+      "desc": "User can drag range instead of just the two thumbs"
+    },
+
+    "drag-range-only": {
+      "type": "Boolean",
+      "desc": "User can drag only the range instead and NOT the two thumbs"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "label": {
+      "type": "Boolean",
+      "desc": "Popup labels (for left and right thumbs) when user clicks/taps on the slider thumb and moves it"
+    },
+
+    "label-color": {
+      "extends": "color",
+      "desc": "Color name for labels background from the Quasar Color Palette; Applies to both labels, unless specific label color props are used"
+    },
+
+    "left-label-color": {
+      "extends": "color",
+      "desc": "Color name for left label background from the Quasar Color Palette"
+    },
+
+    "right-label-color": {
+      "extends": "color",
+      "desc": "Color name for right label background from the Quasar Color Palette"
+    },
+
+    "label-always": {
+      "type": "Boolean",
+      "desc": "Always display the labels"
+    },
+
+    "markers": {
+      "type": "Boolean",
+      "desc": "Display markers on the track, one for each possible value for the model"
+    },
+
+    "snap": {
+      "type": "Boolean",
+      "desc": "Snap thumbs on valid values, rather than sliding freely; Suggestion: use with 'step' prop"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    },
+
+    "change": {
+      "extends": "input",
+      "desc": "Emitted on lazy model value change (after user slides then releases thumb)"
+    }
+  }
+}
