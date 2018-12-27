@@ -20,28 +20,26 @@
 
     "vertical": {
       "type": "Boolean",
-      "desc": "Set Stepper as vertical instead of default horizontal."
+      "desc": "Put Stepper in vertical mode (instead of horizontal by default)"
     },
 
     "alternative-labels": {
       "type": "Boolean",
-      "desc": "Use alternative labels (applies only to horizontal stepper)."
+      "desc": "Use alternative labels (applies only to horizontal stepper)"
     },
 
     "header-nav": {
       "type": "Boolean",
-      "desc": "Allow navigation through the header."
+      "desc": "Allow navigation through the header"
     },
 
     "contractable": {
       "type": "Boolean",
-      "desc": "Hide labels on narrow windows."
-
+      "desc": "Hide header labels on narrow windows"
     },
 
     "done-icon": {
-      "type": "Boolean",
-      "desc": "Show or hide the 'done' icon for any 'done' step."
+      "extends": "icon"
     },
 
     "done-color": {
@@ -49,8 +47,7 @@
     },
 
     "active-icon": {
-      "type": "Boolean",
-      "desc": "Show or hide the 'active' icon for any 'active' step."
+      "extends": "icon"
     },
 
     "active-color": {
@@ -58,8 +55,7 @@
     },
 
     "error-icon": {
-      "type": "Boolean",
-      "desc": "Show or hide the 'error' icon for any 'error' step."
+      "extends": "icon"
     },
 
     "error-color": {
@@ -70,18 +66,10 @@
   "slots": {
     "default": {
       "desc": "Suggestion: QStep"
-    }
-  },
-
-  "events": {
-    "input": {
-      "desc": "Emitted when component's model changes (current panel name); Is also used by v-model",
-      "params": {
-        "value": {
-          "type": "String or Number",
-          "desc": "New current panel name"
-        }
-      }
+    },
+    
+    "navigation": {
+      "desc": "Slot specific for the global navigation; Suggestion: QStepperNavigation"
     }
   }
 }
