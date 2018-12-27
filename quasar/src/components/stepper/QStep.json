@@ -1,18 +1,7 @@
 {
+  "mixins": [ "mixins/panel-child" ],
+
   "props": {
-    "name": {
-      "type": "Number or String",
-      "desc": "Step name",
-      "required": true,
-      "examples": [
-        "payment", "firstStep", ":name=\"1\""
-      ]
-    },
-
-    "disable": {
-      "extends": "disable"
-    },
-
     "icon": {
       "extends": "icon"
     },
@@ -40,51 +29,51 @@
 
     "done-icon": {
       "type": "Boolean",
-      "desc": ""
+      "desc": "Show or hide the 'done' icon."
     },
 
     "done-color": {
-
+      "extends": "color"
     },
 
     "active-icon": {
-
+      "type": "Boolean",
+      "desc": "Show or hide the 'active' icon."
     },
 
     "active-color": {
-
+      "extends": "color"
     },
 
     "error-icon": {
-
+      "type": "Boolean",
+      "desc": "Show or hide the 'error' icon."
     },
 
     "error-color": {
-
+      "extends": "color"
     },
 
     "header-nav": {
-
+      "type": "Boolean",
+      "default": true,
+      "desc": "Allow navigation through the header."
     },
 
     "done": {
-
+      "type": "Boolean",
+      "desc": "Mark the step as 'done'."
     },
 
     "error": {
-
+      "type": "Boolean",
+      "desc": "Mark the step as having an error."
     }
   },
 
   "slots": {
-
-  },
-
-  "events": {
-
-  },
-
-  "methods": {
-
+    "default": {
+      "desc": "The content of the step. Can contain a QStepperNavigation if you want to override the default navigation."
+    }
   }
 }
