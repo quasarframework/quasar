@@ -1,0 +1,125 @@
+{
+  "props": {
+    "value": {
+      "type": "Any",
+      "extends": "value"
+    },
+
+    "type":{
+      "type": "String",
+      "desc": "Define the button HTML DOM type.",
+      "values": [ "a", "submit", "button", "reset" ],
+      "examples": [ "button" ]
+    },
+
+    "size": {
+      "extends": "size",
+      "desc": "Button size as one of the examples or a css unit string size.",
+      "examples": ["xs", "sm", "md", "lg", "xl", "form", "form-label", "form-hide-underline", "form-label-hide-underline", "form-inverted", "form-label-inverted", "25px", "2rem", "3vw"]
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "toggle-color": {
+      "type": "String",
+      "desc": "The toggle fill color. Based on Quasar collor palette.",
+      "examples": ["primary","red","green"],
+      "default": "primary"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design for button."
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "flat": {
+      "extends": "flat"
+    },
+
+    "round": {
+      "type": "Boolean",
+      "desc": "Make the button round."
+    },
+
+    "unelevated": {
+      "type": "Boolean",
+      "desc": "Make the button flat with no shadow."
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design for button."
+    },
+
+    "stack": {
+      "type": "Boolean",
+      "desc": "Make the buttons stacked on each other like rows."
+    },
+
+    "stretch": {
+      "type": "Boolean",
+      "desc": "Make the button takes the whole parent height, as a flexbox streched element."
+    },
+
+    "rounded": {
+      "extends": "rounded"
+    },
+
+    "no-wrap": {
+      "type": "Boolean",
+      "desc": "Prevents the text from wrapping."
+    },
+
+    "no-caps": {
+      "type": "Boolean",
+      "desc": "Define as true if you dont want the material design uppercase letter."
+    },
+
+    "ripple": {
+      "extends": "ripple"
+    },
+
+
+    "disable": {
+      "extends": "disable"
+    },
+
+
+    "read-only": {
+      "extends": "read-only"
+    }
+
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    },
+
+    "loading": {
+      "desc": "Slot for the loading spinner"
+    }
+  },
+
+  "events": {
+    "click": {
+      "desc": "Emitted on button click if 'disabled' property is not defined as 'true'",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object"
+        }
+      }
+    }
+  }
+}
