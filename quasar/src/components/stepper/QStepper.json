@@ -1,0 +1,116 @@
+{
+  "props": {
+    "value": {
+      "type": "String or Number",
+      "desc": "Model of the component defining current stepper's name; If used as Number, it does not define stepper index though but stepper names which may be an Integer; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [ "v-model=\"stepperName\"" ]
+    },
+
+    "animated": {
+      "type": "Boolean",
+      "desc": "Enable transitions between steps (also see 'transition-prev' and 'transition-next' props)"
+    },
+
+    "infinite": {
+      "type": "Boolean",
+      "desc": "Makes Stepper appear as infinite (when reaching last step, next one will become the first one)"
+    },
+
+    "swipeable": {
+      "type": "Boolean",
+      "desc": "Enable swipe events (may interfere with content's touch/mouse events)"
+    },
+
+    "transition-prev": {
+      "extends": "transition",
+      "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
+      "default": "fade"
+    },
+
+    "transition-next": {
+      "extends": "transition",
+      "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
+      "default": "fade"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "flat": {
+      "extends": "flat"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Set Stepper as vertical instead of default horizontal."
+    },
+
+    "alternative-labels": {
+      "type": "Boolean",
+      "desc": "Use alternative labels (applies only to horizontal stepper)."
+    },
+
+    "header-nav": {
+      "type": "Boolean",
+      "desc": "Set the ability to navigate to previous steps through header."
+    },
+
+    "contractable": {
+      "type": "Boolean",
+      "desc": "Labels are hidden on narrow windows."
+
+    },
+
+    "done-icon": {
+      "type": "Boolean",
+      "desc": ""
+    },
+
+    "done-color": {
+      "type": "String",
+      "desc": ""
+    },
+
+    "active-icon": {
+      "type": "Boolean",
+      "desc": ""
+    },
+
+    "active-color": {
+      "type": "String",
+      "desc": ""
+    },
+
+    "error-icon": {
+      "type": "Boolean",
+      "desc": ""
+    },
+
+    "error-color": {
+      "type": "String",
+      "desc": ""
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QStep"
+    }
+  },
+
+  "events": {
+  },
+
+  "methods": {
+
+  }
+}
