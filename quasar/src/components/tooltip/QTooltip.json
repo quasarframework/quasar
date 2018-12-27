@@ -1,10 +1,7 @@
 {
-  "props": {
-    "value": {
-      "type": "Boolean",
-      "desc": "Model of the component defining shown/hidden state; Either use this property (along with a listener for 'input' event) OR use v-model directive"
-    },
+  "mixins": [ "mixins/model-toggle" ],
 
+  "props": {
     "content-class": {
       "type": [ "Array", "String", "Object" ],
       "desc": "Class definitions to be attributed to the Tooltip",
@@ -65,6 +62,7 @@
       "type": "Boolean or String",
       "desc": "Configure a target element to trigger Tooltip toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) it attaches the events to the specified DOM element (if it exists)",
       "default": true,
+      "values": [ true, false, "(CSS selector)" ],
       "examples": [
         ":target=\"false\"",
         "target=\".my-parent\""
@@ -85,47 +83,7 @@
     }
   },
 
-  "events": {
-    "input": {
-      "desc": "Emitted when showing/hidden state changes; Is also used by v-model",
-      "params": {
-        "value": {
-          "type": "Boolean",
-          "desc": "New state (showing/hidden)"
-        }
-      }
-    },
-    
-    "show": {
-      "extends": "show"
-    },
-
-    "before-show": {
-      "extends": "before-show"
-    },
-
-    "hide": {
-      "extends": "hide"
-    },
-
-    "before-hide": {
-      "extends": "before-hide"
-    }
-  },
-
   "methods": {
-    "show": {
-      "extends": "show"
-    },
-
-    "hide": {
-      "extends": "hide"
-    },
-
-    "toggle": {
-      "extends": "toggle"
-    },
-
     "updatePosition": {
       "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the tooltip without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
     }

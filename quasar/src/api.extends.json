@@ -77,49 +77,6 @@
         "examples": [ "fade", "slide-down" ]
       },
 
-      "to": {
-        "type": "String or Object",
-        "desc": "Equivalent to Vue Router <router-link> 'to' property",
-        "examples": [
-          "/home/dashboard",
-          "{ name: 'my-route-name' }"
-        ]
-      },
-
-      "exact": {
-        "type": "Boolean",
-        "desc": "Equivalent to Vue Router <router-link> 'exact' property"
-      },
-
-      "append": {
-        "type": "Boolean",
-        "desc": "Equivalent to Vue Router <router-link> 'append' property"
-      },
-
-      "replace": {
-        "type": "Boolean",
-        "desc": "Equivalent to Vue Router <router-link> 'replace' property"
-      },
-
-      "active-class": {
-        "type": "String",
-        "desc": "Equivalent to Vue Router <router-link> 'active-class' property",
-        "examples": [ "my-active-class" ]
-      },
-
-      "exact-active-class": {
-        "type": "String",
-        "desc": "Equivalent to Vue Router <router-link> 'active-class' property",
-        "examples": [ "my-exact-active-class" ]
-      },
-
-      "ripple": {
-        "type": "Boolean or Object",
-        "desc": "Configure material ripple (disable it by setting it to 'false' or supply a config object)",
-        "default": true,
-        "examples": [ false, "{ center: true, color: 'teal' }" ]
-      },
-
       "value": {
         "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive"
       }

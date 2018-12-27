@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/router-link" ],
+
   "props": {
     "active": {
       "type": "Boolean",
@@ -46,30 +48,6 @@
 
     "disable": {
       "extends": "disable"
-    },
-
-    "to": {
-      "extends": "to"
-    },
-
-    "exact": {
-      "extends": "exact"
-    },
-
-    "append": {
-      "extends": "append"
-    },
-
-    "replace": {
-      "extends": "replace"
-    },
-
-    "active-class": {
-      "extends": "active-class"
-    },
-
-    "exact-active-class": {
-      "extends": "exact-active-class"
     }
   },
 

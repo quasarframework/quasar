@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/model-toggle" ],
+
   "props": {
     "side": {
       "type": "String",
@@ -110,16 +112,6 @@
   },
 
   "events": {
-    "input": {
-      "desc": "Emitted when drawer's shown/hidden state changes; Is also used by v-model",
-      "params": {
-        "state": {
-          "type": "Boolean",
-          "desc": "New shown/hidden state"
-        }
-      }
-    },
-
     "on-layout": {
       "desc": "Emitted when drawer toggles between occupying space on page or not",
       "params": {
@@ -143,36 +135,6 @@
     "mouseout": {
       "extends": "click",
       "desc": "Emitted when user moves mouse cursor out of the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
-    },
-
-    "show": {
-      "extends": "show"
-    },
-
-    "before-show": {
-      "extends": "before-show"
-    },
-
-    "hide": {
-      "extends": "hide"
-    },
-
-    "before-hide": {
-      "extends": "before-hide"
-    }
-  },
-
-  "methods": {
-    "show": {
-      "extends": "show"
-    },
-
-    "hide": {
-      "extends": "hide"
-    },
-
-    "toggle": {
-      "extends": "toggle"
     }
   }
 }
