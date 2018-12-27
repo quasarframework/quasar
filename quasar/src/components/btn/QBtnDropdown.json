@@ -1,5 +1,10 @@
 {
   "props": {
+    "value": {
+      "type": "Boolean",
+      "extends": "value"
+    },
+
     "icon": {
       "extends": "icon",
       "desc": "Icon to be used on the left side or as the button text."
@@ -14,17 +19,6 @@
       "type": "Boolean",
       "desc": "Set the button to loading state with a loading spinner.",
       "default": "false"
-    },
-
-    "percentage": {
-      "type": "Number",
-      "desc": "Optional property to be used along with loading, to determinate the progress.",
-      "examples": ["0"]
-    },
-
-    "dark-percentage": {
-      "extends": "dark",
-      "desc": "Optional property to display the percentage on a light button color."
     },
 
     "disable": {
@@ -148,25 +142,84 @@
       "desc": "Define as true if you dont want the material design uppercase letter."
     },
 
-    "ripple": {
-      "extends": "ripple"
-    }
-
-  },
-
-  "slots": {
-    "default": {
-      "extends": "default"
+    "cover": {
+      "type": "Boolean",
+      "desc": "Define if the dropdown menu will cover the button."
     },
 
-    "loading": {
-      "desc": "Slot for the loading spinner"
+    "ripple": {
+      "extends": "ripple"
+    },
+
+    "auto-close": {
+      "type": "Boolean",
+      "desc": "Close the dropdown menu automatically after click on an item or outside."
+    },
+
+    "persistent": {
+      "type": "Boolean",
+      "desc": "The dropdown menu will only close when clicked on the arrow button."
+    },
+
+    "menu-anchor": {
+      "type": "String",
+      "desc": "Where the dropdown display anchor of the button will be set.",
+      "examples": ["bottom right", "top left"],
+      "default": "bottom right"
+    },
+
+    "menu-self": {
+      "type": "String",
+      "desc": "Where the dropdown display anchor of it self will be set.",
+      "examples": ["top right", "bottom left"],
+      "default": "top left"
     }
+
   },
 
   "events": {
     "click": {
       "desc": "Emitted on button click if 'disabled' property is not defined as 'true'",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object"
+        }
+      }
+    },
+
+    "before-show": {
+      "desc": "Emitted before the dropdown shows.",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object"
+        }
+      }
+    },
+
+    "show": {
+      "desc": "Emitted on dropdown shows.",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object"
+        }
+      }
+    },
+
+    "before-hide": {
+      "desc": "Emitted before the dropdown hides.",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object"
+        }
+      }
+    },
+
+    "hide": {
+      "desc": "Emitted on dropdowns hide.",
       "params": {
         "evt": {
           "type": "Object",
