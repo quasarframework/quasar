@@ -2,7 +2,8 @@
   "props": {
     "value": {
       "type": "Any",
-      "extends": "value"
+      "extends": "value",
+      "examples": ["1", "joe"]
     },
 
     "type":{
@@ -96,7 +97,9 @@
 
 
     "read-only": {
-      "extends": "read-only"
+      "type": "Boolean",
+      "extends": "read-only",
+      "desc": "Make the toggle buttons on a read-only state."
     }
 
   },
