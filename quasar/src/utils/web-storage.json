@@ -1,0 +1,80 @@
+{
+  "methods": {
+    "has": {
+      "desc": "Check if storage item exists",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Entry key",
+          "required": true
+        }
+      }
+    },
+
+    "get.length": {
+      "desc": "Get storage number of entries"
+    },
+
+    "get.item": {
+      "desc": "Get a storage item",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Entry key",
+          "required": true
+        }
+      }
+    },
+
+    "get.index": {
+      "desc": "Get the storage item at specific index",
+      "params": {
+        "index": {
+          "type": "String",
+          "desc": "Entry index",
+          "required": true
+        }
+      }
+    },
+
+    "get.all": {
+      "desc": "Get all items in storage"
+    },
+
+    "set": {
+      "desc": "Set item in storage",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Entry key",
+          "required": true
+        },
+
+        "value": {
+          "type": "String",
+          "desc": "Entry value",
+          "required": true
+        }
+      }
+    },
+
+    "remove": {
+      "desc": "Remove a storage item",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "Storage key",
+          "required": true
+        }
+      }
+    },
+
+    "clear": {
+      "desc": "Remove everything from the storage"
+    },
+
+    "isEmpty": {
+      "desc": "Returns a Boolean telling if storage is empty or not"
+    }
+  }
+}

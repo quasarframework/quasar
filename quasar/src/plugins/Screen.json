@@ -80,7 +80,8 @@
       "params": {
         "breakpoints": {
           "type": "Object",
-          "desc": "Syntax (pick what you want to override): { xs: Number, sm: Number, md: Number, lg: Number, xl: Number }"
+          "desc": "Syntax (pick what you want to override): { xs: Number, sm: Number, md: Number, lg: Number, xl: Number }",
+          "required": true
         }
       }
     },

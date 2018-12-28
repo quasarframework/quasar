@@ -1,0 +1,80 @@
+{
+  "injection": "$q.cookies",
+
+  "methods": {
+    "get": {
+      "desc": "Get cookie",
+      "params": {
+        "name": {
+          "type": "String",
+          "desc": "Cookie name",
+          "required": true
+        }
+      }
+    },
+
+    "set": {
+      "desc": "Set cookie",
+      "params": {
+        "name": {
+          "type": "String",
+          "desc": "Cookie name",
+          "required": true
+        },
+
+        "value": {
+          "type": "String",
+          "desc": "Cookie value",
+          "required": true
+        },
+
+        "options": {
+          "type": "Object",
+          "desc": "Cookie options; Syntax: { expires: Number/String, path: String, domain: String, httpOnly: Boolean, secure: Boolean }"
+        }
+      }
+    },
+
+    "has": {
+      "desc": "Check if cookie exists",
+      "params": {
+        "name": {
+          "type": "String",
+          "desc": "Cookie name",
+          "required": true
+        }
+      }
+    },
+
+    "remove": {
+      "desc": "Remove a cookie",
+      "params": {
+        "name": {
+          "type": "String",
+          "desc": "Cookie name",
+          "required": true
+        },
+
+        "options": {
+          "type": "Object",
+          "desc": "Cookie options; Syntax: { path: String, domain: String, httpOnly: Boolean, secure: Boolean }"
+        }
+      }
+    },
+
+    "all": {
+      "desc": "Get all cookies"
+    },
+
+    "parseSSR": {
+      "desc": "For SSR usage only, and only on the global import (not on $q injection); Returns a SSR object same as the $q injection",
+      "params": {
+        "ssrContext": {
+          "type": "Object",
+          "desc": "SSR Context Object",
+          "required": true
+        }
+      }
+    }
+  }
+}
