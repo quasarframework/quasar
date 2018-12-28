@@ -2,6 +2,14 @@
   "mixins": [ "components/datetime/datetime-mixin" ],
 
   "props": {
+    "value": {
+      "extends": "value",
+      "desc": "Date of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [
+        "v-model=\"2018/11/03\"",
+        "v-model=\"currentDate\""
+      ]
+    },
     "default-year-month": {
       "type": "String",
       "desc": "The default year and month to display.",

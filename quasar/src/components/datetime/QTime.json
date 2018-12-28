@@ -2,6 +2,15 @@
   "mixins": [ "components/datetime/datetime-mixin" ],
 
   "props": {
+    "value": {
+      "extends": "value",
+      "desc": "Time of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [
+        "v-model=\"10:56:33\"",
+        "v-model=\"currentTime\""
+      ]
+    },
+
     "format24h": {
       "type": "Boolean",
       "desc": "Override default i18n setting. Use 24 hour time instead of AM/PM system, which is default."

@@ -1,13 +1,7 @@
 {
   "props": {
     "value": {
-      "type": "String or number",
-      "desc": "Date / time of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "examples": [
-        "v-model=\"2018/11/03\"",
-        "v-model=\"10:56:03\"",
-        "v-model=\"currentDate\""
-      ]
+      "type": "String"
     },
 
     "landscape": {
