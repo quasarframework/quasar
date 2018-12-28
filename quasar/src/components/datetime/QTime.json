@@ -1,0 +1,52 @@
+{
+  "mixins": [ "components/datetime/datetime-mixin" ],
+
+  "props": {
+    "format24h": {
+      "type": "Boolean",
+      "desc": "Override default i18n setting. Use 24 hour time instead of AM/PM system, which is default."
+    },
+
+    "options": {
+      "type": "Function",
+      "desc": "Sets the hours, minutes and seconds to be selectable. Hour, minute, and second are passed to a function that must return a Boolean. (Function(hr, min, sec) => Boolean)",
+      "examples": [
+        ":options=\"(hr, min, sec) => hr <= 6\""
+      ]
+    },
+
+    "hour-options": {
+      "type": "Array",
+      "desc": "Specify the hours that are selectable",
+      "examples": [
+        ":hour-options=\"[12, 3, 6, 9]\""
+      ]
+    },
+
+    "minute-options": {
+      "type": "Array",
+      "desc": "Specify the minutes that are selectable",
+      "examples": [
+        ":minute-options=\"[0, 15, 30, 45]\""
+      ]
+    },
+
+    "second-options": {
+      "type": "Array",
+      "desc": "Specify the seconds that are selectable",
+      "examples": [
+        ":second-options=\"[0, 10, 20, 30, 40, 50]\""
+      ]
+    },
+
+    "with-seconds": {
+      "type": "Boolean",
+      "desc": "Allow the time to be set with seconds"
+    },
+
+    "now-btn": {
+      "type": "Boolean",
+      "desc": "Display a button that selects the current time"
+    }
+  }
+}

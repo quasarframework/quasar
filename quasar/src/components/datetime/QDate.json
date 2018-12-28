@@ -26,13 +26,16 @@
     },
 
     "options": {
-      "type": "Array or function",
-      "desc": "",
-      "examples": []
+      "type": "Array or Function",
+      "desc": "Sets the days that are selectable. Supplied as an array of dates or a function. If using function, Date is passed to a function that must return a Boolean. (Function(date) => Boolean)",
+      "examples": [
+        ":options=\"['2018/11/05', '2018/11/12', '2018/11/19', '2018/11/26' ]\"",
+        ":options=\"date => new Date(date).getDay() === 1\""
+      ]
     },
 
     "first-day-of-week": {
-      "type": "String or number",
+      "type": "String or Number",
       "desc": "Sets the day of the week that is considered the first day. This day will show in the left-most column of the calendar.",
       "default": 0,
       "examples": [
