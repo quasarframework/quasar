@@ -1,0 +1,47 @@
+{
+  "mixins": [ "mixins/ripple" ],
+
+  "props": {
+    "icon": {
+      "extends": "icon"
+    },
+    
+    "label": {
+      "type": "Number or String",
+      "desc": "A number or string to label the tab",
+      "examples": [ "Home" ]
+    },
+
+    "alert": {
+      "type": "Boolean",
+      "desc": "Adds an alert symbol to the tab, notifying the user there are some updates"
+    },
+    
+    "name": {
+      "type": "Number or String",
+      "desc": "Panel name",
+      "default": "A random UID",
+      "examples": [
+        "home", ":name=\"1\""
+      ]
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+
+  "events": {
+    "click": {
+      "extends": "click"
+    }
+  },
+  
+  "slots": {
+    "default": "Suggestion: QMenu, QTooltip"
+  }
+}
