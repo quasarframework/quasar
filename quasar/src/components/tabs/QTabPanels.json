@@ -1,3 +1,9 @@
 {
-  "mixins": ["/mixins/panel-parent"]
+  "mixins": [ "mixins/panel-parent" ],
+  
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
 }
