@@ -17,11 +17,5 @@
       "desc": "The icon to be used when the toggle is off",
       "examples": [ "visibility_off" ]
     }
-  },
-
-  "slots": {
-    "default": {
-      "desc": "Default slot can be used as label, unless 'label' prop is specified; Suggestion: string"
-    }
   }
 }
