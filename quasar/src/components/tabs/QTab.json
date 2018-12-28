@@ -1,0 +1,42 @@
+{
+  "mixins": [ "mixins/ripple" ],
+
+  "props": {
+    "icon": {
+      "extends": "icon"
+    },
+    
+    "label": {
+      "type": "Number or String",
+      "desc": "A number or string to label the tab",
+      "examples": [":label=\"Home\""]
+    },
+
+    "alert": {
+      "type": "Boolean",
+      "desc": "Allows an alert symbol to be added to the tab"
+    },
+
+    "name": {
+      "type": "Number or String",
+      "desc": "The name of the tab",
+      "default": "A random UID",
+      "examples": ["name=\"1\"", "name=\"home\""]
+    },
+
+    "tabindex": {
+      "type": "String",
+      "desc": "The index value for the tab",
+      "examples": ["tabindex=\"1\"", "tabindex=\"home\""]
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+  "events": {
+    "click": {
+      "extends": "click"
+    }
+  }
+}

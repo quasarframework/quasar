@@ -1,0 +1,85 @@
+{
+  "props": {
+    "value":{
+      "type": "Number, String",
+      "extends": "value",
+      "desc": "The value of the tab to be selected or is selected",
+      "examples": ["v-model=\"selectedTab\""]
+    },
+
+    "align": {
+      "type": "String",
+      "default": "center",
+      "values": ["left", "center", "right", "justify"],
+      "desc": "The type of the alignment for the tabs within the tabs container",
+      "examples": ["align=\"right\"", "align=\"center\""]
+    },
+
+    "breakpoint": {
+      "type": "Number",
+      "default": "600",
+      "desc": "An screen width minimum value, at which the tabs automatically justify across the whole width of the screen",
+      "examples": [":breakpoint=\"500\"", ":breakpoint=\"800\""]
+    },
+
+    "active-color": {
+      "type": "String",
+      "desc": "The color to be attributed to the text of the active tab",
+      "examples": ["active-color=\"red-3\"", "active-color=\"blue-4\""]
+    },
+
+    "active-bg-color": {
+      "type": "String",
+      "desc": "The color to be attributed to the background of the active tab",
+      "examples": ["active-bg-color=\"purple-3\"", "active-bg-color=\"grey-10\""]
+    },
+
+    "indicatorColor": {
+      "type": "String",
+      "desc": "The color to be attributed to the indicator (the underline) of the active tab",
+      "examples": ["active-bg-color=\"aqua-5\"", "active-bg-color=\"green-10\""]
+    },
+
+    "left-icon": {
+      "type": "String",
+      "desc": "The name of an icon, to replace the default arrow used to scroll through the tabs to the left, when the tabs extend past the width of the screen",
+      "examples": ["left-icon=\"arrow_left\""]
+    },
+    "right-icon": {
+      "type": "String",
+      "desc": "The name of an icon, to replace the default arrow used to scroll through the tabs to the right, when the tabs extend past the width of the screen",
+      "examples": ["right-icon=\"arrow_right\""]
+    },
+
+    "top-indicator": {
+      "type": "Boolean",
+      "desc": "Allows the indicator to be placed above the tab, instead of below it"
+    },
+
+    "narrow-indicator": {
+      "type": "Boolean",
+      "desc": "Allows the indicator to be the same width of the tab's content, instead of the whole width of the tab"
+    },
+
+    "inline-label": {
+      "type": "Boolean",
+      "desc": "Allows the text to be inline with the icon, should one be used"
+    },
+
+    "no-caps": {
+      "type": "Boolean",
+      "desc": "Allows the first letter of the tab labels to be capitalized, instead of all letters being capitalized (which is the default)"
+    },
+
+    "dense": {
+      "type": "Boolean",
+      "desc": "Allows the tabs to be condensed to a smaller height"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    }
+  }
+}
