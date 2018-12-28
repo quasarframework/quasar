@@ -1,13 +1,13 @@
-import { isSSR, hasWebStorage } from './platform.js'
+import { isSSR, hasWebStorage } from './Platform.js'
 import { getEmptyStorage, getStorage } from '../utils/web-storage.js'
 
 export default {
   install ({ $q }) {
     const storage = isSSR || !hasWebStorage
       ? getEmptyStorage()
-      : getStorage('local')
+      : getStorage('session')
 
-    $q.localStorage = storage
+    $q.sessionStorage = storage
     Object.assign(this, storage)
   }
 }

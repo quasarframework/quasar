@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import CheckboxMixin from '../../mixins/checkbox.js'
-import TouchSwipe from '../../directives/touch-swipe.js'
+import TouchSwipe from '../../directives/TouchSwipe.js'
 import QIcon from '../icon/QIcon.js'
 
 export default Vue.extend({

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
-import { isSSR } from './platform.js'
+import { isSSR } from './Platform.js'
 import uid from '../utils/uid.js'
 
 let

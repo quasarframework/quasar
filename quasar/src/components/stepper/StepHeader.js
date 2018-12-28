@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
-import Ripple from '../../directives/ripple.js'
+import Ripple from '../../directives/Ripple.js'
 
 export default Vue.extend({
   name: 'StepHeader',

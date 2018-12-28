@@ -1,4 +1,4 @@
-import Ripple from '../directives/ripple.js'
+import Ripple from '../directives/Ripple.js'
 
 export default {
   directives: {

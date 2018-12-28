@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { isSSR } from './platform.js'
+import { isSSR } from './Platform.js'
 import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
 
 export default {

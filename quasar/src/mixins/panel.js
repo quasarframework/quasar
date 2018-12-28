@@ -1,4 +1,4 @@
-import TouchSwipe from '../directives/touch-swipe'
+import TouchSwipe from '../directives/TouchSwipe'
 
 export const PanelParentMixin = {
   directives: {

@@ -5,7 +5,7 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
-import ClickOutside from '../../directives/click-outside.js'
+import ClickOutside from '../../directives/ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'

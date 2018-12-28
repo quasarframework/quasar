@@ -1,6 +1,6 @@
 import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
-import TouchPan from '../../directives/touch-pan.js'
+import TouchPan from '../../directives/TouchPan.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 export const keyCodes = [34, 37, 40, 33, 39, 38]

@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import QResizeObserver from '../observer/QResizeObserver.js'
 import CanRenderMixin from '../../mixins/can-render.js'
-import { onSSR } from '../../plugins/platform.js'
+import { onSSR } from '../../plugins/Platform.js'
 
 export default Vue.extend({
   name: 'QFooter',

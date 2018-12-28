@@ -1,4 +1,4 @@
-import { isSSR } from './platform.js'
+import { isSSR } from './Platform.js'
 
 function encode (string) {
   return encodeURIComponent(string)

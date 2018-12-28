@@ -5,7 +5,7 @@ import { stopAndPrevent } from '../../utils/event.js'
 import throttle from '../../utils/throttle.js'
 import { hexToRgb, rgbToHex, rgbToString, stringToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
 
-import TouchPan from '../../directives/touch-pan.js'
+import TouchPan from '../../directives/TouchPan.js'
 
 import QSlider from '../slider/QSlider.js'
 import QIcon from '../icon/QIcon.js'

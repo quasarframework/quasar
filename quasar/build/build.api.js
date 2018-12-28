@@ -23,7 +23,7 @@ function getMixedInAPI (api, mainFile) {
     const mixinFile = resolve('src/' + mixin + '.json')
 
     if (!fs.existsSync(mixinFile)) {
-      logError(`api.build.js: ${path.relative(root, mainFile)} -> no such mixin ${mixin}`)
+      logError(`build.api.js: ${path.relative(root, mainFile)} -> no such mixin ${mixin}`)
       process.exit(1)
     }
 
@@ -41,52 +41,60 @@ function getMixedInAPI (api, mainFile) {
   return finalApi
 }
 
-function parseAPI (file, extendApi) {
+function parseAPI (file, apiType) {
   let api = require(file)
 
   if (api.mixins !== void 0) {
     api = getMixedInAPI(api, file)
   }
 
+  if (apiType === 'plugin' && api.injection === void 0) {
+    logError(`build.api.js: ${path.relative(root, file)} -> missing "injection" prop`)
+    process.exit(1)
+  }
+
   // "props", "slots", ...
   for (let type in api) {
+    if (type === 'injection') { // only for plugins, validated above
+      continue
+    }
+
     for (let item in api[type]) {
       const definition = api[type][item]
 
-      if (extendApi[type] !== void 0) {
-        if (definition.extends !== void 0) {
-          api[type][item] = merge(
-            extendApi[type][definition.extends],
-            api[type][item]
-          )
-          delete api[type][item].extends
-        }
+      console.log(apiType, type)
+      if (definition.extends !== void 0 && extendApi[apiType][type] !== void 0) {
+        api[type][item] = merge(
+          extendApi[apiType][type][definition.extends],
+          api[type][item]
+        )
+        delete api[type][item].extends
       }
 
       const obj = api[type][item]
 
       if (obj.desc === void 0) {
-        logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "desc" prop`)
+        logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "desc" prop`)
         process.exit(1)
       }
 
       if (type === 'props') {
         if (obj.type === void 0) {
-          logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "type" prop`)
+          logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "type" prop`)
           process.exit(1)
         }
 
         if (obj.type !== 'Boolean' && obj.examples === void 0) {
-          logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "examples" prop`)
+          logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "examples" prop`)
           process.exit(1)
         }
 
         if (obj.examples && !Array.isArray(obj.examples)) {
-          logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"examples" is not an Array`)
+          logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"examples" is not an Array`)
           process.exit(1)
         }
         if (obj.values && !Array.isArray(obj.values)) {
-          logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"values" is not an Array`)
+          logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"values" is not an Array`)
           process.exit(1)
         }
       }
@@ -99,7 +107,7 @@ function parseAPI (file, extendApi) {
               param.type === void 0 ||
               param.desc === void 0
             ) {
-              logError(`api.build.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"${paramName}" missing either "type" or "desc" props`)
+              logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"${paramName}" missing either "type" or "desc" props`)
               process.exit(1)
             }
           }
@@ -108,31 +116,47 @@ function parseAPI (file, extendApi) {
     }
   }
 
-  api.type = 'component'
+  api.type = apiType
 
   return api
+}
+
+function fillAPI (API, apiType) {
+  return file => {
+    const
+      name = path.basename(file),
+      filePath = path.join(dest, name)
+
+    const api = parseAPI(file, apiType)
+
+    // copy API file to dest
+    writeFile(filePath, JSON.stringify(api, null, 2))
+
+    // add into API index
+    API[getWithoutExtension(name)] = api
+  }
 }
 
 module.exports.generate = function () {
   const API = {}
 
-  glob.sync(resolve('src/components/**/Q*.json'))
-    .forEach(file => {
-      const
-        name = path.basename(file),
-        filePath = path.join(dest, name)
+  try {
+    glob.sync(resolve('src/components/**/Q*.json'))
+      .forEach(fillAPI(API, 'component'))
 
-      const api = parseAPI(file, extendApi.components)
+    glob.sync(resolve('src/plugins/*.json'))
+      .forEach(fillAPI(API, 'plugin'))
 
-      // copy API file to dest
-      writeFile(filePath, JSON.stringify(api, null, 2))
-
-      // add into API index
-      API[getWithoutExtension(name)] = api
-    })
-
-  writeFile(
-    path.join(dest, 'index.json'),
-    JSON.stringify(API, null, 2)
-  )
+    writeFile(
+      path.join(dest, 'index.json'),
+      JSON.stringify(API, null, 2)
+    )
+  }
+  catch (err) {
+    logError(`build.api.js: something went wrong...`)
+    console.log()
+    console.error(err)
+    console.log()
+    process.exit(1)
+  }
 }

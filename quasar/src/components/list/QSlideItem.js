@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import TouchPan from '../../directives/touch-pan.js'
+import TouchPan from '../../directives/TouchPan.js'
 
 export default Vue.extend({
   name: 'QSlideItem',

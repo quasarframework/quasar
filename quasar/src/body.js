@@ -1,5 +1,5 @@
 import { setBrand } from './utils/colors.js'
-import { isSSR } from './plugins/platform.js'
+import { isSSR } from './plugins/Platform.js'
 
 function getBodyClasses ({ is, has, within }, cfg) {
   const cls = [

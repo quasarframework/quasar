@@ -18,11 +18,6 @@ function getWithoutExtension (filename) {
   return filename.slice(0, insertionPoint)
 }
 
-function camelCase (name) {
-  const out = name.replace(/-([a-z])/g, g => g[1].toUpperCase())
-  return out.charAt(0).toUpperCase() + out.substr(1)
-}
-
 function lowerCamelCase (name) {
   return name.replace(/-([a-z])/g, g => g[1].toUpperCase())
 }
@@ -45,7 +40,7 @@ function addDirectives (map) {
     .map(relative)
     .forEach(file => {
       const name = path.basename(file)
-      map[camelCase(getWithoutExtension(name))] = file
+      map[getWithoutExtension(name)] = file
     })
 }
 
@@ -54,7 +49,7 @@ function addPlugins (map) {
     .map(relative)
     .forEach(file => {
       const name = path.basename(file)
-      map[camelCase(getWithoutExtension(name))] = file
+      map[getWithoutExtension(name)] = file
     })
 }
 

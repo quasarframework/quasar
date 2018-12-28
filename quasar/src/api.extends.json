@@ -1,5 +1,5 @@
 {
-  "components": {
+  "component": {
     "props": {
       "readonly": {
         "type": "Boolean",

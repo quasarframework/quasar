@@ -1,4 +1,4 @@
-import Platform from '../plugins/platform.js'
+import Platform from '../plugins/Platform.js'
 
 export default {
   name: 'go-back',

@@ -4,7 +4,7 @@ import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
-import TouchPan from '../../directives/touch-pan.js'
+import TouchPan from '../../directives/TouchPan.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 const keyCodes = [34, 37, 40, 33, 39, 38]

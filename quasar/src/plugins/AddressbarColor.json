@@ -1,0 +1,16 @@
+{
+  "injection": "$q.addressbarColor",
+
+  "methods": {
+    "set": {
+      "desc": "Sets addressbar color (for browsers that support it)",
+      "params": {
+        "hexColor": {
+          "type": "String",
+          "desc": "Color in hex format (#ff0000)",
+          "required": true
+        }
+      }
+    }
+  }
+}

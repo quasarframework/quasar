@@ -76,7 +76,12 @@ function getMethodParams (method) {
   return ' (' + str + ')'
 }
 
-function describeComponent (api) {
+function describe (api) {
+  if (api.type === 'plugin') {
+    console.log('\n ' + chalk.underline('Injection'))
+    console.log('\n   ' + chalk.green(api.injection))
+  }
+
   console.log('\n ' + chalk.underline('Properties'))
   if (api.props === void 0 || Object.keys(api.props).length === 0) {
     console.log('\n   ' + chalk.italic('*No properties*'))
@@ -84,7 +89,7 @@ function describeComponent (api) {
   else {
     for (let propName in api.props) {
       const prop = api.props[propName]
-      console.log(`\n ${prop.required ? chalk.red('*') : ' '} ${chalk.green(propName)} (${prop.type})${prop.required ? chalk.red(' [Required]') : ''}`)
+      console.log(`\n ${prop.required ? chalk.red('*') : ' '} ${chalk.green(propName)} (${prop.type})${prop.required ? chalk.red(' [Required]') : ''}${prop.reactive ? chalk.red(' [Reactive]') : ''}`)
       console.log(`     ${prop.desc}`)
       if (prop.sync) {
         console.log(`     ".sync" modifier required!`)
@@ -107,50 +112,52 @@ function describeComponent (api) {
     }
   }
 
-  console.log('\n ' + chalk.underline('Slots'))
-  if (api.slots === void 0 || Object.keys(api.slots).length === 0) {
-    console.log('\n   ' + chalk.italic('*No slots*'))
-  }
-  else {
-    for (let slot in api.slots) {
-      console.log('\n   ' + chalk.green(slot))
-      console.log('     ' + api.slots[slot].desc)
+  if (api.type === 'component') {
+    console.log('\n ' + chalk.underline('Slots'))
+    if (api.slots === void 0 || Object.keys(api.slots).length === 0) {
+      console.log('\n   ' + chalk.italic('*No slots*'))
     }
-  }
-
-  console.log('\n ' + chalk.underline('Scoped Slots'))
-  if (api.scopedSlots === void 0 || Object.keys(api.scopedSlots).length === 0) {
-    console.log('\n   ' + chalk.italic('*No scoped slots*'))
-  }
-  else {
-    for (let slot in api.scopedSlots) {
-      console.log('\n   ' + chalk.green(slot))
-      console.log('     ' + api.scopedSlots[slot].desc)
-    }
-  }
-
-  console.log('\n ' + chalk.underline('Events'))
-  if (api.events === void 0 || Object.keys(api.events).length === 0) {
-    console.log('\n   ' + chalk.italic('*No events*'))
-  }
-  else {
-    for (let eventName in api.events) {
-      const event = api.events[eventName]
-      console.log('\n   @' + chalk.green(eventName) + getEventParams(event))
-      console.log('     ' + event.desc)
-      if (!event.params) {
-        console.log('     Parameters: ' + chalk.italic('*None*'))
+    else {
+      for (let slot in api.slots) {
+        console.log('\n   ' + chalk.green(slot))
+        console.log('     ' + api.slots[slot].desc)
       }
-      else {
-        console.log('     Parameters:')
-        for (let paramName in event.params) {
-          const param = event.params[paramName]
-          console.log(`       - ${paramName} (${param.type})`)
-          console.log(`           ${param.desc}`)
+    }
+
+    console.log('\n ' + chalk.underline('Scoped Slots'))
+    if (api.scopedSlots === void 0 || Object.keys(api.scopedSlots).length === 0) {
+      console.log('\n   ' + chalk.italic('*No scoped slots*'))
+    }
+    else {
+      for (let slot in api.scopedSlots) {
+        console.log('\n   ' + chalk.green(slot))
+        console.log('     ' + api.scopedSlots[slot].desc)
+      }
+    }
+
+    console.log('\n ' + chalk.underline('Events'))
+    if (api.events === void 0 || Object.keys(api.events).length === 0) {
+      console.log('\n   ' + chalk.italic('*No events*'))
+    }
+    else {
+      for (let eventName in api.events) {
+        const event = api.events[eventName]
+        console.log('\n   @' + chalk.green(eventName) + getEventParams(event))
+        console.log('     ' + event.desc)
+        if (!event.params) {
+          console.log('     Parameters: ' + chalk.italic('*None*'))
+        }
+        else {
+          console.log('     Parameters:')
+          for (let paramName in event.params) {
+            const param = event.params[paramName]
+            console.log(`       - ${paramName} (${param.type})`)
+            console.log(`           ${param.desc}`)
+          }
         }
       }
     }
-  }
+  } // if apy.type === 'component
 
   console.log('\n ' + chalk.underline('Methods'))
   if (api.methods === void 0 || Object.keys(api.methods).length === 0) {
@@ -173,12 +180,6 @@ function describeComponent (api) {
         }
       }
     }
-  }
-}
-
-function describe (api) {
-  if (api.type === 'component') {
-    describeComponent(api)
   }
 }
 

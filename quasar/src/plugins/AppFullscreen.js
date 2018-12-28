@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { isSSR } from './platform.js'
+import { isSSR } from './Platform.js'
 
 const prefixes = {}
 

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { isSSR, fromSSR } from './platform.js'
+import { isSSR, fromSSR } from './Platform.js'
 import { listenOpts } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
 
