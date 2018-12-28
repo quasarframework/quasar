@@ -1,0 +1,54 @@
+{
+  "mixins": [ "components/datetime/datetime-mixin" ],
+
+  "props": {
+    "default-year-month": {
+      "type": "String",
+      "desc": "The default year and month to display.",
+      "examples": [
+        "1986/02"
+      ]
+    },
+
+    "events": {
+      "type": "Array or function",
+      "desc": "A list of events to highlight on the calendar. Can be supplied as an array or a function that returns a boolean.",
+      "examples": [
+        ":events=\"['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']\"",
+        ":events=\"date => new Date(date).getDay() === 1\""
+      ]
+    },
+
+    "event-color": {
+      "type": "String",
+      "desc": "Color name for a highlighted event from the Quasar Color Palette",
+      "examples": [ "primary", "teal-10" ]
+    },
+
+    "options": {
+      "type": "Array or function",
+      "desc": "",
+      "examples": []
+    },
+
+    "first-day-of-week": {
+      "type": "String or number",
+      "desc": "Sets the day of the week that is considered the first day. This day will show in the left-most column of the calendar.",
+      "default": 0,
+      "examples": [
+        "first-day-of-week=\"1\"",
+        ":first-day-of-week=\"selectedFirstDayOfTheWeek\""
+      ]
+    },
+
+    "today-btn": {
+      "type": "Boolean",
+      "desc": "Display a button that selects the current day"
+    },
+
+    "minimal": {
+      "type": "Boolean",
+      "desc": "Don’t display the header"
+    }
+  }
+}

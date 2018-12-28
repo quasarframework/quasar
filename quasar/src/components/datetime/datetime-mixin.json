@@ -1,0 +1,37 @@
+{
+  "props": {
+    "value": {
+      "type": "String or number",
+      "desc": "Datetime of the component. Must be castable to a Date; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [
+        "v-model=\"2018/11/03\"",
+        "v-model=\"currentDate\""
+      ]
+    },
+
+    "landscape": {
+      "type": "Boolean",
+      "desc": "Display the component in landscape mode"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  }
+}
