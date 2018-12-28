@@ -1,0 +1,86 @@
+{
+  "props": {
+    "value":{
+      "type": "Number or String",
+      "desc": "Model of the component defining current panel name; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [ "v-model=\"selectedTab\"" ]
+    },
+
+    "align": {
+      "type": "String",
+      "desc": "Horizontal alignmentment the tabs within the tabs container",
+      "default": "center",
+      "values": [ "left", "center", "right", "justify" ],
+      "examples": [ "right" ]
+    },
+
+    "breakpoint": {
+      "type": "Number or String",
+      "desc": "Breakpoint (in pixels) of tabs container width at which the tabs automatically turn to a justify alignment",
+      "default": 600,
+      "examples": [ ":breakpoint=\"500\"" ]
+    },
+
+    "active-color": {
+      "extends": "color",
+      "desc": "The color to be attributed to the text of the active tab"
+    },
+
+    "active-bg-color": {
+      "extends": "color",
+      "desc": "The color to be attributed to the background of the active tab"
+    },
+
+    "indicator-color": {
+      "extends": "color",
+      "desc": "The color to be attributed to the indicator (the underline) of the active tab"
+    },
+
+    "left-icon": {
+      "type": "String",
+      "desc": "The name of an icon to replace the default arrow used to scroll through the tabs to the left, when the tabs extend past the width of the tabs container",
+      "examples": [ "arrow_left" ]
+    },
+    "right-icon": {
+      "type": "String",
+      "desc": "The name of an icon to replace the default arrow used to scroll through the tabs to the right, when the tabs extend past the width of the tabs container",
+      "examples": [ "arrow_right" ]
+    },
+
+    "top-indicator": {
+      "type": "Boolean",
+      "desc": "Allows the indicator to be placed above the tab, instead of below it"
+    },
+
+    "narrow-indicator": {
+      "type": "Boolean",
+      "desc": "Allows the indicator to be the same width as the tab's content (text or icon), instead of the whole width of the tab"
+    },
+
+    "inline-label": {
+      "type": "Boolean",
+      "desc": "Allows the text to be inline with the icon, should one be used"
+    },
+
+    "no-caps": {
+      "type": "Boolean",
+      "desc": "Turns off capitalizing all letters within the tab (which is the default)"
+    },
+
+    "dense": {
+      "extends": "dense"
+    }
+  },
+  
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    }
+  }
+}

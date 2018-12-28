@@ -15,7 +15,7 @@ export default Vue.extend({
         console.error('QTab/QRouteTab components need to be child of QTabsBar')
       }
     },
-    activateTab: {}
+    __activateTab: {}
   },
 
   props: {
@@ -58,7 +58,7 @@ export default Vue.extend({
   methods: {
     activate (e) {
       this.$emit('click', e)
-      !this.disable && this.activateTab(this.name)
+      !this.disable && this.__activateTab(this.name)
       this.$el.blur()
     },
 
