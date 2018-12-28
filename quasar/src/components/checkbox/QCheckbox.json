@@ -1,5 +1,5 @@
 {
-  "mixins": ["/mixins/checkbox"],
+  "mixins": [ "mixins/checkbox" ],
 
   "props": {
     "indeterminate-value": {
