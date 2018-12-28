@@ -1,0 +1,221 @@
+{
+  "props": {
+    "nodes": {
+      "type": "Array",
+      "desc": "The array of nodes that designates the tree structure",
+      "examples": [ "" ]
+    },
+
+    "node-key": {
+      "type": "String",
+      "desc": "The property of the data that represents the key of the nodes",
+      "required": "true",
+      "examples": ["key", "id"]
+    },
+
+    "label-key": {
+      "type": "String",
+      "desc": "The name of the property to be used as the label for each node",
+      "default": "label",
+      "examples": ["name", "description"]
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "control-color": {
+      "type": "String",
+      "desc": "The Quasar Color Palette color to attribute to the selection checkboxes within each selectable node",
+      "examples": ["blue-11", "primary"]
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "selected-color": {
+      "type": "String",
+      "desc": "The Quasar Color Palette color to attribute to the text of each selected node",
+      "examples":  ["grey-10", "secondary"]
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "tick-strategy": {
+      "type": "String",
+      "desc": "The type of strategy to use for the selection of the nodes",
+      "default": "none",
+      "values": ["none", "strict", "leaf", "leaf-filtered"],
+      "examples": ["string", "leaf"]
+    },
+
+    "ticked": {
+      "type": "Array",
+      "sync": true,
+      "desc": "The array to hold the selected node data",
+      "examples": [":ticked.sync=\"ticked\""]
+    },
+
+    "expanded": {
+      "type": "Array",
+      "sync": true,
+      "desc": "An array of nodes that should be expanded when the particular parent branch of the tree with those nodes is expanded.",
+      "examples": [ ":expanded.sync=\"['Node 1','Node 2']\"" ]
+    },
+    
+    "selected": {
+      "type": "Object",
+      "sync": true,
+      "desc": "The object that holds all the selected nodes",
+      "examples": [ "???" ]
+    },
+
+    "default-expand-all": {
+      "type": "Boolean",
+      "desc": "Allow the tree to have all its branches expanded, when first rendered"
+    },
+    
+    "accordion": {
+      "type": "Boolean",
+      "desc": "Allows the tree to be set in accordion mode"
+    },
+
+    "filter": {
+      "type": "String",
+      "desc": "The text value to be used to filter on",
+      "examples": [ "" ] 
+    },
+
+    "filter-method": {
+      "type": "Function",
+      "desc": "The function to use to filter the tree nodes",
+      "default": "(see source code)",
+      "examples": [ "" ]
+    },
+
+    "duration": {
+      "type": "Number",
+      "desc": "Toggle animation duration in milliseconds. Default: 300",
+      "examples": [ ":duration=\"500\", :duration=\"400\"" ]
+    },
+
+    "no-nodes-label": {
+      "type": "String",
+      "desc": "If used, overrides the standard text in Quasar (including translations), to explain when no leaf nodes are available",
+      "examples": [ "No nodes to show!" ]
+    },
+
+    "no-results-label": {
+      "type": "String",
+      "desc": "If used, overrides the standard text in Quasar (including translations), to explain when no nodes are available due to filtering",
+      "examples": [ "No results" ]
+    }
+  },
+
+  "events": {
+    "update:expanded": {
+      "desc": "The event is triggered, when any nodes are expanded or collapsed",
+      "params": {
+        "expanded": {
+          "type": "Array",
+          "desc": "The expanded nodes"
+        }
+      }
+    },
+
+    "lazy-load": {
+      "desc": "Emitted when the lazy loading of nodes is finished",
+      "params": {
+        "default": {
+          "type": "Object",
+          "desc": "Syntax: { node: String, key: String, done: Function, fail: Function }"
+        }
+      }
+    },
+
+    "update:ticked": {
+      "desc": "Emitted when any nodes are selected or unselected via a checkbox",
+      "params": {
+        "target": {
+          "type": "Array",
+          "desc": "The ticked nodes"
+        }
+      }
+    },
+
+    "update:selected": {
+      "desc": "Emitted when any nodes are selected or unselected",
+      "params": {
+        "target": {
+          "type": "Array",
+          "desc": "The selected nodes"
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "getNodeByKey": {
+      "desc": "Gets the node related to the key given",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "The key of a node"
+        }
+      }
+    },
+
+    "expandAll": {
+    "desc": "Use to expand all branches of the tree"
+    },
+
+    "collapseAll": {
+      "desc": "Use to collapse all branches of the tree"
+    },
+
+    "setExpanded": {
+      "desc": "Expands the tree at the point of the node with the key given",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "The key of a node"
+        },
+        "state": {
+          "type": "Boolean",
+          "desc": "Set to true, to expand the branch of the tree"
+        }
+      }
+    },
+
+    "isTicked": {
+      "desc": "Method to check if a node's checkbox is selected or not",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "The key of a node"
+        }
+      }
+    },
+
+    "setTicked": {
+      "desc": "Method to set a node's checkbox programmatically",
+      "params": {
+        "key": {
+          "type": "String",
+          "desc": "The key of a node"
+        },
+        "state": {
+          "type": "Boolean",
+          "desc": "Set to true, to tick the checkbox"
+        }
+      }
+    }
+  }
+}
