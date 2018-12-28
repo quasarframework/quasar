@@ -5,7 +5,7 @@
     "icon": {
       "extends": "icon"
     },
-    
+
     "label": {
       "type": "Number or String",
       "desc": "A number or string to label the tab",
@@ -16,7 +16,7 @@
       "type": "Boolean",
       "desc": "Adds an alert symbol to the tab, notifying the user there are some updates"
     },
-    
+
     "name": {
       "type": "Number or String",
       "desc": "Panel name",
@@ -40,8 +40,10 @@
       "extends": "click"
     }
   },
-  
+
   "slots": {
-    "default": "Suggestion: QMenu, QTooltip"
+    "default": {
+      "desc": "Suggestion: QMenu, QTooltip"
+    }
   }
 }

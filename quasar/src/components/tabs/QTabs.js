@@ -13,7 +13,7 @@ export default Vue.extend({
   provide () {
     return {
       tabs: this.tabs,
-      activateTab: this.activateTab,
+      __activateTab: this.__activateTab,
       __activateRoute: this.__activateRoute
     }
   },
@@ -27,7 +27,7 @@ export default Vue.extend({
       validator: v => ['left', 'center', 'right', 'justify'].includes(v)
     },
     breakpoint: {
-      type: Number,
+      type: [String, Number],
       default: 600
     },
 
@@ -68,7 +68,7 @@ export default Vue.extend({
 
   watch: {
     value (name) {
-      this.activateTab(name)
+      this.__activateTab(name)
     },
 
     activeColor (v) {
@@ -115,7 +115,7 @@ export default Vue.extend({
   },
 
   methods: {
-    activateTab (name) {
+    __activateTab (name) {
       if (this.tabs.current !== name) {
         this.__animate(this.tabs.current, name)
         this.tabs.current = name
@@ -149,12 +149,12 @@ export default Vue.extend({
             this.buffer[0]
 
           this.buffer.length = 0
-          this.activateTab(tab.name)
+          this.__activateTab(tab.name)
         }, 100)
       }
     },
 
-    updateContainer ({ width }) {
+    __updateContainer ({ width }) {
       const scroll = this.$refs.content.scrollWidth - (this.scrollable ? this.extraOffset : 0) > width
       if (this.scrollable !== scroll) {
         this.scrollable = scroll
@@ -162,7 +162,7 @@ export default Vue.extend({
 
       scroll && this.$nextTick(() => this.__updateArrows())
 
-      const justify = width < this.breakpoint
+      const justify = width < parseInt(this.breakpoint, 10)
       if (this.justify !== justify) {
         this.justify = justify
       }
@@ -299,7 +299,7 @@ export default Vue.extend({
       attrs: { role: 'tablist' }
     }, [
       h(QResizeObserver, {
-        on: { resize: this.updateContainer }
+        on: { resize: this.__updateContainer }
       }),
 
       h(QIcon, {
