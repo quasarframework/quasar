@@ -73,5 +73,11 @@
     "toggle": {
       "desc": "Toggle the state (of the model)"
     }
+  },
+  
+  "slots": {
+    "default": {
+      "desc": "Default slot can be used as label, unless 'label' prop is specified; Suggestion: string"
+    }
   }
 }
