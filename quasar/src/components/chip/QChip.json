@@ -98,7 +98,7 @@
     },
 
     "update:selected": {
-      "desc": "Emitted when 'selected' state changes; Works along the sync prop 'selected'",
+      "desc": "Used by Vue on 'selected.sync' prop for updating its value",
       "params": {
         "state": {
           "type": "Boolean",

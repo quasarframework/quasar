@@ -86,6 +86,9 @@ function describeComponent (api) {
       const prop = api.props[propName]
       console.log(`\n ${prop.required ? chalk.red('*') : ' '} ${chalk.green(propName)} (${prop.type})${prop.required ? chalk.red(' [Required]') : ''}`)
       console.log(`     ${prop.desc}`)
+      if (prop.sync) {
+        console.log(`     ".sync" modifier required!`)
+      }
       if (prop.link) {
         console.log(`     Link: ${prop.link}`)
       }
