@@ -3,7 +3,7 @@
     "value": {
       "type": "Any",
       "extends": "value",
-      "examples": ["1", "joe"]
+      "examples": ["one", "joe"]
     },
 
     "type":{
@@ -95,23 +95,18 @@
       "extends": "disable"
     },
 
-
     "read-only": {
       "type": "Boolean",
       "extends": "read-only",
       "desc": "Make the toggle buttons on a read-only state."
-    }
-
-  },
-
-  "slots": {
-    "default": {
-      "extends": "default"
     },
 
-    "loading": {
-      "desc": "Slot for the loading spinner"
+    "options": {
+      "type": "Array",
+      "desc": "An array of QBtn to be used; Syntax: [QBtn]",
+      "examples": ["[{label: 'One', value: 'one'}, {label: 'Two', value: 'two'}, {label: 'Three', value: 'three'}]"]
     }
+
   },
 
   "events": {
