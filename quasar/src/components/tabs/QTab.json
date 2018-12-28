@@ -9,34 +9,39 @@
     "label": {
       "type": "Number or String",
       "desc": "A number or string to label the tab",
-      "examples": [":label=\"Home\""]
+      "examples": [ "Home" ]
     },
 
     "alert": {
       "type": "Boolean",
-      "desc": "Allows an alert symbol to be added to the tab"
+      "desc": "Adds an alert symbol to the tab, notifying the user there are some updates"
     },
-
+    
     "name": {
       "type": "Number or String",
-      "desc": "The name of the tab",
+      "desc": "Panel name",
       "default": "A random UID",
-      "examples": ["name=\"1\"", "name=\"home\""]
+      "examples": [
+        "home", ":name=\"1\""
+      ]
     },
 
     "tabindex": {
-      "type": "String",
-      "desc": "The index value for the tab",
-      "examples": ["tabindex=\"1\"", "tabindex=\"home\""]
+      "extends": "tabindex"
     },
 
     "disable": {
       "extends": "disable"
     }
   },
+
   "events": {
     "click": {
       "extends": "click"
     }
+  },
+  
+  "slots": {
+    "default": "Suggestion: QMenu, QTooltip"
   }
 }
