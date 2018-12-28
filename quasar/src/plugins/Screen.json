@@ -1,0 +1,99 @@
+{
+  "injection": "$q.screen",
+
+  "props": {
+    "width": {
+      "type": "Number",
+      "desc": "Screen width (in pixels)",
+      "reactive": true,
+      "examples": [ 452 ]
+    },
+
+    "height": {
+      "type": "Number",
+      "desc": "Screen height (in pixels)",
+      "reactive": true,
+      "examples": [ 721 ]
+    },
+
+    "sizes": {
+      "type": "Object",
+      "desc": "Breakpoints (in pixels); Syntax: { sm: Number, md: Number, lg: Number, xl: Number }",
+      "reactive": true,
+      "examples": [
+        "{ sm: 600, md: 1024, lg: 1440, xl: 1920 }"
+      ]
+    },
+
+    "lt": {
+      "type": "Object",
+      "desc": "Tells if current screen width is lower than breakpoint-name; Syntax: { sm: Boolean, md: Boolean, lg: Boolean, xl: Boolean }",
+      "reactive": true,
+      "examples": [
+        "{ sm: false, md: true, lg: true, xl: true }"
+      ]
+    },
+
+    "gt": {
+      "type": "Object",
+      "desc": "Tells if current screen width is greater than breakpoint-name; Syntax: { xs: Boolean, sm: Boolean, md: Boolean, lg: Boolean }",
+      "reactive": true,
+      "examples": [
+        "{ xs: true, sm: true, md: false, lg: false, xl: false }"
+      ]
+    },
+
+    "xs": {
+      "type": "Boolean",
+      "desc": "Current screen width fits exactly 'xs' breakpoint",
+      "reactive": true
+    },
+
+    "sm": {
+      "type": "Boolean",
+      "desc": "Current screen width fits exactly 'sm' breakpoint",
+      "reactive": true
+    },
+
+    "md": {
+      "type": "Boolean",
+      "desc": "Current screen width fits exactly 'md' breakpoint",
+      "reactive": true
+    },
+
+    "lg": {
+      "type": "Boolean",
+      "desc": "Current screen width fits exactly 'lg' breakpoint",
+      "reactive": true
+    },
+
+    "xl": {
+      "type": "Boolean",
+      "desc": "Current screen width fits exactly 'xl' breakpoint",
+      "reactive": true
+    }
+  },
+
+  "methods": {
+    "setSizes": {
+      "desc": "Override default breakpoint sizes",
+      "params": {
+        "breakpoints": {
+          "type": "Object",
+          "desc": "Syntax (pick what you want to override): { xs: Number, sm: Number, md: Number, lg: Number, xl: Number }"
+        }
+      }
+    },
+
+    "setDebounce": {
+      "desc": "Debounce update of all props when screen width/height changes",
+      "params": {
+        "amount": {
+          "type": "Number",
+          "desc": "Amount in milliseconds",
+          "required": true
+        }
+      }
+    }
+  }
+}

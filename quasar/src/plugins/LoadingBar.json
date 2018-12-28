@@ -1,0 +1,34 @@
+{
+  "injection": "$q.loadingBar",
+
+  "quasarConfOptions": {
+    "propname": "loadingBar",
+    "props": "QAjaxBar component props"
+  },
+
+  "methods": {
+    "start": {
+      "desc": "Notify bar you've started a background activity",
+      "params": {
+        "speed": {
+          "type": "Number",
+          "desc": "Delay (in milliseconds) between bar progress increments"
+        }
+      }
+    },
+
+    "stop": {
+      "desc": "Notify bar one background activity has finalized"
+    },
+
+    "increment": {
+      "desc": "Manually trigger a bar progress increment",
+      "params": {
+        "amount": {
+          "type": "Number",
+          "desc": "Amount (0.0 < x < 1.0) to increment with"
+        }
+      }
+    }
+  }
+}

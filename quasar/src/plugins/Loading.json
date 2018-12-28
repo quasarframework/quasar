@@ -1,0 +1,38 @@
+{
+  "injection": "$q.loading",
+
+  "props": {
+    "isActive": {
+      "type": "Boolean",
+      "desc": "Is Loading active?",
+      "reactive": true
+    }
+  },
+
+  "methods": {
+    "show": {
+      "desc": "Activate and show",
+      "params": {
+        "opts": {
+          "type": "Object",
+          "desc": "All props are optional; Syntax: { delay: Number, message: String, spinnerSize: Number, spinnerColor: String, messageColor: String, backgroundColor: String, spinner: QSpinner_component, customClass: String }"
+        }
+      }
+    },
+
+    "hide": {
+      "desc": "Hide it"
+    },
+
+    "setDefaults": {
+      "desc": "Merge options into the default ones",
+      "params": {
+        "opts": {
+          "type": "Object",
+          "desc": "Syntax (pick from this list): { delay: Number, message: String, spinnerSize: Number, spinnerColor: String, messageColor: String, backgroundColor: String, spinner: QSpinner_component, customClass: String }",
+          "required": true
+        }
+      }
+    }
+  }
+}

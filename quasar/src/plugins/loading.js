@@ -119,8 +119,9 @@ export default {
   },
 
   install ({ $q, cfg: { loading } }) {
-    loading && this.setDefaults(loading)
+    loading !== void 0 && this.setDefaults(loading)
 
     $q.loading = this
+    Vue.util.defineReactive(this, 'isActive', this.isActive)
   }
 }

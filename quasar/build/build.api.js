@@ -55,14 +55,13 @@ function parseAPI (file, apiType) {
 
   // "props", "slots", ...
   for (let type in api) {
-    if (type === 'injection') { // only for plugins, validated above
+    if (['injection', 'quasarConfOptions'].includes(type)) { // only for plugins, validated above
       continue
     }
 
     for (let item in api[type]) {
       const definition = api[type][item]
 
-      console.log(apiType, type)
       if (definition.extends !== void 0 && extendApi[apiType][type] !== void 0) {
         api[type][item] = merge(
           extendApi[apiType][type][definition.extends],
