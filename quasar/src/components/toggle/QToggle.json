@@ -1,0 +1,27 @@
+{
+  "mixins": ["/mixins/checkbox"],
+
+  "props": {
+    "icon": {
+      "extends": "icon"
+    },
+
+    "checked-icon": {
+      "type": "String",
+      "desc": "The icon to be used, when the toggle is on",
+      "examples": ["checked-icon=\"visibility\""]      
+    },
+
+    "unchecked-icon": {
+      "type": "String",
+      "desc": "The icon to be used, when the toggle is off",
+      "examples": ["checked-icon=\"visibility_off\""]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot can be used as label, unless 'label' prop is specified; Suggestion: string"
+    }
+  }
+}

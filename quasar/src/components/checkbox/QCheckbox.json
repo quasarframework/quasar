@@ -1,31 +1,7 @@
 {
+  "mixins": ["/mixins/checkbox"],
+
   "props": {
-    "value": {
-      "extends": "value",
-      "type": "Any or Array",
-      "examples": [ "false", "['car', 'building']" ]
-    },
-
-    "val": {
-      "type": "Any",
-      "desc": "Works when model ('value') is Array. It tells QCheckbox which value should add/remove when ticked/unticked",
-      "examples": [ "car" ]
-    },
-
-    "true-value": {
-      "type": "Any",
-      "desc": "What model value should be considered as checked/ticked?",
-      "default": true,
-      "examples": [ "Agreed" ]
-    },
-
-    "false-value": {
-      "type": "Any",
-      "desc": "What model value should be considered as unchecked/unticked?",
-      "default": false,
-      "examples": [ "Disagree" ]
-    },
-
     "indeterminate-value": {
       "type": "Any",
       "desc": "What model value should be considered as 'indeterminate'?",
@@ -35,61 +11,13 @@
 
     "toggle-indeterminate": {
       "type": "Boolean",
-      "desc": "When user clicks/taps on QCheckbox, should we toggle through the indeterminate state too?"
-    },
-
-    "label": {
-      "type": "String",
-      "desc": "Label to display along the checkbox (or use the default slot instead of this prop)",
-      "examples": [ "I agree with the Terms and Conditions" ]
-    },
-
-    "left-label": {
-      "type": "Boolean",
-      "desc": "Label (if any specified) should be displayed on the left side of the checkbox"
-    },
-
-    "color": {
-      "extends": "color"
-    },
-
-    "keep-color": {
-      "type": "Boolean",
-      "desc": "Should the color (if specified any) be kept when checkbox is unticked?"
-    },
-
-    "dark": {
-      "extends": "dark"
-    },
-
-    "dense": {
-      "extends": "dense"
-    },
-
-    "disable": {
-      "extends": "disable"
-    },
-
-    "tabindex": {
-      "extends": "tabindex"
+      "desc": "When user clicks/taps on the component, should we toggle through the indeterminate state too?"
     }
   },
 
   "slots": {
     "default": {
       "desc": "Default slot can be used as label, unless 'label' prop is specified; Suggestion: string"
-    }
-  },
-
-  "events": {
-    "input": {
-      "extends": "input"
-    }
-  },
-
-  "methods": {
-    "toggle": {
-      "desc": "Toggle the state (of the model)"
     }
   }
 }
