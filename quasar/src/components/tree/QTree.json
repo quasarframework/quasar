@@ -217,5 +217,15 @@
         }
       }
     }
+  },
+
+  "scoped-slots": {
+    "default-header": {
+      "desc": "Slot to use for defining the header of a node"
+    },
+
+    "default-body": {
+      "desc": "Slot to use for defining the body of a node"
+    }
   }
 }
