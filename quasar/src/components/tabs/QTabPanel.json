@@ -1,5 +1,5 @@
 {
-  "mixins": ["/mixins/panel-child"],
+  "mixins": [ "mixins/panel-child" ],
   
   "slots": {
     "default": {
