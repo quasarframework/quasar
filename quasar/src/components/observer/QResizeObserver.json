@@ -14,7 +14,17 @@
       "params": {
         "size": {
           "type": "Object",
-          "desc": "Object of type: { width, height }"
+          "desc": "New size",
+          "definition": {
+            "height": {
+              "type": "Number",
+              "desc": "Layout height"
+            },
+            "width": {
+              "type": "Number",
+              "desc": "Layout height"
+            }
+          }
         }
       }
     }

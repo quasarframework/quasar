@@ -76,17 +76,17 @@ function getMethodParams (method) {
   return ' (' + str + ')'
 }
 
-function printProp (prop, propName, indentLevel, prefix = '') {
+function printProp (prop, propName, indentLevel) {
   let indent = ' '.repeat(indentLevel)
 
   const type = Array.isArray(prop.type)
     ? prop.type.join(', ')
     : prop.type
 
-  console.log(`${indent}${prefix}${chalk.green(propName)} (${type})${prop.required ? chalk.red(' [Required]') : ''}${prop.reactive ? chalk.red(' [Reactive]') : ''}`)
+  console.log(`${indent}${chalk.green(propName)} (${type})${prop.required ? chalk.red(' [Required]') : ''}${prop.reactive ? chalk.red(' [Reactive]') : ''}`)
 
   indentLevel += 2
-  indent += '  ' + (prefix.length > 0 ? ' '.repeat(prefix.length) : '')
+  indent += '  '
 
   console.log(`${indent}${prop.desc}`)
   if (prop.sync) {
@@ -102,10 +102,9 @@ function printProp (prop, propName, indentLevel, prefix = '') {
     console.log(`${indent}Default value: ${prop.default}`)
   }
   if (prop.definition !== void 0) {
-    console.log(`${indent}Definition:\n`)
+    console.log(`${indent}Props:`)
     for (let propName in prop.definition) {
-      printProp(prop.definition[propName], propName, indentLevel + 2, '- ')
-      console.log()
+      printProp(prop.definition[propName], propName, indentLevel + 2)
     }
   }
   if (prop.values === void 0 && prop.examples !== void 0) {
@@ -176,7 +175,7 @@ function describe (api) {
         else {
           console.log('     Parameters:')
           for (let paramName in event.params) {
-            printProp(event.params[paramName], paramName, 7, '- ')
+            printProp(event.params[paramName], paramName, 7)
           }
         }
       }
@@ -198,7 +197,7 @@ function describe (api) {
       else {
         console.log('     Parameters:')
         for (let paramName in method.params) {
-          printProp(method.params[paramName], paramName, 7, '- ')
+          printProp(method.params[paramName], paramName, 7)
         }
       }
     }

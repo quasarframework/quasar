@@ -167,7 +167,26 @@
 
     "pagination": {
       "type": "Object",
-      "desc": "Pagination object of form: { sortBy: String, descending: Boolean, page: Number, rowsPerPage: Number }; REQUIRES .sync vue modifier",
+      "desc": "Pagination object",
+      "sync": true,
+      "definition": {
+        "sortBy": {
+          "type": "String",
+          "desc": "Column name (from column definition)"
+        },
+        "descending": {
+          "type": "Boolean",
+          "desc": "Is sorting in descending order?"
+        },
+        "page": {
+          "type": "Number",
+          "desc": "Page number (1-based)"
+        },
+        "rowsPerPage": {
+          "type": "Number",
+          "desc": "How many rows per page? 0 means Infinite"
+        }
+      },
       "examples": [
         ":pagination.sync=\"myPagination\""
       ]
@@ -192,7 +211,8 @@
 
     "selected": {
       "type": "Array",
-      "desc": "Keeps the user selection array; REQUIRES .sync vue modifier",
+      "desc": "Keeps the user selection array",
+      "sync": true,
       "default": "[]",
       "examples": [
         ":selected.sync=\"selection\""
@@ -269,7 +289,25 @@
       "params": {
         "pagination": {
           "type": "Object",
-          "desc": "Pagination object"
+          "desc": "Pagination object",
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)"
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)"
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite"
+            }
+          }
         },
         "filter": {
           "type": "Function",
@@ -287,7 +325,25 @@
       "params": {
         "newPagination": {
           "type": "Object",
-          "desc": "The updated pagination object"
+          "desc": "The updated pagination object",
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)"
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)"
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite"
+            }
+          }
         }
       }
     },
@@ -295,7 +351,7 @@
     "update:selected": {
       "desc": "Used by Vue on 'selected.sync' prop for updating its value",
       "params": {
-        "newPagination": {
+        "newSelected": {
           "type": "Array",
           "desc": "The updated selected array"
         }
@@ -309,7 +365,35 @@
       "params": {
         "props": {
           "type": "Object",
-          "desc": "Contains optional 'pagination' Object and/or 'filter' Function"
+          "desc": "Request details",
+          "definition": {
+            "pagination": {
+              "type": "Object",
+              "desc": "Optional pagination object",
+              "definition": {
+                "sortBy": {
+                  "type": "String",
+                  "desc": "Column name (from column definition)"
+                },
+                "descending": {
+                  "type": "Boolean",
+                  "desc": "Is sorting in descending order?"
+                },
+                "page": {
+                  "type": "Number",
+                  "desc": "Page number (1-based)"
+                },
+                "rowsPerPage": {
+                  "type": "Number",
+                  "desc": "How many rows per page? 0 means Infinite"
+                }
+              }
+            },
+            "filter": {
+              "type": "Function",
+              "desc": "Filtering method"
+            }
+          }
         }
       }
     },

@@ -15,7 +15,41 @@
       "params": {
         "opts": {
           "type": "Object",
-          "desc": "All props are optional; Syntax: { delay: Number, message: String, spinnerSize: Number, spinnerColor: String, messageColor: String, backgroundColor: String, spinner: QSpinner_component, customClass: String }"
+          "desc": "All props are optional",
+          "definition": {
+            "delay": {
+              "type": "Number",
+              "desc": "Wait a number of millisecond before showing; Not worth showing for 100ms for example then hiding it, so wait until you're sure it's a process that will take some considerable amount of time"
+            },
+            "message": {
+              "type": "String",
+              "desc": "Message to display"
+            },
+            "spinnerSize": {
+              "type": "Number",
+              "desc": "Spinner size (in pixels)"
+            },
+            "spinnerColor": {
+              "type": "String",
+              "desc": "Color name for spinner from the Quasar Color Palette"
+            },
+            "messageColor": {
+              "type": "Boolean",
+              "desc": "Color name for text from the Quasar Color Palette"
+            },
+            "backgroundColor": {
+              "type": "String",
+              "desc": "Color name for background from the Quasar Color Palette"
+            },
+            "spinner": {
+              "type": "Component",
+              "desc": "One of the QSpinners"
+            },
+            "customClass": {
+              "type": "String",
+              "desc": "Add a CSS class to easily customize the component"
+            }
+          }
         }
       }
     },
@@ -29,8 +63,42 @@
       "params": {
         "opts": {
           "type": "Object",
-          "desc": "Syntax (pick from this list): { delay: Number, message: String, spinnerSize: Number, spinnerColor: String, messageColor: String, backgroundColor: String, spinner: QSpinner_component, customClass: String }",
-          "required": true
+          "desc": "Pick the subprop you want to define",
+          "required": true,
+          "definition": {
+            "delay": {
+              "type": "Number",
+              "desc": "Wait a number of millisecond before showing; Not worth showing for 100ms for example then hiding it, so wait until you're sure it's a process that will take some considerable amount of time"
+            },
+            "message": {
+              "type": "String",
+              "desc": "Message to display"
+            },
+            "spinnerSize": {
+              "type": "Number",
+              "desc": "Spinner size (in pixels)"
+            },
+            "spinnerColor": {
+              "type": "String",
+              "desc": "Color name for spinner from the Quasar Color Palette"
+            },
+            "messageColor": {
+              "type": "Boolean",
+              "desc": "Color name for text from the Quasar Color Palette"
+            },
+            "backgroundColor": {
+              "type": "String",
+              "desc": "Color name for background from the Quasar Color Palette"
+            },
+            "spinner": {
+              "type": "Component",
+              "desc": "One of the QSpinners"
+            },
+            "customClass": {
+              "type": "String",
+              "desc": "Add a CSS class to easily customize the component"
+            }
+          }
         }
       }
     }

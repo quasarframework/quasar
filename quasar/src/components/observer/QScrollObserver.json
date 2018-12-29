@@ -11,9 +11,28 @@
     "scroll": {
       "desc": "Emitted when scroll position changes",
       "params": {
-        "position": {
+        "details": {
           "type": "Object",
-          "desc": "{ position, direction, directionChanged, inflexionPosition }"
+          "desc": "Scroll details",
+          "definition": {
+            "position": {
+              "type": "Number",
+              "desc": "Scroll offset (from top)"
+            },
+            "direction": {
+              "type": "String",
+              "desc": "Direction of scroll",
+              "values": [ "up", "down" ]
+            },
+            "directionChanged": {
+              "type": "Boolean",
+              "desc": "Has scroll direction changed since event was last emitted?"
+            },
+            "inflexionPosition": {
+              "type": "Number",
+              "desc": "Last scroll offset where scroll direction has changed"
+            }
+          }
         }
       }
     }

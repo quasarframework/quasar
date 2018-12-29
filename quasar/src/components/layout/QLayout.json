@@ -27,7 +27,17 @@
       "params": {
         "size": {
           "type": "Object",
-          "desc": "Syntax: { height: Number, width: Number }"
+          "desc": "New size",
+          "definition": {
+            "height": {
+              "type": "Number",
+              "desc": "Layout height"
+            },
+            "width": {
+              "type": "Number",
+              "desc": "Layout height"
+            }
+          }
         }
       }
     },
@@ -37,7 +47,26 @@
       "params": {
         "details": {
           "type": "Object",
-          "desc": "Syntax: { position: Number, direction: String, directionChanged: Boolean, inflexionPosition: Number }"
+          "desc": "Scroll details",
+          "definition": {
+            "position": {
+              "type": "Number",
+              "desc": "Scroll offset (from top)"
+            },
+            "direction": {
+              "type": "String",
+              "desc": "Direction of scroll",
+              "values": [ "up", "down" ]
+            },
+            "directionChanged": {
+              "type": "Boolean",
+              "desc": "Has scroll direction changed since event was last emitted?"
+            },
+            "inflexionPosition": {
+              "type": "Number",
+              "desc": "Last scroll offset where scroll direction has changed"
+            }
+          }
         }
       }
     },

@@ -180,7 +180,17 @@
       "params": {
         "details": {
           "type": "Object",
-          "desc": "Syntax: { index: Number, value: Any }"
+          "desc": "Removal details",
+          "definition": {
+            "index": {
+              "type": "Number",
+              "desc": "Model index at which removal took place"
+            },
+            "value": {
+              "type": "Any",
+              "desc": "The actual value that was removed"
+            }
+          }
         }
       }
     },
@@ -190,7 +200,17 @@
       "params": {
         "details": {
           "type": "Object",
-          "desc": "Syntax: { index: Number, value: Any }"
+          "desc": "Addition details",
+          "definition": {
+            "index": {
+              "type": "Number",
+              "desc": "Model index at which addition took place"
+            },
+            "value": {
+              "type": "Any",
+              "desc": "The actual value that was added"
+            }
+          }
         }
       }
     },
