@@ -16,7 +16,7 @@ import { LocalStorage } from 'quasar'
 export default {
   data () {
     return {
-      storage: LocalStorage.get.all()
+      storage: LocalStorage.getAll()
     }
   },
   methods: {
@@ -34,7 +34,7 @@ export default {
       this.update()
     },
     update () {
-      this.storage = LocalStorage.get.all()
+      this.storage = LocalStorage.getAll()
     }
   },
   mounted () {

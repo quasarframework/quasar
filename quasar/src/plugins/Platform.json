@@ -1,0 +1,23 @@
+{
+  "injection": "$q.platform",
+
+  "props": {
+    "is": {
+      "type": "Object",
+      "desc": "TODO",
+      "examples": [ "Gigi" ]
+    },
+
+    "has": {
+      "type": "Object",
+      "desc": "TODO",
+      "examples": [ "Gigi" ]
+    },
+
+    "within": {
+      "type": "Object",
+      "desc": "TODO",
+      "examples": [ "Gigi" ]
+    }
+  }
+}

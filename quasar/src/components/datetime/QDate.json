@@ -66,11 +66,16 @@
       "desc": "Don’t display the header"
     }
   },
-  
+
   "events": {
     "input": {
       "extends": "input",
-      "type": "String"
+      "type": "String",
+      "params": {
+        "value": {
+          "type": "String"
+        }
+      }
     }
   }
 }

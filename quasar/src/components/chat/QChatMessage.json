@@ -13,12 +13,12 @@
 
     "bg-color": {
       "extends": "color",
-      "desc": "Color name for chat bubble background from the Quasar Color Palette"
+      "desc": "Color name (from the Quasar Color Palette) for chat bubble background"
     },
 
     "text-color": {
-      "extends": "color",
-      "desc": "Color name for chat bubble text from the Quasar Color Palette"
+      "extends": "text-color",
+      "desc": "Color name (from the Quasar Color Palette) for chat bubble text"
     },
 
     "name": {

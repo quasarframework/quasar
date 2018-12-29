@@ -6,7 +6,6 @@
       "extends": "value",
       "desc": "Time of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "examples": [
-        "v-model=\"10:56:33\"",
         "v-model=\"currentTime\""
       ]
     },
@@ -59,11 +58,16 @@
       "desc": "Display a button that selects the current time"
     }
   },
-  
+
   "events": {
     "input": {
       "extends": "input",
-      "type": "String"
+      "type": "String",
+      "params": {
+        "value": {
+          "type": "String"
+        }
+      }
     }
   }
 }

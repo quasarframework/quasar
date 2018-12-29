@@ -79,7 +79,12 @@ function getMethodParams (method) {
 function describe (api) {
   if (api.type === 'plugin') {
     console.log('\n ' + chalk.underline('Injection'))
-    console.log('\n   ' + chalk.green(api.injection))
+    if (api.injection === void 0) {
+      console.log('\n   ' + chalk.italic('*No injection*'))
+    }
+    else {
+      console.log('\n   ' + chalk.green(api.injection))
+    }
   }
 
   console.log('\n ' + chalk.underline('Properties'))

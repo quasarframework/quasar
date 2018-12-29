@@ -48,11 +48,6 @@ function parseAPI (file, apiType) {
     api = getMixedInAPI(api, file)
   }
 
-  if (apiType === 'plugin' && api.injection === void 0) {
-    logError(`build.api.js: ${path.relative(root, file)} -> missing "injection" prop`)
-    process.exit(1)
-  }
-
   // "props", "slots", ...
   for (let type in api) {
     if (['injection', 'quasarConfOptions'].includes(type)) { // only for plugins, validated above
