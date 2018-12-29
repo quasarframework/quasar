@@ -1,0 +1,102 @@
+{
+  "injection": "$q.bottomSheet",
+
+  "methods": {
+    "create": {
+      "desc": "Creates an ad-hoc Bottom Sheet; Same as calling $q.bottomSheet(...)",
+      "params": {
+        "opts": {
+          "type": "Object",
+          "desc": "Bottom Sheet options",
+          "required": true,
+          "definition": {
+            "className": {
+              "type": [ "String", "Array", "Object" ],
+              "desc": "CSS Class name to apply to the Dialog"
+            },
+            "style": {
+              "type": [ "String", "Array", "Object" ],
+              "desc": "CSS style to apply to the Dialog"
+            },
+            "title": {
+              "type": "String",
+              "desc": "Title"
+            },
+            "message": {
+              "type": "String",
+              "desc": "Message"
+            },
+            "actions": {
+              "type": "Array",
+              "desc": "Array of Objects, each Object defining an action",
+              "definition": {
+                "classes": {
+                  "type": [ "String", "Array", "Object" ],
+                  "desc": "CSS classes for this action"
+                },
+                "icon": {
+                  "extends": "icon"
+                },
+                "img": {
+                  "type": "String",
+                  "desc": "Path to an image for this action",
+                  "examples": [
+                    "(statics folder) statics/img/something.png",
+                    "(relative path format) :src=\"require('./my_img.jpg')\"",
+                    "(URL) https://some-site.net/some-img.gif"
+                  ]
+                },
+                "avatar": {
+                  "type": "Boolean",
+                  "desc": "Display img as avatar (round borders)"
+                },
+                "label": {
+                  "type": [ "String", "Number" ],
+                  "desc": "Action label"
+                }
+              }
+            },
+            "grid": {
+              "type": "Boolean",
+              "desc": "Display actions as a grid instead of as a list"
+            },
+            "width": {
+              "extends": "size",
+              "desc": "Specific Bottom Sheet width (in CSS unit, including unit name)"
+            },
+            "color": {
+              "extends": "color",
+              "default": "primary"
+            },
+            "seamless": {
+              "type": "Boolean",
+              "desc": "Put Bottom Sheet into seamless mode; Does not uses a backdrop so user is able to interact with the rest of the page too"
+            },
+            "persistent": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Bottom Sheet if clicking outside of it or hitting ESC key"
+            }
+          }
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "Chainable Dialog Object",
+        "definition": {
+          "onOk": {
+            "type": "Function",
+            "desc": "Receives a Function param to tell what to do when OK is pressed"
+          },
+          "onCancel": {
+            "type": "Function",
+            "desc": "Receives a Function as param to tell what to do when Cancel is pressed"
+          },
+          "hide": {
+            "type": "Function",
+            "desc": "Hides the dialog when called"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "injection": "$q.dialog",
+
+  "methods": {
+    "create": {
+      "desc": "Creates an ad-hoc Dialog; Same as calling $q.dialog(...)",
+      "params": {
+        "opts": {
+          "type": "Object",
+          "desc": "Dialog options",
+          "required": true,
+          "definition": {
+            "className": {
+              "type": [ "String", "Array", "Object" ],
+              "desc": "CSS Class name to apply to the Dialog"
+            },
+            "style": {
+              "type": [ "String", "Array", "Object" ],
+              "desc": "CSS style to apply to the Dialog"
+            },
+            "...props": {
+              "type": "Any",
+              "desc": "Other QDialog properties"
+            }
+          }
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "Chainable Dialog Object",
+        "definition": {
+          "onOk": {
+            "type": "Function",
+            "desc": "Receives a Function param to tell what to do when OK is pressed"
+          },
+          "onCancel": {
+            "type": "Function",
+            "desc": "Receives a Function as param to tell what to do when Cancel is pressed"
+          },
+          "hide": {
+            "type": "Function",
+            "desc": "Hides the dialog when called"
+          }
+        }
+      }
+    }
+  }
+}

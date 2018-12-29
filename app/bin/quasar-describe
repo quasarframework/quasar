@@ -76,17 +76,31 @@ function getMethodParams (method) {
   return ' (' + str + ')'
 }
 
+function getMethodReturnValue (method) {
+  return ' => ' +
+    (method.returns === void 0
+      ? 'void 0'
+      : method.returns.type
+    )
+}
+
+function getStringType (type) {
+  return Array.isArray(type)
+    ? type.join(', ')
+    : type
+}
+
 function printProp (prop, propName, indentLevel) {
   let indent = ' '.repeat(indentLevel)
 
-  const type = Array.isArray(prop.type)
-    ? prop.type.join(', ')
-    : prop.type
+  const type = getStringType(prop.type)
 
-  console.log(`${indent}${chalk.green(propName)} (${type})${prop.required ? chalk.red(' [Required]') : ''}${prop.reactive ? chalk.red(' [Reactive]') : ''}`)
+  if (propName !== void 0) {
+    console.log(`${indent}${chalk.green(propName)} (${type})${prop.required ? chalk.red(' [Required]') : ''}${prop.reactive ? chalk.red(' [Reactive]') : ''}`)
 
-  indentLevel += 2
-  indent += '  '
+    indentLevel += 2
+    indent += '  '
+  }
 
   console.log(`${indent}${prop.desc}`)
   if (prop.sync) {
@@ -106,6 +120,10 @@ function printProp (prop, propName, indentLevel) {
     for (let propName in prop.definition) {
       printProp(prop.definition[propName], propName, indentLevel + 2)
     }
+  }
+  if (prop.returns !== void 0) {
+    console.log(`${indent}Returns ${getStringType(prop.returns.type)}:`)
+    printProp(prop.returns, void 0, indentLevel + 2)
   }
   if (prop.values === void 0 && prop.examples !== void 0) {
     console.log(`${indent}Example${prop.examples.length > 1 ? 's' : ''}:`)
@@ -189,16 +207,18 @@ function describe (api) {
   else {
     for (let methodName in api.methods) {
       const method = api.methods[methodName]
-      console.log('\n   ' + chalk.green(methodName) + getMethodParams(method))
+      console.log('\n   ' + chalk.green(methodName) + getMethodParams(method) + getMethodReturnValue(method))
       console.log('     ' + method.desc)
-      if (!method.params) {
-        console.log('     Parameters: ' + chalk.italic('*None*'))
-      }
-      else {
+      if (method.params !== void 0) {
         console.log('     Parameters:')
         for (let paramName in method.params) {
           printProp(method.params[paramName], paramName, 7)
         }
+      }
+
+      if (method.returns !== void 0) {
+        console.log(`     Returns ${getStringType(method.returns.type)}:`)
+        printProp(method.returns, void 0, 7)
       }
     }
   }
