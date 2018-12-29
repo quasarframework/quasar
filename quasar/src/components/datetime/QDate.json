@@ -65,5 +65,12 @@
       "type": "Boolean",
       "desc": "Don’t display the header"
     }
+  },
+  
+  "events": {
+    "input": {
+      "extends": "input",
+      "type": "String"
+    }
   }
 }
