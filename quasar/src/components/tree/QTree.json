@@ -135,7 +135,25 @@
       "params": {
         "default": {
           "type": "Object",
-          "desc": "Syntax: { node: String, key: String, done: Function, fail: Function }"
+          "desc": "The object to be offered, in order to lazy load data for the tree",
+          "definition": { 
+            "node": {
+              "type": "Array",
+              "desc": "The node, to which the new nodes (the children) will be appended"
+            },
+            "key": {
+              "type": "String",
+              "desc": "The key of the node getting the newly loaded child nodes"
+            },
+            "done": {
+              "type": "Function",
+              "desc": "The callback to be carried out, when the loading is successful"
+            },
+            "fail": {
+              "type": "Function",
+              "desc": "The callback to be carried out, should the loading fail"
+            }
+          }
         }
       }
     },
