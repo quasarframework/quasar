@@ -202,6 +202,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - David Flasterstein
 - Jay McGuinness
 - Matheus Botura Pimenta
+- Jesse Sudich (Outflank Pay Tracker)
 
 - Jim O'Quinn ($5)
 - Ken ($5)
@@ -210,6 +211,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Walison Moreira ($5)
 - Felipe Santiago ($5)
 - Hugo Ramses Moreno Ramos (5$)
+- Louis Ameline ($5)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)
@@ -223,6 +225,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Egor Molodov $200
 - Max Matteo Staack 150 EUR
 - Max Matteo Staack $123
+- Daniel Thompson-Yvetot (0.035 BTC, ~100 EUR)
 - Musicformellons $100
 - Kyle Tippetts $100 (x2)
 - Gerard Eviston $50
