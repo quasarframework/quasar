@@ -19,7 +19,7 @@
     },
 
     "events": {
-      "type": "Array or Function",
+      "type": [ "Array", "Function" ],
       "desc": "A list of events to highlight on the calendar; If using a function, it receives the date as a String and must return a Boolean (matches or not)",
       "examples": [
         ":events=\"['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']\"",
@@ -28,7 +28,7 @@
     },
 
     "event-color": {
-      "type": "String or Function",
+      "type": [ "String", "Function" ],
       "desc": "Color name (from the Quasar Color Palette); If using a function, it receives the date as a String and must return a String (color for the received date)",
       "examples": [
         "teal-10",
@@ -37,7 +37,7 @@
     },
 
     "options": {
-      "type": "Array or Function",
+      "type": [ "Array", "Function" ],
       "desc": "Optionally configure the days that are selectable; If using a function, it receives the date as a String and must return a Boolean (is date acceptable or not)",
       "examples": [
         ":options=\"['2018/11/05', '2018/11/12', '2018/11/19', '2018/11/26' ]\"",
@@ -47,7 +47,7 @@
     },
 
     "first-day-of-week": {
-      "type": "String or Number",
+      "type": [ "String", "Number" ],
       "desc": "Sets the day of the week that is considered the first day (0 - Sunday, 1 - Monday, ...); This day will show in the left-most column of the calendar",
       "default": "(based on configured Quasar i18n language)",
       "examples": [

@@ -2,7 +2,7 @@
   "props": {
     "value": {
       "extends": "value",
-      "type": "Any or Array",
+      "type": [ "Any", "Array" ],
       "examples": [ "false", "['car', 'building']" ]
     },
 
@@ -74,7 +74,7 @@
       "desc": "Toggle the state (of the model)"
     }
   },
-  
+
   "slots": {
     "default": {
       "desc": "Default slot can be used as label, unless 'label' prop is specified; Suggestion: string"

@@ -1,7 +1,7 @@
 {
   "props": {
     "to": {
-      "type": "String or Object",
+      "type": [ "String", "Object" ],
       "desc": "Equivalent to Vue Router <router-link> 'to' property",
       "examples": [
         "/home/dashboard",

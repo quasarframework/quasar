@@ -20,13 +20,13 @@
     },
 
     "delay": {
-      "type": "String or Number",
+      "type": [ "Number", "String" ],
       "desc": "Number (in milliseconds) defining a delay before custom scrollbars become visible after mouse is hovering the container.",
       "default": 1000,
       "examples": [ 500, ":delay=\"550\"" ]
     }
   },
-  
+
   "slots": {
     "default": {
       "extends": "default"

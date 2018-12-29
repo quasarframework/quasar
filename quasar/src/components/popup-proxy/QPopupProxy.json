@@ -8,7 +8,7 @@
     },
 
     "breakpoint": {
-      "type": "Number or String",
+      "type": [ "Number", "String" ],
       "desc": "Breakpoint (in pixels) of window width from where a Menu will get to be used instead of a Dialog",
       "default": 450,
       "examples": [ 992, ":breakpoint=\"1024\"" ]

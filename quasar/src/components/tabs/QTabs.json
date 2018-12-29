@@ -1,7 +1,7 @@
 {
   "props": {
     "value":{
-      "type": "Number or String",
+      "type": [ "Number", "String" ],
       "desc": "Model of the component defining current panel name; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "examples": [ "v-model=\"selectedTab\"" ]
     },
@@ -15,7 +15,7 @@
     },
 
     "breakpoint": {
-      "type": "Number or String",
+      "type": [ "Number", "String" ],
       "desc": "Breakpoint (in pixels) of tabs container width at which the tabs automatically turn to a justify alignment",
       "default": 600,
       "examples": [ ":breakpoint=\"500\"" ]
@@ -71,7 +71,7 @@
       "extends": "dense"
     }
   },
-  
+
   "slots": {
     "default": {
       "extends": "default"

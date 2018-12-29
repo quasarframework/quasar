@@ -66,7 +66,7 @@
       },
 
       "tabindex": {
-        "type": "Number or String",
+        "type": [ "Number", "String" ],
         "desc": "Tabindex HTML attribute value",
         "examples": [ "0", "100" ]
       },

@@ -1,7 +1,7 @@
 {
   "props": {
     "name": {
-      "type": "Number or String",
+      "type": [ "Number", "String" ],
       "desc": "Panel name",
       "required": true,
       "examples": [

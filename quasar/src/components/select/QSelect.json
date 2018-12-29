@@ -3,7 +3,7 @@
 
   "props": {
     "value": {
-      "type": "String or Number or Array",
+      "type": [ "Number", "String", "Array" ],
       "desc": "Model of the component; Must be Array if using 'multiple' prop; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "required": true,
       "examples": [ "v-model=\"myModel\"" ]
@@ -15,7 +15,7 @@
     },
 
     "display-value": {
-      "type": "String or Number",
+      "type": [ "Number", "String" ],
       "desc": "Override default selection string, if not using 'selected' slot/scoped slot and if not using 'use-chips' prop",
       "examples": [ "Options: x, y, z"]
     },
@@ -35,7 +35,7 @@
     },
 
     "option-value": {
-      "type": "Function or String",
+      "type": [ "Function", "String" ],
       "desc": "Property of option which holds the 'value'",
       "default": "value",
       "examples": [
@@ -45,7 +45,7 @@
     },
 
     "option-label": {
-      "type": "Function or String",
+      "type": [ "Function", "String" ],
       "desc": "Property of option which holds the 'label'",
       "default": "label",
       "examples": [
@@ -55,7 +55,7 @@
     },
 
     "option-disable": {
-      "type": "Function or String",
+      "type": [ "Function", "String" ],
       "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean",
       "default": "disable",
       "examples": [
@@ -75,7 +75,7 @@
     },
 
     "max-values": {
-      "type": "Number or String",
+      "type": [ "Number", "String" ],
       "desc": "Allow a maximum number of selections that the user can do",
       "examples": [ "5" ]
     },
@@ -117,7 +117,7 @@
     },
 
     "input-debounce": {
-      "type": "Number or String",
+      "type": [ "Number", "String" ],
       "desc": "Debounce the input model update with an amount of milliseconds",
       "default": 500,
       "examples": [ 650 ]

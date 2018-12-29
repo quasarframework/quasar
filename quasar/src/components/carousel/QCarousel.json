@@ -25,7 +25,7 @@
     },
 
     "autoplay": {
-      "type": "Number or Boolean",
+      "type": [ "Number", "Boolean" ],
       "desc": "Jump to next slide at fixed time intervals (in milliseconds); 'false' disables autoplay, 'true' enables it for 5000ms intervals",
       "default": false,
       "examples": [

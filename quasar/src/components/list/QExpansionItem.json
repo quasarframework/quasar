@@ -88,7 +88,7 @@
     },
 
     "header-style": {
-      "type": "Array or String or Object",
+      "type": [ "Array", "String", "Object" ],
       "desc": "Apply custom style to the header",
       "examples": [
         "background: '#ff0000'",
@@ -97,7 +97,7 @@
     },
 
     "header-class": {
-      "type": "Array or String or Object",
+      "type": [ "Array", "String", "Object" ],
       "desc": "Apply custom class(es) to the header",
       "examples": [
         "my-custom-class",

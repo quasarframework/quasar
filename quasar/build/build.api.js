@@ -91,6 +91,19 @@ function parseAPI (file, apiType) {
           logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"values" is not an Array`)
           process.exit(1)
         }
+
+        if (obj.type === 'Object' && obj.definition !== void 0) {
+          for (let p in obj.definition) {
+            if (obj.definition[p].type === void 0) {
+              logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"props"/"${p}" missing "type"`)
+              process.exit(1)
+            }
+            if (obj.definition[p].desc === void 0) {
+              logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"props"/"${p}" missing "desc"`)
+              process.exit(1)
+            }
+          }
+        }
       }
       else if (type === 'events' || type === 'methods') {
         if (obj.params !== void 0) {

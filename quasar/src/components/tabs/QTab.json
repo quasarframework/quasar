@@ -7,7 +7,7 @@
     },
 
     "label": {
-      "type": "Number or String",
+      "type": [ "Number", "String" ],
       "desc": "A number or string to label the tab",
       "examples": [ "Home" ]
     },
@@ -18,7 +18,7 @@
     },
 
     "name": {
-      "type": "Number or String",
+      "type": [ "Number", "String" ],
       "desc": "Panel name",
       "default": "A random UID",
       "examples": [

@@ -7,7 +7,7 @@
     },
 
     "max": {
-      "type": "String or Number",
+      "type": [ "Number", "String" ],
       "desc": "Number of icons to display",
       "default": 5,
       "examples": [ "3", ":max=\"5\"" ]
@@ -45,7 +45,7 @@
       "desc": "Parses and sets a new value for model",
       "params": {
         "value": {
-          "type": "String or Number",
+          "type": [ "Number", "String" ],
           "desc": "Value to set",
           "required": true
         }

@@ -76,6 +76,46 @@ function getMethodParams (method) {
   return ' (' + str + ')'
 }
 
+function printProp (prop, propName, indentLevel, prefix = '') {
+  let indent = ' '.repeat(indentLevel)
+
+  const type = Array.isArray(prop.type)
+    ? prop.type.join(', ')
+    : prop.type
+
+  console.log(`${indent}${prefix}${chalk.green(propName)} (${type})${prop.required ? chalk.red(' [Required]') : ''}${prop.reactive ? chalk.red(' [Reactive]') : ''}`)
+
+  indentLevel += 2
+  indent += '  ' + (prefix.length > 0 ? ' '.repeat(prefix.length) : '')
+
+  console.log(`${indent}${prop.desc}`)
+  if (prop.sync) {
+    console.log(`${indent}".sync" modifier required!`)
+  }
+  if (prop.link) {
+    console.log(`${indent}Link: ${prop.link}`)
+  }
+  if (prop.values) {
+    console.log(`${indent}Values: [ '${prop.values.join(`' '`)}' ]`)
+  }
+  if (prop.default !== void 0) {
+    console.log(`${indent}Default value: ${prop.default}`)
+  }
+  if (prop.definition !== void 0) {
+    console.log(`${indent}Definition:\n`)
+    for (let propName in prop.definition) {
+      printProp(prop.definition[propName], propName, indentLevel + 2, '- ')
+      console.log()
+    }
+  }
+  if (prop.values === void 0 && prop.examples !== void 0) {
+    console.log(`${indent}Example${prop.examples.length > 1 ? 's' : ''}:`)
+    prop.examples.forEach(example => {
+      console.log(`${indent}  ${example}`)
+    })
+  }
+}
+
 function describe (api) {
   if (api.type === 'plugin') {
     console.log('\n ' + chalk.underline('Injection'))
@@ -93,27 +133,8 @@ function describe (api) {
   }
   else {
     for (let propName in api.props) {
-      const prop = api.props[propName]
-      console.log(`\n ${prop.required ? chalk.red('*') : ' '} ${chalk.green(propName)} (${prop.type})${prop.required ? chalk.red(' [Required]') : ''}${prop.reactive ? chalk.red(' [Reactive]') : ''}`)
-      console.log(`     ${prop.desc}`)
-      if (prop.sync) {
-        console.log(`     ".sync" modifier required!`)
-      }
-      if (prop.link) {
-        console.log(`     Link: ${prop.link}`)
-      }
-      if (prop.values) {
-        console.log(`     Values: [ '${prop.values.join(`' '`)}' ]`)
-      }
-      if (prop.default !== void 0) {
-        console.log(`     Default value: ${prop.default}`)
-      }
-      if (prop.values === void 0 && prop.examples !== void 0) {
-        console.log(`     Examples:`)
-        prop.examples.forEach(example => {
-          console.log(`       ${example}`)
-        })
-      }
+      console.log()
+      printProp(api.props[propName], propName, 3)
     }
   }
 
@@ -155,9 +176,7 @@ function describe (api) {
         else {
           console.log('     Parameters:')
           for (let paramName in event.params) {
-            const param = event.params[paramName]
-            console.log(`       - ${paramName} (${param.type})`)
-            console.log(`           ${param.desc}`)
+            printProp(event.params[paramName], paramName, 7, '- ')
           }
         }
       }
@@ -179,9 +198,7 @@ function describe (api) {
       else {
         console.log('     Parameters:')
         for (let paramName in method.params) {
-          const param = method.params[paramName]
-          console.log(`       - ${paramName} (${param.type})${param.required ? chalk.red(' [Required]') : ''}`)
-          console.log(`           ${param.desc}`)
+          printProp(method.params[paramName], paramName, 7, '- ')
         }
       }
     }

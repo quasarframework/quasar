@@ -133,8 +133,8 @@
     },
 
     "table-style": {
-      "type": "String or Array or Object",
-      "desc": "CSS style to apply to native HTML <table> element's wrapper (which is a <div>)",
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS style to apply to native HTML <table> element's wrapper (which is a DIV)",
       "examples": [
         "background-color: #ff0000",
         ":table-style=\"{ backgroundColor: '#ff0000' }\""
@@ -142,16 +142,16 @@
     },
 
     "table-class": {
-      "type": "String or Array or Object",
-      "desc": "CSS classes to apply to native HTML <table> element's wrapper (which is a <div>)",
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS classes to apply to native HTML <table> element's wrapper (which is a DIV)",
       "examples": [
         "my-special-class",
-        ":table-class=\"{ 'my-special-class': <condition> }\""
+        ":table-class=\"{ 'my-special-class': [Boolean condition] }\""
       ]
     },
 
     "filter": {
-      "type": "String or Object",
+      "type": [ "String", "Object" ],
       "desc": "String/Object to filter table with; When using an Object it requires 'filter-method' to also be specified since it will be a custom filtering",
       "examples": [ ":filter=\"myFilterInput\"" ]
     },
@@ -356,7 +356,7 @@
       "desc": "Trigger a table sort",
       "params": {
         "col": {
-          "type": "String or Object",
+          "type": [ "String", "Object" ],
           "desc": "Column name or column definition object",
           "required": true
         }
