@@ -49,7 +49,7 @@
     "first-day-of-week": {
       "type": "String or Number",
       "desc": "Sets the day of the week that is considered the first day (0 - Sunday, 1 - Monday, ...); This day will show in the left-most column of the calendar",
-      "default": "(based on configured Quasar i18n language),
+      "default": "(based on configured Quasar i18n language)",
       "examples": [
         "first-day-of-week=\"1\"",
         ":first-day-of-week=\"selectedFirstDayOfTheWeek\""
