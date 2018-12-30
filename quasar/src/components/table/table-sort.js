@@ -41,7 +41,7 @@ export default {
             return (a - b) * dir
           }
 
-          [A, B] = [A, B].map(s => (s + '').toLowerCase())
+          [A, B] = [A, B].map(s => (s + '').toLocaleString().toLowerCase())
 
           return A < B
             ? -1 * dir
