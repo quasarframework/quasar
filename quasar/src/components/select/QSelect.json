@@ -184,11 +184,13 @@
           "definition": {
             "index": {
               "type": "Number",
-              "desc": "Model index at which removal took place"
+              "desc": "Model index at which removal took place",
+              "examples": [ 2 ]
             },
             "value": {
               "type": "Any",
-              "desc": "The actual value that was removed"
+              "desc": "The actual value that was removed",
+              "__exemption": [ "examples" ]
             }
           }
         }
@@ -204,11 +206,13 @@
           "definition": {
             "index": {
               "type": "Number",
-              "desc": "Model index at which addition took place"
+              "desc": "Model index at which addition took place",
+              "examples": [ 2 ]
             },
             "value": {
               "type": "Any",
-              "desc": "The actual value that was added"
+              "desc": "The actual value that was added",
+              "__exemption": [ "examples" ]
             }
           }
         }
@@ -220,7 +224,8 @@
       "params": {
         "inputValue": {
           "type": "String",
-          "desc": "What the user typed"
+          "desc": "What the user typed",
+          "examples": [ "phone" ]
         },
         "itemToAddToModel": {
           "type": "Function",
@@ -234,7 +239,8 @@
       "params": {
         "inputValue": {
           "type": "String",
-          "desc": "What the user typed"
+          "desc": "What the user typed",
+          "examples": [ "phone" ]
         },
         "doneFn": {
           "type": "Function",

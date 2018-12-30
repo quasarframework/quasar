@@ -172,7 +172,8 @@
       "definition": {
         "sortBy": {
           "type": "String",
-          "desc": "Column name (from column definition)"
+          "desc": "Column name (from column definition)",
+          "examples": [ "calories" ]
         },
         "descending": {
           "type": "Boolean",
@@ -180,11 +181,13 @@
         },
         "page": {
           "type": "Number",
-          "desc": "Page number (1-based)"
+          "desc": "Page number (1-based)",
+          "examples": [ 3 ]
         },
         "rowsPerPage": {
           "type": "Number",
-          "desc": "How many rows per page? 0 means Infinite"
+          "desc": "How many rows per page? 0 means Infinite",
+          "examples": [ 10 ]
         }
       },
       "examples": [
@@ -293,7 +296,8 @@
           "definition": {
             "sortBy": {
               "type": "String",
-              "desc": "Column name (from column definition)"
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
@@ -301,11 +305,13 @@
             },
             "page": {
               "type": "Number",
-              "desc": "Page number (1-based)"
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
-              "desc": "How many rows per page? 0 means Infinite"
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
             }
           }
         },
@@ -329,7 +335,8 @@
           "definition": {
             "sortBy": {
               "type": "String",
-              "desc": "Column name (from column definition)"
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
@@ -337,11 +344,13 @@
             },
             "page": {
               "type": "Number",
-              "desc": "Page number (1-based)"
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
-              "desc": "How many rows per page? 0 means Infinite"
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
             }
           }
         }
@@ -353,7 +362,10 @@
       "params": {
         "newSelected": {
           "type": "Array",
-          "desc": "The updated selected array"
+          "desc": "The updated selected array",
+          "examples": [
+            "[ { name: 'Frozen Yogurt', calories: 159, fat: 6, __index: 0 } ]"
+          ]
         }
       }
     }
@@ -373,7 +385,8 @@
               "definition": {
                 "sortBy": {
                   "type": "String",
-                  "desc": "Column name (from column definition)"
+                  "desc": "Column name (from column definition)",
+                  "examples": [ "calories" ]
                 },
                 "descending": {
                   "type": "Boolean",
@@ -381,11 +394,13 @@
                 },
                 "page": {
                   "type": "Number",
-                  "desc": "Page number (1-based)"
+                  "desc": "Page number (1-based)",
+                  "examples": [ 3 ]
                 },
                 "rowsPerPage": {
                   "type": "Number",
-                  "desc": "How many rows per page? 0 means Infinite"
+                  "desc": "How many rows per page? 0 means Infinite",
+                  "examples": [ 10 ]
                 }
               }
             },
@@ -401,10 +416,31 @@
     "setPagination": {
       "desc": "Unless using an external pagination Object (through 'pagination.sync' prop), you can use this method and force the internal pagination to change",
       "params": {
-        "value": {
+        "pagination": {
           "type": "Object",
           "desc": "Pagination object",
-          "required": true
+          "required": true,
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
+            }
+          }
         },
         "forceServerRequest": {
           "type": "Boolean",
@@ -427,7 +463,8 @@
         "key": {
           "type": "Any",
           "desc": "Row key value",
-          "required": true
+          "required": true,
+          "examples": [ "calories" ]
         }
       }
     },
@@ -442,7 +479,8 @@
         "col": {
           "type": [ "String", "Object" ],
           "desc": "Column name or column definition object",
-          "required": true
+          "required": true,
+          "examples": [ "calories" ]
         }
       }
     }

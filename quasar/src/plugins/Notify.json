@@ -90,13 +90,18 @@
 
   "methods": {
     "create": {
-      "desc": "Creates a notification; Same as calling $q.notify(...); Returns a Function which hides the notification",
+      "desc": "Creates a notification; Same as calling $q.notify(...)",
       "params": {
         "opts": {
           "type": "Object",
           "desc": "For syntax, check quasar.conf options parameters",
-          "required": true
+          "required": true,
+          "__exemption": [ "examples" ]
         }
+      },
+      "returns": {
+        "type": "Function",
+        "desc": "Calling this function hides the notification"
       }
     },
 
@@ -106,7 +111,8 @@
         "opts": {
           "type": "Object",
           "desc": "For syntax, check quasar.conf options parameters",
-          "required": true
+          "required": true,
+          "__exemption": [ "examples" ]
         }
       }
     }

@@ -48,7 +48,8 @@ module.exports.readFile = function (file) {
 }
 
 module.exports.logError = function (err) {
-  console.error('[Error]', err)
+  console.error('\n' + red('[Error]'), err)
+  console.log()
 }
 
 module.exports.rollupQuasarUMD = function (config = {}) {

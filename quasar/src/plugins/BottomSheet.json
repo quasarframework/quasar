@@ -1,4 +1,6 @@
 {
+  "mixins": [ "utils/global-dialog" ],
+
   "injection": "$q.bottomSheet",
 
   "methods": {
@@ -6,25 +8,17 @@
       "desc": "Creates an ad-hoc Bottom Sheet; Same as calling $q.bottomSheet(...)",
       "params": {
         "opts": {
-          "type": "Object",
           "desc": "Bottom Sheet options",
-          "required": true,
           "definition": {
-            "className": {
-              "type": [ "String", "Array", "Object" ],
-              "desc": "CSS Class name to apply to the Dialog"
-            },
-            "style": {
-              "type": [ "String", "Array", "Object" ],
-              "desc": "CSS style to apply to the Dialog"
-            },
             "title": {
               "type": "String",
-              "desc": "Title"
+              "desc": "Title",
+              "examples": [ "Share" ]
             },
             "message": {
               "type": "String",
-              "desc": "Message"
+              "desc": "Message",
+              "examples": [ "Please select how to share" ]
             },
             "actions": {
               "type": "Array",
@@ -32,7 +26,8 @@
               "definition": {
                 "classes": {
                   "type": [ "String", "Array", "Object" ],
-                  "desc": "CSS classes for this action"
+                  "desc": "CSS classes for this action",
+                  "examples": [ "my-class" ]
                 },
                 "icon": {
                   "extends": "icon"
@@ -52,7 +47,8 @@
                 },
                 "label": {
                   "type": [ "String", "Number" ],
-                  "desc": "Action label"
+                  "desc": "Action label",
+                  "examples": [ "Facebook" ]
                 }
               }
             },
@@ -76,24 +72,6 @@
               "type": "Boolean",
               "desc": "User cannot dismiss Bottom Sheet if clicking outside of it or hitting ESC key"
             }
-          }
-        }
-      },
-      "returns": {
-        "type": "Object",
-        "desc": "Chainable Dialog Object",
-        "definition": {
-          "onOk": {
-            "type": "Function",
-            "desc": "Receives a Function param to tell what to do when OK is pressed"
-          },
-          "onCancel": {
-            "type": "Function",
-            "desc": "Receives a Function as param to tell what to do when Cancel is pressed"
-          },
-          "hide": {
-            "type": "Function",
-            "desc": "Hides the dialog when called"
           }
         }
       }

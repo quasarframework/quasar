@@ -8,8 +8,14 @@
         "name": {
           "type": "String",
           "desc": "Cookie name",
-          "required": true
+          "required": true,
+          "examples": [ "userId" ]
         }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Cookie value",
+        "examples": [ "john12" ]
       }
     },
 
@@ -19,13 +25,15 @@
         "name": {
           "type": "String",
           "desc": "Cookie name",
-          "required": true
+          "required": true,
+          "examples": [ "userId" ]
         },
 
         "value": {
           "type": "String",
           "desc": "Cookie value",
-          "required": true
+          "required": true,
+          "examples": [ "john12" ]
         },
 
         "options": {
@@ -34,15 +42,18 @@
           "definition": {
             "expires": {
               "type": [ "Number", "String" ],
-              "desc": "Cookie expires detail"
+              "desc": "Cookie expires detail",
+              "examples": [ 45877, "Wed, 13 Jan 2021 22:23:01 GMT" ]
             },
             "path": {
               "type": "String",
-              "desc": "Cookie path"
+              "desc": "Cookie path",
+              "examples": [ "/accounts" ]
             },
             "domain": {
               "type": "String",
-              "desc": "Cookie domain"
+              "desc": "Cookie domain",
+              "examples": [ ".foo.com" ]
             },
             "httpOnly": {
               "type": "Boolean",
@@ -63,8 +74,13 @@
         "name": {
           "type": "String",
           "desc": "Cookie name",
-          "required": true
+          "required": true,
+          "examples": [ "userId" ]
         }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Does cookie exists or not?"
       }
     },
 
@@ -74,7 +90,8 @@
         "name": {
           "type": "String",
           "desc": "Cookie name",
-          "required": true
+          "required": true,
+          "examples": [ "userId" ]
         },
 
         "options": {
@@ -83,11 +100,13 @@
           "definition": {
             "path": {
               "type": "String",
-              "desc": "Cookie path"
+              "desc": "Cookie path",
+              "examples": [ "/accounts" ]
             },
             "domain": {
               "type": "String",
-              "desc": "Cookie domain"
+              "desc": "Cookie domain",
+              "examples": [ ".foo.com" ]
             },
             "httpOnly": {
               "type": "Boolean",
@@ -103,17 +122,30 @@
     },
 
     "all": {
-      "desc": "Get all cookies"
+      "desc": "Get all cookies",
+      "returns": {
+        "type": "Object",
+        "desc": "Object with cookie names (as keys) and their values",
+        "examples": [
+          "{ userId: 'john12', XFrame: 'x534' }"
+        ]
+      }
     },
 
     "parseSSR": {
-      "desc": "For SSR usage only, and only on the global import (not on $q injection); Returns a SSR object same as the $q injection",
+      "desc": "For SSR usage only, and only on the global import (not on $q.cookies)",
       "params": {
         "ssrContext": {
           "type": "Object",
           "desc": "SSR Context Object",
-          "required": true
+          "required": true,
+          "__exemption": [ "examples" ]
         }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "Cookie object (like $q.cookies) for SSR usage purposes",
+        "__exemption": [ "examples" ]
       }
     }
   }

@@ -68,7 +68,8 @@
       "params": {
         "evt": {
           "type": "Object",
-          "desc": "JS event object"
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
         }
       }
     }

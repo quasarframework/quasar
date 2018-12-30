@@ -22,19 +22,23 @@
       "definition": {
         "sm": {
           "type": "Number",
-          "desc": "Breakpoint width size"
+          "desc": "Breakpoint width size",
+          "examples": [ 600 ]
         },
         "md": {
           "type": "Number",
-          "desc": "Breakpoint width size"
+          "desc": "Breakpoint width size",
+          "examples": [ 1024 ]
         },
         "lg": {
           "type": "Number",
-          "desc": "Breakpoint width size"
+          "desc": "Breakpoint width size",
+          "examples": [ 1440 ]
         },
         "xl": {
           "type": "Number",
-          "desc": "Breakpoint width size"
+          "desc": "Breakpoint width size",
+          "examples": [ 1920 ]
         }
       },
       "reactive": true,
@@ -138,19 +142,23 @@
           "definition": {
             "sm": {
               "type": "Number",
-              "desc": "Breakpoint width size"
+              "desc": "Breakpoint width size",
+              "examples": [ 600 ]
             },
             "md": {
               "type": "Number",
-              "desc": "Breakpoint width size"
+              "desc": "Breakpoint width size",
+              "examples": [ 1024 ]
             },
             "lg": {
               "type": "Number",
-              "desc": "Breakpoint width size"
+              "desc": "Breakpoint width size",
+              "examples": [ 1440 ]
             },
             "xl": {
               "type": "Number",
-              "desc": "Breakpoint width size"
+              "desc": "Breakpoint width size",
+              "examples": [ 1920 ]
             }
           },
           "required": true
@@ -164,7 +172,8 @@
         "amount": {
           "type": "Number",
           "desc": "Amount in milliseconds",
-          "required": true
+          "required": true,
+          "examples": [ 300 ]
         }
       }
     }

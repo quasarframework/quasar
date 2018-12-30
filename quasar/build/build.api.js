@@ -41,6 +41,235 @@ function getMixedInAPI (api, mainFile) {
   return finalApi
 }
 
+const topSections = {
+  plugin: [ 'injection', 'quasarConfOptions', 'props', 'methods' ],
+  component: [ 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
+  directive: [] // TODO
+}
+
+const objectTypes = {
+  Boolean: {
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples' ],
+    required: [ 'desc' ],
+    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isArray: [ 'examples' ]
+  },
+
+  String: {
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples' ],
+    required: [ 'desc', 'examples' ],
+    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isArray: [ 'examples', 'values' ]
+  },
+
+  Number: {
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples' ],
+    required: [ 'desc', 'examples' ],
+    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isArray: [ 'examples', 'values' ]
+  },
+
+  Object: {
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples' ],
+    required: [ 'desc', 'examples' ],
+    recursive: [ 'definition' ],
+    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isObject: [ 'definition' ],
+    isArray: [ 'examples', 'values' ]
+  },
+
+  Array: {
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples' ],
+    required: [ 'desc', 'examples' ],
+    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isObject: [ 'definition' ],
+    isArray: [ 'examples', 'values' ]
+  },
+
+  Function: {
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples' ],
+    required: [ 'desc' ],
+    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isObject: [ 'params', 'returns' ],
+    isArray: [ 'examples' ]
+  },
+
+  MultipleTypes: {
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples' ],
+    required: [ 'desc', 'examples' ],
+    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isObject: [ 'definition', 'params', 'returns' ],
+    isArray: [ 'examples', 'values' ]
+  },
+
+  // special type, not common
+  Error: {
+    props: [ 'desc' ],
+    required: [ 'desc' ]
+  },
+
+  // special type, not common
+  Component: {
+    props: [ 'desc' ],
+    required: [ 'desc' ]
+  },
+
+  slots: {
+    props: [ 'desc', 'link' ],
+    required: [ 'desc' ]
+  },
+
+  scopedSlots: {
+    props: [ 'desc', 'link', 'definition' ],
+    required: [ 'desc' ], // TODO 'definition'
+    isObject: [ 'definition' ]
+  },
+
+  events: {
+    props: [ 'desc', 'link', 'params' ],
+    required: [ 'desc' ],
+    isObject: [ 'params' ]
+  },
+
+  methods: {
+    props: [ 'desc', 'link', 'params', 'returns' ],
+    required: [ 'desc' ],
+    isObject: [ 'params', 'returns' ]
+  },
+
+  quasarConfOptions: {
+    props: [ 'propName', 'props', 'link' ],
+    required: [ 'propName', 'props' ]
+  }
+}
+
+function parseObject ({ banner, api, itemName, masterType }) {
+  let obj = api[itemName]
+
+  if (obj.extends !== void 0 && extendApi[masterType] !== void 0) {
+    if (extendApi[masterType][obj.extends] === void 0) {
+      logError(`${banner} extends "${obj.extends}" which does not exists`)
+      process.exit(1)
+    }
+
+    api[itemName] = merge(
+      extendApi[masterType][obj.extends],
+      api[itemName]
+    )
+    delete api[itemName].extends
+
+    obj = api[itemName]
+  }
+
+  let type
+
+  if (masterType === 'props') {
+    if (obj.type === void 0) {
+      logError(`${banner} missing "type" prop`)
+      process.exit(1)
+    }
+
+    type = Array.isArray(obj.type) || obj.type === 'Any'
+      ? 'MultipleTypes'
+      : obj.type
+  }
+  else {
+    type = masterType
+  }
+
+  if (objectTypes[type] === void 0) {
+    logError(`${banner} object has unrecognized API type prop value: "${type}"`)
+    console.error(obj)
+    process.exit(1)
+  }
+
+  const def = objectTypes[type]
+
+  for (let prop in obj) {
+    if ([ 'type', '__exemption' ].includes(prop)) {
+      continue
+    }
+
+    if (!def.props.includes(prop)) {
+      logError(`${banner} object has unrecognized API prop "${prop}" for its type (${type})`)
+      console.error(obj)
+      console.log()
+      process.exit(1)
+    }
+
+    def.required.forEach(prop => {
+      if (obj.__exemption !== void 0 && obj.__exemption.includes(prop)) {
+        return
+      }
+      if (
+        !prop.examples &&
+        (obj.definition !== void 0 || obj.values !== void 0)
+      ) {
+        return
+      }
+
+      if (obj[prop] === void 0) {
+        logError(`${banner} missing required API prop "${prop}" for its type (${type})`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    })
+
+    if (obj.__exemption !== void 0) {
+      const { __exemption, ...p } = obj
+      api[itemName] = p
+    }
+
+    def.isBoolean && def.isBoolean.forEach(prop => {
+      if (obj[prop] && obj[prop] !== true && obj[prop] !== false) {
+        logError(`${banner}/"${prop}" is not a Boolean`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    })
+    def.isObject && def.isObject.forEach(prop => {
+      if (obj[prop] && Object(obj[prop]) !== obj[prop]) {
+        logError(`${banner}/"${prop}" is not an Object`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    })
+    def.isArray && def.isArray.forEach(prop => {
+      if (obj[prop] && !Array.isArray(obj[prop])) {
+        logError(`${banner}/"${prop}" is not an Array`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    })
+  }
+
+  if (obj.returns !== void 0) {
+    parseObject({
+      banner: `${banner}/"returns"`,
+      api: api[itemName],
+      itemName: 'returns',
+      masterType: 'props'
+    })
+  }
+
+  ;[ 'params', 'definition' ].forEach(prop => {
+    if (obj[prop] === void 0) { return }
+
+    for (let item in obj[prop]) {
+      parseObject({
+        banner: `${banner}/"${prop}"/"${item}"`,
+        api: api[itemName][prop],
+        itemName: item,
+        masterType: 'props'
+      })
+    }
+  })
+}
+
 function parseAPI (file, apiType) {
   let api = require(file)
 
@@ -48,78 +277,45 @@ function parseAPI (file, apiType) {
     api = getMixedInAPI(api, file)
   }
 
+  const banner = `build.api.js: ${path.relative(root, file)} -> `
+
   // "props", "slots", ...
   for (let type in api) {
-    if (['injection', 'quasarConfOptions'].includes(type)) { // only for plugins, validated above
+    if (!topSections[apiType].includes(type)) {
+      logError(`${banner} "${type}" is not recognized for a ${apiType}`)
+      process.exit(1)
+    }
+
+    if (type === 'injection') {
+      if (typeof api.injection !== 'string' || api.injection.length === 0) {
+        logError(`${banner} "${type}"/"injection" invalid content`)
+        process.exit(1)
+      }
       continue
     }
 
-    for (let item in api[type]) {
-      const definition = api[type][item]
-
-      if (definition.extends !== void 0 && extendApi[apiType][type] !== void 0) {
-        api[type][item] = merge(
-          extendApi[apiType][type][definition.extends],
-          api[type][item]
-        )
-        delete api[type][item].extends
-      }
-
-      const obj = api[type][item]
-
-      if (obj.desc === void 0) {
-        logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "desc" prop`)
+    if (type === 'quasarConfOptions') {
+      if (Object(api.quasarConfOptions) !== api.quasarConfOptions) {
+        logError(`${banner} "${type}"/"quasarConfOptions" is not an object`)
         process.exit(1)
       }
 
-      if (type === 'props') {
-        if (obj.type === void 0) {
-          logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "type" prop`)
-          process.exit(1)
-        }
+      parseObject({
+        banner: `${banner} "${type}"`,
+        api,
+        itemName: 'quasarConfOptions',
+        masterType: type
+      })
+      continue
+    }
 
-        if (obj.type !== 'Boolean' && obj.examples === void 0) {
-          logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}" missing "examples" prop`)
-          process.exit(1)
-        }
-
-        if (obj.examples && !Array.isArray(obj.examples)) {
-          logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"examples" is not an Array`)
-          process.exit(1)
-        }
-        if (obj.values && !Array.isArray(obj.values)) {
-          logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"values" is not an Array`)
-          process.exit(1)
-        }
-
-        if (obj.type === 'Object' && obj.definition !== void 0) {
-          for (let p in obj.definition) {
-            if (obj.definition[p].type === void 0) {
-              logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"props"/"${p}" missing "type"`)
-              process.exit(1)
-            }
-            if (obj.definition[p].desc === void 0) {
-              logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"props"/"${p}" missing "desc"`)
-              process.exit(1)
-            }
-          }
-        }
-      }
-      else if (type === 'events' || type === 'methods') {
-        if (obj.params !== void 0) {
-          for (let paramName in obj.params) {
-            const param = obj.params[paramName]
-
-            if (
-              param.type === void 0 ||
-              param.desc === void 0
-            ) {
-              logError(`build.api.js: ${path.relative(root, file)} -> "${type}"/"${item}"/"${paramName}" missing either "type" or "desc" props`)
-              process.exit(1)
-            }
-          }
-        }
-      }
+    for (let itemName in api[type]) {
+      parseObject({
+        banner: `${banner} "${type}"/"${itemName}"`,
+        api: api[type],
+        itemName,
+        masterType: type
+      })
     }
   }
 
@@ -153,6 +349,9 @@ module.exports.generate = function () {
 
     glob.sync(resolve('src/plugins/*.json'))
       .forEach(fillAPI(API, 'plugin'))
+
+    /* glob.sync(resolve('src/directives/*.json'))
+      .forEach(fillAPI(API, 'directive')) */
 
     writeFile(
       path.join(dest, 'index.json'),

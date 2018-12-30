@@ -81,11 +81,13 @@
       "params": {
         "value": {
           "type": "Any",
-          "desc": "Validated value to be saved"
+          "desc": "Validated value to be saved",
+          "__exemption": [ "examples" ]
         },
         "initialValue": {
           "type": "Any",
-          "desc": "Initial value, before changes"
+          "desc": "Initial value, before changes",
+          "__exemption": [ "examples" ]
         }
       }
     },
@@ -95,11 +97,13 @@
       "params": {
         "value": {
           "type": "Any",
-          "desc": "Edited value"
+          "desc": "Edited value",
+          "__exemption": [ "examples" ]
         },
         "initialValue": {
           "type": "Any",
-          "desc": "Initial value, before changes"
+          "desc": "Initial value, before changes",
+          "__exemption": [ "examples" ]
         }
       }
     }

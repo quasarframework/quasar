@@ -31,11 +31,13 @@
           "definition": {
             "height": {
               "type": "Number",
-              "desc": "Layout height"
+              "desc": "Layout height",
+              "examples": [ 575 ]
             },
             "width": {
               "type": "Number",
-              "desc": "Layout height"
+              "desc": "Layout height",
+              "examples": [ 575 ]
             }
           }
         }
@@ -51,7 +53,8 @@
           "definition": {
             "position": {
               "type": "Number",
-              "desc": "Scroll offset (from top)"
+              "desc": "Scroll offset (from top)",
+              "examples": [ 575 ]
             },
             "direction": {
               "type": "String",
@@ -64,7 +67,8 @@
             },
             "inflexionPosition": {
               "type": "Number",
-              "desc": "Last scroll offset where scroll direction has changed"
+              "desc": "Last scroll offset where scroll direction has changed",
+              "examples": [ 575 ]
             }
           }
         }
@@ -76,7 +80,8 @@
       "params": {
         "height": {
           "type": "Number",
-          "desc": "New scroll height of layout"
+          "desc": "New scroll height of layout",
+          "examples": [ 1442 ]
         }
       }
     }
