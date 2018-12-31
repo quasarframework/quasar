@@ -361,6 +361,11 @@
         <q-btn :type="tag" round color="secondary" icon="alarm" />
       </div>
 
+      <div class="caption">Rounded Buttons</div>
+      <div class="q-gutter-sm">
+        <q-btn :type="tag" rounded color="secondary" icon="alarm" />
+      </div>
+
       <div class="caption">Glossy Buttons</div>
       <div class="q-gutter-sm">
         <q-btn :type="tag" color="primary" glossy label="Glossy" />

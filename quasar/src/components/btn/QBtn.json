@@ -1,0 +1,26 @@
+{
+  "mixins": [ "components/btn/__btn-mixin" ],
+
+  "props": {
+    "percentage": {
+      "type": "Number",
+      "desc": "Percentage (0.0 < x < 100.0); To be used along 'loading' prop; Display a progress bar on the background",
+      "examples": [ 23 ]
+    },
+
+    "dark-percentage": {
+      "type": "Boolean",
+      "desc": "Progress bar on the background should have dark color; To be used along with 'percentage' and 'loading' props"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Use for custom content, instead of relying on 'icon' and 'label' props"
+    },
+
+    "loading": {
+      "desc": "Override the default QSpinner when in 'loading' state"
+    }
+  }
+}

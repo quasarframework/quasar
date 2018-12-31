@@ -362,12 +362,15 @@ module.exports.generate = function () {
 
   try {
     glob.sync(resolve('src/components/**/Q*.json'))
+      .filter(file => !path.basename(file).startsWith('__'))
       .forEach(fillAPI(API, 'component'))
 
     glob.sync(resolve('src/plugins/*.json'))
+      .filter(file => !path.basename(file).startsWith('__'))
       .forEach(fillAPI(API, 'plugin'))
 
     glob.sync(resolve('src/directives/*.json'))
+      .filter(file => !path.basename(file).startsWith('__'))
       .forEach(fillAPI(API, 'directive'))
 
     writeFile(

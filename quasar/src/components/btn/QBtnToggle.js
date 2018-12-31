@@ -11,6 +11,12 @@ export default Vue.extend({
       required: true
     },
 
+    options: {
+      type: Array,
+      required: true,
+      validator: v => v.every(opt => ('label' in opt || 'icon' in opt) && 'value' in opt)
+    },
+
     // To avoid seeing the active raise shadow through the transparent button, give it a color (even white).
     color: String,
     textColor: String,
@@ -26,12 +32,6 @@ export default Vue.extend({
     rounded: Boolean,
     push: Boolean,
 
-    options: {
-      type: Array,
-      required: true,
-      validator: v => v.every(opt => ('label' in opt || 'icon' in opt) && 'value' in opt)
-    },
-
     size: String,
 
     noCaps: Boolean,
@@ -40,8 +40,8 @@ export default Vue.extend({
     readonly: Boolean,
     disable: Boolean,
 
-    stretch: Boolean,
     stack: Boolean,
+    stretch: Boolean,
 
     ripple: {
       type: [Boolean, Object],
