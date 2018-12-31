@@ -175,7 +175,7 @@
 
       <p class="caption">On dark Background</p>
       <q-expansion-item dark class="bg-black" icon="shopping_cart" label="Toggle me">
-        <q-card dark>
+        <q-card dark class="bg-black">
           <q-card-section>
             {{ lorem }}
           </q-card-section>
