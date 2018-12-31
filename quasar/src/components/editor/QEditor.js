@@ -250,7 +250,7 @@ export default Vue.extend({
   },
 
   methods: {
-    onInput (e) {
+    onInput () {
       if (this.editWatcher) {
         const val = this.$refs.content.innerHTML
         if (val !== this.value) {
@@ -261,14 +261,13 @@ export default Vue.extend({
     },
 
     onKeydown (e) {
-      const key = e.keyCode
-
       if (!e.ctrlKey) {
         this.refreshToolbar()
         this.$q.platform.is.ie && this.$nextTick(this.onInput)
         return
       }
 
+      const key = e.keyCode
       const target = this.keys[key]
       if (target !== void 0) {
         const { cmd, param } = target

@@ -1,0 +1,226 @@
+{
+  "mixins": ["mixins/fullscreen"],
+
+  "props": {
+    "value": {
+      "type": "String",
+      "desc": "The pure HTML mirrored to and from the input area"
+    },
+    "readonly": {
+      "type": "Boolean",
+      "desc": "Remove the 'contentEditable' parameter from the input area",
+      "default": "false"
+    },
+    "disable": {
+      "type": "Boolean",
+      "desc": "Add the 'disabled' class to the component",
+      "default": "false"
+    },
+    "min-height": {
+      "type": "String",
+      "desc": "CSS unit for the minimum height of the input area",
+      "default": "10rem"
+    },
+    "max-height": {
+      "type": "String",
+      "desc": "CSS unit for maximum height of the input area"
+    },
+    "height": {
+      "type": "String",
+      "desc": "CSS value to set the height of the input area"
+    },
+    "definitions": {
+      "type": "Object",
+      "desc": "Definition of commands and their buttons to be included in the 'toolbar' prop",
+      "examples": [
+        ":definitions=\"{",
+        "  save: {",
+        "    tip: 'Save your work',",
+        "    icon: 'save',",
+        "    label: 'Save',",
+        "    handler: saveWork",
+        "  },",
+        "  upload: {",
+        "    tip: 'Upload to cloud',",
+        "    icon: 'cloud_upload',",
+        "    label: 'Upload',",
+        "    handler: uploadIt",
+        "  }",
+        "}\""
+      ],
+      "definition": {
+        "label": {
+          "type": "String",
+          "desc": "Label of the button"
+        },
+        "tip": {
+          "type": "String",
+          "desc": "Text to be displayed as a tooltip on hover"
+        },
+        "htmlTip": {
+          "type": "String",
+          "desc": "HTML formatted text to be displayed within a tooltip on hover"
+        },
+        "icon": {
+          "type": "String",
+          "desc": "Icon of the button"
+        },
+        "key": {
+          "type": "Number",
+          "desc": "Keycode of a key to be used as a shortcut for triggering this element"
+        },
+        "handler": {
+          "type": "Function",
+          "desc": "Either this or \"cmd\" is required. Function for when button gets clicked/tapped."
+        },
+        "cmd": {
+          "type": "String",
+          "desc": "Either this or \"handler\" is required. This must be a valid execCommand method according to the designMode API."
+        },
+        "param": {
+          "type": ["String", "Function"],
+          "desc": "Only set a param if using a \"cmd\". This is commonly text or HTML to inject, but is highly dependent upon the specific cmd being called."
+        },
+        "disable": {
+          "type": ["Boolean", "Function"],
+          "desc": "Is button disabled? If specifying a function, return a Boolean value."
+        },
+        "type": {
+          "type": "String",
+          "desc": "Pass the value \"no-state\" if the button should not have an \"active\" state",
+          "values": [null, "no-state"]
+        }
+      }
+    },
+    "fonts": {
+      "type": "Object",
+      "desc": "Object with definitions of fonts",
+      "examples": [
+        ":fonts=\"{",
+        "  arial: 'Arial',",
+        "  arial_black: 'Arial Black',",
+        "  comic_sans: 'Comic Sans MS'",
+        "}\""
+      ]
+    },
+    "toolbar": {
+      "type": "Array",
+      "desc": "An array of arrays of Objects/Strings that you use to define the construction of the elements and commands available in the toolbar",
+      "default": [
+        ["left", "center", "right", "justify"],
+        ["bold", "italic", "underline", "strike"],
+        ["undo", "redo"]
+      ]
+    },
+    "toolbar-color": {
+      "type": "String",
+      "desc": "Font color (from the Quasar Palette) of buttons and text in the toolbar"
+    },
+    "toolbar-text-color": {
+      "type": "String",
+      "desc": "Text color (from the Quasar Palette) of toolbar commands"
+    },
+    "toolbar-toggle-color": {
+      "type": "String",
+      "desc": "Choose the active color (from the Quasar Palette) of toolbar commands button",
+      "default": "primary"
+    },
+    "toolbar-bg": {
+      "type": "String",
+      "desc": "Toolbar background color (from Quasar Palette)",
+      "default": "grey-3"
+    },
+    "toolbar-flat": {
+      "type": "Boolean",
+      "desc": "Toolbar buttons are rendered \"flat\""
+    },
+    "toolbar-outline": {
+      "type": "Boolean",
+      "desc": "Toolbar buttons are rendered \"outlined\""
+    },
+    "toolbar-push": {
+      "type": "Boolean",
+      "desc": "Toolbar buttons are rendered as a \"push-button\" type"
+    },
+    "toolbar-rounded": {
+      "type": "Boolean",
+      "desc": "Toolbar buttons are rendered \"rounded\""
+    },
+    "content-style": {
+      "type": "Object",
+      "desc": "CSS Style in Object format for the input area"
+    },
+    "content-class": {
+      "type": ["Object", "Array", "String"],
+      "desc": "CSS classes for the input area",
+      "examples": [
+        "my-special-class",
+        ":content-class=\"{ 'my-special-class': <condition> }\""
+      ]
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input",
+      "desc": "Triggered when input area content changes"
+    },
+    "keydown": {
+      "desc": "Emitted on on every keypress",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object"
+        }
+      }
+    },
+    "click": {
+      "desc": "Emitted when clicking into the input area"
+    },
+    "blur": {
+      "desc": "Emitted when the input area loses focus",
+      "params": {
+        "evt": {
+          "type": "Function",
+          "desc": "Save the current caret location and range within the contentEditable input area"
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "runCmd": {
+      "desc": "Run contentEditable command at caret position and range",
+      "params": {
+        "cmd": {
+          "type": "String",
+          "desc": "Must be a valid execCommand method according to the designMode API",
+          "examples": [ "copy", "cut", "paste" ],
+          "required": true
+        },
+        "param": {
+          "type": "String",
+          "desc": "The argument to pass to the command"
+        },
+        "update": {
+          "type": "Boolean",
+          "desc": "Refresh the toolbar",
+          "default": true
+        }
+      }
+    },
+    "refreshToolbar": {
+      "desc": "Hide the link editor if visible and force the instance to re-render"
+    },
+    "focus": {
+      "desc": "Focus on the contentEditable at saved cursor position"
+    },
+    "getContentEl": {
+      "desc": "Retrieve the content of the Editor",
+      "returns": {
+        "type": "String",
+        "desc": "Provides the pure HTML within the contentEditable dom element"
+      }
+    }
+  }
+}
