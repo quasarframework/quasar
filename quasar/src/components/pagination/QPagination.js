@@ -4,7 +4,6 @@ import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 
 import { between } from '../../utils/format.js'
-import { isDeepEqual } from '../../utils/is.js'
 
 export default Vue.extend({
   name: 'QPagination',
@@ -22,13 +21,17 @@ export default Vue.extend({
       type: Number,
       required: true
     },
+
     color: {
       type: String,
       default: 'primary'
     },
     textColor: String,
+
     size: String,
+
     disable: Boolean,
+
     input: Boolean,
     boundaryLinks: {
       type: Boolean,
@@ -49,13 +52,7 @@ export default Vue.extend({
     maxPages: {
       type: Number,
       default: 0,
-      validator: v => {
-        if (v < 0) {
-          console.error('maxPages should not be negative')
-          return false
-        }
-        return true
-      }
+      validator: v => v > 0
     }
   },
 
@@ -86,7 +83,6 @@ export default Vue.extend({
         }
         const value = between(parseInt(val, 10), this.min, this.max)
         this.$emit('input', value)
-        !isDeepEqual(value, this.value) && this.$emit('change', value)
       }
     },
 
