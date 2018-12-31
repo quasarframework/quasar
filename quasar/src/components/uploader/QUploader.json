@@ -141,6 +141,87 @@
     }
   },
 
+  "scopedSlots": {
+    "header": {
+      "desc": "Slot for custom header",
+      "definition": {
+        "type": "Object",
+        "desc": "Uploader component instance",
+        "__exemption": [ "examples" ]
+      }
+    },
+
+    "list": {
+      "desc": "Slot for custom list",
+      "definition": {
+        "type": "Object",
+        "desc": "Uploader component instance",
+        "__exemption": [ "examples" ]
+      }
+    }
+  },
+
+  "events": {
+    "add": {
+      "desc": "Emitted when files are added into the list",
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Array of files that were added",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "uploaded": {
+      "desc": "Emitted when file or batch of files is uploaded",
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Uploaded files",
+          "__exemption": [ "examples" ]
+        },
+        "xhr": {
+          "type": "Object",
+          "desc": "XMLHttpRequest that has been used to upload this batch of files",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "failed": {
+      "desc": "Emitted when file or batch of files has encountered error while uploading",
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Files which encountered error",
+          "__exemption": [ "examples" ]
+        },
+        "xhr": {
+          "type": "Object",
+          "desc": "XMLHttpRequest that has been used to upload this batch of files",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "uploading": {
+      "desc": "Emitted when file or batch of files started uploading",
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Files which are now uploading",
+          "__exemption": [ "examples" ]
+        },
+        "xhr": {
+          "type": "Object",
+          "desc": "XMLHttpRequest used for uploading",
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
+  },
+  
   "methods": {
     "abort": {
       "desc": "Abort upload of all files (same as clicking the abort button)"
@@ -151,7 +232,7 @@
     },
 
     "pickFiles": {
-      "desc": "Trigger file pick (same as clicking the plus button). Must be called as a direct consequence of user interaction (eg. in a click handler), due to browsers security policy"
+      "desc": "Trigger file pick (same as clicking the plus button); Must be called as a direct consequence of user interaction (eg. in a click handler), due to browsers security policy"
     },
 
     "addFiles": {
@@ -160,13 +241,14 @@
         "files": {
           "type": "Array",
           "desc": "Array of files (instances of File)",
-          "required": true
+          "required": true,
+          "__exemption": [ "examples" ]
         }
       }
     },
 
     "reset": {
-      "desc": "Resets uploader to default, empty state"
+      "desc": "Resets uploader to default; Empties queue, aborts current uploads"
     },
 
     "removeUploadedFiles": {
@@ -182,84 +264,9 @@
       "params": {
         "file": {
           "type": "Object",
+          "desc": "File to remove (instance of File)"
           "required": true,
-          "desc": "File to remove. Instance of file"
-        }
-      }
-    }
-  },
-
-  "scopedSlots": {
-    "header": {
-      "desc": "Slot for custom header",
-      "params": {
-        "props": {
-          "type": "Object",
-          "desc": "Uploader instance"
-        }
-      }
-    },
-
-    "list": {
-      "desc": "Slot for custom list",
-      "params": {
-        "props": {
-          "type": "Object",
-          "desc": "Uploader instance"
-        }
-      }
-    }
-  },
-
-  "events": {
-    "add": {
-      "desc": "Emitted when files are added into the list",
-      "params": {
-        "files": {
-          "type": "Array",
-          "desc": "Array of files that were added"
-        }
-      }
-    },
-
-    "uploaded": {
-      "desc": "Emitted when file or batch of files is uploaded",
-      "params": {
-        "files": {
-          "type": "Array",
-          "desc": "Uploaded files"
-        },
-        "xhr": {
-          "type": "Object",
-          "desc": "XMLHttpRequest that has been used to upload this batch of files"
-        }
-      }
-    },
-
-    "failed": {
-      "desc": "Emitted when file or batch of files has encountered error while uploading",
-      "params": {
-        "files": {
-          "type": "Array",
-          "desc": "Files which encountered error"
-        },
-        "xhr": {
-          "type": "Object",
-          "desc": "XMLHttpRequest that has been used to upload this batch of files"
-        }
-      }
-    },
-
-    "uploading": {
-      "desc": "Emitted when file or batch of files started uploading",
-      "params": {
-        "files": {
-          "type": "Array",
-          "desc": "Files which are now uploading"
-        },
-        "xhr": {
-          "type": "Object",
-          "desc": "XMLHttpRequest used for uploading"
+          "__exemption": [ "examples" ]
         }
       }
     }
