@@ -102,7 +102,7 @@ function printProp (prop, propName, indentLevel) {
     indent += '  '
   }
 
-  console.log(`${indent}${prop.desc}`)
+  console.log(`${indent}Description: ${prop.desc}`)
   if (prop.sync) {
     console.log(`${indent}".sync" modifier required!`)
   }
@@ -119,6 +119,12 @@ function printProp (prop, propName, indentLevel) {
     console.log(`${indent}Props:`)
     for (let propName in prop.definition) {
       printProp(prop.definition[propName], propName, indentLevel + 2)
+    }
+  }
+  if (prop.params !== void 0) {
+    console.log(`${indent}Params:`)
+    for (let propName in prop.params) {
+      printProp(prop.params[propName], propName, indentLevel + 2)
     }
   }
   if (prop.returns !== void 0) {

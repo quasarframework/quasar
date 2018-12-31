@@ -44,7 +44,7 @@ function getMixedInAPI (api, mainFile) {
 const topSections = {
   plugin: [ 'injection', 'quasarConfOptions', 'props', 'methods' ],
   component: [ 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
-  directive: [] // TODO
+  directive: [ 'value', 'arg', 'modifiers' ]
 }
 
 const objectTypes = {
@@ -114,17 +114,20 @@ const objectTypes = {
     required: [ 'desc' ]
   },
 
+  // component only
   slots: {
     props: [ 'desc', 'link' ],
     required: [ 'desc' ]
   },
 
+  // component only
   scopedSlots: {
     props: [ 'desc', 'link', 'definition' ],
     required: [ 'desc' ], // TODO 'definition'
     isObject: [ 'definition' ]
   },
 
+  // component only
   events: {
     props: [ 'desc', 'link', 'params' ],
     required: [ 'desc' ],
@@ -137,6 +140,7 @@ const objectTypes = {
     isObject: [ 'params', 'returns' ]
   },
 
+  // plugin only
   quasarConfOptions: {
     props: [ 'propName', 'props', 'link' ],
     required: [ 'propName', 'props' ]
@@ -163,7 +167,7 @@ function parseObject ({ banner, api, itemName, masterType }) {
 
   let type
 
-  if (masterType === 'props') {
+  if (['props', 'modifiers'].includes(masterType)) {
     if (obj.type === void 0) {
       logError(`${banner} missing "type" prop`)
       process.exit(1)
@@ -191,6 +195,7 @@ function parseObject ({ banner, api, itemName, masterType }) {
     }
 
     if (!def.props.includes(prop)) {
+      console.log(def)
       logError(`${banner} object has unrecognized API prop "${prop}" for its type (${type})`)
       console.error(obj)
       console.log()
@@ -294,17 +299,29 @@ function parseAPI (file, apiType) {
       continue
     }
 
-    if (type === 'quasarConfOptions') {
-      if (Object(api.quasarConfOptions) !== api.quasarConfOptions) {
-        logError(`${banner} "${type}"/"quasarConfOptions" is not an object`)
+    if (['value', 'arg', 'quasarConfOptions'].includes(type)) {
+      if (Object(api[type]) !== api[type]) {
+        logError(`${banner} "${type}"/"${type}" is not an object`)
         process.exit(1)
       }
+    }
 
+    if (type === 'quasarConfOptions') {
       parseObject({
         banner: `${banner} "${type}"`,
         api,
         itemName: 'quasarConfOptions',
         masterType: type
+      })
+      continue
+    }
+
+    if (['value', 'arg'].includes(type)) {
+      parseObject({
+        banner: `${banner} "${type}"`,
+        api,
+        itemName: type,
+        masterType: 'props'
       })
       continue
     }
@@ -350,8 +367,8 @@ module.exports.generate = function () {
     glob.sync(resolve('src/plugins/*.json'))
       .forEach(fillAPI(API, 'plugin'))
 
-    /* glob.sync(resolve('src/directives/*.json'))
-      .forEach(fillAPI(API, 'directive')) */
+    glob.sync(resolve('src/directives/*.json'))
+      .forEach(fillAPI(API, 'directive'))
 
     writeFile(
       path.join(dest, 'index.json'),

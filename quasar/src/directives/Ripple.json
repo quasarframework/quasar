@@ -1,0 +1,53 @@
+{
+  "value": {
+    "type": [ "Boolean", "Object" ],
+    "desc": "Boolean (if just wanting to enable/disable) or Object for configuring more options",
+    "definition": {
+      "stop": {
+        "type": "Boolean",
+        "desc": "Stop click/touch event propagation"
+      },
+
+      "center": {
+        "type": "Boolean",
+        "desc": "Ripple starts from the absolute center"
+      },
+
+      "color": {
+        "type": "String",
+        "desc": "Color name from Quasar Color Palette; Overrides default dynamic color",
+        "examples": [ "orange-5" ]
+      }
+    },
+    "examples": [
+      "v-ripple=\"booleanState\"",
+      "v-ripple=\"{ center: true, color: 'primary' }\""
+    ]
+  },
+
+  "arg": {
+    "type": "String",
+    "desc": "Color name from Quasar Color Palette; Overrides default dynamic color",
+    "examples": [
+      "v-ripple:orange-5"
+    ]
+  },
+
+  "modifiers": {
+    "stop": {
+      "type": "Boolean",
+      "desc": "Stop click/touch event propagation",
+      "examples": [
+        "v-ripple.stop"
+      ]
+    },
+
+    "center": {
+      "type": "Boolean",
+      "desc": "Ripple starts from the absolute center",
+      "examples": [
+        "v-ripple.center"
+      ]
+    }
+  }
+}

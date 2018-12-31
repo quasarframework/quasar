@@ -1,0 +1,7 @@
+{
+  "value": {
+    "type": "Function",
+    "desc": "Function to call when scrolling and element comes into the viewport",
+    "examples": [ "v-scroll-fire=\"fnToCall\"" ]
+  }
+}

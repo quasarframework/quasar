@@ -1,7 +1,7 @@
 export default {
   name: 'close-dialog',
 
-  bind (el, binding, vnode) {
+  bind (el, _, vnode) {
     const
       handler = ev => {
         const vm = vnode.componentInstance.$root
