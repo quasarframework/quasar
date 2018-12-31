@@ -112,11 +112,12 @@
       }
     },
 
-    "duration": {
+    "
+    ": {
       "type": "Number",
       "desc": "Toggle animation duration (in milliseconds)",
       "default": 300,
-      "examples": [ ":duration=\"500\" ]
+      "examples": [ ":duration=\"500\"" ]
     },
 
     "no-nodes-label": {
