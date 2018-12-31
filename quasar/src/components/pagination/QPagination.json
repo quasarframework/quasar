@@ -2,41 +2,29 @@
   "props": {
     "value": {
       "type": "Number",
-      "default": 0,
-      "required": true,
       "desc": "Current page (must be between min/max)",
-      "examples": [
-        1,
-        2,
-        3
-      ]
+      "required": true,
+      "examples": [ 3 ]
     },
 
     "min": {
       "type": "Number",
-      "default": 1,
       "desc": "Minimum page (must be lower than 'max')",
-      "examples": [
-        1,
-        2,
-        3
-      ]
+      "default": 1,
+      "examples": [ 3 ]
     },
 
     "max": {
       "type": "Number",
+      "desc": "Number of last page (must be higher than 'min')",
       "default": 100,
       "required": true,
-      "desc": "Number of last page (must be higher than 'min')",
-      "examples": [
-        1,
-        2,
-        3
-      ]
+      "examples": [ 10 ]
     },
 
     "color": {
-      "extends": "color"
+      "extends": "color",
+      "default": "primary"
     },
 
     "text-color": {
@@ -44,8 +32,8 @@
     },
 
     "size": {
-      "type": "Number",
-      "desc": "Button size"
+      "type": "String",
+      "desc": "Button size in CSS units, including unit name"
     },
 
     "disable": {
@@ -53,11 +41,8 @@
     },
 
     "input": {
-      "type": [
-        "String",
-        "Number"
-      ],
-      "desc": "??"
+      "type": "Boolean",
+      "desc": "Use an input instead of buttons"
     },
 
     "boundary-links": {
@@ -67,7 +52,7 @@
 
     "boundary-numbers": {
       "type": "Boolean",
-      "desc": "Show boundary number buttons"
+      "desc": "Always show first and last page buttons (if not using 'input')"
     },
 
     "direction-links": {
@@ -83,13 +68,7 @@
     "max-pages": {
       "type": "Number",
       "default": 0,
-      "desc": "Maximum number of page links to display at a time."
-    }
-  },
-
-  "slots": {
-    "default": {
-      "extends": "default"
+      "desc": "Maximum number of page links to display at a time; 0 means Infinite"
     }
   },
 
@@ -98,7 +77,7 @@
       "extends": "input",
       "params": {
         "value": {
-          "type": "String or Number"
+          "type": "String"
         }
       }
     }
@@ -106,11 +85,25 @@
   
   "methods": {
     "set": {
-      "desc": "Go directly to the specified page"
+      "desc": "Go directly to the specified page",
+      "params": {
+        "pageNumber": {
+          "type": "Number",
+          "desc": "Page number to go to",
+          "examples": [ 3 ]
+        }
+      }
     },
 
     "setOffset": {
-      "desc": "Increment page size by number"
+      "desc": "Increment/Decrement current page by offset",
+      "params": {
+        "offset": {
+          "type": "Number",
+          "desc": "Offset page, can be negative or positive",
+          "examples": [ 3 ]
+        }
+      }
     }
   }
 }
