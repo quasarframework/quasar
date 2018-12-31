@@ -41,7 +41,7 @@ export default {
 
       pagination: {
         page: 1,
-        rowsNumber: 50
+        rowsPerPage: 50
       },
       serverData: [],
 
