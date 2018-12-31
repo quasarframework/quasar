@@ -264,7 +264,7 @@
       "params": {
         "file": {
           "type": "Object",
-          "desc": "File to remove (instance of File)"
+          "desc": "File to remove (instance of File)",
           "required": true,
           "__exemption": [ "examples" ]
         }
