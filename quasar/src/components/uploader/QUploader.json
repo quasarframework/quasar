@@ -65,7 +65,7 @@
       "desc": "Custom filter for added files; Only files that pass this filter will be added to the queue and uploaded",
       "params": {
         "files": {
-          "type": "Object",
+          "type": "Array",
           "desc": "Candidate files to be added to queue",
           "__exemption": [ "examples" ]
         }
