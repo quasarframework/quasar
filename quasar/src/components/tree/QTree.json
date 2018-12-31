@@ -3,21 +3,22 @@
     "nodes": {
       "type": "Array",
       "desc": "The array of nodes that designates the tree structure",
-      "examples": [ "" ]
+      "required": true,
+      "examples": [ "[ {...}, {...} ]" ]
     },
 
     "node-key": {
       "type": "String",
-      "desc": "The property of the data that represents the key of the nodes",
+      "desc": "The property name of each node object that holds a unique node id",
       "required": "true",
-      "examples": ["key", "id"]
+      "examples": [ "key", "id" ]
     },
 
     "label-key": {
       "type": "String",
-      "desc": "The name of the property to be used as the label for each node",
+      "desc": "The property name of each node object that holds the label of the node",
       "default": "label",
-      "examples": ["name", "description"]
+      "examples": [ "name", "description" ]
     },
 
     "color": {
@@ -25,9 +26,8 @@
     },
 
     "control-color": {
-      "type": "String",
-      "desc": "The Quasar Color Palette color to attribute to the selection checkboxes within each selectable node",
-      "examples": ["blue-11", "primary"]
+      "extends": "color",
+      "desc": "Color name for controls (like checkboxes) from the Quasar Color Palette"
     },
 
     "text-color": {
@@ -35,9 +35,8 @@
     },
 
     "selected-color": {
-      "type": "String",
-      "desc": "The Quasar Color Palette color to attribute to the text of each selected node",
-      "examples":  ["grey-10", "secondary"]
+      "extends": "color",
+      "desc": "Color name for selected nodes (from the Quasar Color Palette)"
     },
 
     "dark": {
@@ -52,29 +51,28 @@
       "type": "String",
       "desc": "The type of strategy to use for the selection of the nodes",
       "default": "none",
-      "values": ["none", "strict", "leaf", "leaf-filtered"],
-      "examples": ["string", "leaf"]
+      "values": [ "none", "strict", "leaf", "leaf-filtered" ]
     },
 
     "ticked": {
       "type": "Array",
+      "desc": "Keys of nodes that are ticked",
       "sync": true,
-      "desc": "The array to hold the selected node data",
-      "examples": [":ticked.sync=\"ticked\""]
+      "examples": [ ":ticked.sync=\"tickedKeys\"" ]
     },
 
     "expanded": {
       "type": "Array",
+      "desc": "Keys of nodes that are expanded",
       "sync": true,
-      "desc": "An array of nodes that should be expanded when the particular parent branch of the tree with those nodes is expanded.",
-      "examples": [ ":expanded.sync=\"['Node 1','Node 2']\"" ]
+      "examples": [ ":expanded.sync=\"expandedKeys\"" ]
     },
     
     "selected": {
-      "type": "Object",
+      "type": "Any",
+      "desc": "Key of node currently selected",
       "sync": true,
-      "desc": "The object that holds all the selected nodes",
-      "examples": [ "???" ]
+      "examples": [ ":selected.sync=\"selectedKey\"" ]
     },
 
     "default-expand-all": {
@@ -89,43 +87,77 @@
 
     "filter": {
       "type": "String",
-      "desc": "The text value to be used to filter on",
-      "examples": [ "" ] 
+      "desc": "The text value to be used for filtering nodes",
+      "examples": [ ":filter=\"searchText\"" ] 
     },
 
     "filter-method": {
       "type": "Function",
       "desc": "The function to use to filter the tree nodes",
       "default": "(see source code)",
-      "examples": [ "" ]
+      "params": {
+        "node": {
+          "type": "Object",
+          "desc": "Node currently being filtered",
+          "__exemption": [ "examples" ]
+        },
+        "filter": {
+          "type": "String",
+          "desc": "Filter text to match against"
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Matches or not"
+      }
     },
 
     "duration": {
       "type": "Number",
-      "desc": "Toggle animation duration in milliseconds. Default: 300",
-      "examples": [ ":duration=\"500\", :duration=\"400\"" ]
+      "desc": "Toggle animation duration (in milliseconds)",
+      "default": 300,
+      "examples": [ ":duration=\"500\" ]
     },
 
     "no-nodes-label": {
       "type": "String",
-      "desc": "If used, overrides the standard text in Quasar (including translations), to explain when no leaf nodes are available",
+      "desc": "Override default such label for when no nodes are available",
       "examples": [ "No nodes to show!" ]
     },
 
     "no-results-label": {
       "type": "String",
-      "desc": "If used, overrides the standard text in Quasar (including translations), to explain when no nodes are available due to filtering",
+      "desc": "Override default such label for when no nodes are available due to filtering",
       "examples": [ "No results" ]
+    }
+  },
+  
+  "scopedSlots": {
+    "default-header": {
+      "desc": "Slot to use for defining the header of a node"
+    },
+    
+    "header-[name]": {
+      "desc": "Header template slot for describing node header; Used by nodes which have their 'header' prop set to '[name]', where '[name]' can be any string"
+    },
+
+    "default-body": {
+      "desc": "Slot to use for defining the body of a node"
+    },
+    
+    "body-[name]": {
+      "desc": "Body template slot for describing node body; Used by nodes which have their 'body' prop set to '[name]', where '[name]' can be any string"
     }
   },
 
   "events": {
     "update:expanded": {
-      "desc": "The event is triggered, when any nodes are expanded or collapsed",
+      "desc": "Triggered when nodes are expanded or collapsed; Used by Vue on 'update' synched prop",
       "params": {
         "expanded": {
           "type": "Array",
-          "desc": "The expanded nodes"
+          "desc": "The expanded node keys",
+          "examples": [ "[ 'Node 1', 'Node 2' ]" ]
         }
       }
     },
@@ -133,25 +165,33 @@
     "lazy-load": {
       "desc": "Emitted when the lazy loading of nodes is finished",
       "params": {
-        "default": {
+        "details": {
           "type": "Object",
-          "desc": "The object to be offered, in order to lazy load data for the tree",
+          "desc": "Lazy loading details",
           "definition": { 
             "node": {
-              "type": "Array",
-              "desc": "The node, to which the new nodes (the children) will be appended"
+              "type": "Object",
+              "desc": "The node to which the new nodes (the children) will be appended",
+              "__exemption": [ "examples" ]
             },
             "key": {
               "type": "String",
-              "desc": "The key of the node getting the newly loaded child nodes"
+              "desc": "The key of the node getting the newly loaded child nodes",
+              "examples": [ 'New Node' ]
             },
             "done": {
               "type": "Function",
-              "desc": "The callback to be carried out, when the loading is successful"
+              "desc": "The callback to be carried out when the loading is successful",
+              "params": {
+                "children": {
+                  "type": "Array",
+                  "desc": "Array of nodes"
+                }
+              }
             },
             "fail": {
               "type": "Function",
-              "desc": "The callback to be carried out, should the loading fail"
+              "desc": "The callback to be carried out should the loading fails"
             }
           }
         }
@@ -159,21 +199,23 @@
     },
 
     "update:ticked": {
-      "desc": "Emitted when any nodes are selected or unselected via a checkbox",
+      "desc": "Emitted when nodes are ticked/unticked via the checkbox; Used by Vue on 'ticked' synched prop",
       "params": {
         "target": {
           "type": "Array",
-          "desc": "The ticked nodes"
+          "desc": "The ticked node keys",
+          "examples": [ "[ 'Node 1', 'Node 2' ]" ]
         }
       }
     },
 
     "update:selected": {
-      "desc": "Emitted when any nodes are selected or unselected",
+      "desc": "Emitted when selected node changes; Used by Vue on 'selected' synched prop",
       "params": {
         "target": {
-          "type": "Array",
-          "desc": "The selected nodes"
+          "type": "Any",
+          "desc": "The selected node key",
+          "examples": [ "Node 1" ]
         }
       }
     }
@@ -181,17 +223,54 @@
 
   "methods": {
     "getNodeByKey": {
-      "desc": "Gets the node related to the key given",
+      "desc": "Get the node with the given key",
       "params": {
         "key": {
-          "type": "String",
-          "desc": "The key of a node"
+          "type": "Any",
+          "desc": "The key of a node",
+          "examples": [ "Node 1" ]
         }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "Requested node",
+        "__exemption": [ "examples" ]
+      }
+    },
+    
+    "getTickedNodes": {
+      "desc": "Get array of nodes that are ticked",
+      "returns": {
+        "type": "Array",
+        "desc": "Ticked node objects"
+      }
+    },
+    
+    "getExpandedNodes": {
+      "desc": "Get array of nodes that are expanded",
+      "returns": {
+        "type": "Array",
+        "desc": "Expanded node objects"
+      }
+    },
+    
+    "isExpanded": {
+      "desc": "Determine if a node is expanded",
+      "params": {
+        "key": {
+          "type": "Any",
+          "desc": "The key of a node",
+          "examples": [ "Node 1" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is specified node expanded?"
       }
     },
 
     "expandAll": {
-    "desc": "Use to expand all branches of the tree"
+      "desc": "Use to expand all branches of the tree"
     },
 
     "collapseAll": {
@@ -202,12 +281,13 @@
       "desc": "Expands the tree at the point of the node with the key given",
       "params": {
         "key": {
-          "type": "String",
-          "desc": "The key of a node"
+          "type": "Any",
+          "desc": "The key of a node",
+          "examples": [ "Node 1" ]
         },
         "state": {
           "type": "Boolean",
-          "desc": "Set to true, to expand the branch of the tree"
+          "desc": "Set to 'true' to expand the branch of the tree, otherwise 'false' collapses it"
         }
       }
     },
@@ -216,34 +296,29 @@
       "desc": "Method to check if a node's checkbox is selected or not",
       "params": {
         "key": {
-          "type": "String",
-          "desc": "The key of a node"
+          "type": "Any",
+          "desc": "The key of a node",
+          "examples": [ "Node 1" ]
         }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is specified node ticked?"
       }
     },
 
     "setTicked": {
       "desc": "Method to set a node's checkbox programmatically",
       "params": {
-        "key": {
-          "type": "String",
-          "desc": "The key of a node"
+        "keys": {
+          "type": "Array",
+          "desc": "The keys of nodes to tick/untick"
         },
         "state": {
           "type": "Boolean",
-          "desc": "Set to true, to tick the checkbox"
+          "desc": "Set to 'true' to tick the checkbox of nodes, otherwise 'false' unticks them"
         }
       }
-    }
-  },
-
-  "scoped-slots": {
-    "default-header": {
-      "desc": "Slot to use for defining the header of a node"
-    },
-
-    "default-body": {
-      "desc": "Slot to use for defining the body of a node"
     }
   }
 }
