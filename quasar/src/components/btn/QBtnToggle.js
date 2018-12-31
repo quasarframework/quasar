@@ -80,7 +80,7 @@ export default Vue.extend({
         key: i,
         on: { click: () => this.set(opt.value, opt) },
         props: {
-          disable: this.disable,
+          disable: this.disable || opt.disable,
           label: opt.label,
           // Colors come from the button specific options first, then from general props
           color: this.val[i] ? opt.toggleColor || this.toggleColor : opt.color || this.color,

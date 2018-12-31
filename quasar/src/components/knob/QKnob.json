@@ -9,20 +9,20 @@
     "min": {
       "type": "Number",
       "desc": "The minimum value that the model (the knob value) should start at",
-      "examples": ["20", "5"]
+      "examples": [ "20", "5" ]
     },
 
     "max": {
       "type": "Number",
       "desc": "The maximimum value that the model (the knob value) should go to",
-      "examples": ["100", "50"]
+      "examples": [ "100", "50" ]
     },
 
     "step": {
       "type": "Number",
       "default": "1",
       "desc": "A number representing steps in the value of the model, while adjusting the knob",
-      "examples": ["1", "5"]
+      "examples": [ "1", "5" ]
     },
 
     "color": {
@@ -103,7 +103,8 @@
       "params": {
         "value": {
           "type": "Number",
-          "desc": "New model value"
+          "desc": "New model value",
+          "examples": [ 12 ]
         }
       }
     },
@@ -113,7 +114,8 @@
       "params": {
         "value": {
           "type": "Number",
-          "desc": "New model value"
+          "desc": "New model value",
+          "examples": [ 12 ]
         }
       }
     }

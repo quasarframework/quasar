@@ -5,6 +5,12 @@
       "desc": "Puts component into 'hidden' mode"
     },
 
+    "width": {
+      "type": [ "Number", "String" ],
+      "desc": "Component width (in pixels)",
+      "examples": [ ":width=\"300\"", "400" ]
+    },
+
     "position": {
       "type": "String",
       "desc": "Positions component at one of the edges of the screen",

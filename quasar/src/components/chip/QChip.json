@@ -1,9 +1,7 @@
 {
-  "props": {
-    "ripple": {
-      "extends": "ripple"
-    },
+  "mixins": [ "mixins/ripple" ],
 
+  "props": {
     "dense": {
       "extends": "dense"
     },
@@ -94,13 +92,14 @@
       "params": {
         "evt": {
           "type": "Object",
-          "desc": "JS event object"
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
         }
       }
     },
 
     "update:selected": {
-      "desc": "Emitted when 'selected' state changes; Works along the sync prop 'selected'",
+      "desc": "Used by Vue on 'selected.sync' prop for updating its value",
       "params": {
         "state": {
           "type": "Boolean",

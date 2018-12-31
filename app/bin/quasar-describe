@@ -76,78 +76,135 @@ function getMethodParams (method) {
   return ' (' + str + ')'
 }
 
-function describeComponent (api) {
+function getMethodReturnValue (method) {
+  return ' => ' +
+    (method.returns === void 0
+      ? 'void 0'
+      : method.returns.type
+    )
+}
+
+function getStringType (type) {
+  return Array.isArray(type)
+    ? type.join(', ')
+    : type
+}
+
+function printProp (prop, propName, indentLevel) {
+  let indent = ' '.repeat(indentLevel)
+
+  const type = getStringType(prop.type)
+
+  if (propName !== void 0) {
+    console.log(`${indent}${chalk.green(propName)} (${type})${prop.required ? chalk.red(' [Required]') : ''}${prop.reactive ? chalk.red(' [Reactive]') : ''}`)
+
+    indentLevel += 2
+    indent += '  '
+  }
+
+  console.log(`${indent}Description: ${prop.desc}`)
+  if (prop.sync) {
+    console.log(`${indent}".sync" modifier required!`)
+  }
+  if (prop.link) {
+    console.log(`${indent}Link: ${prop.link}`)
+  }
+  if (prop.values) {
+    console.log(`${indent}Values: [ '${prop.values.join(`' '`)}' ]`)
+  }
+  if (prop.default !== void 0) {
+    console.log(`${indent}Default value: ${prop.default}`)
+  }
+  if (prop.definition !== void 0) {
+    console.log(`${indent}Props:`)
+    for (let propName in prop.definition) {
+      printProp(prop.definition[propName], propName, indentLevel + 2)
+    }
+  }
+  if (prop.params !== void 0) {
+    console.log(`${indent}Params:`)
+    for (let propName in prop.params) {
+      printProp(prop.params[propName], propName, indentLevel + 2)
+    }
+  }
+  if (prop.returns !== void 0) {
+    console.log(`${indent}Returns ${getStringType(prop.returns.type)}:`)
+    printProp(prop.returns, void 0, indentLevel + 2)
+  }
+  if (prop.values === void 0 && prop.examples !== void 0) {
+    console.log(`${indent}Example${prop.examples.length > 1 ? 's' : ''}:`)
+    prop.examples.forEach(example => {
+      console.log(`${indent}  ${example}`)
+    })
+  }
+}
+
+function describe (api) {
+  if (api.type === 'plugin') {
+    console.log('\n ' + chalk.underline('Injection'))
+    if (api.injection === void 0) {
+      console.log('\n   ' + chalk.italic('*No injection*'))
+    }
+    else {
+      console.log('\n   ' + chalk.green(api.injection))
+    }
+  }
+
   console.log('\n ' + chalk.underline('Properties'))
   if (api.props === void 0 || Object.keys(api.props).length === 0) {
     console.log('\n   ' + chalk.italic('*No properties*'))
   }
   else {
     for (let propName in api.props) {
-      const prop = api.props[propName]
-      console.log(`\n ${prop.required ? chalk.red('*') : ' '} ${chalk.green(propName)} (${prop.type})${prop.required ? chalk.red(' [Required]') : ''}`)
-      console.log(`     ${prop.desc}`)
-      if (prop.link) {
-        console.log(`     Link: ${prop.link}`)
-      }
-      if (prop.values) {
-        console.log(`     Values: [ '${prop.values.join(`' '`)}' ]`)
-      }
-      if (prop.default !== void 0) {
-        console.log(`     Default value: ${prop.default}`)
-      }
-      if (prop.values === void 0 && prop.examples !== void 0) {
-        console.log(`     Examples:`)
-        prop.examples.forEach(example => {
-          console.log(`       ${example}`)
-        })
-      }
+      console.log()
+      printProp(api.props[propName], propName, 3)
     }
   }
 
-  console.log('\n ' + chalk.underline('Slots'))
-  if (api.slots === void 0 || Object.keys(api.slots).length === 0) {
-    console.log('\n   ' + chalk.italic('*No slots*'))
-  }
-  else {
-    for (let slot in api.slots) {
-      console.log('\n   ' + chalk.green(slot))
-      console.log('     ' + api.slots[slot].desc)
+  if (api.type === 'component') {
+    console.log('\n ' + chalk.underline('Slots'))
+    if (api.slots === void 0 || Object.keys(api.slots).length === 0) {
+      console.log('\n   ' + chalk.italic('*No slots*'))
     }
-  }
-
-  console.log('\n ' + chalk.underline('Scoped Slots'))
-  if (api.scopedSlots === void 0 || Object.keys(api.scopedSlots).length === 0) {
-    console.log('\n   ' + chalk.italic('*No scoped slots*'))
-  }
-  else {
-    for (let slot in api.scopedSlots) {
-      console.log('\n   ' + chalk.green(slot))
-      console.log('     ' + api.scopedSlots[slot].desc)
-    }
-  }
-
-  console.log('\n ' + chalk.underline('Events'))
-  if (api.events === void 0 || Object.keys(api.events).length === 0) {
-    console.log('\n   ' + chalk.italic('*No events*'))
-  }
-  else {
-    for (let eventName in api.events) {
-      const event = api.events[eventName]
-      console.log('\n   @' + chalk.green(eventName) + getEventParams(event))
-      console.log('     ' + event.desc)
-      if (!event.params) {
-        console.log('     Parameters: ' + chalk.italic('*None*'))
+    else {
+      for (let slot in api.slots) {
+        console.log('\n   ' + chalk.green(slot))
+        console.log('     ' + api.slots[slot].desc)
       }
-      else {
-        console.log('     Parameters:')
-        for (let paramName in event.params) {
-          const param = event.params[paramName]
-          console.log(`       - ${paramName} (${param.type})`)
-          console.log(`           ${param.desc}`)
+    }
+
+    console.log('\n ' + chalk.underline('Scoped Slots'))
+    if (api.scopedSlots === void 0 || Object.keys(api.scopedSlots).length === 0) {
+      console.log('\n   ' + chalk.italic('*No scoped slots*'))
+    }
+    else {
+      for (let slot in api.scopedSlots) {
+        console.log('\n   ' + chalk.green(slot))
+        console.log('     ' + api.scopedSlots[slot].desc)
+      }
+    }
+
+    console.log('\n ' + chalk.underline('Events'))
+    if (api.events === void 0 || Object.keys(api.events).length === 0) {
+      console.log('\n   ' + chalk.italic('*No events*'))
+    }
+    else {
+      for (let eventName in api.events) {
+        const event = api.events[eventName]
+        console.log('\n   @' + chalk.green(eventName) + getEventParams(event))
+        console.log('     ' + event.desc)
+        if (!event.params) {
+          console.log('     Parameters: ' + chalk.italic('*None*'))
+        }
+        else {
+          console.log('     Parameters:')
+          for (let paramName in event.params) {
+            printProp(event.params[paramName], paramName, 7)
+          }
         }
       }
     }
-  }
+  } // if apy.type === 'component
 
   console.log('\n ' + chalk.underline('Methods'))
   if (api.methods === void 0 || Object.keys(api.methods).length === 0) {
@@ -156,26 +213,20 @@ function describeComponent (api) {
   else {
     for (let methodName in api.methods) {
       const method = api.methods[methodName]
-      console.log('\n   ' + chalk.green(methodName) + getMethodParams(method))
+      console.log('\n   ' + chalk.green(methodName) + getMethodParams(method) + getMethodReturnValue(method))
       console.log('     ' + method.desc)
-      if (!method.params) {
-        console.log('     Parameters: ' + chalk.italic('*None*'))
-      }
-      else {
+      if (method.params !== void 0) {
         console.log('     Parameters:')
         for (let paramName in method.params) {
-          const param = method.params[paramName]
-          console.log(`       - ${paramName} (${param.type})${param.required ? chalk.red(' [Required]') : ''}`)
-          console.log(`           ${param.desc}`)
+          printProp(method.params[paramName], paramName, 7)
         }
       }
-    }
-  }
-}
 
-function describe (api) {
-  if (api.type === 'component') {
-    describeComponent(api)
+      if (method.returns !== void 0) {
+        console.log(`     Returns ${getStringType(method.returns.type)}:`)
+        printProp(method.returns, void 0, 7)
+      }
+    }
   }
 }
 

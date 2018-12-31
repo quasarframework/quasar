@@ -1,0 +1,41 @@
+{
+  "injection": "$q.platform",
+
+  "props": {
+    "is": {
+      "type": "Object",
+      "desc": "Client browser details (property names depend on browser)",
+      "examples": [
+        "{ chrome: true, version: '71.0.3578.98', versionNumber: 71, mac: true, desktop: true, webkit: true, name: 'chrome', platform: 'mac' }"
+      ]
+    },
+
+    "has": {
+      "type": "Object",
+      "desc": "Client browser detectable properties",
+      "definition": {
+        "touch": {
+          "type": "Boolean",
+          "desc": "Client browser runs on device with touch support"
+        },
+        "webStorage": {
+          "type": "Boolean",
+          "desc": "Client browser has Web Storage support"
+        }
+      },
+      "examples": [ "{ touch: false, webStorage: true }" ]
+    },
+
+    "within": {
+      "type": "Object",
+      "desc": "Client browser environment",
+      "definition": {
+        "iframe": {
+          "type": "Boolean",
+          "desc": "Does the app run under an iframe?"
+        }
+      },
+      "examples": [ "{ iframe: false }" ]
+    }
+  }
+}

@@ -6,7 +6,7 @@ import QBtn from '../components/btn/QBtn.js'
 
 import uid from '../utils/uid.js'
 import clone from '../utils/clone.js'
-import { isSSR } from './platform.js'
+import { isSSR } from './Platform.js'
 
 let defaults = {}
 

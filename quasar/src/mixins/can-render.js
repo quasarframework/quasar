@@ -1,5 +1,5 @@
 // using it to manage SSR rendering with best performance
-import { onSSR } from '../plugins/platform.js'
+import { onSSR } from '../plugins/Platform.js'
 
 export default {
   data () {

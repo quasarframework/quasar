@@ -1,0 +1,80 @@
+{
+  "mixins": [ "utils/global-dialog" ],
+
+  "injection": "$q.bottomSheet",
+
+  "methods": {
+    "create": {
+      "desc": "Creates an ad-hoc Bottom Sheet; Same as calling $q.bottomSheet(...)",
+      "params": {
+        "opts": {
+          "desc": "Bottom Sheet options",
+          "definition": {
+            "title": {
+              "type": "String",
+              "desc": "Title",
+              "examples": [ "Share" ]
+            },
+            "message": {
+              "type": "String",
+              "desc": "Message",
+              "examples": [ "Please select how to share" ]
+            },
+            "actions": {
+              "type": "Array",
+              "desc": "Array of Objects, each Object defining an action",
+              "definition": {
+                "classes": {
+                  "type": [ "String", "Array", "Object" ],
+                  "desc": "CSS classes for this action",
+                  "examples": [ "my-class" ]
+                },
+                "icon": {
+                  "extends": "icon"
+                },
+                "img": {
+                  "type": "String",
+                  "desc": "Path to an image for this action",
+                  "examples": [
+                    "(statics folder) statics/img/something.png",
+                    "(relative path format) :src=\"require('./my_img.jpg')\"",
+                    "(URL) https://some-site.net/some-img.gif"
+                  ]
+                },
+                "avatar": {
+                  "type": "Boolean",
+                  "desc": "Display img as avatar (round borders)"
+                },
+                "label": {
+                  "type": [ "String", "Number" ],
+                  "desc": "Action label",
+                  "examples": [ "Facebook" ]
+                }
+              }
+            },
+            "grid": {
+              "type": "Boolean",
+              "desc": "Display actions as a grid instead of as a list"
+            },
+            "width": {
+              "extends": "size",
+              "desc": "Specific Bottom Sheet width (in CSS unit, including unit name)"
+            },
+            "color": {
+              "extends": "color",
+              "default": "primary"
+            },
+            "seamless": {
+              "type": "Boolean",
+              "desc": "Put Bottom Sheet into seamless mode; Does not uses a backdrop so user is able to interact with the rest of the page too"
+            },
+            "persistent": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Bottom Sheet if clicking outside of it or hitting ESC key"
+            }
+          }
+        }
+      }
+    }
+  }
+}

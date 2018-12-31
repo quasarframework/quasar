@@ -1,0 +1,27 @@
+{
+  "mixins": [ "mixins/panel-child" ],
+
+  "props": {
+    "name": {
+      "desc": "Slide name",
+      "examples": [
+        "accounts", "firstSlide", ":name=\"1\""
+      ]
+    },
+
+    "img-src": {
+      "type": "String",
+      "desc": "URL pointing to a slide background image (use statics folder)",
+      "examples": [
+        "statics/my-background.png",
+        "https://placeimg.com/500/300/nature"
+      ]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

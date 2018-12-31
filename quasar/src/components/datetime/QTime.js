@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
-import TouchPan from '../../directives/touch-pan.js'
+import TouchPan from '../../directives/TouchPan.js'
 
 import { testPattern } from '../../utils/patterns.js'
 import { position } from '../../utils/event.js'

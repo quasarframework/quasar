@@ -1,0 +1,108 @@
+{
+  "mixins": [ "components/field/QField", "mixins/mask" ],
+
+  "props": {
+    "value": {
+      "type": [ "String", "Number" ],
+      "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "required": true,
+      "examples": [ "v-model=\"myText\"" ]
+    },
+
+    "type": {
+      "type": "String",
+      "desc": "Input type",
+      "default": "text",
+      "values": [
+        "text", "textarea", "email", "search",
+        "tel", "file", "number",
+        "password", "url", "time", "date"
+      ],
+      "examples": [ "password" ]
+    },
+
+    "debounce": {
+      "type": [ "String", "Number" ],
+      "desc": "Debounce amount (in milliseconds) when updating model",
+      "examples": [ "0", "530" ]
+    },
+
+    "counter": {
+      "type": "Boolean",
+      "desc": "Show a counter on bottom right"
+    },
+
+    "maxlength": {
+      "type": [ "String", "Number" ],
+      "desc": "Specify a max length of model",
+      "examples": [ "12" ]
+    },
+
+    "autogrow": {
+      "type": "Boolean",
+      "desc": "Make field autogrow along with its content (uses a textarea)"
+    },
+
+    "autofocus": {
+      "type": "Boolean",
+      "desc": "Focus field on initial component render"
+    },
+
+    "input-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the underlying input tag",
+      "examples": [
+        "my-special-class",
+        ":input-class=\"{ 'my-special-class': <condition> }\""
+      ]
+    },
+
+    "input-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the underlying input tag",
+      "examples": [
+        "background-color: #ff0000",
+        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+      ]
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input",
+      "params": {
+        "value": {
+          "type": [ "String", "Number" ]
+        }
+      }
+    },
+
+    "focus": {
+      "desc": "Emitted when component gets focused",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "blur": {
+      "desc": "Emitted when component loses focus",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "focus": {
+      "desc": "Focus underlying input tag"
+    }
+  }
+}

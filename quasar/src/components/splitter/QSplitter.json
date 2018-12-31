@@ -40,28 +40,29 @@
       ]
     }
   },
-  
+
   "slots": {
     "default": {
       "desc": "Default slot in the devland unslotted content of the component; Suggestion: QTooltip, QMenu"
     },
-    
+
     "before": {
       "desc": "Content of the pane on left/top"
     },
-    
+
     "after": {
       "desc": "Content of the pane on right/bottom"
     }
   },
-  
+
   "events": {
     "input": {
       "desc": "Emitted when component's model value changes; Is also used by v-model",
       "params": {
         "value": {
           "type": "Number",
-          "desc": "New model value (0.0 < x < 100.0) defining the ratio between panes"
+          "desc": "New model value (0.0 < x < 100.0) defining the ratio between panes",
+          "examples": [ 0.22 ]
         }
       }
     }

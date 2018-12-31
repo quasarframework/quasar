@@ -133,8 +133,8 @@
     },
 
     "table-style": {
-      "type": "String or Array or Object",
-      "desc": "CSS style to apply to native HTML <table> element's wrapper (which is a <div>)",
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS style to apply to native HTML <table> element's wrapper (which is a DIV)",
       "examples": [
         "background-color: #ff0000",
         ":table-style=\"{ backgroundColor: '#ff0000' }\""
@@ -142,16 +142,16 @@
     },
 
     "table-class": {
-      "type": "String or Array or Object",
-      "desc": "CSS classes to apply to native HTML <table> element's wrapper (which is a <div>)",
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS classes to apply to native HTML <table> element's wrapper (which is a DIV)",
       "examples": [
         "my-special-class",
-        ":table-class=\"{ 'my-special-class': <condition> }\""
+        ":table-class=\"{ 'my-special-class': [Boolean condition] }\""
       ]
     },
 
     "filter": {
-      "type": "String or Object",
+      "type": [ "String", "Object" ],
       "desc": "String/Object to filter table with; When using an Object it requires 'filter-method' to also be specified since it will be a custom filtering",
       "examples": [ ":filter=\"myFilterInput\"" ]
     },
@@ -167,7 +167,29 @@
 
     "pagination": {
       "type": "Object",
-      "desc": "Pagination object of form: { sortBy: String, descending: Boolean, page: Number, rowsPerPage: Number }; REQUIRES .sync vue modifier",
+      "desc": "Pagination object",
+      "sync": true,
+      "definition": {
+        "sortBy": {
+          "type": "String",
+          "desc": "Column name (from column definition)",
+          "examples": [ "calories" ]
+        },
+        "descending": {
+          "type": "Boolean",
+          "desc": "Is sorting in descending order?"
+        },
+        "page": {
+          "type": "Number",
+          "desc": "Page number (1-based)",
+          "examples": [ 3 ]
+        },
+        "rowsPerPage": {
+          "type": "Number",
+          "desc": "How many rows per page? 0 means Infinite",
+          "examples": [ 10 ]
+        }
+      },
       "examples": [
         ":pagination.sync=\"myPagination\""
       ]
@@ -192,7 +214,8 @@
 
     "selected": {
       "type": "Array",
-      "desc": "Keeps the user selection array; REQUIRES .sync vue modifier",
+      "desc": "Keeps the user selection array",
+      "sync": true,
       "default": "[]",
       "examples": [
         ":selected.sync=\"selection\""
@@ -269,7 +292,28 @@
       "params": {
         "pagination": {
           "type": "Object",
-          "desc": "Pagination object"
+          "desc": "Pagination object",
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
+            }
+          }
         },
         "filter": {
           "type": "Function",
@@ -287,7 +331,28 @@
       "params": {
         "newPagination": {
           "type": "Object",
-          "desc": "The updated pagination object"
+          "desc": "The updated pagination object",
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
+            }
+          }
         }
       }
     },
@@ -295,9 +360,12 @@
     "update:selected": {
       "desc": "Used by Vue on 'selected.sync' prop for updating its value",
       "params": {
-        "newPagination": {
+        "newSelected": {
           "type": "Array",
-          "desc": "The updated selected array"
+          "desc": "The updated selected array",
+          "examples": [
+            "[ { name: 'Frozen Yogurt', calories: 159, fat: 6, __index: 0 } ]"
+          ]
         }
       }
     }
@@ -309,7 +377,38 @@
       "params": {
         "props": {
           "type": "Object",
-          "desc": "Contains optional 'pagination' Object and/or 'filter' Function"
+          "desc": "Request details",
+          "definition": {
+            "pagination": {
+              "type": "Object",
+              "desc": "Optional pagination object",
+              "definition": {
+                "sortBy": {
+                  "type": "String",
+                  "desc": "Column name (from column definition)",
+                  "examples": [ "calories" ]
+                },
+                "descending": {
+                  "type": "Boolean",
+                  "desc": "Is sorting in descending order?"
+                },
+                "page": {
+                  "type": "Number",
+                  "desc": "Page number (1-based)",
+                  "examples": [ 3 ]
+                },
+                "rowsPerPage": {
+                  "type": "Number",
+                  "desc": "How many rows per page? 0 means Infinite",
+                  "examples": [ 10 ]
+                }
+              }
+            },
+            "filter": {
+              "type": "Function",
+              "desc": "Filtering method"
+            }
+          }
         }
       }
     },
@@ -317,10 +416,31 @@
     "setPagination": {
       "desc": "Unless using an external pagination Object (through 'pagination.sync' prop), you can use this method and force the internal pagination to change",
       "params": {
-        "value": {
+        "pagination": {
           "type": "Object",
           "desc": "Pagination object",
-          "required": true
+          "required": true,
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
+            }
+          }
         },
         "forceServerRequest": {
           "type": "Boolean",
@@ -343,7 +463,8 @@
         "key": {
           "type": "Any",
           "desc": "Row key value",
-          "required": true
+          "required": true,
+          "examples": [ "calories" ]
         }
       }
     },
@@ -356,9 +477,10 @@
       "desc": "Trigger a table sort",
       "params": {
         "col": {
-          "type": "String or Object",
+          "type": [ "String", "Object" ],
           "desc": "Column name or column definition object",
-          "required": true
+          "required": true,
+          "examples": [ "calories" ]
         }
       }
     }

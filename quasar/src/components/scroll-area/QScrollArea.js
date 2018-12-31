@@ -5,7 +5,7 @@ import { getMouseWheelDistance } from '../../utils/event.js'
 import { setScrollPosition } from '../../utils/scroll.js'
 import QResizeObserver from '../observer/QResizeObserver.js'
 import QScrollObserver from '../observer/QScrollObserver.js'
-import TouchPan from '../../directives/touch-pan.js'
+import TouchPan from '../../directives/TouchPan.js'
 
 export default Vue.extend({
   name: 'QScrollArea',

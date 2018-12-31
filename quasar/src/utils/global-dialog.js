@@ -1,8 +1,12 @@
 import Vue from 'vue'
 
-import { isSSR } from '../plugins/platform.js'
+import { isSSR } from '../plugins/Platform.js'
 
-const ssrAPI = { onOk () {}, okCancel () {}, hide () {} }
+const ssrAPI = {
+  onOk: () => ssrAPI,
+  okCancel: () => ssrAPI,
+  hide: () => ssrAPI
+}
 
 export default function (Component) {
   return ({ className, style, ...props }) => {

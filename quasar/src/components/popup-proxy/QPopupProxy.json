@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/anchor" ],
+
   "props": {
     "value": {
       "type": "Boolean",
@@ -6,23 +8,10 @@
     },
 
     "breakpoint": {
-      "type": "Number or String",
+      "type": [ "Number", "String" ],
       "desc": "Breakpoint (in pixels) of window width from where a Menu will get to be used instead of a Dialog",
       "default": 450,
       "examples": [ 992, ":breakpoint=\"1024\"" ]
-    },
-
-    "target": {
-      "type": "Boolean or String",
-      "desc": "",
-      "default": true,
-      "values": [ true, false, "(CSS selector)" ],
-      "examples": [ ":target=\"false\"", ".my-parent" ]
-    },
-
-    "context-menu": {
-      "type": "Boolean",
-      "desc": "Listen for right-click/long tap instead of left click/tap"
     },
 
     "disable": {

@@ -1,4 +1,4 @@
-import Platform, { isSSR } from './platform.js'
+import Platform, { isSSR } from './Platform.js'
 import { getBrand } from '../utils/colors.js'
 
 let metaValue

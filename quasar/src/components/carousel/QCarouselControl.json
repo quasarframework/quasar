@@ -1,0 +1,28 @@
+{
+  "props": {
+    "position": {
+      "type": "String",
+      "desc": "Side/corner to stick to",
+      "default": "bottom-right",
+      "values": [
+        "top-right", "top-left",
+        "bottom-right", "bottom-left",
+        "top", "right", "bottom", "left"
+      ],
+      "examples": [ "top-right" ]
+    },
+
+    "offset": {
+      "type": "Array",
+      "desc": "An array of two numbers to offset the component horizontally and vertically (in pixels)",
+      "default": "[18, 18]",
+      "examples": [ "[8, 8]", "[5, 10]" ]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

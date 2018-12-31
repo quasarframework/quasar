@@ -1,10 +1,7 @@
 {
-  "props": {
-    "value": {
-      "type": "Boolean",
-      "desc": "Model of the component defining showing/hidden state; Either use this property (along with a listener for 'input' event) OR use v-model directive"
-    },
+  "mixins": [ "mixins/model-toggle" ],
 
+  "props": {
     "persistent": {
       "type": "Boolean",
       "desc": "User cannot dismiss Dialog if clicking outside of it or hitting ESC key"
@@ -60,52 +57,12 @@
   },
 
   "events": {
-    "input": {
-      "desc": "Emitted when component's showing/hidden state changes; Is also used by v-model",
-      "params": {
-        "value": {
-          "type": "Boolean",
-          "desc": "New state (showing/hidden)"
-        }
-      }
-    },
-
-    "show": {
-      "extends": "show"
-    },
-
-    "before-show": {
-      "extends": "before-show"
-    },
-
-    "hide": {
-      "extends": "hide"
-    },
-
-    "before-hide": {
-      "extends": "before-hide"
-    },
-
     "shake": {
       "desc": "Shakes up the Dialog in order to catch user's attention"
     },
 
     "escape-key": {
       "desc": "Emitted when ESC key is pressed; Does not gets emitted if Dialog is 'persistent' or it has 'no-esc-key' set"
-    }
-  },
-
-  "methods": {
-    "show": {
-      "extends": "show"
-    },
-
-    "hide": {
-      "extends": "hide"
-    },
-
-    "toggle": {
-      "extends": "toggle"
     }
   }
 }

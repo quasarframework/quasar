@@ -1,0 +1,83 @@
+{
+  "props": {
+    "value": {
+      "extends": "value",
+      "type": [ "Any", "Array" ],
+      "examples": [ "false", "['car', 'building']" ]
+    },
+
+    "val": {
+      "type": "Any",
+      "desc": "Works when model ('value') is Array. It tells the component which value should add/remove when ticked/unticked",
+      "examples": [ "car" ]
+    },
+
+    "true-value": {
+      "type": "Any",
+      "desc": "What model value should be considered as checked/ticked/on?",
+      "default": true,
+      "examples": [ "Agreed" ]
+    },
+
+    "false-value": {
+      "type": "Any",
+      "desc": "What model value should be considered as unchecked/unticked/off?",
+      "default": false,
+      "examples": [ "Disagree" ]
+    },
+
+    "label": {
+      "type": "String",
+      "desc": "Label to display along the component (or use the default slot instead of this prop)",
+      "examples": [ "I agree with the Terms and Conditions" ]
+    },
+
+    "left-label": {
+      "type": "Boolean",
+      "desc": "Label (if any specified) should be displayed on the left side of the component"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "keep-color": {
+      "type": "Boolean",
+      "desc": "Should the color (if specified any) be kept when the component is unticked/ off?"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    }
+  },
+
+  "methods": {
+    "toggle": {
+      "desc": "Toggle the state (of the model)"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot can be used as label, unless 'label' prop is specified; Suggestion: string"
+    }
+  }
+}

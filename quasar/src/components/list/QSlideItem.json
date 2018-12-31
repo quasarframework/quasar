@@ -31,7 +31,13 @@
       "params": {
         "details": {
           "type": "Object",
-          "desc": "Syntax: { reset }"
+          "desc": "Details",
+          "definition": {
+            "reset": {
+              "type": "Function",
+              "desc": "When called, it resets the component to its initial non-slided state"
+            }
+          }
         }
       }
     },
@@ -41,7 +47,13 @@
       "params": {
         "details": {
           "type": "Object",
-          "desc": "Syntax: { reset }"
+          "desc": "Details",
+          "definition": {
+            "reset": {
+              "type": "Function",
+              "desc": "When called, it resets the component to its initial non-slided state"
+            }
+          }
         }
       }
     },
@@ -51,7 +63,18 @@
       "params": {
         "details": {
           "type": "Object",
-          "desc": "Syntax: { side, reset }"
+          "desc": "Details",
+          "definition": {
+            "side": {
+              "type": "String",
+              "desc": "Side to which sliding has taken effect",
+              "values": [ "left", "right" ]
+            },
+            "reset": {
+              "type": "Function",
+              "desc": "When called, it resets the component to its initial non-slided state"
+            }
+          }
         }
       }
     }

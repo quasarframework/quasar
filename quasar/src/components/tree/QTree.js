@@ -10,7 +10,10 @@ export default Vue.extend({
   name: 'QTree',
 
   props: {
-    nodes: Array,
+    nodes: {
+      type: Array,
+      required: true
+    },
     nodeKey: {
       type: String,
       required: true

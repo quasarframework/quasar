@@ -1,0 +1,31 @@
+{
+  "value": {
+    "type": [ "Number", "Object" ],
+    "desc": "Scrolling offset from top (in pixels) at which point to show",
+    "default": 200,
+    "definition": {
+      "offset": {
+        "type": "Number",
+        "desc": "Scrolling offset from top (in pixels) at which point to show",
+        "examples": [ 500 ]
+      },
+      "duration": {
+        "type": "Number",
+        "desc": "Animation duration (in milliseconds)",
+        "examples": [ 450 ]
+      }
+    },
+    "examples": [
+      "v-back-to-top=\"500\"",
+      "v-back-to-top=\"{ offset: 500, duration: 450 }\""
+    ]
+  },
+
+  "modifiers": {
+    "animate": {
+      "type": "Boolean",
+      "desc": "Animate scrolling to top",
+      "examples": [ "v-back-to-top.animate=\"500\"" ]
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "mixins": [ "mixins/panel-child" ],
+
+  "props": {
+    "icon": {
+      "extends": "icon"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "title": {
+      "type": "String",
+      "desc": "Step title",
+      "required": true,
+      "examples": [
+        "Ad Groups", "Payment"
+      ]
+    },
+
+    "caption": {
+      "type": "String",
+      "desc": "Step’s additional information that appears beneath the title",
+      "examples": [
+        "Create an account", "Payment details"
+      ]
+    },
+
+    "done-icon": {
+      "extends": "icon"
+    },
+
+    "done-color": {
+      "extends": "color"
+    },
+
+    "active-icon": {
+      "extends": "icon"
+    },
+
+    "active-color": {
+      "extends": "color"
+    },
+
+    "error-icon": {
+      "extends": "icon"
+    },
+
+    "error-color": {
+      "extends": "color"
+    },
+
+    "header-nav": {
+      "type": "Boolean",
+      "default": true,
+      "desc": "Allow navigation through the header"
+    },
+
+    "done": {
+      "type": "Boolean",
+      "desc": "Mark the step as 'done'"
+    },
+
+    "error": {
+      "type": "Boolean",
+      "desc": "Mark the step as having an error"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "The content of the step; Can also contain a QStepperNavigation if you want to handle step navigation and don't have a global navigation in place"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "props": {
+    "error": {
+      "type": "Boolean",
+      "desc": "Does field has validation errors?"
+    },
+
+    "error-message": {
+      "type": "String",
+      "desc": "Validation error message (gets displayed only if 'error' is set to 'true')",
+      "examples": [ "Username must have at least 5 characters" ]
+    },
+
+    "rules": {
+      "type": "Array",
+      "desc": "Array of Functions/Strings; If String, then it must be a name of one of the embedded validation rules",
+      "examples": [
+        ":rules=\"[ val => val.length <= 3 || 'Please use maximum 3 characters' ]\"",
+        ":rules=\"[ 'fulltime' ]\""
+      ]
+    },
+
+    "lazy-rules": {
+      "type": "Boolean",
+      "desc": "Check validation status against the 'rules' only after field loses focus for first time"
+    }
+  },
+
+  "methods": {
+    "resetValidation": {
+      "desc": "Reset validation status"
+    },
+
+    "validate": {
+      "desc": "Trigger a validation",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "Optional value to validate against",
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,11 @@
 {
+  "mixins": [ "mixins/model-toggle", "mixins/router-link" ],
+
   "props": {
+    "value": {
+      "desc": "Model of the component defining 'open' state; Either use this property (along with a listener for 'input' event) OR use v-model directive"
+    },
+
     "icon": {
       "extends": "icon"
     },
@@ -82,7 +88,7 @@
     },
 
     "header-style": {
-      "type": "Array or String or Object",
+      "type": [ "Array", "String", "Object" ],
       "desc": "Apply custom style to the header",
       "examples": [
         "background: '#ff0000'",
@@ -91,7 +97,7 @@
     },
 
     "header-class": {
-      "type": "Array or String or Object",
+      "type": [ "Array", "String", "Object" ],
       "desc": "Apply custom class(es) to the header",
       "examples": [
         "my-custom-class",
@@ -101,35 +107,6 @@
 
     "disable": {
       "extends": "disable"
-    },
-
-    "to": {
-      "extends": "to"
-    },
-
-    "exact": {
-      "extends": "exact"
-    },
-
-    "append": {
-      "extends": "append"
-    },
-
-    "replace": {
-      "extends": "replace"
-    },
-
-    "active-class": {
-      "extends": "active-class"
-    },
-
-    "exact-active-class": {
-      "extends": "exact-active-class"
-    },
-
-    "value": {
-      "type": "Boolean",
-      "desc": "Model of the component defining 'open' state; Either use this property (along with a listener for 'input' event) OR use v-model directive"
     }
   },
 
@@ -140,48 +117,6 @@
 
     "header": {
       "desc": "Slot used for overriding default header"
-    }
-  },
-
-  "events": {
-    "input": {
-      "desc": "Emitted when component's open state changes; Is also used by v-model",
-      "params": {
-        "value": {
-          "type": "Boolean",
-          "desc": "New open state"
-        }
-      }
-    },
-
-    "show": {
-      "extends": "show"
-    },
-
-    "before-show": {
-      "extends": "before-show"
-    },
-
-    "hide": {
-      "extends": "hide"
-    },
-
-    "before-hide": {
-      "extends": "before-hide"
-    }
-  },
-
-  "methods": {
-    "show": {
-      "extends": "show"
-    },
-
-    "hide": {
-      "extends": "hide"
-    },
-
-    "toggle": {
-      "extends": "toggle"
     }
   }
 }

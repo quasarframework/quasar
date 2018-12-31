@@ -58,7 +58,7 @@
     },
 
     "ratio": {
-      "type": "String or Number",
+      "type": [ "String", "Number" ],
       "desc": "Force the component to maintain an aspect ratio",
       "examples": [
         "(Number format) :ratio=\"16/9\"",
@@ -102,7 +102,10 @@
       "params": {
         "src": {
           "type": "String",
-          "desc": "URL of image that has been loaded; useful when using 'srcset' and/or 'sizes'"
+          "desc": "URL of image that has been loaded; useful when using 'srcset' and/or 'sizes'",
+          "examples": [
+            "https://some-site.net/some-img.gif"
+          ]
         }
       }
     },

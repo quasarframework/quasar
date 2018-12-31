@@ -1,0 +1,32 @@
+{
+  "props": {
+    "value": {
+      "type": "String"
+    },
+
+    "landscape": {
+      "type": "Boolean",
+      "desc": "Display the component in landscape mode"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  }
+}

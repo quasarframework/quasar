@@ -1,0 +1,131 @@
+{
+  "mixins": [ "mixins/validate" ],
+
+  "props": {
+    "label": {
+      "type": "String",
+      "desc": "A text label that will “float” up above the input field, once the field gets focus",
+      "examples": [ "Username" ]
+    },
+
+    "stack-label": {
+      "type": "Boolean",
+      "desc": "Label will be always shown above the field regardless of field content (if any)"
+    },
+
+    "hint": {
+      "type": "String",
+      "desc": "Helper (hint) text which gets placed below your wrapped form component",
+      "examples": [ "Fill in between 3 and 12 characters" ]
+    },
+
+    "hide-hint": {
+      "type": "Boolean",
+      "desc": "Hide the helper (hint) text when field doesn't has focus"
+    },
+
+    "prefix": {
+      "type": "String",
+      "desc": "Prefix",
+      "examples": [ "$" ]
+    },
+
+    "suffix": {
+      "type": "String",
+      "desc": "Suffix",
+      "examples": [ "@gmail.com" ]
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "bg-color": {
+      "extends": "color"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "filled": {
+      "type": "Boolean",
+      "desc": "Use 'filled' design for the field"
+    },
+
+    "outlined": {
+      "type": "Boolean",
+      "desc": "Use 'outlined' design for the field"
+    },
+
+    "borderless": {
+      "type": "Boolean",
+      "desc": "Use 'borderless' design for the field"
+    },
+
+    "standout": {
+      "type": "Boolean",
+      "desc": "Use 'standout' design for the field"
+    },
+
+    "bottom-slots": {
+      "type": "Boolean",
+      "desc": "Enables bottom slots ('error', 'hint', 'counter')"
+    },
+
+    "rounded": {
+      "extends": "rounded"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "items-aligned": {
+      "type": "Boolean",
+      "desc": "Align content to match QItem"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Field main content"
+    },
+
+    "prepend": {
+      "desc": "Prepend inner field; Suggestions: QIcon, QBtn"
+    },
+
+    "append": {
+      "desc": "Append to inner field; Suggestions: QIcon, QBtn"
+    },
+
+    "before": {
+      "desc": "Prepend outer field; Suggestions: QIcon, QBtn"
+    },
+
+    "after": {
+      "desc": "Append outer field; Suggestions: QIcon, QBtn"
+    },
+
+    "error": {
+      "desc": "Slot for errors; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>"
+    },
+
+    "hint": {
+      "desc": "Slot for hint text; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>"
+    },
+
+    "counter": {
+      "desc": "Slot for counter text; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>"
+    }
+  }
+}

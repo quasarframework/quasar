@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/router-link" ],
+
   "props": {
     "label": {
       "type": "String",
@@ -12,33 +14,9 @@
 
     "color": {
       "extends": "color"
-    },
-
-    "to": {
-      "extends": "to"
-    },
-
-    "exact": {
-      "extends": "exact"
-    },
-    
-    "append": {
-      "extends": "append"
-    },
-    
-    "replace": {
-      "extends": "replace"
-    },
-    
-    "active-class": {
-      "extends": "active-class"
-    },
-    
-    "exact-active-class": {
-      "extends": "exact-active-class"
     }
   },
-  
+
   "slots": {
     "default": {
       "desc": "This is where custom content goes, unless 'icon' and 'label' props are not enough"

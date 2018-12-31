@@ -1,0 +1,9 @@
+{
+  "mixins": [ "mixins/panel-child" ],
+  
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

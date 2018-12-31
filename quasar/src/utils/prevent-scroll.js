@@ -1,6 +1,6 @@
 import { getEventPath, stopAndPrevent } from './event.js'
 import { hasScrollbar } from './scroll.js'
-import Platform from '../plugins/platform.js'
+import Platform from '../plugins/Platform.js'
 
 let registered = 0
 

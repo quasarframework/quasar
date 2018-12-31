@@ -1,4 +1,4 @@
-import { isSSR } from '../plugins/platform.js'
+import { isSSR } from '../plugins/Platform.js'
 
 export const routerLinkEventName = 'qrouterlinkclick'
 

@@ -1,0 +1,39 @@
+{
+  "props": {
+    "to": {
+      "type": [ "String", "Object" ],
+      "desc": "Equivalent to Vue Router <router-link> 'to' property",
+      "examples": [
+        "/home/dashboard",
+        "{ name: 'my-route-name' }"
+      ]
+    },
+
+    "exact": {
+      "type": "Boolean",
+      "desc": "Equivalent to Vue Router <router-link> 'exact' property"
+    },
+
+    "append": {
+      "type": "Boolean",
+      "desc": "Equivalent to Vue Router <router-link> 'append' property"
+    },
+
+    "replace": {
+      "type": "Boolean",
+      "desc": "Equivalent to Vue Router <router-link> 'replace' property"
+    },
+
+    "active-class": {
+      "type": "String",
+      "desc": "Equivalent to Vue Router <router-link> 'active-class' property",
+      "examples": [ "my-active-class" ]
+    },
+
+    "exact-active-class": {
+      "type": "String",
+      "desc": "Equivalent to Vue Router <router-link> 'active-class' property",
+      "examples": [ "my-exact-active-class" ]
+    }
+  }
+}

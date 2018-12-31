@@ -1,4 +1,4 @@
-import Platform from '../plugins/platform.js'
+import Platform from '../plugins/Platform.js'
 
 export default (url, reject) => {
   if (Platform.is.cordova && navigator && navigator.app) {

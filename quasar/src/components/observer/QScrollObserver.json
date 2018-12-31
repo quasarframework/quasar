@@ -1,9 +1,9 @@
 {
   "props": {
     "debounce": {
-      "type": "String or Number",
+      "type": [ "String", "Number" ],
       "desc": "Debounce amount (in milliseconds)",
-      "examples": [ 0, 530 ]
+      "examples": [ "0", "530" ]
     }
   },
 
@@ -11,9 +11,30 @@
     "scroll": {
       "desc": "Emitted when scroll position changes",
       "params": {
-        "position": {
+        "details": {
           "type": "Object",
-          "desc": "{ position, direction, directionChanged, inflexionPosition }"
+          "desc": "Scroll details",
+          "definition": {
+            "position": {
+              "type": "Number",
+              "desc": "Scroll offset (from top)",
+              "examples": [ 822 ]
+            },
+            "direction": {
+              "type": "String",
+              "desc": "Direction of scroll",
+              "values": [ "up", "down" ]
+            },
+            "directionChanged": {
+              "type": "Boolean",
+              "desc": "Has scroll direction changed since event was last emitted?"
+            },
+            "inflexionPosition": {
+              "type": "Number",
+              "desc": "Last scroll offset where scroll direction has changed",
+              "examples": [ 822 ]
+            }
+          }
         }
       }
     }

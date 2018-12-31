@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import TouchPan from '../../directives/touch-pan.js'
+import TouchPan from '../../directives/TouchPan.js'
 import { between } from '../../utils/format.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import preventScroll from '../../utils/prevent-scroll.js'

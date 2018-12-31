@@ -1,4 +1,4 @@
-import { isSSR } from './platform.js'
+import { isSSR } from './Platform.js'
 
 function encode (string) {
   return encodeURIComponent(string)
@@ -42,19 +42,20 @@ function set (key, val, opts = {}, ssr) {
     expireValue = parseInt(opts.expires, 10)
 
     if (isNaN(expireValue)) {
-      console.error('Quasar cookie: expires needs to be a number')
-      return
+      expire = opts.expires
     }
-
-    expire = new Date()
-    expire.setMilliseconds(expire.getMilliseconds() + expireValue * 864e+5)
+    else {
+      expire = new Date()
+      expire.setMilliseconds(expire.getMilliseconds() + expireValue * 864e+5)
+      expire = expire.toUTCString()
+    }
   }
 
   const keyValue = `${encode(key)}=${stringifyCookieValue(val)}`
 
   const cookie = [
     keyValue,
-    expire !== void 0 ? '; Expires=' + expire.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+    expire !== void 0 ? '; Expires=' + expire : '', // use expires attribute, max-age is not supported by IE
     opts.path ? '; Path=' + opts.path : '',
     opts.domain ? '; Domain=' + opts.domain : '',
     opts.httpOnly ? '; HttpOnly' : '',

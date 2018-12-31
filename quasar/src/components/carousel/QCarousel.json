@@ -1,0 +1,75 @@
+{
+  "mixins": [ "mixins/panel-parent" ],
+
+  "props": {
+    "transition-prev": {
+      "default": "fade"
+    },
+
+    "transition-next": {
+      "default": "fade"
+    },
+
+    "height": {
+      "extends": "size",
+      "desc": "Height of Carousel in CSS units, including unit name"
+    },
+
+    "padding": {
+      "type": "Boolean",
+      "desc": "Applies a default padding to each slide, according to the usage of 'arrows' and 'navigation' props"
+    },
+
+    "control-color": {
+      "extends": "color"
+    },
+
+    "autoplay": {
+      "type": [ "Number", "Boolean" ],
+      "desc": "Jump to next slide at fixed time intervals (in milliseconds); 'false' disables autoplay, 'true' enables it for 5000ms intervals",
+      "default": false,
+      "examples": [
+        ":autoplay=\"2500\"",
+        true,
+        false
+      ]
+    },
+
+    "arrows": {
+      "type": "Boolean",
+      "desc": "Show navigation arrow buttons"
+    },
+
+    "prev-icon": {
+      "extends": "icon"
+    },
+
+    "next-icon": {
+      "extends": "icon"
+    },
+
+    "navigation": {
+      "type": "Boolean",
+      "desc": "Show navigation dots"
+    },
+
+    "navigation-icon": {
+      "extends": "icon"
+    },
+
+    "thumbnails": {
+      "type": "Boolean",
+      "desc": "Show thumbnails"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QCarouselSlide"
+    },
+
+    "control": {
+      "desc": "Slot specific for QCarouselControl"
+    }
+  }
+}

@@ -95,24 +95,22 @@ export function getStorage (type) {
 
   return {
     has: key => webStorage.getItem(key) !== null,
-    get: {
-      length: () => webStorage.length,
-      item: get,
-      index: index => {
-        if (index < webStorage.length) {
-          return get(webStorage.key(index))
-        }
-      },
-      all: () => {
-        let result = {}, key, len = webStorage.length
-
-        for (let i = 0; i < len; i++) {
-          key = webStorage.key(i)
-          result[key] = get(key)
-        }
-
-        return result
+    getLength: () => webStorage.length,
+    getItem: get,
+    getIndex: index => {
+      if (index < webStorage.length) {
+        return get(webStorage.key(index))
       }
+    },
+    getAll: () => {
+      let result = {}, key, len = webStorage.length
+
+      for (let i = 0; i < len; i++) {
+        key = webStorage.key(i)
+        result[key] = get(key)
+      }
+
+      return result
     },
     set: (key, value) => { webStorage.setItem(key, encode(value)) },
     remove: key => { webStorage.removeItem(key) },

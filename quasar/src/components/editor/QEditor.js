@@ -4,7 +4,7 @@ import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
 import { Caret } from './editor-caret.js'
 
 import FullscreenMixin from '../../mixins/fullscreen.js'
-import { isSSR } from '../../plugins/platform.js'
+import { isSSR } from '../../plugins/Platform.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'

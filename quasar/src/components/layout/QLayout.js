@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import QScrollObserver from '../observer/QScrollObserver.js'
 import QResizeObserver from '../observer/QResizeObserver.js'
-import { onSSR } from '../../plugins/platform.js'
+import { onSSR } from '../../plugins/Platform.js'
 import { getScrollbarWidth } from '../../utils/scroll.js'
 
 export default Vue.extend({

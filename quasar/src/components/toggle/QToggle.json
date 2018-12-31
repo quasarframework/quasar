@@ -1,0 +1,21 @@
+{
+  "mixins": [ "mixins/checkbox" ],
+
+  "props": {
+    "icon": {
+      "extends": "icon"
+    },
+
+    "checked-icon": {
+      "type": "String",
+      "desc": "The icon to be used when the toggle is on",
+      "examples": [ "visibility" ]      
+    },
+
+    "unchecked-icon": {
+      "type": "String",
+      "desc": "The icon to be used when the toggle is off",
+      "examples": [ "visibility_off" ]
+    }
+  }
+}

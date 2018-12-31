@@ -1,0 +1,16 @@
+{
+  "props": {
+    "name": {
+      "type": [ "Number", "String" ],
+      "desc": "Panel name",
+      "required": true,
+      "examples": [
+        "accounts", "firstPanel", ":name=\"1\""
+      ]
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { isSSR, fromSSR } from './platform.js'
+import { isSSR, fromSSR } from './Platform.js'
 import extend from '../utils/extend.js'
 
 let updateId, ssrTakeover
