@@ -19,34 +19,30 @@
     "min-height": {
       "type": "String",
       "desc": "CSS unit for the minimum height of the input area",
-      "default": "10rem"
+      "default": "10rem",
+      "examples": [
+        "15rem", "50vh"
+      ]
     },
     "max-height": {
       "type": "String",
-      "desc": "CSS unit for maximum height of the input area"
+      "desc": "CSS unit for maximum height of the input area",
+      "examples": [
+        "1000px", "90vh"
+      ]
     },
     "height": {
       "type": "String",
-      "desc": "CSS value to set the height of the input area"
+      "desc": "CSS value to set the height of the input area",
+      "examples": [
+        "100px", "50vh"
+      ]
     },
     "definitions": {
       "type": "Object",
       "desc": "Definition of commands and their buttons to be included in the 'toolbar' prop",
       "examples": [
-        ":definitions=\"{",
-        "  save: {",
-        "    tip: 'Save your work',",
-        "    icon: 'save',",
-        "    label: 'Save',",
-        "    handler: saveWork",
-        "  },",
-        "  upload: {",
-        "    tip: 'Upload to cloud',",
-        "    icon: 'cloud_upload',",
-        "    label: 'Upload',",
-        "    handler: uploadIt",
-        "  }",
-        "}\""
+        ":definitions=\"{ save: { tip: 'Save your work', icon: 'save', label: 'Save', handler: saveWork }, upload: { tip: 'Upload to cloud', icon: 'cloud_upload', label: 'Upload', handler: uploadIt } }\""
       ],
       "definition": {
         "label": {
@@ -96,11 +92,7 @@
       "type": "Object",
       "desc": "Object with definitions of fonts",
       "examples": [
-        ":fonts=\"{",
-        "  arial: 'Arial',",
-        "  arial_black: 'Arial Black',",
-        "  comic_sans: 'Comic Sans MS'",
-        "}\""
+        ":fonts=\"{ arial: 'Arial', arial_black: 'Arial Black', comic_sans: 'Comic Sans MS'}\""
       ]
     },
     "toolbar": {
@@ -113,11 +105,11 @@
       ]
     },
     "toolbar-color": {
-      "type": "String",
+      "extends": "color",
       "desc": "Font color (from the Quasar Palette) of buttons and text in the toolbar"
     },
     "toolbar-text-color": {
-      "type": "String",
+      "extends": "text-color",
       "desc": "Text color (from the Quasar Palette) of toolbar commands"
     },
     "toolbar-toggle-color": {
@@ -148,7 +140,8 @@
     },
     "content-style": {
       "type": "Object",
-      "desc": "CSS Style in Object format for the input area"
+      "desc": "Object with CSS properties and values for styling the container of QEditor",
+      "examples": [ ":content-style=\"{ backgroundColor: '#C0C0C0' }\"" ]
     },
     "content-class": {
       "type": ["Object", "Array", "String"],
@@ -164,27 +157,6 @@
     "input": {
       "extends": "input",
       "desc": "Triggered when input area content changes"
-    },
-    "keydown": {
-      "desc": "Emitted on on every keypress",
-      "params": {
-        "evt": {
-          "type": "Object",
-          "desc": "JS event object"
-        }
-      }
-    },
-    "click": {
-      "desc": "Emitted when clicking into the input area"
-    },
-    "blur": {
-      "desc": "Emitted when the input area loses focus",
-      "params": {
-        "evt": {
-          "type": "Function",
-          "desc": "Save the current caret location and range within the contentEditable input area"
-        }
-      }
     }
   },
 
@@ -200,7 +172,8 @@
         },
         "param": {
           "type": "String",
-          "desc": "The argument to pass to the command"
+          "desc": "The argument to pass to the command",
+          "examples": [ "<small>Small Text</small>" ]
         },
         "update": {
           "type": "Boolean",
