@@ -178,7 +178,7 @@
             "key": {
               "type": "String",
               "desc": "The key of the node getting the newly loaded child nodes",
-              "examples": [ 'New Node' ]
+              "examples": [ "New Node" ]
             },
             "done": {
               "type": "Function",
