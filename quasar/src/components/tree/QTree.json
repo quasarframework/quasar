@@ -10,7 +10,7 @@
     "node-key": {
       "type": "String",
       "desc": "The property name of each node object that holds a unique node id",
-      "required": "true",
+      "required": true,
       "examples": [ "key", "id" ]
     },
 
@@ -67,7 +67,7 @@
       "sync": true,
       "examples": [ ":expanded.sync=\"expandedKeys\"" ]
     },
-    
+
     "selected": {
       "type": "Any",
       "desc": "Key of node currently selected",
@@ -79,7 +79,7 @@
       "type": "Boolean",
       "desc": "Allow the tree to have all its branches expanded, when first rendered"
     },
-    
+
     "accordion": {
       "type": "Boolean",
       "desc": "Allows the tree to be set in accordion mode"
@@ -88,7 +88,7 @@
     "filter": {
       "type": "String",
       "desc": "The text value to be used for filtering nodes",
-      "examples": [ ":filter=\"searchText\"" ] 
+      "examples": [ ":filter=\"searchText\"" ]
     },
 
     "filter-method": {
@@ -103,7 +103,8 @@
         },
         "filter": {
           "type": "String",
-          "desc": "Filter text to match against"
+          "desc": "Filter text to match against",
+          "__exemption": [ "examples" ]
         }
       },
       "returns": {
@@ -112,8 +113,7 @@
       }
     },
 
-    "
-    ": {
+    "duration": {
       "type": "Number",
       "desc": "Toggle animation duration (in milliseconds)",
       "default": 300,
@@ -132,12 +132,12 @@
       "examples": [ "No results" ]
     }
   },
-  
+
   "scopedSlots": {
     "default-header": {
       "desc": "Slot to use for defining the header of a node"
     },
-    
+
     "header-[name]": {
       "desc": "Header template slot for describing node header; Used by nodes which have their 'header' prop set to '[name]', where '[name]' can be any string"
     },
@@ -145,7 +145,7 @@
     "default-body": {
       "desc": "Slot to use for defining the body of a node"
     },
-    
+
     "body-[name]": {
       "desc": "Body template slot for describing node body; Used by nodes which have their 'body' prop set to '[name]', where '[name]' can be any string"
     }
@@ -169,7 +169,7 @@
         "details": {
           "type": "Object",
           "desc": "Lazy loading details",
-          "definition": { 
+          "definition": {
             "node": {
               "type": "Object",
               "desc": "The node to which the new nodes (the children) will be appended",
@@ -186,7 +186,8 @@
               "params": {
                 "children": {
                   "type": "Array",
-                  "desc": "Array of nodes"
+                  "desc": "Array of nodes",
+                  "__exemption": [ "examples" ]
                 }
               }
             },
@@ -238,23 +239,25 @@
         "__exemption": [ "examples" ]
       }
     },
-    
+
     "getTickedNodes": {
       "desc": "Get array of nodes that are ticked",
       "returns": {
         "type": "Array",
-        "desc": "Ticked node objects"
+        "desc": "Ticked node objects",
+        "__exemption": [ "examples" ]
       }
     },
-    
+
     "getExpandedNodes": {
       "desc": "Get array of nodes that are expanded",
       "returns": {
         "type": "Array",
-        "desc": "Expanded node objects"
+        "desc": "Expanded node objects",
+        "__exemption": [ "examples" ]
       }
     },
-    
+
     "isExpanded": {
       "desc": "Determine if a node is expanded",
       "params": {
@@ -313,7 +316,8 @@
       "params": {
         "keys": {
           "type": "Array",
-          "desc": "The keys of nodes to tick/untick"
+          "desc": "The keys of nodes to tick/untick",
+          "examples": [ "[ 'Node 1', 'Node 2' ]" ]
         },
         "state": {
           "type": "Boolean",
