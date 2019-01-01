@@ -87,7 +87,7 @@ export default Vue.extend({
 
     buttonDef () {
       const
-        e = this.$q.i18n.editor,
+        e = this.$q.lang.editor,
         i = this.$q.icon.editor
 
       return {
@@ -145,7 +145,7 @@ export default Vue.extend({
           userDef,
           getFonts(
             this.defaultFont,
-            this.$q.i18n.editor.defaultFont,
+            this.$q.lang.editor.defaultFont,
             this.$q.icon.editor.font,
             this.fonts
           )

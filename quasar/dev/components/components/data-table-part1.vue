@@ -222,7 +222,7 @@
             option-value="name"
             option-disable="required"
             emit-value
-            :display-value="$q.i18n.table.columns"
+            :display-value="$q.lang.table.columns"
             dense
             borderless
           />

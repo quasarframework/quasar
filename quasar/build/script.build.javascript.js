@@ -68,7 +68,7 @@ const builds = [
   }
 ]
 
-addAssets(builds, 'i18n')
+addAssets(builds, 'lang')
 addAssets(builds, 'icons')
 
 require('./build.transforms').generate()

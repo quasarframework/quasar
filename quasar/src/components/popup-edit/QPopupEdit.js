@@ -85,7 +85,7 @@ export default Vue.extend({
             props: {
               flat: true,
               color: this.color,
-              label: this.labelCancel || this.$q.i18n.label.cancel
+              label: this.labelCancel || this.$q.lang.label.cancel
             },
             on: { click: this.cancel }
           }),
@@ -94,7 +94,7 @@ export default Vue.extend({
             props: {
               flat: true,
               color: this.color,
-              label: this.labelSet || this.$q.i18n.label.set
+              label: this.labelSet || this.$q.lang.label.set
             },
             on: { click: this.set }
           })

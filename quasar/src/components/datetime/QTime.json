@@ -13,7 +13,7 @@
     "format24h": {
       "type": "Boolean",
       "desc": "Forces 24 hour time display instead of AM/PM system",
-      "default": "(based on Quasar i18n language being used)"
+      "default": "(based on Quasar lang language being used)"
     },
 
     "options": {

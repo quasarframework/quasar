@@ -60,7 +60,7 @@ export default Vue.extend({
 
   computed: {
     horizSide () {
-      return this.$q.i18n.rtl ? 'right' : 'left'
+      return this.$q.lang.rtl ? 'right' : 'left'
     },
 
     anchorOrigin () {

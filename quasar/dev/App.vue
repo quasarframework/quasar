@@ -11,7 +11,7 @@
       <template v-if="showSelector">
         <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="lang = lang === 'en-us' ? 'he' : 'en-us'" class="absolute-bottom-right z-top" />
         <q-select
-          label="I18n"
+          label="Quasar Language"
           dense
           borderless
           :options="[
@@ -36,8 +36,9 @@
           ]"
           emit-value
           map-options
-          dense-options
+          options-dense
           v-model="lang"
+          style="min-width: 150px"
         />
         <q-select
           label="Icon set"
@@ -67,15 +68,15 @@ export default {
   },
   data () {
     return {
-      lang: this.$q.i18n.lang,
+      lang: this.$q.lang.isoName,
       iconSet: this.$q.icon.name,
       showSelector: false
     }
   },
   watch: {
     lang (lang) {
-      import(`../i18n/${lang}`).then(lang => {
-        this.$q.i18n.set(lang.default)
+      import(`../lang/${lang}`).then(lang => {
+        this.$q.lang.set(lang.default)
       })
     },
     iconSet (set) {

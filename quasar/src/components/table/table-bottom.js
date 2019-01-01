@@ -6,7 +6,7 @@ export default {
   computed: {
     navIcon () {
       const ico = [ this.$q.icon.table.prevPage, this.$q.icon.table.nextPage ]
-      return this.$q.i18n.rtl ? ico.reverse() : ico
+      return this.$q.lang.rtl ? ico.reverse() : ico
     }
   },
 
@@ -18,8 +18,8 @@ export default {
 
       if (this.nothingToDisplay === true) {
         const message = this.filter
-          ? this.noResultsLabel || this.$q.i18n.table.noResults
-          : (this.loading === true ? this.loadingLabel || this.$q.i18n.table.loading : this.noDataLabel || this.$q.i18n.table.noData)
+          ? this.noResultsLabel || this.$q.lang.table.noResults
+          : (this.loading === true ? this.loadingLabel || this.$q.lang.table.loading : this.noDataLabel || this.$q.lang.table.noData)
 
         return h('div', { staticClass: 'q-table__bottom row items-center q-table__bottom--nodata' }, [
           h(QIcon, {props: { name: this.$q.icon.table.warning }}),
@@ -38,14 +38,14 @@ export default {
     getPaginationRow (h) {
       const
         { rowsPerPage } = this.computedPagination,
-        paginationLabel = this.paginationLabel || this.$q.i18n.table.pagination,
+        paginationLabel = this.paginationLabel || this.$q.lang.table.pagination,
         paginationSlot = this.$scopedSlots.pagination
 
       return [
         h('div', { staticClass: 'q-table__control' }, [
           h('div', [
             this.hasSelectionMode && this.rowsSelectedNumber > 0
-              ? (this.selectedRowsLabel || this.$q.i18n.table.selectedRecords)(this.rowsSelectedNumber)
+              ? (this.selectedRowsLabel || this.$q.lang.table.selectedRecords)(this.rowsSelectedNumber)
               : ''
           ])
         ]),
@@ -55,7 +55,7 @@ export default {
         this.rowsPerPageOptions.length > 1
           ? h('div', { staticClass: 'q-table__control' }, [
             h('span', { staticClass: 'q-table__bottom-item' }, [
-              this.rowsPerPageLabel || this.$q.i18n.table.recordsPerPage
+              this.rowsPerPageLabel || this.$q.lang.table.recordsPerPage
             ]),
             h(QSelect, {
               staticClass: 'inline q-table__bottom-item',
@@ -64,12 +64,12 @@ export default {
                 value: rowsPerPage,
                 options: this.computedRowsPerPageOptions,
                 displayValue: rowsPerPage === 0
-                  ? this.$q.i18n.table.allRows
+                  ? this.$q.lang.table.allRows
                   : rowsPerPage,
                 dark: this.dark,
                 borderless: true,
                 dense: true,
-                denseOptions: true
+                optionsDense: true
               },
               on: {
                 input: pag => {

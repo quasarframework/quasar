@@ -61,7 +61,7 @@ export default {
 
     computedRowsPerPageOptions () {
       return this.rowsPerPageOptions.map(count => ({
-        label: count === 0 ? this.$q.i18n.table.allRows : '' + count,
+        label: count === 0 ? this.$q.lang.table.allRows : '' + count,
         value: count
       }))
     }

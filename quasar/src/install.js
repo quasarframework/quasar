@@ -3,7 +3,7 @@ import { version } from '../package.json'
 import Platform, { isSSR } from './plugins/Platform.js'
 import Screen from './plugins/Screen.js'
 import History from './history.js'
-import I18n from './i18n.js'
+import Lang from './lang.js'
 import Body from './body.js'
 import Icons from './icons.js'
 
@@ -27,7 +27,7 @@ export default function (Vue, opts = {}) {
   Body.install($q, queues, cfg)
   Screen.install($q, queues)
   History.install($q, cfg)
-  I18n.install($q, queues, opts.i18n)
+  Lang.install($q, queues, opts.lang)
   Icons.install($q, opts.iconSet)
 
   if (isSSR) {

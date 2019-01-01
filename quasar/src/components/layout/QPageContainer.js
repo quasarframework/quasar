@@ -23,13 +23,13 @@ export default Vue.extend({
         css.paddingTop = `${this.layout.header.size}px`
       }
       if (this.layout.right.space) {
-        css[`padding${this.$q.i18n.rtl ? 'Left' : 'Right'}`] = `${this.layout.right.size}px`
+        css[`padding${this.$q.lang.rtl ? 'Left' : 'Right'}`] = `${this.layout.right.size}px`
       }
       if (this.layout.footer.space) {
         css.paddingBottom = `${this.layout.footer.size}px`
       }
       if (this.layout.left.space) {
-        css[`padding${this.$q.i18n.rtl ? 'Right' : 'Left'}`] = `${this.layout.left.size}px`
+        css[`padding${this.$q.lang.rtl ? 'Right' : 'Left'}`] = `${this.layout.left.size}px`
       }
 
       return css

@@ -14,38 +14,72 @@
   <body>
     <div id="q-app">
       <q-layout view="lHh Lpr fff">
-        <q-layout-header>
+        <q-header>
           <q-toolbar class="bg-primary glossy">
             <q-btn flat round dense @click="drawerState = !drawerState" icon="menu"></q-btn>
 
             <q-toolbar-title>
-              Quasar App - t
-              <div slot="subtitle">Running on Quasar v{{ version }}</div>
+              Quasar App
             </q-toolbar-title>
-          </q-toolbar>
-        </q-layout-header>
 
-        <q-layout-drawer v-model="drawerState" content-class="bg-grey-3">
-          <q-list no-border link inset-delimiter>
-            <q-list-header>Essential Links</q-list-header>
-            <q-item @click.native="launch('http://quasar-framework.org')">
-              <q-item-side icon="school"></q-item-side>
-              <q-item-main label="Docs" sublabel="quasar-framework.org"></q-item-main>
+            <div>Quasar v{{ $q.version }}</div>
+          </q-toolbar>
+        </q-header>
+
+        <q-drawer
+          v-model="drawerState"
+          bordered
+          content-class="bg-grey-2"
+        >
+          <q-list>
+            <q-item-label header>Essential Links</q-item-label>
+            <q-item clickable tag="a" target="_blank" href="http://quasar-framework.org">
+              <q-item-section avatar>
+                <q-icon name="school"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Docs</q-item-label>
+                <q-item-label caption>quasar-framework.org</q-item-label>
+              </q-item-section>
             </q-item>
-            <q-item @click.native="launch('http://forum.quasar-framework.org')">
-              <q-item-side icon="forum"></q-item-side>
-              <q-item-main label="Forum" sublabel="forum.quasar-framework.org"></q-item-main>
+            <q-item clickable tag="a" target="_blank" href="https://github.com/quasarframework/">
+              <q-item-section avatar>
+                <q-icon name="code"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Github</q-item-label>
+                <q-item-label caption>github.com/quasarframework</q-item-label>
+              </q-item-section>
             </q-item>
-            <q-item @click.native="launch('https://discord.gg/5TDhbDg')">
-              <q-item-side icon="chat"></q-item-side>
-              <q-item-main label="Discord Chat Channel" sublabel="https://discord.gg/5TDhbDg"></q-item-main>
+            <q-item clickable tag="a" target="_blank" href="http://chat.quasar-framework.org">
+              <q-item-section avatar>
+                <q-icon name="chat"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Discord Chat Channel</q-item-label>
+                <q-item-label caption>chat.quasar-framework.org</q-item-label>
+              </q-item-section>
             </q-item>
-            <q-item @click.native="launch('https://twitter.com/quasarframework')">
-              <q-item-side icon="rss feed"></q-item-side>
-              <q-item-main label="Twitter" sublabel="@quasarframework"></q-item-main>
+            <q-item clickable tag="a" target="_blank" href="https://forum.quasar-framework.org">
+              <q-item-section avatar>
+                <q-icon name="forum"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Forum</q-item-label>
+                <q-item-label caption>forum.quasar-framework.org</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable tag="a" target="_blank" href="https://twitter.com/quasarframework">
+              <q-item-section avatar>
+                <q-icon name="rss_feed"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Twitter</q-item-label>
+                <q-item-label caption>@quasarframework</q-item-label>
+              </q-item-section>
             </q-item>
           </q-list>
-        </q-layout-drawer>
+        </q-drawer>
 
         <q-page-container>
           <q-page padding>
@@ -55,6 +89,8 @@
               <div>"yarn dev:umd"</div>
               <div>You need to build & refresh page on each change on Quasar</div>
               <div>Do not include index.mat.umd.html in your commits</div>
+              <br>
+              <div>$q.lang.label.update: {{ $q.lang.label.update }}</div>
             </div>
 
           </q-page>
@@ -73,10 +109,10 @@
       }
     </script>
     <script src="dist/quasar.umd.js"></script>
-    <script src="dist/i18n/es.umd.min.js"></script>
+    <script src="dist/lang/es.umd.min.js"></script>
 
     <script>
-      Quasar.i18n.set(Quasar.i18n.es)
+      Quasar.lang.set(Quasar.lang.es)
       Quasar.plugins.Notify.create('Startup notification')
 
       new Vue({
