@@ -1,6 +1,6 @@
 export default {
   isoName: 'vi',
-  nativeName: '',
+  nativeName: 'Tiếng Việt',
   label: {
     clear: 'Xóa hết',
     ok: 'OK',

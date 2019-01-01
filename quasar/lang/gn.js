@@ -1,6 +1,6 @@
 export default {
   isoName: 'gn',
-  nativeName: '',
+  nativeName: 'Avañe\'ẽ',
   label: {
     clear: 'Mbogue',
     ok: 'OĨma',

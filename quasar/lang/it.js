@@ -1,6 +1,6 @@
 export default {
   isoName: 'it',
-  nativeName: '',
+  nativeName: 'Italiano',
   label: {
     clear: 'Pulisci',
     ok: 'OK',

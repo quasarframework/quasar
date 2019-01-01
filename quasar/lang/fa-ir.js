@@ -1,6 +1,6 @@
 export default {
   isoName: 'fa-ir',
-  nativeName: '',
+  nativeName: 'فارسی',
   rtl: true,
   label: {
     clear: 'پاک‌سازی',

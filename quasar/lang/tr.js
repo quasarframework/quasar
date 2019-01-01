@@ -1,6 +1,6 @@
 export default {
   isoName: 'tr',
-  nativeName: '',
+  nativeName: 'Türkçe',
   label: {
     clear: 'Temizle',
     ok: 'Tamam',

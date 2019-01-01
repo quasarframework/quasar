@@ -1,6 +1,6 @@
 export default {
   isoName: 'bg',
-  nativeName: '',
+  nativeName: 'български език',
   label: {
     clear: 'Изчисти',
     ok: 'OK',

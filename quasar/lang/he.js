@@ -1,6 +1,6 @@
 export default {
   isoName: 'he',
-  nativeName: '',
+  nativeName: 'עברית',
   rtl: true,
   label: {
     clear: 'נקה',

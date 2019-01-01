@@ -1,6 +1,6 @@
 export default {
   isoName: 'th',
-  nativeName: '',
+  nativeName: 'ไทย',
   label: {
     clear: 'ล้าง',
     ok: 'ตกลง',

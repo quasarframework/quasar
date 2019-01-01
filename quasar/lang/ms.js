@@ -1,6 +1,6 @@
 export default {
   isoName: 'ms',
-  nativeName: '',
+  nativeName: 'Bahasa Melayu',
   label: {
     clear: 'Semula',
     ok: 'OK',

@@ -1,6 +1,6 @@
 export default {
   isoName: 'lu',
-  nativeName: '',
+  nativeName: 'Kiluba',
   label: {
     clear: 'Eidel',
     ok: 'OK',

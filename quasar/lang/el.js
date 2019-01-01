@@ -1,6 +1,6 @@
 export default {
   isoName: 'el',
-  nativeName: '',
+  nativeName: 'ελληνικά',
   label: {
     clear: 'Καθαρισμός',
     ok: 'Εντάξει',
