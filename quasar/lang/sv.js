@@ -1,6 +1,6 @@
 export default {
   isoName: 'sv',
-  nativeName: '',
+  nativeName: 'Svenska',
   label: {
     clear: 'Rensa',
     ok: 'OK',

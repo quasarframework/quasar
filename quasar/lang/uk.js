@@ -4,7 +4,7 @@ function plurals (n, opts) {
 
 export default {
   isoName: 'uk',
-  nativeName: '',
+  nativeName: 'Українська',
   label: {
     clear: 'Очистити',
     ok: 'OK',

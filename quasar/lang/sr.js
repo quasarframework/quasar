@@ -1,6 +1,6 @@
 export default {
-  isoName: 'rs',
-  nativeName: '',
+  isoName: 'sr',
+  nativeName: 'српски језик',
   label: {
     clear: 'Obriši',
     ok: 'OK',

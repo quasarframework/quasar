@@ -1,6 +1,6 @@
 export default {
   isoName: 'ja',
-  nativeName: '',
+  nativeName: '日本語 (にほんご)',
   label: {
     clear: 'クリア', // 'Clear',
     ok: 'OK', // 'OK',

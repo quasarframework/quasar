@@ -1,6 +1,6 @@
 export default {
   isoName: 'ar',
-  nativeName: '',
+  nativeName: 'العربية',
   rtl: true,
   label: {
     clear: 'مسح',

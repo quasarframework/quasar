@@ -1,6 +1,6 @@
 export default {
   isoName: 'ko-kr',
-  nativeName: '',
+  nativeName: '한국어',
   label: {
     clear: '초기화',
     ok: '확인',

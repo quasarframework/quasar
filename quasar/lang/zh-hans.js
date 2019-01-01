@@ -1,6 +1,6 @@
 export default {
   isoName: 'zh-hans',
-  nativeName: '',
+  nativeName: '中文',
   label: {
     clear: '清空',
     ok: '确定',

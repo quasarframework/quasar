@@ -1,6 +1,6 @@
 export default {
   isoName: 'hu',
-  nativeName: '',
+  nativeName: 'magyar',
   label: {
     clear: 'Törlés',
     ok: 'OK',

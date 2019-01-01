@@ -1,6 +1,6 @@
 export default {
   isoName: 'id',
-  nativeName: '',
+  nativeName: 'Bahasa Indonesia',
   label: {
     clear: 'Bersihkan',
     ok: 'OK',

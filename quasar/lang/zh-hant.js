@@ -1,6 +1,6 @@
 export default {
   isoName: 'zh-hant',
-  nativeName: '',
+  nativeName: '汉语',
   label: {
     clear: '清除',
     ok: '確定',

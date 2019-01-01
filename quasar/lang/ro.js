@@ -1,6 +1,6 @@
 export default {
   isoName: 'ro',
-  nativeName: '',
+  nativeName: 'Română',
   label: {
     clear: 'Golește',
     ok: 'OK',
