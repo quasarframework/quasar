@@ -122,9 +122,9 @@ const objectTypes = {
 
   // component only
   scopedSlots: {
-    props: [ 'desc', 'link', 'definition' ],
-    required: [ 'desc' ], // TODO 'definition'
-    isObject: [ 'definition' ]
+    props: [ 'desc', 'link', 'scope' ],
+    required: [ 'desc', 'scope' ],
+    isObject: [ 'scope' ]
   },
 
   // component only
@@ -261,7 +261,7 @@ function parseObject ({ banner, api, itemName, masterType }) {
     })
   }
 
-  ;[ 'params', 'definition' ].forEach(prop => {
+  ;[ 'params', 'definition', 'scope' ].forEach(prop => {
     if (obj[prop] === void 0) { return }
 
     for (let item in obj[prop]) {

@@ -144,25 +144,13 @@
 
   "scopedSlots": {
     "header": {
-      "desc": "Slot for custom header",
-      "definition": {
-        "scope": {
-          "type": "Object",
-          "desc": "Uploader component instance",
-          "__exemption": [ "examples" ]
-        }
-      }
+      "desc": "Slot for custom header; Scope is the QUploader instance itself",
+      "__exemption": [ "scope" ]
     },
 
     "list": {
-      "desc": "Slot for custom list",
-      "definition": {
-        "scope": {
-          "type": "Object",
-          "desc": "Uploader component instance",
-          "__exemption": [ "examples" ]
-        }
-      }
+      "desc": "Slot for custom list; Scope is the QUploader instance itself",
+      "__exemption": [ "scope" ]
     }
   },
 

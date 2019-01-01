@@ -162,11 +162,106 @@
 
   "scopedSlots": {
     "selected": {
-      "desc": "Override default selection slot; Suggestion: QChip"
+      "desc": "Override default selection slot; Suggestion: QChip",
+      "scope": {
+        "index": {
+          "type": "Number",
+          "desc": "Selection index",
+          "examples": [ 0 ]
+        },
+        "opt": {
+          "type": "Any",
+          "desc": "Selected option -- its value is taken from model",
+          "__exemption": [ "examples" ]
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "Always true -- passed down as prop to QItem (when using QItem)"
+        },
+        "removeAtIndex": {
+          "type": "Function",
+          "desc": "Remove selected option located at specific index",
+          "params": {
+            "index": {
+              "type": "Number",
+              "desc": "Index at which to remove selection",
+              "examples": [ 0 ]
+            }
+          }
+        },
+        "toggleOption": {
+          "type": "Function",
+          "desc": "Add/remove option from model",
+          "params": {
+            "opt": {
+              "type": "Any",
+              "desc": "Option to add to model",
+              "__exemption": [ "examples" ]
+            }
+          }
+        },
+        "tabindex": {
+          "type": "Number",
+          "desc": "Tabindex HTML attribute value associated with respective option",
+          "values": [ 0, -1 ]
+        }
+      }
     },
 
     "option": {
-      "desc": "Customize how options are rendered; Suggestion: QItem"
+      "desc": "Customize how options are rendered; Suggestion: QItem",
+      "scope": {
+        "index": {
+          "type": "Number",
+          "desc": "Option index",
+          "examples": [ 0 ]
+        },
+        "opt": {
+          "type": "Any",
+          "desc": "Option -- its value is taken from 'options' prop",
+          "__exemption": [ "examples" ]
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "Is option selected?"
+        },
+        "focused": {
+          "type": "Boolean",
+          "desc": "Is option focused?"
+        },
+        "toggleOption": {
+          "type": "Function",
+          "desc": "Add/remove option from model",
+          "params": {
+            "opt": {
+              "type": "Any",
+              "desc": "Option to add to model",
+              "__exemption": [ "examples" ]
+            }
+          }
+        },
+        "setOptionIndex": {
+          "type": "Function",
+          "desc": "Sets option from menu as 'focused'",
+          "params": {
+            "index": {
+              "type": "Number",
+              "desc": "Index of option from menu",
+              "examples": [ 10 ]
+            }
+          }
+        },
+        "itemProps": {
+          "type": "Object",
+          "desc": "Computed properties passed down to QItem",
+          "__exemption": [ "examples" ]
+        },
+        "itemEvents": {
+          "type": "Object",
+          "desc": "Computed events passed down to QItem",
+          "__exemption": [ "examples" ]
+        }
+      }
     }
   },
 
@@ -255,6 +350,71 @@
 
     "filter-abort": {
       "desc": "Emitted when a filtering was aborted; Probably a new one was requested?"
+    }
+  },
+
+  "methods": {
+    "focus": {
+      "desc": "Focus component"
+    },
+
+    "removeAtIndex": {
+      "desc": "Remove selected option located at specific index",
+      "params": {
+        "index": {
+          "type": "Number",
+          "desc": "Index at which to remove selection",
+          "examples": [ 0 ]
+        }
+      }
+    },
+
+    "add": {
+      "desc": "Adds option to model",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option to add to model",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "toggleOption": {
+      "desc": "Add/remove option from model",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option to add to model",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "setOptionIndex": {
+      "desc": "Sets option from menu as 'focused'",
+      "params": {
+        "index": {
+          "type": "Number",
+          "desc": "Index of option from menu",
+          "examples": [ 10 ]
+        }
+      }
+    },
+
+    "filter": {
+      "desc": "Filter options",
+      "params": {
+        "value": {
+          "type": "String",
+          "desc": "String to filter with",
+          "examples": [ "car" ]
+        }
+      }
+    },
+
+    "updateMenuPosition": {
+      "desc": "Recomputes menu position"
     }
   }
 }

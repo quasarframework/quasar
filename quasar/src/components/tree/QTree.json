@@ -135,19 +135,163 @@
 
   "scopedSlots": {
     "default-header": {
-      "desc": "Slot to use for defining the header of a node"
+      "desc": "Slot to use for defining the header of a node",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is node expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "ticked": {
+          "type": "Boolean",
+          "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
+          "reactive": true
+        },
+        "tree": {
+          "type": "Object",
+          "desc": "QTree instance",
+          "__exemption": [ "examples" ]
+        },
+        "node": {
+          "type": "Object",
+          "desc": "Node object",
+          "__exemption": [ "examples" ]
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Node's key",
+          "__exemption": [ "examples" ]
+        },
+        "color": {
+          "type": "String",
+          "desc": "QTree instance 'color' supplied prop value",
+          "examples": [ "primary" ]
+        },
+        "dark": {
+          "type": "Boolean",
+          "desc": "QTree instance 'dark' supplied prop value"
+        }
+      }
     },
 
     "header-[name]": {
-      "desc": "Header template slot for describing node header; Used by nodes which have their 'header' prop set to '[name]', where '[name]' can be any string"
+      "desc": "Header template slot for describing node header; Used by nodes which have their 'header' prop set to '[name]', where '[name]' can be any string",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is node expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "ticked": {
+          "type": "Boolean",
+          "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
+          "reactive": true
+        },
+        "tree": {
+          "type": "Object",
+          "desc": "QTree instance",
+          "__exemption": [ "examples" ]
+        },
+        "node": {
+          "type": "Object",
+          "desc": "Node object",
+          "__exemption": [ "examples" ]
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Node's key",
+          "__exemption": [ "examples" ]
+        },
+        "color": {
+          "type": "String",
+          "desc": "QTree instance 'color' supplied prop value",
+          "examples": [ "primary" ]
+        },
+        "dark": {
+          "type": "Boolean",
+          "desc": "QTree instance 'dark' supplied prop value"
+        }
+      }
     },
 
     "default-body": {
-      "desc": "Slot to use for defining the body of a node"
+      "desc": "Slot to use for defining the body of a node",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is node expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "ticked": {
+          "type": "Boolean",
+          "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
+          "reactive": true
+        },
+        "tree": {
+          "type": "Object",
+          "desc": "QTree instance",
+          "__exemption": [ "examples" ]
+        },
+        "node": {
+          "type": "Object",
+          "desc": "Node object",
+          "__exemption": [ "examples" ]
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Node's key",
+          "__exemption": [ "examples" ]
+        },
+        "color": {
+          "type": "String",
+          "desc": "QTree instance 'color' supplied prop value",
+          "examples": [ "primary" ]
+        },
+        "dark": {
+          "type": "Boolean",
+          "desc": "QTree instance 'dark' supplied prop value"
+        }
+      }
     },
 
     "body-[name]": {
-      "desc": "Body template slot for describing node body; Used by nodes which have their 'body' prop set to '[name]', where '[name]' can be any string"
+      "desc": "Body template slot for describing node body; Used by nodes which have their 'body' prop set to '[name]', where '[name]' can be any string",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is node expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "ticked": {
+          "type": "Boolean",
+          "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
+          "reactive": true
+        },
+        "tree": {
+          "type": "Object",
+          "desc": "QTree instance",
+          "__exemption": [ "examples" ]
+        },
+        "node": {
+          "type": "Object",
+          "desc": "Node object",
+          "__exemption": [ "examples" ]
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Node's key",
+          "__exemption": [ "examples" ]
+        },
+        "color": {
+          "type": "String",
+          "desc": "QTree instance 'color' supplied prop value",
+          "examples": [ "primary" ]
+        },
+        "dark": {
+          "type": "Boolean",
+          "desc": "QTree instance 'dark' supplied prop value"
+        }
+      }
     }
   },
 

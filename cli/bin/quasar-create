@@ -80,9 +80,7 @@ let template = argv.kit
   )
   : 'quasarframework/quasar-starter-kit'
 
-if (argv.branch) {
-  template += '#' + argv.branch
-}
+template += '#' + (argv.branch || 'master')
 
 const
   rawName = argv._[0],
