@@ -1,4 +1,5 @@
 import QCheckbox from '../checkbox/QCheckbox.js'
+import QRadio from '../radio/QRadio.js'
 
 export default {
   methods: {
@@ -46,7 +47,7 @@ export default {
 
           if (this.hasSelectionMode) {
             child.unshift(h('td', { staticClass: 'q-table--col-auto-width' }, [
-              h(QCheckbox, {
+              h(this.singleSelection ? QRadio : QCheckbox, {
                 props: {
                   value: selected,
                   color: this.color,
