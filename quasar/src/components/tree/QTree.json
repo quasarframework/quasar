@@ -333,11 +333,14 @@
                   "desc": "Array of nodes",
                   "__exemption": [ "examples" ]
                 }
-              }
+              },
+              "returns": null
             },
             "fail": {
               "type": "Function",
-              "desc": "The callback to be carried out should the loading fails"
+              "desc": "The callback to be carried out should the loading fails",
+              "params": null,
+              "returns": null
             }
           }
         }
@@ -374,6 +377,7 @@
         "key": {
           "type": "Any",
           "desc": "The key of a node",
+          "required": true,
           "examples": [ "Node 1" ]
         }
       },
@@ -408,6 +412,7 @@
         "key": {
           "type": "Any",
           "desc": "The key of a node",
+          "required": true,
           "examples": [ "Node 1" ]
         }
       },
@@ -431,11 +436,13 @@
         "key": {
           "type": "Any",
           "desc": "The key of a node",
+          "required": true,
           "examples": [ "Node 1" ]
         },
         "state": {
           "type": "Boolean",
-          "desc": "Set to 'true' to expand the branch of the tree, otherwise 'false' collapses it"
+          "desc": "Set to 'true' to expand the branch of the tree, otherwise 'false' collapses it",
+          "required": true
         }
       }
     },
@@ -446,6 +453,7 @@
         "key": {
           "type": "Any",
           "desc": "The key of a node",
+          "required": true,
           "examples": [ "Node 1" ]
         }
       },
@@ -461,11 +469,13 @@
         "keys": {
           "type": "Array",
           "desc": "The keys of nodes to tick/untick",
+          "required": true,
           "examples": [ "[ 'Node 1', 'Node 2' ]" ]
         },
         "state": {
           "type": "Boolean",
-          "desc": "Set to 'true' to tick the checkbox of nodes, otherwise 'false' unticks them"
+          "desc": "Set to 'true' to tick the checkbox of nodes, otherwise 'false' unticks them",
+          "required": true
         }
       }
     }

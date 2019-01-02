@@ -6,6 +6,7 @@
       "details": {
         "type": "Object",
         "desc": "Touch details",
+        "required": true,
         "definition": {
           "evt": {
             "type": "Object",
@@ -36,6 +37,7 @@
         }
       }
     },
+    "returns": null,
     "examples": [ "v-touch-hold=\"fnToCall\"" ]
   },
 

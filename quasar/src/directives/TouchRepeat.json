@@ -9,6 +9,7 @@
         "__exemption": [ "examples" ]
       }
     },
+    "returns": null,
     "examples": [ "v-touch-repeat=\"fnToCall\"" ]
   },
 
@@ -75,7 +76,7 @@
       "desc": "Catch DELETE key"
     },
 
-    "<keycode>": {
+    "[keycode]": {
       "type": "Number",
       "desc": "Key code to catch",
       "examples": [ "v-touch-repeat.68=\"fnToCall\"" ]

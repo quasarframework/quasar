@@ -187,7 +187,8 @@
               "desc": "Index at which to remove selection",
               "examples": [ 0 ]
             }
-          }
+          },
+          "returns": null
         },
         "toggleOption": {
           "type": "Function",
@@ -198,7 +199,8 @@
               "desc": "Option to add to model",
               "__exemption": [ "examples" ]
             }
-          }
+          },
+          "returns": null
         },
         "tabindex": {
           "type": "Number",
@@ -238,7 +240,8 @@
               "desc": "Option to add to model",
               "__exemption": [ "examples" ]
             }
-          }
+          },
+          "returns": null
         },
         "setOptionIndex": {
           "type": "Function",
@@ -249,7 +252,8 @@
               "desc": "Index of option from menu",
               "examples": [ 10 ]
             }
-          }
+          },
+          "returns": null
         },
         "itemProps": {
           "type": "Object",
@@ -324,7 +328,15 @@
         },
         "itemToAddToModel": {
           "type": "Function",
-          "desc": "Adds (optional) value to the model; Function (val: null or Any); Do not forget to call it after you validate the newly created value; Call it with no parameters if nothing should be added"
+          "desc": "Adds (optional) value to the model; Do not forget to call it after you validate the newly created value; Call it with no parameters if nothing should be added",
+          "params": {
+            "item": {
+              "type": "Any",
+              "desc": "Item to add",
+              "__exemption": [ "examples" ]
+            }
+          },
+          "returns": null
         }
       }
     },
@@ -339,11 +351,22 @@
         },
         "doneFn": {
           "type": "Function",
-          "desc": "Supply a function which makes the necessary updates"
+          "desc": "Supply a function which makes the necessary updates",
+          "params": {
+            "callbackFn": {
+              "type": "Function",
+              "desc": "Callback to call to make the actual updates",
+              "params": null,
+              "returns": null
+            }
+          },
+          "returns": null
         },
         "abortFn": {
           "type": "Function",
-          "desc": "Call this function if something went wrong"
+          "desc": "Call this function if something went wrong",
+          "params": null,
+          "returns": null
         }
       }
     },
@@ -364,6 +387,7 @@
         "index": {
           "type": "Number",
           "desc": "Index at which to remove selection",
+          "required": true,
           "examples": [ 0 ]
         }
       }
@@ -375,6 +399,7 @@
         "opt": {
           "type": "Any",
           "desc": "Option to add to model",
+          "required": true,
           "__exemption": [ "examples" ]
         }
       }
@@ -386,6 +411,7 @@
         "opt": {
           "type": "Any",
           "desc": "Option to add to model",
+          "required": true,
           "__exemption": [ "examples" ]
         }
       }
@@ -397,6 +423,7 @@
         "index": {
           "type": "Number",
           "desc": "Index of option from menu",
+          "required": true,
           "examples": [ 10 ]
         }
       }
@@ -408,6 +435,7 @@
         "value": {
           "type": "String",
           "desc": "String to filter with",
+          "required": true,
           "examples": [ "car" ]
         }
       }

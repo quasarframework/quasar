@@ -26,15 +26,47 @@
         "definition": {
           "onOk": {
             "type": "Function",
-            "desc": "Receives a Function param to tell what to do when OK is pressed / option is selected"
+            "desc": "Receives a Function param to tell what to do when OK is pressed / option is selected",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "params": null,
+                "returns": null
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "__exemption": [ "examples" ]
+            }
           },
           "onCancel": {
             "type": "Function",
-            "desc": "Receives a Function as param to tell what to do when Cancel is pressed / dialog is dismissed"
+            "desc": "Receives a Function as param to tell what to do when Cancel is pressed / dialog is dismissed",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "params": null,
+                "returns": null
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "__exemption": [ "examples" ]
+            }
           },
           "hide": {
             "type": "Function",
-            "desc": "Hides the dialog when called"
+            "desc": "Hides the dialog when called",
+            "params": null,
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "__exemption": [ "examples" ]
+            }
           }
         }
       }

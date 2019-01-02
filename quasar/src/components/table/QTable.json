@@ -116,7 +116,19 @@
 
     "selected-rows-label": {
       "type": "Function",
-      "desc": "Text to display when user selected at least one row; Function(numberOfRows) => String",
+      "desc": "Text to display when user selected at least one row",
+      "params": {
+        "numberOfRows": {
+          "type": "Number",
+          "desc": "Number of rows available",
+          "examples": [ 12 ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Label to display",
+        "examples": [ "5 rows are selected" ]
+      },
       "examples": [ ":selected-rows-label=\"getSelectedString\"" ]
     },
 
@@ -128,7 +140,29 @@
 
     "pagination-label": {
       "type": "Function",
-      "desc": "Text to override default pagination label at bottom of table (unless 'pagination' scoped slot is used); Function (firstRowIndex, endRowIndex, totalRowsNumber) => String",
+      "desc": "Text to override default pagination label at bottom of table (unless 'pagination' scoped slot is used)",
+      "params": {
+        "firstRowIndex": {
+          "type": "Number",
+          "desc": "Index of first displayed row",
+          "examples": [ 1 ]
+        },
+        "endRowIndex": {
+          "type": "Number",
+          "desc": "Index of last displayed row",
+          "examples": [ 10 ]
+        },
+        "totalRowsNumber": {
+          "type": "Number",
+          "desc": "Number of total rows available in data",
+          "examples": [ 132 ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Label to display",
+        "examples": [ "1-10 of 132" ]
+      },
       "examples": [ ":rows-per-page=\"getPaginationLabel\"" ]
     },
 
@@ -158,7 +192,52 @@
 
     "filter-method": {
       "type": "Function",
-      "desc": "The actual filtering mechanism. Function (rows, terms[, cols, getCellValue]) => filtered rows",
+      "desc": "The actual filtering mechanism",
+      "params": {
+        "rows": {
+          "type": "Array",
+          "desc": "Array of rows",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+        "terms": {
+          "type": [ "String", "Object" ],
+          "desc": "Terms to filter with (is essentially the 'filter' prop value)",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+        "cols": {
+          "type": "Array",
+          "desc": "Optional column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "getCellValue": {
+          "type": "Function",
+          "desc": "Optional function to get a cell value",
+          "params": {
+            "col": {
+              "type": "Object",
+              "desc": "Column name from column definitions",
+              "__exemption": [ "examples" ]
+            },
+            "row": {
+              "type": "Object",
+              "desc": "The row object",
+              "__exemption": [ "examples" ]
+            }
+          },
+          "returns": {
+            "type": "Any",
+            "desc": "Parsed/Processed cell value",
+            "examples": [ "Ice Cream Sandwich" ]
+          }
+        }
+      },
+      "returns": {
+        "type": "Array",
+        "desc": "Filtered rows",
+        "__exemption": [ "examples" ]
+      },
       "default": "(see source code)",
       "examples": [
         "(see source code)"
@@ -225,6 +304,27 @@
     "sort-method": {
       "type": "Function",
       "desc": "The actual sort mechanism. Function (rows, sortBy, descending) => sorted rows",
+      "params": {
+        "rows": {
+          "type": "Array",
+          "desc": "Array with rows",
+          "__exemption": [ "examples" ]
+        },
+        "sortBy": {
+          "type": "String",
+          "desc": "Column name (from column definition)",
+          "examples": [ "calories" ]
+        },
+        "descending": {
+          "type": "Boolean",
+          "desc": "Is sorting in descending order?"
+        }
+      },
+      "returns": {
+        "type": "Array",
+        "desc": "Sorted rows",
+        "__exemption": [ "examples" ]
+      },
       "default": "(see source code)",
       "examples": [
         "(see source code)"
@@ -299,11 +399,13 @@
         },
         "selected": {
           "type": "Boolean",
-          "desc": "Is row selected? Can directly be assigned new Boolean value which changes selection state"
+          "desc": "Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "reactive": true
         },
         "expanded": {
           "type": "Boolean",
-          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state"
+          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
         },
         "__trClass": {
           "type": "String",
@@ -420,11 +522,15 @@
         },
         "prevPage": {
           "type": "Function",
-          "desc": "Navigates to previous page, if available"
+          "desc": "Navigates to previous page, if available",
+          "params": null,
+          "returns": null
         },
         "nextPage": {
           "type": "Function",
-          "desc": "Navigates to next page, if available"
+          "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -432,7 +538,9 @@
         },
         "toggleFullscreen": {
           "type": "Function",
-          "desc": "Toggles fullscreen mode"
+          "desc": "Toggles fullscreen mode",
+          "params": null,
+          "returns": null
         }
       }
     },
@@ -480,11 +588,15 @@
         },
         "prevPage": {
           "type": "Function",
-          "desc": "Navigates to previous page, if available"
+          "desc": "Navigates to previous page, if available",
+          "params": null,
+          "returns": null
         },
         "nextPage": {
           "type": "Function",
-          "desc": "Navigates to next page, if available"
+          "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -492,7 +604,9 @@
         },
         "toggleFullscreen": {
           "type": "Function",
-          "desc": "Toggles fullscreen mode"
+          "desc": "Toggles fullscreen mode",
+          "params": null,
+          "returns": null
         }
       }
     },
@@ -520,7 +634,8 @@
               "required": true,
               "examples": [ "calories" ]
             }
-          }
+          },
+          "returns": null
         },
         "header": {
           "type": "Boolean",
@@ -557,7 +672,8 @@
               "required": true,
               "examples": [ "calories" ]
             }
-          }
+          },
+          "returns": null
         }
       }
     },
@@ -605,11 +721,15 @@
         },
         "prevPage": {
           "type": "Function",
-          "desc": "Navigates to previous page, if available"
+          "desc": "Navigates to previous page, if available",
+          "params": null,
+          "returns": null
         },
         "nextPage": {
           "type": "Function",
-          "desc": "Navigates to next page, if available"
+          "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -617,7 +737,9 @@
         },
         "toggleFullscreen": {
           "type": "Function",
-          "desc": "Toggles fullscreen mode"
+          "desc": "Toggles fullscreen mode",
+          "params": null,
+          "returns": null
         }
       }
     },
@@ -665,11 +787,15 @@
         },
         "prevPage": {
           "type": "Function",
-          "desc": "Navigates to previous page, if available"
+          "desc": "Navigates to previous page, if available",
+          "params": null,
+          "returns": null
         },
         "nextPage": {
           "type": "Function",
-          "desc": "Navigates to next page, if available"
+          "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -677,7 +803,9 @@
         },
         "toggleFullscreen": {
           "type": "Function",
-          "desc": "Toggles fullscreen mode"
+          "desc": "Toggles fullscreen mode",
+          "params": null,
+          "returns": null
         }
       }
     },
@@ -725,11 +853,15 @@
         },
         "prevPage": {
           "type": "Function",
-          "desc": "Navigates to previous page, if available"
+          "desc": "Navigates to previous page, if available",
+          "params": null,
+          "returns": null
         },
         "nextPage": {
           "type": "Function",
-          "desc": "Navigates to next page, if available"
+          "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -737,7 +869,9 @@
         },
         "toggleFullscreen": {
           "type": "Function",
-          "desc": "Toggles fullscreen mode"
+          "desc": "Toggles fullscreen mode",
+          "params": null,
+          "returns": null
         }
       }
     }
@@ -774,11 +908,73 @@
         },
         "filter": {
           "type": "Function",
-          "desc": "Filter method"
+          "desc": "Filter method (the 'filter-method' prop)",
+          "params": {
+            "rows": {
+              "type": "Array",
+              "desc": "Array of rows",
+              "required": true,
+              "__exemption": [ "examples" ]
+            },
+            "terms": {
+              "type": [ "String", "Object" ],
+              "desc": "Terms to filter with (is essentially the 'filter' prop value)",
+              "required": true,
+              "__exemption": [ "examples" ]
+            },
+            "cols": {
+              "type": "Array",
+              "desc": "Optional column definitions",
+              "__exemption": [ "examples" ]
+            },
+            "getCellValue": {
+              "type": "Function",
+              "desc": "Optional function to get a cell value",
+              "params": {
+                "col": {
+                  "type": "Object",
+                  "desc": "Column name from column definitions",
+                  "__exemption": [ "examples" ]
+                },
+                "row": {
+                  "type": "Object",
+                  "desc": "The row object",
+                  "__exemption": [ "examples" ]
+                }
+              },
+              "returns": {
+                "type": "Any",
+                "desc": "Parsed/Processed cell value",
+                "examples": [ "Ice Cream Sandwich" ]
+              }
+            }
+          },
+          "returns": {
+            "type": "Array",
+            "desc": "Filtered rows",
+            "__exemption": [ "examples" ]
+          }
         },
         "getCellValue": {
           "type": "Function",
-          "desc": "(col, row) => cell formatted value"
+          "desc": "Optional function to get a cell value",
+          "params": {
+            "col": {
+              "type": "Object",
+              "desc": "Column name from column definitions",
+              "__exemption": [ "examples" ]
+            },
+            "row": {
+              "type": "Object",
+              "desc": "The row object",
+              "__exemption": [ "examples" ]
+            }
+          },
+          "returns": {
+            "type": "Any",
+            "desc": "Parsed/Processed cell value",
+            "examples": [ "Ice Cream Sandwich" ]
+          }
         }
       }
     },
@@ -863,7 +1059,52 @@
             },
             "filter": {
               "type": "Function",
-              "desc": "Filtering method"
+              "desc": "Filtering method (the 'filter-method' prop)",
+              "params": {
+                "rows": {
+                  "type": "Array",
+                  "desc": "Array of rows",
+                  "required": true,
+                  "__exemption": [ "examples" ]
+                },
+                "terms": {
+                  "type": [ "String", "Object" ],
+                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
+                  "required": true,
+                  "__exemption": [ "examples" ]
+                },
+                "cols": {
+                  "type": "Array",
+                  "desc": "Optional column definitions",
+                  "__exemption": [ "examples" ]
+                },
+                "getCellValue": {
+                  "type": "Function",
+                  "desc": "Optional function to get a cell value",
+                  "params": {
+                    "col": {
+                      "type": "Object",
+                      "desc": "Column name from column definitions",
+                      "__exemption": [ "examples" ]
+                    },
+                    "row": {
+                      "type": "Object",
+                      "desc": "The row object",
+                      "__exemption": [ "examples" ]
+                    }
+                  },
+                  "returns": {
+                    "type": "Any",
+                    "desc": "Parsed/Processed cell value",
+                    "examples": [ "Ice Cream Sandwich" ]
+                  }
+                }
+              },
+              "returns": {
+                "type": "Array",
+                "desc": "Filtered rows",
+                "__exemption": [ "examples" ]
+              }
             }
           }
         }

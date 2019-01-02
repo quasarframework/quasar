@@ -23,7 +23,9 @@
         },
         "done": {
           "type": "Function",
-          "desc": "Function to call when you made all necessary updates. DO NOT forget to call it otherwise your loading message will continue to be displayed"
+          "desc": "Function to call when you made all necessary updates. DO NOT forget to call it otherwise your loading message will continue to be displayed",
+          "params": null,
+          "returns": null
         }
       }
     }

@@ -97,6 +97,7 @@
         }
       }
     },
+    "returns": null,
     "examples": [ "v-touch-pan=\"fnToCall\"" ]
   },
 

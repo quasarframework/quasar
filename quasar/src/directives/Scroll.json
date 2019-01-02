@@ -13,6 +13,7 @@
         "desc": "Scroll offset from left",
         "examples": [ 350 ]
       }
-    }
+    },
+    "returns": null
   }
 }

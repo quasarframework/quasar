@@ -19,6 +19,24 @@
     "options": {
       "type": "Function",
       "desc": "Optionally configure what time is the user allowed to set; Overriden by 'hour-options', 'minute-options' and 'second-options' if those are set",
+      "params": {
+        "hr": {
+          "type": "Number",
+          "desc": "Hour",
+          "examples": [ 15 ]
+        },
+        "min": {
+          "type": "Number",
+          "desc": "Minutes",
+          "examples": [ 38 ]
+        },
+        "sec": {
+          "type": "Number",
+          "desc": "Seconds",
+          "examples": [ 12 ]
+        }
+      },
+      "returns": null,
       "examples": [
         ":options=\"(hr, min, sec) => hr <= 6\""
       ]
