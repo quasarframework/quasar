@@ -9,11 +9,17 @@ const
   resolve = file => path.resolve(root, file)
 
 function parse (prop, txt) {
-  const propIndex = txt.indexOf(prop)
-  const startIndex = txt.indexOf(`'`, propIndex) + 1
-  const stopIndex = txt.indexOf(`'`, startIndex)
+  const
+    propIndex = txt.indexOf(prop),
+    startIndex = txt.indexOf(`'`, propIndex) + 1
 
-  return txt.substring(startIndex, stopIndex)
+  let stopIndex = txt.indexOf(`'`, startIndex)
+
+  while (txt.charAt(stopIndex - 1) === '\\') {
+    stopIndex = txt.indexOf(`'`, stopIndex + 1)
+  }
+
+  return txt.substring(startIndex, stopIndex).replace('\\', '')
 }
 
 module.exports.generate = function () {
