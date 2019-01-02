@@ -195,7 +195,7 @@ export default Vue.extend({
       }
 
       let
-        ratio = getRatio(event, dragging, this.$q.i18n.rtl),
+        ratio = getRatio(event, dragging, this.$q.lang.rtl),
         type
 
       if (this.dragOnlyRange !== true && ratio < dragging.ratioMin + sensitivity) {
@@ -229,7 +229,7 @@ export default Vue.extend({
 
     __updatePosition (event, dragging = this.dragging) {
       let
-        ratio = getRatio(event, dragging, this.$q.i18n.rtl),
+        ratio = getRatio(event, dragging, this.$q.lang.rtl),
         model = getModel(ratio, this.min, this.max, this.step, this.decimals),
         pos
 

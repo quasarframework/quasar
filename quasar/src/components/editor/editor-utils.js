@@ -230,7 +230,7 @@ export function getLinkEditor (h, vm) {
     }
 
     return [
-      h('div', { staticClass: 'q-mx-xs', 'class': `text-${color}` }, [`${vm.$q.i18n.editor.url}: `]),
+      h('div', { staticClass: 'q-mx-xs', 'class': `text-${color}` }, [`${vm.$q.lang.editor.url}: `]),
       h(QInput, {
         key: 'qedt_btm_input',
         staticClass: 'q-ma-none q-pa-none col q-editor-input',
@@ -267,7 +267,7 @@ export function getLinkEditor (h, vm) {
             tabindex: -1
           },
           props: Object.assign({}, vm.buttonProps, {
-            label: vm.$q.i18n.label.remove,
+            label: vm.$q.lang.label.remove,
             noCaps: true
           }),
           on: {
@@ -281,7 +281,7 @@ export function getLinkEditor (h, vm) {
         h(QBtn, {
           key: 'qedt_btm_upd',
           props: Object.assign({}, vm.buttonProps, {
-            label: vm.$q.i18n.label.update,
+            label: vm.$q.lang.label.update,
             noCaps: true
           }),
           on: {

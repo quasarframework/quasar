@@ -36,7 +36,14 @@
 
   "scopedSlots": {
     "content": {
-      "desc": "Scoped slot for describing content that gets displayed on top of the component; If specified, it overrides the default slot"
+      "desc": "Scoped slot for describing content that gets displayed on top of the component; If specified, it overrides the default slot",
+      "scope": {
+        "percentScrolled": {
+          "type": "Number",
+          "desc": "Percentage (0.0 < x < 1.0) of scroll in regards to QParallax",
+          "examples": [ 0.241 ]
+        }
+      }
     }
   },
 

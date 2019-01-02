@@ -3,7 +3,13 @@
 
   "quasarConfOptions": {
     "propName": "loadingBar",
-    "props": "QAjaxBar component props"
+    "definition": {
+      "...props": {
+        "type": "Object",
+        "desc": "QAjaxBar component props",
+        "__exemption": [ "examples" ]
+      }
+    }
   },
 
   "methods": {

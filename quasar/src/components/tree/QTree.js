@@ -626,8 +626,8 @@ export default Vue.extend({
       children.length === 0
         ? (
           this.filter
-            ? this.noResultsLabel || this.$q.i18n.tree.noResults
-            : this.noNodesLabel || this.$q.i18n.tree.noNodes
+            ? this.noResultsLabel || this.$q.lang.tree.noResults
+            : this.noNodesLabel || this.$q.lang.tree.noNodes
         )
         : children
     )

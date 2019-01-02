@@ -1,0 +1,162 @@
+[
+  {
+    "isoName": "ar",
+    "nativeName": "العربية"
+  },
+  {
+    "isoName": "bg",
+    "nativeName": "български език"
+  },
+  {
+    "isoName": "ca",
+    "nativeName": "Català"
+  },
+  {
+    "isoName": "cs",
+    "nativeName": "Čeština"
+  },
+  {
+    "isoName": "da",
+    "nativeName": "Dansk"
+  },
+  {
+    "isoName": "de",
+    "nativeName": "Deutsch"
+  },
+  {
+    "isoName": "el",
+    "nativeName": "ελληνικά"
+  },
+  {
+    "isoName": "en-uk",
+    "nativeName": "English (UK)"
+  },
+  {
+    "isoName": "en-us",
+    "nativeName": "English (US)"
+  },
+  {
+    "isoName": "es",
+    "nativeName": "Español"
+  },
+  {
+    "isoName": "fa-ir",
+    "nativeName": "فارسی"
+  },
+  {
+    "isoName": "fr",
+    "nativeName": "Français"
+  },
+  {
+    "isoName": "gn",
+    "nativeName": "Avañe'ẽ"
+  },
+  {
+    "isoName": "he",
+    "nativeName": "עברית"
+  },
+  {
+    "isoName": "hr",
+    "nativeName": "Hrvatski jezik"
+  },
+  {
+    "isoName": "hu",
+    "nativeName": "Magyar"
+  },
+  {
+    "isoName": "id",
+    "nativeName": "Bahasa Indonesia"
+  },
+  {
+    "isoName": "it",
+    "nativeName": "Italiano"
+  },
+  {
+    "isoName": "ja",
+    "nativeName": "日本語 (にほんご)"
+  },
+  {
+    "isoName": "ko-kr",
+    "nativeName": "한국어"
+  },
+  {
+    "isoName": "lu",
+    "nativeName": "Kiluba"
+  },
+  {
+    "isoName": "lv",
+    "nativeName": "Latviešu valoda"
+  },
+  {
+    "isoName": "ms",
+    "nativeName": "Bahasa Melayu"
+  },
+  {
+    "isoName": "nb-no",
+    "nativeName": "Norsk"
+  },
+  {
+    "isoName": "nl",
+    "nativeName": "Nederlands"
+  },
+  {
+    "isoName": "pl",
+    "nativeName": "Polski"
+  },
+  {
+    "isoName": "pt-br",
+    "nativeName": "Português (BR)"
+  },
+  {
+    "isoName": "pt",
+    "nativeName": "Português"
+  },
+  {
+    "isoName": "ro",
+    "nativeName": "Română"
+  },
+  {
+    "isoName": "ru",
+    "nativeName": "русский"
+  },
+  {
+    "isoName": "sk",
+    "nativeName": "Slovenčina"
+  },
+  {
+    "isoName": "sl",
+    "nativeName": "Slovenski Jezik"
+  },
+  {
+    "isoName": "sr",
+    "nativeName": "српски језик"
+  },
+  {
+    "isoName": "sv",
+    "nativeName": "Svenska"
+  },
+  {
+    "isoName": "th",
+    "nativeName": "ไทย"
+  },
+  {
+    "isoName": "tr",
+    "nativeName": "Türkçe"
+  },
+  {
+    "isoName": "uk",
+    "nativeName": "Українська"
+  },
+  {
+    "isoName": "vi",
+    "nativeName": "Tiếng Việt"
+  },
+  {
+    "isoName": "zh-hans",
+    "nativeName": "中文"
+  },
+  {
+    "isoName": "zh-hant",
+    "nativeName": "汉语"
+  }
+]

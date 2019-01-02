@@ -155,7 +155,7 @@ export default Vue.extend({
         angle = normalizeToInterval(angle - this.angle, 0, 360)
       }
 
-      if (this.$q.i18n.rtl) {
+      if (this.$q.lang.rtl) {
         angle = 360 - angle
       }
 

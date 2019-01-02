@@ -57,13 +57,13 @@ export default Vue.extend({
 
     okLabel () {
       return this.ok === true
-        ? this.$q.i18n.label.ok
+        ? this.$q.lang.label.ok
         : this.ok
     },
 
     cancelLabel () {
       return this.cancel === true
-        ? this.$q.i18n.label.cancel
+        ? this.$q.lang.label.cancel
         : this.cancel
     },
 
@@ -71,7 +71,7 @@ export default Vue.extend({
       return Object(this.ok) === this.ok
         ? Object.assign({
           color: this.color,
-          label: this.$q.i18n.label.ok,
+          label: this.$q.lang.label.ok,
           ripple: false
         }, this.ok)
         : {
@@ -86,7 +86,7 @@ export default Vue.extend({
       return Object(this.cancel) === this.cancel
         ? Object.assign({
           color: this.color,
-          label: this.$q.i18n.label.cancel,
+          label: this.$q.lang.label.cancel,
           ripple: false
         }, this.cancel)
         : {

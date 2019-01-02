@@ -109,10 +109,10 @@ export default Vue.extend({
         css = {}
 
       if (view[0] === 'l' && this.layout.left.space) {
-        css[this.$q.i18n.rtl ? 'right' : 'left'] = `${this.layout.left.size}px`
+        css[this.$q.lang.rtl ? 'right' : 'left'] = `${this.layout.left.size}px`
       }
       if (view[2] === 'r' && this.layout.right.space) {
-        css[this.$q.i18n.rtl ? 'left' : 'right'] = `${this.layout.right.size}px`
+        css[this.$q.lang.rtl ? 'left' : 'right'] = `${this.layout.right.size}px`
       }
 
       return css

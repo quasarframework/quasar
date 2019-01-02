@@ -29,7 +29,7 @@ if (!type || type === 'js') {
   createFolder('dist/vetur')
   createFolder('dist/api')
   createFolder('dist/babel-transforms')
-  createFolder('dist/i18n')
+  createFolder('dist/lang')
   createFolder('dist/icons')
   runJob(join(__dirname, './script.build.javascript'))
 }

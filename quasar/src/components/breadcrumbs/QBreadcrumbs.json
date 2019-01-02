@@ -47,7 +47,8 @@
 
   "scopedSlots": {
     "separator": {
-      "desc": "HTML or component you can slot in to separate the breadcrumbs"
+      "desc": "HTML or component you can slot in to separate the breadcrumbs",
+      "scope": {}
     }
   }
 }

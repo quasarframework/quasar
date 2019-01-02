@@ -11,33 +11,15 @@
       <template v-if="showSelector">
         <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="lang = lang === 'en-us' ? 'he' : 'en-us'" class="absolute-bottom-right z-top" />
         <q-select
-          label="I18n"
+          label="Quasar Language"
           dense
           borderless
-          :options="[
-            { label: 'English (US)', value: 'en-us' }
-            ,{ label: 'English (UK)', value: 'en-uk' }
-            ,{ label: 'Romanian', value: 'ro' }
-            ,{ label: 'Hebrew', value: 'he' }
-            ,{ label: 'Chinese (Simplified)', value: 'zh-hans' }
-            ,{ label: 'Italian', value: 'it' }
-            ,{ label: 'Spanish', value: 'es' }
-            ,{ label: 'Swedish', value: 'sv' }
-            ,{ label: 'Farsi', value: 'fa-ir' }
-            ,{ label: 'French', value: 'fr' }
-            ,{ label: 'Dutch', value: 'nl' }
-            ,{ label: 'German', value: 'de' }
-            ,{ label: 'Indonezian', value: 'id' }
-            ,{ label: 'Croatian', value: 'hr' }
-            ,{ label: 'Russian', value: 'ru' }
-            ,{ label: 'Ukrainian', value: 'uk' }
-            ,{ label: 'Polish', value: 'pl' }
-            ,{ label: 'Czech', value: 'cs' }
-          ]"
+          :options="langOptions"
           emit-value
           map-options
-          dense-options
+          options-dense
           v-model="lang"
+          style="min-width: 150px"
         />
         <q-select
           label="Icon set"
@@ -61,21 +43,23 @@
 </template>
 
 <script>
+import languages from '../lang/index.json'
+
 export default {
   meta: {
     title: 'Quasar Development'
   },
   data () {
     return {
-      lang: this.$q.i18n.lang,
+      lang: this.$q.lang.isoName,
       iconSet: this.$q.icon.name,
       showSelector: false
     }
   },
   watch: {
     lang (lang) {
-      import(`../i18n/${lang}`).then(lang => {
-        this.$q.i18n.set(lang.default)
+      import(`../lang/${lang}`).then(lang => {
+        this.$q.lang.set(lang.default)
       })
     },
     iconSet (set) {
@@ -90,6 +74,9 @@ export default {
       document.body.scrollTop = 0
       done()
     }
+  },
+  created () {
+    this.langOptions = languages.map(lang => ({ label: lang.nativeName, value: lang.isoName }))
   }
 }
 </script>

@@ -2,7 +2,7 @@
 
 import { isDate } from './is.js'
 import { pad, capitalize } from './format.js'
-import i18n from '../i18n.js'
+import lang from '../lang.js'
 
 const
   MILLISECONDS_IN_DAY = 86400000,
@@ -341,12 +341,12 @@ export const formatter = {
 
   // Month Short Name: Jan, Feb, ...
   MMM (date, opts = {}) {
-    return (opts.monthNamesShort || i18n.lang.date.monthsShort)[date.getMonth()]
+    return (opts.monthNamesShort || lang.props.date.monthsShort)[date.getMonth()]
   },
 
   // Month Name: January, February, ...
   MMMM (date, opts = {}) {
-    return (opts.monthNames || i18n.lang.date.months)[date.getMonth()]
+    return (opts.monthNames || lang.props.date.months)[date.getMonth()]
   },
 
   // Quarter: 1, 2, 3, 4
@@ -396,12 +396,12 @@ export const formatter = {
 
   // Day of week: Sun, Mon, ...
   ddd (date, opts = {}) {
-    return (opts.dayNamesShort || i18n.lang.date.daysShort)[date.getDay()]
+    return (opts.dayNamesShort || lang.props.date.daysShort)[date.getDay()]
   },
 
   // Day of week: Sunday, Monday, ...
   dddd (date, opts = {}) {
-    return (opts.dayNames || i18n.lang.date.days)[date.getDay()]
+    return (opts.dayNames || lang.props.date.days)[date.getDay()]
   },
 
   // Day of ISO week: 1, 2, ..., 7

@@ -57,7 +57,7 @@ export default Vue.extend({
         this.nextIcon || this.$q.icon.carousel.right
       ]
 
-      return this.$q.i18n.rtl
+      return this.$q.lang.rtl
         ? ico.reverse()
         : ico
     },

@@ -7,7 +7,7 @@ import * as components from './components.js'
 import * as directives from './directives.js'
 import * as plugins from './plugins.js'
 import * as utils from './utils.js'
-import i18n from './i18n.js'
+import lang from './lang.js'
 import icons from './icons.js'
 
 if (Vue === void 0) {
@@ -26,7 +26,7 @@ else {
 
 export default {
   version,
-  i18n,
+  lang,
   icons,
   components,
   directives,

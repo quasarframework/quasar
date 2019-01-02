@@ -93,8 +93,8 @@ export default Vue.extend({
       if (model.value === null) { return ' --- ' }
 
       const date = new Date(model.value)
-      return this.$q.i18n.date.daysShort[ date.getDay() ] + ', ' +
-        this.$q.i18n.date.monthsShort[ model.month - 1 ] + ' ' +
+      return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
+        this.$q.lang.date.monthsShort[ model.month - 1 ] + ' ' +
         model.day
     },
 
@@ -106,18 +106,18 @@ export default Vue.extend({
 
     dateArrow () {
       const val = [ this.$q.icon.datetime.arrowLeft, this.$q.icon.datetime.arrowRight ]
-      return this.$q.i18n.rtl ? val.reverse() : val
+      return this.$q.lang.rtl ? val.reverse() : val
     },
 
     computedFirstDayOfWeek () {
       return this.firstDayOfWeek !== void 0
         ? Number(this.firstDayOfWeek)
-        : this.$q.i18n.date.firstDayOfWeek
+        : this.$q.lang.date.firstDayOfWeek
     },
 
     daysOfWeek () {
       const
-        days = this.$q.i18n.date.daysShort,
+        days = this.$q.lang.date.daysShort,
         first = this.computedFirstDayOfWeek
 
       return first > 0
@@ -401,7 +401,7 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-date__navigation row items-center no-wrap'
           }, this.__getNavigation(h, {
-            label: this.$q.i18n.date.months[ this.innerModel.month - 1 ],
+            label: this.$q.lang.date.months[ this.innerModel.month - 1 ],
             view: 'Months',
             key: this.innerModel.month,
             dir: this.monthDirection,
@@ -463,7 +463,7 @@ export default Vue.extend({
     __getMonthsView (h) {
       const currentYear = this.innerModel.year === this.today.year
 
-      const content = this.$q.i18n.date.monthsShort.map((month, i) => {
+      const content = this.$q.lang.date.monthsShort.map((month, i) => {
         const active = this.innerModel.month === i + 1
 
         return h('div', {

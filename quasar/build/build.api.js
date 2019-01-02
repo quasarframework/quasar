@@ -1,5 +1,3 @@
-// Used with babel-plugin-transform-imports
-
 const
   glob = require('glob'),
   path = require('path'),
@@ -88,9 +86,10 @@ const objectTypes = {
 
   Function: {
     props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples' ],
-    required: [ 'desc' ],
+    required: [ 'desc', 'params', 'returns' ],
     isBoolean: [ 'required', 'reactive', 'sync' ],
     isObject: [ 'params', 'returns' ],
+    canBeNull: [ 'params', 'returns' ],
     isArray: [ 'examples' ]
   },
 
@@ -122,9 +121,9 @@ const objectTypes = {
 
   // component only
   scopedSlots: {
-    props: [ 'desc', 'link', 'definition' ],
-    required: [ 'desc' ], // TODO 'definition'
-    isObject: [ 'definition' ]
+    props: [ 'desc', 'link', 'scope' ],
+    required: [ 'desc', 'scope' ],
+    isObject: [ 'scope' ]
   },
 
   // component only
@@ -142,8 +141,8 @@ const objectTypes = {
 
   // plugin only
   quasarConfOptions: {
-    props: [ 'propName', 'props', 'link' ],
-    required: [ 'propName', 'props' ]
+    props: [ 'propName', 'definition', 'link' ],
+    required: [ 'propName', 'definition' ]
   }
 }
 
@@ -252,7 +251,7 @@ function parseObject ({ banner, api, itemName, masterType }) {
     })
   }
 
-  if (obj.returns !== void 0) {
+  if (obj.returns) {
     parseObject({
       banner: `${banner}/"returns"`,
       api: api[itemName],
@@ -261,8 +260,8 @@ function parseObject ({ banner, api, itemName, masterType }) {
     })
   }
 
-  ;[ 'params', 'definition' ].forEach(prop => {
-    if (obj[prop] === void 0) { return }
+  ;[ 'params', 'definition', 'scope', 'props' ].forEach(prop => {
+    if (!obj[prop]) { return }
 
     for (let item in obj[prop]) {
       parseObject({
@@ -336,7 +335,10 @@ function parseAPI (file, apiType) {
     }
   }
 
-  api.type = apiType
+  api = {
+    type: apiType,
+    ...api
+  }
 
   return api
 }
