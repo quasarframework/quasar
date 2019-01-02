@@ -89,7 +89,7 @@ async function inspect () {
     prod: argv.cmd === 'build'
   })
 
-  // register app cli extensions
+  // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
   const quasarConfig = new QuasarConfig(ctx)

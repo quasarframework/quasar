@@ -40,7 +40,7 @@ async function run () {
   const name = argv.add || argv.remove
   if (name) {
     if (!name || !name.length) {
-      warn(`⚠️  Please specify app cli extension name`)
+      warn(`⚠️  Please specify the Quasar App Extension name`)
       process.exit(1)
     }
 

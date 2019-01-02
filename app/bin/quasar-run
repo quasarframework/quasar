@@ -16,7 +16,7 @@ const cmd = argv._[1]
 if (!extId || argv.help) {
   console.log(`
   Description
-    Run app cli extension provided commands
+    Run app extension provided commands
 
   Usage
     $ quasar run <extension-id> <cmd> [args, params]
@@ -56,11 +56,11 @@ async function run () {
 
   const list = () => {
     if (Object.keys(hooks.commands).length === 0) {
-      warn(`⚠️  "${extId}" app cli extension has no commands registered`)
+      warn(`⚠️  "${extId}" app extension has no commands registered`)
       return
     }
 
-    log(`Listing "${extId}" app cli extension commands`)
+    log(`Listing "${extId}" app extension commands`)
     log()
 
     for (let cmd in hooks.commands) {
@@ -76,7 +76,7 @@ async function run () {
   }
   if (!hooks.commands[cmd]) {
     warn()
-    warn(`⚠️  "${extId}" app cli extension has no command called "${cmd}"`)
+    warn(`⚠️  "${extId}" app extension has no command called "${cmd}"`)
     warn()
     list()
     process.exit(1)
