@@ -112,7 +112,7 @@ async function build () {
     prod: true
   })
 
-  // register app cli extensions
+  // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
   const quasarConfig = new QuasarConfig(ctx)

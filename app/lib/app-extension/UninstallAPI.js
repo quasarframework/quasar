@@ -18,7 +18,7 @@ module.exports = class UninstallAPI {
   }
 
   /**
-   * Check if another app cli extension is installed
+   * Check if another app extension is installed
    *
    * @param {string} extId
    * @return {boolean} has the extension installed.

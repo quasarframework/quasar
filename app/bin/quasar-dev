@@ -128,7 +128,7 @@ async function goLive () {
     dev: true
   })
 
-  // register app cli extensions
+  // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
   // run possible beforeDevStart hooks
