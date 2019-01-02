@@ -14,26 +14,7 @@
           label="Quasar Language"
           dense
           borderless
-          :options="[
-            { label: 'English (US)', value: 'en-us' }
-            ,{ label: 'English (UK)', value: 'en-uk' }
-            ,{ label: 'Romanian', value: 'ro' }
-            ,{ label: 'Hebrew', value: 'he' }
-            ,{ label: 'Chinese (Simplified)', value: 'zh-hans' }
-            ,{ label: 'Italian', value: 'it' }
-            ,{ label: 'Spanish', value: 'es' }
-            ,{ label: 'Swedish', value: 'sv' }
-            ,{ label: 'Farsi', value: 'fa-ir' }
-            ,{ label: 'French', value: 'fr' }
-            ,{ label: 'Dutch', value: 'nl' }
-            ,{ label: 'German', value: 'de' }
-            ,{ label: 'Indonezian', value: 'id' }
-            ,{ label: 'Croatian', value: 'hr' }
-            ,{ label: 'Russian', value: 'ru' }
-            ,{ label: 'Ukrainian', value: 'uk' }
-            ,{ label: 'Polish', value: 'pl' }
-            ,{ label: 'Czech', value: 'cs' }
-          ]"
+          :options="langOptions"
           emit-value
           map-options
           options-dense
@@ -62,6 +43,8 @@
 </template>
 
 <script>
+import languages from '../lang/index.json'
+
 export default {
   meta: {
     title: 'Quasar Development'
@@ -91,6 +74,9 @@ export default {
       document.body.scrollTop = 0
       done()
     }
+  },
+  created () {
+    this.langOptions = languages.map(lang => ({ label: lang.nativeName, value: lang.isoName }))
   }
 }
 </script>

@@ -1,5 +1,3 @@
-// Used with babel-plugin-transform-imports
-
 const
   glob = require('glob'),
   path = require('path'),
@@ -336,7 +334,10 @@ function parseAPI (file, apiType) {
     }
   }
 
-  api.type = apiType
+  api = {
+    type: apiType,
+    ...api
+  }
 
   return api
 }

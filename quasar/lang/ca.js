@@ -1,6 +1,6 @@
 export default {
   isoName: 'ca',
-  nativeName: 'català',
+  nativeName: 'Català',
   label: {
     clear: 'Neteja',
     ok: 'D\'acord',

@@ -74,6 +74,7 @@ addAssets(builds, 'icons')
 require('./build.transforms').generate()
 
 build(builds).then(() => {
+  require('./build.lang-index').generate()
   require('./build.vetur').generate()
   require('./build.api').generate()
 })
@@ -91,25 +92,27 @@ function addAssets (builds, type) {
     files = fs.readdirSync(resolve(type)),
     plugins = [ buble(bubleConfig) ]
 
-  files.forEach(file => {
-    const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[1].toUpperCase())
-    builds.push({
-      rollup: {
-        input: {
-          input: resolve(`${type}/${file}`),
-          plugins
+  files
+    .filter(file => file.endsWith('.js'))
+    .forEach(file => {
+      const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[1].toUpperCase())
+      builds.push({
+        rollup: {
+          input: {
+            input: resolve(`${type}/${file}`),
+            plugins
+          },
+          output: {
+            file: addExtension(resolve(`dist/${type}/${file}`), 'umd'),
+            format: 'umd',
+            name: `Quasar.${type}.${name}`
+          }
         },
-        output: {
-          file: addExtension(resolve(`dist/${type}/${file}`), 'umd'),
-          format: 'umd',
-          name: `Quasar.${type}.${name}`
+        build: {
+          minified: true
         }
-      },
-      build: {
-        minified: true
-      }
+      })
     })
-  })
 }
 
 function build (builds) {

@@ -1,6 +1,6 @@
 export default {
   isoName: 'lv',
-  nativeName: 'latviešu valoda',
+  nativeName: 'Latviešu valoda',
   label: {
     clear: 'Attīrīt',
     ok: 'OK',

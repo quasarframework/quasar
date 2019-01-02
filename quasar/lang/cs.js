@@ -1,6 +1,6 @@
 export default {
   isoName: 'cs',
-  nativeName: 'čeština',
+  nativeName: 'Čeština',
   label: {
     clear: 'Smazat',
     ok: 'OK',
