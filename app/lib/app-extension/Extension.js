@@ -6,7 +6,6 @@ const
 
 module.exports = class Extension {
   constructor (name) {
-    console.log(' this is the name: ', name)
     if (name.charAt(0) === '@') {
       const slashIndex = name.indexOf('/')
       if (slashIndex === -1) {
