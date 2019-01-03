@@ -1,0 +1,14 @@
+{
+  "methods": {
+    "toggleFullscreen": {
+      "desc": "Toggle the view to be fullscreen or not fullscreen"
+    },
+    "setFullscreen": {
+      "desc": "Enter the fullscreen view"
+    },
+
+    "exitFullscreen": {
+      "desc": "Leave the fullscreen view"
+    }
+  }
+}
