@@ -80,6 +80,24 @@
         <q-chip dense square color="secondary" class="shadow-1">10k</q-chip>
       </div>
 
+      <p class="caption">Tooltip test</p>
+      <div>
+        <q-chip square color="primary">
+          with tooltip
+          <q-tooltip>Tooltip</q-tooltip>
+        </q-chip>
+
+        <q-chip avatar="/statics/boy-avatar.png" closable color="primary">
+          Jim
+          <q-tooltip>Tooltip</q-tooltip>
+        </q-chip>
+
+        <q-chip tag icon-right="warning" class="q-ml-md">
+          $1000
+          <q-tooltip>Available</q-tooltip>
+        </q-chip>
+      </div>
+
       <p class="caption">Floating Label Chips</p>
       <div>
         <q-btn color="light" text-color="black" label="Inbox">

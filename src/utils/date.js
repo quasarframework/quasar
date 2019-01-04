@@ -1,6 +1,6 @@
 /* eslint no-fallthrough: 0 */
 
-import { isDate } from './is.js'
+import { isDate, isString } from './is.js'
 import { pad, capitalize } from './format.js'
 import i18n from '../i18n.js'
 
@@ -8,7 +8,8 @@ const
   MILLISECONDS_IN_DAY = 86400000,
   MILLISECONDS_IN_HOUR = 3600000,
   MILLISECONDS_IN_MINUTE = 60000,
-  token = /\[((?:[^\]\\]|\\]|\\)*)\]|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g
+  token = /\[((?:[^\]\\]|\\]|\\)*)\]|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g,
+  reMySQLDateTimeStr = /^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}(.[0-9]{6})?$/
 
 function formatTimezone (offset, delimeter = '') {
   const
@@ -28,9 +29,13 @@ function setMonth (date, newMonth /* 1-based */) {
   date.setMonth(newMonth - 1, Math.min(days, date.getDate()))
 }
 
+function buildDateVal (d) {
+  return new Date(isString(d) && reMySQLDateTimeStr.exec(d) !== null ? d.substring(0, 23).replace(' ', 'T') : d)
+}
+
 function getChange (date, mod, add) {
   const
-    t = new Date(date),
+    t = buildDateVal(date),
     sign = (add ? 1 : -1)
 
   Object.keys(mod).forEach(key => {
@@ -60,7 +65,7 @@ export function buildDate (mod, utc) {
 }
 
 export function getDayOfWeek (date) {
-  const dow = new Date(date).getDay()
+  const dow = buildDateVal(date).getDay()
   return dow === 0 ? 7 : dow
 }
 
@@ -88,9 +93,9 @@ export function getWeekOfYear (date) {
 
 export function isBetweenDates (date, from, to, opts = {}) {
   let
-    d1 = new Date(from).getTime(),
-    d2 = new Date(to).getTime(),
-    cur = new Date(date).getTime()
+    d1 = buildDateVal(from).getTime(),
+    d2 = buildDateVal(to).getTime(),
+    cur = buildDateVal(date).getTime()
 
   opts.inclusiveFrom && d1--
   opts.inclusiveTo && d2++
@@ -107,7 +112,7 @@ export function subtractFromDate (date, mod) {
 
 export function adjustDate (date, mod, utc) {
   const
-    t = new Date(date),
+    t = buildDateVal(date),
     prefix = `set${utc ? 'UTC' : ''}`
 
   Object.keys(mod).forEach(key => {
@@ -125,7 +130,7 @@ export function adjustDate (date, mod, utc) {
 }
 
 export function startOfDate (date, unit) {
-  const t = new Date(date)
+  const t = buildDateVal(date)
   switch (unit) {
     case 'year':
       t.setMonth(0)
@@ -144,7 +149,7 @@ export function startOfDate (date, unit) {
 }
 
 export function endOfDate (date, unit) {
-  const t = new Date(date)
+  const t = buildDateVal(date)
   switch (unit) {
     case 'year':
       t.setMonth(11)
@@ -163,16 +168,16 @@ export function endOfDate (date, unit) {
 }
 
 export function getMaxDate (date, ...args) {
-  let t = new Date(date)
+  let t = buildDateVal(date)
   args.forEach(d => {
-    t = Math.max(t, new Date(d))
+    t = Math.max(t, buildDateVal(d))
   })
   return t
 }
 export function getMinDate (date, ...args) {
-  let t = new Date(date)
+  let t = buildDateVal(date)
   args.forEach(d => {
-    t = Math.min(t, new Date(d))
+    t = Math.min(t, buildDateVal(d))
   })
   return t
 }
@@ -186,8 +191,8 @@ function getDiff (t, sub, interval) {
 
 export function getDateDiff (date, subtract, unit = 'days') {
   let
-    t = new Date(date),
-    sub = new Date(subtract)
+    t = buildDateVal(date),
+    sub = buildDateVal(subtract)
 
   switch (unit) {
     case 'years':
@@ -241,17 +246,17 @@ export function convertDateToFormat (date, type, format) {
 }
 
 export function getDateBetween (date, min, max) {
-  const t = new Date(date)
+  const t = buildDateVal(date)
 
   if (min) {
-    const low = new Date(min)
+    const low = buildDateVal(min)
     if (t < low) {
       return low
     }
   }
 
   if (max) {
-    const high = new Date(max)
+    const high = buildDateVal(max)
     if (t > high) {
       return high
     }
@@ -262,8 +267,8 @@ export function getDateBetween (date, min, max) {
 
 export function isSameDate (date, date2, unit) {
   const
-    t = new Date(date),
-    d = new Date(date2)
+    t = buildDateVal(date),
+    d = buildDateVal(date2)
 
   if (unit === void 0) {
     return t.getTime() === d.getTime()
@@ -340,13 +345,13 @@ export const formatter = {
   },
 
   // Month Short Name: Jan, Feb, ...
-  MMM (date) {
-    return i18n.lang.date.monthsShort[date.getMonth()]
+  MMM (date, opts = {}) {
+    return (opts.monthNamesShort || i18n.lang.date.monthsShort)[date.getMonth()]
   },
 
   // Month Name: January, February, ...
-  MMMM (date) {
-    return i18n.lang.date.months[date.getMonth()]
+  MMMM (date, opts = {}) {
+    return (opts.monthNames || i18n.lang.date.months)[date.getMonth()]
   },
 
   // Quarter: 1, 2, 3, 4
@@ -395,13 +400,13 @@ export const formatter = {
   },
 
   // Day of week: Sun, Mon, ...
-  ddd (date) {
-    return i18n.lang.date.daysShort[date.getDay()]
+  ddd (date, opts = {}) {
+    return (opts.dayNamesShort || i18n.lang.date.daysShort)[date.getDay()]
   },
 
   // Day of week: Sunday, Monday, ...
-  dddd (date) {
-    return i18n.lang.date.days[date.getDay()]
+  dddd (date, opts = {}) {
+    return (opts.dayNames || i18n.lang.date.days)[date.getDay()]
   },
 
   // Day of ISO week: 1, 2, ..., 7
@@ -517,16 +522,16 @@ export const formatter = {
   }
 }
 
-export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ') {
+export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ', opts) {
   if (val !== 0 && !val) {
     return
   }
 
-  let date = new Date(val)
+  let date = buildDateVal(val)
 
   return mask.replace(token, function (match, text) {
     if (match in formatter) {
-      return formatter[match](date)
+      return formatter[match](date, opts)
     }
     return text === void 0
       ? match

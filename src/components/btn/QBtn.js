@@ -153,6 +153,32 @@ export default {
     this.__cleanup()
   },
   render (h) {
+    const inner = [].concat(this.$slots.default)
+
+    if (this.label !== void 0 && this.isRectangle === true) {
+      inner.unshift(
+        h('div', [this.label])
+      )
+    }
+
+    if (this.icon !== void 0) {
+      inner.unshift(
+        h(QIcon, {
+          class: { 'on-left': this.label !== void 0 && this.isRectangle === true },
+          props: { name: this.icon }
+        })
+      )
+    }
+
+    if (this.iconRight !== void 0 && this.isRound === false) {
+      inner.push(
+        h(QIcon, {
+          staticClass: 'on-right',
+          props: { name: this.iconRight }
+        })
+      )
+    }
+
     return h(this.isLink ? 'a' : 'button', {
       staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
       'class': this.classes,
@@ -180,31 +206,20 @@ export default {
         : null,
 
       h('div', {
-        staticClass: 'q-btn-inner row col items-center',
+        staticClass: 'q-btn-inner row col items-center q-popup--skip',
         'class': this.innerClasses
-      },
-      this.loading
-        ? [ this.$slots.loading || h(QSpinner) ]
-        : [
-          this.icon
-            ? h(QIcon, {
-              'class': { 'on-left': this.label && this.isRectangle },
-              props: { name: this.icon }
-            })
-            : null,
+      }, inner),
 
-          this.label && this.isRectangle ? h('div', [ this.label ]) : null,
-
-          this.$slots.default,
-
-          this.iconRight && this.isRectangle
-            ? h(QIcon, {
-              staticClass: 'on-right',
-              props: { name: this.iconRight }
-            })
-            : null
-        ]
-      )
+      this.loading !== null
+        ? h('transition', {
+          props: { name: 'q-transition--fade' }
+        }, this.loading === true ? [
+          h('div', {
+            key: 'loading',
+            staticClass: 'absolute-full flex flex-center'
+          }, this.$slots.loading !== void 0 ? this.$slots.loading : [h(QSpinner)])
+        ] : void 0)
+        : null
     ])
   }
 }

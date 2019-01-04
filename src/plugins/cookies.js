@@ -36,19 +36,25 @@ function read (string) {
 }
 
 function set (key, val, opts = {}, ssr) {
-  let time = opts.expires
-  const hasExpire = typeof opts.expires === 'number'
+  let expire, expireValue
 
-  if (hasExpire) {
-    time = new Date()
-    time.setMilliseconds(time.getMilliseconds() + opts.expires * 864e+5)
+  if (opts.expires !== void 0) {
+    expireValue = parseInt(opts.expires, 10)
+
+    if (isNaN(expireValue)) {
+      console.error('Quasar cookie: expires needs to be a number')
+      return
+    }
+
+    expire = new Date()
+    expire.setMilliseconds(expire.getMilliseconds() + expireValue * 864e+5)
   }
 
   const keyValue = `${encode(key)}=${stringifyCookieValue(val)}`
 
   const cookie = [
     keyValue,
-    time ? '; Expires=' + time.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+    expire !== void 0 ? '; Expires=' + expire.toUTCString() : '', // use expires attribute, max-age is not supported by IE
     opts.path ? '; Path=' + opts.path : '',
     opts.domain ? '; Domain=' + opts.domain : '',
     opts.httpOnly ? '; HttpOnly' : '',
@@ -70,7 +76,7 @@ function set (key, val, opts = {}, ssr) {
 
     let all = ssr.req.headers.cookie || ''
 
-    if (hasExpire && opts.expires < 0) {
+    if (expire !== void 0 && expireValue < 0) {
       const val = get(key, ssr)
       if (val !== undefined) {
         all = all

@@ -112,7 +112,7 @@ export default {
       })) || void 0,
 
       h('div', {
-        staticClass: 'q-if-inner col column'
+        staticClass: 'q-if-inner col column q-popup--skip'
       }, [
         h('div', { staticClass: 'row no-wrap relative-position' }, [
           (this.prefix && h('span', {

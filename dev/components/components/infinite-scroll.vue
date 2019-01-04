@@ -2,10 +2,11 @@
   <div>
     <div class="layout-padding">
       <p class="caption">Scroll down to see it in action.</p>
+      <q-toggle v-model="active" label="Active" />
 
       <br>
-      <q-infinite-scroll :handler="refresher">
-        <div v-for="(item, index) in items" class="caption">
+      <q-infinite-scroll :handler="refresher" v-if="active">
+        <div v-for="(item, index) in items" :key="index" class="caption">
           <q-chip square color="secondary" class="shadow-1">
             {{ index + 1 }}
           </q-chip>
@@ -16,6 +17,7 @@
           <q-spinner name="dots" slot="message" :size="40"/>
         </div>
       </q-infinite-scroll>
+      <div v-else style="height: 300vh">Placeholder for scroll</div>
     </div>
   </div>
 </template>
@@ -24,7 +26,8 @@
 export default {
   data () {
     return {
-      items: [{}, {}, {}, {}, {}]
+      items: [{}, {}, {}, {}, {}],
+      active: true
     }
   },
   methods: {
@@ -37,6 +40,7 @@ export default {
         }
 
         this.items = this.items.concat(items)
+        console.log('refresh')
         done()
       }, 2500)
     }
