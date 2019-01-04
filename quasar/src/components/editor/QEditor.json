@@ -234,7 +234,8 @@
       "desc": "Retrieve the content of the Editor",
       "returns": {
         "type": "String",
-        "desc": "Provides the pure HTML within the editable area"
+        "desc": "Provides the pure HTML within the editable area",
+        "__exemption": [ "examples" ]
       }
     }
   }
