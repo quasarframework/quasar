@@ -250,7 +250,7 @@ export default Vue.extend({
   },
 
   methods: {
-    onInput (e) {
+    __onInput () {
       if (this.editWatcher) {
         const val = this.$refs.content.innerHTML
         if (val !== this.value) {
@@ -260,21 +260,20 @@ export default Vue.extend({
       }
     },
 
-    onKeydown (e) {
-      const key = e.keyCode
-
+    __onKeydown (e) {
       if (!e.ctrlKey) {
         this.refreshToolbar()
-        this.$q.platform.is.ie && this.$nextTick(this.onInput)
+        this.$q.platform.is.ie && this.$nextTick(this.__onInput)
         return
       }
 
+      const key = e.keyCode
       const target = this.keys[key]
       if (target !== void 0) {
         const { cmd, param } = target
         stopAndPrevent(e)
         this.runCmd(cmd, param, false)
-        this.$q.platform.is.ie && this.$nextTick(this.onInput)
+        this.$q.platform.is.ie && this.$nextTick(this.__onInput)
       }
     },
 
@@ -370,8 +369,8 @@ export default Vue.extend({
               ? { innerHTML: this.value }
               : undefined,
             on: {
-              input: this.onInput,
-              keydown: this.onKeydown,
+              input: this.__onInput,
+              keydown: this.__onKeydown,
               click: this.refreshToolbar,
               blur: () => {
                 this.caret.save()
