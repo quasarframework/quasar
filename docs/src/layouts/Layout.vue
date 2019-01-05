@@ -1,13 +1,17 @@
 <template lang="pug">
-q-layout.bg-grey-3(view="hHh LpR lff")
+q-layout(view="hHh LpR lff")
   q-header(elevated)
     q-toolbar
       q-btn(v-show="hasDrawer", flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
         q-icon(name="menu")
-      q-btn.self-stretch.text-bold.q-ml-xs(flat, no-caps, to="/")
-        img.header-logo.q-mr-sm(src="statics/quasar-logo.png")
-        span Quasar
-      q-btn.self-stretch.text-bold.q-ml-xs(flat, no-caps, to="/components/qbtn", label="Documentation")
+
+      q-btn.q-ml-sm.self-stretch.text-bold(flat, no-caps, to="/")
+        q-avatar
+          img(src="statics/quasar-logo.png")
+        q-toolbar-title(shrink) Quasar
+
+      q-separator.q-mx-xs(vertical, dark, inset)
+      q-btn.text-bold(flat, stretch, no-caps, to="/components/qbtn", label="Documentation")
 
       q-space
 
@@ -122,7 +126,7 @@ q-layout.bg-grey-3(view="hHh LpR lff")
     content-class="bg-grey-3"
     :width="180"
   )
-    q-list
+    q-list.docs-toc
       q-item-label(header) Table of Contents
       q-item(clickable, @click="scrollTo('introduction')")
         q-item-section Introduction
@@ -230,4 +234,6 @@ export default {
 .header-logo
   width 25px
   height 25px
+.docs-toc .q-item .q-focus-helper
+  border-radius 5px 0 0 5px
 </style>
