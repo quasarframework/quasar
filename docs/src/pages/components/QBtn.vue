@@ -59,6 +59,11 @@ q-page(padding)
     :config="{ notify: 'Notify' }"
   )
 
+  InstallationCard(
+    title="Meta Plugin installation"
+    :plugins="['Meta']"
+  )
+
   h2#usage Usage
   code-example(title="Standard", file="QBtn/Standard")
 
@@ -69,7 +74,9 @@ q-page(padding)
   p When not disabled or spinning, QBtn emits a @click event, as soon as it is clicked or tapped.
 
   h2#api API
-  ApiCard(:file="QBtn")
+  ApiCard(file="QBtn")
+  ApiCard(file="TouchSwipe")
+  ApiCard(file="AppFullscreen")
 </template>
 
 <script>

@@ -83,7 +83,7 @@ q-layout(view="hHh LpR lff")
             q-item-section Patreon
 
       q-btn.q-ml-xs(v-show="hasDrawer", flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
-        q-icon(name="menu")
+        q-icon(name="assignment")
 
   q-drawer(
     v-if="hasDrawer"
@@ -115,7 +115,7 @@ q-layout(view="hHh LpR lff")
       q-item-section Some Other Page
 
     q-separator
-    q-item-label.q-mt-md(header) Actual Menu - Not Working
+    q-item-label(header) Actual Menu - Not Working
 
     app-menu
 
@@ -125,16 +125,17 @@ q-layout(view="hHh LpR lff")
     side="right"
     content-class="bg-grey-3"
     :width="180"
+    @on-layout="updateRightDrawerOnLayout"
   )
     q-list.docs-toc
       q-item-label(header) Table of Contents
-      q-item(clickable, @click="scrollTo('introduction')")
+      q-item(clickable, v-ripple, @click="scrollTo('introduction')")
         q-item-section Introduction
-      q-item(clickable, @click="scrollTo('installation')")
+      q-item(clickable, v-ripple, @click="scrollTo('installation')")
         q-item-section Installation
-      q-item(clickable, @click="scrollTo('usage')")
+      q-item(clickable, v-ripple, @click="scrollTo('usage')")
         q-item-section Usage
-      q-item(clickable, @click="scrollTo('api')")
+      q-item(clickable, v-ripple, @click="scrollTo('api')")
         q-item-section API
     .flex.justify-center.q-mt-sm
       .bg-grey.flex.flex-center.text-white(
@@ -177,7 +178,8 @@ export default {
 
   data () {
     return {
-      search: ''
+      search: '',
+      rightDrawerOnLayout: false
     }
   },
 
@@ -216,14 +218,35 @@ export default {
 
     scrollTo (id) {
       const el = document.getElementById(id)
-      if (el) {
-        const
-          target = scroll.getScrollTarget(el),
-          offset = el.offsetTop - el.scrollHeight
 
-        scroll.setScrollPosition(target, offset, 500)
+      if (el) {
+        if (this.rightDrawerOnLayout !== true) {
+          this.rightDrawerState = false
+          this.scrollTimer = setTimeout(() => {
+            this.scrollPage(el)
+          }, 300)
+        }
+        else {
+          this.scrollPage(el)
+        }
       }
+    },
+
+    scrollPage (el) {
+      const
+        target = scroll.getScrollTarget(el),
+        offset = el.offsetTop - el.scrollHeight
+
+      scroll.setScrollPosition(target, offset, 500)
+    },
+
+    updateRightDrawerOnLayout (state) {
+      this.rightDrawerOnLayout = state
     }
+  },
+
+  beforeDestroy () {
+    clearTimeout(this.scrollTimer)
   }
 }
 </script>
@@ -234,6 +257,6 @@ export default {
 .header-logo
   width 25px
   height 25px
-.docs-toc .q-item .q-focus-helper
+.q-drawer--standard .docs-toc .q-item
   border-radius 5px 0 0 5px
 </style>

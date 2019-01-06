@@ -1,4 +1,5 @@
 import Menu from 'assets/menu.js'
+import './AppMenu.styl'
 
 export default {
   name: 'AppMenu',
@@ -22,14 +23,15 @@ export default {
       return h('q-item', {
         props: {
           to: path
-        }
+        },
+        staticClass: 'app-menu-entry'
       }, [
         h('q-item-section', [ menu.name ])
       ])
     }
   },
   render (h) {
-    return h('q-list', Menu.map(
+    return h('q-list', { staticClass: 'app-menu' }, Menu.map(
       item => this.getDrawerMenu(h, item, '/' + item.path)
     ))
   }

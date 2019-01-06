@@ -1,7 +1,14 @@
 <template lang="pug">
-.component-api.shadow-2.q-my-xl
+q-card.q-my-xl(v-if="ready")
+  q-toolbar.text-grey-7.bg-white
+    .text-subtitle1 {{ name }}
+    q-space
+    .text-subtitle2 {{ type }}
+
+  q-separator
+
   div.bg-grey-2.text-grey-7.flex.items-center.no-wrap
-    q-tabs(v-model="currentTab")
+    q-tabs(v-model="currentTab", align="left", :breakpoint="0")
       q-tab(
         v-for="tab in tabs"
         :key="`api-tab-${tab}`"
@@ -13,36 +20,9 @@
 
     .q-pr-sm
       q-input(v-model="filter", dense, borderless, :debounce="300")
-        q-icon(slot="prepend", name="search", color="primary")
+        q-icon(slot="append", name="search", color="primary")
 
   q-separator
-
-  q-table.component-api(
-    grid
-    :data="api[currentTab]"
-    :columns="[]"
-    :filter="filter"
-    hide-header
-    hide-bottom
-    row-key="name"
-    class="shadow-0"
-  )
-    .col-12(slot="item", slot-scope="props")
-      .row.component-api-item
-        .col-3
-          .component-api-col Name
-          .text-bold {{ props.row.name }}
-        .col-3(v-if="props.row.default")
-          .component-api-col Default
-          div {{ props.row.default }}
-        .col-3(v-if="props.row.type")
-          .component-api-col Type
-          .text-bold {{ props.row.type }}
-        .col-3(v-if="props.row.example")
-          .component-api-col Example
-          .text-bold {{ props.row.example }}
-        .component-api-desc.col-12.text-weight-light
-          div {{ props.row.desc }}
 </template>
 
 <script>
@@ -58,38 +38,33 @@ export default {
 
   data () {
     return {
-      currentTab: 'props',
+      ready: false,
+      currentTab: null,
       filter: ''
     }
   },
 
-  beforeMount () {
-    this.currentTab = this.tabs[0]
+  methods: {
+    parseJson ({ name, type, ...api }) {
+      this.api = api
+      this.apiType = type
+
+      this.name = name
+      this.type = `${type === 'plugin' ? 'Quasar' : 'Vue'} ${type.charAt(0).toUpperCase()}${type.substring(1)}`
+      this.tabs = Object.keys(api)
+      this.currentTab = this.tabs[0]
+    }
   },
 
-  computed: {
-    tabs () {
-      return Object.keys(this.api)
-    }
+  mounted () {
+    import(
+      /* webpackChunkName: "quasar-api" */
+      /* webpackMode: "lazy-once" */
+      `quasar/dist/api/${this.file}.json`
+    ).then(json => {
+      this.parseJson(json.default)
+      this.ready = true
+    })
   }
 }
 </script>
-
-<style lang="stylus">
-@import '~quasar-variables'
-
-.component-api
-  .q-hr
-    margin 0
-    bottom 1px
-
-.component-api-item
-  font-size 80%
-  background linear-gradient(to bottom, white 40%, $grey-3 100%)
-
-  > div
-    padding 8px
-
-.component-api-col
-  font-size 80%
-</style>

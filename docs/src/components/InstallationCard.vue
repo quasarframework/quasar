@@ -1,7 +1,7 @@
 <template lang="pug">
 q-card.component-installation.shadow-2.q-my-xl
   q-toolbar.text-grey-7.bg-white
-    .text-subtitle1 Installation
+    .text-subtitle1 {{ title }}
 
   q-separator
 
@@ -35,6 +35,10 @@ export default {
   },
 
   props: {
+    title: {
+      type: String,
+      default: 'Installation'
+    },
     components: [Array, String],
     directives: [Array, String],
     plugins: [Array, String],
