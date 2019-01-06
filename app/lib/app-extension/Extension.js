@@ -137,7 +137,7 @@ module.exports = class Extension {
   __stripVersion (packageFullName) {
     const index = packageFullName.indexOf('@')
 
-    return packageFullName > -1
+    return index > -1
       ? packageFullName.substring(0, index)
       : packageFullName
   }
