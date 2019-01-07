@@ -335,10 +335,7 @@ function parseAPI (file, apiType) {
     }
   }
 
-  const fileName = path.basename(file)
-
   api = {
-    name: fileName.substring(0, fileName.length - 5),
     type: apiType,
     ...api
   }

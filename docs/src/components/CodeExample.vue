@@ -16,7 +16,7 @@ q-card.code-example.q-my-xl
 
   q-slide-transition
     div(v-show="expanded")
-      q-tabs.text-grey-7.bg-grey-3(v-model="currentTab", align="left", :breakpoint="0")
+      q-tabs.text-grey-7.bg-grey-3(v-model="currentTab", align="left", dense, :breakpoint="0")
         q-tab(
           v-for="tab in tabs"
           :key="`tab-${tab}`"

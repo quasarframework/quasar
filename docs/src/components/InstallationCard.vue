@@ -5,7 +5,7 @@ q-card.component-installation.shadow-2.q-my-xl
 
   q-separator
 
-  q-tabs.text-grey-7.bg-grey-3(v-model="currentTab", align="left", :breakpoint="0")
+  q-tabs.text-grey-7.bg-grey-3(v-model="currentTab", align="left", dense, :breakpoint="0")
     q-tab(
       v-for="tab in ['Quasar CLI', 'UMD', 'Vue CLI']"
       :key="`installation-${tab}`"

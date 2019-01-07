@@ -117,7 +117,7 @@ function printProp (prop, propName, indentLevel) {
     console.log(`${indent}Link: ${prop.link}`)
   }
   if (prop.values) {
-    console.log(`${indent}Values: [ '${prop.values.join(`' '`)}' ]`)
+    console.log(`${indent}Accepted values: ${prop.values.join(` | `)}`)
   }
   if (prop.default) {
     console.log(`${indent}Default value: ${prop.default}`)
