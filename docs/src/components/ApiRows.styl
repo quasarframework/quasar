@@ -1,11 +1,23 @@
 .api-row
   padding 8px 8px 4px
+  border-top 1px solid #ddd
+  border-bottom 1px solid #ddd
 
-  &:nth-child(odd)
-    background linear-gradient(to right, white 40%, #eee 100%)
-
-  &:nth-child(even)
-    background linear-gradient(to left, white 40%, #eee 100%)
+  & + &
+    margin-top 2px
 
   &__item
     margin-bottom 4px
+
+  &__subitem
+    padding 4px 0 0 16px
+    border-radius 5px
+    > div
+      border 1px solid #eee
+      border-radius inherit
+
+  &__value
+    font-weight 300
+
+  &--indent
+    padding-left 16px

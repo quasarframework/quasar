@@ -245,6 +245,7 @@ function printValue ({ value }) {
     console.log('\n   ' + chalk.italic('*No value*'))
   }
   else {
+    console.log('\n   Type:', value.type)
     printProp(value, void 0, 3)
   }
 }
@@ -255,6 +256,7 @@ function printArg ({ arg }) {
     console.log('\n   ' + chalk.italic('*No arg*'))
   }
   else {
+    console.log('\n   Type:', arg.type)
     printProp(arg, void 0, 3)
   }
 }

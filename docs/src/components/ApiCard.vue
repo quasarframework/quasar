@@ -16,8 +16,6 @@ q-card.q-my-xl(v-if="ready")
         :label="tab"
       )
 
-  q-separator
-
   ApiRows(:which="currentTab", :api="api", :api-type="apiType")
 </template>
 

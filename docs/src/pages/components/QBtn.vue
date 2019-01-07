@@ -74,9 +74,10 @@ q-page(padding)
   p When not disabled or spinning, QBtn emits a @click event, as soon as it is clicked or tapped.
 
   h2#api API
-  ApiCard(file="QBtn")
+  ApiCard(file="QUploader")
   ApiCard(file="TouchSwipe")
   ApiCard(file="AppFullscreen")
+  ApiCard(file="Notify")
 </template>
 
 <script>
