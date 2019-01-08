@@ -138,11 +138,13 @@ body.q-ios-statusbar-x
   .q-layout .q-header > .q-tabs:nth-child(2) .q-tabs-head
   .q-layout .q-drawer--top-padding,
   .modal:not(.minimized) .q-header > .q-toolbar:nth-child(1)
+    padding-top constant(safe-area-inset-top)
     padding-top env(safe-area-inset-top)
   .q-layout .q-footer > .q-toolbar:last-child,
   .q-layout .q-footer > .q-tabs:last-child .q-tabs-head
   .q-layout .q-drawer--top-padding,
   .modal:not(.minimized) .q-footer > .q-toolbar:last-child
+    padding-bottom constant(safe-area-inset-bottom)
     padding-bottom env(safe-area-inset-bottom)
     min-height ($toolbar-min-height + $ios-statusbar-height)
 
