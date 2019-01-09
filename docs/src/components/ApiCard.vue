@@ -16,7 +16,9 @@ q-card.q-my-xl(v-if="ready")
         :label="tab"
       )
 
-  ApiRows(:which="currentTab", :api="api", :api-type="apiType")
+  q-tab-panels(v-model="currentTab", animated)
+    q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
+      ApiRows(:which="tab", :api="api")
 </template>
 
 <script>

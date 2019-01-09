@@ -49,8 +49,7 @@ export default {
 
   props: {
     which: String,
-    api: Object,
-    apiType: String
+    api: Object
   },
 
   methods: {
@@ -430,6 +429,6 @@ export default {
   },
 
   render (h) {
-    return h('div', { staticClass: 'api-rows overflow-hidden' }, this[this.which](h))
+    return h('div', { staticClass: 'api-rows' }, this[this.which](h))
   }
 }

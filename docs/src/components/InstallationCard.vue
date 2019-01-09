@@ -82,7 +82,6 @@ export default {
 
       if (this.config) {
         parts.push(`config: {
-      // optional (v0.17+)
       ${this.computedConfig.join('\n' + ''.padStart(6, ' '))}
     }`)
       }

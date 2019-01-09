@@ -11,7 +11,7 @@ q-layout(view="hHh LpR lff")
         q-toolbar-title(shrink) Quasar
 
       q-separator.q-mx-xs(vertical, dark, inset)
-      q-btn.text-bold(flat, stretch, no-caps, to="/components/qbtn", label="Documentation")
+      q-btn.text-bold(flat, stretch, no-caps, to="/components/qbtn", label="Docs")
 
       q-space
 
@@ -90,34 +90,24 @@ q-layout(view="hHh LpR lff")
     v-model="leftDrawerState"
     bordered
   )
-    .flex.justify-center
-      q-btn.q-mt-lg(
-        type="a"
-        href="https://www.patreon.com/quasarframework"
-        target="_blank"
-        size="13px"
-        color="red"
-        icon="fab fa-patreon"
-        label="Become a Patron"
-      )
+    q-scroll-area.fit
+      .flex.justify-center
+        q-btn.q-mt-lg(
+          type="a"
+          href="https://www.patreon.com/quasarframework"
+          target="_blank"
+          size="13px"
+          color="red"
+          icon="fab fa-patreon"
+          label="Become a Patron"
+        )
 
-      q-input.q-my-lg(v-model="search", filled, dense)
-        q-icon(slot="prepend", name="search")
+        q-input.q-my-lg(v-model="search", filled, dense)
+          q-icon(slot="prepend", name="search")
 
-    q-separator
+      q-separator.q-mb-md
 
-    q-item-label(header) For Design - Working
-    q-item(to="/", exact)
-      q-item-section Landing Page
-    q-item(to="/components/qbtn", exact)
-      q-item-section Component Page
-    q-item(to="/components/other", exact)
-      q-item-section Some Other Page
-
-    q-separator
-    q-item-label(header) Actual Menu - Not Working
-
-    app-menu
+      app-menu
 
   q-drawer(
     v-if="hasDrawer"
