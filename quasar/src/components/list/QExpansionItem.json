@@ -73,6 +73,11 @@
       "desc": "Switch expand icon side (from default 'right' to 'left')"
     },
 
+    "dense-toggle": {
+      "type": "Boolean",
+      "desc": "Use dense mode for expand icon"
+    },
+
     "group": {
       "type": "String",
       "desc": "Register expansion item into a group (unique name that must be applied to all expansion items in that group) for coordinated open/close state within the group a.k.a. 'accordion mode'",

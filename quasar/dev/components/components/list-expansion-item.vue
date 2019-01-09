@@ -216,6 +216,21 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
+        <q-separator />
+        <q-expansion-item switch-toggle-side dense-toggle icon="mail" label="Inbox" caption="5 unread emails">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+        <q-expansion-item switch-toggle-side dense-toggle icon="mail" label="Inbox" caption="5 unread emails">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
       </q-list>
 
       <p class="caption">Popups</p>

@@ -35,6 +35,7 @@ export default Vue.extend({
     defaultOpened: Boolean,
     expandIconToggle: Boolean,
     switchToggleSide: Boolean,
+    denseToggle: Boolean,
     group: String,
     popup: Boolean,
 
@@ -68,6 +69,10 @@ export default Vue.extend({
 
     isClickable () {
       return this.hasRouterLink || !this.expandIconToggle
+    },
+
+    expansionIcon () {
+      return this.expandIcon || (this.denseToggle ? this.$q.icon.expansionItem.denseIcon : this.$q.icon.expansionItem.icon)
     }
   },
 
@@ -92,7 +97,7 @@ export default Vue.extend({
 
     __getToggleIcon (h) {
       return h(QItemSection, {
-        staticClass: 'cursor-pointer',
+        staticClass: `cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
         props: {
           side: this.switchToggleSide !== true,
           avatar: this.switchToggleSide === true
@@ -108,7 +113,7 @@ export default Vue.extend({
             invisible: this.disable
           },
           props: {
-            name: this.expandIcon || this.$q.icon.expansionItem.icon
+            name: this.expansionIcon
           }
         })
       ])
