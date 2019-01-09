@@ -41,19 +41,16 @@
       "examples": [ ":duration=\"1000\"" ]
     },
 
-    "header-inset": {
-      "type": "Boolean",
-      "desc": "Apply inset to header (unless using 'header' slot)"
+    "header-inset-level": {
+      "type": "Number",
+      "desc": "Apply an inset to header (unless using 'header' slot); Useful when header avatar/left side is missing but you want to align content with other items that do have a left side, or when you're building a menu",
+      "examples": [ ":header-inset-level=\"1\"" ]
     },
 
-    "content-inset": {
-      "type": "Boolean",
-      "desc": "Apply a content inset (changes content padding)"
-    },
-
-    "menu-inset": {
-      "type": "Boolean",
-      "desc": "Apply a content inset specific to menus (useful when building menus)"
+    "content-inset-level": {
+      "type": "Number",
+      "desc": "Apply an inset to content (changes content padding)",
+      "examples": [ ":content-inset-level=\"1\"" ]
     },
 
     "expand-separator": {
