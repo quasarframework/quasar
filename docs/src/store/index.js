@@ -12,7 +12,8 @@ export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     state: {
       leftDrawerState: true,
-      rightDrawerState: true
+      rightDrawerState: true,
+      toc: []
     },
 
     getters: {
@@ -25,8 +26,13 @@ export default function (/* { ssrContext } */) {
       updateLeftDrawerState (state, opened) {
         state.leftDrawerState = opened
       },
+
       updateRightDrawerState (state, opened) {
         state.rightDrawerState = opened
+      },
+
+      updateToc (state, newToc) {
+        state.toc = newToc
       }
     }
   })
