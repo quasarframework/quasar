@@ -5,8 +5,8 @@ q-page.doc-page
 
   slot
 
-  div.q-mt-xl
-    | Was this page helpful?
+  div.q-mt-xl.q-mb-md
+    | Caught a mistake?
     doc-link(:href="editHref", external) Suggest an edit on GitHub
 
 </template>
@@ -45,4 +45,5 @@ export default {
 <style lang="stylus">
 .doc-page
   padding 16px 46px
+  font-weight 300
 </style>

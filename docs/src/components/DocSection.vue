@@ -39,8 +39,9 @@ export default {
 
       this.$q.notify({
         message: 'Anchor has been copied to clipboard.',
+        color: 'primary',
         position: 'top',
-        actions: [ { icon: 'close' } ],
+        actions: [ { icon: 'close', color: 'white' } ],
         timeout: 2000
       })
     }
@@ -59,26 +60,35 @@ export default {
     content ' #'
 
   &.title
-    font-size 30px
-    margin-bottom 16px
+    font-size 35px
+    font-weight 300
+    letter-spacing -0.01562em
+    margin-bottom 24px
 
   &.h1
-    font-size 26px
-    margin 1.5em 0 .8em
-    padding-bottom .4em
-    border-bottom 1px solid #ddd
+    font-size 30px
+    font-weight 300
+    letter-spacing -0.00833em
+    margin 24px 0 16px
+    padding-bottom .2em
+    border-bottom 1px solid #ccc
 
   &.h2
-    font-size 22px
-    margin 1.5em 0 1.2em
+    font-size 26px
+    font-weight 400
+    letter-spacing normal
+    margin 22px 0 16px
 
   &.h3
-    font-size 18px
+    font-size 22px
+    font-weight 400
+    letter-spacing 0.00735em
     margin 18px 0 8px
 
   &.h4
     color inherit
-    font-weight inherit
+    font-weight 400
+    letter-spacing normal
 
   .q-icon
     display none

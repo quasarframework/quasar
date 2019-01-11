@@ -1,6 +1,6 @@
 <template lang="pug">
 q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
-  q-header(elevated)
+  q-header.bg-black(elevated)
     q-toolbar
       q-btn.q-mr-sm(v-if="hasDrawer", flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
         q-icon(name="menu")
@@ -103,7 +103,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
     bordered
     show-if-above
   )
-    q-scroll-area.fit.q-mb-xl
+    q-scroll-area.fit
       .flex.justify-center
         q-btn.q-mt-lg(
           type="a"
@@ -129,14 +129,15 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
     show-if-above
     @on-layout="updateRightDrawerOnLayout"
   )
-    q-list.docs-toc.q-my-lg.text-grey-8
-      q-item(v-for="section in $store.state.toc", :key="section.id", clickable, v-ripple, @click="scrollTo(section.id)", :active="activeToc === section.id")
-        q-item-section {{ section.name }}
+    q-scroll-area.fit
+      q-list.docs-toc.q-my-lg.text-grey-8
+        q-item(v-for="section in $store.state.toc", :key="section.id", clickable, v-ripple, @click="scrollTo(section.id)", :active="activeToc === section.id")
+          q-item-section {{ section.name }}
 
-    .flex.justify-center.q-mt-sm
-      .bg-grey.flex.flex-center.text-white(
-        style="width: 160px; height: 243px"
-      ) Ad
+      .flex.justify-center.q-mt-sm
+        .bg-grey.flex.flex-center.text-white(
+          style="width: 160px; height: 243px"
+        ) Ad
 
   q-page-container
     transition(
@@ -148,7 +149,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
     )
       router-view
 
-  q-footer.bg-primary.text-white.text-center.footer(bordered)
+  q-footer.bg-black.text-white.text-center.footer
     div.footer__icons.row.flex-center
       a(href="https://github.com/quasarframework/quasar", target="_blank")
         q-icon(name="fab fa-github")
@@ -333,6 +334,8 @@ export default {
       text-decoration none
       outline 0
       color inherit
+  .doc-link
+    color inherit
 .docs-toc .q-item--active
   font-weight 600
 </style>

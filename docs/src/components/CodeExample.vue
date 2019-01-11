@@ -1,6 +1,6 @@
 <template lang="pug">
 q-card.code-example.q-my-lg
-  q-toolbar.text-grey-7.bg-white
+  q-toolbar.text-grey-8.bg-white
     doc-section.h4.col.text-subtitle1(:title="title")
 
     q-btn(dense, flat, round, icon="fab fa-github", color="grey-7", @click="openGithub")
@@ -22,7 +22,7 @@ q-card.code-example.q-my-lg
           :label="tab"
         )
 
-      q-tab-panels.text-grey-3(v-model="currentTab", animated, style="background-color: #272822")
+      q-tab-panels.text-grey-3.text-weight-regular(v-model="currentTab", animated, style="background-color: #272822")
         q-tab-panel.q-pa-none(
           v-for="tab in tabs"
           :key="`pane-${tab}`"

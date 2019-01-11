@@ -1,8 +1,8 @@
 <template lang="pug">
 q-card.api-card.q-my-lg(v-if="ready")
-  q-toolbar.text-grey-7.bg-white
+  q-toolbar.text-grey-8.bg-white
     doc-section.h4.col.text-subtitle1(:title="name + ' API'")
-    .text-subtitle2 {{ type }}
+    .text-grey {{ type }}
 
   q-separator
 
@@ -14,6 +14,8 @@ q-card.api-card.q-my-lg(v-if="ready")
         :name="tab"
         :label="tab"
       )
+
+  q-separator
 
   q-tab-panels(v-model="currentTab", animated)
     q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")

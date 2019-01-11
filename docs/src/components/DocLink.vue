@@ -27,9 +27,11 @@ export default {
 </script>
 
 <style lang="stylus">
+@import '~quasar-variables'
+
 .doc-link
-  opacity .7
-  color inherit
+  color $primary
+  font-weight 500
   text-decoration none
   outline 0
   border-bottom 1px dotted currentColor
@@ -38,7 +40,7 @@ export default {
   margin 0 4px
 
   &:hover
-    opacity 1
+    opacity .8
 
   .q-icon
     margin-top -3px

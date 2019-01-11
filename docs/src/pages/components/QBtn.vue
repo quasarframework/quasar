@@ -34,9 +34,9 @@ doc-page(
   q-markup-table.q-mb-lg
     thead
       tr
-        th Property
-        th Type
-        th Description
+        th.text-left Property
+        th.text-left Type
+        th.text-left Description
     tbody
       tr
         td color
