@@ -4,6 +4,7 @@ import CodeMarkup from 'components/CodeMarkup.vue'
 import ApiCard from 'components/ApiCard.vue'
 import InstallationCard from 'components/InstallationCard.vue'
 
+import DocToken from 'components/DocToken.vue'
 import DocLink from 'components/DocLink.vue'
 import DocSection from 'components/DocSection.vue'
 import DocWarning from 'components/DocWarning.vue'
@@ -16,6 +17,7 @@ export default async ({ Vue }) => {
   Vue.component('ApiCard', ApiCard)
   Vue.component('InstallationCard', InstallationCard)
 
+  Vue.component('DocToken', DocToken)
   Vue.component('DocLink', DocLink)
   Vue.component('DocSection', DocSection)
   Vue.component('DocWarning', DocWarning)

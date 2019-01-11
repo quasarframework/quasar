@@ -46,4 +46,7 @@ export default {
 .doc-page
   padding 16px 46px
   font-weight 300
+
+  > div
+    margin-bottom 16px
 </style>

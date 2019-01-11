@@ -180,7 +180,7 @@ export default {
 
   meta: {
     title: 'Welcome!',
-    titleTemplate: title => `${title} - Quasar Framework`
+    titleTemplate: title => `${title} | Quasar Framework`
   },
 
   components: {
