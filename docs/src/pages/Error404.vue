@@ -6,7 +6,7 @@
     | Sorry, nothing here...
     strong  (404)
   q-btn(
-    color='black'
+    color='primary'
     style='width:200px;'
     to="/"
   ) Go back

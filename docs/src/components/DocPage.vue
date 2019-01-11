@@ -7,7 +7,7 @@ q-page.doc-page
 
   div.q-mt-xl.q-mb-md
     | Caught a mistake?
-    doc-link(:href="editHref", external) Suggest an edit on GitHub
+    doc-link(:to="editHref") Suggest an edit on GitHub
 
 </template>
 

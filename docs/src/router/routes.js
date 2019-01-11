@@ -1,18 +1,39 @@
+import menu from 'assets/menu.js'
+
+const docsPages = [
+  {
+    path: '',
+    component: () => import('pages/landing.vue')
+  },
+  {
+    path: 'docs',
+    component: () => import('pages/docs.vue')
+  }
+]
+
+function parseMenuNode (node, __path) {
+  const prefix = __path + (node.path !== void 0 ? '/' + node.path : '')
+
+  if (node.children !== void 0) {
+    node.children.forEach(node => parseMenuNode(node, prefix))
+  }
+  else {
+    docsPages.push({
+      path: prefix,
+      component: () => import(`pages/${prefix.substring(1)}.vue`)
+    })
+  }
+}
+
+menu.forEach(node => {
+  parseMenuNode(node, '')
+})
 
 const routes = [
   {
     path: '/',
     component: () => import('layouts/Layout.vue'),
-    children: [
-      {
-        path: '',
-        component: () => import('pages/Landing.vue')
-      },
-      {
-        path: 'components/qbtn',
-        component: () => import('pages/components/QBtn.vue')
-      }
-    ]
+    children: docsPages
   }
 ]
 
@@ -20,7 +41,7 @@ const routes = [
 if (process.env.MODE !== 'ssr') {
   routes.push({
     path: '*',
-    component: () => import('pages/Error404.vue')
+    component: () => import('pages/error404.vue')
   })
 }
 

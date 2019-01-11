@@ -12,7 +12,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
 
       template(v-if="hasDrawer !== true")
         q-separator.q-mx-xs(vertical, dark, inset)
-        q-btn.text-bold(key="docs", flat, stretch, no-caps, to="/components/qbtn", label="Docs")
+        q-btn.text-bold(key="docs", flat, stretch, no-caps, to="/docs", label="Docs")
 
       q-space
 
@@ -167,7 +167,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
         q-icon(name="fas fa-comments")
     div
       | Released under the
-      doc-link(href="https://github.com/quasarframework/quasar/blob/dev/LICENSE", dark, external) MIT LICENSE
+      doc-link(to="https://github.com/quasarframework/quasar/blob/dev/LICENSE") MIT LICENSE
     div Copyright © 2015 - {{ year }} Razvan Stoenescu
 </template>
 
