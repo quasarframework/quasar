@@ -1,17 +1,18 @@
 <template lang="pug">
-q-layout.doc-layout(view="hHh LpR lff")
+q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
   q-header(elevated)
     q-toolbar
       q-btn.q-mr-sm(v-if="hasDrawer", flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
         q-icon(name="menu")
 
-      q-btn.text-bold(flat, no-caps, stretch, to="/")
+      q-btn.text-bold(key="logo", flat, no-caps, stretch, to="/")
         q-avatar
           img(src="statics/quasar-logo.png")
         q-toolbar-title(shrink) Quasar
 
-      q-separator.q-mx-xs(vertical, dark, inset)
-      q-btn.text-bold(flat, stretch, no-caps, to="/components/qbtn", label="Docs")
+      template(v-if="hasDrawer !== true")
+        q-separator.q-mx-xs(vertical, dark, inset)
+        q-btn.text-bold(key="docs", flat, stretch, no-caps, to="/components/qbtn", label="Docs")
 
       q-space
 
@@ -40,8 +41,8 @@ q-layout.doc-layout(view="hHh LpR lff")
             q-item-section Quasar Blog
 
           q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar", target="_blank")
-            q-item-section.text-secondary(avatar)
-              q-icon(name="work")
+            q-item-section(avatar)
+              q-icon(name="fab fa-github")
             q-item-section Github
 
           q-item-label(header) Playground
@@ -62,11 +63,6 @@ q-layout.doc-layout(view="hHh LpR lff")
             q-item-section.text-purple(avatar)
               q-icon(name="announcement")
             q-item-section Announcements
-
-          q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar", target="_blank")
-            q-item-section.text-black(avatar)
-              q-icon(name="fab fa-github")
-            q-item-section Github
 
           q-item(clickable, tag="a", href="https://twitter.com/quasarframework", target="_blank")
             q-item-section.text-blue(avatar)
@@ -133,11 +129,8 @@ q-layout.doc-layout(view="hHh LpR lff")
     show-if-above
     @on-layout="updateRightDrawerOnLayout"
   )
-    q-list.docs-toc.q-mt-lg.text-grey-8
-      q-item(clickable, v-ripple, @click="scrollTo('Introduction')")
-        q-item-section Introduction
-
-      q-item(v-for="section in $store.state.toc", clickable, v-ripple, @click="scrollTo(section.id)")
+    q-list.docs-toc.q-my-lg.text-grey-8
+      q-item(v-for="section in $store.state.toc", :key="section.id", clickable, v-ripple, @click="scrollTo(section.id)", :active="activeToc === section.id")
         q-item-section {{ section.name }}
 
     .flex.justify-center.q-mt-sm
@@ -197,6 +190,9 @@ export default {
     $route () {
       this.leftDrawerState = true
       this.rightDrawerState = true
+      this.hasDrawer === true && this.$nextTick(() => {
+        this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
+      })
     }
   },
 
@@ -204,7 +200,8 @@ export default {
     return {
       year: (new Date()).getFullYear(),
       search: '',
-      rightDrawerOnLayout: false
+      rightDrawerOnLayout: false,
+      activeToc: void 0
     }
   },
 
@@ -260,11 +257,51 @@ export default {
         target = scroll.getScrollTarget(el),
         offset = el.offsetTop - el.scrollHeight
 
+      this.scrollingPage = true
+      this.scrollTimer = setTimeout(() => {
+        this.scrollingPage = false
+      }, 510)
       scroll.setScrollPosition(target, offset, 500)
     },
 
     updateRightDrawerOnLayout (state) {
       this.rightDrawerOnLayout = state
+    },
+
+    onScroll ({ position }) {
+      if (this.scrollingPage === true || this.hasDrawer !== true) {
+        return
+      }
+
+      this.updateActiveToc(position)
+    },
+
+    updateActiveToc (position) {
+      const toc = this.$store.state.toc
+      let last
+
+      for (let i in toc) {
+        const section = toc[i]
+        const item = document.getElementById(section.id)
+
+        if (item === null) {
+          continue
+        }
+
+        if (item.offsetTop >= position + 155) {
+          if (last === void 0) {
+            last = section.id
+          }
+          break
+        }
+        else {
+          last = section.id
+        }
+      }
+
+      if (last !== void 0) {
+        this.activeToc = last
+      }
     }
   },
 
@@ -296,4 +333,6 @@ export default {
       text-decoration none
       outline 0
       color inherit
+.docs-toc .q-item--active
+  font-weight 600
 </style>

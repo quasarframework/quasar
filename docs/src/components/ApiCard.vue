@@ -1,8 +1,7 @@
 <template lang="pug">
-q-card.q-my-xl(v-if="ready")
+q-card.api-card.q-my-lg(v-if="ready")
   q-toolbar.text-grey-7.bg-white
-    .text-subtitle1 {{ name }} API
-    q-space
+    doc-section.h4.col.text-subtitle1(:title="name + ' API'")
     .text-subtitle2 {{ type }}
 
   q-separator

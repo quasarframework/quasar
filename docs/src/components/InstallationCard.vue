@@ -1,11 +1,6 @@
 <template lang="pug">
-q-card.component-installation.shadow-2.q-my-xl
-  q-toolbar.text-grey-7.bg-white
-    .text-subtitle1 {{ title }}
-
-  q-separator
-
-  q-tabs.text-grey-7.bg-grey-3(v-model="currentTab", align="left", dense, :breakpoint="0")
+q-card.component-installation.q-my-lg
+  q-tabs.text-grey-7.bg-white(v-model="currentTab", align="left", :breakpoint="0")
     q-tab(
       v-for="tab in ['Quasar CLI', 'UMD', 'Vue CLI']"
       :key="`installation-${tab}`"
@@ -35,10 +30,6 @@ export default {
   },
 
   props: {
-    title: {
-      type: String,
-      default: 'Installation'
-    },
     components: [Array, String],
     directives: [Array, String],
     plugins: [Array, String],

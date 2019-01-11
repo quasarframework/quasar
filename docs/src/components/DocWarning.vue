@@ -22,8 +22,8 @@ export default {
 
 .doc-warning
   background $grey-4
-  border-radius .3em
-  margin 2em 0
+  border-radius $generic-border-radius
+  margin 16px 0
   padding .5em 1.5em
   border-left 5px solid $primary
   letter-spacing .5px

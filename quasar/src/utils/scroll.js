@@ -43,8 +43,7 @@ export function animScrollTo (el, to, duration) {
 
 function setScroll (scrollTarget, offset) {
   if (scrollTarget === window) {
-    document.documentElement.scrollTop = offset
-    document.body.scrollTop = offset
+    window.scrollTo(0, offset)
     return
   }
   scrollTarget.scrollTop = offset

@@ -1,9 +1,7 @@
 <template lang="pug">
-q-card.code-example.q-my-xl
+q-card.code-example.q-my-lg
   q-toolbar.text-grey-7.bg-white
-    .text-subtitle1 {{ title }}
-
-    q-space
+    doc-section.h4.col.text-subtitle1(:title="title")
 
     q-btn(dense, flat, round, icon="fab fa-github", color="grey-7", @click="openGithub")
       q-tooltip View on Github
@@ -116,7 +114,7 @@ export default {
 </script>
 
 <style lang="stylus">
-.code-example
-  .code-markup pre
+.code-example .code-markup
+  pre
     border-radius 0
 </style>
