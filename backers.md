@@ -119,6 +119,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Netanel Edri
 - Edinei Cipriani
 - Andy Burnett
+- Heitor Lessa
 
 ### $10+
 
@@ -203,6 +204,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jay McGuinness
 - Matheus Botura Pimenta
 - Jesse Sudich (Outflank Pay Tracker)
+- Robson Martins
+- Tobias Mesquita
 
 - Jim O'Quinn ($5)
 - Ken ($5)
