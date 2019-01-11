@@ -72,7 +72,8 @@ export default {
     font: 'font_download'
   },
   expansionItem: {
-    icon: 'ion-arrow-dropdown'
+    icon: 'ion-arrow-dropdown',
+    denseIcon: 'ion-arrow-dropdown'
   },
   fab: {
     icon: 'ion-add',

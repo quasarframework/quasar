@@ -117,7 +117,7 @@ function printProp (prop, propName, indentLevel) {
     console.log(`${indent}Link: ${prop.link}`)
   }
   if (prop.values) {
-    console.log(`${indent}Values: [ '${prop.values.join(`' '`)}' ]`)
+    console.log(`${indent}Accepted values: ${prop.values.join(` | `)}`)
   }
   if (prop.default) {
     console.log(`${indent}Default value: ${prop.default}`)
@@ -245,6 +245,7 @@ function printValue ({ value }) {
     console.log('\n   ' + chalk.italic('*No value*'))
   }
   else {
+    console.log('\n   Type:', value.type)
     printProp(value, void 0, 3)
   }
 }
@@ -255,6 +256,7 @@ function printArg ({ arg }) {
     console.log('\n   ' + chalk.italic('*No arg*'))
   }
   else {
+    console.log('\n   Type:', arg.type)
     printProp(arg, void 0, 3)
   }
 }

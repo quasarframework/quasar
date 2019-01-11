@@ -1,11 +1,9 @@
 <template lang="pug">
-q-card.code-example.q-my-xl
-  q-toolbar.text-grey-7.bg-white
-    .text-subtitle1 {{ title }}
+q-card.code-example.q-my-lg
+  q-toolbar.text-grey-8.bg-white
+    doc-section.h4.col.text-subtitle1(:title="title")
 
-    q-space
-
-    q-btn(dense, flat, round, icon="fab fa-github", color="grey-7")
+    q-btn(dense, flat, round, icon="fab fa-github", color="grey-7", @click="openGithub")
       q-tooltip View on Github
     q-btn.q-ml-sm(dense, flat, round, icon="fab fa-codepen", color="grey-7", @click="$refs.codepen.open()")
       q-tooltip Edit in Codepen
@@ -16,7 +14,7 @@ q-card.code-example.q-my-xl
 
   q-slide-transition
     div(v-show="expanded")
-      q-tabs.text-grey-7.bg-grey-3(v-model="currentTab", align="left")
+      q-tabs.text-grey-7.bg-grey-3(v-model="currentTab", align="left", dense, :breakpoint="0")
         q-tab(
           v-for="tab in tabs"
           :key="`tab-${tab}`"
@@ -24,7 +22,7 @@ q-card.code-example.q-my-xl
           :label="tab"
         )
 
-      q-tab-panels.text-grey-3(v-model="currentTab", animated, style="background-color: #272822")
+      q-tab-panels.text-grey-3.text-weight-regular(v-model="currentTab", animated, style="background-color: #272822")
         q-tab-panel.q-pa-none(
           v-for="tab in tabs"
           :key="`pane-${tab}`"
@@ -38,6 +36,8 @@ q-card.code-example.q-my-xl
 </template>
 
 <script>
+import { openURL } from 'quasar'
+
 import CodeMarkup from './CodeMarkup.vue'
 import Codepen from './Codepen.vue'
 
@@ -104,13 +104,17 @@ export default {
         parsed = regex.exec(template) || []
 
       return parsed[1] || ''
+    },
+
+    openGithub () {
+      openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/src/examples/${this.file}.vue`)
     }
   }
 }
 </script>
 
 <style lang="stylus">
-.code-example
-  .code-markup pre
+.code-example .code-markup
+  pre
     border-radius 0
 </style>

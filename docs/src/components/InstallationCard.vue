@@ -1,11 +1,6 @@
 <template lang="pug">
-q-card.component-installation.shadow-2.q-my-xl
-  q-toolbar.text-grey-7.bg-white
-    .text-subtitle1 Installation
-
-  q-separator
-
-  q-tabs.text-grey-7.bg-grey-3(v-model="currentTab", align="left")
+q-card.component-installation.q-my-lg
+  q-tabs.text-grey-7.bg-white(v-model="currentTab", align="left", :breakpoint="0")
     q-tab(
       v-for="tab in ['Quasar CLI', 'UMD', 'Vue CLI']"
       :key="`installation-${tab}`"
@@ -78,7 +73,6 @@ export default {
 
       if (this.config) {
         parts.push(`config: {
-      // optional (v0.17+)
       ${this.computedConfig.join('\n' + ''.padStart(6, ' '))}
     }`)
       }
@@ -141,8 +135,6 @@ Vue.use(Quasar, {
 
 <style lang="stylus">
 .component-installation
-  .q-tabs-panes
-    border 0 !important
   .code-markup pre
     border-radius 0
 </style>

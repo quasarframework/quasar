@@ -16,8 +16,10 @@
 
 body.q-ios-statusbar-x .q-notifications__list
   &--center, &--top
+    top constant(safe-area-inset-top)
     top env(safe-area-inset-top)
   &--center, &--bottom
+    bottom constant(safe-area-inset-bottom)
     bottom env(safe-area-inset-bottom)
 
 .q-notification

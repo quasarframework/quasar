@@ -343,7 +343,7 @@ function parseAPI (file, apiType) {
   return api
 }
 
-function fillAPI (API, apiType) {
+function fillAPI (apiType) {
   return file => {
     const
       name = path.basename(file),
@@ -353,32 +353,22 @@ function fillAPI (API, apiType) {
 
     // copy API file to dest
     writeFile(filePath, JSON.stringify(api, null, 2))
-
-    // add into API index
-    API[getWithoutExtension(name)] = api
   }
 }
 
 module.exports.generate = function () {
-  const API = {}
-
   try {
     glob.sync(resolve('src/components/**/Q*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
-      .forEach(fillAPI(API, 'component'))
+      .forEach(fillAPI('component'))
 
     glob.sync(resolve('src/plugins/*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
-      .forEach(fillAPI(API, 'plugin'))
+      .forEach(fillAPI('plugin'))
 
     glob.sync(resolve('src/directives/*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
-      .forEach(fillAPI(API, 'directive'))
-
-    writeFile(
-      path.join(dest, 'index.json'),
-      JSON.stringify(API, null, 2)
-    )
+      .forEach(fillAPI('directive'))
   }
   catch (err) {
     logError(`build.api.js: something went wrong...`)

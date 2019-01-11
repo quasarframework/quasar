@@ -72,7 +72,8 @@ export default {
     font: 'font_download'
   },
   expansionItem: {
-    icon: 'keyboard_arrow_down'
+    icon: 'keyboard_arrow_down',
+    denseIcon: 'arrow_drop_down'
   },
   fab: {
     icon: 'add',

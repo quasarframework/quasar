@@ -72,7 +72,8 @@ export default {
     font: 'fal fa-font'
   },
   expansionItem: {
-    icon: 'fal fa-chevron-down'
+    icon: 'fal fa-chevron-down',
+    denseIcon: 'fal fa-caret-down'
   },
   fab: {
     icon: 'fal fa-plus',

@@ -1,119 +1,124 @@
 <template lang="pug">
-q-layout.bg-grey-3(view="hHh LpR lff")
-  q-header(elevated)
+q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
+  q-header.bg-black(elevated)
     q-toolbar
-      q-btn(v-show="hasDrawer", flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
+      q-btn.q-mr-sm(v-if="hasDrawer", flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
         q-icon(name="menu")
-      q-btn.self-stretch.text-bold.q-ml-xs(flat, no-caps, to="/")
-        img.header-logo.q-mr-sm(src="statics/quasar-logo.png")
-        span Quasar
-      q-btn.self-stretch.text-bold.q-ml-xs(flat, no-caps, to="/components/qbtn", label="Documentation")
+
+      q-btn.text-bold(key="logo", flat, no-caps, stretch, to="/")
+        q-avatar
+          img(src="statics/quasar-logo.png")
+        q-toolbar-title(shrink) Quasar
+
+      template(v-if="hasDrawer !== true")
+        q-separator.q-mx-xs(vertical, dark, inset)
+        q-btn.text-bold(key="docs", flat, stretch, no-caps, to="/components/qbtn", label="Docs")
 
       q-space
 
-      q-btn-dropdown.header-squared.self-stretch.text-bold(flat, no-caps, :label="`v${$q.version}`", auto-close)
+      q-btn-dropdown.header-squared.text-bold(flat, no-caps, stretch, :label="`v${$q.version}`", auto-close)
         q-list
           q-item(
             v-for="version in ['17', '16', '15', '14', '13']"
             :key="version"
             clickable
-            @click="openURL(`https://v0-${version}.quasar-framework.org/`)"
+            tag="a"
+            :href="`https://v0-${version}.quasar-framework.org/`"
+            target="_blank"
           )
             q-item-section {{ `v0.${version}` }}
 
-      q-btn-dropdown.header-squared.self-stretch.text-bold(flat, no-caps, label="Quick Links", auto-close)
+      q-btn-dropdown.header-squared.text-bold(flat, no-caps, stretch, label="Quick Links", auto-close)
         q-list
-          q-item(clickable, @click="openURL('https://github.com/quasarframework/quasar-awesome')")
+          q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar-awesome", target="_blank")
             q-item-section.text-yellow-9(avatar)
               q-icon(name="flare")
             q-item-section Awesome Quasar
-          q-item(clickable, @click="openURL('https://medium.com/quasar-framework')")
+
+          q-item(clickable, tag="a", href="https://medium.com/quasar-framework", target="_blank")
             q-item-section.text-primary(avatar)
               q-icon(name="fab fa-medium")
             q-item-section Quasar Blog
-          q-item(clickable, @click="openURL('https://github.com/quasarframework')")
-            q-item-section.text-secondary(avatar)
-              q-icon(name="work")
-            q-item-section Repositories
+
+          q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar", target="_blank")
+            q-item-section(avatar)
+              q-icon(name="fab fa-github")
+            q-item-section Github
+
           q-item-label(header) Playground
-          q-item(clickable, @click="openURL('https://codepen.io/rstoenescu/pen/KQRZJg')")
+
+          q-item(clickable, tag="a", href="https://codepen.io/rstoenescu/pen/KQRZJg", target="_blank")
             q-item-section.text-brown-5(avatar)
               q-icon(name="fab fa-codepen")
             q-item-section Codepen
-          q-item(clickable, @click="openURL('https://jsfiddle.net/rstoenescu/waugrryy/')")
+
+          q-item(clickable, tag="a", href="https://jsfiddle.net/rstoenescu/waugrryy/", target="_blank")
             q-item-section.text-primary(avatar)
               q-icon(name="fab fa-jsfiddle")
             q-item-section jsFiddle
+
           q-item-label(header) Social
-          q-item(clickable, @click="openURL('https://forum.quasar-framework.org/category/1/announcements')")
+
+          q-item(clickable, tag="a", href="https://forum.quasar-framework.org/category/1/announcements", target="_blank")
             q-item-section.text-purple(avatar)
               q-icon(name="announcement")
             q-item-section Announcements
-          q-item(clickable, @click="openURL('https://github.com/quasarframework/quasar')")
-            q-item-section.text-black(avatar)
-              q-icon(name="fab fa-github")
-            q-item-section Github
-          q-item(clickable, @click="openURL('https://twitter.com/quasarframework')")
+
+          q-item(clickable, tag="a", href="https://twitter.com/quasarframework", target="_blank")
             q-item-section.text-blue(avatar)
               q-icon(name="fab fa-twitter")
             q-item-section Twitter
 
-      q-btn-dropdown.header-squared.self-stretch.text-bold(flat, no-caps, label="Support", auto-close)
+      q-btn-dropdown.header-squared.text-bold(flat, no-caps, stretch, label="Support", auto-close)
         q-list
-          q-item(clickable, @click="openURL('https://discord.gg/5TDhbDg')")
+
+          q-item(clickable, tag="a", href="https://discord.gg/5TDhbDg", target="_blank")
             q-item-section.text-primary(avatar)
               q-icon(name="fab fa-discord")
             q-item-section Chat
-          q-item(clickable, @click="openURL('https://forum.quasar-framework.org/')")
+
+          q-item(clickable, tag="a", href="https://forum.quasar-framework.org/", target="_blank")
             q-item-section.text-secondary(avatar)
               q-icon(name="fas fa-comments")
             q-item-section Forum
-          q-item(clickable, @click="openURL('https://stackoverflow.com/search?q=quasarframework')")
+
+          q-item(clickable, tag="a", href="https://stackoverflow.com/search?q=quasarframework", target="_blank")
             q-item-section.text-red(avatar)
               q-icon(name="fab fa-stack-overflow")
             q-item-section Stack Overflow
+
           q-separator
-          q-item(clickable, @click="openURL('https://www.patreon.com/quasarframework')")
+
+          q-item(clickable, tag="a", href="https://www.patreon.com/quasarframework", target="_blank")
             q-item-section.text-red(avatar)
               q-icon(name="fab fa-patreon")
             q-item-section Patreon
 
       q-btn.q-ml-xs(v-show="hasDrawer", flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
-        q-icon(name="menu")
+        q-icon(name="assignment")
 
   q-drawer(
     v-if="hasDrawer"
     v-model="leftDrawerState"
     bordered
+    show-if-above
   )
-    .flex.justify-center
-      q-btn.q-mt-lg(
-        type="a"
-        href="https://www.patreon.com/quasarframework"
-        target="_blank"
-        size="13px"
-        color="red"
-        icon="fab fa-patreon"
-        label="Become a Patron"
-      )
+    q-scroll-area.fit
+      .flex.justify-center
+        q-btn.q-mt-lg(
+          type="a"
+          href="https://www.patreon.com/quasarframework"
+          target="_blank"
+          size="13px"
+          color="red"
+          icon="fab fa-patreon"
+          label="Become a Patron"
+        )
 
-      q-input.q-my-lg(v-model="search", filled, dense)
-        q-icon(slot="prepend", name="search")
+        q-input.q-my-lg(v-model="search", filled, dense)
+          q-icon(slot="append", name="search")
 
-    q-separator
-
-    q-item-label(header) For Design - Working
-    q-item(to="/", exact)
-      q-item-section Landing Page
-    q-item(to="/components/qbtn", exact)
-      q-item-section Component Page
-    q-item(to="/components/other", exact)
-      q-item-section Some Other Page
-
-    q-separator
-    q-item-label.q-mt-md(header) Actual Menu - Not Working
-
-    app-menu
+      app-menu
 
   q-drawer(
     v-if="hasDrawer"
@@ -121,21 +126,18 @@ q-layout.bg-grey-3(view="hHh LpR lff")
     side="right"
     content-class="bg-grey-3"
     :width="180"
+    show-if-above
+    @on-layout="updateRightDrawerOnLayout"
   )
-    q-list
-      q-item-label(header) Table of Contents
-      q-item(clickable, @click="scrollTo('introduction')")
-        q-item-section Introduction
-      q-item(clickable, @click="scrollTo('installation')")
-        q-item-section Installation
-      q-item(clickable, @click="scrollTo('usage')")
-        q-item-section Usage
-      q-item(clickable, @click="scrollTo('api')")
-        q-item-section API
-    .flex.justify-center.q-mt-sm
-      .bg-grey.flex.flex-center.text-white(
-        style="width: 160px; height: 243px"
-      ) Ad
+    q-scroll-area.fit
+      q-list.docs-toc.q-my-lg.text-grey-8
+        q-item(v-for="section in $store.state.toc", :key="section.id", clickable, v-ripple, @click="scrollTo(section.id)", :active="activeToc === section.id")
+          q-item-section {{ section.name }}
+
+      .flex.justify-center.q-mt-sm
+        .bg-grey.flex.flex-center.text-white(
+          style="width: 160px; height: 243px"
+        ) Ad
 
   q-page-container
     transition(
@@ -146,10 +148,31 @@ q-layout.bg-grey-3(view="hHh LpR lff")
       @leave="resetScroll"
     )
       router-view
+
+  q-footer.bg-black.text-white.text-center.footer
+    div.footer__icons.row.flex-center
+      a(href="https://github.com/quasarframework/quasar", target="_blank")
+        q-icon(name="fab fa-github")
+
+      a(href="https://twitter.com/quasarframework", target="_blank")
+        q-icon(name="fab fa-twitter")
+
+      a(href="https://medium.com/quasar-framework", target="_blank")
+        q-icon(name="fab fa-medium")
+
+      a(href="https://discord.gg/5TDhbDg", target="_blank")
+        q-icon(name="fab fa-discord")
+
+      a(href="https://forum.quasar-framework.org/", target="_blank")
+        q-icon(name="fas fa-comments")
+    div
+      | Released under the
+      doc-link(href="https://github.com/quasarframework/quasar/blob/dev/LICENSE", dark, external) MIT LICENSE
+    div Copyright © 2015 - {{ year }} Razvan Stoenescu
 </template>
 
 <script>
-import { openURL, scroll } from 'quasar'
+import { scroll } from 'quasar'
 import AppMenu from 'components/AppMenu'
 
 export default {
@@ -157,7 +180,7 @@ export default {
 
   meta: {
     title: 'Welcome!',
-    titleTemplate: title => `${title} - Quasar Framework`
+    titleTemplate: title => `${title} | Quasar Framework`
   },
 
   components: {
@@ -168,12 +191,18 @@ export default {
     $route () {
       this.leftDrawerState = true
       this.rightDrawerState = true
+      this.hasDrawer === true && this.$nextTick(() => {
+        this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
+      })
     }
   },
 
   data () {
     return {
-      search: ''
+      year: (new Date()).getFullYear(),
+      search: '',
+      rightDrawerOnLayout: false,
+      activeToc: void 0
     }
   },
 
@@ -202,8 +231,6 @@ export default {
   },
 
   methods: {
-    openURL,
-
     resetScroll (el, done) {
       document.documentElement.scrollTop = 0
       document.body.scrollTop = 0
@@ -212,22 +239,103 @@ export default {
 
     scrollTo (id) {
       const el = document.getElementById(id)
-      if (el) {
-        const
-          target = scroll.getScrollTarget(el),
-          offset = el.offsetTop - el.scrollHeight
 
-        scroll.setScrollPosition(target, offset, 500)
+      if (el) {
+        if (this.rightDrawerOnLayout !== true) {
+          this.rightDrawerState = false
+          this.scrollTimer = setTimeout(() => {
+            this.scrollPage(el)
+          }, 300)
+        }
+        else {
+          this.scrollPage(el)
+        }
+      }
+    },
+
+    scrollPage (el) {
+      const
+        target = scroll.getScrollTarget(el),
+        offset = el.offsetTop - el.scrollHeight
+
+      this.scrollingPage = true
+      this.scrollTimer = setTimeout(() => {
+        this.scrollingPage = false
+      }, 510)
+      scroll.setScrollPosition(target, offset, 500)
+    },
+
+    updateRightDrawerOnLayout (state) {
+      this.rightDrawerOnLayout = state
+    },
+
+    onScroll ({ position }) {
+      if (this.scrollingPage === true || this.hasDrawer !== true) {
+        return
+      }
+
+      this.updateActiveToc(position)
+    },
+
+    updateActiveToc (position) {
+      const toc = this.$store.state.toc
+      let last
+
+      for (let i in toc) {
+        const section = toc[i]
+        const item = document.getElementById(section.id)
+
+        if (item === null) {
+          continue
+        }
+
+        if (item.offsetTop >= position + 155) {
+          if (last === void 0) {
+            last = section.id
+          }
+          break
+        }
+        else {
+          last = section.id
+        }
+      }
+
+      if (last !== void 0) {
+        this.activeToc = last
       }
     }
+  },
+
+  beforeDestroy () {
+    clearTimeout(this.scrollTimer)
   }
 }
 </script>
 
 <style lang="stylus">
+@import '~quasar-variables'
+
+.doc-layout
+  background $grey-3
 .header-squared
   border-radius 0
 .header-logo
   width 25px
   height 25px
+.q-drawer--standard .docs-toc .q-item
+  border-radius 5px 0 0 5px
+.footer
+  padding 24px 0
+
+  &__icons
+    font-size 2em
+    a
+      margin 0 8px 8px
+      text-decoration none
+      outline 0
+      color inherit
+  .doc-link
+    color inherit
+.docs-toc .q-item--active
+  font-weight 600
 </style>

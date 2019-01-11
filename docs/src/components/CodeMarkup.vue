@@ -89,8 +89,15 @@ export default {
 </script>
 
 <style lang="stylus">
+@import '~quasar-variables'
+
 .code-markup
   font-size 12px
-  pre
-    margin 0
+  margin 16px 0
+  > pre
+    border-radius $generic-border-radius !important
+    margin 0 !important
+
+.q-tab-panel .code-markup
+  margin 0
 </style>

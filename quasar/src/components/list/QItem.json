@@ -20,9 +20,10 @@
       "extends": "dense"
     },
 
-    "inset": {
-      "type": "Boolean",
-      "desc": "Apply an inset; Useful when avatar/left side is missing but you want to align content with other items that do have a left side"
+    "inset-level": {
+      "type": "Number",
+      "desc": "Apply an inset; Useful when avatar/left side is missing but you want to align content with other items that do have a left side, or when you're building a menu",
+      "examples": [ ":inset-level=\"1\"" ]
     },
 
     "tabindex": {
