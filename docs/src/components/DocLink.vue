@@ -1,7 +1,15 @@
 <template lang="pug">
+  router-link.doc-link(
+    v-if="external === true"
+    tag="a"
+    :to="to"
+  )
+    slot
+    q-icon(name="launch")
   a.doc-link(
-    :href="href"
-    :target="target"
+    v-else
+    :href="to"
+    target="_blank"
   )
     slot
     q-icon(name="launch")
@@ -12,15 +20,12 @@ export default {
   name: 'DocLink',
 
   props: {
-    href: String,
-    external: Boolean
+    to: String
   },
 
   computed: {
-    target () { // eslint-disable-line
-      if (this.external === true) {
-        return '__blank'
-      }
+    external () {
+      return this.to.charAt(0) === '/'
     }
   }
 }

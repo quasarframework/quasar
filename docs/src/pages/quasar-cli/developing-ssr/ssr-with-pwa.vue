@@ -5,8 +5,10 @@ doc-page(
   div Introduction - <doc-token>token</doc-token>
   div
     | Introduction - another paragraph.
-    doc-link.q-ml-xs(href="https://github.com/quasarframework/quasar", external) Bogus link
+    doc-link(to="https://github.com/quasarframework/quasar") External link
     | . Continuation...
+    doc-link(to="/sponsors-and-backers") Internal link
+    | ...
 
   doc-section.h1(title="Header 1")
   div Bla bla bla

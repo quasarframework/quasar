@@ -29,7 +29,7 @@ doc-page(
   div Text, more text, some more text.
   p
     | Released under the
-    doc-link.q-ml-xs(href="https://github.com/quasarframework/quasar/blob/dev/LICENSE", external) MIT LICENSE
+    doc-link(to="https://github.com/quasarframework/quasar/blob/dev/LICENSE") MIT LICENSE
     | . When not disabled or spinning, QBtn emits a @click event, as soon as it is clicked or tapped.
 
   q-markup-table.q-mb-lg
