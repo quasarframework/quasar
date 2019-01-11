@@ -294,12 +294,12 @@ const components = [
         path: 'input'
       },
       {
-        name: 'Input Textfield Mask',
-        path: ''
+        name: 'Form Mask',
+        path: 'form-mask'
       },
       {
-        name: 'Input Textfield Validate',
-        path: ''
+        name: 'Form Validation',
+        path: 'form-validation'
       },
       {
         name: 'Select',
@@ -716,7 +716,7 @@ export default [
   {
     name: 'Introduction to Quasar',
     icon: 'room',
-    path: 'introduction'
+    path: 'introduction-to-quasar'
   },
   {
     name: 'Sponsors and Backers',
@@ -742,7 +742,6 @@ export default [
       },
       {
         name: 'Quasar Flavours',
-        path: 'quasar-flavours',
         opened: true,
         children: [
           {
@@ -764,7 +763,7 @@ export default [
   {
     name: 'Quasar Options & Helpers',
     icon: 'tune',
-    path: 'options',
+    path: 'options-and-helpers',
     children: options
   },
   {
@@ -782,13 +781,13 @@ export default [
   {
     name: 'Quasar Plugins',
     icon: 'extension',
-    path: 'plugins',
+    path: 'quasar-plugins',
     children: plugins
   },
   {
     name: 'Quasar Utils',
     icon: 'healing',
-    path: 'utils',
+    path: 'quasar-utils',
     children: [
       {
         name: 'Date Utils',

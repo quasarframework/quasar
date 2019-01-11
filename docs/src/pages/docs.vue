@@ -100,7 +100,7 @@ doc-page(
 
 <script>
 export default {
-  name: 'SamplePage',
+  name: 'Index',
 
   meta: {
     title: 'Sample Page'

@@ -12,7 +12,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
 
       template(v-if="hasDrawer !== true")
         q-separator.q-mx-xs(vertical, dark, inset)
-        q-btn.text-bold(key="docs", flat, stretch, no-caps, to="/components/qbtn", label="Docs")
+        q-btn.text-bold(key="docs", flat, stretch, no-caps, to="/docs", label="Docs")
 
       q-space
 
