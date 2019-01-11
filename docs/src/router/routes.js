@@ -18,7 +18,6 @@ function parseMenuNode (node, __path) {
     node.children.forEach(node => parseMenuNode(node, prefix))
   }
   else {
-    console.log(prefix, `pages/${prefix.substring(1)}.vue`)
     docsPages.push({
       path: prefix,
       component: () => import(`pages/${prefix.substring(1)}.vue`)
