@@ -1,35 +1,31 @@
-const ui = [
-  {
-    name: 'Introduction for Beginners',
-    path: 'introduction-for-begginers'
-  },
-  {
-    name: 'Platform Detection',
-    path: 'platform-detection'
-  },
-  {
-    name: 'Global Event Bus',
-    path: 'global-event-bus'
-  },
+const options = [
   {
     name: 'Vue Prototype Injections',
     path: 'vue-prototype-injections'
   },
   {
-    name: 'Internationalization (I18n)',
+    name: 'Quasar Languages',
+    path: 'quasar-languages'
+  },
+  {
+    name: 'Internationalization',
     path: 'internationalization'
+  },
+  {
+    name: 'Quasar Icon Sets',
+    path: 'icons'
   },
   {
     name: 'RTL Support',
     path: 'rtl-support'
   },
   {
-    name: 'Screen Plugin',
-    path: 'screen-plugin'
+    name: 'Platform Detection',
+    path: 'platform-detection'
   },
   {
-    name: 'Meta Plugin',
-    path: 'meta-plugin'
+    name: 'Screen Plugin',
+    path: 'screen-plugin'
   },
   {
     name: 'Style & Identity',
@@ -44,25 +40,13 @@ const ui = [
         path: 'stylus-variables'
       },
       {
-        name: 'Icons',
-        path: 'icons'
-      },
-      {
         name: 'Typography',
         path: 'typography'
-      },
-      {
-        name: 'Addressbar Color',
-        path: 'addressbar-color'
-      },
-      {
-        name: 'Material Ripples',
-        path: 'material-ripples'
       }
     ]
   },
   {
-    name: 'CSS Helpers',
+    name: 'CSS Helpers & Grid',
     path: 'css-helpers',
     children: [
       {
@@ -70,7 +54,7 @@ const ui = [
         path: 'spacing'
       },
       {
-        name: 'Flex CSS',
+        name: 'Flex CSS / Grid',
         path: 'flex-css'
       },
       {
@@ -88,12 +72,116 @@ const ui = [
       {
         name: 'Other Helper Classes',
         path: 'other-helper-classes'
+      },
+      {
+        name: 'Animation CSS Helper Classes',
+        path: 'animation-css-helper-classes'
       }
     ]
   },
   {
+    name: 'Global Event Bus',
+    path: 'global-event-bus'
+  }
+]
+
+const directives = [
+  {
+    name: 'Back To Top',
+    path: 'back-to-top'
+  },
+  {
+    name: 'Close Dialog',
+    path: 'close-dialog'
+  },
+  {
+    name: 'Close Menu',
+    path: 'close-menu'
+  },
+  {
+    name: '(Navigation) Go Back',
+    path: 'go-back'
+  },
+  {
+    name: '(Material) Ripple',
+    path: 'material-ripple'
+  },
+  {
+    name: 'Scroll',
+    path: 'scroll'
+  },
+  {
+    name: 'Scroll Fire',
+    path: 'scroll-fire'
+  },
+  {
+    name: 'Touch Hold',
+    path: 'touch-hold'
+  },
+  {
+    name: 'Touch Pan',
+    path: 'touch-pan'
+  },
+  {
+    name: 'Touch Repeat',
+    path: 'touch-repeat'
+  },
+  {
+    name: 'Touch Swipe',
+    path: 'touch-swipe'
+  }
+]
+
+const plugins = [
+  {
+    name: 'Addressbar Color',
+    path: 'addressbar-color'
+  },
+  {
+    name: 'App Fullscreen',
+    path: 'app-fullscreen'
+  },
+  {
+    name: 'App Visibility',
+    path: 'app-visibility'
+  },
+  {
+    name: 'Bottom Sheet',
+    path: 'bottom-sheet'
+  },
+  {
+    name: 'Cookies',
+    path: 'cookies'
+  },
+  {
+    name: 'Dialog',
+    path: 'dialog'
+  },
+  {
+    name: 'Loading',
+    path: 'loading'
+  },
+  {
+    name: 'Loading Bar',
+    path: 'loading-bar'
+  },
+  {
+    name: 'Local/Session Storage',
+    path: 'web-storage'
+  },
+  {
+    name: 'Meta',
+    path: 'meta'
+  },
+  {
+    name: 'Notify',
+    path: 'notify'
+  }
+]
+
+const components = [
+  {
     name: 'Layout',
-    path: 'layout',
     children: [
       {
         name: 'Layout',
@@ -122,20 +210,31 @@ const ui = [
       {
         name: 'Floating Action Button',
         path: 'floating-action-button'
-      },
-      {
-        name: 'Element Resize Observable',
-        path: 'element-resize-observable'
-      },
-      {
-        name: 'Window Resize Observable',
-        path: 'window-resize-observable'
       }
     ]
   },
   {
+    name: 'Action Sheet',
+    path: 'action-sheet'
+  },
+  {
+    name: 'Ajax Bar',
+    path: 'ajax-bar'
+  },
+  {
+    name: 'Avatar',
+    path: 'avatar'
+  },
+  {
+    name: 'Banner',
+    path: 'banner'
+  },
+  {
+    name: 'Breadcrumbs',
+    path: 'breadcrumbs'
+  },
+  {
     name: 'Buttons',
-    path: 'buttons',
     children: [
       {
         name: 'Button',
@@ -152,82 +251,59 @@ const ui = [
     ]
   },
   {
-    name: 'Navigation',
-    path: 'navigation',
-    children: [
-      {
-        name: 'Toolbar',
-        path: 'toolbar'
-      },
-      {
-        name: 'Tabs',
-        path: 'tabs'
-      },
-      {
-        name: 'Pull to Refresh',
-        path: 'pull-to-refresh'
-      },
-      {
-        name: 'Handling Back Button',
-        path: 'handling-back-button'
-      },
-      {
-        name: 'Breadcrumbs',
-        path: 'breadcrumbs'
-      },
-      {
-        name: 'Pagination',
-        path: 'pagination'
-      }
-    ]
+    name: 'Card',
+    path: 'card'
+  },
+  {
+    name: 'Carousel',
+    path: 'carousel'
+  },
+  {
+    name: 'Chat Message',
+    path: 'chat'
+  },
+  {
+    name: 'Chip',
+    path: 'chip'
+  },
+  {
+    name: 'Circular Progress',
+    path: 'circular-progress'
+  },
+  {
+    name: 'Color Picker',
+    path: 'color-picker'
+  },
+  {
+    name: 'Dialog',
+    path: 'dialog'
+  },
+  {
+    name: 'Editor - WYSIWYG',
+    path: 'editor'
+  },
+  {
+    name: 'Expansion Item',
+    path: 'expansion-item'
   },
   {
     name: 'Form Components',
-    path: 'form',
     children: [
       {
-        name: 'Field',
-        path: 'field'
-      },
-      {
         name: 'Input Textfield',
-        path: 'input-textfield'
+        path: 'input'
       },
       {
-        name: 'Form Validation',
-        path: 'form-validation'
+        name: 'Input Textfield Mask',
+        path: ''
       },
       {
-        name: 'Chips Input',
-        path: 'chips-input'
+        name: 'Input Textfield Validate',
+        path: ''
       },
       {
-        name: 'Color Input',
-        path: 'color-input'
-      },
-      {
-        name: 'Color Picker',
-        path: 'color-picker'
-      },
-      {
-        name: 'Autocomplete',
-        path: 'autocomplete'
-      },
-      {
-        name: 'Editor - WYSIWYG',
-        path: 'editor'
-      },
-      {
-        name: 'Search',
-        path: 'search'
-      },
-      {
-        name: 'Slider',
-        path: 'slider'
-      },
-      {
-        name: 'Range',
-        path: 'range'
+        name: 'Select',
+        path: 'select'
       },
       {
         name: 'Radio',
@@ -250,176 +326,150 @@ const ui = [
         path: 'option-group'
       },
       {
-        name: 'Datetime Input',
-        path: 'datetime-input'
+        name: 'Slider',
+        path: 'slider'
       },
       {
-        name: 'Datetime Picker',
-        path: 'datetime-picker'
+        name: 'Range',
+        path: 'range'
       },
       {
-        name: 'Select',
-        path: 'select'
+        name: 'Time Picker',
+        path: 'time'
       },
       {
-        name: 'Rating',
-        path: 'rating'
-      },
-      {
-        name: 'Knob',
-        path: 'knob'
-      },
-      {
-        name: 'Uploader',
-        path: 'uploader'
+        name: 'Date Picker',
+        path: 'date'
       }
     ]
   },
   {
-    name: 'Grouping',
-    path: 'grouping',
+    name: 'Icon',
+    path: 'icon'
+  },
+  {
+    name: 'Img',
+    path: 'img'
+  },
+  {
+    name: 'Infinite Scroll',
+    path: 'infinite-scroll'
+  },
+  {
+    name: 'Inner Loading',
+    path: 'inner-loading'
+  },
+  {
+    name: 'Knob',
+    path: 'knob'
+  },
+  {
+    name: 'Linear Progress',
+    path: 'linear-progress'
+  },
+  {
+    name: 'List & List Items',
+    path: 'list-and-list-items'
+  },
+  {
+    name: 'Markup Table',
+    path: 'markup-table'
+  },
+  {
+    name: 'Menu',
+    path: 'menu'
+  },
+  {
+    name: 'Modal',
+    path: 'modal'
+  },
+  {
+    name: 'No SSR',
+    path: 'no-ssr'
+  },
+  {
+    name: 'Observers',
     children: [
       {
-        name: 'Card',
-        path: 'card'
+        name: 'Element Resize Observer',
+        path: 'element-resize-observer'
       },
       {
-        name: 'Collapsible',
-        path: 'collapsible'
-      },
-      {
-        name: 'DataTable',
-        path: 'datatable'
-      },
-      {
-        name: 'List and List Items',
-        path: 'list-and-list-items'
-      },
-      {
-        name: 'Stepper',
-        path: 'stepper'
-      },
-      {
-        name: 'Tree',
-        path: 'tree'
+        name: 'Window Resize Observer',
+        path: 'window-resize-observer'
       }
     ]
   },
   {
-    name: 'Popups',
-    path: 'popups',
-    children: [
-      {
-        name: 'Action Sheet',
-        path: 'action-sheet'
-      },
-      {
-        name: 'Dialog',
-        path: 'dialog'
-      },
-      {
-        name: 'Modal',
-        path: 'modal'
-      },
-      {
-        name: 'Notify',
-        path: 'notify'
-      },
-      {
-        name: 'Popover',
-        path: 'popover'
-      },
-      {
-        name: 'Tooltip',
-        path: 'tooltip'
-      }
-    ]
+    name: 'Pagination',
+    path: 'pagination'
   },
   {
-    name: 'Progress',
-    path: 'progress',
-    children: [
-      {
-        name: 'Ajax Bar',
-        path: 'ajax-bar'
-      },
-      {
-        name: 'Loading Bar',
-        path: 'loading-bar'
-      },
-      {
-        name: 'Inner Loading',
-        path: 'inner-loading'
-      },
-      {
-        name: 'Progress Bar',
-        path: 'progress-bar'
-      },
-      {
-        name: 'Loading',
-        path: 'loading'
-      },
-      {
-        name: 'Spinners',
-        path: 'spinners'
-      }
-    ]
+    name: 'Parallax',
+    path: 'parallax'
   },
   {
-    name: 'Media',
-    path: 'media',
-    children: [
-      {
-        name: 'Carousel',
-        path: 'carousel'
-      },
-      {
-        name: 'Parallax',
-        path: 'parallax'
-      },
-      {
-        name: 'Video Embedding',
-        path: 'video-embedding'
-      }
-    ]
+    name: 'Popup Edit',
+    path: 'popup-edit'
   },
   {
-    name: 'Scrolling',
-    path: 'scrolling',
-    children: [
-      {
-        name: 'Scroll Observable',
-        path: 'scroll-observable'
-      },
-      {
-        name: 'Scroll Directive',
-        path: 'scroll-directive'
-      },
-      {
-        name: 'Infinite Scroll',
-        path: 'infinite-scroll'
-      },
-      {
-        name: 'Scroll Area',
-        path: 'scroll-area'
-      },
-      {
-        name: 'Scroll Fire',
-        path: 'scroll-fire'
-      },
-      {
-        name: 'Back to Top',
-        path: 'back-to-top'
-      },
-      {
-        name: 'Scrolling Utils',
-        path: 'scrolling-utils'
-      }
-    ]
+    name: 'Popup Proxy',
+    path: 'popup-proxy'
   },
   {
-    name: 'Animation',
-    path: 'animation',
+    name: 'Pull To Refresh',
+    path: 'pull-to-refresh'
+  },
+  {
+    name: 'Rating',
+    path: 'rating'
+  },
+  {
+    name: 'Separator',
+    path: 'separator'
+  },
+  {
+    name: 'Slide Item',
+    path: 'slide-item'
+  },
+  {
+    name: 'Space',
+    path: 'space'
+  },
+  {
+    name: 'Spinners',
+    path: 'spinners'
+  },
+  {
+    name: 'Splitter',
+    path: 'splitter'
+  },
+  {
+    name: 'Stepper',
+    path: 'stepper'
+  },
+  {
+    name: 'Table',
+    path: 'table'
+  },
+  {
+    name: 'Tabs',
+    path: 'tabs'
+  },
+  {
+    name: 'Timeline',
+    path: 'timeline'
+  },
+  {
+    name: 'Toolbar',
+    path: 'toolbar'
+  },
+  {
+    name: 'Tooltip',
+    path: 'tooltip'
+  },
+  {
+    name: 'Transitions',
     children: [
       {
         name: 'Transition',
@@ -428,112 +478,20 @@ const ui = [
       {
         name: 'Slide Transition',
         path: 'slide-transition'
-      },
-      {
-        name: 'JS Animations',
-        path: 'js-animations'
-      },
-      {
-        name: 'Animation CSS Helper Classes',
-        path: 'animation-css-helper-classes'
       }
     ]
   },
   {
-    name: 'Other Components',
-    path: 'other-components',
-    children: [
-      {
-        name: 'Alert',
-        path: 'alert'
-      },
-      {
-        name: 'Chip',
-        path: 'chip'
-      },
-      {
-        name: 'Chat',
-        path: 'chat'
-      },
-      {
-        name: 'Jumbotron',
-        path: 'jumbotron'
-      },
-      {
-        name: 'NoSsr',
-        path: 'no-ssr'
-      },
-      {
-        name: 'Timeline',
-        path: 'timeline'
-      }
-    ]
+    name: 'Tree',
+    path: 'tree'
   },
   {
-    name: 'Touch/Mouse Actions',
-    path: 'touch-mouse-actions',
-    children: [
-      {
-        name: 'Touch Pan',
-        path: 'touch-pan'
-      },
-      {
-        name: 'Touch Swipe',
-        path: 'touch-swipe'
-      },
-      {
-        name: 'Touch Hold',
-        path: 'touch-hold'
-      }
-    ]
+    name: 'Uploader',
+    path: 'uploader'
   },
   {
-    name: 'Utils',
-    path: 'utils',
-    children: [
-      {
-        name: 'Date Utils',
-        path: 'date-utils'
-      },
-      {
-        name: 'Color Utils',
-        path: 'color-utils'
-      },
-      {
-        name: 'DOM Utils',
-        path: 'dom-utils'
-      },
-      {
-        name: 'Formatter Utils',
-        path: 'formatter-utils'
-      },
-      {
-        name: 'Other Utils',
-        path: 'other-utils'
-      }
-    ]
-  },
-  {
-    name: 'Web API Wrappers',
-    path: 'web-api-wrappers',
-    children: [
-      {
-        name: 'Cookies',
-        path: 'cookies'
-      },
-      {
-        name: 'Web Storage',
-        path: 'web-storage'
-      },
-      {
-        name: 'App Visibility',
-        path: 'app-visibility'
-      },
-      {
-        name: 'App Fullscreen',
-        path: 'app-fullscreen'
-      }
-    ]
+    name: 'Video',
+    path: 'video'
   }
 ]
 
@@ -761,6 +719,11 @@ export default [
     path: 'introduction'
   },
   {
+    name: 'Sponsors and Backers',
+    icon: 'favorite',
+    path: 'sponsors-and-backers'
+  },
+  {
     name: 'Getting Started',
     icon: 'flight_takeoff',
     path: 'getting-started',
@@ -768,6 +731,10 @@ export default [
       {
         name: 'Pick Quasar Flavour',
         path: 'pick-quasar-flavour'
+      },
+      {
+        name: 'How to use Vue',
+        path: 'how-to-use-vue'
       },
       {
         name: 'Contribution Guide',
@@ -795,10 +762,55 @@ export default [
     ]
   },
   {
-    name: 'Quasar UI',
+    name: 'Quasar Options & Helpers',
+    icon: 'tune',
+    path: 'options',
+    children: options
+  },
+  {
+    name: 'Vue Components',
     icon: 'widgets',
-    path: 'ui',
-    children: ui
+    path: 'vue-components',
+    children: components
+  },
+  {
+    name: 'Vue Directives',
+    icon: 'swap_calls',
+    path: 'vue-directives',
+    children: directives
+  },
+  {
+    name: 'Quasar Plugins',
+    icon: 'extension',
+    path: 'plugins',
+    children: plugins
+  },
+  {
+    name: 'Quasar Utils',
+    icon: 'healing',
+    path: 'utils',
+    children: [
+      {
+        name: 'Date Utils',
+        path: 'date-utils'
+      },
+      {
+        name: 'Color Utils',
+        path: 'color-utils'
+      },
+      {
+        name: 'DOM Utils',
+        path: 'dom-utils'
+      },
+      {
+        name: 'Formatter Utils',
+        path: 'formatter-utils'
+      },
+      {
+        name: 'Other Utils',
+        path: 'other-utils'
+      }
+    ]
   },
   {
     name: 'Quasar CLI',

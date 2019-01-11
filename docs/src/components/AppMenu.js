@@ -22,6 +22,7 @@ export default {
           {
             props: {
               label: menu.name,
+              dense: level > 0,
               icon: menu.icon,
               defaultOpened: menu.opened,
               expandSeparator: true,
@@ -30,13 +31,19 @@ export default {
               headerInsetLevel: level > 0 ? level - 1 : void 0
             }
           },
-          menu.children.map(item => this.getDrawerMenu(h, item, path + '/' + item.path, level > 0 ? level : level + 1))
+          menu.children.map(item => this.getDrawerMenu(
+            h,
+            item,
+            path + (item.path !== void 0 ? '/' + item.path : ''),
+            level > 0 ? level : level + 1
+          ))
         )
       }
 
       return h('q-item', {
         props: {
           to: path,
+          dense: level > 0,
           insetLevel: level
         },
         staticClass: 'app-menu-entry'
