@@ -3,6 +3,8 @@ import 'prismjs/themes/prism-okaidia.css'
 import 'prismjs/components/prism-bash.js'
 import 'prismjs/components/prism-javascript.js'
 import 'prismjs/components/prism-stylus.js'
+import 'prismjs/components/prism-css.js'
+import 'prismjs/components/prism-json.js'
 
 export default {
   functional: true,

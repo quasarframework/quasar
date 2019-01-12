@@ -7,7 +7,7 @@ import InstallationCard from 'components/InstallationCard.vue'
 import DocToken from 'components/DocToken.vue'
 import DocLink from 'components/DocLink.vue'
 import DocSection from 'components/DocSection.vue'
-import DocWarning from 'components/DocWarning.vue'
+import DocNote from 'components/DocNote.vue'
 import DocPage from 'components/DocPage.vue'
 
 // leave the export, even if you don't use it
@@ -20,6 +20,6 @@ export default async ({ Vue }) => {
   Vue.component('DocToken', DocToken)
   Vue.component('DocLink', DocLink)
   Vue.component('DocSection', DocSection)
-  Vue.component('DocWarning', DocWarning)
+  Vue.component('DocNote', DocNote)
   Vue.component('DocPage', DocPage)
 }

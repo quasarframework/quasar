@@ -16,7 +16,7 @@ doc-page(
   p Some code markup
 
   p Warning
-  doc-warning
+  doc-note
     div Not supported in IE11.
 
   p Some code markup
