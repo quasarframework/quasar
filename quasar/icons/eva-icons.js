@@ -72,7 +72,8 @@ export default {
     font: 'font_download'
   },
   expansionItem: {
-    icon: 'eva-arrow-ios-downward-outline'
+    icon: 'eva-arrow-ios-downward-outline',
+    denseIcon: 'eva-chevron-down'
   },
   fab: {
     icon: 'eva-plus-outline',

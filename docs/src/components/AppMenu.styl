@@ -1,7 +1,11 @@
-
+@import '~quasar-variables'
 
 .app-menu
-  > .q-item, .q-expansion-item__container > .q-item
-    font-weight 500
-.app-menu-entry, .app-menu > .q-item__label
-  padding-left 56px
+
+  .q-item__section--avatar
+    color $primary
+
+  .q-expansion-item--expanded > div > .q-item > .q-item__section--main
+    color $primary
+    font-weight 700
+

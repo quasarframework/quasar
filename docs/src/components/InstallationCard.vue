@@ -1,11 +1,6 @@
 <template lang="pug">
-q-card.component-installation.shadow-2.q-my-xl
-  q-toolbar.text-grey-7.bg-white
-    .text-subtitle1 {{ title }}
-
-  q-separator
-
-  q-tabs.text-grey-7.bg-grey-3(v-model="currentTab", align="left", :breakpoint="0")
+q-card.component-installation.q-my-lg
+  q-tabs.text-grey-7.bg-white(v-model="currentTab", align="left", :breakpoint="0")
     q-tab(
       v-for="tab in ['Quasar CLI', 'UMD', 'Vue CLI']"
       :key="`installation-${tab}`"
@@ -35,10 +30,6 @@ export default {
   },
 
   props: {
-    title: {
-      type: String,
-      default: 'Installation'
-    },
     components: [Array, String],
     directives: [Array, String],
     plugins: [Array, String],
@@ -73,16 +64,15 @@ export default {
       const parts = []
 
       ;['components', 'directives', 'plugins'].forEach(type => {
-        if (this[type]) {
+        if (this[type] !== void 0) {
           parts.push(`${type}: [
       ${this.nameAsString(this[type], 6)}
     ]`)
         }
       })
 
-      if (this.config) {
+      if (this.config !== void 0) {
         parts.push(`config: {
-      // optional (v0.17+)
       ${this.computedConfig.join('\n' + ''.padStart(6, ' '))}
     }`)
       }
@@ -97,17 +87,29 @@ return {
     },
 
     UMD () {
-      return `/*
+      const config = this.config !== void 0
+        ? `
+
+// Optional;
+// Place the global quasarConfig Object in a script tag BEFORE your Quasar script tag
+window.quasarConfig = {
+  ${this.computedConfig.join('\n' + ''.padStart(6, ' '))}
+}`
+        : ''
+
+      const content = `/*
  * No installation step is necessary.
  * It gets installed by default.
  */`
+
+      return content + config
     },
 
     VueCli () {
       const types = [], imports = [], parts = []
 
       ;['components', 'directives', 'plugins'].forEach(type => {
-        if (this[type]) {
+        if (this[type] !== void 0) {
           types.push(type)
           imports.push(this.nameAsString(this[type], 2, false))
           parts.push(`const ${type} = {
@@ -117,9 +119,8 @@ return {
         }
       })
 
-      if (this.config) {
+      if (this.config !== void 0) {
         types.push(`config: {
-    // optional (v0.17+)
     ${this.computedConfig.join('\n' + ''.padStart(4, ' '))}
   }`)
       }

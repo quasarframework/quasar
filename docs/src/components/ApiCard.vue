@@ -1,14 +1,13 @@
 <template lang="pug">
-q-card.q-my-xl(v-if="ready")
-  q-toolbar.text-grey-7.bg-white
-    .text-subtitle1 {{ name }}
-    q-space
-    .text-subtitle2 {{ type }}
+q-card.api-card.q-my-lg(v-if="ready")
+  q-toolbar.text-grey-8.bg-white
+    doc-section.h4.col.text-subtitle1(:title="name + ' API'")
+    .text-grey {{ type }}
 
   q-separator
 
   div.bg-grey-2.text-grey-7.flex.items-center.no-wrap
-    q-tabs(v-model="currentTab", align="left", :breakpoint="0")
+    q-tabs(v-model="currentTab", align="left", dense)
       q-tab(
         v-for="tab in tabs"
         :key="`api-tab-${tab}`"
@@ -16,18 +15,22 @@ q-card.q-my-xl(v-if="ready")
         :label="tab"
       )
 
-    q-space
-
-    .q-pr-sm
-      q-input(v-model="filter", dense, borderless, :debounce="300")
-        q-icon(slot="append", name="search", color="primary")
-
   q-separator
+
+  q-tab-panels(v-model="currentTab", animated)
+    q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
+      ApiRows(:which="tab", :api="api")
 </template>
 
 <script>
+import ApiRows from './ApiRows.js'
+
 export default {
   name: 'ApiCard',
+
+  components: {
+    ApiRows
+  },
 
   props: {
     file: {
@@ -45,7 +48,7 @@ export default {
   },
 
   methods: {
-    parseJson ({ name, type, ...api }) {
+    parseJson (name, { type, ...api }) {
       this.api = api
       this.apiType = type
 
@@ -62,7 +65,7 @@ export default {
       /* webpackMode: "lazy-once" */
       `quasar/dist/api/${this.file}.json`
     ).then(json => {
-      this.parseJson(json.default)
+      this.parseJson(this.file, json.default)
       this.ready = true
     })
   }
