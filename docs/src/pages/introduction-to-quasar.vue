@@ -7,7 +7,7 @@ doc-page(
 
   doc-section.h1(title="What is Quasar?")
 
-  div Quasar (pronounced /ˈkweɪ.zɑɹ/) is an MIT licensed open-source framework (powered with Vue) that helps web developers create responsive++ websites/apps in many flavours:
+  div Quasar (pronounced <doc-token>/ˈkweɪ.zɑɹ/</doc-token>) is an MIT licensed open-source framework (powered with Vue) that helps web developers create responsive++ websites/apps in many flavours:
 
   ul
     li SPAs (Single Page App)
@@ -22,7 +22,7 @@ doc-page(
 
   doc-section.h1(title="Why Quasar?")
 
-  div Because of what is offered out of the box. Follow our <doc-link to="https://twitter.com/quasarframework">Twitter</doc-link> account for testimonials (and news).
+  div Because of what is offered out of the box. Follow our<doc-link to="https://twitter.com/quasarframework">Twitter</doc-link>account for testimonials (and news).
 
   doc-section.h2(title="All Platforms in One Go")
   div One authoritative source of code for all platforms, simultaneously: responsive desktop/mobile websites (SPA, SSR + SPA client takeover, SSR + PWA client takeover), PWAs (Progressive Web Apps), mobile apps (that look native) and multi-platform desktop apps (through Electron).
@@ -75,15 +75,15 @@ doc-page(
   div Except for Vue, which takes half a day to pick up and will change you forever, you are not really required to know the other technologies. Most of them are integrated and already configured for you.
 
   doc-section.h1(title="Get started in under a minute")
-  div Having said this, let’s <doc-link to="/getting-started/pick-quasar-flavour">get started!</doc-link>. You’ll be running a website or app in under a minute.
+  div Having said this, let’s<doc-link to="/getting-started/pick-quasar-flavour">get started!</doc-link>. You’ll be running a website or app in under a minute.
 </template>
 
 <script>
 export default {
-  name: 'NamePage',
+  name: 'IntroductionToQuasarPage',
 
   meta: {
-    title: 'Name'
+    title: 'Introduction to Quasar'
   }
 }
 </script>

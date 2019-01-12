@@ -63,7 +63,7 @@ export default {
     font-size 35px
     font-weight 300
     letter-spacing -0.01562em
-    margin-bottom 24px
+    margin-bottom 36px
 
   &.h1
     font-size 30px
