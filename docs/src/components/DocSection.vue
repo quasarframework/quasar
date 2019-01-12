@@ -74,13 +74,13 @@ export default {
     border-bottom 1px solid #ccc
 
   &.h2
-    font-size 26px
+    font-size 22px
     font-weight 400
     letter-spacing normal
     margin 22px 0 16px
 
   &.h3
-    font-size 22px
+    font-size 16px
     font-weight 400
     letter-spacing 0.00735em
     margin 18px 0 8px
