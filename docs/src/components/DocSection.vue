@@ -54,30 +54,29 @@ export default {
 
 .doc-section
   color $primary
-  font-weight 600
 
   &:hover:after
     content ' #'
 
   &.title
-    font-size 35px
-    font-weight 300
+    font-size 32px
+    font-weight 500
     letter-spacing -0.01562em
     margin-bottom 36px
 
   &.h1
-    font-size 30px
-    font-weight 300
+    font-size 24px
+    font-weight 500
     letter-spacing -0.00833em
     margin 45px 0 16px
-    padding-bottom .2em
+    padding-bottom .1em
     border-bottom 1px solid #ccc
 
   &.h2
-    font-size 22px
-    font-weight 400
+    font-size 18px
+    font-weight 500
     letter-spacing normal
-    margin 35px 0 16px
+    margin 25px 0 5px
 
   &.h3
     font-size 16px

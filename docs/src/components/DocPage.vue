@@ -49,6 +49,8 @@ export default {
 
   > div
     margin-bottom 22px
+    font-weight 300
+    font-size 15px
 
 .doc-edit-link
   margin 68px 0 12px !important
