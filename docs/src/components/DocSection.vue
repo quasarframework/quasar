@@ -69,7 +69,7 @@ export default {
     font-size 30px
     font-weight 300
     letter-spacing -0.00833em
-    margin 24px 0 16px
+    margin 45px 0 16px
     padding-bottom .2em
     border-bottom 1px solid #ccc
 
@@ -77,13 +77,13 @@ export default {
     font-size 22px
     font-weight 400
     letter-spacing normal
-    margin 22px 0 16px
+    margin 35px 0 16px
 
   &.h3
     font-size 16px
     font-weight 400
     letter-spacing 0.00735em
-    margin 18px 0 8px
+    margin 24px 0 8px
 
   &.h4
     color inherit
