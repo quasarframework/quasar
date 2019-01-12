@@ -43,6 +43,7 @@ export default {
   vertical-align center
   transition opacity .2s
   margin 0 4px
+  white-space nowrap
 
   &:hover
     opacity .8

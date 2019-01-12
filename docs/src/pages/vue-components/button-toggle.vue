@@ -3,12 +3,10 @@ doc-page(
   title="Sample Page"
 )
   div Introduction - <doc-token>token</doc-token>
-  div
-    | Introduction - another paragraph.
-    doc-link(to="https://github.com/quasarframework/quasar") External link
-    | . Continuation...
-    doc-link(to="/sponsors-and-backers") Internal link
-    | ...
+  div.
+    Introduction - another paragraph.
+    <doc-link to="https://github.com/quasarframework/quasar">External link</doc-link>.
+    Continuation... <doc-link to="/sponsors-and-backers">Internal link</doc-link> ...
 
   doc-section.h1(title="Header 1")
   div Bla bla bla
@@ -20,9 +18,9 @@ doc-page(
   div Bla bla bla
 
   div Warning sample
-  doc-warning
+  doc-note
     div Quasar is awesome
-  doc-warning(title="IMPORTANT")
+  doc-note(title="IMPORTANT")
     div Quasar is awesome
 
   div Table sample

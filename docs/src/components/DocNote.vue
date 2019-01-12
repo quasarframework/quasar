@@ -1,18 +1,15 @@
 <template lang="pug">
-.doc-warning
-  strong {{ title }}
+.doc-note
+  div(v-if="title").text-weight-bold {{ title }}
   slot
 </template>
 
 <script>
 export default {
-  name: 'DocWarning',
+  name: 'DocNote',
 
   props: {
-    title: {
-      type: String,
-      default: 'WARNING'
-    }
+    title: String
   }
 }
 </script>
@@ -20,7 +17,7 @@ export default {
 <style lang="stylus">
 @import '~quasar-variables'
 
-.doc-warning
+.doc-note
   background $grey-4
   border-radius $generic-border-radius
   margin 16px 0
