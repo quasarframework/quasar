@@ -5,7 +5,7 @@ q-page.doc-page
 
   slot
 
-  div.q-mt-xl.q-mb-md
+  div.doc-edit-link
     | Caught a mistake?
     doc-link(:to="editHref") Suggest an edit on GitHub
 
@@ -48,5 +48,8 @@ export default {
   font-weight 300
 
   > div
-    margin-bottom 16px
+    margin-bottom 22px
+
+.doc-edit-link
+  margin 68px 0 12px !important
 </style>
