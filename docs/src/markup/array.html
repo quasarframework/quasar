@@ -1,0 +1,17 @@
+<template>
+  <!-- Case 1. Direct assignment. -->
+  <q-bogus :offset="[10, 20]" />
+
+  <!-- Case 2. Assignment through a scope variable -->
+  <q-bogus :offset="myOffset" />
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      myOffset: [10, 20]
+    }
+  }
+}
+</script>

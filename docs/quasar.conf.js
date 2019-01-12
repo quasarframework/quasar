@@ -30,6 +30,7 @@ module.exports = function (ctx) {
       // extractCSS: false,
       extendWebpack (cfg) {
         cfg.resolve.alias.examples = path.resolve(__dirname, 'src/examples')
+        cfg.resolve.alias.markup = path.resolve(__dirname, 'src/markup')
 
         cfg.module.rules.push({
           test: /\.pug$/,
@@ -42,7 +43,7 @@ module.exports = function (ctx) {
           loader: 'eslint-loader',
           exclude: /node_modules/,
           options: {
-            cache: true
+            // cache: true
           }
         })
       }
