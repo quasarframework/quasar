@@ -7,7 +7,7 @@ const docsPages = [
   },
   {
     path: 'docs',
-    component: () => import('pages/docs.vue')
+    component: () => import('pages/docs.md')
   }
 ]
 

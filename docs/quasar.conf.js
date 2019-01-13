@@ -20,6 +20,7 @@ module.exports = function (ctx) {
     ],
 
     supportIE: true,
+    preFetch: true,
 
     build: {
       scopeHoisting: true,
@@ -28,30 +29,54 @@ module.exports = function (ctx) {
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
-      extendWebpack (cfg) {
-        cfg.resolve.alias.examples = path.resolve(__dirname, 'src/examples')
-        cfg.resolve.alias.markup = path.resolve(__dirname, 'src/markup')
+      chainWebpack (chain, { isClient }) {
+        chain.resolve.alias
+          .merge({
+            examples: path.resolve(__dirname, 'src/examples'),
+            markup: path.resolve(__dirname, 'src/markup')
+          })
 
-        cfg.module.rules.push({
-          test: /\.pug$/,
-          loader: 'pug-plain-loader'
-        })
+        chain.module.rule('pug')
+          .test(/\.pug$/)
+          .use('pug-loader').loader('pug-plain-loader')
 
-        cfg.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /node_modules/,
-          options: {
-            // cache: true
-          }
-        })
+        const rule = chain.module.rule('md')
+          .test(/\.md$/)
+
+        rule.use('v-loader')
+          .loader('vue-loader')
+          .options({
+            productionMode: ctx.prod,
+            compilerOptions: {
+              preserveWhitespace: false
+            },
+            transformAssetUrls: {
+              video: 'src',
+              source: 'src',
+              img: 'src',
+              image: 'xlink:href'
+            }
+          })
+
+        rule.use('md-loader')
+          .loader(require.resolve('./build/md-loader'))
+          .options({
+            isProd: ctx.prod
+          })
+
+        if (isClient) {
+          chain.module.rule('eslint')
+            .enforce('pre')
+            .test(/\.(js|vue)$/)
+            .exclude.add(/node_modules|\.md\.js/).end()
+            .use('eslint-loader').loader('eslint-loader')
+        }
       }
     },
 
     devServer: {
       // https: true,
-      // port: 8080,
+      port: 9090,
       open: true // opens browser window automatically
     },
 

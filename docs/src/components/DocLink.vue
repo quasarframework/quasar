@@ -1,15 +1,15 @@
 <template lang="pug">
   router-link.doc-link(
-    v-if="external === true"
+    v-if="internal === true"
     tag="a"
     :to="to"
   )
     slot
-    q-icon(name="launch")
   a.doc-link(
     v-else
     :href="to"
     target="_blank"
+    rel="noopener noreferrer"
   )
     slot
     q-icon(name="launch")
@@ -24,7 +24,7 @@ export default {
   },
 
   computed: {
-    external () {
+    internal () {
       return this.to.charAt(0) === '/'
     }
   }
@@ -42,7 +42,6 @@ export default {
   border-bottom 1px dotted currentColor
   vertical-align center
   transition opacity .2s
-  margin 0 4px
   white-space nowrap
 
   &:hover
