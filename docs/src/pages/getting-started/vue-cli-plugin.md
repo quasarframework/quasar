@@ -1,83 +1,48 @@
 ---
-title: Docs
+title: Vue CLI 3 Quasar Plugin
 ---
+To work with Quasar via its Vue CLI 3 plugin, you will need to make sure you have vue-cli 3.x.x installed globally. To make sure you have Vue CLI 3.0, use this command:
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
+```bash
+$ vue --version
 ```
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
+You should see something like:
+
+```bash
+$ vue --version
+3.2.3
 ```
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
+Should you have Vue CLI 2.x.x. installed, you'll need to uninstall it with:
 
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
+```bash
+$ npm uninstall -g vue-cli
+# or:
+$ yarn global remove vue-cli
+```
+and then install Vue CLI 3.0 as follows:
 
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
+```bash
+$ yarn global add @vue/cli
+# or:
+$ npm install -g @vue/cli // recommended
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+If you don't yet have a project created with vue-cli 3.x, then do so with:
 
-> Something...
+```bash
+$ vue create my-app
+```
 
-::: tip
-Some tip
-:::
+## Add Quasar Vue CLI Plugin
+Navigate to the newly created project folder and add the cli plugin. Before installing it, make sure to commit your current changes should you wish to revert them later.
 
-::: warning
-Some tip
-:::
+```bash
+$ cd my-app
+$ vue add quasar
+```
 
-::: danger
-Some tip
-:::
+The CLI will ask you if you want the plugin to replace some existing files. It is recommended that you do this, if you wish to have an example, so you can quickly develop your app.
 
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+Your Vue config (in package.json or vue.config.js file, depending on what you chose when you created your vue app) will also contain a `quasar` object with some basic Quasar configuration.

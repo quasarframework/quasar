@@ -1,83 +1,47 @@
 ---
-title: Docs
+title: Vue Prototype Injections
 ---
+Quasar injects Vue prototype with `$q` object:
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+| Injection | Type | Description |
+| --- | --- | --- |
+| `$q.version` | String | Quasar version. |
+| `$q.platform` | Object | Same object as [Platform](/options-and-helpers/platform-detection) import from Quasar. |
+| `$q.cordova` | Object | Reference to Cordova global object. Available only when running under a Cordova app. |
+| `$q.electron` | Object | Reference to Electron global object. Available only when running under an Electron app. |
+| `$q.lang` | Object | Quasar Language pack management, containing labels etc (one of [lang files](https://github.com/quasarframework/quasar/tree/dev/quasar/lang)). Designed for Quasar components, but you can use in your app components too. |
+| `$q.icon` | Object | Quasar icon set management (one of [icon set files](https://github.com/quasarframework/quasar/tree/dev/quasar/icons)). Designed for Quasar components, but you can use in your app components too. |
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+## Example
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
+You can use it globally inside a Vue context (component script or template) like this:
 
 ```vue
+<!-- inside a Vue template -->
 <template>
-  <!-- you define your Vue template here -->
+  <div>
+    <div v-if="$q.platform.is.ios">
+      Gets rendered only on iOS platform.
+    </div>
+  </div>
 </template>
 
 <script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
+// not available here outside
+// of the export
 
 export default {
-  //
+  // inside a Vue component script
+  ...,
+
+  // showing an example on a method, but
+  // can be any part of Vue script
+  methods: {
+    show () {
+      // prints out Quasar version
+      console.log(this.$q.version)
+    }
+  }
 }
 </script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
