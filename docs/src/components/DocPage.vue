@@ -1,17 +1,18 @@
 <template lang="pug">
 q-page.doc-page
 
-  doc-section.title(:title="title", name="Introduction")
+  h1.doc-heading.doc-h1#Introduction(@click="copyHeading('Introduction')") {{ title }}
 
   slot
 
   div.doc-edit-link
-    | Caught a mistake?
-    doc-link(:to="editHref") Suggest an edit on GitHub
+    | Caught a mistake? <doc-link :to="editHref">Suggest an edit on Github</doc-link>
 
 </template>
 
 <script>
+import { copyHeading } from 'assets/page-utils'
+
 export default {
   name: 'DocPage',
 
@@ -21,23 +22,12 @@ export default {
 
   computed: {
     editHref () {
-      return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${this.$route.path}.vue`
+      return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${this.$route.path}.md`
     }
   },
 
-  mounted () {
-    const page = document.body.getElementsByClassName('q-page')[0]
-    const els = page.getElementsByClassName('doc-section h1')
-
-    const toc = []
-    Array.prototype.forEach.call(els, el => {
-      toc.push({
-        id: el.getAttribute('id'),
-        name: el.textContent
-      })
-    })
-
-    this.$store.commit('updateToc', toc)
+  methods: {
+    copyHeading
   }
 }
 </script>

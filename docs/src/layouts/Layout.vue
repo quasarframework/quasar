@@ -131,8 +131,8 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
   )
     q-scroll-area.fit
       q-list.docs-toc.q-my-lg.text-grey-8
-        q-item(v-for="section in $store.state.toc", :key="section.id", clickable, v-ripple, @click="scrollTo(section.id)", :active="activeToc === section.id")
-          q-item-section {{ section.name }}
+        q-item(v-for="toc in $store.state.toc", :key="toc.id", clickable, v-ripple, @click="scrollTo(toc.id)", :active="activeToc === toc.id")
+          q-item-section {{ toc.title }}
 
       .flex.justify-center.q-mt-sm
         .bg-grey.flex.flex-center.text-white(
@@ -166,8 +166,8 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
       a(href="https://forum.quasar-framework.org/", target="_blank")
         q-icon(name="fas fa-comments")
     div
-      | Released under the
-      doc-link(to="https://github.com/quasarframework/quasar/blob/dev/LICENSE") MIT LICENSE
+      | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link>
+
     div Copyright © 2015 - {{ year }} Razvan Stoenescu
 </template>
 
@@ -239,6 +239,7 @@ export default {
 
     scrollTo (id) {
       const el = document.getElementById(id)
+      clearTimeout(this.scrollTimer)
 
       if (el) {
         if (this.rightDrawerOnLayout !== true) {

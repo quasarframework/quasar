@@ -1,10 +1,5 @@
 import 'prismjs'
 import 'prismjs/themes/prism-okaidia.css'
-import 'prismjs/components/prism-bash.js'
-import 'prismjs/components/prism-javascript.js'
-import 'prismjs/components/prism-stylus.js'
-import 'prismjs/components/prism-css.js'
-import 'prismjs/components/prism-json.js'
 
 export default {
   functional: true,
@@ -13,10 +8,8 @@ export default {
     code: {
       type: String
     },
-    lang: {
-      type: String,
-      default: 'javascript'
-    }
+
+    lang: String
   },
 
   render (h, ctx) {
@@ -35,7 +28,7 @@ export default {
         h('code', {
           class: className,
           domProps: {
-            innerHTML: Prism.highlight(code, prismLanguage)
+            innerHTML: Prism.highlight(code, prismLanguage, language)
           }
         })
       ]
