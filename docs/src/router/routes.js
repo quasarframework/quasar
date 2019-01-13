@@ -20,7 +20,7 @@ function parseMenuNode (node, __path) {
   else {
     docsPages.push({
       path: prefix,
-      component: () => import(`pages/${prefix.substring(1)}.vue`)
+      component: () => import(`pages/${prefix.substring(1)}.md`)
     })
   }
 }
