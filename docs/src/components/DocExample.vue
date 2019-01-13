@@ -116,7 +116,7 @@ export default {
 </script>
 
 <style lang="stylus">
-.code-example .code-markup
+.doc-example .code-markup
   pre
     border-radius 0
 </style>
