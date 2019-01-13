@@ -22,6 +22,7 @@ export default {
           {
             props: {
               label: menu.name,
+              group: `accordeon${level}`,
               dense: level > 0,
               icon: menu.icon,
               defaultOpened: menu.opened,
