@@ -3,7 +3,7 @@ import menu from 'assets/menu.js'
 const docsPages = [
   {
     path: '',
-    component: () => import('pages/landing.vue')
+    component: () => import('pages/Landing.vue')
   },
   {
     path: 'docs',
@@ -41,7 +41,7 @@ const routes = [
 if (process.env.MODE !== 'ssr') {
   routes.push({
     path: '*',
-    component: () => import('pages/error404.vue')
+    component: () => import('pages/Error404.vue')
   })
 }
 
