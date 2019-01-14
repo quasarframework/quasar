@@ -100,6 +100,7 @@
         "value": {
           "type": "Any",
           "desc": "New model value",
+          "required": true,
           "__exemption": [ "examples" ]
         }
       }
@@ -111,6 +112,7 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object",
+          "required": true,
           "__exemption": [ "examples" ]
         }
       }
@@ -122,6 +124,7 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object",
+          "required": true,
           "__exemption": [ "examples" ]
         }
       }
@@ -133,6 +136,7 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object",
+          "required": true,
           "__exemption": [ "examples" ]
         }
       }
@@ -144,6 +148,7 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object",
+          "required": true,
           "__exemption": [ "examples" ]
         }
       }
@@ -155,6 +160,7 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object",
+          "required": true,
           "__exemption": [ "examples" ]
         }
       }

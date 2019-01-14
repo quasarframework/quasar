@@ -1,83 +1,34 @@
 ---
-title: Docs
+title: Dialog Plugin
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+Quasar Dialogs are a great way to offer the user the ability to choose a specific action or list of actions. They also can provide the user with important information, or require them to make a decision (or multiple decisions).
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
+From a UI perspective, you can think of Dialogs as a type of floating modal, which covers only a portion of the screen. This means Dialogs should only be used for quick user actions only.
 
 ::: tip
-Some tip
+Dialogs can also be used as a component in your Vue file templates (for complex use-cases, like specific form components with validation, selectable options, etc.). For this, go to [QDialog](/vue-components/dialog) page.
+:::
+
+The advantage of using Dialogs as Quasar Plugins as opposed to as Components is that the plugin can also be called from outside of Vue space and doesn't requires you to manage their templates. But as a result, their customization cannot be compared to their component counterpart.
+
+## Installation
+<doc-installation plugins="Dialog" />
+
+## Usage
+::: tip
+For all the examples below, also see the browser console while you check them out.
 :::
 
 ::: warning
-Some tip
+This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins. For further exploration check out the API section.
 :::
 
-::: danger
-Some tip
-:::
+<doc-example title="Basic" file="Dialog/Basic" />
 
-::: warning CUSTOM TITLE
-Some tip
-:::
+<doc-example title="Radios, Checkboxes, Toggles" file="Dialog/Pickers" />
 
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+<doc-example title="Other options" file="Dialog/OtherOptions" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="Dialog" />
