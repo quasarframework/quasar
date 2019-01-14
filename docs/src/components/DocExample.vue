@@ -1,6 +1,6 @@
 <template lang="pug">
-q-card.doc-example.q-my-lg
-  q-toolbar.text-grey-8.bg-white
+q-card.doc-example.q-my-lg(:class="classes")
+  q-toolbar.doc-example__toolbar
     card-title(:title="title", prefix="Example--")
 
     q-btn(dense, flat, round, icon="fab fa-github", color="grey-7", @click="openGithub")
@@ -30,7 +30,7 @@ q-card.doc-example.q-my-lg
         )
           doc-code(lang="markup", copy) {{ parts[tab] }}
 
-  component(:is="component", class="doc-example__content", :class="classes")
+  component(:is="component", class="doc-example__content", :class="componentClass")
 
   codepen(ref="codepen", :title="title", :parts="parts")
 </template>
@@ -54,6 +54,7 @@ export default {
   props: {
     title: String,
     file: String,
+    dark: Boolean,
     scrollable: Boolean
   },
 
@@ -69,9 +70,14 @@ export default {
 
   computed: {
     classes () { // eslint-disable-line
-      if (this.scrollable === true) {
-        return 'doc-example__content--scrollable'
+      if (this.dark === true) {
+        return 'doc-example--dark'
       }
+    },
+
+    componentClass () {
+      return (this.dark === true ? 'bg-grey-9 text-white' : '') +
+        (this.scrollable === true ? ' doc-example__content--scrollable' : '')
     }
   },
 
@@ -125,9 +131,20 @@ export default {
 </script>
 
 <style lang="stylus">
+@import '~quasar-variables'
+
 .doc-example
+  &__toolbar
+    background white
+    color $grey-8
+
   .code-markup pre
     border-radius 0
+
+  &--dark
+    .doc-example__toolbar
+      background $grey-10
+      color white
 
   &__content
     position relative
