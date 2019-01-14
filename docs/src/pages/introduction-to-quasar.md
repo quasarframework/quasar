@@ -12,12 +12,14 @@ Quasar (pronounced `/ˈkweɪ.zɑɹ/`) is an MIT licensed open-source Vue.js base
 * Mobile Apps (Android, iOS, …) through Apache Cordova
 * Multi-platform Desktop Apps (using Electron)
 
-Quasar's moto is: **write code once and simultaneously deploy it** as a website, a Mobile App and/or an Electron App. Yes, same codebase for all. Quasar helps you develop an app in record time, by using a state of the art CLI and backed by well-written, very fast Quasar web components.
+Quasar's moto is: **write code once and simultaneously deploy it** as a website, a Mobile App and/or an Electron App. Yes, same codebase for all thus helping you develop an app in record time, by using a state of the art CLI and backed by well-written, very fast Quasar web components.
 
 When using Quasar, you won't need additional heavy libraries like Hammerjs, Momentjs or Bootstrap. It's got that covered too, and with a small footprint!
 
 ## Why Quasar?
-Because of the simplicity and power offered to you out of the box. Quasar, with its CLI, are chock full of features, all built to make your developer life easier. Below is a nonexaustive list of Quasar's great aspects and features.
+Because of the simplicity and power offered to you out of the box. Quasar, with its CLI, are chock full of features, all built to make your developer life easier.
+
+Below is a nonexaustive list of Quasar's great aspects and features.
 
 ### All Platforms in One Go
 One authoritative source of code for all platforms, simultaneously!
