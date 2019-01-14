@@ -1,83 +1,55 @@
 ---
-title: Docs
+title: Mobile Addressbar Coloring
 ---
-
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
+Newer mobile browsers have the ability to specify a color for the addressbar, like in the example below.
 
 ::: warning
-Some tip
+**Note 1.** There isn't yet a Web standard for this so it won't work for all mobile browsers.  
+**Note 2.** This applies when building a website only. For coloring top bar on a mobile app (built with Cordova wrapper), please refer to [Cordova plugins](https://cordova.apache.org/plugins/).
 :::
 
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+![Mobile Addressbar Coloring](/assets/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation plugins="AddressbarColor" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
 
-## API
-<doc-api file="QTh" />
+We create boot file to initialize its usage: `$ quasar new boot addressbar-color`. A file is created (`/src/boot/addressbar-color.js`). We edit it:
+
+```js
+// file: /src/boot/addressbar-color.js
+import { AddressbarColor } from 'quasar'
+
+export default () => {
+  AddressbarColor.set('#a2e3fa')
+}
+```
+
+We then have to tell quasar to use this boot file we just created. To do this we edit the boot section of the quasar config:
+```js
+// file: /quasar.conf.js
+return {
+  boot: [
+    'addressbar-color'
+  ]
+}
+```
+
+What this does is that it injects some `<meta>` tags into your `index.html` at runtime.  
+
+Because the meta tag doesn't get injected until run time you can dynamically change this color multiple times, based on the page the user is on (by calling the `set` method in the `created()` lifecycle hook on the respective pages):
+
+
+```js
+// a .vue file representing a page
+export default {
+  // ...,
+  created () {
+    this.$q.addressbarColor.set('#a2e3fa')
+  }
+}
+```
+::: tip
+Calling `set()` with no parameters will use the primary color.
+:::
