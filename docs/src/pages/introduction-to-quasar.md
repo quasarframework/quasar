@@ -5,7 +5,14 @@ title: Introduction to Quasar Framework
 ![Quasar - Empowering your websites and apps](statics/img/responsive-logo.png)
 
 ## What is Quasar?
-Quasar (pronounced `/ˈkweɪ.zɑɹ/`) is an MIT licensed open-source Vue.js based framework, which allows you to **write code once and simultaneously deploy it** as a website, a Mobile App and/or an Electron App **using the same codebase**. It helps you develop an app in record time, by using a state of the art CLI and backed by well-written, very fast Quasar web components.
+Quasar (pronounced `/ˈkweɪ.zɑɹ/`) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to gain hero when creating responsive++ websites/apps in many flavours:
+* SPAs (Single Page App)
+* SSR (Server-side Rendered App) (+ optional PWA client takeover)
+* PWAs (Progressive Web App)
+* Mobile Apps (Android, iOS, …) through Apache Cordova
+* Multi-platform Desktop Apps (using Electron)
+
+Quasar's moto is: **write code once and simultaneously deploy it** as a website, a Mobile App and/or an Electron App. Yes, same codebase for all. Quasar helps you develop an app in record time, by using a state of the art CLI and backed by well-written, very fast Quasar web components.
 
 ## Why Quasar?
 Because of the simplicity and power offered to you out of the box. Quasar, with its CLI, are chock full of features, all built to make your developer life easier. Below is a nonexaustive list of Quasar's great aspects and features.
