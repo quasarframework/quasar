@@ -51,7 +51,7 @@ When using Quasar’s CLI, developers benefit from:
 
  - State preserving hot module reload (HMR) - when making changes to app source code, no matter if it’s a website, PWA, a Mobile App (directly on a phone or on an emulator) or an Electron app. Developers simply change their code and they can watch it get updated on the fly, without the need of any page refresh.
  - State preserving compilation error overlay
- - Lint-on-save with ESLint – if developers like linting their code only
+ - Lint-on-save with ESLint – if developers like linting their code
  - ES6 code transpiling
  - Sourcemaps
  - Changing build options doesn’t require a manual reload of the dev server
