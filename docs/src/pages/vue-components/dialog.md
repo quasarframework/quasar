@@ -34,4 +34,6 @@ When the user hits the phone/tablet back button (only for Cordova apps), the Dia
 <doc-example title="Examples" file="QDialog/Component3" />
 
 ## API
+<doc-api file="Dialog" />
+
 <doc-api file="QDialog" />
