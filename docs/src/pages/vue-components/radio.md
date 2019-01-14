@@ -16,7 +16,7 @@ Please also refer to the [QOptionGroup](/vue-components/option-group) on other p
 
 <doc-example title="Dense" file="QRadio/Dense" />
 
-In the second row in the example below, the property `keep-color` is being used to retain the passed in color when the radio button is not toggled also.
+In the second row in the example below, the property `keep-color` is being used to retain the passed in color when the radio button is not in a toggled state.
 
 <doc-example title="Coloring" file="QRadio/Coloring" />
 
@@ -24,7 +24,7 @@ In the second row in the example below, the property `keep-color` is being used 
 
 <doc-example title="Label on Left Side" file="QRadio/LabelPosition" />
 
-> In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so the QRadio will respond to clicks on QItems to change toggle state.
+In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so the QRadio will respond to clicks on QItems to change toggle state.
 
 <doc-example title="In a List" file="QRadio/InaList" />
 
