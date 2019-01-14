@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <div class="q-pa-sm dark-background">
+  <div class="q-pa-md">
+    <div class="q-gutter-sm">
       <q-radio dark v-model="shape" val="line" label="Line" />
       <q-radio dark v-model="shape" val="rectangle" label="Rectangle" />
       <q-radio dark v-model="shape" val="ellipse" label="Ellipse" />
       <q-radio dark v-model="shape" val="polygon" label="Polygon" />
     </div>
-    <div class="q-px-sm" style="background-color: white">
+    <div class="q-px-sm">
       Your selection is: <strong>{{ shape }}</strong>
     </div>
   </div>
@@ -24,11 +24,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-.q-radio
-  margin 5px
-.dark-background
-  background-color black
-  color white
-</style>
