@@ -95,7 +95,7 @@ export default {
 @import '~quasar-variables'
 
 .doc-code
-  font-size 10px
+  font-size 12px
   margin 16px 0
 
   > pre

@@ -1,6 +1,12 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-btn :loading="loading1" :percentage="percentage1" color="primary" @click="startComputing(1)" style="width: 150px">
+    <q-btn
+      :loading="loading1"
+      :percentage="percentage1"
+      color="primary"
+      @click="startComputing(1)"
+      style="width: 150px"
+    >
       Compute PI
       <span slot="loading">
         <q-spinner-gears class="on-left" />
@@ -16,6 +22,18 @@
       @click="startComputing(2)"
       icon="cloud_upload"
     />
+
+    <q-btn
+      :loading="loading3"
+      :percentage="percentage3"
+      dark-percentage
+      unelevated
+      color="orange"
+      text-color="grey-9"
+      @click="startComputing(3)"
+      icon="cloud_upload"
+      style="width: 100px"
+    />
   </div>
 </template>
 
@@ -27,7 +45,10 @@ export default {
       percentage1: 0,
 
       loading2: false,
-      percentage2: 0
+      percentage2: 0,
+
+      loading3: false,
+      percentage3: 0
     }
   },
 
