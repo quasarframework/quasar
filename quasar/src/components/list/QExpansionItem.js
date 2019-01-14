@@ -55,8 +55,8 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-expansion-item--${this.showing ? 'expanded' : 'collapsed'}` +
-        ` q-expansion-item--${this.popup ? 'popup' : 'standard'}`
+      return `q-expansion-item--${this.showing === true ? 'expanded' : 'collapsed'}` +
+        ` q-expansion-item--${this.popup === true ? 'popup' : 'standard'}`
     },
 
     contentStyle () {

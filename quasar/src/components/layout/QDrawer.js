@@ -128,7 +128,7 @@ export default Vue.extend({
     },
 
     'layout.scrollbarWidth' () {
-      this.applyPosition(this.showing ? 0 : void 0)
+      this.applyPosition(this.showing === true ? 0 : void 0)
     },
 
     offset (val) {
@@ -280,7 +280,7 @@ export default Vue.extend({
     applyPosition (position) {
       if (position === void 0) {
         this.$nextTick(() => {
-          position = this.showing ? 0 : this.size
+          position = this.showing === true ? 0 : this.size
 
           this.applyPosition(this.stateDirection * position)
         })
@@ -462,7 +462,7 @@ export default Vue.extend({
 
   mounted () {
     this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', this.onLayout)
-    this.applyPosition(this.showing ? 0 : void 0)
+    this.applyPosition(this.showing === true ? 0 : void 0)
   },
 
   beforeDestroy () {

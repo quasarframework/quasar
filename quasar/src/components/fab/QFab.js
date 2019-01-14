@@ -43,7 +43,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-fab z-fab row inline justify-center',
-      class: this.showing ? 'q-fab--opened' : null
+      class: this.showing === true ? 'q-fab--opened' : null
     }, [
       h(QBtn, {
         ref: 'trigger',

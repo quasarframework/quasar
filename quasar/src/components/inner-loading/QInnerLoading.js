@@ -33,7 +33,7 @@ export default Vue.extend({
     return h('transition', {
       props: { name: this.transition }
     }, [
-      this.showing ? h('div', {
+      this.showing === true ? h('div', {
         staticClass: 'q-inner-loading absolute-full column flex-center',
         class: this.dark ? 'q-inner-loading--dark' : null
       }, content) : null
