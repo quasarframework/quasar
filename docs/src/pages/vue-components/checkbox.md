@@ -1,83 +1,42 @@
 ---
-title: Docs
+title: Checkbox
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
+The Quasar Radio component is another basic element for user input. You can use this to supply a way for the user to toggle an option.
 
 ::: tip
-Some tip
+Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
 :::
 
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QCheckbox" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+<doc-example title="Standard" file="QCheckbox/Standard" />
+
+In the example below, we are using the `label` property to assign text to the checkbox. In the second row in the example below, the property `left-label` is being used to display the text on the left-side of the checkbox.
+
+<doc-example title="Label" file="QCheckbox/Label" />
+
+In the example below, we are using the `color` property to assign color to the checkbox. In the second row in the example below, the property `keep-color` is being used to retain the passed in color when the checkbox is not in a toggled state.
+
+<doc-example title="Coloring" file="QCheckbox/Coloring" />
+
+<doc-example title="Dense" file="QCheckbox/Dense" />
+
+<doc-example title="On Dark Background" file="QCheckbox/OnDarkBackground" dark />
+
+In the example below, the checkbox is using the property `toggle-indeterminate`. When used, you can optionally set the property `indeterminate-value`, otherwise the indeterminate value will be `null`.
+<doc-example title="Indeterminate State" file="QCheckbox/IndeterminateState" />
+
+<doc-example title="Array as Model" file="QCheckbox/ArrayAsModel" />
+
+<doc-example title="Custom Model Values" file="QCheckbox/CustomModel" />
+
+> In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so the QCheckbox will respond to clicks on QItems to change toggle state.
+
+<doc-example title="In a List" file="QCheckbox/InaList" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QCheckbox" />
