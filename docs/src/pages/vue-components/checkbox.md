@@ -2,7 +2,7 @@
 title: Checkbox
 ---
 
-The Quasar Radio component is another basic element for user input. You can use this to supply a way for the user to toggle an option.
+The Quasar Checkbox component is another basic element for user input. You can use this to supply a way for the user to toggle an option.
 
 ::: tip
 Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
@@ -10,7 +10,7 @@ Please also refer to the [QOptionGroup](/vue-components/option-group) on other p
 
 
 ## Installation
-<doc-installation components="QCheckbox" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QCheckbox" />
 
 ## Usage
 <doc-example title="Standard" file="QCheckbox/Standard" />
