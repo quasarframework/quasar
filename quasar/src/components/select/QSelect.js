@@ -60,7 +60,10 @@ export default Vue.extend({
       default: 500
     },
 
-    expandBesides: Boolean,
+    expandBesides: {
+      type: Boolean,
+      default: true
+    },
     autofocus: Boolean
   },
 

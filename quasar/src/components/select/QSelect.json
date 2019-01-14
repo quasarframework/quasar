@@ -125,7 +125,8 @@
 
     "expand-besides": {
       "type": "Boolean",
-      "desc": "Expand the menu on top or bottom of the component, so it won't cover it"
+      "desc": "Expand the menu on top or bottom of the component, so it won't cover it",
+      "default": true
     },
 
     "autofocus": {
