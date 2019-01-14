@@ -8,7 +8,7 @@
         change Toggle state.
       -->
 
-      <q-item tag="label">
+      <q-item tag="label" v-ripple>
         <q-item-section side>
           <q-checkbox v-model="color" val="teal" color="teal" ></q-checkbox>
         </q-item-section>
@@ -17,7 +17,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item tag="label">
+      <q-item tag="label" v-ripple>
         <q-item-section side>
           <q-checkbox v-model="color" val="orange" color="orange" ></q-checkbox>
         </q-item-section>
@@ -27,7 +27,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item tag="label">
+      <q-item tag="label" v-ripple>
         <q-item-section side top>
           <q-checkbox v-model="color" val="cyan" color="cyan" ></q-checkbox>
         </q-item-section>
@@ -44,7 +44,7 @@
     </q-list>
     </div>
 
-    <div class="q-px-sm">
+    <div class="q-px-sm q-mt-sm">
       Your selection is: <strong>{{ color }}</strong>
     </div>
   </div>

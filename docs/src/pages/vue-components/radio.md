@@ -28,5 +28,7 @@ In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so
 
 <doc-example title="In a List" file="QRadio/InaList" />
 
+<doc-example title="Disable" file="QRadio/Disable" />
+
 ## API
 <doc-api file="QRadio" />

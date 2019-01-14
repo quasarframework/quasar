@@ -15,11 +15,9 @@ Please also refer to the [QOptionGroup](/vue-components/option-group) on other p
 ## Usage
 <doc-example title="Standard" file="QCheckbox/Standard" />
 
-In the example below, we are using the `label` property to assign text to the checkbox. In the second row in the example below, the property `left-label` is being used to display the text on the left-side of the checkbox.
-
 <doc-example title="Label" file="QCheckbox/Label" />
 
-In the example below, we are using the `color` property to assign color to the checkbox. In the second row in the example below, the property `keep-color` is being used to retain the passed in color when the checkbox is not in a toggled state.
+In the second row in the example below, the property `keep-color` is being used to retain the passed in color when the checkbox is not in a toggled state.
 
 <doc-example title="Coloring" file="QCheckbox/Coloring" />
 
@@ -27,16 +25,18 @@ In the example below, we are using the `color` property to assign color to the c
 
 <doc-example title="On Dark Background" file="QCheckbox/OnDarkBackground" dark />
 
-In the example below, the checkbox is using the property `toggle-indeterminate`. When used, you can optionally set the property `indeterminate-value`, otherwise the indeterminate value will be `null`.
+In the example below, as soon as you click on the first checkbox it starts toggling between true/false. The second checkbox, on the other hand toggles between the three states (indeterminate/true/false) with help from `toggle-indeterminate`. You can optionally set the property `indeterminate-value`, otherwise the indeterminate value will be considered `null`.
 <doc-example title="Indeterminate State" file="QCheckbox/IndeterminateState" />
 
 <doc-example title="Array as Model" file="QCheckbox/ArrayAsModel" />
 
 <doc-example title="Custom Model Values" file="QCheckbox/CustomModel" />
 
-> In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so the QCheckbox will respond to clicks on QItems to change toggle state.
+In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so the QCheckbox will respond to clicks on QItems to change toggle state.
 
 <doc-example title="In a List" file="QCheckbox/InaList" />
+
+<doc-example title="Disable" file="QCheckbox/Disable" />
 
 ## API
 <doc-api file="QCheckbox" />

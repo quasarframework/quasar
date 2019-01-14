@@ -3,14 +3,14 @@ q-card.doc-example.q-my-lg(:class="classes")
   q-toolbar.doc-example__toolbar
     card-title(:title="title", prefix="Example--")
 
-    q-btn(dense, flat, round, icon="fab fa-github", color="grey-7", @click="openGithub")
+    q-btn(dense, flat, round, icon="fab fa-github", @click="openGithub")
       q-tooltip View on Github
-    q-btn.q-ml-sm(dense, flat, round, icon="fab fa-codepen", color="grey-7", @click="$refs.codepen.open()")
+    q-btn.q-ml-sm(dense, flat, round, icon="fab fa-codepen", @click="$refs.codepen.open()")
       q-tooltip Edit in Codepen
-    q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded", color="grey-7")
+    q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded")
       q-tooltip View Source
 
-  q-separator
+  q-separator.doc-example__separator
 
   q-slide-transition
     div(v-show="expanded")
@@ -30,7 +30,9 @@ q-card.doc-example.q-my-lg(:class="classes")
         )
           doc-code(lang="markup", copy) {{ parts[tab] }}
 
-  component(:is="component", class="doc-example__content", :class="componentClass")
+      q-separator.doc-example__separator
+
+  component.doc-example__content(:is="component", :class="componentClass")
 
   codepen(ref="codepen", :title="title", :parts="parts")
 </template>
@@ -75,9 +77,10 @@ export default {
       }
     },
 
-    componentClass () {
-      return (this.dark === true ? 'bg-grey-10 text-white' : '') +
-        (this.scrollable === true ? ' doc-example__content--scrollable' : '')
+    componentClass () { // eslint-disable-line
+      if (this.scrollable === true) {
+        return 'doc-example__content--scrollable'
+      }
     }
   },
 
@@ -133,10 +136,14 @@ export default {
 <style lang="stylus">
 @import '~quasar-variables'
 
+$dark-color = #272822
+
 .doc-example
   &__toolbar
     background white
     color $grey-8
+    > .q-btn
+      color $grey-7
 
   &__tabs
     background $grey-3
@@ -149,9 +156,16 @@ export default {
     .doc-example__toolbar
       background $grey-10
       color white
+      > .q-btn
+        color $grey-3
+    .doc-example__separator
+      background-color $grey-8
     .doc-example__tabs
       background $grey-9
       color $grey-5
+    .doc-example__content
+      background $dark-color
+      color white
 
   &__content
     position relative
