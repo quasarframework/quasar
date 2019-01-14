@@ -15,7 +15,7 @@ When the user hits the phone/tablet back button (only for Cordova apps), the Dia
 :::
 
 ## Installation as a Plugin
-<doc-installation plugins="QDialog" />
+<doc-installation plugins="Dialog" />
 
 ## Usage as a Plugin
 <doc-example title="Examples" file="QDialog/Plugin" />
