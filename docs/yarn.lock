@@ -1099,9 +1099,9 @@ ajv@6.6.1:
     uri-js "^4.2.2"
 
 ajv@^6.1.0, ajv@^6.5.3, ajv@^6.6.1:
-  version "6.6.2"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.6.2.tgz#caceccf474bf3fc3ce3b147443711a24063cc30d"
-  integrity sha512-FBHEW6Jf5TB9MGBgUUA9XHkTbjXYfAUjY43ACMfmdMRHniyoMHjHjzD50OK8LGDWQwp4rWEsIq5kEqq7rvIM1g==
+  version "6.7.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.7.0.tgz#e3ce7bb372d6577bb1839f1dfdfcbf5ad2948d96"
+  integrity sha512-RZXPviBTtfmtka9n9sy1N5M5b82CbxWIR6HIis4s3WQTXDJamc/0gpCWNGz6EWdWp4DOfjzJfhz/AS9zVPjjWg==
   dependencies:
     fast-deep-equal "^2.0.1"
     fast-json-stable-stringify "^2.0.0"
@@ -6243,9 +6243,9 @@ qs@6.5.2:
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
 quasar@^1.0.0-alpha.0:
-  version "1.0.0-alpha.9"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-alpha.9.tgz#c2a0869647504b9df318cc2b2b4776060d6985c6"
-  integrity sha512-x9IAixuhBxMz2X5dLwanddR7j09AqjoqF2r6E+4imY8u7dFp0pkPKyft2Rim6o0Lw8mjF0w1TaiyBuPcHPhlrw==
+  version "1.0.0-alpha.10"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-alpha.10.tgz#0999c3a895d1f688ce3828787dc7c6f89c943c61"
+  integrity sha512-DtJC3K/fQjN9YF4vflE5tycSeTL0JZ0EfpCqHQ2cmZNiGwSGCfxvCeh3pO2Uafmezp+vCz8w8SnAMELezDyy0Q==
 
 querystring-es3@^0.2.0:
   version "0.2.1"
@@ -7229,9 +7229,9 @@ svgo@^1.0.0:
     util.promisify "~1.0.0"
 
 table@^5.0.2:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/table/-/table-5.2.0.tgz#2e38bd1f16dd3f97085ac80cdc574ad9198af04d"
-  integrity sha512-hAdBBAMCZl4/U3eQhsPN2Z8wRJC98lpRhDW2I86VQbPBqyj4E681VhvUkfb90qUJ4rnRfu8t4/8SGHPsAH1ygg==
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/table/-/table-5.2.1.tgz#e78463702b1be9f7131c39860bcfb1b81114c2a1"
+  integrity sha512-qmhNs2GEHNqY5fd2Mo+8N1r2sw/rvTAAvBZTaTx+Y7PHLypqyrxr1MdIu0pLw6Xvl/Gi4ONu/sdceP8vvUjkyA==
   dependencies:
     ajv "^6.6.1"
     lodash "^4.17.11"

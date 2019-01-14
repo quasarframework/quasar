@@ -14,6 +14,11 @@
         Some title
         <q-badge align="top">1.0.0+</q-badge>
       </h2>
+
+      <h2>
+        Some title
+        <q-badge>1.0.0+</q-badge>
+      </h2>
     </div>
   </div>
 </template>

@@ -181,39 +181,6 @@ const plugins = [
 
 const components = [
   {
-    name: 'Layout',
-    children: [
-      {
-        name: 'Layout',
-        path: 'layout'
-      },
-      {
-        name: 'Integrating Layout with Router',
-        path: 'integrating-layout-with-router'
-      },
-      {
-        name: 'Layout Header and Footer',
-        path: 'header-and-footer'
-      },
-      {
-        name: 'Layout Drawer',
-        path: 'drawer'
-      },
-      {
-        name: 'Layout Page',
-        path: 'page'
-      },
-      {
-        name: 'Page Sticky',
-        path: 'page-sticky'
-      },
-      {
-        name: 'Floating Action Button',
-        path: 'floating-action-button'
-      }
-    ]
-  },
-  {
     name: 'Action Sheet',
     path: 'action-sheet'
   },
@@ -224,6 +191,10 @@ const components = [
   {
     name: 'Avatar',
     path: 'avatar'
+  },
+  {
+    name: 'Badge',
+    path: 'badge'
   },
   {
     name: 'Banner',
@@ -765,6 +736,45 @@ export default [
     icon: 'tune',
     path: 'options-and-helpers',
     children: options
+  },
+  {
+    name: 'Layout',
+    icon: 'view_quilt',
+    path: 'vue-components',
+    children: [
+      {
+        name: 'Layout',
+        path: 'layout'
+      },
+      {
+        name: 'Integrating Layout with Router',
+        path: 'integrating-layout-with-router'
+      },
+      {
+        name: 'Layout Header and Footer',
+        path: 'header-and-footer'
+      },
+      {
+        name: 'Layout Drawer',
+        path: 'drawer'
+      },
+      {
+        name: 'Layout Page',
+        path: 'page'
+      },
+      {
+        name: 'Page Sticky',
+        path: 'page-sticky'
+      },
+      {
+        name: 'Page Scroller',
+        path: 'page-scroller'
+      },
+      {
+        name: 'Floating Action Button',
+        path: 'floating-action-button'
+      }
+    ]
   },
   {
     name: 'Vue Components',
