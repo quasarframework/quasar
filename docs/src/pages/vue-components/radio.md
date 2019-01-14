@@ -6,8 +6,6 @@ The Quasar Radio component is another basic element for user input. You can use 
 
 Please also refer to the [Option Group documentation](/vue-components/option-group) on other possibilities for creating groups of Toggles.
 
-Works well with [QField](/vue-components/field) for additional functionality such as a helper, error message placeholder and many others.
-
 ## Installation
 <doc-installation components="QRadio" />
 
