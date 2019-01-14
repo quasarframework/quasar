@@ -30,7 +30,7 @@ q-card.doc-example.q-my-lg
         )
           doc-code(lang="markup", copy) {{ parts[tab] }}
 
-  component(:is="component")
+  component(:is="component", class="doc-example__content", :class="classes")
 
   codepen(ref="codepen", :title="title", :parts="parts")
 </template>
@@ -53,7 +53,8 @@ export default {
 
   props: {
     title: String,
-    file: String
+    file: String,
+    scrollable: Boolean
   },
 
   data () {
@@ -63,6 +64,14 @@ export default {
       currentTab: 'template',
       expanded: false,
       parts: {}
+    }
+  },
+
+  computed: {
+    classes () { // eslint-disable-line
+      if (this.scrollable === true) {
+        return 'doc-example__content--scrollable'
+      }
     }
   },
 
@@ -116,7 +125,14 @@ export default {
 </script>
 
 <style lang="stylus">
-.doc-example .code-markup
-  pre
+.doc-example
+  .code-markup pre
     border-radius 0
+
+  &__content
+    position relative
+
+    &--scrollable
+      height 500px
+      overflow auto
 </style>

@@ -1,5 +1,6 @@
 export * from './components/ajax-bar/index.js'
 export * from './components/avatar/index.js'
+export * from './components/badge/index.js'
 export * from './components/banner/index.js'
 export * from './components/bar/index.js'
 export * from './components/breadcrumbs/index.js'

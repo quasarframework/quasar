@@ -149,6 +149,9 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
     )
       router-view
 
+  q-page-scroller
+    q-btn(fab, color="red", icon="keyboard_arrow_up")
+
   q-footer.bg-black.text-white.text-center.footer
     div.footer__icons.row.flex-center
       a(href="https://github.com/quasarframework/quasar", target="_blank")

@@ -1,0 +1,28 @@
+{
+  "props": {
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "floating": {
+      "type": "Boolean",
+      "desc": "Float above the parent container (which must at least have relative position)"
+    },
+
+    "align": {
+      "type": "String",
+      "desc": "Sets vertical-align CSS prop",
+      "values": [ "top", "middle", "bottom" ]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}
