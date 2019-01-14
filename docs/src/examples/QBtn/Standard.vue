@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-sm">
+  <div class="q-pa-md q-gutter-sm">
     <q-btn color="white" text-color="black" label="Standard" />
     <q-btn color="primary" label="Primary" />
     <q-btn color="secondary" label="Secondary" />
@@ -10,20 +10,3 @@
     <q-btn color="black" label="Black" />
   </div>
 </template>
-
-<script>
-export default {
-  name: 'gigi',
-
-  methods: {
-    some () {
-      return 'wow'
-    }
-  }
-}
-</script>
-
-<style lang="stylus" scoped>
-.q-btn
-  margin 5px
-</style>
