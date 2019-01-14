@@ -10,22 +10,12 @@ Newer mobile browsers have the ability to specify a color for the addressbar, li
 
 ![Mobile Addressbar Coloring](/assets/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
 
-## Basic Usage
+## Installation
+<doc-installation plugins="AddressbarColor" />
 
-First, we need to indicate that we want the AddressbarColor Quasar plugin embedded into our website/app:
+## Usage
 
-```js
-// file: /quasar.conf.js
-return {
-  framework: {
-    plugins: [
-      'AddressbarColor'
-    ]
-  }
-}
-```
-
-Then we create boot file to initialize its usage: `quasar new boot addressbar-color`. A file is created (`/src/boot/addressbar-color.js`). We edit it:
+We create boot file to initialize its usage: `$ quasar new boot addressbar-color`. A file is created (`/src/boot/addressbar-color.js`). We edit it:
 
 ```js
 // file: /src/boot/addressbar-color.js
