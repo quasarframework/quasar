@@ -108,7 +108,7 @@ export default {
         (
           this.flat === true ? ' q-btn--flat' : (
             this.outline === true ? ' q-btn--outline' : (
-              this.push === true ? ' q-btn-push' : (
+              this.push === true ? ' q-btn--push' : (
                 this.unelevated === true ? ' q-btn--unelevated' : ''
               )
             )
