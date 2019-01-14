@@ -14,7 +14,7 @@ q-card.doc-example.q-my-lg(:class="classes")
 
   q-slide-transition
     div(v-show="expanded")
-      q-tabs.text-grey-7.bg-grey-3(v-model="currentTab", align="left", dense, :breakpoint="0")
+      q-tabs.doc-example__tabs(v-model="currentTab", align="left", dense, :breakpoint="0")
         q-tab(
           v-for="tab in tabs"
           :key="`tab-${tab}`"
@@ -76,7 +76,7 @@ export default {
     },
 
     componentClass () {
-      return (this.dark === true ? 'bg-grey-9 text-white' : '') +
+      return (this.dark === true ? 'bg-grey-10 text-white' : '') +
         (this.scrollable === true ? ' doc-example__content--scrollable' : '')
     }
   },
@@ -138,6 +138,10 @@ export default {
     background white
     color $grey-8
 
+  &__tabs
+    background $grey-3
+    color $grey-7
+
   .code-markup pre
     border-radius 0
 
@@ -145,6 +149,9 @@ export default {
     .doc-example__toolbar
       background $grey-10
       color white
+    .doc-example__tabs
+      background $grey-9
+      color $grey-5
 
   &__content
     position relative
