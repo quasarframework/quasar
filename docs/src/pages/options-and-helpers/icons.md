@@ -31,7 +31,7 @@ Adding more than one set (showing all options):
 ```js
 extras: [
   'material-icons',
-  'mdi-3',
+  'mdi-v3',
   'ionicons-v4',
   'eva-icons',
   'fontawesome-v5'
@@ -189,7 +189,7 @@ Let's take a look at how we can use QIcon component. Do not forget to check abov
 <q-icon name="mdi-account-card-details" />
 
 <!-- EvaIcons icons have "eva " prefix -->
-<q-icon name="eva shield-outline" />
+<q-icon name="eva-shield-outline" />
 
 <!--
   or if you prefer the non self-closing tag version
@@ -208,14 +208,15 @@ For "icon" properties on different Quasar components you won't have the means to
 />
 ```
 
-### Cheatsheet
+### Icons Name Cheatsheet
 
 | Name | Prefix | Examples | Notes |
 | --- | --- | --- | --- |
 | material-icons | *None* | thumb_up | Notice the underline character instead of dash or space |
-| ionicons | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
-| fontawesome | fa[s,r,l,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
-| mdi | mdi- | mdi-alert-circle-outline | Notice the use of dash characters |
+| ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
+| fontawesome-v5 | fa[s,r,l,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
+| mdi-v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters |
+| eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
 
 
 ### Size & Colors
@@ -242,6 +243,14 @@ There's also a "size" property:
 <doc-example title="Icon Size with Style attribute" file="QIcon/Style" />
 
 <doc-example title="Icon Size with Class attribute" file="QIcon/Class" />
+
+<doc-example title="MDI Icons" file="QIcon/MDI" />
+
+<doc-example title="Ion Icons" file="QIcon/Ion" />
+
+<doc-example title="Eva Icons" file="QIcon/Eva" />
+
+<doc-example title="Font Awesome" file="QIcon/FontAwesome" />
 
 <doc-example title="Adding a 'click' event handle" file="QIcon/Click" />
 
