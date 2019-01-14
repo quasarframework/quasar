@@ -14,6 +14,8 @@ Please [submit a request](https://github.com/quasarframework/quasar/issues/new) 
 
 ## Installing
 
+<doc-installation components="QIcon" />
+
 If you are building a website only, then using a CDN (Content Delivery Network) approach can be an option you can follow. However, when building a mobile or Electron app, you most likely do not want to depend on an Internet connection, so it's best that you follow the next steps.
 
 ### Adding an Icon Set
@@ -172,7 +174,7 @@ export default ({ Vue }) => {
 }
 ```
 
-## Basic Usage
+## Usage
 Let's take a look at how we can use QIcon component. Do not forget to check above how to [Install Icon Sets](#Installing), otherwise they won't show up!
 
 ```html
@@ -222,16 +224,6 @@ For "icon" properties on different Quasar components you won't have the means to
 ### Size & Colors
 All icons are **font icons**. This means that you can change size by manipulating `font-size` CSS property. And also, they inherit the current CSS `color` used.
 
-```html
-<q-icon name="mail" style="font-size: 25px" />
-
-<div style="color: #a2e2e3">
-  ...
-  <!-- inheriting color #a2e2e3: -->
-  <q-icon name="alarm" />
-</div>
-```
-
 Colors from the [Quasar Color Palette](/components/color-palette.html) can be specified in two ways:
 <doc-example title="Icon Color" file="QIcon/Color" />
 
@@ -253,10 +245,6 @@ There's also a "size" property:
 <doc-example title="Font Awesome" file="QIcon/FontAwesome" />
 
 <doc-example title="Adding a 'click' event handle" file="QIcon/Click" />
-
-::: warning Dont't forget
-Remember we want to capture a native DOM event and this is a Vue component, so we use the ['.native' modifier](https://vuejs.org/v2/guide/components.html#Binding-Native-Events-to-Components)
-:::
 
 ## API
 <doc-api file="QIcon" />
