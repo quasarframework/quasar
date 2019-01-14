@@ -12,6 +12,10 @@ const options = [
     path: 'internationalization'
   },
   {
+    name: 'Installing Icon Libraries',
+    path: 'installing-icon-libraries'
+  },
+  {
     name: 'Quasar Icon Sets',
     path: 'icons'
   },
