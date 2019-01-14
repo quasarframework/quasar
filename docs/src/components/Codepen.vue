@@ -70,7 +70,7 @@ export default {
       return (this.parts.template || '')
         .replace(/(<template>|<\/template>$)/g, '')
         .replace(/\n/g, '\n  ')
-        .replace(/<([\w-]+)(.+?) \/>/g, '<$1$2></$1>')
+        .replace(/<([\w-]+)([^>]*?(?=\/>))\/>/gs, '<$1$2></$1>')
         .trim()
     },
 
