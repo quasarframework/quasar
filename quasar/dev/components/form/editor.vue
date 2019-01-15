@@ -42,7 +42,7 @@
       :toolbar="[
         ['bold', 'italic', 'underline'],
         [{
-          label: $q.i18n.editor.formatting,
+          label: $q.lang.editor.formatting,
           icon: $q.icon.editor.formatting,
           list: 'no-icons',
           options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code']
@@ -76,13 +76,13 @@
         ['print', 'fullscreen'],
         [
           {
-            label: $q.i18n.editor.formatting,
+            label: $q.lang.editor.formatting,
             icon: $q.icon.editor.formatting,
             list: 'no-icons',
             options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code']
           },
           {
-            label: $q.i18n.editor.fontSize,
+            label: $q.lang.editor.fontSize,
             icon: $q.icon.editor.fontSize,
             fixedLabel: true,
             fixedIcon: true,
@@ -90,7 +90,7 @@
             options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
           },
           {
-            label: $q.i18n.editor.defaultFont,
+            label: $q.lang.editor.defaultFont,
             icon: $q.icon.editor.font,
             fixedIcon: true,
             list: 'no-icons',
@@ -101,14 +101,14 @@
         ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
         [
           {
-            label: $q.i18n.editor.align,
+            label: $q.lang.editor.align,
             icon: $q.icon.editor.align,
             fixedLabel: true,
             list: 'only-icons',
             options: ['left', 'center', 'right', 'justify']
           },
           {
-            label: $q.i18n.editor.align,
+            label: $q.lang.editor.align,
             icon: $q.icon.editor.align,
             fixedLabel: true,
             options: ['left', 'center', 'right', 'justify']

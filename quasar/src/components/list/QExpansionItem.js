@@ -28,14 +28,14 @@ export default Vue.extend({
     expandIcon: String,
     duration: Number,
 
-    headerInset: Boolean,
-    contentInset: Boolean,
-    menuInset: Boolean,
+    headerInsetLevel: Number,
+    contentInsetLevel: Number,
 
     expandSeparator: Boolean,
     defaultOpened: Boolean,
     expandIconToggle: Boolean,
     switchToggleSide: Boolean,
+    denseToggle: Boolean,
     group: String,
     popup: Boolean,
 
@@ -55,14 +55,24 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-expansion-item--${this.showing ? 'expanded' : 'collapsed'}` +
-        ` q-expansion-item--${this.popup ? 'popup' : 'standard'}` +
-        (this.contentInset === true ? ' q-expansion-item--content-inset' : '') +
-        (this.menuInset === true ? ' q-expansion-item--menu-inset' : '')
+      return `q-expansion-item--${this.showing === true ? 'expanded' : 'collapsed'}` +
+        ` q-expansion-item--${this.popup === true ? 'popup' : 'standard'}`
+    },
+
+    contentStyle () {
+      if (this.contentInsetLevel !== void 0) {
+        return {
+          paddingLeft: (this.contentInsetLevel * 56) + 'px'
+        }
+      }
     },
 
     isClickable () {
       return this.hasRouterLink || !this.expandIconToggle
+    },
+
+    expansionIcon () {
+      return this.expandIcon || (this.denseToggle ? this.$q.icon.expansionItem.denseIcon : this.$q.icon.expansionItem.icon)
     }
   },
 
@@ -87,9 +97,10 @@ export default Vue.extend({
 
     __getToggleIcon (h) {
       return h(QItemSection, {
-        staticClass: 'cursor-pointer',
+        staticClass: `cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
         props: {
-          side: true
+          side: this.switchToggleSide !== true,
+          avatar: this.switchToggleSide === true
         },
         nativeOn: {
           click: this.__toggleIcon
@@ -102,7 +113,7 @@ export default Vue.extend({
             invisible: this.disable
           },
           props: {
-            name: this.expandIcon || this.$q.icon.expansionItem.icon
+            name: this.expansionIcon
           }
         })
       ])
@@ -124,10 +135,11 @@ export default Vue.extend({
           ])
         ]
 
-        this.icon && child[this.switchToggleSide ? 'push' : 'unshift'](
+        this.icon && child[this.switchToggleSide === true ? 'push' : 'unshift'](
           h(QItemSection, {
             props: {
-              avatar: true
+              side: this.switchToggleSide === true,
+              avatar: this.switchToggleSide !== true
             }
           }, [
             h(QIcon, {
@@ -137,7 +149,7 @@ export default Vue.extend({
         )
       }
 
-      child[this.switchToggleSide ? 'unshift' : 'push'](this.__getToggleIcon(h))
+      child[this.switchToggleSide === true ? 'unshift' : 'push'](this.__getToggleIcon(h))
 
       const data = {
         ref: 'item',
@@ -147,7 +159,7 @@ export default Vue.extend({
           dark: this.dark,
           disable: this.disable,
           dense: this.dense,
-          inset: this.headerInset && !this.switchToggleSide
+          insetLevel: this.headerInsetLevel
         }
       }
 
@@ -175,6 +187,7 @@ export default Vue.extend({
         }, [
           h('div', {
             staticClass: 'q-expansion-item__content relative-position',
+            style: this.contentStyle,
             directives: [{ name: 'show', value: this.showing }]
           }, this.$slots.default)
         ])

@@ -222,7 +222,7 @@
             option-value="name"
             option-disable="required"
             emit-value
-            :display-value="$q.i18n.table.columns"
+            :display-value="$q.lang.table.columns"
             dense
             borderless
           />
@@ -230,9 +230,9 @@
 
         <q-td slot="body-cell-desc" slot-scope="props" :props="props">
           <div class="q-mb-xs">
-            <q-chip small color="secondary">{{ props.value }}</q-chip>
+            <q-badge color="secondary">{{ props.value }}</q-badge>
           </div>
-          <q-chip small color="secondary">{{ props.value }}</q-chip>
+          <q-badge color="secondary">{{ props.value }}</q-badge>
         </q-td>
       </q-table>
 
@@ -376,7 +376,7 @@
             <q-btn loading color="secondary" icon="sms_failed" @click="($event, done) => { notifyWithProps(done, props) }" :label="props.row.calcium" />
           </q-td>
           <q-td key="iron" :props="props">
-            <q-chip small square color="amber">{{ props.row.iron }}</q-chip>
+            <q-badge color="amber">{{ props.row.iron }}</q-badge>
           </q-td>
         </q-tr>
       </q-table>
@@ -476,7 +476,7 @@
             <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
             <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
             <q-td key="iron" :props="props">
-              <q-chip small square color="amber">{{ props.row.iron }}</q-chip>
+              <q-badge square color="amber">{{ props.row.iron }}</q-badge>
             </q-td>
           </q-tr>
           <q-tr v-show="props.expand" :props="props">

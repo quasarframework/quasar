@@ -4,6 +4,7 @@ export default {
       type: String,
       default: 'fade'
     },
+
     transitionHide: {
       type: String,
       default: 'fade'

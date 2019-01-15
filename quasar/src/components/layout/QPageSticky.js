@@ -65,7 +65,7 @@ export default Vue.extend({
 
       const
         attach = this.attach,
-        dir = this.$q.i18n.rtl ? -1 : 1
+        dir = this.$q.lang.rtl ? -1 : 1
 
       if (attach.top && this.top) {
         posY = `${this.top}px`
@@ -89,10 +89,10 @@ export default Vue.extend({
 
       if (attach.vertical) {
         if (this.left) {
-          css[this.$q.i18n.rtl ? 'right' : 'left'] = `${this.left}px`
+          css[this.$q.lang.rtl ? 'right' : 'left'] = `${this.left}px`
         }
         if (this.right) {
-          css[this.$q.i18n.rtl ? 'left' : 'right'] = `${this.right}px`
+          css[this.$q.lang.rtl ? 'left' : 'right'] = `${this.right}px`
         }
       }
       else if (attach.horizontal) {

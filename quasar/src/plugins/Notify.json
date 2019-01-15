@@ -3,7 +3,7 @@
 
   "quasarConfOptions": {
     "propName": "notify",
-    "props": {
+    "definition": {
       "color": {
         "extends": "color"
       },
@@ -47,7 +47,7 @@
       "classes": {
         "type": "String",
         "desc": "Add CSS class(es) to the notification for easier customization",
-        "example": [
+        "examples": [
           "my-notif-class"
         ]
       },
@@ -70,8 +70,10 @@
       "onDismiss": {
         "type": "Function",
         "desc": "Function to call when notification gets dismissed",
+        "params": null,
+        "returns": null,
         "examples": [
-          "() => { console.log('Dismissed') "
+          "() => { console.log('Dismissed') }"
         ]
       },
 
@@ -90,13 +92,20 @@
 
   "methods": {
     "create": {
-      "desc": "Creates a notification; Same as calling $q.notify(...); Returns a Function which hides the notification",
+      "desc": "Creates a notification; Same as calling $q.notify(...)",
       "params": {
         "opts": {
           "type": "Object",
           "desc": "For syntax, check quasar.conf options parameters",
-          "required": true
+          "required": true,
+          "__exemption": [ "examples" ]
         }
+      },
+      "returns": {
+        "type": "Function",
+        "desc": "Calling this function hides the notification",
+        "params": null,
+        "returns": null
       }
     },
 
@@ -106,7 +115,8 @@
         "opts": {
           "type": "Object",
           "desc": "For syntax, check quasar.conf options parameters",
-          "required": true
+          "required": true,
+          "__exemption": [ "examples" ]
         }
       }
     }

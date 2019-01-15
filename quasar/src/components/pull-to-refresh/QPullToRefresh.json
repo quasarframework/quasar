@@ -18,7 +18,7 @@
       "extends": "disable"
     }
   },
-  
+
   "slots": {
     "default": {
       "desc": "Content (area controlled by the component) goes here"
@@ -31,12 +31,14 @@
       "params": {
         "done": {
           "type": "Function",
-          "desc": "Call the done() function when your data has been refreshed"
+          "desc": "Call the done() function when your data has been refreshed",
+          "params": null,
+          "returns": null
         }
       }
     }
   },
- 
+
   "methods": {
     "trigger": {
       "desc": "Triggers a refresh"

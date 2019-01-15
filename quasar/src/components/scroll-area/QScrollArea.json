@@ -39,11 +39,13 @@
         "offset": {
           "type": "Number",
           "desc": "Scroll position offset from top (in pixels)",
-          "required": true
+          "required": true,
+          "examples": [ 220 ]
         },
         "duration": {
           "type": "Number",
-          "desc": "Duration (in milliseconds) enabling animated scroll"
+          "desc": "Duration (in milliseconds) enabling animated scroll",
+          "examples": [ 300 ]
         }
       }
     }

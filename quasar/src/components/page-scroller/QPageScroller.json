@@ -1,0 +1,23 @@
+{
+  "mixins": [ "components/layout/QPageSticky" ],
+
+  "props": {
+    "scroll-offset": {
+      "type": "Number",
+      "desc": "Scroll offset (in pixels) from which point the component is shown on page",
+      "default": 1000,
+      "examples": [ 550 ]
+    },
+
+    "duration": {
+      "type": "Number",
+      "desc": "Duration (in milliseconds) of the scrolling until it reaches its target",
+      "default": 300,
+      "examples": [ 500 ]
+    },
+
+    "offset": {
+      "default": [18, 18]
+    }
+  }
+}

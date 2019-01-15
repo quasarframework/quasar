@@ -13,7 +13,8 @@ export default Vue.extend({
 
     clickable: Boolean,
     dense: Boolean,
-    inset: Boolean,
+    insetLevel: Number,
+
     tabindex: [String, Number],
     tag: {
       type: String,
@@ -45,12 +46,19 @@ export default Vue.extend({
         'q-manual-focusable--focused': this.isClickable && this.focused,
 
         'q-item--dense': this.dense,
-        'q-item--inset': this.inset,
         'q-item--dark': this.dark,
         'q-item--active': this.active,
         [this.activeClass]: this.active && !this.hasRouterLink && this.activeClass,
 
         'disabled': this.disable
+      }
+    },
+
+    style () {
+      if (this.insetLevel !== void 0) {
+        return {
+          paddingLeft: (16 + this.insetLevel * 56) + 'px'
+        }
       }
     }
   },
@@ -76,7 +84,8 @@ export default Vue.extend({
   render (h) {
     const data = {
       staticClass: 'q-item q-item-type relative-position row no-wrap',
-      class: this.classes
+      class: this.classes,
+      style: this.style
     }
 
     if (this.isClickable) {

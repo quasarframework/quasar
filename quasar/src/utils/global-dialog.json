@@ -1,0 +1,75 @@
+{
+  "methods": {
+    "create": {
+      "desc": "Creates an ad-hoc Dialog; Same as calling $q.dialog(...)",
+      "params": {
+        "opts": {
+          "type": "Object",
+          "required": true,
+          "definition": {
+            "className": {
+              "type": [ "String", "Array", "Object" ],
+              "desc": "CSS Class name to apply to the Dialog",
+              "examples": [ "my-class" ]
+            },
+            "style": {
+              "type": [ "String", "Array", "Object" ],
+              "desc": "CSS style to apply to the Dialog",
+              "examples": [ "border: 2px solid black" ]
+            }
+          }
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "Chainable Object",
+        "definition": {
+          "onOk": {
+            "type": "Function",
+            "desc": "Receives a Function param to tell what to do when OK is pressed / option is selected",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "params": null,
+                "returns": null
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "__exemption": [ "examples" ]
+            }
+          },
+          "onCancel": {
+            "type": "Function",
+            "desc": "Receives a Function as param to tell what to do when Cancel is pressed / dialog is dismissed",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "params": null,
+                "returns": null
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "__exemption": [ "examples" ]
+            }
+          },
+          "hide": {
+            "type": "Function",
+            "desc": "Hides the dialog when called",
+            "params": null,
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "__exemption": [ "examples" ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

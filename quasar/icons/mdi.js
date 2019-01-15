@@ -72,7 +72,8 @@ export default {
     font: 'mdi-format-font'
   },
   expansionItem: {
-    icon: 'mdi-chevron-down'
+    icon: 'mdi-chevron-down',
+    denseIcon: 'mdi-menu-down'
   },
   fab: {
     icon: 'mdi-plus',

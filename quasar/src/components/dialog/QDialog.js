@@ -227,7 +227,7 @@ export default Vue.extend({
         h('transition', {
           props: { name: this.transition }
         }, [
-          this.showing ? h('div', {
+          this.showing === true ? h('div', {
             ref: 'inner',
             staticClass: 'q-dialog__inner fixed-full flex no-pointer-events',
             class: this.classes,

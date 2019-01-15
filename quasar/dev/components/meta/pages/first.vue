@@ -18,7 +18,7 @@
 
     <br><br>
     <div>gigi: {{ as }}</div>
-    {{ $q.i18n.label.clear }}
+    {{ $q.lang.label.clear }}
     <q-btn color="primary" @click="showNotif" label="Notif" />
     <q-btn color="secondary" @click="toggleTitle" label="Toggle Title" />
   </q-page>

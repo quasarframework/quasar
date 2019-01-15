@@ -40,7 +40,8 @@
       "params": {
         "value": {
           "type": [ "String", "Number" ],
-          "desc": "New current panel name"
+          "desc": "New current panel name",
+          "examples": [ "dashboard" ]
         }
       }
     },
@@ -50,11 +51,13 @@
       "params": {
         "newVal": {
           "type": [ "String", "Number" ],
-          "desc": "Panel name towards transition is going"
+          "desc": "Panel name towards transition is going",
+          "examples": [ "dashboard" ]
         },
         "oldVal": {
           "type": [ "String", "Number" ],
-          "desc": "Panel name from which transition is happening"
+          "desc": "Panel name from which transition is happening",
+          "examples": [ "dashboard" ]
         }
       }
     },
@@ -64,11 +67,13 @@
       "params": {
         "newVal": {
           "type": [ "String", "Number" ],
-          "desc": "Panel name towards transition has occurred"
+          "desc": "Panel name towards transition has occurred",
+          "examples": [ "dashboard" ]
         },
         "oldVal": {
           "type": [ "String", "Number" ],
-          "desc": "Panel name from which transition has happened"
+          "desc": "Panel name from which transition has happened",
+          "examples": [ "dashboard" ]
         }
       }
     }
@@ -89,7 +94,8 @@
         "panelName": {
           "type": [ "String", "Number" ],
           "desc": "Panel's name, which may be a String or Number; Number does not refers to panel index, but to its name, which may be an Integer",
-          "required": true
+          "required": true,
+          "examples": [ "dashboard" ]
         }
       }
     }

@@ -8,7 +8,7 @@
 
     "align": {
       "type": "String",
-      "desc": "Horizontal alignmentment the tabs within the tabs container",
+      "desc": "Horizontal alignment the tabs within the tabs container",
       "default": "center",
       "values": [ "left", "center", "right", "justify" ],
       "examples": [ "right" ]
@@ -41,6 +41,7 @@
       "desc": "The name of an icon to replace the default arrow used to scroll through the tabs to the left, when the tabs extend past the width of the tabs container",
       "examples": [ "arrow_left" ]
     },
+
     "right-icon": {
       "type": "String",
       "desc": "The name of an icon to replace the default arrow used to scroll through the tabs to the right, when the tabs extend past the width of the tabs container",

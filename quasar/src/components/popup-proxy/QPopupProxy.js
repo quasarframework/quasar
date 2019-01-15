@@ -43,7 +43,7 @@ export default Vue.extend({
 
   methods: {
     toggle (evt) {
-      return this[this.showing ? 'hide' : 'show'](evt)
+      return this[this.showing === true ? 'hide' : 'show'](evt)
     },
 
     show (evt) {

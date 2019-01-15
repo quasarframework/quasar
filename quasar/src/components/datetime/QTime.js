@@ -95,7 +95,7 @@ export default Vue.extend({
     computedFormat24h () {
       return this.format24h !== null
         ? this.format24h
-        : this.$q.i18n.date.format24h
+        : this.$q.lang.date.format24h
     },
 
     pointerStyle () {

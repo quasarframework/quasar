@@ -64,9 +64,12 @@
 
             <q-item-section>
               <div>
-                <q-chip color="secondary" text-color="white" class="q-mr-sm">
+                <q-chip dense color="secondary" text-color="white" class="q-mr-sm">
                   Using slot
                 </q-chip>
+                <q-badge color="secondary">
+                  Using slot
+                </q-badge>
               </div>
             </q-item-section>
 
@@ -175,7 +178,7 @@
 
       <p class="caption">On dark Background</p>
       <q-expansion-item dark class="bg-black" icon="shopping_cart" label="Toggle me">
-        <q-card dark>
+        <q-card dark class="bg-black">
           <q-card-section>
             {{ lorem }}
           </q-card-section>
@@ -216,6 +219,21 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
+        <q-separator />
+        <q-expansion-item switch-toggle-side dense-toggle icon="mail" label="Inbox" caption="5 unread emails">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+        <q-expansion-item switch-toggle-side dense-toggle icon="mail" label="Inbox" caption="5 unread emails">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
       </q-list>
 
       <p class="caption">Popups</p>
@@ -245,10 +263,10 @@
 
       <p class="caption">Menu</p>
       <q-list bordered>
-        <q-expansion-item expand-separator menu-inset icon="mail" label="Inbox" caption="5 unread emails" default-opened>
-          <q-expansion-item expand-separator menu-inset icon="receipt" label="Receipts">
+        <q-expansion-item expand-separator icon="mail" label="Inbox" :content-inset-level="1" caption="5 unread emails" default-opened>
+          <q-expansion-item expand-separator icon="receipt" label="Receipts">
 
-            <q-expansion-item label="Today">
+            <q-expansion-item label="Today" :header-inset-level="1" :content-inset-level="1">
               <q-card>
                 <q-card-section>
                   {{ lorem }}
@@ -256,7 +274,7 @@
               </q-card>
             </q-expansion-item>
 
-            <q-expansion-item label="Yesterday">
+            <q-expansion-item label="Yesterday" :header-inset-level="1" :content-inset-level="1">
               <q-card>
                 <q-card-section>
                   {{ lorem }}
@@ -266,7 +284,7 @@
 
           </q-expansion-item>
 
-          <q-expansion-item expand-separator menu-inset icon="schedule" label="Postponed">
+          <q-expansion-item expand-separator icon="schedule" label="Postponed">
             <q-card>
               <q-card-section>
                 {{ lorem }}
@@ -276,8 +294,28 @@
 
         </q-expansion-item>
 
-        <q-expansion-item expand-separator menu-inset icon="send" label="Outbox" caption="Empty">
-          <q-expansion-item label="Today">
+        <q-expansion-item expand-separator icon="mail" label="Inbox" caption="5 unread emails" default-opened>
+          <q-expansion-item expand-separator :header-inset-level="1" icon="receipt" label="Receipts">
+
+            <q-expansion-item label="Today" :header-inset-level="2" :content-inset-level="2">
+              <q-card>
+                <q-card-section>
+                  {{ lorem }}
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
+
+            <q-expansion-item label="Yesterday" :header-inset-level="2" :content-inset-level="2">
+              <q-card>
+                <q-card-section>
+                  {{ lorem }}
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
+
+          </q-expansion-item>
+
+          <q-expansion-item expand-separator :header-inset-level="1" :content-inset-level="2" icon="schedule" label="Postponed">
             <q-card>
               <q-card-section>
                 {{ lorem }}
@@ -285,7 +323,49 @@
             </q-card>
           </q-expansion-item>
 
-          <q-expansion-item label="Yesterday">
+        </q-expansion-item>
+
+        <q-expansion-item expand-separator label="Inbox" caption="5 unread emails" :content-inset-level="0.5" default-opened>
+          <q-expansion-item expand-separator label="Receipts">
+
+            <q-expansion-item label="Today" :header-inset-level="0.5" :content-inset-level="0.5">
+              <q-card>
+                <q-card-section>
+                  {{ lorem }}
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
+
+            <q-expansion-item label="Yesterday" :header-inset-level="0.5" :content-inset-level="0.5">
+              <q-card>
+                <q-card-section>
+                  {{ lorem }}
+                </q-card-section>
+              </q-card>
+            </q-expansion-item>
+
+          </q-expansion-item>
+
+          <q-expansion-item expand-separator :content-inset-level="0.5" label="Postponed">
+            <q-card>
+              <q-card-section>
+                {{ lorem }}
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+
+        </q-expansion-item>
+
+        <q-expansion-item expand-separator icon="send" label="Outbox" caption="Empty">
+          <q-expansion-item label="Today" :header-inset-level="1" :content-inset-level="1">
+            <q-card>
+              <q-card-section>
+                {{ lorem }}
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+
+          <q-expansion-item label="Yesterday" :header-inset-level="1" :content-inset-level="1">
             <q-card>
               <q-card-section>
                 {{ lorem }}
@@ -294,7 +374,7 @@
           </q-expansion-item>
         </q-expansion-item>
 
-        <q-expansion-item expand-separator menu-inset icon="drafts" label="Draft" caption="Draft a new email">
+        <q-expansion-item expand-separator :content-inset-level="1" icon="drafts" label="Draft" caption="Draft a new email">
           <q-card>
             <q-card-section>
               {{ lorem }}

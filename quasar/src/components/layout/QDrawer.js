@@ -128,7 +128,7 @@ export default Vue.extend({
     },
 
     'layout.scrollbarWidth' () {
-      this.applyPosition(this.showing ? 0 : void 0)
+      this.applyPosition(this.showing === true ? 0 : void 0)
     },
 
     offset (val) {
@@ -136,7 +136,7 @@ export default Vue.extend({
     },
 
     onLayout (val) {
-      this.$emit('on-layout', val)
+      this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', val)
       this.__update('space', val)
     },
 
@@ -155,7 +155,7 @@ export default Vue.extend({
       this.__update('size', val)
     },
 
-    '$q.i18n.rtl' () {
+    '$q.lang.rtl' () {
       this.applyPosition()
     },
 
@@ -258,7 +258,7 @@ export default Vue.extend({
     },
 
     stateDirection () {
-      return (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1)
+      return (this.$q.lang.rtl ? -1 : 1) * (this.rightSide ? 1 : -1)
     },
 
     isMini () {
@@ -280,7 +280,7 @@ export default Vue.extend({
     applyPosition (position) {
       if (position === void 0) {
         this.$nextTick(() => {
-          position = this.showing ? 0 : this.size
+          position = this.showing === true ? 0 : this.size
 
           this.applyPosition(this.stateDirection * position)
         })
@@ -335,7 +335,7 @@ export default Vue.extend({
       }
 
       this.applyPosition(
-        (this.$q.i18n.rtl ? !this.rightSide : this.rightSide)
+        (this.$q.lang.rtl ? !this.rightSide : this.rightSide)
           ? Math.max(width - position, 0)
           : Math.min(0, position - width)
       )
@@ -358,7 +358,7 @@ export default Vue.extend({
       const
         width = this.size,
         dir = evt.direction === this.side,
-        position = (this.$q.i18n.rtl ? !dir : dir)
+        position = (this.$q.lang.rtl ? !dir : dir)
           ? between(evt.distance.x, 0, width)
           : 0
 
@@ -461,7 +461,8 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.applyPosition(this.showing ? 0 : void 0)
+    this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', this.onLayout)
+    this.applyPosition(this.showing === true ? 0 : void 0)
   },
 
   beforeDestroy () {

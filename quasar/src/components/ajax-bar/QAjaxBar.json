@@ -44,7 +44,8 @@
       "params": {
         "speed": {
           "type": "Number",
-          "desc": "Delay (in milliseconds) between bar progress increments"
+          "desc": "Delay (in milliseconds) between bar progress increments",
+          "examples": [ 400 ]
         }
       }
     },
@@ -54,7 +55,8 @@
       "params": {
         "amount": {
           "type": "Number",
-          "desc": "Amount (0.0 < x < 1.0) to increment with"
+          "desc": "Amount (0.0 < x < 1.0) to increment with",
+          "examples": [ 0.1 ]
         }
       }
     },

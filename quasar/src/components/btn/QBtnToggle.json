@@ -1,0 +1,127 @@
+{
+  "mixins": [ "mixins/ripple" ],
+
+  "props": {
+    "value": {
+      "type": "Any",
+      "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [ "v-model=\"selected\"" ]
+    },
+
+    "options": {
+      "type": "Array",
+      "desc": "Array of Objects defining each option",
+      "definition": {
+        "label": {
+          "type": "String",
+          "desc": "Label of option button; Use this prop and/or 'icon', but at least one is required",
+          "examples": [ "Option 1" ]
+        },
+        "icon": {
+          "extends": "icon",
+          "desc": "Icon of option button; Use this prop and/or 'label', but at least one is required"
+        },
+        "value": {
+          "type": "Any",
+          "desc": "Value of the option that will be used by component model",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+        "...props": {
+          "type": "Any",
+          "desc": "Any other QBtn props",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "examples": [
+        "[ {label: 'One', value: 'one'}, {label: 'Two', value: 'two'} ]"
+      ]
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "toggle-color": {
+      "extends": "color",
+      "default": "primary"
+    },
+
+    "toggle-text-color": {
+      "extends": "text-color"
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design"
+    },
+
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design"
+    },
+
+    "unelevated": {
+      "type": "Boolean",
+      "desc": "Remove shadow"
+    },
+
+    "rounded": {
+      "type": "Boolean",
+      "desc": "Applies a more prominent border-radius for a squared shape button"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design"
+    },
+
+    "size": {
+      "type": "String",
+      "desc": "Button size name or a CSS unit including unit name",
+      "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ]
+    },
+
+    "no-caps": {
+      "type": "Boolean",
+      "desc": "Avoid turning label text into caps (which happens by default)"
+    },
+
+    "no-wrap": {
+      "type": "Boolean",
+      "desc": "Avoid label text wrapping"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "stack": {
+      "type": "Boolean",
+      "desc": "Stack icon and label vertically instead of on same line (like it is by default)"
+    },
+
+    "stretch": {
+      "type": "Boolean",
+      "desc": "When used on flexbox parent, button will stretch to parent's height"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    }
+  }
+}

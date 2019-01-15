@@ -32,7 +32,7 @@ export default {
             key = row[this.rowKey],
             selected = this.isRowSelected(key),
             child = bodyCell
-              ? this.computedCols.map(col => bodyCell(this.addBodyCellMetaData({ row, col: col })))
+              ? this.computedCols.map(col => bodyCell(this.addBodyCellMetaData({ row, col })))
               : this.computedCols.map(col => {
                 const slot = this.$scopedSlots[`body-cell-${col.name}`]
                 return slot

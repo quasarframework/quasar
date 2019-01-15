@@ -361,6 +361,11 @@
         <q-btn :type="tag" round color="secondary" icon="alarm" />
       </div>
 
+      <div class="caption">Rounded Buttons</div>
+      <div class="q-gutter-sm">
+        <q-btn :type="tag" rounded color="secondary" icon="alarm" />
+      </div>
+
       <div class="caption">Glossy Buttons</div>
       <div class="q-gutter-sm">
         <q-btn :type="tag" color="primary" glossy label="Glossy" />
@@ -535,14 +540,6 @@ export default {
     }
   },
   methods: {
-    clickHandler (e) {
-      this.clickTimes++
-    },
-    repeatFunction (timesTriggered) {
-      // first time timesTriggered is 0, so we add 1
-      // to be sure we don't divide by 0
-      return Math.max(300, 1000 / (timesTriggered + 1))
-    },
     startProgress () {
       this.percentage = 0
       this.loading2 = true

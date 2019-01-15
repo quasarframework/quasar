@@ -1,0 +1,85 @@
+{
+  "value": {
+    "type": "Function",
+    "desc": "Handler for panning",
+    "params": {
+      "evt": {
+        "type": "Object",
+        "desc": "Original JS event Object",
+        "__exemption": [ "examples" ]
+      }
+    },
+    "returns": null,
+    "examples": [ "v-touch-repeat=\"fnToCall\"" ]
+  },
+
+  "arg": {
+    "type": "String",
+    "desc": "String of numbers (at least one number) separated by ':' which defines the amount of time to wait for 1st handler call, 2nd, 3rd and so on; All subsequent calls will use last value as time to wait until triggering",
+    "default": "0:600:300",
+    "examples": [ "v-touch-repeat:0:400=\"fnToCall\"" ]
+  },
+
+  "modifiers": {
+    "stop": {
+      "type": "Boolean",
+      "desc": "Stop event propagation"
+    },
+
+    "prevent": {
+      "type": "Boolean",
+      "desc": "Calls event.preventDefault()"
+    },
+
+    "esc": {
+      "type": "Boolean",
+      "desc": "Catch ESC key"
+    },
+
+    "tab": {
+      "type": "Boolean",
+      "desc": "Catch TAB key"
+    },
+
+    "enter": {
+      "type": "Boolean",
+      "desc": "Catch ENTER key"
+    },
+
+    "space": {
+      "type": "Boolean",
+      "desc": "Catch SPACE key"
+    },
+
+    "up": {
+      "type": "Boolean",
+      "desc": "Catch UP arrow key"
+    },
+
+    "left": {
+      "type": "Boolean",
+      "desc": "Catch LEFT arrow key"
+    },
+
+    "right": {
+      "type": "Boolean",
+      "desc": "Catch RIGHT arrow key"
+    },
+
+    "down": {
+      "type": "Boolean",
+      "desc": "Catch DOWN key"
+    },
+
+    "delete": {
+      "type": "Boolean",
+      "desc": "Catch DELETE key"
+    },
+
+    "[keycode]": {
+      "type": "Number",
+      "desc": "Key code to catch",
+      "examples": [ "v-touch-repeat.68=\"fnToCall\"" ]
+    }
+  }
+}

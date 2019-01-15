@@ -22,8 +22,8 @@ export default {
 
     multiple: Boolean,
     accept: String,
-    maxFileSize: [String, Number],
-    maxTotalSize: [String, Number],
+    maxFileSize: Number,
+    maxTotalSize: Number,
     filter: Function,
     noThumbnails: Boolean,
     autoUpload: Boolean,

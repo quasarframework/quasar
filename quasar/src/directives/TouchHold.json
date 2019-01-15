@@ -1,0 +1,67 @@
+{
+  "value": {
+    "type": "Function",
+    "desc": "Function to call after user has hold touch/click for the specified amount of time",
+    "params": {
+      "details": {
+        "type": "Object",
+        "desc": "Touch details",
+        "required": true,
+        "definition": {
+          "evt": {
+            "type": "Object",
+            "desc": "Original JS event Object",
+            "__exemption": [ "examples" ]
+          },
+          "position": {
+            "type": "Object",
+            "desc": "Event Position Object",
+            "definition": {
+              "top": {
+                "type": "Number",
+                "desc": "Vertical offset from top of window",
+                "examples": [ 235 ]
+              },
+              "left": {
+                "type": "Number",
+                "desc": "Horizontal offset from left of window",
+                "examples": [ 235 ]
+              }
+            }
+          },
+          "duration": {
+            "type": "Number",
+            "desc": "How long it took to trigger the event (in milliseconds)",
+            "examples": [ 612 ]
+          }
+        }
+      }
+    },
+    "returns": null,
+    "examples": [ "v-touch-hold=\"fnToCall\"" ]
+  },
+
+  "arg": {
+    "type": "Number",
+    "desc": "Amount of time to wait (in milliseconds)",
+    "default": 600,
+    "examples": [ "v-touch-hold:400=\"fnToCall\"" ]
+  },
+
+  "modifiers": {
+    "stop": {
+      "type": "Boolean",
+      "desc": "Stop event propagation"
+    },
+
+    "prevent": {
+      "type": "Boolean",
+      "desc": "Calls event.preventDefault()"
+    },
+
+    "noMouse": {
+      "type": "Boolean",
+      "desc": "Disregard mouse events and handle only touch events"
+    }
+  }
+}

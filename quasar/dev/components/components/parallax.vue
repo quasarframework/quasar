@@ -24,11 +24,11 @@
 
       <div
         slot="content"
-        slot-scope="scrolled"
+        slot-scope="scope"
         class="absolute column items-center"
         :style="{
-          opacity: 0.45 + (1 - scrolled) * 0.55,
-          top: (scrolled * 60) + '%',
+          opacity: 0.45 + (1 - scope.percentScrolled) * 0.55,
+          top: (scope.percentScrolled * 60) + '%',
           left: 0,
           right: 0
         }"

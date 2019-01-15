@@ -20,7 +20,8 @@
       "params": {
         "target": {
           "type": "String",
-          "desc": "Optional CSS selector of target to request Fullscreen on"
+          "desc": "Optional CSS selector of target to request Fullscreen on",
+          "examples": [ "div.dashboard div.description" ]
         }
       }
     },
@@ -34,7 +35,8 @@
       "params": {
         "target": {
           "type": "String",
-          "desc": "Optional CSS selector of target to request Fullscreen on"
+          "desc": "Optional CSS selector of target to request Fullscreen on",
+          "examples": [ "div.dashboard div.description" ]
         }
       }
     }

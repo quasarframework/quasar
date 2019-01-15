@@ -2,8 +2,14 @@
   "injection": "$q.loadingBar",
 
   "quasarConfOptions": {
-    "propname": "loadingBar",
-    "props": "QAjaxBar component props"
+    "propName": "loadingBar",
+    "definition": {
+      "...props": {
+        "type": "Object",
+        "desc": "QAjaxBar component props",
+        "__exemption": [ "examples" ]
+      }
+    }
   },
 
   "methods": {
@@ -12,7 +18,8 @@
       "params": {
         "speed": {
           "type": "Number",
-          "desc": "Delay (in milliseconds) between bar progress increments"
+          "desc": "Delay (in milliseconds) between bar progress increments",
+          "examples": [ 150 ]
         }
       }
     },
@@ -26,7 +33,8 @@
       "params": {
         "amount": {
           "type": "Number",
-          "desc": "Amount (0.0 < x < 1.0) to increment with"
+          "desc": "Amount (0.0 < x < 1.0) to increment with",
+          "examples": [ 0.22 ]
         }
       }
     }

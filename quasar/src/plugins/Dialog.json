@@ -1,0 +1,23 @@
+{
+  "mixins": [ "utils/global-dialog" ],
+
+  "injection": "$q.dialog",
+
+  "methods": {
+    "create": {
+      "desc": "Creates an ad-hoc Dialog; Same as calling $q.dialog(...)",
+      "params": {
+        "opts": {
+          "desc": "Dialog options",
+          "definition": {
+            "...props": {
+              "type": "Any",
+              "desc": "Other QDialog properties",
+              "__exemption": [ "examples" ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

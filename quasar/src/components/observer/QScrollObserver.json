@@ -17,7 +17,8 @@
           "definition": {
             "position": {
               "type": "Number",
-              "desc": "Scroll offset (from top)"
+              "desc": "Scroll offset (from top)",
+              "examples": [ 822 ]
             },
             "direction": {
               "type": "String",
@@ -30,7 +31,8 @@
             },
             "inflexionPosition": {
               "type": "Number",
-              "desc": "Last scroll offset where scroll direction has changed"
+              "desc": "Last scroll offset where scroll direction has changed",
+              "examples": [ 822 ]
             }
           }
         }

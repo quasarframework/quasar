@@ -42,6 +42,17 @@
     "validate": {
       "type": "Function",
       "desc": "Validates model then triggers 'save' and closes Popup; Returns a Boolean ('true' means valid, 'false' means abort); Syntax: validate(value)",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "Model to validate",
+          "examples": [ "My car" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is the model valid or not?"
+      },
       "examples": [
         ":validate=\"myValidation\""
       ]
@@ -81,11 +92,13 @@
       "params": {
         "value": {
           "type": "Any",
-          "desc": "Validated value to be saved"
+          "desc": "Validated value to be saved",
+          "__exemption": [ "examples" ]
         },
         "initialValue": {
           "type": "Any",
-          "desc": "Initial value, before changes"
+          "desc": "Initial value, before changes",
+          "__exemption": [ "examples" ]
         }
       }
     },
@@ -95,11 +108,13 @@
       "params": {
         "value": {
           "type": "Any",
-          "desc": "Edited value"
+          "desc": "Edited value",
+          "__exemption": [ "examples" ]
         },
         "initialValue": {
           "type": "Any",
-          "desc": "Initial value, before changes"
+          "desc": "Initial value, before changes",
+          "__exemption": [ "examples" ]
         }
       }
     }

@@ -1,0 +1,39 @@
+{
+  "props": {
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design for buttons"
+    },
+
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design for buttons"
+    },
+
+    "unelevated": {
+      "type": "Boolean",
+      "desc": "Remove shadow on buttons"
+    },
+
+    "rounded": {
+      "type": "Boolean",
+      "desc": "Applies a more prominent border-radius for squared shape buttons"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design for buttons"
+    },
+
+    "stretch": {
+      "type": "Boolean",
+      "desc": "When used on flexbox parent, buttons will stretch to parent's height"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QBtn"
+    }
+  }
+}

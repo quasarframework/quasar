@@ -47,7 +47,8 @@
         "value": {
           "type": [ "Number", "String" ],
           "desc": "Value to set",
-          "required": true
+          "required": true,
+          "examples": [ 5 ]
         }
       }
     }

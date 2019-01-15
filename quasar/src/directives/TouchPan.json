@@ -1,0 +1,135 @@
+{
+  "value": {
+    "type": "Function",
+    "desc": "Handler for panning",
+    "params": {
+      "details": {
+        "type": "Object",
+        "desc": "Touch details",
+        "definition": {
+          "evt": {
+            "type": "Object",
+            "desc": "Original JS event Object",
+            "__exemption": [ "examples" ]
+          },
+          "position": {
+            "type": "Object",
+            "desc": "Event Position Object",
+            "definition": {
+              "top": {
+                "type": "Number",
+                "desc": "Vertical offset from top of window",
+                "examples": [ 235 ]
+              },
+              "left": {
+                "type": "Number",
+                "desc": "Horizontal offset from left of window",
+                "examples": [ 235 ]
+              }
+            }
+          },
+          "direction": {
+            "type": "String",
+            "desc": "Direction of movement",
+            "values": [ "up", "right", "down", "left" ]
+          },
+          "isFirst": {
+            "type": "Boolean",
+            "desc": "Is first time the handler is called since movement started"
+          },
+          "isFinal": {
+            "type": "Boolean",
+            "desc": "Is last time the handler is called since movement ended"
+          },
+          "duration": {
+            "type": "Number",
+            "desc": "How long it took to trigger the event (in milliseconds)",
+            "examples": [ 612 ]
+          },
+          "distance": {
+            "type": "Object",
+            "desc": "Absolute distance (in pixels) since movement started from initial point",
+            "definition": {
+              "x": {
+                "type": "Number",
+                "desc": "Absolute distance horizontally",
+                "examples": [ 231 ]
+              },
+              "y": {
+                "type": "Number",
+                "desc": "Absolute distance vertically",
+                "examples": [ 231 ]
+              }
+            }
+          },
+          "offset": {
+            "type": "Object",
+            "desc": "Distance (in pixels) since movement started from initial point",
+            "definition": {
+              "x": {
+                "type": "Number",
+                "desc": "Distance horizontally",
+                "examples": [ -231, 110 ]
+              },
+              "y": {
+                "type": "Number",
+                "desc": "Distance vertically",
+                "examples": [ -231, 110 ]
+              }
+            }
+          },
+          "delta": {
+            "type": "Object",
+            "desc": "Delta of distance (in pixels) since handler was called last time",
+            "definition": {
+              "x": {
+                "type": "Number",
+                "desc": "Distance horizontally",
+                "examples": [ 2 ]
+              },
+              "y": {
+                "type": "Number",
+                "desc": "Distance vertically",
+                "examples": [ 1 ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "returns": null,
+    "examples": [ "v-touch-pan=\"fnToCall\"" ]
+  },
+
+  "modifiers": {
+    "stop": {
+      "type": "Boolean",
+      "desc": "Stop event propagation"
+    },
+
+    "prevent": {
+      "type": "Boolean",
+      "desc": "Calls event.preventDefault()"
+    },
+
+    "mightPrevent": {
+      "type": "Boolean",
+      "desc": "Required when you might call event.stopPropagation() in your handler"
+    },
+
+    "noMouse": {
+      "type": "Boolean",
+      "desc": "Disregard mouse events and handle only touch events"
+    },
+
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Catch horizontal movement; If 'horizontal' or 'vertical' are not specified, then both directions are considered by default"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Catch vertical movement; If 'horizontal' or 'vertical' are not specified, then both directions are considered by default"
+    }
+  }
+}

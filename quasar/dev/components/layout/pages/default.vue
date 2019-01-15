@@ -26,6 +26,10 @@
         <q-toolbar-title>Title</q-toolbar-title>
       </q-toolbar>
     </q-page-sticky>
+
+    <q-page-scroller position="bottom">
+      <q-btn fab icon="keyboard_arrow_up" color="red" />
+    </q-page-scroller>
   </q-page>
 </template>
 

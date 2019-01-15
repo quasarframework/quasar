@@ -1,0 +1,46 @@
+{
+  "name": "docs",
+  "version": "0.0.1",
+  "description": "Official Quasar Docs Website",
+  "productName": "quasar-docs",
+  "cordovaId": "org.cordova.quasar.app",
+  "author": "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue src",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.0.0-alpha.0",
+    "prismjs": "^1.15.0",
+    "quasar": "^1.0.0-alpha.0",
+    "vuex": "^3.0.1",
+    "vuex-router-sync": "^5.0.0"
+  },
+  "devDependencies": {
+    "@quasar/app": "^1.0.0-alpha.0",
+    "@vue/eslint-config-standard": "^4.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.10.0",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-vue": "^5.0.0",
+    "gray-matter": "^4.0.2",
+    "markdown-it": "^8.4.2",
+    "markdown-it-container": "^2.0.0",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
+    "raw-loader": "^1.0.0",
+    "strip-ansi": "=3.0.1",
+    "toml": "^2.3.5"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ]
+}

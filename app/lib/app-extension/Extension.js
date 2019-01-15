@@ -9,7 +9,7 @@ module.exports = class Extension {
     if (name.charAt(0) === '@') {
       const slashIndex = name.indexOf('/')
       if (slashIndex === -1) {
-        warn(`⚠️  Invalid App Extension name: "${name}"`)
+        warn(`⚠️  Invalid Quasar App Extension name: "${name}"`)
         process.exit(1)
       }
 
@@ -41,16 +41,16 @@ module.exports = class Extension {
   }
 
   async install (skipPkgInstall) {
-    log(`Installing "${this.extId}" App Extension`)
+    log(`Installing "${this.extId}" Quasar App Extension`)
     log()
-
+   
     // verify if already installed
     if (skipPkgInstall !== true && this.isInstalled()) {
       const inquirer = require('inquirer')
       const answer = await inquirer.prompt([{
         name: 'reinstall',
         type: 'confirm',
-        message: `Already installed. Reinstall "${name}"?`,
+        message: `Already installed. Reinstall "${this.name}"?`,
         default: false
       }])
 
@@ -70,7 +70,7 @@ module.exports = class Extension {
     const extensionJson = require('./extension-json')
     extensionJson.add(this.extId, prompts)
 
-    log(`App Extension "${this.extId}" successfully installed.`)
+    log(`Quasar App Extension "${this.extId}" successfully installed.`)
     log()
 
     if (hooks && hooks.exitLog.length > 0) {
@@ -101,7 +101,7 @@ module.exports = class Extension {
     // yarn/npm uninstall
     skipPkgUninstall !== true && this.__uninstallPackage()
 
-    log(`App Extension "${this.extId}" successfully removed.`)
+    log(`Quasar App Extension "${this.extId}" successfully removed.`)
     log()
 
     if (hooks && hooks.exitLog.length > 0) {
@@ -128,7 +128,7 @@ module.exports = class Extension {
       ctx
     })
 
-    log(`Running "${this.extId}" App Extension...`)
+    log(`Running "${this.extId}" Quasar App Extension...`)
     await script(api, ctx)
 
     return api.__getHooks()
@@ -137,7 +137,7 @@ module.exports = class Extension {
   __stripVersion (packageFullName) {
     const index = packageFullName.indexOf('@')
 
-    return packageFullName > -1
+    return index > -1
       ? packageFullName.substring(0, index)
       : packageFullName
   }

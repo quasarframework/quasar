@@ -1,0 +1,80 @@
+@import '~quasar-variables'
+
+body
+  background-color #000
+
+.doc-token
+  white-space nowrap
+  background #ffd9d9
+  font-weight 600
+  color $negative
+  border-radius $generic-border-radius
+  padding 0 5px
+  margin 0
+
+.doc-note
+  background-color $grey-4
+  border-radius $generic-border-radius
+  margin 16px 0
+  padding 16px 24px
+  font-size 1em
+  border-width 0 5px 0
+  border-style solid
+  border-color $primary
+  letter-spacing .5px
+
+  > p
+    margin-bottom 0
+
+  &--tip
+    background-color alpha($positive, .3)
+    border-color $positive
+
+  &--warning
+    background-color alpha($warning, .3)
+    border-color $warning
+
+  &--danger
+    background-color alpha($negative, .3)
+    border-color $negative
+
+  &__title
+    font-weight 500
+
+.doc-heading
+  color $primary
+  cursor pointer
+
+  &:after
+    content ' #'
+    opacity 0
+  &:hover:after
+    opacity 1
+
+.doc-h1
+  font-size 3.84rem
+  margin 0 0 2rem
+
+.doc-h2
+  font-size 2.4rem
+  border-bottom 1px solid #ccc
+  margin 4rem 0 2rem
+
+.doc-h3
+  font-size 1.92rem
+  margin 2rem 0 1.5rem
+
+.doc-h4
+  font-size 1.36rem
+  margin 1rem 0
+
+.doc-h5
+  font-size 0.9rem
+  margin 1rem 0
+
+.doc-h6
+  font-size 0.8rem
+  margin 1rem 0
+
+.doc-img
+  max-width 100%

@@ -40,14 +40,9 @@
       "desc": "Model for QChip if it's selected or not"
     },
 
-    "floating": {
-      "type": "Boolean",
-      "desc": "Tell the QChip if it should float to the top right side of the relative positioned parent element or not"
-    },
-
     "pointing": {
       "type": "String",
-      "desc": "Does the QChip to display a pointer arrow",
+      "desc": "Does the QChip to display a pointer arrow (not to be used along with 'outline' prop)",
       "values": [ "up", "right", "down", "left" ],
       "examples": [ "up" ]
     },
@@ -92,7 +87,8 @@
       "params": {
         "evt": {
           "type": "Object",
-          "desc": "JS event object"
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
         }
       }
     },

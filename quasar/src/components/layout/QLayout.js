@@ -74,15 +74,15 @@ export default Vue.extend({
     // used by container only
     targetStyle () {
       if (this.scrollbarWidth !== 0) {
-        return { [this.$q.i18n.rtl ? 'left' : 'right']: `${this.scrollbarWidth}px` }
+        return { [this.$q.lang.rtl ? 'left' : 'right']: `${this.scrollbarWidth}px` }
       }
     },
 
     targetChildStyle () {
       if (this.scrollbarWidth !== 0) {
         return {
-          [this.$q.i18n.rtl ? 'right' : 'left']: 0,
-          [this.$q.i18n.rtl ? 'left' : 'right']: `-${this.scrollbarWidth}px`,
+          [this.$q.lang.rtl ? 'right' : 'left']: 0,
+          [this.$q.lang.rtl ? 'left' : 'right']: `-${this.scrollbarWidth}px`,
           width: `calc(100% + ${this.scrollbarWidth}px)`
         }
       }

@@ -1,0 +1,91 @@
+{
+  "value": {
+    "type": "Function",
+    "desc": "Handler for swipe",
+    "params": {
+      "details": {
+        "type": "Object",
+        "desc": "Touch details",
+        "definition": {
+          "evt": {
+            "type": "Object",
+            "desc": "Original JS event Object",
+            "__exemption": [ "examples" ]
+          },
+          "direction": {
+            "type": "String",
+            "desc": "Direction of movement",
+            "values": [ "up", "right", "down", "left" ]
+          },
+          "duration": {
+            "type": "Number",
+            "desc": "How long it took to trigger the event (in milliseconds)",
+            "examples": [ 612 ]
+          },
+          "distance": {
+            "type": "Object",
+            "desc": "Absolute distance (in pixels) since movement started from initial point",
+            "definition": {
+              "x": {
+                "type": "Number",
+                "desc": "Absolute distance horizontally",
+                "examples": [ 231 ]
+              },
+              "y": {
+                "type": "Number",
+                "desc": "Absolute distance vertically",
+                "examples": [ 231 ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "returns": null,
+    "examples": [ "v-touch-swipe=\"fnToCall\"" ]
+  },
+
+  "arg": {
+    "type": "Number",
+    "desc": "Amount of time to wait (in milliseconds) to determine if it was a swipe indeed",
+    "default": 300,
+    "examples": [ "v-touch-swipe:400=\"fnToCall\"" ]
+  },
+
+  "modifiers": {
+    "noMouse": {
+      "type": "Boolean",
+      "desc": "Disregard mouse events and handle only touch events"
+    },
+
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Catch horizontal (left/right) movement"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Catch vertical (up/down) movement"
+    },
+
+    "up": {
+      "type": "Boolean",
+      "desc": "Catch swipe up"
+    },
+
+    "right": {
+      "type": "Boolean",
+      "desc": "Catch swipe right"
+    },
+
+    "down": {
+      "type": "Boolean",
+      "desc": "Catch swipe down"
+    },
+
+    "left": {
+      "type": "Boolean",
+      "desc": "Catch swipe left"
+    }
+  }
+}

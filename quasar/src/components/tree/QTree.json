@@ -1,0 +1,483 @@
+{
+  "props": {
+    "nodes": {
+      "type": "Array",
+      "desc": "The array of nodes that designates the tree structure",
+      "required": true,
+      "examples": [ "[ {...}, {...} ]" ]
+    },
+
+    "node-key": {
+      "type": "String",
+      "desc": "The property name of each node object that holds a unique node id",
+      "required": true,
+      "examples": [ "key", "id" ]
+    },
+
+    "label-key": {
+      "type": "String",
+      "desc": "The property name of each node object that holds the label of the node",
+      "default": "label",
+      "examples": [ "name", "description" ]
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "control-color": {
+      "extends": "color",
+      "desc": "Color name for controls (like checkboxes) from the Quasar Color Palette"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "selected-color": {
+      "extends": "color",
+      "desc": "Color name for selected nodes (from the Quasar Color Palette)"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "tick-strategy": {
+      "type": "String",
+      "desc": "The type of strategy to use for the selection of the nodes",
+      "default": "none",
+      "values": [ "none", "strict", "leaf", "leaf-filtered" ]
+    },
+
+    "ticked": {
+      "type": "Array",
+      "desc": "Keys of nodes that are ticked",
+      "sync": true,
+      "examples": [ ":ticked.sync=\"tickedKeys\"" ]
+    },
+
+    "expanded": {
+      "type": "Array",
+      "desc": "Keys of nodes that are expanded",
+      "sync": true,
+      "examples": [ ":expanded.sync=\"expandedKeys\"" ]
+    },
+
+    "selected": {
+      "type": "Any",
+      "desc": "Key of node currently selected",
+      "sync": true,
+      "examples": [ ":selected.sync=\"selectedKey\"" ]
+    },
+
+    "default-expand-all": {
+      "type": "Boolean",
+      "desc": "Allow the tree to have all its branches expanded, when first rendered"
+    },
+
+    "accordion": {
+      "type": "Boolean",
+      "desc": "Allows the tree to be set in accordion mode"
+    },
+
+    "filter": {
+      "type": "String",
+      "desc": "The text value to be used for filtering nodes",
+      "examples": [ ":filter=\"searchText\"" ]
+    },
+
+    "filter-method": {
+      "type": "Function",
+      "desc": "The function to use to filter the tree nodes",
+      "default": "(see source code)",
+      "params": {
+        "node": {
+          "type": "Object",
+          "desc": "Node currently being filtered",
+          "__exemption": [ "examples" ]
+        },
+        "filter": {
+          "type": "String",
+          "desc": "Filter text to match against",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Matches or not"
+      }
+    },
+
+    "duration": {
+      "type": "Number",
+      "desc": "Toggle animation duration (in milliseconds)",
+      "default": 300,
+      "examples": [ ":duration=\"500\"" ]
+    },
+
+    "no-nodes-label": {
+      "type": "String",
+      "desc": "Override default such label for when no nodes are available",
+      "examples": [ "No nodes to show!" ]
+    },
+
+    "no-results-label": {
+      "type": "String",
+      "desc": "Override default such label for when no nodes are available due to filtering",
+      "examples": [ "No results" ]
+    }
+  },
+
+  "scopedSlots": {
+    "default-header": {
+      "desc": "Slot to use for defining the header of a node",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is node expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "ticked": {
+          "type": "Boolean",
+          "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
+          "reactive": true
+        },
+        "tree": {
+          "type": "Object",
+          "desc": "QTree instance",
+          "__exemption": [ "examples" ]
+        },
+        "node": {
+          "type": "Object",
+          "desc": "Node object",
+          "__exemption": [ "examples" ]
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Node's key",
+          "__exemption": [ "examples" ]
+        },
+        "color": {
+          "type": "String",
+          "desc": "QTree instance 'color' supplied prop value",
+          "examples": [ "primary" ]
+        },
+        "dark": {
+          "type": "Boolean",
+          "desc": "QTree instance 'dark' supplied prop value"
+        }
+      }
+    },
+
+    "header-[name]": {
+      "desc": "Header template slot for describing node header; Used by nodes which have their 'header' prop set to '[name]', where '[name]' can be any string",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is node expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "ticked": {
+          "type": "Boolean",
+          "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
+          "reactive": true
+        },
+        "tree": {
+          "type": "Object",
+          "desc": "QTree instance",
+          "__exemption": [ "examples" ]
+        },
+        "node": {
+          "type": "Object",
+          "desc": "Node object",
+          "__exemption": [ "examples" ]
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Node's key",
+          "__exemption": [ "examples" ]
+        },
+        "color": {
+          "type": "String",
+          "desc": "QTree instance 'color' supplied prop value",
+          "examples": [ "primary" ]
+        },
+        "dark": {
+          "type": "Boolean",
+          "desc": "QTree instance 'dark' supplied prop value"
+        }
+      }
+    },
+
+    "default-body": {
+      "desc": "Slot to use for defining the body of a node",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is node expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "ticked": {
+          "type": "Boolean",
+          "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
+          "reactive": true
+        },
+        "tree": {
+          "type": "Object",
+          "desc": "QTree instance",
+          "__exemption": [ "examples" ]
+        },
+        "node": {
+          "type": "Object",
+          "desc": "Node object",
+          "__exemption": [ "examples" ]
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Node's key",
+          "__exemption": [ "examples" ]
+        },
+        "color": {
+          "type": "String",
+          "desc": "QTree instance 'color' supplied prop value",
+          "examples": [ "primary" ]
+        },
+        "dark": {
+          "type": "Boolean",
+          "desc": "QTree instance 'dark' supplied prop value"
+        }
+      }
+    },
+
+    "body-[name]": {
+      "desc": "Body template slot for describing node body; Used by nodes which have their 'body' prop set to '[name]', where '[name]' can be any string",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is node expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "ticked": {
+          "type": "Boolean",
+          "desc": "Is node ticked? Can directly be assigned new Boolean value which changes ticked state",
+          "reactive": true
+        },
+        "tree": {
+          "type": "Object",
+          "desc": "QTree instance",
+          "__exemption": [ "examples" ]
+        },
+        "node": {
+          "type": "Object",
+          "desc": "Node object",
+          "__exemption": [ "examples" ]
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Node's key",
+          "__exemption": [ "examples" ]
+        },
+        "color": {
+          "type": "String",
+          "desc": "QTree instance 'color' supplied prop value",
+          "examples": [ "primary" ]
+        },
+        "dark": {
+          "type": "Boolean",
+          "desc": "QTree instance 'dark' supplied prop value"
+        }
+      }
+    }
+  },
+
+  "events": {
+    "update:expanded": {
+      "desc": "Triggered when nodes are expanded or collapsed; Used by Vue on 'update' synched prop",
+      "params": {
+        "expanded": {
+          "type": "Array",
+          "desc": "The expanded node keys",
+          "examples": [ "[ 'Node 1', 'Node 2' ]" ]
+        }
+      }
+    },
+
+    "lazy-load": {
+      "desc": "Emitted when the lazy loading of nodes is finished",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Lazy loading details",
+          "definition": {
+            "node": {
+              "type": "Object",
+              "desc": "The node to which the new nodes (the children) will be appended",
+              "__exemption": [ "examples" ]
+            },
+            "key": {
+              "type": "String",
+              "desc": "The key of the node getting the newly loaded child nodes",
+              "examples": [ "New Node" ]
+            },
+            "done": {
+              "type": "Function",
+              "desc": "The callback to be carried out when the loading is successful",
+              "params": {
+                "children": {
+                  "type": "Array",
+                  "desc": "Array of nodes",
+                  "__exemption": [ "examples" ]
+                }
+              },
+              "returns": null
+            },
+            "fail": {
+              "type": "Function",
+              "desc": "The callback to be carried out should the loading fails",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    },
+
+    "update:ticked": {
+      "desc": "Emitted when nodes are ticked/unticked via the checkbox; Used by Vue on 'ticked' synched prop",
+      "params": {
+        "target": {
+          "type": "Array",
+          "desc": "The ticked node keys",
+          "examples": [ "[ 'Node 1', 'Node 2' ]" ]
+        }
+      }
+    },
+
+    "update:selected": {
+      "desc": "Emitted when selected node changes; Used by Vue on 'selected' synched prop",
+      "params": {
+        "target": {
+          "type": "Any",
+          "desc": "The selected node key",
+          "examples": [ "Node 1" ]
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "getNodeByKey": {
+      "desc": "Get the node with the given key",
+      "params": {
+        "key": {
+          "type": "Any",
+          "desc": "The key of a node",
+          "required": true,
+          "examples": [ "Node 1" ]
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "Requested node",
+        "__exemption": [ "examples" ]
+      }
+    },
+
+    "getTickedNodes": {
+      "desc": "Get array of nodes that are ticked",
+      "returns": {
+        "type": "Array",
+        "desc": "Ticked node objects",
+        "__exemption": [ "examples" ]
+      }
+    },
+
+    "getExpandedNodes": {
+      "desc": "Get array of nodes that are expanded",
+      "returns": {
+        "type": "Array",
+        "desc": "Expanded node objects",
+        "__exemption": [ "examples" ]
+      }
+    },
+
+    "isExpanded": {
+      "desc": "Determine if a node is expanded",
+      "params": {
+        "key": {
+          "type": "Any",
+          "desc": "The key of a node",
+          "required": true,
+          "examples": [ "Node 1" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is specified node expanded?"
+      }
+    },
+
+    "expandAll": {
+      "desc": "Use to expand all branches of the tree"
+    },
+
+    "collapseAll": {
+      "desc": "Use to collapse all branches of the tree"
+    },
+
+    "setExpanded": {
+      "desc": "Expands the tree at the point of the node with the key given",
+      "params": {
+        "key": {
+          "type": "Any",
+          "desc": "The key of a node",
+          "required": true,
+          "examples": [ "Node 1" ]
+        },
+        "state": {
+          "type": "Boolean",
+          "desc": "Set to 'true' to expand the branch of the tree, otherwise 'false' collapses it",
+          "required": true
+        }
+      }
+    },
+
+    "isTicked": {
+      "desc": "Method to check if a node's checkbox is selected or not",
+      "params": {
+        "key": {
+          "type": "Any",
+          "desc": "The key of a node",
+          "required": true,
+          "examples": [ "Node 1" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is specified node ticked?"
+      }
+    },
+
+    "setTicked": {
+      "desc": "Method to set a node's checkbox programmatically",
+      "params": {
+        "keys": {
+          "type": "Array",
+          "desc": "The keys of nodes to tick/untick",
+          "required": true,
+          "examples": [ "[ 'Node 1', 'Node 2' ]" ]
+        },
+        "state": {
+          "type": "Boolean",
+          "desc": "Set to 'true' to tick the checkbox of nodes, otherwise 'false' unticks them",
+          "required": true
+        }
+      }
+    }
+  }
+}

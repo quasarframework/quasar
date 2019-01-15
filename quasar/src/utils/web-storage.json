@@ -6,39 +6,68 @@
         "key": {
           "type": "String",
           "desc": "Entry key",
-          "required": true
+          "required": true,
+          "examples": [ "userId" ]
         }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Does the item exists or not?"
       }
     },
 
     "getLength": {
-      "desc": "Get storage number of entries"
+      "desc": "Get storage number of entries",
+      "returns": {
+        "type": "Number",
+        "desc": "Number of entries",
+        "examples": [ 21 ]
+      }
     },
 
     "getItem": {
-      "desc": "Get a storage item",
+      "desc": "Get a storage item value",
       "params": {
         "key": {
           "type": "String",
           "desc": "Entry key",
-          "required": true
+          "required": true,
+          "examples": [ "userId" ]
         }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Storage item value",
+        "examples": [ "john12" ]
       }
     },
 
     "getIndex": {
-      "desc": "Get the storage item at specific index",
+      "desc": "Get the storage item value at specific index",
       "params": {
         "index": {
-          "type": "String",
+          "type": "Number",
           "desc": "Entry index",
-          "required": true
+          "required": true,
+          "examples": [ 5 ]
         }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Storage item value",
+        "examples": [ "john12" ]
       }
     },
 
     "getAll": {
-      "desc": "Get all items in storage"
+      "desc": "Retrieve all items in storage",
+      "returns": {
+        "type": "Object",
+        "desc": "Object syntax: item name as Object key and its value",
+        "examples": [
+          "{ userId: 'jon12', timesLoggedIn: 14 }"
+        ]
+      }
     },
 
     "set": {
@@ -47,13 +76,15 @@
         "key": {
           "type": "String",
           "desc": "Entry key",
-          "required": true
+          "required": true,
+          "examples": [ "userId" ]
         },
 
         "value": {
           "type": "String",
           "desc": "Entry value",
-          "required": true
+          "required": true,
+          "examples": [ "john12" ]
         }
       }
     },
@@ -64,7 +95,8 @@
         "key": {
           "type": "String",
           "desc": "Storage key",
-          "required": true
+          "required": true,
+          "examples": [ "userId" ]
         }
       }
     },
@@ -74,7 +106,11 @@
     },
 
     "isEmpty": {
-      "desc": "Returns a Boolean telling if storage is empty or not"
+      "desc": "Determine if storage has any items",
+      "returns": {
+        "type": "Boolean",
+        "desc": "Tells if storage is empty or not"
+      }
     }
   }
 }

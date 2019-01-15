@@ -35,7 +35,9 @@
           "definition": {
             "reset": {
               "type": "Function",
-              "desc": "When called, it resets the component to its initial non-slided state"
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
             }
           }
         }
@@ -51,7 +53,9 @@
           "definition": {
             "reset": {
               "type": "Function",
-              "desc": "When called, it resets the component to its initial non-slided state"
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
             }
           }
         }
@@ -72,7 +76,9 @@
             },
             "reset": {
               "type": "Function",
-              "desc": "When called, it resets the component to its initial non-slided state"
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
             }
           }
         }

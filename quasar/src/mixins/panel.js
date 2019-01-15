@@ -148,6 +148,10 @@ export const PanelParentMixin = {
     },
 
     __getPanelContent (h) {
+      if (this.$slots.default === void 0) {
+        return
+      }
+
       const panel = this.value &&
         this.__updatePanelIndex() &&
         this.$slots.default[this.panelIndex]

@@ -1,0 +1,83 @@
+{
+  "mixins": [ "components/btn/__btn-mixin", "mixins/model-toggle" ],
+
+  "props": {
+    "value": {
+      "desc": "Controls Menu show/hidden state; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [ "v-model=\"menuState\"" ]
+    },
+
+    "split": {
+      "type": "Boolean",
+      "desc": "Split dropdown icon into its own button"
+    },
+
+    "content-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the menu",
+      "examples": [
+        "background-color: #ff0000",
+        ":content-style=\"{ backgroundColor: '#ff0000' }\""
+      ]
+    },
+
+    "content-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the menu",
+      "examples": [
+        "my-special-class",
+        ":content-class=\"{ 'my-special-class': <condition> }\""
+      ]
+    },
+
+    "cover": {
+      "type": "Boolean",
+      "desc": "Allows the menu to cover the button. When used, the 'menu-self' and 'menu-fit' props are no longer effective"
+    },
+
+    "persistent": {
+      "type": "Boolean",
+      "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key"
+    },
+
+    "auto-close": {
+      "type": "Boolean",
+      "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap"
+    },
+
+    "menu-anchor": {
+      "type": "String",
+      "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom center", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ]
+    },
+
+    "menu-self": {
+      "type": "String",
+      "desc": "Two values setting the menu's own position relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom center", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  },
+
+  "events": {
+    "click": {
+      "extends": "click",
+      "desc": "Emitted when user clicks/taps on the main button (not the icon one, if using 'split')"
+    }
+  }
+}

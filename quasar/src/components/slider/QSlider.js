@@ -99,7 +99,7 @@ export default Vue.extend({
       const ratio = getRatio(
         event,
         dragging,
-        this.$q.i18n.rtl
+        this.$q.lang.rtl
       )
 
       this.model = getModel(ratio, this.min, this.max, this.step, this.decimals)

@@ -6,7 +6,10 @@ function getFn (prop) {
 
 export default {
   props: {
-    url: [Function, String],
+    url: {
+      type: [Function, String],
+      required: true
+    },
     method: {
       type: [Function, String],
       default: 'POST'

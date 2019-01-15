@@ -7,8 +7,9 @@
       "params": {
         "hexColor": {
           "type": "String",
-          "desc": "Color in hex format (#ff0000)",
-          "required": true
+          "desc": "Color in hex format",
+          "required": true,
+          "examples": [ "#ff0000" ]
         }
       }
     }

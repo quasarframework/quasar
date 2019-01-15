@@ -1,0 +1,143 @@
+{
+  "mixins": [ "mixins/ripple" ],
+
+  "props": {
+    "type":{
+      "type": "String",
+      "desc": "Define the button HTML DOM type",
+      "values": [
+        "a",
+        "submit", "button", "reset"
+      ],
+      "examples": [
+        ":type=\"a\" href=\"http://some-site.net\" target=\"__blank\""
+      ]
+    },
+
+    "to": {
+      "type": [ "String", "Object" ],
+      "desc": "Equivalent to Vue Router <router-link> 'to' property",
+      "examples": [
+        "/home/dashboard",
+        ":to=\"{ name: 'my-route-name' }\""
+      ]
+    },
+
+    "replace": {
+      "type": "Boolean",
+      "desc": "Equivalent to Vue Router <router-link> 'replace' property"
+    },
+
+    "label":{
+      "type": [ "String", "Number" ],
+      "desc": "The text that will be shown on the button",
+      "examples": [ "Button Label" ]
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "icon-right": {
+      "extends": "icon"
+    },
+
+    "round": {
+      "type": "Boolean",
+      "desc": "Makes a circle shaped button"
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design"
+    },
+
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design"
+    },
+
+    "unelevated": {
+      "type": "Boolean",
+      "desc": "Remove shadow"
+    },
+
+    "rounded": {
+      "type": "Boolean",
+      "desc": "Applies a more prominent border-radius for a squared shape button"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design"
+    },
+
+    "size": {
+      "type": "String",
+      "desc": "Button size name or a CSS unit including unit name",
+      "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ]
+    },
+
+    "fab": {
+      "type": "Boolean",
+      "desc": "Makes button size and shape to fit a Floating Action Button"
+    },
+
+    "fab-mini": {
+      "type": "Boolean",
+      "desc": "Makes button size and shape to fit a small Floating Action Button"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "no-caps": {
+      "type": "Boolean",
+      "desc": "Avoid turning label text into caps (which happens by default)"
+    },
+
+    "no-wrap": {
+      "type": "Boolean",
+      "desc": "Avoid label text wrapping"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    },
+
+    "align": {
+      "type": "String",
+      "desc": "Label or content alignment",
+      "default": "center",
+      "values": [ "left", "right", "center", "around", "between" ]
+    },
+
+    "stack": {
+      "type": "Boolean",
+      "desc": "Stack icon and label vertically instead of on same line (like it is by default)"
+    },
+
+    "stretch": {
+      "type": "Boolean",
+      "desc": "When used on flexbox parent, button will stretch to parent's height"
+    },
+
+    "loading": {
+      "type": "Boolean",
+      "desc": "Put button into loading state (displays a QSpinner -- can be overriden by using a 'loading' slot)"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  }
+}

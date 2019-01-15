@@ -1,0 +1,28 @@
+{
+  "props": {
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "floating": {
+      "type": "Boolean",
+      "desc": "Tell QBagde if it should float to the top right side of the relative positioned parent element or not"
+    },
+
+    "align": {
+      "type": "String",
+      "desc": "Sets vertical-align CSS prop",
+      "values": [ "top", "middle", "bottom" ]
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

@@ -116,7 +116,19 @@
 
     "selected-rows-label": {
       "type": "Function",
-      "desc": "Text to display when user selected at least one row; Function(numberOfRows) => String",
+      "desc": "Text to display when user selected at least one row",
+      "params": {
+        "numberOfRows": {
+          "type": "Number",
+          "desc": "Number of rows available",
+          "examples": [ 12 ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Label to display",
+        "examples": [ "5 rows are selected" ]
+      },
       "examples": [ ":selected-rows-label=\"getSelectedString\"" ]
     },
 
@@ -128,7 +140,29 @@
 
     "pagination-label": {
       "type": "Function",
-      "desc": "Text to override default pagination label at bottom of table (unless 'pagination' scoped slot is used); Function (firstRowIndex, endRowIndex, totalRowsNumber) => String",
+      "desc": "Text to override default pagination label at bottom of table (unless 'pagination' scoped slot is used)",
+      "params": {
+        "firstRowIndex": {
+          "type": "Number",
+          "desc": "Index of first displayed row",
+          "examples": [ 1 ]
+        },
+        "endRowIndex": {
+          "type": "Number",
+          "desc": "Index of last displayed row",
+          "examples": [ 10 ]
+        },
+        "totalRowsNumber": {
+          "type": "Number",
+          "desc": "Number of total rows available in data",
+          "examples": [ 132 ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Label to display",
+        "examples": [ "1-10 of 132" ]
+      },
       "examples": [ ":rows-per-page=\"getPaginationLabel\"" ]
     },
 
@@ -158,7 +192,52 @@
 
     "filter-method": {
       "type": "Function",
-      "desc": "The actual filtering mechanism. Function (rows, terms[, cols, getCellValue]) => filtered rows",
+      "desc": "The actual filtering mechanism",
+      "params": {
+        "rows": {
+          "type": "Array",
+          "desc": "Array of rows",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+        "terms": {
+          "type": [ "String", "Object" ],
+          "desc": "Terms to filter with (is essentially the 'filter' prop value)",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+        "cols": {
+          "type": "Array",
+          "desc": "Optional column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "getCellValue": {
+          "type": "Function",
+          "desc": "Optional function to get a cell value",
+          "params": {
+            "col": {
+              "type": "Object",
+              "desc": "Column name from column definitions",
+              "__exemption": [ "examples" ]
+            },
+            "row": {
+              "type": "Object",
+              "desc": "The row object",
+              "__exemption": [ "examples" ]
+            }
+          },
+          "returns": {
+            "type": "Any",
+            "desc": "Parsed/Processed cell value",
+            "examples": [ "Ice Cream Sandwich" ]
+          }
+        }
+      },
+      "returns": {
+        "type": "Array",
+        "desc": "Filtered rows",
+        "__exemption": [ "examples" ]
+      },
       "default": "(see source code)",
       "examples": [
         "(see source code)"
@@ -172,7 +251,8 @@
       "definition": {
         "sortBy": {
           "type": "String",
-          "desc": "Column name (from column definition)"
+          "desc": "Column name (from column definition)",
+          "examples": [ "calories" ]
         },
         "descending": {
           "type": "Boolean",
@@ -180,11 +260,13 @@
         },
         "page": {
           "type": "Number",
-          "desc": "Page number (1-based)"
+          "desc": "Page number (1-based)",
+          "examples": [ 3 ]
         },
         "rowsPerPage": {
           "type": "Number",
-          "desc": "How many rows per page? 0 means Infinite"
+          "desc": "How many rows per page? 0 means Infinite",
+          "examples": [ 10 ]
         }
       },
       "examples": [
@@ -222,6 +304,27 @@
     "sort-method": {
       "type": "Function",
       "desc": "The actual sort mechanism. Function (rows, sortBy, descending) => sorted rows",
+      "params": {
+        "rows": {
+          "type": "Array",
+          "desc": "Array with rows",
+          "__exemption": [ "examples" ]
+        },
+        "sortBy": {
+          "type": "String",
+          "desc": "Column name (from column definition)",
+          "examples": [ "calories" ]
+        },
+        "descending": {
+          "type": "Boolean",
+          "desc": "Is sorting in descending order?"
+        }
+      },
+      "returns": {
+        "type": "Array",
+        "desc": "Sorted rows",
+        "__exemption": [ "examples" ]
+      },
       "default": "(see source code)",
       "examples": [
         "(see source code)"
@@ -231,55 +334,546 @@
 
   "scopedSlots": {
     "item": {
-      "desc": "Slot to use for defining an item when in 'grid' mode; Suggestion: QCard"
+      "desc": "Slot to use for defining an item when in 'grid' mode; Suggestion: QCard",
+      "scope": {
+        "key": {
+          "type": "Any",
+          "desc": "Row's key",
+          "__exemption": [ "examples" ]
+        },
+        "row": {
+          "type": "Object",
+          "desc": "Row object",
+          "__exemption": [ "examples" ]
+        },
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)",
+          "__exemption": [ "examples" ]
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "reactive": true
+        },
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "__trClass": {
+          "type": "String",
+          "desc": "Internal prop passed down to QTr (if used)",
+          "__exemption": [ "examples" ]
+        }
+      }
     },
 
     "body": {
-      "desc": "Slot to define how a body row looks like; Suggestion: QTr + Td"
+      "desc": "Slot to define how a body row looks like; Suggestion: QTr + Td",
+      "scope": {
+        "key": {
+          "type": "Any",
+          "desc": "Row's key",
+          "__exemption": [ "examples" ]
+        },
+        "row": {
+          "type": "Object",
+          "desc": "Row object",
+          "__exemption": [ "examples" ]
+        },
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)",
+          "__exemption": [ "examples" ]
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "reactive": true
+        },
+        "expanded": {
+          "type": "Boolean",
+          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "__trClass": {
+          "type": "String",
+          "desc": "Internal prop passed down to QTr (if used)",
+          "__exemption": [ "examples" ]
+        }
+      }
     },
 
     "body-cell": {
-      "desc": "Slot to define how all body cells look like; Suggestion: QTd"
-    },
-
-    "top-row": {
-      "desc": "Slot to define how top extra row looks like"
-    },
-
-    "bottom-row": {
-      "desc": "Slot to define how bottom extra row looks like"
+      "desc": "Slot to define how all body cells look like; Suggestion: QTd",
+      "scope": {
+        "row": {
+          "type": "Object",
+          "desc": "Row object",
+          "__exemption": [ "examples" ]
+        },
+        "col": {
+          "type": "Object",
+          "desc": "Column definition for column associated with table cell",
+          "__exemption": [ "examples" ]
+        },
+        "value": {
+          "type": "Any",
+          "desc": "Parsed/Formatted value of table cell",
+          "__exemption": [ "examples" ]
+        }
+      }
     },
 
     "body-cell-[name]": {
-      "desc": "Slot to define how a specific column cell looks like; replace '[name]' with column name (from columns definition object)"
+      "desc": "Slot to define how a specific column cell looks like; replace '[name]' with column name (from columns definition object)",
+      "scope": {
+        "row": {
+          "type": "Object",
+          "desc": "Row object",
+          "__exemption": [ "examples" ]
+        },
+        "col": {
+          "type": "Object",
+          "desc": "Column definition for column associated with table cell",
+          "__exemption": [ "examples" ]
+        },
+        "value": {
+          "type": "Any",
+          "desc": "Parsed/Formatted value of table cell",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "top-row": {
+      "desc": "Slot to define how top extra row looks like",
+      "scope": {
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "bottom-row": {
+      "desc": "Slot to define how bottom extra row looks like",
+      "scope": {
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        }
+      }
     },
 
     "bottom": {
-      "desc": "Slot to define how table bottom looks like"
+      "desc": "Slot to define how table bottom looks like",
+      "scope": {
+        "pagination": {
+          "type": "Object",
+          "desc": "Pagination object",
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
+            }
+          }
+        },
+        "pagesNumber": {
+          "type": "Number",
+          "desc": "Number of pages available",
+          "examples": [ 5 ]
+        },
+        "isFirstPage": {
+          "type": "Boolean",
+          "desc": "Are we on first page?"
+        },
+        "isLastPage": {
+          "type": "Boolean",
+          "desc": "Are we on last page?"
+        },
+        "prevPage": {
+          "type": "Function",
+          "desc": "Navigates to previous page, if available",
+          "params": null,
+          "returns": null
+        },
+        "nextPage": {
+          "type": "Function",
+          "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "inFullscreen": {
+          "type": "Boolean",
+          "desc": "Is table in fullscreen mode?"
+        },
+        "toggleFullscreen": {
+          "type": "Function",
+          "desc": "Toggles fullscreen mode",
+          "params": null,
+          "returns": null
+        }
+      }
     },
 
     "pagination": {
-      "desc": "Slot to override default pagination label and buttons"
+      "desc": "Slot to override default pagination label and buttons",
+      "scope": {
+        "pagination": {
+          "type": "Object",
+          "desc": "Pagination object",
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
+            }
+          }
+        },
+        "pagesNumber": {
+          "type": "Number",
+          "desc": "Number of pages available",
+          "examples": [ 5 ]
+        },
+        "isFirstPage": {
+          "type": "Boolean",
+          "desc": "Are we on first page?"
+        },
+        "isLastPage": {
+          "type": "Boolean",
+          "desc": "Are we on last page?"
+        },
+        "prevPage": {
+          "type": "Function",
+          "desc": "Navigates to previous page, if available",
+          "params": null,
+          "returns": null
+        },
+        "nextPage": {
+          "type": "Function",
+          "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "inFullscreen": {
+          "type": "Boolean",
+          "desc": "Is table in fullscreen mode?"
+        },
+        "toggleFullscreen": {
+          "type": "Function",
+          "desc": "Toggles fullscreen mode",
+          "params": null,
+          "returns": null
+        }
+      }
     },
 
     "header": {
-      "desc": "Slot to define how header looks like; Suggestion: QTr + QTh"
+      "desc": "Slot to define how header looks like; Suggestion: QTr + QTh",
+      "scope": {
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)",
+          "__exemption": [ "examples" ]
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": [ "String", "Object" ],
+              "desc": "Column name or column definition object",
+              "required": true,
+              "examples": [ "calories" ]
+            }
+          },
+          "returns": null
+        },
+        "header": {
+          "type": "Boolean",
+          "desc": "Internal prop passed down to QTh (if used); Always 'true'"
+        }
+      }
     },
 
     "header-cell": {
-      "desc": "Slot to define how each header cell looks like; Suggestion: QTh"
+      "desc": "Slot to define how each header cell looks like; Suggestion: QTh",
+      "scope": {
+        "col": {
+          "type": "Object",
+          "desc": "Column definition associated to header cell",
+          "__exemption": [ "examples" ]
+        },
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)",
+          "__exemption": [ "examples" ]
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": [ "String", "Object" ],
+              "desc": "Column name or column definition object",
+              "required": true,
+              "examples": [ "calories" ]
+            }
+          },
+          "returns": null
+        }
+      }
     },
 
     "top-left": {
-      "desc": "Slot to define how left part of the table top looks like"
+      "desc": "Slot to define how left part of the table top looks like",
+      "scope": {
+        "pagination": {
+          "type": "Object",
+          "desc": "Pagination object",
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
+            }
+          }
+        },
+        "pagesNumber": {
+          "type": "Number",
+          "desc": "Number of pages available",
+          "examples": [ 5 ]
+        },
+        "isFirstPage": {
+          "type": "Boolean",
+          "desc": "Are we on first page?"
+        },
+        "isLastPage": {
+          "type": "Boolean",
+          "desc": "Are we on last page?"
+        },
+        "prevPage": {
+          "type": "Function",
+          "desc": "Navigates to previous page, if available",
+          "params": null,
+          "returns": null
+        },
+        "nextPage": {
+          "type": "Function",
+          "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "inFullscreen": {
+          "type": "Boolean",
+          "desc": "Is table in fullscreen mode?"
+        },
+        "toggleFullscreen": {
+          "type": "Function",
+          "desc": "Toggles fullscreen mode",
+          "params": null,
+          "returns": null
+        }
+      }
     },
 
     "top-right": {
-      "desc": "Slot to define how right part of the table top looks like"
+      "desc": "Slot to define how right part of the table top looks like",
+      "scope": {
+        "pagination": {
+          "type": "Object",
+          "desc": "Pagination object",
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
+            }
+          }
+        },
+        "pagesNumber": {
+          "type": "Number",
+          "desc": "Number of pages available",
+          "examples": [ 5 ]
+        },
+        "isFirstPage": {
+          "type": "Boolean",
+          "desc": "Are we on first page?"
+        },
+        "isLastPage": {
+          "type": "Boolean",
+          "desc": "Are we on last page?"
+        },
+        "prevPage": {
+          "type": "Function",
+          "desc": "Navigates to previous page, if available",
+          "params": null,
+          "returns": null
+        },
+        "nextPage": {
+          "type": "Function",
+          "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "inFullscreen": {
+          "type": "Boolean",
+          "desc": "Is table in fullscreen mode?"
+        },
+        "toggleFullscreen": {
+          "type": "Function",
+          "desc": "Toggles fullscreen mode",
+          "params": null,
+          "returns": null
+        }
+      }
     },
 
     "top-selection": {
-      "desc": "Slot to define how top table section looks like when user has selected at least one row"
+      "desc": "Slot to define how top table section looks like when user has selected at least one row",
+      "scope": {
+        "pagination": {
+          "type": "Object",
+          "desc": "Pagination object",
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
+            }
+          }
+        },
+        "pagesNumber": {
+          "type": "Number",
+          "desc": "Number of pages available",
+          "examples": [ 5 ]
+        },
+        "isFirstPage": {
+          "type": "Boolean",
+          "desc": "Are we on first page?"
+        },
+        "isLastPage": {
+          "type": "Boolean",
+          "desc": "Are we on last page?"
+        },
+        "prevPage": {
+          "type": "Function",
+          "desc": "Navigates to previous page, if available",
+          "params": null,
+          "returns": null
+        },
+        "nextPage": {
+          "type": "Function",
+          "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "inFullscreen": {
+          "type": "Boolean",
+          "desc": "Is table in fullscreen mode?"
+        },
+        "toggleFullscreen": {
+          "type": "Function",
+          "desc": "Toggles fullscreen mode",
+          "params": null,
+          "returns": null
+        }
+      }
     }
   },
 
@@ -293,7 +887,8 @@
           "definition": {
             "sortBy": {
               "type": "String",
-              "desc": "Column name (from column definition)"
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
@@ -301,21 +896,85 @@
             },
             "page": {
               "type": "Number",
-              "desc": "Page number (1-based)"
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
-              "desc": "How many rows per page? 0 means Infinite"
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
             }
           }
         },
         "filter": {
           "type": "Function",
-          "desc": "Filter method"
+          "desc": "Filter method (the 'filter-method' prop)",
+          "params": {
+            "rows": {
+              "type": "Array",
+              "desc": "Array of rows",
+              "required": true,
+              "__exemption": [ "examples" ]
+            },
+            "terms": {
+              "type": [ "String", "Object" ],
+              "desc": "Terms to filter with (is essentially the 'filter' prop value)",
+              "required": true,
+              "__exemption": [ "examples" ]
+            },
+            "cols": {
+              "type": "Array",
+              "desc": "Optional column definitions",
+              "__exemption": [ "examples" ]
+            },
+            "getCellValue": {
+              "type": "Function",
+              "desc": "Optional function to get a cell value",
+              "params": {
+                "col": {
+                  "type": "Object",
+                  "desc": "Column name from column definitions",
+                  "__exemption": [ "examples" ]
+                },
+                "row": {
+                  "type": "Object",
+                  "desc": "The row object",
+                  "__exemption": [ "examples" ]
+                }
+              },
+              "returns": {
+                "type": "Any",
+                "desc": "Parsed/Processed cell value",
+                "examples": [ "Ice Cream Sandwich" ]
+              }
+            }
+          },
+          "returns": {
+            "type": "Array",
+            "desc": "Filtered rows",
+            "__exemption": [ "examples" ]
+          }
         },
         "getCellValue": {
           "type": "Function",
-          "desc": "(col, row) => cell formatted value"
+          "desc": "Optional function to get a cell value",
+          "params": {
+            "col": {
+              "type": "Object",
+              "desc": "Column name from column definitions",
+              "__exemption": [ "examples" ]
+            },
+            "row": {
+              "type": "Object",
+              "desc": "The row object",
+              "__exemption": [ "examples" ]
+            }
+          },
+          "returns": {
+            "type": "Any",
+            "desc": "Parsed/Processed cell value",
+            "examples": [ "Ice Cream Sandwich" ]
+          }
         }
       }
     },
@@ -329,7 +988,8 @@
           "definition": {
             "sortBy": {
               "type": "String",
-              "desc": "Column name (from column definition)"
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
@@ -337,11 +997,13 @@
             },
             "page": {
               "type": "Number",
-              "desc": "Page number (1-based)"
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
-              "desc": "How many rows per page? 0 means Infinite"
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
             }
           }
         }
@@ -353,7 +1015,10 @@
       "params": {
         "newSelected": {
           "type": "Array",
-          "desc": "The updated selected array"
+          "desc": "The updated selected array",
+          "examples": [
+            "[ { name: 'Frozen Yogurt', calories: 159, fat: 6, __index: 0 } ]"
+          ]
         }
       }
     }
@@ -373,7 +1038,8 @@
               "definition": {
                 "sortBy": {
                   "type": "String",
-                  "desc": "Column name (from column definition)"
+                  "desc": "Column name (from column definition)",
+                  "examples": [ "calories" ]
                 },
                 "descending": {
                   "type": "Boolean",
@@ -381,17 +1047,64 @@
                 },
                 "page": {
                   "type": "Number",
-                  "desc": "Page number (1-based)"
+                  "desc": "Page number (1-based)",
+                  "examples": [ 3 ]
                 },
                 "rowsPerPage": {
                   "type": "Number",
-                  "desc": "How many rows per page? 0 means Infinite"
+                  "desc": "How many rows per page? 0 means Infinite",
+                  "examples": [ 10 ]
                 }
               }
             },
             "filter": {
               "type": "Function",
-              "desc": "Filtering method"
+              "desc": "Filtering method (the 'filter-method' prop)",
+              "params": {
+                "rows": {
+                  "type": "Array",
+                  "desc": "Array of rows",
+                  "required": true,
+                  "__exemption": [ "examples" ]
+                },
+                "terms": {
+                  "type": [ "String", "Object" ],
+                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
+                  "required": true,
+                  "__exemption": [ "examples" ]
+                },
+                "cols": {
+                  "type": "Array",
+                  "desc": "Optional column definitions",
+                  "__exemption": [ "examples" ]
+                },
+                "getCellValue": {
+                  "type": "Function",
+                  "desc": "Optional function to get a cell value",
+                  "params": {
+                    "col": {
+                      "type": "Object",
+                      "desc": "Column name from column definitions",
+                      "__exemption": [ "examples" ]
+                    },
+                    "row": {
+                      "type": "Object",
+                      "desc": "The row object",
+                      "__exemption": [ "examples" ]
+                    }
+                  },
+                  "returns": {
+                    "type": "Any",
+                    "desc": "Parsed/Processed cell value",
+                    "examples": [ "Ice Cream Sandwich" ]
+                  }
+                }
+              },
+              "returns": {
+                "type": "Array",
+                "desc": "Filtered rows",
+                "__exemption": [ "examples" ]
+              }
             }
           }
         }
@@ -401,10 +1114,31 @@
     "setPagination": {
       "desc": "Unless using an external pagination Object (through 'pagination.sync' prop), you can use this method and force the internal pagination to change",
       "params": {
-        "value": {
+        "pagination": {
           "type": "Object",
           "desc": "Pagination object",
-          "required": true
+          "required": true,
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
+            }
+          }
         },
         "forceServerRequest": {
           "type": "Boolean",
@@ -427,7 +1161,8 @@
         "key": {
           "type": "Any",
           "desc": "Row key value",
-          "required": true
+          "required": true,
+          "examples": [ "calories" ]
         }
       }
     },
@@ -442,9 +1177,14 @@
         "col": {
           "type": [ "String", "Object" ],
           "desc": "Column name or column definition object",
-          "required": true
+          "required": true,
+          "examples": [ "calories" ]
         }
       }
+    },
+
+    "toggleFullscreen": {
+      "desc": "Toggles fullscreen mode"
     }
   }
 }

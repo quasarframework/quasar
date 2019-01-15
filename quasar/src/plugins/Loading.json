@@ -19,26 +19,29 @@
           "definition": {
             "delay": {
               "type": "Number",
-              "desc": "Wait a number of millisecond before showing; Not worth showing for 100ms for example then hiding it, so wait until you're sure it's a process that will take some considerable amount of time"
+              "desc": "Wait a number of millisecond before showing; Not worth showing for 100ms for example then hiding it, so wait until you're sure it's a process that will take some considerable amount of time",
+              "examples": [ 400 ]
             },
             "message": {
               "type": "String",
-              "desc": "Message to display"
+              "desc": "Message to display",
+              "examples": [ "Processing your request" ]
             },
             "spinnerSize": {
               "type": "Number",
-              "desc": "Spinner size (in pixels)"
+              "desc": "Spinner size (in pixels)",
+              "examples": [ 60 ]
             },
             "spinnerColor": {
-              "type": "String",
+              "extends": "color",
               "desc": "Color name for spinner from the Quasar Color Palette"
             },
             "messageColor": {
-              "type": "Boolean",
+              "extends": "color",
               "desc": "Color name for text from the Quasar Color Palette"
             },
             "backgroundColor": {
-              "type": "String",
+              "extends": "color",
               "desc": "Color name for background from the Quasar Color Palette"
             },
             "spinner": {
@@ -47,7 +50,8 @@
             },
             "customClass": {
               "type": "String",
-              "desc": "Add a CSS class to easily customize the component"
+              "desc": "Add a CSS class to easily customize the component",
+              "examples": [ "my-class" ]
             }
           }
         }
@@ -68,26 +72,29 @@
           "definition": {
             "delay": {
               "type": "Number",
-              "desc": "Wait a number of millisecond before showing; Not worth showing for 100ms for example then hiding it, so wait until you're sure it's a process that will take some considerable amount of time"
+              "desc": "Wait a number of millisecond before showing; Not worth showing for 100ms for example then hiding it, so wait until you're sure it's a process that will take some considerable amount of time",
+              "examples": [ 400 ]
             },
             "message": {
               "type": "String",
-              "desc": "Message to display"
+              "desc": "Message to display",
+              "examples": [ "Processing your request" ]
             },
             "spinnerSize": {
               "type": "Number",
-              "desc": "Spinner size (in pixels)"
+              "desc": "Spinner size (in pixels)",
+              "examples": [ 60 ]
             },
             "spinnerColor": {
-              "type": "String",
+              "extends": "color",
               "desc": "Color name for spinner from the Quasar Color Palette"
             },
             "messageColor": {
-              "type": "Boolean",
+              "extends": "color",
               "desc": "Color name for text from the Quasar Color Palette"
             },
             "backgroundColor": {
-              "type": "String",
+              "extends": "color",
               "desc": "Color name for background from the Quasar Color Palette"
             },
             "spinner": {
@@ -96,7 +103,8 @@
             },
             "customClass": {
               "type": "String",
-              "desc": "Add a CSS class to easily customize the component"
+              "desc": "Add a CSS class to easily customize the component",
+              "examples": [ "my-class" ]
             }
           }
         }

@@ -36,7 +36,8 @@
       "params": {
         "value": {
           "type": "Any",
-          "desc": "Optional value to validate against"
+          "desc": "Optional value to validate against",
+          "__exemption": [ "examples" ]
         }
       }
     }
