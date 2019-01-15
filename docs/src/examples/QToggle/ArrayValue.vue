@@ -1,18 +1,12 @@
 <template>
-  <div class="q-pa-md">
-    <q-toggle v-model="value" />
-    <q-toggle
-      v-model="value"
-      color="green"
-    />
-    <q-toggle
-      v-model="value"
-      color="yellow"
-    />
-    <q-toggle
-      v-model="value"
-      color="red"
-    />
+  <div class="q-pa-md q-gutter-sm">
+    <q-toggle color="blue" label="Blue" v-model="selection" val="blue"/>
+    <q-toggle color="yellow" label="Yellow" v-model="selection" val="yellow"/>
+    <q-toggle color="green" label="Green" v-model="selection" val="green"/>
+    <q-toggle color="red" label="Red" v-model="selection" val="red"/>
+    <div>
+      Model: {{selection}}
+    </div>
   </div>
 </template>
 
@@ -20,7 +14,7 @@
 export default {
   data () {
     return {
-      value: []
+      selection: ['yellow', 'red']
     }
   }
 }

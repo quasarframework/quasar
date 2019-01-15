@@ -12,6 +12,7 @@ title: Docs
 <doc-example title="Disabled state" file="QToggle/Disabled" />
 <doc-example title="Icons" file="QToggle/Icons" />
 <doc-example title="Custom model values" file="QToggle/CustomValues" />
+<doc-example title="Array model" file="QToggle/ArrayValue" />
 
 ## API
 <doc-api file="QTh" />
