@@ -12,15 +12,15 @@ Most of the colors that Quasar Components use are strongly linked with these thr
 
 Here's the list of colors provided out of the box. Use them as CSS classes (in HTML templates) or as Stylus variables (in `<style lang="stylus">` tags) within your app's `*.vue` files.
 
-`primary`, `secondary`, `tertiary`  
-`positive`, `negative`, `info`, `warning`, `white`, `black`, `light`, `dark`, `faded`  
+`primary`, `secondary`, `tertiary`
+`positive`, `negative`, `info`, `warning`, `white`, `black`, `light`, `dark`, `faded`
 
- Colors come in the following preset hues:  
+ Colors come in the following preset hues:
 `red`, `pink`, `purple`, `deep-purple`, `indigo`, `blue`, `light-blue`, `cyan`, `teal`, `green`, `light-green`, `lime`, `yellow`, `amber`, `orange`, `deep-orange`, `brown`, `grey`, `blue-grey`
 
 Example of color variation: `red`, `red-1`, `red-2`, ..., `red-14`. Variation 11 to 14 are color accents.
 
-<doc-example title="Color Palette" file="ColorPalette/Standard" />
+<doc-example title="Color Palette" file="ColorPalette/Standard" scrollable />
 
 
 ## Using as CSS Classes
@@ -40,8 +40,8 @@ In your app's `*.vue` files you can use the colors as `$primary`, `$red-1`, and 
 ```html
 <!-- Notice lang="stylus" -->
 <style lang="stylus">
-// "variables" is a Webpack alias injected by Quasar CLI
-@import '~variables'
+// "quasar-variables" is a Webpack alias injected by Quasar CLI
+@import '~quasar-variables'
 
 div
   color $red-1
@@ -72,8 +72,6 @@ Now we can use this color for Quasar components:
 ::: warning
 This is only supported on [browsers that support CSS Variables](https://caniuse.com/#feat=css-variables) (Custom Properties).
 It is not going to work on IE11, but it will fall back to the brand colors from the CSS theme.
-
-This feature requires Quasar v0.15.7+
 :::
 
 You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `tertiary`, `positive`, `negative`, `info`, `warning`, `light`, `dark`, `faded`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
@@ -134,7 +132,9 @@ getComputedStyle(document.documentElement)
 ```
 
 ### Setting Up Defaults
-*Quasar v0.17+;* **Not supported by IE11**
+::: danger
+Not supported by IE11
+:::
 
 Should you wish to set up some brand colors without tampering with the Stylus variables, you can do so in quasar.conf.js:
 

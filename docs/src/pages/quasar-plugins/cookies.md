@@ -94,25 +94,25 @@ Cookies.set('quasar', 'framework', {
 this.$q.cookies.set('cookie_name', cookie_value, options)
 ```
 
-### Option `expires`
+### Option: expires
 ``` js
 expires: 10
 ```
 Define lifetime of the cookie. Value can be a Number which will be interpreted as days from time of creation or a Date object. If omitted, the cookie becomes a session cookie.
 
-### Option `path`
+### Option: path
 ``` js
 path: '/'
 ```
 Define the path where the cookie is valid. By default the path of the cookie is the path of the page where the cookie was created (standard browser behavior). If you want to make it available for instance across the entire domain use path: '/'. Default: path of page where the cookie was created.
 
-### Option `domain`
+### Option: domain
 ``` js
 domain: 'quasar-framework.org'
 ```
 Define the domain where the cookie is valid. Default: domain of page where the cookie was created.
 
-### Option `secure`
+### Option: secure
 ``` js
 secure: true
 ```
