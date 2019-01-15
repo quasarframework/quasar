@@ -4,15 +4,7 @@ title: Screen Plugin
 The Quasar Screen plugin allows you to have a dynamic and responsive UI when dealing with your Javascript code. When possible, it is recommended to use the responsive CSS classes instead, for performance reasons.
 
 ## Installation
-```js
-// quasar.conf.js
-
-return {
-  framework: {
-    plugins: ['Screen']
-  }
-}
-```
+<doc-installation plugins="Screen" />
 
 ## Basic Usage
 Notice `$q.screen` below. This is just a simple usage example.
