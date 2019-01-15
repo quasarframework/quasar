@@ -13,9 +13,9 @@
     />
     <br>
     <q-toggle
-      :false-value="42"
+      :false-value="13"
       :label="`Model is number ${greenModel}`"
-      :true-value="13"
+      :true-value="42"
       color="green"
       v-model="greenModel"
     />

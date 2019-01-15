@@ -13,6 +13,7 @@ title: Docs
 <doc-example title="Icons" file="QToggle/Icons" />
 <doc-example title="Custom model values" file="QToggle/CustomValues" />
 <doc-example title="Array model" file="QToggle/ArrayValue" />
+<doc-example title="On Dark Background" file="QToggle/DarkBackground" dark />
 
 ## API
 <doc-api file="QTh" />
