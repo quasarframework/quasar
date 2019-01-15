@@ -11,14 +11,14 @@ fg($name, $size)
   @media (min-width $size)
     {fe('.col<name>', $name, $noProcNotZero)}
       &, &-auto, &-grow
+        min-width 0
+        max-width 100%
+        min-height 0
+        max-height 100%
         .row > &, .flex > &
           width auto
-          min-width 0
-          max-width 100%
         .column > &, .flex > &
           height auto
-          min-height 0
-          max-height 100%
       &
         flex 10**4 1 0%
       &-auto
@@ -130,11 +130,11 @@ for $name, $size in $flex-gutter
     &-x-{$name}
       margin-left (- $size)
       > *
-        margin-left $size
+        padding-left $size
     &-y-{$name}
       margin-top (- $size)
       > *
-        margin-top $size
+        padding-top $size
     &-{$name}
       @extends .q-gutter-x-{$name}, .q-gutter-y-{$name}
       > *

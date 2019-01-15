@@ -167,11 +167,11 @@ fg($name, $size)
         &x-{$gname}
           margin-left (- $gsize)
           > *
-            margin-left $gsize
+            padding-left $gsize
         &y-{$gname}
           margin-top (- $gsize)
           > *
-            margin-top $gsize
+            padding-top $gsize
         &{$gname}
           @extends .q-gutter{$name}-x-{$gname}, .q-gutter{$name}-y-{$gname}
           > *
