@@ -1,11 +1,11 @@
 ---
 title: AddressbarColor Plugin
 ---
-Newer mobile browsers have the ability to specify a color for the addressbar, like in the example below.
+Newer mobile browsers have the ability to specify a color for the addressbar, like in the image below.
 
 ::: warning
-**Note 1.** There isn't yet a Web standard for this so it won't work for all mobile browsers.
-**Note 2.** This applies when building a website only. For coloring top bar on a mobile app (built with Cordova wrapper), please refer to [Cordova plugins](https://cordova.apache.org/plugins/).
+* There isn't yet a Web standard for this so it won't work for all mobile browsers.
+* This applies when building a website only. For coloring top bar on a mobile app (built with Cordova wrapper), please refer to [Cordova plugins](https://cordova.apache.org/plugins/).
 :::
 
 ![Mobile Addressbar Coloring](statics/img/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
