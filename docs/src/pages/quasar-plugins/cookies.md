@@ -7,14 +7,7 @@ This is a wrapper over the standardized `document.cookie`.
 > In addition, you can read and write cookies using JSON objects.
 
 ## Installation
-```js
-// file: /quasar.conf.js
-return {
-  framework: {
-    plugins: ['Cookies']
-  }
-}
-```
+<doc-installation plugins="Cookies" />
 
 ### Note about SSR
 When building for SSR, use only the `$q.cookies` form. If you need to use the `import { Cookies } from 'quasar'`, then you'll need to do it like this:
