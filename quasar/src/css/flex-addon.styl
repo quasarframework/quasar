@@ -176,17 +176,13 @@ fg($name, $size)
           @extends .q-gutter{$name}-x-{$gname}, .q-gutter{$name}-y-{$gname}
       {fr('.q-col-gutter<name>', $name)}
         &-x-{$gname}
-          margin-left (- $gsize / 2)
-          margin-right (- $gsize / 2)
+          margin-left (- $gsize)
           > *
-            padding-left ($gsize / 2)
-            padding-right ($gsize / 2)
+            padding-left ($gsize)
         &-y-{$gname}
-          margin-top (- $gsize / 2)
-          margin-bottom (- $gsize / 2)
+          margin-top (- $gsize)
           > *
-            padding-top ($gsize / 2)
-            padding-bottom ($gsize / 2)
+            padding-top ($gsize)
         &-{$gname}
           @extends .q-col-gutter{$name}-x-{$gname}, .q-col-gutter{$name}-y-{$gname}
 
