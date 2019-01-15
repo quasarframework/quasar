@@ -10,7 +10,7 @@ Returned values are all JS Dates.
 
 Get familiar with JS native Date class, which is very powerful, and remember that you don't need solutions like Momentjs which add hundreds of minified KB to your bundle.
 ::: tip
-Quasar date utils include Tree-Shake
+Quasar date utils include tree shaking
 :::
 You will notice all examples import `date` Object from Quasar. However, if you need only one method from it, then you can use ES6 destructuring to help Tree Shaking embed only that method and not all of `date`.
 
