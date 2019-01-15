@@ -1,83 +1,69 @@
 ---
-title: Docs
+title: Screen Plugin
 ---
-
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+The Quasar Screen plugin allows you to have a dynamic and responsive UI when dealing with your Javascript code. When possible, it is recommended to use the responsive CSS classes instead, for performance reasons.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+```js
+// quasar.conf.js
 
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+return {
+  framework: {
+    plugins: ['Screen']
+  }
+}
+```
 
-## API
-<doc-api file="QTh" />
+## Basic Usage
+Notice `$q.screen` below. This is just a simple usage example.
+
+```html
+<q-list :dense="$q.screen.lt.md">
+  <q-item>
+    <q-item-section>John Doe</q-item-section>
+  </q-item>
+
+  <q-item>
+    <q-item-section>Jane Doe</q-item-section>
+  </q-item>
+</q-list>
+```
+
+```js
+// script part of a Vue component
+export default {
+  computed: {
+    buttonColor () {
+      return this.$q.screen.lt.md
+        ? 'primary'
+        : 'secondary'
+    }
+  }
+}
+```
+
+We can also use Screen plugin outside of a Vue component:
+```js
+import { Screen } from 'quasar'
+
+// Screen.gt.md
+// Screen.md
+```
+
+## Configuration
+There are a few methods that can be used to tweak how Screen plugin works:
+
+| Method | Description | Example |
+| --- | --- | --- |
+| setSizes(Object) | Change window breakpoints; does NOT also changes CSS breakpoints. | setSizes({ lg: 1024, xl: 2000 }) |
+| setDebounce(Number) | Change the default 100ms debounce to some other value. | setDebounce(500) // 500ms |
+
+Examples:
+```
+// inside a Vue component:
+this.$q.screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
+
+// outside of a Vue component:
+import { Screen } from 'quasar'
+Screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
+```
