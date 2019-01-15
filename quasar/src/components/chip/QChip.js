@@ -27,12 +27,11 @@ export default Vue.extend({
       type: Boolean,
       default: true
     },
-    selected: Boolean,
-
-    pointing: {
-      type: String,
-      validator: v => ['up', 'right', 'down', 'left'].includes(v)
+    selected: {
+      type: Boolean,
+      default: null
     },
+
     square: Boolean,
     outline: Boolean,
     clickable: Boolean,
@@ -61,11 +60,11 @@ export default Vue.extend({
     },
 
     hasLeftIcon () {
-      return this.selected || this.icon
+      return this.selected === true || this.icon !== void 0
     },
 
     isClickable () {
-      return !this.disable && this.clickable
+      return !this.disable && (this.clickable === true || this.selected !== null)
     },
 
     computedTabindex () {
@@ -97,24 +96,9 @@ export default Vue.extend({
 
       this.isClickable && child.push(h('div', { staticClass: 'q-focus-helper' }))
 
-      if (this.pointing) {
-        child.push(h('div', {
-          staticClass: 'q-chip__pointer absolute',
-          class: {
-            [`q-chip__pointer--${this.pointing}`]: true,
-            [`text-${this.color}`]: this.color
-          }
-        }))
-
-        this.isClickable && child.push(h('div', {
-          staticClass: 'q-chip__pointer q-chip__pointer--hover absolute',
-          class: `q-chip__pointer--${this.pointing}`
-        }))
-      }
-
       this.hasLeftIcon && child.push(h(QIcon, {
         staticClass: 'q-chip__icon q-chip__icon--left',
-        props: { name: this.selected ? this.$q.icon.chip.selected : this.icon }
+        props: { name: this.selected === true ? this.$q.icon.chip.selected : this.icon }
       }))
 
       child.push(h('div', {
