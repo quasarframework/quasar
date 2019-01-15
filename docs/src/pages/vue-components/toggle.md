@@ -14,6 +14,7 @@ title: Docs
 <doc-example title="Custom model values" file="QToggle/CustomValues" />
 <doc-example title="Array model" file="QToggle/ArrayValue" />
 <doc-example title="On Dark Background" file="QToggle/DarkBackground" dark />
+<doc-example title="Option group" file="QToggle/OptionGroup" />
 
 ## API
 <doc-api file="QTh" />
