@@ -168,7 +168,7 @@
       <small class="pull-right q-px-xs text-orange gt-lg">XL</small>
     </h1>
     <div class="test-flex row" style="height: 300px;">
-      <div class="col-1">
+      <div class="col-1 full-height">
         <div class="column">
           <div class="col-3">
             .col-3
@@ -184,7 +184,7 @@
           </div>
         </div>
       </div>
-      <div class="col-1">
+      <div class="col-1 full-height">
         <div class="column">
           <div class="col-auto">
             .col-auto
@@ -208,7 +208,7 @@
           </div>
         </div>
       </div>
-      <div class="col-1">
+      <div class="col-1 full-height">
         <div class="column">
           <div class="col-auto">
             .col-auto
@@ -220,7 +220,7 @@
           </div>
         </div>
       </div>
-      <div class="col-1">
+      <div class="col-1 full-height">
         <div class="column">
           <div class="col-auto">
             .col-auto
@@ -236,7 +236,7 @@
           </div>
         </div>
       </div>
-      <div class="col-2">
+      <div class="col-2 full-height">
         <div class="column">
           <div class="col-auto">
             .col-auto
@@ -252,7 +252,7 @@
           </div>
         </div>
       </div>
-      <div class="col-2">
+      <div class="col-2 full-height">
         <div class="column">
           <div class="col-grow">
             .col-grow
@@ -264,7 +264,7 @@
           </div>
         </div>
       </div>
-      <div class="col-2">
+      <div class="col-2 full-height">
         <div class="column">
           <div class="col-auto">
             .col-auto
@@ -276,7 +276,7 @@
           </div>
         </div>
       </div>
-      <div class="col-1">
+      <div class="col-1 full-height">
         <div class="column">
           <div class="col-grow">
             .col-grow
@@ -288,7 +288,7 @@
           </div>
         </div>
       </div>
-      <div class="col-1">
+      <div class="col-1 full-height">
         <div class="column">
           <div class="col-grow">
             .col-grow
@@ -611,7 +611,7 @@
     </div>
 
     <h1>
-      Responsive - .column.row-md.column-lg.q-gutter-sm.q-gutter-md-xs.q-gutter-lg-md - height 500px
+      Responsive - .column.row-md.column-lg.q-col-gutter-sm.q-col-gutter-sm-md.q-col-gutter-md-lg.q-col-gutter-lg-xl - height 500px
       <small class="pull-right q-px-xs text-red">XS</small>
       <small class="pull-right q-px-xs text-purple gt-xs">SM</small>
       <small class="pull-right q-px-xs text-indigo gt-sm">MD</small>
@@ -619,7 +619,7 @@
       <small class="pull-right q-px-xs text-orange gt-lg">XL</small>
     </h1>
     <div class="test-flex q-pa-xl">
-      <div class="column row-md column-lg q-gutter-sm q-gutter-md-xs q-gutter-lg-md" style="height: 500px;">
+      <div class="column row-md column-lg q-col-gutter-sm q-col-gutter-sm-md q-col-gutter-md-lg q-col-gutter-lg-xl" style="height: 500px;">
         <div class="col-4 col-lg-2 row">
           <div class="fit">.col-4.col-lg-2</div>
         </div>
@@ -677,7 +677,6 @@
       @extends .test-flex-demo .test-flex [class^='column']
       > div
         white-space nowrap
-        padding 1em 0 1em .2em
         text-overflow ellipsis
       .placeholder
         display inline-block
