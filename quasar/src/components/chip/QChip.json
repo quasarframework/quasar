@@ -42,7 +42,7 @@
 
     "pointing": {
       "type": "String",
-      "desc": "Makes the QChip display a pointer arrow (not to be used along with 'outline' prop)",
+      "desc": "Does the QChip to display a pointer arrow (not to be used along with 'outline' prop)",
       "values": [ "up", "right", "down", "left" ],
       "examples": [ "up" ]
     },
