@@ -64,9 +64,12 @@
 
             <q-item-section>
               <div>
-                <q-chip color="secondary" text-color="white" class="q-mr-sm">
+                <q-chip dense color="secondary" text-color="white" class="q-mr-sm">
                   Using slot
                 </q-chip>
+                <q-badge color="secondary">
+                  Using slot
+                </q-badge>
               </div>
             </q-item-section>
 

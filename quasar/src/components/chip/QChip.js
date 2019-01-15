@@ -29,7 +29,6 @@ export default Vue.extend({
     },
     selected: Boolean,
 
-    floating: Boolean,
     pointing: {
       type: String,
       validator: v => ['up', 'right', 'down', 'left'].includes(v)
@@ -53,9 +52,8 @@ export default Vue.extend({
         [`bg-${this.color}`]: !this.outline && this.color,
         [`text-${text} q-chip--colored`]: text,
         disabled: this.disable,
-        'q-chip--dense': this.dense || this.floating,
+        'q-chip--dense': this.dense,
         'q-chip--outline': this.outline,
-        'q-chip--floating': this.floating,
         'q-chip--selected': this.selected,
         'q-chip--clickable cursor-pointer non-selectable q-hoverable': this.isClickable,
         'q-chip--square': this.square

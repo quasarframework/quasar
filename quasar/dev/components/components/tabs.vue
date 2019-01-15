@@ -50,10 +50,10 @@
 
       <q-tabs :dense="dense" inline-label>
         <q-tab icon="map">
-          <q-badge color="red" text-color="white" floating>2</q-badge>
+          <q-badge color="red" floating>2</q-badge>
         </q-tab>
         <q-tab icon="map" label="Map">
-          <q-badge color="red" text-color="white" floating>2</q-badge>
+          <q-badge color="red" floating>2</q-badge>
         </q-tab>
         <q-tab icon="map" alert />
         <q-tab icon="map" label="Map" alert />

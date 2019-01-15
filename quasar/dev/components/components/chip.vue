@@ -214,29 +214,6 @@
         <q-chip outline color="teal" icon-right="bookmark">Bookmark</q-chip>
       </div>
 
-      <p>Floating</p>
-      <div class="q-ma-md">
-        <q-btn color="orange" text-color="black" label="Inbox">
-          <q-chip floating color="black" text-color="white">22</q-chip>
-        </q-btn>
-        &nbsp;&nbsp;
-        <q-btn color="red" label="Inbox">
-          <q-chip floating color="black" text-color="white">22</q-chip>
-        </q-btn>
-        &nbsp;&nbsp;
-        <q-btn color="red" label="Inbox">
-          <q-chip floating color="black" text-color="white">22</q-chip>
-        </q-btn>
-        &nbsp;&nbsp;
-        <q-btn round dense color="black" icon="announcement">
-          <q-chip floating color="red" text-color="white">22</q-chip>
-        </q-btn>
-        &nbsp;&nbsp;
-        <q-btn round dense color="black" icon="announcement">
-          <q-chip floating color="red" text-color="white">1</q-chip>
-        </q-btn>
-      </div>
-
       <p>Pointing</p>
       <div class="q-my-md">
         <q-chip color="orange" pointing="up">1</q-chip>

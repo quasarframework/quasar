@@ -17,7 +17,7 @@
           <q-space />
           <q-toggle dense v-model="extraRow" color="amber" dark label="Extra row" />
           <q-btn round dense flat class="relative-position q-mx-md" icon="announcement" to="/">
-            <q-chip floating color="red" text-color="white">1</q-chip>
+            <q-badge floating color="red" text-color="white">1</q-badge>
           </q-btn>
           <q-btn flat round dense icon="colorize">
             <q-menu>

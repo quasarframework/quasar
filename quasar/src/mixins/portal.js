@@ -1,6 +1,23 @@
 import Vue from 'vue'
 import uid from '../utils/uid.js'
 
+let inject
+
+function fillInject (root) {
+  const
+    instance = new Vue(),
+    skip = ['el', 'created', 'activated', 'deactivated', 'beforeMount', 'methods', 'mounted', 'render', 'mixins']
+      .concat(Object.keys(instance.$root.$options))
+
+  inject = {}
+
+  Object.keys(root)
+    .filter(name => skip.includes(name) === false)
+    .forEach(p => {
+      inject[p] = root[p]
+    })
+}
+
 export default {
   methods: {
     __showPortal () {
@@ -22,7 +39,7 @@ export default {
     portalId: uid()
   }),
 
-  render (h) {
+  render () {
     this.__portal !== void 0 && this.__portal.$forceUpdate()
     return null
   },
@@ -30,7 +47,11 @@ export default {
   beforeMount () {
     const id = this.portalId
 
-    this.__portal = new Vue({
+    if (inject === void 0) {
+      fillInject(this.$root.$options)
+    }
+
+    this.__portal = new Vue(Object.assign({}, inject, {
       render: h => this.__render(h),
 
       created () {
@@ -40,7 +61,7 @@ export default {
       methods: {
         __qPortalClose: this.hide
       }
-    }).$mount()
+    })).$mount()
   },
 
   beforeDestroy () {

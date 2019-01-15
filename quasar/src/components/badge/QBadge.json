@@ -10,7 +10,7 @@
 
     "floating": {
       "type": "Boolean",
-      "desc": "Float above the parent container (which must at least have relative position)"
+      "desc": "Tell QBagde if it should float to the top right side of the relative positioned parent element or not"
     },
 
     "align": {
