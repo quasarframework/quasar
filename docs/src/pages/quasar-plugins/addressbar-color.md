@@ -1,14 +1,14 @@
 ---
-title: Mobile Addressbar Coloring
+title: AddressbarColor Plugin
 ---
 Newer mobile browsers have the ability to specify a color for the addressbar, like in the example below.
 
 ::: warning
-**Note 1.** There isn't yet a Web standard for this so it won't work for all mobile browsers.  
+**Note 1.** There isn't yet a Web standard for this so it won't work for all mobile browsers.
 **Note 2.** This applies when building a website only. For coloring top bar on a mobile app (built with Cordova wrapper), please refer to [Cordova plugins](https://cordova.apache.org/plugins/).
 :::
 
-![Mobile Addressbar Coloring](/assets/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
+![Mobile Addressbar Coloring](statics/img/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
 
 ## Installation
 <doc-installation plugins="AddressbarColor" />
@@ -36,7 +36,7 @@ return {
 }
 ```
 
-What this does is that it injects some `<meta>` tags into your `index.html` at runtime.  
+What this does is that it injects some `<meta>` tags into your `index.html` at runtime.
 
 Because the meta tag doesn't get injected until run time you can dynamically change this color multiple times, based on the page the user is on (by calling the `set` method in the `created()` lifecycle hook on the respective pages):
 
