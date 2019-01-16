@@ -79,7 +79,7 @@ export default {
 
     componentClass () { // eslint-disable-line
       if (this.scrollable === true) {
-        return 'doc-example__content--scrollable'
+        return 'doc-example__content--scrollable scroll-y'
       }
     }
   },
@@ -172,5 +172,4 @@ $dark-color = #272822
 
     &--scrollable
       height 500px
-      overflow auto
 </style>

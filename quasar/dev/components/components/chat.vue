@@ -17,7 +17,7 @@
       />
       <q-chat-message
         name="Vladimir"
-        avatar="/statics/boy-avatar.png"
+        avatar="/https://cdn.quasar-framework.org/img/boy-avatar.png"
       >
         <q-spinner-dots size="2rem" />
       </q-chat-message>
@@ -65,7 +65,7 @@ export default {
         {
           name: 'Vladimir',
           text: ['How are you?'],
-          avatar: '/statics/boy-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/boy-avatar.png',
           stamp: 'Yesterday 13:34'
         },
         {
@@ -74,20 +74,20 @@ export default {
           sent: true,
           textColor: 'white',
           bgColor: 'black',
-          avatar: '/statics/linux-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/linux-avatar.png',
           stamp: 'Yesterday at 13:50'
         },
         {
           name: 'Jane',
           text: ['And you?'],
           sent: true,
-          avatar: '/statics/linux-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/linux-avatar.png',
           stamp: 'Yesterday at 13:51'
         },
         {
           name: 'Vladimir',
           text: ['I\'m also fine, thank you. But I feel like writing a very long text here too test the avatar.'],
-          avatar: '/statics/boy-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/boy-avatar.png',
           stamp: 'Yesterday 13:34'
         },
         {
@@ -98,7 +98,7 @@ export default {
           bgColor: 'amber',
           textColor: 'white',
           text: ['Fine. Nice weather today, right?', 'Hmm...'],
-          avatar: '/statics/boy-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/boy-avatar.png',
           stamp: '13:55'
         },
 
@@ -108,21 +108,21 @@ export default {
         {
           name: 'Vladimir',
           text: ['How are you?'],
-          avatar: '/statics/boy-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/boy-avatar.png',
           stamp: 'Yesterday 13:34'
         },
         {
           name: 'Jane',
           text: ['I\'m good, thank you!', 'And you?'],
           sent: true,
-          avatar: '/statics/linux-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/linux-avatar.png',
           stamp: 'Yesterday at 13:50'
         },
         {
           name: 'Jane',
           text: ['And you?'],
           sent: true,
-          avatar: '/statics/linux-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/linux-avatar.png',
           stamp: 'Yesterday at 13:51'
         },
         {
@@ -131,7 +131,7 @@ export default {
         {
           name: 'Vladimir',
           text: ['Fine. Nice weather today, right?', 'Hmm...'],
-          avatar: '/statics/boy-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/boy-avatar.png',
           stamp: '13:55'
         },
 
@@ -141,21 +141,21 @@ export default {
         {
           name: 'Vladimir',
           text: ['How are you?'],
-          avatar: '/statics/boy-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/boy-avatar.png',
           stamp: 'Yesterday 13:34'
         },
         {
           name: 'Jane',
           text: ['I\'m good, thank you!', 'And you?'],
           sent: true,
-          avatar: '/statics/linux-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/linux-avatar.png',
           stamp: 'Yesterday at 13:50'
         },
         {
           name: 'Jane',
           text: ['And you?'],
           sent: true,
-          avatar: '/statics/linux-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/linux-avatar.png',
           stamp: 'Yesterday at 13:51'
         },
         {
@@ -164,7 +164,7 @@ export default {
         {
           name: 'Vladimir',
           text: ['Fine. Nice weather today, right?', 'Hmm...'],
-          avatar: '/statics/boy-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/boy-avatar.png',
           stamp: '13:55'
         },
 
@@ -174,21 +174,21 @@ export default {
         {
           name: 'Vladimir',
           text: ['How are you?'],
-          avatar: '/statics/boy-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/boy-avatar.png',
           stamp: 'Yesterday 13:34'
         },
         {
           name: 'Jane',
           text: ['I\'m good, thank you!', 'And you?'],
           sent: true,
-          avatar: '/statics/linux-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/linux-avatar.png',
           stamp: 'Yesterday at 13:50'
         },
         {
           name: 'Jane',
           text: ['And you?'],
           sent: true,
-          avatar: '/statics/linux-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/linux-avatar.png',
           stamp: 'Yesterday at 13:51'
         },
         {
@@ -197,7 +197,7 @@ export default {
         {
           name: 'Vladimir',
           text: ['Fine. Nice weather today, right?', 'Hmm...'],
-          avatar: '/statics/boy-avatar.png',
+          avatar: '/https://cdn.quasar-framework.org/img/boy-avatar.png',
           stamp: '13:55'
         }
       ]

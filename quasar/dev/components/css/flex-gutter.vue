@@ -1,8 +1,8 @@
 <template>
-  <div class="q-layout-padding q-gutter-demo">
+  <div class="q-layout-padding q-col-gutter-demo">
     <h1>Default</h1>
-    <div class="my-container" v-for="n in ['none', 'xs', 'sm', 'md', 'lg', 'xl']" :key="`q-gutter_xy_${n}`">
-      <div class="row" :class="`q-gutter-${n}`">
+    <div class="my-container" v-for="n in ['none', 'xs', 'sm', 'md', 'lg', 'xl']" :key="`q-col-gutter_xy_${n}`">
+      <div class="row" :class="`q-col-gutter-${n}`">
         <div class="col-4" v-for="n in 5" :key="n">
           <div class="my-content">&nbsp;</div>
         </div>
@@ -10,8 +10,8 @@
     </div>
 
     <h1>Horizontal</h1>
-    <div class="my-container" v-for="n in ['none', 'xs', 'sm', 'md', 'lg', 'xl']" :key="`q-gutter_x_${n}`">
-      <div class="row" :class="`q-gutter-x-${n} q-gutter-y-sm`">
+    <div class="my-container" v-for="n in ['none', 'xs', 'sm', 'md', 'lg', 'xl']" :key="`q-col-gutter_x_${n}`">
+      <div class="row" :class="`q-col-gutter-x-${n} q-col-gutter-y-sm`">
         <div class="col-4" v-for="n in 5" :key="n">
           <div class="my-content">&nbsp;</div>
         </div>
@@ -19,17 +19,26 @@
     </div>
 
     <h1>Vertical</h1>
-    <div class="my-container" v-for="n in ['none', 'xs', 'sm', 'md', 'lg', 'xl']" :key="`q-gutter_y_${n}`">
-      <div class="row" :class="`q-gutter-x-sm q-gutter-y-${n}`">
+    <div class="my-container" v-for="n in ['none', 'xs', 'sm', 'md', 'lg', 'xl']" :key="`q-col-gutter_y_${n}`">
+      <div class="row" :class="`q-col-gutter-x-sm q-col-gutter-y-${n}`">
         <div class="col-4" v-for="n in 5" :key="n">
           <div class="my-content">&nbsp;</div>
         </div>
       </div>
     </div>
 
+    <h1>Backgrounds test</h1>
+    <div class="bg-yellow" style="border: 1px solid transparent;">
+      <div class="row q-col-gutter-lg" style="border: 1px solid red;">
+        <div class="col-4" v-for="n in 12" :key="n">
+          <div class="bg-grey-4">Col 4</div>
+        </div>
+      </div>
+    </div>
+
     <h1>QInput example</h1>
     <div>
-      <div class="row q-gutter-sm">
+      <div class="row q-col-gutter-sm">
         <div class="col-12">
           <q-input inverted v-model="model" float-label="col-12" />
         </div>
@@ -64,7 +73,7 @@ export default {
 </script>
 
 <style lang="stylus">
-.q-gutter-demo
+.q-col-gutter-demo
   .my-container + .my-container
     margin-top 25px
   .my-container

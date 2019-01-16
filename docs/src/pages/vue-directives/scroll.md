@@ -1,83 +1,67 @@
 ---
-title: Docs
+title: Directive v-scroll
 ---
+This is a Vue directive which takes one parameter (a Function) and fires when user scrolls the page containing that DOM node.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+::: tip
+One alternative to using this directive is to place a [QScrollObserver](/vue-components/scroll-observer) component on your page.
+:::
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+::: tip
+There is one more scrolling-related directive available called [Scroll Fire](/vue-directives/scroll-fire).
+:::
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+## Installation
+<doc-installation directives="Scroll" />
 
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
+## Usage
+``` vue
 <template>
-  <!-- you define your Vue template here -->
+  ...
+  <div v-scroll="scrolled">...</div>
+  ...
 </template>
 
 <script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
 export default {
-  //
+  ...,
+  methods: {
+    ...,
+    scrolled (position) {
+      // when this method is invoked then it means user
+      // has scrolled the page to `position`
+      //
+      // `position` is an Integer designating the current
+      // scroll position in pixels.
+    }
+  }
 }
 </script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+Please note that by default the method called is not debounced. For that you have to do it yourself, by wrapping your method with Quasar's debounce util like below.
+As per the example below, you need to use `function (position) {}` or `position => {}.bind(this)` to be able to access the Vue component inside the debounce function.
 
-> Something...
+``` js
+import { debounce } from 'quasar'
 
-::: tip
-Some tip
-:::
+export default {
+  ...,
+  methods: {
+    ...,
+    scrolled: debounce(function (position) {
+      // when this method is invoked then it means user
+      // has scrolled the Page to 'position'
+      //
+      // 'position' is an Integer designating the current
+      // scroll position in pixels.
+    }, 200) // debounce for 200ms
+  }
+}
+```
 
-::: warning
-Some tip
-:::
+### Determining Scrolling Container
+Please read [here](/components/scroll-observer#Determining-Scrolling-Container) about how Quasar determines the container to attach scrolling events to.
 
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+### API
+<doc-api file="Scroll" />
