@@ -1,83 +1,66 @@
 ---
-title: Docs
+title: Local/Session Storage Plugins
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
+Quasar provides a wrapper over [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API).
 
 ::: tip
-Some tip
+Web Storage API only retrieves strings. **Quasar retrieves data with its original data type.** You tell it to store a Number then to retrieve it and it will still be a Number, not a string representation of the number as with Web Storage API. Same for JSON, Regular Expressions, Dates, Booleans and so on.
 :::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation :plugins="['LocalStorage', 'SessionStorage']" />
+
+::: danger Note about SSR
+When running the code server-side on SSR builds, this feature can't work. Web Storage is a browser API only. You can however make use of it on the client-side with SSR.
+:::
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
 
-## API
-<doc-api file="QTh" />
+``` js
+// outside of a Vue file
+import { LocalStorage, SessionStorage } from 'quasar'
+
+LocalStorage.set(key, value)
+let value = LocalStorage.getItem(key)
+
+SessionStorage.set(key, value)
+let value = SessionStorage.getItem(key)
+```
+
+``` js
+// inside of a Vue file
+
+this.$q.localStorage.set(key, value)
+let value = this.$q.localStorage.getItem(key)
+
+this.$q.sessionStorage.set(key, value)
+let value = this.$q.sessionStorage.getItem(key)
+```
+
+::: tip
+For an exhaustive list of methods, please check the API section.
+:::
+
+## Data Types
+
+Quasar Storage supports (but not limited to) the following data types out of the box. If you store one of these types, the retrieved data will have the same data type.
+
+* Dates
+* Regular Expressions
+* Numbers
+* Booleans
+* Strings
+* Plain Javascript Objects
+
+If you store any *other* data type, the returned value will be a String.
+
+So you can even store functions, but be careful that you need to eval() the returned value (which is a String representation of the function).
+
+## LocalStorage API
+
+<doc-api file="LocalStorage" />
+
+## SessionStorage API
+
+<doc-api file="SessionStorage" />

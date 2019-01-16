@@ -1,83 +1,123 @@
 ---
-title: Docs
+title: Quasar Meta Plugin
 ---
-
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
+**Better SEO for your website!** The Meta plugin can dynamically change page title, manage `<meta>` tags, manage `<html>` and `<body>` DOM element attributes, add/remove/change `<style>` and `<script>` tags in the head of your document (useful for CDN stylesheets or for json-ld markup, for example), or manage `<noscript>` tags.
 
 ::: tip
-Some tip
+Take full advantage of this feature by using it with **Quasar CLI**, especially for the SSR (Server-Side Rendering) builds.
 :::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation plugins="Meta" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+What the Meta plugin does is that it enables the use of a special property in your Vue components called `meta`. Take a look at the example below, with almost all of its features:
 
-## API
-<doc-api file="QTh" />
+```js
+// some .vue file
+
+export default {
+  // ...
+  meta: {
+    // sets document title
+    title: 'Index Page',
+    // optional; sets final title as "Index Page - My Website", useful for multiple level meta
+    titleTemplate: title => `${title} - My Website`,
+
+    // meta tags
+    meta: {
+      description: { name: 'description', content: 'Page 1' },
+      keywords: { name: 'keywords', content: 'Quasar website' },
+      equiv: { 'http-equiv': 'Content-Type' content: 'text/html; charset=UTF-8' }
+    },
+
+    // CSS tags
+    link: {
+      material: { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' }
+    },
+
+    // JS tags
+    script: {
+      ldJson: {
+        type: 'application/ld+json',
+        innerHTML: `{ "@context": "http://schema.org" }`
+      }
+    },
+
+    // <html> attributes
+    htmlAttr: {
+      'xmlns:cc': 'http://creativecommons.org/ns#' // generates <html xmlns:cc="http://creativecommons.org/ns#">,
+      empty: undefined // generates <html empty>
+    },
+
+    // <body> attributes
+    bodyAttr: {
+      'action-scope': 'xyz', // generates <body action-scope="xyz">
+      empty: undefined // generates <body empty>
+    },
+
+    // <noscript> tags
+    noscript: {
+      default: 'This is content for browsers with no JS (or disabled JS)'
+    }
+  }
+}
+```
+
+## How It Works
+Metas are computed from .vue files in the order they are activated by Vue Router (let’s call this a chain for further explanations). Example: App.vue > SomeLayout.vue > IndexPage.vue > …?
+
+When a component that contains the `meta` property gets rendered or destroyed, it is added/removed to/from the chain and metas are updated accordingly.
+
+Notice that all properties (except for title and titleTemplate) are Objects; you can override meta props defined in previous Vue components in the chain by using the same keys again. Example:
+
+```js
+// first loaded Vue component
+meta: {
+  meta: {
+    myKey: { name: 'description', content: 'My Website' }
+  }
+}
+
+// a subsequent Vue component in the chain;
+// this will override the first definition on "myKey"
+meta: {
+  meta: {
+    myKey: { name: 'description', content: 'Page 1' }
+  }
+}
+```
+
+::: warning
+Just make sure not to duplicate content that already exists in `/src/index.template.html`. If you want to use the Meta plugin, the recommended way is to remove the same tags from the html template. But on use-cases where you know a tag will never change and you always want it rendered, then it's better to have it only on the html template instead.
+:::
+
+In the examples above, you noticed all of the meta props are "static". But they can be dynamic instead, should you wish. This is how you can bind to the Vue scope with them. Think of them as a Vue computed property.
+
+```js
+// some .vue file
+export default {
+  data () {
+    return {
+      title: 'Some title' // we define the "title" prop
+    }
+  },
+
+  // NOTICE meta is a function here, which is the way
+  // for you to reference properties from the Vue component's scope
+  meta () {
+    return {
+      // this accesses the "title" property in your Vue "data";
+      // whenever "title" prop changes, your meta will automatically update
+      title: this.title
+    }
+  },
+
+  methods: {
+    setAnotherTitle () {
+      this.title = 'Another title' // will automatically trigger a Meta update due to the binding
+    }
+  }
+  // ...
+}
+```
