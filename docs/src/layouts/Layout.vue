@@ -7,7 +7,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
 
       q-btn.text-bold(key="logo", flat, no-caps, stretch, to="/")
         q-avatar
-          img(src="https://cdn.quasar-framework.org/img/quasar-logo.png")
+          img.quasar-logo(src="https://cdn.quasar-framework.org/img/quasar-logo.png")
         q-toolbar-title(shrink) Quasar
 
       template(v-if="hasDrawer !== true")
@@ -342,4 +342,10 @@ export default {
     color inherit
 .docs-toc .q-item--active
   font-weight 600
+
+.quasar-logo
+  border-radius 50% !important
+  transition transform .8s ease-in-out
+  &:hover
+    transform rotate(360deg)
 </style>
