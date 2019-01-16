@@ -7,7 +7,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
 
       q-btn.text-bold(key="logo", flat, no-caps, stretch, to="/")
         q-avatar
-          img(src="statics/quasar-logo.png")
+          img(src="https://cdn.quasar-framework.org/img/quasar-logo.png")
         q-toolbar-title(shrink) Quasar
 
       template(v-if="hasDrawer !== true")

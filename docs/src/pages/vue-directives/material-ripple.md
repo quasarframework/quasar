@@ -1,83 +1,32 @@
 ---
-title: Docs
+title: Material Ripples
 ---
-
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
+Material Ripple effect can easily be added to any DOM element (or component) through the `v-ripple` Quasar directive.
 
 ::: danger
-Some tip
+Do not use this directive on components that already have material ripples baked in (example: `QBtn`). Rather configure the internal ripples through those component's `ripple` property.
 :::
 
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+## Installing
+<doc-installation directives="Ripple" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+
+::: warning
+Make sure that your DOM element or component has CSS `position: relative` or Quasar CSS helper class `relative-position` attached to it.
+:::
+
+<doc-example title="Basic" file="Ripple/Basic" />
+
+The Material Ripple takes the CSS color of text by default, but you can configure it:
+<doc-example title="Colored" file="Ripple/Colored" />
+
+You can also configure if the ripple should always start from center or not, regardless of the touch point:
+<doc-example title="Positioning" file="Ripple/Positioning" />
+
+If for some reason you have a scenario where the ripples need to be disabled, then you can assign a Boolean as value for the directive:
+
+<doc-example title="Disable" file="Ripple/Disable" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="Ripple" />

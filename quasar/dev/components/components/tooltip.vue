@@ -107,7 +107,7 @@
               <q-toggle label="Colored" v-model="color" />
             </div>
           </q-card-section>
-          <q-img src="statics/material.png" style="height: 100px">
+          <q-img src="https://cdn.quasar-framework.org/img/material.png" style="height: 100px">
             <q-tooltip
               :delay="delay"
               anchor="center middle"
@@ -130,13 +130,13 @@
               <q-radio v-model="targetEl" val="#bogus" label="#bogus" />
             </div>
           </q-card-section>
-          <q-img src="statics/material.png" id="target-img-1" style="height: 100px">
+          <q-img src="https://cdn.quasar-framework.org/img/material.png" id="target-img-1" style="height: 100px">
             <div class="absolute-bottom-right">#target-img-1</div>
           </q-img>
-          <q-img src="statics/parallax2.jpg" id="target-img-2" style="height: 100px">
+          <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg" id="target-img-2" style="height: 100px">
             <div class="absolute-bottom-right">#target-img-2</div>
           </q-img>
-          <q-img src="statics/blueish.jpg" style="height: 100px">
+          <q-img src="https://cdn.quasar-framework.org/img/blueish.jpg" style="height: 100px">
             <div class="absolute-bottom-right">Original parent</div>
             <q-tooltip
               :target="targetEl"
@@ -150,13 +150,13 @@
           <q-card-section>
             <q-toggle v-model="vIfTest" label="v-if test" />
           </q-card-section>
-          <q-img src="statics/material.png" style="height: 100px" v-if="vIfTest">
+          <q-img src="https://cdn.quasar-framework.org/img/material.png" style="height: 100px" v-if="vIfTest">
             <div class="absolute-bottom-right">attached to q-img</div>
             <q-tooltip anchor="center middle" self="center middle">
               Quasar Rulz!
             </q-tooltip>
           </q-img>
-          <q-img src="statics/parallax2.jpg" style="height: 100px">
+          <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg" style="height: 100px">
             <div class="absolute-bottom-right">attached to q-tooltip</div>
             <q-tooltip v-if="vIfTest" anchor="center middle" self="center middle">
               Quasar Rulz!

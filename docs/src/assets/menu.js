@@ -91,10 +91,6 @@ const options = [
 
 const directives = [
   {
-    name: 'Back To Top',
-    path: 'back-to-top'
-  },
-  {
     name: 'Close Dialog',
     path: 'close-dialog'
   },
@@ -203,6 +199,10 @@ const components = [
   {
     name: 'Banner',
     path: 'banner'
+  },
+  {
+    name: 'Bar',
+    path: 'bar'
   },
   {
     name: 'Breadcrumbs',
