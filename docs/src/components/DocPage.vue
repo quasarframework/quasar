@@ -4,8 +4,8 @@ q-page.doc-page
   h1.doc-heading.doc-h1#Introduction(@click="copyHeading('Introduction')")
     span {{ title }}
     a.doc-page__top-link.float-right(:href="editHref", target="_blank", rel="noopener noreferrer")
-      q-icon(name="edit")
-        q-tooltip Suggest an edit?
+      q-icon(name="edit", @click.stop)
+        q-tooltip Improve page
 
   slot
 
