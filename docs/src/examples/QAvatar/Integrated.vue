@@ -1,12 +1,19 @@
 <template>
-  <div>
-    <div class="row q-pa-md q-gutter-sm">
+  <div class="q-pa-md q-gutter-y-md">
+    <div class="q-gutter-sm">
       <q-chip>
-        <q-avatar class="q-pl-xs" size="24px" font-size="16px" color="positive" icon="wifi" />
-        Online
+        <q-avatar color="red" text-color="white">50</q-avatar>
+        Emails
+      </q-chip>
+      <q-chip>
+        <q-avatar>
+          <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+        </q-avatar>
+        John
       </q-chip>
     </div>
-    <div class="row q-pa-md q-gutter-sm">
+
+    <div class="q-gutter-x-sm">
       <q-btn round>
         <q-avatar size="28px">
           <img src="https://cdn.quasar-framework.org/app-icons/icon-128x128.png" />
@@ -23,15 +30,24 @@
         </q-avatar>
       </q-btn>
     </div>
-    <div class="row q-pa-md q-gutter-sm">
-      <q-item color="blue">
+
+    <q-item clickable v-ripple>
+      <q-item-section side>
         <q-avatar rounded size="48px">
           <img src="https://cdn.quasar-framework.org/img/avatar.png" />
+          <q-badge floating color="teal">new</q-badge>
         </q-avatar>
-        <q-badge floating>1.0</q-badge>
-      </q-item>
-    </div>
-    <q-banner :dense="dense" class="bg-primary text-white q-my-md">
+      </q-item-section>
+      <q-item-section>
+        <q-item-label>Mary</q-item-label>
+        <q-item-label caption>2 new messages</q-item-label>
+      </q-item-section>
+      <q-item-section side>
+        3 min ago
+      </q-item-section>
+    </q-item>
+
+    <q-banner class="bg-primary text-white generic-border-radius">
       <q-avatar slot="avatar" icon="signal_wifi_off" color="white" text-color="primary" />
 
       You have lost connection to the internet. This app is offline.
