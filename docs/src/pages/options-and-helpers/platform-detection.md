@@ -2,10 +2,13 @@
 title: Platform Detection
 ---
 
-Helpers are built-in to detect the Platform (and its capabilities) in which the code is running:
+Helpers are built-in in Quasar to detect the Platform (and its capabilities) in which the code is running.
+
+::: tip
+Based on your needs, you might want to also check [CSS Helpers & Grid &gt; Visibility](/options-and-helpers/css-helpers/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
+:::
 
 ## Usage
-
 Usage inside a Vue component JS:
 
 ``` js
@@ -54,13 +57,11 @@ Now, let's say we want to render different components or DOM elements, based on 
 </div>
 ```
 
-::: tip
-Based on your needs, you might want to also check [CSS Helpers & Grid &gt; Visibility](/options-and-helpers/css-helpers/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
-:::
+<doc-example title="Your device" file="Platform/Basic" />
 
 ## Properties
 
-The following properties are available to the Platform object. (See the API section for full details.)
+The following properties are available to the Platform object. It's not an exhaustive list though. See the API section for more details.
 
 | Property               | Type    | Meaning                                                  |
 | ---                    | ---     | ---                                                      |
