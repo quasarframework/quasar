@@ -1,14 +1,14 @@
 <template>
   <div class="q-pa-md row justify-center">
     <q-card
-      v-touch-hold="handleHold"
+      v-touch-repeat="handleRepeat"
       class="custom-area cursor-pointer bg-primary text-white shadow-2 relative-position row flex-center"
     >
       <div v-if="info" class="custom-info">
         <pre>{{ info }}</pre>
       </div>
       <div v-else class="text-center">
-        Click/touch and hold for at least 600ms.
+        Click/touch and hold.
       </div>
     </q-card>
   </div>
@@ -23,7 +23,7 @@ export default {
   },
 
   methods: {
-    handleHold ({ evt, ...info }) {
+    handleRepeat ({ evt, ...info }) {
       this.info = info
 
       // native Javascript event
@@ -41,4 +41,5 @@ export default {
 
 .custom-info pre
   width 250px
+  font-size 12px
 </style>

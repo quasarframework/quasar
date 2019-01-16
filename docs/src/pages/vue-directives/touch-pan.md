@@ -11,10 +11,19 @@ We will be describing `v-touch-pan` on the lines below.
 <doc-installation directives="TouchPan" />
 
 ## Usage
-``` html
-<div v-touch-pan="handler">...</div>
-// "handler" is a Function which receives an Object as parameter
-```
+Click then pan in a direction with your mouse on the area below to see it in action.
+Page scrolling is prevented, but you can opt out if you wish.
+<doc-example title="All directions" file="TouchPan/Basic" />
+
+Panning works both with a mouse or a native touch action.
+You can also capture pan to certain directions (any) only as you'll see below.
+
+Example on capturing only horizontal panning.
+Notice that on touch capable devices the scrolling is automatically not blocked, since we are only capturing horizontally.
+<doc-example title="Horizontally" file="TouchPan/Horizontal" />
+
+Example on capturing only vertically panning. Page scrolling is prevented, but you can opt out if you wish.
+<doc-example title="Vertically" file="TouchPan/Vertical" />
 
 ### Avoid Capturing Mouse Events
 When you don't want to capture mouse actions too, use the `noMouse` modifier:

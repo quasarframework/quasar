@@ -25,6 +25,7 @@ export default {
   methods: {
     handleHold ({ evt, ...info }) {
       this.info = info
+
       // native Javascript event
       // console.log(evt)
     }

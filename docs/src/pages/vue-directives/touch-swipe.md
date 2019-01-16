@@ -11,10 +11,12 @@ We will be describing `v-touch-swipe` on the lines below.
 <doc-installation directives="TouchSwipe" />
 
 ## Usage
-``` html
-<div v-touch-swipe="handler">...</div>
-// "handler" is a Function which receives an Object as parameter
-```
+Swipe with your mouse on the area below to see it in action. If using a mouse, you need to do it quick.
+<doc-example title="All directions" file="TouchSwipe/Basic" />
+
+<doc-example title="One direction only" file="TouchSwipe/Right" />
+
+<doc-example title="Several directions" file="TouchSwipe/UpOrLeft" />
 
 ### Avoid Capturing Mouse Events
 When you don't want to capture mouse actions too, use the `noMouse` modifier:
