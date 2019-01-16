@@ -10,8 +10,8 @@ The **QBanner** component creates a banner element to display a prominent messag
 
 <doc-example title="Basic" file="QBanner/Basic" />
 <doc-example title="Dense" file="QBanner/Dense" />
+<doc-example title="Inline" file="QBanner/Inline" />
 <doc-example title="Rounded" file="QBanner/Rounded" />
-<doc-example title="Inline & Dense" file="QBanner/Inline" />
 
 ## API
 <doc-api file="QBanner" />
