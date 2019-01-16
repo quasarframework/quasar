@@ -26,7 +26,7 @@
     <div class="row q-pa-md q-gutter-sm">
       <q-item color="blue">
         <q-avatar rounded size="48px">
-          <img src="https://avatars2.githubusercontent.com/u/4665641" />
+          <img src="https://cdn.quasar-framework.org/img/avatar.png" />
         </q-avatar>
         <q-badge floating>1.0</q-badge>
       </q-item>
