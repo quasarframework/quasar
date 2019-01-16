@@ -10,7 +10,7 @@ It is often used with other components in their slots.
 
 ## Usage
 <doc-example title="Square" file="QAvatar/Square" />
-<doc-example title="Rounded (default)" file="QAvatar/Rounded" />
+<doc-example title="Rounded" file="QAvatar/Rounded" />
 <doc-example title="Basic" file="QAvatar/Basic" />
 <doc-example title="With other components" file="QAvatar/Integrated" />
 
