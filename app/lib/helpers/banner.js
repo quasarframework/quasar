@@ -65,8 +65,9 @@ module.exports = function (argv, cmd, details) {
   console.log(banner + '\n')
 }
 
-module.exports.devCompilationSuccess = function (ctx, url) {
-  return `App URL........... ${green(url)}
+module.exports.devCompilationSuccess = function (ctx, url, appDir) {
+  return `App dir........... ${green(appDir)}
+    App URL........... ${green(url)}
     Dev mode.......... ${green(ctx.modeName + (ctx.mode.ssr && ctx.mode.pwa ? ' + pwa' : ''))}
     Pkg quasar........ ${green('v' + quasarVersion)}
     Pkg @quasar/app... ${green('v' + cliAppVersion)}
