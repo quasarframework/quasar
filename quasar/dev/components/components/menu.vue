@@ -180,7 +180,7 @@
               <q-toggle label="context-menu" v-model="contextMenu" />
             </div>
           </q-card-section>
-          <q-img src="statics/material.png" style="height: 100px">
+          <q-img src="https://cdn.quasar-framework.org/img/material.png" style="height: 100px">
             <q-menu :touch-position="touchPosition" :context-menu="contextMenu">
               <q-list>
                 <q-item
@@ -202,7 +202,7 @@
           <q-card-section>
             <q-toggle v-model="vIfTest" label="v-if test" />
           </q-card-section>
-          <q-img src="statics/material.png" style="height: 100px" v-if="vIfTest">
+          <q-img src="https://cdn.quasar-framework.org/img/material.png" style="height: 100px" v-if="vIfTest">
             <div class="absolute-bottom-right">attached to q-img</div>
             <q-menu touch-position>
               <q-list>
@@ -219,7 +219,7 @@
               </q-list>
             </q-menu>
           </q-img>
-          <q-img src="statics/parallax2.jpg" style="height: 100px">
+          <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg" style="height: 100px">
             <div class="absolute-bottom-right">attached to q-menu</div>
             <q-menu touch-position v-if="vIfTest">
               <q-list>
@@ -249,13 +249,13 @@
               <q-radio v-model="targetEl" val="#bogus" label="#bogus" />
             </div>
           </q-card-section>
-          <q-img src="statics/material.png" id="target-img-1" style="height: 100px">
+          <q-img src="https://cdn.quasar-framework.org/img/material.png" id="target-img-1" style="height: 100px">
             <div class="absolute-bottom-right">#target-img-1</div>
           </q-img>
-          <q-img src="statics/parallax2.jpg" id="target-img-2" style="height: 100px">
+          <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg" id="target-img-2" style="height: 100px">
             <div class="absolute-bottom-right">#target-img-2</div>
           </q-img>
-          <q-img src="statics/blueish.jpg" style="height: 100px">
+          <q-img src="https://cdn.quasar-framework.org/img/blueish.jpg" style="height: 100px">
             <div class="absolute-bottom-right">Original parent</div>
             <q-menu touch-position :target="targetEl">
               <q-list>
@@ -278,7 +278,7 @@
           <q-card-section>
             Menu in menu
           </q-card-section>
-          <q-img src="statics/parallax1.jpg" style="height: 100px">
+          <q-img src="https://cdn.quasar-framework.org/img/parallax1.jpg" style="height: 100px">
             <q-menu touch-position>
               <q-list>
                 <q-item
@@ -343,7 +343,7 @@
       <q-btn color="secondary" class="fixed-top-right" icon="directions" style="top: 65px; right: 16px;">
         <q-menu ref="popover3">
           <q-img
-            src="statics/map.png"
+            src="https://cdn.quasar-framework.org/img/map.png"
             style="height: 150px; width: 200px;"
             @click.native="showNotify(), $refs.popover3.hide()"
             @keyup.13.32.native="showNotify(), $refs.popover3.hide()"

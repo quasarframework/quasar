@@ -14,19 +14,19 @@
       <div class="col-auto">
         <q-btn round>
           <q-avatar size="28px">
-            <img src="/statics/quasar-logo.png" />
+            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png" />
           </q-avatar>
         </q-btn>
         &nbsp;
         <q-btn round>
           <q-avatar size="32px">
-            <img src="/statics/quasar-logo.png" />
+            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png" />
           </q-avatar>
         </q-btn>
         &nbsp;
         <q-btn round>
           <q-avatar size="40px">
-            <img src="/statics/quasar-logo.png" />
+            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png" />
           </q-avatar>
         </q-btn>
       </div>

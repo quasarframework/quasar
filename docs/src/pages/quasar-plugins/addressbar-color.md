@@ -8,7 +8,7 @@ Newer mobile browsers have the ability to specify a color for the addressbar, li
 * This applies when building a website only. For coloring top bar on a mobile app (built with Cordova wrapper), please refer to [Cordova plugins](https://cordova.apache.org/plugins/).
 :::
 
-![Mobile Addressbar Coloring](statics/img/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
+![Mobile Addressbar Coloring](https://cdn.quasar-framework.org/img/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
 
 ## Installation
 <doc-installation plugins="AddressbarColor" />

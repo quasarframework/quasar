@@ -5,7 +5,7 @@
     </q-avatar>
     <q-avatar size="32px" color="teal" text-color="grey-4" icon="wifi" />
     <q-avatar size="32px" color="primary">
-      <img src="/statics/quasar-logo.png" />
+      <img src="https://cdn.quasar-framework.org/img/quasar-logo.png" />
     </q-avatar>
   </div>
 </template>

@@ -65,7 +65,7 @@
         <q-item clickable>
           <q-item-section avatar>
             <q-avatar>
-              <img src="statics/boy-avatar.png">
+              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
             </q-avatar>
           </q-item-section>
           <q-item-section>List item</q-item-section>
@@ -74,7 +74,7 @@
         <q-item clickable>
           <q-item-section avatar>
             <q-avatar square>
-              <img src="statics/boy-avatar.png">
+              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
             </q-avatar>
           </q-item-section>
           <q-item-section>List item</q-item-section>
@@ -83,7 +83,7 @@
         <q-item clickable>
           <q-item-section avatar>
             <q-avatar rounded>
-              <img src="statics/boy-avatar.png">
+              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
             </q-avatar>
           </q-item-section>
           <q-item-section>List item</q-item-section>
@@ -92,7 +92,7 @@
         <q-item clickable>
           <q-item-section avatar>
             <q-avatar rounded>
-              <img src="statics/mountains.jpg">
+              <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
             </q-avatar>
           </q-item-section>
           <q-item-section>List item</q-item-section>
@@ -100,7 +100,7 @@
 
         <q-item clickable>
           <q-item-section thumbnail>
-            <img src="statics/mountains.jpg">
+            <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
           </q-item-section>
           <q-item-section>List item</q-item-section>
         </q-item>
@@ -211,7 +211,7 @@
         <q-item clickable>
           <q-item-section avatar>
             <q-avatar>
-              <img src="statics/boy-avatar.png">
+              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
             </q-avatar>
           </q-item-section>
           <q-item-section>List item</q-item-section>
@@ -220,7 +220,7 @@
         <q-item clickable>
           <q-item-section avatar>
             <q-avatar square>
-              <img src="statics/boy-avatar.png">
+              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
             </q-avatar>
           </q-item-section>
           <q-item-section>List item</q-item-section>
@@ -229,7 +229,7 @@
         <q-item clickable>
           <q-item-section avatar>
             <q-avatar rounded>
-              <img src="statics/mountains.jpg">
+              <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
             </q-avatar>
           </q-item-section>
           <q-item-section>List item</q-item-section>
@@ -237,7 +237,7 @@
 
         <q-item clickable>
           <q-item-section thumbnail>
-            <img src="statics/mountains.jpg">
+            <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
           </q-item-section>
           <q-item-section>List item</q-item-section>
         </q-item>
@@ -277,7 +277,7 @@
           <q-item-section>List item</q-item-section>
           <q-item-section avatar>
             <q-avatar>
-              <img src="statics/boy-avatar.png">
+              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
             </q-avatar>
           </q-item-section>
         </q-item>
@@ -286,7 +286,7 @@
           <q-item-section>List item</q-item-section>
           <q-item-section avatar>
             <q-avatar square>
-              <img src="statics/boy-avatar.png">
+              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
             </q-avatar>
           </q-item-section>
         </q-item>
@@ -294,7 +294,7 @@
         <q-item>
           <q-item-section>List item</q-item-section>
           <q-item-section thumbnail>
-            <img src="statics/mountains.jpg">
+            <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
           </q-item-section>
         </q-item>
       </q-list>
@@ -349,7 +349,7 @@
         <q-item>
           <q-item-section top avatar>
             <q-avatar>
-              <img src="statics/boy-avatar.png">
+              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
             </q-avatar>
           </q-item-section>
 
@@ -364,7 +364,7 @@
         <q-item>
           <q-item-section top avatar>
             <q-avatar square>
-              <img src="statics/boy-avatar.png">
+              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
             </q-avatar>
           </q-item-section>
 
@@ -378,7 +378,7 @@
 
         <q-item>
           <q-item-section thumbnail>
-            <img src="statics/mountains.jpg">
+            <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
           </q-item-section>
 
           <q-item-section>
@@ -454,7 +454,7 @@
         <q-item>
           <q-item-section top avatar>
             <q-avatar>
-              <img src="statics/boy-avatar.png">
+              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
             </q-avatar>
           </q-item-section>
 
@@ -473,7 +473,7 @@
         <q-item>
           <q-item-section top avatar>
             <q-avatar rounded>
-              <img src="statics/boy-avatar.png">
+              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
             </q-avatar>
           </q-item-section>
 
@@ -491,7 +491,7 @@
 
         <q-item>
           <q-item-section top thumbnail class="q-ml-none">
-            <img class="generic-border-radius" src="statics/mountains.jpg">
+            <img class="generic-border-radius" src="https://cdn.quasar-framework.org/img/mountains.jpg">
           </q-item-section>
 
           <q-item-section>

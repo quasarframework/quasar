@@ -21,22 +21,22 @@ export default {
         actions: [
           {
             label: 'Drive',
-            img: 'statics/logo_drive_128px.png',
+            img: 'https://cdn.quasar-framework.org/img/logo_drive_128px.png',
             id: 'drive'
           },
           {
             label: 'Keep',
-            img: 'statics/logo_keep_128px.png',
+            img: 'https://cdn.quasar-framework.org/img/logo_keep_128px.png',
             id: 'keep'
           },
           {
             label: 'Google Hangouts',
-            img: 'statics/logo_hangouts_128px.png',
+            img: 'https://cdn.quasar-framework.org/img/logo_hangouts_128px.png',
             id: 'calendar'
           },
           {
             label: 'Calendar',
-            img: 'statics/logo_calendar_128px.png',
+            img: 'https://cdn.quasar-framework.org/img/logo_calendar_128px.png',
             id: 'calendar'
           },
           {},
@@ -54,7 +54,7 @@ export default {
           {},
           {
             label: 'John',
-            avatar: 'statics/boy-avatar.png',
+            avatar: 'https://cdn.quasar-framework.org/img/boy-avatar.png',
             id: 'john'
           }
         ]

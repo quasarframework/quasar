@@ -177,7 +177,7 @@
       <q-input v-bind="props" standout v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-avatar slot="append">
-          <img src="statics/quasar-logo.png">
+          <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
         </q-avatar>
       </q-input>
 
