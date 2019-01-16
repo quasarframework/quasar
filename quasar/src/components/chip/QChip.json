@@ -40,13 +40,6 @@
       "desc": "Model for QChip if it's selected or not"
     },
 
-    "pointing": {
-      "type": "String",
-      "desc": "Makes the QChip display a pointer arrow (not to be used along with 'outline' prop)",
-      "values": [ "up", "right", "down", "left" ],
-      "examples": [ "up" ]
-    },
-
     "square": {
       "extends": "square"
     },

@@ -7,7 +7,7 @@
       <q-avatar size="100px" font-size="52px" color="teal" text-color="white" icon="directions" />
       <q-avatar size="24px" color="orange">J</q-avatar>
       <q-avatar>
-        <img src="statics/boy-avatar.png">
+        <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
       </q-avatar>
     </div>
 
@@ -18,7 +18,7 @@
       <q-avatar square size="100px" font-size="82px" color="teal" text-color="white" icon="directions" />
       <q-avatar square size="24px" color="orange">J</q-avatar>
       <q-avatar square>
-        <img src="statics/boy-avatar.png">
+        <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
       </q-avatar>
     </div>
 
@@ -29,7 +29,7 @@
       <q-avatar rounded size="100px" font-size="82px" color="teal" text-color="white" icon="directions" />
       <q-avatar rounded size="24px" color="orange">J</q-avatar>
       <q-avatar rounded>
-        <img src="statics/boy-avatar.png">
+        <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
       </q-avatar>
     </div>
   </div>

@@ -7,7 +7,7 @@ The Chip component is basically a simple UI block entity, representing for examp
 Chips can contain entities such as an avatar, text or an icon, optionally having a pointer too. They can also be closed or removed if configured so.
 
 ## Installation
-<doc-installation components="QChip" directives="Ripple" />
+<doc-installation components="QChip" />
 
 ## Usage
 <doc-example title="Standard" file="QChip/Standard" />

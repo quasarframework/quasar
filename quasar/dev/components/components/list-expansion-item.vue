@@ -93,7 +93,7 @@
           <template slot="header">
             <q-item-section avatar>
               <q-avatar>
-                <img src="statics/boy-avatar.png">
+                <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
               </q-avatar>
             </q-item-section>
 

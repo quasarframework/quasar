@@ -54,6 +54,9 @@ export default {
     this.__portal = new Vue(Object.assign({}, inject, {
       render: h => this.__render(h),
 
+      components: this.$options.components,
+      directives: this.$options.directives,
+
       created () {
         this.portalParentId = id
       },

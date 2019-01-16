@@ -29,7 +29,7 @@ fg($name, $size)
     for $i in (0..$flex-cols)
       $ic = s('%s', $i)
       {fe('.col<name>-<i>', $name, $noProcNotZero, $ic)}
-        @extend .col{$name}-auto
+        @extends .col{$name}-auto
       .row
         {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
           height auto
@@ -122,8 +122,8 @@ fg($name, $size)
     align-self stretch
 
 .flex-center
-  @extend .items-center
-  @extend .justify-center
+  @extends .items-center
+  @extends .justify-center
 
 for $name, $size in $flex-gutter
   .q-gutter
@@ -137,8 +137,17 @@ for $name, $size in $flex-gutter
         margin-top $size
     &-{$name}
       @extends .q-gutter-x-{$name}, .q-gutter-y-{$name}
+  .q-col-gutter
+    &-x-{$name}
+      margin-left (- $size)
       > *
-        @extends .q-gutter-x-{$name} > *, .q-gutter-y-{$name} > *
+        padding-left ($size)
+    &-y-{$name}
+      margin-top (- $size)
+      > *
+        padding-top ($size)
+    &-{$name}
+      @extends .q-col-gutter-x-{$name}, .q-col-gutter-y-{$name}
 
 for $name, $size in $sizes
   fg(s('-%s', unquote($name)), $size)
