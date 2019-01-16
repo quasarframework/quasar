@@ -9,17 +9,17 @@
     <div class="row q-pa-md q-gutter-sm">
       <q-btn round>
         <q-avatar size="28px">
-          <img src="statics/quasar-logo.png" />
+          <img src="https://cdn.quasar-framework.org/app-icons/icon-128x128.png" />
         </q-avatar>
       </q-btn>
       <q-btn round>
         <q-avatar size="32px">
-          <img src="statics/quasar-logo.png" />
+          <img src="https://cdn.quasar-framework.org/app-icons/icon-128x128.png" />
         </q-avatar>
       </q-btn>
       <q-btn round>
         <q-avatar size="40px">
-          <img src="statics/quasar-logo.png" />
+          <img src="https://cdn.quasar-framework.org/app-icons/icon-128x128.png" />
         </q-avatar>
       </q-btn>
     </div>
