@@ -1,7 +1,11 @@
 <template lang="pug">
 q-page.doc-page
 
-  h1.doc-heading.doc-h1#Introduction(@click="copyHeading('Introduction')") {{ title }}
+  h1.doc-heading.doc-h1#Introduction(@click="copyHeading('Introduction')")
+    span {{ title }}
+    a.doc-page__top-link.float-right(:href="editHref", target="_blank", rel="noopener noreferrer")
+      q-icon(name="edit")
+        q-tooltip Suggest an edit?
 
   slot
 
@@ -39,6 +43,11 @@ export default {
 
   > div
     margin-bottom 22px
+
+  &__top-link
+    color inherit
+    text-decoration none
+    outline 0
 
 .doc-edit-link
   margin 68px 0 12px !important
