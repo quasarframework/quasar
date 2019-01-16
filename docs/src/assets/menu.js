@@ -99,11 +99,11 @@ const directives = [
     path: 'close-menu'
   },
   {
-    name: '(Navigation) Go Back',
+    name: 'Go Back (Handling Back Button)',
     path: 'go-back'
   },
   {
-    name: '(Material) Ripple',
+    name: 'Material Ripples',
     path: 'material-ripple'
   },
   {
