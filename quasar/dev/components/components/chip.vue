@@ -7,6 +7,9 @@
         <q-chip icon="bookmark">Bookmark</q-chip>
         <q-chip icon="alarm" label="Set alarm" />
         <q-chip icon="directions">Get directions</q-chip>
+
+        <q-chip>Get directions</q-chip>
+        <q-chip dense>Get directions</q-chip>
       </div>
       <div class="q-ma-md">
         <q-chip color="primary" text-color="white" icon="event" removable>Add to calendar </q-chip>
@@ -24,7 +27,7 @@
         </q-chip>
         <q-chip>
           <q-avatar>
-            <img src="statics/boy-avatar.png">
+            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
           </q-avatar>
           Emails
         </q-chip>
@@ -55,7 +58,7 @@
         </q-chip>
         <q-chip square>
           <q-avatar>
-            <img src="statics/boy-avatar.png">
+            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
           </q-avatar>
           Emails
         </q-chip>
@@ -78,7 +81,7 @@
         </q-chip>
         <q-chip dense>
           <q-avatar>
-            <img src="statics/boy-avatar.png">
+            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
           </q-avatar>
           Emails
         </q-chip>
@@ -101,7 +104,7 @@
         </q-chip>
         <q-chip square dense>
           <q-avatar>
-            <img src="statics/boy-avatar.png">
+            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
           </q-avatar>
           Emails
         </q-chip>
@@ -118,31 +121,32 @@
 
       <p>Selected</p>
       <div class="q-ma-md">
-        <q-chip :selected.sync="selected1" clickable icon="bookmark" removable>Bookmark</q-chip>
+        <q-chip :selected.sync="selected1" icon="bookmark" removable>Bookmark</q-chip>
+        <q-chip :selected.sync="selected1" removable>EmptyTest</q-chip>
 
-        <q-chip :selected.sync="selected2" clickable>
+        <q-chip :selected.sync="selected2">
           <q-avatar>
-            <img src="statics/boy-avatar.png">
+            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip :selected.sync="selected3" clickable>
+        <q-chip :selected.sync="selected3">
           <q-avatar color="primary" text-color="white">J</q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip :selected.sync="selected4" clickable color="orange">
+        <q-chip :selected.sync="selected4" color="orange">
           <q-avatar color="teal" text-color="white">J</q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip :selected.sync="selected5" clickable removable>
+        <q-chip :selected.sync="selected5" removable>
           <q-avatar color="red" text-color="white" icon="directions" />
           Bookmark
         </q-chip>
 
-        <q-chip dense :selected.sync="selected5" clickable removable>
+        <q-chip dense :selected.sync="selected5" removable>
           <q-avatar color="red" text-color="white" icon="directions" />
           Bookmark
         </q-chip>
@@ -156,7 +160,7 @@
 
         <q-chip v-model="close2" removable>
           <q-avatar>
-            <img src="statics/boy-avatar.png">
+            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
           </q-avatar>
           Add to calendar
         </q-chip>
@@ -183,7 +187,7 @@
 
         <q-chip disable :selected.sync="selected2" clickable>
           <q-avatar>
-            <img src="statics/boy-avatar.png">
+            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
           </q-avatar>
           Add to calendar
         </q-chip>
@@ -212,49 +216,9 @@
         <q-chip outline color="red" icon="alarm" label="Set alarm" removable />
         <q-chip outline color="orange" icon="directions" removable>Get directions</q-chip>
         <q-chip outline color="teal" icon-right="bookmark">Bookmark</q-chip>
-      </div>
 
-      <p>Pointing</p>
-      <div class="q-my-md">
-        <q-chip color="orange" pointing="up">1</q-chip>
-        <q-chip pointing="down">2</q-chip>
-        <q-chip pointing="right" class="q-mr-md">3</q-chip>
-        <q-chip pointing="left">4</q-chip>
-      </div>
-      <div class="q-my-md">
-        <q-chip color="primary" text-color="white" pointing="up" clickable>Pointing Up</q-chip>
-        <q-chip color="black" text-color="white" pointing="down" clickable>Pointing Down</q-chip>
-        <q-chip pointing="right" clickable class="q-mr-md">Pointing Right</q-chip>
-        <q-chip pointing="left" icon="bookmark" clickable>Pointing Left</q-chip>
-        <q-chip pointing="left" clickable>
-          <q-avatar>
-            <img src="statics/boy-avatar.png">
-          </q-avatar>
-          Pointing Left
-        </q-chip>
-        <q-chip pointing="left">
-          <q-avatar color="teal">J</q-avatar>
-          Pointing Left
-        </q-chip>
-      </div>
-      <div class="q-my-md">
-        <q-chip square pointing="up">Pointing Up</q-chip>
-        <q-chip square pointing="down">Pointing Down</q-chip>
-        <q-chip square pointing="right" class="q-mr-md">Pointing Right</q-chip>
-        <q-chip square pointing="left">Pointing Left</q-chip>
-      </div>
-
-      <div class="q-my-md">
-        <q-chip dense pointing="up" clickable>Pointing Up</q-chip>
-        <q-chip dense pointing="down" clickable>Pointing Down</q-chip>
-        <q-chip dense pointing="right" class="q-mr-md" clickable>Pointing Right</q-chip>
-        <q-chip dense pointing="left" clickable>Pointing Left</q-chip>
-      </div>
-      <div class="q-my-md">
-        <q-chip dense square pointing="up" clickable>Pointing Up</q-chip>
-        <q-chip dense square pointing="down" clickable>Pointing Down</q-chip>
-        <q-chip dense square pointing="right" class="q-mr-md" clickable>Pointing Right</q-chip>
-        <q-chip dense square pointing="left" clickable>Pointing Left</q-chip>
+        <q-chip outline>Get directions</q-chip>
+        <q-chip dense outline>Get directions</q-chip>
       </div>
     </div>
   </div>

@@ -1,83 +1,36 @@
 ---
-title: Docs
+title: Touch Pan Directive
 ---
+Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+> **These directives also work with mouse events, not only touch events**, so you are able to build cool functionality for your App on desktops too.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+We will be describing `v-touch-pan` on the lines below.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation directives="TouchPan" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+``` html
+<div v-touch-pan="handler">...</div>
+// "handler" is a Function which receives an Object as parameter
+```
+
+### Avoid Capturing Mouse Events
+When you don't want to capture mouse actions too, use the `noMouse` modifier:
+``` html
+<!--
+  directive won't be triggered by mouse actions;
+  it's exclusively triggered by touch actions now:
+-->
+<div v-touch-pan.noMouse="userHasPanned">...</div>
+```
+
+### Preventing Scroll (on touch capable devices)
+By default, the directive does not block page scrolling. If you want to prevent scrolling, then use the `prevent` modifier.
+``` html
+<div v-touch-pan.prevent="userHasPanned">...</div>
+```
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="TouchPan" />

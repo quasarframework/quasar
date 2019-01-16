@@ -1,83 +1,132 @@
 ---
-title: Docs
+title: Cookies
 ---
+This is a wrapper over the standardized `document.cookie`.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+> **NOTE**
+> In addition, you can read and write cookies using JSON objects.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation plugins="Cookies" />
 
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+### Note about SSR
+When building for SSR, use only the `$q.cookies` form. If you need to use the `import { Cookies } from 'quasar'`, then you'll need to do it like this:
 
-## API
-<doc-api file="QTh" />
+```js
+import { Cookies } from 'quasar'
+
+// you need access to `ssrContext`
+function (ssrContext) {
+  const cookies = process.env.SERVER
+    ? Cookies.parseSSR(ssrContext)
+    : Cookies // otherwise we're on client
+
+  // "cookies" is equivalent to the global import as in non-SSR builds
+}
+```
+
+The `ssrContext` is available in App Plugins or preFetch feature where it is supplied as parameter.
+
+The reason for this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Cookies needs to be bound to each request separately.
+
+## Read a Cookie
+``` js
+// outside of a Vue file
+import { Cookies } from 'quasar'
+
+var value = Cookies.get('cookie_name')
+```
+When cookie is not set, the return value is `undefined`.
+
+```js
+// inside of a Vue file
+this.$q.cookies.get('cookie_name')
+```
+
+## Read All Cookies
+``` js
+// outside of a Vue file
+import { Cookies } from 'quasar'
+
+var cookies = Cookies.all()
+```
+`cookies` variable will be an object with key-value pairs (cookie_name : cookie_value).
+
+```js
+// inside of a Vue file
+this.$q.cookies.all()
+```
+
+## Verify if Cookie is Set
+``` js
+// outside of a Vue file
+import { Cookies } from 'quasar'
+
+(Boolean) Cookies.has('cookie_name')
+```
+
+```js
+// inside of a Vue file
+this.$q.cookies.has('cookie_name')
+```
+
+## Write a Cookie
+``` js
+// outside of a Vue file
+import { Cookies } from 'quasar'
+
+Cookies.set('cookie_name', cookie_value, options)
+```
+
+`options` is an Object which can have the following properties: `expires`, `path`, `domain`, `secure`. They are explained below.
+
+``` js
+// outside of a Vue file
+import { Cookies } from 'quasar'
+
+Cookies.set('quasar', 'framework', {
+  secure: true
+})
+```
+
+```js
+// inside of a Vue file
+this.$q.cookies.set('cookie_name', cookie_value, options)
+```
+
+### Option: expires
+``` js
+expires: 10
+```
+Define lifetime of the cookie. Value can be a Number which will be interpreted as days from time of creation or a Date object. If omitted, the cookie becomes a session cookie.
+
+### Option: path
+``` js
+path: '/'
+```
+Define the path where the cookie is valid. By default the path of the cookie is the path of the page where the cookie was created (standard browser behavior). If you want to make it available for instance across the entire domain use path: '/'. Default: path of page where the cookie was created.
+
+### Option: domain
+``` js
+domain: 'quasar-framework.org'
+```
+Define the domain where the cookie is valid. Default: domain of page where the cookie was created.
+
+### Option: secure
+``` js
+secure: true
+```
+If true, the cookie transmission requires a secure protocol (HTTPS) and will NOT be sent over HTTP. Default value is `false`.
+
+## Remove a Cookie
+``` js
+// outside of a Vue file
+import { Cookies } from 'quasar'
+
+Cookies.remove('cookie_name')
+```
+
+```js
+// inside of a Vue file
+this.$q.cookies.remove('cookie_name')
+```

@@ -68,7 +68,7 @@ export default {
 
       if (propName !== void 0) {
         child.push(
-          this.getDiv(h, 3, 'Name', propName)
+          this.getDiv(h, 4, 'Name', propName)
         )
 
         if (type !== void 0) {
