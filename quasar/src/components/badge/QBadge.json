@@ -13,9 +13,15 @@
       "desc": "Tell QBadge if it should float to the top right side of the relative positioned parent element or not"
     },
 
-    "opaque": {
+    "transparent": {
       "type": "Boolean",
-      "desc": "Tell QBadge to make it opaque"
+      "desc": "Applies a 0.8 opacity; Useful especially for floating QBagde"
+    },
+
+    "label": {
+      "type": [ "String", "Number" ],
+      "desc": "Badge's content as string; overrides default slot if specified",
+      "examples": [ "John Doe", 22 ]
     },
 
     "align": {
@@ -27,7 +33,7 @@
 
   "slots": {
     "default": {
-      "extends": "default"
+      "desc": "This is where QBadge content goes, if not using 'label' property"
     }
   }
 }

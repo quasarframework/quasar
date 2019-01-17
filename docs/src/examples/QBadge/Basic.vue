@@ -1,28 +1,53 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <div>
-      This blue:
-      <q-badge color="blue">
-        #4D96F2
-      </q-badge>
+  <div class="q-pa-md q-gutter-md">
+    <q-badge color="blue">
+      #4D96F2
+    </q-badge>
+
+    <q-badge color="orange" text-color="black" label="2" />
+
+    <q-badge color="purple">
+      <q-icon name="fab fa-bluetooth-b" color="white" />
+    </q-badge>
+
+    <q-badge color="red">
+      12 <q-icon name="warning" color="white" class="q-ml-xs" />
+    </q-badge>
+
+    <div class="text-h6">
+      Badge <q-badge color="primary">v1.0.0+</q-badge>
     </div>
+
     <div>
-      Not blue:
-      <q-badge color="orange" text-color="black">
-        2
-      </q-badge>
+      Feature <q-badge color="primary">v1.0.0+</q-badge>
     </div>
-    <div>
-      Also not blue:
-      <q-badge color="green-3" text-color="purple-12">
-        orange
-      </q-badge>
-    </div>
-    <div>
-      Technically blue:
-      <q-badge color="blue">
-        <q-icon name="fab fa-bluetooth-b" color="white" />
-      </q-badge>
-    </div>
+
+    <q-item clickable v-ripple class="bg-grey-2">
+      <q-item-section avatar>
+        <q-avatar rounded>
+          <img src="https://cdn.quasar-framework.org/img/chaosmonkey.png" />
+        </q-avatar>
+      </q-item-section>
+
+      <q-item-section>
+        <q-item-label>
+          Ganglia
+        </q-item-label>
+        <q-item-label caption>
+          <q-badge color="yellow-6" text-color="black">
+            3
+            <q-icon
+              name="fas fa-exclamation-triangle"
+              size="14px"
+              class="q-ml-xs"
+            />
+          </q-badge>
+        </q-item-label>
+      </q-item-section>
+
+      <q-item-section side>
+        <span>2 min ago</span>
+      </q-item-section>
+    </q-item>
   </div>
 </template>

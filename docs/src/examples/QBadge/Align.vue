@@ -1,16 +1,22 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <h5>
-      @quasar
+    <div class="text-h4">
+      Title
       <q-badge align="top">cli v1.0.0</q-badge>
-    </h5>
-    <h5>
-      @quasar
+    </div>
+
+    <q-separator />
+
+    <div class="text-h4">
+      Title
       <q-badge align="middle">app v1.0.0</q-badge>
-    </h5>
-    <h5>
-      @quasar
+    </div>
+
+    <q-separator />
+
+    <div class="text-h4">
+      Title
       <q-badge align="bottom">docs v1.0.0</q-badge>
-    </h5>
+    </div>
   </div>
 </template>
