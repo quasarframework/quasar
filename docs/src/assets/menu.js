@@ -181,10 +181,6 @@ const plugins = [
 
 const components = [
   {
-    name: 'Action Sheet',
-    path: 'action-sheet'
-  },
-  {
     name: 'Ajax Bar',
     path: 'ajax-bar'
   },
