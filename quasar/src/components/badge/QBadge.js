@@ -25,7 +25,7 @@ export default Vue.extend({
       return 'q-badge' +
         (this.color ? ` bg-${this.color}` : '') +
         (this.textColor !== void 0 ? ` text-${this.textColor}` : '') +
-        (this.floating === true ? ' q-badge--floating' : '')
+        (this.floating === true ? ' q-badge--floating' : '') +
         (this.opaque === true ? ' q-badge--opaque' : '')
     }
   },
