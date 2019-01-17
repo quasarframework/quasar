@@ -17,7 +17,7 @@ const options = [
   },
   {
     name: 'Quasar Icon Sets',
-    path: 'icons'
+    path: 'quasar-icon-sets'
   },
   {
     name: 'RTL Support',
