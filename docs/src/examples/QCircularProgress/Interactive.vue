@@ -60,7 +60,7 @@
           :show-value="showValue"
           :indeterminate="indeterminate"
           color="grey-8"
-          text-color="white"
+          center-color="white"
           track-color="orange"
         />
 
