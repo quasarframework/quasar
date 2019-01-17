@@ -355,10 +355,6 @@ const components = [
     path: 'menu'
   },
   {
-    name: 'Modal',
-    path: 'modal'
-  },
-  {
     name: 'No SSR',
     path: 'no-ssr'
   },

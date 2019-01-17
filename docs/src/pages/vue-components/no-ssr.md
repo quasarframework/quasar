@@ -1,83 +1,69 @@
 ---
-title: Docs
+title: QNoSsr
 ---
+This component makes sense only if you are creating a SSR website/app.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+It avoids rendering its content on the server and leaves that for client only. Useful when you got code that is not isomorphic and can only run on the client side, in a browser.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+Alternatively, you can also use it to render content only on server-side and it automatically removes it if it ends up running on a client browser.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QNoSsr" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+Basic:
+```html
+<q-no-ssr>
+  <div>This won't be rendered on server</div>
+</q-no-ssr>
+```
+
+Multiple client nodes:
+```html
+<q-no-ssr>
+  <div>This won't be rendered on server.</div>
+  <div>This won't either.</div>
+</q-no-ssr>
+```
+
+Multiple client nodes with tag prop:
+```html
+<q-no-ssr tag="blockquote">
+  <div>This won't be rendered on server.</div>
+  <div>This won't either.</div>
+</q-no-ssr>
+```
+
+Placeholder property:
+```html
+<q-no-ssr placeholder="Rendered on server">
+  <div>This won't be rendered on server</div>
+</q-no-ssr>
+```
+
+Placeholder slot:
+```html
+<q-no-ssr>
+  <div>This won't be rendered on server</div>
+  <div slot="placeholder">Rendered on server</div>
+</q-no-ssr>
+```
+
+Multiple placeholder slot:
+```html
+<q-no-ssr>
+  <div>This won't be rendered on server</div>
+  <div slot="placeholder">Rendered on server (1/2)</div>
+  <div slot="placeholder">Rendered on server (2/2)</div>
+</q-no-ssr>
+```
+
+Only placeholder slot:
+```html
+<q-no-ssr>
+  <div slot="placeholder">Rendered on server</div>
+</q-no-ssr>
+```
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QNoSsr" />
