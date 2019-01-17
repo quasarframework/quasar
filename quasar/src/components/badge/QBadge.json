@@ -13,6 +13,11 @@
       "desc": "Tell QBadge if it should float to the top right side of the relative positioned parent element or not"
     },
 
+    "opaque": {
+      "type": "Boolean",
+      "desc": "Tell QBadge to make it opaque"
+    },
+
     "align": {
       "type": "String",
       "desc": "Sets vertical-align CSS prop",

@@ -6,8 +6,8 @@ export default Vue.extend({
   props: {
     color: String,
     textColor: String,
-
     floating: Boolean,
+    opaque: Boolean,
     align: {
       type: String,
       validator: v => ['top', 'middle', 'bottom'].includes(v)
@@ -26,6 +26,7 @@ export default Vue.extend({
         (this.color ? ` bg-${this.color}` : '') +
         (this.textColor !== void 0 ? ` text-${this.textColor}` : '') +
         (this.floating === true ? ' q-badge--floating' : '')
+        (this.opaque === true ? ' q-badge--opaque' : '')
     }
   },
 
