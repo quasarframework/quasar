@@ -1,83 +1,55 @@
 ---
-title: Docs
+title: Loading Plugin
 ---
-
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+Loading is a feature that you can use to display an overlay with a spinner on top of your App's content to inform the user that a background operation is taking place. No need to add complex logic within your Pages for global background operations.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation plugins="Loading" :config="{ loading: 'Loading' }" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+Loading uses a delay (500ms) to display itself so that quick operations won't make the screen flicker. This happens by showing and then quickly hiding the progress spinner without the user having a chance to see what happens. The delay before showing it eliminates confusion.
+
+Inside a Vue component:
+```
+this.$q.loading.show({
+  delay: 400 // ms
+})
+
+this.$q.loading.hide()
+```
+
+Outside of a Vue component:
+``` js
+import {
+  Loading,
+
+  // optional!, for example below
+  // with custom spinner
+  QSpinnerGears
+} from 'quasar'
+
+// default options
+Loading.show()
+
+// fully customizable
+Loading.show({
+  spinner: QSpinnerGears,
+  // other props
+})
+
+Loading.hide()
+```
+
+<doc-example title="Default options" file="Loading/Default" />
+
+<doc-example title="With message" file="Loading/WithMessage" />
+
+<doc-example title="Customized" file="Loading/Customized" />
+
+<doc-example title="Show and Change" file="Loading/ShowAndChange" />
+
+### Setting Up Defaults
+Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.conf > framework > config > loading: {...} or by calling `Loading.setDefaults({...})` or `this.$q.loading.setDefaults({...})`.
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="Loading" />
