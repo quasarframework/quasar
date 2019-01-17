@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md row justify-center">
     <div style="width: 460px; max-width: 90vw;">
-      <q-layout view="hHh LpR fFf" container style="height: 500px; width: 100%" class="shadow-2">
+      <q-layout view="hHh LpR fFf" container style="height: 400px; width: 100%" class="shadow-2">
 
         <q-header class="bg-black shadow-2">
           <q-toolbar>
@@ -16,9 +16,9 @@
           <q-list v-for="menuItem in menuList" :key="menuItem.id">
 
             <q-item
-              :to="routePath(menuItem.to)"
-              :clickable="menuItem.disabled"
+              :to="menuItem.to"
               :active-class="menuItem.activeClass"
+              v-ripple
              >
               <q-item-section avatar>
                 <q-icon :name="menuItem.icon" />
@@ -40,7 +40,7 @@
 const data = [{
   id: 1,
   icon: 'inbox',
-  to: 'active',
+  to: '',
   description: 'Inbox',
   activeClass: 'my-link',
   separator: true
@@ -100,18 +100,16 @@ export default {
       menuList: data
     }
   },
-  methods: {
-    routePath (route) {
-      return route === 'active' ? this.$route.path : route
-    }
+  created () {
+    console.log(this.$q)
   }
 }
 </script>
 
-<style lang="stylus">
-@import '~quasar-variables'
+<style>
 
-.my-link
-  color white
-  background $warning
+.my-link {
+  color: white;
+  background: #F2C037;
+}
 </style>

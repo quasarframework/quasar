@@ -30,6 +30,17 @@ Also notice:
  - The "Spam" menu item is deactivated by leaving out the `to` prop. This could useful if, for instance, no Spam were to be available to look at.
 <doc-example title="Simple Menu Example" file="QListItem/SimpleMenu" />
 
+## API
+<doc-api file="QList" />
+
+<doc-api file="QItem" />
+
+<doc-api file="QItemLabel" />
+
+<doc-api file="QItemSection" />
+
 #### Related Components
+ - [QLayout](/vue-components/layout)
+ - [QDrawer](/vue-components/drawer)
  - [QExpansionItem](/vue-components/expansion-item)
  - [QSlideItem](/vue-components/slide-item)
