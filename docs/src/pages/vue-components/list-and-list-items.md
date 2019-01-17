@@ -6,9 +6,10 @@ Quasar Lists and List Items are a group of components which can work together to
 
 Lists can encapsulate Items or Item-like components, for example [QExpansionItem](/vue-components/expansion-item) or [QSlideItem](/vue-components/slide-item). Also [QSeparator](/vue-components/separator) can be used to split up sections, where needed.
 
-List Items have the following content areas:
-* **left side** and **right side** (usually equipped for supplemental actions represented by icons, avatars, images or letters, but not limited to only these)
-* **main content** which usually is filled with a label (title) and sublabel (subtitle), form components, or anything else for that matter.
+List Items have the following pre-built child components:
+* **QItemSection** An item section can have several uses for particular content. They are controlled via the `avatar`, `thumbnail`, `side` and `top` props. With no props, it is just a container for any content you'd like to add.
+
+* **QItemLabel** An item label is useful for predefined text content within a QItemSection.
 
 ## Installation
 <doc-installation :components="['QList', 'QListItem']" />
@@ -27,7 +28,7 @@ Lists can also be used to build a simple menu with links to different pages. In 
 Also notice: 
 
  - The first menu item in the list is the "active" menu item and it is using a special active indication. You could also leave the `to` prop empty, to get the standard active link. 
- - The "Spam" menu item is deactivated by leaving out the `to` prop. This could useful if, for instance, no Spam were to be available to look at.
+ - The "Spam" menu item is deactivated by leaving out the `to` prop. This could be useful if, for instance, no Spam were to be available to look at.
 <doc-example title="Simple Menu Example" file="QListItem/SimpleMenu" />
 
 ## API
