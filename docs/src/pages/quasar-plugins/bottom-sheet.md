@@ -15,11 +15,11 @@ Bottom Sheets can be displayed as a list or as a grid, with icons or with avatar
 
 ``` js
 // outside of a Vue file
-import { ActionSheet } from 'quasar'
-(Object) ActionSheet.create({ ... })
+import { BottomSheet } from 'quasar'
+(Object) BottomSheet.create({ ... })
 
 // inside of a Vue file
-(Object) this.$q.actionSheet({ ... })
+(Object) this.$q.bottomSheet({ ... })
 ```
 
 ::: tip
