@@ -47,7 +47,7 @@
       </q-item-section>
     </q-item>
 
-    <q-banner class="bg-primary text-white generic-border-radius">
+    <q-banner rounded class="bg-primary text-white">
       <q-avatar slot="avatar" icon="signal_wifi_off" color="white" text-color="primary" />
 
       You have lost connection to the internet. This app is offline.

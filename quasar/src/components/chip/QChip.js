@@ -18,7 +18,7 @@ export default Vue.extend({
 
     icon: String,
     iconRight: String,
-    label: String,
+    label: [String, Number],
 
     color: String,
     textColor: String,
@@ -103,7 +103,7 @@ export default Vue.extend({
 
       child.push(h('div', {
         staticClass: 'q-chip__content row no-wrap items-center q-anchor--skip'
-      }, this.label ? [ this.label ] : this.$slots.default))
+      }, this.label !== void 0 ? [ this.label ] : this.$slots.default))
 
       this.iconRight && child.push(h(QIcon, {
         staticClass: 'q-chip__icon q-chip__icon--right',

@@ -15,8 +15,8 @@
     },
 
     "label": {
-      "type": "String",
-      "desc": "Chip's content as string",
+      "type": [ "String", "Number" ],
+      "desc": "Chip's content as string; overrides default slot if specified",
       "examples": [ "John Doe", "Book" ]
     },
 

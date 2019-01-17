@@ -10,17 +10,9 @@ Chips can contain entities such as an avatar, text or an icon, optionally having
 <doc-installation components="QChip" />
 
 ## Usage
-<doc-example title="Standard" file="QChip/Standard" />
-
-<doc-example title="Ripple" file="QChip/Ripple" />
+<doc-example title="Basic" file="QChip/Basic" />
 
 <doc-example title="Dense" file="QChip/Dense" />
-
-<doc-example title="Icon" file="QChip/Icon" />
-
-<doc-example title="Color" file="QChip/Color" />
-
-<doc-example title="Label" file="QChip/Label" />
 
 <doc-example title="Square" file="QChip/Square" />
 
@@ -31,8 +23,6 @@ Chips can contain entities such as an avatar, text or an icon, optionally having
 <doc-example title="Selected" file="QChip/Selected" />
 
 <doc-example title="Removable" file="QChip/Removable" />
-
-<doc-example title="Disable" file="QChip/Disable" />
 
 ## API
 <doc-api file="QChip" />

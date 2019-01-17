@@ -1,83 +1,67 @@
 ---
-title: Docs
+title: Fullscreen Plugin
 ---
-
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
+There are times when you want your website or App to run in fullscreen.
+Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).
 
 ::: warning
-Some tip
+Please note that the behavior is different depending on the platform the code is running on, due to the fact that there isn't a fixed Web standard for Web Fullscreen API yet.
 :::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation plugins="AppFullscreen" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+::: tip
+For an exhaustive list of properties and methods, please check out the API section.
+:::
+
+``` js
+// outside of a Vue file
+import { AppFullscreen } from 'quasar'
+
+// Requesting fullscreen mode:
+AppFullscreen.request()
+
+// Exiting fullscreen mode:
+AppFullscreen.exit()
+```
+
+``` js
+// inside of a Vue file
+
+// Requesting fullscreen mode:
+this.$q.fullscreen.request()
+
+// Exiting fullscreen mode:
+this.$q.fullscreen.exit()
+```
+
+<doc-example title="AppFullscreen" file="AppFullscreen/Basic" />
+
+::: warning
+On some phones this will have little effect:
+* For example, on Samsung S4, when App goes into fullscreen, the top bar will slide up but still remain on screen.
+* On Nexus phones, on the other hand, like Nexus 5, Android navigation buttons and top bar disappear completely.
+
+It all depends on the Web Fullscreen API support of the platform the code is running on.
+:::
+
+### Watching for fullscreen changes
+
+``` vue
+<template>...</template>
+
+<script>
+export default {
+  watch: {
+    '$q.fullscreen.isActive' (val) {
+      console.log(val ? 'In fullscreen now' : 'Exited fullscreen')
+    }
+  }
+}
+</script>
+```
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="AppFullscreen" />
