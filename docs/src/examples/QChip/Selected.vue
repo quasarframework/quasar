@@ -1,25 +1,22 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-sm">
-      <q-chip :selected.sync="mail" clickable icon="alarm" color="primary" text-color="white">
-        Alarm
+    <div class="q-gutter-xs">
+      <q-chip :selected.sync="desert.Icecream" color="primary" text-color="white" icon="cake">
+        Ice cream
       </q-chip>
-      <q-chip :selected.sync="map" clickable icon-right="map" color="secondary" text-color="white">
-        Map
+      <q-chip :selected.sync="desert.Eclair" color="teal" text-color="white" icon="cake">
+        Eclair
       </q-chip>
-      <q-chip :selected.sync="tenK" clickable color="orange" text-color="white">
-        10k
+      <q-chip :selected.sync="desert.Cupcake" color="orange" text-color="white" icon="cake">
+        Cupcake
       </q-chip>
-      <q-chip :selected.sync="fiveK" clickable color="red" text-color="white">
-        5k
+      <q-chip :selected.sync="desert.Gingerbread" color="red" text-color="white" icon="cake">
+        Gingerbread
       </q-chip>
     </div>
 
-    <div class="q-px-sm">
-      Mail: <strong>{{ JSON.stringify(mail) }}</strong><br>
-      Map: <strong>{{ JSON.stringify(map) }}</strong><br>
-      10k: <strong>{{ JSON.stringify(tenK) }}</strong><br>
-      5k: <strong>{{ JSON.stringify(fiveK) }}</strong>
+    <div class="q-mt-sm">
+      Your pick: {{ selection }}
     </div>
   </div>
 </template>
@@ -28,10 +25,20 @@
 export default {
   data () {
     return {
-      mail: false,
-      map: false,
-      tenK: false,
-      fiveK: false
+      desert: {
+        Icecream: false,
+        Eclair: true,
+        Cupcake: false,
+        Gingerbread: false
+      }
+    }
+  },
+
+  computed: {
+    selection () {
+      return Object.keys(this.desert)
+        .filter(type => this.desert[type] === true)
+        .join(', ')
     }
   }
 }
