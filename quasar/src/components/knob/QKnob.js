@@ -196,7 +196,7 @@ export default Vue.extend({
 
       props: Object.assign({}, this.$props, {
         value: this.model,
-        noMotion: this.dragging
+        instantFeedback: this.dragging
       })
     }
 

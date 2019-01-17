@@ -72,11 +72,6 @@
     "reverse": {
       "type": "Boolean",
       "desc": "Reverses the direction of progress"
-    },
-
-    "no-motion": {
-      "type": "Boolean",
-      "desc": "Disables animations"
     }
   },
 
