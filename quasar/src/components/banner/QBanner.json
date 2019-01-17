@@ -23,7 +23,7 @@
       "desc": "Slot for displaying an avatar (suggestions: QIcon, QAvatar)"
     },
 
-    "actions": {
+    "action": {
       "desc": "Slot for Banner action (suggestions: QBtn)"
     }
   }

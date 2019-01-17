@@ -50,7 +50,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-avatar',
+      staticClass: 'q-avatar relative-position',
       style: this.style
     }, [
       h('div', {

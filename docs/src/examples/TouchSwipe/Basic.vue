@@ -1,14 +1,20 @@
 <template>
   <div class="q-pa-md row justify-center">
     <q-card
-      v-touch-hold="handleHold"
+      v-touch-swipe="handleSwipe"
       class="custom-area cursor-pointer bg-primary text-white shadow-2 relative-position row flex-center"
     >
       <div v-if="info" class="custom-info">
         <pre>{{ info }}</pre>
       </div>
       <div v-else class="text-center">
-        Click/touch and hold for at least 600ms.
+        <q-icon name="arrow_upward" />
+        <div class="row items-center">
+          <q-icon name="arrow_back" />
+          <div>Swipe in any direction</div>
+          <q-icon name="arrow_forward" />
+        </div>
+        <q-icon name="arrow_downward" />
       </div>
     </q-card>
   </div>
@@ -23,7 +29,7 @@ export default {
   },
 
   methods: {
-    handleHold ({ evt, ...info }) {
+    handleSwipe ({ evt, ...info }) {
       this.info = info
 
       // native Javascript event
@@ -41,4 +47,5 @@ export default {
 
 .custom-info pre
   width 250px
+  font-size 12px
 </style>

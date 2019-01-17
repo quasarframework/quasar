@@ -1,83 +1,22 @@
 ---
-title: Docs
+title: Banner
 ---
-
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+The **QBanner** component creates a banner element to display a prominent message and related optional actions. According to the Material Design spec, the banner should be "displayed at the top of the screen, below a top app bar" - but of course you can put one anywhere that makes sense, even in a QDialog.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QBanner" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+
+<doc-example title="Basic" file="QBanner/Basic" />
+
+<doc-example title="Rounded border" file="QBanner/Rounded" />
+
+<doc-example title="With an image" file="QBanner/Image" />
+
+<doc-example title="Inline actions" file="QBanner/Inline" />
+
+<doc-example title="Dense" file="QBanner/Dense" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QBanner" />
