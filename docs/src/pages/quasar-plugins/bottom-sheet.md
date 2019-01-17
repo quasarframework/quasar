@@ -1,83 +1,38 @@
 ---
-title: Docs
+title: Bottom Sheet Plugin
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+Bottom Sheets slide up from the bottom edge of the device screen, and display a set of options with the ability to confirm or cancel an action. Bottom Sheets can sometimes be used as an alternative to menus, however, they should not be used for navigation.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+The Bottom Sheet always appears above any other components on the page, and must be dismissed in order to interact with the underlying content. When it is triggered, the rest of the page darkens to give more focus to the Bottom Sheet options.
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+Bottom Sheets can be displayed as a list or as a grid, with icons or with avatars. They can be used either as a component in your Vue file templates, or as a globally available method.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation plugins="BottomSheet" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+
+``` js
+// outside of a Vue file
+import { BottomSheet } from 'quasar'
+(Object) BottomSheet.create({ ... })
+
+// inside of a Vue file
+(Object) this.$q.bottomSheet({ ... })
+```
+
+::: tip
+When user hits the phone/tablet back button (only for Cordova apps), the Action Sheet will get closed automatically.
+
+Also, when on a desktop browser, hitting the `ESCAPE` key also closes the Action Sheet.
+:::
+
+<doc-example title="List and Grid" file="BottomSheet/Basic" />
+
+::: tip
+For an exhaustive list of options, please check API section.
+:::
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="BottomSheet" />

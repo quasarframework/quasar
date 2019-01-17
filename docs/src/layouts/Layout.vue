@@ -344,7 +344,6 @@ export default {
   font-weight 600
 
 .quasar-logo
-  border-radius 50% !important
   img
     transition transform .8s ease-in-out
   &:hover img

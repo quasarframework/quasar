@@ -17,7 +17,7 @@ const options = [
   },
   {
     name: 'Quasar Icon Sets',
-    path: 'icons'
+    path: 'quasar-icon-sets'
   },
   {
     name: 'RTL Support',
@@ -180,10 +180,6 @@ const plugins = [
 ]
 
 const components = [
-  {
-    name: 'Action Sheet',
-    path: 'action-sheet'
-  },
   {
     name: 'Ajax Bar',
     path: 'ajax-bar'
@@ -353,10 +349,6 @@ const components = [
   {
     name: 'Menu',
     path: 'menu'
-  },
-  {
-    name: 'Modal',
-    path: 'modal'
   },
   {
     name: 'No SSR',
