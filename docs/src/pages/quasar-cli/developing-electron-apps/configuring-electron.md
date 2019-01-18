@@ -1,83 +1,45 @@
 ---
-title: Docs
+title: Configuring Electron
 ---
+We'll be using Quasar CLI to develop and build an Electron App. The difference between building a SPA, PWA, Mobile App or an Electron App is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+But first, let's learn how we can configure the Electron build.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+## Quasar.conf.js
+You may notice that `/quasar.conf.js` contains a property called `electron`.
+```js
+electron: {
+  // optional; webpack config Object for
+  // the Main Process ONLY (/src-electron/main-process/)
+  extendWebpack (cfg) {
+    // directly change props of cfg;
+    // no need to return anything
+  },
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+  // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;
+  // for the Main Process ONLY (/src-electron/main-process/)
+  chainWebpack (chain) {
+    // chain is a webpack-chain instance
+    // of the Webpack configuration
+  },
 
-```
-const m = 'lala'
-```
+  bundler: 'packager', // or 'builder'
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
+  // electron-packager options
+  packager: {
+    //...
+  },
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
+  // electron-builder options
+  builder: {
+    //...
+  }
 }
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+The "packager" prop refers to [electron-packager options](https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options). The `dir` and `out` properties are overwritten by Quasar CLI to ensure the best results.
 
-> Something...
+The "builder" prop refers to [electron-builder options](https://www.electron.build/configuration/configuration).
 
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+## Packager vs. Builder
+You have to choose to use either packager or builder. They are both excellent open-source projects, however they serve slightly different needs. With packager you will be able to build unsigned projects for all major platforms from one machine. Although this is great, if you just want something quick and dirty, there is more platform granularity (and general polish) in builder. Cross-compiling your binaries from one computer doesn't really work with builder (or we haven't found the recipe yet...)
