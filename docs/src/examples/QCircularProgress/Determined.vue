@@ -3,49 +3,54 @@
     <q-circular-progress
       :value="value"
       size="50px"
+      color="orange"
+      class="q-ma-md"
+    />
+
+    <q-circular-progress
+      :value="value"
+      size="90px"
+      :thickness="0.2"
+      color="orange"
+      center-color="grey-8"
+      track-color="transparent"
+      class="q-ma-md"
+    />
+
+    <q-circular-progress
+      :value="value"
+      size="45px"
+      :thickness="1"
+      color="grey-8"
+      track-color="orange"
+      class="q-ma-md"
+    />
+
+    <q-circular-progress
+      :value="value"
+      size="50px"
       :thickness="0.22"
-      color="purple"
+      color="orange"
       track-color="grey-3"
       class="q-ma-md"
     />
 
     <q-circular-progress
-      :angle="90"
       :value="value"
-      size="50px"
-      :thickness="0.22"
-      color="purple"
-      track-color="grey-3"
+      size="75px"
+      :thickness="0.6"
+      color="orange"
+      center-color="grey-8"
       class="q-ma-md"
     />
 
     <q-circular-progress
-      :angle="180"
       :value="value"
-      size="50px"
-      :thickness="0.22"
-      color="purple"
+      size="40px"
+      :thickness="0.4"
+      color="orange"
       track-color="grey-3"
-      class="q-ma-md"
-    />
-
-    <q-circular-progress
-      :angle="270"
-      :value="value"
-      size="50px"
-      :thickness="0.22"
-      color="purple"
-      track-color="grey-3"
-      class="q-ma-md"
-    />
-
-    <q-circular-progress
-      :angle="52"
-      :value="value"
-      size="50px"
-      :thickness="0.22"
-      color="purple"
-      track-color="grey-3"
+      center-color="grey-8"
       class="q-ma-md"
     />
   </div>
@@ -55,7 +60,7 @@
 export default {
   data () {
     return {
-      value: 61
+      value: 71
     }
   }
 }

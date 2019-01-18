@@ -1,50 +1,54 @@
 <template>
   <div class="q-pa-md flex flex-center">
     <q-circular-progress
+      :min="40"
+      :max="70"
       :value="value"
       size="50px"
       :thickness="0.22"
-      color="purple"
+      color="teal"
       track-color="grey-3"
       class="q-ma-md"
     />
 
     <q-circular-progress
-      :angle="90"
+      :min="55"
+      :max="90"
       :value="value"
       size="50px"
       :thickness="0.22"
-      color="purple"
+      color="teal"
       track-color="grey-3"
       class="q-ma-md"
     />
 
     <q-circular-progress
-      :angle="180"
+      :min="40"
+      :max="110"
       :value="value"
       size="50px"
       :thickness="0.22"
-      color="purple"
+      color="teal"
       track-color="grey-3"
       class="q-ma-md"
     />
 
     <q-circular-progress
-      :angle="270"
+      :min="20"
+      :max="70"
       :value="value"
       size="50px"
       :thickness="0.22"
-      color="purple"
+      color="teal"
       track-color="grey-3"
       class="q-ma-md"
     />
 
     <q-circular-progress
-      :angle="52"
       :value="value"
       size="50px"
       :thickness="0.22"
-      color="purple"
+      color="teal"
       track-color="grey-3"
       class="q-ma-md"
     />

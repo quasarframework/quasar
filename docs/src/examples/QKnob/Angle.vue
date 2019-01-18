@@ -1,48 +1,48 @@
 <template>
   <div class="q-pa-md flex flex-center">
-    <q-circular-progress
-      :value="value"
-      size="50px"
+    <q-knob
+      v-model="value"
+      size="70px"
       :thickness="0.22"
       color="purple"
       track-color="grey-3"
       class="q-ma-md"
     />
 
-    <q-circular-progress
+    <q-knob
       :angle="90"
-      :value="value"
-      size="50px"
+      v-model="value"
+      size="70px"
       :thickness="0.22"
       color="purple"
       track-color="grey-3"
       class="q-ma-md"
     />
 
-    <q-circular-progress
+    <q-knob
       :angle="180"
-      :value="value"
-      size="50px"
+      v-model="value"
+      size="70px"
       :thickness="0.22"
       color="purple"
       track-color="grey-3"
       class="q-ma-md"
     />
 
-    <q-circular-progress
+    <q-knob
       :angle="270"
-      :value="value"
-      size="50px"
+      v-model="value"
+      size="70px"
       :thickness="0.22"
       color="purple"
       track-color="grey-3"
       class="q-ma-md"
     />
 
-    <q-circular-progress
+    <q-knob
       :angle="52"
-      :value="value"
-      size="50px"
+      v-model="value"
+      size="70px"
       :thickness="0.22"
       color="purple"
       track-color="grey-3"
