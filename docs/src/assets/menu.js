@@ -358,12 +358,12 @@ const components = [
     name: 'Observers',
     children: [
       {
-        name: 'Element Resize Observer',
-        path: 'element-resize-observer'
+        name: 'Resize Observer (for Element)',
+        path: 'resize-observer'
       },
       {
-        name: 'Window Resize Observer',
-        path: 'window-resize-observer'
+        name: 'Scroll Observer',
+        path: 'scroll-observer'
       }
     ]
   },
