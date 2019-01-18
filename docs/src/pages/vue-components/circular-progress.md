@@ -8,38 +8,19 @@ The QCircularProgress component displays a colored circular proress. The bar can
 <doc-installation components="QCircularProgress" />
 
 ## Usage
-<doc-example title="Standard" file="QCircularProgress/Standard" />
+By default, QCircularProgress inherits current text color (as arc progress color and inner label color) and current font size (as component size). For customization, you can use the size and color related props.
+<doc-example title="Determined state" file="QCircularProgress/Determined" />
 
-<doc-example title="Size" file="QCircularProgress/Size" />
+<doc-example title="Determined and reverse" file="QCircularProgress/Reverse" />
 
-<doc-example title="Show Value" file="QCircularProgress/ShowValue" />
+<doc-example title="Offset angle" file="QCircularProgress/Angle" />
 
-<doc-example title="Font Size" file="QCircularProgress/FontSize" />
+<doc-example title="Custom min/max (same model)" file="QCircularProgress/CustomMinMax" />
 
-<doc-example title="Color" file="QCircularProgress/Color" />
+In the example below, `show-value` property also enables the default slot, so you can fill it with custom content, like even a QAvatar or a QTooltip. The `font-size` prop refers to the inner label font size.
+<doc-example title="Show value" file="QCircularProgress/ShowValue" />
 
-**Hint:** There is no `text-color` property. Instead, use a Quasar color in a class. Example: `class="text-blue"`.
-
-<doc-example title="Text Color" file="QCircularProgress/TextColor" />
-
-<doc-example title="Center Color" file="QCircularProgress/CenterColor" />
-
-<doc-example title="Track Color" file="QCircularProgress/TrackColor" />
-
-<doc-example title="(Track) Thickness" file="QCircularProgress/Thickness" />
-
-<doc-example title="Min and Max" file="QCircularProgress/MinMax" />
-
-<doc-example title="Reverse" file="QCircularProgress/Reverse" />
-
-<doc-example title="Angle" file="QCircularProgress/Angle" />
-
-**Hint:** You should not use the properties `value` and `show-value` when using `indeterminate`.
-<doc-example title="Indeterminate" file="QCircularProgress/Indeterminate" />
-
-<doc-example title="No Motion" file="QCircularProgress/NoMotion" />
-
-<doc-example title="Interactive" file="QCircularProgress/Interactive" />
+<doc-example title="Indeterminate state" file="QCircularProgress/Indeterminate" />
 
 ## API
 <doc-api file="QCircularProgress" />

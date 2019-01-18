@@ -11,7 +11,7 @@ The QLinearProgress component displays a colored loading bar. The bar can either
 ## Usage
 <doc-example title="Determined state" file="QLinearProgress/Determinate" />
 
-<doc-example title="Indeterminated state" file="QLinearProgress/Indeterminate" />
+<doc-example title="Indeterminate state" file="QLinearProgress/Indeterminate" />
 
 ::: tip
 For indeterminate state (above) or query state (below) you don't need to specify the `value` property.

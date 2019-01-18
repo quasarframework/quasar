@@ -22,7 +22,8 @@
     },
 
     "color": {
-      "extends": "color"
+      "extends": "color",
+      "desc": "Color name for the arc progress from the Quasar Color Palette"
     },
 
     "center-color": {
@@ -71,7 +72,7 @@
 
     "reverse": {
       "type": "Boolean",
-      "desc": "Reverses the direction of progress"
+      "desc": "Reverses the direction of progress; Only for determined state"
     }
   },
 
