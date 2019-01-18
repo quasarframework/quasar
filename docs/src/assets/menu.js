@@ -664,6 +664,10 @@ const cli = [
         path: 'electron-static-assets'
       },
       {
+        name: 'Electron Security Concerns',
+        path: 'electron-security-concerns'
+      },
+      {
         name: 'Troubleshooting and Tips',
         path: 'troubleshooting-and-tips'
       }

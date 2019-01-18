@@ -24,8 +24,6 @@ The new folder has the following structure:
         └── electron-main.js      # Main thread code for production
 ```
 
-When you add the Quasar Electron mode, you'll notice that a few npm packages are installed. These are Electron specific and since Electron doesn't follow the semver notation, it's best that you lock the installed versions. Otherwise, other developers working on the same project may end up using on different Electron version -- room for trouble. Electron makes releases quite often so features are always [subject to change](http://electron.atom.io/docs/tutorial/electron-versioning/).
-
 ### Electron-main.dev.js
 This file (`/src-electron/main-process/electron-main.dev.js`) is used specifically for development and is used to install dev-tools. Usually it should not have to be modified, but can be used to extend your development needs. After it sets up dev-tools it imports the `electron-main.js` which is the place you'll make most (if not all) of your changes.
 
