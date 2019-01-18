@@ -11,7 +11,7 @@ The QCircularProgress component displays a colored circular proress. The bar can
 By default, QCircularProgress inherits current text color (as arc progress color and inner label color) and current font size (as component size). For customization, you can use the size and color related props.
 <doc-example title="Determined state" file="QCircularProgress/Determined" />
 
-<doc-example title="Determined and reverse" file="QCircularProgress/Reverse" />
+<doc-example title="Determinate and reverse" file="QCircularProgress/Reverse" />
 
 <doc-example title="Offset angle" file="QCircularProgress/Angle" />
 

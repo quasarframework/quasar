@@ -43,6 +43,7 @@
     "font-size": {
       "type": "String",
       "desc": "Size of text in CSS units, including unit name. Suggestion: use 'em' units to sync with component size",
+      "default": "0.25em",
       "examples": [ "1em", "16px", "2rem" ]
     },
 
