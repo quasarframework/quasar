@@ -16,8 +16,8 @@ The Electron team itself makes the following recommendations:
 2.  [Disable the Node.js integration in all renderers that display remote content](https://electronjs.org/docs/tutorial/security#2-disable-nodejs-integration-for-remote-content)
 3.  [Enable context isolation in all renderers that display remote content](https://electronjs.org/docs/tutorial/security#3-enable-context-isolation-for-remote-content)
 4.  [Use  `ses.setPermissionRequestHandler()`  in all sessions that load remote content](https://electronjs.org/docs/tutorial/security#4-handle-session-permission-requests-from-remote-content)
-5.  [Do not disable  `webSecurity`](https://electronjs.org/docs/tutorial/security#5-do-not-disable-websecurity)
-6.  [Define a  `Content-Security-Policy`](https://electronjs.org/docs/tutorial/security#6-define-a-content-security-policy)  and use restrictive rules (i.e.  `script-src 'self'`)
+5.  [Define a  `Content-Security-Policy`](https://electronjs.org/docs/tutorial/security#6-define-a-content-security-policy)  and use restrictive rules (i.e.  `script-src 'self'`)
+6.  [Do not disable  `webSecurity`](https://electronjs.org/docs/tutorial/security#5-do-not-disable-websecurity)
 7.  [Do not set  `allowRunningInsecureContent`  to  `true`](https://electronjs.org/docs/tutorial/security#7-do-not-set-allowrunninginsecurecontent-to-true)
 8.  [Do not enable experimental features](https://electronjs.org/docs/tutorial/security#8-do-not-enable-experimental-features)
 9.  [Do not use  `enableBlinkFeatures`](https://electronjs.org/docs/tutorial/security#9-do-not-use-enableblinkfeatures)
@@ -26,7 +26,7 @@ The Electron team itself makes the following recommendations:
 12.  [Disable or limit navigation](https://electronjs.org/docs/tutorial/security#12-disable-or-limit-navigation)
 13.  [Disable or limit creation of new windows](https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows)
 
-Except for items 3, 4 & 6 above, Electron will put a warning in the dev console if one of the these issues have been detected.
+Except for items 3, 4 & 5 above, Electron will put a warning in the dev console if one of the these issues have been detected.
 
 
 ## Tips and Tricks
@@ -38,8 +38,9 @@ You should know this by now, but if you are not using **https** / **sftp** / **w
 Having read & write permissions to the filesystem is the holy grail for penetration testers, and if your app enables this type of interaction, consider using IPC and multiple windows (with varying permissions) in order to minimize the attack surface.
 
 #### Encryption
-If the user of your application has secrets like wallet addresses, personal information or some other kind of trade secrets, keep that information encrypted when at rest, un-encrypt it in-memory only when it is needed and make sure to overwrite / destroy the object in memory when you are done with it. But no matter how you approach this, follow these three rules:
+If the user of your application has secrets like wallet addresses, personal information or some other kind of trade secrets, keep that information encrypted when at rest, un-encrypt it in-memory only when it is needed and make sure to overwrite / destroy the object in memory when you are done with it. But no matter how you approach this, follow these four rules:
 
+0. use strong crypto (i.e. collision resistant and not md5)
 1. do not invent a novel type of encryption
 2. follow the implementation instructions explicitly
 3. think about the user-experience
@@ -52,12 +53,11 @@ window.location='https://evilsite.com/looks-just-like-your-app'
 The key-combination `CTRL-SHIFT-I` (or `ALT-CMD-I` on Mac) will open the dev tools and enable inspection of the application. It will even enable some degree of modification. Prevent the simple `evil maid` attack by catching these keypresses and `return false`. 
 
 #### Publish checksums
-When you have built your binary blobs and want to publish them e.g. on GitHub, use `shasum` and post these results somewhere prominent (like on the GitHub release page for your project) and potentially on a public blockchain, such as Steem. 
+When you have built your binary blobs and want to publish them e.g. on GitHub, use `shasum` and post these results somewhere prominent (like on the GitHub release page for your project) and potentially on a public blockchain, such as [Steem](https://steemworld.org/@quasarframework). 
 ```bash 
 $ shasum -a 256 myApp-v1.0.0_darwin-x64.dmg
 40ed03e0fb3c422e554c7e75d41ba71405a4a49d560b1bf92a00ea6f5cbd8daa myApp-v1.0.0_darwin-x64.dmg
 ```
-One good pattern is when the app runs for the first time, have it run shasum on itself and compare that result with a public resource. This is great in combination with a license validation scheme.
 
 #### Sign the builds
 Although not a hard requirement for sharing your app, signing code is a best practice - and it is required by both the MacOS and Windows stores. Read more about it at this [official Electron tutorial](https://electronjs.org/docs/tutorial/code-signing).
