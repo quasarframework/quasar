@@ -5,7 +5,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
       q-btn.q-mr-sm(v-if="hasDrawer", flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
         q-icon(name="menu")
 
-      q-btn.text-bold(key="logo", flat, no-caps, stretch, to="/")
+      q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, stretch, to="/")
         q-avatar
           img(src="https://cdn.quasar-framework.org/img/quasar-logo.png")
         q-toolbar-title(shrink) Quasar
@@ -342,4 +342,10 @@ export default {
     color inherit
 .docs-toc .q-item--active
   font-weight 600
+
+.quasar-logo
+  img
+    transition transform .8s ease-in-out
+  &:hover img
+    transform rotate(360deg)
 </style>

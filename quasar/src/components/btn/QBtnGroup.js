@@ -9,12 +9,13 @@ export default Vue.extend({
     flat: Boolean,
     rounded: Boolean,
     push: Boolean,
-    stretch: Boolean
+    stretch: Boolean,
+    glossy: Boolean
   },
 
   computed: {
     classes () {
-      return ['unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch']
+      return ['unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch', 'glossy']
         .filter(t => this[t] === true)
         .map(t => `q-btn-group--${t}`).join(' ')
     }

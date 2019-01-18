@@ -152,9 +152,9 @@
         </q-chip>
       </div>
 
-      <p>Closable</p>
+      <p>Removable</p>
       <div class="q-ma-md">
-        <q-btn label="Reset" flat size="sm" @click="resetClosable" />
+        <q-btn label="Reset" flat size="sm" @click="resetRemovable" />
 
         <q-chip v-model="close1" icon="bookmark" removable>Bookmark</q-chip>
 
@@ -242,7 +242,7 @@ export default {
     }
   },
   methods: {
-    resetClosable () {
+    resetRemovable () {
       for (let i = 1; i <= 5; i++) {
         this['close' + i] = true
       }

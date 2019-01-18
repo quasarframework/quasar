@@ -46,7 +46,8 @@ export default Vue.extend({
     indeterminate: Boolean,
     showValue: Boolean,
     reverse: Boolean,
-    noMotion: Boolean
+
+    instantFeedback: Boolean // used by QKnob, private
   },
 
   computed: {
@@ -63,7 +64,7 @@ export default Vue.extend({
     },
 
     circleStyle () {
-      if (this.noMotion !== true && this.indeterminate !== true) {
+      if (this.instantFeedback !== true && this.indeterminate !== true) {
         return { transition: 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease' }
       }
     },

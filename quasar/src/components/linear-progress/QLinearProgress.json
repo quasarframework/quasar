@@ -33,7 +33,7 @@
 
     "stripe": {
       "type": "Boolean",
-      "desc":  "Draw stripes"
+      "desc":  "Draw stripes; For determinate state only (for performance reasons)"
     },
 
     "indeterminate": {

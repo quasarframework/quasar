@@ -1,83 +1,26 @@
 ---
-title: Docs
+title: Circular Progress
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+The QCircularProgress component displays a colored circular proress. The bar can either have a determinate progress, or an indeterminate animation. It should be used to inform the user that an action is occurring in the background.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QCircularProgress" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+By default, QCircularProgress inherits current text color (as arc progress color and inner label color) and current font size (as component size). For customization, you can use the size and color related props.
+<doc-example title="Determined state" file="QCircularProgress/Determined" />
+
+<doc-example title="Determinate and reverse" file="QCircularProgress/Reverse" />
+
+<doc-example title="Offset angle" file="QCircularProgress/Angle" />
+
+<doc-example title="Custom min/max (same model)" file="QCircularProgress/CustomMinMax" />
+
+In the example below, `show-value` property also enables the default slot, so you can fill it with custom content, like even a QAvatar or a QTooltip. The `font-size` prop refers to the inner label font size.
+<doc-example title="Show value" file="QCircularProgress/ShowValue" />
+
+<doc-example title="Indeterminate state" file="QCircularProgress/Indeterminate" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QCircularProgress" />

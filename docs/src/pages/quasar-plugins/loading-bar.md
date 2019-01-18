@@ -1,83 +1,39 @@
 ---
-title: Docs
+title: LoadingBar
 ---
+The Quasar LoadingBar plugin offers an easy way to set up your app with a [QAjaxBar](/components/ajax-bar.html) in case you don't want to handle a QAjaxBar component yourself.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+For a demo, please visit the QAjaxBar documentation page.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation plugins="LoadingBar" :config="{ loadingBar: 'LoadingBar' }" />
+
+LoadingBar options are same as when configuring a [QAjaxBar](/vue-components/ajax-bar).
+
+::: warning
+When using the UMD version of Quasar, all components, directives and plugins are installed by default. This includes LoadingBar. Should you wish to disable it, specify `loadingBar: { skipHijack: true }` (which turns off listening to Ajax traffic).
+:::
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+Inside Vue components:
+```js
+this.$q.loadingBar.start()
+this.$q.loadingBar.stop()
+this.$q.loadingBar.increment(value)
+```
+
+Outside of Vue components:
+```
+import { LoadingBar } from 'quasar'
+
+LoadingBar.start()
+LoadingBar.stop()
+LoadingBar.increment(value)
+```
+
+### Setting Up Defaults
+
+Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.conf > framework > config > loadingBar: {...} or by calling `LoadingBar.setDefaults({...})` or `this.$q.loadingBar.setDefaults({...})`.
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="LoadingBar" />

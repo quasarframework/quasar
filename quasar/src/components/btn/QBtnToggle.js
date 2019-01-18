@@ -31,6 +31,7 @@ export default Vue.extend({
     unelevated: Boolean,
     rounded: Boolean,
     push: Boolean,
+    glossy: Boolean,
 
     size: String,
 
@@ -72,7 +73,8 @@ export default Vue.extend({
         rounded: this.rounded,
         push: this.push,
         stretch: this.stretch,
-        unelevated: this.unelevated
+        unelevated: this.unelevated,
+        glossy: this.glossy
       }
     },
     this.options.map(

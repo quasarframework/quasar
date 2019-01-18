@@ -17,7 +17,7 @@ const options = [
   },
   {
     name: 'Quasar Icon Sets',
-    path: 'icons'
+    path: 'quasar-icon-sets'
   },
   {
     name: 'RTL Support',
@@ -180,10 +180,6 @@ const plugins = [
 ]
 
 const components = [
-  {
-    name: 'Action Sheet',
-    path: 'action-sheet'
-  },
   {
     name: 'Ajax Bar',
     path: 'ajax-bar'
@@ -355,10 +351,6 @@ const components = [
     path: 'menu'
   },
   {
-    name: 'Modal',
-    path: 'modal'
-  },
-  {
     name: 'No SSR',
     path: 'no-ssr'
   },
@@ -366,12 +358,12 @@ const components = [
     name: 'Observers',
     children: [
       {
-        name: 'Element Resize Observer',
-        path: 'element-resize-observer'
+        name: 'Resize Observer (for Element)',
+        path: 'resize-observer'
       },
       {
-        name: 'Window Resize Observer',
-        path: 'window-resize-observer'
+        name: 'Scroll Observer',
+        path: 'scroll-observer'
       }
     ]
   },

@@ -9,7 +9,7 @@
       -->
 
       <q-item tag="label" v-ripple>
-        <q-item-section side>
+        <q-item-section avatar>
           <q-checkbox v-model="color" val="teal" color="teal" ></q-checkbox>
         </q-item-section>
         <q-item-section>
@@ -18,7 +18,7 @@
       </q-item>
 
       <q-item tag="label" v-ripple>
-        <q-item-section side>
+        <q-item-section avatar>
           <q-checkbox v-model="color" val="orange" color="orange" ></q-checkbox>
         </q-item-section>
         <q-item-section>
@@ -28,7 +28,7 @@
       </q-item>
 
       <q-item tag="label" v-ripple>
-        <q-item-section side top>
+        <q-item-section avatar top>
           <q-checkbox v-model="color" val="cyan" color="cyan" ></q-checkbox>
         </q-item-section>
         <q-item-section>

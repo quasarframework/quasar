@@ -1,0 +1,61 @@
+<template>
+  <div class="q-pa-md q-gutter-md">
+    <div>
+      <q-btn-toggle
+        v-model="model"
+        push
+        glossy
+        toggle-color="primary"
+        :options="[
+          {label: 'One', value: 'one'},
+          {label: 'Two', value: 'two'},
+          {label: 'Three', value: 'three'}
+        ]"
+      />
+    </div>
+
+    <div>
+      <q-btn-toggle
+        v-model="model"
+        toggle-color="primary"
+        flat
+        :options="[
+          {label: 'One', value: 'one'},
+          {label: 'Two', value: 'two'},
+          {label: 'Three', value: 'three'}
+        ]"
+      />
+    </div>
+
+    <div>
+      <q-btn-toggle
+        v-model="model"
+        color="brown"
+        text-color="white"
+        toggle-color="orange"
+        toggle-text-color="black"
+        rounded
+        unelevated
+        glossy
+        :options="[
+          {label: 'One', value: 'one'},
+          {label: 'Two', value: 'two'},
+          {label: 'Three', value: 'three'},
+          {label: 'Four', value: 'four'}
+        ]"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      model: null,
+      states: 'two',
+      field: 'cake'
+    }
+  }
+}
+</script>

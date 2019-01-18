@@ -4,6 +4,6 @@
     <q-btn flat style="color: #FF0080" label="Fuchsia Flat" />
     <q-btn style="background: goldenrod; color: white" label="Goldenrod" />
     <q-btn outline style="color: goldenrod;" label="Goldenrod" />
-    <q-btn color="grey-4" text-color="purple" unelevated icon="camera_enhance" label="Purple text" />
+    <q-btn color="grey-4" text-color="purple" glossy unelevated icon="camera_enhance" label="Purple text" />
   </div>
 </template>

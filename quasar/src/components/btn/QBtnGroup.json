@@ -28,6 +28,11 @@
     "stretch": {
       "type": "Boolean",
       "desc": "When used on flexbox parent, buttons will stretch to parent's height"
+    },
+
+    "glossy": {
+      "type": "Boolean",
+      "desc": "Applies a glossy effect"
     }
   },
 

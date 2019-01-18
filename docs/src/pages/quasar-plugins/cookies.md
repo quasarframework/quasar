@@ -4,7 +4,8 @@ title: Cookies
 This is a wrapper over the standardized `document.cookie`.
 
 > **NOTE**
-> In addition, you can read and write cookies using JSON objects.
+>
+> In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects.
 
 ## Installation
 <doc-installation plugins="Cookies" />
