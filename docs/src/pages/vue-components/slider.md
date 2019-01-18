@@ -26,6 +26,7 @@ Move the slider to see the label
 <doc-example title="Snaps to Steps" file="QSlider/Snap" />
 <doc-example title="Markers" file="QSlider/Markers" />
 <doc-example title="Display Label Always" file="QSlider/LabelAlways" />
+<doc-example title="Dark" file="QSlider/Dark" dark />
 <doc-example title="Readonly" file="QSlider/Readonly" />
 <doc-example title="Disable" file="QSlider/Disable" />
 <doc-example title="In a List" file="QSlider/List" />

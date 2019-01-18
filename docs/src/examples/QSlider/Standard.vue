@@ -5,8 +5,8 @@
     />
 
     <q-slider
-      color="green"
       v-model="greenModel"
+      color="green"
       :min="0"
       :max="50"
     />

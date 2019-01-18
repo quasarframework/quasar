@@ -1,15 +1,28 @@
 <template>
-  <div>My component</div>
+  <div class="q-pa-md">
+    <q-slider
+      v-model="basicModel"
+      markers
+      :min="0"
+      :max="10"
+    />
+    <q-slider
+      v-model="greenModel"
+      color="green"
+      markers
+      :min="0"
+      :max="10"
+    />
+  </div>
 </template>
 
 <script>
 export default {
-  // name: 'ComponentName',
   data () {
-    return {}
+    return {
+      basicModel: 2,
+      greenModel: 0
+    }
   }
 }
 </script>
-
-<style>
-</style>

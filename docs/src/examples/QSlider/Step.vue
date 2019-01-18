@@ -5,13 +5,13 @@
       :step="50"
     />
     <q-slider
-      color="red"
       v-model="redModel"
+      color="red"
       :step="50"
     />
     <q-slider
-      color="green"
       v-model="greenModel"
+      color="green"
       :min="0"
       :step="10"
       :max="50"

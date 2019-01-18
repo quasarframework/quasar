@@ -1,15 +1,33 @@
 <template>
-  <div>My component</div>
+  <div class="q-pa-md">
+    <q-slider
+      v-model="value"
+      :min="-20"
+      :max="20"
+      :step="4"
+      label
+      label-always
+      color="light-green"
+    />
+
+    <q-slider
+      v-model="value"
+      :min="-20"
+      :max="20"
+      :step="4"
+      label
+      label-always
+      color="red"
+    />
+  </div>
 </template>
 
 <script>
 export default {
-  // name: 'ComponentName',
   data () {
-    return {}
+    return {
+      value: 0
+    }
   }
 }
 </script>
-
-<style>
-</style>
