@@ -9,7 +9,7 @@ Lists can encapsulate Items or Item-like components, for example [QExpansionItem
 List Items have the following pre-built child components:
 * **QItemSection** An item section can have several uses for particular content. They are controlled via the `avatar`, `thumbnail`, `side` and `top` props. With no props, it is just a container for any content you'd like to add.
 
-* **QItemLabel** An item label is useful for predefined text content within a QItemSection. It has two props for the type of label you'd like to achieve. `overline` for a kind heading label and `caption` for a bit lighter colored text for differenitation purposes. You can see this demonstrated in the first examples below.
+* **QItemLabel** An item label is useful for predefined text content within a QItemSection. It has two props for the type of label you'd like to achieve. `overline` for a kind heading label and `caption` for a bit lighter colored text for differentiation purposes. You can see the `caption` prop demonstrated in the first examples below.
 
 ## Installation
 <doc-installation :components="['QList', 'QListItem']" />
