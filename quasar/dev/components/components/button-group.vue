@@ -1,6 +1,6 @@
 <template>
   <div class="q-layout-padding button-group-test">
-    <q-btn-group push>
+    <q-btn-group push glossy>
       <q-btn color="yellow" push to="/a">
         Link /a
       </q-btn>

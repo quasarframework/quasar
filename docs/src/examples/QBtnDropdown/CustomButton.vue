@@ -4,6 +4,7 @@
       split
       color="orange"
       push
+      glossy
       no-caps
       icon="folder"
       label="Dropdown Button"

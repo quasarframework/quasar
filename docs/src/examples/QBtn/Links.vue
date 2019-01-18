@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-btn to="/docs" label="To Docs index" outline color="secondary" />
-    <q-btn to="/docs" label="To Docs index in 2s" @click="linkClick" glossy color="secondary" />
+    <q-btn to="/docs" label="To Docs index" outline color="purple" />
+    <q-btn to="/docs" label="To Docs index in 2s" @click="linkClick" glossy color="purple" />
 
-    <q-btn type="a" href="/docs" label="Type 'a'" push color="secondary" />
-    <q-btn type="a" href="/docs" target="_blank" label="Type 'a' - external" color="secondary" />
+    <q-btn type="a" href="/docs" label="Type 'a'" push color="purple" />
+    <q-btn type="a" href="/docs" target="_blank" label="Type 'a' - external" color="purple" />
   </div>
 </template>
 

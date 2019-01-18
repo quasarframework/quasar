@@ -115,7 +115,8 @@ export default Vue.extend({
         flat: this.flat,
         rounded: this.rounded,
         push: this.push,
-        unelevated: this.unelevated
+        unelevated: this.unelevated,
+        glossy: this.glossy
       },
       staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
       class: this.stretch === true ? 'self-stretch no-border-radius' : null
