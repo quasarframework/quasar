@@ -11,7 +11,7 @@ Under no circumstances should you load and execute remote code with Node.js inte
 
 ## Checklist: Security Recommendations
 The Electron team itself makes the following recommendations:
- 
+
 1.  [Only load secure content](https://electronjs.org/docs/tutorial/security#1-only-load-secure-content)
 2.  [Disable the Node.js integration in all renderers that display remote content](https://electronjs.org/docs/tutorial/security#2-disable-nodejs-integration-for-remote-content)
 3.  [Enable context isolation in all renderers that display remote content](https://electronjs.org/docs/tutorial/security#3-enable-context-isolation-for-remote-content)
@@ -50,11 +50,11 @@ You probably don't want rogue hoody-wearing menaces to be executing something li
 ```
 window.location='https://evilsite.com/looks-just-like-your-app'
 ```
-The key-combination `CTRL-SHIFT-I` (or `ALT-CMD-I` on Mac) will open the dev tools and enable inspection of the application. It will even enable some degree of modification. Prevent the simple `evil maid` attack by catching these keypresses and `return false`. 
+The key-combination `CTRL-SHIFT-I` (or `ALT-CMD-I` on Mac) will open the dev tools and enable inspection of the application. It will even enable some degree of modification. Prevent the simple `evil maid` attack by catching these keypresses and `return false`.
 
 #### Publish checksums
-When you have built your binary blobs and want to publish them e.g. on GitHub, use `shasum` and post these results somewhere prominent (like on the GitHub release page for your project) and potentially on a public blockchain, such as [Steem](https://steemworld.org/@quasarframework). 
-```bash 
+When you have built your binary blobs and want to publish them e.g. on GitHub, use `shasum` and post these results somewhere prominent (like on the GitHub release page for your project) and potentially on a public blockchain, such as [Steem](https://steemworld.org/@quasarframework).
+```bash
 $ shasum -a 256 myApp-v1.0.0_darwin-x64.dmg
 40ed03e0fb3c422e554c7e75d41ba71405a4a49d560b1bf92a00ea6f5cbd8daa myApp-v1.0.0_darwin-x64.dmg
 ```
@@ -63,7 +63,7 @@ $ shasum -a 256 myApp-v1.0.0_darwin-x64.dmg
 Although not a hard requirement for sharing your app, signing code is a best practice - and it is required by both the MacOS and Windows stores. Read more about it at this [official Electron tutorial](https://electronjs.org/docs/tutorial/code-signing).
 
 #### Use SNYK
-[Snyk.io](https://snyk.io) is a service, CLI and even GitHub integration bot that tracks vulnerabilities in node modules by comparing the dependencies in your package.json with its list of compromised modules. In many cases their service can recommend minimum update versions or even provide modules that they themselves have patched. They also undertake research and vulnerability disclosure. For an example of something that should scare the socks off of you if you are doing anything with compressed files (zip, tar, etc.) check out their [writeup](https://snyk.io/research/zip-slip-vulnerability) and [list of affected software](https://github.com/snyk/zip-slip-vulnerability). 
+[Snyk.io](https://snyk.io) is a service, CLI and even GitHub integration bot that tracks vulnerabilities in node modules by comparing the dependencies in your package.json with its list of compromised modules. In many cases their service can recommend minimum update versions or even provide modules that they themselves have patched. They also undertake research and vulnerability disclosure. For an example of something that should scare the socks off of you if you are doing anything with compressed files (zip, tar, etc.) check out their [writeup](https://snyk.io/research/zip-slip-vulnerability) and [list of affected software](https://github.com/snyk/zip-slip-vulnerability).
 
 
 #### For the truly paranoid
@@ -74,15 +74,15 @@ Permit only GPG-signed commits to be merged and require at least two team member
 Reconsider your node package management system:
 - use a private npm registry (like [JFrog](https://jfrog.com/))
 - fix your packages to specific versions known to work
-- use pnpm 
+- use pnpm
 - audit each and every single module and its dependencies
 
 #### Pay to get hacked
 Somebody smart might have hacked your project (or an underlying library). If you are making money with this app, consider getting a [Hacker One](https://hackerone.com) account and running a constant bounty award. At least you'll be able to convince the hacker to be ethical and NOT sell the exploit to your competitor.
 
 #### Get help
-You may feel overwhelmed, because the awesomeness of Electron brings with it a great many headaches that you never wanted to think about. If this is the case, consider [reaching out](mailto:razvan.stoenescu@gmail.com) and getting expert support for the review, audit and hardening of your app by the team of seasoned devs that brought you the Quasar Framework. 
+You may feel overwhelmed, because the awesomeness of Electron brings with it a great many headaches that you never wanted to think about. If this is the case, consider [reaching out](mailto:razvan.stoenescu@gmail.com) and getting expert support for the review, audit and hardening of your app by the team of seasoned devs that brought you the Quasar Framework.
 
-----
- 
+<q-separator spaced />
+
 > Some text from this page has been sourced from the [Official Electron Security Guide](https://electronjs.org/docs/tutorial/security).

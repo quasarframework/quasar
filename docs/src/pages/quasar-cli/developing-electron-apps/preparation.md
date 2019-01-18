@@ -39,7 +39,7 @@ At this point things should successfully install, but if not then you will need 
 ## 2. Start Developing
 If you want to jump right in and start developing, you can skip the previous step with "quasar mode" command and issue:
 ```bash
-$ quasar dev -m electron -t [mat|ios]
+$ quasar dev -m electron
 ```
 This will add Electron mode automatically, if it is missing.
 It will open up an Electron window which will render your app along with Developer Tools opened side by side.

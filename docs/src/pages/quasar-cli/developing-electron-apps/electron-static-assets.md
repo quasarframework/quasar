@@ -1,7 +1,7 @@
 ---
 title: Electron Static Assets
 ---
-Please read about [Handling Assets](/guide/app-handling-assets.html) first, which applies to the renderer process. However, when we deal with Electron then Quasar CLI offers a handy `__static` variable in addition. Statics can be consumed by both the main process and renderer process, but since the paths change when building for production (due to packaging), then usage with `fs` and other modules that need a full path can be a little tricky. So `__statics` can come into play.
+Please read about [Handling Assets](/quasar-cli/cli-documentation/handling-assets) first, which applies to the renderer process. However, when we deal with Electron then Quasar CLI offers a handy `__static` variable in addition. Statics can be consumed by both the main process and renderer process, but since the paths change when building for production (due to packaging), then usage with `fs` and other modules that need a full path can be a little tricky. So `__statics` can come into play.
 
 ## On the subject of using __dirname & __filename
 Since the main process is bundled using webpack, the use of `__dirname` and `__filename` will not provide an expected value in production. Referring to the File Tree, you'll notice that in production the electron-main.js is placed inside the `dist/electron-*` folder. Based on this knowledge, use `__dirname` & `__filename` accordingly.
@@ -28,5 +28,8 @@ Let's assume we have a file called `someFile.txt` in `/src/statics`. Now, in mai
 import fs from 'fs'
 import path from 'path'
 
-let fileContents = fs.readFileSync(path.join(__statics, '/someFile.txt'), 'utf8')
+let fileContents = fs.readFileSync(
+  path.join(__statics, '/someFile.txt'),
+  'utf8'
+)
 ```
