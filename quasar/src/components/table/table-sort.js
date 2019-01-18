@@ -17,7 +17,7 @@ export default {
             ? v => col.field(v)
             : v => v[col.field]
 
-        return data.sort((a, b) => {
+        const sorted = data.sort((a, b) => {
           let
             A = val(a),
             B = val(b)
@@ -47,6 +47,10 @@ export default {
             ? -1 * dir
             : (A === B ? 0 : dir)
         })
+
+        this.$emit('sorted', sorted)
+
+        return sorted
       }
     }
   },
