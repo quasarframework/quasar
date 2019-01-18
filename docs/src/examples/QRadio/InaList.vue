@@ -8,7 +8,7 @@
       -->
 
       <q-item tag="label" v-ripple>
-        <q-item-section side>
+        <q-item-section avatar>
           <q-radio v-model="color" val="teal" color="teal" ></q-radio>
         </q-item-section>
         <q-item-section>
@@ -17,7 +17,7 @@
       </q-item>
 
       <q-item tag="label" v-ripple>
-        <q-item-section side>
+        <q-item-section avatar>
           <q-radio v-model="color" val="orange" color="orange" ></q-radio>
         </q-item-section>
         <q-item-section>
@@ -27,7 +27,7 @@
       </q-item>
 
       <q-item tag="label" v-ripple>
-        <q-item-section side top>
+        <q-item-section avatar top>
           <q-radio v-model="color" val="cyan" color="cyan" ></q-radio>
         </q-item-section>
         <q-item-section>
