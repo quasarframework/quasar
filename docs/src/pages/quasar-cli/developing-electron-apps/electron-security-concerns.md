@@ -26,7 +26,7 @@ The Electron team itself makes the following recommendations:
 12.  [Disable or limit navigation](https://electronjs.org/docs/tutorial/security#12-disable-or-limit-navigation)
 13.  [Disable or limit creation of new windows](https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows)
 
-Except for items 3, 4 & 6 above, Electron will put a warning in the dev console if one of the following issues have been detected.
+Except for items 3, 4 & 6 above, Electron will put a warning in the dev console if one of the these issues have been detected.
 
 
 ## Tips and Tricks
@@ -52,19 +52,18 @@ window.location='https://evilsite.com/looks-just-like-your-app'
 The key-combination `CTRL-SHIFT-I` (or `ALT-CMD-I` on Mac) will open the dev tools and enable inspection of the application. It will even enable some degree of modification. Prevent the simple `evil maid` attack by catching these keypresses and `return false`. 
 
 #### Publish checksums
+When you have built your binary blobs and want to publish them e.g. on GitHub, use `shasum` and post these results somewhere prominent (like on the GitHub release page for your project) and potentially on a public blockchain, such as Steem. 
 ```bash 
 $ shasum -a 256 myApp-v1.0.0_darwin-x64.dmg
 40ed03e0fb3c422e554c7e75d41ba71405a4a49d560b1bf92a00ea6f5cbd8daa myApp-v1.0.0_darwin-x64.dmg
 ```
-When you have built your binary blobs and want to publish them e.g. on GitHub, use `shasum` and post these results somewhere prominent (like on the GitHub release page for your project) and potentially on a public blockchain, such as Steem. 
-
-As an exercise for the reader, when the app runs for the first time, have it run shasum on itself and compare that result with a public resource. This is great in combination with a license validation scheme.
+One good pattern is when the app runs for the first time, have it run shasum on itself and compare that result with a public resource. This is great in combination with a license validation scheme.
 
 #### Sign the builds
 Although not a hard requirement for sharing your app, signing code is a best practice - and it is required by both the MacOS and Windows stores. Read more about it at this [official Electron tutorial](https://electronjs.org/docs/tutorial/code-signing).
 
 #### Use SNYK
-[Snyk.io](https://snyk.io) is a service, CLI and even GitHub integration bot that tracks vulnerabilities in node modules by comparing the dependencies in your package.json with its list of compromised modules. In many cases their service can recommend minimum update versions or even provide modules that they themselves have patched. 
+[Snyk.io](https://snyk.io) is a service, CLI and even GitHub integration bot that tracks vulnerabilities in node modules by comparing the dependencies in your package.json with its list of compromised modules. In many cases their service can recommend minimum update versions or even provide modules that they themselves have patched. They also undertake research and vulnerability disclosure. For an example of something that should scare the socks off of you if you are doing anything with compressed files (zip, tar, etc.) check out their [writeup](https://snyk.io/research/zip-slip-vulnerability) and [list of affected software](https://github.com/snyk/zip-slip-vulnerability). 
 
 
 #### For the truly paranoid
@@ -72,7 +71,11 @@ Use a dedicated physical desktop machine for each platform target. If you have t
 
 Permit only GPG-signed commits to be merged and require at least two team members (who did not make the PR) to review and approve the commit.
 
-Audit each and every single module and its dependencies.
+Reconsider your node package management system:
+- use a private npm registry (like [JFrog](https://jfrog.com/))
+- fix your packages to specific versions known to work
+- use pnpm 
+- audit each and every single module and its dependencies
 
 #### Pay to get hacked
 Somebody smart might have hacked your project (or an underlying library). If you are making money with this app, consider getting a [Hacker One](https://hackerone.com) account and running a constant bounty award. At least you'll be able to convince the hacker to be ethical and NOT sell the exploit to your competitor.
