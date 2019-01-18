@@ -32,8 +32,12 @@ In the example below, as soon as you click on the first checkbox it starts toggl
 
 <doc-example title="Custom Model Values" file="QCheckbox/CustomModel" />
 
-In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so the QCheckbox will respond to clicks on QItems to change toggle state.
+::: tip
+You can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of checkboxes, like in example below.
+:::
+<doc-example title="Usage with QOptionGroup" file="QCheckbox/OptionGroup" />
 
+In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so the QCheckbox will respond to clicks on QItems to change toggle state.
 <doc-example title="In a List" file="QCheckbox/InaList" />
 
 <doc-example title="Disable" file="QCheckbox/Disable" />

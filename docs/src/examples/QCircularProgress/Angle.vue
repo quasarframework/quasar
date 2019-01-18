@@ -1,42 +1,53 @@
 <template>
-  <div class="q-pa-md">
-    <div class="q-gutter-sm">
-      <q-circular-progress
-        class="q-ma-sm text-white"
-        :value="count"
-        size="25px"
-        :show-value="true"
-        :thickness="1"
-        color="grey-8"
-        center-color="white"
-        track-color="orange"
-        :angle="45"
-      />
+  <div class="q-pa-md flex flex-center">
+    <q-circular-progress
+      :value="value"
+      size="50px"
+      :thickness="0.22"
+      color="purple"
+      track-color="grey-3"
+      class="q-ma-md"
+    />
 
-      <q-circular-progress
-        class="q-ma-sm text-white"
-        :value="count"
-        size="50px"
-        :show-value="true"
-        :thickness="1"
-        color="grey-8"
-        center-color="blue"
-        track-color="orange"
-        :angle="90"
-      />
+    <q-circular-progress
+      :angle="90"
+      :value="value"
+      size="50px"
+      :thickness="0.22"
+      color="purple"
+      track-color="grey-3"
+      class="q-ma-md"
+    />
 
-      <q-circular-progress
-        class="q-ma-sm text-white"
-        :value="count"
-        size="100px"
-        :show-value="true"
-        :thickness="1"
-        color="grey-8"
-        center-color="red"
-        track-color="orange"
-        :angle="270"
-      />
-    </div>
+    <q-circular-progress
+      :angle="180"
+      :value="value"
+      size="50px"
+      :thickness="0.22"
+      color="purple"
+      track-color="grey-3"
+      class="q-ma-md"
+    />
+
+    <q-circular-progress
+      :angle="270"
+      :value="value"
+      size="50px"
+      :thickness="0.22"
+      color="purple"
+      track-color="grey-3"
+      class="q-ma-md"
+    />
+
+    <q-circular-progress
+      :angle="52"
+      :value="value"
+      size="50px"
+      :thickness="0.22"
+      color="purple"
+      track-color="grey-3"
+      class="q-ma-md"
+    />
   </div>
 </template>
 
@@ -44,22 +55,8 @@
 export default {
   data () {
     return {
-      count: 0,
-      interval: null
+      value: 61
     }
-  },
-
-  mounted () {
-    this.interval = setInterval(() => {
-      this.count += 1
-      if (this.count > 100) {
-        this.count = 0
-      }
-    }, 100)
-  },
-
-  beforeDestroy () {
-    clearInterval(this.interval)
   }
 }
 </script>

@@ -7,7 +7,7 @@
       <q-radio dense v-model="shape" val="polygon" label="Polygon" />
     </div>
 
-    <div class="q-pa-sm">
+    <div class="q-px-sm q-pt-sm">
       Your selection is: <strong>{{ shape }}</strong>
     </div>
   </div>

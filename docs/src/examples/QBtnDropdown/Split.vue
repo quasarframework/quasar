@@ -3,7 +3,7 @@
     <q-btn-dropdown
       split
       class="glossy"
-      color="purple"
+      color="teal"
       label="Folders"
       @click="onMainClick"
     >

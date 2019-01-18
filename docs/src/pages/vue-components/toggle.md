@@ -32,6 +32,10 @@ Instead of the default `true`/`false` values, you can use custom ones.
 if you have a number of toggles for a selection, use can use an Array as the model for all of them and specify `val` prop on each toggle. If the toggle is ticked, its `val` will be inserted into the array and vice versa.
 <doc-example title="Array model" file="QToggle/ArrayValue" />
 <doc-example title="On Dark Background" file="QToggle/DarkBackground" dark />
+
+::: tip
+You can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of toggles, like in example below.
+:::
 <doc-example title="Usage with QOptionGroup" file="QToggle/OptionGroup" />
 <doc-example title="In a List" file="QToggle/List" />
 

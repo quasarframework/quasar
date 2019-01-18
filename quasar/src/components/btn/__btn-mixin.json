@@ -72,6 +72,11 @@
       "desc": "Use 'push' design"
     },
 
+    "glossy": {
+      "type": "Boolean",
+      "desc": "Applies a glossy effect"
+    },
+
     "size": {
       "type": "String",
       "desc": "Button size name or a CSS unit including unit name",
