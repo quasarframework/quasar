@@ -1,83 +1,123 @@
 ---
-title: Docs
+title: App Vuex Store
 ---
+In large applications, state management often becomes complex due to multiple pieces of state scattered across many components and the interactions between them. It is often overlooked that the source of truth in Vue instances is the raw data object - a Vue instance simply proxies access to it. Therefore, if you have a piece of state that should be shared by multiple instances, you should avoid duplicating it and share it by identity.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+The recommended way to go if you want components sharing state is Vuex. Take a look at its [documentation](https://vuex.vuejs.org/) before diving in. It has a great feature when used along the [Vue dev-tools](https://github.com/vuejs/vue-devtools) browser extension like Time Travel debugging.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+We won't go into details on how to configure or use Vuex since it has great docs. Instead we'll just show you what the folder structure looks like when using it on a Quasar project.
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
+```bash
+.
+└── src/
+    └── store/               # Vuex Store
+        ├── index.js         # Vuex Store definition
+        ├── <folder>         # Vuex Store Module...
+        └── <folder>         # Vuex Store Module...
 ```
-const m = 'lala'
+
+By default, if you choose to use Vuex when you create a project folder with Quasar CLI, it will set you up on using Vuex modules. Each sub-folder of `/src/store` represents a Vuex Module.
+
+::: tip
+If Vuex Modules is too much for your website app, you can change `/src/store/index.js` and avoid importing any module.
+:::
+
+## Adding a Vuex Module.
+Adding a Vuex Module is made easy by Quasar CLI through the `$ quasar new` command.
+
+```bash
+$ quasar new store <store_name>
 ```
 
+It will create a folder in `/src/store` named by "store_name" from the command above. It will contain all the boilerplate that you need.
+
+Let's say that you want to create a "showcase" Vuex Module. You issue `$ quasar new store showcase`. You then notice the newly created `/src/store/showcase` folder, which holds the following files:
+
+```bash
+.
+└── src/
+    └── store/
+        ├── index.js         # Vuex Store definition
+        └── showcase         # Module "showcase"
+            ├── index.js     # Gluing the module together
+            ├── actions.js   # Module actions
+            ├── getters.js   # Module getters
+            ├── mutations.js # Module mutations
+            └── state.js     # Module state
+```
+
+We've created the new Vuex Module, but we haven't yet informed Vuex to use it. So we edit `/src/store/index.js` and add a reference to it:
+
+```js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+// we first import the module
+import showcase from './showcase'
+
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  modules: {
+    // then we reference it
+    showcase
+  }
+})
+
+/* 
+   if we want some HMR magic for it, we handle
+   the hot update like below. Notice we guard this
+   code with "process.env.DEV" -- so this doesn't
+   get into our production build (and it shouldn't). 
+*/
+
+if (process.env.DEV && module.hot) {
+  module.hot.accept(['./showcase'], () => {
+    const newShowcase = require('./showcase').default
+    store.hotUpdate({ modules: { showcase: newShowcase } })
+  })
+}
+
+export default store
+```
+
+Now we can use this Vuex Module in our Vue files. Here is a quick example. Assume we configured `drawerState` in the state and added `updateDrawerState` mutation.
+
+```js
+// src/store/showcase/mutations.js
+export const updateDrawerState = (state, opened) => {
+  state.drawerState = opened
+}
+
+// src/store/showcase/state.js
+export default {
+  drawerState: true
+}
+```
+
+In a Vue file:
 ```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
 <template>
-  <!-- you define your Vue template here -->
+  <div>
+    <q-toggle v-model="drawerState" />
+  </div>
 </template>
 
 <script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
 export default {
-  //
+  computed: {
+    drawerState: {
+      get () {
+        return this.$store.state.showcase.drawerState
+      },
+      set (val) {
+        this.$store.commit('showcase/updateDrawerState', val)
+      }
+    }
+  }
 }
 </script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+## Store Code Splitting
+You can take advantage of the [PreFetch Feature](/guide/app-prefetch-feature.html#Store-Code-Splitting) to code split code for modules.
