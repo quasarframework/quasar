@@ -97,6 +97,27 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
       q-btn.q-ml-xs(v-show="hasDrawer", flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
         q-icon(name="assignment")
 
+  q-footer.bg-black.text-white.text-center.footer
+    div.footer__icons.row.flex-center
+      a(href="https://github.com/quasarframework/quasar", target="_blank")
+        q-icon(name="fab fa-github")
+
+      a(href="https://twitter.com/quasarframework", target="_blank")
+        q-icon(name="fab fa-twitter")
+
+      a(href="https://medium.com/quasar-framework", target="_blank")
+        q-icon(name="fab fa-medium")
+
+      a(href="https://discord.gg/5TDhbDg", target="_blank")
+        q-icon(name="fab fa-discord")
+
+      a(href="https://forum.quasar-framework.org/", target="_blank")
+        q-icon(name="fas fa-comments")
+    div
+      | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link>
+
+    div Copyright © 2015 - {{ year }} Razvan Stoenescu
+
   q-drawer(
     v-if="hasDrawer"
     v-model="leftDrawerState"
@@ -151,27 +172,6 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
 
   q-page-scroller
     q-btn(fab, color="red", icon="keyboard_arrow_up")
-
-  q-footer.bg-black.text-white.text-center.footer
-    div.footer__icons.row.flex-center
-      a(href="https://github.com/quasarframework/quasar", target="_blank")
-        q-icon(name="fab fa-github")
-
-      a(href="https://twitter.com/quasarframework", target="_blank")
-        q-icon(name="fab fa-twitter")
-
-      a(href="https://medium.com/quasar-framework", target="_blank")
-        q-icon(name="fab fa-medium")
-
-      a(href="https://discord.gg/5TDhbDg", target="_blank")
-        q-icon(name="fab fa-discord")
-
-      a(href="https://forum.quasar-framework.org/", target="_blank")
-        q-icon(name="fas fa-comments")
-    div
-      | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link>
-
-    div Copyright © 2015 - {{ year }} Razvan Stoenescu
 </template>
 
 <script>
