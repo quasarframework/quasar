@@ -99,7 +99,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-  // .q-editor-content pre
-  //   white-space pre-wrap
-</style>
