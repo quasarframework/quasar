@@ -1,83 +1,33 @@
 ---
-title: Docs
+title: What is a PWA
 ---
+A Progressive Web App (PWA) is a web app that uses modern web capabilities to deliver an app-like experience to users. These apps meet certain requirements (see below), are deployed to web servers and accessible through URLs (on HTTPS protocol).
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+This can work in conjunction with Cordova to provide a multiple deploy targets for all your users. Quasar CLI allows you to deploy your app as a PWA as well as a Mobile app and take advantage of both channels.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+## What is Required
+To be considered a Progressive Web App, your app must be:
+* Progressive - Work for every user, regardless of browser choice, because they are built with progressive enhancement as a core tenet.
+* Responsive - Fit any form factor, desktop, mobile, tablet, or whatever is next.
+* Connectivity independent - Enhanced with service workers to work offline or on low quality networks.
+* App-like - Use the app-shell model to provide app-style navigation and interactions.
+* Fresh - Always up-to-date thanks to the service worker update process.
+* Safe - Served via HTTPS to prevent snooping and ensure content has not been tampered with.
+* Discoverable - Are identifiable as “applications” thanks to W3C manifests and service worker registration scope allowing search engines to find them.
+* Re-engageable - Make re-engagement easy through features like push notifications.
+* Installable - Allow users to “keep” apps they find most useful on their home screen without the hassle of an app store.
+* Linkable - Easily share via URL and not require complex installation.
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+More information available on Addy Osmani's [article about PWA](https://addyosmani.com/blog/getting-started-with-progressive-web-apps/).
 
-```
-const m = 'lala'
-```
+## Manifest File
+An app manifest file describes the resources your app will need. This includes your app’s displayed name, icons, as well as splash screen. Quasar CLI configures this for you, but you can override any property from within `/quasar.conf.js`. Learn how by visiting the [Configure PWA](/quasar-cli/developing-pwa/configuring-pwa) documentation page.
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
+More information: [Manifest file](https://developer.mozilla.org/en-US/docs/Web/Manifest).
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
+## Service Worker
+The Service worker provides a programmatic way to cache app resources (files). The programmatic API allows developers to decide how to handle caching and provides a much more flexible experience than other options.
 
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
+More information: [Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API).
 
-export default {
-  //
-}
-</script>
 
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />

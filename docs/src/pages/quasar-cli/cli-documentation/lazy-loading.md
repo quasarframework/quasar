@@ -1,83 +1,104 @@
 ---
-title: Docs
+title: Lazy Loading / Code Splitting
 ---
+When your website/app is small, you can load all layouts/pages/components into the initial bundle and serve everything at startup. But when your code gets complex and has many layouts/pages/components, it won't be optimal to do this as it will massively impact loading time. Fortunately, there is a way to solve this.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+We'll cover how you can lazy load / code split parts of your app so that they are automatically requested only on demand. This is done through dynamic imports. Let's start with an example and then convert it so that we use lazy loading -- we'll focus this example on loading a page, but the same principle can be applied to load anything (assets, JSONs, ...):
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+## Lazy-load router pages
+It's normal to use the Vue-Router calling static components as bellow.
+```js
+import SomePage from 'pages/SomePage'
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
+const routes = [
+  {
+    path: '/some-page',
+    component: SomePage
+  }
+]
 ```
-const m = 'lala'
+
+Now let's change this and make the page be loaded on demand only, using dynamic imports:
+```js
+const routes = [
+  {
+    path: '/some-page',
+    component: () => import('pages/SomePage')
+  }
+]
 ```
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
+Easy, right? What this does is that it creates a separate chunk for `/src/pages/SomePage.vue` which is then loaded only when it is needed. In this case, when a user visits the '/same-page' route.
+
+## Lazy-load components
+Normally you would import a component and then register it to the Page, Layout or Component.
 
 ```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
 <script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
+import SomeComponent from 'components/SomeComponent'
 
 export default {
-  //
+  components: {
+    SomeComponent,
+  }
 }
 </script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+Now let's change this and make the page be loaded on demand only, using dynamic imports:
+```vue
+<script>
+export default {
+  components: {
+    SomeComponent: () => import('components/SomeComponent'),
+  }
+}
+</script>
+```
 
-> Something...
+## Lazy-load on the fly
+As you noticed above, we're using dynamic imports (`import('..resource..')`) instead of regular imports (`import Resource from './path/to/resource'`). Dynamic imports are essentially returning a Promise that you can use:
 
-::: tip
-Some tip
-:::
+```js
+import('./categories.json')
+  .then(categories => {
+    // hey, we have lazy loaded the file
+    // and we have its content in "categories"
+  })
+  .catch(() => {
+    // oops, something went wrong...
+    // couldn't load the resource
+  })
+```
 
-::: warning
-Some tip
-:::
+One advantage of using dynamic imports as opposed to regular imports is that the import path can be determined at runtime:
 
-::: danger
-Some tip
-:::
+```js
+import('pages/' + pageName + '/' + 'id')
+```
 
-::: warning CUSTOM TITLE
-Some tip
-:::
+## Caveat for dynamic imports
+There's one caveat when using dynamic imports with variable parts like in the previous example. When the website/app is bundled, so at compile time, we have no way of telling what the exact import path will be at runtime. As a result, chunks will be created for each file that could match the variable path. You might see un-necessary files in the build log.
 
-* Something
-  * something
-  * else
-* Back
-  * wee
+So how can we limit the number of chunks created in this case? The idea is to limit the variable part as much as you can so the matched paths are as few as possible.
+1. Add file extension, even if it works without it too. This will create chunks only for that file types. Useful when that folder contains many file types.
+  ```js
+  // bad
+  import('./folder/' + pageName)
 
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+  // much better
+  import('./folder/' + pageName + '.vue')
+  ```
+2. Try to create a folder structure that will limit the files available in that variable path. Make it as specific as possible:
+  ```js
+  // bad -- makes chunks for any JSON inside ./folder (recursive search)
+  const asset = 'my/jsons/categories.json'
+  import('./folder/' + asset)
 
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+  // good -- makes chunks only for JSONs inside ./folder/my/jsons
+  const asset = 'categories.json'
+  import('./folder/my/jsons/' + asset)
+  ```
+3. Try to import from folders containing only files. Take the previous example and imagine ./folder/my/jsons further contains sub-folders. We made the dynamic import better by specifying a more specific path, but it's still not optimal in this case. Best is to use terminal folders that only contain files, so we limit the number of matched paths.
 
-## API
-<doc-api file="QTh" />
+Remember that the number of matched paths equals to the number of chunks being generated.

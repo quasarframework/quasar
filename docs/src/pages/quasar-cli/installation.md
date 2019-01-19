@@ -1,83 +1,51 @@
 ---
-title: Docs
+title: CLI Installation and Development Features
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+Using the CLI is the recommended way to go in order to benefit from all Quasar can do for it. You'll be able to build:
+* a SPA (Single Page Application/Website),
+* a SSR (Server-side Rendered App/Website + optional PWA client takeover)
+* a PWA (Progressive Web App),
+* a Mobile App (through Cordova),
+* an Electron App,
+...**sharing the same base-code**.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+First, we install Quasar CLI. Make sure you have Node >=8 and NPM >=5 installed on your machine.
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
+```bash
+# Node.js >= 8.9.0 is required.
+$ yarn global add @quasar/cli
+# or:
+$ npm install -g @quasar/cli
 ```
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
+Then we create a project folder with Quasar CLI:
+```bash
+$ quasar create <folder_name>
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+Note that you don't need separate projects if you want to build any of the options described above. This one project can seamlessly handle all of them.
 
-> Something...
+To continue your learning about Quasar, you should familiarize yourself with the Quasar CLI in depth, because you will be using it a lot.
 
-::: tip
-Some tip
-:::
+## What's Included
 
-::: warning
-Some tip
-:::
+While developing with Dev Server (`$ quasar dev`):
+* Babel, so you can write ES6 code
+* Webpack + vue-loader for Vue SFC (single file components)
+* State preserving hot-reload
+* State preserving compilation error overlay
+* Lint-on-save with ESLint
+* Source maps
+* Develop right on a device emulator (or a real phone connected to your machine) if you target a Mobile App
+* Develop right on an Electron window with Developer Tools included if you target an Electron App
+* ...many more
 
-::: danger
-Some tip
-:::
+Developing for production (`$ quasar build`):
+* Javascript minified with [UglifyJS](https://github.com/mishoo/UglifyJS2)
+* HTML minified with [html-minifier](https://github.com/kangax/html-minifier)
+* CSS across all components extracted (and auto-prefixed) into a single file and minified with [cssnano](https://github.com/ben-eb/cssnano)
+* All static assets are compiled with version hashes for efficient long-term caching, and a production index.html is auto-generated with proper URLs to these generated assets.
+* ...many more
 
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+Take note of the '/quasar.conf.js' file in the root of your project folder. This file helps you quickly configure the way your website/App works. We'll go over it in the [Configuration](/quasar-cli/cli-documentation/quasar-conf-js) section.
