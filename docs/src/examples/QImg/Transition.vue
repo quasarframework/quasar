@@ -10,7 +10,7 @@
         :ratio="16/9"
         spinner-color="white"
         style="max-width: 400px"
-        transitions="slide-left"
+        transition="slide-left"
       />
     </div>
   </div>
