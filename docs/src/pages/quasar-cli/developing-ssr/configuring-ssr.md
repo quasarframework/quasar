@@ -1,83 +1,108 @@
 ---
-title: Docs
+title: Configuring SSR
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+We’ll be using Quasar CLI to develop and build a SSR website. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the “mode” parameter in “quasar dev” and “quasar build” commands.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+In order to build a SSR website, we first need to add the SSR mode to our Quasar project:
+```bash
+$ quasar mode -a ssr
+```
 
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+If you want to jump right in and start developing, you can skip the "quasar mode" command and issue:
+```bash
+$ quasar dev -m ssr
+```
+This will add SSR mode automatically, if it is missing.
 
-## API
-<doc-api file="QTh" />
+## Quasar.conf.js
+This is the place where you can configure some SSR options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behaviour), or as a PWA (Progressive Web App).
+
+```
+return {
+  // ...
+  ssr: {
+    pwa: true/false, // should a PWA take over (default: false), or just a SPA?
+    componentCache: {...} // lru-cache package options
+  }
+}
+```
+
+> If you decide to go with a PWA client takeover (**which is a killer combo**), the Quasar CLI PWA mode will be installed too. You may want to check out the [Quasar PWA](/quasar-cli/developing-pwa/introduction) guide too. But most importantly, make sure you read [SSR with PWA](/quasar-cli/developing-ssr/ssr-with-pwa) page.
+
+When building, `extendWebpack()` and `chainWebpack()` will receive one more parameter (Object), currently containing `isServer` or `isClient` boolean props, because there will be two Webpack builds (one for the server-side and one for the client-side).
+
+```js
+// quasar.conf.js
+build: {
+  extendWebpack(cfg, { isServer, isClient }) { ... }
+}
+```
+
+If you want more information, please see this page that goes into more detail about [extending webpack](/quasar-cli/cli-documentation/quasar-conf-js#Extending-Webpack-Config-Object) in the `quasar.conf.js` file.
+
+## Nodejs Server
+Adding SSR mode to a Quasar project means a new folder will be created: `/src-ssr`, which contains SSR specific files which define your production Node webserver:
+```bash
+.
+└── src-ssr/
+    ├── index.js      # Production Node webserver serving the app
+    └── extension.js  # Common code for production & development server
+```
+
+You can freely edit these files. You're not required to use an Express server. Simply choose whatever fits you best and tweak however you want.
+
+Notice a few things:
+
+1. These files run in a Node context (they are NOT transpiled by Babel), so use only the ES6 features that are supported by your Node version. (https://node.green/)
+
+2. All content of this folder will be copied as is to the output folder. So only import:
+  - node_modules (and yarn/npm install your dependencies -- NOT as devDependecies though)
+  - create files in this folder and import only those with the relative path
+
+3. Do not change the names of these two files. You can however add any additional files that you may need. Just take into consideration that if you want common configuration of the Node webserver for both production & development, you need to add that to `/src-ssr/extension.js` file.
+
+4. When `/src-ssr/extension.js` is used by the development server, it assumes the configuration is ready to be used by an Express server. So plan accordingly. If you switch to another server, you may want to decouple extension.js from the production server (index.js).
+
+## Helping SEO
+One of the main reasons when you develop a SSR instead of a SPA is for taking care of the SEO. And SEO can be greatly improved by using the [Quasar Meta Plugin](/quasar-plugins/meta) to manage dynamic html markup required by the search engines.
+
+## Boot Files
+When running on SSR mode, your application code needs to be isomorphic or "universal", which means that it must run both on a Node context and in the browser. This applies to your [Boot Files](/quasar-cli/cli-documentation/boot-files) too.
+
+However, there are cases where you only want some boot files to run only on the server or only on the client-side. You can achieve that by specifying:
+
+```js
+// quasar.conf.js
+return {
+  // ...
+  plugins: [
+    'some-boot-file', // runs on both server and client
+    { path: 'some-other', server: false } // this boot file gets embedded only on client-side
+    { path: 'third', client: false } // this boot file gets embedded only on server-side
+  ]
+}
+```
+
+Just make sure that your app is consistent, though.
+
+When a boot file runs on the server, you will have access to one more parameter (called `ssrContext`) on the default exported function:
+
+```js
+// some boot file
+export default ({ app, ..., ssrContext }) => {
+  // ssrContext has: { url, req, res }
+
+  // You can add props to the ssrContext then use them in the src/index.template.html.
+  // Example - let's say we ssrContext.someProp = 'some value', then in index template we can reference it:
+  // {{ someProp }}
+}
+```
+
+When you add such references (`someProp` surrounded by brackets in the example above) into your `src/index.template.html`, make sure you tell Quasar it’s only valid for SSR builds:
+
+```html
+<!-- index.template.html -->
+<% if (htmlWebpackPlugin.options.ctx.mode.ssr) { %>{{ someProp }} <% } %>
+```

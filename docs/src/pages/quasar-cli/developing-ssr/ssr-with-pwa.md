@@ -1,83 +1,47 @@
 ---
-title: Docs
+title: SSR with PWA Client Takeover
 ---
+With Quasar CLI you can build your app with the killer combo of SSR + PWA. In order to enable PWA for SSR builds, you need to edit your `/quasar.conf.js` first:
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
+```js
+// quasar.conf.js
+return {
+  // ...
+  ssr: {
+    pwa: true
+  }
 }
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+The first request will be served from the webserver. The PWA gets installed then it takes over on client side.
 
-> Something...
+> For more information on PWA, head on to [PWA Introduction](/quasar-cli/developing-pwa/introduction) and read the whole PWA Guide section.
 
-::: tip
-Some tip
-:::
+## Caveat
+One caveat to be aware of is that, as opposed to a normal PWA build, you need to also specify the URL routes that you wish to cache. The `quasar.conf > ssr > pwa` can have the Object form, specifying Workbox options that will get applied on top of `quasar.conf > pwa > workboxOptions`. So we'll be using this to add our routes to the runtime caching:
 
-::: warning
-Some tip
-:::
+```js
+// quasar.conf.js
+return {
+  // ...
+  ssr: {
+    // we use the Object form of "pwa" now:
+    pwa: {
+      runtimeCaching: [
+        {
+          urlPattern: '/user',
+          handler: 'networkFirst'
+        },
+        {
+          // using a regex, especially useful
+          // when you have Vue Routes with parameters
+          urlPattern: /\/dashboard\/.*/,
+          handler: 'networkFirst'
+        }
+      ]
+    }
+  }
+}
+```
 
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+The index route (`/`) is added by default, but you can overwrite it if you want. In the example above, we're caching routes `/`, `/user` and `/dashboard/**`.
