@@ -39,7 +39,7 @@ function set (key, val, opts = {}, ssr) {
   let expire, expireValue
 
   if (opts.expires !== void 0) {
-    expireValue = parseInt(opts.expires, 10)
+    expireValue = parseFloat(opts.expires)
 
     if (isNaN(expireValue)) {
       expire = opts.expires
