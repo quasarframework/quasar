@@ -5,15 +5,16 @@ Having a code linter in place is highly recommended and ensures your code looks 
 
 When you create a Quasar project folder with Quasar CLI it will ask you if you want a linter and which setup you want for ESLint:
 
-* Standard - https://github.com/standard/standard
-* Airbnb - https://github.com/airbnb/javascript
+* [Standard](https://github.com/standard/standard)
+* [Airbnb](https://github.com/airbnb/javascript)
+* [Prettier](https://github.com/prettier/prettier)
 * .. or you can configure one yourself
 
 Two dot files will be created:
 * .eslintrc.js -- ESLint configuration, including rules
 * .eslintignore -- what ESLint should ignore when linting
 
-Further extension of one of the Eslint setups above can be made. Your project will by default use `eslint-plugin-vue` to handle your Vue files. Take a quick look at .eslintrc.js and notice it:
+Further extension of one of the Eslint setups above can be made. Your project will by default use `eslint-plugin-vue` to handle your Vue files. Take a quick look at `.eslintrc.js` and notice it:
 
 ```js
 extends: [
@@ -40,7 +41,7 @@ build: {
 
 ## Lint Rules
 The linting rules can be removed, changed, or added. Notice some things:
-* Some rules are for the Standard or Airbnb standards (whichever you chose when project was created). Example: 'brace-style'.
+* Some rules are for the Standard, Airbnb or Prettier standards (whichever you chose when project was created). Example: 'brace-style'.
 * Some rules are for eslint-plugin-vue. Example: 'vue/max-attributes-per-line'.
 
 You can add/remove/change rules by first visiting https://eslint.org/docs/rules/ or https://github.com/vuejs/eslint-plugin-vue.
@@ -77,7 +78,7 @@ Example of ESLint rules below:
 ```
 
 ## Disabling Linter
-In order for you to disable ESLint, all you need to do is comment out (or remove) the following code from `/quasar.conf.js`:
+In order for you to disable ESLint later, all you need to do is comment out (or remove) the following code from `/quasar.conf.js`:
 
 ```js
 build: {
