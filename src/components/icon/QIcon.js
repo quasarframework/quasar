@@ -33,6 +33,9 @@ export default {
       else if (icon.startsWith('mdi-')) {
         cls = `mdi ${icon}`
       }
+      else if (icon.startsWith('iconfont ')) {
+          cls = `${icon}`
+      }
       else {
         cls = 'material-icons'
       }
