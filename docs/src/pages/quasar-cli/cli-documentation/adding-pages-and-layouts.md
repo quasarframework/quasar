@@ -4,7 +4,7 @@ title: Adding Pages and Layouts
 Your Pages (`/src/pages`) and Layouts (`/src/layouts`) are injected into your website/app (and also managed) through Vue Router in `/src/router/routes.js`. Each Page and Layout needs to be referenced there.
 
 ::: tip
-You may want to read [Routing](/guide/app-routing.html) first and also understand [Lazy Loading / Code Splitting](/guide/app-lazy-loading---code-splitting.html).
+You may want to read [Routing](/quasar-cli/cli-documentation/routing) first and also understand [Lazy Loading / Code Splitting](/quasar-cli/cli-documentation/lazy-loading).
 :::
 
 #### Example of `routes.js`:
@@ -139,5 +139,5 @@ Note that nested paths that start with `/` will be treated as a root path. This 
 :::
 
 ::: tip
- For further in-detail reading please take a look on [Vue Router](https://router.vuejs.org/en/essentials/nested-routes.html#) documentation.
+For further in-detail reading please take a look on [Vue Router](https://router.vuejs.org/en/essentials/nested-routes.html#) documentation.
 ::: 
