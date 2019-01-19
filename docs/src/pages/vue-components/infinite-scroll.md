@@ -1,83 +1,28 @@
 ---
-title: Docs
+title: QInfiniteScroll
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
+The Quasar InfiteScroll component allows you to load new content as the user scrolls down the page.
 
 ::: tip
-Some tip
+Infinite Scroll loads items in advance when less than `offset` (default = 500) pixels is left to be seen. If the content you fetch has height less than the container’s height on screen then Infinite Scroll will continue loading more content. So make sure you load enough content.
 :::
 
-::: warning
-Some tip
+::: tip
+In your `@load` function, don't forget to call the passed in `done()` function when you have finsihed loading more data.
 :::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QInfiniteScroll" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+::: tip
+In the example below, scroll to the bottom to see QInfiniteScroll in action.
+:::
+
+<doc-example title="Basic" file="QInfiniteScroll/Basic" />
+
+<doc-example title="Message slot" file="QInfiniteScroll/Slot" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QInfiniteScroll" />

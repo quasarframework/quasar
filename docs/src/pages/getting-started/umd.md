@@ -213,7 +213,7 @@ Assuming you have already included the CDN link to your favorite Quasar Icon Set
 Quasar.icons.set(Quasar.icons.fontawesome)
 ```
 
-The list of available [Quasar Icon Sets](/options-and-helpers/quasar-icon-sets) can be found on [Github](https://github.com/quasarframework/quasar/tree/dev/quasar/icons).
+The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [Github](https://github.com/quasarframework/quasar/tree/dev/quasar/icons).
 
 ### Changing Quasar Language Pack
 Assuming you have already included the CDN link to your desired Quasar I18n Language (unless you want "en-us" language pack which is used by default), you can then tell Quasar to use it:
