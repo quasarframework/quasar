@@ -83,6 +83,6 @@ Somebody smart might have hacked your project (or an underlying library). If you
 #### Get help
 You may feel overwhelmed, because the awesomeness of Electron brings with it a great many headaches that you never wanted to think about. If this is the case, consider [reaching out](mailto:razvan.stoenescu@gmail.com) and getting expert support for the review, audit and hardening of your app by the team of seasoned devs that brought you the Quasar Framework.
 
-<q-separator spaced />
+<q-separator class="q-mt-xl" />
 
-> Some text from this page has been sourced from the [Official Electron Security Guide](https://electronjs.org/docs/tutorial/security).
+> Parts of this page have been taken from the official [Electron Security Guide](https://electronjs.org/docs/tutorial/security).
