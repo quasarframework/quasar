@@ -43,5 +43,6 @@ The list below is not complete. Also check the other CSS documentation pages lik
 | Class Name | Description |
 | --- | --- |
 | `no-border` | Removes any border |
-| `round-borders` | Applies a generic border radius based on theme |
+| `no-border-radius` | Removes any radius the border might have |
+| `generic-border-radius` | Applies a generic border radius based on theme |
 
