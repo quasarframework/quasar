@@ -18,7 +18,6 @@
       }"
       :toolbar="[
         ['bold', 'italic', 'strike', 'underline'],
-        ['token', 'hr', 'link'],
         ['upload', 'save']
       ]"
     />
@@ -29,7 +28,7 @@ export default {
   data () {
     return {
       editor: 'After you define a new button,' +
-        'you have to make sure to put it in the toolbar too!'
+        ' you have to make sure to put it in the toolbar too!'
     }
   },
   methods: {
