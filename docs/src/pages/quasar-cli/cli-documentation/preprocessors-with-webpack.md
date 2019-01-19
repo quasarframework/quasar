@@ -29,7 +29,7 @@ build: {
     chain.module.rule('eslint')
       .test(/\.(js|vue)$/)
       .enforce('pre')
-      .exclude(/(node_modules|quasar)/)
+      .exclude(/[\\/]node_modules[\\/]/)
       .use('eslint-loader')
         .loader('eslint-loader')
   }
@@ -44,14 +44,14 @@ You can use them anywhere in your project and webpack will resolve the correct p
 
 | Alias | Resolves to |
 | --- | --- |
-| `quasar` | `node_modules/quasar-framework/dist/quasar.<configured-theme>.esm.js` |
-| `src` | `/src` |
-| `components` | `/src/components` |
-| `layouts` | `/src/layouts` |
-| `pages` | `/src/pages` |
-| `assets` | `/src/assets` |
-| `plugins` | `/src/plugins` |
-| `variables` | `/.quasar/variables.styl` |
+| `src` | /src |
+| `app` | / |
+| `components` | /src/components |
+| `layouts` | /src/layouts |
+| `pages` | /src/pages |
+| `assets` | /src/assets |
+| `boot` | /src/boot |
+| `quasar-variables` | /.quasar/variables.styl |
 
 Also if you configure to build with the Vue compiler version (build > vueCompiler: true), `vue$` resolves to  `vue/dist/vue.esm.js`.
 

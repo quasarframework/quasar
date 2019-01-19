@@ -670,6 +670,10 @@ const cli = [
         path: 'configuring-pwa'
       },
       {
+        name: 'Handling Service Worker',
+        path: 'handling-service-worker'
+      },
+      {
         name: 'Build Commands',
         path: 'build-commands'
       }
