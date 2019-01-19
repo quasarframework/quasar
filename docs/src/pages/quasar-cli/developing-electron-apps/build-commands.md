@@ -1,83 +1,29 @@
 ---
-title: Docs
+title: Electron Build Commands
 ---
+[Quasar CLI](/getting-started/quasar-cli) makes it incredibly simple to develop or build the final distributables from your source code.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+## Developing
+```bash
+$ quasar dev -m electron
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
+# ..or the longer form:
+$ quasar dev --mode electron
 ```
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
+It opens up an Electron window with dev-tools included. You have HMR for the renderer process and changes to main process are also picked up (but the latter restarts the Electron window on each change).
+
+Check how you can tweak Webpack config Object for the Main Process on the [Configuring Electron](/quasar-cli/developing-electron-apps/configuring-electron) page.
+
+## Building for Production
+```bash
+$ quasar build -m electron
+
+# ..or the longer form:
+$ quasar build --mode electron
 ```
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
+It builds your app for production and then uses electron-packager to pack it into an executable. Check how to configure this on [Configuring Electron](/quasar-cli/developing-electron-apps/configuring-electron) page.
 
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+### A note for non-Windows users
+If you want to build for Windows with a custom icon using a non-Windows platform, you must have [wine](https://www.winehq.org/) installed. [More Info](https://github.com/electron-userland/electron-packager#building-windows-apps-from-non-windows-platforms).

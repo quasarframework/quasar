@@ -3,7 +3,7 @@ title: Quasar UMD - CDN install
 ---
 If you want to embed Quasar into your existing website project, integrating it in a progressive manner, then go for the UMD/Standalone (Unified Module Definition) version.
 
-### Installation
+## Installation
 UMD is all about adding Quasar style and javascript tags. This is a full list. Choose only what you use.
 
 ```html
@@ -95,7 +95,7 @@ UMD is all about adding Quasar style and javascript tags. This is a full list. C
 </body>
 ```
 
-#### Optional
+### Optional
 One other quick way to get necessary tags based on your requirements is to use the UMD demo kit. It will ask you some questions and will generate a simple HTML file that will show you how to use CDN to add Quasar:
 
 ```bash
@@ -108,13 +108,13 @@ Notice that as opposed to the Main Starter Kit, you don't need to import anythin
 
 However, the disadvantage is that you won't benefit from the top notch development experience provided by Quasar CLI -- which allows you to simultaneously develop and build SPA, PWA, SSR, Mobile and Electron Apps.
 
-### JsFiddle / Codepen
+## JsFiddle / Codepen
 You can fork and use these links for reporting issues on Github too:
 
 | Supplier | URL |
 | --- | --- |
-| jsFiddle | https://jsfiddle.net/rstoenescu/waugrryy/ |
-| Codepen | https://codepen.io/rstoenescu/pen/KQRZJg |
+| jsFiddle | [https://jsfiddle.net/rstoenescu/waugrryy/](https://jsfiddle.net/rstoenescu/waugrryy/) |
+| Codepen | [https://codepen.io/rstoenescu/pen/KQRZJg](https://codepen.io/rstoenescu/pen/KQRZJg) |
 
 These links (obviously) use the Quasar UMD version.
 
@@ -212,6 +212,8 @@ Assuming you have already included the CDN link to your favorite Quasar Icon Set
 ```js
 Quasar.icons.set(Quasar.icons.fontawesome)
 ```
+
+The list of available [Quasar Icon Sets](/options-and-helpers/quasar-icon-sets) can be found on [Github](https://github.com/quasarframework/quasar/tree/dev/quasar/icons).
 
 ### Changing Quasar Language Pack
 Assuming you have already included the CDN link to your desired Quasar I18n Language (unless you want "en-us" language pack which is used by default), you can then tell Quasar to use it:

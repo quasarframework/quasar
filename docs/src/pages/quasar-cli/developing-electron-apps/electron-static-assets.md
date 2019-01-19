@@ -1,83 +1,35 @@
 ---
-title: Docs
+title: Electron Static Assets
 ---
+Please read about [Handling Assets](/quasar-cli/cli-documentation/handling-assets) first, which applies to the renderer process. However, when we deal with Electron then Quasar CLI offers a handy `__static` variable in addition. Statics can be consumed by both the main process and renderer process, but since the paths change when building for production (due to packaging), then usage with `fs` and other modules that need a full path can be a little tricky. So `__statics` can come into play.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+## On the subject of using __dirname & __filename
+Since the main process is bundled using webpack, the use of `__dirname` and `__filename` will not provide an expected value in production. Referring to the File Tree, you'll notice that in production the electron-main.js is placed inside the `dist/electron-*` folder. Based on this knowledge, use `__dirname` & `__filename` accordingly.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
+```bash
+app.asar
+└─ dist
+   └─ electron-*
+      ├─ statics/
+      ├─ js/...
+      ├─ node_modules/
+      ├─ index.html
+      ├─ package.json
+      └─ electron-main.js
 ```
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
+## Static assets with fs, path and __statics
+Let's say we have a static asset that we need to read into our application using `fs`, but how do we get a reliable path, in both development and production, to the statics/ folder? Quasar provides a global variable named `__statics` that will yield a proper path to it. Here's how we can use it to read a simple text file in both development and production.
 
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
+Let's assume we have a file called `someFile.txt` in `/src/statics`. Now, in main or renderer process, we can access it like this:
+```bash
+// main or renderer process
 
-export default {
-  //
-}
-</script>
+import fs from 'fs'
+import path from 'path'
 
-<style>
-/* This is where your CSS goes */
-</style>
+let fileContents = fs.readFileSync(
+  path.join(__statics, '/someFile.txt'),
+  'utf8'
+)
 ```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />

@@ -1,83 +1,46 @@
 ---
-title: Docs
+title: Electron Preparation
 ---
+Before we dive in to the actual development, we need to do some preparation work.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
+## 1. Add Quasar Electron Mode
+In order to develop/build a Quasar Electron app, we need to add the Electron mode to our Quasar project. What this does is that it npm installs some Electron packages and creates `/src-electron` folder.
+```bash
+$ quasar mode -a electron
 ```
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
+Every Electron app has two threads: the main thread (deals with the window and initialization code -- from the newly created folder `/src-electron`) and the renderer thread (which deals with the actual content of your app from `/src`).
+
+The new folder has the following structure:
+```bash
+.
+└── src-electron/
+    ├── icons/                 # Icons of your app for all platforms
+    |   ├── icon.icns             # Icon file for Darwin (MacOS) platform
+    |   ├── icon.ico              # Icon file for win32 (Windows) platform
+    |   └── linux-256x256.png     # Icon file for Linux platform
+    └── main-process/          # Main thread source code
+        ├── electron-main.dev.js  # Main thread code while developing; read below
+        └── electron-main.js      # Main thread code for production
 ```
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
+### Electron-main.dev.js
+This file (`/src-electron/main-process/electron-main.dev.js`) is used specifically for development and is used to install dev-tools. Usually it should not have to be modified, but can be used to extend your development needs. After it sets up dev-tools it imports the `electron-main.js` which is the place you'll make most (if not all) of your changes.
 
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
+### A note for Windows Users
+If you run into errors during npm install about node-gyp, then you most likely do not have the proper build tools installed on your system. Build tools include items like Python and Visual Studio. Fortunately, there are a few packages to help simplify this process.
 
-export default {
-  //
-}
-</script>
+The first item we need to check is our npm version and ensure that it is not outdated. This is accomplished using [npm-windows-upgrade](https://github.com/felixrieseberg/npm-windows-upgrade). If you are using yarn, then you can skip this check.
 
-<style>
-/* This is where your CSS goes */
-</style>
+Once that is complete, we can then continue to setup the needed build tools. Using [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools), most of the dirty work is done for us. Installing this globally will in turn setup Visual C++ packages, Python, and more.
+
+At this point things should successfully install, but if not then you will need a clean installation of Visual Studio. Please note that these are not problems with Quasar, but they are related to NPM and Windows.
+
+## 2. Start Developing
+If you want to jump right in and start developing, you can skip the previous step with "quasar mode" command and issue:
+```bash
+$ quasar dev -m electron
 ```
+This will add Electron mode automatically, if it is missing.
+It will open up an Electron window which will render your app along with Developer Tools opened side by side.
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />

@@ -4,12 +4,12 @@ const options = [
     path: 'vue-prototype-injections'
   },
   {
-    name: 'Quasar Languages',
-    path: 'quasar-languages'
+    name: 'Quasar Language Packs',
+    path: 'quasar-language-packs'
   },
   {
-    name: 'Internationalization',
-    path: 'internationalization'
+    name: 'App Internationalization',
+    path: 'app-internationalization'
   },
   {
     name: 'Installing Icon Libraries',
@@ -500,8 +500,8 @@ const cli = [
         path: 'handling-assets'
       },
       {
-        name: 'App Plugins',
-        path: 'app-plugins'
+        name: 'Boot Files',
+        path: 'boot-files'
       },
       {
         name: 'Prefetch Feature',
@@ -662,6 +662,10 @@ const cli = [
       {
         name: 'Electron Static Assets',
         path: 'electron-static-assets'
+      },
+      {
+        name: 'Electron Security Concerns',
+        path: 'electron-security-concerns'
       },
       {
         name: 'Troubleshooting and Tips',
