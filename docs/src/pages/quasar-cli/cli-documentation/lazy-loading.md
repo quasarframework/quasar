@@ -5,7 +5,7 @@ When your website/app is small, you can load all layouts/pages/components into t
 
 We'll cover how you can lazy load / code split parts of your app so that they are automatically requested only on demand. This is done through dynamic imports. Let's start with an example and then convert it so that we use lazy loading -- we'll focus this example on loading a page, but the same principle can be applied to load anything (assets, JSONs, ...):
 
-## Lazy Load Router Pages
+## Lazy-load router pages
 It's normal to use the Vue-Router calling static components as bellow.
 ```js
 import SomePage from 'pages/SomePage'
@@ -30,7 +30,7 @@ const routes = [
 
 Easy, right? What this does is that it creates a separate chunk for `/src/pages/SomePage.vue` which is then loaded only when it is needed. In this case, when a user visits the '/same-page' route.
 
-## Lazy Load Components
+## Lazy-load components
 Normally you would import a component and then register it to the Page, Layout or Component.
 
 ```vue
@@ -56,7 +56,7 @@ export default {
 </script>
 ```
 
-## Lazy Load on the fly
+## Lazy-load on the fly
 As you noticed above, we're using dynamic imports (`import('..resource..')`) instead of regular imports (`import Resource from './path/to/resource'`). Dynamic imports are essentially returning a Promise that you can use:
 
 ```js
@@ -77,7 +77,7 @@ One advantage of using dynamic imports as opposed to regular imports is that the
 import('pages/' + pageName + '/' + 'id')
 ```
 
-## Caveat for Dynamic Imports
+## Caveat for dynamic imports
 There's one caveat when using dynamic imports with variable parts like in the previous example. When the website/app is bundled, so at compile time, we have no way of telling what the exact import path will be at runtime. As a result, chunks will be created for each file that could match the variable path. You might see un-necessary files in the build log.
 
 So how can we limit the number of chunks created in this case? The idea is to limit the variable part as much as you can so the matched paths are as few as possible.

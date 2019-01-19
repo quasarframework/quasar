@@ -7,7 +7,9 @@ Your Pages (`/src/pages`) and Layouts (`/src/layouts`) are injected into your we
 You may want to read [Routing](/quasar-cli/cli-documentation/routing) first and also understand [Lazy Loading / Code Splitting](/quasar-cli/cli-documentation/lazy-loading).
 :::
 
-#### Example of `routes.js`:
+## Defining Routes
+
+Example of `routes.js`:
 ```js
 // we define our routes in this file
 
@@ -23,7 +25,7 @@ const routes = [
 export default routes
 ```
 
-#### Example of `routes.js` using lazy-loading / on-demand loading:
+Example of `routes.js` using lazy-loading / on-demand loading:
 ```js
 // we define our routes in this file
 
@@ -140,4 +142,4 @@ Note that nested paths that start with `/` will be treated as a root path. This 
 
 ::: tip
 For further in-detail reading please take a look on [Vue Router](https://router.vuejs.org/en/essentials/nested-routes.html#) documentation.
-::: 
+:::
