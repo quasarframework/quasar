@@ -2,6 +2,7 @@
 title: QSplitter
 ---
 
+The Quasar QSplitter component allow containers to be split vertically and/or horizonally with a movable bar.
 
 ## Installation
 <doc-installation components="QSplitter" />
