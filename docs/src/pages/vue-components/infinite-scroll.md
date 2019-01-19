@@ -12,15 +12,14 @@ Infinite Scroll loads items in advance when less than `offset` (default = 500) p
 ## Installation
 <doc-installation components="QInfiniteScroll" />
 
+## Usage
 ::: tip
-Scroll to the bottom to see QInfiniteScroll in action.
+In the example below, scroll to the bottom to see QInfiniteScroll in action.
 :::
 
-## Usage
 <doc-example title="Basic" file="QInfiniteScroll/Basic" />
 
-slot="message" for DOM element to display (in this example a dots spinner) when loading additional content
-<doc-example title="Slot" file="QInfiniteScroll/Slot" />
+<doc-example title="Message slot" file="QInfiniteScroll/Slot" />
 
 ## API
 <doc-api file="QInfiniteScroll" />
