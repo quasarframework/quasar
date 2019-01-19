@@ -1,83 +1,31 @@
 ---
-title: Docs
+title: Tooltip
 ---
-
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+QTooltip should be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or quickly tapping on mobile platforms), the Tooltip will appear.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="Qtooltip" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+In the example below we use a QBtn (as a target) and when hovering over it, Quasar will display some text.
+You can replace QBtn and the Tooltip content with any DOM elements or components you like.
+<doc-example title="Basic" file="QTooltip/Standard" />
+The idea is to place QTooltip inside your DOM element / component (as **direct child in DOM hierarchy**), when you want it to be the trigger for the QTooltip. Don’t worry about QTooltip content inheriting CSS from the container. This won’t occur, since QTooltip will be injected as a direct child of `<body>`.
+
+<doc-example title="Toggle through v-model" file="QTooltip/VModel" />
+
+<doc-example title="One second delay" file="QTooltip/OneSecond" />
+
+<doc-example title="With offset" file="QTooltip/Offset" />
+
+<doc-example title="Custom transition" file="QTooltip/CustomTransition" />
+
+## Positioning
+The position of QTooltip can be customized. It keeps account of the anchor and self optional Vue properties. Check out the demo and play with them.
+
+The final position of QTooltip popup is calculated so that it will be displayed on the available screen real estate, switching to the right-side and/or top-side when necessary.
+
+<doc-example title="Configure" file="QTooltip/Config" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QTooltip" />
