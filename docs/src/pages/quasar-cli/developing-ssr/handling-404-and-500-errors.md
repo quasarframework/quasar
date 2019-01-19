@@ -1,83 +1,87 @@
 ---
-title: Docs
+title: SSR Handling of 404 and 500 Errors
 ---
+The handling of the 404 & 500 errors on SSR is a bit different than on the other modes (like SPA). If you check out `/src-ssr/index.js` (which is your production webserver), you will notice the following section:
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
+```js
+// this should be last get(), rendering with SSR
+app.get('*', (req, res) => {
+  res.setHeader('Content-Type', 'text/html')
+  ssr.renderToString({ req, res }, (err, html) => {
+    if (err) {
+      if (err.url) {
+        res.redirect(err.url)
+      }
+      else if (err.code === 404) {
+        res.status(404).send('404 | Page Not Found')
+      }
+      else {
+        // Render Error Page or Redirect
+        res.status(500).send('500 | Internal Server Error')
+        if (ssr.settings.debug) {
+          console.error(`500 on ${req.url}`)
+          console.error(err)
+          console.error(err.stack)
+        }
+      }
+    }
+    else {
+      res.send(html)
+    }
+  })
+})
 ```
-const m = 'lala'
+
+The section above is written after catching the other possible requests (like for /statics folder, the manifest.json and service worker, etc). This is where we initialize your app, along with your Router and Vue gets to render the requested page.
+
+## Things to be aware of
+We'll discuss some architectural decisions that you need to be aware of. Choose whatever fits your app best.
+
+### Error 404
+If you define an equivalent 404 route on your Vue Router `/src/router/routes.js` file (like below), then `if (err.code === 404) {` part from the example above will NEVER be `true` since Vue Router already handled it.
+
+```js
+// Example of route for catching 404 with Vue Router
+{ path: '*', component: () => import('pages/error404.vue') }
 ```
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
+For best performance and server load, it is recommended to avoid configuring a 404 page with Vue Router and leave the SSR production webserver handle it. In your `/src/router/routes.js` you could preferentially catch 404 only for non-SSR mode like this:
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
+```js
+// assuming you have a "routes" array
+if (process.env.MODE !== 'ssr') {
+  routes.push({
+    path: '*',
+    component: () => import('pages/error404.vue')
+  })
 }
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+### Error 500
+On the `/src-ssr/index.js` example at the top of the page, notice that if the webserver encounters any rendering error, we send a simple string back to the client ('500 | Internal Server Error'). If you want to show a nice page instead, you could:
 
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
+1. Add a specific route in `/src/router/routes.js`, like:
+  ```js
+  { path: 'error500', component: () => import('pages/Error500.vue') }
+  ```
+2. Write the Vue component to handle this page. In this example, we create `/src/pages/Error500.vue`
+3. Then in `/src-ssr/index.js`:
+  ```js
+  if (err.url) { ... }
+  else if (err.code === 404) { ... }
+  else {
+    // We got a 500 error here;
+    // We redirect to our "error500" route newly defined at step #1.
+    res.redirect('/error500')
+  }
+  ```
 
 ::: danger
-Some tip
+The only caveat is that you need to be sure that while rendering '/error500' route you don't get another 500 error, which would put your app into an infinite loop!
 :::
 
-::: warning CUSTOM TITLE
-Some tip
-:::
+A perfect approach to avoid this would simply be to directly return the HTML (as String) of the error 500 page from `/src-ssr/index.js`:
 
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+```js
+res.status(500).send(`<html>....</html>`)
+```

@@ -1,83 +1,32 @@
 ---
-title: Docs
+title: SSR FAQ
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+## Why am I getting hydration errors?
+Take a look at our [Client Side Hydration](/quasar-cli/developing-ssr/client-side-hydration) page. When you get hydration errors, it means the HTML rendered on the server does not match the equivalent HTML rendered on client-side. This error will appear only when developing (and NOT on production) and it definitely needs to be addressed, before you release your website. Is there some content that you can only generate on client-side? Then use [QNoSSR](/vue-components/no-ssr).
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+## Why doesn't importing Platform and Cookies work?
+When building for SSR, use only the `$q.platform`/`$q.cookies` form. If you need to use the `import { Platform, Cookies } from 'quasar'` (when on server-side), then you’ll need to do it like this:
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+```js
+// example with Platform; same thing for Cookies
+import { Platform } from 'quasar'
 
-```
-const m = 'lala'
-```
+// you need access to `ssrContext`
+function (ssrContext) {
+  const platform = process.env.SERVER
+    ? Platform.parseSSR(ssrContext)
+    : Platform // otherwise we're on client
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
+  // platform is equivalent to the global import as in non-SSR builds
 }
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+The `ssrContext` is available in the [Boot Files](/quasar-cli/cli-documentation/boot-files) or the [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature), where it is supplied as a parameter.
 
-> Something...
+There is a good reason for this. In a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same thing. Each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So [Platform](/options/platform-detection) and [Cookies](/quasar-plugins/cookies) need to be bound to each request separately.
 
-::: tip
-Some tip
-:::
+Also a good idea is to read the [Writing Universal Code](/quasar-cli/developing-ssr/writing-universal-code) documentation page.
 
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+## Why isn't LocalStorage and SessionStorage working?
+When running the code on server-side, the storage facilities can't work. Web Storage is a browser only API.
