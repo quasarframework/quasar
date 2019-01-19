@@ -1,3 +1,36 @@
+const gettingStarted = [
+  {
+    name: 'Pick Quasar Flavour',
+    path: 'pick-quasar-flavour'
+  },
+  {
+    name: 'How to use Vue',
+    path: 'how-to-use-vue'
+  },
+  {
+    name: 'Contribution Guide',
+    path: 'contribution-guide'
+  },
+  {
+    name: 'Quasar Flavours',
+    opened: true,
+    children: [
+      {
+        name: 'Quasar CLI',
+        path: 'quasar-cli'
+      },
+      {
+        name: 'UMD / Standalone',
+        path: 'umd'
+      },
+      {
+        name: 'Vue CLI Plugin',
+        path: 'vue-cli-plugin'
+      }
+    ]
+  }
+]
+
 const options = [
   {
     name: 'Vue Prototype Injections',
@@ -32,60 +65,82 @@ const options = [
     path: 'screen-plugin'
   },
   {
-    name: 'Style & Identity',
-    path: 'style-and-identity',
-    children: [
-      {
-        name: 'Color Palette',
-        path: 'color-palette'
-      },
-      {
-        name: 'Stylus Variables',
-        path: 'stylus-variables'
-      },
-      {
-        name: 'Typography',
-        path: 'typography'
-      }
-    ]
-  },
-  {
-    name: 'CSS Helpers & Grid',
-    path: 'css-helpers',
-    children: [
-      {
-        name: 'Spacing',
-        path: 'spacing'
-      },
-      {
-        name: 'Flex CSS / Grid',
-        path: 'flex-css'
-      },
-      {
-        name: 'Shadows',
-        path: 'shadows'
-      },
-      {
-        name: 'Visibility',
-        path: 'visibility'
-      },
-      {
-        name: 'Positioning',
-        path: 'positioning'
-      },
-      {
-        name: 'Other Helper Classes',
-        path: 'other-helper-classes'
-      },
-      {
-        name: 'Animation CSS Helper Classes',
-        path: 'animation-css-helper-classes'
-      }
-    ]
-  },
-  {
     name: 'Global Event Bus',
     path: 'global-event-bus'
+  }
+]
+
+const style = [
+  {
+    name: 'Typography',
+    path: 'typography'
+  },
+  {
+    name: 'Color Palette',
+    path: 'color-palette'
+  },
+  {
+    name: 'Theming',
+    path: 'theming'
+  },
+  {
+    name: 'Spacing',
+    path: 'spacing'
+  },
+  {
+    name: 'Shadows',
+    path: 'shadows'
+  },
+  {
+    name: 'Visibility',
+    path: 'visibility'
+  },
+  {
+    name: 'Positioning',
+    path: 'positioning'
+  },
+  {
+    name: 'Other Helper Classes',
+    path: 'other-helper-classes'
+  }
+]
+
+const layout = [
+  {
+    name: 'Flex CSS Grid',
+    path: 'flex-css-grid'
+  },
+  {
+    name: 'Layout',
+    path: 'layout'
+  },
+  {
+    name: 'Integrating Layout with Router',
+    path: 'integrating-layout-with-router'
+  },
+  {
+    name: 'Layout Header and Footer',
+    path: 'header-and-footer'
+  },
+  {
+    name: 'Layout Drawer',
+    path: 'drawer'
+  },
+  {
+    name: 'Layout Page',
+    path: 'page'
+  },
+  {
+    name: 'Page Sticky',
+    path: 'page-sticky'
+  },
+  {
+    name: 'Page Scroller',
+    path: 'page-scroller'
+  },
+  {
+    name: 'Floating Action Button',
+    path: 'floating-action-button'
   }
 ]
 
@@ -462,6 +517,29 @@ const components = [
   }
 ]
 
+const utils = [
+  {
+    name: 'Date Utils',
+    path: 'date-utils'
+  },
+  {
+    name: 'Color Utils',
+    path: 'color-utils'
+  },
+  {
+    name: 'DOM Utils',
+    path: 'dom-utils'
+  },
+  {
+    name: 'Formatter Utils',
+    path: 'formatter-utils'
+  },
+  {
+    name: 'Other Utils',
+    path: 'other-utils'
+  }
+]
+
 const cli = [
   {
     name: 'Installation',
@@ -698,83 +776,25 @@ export default [
     name: 'Getting Started',
     icon: 'flight_takeoff',
     path: 'getting-started',
-    children: [
-      {
-        name: 'Pick Quasar Flavour',
-        path: 'pick-quasar-flavour'
-      },
-      {
-        name: 'How to use Vue',
-        path: 'how-to-use-vue'
-      },
-      {
-        name: 'Contribution Guide',
-        path: 'contribution-guide'
-      },
-      {
-        name: 'Quasar Flavours',
-        opened: true,
-        children: [
-          {
-            name: 'Quasar CLI',
-            path: 'quasar-cli'
-          },
-          {
-            name: 'UMD / Standalone',
-            path: 'umd'
-          },
-          {
-            name: 'Vue CLI Plugin',
-            path: 'vue-cli-plugin'
-          }
-        ]
-      }
-    ]
+    children: gettingStarted
   },
   {
     name: 'Quasar Options & Helpers',
     icon: 'tune',
-    path: 'options-and-helpers',
+    path: 'options',
     children: options
   },
   {
-    name: 'Layout',
+    name: 'Style & Identity',
+    icon: 'color_lens',
+    path: 'style',
+    children: style
+  },
+  {
+    name: 'Layout and Grid',
     icon: 'view_quilt',
-    path: 'vue-components',
-    children: [
-      {
-        name: 'Layout',
-        path: 'layout'
-      },
-      {
-        name: 'Integrating Layout with Router',
-        path: 'integrating-layout-with-router'
-      },
-      {
-        name: 'Layout Header and Footer',
-        path: 'header-and-footer'
-      },
-      {
-        name: 'Layout Drawer',
-        path: 'drawer'
-      },
-      {
-        name: 'Layout Page',
-        path: 'page'
-      },
-      {
-        name: 'Page Sticky',
-        path: 'page-sticky'
-      },
-      {
-        name: 'Page Scroller',
-        path: 'page-scroller'
-      },
-      {
-        name: 'Floating Action Button',
-        path: 'floating-action-button'
-      }
-    ]
+    path: 'layout',
+    children: layout
   },
   {
     name: 'Vue Components',
@@ -798,28 +818,7 @@ export default [
     name: 'Quasar Utils',
     icon: 'healing',
     path: 'quasar-utils',
-    children: [
-      {
-        name: 'Date Utils',
-        path: 'date-utils'
-      },
-      {
-        name: 'Color Utils',
-        path: 'color-utils'
-      },
-      {
-        name: 'DOM Utils',
-        path: 'dom-utils'
-      },
-      {
-        name: 'Formatter Utils',
-        path: 'formatter-utils'
-      },
-      {
-        name: 'Other Utils',
-        path: 'other-utils'
-      }
-    ]
+    children: utils
   },
   {
     name: 'Quasar CLI',

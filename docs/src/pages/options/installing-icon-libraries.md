@@ -9,7 +9,7 @@ You can either choose to install one of them or multiple.
 :::
 
 ::: tip
-Related pages: [Quasar Icon Sets](/options-and-helpers/quasar-icon-sets) and [QIcon component](/vue-components/icon).
+Related pages: [Quasar Icon Sets](/options/quasar-icon-sets) and [QIcon component](/vue-components/icon).
 :::
 
 ## Installing
