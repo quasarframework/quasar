@@ -28,6 +28,10 @@ There are CSS classes supplied by Quasar to help you position a DOM element easi
 | `on-left` | Sets a small margin to the right; commonly used for icon elements with other siblings |
 | `on-right` | Sets a small margin to the left; commonly used for icon elements with other siblings |
 
+::: tip
+Instead of using `float-left` or `float-right` we recommend that you read on the Quasar Grid System.
+:::
+
 Vertical alignment:
 
 | Class Name | Description |

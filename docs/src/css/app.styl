@@ -12,6 +12,10 @@ body
   padding 0 5px
   margin 0
 
+blockquote .doc-token
+  background $primary
+  color white
+
 .doc-note
   background-color $grey-4
   border-radius $generic-border-radius
@@ -29,14 +33,23 @@ body
   &--tip
     background-color alpha($positive, .3)
     border-color $positive
+    .doc-token
+      background $positive
+      color white
 
   &--warning
     background-color alpha($warning, .3)
     border-color $warning
+    .doc-token
+      background $warning
+      color black
 
   &--danger
     background-color alpha($negative, .3)
     border-color $negative
+    .doc-token
+      background $negative
+      color white
 
   &__title
     font-weight 500

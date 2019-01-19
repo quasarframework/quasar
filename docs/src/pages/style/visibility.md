@@ -11,7 +11,6 @@ There are some CSS classes that you can use out of the box for common functional
 | `transparent` | Background color is transparent. |
 | `dimmed` | Apply dark transparent overlay on top of your element. Do not use on elements which already have **:after** pseudoelement. |
 | `light-dimmed` | Apply white transparent overlay on top of your element. Do not use on elements which already have **:after** pseudoelement. |
-| `highlight-and-fade` | Adds a yellow background color and fades it away upon element is displayed. |
 | `ellipsis` | Truncates text and shows ellipsis when not enough space available. |
 | `ellipsis-2-lines` | Truncates text and shows ellipsis when not enough space available on two lines (works only on Webkit browsers). |
 | `ellipsis-3-lines` | Truncates text and shows ellipsis when not enough space available on three lines (works only on Webkit browsers). |
@@ -19,15 +18,15 @@ There are some CSS classes that you can use out of the box for common functional
 | `z-max` | Positions your element on top of any other component (including Drawer, Modals, Notifications, Layout header/footer, ...) |
 
 ## Window Width Related
-First of all, let's define what does a small, medium, big or large window means:
+First of all, let's define what the breakpoints are:
 
 | Window Size | Prefix | Width threshold in pixels |
 | --- | --- | --- |
-| Extra Small | xs | Up to 576px |
-| Small | sm | Up to 768px |
+| Extra Small | xs | Up to 599px |
+| Small | sm | Up to 1023px |
 | Medium | md | Up to 992px |
-| Large | lg | Up to 1200px |
-| Extra Large | xl | Bigger than 1200px |
+| Large | lg | Up to 1439px |
+| Extra Large | xl | Bigger than 1440px |
 
 Now on to the window width related CSS classes.
 
@@ -78,7 +77,7 @@ Hide on:
 | `platform-android-hide` | Hide on Android platform |
 | `within-iframe-hide` | Hide only when entire website is under an IFRAME tag |
 
-Also check [Quasar Theming &gt; Platform Specific Styles](/guide/quasar-theming.html#Platform-Specific-Styles).
+Also check [Theming](/style/theming) for Platform Specific Styles.
 
 ::: tip
 Based on your needs, you might want to also check [Platform Detection](/options/platform-detection) page to see how you can achieve the same effect using Javascript. This latter method allows you to not even render a DOM element or component. It is useful when the rendering process is expensive.

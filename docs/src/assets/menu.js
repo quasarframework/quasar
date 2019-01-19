@@ -786,7 +786,7 @@ export default [
   },
   {
     name: 'Style & Identity',
-    icon: 'color_lens',
+    icon: 'style',
     path: 'style',
     children: style
   },
