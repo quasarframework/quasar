@@ -25,7 +25,5 @@ Quasar CLI is smart enough to include the IE polyfills only if it is really need
 :::
 
 ::: warning
-Running dev server on a Windows machine and consuming the output in IE11 will result in an error (ansi-strip package related used by webpack-dev-server). This is only an issue during development, and if you run the dev server on a Linux or MAC machine you can consume it safely in IE11.
- 
- The fix is to use "yarn" instead of "npm" as node packager. If you have used npm until now, then delete /node_modules folder and /package-lock.json then run "yarn".
+Running dev server on a Windows machine and consuming the output in IE11 might result in an error (ansi-strip package related used by webpack-dev-server). This is why you need to keep the strict dependency `"strip-ansi": "=3.0.1"` in your package.json (Quasar offers this out of the box).
 :::
