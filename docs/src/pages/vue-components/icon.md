@@ -6,7 +6,7 @@ The Quasar Icon component allows you to easily insert icons within other compone
 Quasar currently supports: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/) and [Eva Icons](https://akveo.github.io/eva-icons).
 
 ::: tip
-Related pages: [Installing Icon Libraries](/options-and-helpers/installing-icon-libraries) and [Quasar Icon Sets](/options-and-helpers/quasar-icon-sets).
+Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
 :::
 
 ## Installing
@@ -14,7 +14,7 @@ Related pages: [Installing Icon Libraries](/options-and-helpers/installing-icon-
 
 ## Usage
 ::: warning
-Make sure that you [installed the icon library](/options-and-helpers/installing-icon-libraries) that you are using, otherwise it won't show up!
+Make sure that you [installed the icon library](/options/installing-icon-libraries) that you are using, otherwise it won't show up!
 :::
 
 ### Icons Name Cheatsheet
