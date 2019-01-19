@@ -12,7 +12,7 @@ $ quasar dev --mode pwa
 ```
 
 ::: danger
-Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build. The development build is not optimized and does not contain a true Service Worker.
+Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things).
 :::
 
 ## Building for Production
