@@ -1,83 +1,74 @@
 ---
-title: Docs
+title: Form Validation
 ---
+Recommended package for Form Validations is `Vuelidate`.
+Get started with the [documentation](https://monterail.github.io/vuelidate/).
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+```bash
+$ yarn add vuelidate
+# or:
+$ npm install --save vuelidate
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
+$ quasar new plugin vuelidate
 ```
-const m = 'lala'
+An app plugin file got created: `/src/boot/vuelidate.js`. We edit it:
+
+```js
+import Vuelidate from 'vuelidate'
+
+export default ({ Vue }) => {
+  Vue.use(Vuelidate)
+}
+```
+Then, edit `/quasar.conf.js` to add the app plugin file to the build. Add this to the main plugins at the top of the file, not in the framework plugins section.
+
+```js
+boot: ['vuelidate']
 ```
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
+## Example
 ```vue
 <template>
-  <!-- you define your Vue template here -->
+  <div>
+    <q-input
+      v-model="form.email"
+      @blur="$v.form.email.$touch"
+      @keyup.enter="submit"
+      :error="$v.form.email.$error"
+    />
+
+    <q-btn color="primary" @click="submit">Submit</q-btn>
+  </div>
 </template>
 
 <script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
-  //
+  data () {
+    return {
+      form: {
+        email: ''
+      }
+    }
+  },
+  validations: {
+    form: {
+      email: { required, email }
+    }
+  },
+  methods: {
+    submit () {
+      this.$v.form.$touch()
+
+      if (this.$v.form.$error) {
+        this.$q.notify('Please review fields again.')
+        return
+      }
+
+      // ...
+    }
+  }
 }
 </script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
