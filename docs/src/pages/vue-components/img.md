@@ -1,83 +1,49 @@
 ---
-title: Docs
+title: QImg
 ---
-
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+The Quasar QImg component makes working with images easy.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QImg" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+
+<doc-example title="Basic" file="QImg/Basic" />
+
+<doc-example title="Sizes" file="QImg/Sizes" />
+
+::: tip
+The `alt` property specifies an alternate text for the image, if the image cannot be displayed.
+:::
+<doc-example title="Alt" file="QImg/Alt" />
+
+<doc-example title="Placeholder Source" file="QImg/PlaceholderSrc" />
+
+::: tip
+Use the `basic` property for fast loading with no transitions.
+:::
+
+<doc-example title="No Transitions (basic)" file="QImg/NoTransitions" />
+
+<doc-example title="Contain" file="QImg/Contain" />
+
+<doc-example title="Position" file="QImg/Position" />
+
+<doc-example title="Ratio" file="QImg/Ratio" />
+
+<doc-example title="Spinner Color" file="QImg/SpinnerColor" />
+
+<doc-example title="Spinner Size" file="QImg/SpinnerSize" />
+
+<doc-example title="SrcSet" file="QImg/SrcSet" />
+
+<doc-example title="Transition" file="QImg/Transition" />
+
+<doc-example title="Slot (default)" file="QImg/SlotDefault" />
+
+<doc-example title="Slot (loading)" file="QImg/SlotLoading" />
+
+<doc-example title="Slot (error)" file="QImg/SlotError" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QImg" />
