@@ -10,10 +10,6 @@
 
     "icon": {
       "extends": "icon"
-    },
-
-    "color": {
-      "extends": "color"
     }
   },
 

@@ -10,8 +10,7 @@ export default Vue.extend({
 
   props: {
     label: String,
-    icon: String,
-    color: String
+    icon: String
   },
 
   render (h) {
