@@ -1,83 +1,97 @@
 ---
-title: Docs
+title: App Linter
 ---
+Having a code linter in place is highly recommended and ensures your code looks legible. It also helps you capture some errors before even running the code.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+When you create a Quasar project folder with Quasar CLI it will ask you if you want a linter and which setup you want for ESLint:
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+* Standard - https://github.com/standard/standard
+* Airbnb - https://github.com/airbnb/javascript
+* .. or you can configure one yourself
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+Two dot files will be created:
+* .eslintrc.js -- ESLint configuration, including rules
+* .eslintignore -- what ESLint should ignore when linting
 
+Further extension of one of the Eslint setups above can be made. Your project will by default use `eslint-plugin-vue` to handle your Vue files. Take a quick look at .eslintrc.js and notice it:
+
+```js
+extends: [
+  // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
+  // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
+  'plugin:vue/strongly-recommended'
+]
 ```
-const m = 'lala'
-```
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
+If you chose ESLint when creating your project folder, you'll also notice that `/quasar.conf.js` adds the eslint-loader to Webpack configuration for you:
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
+```js
+build: {
+  extendWebpack (cfg) {
+    cfg.module.rules.push({
+      enforce: 'pre',
+      test: /\.(js|vue)$/,
+      loader: 'eslint-loader',
+      exclude: /(node_modules|quasar)/
+    })
+  }
 }
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+## Lint Rules
+The linting rules can be removed, changed, or added. Notice some things:
+* Some rules are for the Standard or Airbnb standards (whichever you chose when project was created). Example: 'brace-style'.
+* Some rules are for eslint-plugin-vue. Example: 'vue/max-attributes-per-line'.
 
-> Something...
+You can add/remove/change rules by first visiting https://eslint.org/docs/rules/ or https://github.com/vuejs/eslint-plugin-vue.
 
-::: tip
-Some tip
-:::
+Example of ESLint rules below:
+```js
+// .eslintrc.js
 
-::: warning
-Some tip
-:::
+'rules': {
+  'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
 
-::: danger
-Some tip
-:::
+  'vue/max-attributes-per-line': 0,
+  'vue/valid-v-for': 0,
 
-::: warning CUSTOM TITLE
-Some tip
-:::
+  // allow async-await
+  'generator-star-spacing': 'off',
 
-* Something
-  * something
-  * else
-* Back
-  * wee
+  // allow paren-less arrow functions
+  'arrow-parens': 0,
+  'one-var': 0,
 
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+  'import/first': 0,
+  'import/named': 2,
+  'import/namespace': 2,
+  'import/default': 2,
+  'import/export': 2,
+  'import/extensions': 0,
+  'import/no-unresolved': 0,
+  'import/no-extraneous-dependencies': 0,
 
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+  // allow debugger during development
+  'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+}
+```
 
-## API
-<doc-api file="QTh" />
+## Disabling Linter
+In order for you to disable ESLint, all you need to do is comment out (or remove) the following code from `/quasar.conf.js`:
+
+```js
+build: {
+  extendWebpack (cfg) {
+    /*
+     * we comment out this block
+     *
+    cfg.module.rules.push({
+      enforce: 'pre',
+      test: /\.(js|vue)$/,
+      loader: 'eslint-loader',
+      exclude: /(node_modules|quasar)/
+    })
+    */
+  }
+}
+```

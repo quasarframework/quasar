@@ -1,83 +1,143 @@
 ---
-title: Docs
+title: Adding Pages and Layouts
 ---
+Your Pages (`/src/pages`) and Layouts (`/src/layouts`) are injected into your website/app (and also managed) through Vue Router in `/src/router/routes.js`. Each Page and Layout needs to be referenced there.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+::: tip
+You may want to read [Routing](/guide/app-routing.html) first and also understand [Lazy Loading / Code Splitting](/guide/app-lazy-loading---code-splitting.html).
+:::
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+#### Example of `routes.js`:
+```js
+// we define our routes in this file
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+import LandingPage from 'pages/Landing'
+
+const routes = [
+  {
+    path: '/',
+    component: LandingPage
+  }
+]
+
+export default routes
+```
+
+#### Example of `routes.js` using lazy-loading / on-demand loading:
+```js
+// we define our routes in this file
+
+const routes = [
+  {
+    path: '/',
+    component: () => import('pages/Landing')
+  }
+]
+
+export default routes
+```
+
+::: warning
+Configuring routes to use Layouts and Pages basically consists of correctly nesting routes, as we'll see in the next section.
+:::
+
+## Nested Routes
+Real app UIs are usually composed of components that are nested multiple levels deep. It is also very common that the segments of a URL corresponds to a certain structure of nested components, for example:
 
 ```
-const m = 'lala'
+/user/profile                   /user/posts
++------------------+            +-----------------+
+| User             |            | User            |
+| +--------------+ |            | +-------------+ |
+| | Profile      | |  +------>  | | Posts       | |
+| |              | |            | |             | |
+| +--------------+ |            | +-------------+ |
++------------------+            +-----------------+
+```
+
+With Vue Router, it is very simple to express this relationship using nested route configurations. We notice some things: both pages need to be wrapped by a User component. Hey, User component is then a Layout!
+
+Let's create these files:
+```bash
+$ quasar new layout User
+ app:new Generated layout: src/layouts/User.vue +0ms
+ app:new Make sure to reference it in src/router/routes.js +2ms
+
+$ quasar new page Profile Posts
+ app:new Generated page: src/pages/Profile.vue +0ms
+ app:new Make sure to reference it in src/router/routes.js +2ms
+
+ app:new Generated page: src/pages/Posts.vue +1ms
+ app:new Make sure to reference it in src/router/routes.js +0ms
+```
+
+Since User layout wraps inner pages, they need an injection point. This is supplied by the `<router-view>` component:
+```html
+<!-- /src/layouts/User.vue -->
+<template>
+  <q-layout>
+    ...
+
+    <!-- this is where the Pages are injected -->
+    <q-page-container>
+      <router-view></router-view>
+    </q-page-container>
+
+    ...
+  </q-layout>
+</template>
 ```
 
 ```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
+<!-- /src/pages/Profile.vue or Posts.vue -->
 <template>
-  <!-- you define your Vue template here -->
+  <q-page>
+    ...page content...
+  </q-page>
 </template>
+````
 
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
+Our example has some routes specified (/user/profile and /user/posts). **So how can we put everything together now?** We edit the routes file. That's where we will configure routes, tell which components are Layouts and which are Pages and also reference/import them into our app:
 
-export default {
-  //
-}
-</script>
+```js
+// src/router/routes.js
 
-<style>
-/* This is where your CSS goes */
-</style>
+import User from 'layouts/User'
+import Profile from 'pages/Profile'
+import Posts from 'pages/Posts'
+
+const routes = [
+  {
+    path: '/user',
+
+    // we use /src/layouts/User component which is imported above
+    component: User,
+
+    // hey, it has children routes and User has <router-view> in it;
+    // It is really a Layout then!
+    children: [
+      // Profile page
+      {
+        path: 'profile', // here it is, route /user/profile
+        component: Profile // we reference /src/pages/Profile.vue imported above
+      },
+
+      // Posts page
+      {
+        path: 'posts', // here it is, route /user/posts
+        component: Posts // we reference /src/pages/Posts.vue imported above
+      }
+    ]
+  }
+]
+
+export default routes
 ```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
 
 ::: warning
-Some tip
+Note that nested paths that start with `/` will be treated as a root path. This allows you to leverage component nesting without having to use a nested URL.
 :::
 
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+::: tip
+ For further in-detail reading please take a look on [Vue Router](https://router.vuejs.org/en/essentials/nested-routes.html#) documentation.
+::: 
