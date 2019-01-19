@@ -1,83 +1,27 @@
 ---
-title: Docs
+title: API Proxying for Dev
 ---
+When integrating a project folder with Quasar CLI and the Main Starter Kit with an existing backend, a common need is to access the backend API when using the dev server. To achieve this, we can run the dev server and the API backend side-by-side (or remotely), and let the dev server proxy all API requests to the actual backend.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+This is useful if you access relative paths in your API requests. Obviously, these relative paths will probably not work while you are developing. In order to create an environment similar to the one used by your deployed website/app, you can proxy your API requests.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+To configure the proxy rules, edit `/quasar.conf.js` in `devServer.proxy`. You should refer to [Webpack Dev Server Proxy](https://webpack.js.org/configuration/dev-server/#devserver-proxy) docs for detailed usage. But here's a simple example:
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+``` js
+// quasar.conf.js
 
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
+devServer: {
+  proxy: {
+    // proxy all requests starting with /api to jsonplaceholder
+    '/api': {
+      target: 'http://some.api.target.com:7070',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api': ''
+      }
+    }
+  }
 }
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+The above example will proxy the request `/api/posts/1` to `http://some.api.target.com:7070/posts/1`.

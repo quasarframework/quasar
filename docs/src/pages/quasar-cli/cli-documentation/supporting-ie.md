@@ -1,83 +1,29 @@
 ---
-title: Docs
+title: Supporting IE
 ---
+If you are building a website, you might want to support IE 11+. This support is not added by default to your website. Quasar CLI provides it on demand only.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+::: danger Attention Windows Developer
+It is strongly recommended to use Yarn instead of NPM when developing on a Windows machine, to avoid many problems.
+:::
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
+## Installation of IE Support
+In order to support IE, you'll need to edit `/quasar.conf.js`:
+```js
+module.exports = function (ctx) {
+  return {
+    supportIE: true,
+    ....
+  }
 }
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+That's it. This will inject the Promise polyfill, along with some other smaller polyfills, adding an extra ~6k worth of code (minified) to your bundle.
 
-> Something...
-
-::: tip
-Some tip
+::: tip IE Polyfills
+Quasar CLI is smart enough to include the IE polyfills only if it is really needed. An Electron app for example doesn't need it and as a result, even if you leave `supportIE` set to "true" in quasar.conf.js it won't be bundled.
 :::
 
 ::: warning
-Some tip
+Running dev server on a Windows machine and consuming the output in IE11 might result in an error (ansi-strip package related used by webpack-dev-server). This is why you need to keep the strict dependency `"strip-ansi": "=3.0.1"` in your package.json (Quasar offers this out of the box).
 :::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
