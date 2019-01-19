@@ -15,13 +15,10 @@ If you are a beginner, all you'll need to care about is `/quasar.conf.js` (Quasa
 │   ├── components/          # .vue components used in pages & layouts
 │   ├── css/                 # CSS/Stylus/Sass/... files for your app
 |   |   ├── app.styl
-|   │   └── themes/          # Quasar themes entry points for you to tweak
-|   │       ├── common.variables.styl # Common Stylus variables for all Quasar themes
-|   │       ├── variables.mat.styl    # Variables for Material Design theme
-|   │       └── variables.ios.styl    # Variables for iOS theme
+|   │   └── quasar.variables.styl # Quasar Stylus variables for you to tweak
 │   ├── layouts/             # layout .vue files
 │   ├── pages/               # page .vue files
-│   ├── plugins/             # app plugins (app initialization code)
+│   ├── boot/                # boot files (app initialization code)
 │   ├── router/              # Vue Router
 |   |   ├── index.js         # Vue Router definition
 |   │   └── routes.js        # App Routes definitions
@@ -41,7 +38,7 @@ If you are a beginner, all you'll need to care about is `/quasar.conf.js` (Quasa
 │   ├── electron-mat/        # example when building Electron with MAT theme
 │   └── ....
 ├── quasar.conf.js           # Quasar App Config file
-├── .babelrc                 # babel config
+├── babel.config.js          # Babeljs config
 ├── .editorconfig            # editor config
 ├── .eslintignore            # ESlint ignore paths
 ├── .eslintrc.js             # ESlint config
