@@ -4,9 +4,6 @@ title: Boot files
 A common use case for Quasar applications is to run code before the root Vue instance is instantiated.
 Quasar provides an elegant solution to that problem by allowing users to define so-called boot files.
 
-> **IMPORTANT**
-> Do not confuse boot files with Quasar plugins, like ActionSheet, Dialog, Notify. Quasar plugins are something else entirely and will be covered in the [Components](/components) section.
-
 In earlier Quasar versions, to run code before the root Vue instance was instantiated, you could alter the `/src/main.js` file and add any code you needed to execute.
 
 There is a major problem with this approach: With a growing project, your `main.js` file was very likely to get cluttered and challenging to maintain, which breaks with Quasar's concept of encouraging developers to write maintainable and elegant cross-platform applications.
@@ -30,11 +27,24 @@ export default ({ app, router, store, Vue }) => {
 }
 ```
 
+Starting with v1.0, boot files can also be async:
+```js
+export default async ({ app, router, store, Vue }) => {
+  // something to do
+  await something()
+}
+```
+
 Notice we are using the [ES6 destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment). Only assign what you actually need/use.
 
+::: danger
+Never call `new Vue(App)` in your boot files as this will completely break your website/app. You don't need it since Quasar CLI takes care of instantiating your App with Vue.
+:::
+
 ## When to use boot files
-> **IMPORTANT**
-> Please make sure you understand what problem boot files solve and when it is appropriate to use them, to avoid applying them in cases where they are not needed.
+::: warning
+Please make sure you understand what problem boot files solve and when it is appropriate to use them, to avoid applying them in cases where they are not needed.
+:::
 
 Boot files fulfill one special purpose: they run code **before** the App's Vue root component is instantiated while giving you access to certain variables, which is required if you need to initialize a library, interfere with Vue Router, inject Vue prototype or inject the root instance of the Vue app.
 
@@ -46,9 +56,8 @@ Boot files fulfill one special purpose: they run code **before** the App's Vue r
 * You want to interfere with the Vuex store instance - An example would be to use `vuex-router-sync` package
 * Configure aspects of libraries - An example would be to create an instance of Axios with a base URL; you can then inject it into Vue prototype and/or export it (so you can import the instance from anywhere else in your app)
 
-### Examples of unneeded usage of boot files
+### Example of unneeded usage of boot files
 * For plain JavaScript libraries like Lodash, which don't need any initialization prior to their usage. Lodash, for example, might make sense to use as a boot file only if you want to inject Vue prototype with it, like being able to use `this.$_` inside your Vue files.
-* Make API requests - You probably want to do this inside your pages Vue component
 
 ## Usage of boot files
 The first step is always to generate a new plugin using Quasar CLI:
@@ -78,7 +87,7 @@ The last step is to tell Quasar to use your new boot file. For this to happen yo
 
 ```js
 boot: [
-  '<name>' // references /src/plugins/<name>.js
+  '<name>' // references /src/boot/<name>.js
 ]
 ```
 
@@ -91,11 +100,10 @@ In order to better understand how a boot file works and what it does, you need t
 4. App.vue is loaded (not yet being used)
 5. Store is imported (if using Vuex Store in src/store)
 6. Boot files are imported
-7. Boot files get their default export function executed, except for App Boot plugin
+7. Boot files get their default export function executed
 7. (if on Electron mode) Electron is imported and injected into Vue prototype
 8. (if on Cordova mode) Listening for "deviceready" event and only then continuing with following steps
-9. (if App Boot File exists) Executing App Boot File
-10. (if no App Boot plugin exists) Instantiating Vue with root component and attaching to DOM
+9. Instantiating Vue with root component and attaching to DOM
 
 ## Examples of boot files
 
@@ -188,51 +196,3 @@ import { axiosInstance } from 'boot/axios'
 ```
 
 Further reading on syntax: [ES6 import](https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/import), [ES6 export](https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export).
-
-## Special boot file: Boot
-
-Every Quasar website/app is booted up after boot files have been loaded and executed. The last step is to call `new Vue()` and attach it to the DOM.
-
-If, for whatever reason, you need to control this final step and decide the specific moment when Vue kicks in, you can create a special Quasar plugin named "boot" (**requires Quasar v0.15.6+**).
-
-> Remember to only use this plugin for eventually calling `new Vue(app)`. Don't use this for initializing any library you may have -- for that, use a regular boot file.
-
-```bash
-# we create the boot plugin
-$ quasar new boot boot
- app:new Generated plugin: src/boot/boot.js +0ms
- app:new Make sure to reference it in quasar.conf.js > boot +2ms
-```
-
-We then add this special boot file name to boot files list in `/quasar.conf.js`:
-```
-module.export = function (ctx) {
-  return {
-    boot: [
-      'boot'
-    ],
-    ...
-  }
-}
-```
-
-> **IMPORTANT**
-> The name "boot" for your plugin has a special meaning to Quasar CLI. It runs this plugin after all other app initialization has been executed and right before kicking off Vue with `new Vue()`. By adding this boot file you are responsible for kicking off Vue yourself, as we'll see next.
-
-We edit our new boot file (`/src/boot/boot.js`):
-```js
-export default ({ app, Vue }) => {
-  // do some logic here...
-
-  // ... then, kick off our Quasar website/app:
-
-  /* eslint-disable-next-line no-new */
-  new Vue(app)
-
-  // "app" has everything cooked in by Quasar CLI,
-  // you don't need to inject it with anything at this point
-}
-```
-
-> **IMPORTANT**
-> Do not forget to have at least one decisional branch where you call `new Vue(app)` otherwise your app won't boot and you'll only see a blank page!
