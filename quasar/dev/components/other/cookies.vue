@@ -30,12 +30,12 @@
 export default {
   data () {
     return {
-      cookies: this.$q.cookies.all()
+      cookies: this.$q.cookies.getAll()
     }
   },
   methods: {
     refresh () {
-      this.cookies = this.$q.cookies.all()
+      this.cookies = this.$q.cookies.getAll()
     },
     add (name) {
       this.$q.cookies.set(name, 'val')
