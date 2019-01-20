@@ -1,83 +1,30 @@
 ---
-title: Docs
+title: Form Validation
 ---
+You can validate input components with `:rules` prop. Specify array of embedded rules or your own validators. Your custom validator will be a function which returns `true` if validator succeeds or `String` with error message if it doesn't succeed. 
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
+This is so you can write convenient rules of shape like:
+```js
+value => condition || errorMessage
+ ```
+For example:
+ ```js
+value => value.includes('Hello') || 'Field must contain word Hello'
 ```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+You can reset the validation by calling `resetValidation()` method on the input.
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+<doc-example title="Basic Usage" file="FormValidation/Required" />
+<doc-example title="Maximum Length" file="FormValidation/MaxLength" />
 
-## API
-<doc-api file="QTh" />
+If you set `lazy-rules`, validation starts after first blur.
+<doc-example title="Lazy Rules" file="FormValidation/Lazy" />
+
+## External Validation
+You can also use external validation and only pass `error` and `error-message` (enable `bottom-slots` to display this error message)
+
+<doc-example title="External" file="FormValidation/External" />
+
+You can also customize the slot for error message
+<doc-example title="Slot for error message" file="FormValidation/Slots" />
+
