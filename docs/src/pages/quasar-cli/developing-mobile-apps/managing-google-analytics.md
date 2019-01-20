@@ -9,8 +9,9 @@ You may also want to read these great tutorials:
 - [Google Tag Manager and Analytics Setup for an SPA Website](https://jannerantala.com/tutorials/quasar-framework-google-tag-manager-and-analytics-setup-for-an-spa-website/)
 - [Google Analytics Setup for a Cordova App](https://jannerantala.com/tutorials/quasar-framework-google-analytics-setup-for-cordova-app/)
 
-> **IMPORTANT**
-> You'll need to include a `<script>` tag provided by Google in `/src/index.template.html`, which will make your App depend on an Internet connection!
+::: warning
+You'll need to include a `<script>` tag provided by Google in `/src/index.template.html`, which will make your App depend on an Internet connection!
+:::
 
 ## Prerequisites
 * Make sure all your routes have a name and path parameter specified. Otherwise, they cannot be posted to the `ga.logPage` function. Please refer to [Routing](/quasar-cli/cli-documentation/routing) for more info on routing.
@@ -67,6 +68,6 @@ plugins: [
 ]
 ```
 
-> More information about events can be found in the [Analytics documentation on events](https://developers.google.com/analytics/devguides/collection/analyticsjs/events).
+More information about events can be found in the [Analytics documentation on events](https://developers.google.com/analytics/devguides/collection/analyticsjs/events).
 
 You'll see the events and pageviews coming in when you run your app. It usually takes around 5 to 10 seconds for a pageview to be registered in the realtime view.

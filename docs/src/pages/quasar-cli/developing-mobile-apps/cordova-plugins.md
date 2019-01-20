@@ -24,7 +24,7 @@ You'll notice that some Cordova plugins are usable only after the `deviceready` 
 
 ### Caveat
 Let's take a vue file for example:
-```html
+```vue
 <template>
   ... we are sure 'deviceready' has been triggered here ...
 </template>
@@ -59,7 +59,7 @@ $ cordova plugin add cordova-plugin-battery-status
 
 Now let's put this plugin to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
-```html
+```vue
 // some Vue file
 // remember this is simply an example;
 // only look at how we use the API described in the plugin's page;
@@ -109,7 +109,7 @@ $ cordova plugin add cordova-plugin-camera
 
 Now let's put this plugin to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
-```html
+```vue
 // some Vue file
 // remember this is simply an example;
 // only look at how we use the API described in the plugin's page;
@@ -162,7 +162,7 @@ $ cordova plugin add cordova-plugin-device
 
 Now let's put this plugin to some good use. If you need the information of your device when starting the application, you will have to capture the created event. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
-```html
+```vue
 // some Vue file
 // remember this is simply an example;
 // only look at how we use the API described in the plugin's page;
