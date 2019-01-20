@@ -5,8 +5,9 @@ title: Cordova Troubleshooting and Tips
 ## Browser Simulator
 Use Google Chrome's emulator from Developer Tools. It's a fantastic tool. You can select which device to emulate, but keep in mind that it's an *emulator* and not the real deal.
 
-> **IMPORTANT**
-> Also, if you change from desktop to mobile emulator or backwards, hit the refresh button as Quasar Platform detection is not dynamic (nor it should be).
+::: danger
+If you change from desktop to mobile emulator or backwards, hit the refresh button as Quasar Platform detection is not dynamic (nor it should be).
+:::
 
 ![Google Chrome emulator](https://cdn.quasar-framework.org/img/browser-simulator.png "Google Chrome emulator")
 
@@ -130,7 +131,7 @@ First enable the "developer" menu option in the Settings of Safari. Then if you 
 ### Status bar and notch safe-areas
 Since mobile phones have a status bar and/or notches, your app's styling might need some tweaking when building on Cordova. In order to prevent parts of your app from going behind the status bar, there is a global CSS variable that can be used for creating a "safe-area". This variable can then be applied in your app's top and bottom padding or margin.
 
-Quasar has [support for these CSS safe-areas](https://github.com/quasarframework/quasar/search?q=safe-area-inset-top&unscoped_q=safe-area-inset-top) by default in Layout Header/Footer and Notify. However it's important to always check your Cordova build on several models to see if all cases of your app are dealing with the safe areas correctly.
+Quasar has support for these CSS safe-areas by default in QHeader/QFooter and Notify. However it's important to always check your Cordova build on several models to see if all cases of your app are dealing with the safe areas correctly.
 
 In cases you need to manually tweak your CSS you can do so with:
 
@@ -144,7 +145,7 @@ padding-bottom env(safe-area-inset-bottom)
 ```
 Of course you can also use the above example with `margin` instead of `padding` depending on your app.
 
-In order to make sure these are only added when opened on mobile via the Cordova build, you can check for the CSS class `.cordova` which is automatically added to the body by Quasar. Eg.
+In order to make sure these are only added when opened on mobile via the Cordova build, you can check for the CSS class `.cordova` which is automatically added to the body by Quasar. Example:
 
 ```stylus
 body.cordova .my-selector
@@ -153,7 +154,7 @@ body.cordova .my-selector
 ```
 
 ### Disabling iOS rubber band effect
-When building an iOS app with Cordova and you want to disable the rubber band effect (https://www.youtube.com/watch?v=UjuNGpU29Mk), add this to your `/src-cordova/config.xml`:
+When building an iOS app with Cordova and you want to [disable the rubber band effect](https://www.youtube.com/watch?v=UjuNGpU29Mk), add this to your `/src-cordova/config.xml`:
 
 ``` xml
 <preference name = "DisallowOverscroll" value = "true" />

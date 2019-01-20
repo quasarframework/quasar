@@ -30,8 +30,9 @@ In order for you to be able to develop on a device emulator or directly on a pho
 4. Cordova CLI checks if a mobile phone / tablet is connected to your development machine. If it is, it installs the development app on it. If none is found, then it boots up an emulator and runs the development app.
 5. Finally, it reverts the temporary changes made to `/src-cordova/config.xml`.
 
-> **IMPORTANT**
-> If developing on a mobile phone/tablet, it is very important that the external IP address of your build machine is accessible from the phone/tablet, otherwise you'll get a development app with white screen only. Also check your machine's firewall to allow connections to the development chosen port.
+::: danger
+If developing on a mobile phone/tablet, it is very important that the external IP address of your build machine is accessible from the phone/tablet, otherwise you'll get a development app with white screen only. Also check your machine's firewall to allow connections to the development chosen port.
+:::
 
 ## Building for Production
 ```bash

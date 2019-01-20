@@ -23,8 +23,9 @@ $ keytool -genkey -v -keystore my-release-key.keystore -alias alias_name -keyalg
 
 You’ll first be prompted to create a password for the keystore. Then, answer the rest of the nice tools’s questions and when it’s all done, you should have a file called my-release-key.keystore created in the current directory.
 
-> **Note**
-> Make sure to save this file somewhere safe, if you lose it you won’t be able to submit updates to your app!
+::: danger
+Make sure to save this file somewhere safe, if you lose it you won’t be able to submit updates to your app!
+:::
 
 To sign the unsigned APK, run the jarsigner tool which is also included in the JDK:
 

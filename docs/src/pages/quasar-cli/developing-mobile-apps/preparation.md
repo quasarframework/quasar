@@ -14,20 +14,20 @@ $ npm install -g cordova
 
 * After this step you will need to install the Android platform SDK on your machine. You can [download the Android Studio here](https://developer.android.com/studio/index.html) and follow these [installation steps](https://developer.android.com/studio/install.html) afterwards.
 
-* Add Android installation to your path
+* Add Android installation to your path:
 
-*Unix (macOS, linux)*
+### Unix (macOS, linux)
 
-``` bash
+```bash
 export ANDROID_HOME="$HOME/Android/Sdk"
 PATH=$PATH:$ANDROID_HOME/tools; PATH=$PATH:$ANDROID_HOME/platform-tools
 ```
 
 > Please note that sometimes the `/Android/Sdk` folder is added inside `/Library/` inside your user folder. Check your user folder and if the `/Android/` folder is only inside `/Library/` do: `export ANDROID_HOME="$HOME/Library/Android/Sdk"` instead.
 
-*Windows*
+### Windows
 
-```command
+```bash
 setx ANDROID_HOME "%USERPROFILE%\AppData\Local\Android\Sdk"
 setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools"
 ```
@@ -66,7 +66,7 @@ To verify that everything is in order, type:
 $ cordova requirements
 ```
 
-> On some newer Debian-based operating systems you might face a very persistent problem when running `cordova requirements`. Please see the ["Android SDK not found" after installation](/guide/cordova-troubleshooting-and-tips.html#Android-SDK-not-found-after-installation-of-the-SDK) section for assistance.
+> On some newer Debian-based operating systems you might face a very persistent problem when running `cordova requirements`. Please see the ["Android SDK not found" after installation](/quasar-cli/developing-mobile-apps/troubleshooting-and-tips#Android-SDK-not-found-after-installation-of-the-SDK) section for assistance.
 
 ## 4. Start Developing
 If you want to jump right in and start developing, you can skip step #2 and #3 commands and issue:
