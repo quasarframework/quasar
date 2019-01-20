@@ -10,10 +10,6 @@ We will be covering Development and Production build commands. For a full list o
 # run development server (with default theme)
 $ quasar dev
 
-# run development server with specific theme
-$ quasar dev -t mat
-$ quasar dev -t ios
-
 # on specific port
 $ quasar dev -p 9090
 
@@ -24,12 +20,10 @@ $ quasar dev -m ssr
 $ quasar dev -m pwa
 
 # Mobile App
-$ quasar dev -m cordova -T [android|ios] -t [mat|ios]
+$ quasar dev -m cordova -T [android|ios]
 
 # Electron App
 $ quasar dev -m electron
-# with iOS theme...
-$ quasar dev -m electron -t ios
 ```
 
 For a complete list, please read [Quasar CLI](/guide/quasar-cli.html#dev-Development-Server) Development Server section.
@@ -51,10 +45,6 @@ While developing with the Dev Server you will have:
 # build for production
 $ quasar build
 
-# build for production with specific theme
-$ quasar build -t mat
-$ quasar build -t ios
-
 # SSR
 $ quasar build -m ssr
 
@@ -62,12 +52,10 @@ $ quasar build -m ssr
 $ quasar build -m pwa
 
 # Mobile App
-$ quasar build -m cordova -T [android|ios] -t [mat|ios]
+$ quasar build -m cordova -T [android|ios]
 
 # Electron App
 $ quasar build -m electron
-# with iOS theme...
-$ quasar build -m electron -t ios
 ```
 
 For a complete list, please read [Quasar CLI](/guide/quasar-cli.html#build-clean-Build-App-for-Production) Build App for Production section.
