@@ -44,7 +44,7 @@
         <q-btn dense flat round icon="lens" size="8.5px" color="green" />
         <div style="margin: 0 auto;"><strong>My-App</strong></div>
       </q-bar><br />
-      
+
     <p>Window Dark</p>
       <q-bar dark class="my-bar-dark">
         <q-btn dense flat round icon="lens" size="8.5px" color="red" />

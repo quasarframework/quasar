@@ -26,7 +26,7 @@
         <q-icon name="battery_full" />
         <div>10:00AM</div>
       </q-bar><br />
-      
+
   </div>
 </template>
 

@@ -13,7 +13,7 @@
       <q-btn dense flat icon="crop_square" />
       <q-btn dense flat icon="close" />
     </q-bar><br />
-    
+
     <p>Dark Windows</p>
     <q-bar dark class="q-ml-md my-bar-dark" >
       <div>File</div>
