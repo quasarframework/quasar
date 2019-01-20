@@ -120,7 +120,7 @@ module.exports = class InstallAPI {
 
     const
       fglob = require('fast-glob'),
-      isBinary = require('isbinaryfile')
+      isBinary = require('isbinaryfile').isBinaryFileSync
 
     const files = fglob.sync(['**/*'], { cwd: source })
 
@@ -140,7 +140,7 @@ module.exports = class InstallAPI {
       const targetPath = appPaths.resolve.app(targetRelativePath)
       const sourcePath = path.resolve(source, rawPath)
 
-      if (isBinary.sync(sourcePath)) {
+      if (isBinary(sourcePath)) {
         fs.copyFileSync(sourcePath, targetPath)
       }
       else {

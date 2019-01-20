@@ -68,9 +68,8 @@ module.exports = class SsrProdArtifacts {
           start: 'node index.js'
         },
         dependencies: Object.assign(appPkg.dependencies || {}, {
-          '@babel/runtime': deps['@babel/runtime'],
+          '@quasar/babel-preset-app': deps['@quasar/babel-preset-app'],
           'compression': '^1.0.0',
-          'core-js': require(appPaths.resolve.app('node_modules/core-js/package.json')).version,
           'express': '^4.0.0',
           'lru-cache': deps['lru-cache'],
           'vue': deps.vue,

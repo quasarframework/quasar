@@ -1,83 +1,73 @@
 ---
-title: Docs
+title: Managing Google Analytics
 ---
+Getting to know your users and measuring user behavior is an important step in App Development. Unfortunately, it takes a bit of non-standard work to get Google Analytics to work after wrapping your mobile app with Cordova. Setting up Google Analytics in a pure web application is quite easy, but Cordova somehow prevents pageviews and events from being sent to Google Analytics.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+Follow this guide to implement Google Analytics into your Cordova powered Quasar App.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
+You may also want to read these great tutorials:
+- [Google Tag Manager and Analytics Setup for an SPA Website](https://jannerantala.com/tutorials/quasar-framework-google-tag-manager-and-analytics-setup-for-an-spa-website/)
+- [Google Analytics Setup for a Cordova App](https://jannerantala.com/tutorials/quasar-framework-google-analytics-setup-for-cordova-app/)
 
 ::: warning
-Some tip
+You'll need to include a `<script>` tag provided by Google in `/src/index.template.html`, which will make your App depend on an Internet connection!
 :::
 
-::: danger
-Some tip
-:::
+## Prerequisites
+* Make sure all your routes have a name and path parameter specified. Otherwise, they cannot be posted to the `ga.logPage` function. Please refer to [Routing](/quasar-cli/cli-documentation/routing) for more info on routing.
+* Have Basic knowledge of Google Analytics
 
-::: warning CUSTOM TITLE
-Some tip
-:::
+## Preparation
+Before we can start implementing Google Analytics into your application, you'll need an account for [Google Analytics](https://analytics.google.com) and [Google Tagmanager](https://tagmanager.google.com/). So let's do that first. When you have these accounts, it's time to configure Tag manager. Follow the steps in this [Multiminds article](http://www.multiminds.eu/2016/12/06/google-analytics-tag-manager-ionic-cordova/) to do so.
 
-* Something
-  * something
-  * else
-* Back
-  * wee
+## Implementing this into application
+> For this guide, we'll assume you have a fixed sessionId that you send to Google Analytics. Google Analytics uses a sessionId to distinguish different users from each other. If you want to create an anonymous sessionId, see [Analytics Documentation on user id](https://developers.google.com/analytics/devguides/collection/analyticsjs/cookies-user-id).
 
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+Place the Tag Manager snippet into head of your `index.html` file (if you've followed the [Multiminds article](http://www.multiminds.eu/2016/12/06/google-analytics-tag-manager-ionic-cordova/), you already have this.) Create a new file in your codebase called `analytics.js` with the following contents:
 
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+```javascript
+export default {
+  logEvent(category, action, label, sessionId = null) {
+    dataLayer.push({
+      'appEventCategory': category,
+      'appEventAction': action,
+      'appEventLabel': label,
+      'sessionId': sessionId
+    })
+    dataLayer.push({ 'event': 'appEvent' })
+  },
 
-## API
-<doc-api file="QTh" />
+  logPage(path, name, sessionId = null) {
+    dataLayer.push({
+      'screenPath': path,
+      'screenName': name,
+      'sessionId': sessionId
+    })
+    dataLayer.push({ 'event': 'appScreenView' })
+  }
+}
+```
+To make sure all the pages in your application are automatically posted to Google Analytics, we create an app plugin:
+```bash
+$ quasar new plugin google-analytics
+```
+Then we edit the newly created file: `/src/plugins/google-analytics`:
+```
+import ga from 'analytics.js'
+
+export default ({ router }) => {
+  router.afterEach((to, from) => {
+    ga.logPage(to.path, to.name, sessionId)
+  })
+}
+```
+Finally we register the app plugin in `/quasar.conf.js`. We can do so only for Cordova wrapped apps if we want:
+```
+plugins: [
+  ctx.mode.cordova ? 'google-analytics' : ''
+]
+```
+
+More information about events can be found in the [Analytics documentation on events](https://developers.google.com/analytics/devguides/collection/analyticsjs/events).
+
+You'll see the events and pageviews coming in when you run your app. It usually takes around 5 to 10 seconds for a pageview to be registered in the realtime view.

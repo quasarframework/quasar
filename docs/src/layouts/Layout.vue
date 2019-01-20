@@ -145,7 +145,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
     v-if="hasDrawer"
     v-model="rightDrawerState"
     side="right"
-    content-class="bg-grey-3"
+    content-class="bg-grey-2"
     :width="180"
     show-if-above
     @on-layout="updateRightDrawerOnLayout"
@@ -319,8 +319,6 @@ export default {
 <style lang="stylus">
 @import '~quasar-variables'
 
-.doc-layout
-  background $grey-3
 .header-squared
   border-radius 0
 .header-logo

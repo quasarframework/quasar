@@ -1,83 +1,50 @@
 ---
-title: Docs
+title: Mobile App Build Commands
 ---
+[Quasar CLI](/quasar-cli/installation) makes it incredibly simple to develop or build the final distributables from your source code.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+Before we dive in, make sure you got the Cordova CLI installed.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
+```bash
+$ yarn global add cordova
+# or:
+$ npm install -g cordova
 ```
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
+## Developing
+```bash
+$ quasar dev -m cordova -T [ios|android]
+
+# ..or the longer form:
+$ quasar dev --mode cordova -T [ios|android]
+
+# using a specific emulator (--emulator, -e)
+$ quasar dev -m cordova -T ios -e iPhone-7
 ```
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
+In order for you to be able to develop on a device emulator or directly on a phone (with Hot Module Reload included), Quasar CLI follows these steps:
+1. Detects your machine's external IP address. If there are multiple such IPs detected, then it asks you to choose one. If you'll be using a mobile phone to develop then choose the IP address of your machine that's pingable from the phone/tablet.
+2. It starts up a development server on your machine.
+3. It temporarily changes the `<content/>` tag in `/src-cordova/config.xml` to point to the IP previously detected. This allows the app to connect to the development server.
+3. It defers to Cordova CLI to build a native app with the temporarily changed config.xml.
+4. Cordova CLI checks if a mobile phone / tablet is connected to your development machine. If it is, it installs the development app on it. If none is found, then it boots up an emulator and runs the development app.
+5. Finally, it reverts the temporary changes made to `/src-cordova/config.xml`.
 
 ::: danger
-Some tip
+If developing on a mobile phone/tablet, it is very important that the external IP address of your build machine is accessible from the phone/tablet, otherwise you'll get a development app with white screen only. Also check your machine's firewall to allow connections to the development chosen port.
 :::
 
-::: warning CUSTOM TITLE
-Some tip
-:::
+## Building for Production
+```bash
+$ quasar build -m cordova -T [ios|android]
 
-* Something
-  * something
-  * else
-* Back
-  * wee
+# ..or the longer form:
+$ quasar build --mode cordova -T [ios|android]
 
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+# this skips .app or .apk creation and just fills in /src-cordova/www
+$ quasar build -m cordova -T [ios|android] --skip-pkg
+```
 
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+These commands parse and build your `/src` folder then overwrite `/src-cordova/www` then, unless `--skip-pkg` was specified, defer to Cordova CLI to trigger the actual native app creation.
 
-## API
-<doc-api file="QTh" />
+You may ask yourself. So where's the .apk or .app? Watch the terminal console to see where Cordova puts it.
