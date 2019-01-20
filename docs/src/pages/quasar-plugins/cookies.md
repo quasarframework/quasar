@@ -49,13 +49,13 @@ this.$q.cookies.get('cookie_name')
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
-var cookies = Cookies.all()
+var cookies = Cookies.getAll()
 ```
 `cookies` variable will be an object with key-value pairs (cookie_name : cookie_value).
 
 ```js
 // inside of a Vue file
-this.$q.cookies.all()
+this.$q.cookies.getAll()
 ```
 
 ## Verify if Cookie is Set
@@ -131,3 +131,6 @@ Cookies.remove('cookie_name')
 // inside of a Vue file
 this.$q.cookies.remove('cookie_name')
 ```
+
+## API
+<doc-api file="Cookies" />
