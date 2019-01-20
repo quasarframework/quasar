@@ -1,83 +1,133 @@
 ---
-title: Docs
+title: Other Utils
 ---
+## Open External URL
+``` js
+import { openURL } from 'quasar'
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
+openURL('http://...')
 ```
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
+It will take care of the quirks involved when running under Cordova or on a browser, including notifying the user he/she has to acknowledge opening popups.
+
+## Debounce Function
+If your App uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it bricks browser performance. Debouncing a function limits the rate at which the function can fire.
+
+Debouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in "execute this function only if 100 milliseconds have passed without it being called."
+
+A quick example: you have a resize listener on the window which does some element dimension calculations and (possibly) repositions a few elements. That isn't a heavy task in itself but being repeatedly fired after numerous resizes will really slow your App down. So why not limit the rate at which the function can fire?
+
+``` js
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
+import { debounce } from 'quasar'
+
+(Debounced Function) debounce(Function fn, Number milliseconds_to_wait, Boolean immediate)
+
+// Example:
+window.addEventListener(
+  'resize',
+  debounce(function() {
+    .... things to do ...
+  }, 300 /*ms to wait*/)
+)
 ```
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
+There's also a `frameDebounce` available which delays calling your function until next browser frame is scheduled to run (read about `requestAnimationFrame`).
 
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
+``` js
+import { frameDebounce } from 'quasar'
 
-export default {
-  //
-}
-</script>
+(Debounced Function) frameDebounce(Function fn)
 
-<style>
-/* This is where your CSS goes */
-</style>
+// Example:
+window.addEventListener(
+  'resize',
+  frameDebounce(function() {
+    .... things to do ...
+  })
+)
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+## Throttle Function
+Throttling enforces a maximum number of times a function can be called over time. As in "execute this function at most once every X milliseconds."
 
-> Something...
+``` js
+import { throttle } from 'quasar'
 
-::: tip
-Some tip
-:::
+(Throttled Function) throttle(Function fn, Number limit_in_milliseconds)
 
-::: warning
-Some tip
-:::
+// Example:
+window.addEventListener(
+  'resize',
+  throttle(function() {
+    .... things to do ...
+  }, 300 /* execute at most once every 0.3s */)
+)
+```
 
-::: danger
-Some tip
-:::
+## (Deep) Copy Objects
+A basic respawn of `jQuery.extend()`. Takes same parameters:
+``` js
+import { extend } from 'quasar'
 
-::: warning CUSTOM TITLE
-Some tip
-:::
+let newObject = extend([Boolean deepCopy], targetObj, obj, ...)
+```
+Watch out for methods within objects.
 
-* Something
-  * something
-  * else
-* Back
-  * wee
+## Generate UID
+Generate unique identifiers:
+``` js
+import { uid } from 'quasar'
 
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+let uid = uid()
+// Example: 501e7ae1-7e6f-b923-3e84-4e946bff31a8
+```
 
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+## Handling event on a DOM event handler
+It's cross-browser.
 
-## API
-<doc-api file="QTh" />
+``` js
+import { event } from 'quasar'
+
+node.addEventListener('click', evt => {
+  // left clicked?
+  (Boolean) event.leftClick(evt)
+
+  // middle clicked?
+  (Boolean) event.middleClick(evt)
+
+  // right clicked?
+  (Boolean) event.rightClick(evt)
+
+  // key in number format
+  (Number) event.getEventKey(evt)
+
+  // Mouse wheel distance (in pixels)
+  (Object {x, y}) event.getMouseWheelDistance(evt)
+
+  // position on viewport
+  // works both for mouse and touch events!
+  (Object {top, left}) event.position(evt)
+
+  // get target DOM Element on which mouse or touch
+  // event has fired upon
+  (DOM Element) event.targetElement(evt)
+
+  // call stopPropagation and preventDefault
+  event.stopAndPrevent(evt)
+})
+```
+
+## Filter
+Filter out an array of Objects based on a certain field:
+
+``` js
+import { filter } from 'quasar'
+
+let data = [{fee: 5, desc: 'Bla bla'}, {fee: 10, desc: 'Bla bla'}, {fee: 1, desc: 'Bla bla'}]
+console.log(filter('5', {field: 'fee', list: data}))
+// [{fee: 5, desc: 'Bla bla'}]
+```
