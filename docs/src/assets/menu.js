@@ -115,8 +115,8 @@ const layout = [
     path: 'layout'
   },
   {
-    name: 'Integrating Layout with Router',
-    path: 'integrating-layout-with-router'
+    name: 'Routing with Layouts and Pages',
+    path: 'routing-with-layouts-and-pages'
   },
   {
     name: 'Layout Header and Footer',
@@ -554,7 +554,7 @@ const cli = [
         path: 'directory-structure'
       },
       {
-        name: 'Quasar.conf.js',
+        name: '/quasar.conf.js',
         path: 'quasar-conf-js'
       },
       {
@@ -564,10 +564,6 @@ const cli = [
       {
         name: 'Routing',
         path: 'routing'
-      },
-      {
-        name: 'Adding Pages and Layouts',
-        path: 'adding-pages-and-layouts'
       },
       {
         name: 'Lazy Loading - Code Splitting',
@@ -590,8 +586,8 @@ const cli = [
         path: 'api-proxying'
       },
       {
-        name: 'Pre-Processors with Webpack',
-        path: 'preprocessors-with-webpack'
+        name: 'Handling Webpack',
+        path: 'handling-webpack'
       },
       {
         name: 'Vuex Store',
