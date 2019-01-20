@@ -2574,9 +2574,9 @@ diffie-hellman@^5.0.0:
     randombytes "^2.0.0"
 
 dir-glob@^2.0.0:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/dir-glob/-/dir-glob-2.2.1.tgz#ce8413234ffe8452b76b7741c32f116cf2a7b1a7"
-  integrity sha512-UN6X6XwRjllabfRhBdkVSo63uurJ8nSvMGrwl94EYVz6g+exhTV+yVSYk5VC/xl3MBFBTtC0J20uFKce4Brrng==
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/dir-glob/-/dir-glob-2.2.2.tgz#fa09f0694153c8918b18ba0deafae94769fc50c4"
+  integrity sha512-f9LBi5QWzIW3I6e//uxZoLBlUt9kcp66qo0sSCxL6YZKc75R1c4MFCoe/LaZiBGmgujvQdxc5Bn3QhfyvK5Hsw==
   dependencies:
     path-type "^3.0.0"
 
@@ -6214,9 +6214,9 @@ qs@6.5.2:
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
 quasar@^1.0.0-alpha.11:
-  version "1.0.0-alpha.12"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-alpha.12.tgz#a64c542a2e369b9f398bdcd28e8ee0e81b830da0"
-  integrity sha512-6lOaBDMxGTnq8XCmV1gmhwJNnm6IZGL+ESyaBkgwMADGoAQVoMbwWJhicbotz+64skFiKtx0ocgGS39YPlXn7Q==
+  version "1.0.0-alpha.13"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-alpha.13.tgz#dbe01aec58e61367684f611446883750120ed051"
+  integrity sha512-EMoWqG/WYzcmIP4zgwci20HchrOGgKl2AxfrwrVGSYeGACScRzHMRuc5XG8ayrOnv/iTLWOtsQmPmvVjrfg25w==
 
 querystring-es3@^0.2.0:
   version "0.2.1"
