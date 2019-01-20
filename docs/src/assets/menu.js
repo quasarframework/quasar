@@ -608,10 +608,24 @@ const cli = [
       {
         name: 'Supporting IE',
         path: 'supporting-ie'
+      }
+    ]
+  },
+  {
+    name: 'Developing SPA',
+    path: 'developing-spa',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
       },
       {
-        name: 'Deploying SPA',
-        path: 'deploying-spa'
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Deploying',
+        path: 'deploying'
       }
     ]
   },
