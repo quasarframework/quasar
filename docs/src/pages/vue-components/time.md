@@ -1,83 +1,47 @@
 ---
-title: Docs
+title: QTime
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+The QTime component provides a method to input time.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QTime" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+<doc-example title="Basic" file="QTime/Basic" />
+
+<doc-example title="Landscape" file="QTime/Landscape" />
+
+<doc-example title="Color" file="QTime/Color" />
+
+<doc-example title="Text Color" file="QTime/TextColor" />
+
+<doc-example title="Dark" file="QTime/Dark" dark />
+
+<doc-example title="24h Format" file="QTime/Format24h" />
+
+::: tip
+You can use the `hour-options`, `minute-options` and `second-options` properties to disable certain times from being selected.
+:::
+<doc-example title="Options (properties)" file="QTime/OptionsProperties" />
+
+::: tip
+You can use the `options` property with a function to disable certain times from being selected.
+:::
+<doc-example title="Options (function)" file="QTime/OptionsFunction" />
+
+<doc-example title="Now Button" file="QTime/NowBtn" />
+
+<doc-example title="With Seconds" file="QTime/WithSeconds" />
+
+<doc-example title="Disable" file="QTime/Disable" />
+
+<doc-example title="Readonly" file="QTime/Readonly" />
+
+::: tip
+The second example below uses the `with-seconds` and `format24h` properties.
+:::
+<doc-example title="Input" file="QTime/Input" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QTime" />
