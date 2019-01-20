@@ -63,9 +63,9 @@ Deploying your Quasar application with [now](https://zeit.co/now) is really easy
 $ now login
 ```
 
-Then proceed to build your Quasar application using the steps described in [General deployment](#General-deployment).
+Then proceed to build your Quasar application using the steps described in "General deployment" section.
 
-After the build is finished, change directory into your deploy root (example: `/dist/spa-mat`) and run:
+After the build is finished, change directory into your deploy root (example: `/dist/spa`) and run:
 ```bash
 $ now
 ```
@@ -94,10 +94,9 @@ const
 const app = express()
 
 app.use(history())
-app.use(serveStatic(__dirname + '/dist/spa-<theme>'))
+app.use(serveStatic(__dirname + '/dist/spa'))
 app.listen(port)
 ```
-Make sure to exchange `<theme>` to the theme you use.
 
 Heroku assumes a set of npm scripts to be available, so we have to alter our `package.json` and add the following under the `script` section:
 ```js
@@ -142,7 +141,7 @@ Now your application should be successfully deployed using Surge. You should be 
 
 To deploy your Quasar application to GitHub pages the first step is to create a special repository on GitHub which is named `<username>.github.io`. Clone this repository to your local machine.
 
-Next, you need to build your Quasar application like it is described in [the general deployment section](#General-deployment). This will result in a `spa-<theme>` directory inside the `dist` directory. Copy the content of this folder to your cloned repository.
+Next, you need to build your Quasar application like it is described in the "General deployment section". This will result in a `/dist/spa` directoryy. Copy the content of this folder to your cloned repository.
 
 The last step is to add a commit in your repository an push to GitHub. After a short time, you should be able to visit your Quasar application at `https://<username>.github.io/`.
 
@@ -161,9 +160,8 @@ $ npm install push-dir --save-dev
 
 Then add a `deploy` script command to your `package.json`:
 ```json
-// replace <theme> with your actual theme (mat, ios)
 "scripts": {
-  "deploy": "push-dir --dir=dist/spa-<theme> --remote=gh-pages --branch=master"
+  "deploy": "push-dir --dir=dist/spa --remote=gh-pages --branch=master"
 }
 ```
 
