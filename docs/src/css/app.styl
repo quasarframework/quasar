@@ -1,55 +1,55 @@
 @import '~quasar-variables'
 
 body
-  background-color $grey-3
+  background-color $grey-2
 
 .doc-token
   white-space nowrap
-  background #ffd9d9
-  font-weight 600
-  color $negative
+  background lighten($primary, 85%)
+  color $primary
+  font-family inherit
   border-radius $generic-border-radius
-  padding 0 5px
+  padding 1px 5px
   margin 0
 
 blockquote .doc-token
-  background $primary
-  color white
+  background lighten($grey, 60%)
+  color $grey-9
 
 .doc-note
-  background-color $grey-4
+  background-color $grey-3
   border-radius $generic-border-radius
   margin 16px 0
   padding 16px 24px
   font-size 1em
   border-width 0 5px 0
   border-style solid
-  border-color $primary
+  border-color $grey
   letter-spacing .5px
+
+  .doc-token
+    color $grey-9
 
   > p
     margin-bottom 0
 
   &--tip
-    background-color alpha($positive, .3)
+    background-color lighten($positive, 75%)
     border-color $positive
     .doc-token
-      background $positive
-      color white
+      background lighten($positive, 55%)
 
   &--warning
-    background-color alpha($warning, .3)
+    background-color lighten($warning, 50%)
     border-color $warning
     .doc-token
-      background $warning
-      color black
+      background lighten($warning, 15%)
 
   &--danger
-    background-color alpha($negative, .3)
+    background-color lighten($negative, 80%)
     border-color $negative
     .doc-token
-      background $negative
-      color white
+      background lighten($negative, 65%)
 
   &__title
     font-weight 500
