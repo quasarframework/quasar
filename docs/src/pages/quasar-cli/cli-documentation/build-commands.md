@@ -1,83 +1,79 @@
 ---
-title: Docs
+title: Build Commands
 ---
+We will be covering Development and Production build commands. For a full list of Quasar CLI commands, make sure to read its [documentation page](/guide/quasar-cli.html).
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+### Development
+> Starts a Node.js local development server.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+``` bash
+# run development server (with default theme)
+$ quasar dev
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+# run development server with specific theme
+$ quasar dev -t mat
+$ quasar dev -t ios
 
-```
-const m = 'lala'
-```
+# on specific port
+$ quasar dev -p 9090
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
+# SSR
+$ quasar dev -m ssr
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
+# PWA
+$ quasar dev -m pwa
 
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
+# Mobile App
+$ quasar dev -m cordova -T [android|ios] -t [mat|ios]
 
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
+# Electron App
+$ quasar dev -m electron
+# with iOS theme...
+$ quasar dev -m electron -t ios
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+For a complete list, please read [Quasar CLI](/guide/quasar-cli.html#dev-Development-Server) Development Server section.
 
-> Something...
+While developing with the Dev Server you will have:
+* Babel, so you can write ES6 code
+* Webpack + vue-loader for Vue SFC (single file components)
+* State preserving hot-reload
+* State preserving compilation error overlay
+* Lint-on-save with ESLint
+* Source maps
+* Develop right on a device emulator (or a real phone connected to your machine) if you target a Mobile App
+* Develop right on an Electron window with Developer Tools included if you target an Electron App
 
-::: tip
-Some tip
-:::
+### Production
+> Build assets for production.
 
-::: warning
-Some tip
-:::
+``` bash
+# build for production
+$ quasar build
 
-::: danger
-Some tip
-:::
+# build for production with specific theme
+$ quasar build -t mat
+$ quasar build -t ios
 
-::: warning CUSTOM TITLE
-Some tip
-:::
+# SSR
+$ quasar build -m ssr
 
-* Something
-  * something
-  * else
-* Back
-  * wee
+# PWA
+$ quasar build -m pwa
 
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+# Mobile App
+$ quasar build -m cordova -T [android|ios] -t [mat|ios]
 
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+# Electron App
+$ quasar build -m electron
+# with iOS theme...
+$ quasar build -m electron -t ios
+```
 
-## API
-<doc-api file="QTh" />
+For a complete list, please read [Quasar CLI](/guide/quasar-cli.html#build-clean-Build-App-for-Production) Build App for Production section.
+
+In addition to what you get while developing your website/app, for production builds you also take advantage of:
+* Javascript minified with [UglifyJS](https://github.com/mishoo/UglifyJS2)
+* HTML minified with [html-minifier](https://github.com/kangax/html-minifier)
+* CSS across all components extracted (and auto-prefixed) into a single file and minified with [cssnano](https://github.com/ben-eb/cssnano)
+* All static assets are compiled with version hashes for efficient long-term caching, and a production index.html is auto-generated with proper URLs to these generated assets.
