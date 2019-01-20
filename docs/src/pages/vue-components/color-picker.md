@@ -22,5 +22,7 @@ The ColorPicker component provides a method to input colors.
 
 <doc-example title="Readonly" file="QColor/Readonly" />
 
+<doc-example title="Input" file="QColor/Input" />
+
 ## API
 <doc-api file="QColor" />
