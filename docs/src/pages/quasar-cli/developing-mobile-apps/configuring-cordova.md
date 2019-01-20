@@ -1,83 +1,34 @@
 ---
-title: Docs
+title: Configuring Cordova
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+We'll be using Quasar CLI (and Cordova CLI) to develop and build a Mobile App. The difference between building a SPA, PWA, Electron App or a Mobile App is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+There are two configuration files of great importance to your mobile apps. We'll go over each one.
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+## Config.xml
+The most important config file for your mobile app is `/src-cordova/config.xml`. Like mentioned above, `/src-cordova` is a Cordova project folder, so please refer to [Cordova documentation](https://cordova.apache.org/docs/en/latest/) in order to understand what each file from there does. But for now, have a few moments to read about [config.xml](https://cordova.apache.org/docs/en/latest/config_ref/).
 
-```
-const m = 'lala'
-```
+Some properties from this file will get overwritten as we'll see in next section.
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
+## Quasar.conf.js
+Quasar CLI helps you in setting some properties of the mobile Apps automatically (from config.xml): the Cordova "id", app version, description and android-versionCode. This is for convenience so you'll be able to have a single point where, for example, you change the version of your app, not multiple files that you need to simultaneously touch which is error prone.
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
+For determining the values for each of the properties mentioned above, Quasar CLI:
+1. Look in `/quasar.conf.js` for a "cordova" Object. Does it have "id", "version", "description" and/or "androidVersionCode"? If yes, it will use them.
+2. If not, then it looks into your `/package.json` for "cordovaId", "version" and "description" fields.
 
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
+Other options you can configure:
 
-export default {
-  //
+```js
+return {
+  framework: {
+    config: {
+      cordova: {
+        iosStatusBarPadding: true/false, // add the dynamic top padding on iOS mobile devices
+        backButtonExit: true/false // Quasar handles app exit on mobile phone back button
+      }
+    }
+  }
 }
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
