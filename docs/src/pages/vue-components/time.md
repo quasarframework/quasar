@@ -2,9 +2,7 @@
 title: QTime
 ---
 
-The Quasar QTime component provides a method to input time.
-
-You’ll notice in the demos that the iOS and Material QTime picker looks and acts totally different, just like its native counterpart.
+The QTime component provides a method to input time.
 
 ## Installation
 <doc-installation components="QTime" />
