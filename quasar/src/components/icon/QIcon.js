@@ -37,6 +37,9 @@ export default Vue.extend({
       else if (icon.startsWith('mdi-')) {
         cls = `mdi ${icon}`
       }
+      else if (icon.startsWith('iconfont ')) {
+        cls = `${icon}`
+      }
       else {
         cls = 'material-icons'
       }

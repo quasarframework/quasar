@@ -1,83 +1,31 @@
 ---
-title: Docs
+title: Bar
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+QBar is a small component for creating the top bar on different types of mobile or desktop apps. For instance, in desktop apps QBar will have things like the close, minimize or maximize buttons and other menu controls for your application. For mobile apps, it's a place holder for the StatusBar overlay of Cordova and will show things like battery level, wifi symbol, cell network, etc.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+QBar can also be used as the header for Dialogs. 
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QBar" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+<doc-example title="Desktop (Laptop) MacOS" file="QBar/DesktopMac" />
+
+<doc-example title="Desktop (Laptop) Windows" file="QBar/DesktopWin" />
+
+<doc-example title="iOS" file="QBar/iOS" />
+
+<doc-example title="Android" file="QBar/Android" />
+
+<doc-example title="Within Dialogs" file="QBar/Dialogs" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QBar" />
+
+### For More Info
+ - Creating menus for Desktops see the [Electron Menu Class](https://electronjs.org/docs/api/menu)
+ - Creating the status bar on mobile apps see the [StatusBarOverlaysWebView](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-statusbar/) plugin for Cordova.
+
+### Related Components
+[QDialog](/vue-components/dialog)
