@@ -52,7 +52,7 @@ export default Vue.extend({
     maxPages: {
       type: Number,
       default: 0,
-      validator: v => v > 0
+      validator: v => v >= 0
     }
   },
 
