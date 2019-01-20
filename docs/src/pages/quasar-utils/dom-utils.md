@@ -86,19 +86,3 @@ ready(function () {
   // ....
 })
 ```
-
-## Get Crossbrowser CSS Transform Property
-``` js
-import { dom } from 'quasar'
-const { cssTransform } = dom
-
-let props = cssTransform('rotateX(30deg)')
-// props = {
-//   transform: 'rotateX(30deg)',
-//   '-webkit-transform': 'rotateX(30deg)',
-//   '-ms-transform': 'rotateX(30deg)',
-//   '-o-transform': 'rotateX(30deg)',
-//   '-moz-transform': 'rotateX(30deg)'
-// }
-
-// Then you can apply it with css(el, props)

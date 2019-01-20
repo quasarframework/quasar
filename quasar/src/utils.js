@@ -5,7 +5,6 @@ import debounce from './utils/debounce.js'
 import dom from './utils/dom.js'
 import event from './utils/event.js'
 import extend from './utils/extend.js'
-import filter from './utils/filter.js'
 import format from './utils/format.js'
 import frameDebounce from './utils/frame-debounce.js'
 import openURL from './utils/open-url.js'
@@ -24,7 +23,6 @@ export {
   dom,
   event,
   extend,
-  filter,
   format,
   frameDebounce,
   noop,

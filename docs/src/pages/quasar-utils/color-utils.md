@@ -45,11 +45,11 @@ Returns a value between 0 and 1.
 
 ## Dynamic Change of Brand Colors (Dynamic Theme Colors)
 
-> **WARNING**
-> This is only supported on [browsers that support CSS Variables](https://caniuse.com/#feat=css-variables) (Custom Properties).
-> It is not going to work on IE11, but it will fall back to the brand colors from the CSS theme.
->
-> This feature requires Quasar v0.15.7+
+::: warning
+This is only supported on [browsers that support CSS Variables](https://caniuse.com/#feat=css-variables) (Custom Properties).
+
+It is not going to work on IE11, but it will fall back to the brand colors from the CSS theme.
+:::
 
 You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `tertiary`, `positive`, `negative`, `info`, `warning`, `light`, `dark`, `faded`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
 
@@ -80,7 +80,7 @@ colors.setBrand('primary', '#33F')
 colors.setBrand('primary', '#F33', document.getElementById('rebranded-section-id'))
 ```
 
-> The helper function will also take care of setting dependent custom properties for some colors (`positive`, `negative`, `light`), so this is the recommended way of usage instead of the raw Javascript `setProperty()`.
+The helper function will also take care of setting dependent custom properties for some colors (`positive`, `negative`, `light`), so this is the recommended way of usage instead of the raw Javascript `setProperty()`.
 
 ### Helper - getBrand
 Quasar offers a helper function for getting custom colors in the `colors` utils: `getBrand(colorName[, element])`
