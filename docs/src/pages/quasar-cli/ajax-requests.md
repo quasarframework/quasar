@@ -16,6 +16,10 @@ export default ({app, router, Vue}) => {
 }
 ```
 
+::: tip
+Be sure to check out [Prefetch Feature](/quasar-cli/cli-documentation/prefetch-feature) if you are using Quasar CLI.
+:::
+
 Usage in your single file components methods will be like:
 ```
 methods: {
