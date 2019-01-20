@@ -19,6 +19,17 @@
       }
     },
 
+    "getAll": {
+      "desc": "Get all cookies",
+      "returns": {
+        "type": "Object",
+        "desc": "Object with cookie names (as keys) and their values",
+        "examples": [
+          "{ userId: 'john12', XFrame: 'x534' }"
+        ]
+      }
+    },
+
     "set": {
       "desc": "Set cookie",
       "params": {
@@ -118,17 +129,6 @@
             }
           }
         }
-      }
-    },
-
-    "all": {
-      "desc": "Get all cookies",
-      "returns": {
-        "type": "Object",
-        "desc": "Object with cookie names (as keys) and their values",
-        "examples": [
-          "{ userId: 'john12', XFrame: 'x534' }"
-        ]
       }
     },
 

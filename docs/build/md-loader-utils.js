@@ -14,11 +14,11 @@ module.exports.getVueComponent = function (rendered, data, toc) {
       meta: {
         title: \`${data.title}\`
       },
-      methods: {
-        copyHeading
-      },
       preFetch ({ store }) {
         store.commit('updateToc', ${toc})
+      },
+      methods: {
+        copyHeading
       }
     }
     </script>`
