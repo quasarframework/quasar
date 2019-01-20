@@ -6,6 +6,9 @@ QBar is a small component for creating the top bar on different types of mobile 
 
 QBar can also be used as the header for Dialogs. 
 
+## Installation
+<doc-installation components="QBar" />
+
 ## Usage
 <doc-example title="Desktop (Laptop) MacOS" file="QBar/DesktopMac" />
 
