@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="q-layout-padding" style="max-width: 100%;">
-      <p class="caption">The Ajax Bar component captures Ajax calls automatically. This example triggers events manually for demonstrating purposes only.</p>
 
       <q-card style="margin-top: 25px">
         <q-card-section class="bg-primary text-center">

@@ -10,7 +10,8 @@ If you'd like a simpler way to offer an Ajax Bar to your users, have a look at t
 <doc-installation components="QAjaxBar" />
 
 ## Usage
-<doc-example title="" file="QAjaxBar/Example" />
+The Ajax Bar component captures Ajax calls automatically. This example triggers events manually for demonstrating purposes only.
+<doc-example title="Ajax Bar Simulator" file="QAjaxBar/Example" />
 
 ## API
 <doc-api file="QAjaxBar" />
