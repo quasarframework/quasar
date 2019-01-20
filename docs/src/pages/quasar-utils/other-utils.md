@@ -120,14 +120,3 @@ node.addEventListener('click', evt => {
   event.stopAndPrevent(evt)
 })
 ```
-
-## Filter
-Filter out an array of Objects based on a certain field:
-
-``` js
-import { filter } from 'quasar'
-
-let data = [{fee: 5, desc: 'Bla bla'}, {fee: 10, desc: 'Bla bla'}, {fee: 1, desc: 'Bla bla'}]
-console.log(filter('5', {field: 'fee', list: data}))
-// [{fee: 5, desc: 'Bla bla'}]
-```
