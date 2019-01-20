@@ -22,6 +22,9 @@ module.exports = function (md) {
     if (token.tag === 'h2') {
       md.$data.toc.push(`{id:\`${id}\`,title:\`${title}\`}`)
     }
+    else if (token.tag === 'h3') {
+      md.$data.toc.push(`{id:\`${id}\`,title:\`${title}\`, sub: true}`)
+    }
 
     return self.renderToken(tokens, idx, options)
   }
