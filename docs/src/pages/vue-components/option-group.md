@@ -1,83 +1,30 @@
 ---
-title: Docs
+title: Option Group
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+The Option Group component is a helper component that allows you better control for grouping binary (on or off, true or false, 1 or 0) form input components like checkboxes, radios or toggles. A good use for this component is for offering a set of options or settings to turn on and off.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QOptionGroup" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+<doc-example title="Standard" file="QOptionGroup/Standard" />
+<doc-example title="With checkboxes" file="QOptionGroup/Checkbox" />
+
+::: warning
+The model for checkboxes must be an array
+:::
+
+<doc-example title="With toggles" file="QOptionGroup/Toggle" />
+
+::: warning
+The model for toggles must be an array
+:::
+
+<doc-example title="With option labels on the left side" file="QOptionGroup/Label" />
+<doc-example title="Inline" file="QOptionGroup/Inline" />
+<doc-example title="Disabled" file="QOptionGroup/Disable" />
+<doc-example title="On a dark background" file="QOptionGroup/Dark" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QOptionGroup" />
