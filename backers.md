@@ -7,12 +7,12 @@ Quasar Framework is an MIT licensed open source project and completely free to u
     <tr>
       <td align="center" valign="middle">
         <a>
-          <img width="300px" src="https://cdn.quasar-framework.org/sponsors/think-health-data.png">
+          <img width="200px" src="https://cdn.quasar-framework.org/sponsors/think-health-data.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="https://truelogic.com" target="_blank">
-          <img width="300px" src="https://cdn.quasar-framework.org/sponsors/truelogic.png">
+          <img width="200px" src="https://cdn.quasar-framework.org/sponsors/truelogic.png">
         </a>
       </td>
     </tr>
@@ -21,7 +21,7 @@ Quasar Framework is an MIT licensed open source project and completely free to u
       <tr>
       <td align="center" valign="middle">
         <a href="https://www.tayloredtechnology.net" target="_blank">
-          <img width="300px" src="https://cdn.quasar-framework.org/sponsors/taylored-technology-big.jpeg">
+          <img width="200px" src="https://cdn.quasar-framework.org/sponsors/taylored-technology-big.jpeg">
         </a>
       </td>
     </tr>
