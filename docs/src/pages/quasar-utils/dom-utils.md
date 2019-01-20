@@ -1,83 +1,104 @@
 ---
-title: Docs
+title: DOM Utils
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+### Helping Tree-Shake
+You will notice all examples import different parts of Quasar. However, if you need only one specific util method, then you can use ES6 destructuring to help Tree Shaking embed only that method and not all around it.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+Example with `dom` utils:
+```js
+import { dom } from 'quasar'
+const { offset } = dom
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
+// Offset on screen
+console.log(offset(DomElement))
+// { top: 10, left: 100 }
 ```
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
+You can also import all of dom utils and use whatever you need like this (but note that your bundle will contain unused methods too):
+```js
+import { dom } from 'quasar'
 
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
+// Offset on screen
+console.log(dom.offset(DomElement))
+// { top: 10, left: 100 }
 ```
 
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
+## Offset on screen viewport
+``` js
+import { dom } from 'quasar'
+const { offset } = dom
 
-> Something...
+// Offset on screen
+console.log(offset(DomElement))
+// { top: 10, left: 100 }
+```
 
-::: tip
-Some tip
-:::
+## Get Computed Style
+This applies only when DomElement is visible! It returns the **computed** browser style, so the property you are asking for doesn't necessary has to be applied within a `style` attribute.
 
-::: warning
-Some tip
-:::
+``` js
+import { dom } from 'quasar'
+const { style } = dom
 
-::: danger
-Some tip
-:::
+// Get COMPUTED style (when DomElement is visible!)
+// Computed means a DomElement might not have "height" CSS property set,
+// but that does not mean it doesn't have a height when it's displayed.
+// The following method accesses the computed CSS provided by the browser:
+console.log(style(DomElement, 'height'))
+// '10px' <<< notice it returns a String ending in 'px'
+```
 
-::: warning CUSTOM TITLE
-Some tip
-:::
+## Get Height / Width
+``` js
+import { dom } from 'quasar'
+const { height, width } = dom
 
-* Something
-  * something
-  * else
-* Back
-  * wee
 
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+// Some aliases of the previous method for "width" and "height" which
+// returns Numbers instead of Strings:
+console.log(
+  height(DomElement),
+  width(DomElement)
+)
+// 10 100
+```
 
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+## Apply CSS Properties in Batch
+```js
+import { dom } from 'quasar'
+const { css } = dom
 
-## API
-<doc-api file="QTh" />
+// Apply a list of CSS properties to a DomNode
+css(DomElement, {
+  height: '10px',
+  display: 'flex'
+})
+```
+
+## Execute when DOM is ready
+```js
+import { dom } from 'quasar'
+const { ready } = dom
+
+// Execute a Function when DOM is ready:
+ready(function () {
+  // ....
+})
+```
+
+## Get Crossbrowser CSS Transform Property
+``` js
+import { dom } from 'quasar'
+const { cssTransform } = dom
+
+let props = cssTransform('rotateX(30deg)')
+// props = {
+//   transform: 'rotateX(30deg)',
+//   '-webkit-transform': 'rotateX(30deg)',
+//   '-ms-transform': 'rotateX(30deg)',
+//   '-o-transform': 'rotateX(30deg)',
+//   '-moz-transform': 'rotateX(30deg)'
+// }
+
+// Then you can apply it with css(el, props)
