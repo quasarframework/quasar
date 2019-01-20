@@ -21,7 +21,6 @@ For determining the values for each of the properties mentioned above, Quasar CL
 Other options you can configure:
 
 ```js
-// Quasar v0.17+ only
 return {
   framework: {
     config: {
