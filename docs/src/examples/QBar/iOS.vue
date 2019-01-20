@@ -21,7 +21,7 @@
         <q-icon name="near_me" />
         <div>100%</div>
         <q-icon name="fas fa-battery-full" />
- 
+
       </q-bar><br />
   </div>
 </template>
