@@ -151,8 +151,17 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
     @on-layout="updateRightDrawerOnLayout"
   )
     q-scroll-area.fit
-      q-list.docs-toc.q-my-lg.text-grey-8
-        q-item(v-for="toc in $store.state.toc", :key="toc.id", clickable, v-ripple, @click="scrollTo(toc.id)", :active="activeToc === toc.id")
+      q-list.doc-toc.q-my-lg.text-grey-8
+        q-item(
+          v-for="toc in $store.state.toc",
+          :key="toc.id",
+          clickable,
+          v-ripple,
+          dense,
+          @click="scrollTo(toc.id)",
+          :active="activeToc === toc.id"
+        )
+          q-item-section(v-if="toc.sub === true", side) •
           q-item-section {{ toc.title }}
 
       .flex.justify-center.q-mt-sm
@@ -324,8 +333,7 @@ export default {
 .header-logo
   width 25px
   height 25px
-.q-drawer--standard .docs-toc .q-item
-  border-radius 5px 0 0 5px
+
 .footer
   padding 24px 0
 
@@ -338,8 +346,16 @@ export default {
       color inherit
   .doc-link
     color inherit
-.docs-toc .q-item--active
-  font-weight 600
+
+.q-drawer--standard .doc-toc
+  .q-item
+    border-radius 5px 0 0 5px
+    border-left 3px solid transparent
+  .q-item--active
+    border-left 3px solid $primary
+.q-drawer--mobile .doc-toc
+  .q-item--active
+    font-weight 600
 
 .quasar-logo
   img
