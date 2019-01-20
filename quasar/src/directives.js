@@ -1,5 +1,3 @@
-import BackToTop from './directives/BackToTop.js'
-import ClickOutside from './directives/ClickOutside.js'
 import CloseDialog from './directives/CloseDialog.js'
 import CloseMenu from './directives/CloseMenu.js'
 import GoBack from './directives/GoBack.js'
@@ -12,8 +10,6 @@ import TouchRepeat from './directives/TouchRepeat.js'
 import TouchSwipe from './directives/TouchSwipe.js'
 
 export {
-  BackToTop,
-  ClickOutside,
   CloseDialog,
   CloseMenu,
   GoBack,

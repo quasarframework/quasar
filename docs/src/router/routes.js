@@ -3,11 +3,11 @@ import menu from 'assets/menu.js'
 const docsPages = [
   {
     path: '',
-    component: () => import('pages/landing.vue')
+    component: () => import('pages/Landing.vue')
   },
   {
     path: 'docs',
-    component: () => import('pages/docs.vue')
+    component: () => import('pages/docs.md')
   }
 ]
 
@@ -20,7 +20,7 @@ function parseMenuNode (node, __path) {
   else {
     docsPages.push({
       path: prefix,
-      component: () => import(`pages/${prefix.substring(1)}.vue`)
+      component: () => import(`pages/${prefix.substring(1)}.md`)
     })
   }
 }
@@ -41,7 +41,7 @@ const routes = [
 if (process.env.MODE !== 'ssr') {
   routes.push({
     path: '*',
-    component: () => import('pages/error404.vue')
+    component: () => import('pages/Error404.vue')
   })
 }
 

@@ -30,18 +30,10 @@ $chip-height = 32px
       visibility hidden !important
       width 10px
 
-  &--floating
-    position absolute
-    top -.4em
-    right -.5em
-    pointer-events none
-    z-index 1
-    opacity .9
-
   .q-avatar
     font-size $chip-height
     margin-left -12px
-    margin-right 8px
+    margin-right 6px
 
   &__icon
     color rgba(0,0,0,.54)
@@ -53,7 +45,7 @@ $chip-height = 32px
     &--right
       margin-left 6px
     &--remove
-      margin-left 8px
+      margin-left 6px
       margin-right -6px
       opacity .6
       transition .3s
@@ -66,58 +58,16 @@ $chip-height = 32px
   &__content
     white-space nowrap
 
-  &__pointer
-    width 0
-    height 0
-    border-style solid
-    &:not(.q-chip__pointer--hover)
-      color #e0e0e0
-
-    &--up
-      top -6px
-      left calc(50% - 8px)
-      border-color transparent transparent currentColor transparent
-      border-width 0 8px 8px 8px
-    &--down
-      bottom -6px
-      left calc(50% - 8px)
-      border-color currentColor transparent transparent transparent
-      border-width 8px 8px 0 8px
-    &--right
-      right -6px
-      top calc(50% - 8px)
-      border-color transparent transparent transparent currentColor
-      border-width 8px 0 8px 8px
-    &--left
-      left -6px
-      top calc(50% - 8px)
-      border-color transparent currentColor transparent transparent
-      border-width 8px 8px 8px 0
-
-    &--hover
-      transition .3s
-      color currentColor
-      opacity 0
-
-  &:hover
-    .q-chip__pointer--hover
-      opacity .15
-
   &--dense
     border-radius 12px
     height 24px
     font-size 12px
-    padding 0 8px
+    padding 0 6px
 
-    .q-chip__pointer
-      &--up
-        top -4px
-      &--down
-        bottom -4px
-      &--right
-        right -4px
-      &--left
-        left -4px
+    .q-avatar
+      font-size 24px
+      margin-left -6px
+      margin-right 4px
 
     .q-chip__icon
       font-size 14px
@@ -127,13 +77,8 @@ $chip-height = 32px
       &--right
         margin-left 5px
       &--remove
-        margin-left 3px
+        margin-left 5px
         margin-right -2px
-
-    .q-avatar
-      font-size 24px
-      margin-left -8px
-      margin-right 4px
 
     &.q-chip--selected
       .q-avatar

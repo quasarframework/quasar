@@ -7,10 +7,6 @@
       "examples": [ "-", "|", ">" ]
     },
 
-    "color": {
-      "extends": "color"
-    },
-
     "active-color": {
       "extends": "color",
       "desc": "The color of the active breadcrumb, which can be any color from the Quasar Color Palette",

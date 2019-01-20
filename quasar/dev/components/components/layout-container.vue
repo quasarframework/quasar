@@ -50,6 +50,10 @@
             </q-toolbar>
           </q-page-sticky>
         </q-page>
+
+        <q-page-scroller position="bottom">
+          <q-btn fab icon="keyboard_arrow_up" color="red" />
+        </q-page-scroller>
       </q-page-container>
     </q-layout>
 
@@ -100,6 +104,10 @@
               <q-checkbox dark color="white" v-model="moreContent" label="Scroll" />
             </q-toolbar>
           </q-page-sticky>
+
+          <q-page-scroller position="bottom">
+            <q-btn fab icon="keyboard_arrow_up" color="red" />
+          </q-page-scroller>
         </q-page>
       </q-page-container>
     </q-layout>

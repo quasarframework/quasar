@@ -199,7 +199,7 @@ export default Vue.extend({
       contentMiddle.push(h(QInput, {
         staticClass: 'inline',
         style: {
-          width: `${this.inputPlaceholder.length}rem`
+          width: `${this.inputPlaceholder.length / 2}em`
         },
         props: {
           type: 'number',

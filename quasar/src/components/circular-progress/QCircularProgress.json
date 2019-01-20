@@ -22,7 +22,8 @@
     },
 
     "color": {
-      "extends": "color"
+      "extends": "color",
+      "desc": "Color name for the arc progress from the Quasar Color Palette"
     },
 
     "center-color": {
@@ -42,6 +43,7 @@
     "font-size": {
       "type": "String",
       "desc": "Size of text in CSS units, including unit name. Suggestion: use 'em' units to sync with component size",
+      "default": "0.25em",
       "examples": [ "1em", "16px", "2rem" ]
     },
 
@@ -71,12 +73,7 @@
 
     "reverse": {
       "type": "Boolean",
-      "desc": "Reverses the direction of progress"
-    },
-
-    "no-motion": {
-      "type": "Boolean",
-      "desc": "Disables animations"
+      "desc": "Reverses the direction of progress; Only for determined state"
     }
   },
 

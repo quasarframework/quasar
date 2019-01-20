@@ -64,9 +64,12 @@
 
             <q-item-section>
               <div>
-                <q-chip color="secondary" text-color="white" class="q-mr-sm">
+                <q-chip dense color="secondary" text-color="white" class="q-mr-sm">
                   Using slot
                 </q-chip>
+                <q-badge color="secondary">
+                  Using slot
+                </q-badge>
               </div>
             </q-item-section>
 
@@ -90,7 +93,7 @@
           <template slot="header">
             <q-item-section avatar>
               <q-avatar>
-                <img src="statics/boy-avatar.png">
+                <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
               </q-avatar>
             </q-item-section>
 

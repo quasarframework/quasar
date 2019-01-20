@@ -1,17 +1,22 @@
 <template lang="pug">
 q-page.doc-page
 
-  doc-section.title(:title="title", name="Introduction")
+  h1.doc-heading.doc-h1#Introduction(@click="copyHeading('Introduction')")
+    span {{ title }}
+    a.doc-page__top-link.float-right(:href="editHref", target="_blank", rel="noopener noreferrer")
+      q-icon(name="edit", @click.stop)
+        q-tooltip Improve page
 
   slot
 
-  div.q-mt-xl.q-mb-md
-    | Caught a mistake?
-    doc-link(:to="editHref") Suggest an edit on GitHub
+  div.doc-edit-link
+    | Caught a mistake? <doc-link :to="editHref">Suggest an edit on Github</doc-link>
 
 </template>
 
 <script>
+import { copyHeading } from 'assets/page-utils'
+
 export default {
   name: 'DocPage',
 
@@ -21,23 +26,12 @@ export default {
 
   computed: {
     editHref () {
-      return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${this.$route.path}.vue`
+      return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${this.$route.path}.md`
     }
   },
 
-  mounted () {
-    const page = document.body.getElementsByClassName('q-page')[0]
-    const els = page.getElementsByClassName('doc-section h1')
-
-    const toc = []
-    Array.prototype.forEach.call(els, el => {
-      toc.push({
-        id: el.getAttribute('id'),
-        name: el.textContent
-      })
-    })
-
-    this.$store.commit('updateToc', toc)
+  methods: {
+    copyHeading
   }
 }
 </script>
@@ -48,5 +42,13 @@ export default {
   font-weight 300
 
   > div
-    margin-bottom 16px
+    margin-bottom 22px
+
+  &__top-link
+    color inherit
+    text-decoration none
+    outline 0
+
+.doc-edit-link
+  margin 68px 0 12px !important
 </style>

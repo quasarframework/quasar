@@ -1,0 +1,55 @@
+---
+title: AddressbarColor Plugin
+---
+Newer mobile browsers have the ability to specify a color for the addressbar, like in the image below.
+
+::: warning
+* There isn't yet a Web standard for this so it won't work for all mobile browsers.
+* This applies when building a website only. For coloring top bar on a mobile app (built with Cordova wrapper), please refer to [Cordova plugins](https://cordova.apache.org/plugins/).
+:::
+
+![Mobile Addressbar Coloring](https://cdn.quasar-framework.org/img/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
+
+## Installation
+<doc-installation plugins="AddressbarColor" />
+
+## Usage
+
+We create boot file to initialize its usage: `$ quasar new boot addressbar-color`. A file is created (`/src/boot/addressbar-color.js`). We edit it:
+
+```js
+// file: /src/boot/addressbar-color.js
+import { AddressbarColor } from 'quasar'
+
+export default () => {
+  AddressbarColor.set('#a2e3fa')
+}
+```
+
+We then have to tell quasar to use this boot file we just created. To do this we edit the boot section of the quasar config:
+```js
+// file: /quasar.conf.js
+return {
+  boot: [
+    'addressbar-color'
+  ]
+}
+```
+
+What this does is that it injects some `<meta>` tags into your `index.html` at runtime.
+
+Because the meta tag doesn't get injected until run time you can dynamically change this color multiple times, based on the page the user is on (by calling the `set` method in the `created()` lifecycle hook on the respective pages):
+
+
+```js
+// a .vue file representing a page
+export default {
+  // ...,
+  created () {
+    this.$q.addressbarColor.set('#a2e3fa')
+  }
+}
+```
+::: tip
+Calling `set()` with no parameters will use the primary color.
+:::

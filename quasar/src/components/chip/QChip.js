@@ -18,7 +18,7 @@ export default Vue.extend({
 
     icon: String,
     iconRight: String,
-    label: String,
+    label: [String, Number],
 
     color: String,
     textColor: String,
@@ -27,13 +27,11 @@ export default Vue.extend({
       type: Boolean,
       default: true
     },
-    selected: Boolean,
-
-    floating: Boolean,
-    pointing: {
-      type: String,
-      validator: v => ['up', 'right', 'down', 'left'].includes(v)
+    selected: {
+      type: Boolean,
+      default: null
     },
+
     square: Boolean,
     outline: Boolean,
     clickable: Boolean,
@@ -53,9 +51,8 @@ export default Vue.extend({
         [`bg-${this.color}`]: !this.outline && this.color,
         [`text-${text} q-chip--colored`]: text,
         disabled: this.disable,
-        'q-chip--dense': this.dense || this.floating,
+        'q-chip--dense': this.dense,
         'q-chip--outline': this.outline,
-        'q-chip--floating': this.floating,
         'q-chip--selected': this.selected,
         'q-chip--clickable cursor-pointer non-selectable q-hoverable': this.isClickable,
         'q-chip--square': this.square
@@ -63,11 +60,11 @@ export default Vue.extend({
     },
 
     hasLeftIcon () {
-      return this.selected || this.icon
+      return this.selected === true || this.icon !== void 0
     },
 
     isClickable () {
-      return !this.disable && this.clickable
+      return !this.disable && (this.clickable === true || this.selected !== null)
     },
 
     computedTabindex () {
@@ -99,29 +96,14 @@ export default Vue.extend({
 
       this.isClickable && child.push(h('div', { staticClass: 'q-focus-helper' }))
 
-      if (this.pointing) {
-        child.push(h('div', {
-          staticClass: 'q-chip__pointer absolute',
-          class: {
-            [`q-chip__pointer--${this.pointing}`]: true,
-            [`text-${this.color}`]: this.color
-          }
-        }))
-
-        this.isClickable && child.push(h('div', {
-          staticClass: 'q-chip__pointer q-chip__pointer--hover absolute',
-          class: `q-chip__pointer--${this.pointing}`
-        }))
-      }
-
       this.hasLeftIcon && child.push(h(QIcon, {
         staticClass: 'q-chip__icon q-chip__icon--left',
-        props: { name: this.selected ? this.$q.icon.chip.selected : this.icon }
+        props: { name: this.selected === true ? this.$q.icon.chip.selected : this.icon }
       }))
 
       child.push(h('div', {
         staticClass: 'q-chip__content row no-wrap items-center q-anchor--skip'
-      }, this.label ? [ this.label ] : this.$slots.default))
+      }, this.label !== void 0 ? [ this.label ] : this.$slots.default))
 
       this.iconRight && child.push(h(QIcon, {
         staticClass: 'q-chip__icon q-chip__icon--right',

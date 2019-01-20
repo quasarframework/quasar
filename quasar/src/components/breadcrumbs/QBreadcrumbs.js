@@ -12,7 +12,6 @@ export default Vue.extend({
       type: String,
       default: '/'
     },
-    color: String,
     activeColor: {
       type: String,
       default: 'primary'

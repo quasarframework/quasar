@@ -77,7 +77,7 @@ export default Vue.extend({
         class: this.modelClasses
       }),
 
-      this.stripe && !this.motion ? h('div', {
+      this.stripe === true && this.motion === false ? h('div', {
         staticClass: 'q-linear-progress__stripe absolute-full',
         style: this.stripeStyle
       }) : null

@@ -1,19 +1,56 @@
+const gettingStarted = [
+  {
+    name: 'Pick Quasar Flavour',
+    path: 'pick-quasar-flavour'
+  },
+  {
+    name: 'How to use Vue',
+    path: 'how-to-use-vue'
+  },
+  {
+    name: 'Contribution Guide',
+    path: 'contribution-guide'
+  },
+  {
+    name: 'Quasar Flavours',
+    opened: true,
+    children: [
+      {
+        name: 'Quasar CLI',
+        path: 'quasar-cli'
+      },
+      {
+        name: 'UMD / Standalone',
+        path: 'umd'
+      },
+      {
+        name: 'Vue CLI Plugin',
+        path: 'vue-cli-plugin'
+      }
+    ]
+  }
+]
+
 const options = [
   {
     name: 'Vue Prototype Injections',
     path: 'vue-prototype-injections'
   },
   {
-    name: 'Quasar Languages',
-    path: 'quasar-languages'
+    name: 'Quasar Language Packs',
+    path: 'quasar-language-packs'
   },
   {
-    name: 'Internationalization',
-    path: 'internationalization'
+    name: 'App Internationalization',
+    path: 'app-internationalization'
+  },
+  {
+    name: 'Installing Icon Libraries',
+    path: 'installing-icon-libraries'
   },
   {
     name: 'Quasar Icon Sets',
-    path: 'icons'
+    path: 'quasar-icon-sets'
   },
   {
     name: 'RTL Support',
@@ -28,68 +65,86 @@ const options = [
     path: 'screen-plugin'
   },
   {
-    name: 'Style & Identity',
-    path: 'style-and-identity',
-    children: [
-      {
-        name: 'Color Palette',
-        path: 'color-palette'
-      },
-      {
-        name: 'Stylus Variables',
-        path: 'stylus-variables'
-      },
-      {
-        name: 'Typography',
-        path: 'typography'
-      }
-    ]
-  },
-  {
-    name: 'CSS Helpers & Grid',
-    path: 'css-helpers',
-    children: [
-      {
-        name: 'Spacing',
-        path: 'spacing'
-      },
-      {
-        name: 'Flex CSS / Grid',
-        path: 'flex-css'
-      },
-      {
-        name: 'Shadows',
-        path: 'shadows'
-      },
-      {
-        name: 'Visibility',
-        path: 'visibility'
-      },
-      {
-        name: 'Positioning',
-        path: 'positioning'
-      },
-      {
-        name: 'Other Helper Classes',
-        path: 'other-helper-classes'
-      },
-      {
-        name: 'Animation CSS Helper Classes',
-        path: 'animation-css-helper-classes'
-      }
-    ]
-  },
-  {
     name: 'Global Event Bus',
     path: 'global-event-bus'
   }
 ]
 
-const directives = [
+const style = [
   {
-    name: 'Back To Top',
-    path: 'back-to-top'
+    name: 'Typography',
+    path: 'typography'
   },
+  {
+    name: 'Color Palette',
+    path: 'color-palette'
+  },
+  {
+    name: 'Theming',
+    path: 'theming'
+  },
+  {
+    name: 'Spacing',
+    path: 'spacing'
+  },
+  {
+    name: 'Shadows',
+    path: 'shadows'
+  },
+  {
+    name: 'Visibility',
+    path: 'visibility'
+  },
+  {
+    name: 'Positioning',
+    path: 'positioning'
+  },
+  {
+    name: 'Other Helper Classes',
+    path: 'other-helper-classes'
+  }
+]
+
+const layout = [
+  {
+    name: 'Flex CSS Grid',
+    path: 'flex-css-grid'
+  },
+  {
+    name: 'Layout',
+    path: 'layout'
+  },
+  {
+    name: 'Integrating Layout with Router',
+    path: 'integrating-layout-with-router'
+  },
+  {
+    name: 'Layout Header and Footer',
+    path: 'header-and-footer'
+  },
+  {
+    name: 'Layout Drawer',
+    path: 'drawer'
+  },
+  {
+    name: 'Layout Page',
+    path: 'page'
+  },
+  {
+    name: 'Page Sticky',
+    path: 'page-sticky'
+  },
+  {
+    name: 'Page Scroller',
+    path: 'page-scroller'
+  },
+  {
+    name: 'Floating Action Button',
+    path: 'floating-action-button'
+  }
+]
+
+const directives = [
   {
     name: 'Close Dialog',
     path: 'close-dialog'
@@ -99,11 +154,11 @@ const directives = [
     path: 'close-menu'
   },
   {
-    name: '(Navigation) Go Back',
+    name: 'Go Back (Handling Back Button)',
     path: 'go-back'
   },
   {
-    name: '(Material) Ripple',
+    name: 'Material Ripples',
     path: 'material-ripple'
   },
   {
@@ -181,43 +236,6 @@ const plugins = [
 
 const components = [
   {
-    name: 'Layout',
-    children: [
-      {
-        name: 'Layout',
-        path: 'layout'
-      },
-      {
-        name: 'Integrating Layout with Router',
-        path: 'integrating-layout-with-router'
-      },
-      {
-        name: 'Layout Header and Footer',
-        path: 'header-and-footer'
-      },
-      {
-        name: 'Layout Drawer',
-        path: 'drawer'
-      },
-      {
-        name: 'Layout Page',
-        path: 'page'
-      },
-      {
-        name: 'Page Sticky',
-        path: 'page-sticky'
-      },
-      {
-        name: 'Floating Action Button',
-        path: 'floating-action-button'
-      }
-    ]
-  },
-  {
-    name: 'Action Sheet',
-    path: 'action-sheet'
-  },
-  {
     name: 'Ajax Bar',
     path: 'ajax-bar'
   },
@@ -226,8 +244,16 @@ const components = [
     path: 'avatar'
   },
   {
+    name: 'Badge',
+    path: 'badge'
+  },
+  {
     name: 'Banner',
     path: 'banner'
+  },
+  {
+    name: 'Bar',
+    path: 'bar'
   },
   {
     name: 'Breadcrumbs',
@@ -380,10 +406,6 @@ const components = [
     path: 'menu'
   },
   {
-    name: 'Modal',
-    path: 'modal'
-  },
-  {
     name: 'No SSR',
     path: 'no-ssr'
   },
@@ -391,12 +413,12 @@ const components = [
     name: 'Observers',
     children: [
       {
-        name: 'Element Resize Observer',
-        path: 'element-resize-observer'
+        name: 'Resize Observer (for Element)',
+        path: 'resize-observer'
       },
       {
-        name: 'Window Resize Observer',
-        path: 'window-resize-observer'
+        name: 'Scroll Observer',
+        path: 'scroll-observer'
       }
     ]
   },
@@ -495,6 +517,29 @@ const components = [
   }
 ]
 
+const utils = [
+  {
+    name: 'Date Utils',
+    path: 'date-utils'
+  },
+  {
+    name: 'Color Utils',
+    path: 'color-utils'
+  },
+  {
+    name: 'DOM Utils',
+    path: 'dom-utils'
+  },
+  {
+    name: 'Formatter Utils',
+    path: 'formatter-utils'
+  },
+  {
+    name: 'Other Utils',
+    path: 'other-utils'
+  }
+]
+
 const cli = [
   {
     name: 'Installation',
@@ -533,8 +578,8 @@ const cli = [
         path: 'handling-assets'
       },
       {
-        name: 'App Plugins',
-        path: 'app-plugins'
+        name: 'Boot Files',
+        path: 'boot-files'
       },
       {
         name: 'Prefetch Feature',
@@ -625,6 +670,10 @@ const cli = [
         path: 'configuring-pwa'
       },
       {
+        name: 'Handling Service Worker',
+        path: 'handling-service-worker'
+      },
+      {
         name: 'Build Commands',
         path: 'build-commands'
       }
@@ -697,6 +746,10 @@ const cli = [
         path: 'electron-static-assets'
       },
       {
+        name: 'Electron Security Concerns',
+        path: 'electron-security-concerns'
+      },
+      {
         name: 'Troubleshooting and Tips',
         path: 'troubleshooting-and-tips'
       }
@@ -727,44 +780,25 @@ export default [
     name: 'Getting Started',
     icon: 'flight_takeoff',
     path: 'getting-started',
-    children: [
-      {
-        name: 'Pick Quasar Flavour',
-        path: 'pick-quasar-flavour'
-      },
-      {
-        name: 'How to use Vue',
-        path: 'how-to-use-vue'
-      },
-      {
-        name: 'Contribution Guide',
-        path: 'contribution-guide'
-      },
-      {
-        name: 'Quasar Flavours',
-        opened: true,
-        children: [
-          {
-            name: 'Quasar CLI',
-            path: 'quasar-cli'
-          },
-          {
-            name: 'UMD / Standalone',
-            path: 'umd'
-          },
-          {
-            name: 'Vue CLI Plugin',
-            path: 'vue-cli-plugin'
-          }
-        ]
-      }
-    ]
+    children: gettingStarted
   },
   {
     name: 'Quasar Options & Helpers',
     icon: 'tune',
-    path: 'options-and-helpers',
+    path: 'options',
     children: options
+  },
+  {
+    name: 'Style & Identity',
+    icon: 'style',
+    path: 'style',
+    children: style
+  },
+  {
+    name: 'Layout and Grid',
+    icon: 'view_quilt',
+    path: 'layout',
+    children: layout
   },
   {
     name: 'Vue Components',
@@ -788,28 +822,7 @@ export default [
     name: 'Quasar Utils',
     icon: 'healing',
     path: 'quasar-utils',
-    children: [
-      {
-        name: 'Date Utils',
-        path: 'date-utils'
-      },
-      {
-        name: 'Color Utils',
-        path: 'color-utils'
-      },
-      {
-        name: 'DOM Utils',
-        path: 'dom-utils'
-      },
-      {
-        name: 'Formatter Utils',
-        path: 'formatter-utils'
-      },
-      {
-        name: 'Other Utils',
-        path: 'other-utils'
-      }
-    ]
+    children: utils
   },
   {
     name: 'Quasar CLI',

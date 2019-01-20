@@ -159,23 +159,32 @@ fg($name, $size)
         align-self stretch
 
     {fr('.flex<name>-center', $name)}
-      @extend .items{$name}-center
-      @extend .justify{$name}-center
+      @extends .items{$name}-center
+      @extends .justify{$name}-center
 
     for $gname, $gsize in $flex-gutter
-      {fr('.q-gutter<name>-', $name)}
-        &x-{$gname}
+      {fr('.q-gutter<name>', $name)}
+        &-x-{$gname}
           margin-left (- $gsize)
           > *
             margin-left $gsize
-        &y-{$gname}
+        &-y-{$gname}
           margin-top (- $gsize)
           > *
             margin-top $gsize
-        &{$gname}
+        &-{$gname}
           @extends .q-gutter{$name}-x-{$gname}, .q-gutter{$name}-y-{$gname}
+      {fr('.q-col-gutter<name>', $name)}
+        &-x-{$gname}
+          margin-left (- $gsize)
           > *
-            @extends .q-gutter{$name}-x-{$gname} > *, .q-gutter{$name}-y-{$gname} > *
+            padding-left ($gsize)
+        &-y-{$gname}
+          margin-top (- $gsize)
+          > *
+            padding-top ($gsize)
+        &-{$gname}
+          @extends .q-col-gutter{$name}-x-{$gname}, .q-col-gutter{$name}-y-{$gname}
 
     for $name2, $size2 in $sizes
       if $size >= $size2

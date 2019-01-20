@@ -29,7 +29,7 @@
       <q-toolbar class="bg-primary text-white q-my-md">
         <q-btn flat round dense icon="menu" class="q-mr-sm" />
         <q-avatar>
-          <img src="statics/quasar-logo.png">
+          <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
         </q-avatar>
 
         <q-toolbar-title>Quasar Framework</q-toolbar-title>
@@ -138,7 +138,7 @@
         <q-btn-dropdown stretch flat label="Dropdown">
           <q-list>
             <q-item-label header>Folders</q-item-label>
-            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-overlay tabindex="0">
+            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-menu tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="folder" color="secondary" text-color="white" />
               </q-item-section>
@@ -152,7 +152,7 @@
             </q-item>
             <q-separator inset spaced />
             <q-item-label header>Files</q-item-label>
-            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-overlay tabindex="0">
+            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-menu tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="assignment" color="primary" text-color="white" />
               </q-item-section>

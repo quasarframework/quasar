@@ -20,6 +20,7 @@ module.exports = function (ctx) {
     ],
 
     supportIE: true,
+    preFetch: true,
 
     build: {
       scopeHoisting: true,
@@ -28,29 +29,54 @@ module.exports = function (ctx) {
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
-      extendWebpack (cfg) {
-        cfg.resolve.alias.examples = path.resolve(__dirname, 'src/examples')
+      chainWebpack (chain, { isClient }) {
+        chain.resolve.alias
+          .merge({
+            examples: path.resolve(__dirname, 'src/examples'),
+            markup: path.resolve(__dirname, 'src/markup')
+          })
 
-        cfg.module.rules.push({
-          test: /\.pug$/,
-          loader: 'pug-plain-loader'
-        })
+        chain.module.rule('pug')
+          .test(/\.pug$/)
+          .use('pug-loader').loader('pug-plain-loader')
 
-        cfg.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /node_modules/,
-          options: {
-            cache: true
-          }
-        })
+        const rule = chain.module.rule('md')
+          .test(/\.md$/)
+
+        rule.use('v-loader')
+          .loader('vue-loader')
+          .options({
+            productionMode: ctx.prod,
+            compilerOptions: {
+              preserveWhitespace: false
+            },
+            transformAssetUrls: {
+              video: 'src',
+              source: 'src',
+              img: 'src',
+              image: 'xlink:href'
+            }
+          })
+
+        rule.use('md-loader')
+          .loader(require.resolve('./build/md-loader'))
+          .options({
+            isProd: ctx.prod
+          })
+
+        if (isClient) {
+          chain.module.rule('eslint')
+            .enforce('pre')
+            .test(/\.(js|vue)$/)
+            .exclude.add(/node_modules|\.md\.js/).end()
+            .use('eslint-loader').loader('eslint-loader')
+        }
       }
     },
 
     devServer: {
       // https: true,
-      // port: 8080,
+      port: 9090,
       open: true // opens browser window automatically
     },
 
@@ -77,27 +103,27 @@ module.exports = function (ctx) {
         theme_color: '#027be3',
         icons: [
           {
-            'src': 'statics/icons/icon-128x128.png',
+            'src': 'https://cdn.quasar-framework.org/app-icons/icon-128x128.png',
             'sizes': '128x128',
             'type': 'image/png'
           },
           {
-            'src': 'statics/icons/icon-192x192.png',
+            'src': 'https://cdn.quasar-framework.org/app-icons/icon-192x192.png',
             'sizes': '192x192',
             'type': 'image/png'
           },
           {
-            'src': 'statics/icons/icon-256x256.png',
+            'src': 'https://cdn.quasar-framework.org/app-icons/icon-256x256.png',
             'sizes': '256x256',
             'type': 'image/png'
           },
           {
-            'src': 'statics/icons/icon-384x384.png',
+            'src': 'https://cdn.quasar-framework.org/app-icons/icon-384x384.png',
             'sizes': '384x384',
             'type': 'image/png'
           },
           {
-            'src': 'statics/icons/icon-512x512.png',
+            'src': 'https://cdn.quasar-framework.org/app-icons/icon-512x512.png',
             'sizes': '512x512',
             'type': 'image/png'
           }

@@ -27,6 +27,7 @@ export default {
     unelevated: Boolean,
     rounded: Boolean,
     push: Boolean,
+    glossy: Boolean,
 
     size: String,
     fab: Boolean,
@@ -108,7 +109,7 @@ export default {
         (
           this.flat === true ? ' q-btn--flat' : (
             this.outline === true ? ' q-btn--outline' : (
-              this.push === true ? ' q-btn-push' : (
+              this.push === true ? ' q-btn--push' : (
                 this.unelevated === true ? ' q-btn--unelevated' : ''
               )
             )
@@ -117,7 +118,8 @@ export default {
         (this.noCaps === true ? ' q-btn--no-uppercase' : '') +
         (this.rounded === true ? ' q-btn--rounded' : '') +
         (this.dense === true ? ' q-btn--dense' : '') +
-        (this.stretch === true ? ' no-border-radius self-stretch' : '')
+        (this.stretch === true ? ' no-border-radius self-stretch' : '') +
+        (this.glossy === true ? ' glossy' : '')
     },
 
     innerClasses () {

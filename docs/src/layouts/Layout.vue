@@ -5,9 +5,9 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
       q-btn.q-mr-sm(v-if="hasDrawer", flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
         q-icon(name="menu")
 
-      q-btn.text-bold(key="logo", flat, no-caps, stretch, to="/")
+      q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, stretch, to="/")
         q-avatar
-          img(src="statics/quasar-logo.png")
+          img(src="https://cdn.quasar-framework.org/img/quasar-logo.png")
         q-toolbar-title(shrink) Quasar
 
       template(v-if="hasDrawer !== true")
@@ -97,6 +97,27 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
       q-btn.q-ml-xs(v-show="hasDrawer", flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
         q-icon(name="assignment")
 
+  q-footer.bg-black.text-white.text-center.footer
+    div.footer__icons.row.flex-center
+      a(href="https://github.com/quasarframework/quasar", target="_blank")
+        q-icon(name="fab fa-github")
+
+      a(href="https://twitter.com/quasarframework", target="_blank")
+        q-icon(name="fab fa-twitter")
+
+      a(href="https://medium.com/quasar-framework", target="_blank")
+        q-icon(name="fab fa-medium")
+
+      a(href="https://discord.gg/5TDhbDg", target="_blank")
+        q-icon(name="fab fa-discord")
+
+      a(href="https://forum.quasar-framework.org/", target="_blank")
+        q-icon(name="fas fa-comments")
+    div
+      | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link>
+
+    div Copyright © 2015 - {{ year }} Razvan Stoenescu
+
   q-drawer(
     v-if="hasDrawer"
     v-model="leftDrawerState"
@@ -131,8 +152,8 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
   )
     q-scroll-area.fit
       q-list.docs-toc.q-my-lg.text-grey-8
-        q-item(v-for="section in $store.state.toc", :key="section.id", clickable, v-ripple, @click="scrollTo(section.id)", :active="activeToc === section.id")
-          q-item-section {{ section.name }}
+        q-item(v-for="toc in $store.state.toc", :key="toc.id", clickable, v-ripple, @click="scrollTo(toc.id)", :active="activeToc === toc.id")
+          q-item-section {{ toc.title }}
 
       .flex.justify-center.q-mt-sm
         .bg-grey.flex.flex-center.text-white(
@@ -149,26 +170,8 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
     )
       router-view
 
-  q-footer.bg-black.text-white.text-center.footer
-    div.footer__icons.row.flex-center
-      a(href="https://github.com/quasarframework/quasar", target="_blank")
-        q-icon(name="fab fa-github")
-
-      a(href="https://twitter.com/quasarframework", target="_blank")
-        q-icon(name="fab fa-twitter")
-
-      a(href="https://medium.com/quasar-framework", target="_blank")
-        q-icon(name="fab fa-medium")
-
-      a(href="https://discord.gg/5TDhbDg", target="_blank")
-        q-icon(name="fab fa-discord")
-
-      a(href="https://forum.quasar-framework.org/", target="_blank")
-        q-icon(name="fas fa-comments")
-    div
-      | Released under the
-      doc-link(to="https://github.com/quasarframework/quasar/blob/dev/LICENSE") MIT LICENSE
-    div Copyright © 2015 - {{ year }} Razvan Stoenescu
+  q-page-scroller
+    q-btn(fab, color="red", icon="keyboard_arrow_up")
 </template>
 
 <script>
@@ -239,6 +242,7 @@ export default {
 
     scrollTo (id) {
       const el = document.getElementById(id)
+      clearTimeout(this.scrollTimer)
 
       if (el) {
         if (this.rightDrawerOnLayout !== true) {
@@ -338,4 +342,10 @@ export default {
     color inherit
 .docs-toc .q-item--active
   font-weight 600
+
+.quasar-logo
+  img
+    transition transform .8s ease-in-out
+  &:hover img
+    transform rotate(360deg)
 </style>
