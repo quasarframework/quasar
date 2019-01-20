@@ -18,18 +18,9 @@ $ quasar dev -m cordova -T [ios|android]
 # ..or the longer form:
 $ quasar dev --mode cordova -T [ios|android]
 
-# with a specific Quasar theme, for iOS platform:
-$ quasar dev -m cordova -T ios -t ios
-
-# with a specific Quasar theme, for Android platform:
-$ quasar dev -m cordova -T android -t mat
-
 # using a specific emulator (--emulator, -e)
 $ quasar dev -m cordova -T ios -e iPhone-7
 ```
-
-> **IMPORTANT**
-> You can develop with any Quasar theme, regardless of the platform you are building on (Android, IOS, ...).
 
 In order for you to be able to develop on a device emulator or directly on a phone (with Hot Module Reload included), Quasar CLI follows these steps:
 1. Detects your machine's external IP address. If there are multiple such IPs detected, then it asks you to choose one. If you'll be using a mobile phone to develop then choose the IP address of your machine that's pingable from the phone/tablet.
@@ -49,16 +40,10 @@ $ quasar build -m cordova -T [ios|android]
 # ..or the longer form:
 $ quasar build --mode cordova -T [ios|android]
 
-# with a specific Quasar theme, for iOS platform:
-$ quasar build -m cordova -T ios -t ios
-
-# with a specific Quasar theme, for Android platform:
-$ quasar build -m cordova -T android -t mat
+# this skips .app or .apk creation and just fills in /src-cordova/www
+$ quasar build -m cordova -T [ios|android] --skip-pkg
 ```
 
-> **IMPORTANT**
-> You can build with any Quasar theme, regardless of the platform you are targeting (Android, IOS, ...).
+These commands parse and build your `/src` folder then overwrite `/src-cordova/www` then, unless `--skip-pkg` was specified, defer to Cordova CLI to trigger the actual native app creation.
 
-These commands parse and build your `/src` folder then overwrite `/src-cordova/www` then defer to Cordova CLI to trigger the actual native app creation.
-
-You may ask yourself. So where's the .apk or .app? Watch the terminal console to see where it puts it.
+You may ask yourself. So where's the .apk or .app? Watch the terminal console to see where Cordova puts it.
