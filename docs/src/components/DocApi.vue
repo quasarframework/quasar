@@ -89,7 +89,6 @@ export default {
             (name.indexOf(val) > -1) ||
             (tabApi[name].desc !== void 0 && tabApi[name].desc.toLowerCase().indexOf(val) > -1)
           ) {
-            console.log(tabApi[name])
             api[tab][name] = tabApi[name]
           }
         })

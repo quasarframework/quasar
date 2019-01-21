@@ -68,7 +68,7 @@ export default {
 
       if (propName !== void 0) {
         child.push(
-          this.getDiv(h, 4, 'Name', propName)
+          this.getDiv(h, 4, 'Name', h('q-badge', [ propName ]))
         )
 
         if (type !== void 0) {
@@ -238,7 +238,7 @@ export default {
       for (let slot in slots) {
         child.push(
           h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 12, 'Name', slot),
+            this.getDiv(h, 12, 'Name', h('q-badge', [ slot ])),
             this.getDiv(h, 12, 'Description', slots[slot].desc)
           ])
         )
@@ -281,7 +281,9 @@ export default {
 
         child.push(
           h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 12, 'Name', `@${eventName}${getEventParams(event)}`),
+            this.getDiv(h, 12, 'Name', h('q-badge', [
+              `@${eventName}${getEventParams(event)}`
+            ])),
             this.getDiv(h, 12, 'Description', event.desc),
             this.getDiv(h, 12,
               'Parameters',
@@ -306,7 +308,9 @@ export default {
         const method = methods[methodName]
 
         const nodes = [
-          this.getDiv(h, 12, 'Name', `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`),
+          this.getDiv(h, 12, 'Name', h('q-badge', [
+            `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
+          ])),
           this.getDiv(h, 12, 'Description', method.desc)
         ]
 
@@ -378,7 +382,7 @@ export default {
             'div',
             { staticClass: 'api-row row' },
             [
-              this.getDiv(h, 12, 'Name', modifierName)
+              this.getDiv(h, 12, 'Name', h('q-badge', [ modifierName ]))
             ].concat(this.getProp(h, modifier, void 0, true))
           )
         )
