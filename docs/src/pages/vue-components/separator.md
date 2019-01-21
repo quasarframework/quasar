@@ -9,7 +9,9 @@ The QSeparator Component is used to separate sections of text, other components,
 
 ## Usage
 <doc-example title="Standard" file="QSeparator/Standard" />
+
 <doc-example title="Vertical" file="QSeparator/Vertical" />
+
 <doc-example title="Inset" file="QSeparator/Inset" />
 
 ## API

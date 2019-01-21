@@ -1,7 +1,7 @@
 ---
 title: Editor (WYSIWYG)
 ---
-    
+
 **QEditor** is a WYSIWYG (“what you see is what you get”) editor component that enables the user to write and even paste HTML. It uses the so-called Design Mode and the cross-browser `contentEditable` interface. Here are some go-to reference pages from the MDN webdocs with more detailed information about the underlying technology:
 
 - [Making content editable](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content)
@@ -17,8 +17,7 @@ title: Editor (WYSIWYG)
 
 ::: warning
 In this first example, there are two cards below the editor. The first shows the unparsed html using the double-moustache, whereas the second shows the rendered version using `v-html="editor"`. Using v-html this way renders your users vulnerable to Cross Site Scripting attacks. If the content is user generated, be sure to sanitize it either on render or server side (or both).
-
-::: 
+:::
 
 By default, QEditor offers most if not all the commands you’d need in a WYSIWYG editor: bold, italic, strike, underline, unordered (list), ordered (list), subscript, superscript, link, fullscreen, quote, left (align), center (align), right (align), justify (align), print, outdent, indent, removeFormat, hr, undo, redo, h1 to h6, p (paragraph), code (code paragraph), size-1 to size-7.
 
@@ -29,6 +28,7 @@ Each of these commands is pre-configured with icons and their own internationali
   bold: {label: 'Bold', icon: null, tip: 'My bold tooltip'}
 }"
 ```
+
 <doc-example title="Redefine Bold Command" file="QEditor/NewBold" />
 
 
@@ -59,6 +59,7 @@ The following is an example that adds your own definitions. In this case make su
   for when toolbar commands using these definitions are clicked/tapped.
 -->
 ```
+
 <doc-example title="Add new commands" file="QEditor/NewCommands" />
 
 <doc-example title="Kitchen Sink" file="QEditor/KitchenSink" />
@@ -66,7 +67,9 @@ The following is an example that adds your own definitions. In this case make su
 <doc-example title="Custom Style" file="QEditor/Custom" />
 
 ## Dropdowns
+
 ### Types of dropdowns
+
 ```html
 <q-editor
   v-model="model"
@@ -146,11 +149,11 @@ User can pick only one option from each dropdown.
 There may be occassions where you want to turn off the integrated autocorrect, autocomplete, autocapitalization and spelling correction "features" that many modern browsers offer. To do this, simply wrap the `<q-editor>` component in a `<form>` element, like this:
 
 ```html
-<form 
+<form
   autocorrect="off"
   autocapitalize="off"
   autocomplete="off"
-  spellcheck="false"   
+  spellcheck="false"
 >
   <q-editor model="editor" />
 </form>
@@ -169,6 +172,7 @@ Pasting from the buffer and drag & dropping images into the editor is unfortunat
 
 ### Plaintext pasting
 If the paste event content type is text and depending on the source of text, there may already be a great deal of markup that the contentEditable automatically parses. If you want to paste only "clean, markup-free" text, then you can use the approach in this example (which also turns off spelling correction as mentioned above):
+
 <doc-example title="Paste Event Override" file="QEditor/Pasting" />
 
 ### Printing

@@ -29,11 +29,13 @@ The QDate component provides a method to input date.
 ::: tip
 The first example is using an array and the second example is using a function.
 :::
+
 <doc-example title="Options" file="QDate/Options" />
 
 ::: tip
 The first example is using an array and the second example is using a function.
 :::
+
 <doc-example title="Events" file="QDate/Events" />
 
 <doc-example title="Event Color" file="QDate/EventColor" />

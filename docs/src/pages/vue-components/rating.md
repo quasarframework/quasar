@@ -22,6 +22,5 @@ Quasar Rating is a Component which allows users to rate items, usually known as 
 
 <doc-example title="Disable" file="QRating/Disable" />
 
-
 ## API
 <doc-api file="QRating" />

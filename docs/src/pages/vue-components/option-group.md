@@ -9,6 +9,7 @@ The Option Group component is a helper component that allows you better control 
 
 ## Usage
 <doc-example title="Standard" file="QOptionGroup/Standard" />
+
 <doc-example title="With checkboxes" file="QOptionGroup/Checkbox" />
 
 ::: warning
@@ -22,8 +23,11 @@ The model for toggles must be an array
 :::
 
 <doc-example title="With option labels on the left side" file="QOptionGroup/Label" />
+
 <doc-example title="Inline" file="QOptionGroup/Inline" />
+
 <doc-example title="Disabled" file="QOptionGroup/Disable" />
+
 <doc-example title="On a dark background" file="QOptionGroup/Dark" />
 
 ## API

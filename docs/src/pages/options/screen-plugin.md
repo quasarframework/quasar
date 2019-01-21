@@ -59,3 +59,6 @@ this.$q.screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
 import { Screen } from 'quasar'
 Screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
 ```
+
+## API
+<doc-api file="Screen" />

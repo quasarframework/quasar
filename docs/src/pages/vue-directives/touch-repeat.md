@@ -19,6 +19,7 @@ Notice that on touch capable devices the scrolling is not blocked.
 <doc-example title="Basic" file="TouchRepeat/Basic" />
 
 Below is an example configured to also react to `SPACE`, `ENTER` and `h` keys (**focus on it first**), with 0:600* (ms) repeat pattern. Hit & hold keys, or click/tap and hold.
+
 <doc-example title="Custom keys" file="TouchRepeat/Keys" />
 
 ### Preventing Scroll (on touch capable devices)

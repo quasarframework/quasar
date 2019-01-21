@@ -13,6 +13,7 @@ The QBtnToggle component is another basic element for user input, similar to QRa
 ::: tip
 Singe QBtnToggle uses QBtn, you can use design related props of QBtn to style this component.
 :::
+
 <doc-example title="Some design examples" file="QBtnToggle/Design" />
 
 <doc-example title="Disable and Readonly" file="QBtnToggle/DisableReadonly" />

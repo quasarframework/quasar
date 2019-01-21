@@ -10,11 +10,17 @@ There are two modes in which QPagination operates: with buttons only or with an 
 
 ## Usage
 <doc-example title="Standard" file="QPagination/Standard" />
+
 <doc-example title="With input" file="QPagination/Input" />
+
 <doc-example title="Maximum pages shown" file="QPagination/MaxPages" />
+
 <doc-example title="Removing ellipses" file="QPagination/Ellipses" />
+
 <doc-example title="With boundary numbers" file="QPagination/BoundaryNumbers" />
+
 <doc-example title="With boundary links" file="QPagination/BoundaryLinks" />
+
 <doc-example title="With direction links" file="QPagination/DirectionLinks" />
 
 ## API

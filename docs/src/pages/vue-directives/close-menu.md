@@ -9,5 +9,6 @@ This directive is a helper when dealing with [QMenu](/vue-components/menu) compo
 
 ## Usage
 Clicking on the menu items in the example below will close the QMenu.
+
 <doc-example title="Basic" file="CloseMenu/Basic" />
 

@@ -26,6 +26,7 @@ In the second row in the example below, the property `keep-color` is being used 
 <doc-example title="On Dark Background" file="QCheckbox/OnDarkBackground" dark />
 
 In the example below, as soon as you click on the first checkbox it starts toggling between true/false. The second checkbox, on the other hand toggles between the three states (indeterminate/true/false) with help from `toggle-indeterminate`. You can optionally set the property `indeterminate-value`, otherwise the indeterminate value will be considered `null`.
+
 <doc-example title="Indeterminate State" file="QCheckbox/IndeterminateState" />
 
 <doc-example title="Array as Model" file="QCheckbox/ArrayAsModel" />
@@ -35,9 +36,11 @@ In the example below, as soon as you click on the first checkbox it starts toggl
 ::: tip
 You can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of checkboxes, like in example below.
 :::
+
 <doc-example title="Usage with QOptionGroup" file="QCheckbox/OptionGroup" />
 
 In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so the QCheckbox will respond to clicks on QItems to change toggle state.
+
 <doc-example title="In a List" file="QCheckbox/InaList" />
 
 <doc-example title="Disable" file="QCheckbox/Disable" />

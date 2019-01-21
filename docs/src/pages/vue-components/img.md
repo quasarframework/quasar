@@ -15,6 +15,7 @@ The Quasar QImg component makes working with images easy.
 ::: tip
 The `alt` property specifies an alternate text for the image, if the image cannot be displayed.
 :::
+
 <doc-example title="Alt" file="QImg/Alt" />
 
 <doc-example title="Placeholder Source" file="QImg/PlaceholderSrc" />

@@ -66,7 +66,7 @@ When developers encounter a problem they can’t solve, they can visit the Quasa
 ### A wide range of platform support
 Google Chrome, Firefox, IE11/Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry.
 
-### Quasar Languages
+### Quasar Language Packs
 Quasar comes equipped with over 30 language packs out of the box. On top of that, if your language pack is missing, it takes just 5 minutes to add it.
 
 ### Great documentation

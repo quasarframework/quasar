@@ -9,7 +9,9 @@ QTooltip should be used when you want to offer the user more information about a
 ## Usage
 In the example below we use a QBtn (as a target) and when hovering over it, Quasar will display some text.
 You can replace QBtn and the Tooltip content with any DOM elements or components you like.
+
 <doc-example title="Basic" file="QTooltip/Standard" />
+
 The idea is to place QTooltip inside your DOM element / component (as **direct child in DOM hierarchy**), when you want it to be the trigger for the QTooltip. Don’t worry about QTooltip content inheriting CSS from the container. This won’t occur, since QTooltip will be injected as a direct child of `<body>`.
 
 <doc-example title="Toggle through v-model" file="QTooltip/VModel" />
