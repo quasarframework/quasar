@@ -12,6 +12,7 @@ We will be describing `v-touch-swipe` on the lines below.
 
 ## Usage
 Swipe with your mouse on the area below to see it in action. If using a mouse, you need to do it quick.
+
 <doc-example title="All directions" file="TouchSwipe/Basic" />
 
 <doc-example title="One direction only" file="TouchSwipe/Right" />

@@ -16,19 +16,22 @@ List Items have the following pre-built child components:
 
 ## Usage
 
-Below is an example of Qlist below a QToolbar showing a contact list. It also demonstrates QLabel and QLabel with the `caption` prop (the email addresses). This small example also demonstrates QSection with the `avatar` prop. 
+Below is an example of Qlist below a QToolbar showing a contact list. It also demonstrates QLabel and QLabel with the `caption` prop (the email addresses). This small example also demonstrates QSection with the `avatar` prop.
+
 <doc-example title="Simple Contact List Example" file="QListItem/Contacts" />
 
-The example below is the contacts example again, but with the `dark` prop set to true. Notice the `dark` prop also only needs to be set within QList. With `dark` set in QList, all the QItem components within the list and their respective elements, are automatically switched to dark too. 
+The example below is the contacts example again, but with the `dark` prop set to true. Notice the `dark` prop also only needs to be set within QList. With `dark` set in QList, all the QItem components within the list and their respective elements, are automatically switched to dark too.
+
 <doc-example dark title="Simple Contact List Example Dark" file="QListItem/ContactsDark" />
 
 #### List Items in a Simple Menu
-Lists can also be used to build a simple menu with links to different pages. In the below example, QList is being used to build a simple navigational menu in the QDrawer of QLayout. The QItems are demonstrating how to also easily use VueRouter navigation with the `to` prop. 
+Lists can also be used to build a simple menu with links to different pages. In the below example, QList is being used to build a simple navigational menu in the QDrawer of QLayout. The QItems are demonstrating how to also easily use VueRouter navigation with the `to` prop.
 
-Also notice: 
+Also notice:
 
- - The first menu item in the list is the "active" menu item and it is using a special active indication. You could also leave the `to` prop empty, to get the standard active link. 
+ - The first menu item in the list is the "active" menu item and it is using a special active indication. You could also leave the `to` prop empty, to get the standard active link.
  - The "Spam" menu item is deactivated by leaving out the `to` prop. This could be useful if, for instance, no Spam were to be available to look at.
+
 <doc-example title="Simple Menu Example" file="QListItem/SimpleMenu" />
 
 ## API

@@ -1,7 +1,7 @@
 ---
 title: QPullToRefresh
 ---
-    
+
 When you want to allow the user to refresh the content or retrieve the newest content.
 
 ## Installation
@@ -19,6 +19,7 @@ Do not wrap `<q-pull-to-refresh>` by a `<div class="layout-padding">`. If you mu
 ::: tip
 To refresh, pull down on the content below.
 :::
+
 <doc-example title="Basic" file="QPullToRefresh/Basic" />
 
 <doc-example title="Color" file="QPullToRefresh/Color" />

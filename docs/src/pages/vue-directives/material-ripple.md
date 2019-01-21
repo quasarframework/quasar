@@ -19,9 +19,11 @@ Make sure that your DOM element or component has CSS `position: relative` or Qua
 <doc-example title="Basic" file="Ripple/Basic" />
 
 The Material Ripple takes the CSS color of text by default, but you can configure it:
+
 <doc-example title="Colored" file="Ripple/Colored" />
 
 You can also configure if the ripple should always start from center or not, regardless of the touch point:
+
 <doc-example title="Positioning" file="Ripple/Positioning" />
 
 If for some reason you have a scenario where the ripples need to be disabled, then you can assign a Boolean as value for the directive:
