@@ -1,5 +1,5 @@
 <template>
-  <div class="ios q-pa-md">
+  <div class="android q-pa-md full-width text-no-wrap">
 
       <q-bar dense class="bg-black text-white">
         <div>mobi-net</div>
@@ -40,7 +40,8 @@ export default {
 </script>
 
 <style>
-.ios {
-  width: 50%;
+.android .q-bar{
+  overflow: hidden;
+  max-width: 400px;
 }
 </style>
