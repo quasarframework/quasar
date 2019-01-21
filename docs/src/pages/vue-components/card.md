@@ -25,3 +25,8 @@ The QCard component is intentionally lightweight and essentially a containing el
 ## API
 
 <doc-api file="QCard" />
+
+<doc-api file="QCardSection" />
+
+<doc-api file="QCardActions" />
+
