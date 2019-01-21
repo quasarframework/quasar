@@ -1,7 +1,7 @@
 <template lang="pug">
 q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
   q-header.bg-black(elevated)
-    q-toolbar
+    q-toolbar.glossy
       q-btn.q-mr-sm(v-if="hasDrawer", flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
         q-icon(name="menu")
 
