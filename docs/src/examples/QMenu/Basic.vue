@@ -7,10 +7,10 @@
       <q-menu touchPosition context-menu>
         <q-list link separator style="min-width: 150px; max-height: 300px;">
           <q-item v-close-menu @click.native="showNotif('Value 1')">
-            <q-item-label>Value 1</q-item-label>
+            <q-item-label class="q-pa-sm">Value 1</q-item-label>
           </q-item>
           <q-item v-close-menu @click.native="showNotif('Value 2')">
-            <q-item-label>Value 2</q-item-label>
+            <q-item-label class="q-pa-sm">Value 2</q-item-label>
           </q-item>
         </q-list>
     </q-menu>
