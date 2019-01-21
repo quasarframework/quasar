@@ -17,7 +17,7 @@
       />
       <q-chat-message
         name="Vladimir"
-        avatar="/https://cdn.quasar-framework.org/img/boy-avatar.png"
+        avatar="https://cdn.quasar-framework.org/img/boy-avatar.png"
       >
         <q-spinner-dots size="2rem" />
       </q-chat-message>

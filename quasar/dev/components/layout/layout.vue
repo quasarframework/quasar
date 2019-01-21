@@ -254,7 +254,7 @@
             <q-item v-for="n in 3" :key="'item.' + n">
               <q-item-section side>
                 <q-avatar>
-                  <img src="/https://cdn.quasar-framework.org/img/boy-avatar.png">
+                  <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
                 </q-avatar>
               </q-item-section>
               <q-item-section>
