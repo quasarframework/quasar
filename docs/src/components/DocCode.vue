@@ -94,6 +94,7 @@ export default {
 @import '~quasar-variables'
 
 .doc-code
+  position relative
   font-size 12px
   margin 16px 0 !important
 

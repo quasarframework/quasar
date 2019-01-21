@@ -1,5 +1,5 @@
 <template>
-  <div class="ios q-pa-md">
+  <div class="ios q-pa-md text-no-wrap">
 
       <q-bar dense class="bg-teal text-white">
         <q-icon name="fas fa-signal" />
@@ -35,8 +35,9 @@ export default {
 }
 </script>
 
-<style>
-.ios {
-  width: 50%;
+<style scoped>
+.ios .q-bar{
+  overflow: hidden;
+  max-width: 400px;
 }
 </style>

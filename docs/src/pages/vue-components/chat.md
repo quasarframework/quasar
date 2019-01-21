@@ -15,6 +15,7 @@ To mix messages with avatar and without avatar in the same thread, use a placeho
 ::: tip
 Using the property `sent` is intended for the sender of the chat message. The other side is for received messages.
 :::
+
 <doc-example title="Basic" file="QChatMessage/Basic" />
 
 <doc-example title="Name" file="QChatMessage/Name" />
