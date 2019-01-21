@@ -1,83 +1,39 @@
 ---
-title: Docs
+title: Input
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+The QInput component 
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QInput"/>
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+By default, QInput is an input box with a grey underline that changes color when focused. The color is primary by default, and can be set with the `color` attribute.
+<doc-example title="Standard" file="QInput/Standard" />
+
+Use the `outlined` attribute to give the input a slightly rounded border around the input.
+<doc-example title="Outline" file="QInput/Outline" />
+
+Use the `filled` attribute to give the input a slightly rounded background hue.
+<doc-example title="Filled" file="QInput/Filled" />
+
+Use the `standout` attribute to give the input a slightly rounded background that changes color when focused.
+<doc-example title="Standout" file="QInput/Standout" />
+
+Use labels to inform the user what information to put in the input.
+<doc-example title="Labels" file="QInput/Labels" />
+
+Use the `rounded` attribute to round the background or outline of an input.
+<doc-example title="Rounded" file="QInput/Rounded" />
+
+You can place icons, text, or buttons before or after the input.
+<doc-example title="Decorations" file="QInput/Decorations" />
+
+Inputs have different types depending on what content should be written in them.
+<doc-example title="Types" file="QInput/Types" />
+
+You can validate inputs to ensure proper values.
+<doc-example title="Validation" file="QInput/Validation" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QInput" />
