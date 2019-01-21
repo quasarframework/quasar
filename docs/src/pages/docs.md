@@ -1,5 +1,5 @@
 ---
-title: Docs
+title: The Quasar Framework
 ---
 
 [Internal Link](/docs), [External Link](https://vuejs.org)
