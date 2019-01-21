@@ -2,8 +2,9 @@
   <div class="q-pa-md q-gutter-md">
     <div class="row justify-between">
 
-      <q-btn color="primary" label="Basic Menu">
+      <q-btn color="blue-grey-7" label="touch-position Menu">
         <q-menu
+          touch-position
         >
           <q-list style="min-width: 100px">
             <q-item clickable>
@@ -34,9 +35,9 @@
         </q-menu>
       </q-btn>
 
-      <q-btn color="secondary" label="Auto-Close Menu">
+      <q-btn color="purple-3" label="Persistent Menu">
         <q-menu
-          auto-close
+          persistent
         >
           <q-list style="min-width: 100px">
             <q-item clickable>
@@ -70,9 +71,9 @@
     </div>
     <div class="row justify-between">
 
-      <q-btn color="tertiary" label="Fit Menu" style="width: 280px;">
+      <q-btn color="primary" label="Max Height Menu">
         <q-menu
-          fit
+          max-height="100px"
         >
           <q-list style="min-width: 100px">
             <q-item clickable>
@@ -103,9 +104,9 @@
         </q-menu>
       </q-btn>
 
-      <q-btn color="orange-7" label="Cover Menu">
+      <q-btn color="primary" label="Max Width Menu">
         <q-menu
-          cover
+          max-width="80px"
         >
           <q-list style="min-width: 100px">
             <q-item clickable>

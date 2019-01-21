@@ -1,10 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-md">
     <div class="row justify-center">
-    </div>
-<template>
-  <div class="q-pa-md q-gutter-md">
-    <div class="row justify-center">
 
       <p class="cursor-pointer non-selectable">I am groot!<br>(Click me!)
         <q-menu
@@ -109,8 +105,5 @@
       </q-bar>
 
     </div>
-  </div>
-</template>
-
   </div>
 </template>
