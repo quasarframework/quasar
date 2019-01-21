@@ -35,7 +35,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .ios .q-bar{
   overflow: hidden;
   max-width: 400px;
