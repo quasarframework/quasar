@@ -13,7 +13,8 @@
       <q-card-actions>
         <q-btn flat>Read Now</q-btn>
         <q-btn flat>Bookmark</q-btn>
-        <q-btn color="green-2" icon="fas fa-download" flat> Download</q-btn>
+        <q-space spaced />
+        <q-btn color="green-2" icon="cloud_download" flat label="Download" />
       </q-card-actions>
     </q-card>
   </div>

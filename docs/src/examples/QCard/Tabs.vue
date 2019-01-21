@@ -18,8 +18,6 @@
         <q-tab label="Leave a Comment" name="two" />
       </q-tabs>
 
-      <q-separator />
-
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="one">
           Our planet is in perpetual flux, yet Kurt Wagner
@@ -27,19 +25,22 @@
           accessible for all ages and interests. This, the
           2019 Edition of the 1983 Classic, is full of
           updated maps and contemporary data resources.
-          <q-separator />
-          <q-card-actions class="float-right">
-            <q-btn color="teal" flat>Buy E-Book for $4.99 </q-btn>
-          </q-card-actions>
         </q-tab-panel>
 
         <q-tab-panel name="two">
-          <q-editor v-model="comments"></q-editor>
-          <q-card-actions class="float-right">
+          <q-editor v-model="comments" toolbar-bg="teal-3"></q-editor>
+          <q-card-actions>
+            <q-space />
+            <q-btn flat>Cancel</q-btn>
             <q-btn color="teal" flat>Submit</q-btn>
           </q-card-actions>
         </q-tab-panel>
       </q-tab-panels>
+      <q-separator />
+      <q-card-actions>
+        <q-space />
+        <q-btn color="teal" flat>Buy E-Book for $4.99 </q-btn>
+      </q-card-actions>
     </q-card>
   </div>
 </template>

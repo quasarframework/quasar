@@ -36,6 +36,7 @@
         <q-btn flat>5:30 PM</q-btn>
         <q-btn flat>7:30 PM</q-btn>
         <q-btn flat>9:00 PM</q-btn>
+        <q-space />
         <q-btn flat color="primary">Reserve</q-btn>
       </q-card-actions>
     </q-card>
