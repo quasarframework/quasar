@@ -1,15 +1,11 @@
 <template>
-  <div>My component</div>
+  <div class="q-pa-sm"></div>
 </template>
 
 <script>
 export default {
-  // name: 'ComponentName',
   data () {
     return {}
   }
 }
 </script>
-
-<style>
-</style>

@@ -8,20 +8,25 @@ One common use case for this component is in Layout’s header/footer in a QTool
 <doc-installation :components="['QTabs','QTab','QTabPane','QRouteTab']" />
 
 ## Usage
-<doc-example title="Standard" file="Qtabs/Standard" />
-<doc-example title="Standard" file="Qtabs/Types" />
-<doc-example title="Standard" file="Qtabs/Colors" />
-<doc-example title="Standard" file="Qtabs/Glossy" />
-<doc-example title="Standard" file="Qtabs/TopBar" />
-<doc-example title="Standard" file="Qtabs/Inverted" />
-<doc-example title="Standard" file="Qtabs/IndividualColors" />
-<doc-example title="Standard" file="Qtabs/Alignments" />
-<doc-example title="Standard" file="Qtabs/DefaultTab" />
-<doc-example title="Standard" file="Qtabs/VModel" />
+<doc-example title="Standard" file="QTabs/Standard" />
+<doc-example title="Types" file="QTabs/Types" />
 
-<doc-example title="Standard" file="Qtabs/Panels" />
-<doc-example title="Standard" file="Qtabs/PanelsAbove" />
-<doc-example title="Standard" file="Qtabs/PanelsKeepAlive" />
+You can color tabs with with classes `text-*` and `bg-*` (see [Color Pallete](/style/color-pallete))
+<doc-example title="Colors" file="QTabs/Colors" />
+
+<doc-example title="Glossy" file="QTabs/Glossy" />
+
+With animated bar on top
+<doc-example title="Bar on Top" file="QTabs/TopBar" />
+
+<doc-example title="With Alerts and Counts" file="QTabs/AlertsAndCounts" />
+<doc-example title="Alignments" file="QTabs/Alignments" />
+<doc-example title="Default Tab" file="QTabs/DefaultTab" />
+<doc-example title="Usage with V-model" file="QTabs/VModel" />
+
+<doc-example title="Tab Panels" file="QTabs/Panels" />
+<doc-example title="Panels Above Tabs" file="QTabs/PanelsAbove" />
+<doc-example title="Panels With Keep Alive" file="QTabs/PanelsKeepAlive" />
 
 ## API
 <doc-api file="QTabs" />
