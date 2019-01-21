@@ -5,7 +5,7 @@ title: QMenu
 The QMenu component is a convenient way to show menus. Goes very well with [QList](/vue-components/lists-and-list-items) as dropdown content, but it's by no means limited to it.
 
 ## Installation
-<doc-installation components="QMenu" />
+<doc-installation components="QMenu" directives="CloseMenu" />
 
 ::: tip
 Don't forget to use the directive `v-close-menu` in your clickable menu items if you want the menu to close automatically.
@@ -19,11 +19,19 @@ Alternatively, you can use the `q-menu` property `auto-close`.
 ## Usage
 <doc-example title="Basic" file="QMenu/Basic" />
 
+<doc-example title="More Basic" file="QMenu/Basic2" />
+
 :::tip
 In the second example below, check out the `file` menu for sub-level menus.
 :::
 
 <doc-example title="Target" file="QMenu/Target" />
+
+::: tip
+The example below shows how to create a re-usable menu that can be shared with different targets.
+:::
+
+<doc-example title="More Target" file="QMenu/Target2" />
 
 ### Design and Styling
 
