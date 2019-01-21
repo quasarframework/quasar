@@ -2,14 +2,14 @@
 .fixed-center.text-center.text-white
   p
     img(src='~assets/sad.svg', style='width:30vw;max-width:150px;')
-  p.text-faded
+  p.text-grey
     | Sorry, nothing here...
     strong  (404)
   q-btn(
     color='primary'
     style='width:200px;'
     to="/"
-  ) Go back
+  ) Homepage
 </template>
 
 <script>
@@ -17,7 +17,7 @@ export default {
   name: 'Error404',
 
   meta: {
-    title: '404'
+    title: 'Oops...'
   }
 }
 </script>

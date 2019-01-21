@@ -8,4 +8,4 @@ You'll notice that your Quasar project contains a `/src/router` folder. This hol
 
 Make sure to read [Vue Router documentation](https://router.vuejs.org/) to understand how it works.
 
-The `/src/router/routes.js` needs to import your website/app's Pages and Layouts. Read more on [Adding Pages and Layouts](/quasar-cli/cli-documentation/adding-pages-and-layouts) documentation page.
+The `/src/router/routes.js` needs to import your website/app's Pages and Layouts. Read more on [Routing with Layouts and Pages](/layout/routing-with-layouts-and-pages) documentation page.

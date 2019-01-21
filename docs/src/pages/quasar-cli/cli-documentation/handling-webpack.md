@@ -1,15 +1,16 @@
 ---
-title: App Pre-Processors & Webpack
+title: Handling Webpack
 ---
 The build system uses Webpack to create your website/app. Don't worry if you aren't acquainted with Webpack. Out of the box, you won't need to configure it because it already has everything set up.
 
-However, for cases where you need to tweak the default Webpack config you can do so by editing `/quasar.conf.js` and configuring `build > extendWebpack (cfg)` method or (CLI v0.16.2+) `build > chainWebpack (chain)`.
+## Usage with quasar.conf.js
+For cases where you need to tweak the default Webpack config you can do so by editing `/quasar.conf.js` and configuring `build > extendWebpack (cfg)` method or (CLI v0.16.2+) `build > chainWebpack (chain)`.
 
 Example of adding ESLint loader to it (assuming you've installed it):
 
 ```js
 build: {
-  extendWebpack (cfg) {
+  extendWebpack (cfg, { isServer, isClient }) {
     cfg.module.rules.push({
       enforce: 'pre',
       test: /\.(js|vue)$/,
@@ -25,7 +26,7 @@ Notice that you don't need to return anything. The parameter of extendWebpack(cf
 Equivalent quasar.conf for chainWebpack():
 ```js
 build: {
-  chainWebpack (chain) {
+  chainWebpack (chain, { isServer, isClient }) {
     chain.module.rule('eslint')
       .test(/\.(js|vue)$/)
       .enforce('pre')
@@ -36,11 +37,43 @@ build: {
 }
 ```
 
-Let's discuss about Webpack loaders now. It's probably where you'll make the most additions.
+::: tip
+The method `chainWebpack()` supplies a [webpack-chain](https://github.com/neutrinojs/webpack-chain) Object. You might want to check its documentation page.
+:::
+
+::: warning
+`chainWebpack()` gets executed **before** `extendWebpack()`.
+
+The two examples above are equivalent. Do NOT use both methods to tamper for the same thing!
+:::
+
+## Inspecting Webpack Config
+Quasar CLI offers a useful command for this:
+
+```bash
+$ quasar inspect -h
+
+  Description
+    Inspect Quasar generated Webpack config
+
+  Usage
+    $ quasar inspect
+    $ quasar inspect -c build
+    $ quasar inspect -m electron -p 'module.rules'
+
+  Options
+    --cmd, -c        Quasar command [dev|build] (default: dev)
+    --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --depth, -d      Number of levels deep (default: 5)
+    --path, -p       Path of config in dot notation
+                        Examples:
+                          -p module.rules
+                          -p plugins
+    --help, -h       Displays this message
+```
 
 ## Webpack Aliases
-Quasar comes with a bunch of useful Webpack aliases preconfigured.
-You can use them anywhere in your project and webpack will resolve the correct path. If you want to add you own alias, se the section about [adding your own alias to Webpack](/quasar-cli/cli-documentation/quasar-conf-js#Adding-you-own-alias-to-Webpack).
+Quasar comes with a bunch of useful Webpack aliases preconfigured. You can use them anywhere in your project and webpack will resolve the correct path.
 
 | Alias | Resolves to |
 | --- | --- |
@@ -53,12 +86,54 @@ You can use them anywhere in your project and webpack will resolve the correct p
 | `boot` | /src/boot |
 | `quasar-variables` | /.quasar/variables.styl |
 
-Also if you configure to build with the Vue compiler version (build > vueCompiler: true), `vue$` resolves to  `vue/dist/vue.esm.js`.
+Also if you configure to build with the Vue compiler version (quasar.conf > build > vueCompiler: true), `vue$` resolves to  `vue/dist/vue.esm.js`.
 
-## Webpack Loaders
+### Adding Webpack aliases
+
+To add your own alias you can extend the webpack config and merge it with the existing alias.
+Use the `path.resolve` helper to resolve the path to your intended alias.
+
+```js
+// quasar.conf.js
+const path = require('path')
+
+module.exports = function (ctx) {
+  return {
+    build: {
+      extendWebpack (cfg, { isServer, isClient }) {
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias, // This adds the existing alias
+
+          // Add your own alias like this
+          myalias: path.resolve(__dirname, './src/somefolder'),
+        }
+      }
+    }
+  }
+}
+```
+
+Equivalent with chainWebpack():
+```js
+// quasar.conf.js
+const path = require('path')
+
+module.exports = function (ctx) {
+  return {
+    build: {
+      chainWebpack (chain, { isServer, isClient }) {
+        chain.resolve.alias
+          .set('myalias', path.resolve(__dirname, './src/somefolder'))
+      }
+    }
+  }
+}
+```
+
+## Webpack loaders
 The build system uses Webpack, so it relies on using webpack loaders to handle different types of files (js, css, styl, scss, json, and so on). By default, the most used loaders are provided by default.
 
-### Installing loaders:
+### Installing loaders
 Let's take an example. You want to be able to import `.json` files. **Out of the box, Quasar supplies json support so you don't actually need to follow these steps, but for the sake of demonstrating how to add a loader, we'll pretend Quasar doesn't offer it.**
 
 So, you need a loader for it. You search Google to see what webpack loader you need. In this case, it's "json-loader". We first install it:
@@ -99,7 +174,7 @@ build: {
 
 And you're done.
 
-## SASS/SCSS support
+### SASS/SCSS
 So you want to be able to write SASS/SCSS CSS code. You need a loader for it. We first install it. Note that for this particular case you also need to install node-sass because sass-loader depends on it as a peer dependency.
 
 ``` bash
@@ -123,13 +198,13 @@ A note on SASS syntax:
 * lang="scss" corresponds to the CSS-superset syntax (with curly braces and semicolons).
 * lang="sass" corresponds to the indentation-based syntax.
 
-## PostCSS
+### PostCSS
 
 Styles in `*.vue` files (and all other style files) are piped through PostCSS by default, so you don't need to use a specific loader for it.
 
 By default, PostCSS is configured to use Autoprefixer. Take a look at `/.postcssrc.js` where you can tweak it if you need to.
 
-## Pug
+### Pug
 First, you need to install some dependencies:
 
 ```bash
@@ -164,7 +239,7 @@ build: {
 }
 ```
 
-## Coffeescript
+### Coffeescript
 If you are using Coffeescript then you need to EITHER disable ESLint OR tell ESLint which Vue components are using Coffeescript.
 
 Note that `vue-loader` uses `lang="coffee"` to identify components which are using Coffeescript, but `lang="coffee"` is not recognizable for ESLint. Fortunately, ESLint (following traditional HTML) uses `type="xxx"` to identify the type of scripts. As long as a `<script>` tag has any `type` other than `javascript`, ESLint would mark the script as non-javascript, and skips linting it. Coffeescript's convention is to use `type="text/coffeescript"` to identify itself. Therefore, in your Vue components which are using Coffeescript, using both `lang` and `type` to avoid ESLint warnings:

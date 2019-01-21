@@ -1,83 +1,59 @@
 ---
-title: Docs
+title: Ajax Requests
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+> Quasar recommends Axios during project initialization: `Use Axios for Ajax calls? (Y/n)`
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
+Then you should create a new boot file `axios.js` that looks like this:
+(Here you can also specify additional settings for your axios instance)
 ```
-const m = 'lala'
-```
+import axios from 'axios'
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
+export default ({app, router, Vue}) => {
+  Vue.prototype.$axios = axios
+  // ^ ^ ^ this will allow you to use this.$axios
+  //       so you won't necessarily have to import axios in each vue file
 }
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
 ```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
 
 ::: tip
-Some tip
+Be sure to check out [Prefetch Feature](/quasar-cli/cli-documentation/prefetch-feature) if you are using Quasar CLI.
 :::
 
-::: warning
-Some tip
-:::
+Usage in your single file components methods will be like:
+```
+methods: {
+  loadData () {
+    this.$axios.get('/api/backend')
+      .then((response) => {
+        this.data = response.data
+      })
+      .catch(() => {
+        this.$q.notify({
+          color: 'negative',
+          position: 'top',
+          message: 'Loading failed',
+          icon: 'report_problem'
+        })
+      })
+  },
+```
 
-::: danger
-Some tip
-:::
+Usage in Vuex Actions for globally adding headers to axios (such as during authentication):
+```
+import axios from 'axios'
 
-::: warning CUSTOM TITLE
-Some tip
-:::
+export function register ({commit}, form) {
+  return axios.post('api/auth/register', form)
+    .then(response => {
+      commit('login', {token: response.data.token, user: response.data.user})
+      setAxiosHeaders(response.data.token)
+    })
+}
 
-* Something
-  * something
-  * else
-* Back
-  * wee
+function setAxiosHeaders (token) {
+  axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+}
+```
 
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+Also look at [Axios docs](https://github.com/axios/axios) for more information.
