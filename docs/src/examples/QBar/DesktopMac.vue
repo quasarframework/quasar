@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-
+  <div class="q-pa-md q-gutter-sm" ref="wrapper">
+    <q-resize-observer @resize="resize" />
     <p>Maximized</p>
     <q-bar class="q-ml-md my-bar" >
       <q-btn dense flat icon="fab fa-apple" />
@@ -11,12 +11,17 @@
       <div>Window</div>
       <div>Help</div>
       <q-space />
-      <q-btn dense flat icon="airplay" />
-      <q-btn dense flat icon="battery_charging_full" />
-      <q-btn dense flat icon="wifi" />
-      <div>Mon 9:41 AM</div>
-      <q-btn dense flat icon="search" />
-      <q-btn dense flat icon="list" />
+      <template v-if="small">
+        <q-btn dense flat icon="more_vert" />
+      </template>
+      <template v-else>
+        <q-btn dense flat icon="airplay" />
+        <q-btn dense flat icon="battery_charging_full" />
+        <q-btn dense flat icon="wifi" />
+        <div>Mon 9:41 AM</div>
+        <q-btn dense flat icon="search" />
+        <q-btn dense flat icon="list" />
+      </template>
     </q-bar><br />
 
     <p>Dark Maximized</p>
@@ -29,12 +34,17 @@
       <div>Window</div>
       <div>Help</div>
       <q-space />
-      <q-btn dense flat icon="airplay" />
-      <q-btn dense flat icon="battery_charging_full" />
-      <q-btn dense flat icon="wifi" />
-      <div>Mon 9:41 AM</div>
-      <q-btn dense flat icon="search" />
-      <q-btn dense flat icon="list" />
+      <template v-if="small">
+        <q-btn dense flat icon="more_vert" />
+      </template>
+      <template v-else>
+        <q-btn dense flat icon="airplay" />
+        <q-btn dense flat icon="battery_charging_full" />
+        <q-btn dense flat icon="wifi" />
+        <div>Mon 9:41 AM</div>
+        <q-btn dense flat icon="search" />
+        <q-btn dense flat icon="list" />
+      </template>
     </q-bar><br />
 
     <p>Window</p>
@@ -59,12 +69,22 @@
 export default {
   data () {
     return {
+      small: false
+    }
+  },
+  methods: {
+    resize () {
+      this.small = this.$refs.wrapper.offsetWidth < 750
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.q-bar {
+    white-space: nowrap;
+    overflow: hidden;
+}
 .my-bar-dark {
   background: #313233;
   color: white;

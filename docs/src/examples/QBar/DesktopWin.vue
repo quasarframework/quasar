@@ -38,7 +38,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.q-bar {
+  overflow: hidden;
+}
 .my-bar div:not(.q-btn__content),
 .my-bar-dark div:not(.q-btn__content) {
   cursor: pointer;
