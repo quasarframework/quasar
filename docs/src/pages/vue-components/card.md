@@ -22,11 +22,15 @@ The QCard component is intentionally lightweight and essentially a containing el
 
 <doc-example title="Flat & Bordered Accordion with Popup Menu" file="QCard/Accordion" />
 
-## API
+## QCard API
 
 <doc-api file="QCard" />
 
+## QCardSection API
+
 <doc-api file="QCardSection" />
+
+## QCardActions API
 
 <doc-api file="QCardActions" />
 
