@@ -12,6 +12,7 @@ Also check its “sibling”, the [Range](/vue-components/range) component.
 <doc-example title="Standard" file="QSlider/Standard" />
 
 You can define step to enforce
+
 <doc-example title="With Step" file="QSlider/Step" />
 
 ::: warning IMPORTANT
@@ -19,16 +20,25 @@ Make sure you choose the `min`, `max` and `step` value correctly. `step` must be
 :::
 
 `step` can also be floating point number or 0 if you need infinite precision.
+
 <doc-example title="Floating Point" file="QSlider/FloatingPoint" />
 
 Move the slider to see the label
+
 <doc-example title="With Label" file="QSlider/Label" />
+
 <doc-example title="Snaps to Steps" file="QSlider/Snap" />
+
 <doc-example title="Markers" file="QSlider/Markers" />
+
 <doc-example title="Display Label Always" file="QSlider/LabelAlways" />
+
 <doc-example title="Dark" file="QSlider/Dark" dark />
+
 <doc-example title="Readonly" file="QSlider/Readonly" />
+
 <doc-example title="Disable" file="QSlider/Disable" />
+
 <doc-example title="In a List" file="QSlider/List" />
 
 ## API

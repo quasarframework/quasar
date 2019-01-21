@@ -15,8 +15,11 @@ The `size` property will determine the height and the width of the Avatar. The `
 :::
 
 <doc-example title="Basic" file="QAvatar/Basic" />
+
 <doc-example title="Square" file="QAvatar/Square" />
+
 <doc-example title="Rounded" file="QAvatar/Rounded" />
+
 <doc-example title="With other components" file="QAvatar/Integrated" />
 
 ## API

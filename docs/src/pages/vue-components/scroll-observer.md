@@ -8,6 +8,7 @@ QScrollObserveer is a Quasar component that emits a `scroll` event whenever the 
 
 ## Usage
 Scroll this page to see the example below in action.
+
 <doc-example title="Basic" file="QScrollObserver/Basic" />
 
 ## Determining Scrolling Container

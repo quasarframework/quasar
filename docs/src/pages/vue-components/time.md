@@ -23,11 +23,13 @@ The QTime component provides a method to input time.
 ::: tip
 You can use the `hour-options`, `minute-options` and `second-options` properties to disable certain times from being selected.
 :::
+
 <doc-example title="Options (properties)" file="QTime/OptionsProperties" />
 
 ::: tip
 You can use the `options` property with a function to disable certain times from being selected.
 :::
+
 <doc-example title="Options (function)" file="QTime/OptionsFunction" />
 
 <doc-example title="Now Button" file="QTime/NowBtn" />
@@ -41,6 +43,7 @@ You can use the `options` property with a function to disable certain times from
 ::: tip
 The second example below uses the `with-seconds` and `format24h` properties.
 :::
+
 <doc-example title="Input" file="QTime/Input" />
 
 ## API

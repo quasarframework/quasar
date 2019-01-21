@@ -17,9 +17,8 @@
     )
       q-tooltip Copy to Clipboard
 
-  .absolute(
+  .absolute.text-grey(
     v-else
-    class="text-grey"
     style="top: 8px; right: 8px;"
   ) {{ lang }}
 
@@ -96,12 +95,12 @@ export default {
 
 .doc-code
   font-size 12px
-  margin 16px 0
+  margin 16px 0 !important
 
   > pre
     border-radius $generic-border-radius !important
     margin 0 !important
 
 .q-tab-panel .doc-code
-  margin 0
+  margin 0 !important
 </style>

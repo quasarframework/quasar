@@ -31,6 +31,7 @@ When the user hits the phone/tablet back button (only for Cordova apps), the Dia
 Dialogs can contain any content. Some examples:
 
 <doc-example title="Various Content" file="QDialog/VariousContent" />
+
 <doc-example title="With Containerized QLayout" file="QDialog/Layout" />
 
 ### Handling Scroll
@@ -38,17 +39,21 @@ Dialogs can contain any content. Some examples:
 
 ### Different Modes
 User cannot dismiss the Dialog by pressing ESCAPE key or by clicking/tapping on its backdrop.
+
 <doc-example title="Persistent" file="QDialog/Persistent" />
 
 Dialogs can also be a part of the page, without requiring immediate focus. It's where "seamless" mode comes into play:
+
 <doc-example title="Seamless" file="QDialog/Seamless" />
 
 ### Dialog in Dialog
 You are able to open dialogs on top of other dialogs, with infinite number of depth levels.
+
 <doc-example title="Inception" file="QDialog/Inception" />
 
 ### Sizing
 You are able to customize the size of the Dialogs. Notice we either tamper with the content's style or we use `full-width` or `full-height` props:
+
 <doc-example title="Sizing examples" file="QDialog/Sizing" />
 
 ## API
