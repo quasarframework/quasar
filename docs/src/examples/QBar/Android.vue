@@ -39,7 +39,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .android .q-bar{
   overflow: hidden;
   max-width: 400px;
