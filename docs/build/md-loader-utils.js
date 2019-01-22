@@ -3,6 +3,18 @@ const
   toml = require('toml'),
   LRU = require('lru-cache')
 
+function getComponentsImport (comp) {
+  return comp.map(c => `import ${c[0]} from 'components/page-parts/${c[1]}'\n`).join('')
+}
+
+function getComponentsDeclaration (comp) {
+  return 'components: {' + comp.map(c => c[0]).join(',') + '},'
+}
+
+function getData (data) {
+  return `data () { return ${JSON.stringify(data)} },`
+}
+
 module.exports.getVueComponent = function (rendered, data, toc) {
   return `
     <template>
@@ -10,6 +22,7 @@ module.exports.getVueComponent = function (rendered, data, toc) {
     </template>
     <script>
     import { copyHeading } from 'assets/page-utils'
+    ${data.components !== void 0 ? getComponentsImport(data.components) : ''}
     export default {
       meta: {
         title: \`${data.title}\`
@@ -17,6 +30,8 @@ module.exports.getVueComponent = function (rendered, data, toc) {
       preFetch ({ store }) {
         store.commit('updateToc', ${toc})
       },
+      ${data.data !== void 0 ? getData(data.data) : ''}
+      ${data.components !== void 0 ? getComponentsDeclaration(data.components) : ''}
       methods: {
         copyHeading
       }
