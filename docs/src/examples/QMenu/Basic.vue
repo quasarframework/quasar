@@ -70,7 +70,7 @@
     </div>
     <div class="row justify-between">
 
-      <q-btn color="tertiary" label="Fit Menu" style="width: 280px;">
+      <q-btn color="accent" label="Fit Menu" style="width: 280px;">
         <q-menu
           fit
         >

@@ -80,8 +80,8 @@ const style = [
     path: 'color-palette'
   },
   {
-    name: 'Theming',
-    path: 'theming'
+    name: 'Theme Builder',
+    path: 'theme-builder'
   },
   {
     name: 'Spacing',
@@ -592,10 +592,6 @@ const cli = [
       {
         name: 'Vuex Store',
         path: 'vuex-store'
-      },
-      {
-        name: 'Theming',
-        path: 'theming'
       },
       {
         name: 'Linter',

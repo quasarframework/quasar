@@ -4,11 +4,19 @@ const
   LRU = require('lru-cache')
 
 function getComponentsImport (comp) {
-  return comp.map(c => `import ${c[0]} from 'components/page-parts/${c[1]}'\n`).join('')
+  return comp.map(c => {
+    const parts = c.split('/')
+    return `import ${parts[parts.length - 1]} from 'components/page-parts/${c}.vue'\n`
+  }).join('')
 }
 
 function getComponentsDeclaration (comp) {
-  return 'components: {' + comp.map(c => c[0]).join(',') + '},'
+  const list = comp.map(c => {
+    const parts = c.split('/')
+    return parts[parts.length - 1]
+  }).join(',')
+
+  return `components: { ${list} },`
 }
 
 function getData (data) {

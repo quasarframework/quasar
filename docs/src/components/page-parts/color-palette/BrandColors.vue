@@ -18,7 +18,7 @@ export default {
       brandColors: [
         'primary',
         'secondary',
-        'tertiary',
+        'accent',
         'positive',
         'negative',
         'info',
