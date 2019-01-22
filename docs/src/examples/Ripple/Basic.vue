@@ -12,7 +12,7 @@
 
 <script>
 const colors = [
-  'primary', 'amber', 'secondary', 'orange', 'tertiary',
+  'primary', 'amber', 'secondary', 'orange', 'accent',
   'lime', 'cyan', 'purple', 'brown', 'blue'
 ]
 

@@ -77,7 +77,7 @@ const objectOptions = [
   },
   {
     label: 'Tertiary',
-    value: 'tertiary'
+    value: 'accent'
   },
   {
     label: 'Positive',

@@ -29,6 +29,8 @@ export default Vue.extend({
       default: () => uid()
     },
 
+    noCaps: Boolean,
+
     tabindex: String,
     disable: Boolean
   },
@@ -44,7 +46,7 @@ export default Vue.extend({
         [`text-${this.tabs.activeColor}`]: this.isActive && this.tabs.activeColor,
         [`bg-${this.tabs.activeBgColor}`]: this.isActive && this.tabs.activeBgColor,
         'q-tab--full': this.icon && this.label && !this.tabs.inlineLabel,
-        'q-tab--no-caps': this.tabs.noCaps,
+        'q-tab--no-caps': this.noCaps === true || this.tabs.noCaps === true,
         'q-focusable q-hoverable cursor-pointer': !this.disable,
         disabled: this.disable
       }
