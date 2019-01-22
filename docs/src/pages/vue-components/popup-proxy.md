@@ -1,83 +1,27 @@
 ---
-title: Docs
+title: Popup Proxy
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+QPopupProxy should be used when you want need either a [QMenu](/vue-components/menu) or a [QDialog](/vue-components/dialog) to be displayed as a result of device type/dimension. QPopupProxy also handles context-menus for both larger and smaller screens.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+> Use your browsers development tools to toggle the device between mobile or desktop. Or, physically resize your browser's window to watch the QPopupProxy compnent switch between either a menu or a dialog whan a click event is fired. The default breakpoint is currently set at 450px. Changing this breakpoint value will be demostrated in an example below.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QProxyPopup" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+<doc-example title="Standard Menu" file="QPopupProxy/StandardMenuDialog" />
+<doc-example title="Context Menu" file="QPopupProxy/ContextMenuDialog" />
+<doc-example title="Menu Initial Shown" file="QPopupProxy/Value" />
+<doc-example title="Breakpoint @850px" file="QPopupProxy/Breakpoint" />
+<doc-example title="Disable" file="QPopupProxy/Disable" />
 
-## API
-<doc-api file="QTh" />
+::: tip
+Keep in mind that all props from both [QMenu](/vue-components/menu) & [QDialog](/vue-components/dialog) are pass through via this component. So the prop `:offset` or `transition-show` for example can be used in conjuction with the component.
+:::
+
+## Pass Through Props
+
+<doc-example title="Props from QMenu or QDialog" file="QPopupProxy/PassThroughProps" />
+
+<doc-api file="QPopupProxy" />
