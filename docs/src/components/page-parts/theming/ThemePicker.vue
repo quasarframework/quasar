@@ -1,8 +1,8 @@
-<template>
-  <div id="theme-picker">
-    <div class="row items-stretch">
-      <div class="column q-gutter-md">
-        <q-btn
+<template lang="pug">
+  #theme-picker
+    .row.items-stretch
+      .column.q-gutter-md
+        q-btn(
           v-for="color in list"
           :key="`picker-${color}`"
           :color="color"
@@ -10,120 +10,92 @@
           no-caps
           glossy
           unelevated
-        >
-          <div class="text-subtitle1 text-capitalize">
-            {{ color }}
-            <div class="text-body2">{{ colors[color] }}</div>
-          </div>
+        )
+          .text-body1.text-capitalize
+            | {{ color }}
+            .text-body2 {{ colors[color] }}
 
-          <q-menu anchor="top left" self="top left">
-            <q-color v-model="colors[color]" />
-          </q-menu>
-        </q-btn>
-      </div>
+          q-menu(anchor="top left", self="top left")
+            q-color(v-model="colors[color]")
 
-      <div class="col q-pl-md">
-        <div class="relative-position fit generic-border-radius shadow-2 bg-white overflow-hidden">
-          <div :class="`bg-primary text-${dark.primary === true ? 'white' : 'black'} shadow-2`">
-            <q-bar dense :dark="dark.primary">
-              <q-space />
-              <q-icon name="fas fa-square" class="q-mr-xs" size="12px" style="opacity: 0.5" />
-              <q-icon name="fas fa-circle" class="q-mr-xs" size="12px" style="opacity: 0.5" />
-              <q-icon name="fas fa-play" class="q-mr-sm rotate-90" size="12px" style="opacity: 0.5" />
-            </q-bar>
+      .col.q-pl-md
+        .relative-position.fit.generic-border-radius.shadow-2.bg-white.overflow-hidden
+          div(:class="`bg-primary text-${dark.primary === true ? 'white' : 'black'} shadow-2`")
+            q-bar(dense, :dark="dark.primary")
+              q-space
+              q-icon.q-mr-xs(name="fas fa-square", size="12px", style="opacity: 0.5")
+              q-icon.q-mr-xs(name="fas fa-circle", size="12px", style="opacity: 0.5")
+              q-icon.q-mr-sm.rotate-90(name="fas fa-play", size="12px", style="opacity: 0.5")
 
-            <q-toolbar>
-              <q-btn flat dense round icon="arrow_back" />
-              <q-space />
-              <q-btn flat dense round icon="search" />
-              <q-btn flat dense round icon="menu" />
-            </q-toolbar>
-            <q-toolbar inset>
-              <q-toolbar-title>
-                Quasar
-              </q-toolbar-title>
-            </q-toolbar>
-          </div>
+            q-toolbar
+              q-btn(flat, dense, round, icon="arrow_back")
+              q-space
+              q-btn(flat, dense, round, icon="search")
+              q-btn(flat, dense, round, icon="menu")
 
-          <div class="q-px-md q-py-lg">
-            <div class="row q-col-gutter-md">
-              <div
-                class="col-4"
+            q-toolbar(inset)
+              q-toolbar-title Quasar
+
+          .q-px-md.q-py-lg
+            .row.q-col-gutter-md
+              .col-4(
                 v-for="color in sideColors"
                 :key="`card-${color}`"
-              >
-                <q-card flat :class="`bg-${color} text-${dark[color] === true ? 'white' : 'black'}`">
-                  <q-card-section>
-                    <div class="text-h6 row no-wrap">
-                      <div class="ellipsis text-capitalize">{{ color }}</div>
-                      <q-space />
-                      <q-icon
+              )
+                q-card(flat, :class="`bg-${color} text-${dark[color] === true ? 'white' : 'black'}`")
+                  q-card-section
+                    .text-h6.row.no-wrap
+                      .ellipsis.text-capitalize {{ color }}
+                      q-space
+                      q-icon(
                         v-if="color !== 'secondary'"
                         :name="$q.icon.type[color]"
                         size="24px"
-                      />
-                    </div>
-                  </q-card-section>
-                  <q-card-section>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  </q-card-section>
-                </q-card>
-              </div>
-            </div>
+                      )
 
-            <q-btn
+                  q-card-section Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+
+            q-btn(
               fab
               icon="map"
               color="accent"
               :text-color="dark.accent === true ? 'white' : 'black'"
               class="absolute"
               style="bottom: 16px; right: 16px"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+            )
 
-    <q-separator class="q-mt-lg q-mb-sm" />
+    q-separator.q-mt-lg.q-mb-sm
 
-    <div class="col-12 row items-center justify-end q-gutter-md">
-      <q-btn color="black" label="Export" @click="exportDialog = true" />
-    </div>
+    .col-12.row.items-center.justify-end.q-gutter-md
+      q-btn(color="black", label="Export", @click="exportDialog = true")
 
-    <q-dialog v-model="exportDialog">
-      <q-card>
-        <q-tabs class="text-teal" v-model="exportTab" align="justify">
-          <q-tab name="styl" no-caps label="quasar.variables.styl" />
-          <q-tab name="quasar-cli" no-caps label="Quasar CLI" />
-          <q-tab name="umd" no-caps label="UMD" />
-          <q-tab name="vue-cli" no-caps label="Vue CLI" />
-        </q-tabs>
+    q-dialog(v-model="exportDialog")
+      q-card
+        q-tabs.text-teal(v-model="exportTab", align="justify")
+          q-tab(name="styl", no-caps, label="quasar.variables.styl")
+          q-tab(name="quasar-cli", no-caps, label="Quasar CLI")
+          q-tab(name="umd", no-caps, label="UMD")
+          q-tab(name="vue-cli", no-caps, label="Vue CLI")
 
-        <q-separator />
+        q-separator
 
-        <q-tab-panels v-model="exportTab" animated>
-          <q-tab-panel name="styl">
-            <doc-code copy>{{ stylusExport }}</doc-code>
-          </q-tab-panel>
-          <q-tab-panel name="quasar-cli">
-            <doc-code copy>{{ quasarCliExport }}</doc-code>
-          </q-tab-panel>
-          <q-tab-panel name="umd">
-            <doc-code copy>{{ umdExport }}</doc-code>
-          </q-tab-panel>
-          <q-tab-panel name="vue-cli">
-            <doc-code copy>{{ vueCliExport }}</doc-code>
-          </q-tab-panel>
-        </q-tab-panels>
+        q-tab-panels(v-model="exportTab", animated)
+          q-tab-panel(name="styl")
+            doc-code(copy) {{ stylusExport }}
 
-        <q-separator />
+          q-tab-panel(name="quasar-cli")
+            doc-code(copy) {{ quasarCliExport }}
 
-        <q-card-actions align="right">
-          <q-btn color="white" text-color="teal" flat label="Close" v-close-dialog />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-  </div>
+          q-tab-panel(name="umd")
+            doc-code(copy) {{ umdExport }}
+
+          q-tab-panel(name="vue-cli")
+            doc-code(copy) {{ vueCliExport }}
+
+        q-separator
+
+        q-card-actions(align="right")
+          q-btn(color="white", text-color="teal", flat, label="Close", v-close-dialog)
 </template>
 
 <script>
