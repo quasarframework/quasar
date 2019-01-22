@@ -6,7 +6,7 @@
 
     <q-linear-progress :value="progress" :buffer="buffer" color="secondary" class="q-mt-sm" />
 
-    <q-linear-progress :value="progress" :buffer="buffer" color="tertiary" class="q-mt-sm" />
+    <q-linear-progress :value="progress" :buffer="buffer" color="accent" class="q-mt-sm" />
 
     <q-linear-progress :value="progress" :buffer="buffer" color="purple" track-color="orange" class="q-mt-sm" />
 

@@ -6,7 +6,7 @@
 
     <q-linear-progress rounded style="height: 15px" :value="progress" color="secondary" class="q-mt-sm" />
 
-    <q-linear-progress style="height: 25px" :value="progress" color="tertiary" class="q-mt-sm" />
+    <q-linear-progress style="height: 25px" :value="progress" color="accent" class="q-mt-sm" />
   </div>
 </template>
 

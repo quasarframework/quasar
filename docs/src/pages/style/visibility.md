@@ -77,8 +77,6 @@ Hide on:
 | `platform-android-hide` | Hide on Android platform |
 | `within-iframe-hide` | Hide only when entire website is under an IFRAME tag |
 
-Also check [Theming](/style/theming) for Platform Specific Styles.
-
 ::: tip
 Based on your needs, you might want to also check [Platform Detection](/options/platform-detection) page to see how you can achieve the same effect using Javascript. This latter method allows you to not even render a DOM element or component. It is useful when the rendering process is expensive.
 :::

@@ -51,7 +51,7 @@ This is only supported on [browsers that support CSS Variables](https://caniuse.
 It is not going to work on IE11, but it will fall back to the brand colors from the CSS theme.
 :::
 
-You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `tertiary`, `positive`, `negative`, `info`, `warning`, `light`, `dark`, `faded`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
+You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `accent`, `positive`, `negative`, `info`, `warning`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
 
 The main color configuration is done using CSS custom properties, stored on the root element (`:root`). Each property has a name of `--q-color-${name}` (example: `--q-color-primary`, `--q-color-secondary`) and should have a valid CSS color as value.
 
@@ -66,7 +66,7 @@ Quasar offers a helper function for setting custom colors in the `colors` utils:
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `colorName` | String | *Yes* | One of `primary`, `secondary`, `tertiary`, `positive`, `negative`, `info`, `warning`, `light`, `dark`, `faded` |
+| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `positive`, `negative`, `info`, `warning` |
 | `colorValue` | String | *Yes* | Valid CSS color value |
 | `element` | Element | - | (Default: `document.body`) Element where the custom property will be set. |
 
@@ -75,19 +75,19 @@ Example of setting brand colors using the helper:
 ```js
 import { colors } from 'quasar'
 
-colors.setBrand('light', '#DDD')
+colors.setBrand('info', '#DDD')
 colors.setBrand('primary', '#33F')
 colors.setBrand('primary', '#F33', document.getElementById('rebranded-section-id'))
 ```
 
-The helper function will also take care of setting dependent custom properties for some colors (`positive`, `negative`, `light`), so this is the recommended way of usage instead of the raw Javascript `setProperty()`.
+The helper function will also take care of setting dependent custom properties for brand colors, so this is the recommended way of usage instead of the raw Javascript `setProperty()`.
 
 ### Helper - getBrand
 Quasar offers a helper function for getting custom colors in the `colors` utils: `getBrand(colorName[, element])`
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `colorName` | String | *Yes* | One of `primary`, `secondary`, `tertiary`, `positive`, `negative`, `info`, `warning`, `light`, `dark`, `faded` |
+| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `positive`, `negative`, `info`, `warning` |
 | `element` | Element | - | (Default: `document.body`) Element where the custom property will be read. |
 
 Example of getting brand colors using the helper:

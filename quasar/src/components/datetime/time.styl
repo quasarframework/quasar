@@ -7,7 +7,8 @@
   &__header
     border-top-left-radius inherit
     color white
-    background $primary
+    background-color $primary
+    background-color var(--q-color-primary)
     padding 16px
     font-weight 300
 
@@ -71,6 +72,7 @@
     right 0
     bottom 0
     color $primary
+    color var(--q-color-primary)
     background currentColor
     transform translate3d(-50%, 0, 0)
 
@@ -106,7 +108,8 @@
       opacity .4
 
     &--active
-      background $primary
+      background-color $primary
+      background-color var(--q-color-primary)
       color white
 
   for $pos in 0..11
@@ -130,7 +133,8 @@
     left round(15% + ((1 + cos(270deg)) * 70%) / 2, 2) /* rtl:ignore */
 
   &__now-button
-    background $primary
+    background-color $primary
+    background-color var(--q-color-primary)
     color white
 
   &__event
@@ -140,7 +144,8 @@
     height 5px
     width 10px
     border-radius 5px
-    background $secondary
+    background-color $secondary
+    background-color var(--q-color-secondary)
     transform translate3d(-50%, 0, 0)
 
   &.disabled, &--readonly
