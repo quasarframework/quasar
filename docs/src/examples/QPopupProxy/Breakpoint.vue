@@ -1,13 +1,22 @@
 <template>
   <div class="q-pa-md">
-    <div style="width: 150px" class="q-pa-sm text-center text-subtitle2 shadow-1">
-      Handles Click
-      <q-popup-proxy :breakpoint="850">
-        <q-banner>
-            <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
-            You have lost connection to the internet. This app is offline.
-          </q-banner>
-      </q-popup-proxy>
-    </div>
+    <q-input filled v-model="input" mask="date" :rules="['date']">
+      <q-icon slot="append" name="event" class="cursor-pointer">
+        <q-popup-proxy :breakpoint="600">
+          <q-date v-model="input" filled />
+        </q-popup-proxy>
+      </q-icon>
+    </q-input>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      input: '',
+      date: '2018/11/03'
+    }
+  }
+}
+</script>
