@@ -49,7 +49,7 @@ When enabled (through `quasar.conf > framework > cssAddon: true`) it provides br
 .q-my-<bp>-form
 ```
 
-Examples: `q-pa-xs q-pa-sm-sm q-px-md-lg q-py-md-md`
+Examples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`
 
 ::: tip
 See more details about the [Flex Addons](/layout/flex-css-grid#Flex-Addons).

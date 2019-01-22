@@ -1,27 +1,21 @@
 ---
 title: Color Palette
+components:
+  - [BrandColors, color-palette/BrandColors.vue]
+  - [ColorList, color-palette/ColorList.vue]
 ---
 Quasar Framework offers a wide selection of colors out of the box. You can use them both as Stylus variables in your CSS code or directly as CSS classes in your HTML templates.
 
 ## Brand Colors
-There can be three main colors used throughout your App, called `primary`, `secondary` and `tertiary`.
-
 Most of the colors that Quasar Components use are strongly linked with these three colors that you can change. Choosing these colors is the first step one should take when differentiating the design of an App. You'll notice immediately upon changing their default values that Quasar Components follow these colors as a guideline.
+
+<brand-colors />
 
 ## Color List
 
-Here's the list of colors provided out of the box. Use them as CSS classes (in HTML templates) or as Stylus variables (in `<style lang="stylus">` tags) within your app's `*.vue` files.
+Here's the list of colors provided out of the box. Within your app's `*.vue` files you can use them as CSS classes (in HTML templates) or as Stylus variables (in `<style lang="stylus">` tags -- don't forget to also `@import '~quasar-variables'`).
 
-`primary`, `secondary`, `tertiary`
-`positive`, `negative`, `info`, `warning`, `white`, `black`, `light`, `dark`, `faded`
-
- Colors come in the following preset hues:
-`red`, `pink`, `purple`, `deep-purple`, `indigo`, `blue`, `light-blue`, `cyan`, `teal`, `green`, `light-green`, `lime`, `yellow`, `amber`, `orange`, `deep-orange`, `brown`, `grey`, `blue-grey`
-
-Example of color variation: `red`, `red-1`, `red-2`, ..., `red-14`. Variation 11 to 14 are color accents.
-
-<doc-example title="Color Palette" file="ColorPalette/Standard" scrollable />
-
+<color-list />
 
 ## Using as CSS Classes
 Use `text-` or `bg-` prefixes as class names to change the color of text or the color of the background.
@@ -63,7 +57,7 @@ If you want to use your own colors for your components (let's say we are adding 
 
 Now we can use this color for Quasar components:
 ```html
-<q-input color="brand" ... />
+<q-btn color="brand" ... />
 ```
 
 
@@ -74,7 +68,7 @@ This is only supported on [browsers that support CSS Variables](https://caniuse.
 It is not going to work on IE11, but it will fall back to the brand colors from the CSS theme.
 :::
 
-You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `tertiary`, `positive`, `negative`, `info`, `warning`, `light`, `dark`, `faded`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
+You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `tertiary`, `positive`, `negative`, `info`, `warning`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
 
 The main color configuration is done using CSS custom properties, stored on the root element (`:root`). Each property has a name of `--q-color-${name}` (example: `--q-color-primary`, `--q-color-secondary`) and should have a valid CSS color as value.
 
@@ -89,7 +83,7 @@ Quasar offers a helper function for setting custom colors in the `colors` utils:
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `colorName` | String | *Yes* | One of `primary`, `secondary`, `tertiary`, `positive`, `negative`, `info`, `warning`, `light`, `dark`, `faded` |
+| `colorName` | String | *Yes* | One of `primary`, `secondary`, `tertiary`, `positive`, `negative`, `info`, `warning` |
 | `colorValue` | String | *Yes* | Valid CSS color value |
 | `element` | Element | - | (Default: `document.body`) Element where the custom property will be set. |
 
@@ -103,14 +97,16 @@ colors.setBrand('primary', '#33F')
 colors.setBrand('primary', '#F33', document.getElementById('rebranded-section-id'))
 ```
 
-> The helper function will also take care of setting dependent custom properties for some colors (`positive`, `negative`, `light`), so this is the recommended way of usage instead of the raw Javascript `setProperty()`.
+::: warning
+The helper function will also take care of setting dependent custom properties for the brand colors, so this is the recommended way of usage instead of the raw Javascript `setProperty()`.
+:::
 
 ### Helper - getBrand
 Quasar offers a helper function for setting custom colors in the `colors` utils: `getBrand(colorName[, element])`
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `colorName` | String | *Yes* | One of `primary`, `secondary`, `tertiary`, `positive`, `negative`, `info`, `warning`, `light`, `dark`, `faded` |
+| `colorName` | String | *Yes* | One of `primary`, `secondary`, `tertiary`, `positive`, `negative`, `info`, `warning` |
 | `element` | Element | - | (Default: `document.body`) Element where the custom property will be read. |
 
 Example of getting brand colors using the helper:
@@ -155,6 +151,7 @@ return {
 This is especially useful when you use the Quasar UMD version, where you would place the global `quasarConfig` Object before your Quasar script tag.
 
 ```html
+// for Quasar UMD
 <script>
   // optional
   window.quasarConfig = {
