@@ -38,7 +38,7 @@ export default Vue.extend({
   methods: {
     __update (percentage) {
       this.percentScrolled = percentage
-      this.$emit('scroll', percentage)
+      this.$listeners.scroll !== void 0 && this.$emit('scroll', percentage)
     },
 
     __onResize () {
@@ -87,18 +87,20 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-parallax__media absolute-full'
       }, [
-        this.$slots.media || h('img', {
-          ref: 'media',
-          attrs: {
-            src: this.src
-          }
-        })
+        this.$slots.media !== void 0
+          ? this.$slots.media
+          : h('img', {
+            ref: 'media',
+            attrs: {
+              src: this.src
+            }
+          })
       ]),
 
       h(
         'div',
         { staticClass: 'q-parallax__content absolute-full column flex-center' },
-        this.$scopedSlots.content
+        this.$scopedSlots.content !== void 0
           ? [ this.$scopedSlots.content({ percentScrolled: this.percentScrolled }) ]
           : this.$slots.default
       )
