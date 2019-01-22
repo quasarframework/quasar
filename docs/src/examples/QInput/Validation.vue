@@ -11,7 +11,7 @@
     </q-card>
     <q-card class="col-xs-12 col-sm-5 col-lg-3 col-xl-2 q-pa-md">
       <q-checkbox v-model="error">Error</q-checkbox>
-      <q-input label="Manual error state" :error="error" error-message="You have set this input to error" v-model="value" />
+      <q-input label="Manual error state" :error="error" bottom-slots error-message="You have set this input to error" v-model="value" />
     </q-card>
     <q-card class="col-xs-12 col-sm-5 col-lg-3 col-xl-2 q-pa-md">
       <q-input label="Lazy rules" :rules="[val => val.length > 0 || 'Please provide some input' ]" lazy-rules v-model="value" color="indigo" />

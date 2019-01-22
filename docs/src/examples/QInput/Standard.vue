@@ -8,7 +8,7 @@
     </q-card>
     <q-card class="col-xs-12 col-sm-5 col-lg-3 col-xl-2 q-pa-md">
       <q-input v-model="value" color="deep-orange" />
-    </q-card>="manual error state==ss"
+    </q-card>
     <q-card class="col-xs-12 col-sm-5 col-lg-3 col-xl-2 q-pa-md text-white bg-grey-10">
       <q-input v-model="value" dark />
     </q-card>

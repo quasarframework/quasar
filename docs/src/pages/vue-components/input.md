@@ -2,7 +2,7 @@
 title: Input
 ---
 
-The QInput component 
+The QInput component is used to capture text input from the user. It uses `v-model`, similar to a regular input. It has support for errors and validation, and comes in a variety of styles, colors, and types.
 
 ## Installation
 <doc-installation components="QInput"/>
@@ -12,13 +12,16 @@ By default, QInput is an input box with a grey underline that changes color when
 <doc-example title="Standard" file="QInput/Standard" />
 
 Use the `outlined` attribute to give the input a slightly rounded border around the input.
-<doc-example title="Outline" file="QInput/Outline" />
+<doc-example title="Outlined" file="QInput/Outlined" />
 
 Use the `filled` attribute to give the input a slightly rounded background hue.
 <doc-example title="Filled" file="QInput/Filled" />
 
 Use the `standout` attribute to give the input a slightly rounded background that changes color when focused.
 <doc-example title="Standout" file="QInput/Standout" />
+
+Use the `dense` attribute to condense the input.
+<doc-example title="Dense" file="QInput/Dense" />
 
 Use labels to inform the user what information to put in the input.
 <doc-example title="Labels" file="QInput/Labels" />
@@ -34,6 +37,9 @@ Inputs have different types depending on what content should be written in them.
 
 You can validate inputs to ensure proper values.
 <doc-example title="Validation" file="QInput/Validation" />
+
+Use the `readonly` and `disable` attributes to block user input.
+<doc-example title="Read Only and Disable" file="QInput/ReadOnly" />
 
 ## API
 <doc-api file="QInput" />
