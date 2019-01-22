@@ -46,6 +46,7 @@ $radio-transition = .22s cubic-bezier(0,0,.2,1) 0ms
 
     &--active
       color $primary
+      color var(--q-color-primary)
       .q-radio__inner-circle
         transform scale3d(.5, .5, .5)
 
@@ -61,6 +62,7 @@ $radio-transition = .22s cubic-bezier(0,0,.2,1) 0ms
         opacity .32 !important
       &--active
         color $primary
+        color var(--q-color-primary)
 
     &.disabled
       .q-radio__inner, .q-radio__label
