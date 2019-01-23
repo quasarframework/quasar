@@ -8,11 +8,17 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 ## Usage
 <doc-example title="Basic tree" file="QTree/Basic" />
+
 <doc-example title="Customizing nodes with default header and body slot" file="QTree/SlotsDefault" />
+
 <doc-example title="Customizing nodes with custom header and body slots)" file="QTree/SlotsCustomized" />
+
 <doc-example title="Accordion mode (sibling nodes get contracted when one gets expanded)" file="QTree/Accordion" />
+
 <doc-example title="Filtering nodes" file="QTree/FilterDefault" />
+
 <doc-example title="Selectable nodes" file="QTree/Selectable" />
+
 <doc-example title="Lazy loading nodes" file="QTree/LazyLoad" />
 
 ### Selection vs Ticking, Expansion
@@ -33,10 +39,12 @@ There are three ticking strategy: 'leaf', 'leaf-filtered', 'strict' with an addi
 | strict | Ticked nodes are independent of parent or children tick state. |
 
 You can apply a global tick strategy for a QTree and locally change the ticking strategy for a certain node by specifying the `tickStrategy` in the `nodes` model.
+
 <doc-example title="Tick strategy" file="QTree/TickStrategy" />
 
 ### Custom Filter Method
 You can customize the filtering method by specifying the `filter-method` prop. The method below filters by input if it also has '(*)':
+
 <doc-example title="Custom filter" file="QTree/FilterCustom" />
 
 ## API
