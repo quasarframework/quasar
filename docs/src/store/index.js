@@ -18,7 +18,7 @@ export default function (/* { ssrContext } */) {
 
     getters: {
       hasDrawer (state) {
-        return state.route.path !== '/'
+        return state.route !== void 0 && state.route.path !== '/'
       }
     },
 
