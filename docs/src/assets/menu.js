@@ -107,8 +107,27 @@ const style = [
 
 const layout = [
   {
-    name: 'Flex CSS Grid',
-    path: 'flex-css-grid'
+    name: 'Flex Grid',
+    path: 'grid',
+    opened: true,
+    children: [
+      {
+        name: 'Introduction to Flexbox',
+        path: 'introduction-to-flexbox'
+      },
+      {
+        name: 'Grid Row',
+        path: 'row'
+      },
+      {
+        name: 'Grid Column',
+        path: 'column'
+      },
+      {
+        name: 'Grid Gutter',
+        path: 'gutter'
+      }
+    ]
   },
   {
     name: 'Layout',

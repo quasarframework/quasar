@@ -52,5 +52,5 @@ When enabled (through `quasar.conf > framework > cssAddon: true`) it provides br
 Examples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`
 
 ::: tip
-See more details about the [Flex Addons](/layout/flex-css-grid#Flex-Addons).
+See more details about the [Flex Addons](/layout/grid/introduction-to-flexbox#Flex-Addons).
 :::
