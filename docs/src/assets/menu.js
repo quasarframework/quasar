@@ -80,8 +80,8 @@ const style = [
     path: 'color-palette'
   },
   {
-    name: 'Theming',
-    path: 'theming'
+    name: 'Theme Builder',
+    path: 'theme-builder'
   },
   {
     name: 'Spacing',
@@ -107,8 +107,27 @@ const style = [
 
 const layout = [
   {
-    name: 'Flex CSS Grid',
-    path: 'flex-css-grid'
+    name: 'Flex Grid',
+    path: 'grid',
+    opened: true,
+    children: [
+      {
+        name: 'Introduction to Flexbox',
+        path: 'introduction-to-flexbox'
+      },
+      {
+        name: 'Grid Row',
+        path: 'row'
+      },
+      {
+        name: 'Grid Column',
+        path: 'column'
+      },
+      {
+        name: 'Grid Gutter',
+        path: 'gutter'
+      }
+    ]
   },
   {
     name: 'Layout',
@@ -592,10 +611,6 @@ const cli = [
       {
         name: 'Vuex Store',
         path: 'vuex-store'
-      },
-      {
-        name: 'Theming',
-        path: 'theming'
       },
       {
         name: 'Linter',

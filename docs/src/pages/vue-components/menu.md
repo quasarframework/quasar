@@ -1,83 +1,53 @@
 ---
-title: Docs
+title: QMenu
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+The QMenu component is a convenient way to show menus. Goes very well with [QList](/vue-components/lists-and-list-items) as dropdown content, but it's by no means limited to it.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QMenu" directives="CloseMenu" />
+
+::: tip
+Don't forget to use the directive `v-close-menu` in your clickable menu items if you want the menu to close automatically.
+Alternatively, you can use the `q-menu` property `auto-close`.
+:::
+
+::: tip
+`q-menu` by itself will not show anything. You should use it in a default slot of another component. For example, a `q-btn`.
+:::
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+<doc-example title="Basic" file="QMenu/Basic" />
+
+<doc-example title="More Basic" file="QMenu/Basic2" />
+
+:::tip
+In the second example below, check out the `file` menu for sub-level menus.
+:::
+
+<doc-example title="Target" file="QMenu/Target" />
+
+::: tip
+The example below shows how to create a re-usable menu that can be shared with different targets.
+:::
+
+<doc-example title="More Target" file="QMenu/Target2" />
+
+### Design and Styling
+
+<doc-example title="Transitions" file="QMenu/Transitions" />
+
+<doc-example title="Alignment" file="QMenu/Alignment" />
+
+<doc-example title="Style" file="QMenu/Style" />
+
+### Contextual
+
+<doc-example title="Context Menu" file="QMenu/ContextMenu" />
+
+### Ideas
+
+<doc-example title="Various Content" file="QMenu/VariousContent" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QMenu" />

@@ -24,9 +24,9 @@ First of all, let's define what the breakpoints are:
 | --- | --- | --- |
 | Extra Small | xs | Up to 599px |
 | Small | sm | Up to 1023px |
-| Medium | md | Up to 992px |
-| Large | lg | Up to 1439px |
-| Extra Large | xl | Bigger than 1440px |
+| Medium | md | Up to 1439px |
+| Large | lg | Up to 1919px |
+| Extra Large | xl | Bigger than 1920px |
 
 Now on to the window width related CSS classes.
 
@@ -76,8 +76,6 @@ Hide on:
 | `platform-ios-hide` | Hide on iOS platform |
 | `platform-android-hide` | Hide on Android platform |
 | `within-iframe-hide` | Hide only when entire website is under an IFRAME tag |
-
-Also check [Theming](/style/theming) for Platform Specific Styles.
 
 ::: tip
 Based on your needs, you might want to also check [Platform Detection](/options/platform-detection) page to see how you can achieve the same effect using Javascript. This latter method allows you to not even render a DOM element or component. It is useful when the rendering process is expensive.

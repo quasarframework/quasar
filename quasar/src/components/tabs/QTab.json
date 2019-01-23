@@ -26,6 +26,11 @@
       ]
     },
 
+    "no-caps": {
+      "type": "Boolean",
+      "desc": "Turns off capitalizing all letters within the tab (which is the default)"
+    },
+
     "tabindex": {
       "extends": "tabindex"
     },

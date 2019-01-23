@@ -27,9 +27,12 @@ $layout-transition = all .12s ease-in
     left 0
     box-shadow $layout-shadow
 
+.q-layout__section--marginal
+  background-color $primary
+  background-color var(--q-color-primary)
+  color white
+
 .q-header
-  background $layout-header-background
-  color $layout-header-color
 
   &--hidden
     transform translate3d(0, -110%, 0)
@@ -41,8 +44,6 @@ $layout-transition = all .12s ease-in
       bottom 10px
 
 .q-footer
-  background $layout-footer-background
-  color $layout-footer-color
 
   &--hidden
     transform translate3d(0, 110%, 0)

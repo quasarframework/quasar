@@ -8,7 +8,7 @@
 
     <q-linear-progress :value="progress" color="secondary" class="q-mt-sm" />
 
-    <q-linear-progress :value="progress" rounded color="tertiary" class="q-mt-sm" />
+    <q-linear-progress :value="progress" rounded color="accent" class="q-mt-sm" />
 
     <q-linear-progress :value="progress" rounded color="purple" track-color="orange" class="q-mt-sm" />
 

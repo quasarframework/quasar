@@ -9,7 +9,6 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     height 56px
     color rgba(0, 0, 0, .54)
     font-size 24px
-    z-index 1
     transition color $field-transition
 
     > * + *
@@ -65,6 +64,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
   &__control
     color $primary
+    color var(--q-color-primary)
     height 56px
 
     &:before, &:after

@@ -26,9 +26,9 @@
     </q-btn-group>
 
     <q-btn-group>
-      <q-btn color="tertiary" icon="timeline" />
-      <q-btn color="tertiary" icon="visibility" />
-      <q-btn color="tertiary" icon="update" />
+      <q-btn color="accent" icon="timeline" />
+      <q-btn color="accent" icon="visibility" />
+      <q-btn color="accent" icon="update" />
     </q-btn-group>
 
     <q-btn-group rounded>
