@@ -154,7 +154,7 @@ return {
 }
 ```
 
-More on cssAddon [here](/layout/flex-css-grid).
+More on cssAddon [here](/layout/grid/introduction-to-flexbox#Flex-Addons).
 
 ### devServer Property
 Webpack devServer options. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options. Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL.
