@@ -1,7 +1,7 @@
 ---
 title: Uploader
 ---
-Quasar supplies a way for you to upload files through QUploader component. Works well with [QField](/vue-components/field) mixin for additional functionality such as a helper, error message placeholder and many others.
+Quasar supplies a way for you to upload files through QUploader component.
 
 ## Installation
 <doc-installation components="QUploader" />
