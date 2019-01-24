@@ -25,7 +25,7 @@ export default Vue.extend({
     direction: {
       type: String,
       default: 'right',
-      validator: v => ['top', 'right', 'bottom', 'left'].includes(v)
+      validator: v => ['up', 'right', 'down', 'left'].includes(v)
     },
     persistent: Boolean
   },

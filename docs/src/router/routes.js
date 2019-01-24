@@ -34,6 +34,10 @@ const routes = [
     path: '/',
     component: () => import('layouts/Layout.vue'),
     children: docsPages
+  },
+  {
+    path: '/layout-builder',
+    component: () => import('layouts/LayoutBuilder.vue')
   }
 ]
 

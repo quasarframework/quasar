@@ -80,7 +80,7 @@
       "examples": [ "5" ]
     },
 
-    "option-dense": {
+    "options-dense": {
       "extends": "dense",
       "desc": "Dense mode for options list; occupies less space"
     },
