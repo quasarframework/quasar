@@ -1,7 +1,26 @@
 const
   matter = require('gray-matter'),
-  toml = require('toml'),
-  LRU = require('lru-cache')
+  toml = require('toml')
+
+function getComponentsImport (comp) {
+  return comp.map(c => {
+    const parts = c.split('/')
+    return `import ${parts[parts.length - 1]} from 'components/page-parts/${c}.vue'\n`
+  }).join('')
+}
+
+function getComponentsDeclaration (comp) {
+  const list = comp.map(c => {
+    const parts = c.split('/')
+    return parts[parts.length - 1]
+  }).join(',')
+
+  return `components: { ${list} },`
+}
+
+function getData (data) {
+  return `data () { return ${JSON.stringify(data)} },`
+}
 
 function getComponentsImport (comp) {
   return comp.map(c => {
@@ -55,33 +74,4 @@ module.exports.parseFrontMatter = function (content) {
       excerpt: false
     }
   })
-}
-
-const headersCache = new LRU({ max: 1000 })
-
-module.exports.extractHeaders = function (content, include = [], md) {
-  const key = content + include.join(',')
-  const hit = headersCache.get(key)
-
-  if (hit) {
-    return hit
-  }
-
-  const tokens = md.parse(content, {})
-
-  const res = []
-  tokens.forEach((t, i) => {
-    if (t.type === 'heading_open' && include.includes(t.tag)) {
-      const title = tokens[i + 1].content
-      const slug = t.attrs.find(([name]) => name === 'id')[1]
-      res.push({
-        level: parseInt(t.tag.slice(1), 10),
-        title: title,
-        slug: slug || md.slugify(title)
-      })
-    }
-  })
-
-  headersCache.set(key, res)
-  return res
 }

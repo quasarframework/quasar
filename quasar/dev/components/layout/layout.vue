@@ -82,7 +82,7 @@
             opacity: .8,
             width: '4px'
           }"
-          style="height: calc(100% - 150px); margin-top: 204px"
+          style="height: calc(100% - 204px); margin-top: 204px"
         >
           <div class="q-pa-sm">
             <q-btn to="/layout-quick/a">Go to A</q-btn>

@@ -1,83 +1,74 @@
 ---
-title: Docs
+title: Tree
 ---
-
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+Quasar Tree represents a highly configurable component that displays hierarchical data, such as a table of contents in a tree structure.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QTree" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+<doc-example title="Basic tree" file="QTree/Basic" />
+
+<doc-example title="Customizing nodes with default header and body slot" file="QTree/SlotsDefault" />
+
+<doc-example title="Customizing nodes with custom header and body slots)" file="QTree/SlotsCustomized" />
+
+<doc-example title="Accordion mode (sibling nodes get contracted when one gets expanded)" file="QTree/Accordion" />
+
+<doc-example title="Filtering nodes" file="QTree/FilterDefault" />
+
+<doc-example title="Selectable nodes" file="QTree/Selectable" />
+
+<doc-example title="Lazy loading nodes" file="QTree/LazyLoad" />
+
+### Selection vs Ticking, Expansion
+* Selection (through QTree `selected` prop) refers to the currently selected node (gets highlighted with different background).
+* Ticking (through QTree `ticked` prop) refers to the checkbox associated with each node.
+* Expansion (through QTree `expanded` prop) refers to the nodes that are expanded.
+
+All properties above require to be dynamically bound using `.sync` modifier in order for them to work correctly (`v-bind:<prop_name>.sync` or `:<prop_name>.sync`).
+<doc-example title="Syncing node properties" file="QTree/Sync" />
+
+### Tick Strategy
+There are three ticking strategy: 'leaf', 'leaf-filtered', 'strict' with an additional (and default) 'none' which disables ticking.
+
+| Strategy | Description |
+| --- | --- |
+| leaf | Ticked nodes are only the leaves. Ticking a node influences the parent's ticked state too (parent becomes partially ticked or ticked), as well as its children (all tickable children become ticked). |
+| leaf-filtered | Same concept as `leaf`, only that this strategy applies only to filtered nodes (the nodes that remain visible after filtering). |
+| strict | Ticked nodes are independent of parent or children tick state. |
+
+You can apply a global tick strategy for a QTree and locally change the ticking strategy for a certain node by specifying the `tickStrategy` in the `nodes` model.
+
+<doc-example title="Tick strategy" file="QTree/TickStrategy" />
+
+### Custom Filter Method
+You can customize the filtering method by specifying the `filter-method` prop. The method below filters by input if it also has '(*)':
+
+<doc-example title="Custom filter" file="QTree/FilterCustom" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QTree" />
+
+### Nodes model structure
+The following describes a node's properties that are taken into account by QTree's v-model.
+
+| Node Property | Type | Behavior when not present | Description |
+| --- | --- | --- | --- |
+| \<nodeKey\> | String, Number | An error is generated | Node's key. The key is picked from the key specified in `nodeKey` property. |
+| label | String | The item has no label | Node's label. When `labelKey` prop is set the label is picked from that key. |
+| icon | String | The default icon is used | Node's icon. |
+| iconColor | String | The inherited color is used | Node's icon color. One from Quasar Color Palette. |
+| img | String | No image is displayed | Node's image. Use statics folder. Example: 'statics/mountains.png' |
+| avatar | String | No avatar is displayed | Node's avatar. Use statics folder. Example: 'statics/boy-avatar.png' |
+| children | Array | This node has no sub-nodes | Array of nodes as children. |
+| disabled | Boolean | The node is enabled | Is node disabled? |
+| expandable | Boolean | The node is expandable | Is node expandable? |
+| selectable | Boolean | The node is selectable | Is node selectable? |
+| handler | Function | No extra function is called | Custom function that should be called on click on node. Receives `node` as parameter. |
+| tickable | Boolean | The node is tickable according to tick strategy | When using a tick strategy, each node shows a checkbox. Should a node's checkbox be disabled? |
+| noTick | Boolean | Node displays a checkbox | When using a tick strategy, should node display a checkbox? |
+| tickStrategy | String | Tick strategy 'none' is used | Override global tick strategy for this node only. One of 'leaf', 'leaf-filtered', 'strict', 'none'. |
+| lazy | Boolean | Children are not lazy loaded | Should children be lazy loaded? In this case also don't specify 'children' prop. |
+| header | String | Slot 'default-header' is used | Node header scoped slot name, without the required 'header-' prefix. Example: 'story' refers to 'header-story' scoped slot. |
+| body | String | Slot 'default-body' is used | Node body scoped slot name, without the required 'body-' prefix. Example: 'story' refers to 'body-story' scoped slot. |

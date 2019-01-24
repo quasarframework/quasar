@@ -105,10 +105,12 @@ export default {
     else {
       vm.isActive = false
       vm.$on('destroy', () => {
-        vm.$destroy()
-        document.body.classList.remove('q-body--loading')
-        vm.$el.remove()
-        vm = null
+        if (vm !== null) {
+          vm.$destroy()
+          document.body.classList.remove('q-body--loading')
+          vm.$el.remove()
+          vm = null
+        }
         this.isActive = false
       })
     }

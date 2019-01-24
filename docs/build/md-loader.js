@@ -6,8 +6,7 @@ const md = require('./md')
 
 const {
   getVueComponent,
-  parseFrontMatter,
-  extractHeaders
+  parseFrontMatter
 } = require('./md-loader-utils')
 
 const cache = new LRU({ max: 1000 })
