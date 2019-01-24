@@ -22,26 +22,6 @@ function getData (data) {
   return `data () { return ${JSON.stringify(data)} },`
 }
 
-function getComponentsImport (comp) {
-  return comp.map(c => {
-    const parts = c.split('/')
-    return `import ${parts[parts.length - 1]} from 'components/page-parts/${c}.vue'\n`
-  }).join('')
-}
-
-function getComponentsDeclaration (comp) {
-  const list = comp.map(c => {
-    const parts = c.split('/')
-    return parts[parts.length - 1]
-  }).join(',')
-
-  return `components: { ${list} },`
-}
-
-function getData (data) {
-  return `data () { return ${JSON.stringify(data)} },`
-}
-
 module.exports.getVueComponent = function (rendered, data, toc) {
   return `
     <template>
