@@ -73,13 +73,21 @@ It is important that you specify all sections of a QLayout, even if you don't us
 :::
 
 ### Containerized QLayout
+By default, QLayout is managing the entire window. However, you can also use QLayout as a container (with specific height and width) to isolate it somewhere in your pages.
 
 ::: danger
 Not supported in IE11.
 :::
 
-Please note that it **requires a CSS height/width (or min-height/min-width) being set explicitly**, otherwise it can't and it won't work.
+::: warning
+Please note that it **requires a CSS height (or min-height) being set explicitly**, otherwise it can't and it won't work.
+:::
 
+In the example below, there is a containerized QLayout with drawers on each side (breakpoint of 700px on the left-side drawer and 500px on the right-side drawer). The breakpoint does not refer to the window width, but to the actual width of the QLayout container.
+
+<doc-example title="Containerized QLayout" file="QLayout/Container" />
+
+<doc-example title="In a QDialog" file="QLayout/ContainerDialog" />
 
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.

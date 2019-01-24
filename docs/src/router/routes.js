@@ -1,3 +1,4 @@
+import Layout from 'layouts/Layout.vue'
 import menu from 'assets/menu.js'
 
 const docsPages = [
@@ -32,7 +33,7 @@ menu.forEach(node => {
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/Layout.vue'),
+    component: Layout,
     children: docsPages
   },
   {

@@ -45,7 +45,7 @@
               <q-toggle v-model="pick.footer" label="I want a QFooter" />
               <q-toggle v-model="pick.left" label="I want a left-side QDrawer" />
               <q-toggle v-model="pick.right" label="I want a right-side QDrawer" />
-              <q-toggle v-model="pick.navtabs" label="I want navigation tabs" />
+              <q-toggle :disable="!pick.header" v-model="pick.navtabs" label="I want navigation tabs (requires QHeader)" />
             </div>
           </q-step>
 
@@ -448,7 +448,7 @@ export default {
 
         rightBehavior: 'default',
         rightOverlay: false,
-        rightSep: 'elevated'
+        rightSep: 'bordered'
       },
 
       play: {
