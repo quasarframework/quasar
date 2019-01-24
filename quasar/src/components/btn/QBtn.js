@@ -19,7 +19,7 @@ export default Vue.extend({
 
   computed: {
     hasLabel () {
-      return this.isRound === false && this.label !== void 0 && this.label !== null && this.label !== ''
+      return this.label !== void 0 && this.label !== null && this.label !== ''
     }
   },
 
