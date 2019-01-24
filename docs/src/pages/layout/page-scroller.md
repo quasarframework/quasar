@@ -10,20 +10,6 @@ Try it out with a non fixed footer for example. When user reaches bottom of scre
 ## Installation
 <doc-installation components="QPageScroller" />
 
-## Layout Builder
-Scaffold your layout(s) by clicking on the button below.
-
-<q-btn
-  push
-  color="primary"
-  icon-right="launch"
-  label="Layout Builder"
-  type="a"
-  href="/layout-builder"
-  target="_blank"
-  rel="noopener noreferrer"
-/>
-
 ## Usage
 ::: tip
 Since QPageScroller needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QPageScroller.
