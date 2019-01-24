@@ -1,83 +1,33 @@
 ---
-title: Docs
+title: Stepper
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+A Stepper conveys progress through numbered steps. Steppers display progress through a sequence of logical and numbered steps. They may also be used for navigation. It's usually useful when the user has to follow steps to complete a process, like in a <a href="https://en.wikipedia.org/wiki/Wizard_(software)">wizard</a>.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+The stepper component is built from three different child components:
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+- **QStepper** - main Stepper encapsulating component
+- **QStep** - individual steps
+- **QStepperNavigation** - helper for encapsulating Stepper navigation buttons (within QStep or globally for the stepper as direct child of QStepper)
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+
+<doc-installation :components="['QStepper', 'QStep', 'QStepperNavigation']" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
 
-## API
-<doc-api file="QTh" />
+Here's a small example showcasing a very basic Stepper to understand how components fit together.
+
+<doc-example title="Basic" file="QStepper/Basic" />
+
+## QStepper API
+
+<doc-api file="QStepper" />
+
+## QStep API
+
+<doc-api file="QStep" />
+
+## QStepperNavigation API
+
+<doc-api file="QStepperNavigation" />
