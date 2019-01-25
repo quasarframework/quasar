@@ -74,7 +74,7 @@
             dense
             round
             unelevated
-            color="primary"
+            color="accent"
             icon="chevron_left"
             @click="miniState = true"
           />

@@ -13,22 +13,11 @@
         </q-toolbar>
       </q-header>
 
-      <q-footer reveal elevated>
-        <q-toolbar>
-          <q-btn flat round dense icon="menu" @click="drawerLeft = !drawerLeft" />
-
-          <q-toolbar-title>
-            <strong>Quasar</strong> Framework
-          </q-toolbar-title>
-
-          <q-btn flat round dense icon="menu" @click="drawerRight = !drawerRight" />
-        </q-toolbar>
-      </q-footer>
-
       <q-drawer
         v-model="drawerLeft"
         :width="150"
         :breakpoint="700"
+        show-if-above
         behavior="desktop"
         bordered
         content-class="bg-grey-3"
@@ -46,6 +35,7 @@
         bordered
         :width="150"
         :breakpoint="500"
+        show-if-above
         behavior="desktop"
         content-class="bg-grey-3"
       >
