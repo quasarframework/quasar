@@ -1,26 +1,21 @@
 <template>
   <div class="q-pa-md">
-    <q-layout view="lHh Lpr lFf" container style="height: 400px" class="shadow-2 generic-border-radius">
-      <q-header reveal elevated>
+    <q-layout view="hHh Lpr lff" container style="height: 300px" class="shadow-2 generic-border-radius">
+      <q-header elevated class="bg-black">
         <q-toolbar>
-          <q-btn flat round dense icon="menu" @click="drawerLeft = !drawerLeft" />
-
-          <q-toolbar-title>
-            <strong>Quasar</strong> Framework
-          </q-toolbar-title>
-
-          <q-btn flat round dense icon="menu" @click="drawerRight = !drawerRight" />
+          <q-btn flat @click="drawerLeft = !drawerLeft" round dense icon="menu" />
+          <q-toolbar-title>Header</q-toolbar-title>
+          <q-btn flat @click="drawerRight = !drawerRight" round dense icon="menu" />
         </q-toolbar>
       </q-header>
 
       <q-drawer
         v-model="drawerLeft"
-        :width="150"
+        :width="200"
         :breakpoint="700"
         show-if-above
-        behavior="desktop"
-        bordered
-        content-class="bg-grey-3"
+        elevated
+        content-class="bg-primary text-white"
       >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">
@@ -33,10 +28,8 @@
         side="right"
         v-model="drawerRight"
         bordered
-        :width="150"
+        :width="200"
         :breakpoint="500"
-        show-if-above
-        behavior="desktop"
         content-class="bg-grey-3"
       >
         <q-scroll-area class="fit">
@@ -47,22 +40,10 @@
       </q-drawer>
 
       <q-page-container>
-        <q-page padding style="padding-top: 66px">
+        <q-page padding>
           <p v-for="n in 15" :key="n">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
           </p>
-
-          <!-- place QPageSticky at end of page -->
-          <q-page-sticky expand position="top">
-            <q-toolbar class="bg-accent text-white">
-              <q-avatar>
-                <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
-              </q-avatar>
-              <q-toolbar-title>
-                Page Title
-              </q-toolbar-title>
-            </q-toolbar>
-          </q-page-sticky>
         </q-page>
       </q-page-container>
     </q-layout>
@@ -73,7 +54,7 @@
 export default {
   data () {
     return {
-      drawerLeft: true,
+      drawerLeft: false,
       drawerRight: true
     }
   }

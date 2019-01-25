@@ -50,6 +50,8 @@ In the example below, you could use Ionicons icons with `ion-ios-` prefix for QT
 <doc-example title="iOS-like" file="QHeader/LookingIOS" />
 
 ### Desktop app look and feel
+The example below is especially useful if you build an Electron app and you hide the default app frame.
+
 <doc-example title="Desktop app-like" file="QHeader/AppLike" />
 
 ## QHeader API

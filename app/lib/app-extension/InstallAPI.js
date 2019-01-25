@@ -142,7 +142,7 @@ module.exports = class InstallAPI {
       const sourcePath = path.resolve(source, rawPath)
 
       if (rawCopy || isBinary(sourcePath)) {
-        fs.ensureFileSync(targetPath)
+        fs.ensureSync(targetPath)
         fs.copySync(sourcePath, targetPath)
       }
       else if (rawCopy) {

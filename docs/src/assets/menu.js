@@ -790,6 +790,33 @@ const cli = [
   }
 ]
 
+const dev = [
+  {
+    name: 'Report an Issue',
+    path: 'report-an-issue'
+  },
+  {
+    name: 'Development Paradigm',
+    path: 'development-paradigm'
+  },
+  {
+    name: 'Open Source Tutorial',
+    path: 'open-source-tutorial/en_UK'
+  },
+  {
+    name: 'Quasar Repositories',
+    path: 'repositories'
+  },
+  {
+    name: 'Creating App Extensions',
+    path: 'creating-app-extensions'
+  },
+  {
+    name: 'Creating Starter Kits',
+    path: 'creating-starter-kits'
+  }
+]
+
 export default [
   {
     name: 'Introduction to Quasar',
@@ -854,5 +881,11 @@ export default [
     icon: 'build',
     path: 'quasar-cli',
     children: cli
+  },
+  {
+    name: 'Developing Quasar',
+    icon: 'fab fa-dev',
+    path: 'quasar-dev',
+    children: dev
   }
 ]

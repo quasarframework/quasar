@@ -29,6 +29,7 @@
         v-model="drawerLeft"
         :width="150"
         :breakpoint="700"
+        show-if-above
         behavior="desktop"
         bordered
         content-class="bg-grey-3"
@@ -46,6 +47,7 @@
         bordered
         :width="150"
         :breakpoint="500"
+        show-if-above
         behavior="desktop"
         content-class="bg-grey-3"
       >
