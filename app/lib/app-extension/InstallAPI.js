@@ -95,7 +95,7 @@ module.exports = class InstallAPI {
    * Needs a relative path to extension's /install.js script.
    *
    * @param {string} templatePath
-   * @param {boolean} rawCopy (copy, don't interpret)
+   * @param {boolean} rawCopy (copy file/folder as is, don't interpret prompts)
    * @param {object} additionalOpts (rendering opts)
    */
   render (templatePath, additionalOpts, rawCopy = false) {
@@ -141,8 +141,9 @@ module.exports = class InstallAPI {
       const targetPath = appPaths.resolve.app(targetRelativePath)
       const sourcePath = path.resolve(source, rawPath)
 
-      if (isBinary(sourcePath)) {
-        fs.copyFileSync(sourcePath, targetPath)
+      if (rawCopy || isBinary(sourcePath)) {
+        fs.ensureFileSync(targetPath)
+        fs.copySync(sourcePath, targetPath)
       }
       else if (rawCopy) {
         fs.ensureFileSync(targetPath)

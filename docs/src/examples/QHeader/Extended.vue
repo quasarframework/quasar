@@ -3,13 +3,15 @@
     <q-layout view="lHh lpr lFf" container style="height: 400px" class="shadow-2 generic-border-radius">
       <q-header elevated class="bg-purple">
         <q-toolbar>
-          <q-btn flat round dense icon="menu" class="q-mr-sm" ></q-btn>
+          <q-btn flat round dense icon="menu" class="q-mr-sm" />
           <q-space ></q-space>
-          <q-btn flat round dense icon="search" class="q-mr-xs" ></q-btn>
-          <q-btn flat round dense icon="group_add" ></q-btn>
+          <q-btn flat round dense icon="search" class="q-mr-xs" />
+          <q-btn flat round dense icon="group_add" />
         </q-toolbar>
         <q-toolbar inset>
-          <q-toolbar-title><strong>Quasar</strong> Framework</q-toolbar-title>
+          <q-toolbar-title>
+            <strong>Quasar</strong> Framework
+          </q-toolbar-title>
         </q-toolbar>
       </q-header>
 
