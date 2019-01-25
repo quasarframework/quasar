@@ -30,11 +30,19 @@ Since the header and footer needs a layout and QLayout by default manages the en
 
 <doc-example title="Basic" file="QHeader/Basic" />
 
+### Various content
+
 <doc-example title="Playing with QToolbar" file="QHeader/Extended" />
 
 <doc-example title="Playing with QBreadcrumb" file="QHeader/Breadcrumbs" />
 
 <doc-example title="Playing with QTabs" file="QHeader/Tabs" />
+
+### Reveal property
+
+In the example below, scroll the page to see the QHeader and QFooter behavior.
+
+<doc-example title="Reveal" file="QHeader/Reveal" />
 
 ### iOS look and feel
 In the example below, you could use Ionicons icons with `ion-ios-` prefix for QTabs, which would perfectly match the iOS look and feel.
@@ -42,6 +50,8 @@ In the example below, you could use Ionicons icons with `ion-ios-` prefix for QT
 <doc-example title="iOS-like" file="QHeader/LookingIOS" />
 
 ### Desktop app look and feel
+The example below is especially useful if you build an Electron app and you hide the default app frame.
+
 <doc-example title="Desktop app-like" file="QHeader/AppLike" />
 
 ## QHeader API

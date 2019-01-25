@@ -1,30 +1,27 @@
 <template>
   <div class="q-pa-md">
-    <q-layout view="lHh lpr lFf" container style="height: 400px" class="shadow-2 generic-border-radius">
+    <q-layout view="lHh Lpr lFf" container style="height: 400px" class="shadow-2 generic-border-radius">
       <q-header elevated>
         <q-toolbar>
-          <q-btn flat round dense icon="menu" class="q-mr-sm" />
           <q-avatar>
             <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
           </q-avatar>
-
-          <q-toolbar-title>Quasar Framework</q-toolbar-title>
-
-          <q-btn flat round dense icon="whatshot" />
+          <q-toolbar-title>
+            <strong>Quasar</strong> Framework
+          </q-toolbar-title>
         </q-toolbar>
       </q-header>
 
-      <q-footer elevated>
-        <q-toolbar>
-          <q-toolbar-title>Footer</q-toolbar-title>
-        </q-toolbar>
-      </q-footer>
-
       <q-page-container>
-        <q-page class="q-pa-md">
+        <q-page padding>
           <p v-for="n in 15" :key="n">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam rerum delectus commodi perferendis voluptate?
           </p>
+
+          <!-- place QPageScroller at end of page -->
+          <q-page-scroller position="bottom" :scroll-offset="150" :offset="[0, 18]">
+            <q-btn fab icon="keyboard_arrow_up" color="accent" />
+          </q-page-scroller>
         </q-page>
       </q-page-container>
     </q-layout>

@@ -97,10 +97,13 @@ export default {
   position relative
   font-size 12px
   margin 16px 0 !important
+  background-color $code-color !important
 
   > pre
     border-radius $generic-border-radius !important
     margin 0 !important
+    position relative
+    background-color $code-color !important
 
 .q-tab-panel .doc-code
   margin 0 !important

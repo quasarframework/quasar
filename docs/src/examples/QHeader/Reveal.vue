@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-layout view="lHh lpr lFf" container style="height: 400px" class="shadow-2 generic-border-radius">
-      <q-header elevated>
+      <q-header reveal elevated>
         <q-toolbar>
           <q-btn flat round dense icon="menu" class="q-mr-sm" />
           <q-avatar>
@@ -14,7 +14,7 @@
         </q-toolbar>
       </q-header>
 
-      <q-footer elevated>
+      <q-footer reveal elevated>
         <q-toolbar>
           <q-toolbar-title>Footer</q-toolbar-title>
         </q-toolbar>

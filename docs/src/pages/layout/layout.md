@@ -24,6 +24,20 @@ In the card below we're installing all Quasar components related to a QLayout, b
   ]"
 />
 
+## Layout Builder
+Scaffold your layout(s) by clicking on the button below.
+
+<q-btn
+  push
+  color="primary"
+  icon-right="launch"
+  label="Layout Builder"
+  type="a"
+  href="/layout-builder"
+  target="_blank"
+  rel="noopener noreferrer"
+/>
+
 ## Usage
 
 ::: warning Using margin CSS will break the layout
@@ -88,20 +102,6 @@ In the example below, there is a containerized QLayout with drawers on each side
 <doc-example title="Containerized QLayout" file="QLayout/Container" />
 
 <doc-example title="In a QDialog" file="QLayout/ContainerDialog" />
-
-## Layout Builder
-Scaffold your layout(s) by clicking on the button below.
-
-<q-btn
-  push
-  color="primary"
-  icon-right="launch"
-  label="Layout Builder"
-  type="a"
-  href="/layout-builder"
-  target="_blank"
-  rel="noopener noreferrer"
-/>
 
 ## API
 <doc-api file="QLayout" />
