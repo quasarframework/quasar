@@ -3,6 +3,11 @@
 body
   background-color $grey-2
 
+.bg-code
+  background-color $code-color !important
+.text-code
+  color $code-color !important
+
 .doc-token
   white-space nowrap
   background lighten($primary, 85%)
@@ -67,11 +72,13 @@ blockquote .doc-token
 .doc-h1
   font-size 2rem
   line-height 4rem
+  font-weight 500
   margin 0 0 1.5rem
 
 .doc-h2
   font-size 1.5rem
   line-height 2.5rem
+  font-weight 500
   border-bottom 1px solid #ccc
   margin 3rem 0 1rem
 

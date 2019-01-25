@@ -8,7 +8,7 @@ q-card.doc-installation.q-my-lg
       :label="tab"
     )
 
-  q-tab-panels(v-model="currentTab", animated, style="background-color: #272822")
+  q-tab-panels.bg-code(v-model="currentTab", animated)
     q-tab-panel.q-pa-none(name="Quasar CLI")
       doc-code(copy) {{ QuasarCli }}
 
@@ -145,7 +145,6 @@ Vue.use(Quasar, {
 </script>
 
 <style lang="stylus">
-.doc-installation
-  .code-markup pre
-    border-radius 0
+.doc-installation .code-markup pre
+  border-radius 0
 </style>

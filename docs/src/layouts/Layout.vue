@@ -45,6 +45,18 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
               q-icon(name="fab fa-github")
             q-item-section Github
 
+          q-item-label(header) Quick Tools
+
+          q-item(clickable, to="/style/theme-builder")
+            q-item-section.text-teal(avatar)
+              q-icon(name="style")
+            q-item-section Theme Builder
+
+          q-item(clickable, tag="a", href="/layout-builder", target="_blank")
+            q-item-section.text-primary(avatar)
+              q-icon(name="dashboard")
+            q-item-section Layout Builder
+
           q-item-label(header) Playground
 
           q-item(clickable, tag="a", href="https://codepen.io/rstoenescu/pen/KQRZJg", target="_blank")
@@ -116,7 +128,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
     div
       | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link>
 
-    div Copyright © 2015 - {{ year }} Razvan Stoenescu
+    div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
 
   q-drawer(
     v-if="hasDrawer"

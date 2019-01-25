@@ -1,83 +1,107 @@
 ---
-title: Docs
+title: Layout
+components:
+  - layout/ViewProp
+  - layout/ViewPlay
 ---
+The QLayout is a component designed to manage the entire window and wrap page content with elements such as a navigational bar or a drawer. Multiple pages can share the same QLayout, so the code is reusable, which is one of their key points.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+**QLayout is NOT mandatory**, but it does help you to better structure your website/app. It has a number of features which offer you major benefits in simplifying your website/app's layout design, right out of the box.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+## Installation
+In the card below we're installing all Quasar components related to a QLayout, but **you should cherry-pick** only what you are using from this list.
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+<doc-installation
+  :components="[
+    'QLayout',
+    'QPageContainer',
+    'QPage',
+    'QHeader',
+    'QFooter',
+    'QDrawer',
+    'QPageSticky',
+    'QPageScroller'
+  ]"
+/>
 
-```
-const m = 'lala'
-```
+## Layout Builder
+Scaffold your layout(s) by clicking on the button below.
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
+<q-btn
+  push
+  color="primary"
+  icon-right="launch"
+  label="Layout Builder"
+  type="a"
+  href="/layout-builder"
+  target="_blank"
+  rel="noopener noreferrer"
+/>
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
+## Usage
 
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
+::: warning Using margin CSS will break the layout
+QLayout depends on taking up the whole screen and so QPageContainer, QHeader, QFooter and QLayoutDrawer positions are managed by it (through the `view` prop). You **cannot** use *CSS margins* as a style neither on QLayout itself nor on any of the QLayout components mentioned above. However use can safely use *CSS padding*.
+:::
 
 ::: tip
-Some tip
+If your layout uses Vue Router sub-routes (recommended), then it makes sense to use Vue's `<router-view />` component, which is just a placeholder where sub-routes are injected. For more information, please read [Routing with Layouts and Pages](/layout/routing-with-layouts-and-pages).
+:::
+
+### Understanding the "view" prop
+Quasar introduces a unique and excellent layout concept, which allows you to easily structure layouts to work in certain ways, by simply changing a short string notation.
+
+To explain how this works, imagine your Layout is a 3x3 matrix of containers (depicted in blue below). The first row of containers would be the header and the last row would be the footer. The first column of containers would be the "left" and last column would be the "right". The center of the matrix, below the header and above the footer, would be the page or main content container.
+
+This matrix of containers or "QLayout View" can be represented by a string that you should supply to `view` property of QLayout. This string must contain exactly 11 characters:
+
+- 3 defining the header row
+- then a space
+- 3 defining the middle row
+- a space
+- then 3 defining the footer row
+
+<view-prop />
+
+The letters shown above are also case sensitive. For example, using at least one "L" (uppercase character instead of lowercase) will make your layout left side (drawer) be in a fixed position. Same applies for "H" (header), "F" (footer) and finally "R" (right side / drawer).
+
+<view-play />
+
+For example, if you want your layout's right side / drawer to be placed on the right of the header, page and footer, you'd use `hhr lpr ffr`. If you'd like to also make it fixed, just transform one `r` character to uppercase, like this: `hhr lpR ffr`, or `hhr lpR ffr` or `hhr lpR ffr`.
+
+These settings are completely up to you to use as you'd like. You could even go wild with a setup like this: `lhh LpR ffr`. Try it out!
+
+<q-btn
+  push
+  color="red"
+  icon-right="launch"
+  label="Layout Builder"
+  type="a"
+  href="/layout-builder"
+  target="_blank"
+  rel="noopener noreferrer"
+/>
+
+::: warning
+It is important that you specify all sections of a QLayout, even if you don't use them. For example, even if you don't use footer or right side drawer, still specify them within your QLayout's `view` prop.
+:::
+
+### Containerized QLayout
+By default, QLayout is managing the entire window. However, you can also use QLayout as a container (with specific height and width) to isolate it somewhere in your pages.
+
+::: danger
+Not supported in IE11.
 :::
 
 ::: warning
-Some tip
+Please note that it **requires a CSS height (or min-height) being set explicitly**, otherwise it can't and it won't work.
 :::
 
-::: danger
-Some tip
-:::
+In the example below, there is a containerized QLayout with drawers on each side (breakpoint of 700px on the left-side drawer and 500px on the right-side drawer). The breakpoint does not refer to the window width, but to the actual width of the QLayout container.
 
-::: warning CUSTOM TITLE
-Some tip
-:::
+<doc-example title="Containerized QLayout" file="QLayout/Container" />
 
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+<doc-example title="In a QDialog" file="QLayout/ContainerDialog" />
 
 ## API
-<doc-api file="QTh" />
+<doc-api file="QLayout" />
