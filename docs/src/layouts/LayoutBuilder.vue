@@ -314,11 +314,11 @@
 
         <q-dialog v-model="exportDialog">
           <q-card>
-            <div class="overflow-hidden bg-code">
-              <div style="max-height:50vh;" class="scroll q-pa-sm">
-                <doc-code copy lang="html">{{ layoutExport }}</doc-code>
-              </div>
+            <div class="bg-code export-code">
+              <doc-code copy lang="html">{{ layoutExport }}</doc-code>
             </div>
+
+            <q-separator />
 
             <q-card-actions align="right">
               <q-btn color="white" text-color="code" flat label="Close" v-close-dialog />
@@ -575,3 +575,13 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.export-code
+  .doc-code
+    margin 0 !important
+    > pre
+      max-height 50vh
+    > div
+      right 22px !important
+</style>

@@ -2,7 +2,8 @@
 q-card.doc-api.q-my-lg(v-if="ready")
   q-toolbar.text-grey-8.bg-white
     card-title(:title="name", prefix="API--")
-    .text-grey {{ type }}
+    q-space
+    .col-auto.text-grey {{ type }}
 
   q-separator
 
@@ -16,6 +17,7 @@ q-card.doc-api.q-my-lg(v-if="ready")
       )
 
     q-input.col.q-mx-sm(
+      v-if="$q.screen.gt.xs"
       ref="input",
       v-model="filter",
       dense,

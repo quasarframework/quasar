@@ -35,7 +35,7 @@ export default {
 @import '~quasar-variables'
 
 .doc-link
-  color $teal
+  color $primary
   font-weight 500
   text-decoration none
   outline 0

@@ -11,9 +11,9 @@
           glossy
           unelevated
         )
-          .text-body1.text-capitalize
-            | {{ color }}
-            .text-body2 {{ colors[color] }}
+          .text-caption.text-capitalize.text-weight-light
+            div {{ color }}
+            div {{ colors[color] }}
 
           q-menu(anchor="top left", self="top left")
             q-color(v-model="colors[color]")
