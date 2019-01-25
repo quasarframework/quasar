@@ -16,7 +16,7 @@ Tabs can show icon, text or both.
 
 <doc-example title="Types" file="QTabs/Types" />
 
-You can use `v-model` to hold the current tab. It is set to the name of the current tab.
+You can use `v-model` to hold the current tab. You need to set `name` on each tab. Model will hold the name of currently selected tab.
 
 <doc-example title="Usage with V-model" file="QTabs/VModel" />
 
