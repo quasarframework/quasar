@@ -4,6 +4,7 @@
     v-model="currentStep"
     color="primary"
     header-nav
+    vertical
   >
     <q-step name="first" title="First Step" done>
       First Step
