@@ -13,6 +13,8 @@
 
       <div class="q-gutter-sm">
         <q-uploader v-bind="props" multiple url="http://localhost:4444/upload" />
+        <q-uploader v-bind="props" multiple url="http://localhost:4444/upload" />
+        <q-uploader v-bind="props" multiple url="http://localhost:4444/upload" />
       </div>
     </div>
   </div>
