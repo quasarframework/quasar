@@ -32,7 +32,12 @@ With animated bar on top
 
 <doc-example title="Usage with V-model" file="QTabs/VModel" />
 
-<doc-example title="Tab Panels" file="QTabs/Panels" />
+### Tab Panels
+Use `q-tab-panels` container with `q-tab-panel` children to create tabs content. These two are coupled with v-model.
+
+Panels can be `swipeable` and use different animations (see `transition-prev` and `transition-next`).
+
+<doc-example title="Swipeable Animated Panels" file="QTabs/Panels" />
 
 <doc-example title="Panels Above Tabs" file="QTabs/PanelsAbove" />
 
