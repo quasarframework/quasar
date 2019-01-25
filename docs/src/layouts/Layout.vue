@@ -128,7 +128,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
     div
       | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link>
 
-    div Copyright © 2015 - {{ year }} Razvan Stoenescu
+    div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
 
   q-drawer(
     v-if="hasDrawer"

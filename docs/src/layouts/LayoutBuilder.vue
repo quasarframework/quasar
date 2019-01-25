@@ -314,14 +314,14 @@
 
         <q-dialog v-model="exportDialog">
           <q-card>
-            <div class="overflow-hidden" style="background-color:#272822;">
+            <div class="overflow-hidden bg-code">
               <div style="max-height:50vh;" class="scroll q-pa-sm">
                 <doc-code copy lang="html">{{ layoutExport }}</doc-code>
               </div>
             </div>
 
             <q-card-actions align="right">
-              <q-btn color="white" text-color="teal" flat label="Close" v-close-dialog />
+              <q-btn color="white" text-color="code" flat label="Close" v-close-dialog />
             </q-card-actions>
           </q-card>
         </q-dialog>

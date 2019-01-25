@@ -22,7 +22,7 @@ q-card.doc-example.q-my-lg(:class="classes")
           :label="tab"
         )
 
-      q-tab-panels.text-grey-3.text-weight-regular(v-model="currentTab", animated, style="background-color: #272822")
+      q-tab-panels.bg-code.text-grey-3.text-weight-regular(v-model="currentTab", animated)
         q-tab-panel.q-pa-none(
           v-for="tab in tabs"
           :key="`pane-${tab}`"
@@ -136,8 +136,6 @@ export default {
 <style lang="stylus">
 @import '~quasar-variables'
 
-$dark-color = #272822
-
 .doc-example
   &__toolbar
     background white
@@ -164,7 +162,7 @@ $dark-color = #272822
       background $grey-9
       color $grey-5
     .doc-example__content
-      background $dark-color
+      background-color $code-color
       color white
 
   &__content

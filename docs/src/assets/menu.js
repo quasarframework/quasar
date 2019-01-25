@@ -81,7 +81,8 @@ const style = [
   },
   {
     name: 'Theme Builder',
-    path: 'theme-builder'
+    path: 'theme-builder',
+    badge: 'new'
   },
   {
     name: 'Spacing',
@@ -155,7 +156,8 @@ const layout = [
   },
   {
     name: 'Page Scroller',
-    path: 'page-scroller'
+    path: 'page-scroller',
+    badge: 'new'
   },
   {
     name: 'Floating Action Button',
@@ -166,11 +168,13 @@ const layout = [
 const directives = [
   {
     name: 'Close Dialog',
-    path: 'close-dialog'
+    path: 'close-dialog',
+    badge: 'new'
   },
   {
     name: 'Close Menu',
-    path: 'close-menu'
+    path: 'close-menu',
+    badge: 'new'
   },
   {
     name: 'Go Back (Handling Back Button)',
@@ -198,7 +202,8 @@ const directives = [
   },
   {
     name: 'Touch Repeat',
-    path: 'touch-repeat'
+    path: 'touch-repeat',
+    badge: 'new'
   },
   {
     name: 'Touch Swipe',
@@ -260,19 +265,23 @@ const components = [
   },
   {
     name: 'Avatar',
-    path: 'avatar'
+    path: 'avatar',
+    badge: 'new'
   },
   {
     name: 'Badge',
-    path: 'badge'
+    path: 'badge',
+    badge: 'new'
   },
   {
     name: 'Banner',
-    path: 'banner'
+    path: 'banner',
+    badge: 'new'
   },
   {
     name: 'Bar',
-    path: 'bar'
+    path: 'bar',
+    badge: 'new'
   },
   {
     name: 'Breadcrumbs',
@@ -313,7 +322,8 @@ const components = [
   },
   {
     name: 'Circular Progress',
-    path: 'circular-progress'
+    path: 'circular-progress',
+    badge: 'new'
   },
   {
     name: 'Color Picker',
@@ -340,11 +350,13 @@ const components = [
       },
       {
         name: 'Form Mask',
-        path: 'form-mask'
+        path: 'form-mask',
+        badge: 'new'
       },
       {
         name: 'Form Validation',
-        path: 'form-validation'
+        path: 'form-validation',
+        badge: 'new'
       },
       {
         name: 'Select',
@@ -394,7 +406,8 @@ const components = [
   },
   {
     name: 'Img',
-    path: 'img'
+    path: 'img',
+    badge: 'new'
   },
   {
     name: 'Infinite Scroll',
@@ -418,7 +431,8 @@ const components = [
   },
   {
     name: 'Markup Table',
-    path: 'markup-table'
+    path: 'markup-table',
+    badge: 'new'
   },
   {
     name: 'Menu',
@@ -455,7 +469,8 @@ const components = [
   },
   {
     name: 'Popup Proxy',
-    path: 'popup-proxy'
+    path: 'popup-proxy',
+    badge: 'new'
   },
   {
     name: 'Pull To Refresh',
@@ -467,15 +482,18 @@ const components = [
   },
   {
     name: 'Separator',
-    path: 'separator'
+    path: 'separator',
+    badge: 'new'
   },
   {
     name: 'Slide Item',
-    path: 'slide-item'
+    path: 'slide-item',
+    badge: 'new'
   },
   {
     name: 'Space',
-    path: 'space'
+    path: 'space',
+    badge: 'new'
   },
   {
     name: 'Spinners',
@@ -483,7 +501,8 @@ const components = [
   },
   {
     name: 'Splitter',
-    path: 'splitter'
+    path: 'splitter',
+    badge: 'new'
   },
   {
     name: 'Stepper',
