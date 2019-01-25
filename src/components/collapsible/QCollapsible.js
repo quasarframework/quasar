@@ -92,7 +92,7 @@ export default {
     },
     __getItemProps (wrapper) {
       return {
-        props: { cfg: this.$props },
+        props: wrapper ? { cfg: this.$props } : this.$props,
         style: this.headerStyle,
         'class': this.headerClass,
         nativeOn: {
