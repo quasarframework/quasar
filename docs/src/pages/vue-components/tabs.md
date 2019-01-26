@@ -13,37 +13,49 @@ Cherry-pick only what you are using from list below.
 
 <doc-example title="Basic" file="QTabs/Basic" />
 
+::: tip
 Tabs can show icon, text or both.
+:::
 
 <doc-example title="Types" file="QTabs/Types" />
 
-You can use `v-model` to hold the current tab. You need to set `name` on each tab. Model will hold the name of currently selected tab.
+::: tip
+You can use `v-model` to hold the current tab. You need to set `name` prop on each tab. Model will then hold the name of currently selected tab.
+:::
 
 <doc-example title="Usage with V-model" file="QTabs/VModel" />
 
-You can also the `value` prop just by itself to set default tab.
+::: tip
+You can also use the `value` prop just by itself to set default tab.
+:::
 
 <doc-example title="Default Tab" file="QTabs/DefaultTab" />
 
-You can color tabs with with classes `text-*` and `bg-*` (see [Color Pallete](/style/color-pallete))
+::: tip
+You can color tabs with classes `text-*` and `bg-*` (see [Color Pallete](/style/color-pallete)).
+:::
 
 <doc-example title="Colors" file="QTabs/Colors" />
 
-Use `active-color` and `active-bg-color` to customize selected tab. Indicator color can be changed with `indicator-color` prop
+::: tip
+Use `active-color` and `active-bg-color` to customise selected tab. Indicator color can be changed with `indicator-color` prop.
+:::
 
 <doc-example title="Custom Colors for Active Tab and Indicator" file="QTabs/ActiveColor" />
 
 <doc-example title="Glossy" file="QTabs/Glossy" />
 
-With animated bar on top
+<doc-example title="Animated Bar on Top" file="QTabs/TopBar" />
 
-<doc-example title="Bar on Top" file="QTabs/TopBar" />
-
-Use `alert` prop or [QBadge](/vue-components/badge) to add count
+::: tip
+Use `alert` prop or [QBadge](/vue-components/badge) to add count.
+:::
 
 <doc-example title="With Alerts and Counts" file="QTabs/AlertsAndCounts" />
 
-Use `align` prop for different alignments
+::: tip
+Use `align` prop for different alignments.
+:::
 
 <doc-example title="Alignments" file="QTabs/Alignments" />
 
@@ -56,7 +68,9 @@ Panels can be `swipeable` and use different animations (see `transition-prev` an
 
 <doc-example title="Panels Above Tabs" file="QTabs/PanelsAbove" />
 
-Keeping tabs alive (Vue won't destroy content on Tab selection change)
+::: tip
+Keeping tabs alive (Vue won't destroy content on Tab selection change).
+:::
 
 <doc-example title="Panels With Keep Alive" file="QTabs/PanelsKeepAlive" />
 
