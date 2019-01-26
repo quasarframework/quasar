@@ -27,7 +27,7 @@ If you don't need pagination, sorting, filtering, and all other features of QTab
 
 Let’s take an example of configuring the `columns` property. We are going to tell QTable that `row-key` is ‘name’, which **must** be unique. If this was data fetched from a database we would likely use the row **id**.
 
-```
+```js
 columns: [ // array of Objects
   // column Object definition
   {
@@ -122,7 +122,7 @@ If you want to control Table’s pagination, use `pagination` prop, but don’t 
 :::
 
 ::: tip
-When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See *Synchronising with Server* example below.
+When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See [*Synchronizing with Server*](#Example--Synchronizing-with-Server) example below.
 :::
 
 <doc-example title="Pagination with Initial Sort and Rows per Page" file="QTable/Pagination" />
@@ -147,13 +147,16 @@ When your database contains a big number of rows for a Table, obviously it’s n
 In the example below, steps have been taken to emulate an ajax call to a server. While the concepts are similar, if you use this code you will need to make the appropriate changes to connect to your own data source.
 :::
 
-<doc-example title="Synchronising with Server" file="QTable/Synchronising" />
+<doc-example title="Synchronizing with Server" file="QTable/Synchronising" />
 
-## API
+## QTable API
 <doc-api file="QTable" />
 
+## QTh API
 <doc-api file="QTh" />
 
+## QTr API
 <doc-api file="QTr" />
 
+## QTd API
 <doc-api file="QTd" />
