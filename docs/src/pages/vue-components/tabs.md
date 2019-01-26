@@ -5,8 +5,9 @@ Quasar Tabs are a way of displaying more information using less window real esta
 One common use case for this component is in Layout’s header/footer in a QToolbar. Please refer to [Layouts](/layout/layout) and [Toolbar](/vue-components/toolbar) for references.
 
 ## Installation
+Cherry-pick only what you are using from list below.
 
-<doc-installation :components="['QTabs','QTab','QTabPane','QRouteTab']" />
+<doc-installation :components="['QTabs', 'QTab', 'QRouteTab', 'QTabPanels', 'QTabPanel']" />
 
 ## Usage
 
@@ -78,14 +79,22 @@ The Tabs Router component is just like the QTab component and shares the same pr
 </q-tabs>
 ```
 
-## API
+## QTabs API
 
 <doc-api file="QTabs" />
 
+## QTab API
+
 <doc-api file="QTab" />
+
+## QRouteTab API
 
 <doc-api file="QRouteTab" />
 
+## QTabPanels API
+
 <doc-api file="QTabPanels" />
+
+## QTabPanel API
 
 <doc-api file="QTabPanel" />
