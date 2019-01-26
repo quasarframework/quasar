@@ -1,8 +1,8 @@
 ---
-title: QInfiniteScroll
+title: Infinite Scroll
 ---
 
-The Quasar InfiteScroll component allows you to load new content as the user scrolls down the page.
+The QInfiteScroll component allows you to load new content as the user scrolls down the page.
 
 ::: tip
 Infinite Scroll loads items in advance when less than `offset` (default = 500) pixels is left to be seen. If the content you fetch has height less than the container’s height on screen then Infinite Scroll will continue loading more content. So make sure you load enough content.
@@ -16,13 +16,9 @@ In your `@load` function, don't forget to call the passed in `done()` function w
 <doc-installation components="QInfiniteScroll" />
 
 ## Usage
-::: tip
-In the example below, scroll to the bottom to see QInfiniteScroll in action.
-:::
+Scroll to the bottom to see QInfiniteScroll in action.
 
-<doc-example title="Basic" file="QInfiniteScroll/Basic" />
+<doc-example title="Basic" file="QInfiniteScroll/Basic" scrollable />
 
-<doc-example title="Message slot" file="QInfiniteScroll/Slot" />
-
-## API
+## QInfiniteScroll API
 <doc-api file="QInfiniteScroll" />

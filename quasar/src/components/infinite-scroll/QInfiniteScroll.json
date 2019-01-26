@@ -12,6 +12,16 @@
     }
   },
 
+  "slots": {
+    "default": {
+      "extends": "default"
+    },
+
+    "loading": {
+      "desc": "Slot displaying something while loading content; Example: QSpinner"
+    }
+  },
+
   "events": {
     "load": {
       "desc": "Emitted when Infinite Scroll needs to load more data",
@@ -54,16 +64,6 @@
 
     "updateScrollTarget": {
       "desc": "Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes"
-    }
-  },
-
-  "slots": {
-    "default": {
-      "extends": "default"
-    },
-
-    "message": {
-      "desc": "Slot for replacing the default scroll message (QSpinner)"
     }
   }
 }

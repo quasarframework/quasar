@@ -118,7 +118,7 @@ export default Vue.extend({
   render (h) {
     return h('div', { staticClass: 'q-infinite-scroll' }, this.$slots.default.concat([
       this.fetching
-        ? h('div', { staticClass: 'q-infinite-scroll__message' }, this.$slots.message)
+        ? h('div', { staticClass: 'q-infinite-scroll__loading' }, this.$slots.loading)
         : null
     ]))
   }

@@ -1,7 +1,7 @@
 ---
 title: QImg
 ---
-The Quasar QImg component makes working with images easy.
+The QImg component makes working with images easy and also adds a nice loading effect to it.
 
 ## Installation
 <doc-installation components="QImg" />
@@ -46,5 +46,5 @@ Use the `basic` property for fast loading with no transitions.
 
 <doc-example title="Slot (error)" file="QImg/SlotError" />
 
-## API
+## QImg API
 <doc-api file="QImg" />

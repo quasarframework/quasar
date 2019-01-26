@@ -2,7 +2,7 @@
 title: Dialog
 ---
 
-Quasar Dialogs are a great way to offer the user the ability to choose a specific action or list of actions. They also can provide the user with important information, or require them to make a decision (or multiple decisions).
+The QDialog component is a great way to offer the user the ability to choose a specific action or list of actions. They also can provide the user with important information, or require them to make a decision (or multiple decisions).
 
 From a UI perspective, you can think of Dialogs as a type of floating modal, which covers only a portion of the screen. This means Dialogs should only be used for quick user actions, like verifying a password, getting a short App notification or selecting an option or options quickly.
 
@@ -56,5 +56,5 @@ You are able to customize the size of the Dialogs. Notice we either tamper with 
 
 <doc-example title="Sizing examples" file="QDialog/Sizing" />
 
-## API
+## QDialog API
 <doc-api file="QDialog" />

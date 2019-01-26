@@ -2,7 +2,7 @@
 title: Editor (WYSIWYG)
 ---
 
-**QEditor** is a WYSIWYG (“what you see is what you get”) editor component that enables the user to write and even paste HTML. It uses the so-called Design Mode and the cross-browser `contentEditable` interface. Here are some go-to reference pages from the MDN webdocs with more detailed information about the underlying technology:
+The QEditor component is a WYSIWYG (“what you see is what you get”) editor component that enables the user to write and even paste HTML. It uses the so-called Design Mode and the cross-browser `contentEditable` interface. Here are some go-to reference pages from the MDN webdocs with more detailed information about the underlying technology:
 
 - [Making content editable](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content)
 - [Design Mode](https://developer.mozilla.org/en-US/docs/Web/API/Document/designMode)
@@ -31,34 +31,7 @@ Each of these commands is pre-configured with icons and their own internationali
 
 <doc-example title="Redefine Bold Command" file="QEditor/NewBold" />
 
-
-The following is an example that adds your own definitions. In this case make sure you don’t overlap the default commands:
-
-```html
-<!-- we can later use "save" and "upload" in "toolbar" prop -->
-:definitions="{
-  save: {
-    tip: 'Save your work',
-    icon: 'save',
-    label: 'Save',
-    handler: saveWork
-  },
-  upload: {
-    tip: 'Upload to cloud',
-    icon: 'cloud_upload',
-    label: 'Upload',
-    handler: uploadIt
-  }
-}"
-:toolbar="[
-  ['bold', 'italic', 'strike', 'underline'],
-  ['upload', 'save'],
-]"
-<!--
-  Notice the handlers. It references methods in your Vue scope
-  for when toolbar commands using these definitions are clicked/tapped.
--->
-```
+The following is an example that adds custom definitions. In such cases, make sure you don’t overlap the default commands:
 
 <doc-example title="Add new commands" file="QEditor/NewCommands" />
 
@@ -181,5 +154,5 @@ If you don't set a font (or the user doesn't choose one), the print dialogue wil
 ### Internationalization
 The tooltips content of QEditor are translated by the [Quasar Language Pack](/options/quasar-language-packs), so merely changing the language will also change the interface. If your desired language pack is missing - or you find an error, please consider providing the update as PR.
 
-## API
+## QEditor API
 <doc-api file="QEditor" />
