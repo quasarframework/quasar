@@ -32,7 +32,7 @@ columns: [ // array of Objects
   // column Object definition
   {
     // unique id (used by row-key, pagination.sortBy, ...)
-    name: 'name',
+    name: 'desc',
 
     // label for header
     label: 'Dessert (100g serving)',

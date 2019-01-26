@@ -36,7 +36,7 @@ export default {
       visibleColumns: ['calories', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
       columns: [
         {
-          name: 'name',
+          name: 'desc',
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',

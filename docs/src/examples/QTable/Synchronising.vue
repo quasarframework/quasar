@@ -36,7 +36,7 @@ export default {
       },
       columns: [
         {
-          name: 'name',
+          name: 'desc',
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',
@@ -46,9 +46,9 @@ export default {
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, classes: 'bg-grey', style: 'width: 10px' },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-        { name: 'protein', label: 'Protein (g)', field: 'protein' },
-        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+        { name: 'carbs', label: 'Carbs (g)', field: 'carbs', sortable: true },
+        { name: 'protein', label: 'Protein (g)', field: 'protein', sortable: true },
+        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium', sortable: true },
         { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
@@ -169,13 +169,13 @@ export default {
         data.sort((a, b) => {
           let x = descending ? b : a
           let y = descending ? a : b
-          if (sortBy === 'name') {
+          if (sortBy === 'desc') {
             // string sort
             return x[sortBy] > y[sortBy] ? 1 : x[sortBy] < y[sortBy] ? -1 : 0
           }
           else {
             // numeric sort
-            return parseInt(x[sortBy], 10) - parseInt(y[sortBy], 10)
+            return parseFloat(x[sortBy]) - parseFloat(y[sortBy])
           }
         })
       }

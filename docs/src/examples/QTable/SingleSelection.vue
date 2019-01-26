@@ -23,7 +23,7 @@ export default {
       selected: [],
       columns: [
         {
-          name: 'name',
+          name: 'desc',
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',
