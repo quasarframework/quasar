@@ -35,6 +35,10 @@ Move the slider to see the label
 
 <doc-example title="Dark" file="QSlider/Dark" dark />
 
+Vue will soon supply the `.lazy` modifier for `v-model` on components too, but until then, you can use the longer equivalent with `:value` and `@change`
+
+<doc-example title="Lazy Input" file="QSlider/Lazy" />
+
 <doc-example title="Readonly" file="QSlider/Readonly" />
 
 <doc-example title="Disable" file="QSlider/Disable" />
