@@ -70,7 +70,7 @@ export default Vue.extend({
 
     computedCounter () {
       if (this.counter !== false) {
-        return this.value.length + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
+        return ('' + this.value).length + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
       }
     }
   },
