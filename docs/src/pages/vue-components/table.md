@@ -27,7 +27,7 @@ If you don't need pagination, sorting, filtering, and all other features of QTab
 
 Let’s take an example of configuring the `columns` property. We are going to tell QTable that `row-key` is ‘name’, which **must** be unique. If this was data fetched from a database we would likely use the row **id**.
 
-```
+```js
 columns: [ // array of Objects
   // column Object definition
   {
@@ -149,11 +149,14 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 
 <doc-example title="Synchronising with Server" file="QTable/Synchronising" />
 
-## API
+## QTable API
 <doc-api file="QTable" />
 
+## QTh API
 <doc-api file="QTh" />
 
+## QTr API
 <doc-api file="QTr" />
 
+## QTd API
 <doc-api file="QTd" />
