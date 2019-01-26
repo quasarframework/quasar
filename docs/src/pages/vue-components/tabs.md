@@ -11,7 +11,13 @@ Cherry-pick only what you are using from list below.
 
 ## Usage
 
+::: tip
+QTabs can be scrolled horizontally when the width is longer than the display width. Adjust your browser accordingly to see this in action. On a desktop you will see chevons on either side that can be clicked. On a mobile, you can pan the tabs with your finger.
+:::
+
 <doc-example title="Basic" file="QTabs/Basic" />
+
+<doc-example title="Dense" file="QTabs/Dense" />
 
 ::: tip
 Tabs can show icon, text or both.
