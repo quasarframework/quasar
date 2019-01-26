@@ -529,11 +529,15 @@ const components = [
     path: 'tooltip'
   },
   {
-    name: 'Transitions',
+    name: 'Transitions and Animations',
     children: [
       {
-        name: 'Transition',
-        path: 'transition'
+        name: 'Animations',
+        path: 'animations'
+      },
+      {
+        name: 'Transitions',
+        path: 'transitions'
       },
       {
         name: 'Slide Transition',

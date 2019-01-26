@@ -1,57 +1,47 @@
 ---
-title: QCarousel
+title: Carousel
 ---
 
-Quasar Carousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards too.
-
-::: tip
-The Carousel height is determined by the slide with biggest height, unless the `height` prop is used.
-:::
+The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards too.
 
 ## Installation
 <doc-installation :components="['QCarousel', 'QCarouselControl', 'QCarouselSlide']" />
 
 ## Usage
-::: tip
-Basic Carousel. No controls or transitions. Slide position is controlled programmatically by user input.
-:::
+Below is an almost stripped down basic Carousel (it is just animated and only has custom transitions specified) with no navigation embedded. For this reason, we are controlling the current slide through the model.
 
 <doc-example title="Basic" file="QCarousel/Basic" />
 
 ::: tip
-No controls or transitions. Just swipe between slides (you can use mouse to swipe too) to navigate left or right.
+In the example below there are just a few transitions demoed. For a complete list of transitions, head to the [Transitions](/vue-components/transitions) page.
 :::
 
-<doc-example title="Swipeable" file="QCarousel/Swipeable" />
-
-<doc-example title="Animated" file="QCarousel/Animated" />
-
-<doc-example title="Transitions" file="QCarousel/Transitions" />
-
-<doc-example title="Navigation and Control Color" file="QCarousel/Navigation" />
-
-<doc-example title="Arrows" file="QCarousel/Arrows" />
-
-<doc-example title="Prev and Next Icons" file="QCarousel/PrevAndNextIcons" />
-
-<doc-example title="Infinite" file="QCarousel/Infinite" />
-
-<doc-example title="Autoplay" file="QCarousel/Autoplay" />
+<doc-example title="Transitions, bottom navigation, arrows and auto padding" file="QCarousel/Transitions" />
 
 ::: tip
-Using the property `thumbnails` only applies to slides that have images.
+In the examples above, you can also swipe with your finger (or swiping with the mouse -- clicking and quickly dragging to left/right then releasing).
 :::
+
+### Media content
+<doc-example title="Image slides" file="QCarousel/ImageSlides" />
+
+<doc-example title="Captions" file="QCarousel/Captions" />
+
+<doc-example title="Video slides" file="QCarousel/VideoSlides" />
+
+In the example below there are thumbnails being generated automatically. Thumbnails only applies to image slides.
+
+<doc-example title="Thumbnails" file="QCarousel/Thumbnails" />
+
 ::: tip
 Don't use the property `navigation` with `thumbnails` as it supercedes and thumbnails will not be displayed.
 :::
 
-<doc-example title="Thumbnails" file="QCarousel/Thumbnails" />
+### Infinite and Autoplay
+<doc-example title="Autoplay" file="QCarousel/InfiniteAutoplay" />
 
-<doc-example title="Padding" file="QCarousel/Padding" />
-
-<doc-example title="Custom Captions" file="QCarousel/CustomCaptions" />
-
-<doc-example title="Control Slot" file="QCarousel/ControlSlot" />
+### Controls
+<doc-example title="Controls" file="QCarousel/Controls" />
 
 ## QCarousel API
 <doc-api file="QCarousel" />

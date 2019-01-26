@@ -1,11 +1,11 @@
 <template>
   <div class="q-pa-md">
     <q-carousel
-      swipeable
       animated
       v-model="slide"
-      thumbnails
+      navigation
       infinite
+      autoplay
     >
       <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
       <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />

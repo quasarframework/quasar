@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md">
     <q-carousel
-      swipeable
       animated
       v-model="slide"
-      thumbnails
+      arrows
+      navigation
       infinite
     >
       <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
