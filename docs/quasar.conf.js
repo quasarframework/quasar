@@ -82,7 +82,13 @@ module.exports = function (ctx) {
     },
 
     framework: {
-      all: true
+      all: true,
+
+      config: {
+        loadingBar: {
+          color: 'yellow'
+        }
+      }
     },
 
     animations: ['fadeIn', 'fadeOut'],
