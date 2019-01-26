@@ -2,9 +2,13 @@
 title: Chip
 ---
 
-The Chip component is basically a simple UI block entity, representing for example more advanced underlying data, such as a contact, in a compact way.
+The QChip component is basically a simple UI block entity, representing for example more advanced underlying data, such as a contact, in a compact way.
 
 Chips can contain entities such as an avatar, text or an icon, optionally having a pointer too. They can also be closed or removed if configured so.
+
+::: tip
+Also check out [QBadge](/vue-components/badge).
+:::
 
 ## Installation
 <doc-installation components="QChip" />
@@ -24,5 +28,5 @@ Chips can contain entities such as an avatar, text or an icon, optionally having
 
 <doc-example title="Removable" file="QChip/Removable" />
 
-## API
+## QChip API
 <doc-api file="QChip" />

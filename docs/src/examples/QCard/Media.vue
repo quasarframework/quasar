@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <q-card inline class="my-card">
+  <div class="q-pa-md row items-start q-gutter-md">
+    <q-card class="my-card">
       <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
 
       <q-card-section>
@@ -13,7 +13,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card inline class="my-card">
+    <q-card class="my-card">
       <q-img
         src="https://cdn.quasar-framework.org/img/parallax2.jpg"
         basic
@@ -24,7 +24,7 @@
       </q-img>
     </q-card>
 
-    <q-card inline class="my-card">
+    <q-card class="my-card">
       <q-img
         src="https://cdn.quasar-framework.org/img/parallax2.jpg"
         basic
@@ -39,7 +39,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card inline class="my-card">
+    <q-card class="my-card">
       <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
         <div class="text-subtitle2 absolute-top text-center">
           Title
@@ -47,7 +47,7 @@
       </q-img>
     </q-card>
 
-    <q-card inline class="my-card">
+    <q-card class="my-card">
       <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
         <div class="text-h5 absolute-bottom text-right">
           Title
@@ -55,7 +55,7 @@
       </q-img>
     </q-card>
 
-    <q-card inline class="my-card">
+    <q-card class="my-card">
       <q-item>
         <q-item-section avatar>
           <q-avatar>
@@ -72,7 +72,7 @@
       <img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
     </q-card>
 
-    <q-card inline class="my-card">
+    <q-card class="my-card">
       <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
         <div class="absolute-bottom">
           <div class="text-h6">Our Changing Planet</div>

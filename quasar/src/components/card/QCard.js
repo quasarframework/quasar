@@ -8,8 +8,7 @@ export default Vue.extend({
 
     square: Boolean,
     flat: Boolean,
-    bordered: Boolean,
-    inline: Boolean
+    bordered: Boolean
   },
 
   render (h) {
@@ -19,8 +18,7 @@ export default Vue.extend({
         'q-card--dark': this.dark,
         'q-card--bordered': this.bordered,
         'q-card--square no-border-radius': this.square,
-        'q-card--flat no-shadow': this.flat,
-        'inline-block': this.inline
+        'q-card--flat no-shadow': this.flat
       }
     }, this.$slots.default)
   }

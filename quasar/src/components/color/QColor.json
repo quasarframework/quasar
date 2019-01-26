@@ -28,11 +28,6 @@
       "extends": "readonly"
     },
 
-    "inline": {
-      "type": "Boolean",
-      "desc": "Show component as inline-block"
-    },
-
     "dark": {
       "extends": "dark"
     }

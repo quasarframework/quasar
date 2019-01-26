@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-card inline class="my-card">
+    <q-card class="my-card">
       <q-video src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0" />
 
       <q-card-section>

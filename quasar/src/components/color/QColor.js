@@ -48,7 +48,6 @@ export default Vue.extend({
 
     disable: Boolean,
     readonly: Boolean,
-    inline: Boolean,
     dark: Boolean
   },
 
@@ -163,8 +162,7 @@ export default Vue.extend({
       staticClass: 'q-color-picker',
       class: {
         disabled: this.disable,
-        'q-color-picker--dark': this.dark,
-        'inline-block': this.inline
+        'q-color-picker--dark': this.dark
       }
     }, [
       this.__getHeader(h),
