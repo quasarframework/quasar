@@ -164,9 +164,6 @@ export default {
     .doc-example__tabs
       background $grey-9
       color $grey-5
-    .doc-example__content
-      background $dark-primary
-      color white
 
   &__content
     position relative

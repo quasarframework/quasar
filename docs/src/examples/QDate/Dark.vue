@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md bg-grey-10 text-white">
     <div class="row justify-center">
       <q-date
         v-model="date"

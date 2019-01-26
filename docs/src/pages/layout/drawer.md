@@ -69,5 +69,5 @@ By default, when in "mini" mode, Quasar CSS hides a few DOM elements to provide 
 
 <doc-example title="Mini-mode with slot" file="QDrawer/MiniSlot" />
 
-## API
+## QDrawer API
 <doc-api file="QDrawer" />

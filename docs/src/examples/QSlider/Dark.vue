@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md bg-grey-10 text-white">
     <q-chip square color="secondary" text-color="white">
       Model: {{ value }} (-20 to 20, step 4)
     </q-chip>
