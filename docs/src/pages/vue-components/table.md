@@ -83,7 +83,7 @@ columns: [ // array of Objects
 
 <doc-example title="No Header/Footer" file="QTable/NoHeaderFooter" />
 
-::: tip
+::: warning
 The property `name-key` must be set in order for selection to work properly.
 :::
 
