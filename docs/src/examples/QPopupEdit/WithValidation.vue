@@ -210,7 +210,6 @@ export default {
   },
   methods: {
     proteinRangeValidation (val) {
-      console.log('validating :', val)
       if (val < 4 || val > 7) {
         this.errorProtein = true
         this.errorMessageProtein = 'The value must be between 4 and 7!'
