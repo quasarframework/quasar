@@ -16,5 +16,5 @@ You must use same design props (flat, outline, push, ...) on both the parent QBt
 
 <doc-example title="With QBtnDropdown" file="QBtnGroup/WithDropdown" />
 
-## API
+## QBtnGroup API
 <doc-api file="QBtnGroup" />

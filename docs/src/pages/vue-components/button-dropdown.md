@@ -20,5 +20,5 @@ QBtnDropdown is a very convenient dropdown button. Goes very well with [QList](/
 
 <doc-example title="Split and router link on main" file="QBtnDropdown/Link" />
 
-## API
+## QBtnDropdown API
 <doc-api file="QBtnDropdown" />
