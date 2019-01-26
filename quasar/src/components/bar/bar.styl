@@ -1,12 +1,15 @@
 .q-bar
   background rgba(0, 0, 0, .2)
 
-  > .q-icon:not(:first-child)
+  > .q-icon
     margin-left 2px
-  > div:not(:first-child)
+  > div, > div + .q-icon
     margin-left 8px
-  > .q-btn:not(:first-child)
+  > .q-btn
     margin-left 2px
+
+  > .q-icon:first-child, > .q-btn:first-child, > div:first-child
+    margin-left 0
 
   &--standard
     padding 0 12px

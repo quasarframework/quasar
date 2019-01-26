@@ -19,10 +19,13 @@ export default Vue.extend({
       props: this.hasRouterLink ? this.routerLinkProps : null
     }, [
 
-      (this.icon && h(QIcon, {
-        staticClass: 'q-mr-sm',
-        props: { name: this.icon }
-      })) || void 0,
+      this.icon !== void 0
+        ? h(QIcon, {
+          staticClass: 'q-breadcrumbs__el-icon',
+          class: this.label !== void 0 ? 'q-breadcrumbs__el-icon--with-label' : null,
+          props: { name: this.icon }
+        })
+        : null,
 
       this.label
 

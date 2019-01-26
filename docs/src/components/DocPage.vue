@@ -49,6 +49,10 @@ export default {
     text-decoration none
     outline 0
 
+@media (max-width 600px)
+  .doc-page
+    padding 16px 22px
+
 .doc-edit-link
   margin 68px 0 12px !important
 </style>

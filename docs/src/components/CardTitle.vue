@@ -1,6 +1,6 @@
 <template lang="pug">
-section.doc-heading.col.text-subtitle1(:id="id", @click="copyHeading(id)")
-  span.doc-card-title {{ title }}
+section.q-my-sm.q-mr-md.cursor-pointer.text-subtitle1(:id="id", @click="copyHeading(id)")
+  div.doc-card-title {{ title }}
 </template>
 
 <script>
@@ -33,7 +33,7 @@ $title-color = $grey-4
 
 .doc-card-title
   margin-left -24px
-  padding 4px 10px 4px 24px
+  padding 2px 10px 2px 24px
   background $title-color
   color $grey-8
   position relative

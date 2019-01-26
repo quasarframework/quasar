@@ -3,12 +3,15 @@ q-card.doc-example.q-my-lg(:class="classes")
   q-toolbar.doc-example__toolbar
     card-title(:title="title", prefix="Example--")
 
-    q-btn(dense, flat, round, icon="fab fa-github", @click="openGithub")
-      q-tooltip View on Github
-    q-btn.q-ml-sm(dense, flat, round, icon="fab fa-codepen", @click="$refs.codepen.open()")
-      q-tooltip Edit in Codepen
-    q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded")
-      q-tooltip View Source
+    q-space
+
+    div.col-auto
+      q-btn(dense, flat, round, icon="fab fa-github", @click="openGithub")
+        q-tooltip View on Github
+      q-btn.q-ml-sm(dense, flat, round, icon="fab fa-codepen", @click="$refs.codepen.open()")
+        q-tooltip Edit in Codepen
+      q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded")
+        q-tooltip View Source
 
   q-separator.doc-example__separator
 
@@ -162,7 +165,7 @@ export default {
       background $grey-9
       color $grey-5
     .doc-example__content
-      background-color $code-color
+      background $dark-primary
       color white
 
   &__content

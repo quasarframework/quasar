@@ -22,5 +22,5 @@ The `size` property will determine the height and the width of the Avatar. The `
 
 <doc-example title="With other components" file="QAvatar/Integrated" />
 
-## API
+## QAvatar API
 <doc-api file="QAvatar" />

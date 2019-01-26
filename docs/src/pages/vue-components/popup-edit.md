@@ -1,83 +1,47 @@
 ---
-title: Docs
+title: Popup Edit
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+QPopupEdit is a component that can be used to edit a value “in place”, like for example a cell in QTable. By default, a cell is displayed as a String, then if you are using QPopupEdit and a user clicks/taps on the table cell, a popup will open where the user will be able to edit the value using a textfield.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+This component injects a QMenu into its parent DOM element and enables the behavior described above, so it can be used anywhere, not only in QTable.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+<doc-installation components="QPopupEdit" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+Click on the cells to see the popup editor. The column "Name" demonstrates the `title` prop. The column "carbs" also demonstrates the `disable` prop. If you look at the source code, you'll see the cell for "carbs" is using QPopupedit, yet when clicking on the cell, the popup doesn't show.   
+
+::: tip
+There is also a `title` slot, which you can use to inject your own title, as demonstrated in the "calcium" column.
+:::
+
+<doc-example title="Simple Edit, with `title` prop and slot" file="QPopupEdit/Simple" />
+
+You can also add two buttons with the `buttons` prop, "Cancel" and "Set" (the default labels). These buttons help to control the user's input. Along with the `buttons` prop, you also have the `persistent` prop, which denies the user from closing the popup with the escape key or clicking/ tapping outside of the popup. The `persistent` prop is demonstrated in the "carbs" column. Lastly, you can control the labels of the two buttons with the `label-set` and `label-cancel` props, as seen in the "Protein" column. Notice "Save" is replacing "Set" and "Close" is replacing "Cancel". 
+
+<doc-example title="Edit with Buttons and the `persistent` and button label props" file="QPopupEdit/WithButtons" />
+
+Since QPopupEdit wraps QInput, you can basically use any type of QInput. For instance, you can also use a text area as shown below in the "Comments" column. 
+
+::: tip
+When using a text area for input, you'll need to also use `@keyup.enter.stop` in order to stop the enter key from closing the popup. You'll also need to add buttons for controlling the popup too. 
+:::
+
+<doc-example title="Text Area Edit" file="QPopupEdit/TextArea" />
+
+QPopupEdit also allows for simple validation of the input. To use it, you give it a callback function in the form of an arrow function and it should return a Boolean. `(value) => Boolean`. This is demonstrated in the "Protein" column below. 
+
+::: tip Tip 1
+Notice we are using the `hide` event to also revalidate the input. If we don't, QInput's error prop will 'hang' in an invalid state. 
+:::
+
+::: tip Tip 2
+With this example, we are using QInput's external error handling. We could also use QInput's validation prop and emit the value to QPopupEdit's validation prop. The same concept can be implemented, when using Vuelidate too. In other words, the value given to QPopupEdit's validate function can come from anywhere.   
+:::
+
+<doc-example title="Edit with Validation" file="QPopupEdit/WithValidation" />
 
 ## API
-<doc-api file="QTh" />
+
+<doc-api file="QPopupEdit" />
