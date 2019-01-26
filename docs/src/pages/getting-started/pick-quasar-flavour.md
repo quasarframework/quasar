@@ -2,8 +2,9 @@
 title: Getting Started - Pick Quasar Flavour
 ---
 
-**If you would like to learn what Quasar is all about and what it can do for you**, read the [Introduction to Quasar](/introduction-to-quasar). Otherwise, let's get started by choosing how you'd like to use Quasar. There are three methods for using Quasar:
+**If you would like to learn what Quasar is all about and what it can do for you**, read the [Introduction to Quasar](/introduction-to-quasar). Otherwise, let's get started by choosing how you'd like to use Quasar.
 
+There are three methods for using Quasar:
  * UMD/Standalone (embed into an existing project through CDN, progressive integration)
  * Development with Quasar CLI (**the premium developer experience, recommended**)
  * Vue CLI 3 plugin
@@ -31,7 +32,7 @@ If you'd like to embed Quasar into your existing website project, integrating it
 
 Get started by [reading more](/getting-started/umd) about it.
 
-You can skip the following step, but it's here as hint. There is a helper UMD starter kit, which will show you how to get started and what CSS and JS tags to include into your project. While installing the UMD kit, the CLI will ask you some questions (what Quasar theme will you be using, what Quasar I18n to include, ...) and it will generate a simple HTML file that will demo how to use CDN to add Quasar:
+You can skip the following step, but it's here as a hint. There is a helper UMD starter kit, which will show you how to get started and what CSS and JS tags to include into your project. While installing the UMD kit, the CLI will ask you some questions (what Quasar theme will you be using, what Quasar I18n to include, ...) and it will generate a simple HTML file that will demo how to use CDN to add Quasar:
 
 ```bash
 # Node.js >= 8.9.0 is required.
@@ -60,9 +61,9 @@ If you want to be able to build:
 * **share the same base-code for all those modes**
 * benefit from the latest web recommended practices out of the box
 * ability to write ES6 code
-* benefit from Tree Shaking
-* get your code optimized, minified, bundled in the best possible way
-* ability to write SFC (Single File Component - for Vue)
+* benefit from [Tree Shaking](https://en.wikipedia.org/wiki/Tree_shaking)
+* get your code optimized, minified and bundled in the best possible way
+* ability to write SFC ([Single File Component - for Vue](https://vuejs.org/v2/guide/single-file-components.html))
 
 ...then go for the best developer experience:
 
