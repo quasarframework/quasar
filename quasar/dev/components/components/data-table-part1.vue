@@ -579,7 +579,7 @@ export default {
 
       serverPagination: {
         page: 1,
-        rowsNumber: 150
+        rowsNumber: 10
       },
       serverData: [],
 
