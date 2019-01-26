@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="q-layout-padding card-examples row items-start q-gutter-md">
-      <q-card inline class="bigger">
+      <q-card class="bigger">
         <q-img :src="require('assets/donuts.png')" />
 
         <q-card-section>
@@ -39,7 +39,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card flat bordered inline class="bigger">
+      <q-card flat bordered class="bigger">
         <img src="~assets/donuts.png">
 
         <q-card-section>
@@ -77,13 +77,13 @@
         </q-card-actions>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-card-section>
           {{ lorem }}
         </q-card-section>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
           <div class="text-subtitle2">by John Doe</div>
@@ -94,7 +94,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card class="bigger" inline style="background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)">
+      <q-card class="bigger" style="background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)">
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
           <div class="text-subtitle2">by John Doe</div>
@@ -105,7 +105,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card flat inline>
+      <q-card flat>
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
           <div class="text-subtitle2">by John Doe</div>
@@ -116,7 +116,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card inline dark bordered class="bg-grey-9">
+      <q-card dark bordered class="bg-grey-9">
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
           <div class="text-subtitle2">by John Doe</div>
@@ -129,7 +129,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card inline class="bg-secondary text-white">
+      <q-card class="bg-secondary text-white">
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
           <div class="text-subtitle2">by John Doe</div>
@@ -147,7 +147,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-card-section>
           <div class="row items-center no-wrap">
             <div class="col">
@@ -187,7 +187,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
           <div class="text-subtitle2">by John Doe</div>
@@ -201,7 +201,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
           <div class="text-subtitle2">by John Doe</div>
@@ -213,7 +213,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <img src="~assets/mountains.jpg">
 
         <q-card-section>
@@ -226,7 +226,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-img
           :src="require('assets/parallax2.jpg')"
           basic
@@ -237,7 +237,7 @@
         </q-img>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-img
           src="https://cdn.quasar-framework.org/img/parallax2.jpg"
           basic
@@ -252,7 +252,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
           <div class="text-subtitle2 absolute-top text-center">
             Title
@@ -260,7 +260,7 @@
         </q-img>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
           <div class="text-h5 absolute-bottom text-right">
             Title
@@ -268,7 +268,7 @@
         </q-img>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
           <div class="text-subtitle2 absolute-full text-center">
             Title
@@ -276,7 +276,7 @@
         </q-img>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
           <div class="absolute-bottom">
             <div class="text-h6">Our Changing Planet</div>
@@ -290,7 +290,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-parallax src="https://cdn.quasar-framework.org/img/parallax1.jpg" :height="150" />
 
         <q-card-section>
@@ -306,7 +306,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-item>
           <q-item-section avatar>
             <q-avatar>
@@ -333,7 +333,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <img src="~assets/parallax2.jpg">
 
         <q-list>
@@ -372,7 +372,7 @@
         </q-list>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
           <div class="text-subtitle2">by John Doe</div>
@@ -399,7 +399,7 @@
         </q-list>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-video src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0" />
 
         <q-card-section>
@@ -412,7 +412,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
           <div class="text-subtitle2">by John Doe</div>
@@ -429,7 +429,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <img src="~assets/mountains.jpg">
 
         <q-card-actions align="around">
@@ -439,7 +439,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <img src="~assets/mountains.jpg">
 
         <q-card-section>
@@ -448,7 +448,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
           <div class="text-subtitle2">by John Doe</div>
@@ -510,7 +510,7 @@
         </q-markup-table>
       </q-card>
 
-      <q-card inline>
+      <q-card>
         <q-card-section>
           <div class="text-h6">Our Changing Planet</div>
           <div class="text-subtitle2">by John Doe</div>

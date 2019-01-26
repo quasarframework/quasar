@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <q-card inline class="my-card bg-secondary text-white">
+  <div class="q-pa-md row items-start q-gutter-md">
+    <q-card class="my-card bg-secondary text-white">
       <q-card-section>
         <div class="text-h6">Our Changing Planet</div>
         <div class="text-subtitle2">by John Doe</div>
@@ -18,7 +18,7 @@
       </q-card-actions>
     </q-card>
 
-    <q-card inline class="my-card">
+    <q-card class="my-card">
       <q-card-section>
         <div class="text-h6">Our Changing Planet</div>
         <div class="text-subtitle2">by John Doe</div>
@@ -32,7 +32,7 @@
       </q-card-actions>
     </q-card>
 
-    <q-card inline class="my-card bg-purple text-white">
+    <q-card class="my-card bg-purple text-white">
       <q-card-section>
         <div class="text-h6">Our Changing Planet</div>
         <div class="text-subtitle2">by John Doe</div>
@@ -44,7 +44,7 @@
       </q-card-actions>
     </q-card>
 
-    <q-card inline flat bordered class="my-card bg-grey-1">
+    <q-card flat bordered class="my-card bg-grey-1">
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">

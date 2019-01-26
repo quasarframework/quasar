@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <q-card inline class="my-card">
+  <div class="q-pa-md row items-start q-gutter-md">
+    <q-card class="my-card">
       <img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
 
       <q-list>
@@ -39,7 +39,7 @@
       </q-list>
     </q-card>
 
-    <q-card inline class="my-card">
+    <q-card class="my-card">
       <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
 
       <q-card-actions align="around">
@@ -49,7 +49,7 @@
       </q-card-actions>
     </q-card>
 
-    <q-card inline class="my-card">
+    <q-card class="my-card">
       <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
 
       <q-card-section>
