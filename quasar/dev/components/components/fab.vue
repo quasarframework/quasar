@@ -34,7 +34,7 @@
 
         <br>
 
-        <q-fab color="tertiary" glossy icon="keyboard_arrow_down" direction="down">
+        <q-fab color="accent" glossy icon="keyboard_arrow_down" direction="down">
           <q-fab-action color="amber" @click="notify('mail')" icon="mail" />
           <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
         </q-fab>

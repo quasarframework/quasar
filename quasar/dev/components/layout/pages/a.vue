@@ -27,7 +27,7 @@
       </div>
     </q-page-sticky>
 
-    <q-page-sticky position="left" expand class="bg-tertiary text-white">
+    <q-page-sticky position="left" expand class="bg-accent text-white">
       <div class="fit flex items-center">
         <q-toolbar>
           <q-btn flat round dense icon="map" />

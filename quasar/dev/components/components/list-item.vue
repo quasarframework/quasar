@@ -7,7 +7,7 @@
         </q-item-section>
 
         <q-item-section side>
-          <q-toggle v-model="dark" color="tertiary" :dark="dark" />
+          <q-toggle v-model="dark" color="accent" :dark="dark" />
         </q-item-section>
       </q-item>
 
@@ -17,7 +17,7 @@
         </q-item-section>
 
         <q-item-section side>
-          <q-toggle v-model="separator" color="tertiary" :dark="dark" />
+          <q-toggle v-model="separator" color="accent" :dark="dark" />
         </q-item-section>
       </q-item>
 

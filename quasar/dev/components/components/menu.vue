@@ -352,7 +352,7 @@
         </q-menu>
       </q-btn>
 
-      <q-btn color="tertiary" class="fixed-bottom-right" icon="plus_one" style="bottom: 10px; right: 16px;">
+      <q-btn color="accent" class="fixed-bottom-right" icon="plus_one" style="bottom: 10px; right: 16px;">
         <q-menu ref="popover4">
           <div class="group" style="width: 220px; text-align: center;">
             <q-btn icon="thumb_up" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />

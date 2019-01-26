@@ -205,7 +205,7 @@ export default {
     },
     importSomething () {
       this.$q.notify({
-        color: 'tertiary',
+        color: 'accent',
         message: `Importing...`
       })
     },
