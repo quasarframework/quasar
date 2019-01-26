@@ -1,5 +1,5 @@
 ---
-title: QChatMessage
+title: Chat Message
 ---
 
 Quasar supplies a chat component called QChatMessage which is really a chat entry that renders the data given by the props.
@@ -26,7 +26,7 @@ Using the property `sent` is intended for the sender of the chat message. The ot
 
 <doc-example title="Label" file="QChatMessage/Label" />
 
-### Advanced Properties
+### Customization
 
 <doc-example title="Text and Background Color" file="QChatMessage/Color" />
 
@@ -37,5 +37,5 @@ Using the property `sent` is intended for the sender of the chat message. The ot
 <doc-example title="Slot" file="QChatMessage/Slot" />
 
 
-## API
+## QChatMessage API
 <doc-api file="QChatMessage" />
