@@ -122,7 +122,7 @@ If you want to control Table’s pagination, use `pagination` prop, but don’t 
 :::
 
 ::: tip
-When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See *Synchronizing with Server* example below.
+When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See [*Synchronizing with Server*](#Example--Synchronizing-with-Server) example below.
 :::
 
 <doc-example title="Pagination with Initial Sort and Rows per Page" file="QTable/Pagination" />
