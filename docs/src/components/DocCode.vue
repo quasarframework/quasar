@@ -17,11 +17,6 @@
     )
       q-tooltip Copy to Clipboard
 
-  .absolute.text-grey(
-    v-else
-    style="top: 8px; right: 8px;"
-  ) {{ lang }}
-
   transition(
     v-if="copy"
     enter-active-class="animated fadeIn"

@@ -223,6 +223,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Remo Laubacher $200
 - Egor Molodov $200
 - Max Matteo Staack 150 EUR
+- Jeff Galbraith 129 EUR
 - Max Matteo Staack $123
 - Daniel Thompson-Yvetot (0.035 BTC, ~100 EUR)
 - Musicformellons $100
