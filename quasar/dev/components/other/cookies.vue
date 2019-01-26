@@ -5,8 +5,8 @@
     <q-btn label="Set Cookie B" no-caps @click="add('b')" color="secondary" class="q-ma-sm" />
     <q-btn label="DEL Cookie B" no-caps @click="del('b')" color="secondary" class="q-ma-sm" />
     <br>
-    <q-btn label="Refresh" no-caps @click="refresh" color="tertiary" class="q-ma-sm" />
-    <q-btn label="DEL ssr_cookie" no-caps @click="del('ssr_cookie')" color="tertiary" class="q-ma-sm" />
+    <q-btn label="Refresh" no-caps @click="refresh" color="accent" class="q-ma-sm" />
+    <q-btn label="DEL ssr_cookie" no-caps @click="del('ssr_cookie')" color="accent" class="q-ma-sm" />
     <br><br>
     <table class="q-table striped" style="width: 400px">
       <thead>

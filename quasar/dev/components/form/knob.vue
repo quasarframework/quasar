@@ -81,7 +81,7 @@
           size="120px"
           font-size="42px"
           color="secondary"
-          track-color="tertiary"
+          track-color="accent"
           :thickness="0.3"
           :min="min"
           :max="max"
