@@ -271,7 +271,7 @@
         "rowsNumber": {
           "type": "Number",
           "desc": "For server-side fetching only. How many total database rows are there to be added to the table. If set, causes the QTable to emit @request when data is required.",
-          "examples": "[ 100, 200 ]"
+          "examples": [ 100, 200 ]
         }
       },
       "examples": [

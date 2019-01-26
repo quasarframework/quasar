@@ -1,42 +1,29 @@
 ---
-title: QBreadcrumbs
+title: Breadcrumbs
 ---
+
+The QBreadcrumbs component is used as a navigational aid in UI. It allows users to keep track of their location within programs, documents, or websites. Most common use is it's in a [QToolbar](/vue-components/toolbar), but it's not limited to it.
 
 ## Installation
 <doc-installation :components="['QBreadcrumbs', 'QBreadcrumbsEl']" />
 
 ## Usage
-<doc-example title="Basic (with label)" file="QBreadcrumbs/Basic" />
+<doc-example title="Basic" file="QBreadcrumbs/Basic" />
 
-<doc-example title="Icons" file="QBreadcrumbs/Icons" />
+<doc-example title="In a QToolbar" file="QBreadcrumbs/Toolbar" />
 
-<doc-example title="Separator" file="QBreadcrumbs/Separator" />
+<doc-example title="Custom separators" file="QBreadcrumbs/Separator" />
 
-<doc-example title="Separator Color" file="QBreadcrumbs/SeparatorColor" />
+The example below won't work with UMD version (so in Codepen/jsFiddle too) because it depends on Vue Router.
 
-slot="separator" to display (in this example arrow_forward) custom separator.
+<doc-example title="Router Links" file="QBreadcrumbs/RouterLinks" />
 
-<doc-example title="Separator (slot)" file="QBreadcrumbs/SeparatorSlot" />
-
-::: tip
-All `router links` are available, including `to`, `exact`, `append` and `replace`.
-:::
-
-<doc-example title="Navigation (Router Links)" file="QBreadcrumbs/Navigation" />
-
-<doc-example title="Active Color" file="QBreadcrumbs/ActiveColor" />
-
-::: tip
-The available `gutter` settings are `none`, `xs`, `sm`, `md`, `lg`, and `xl`.
-:::
-
-<doc-example title="Gutter" file="QBreadcrumbs/Gutter" />
-
-::: tip
-The available `align` settings are `left`, `center`, `right`,  `between`, and `around`.
-:::
+<doc-example title="Gutters" file="QBreadcrumbs/Gutters" />
 
 <doc-example title="Align" file="QBreadcrumbs/Align" />
 
-## API
+## QBreadcrumbs API
 <doc-api file="QBreadcrumbs" />
+
+## QBreadcrumbsEl API
+<doc-api file="QBreadcrumbsEl" />
