@@ -1,7 +1,7 @@
 ---
 title: QNoSsr
 ---
-This component makes sense only if you are creating a SSR website/app.
+The QNoSsr component makes sense only if you are creating a SSR website/app.
 
 It avoids rendering its content on the server and leaves that for client only. Useful when you got code that is not isomorphic and can only run on the client side, in a browser.
 
@@ -65,5 +65,5 @@ Only placeholder slot:
 </q-no-ssr>
 ```
 
-## API
+## QNoSsr API
 <doc-api file="QNoSsr" />

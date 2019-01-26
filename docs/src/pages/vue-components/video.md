@@ -1,7 +1,7 @@
 ---
-title: QVideo
+title: Video
 ---
-    
+
 Using the QVideo component makes embedding a video like Youtube easy. It also resizes to fit the container by default.
 
 ## Installation
@@ -12,5 +12,5 @@ Using the QVideo component makes embedding a video like Youtube easy. It also re
 
 <doc-example title="HTML Markup" file="QVideo/HtmlMarkup" />
 
-## API
+## QVideo API
 <doc-api file="QVideo" />
