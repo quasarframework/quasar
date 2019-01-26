@@ -15,6 +15,7 @@ Click on the cells to see the popup editor. The column "Name" demonstrates the `
 ::: tip
 There is also a `title` slot, which you can use to inject your own title, as demonstrated in the "calcium" column.
 :::
+
 <doc-example title="Simple Edit, with `title` prop and slot" file="QPopupEdit/Simple" />
 
 You can also add two buttons with the `buttons` prop, "Cancel" and "Set" (the default labels). These buttons help to control the user's input. Along with the `buttons` prop, you also have the `persistent` prop, which denies the user from closing the popup with the escape key or clicking/ tapping outside of the popup. The `persistent` prop is demonstrated in the "carbs" column. Lastly, you can control the labels of the two buttons with the `label-set` and `label-cancel` props, as seen in the "Protein" column. Notice "Save" is replacing "Set" and "Close" is replacing "Cancel". 
