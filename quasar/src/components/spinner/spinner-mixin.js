@@ -6,6 +6,7 @@ export default {
       default: '1em'
     }
   },
+
   computed: {
     classes () {
       if (this.color) {
