@@ -1,83 +1,100 @@
 ---
-title: Docs
+title: Tabs
 ---
-
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+Quasar Tabs are a way of displaying more information using less window real estate.
+One common use case for this component is in Layout’s header/footer in a QToolbar. Please refer to [Layouts](/layout/layout) and [Toolbar](/vue-components/toolbar) for references.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+Cherry-pick only what you are using from list below.
+
+<doc-installation :components="['QTabs', 'QTab', 'QRouteTab', 'QTabPanels', 'QTabPanel']" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
 
-## API
-<doc-api file="QTh" />
+<doc-example title="Standard" file="QTabs/Standard" />
+
+Tabs can show icon, text or both.
+
+<doc-example title="Types" file="QTabs/Types" />
+
+You can use `v-model` to hold the current tab. You need to set `name` on each tab. Model will hold the name of currently selected tab.
+
+<doc-example title="Usage with V-model" file="QTabs/VModel" />
+
+You can also the `value` prop just by itself to set default tab.
+
+<doc-example title="Default Tab" file="QTabs/DefaultTab" />
+
+You can color tabs with with classes `text-*` and `bg-*` (see [Color Pallete](/style/color-pallete))
+
+<doc-example title="Colors" file="QTabs/Colors" />
+
+Use `active-color` and `active-bg-color` to customize selected tab. Indicator color can be changed with `indicator-color` prop
+
+<doc-example title="Custom Colors for Active Tab and Indicator" file="QTabs/ActiveColor" />
+
+<doc-example title="Glossy" file="QTabs/Glossy" />
+
+With animated bar on top
+
+<doc-example title="Bar on Top" file="QTabs/TopBar" />
+
+Use `alert` prop or [QBadge](/vue-components/badge) to add count
+
+<doc-example title="With Alerts and Counts" file="QTabs/AlertsAndCounts" />
+
+Use `align` prop for different alignments
+
+<doc-example title="Alignments" file="QTabs/Alignments" />
+
+### Tab Panels
+Use `q-tab-panels` container with `q-tab-panel` children to create tabs content. These two are coupled with v-model.
+
+Panels can be `swipeable` and use different animations (see `transition-prev` and `transition-next`).
+
+<doc-example title="Swipeable Animated Panels" file="QTabs/Panels" />
+
+<doc-example title="Panels Above Tabs" file="QTabs/PanelsAbove" />
+
+Keeping tabs alive (Vue won't destroy content on Tab selection change)
+
+<doc-example title="Panels With Keep Alive" file="QTabs/PanelsKeepAlive" />
+
+### Usage with Vue router
+You can use tabs together with vue-router using `QRouteTab` component.
+The Tabs Router component is just like the QTab component and shares the same properties, however it also has `router-link` properties bound to it. These allow the triggering of your specific routing.
+
+```vue
+<q-tabs>
+  <q-route-tab
+    icon="mail"
+    to="/mails"
+    exact
+  />
+  <q-route-tab
+    icon="alarm"
+    to="/alarms"
+    exact
+  />
+</q-tabs>
+```
+
+## QTabs API
+
+<doc-api file="QTabs" />
+
+## QTab API
+
+<doc-api file="QTab" />
+
+## QRouteTab API
+
+<doc-api file="QRouteTab" />
+
+## QTabPanels API
+
+<doc-api file="QTabPanels" />
+
+## QTabPanel API
+
+<doc-api file="QTabPanel" />
