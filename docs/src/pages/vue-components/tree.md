@@ -9,6 +9,8 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 ## Usage
 <doc-example title="Basic tree" file="QTree/Basic" />
 
+<doc-example title="Dark" file="QTree/Dark" dark />
+
 <doc-example title="Customizing nodes with default header and body slot" file="QTree/SlotsDefault" />
 
 <doc-example title="Customizing nodes with custom header and body slots)" file="QTree/SlotsCustomized" />
