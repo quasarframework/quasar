@@ -35,6 +35,8 @@ Move the slider to see the label
 
 <doc-example title="Dark" file="QSlider/Dark" dark />
 
+<doc-example title="Lazy Input" file="QSlider/Lazy" />
+
 <doc-example title="Readonly" file="QSlider/Readonly" />
 
 <doc-example title="Disable" file="QSlider/Disable" />
