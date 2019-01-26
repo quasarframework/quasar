@@ -29,5 +29,5 @@ For indeterminate state (above) or query state (below) you don't need to specify
 
 <doc-example title="On Dark Background" file="QLinearProgress/OnDarkBackground" dark />
 
-## API
+## QLinearProgress API
 <doc-api file="QLinearProgress" />

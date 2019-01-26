@@ -21,5 +21,5 @@ QInnerLoading must be the last element inside it's parent so it can appear on to
 
 <doc-example title="Basic" file="QInnerLoading/Basic" />
 
-## API
+## QInnerLoading API
 <doc-api file="QInnerLoading" />
