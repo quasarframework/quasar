@@ -25,7 +25,7 @@ export default {
 
   computed: {
     internal () {
-      return this.to.charAt(0) === '/'
+      return this.to.charAt(0) === '/' || this.to.charAt(0) === '#'
     }
   }
 }
