@@ -1,5 +1,8 @@
 <template>
   <div class="q-pa-md">
+    <q-chip square color="secondary" text-color="white">
+      Model: {{ value }} (-20 to 20, step 4)
+    </q-chip>
     <q-slider
       v-model="value"
       :min="-20"
