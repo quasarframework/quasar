@@ -11,7 +11,7 @@ Cherry-pick only what you are using from list below.
 
 ## Usage
 
-<doc-example title="Standard" file="QTabs/Standard" />
+<doc-example title="Basic" file="QTabs/Basic" />
 
 Tabs can show icon, text or both.
 
