@@ -13,7 +13,7 @@
 <script>
 const options = ['Google', 'Facebook', 'Twitter']
 export default {
-  name: 'Filter',
+  name: 'Filtered',
   data () {
     return {
       selected: null,
