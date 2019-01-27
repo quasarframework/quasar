@@ -1,13 +1,10 @@
 <template>
-  <div class="q-pa-md bg-grey-10 text-white">
+  <div class="q-pa-md">
     <q-table
       title="Treats"
       :data="data"
       :columns="columns"
       row-key="name"
-      dark
-      color="orange"
-      style="background-color: inherit"
     />
   </div>
 </template>
@@ -18,13 +15,15 @@ export default {
     return {
       columns: [
         {
-          name: 'desc',
+          name: 'name',
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
           format: val => `${val}`,
-          sortable: true
+          sortable: true,
+          classes: 'bg-grey-2 ellipsis',
+          style: 'max-width: 100px'
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },

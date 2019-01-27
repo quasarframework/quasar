@@ -45,7 +45,7 @@ export default {
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, classes: 'bg-grey', style: 'width: 10px' },
+        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs', sortable: true },
         { name: 'protein', label: 'Protein (g)', field: 'protein', sortable: true },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium', sortable: true },
