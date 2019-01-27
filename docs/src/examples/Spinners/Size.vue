@@ -65,11 +65,11 @@
         <q-tooltip :offset="[0, 8]">QSpinnerGears</q-tooltip>
       </div>
       <div class="inline-block q-ma-xs">
-        <q-spinner-grind
+        <q-spinner-grid
           color="teal"
           size="1em"
         />
-        <q-tooltip :offset="[0, 8]">QSpinnerGrind</q-tooltip>
+        <q-tooltip :offset="[0, 8]">QSpinnerGrid</q-tooltip>
       </div>
       <div class="inline-block q-ma-xs">
         <q-spinner-hearts
@@ -208,11 +208,11 @@
         <q-tooltip :offset="[0, 8]">QSpinnerGears</q-tooltip>
       </div>
       <div class="inline-block q-ma-xs">
-        <q-spinner-grind
+        <q-spinner-grid
           color="teal"
           size="2em"
         />
-        <q-tooltip :offset="[0, 8]">QSpinnerGrind</q-tooltip>
+        <q-tooltip :offset="[0, 8]">QSpinnerGrid</q-tooltip>
       </div>
       <div class="inline-block q-ma-xs">
         <q-spinner-hearts
@@ -351,11 +351,11 @@
         <q-tooltip :offset="[0, 8]">QSpinnerGears</q-tooltip>
       </div>
       <div class="inline-block q-ma-xs">
-        <q-spinner-grind
+        <q-spinner-grid
           color="teal"
           size="3em"
         />
-        <q-tooltip :offset="[0, 8]">QSpinnerGrind</q-tooltip>
+        <q-tooltip :offset="[0, 8]">QSpinnerGrid</q-tooltip>
       </div>
       <div class="inline-block q-ma-xs">
         <q-spinner-hearts
