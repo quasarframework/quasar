@@ -132,3 +132,8 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.doc-api .q-tab
+  height 40px
+</style>
