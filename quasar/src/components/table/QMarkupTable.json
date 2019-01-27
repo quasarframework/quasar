@@ -22,6 +22,11 @@
       "default": "horizontal",
       "values": [ "horizontal", "vertical", "cell", "none" ],
       "examples": [ "cell" ]
+    },
+
+    "wrap-cells": {
+      "type": "Boolean",
+      "desc": "Wrap text within table cells"
     }
   },
 

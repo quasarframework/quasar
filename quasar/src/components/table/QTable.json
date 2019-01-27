@@ -91,6 +91,11 @@
       "examples": [ "cell" ]
     },
 
+    "wrap-cells": {
+      "type": "Boolean",
+      "desc": "Wrap text within table cells"
+    },
+
     "binary-state-sort": {
       "type": "Boolean",
       "desc": "Skip the third state (unsorted) when user toggles column sort direction"

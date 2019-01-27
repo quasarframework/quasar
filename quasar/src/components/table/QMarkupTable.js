@@ -12,7 +12,8 @@ export default Vue.extend({
       type: String,
       default: 'horizontal',
       validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
-    }
+    },
+    wrapCells: Boolean
   },
 
   computed: {
@@ -22,7 +23,8 @@ export default Vue.extend({
         'q-table--dark': this.dark,
         'q-table--dense': this.dense,
         'q-table--flat': this.flat,
-        'q-table--bordered': this.bordered
+        'q-table--bordered': this.bordered,
+        'q-table--no-wrap': this.wrapCells === false
       }
     }
   },
