@@ -8,8 +8,8 @@
   border-collapse collapse
   border-spacing 0
 
-  thead tr
-    height 56px
+  thead tr, tbody td
+    height 48px
 
   th
     font-weight 500
@@ -30,7 +30,6 @@
     will-change background
 
   th, td
-    white-space nowrap
     padding 7px 16px
     background-color inherit
 
@@ -39,7 +38,6 @@
     border-width 0
 
   tbody td
-    height 48px
     font-weight 400
     font-size 13px
 
@@ -137,6 +135,10 @@
   &--bordered
     border 1px solid $table-border-color
 
+.q-table--no-wrap
+  th, td
+    white-space nowrap
+
 /*
  * Separators
  */
@@ -188,9 +190,7 @@
   .q-table
     th, td
       padding 4px 8px
-    thead tr
-      height 40px
-    tbody td
+    thead tr, tbody tr, tbody td
       height 28px
     th:first-child, td:first-child
       padding-left 16px
