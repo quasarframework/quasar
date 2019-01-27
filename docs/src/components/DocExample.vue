@@ -17,7 +17,14 @@ q-card.doc-example.q-my-lg(:class="classes")
 
   q-slide-transition
     div(v-show="expanded")
-      q-tabs.doc-example__tabs(v-model="currentTab", align="left", dense, :breakpoint="0")
+      q-tabs.doc-example__tabs(
+        v-model="currentTab",
+        align="left",
+        :active-color="dark ? 'amber' : void 0",
+        :indicator-color="dark ? 'amber' : 'primary'",
+        dense,
+        :breakpoint="0"
+      )
         q-tab(
           v-for="tab in tabs"
           :key="`tab-${tab}`"
@@ -25,13 +32,18 @@ q-card.doc-example.q-my-lg(:class="classes")
           :label="tab"
         )
 
-      q-tab-panels.bg-code.text-grey-3.text-weight-regular(v-model="currentTab", animated)
+      q-separator
+
+      q-tab-panels.bg-code.text-grey-3.text-weight-regular(
+        v-model="currentTab",
+        animated
+      )
         q-tab-panel.q-pa-none(
           v-for="tab in tabs"
           :key="`pane-${tab}`"
           :name="tab"
         )
-          doc-code(lang="markup", copy) {{ parts[tab] }}
+          doc-code(lang="markup") {{ parts[tab] }}
 
       q-separator.doc-example__separator
 
@@ -150,9 +162,6 @@ export default {
     background $grey-3
     color $grey-7
 
-  .code-markup pre
-    border-radius 0
-
   &--dark
     .doc-example__toolbar
       background $grey-10
@@ -164,9 +173,6 @@ export default {
     .doc-example__tabs
       background $grey-9
       color $grey-5
-    .doc-example__content
-      background $dark-primary
-      color white
 
   &__content
     position relative

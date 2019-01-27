@@ -32,5 +32,5 @@ By using expanded QPageSticky you can, for example, have a page-specific QToolba
 
 <doc-example title="Expanded" file="QPageSticky/Expanded" />
 
-## API
+## QPageSticky API
 <doc-api file="QPageSticky" />

@@ -2,6 +2,7 @@
   <div class="q-pa-lg flex flex-center">
     <q-pagination
       v-model="current"
+      color="teal"
       :max="10"
       :maxPages="5"
       :ellipses="false"

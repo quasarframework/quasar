@@ -5,9 +5,8 @@ title: Animations
 CSS Transitions can be handled by the [Vue Transition Component](https://vuejs.org/v2/guide/transitions.html). The transitions are used for entering (appearing) or leaving (disappearing) animations.
 
 However, Quasar can supply a big list of ready to use CSS animations. The animation effects are borrowed from [Animate.css](https://daneden.github.io/animate.css/). So there are 12 general, 32 entering (In) and 32 leaving (Out) animation types currently available for you to use out of the box. Check the list either on Animate.css website or on the demo available for this page.
-<input type="hidden" data-fullpage-demo="animation/transition">
 
-> Please refer to [Vue Documentation Website](https://vuejs.org/v2/guide/transitions.html) for learning on how to use the Vue supplied `<transition>` component.
+> Please refer to [Vue](https://vuejs.org/v2/guide/transitions.html)  documentation for learning on how to use the Vue supplied `<transition>` component.
 
 ## Installation
 Edit `/quasar.conf.js`.
@@ -25,7 +24,7 @@ animations: [
 If you are building a website, you can also skip configuring quasar.conf.js and use a CDN link which points to Animate.css like this (following is just an example, Google for latest link). Remember this will require an Internet connection for your user, as opposed to bundling from within quasar.conf.js.
 
 ```html
-<!-- index.template.html -->
+<!-- src/index.template.html -->
 <head>
   ...
 
@@ -37,7 +36,7 @@ If you are building a website, you can also skip configuring quasar.conf.js and 
 </head>
 ```
 
-## Basic Usage
+## Usage
 Notice the string "animated" in front of the actual animation name.
 ``` html
 <!-- Example with wrapping only one DOM element / component -->

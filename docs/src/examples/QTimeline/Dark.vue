@@ -1,5 +1,5 @@
 <template>
-  <div class="q-px-xl q-py-md">
+  <div class="q-px-xl q-py-md bg-grey-10 text-white">
     <q-timeline dark responsive color="secondary">
       <q-timeline-entry heading>Timeline heading</q-timeline-entry>
 

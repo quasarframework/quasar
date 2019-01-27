@@ -23,5 +23,5 @@ On some iOS platforms there may be problems regarding the autoplay feature of th
 
 <doc-example title="Scoped Slot" file="QParallax/ScopedSlot" />
 
-## API
+## QParallax API
 <doc-api file="QParallax" />

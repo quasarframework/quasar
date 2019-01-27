@@ -59,10 +59,7 @@ export default Vue.extend({
       scrollable: false,
       leftArrow: true,
       rightArrow: false,
-      justify: false,
-
-      // 2 * mobile .q-tabs__offset min-width
-      extraOffset: this.$q.platform.is.mobile ? 104 : 0
+      justify: false
     }
   },
 
@@ -155,7 +152,7 @@ export default Vue.extend({
     },
 
     __updateContainer ({ width }) {
-      const scroll = this.$refs.content.scrollWidth - (this.scrollable ? this.extraOffset : 0) > width
+      const scroll = this.$refs.content.scrollWidth > width
       if (this.scrollable !== scroll) {
         this.scrollable = scroll
       }
@@ -319,11 +316,7 @@ export default Vue.extend({
         ref: 'content',
         staticClass: 'q-tabs__content row no-wrap items-center',
         class: this.alignClass
-      }, [
-        h('div', { staticClass: 'q-tabs__offset invisible' }, ['-'])
-      ].concat(this.$slots.default).concat([
-        h('div', { staticClass: 'q-tabs__offset invisible' }, ['-'])
-      ])),
+      }, this.$slots.default),
 
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--right q-tab__icon',

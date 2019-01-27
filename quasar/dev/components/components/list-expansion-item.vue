@@ -543,7 +543,7 @@ export default {
   methods: {
     notify (message, close) {
       this.$q.notify({
-        color: close ? 'tertiary' : 'secondary',
+        color: close ? 'accent' : 'secondary',
         message
       })
     },

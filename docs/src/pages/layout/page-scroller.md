@@ -24,5 +24,5 @@ Since QPageScroller needs a layout and QLayout by default manages the entire win
 
 <doc-example title="Expanded" file="QPageScroller/Expanded" />
 
-## API
+## QPageScroller API
 <doc-api file="QPageScroller" />

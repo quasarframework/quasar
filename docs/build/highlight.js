@@ -4,11 +4,8 @@ const loadLanguages = require('prismjs/components/index')
 loadLanguages(['markup', 'bash', 'javascript', 'stylus', 'css', 'json'])
 
 module.exports = function (str, lang) {
-  // let rawLang = lang
-
   if (lang === '') {
     lang = 'js'
-    // rawLang = 'js'
   }
   else if (lang === 'vue' || lang === 'html') {
     lang = 'html'
@@ -18,7 +15,7 @@ module.exports = function (str, lang) {
     const code = prism.highlight(str, prism.languages[lang], lang)
 
     return `<pre v-pre class="doc-code language-${lang}">` +
-      `<code class="language-${lang}">${code}</code>` +
+      `<code class="doc-code__inner doc-code__inner--prerendered shadow-2 language-${lang}">${code}</code>` +
       `</pre>`
   }
 

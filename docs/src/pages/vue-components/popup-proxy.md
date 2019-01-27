@@ -25,5 +25,5 @@ Keep in mind that all props from both [QMenu](/vue-components/menu) and [QDialog
 
 <doc-example title="Props from QMenu or QDialog" file="QPopupProxy/Passthrough" />
 
-## API
+## QPopupProxy API
 <doc-api file="QPopupProxy" />

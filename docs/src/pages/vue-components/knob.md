@@ -24,5 +24,5 @@ In the example below, `show-value` property also enables the default slot, so yo
 
 <doc-example title="Disable and Read only" file="QKnob/DisableReadonly" />
 
-## API
+## QKnob API
 <doc-api file="QKnob" />

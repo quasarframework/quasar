@@ -315,13 +315,13 @@
         <q-dialog v-model="exportDialog">
           <q-card>
             <div class="bg-code export-code">
-              <doc-code copy lang="html">{{ layoutExport }}</doc-code>
+              <doc-code lang="html">{{ layoutExport }}</doc-code>
             </div>
 
             <q-separator />
 
             <q-card-actions align="right">
-              <q-btn color="white" text-color="code" flat label="Close" v-close-dialog />
+              <q-btn color="primary" flat label="Close" v-close-dialog />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -386,9 +386,7 @@
       <q-toolbar>
         <q-btn v-if="pick.left" dense flat round icon="menu" @click="play.left = !play.left" />
 
-        <q-toolbar-title>
-          Quasar
-        </q-toolbar-title>
+        <q-toolbar-title>Quasar</q-toolbar-title>
 
         <q-btn v-if="pick.right" dense flat round icon="menu" @click="play.right = !play.right" />
       </q-toolbar>
@@ -578,10 +576,10 @@ export default {
 
 <style lang="stylus">
 .export-code
-  .doc-code
-    margin 0 !important
-    > pre
-      max-height 50vh
-    > div
-      right 22px !important
+  .doc-code__inner
+    max-height 50vh
+  .doc-code + div
+    right 22px !important
+  .q-badge
+    right 72px !important
 </style>
