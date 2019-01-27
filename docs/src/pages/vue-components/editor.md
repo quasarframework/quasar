@@ -39,6 +39,8 @@ The following is an example that adds custom definitions. In such cases, make su
 
 <doc-example title="Custom Style" file="QEditor/Custom" />
 
+<doc-example title="Using Toolbar Slots" file="QEditor/ToolbarSlot" />
+
 ## Dropdowns
 
 ### Types of dropdowns
