@@ -71,7 +71,7 @@
 
     q-dialog(v-model="exportDialog")
       q-card
-        q-tabs.text-teal(v-model="exportTab", align="justify")
+        q-tabs.text-grey-7(v-model="exportTab", active-color="primary" align="justify")
           q-tab(name="styl", no-caps, label="quasar.variables.styl")
           q-tab(name="quasar-cli", no-caps, label="Quasar CLI")
           q-tab(name="umd", no-caps, label="UMD")
@@ -79,23 +79,23 @@
 
         q-separator
 
-        q-tab-panels(v-model="exportTab", animated)
-          q-tab-panel(name="styl")
+        q-tab-panels.bg-code(v-model="exportTab", animated)
+          q-tab-panel.q-pa-none(name="styl")
             doc-code(copy) {{ stylusExport }}
 
-          q-tab-panel(name="quasar-cli")
+          q-tab-panel.q-pa-none(name="quasar-cli")
             doc-code(copy) {{ quasarCliExport }}
 
-          q-tab-panel(name="umd")
+          q-tab-panel.q-pa-none(name="umd")
             doc-code(copy) {{ umdExport }}
 
-          q-tab-panel(name="vue-cli")
+          q-tab-panel.q-pa-none(name="vue-cli")
             doc-code(copy) {{ vueCliExport }}
 
         q-separator
 
         q-card-actions(align="right")
-          q-btn(color="white", text-color="teal", flat, label="Close", v-close-dialog)
+          q-btn(color="primary", flat, label="Close", v-close-dialog)
 </template>
 
 <script>

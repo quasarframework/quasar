@@ -41,7 +41,7 @@ export default {
   padding 16px 46px
   font-weight 300
 
-  > div
+  > div, > pre
     margin-bottom 22px
 
   &__top-link

@@ -10,13 +10,10 @@
       Your selection is: <strong>{{ shape }}</strong>
     </div>
   </div>
-
 </template>
 
 <script>
 export default {
-  name: 'QRadioDarkBackground',
-
   data () {
     return {
       shape: 'line'

@@ -1,5 +1,4 @@
 import 'prismjs'
-import 'prismjs/themes/prism-okaidia.css'
 
 export default {
   functional: true,
@@ -22,11 +21,11 @@ export default {
     return h(
       'pre',
       Object.assign({}, ctx.data, {
-        class: [ctx.data.class, className]
+        class: 'doc-code ' + className
       }),
       [
         h('code', {
-          class: className,
+          class: 'doc-code__inner ' + className,
           domProps: {
             innerHTML: Prism.highlight(code, prismLanguage, language)
           }

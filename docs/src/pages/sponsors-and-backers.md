@@ -44,6 +44,10 @@ export default {
 </style>
 ```
 
+<doc-example title="Standard" file="QRadio/Standard" />
+
+<doc-example title="Dark" file="QRadio/OnDarkBackground" dark />
+
 | Table Example | Type | Description |
 | --- | --- | --- |
 | infinite | Boolean | Infinite slides scrolling |
@@ -77,7 +81,9 @@ Some tip
 <doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
+<doc-example title="Standard" file="QRadio/Standard" />
+
+<doc-example title="Dark" file="QRadio/OnDarkBackground" dark />
 
 ## API
 <doc-api file="QTh" />
