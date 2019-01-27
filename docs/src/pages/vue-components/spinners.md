@@ -15,7 +15,7 @@ A Spinner is used to show the user a timely process is currently taking place. I
 <doc-installation components="QSpinnerDots" />
 <doc-installation components="QSpinnerFacebook" />
 <doc-installation components="QSpinnerGears" />
-<doc-installation components="QSpinnerGrind" />
+<doc-installation components="QSpinnerGrid" />
 <doc-installation components="QSpinnerHearts" />
 <doc-installation components="QSpinnerHourglass" />
 <doc-installation components="QSpinnerInfinity" />
