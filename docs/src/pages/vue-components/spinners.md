@@ -6,26 +6,12 @@ A Spinner is used to show the user a timely process is currently taking place. I
 
 ## Installation
 <doc-installation components="QSpinner" />
-<doc-installation components="QSpinnerAudio" />
-<doc-installation components="QSpinnerBall" />
-<doc-installation components="QSpinnerBars" />
-<doc-installation components="QSpinnerCircles" />
-<doc-installation components="QSpinnerComment" />
-<doc-installation components="QSpinnerCube" />
-<doc-installation components="QSpinnerDots" />
-<doc-installation components="QSpinnerFacebook" />
-<doc-installation components="QSpinnerGears" />
-<doc-installation components="QSpinnerGrid" />
-<doc-installation components="QSpinnerHearts" />
-<doc-installation components="QSpinnerHourglass" />
-<doc-installation components="QSpinnerInfinity" />
-<doc-installation components="QSpinnerIos" />
-<doc-installation components="QSpinnerOval" />
-<doc-installation components="QSpinnerPie" />
-<doc-installation components="QSpinnerPuff" />
-<doc-installation components="QSpinnerRadio" />
-<doc-installation components="QSpinnerRings" />
-<doc-installation components="QSpinnerTail" />
+
+::: tip
+If you need a specific spinner, choose one from the list below.
+:::
+
+<doc-installation components="['QSpinnerAudio', 'QSpinnerBall', 'QSpinnerBars', 'QSpinnerCircles', 'QSpinnerComment', 'QSpinnerCube', 'QSpinnerDots', 'QSpinnerFacebook', 'QSpinnerGears', 'QSpinnerGrid', 'QSpinnerHearts', 'QSpinnerHourglass', 'QSpinnerInfinity', 'QSpinnerIos', 'QSpinnerOval', 'QSpinnerPie', 'QSpinnerPuff', 'QSpinnerRadio', 'QSpinnerRings', 'QSpinnerTail']" />
 
 ## Usage
 

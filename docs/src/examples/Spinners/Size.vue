@@ -2,6 +2,13 @@
   <div class="q-pa-md q-gutter-xs">
     <div class="row justify-center">
       <div class="inline-block q-ma-xs">
+        <q-spinner
+          color="primary"
+          size="1em"
+        />
+        <q-tooltip :offset="[0, 8]">QSpinner</q-tooltip>
+      </div>
+      <div class="inline-block q-ma-xs">
         <q-spinner-audio
           color="secondary"
           size="1em"
@@ -145,6 +152,13 @@
 
     <div class="row justify-center">
       <div class="inline-block q-ma-xs">
+        <q-spinner
+          color="primary"
+          size="2em"
+        />
+        <q-tooltip :offset="[0, 8]">QSpinner</q-tooltip>
+      </div>
+      <div class="inline-block q-ma-xs">
         <q-spinner-audio
           color="secondary"
           size="2em"
@@ -287,6 +301,13 @@
     </div>
 
     <div class="row justify-center">
+      <div class="inline-block q-ma-xs">
+        <q-spinner
+          color="primary"
+          size="3em"
+        />
+        <q-tooltip :offset="[0, 8]">QSpinner</q-tooltip>
+      </div>
       <div class="inline-block q-ma-xs">
         <q-spinner-audio
           color="secondary"
