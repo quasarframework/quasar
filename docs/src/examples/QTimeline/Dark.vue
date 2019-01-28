@@ -1,6 +1,11 @@
 <template>
-  <div class="q-px-xl q-py-md bg-grey-10 text-white">
-    <q-timeline dark responsive color="secondary">
+  <div class="q-px-xl q-py-md">
+    <q-timeline
+      class="bg-indigo-8"
+      dark
+      responsive
+      color="secondary"
+    >
       <q-timeline-entry heading>Timeline heading</q-timeline-entry>
 
       <q-timeline-entry
