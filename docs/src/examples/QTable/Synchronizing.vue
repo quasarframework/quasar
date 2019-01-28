@@ -136,7 +136,7 @@ export default {
 
         // ...and turn of loading indicator
         this.loading = false
-      }, 500)
+      }, 1500)
     },
 
     // emulate ajax call

@@ -24,6 +24,7 @@
     >
       <q-btn
         slot="custom_btn"
+        size="sm"
         dense
         color="secondary"
         icon="import_contacts"
@@ -137,8 +138,8 @@
         gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')}
       }"
     >
-      <q-btn dense color="yellow" slot="custom_btn">Wow</q-btn>
-      <q-btn-dropdown dense no-caps ref="token" no-wrap slot="token" color="green" label="Token">
+      <q-btn dense color="yellow" slot="custom_btn" size="sm">Wow</q-btn>
+      <q-btn-dropdown dense no-caps ref="token" no-wrap slot="token" color="green" label="Token" size="sm">
         <q-list>
           <q-item tag="label" clickable @click="add('email')">
             <q-item-section side>
