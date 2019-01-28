@@ -486,10 +486,9 @@ $z-fab          ?= 990
 $z-side         ?= 1000
 $z-marginals    ?= 2000
 $z-fixed-drawer ?= 3000
-$z-modal        ?= 5000 // TODO remove
 $z-fullscreen   ?= 6000
 $z-top          ?= 7000
-$z-popover      ?= 8000
+$z-menu         ?= 8000
 $z-tooltip      ?= 9000
 $z-notify       ?= 9500
 $z-max          ?= 9998
@@ -560,13 +559,6 @@ $generic-hover-transition   ?= .3s cubic-bezier(.25, .8, .5, 1)
 $typography-font-family     ?= 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif
 $min-line-height            ?= 1.12
 
-$action-sheet-background       ?= white
-$action-sheet-hover-background ?= #d0d0d0
-
-$alert-padding       ?= 12px
-$alert-border-radius ?= $generic-border-radius
-$alert-min-width     ?= 200px
-
 $button-border-radius         ?= 3px
 $button-padding               ?= 4px 16px
 $button-dense-padding         ?= .285em
@@ -579,14 +571,7 @@ $button-shadow-active         ?= $shadow-8
 $button-rounded-border-radius ?= 28px
 $button-push-border-radius    ?= 7px
 
-$card-faded-color          ?= rgba(0, 0, 0, .4)
-$card-separator-color      ?= rgba(0, 0, 0, .1)
-$card-overlay-color        ?= rgba(0, 0, 0, .47)
-$card-shadow               ?= $shadow-2
-$card-dark-faded-color     ?= rgba(255, 255, 255, .6)
-$card-dark-separator-color ?= rgba(255, 255, 255, .2)
-
-$carousel-padding                        ?= 16px
+$carousel-padding ?= 16px
 
 $chat-message-received-color     ?= black
 $chat-message-received-bg        ?= $green-4
@@ -597,53 +582,7 @@ $chat-message-border-radius      ?= $generic-border-radius
 $chat-message-distance           ?= 8px
 $chat-message-text-padding       ?= 8px
 
-$chip-border             ?= #e0e0e0
-$chip-border-radius      ?= 2rem
-$chip-font-size          ?= 14px
-$chip-padding-horizontal ?= 0
-$chip-padding-vertical   ?= 12px
-$chip-height             ?= 32px
-$chip-icon-size          ?= 24px
-$chip-small-icon-size    ?= 16px
-$chip-small-height       ?= 26px
-$chip-color              ?= black
-$chip-background         ?= $grey-3
-
-$item-dense-factor                 ?= .2
-$item-sparse-factor                ?= 1.4
 $item-base-color                   ?= $grey-5
-$item-highlight-color              ?= alpha($item-base-color, 50%)
-$item-stripe-color                 ?= alpha($item-base-color, 65%)
-$item-active-color                 ?= alpha($item-base-color, 40%)
-$item-side-color                   ?= #737373
-$item-label-color                  ?= $grey-7
-$item-content-secondary-text-color ?= $grey-7
-$item-separator-color              ?= rgb(224, 224, 224)
-
-$item-base-dark-color                   ?= $grey-7
-$item-highlight-dark-color              ?= alpha($item-base-dark-color, 30%)
-$item-stripe-dark-color                 ?= alpha($item-base-dark-color, 45%)
-$item-active-dark-color                 ?= alpha($item-base-dark-color, 20%)
-$item-side-dark-color                   ?= #bbb
-$item-label-dark-color                  ?= rgba(255,255,255,0.64)
-$item-content-secondary-text-dark-color ?= $grey-5
-$item-separator-dark-color              ?= rgba(255,255,255,0.32)
-
-$item-min-height                   ?= 40px
-$item-padding                      ?= 16px
-$item-gutter                       ?= 10px
-$item-primary-size                 ?= 38px
-$item-inverted-icon-size           ?= round($item-primary-size * .52)
-$item-icon-size                    ?= round($item-primary-size * .63)
-$item-image-size                   ?= round(3 * $item-primary-size)
-$item-font-size                    ?= 1rem
-$item-stamp-font-size              ?= .8rem
-$item-inset                        ?= ($item-gutter + $item-primary-size)
-
-$collapsible-padding             ?= 8px 16px
-$collapsible-indent-left-padding ?= ($item-primary-size + $item-gutter)
-$collapsible-active-color        ?= $item-active-color
-$collapsible-menu-left-padding   ?= 48px
 
 $editor-border-color            ?= #ccc
 $editor-border                  ?= 1px solid $editor-border-color
@@ -671,31 +610,6 @@ $table-dark-header-color        ?= rgba(255, 255, 255, .64)
 $table-dark-hover-background    ?= rgba(255, 255, 255, .07)
 $table-dark-selected-background ?= rgba(255, 255, 255, .1)
 
-$input-margin-top            ?= 16px
-$input-margin-bottom         ?= 8px
-
-$input-font-size       ?= 1rem
-$input-label-top-scale ?= .75
-$input-padding-x       ?= 8px
-$input-padding-top     ?= 25px
-$input-padding-bottom  ?= 7px
-$input-control-size    ?= 24px
-$input-control-margin  ?= 4px
-$input-min-height      ?= $input-control-size
-
-$input-hide-underline-padding-top ?= 18px
-
-$input-box-padding-top          ?= $input-padding-top
-$input-box-padding-bottom       ?= $input-padding-bottom
-
-$input-inverted-border-radius  ?= $generic-border-radius
-
-$input-label-transform-base           ?= translate3d(0, 0, 0)
-$input-label-box-transform-base       ?= translate3d(0, -21px, 0)
-
-$input-label-transform                ?= translate3d(0, -100%, 0)
-$input-label-box-transform            ?= translate3d(0, -125%, 0)
-
 $toolbar-min-height           ?= 50px
 $toolbar-padding              ?= 0 12px
 $toolbar-inset-size           ?= 58px
@@ -707,48 +621,12 @@ $toolbar-title-padding        ?= 0 12px
 $layout-border               ?= 1px solid $separator-color
 $layout-shadow               ?= 0 0 10px 2px rgba(0,0,0,0.2), 0 0px 10px rgba(0,0,0,0.24)
 
-$modal-background        ?= white
-$modal-width             ?= 80vw
-$modal-max-width         ?= 1000px
-$modal-height            ?= 80vh
-$modal-max-height        ?= 1000px
-$modal-header-font-size  ?= 1.6rem
-$modal-header-padding    ?= 24px 24px 10px 24px
-$modal-header-text-align ?= left
-$modal-body-color        ?= rgba(0, 0, 0, .5)
-$modal-body-padding      ?= 10px 24px
-$modal-scroll-size       ?= 240px
-$modal-buttons-padding   ?= 22px 8px 8px
-
-$label-offset ?= 8px
-
-$paralax-text-shadow ?= 0 0 5px white
-
 $menu-background   ?= white
 $menu-box-shadow   ?= $shadow-2
 $menu-max-width    ?= 95vw
 
-$progress-track-color          ?= currentColor
-$progress-track-opacity        ?= .4
-
-$pull-to-refresh-font-size          ?= 1rem
-$pull-to-refresh-icon-size          ?= 2rem
-
 $rating-grade-color     ?= $yellow
 $rating-shadow          ?= 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24)
-
-$tabs-padding                  ?= 8px 10px
-$tabs-big-screen-horiz-padding ?= 25px
-$tabs-min-height               ?= 48px
-$tabs-big-screen-side-padding  ?= 12px
-$tabs-pane-padding             ?= 12px
-$tabs-pane-border              ?= 1px solid rgba(0, 0, 0, .1)
-$tabs-unselected-opacity       ?= .7
-$tabs-font-size                ?= .95rem
-$tabs-icon-font-size           ?= 27px
-$tabs-font-weight              ?= 500
-$tabs-text-transform           ?= uppercase
-$tabs-border-width             ?= 2px
 
 $tooltip-color           ?= #fafafa
 $tooltip-background      ?= $grey-7
