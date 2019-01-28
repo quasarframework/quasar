@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <div class="row justify-between">
+  <div class="q-pa-md">
+    <div class="q-gutter-md row">
 
       <q-btn color="primary" label="Anchor/Self Menu">
         <q-menu
@@ -49,9 +49,6 @@
           </q-list>
         </q-menu>
       </q-btn>
-
-    </div>
-    <div class="row justify-between">
 
       <q-btn color="primary" label="Offset Menu">
         <q-menu
