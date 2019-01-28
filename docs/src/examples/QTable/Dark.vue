@@ -1,13 +1,13 @@
 <template>
-  <div class="q-pa-md bg-grey-10 text-white">
+  <div class="q-pa-md">
     <q-table
       title="Treats"
       :data="data"
       :columns="columns"
       row-key="name"
       dark
+      class="bg-indigo-8"
       color="orange"
-      style="background-color: inherit"
     />
   </div>
 </template>
