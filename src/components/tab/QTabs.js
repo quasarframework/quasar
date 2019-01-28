@@ -468,6 +468,9 @@ export default {
       }, this.$slots.default)
     ])
   },
+  updated () {
+    this.__redraw()
+  },
   created () {
     this.timer = null
     this.scrollTimer = null
