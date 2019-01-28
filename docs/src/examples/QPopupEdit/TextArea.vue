@@ -3,11 +3,10 @@
    <q-table
       :data="data"
       :columns="columns"
-      :filter="filter"
-      :title="title"
-      binary-state-sort
+      title="QDataTable with QPopupEdit"
       :rows-per-page-options="[]"
       row-key="name"
+      wrap-cells
     >
       <q-tr slot="body" slot-scope="props" :props="props">
         <q-td key="desc" :props="props">
@@ -17,7 +16,7 @@
           </q-popup-edit>
         </q-td>
         <q-td key="comment" :props="props">
-          <span class="text-wrap">{{ props.row.comment }}</span>
+          {{ props.row.comment }}
           <q-popup-edit
             buttons
             v-model="props.row.comment"
@@ -26,6 +25,7 @@
               type="textarea"
               v-model="props.row.comment"
               autofocus
+              counter
               @keyup.enter.stop
             />
           </q-popup-edit>
@@ -33,31 +33,13 @@
         <q-td key="calories" :props="props">
           {{ props.row.calories }}
           <q-popup-edit v-model="props.row.calories">
-            <q-input v-model="props.row.calories" dense autofocus counter />
+            <q-input v-model="props.row.calories" dense autofocus />
           </q-popup-edit>
         </q-td>
         <q-td key="fat" :props="props">
           <div class="text-pre-wrap">{{ props.row.fat }}</div>
           <q-popup-edit v-model="props.row.fat">
-            <q-input v-model="props.row.fat" dense autofocus counter />
-          </q-popup-edit>
-        </q-td>
-        <q-td key="carbs" :props="props">
-          {{ props.row.carbs }}
-          <q-popup-edit v-model="props.row.carbs">
-            <q-input v-model="props.row.carbs" dense autofocus counter />
-          </q-popup-edit>
-        </q-td>
-        <q-td key="protein" :props="props">
-          {{ props.row.protein }}
-          <q-popup-edit v-model="props.row.protein">
-            <q-input v-model="props.row.protein" dense autofocus counter />
-          </q-popup-edit>
-        </q-td>
-        <q-td key="sodium" :props="props">
-          {{ props.row.sodium }}
-          <q-popup-edit v-model="props.row.sodium">
-            <q-input v-model="props.row.sodium" dense autofocus counter />
+            <q-input v-model="props.row.fat" dense autofocus />
           </q-popup-edit>
         </q-td>
       </q-tr>
@@ -67,21 +49,10 @@
 
 <script>
 const columns = [
-  {
-    name: 'desc',
-    required: true,
-    label: 'Dessert (100g serving)',
-    align: 'left',
-    field: row => row.name,
-    format: val => `~${val}`,
-    sortable: true
-  },
-  { name: 'comment', align: 'left', label: 'Comment', field: 'comment' },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-  { name: 'protein', label: 'Protein (g)', field: 'protein' },
-  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' }
+  { name: 'desc', style: 'min-width: 160px; width: 160px', align: 'left', label: 'Dessert (100g serving)', field: 'name' },
+  { name: 'comment', style: 'min-width: 200px; width: 200px', align: 'left', label: 'Comment', field: 'comment' },
+  { name: 'calories', align: 'center', label: 'Calories', field: 'calories' },
+  { name: 'fat', label: 'Fat (g)', field: 'fat' }
 ]
 
 const data = [
@@ -90,110 +61,70 @@ const data = [
     comment: `It's cold but great and tastes different than normal ice cream, but it's great too!
 Have a taste!`,
     calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: '14%'
+    fat: 6.0
   },
   {
     name: 'Ice cream sandwich',
     comment: `It's also cold but great!
 Have a taste!`,
     calories: 237,
-    fat: 9.0,
-    carbs: 37,
-    protein: 4.3,
-    sodium: 129,
-    calcium: '8%'
+    fat: 9.0
   },
   {
     name: 'Eclair',
     comment: `It's not cold and also great!
 Have a taste!`,
     calories: 262,
-    fat: 16.0,
-    carbs: 23,
-    protein: 6.0,
-    sodium: 337,
-    calcium: '6%'
+    fat: 16.0
   },
   {
     name: 'Cupcake',
     comment: `It could be warm and it's great!
  Have a taste!`,
     calories: 305,
-    fat: 3.7,
-    carbs: 67,
-    protein: 4.3,
-    sodium: 413,
-    calcium: '3%'
+    fat: 3.7
   },
   {
     name: 'Gingerbread',
     comment: `It's spicy and great!
 Have a taste!`,
     calories: 356,
-    fat: 16.0,
-    carbs: 49,
-    protein: 3.9,
-    sodium: 327,
-    calcium: '7%'
+    fat: 16.0
   },
   {
     name: 'Jelly bean',
     comment: `It's neither cold or warm, but great!
 Have one or two or several, but not too many!`,
     calories: 375,
-    fat: 0.0,
-    carbs: 94,
-    protein: 0.0,
-    sodium: 50,
-    calcium: '0%'
+    fat: 0.0
   },
   {
     name: 'Lollipop',
     comment: `It's sticky and normally sweet!
 Have a lick!`,
     calories: 392,
-    fat: 0.2,
-    carbs: 98,
-    protein: 0,
-    sodium: 38,
-    calcium: '0%'
+    fat: 0.2
   },
   {
     name: 'Honeycomb',
     comment: `It's special and sweet!
 Have a taste!`,
     calories: 408,
-    fat: 3.2,
-    carbs: 87,
-    protein: 6.5,
-    sodium: 562,
-    calcium: '0%'
+    fat: 3.2
   },
   {
     name: 'Donut',
     comment: `It's an American classic glazed!
 Have one with coffee!`,
     calories: 452,
-    fat: 25.0,
-    carbs: 51,
-    protein: 4.9,
-    sodium: 326,
-    calcium: '2%'
+    fat: 25.0
   },
   {
     name: 'KitKat',
     comment: `It's good with a break!
 Have a section to perfection!`,
     calories: 518,
-    fat: 26.0,
-    carbs: 65,
-    protein: 7,
-    sodium: 54,
-    calcium: '12%'
+    fat: 26.0
   }
 ]
 
@@ -201,27 +132,8 @@ export default {
   data () {
     return {
       data,
-      columns,
-      title: 'QDataTable with QPopupEdit',
-      filter: '',
-      serverPagination: {
-        page: 1,
-        rowsNumber: 10
-      }
-    }
-  },
-  methods: {
-    withShift (e) {
-      console.log(this.$refs)
-      this.$refs.popupEdit.set()
+      columns
     }
   }
 }
 </script>
-
-<style>
-.text-wrap {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-</style>

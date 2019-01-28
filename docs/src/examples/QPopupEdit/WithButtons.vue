@@ -3,9 +3,7 @@
    <q-table
       :data="data"
       :columns="columns"
-      :filter="filter"
-      :title="title"
-      binary-state-sort
+      title="QDataTable with QPopupEdit"
       :rows-per-page-options="[]"
       row-key="name"
     >
@@ -19,43 +17,43 @@
         <q-td key="calories" :props="props">
           {{ props.row.calories }}
           <q-popup-edit v-model="props.row.calories" buttons>
-            <q-input v-model="props.row.calories" dense autofocus counter />
+            <q-input v-model="props.row.calories" dense autofocus />
           </q-popup-edit>
         </q-td>
         <q-td key="fat" :props="props">
           <div class="text-pre-wrap">{{ props.row.fat }}</div>
           <q-popup-edit v-model="props.row.fat" buttons>
-            <q-input v-model="props.row.fat" dense autofocus counter />
+            <q-input v-model="props.row.fat" dense autofocus />
           </q-popup-edit>
         </q-td>
         <q-td key="carbs" :props="props">
           {{ props.row.carbs }}
           <q-popup-edit v-model="props.row.carbs" buttons persistent>
-            <q-input v-model="props.row.carbs"  dense autofocus counter />
+            <q-input v-model="props.row.carbs"  dense autofocus />
           </q-popup-edit>
         </q-td>
         <q-td key="protein" :props="props">
           {{ props.row.protein }}
           <q-popup-edit v-model="props.row.protein" buttons label-set="Save" label-cancel="Close">
-            <q-input v-model="props.row.protein" dense autofocus counter />
+            <q-input v-model="props.row.protein" dense autofocus />
           </q-popup-edit>
         </q-td>
         <q-td key="sodium" :props="props">
           {{ props.row.sodium }}
           <q-popup-edit v-model="props.row.sodium" buttons>
-            <q-input v-model="props.row.sodium" dense autofocus counter />
+            <q-input v-model="props.row.sodium" dense autofocus />
           </q-popup-edit>
         </q-td>
         <q-td key="calcium" :props="props">
           {{ props.row.calcium }}
           <q-popup-edit v-model="props.row.calcium" buttons>
-            <q-input v-model="props.row.calcium" dense autofocus counter />
+            <q-input v-model="props.row.calcium" dense autofocus />
           </q-popup-edit>
         </q-td>
         <q-td key="iron" :props="props">
           {{ props.row.iron }}
           <q-popup-edit v-model="props.row.iron" buttons>
-            <q-input v-model="props.row.iron" dense autofocus counter />
+            <q-input v-model="props.row.iron" dense autofocus />
           </q-popup-edit>
         </q-td>
       </q-tr>
@@ -65,22 +63,14 @@
 
 <script>
 const columns = [
-  {
-    name: 'desc',
-    required: true,
-    label: 'Dessert (100g serving)',
-    align: 'left',
-    field: row => row.name,
-    format: val => `~${val}`,
-    sortable: true
-  },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
+  { name: 'desc', align: 'left', label: 'Dessert (100g serving)', field: 'name' },
+  { name: 'calories', align: 'center', label: 'Calories', field: 'calories' },
+  { name: 'fat', label: 'Fat (g)', field: 'fat' },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+  { name: 'calcium', label: 'Calcium (%)', field: 'calcium' },
+  { name: 'iron', label: 'Iron (%)', field: 'iron' }
 ]
 
 const data = [
@@ -190,13 +180,7 @@ export default {
   data () {
     return {
       data,
-      columns,
-      title: 'QDataTable with QPopupEdit',
-      filter: '',
-      serverPagination: {
-        page: 1,
-        rowsNumber: 10
-      }
+      columns
     }
   }
 }

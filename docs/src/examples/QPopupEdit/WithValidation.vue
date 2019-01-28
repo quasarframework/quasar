@@ -3,8 +3,7 @@
    <q-table
       :data="data"
       :columns="columns"
-      :title="title"
-      binary-state-sort
+      title="QDataTable with QPopupEdit"
       :rows-per-page-options="[]"
       row-key="name"
     >
@@ -18,19 +17,19 @@
         <q-td key="calories" :props="props">
           {{ props.row.calories }}
           <q-popup-edit v-model="props.row.calories" buttons>
-            <q-input v-model="props.row.calories" dense autofocus counter />
+            <q-input v-model="props.row.calories" dense autofocus />
           </q-popup-edit>
         </q-td>
         <q-td key="fat" :props="props">
           <div class="text-pre-wrap">{{ props.row.fat }}</div>
           <q-popup-edit v-model="props.row.fat" buttons>
-            <q-input v-model="props.row.fat" dense autofocus counter />
+            <q-input v-model="props.row.fat" dense autofocus />
           </q-popup-edit>
         </q-td>
         <q-td key="carbs" :props="props">
           {{ props.row.carbs }}
           <q-popup-edit v-model="props.row.carbs" buttons persistent>
-            <q-input v-model="props.row.carbs"  dense autofocus counter />
+            <q-input v-model="props.row.carbs"  dense autofocus />
           </q-popup-edit>
         </q-td>
         <q-td key="protein" :props="props">
@@ -49,7 +48,7 @@
               :error-message="errorMessageProtein"
               dense
               autofocus
-              />
+            />
           </q-popup-edit>
         </q-td>
         <q-td key="sodium" :props="props">
@@ -77,22 +76,14 @@
 
 <script>
 const columns = [
-  {
-    name: 'desc',
-    required: true,
-    label: 'Dessert (100g serving)',
-    align: 'left',
-    field: row => row.name,
-    format: val => `~${val}`,
-    sortable: true
-  },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
+  { name: 'desc', align: 'left', label: 'Dessert (100g serving)', field: 'name' },
+  { name: 'calories', align: 'center', label: 'Calories', field: 'calories' },
+  { name: 'fat', label: 'Fat (g)', field: 'fat' },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
   { name: 'protein', label: 'Protein (g)', field: 'protein' },
   { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+  { name: 'calcium', label: 'Calcium (%)', field: 'calcium' },
+  { name: 'iron', label: 'Iron (%)', field: 'iron' }
 ]
 
 const data = [
@@ -203,11 +194,11 @@ export default {
     return {
       data,
       columns,
-      title: 'QDataTable with QPopupEdit',
       errorProtein: false,
       errorMessageProtein: ''
     }
   },
+
   methods: {
     proteinRangeValidation (val) {
       if (val < 4 || val > 7) {
