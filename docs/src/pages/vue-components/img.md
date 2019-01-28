@@ -1,7 +1,7 @@
 ---
 title: QImg
 ---
-The QImg component makes working with images easy and also adds a nice loading effect to it.
+The QImg component makes working with images easy and also adds a nice loading effect to it along with many other features (example: the ability to set an aspect ratio).
 
 ## Installation
 <doc-installation components="QImg" />
@@ -10,41 +10,47 @@ The QImg component makes working with images easy and also adds a nice loading e
 
 <doc-example title="Basic" file="QImg/Basic" />
 
-<doc-example title="Sizes" file="QImg/Sizes" />
+### Options
+
+<doc-example title="Custom Aspect Ratio" file="QImg/Ratio" />
+
+<doc-example title="Captions" file="QImg/Caption" />
+
+Contain mode (example below) will force-show the whole image, which usually leads to empty space (horizontally or vertically) besides the image. The second image doesn't uses the contain mode and it's there for comparison purposes.
+
+<doc-example title="Contain mode" file="QImg/Contain" />
 
 ::: tip
-The `alt` property specifies an alternate text for the image, if the image cannot be displayed.
+Use the `basic` property which disables transitions (and it also renders the component faster).
 :::
 
-<doc-example title="Alt" file="QImg/Alt" />
+<doc-example title="Transitions" file="QImg/Transitions" />
+
+### Image loading states
+
+<doc-example title="Loading state" file="QImg/LoadingState" />
+
+When you have big-sized images, you can use a placeholder image (recommended to be specified in base64 encoding) like in the example below. The placeholder will be displayed until the target image gets loaded. We're toggling the QImg tag so you can see the placeholder image in action.
 
 <doc-example title="Placeholder Source" file="QImg/PlaceholderSrc" />
 
-::: tip
-Use the `basic` property for fast loading with no transitions.
+<doc-example title="Error state" file="QImg/ErrorState" />
+
+### Responsive
+
+::: warning
+To grasp the `sizes` and `srcset` properties, please read about native support on [responsive images](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Why_responsive_images) because **QImg relies on that entirely**.
 :::
 
-<doc-example title="No Transitions (basic)" file="QImg/NoTransitions" />
+<doc-example title="Responsive" file="QImg/Responsive" />
 
-<doc-example title="Contain" file="QImg/Contain" />
+::: tip
+For `sizes` property, please read about Resolution Switching: [Different Sizes](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes).
+:::
 
-<doc-example title="Position" file="QImg/Position" />
-
-<doc-example title="Ratio" file="QImg/Ratio" />
-
-<doc-example title="Spinner Color" file="QImg/SpinnerColor" />
-
-<doc-example title="Spinner Size" file="QImg/SpinnerSize" />
-
-<doc-example title="SrcSet" file="QImg/SrcSet" />
-
-<doc-example title="Transition" file="QImg/Transition" />
-
-<doc-example title="Slot (default)" file="QImg/SlotDefault" />
-
-<doc-example title="Slot (loading)" file="QImg/SlotLoading" />
-
-<doc-example title="Slot (error)" file="QImg/SlotError" />
+::: tip
+For `srcset` property, please read about Resolution Switching: [Same size, different resolutions](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Same_size_different_resolutions).
+:::
 
 ## QImg API
 <doc-api file="QImg" />

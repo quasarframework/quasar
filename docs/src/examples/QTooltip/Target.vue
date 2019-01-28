@@ -1,8 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-md">
     <div class="row justify-center">
-      <div class="row items-center q-gutter-sm">
-        <q-chip square color="primary" text-color="white">target</q-chip>
+      <div class="row items-center q-gutter-x-sm">
         <q-radio v-model="targetEl" :val="false" label="false (no target whatsoever)" />
         <q-radio v-model="targetEl" :val="true" label="true (original parent)" />
         <q-radio v-model="targetEl" val="#target-img-1" label="#target-img-1" />
@@ -19,18 +18,12 @@
       </q-img>
       <q-img src="https://cdn.quasar-framework.org/img/blueish.jpg" style="height: 100px">
         <div class="absolute-bottom-right">Original parent</div>
-        <q-menu touch-position :target="targetEl">
-          <q-list>
-            <q-item
-              v-for="n in 5"
-              :key="n"
-              v-close-menu
-              clickable
-            >
-              <q-item-section>Label</q-item-section>
-            </q-item>
-          </q-list>
-        </q-menu>
+        <q-tooltip
+          :target="targetEl"
+          anchor="center middle"
+          self="center middle"
+          content-class="bg-black"
+        >Quasar Rulz!</q-tooltip>
       </q-img>
     </div>
   </div>

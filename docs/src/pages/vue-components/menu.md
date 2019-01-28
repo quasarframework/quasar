@@ -1,5 +1,7 @@
 ---
 title: QMenu
+components:
+  - menu/MenuPositioning
 ---
 
 The QMenu component is a convenient way to show menus. Goes very well with [QList](/vue-components/lists-and-list-items) as dropdown content, but it's by no means limited to it.
@@ -7,47 +9,65 @@ The QMenu component is a convenient way to show menus. Goes very well with [QLis
 ## Installation
 <doc-installation components="QMenu" directives="CloseMenu" />
 
+## Usage
+
+The idea with QMenu is to place it inside your DOM element / component that you want to be the trigger as direct child. Don’t worry about QMenu content inheriting CSS from the container as the QMenu will be injected as a direct child of `<body>` through a Quasar Portal.
+
 ::: tip
 Don't forget to use the directive `v-close-menu` in your clickable menu items if you want the menu to close automatically.
-Alternatively, you can use the `q-menu` property `auto-close`.
+Alternatively, you can use the QMenu's property `auto-close` or handle closing the menu yourself through its v-model.
 :::
 
-::: tip
-`q-menu` by itself will not show anything. You should use it in a default slot of another component. For example, a `q-btn`.
-:::
+### Basic
 
-## Usage
 <doc-example title="Basic" file="QMenu/Basic" />
 
-<doc-example title="More Basic" file="QMenu/Basic2" />
+<doc-example title="Idea for content" file="QMenu/VariousContent" />
 
-:::tip
-In the second example below, check out the `file` menu for sub-level menus.
-:::
+<doc-example title="Toggle through v-model" file="QMenu/VModel" />
 
-<doc-example title="Target" file="QMenu/Target" />
+### Submenus
 
-::: tip
-The example below shows how to create a re-usable menu that can be shared with different targets.
-:::
+<doc-example title="Menus in menus" file="QMenu/MenuInMenu" />
 
-<doc-example title="More Target" file="QMenu/Target2" />
+### Sizing and styling
 
-### Design and Styling
-
-<doc-example title="Transitions" file="QMenu/Transitions" />
-
-<doc-example title="Alignment" file="QMenu/Alignment" />
+<doc-example title="Sizing" file="QMenu/Sizing" />
 
 <doc-example title="Style" file="QMenu/Style" />
 
-### Contextual
+### Context menu
+
+You can also set QMenu to act as a context menu. On desktop, you need to right click the parent target to trigger it, and on mobile a long tap will do the job.
 
 <doc-example title="Context Menu" file="QMenu/ContextMenu" />
 
-### Ideas
+### Persistent
 
-<doc-example title="Various Content" file="QMenu/VariousContent" />
+If you want the QMenu to not close if app route changes or if hitting ESCAPE key or if clicking/tapping outside of the menu, then use `persistent` prop:
 
-## API
+<doc-example title="Persistent" file="QMenu/Persistent" />
+
+### Transitions
+
+In the example below there's a few transitions showcased. For a full list of transitions available, go to [Transitions](/vue-components/transitions).
+
+<doc-example title="Transition examples" file="QMenu/Transitions" />
+
+### Reusable
+
+The example below shows how to create a re-usable menu that can be shared with different targets.
+
+<doc-example title="Using target" file="QMenu/Target" />
+
+### Positioning
+
+<doc-example title="Position examples" file="QMenu/Positions" />
+
+The position of QMenu can be customized. It keeps account of the `anchor` and `self` optional props.
+The final position of QMenu popup is calculated so that it will be displayed on the available screen real estate, switching to the right-side and/or top-side when necessary.
+
+<menu-positioning />
+
+## QMenu API
 <doc-api file="QMenu" />
