@@ -24,6 +24,8 @@ Alternatively, you can use the QMenu's property `auto-close` or handle closing t
 
 <doc-example title="Idea for content" file="QMenu/VariousContent" />
 
+<doc-example title="Toggle through v-model" file="QMenu/VModel" />
+
 ### Submenus
 
 <doc-example title="Menus in menus" file="QMenu/MenuInMenu" />
@@ -58,10 +60,12 @@ The example below shows how to create a re-usable menu that can be shared with d
 
 <doc-example title="Using target" file="QMenu/Target" />
 
-
 ### Positioning
 
 <doc-example title="Position examples" file="QMenu/Positions" />
+
+The position of QMenu can be customized. It keeps account of the `anchor` and `self` optional props.
+The final position of QMenu popup is calculated so that it will be displayed on the available screen real estate, switching to the right-side and/or top-side when necessary.
 
 <menu-positioning />
 

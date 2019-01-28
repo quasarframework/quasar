@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div
       style="width: 200px; height: 70px;"
-      class="bg-secondary text-white round-borders row flex-center"
+      class="bg-secondary text-white generic-border-radius non-selectable row flex-center"
     >
       One second delay
       <q-tooltip :delay="1000" :offset="[0, 10]">Quasar Rulz!</q-tooltip>
