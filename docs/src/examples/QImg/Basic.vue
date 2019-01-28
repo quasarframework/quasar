@@ -1,14 +1,12 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <div class="row justify-center">
-      <q-btn push color="teal" label="Refresh" @click="refresh" class="q-my-lg" />
-    </div>
-    <div class="row justify-center">
-      <q-img
-        :src="url"
-        style="height: 140px; max-width: 150px"
-      />
-    </div>
+  <div class="q-pa-md q-gutter-sm">
+    <q-btn push color="teal" label="Change image" @click="refresh" />
+
+    <q-img
+      :src="url"
+      spinner-color="white"
+      style="height: 140px; max-width: 150px"
+    />
   </div>
 </template>
 
