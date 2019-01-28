@@ -55,6 +55,6 @@ With this example, we are using QInput's external error handling. We could also 
 
 <doc-example title="Click on text" file="QPopupEdit/Text" />
 
-## API
+## QPopupEdit API
 
 <doc-api file="QPopupEdit" />
