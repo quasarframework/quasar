@@ -26,24 +26,24 @@ if (argv.help) {
 
   App Examples
     $ quasar create my-project
-         # installs an App project with the latest App starter kit
+      # installs an App project with the latest App starter kit
     $ quasar create my-project --branch v0.17
-         # installs an App project from a specific version (only major+minor version)
+      # installs an App project from a specific version (only major+minor version)
     $ quasar create my-project --kit umd
-         # installs an App project and installs the umd demo
+      # installs an App project and installs the umd demo
     $ quasar create my-project --kit user/github-starter-kit
-         # installs an App project with a custom starter kit from Github
+      # installs an App project with a custom starter kit from Github
     $ quasar create my-project --kit ./starter-kit-folder
-         # installs an App project using a starter kit located at ./starter-kit-folder
+      # installs an App project using a starter kit located at ./starter-kit-folder
 
   App Extension Examples
     $ quasar create my-extension-project --kit app-extension
-         # installs an App Extension project with the latest Quasar App Extension starter kit
+      # installs an App Extension project with the latest Quasar App Extension starter kit
     $ quasar create my-extension-project --kit user/github-extenstion-starter-kit
-         # installs an App Extension project with a custom starter kit from Github 
+      # installs an App Extension project with a custom starter kit from Github
     $ quasar create my-extension-project --kit user/github-extenstion-starter-kit --branch dev
-         # installs an App Extension project with a custom starter kit from Github using the dev branch       
-        
+      # installs an App Extension project with a custom starter kit from Github using the dev branch
+
   Options
     --kit, -k      Use specific starter kit
     --branch, -b   Use specific branch of the starter kit
@@ -89,15 +89,18 @@ let template = argv.kit
   )
   : 'quasarframework/quasar-starter-kit'
 
-template += '#' + (argv.branch || 'master')
-
 const
   rawName = argv._[0],
   inPlace = !rawName || rawName === '.',
   name = inPlace ? path.relative('../', process.cwd()) : rawName,
   to = path.resolve(rawName || '.')
 
+if (isLocalPath(template) !== true) {
+  template += '#' + (argv.branch || 'master')
+}
+
 const tmp = path.join(home, '.quasar-starter-kits', template.replace(/[\/:]/g, '-'))
+
 if (argv.offline) {
   console.log(`> Use cached template at ${chalk.yellow(tildify(tmp))}`)
   template = tmp
