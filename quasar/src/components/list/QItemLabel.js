@@ -13,11 +13,8 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      const title = !this.overline && !this.caption
-
       return {
         'q-item__label--overline text-overline': this.overline,
-        'q-item__label--title': title,
         'q-item__label--caption text-caption': this.caption,
         'q-item__label--header': this.header,
         'q-item__label--inset': this.inset,
