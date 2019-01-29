@@ -19,17 +19,11 @@ Click and drag on the splitter separator bar to see results.
 
 <doc-example title="Horizontal" file="QSplitter/Horizontal" />
 
-<doc-example title="Limits" file="QSplitter/Limits" />
+<doc-example title="Custom dragging limits (50-100)" file="QSplitter/Limits" />
 
-<doc-example title="Disable" file="QSplitter/Disable" />
+<doc-example title="Customized separator" file="QSplitter/CustomizedSeparator" dark />
 
-<doc-example title="Separator Class" file="QSplitter/SeparatorClass" />
-
-<doc-example title="Separator Style" file="QSplitter/SeparatorStyle" />
-
-::: tip
-A QSplitter can be embedded in another QSplitter's `before` and/or `after` slots.
-:::
+A QSplitter can be embedded in another QSplitter's `before` and/or `after` slots, like shown in example below.
 
 <doc-example title="Embedded" file="QSplitter/Embedded" />
 
