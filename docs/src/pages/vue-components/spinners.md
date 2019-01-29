@@ -13,31 +13,36 @@ If you need a specific spinner, choose one from the list below.
 
 <doc-installation
   :components="[
-   'QSpinnerAudio', 'QSpinnerBall', 'QSpinnerBars', 'QSpinnerCircles',
-   'QSpinnerComment', 'QSpinnerCube', 'QSpinnerDots', 'QSpinnerFacebook',
-   'QSpinnerGears', 'QSpinnerGrid', 'QSpinnerHearts', 'QSpinnerHourglass',
-   'QSpinnerInfinity', 'QSpinnerIos', 'QSpinnerOval', 'QSpinnerPie',
-   'QSpinnerPuff', 'QSpinnerRadio', 'QSpinnerRings', 'QSpinnerTail'
+   'QSpinnerAudio', 'QSpinnerBall', 'QSpinnerBars', 'QSpinnerComment',
+   'QSpinnerCube', 'QSpinnerDots', 'QSpinnerFacebook', 'QSpinnerGears',
+   'QSpinnerGrid', 'QSpinnerHearts', 'QSpinnerHourglass', 'QSpinnerInfinity',
+   'QSpinnerIos', 'QSpinnerOval', 'QSpinnerPie', 'QSpinnerPuff',
+   'QSpinnerRadio', 'QSpinnerRings', 'QSpinnerTail'
   ]"
 />
 
 ## Usage
 
-::: tip
-Hover over a spinner to see name.
-:::
+<doc-example title="QSpinner" file="QSpinner/Default" />
 
-<doc-example title="Default" file="Spinners/Default" />
+In the example below, hover over the spinners to see their names.
 
-<doc-example title="Others" file="Spinners/Others" />
+<doc-example title="Other spinners" file="QSpinner/Others" />
 
-<doc-example title="Color" file="Spinners/Color" />
+<doc-example title="Coloring" file="QSpinner/Color" />
 
-<doc-example title="Size" file="Spinners/Size" />
+Please note that by default, QSpinner and all other spinners inherit the font-size of the parent and applies it as its size.
 
-::: tip
-The same API for `q-spinner` applies to all spinners.
-:::
+<doc-example title="Size" file="QSpinner/Size" />
 
-## API
+## QSpinner API
+
 <doc-api file="QSpinner" />
+
+## Other Spinners API
+
+::: tip
+The API below applies to all spinners, except for QSpinner. Making an example with QSpinnerCube.
+:::
+
+<doc-api file="QSpinnerCube" />

@@ -23,7 +23,7 @@ export default Vue.extend({
         [`bg-${this.color}`]: this.color,
         [`text-${this.textColor} q-chip--colored`]: this.textColor,
         'q-avatar__content--square': this.square,
-        'generic-border-radius': this.rounded
+        'rounded-borders': this.rounded
       }
     },
 

@@ -1,11 +1,3 @@
 {
-  "props": {
-    "size": {
-      "extends": "size"
-    },
-
-    "color": {
-      "extends": "color"
-    }
-  }
+  "mixins": [ "components/spinner/__spinner-mixin" ]
 }

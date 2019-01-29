@@ -9,7 +9,7 @@
       </q-btn>
 
       <div
-        class="inline bg-amber generic-border-radius cursor-pointer"
+        class="inline bg-amber rounded-borders cursor-pointer"
         style="max-width: 300px"
       >
         <div class="fit flex flex-center text-center non-selectable q-pa-md">

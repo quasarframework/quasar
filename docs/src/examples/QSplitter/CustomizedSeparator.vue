@@ -1,8 +1,9 @@
 <template>
-  <div>
+  <div class="bg-grey-10 text-white">
     <q-splitter
       v-model="splitterModel"
-      :limits="[50, 100]"
+      separator-class="bg-orange"
+      separator-style="width: 3px"
       style="height: 400px"
     >
 

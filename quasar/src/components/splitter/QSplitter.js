@@ -28,6 +28,8 @@ export default Vue.extend({
 
     disable: Boolean,
 
+    dark: Boolean,
+
     separatorClass: [Array, String, Object],
     separatorStyle: [Array, String, Object]
   },
@@ -52,7 +54,8 @@ export default Vue.extend({
     classes () {
       return (this.horizontal ? 'column' : 'row') +
         ` q-splitter--${this.horizontal ? 'horizontal' : 'vertical'}` +
-        ` q-splitter--${this.disable === true ? 'disabled' : 'workable'}`
+        ` q-splitter--${this.disable === true ? 'disabled' : 'workable'}` +
+        (this.dark === true ? ' q-splitter--dark' : '')
     },
 
     prop () {

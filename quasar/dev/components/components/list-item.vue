@@ -491,7 +491,7 @@
 
         <q-item>
           <q-item-section top thumbnail class="q-ml-none">
-            <img class="generic-border-radius" src="https://cdn.quasar-framework.org/img/mountains.jpg">
+            <img class="rounded-borders" src="https://cdn.quasar-framework.org/img/mountains.jpg">
           </q-item-section>
 
           <q-item-section>

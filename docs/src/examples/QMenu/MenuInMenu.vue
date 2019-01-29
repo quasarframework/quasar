@@ -55,7 +55,7 @@
         </q-menu>
       </q-btn>
 
-      <q-bar style="min-width: 250px;" class="bg-teal text-white generic-border-radius">
+      <q-bar style="min-width: 250px;" class="bg-teal text-white rounded-borders">
         <div class="cursor-pointer non-selectable">
           File
           <q-menu>

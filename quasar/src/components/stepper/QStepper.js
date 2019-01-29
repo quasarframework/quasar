@@ -85,7 +85,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-stepper generic-border-radius',
+      staticClass: 'q-stepper',
       class: this.classes
     }, this.__getContent(h).concat(this.$slots.navigation))
   }

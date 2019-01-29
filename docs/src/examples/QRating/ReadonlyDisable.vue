@@ -1,10 +1,17 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <div class="row justify-center">
+  <div class="q-pa-md">
+    <div class="q-gutter-y-md column">
       <q-rating
         v-model="ratingModel"
         size="2em"
-        color="red-7"
+        color="orange"
+        readonly
+      />
+
+      <q-rating
+        v-model="ratingModel"
+        size="2em"
+        color="purple"
         disable
       />
     </div>

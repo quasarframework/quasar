@@ -11,7 +11,7 @@
       padding
       arrows
       height="200px"
-      class="bg-primary text-white shadow-1 generic-border-radius"
+      class="bg-primary text-white shadow-1 rounded-borders"
     >
       <q-carousel-slide name="style" class="column no-wrap flex-center">
         <q-icon name="style" size="56px" />
@@ -53,7 +53,7 @@
       padding
       arrows
       height="200px"
-      class="bg-purple text-white shadow-1 generic-border-radius"
+      class="bg-purple text-white shadow-1 rounded-borders"
     >
       <q-carousel-slide name="style" class="column no-wrap flex-center">
         <q-icon name="style" size="56px" />

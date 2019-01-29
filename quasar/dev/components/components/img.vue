@@ -68,7 +68,7 @@
         basic
         placeholder-src="https://picsum.photos/500/300/?blur"
         ratio="1"
-        class="generic-border-radius"
+        class="rounded-borders"
         style="max-width: 225px"
       />
 
