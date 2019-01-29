@@ -52,7 +52,7 @@
           <q-step name="cfg" title="Configure Layout Parts" icon="settings" class="q-pb-lg">
             <div class="q-mb-md text-grey-8">Layout "View"</div>
 
-            <div class="q-mb-lg generic-border-radius overflow-hidden shadow-2">
+            <div class="q-mb-lg rounded-borders overflow-hidden shadow-2">
               <div class="row">
                 <div class="col-3 q-pa-md flex flex-center" :class="topL === 'h' ? 'bg-primary text-white' : 'bg-orange text-grey-9'">
                   <q-option-group

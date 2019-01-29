@@ -8,7 +8,7 @@
               <q-img
                 style="width: 70px"
                 :ratio="1"
-                class="generic-border-radius"
+                class="rounded-borders"
                 src="https://cdn.quasar-framework.org/img/donuts.png"
               />
 

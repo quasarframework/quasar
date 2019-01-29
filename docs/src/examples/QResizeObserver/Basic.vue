@@ -2,7 +2,7 @@
   <div class="q-pa-md q-gutter-md">
     <q-btn color="primary" push @click="setRandomSize" label="Set Random Size" />
 
-    <div :style="style" class="container bg-amber generic-border-radius glossy">
+    <div :style="style" class="container bg-amber rounded-borders glossy">
       <!--
         we listen for size changes on this next
         <div>, so we place the observer as direct child:

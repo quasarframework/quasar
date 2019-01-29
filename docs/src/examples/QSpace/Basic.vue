@@ -9,7 +9,7 @@
       <q-btn flat round dense icon="more_vert" />
     </q-toolbar>
 
-    <div class="row no-wrap items-center q-mt-md q-pa-sm bg-grey-3 generic-border-radius">
+    <div class="row no-wrap items-center q-mt-md q-pa-sm bg-grey-3 rounded-borders">
       <q-avatar>
         <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
       </q-avatar>

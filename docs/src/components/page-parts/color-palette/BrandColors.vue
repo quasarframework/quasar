@@ -3,7 +3,7 @@
     <div
       v-for="color in brandColors"
       :key="color"
-      class="brand-color shadow-1 text-center row inline flex-center text-white generic-border-radius"
+      class="brand-color shadow-1 text-center row inline flex-center text-white rounded-borders"
       :class="`bg-${color}`"
     >
       <div class="col">{{ color }}</div>

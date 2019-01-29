@@ -15,7 +15,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-list class="bg-grey-10 text-white shadow-2 generic-border-radius" style="max-width: 250px; width: 100%;">
+      <q-list class="bg-grey-10 text-white shadow-2 rounded-borders" style="max-width: 250px; width: 100%;">
         <q-item>
           <q-item-section avatar>
             <q-avatar>

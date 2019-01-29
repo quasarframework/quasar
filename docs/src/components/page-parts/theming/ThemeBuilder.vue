@@ -19,7 +19,7 @@
             q-color(v-model="colors[color]")
 
       .col(:class="$q.screen.gt.xs ? 'q-pl-md' : ''")
-        .relative-position.fit.generic-border-radius.shadow-2.bg-white.overflow-hidden
+        .relative-position.fit.rounded-borders.shadow-2.bg-white.overflow-hidden
           div(:class="`bg-primary text-${dark.primary === true ? 'white' : 'black'} shadow-2`")
             q-bar(dense, :dark="dark.primary")
               q-space

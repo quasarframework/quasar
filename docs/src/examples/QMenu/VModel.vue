@@ -7,7 +7,7 @@
 
     <div
       style="width: 200px; height: 70px;"
-      class="bg-purple text-white generic-border-radius row flex-center q-mt-md"
+      class="bg-purple text-white rounded-borders row flex-center q-mt-md"
     >
       Click me
 

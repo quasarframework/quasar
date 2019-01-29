@@ -2,20 +2,18 @@
 title: QSplitter
 ---
 
-The Quasar QSplitter component allow containers to be split vertically and/or horizonally with a movable bar.
+The QSplitter component allow containers to be split vertically and/or horizontally through a draggable separator bar.
 
 ## Installation
 <doc-installation components="QSplitter" />
 
 ## Usage
 
-::: tip
-To be effective, QSplitter always requires the use of the `before` and `after` slots.
+::: warning
+The use of the `before` and `after` slots is required.
 :::
 
-::: tip
-Click on the splitter and drag to see results.
-:::
+Click and drag on the splitter separator bar to see results.
 
 <doc-example title="Basic" file="QSplitter/Basic" />
 

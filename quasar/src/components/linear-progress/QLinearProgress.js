@@ -34,7 +34,7 @@ export default Vue.extend({
       return {
         [`text-${this.color}`]: this.color !== void 0,
         'q-linear-progress--reverse': this.reverse === true || this.query === true,
-        'generic-border-radius': this.rounded === true
+        'rounded-borders': this.rounded === true
       }
     },
 
