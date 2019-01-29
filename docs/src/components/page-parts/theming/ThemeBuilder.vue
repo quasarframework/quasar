@@ -1,7 +1,7 @@
 <template lang="pug">
   #theme-picker
     .row.items-stretch
-      .column.q-gutter-md
+      div(:class="$q.screen.gt.xs ? 'column q-gutter-md' : 'row q-gutter-sm q-mb-md'")
         q-btn(
           v-for="color in list"
           :key="`picker-${color}`"
@@ -18,7 +18,7 @@
           q-menu(anchor="top left", self="top left")
             q-color(v-model="colors[color]")
 
-      .col.q-pl-md
+      .col(:class="$q.screen.gt.xs ? 'q-pl-md' : ''")
         .relative-position.fit.generic-border-radius.shadow-2.bg-white.overflow-hidden
           div(:class="`bg-primary text-${dark.primary === true ? 'white' : 'black'} shadow-2`")
             q-bar(dense, :dark="dark.primary")
@@ -38,7 +38,7 @@
 
           .q-px-md.q-py-lg
             .row.q-col-gutter-md
-              .col-4(
+              .col-12.col-sm-6.col-md-4.col-lg-3(
                 v-for="color in sideColors"
                 :key="`card-${color}`"
               )
