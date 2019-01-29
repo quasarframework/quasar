@@ -50,7 +50,7 @@ If you want the QMenu to not close if app route changes or if hitting ESCAPE key
 
 ### Transitions
 
-In the example below there's a few transitions showcased. For a full list of transitions available, go to [Transitions](/vue-components/transitions).
+In the example below there's a few transitions showcased. For a full list of transitions available, go to [Transitions](/options/transitions).
 
 <doc-example title="Transition examples" file="QMenu/Transitions" />
 

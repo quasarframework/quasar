@@ -65,6 +65,14 @@ const options = [
     path: 'screen-plugin'
   },
   {
+    name: 'Animations',
+    path: 'animations'
+  },
+  {
+    name: 'Transitions',
+    path: 'transitions'
+  },
+  {
     name: 'Global Event Bus',
     path: 'global-event-bus'
   }
@@ -491,6 +499,10 @@ const components = [
     badge: 'new'
   },
   {
+    name: 'Slide Transition',
+    path: 'slide-transition'
+  },
+  {
     name: 'Space',
     path: 'space',
     badge: 'new'
@@ -527,23 +539,6 @@ const components = [
   {
     name: 'Tooltip',
     path: 'tooltip'
-  },
-  {
-    name: 'Transitions and Animations',
-    children: [
-      {
-        name: 'Animations',
-        path: 'animations'
-      },
-      {
-        name: 'Transitions',
-        path: 'transitions'
-      },
-      {
-        name: 'Slide Transition',
-        path: 'slide-transition'
-      }
-    ]
   },
   {
     name: 'Tree',

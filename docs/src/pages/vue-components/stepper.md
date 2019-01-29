@@ -5,15 +5,7 @@ title: Stepper
 A Stepper conveys progress through numbered steps. Steppers display progress
 through a sequence of logical and numbered steps. They may also be used for
 navigation. It's usually useful when the user has to follow steps to complete a
-process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software))
-
-The stepper component is built from three different child components:
-
-- **QStepper** - main Stepper encapsulating component
-- **QStep** - individual steps
-- **QStepperNavigation** - helper for encapsulating Stepper navigation buttons
-  (within QStep or globally for the stepper in the 'navigation' slot of
-  QStepper)
+process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
 
 ## Installation
 
