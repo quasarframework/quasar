@@ -60,6 +60,7 @@ export default Vue.extend({
       default: 'horizontal',
       validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
     },
+    wrapCells: Boolean,
     binaryStateSort: Boolean,
     noDataLabel: String,
     noResultsLabel: String,
@@ -169,6 +170,7 @@ export default Vue.extend({
           'q-table--dense': this.computedDense,
           'q-table--flat': this.flat,
           'q-table--bordered': this.bordered,
+          'q-table--no-wrap': this.wrapCells === false,
           [`q-table--${this.separator}-separator`]: true,
           fullscreen: this.inFullscreen,
           scroll: this.inFullscreen

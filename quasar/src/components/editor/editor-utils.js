@@ -46,7 +46,8 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
       color: toggled ? btn.toggleColor || vm.toolbarToggleColor : btn.color || vm.toolbarColor,
       textColor: toggled && (vm.toolbarFlat || vm.toolbarOutline) ? null : btn.textColor || vm.toolbarTextColor,
       label: btn.label,
-      disable: btn.disable ? (typeof btn.disable === 'function' ? btn.disable(vm) : true) : false
+      disable: btn.disable ? (typeof btn.disable === 'function' ? btn.disable(vm) : true) : false,
+      size: 'sm'
     }),
     on: events
   }, child)
@@ -83,7 +84,9 @@ function getDropdown (h, vm, btn) {
         {
           props: vm.buttonProps,
           staticClass: 'relative-position q-editor-toolbar-padding',
-          style: { borderRadius: '0' }
+          style: { borderRadius: '0' },
+          size: 'sm',
+          dense: true
         },
         Items
       )
@@ -113,7 +116,7 @@ function getDropdown (h, vm, btn) {
       return h(
         QItem,
         {
-          props: { active, activeClass, clickable: true, disable: disable },
+          props: { active, activeClass, clickable: true, disable: disable, dense: true },
           on: {
             click (e) {
               closeDropdown()

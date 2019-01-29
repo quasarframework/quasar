@@ -8,6 +8,6 @@ One of the most important parts of a website/app is to build a brand for it. Fir
 
 ## Theme Builder
 
-Click on the colors on the left side and when you are ready, hit the `Export` button at the bottom. Recommended way is to go with `/src/css/quasar.variables.styl`.
+Click on the colored buttons besides the layout below and when you are ready, hit the `Export` button at the bottom. Recommended way is to go with `/src/css/quasar.variables.styl`.
 
 <theme-builder />

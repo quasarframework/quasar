@@ -81,6 +81,10 @@ columns: [ // array of Objects
 
 <doc-example title="Dense and Separators" file="QTable/Separators" />
 
+<doc-example title="Custom Column" file="QTable/CustomColumn" />
+
+<doc-example title="Custom Color" file="QTable/CustomColor" />
+
 <doc-example title="No Header/Footer" file="QTable/NoHeaderFooter" />
 
 ::: warning

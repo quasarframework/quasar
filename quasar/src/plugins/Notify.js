@@ -111,7 +111,7 @@ const Notifications = {
       }
 
       notif.staticClass = [
-        `q-notification generic-border-radius row items-center`,
+        `q-notification row items-center`,
         notif.color && `bg-${notif.color}`,
         notif.textColor && `text-${notif.textColor}`,
         `q-notification--${notif.multiLine ? 'multi-line' : 'standard'}`,

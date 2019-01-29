@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-layout view="lhh LpR lff" container style="height: 300px" class="shadow-2 generic-border-radius">
+    <q-layout view="lhh LpR lff" container style="height: 300px" class="shadow-2 rounded-borders">
       <q-header reveal class="bg-black">
         <q-toolbar>
           <q-btn flat round dense icon="menu" />

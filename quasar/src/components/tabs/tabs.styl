@@ -64,8 +64,11 @@
 
 .q-tabs
 
-  &--not-scrollable .q-tabs__arrow
-    display none
+  &--not-scrollable
+    .q-tabs__arrow
+      display none
+    .q-tabs__content
+      border-radius inherit
 
   &__arrow
     cursor pointer

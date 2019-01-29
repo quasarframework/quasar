@@ -99,9 +99,6 @@ export default {
       drawer: true,
       menuList: data
     }
-  },
-  created () {
-    console.log(this.$q)
   }
 }
 </script>

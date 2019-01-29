@@ -473,7 +473,7 @@ const components = [
     badge: 'new'
   },
   {
-    name: 'Pull To Refresh',
+    name: 'Pull to refresh',
     path: 'pull-to-refresh'
   },
   {

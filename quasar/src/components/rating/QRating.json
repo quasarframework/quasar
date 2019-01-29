@@ -38,19 +38,5 @@
     "input": {
       "extends": "input"
     }
-  },
-
-  "methods": {
-    "set": {
-      "desc": "Parses and sets a new value for model",
-      "params": {
-        "value": {
-          "type": [ "Number", "String" ],
-          "desc": "Value to set",
-          "required": true,
-          "examples": [ 5 ]
-        }
-      }
-    }
   }
 }

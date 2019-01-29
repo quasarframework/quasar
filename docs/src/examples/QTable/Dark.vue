@@ -6,7 +6,7 @@
       :columns="columns"
       row-key="name"
       dark
-      class="custom-background"
+      class="bg-indigo-8"
       color="orange"
     />
   </div>
@@ -27,7 +27,7 @@ export default {
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, classes: 'bg-grey', style: 'width: 10px' },
+        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
@@ -140,9 +140,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-/* inherit the dark background color of the parent panel */
-.custom-background {
-  background-color: inherit
-}
-</style>

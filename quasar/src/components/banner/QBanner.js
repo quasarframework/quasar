@@ -17,7 +17,7 @@ export default Vue.extend({
       class: {
         'q-banner--top-padding': actions !== void 0 && !this.inlineActions,
         'q-banner--dense': this.dense,
-        'generic-border-radius': this.rounded
+        'rounded-borders': this.rounded
       }
     }, [
 

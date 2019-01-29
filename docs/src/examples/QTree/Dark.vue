@@ -1,10 +1,11 @@
 <template>
-  <div class="q-pa-md bg-grey-10 text-white">
+  <div class="q-pa-md">
     <q-tree
       :nodes="simple"
       node-key="label"
       :expanded.sync="expanded"
       dark
+      class="bg-indigo-8"
     />
   </div>
 </template>

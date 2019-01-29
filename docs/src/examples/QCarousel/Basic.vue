@@ -6,7 +6,7 @@
       transition-next="slide-left"
       animated
       control-color="primary"
-      class="generic-border-radius"
+      class="rounded-borders"
     >
       <q-carousel-slide name="style" class="column no-wrap flex-center">
         <q-icon name="style" color="primary" size="56px" />

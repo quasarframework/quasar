@@ -81,7 +81,8 @@ export default Vue.extend({
         rounded: this.toolbarRounded,
         dense: true,
         color: this.toolbarColor,
-        disable: !this.editable
+        disable: !this.editable,
+        size: 'sm'
       }
     },
 
@@ -159,6 +160,8 @@ export default Vue.extend({
               type: 'dropdown',
               icon: token.icon,
               label: token.label,
+              size: 'sm',
+              dense: true,
               fixedLabel: token.fixedLabel,
               fixedIcon: token.fixedIcon,
               highlight: token.highlight,

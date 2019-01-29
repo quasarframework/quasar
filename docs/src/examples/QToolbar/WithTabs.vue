@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-toolbar class="bg-purple text-white shadow-2 generic-border-radius">
+    <q-toolbar class="bg-purple text-white shadow-2 rounded-borders">
       <q-btn flat label="Homepage" />
       <q-space />
       <q-tabs v-model="tab">

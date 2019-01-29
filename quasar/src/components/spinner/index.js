@@ -3,7 +3,6 @@ import QSpinner from './QSpinner.js'
 import QSpinnerAudio from './QSpinnerAudio.js'
 import QSpinnerBall from './QSpinnerBall.js'
 import QSpinnerBars from './QSpinnerBars.js'
-import QSpinnerCircles from './QSpinnerCircles.js'
 import QSpinnerComment from './QSpinnerComment.js'
 import QSpinnerCube from './QSpinnerCube.js'
 import QSpinnerDots from './QSpinnerDots.js'
@@ -27,7 +26,6 @@ export {
   QSpinnerAudio,
   QSpinnerBall,
   QSpinnerBars,
-  QSpinnerCircles,
   QSpinnerComment,
   QSpinnerCube,
   QSpinnerDots,

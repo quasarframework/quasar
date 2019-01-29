@@ -188,7 +188,7 @@ export default Vue.extend({
         : h('div', {
           key: 'content',
           staticClass: 'q-img__content absolute-full'
-        }, this.hasError ? this.$slots.error : this.$slots.default)
+        }, this.hasError === true ? this.$slots.error : this.$slots.default)
 
       return h('transition', {
         props: { name: 'q-transition--fade' }

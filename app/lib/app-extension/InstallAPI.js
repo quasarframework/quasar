@@ -142,8 +142,8 @@ module.exports = class InstallAPI {
       const sourcePath = path.resolve(source, rawPath)
 
       if (rawCopy || isBinary(sourcePath)) {
-        fs.ensureSync(targetPath)
-        fs.copySync(sourcePath, targetPath)
+        fs.ensureFileSync(targetPath)
+        fs.copyFileSync(sourcePath, targetPath)
       }
       else {
         const rawContent = fs.readFileSync(sourcePath, 'utf-8')

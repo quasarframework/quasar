@@ -19,7 +19,7 @@
       padding
       :arrows="arrows"
       height="200px"
-      class="bg-white shadow-1 generic-border-radius"
+      class="bg-white shadow-1 rounded-borders"
     >
       <q-carousel-slide :name="1" class="column no-wrap flex-center">
         <q-icon name="style" color="primary" size="56px" />
@@ -59,7 +59,7 @@
       arrows
       padding
       height="200px"
-      class="bg-grey-9 text-white shadow-1 generic-border-radius"
+      class="bg-grey-9 text-white shadow-1 rounded-borders"
     >
       <q-carousel-slide :name="1">
         {{ lorem }} {{ lorem }} {{ lorem }} {{ lorem }} {{ lorem }} {{ lorem }}
