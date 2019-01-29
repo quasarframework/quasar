@@ -9,7 +9,7 @@ So what can you configure through `/quasar.conf.js`?
 * Icon pack(s) that you wish to use
 * Default icon set for Quasar components
 * Development server port, HTTPS mode, hostname and so on
-* [CSS animations](/vue-components/transition) that you wish to use
+* [CSS animations](/options/animations) that you wish to use
 * [Boot Files](/quasar-cli/cli-documentation/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
 * Global CSS/Stylus/... files to be included in the bundle
 * PWA [manifest](/quasar-cli/developing-pwa/configuring-pwa#Configuring-Manifest-File) and [Workbox options](/quasar-cli/developing-pwa/configuring-pwa#Quasar.conf.js)
@@ -96,7 +96,7 @@ Let's take each option one by one:
 | supportIE | Boolean | Add support for IE11+. |
 | htmlVariables | Object | Add variables that you can use in index.template.html. |
 | framework | Object/String | What Quasar components/directives/plugins to import, what Quasar I18n language pack to use, what icon set to use for Quasar components. |
-| animations | Object/String | What [CSS animations](/vue-components/transition) to import. Example: _['bounceInLeft', 'bounceOutRight']_ |
+| animations | Object/String | What [CSS animations](/options/animations) to import. Example: _['bounceInLeft', 'bounceOutRight']_ |
 | devServer | Object | Webpack dev server [options](https://webpack.js.org/configuration/dev-server/). Some properties are overwritten based on the Quasar mode you're using in order to ensure a correct config. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL. |
 | build | Object | Build configuration options. |
 | sourceFiles | Object | Change the default name of parts of your app. |

@@ -25,7 +25,7 @@ The idea with QTooltip is to place it inside your DOM element / component that y
 
 ### Transitions
 
-In the example below there's a few transitions showcased. For a full list of transitions available, go to [Transitions](/vue-components/transitions).
+In the example below there's a few transitions showcased. For a full list of transitions available, go to [Transitions](/options/transitions).
 
 <doc-example title="Custom transition" file="QTooltip/CustomTransition" />
 

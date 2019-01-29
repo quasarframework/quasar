@@ -13,7 +13,7 @@ Below is an almost stripped down basic Carousel (it is just animated and only ha
 <doc-example title="Basic" file="QCarousel/Basic" />
 
 ::: tip
-In the example below there are just a few transitions demoed. For a complete list of transitions, head to the [Transitions](/vue-components/transitions) page.
+In the example below there are just a few transitions demoed. For a complete list of transitions, head to the [Transitions](/options/transitions) page.
 :::
 
 <doc-example title="Transitions, bottom navigation, arrows and auto padding" file="QCarousel/Transitions" />
