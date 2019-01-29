@@ -819,6 +819,10 @@ const dev = [
     path: 'report-an-issue'
   },
   {
+    name: 'Debugging',
+    path: 'debugging'
+  },
+  {
     name: 'Development Paradigm',
     path: 'development-paradigm'
   },
@@ -907,7 +911,7 @@ export default [
   },
   {
     name: 'Developing Quasar',
-    icon: 'fab fa-dev',
+    icon: 'important_devices',
     path: 'quasar-dev',
     children: dev
   }

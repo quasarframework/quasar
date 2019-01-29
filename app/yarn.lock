@@ -730,7 +730,7 @@
 
 "@quasar/babel-preset-app@^1.0.0-alpha.0":
   version "1.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@quasar/babel-preset-app/-/babel-preset-app-1.0.0-alpha.5.tgz#7fe97dd972db728e528a8e4868ba17e5fb7de4ca"
+  resolved "https://registry.npmjs.org/@quasar/babel-preset-app/-/babel-preset-app-1.0.0-alpha.5.tgz#7fe97dd972db728e528a8e4868ba17e5fb7de4ca"
   integrity sha512-eW9COYzHY/5j0+uAsWmsWc+7HFupU0Uso7i6O5QFJUu+M+d9HPzmvWbC8MnvUnq+Vtxi1m+WZg2oxwWjvIVPnw==
   dependencies:
     "@babel/core" "7.2.2"
@@ -771,7 +771,7 @@
 
 "@vue/preload-webpack-plugin@^1.1.0":
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@vue/preload-webpack-plugin/-/preload-webpack-plugin-1.1.0.tgz#d768dba004261c029b53a77c5ea2d5f9ee4f3cce"
+  resolved "https://registry.npmjs.org/@vue/preload-webpack-plugin/-/preload-webpack-plugin-1.1.0.tgz#d768dba004261c029b53a77c5ea2d5f9ee4f3cce"
   integrity sha512-rcn2KhSHESBFMPj5vc5X2pI9bcBNQQixvJXhD5gZ4rN2iym/uH2qfDSQfUS5+qwiz0a85TCkeUs6w6jxFDudbw==
 
 "@webassemblyjs/ast@1.7.11":
