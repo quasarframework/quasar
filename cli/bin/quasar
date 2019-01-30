@@ -61,6 +61,7 @@ else {
           const chalk = require('chalk')
 
           console.log(`\n ${chalk.red(`Error`)} Unknown command "${ cmd }"`)
+
           if (cmd.indexOf('-') === 0) {
             console.log(`\n ${chalk.red(`Error`)} Command must come before the options`)
           }

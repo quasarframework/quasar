@@ -28,5 +28,8 @@ console.log(`
     serve         Create an ad-hoc server on App's distributables
     help          Displays this message
 
-  ${chalk.italic('Trigger this inside of a Quasar project for more commands.')}
+  --------------
+  => IMPORTANT !
+  => ${chalk.italic('Trigger this inside of a Quasar project for more commands.')}
+  --------------
 `)
