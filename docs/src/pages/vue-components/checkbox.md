@@ -2,7 +2,7 @@
 title: Checkbox
 ---
 
-The Quasar Checkbox component is another basic element for user input. You can use this to supply a way for the user to toggle an option.
+The QCheckbox component is another basic element for user input. You can use this to supply a way for the user to toggle an option.
 
 ::: tip
 Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
@@ -45,5 +45,5 @@ In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so
 
 <doc-example title="Disable" file="QCheckbox/Disable" />
 
-## API
+## QCheckbox API
 <doc-api file="QCheckbox" />

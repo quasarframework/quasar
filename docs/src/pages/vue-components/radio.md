@@ -2,7 +2,7 @@
 title: Radio
 ---
 
-The Quasar Radio component is another basic element for user input. You can use this to supply a way for the user to pick an option from multiple choices.
+The QRadio component is another basic element for user input. You can use this to supply a way for the user to pick an option from multiple choices.
 
 ::: tip
 Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Radios.
@@ -36,5 +36,5 @@ In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so
 
 <doc-example title="Disable" file="QRadio/Disable" />
 
-## API
+## QRadio API
 <doc-api file="QRadio" />
