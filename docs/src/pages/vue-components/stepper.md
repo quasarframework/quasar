@@ -13,30 +13,33 @@ process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
 
 ## Usage
 
-Here's a small example showcasing a very basic Stepper to understand how
-components fit together. This one uses global navigation assigned to the
-"navigation" slot.
+<doc-example title="Horizontal" file="QStepper/TypeHorizontal" />
 
-<doc-example title="Basic" file="QStepper/Basic" />
+<doc-example title="Vertical" file="QStepper/TypeVertical" />
 
-A more involved example. This one uses custom navigation on each step.
+### Header navigation
 
-<doc-example title="Advanced" file="QStepper/Advanced" />
+<doc-example title="Non-linear header navigation" file="QStepper/NonLinearNavigation" />
 
-Each `QStep` has a name prop. Use this prop along with `v-model` to control the
-current step.
+<doc-example title="Linear header navigation" file="QStepper/LinearNavigation" />
 
-The example below shows how you can use `v-model` alone to control navigation.
-Notice the `@click` events. If you dynamically insert/remove steps it’s better
-to use a Vue reference on `QStepper` and call `next()` or `previous()` methods
-since these methods are not bound to specific step names.
+### Header options
 
-<doc-example title="Using v-model" file="QStepper/UsingVModel" />
+<doc-example title="Signaling step error" file="QStepper/StepError" />
 
-It is also possible to build a stepper, which presents itself in a vertical
-fashion. To do this, simply use vertical property on QStepper:
+<doc-example title="Alternative labels" file="QStepper/AlternativeLabels" />
 
-<doc-example title="Vertical Stepper" file="QStepper/Vertical" />
+For the example below, in order for you to see the effect, resize browser window to be smaller than 1024px then bigger.
+
+<doc-example title="Contractable" file="QStepper/Contractable" />
+
+### Style
+
+Play with coloring using the `*-icon` and `*-color` props (on QStepper or override on specific QStep).
+
+<doc-example title="Coloring" file="QStepper/Coloring" />
+
+<doc-example title="Dark" file="QStepper/Dark" />
 
 ## QStepper API
 
