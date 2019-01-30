@@ -1,7 +1,6 @@
 <template>
-  <div class="q-px-xl q-py-md">
+  <div class="q-px-xl q-py-md bg-grey-10 text-white">
     <q-timeline
-      class="bg-indigo-8"
       dark
       responsive
       color="secondary"
