@@ -529,6 +529,11 @@ const components = [
     path: 'tabs'
   },
   {
+    name: 'Tab Panels',
+    path: 'tab-panels',
+    badge: 'new'
+  },
+  {
     name: 'Timeline',
     path: 'timeline'
   },

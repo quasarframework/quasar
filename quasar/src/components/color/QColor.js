@@ -12,8 +12,8 @@ import QIcon from '../icon/QIcon.js'
 
 import QTabs from '../tabs/QTabs.js'
 import QTab from '../tabs/QTab.js'
-import QTabPanels from '../tabs/QTabPanels.js'
-import QTabPanel from '../tabs/QTabPanel.js'
+import QTabPanels from '../tab-panels/QTabPanels.js'
+import QTabPanel from '../tab-panels/QTabPanel.js'
 
 const palette = [
   'rgb(255,204,204)', 'rgb(255,230,204)', 'rgb(255,255,204)', 'rgb(204,255,204)', 'rgb(204,255,230)', 'rgb(204,255,255)', 'rgb(204,230,255)', 'rgb(204,204,255)', 'rgb(230,204,255)', 'rgb(255,204,255)',
