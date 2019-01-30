@@ -1,88 +1,64 @@
 ---
 title: Tabs
 ---
-Quasar Tabs are a way of displaying more information using less window real estate.
-One common use case for this component is in Layout’s header/footer in a QToolbar. Please refer to [Layouts](/layout/layout) and [Toolbar](/vue-components/toolbar) for references.
+Tabs are a way of displaying more information using less window real estate. This page describes the tab selection part through QTabs, QTab and QRouteTab.
+
+One common use case for this component is in Layout’s header/footer. Please refer to [Layouts](/layout/layout) and [Header & Footer](/layout/header-and-footer#Example--Playing-with-QTabs) for references.
+
+::: tip
+Works great along with [QTabPanels](/vue-components/tab-panels), a component which refers strictly to the panels (tab content) themselves.
+:::
 
 ## Installation
 Cherry-pick only what you are using from list below.
 
-<doc-installation :components="['QTabs', 'QTab', 'QRouteTab', 'QTabPanels', 'QTabPanel']" />
+<doc-installation :components="['QTabs', 'QTab', 'QRouteTab']" />
+
+::: warning
+QRouteTab won't and cannot work with the UMD version because in that environment you don't have Vue Router.
+:::
 
 ## Usage
 
 ::: tip
-QTabs can be scrolled horizontally when the width is longer than the display width. Adjust your browser accordingly to see this in action. On a desktop you will see chevons on either side that can be clicked. On a mobile, you can pan the tabs with your finger.
+QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action. On a desktop you will see chevons on either side that can be clicked. On a mobile, you can pan the tabs with your finger.
 :::
 
 <doc-example title="Basic" file="QTabs/Basic" />
 
 <doc-example title="Dense" file="QTabs/Dense" />
 
-::: tip
-Tabs can show icon, text or both.
-:::
+<doc-example title="Individual colors" file="QTabs/IndividualColor" />
 
-<doc-example title="Types" file="QTabs/Types" />
+<doc-example title="No ripple and custom ripple color" file="QTabs/Ripples" />
 
-::: tip
-You can use `v-model` to hold the current tab. You need to set `name` prop on each tab. Model will then hold the name of currently selected tab.
-:::
+In the examples below, please notice the last two QTabs: indicator at top and no indicator.
 
-<doc-example title="Usage with V-model" file="QTabs/VModel" />
+<doc-example title="Custom indicator" file="QTabs/CustomIndicator" />
 
-::: tip
-You can also use the `value` prop just by itself to set default tab.
-:::
+<doc-example title="Tab notifications" file="QTabs/Notifying" />
 
-<doc-example title="Default Tab" file="QTabs/DefaultTab" />
+QTabs are responsive and the `align` prop (see below) becomes active when the container width (not window width) is bigger than the configured breakpoint. For demoing purposes, the tabs below have breakpoint disabled.
 
-::: tip
-You can color tabs with classes `text-*` and `bg-*` (see [Color Pallete](/style/color-pallete)).
-:::
+<doc-example title="Alignment" file="QTabs/Alignment" />
 
-<doc-example title="Colors" file="QTabs/Colors" />
+In the second QTabs from the example below, if window width is below 1024px then the "Movies" and "Photos" tabs will be replaced by a "More..." dropdown.
+
+<doc-example title="With a dropdown" file="QTabs/Dropdown" />
+
+## Using along QTabsPanel
 
 ::: tip
-Use `active-color` and `active-bg-color` to customise selected tab. Indicator color can be changed with `indicator-color` prop.
+QTabPanels can be used as standalone too. They do not depend on the presence of a QTabs. Also, they can be placed anywhere within a page, not just near a QTabs.
 :::
 
-<doc-example title="Custom Colors for Active Tab and Indicator" file="QTabs/ActiveColor" />
+<doc-example title="Tabs with tab panels" file="QTabs/TabsWithTabpanels" />
 
-<doc-example title="Glossy" file="QTabs/Glossy" />
+More info: [Tab Panels](/vue-components/tab-panels).
 
-<doc-example title="Animated Bar on Top" file="QTabs/TopBar" />
-
-::: tip
-Use `alert` prop or [QBadge](/vue-components/badge) to add count.
-:::
-
-<doc-example title="With Alerts and Counts" file="QTabs/AlertsAndCounts" />
-
-::: tip
-Use `align` prop for different alignments.
-:::
-
-<doc-example title="Alignments" file="QTabs/Alignments" />
-
-### Tab Panels
-Use `q-tab-panels` container with `q-tab-panel` children to create tabs content. These two are coupled with v-model.
-
-Panels can be `swipeable` and use different animations (see `transition-prev` and `transition-next`).
-
-<doc-example title="Swipeable Animated Panels" file="QTabs/Panels" />
-
-<doc-example title="Panels Above Tabs" file="QTabs/PanelsAbove" />
-
-::: tip
-Keeping tabs alive (Vue won't destroy content on Tab selection change).
-:::
-
-<doc-example title="Panels With Keep Alive" file="QTabs/PanelsKeepAlive" />
-
-### Usage with Vue router
-You can use tabs together with vue-router using `QRouteTab` component.
-The Tabs Router component is just like the QTab component and shares the same properties, however it also has `router-link` properties bound to it. These allow the triggering of your specific routing.
+## Connecting to Vue Router
+You can use tabs together with Vue Router through `QRouteTab` component.
+This component inherits everything from QTab, however it also has `router-link` properties bound to it. These allow for listening to the current app route and also triggering a route when clicked/tapped.
 
 ```vue
 <q-tabs>
@@ -99,6 +75,10 @@ The Tabs Router component is just like the QTab component and shares the same pr
 </q-tabs>
 ```
 
+::: warning
+QRouteTab becomes "active" depending on your app's route and not due to the v-model. So the initial value of v-model or changing the v-model directly will not also change the route of your app.
+:::
+
 ## QTabs API
 
 <doc-api file="QTabs" />
@@ -110,11 +90,3 @@ The Tabs Router component is just like the QTab component and shares the same pr
 ## QRouteTab API
 
 <doc-api file="QRouteTab" />
-
-## QTabPanels API
-
-<doc-api file="QTabPanels" />
-
-## QTabPanel API
-
-<doc-api file="QTabPanel" />

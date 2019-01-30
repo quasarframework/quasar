@@ -7,7 +7,6 @@ export const PanelParentMixin = {
 
   props: {
     value: {
-      type: [Number, String],
       required: true
     },
 
@@ -175,7 +174,6 @@ export const PanelParentMixin = {
 export const PanelChildMixin = {
   props: {
     name: {
-      type: [Number, String],
       required: true
     },
     disable: Boolean

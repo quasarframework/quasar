@@ -1,6 +1,6 @@
 .q-tab
-  padding 0 16px
-  height 48px
+  padding 4px 16px
+  min-height 48px
 
   text-transform uppercase
   white-space nowrap
@@ -10,7 +10,7 @@
   text-decoration none
 
   &--full
-    height 72px
+    min-height 72px
 
   &--no-caps
     text-transform none
@@ -94,9 +94,9 @@
 
   &--dense
     .q-tab
-      height 36px
+      min-height 36px
       &--full
-        height 52px
+        min-height 52px
 
 body.mobile
   .q-tabs
@@ -106,13 +106,6 @@ body.mobile
 
     &__arrow
       display none
-
-.q-tab-panels
-  background white
-  overflow hidden
-
-.q-tab-panel
-  padding 16px
 
 @media (min-width $breakpoint-lg-min)
   .q-header, .q-footer

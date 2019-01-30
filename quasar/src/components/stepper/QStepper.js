@@ -15,7 +15,6 @@ export default Vue.extend({
   mixins: [ PanelParentMixin ],
 
   props: {
-    color: String,
     dark: Boolean,
 
     flat: Boolean,
@@ -25,6 +24,8 @@ export default Vue.extend({
     headerNav: Boolean,
     contractable: Boolean,
 
+    inactiveColor: String,
+    inactiveIcon: String,
     doneIcon: String,
     doneColor: String,
     activeIcon: String,

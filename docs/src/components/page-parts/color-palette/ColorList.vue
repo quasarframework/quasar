@@ -1,6 +1,6 @@
 <template>
-  <div class="q-gutter-md">
-    <q-card inline class="color" v-for="color in colors" :key="color">
+  <div class="q-gutter-md row items-start">
+    <q-card class="color" v-for="color in colors" :key="color">
       <q-card-section
         class="flex flex-center text-white"
         :class="'bg-' + color"

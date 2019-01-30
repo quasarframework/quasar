@@ -1,16 +1,57 @@
 <template>
-  <div class="q-pa-sm">
-    <q-tabs
-      class="shadow-2"
-      dense
-    >
-      <q-tab icon="mail" label="Mails" />
-      <q-tab icon="alarm" label="Alarms"/>
-      <q-tab icon="movie" label="Movies"/>
-      <q-tab icon="mail" label="Mails"/>
-      <q-tab icon="alarm" label="Alarms"/>
-      <q-tab icon="movie" label="Movies"/>
-      <q-tab icon="mail" label="Mails"/>
-    </q-tabs>
+  <div class="q-pa-md">
+    <div class="q-gutter-y-md" style="max-width: 600px">
+      <q-tabs
+        v-model="tab"
+        dense
+        class="bg-grey-2 text-teal"
+      >
+        <q-tab name="mails" icon="mail" label="Mails" />
+        <q-tab name="alarms" icon="alarm" label="Alarms" />
+        <q-tab name="movies" icon="movie" label="Movies" />
+      </q-tabs>
+
+      <q-tabs
+        v-model="tab"
+        dense
+        no-caps
+        inline-label
+        class="bg-purple text-white shadow-2"
+      >
+        <q-tab name="mails" icon="mail" label="Mails" />
+        <q-tab name="alarms" icon="alarm" label="Alarms" />
+        <q-tab name="movies" icon="movie" label="Movies" />
+      </q-tabs>
+
+      <q-tabs
+        v-model="tab"
+        dense
+        class="bg-orange text-white shadow-2"
+      >
+        <q-tab name="mails" label="Mails" />
+        <q-tab name="alarms" label="Alarms" />
+        <q-tab name="movies" label="Movies" />
+      </q-tabs>
+
+      <q-tabs
+        v-model="tab"
+        dense
+        class="bg-teal text-yellow shadow-2"
+      >
+        <q-tab name="mails" icon="mail" />
+        <q-tab name="alarms" icon="alarm" />
+        <q-tab name="movies" icon="movie" />
+      </q-tabs>
+    </div>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      tab: 'mails'
+    }
+  }
+}
+</script>
