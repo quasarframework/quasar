@@ -5,10 +5,10 @@
       :options="options"
       color="green"
       type="checkbox"
-    >
-    </q-option-group>
+    />
   </div>
 </template>
+
 <script>
 export default {
   data () {

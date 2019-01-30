@@ -4,11 +4,11 @@
       v-model="group"
       :options="options"
       color="primary"
-      :inline="true"
-    >
-    </q-option-group>
+      inline
+    />
   </div>
 </template>
+
 <script>
 export default {
   data () {

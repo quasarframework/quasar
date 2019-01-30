@@ -26,9 +26,11 @@ The model for toggles must be an array
 
 <doc-example title="Inline" file="QOptionGroup/Inline" />
 
+<doc-example title="Dense and inline" file="QOptionGroup/DenseInline" />
+
 <doc-example title="Disabled" file="QOptionGroup/Disable" />
 
-<doc-example title="On a dark background" file="QOptionGroup/Dark" />
+<doc-example title="On a dark background" file="QOptionGroup/Dark" dark />
 
 ## API
 <doc-api file="QOptionGroup" />

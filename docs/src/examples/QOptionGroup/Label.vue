@@ -4,9 +4,8 @@
       v-model="group"
       :options="options"
       color="red"
-      :left-label="true"
-    >
-    </q-option-group>
+      left-label
+    />
   </div>
 </template>
 <script>

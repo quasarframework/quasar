@@ -3,7 +3,8 @@
     <q-toggle
       color="blue"
       dark
-      v-model="blue"/>
+      v-model="blue"
+    />
 
     <q-toggle
       color="green"
