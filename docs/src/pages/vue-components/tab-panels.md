@@ -34,6 +34,10 @@ For a full list of transitions, please check out [Transitions](/options/transiti
 
 <doc-example title="Custom transition examples" file="QTabPanels/Transition" />
 
+In the example below, use your mouse to swipe through the panels or, if on a touch capable device, swipe with your fingers.
+
+<doc-example title="Swipeable and infinite" file="QTabPanels/Swipeable" />
+
 ## QTabPanels API
 
 <doc-api file="QTabPanels" />
