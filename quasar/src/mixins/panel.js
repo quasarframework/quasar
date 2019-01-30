@@ -7,7 +7,6 @@ export const PanelParentMixin = {
 
   props: {
     value: {
-      type: [Number, String],
       required: true
     },
 
