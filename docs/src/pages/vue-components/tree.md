@@ -7,19 +7,37 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 <doc-installation components="QTree" />
 
 ## Usage
-<doc-example title="Basic tree" file="QTree/Basic" />
+<doc-example title="Basic" file="QTree/Basic" />
 
 <doc-example title="Dark" file="QTree/Dark" dark />
 
-<doc-example title="Customizing nodes with default header and body slot" file="QTree/SlotsDefault" />
+### Integrated example
 
-<doc-example title="Customizing nodes with custom header and body slots)" file="QTree/SlotsCustomized" />
+<doc-example title="With QSplitter and QTabPanels" file="QTree/Splitter" />
 
-<doc-example title="Accordion mode (sibling nodes get contracted when one gets expanded)" file="QTree/Accordion" />
+More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/tab-panels).
+
+### Customize content
+
+Notice (in the example below) the default header and body slot customization.
+
+<doc-example title="Default header and body slots" file="QTree/SlotsDefault" />
+
+Notice (in the example below) the custom header and body slots.
+
+<doc-example title="Customizing nodes" file="QTree/SlotsCustomized" />
+
+In the example below, sibling nodes get contracted when one gets expanded.
+
+### Accordion, filtering and selectable
+
+<doc-example title="Accordion mode" file="QTree/Accordion" />
 
 <doc-example title="Filtering nodes" file="QTree/FilterDefault" />
 
 <doc-example title="Selectable nodes" file="QTree/Selectable" />
+
+### Lazy loading
 
 <doc-example title="Lazy loading nodes" file="QTree/LazyLoad" />
 

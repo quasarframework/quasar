@@ -18,5 +18,8 @@ Take the following just as examples. Doesn't mean you can use QSeparator only on
 
 <doc-example title="Custom colored" file="QSeparator/Colored" />
 
+## Color CSS classes
+Should you need, there are four special Quasar CSS classes which apply the color of QSeparator: `text-separator`, `bg-separator`, `text-dark-separator`, `bg-dark-separator`.
+
 ## API
 <doc-api file="QSeparator" />
