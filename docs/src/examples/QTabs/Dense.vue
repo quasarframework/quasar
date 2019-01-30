@@ -14,8 +14,9 @@
       <q-tabs
         v-model="tab"
         dense
+        no-caps
         inline-label
-        class="bg-primary text-white shadow-2"
+        class="bg-purple text-white shadow-2"
       >
         <q-tab name="mails" icon="mail" label="Mails" />
         <q-tab name="alarms" icon="alarm" label="Alarms" />
@@ -35,7 +36,7 @@
       <q-tabs
         v-model="tab"
         dense
-        class="bg-purple text-white shadow-2"
+        class="bg-teal text-yellow shadow-2"
       >
         <q-tab name="mails" icon="mail" />
         <q-tab name="alarms" icon="alarm" />
