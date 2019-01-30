@@ -109,7 +109,7 @@ export default Vue.extend({
 
     __render (h, tag, props) {
       const data = {
-        staticClass: 'q-tab relative-position self-stretch flex nowrap justify-center text-center generic-transition',
+        staticClass: 'q-tab relative-position self-stretch flex justify-center text-center generic-transition',
         class: this.classes,
         attrs: {
           tabindex: this.computedTabIndex,

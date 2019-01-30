@@ -31,7 +31,7 @@
         v-model="tab"
         class="bg-grey-3 shadow-2"
       >
-        <q-tab alert="negative" name="mails" icon="mail" label="Mails" />
+        <q-tab alert="red" name="mails" icon="mail" label="Mails" />
         <q-tab alert="purple" name="alarms" icon="alarm" label="Alarms" />
         <q-tab alert="orange" name="movies" icon="movie" label="Movies" />
       </q-tabs>
