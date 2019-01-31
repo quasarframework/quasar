@@ -25,7 +25,7 @@ Here's a quick comparison:
 | Tree Shaking | - | **Yes** | **Yes** |
 | SFC (Single File Component - for Vue) | - | **Yes** | **Yes** |
 | Advanced configuration through dynamic quasar.conf.js | - | **Yes** | - |
-| Unit & end to end testing | - | **Not yet** | **Yes** |
+| Unit & end to end testing | - | **Yes** | **Yes** |
 
 ## UMD / Standalone (uses CDN)
 If you'd like to embed Quasar into your existing website project, integrating it in a progressive manner, then go for the UMD/Standalone (Unified Module Definition) version.
