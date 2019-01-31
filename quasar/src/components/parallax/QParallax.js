@@ -46,7 +46,7 @@ export default Vue.extend({
         return
       }
 
-      this.mediaHeight = this.media.naturalHeight || height(this.media)
+      this.mediaHeight = this.media.naturalHeight || this.media.videoHeight || height(this.media)
       this.__updatePos()
     },
 
@@ -119,7 +119,7 @@ export default Vue.extend({
       ? this.$slots.media[0].elm
       : this.$refs.media
 
-    this.media.onload = this.media.onloadstart = this.__onResize
+    this.media.onload = this.media.onloadstart = this.media.loadedmetadata = this.__onResize
 
     this.scrollTarget = getScrollTarget(this.$el)
 
