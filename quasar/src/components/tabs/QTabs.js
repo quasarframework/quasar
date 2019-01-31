@@ -301,7 +301,7 @@ export default Vue.extend({
 
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--left q-tab__icon',
-        class: this.leftArrow ? '' : 'invisible',
+        class: this.leftArrow ? '' : 'q-tabs__arrow--faded',
         props: { name: this.leftIcon || this.$q.iconSet.tabs.left },
         nativeOn: {
           mousedown: this.__scrollToStart,
@@ -320,7 +320,7 @@ export default Vue.extend({
 
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--right q-tab__icon',
-        class: this.rightArrow ? '' : 'invisible',
+        class: this.rightArrow ? '' : 'q-tabs__arrow--faded',
         props: { name: this.rightIcon || this.$q.iconSet.tabs.right },
         nativeOn: {
           mousedown: this.__scrollToEnd,
