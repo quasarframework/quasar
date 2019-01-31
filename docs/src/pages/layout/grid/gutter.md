@@ -15,6 +15,12 @@ Suffixes (`-none`, `-xs`, `-sm`, `-md`, `-lg`, `-xl`) do not refer to device scr
 
 ## Classes "q-gutter-{size}"
 
+::: warning
+The `q-gutter-*` classes apply a **negative top and left margins** to the parent and a **positive top and left margins** to the children. Take this into account when working with the other [Spacing classes](/style/spacing) so as to not to break the gutter's css.
+:::
+
+These classes are to be used when the direct children don't have `col-*` classes.
+
 <doc-example title="Sizes for q-gutter" file="grid/GutterSize" />
 
 There's also the `q-gutter-none` class (equivalent to: no gutter applied) which wasn't included in the example above.
@@ -26,6 +32,12 @@ There's also the `q-gutter-none` class (equivalent to: no gutter applied) which 
 <doc-example title="Mixed horizontal and vertical q-gutter" file="grid/GutterMixed" />
 
 ## Classes "q-col-gutter-{size}"
+
+::: warning
+The `q-col-gutter-*` classes apply a **negative top and left margins** to the parent and a **positive top and left paddings** to the children. Take this into account when working with the other [Spacing classes](/style/spacing) so as to not to break the gutter's css.
+:::
+
+These classes are to be used when the direct children have `col-*` classes.
 
 <doc-example title="Sizes for q-col-gutter" file="grid/ColGutterSize" />
 
