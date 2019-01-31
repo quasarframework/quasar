@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
+  <div class="q-pa-md">
     <div class="q-gutter-md">
       <q-time
         v-model="time"

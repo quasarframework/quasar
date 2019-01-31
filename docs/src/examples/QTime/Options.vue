@@ -12,6 +12,11 @@
         v-model="time"
         :options="optionsFn"
       />
+
+      <q-time
+        v-model="time"
+        :options="optionsFn2"
+      />
     </div>
   </div>
 </template>
@@ -40,6 +45,10 @@ export default {
         return false
       }
       return true
+    },
+
+    optionsFn2 (hr) {
+      return hr % 2 === 0
     }
   }
 }

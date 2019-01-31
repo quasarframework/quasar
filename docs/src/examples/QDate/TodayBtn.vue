@@ -1,11 +1,9 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <div class="row justify-center">
-      <q-date
-        v-model="date"
-        today-btn
-      />
-    </div>
+  <div class="q-pa-md">
+    <q-date
+      v-model="date"
+      today-btn
+    />
   </div>
 </template>
 

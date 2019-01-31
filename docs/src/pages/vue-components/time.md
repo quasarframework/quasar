@@ -4,16 +4,25 @@ title: QTime
 
 The QTime component provides a method to input time.
 
+::: tip
+For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
+:::
+
 ## Installation
 <doc-installation components="QTime" />
 
 ## Usage
+
+::: warning
+Notice that the model is a String only.
+:::
+
 <doc-example title="Basic" file="QTime/Basic" />
 
 <doc-example title="Landscape" file="QTime/Landscape" />
 
 ::: tip
-For landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape="$q.screen.gt.sm"`.
+For landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape="$q.screen.gt.xs"`.
 :::
 
 ### Functionality
@@ -43,6 +52,8 @@ Clicking on the "Now" button sets time to current user one:
 
 ### Using with QInput
 <doc-example title="Input" file="QTime/Input" />
+
+More info: [QInput](/vue-components/input), [QInput](/vue-components/input).
 
 ## QTime API
 <doc-api file="QTime" />
