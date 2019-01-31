@@ -96,9 +96,6 @@ function addAssets (builds, type, injectName) {
     .filter(file => file.endsWith('.js'))
     .forEach(file => {
       const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[1].toUpperCase())
-      console.log('-----')
-      console.log(name)
-      console.log('----')
       builds.push({
         rollup: {
           input: {
