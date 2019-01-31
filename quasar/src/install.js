@@ -5,7 +5,7 @@ import Screen from './plugins/Screen.js'
 import History from './history.js'
 import Lang from './lang.js'
 import Body from './body.js'
-import Icons from './icons.js'
+import IconSet from './icon-set.js'
 
 export const queues = {
   server: [], // on SSR update
@@ -28,7 +28,7 @@ export default function (Vue, opts = {}) {
   Screen.install($q, queues)
   History.install($q, cfg)
   Lang.install($q, queues, opts.lang)
-  Icons.install($q, opts.iconSet)
+  IconSet.install($q, opts.iconSet)
 
   if (isSSR) {
     Vue.mixin({

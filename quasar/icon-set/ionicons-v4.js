@@ -1,5 +1,5 @@
 export default {
-  name: 'ionicons',
+  name: 'ionicons-v4',
   type: {
     positive: 'ion-md-checkmark',
     negative: 'ion-alert',

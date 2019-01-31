@@ -53,8 +53,8 @@ export default Vue.extend({
 
     arrowIcons () {
       const ico = [
-        this.prevIcon || this.$q.icon.carousel.left,
-        this.nextIcon || this.$q.icon.carousel.right
+        this.prevIcon || this.$q.iconSet.carousel.left,
+        this.nextIcon || this.$q.iconSet.carousel.right
       ]
 
       return this.$q.lang.rtl
@@ -63,7 +63,7 @@ export default Vue.extend({
     },
 
     navIcon () {
-      return this.navigationIcon || this.$q.icon.carousel.navigationIcon
+      return this.navigationIcon || this.$q.iconSet.carousel.navigationIcon
     }
   },
 

@@ -30,7 +30,7 @@ if (!type || type === 'js') {
   createFolder('dist/api')
   createFolder('dist/babel-transforms')
   createFolder('dist/lang')
-  createFolder('dist/icons')
+  createFolder('dist/icon-set')
   runJob(join(__dirname, './script.build.javascript'))
 }
 if (!type || type === 'css') {
