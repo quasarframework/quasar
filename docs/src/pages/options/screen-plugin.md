@@ -35,6 +35,7 @@ export default {
 ```
 
 We can also use Screen plugin outside of a Vue component:
+
 ```js
 import { Screen } from 'quasar'
 
@@ -51,7 +52,8 @@ There are a few methods that can be used to tweak how Screen plugin works:
 | setDebounce(Number) | Change the default 100ms debounce to some other value. | setDebounce(500) // 500ms |
 
 Examples:
-```
+
+```js
 // inside a Vue component:
 this.$q.screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
 
