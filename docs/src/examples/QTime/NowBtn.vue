@@ -1,11 +1,9 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <div class="row justify-center">
-      <q-time
-        v-model="time"
-        now-btn
-      />
-    </div>
+  <div class="q-pa-md">
+    <q-time
+      v-model="time"
+      now-btn
+    />
   </div>
 </template>
 
@@ -13,7 +11,7 @@
 export default {
   data () {
     return {
-      time: '10:56'
+      time: '04:56'
     }
   }
 }

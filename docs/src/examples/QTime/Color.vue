@@ -1,29 +1,15 @@
 <template>
   <div class="q-pa-md q-gutter-md">
-    <div class="row justify-center">
-      <q-time
-        v-model="time"
-        color="secondary"
-      />
-    </div>
-    <div class="row justify-center">
-      <q-time
-        v-model="time"
-        color="orange-7"
-      />
-    </div>
-    <div class="row justify-center">
-      <q-time
-        v-model="time"
-        color="blue-grey-7"
-      />
-    </div>
-    <div class="row justify-center">
-      <q-time
-        v-model="time"
-        color="purple-3"
-      />
-    </div>
+    <q-time
+      v-model="time"
+      color="orange"
+    />
+
+    <q-time
+      v-model="time"
+      color="yellow"
+      text-color="black"
+    />
   </div>
 </template>
 

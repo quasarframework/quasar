@@ -12,39 +12,37 @@ The QTime component provides a method to input time.
 
 <doc-example title="Landscape" file="QTime/Landscape" />
 
-<doc-example title="Color" file="QTime/Color" />
+::: tip
+For landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape="$q.screen.gt.sm"`.
+:::
 
-<doc-example title="Text Color" file="QTime/TextColor" />
-
-<doc-example title="Dark" file="QTime/Dark" dark />
+### Functionality
+The 24 hour format is applied depending on the [Quasar Language Pack](/options/quasar-language-packs) that you've set, but you can also force it, like in the example below:
 
 <doc-example title="24h Format" file="QTime/Format24h" />
 
-::: tip
-You can use the `hour-options`, `minute-options` and `second-options` properties to disable certain times from being selected.
-:::
-
-<doc-example title="Options (properties)" file="QTime/OptionsProperties" />
-
-::: tip
-You can use the `options` property with a function to disable certain times from being selected.
-:::
-
-<doc-example title="Options (function)" file="QTime/OptionsFunction" />
+Clicking on the "Now" button sets time to current user one:
 
 <doc-example title="Now Button" file="QTime/NowBtn" />
 
-<doc-example title="With Seconds" file="QTime/WithSeconds" />
+<doc-example title="Disable and readonly" file="QTime/DisableReadonly" />
 
-<doc-example title="Disable" file="QTime/Disable" />
+### Coloring
 
-<doc-example title="Readonly" file="QTime/Readonly" />
+<doc-example title="Coloring" file="QTime/Color" />
 
+<doc-example title="Dark" file="QTime/Dark" dark />
+
+### Limiting options
 ::: tip
-The second example below uses the `with-seconds` and `format24h` properties.
+* You can use the `hour-options`, `minute-options` and `second-options` props to limit user selection to certain times.
+* Alternatively, for a more in-depth way of limiting options, you can also supply a function (second example below) to `options-fn` prop.
 :::
 
+<doc-example title="Options" file="QTime/Options" />
+
+### Using with QInput
 <doc-example title="Input" file="QTime/Input" />
 
-## API
+## QTime API
 <doc-api file="QTime" />
