@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md">
-    <q-chip square color="secondary" text-color="white">
+    <q-badge color="secondary">
       Model: {{ basicModel }} (0 to 10)
-    </q-chip>
+    </q-badge>
     <q-slider
       v-model="basicModel"
       markers
@@ -10,13 +10,14 @@
       :max="10"
     />
 
-    <q-chip square color="secondary" text-color="white">
+    <q-badge color="secondary">
       Model: {{ greenModel }} (0 to 10)
-    </q-chip>
+    </q-badge>
     <q-slider
       v-model="greenModel"
       color="green"
       markers
+      snap
       :min="0"
       :max="10"
     />

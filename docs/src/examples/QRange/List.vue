@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-list>
+    <q-list dense>
       <q-item>
         <q-item-section avatar>
           <q-icon name="local_atm" />
@@ -14,6 +14,7 @@
           />
         </q-item-section>
       </q-item>
+
       <q-item>
         <q-item-section avatar>
           <q-icon name="euro_symbol" />

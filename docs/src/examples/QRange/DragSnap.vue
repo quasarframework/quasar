@@ -1,12 +1,8 @@
 <template>
   <div class="q-pa-md">
-    <q-chip
-      square
-      color="secondary"
-      text-color="white"
-    >
+    <q-badge color="secondary" class="q-mb-lg">
       Model: {{ rangeSnap.min }} to {{ rangeSnap.max }} (0 to 100, step 5)
-    </q-chip>
+    </q-badge>
 
     <q-range
       v-model="rangeSnap"

@@ -1,19 +1,15 @@
 <template>
   <div class="q-pa-md">
-    <q-chip
-      square
-      color="secondary"
-      text-color="white"
-    >
-      Model: {{ lazy }}
-    </q-chip>
+    <q-badge color="secondary" class="q-mb-lg">
+      Model: {{ lazy.min }} to {{ lazy.max }} (0 to 50, step 1)
+    </q-badge>
 
     <q-range
       :value="lazy"
+      @change="val => { lazy = val }"
       :min="0"
       :max="50"
       label
-      @change="val => { lazy = val }"
     />
   </div>
 </template>

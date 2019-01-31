@@ -1,19 +1,18 @@
 <template>
   <div class="q-pa-md">
-    <q-chip
-      square
-      color="secondary"
-      text-color="white"
-    >
+    <q-badge color="secondary">
       Model: {{ lazy }}
-    </q-chip>
-    <q-slider :value="lazy"
-              @change="val => { lazy = val }"
-              :min="0"
-              :max="45"
-              :step="5"
-              color="purple"
-              label/>
+    </q-badge>
+
+    <q-slider
+      :value="lazy"
+      @change="val => { lazy = val }"
+      :min="0"
+      :max="45"
+      :step="5"
+      color="purple"
+      label
+    />
   </div>
 </template>
 

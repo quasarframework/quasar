@@ -1,12 +1,8 @@
 <template>
   <div class="q-pa-md">
-    <q-chip
-      square
-      color="secondary"
-      text-color="white"
-    >
+    <q-badge color="secondary">
       Model: {{ step.min }} to {{ step.max }} (0 to 45, step 5)
-    </q-chip>
+    </q-badge>
 
     <q-range
       v-model="step"
