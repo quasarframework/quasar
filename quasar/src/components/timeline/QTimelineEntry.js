@@ -37,15 +37,19 @@ export default Vue.extend({
 
     classes () {
       return [
-        `q-timeline__entry--${this.side === 'left' ? 'left' : 'right'}`,
+        `q-timeline__entry--${this.side}`,
         this.icon ? 'q-timeline__entry--icon' : ''
       ]
+    },
+
+    reverse () {
+      return this.__timeline.layout === 'comfortable' && this.__timeline.side === 'left'
     }
   },
 
   render (h) {
     if (this.heading) {
-      return h('div', { staticClass: 'q-timeline__heading' }, [
+      const content = [
         h('div'),
         h('div'),
         h(
@@ -53,13 +57,14 @@ export default Vue.extend({
           { staticClass: 'q-timeline__heading-title' },
           this.$slots.default
         )
-      ])
+      ]
+
+      return h('div', {
+        staticClass: 'q-timeline__heading'
+      }, this.reverse === true ? content.reverse() : content)
     }
 
-    return h('li', {
-      staticClass: `q-timeline__entry`,
-      class: this.classes
-    }, [
+    const content = [
       h('div', { staticClass: 'q-timeline__subtitle' }, [
         h('span', this.subtitle)
       ]),
@@ -77,6 +82,11 @@ export default Vue.extend({
       h('div', { staticClass: 'q-timeline__content' }, [
         h('h6', { staticClass: 'q-timeline__title' }, [ this.title ])
       ].concat(this.$slots.default))
-    ])
+    ]
+
+    return h('li', {
+      staticClass: 'q-timeline__entry',
+      class: this.classes
+    }, this.reverse === true ? content.reverse() : content)
   }
 })
