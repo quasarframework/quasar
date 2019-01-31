@@ -3,7 +3,7 @@
     <q-stepper
       v-model="step"
       ref="stepper"
-      :contractable="$q.screen.lt.md"
+      :contracted="$q.screen.lt.md"
       color="primary"
       animated
     >

@@ -29,7 +29,7 @@
       "desc": "Allow navigation through the header"
     },
 
-    "contractable": {
+    "contracted": {
       "type": "Boolean",
       "desc": "Hide header labels on narrow windows"
     },
