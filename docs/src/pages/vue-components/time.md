@@ -22,7 +22,7 @@ Notice that the model is a String only.
 <doc-example title="Landscape" file="QTime/Landscape" />
 
 ::: tip
-For landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape="$q.screen.gt.xs"`.
+For landscape mode, you can use it along with `$q.screen` to make QTime responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
 :::
 
 ### Functionality

@@ -29,7 +29,10 @@ process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
 
 <doc-example title="Alternative labels" file="QStepper/AlternativeLabels" />
 
-For the example below, in order for you to see the effect, resize browser window to be smaller than 1024px then bigger.
+::: tip
+You can also connect `contracted` prop to `$q.screen` to make a responsive behavior, like `:contracted="$q.screen.lt.md`.
+More info: [Quasar Screen Plugin](/options/screen-plugin).
+:::
 
 <doc-example title="Contracted" file="QStepper/Contracted" />
 
