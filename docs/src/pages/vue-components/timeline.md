@@ -21,7 +21,7 @@ QTimeline has 3 layouts:
 ### Layouts and side selection
 
 ::: warning
-QTimelineEntry only takes into account its `side` prop if QTimeline has a layout other than `loose`.
+QTimelineEntry only takes into account its `side` prop if QTimeline has the `loose` layout.
 :::
 
 <doc-example title="Layouts and side selection" file="QTimeline/Layouts" scrollable />
