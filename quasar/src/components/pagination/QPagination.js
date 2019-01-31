@@ -108,10 +108,10 @@ export default Vue.extend({
 
     icons () {
       const ico = [
-        this.$q.icon.pagination.first,
-        this.$q.icon.pagination.prev,
-        this.$q.icon.pagination.next,
-        this.$q.icon.pagination.last
+        this.$q.iconSet.pagination.first,
+        this.$q.iconSet.pagination.prev,
+        this.$q.iconSet.pagination.next,
+        this.$q.iconSet.pagination.last
       ]
       return this.$q.lang.rtl ? ico.reverse() : ico
     }

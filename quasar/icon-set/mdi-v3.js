@@ -1,5 +1,5 @@
 export default {
-  name: 'mdi',
+  name: 'mdi-v3',
   type: {
     positive: 'mdi-check-circle',
     negative: 'mdi-alert',

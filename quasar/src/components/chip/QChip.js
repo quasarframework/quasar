@@ -98,7 +98,7 @@ export default Vue.extend({
 
       this.hasLeftIcon && child.push(h(QIcon, {
         staticClass: 'q-chip__icon q-chip__icon--left',
-        props: { name: this.selected === true ? this.$q.icon.chip.selected : this.icon }
+        props: { name: this.selected === true ? this.$q.iconSet.chip.selected : this.icon }
       }))
 
       child.push(h('div', {
@@ -112,7 +112,7 @@ export default Vue.extend({
 
       this.removable && child.push(h(QIcon, {
         staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
-        props: { name: this.$q.icon.chip.remove },
+        props: { name: this.$q.iconSet.chip.remove },
         attrs: { tabindex: this.computedTabindex },
         nativeOn: {
           click: this.__onRemove,

@@ -293,7 +293,7 @@ export default {
       if (show === true) {
         return h(QBtn, {
           props: {
-            icon: this.$q.icon.uploader[icon],
+            icon: this.$q.iconSet.uploader[icon],
             flat: true,
             dense: true
           },
@@ -357,7 +357,7 @@ export default {
             ? h(QIcon, {
               staticClass: 'q-uploader__file-status',
               props: {
-                name: this.$q.icon.type.negative,
+                name: this.$q.iconSet.type.negative,
                 color: 'negative'
               }
             })
@@ -386,7 +386,7 @@ export default {
                 round: true,
                 dense: true,
                 flat: true,
-                icon: this.$q.icon.uploader[file.__status === 'uploaded' ? 'done' : 'clear']
+                icon: this.$q.iconSet.uploader[file.__status === 'uploaded' ? 'done' : 'clear']
               },
               on: {
                 click: () => { this.removeFile(file) }

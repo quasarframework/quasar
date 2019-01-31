@@ -45,13 +45,13 @@ export default Vue.extend({
 
     icon () {
       if (this.isActive) {
-        return this.step.activeIcon || this.stepper.activeIcon || this.$q.icon.stepper.active
+        return this.step.activeIcon || this.stepper.activeIcon || this.$q.iconSet.stepper.active
       }
       if (this.isError) {
-        return this.step.errorIcon || this.stepper.errorIcon || this.$q.icon.stepper.error
+        return this.step.errorIcon || this.stepper.errorIcon || this.$q.iconSet.stepper.error
       }
       if (!this.isDisable && this.isDone) {
-        return this.step.doneIcon || this.stepper.doneIcon || this.$q.icon.stepper.done
+        return this.step.doneIcon || this.stepper.doneIcon || this.$q.iconSet.stepper.done
       }
 
       return this.step.icon || this.stepper.inactiveIcon

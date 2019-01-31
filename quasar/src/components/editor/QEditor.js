@@ -89,7 +89,7 @@ export default Vue.extend({
     buttonDef () {
       const
         e = this.$q.lang.editor,
-        i = this.$q.icon.editor
+        i = this.$q.iconSet.editor
 
       return {
         bold: {cmd: 'bold', icon: i.bold, tip: e.bold, key: 66},
@@ -147,7 +147,7 @@ export default Vue.extend({
           getFonts(
             this.defaultFont,
             this.$q.lang.editor.defaultFont,
-            this.$q.icon.editor.font,
+            this.$q.iconSet.editor.font,
             this.fonts
           )
         )

@@ -68,8 +68,8 @@ const builds = [
   }
 ]
 
-addAssets(builds, 'lang')
-addAssets(builds, 'icons')
+addAssets(builds, 'lang', 'lang')
+addAssets(builds, 'icon-set', 'iconSet')
 
 require('./build.transforms').generate()
 require('./build.api').generate()
@@ -87,7 +87,7 @@ function resolve (_path) {
   return path.resolve(__dirname, '..', _path)
 }
 
-function addAssets (builds, type) {
+function addAssets (builds, type, injectName) {
   const
     files = fs.readdirSync(resolve(type)),
     plugins = [ buble(bubleConfig) ]
@@ -105,7 +105,7 @@ function addAssets (builds, type) {
           output: {
             file: addExtension(resolve(`dist/${type}/${file}`), 'umd'),
             format: 'umd',
-            name: `Quasar.${type}.${name}`
+            name: `Quasar.${injectName}.${name}`
           }
         },
         build: {

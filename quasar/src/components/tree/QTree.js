@@ -72,7 +72,7 @@ export default Vue.extend({
     },
 
     computedIcon () {
-      return this.icon || this.$q.icon.tree.icon
+      return this.icon || this.$q.iconSet.tree.icon
     },
 
     computedControlColor () {

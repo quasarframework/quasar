@@ -10,7 +10,7 @@
         ['bold', 'italic', 'underline'],
         [{
           label: $q.lang.editor.formatting,
-          icon: $q.icon.editor.formatting,
+          icon: $q.iconSet.editor.formatting,
           list: 'no-icons',
           options: ['p', 'h3', 'h4', 'h5', 'h6', 'code']
         }]

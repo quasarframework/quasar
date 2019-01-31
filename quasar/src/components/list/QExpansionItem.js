@@ -72,7 +72,7 @@ export default Vue.extend({
     },
 
     expansionIcon () {
-      return this.expandIcon || (this.denseToggle ? this.$q.icon.expansionItem.denseIcon : this.$q.icon.expansionItem.icon)
+      return this.expandIcon || (this.denseToggle ? this.$q.iconSet.expansionItem.denseIcon : this.$q.iconSet.expansionItem.icon)
     }
   },
 

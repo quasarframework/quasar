@@ -179,7 +179,7 @@ export default Vue.extend({
           this.state !== 'refreshing'
             ? h(QIcon, {
               props: {
-                name: this.icon || this.$q.icon.pullToRefresh.icon,
+                name: this.icon || this.$q.iconSet.pullToRefresh.icon,
                 color: this.color,
                 size: '32px'
               }

@@ -49,7 +49,7 @@
                       q-space
                       q-icon(
                         v-if="color !== 'secondary'"
-                        :name="$q.icon.type[color]"
+                        :name="$q.iconSet.type[color]"
                         size="24px"
                       )
 

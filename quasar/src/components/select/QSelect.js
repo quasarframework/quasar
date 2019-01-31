@@ -185,7 +185,7 @@ export default Vue.extend({
     dropdownArrowIcon () {
       return this.dropdownIcon !== void 0
         ? this.dropdownIcon
-        : this.$q.icon.select.dropdownIcon
+        : this.$q.iconSet.select.dropdownIcon
     }
   },
 
