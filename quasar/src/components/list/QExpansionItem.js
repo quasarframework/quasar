@@ -107,7 +107,7 @@ export default Vue.extend({
         }
       }, [
         h(QIcon, {
-          staticClass: 'generic-transition',
+          staticClass: 'q-expansion-item__toggle-icon',
           class: {
             'rotate-180': this.showing,
             invisible: this.disable
