@@ -53,7 +53,7 @@ Now both RTL and non-RTL UI mode will have `margin-left` prop.
 Sometimes you'll need to make exceptions for whole DOM elements / components. In this case, add `dir="ltr"` or `dir="rtl"` HTML attribute to the outermost DOM element / component template:
 
 ```html
-<div dir="ltr">
+<div dir="rtl">
   <!--
     this DIV and all its content will use RTL mode
     regardless of Quasar language pack RTL settings
