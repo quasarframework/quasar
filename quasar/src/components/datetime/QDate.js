@@ -105,7 +105,7 @@ export default Vue.extend({
     },
 
     dateArrow () {
-      const val = [ this.$q.icon.datetime.arrowLeft, this.$q.icon.datetime.arrowRight ]
+      const val = [ this.$q.iconSet.datetime.arrowLeft, this.$q.iconSet.datetime.arrowRight ]
       return this.$q.lang.rtl ? val.reverse() : val
     },
 
@@ -313,7 +313,7 @@ export default Vue.extend({
           this.todayBtn === true ? h(QBtn, {
             staticClass: 'q-date__header-today',
             props: {
-              icon: this.$q.icon.datetime.today,
+              icon: this.$q.iconSet.datetime.today,
               flat: true,
               size: 'sm',
               round: true,

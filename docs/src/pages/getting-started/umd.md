@@ -58,9 +58,9 @@ UMD is all about adding Quasar style and javascript tags. This is a full list. C
   <!--
     If you want to make Quasar components (not your own) use a specific set of icons (unless you're using Material Icons already).
     Replace version below (1.0.0) with your desired version of Quasar.
-    Icon sets list: https://github.com/quasarframework/quasar/tree/dev/quasar/icons
+    Icon sets list: https://github.com/quasarframework/quasar/tree/dev/quasar/icon-set
   -->
-  <script src="https://cdn.jsdelivr.net/npm/quasar@0.17.8/dist/icons/fontawesome.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@0.17.8/dist/icon-set/fontawesomeV5.umd.min.js"></script>
 
   <script>
     // if using a Quasar language pack other than the default "en-us";
@@ -70,7 +70,7 @@ UMD is all about adding Quasar style and javascript tags. This is a full list. C
     // if you want Quasar components to use a specific icon library
     // other than the default Material Icons;
     // requires the icon set style tag from above
-    Quasar.icons.set(Quasar.icons.fontawesome) // fontawesome is just an example
+    Quasar.icons.set(Quasar.iconSet.fontawesomeV5) // fontawesomeV5 is just an example
 
     /*
       Example kicking off the UI.
@@ -213,7 +213,7 @@ Assuming you have already included the CDN link to your favorite Quasar Icon Set
 Quasar.icons.set(Quasar.icons.fontawesome)
 ```
 
-The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [Github](https://github.com/quasarframework/quasar/tree/dev/quasar/icons).
+The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [Github](https://github.com/quasarframework/quasar/tree/dev/quasar/icon-set).
 
 ### Changing Quasar Language Pack
 Assuming you have already included the CDN link to your desired Quasar I18n Language (unless you want "en-us" language pack which is used by default), you can then tell Quasar to use it:

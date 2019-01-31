@@ -72,7 +72,7 @@ export default Vue.extend({
     },
 
     expansionIcon () {
-      return this.expandIcon || (this.denseToggle ? this.$q.icon.expansionItem.denseIcon : this.$q.icon.expansionItem.icon)
+      return this.expandIcon || (this.denseToggle ? this.$q.iconSet.expansionItem.denseIcon : this.$q.iconSet.expansionItem.icon)
     }
   },
 
@@ -107,7 +107,7 @@ export default Vue.extend({
         }
       }, [
         h(QIcon, {
-          staticClass: 'generic-transition',
+          staticClass: 'q-expansion-item__toggle-icon',
           class: {
             'rotate-180': this.showing,
             invisible: this.disable

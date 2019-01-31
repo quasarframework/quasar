@@ -18,7 +18,7 @@ The QInput component is used to capture text input from the user. It uses `v-mod
 * borderless
 * rounded
 
-### Debouncing
+### Debouncing model
 
 ### Decorators
 
@@ -26,5 +26,5 @@ The QInput component is used to capture text input from the user. It uses `v-mod
 
 ### Validation
 
-## API
+## QInput API
 <doc-api file="QInput" />

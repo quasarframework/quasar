@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import { isSSR } from './plugins/Platform.js'
-import materialIcons from '../icons/material-icons.js'
+import materialIcons from '../icon-set/material-icons.js'
 
 export default {
   __installed: false,
@@ -9,11 +9,11 @@ export default {
     this.set = (iconDef = materialIcons) => {
       iconDef.set = this.set
 
-      if (isSSR || $q.icon) {
-        $q.icon = iconDef
+      if (isSSR === true || $q.iconSet !== void 0) {
+        $q.iconSet = iconDef
       }
       else {
-        Vue.util.defineReactive($q, 'icon', iconDef)
+        Vue.util.defineReactive($q, 'iconSet', iconDef)
       }
 
       this.name = iconDef.name

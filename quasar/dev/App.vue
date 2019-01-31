@@ -27,11 +27,12 @@
           borderless
           :options="[
             { label: 'Material', value: 'material-icons' }
-            ,{ label: 'MDI', value: 'mdi' }
-            ,{ label: 'Ionicons', value: 'ionicons' }
-            ,{ label: 'Fontawesome', value: 'fontawesome' }
+            ,{ label: 'MDI v3', value: 'mdi-v3' }
+            ,{ label: 'Ionicons v4', value: 'ionicons-v4' }
+            ,{ label: 'Fontawesome v5', value: 'fontawesome-v5' }
             ,{ label: 'Eva Icons', value: 'eva-icons' }
           ]"
+          options-dense
           emit-value
           map-options
           dense-options
@@ -52,7 +53,7 @@ export default {
   data () {
     return {
       lang: this.$q.lang.isoName,
-      iconSet: this.$q.icon.name,
+      iconSet: this.$q.iconSet.name,
       showSelector: false
     }
   },
@@ -63,8 +64,8 @@ export default {
       })
     },
     iconSet (set) {
-      import(`../icons/${set}`).then(iconSet => {
-        this.$q.icon.set(iconSet.default)
+      import(`../icon-set/${set}`).then(iconSet => {
+        this.$q.iconSet.set(iconSet.default)
       })
     }
   },

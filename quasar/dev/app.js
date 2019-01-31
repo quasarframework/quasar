@@ -9,14 +9,14 @@ import Quasar from 'quasar'
 
 import 'quasar-css'
 import './app.styl'
-// import iconSet from '../icons/fontawesome'
+// import iconSet from '../icon-set/fontawesomeV5'
 
-import 'quasar-extras/fontawesome/fontawesome.css'
-import 'quasar-extras/mdi/mdi.css'
-import 'quasar-extras/ionicons/ionicons.css'
-// import 'quasar-extras/eva-icons/eva-icons.css'
-import 'quasar-extras/animate/fadeIn.css'
-import 'quasar-extras/animate/fadeOut.css'
+import '@quasar/extras/fontawesome-v5/fontawesome-v5.css'
+import '@quasar/extras/mdi-v3/mdi-v3.css'
+import '@quasar/extras/ionicons-v4/ionicons-v4.css'
+import '@quasar/extras/eva-icons/eva-icons.css'
+import '@quasar/extras/animate/fadeIn.css'
+import '@quasar/extras/animate/fadeOut.css'
 
 Vue.use(Quasar, {
   // iconSet,

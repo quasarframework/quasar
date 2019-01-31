@@ -1,7 +1,8 @@
 const
   fs = require('fs'),
   { resolve } = require('path'),
-  opn = require('opn')
+  opn = require('opn'),
+  rimraf = require('rimraf').sync
 
 const
   src = resolve(__dirname, '../dist'),
@@ -12,9 +13,8 @@ if (!fs.existsSync(src)) {
   process.exit(0)
 }
 
-if (!fs.existsSync(dest)) {
-  fs.symlinkSync(src, dest, 'dir')
-}
+rimraf(dest)
+fs.symlinkSync(src, dest, 'dir')
 
 opn(
   resolve(__dirname, '../dev-umd/index.umd.html'),

@@ -37,11 +37,11 @@
 </template>
 
 <script>
-import matSet from '../../../icons/material-icons.js'
-import mdiSet from '../../../icons/mdi.js'
-import fontawesomeSet from '../../../icons/fontawesome.js'
-import ioniconsSet from '../../../icons/ionicons.js'
-// import evaSet from '../../../icons/eva-icons.js'
+import matSet from '../../../icon-set/material-icons.js'
+import mdiSet from '../../../icon-set/mdi-v3.js'
+import fontawesomeSet from '../../../icon-set/fontawesome-v5.js'
+import ioniconsSet from '../../../icon-set/ionicons-v4.js'
+import evaSet from '../../../icon-set/eva-icons.js'
 
 function parseSet (setName, set) {
   const icons = []
@@ -68,7 +68,7 @@ export default {
   },
   computed: {
     sets () {
-      return [matSet, mdiSet, fontawesomeSet, ioniconsSet] /*, evaSet */
+      return [matSet, mdiSet, fontawesomeSet, ioniconsSet, evaSet]
         .map(({ name, ...set }) => parseSet(name, set))
     }
   },

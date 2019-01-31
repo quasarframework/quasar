@@ -8,7 +8,7 @@ import * as directives from './directives.js'
 import * as plugins from './plugins.js'
 import * as utils from './utils.js'
 import lang from './lang.js'
-import icons from './icons.js'
+import iconSet from './icon-set.js'
 
 if (Vue === void 0) {
   console.error('[ Quasar ] Vue is required to run. Please add a script tag for it before loading Quasar.')
@@ -27,7 +27,7 @@ else {
 export default {
   version,
   lang,
-  icons,
+  iconSet,
   components,
   directives,
   plugins,

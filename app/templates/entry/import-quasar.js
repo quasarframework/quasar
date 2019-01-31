@@ -12,14 +12,14 @@
 <%
 let useStatement = [ `config: ${JSON.stringify(framework.config)}` ]
 
-if (framework.i18n) { %>
-import lang from 'quasar/i18n/<%= framework.i18n %>'
+if (framework.lang) { %>
+import lang from 'quasar/lang/<%= framework.lang %>'
 <%
-  useStatement.push('i18n: lang')
+  useStatement.push('lang: lang')
 }
 
 if (framework.iconSet) { %>
-import iconSet from 'quasar/icons/<%= framework.iconSet %>'
+import iconSet from 'quasar/icon-set/<%= framework.iconSet %>'
 <%
   useStatement.push('iconSet: iconSet')
 }

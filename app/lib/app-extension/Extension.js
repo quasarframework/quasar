@@ -43,14 +43,14 @@ module.exports = class Extension {
   async install (skipPkgInstall) {
     log(`Installing "${this.extId}" Quasar App Extension`)
     log()
-   
+
     // verify if already installed
     if (skipPkgInstall !== true && this.isInstalled()) {
       const inquirer = require('inquirer')
       const answer = await inquirer.prompt([{
         name: 'reinstall',
         type: 'confirm',
-        message: `Already installed. Reinstall "${this.name}"?`,
+        message: `Already installed. Reinstall?`,
         default: false
       }])
 

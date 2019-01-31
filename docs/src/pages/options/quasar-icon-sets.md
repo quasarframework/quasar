@@ -27,7 +27,7 @@ framework: {
 }
 ```
 
-For all available options, visit the [Github](https://github.com/quasarframework/quasar/tree/dev/quasar/icons) repository.
+For all available options, visit the [Github](https://github.com/quasarframework/quasar/tree/dev/quasar/icon-set) repository.
 
 #### Full Example
 Here is an example of including Ionicons & Fontawesome and telling Quasar to use Fontawesome for its components.
@@ -44,11 +44,25 @@ framework: {
 
 This will enable you to use both Ionicons & Fontawesome in your app, and all Quasar components will display Fontawesome icons.
 
+### UMD Way
+Include the Quasar Icon Set tag for your Quasar version and also tell Quasar to use it. Example:
+
+```html
+<!-- include this after Quasar JS tag -->
+<script src="https://cdn.jsdelivr.net/npm/quasar@v1.0.0/dist/icon-set/fontawesome-v5.umd.min.js"></script>
+<script>
+  Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
+</script>
+```
+
+Check what tags you need to include in your HTML files by generating a sample with `$ quasar create <folder> --kit umd` and specifying an icon set (other than the default "material-icons").
+
+
 ### Vue CLI Way
 We edit your `main.js`:
 
 ```js
-import iconSet from 'quasar/icons/fontawesome-v5'
+import iconSet from 'quasar/icon-set/fontawesome-v5'
 // ...
 import { Quasar } from 'quasar'
 // ...

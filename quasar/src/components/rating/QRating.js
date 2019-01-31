@@ -109,7 +109,7 @@ export default Vue.extend({
             'q-rating__icon--exselected': this.mouseModel && this.model >= i && this.mouseModel < i,
             'q-rating__icon--hovered': this.mouseModel === i
           },
-          props: { name: this.icon || this.$q.icon.rating.icon },
+          props: { name: this.icon || this.$q.iconSet.rating.icon },
           attrs: { tabindex },
           on: {
             click: () => this.__set(i),
