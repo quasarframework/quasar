@@ -1,23 +1,23 @@
 <template>
   <div class="q-pa-md">
-    <q-chip square color="secondary" text-color="white">
+    <q-badge color="secondary">
       Model: {{ basicModel }} (0 to 100, step 50)
-    </q-chip>
+    </q-badge>
     <q-slider
       v-model="basicModel"
       :step="50"
     />
-    <q-chip square color="secondary" text-color="white">
+    <q-badge color="secondary">
       Model: {{ redModel }} (0 to 100, step 25)
-    </q-chip>
+    </q-badge>
     <q-slider
       v-model="redModel"
       color="red"
       :step="25"
     />
-    <q-chip square color="secondary" text-color="white">
+    <q-badge color="secondary">
       Model: {{ greenModel }} (0 to 5, step 1)
-    </q-chip>
+    </q-badge>
     <q-slider
       v-model="greenModel"
       color="green"

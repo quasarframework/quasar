@@ -30,8 +30,8 @@
       >
         <q-tab name="mails" label="Mails" />
         <q-tab name="alarms" label="Alarms" />
-        <q-tab v-if="$q.screen.gt.sm" name="alarms" label="Movies" />
-        <q-tab v-if="$q.screen.gt.sm" name="alarms" label="Photos" />
+        <q-tab v-if="$q.screen.gt.sm" name="movies" label="Movies" />
+        <q-tab v-if="$q.screen.gt.sm" name="photos" label="Photos" />
         <q-btn-dropdown v-if="$q.screen.lt.md" auto-close stretch flat label="More...">
           <q-list link>
             <q-item clickable @click="tab = 'movies'">

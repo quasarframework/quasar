@@ -1,11 +1,9 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <div class="row justify-center">
-      <q-date
-        v-model="date"
-        first-day-of-week="1"
-      />
-    </div>
+  <div class="q-pa-md">
+    <q-date
+      v-model="date"
+      first-day-of-week="1"
+    />
   </div>
 </template>
 

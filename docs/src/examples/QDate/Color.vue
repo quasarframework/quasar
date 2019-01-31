@@ -1,27 +1,15 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <div class="row justify-center">
+  <div class="q-pa-md">
+    <div class="q-gutter-md">
       <q-date
         v-model="date"
-        color="secondary"
+        color="orange"
       />
-    </div>
-    <div class="row justify-center">
+
       <q-date
         v-model="date"
-        color="orange-7"
-      />
-    </div>
-    <div class="row justify-center">
-      <q-date
-        v-model="date"
-        color="blue-grey-7"
-      />
-    </div>
-    <div class="row justify-center">
-      <q-date
-        v-model="date"
-        color="purple-3"
+        color="yellow"
+        text-color="black"
       />
     </div>
   </div>

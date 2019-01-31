@@ -1,7 +1,7 @@
 ---
 title: Toggle
 ---
-The Quasar Toggle component is another basic element for user input. You can use this for turning settings, features or true/ false inputs on and off.
+The QToggle component is another basic element for user input. You can use this for turning settings, features or true/ false inputs on and off.
 
 ::: tip
 Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
@@ -49,5 +49,5 @@ You can also use [QOptionGroup](/vue-components/option-group), which simplifies 
 
 <doc-example title="In a List" file="QToggle/List" />
 
-## API
+## QToggle API
 <doc-api file="QToggle" />

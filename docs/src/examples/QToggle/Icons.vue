@@ -12,6 +12,7 @@
         label="Same Icon for each state"
       />
     </div>
+
     <div>
       <q-toggle
         v-model="third"

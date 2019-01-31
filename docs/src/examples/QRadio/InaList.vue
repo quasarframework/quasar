@@ -9,7 +9,7 @@
 
       <q-item tag="label" v-ripple>
         <q-item-section avatar>
-          <q-radio v-model="color" val="teal" color="teal" ></q-radio>
+          <q-radio v-model="color" val="teal" color="teal" />
         </q-item-section>
         <q-item-section>
           <q-item-label>Teal</q-item-label>
@@ -18,7 +18,7 @@
 
       <q-item tag="label" v-ripple>
         <q-item-section avatar>
-          <q-radio v-model="color" val="orange" color="orange" ></q-radio>
+          <q-radio v-model="color" val="orange" color="orange" />
         </q-item-section>
         <q-item-section>
           <q-item-label>Orange</q-item-label>
@@ -28,7 +28,7 @@
 
       <q-item tag="label" v-ripple>
         <q-item-section avatar top>
-          <q-radio v-model="color" val="cyan" color="cyan" ></q-radio>
+          <q-radio v-model="color" val="cyan" color="cyan" />
         </q-item-section>
         <q-item-section>
           <q-item-label>Cyan</q-item-label>

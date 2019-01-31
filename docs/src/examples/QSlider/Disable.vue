@@ -4,6 +4,7 @@
       v-model="basicModel"
       disable
     />
+
     <q-slider
       v-model="greenModel"
       color="green"

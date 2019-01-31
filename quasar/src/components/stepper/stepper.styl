@@ -176,18 +176,29 @@
     .q-stepper__tab
       &--disabled
         color $separator-dark-color
+        .q-stepper__dot
+          background $separator-dark-color
         .q-stepper__label
           color rgba(255, 255, 255, .54)
 
-  &--contractable
+  &--contracted
     .q-stepper__header
       min-height 72px
-    .q-stepper__tab
-      padding 24px 0
-      &:first-child
-        padding-left 24px
-      &:last-child
-        padding-right 24px
+      &--alternative-labels
+        .q-stepper__tab
+          min-height 72px
+          &:first-child
+            align-items flex-start
+          &:last-child
+            align-items flex-end
+      .q-stepper__tab
+        padding 24px 0
+        &:first-child
+          .q-stepper__dot
+            transform translate3d(24px, 0, 0)
+        &:last-child
+          .q-stepper__dot
+            transform translate3d(-24px, 0, 0)
     .q-stepper__tab:not(:last-child)
       .q-stepper__dot:after
         display block !important

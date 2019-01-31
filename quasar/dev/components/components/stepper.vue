@@ -4,7 +4,7 @@
       <q-toggle label="Vertical" v-model="vertical" />
       <q-toggle label="Animated" v-model="animated" />
       <q-toggle label="Alternative Labels" v-model="alt" />
-      <q-toggle label="Contractable" v-model="contractable" />
+      <q-toggle label="Contracted" v-model="contracted" />
       <q-toggle label="Header Navigation" v-model="headerNav" />
       <q-toggle label="Use 'header-nav' on steps" v-model="headerNavStep" />
       <q-toggle label="Flat" v-model="flat" />
@@ -27,7 +27,7 @@
         ref="stepper"
         v-model="step"
         :alternative-labels="alt"
-        :contractable="contractable"
+        :contracted="contracted && !vertical"
       >
         <q-step :name="1" :done="useDone && step > 1" :header-nav="headerNavStep ? step > 1 : true" title="Ad style" icon="map" :caption="caption ? 'Some caption' : null">
           <div v-for="n in 10" :key="'1.'+n">{{ n }} Step 1</div>
@@ -85,7 +85,7 @@ export default {
       vertical: false,
       animated: true,
       alt: false,
-      contractable: false,
+      contracted: false,
       headerNav: true,
       flat: false,
       bordered: false,

@@ -1,23 +1,21 @@
 <template>
-  <div class="q-pa-md">
-    <q-chip
-      square
-      color="secondary"
-      text-color="white"
-    >
-      Model: {{ dark.min }} to {{ dark.max }} (0 to 50)
-    </q-chip>
+  <div class="q-pa-md bg-grey-10 text-white">
+    <q-badge color="secondary" class="q-mb-lg">
+      Model: {{ model.min }} to {{ model.max }} (0 to 50)
+    </q-badge>
 
     <q-range
-      v-model="dark"
+      v-model="model"
       :min="0"
       :max="50"
+      dark
     />
     <q-range
-      v-model="dark"
+      v-model="model"
       :min="0"
       :max="50"
       color="green"
+      dark
     />
   </div>
 </template>
@@ -26,7 +24,7 @@
 export default {
   data () {
     return {
-      dark: {
+      model: {
         min: 10,
         max: 35
       }

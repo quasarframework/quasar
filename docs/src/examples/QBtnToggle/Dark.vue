@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md bg-grey-10 text-white">
     <q-btn-toggle
       v-model="model"
       push

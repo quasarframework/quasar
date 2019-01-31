@@ -1,5 +1,4 @@
 export default [
-  'text', 'textarea', 'email', 'search',
-  'tel', 'file', 'number',
-  'password', 'url', 'time', 'date'
+  'text', 'password', 'textarea', 'email', 'search',
+  'tel', 'number', 'url', 'time', 'date'
 ]

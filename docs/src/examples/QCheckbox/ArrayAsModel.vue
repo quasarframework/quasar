@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
-      <q-checkbox v-model="selection" val="teal" label="Teal" color="teal"/>
-      <q-checkbox v-model="selection" val="orange" label="Orange" color="orange"/>
-      <q-checkbox v-model="selection" val="red" label="Red" color="red"/>
-      <q-checkbox v-model="selection" val="cyan" label="Cyan" color="cyan"/>
+      <q-checkbox v-model="selection" val="teal" label="Teal" color="teal" />
+      <q-checkbox v-model="selection" val="orange" label="Orange" color="orange" />
+      <q-checkbox v-model="selection" val="red" label="Red" color="red" />
+      <q-checkbox v-model="selection" val="cyan" label="Cyan" color="cyan" />
     </div>
 
     <div class="q-px-sm">
