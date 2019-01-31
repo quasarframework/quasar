@@ -82,23 +82,27 @@ There's one caveat when using dynamic imports with variable parts like in the pr
 
 So how can we limit the number of chunks created in this case? The idea is to limit the variable part as much as you can so the matched paths are as few as possible.
 1. Add file extension, even if it works without it too. This will create chunks only for that file types. Useful when that folder contains many file types.
-  ```js
-  // bad
-  import('./folder/' + pageName)
 
-  // much better
-  import('./folder/' + pageName + '.vue')
-  ```
+   ```js
+   // bad
+   import('./folder/' + pageName)
+
+   // much better
+   import('./folder/' + pageName + '.vue')
+   ```
+
 2. Try to create a folder structure that will limit the files available in that variable path. Make it as specific as possible:
-  ```js
-  // bad -- makes chunks for any JSON inside ./folder (recursive search)
-  const asset = 'my/jsons/categories.json'
-  import('./folder/' + asset)
 
-  // good -- makes chunks only for JSONs inside ./folder/my/jsons
-  const asset = 'categories.json'
-  import('./folder/my/jsons/' + asset)
-  ```
+   ```js
+   // bad -- makes chunks for any JSON inside ./folder (recursive search)
+   const asset = 'my/jsons/categories.json'
+   import('./folder/' + asset)
+
+   // good -- makes chunks only for JSONs inside ./folder/my/jsons
+   const asset = 'categories.json'
+   import('./folder/my/jsons/' + asset)
+   ```
+   
 3. Try to import from folders containing only files. Take the previous example and imagine ./folder/my/jsons further contains sub-folders. We made the dynamic import better by specifying a more specific path, but it's still not optimal in this case. Best is to use terminal folders that only contain files, so we limit the number of matched paths.
 
 Remember that the number of matched paths equals to the number of chunks being generated.

@@ -78,47 +78,57 @@ If you have a Fontawesome 5 Pro license and want to use it instead Fontawesome F
 
 1. Open [Linked Accounts section](https://fontawesome.com/account) in Fontawesome's user account page to grab npm TOKENID (login if necessary).
 2. Create or append TOKENID into file .npmrc (file path same as package.json):
-  ```
-  @fortawesome:registry=https://npm.fontawesome.com/TOKENID
-  ```
-3. Install Fontawesome webfonts:
-  ```bash
-  $ yarn add @fortawesome/fontawesome-pro
-  # or:
-  $ npm install @fortawesome/fontawesome-pro
-  ```
-4. Create new App plugin:
-  ```bash
-  $ quasar new plugin fontawesome-pro
-  ```
-5. Edit `/quasar.conf.js`:
-  ```js
-  plugins: [
-    ...
-    'fontawesome-pro' // Add app plugin
-  ],
-  extras: [
-    // 'fontawesome' // Disable free version!
-  ],
-  framework: {
-    // if you want Quasar to use Fontawesome for its icons
-    iconSet: 'fontawesome-pro'
-  }
-  ```
-6. Edit `/src/plugins/fontawesome-pro.js`:
-```js
-// required
-import '@fortawesome/fontawesome-pro/css/fontawesome.min.css'
-import '@fortawesome/fontawesome-pro/css/light.min.css'
-// do you want these too?
-// import '@fortawesome/fontawesome-pro/css/brands.min.css'
-// import '@fortawesome/fontawesome-pro/css/solid.min.css'
-// import '@fortawesome/fontawesome-pro/css/regular.min.css'
 
-export default () => {
-  // Leave blank or make something cool.
-}
-```
+   ```
+   @fortawesome:registry=https://npm.fontawesome.com/TOKENID
+   ```
+
+3. Install Fontawesome webfonts:
+
+   ```bash
+   $ yarn add @fortawesome/fontawesome-pro
+   # or:
+   $ npm install @fortawesome/fontawesome-pro
+   ```
+
+4. Create new App plugin:
+
+   ```bash
+   $ quasar new plugin fontawesome-pro
+   ```
+
+5. Edit `/quasar.conf.js`:
+
+   ```js
+   plugins: [
+     ...
+     'fontawesome-pro' // Add app plugin
+   ],
+   extras: [
+     // 'fontawesome' // Disable free version!
+   ],
+   framework: {
+     // if you want Quasar to use Fontawesome for its icons
+     iconSet: 'fontawesome-pro'
+   }
+   ```
+
+6. Edit `/src/plugins/fontawesome-pro.js`:
+
+   ```js
+   // required
+   import '@fortawesome/fontawesome-pro/css/fontawesome.min.css'
+   import '@fortawesome/fontawesome-pro/css/light.min.css'
+   // do you want these too?
+   // import '@fortawesome/fontawesome-pro/css/brands.min.css'
+   // import '@fortawesome/fontawesome-pro/css/solid.min.css'
+   // import '@fortawesome/fontawesome-pro/css/regular.min.css'
+
+   export default () => {
+     // Leave blank or make something cool.
+   }
+   ```
+
 7. (Optional) Override default icons:
 
 Since the default `font-weight` for fontawesome-pro is `light` or `fal`, some icons used by the framework components may not be desirable. The best way to handle this is to override it in the plugin you created.
