@@ -7,7 +7,7 @@
 
   &--dark
     color white
-    .q-timeline-subtitle
+    .q-timeline__subtitle
       opacity .7
 
   &__content
@@ -61,9 +61,9 @@
 
   &__heading
     position relative
-    &:first-child .q-timeline-heading-title
+    &:first-child .q-timeline__heading-title
       padding-top 0
-    &:last-child .q-timeline-heading-title
+    &:last-child .q-timeline__heading-title
       padding-bottom 0
   &__heading-title
     padding 32px 0
@@ -73,8 +73,8 @@
     position relative
     line-height 22px
     &:last-child
-      padding-bottom 0
-      .q-timeline-dot:after
+      padding-bottom 0 !important
+      .q-timeline__dot:after
         content none
 
     &--icon
@@ -132,7 +132,7 @@
       &__entry
         display table-row
         padding 0
-        &--icon .q-timeline-content
+        &--icon .q-timeline__content
           padding-top 8px
 
       &__subtitle, &__dot, &__content

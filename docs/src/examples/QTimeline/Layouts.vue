@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-lg">
     <div class="row q-gutter-md q-mb-sm">
       <q-option-group
         type="radio"
