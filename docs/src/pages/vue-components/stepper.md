@@ -31,7 +31,7 @@ process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
 
 For the example below, in order for you to see the effect, resize browser window to be smaller than 1024px then bigger.
 
-<doc-example title="Contractable" file="QStepper/Contractable" />
+<doc-example title="Contracted" file="QStepper/Contracted" />
 
 ### Style
 
