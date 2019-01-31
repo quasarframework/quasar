@@ -21,12 +21,15 @@ Unless configured otherwise (see below), Quasar uses the `en-us` Language Pack b
 ### Hardcoded Default Language Pack
 If the default Quasar Language Pack is not dynamically determined (does not depends on cookies for example), then you can:
 * Quasar CLI: Edit `/quasar.conf.js`:
+
   ```js
   framework: {
     lang: 'de'
   }
   ```
+
 * Vue CLI: Edit your `main.js`:
+
   ```js
   import langDe from 'quasar/lang/de'
   // ...
@@ -41,6 +44,8 @@ If the default Quasar Language Pack is not dynamically determined (does not depe
     // ...,
     lang: langDe
   })
+  ```
+
 * Quasar UMD: Include the language pack JS tag for your Quasar version and also tell Quasar to use it. Example:
 
   ```html
@@ -142,6 +147,7 @@ Check a Quasar Language Pack on [Github](https://github.com/quasarframework/quas
 
 ## Detecting Locale
 There's also a method to determine user locale which is supplied by Quasar out of the box:
+
 ```js
 // outside of a Vue file
 
