@@ -38,6 +38,7 @@ QBtn component will use the CSS `text-transform: uppercase` rule to automaticall
 
 ## Detecting Locale
 There's also a method to determine user locale which is supplied by Quasar out of the box:
+
 ```js
 // outside of a Vue file
 

@@ -47,6 +47,7 @@ The linting rules can be removed, changed, or added. Notice some things:
 You can add/remove/change rules by first visiting https://eslint.org/docs/rules/ or https://github.com/vuejs/eslint-plugin-vue.
 
 Example of ESLint rules below:
+
 ```js
 // .eslintrc.js
 

@@ -47,13 +47,16 @@ If the user of your application has secrets like wallet addresses, personal info
 
 #### Disable developer tools in production
 You probably don't want rogue hoody-wearing menaces to be executing something like this in the console of your app:
+
 ```
 window.location='https://evilsite.com/looks-just-like-your-app'
 ```
+
 The key-combination `CTRL-SHIFT-I` (or `ALT-CMD-I` on Mac) will open the dev tools and enable inspection of the application. It will even enable some degree of modification. Prevent the simple `evil maid` attack by catching these keypresses and `return false`.
 
 #### Publish checksums
 When you have built your binary blobs and want to publish them e.g. on GitHub, use `shasum` and post these results somewhere prominent (like on the GitHub release page for your project) and potentially on a public blockchain, such as [Steem](https://steemworld.org/@quasarframework).
+
 ```bash
 $ shasum -a 256 myApp-v1.0.0_darwin-x64.dmg
 40ed03e0fb3c422e554c7e75d41ba71405a4a49d560b1bf92a00ea6f5cbd8daa myApp-v1.0.0_darwin-x64.dmg

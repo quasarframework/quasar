@@ -51,6 +51,7 @@ module.exports = function (ctx) {
 ```
 
 What this means is that, as an example, you can load a font when building with Quasar Material theme, and pick another one for Quasar iOS theme.
+
 ```js
 module.exports = function (ctx) {
   extras: [
@@ -62,6 +63,7 @@ module.exports = function (ctx) {
 ```
 
 Or you can use a global CSS file for SPA mode and another one for Cordova mode while avoiding loading any such file for the other modes.
+
 ```js
 module.exports = function (ctx) {
   css: [
@@ -72,6 +74,7 @@ module.exports = function (ctx) {
 ```
 
 Or you can configure the dev server to run on port 8000 for SPA mode, on port 9000 for PWA mode or on port 9090 for the other modes:
+
 ```js
 module.exports = function (ctx) {
   devServer: {
@@ -133,6 +136,7 @@ return {
 
 ### framework Property
 Tells the CLI what Quasar components/directives/plugins to import, what Quasar I18n language pack to use, what icon set to use for Quasar components and more.
+
 ```js
 // quasar.conf
 return {
@@ -203,6 +207,7 @@ If, for example, you run "quasar build --debug", sourceMap and extractCSS will b
 ### htmlVariables Property
 
 You can define and then reference variables in `src/index.template.html`, like this:
+
 ```js
 // quasar.conf
 module.exports = function (ctx) {
@@ -233,6 +238,7 @@ sourceFiles: {
 ```
 
 ### Example setting env for dev/build
+
 ```js
 build: {
   env: ctx.dev
@@ -244,9 +250,11 @@ build: {
     }
 }
 ```
+
 Then in your website/app you can access `process.env.API` and it's gonna point to one of those two links above, based on dev or production build type.
 
 You can even go one step further. Supply it with values taken from the `quasar dev/build` env variables:
+
 ```
 # we set an env variable in terminal
 $ MY_API=api.com quasar build

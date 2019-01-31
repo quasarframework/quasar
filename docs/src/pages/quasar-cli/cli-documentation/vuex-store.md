@@ -96,6 +96,7 @@ export default {
 ```
 
 In a Vue file:
+
 ```html
 <template>
   <div>

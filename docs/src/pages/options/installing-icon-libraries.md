@@ -26,6 +26,7 @@ extras: [
 Icon sets are available through [@quasar/extras](https://github.com/quasarframework/quasar/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
 
 Adding more than one set (showing all options):
+
 ```js
 extras: [
   'material-icons',
@@ -146,6 +147,7 @@ chip: {
 ```
 
 _Then_, override it in your `/src/plugins/fontawesome-pro.js`
+
 ```js
 import '@fortawesome/fontawesome-pro/css/fontawesome.min.css'
 import '@fortawesome/fontawesome-pro/css/solid.min.css'

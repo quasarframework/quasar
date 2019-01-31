@@ -50,6 +50,7 @@ In the above example, you would replace `stylus` with the preprocessor you've ch
 Quasar comes with a few custom [Vue Directives](https://vuejs.org/v2/guide/custom-directive.html). These directives can be applied on almost any DOM element or Component.
 
 Example of a Quasar directive:
+
 ```html
 <div v-ripple>Click Me</div>
 ```
@@ -65,6 +66,7 @@ framework: {
 ```
 
 Let's take another example. We now also want TouchPan and TouchSwipe directives, so we add them too in `/quasar.conf.js`:
+
 ```js
 framework: {
   directives: ['Ripple', 'TouchPan', 'TouchSwipe']
@@ -83,6 +85,7 @@ Now we can write in your Vue files template:
 Quasar components have names beginning with "Q" like "QBtn" or "QElementResizeObserver". In order to use them, you need to add a reference to them in `/quasar.conf.js`.
 
 Let's take the following example with a QBtn and QIcon and then we'll see how to embed these components in our app:
+
 ```html
 <div>
   <q-btn @click="doSomething" label="Do something" />
@@ -93,6 +96,7 @@ Let's take the following example with a QBtn and QIcon and then we'll see how to
 > Notice how QBtn is used in the Vue HTML template as `<q-btn>`. If we'd import QElementResizeObserver, then we'd use it in template as `<q-element-resize-observer>`.
 
 Now on `/quasar.conf.js`, you would add:
+
 ```js
 framework: {
   components: ['QBtn', 'QIcon']
@@ -103,6 +107,7 @@ framework: {
 Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, ActionSheet, AppVisibility and so on.
 
 In order to use them, you need to add a reference to them in `/quasar.conf.js`:
+
 ```js
 framework: {
   plugins: ['Notify', 'ActionSheet']
@@ -110,6 +115,7 @@ framework: {
 ```
 
 Let's take Notify as an example and see how we can then use it. In a Vue file, you'd write something like this:
+
 ```html
 <template>
   <div>
@@ -141,6 +147,7 @@ export default {
 > Notice that in the template area we're using `$q.<plugin-name>` and in our script we say `this.$q.<plugin-name>`.
 
 Now let's see an example of Notify being used outside of a Vue file:
+
 ```js
 import { Notify } from 'quasar'
 
@@ -197,6 +204,7 @@ Let's take some examples with a bogus Quasar component (we will call it QBogus) 
 A boolean property means it only accepts a strictly Boolean value. The values will not be cast to Boolean, so you must ensure you are using a true Boolean.
 
 If you are trying to control that property and change it dynamically at runtime, then bind it to a variable in your scope:
+
 ```vue
 <template>
   <q-bogus :infinite="myInfiniteVariable" />
@@ -214,6 +222,7 @@ export default {
 ```
 
 If, on the other hand, you know this Boolean value is not going to change, you can use the shorthand version of the variable like a component attribute and just specify it. In other words, if you don't bind the variable to a variable in the component's scope as it will always be `true`:
+
 ```vue
 <template>
   <q-bogus infinite />
@@ -228,6 +237,7 @@ If, on the other hand, you know this Boolean value is not going to change, you c
 
 ### String Property
 As you can imagine, Strings are required as a value for this type of property.
+
 ```vue
 <template>
   <!--
@@ -257,6 +267,7 @@ export default {
 ```
 
 ### Number Property
+
 ```vue
 <template>
   <!--
@@ -282,6 +293,7 @@ export default {
 ```
 
 ### Object Property
+
 ```vue
 <template>
   <!-- Case 1. Direct assignment. -->
@@ -313,6 +325,7 @@ export default {
 ```
 
 ### Array Property
+
 ```vue
 <template>
   <!-- Case 1. Direct assignment. -->

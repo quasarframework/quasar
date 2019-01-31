@@ -9,6 +9,7 @@ It is strongly recommended to use Yarn instead of NPM when developing on a Windo
 
 ## Installation of IE Support
 In order to support IE, you'll need to edit `/quasar.conf.js`:
+
 ```js
 module.exports = function (ctx) {
   return {

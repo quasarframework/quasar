@@ -12,6 +12,7 @@ If your favorite deployment tool is missing feel free to create a pull request o
 The first step in deploying you Quasar SPA is always to build a production-ready bundle of your files, which gets rid of development statements and minifies your source.
 
 To produce such a build use Quasar CLI with the following command
+
 ```bash
 $ quasar build
 ```
@@ -25,6 +26,7 @@ Common choices for web servers are [nginx](https://www.nginx.com/), [Caddy](http
 The web server requires no special setup (unless you built with Vue Router in "history" mode in `quasar.conf.js`). The main requirement is to be able to serve static files from a directory, so consult the documentation of your web server on how to set up static file serving.
 
 An example config for nginx may look like this:
+
 ```
 server {
     listen 80 http2;
@@ -56,9 +58,9 @@ server {
 }
 ```
 
-
 ## Deploying with Now
 Deploying your Quasar application with [now](https://zeit.co/now) is really easy. All you have to do is to download the [now-cli](https://zeit.co/download#now-cli) and log in by running:
+
 ```bash
 $ now login
 ```
@@ -66,6 +68,7 @@ $ now login
 Then proceed to build your Quasar application using the steps described in "General deployment" section.
 
 After the build is finished, change directory into your deploy root (example: `/dist/spa`) and run:
+
 ```bash
 $ now
 ```
@@ -79,11 +82,13 @@ Unfortunately, Heroku does not support static sites out of the box. But don't wo
 In this example, we will use [Express](https://expressjs.com/) to create a minimal server which Heroku can use.
 
 First, we need to install the required dependencies to our project:
+
 ```bash
 $ npm install express serve-static connect-history-api-fallback
 ```
 
 Now that we have installed the required dependencies, we can add our server. Create a file called `server.js` in the root directory of your project.
+
 ```js
 const
   express = require('express'),
@@ -106,11 +111,13 @@ Heroku assumes a set of npm scripts to be available, so we have to alter our `pa
 ```
 
 Now it is time to create an app on Heroku by running:
+
 ```bash
 $ heroku create
 ```
 
 and deploy to Heroku using:
+
 ```bash
 $ heroku deploy
 ```
@@ -120,16 +127,19 @@ $ heroku deploy
 [Surge](https://surge.sh/) is a popular tool to host and deploy static sites.
 
 If you want to deploy your application with Surge you first need to install the Surge CLI tool:
+
 ```bash
 $ npm install -g surge
 ```
 
 Next, we will use Quasar CLI to build our app:
+
 ```bash
 $ quasar build
 ```
 
 Now we can deploy our application using Surge by calling:
+
 ```bash
 # make sure to replace <theme> with your actual theme
 $ surge dist/spa-<theme>
@@ -154,11 +164,13 @@ Please see the [GitHub pages guides](https://help.github.com/articles/using-a-cu
 Manual copying all your files to your GitHub Pages repository can be a cumbersome task to do. This step can be automated by using the [push-dir](https://github.com/L33T-KR3W/push-dir) package.
 
 First, install the package with:
+
 ```js
 $ npm install push-dir --save-dev
 ```
 
 Then add a `deploy` script command to your `package.json`:
+
 ```json
 "scripts": {
   "deploy": "push-dir --dir=dist/spa --remote=gh-pages --branch=master"
@@ -166,13 +178,16 @@ Then add a `deploy` script command to your `package.json`:
 ```
 
 Add your GitHub Pages repository as a remote named `gh-pages`:
+
 ```bash
 $ git remote add gh-pages git@github.com:<username>/<username>.github.io.git
 ```
 
 Now you can build and deploy your application using:
+
 ```bash
 $ quasar build
 $ npm run deploy
 ```
+
 which will push the content of your build directory to your master branch on your Github Pages repository.

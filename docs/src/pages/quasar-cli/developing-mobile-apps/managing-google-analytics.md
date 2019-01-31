@@ -47,11 +47,15 @@ export default {
   }
 }
 ```
+
 To make sure all the pages in your application are automatically posted to Google Analytics, we create an app plugin:
+
 ```bash
 $ quasar new plugin google-analytics
 ```
+
 Then we edit the newly created file: `/src/plugins/google-analytics`:
+
 ```
 import ga from 'analytics.js'
 
@@ -61,7 +65,9 @@ export default ({ router }) => {
   })
 }
 ```
+
 Finally we register the app plugin in `/quasar.conf.js`. We can do so only for Cordova wrapped apps if we want:
+
 ```
 plugins: [
   ctx.mode.cordova ? 'google-analytics' : ''

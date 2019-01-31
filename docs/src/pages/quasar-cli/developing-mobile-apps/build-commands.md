@@ -12,6 +12,7 @@ $ npm install -g cordova
 ```
 
 ## Developing
+
 ```bash
 $ quasar dev -m cordova -T [ios|android]
 
@@ -35,6 +36,7 @@ If developing on a mobile phone/tablet, it is very important that the external I
 :::
 
 ## Building for Production
+
 ```bash
 $ quasar build -m cordova -T [ios|android]
 

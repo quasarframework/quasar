@@ -6,11 +6,13 @@ We’ll be using Quasar CLI to develop and build a SSR website. The difference b
 
 ## Installation
 In order to build a SSR website, we first need to add the SSR mode to our Quasar project:
+
 ```bash
 $ quasar mode -a ssr
 ```
 
 If you want to jump right in and start developing, you can skip the "quasar mode" command and issue:
+
 ```bash
 $ quasar dev -m ssr
 ```
@@ -44,6 +46,7 @@ If you want more information, please see this page that goes into more detail ab
 
 ## Nodejs Server
 Adding SSR mode to a Quasar project means a new folder will be created: `/src-ssr`, which contains SSR specific files which define your production Node webserver:
+
 ```bash
 .
 └── src-ssr/

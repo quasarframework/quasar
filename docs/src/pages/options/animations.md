@@ -10,6 +10,7 @@ However, Quasar can supply a big list of ready to use CSS animations. The animat
 
 ## Installation
 Edit `/quasar.conf.js`.
+
 ```js
 // embedding all animations
 animations: 'all'
@@ -38,6 +39,7 @@ If you are building a website, you can also skip configuring quasar.conf.js and 
 
 ## Usage
 Notice the string "animated" in front of the actual animation name.
+
 ``` html
 <!-- Example with wrapping only one DOM element / component -->
 <transition
@@ -82,4 +84,3 @@ Please note some things in the above example:
 1. Note `<transition-group>` instead of `<transition>`.
 2. The components and DOM elements must be keyed, like `key="text"` or `key="email-button"` in the example above.
 3. Both examples above have the Boolean property `appear` specified, which makes the entering animation kick in right after component(s) have been rendered. This property is optional.
-

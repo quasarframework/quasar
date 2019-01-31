@@ -4,6 +4,7 @@ title: Electron Build Commands
 [Quasar CLI](/getting-started/quasar-cli) makes it incredibly simple to develop or build the final distributables from your source code.
 
 ## Developing
+
 ```bash
 $ quasar dev -m electron
 
@@ -16,6 +17,7 @@ It opens up an Electron window with dev-tools included. You have HMR for the ren
 Check how you can tweak Webpack config Object for the Main Process on the [Configuring Electron](/quasar-cli/developing-electron-apps/configuring-electron) page.
 
 ## Building for Production
+
 ```bash
 $ quasar build -m electron
 

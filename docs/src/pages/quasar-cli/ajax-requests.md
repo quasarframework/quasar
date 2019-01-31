@@ -6,6 +6,7 @@ title: Ajax Requests
 
 Then you should create a new boot file `axios.js` that looks like this:
 (Here you can also specify additional settings for your axios instance)
+
 ```
 import axios from 'axios'
 
@@ -21,7 +22,8 @@ Be sure to check out [Prefetch Feature](/quasar-cli/cli-documentation/prefetch-f
 :::
 
 Usage in your single file components methods will be like:
-```
+
+```js
 methods: {
   loadData () {
     this.$axios.get('/api/backend')
@@ -40,7 +42,8 @@ methods: {
 ```
 
 Usage in Vuex Actions for globally adding headers to axios (such as during authentication):
-```
+
+```js
 import axios from 'axios'
 
 export function register ({commit}, form) {

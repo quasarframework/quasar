@@ -24,6 +24,7 @@ You'll notice that some Cordova plugins are usable only after the `deviceready` 
 
 ### Caveat
 Let's take a vue file for example:
+
 ```vue
 <template>
   ... we are sure 'deviceready' has been triggered here ...
@@ -52,6 +53,7 @@ Let's learn by taking some examples, assuming you've added Cordova mode to your 
 First step is to read the documentation of the Cordova plugin that we want to use. We look at [Cordova Plugins list](https://cordova.apache.org/docs/en/latest/#plugin-apis) and click on [Battery Status doc page](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-battery-status/index.html).
 
 We see instructions on how to install this plugin. It's always a Cordova command. **So we "cd" into `/src-cordova`** (which is a Cordova generated folder) **and issue the install command form there**:
+
 ```bash
 # from /src-cordova:
 $ cordova plugin add cordova-plugin-battery-status
@@ -102,6 +104,7 @@ First step is to read the documentation of the Cordova plugin that we want to us
 There's a mention of the `deviceready` event. But we already know how to handle it from the previous sections.
 
 We read the instructions on how to install this plugin. It's always a Cordova command. **So we "cd" into `/src-cordova`** (which is a Cordova generated folder) **and issue the install command form there**:
+
 ```bash
 # from /src-cordova:
 $ cordova plugin add cordova-plugin-camera
@@ -155,6 +158,7 @@ First step is to read the documentation of the Cordova plugin that we want to us
 This plugin initializes a global variable called `device` which describes the device's hardware and software. So it can be accessed with `window.device`.
 
 Read the instructions on how to install this plugin on its cordova doc page. It's always a Cordova command. **So we "cd" into `/src-cordova`** (which is a Cordova generated folder) and **issue the install command from there**:
+
 ```bash
 # from /src-cordova:
 $ cordova plugin add cordova-plugin-device

@@ -4,6 +4,7 @@ title: PWA Build Commands
 [Quasar CLI](/getting-started/quasar-cli) makes it incredibly simple to develop or build the final distributables from your source code.
 
 ## Developing
+
 ```bash
 $ quasar dev -m pwa
 
@@ -16,6 +17,7 @@ Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on 
 :::
 
 ## Building for Production
+
 ```bash
 $ quasar build -m pwa
 

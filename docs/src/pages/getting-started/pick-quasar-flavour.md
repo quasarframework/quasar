@@ -77,6 +77,7 @@ $ yarn global add quasar-cli
 ```
 
 With Quasar CLI globally installed, we can now create a new project:
+
 ```bash
 $ quasar create <folder_name>
 ```

@@ -5,6 +5,7 @@ Before we dive in to the actual development, we need to do some preparation work
 
 ## 1. Add Quasar Electron Mode
 In order to develop/build a Quasar Electron app, we need to add the Electron mode to our Quasar project. What this does is that it npm installs some Electron packages and creates `/src-electron` folder.
+
 ```bash
 $ quasar mode -a electron
 ```
@@ -12,6 +13,7 @@ $ quasar mode -a electron
 Every Electron app has two threads: the main thread (deals with the window and initialization code -- from the newly created folder `/src-electron`) and the renderer thread (which deals with the actual content of your app from `/src`).
 
 The new folder has the following structure:
+
 ```bash
 .
 └── src-electron/
@@ -38,9 +40,11 @@ At this point things should successfully install, but if not then you will need 
 
 ## 2. Start Developing
 If you want to jump right in and start developing, you can skip the previous step with "quasar mode" command and issue:
+
 ```bash
 $ quasar dev -m electron
 ```
+
 This will add Electron mode automatically, if it is missing.
 It will open up an Electron window which will render your app along with Developer Tools opened side by side.
 

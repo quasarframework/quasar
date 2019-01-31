@@ -12,12 +12,14 @@ All the above will run before the actual route component gets to be rendered.
 **It is designed to work with all Quasar modes** (SPA, PWA, SSR, Cordova, Electron), but it is especially useful for SSR builds.
 
 ## Installation
+
 ```js
 // quasar.conf.js
 return {
   preFetch: true
 }
 ```
+
 ::: warning
   When you use it to pre-fetch data, you are required to use a Vuex Store, so make sure that your project folder has the `/src/store` folder when you create your project, otherwise generate a new project and copy the store folder contents to your current project.
 :::

@@ -7,6 +7,7 @@ But first, let's learn how we can configure the Electron build.
 
 ## Quasar.conf.js
 You may notice that `/quasar.conf.js` contains a property called `electron`.
+
 ```js
 electron: {
   // optional; webpack config Object for

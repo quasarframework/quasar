@@ -22,6 +22,7 @@ So what you need to do when deploying is to copy this distributables folder on y
 By default, the webserver runs on only one of the available server's cores. What you could do is make it use all cores. There is a solution for this: [PM2](http://pm2.keymetrics.io/).
 
 After installing PM2 on your server, your npm start script can look like this instead:
+
 ```js
 "scripts": {
   "start": "pm2 start index.js"

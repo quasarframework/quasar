@@ -143,6 +143,7 @@ padding-top env(safe-area-inset-top) // for iOS 11.2 +
 padding-bottom constant(safe-area-inset-bottom)
 padding-bottom env(safe-area-inset-bottom)
 ```
+
 Of course you can also use the above example with `margin` instead of `padding` depending on your app.
 
 In order to make sure these are only added when opened on mobile via the Cordova build, you can check for the CSS class `.cordova` which is automatically added to the body by Quasar. Example:

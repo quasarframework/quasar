@@ -188,6 +188,7 @@ An example. No need to install any component in UMD version.
 
 ### Quasar Directives
 An example. No need to install any directives in UMD version.
+
 ```html
 <div v-ripple>...</div>
 ```

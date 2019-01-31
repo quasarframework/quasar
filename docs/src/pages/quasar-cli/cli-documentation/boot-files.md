@@ -28,6 +28,7 @@ export default ({ app, router, store, Vue }) => {
 ```
 
 Starting with v1.0, boot files can also be async:
+
 ```js
 export default async ({ app, router, store, Vue }) => {
   // something to do
@@ -65,6 +66,7 @@ The first step is always to generate a new plugin using Quasar CLI:
 ```bash
 $ quasar new boot <name>
 ```
+
 Where `<name>` should be exchanged by a suitable name for your boot file.
 
 This command creates a new file: `/src/boot/<name>.js` with the following content:
@@ -149,6 +151,7 @@ export default ({ app, Vue }) => {
 
 ### Router authentication
 Some boot files might need to interfere with Vue Router configuration:
+
 ```js
 export default ({ router, store, Vue }) => {
   router.beforeEach((to, from, next) => {

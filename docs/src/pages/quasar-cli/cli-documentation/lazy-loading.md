@@ -7,6 +7,7 @@ We'll cover how you can lazy load / code split parts of your app so that they ar
 
 ## Lazy-load router pages
 It's normal to use the Vue-Router calling static components as bellow.
+
 ```js
 import SomePage from 'pages/SomePage'
 
@@ -19,6 +20,7 @@ const routes = [
 ```
 
 Now let's change this and make the page be loaded on demand only, using dynamic imports:
+
 ```js
 const routes = [
   {
@@ -46,6 +48,7 @@ export default {
 ```
 
 Now let's change this and make the page be loaded on demand only, using dynamic imports:
+
 ```vue
 <script>
 export default {

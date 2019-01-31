@@ -26,28 +26,34 @@ Let's discuss about each of these two requirements:
 * Both RTL and non-RTL Quasar language packs will work together and dynamically switch to/from RTL. So only choosing an RTL Quasar language pack will trigger the RTL UI for you. You don't need separate builds of your app (one for non-RTL and one for RTL-only). The RTL is dynamical.
 * You can dynamically detect if you are on RTL mode by taking a look at Boolean `this.$q.lang.rtl`. More info on [Vue Prototype Injections](/options/vue-prototype-injections).
 * You need to be careful when writing your own CSS. Like mentioned above, Quasar will automatically add RTL rules based on your CSS code. So writing:
+
   ```css
   .my-class {
     margin-left: 10px;
     right: 5px;
   }
   ```
+
   ...will add this rule for RTL:
+
   ```css
   [dir=rtl] .my-class {
     margin-right: 10px;
     left: 5px;
   }
   ```
+
   Any CSS rule that refers to "left" or "right" is automatically triggering an equivalent RTL CSS rule to be added.
 
 ### Marking CSS rules as exceptions
 If you need an exception so your CSS code will not add a corresponding RTL rule, then add this comment:
+
 ```css
 .my-class {
   margin-left: 10px /* rtl:ignore */;
 }
 ```
+
 Now both RTL and non-RTL UI mode will have `margin-left` prop.
 
 Sometimes you'll need to make exceptions for whole DOM elements / components. In this case, add `dir="ltr"` or `dir="rtl"` HTML attribute to the outermost DOM element / component template:
@@ -62,6 +68,7 @@ Sometimes you'll need to make exceptions for whole DOM elements / components. In
 ```
 
 Or, if you need your RTL UI to use left-to-right (ltr) mode for a DOM element / component:
+
 ```html
 <div dir="ltr">
   <!--

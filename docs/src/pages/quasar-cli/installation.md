@@ -20,6 +20,7 @@ $ npm install -g @quasar/cli
 ```
 
 Then we create a project folder with Quasar CLI:
+
 ```bash
 $ quasar create <folder_name>
 ```
