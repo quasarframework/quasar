@@ -1,5 +1,5 @@
 <template>
-  <div class="q-px-xl q-py-md">
+  <div class="q-pa-md">
     <div class="row q-gutter-md q-mb-sm">
       <q-option-group
         type="radio"
@@ -15,6 +15,7 @@
         type="radio"
         dense
         v-model="side"
+        :disable="layout === 'loose'"
         :options="[
           { label: 'Content on right', value: 'right' },
           { label: 'Content on left', value: 'left' }

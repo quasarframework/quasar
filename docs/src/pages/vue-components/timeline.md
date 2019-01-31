@@ -1,7 +1,7 @@
 ---
 title: Timeline
 ---
-A Timeline is a display of a list of events in chronological order. It is typically a graphic design showing a long bar labelled with dates alongside itself and usually events. Timelines can use any time scale, depending on the subject and data.
+The QTimeline component displays a list of events in chronological order. It is typically a graphic design showing a long bar labelled with dates alongside itself and usually events. Timelines can use any time scale, depending on the subject and data.
 
 QTimeline has 3 layouts:
 
@@ -18,10 +18,18 @@ QTimeline has 3 layouts:
 
 <doc-example title="On dark background" file="QTimeline/Dark" dark scrollable />
 
+### Layouts and side selection
+
+::: warning
+QTimelineEntry only takes into account its `side` prop if QTimeline has a layout other than `loose`.
+:::
+
 <doc-example title="Layouts and side selection" file="QTimeline/Layouts" scrollable />
 
+### Responsive
+
 ::: tip
-The examples below uses `$q.screen` to detect changes in window size to see all 3 breakpoints in action.
+The examples below uses `$q.screen` to detect changes in window size to see all 3 layouts in action.
 :::
 
 <doc-example title="Responsive layout" file="QTimeline/Responsive" scrollable />

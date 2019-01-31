@@ -1,7 +1,11 @@
 <template>
-  <div class="q-px-xl q-py-md">
-    <q-timeline :layout="$q.screen.lt.sm ? 'dense' : ($q.screen.lt.md ? 'comfortable' : 'loose')" color="secondary">
-      <q-timeline-entry heading>Timeline heading ({{$q.screen.lt.sm ? 'Dense' : ($q.screen.lt.md ? 'Comfortable' : 'Loose')}} layout)</q-timeline-entry>
+  <div class="q-pa-md">
+    <q-timeline :layout="layout" color="secondary">
+      <q-timeline-entry heading>
+        Timeline heading
+        <br>
+        ({{$q.screen.lt.sm ? 'Dense' : ($q.screen.lt.md ? 'Comfortable' : 'Loose')}} layout)
+      </q-timeline-entry>
 
       <q-timeline-entry
         title="Event Title"
@@ -80,3 +84,13 @@
     </q-timeline>
   </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    layout () {
+      return this.$q.screen.lt.sm ? 'dense' : (this.$q.screen.lt.md ? 'comfortable' : 'loose')
+    }
+  }
+}
+</script>
