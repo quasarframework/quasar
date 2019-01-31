@@ -74,7 +74,7 @@ The example link tag below would include Fontawesome v5.6.3 icons. Do a Google s
 ```
 
 ## Using Fontawesome-Pro
-If you have a Fontawesome 5 Pro license and want to use it instead Fontawesome Free version. Following this instructions.
+If you have a Fontawesome 5 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:
 
 1. Open [Linked Accounts section](https://fontawesome.com/account) in Fontawesome's user account page to grab npm TOKENID (login if necessary).
 2. Create or append TOKENID into file .npmrc (file path same as package.json):
