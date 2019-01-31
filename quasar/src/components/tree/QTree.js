@@ -492,7 +492,7 @@ export default Vue.extend({
             : (
               isParent
                 ? h(QIcon, {
-                  staticClass: 'q-tree__arrow q-mr-xs generic-transition',
+                  staticClass: 'q-tree__arrow q-mr-xs',
                   class: { 'q-tree__arrow--rotate': meta.expanded },
                   props: { name: this.computedIcon },
                   nativeOn: {
