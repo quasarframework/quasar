@@ -4,9 +4,20 @@
       "extends": "color"
     },
 
-    "responsive": {
-      "type": "Boolean",
-      "desc": "Use responsive mode"
+    "side": {
+      "type": "String",
+      "desc": "Side to place the timeline entries in small and medium size",
+      "default": "right",
+      "values": [ "left", "right" ],
+      "examples": [ "left" ]
+    },
+
+    "layout": {
+      "type": "String",
+      "desc": "Layout of the timeline. Dense keeps content and labels on one side. Comfortable keeps content on one side and labels on the opposite side. Loose puts content on both sides.",
+      "default": "large",
+      "values": [ "dense", "comfortable", "loose" ],
+      "examples": [ "comfortable" ]
     },
 
     "dark": {
