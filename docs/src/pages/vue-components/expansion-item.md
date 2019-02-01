@@ -13,9 +13,13 @@ They are basically [QItem](/vue-components/list-and-list-item) components wrappe
 
 <doc-example title="Basic" file="QExpansionItem/Basic" />
 
+<doc-example title="Controlling expansion state" file="QExpansionItem/ControlExpansionState" />
+
+### Style
+
 <doc-example title="Dense" file="QExpansionItem/Dense" />
 
-<doc-example title="Controlling expansion state" file="QExpansionItem/ControlExpansionState" />
+<doc-example title="On dark background" file="QExpansionItem/Dark" />
 
 ### Options
 

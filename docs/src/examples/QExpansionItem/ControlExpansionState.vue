@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md" style="max-width: 350px">
     <q-toggle v-model="expanded" label="Expanded" class="q-mb-md" />
 
     <q-expansion-item

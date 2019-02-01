@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md" style="max-width: 350px">
     <q-expansion-item
       class="shadow-1"
       style="border-radius: 30px"

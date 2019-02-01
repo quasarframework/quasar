@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md" style="max-width: 350px">
     <q-list>
       <q-expansion-item popup icon="mail" label="Inbox" caption="5 unread emails">
         <q-separator />
