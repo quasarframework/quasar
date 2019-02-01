@@ -74,7 +74,7 @@ export let SliderMixin = {
   computed: {
     classes () {
       return {
-        [`text-${this.color}`]: this.color !== void 0,
+        [`text-${this.color}`]: this.color,
         [`q-slider--${this.active ? '' : 'in'}active`]: true,
         'disabled': this.disable,
         'q-slider--editable': this.editable,
@@ -105,7 +105,7 @@ export let SliderMixin = {
     },
 
     computedTabindex () {
-      return this.editable ? this.tabindex || 0 : -1
+      return this.editable === true ? this.tabindex || 0 : -1
     }
   },
 
