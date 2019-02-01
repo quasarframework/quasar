@@ -26,6 +26,7 @@ export default Vue.extend({
     dense: Boolean,
 
     expandIcon: String,
+    expandIconClass: String,
     duration: Number,
 
     headerInsetLevel: Number,
@@ -98,6 +99,7 @@ export default Vue.extend({
     __getToggleIcon (h) {
       return h(QItemSection, {
         staticClass: `cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
+        class: this.expandIconClass,
         props: {
           side: this.switchToggleSide !== true,
           avatar: this.switchToggleSide === true
