@@ -27,9 +27,6 @@ export default {
     },
 
     getDrawerMenu (h, menu, path, level) {
-      if (this.path !== void 0 && menu.path === this.path) {
-        debugger
-      }
       if (menu.separator === true) {
         return h('q-separator')
       }
