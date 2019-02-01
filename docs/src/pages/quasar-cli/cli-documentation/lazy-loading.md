@@ -28,7 +28,7 @@ const routes = [
 ]
 ```
 
-Easy, right? What this does is that it creates a separate chunk for `/src/pages/SomePage.vue` which is then loaded only when it is needed. In this case, when a user visits the '/same-page' route.
+Easy, right? What this does is that it creates a separate chunk for `/src/pages/SomePage.vue` which is then loaded only when it is needed. In this case, when a user visits the '/some-page' route.
 
 ## Lazy-load components
 Normally you would import a component and then register it to the Page, Layout or Component.
