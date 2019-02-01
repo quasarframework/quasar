@@ -37,6 +37,10 @@ const options = [
     path: 'vue-prototype-injections'
   },
   {
+    name: 'Testing & Auditing',
+    path: 'testing-and-auditing'
+  },
+  {
     name: 'Quasar Language Packs',
     path: 'quasar-language-packs'
   },
@@ -45,16 +49,16 @@ const options = [
     path: 'app-internationalization'
   },
   {
+    name: 'RTL Support',
+    path: 'rtl-support'
+  },
+  {
     name: 'Installing Icon Libraries',
     path: 'installing-icon-libraries'
   },
   {
     name: 'Quasar Icon Sets',
     path: 'quasar-icon-sets'
-  },
-  {
-    name: 'RTL Support',
-    path: 'rtl-support'
   },
   {
     name: 'Platform Detection',
