@@ -105,7 +105,7 @@ export let SliderMixin = {
     },
 
     computedTabindex () {
-      return this.editable ? this.tabindex || 0 : -1
+      return this.editable === true ? this.tabindex || 0 : -1
     }
   },
 

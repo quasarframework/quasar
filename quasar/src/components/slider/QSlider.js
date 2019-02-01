@@ -65,7 +65,7 @@ export default Vue.extend({
     },
 
     pinClass () {
-      return this.labelColor ? `text-${this.labelColor}` : null
+      return this.labelColor !== void 0 ? `text-${this.labelColor}` : null
     },
 
     events () {
