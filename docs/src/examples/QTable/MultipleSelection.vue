@@ -1,17 +1,16 @@
 <template>
-  <div>
-    <div class="q-pa-md">
-      <q-table
-        title="Treats"
-        :data="data"
-        :columns="columns"
-        row-key="name"
-        :selected-rows-label="getSelectedString"
-        selection="multiple"
-        :selected.sync="selected"
-      />
-    </div>
-    <div class="q-px-md">
+  <div class="q-pa-md">
+    <q-table
+      title="Treats"
+      :data="data"
+      :columns="columns"
+      row-key="name"
+      :selected-rows-label="getSelectedString"
+      selection="multiple"
+      :selected.sync="selected"
+    />
+
+    <div class="q-mt-md">
       Selected: {{ JSON.stringify(selected) }}
     </div>
   </div>

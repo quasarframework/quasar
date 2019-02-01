@@ -25,14 +25,7 @@
 
     "dense": {
       "extends": "dense",
-      "desc": "Dense mode; occupies less space; overrides 'breakpoint' prop if used"
-    },
-
-    "breakpoint": {
-      "type": "Number",
-      "desc": "Breakpoint (in pixels) of window width up to which 'dense' mode is used; Overriden by 'dense' prop if used",
-      "default": 450,
-      "examples": [ 992, ":breakpoint=\"1024\"" ]
+      "desc": "Dense mode; Connect with $q.screen for responsive behavior"
     },
 
     "columns": {

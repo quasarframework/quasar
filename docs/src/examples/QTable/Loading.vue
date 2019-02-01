@@ -1,17 +1,13 @@
 <template>
-  <div>
-    <div class="q-pa-md">
-      <q-btn label="Refresh" @click="onRefresh" />
-    </div>
-    <div class="q-pa-md">
-      <q-table
-        title="Treats"
-        :data="data"
-        :columns="columns"
-        row-key="name"
-        :loading="loading"
-      />
-    </div>
+  <div class="q-pa-md">
+    <q-btn label="Refresh" color="primary" @click="onRefresh" class="q-mb-md" />
+    <q-table
+      title="Treats"
+      :data="data"
+      :columns="columns"
+      row-key="name"
+      :loading="loading"
+    />
   </div>
 </template>
 

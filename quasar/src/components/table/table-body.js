@@ -51,7 +51,7 @@ export default {
                   value: selected,
                   color: this.color,
                   dark: this.dark,
-                  dense: this.computedDense
+                  dense: this.dense
                 },
                 on: {
                   input: adding => {
