@@ -4,8 +4,32 @@ import './AppMenu.styl'
 export default {
   name: 'AppMenu',
 
+  data () {
+    return {
+      path: void 0
+    }
+  },
+
+  created () {
+    this.path = window.location.pathname.split('/').pop()
+  },
+
   methods: {
+    hasChildPath (menu) {
+      if (this.path !== void 0) {
+        for (let index = 0; index < menu.children.length; ++index) {
+          if (menu.children[index].path === this.path) {
+            return true
+          }
+        }
+      }
+      return false
+    },
+
     getDrawerMenu (h, menu, path, level) {
+      if (this.path !== void 0 && menu.path === this.path) {
+        debugger
+      }
       if (menu.separator === true) {
         return h('q-separator')
       }
@@ -17,6 +41,7 @@ export default {
       }
 
       if (menu.children !== void 0) {
+        let expanded = this.hasChildPath(menu)
         return h(
           'q-expansion-item',
           {
@@ -24,7 +49,7 @@ export default {
               label: menu.name,
               dense: level > 0,
               icon: menu.icon,
-              defaultOpened: menu.opened,
+              defaultOpened: expanded || menu.opened,
               expandSeparator: true,
               switchToggleSide: level > 0,
               denseToggle: level > 0,
