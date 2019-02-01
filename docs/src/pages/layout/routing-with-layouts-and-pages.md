@@ -30,10 +30,10 @@ The commands above create the following folder structure:
 ```bash
 src/
 ├── layouts
-│   └── user.vue         # our QLayout definition
+│   └── User.vue         # our QLayout definition
 └── pages
-    ├── user-feed.vue    # page for /user/feed route
-    └── user-profile.vue # page for /user/profile route
+    ├── Posts.vue        # page for /user/feed route
+    └── Profile.vue      # page for /user/profile route
 ```
 
 ## Defining Routes
