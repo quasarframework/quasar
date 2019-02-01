@@ -12,11 +12,11 @@
       <template slot="body" slot-scope="props">
         <q-tr :props="props">
           <q-td auto-width>
-            <q-toggle v-model="props.selected" />
+            <q-toggle dense v-model="props.selected" />
           </q-td>
           <q-td key="desc" :props="props">
-            <q-btn round flat :icon="props.expand ? 'arrow_drop_up' : 'arrow_drop_down'" @click="props.expand = !props.expand" />
             {{ props.row.name }}
+            <q-btn dense round flat :icon="props.expand ? 'arrow_drop_up' : 'arrow_drop_down'" @click="props.expand = !props.expand" />
           </q-td>
           <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
           <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>

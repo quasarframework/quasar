@@ -2,16 +2,11 @@
   <div class="q-pa-md">
     <q-table
       title="Treats"
+      dense
       :data="data"
       :columns="columns"
       row-key="name"
-      selection="single"
-      :selected.sync="selected"
     />
-
-    <div class="q-mt-md">
-      Selected: {{ JSON.stringify(selected) }}
-    </div>
   </div>
 </template>
 
@@ -19,10 +14,9 @@
 export default {
   data () {
     return {
-      selected: [],
       columns: [
         {
-          name: 'desc',
+          name: 'name',
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',

@@ -10,9 +10,9 @@
     >
 
       <template slot="top" slot-scope="{}">
-        <q-btn flat dense color="primary" :disable="loading" icon="add" label="Add row" @click="addRow" />
-        <q-btn class="on-right" flat dense color="primary" :disable="loading" icon="remove" label="Remove row" @click="removeRow" />
-        <div class="col" />
+        <q-btn flat dense color="primary" :disable="loading" label="Add row" @click="addRow" />
+        <q-btn class="on-right" flat dense color="primary" :disable="loading" label="Remove row" @click="removeRow" />
+        <q-space />
         <q-input borderless dense debounce="300" color="primary" v-model="filter">
           <q-icon slot="append" name="search" />
         </q-input>

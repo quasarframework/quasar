@@ -21,9 +21,7 @@ If you don't need pagination, sorting, filtering, and all other features of QTab
 ## Installation
 <doc-installation :components="['QTable', 'QTh', 'QTr', 'QTd']" />
 
-## Usage
-
-### Defining the Columns
+## Defining the Columns
 
 Let’s take an example of configuring the `columns` property. We are going to tell QTable that `row-key` is ‘name’, which **must** be unique. If this was data fetched from a database we would likely use the row **id**.
 
@@ -75,11 +73,19 @@ columns: [ // array of Objects
 ]
 ```
 
+## Usage
+
 <doc-example title="Basic" file="QTable/Basic" />
 
-<doc-example title="Dark" file="QTable/Dark" dark />
+<doc-example title="Dark" file="QTable/Dark" />
 
-<doc-example title="Dense and Separators" file="QTable/Separators" />
+<doc-example title="Dense" file="QTable/Dense" />
+
+::: tip
+You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md`. More info: [Screen Plugin](/options/screen-plugin).
+:::
+
+<doc-example title="Separators" file="QTable/Separators" />
 
 <doc-example title="Custom Column" file="QTable/CustomColumn" />
 
@@ -103,17 +109,10 @@ Below is an example with the user being able to edit “in place” with the hel
 
 <doc-example title="Popup Editing" file="QTable/PopupEditing" />
 
-::: tip
-In the example below, we’re using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
-:::
-
-::: tip
-In the example below, we hide the header, but you can show it should you want – the user will be able to sort the data by columns etc.
-:::
-
-::: tip
-In the example below, we are supporting multiple selection.
-:::
+In the example below:
+  * We’re using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
+  * We hide the header, but you can show it should you want – the user will be able to sort the data by columns etc.
+  * We are supporting multiple selection.
 
 <doc-example title="Grid Style with Selection and Search (Filter)" file="QTable/GridStyle" />
 
@@ -137,7 +136,7 @@ When `pagination` has a property named `rowsNumber`, then this means that you’
 
 <doc-example title="Custom Sorting" file="QTable/CustomSorting" />
 
-### Server side backend
+### Server side pagination, filter and sorting
 
 When your database contains a big number of rows for a Table, obviously it’s not feasible to load them all for multiple reasons (memory, UI rendering performance, …). Instead, you can load only a Table page. Whenever the user wants to navigate to another Table page, or wants to sort by a column or wants to filter the Table, a **request** is sent to the **server** to fetch the partially paged data.
 

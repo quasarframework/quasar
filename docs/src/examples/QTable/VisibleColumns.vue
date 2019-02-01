@@ -9,7 +9,10 @@
     >
       <template slot="top" slot-scope="props">
         <div class="col-2 q-table__title">Treats</div>
-        <div class="col">
+
+        <q-space />
+
+        <div v-if="$q.screen.gt.xs" class="col">
           <q-toggle v-model="visibleColumns" val="calories" label="Calories" />
           <q-toggle v-model="visibleColumns" val="fat" label="Fat" />
           <q-toggle v-model="visibleColumns" val="carbs" label="Carbs" />
@@ -18,10 +21,26 @@
           <q-toggle v-model="visibleColumns" val="calcium" label="Calcium" />
           <q-toggle v-model="visibleColumns" val="iron" label="Iron" />
         </div>
+        <q-select
+          v-else
+          v-model="visibleColumns"
+          multiple
+          borderless
+          dense
+          options-dense
+          :display-value="$q.lang.table.columns"
+          emit-value
+          map-options
+          :options="columns"
+          option-value="name"
+          style="min-width: 150px"
+        />
+
         <q-btn
           flat round dense
           :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
           @click="props.toggleFullscreen"
+          class="q-ml-md"
         />
       </template>
 

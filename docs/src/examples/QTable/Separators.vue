@@ -1,45 +1,24 @@
 <template>
-  <div>
-    <div class="q-pa-md">
-      <q-table
-        title="No Separator"
-        :data="data"
-        :columns="columns"
-        row-key="name"
-        dense
-        separator="none"
-      />
-    </div>
-    <div class="q-pa-md">
-      <q-table
-        title="Row Separator"
-        :data="data"
-        :columns="columns"
-        row-key="name"
-        dense
-        separator="horizontal"
-      />
-    </div>
-    <div class="q-pa-md">
-      <q-table
-        title="Column Separator"
-        :data="data"
-        :columns="columns"
-        row-key="name"
-        dense
-        separator="vertical"
-      />
-    </div>
-    <div class="q-pa-md">
-      <q-table
-        title="Cell Separator"
-        :data="data"
-        :columns="columns"
-        row-key="name"
-        dense
-        separator="cell"
-      />
-    </div>
+  <div class="q-pa-md">
+    <q-option-group
+      v-model="separator"
+      inline
+      class="q-mb-md"
+      :options="[
+        { label: 'Horizontal (default)', value: 'horizontal' },
+        { label: 'Vertical', value: 'vertical' },
+        { label: 'Cell', value: 'cell' },
+        { label: 'None', value: 'none' },
+      ]"
+    />
+
+    <q-table
+      title="Treats"
+      :data="data"
+      :columns="columns"
+      row-key="name"
+      :separator="separator"
+    />
   </div>
 </template>
 
@@ -47,6 +26,8 @@
 export default {
   data () {
     return {
+      separator: 'horizontal',
+
       columns: [
         {
           name: 'desc',

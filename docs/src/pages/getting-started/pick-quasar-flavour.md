@@ -25,27 +25,12 @@ Here's a quick comparison:
 | Tree Shaking | - | **Yes** | **Yes** |
 | SFC (Single File Component - for Vue) | - | **Yes** | **Yes** |
 | Advanced configuration through dynamic quasar.conf.js | - | **Yes** | - |
-| Unit & end to end testing | - | **Not yet** | **Yes** |
+| Unit & end to end testing | - | **Yes** | **Yes** |
 
 ## UMD / Standalone (uses CDN)
 If you'd like to embed Quasar into your existing website project, integrating it in a progressive manner, then go for the UMD/Standalone (Unified Module Definition) version.
 
 Get started by [reading more](/getting-started/umd) about it.
-
-You can skip the following step, but it's here as a hint. There is a helper UMD starter kit, which will show you how to get started and what CSS and JS tags to include into your project. While installing the UMD kit, the CLI will ask you some questions (what Quasar theme will you be using, what Quasar I18n to include, ...) and it will generate a simple HTML file that will demo how to use CDN to add Quasar:
-
-```bash
-# Node.js >= 8.9.0 is required.
-
-$ npm install -g quasar-cli # recommended
-# or:
-$ yarn global add quasar-cli
-
-# then...
-$ quasar create <folder_name> --kit umd
-```
-
-And you're done. Inspect the `index.html` file that was created in the new folder and learn how you can embed Quasar. You may want to repeat the step above to experiment with different setups based on the answers you give.
 
 ## Development with Quasar CLI (The best developer experience)
 If you want to be able to build:
@@ -86,4 +71,4 @@ Note that you don't need different projects in order to build any one of the app
 To understand more about Quasar CLI, be sure to familiarize yourself [with the guide](/getting-started/quasar-cli). With this knowledge under your belt, you'll be able to take full advantage of all of Quasar CLI's many great features.
 
 ## Vue CLI 3 plugin
-To work with Quasar via its Vue CLI 3 plugin, head on to [Vue CLI 3 Quasar plugin](/getting-started/vue-cli-plugin) documention page.
+To work with Quasar via its Vue CLI 3 plugin, head on to [Vue CLI 3 Quasar plugin](/getting-started/vue-cli-plugin) documentation page.

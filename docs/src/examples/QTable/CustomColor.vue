@@ -141,9 +141,9 @@ export default {
 
 <style>
 .my-custom th {
-  color: rgba(0,0,255,0.87) !important;
+  color: #2196f3 !important;
 }
 .my-custom td {
-  color: rgba(255,0,0,0.87) !important;
+  color: #009688 !important;
 }
 </style>
