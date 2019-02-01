@@ -7,7 +7,7 @@ QTable is a component that allows you to display data in a tabular manner. It pa
   * Sorting
   * Single / Multiple rows selection with custom selection actions
   * Pagination (including server-side if required)
-  * Grid mode (you can use for example QCards to display data in a non tabular manner)
+  * Grid mode (you can use for example QCards to display data in a non-tabular manner)
   * Total customization of rows and cells through scoped slots
   * Ability to add additional row(s) at top or bottom of data rows
   * Column picker (through QTableColumns component described in one of the sections)
