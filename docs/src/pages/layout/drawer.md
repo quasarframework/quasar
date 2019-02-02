@@ -40,7 +40,11 @@ Consider using QItems with routing props (like `to`) below. For demoing purposes
 
 ### Mini-mode
 
-Drawer can operate in two modes: 'normal' and 'mini', and you can switch between them by using the Boolean `mini` property on QLayoutDrawer. **Please note that "mini" mode does not apply when in "mobile" behavior.**
+Drawer can operate in two modes: 'normal' and 'mini', and you can switch between them by using the Boolean `mini` property on QLayoutDrawer. 
+
+::: warning
+Please note that **`mini` mode** does not apply when in **mobile** behavior. 
+:::
 
 There are some CSS classes that will help you customize the drawer when dealing with "mini" mode. These are very useful especially when using the "click" trigger:
 
