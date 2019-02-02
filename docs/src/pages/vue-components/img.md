@@ -16,15 +16,11 @@ The QImg component makes working with images easy and also adds a nice loading e
 
 <doc-example title="Captions" file="QImg/Caption" />
 
-::: tip
 Contain mode (example below) will force-show the whole image, which usually leads to empty space (horizontally or vertically) besides the image. The second image doesn't uses the contain mode and it's there for comparison purposes.
-:::
 
 <doc-example title="Contain mode" file="QImg/Contain" />
 
-::: tip
-Use the `basic` property which disables transitions (and it also renders the component faster).
-:::
+Use the `basic` property which disables transitions (and it also renders the component faster):
 
 <doc-example title="Transitions" file="QImg/Transitions" />
 
