@@ -8,7 +8,7 @@ Also check out its “sibling”, the [QSlider](/vue-components/slider) componen
 ## Installation
 <doc-installation components="QRange" />
 
-## Basic Usage
+## Usage
 Notice we are using an object for the selection, which holds values for both the lower value of the selected range - `rangeValues.min` and the higher value - `rangeValues.max`.
 
 <doc-example title="Standard" file="QRange/Standard" />
@@ -17,13 +17,13 @@ Notice we are using an object for the selection, which holds values for both the
 
 The `step` property can also be floating point number (or numeric `0` if you need infinite precision).
 
-<doc-example title="Floating Point" file="QRange/FloatingPoint" />
+<doc-example title="Floating point" file="QRange/FloatingPoint" />
 
 In the example below, move the slider to see the label.
 
-<doc-example title="With Label" file="QRange/Label" />
+<doc-example title="With label" file="QRange/Label" />
 
-<doc-example title="Snaps to Steps" file="QRange/Snap" />
+<doc-example title="Snaps to steps" file="QRange/Snap" />
 
 <doc-example title="Markers" file="QRange/Markers" />
 
@@ -31,15 +31,15 @@ In the example below, move the slider to see the label.
 
 Use the `drag-range` or `drag-only-range` props to allow the user to move the selected range or only a predetermined range as a whole.
 
-<doc-example title="Drag Range" file="QRange/Drag" />
+<doc-example title="Drag range" file="QRange/Drag" />
 
-<doc-example title="Drag Range + Snap to Step" file="QRange/DragSnap" />
+<doc-example title="Drag range + snap to step" file="QRange/DragSnap" />
 
-<doc-example title="Drag Only Range (fixed interval)" file="QRange/DragOnly" />
+<doc-example title="Drag only range (fixed interval)" file="QRange/DragOnly" />
 
 <doc-example title="Dark" file="QRange/Dark" dark />
 
-<doc-example title="Lazy Input" file="QRange/Lazy" />
+<doc-example title="Lazy input" file="QRange/Lazy" />
 
 <doc-example title="Readonly" file="QRange/Readonly" />
 

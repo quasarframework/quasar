@@ -12,7 +12,7 @@ The QCard component is intentionally lightweight and essentially a containing el
 <doc-installation :components="['QCard', 'QCardSection', 'QCardActions']" />
 
 ## Usage
-<doc-example title="Basic Cards" file="QCard/Basic" />
+<doc-example title="Basic cards" file="QCard/Basic" />
 
 ### With actions
 <doc-example title="Cards with actions" file="QCard/Actions" />

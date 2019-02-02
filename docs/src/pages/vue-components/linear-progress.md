@@ -27,7 +27,7 @@ For indeterminate state (above) or query state (below) you don't need to specify
 
 <doc-example title="Buffer" file="QLinearProgress/Buffering" />
 
-<doc-example title="On Dark Background" file="QLinearProgress/OnDarkBackground" dark />
+<doc-example title="On a dark background" file="QLinearProgress/OnDarkBackground" dark />
 
 ## QLinearProgress API
 <doc-api file="QLinearProgress" />

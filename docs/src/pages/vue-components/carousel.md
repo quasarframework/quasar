@@ -37,7 +37,7 @@ In the example below there are thumbnails being generated automatically. Thumbna
 Don't use the property `navigation` with `thumbnails` as it supercedes and thumbnails will not be displayed.
 :::
 
-### Infinite and Autoplay
+### Infinite and autoplay
 <doc-example title="Autoplay" file="QCarousel/InfiniteAutoplay" />
 
 ### Controls

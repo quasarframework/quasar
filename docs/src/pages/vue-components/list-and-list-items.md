@@ -20,7 +20,7 @@ List Items have the following pre-built child components:
 
 <doc-example title="Basic" file="QItem/Basic" />
 
-<doc-example title="On dark background" file="QItem/Dark" dark />
+<doc-example title="On a dark background" file="QItem/Dark" dark />
 
 <doc-example title="Dense" file="QItem/Dense" />
 

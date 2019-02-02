@@ -27,17 +27,17 @@ When the user hits the phone/tablet back button (only for Cordova apps), the Dia
 
 <doc-example title="Maximized" file="QDialog/Maximized" />
 
-### Various Content
+### Various content
 Dialogs can contain any content. Some examples:
 
-<doc-example title="Various Content" file="QDialog/VariousContent" />
+<doc-example title="Various content" file="QDialog/VariousContent" />
 
-<doc-example title="With Containerized QLayout" file="QDialog/Layout" />
+<doc-example title="With containerized QLayout" file="QDialog/Layout" />
 
-### Handling Scroll
-<doc-example title="Scrollable Dialogs" file="QDialog/Scrollable" />
+### Handling scroll
+<doc-example title="Scrollable dialogs" file="QDialog/Scrollable" />
 
-### Different Modes
+### Different modes
 User cannot dismiss the Dialog by pressing ESCAPE key or by clicking/tapping on its backdrop.
 
 <doc-example title="Persistent" file="QDialog/Persistent" />
@@ -46,7 +46,7 @@ Dialogs can also be a part of the page, without requiring immediate focus. It's 
 
 <doc-example title="Seamless" file="QDialog/Seamless" />
 
-### Dialog in Dialog
+### Dialog in dialog
 You are able to open dialogs on top of other dialogs, with infinite number of depth levels.
 
 <doc-example title="Inception" file="QDialog/Inception" />

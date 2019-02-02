@@ -29,7 +29,7 @@ When not disabled or spinning, QBtn emits a `@click` event, as soon as it is cli
 
 <doc-example title="Button size" file="QBtn/ButtonSize" />
 
-### Progress Related
+### Progress related
 
 Some button actions involve contacting a server, so an asynchronous response. It’s best that you inform the user about a background process taking place until the asynchronous response is ready. QBtn offers this possibility through the `loading` prop. This property will display a QSpinner (by default) instead of the icon and/or label of the button. Custom loading content can also be used (not only text or spinners).
 
@@ -39,7 +39,7 @@ Should you wish, you can also display a deterministic progress within the button
 
 <doc-example title="Deterministic progress" file="QBtn/DeterministicProgress" />
 
-### More Options
+### More options
 
 <doc-example title="Custom ripple" file="QBtn/CustomRipple" />
 
@@ -51,7 +51,7 @@ The example below won't work with UMD version (so in Codepen/jsFiddle too) becau
 
 <doc-example title="Disable" file="QBtn/Disabled" />
 
-### Controlling the Button for Form Submission
+### Controlling the button for form submission
 When you have a button to submit a form's input to the server, like a "Save" button, more often than not you will also want to give the user the ability to submit the form with a press of the ENTER key. If you would also like to give the user feedback of the saving process being in progress, and to prevent the user repeatedly pressing the button, you would need the button to show a loading spinner and be disabled from click events. QBtn allows this behavior if configured so.
 
 <doc-example title="Form Submission" file="QBtn/FormSubmission" />
