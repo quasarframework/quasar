@@ -8,7 +8,7 @@ Also check its “sibling”, the [QRange](/vue-components/range) component.
 ## Installation
 <doc-installation components="QSlider" />
 
-## Basic
+## Usage
 <doc-example title="Standard" file="QSlider/Standard" />
 
 <doc-example title="With step" file="QSlider/Step" />
