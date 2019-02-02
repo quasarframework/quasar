@@ -94,16 +94,19 @@ module.exports = function (ctx) {
     animations: ['fadeIn', 'fadeOut'],
 
     ssr: {
-      pwa: false
+      pwa: true
     },
 
     pwa: {
       // workboxPluginMode: 'InjectManifest',
-      // workboxOptions: {},
+      workboxOptions: {
+        skipWaiting: true,
+        clientsClaim: true
+      },
       manifest: {
-        // name: 'Quasar App',
-        // short_name: 'Quasar-PWA',
-        // description: 'Best PWA App in town!',
+        name: 'Quasar Documentation Site',
+        short_name: 'Quasar-Docs',
+        description: 'Greatest Docs ever!',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
