@@ -21,7 +21,7 @@ If you don't need pagination, sorting, filtering, and all other features of QTab
 ## Installation
 <doc-installation :components="['QTable', 'QTh', 'QTr', 'QTd']" />
 
-## Defining the Columns
+## Defining the columns
 
 Let’s take an example of configuring the `columns` property. We are going to tell QTable that `row-key` is ‘name’, which **must** be unique. If this was data fetched from a database we would likely use the row **id**.
 
@@ -87,38 +87,38 @@ You can use the `dense` prop along with `$q.screen` to create a responsive behav
 
 <doc-example title="Separators" file="QTable/Separators" />
 
-<doc-example title="Custom Column" file="QTable/CustomColumn" />
+<doc-example title="Custom column" file="QTable/CustomColumn" />
 
-<doc-example title="Custom Color" file="QTable/CustomColor" />
+<doc-example title="Custom color" file="QTable/CustomColor" />
 
-<doc-example title="No Header/Footer" file="QTable/NoHeaderFooter" />
+<doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
 
 ::: warning
 The property `name-key` must be set in order for selection to work properly.
 :::
 
-<doc-example title="Single Selection" file="QTable/SingleSelection" />
+<doc-example title="Single selection" file="QTable/SingleSelection" />
 
-<doc-example title="Multiple Selection and Custom Selected Rows Label" file="QTable/MultipleSelection" />
+<doc-example title="Multiple selection and custom selected rows label" file="QTable/MultipleSelection" />
 
-<doc-example title="Visible Columns, Custom Top and Fullscreen" file="QTable/VisibleColumns" />
+<doc-example title="Visible columns, custom top and fullscreen" file="QTable/VisibleColumns" />
 
 ::: tip
 Below is an example with the user being able to edit “in place” with the help of **QPopupEdit** component. Please note that we are using the `body` scoped slot. **QPopupEdit** won’t work with cell scoped slots.
 :::
 
-<doc-example title="Popup Editing" file="QTable/PopupEditing" />
+<doc-example title="Popup editing" file="QTable/PopupEditing" />
 
 In the example below:
   * We’re using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
   * We hide the header, but you can show it should you want – the user will be able to sort the data by columns etc.
   * We are supporting multiple selection.
 
-<doc-example title="Grid Style with Selection and Search (Filter)" file="QTable/GridStyle" />
+<doc-example title="Grid style with selection and search (filter)" file="QTable/GridStyle" />
 
-<doc-example title="Expanded Row and Custom Selector" file="QTable/ExpandedRow" />
+<doc-example title="Expanded row and custom selector" file="QTable/ExpandedRow" />
 
-<doc-example title="Before/After Slots (header/footer)" file="QTable/BeforeAfterHeaderFooter" />
+<doc-example title="Before/After slots (header/footer)" file="QTable/BeforeAfterHeaderFooter" />
 
 ::: tip
 If you want to control Table’s pagination, use `pagination` prop, but don’t forget to add the `.sync` modifier
@@ -128,13 +128,13 @@ If you want to control Table’s pagination, use `pagination` prop, but don’t 
 When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See *Synchronizing with Server* example below.
 :::
 
-<doc-example title="Pagination with Initial Sort and Rows per Page" file="QTable/Pagination" />
+<doc-example title="Pagination with initial sort and rows per page" file="QTable/Pagination" />
 
 <doc-example title="Loading" file="QTable/Loading" />
 
-<doc-example title="Custom Top with Add/Remove Row" file="QTable/CustomTop" />
+<doc-example title="Custom top with add/remove row" file="QTable/CustomTop" />
 
-<doc-example title="Custom Sorting" file="QTable/CustomSorting" />
+<doc-example title="Custom sorting" file="QTable/CustomSorting" />
 
 ### Server side pagination, filter and sorting
 
@@ -150,7 +150,7 @@ When your database contains a big number of rows for a Table, obviously it’s n
 In the example below, steps have been taken to emulate an ajax call to a server. While the concepts are similar, if you use this code you will need to make the appropriate changes to connect to your own data source.
 :::
 
-<doc-example title="Synchronizing with Server" file="QTable/Synchronizing" />
+<doc-example title="Synchronizing with server" file="QTable/Synchronizing" />
 
 ## QTable API
 <doc-api file="QTable" />

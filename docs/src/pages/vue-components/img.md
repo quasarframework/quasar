@@ -12,7 +12,7 @@ The QImg component makes working with images easy and also adds a nice loading e
 
 ### Options
 
-<doc-example title="Custom Aspect Ratio" file="QImg/Ratio" />
+<doc-example title="Custom aspect ratio" file="QImg/Ratio" />
 
 <doc-example title="Captions" file="QImg/Caption" />
 
@@ -20,9 +20,7 @@ Contain mode (example below) will force-show the whole image, which usually lead
 
 <doc-example title="Contain mode" file="QImg/Contain" />
 
-::: tip
-Use the `basic` property which disables transitions (and it also renders the component faster).
-:::
+Use the `basic` property which disables transitions (and it also renders the component faster):
 
 <doc-example title="Transitions" file="QImg/Transitions" />
 
@@ -32,7 +30,7 @@ Use the `basic` property which disables transitions (and it also renders the com
 
 When you have big-sized images, you can use a placeholder image (recommended to be specified in base64 encoding) like in the example below. The placeholder will be displayed until the target image gets loaded. We're toggling the QImg tag so you can see the placeholder image in action.
 
-<doc-example title="Placeholder Source" file="QImg/PlaceholderSrc" />
+<doc-example title="Placeholder source" file="QImg/PlaceholderSrc" />
 
 <doc-example title="Error state" file="QImg/ErrorState" />
 

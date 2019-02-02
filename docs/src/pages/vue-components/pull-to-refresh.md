@@ -19,7 +19,7 @@ To refresh, pull down (with mouse or through finger touch) on the content below 
 
 <doc-example title="Custom icon" file="QPullToRefresh/Icon" />
 
-## Tips
+### Tips
 * If using a QLayout, then it's recommended that you put QPullToRefresh as direct child of QPage and wrap your page content with it.
 * If you change the parent of this component, don't forget to call `updateScrollTarget()` on the QPullToRefresh Vue reference.
 

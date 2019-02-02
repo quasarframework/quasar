@@ -16,7 +16,7 @@ QTimeline has 3 layouts:
 
 <doc-example title="Default usage" file="QTimeline/Basic" scrollable />
 
-<doc-example title="On dark background" file="QTimeline/Dark" dark scrollable />
+<doc-example title="On a dark background" file="QTimeline/Dark" dark scrollable />
 
 ### Layouts and side selection
 

@@ -11,17 +11,17 @@ Also check its “sibling”, the [QRange](/vue-components/range) component.
 ## Usage
 <doc-example title="Standard" file="QSlider/Standard" />
 
-<doc-example title="With Step" file="QSlider/Step" />
+<doc-example title="With step" file="QSlider/Step" />
 
 The `step` property can also be floating point number (or numeric `0` if you need infinite precision).
 
-<doc-example title="Floating Point" file="QSlider/FloatingPoint" />
+<doc-example title="Floating point" file="QSlider/FloatingPoint" />
 
 In the example below, move the slider to see the label.
 
-<doc-example title="With Label" file="QSlider/Label" />
+<doc-example title="With label" file="QSlider/Label" />
 
-<doc-example title="Snaps to Steps" file="QSlider/Snap" />
+<doc-example title="Snaps to steps" file="QSlider/Snap" />
 
 <doc-example title="Markers" file="QSlider/Markers" />
 
@@ -29,7 +29,7 @@ In the example below, move the slider to see the label.
 
 <doc-example title="Dark" file="QSlider/Dark" dark />
 
-<doc-example title="Lazy Input" file="QSlider/Lazy" />
+<doc-example title="Lazy input" file="QSlider/Lazy" />
 
 <doc-example title="Readonly" file="QSlider/Readonly" />
 
