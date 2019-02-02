@@ -21,9 +21,10 @@ Scroll to the bottom to see QInfiniteScroll in action.
 
 <doc-example title="Basic" file="QInfiniteScroll/Basic" scrollable />
 
-### Tips
+::: tip
 * Works best when placed as direct child of the Vue component rendering your Page
 * If you change the parent of this component, don't forget to call `updateScrollTarget()` on the QInfiniteScroll Vue reference.
+:::
 
 ## QInfiniteScroll API
 <doc-api file="QInfiniteScroll" />

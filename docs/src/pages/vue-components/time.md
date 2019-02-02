@@ -26,13 +26,18 @@ For landscape mode, you can use it along with `$q.screen` to make QTime responsi
 :::
 
 ### Functionality
-The 24 hour format is applied depending on the [Quasar Language Pack](/options/quasar-language-packs) that you've set, but you can also force it, like in the example below:
 
-<doc-example title="24h Format" file="QTime/Format24h" />
+::: tip
+The 24 hour format is applied depending on the [Quasar Language Pack](/options/quasar-language-packs) that you've set, but you can also force it, like in the example below.
+:::
 
-Clicking on the "Now" button sets time to current user one:
+<doc-example title="24h format" file="QTime/Format24h" />
 
-<doc-example title="Now Button" file="QTime/NowBtn" />
+::: tip
+Clicking on the "Now" button sets time to current user time.
+:::
+
+<doc-example title="Now button" file="QTime/NowBtn" />
 
 <doc-example title="Disable and readonly" file="QTime/DisableReadonly" />
 

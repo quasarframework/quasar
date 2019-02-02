@@ -28,11 +28,11 @@ Using the property `sent` is intended for the sender of the chat message. The ot
 
 ### Customization
 
-<doc-example title="Text and Background Color" file="QChatMessage/Color" />
+<doc-example title="Text and background color" file="QChatMessage/Color" />
 
 <doc-example title="Size" file="QChatMessage/Size" />
 
-### More Advanced
+### More advanced
 
 <doc-example title="Slot" file="QChatMessage/Slot" />
 

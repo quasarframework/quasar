@@ -14,15 +14,15 @@ value => value.includes('Hello') || 'Field must contain word Hello'
 You can reset the validation by calling `resetValidation()` method on the input.
 
 ## Usage
-<doc-example title="Basic Usage" file="FormValidation/Required" />
+<doc-example title="Basic" file="FormValidation/Required" />
 
-<doc-example title="Maximum Length" file="FormValidation/MaxLength" />
+<doc-example title="Maximum length" file="FormValidation/MaxLength" />
 
 If you set `lazy-rules`, validation starts after first blur.
 
-<doc-example title="Lazy Rules" file="FormValidation/Lazy" />
+<doc-example title="Lazy rules" file="FormValidation/Lazy" />
 
-## External Validation
+## External validation
 You can also use external validation and only pass `error` and `error-message` (enable `bottom-slots` to display this error message):
 
 <doc-example title="External" file="FormValidation/External" />

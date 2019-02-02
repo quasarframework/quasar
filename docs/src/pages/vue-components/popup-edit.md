@@ -22,7 +22,7 @@ Click on the cells to see the popup editor. The column "Name" demonstrates the `
 There is also a `title` slot, which you can use to inject your own title, as demonstrated in the "calcium" column.
 :::
 
-<doc-example title="Simple Edit, with title prop and slot" file="QPopupEdit/Simple" />
+<doc-example title="Simple edit, with title prop and slot" file="QPopupEdit/Simple" />
 
 ### Persistent and with buttons
 You can also add two buttons with the `buttons` prop, "Cancel" and "Set" (the default labels). These buttons help to control the user's input. Along with the `buttons` prop, you also have the `persistent` prop, which denies the user from closing the popup with the escape key or clicking/ tapping outside of the popup. The `persistent` prop is demonstrated in the "carbs" column. Lastly, you can control the labels of the two buttons with the `label-set` and `label-cancel` props, as seen in the "Protein" column. Notice "Save" is replacing "Set" and "Close" is replacing "Cancel".
@@ -36,7 +36,7 @@ Since QPopupEdit wraps QInput, you can basically use any type of QInput. For ins
 When using a text area for input, you'll need to also use `@keyup.enter.stop` in order to stop the enter key from closing the popup. You'll also need to add buttons for controlling the popup too.
 :::
 
-<doc-example title="Text Area Edit" file="QPopupEdit/TextArea" />
+<doc-example title="Text area edit" file="QPopupEdit/TextArea" />
 
 ### Validation
 QPopupEdit also allows for simple validation of the input. To use it, you give it a callback function in the form of an arrow function and it should return a Boolean. `(value) => Boolean`. This is **demonstrated in the "Protein" column** below.
@@ -49,7 +49,7 @@ Notice we are using the `hide` event to also revalidate the input. If we don't, 
 With this example, we are using QInput's external error handling. We could also use QInput's validation prop and emit the value to QPopupEdit's validation prop. The same concept can be implemented, when using Vuelidate too. In other words, the value given to QPopupEdit's validate function can come from anywhere.
 :::
 
-<doc-example title="Edit with Validation" file="QPopupEdit/WithValidation" />
+<doc-example title="Edit with validation" file="QPopupEdit/WithValidation" />
 
 ### Example outside of QTable
 

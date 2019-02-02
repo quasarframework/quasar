@@ -20,9 +20,9 @@ In the second row in the example below, the property `keep-color` is being used 
 
 <doc-example title="Coloring" file="QRadio/Coloring" />
 
-<doc-example title="On Dark Background" file="QRadio/OnDarkBackground" dark />
+<doc-example title="On a dark background" file="QRadio/OnDarkBackground" dark />
 
-<doc-example title="Label on Left Side" file="QRadio/LabelPosition" />
+<doc-example title="Label on left side" file="QRadio/LabelPosition" />
 
 ::: tip
 You can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of radios, like in example below.
@@ -32,7 +32,7 @@ You can also use [QOptionGroup](/vue-components/option-group), which simplifies 
 
 In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so the QRadio will respond to clicks on QItems to change toggle state.
 
-<doc-example title="In a List" file="QRadio/InaList" />
+<doc-example title="In a list" file="QRadio/InaList" />
 
 <doc-example title="Disable" file="QRadio/Disable" />
 
