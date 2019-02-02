@@ -27,21 +27,15 @@ For landscape mode, you can use it along with `$q.screen` to make QDate responsi
 
 ### Functionality
 
-::: tip
 QDate requires a default year + month when model is unfilled (like `null`, `void 0`/`undefined`).
-:::
 
 <doc-example title="Default year month" file="QDate/DefaultYearMonth" />
 
-::: tip
 The first day of the week is applied depending on the [Quasar Language Pack](/options/quasar-language-packs) that you've set, but you can also force it, like in the example below.
-:::
 
 <doc-example title="First day of week" file="QDate/FirstDayOfWeek" />
 
-::: tip
-Clicking on the "Today" button sets date to current user date. Requires the header, so you can't use it along with "minimal" mode.
-:::
+Clicking on the "Today" button sets date to current user date. Requires the header, so you can't use it along with "minimal" mode:
 
 <doc-example title="Today button" file="QDate/TodayBtn" />
 
@@ -55,9 +49,7 @@ Clicking on the "Today" button sets date to current user date. Requires the head
 
 ### Highlighting events
 
-::: tip
 The first example is using an array and the second example is using a function.
-:::
 
 <doc-example title="Events" file="QDate/Events" />
 
@@ -65,10 +57,8 @@ The first example is using an array and the second example is using a function.
 
 ### Limiting options
 
-::: tip
 * You can use the `options` prop to limit user selection to certain times.
 * Alternatively, for a more in-depth way of limiting options, you can also supply a function (second and third example below) to `options-fn` prop.
-:::
 
 <doc-example title="Options" file="QDate/Options" />
 
