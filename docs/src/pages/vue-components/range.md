@@ -15,15 +15,11 @@ Notice we are using an object for the selection, which holds values for both the
 
 <doc-example title="With Step" file="QRange/Step" />
 
-::: tip
 The `step` property can also be floating point number (or numeric `0` if you need infinite precision).
-:::
 
 <doc-example title="Floating point" file="QRange/FloatingPoint" />
 
-::: tip
 In the example below, move the slider to see the label.
-:::
 
 <doc-example title="With label" file="QRange/Label" />
 
@@ -33,9 +29,7 @@ In the example below, move the slider to see the label.
 
 <doc-example title="Always display label" file="QRange/LabelAlways" />
 
-::: tip
 Use the `drag-range` or `drag-only-range` props to allow the user to move the selected range or only a predetermined range as a whole.
-:::
 
 <doc-example title="Drag range" file="QRange/Drag" />
 
