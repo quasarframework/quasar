@@ -94,7 +94,7 @@ module.exports = function (ctx) {
     animations: ['fadeIn', 'fadeOut'],
 
     ssr: {
-      pwa: true
+      pwa: false
     },
 
     pwa: {
@@ -104,9 +104,9 @@ module.exports = function (ctx) {
         clientsClaim: true
       },
       manifest: {
-        name: 'Quasar Documentation Site',
+        name: 'Quasar Documentation',
         short_name: 'Quasar-Docs',
-        description: 'Greatest Docs ever!',
+        description: 'Quasar Framework Documentation',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
