@@ -14,9 +14,7 @@ The QBreadcrumbs component is used as a navigational aid in UI. It allows users 
 
 <doc-example title="Custom separators" file="QBreadcrumbs/Separator" />
 
-::: warning
 The example below won't work with UMD version (so in Codepen/jsFiddle too) because it depends on Vue Router.
-:::
 
 <doc-example title="Router links" file="QBreadcrumbs/RouterLinks" />
 
