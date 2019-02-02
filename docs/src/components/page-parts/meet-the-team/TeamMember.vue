@@ -11,8 +11,8 @@
                 center {{ name }}
               div.text-subtitle2(v-if="alias")
                 center @{{ alias }}
-              div.text-h6(v-if="title")
-                center {{ title }}
+              div.text-h6(v-if="role")
+                center {{ role }}
 
             q-card-section
               slot
@@ -34,7 +34,7 @@ export default {
     image: String,
     name: String,
     alias: String,
-    title: String,
+    role: String,
     twitter: String,
     github: String,
     website: String
