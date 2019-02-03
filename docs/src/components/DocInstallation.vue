@@ -108,16 +108,14 @@ window.quasarConfig = {
     },
 
     VueCli () {
-      const types = [], imports = [], parts = []
+      const types = [], imports = []
 
       ;['components', 'directives', 'plugins'].forEach(type => {
         if (this[type] !== void 0) {
-          types.push(type)
           imports.push(this.nameAsString(this[type], 2, false))
-          parts.push(`const ${type} = {
-  ${this.nameAsString(this[type], 2, false)}
-}
-`)
+          types.push(`${type}: {
+    ${this.nameAsString(this[type], 4, false)}
+  }`)
         }
       })
 
@@ -137,7 +135,6 @@ import {
   ${imports.join(',\n  ')}
 } from 'quasar'
 
-${parts.join('\n')}
 Vue.use(Quasar, {
   ${types.join(',\n  ')}
 })`
