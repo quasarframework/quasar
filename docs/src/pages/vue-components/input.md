@@ -51,10 +51,14 @@ The `rounded` prop only works along with Filled, Outlined and Standout designs, 
 The following QInputs make use of the `type` prop in order to render native equivalent `<input type="...">` inside of them.
 
 ::: warning
-Remember that the support and behavior is the subject entirely of the browser rendering the page and not Quasar's core code.
+Support and behavior is the subject entirely of the browser rendering the page and not Quasar's core code.
 :::
 
 <doc-example title="Input types" file="QInput/InputTypes" />
+
+::: tip
+Some input types (like `date` or `time`) always render some controls, so you if you're using a `label` then you might want to set it along with `stack-label`, otherwise the label will overlap native browser controls.
+:::
 
 ### Textarea
 
