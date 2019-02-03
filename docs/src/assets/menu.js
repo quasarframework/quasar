@@ -824,7 +824,7 @@ export default [
     path: 'introduction-to-quasar'
   },
   {
-    name: 'Sponsors and Backers',
+    name: 'Sponsors, Backers and Supporters',
     icon: 'favorite',
     path: 'sponsors-and-backers'
   },
