@@ -91,6 +91,28 @@ module.exports = class InstallAPI {
   }
 
   /**
+   * Extend a JSON file with new props.
+   * If specifying existing props, it will override them.
+   *
+   * @param {string} file
+   * @param {object} newData
+   */
+  extendJsonFile (file, newData) {
+    if (newData !== void 0 && Object(newData) === newData && Object.keys(newData).length > 0) {
+      const
+        filePath = appPaths.resolve.app(file),
+        pkg = merge(fs.existsSync(filePath) ? require(filePath): {}, newData)
+
+      fs.writeFileSync(
+        appPaths.resolve.app(file),
+        JSON.stringify(pkg, null, 2),
+        'utf-8'
+      )
+
+    }
+  }
+
+  /**
    * Render a folder from extension templates into devland.
    * Needs a relative path to extension's /install.js script.
    *
