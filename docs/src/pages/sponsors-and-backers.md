@@ -12,10 +12,31 @@ Quasar Framework an MIT-licensed open-source project and is maintained by Razvan
 
 Like most open source products Quasar can't do it alone. We reply on *sponsors, backers and supporters* to keep things going. When Quasar starts to bring you some financial stability, please be considerate of the tens of thousands of hours that went into its creation and send some money back to the team that made it possible. And finally, if your company relies on Quasar, the best way to guarantee that Quasar continues to be there for you is to invest in its maintenance!
 
-A **Backer** makes a monthly pledge through Patreon. A **Supporter** makes a one-off donaton. To become a **Sponsor**, contact ...
+A **Backer** makes a monthly pledge through Patreon. A **Supporter** makes a one-off donaton. To become a **Sponsor**, send email to razvan.stoenescu@gmail.com.
 
-[Become a Backer](https://www.patreon.com/quasarframework) | [Become a Supporter](https://stripe.com/quasarframework)
+<div class="row q-gutter-sm">
+  <q-btn
+    push
+    color="primary"
+    style="height: 50px;"
+    icon-right="launch"
+    label="Become a Backer"
+    type="a"
+    href="https://www.patreon.com/quasarframework"
+    target="_blank"
+  />
 
+  <q-btn
+    push
+    color="secondary"
+    style="height: 50px;"
+    icon-right="launch"
+    label="Become a Supporter"
+    type="a"
+    href="https://stripe.com/quasarframework"
+    target="_blank"
+  />
+</div>
 
 ## Sponsors
 
