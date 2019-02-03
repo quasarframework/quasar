@@ -8,7 +8,7 @@
         </q-avatar>
 
         <q-space />
-        <q-input dark borderless v-model="text" input-class="text-right">
+        <q-input dark dense standout v-model="text" input-class="text-right">
           <q-icon slot="append" v-if="text === ''" name="search" />
           <q-icon slot="append" v-else name="clear" class="cursor-pointer" @click="text = ''" />
         </q-input>

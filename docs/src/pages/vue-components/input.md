@@ -25,6 +25,10 @@ For your QInput you can use only one of the main designs (`filled`, `outlined`, 
 ### Standout
 <doc-example title="Standout" file="QInput/DesignStandout" />
 
+One of the most appropriate use cases for Standout design is in a QToolbar:
+
+<doc-example title="Standout in QToolbar" file="QInput/StandoutToolbar" />
+
 ### Borderless
 The `borderless` design allows you to seamlessly integrate your QInput into other components without QInput drawing a border around itself or changing its background color:
 
@@ -40,17 +44,21 @@ The `rounded` prop only works along with Filled, Outlined and Standout designs, 
 
 <doc-example title="Dark" file="QInput/Dark" dark />
 
-## Features
+## Basic features
 
 ### Input types
 
 The following QInputs make use of the `type` prop in order to render native equivalent `<input type="...">` inside of them.
 
 ::: warning
-Remember that the support and behavior is the subject entirely of the browser rendering the page and not Quasar's core code.
+Support and behavior is the subject entirely of the browser rendering the page and not Quasar's core code.
 :::
 
 <doc-example title="Input types" file="QInput/InputTypes" />
+
+::: tip
+Some input types (like `date` or `time`) always render some controls, so you if you're using a `label` then you might want to set it along with `stack-label`, otherwise the label will overlap native browser controls.
+:::
 
 ### Textarea
 
@@ -70,9 +78,54 @@ The role of debouncing is for times when you watch the model and do expensive op
 
 <doc-example title="Debounce model" file="QInput/Debouncing" />
 
-### Mask
+## Mask
 
-### Validation
+
+## Validation
+
+### Internal validation
+
+You can validate QInput components with `:rules` prop. Specify array of embedded rules or your own validators. Your custom validator will be a function which returns `true` if validator succeeds or `String` with error message if it doesn't succeed.
+
+This is so you can write convenient rules of shape like:
+
+```js
+value => condition || errorMessage
+ ```
+For example:
+ ```js
+value => value.includes('Hello') || 'Field must contain word Hello'
+```
+
+You can reset the validation by calling `resetValidation()` method on the QInput.
+
+::: warning
+Rules are not asynchronous and need to return immediately.
+:::
+
+<doc-example title="Basic" file="QInput/ValidationRequired" />
+
+<doc-example title="Maximum length" file="QInput/ValidationMaxLength" />
+
+If you set `lazy-rules`, validation starts after first blur.
+
+<doc-example title="Lazy rules" file="QInput/ValidationLazy" />
+
+<doc-example title="Form validation" file="QInput/ValidationForm" />
+
+### External validation
+
+You can also use external validation and only pass `error` and `error-message` (enable `bottom-slots` to display this error message).
+
+::: tip
+Depending on your needs, you might connect [Vuelidate](https://monterail.github.io/vuelidate/) (our recommended approach) or some other validation library to QInput.
+:::
+
+<doc-example title="External" file="QInput/ValidationExternal" />
+
+You can also customize the slot for error message:
+
+<doc-example title="Slot for error message" file="QInput/ValidationSlots" />
 
 ## QInput API
 <doc-api file="QInput" />

@@ -361,16 +361,6 @@ const components = [
         path: 'input'
       },
       {
-        name: 'Form Mask',
-        path: 'form-mask',
-        badge: 'new'
-      },
-      {
-        name: 'Form Validation',
-        path: 'form-validation',
-        badge: 'new'
-      },
-      {
         name: 'Select',
         path: 'select'
       },

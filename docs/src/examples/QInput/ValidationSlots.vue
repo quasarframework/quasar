@@ -1,12 +1,14 @@
 <template>
-  <div class="q-pa-lg">
+  <div class="q-pa-md" style="max-width: 300px">
     <q-input
       ref="input"
       filled
       v-model="model"
       label="Type here"
       bottom-slots
-      :error="!isValid">
+      :error="!isValid"
+      hint="Max 3 characters"
+    >
       <div slot="error">
         Please use maximum 3 characters.
       </div>
@@ -21,6 +23,7 @@ export default {
       model: ''
     }
   },
+
   computed: {
     isValid () {
       return this.model.length <= 3
