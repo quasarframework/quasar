@@ -83,6 +83,8 @@ The role of debouncing is for times when you watch the model and do expensive op
 
 ## Validation
 
+### Internal validation
+
 You can validate QInput components with `:rules` prop. Specify array of embedded rules or your own validators. Your custom validator will be a function which returns `true` if validator succeeds or `String` with error message if it doesn't succeed.
 
 This is so you can write convenient rules of shape like:
@@ -101,8 +103,6 @@ You can reset the validation by calling `resetValidation()` method on the QInput
 Rules are not asynchronous and need to return immediately.
 :::
 
-### Internal validation
-
 <doc-example title="Basic" file="QInput/ValidationRequired" />
 
 <doc-example title="Maximum length" file="QInput/ValidationMaxLength" />
@@ -114,6 +114,7 @@ If you set `lazy-rules`, validation starts after first blur.
 <doc-example title="Form validation" file="QInput/ValidationForm" />
 
 ### External validation
+
 You can also use external validation and only pass `error` and `error-message` (enable `bottom-slots` to display this error message).
 
 ::: tip
