@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
+  <div class="q-pa-md" style="max-width: 300px">
     <q-input
       ref="input"
       filled
@@ -7,7 +7,8 @@
       label="Maximum 3 characters"
       :rules="[ val => val.length <= 3 || 'Please use maximum 3 characters']"
     />
-    <q-btn label="Reset" @click="reset" color="primary"/>
+
+    <q-btn class="q-mt-sm" label="Reset" @click="reset" color="primary"/>
   </div>
 </template>
 
@@ -18,6 +19,7 @@ export default {
       model: ''
     }
   },
+
   methods: {
     reset () {
       this.$refs.input.resetValidation()
