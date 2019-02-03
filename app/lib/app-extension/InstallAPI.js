@@ -91,6 +91,27 @@ module.exports = class InstallAPI {
   }
 
   /**
+   * Extend a JSON file with new props (deep merge).
+   * If specifying existing props, it will override them.
+   *
+   * @param {string} file (relative path to app root folder)
+   * @param {object} newData (Object to merge in)
+   */
+  extendJsonFile (file, newData) {
+    if (newData !== void 0 && Object(newData) === newData && Object.keys(newData).length > 0) {
+      const
+        filePath = appPaths.resolve.app(file),
+        data = merge(fs.existsSync(filePath) ? require(filePath) : {}, newData)
+
+      fs.writeFileSync(
+        appPaths.resolve.app(file),
+        JSON.stringify(data, null, 2),
+        'utf-8'
+      )
+    }
+  }
+
+  /**
    * Render a folder from extension templates into devland.
    * Needs a relative path to extension's /install.js script.
    *
