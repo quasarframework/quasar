@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
-    <form ref="form" @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
+    <form @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
       <q-input
         ref="name"
         filled
@@ -24,6 +24,8 @@
         ]"
       />
 
+      <q-toggle v-model="accept" label="I accept the license and terms" />
+
       <div>
         <q-btn label="Submit" type="submit" color="primary" />
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
@@ -37,7 +39,9 @@ export default {
   data () {
     return {
       name: null,
-      age: null
+      age: null,
+
+      accept: false
     }
   },
 
@@ -48,6 +52,12 @@ export default {
 
       if (this.$refs.name.hasError || this.$refs.age.hasError) {
         this.formHasError = true
+      }
+      else if (this.accept !== true) {
+        this.$q.notify({
+          color: 'negative',
+          message: 'You need to accept the license and terms first'
+        })
       }
       else {
         this.$q.notify({
