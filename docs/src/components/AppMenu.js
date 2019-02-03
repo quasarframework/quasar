@@ -19,6 +19,7 @@ export default {
       if (this.path !== void 0) {
         for (let index = 0; index < menu.children.length; ++index) {
           if (menu.children[index].path === this.path) {
+            this.path = void 0
             return true
           }
         }
