@@ -80,6 +80,27 @@ The role of debouncing is for times when you watch the model and do expensive op
 
 ## Mask
 
+You can force/help the user to input a specific format with help from `mask` prop.
+
+Below are mask tokens:
+
+| Token | Description |
+| --- | --- |
+| `#` | Numeric |
+| `S` | Letter, a to z, case insensitive |
+| `N` | Alphanumeric, case insensitive for letters |
+| `A` | Letter, transformed to uppercase |
+| `a` | Letter, transformed to lowercase |
+| `X` | Alphanumeric, transformed to uppercase for letters |
+| `x` | Alphanumeric, transformed to lowercase for letters |
+
+<doc-example title="Basic" file="QInput/MaskBasic" />
+
+<doc-example title="Filling the mask" file="QInput/MaskFill" />
+
+The `unmask-value` is useful if for example you want to force the user type a certain format, but you want the model to contain the raw value:
+
+<doc-example title="Unmasked model" file="QInput/MaskUnmaskedModel" />
 
 ## Validation
 
