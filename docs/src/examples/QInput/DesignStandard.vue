@@ -59,6 +59,12 @@
 
         <q-btn slot="append" round dense flat icon="add" />
       </q-input>
+
+      <q-input v-model="text" hint="Disable" :dense="dense" disable />
+
+      <q-input v-model="text" hint="Readonly" :dense="dense" readonly />
+
+      <q-input v-model="text" hint="Disable and readonly" :dense="dense" disable readonly />
     </div>
   </div>
 </template>

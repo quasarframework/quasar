@@ -25,6 +25,10 @@ For your QInput you can use only one of the main designs (`filled`, `outlined`, 
 ### Standout
 <doc-example title="Standout" file="QInput/DesignStandout" />
 
+One of the most appropriate use cases for Standout design is in a QToolbar:
+
+<doc-example title="Standout in QToolbar" file="QInput/StandoutToolbar" />
+
 ### Borderless
 The `borderless` design allows you to seamlessly integrate your QInput into other components without QInput drawing a border around itself or changing its background color:
 

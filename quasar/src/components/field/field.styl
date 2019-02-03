@@ -129,7 +129,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
     .q-field__control
       padding 0 12px
-      background #f5f5f5
+      background rgba(0,0,0,.05)
       border-radius $generic-border-radius $generic-border-radius 0 0
 
       &:before
@@ -165,6 +165,12 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         opacity 1
         background transparent
         border-bottom-style dashed
+
+    &.q-field--dark
+      .q-field__control, .q-field__control:before
+        background rgba(255, 255, 255, .07)
+      &.q-field--focused .q-field__control:before
+        background rgba(255, 255, 255, .1)
 
   &--outlined
 
@@ -226,8 +232,6 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         border-bottom-style dashed
 
   &--dark
-    &.q-field--filled .q-field__control
-      background #222
 
     .q-field__control:before
       border-color rgba(255, 255, 255, .6)
