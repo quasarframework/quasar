@@ -48,13 +48,13 @@ export default {
 
   methods: {
     openTwitter () {
-      openURL('https://twitter.com/' + this.twitter)
+      this.twitter && openURL('https://twitter.com/' + this.twitter)
     },
     openGithub () {
-      openURL('https://github.com/' + this.github)
+      this.github && openURL('https://github.com/' + this.github)
     },
     openWebsite () {
-      openURL(this.website)
+      this.website && openURL(this.website)
     }
   }
 }
