@@ -91,24 +91,23 @@ module.exports = class InstallAPI {
   }
 
   /**
-   * Extend a JSON file with new props.
+   * Extend a JSON file with new props (deep merge).
    * If specifying existing props, it will override them.
    *
-   * @param {string} file
-   * @param {object} newData
+   * @param {string} file (relative path to app root folder)
+   * @param {object} newData (Object to merge in)
    */
   extendJsonFile (file, newData) {
     if (newData !== void 0 && Object(newData) === newData && Object.keys(newData).length > 0) {
       const
         filePath = appPaths.resolve.app(file),
-        pkg = merge(fs.existsSync(filePath) ? require(filePath): {}, newData)
+        data = merge(fs.existsSync(filePath) ? require(filePath) : {}, newData)
 
       fs.writeFileSync(
         appPaths.resolve.app(file),
-        JSON.stringify(pkg, null, 2),
+        JSON.stringify(data, null, 2),
         'utf-8'
       )
-
     }
   }
 
