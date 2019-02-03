@@ -19,7 +19,7 @@ They are basically [QItem](/vue-components/list-and-list-item) components wrappe
 
 <doc-example title="Dense" file="QExpansionItem/Dense" />
 
-<doc-example title="On dark background" file="QExpansionItem/Dark" />
+<doc-example title="On a dark background" file="QExpansionItem/Dark" dark />
 
 ### Options
 

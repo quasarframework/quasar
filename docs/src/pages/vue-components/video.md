@@ -10,7 +10,7 @@ Using the QVideo component makes embedding a video like Youtube easy. It also re
 ## Usage
 <doc-example title="Basic" file="QVideo/Basic" />
 
-<doc-example title="HTML Markup" file="QVideo/HtmlMarkup" />
+<doc-example title="HTML markup" file="QVideo/HtmlMarkup" />
 
 ## QVideo API
 <doc-api file="QVideo" />

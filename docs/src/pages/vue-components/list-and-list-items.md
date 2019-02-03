@@ -2,49 +2,93 @@
 title: List and List Items
 ---
 
-Quasar Lists and List Items are a group of components which can work together to present multiple line items vertically as a single continuous element. They are best suited for displaying similar data types as rows of information, such as a contact list, a playlist or menu. Each row is called an Item. Items can also be used outside of a List.
+The QList and QItem are a group of components which can work together to present multiple line items vertically as a single continuous element. They are best suited for displaying similar data types as rows of information, such as a contact list, a playlist or menu. Each row is called an Item. QItem can also be used outside of a QList too.
 
 Lists can encapsulate Items or Item-like components, for example [QExpansionItem](/vue-components/expansion-item) or [QSlideItem](/vue-components/slide-item). Also [QSeparator](/vue-components/separator) can be used to split up sections, where needed.
 
 List Items have the following pre-built child components:
-* **QItemSection** An item section can have several uses for particular content. They are controlled via the `avatar`, `thumbnail`, `side` and `top` props. With no props, it is just a container for any content you'd like to add.
+* **QItemSection** - An item section can have several uses for particular content. They are controlled via the `avatar`, `thumbnail` and `side` props. With no props, it will render the main section of your QItem (which spans to the fullest of available space).
 
-* **QItemLabel** An item label is useful for predefined text content within a QItemSection. It has two props for the type of label you'd like to achieve. `overline` for a kind heading label and `caption` for a bit lighter colored text for differentiation purposes. You can see the `caption` prop demonstrated in the first examples below.
+* **QItemLabel** - An item label is useful for predefined text content type within a QItemSection, or for header-like content of the QList itself.
 
 ## Installation
-<doc-installation :components="['QList', 'QListItem']" />
+<doc-installation :components="['QList', 'QItem', 'QItemSection', 'QItemLabel']" />
 
 ## Usage
 
-Below is an example of Qlist below a QToolbar showing a contact list. It also demonstrates QLabel and QLabel with the `caption` prop (the email addresses). This small example also demonstrates QSection with the `avatar` prop.
+### Basic
 
-<doc-example title="Simple Contact List Example" file="QListItem/Contacts" />
+<doc-example title="Basic" file="QItem/Basic" />
 
-The example below is the contacts example again, but with the `dark` prop set to true. Notice the `dark` prop also only needs to be set within QList. With `dark` set in QList, all the QItem components within the list and their respective elements, are automatically switched to dark too.
+<doc-example title="On a dark background" file="QItem/Dark" dark />
 
-<doc-example dark title="Simple Contact List Example Dark" file="QListItem/ContactsDark" />
+<doc-example title="Dense" file="QItem/Dense" />
 
-#### List Items in a Simple Menu
-Lists can also be used to build a simple menu with links to different pages. In the below example, QList is being used to build a simple navigational menu in the QDrawer of QLayout. The QItems are demonstrating how to also easily use VueRouter navigation with the `to` prop.
+### QItemSection
 
-Also notice:
+<doc-example title="Left avatar/thumbnai QItemSection" file="QItem/AvatarLeft" />
 
- - The first menu item in the list is the "active" menu item and it is using a special active indication. You could also leave the `to` prop empty, to get the standard active link.
- - The "Spam" menu item is deactivated by leaving out the `to` prop. This could be useful if, for instance, no Spam were to be available to look at.
+<doc-example title="Right avatar/thumbnail QItemSection" file="QItem/AvatarRight" />
 
-<doc-example title="Simple Menu Example" file="QListItem/SimpleMenu" />
+::: tip
+When you have multi-line items, you could use `top` property on QItemSection side/avatar to align the sections to top, overriding default middle alignment.
+:::
 
-## API
+<doc-example title="Side QItemSection" file="QItem/SideSection" />
+
+### Active state
+
+<doc-example title="Active prop" file="QItem/ActiveState" />
+
+### QItemLabel
+
+::: warning
+Notice you can handle label overflow with `lines` prop, telling it how many lines it can span. However, this feature uses Webkit specific CSS so won't work in IE/Edge.
+:::
+
+<doc-example title="ItemLabel" file="QItem/ItemLabel" />
+
+### More involved examples
+
+<doc-example title="Contact list" file="QItem/ExampleContacts" />
+
+<doc-example title="Settings" file="QItem/ExampleSettings" />
+
+<doc-example title="Emails" file="QItem/ExampleEmails" />
+
+<doc-example title="Folder listing" file="QItem/ExampleFolders" />
+
+For demoing purposes in the example below, we're using the `active` prop instead of QItem's router props (`to`, `exact`). UMD doesn't have Vue Router so you wouldn't be able to play with it in Codepen/jsFiddle.
+
+<doc-example title="Menu" file="QItem/ExampleMenu" />
+
+::: tip
+For more complex menus, consider also using [QExpansionItem](/vue-components/expansion-item).
+:::
+
+### Connecting to Vue Router
+You can use QItems together with Vue Router through `<router-link>` properties bound to it. These allow for listening to the current app route and also triggering a route when clicked/tapped.
+
+```vue
+<q-item to="/inbox" exact />
+  <q-item-section avatar>
+    <q-icon name="inbox" />
+  </q-item-section>
+
+  <q-item-section>
+    Inbox
+  </q-item-section>
+</q-item>
+```
+
+## QList API
 <doc-api file="QList" />
 
+## QItem API
 <doc-api file="QItem" />
 
-<doc-api file="QItemLabel" />
-
+## QItemSection API
 <doc-api file="QItemSection" />
 
-#### Related Components
- - [QLayout](/vue-components/layout)
- - [QDrawer](/vue-components/drawer)
- - [QExpansionItem](/vue-components/expansion-item)
- - [QSlideItem](/vue-components/slide-item)
+## QItemLabel API
+<doc-api file="QItemLabel" />

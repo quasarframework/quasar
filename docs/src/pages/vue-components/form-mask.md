@@ -6,14 +6,14 @@ Quasar's [QInput](/vue-components/input) has a masked attribute that makes the u
 ## Installation
 <doc-installation components="QInput" />
 
-## Basic Usage
+## Basic
 <doc-example title="Basic" file="QInput/MaskBasic" />
 
-<doc-example title="Named Mask" file="QInput/MaskNamed" />
+<doc-example title="Named mask" file="QInput/MaskNamed" />
 
-<doc-example title="Unmasked Return" file="QInput/MaskUnmaskedReturn" />
+<doc-example title="Unmasked return" file="QInput/MaskUnmaskedReturn" />
 
-<doc-example title="Filled Mask" file="QInput/MaskFilled" />
+<doc-example title="Filled mask" file="QInput/MaskFilled" />
 
 ## API
 <doc-api file="QInput" />

@@ -18,9 +18,9 @@ For handling colors, also check out [Quasar Color Utils](/quasar-utils/color-uti
 
 <doc-example title="Dark version" file="QColor/Dark" />
 
-<doc-example title="Default Value" file="QColor/DefaultValue" />
+<doc-example title="Default value" file="QColor/DefaultValue" />
 
-<doc-example title="Lazy Model" file="QColor/LazyModel" />
+<doc-example title="Lazy model" file="QColor/LazyModel" />
 
 <doc-example title="Disable and readonly" file="QColor/DisableReadonly" />
 

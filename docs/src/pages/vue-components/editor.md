@@ -13,7 +13,7 @@ The QEditor component is a WYSIWYG (“what you see is what you get”) editor c
 <doc-installation components="QEditor" />
 
 ## Examples
-<doc-example title="Default Editor" file="QEditor/Basic" />
+<doc-example title="Default editor" file="QEditor/Basic" />
 
 ::: warning
 In this first example, there are two cards below the editor. The first shows the unparsed html using the double-moustache, whereas the second shows the rendered version using `v-html="editor"`. Using v-html this way renders your users vulnerable to Cross Site Scripting attacks. If the content is user generated, be sure to sanitize it either on render or server side (or both).
@@ -29,17 +29,17 @@ Each of these commands is pre-configured with icons and their own internationali
 }"
 ```
 
-<doc-example title="Redefine Bold Command" file="QEditor/NewBold" />
+<doc-example title="Redefine bold command" file="QEditor/NewBold" />
 
 The following is an example that adds custom definitions. In such cases, make sure you don’t overlap the default commands:
 
 <doc-example title="Add new commands" file="QEditor/NewCommands" />
 
-<doc-example title="Kitchen Sink" file="QEditor/KitchenSink" />
+<doc-example title="Kitchen sink" file="QEditor/KitchenSink" />
 
-<doc-example title="Custom Style" file="QEditor/Custom" />
+<doc-example title="Custom style" file="QEditor/Custom" />
 
-<doc-example title="Using Toolbar Slots" file="QEditor/ToolbarSlot" />
+<doc-example title="Using toolbar slots" file="QEditor/ToolbarSlot" />
 
 ## Dropdowns
 
@@ -120,7 +120,7 @@ User can pick only one option from each dropdown.
 
 ## Caveats
 
-### Autocorrect & Spellcheck
+### Autocorrect & spellcheck
 There may be occassions where you want to turn off the integrated autocorrect, autocomplete, autocapitalization and spelling correction "features" that many modern browsers offer. To do this, simply wrap the `<q-editor>` component in a `<form>` element, like this:
 
 ```html

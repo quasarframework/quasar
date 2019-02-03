@@ -21,7 +21,7 @@ Click and drag on the splitter separator bar to see results.
 
 <doc-example title="Custom dragging limits (50-100)" file="QSplitter/Limits" />
 
-<doc-example title="Customized separator" file="QSplitter/CustomizedSeparator" dark />
+<doc-example title="On a dark background with customized separator" file="QSplitter/CustomizedSeparator" dark />
 
 A QSplitter can be embedded in another QSplitter's `before` and/or `after` slots, like shown in example below.
 

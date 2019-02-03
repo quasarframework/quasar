@@ -2,7 +2,6 @@ import Vue from 'vue'
 
 import QField from '../field/QField.js'
 
-import inputTypes from './input-types.js'
 import MaskMixin from '../../mixins/mask.js'
 import debounce from '../../utils/debounce.js'
 
@@ -16,8 +15,7 @@ export default Vue.extend({
 
     type: {
       type: String,
-      default: 'text',
-      validator: t => inputTypes.includes(t)
+      default: 'text'
     },
 
     debounce: [String, Number],
