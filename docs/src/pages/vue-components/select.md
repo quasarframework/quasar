@@ -32,6 +32,12 @@ In the example below there's a few transitions showcased. For a full list of tra
 
 <doc-example title="Menu transitions" file="QSelect/MenuTransitions" />
 
+## The model
+
+<doc-example title="Single vs multiple selection" file="QSelect/ModelSingleMultiple" />
+
+<doc-example title="Multiple selection, counter and max-values" file="QSelect/ModelMultipleCounter" />
+
 ## The options
 
 <doc-example title="String options" file="QSelect/OptionString" />
@@ -46,7 +52,9 @@ In the example below there's a few transitions showcased. For a full list of tra
 
 <doc-example title="Options slot" file="QSelect/OptionSlot" />
 
-<doc-example title="No options slot" file="QSelect/OptionsNoneSlot" />
+<doc-example title="No options slot" file="QSelect/OptionNoneSlot" />
+
+<doc-example title="Lazy load options" file="QSelect/OptionLazyLoad" />
 
 <doc-example title="Menu covering component" file="QSelect/OptionCover" />
 
@@ -58,13 +66,17 @@ In the example below there's a few transitions showcased. For a full list of tra
 
 <doc-example title="Selected slot" file="QSelect/DisplaySelectedSlot" />
 
-## The model
+## Filtering and autocomplete
 
-<doc-example title="Single vs multiple selection" file="QSelect/ModelSingleMultiple" />
+<doc-example title="Filtering options" file="QSelect/InputFilter" />
 
-<doc-example title="Multiple selection, counter and max-values" file="QSelect/ModelMultipleCounter" />
+<doc-example title="Autocomplete on more than 2 chars" file="QSelect/InputFilterMin" />
 
-## Using an input textfield
+<doc-example title="Lazy autocomplete" file="QSelect/InputFilterLazy" />
+
+## Create new values
+
+<doc-example title="Create new values" file="QSelect/CreateValues" />
 
 ## Render performance
 
