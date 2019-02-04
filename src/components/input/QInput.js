@@ -208,6 +208,13 @@ export default {
               }
             })
           }
+          else if(this.model === "") {
+            this.model = this.computedClearValue
+            this.$emit('input', this.computedClearValue)
+            this.$nextTick(() => {
+              this.$emit('change', this.computedClearValue)
+            })
+          }
           return
         }
         this.isNumberError = false
