@@ -1,0 +1,48 @@
+<template>
+  <div class="q-pa-md q-gutter-sm">
+    <q-uploader
+      url="http://localhost:4444/upload"
+      bordered
+      label="Color"
+      color="orange-7"
+    />
+    <q-uploader
+      url="http://localhost:4444/upload"
+      label="Text Color"
+      bordered
+      color="yellow-3"
+      text-color="orange-7"
+    />
+    <q-uploader
+      url="http://localhost:4444/upload"
+      label="Inline"
+      bordered
+      inline
+    />
+    <q-uploader
+      url="http://localhost:4444/upload"
+      label="Inline"
+      bordered
+      inline
+    />
+    <q-uploader
+      url="http://localhost:4444/upload"
+      label="Inline"
+      bordered
+      inline
+    />
+    <q-uploader
+      url="http://localhost:4444/upload"
+      label="Disabled"
+      bordered
+      disable
+    />
+    <q-uploader
+      url="http://localhost:4444/upload"
+      label="Readonly"
+      bordered
+      readonly
+    />
+
+  </div>
+</template>
