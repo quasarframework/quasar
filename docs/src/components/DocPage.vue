@@ -9,6 +9,10 @@ q-page.doc-page
 
   slot
 
+  div.row.q-px-md.q-py-lg.q-gutter-xs.justify-start
+    q-btn(push, color="primary", label="Prev" :disable="!prevPage" @click="gotoPrev")
+    q-btn(push, color="primary", label="Next" :disable="!nextPage" @click="gotoNext")
+
   div.doc-edit-link
     | Caught a mistake? <doc-link :to="editHref">Suggest an edit on Github</doc-link>
 
@@ -27,11 +31,47 @@ export default {
   computed: {
     editHref () {
       return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${this.$route.path}.md`
+    },
+    prevPage () {
+      return this.$store.state.prevPage
+    },
+    nextPage () {
+      return this.$store.state.nextPage
     }
   },
 
   methods: {
-    copyHeading
+    copyHeading,
+
+    gotoPrev () {
+      if (this.prevPage) {
+        if (this.prevPage[0] === '/') {
+          this.$router.push(this.prevPage)
+        }
+        else {
+          let paths = this.$route.fullPath.split('/')
+          paths.pop()
+          paths.push(this.prevPage)
+          let path = paths.join('/')
+          this.$router.push(path)
+        }
+      }
+    },
+
+    gotoNext () {
+      if (this.nextPage) {
+        if (this.nextPage[0] === '/') {
+          this.$router.push(this.nextPage)
+        }
+        else {
+          let paths = this.$route.fullPath.split('/')
+          paths.pop()
+          paths.push(this.nextPage)
+          let path = paths.join('/')
+          this.$router.push(path)
+        }
+      }
+    }
   }
 }
 </script>

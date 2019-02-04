@@ -127,8 +127,13 @@ export default {
     HeaderMenu
   },
 
+  mounted () {
+    this.updatePrevNext(this.$route)
+  },
+
   watch: {
-    $route () {
+    $route (to) {
+      this.updatePrevNext(to)
       this.leftDrawerState = true
       this.rightDrawerState = true
       this.hasDrawer === true && this.$nextTick(() => {
@@ -166,6 +171,24 @@ export default {
       },
       set (val) {
         this.$store.commit('updateRightDrawerState', val)
+      }
+    },
+
+    prevPage: {
+      get () {
+        return this.$store.state.prevPage
+      },
+      set (val) {
+        this.$store.commit('updatePrevPage', val)
+      }
+    },
+
+    nextPage: {
+      get () {
+        return this.$store.state.nextPage
+      },
+      set (val) {
+        this.$store.commit('updateNextPage', val)
       }
     }
   },
@@ -244,6 +267,11 @@ export default {
       if (last !== void 0) {
         this.activeToc = last
       }
+    },
+
+    updatePrevNext (to) {
+      this.prevPage = to.meta.prev
+      this.nextPage = to.meta.next
     }
   },
 

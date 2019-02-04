@@ -21,6 +21,7 @@ function parseMenuNode (node, __path) {
   else {
     docsPages.push({
       path: prefix,
+      meta: node.meta,
       component: () => import(`pages/${prefix.substring(1)}.md`)
     })
   }

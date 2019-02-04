@@ -13,12 +13,20 @@ export default function (/* { ssrContext } */) {
     state: {
       leftDrawerState: true,
       rightDrawerState: true,
-      toc: []
+      toc: [],
+      prevPage: '',
+      nextPage: ''
     },
 
     getters: {
       hasDrawer (state) {
         return state.route !== void 0 && state.route.path !== '/'
+      },
+      prevPage (state) {
+        return state.prevPage
+      },
+      nextPage (state) {
+        return state.nextPage
       }
     },
 
@@ -33,6 +41,14 @@ export default function (/* { ssrContext } */) {
 
       updateToc (state, newToc) {
         state.toc = [{ id: 'Introduction', title: 'Introduction' }].concat(newToc)
+      },
+
+      updatePrevPage (state, path) {
+        state.prevPage = path
+      },
+
+      updateNextPage (state, path) {
+        state.nextPage = path
       }
     }
   })
