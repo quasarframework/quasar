@@ -64,7 +64,7 @@ In the example below there's a few transitions showcased. For a full list of tra
 
 <doc-example title="Multiple selection, counter and max-values" file="QSelect/ModelMultipleCounter" />
 
-## Filtering and autocomplete
+## Using an input textfield
 
 ## Render performance
 
