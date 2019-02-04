@@ -2,7 +2,7 @@
 title: Testing & Auditing
 ---
 
-Your Quasar projects have the ability to add unit and integration (aka e2e) testing harnesses, as well as an ever-growing suite of product quality auditing tools. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the dedicated [Quasar Testing](https://testing.quasar-framework.org) docs site. For issues, please report to the [Testing repo at GitHub](https://github.com/quasarframework/quasar-testing). If you are a beginner, consider reading one of the books in the [Further Reading](/options/testing-and-auditing#Further-Reading) section below.
+Your Quasar projects have the ability to add unit and integration (aka e2e) testing harnesses, as well as an ever-growing suite of product quality auditing tools. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the dedicated [Quasar Testing](https://testing.quasar-framework.org) docs site. For issues, please report to the [Testing repo at GitHub](https://github.com/quasarframework/quasar-testing). If you are a beginner, consider reading one of the books in the "Further Reading" section.
 
 ## High level overview
 
@@ -10,10 +10,10 @@ You can install multiple pre-rigged testing harnesses to your existent 1.0+ Quas
 
 Testing is not in and of itself hard. The most complicated part is setting up the testing harness. The trick lies in knowing what to test. If you are new to testing, it is absolutely imperative that you familiarize yourself with some of the concepts and patterns. There are some links for further reading at the end of this document page.
 
-<center>
-<h3>REMEMBER</h3>
-<h5>Test the functionality, not the function</h5>
-</center>
+<div class="q-my-lg text-center">
+  <div class="text-h3">REMEMBER</div>
+  <div class="text-h5">Test the functionality, not the function</div>
+</div>
 
 ## Installing
 
@@ -22,11 +22,11 @@ $ cd your-quasar-project
 $ quasar ext --add @quasar/testing
 ```
 
-The lightweight extension installer will ask you which testing harnesses you want to install. Then it will install the respective extensions for these harnesses, which you can configure as you like. It is how multiple testing harnesses are ideally managed within a Quasar project. 
+The lightweight extension installer will ask you which testing harnesses you want to install. Then it will install the respective extensions for these harnesses, which you can configure as you like. It is how multiple testing harnesses are ideally managed within a Quasar project.
 
-It will provide you with a new `quasar run` command that you can use to execute test-runners - and even your HMR dev environment at the same time. This approach can, for example, be quite helpful if you need to pass quasar.ctx to the test runner... 
+It will provide you with a new `quasar run` command that you can use to execute test-runners - and even your HMR dev environment at the same time. This approach can, for example, be quite helpful if you need to pass quasar.ctx to the test runner...
 
-``` 
+```
 # Example to run jest --watch && dev server
 $ quasar run @quasar/testing test --unit=jest.watch.coverage --dev=pwa
 ```
@@ -41,7 +41,7 @@ If you mess up your configuration and need to reset - or just want the latest Qu
 ```shell
 $ quasar ext --add @quasar/testing-unit-jest
 ```
-Be careful though, reinstalling will overwrite ALL existing files (including configurations) if you tell it to. Also, it will install the new packages (if there are any). To prevent installing new or updated node modules, you may do this: 
+Be careful though, reinstalling will overwrite ALL existing files (including configurations) if you tell it to. Also, it will install the new packages (if there are any). To prevent installing new or updated node modules, you may do this:
 
 ```shell
 $ quasar ext --add @quasar/testing-e2e-cypress --skip-pkg
@@ -54,7 +54,7 @@ If you want to remove the testing harness, you can run:
 $ quasar ext --remove @quasar/testing-unit-jest
 ```
 This will remove the associated node module and its dependencies, but it will not delete or modify any files.
- 
+
 ## Usage
 
 ### Unit Testing
@@ -65,12 +65,12 @@ We recommend using Jest 24. There are many, many reasons for this. Just take our
 $ quasar ext --add @quasar/testing-unit-jest
 ```
 
-We have included: 
+We have included:
 - a configuration file`jest.config.js`
-- `/test/jest/jest.setup.js 
+- `/test/jest/jest.setup.js
 - `.babelrc` file
 - a `quasar` scaffolding helper
-- a 'validity' test that makes sure quasar is initiatable 
+- a 'validity' test that makes sure quasar is initiatable
 
 
 ::: warning
@@ -89,7 +89,7 @@ We have included the optional ability to place your test code inside your vue fi
 ```
 
 ::: tip
-You may notice that your IDE doesn't know how to parse the test block, so go into the <test/> block, press `<alt> + <enter>`, select 'inject language or reference' and select `javascript`. This will grant <test/> blocks autocomplete.
+You may notice that your IDE doesn't know how to parse the test block, so go into the `<test/>` block, press `<alt> + <enter>`, select 'inject language or reference' and select `javascript`. This will grant `<test/>` blocks autocomplete.
 :::
 
 ### Integration Testing

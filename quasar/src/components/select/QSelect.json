@@ -96,6 +96,11 @@
       "examples": [ "text-orange" ]
     },
 
+    "options-cover": {
+      "type": "Boolean",
+      "desc": "Expanded menu will cover the component"
+    },
+
     "use-input": {
       "type": "Boolean",
       "desc": "Use an input tag where users can type"
@@ -123,11 +128,6 @@
       "examples": [ 650 ]
     },
 
-    "expand-besides": {
-      "type": "Boolean",
-      "desc": "Expand the menu on top or bottom of the component, so it won't cover it"
-    },
-
     "autofocus": {
       "type": "Boolean",
       "desc": "Focus component on initial render"
@@ -135,13 +135,13 @@
 
     "transition-show": {
       "extends": "transition",
-      "desc": "Transition when showing the menu; One of Quasar's embedded transitions",
+      "desc": "Transition when showing the menu; One of Quasar's embedded transitions; Works only if \"cover-options\" is not used",
       "default": "fade"
     },
 
     "transition-hide": {
       "extends": "transition",
-      "desc": "Transition when hiding the menu; One of Quasar's embedded transitions",
+      "desc": "Transition when hiding the menu; One of Quasar's embedded transitions; Works only if \"cover-options\" is not used",
       "default": "fade"
     }
   },

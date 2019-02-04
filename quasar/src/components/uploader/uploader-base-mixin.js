@@ -335,7 +335,7 @@ export default {
 
     __getList (h) {
       if (this.$scopedSlots.list !== void 0) {
-        return this.$scopedSlots.list(this)
+        return [ this.$scopedSlots.list(this) ]
       }
 
       return this.files.map(file => h('div', {

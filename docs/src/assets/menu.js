@@ -37,10 +37,6 @@ const options = [
     path: 'vue-prototype-injections'
   },
   {
-    name: 'Testing & Auditing',
-    path: 'testing-and-auditing'
-  },
-  {
     name: 'Quasar Language Packs',
     path: 'quasar-language-packs'
   },
@@ -582,16 +578,20 @@ const cli = [
     path: 'installation'
   },
   {
+    name: '/quasar.conf.js',
+    path: 'quasar-conf-js'
+  },
+  {
+    name: 'Testing & Auditing',
+    path: 'testing-and-auditing'
+  },
+  {
     name: 'CLI Documentation',
     path: 'cli-documentation',
     children: [
       {
         name: 'Directory Structure',
         path: 'directory-structure'
-      },
-      {
-        name: '/quasar.conf.js',
-        path: 'quasar-conf-js'
       },
       {
         name: 'Build Commands',
@@ -814,7 +814,7 @@ export default [
     path: 'introduction-to-quasar'
   },
   {
-    name: 'Sponsors and Backers',
+    name: 'Sponsors, Backers and Supporters',
     icon: 'favorite',
     path: 'sponsors-and-backers'
   },
