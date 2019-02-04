@@ -1,0 +1,29 @@
+<template>
+  <div class="q-pa-md q-gutter-sm">
+    <!-- basic -->
+    <q-uploader
+      url="http://localhost:4444/upload"
+    />
+    <q-uploader
+      url="http://localhost:4444/upload"
+      label="Label"
+    />
+    <q-uploader
+      url="http://localhost:4444/upload"
+      label="Bordered"
+      bordered
+    />
+    <q-uploader
+      url="http://localhost:4444/upload"
+      label="Square"
+      bordered
+      square
+    />
+    <q-uploader
+      url="http://localhost:4444/upload"
+      label="Flat"
+      bordered
+      flat
+    />
+  </div>
+</template>
