@@ -51,7 +51,12 @@
 export default {
   data () {
     return {
-      model: null,
+      model: {
+        label: 'Google',
+        value: 'goog',
+        icon: 'mail'
+      },
+
       options: [
         {
           label: 'Google',

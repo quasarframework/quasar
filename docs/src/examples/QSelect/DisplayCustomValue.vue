@@ -27,7 +27,7 @@
 export default {
   data () {
     return {
-      model: null,
+      model: 'Twitter',
       options: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
       ]

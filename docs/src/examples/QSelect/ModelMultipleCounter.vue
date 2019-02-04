@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md" style="max-width: 300px">
-    <div class="q-gutter-md">
+  <div class="q-pa-md">
+    <div class="q-gutter-md row items-start">
       <q-select
         filled
         v-model="model"
@@ -8,6 +8,7 @@
         :options="options"
         counter
         hint="With counter"
+        style="width: 250px"
       />
 
       <q-select
@@ -18,6 +19,7 @@
         counter
         max-values="2"
         hint="Max 2 selections"
+        style="width: 250px"
       />
     </div>
   </div>
