@@ -56,7 +56,19 @@
         use-chips
         multiple
         input-debounce="0"
-        label="Create new values (& filter)"
+        label="Multiple - Create new values (& filter)"
+        @new-value="createInputNewValue"
+        :options="createInputOptions"
+        @filter="createInputFn"
+      />
+
+      <q-select
+        v-bind="props"
+        v-model="createSingleInput"
+        use-input
+        use-chips
+        input-debounce="0"
+        label="Single - Create new values (& filter)"
         @new-value="createInputNewValue"
         :options="createInputOptions"
         @filter="createInputFn"
@@ -69,7 +81,17 @@
         use-chips
         multiple
         input-debounce="0"
-        label="Create new values (no filter)"
+        label="Multiple - Create new values (no filter)"
+        @new-value="createInputNewValue"
+      />
+
+      <q-select
+        v-bind="props"
+        v-model="createSingleInput"
+        use-input
+        use-chips
+        input-debounce="0"
+        label="Single - Create new values (no filter)"
         @new-value="createInputNewValue"
       />
 
@@ -164,6 +186,7 @@ export default {
       simpleFilterOptions: null,
 
       createInput: null,
+      createSingleInput: null,
       createInputOptions: null,
 
       simpleFilterInput: null,
