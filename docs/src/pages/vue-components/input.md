@@ -13,6 +13,8 @@ The QInput component is used to capture text input from the user. It uses `v-mod
 For your QInput you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
 :::
 
+<doc-example title="Design Overview" file="QInput/DesignOverview" />
+
 ### Standard
 <doc-example title="Standard" file="QInput/DesignStandard" />
 
