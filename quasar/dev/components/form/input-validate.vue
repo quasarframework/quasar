@@ -54,6 +54,72 @@
         lazy-rules
       />
 
+      <div class="text-h6">
+        Build in validation
+        <q-btn label="Reset" @click="reset" color="primary" flat />
+      </div>
+
+      <q-input
+        ref="input4"
+        v-bind="{[type]: true}"
+        v-model="model4"
+        label="Date (eg: 01/01/20) *"
+        :rules="[ 'date' ]"
+      />
+
+      <q-input
+        ref="input5"
+        v-bind="{[type]: true}"
+        v-model="model5"
+        label="Hex color [eg: #ABCDEF] *"
+        :rules="[ 'hexColor' ]"
+      />
+
+      <q-input
+        ref="input6"
+        v-bind="{[type]: true}"
+        v-model="model6"
+        label="Rgb color [eg: rgb(64,64,64)] *"
+        :rules="[ 'rgbColor' ]"
+      />
+
+      <div class="text-h6">
+        Complex validation
+        <q-btn label="Reset" @click="reset" color="primary" flat />
+      </div>
+
+      <q-input
+        ref="input1"
+        v-bind="{[type]: true}"
+        v-model="model7"
+        label="Input A *"
+        :rules="[
+          { message (field) { return `${field} is required` }, handler (val) { return !!val } }
+        ]"
+      />
+
+      <q-input
+        ref="input1"
+        v-bind="{[type]: true}"
+        v-model="model8"
+        label="Compare that Input (B) with Input A"
+        :rules="[
+          { args: model7, label: 'Input B', message (field) { return `${field} must be equal to the other field` }, handler (val, other) { return val === other } }
+        ]"
+      />
+
+      <q-input
+        ref="input1"
+        v-bind="{[type]: true}"
+        v-model="model9"
+        label="Input C is required and must be unique (not in ['1', '2', '3'])"
+        validation-label="Input C"
+        :rules="[
+          { lazy: false, message (field) { return `${field} is required` }, handler (val) { return !!val } },
+          { lazy: true, message (field) { return `${field} must be unique` }, handler: isUnique }
+        ]"
+      />
+
       <div class="text-h6 q-mt-xl">External validation</div>
       <div class="q-gutter-sm">
         <q-toggle v-model="error" label="Error state" />
@@ -89,7 +155,7 @@
 <script>
 export default {
   data () {
-    const n = 3
+    const n = 9
 
     const data = {
       n,
@@ -111,6 +177,10 @@ export default {
       for (let i = 1; i <= this.n; i++) {
         this.$refs['input' + i].resetValidation()
       }
+    },
+    async isUnique (value) {
+      await new Promise(resolve => window.setTimeout(resolve, 2000))
+      return ['1', '2', '3'].indexOf(value) === -1
     }
   }
 }

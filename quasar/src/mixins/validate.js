@@ -60,7 +60,7 @@ export default {
       rule.lazy = this.lazyRules
       rule.disabled = this.disabledRules
       rule.message = undefined
-      rule.label = this.validationLabel || this.stackedLabel || this.floatLabel
+      rule.label = this.validationLabel || this.label
 
       if (typeof original === 'object') {
         rule.args = original.args || rule.args
@@ -79,11 +79,18 @@ export default {
         if (testPattern[original] !== void 0) {
           rule.handler = testPattern[original]
         }
+        else {
+          try {
+            var regex = new RegExp(original)
+            rule.handler = (value) => regex.test(value)
+          }
+          finally { }
+        }
       }
       return rule
     },
     validate (val = this.value, lazy = true, disabled = true) {
-      let results = []
+      let errors = []
       let promise = Promise.resolve()
       for (let i = 0; i < this.rules.length; i++) {
         promise = promise.then(() => {
@@ -91,7 +98,11 @@ export default {
           if ((!rule.disabled || disabled) && (!rule.lazy || lazy)) {
             return this.validateRule(rule, val).then(result => {
               if (result.error) {
-                results.push(result)
+                if (!errors.length) {
+                  this.innerError = true
+                  this.innerErrorMessage = result.msg
+                }
+                errors.push(result)
               }
             })
           }
@@ -100,12 +111,12 @@ export default {
           }
         })
       }
-
       return promise.then(() => {
-        if (results.length > 0) {
-          this.innerError = results[0].error
-          this.innerErrorMessage = results[0].msg
+        if (!errors.length) {
+          this.innerError = false
+          this.innerErrorMessage = ''
         }
+        return errors
       })
     },
     validateRule (rule, val) {
@@ -130,7 +141,7 @@ export default {
       })
     },
     __triggerValidation () {
-      if (this.isDirty === false && this.rules !== void 0) {
+      if (this.rules !== void 0) {
         this.isDirty = true
         return this.validate(this.value, true, false)
       }
