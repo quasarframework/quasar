@@ -1,5 +1,9 @@
 ---
 title: Button Group
+related:
+  - /vue-components/avatar
+  - /vue-components/badge
+  - /vue-components/icon
 ---
 
 You can conveniently group [QBtn](/vue-components/button) and [QBtnDropdown](/vue-components/button-dropdown) using QBtnGroup. Be sure to check those component's respective pages to see their props and methods.
