@@ -5,6 +5,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import BtnMixin from './btn-mixin.js'
 
+import slot from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
 export default Vue.extend({
@@ -77,7 +78,7 @@ export default Vue.extend({
 
   render (h) {
     const
-      inner = [].concat(this.$slots.default),
+      inner = [].concat(slot(this, 'default')),
       data = {
         staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
         class: this.classes,

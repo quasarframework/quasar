@@ -4,4 +4,5 @@
 .idea/
 debug.log
 package-lock.json
+.vscode/settings.json
 /.vs

@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QIcon',
 
@@ -74,7 +76,7 @@ export default Vue.extend({
       on: this.$listeners
     }, [
       this.content,
-      this.$slots.default
+      slot(this, 'default')
     ])
   }
 })

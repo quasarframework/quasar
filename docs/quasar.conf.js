@@ -61,9 +61,6 @@ module.exports = function (ctx) {
 
         rule.use('md-loader')
           .loader(require.resolve('./build/md-loader'))
-          .options({
-            isProd: ctx.prod
-          })
 
         if (isClient) {
           chain.module.rule('eslint')

@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QCarouselControl',
 
@@ -30,6 +32,6 @@ export default Vue.extend({
       staticClass: 'q-carousel__control absolute',
       style: this.style,
       class: this.classes
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

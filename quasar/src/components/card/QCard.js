@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QCard',
 
@@ -20,6 +22,6 @@ export default Vue.extend({
         'q-card--square no-border-radius': this.square,
         'q-card--flat no-shadow': this.flat
       }
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

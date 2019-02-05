@@ -6,6 +6,8 @@ import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QParallax',
 
@@ -101,8 +103,8 @@ export default Vue.extend({
         'div',
         { staticClass: 'q-parallax__content absolute-full column flex-center' },
         this.$scopedSlots.content !== void 0
-          ? [ this.$scopedSlots.content({ percentScrolled: this.percentScrolled }) ]
-          : this.$slots.default
+          ? this.$scopedSlots.content({ percentScrolled: this.percentScrolled })
+          : slot(this, 'default')
       )
     ])
   },

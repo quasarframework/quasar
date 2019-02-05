@@ -4,6 +4,8 @@ import uid from '../../utils/uid.js'
 import QIcon from '../icon/QIcon.js'
 import RippleMixin from '../../mixins/ripple.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QTab',
 
@@ -99,7 +101,7 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-tab__content flex-center relative-position no-pointer-events non-selectable',
           class: this.tabs.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column'
-        }, content.concat(this.$slots.default))
+        }, content.concat(slot(this, 'default')))
       ]
 
       !narrow && node.push(indicator)

@@ -470,8 +470,8 @@ export default Vue.extend({
         return []
       }
 
-      if (this.$scopedSlots.selected !== void 0) {
-        return this.selectedScope.map(scope => this.$scopedSlots.selected(scope))
+      if (this.$scopedSlots['selected-item'] !== void 0) {
+        return this.selectedScope.map(scope => this.$scopedSlots['selected-item'](scope))
       }
 
       if (this.$slots.selected !== void 0) {

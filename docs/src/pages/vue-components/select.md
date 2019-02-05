@@ -92,7 +92,7 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 <doc-example title="Chips as display value" file="QSelect/DisplayChips" />
 
-<doc-example title="Selected slot" file="QSelect/DisplaySelectedSlot" />
+<doc-example title="Selected-item slot" file="QSelect/DisplaySelectedItemSlot" />
 
 ## Filtering and autocomplete
 

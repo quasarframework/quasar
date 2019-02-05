@@ -18,7 +18,6 @@ export default {
     square: Boolean,
     flat: Boolean,
     bordered: Boolean,
-    inline: Boolean,
 
     multiple: Boolean,
     accept: String,

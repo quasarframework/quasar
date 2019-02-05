@@ -161,7 +161,7 @@
   },
 
   "scopedSlots": {
-    "selected": {
+    "selected-item": {
       "desc": "Override default selection slot; Suggestion: QChip",
       "scope": {
         "index": {

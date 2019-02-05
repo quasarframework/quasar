@@ -6,6 +6,7 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
+import slot from '../../utils/slot.js'
 
 const
   PULLER_HEIGHT = 40,
@@ -165,7 +166,7 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-pull-to-refresh__content',
         class: this.pulling ? 'no-pointer-events' : null
-      }, this.$slots.default),
+      }, slot(this, 'default')),
 
       h('div', {
         staticClass: 'q-pull-to-refresh__puller-container fixed row flex-center no-pointer-events z-top',

@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 import QIcon from '../icon/QIcon.js'
 
 export default Vue.extend({
@@ -42,9 +44,9 @@ export default Vue.extend({
 
   methods: {
     __getContent (h) {
-      return this.icon
-        ? [ h(QIcon, { props: { name: this.icon } }) ].concat(this.$slots.default)
-        : this.$slots.default
+      return this.icon !== void 0
+        ? [ h(QIcon, { props: { name: this.icon } }) ].concat(slot(this, 'default'))
+        : slot(this, 'default')
     }
   },
 

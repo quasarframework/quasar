@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QTh',
 
@@ -14,13 +16,13 @@ export default Vue.extend({
     if (this.props === void 0) {
       return h('td', {
         class: this.autoWidth === true ? 'q-table--col-auto-width' : null
-      }, this.$slots.default)
+      }, slot(this, 'default'))
     }
 
     let col
     const
       name = this.$vnode.key,
-      child = [].concat(this.$slots.default)
+      child = [].concat(slot(this, 'default'))
 
     if (name) {
       col = this.props.colsMap[name]

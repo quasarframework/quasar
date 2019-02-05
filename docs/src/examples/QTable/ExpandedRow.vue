@@ -9,7 +9,7 @@
       :selected.sync="selected"
     >
 
-      <template slot="body" slot-scope="props">
+      <template v-slot:body="props">
         <q-tr :props="props">
           <q-td auto-width>
             <q-toggle dense v-model="props.selected" />

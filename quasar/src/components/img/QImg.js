@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QImg',
 
@@ -170,7 +172,7 @@ export default Vue.extend({
       if (this.basic) {
         return h('div', {
           staticClass: 'q-img__content absolute-full'
-        }, this.$slots.default)
+        }, slot(this, 'default'))
       }
 
       const content = this.isLoading
