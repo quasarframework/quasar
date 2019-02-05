@@ -13,7 +13,7 @@ q-page.doc-page
     .text-h6.q-pb-md Related
     .q-gutter-md.flex
       router-link.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.shadow-2.bg-grey-4(
-        v-for="(link, index) in related"
+        v-for="link in related"
         :key="link.category + link.path"
         :to="link.path"
       )
@@ -29,7 +29,7 @@ q-page.doc-page
     .text-h6.q-pb-md Ready for more?
     .q-gutter-md.flex
       router-link.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.shadow-2.bg-white(
-        v-for="(link, index) in nav"
+        v-for="link in nav"
         :key="link.category + link.path"
         :to="link.path"
       )

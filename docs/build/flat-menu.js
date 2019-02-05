@@ -24,12 +24,12 @@ function menuWalk (node, path, parentName) {
     if (prev !== void 0) {
       prev.next = {
         name: current.name,
-        category: parentName,
+        category: current.category,
         path: current.path
       }
       current.prev = {
         name: prev.name,
-        category: parentName,
+        category: prev.category,
         path: prev.path
       }
     }
