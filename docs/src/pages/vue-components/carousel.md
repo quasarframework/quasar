@@ -1,5 +1,9 @@
 ---
 title: Carousel
+related:
+  - /vue-components/card
+  - /vue-components/img
+  - /vue-components/video  
 ---
 
 The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards too.
