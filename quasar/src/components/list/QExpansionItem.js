@@ -10,6 +10,7 @@ import QSeparator from '../separator/QSeparator.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import { stopAndPrevent } from '../../utils/event.js'
+import slot from '../../utils/slot.js'
 
 const eventName = 'q:expansion-item:close'
 
@@ -191,7 +192,7 @@ export default Vue.extend({
             staticClass: 'q-expansion-item__content relative-position',
             style: this.contentStyle,
             directives: [{ name: 'show', value: this.showing }]
-          }, this.$slots.default)
+          }, slot(this, 'default'))
         ])
       ]
 

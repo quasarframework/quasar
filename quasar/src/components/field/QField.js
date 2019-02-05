@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QIcon from '../icon/QIcon.js'
 
 import ValidateMixin from '../../mixins/validate.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QField',
@@ -133,7 +134,7 @@ export default Vue.extend({
         ].concat(
           this.__getDefaultSlot !== void 0
             ? this.__getDefaultSlot(h)
-            : this.$slots.default
+            : slot(this, 'default')
         )),
 
         this.hasError === true

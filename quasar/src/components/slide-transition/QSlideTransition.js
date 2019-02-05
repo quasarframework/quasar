@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QSlideTransition',
 
@@ -98,6 +100,6 @@ export default Vue.extend({
           }, 100)
         }
       }
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

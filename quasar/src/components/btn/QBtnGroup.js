@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QBtnGroup',
 
@@ -25,6 +27,6 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-btn-group row no-wrap inline',
       class: this.classes
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

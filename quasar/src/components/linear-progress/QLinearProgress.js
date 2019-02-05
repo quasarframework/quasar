@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 function width (val) {
   return { transform: `scale3d(${val},1,1)` }
 }
@@ -81,6 +83,6 @@ export default Vue.extend({
         staticClass: 'q-linear-progress__stripe absolute-full',
         style: this.stripeStyle
       }) : null
-    ].concat(this.$slots.default))
+    ].concat(slot(this, 'default')))
   }
 })

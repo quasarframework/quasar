@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QBanner',
 
@@ -23,11 +25,11 @@ export default Vue.extend({
 
       h('div', {
         staticClass: 'q-banner__avatar col-auto row items-center'
-      }, this.$slots.avatar),
+      }, slot(this, 'avatar')),
 
       h('div', {
         staticClass: 'q-banner__content col text-body2'
-      }, this.$slots.default),
+      }, slot(this, 'default')),
 
       actions !== void 0
         ? h('div', {

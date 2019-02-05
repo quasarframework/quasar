@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QSlideItem',
 
@@ -132,7 +134,7 @@ export default Vue.extend({
             horizontal: true
           }
         }] : null
-      }, this.$slots.default)
+      }, slot(this, 'default'))
     )
 
     return h('div', {

@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
+import slot from '../../utils/slot.js'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/TouchPan.js'
@@ -216,6 +217,6 @@ export default Vue.extend({
       }]
     }
 
-    return h(QCircularProgress, data, this.$slots.default)
+    return h(QCircularProgress, data, slot(this, 'default'))
   }
 })

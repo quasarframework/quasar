@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QItemLabel',
 
@@ -39,6 +41,6 @@ export default Vue.extend({
       staticClass: 'q-item__label',
       style: this.style,
       class: this.classes
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

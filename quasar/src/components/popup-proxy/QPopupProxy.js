@@ -4,6 +4,7 @@ import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 
 import AnchorMixin from '../../mixins/anchor.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QPopupProxy',
@@ -97,6 +98,6 @@ export default Vue.extend({
       data.props.noParentEvent = true
     }
 
-    return h(component, data, this.$slots.default)
+    return h(component, data, slot(this, 'default'))
   }
 })

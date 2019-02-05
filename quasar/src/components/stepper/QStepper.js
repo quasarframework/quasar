@@ -3,6 +3,8 @@ import Vue from 'vue'
 import { PanelParentMixin } from '../../mixins/panel.js'
 import StepHeader from './StepHeader.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QStepper',
 
@@ -51,7 +53,7 @@ export default Vue.extend({
       if (this.vertical) {
         this.value && this.__updatePanelIndex()
         return [
-          h('div', { staticClass: 'q-stepper__content' }, this.$slots.default)
+          h('div', { staticClass: 'q-stepper__content' }, slot(this, 'default'))
         ]
       }
 
