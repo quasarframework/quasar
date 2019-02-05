@@ -5,7 +5,7 @@
       label="Custom list"
       multiple
     >
-      <q-list slot="list" slot-scope="scope" separator>
+      <q-list v-slot:list="scope" separator>
 
         <q-item v-for="file in scope.files" :key="file.name">
           <q-item-section>
