@@ -3,7 +3,6 @@
     <q-uploader
       url="http://localhost:4444/upload"
       label="Custom header"
-      bordered
       multiple
     >
       <div slot="header" slot-scope="scope" class="row no-wrap items-center q-pa-sm q-gutter-xs">

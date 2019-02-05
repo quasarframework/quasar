@@ -1,8 +1,10 @@
 <template>
-  <div class="q-pa-md" style="max-width: 300px">
+  <div class="q-pa-md">
     <q-uploader
+      label="Auto Uploader"
+      auto-upload
       url="http://localhost:4444/upload"
-      dark
+      multiple
     />
   </div>
 </template>

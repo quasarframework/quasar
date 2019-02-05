@@ -18,14 +18,10 @@ function getComponentsDeclaration (comp) {
   return `components: { ${list} },`
 }
 
-function getData (data) {
-  return `data () { return ${JSON.stringify(data)} },`
-}
-
 module.exports.getVueComponent = function (rendered, data, toc) {
   return `
     <template>
-      <doc-page title="${data.title}">${rendered}</doc-page>
+      <doc-page title="${data.title}"${data.related.length > 0 ? ` :related="related"` : ''}>${rendered}</doc-page>
     </template>
     <script>
     import { copyHeading } from 'assets/page-utils'
@@ -37,8 +33,11 @@ module.exports.getVueComponent = function (rendered, data, toc) {
       preFetch ({ store }) {
         store.commit('updateToc', ${toc})
       },
-      ${data.data !== void 0 ? getData(data.data) : ''}
       ${data.components !== void 0 ? getComponentsDeclaration(data.components) : ''}
+      ${data.related !== void 0 ? `
+      created () {
+        this.related = ${JSON.stringify(data.related)}
+      },` : ''}
       methods: {
         copyHeading
       }
