@@ -34,7 +34,7 @@ function menuWalk (node, path, parentName) {
       }
     }
 
-    flatMenu[prefix + newPath + '.md'] = current
+    flatMenu[join(prefix, newPath + '.md')] = current
     prev = current
   }
 }
@@ -45,7 +45,7 @@ menu.forEach(n => {
 
 module.exports.flatMenu = flatMenu
 module.exports.convertToRelated = function (entry) {
-  const menu = flatMenu[prefix + entry + '.md']
+  const menu = flatMenu[join(prefix, entry + '.md')]
 
   if (!menu) {
     console.error('Erroneous related link: ' + entry)
