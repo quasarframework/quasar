@@ -75,7 +75,7 @@ A **Backer** makes a monthly pledge through Patreon. A **Supporter** makes a one
 
 <sponsor height="17rem" name="Simon Hedberg, Saloustros Marios, Guilherme S L de Souza, Bert Jehoul, Derrick Bass, William Correa, Klemens Witting, Jochen Geiger, Josh Torres, Stian Mikkelsen, Thomas Gick, Alexey Telyatnikov, Sevenview Studios, Rus Brushkoff" amount="$10+" />
 
-<sponsor height="17rem" name="Scott Brooks, Luca Ban, Borut, Thibaut Renoncourt, Benoit Ranque, Brian J Petersen, Heitor Ribeiro, Allan Gaunt, Kévin Marrec, 良平 勝目, Jörg Walter, Ruan de Andrade, Tanner Faulkner, Luca Borghini, Christian Kyony, Talles Dantas, Mast" amount="$10+" />
+<sponsor height="17rem" name="Scott Brooks, Luca Ban, Borut, Benoit Ranque, Brian J Petersen, Heitor Ribeiro, Allan Gaunt, Kévin Marrec, 良平 勝目, Jörg Walter, Ruan de Andrade, Tanner Faulkner, Luca Borghini, Christian Kyony, Talles Dantas, Mast" amount="$10+" />
 
 <sponsor height="17rem" name="altShiftDev, Simon Kimber, Arjan Dhupia, RED CAD Solutions AG, Yatima Kagurazaka, Matyáš Racek, Martin Thompson, David Urbansky, Sustained, Chad Shryock, Ross Ball, KPA Productions, Roman Sujatinov, Tanya Trimbakova" amount="$10+" />
 
@@ -89,4 +89,4 @@ A **Backer** makes a monthly pledge through Patreon. A **Supporter** makes a one
 
 <sponsor height="17rem" name="Bert Van den Eynde (600 EUR), Jurgen Hollfelder (500 EUR), Robert Preston ($250), Remo Laubacher ($200), Egor Molodov ($200), Max Matteo Staack (150 EUR), Jeff Galbraith (129 EUR), Max Matteo Staack ($123), Daniel Thompson-Yvetot (0.035 BTC, ~100 EUR), Musicformellons ($100)" />
 
-<sponsor height="17rem" name="Kyle Tippetts ($100x2), Gerard Eviston ($50), Jacob Heruty ($50), Polaris Microsystems, L.L.C. ($50), Jochen Geiger ($50), Nikolay Ivanov Teofilov ($50), Martin Beaudet ($30), Jomo Daniels ($30), Daniel Connell ($20)" />
+<sponsor height="17rem" name="Kyle Tippetts ($100x2), David Smith ($100), Gerard Eviston ($50), Jacob Heruty ($50), Polaris Microsystems, L.L.C. ($50), Jochen Geiger ($50), Nikolay Ivanov Teofilov ($50), Martin Beaudet ($30), Jomo Daniels ($30), Daniel Connell ($20)" />
