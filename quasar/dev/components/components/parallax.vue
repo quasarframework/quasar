@@ -44,7 +44,7 @@
     </div>
 
     <q-parallax :height="200" class="q-mt-xl">
-      <video slot="media" poster="http://www.markhillard.com/sandbox/media/polina.jpg" autoplay loop muted>
+      <video slot="media" width="720" height="440" poster="http://www.markhillard.com/sandbox/media/polina.jpg" autoplay loop muted>
         <source type="video/webm" src="http://www.markhillard.com/sandbox/media/polina.webm">
         <source type="video/mp4" src="http://www.markhillard.com/sandbox/media/polina.mp4">
       </video>
@@ -88,6 +88,31 @@
     <div class="q-layout-padding">
       <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
+
+    <h3>Parallax (not full width)</h3>
+    <div class="row justify-around">
+      <div class="col-6">
+        <div class="q-layout-padding">
+          <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
+        </div>
+
+        <q-parallax :height="200" class="q-mt-xl">
+          <video slot="media" width="720" height="440" poster="http://www.markhillard.com/sandbox/media/polina.jpg" autoplay loop muted>
+            <source type="video/webm" src="http://www.markhillard.com/sandbox/media/polina.webm">
+            <source type="video/mp4" src="http://www.markhillard.com/sandbox/media/polina.mp4">
+          </video>
+
+          <h1 class="text-white">Video</h1>
+        </q-parallax>
+
+        <div class="q-layout-padding">
+          <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
+        </div>
+
+      </div>
+    </div>
+    <div style="height: 500px;" />
+
   </div>
 </template>
 

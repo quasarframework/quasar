@@ -110,9 +110,11 @@
     </script>
     <script src="dist/quasar.umd.js"></script>
     <script src="dist/lang/es.umd.min.js"></script>
+    <script src="dist/icon-set/fontawesome-v5.umd.min.js"></script>
 
     <script>
       Quasar.lang.set(Quasar.lang.es)
+      console.log(Quasar.iconSet.fontawesomeV5)
       Quasar.plugins.Notify.create('Startup notification')
 
       new Vue({

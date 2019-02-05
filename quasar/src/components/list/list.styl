@@ -1,8 +1,8 @@
 .q-item
   min-height 48px
   padding 8px 16px
-
   color inherit
+  transition color .3s, background-color .3s
 
   &__section
 
@@ -22,13 +22,19 @@
       min-width 56px
 
     &--thumbnail
-      margin-left -16px
       img
         width 100px
         height 56px
 
     &--nowrap
       white-space nowrap
+
+  > .q-item__section--thumbnail:first-child,
+  > .q-focus-helper + .q-item__section--thumbnail
+    margin-left -16px
+
+  > .q-item__section--thumbnail:last-child
+    margin-right -16px
 
   &__label
     line-height 1.2em !important

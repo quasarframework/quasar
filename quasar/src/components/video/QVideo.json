@@ -4,7 +4,7 @@
       "type": "String",
       "desc": "The source url to display in an iframe",
       "required": true,
-      "examples": [ "https://www.youtube.com/embed/k3_tw44QsZQ?rel=0" ]
+      "examples": [ "https://www.youtube.com/embed/k3_tw44QsZQ" ]
     }
   }
 }

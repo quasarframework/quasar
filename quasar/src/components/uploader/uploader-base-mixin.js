@@ -18,7 +18,6 @@ export default {
     square: Boolean,
     flat: Boolean,
     bordered: Boolean,
-    inline: Boolean,
 
     multiple: Boolean,
     accept: String,
@@ -293,7 +292,7 @@ export default {
       if (show === true) {
         return h(QBtn, {
           props: {
-            icon: this.$q.icon.uploader[icon],
+            icon: this.$q.iconSet.uploader[icon],
             flat: true,
             dense: true
           },
@@ -335,7 +334,7 @@ export default {
 
     __getList (h) {
       if (this.$scopedSlots.list !== void 0) {
-        return this.$scopedSlots.list(this)
+        return [ this.$scopedSlots.list(this) ]
       }
 
       return this.files.map(file => h('div', {
@@ -357,7 +356,7 @@ export default {
             ? h(QIcon, {
               staticClass: 'q-uploader__file-status',
               props: {
-                name: this.$q.icon.type.negative,
+                name: this.$q.iconSet.type.negative,
                 color: 'negative'
               }
             })
@@ -386,7 +385,7 @@ export default {
                 round: true,
                 dense: true,
                 flat: true,
-                icon: this.$q.icon.uploader[file.__status === 'uploaded' ? 'done' : 'clear']
+                icon: this.$q.iconSet.uploader[file.__status === 'uploaded' ? 'done' : 'clear']
               },
               on: {
                 click: () => { this.removeFile(file) }

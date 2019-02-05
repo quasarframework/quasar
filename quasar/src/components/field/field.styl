@@ -96,6 +96,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
   &__native
     width 100%
     outline 0 !important // needed for FF
+    line-height 1em // needed for Chrome type="file"
   &__prefix, &__suffix
     transition opacity $field-transition
   &__prefix
@@ -129,7 +130,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
     .q-field__control
       padding 0 12px
-      background #f5f5f5
+      background rgba(0,0,0,.05)
       border-radius $generic-border-radius $generic-border-radius 0 0
 
       &:before
@@ -147,7 +148,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         transform-origin center bottom
         transform scale3d(0, 1, 1)
         background currentColor
-        transition transform .24s cubic-bezier(.4,0,.2,1)
+        transition transform $field-transition
 
     &.q-field--rounded .q-field__control
       border-radius 28px 28px 0 0
@@ -165,6 +166,12 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         opacity 1
         background transparent
         border-bottom-style dashed
+
+    &.q-field--dark
+      .q-field__control, .q-field__control:before
+        background rgba(255, 255, 255, .07)
+      &.q-field--focused .q-field__control:before
+        background rgba(255, 255, 255, .1)
 
   &--outlined
 
@@ -215,7 +222,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         transform-origin center bottom
         transform scale3d(0, 1, 1)
         background currentColor
-        transition transform .24s cubic-bezier(.4,0,.2,1)
+        transition transform $field-transition
 
     &.q-field--focused
       .q-field__control:after
@@ -226,8 +233,6 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         border-bottom-style dashed
 
   &--dark
-    &.q-field--filled .q-field__control
-      background #222
 
     .q-field__control:before
       border-color rgba(255, 255, 255, .6)
@@ -247,7 +252,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       padding 0 12px
       background rgba(0,0,0,.05)
       border-radius $generic-border-radius
-      transition box-shadow $field-transition
+      transition box-shadow $field-transition, background-color $field-transition
 
       &:before
         background rgba(0,0,0,.07)
@@ -263,9 +268,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     &.q-field--focused
       .q-field__control
         box-shadow $shadow-2
-        &:before
-          opacity 1
-          background black
+        background black
       .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append
         color white
 
@@ -282,9 +285,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
           background rgba(255, 255, 255, .07)
       &.q-field--focused
         .q-field__control
-          &:before
-            opacity 1
-            background white
+          background white
         .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append
           color black
       &.q-field--readonly
@@ -351,6 +352,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
     .q-field__bottom
       color $negative
+      color var(--q-color-negative)
 
 
   &--auto-height

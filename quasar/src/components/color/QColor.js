@@ -12,8 +12,8 @@ import QIcon from '../icon/QIcon.js'
 
 import QTabs from '../tabs/QTabs.js'
 import QTab from '../tabs/QTab.js'
-import QTabPanels from '../tabs/QTabPanels.js'
-import QTabPanel from '../tabs/QTabPanel.js'
+import QTabPanels from '../tab-panels/QTabPanels.js'
+import QTabPanel from '../tab-panels/QTabPanel.js'
 
 const palette = [
   'rgb(255,204,204)', 'rgb(255,230,204)', 'rgb(255,255,204)', 'rgb(204,255,204)', 'rgb(204,255,230)', 'rgb(204,255,255)', 'rgb(204,230,255)', 'rgb(204,204,255)', 'rgb(230,204,255)', 'rgb(255,204,255)',
@@ -48,7 +48,6 @@ export default Vue.extend({
 
     disable: Boolean,
     readonly: Boolean,
-    inline: Boolean,
     dark: Boolean
   },
 
@@ -163,8 +162,7 @@ export default Vue.extend({
       staticClass: 'q-color-picker',
       class: {
         disabled: this.disable,
-        'q-color-picker--dark': this.dark,
-        'inline-block': this.inline
+        'q-color-picker--dark': this.dark
       }
     }, [
       this.__getHeader(h),
@@ -235,7 +233,7 @@ export default Vue.extend({
             h(QIcon, {
               ref: 'errorIcon',
               staticClass: 'q-color-picker__error-icon absolute no-pointer-events',
-              props: { name: this.$q.icon.type.negative }
+              props: { name: this.$q.iconSet.type.negative }
             })
           ])
         ])
@@ -280,7 +278,7 @@ export default Vue.extend({
       }, [
         h(QTab, {
           props: {
-            icon: this.$q.icon.colorPicker.spectrum,
+            icon: this.$q.iconSet.colorPicker.spectrum,
             name: 'spectrum',
             ripple: false
           }
@@ -288,7 +286,7 @@ export default Vue.extend({
 
         h(QTab, {
           props: {
-            icon: this.$q.icon.colorPicker.tune,
+            icon: this.$q.iconSet.colorPicker.tune,
             name: 'tune',
             ripple: false
           }
@@ -296,7 +294,7 @@ export default Vue.extend({
 
         h(QTab, {
           props: {
-            icon: this.$q.icon.colorPicker.palette,
+            icon: this.$q.iconSet.colorPicker.palette,
             name: 'palette',
             ripple: false
           }

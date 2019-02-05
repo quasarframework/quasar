@@ -1,9 +1,10 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md bg-grey-10 text-white">
     <q-toggle
       color="blue"
       dark
-      v-model="blue"/>
+      v-model="blue"
+    />
 
     <q-toggle
       color="green"

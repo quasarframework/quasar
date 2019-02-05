@@ -14,9 +14,8 @@
       "desc": "Input type",
       "default": "text",
       "values": [
-        "text", "textarea", "email", "search",
-        "tel", "file", "number",
-        "password", "url", "time", "date"
+        "text", "password", "textarea", "email", "search",
+        "tel", "file", "number", "url", "time", "date"
       ],
       "examples": [ "password" ]
     },

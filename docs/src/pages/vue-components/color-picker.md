@@ -1,8 +1,12 @@
 ---
-title: QColor
+title: Color Picker
 ---
 
-The ColorPicker component provides a method to input colors.
+The QColor component provides a method to input colors.
+
+::: tip
+For handling colors, also check out [Quasar Color Utils](/quasar-utils/color-utils).
+:::
 
 ## Installation
 <doc-installation components="QColor" />
@@ -10,19 +14,15 @@ The ColorPicker component provides a method to input colors.
 ## Usage
 <doc-example title="Basic" file="QColor/Basic" />
 
-<doc-example title="Dark" file="QColor/Dark" dark />
-
-<doc-example title="Default Value" file="QColor/DefaultValue" />
-
-<doc-example title="Format Model" file="QColor/FormatModel" />
-
-<doc-example title="Inline" file="QColor/Inline" />
-
-<doc-example title="Disable" file="QColor/Disable" />
-
-<doc-example title="Readonly" file="QColor/Readonly" />
-
 <doc-example title="Input" file="QColor/Input" />
 
-## API
+<doc-example title="Dark version" file="QColor/Dark" />
+
+<doc-example title="Default value" file="QColor/DefaultValue" />
+
+<doc-example title="Lazy model" file="QColor/LazyModel" />
+
+<doc-example title="Disable and readonly" file="QColor/DisableReadonly" />
+
+## QColor API
 <doc-api file="QColor" />

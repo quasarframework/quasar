@@ -1,6 +1,7 @@
 .q-tab
   padding 0 16px
-  height 48px
+  min-height 48px
+  transition color .3s, background-color .3s
 
   text-transform uppercase
   white-space nowrap
@@ -10,13 +11,14 @@
   text-decoration none
 
   &--full
-    height 72px
+    min-height 72px
 
   &--no-caps
     text-transform none
 
   &__content
     height inherit
+    padding 4px 0
     min-width 40px
 
     &--inline
@@ -63,13 +65,20 @@
     opacity .85
 
 .q-tabs
+  transition color .3s, background-color .3s
 
-  &--not-scrollable .q-tabs__arrow
-    display none
+  &--not-scrollable
+    .q-tabs__arrow
+      display none
+    .q-tabs__content
+      border-radius inherit
 
   &__arrow
     cursor pointer
     min-width 36px
+
+    &--faded
+      opacity .5
 
   &__content
     overflow hidden
@@ -91,9 +100,9 @@
 
   &--dense
     .q-tab
-      height 40px
+      min-height 36px
       &--full
-        height 52px
+        min-height 52px
 
 body.mobile
   .q-tabs
@@ -101,21 +110,8 @@ body.mobile
     &__content
       overflow auto
 
-    &--scrollable .q-tabs__offset
-      display flex
-
-      // also update QTabs > extraOffset (js)
-      min-width 52px
-
-  .q-tabs__arrow
-    display none
-
-.q-tab-panels
-  background white
-  overflow hidden
-
-.q-tab-panel
-  padding 16px
+    &__arrow
+      display none
 
 @media (min-width $breakpoint-lg-min)
   .q-header, .q-footer

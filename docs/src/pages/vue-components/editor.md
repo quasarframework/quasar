@@ -2,7 +2,7 @@
 title: Editor (WYSIWYG)
 ---
 
-**QEditor** is a WYSIWYG (“what you see is what you get”) editor component that enables the user to write and even paste HTML. It uses the so-called Design Mode and the cross-browser `contentEditable` interface. Here are some go-to reference pages from the MDN webdocs with more detailed information about the underlying technology:
+The QEditor component is a WYSIWYG (“what you see is what you get”) editor component that enables the user to write and even paste HTML. It uses the so-called Design Mode and the cross-browser `contentEditable` interface. Here are some go-to reference pages from the MDN webdocs with more detailed information about the underlying technology:
 
 - [Making content editable](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Editable_content)
 - [Design Mode](https://developer.mozilla.org/en-US/docs/Web/API/Document/designMode)
@@ -13,7 +13,7 @@ title: Editor (WYSIWYG)
 <doc-installation components="QEditor" />
 
 ## Examples
-<doc-example title="Default Editor" file="QEditor/Basic" />
+<doc-example title="Default editor" file="QEditor/Basic" />
 
 ::: warning
 In this first example, there are two cards below the editor. The first shows the unparsed html using the double-moustache, whereas the second shows the rendered version using `v-html="editor"`. Using v-html this way renders your users vulnerable to Cross Site Scripting attacks. If the content is user generated, be sure to sanitize it either on render or server side (or both).
@@ -29,42 +29,17 @@ Each of these commands is pre-configured with icons and their own internationali
 }"
 ```
 
-<doc-example title="Redefine Bold Command" file="QEditor/NewBold" />
+<doc-example title="Redefine bold command" file="QEditor/NewBold" />
 
-
-The following is an example that adds your own definitions. In this case make sure you don’t overlap the default commands:
-
-```html
-<!-- we can later use "save" and "upload" in "toolbar" prop -->
-:definitions="{
-  save: {
-    tip: 'Save your work',
-    icon: 'save',
-    label: 'Save',
-    handler: saveWork
-  },
-  upload: {
-    tip: 'Upload to cloud',
-    icon: 'cloud_upload',
-    label: 'Upload',
-    handler: uploadIt
-  }
-}"
-:toolbar="[
-  ['bold', 'italic', 'strike', 'underline'],
-  ['upload', 'save'],
-]"
-<!--
-  Notice the handlers. It references methods in your Vue scope
-  for when toolbar commands using these definitions are clicked/tapped.
--->
-```
+The following is an example that adds custom definitions. In such cases, make sure you don’t overlap the default commands:
 
 <doc-example title="Add new commands" file="QEditor/NewCommands" />
 
-<doc-example title="Kitchen Sink" file="QEditor/KitchenSink" />
+<doc-example title="Kitchen sink" file="QEditor/KitchenSink" />
 
-<doc-example title="Custom Style" file="QEditor/Custom" />
+<doc-example title="Custom style" file="QEditor/Custom" />
+
+<doc-example title="Using toolbar slots" file="QEditor/ToolbarSlot" />
 
 ## Dropdowns
 
@@ -145,7 +120,7 @@ User can pick only one option from each dropdown.
 
 ## Caveats
 
-### Autocorrect & Spellcheck
+### Autocorrect & spellcheck
 There may be occassions where you want to turn off the integrated autocorrect, autocomplete, autocapitalization and spelling correction "features" that many modern browsers offer. To do this, simply wrap the `<q-editor>` component in a `<form>` element, like this:
 
 ```html
@@ -181,5 +156,5 @@ If you don't set a font (or the user doesn't choose one), the print dialogue wil
 ### Internationalization
 The tooltips content of QEditor are translated by the [Quasar Language Pack](/options/quasar-language-packs), so merely changing the language will also change the interface. If your desired language pack is missing - or you find an error, please consider providing the update as PR.
 
-## API
+## QEditor API
 <doc-api file="QEditor" />

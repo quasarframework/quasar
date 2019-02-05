@@ -1,13 +1,8 @@
 <template>
   <div class="q-pa-md">
-    Drag Only Range (Fixed Interval)
-    <q-chip
-      square
-      color="secondary"
-      text-color="white"
-    >
+    <q-badge color="secondary" class="q-mb-lg">
       Model: {{ onlyRange.min }} to {{ onlyRange.max }} (0 to 100, step 5)
-    </q-chip>
+    </q-badge>
 
     <q-range
       v-model="onlyRange"

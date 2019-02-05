@@ -12,16 +12,18 @@ export default Vue.extend({
       type: String,
       default: '/'
     },
+    separatorColor: String,
+
     activeColor: {
       type: String,
       default: 'primary'
     },
+
     gutter: {
       type: String,
       validator: v => ['none', 'xs', 'sm', 'md', 'lg', 'xl'].includes(v),
       default: 'sm'
-    },
-    separatorColor: String
+    }
   },
 
   computed: {
@@ -72,9 +74,11 @@ export default Vue.extend({
       }
     }
 
-    return h('div', {
-      staticClass: 'q-breadcrumbs flex items-center',
-      class: this.classes
-    }, child)
+    return h('div', { staticClass: 'q-breadcrumbs' }, [
+      h('div', {
+        staticClass: ' flex items-center',
+        class: this.classes
+      }, child)
+    ])
   }
 })

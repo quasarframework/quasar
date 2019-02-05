@@ -1,12 +1,16 @@
 @import '~quasar-variables'
+@import './prism-theme.styl'
 
 body
   background-color $grey-2
 
+.bg-code
+  background-color $code-color
+
 .doc-token
   white-space nowrap
   background lighten($primary, 85%)
-  color $primary
+  color $dark-primary
   font-family inherit
   border-radius $generic-border-radius
   padding 1px 5px
@@ -38,18 +42,24 @@ blockquote .doc-token
     border-color $positive
     .doc-token
       background lighten($positive, 55%)
+    .doc-link
+      color darken($positive, 35%)
 
   &--warning
     background-color lighten($warning, 50%)
     border-color $warning
     .doc-token
       background lighten($warning, 15%)
+    .doc-link
+      color darken($warning, 45%)
 
   &--danger
     background-color lighten($negative, 80%)
     border-color $negative
     .doc-token
       background lighten($negative, 65%)
+    .doc-link
+      color darken($negative, 25%)
 
   &__title
     font-weight 500
@@ -67,11 +77,13 @@ blockquote .doc-token
 .doc-h1
   font-size 2rem
   line-height 4rem
+  font-weight 500
   margin 0 0 1.5rem
 
 .doc-h2
   font-size 1.5rem
   line-height 2.5rem
+  font-weight 500
   border-bottom 1px solid #ccc
   margin 3rem 0 1rem
 

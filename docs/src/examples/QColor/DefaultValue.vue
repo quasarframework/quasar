@@ -1,11 +1,10 @@
 <template>
   <div class="q-pa-md">
-    <div class="row justify-center">
-      <q-color
-        v-model="nullModel"
-        default-value="#c0c0c0"
-      />
-    </div>
+    <q-color
+      v-model="nullModel"
+      default-value="#285de0"
+      style="max-width: 250px"
+    />
   </div>
 </template>
 

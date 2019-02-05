@@ -48,6 +48,7 @@ export default Vue.extend({
     optionsDense: Boolean,
     optionsDark: Boolean,
     optionsSelectedClass: String,
+    optionsCover: Boolean,
 
     useInput: Boolean,
     useChips: Boolean,
@@ -60,7 +61,6 @@ export default Vue.extend({
       default: 500
     },
 
-    expandBesides: Boolean,
     autofocus: Boolean
   },
 
@@ -185,7 +185,15 @@ export default Vue.extend({
     dropdownArrowIcon () {
       return this.dropdownIcon !== void 0
         ? this.dropdownIcon
-        : this.$q.icon.select.dropdownIcon
+        : this.$q.iconSet.select.dropdownIcon
+    },
+
+    squaredMenu () {
+      return this.optionsCover === false &&
+        this.outlined !== true &&
+        this.standout !== true &&
+        this.borderless !== true &&
+        this.rounded !== true
     }
   },
 
@@ -376,7 +384,6 @@ export default Vue.extend({
       }
 
       if (
-        this.multiple === true &&
         this.$listeners['new-value'] !== void 0 &&
         this.inputValue.length > 0
       ) {
@@ -560,7 +567,7 @@ export default Vue.extend({
             staticClass: 'q-local-menu scroll',
             class: {
               'q-local-menu--dark': this.optionsDark,
-              'q-local-menu--square': this.expandBesides
+              'q-local-menu--square': this.squaredMenu
             },
             on: {
               click: stopAndPrevent,
@@ -720,7 +727,7 @@ export default Vue.extend({
       updatePosition(
         el,
         this.$refs.control,
-        this.expandBesides !== true && this.noOptions !== true && this.useInput !== true
+        this.optionsCover === true && this.noOptions !== true && this.useInput !== true
       )
     }
   },

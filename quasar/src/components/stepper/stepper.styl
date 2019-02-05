@@ -1,9 +1,7 @@
 .q-stepper
   box-shadow $shadow-2
+  border-radius $generic-border-radius
   background white
-
-  &__label
-    color rgba(0, 0, 0, .56)
 
   &__title
     font-size 14px
@@ -20,44 +18,41 @@
     width 24px
     height 24px
     border-radius 50%
-    background rgba(0, 0, 0, .56)
+    background currentColor
     span
       color white
-
-  &--dark
-    .q-stepper__label
-      color white
-    .q-stepper__tab .q-stepper__dot
-      background rgba(255, 255, 255, .28)
 
   &__tab
     padding 8px 24px
     font-size 14px
+    color $grey
     flex-direction row
 
+  &--dark
+    .q-stepper__dot span
+      color black
+
+  &__tab
     &--navigation
       user-select none
       cursor pointer
+
     &--active, &--done
+      color $primary
       .q-stepper__dot, .q-stepper__label
-        color currentColor
         text-shadow 0 0 0 currentColor
-      .q-stepper__dot
-        background currentColor !important
     &--disabled
       .q-stepper__dot
         background rgba(0, 0, 0, .22)
       .q-stepper__label
         color rgba(0, 0, 0, .32)
     &--error
-      &, .q-stepper__label
-        color $negative
-        color var(--q-color-negative)
+      color $negative
+
       .q-stepper__dot
         background transparent !important
         span
-          color $negative
-          color var(--q-color-negative)
+          color currentColor
           font-size 24px
 
   &__header
@@ -162,7 +157,7 @@
     .q-stepper__step:last-child .q-stepper__dot:after
       display none
     .q-stepper__step:last-child .q-stepper__step-inner
-      padding-bottom 0
+      padding-bottom 8px
 
   &--dark
     color white
@@ -181,15 +176,29 @@
     .q-stepper__tab
       &--disabled
         color $separator-dark-color
+        .q-stepper__dot
+          background $separator-dark-color
         .q-stepper__label
           color rgba(255, 255, 255, .54)
 
-@media (max-width $breakpoint-sm-max)
-  .q-stepper--horizontal.q-stepper--contractable
+  &--contracted
     .q-stepper__header
       min-height 72px
-    .q-stepper__tab
-      padding 24px 0
+      &--alternative-labels
+        .q-stepper__tab
+          min-height 72px
+          &:first-child
+            align-items flex-start
+          &:last-child
+            align-items flex-end
+      .q-stepper__tab
+        padding 24px 0
+        &:first-child
+          .q-stepper__dot
+            transform translate3d(24px, 0, 0)
+        &:last-child
+          .q-stepper__dot
+            transform translate3d(-24px, 0, 0)
     .q-stepper__tab:not(:last-child)
       .q-stepper__dot:after
         display block !important

@@ -43,10 +43,6 @@ export default Vue.extend({
     },
     grid: Boolean,
     dense: Boolean,
-    breakpoint: {
-      type: Number,
-      default: 1023
-    },
     columns: Array,
     loading: Boolean,
     title: String,
@@ -60,6 +56,7 @@ export default Vue.extend({
       default: 'horizontal',
       validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
     },
+    wrapCells: Boolean,
     binaryStateSort: Boolean,
     noDataLabel: String,
     noResultsLabel: String,
@@ -79,23 +76,12 @@ export default Vue.extend({
 
   data () {
     return {
-      aboveBreakpoint: this.$q.screen.width > this.breakpoint,
-
       rowsExpanded: {},
       innerPagination: {
         sortBy: null,
         descending: false,
         page: 1,
         rowsPerPage: 5
-      }
-    }
-  },
-
-  watch: {
-    '$q.screen.width' (val) {
-      const v = val > this.breakpoint
-      if (this.aboveBreakpoint !== v) {
-        this.aboveBreakpoint = v
       }
     }
   },
@@ -152,10 +138,6 @@ export default Vue.extend({
 
     isServerSide () {
       return this.computedPagination.rowsNumber !== void 0
-    },
-
-    computedDense () {
-      return this.dense === true || this.aboveBreakpoint === false
     }
   },
 
@@ -166,9 +148,10 @@ export default Vue.extend({
         class: {
           'q-table--grid': this.grid,
           'q-table--dark': this.dark,
-          'q-table--dense': this.computedDense,
+          'q-table--dense': this.dense,
           'q-table--flat': this.flat,
           'q-table--bordered': this.bordered,
+          'q-table--no-wrap': this.wrapCells === false,
           [`q-table--${this.separator}-separator`]: true,
           fullscreen: this.inFullscreen,
           scroll: this.inFullscreen

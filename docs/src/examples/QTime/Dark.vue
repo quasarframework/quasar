@@ -1,8 +1,15 @@
 <template>
-  <div class="q-pa-md">
-    <div class="row justify-center">
+  <div class="q-pa-md bg-grey-10 text-white">
+    <div class="q-gutter-md">
       <q-time
         v-model="time"
+        dark
+      />
+
+      <q-time
+        v-model="time"
+        color="orange"
+        text-color="black"
         dark
       />
     </div>

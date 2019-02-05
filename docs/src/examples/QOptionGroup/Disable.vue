@@ -4,11 +4,11 @@
       v-model="group"
       :options="options"
       color="green"
-      :disable="true"
-    >
-    </q-option-group>
+      disable
+    />
   </div>
 </template>
+
 <script>
 export default {
   data () {

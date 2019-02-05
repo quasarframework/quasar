@@ -66,6 +66,12 @@
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
 
+      <q-tabs :dense="dense" class="bg-grey-1 text-teal">
+        <q-tab icon="phone" label="Item one Item one Item one" />
+        <q-tab label="Item two" />
+        <q-tab icon="location_on" label="Item three" />
+      </q-tabs>
+
       <q-tabs :dense="dense" narrow-indicator>
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />

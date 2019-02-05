@@ -6,7 +6,7 @@
           <q-item-label>Battery too low</q-item-label>
         </q-item-section>
         <q-item-section avatar>
-          <q-toggle color="blue" v-model="notifications" val="battery"/>
+          <q-toggle color="blue" v-model="notifications" val="battery" />
         </q-item-section>
       </q-item>
 
@@ -16,7 +16,7 @@
           <q-item-label caption>Allow notification</q-item-label>
         </q-item-section>
         <q-item-section avatar>
-          <q-toggle color="green" v-model="notifications" val="friend"/>
+          <q-toggle color="green" v-model="notifications" val="friend" />
         </q-item-section>
       </q-item>
 
@@ -26,7 +26,7 @@
           <q-item-label caption>Allow notification when uploading images</q-item-label>
         </q-item-section>
         <q-item-section avatar>
-          <q-toggle color="red" v-model="notifications" val="picture"/>
+          <q-toggle color="red" v-model="notifications" val="picture" />
         </q-item-section>
       </q-item>
     </q-list>

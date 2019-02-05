@@ -9,7 +9,7 @@
             </q-btn>
           </div>
           <div>
-            <q-btn round size="sm" color="tertiary" @click="alertAsMethod('top')">
+            <q-btn round size="sm" color="accent" @click="alertAsMethod('top')">
               <q-icon name="arrow_upward" />
             </q-btn>
           </div>
@@ -21,17 +21,17 @@
         </div>
         <div class="row group">
           <div>
-            <q-btn round size="sm" color="tertiary" @click="alertAsMethod('left')">
+            <q-btn round size="sm" color="accent" @click="alertAsMethod('left')">
               <q-icon name="arrow_back" />
             </q-btn>
           </div>
           <div>
-            <q-btn round size="sm" color="tertiary" @click="alertAsMethod('center')">
+            <q-btn round size="sm" color="accent" @click="alertAsMethod('center')">
               <q-icon name="fullscreen_exit" />
             </q-btn>
           </div>
           <div>
-            <q-btn round size="sm" color="tertiary" @click="alertAsMethod('right')">
+            <q-btn round size="sm" color="accent" @click="alertAsMethod('right')">
               <q-icon name="arrow_forward" />
             </q-btn>
           </div>
@@ -43,7 +43,7 @@
             </q-btn>
           </div>
           <div>
-            <q-btn round size="sm" color="tertiary" @click="alertAsMethod('bottom')">
+            <q-btn round size="sm" color="accent" @click="alertAsMethod('bottom')">
               <q-icon name="arrow_downward" />
             </q-btn>
           </div>

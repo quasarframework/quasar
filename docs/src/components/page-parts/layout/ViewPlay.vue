@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="q-mt-lg q-mb-sm generic-border-radius overflow-hidden shadow-2">
+    <div class="q-mt-lg q-mb-sm rounded-borders overflow-hidden shadow-2">
       <div class="row">
         <div class="col-3 q-pa-md flex flex-center" :class="topL === 'h' ? 'bg-primary text-white' : 'bg-orange text-grey-9'">
           <q-option-group
@@ -96,7 +96,7 @@
     </div>
 
     <div class="flex flex-center">
-      <div class="q-pa-sm bg-grey-4 generic-border-radius">
+      <div class="q-pa-sm bg-grey-4 rounded-borders">
         View: <q-badge :label="view" />
       </div>
     </div>

@@ -5,7 +5,7 @@ import QIcon from '../icon/QIcon.js'
 export default {
   computed: {
     navIcon () {
-      const ico = [ this.$q.icon.table.prevPage, this.$q.icon.table.nextPage ]
+      const ico = [ this.$q.iconSet.table.prevPage, this.$q.iconSet.table.nextPage ]
       return this.$q.lang.rtl ? ico.reverse() : ico
     }
   },
@@ -22,7 +22,7 @@ export default {
           : (this.loading === true ? this.loadingLabel || this.$q.lang.table.loading : this.noDataLabel || this.$q.lang.table.noData)
 
         return h('div', { staticClass: 'q-table__bottom row items-center q-table__bottom--nodata' }, [
-          h(QIcon, {props: { name: this.$q.icon.table.warning }}),
+          h(QIcon, {props: { name: this.$q.iconSet.table.warning }}),
           message
         ])
       }

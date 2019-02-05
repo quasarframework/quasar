@@ -353,7 +353,7 @@
         navigation
         padding
         height="200px"
-        class="bg-white shadow-1 generic-border-radius"
+        class="bg-white shadow-1 rounded-borders"
       >
         <q-carousel-slide :name="1" class="column no-wrap flex-center">
           <q-icon name="style" color="primary" size="56px" />

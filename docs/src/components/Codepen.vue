@@ -70,7 +70,11 @@ export default {
       return (this.parts.template || '')
         .replace(/(<template>|<\/template>$)/g, '')
         .replace(/\n/g, '\n  ')
-        .replace(/<([\w-]+)([^>]*?(?=\/>))\/>/gs, '<$1$2></$1>')
+        .replace(/([\w]+=")([^"]*?)(")/gs, function (match, p1, p2, p3) {
+          return p1 + p2.replace(/>/g, '___TEMP_REPLACEMENT___') + p3
+        })
+        .replace(/<(q-[\w-]+)([^>]+?)\/>/gs, '<$1$2></$1>')
+        .replace(/___TEMP_REPLACEMENT___/gs, '>')
         .trim()
     },
 

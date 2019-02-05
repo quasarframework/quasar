@@ -7,21 +7,41 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 <doc-installation components="QTree" />
 
 ## Usage
-<doc-example title="Basic tree" file="QTree/Basic" />
+<doc-example title="Basic" file="QTree/Basic" />
 
-<doc-example title="Customizing nodes with default header and body slot" file="QTree/SlotsDefault" />
+<doc-example title="Dark" file="QTree/Dark" dark />
 
-<doc-example title="Customizing nodes with custom header and body slots)" file="QTree/SlotsCustomized" />
+### Integrated example
 
-<doc-example title="Accordion mode (sibling nodes get contracted when one gets expanded)" file="QTree/Accordion" />
+<doc-example title="With QSplitter and QTabPanels" file="QTree/Splitter" />
+
+More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/tab-panels).
+
+### Customize content
+
+Notice (in the example below) the default header and body slot customization.
+
+<doc-example title="Default header and body slots" file="QTree/SlotsDefault" />
+
+Notice (in the example below) the custom header and body slots.
+
+<doc-example title="Customizing nodes" file="QTree/SlotsCustomized" />
+
+In the example below, sibling nodes get contracted when one gets expanded.
+
+### Accordion, filtering and selectable
+
+<doc-example title="Accordion mode" file="QTree/Accordion" />
 
 <doc-example title="Filtering nodes" file="QTree/FilterDefault" />
 
 <doc-example title="Selectable nodes" file="QTree/Selectable" />
 
+### Lazy loading
+
 <doc-example title="Lazy loading nodes" file="QTree/LazyLoad" />
 
-### Selection vs Ticking, Expansion
+### Selection vs ticking, expansion
 * Selection (through QTree `selected` prop) refers to the currently selected node (gets highlighted with different background).
 * Ticking (through QTree `ticked` prop) refers to the checkbox associated with each node.
 * Expansion (through QTree `expanded` prop) refers to the nodes that are expanded.
@@ -29,7 +49,7 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 All properties above require to be dynamically bound using `.sync` modifier in order for them to work correctly (`v-bind:<prop_name>.sync` or `:<prop_name>.sync`).
 <doc-example title="Syncing node properties" file="QTree/Sync" />
 
-### Tick Strategy
+### Tick strategy
 There are three ticking strategy: 'leaf', 'leaf-filtered', 'strict' with an additional (and default) 'none' which disables ticking.
 
 | Strategy | Description |
@@ -42,7 +62,7 @@ You can apply a global tick strategy for a QTree and locally change the ticking 
 
 <doc-example title="Tick strategy" file="QTree/TickStrategy" />
 
-### Custom Filter Method
+### Custom filter method
 You can customize the filtering method by specifying the `filter-method` prop. The method below filters by input if it also has '(*)':
 
 <doc-example title="Custom filter" file="QTree/FilterCustom" />

@@ -16,9 +16,9 @@ Singe QBtnToggle uses QBtn, you can use design related props of QBtn to style th
 
 <doc-example title="Some design examples" file="QBtnToggle/Design" />
 
-<doc-example title="Disable and Readonly" file="QBtnToggle/DisableReadonly" />
+<doc-example title="Disable and readonly" file="QBtnToggle/DisableReadonly" />
 
-<doc-example title="On Dark Background" file="QBtnToggle/Dark" dark />
+<doc-example title="On a dark background" file="QBtnToggle/Dark" dark />
 
-## API
+## QBtnToggle API
 <doc-api file="QBtnToggle" />

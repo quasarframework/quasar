@@ -72,7 +72,7 @@ export default Vue.extend({
     },
 
     computedIcon () {
-      return this.icon || this.$q.icon.tree.icon
+      return this.icon || this.$q.iconSet.tree.icon
     },
 
     computedControlColor () {
@@ -492,7 +492,7 @@ export default Vue.extend({
             : (
               isParent
                 ? h(QIcon, {
-                  staticClass: 'q-tree__arrow q-mr-xs generic-transition',
+                  staticClass: 'q-tree__arrow q-mr-xs',
                   class: { 'q-tree__arrow--rotate': meta.expanded },
                   props: { name: this.computedIcon },
                   nativeOn: {

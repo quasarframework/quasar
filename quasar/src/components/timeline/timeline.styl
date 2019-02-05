@@ -7,7 +7,7 @@
 
   &--dark
     color white
-    .q-timeline-subtitle
+    .q-timeline__subtitle
       opacity .7
 
   &__content
@@ -29,7 +29,6 @@
     position absolute
     top 0
     bottom 0
-    left 0
     width 15px
     &:before, &:after
       content ''
@@ -62,38 +61,65 @@
 
   &__heading
     position relative
-    &:first-child .q-timeline-heading-title
+    &:first-child .q-timeline__heading-title
       padding-top 0
-    &:last-child .q-timeline-heading-title
+    &:last-child .q-timeline__heading-title
       padding-bottom 0
   &__heading-title
     padding 32px 0
     margin 0
 
-.q-timeline__entry
-  padding-left 40px
-  position relative
-  line-height 22px
-  &:last-child
-    padding-bottom 0
-    .q-timeline-dot:after
-      content none
+  &__entry
+    position relative
+    line-height 22px
+    &:last-child
+      padding-bottom 0 !important
+      .q-timeline__dot:after
+        content none
 
-  &--icon
-    .q-timeline__dot
-      width 31px
-      left -8px
-      &:before
-        height 31px
+    &--icon
+      .q-timeline__dot
         width 31px
-      &:after
-        top 41px
-        left 14px
-    .q-timeline__subtitle
-      padding-top 8px
+        &:before
+          height 31px
+          width 31px
+        &:after
+          top 41px
+          left 14px
+      .q-timeline__subtitle
+        padding-top 8px
 
-@media (min-width $breakpoint-md-min) and (max-width $breakpoint-md-max)
-  .q-timeline--responsive
+  &--dense--right
+    .q-timeline
+      &__entry
+        padding-left 40px
+
+        &--icon .q-timeline__dot
+          left -8px
+
+      &__dot
+        left 0
+
+  &--dense--left
+    .q-timeline
+      &__heading
+        text-align right
+
+      &__entry
+        padding-right 40px
+
+        &--icon .q-timeline__dot
+          right -8px
+
+      &__content
+      &__title
+      &__subtitle
+        text-align right
+
+      &__dot
+        right 0
+
+  &--comfortable
     display table
 
     .q-timeline
@@ -103,13 +129,10 @@
         > div
           display table-cell
 
-      &__heading-title
-        margin-left -50px
-
       &__entry
         display table-row
         padding 0
-        &--icon .q-timeline-content
+        &--icon .q-timeline__content
           padding-top 8px
 
       &__subtitle, &__dot, &__content
@@ -117,19 +140,53 @@
         vertical-align top
 
       &__subtitle
-        text-align right
-        padding-right 30px
         width 35%
 
       &__dot
         position relative
+        min-width 31px
+
+  &--comfortable--right
+    .q-timeline
+      &__heading
+        .q-timeline__heading-title
+          margin-left -50px
+
+      &__subtitle
+        text-align right
+        padding-right 30px
 
       &__content
         padding-left 30px
 
+      &__entry--icon .q-timeline__dot
+        left -8px
 
-@media (min-width $breakpoint-lg-min)
-  .q-timeline--responsive
+  &--comfortable--left
+    .q-timeline
+      &__heading
+        text-align right
+
+        .q-timeline__heading-title
+          margin-right -50px
+
+      &__subtitle
+        padding-left 30px
+
+      &__content
+        padding-right 30px
+
+      &__content
+      &__title
+        text-align right
+
+      &__entry--icon .q-timeline__dot
+        right 0
+
+      &__dot
+        right -8px
+
+  &--loose
     .q-timeline
       &__heading-title
         text-align center

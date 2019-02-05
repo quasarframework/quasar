@@ -2,6 +2,7 @@
   <div class="q-pa-lg flex flex-center">
     <q-pagination
       v-model="current"
+      color="deep-orange"
       :max="5"
       :boundaryLinks="true"
     >

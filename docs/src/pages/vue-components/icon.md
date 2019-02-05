@@ -1,8 +1,8 @@
 ---
-title: QIcon
+title: Icon
 ---
 
-The Quasar Icon component allows you to easily insert icons within other components or any other area of your pages.
+The QIcon component allows you to easily insert icons within other components or any other area of your pages.
 Quasar currently supports: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/) and [Eva Icons](https://akveo.github.io/eva-icons).
 
 ::: tip
@@ -17,7 +17,7 @@ Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) a
 Make sure that you [installed the icon library](/options/installing-icon-libraries) that you are using, otherwise it won't show up!
 :::
 
-### Icons Name Cheatsheet
+### Icons name cheatsheet
 
 | Name | Prefix | Examples | Notes |
 | --- | --- | --- | --- |
@@ -27,8 +27,7 @@ Make sure that you [installed the icon library](/options/installing-icon-librari
 | mdi-v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
 
-
-### Size & Colors
+### Size & colors
 All icons are **webfont icons**. This means that you can change size by manipulating `font-size` CSS property. And also, they inherit the current CSS text `color` used.
 
 <doc-example title="Basic" file="QIcon/Basic" />
@@ -41,6 +40,5 @@ For `icon` properties on different Quasar components you won't have the means to
 />
 ```
 
-
-## API
+## QIcon API
 <doc-api file="QIcon" />

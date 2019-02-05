@@ -15,7 +15,6 @@ export default Vue.extend({
   mixins: [ PanelParentMixin ],
 
   props: {
-    color: String,
     dark: Boolean,
 
     flat: Boolean,
@@ -23,8 +22,10 @@ export default Vue.extend({
     vertical: Boolean,
     alternativeLabels: Boolean,
     headerNav: Boolean,
-    contractable: Boolean,
+    contracted: Boolean,
 
+    inactiveColor: String,
+    inactiveIcon: String,
     doneIcon: String,
     doneColor: String,
     activeIcon: String,
@@ -39,7 +40,7 @@ export default Vue.extend({
         [`q-stepper--${this.vertical ? 'vertical' : 'horizontal'}`]: true,
         'q-stepper--flat no-shadow': this.flat || this.dark,
         'q-stepper--bordered': this.bordered || (this.dark && !this.flat),
-        'q-stepper--contractable': this.contractable,
+        'q-stepper--contracted': this.contracted,
         'q-stepper--dark': this.dark
       }
     }
@@ -85,7 +86,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-stepper generic-border-radius',
+      staticClass: 'q-stepper',
       class: this.classes
     }, this.__getContent(h).concat(this.$slots.navigation))
   }

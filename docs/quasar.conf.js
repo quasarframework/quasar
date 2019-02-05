@@ -61,9 +61,6 @@ module.exports = function (ctx) {
 
         rule.use('md-loader')
           .loader(require.resolve('./build/md-loader'))
-          .options({
-            isProd: ctx.prod
-          })
 
         if (isClient) {
           chain.module.rule('eslint')
@@ -82,7 +79,13 @@ module.exports = function (ctx) {
     },
 
     framework: {
-      all: true
+      all: true,
+
+      config: {
+        loadingBar: {
+          color: 'amber'
+        }
+      }
     },
 
     animations: ['fadeIn', 'fadeOut'],
@@ -93,11 +96,14 @@ module.exports = function (ctx) {
 
     pwa: {
       // workboxPluginMode: 'InjectManifest',
-      // workboxOptions: {},
+      workboxOptions: {
+        skipWaiting: true,
+        clientsClaim: true
+      },
       manifest: {
-        // name: 'Quasar App',
-        // short_name: 'Quasar-PWA',
-        // description: 'Best PWA App in town!',
+        name: 'Quasar Documentation',
+        short_name: 'Quasar-Docs',
+        description: 'Quasar Framework Documentation',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

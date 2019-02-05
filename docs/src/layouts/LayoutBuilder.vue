@@ -45,14 +45,14 @@
               <q-toggle v-model="pick.footer" label="I want a QFooter" />
               <q-toggle v-model="pick.left" label="I want a left-side QDrawer" />
               <q-toggle v-model="pick.right" label="I want a right-side QDrawer" />
-              <q-toggle v-model="pick.navtabs" label="I want navigation tabs" />
+              <q-toggle :disable="!pick.header" v-model="pick.navtabs" label="I want navigation tabs (requires QHeader)" />
             </div>
           </q-step>
 
           <q-step name="cfg" title="Configure Layout Parts" icon="settings" class="q-pb-lg">
             <div class="q-mb-md text-grey-8">Layout "View"</div>
 
-            <div class="q-mb-lg generic-border-radius overflow-hidden shadow-2">
+            <div class="q-mb-lg rounded-borders overflow-hidden shadow-2">
               <div class="row">
                 <div class="col-3 q-pa-md flex flex-center" :class="topL === 'h' ? 'bg-primary text-white' : 'bg-orange text-grey-9'">
                   <q-option-group
@@ -314,14 +314,14 @@
 
         <q-dialog v-model="exportDialog">
           <q-card>
-            <div class="overflow-hidden" style="background-color:#272822;">
-              <div style="max-height:50vh;" class="scroll q-pa-sm">
-                <doc-code copy lang="html">{{ layoutExport }}</doc-code>
-              </div>
+            <div class="bg-code export-code">
+              <doc-code lang="html">{{ layoutExport }}</doc-code>
             </div>
 
+            <q-separator />
+
             <q-card-actions align="right">
-              <q-btn color="white" text-color="teal" flat label="Close" v-close-dialog />
+              <q-btn color="primary" flat label="Close" v-close-dialog />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -386,9 +386,7 @@
       <q-toolbar>
         <q-btn v-if="pick.left" dense flat round icon="menu" @click="play.left = !play.left" />
 
-        <q-toolbar-title>
-          Quasar
-        </q-toolbar-title>
+        <q-toolbar-title>Quasar</q-toolbar-title>
 
         <q-btn v-if="pick.right" dense flat round icon="menu" @click="play.right = !play.right" />
       </q-toolbar>
@@ -448,7 +446,7 @@ export default {
 
         rightBehavior: 'default',
         rightOverlay: false,
-        rightSep: 'elevated'
+        rightSep: 'bordered'
       },
 
       play: {
@@ -575,3 +573,13 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.export-code
+  .doc-code__inner
+    max-height 50vh
+  .doc-code + div
+    right 22px !important
+  .q-badge
+    right 72px !important
+</style>

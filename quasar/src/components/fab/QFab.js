@@ -63,11 +63,11 @@ export default Vue.extend({
         this.$slots.tooltip,
         h(QIcon, {
           staticClass: 'q-fab__icon absolute-full',
-          props: { name: this.icon || this.$q.icon.fab.icon }
+          props: { name: this.icon || this.$q.iconSet.fab.icon }
         }),
         h(QIcon, {
           staticClass: 'q-fab__active-icon absolute-full',
-          props: { name: this.activeIcon || this.$q.icon.fab.activeIcon }
+          props: { name: this.activeIcon || this.$q.iconSet.fab.activeIcon }
         })
       ]),
 

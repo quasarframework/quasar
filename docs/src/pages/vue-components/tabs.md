@@ -1,83 +1,92 @@
 ---
-title: Docs
+title: Tabs
 ---
+Tabs are a way of displaying more information using less window real estate. This page describes the tab selection part through QTabs, QTab and QRouteTab.
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
-
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
-
-```
-const m = 'lala'
-```
-
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
-
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
+One common use case for this component is in Layout’s header/footer. Please refer to [Layouts](/layout/layout) and [Header & Footer](/layout/header-and-footer#Example--Playing-with-QTabs) for references.
 
 ::: tip
-Some tip
+Works great along with [QTabPanels](/vue-components/tab-panels), a component which refers strictly to the panels (tab content) themselves.
 :::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
+Cherry-pick only what you are using from list below.
+
+<doc-installation :components="['QTabs', 'QTab', 'QRouteTab']" />
+
+::: warning
+QRouteTab won't and cannot work with the UMD version because in that environment you don't have Vue Router.
+:::
 
 ## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
 
-## API
-<doc-api file="QTh" />
+::: tip
+QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action. On a desktop you will see chevons on either side that can be clicked. On a mobile, you can pan the tabs with your finger.
+:::
+
+<doc-example title="Basic" file="QTabs/Basic" />
+
+<doc-example title="Dense" file="QTabs/Dense" />
+
+<doc-example title="Individual colors" file="QTabs/IndividualColor" />
+
+<doc-example title="No ripple and custom ripple color" file="QTabs/Ripples" />
+
+In the examples below, please notice the last two QTabs: indicator at top and no indicator.
+
+<doc-example title="Custom indicator" file="QTabs/CustomIndicator" />
+
+<doc-example title="Tab notifications" file="QTabs/Notifying" />
+
+QTabs are responsive and the `align` prop (see below) becomes active when the container width (not window width) is bigger than the configured breakpoint. For demoing purposes, the tabs below have breakpoint disabled.
+
+<doc-example title="Alignment" file="QTabs/Alignment" />
+
+In the second QTabs from the example below, if window width is below 1024px then the "Movies" and "Photos" tabs will be replaced by a "More..." dropdown.
+
+<doc-example title="With a dropdown" file="QTabs/Dropdown" />
+
+## Using along QTabsPanel
+
+::: tip
+QTabPanels can be used as standalone too. They do not depend on the presence of a QTabs. Also, they can be placed anywhere within a page, not just near a QTabs.
+:::
+
+<doc-example title="Tabs with tab panels" file="QTabs/TabsWithTabpanels" />
+
+More info: [Tab Panels](/vue-components/tab-panels).
+
+## Connecting to Vue Router
+You can use tabs together with Vue Router through `QRouteTab` component.
+This component inherits everything from QTab, however it also has `router-link` properties bound to it. These allow for listening to the current app route and also triggering a route when clicked/tapped.
+
+```vue
+<q-tabs>
+  <q-route-tab
+    icon="mail"
+    to="/mails"
+    exact
+  />
+  <q-route-tab
+    icon="alarm"
+    to="/alarms"
+    exact
+  />
+</q-tabs>
+```
+
+::: warning
+QRouteTab becomes "active" depending on your app's route and not due to the v-model. So the initial value of v-model or changing the v-model directly will not also change the route of your app.
+:::
+
+## QTabs API
+
+<doc-api file="QTabs" />
+
+## QTab API
+
+<doc-api file="QTab" />
+
+## QRouteTab API
+
+<doc-api file="QRouteTab" />

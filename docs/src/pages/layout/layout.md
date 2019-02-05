@@ -9,7 +9,7 @@ The QLayout is a component designed to manage the entire window and wrap page co
 **QLayout is NOT mandatory**, but it does help you to better structure your website/app. It has a number of features which offer you major benefits in simplifying your website/app's layout design, right out of the box.
 
 ## Installation
-In the card below we're installing all Quasar components related to a QLayout, but **you should cherry-pick** only what you are using from this list.
+In the card below we're installing all Quasar components related to a QLayout, but **you should cherry-pick** only what you are using from this list. Only QLayout is required.
 
 <doc-installation
   :components="[
@@ -22,6 +22,20 @@ In the card below we're installing all Quasar components related to a QLayout, b
     'QPageSticky',
     'QPageScroller'
   ]"
+/>
+
+## Layout Builder
+Scaffold your layout(s) by clicking on the button below.
+
+<q-btn
+  push
+  color="primary"
+  icon-right="launch"
+  label="Layout Builder"
+  type="a"
+  href="/layout-builder"
+  target="_blank"
+  rel="noopener noreferrer"
 />
 
 ## Usage
@@ -73,27 +87,21 @@ It is important that you specify all sections of a QLayout, even if you don't us
 :::
 
 ### Containerized QLayout
+By default, QLayout is managing the entire window. However, you can also use QLayout as a container (with specific height and width) to isolate it somewhere in your pages.
 
 ::: danger
 Not supported in IE11.
 :::
 
-Please note that it **requires a CSS height/width (or min-height/min-width) being set explicitly**, otherwise it can't and it won't work.
+::: warning
+Please note that it **requires a CSS height (or min-height) being set explicitly**, otherwise it can't and it won't work.
+:::
 
+In the example below, there is a containerized QLayout with drawers on each side (breakpoint of 700px on the left-side drawer and 500px on the right-side drawer). The breakpoint does not refer to the window width, but to the actual width of the QLayout container.
 
-## Layout Builder
-Scaffold your layout(s) by clicking on the button below.
+<doc-example title="Containerized QLayout" file="QLayout/Container" />
 
-<q-btn
-  push
-  color="primary"
-  icon-right="launch"
-  label="Layout Builder"
-  type="a"
-  href="/layout-builder"
-  target="_blank"
-  rel="noopener noreferrer"
-/>
+<doc-example title="In a QDialog" file="QLayout/ContainerDialog" />
 
-## API
+## QLayout API
 <doc-api file="QLayout" />

@@ -23,7 +23,7 @@
       :icon="icons[i]"
     />
 
-    <p>Dense:</p>
+    <br>
 
     <q-btn
       v-for="size in sizes" :key="`btn_size_dense_sq_${size}`"
@@ -51,7 +51,7 @@
       :icon="icons[i]"
     />
 
-    <p>Custom size:</p>
+    <br>
 
     <q-btn
       size="10px"

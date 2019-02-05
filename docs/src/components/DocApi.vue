@@ -2,12 +2,13 @@
 q-card.doc-api.q-my-lg(v-if="ready")
   q-toolbar.text-grey-8.bg-white
     card-title(:title="name", prefix="API--")
-    .text-grey {{ type }}
+    q-space
+    .col-auto.text-grey {{ type }}
 
   q-separator
 
   div.bg-grey-2.text-grey-7.flex.no-wrap
-    q-tabs(v-model="currentTab", align="left", dense)
+    q-tabs(v-model="currentTab", indicator-color="primary", align="left", dense)
       q-tab(
         v-for="tab in tabs"
         :key="`api-tab-${tab}`"
@@ -16,6 +17,7 @@ q-card.doc-api.q-my-lg(v-if="ready")
       )
 
     q-input.col.q-mx-sm(
+      v-if="$q.screen.gt.xs"
       ref="input",
       v-model="filter",
       dense,
@@ -130,3 +132,8 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.doc-api .q-tab
+  height 40px
+</style>

@@ -6,13 +6,13 @@
       </div>
 
       <div class="col-3">
-        <div class="q-pa-sm bg-primary text-white flex flex-center generic-border-radius">l/h</div>
+        <div class="q-pa-sm bg-primary text-white flex flex-center rounded-borders">l/h</div>
       </div>
       <div class="col-3">
-        <div class="q-pa-sm bg-primary text-white flex flex-center generic-border-radius">h/H</div>
+        <div class="q-pa-sm bg-primary text-white flex flex-center rounded-borders">h/H</div>
       </div>
       <div class="col-3">
-        <div class="q-pa-sm bg-primary text-white flex flex-center generic-border-radius">r/h</div>
+        <div class="q-pa-sm bg-primary text-white flex flex-center rounded-borders">r/h</div>
       </div>
     </div>
 
@@ -20,13 +20,13 @@
       <div class="col-3" />
 
       <div class="col-3">
-        <div class="q-pa-sm bg-primary text-white flex flex-center generic-border-radius">l/L</div>
+        <div class="q-pa-sm bg-primary text-white flex flex-center rounded-borders">l/L</div>
       </div>
       <div class="col-3">
-        <div class="q-pa-sm bg-primary text-white flex flex-center generic-border-radius">p</div>
+        <div class="q-pa-sm bg-primary text-white flex flex-center rounded-borders">p</div>
       </div>
       <div class="col-3">
-        <div class="q-pa-sm bg-primary text-white flex flex-center generic-border-radius">r/R</div>
+        <div class="q-pa-sm bg-primary text-white flex flex-center rounded-borders">r/R</div>
       </div>
     </div>
 
@@ -36,13 +36,13 @@
       </div>
 
       <div class="col-3">
-        <div class="q-pa-sm bg-primary text-white flex flex-center generic-border-radius">l/f</div>
+        <div class="q-pa-sm bg-primary text-white flex flex-center rounded-borders">l/f</div>
       </div>
       <div class="col-3">
-        <div class="q-pa-sm bg-primary text-white flex flex-center generic-border-radius">f/F</div>
+        <div class="q-pa-sm bg-primary text-white flex flex-center rounded-borders">f/F</div>
       </div>
       <div class="col-3">
-        <div class="q-pa-sm bg-primary text-white flex flex-center generic-border-radius">r/f</div>
+        <div class="q-pa-sm bg-primary text-white flex flex-center rounded-borders">r/f</div>
       </div>
     </div>
 

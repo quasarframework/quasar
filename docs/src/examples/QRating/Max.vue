@@ -1,12 +1,11 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <div class="row justify-center">
-      <q-rating
-        v-model="ratingModel"
-        size="2em"
-        :max="10"
-      />
-    </div>
+  <div class="q-pa-md">
+    <q-rating
+      v-model="ratingModel"
+      size="2em"
+      :max="10"
+      color="primary"
+    />
   </div>
 </template>
 
@@ -16,9 +15,6 @@ export default {
     return {
       ratingModel: 3
     }
-  },
-
-  methods: {
   }
 }
 </script>

@@ -8,10 +8,11 @@
               <q-img
                 style="width: 70px"
                 :ratio="1"
-                src="https://cdn.quasar-framework.org/img/quasar-logo.png"
+                class="rounded-borders"
+                src="https://cdn.quasar-framework.org/img/donuts.png"
               />
 
-              <div class="text-h4 q-ml-md text-white">Desserts</div>
+              <div class="text-h4 q-ml-md text-white">Treats</div>
             </div>
           </th>
         </tr>

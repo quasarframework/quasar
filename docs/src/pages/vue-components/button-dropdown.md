@@ -10,15 +10,15 @@ QBtnDropdown is a very convenient dropdown button. Goes very well with [QList](/
 
 <doc-example title="Basic" file="QBtnDropdown/Basic" />
 
-<doc-example title="Various Content" file="QBtnDropdown/VariousContent" />
+<doc-example title="Various content" file="QBtnDropdown/VariousContent" />
 
 <doc-example title="Split" file="QBtnDropdown/Split" />
 
-<doc-example title="Custom Button" file="QBtnDropdown/CustomButton" />
+<doc-example title="Custom button" file="QBtnDropdown/CustomButton" />
 
 <doc-example title="Using v-model" file="QBtnDropdown/Model" />
 
 <doc-example title="Split and router link on main" file="QBtnDropdown/Link" />
 
-## API
+## QBtnDropdown API
 <doc-api file="QBtnDropdown" />

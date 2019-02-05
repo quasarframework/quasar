@@ -44,21 +44,21 @@ export default Vue.extend({
     },
 
     classes () {
-      return `q-rating--${this.editable ? '' : 'non-'}editable` +
-        (this.disable === true ? ' disable' : '') +
+      return `q-rating--${this.editable === true ? '' : 'non-'}editable` +
+        (this.disable === true ? ' disabled' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '')
     },
 
     style () {
-      if (this.size) {
+      if (this.size !== void 0) {
         return { fontSize: this.size }
       }
     }
   },
 
   methods: {
-    set (value) {
-      if (this.editable) {
+    __set (value) {
+      if (this.editable === true) {
         const model = between(parseInt(value, 10), 1, parseInt(this.max, 10))
         this.model = this.model === model ? 0 : model
         this.mouseModel = 0
@@ -66,7 +66,7 @@ export default Vue.extend({
     },
 
     __setHoverValue (value) {
-      if (this.editable) {
+      if (this.editable === true) {
         this.mouseModel = value
       }
     },
@@ -75,7 +75,7 @@ export default Vue.extend({
       switch (e.keyCode) {
         case 13:
         case 32:
-          this.set(i)
+          this.__set(i)
           return stopAndPrevent(e)
         case 37: // LEFT ARROW
         case 40: // DOWN ARROW
@@ -96,7 +96,7 @@ export default Vue.extend({
   render (h) {
     const
       child = [],
-      tabindex = this.editable ? 0 : null
+      tabindex = this.editable === true ? 0 : null
 
     for (let i = 1; i <= this.max; i++) {
       child.push(
@@ -109,10 +109,10 @@ export default Vue.extend({
             'q-rating__icon--exselected': this.mouseModel && this.model >= i && this.mouseModel < i,
             'q-rating__icon--hovered': this.mouseModel === i
           },
-          props: { name: this.icon || this.$q.icon.rating.icon },
+          props: { name: this.icon || this.$q.iconSet.rating.icon },
           attrs: { tabindex },
           on: {
-            click: () => this.set(i),
+            click: () => this.__set(i),
             mouseover: () => this.__setHoverValue(i),
             mouseout: () => { this.mouseModel = 0 },
             focus: () => this.__setHoverValue(i),

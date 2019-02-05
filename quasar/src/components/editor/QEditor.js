@@ -81,14 +81,15 @@ export default Vue.extend({
         rounded: this.toolbarRounded,
         dense: true,
         color: this.toolbarColor,
-        disable: !this.editable
+        disable: !this.editable,
+        size: 'sm'
       }
     },
 
     buttonDef () {
       const
         e = this.$q.lang.editor,
-        i = this.$q.icon.editor
+        i = this.$q.iconSet.editor
 
       return {
         bold: {cmd: 'bold', icon: i.bold, tip: e.bold, key: 66},
@@ -146,7 +147,7 @@ export default Vue.extend({
           getFonts(
             this.defaultFont,
             this.$q.lang.editor.defaultFont,
-            this.$q.icon.editor.font,
+            this.$q.iconSet.editor.font,
             this.fonts
           )
         )
@@ -159,6 +160,8 @@ export default Vue.extend({
               type: 'dropdown',
               icon: token.icon,
               label: token.label,
+              size: 'sm',
+              dense: true,
               fixedLabel: token.fixedLabel,
               fixedIcon: token.fixedIcon,
               highlight: token.highlight,

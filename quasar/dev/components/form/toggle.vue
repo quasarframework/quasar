@@ -50,7 +50,7 @@
         :options="[
           { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
           { label: 'Option 3', value: 'op3', color: 'secondary' },
-          { label: 'Option 4', value: 'op4', color: 'tertiary' }
+          { label: 'Option 4', value: 'op4', color: 'accent' }
         ]"
       />
 

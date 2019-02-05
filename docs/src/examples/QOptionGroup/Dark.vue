@@ -5,10 +5,10 @@
       :options="options"
       :dark="true"
       color="yellow"
-    >
-    </q-option-group>
+    />
   </div>
 </template>
+
 <script>
 export default {
   data () {

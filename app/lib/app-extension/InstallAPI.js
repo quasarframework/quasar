@@ -1,5 +1,5 @@
 const
-  fs = require('fs'),
+  fs = require('fs-extra'),
   path = require('path'),
   merge = require('webpack-merge'),
   compileTemplate = require('lodash.template')
@@ -91,13 +91,35 @@ module.exports = class InstallAPI {
   }
 
   /**
+   * Extend a JSON file with new props (deep merge).
+   * If specifying existing props, it will override them.
+   *
+   * @param {string} file (relative path to app root folder)
+   * @param {object} newData (Object to merge in)
+   */
+  extendJsonFile (file, newData) {
+    if (newData !== void 0 && Object(newData) === newData && Object.keys(newData).length > 0) {
+      const
+        filePath = appPaths.resolve.app(file),
+        data = merge(fs.existsSync(filePath) ? require(filePath) : {}, newData)
+
+      fs.writeFileSync(
+        appPaths.resolve.app(file),
+        JSON.stringify(data, null, 2),
+        'utf-8'
+      )
+    }
+  }
+
+  /**
    * Render a folder from extension templates into devland.
    * Needs a relative path to extension's /install.js script.
    *
-   * @param {string} templateFolder
+   * @param {string} templatePath
+   * @param {boolean} rawCopy (copy file/folder as is, don't interpret prompts)
    * @param {object} additionalOpts (rendering opts)
    */
-  render (templatePath, additionalOpts) {
+  render (templatePath, additionalOpts, rawCopy = false) {
     const
       dir = getCallerPath(),
       source = path.resolve(dir, templatePath),
@@ -140,13 +162,13 @@ module.exports = class InstallAPI {
       const targetPath = appPaths.resolve.app(targetRelativePath)
       const sourcePath = path.resolve(source, rawPath)
 
-      if (isBinary(sourcePath)) {
+      if (rawCopy || isBinary(sourcePath)) {
+        fs.ensureFileSync(targetPath)
         fs.copyFileSync(sourcePath, targetPath)
       }
       else {
         const rawContent = fs.readFileSync(sourcePath, 'utf-8')
         const template = compileTemplate(rawContent)
-
         fs.writeFileSync(targetPath, template(scope), 'utf-8')
       }
     }

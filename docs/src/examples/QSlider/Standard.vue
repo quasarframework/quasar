@@ -1,15 +1,12 @@
 <template>
   <div class="q-pa-md">
-    <q-slider
-      v-model="basicModel"
-    />
 
-    <q-slider
-      v-model="greenModel"
-      color="green"
-      :min="0"
-      :max="50"
-    />
+    <q-badge color="secondary">
+      Model: {{ standard }} (0 to 50)
+    </q-badge>
+
+    <q-slider v-model="standard" :min="0" :max="50"/>
+    <q-slider v-model="standard" :min="0" :max="50" color="green"/>
   </div>
 </template>
 
@@ -17,8 +14,7 @@
 export default {
   data () {
     return {
-      basicModel: 2,
-      greenModel: 0
+      standard: 2
     }
   }
 }

@@ -22,7 +22,7 @@ To serve your production files it is *required* to use a web server, so to serve
 
 Common choices for web servers are [nginx](https://www.nginx.com/), [Caddy](https://caddyserver.com/), [Apache](https://httpd.apache.org/), [Express](https://expressjs.com/); but you should be able to use whatever web server you want.
 
-The web server requires no special setup (unless you built with Vue Router in "history" mode). The main requirement is to be able to serve static files from a directory, so consult the documentation of your web server on how to set up static file serving.
+The web server requires no special setup (unless you built with Vue Router in "history" mode in `quasar.conf.js`). The main requirement is to be able to serve static files from a directory, so consult the documentation of your web server on how to set up static file serving.
 
 An example config for nginx may look like this:
 ```
@@ -141,9 +141,9 @@ Now your application should be successfully deployed using Surge. You should be 
 
 To deploy your Quasar application to GitHub pages the first step is to create a special repository on GitHub which is named `<username>.github.io`. Clone this repository to your local machine.
 
-Next, you need to build your Quasar application like it is described in the "General deployment section". This will result in a `/dist/spa` directoryy. Copy the content of this folder to your cloned repository.
+Next, you need to build your Quasar application like it is described in the "General deployment section". This will result in a `/dist/spa` directory. Copy the content of this folder to your cloned repository.
 
-The last step is to add a commit in your repository an push to GitHub. After a short time, you should be able to visit your Quasar application at `https://<username>.github.io/`.
+The last step is to add a commit in your repository and push to GitHub. After a short time, you should be able to visit your Quasar application at `https://<username>.github.io/`.
 
 ### Adding a custom domain to GitHub pages
 

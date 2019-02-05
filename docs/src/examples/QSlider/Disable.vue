@@ -4,6 +4,7 @@
       v-model="basicModel"
       disable
     />
+
     <q-slider
       v-model="greenModel"
       color="green"
@@ -18,8 +19,8 @@
 export default {
   data () {
     return {
-      basicModel: 2,
-      greenModel: 0
+      basicModel: 40,
+      greenModel: 10
     }
   }
 }

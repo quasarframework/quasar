@@ -37,7 +37,7 @@ export default Vue.extend({
 
       child[action](
         h(QIcon, {
-          props: { name: this.$q.icon.table.arrowUp },
+          props: { name: this.$q.iconSet.table.arrowUp },
           staticClass: col.__iconClass
         })
       )

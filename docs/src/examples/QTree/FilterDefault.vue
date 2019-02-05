@@ -1,6 +1,9 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-input dense v-model="filter" label="Filter" />
+    <q-input ref="filter" filled v-model="filter" label="Filter">
+      <q-icon v-if="filter !== ''" slot="append" name="clear" class="cursor-pointer" @click="resetFilter" />
+    </q-input>
+
     <q-tree
       :nodes="simple"
       node-key="label"
@@ -12,38 +15,47 @@
 
 <script>
 export default {
-  data: () => ({
-    filter: '',
-    simple: [
-      {
-        label: 'Satisfied customers',
-        children: [
-          {
-            label: 'Good food',
-            children: [
-              { label: 'Quality ingredients' },
-              { label: 'Good recipe' }
-            ]
-          },
-          {
-            label: 'Good service (disabled node)',
-            disabled: true,
-            children: [
-              { label: 'Prompt attention' },
-              { label: 'Professional waiter' }
-            ]
-          },
-          {
-            label: 'Pleasant surroundings',
-            children: [
-              { label: 'Happy atmosphere' },
-              { label: 'Good table presentation' },
-              { label: 'Pleasing decor' }
-            ]
-          }
-        ]
-      }
-    ]
-  })
+  data () {
+    return {
+      filter: '',
+      simple: [
+        {
+          label: 'Satisfied customers',
+          children: [
+            {
+              label: 'Good food',
+              children: [
+                { label: 'Quality ingredients' },
+                { label: 'Good recipe' }
+              ]
+            },
+            {
+              label: 'Good service (disabled node)',
+              disabled: true,
+              children: [
+                { label: 'Prompt attention' },
+                { label: 'Professional waiter' }
+              ]
+            },
+            {
+              label: 'Pleasant surroundings',
+              children: [
+                { label: 'Happy atmosphere' },
+                { label: 'Good table presentation' },
+                { label: 'Pleasing decor' }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+
+  methods: {
+    resetFilter () {
+      this.filter = ''
+      this.$refs.filter.focus()
+    }
+  }
 }
 </script>

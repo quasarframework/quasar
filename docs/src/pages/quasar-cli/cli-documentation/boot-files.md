@@ -96,7 +96,7 @@ In order to better understand how a boot file works and what it does, you need t
 
 1. Quasar is initialized (components, directives, plugins, Quasar i18n, Quasar icon sets)
 2. Quasar Extras get imported (Roboto font -- if used, icons, animations, ...)
-3. Quasar CSS & your app's global CSS is imported
+3. Quasar CSS & your app's global CSS are imported
 4. App.vue is loaded (not yet being used)
 5. Store is imported (if using Vuex Store in src/store)
 6. Boot files are imported
@@ -162,7 +162,7 @@ Sometimes you want to access data that you configure in your boot file in files 
 
 Fortunately, because boot files are just normal JavaScript files you can add as many named exports to your boot file as you want.
 
-Let's take the example of Axios. Sometimes you want to access your Axios instance inside your JavaScript files, but you can not access the root Vue instance. To solve this you can export the Axios instance in your boot file and import it elsewhere.
+Let's take the example of Axios. Sometimes you want to access your Axios instance inside your JavaScript files, but you cannot access the root Vue instance. To solve this you can export the Axios instance in your boot file and import it elsewhere.
 
 Consider the following boot file for axios:
 

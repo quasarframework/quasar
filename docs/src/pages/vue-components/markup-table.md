@@ -20,9 +20,9 @@ Notice that the content of `QMarkupTable` reflects an accurate markup representa
 
 <doc-example title="Separators" file="QMarkupTable/Separators" />
 
-<doc-example title="Using a dark background" file="QMarkupTable/Dark" />
+<doc-example title="Dark" file="QMarkupTable/Dark" />
 
 <doc-example title="Customization" file="QMarkupTable/Customization" />
 
-## API
+## QMarkupTable API
 <doc-api file="QMarkupTable" />

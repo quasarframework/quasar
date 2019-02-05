@@ -1,17 +1,13 @@
 <template>
   <div class="q-pa-md">
-    <q-chip
-      square
-      color="secondary"
-      text-color="white"
-    >
-      Model: {{ snap.min }} to {{ snap.max }} (0 to 10, step 2)
-    </q-chip>
+    <q-badge color="secondary" class="q-mb-lg">
+      Model: {{ snap.min }} to {{ snap.max }} (0 to 20, step 2)
+    </q-badge>
 
     <q-range
       v-model="snap"
       :min="0"
-      :max="10"
+      :max="20"
       :step="2"
       label
       snap
@@ -25,7 +21,7 @@ export default {
     return {
       snap: {
         min: 2,
-        max: 6
+        max: 12
       }
     }
   }

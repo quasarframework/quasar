@@ -1,12 +1,18 @@
 <template>
   <div class="q-pa-md">
-    <q-chip
-      square
-      color="secondary"
-      text-color="white"
-    >
+    <q-badge color="secondary" class="q-mb-lg">
       Model: {{ marker.min }} to {{ marker.max }} (-6 to 10, step 2)
-    </q-chip>
+    </q-badge>
+
+    <q-range
+      v-model="marker"
+      :min="-6"
+      :max="10"
+      :step="2"
+      label
+      markers
+      color="orange"
+    />
 
     <q-range
       v-model="marker"
@@ -16,7 +22,7 @@
       label
       snap
       markers
-      color="orange"
+      color="purple"
     />
   </div>
 </template>

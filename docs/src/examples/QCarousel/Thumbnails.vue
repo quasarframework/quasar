@@ -1,29 +1,17 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <div class="row justify-center">
-      <q-carousel
-        v-model="slide"
-        swipeable
-        animated
-        arrows
-        thumbnails
-        infinite
-        controls
-        control-color="orange-7"
-        style="width: 80%;"
-      >
-        <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
-        <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
-        <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
-        <q-carousel-slide :name="4" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
-      </q-carousel>
-    </div>
-    <div class="row justify-center">
-      <q-btn label="1" @click="onClick(1)" />
-      <q-btn label="2" @click="onClick(2)" />
-      <q-btn label="3" @click="onClick(3)" />
-      <q-btn label="4" @click="onClick(4)" />
-    </div>
+  <div class="q-pa-md">
+    <q-carousel
+      swipeable
+      animated
+      v-model="slide"
+      thumbnails
+      infinite
+    >
+      <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
+      <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
+      <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
+      <q-carousel-slide :name="4" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
+    </q-carousel>
   </div>
 </template>
 
@@ -32,11 +20,6 @@ export default {
   data () {
     return {
       slide: 1
-    }
-  },
-  methods: {
-    onClick (value) {
-      this.slide = value
     }
   }
 }

@@ -2,7 +2,7 @@
   <div>
     <div class="q-layout-padding" style="max-width: 1400px;">
       <h4>QMarkupTable</h4>
-      <q-markup-table :separator="separator">
+      <q-markup-table :separator="separator" wrap-cells>
         <thead>
           <tr>
             <th class="text-left">Dessert (100g serving)</th>
@@ -71,8 +71,17 @@
         <q-tr slot="body" slot-scope="props" :props="props">
           <q-td key="desc" :props="props">
             {{ props.row.name }}
-            <q-popup-edit v-model="props.row.name">
-              <q-input v-model="props.row.name" dense autofocus counter />
+            <q-popup-edit
+              ref="popupEdit"
+              buttons
+              v-model="props.row.name"
+            >
+              <q-input
+                type="textarea"
+                v-model="props.row.name"
+                autofocus
+                @keyup.enter.stop
+              />
             </q-popup-edit>
           </q-td>
           <q-td key="calories" :props="props">
@@ -93,7 +102,12 @@
               <q-input type="number" v-model="props.row.carbs" dense autofocus hint="Use buttons to close" />
             </q-popup-edit>
           </q-td>
-          <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
+          <q-td key="protein" :props="props">
+            {{ props.row.protein }}
+            <q-popup-edit v-model="props.row.protein">
+              <q-input v-model="props.row.protein" dense autofocus counter />
+            </q-popup-edit>
+          </q-td>
           <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
           <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
           <q-td key="iron" :props="props">{{ props.row.iron }}</q-td>

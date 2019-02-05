@@ -25,14 +25,7 @@
 
     "dense": {
       "extends": "dense",
-      "desc": "Dense mode; occupies less space; overrides 'breakpoint' prop if used"
-    },
-
-    "breakpoint": {
-      "type": "Number",
-      "desc": "Breakpoint (in pixels) of window width up to which 'dense' mode is used; Overriden by 'dense' prop if used",
-      "default": 450,
-      "examples": [ 992, ":breakpoint=\"1024\"" ]
+      "desc": "Dense mode; Connect with $q.screen for responsive behavior"
     },
 
     "columns": {
@@ -89,6 +82,11 @@
       "default": "horizontal",
       "values": [ "horizontal", "vertical", "cell", "none" ],
       "examples": [ "cell" ]
+    },
+
+    "wrap-cells": {
+      "type": "Boolean",
+      "desc": "Wrap text within table cells"
     },
 
     "binary-state-sort": {
@@ -267,6 +265,11 @@
           "type": "Number",
           "desc": "How many rows per page? 0 means Infinite",
           "examples": [ 10 ]
+        },
+        "rowsNumber": {
+          "type": "Number",
+          "desc": "For server-side fetching only. How many total database rows are there to be added to the table. If set, causes the QTable to emit @request when data is required.",
+          "examples": [ 100, 200 ]
         }
       },
       "examples": [

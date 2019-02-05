@@ -1,7 +1,7 @@
 ---
 title: Toggle
 ---
-The Quasar Toggle component is another basic element for user input. You can use this for turning settings, features or true/ false inputs on and off.
+The QToggle component is another basic element for user input. You can use this for turning settings, features or true/ false inputs on and off.
 
 ::: tip
 Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Checkboxes.
@@ -13,11 +13,11 @@ Please also refer to the [QOptionGroup](/vue-components/option-group) on other p
 ## Usage
 Use the `color` prop to control the toggle’s color.
 
-<doc-example title="Basic Usage" file="QToggle/Standard" />
+<doc-example title="Basic" file="QToggle/Standard" />
 
 Add label with `label` prop. Use`left-label` to put it on the left side.
 
-<doc-example title="With Labels" file="QToggle/Labels" />
+<doc-example title="With labels" file="QToggle/Labels" />
 
 Use `keep-color` prop to keep color in off and disabled state.
 
@@ -39,7 +39,7 @@ if you have a number of toggles for a selection, use can use an Array as the mod
 
 <doc-example title="Array model" file="QToggle/ArrayValue" />
 
-<doc-example title="On Dark Background" file="QToggle/DarkBackground" dark />
+<doc-example title="On a dark background" file="QToggle/DarkBackground" dark />
 
 ::: tip
 You can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of toggles, like in example below.
@@ -47,7 +47,7 @@ You can also use [QOptionGroup](/vue-components/option-group), which simplifies 
 
 <doc-example title="Usage with QOptionGroup" file="QToggle/OptionGroup" />
 
-<doc-example title="In a List" file="QToggle/List" />
+<doc-example title="In a list" file="QToggle/List" />
 
-## API
+## QToggle API
 <doc-api file="QToggle" />

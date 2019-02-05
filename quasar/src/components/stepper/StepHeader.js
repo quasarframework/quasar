@@ -45,30 +45,30 @@ export default Vue.extend({
 
     icon () {
       if (this.isActive) {
-        return this.step.activeIcon || this.stepper.activeIcon || this.$q.icon.stepper.active
+        return this.step.activeIcon || this.stepper.activeIcon || this.$q.iconSet.stepper.active
       }
       if (this.isError) {
-        return this.step.errorIcon || this.stepper.errorIcon || this.$q.icon.stepper.error
+        return this.step.errorIcon || this.stepper.errorIcon || this.$q.iconSet.stepper.error
       }
       if (!this.isDisable && this.isDone) {
-        return this.step.doneIcon || this.stepper.doneIcon || this.$q.icon.stepper.done
+        return this.step.doneIcon || this.stepper.doneIcon || this.$q.iconSet.stepper.done
       }
 
-      return this.step.icon
+      return this.step.icon || this.stepper.inactiveIcon
     },
 
     color () {
       if (this.isActive) {
-        return this.step.activeColor || this.stepper.activeColor || this.stepper.color
+        return this.step.activeColor || this.stepper.activeColor || this.step.color
       }
-      if (this.error) {
+      if (this.isError) {
         return this.step.errorColor || this.stepper.errorColor
       }
       if (!this.disable && this.isDone) {
-        return this.step.doneColor || this.stepper.doneColor || this.stepper.color
+        return this.step.doneColor || this.stepper.doneColor || this.step.color || this.stepper.inactiveColor
       }
 
-      return this.step.color
+      return this.step.color || this.stepper.inactiveColor
     },
 
     classes () {

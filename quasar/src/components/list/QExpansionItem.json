@@ -14,6 +14,12 @@
       "extends": "icon"
     },
 
+    "expand-icon-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Apply custom class(es) to the expand icon item section",
+      "examples": [ "text-purple" ]
+    },
+
     "label": {
       "type": "String",
       "desc": "Header label (unless using 'header' slot)",
@@ -60,7 +66,7 @@
 
     "default-opened": {
       "type": "Boolean",
-      "desc": "Puts expansion item into open state on initial render"
+      "desc": "Puts expansion item into open state on initial render; Overriden by v-model if used"
     },
 
     "expand-icon-toggle": {

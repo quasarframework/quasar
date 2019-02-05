@@ -100,7 +100,7 @@ export default Vue.extend({
     },
 
     minThumbStyle () {
-      return { left: (100 * this.ratioMin) + '%' }
+      return { left: (100 * this.ratioMin) + '%', 'z-index': this.__nextFocus === 'min' ? 2 : void 0 }
     },
 
     maxThumbStyle () {

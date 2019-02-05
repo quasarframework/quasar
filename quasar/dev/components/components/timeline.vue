@@ -1,6 +1,27 @@
 <template>
   <div class="q-layout-padding" style="max-width: 800px">
-    <q-timeline responsive color="secondary" style="padding: 0 24px;">
+    <div class="absolute-top-right q-pa-md row q-gutter-md z-top">
+      <q-option-group
+        type="radio"
+        dense
+        v-model="layout"
+        :options="[
+          { label: 'Dense', value: 'dense' },
+          { label: 'Comfortable', value: 'comfortable' },
+          { label: 'Loose', value: 'loose' }
+        ]"
+      />
+      <q-option-group
+        type="radio"
+        dense
+        v-model="side"
+        :options="[
+          { label: 'Right', value: 'right' },
+          { label: 'Left', value: 'left' }
+        ]"
+      />
+    </div>
+    <q-timeline :layout="layout" :side="side" color="secondary" style="padding: 0 24px;">
       <q-timeline-entry heading>November, 2017</q-timeline-entry>
 
       <q-timeline-entry
@@ -79,7 +100,7 @@
       </q-timeline-entry>
     </q-timeline>
 
-    <q-timeline responsive color="red" dark class="bg-black" style="padding: 24px; margin-top: 50px;">
+    <q-timeline :layout="layout" :side="side" color="red" dark class="bg-black" style="padding: 24px; margin-top: 50px;">
       <q-timeline-entry
         title="Event Title"
         subtitle="February 22, 1986"
@@ -135,3 +156,14 @@
     </q-timeline>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      layout: 'dense',
+      side: 'right'
+    }
+  }
+}
+</script>

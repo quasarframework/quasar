@@ -11,32 +11,35 @@
 
 <script>
 export default {
-  data: () => ({
-    lazy: [
-      {
-        label: 'Node 1',
-        children: [
-          { label: 'Node 1.1', lazy: true },
-          { label: 'Node 1.2', lazy: true }
-        ]
-      },
-      {
-        label: 'Node 2',
-        lazy: true
-      },
-      {
-        label: 'Lazy load empty',
-        lazy: true
-      },
-      {
-        label: 'Node is not expandable',
-        expandable: false,
-        children: [
-          { label: 'Some node' }
-        ]
-      }
-    ]
-  }),
+  data () {
+    return {
+      lazy: [
+        {
+          label: 'Node 1',
+          children: [
+            { label: 'Node 1.1', lazy: true },
+            { label: 'Node 1.2', lazy: true }
+          ]
+        },
+        {
+          label: 'Node 2',
+          lazy: true
+        },
+        {
+          label: 'Lazy load empty',
+          lazy: true
+        },
+        {
+          label: 'Node is not expandable',
+          expandable: false,
+          children: [
+            { label: 'Some node' }
+          ]
+        }
+      ]
+    }
+  },
+
   methods: {
     onLazyLoad ({ node, key, done, fail }) {
       // call fail() if any error occurs

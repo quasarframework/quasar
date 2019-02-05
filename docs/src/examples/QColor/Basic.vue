@@ -1,31 +1,9 @@
 <template>
-  <div class="q-pa-md">
-    <div class="row justify-center">
-      <div class="q-pa-sm">
-        <q-chip>{{ hex }}</q-chip>
-        <q-color
-          v-model="hex"
-        />
-      </div>
-      <div class="q-pa-sm">
-        <q-chip>{{ hexa }}</q-chip>
-        <q-color
-          v-model="hexa"
-        />
-      </div>
-      <div class="q-pa-sm">
-        <q-chip>{{ rgb }}</q-chip>
-        <q-color
-          v-model="rgb"
-        />
-      </div>
-      <div class="q-pa-sm">
-        <q-chip>{{ rgba }}</q-chip>
-        <q-color
-          v-model="rgba"
-        />
-      </div>
-    </div>
+  <div class="q-pa-md row items-start q-gutter-md">
+    <q-color v-model="hex" inline class="my-picker" />
+    <q-color v-model="hexa" inline class="my-picker" />
+    <q-color v-model="rgb" inline class="my-picker" />
+    <q-color v-model="rgba" inline class="my-picker" />
   </div>
 </template>
 
@@ -41,3 +19,8 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.my-picker
+  max-width 250px
+</style>

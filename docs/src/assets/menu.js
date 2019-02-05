@@ -45,6 +45,10 @@ const options = [
     path: 'app-internationalization'
   },
   {
+    name: 'RTL Support',
+    path: 'rtl-support'
+  },
+  {
     name: 'Installing Icon Libraries',
     path: 'installing-icon-libraries'
   },
@@ -53,16 +57,20 @@ const options = [
     path: 'quasar-icon-sets'
   },
   {
-    name: 'RTL Support',
-    path: 'rtl-support'
-  },
-  {
     name: 'Platform Detection',
     path: 'platform-detection'
   },
   {
     name: 'Screen Plugin',
     path: 'screen-plugin'
+  },
+  {
+    name: 'Animations',
+    path: 'animations'
+  },
+  {
+    name: 'Transitions',
+    path: 'transitions'
   },
   {
     name: 'Global Event Bus',
@@ -81,7 +89,8 @@ const style = [
   },
   {
     name: 'Theme Builder',
-    path: 'theme-builder'
+    path: 'theme-builder',
+    badge: 'new'
   },
   {
     name: 'Spacing',
@@ -155,7 +164,8 @@ const layout = [
   },
   {
     name: 'Page Scroller',
-    path: 'page-scroller'
+    path: 'page-scroller',
+    badge: 'new'
   },
   {
     name: 'Floating Action Button',
@@ -166,11 +176,13 @@ const layout = [
 const directives = [
   {
     name: 'Close Dialog',
-    path: 'close-dialog'
+    path: 'close-dialog',
+    badge: 'new'
   },
   {
     name: 'Close Menu',
-    path: 'close-menu'
+    path: 'close-menu',
+    badge: 'new'
   },
   {
     name: 'Go Back (Handling Back Button)',
@@ -198,7 +210,8 @@ const directives = [
   },
   {
     name: 'Touch Repeat',
-    path: 'touch-repeat'
+    path: 'touch-repeat',
+    badge: 'new'
   },
   {
     name: 'Touch Swipe',
@@ -260,19 +273,23 @@ const components = [
   },
   {
     name: 'Avatar',
-    path: 'avatar'
+    path: 'avatar',
+    badge: 'new'
   },
   {
     name: 'Badge',
-    path: 'badge'
+    path: 'badge',
+    badge: 'new'
   },
   {
     name: 'Banner',
-    path: 'banner'
+    path: 'banner',
+    badge: 'new'
   },
   {
     name: 'Bar',
-    path: 'bar'
+    path: 'bar',
+    badge: 'new'
   },
   {
     name: 'Breadcrumbs',
@@ -313,7 +330,8 @@ const components = [
   },
   {
     name: 'Circular Progress',
-    path: 'circular-progress'
+    path: 'circular-progress',
+    badge: 'new'
   },
   {
     name: 'Color Picker',
@@ -337,14 +355,6 @@ const components = [
       {
         name: 'Input Textfield',
         path: 'input'
-      },
-      {
-        name: 'Form Mask',
-        path: 'form-mask'
-      },
-      {
-        name: 'Form Validation',
-        path: 'form-validation'
       },
       {
         name: 'Select',
@@ -394,7 +404,8 @@ const components = [
   },
   {
     name: 'Img',
-    path: 'img'
+    path: 'img',
+    badge: 'new'
   },
   {
     name: 'Infinite Scroll',
@@ -418,7 +429,8 @@ const components = [
   },
   {
     name: 'Markup Table',
-    path: 'markup-table'
+    path: 'markup-table',
+    badge: 'new'
   },
   {
     name: 'Menu',
@@ -455,10 +467,11 @@ const components = [
   },
   {
     name: 'Popup Proxy',
-    path: 'popup-proxy'
+    path: 'popup-proxy',
+    badge: 'new'
   },
   {
-    name: 'Pull To Refresh',
+    name: 'Pull to refresh',
     path: 'pull-to-refresh'
   },
   {
@@ -467,15 +480,22 @@ const components = [
   },
   {
     name: 'Separator',
-    path: 'separator'
+    path: 'separator',
+    badge: 'new'
   },
   {
     name: 'Slide Item',
-    path: 'slide-item'
+    path: 'slide-item',
+    badge: 'new'
+  },
+  {
+    name: 'Slide Transition',
+    path: 'slide-transition'
   },
   {
     name: 'Space',
-    path: 'space'
+    path: 'space',
+    badge: 'new'
   },
   {
     name: 'Spinners',
@@ -483,7 +503,8 @@ const components = [
   },
   {
     name: 'Splitter',
-    path: 'splitter'
+    path: 'splitter',
+    badge: 'new'
   },
   {
     name: 'Stepper',
@@ -498,6 +519,11 @@ const components = [
     path: 'tabs'
   },
   {
+    name: 'Tab Panels',
+    path: 'tab-panels',
+    badge: 'new'
+  },
+  {
     name: 'Timeline',
     path: 'timeline'
   },
@@ -508,19 +534,6 @@ const components = [
   {
     name: 'Tooltip',
     path: 'tooltip'
-  },
-  {
-    name: 'Transitions',
-    children: [
-      {
-        name: 'Transition',
-        path: 'transition'
-      },
-      {
-        name: 'Slide Transition',
-        path: 'slide-transition'
-      }
-    ]
   },
   {
     name: 'Tree',
@@ -565,16 +578,20 @@ const cli = [
     path: 'installation'
   },
   {
+    name: 'quasar.conf.js',
+    path: 'quasar-conf-js'
+  },
+  {
+    name: 'Testing & Auditing',
+    path: 'testing-and-auditing'
+  },
+  {
     name: 'CLI Documentation',
     path: 'cli-documentation',
     children: [
       {
         name: 'Directory Structure',
         path: 'directory-structure'
-      },
-      {
-        name: '/quasar.conf.js',
-        path: 'quasar-conf-js'
       },
       {
         name: 'Build Commands',
@@ -790,14 +807,14 @@ const cli = [
   }
 ]
 
-export default [
+module.exports = [
   {
     name: 'Introduction to Quasar',
     icon: 'room',
     path: 'introduction-to-quasar'
   },
   {
-    name: 'Sponsors and Backers',
+    name: 'Sponsors, Backers and Supporters',
     icon: 'favorite',
     path: 'sponsors-and-backers'
   },

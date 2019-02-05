@@ -435,7 +435,7 @@ export default Vue.extend({
           this.nowBtn === true ? h(QBtn, {
             staticClass: 'q-time__now-button absolute-top-right',
             props: {
-              icon: this.$q.icon.datetime.now,
+              icon: this.$q.iconSet.datetime.now,
               unelevated: true,
               size: 'sm',
               round: true,

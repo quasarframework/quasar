@@ -60,13 +60,6 @@ fg($name, $size)
     .q-mx{$name}-auto
       @extends .q-ml{$name}-auto, .q-mr{$name}-auto
 
-    .q-my-{$name}-form:not(.q-if-full-width)
-      margin-top $input-margin-top
-      margin-bottom $input-margin-bottom
-      &.q-if-dense
-        margin-top $input-dense-margin-top
-        margin-bottom $input-dense-margin-bottom
-
     .row, .column, .flex
       if $noProcNotZero
         {fr('&.inline<name>', $name)}

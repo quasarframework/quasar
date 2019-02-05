@@ -20,6 +20,7 @@ export default {
         return h(
           'q-expansion-item',
           {
+            staticClass: 'non-selectable',
             props: {
               label: menu.name,
               dense: level > 0,
@@ -46,14 +47,19 @@ export default {
           dense: level > 0,
           insetLevel: level
         },
-        staticClass: 'app-menu-entry'
+        staticClass: 'app-menu-entry non-selectable'
       }, [
         menu.icon !== void 0
           ? h('q-item-section', {
             props: { avatar: true }
           }, [ h('q-icon', { props: { name: menu.icon } }) ])
           : null,
-        h('q-item-section', [ menu.name ])
+        h('q-item-section', [ menu.name ]),
+        menu.badge !== void 0
+          ? h('q-item-section', {
+            props: { side: true }
+          }, [ h('q-badge', [ menu.badge ]) ])
+          : null
       ])
     }
   },

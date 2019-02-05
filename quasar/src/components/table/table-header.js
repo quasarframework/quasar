@@ -65,7 +65,7 @@ export default {
               color: this.color,
               value: this.someRowsSelected ? null : this.allRowsSelected,
               dark: this.dark,
-              dense: this.computedDense
+              dense: this.dense
             },
             on: {
               input: val => {

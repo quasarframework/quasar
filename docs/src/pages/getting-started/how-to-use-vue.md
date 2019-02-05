@@ -1,14 +1,14 @@
 ---
 title: How To Use Vue
 ---
-Before you begin with Quasar, it is a good idea to get acquainted with ES6 and have a fairly good knowledge about how Vue works. ([Quick overview of ES6](https://github.com/lukehoban/es6features) and [ES6 complete list of features](http://es6-features.org/#Constants) -- don't worry, you don't need to understand ALL of ES6). For devs experienced with reactive UIs, the [Vue documentation](https://vuejs.org/v2/guide/) itself takes half a day at most to read top-to-bottom and will help you understand how Quasar components can be used and configured.
+Before you begin with Quasar, it is a good idea to get acquainted with ES6 and have a fairly good knowledge about how Vue works. ([Quick overview of ES6](https://github.com/lukehoban/es6features) and [ES6 complete list of features](http://es6-features.org/#Constants) -- don't worry, you don't need to understand ALL of ES6). For devs experienced with reactive UIs, the [Vue documentation](https://vuejs.org/v2/guide/) itself takes a half-day at most to read top-to-bottom and will help you understand how Quasar components can be used and configured.
 
 If you are a total beginner to Vue and reactive UI libraries and want a good tutorial, we recommend you take a look at the [Udemy Course - Vue JS 2 - The Complete Guide](https://www.udemy.com/vuejs-2-the-complete-guide/learn/v4/overview).
 
-After reading the Vue documentation, let's clear up some of the most frequently asked questions, like "How can I use Quasar components, Vue properties, methods and events".
+After reading the Vue documentation, let's clear up some of the most frequently asked questions, like *"How can I use Quasar components, Vue properties, methods and events"*.
 
-## Single File Vue Components
-You'll be building your Quasar app using `*.vue` files which contain multiple sections: `template` (HTML), `script` (Javascript) and `style` (CSS/Stylus/SASS/SCSS/Less).
+## Vue Single File Components (SFC)
+You'll be building your Quasar app using `*.vue` files which contain multiple sections: `template` (HTML), `script` (Javascript) and `style` (CSS/Stylus/SASS/SCSS/Less) all in the same file.
 
 ```vue
 <template>
@@ -46,7 +46,7 @@ After installing the loader you need (remember Stylus is already installed for y
 
 In the above example, you would replace `stylus` with the preprocessor you've chosen.
 
-## Using Quasar Directive
+## Using Quasar Directives
 Quasar comes with a few custom [Vue Directives](https://vuejs.org/v2/guide/custom-directive.html). These directives can be applied on almost any DOM element or Component.
 
 Example of a Quasar directive:

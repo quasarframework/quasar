@@ -6,14 +6,14 @@
         [
           {
             label: $q.lang.editor.align,
-            icon: $q.icon.editor.align,
+            icon: $q.iconSet.editor.align,
             fixedLabel: true,
             list: 'only-icons',
             options: ['left', 'center', 'right', 'justify']
           },
           {
             label: $q.lang.editor.align,
-            icon: $q.icon.editor.align,
+            icon: $q.iconSet.editor.align,
             fixedLabel: true,
             options: ['left', 'center', 'right', 'justify']
           }
@@ -24,7 +24,7 @@
         [
           {
             label: $q.lang.editor.formatting,
-            icon: $q.icon.editor.formatting,
+            icon: $q.iconSet.editor.formatting,
             list: 'no-icons',
             options: [
               'p',
@@ -39,7 +39,7 @@
           },
           {
             label: $q.lang.editor.fontSize,
-            icon: $q.icon.editor.fontSize,
+            icon: $q.iconSet.editor.fontSize,
             fixedLabel: true,
             fixedIcon: true,
             list: 'no-icons',
@@ -55,7 +55,7 @@
           },
           {
             label: $q.lang.editor.defaultFont,
-            icon: $q.icon.editor.font,
+            icon: $q.iconSet.editor.font,
             fixedIcon: true,
             list: 'no-icons',
             options: [

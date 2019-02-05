@@ -1,155 +1,85 @@
 <template>
   <div class="q-pa-md q-gutter-md">
-    <div class="row justify-center">
-      <q-carousel
-        v-model="slide"
-        swipeable
-        animated
-        transition-prev="slide-right"
-        transition-next="slide-left"
-        height="200px"
-        class="bg-white shadow-1 generic-border-radius"
-      >
-        <q-carousel-slide
-          :name="1"
-          class="column no-wrap flex-center"
-        >
-          <q-icon name="style" color="primary" size="56px" />
-          <div class="q-mt-md text-center">
-            {{ lorem }}
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide
-          :name="2"
-          class="column no-wrap flex-center"
-        >
-          <q-icon name="live_tv" color="primary" size="56px" />
-          <div class="q-mt-md text-center">
-            {{ lorem }}
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide
-          :name="3"
-          class="column no-wrap flex-center"
-        >
-          <q-icon name="layers" color="primary" size="56px" />
-          <div class="q-mt-md text-center">
-            {{ lorem }}
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide
-          :name="4"
-          class="column no-wrap flex-center"
-        >
-          <q-icon name="terrain" color="primary" size="56px" />
-          <div class="q-mt-md text-center">
-            {{ lorem }}
-          </div>
-        </q-carousel-slide>
-      </q-carousel>
-    </div>
-    <div class="row justify-center">
-      <q-carousel
-        v-model="slide"
-        swipeable
-        animated
-        transition-prev="fade"
-        transition-next="fade"
-        height="200px"
-        class="bg-white shadow-1 generic-border-radius"
-      >
-        <q-carousel-slide
-          :name="1"
-          class="column no-wrap flex-center"
-        >
-          <q-icon name="style" color="primary" size="56px" />
-          <div class="q-mt-md text-center">
-            {{ lorem }}
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide
-          :name="2"
-          class="column no-wrap flex-center"
-        >
-          <q-icon name="live_tv" color="primary" size="56px" />
-          <div class="q-mt-md text-center">
-            {{ lorem }}
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide
-          :name="3"
-          class="column no-wrap flex-center"
-        >
-          <q-icon name="layers" color="primary" size="56px" />
-          <div class="q-mt-md text-center">
-            {{ lorem }}
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide
-          :name="4"
-          class="column no-wrap flex-center"
-        >
-          <q-icon name="terrain" color="primary" size="56px" />
-          <div class="q-mt-md text-center">
-            {{ lorem }}
-          </div>
-        </q-carousel-slide>
-      </q-carousel>
-    </div>
-    <div class="row justify-center">
-      <q-carousel
-        v-model="slide"
-        swipeable
-        animated
-        transition-prev="slide-down"
-        transition-next="slide-up"
-        height="200px"
-        class="bg-white shadow-1 generic-border-radius"
-      >
-        <q-carousel-slide
-          :name="1"
-          class="column no-wrap flex-center"
-        >
-          <q-icon name="style" color="primary" size="56px" />
-          <div class="q-mt-md text-center">
-            {{ lorem }}
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide
-          :name="2"
-          class="column no-wrap flex-center"
-        >
-          <q-icon name="live_tv" color="primary" size="56px" />
-          <div class="q-mt-md text-center">
-            {{ lorem }}
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide
-          :name="3"
-          class="column no-wrap flex-center"
-        >
-          <q-icon name="layers" color="primary" size="56px" />
-          <div class="q-mt-md text-center">
-            {{ lorem }}
-          </div>
-        </q-carousel-slide>
-        <q-carousel-slide
-          :name="4"
-          class="column no-wrap flex-center"
-        >
-          <q-icon name="terrain" color="primary" size="56px" />
-          <div class="q-mt-md text-center">
-            {{ lorem }}
-          </div>
-        </q-carousel-slide>
-      </q-carousel>
-    </div>
-    <div class="row justify-center">
-      <q-btn label="1" @click="onClick(1)" />
-      <q-btn label="2" @click="onClick(2)" />
-      <q-btn label="3" @click="onClick(3)" />
-      <q-btn label="4" @click="onClick(4)" />
-    </div>
+    <q-carousel
+      v-model="slide"
+      transition-prev="scale"
+      transition-next="scale"
+      swipeable
+      animated
+      control-color="white"
+      navigation
+      padding
+      arrows
+      height="200px"
+      class="bg-primary text-white shadow-1 rounded-borders"
+    >
+      <q-carousel-slide name="style" class="column no-wrap flex-center">
+        <q-icon name="style" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide name="tv" class="column no-wrap flex-center">
+        <q-icon name="live_tv" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide name="layers" class="column no-wrap flex-center">
+        <q-icon name="layers" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide name="map" class="column no-wrap flex-center">
+        <q-icon name="terrain" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
+        </div>
+      </q-carousel-slide>
+    </q-carousel>
+
+    <q-carousel
+      v-model="slide"
+      transition-prev="jump-right"
+      transition-next="jump-left"
+      swipeable
+      animated
+      control-color="white"
+      prev-icon="arrow_left"
+      next-icon="arrow_right"
+      navigation-icon="radio_button_unchecked"
+      navigation
+      padding
+      arrows
+      height="200px"
+      class="bg-purple text-white shadow-1 rounded-borders"
+    >
+      <q-carousel-slide name="style" class="column no-wrap flex-center">
+        <q-icon name="style" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide name="tv" class="column no-wrap flex-center">
+        <q-icon name="live_tv" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide name="layers" class="column no-wrap flex-center">
+        <q-icon name="layers" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide name="map" class="column no-wrap flex-center">
+        <q-icon name="terrain" size="56px" />
+        <div class="q-mt-md text-center">
+          {{ lorem }}
+        </div>
+      </q-carousel-slide>
+    </q-carousel>
   </div>
 </template>
 
@@ -157,13 +87,8 @@
 export default {
   data () {
     return {
-      slide: 1,
-      lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!'
-    }
-  },
-  methods: {
-    onClick (value) {
-      this.slide = value
+      slide: 'style',
+      lorem: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo provident incidunt ducimus iusto perferendis porro earum. Totam, numquam?'
     }
   }
 }

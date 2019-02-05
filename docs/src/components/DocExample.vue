@@ -3,18 +3,28 @@ q-card.doc-example.q-my-lg(:class="classes")
   q-toolbar.doc-example__toolbar
     card-title(:title="title", prefix="Example--")
 
-    q-btn(dense, flat, round, icon="fab fa-github", @click="openGithub")
-      q-tooltip View on Github
-    q-btn.q-ml-sm(dense, flat, round, icon="fab fa-codepen", @click="$refs.codepen.open()")
-      q-tooltip Edit in Codepen
-    q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded")
-      q-tooltip View Source
+    q-space
+
+    div.col-auto
+      q-btn(dense, flat, round, icon="fab fa-github", @click="openGithub")
+        q-tooltip View on Github
+      q-btn.q-ml-sm(dense, flat, round, icon="fab fa-codepen", @click="$refs.codepen.open()")
+        q-tooltip Edit in Codepen
+      q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded")
+        q-tooltip View Source
 
   q-separator.doc-example__separator
 
   q-slide-transition
     div(v-show="expanded")
-      q-tabs.doc-example__tabs(v-model="currentTab", align="left", dense, :breakpoint="0")
+      q-tabs.doc-example__tabs(
+        v-model="currentTab",
+        align="left",
+        :active-color="dark ? 'amber' : void 0",
+        :indicator-color="dark ? 'amber' : 'primary'",
+        dense,
+        :breakpoint="0"
+      )
         q-tab(
           v-for="tab in tabs"
           :key="`tab-${tab}`"
@@ -22,13 +32,18 @@ q-card.doc-example.q-my-lg(:class="classes")
           :label="tab"
         )
 
-      q-tab-panels.text-grey-3.text-weight-regular(v-model="currentTab", animated, style="background-color: #272822")
+      q-separator
+
+      q-tab-panels.bg-code.text-grey-3.text-weight-regular(
+        v-model="currentTab",
+        animated
+      )
         q-tab-panel.q-pa-none(
           v-for="tab in tabs"
           :key="`pane-${tab}`"
           :name="tab"
         )
-          doc-code(lang="markup", copy) {{ parts[tab] }}
+          doc-code(lang="markup") {{ parts[tab] }}
 
       q-separator.doc-example__separator
 
@@ -136,8 +151,6 @@ export default {
 <style lang="stylus">
 @import '~quasar-variables'
 
-$dark-color = #272822
-
 .doc-example
   &__toolbar
     background white
@@ -148,9 +161,6 @@ $dark-color = #272822
   &__tabs
     background $grey-3
     color $grey-7
-
-  .code-markup pre
-    border-radius 0
 
   &--dark
     .doc-example__toolbar
@@ -163,9 +173,6 @@ $dark-color = #272822
     .doc-example__tabs
       background $grey-9
       color $grey-5
-    .doc-example__content
-      background $dark-color
-      color white
 
   &__content
     position relative

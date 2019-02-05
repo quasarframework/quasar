@@ -5,16 +5,19 @@
       color="primary"
       keep-color
     />
+
     <q-toggle
       v-model="value"
       color="green"
       keep-color
     />
+
     <q-toggle
       v-model="value"
-      color="yellow"
+      color="orange"
       keep-color
     />
+
     <q-toggle
       v-model="value"
       color="red"

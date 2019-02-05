@@ -92,16 +92,10 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
     <tr></tr>
     <tr>
       <td align="center" valign="middle">
-        Mark Crady
-      </td>
-      <td align="center" valign="middle">
         <a href="https://www.letsbutterfly.com/" target="_blank">
           <img width="170px" src="https://cdn.quasar-framework.org/sponsors/letsbutterfly.png">
         </a>
       </td>
-    </tr>
-    <tr></tr>
-    <tr>
       <td align="center" valign="middle">
         Jeff Cole
       </td>
@@ -131,6 +125,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Pawel Rakowski ($20)
 - Stephen Clarke ($20)
 - Ciprian Popa ($20)
+- G Edwards ($20)
 - Shone Radulovic ($15)
 - Sam Cassar ($15)
 - 上田 進也 (Sandbox Gmbh) ($20)
@@ -228,6 +223,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Remo Laubacher $200
 - Egor Molodov $200
 - Max Matteo Staack 150 EUR
+- Jeff Galbraith 129 EUR
 - Max Matteo Staack $123
 - Daniel Thompson-Yvetot (0.035 BTC, ~100 EUR)
 - Musicformellons $100

@@ -9,5 +9,5 @@ QSlideTransition slides the DOM element (or component) up or down, based on its 
 ## Usage
 <doc-example title="Basic" file="QSlideTransition/Basic" />
 
-## API
+## QSlideTransition API
 <doc-api file="QSlideTransition" />

@@ -4,10 +4,10 @@
       v-model="group"
       :options="options"
       color="primary"
-    >
-    </q-option-group>
+    />
   </div>
 </template>
+
 <script>
 export default {
   data () {

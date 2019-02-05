@@ -2,21 +2,30 @@
 title: Ajax Bar
 ---
 
-In most mobile apps and even some desktop apps, you will most likely have some API communication to a server via an [Ajax call](https://en.wikipedia.org/wiki/Ajax_(programming)). Since these calls can take more than a second or two, it is good UX to offer the user feedback, when such an API call is being made. QAjaxBar is the Material Design component for that particular scenario.
+In most mobile apps and even some desktop apps, you will most likely have some API communication to a server via an [Ajax call](https://en.wikipedia.org/wiki/Ajax_(programming)). Since these calls can take more than a second or two, it is good UX to offer the user feedback, when such an API call is being made. Which is where QAjaxBar comes into helping you out.
 
-If you'd like a simpler way to offer an Ajax Bar to your users, have a look at the [Loading Bar Plugin](/quasar-plugins/loading-bar).
+QAjaxBar is a component which displays a loading bar (like Youtube) whenever an Ajax call (regardless of Ajax library used) is in progress. It can be manually triggered as well.
+
+::: tip
+If you'd like **a simpler and more convenient way** to offer an Ajax Bar to your users, have a look at the [Loading Bar Plugin](/quasar-plugins/loading-bar), which is actually **the recommended way**.
+:::
 
 ## Installation
 <doc-installation components="QAjaxBar" />
 
 ## Usage
-The Ajax Bar component captures Ajax calls automatically. This example triggers events manually for demonstrating purposes only.
+The QAjaxBar component captures Ajax calls automatically (unless told not to).
 
-<doc-example title="Ajax Bar Simulator" file="QAjaxBar/Example" />
+The example below triggers events manually for demonstrating purposes only. This one is set to appear at bottom (multiple positions available!) of the page, with a 10px size (default is different) and uses a custom color.
 
-## API
+<doc-example title="Basic" file="QAjaxBar/Basic" />
+
+Please check out the API section for all properties that you can use.
+
+## Tips
+* If multiple events are captured by Ajax Bar simultaneously, `@start` and `@stop` will still be triggered only once: when bar starts showing up and when it becomes hidden.
+
+* Each Ajax call makes a `start()` call when it is triggered. When it ends, it calls `stop()`. So yes, if you also manually trigger QAjaxBar you must call `start()` each time a new event is starting and `stop()` each time an event finished. QAjaxBar knows to handle multiple events simultaneously.
+
+## QAjaxBar API
 <doc-api file="QAjaxBar" />
-
-### Related Plugins
-- [Loading Plugin](/quasar-plugins/loading)
-- [Loading Bar Plugin](/quasar-plugins/loading-bar)

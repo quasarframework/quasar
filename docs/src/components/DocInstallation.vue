@@ -1,6 +1,6 @@
 <template lang="pug">
 q-card.doc-installation.q-my-lg
-  q-tabs.text-grey-7.bg-white(v-model="currentTab", align="left", :breakpoint="0")
+  q-tabs.text-grey-7.bg-white(v-model="currentTab", align="left", indicator-color="primary", dense, :breakpoint="0")
     q-tab(
       v-for="tab in ['Quasar CLI', 'UMD', 'Vue CLI']"
       :key="`installation-${tab}`"
@@ -8,15 +8,17 @@ q-card.doc-installation.q-my-lg
       :label="tab"
     )
 
-  q-tab-panels(v-model="currentTab", animated, style="background-color: #272822")
+  q-separator
+
+  q-tab-panels.bg-code(v-model="currentTab", animated)
     q-tab-panel.q-pa-none(name="Quasar CLI")
-      doc-code(copy) {{ QuasarCli }}
+      doc-code {{ QuasarCli }}
 
     q-tab-panel.q-pa-none(name="UMD")
-      doc-code(copy) {{ UMD }}
+      doc-code {{ UMD }}
 
     q-tab-panel.q-pa-none(name="Vue CLI")
-      doc-code(copy) {{ VueCli }}
+      doc-code {{ VueCli }}
 </template>
 
 <script>
@@ -106,16 +108,14 @@ window.quasarConfig = {
     },
 
     VueCli () {
-      const types = [], imports = [], parts = []
+      const types = [], imports = []
 
       ;['components', 'directives', 'plugins'].forEach(type => {
         if (this[type] !== void 0) {
-          types.push(type)
           imports.push(this.nameAsString(this[type], 2, false))
-          parts.push(`const ${type} = {
-  ${this.nameAsString(this[type], 2, false)}
-}
-`)
+          types.push(`${type}: {
+    ${this.nameAsString(this[type], 4, false)}
+  }`)
         }
       })
 
@@ -135,7 +135,6 @@ import {
   ${imports.join(',\n  ')}
 } from 'quasar'
 
-${parts.join('\n')}
 Vue.use(Quasar, {
   ${types.join(',\n  ')}
 })`
@@ -143,9 +142,3 @@ Vue.use(Quasar, {
   }
 }
 </script>
-
-<style lang="stylus">
-.doc-installation
-  .code-markup pre
-    border-radius 0
-</style>
