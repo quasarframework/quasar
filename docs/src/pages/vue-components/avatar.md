@@ -1,9 +1,5 @@
 ---
 title: Avatar
-related:
-  - /vue-components/chip
-  - /vue-components/list-and-list-items
-  - /vue-components/icon
 ---
 The QAvatar component creates a scalable, color-able element that can have text, icon or image within its shape. By default it is circular, but it can also be square or have a border-radius applied to give rounded corners to the square shape.
 
