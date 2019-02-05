@@ -1,13 +1,14 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
-      <q-badge color="secondary">Model: "{{ model }}"</q-badge>
+      <q-badge color="secondary" class="ellipsis">Model: "{{ model }}"</q-badge>
 
       <q-select
         filled
         v-model="model"
         :options="options"
         label="Standard"
+        color="teal"
         options-selected-class="text-deep-orange"
       >
         <q-item

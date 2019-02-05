@@ -384,7 +384,6 @@ export default Vue.extend({
       }
 
       if (
-        this.multiple === true &&
         this.$listeners['new-value'] !== void 0 &&
         this.inputValue.length > 0
       ) {

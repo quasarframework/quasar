@@ -1,7 +1,12 @@
 <template>
-  <div class="q-pa-md" style="max-width: 300px">
-    <div class="q-gutter-md">
-      <q-badge color="secondary">Model: "{{ model }}"</q-badge>
+  <div class="q-pa-md">
+    <div class="q-gutter-md row items-start">
+      <div class="col-12">
+        <q-badge color="secondary">
+          Model: "{{ model }}"
+        </q-badge>
+      </div>
+
       <q-select
         filled
         v-model="model"
@@ -11,6 +16,7 @@
         option-disable="inactive"
         emit-value
         map-options
+        style="min-width: 250px; max-width: 300px"
       />
 
       <q-select
@@ -22,6 +28,7 @@
         :option-disable="opt => opt.inactive"
         emit-value
         map-options
+        style="min-width: 250px; max-width: 300px"
       />
     </div>
   </div>
