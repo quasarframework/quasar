@@ -1,5 +1,7 @@
 ---
 title: Toolbar
+related:
+  - /layout/layout
 ---
 
 QToolbar is a component usually part of Layout Header and Footer, but it can be used anywhere on the page.

@@ -1,5 +1,7 @@
 ---
 title: Popup Proxy
+related:
+ - /vue-components/banner
 ---
 
 QPopupProxy should be used when you need either a [QMenu](/vue-components/menu) (on bigger screens) or a [QDialog](/vue-components/dialog) (on smaller screens) to be displayed. It acts as a proxy which picks between what of the two components to use. QPopupProxy also handles context-menus.

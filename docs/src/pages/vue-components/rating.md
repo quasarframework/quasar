@@ -1,5 +1,7 @@
 ---
 title: QRating
+related:
+  - /vue-components/icon
 ---
 
 Quasar Rating is a Component which allows users to rate items, usually known as “Star Rating”.

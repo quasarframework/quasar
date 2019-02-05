@@ -1,5 +1,7 @@
 ---
 title: Banner
+related:
+  - /vue-components/popup-proxy
 ---
 The QBanner component creates a banner element to display a prominent message and related optional actions.
 

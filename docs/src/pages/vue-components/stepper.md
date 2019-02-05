@@ -1,5 +1,7 @@
 ---
 title: Stepper
+related:
+  - /vue-components/dialog
 ---
 
 A Stepper conveys progress through numbered steps. Steppers display progress
