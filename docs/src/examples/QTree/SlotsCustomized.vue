@@ -5,27 +5,31 @@
       node-key="label"
       default-expand-all
     >
-      <div slot="header-root" slot-scope="prop" class="row items-center">
-        <img src="https://cdn.quasar-framework.org/img/quasar-logo.png" class="avatar q-mr-sm">
-        <div>
-          {{ prop.node.label }}
-          <q-badge color="orange" class="q-ml-sm">New!</q-badge>
+      <template v-slot:header-root="prop">
+        <div class="row items-center">
+          <img src="https://cdn.quasar-framework.org/img/quasar-logo.png" class="avatar q-mr-sm">
+          <div>
+            {{ prop.node.label }}
+            <q-badge color="orange" class="q-ml-sm">New!</q-badge>
+          </div>
         </div>
-      </div>
+      </template>
 
-      <div slot="header-generic" slot-scope="prop" class="row items-center">
-        <q-icon :name="prop.node.icon || 'star'" color="orange" size="28px" class="q-mr-sm" />
-        <div class="text-weight-bold text-primary">{{ prop.node.label }}</div>
-      </div>
+      <template v-slot:header-generic="prop">
+        <div class="row items-center">
+          <q-icon :name="prop.node.icon || 'star'" color="orange" size="28px" class="q-mr-sm" />
+          <div class="text-weight-bold text-primary">{{ prop.node.label }}</div>
+        </div>
+      </template>
 
-      <div slot="body-story" slot-scope="prop">
+      <template v-slot:body-story="prop">
         <span class="text-weight-thin">The story is:</span> {{ prop.node.story }}
-      </div>
+      </template>
 
-      <div slot="body-toggle" slot-scope="prop">
+      <template v-slot:body-toggle="prop">
         <p class="text-caption">{{ prop.node.caption }}</p>
         <q-toggle v-model="prop.node.enabled" label="I agree to the terms and conditions" />
-      </div>
+      </template>
     </q-tree>
   </div>
 </template>

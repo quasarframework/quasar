@@ -8,8 +8,7 @@
 
     <q-breadcrumbs class="text-grey" active-color="purple">
       <q-icon
-        slot="separator"
-        slot-scope="{}"
+        v-slot:separator
         size="1.2em"
         name="arrow_forward"
         color="purple"
@@ -22,8 +21,7 @@
 
     <q-breadcrumbs class="text-brown">
       <q-icon
-        slot="separator"
-        slot-scope="{}"
+        v-slot:separator
         size="1.5em"
         name="chevron_right"
         color="primary"

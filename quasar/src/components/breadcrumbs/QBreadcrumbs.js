@@ -66,7 +66,7 @@ export default Vue.extend({
         if (middle) {
           child.push(h('div', {
             staticClass: 'q-breadcrumbs__separator', class: this.sepClass
-          }, [ separator() ]))
+          }, separator()))
         }
       }
       else {

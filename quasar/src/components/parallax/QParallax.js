@@ -101,7 +101,7 @@ export default Vue.extend({
         'div',
         { staticClass: 'q-parallax__content absolute-full column flex-center' },
         this.$scopedSlots.content !== void 0
-          ? [ this.$scopedSlots.content({ percentScrolled: this.percentScrolled }) ]
+          ? this.$scopedSlots.content({ percentScrolled: this.percentScrolled })
           : this.$slots.default
       )
     ])
