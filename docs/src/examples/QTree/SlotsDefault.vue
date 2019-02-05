@@ -5,17 +5,19 @@
       node-key="label"
       default-expand-all
     >
-      <div slot="default-header" slot-scope="prop" class="row items-center">
-        <q-icon :name="prop.node.icon || 'share'" color="orange" size="28px" class="q-mr-sm" />
-        <div class="text-weight-bold text-primary">{{ prop.node.label }}</div>
-      </div>
+      <template v-slot:default-header="prop">
+        <div class="row items-center">
+          <q-icon :name="prop.node.icon || 'share'" color="orange" size="28px" class="q-mr-sm" />
+          <div class="text-weight-bold text-primary">{{ prop.node.label }}</div>
+        </div>
+      </template>
 
-      <div slot="default-body" slot-scope="prop">
+      <template v-slot:default-body="prop">
         <div v-if="prop.node.story">
           <span class="text-weight-bold">This node has a story</span>: {{ prop.node.story }}
         </div>
         <span v-else class="text-weight-light text-black">This is some default content.</span>
-      </div>
+      </template>
     </q-tree>
   </div>
 </template>
