@@ -1,5 +1,11 @@
 ---
 title: Card
+related:
+  - /vue-components/img
+  - /vue-components/table
+  - /vue-components/tabs
+  - /vue-components/tooltip
+  - /vue-components/video
 ---
 
 The QCard component is a great way to display important pieces of grouped content. This pattern is quickly emerging as a core design pattern for Apps, website previews and email content. It assists the viewer by containing and organizing information, while also setting up predictable expectations.
