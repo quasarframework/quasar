@@ -86,7 +86,7 @@ export default {
     text-decoration none
     outline 0
 
-@media (max-width: 600px)
+@media (max-width 600px)
   .doc-page
     padding 16px 22px
 
@@ -95,7 +95,7 @@ export default {
 
 .doc-page-related
   color $grey-9
-  transition background-color 0.28s, color 0.28s
+  transition background-color .28s, color .28s
 
   &:hover
     background white
@@ -110,7 +110,7 @@ export default {
     right 10px
 
   &__categ
-    font-size 0.8em
+    font-size .8em
 
   &__name
     font-size 1em
