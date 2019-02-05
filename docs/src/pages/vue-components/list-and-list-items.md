@@ -1,5 +1,9 @@
 ---
 title: List and List Items
+related:
+  - /vue-components/expansion-item
+  - /vue-components/slide-item
+  - /vue-components/separator
 ---
 
 The QList and QItem are a group of components which can work together to present multiple line items vertically as a single continuous element. They are best suited for displaying similar data types as rows of information, such as a contact list, a playlist or menu. Each row is called an Item. QItem can also be used outside of a QList too.

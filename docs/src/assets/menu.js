@@ -578,7 +578,7 @@ const cli = [
     path: 'installation'
   },
   {
-    name: '/quasar.conf.js',
+    name: 'quasar.conf.js',
     path: 'quasar-conf-js'
   },
   {
@@ -807,7 +807,7 @@ const cli = [
   }
 ]
 
-export default [
+module.exports = [
   {
     name: 'Introduction to Quasar',
     icon: 'room',
