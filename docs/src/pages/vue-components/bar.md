@@ -1,5 +1,8 @@
 ---
 title: Bar
+related:
+  - /vue-components/avatar
+  - /vue-components/badge
 ---
 
 The QBar is a small component for creating the top bar on different types of mobile or desktop websites/apps. For instance, in desktop apps QBar will have things like the close, minimize or maximize buttons and other menu controls for your application.
