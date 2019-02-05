@@ -88,7 +88,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Scott Brooks
 - Luca Ban
 - Borut
-- Thibaut Renoncourt
 - Benoit Ranque
 - Brian J Petersen
 - Felipe Santiago
@@ -144,6 +143,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Max Matteo Staack $123
 - Musicformellons $100
 - Kyle Tippetts $100 (x2)
+- David Smith $100
 - Gerard Eviston $50
 - Jacob Heruty $50
 - Polaris Microsystems, L.L.C. $50
