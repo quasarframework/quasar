@@ -24,26 +24,23 @@ module.exports = function (source) {
   const { data, content } = parseFrontMatter(source)
 
   data.title = data.title || 'Generic Page'
-  data.related = data.related !== void 0
-    ? data.related.map(entry => convertToRelated(entry))
-    : []
+
+  if (data.related !== void 0) {
+    data.related = data.related.map(entry => convertToRelated(entry))
+  }
 
   if (flatMenu[this.resourcePath]) {
     const { prev, next } = flatMenu[this.resourcePath]
 
+    if (prev !== void 0 || next !== void 0) {
+      data.nav = []
+    }
+
     if (prev !== void 0) {
-      const index = data.related.findIndex(entry => entry.path === prev.path)
-      if (index > -1) {
-        data.related.splice(index, 1)
-      }
-      data.related.unshift({ ...prev, dir: 'left' })
+      data.nav.push({ ...prev, dir: 'left' })
     }
     if (next !== void 0) {
-      const index = data.related.findIndex(entry => entry.path === next.path)
-      if (index > -1) {
-        data.related.splice(index, 1)
-      }
-      data.related.push({ ...next, dir: 'right' })
+      data.nav.push({ ...next, dir: 'right' })
     }
   }
 
