@@ -1,5 +1,8 @@
 ---
 title: App Internationalization (I18n)
+related:
+  - /options/rtl-support
+  - /options/quasar-language-packs
 ---
 Internationalization is a design process that ensures a product (a website or application) can be adapted to various languages and regions without requiring engineering changes to the source code. Think of internationalization as readiness for localization.
 

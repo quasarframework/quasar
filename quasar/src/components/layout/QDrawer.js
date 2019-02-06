@@ -39,7 +39,7 @@ export default Vue.extend({
     mini: Boolean,
     miniWidth: {
       type: Number,
-      default: 60
+      default: 57
     },
     breakpoint: {
       type: Number,

@@ -83,7 +83,7 @@ export const PanelParentMixin = {
     },
 
     __getPanelIndex (name) {
-      return this.$slots.default.findIndex(panel => {
+      return this.panels.findIndex(panel => {
         const opt = panel.componentOptions
         return opt &&
           opt.propsData.name === name &&
@@ -93,13 +93,13 @@ export const PanelParentMixin = {
     },
 
     __getAllPanels () {
-      return this.$slots.default.filter(
+      return this.panels.filter(
         panel => panel.componentOptions !== void 0 && panel.componentOptions.propsData.name !== void 0
       )
     },
 
     __getAvailablePanels () {
-      return this.$slots.default.filter(panel => {
+      return this.panels.filter(panel => {
         const opt = panel.componentOptions
         return opt &&
           opt.propsData.name !== void 0 &&
@@ -110,7 +110,7 @@ export const PanelParentMixin = {
 
     __go (direction, startIndex = this.panelIndex) {
       let index = startIndex + direction
-      const slots = this.$slots.default
+      const slots = this.panels
 
       while (index > -1 && index < slots.length) {
         const opt = slots[index].componentOptions
@@ -147,13 +147,13 @@ export const PanelParentMixin = {
     },
 
     __getPanelContent (h) {
-      if (this.$slots.default === void 0) {
+      if (this.panels.length === 0) {
         return
       }
 
       const panel = this.value &&
         this.__updatePanelIndex() &&
-        this.$slots.default[this.panelIndex]
+        this.panels[this.panelIndex]
 
       return [
         this.animated ? h('transition', {
@@ -168,6 +168,14 @@ export const PanelParentMixin = {
         ]) : panel
       ]
     }
+  },
+
+  render (h) {
+    this.panels = this.$scopedSlots.default !== void 0
+      ? this.$scopedSlots.default()
+      : []
+
+    return this.__render(h)
   }
 }
 

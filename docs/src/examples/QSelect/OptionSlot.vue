@@ -26,7 +26,9 @@
           </q-item>
         </template>
 
-        <q-icon slot="append" name="clear" @click.stop="model = null" />
+        <template v-slot:append>
+          <q-icon name="clear" @click.stop="model = null" />
+        </template>
       </q-select>
     </div>
   </div>

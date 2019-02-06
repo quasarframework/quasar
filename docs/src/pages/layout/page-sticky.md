@@ -1,5 +1,8 @@
 ---
 title: Layout QPageSticky
+related:
+  - /layout/layout
+  - /layout/page
 ---
 
 The QPageSticky component helps in placing DOM elements / components wrapped by it into a static position within the content area of your QPage, no matter where the user scrolls.

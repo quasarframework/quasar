@@ -1,5 +1,7 @@
 ---
 title: Configuring SSR
+related:
+  - /quasar-cli/quasar-conf-js
 ---
 
 We’ll be using Quasar CLI to develop and build a SSR website. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the “mode” parameter in “quasar dev” and “quasar build” commands.

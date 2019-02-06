@@ -14,7 +14,9 @@
         <q-btn class="on-right" flat dense color="primary" :disable="loading" label="Remove row" @click="removeRow" />
         <q-space />
         <q-input borderless dense debounce="300" color="primary" v-model="filter">
-          <q-icon slot="append" name="search" />
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
         </q-input>
       </template>
 

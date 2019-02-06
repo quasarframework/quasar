@@ -1,7 +1,9 @@
 <template>
   <div class="q-pa-md">
     <q-parallax>
-      <img slot="media" src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      <template v-slot:media>
+        <img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      </template>
 
       <template v-slot:content="scope">
         <div

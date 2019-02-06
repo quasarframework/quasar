@@ -1,7 +1,9 @@
 <template>
   <div class="q-pa-md">
     <q-parallax :height="200" :speed="0.5">
-      <img slot="media" src="https://cdn.quasar-framework.org/img/parallax1.jpg">
+      <template v-slot:media>
+        <img src="https://cdn.quasar-framework.org/img/parallax1.jpg">
+      </template>
 
       <h1 class="text-white">Docks</h1>
     </q-parallax>

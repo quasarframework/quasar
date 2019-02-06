@@ -12,7 +12,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    const actions = this.$slots.action
+    const actions = slot(this, 'action')
 
     return h('div', {
       staticClass: 'q-banner row items-center',

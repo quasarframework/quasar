@@ -1,5 +1,8 @@
 ---
 title: Dialog Plugin
+related:
+  - /vue-components/dialog
+  - /quasar-plugins/bottom-sheet
 ---
 
 Quasar Dialogs are a great way to offer the user the ability to choose a specific action or list of actions. They also can provide the user with important information, or require them to make a decision (or multiple decisions).
@@ -30,5 +33,5 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 
 <doc-example title="Other options" file="Dialog/OtherOptions" />
 
-## API
+## Dialog API
 <doc-api file="Dialog" />

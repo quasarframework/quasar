@@ -48,9 +48,11 @@
           <q-td key="calcium" :props="props">
             {{ props.row.calcium }}
             <q-popup-edit v-model="props.row.calcium">
-              <div slot="title" class="text-italic text-primary">
-                My Custom Title
-              </div>
+              <template v-slot:title>
+                <div class="text-italic text-primary">
+                  My Custom Title
+                </div>
+              </template>
               <q-input v-model="props.row.calcium" dense autofocus />
             </q-popup-edit>
           </q-td>

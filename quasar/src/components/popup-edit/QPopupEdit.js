@@ -75,7 +75,9 @@ export default Vue.extend({
     __getContent (h) {
       const
         child = [].concat(slot(this, 'default')),
-        title = this.$slots.title || this.title
+        title = this.$scopedSlots.title !== void 0
+          ? this.$scopedSlots.title()
+          : this.title
 
       title && child.unshift(
         h('div', { staticClass: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title ])

@@ -60,6 +60,14 @@
   background $dimmed-background !important
 .light-dimmed:after
   background $light-dimmed-background !important
+
+.clearfix
+  &:before, &:after
+    content ' '
+    display table
+  &:after
+    clear both
+
 .z-top
   z-index $z-top !important
 .z-max

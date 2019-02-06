@@ -1,5 +1,7 @@
 ---
 title: Tab Panels
+related:
+  - /vue-components/tabs
 ---
 Tab panels are a way of displaying more information using less window real estate.
 

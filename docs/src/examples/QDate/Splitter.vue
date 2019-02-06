@@ -5,15 +5,17 @@
       style="height: 450px"
     >
 
-      <div slot="before" class="q-pa-md">
-        <q-date
-          v-model="date"
-          :events="events"
-          event-color="orange"
-        />
-      </div>
+      <template v-slot:before>
+        <div class="q-pa-md">
+          <q-date
+            v-model="date"
+            :events="events"
+            event-color="orange"
+          />
+        </div>
+      </template>
 
-      <div slot="after">
+      <template v-slot:after>
         <q-tab-panels
           v-model="date"
           animated
@@ -39,7 +41,7 @@
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
           </q-tab-panel>
         </q-tab-panels>
-      </div>
+      </template>
     </q-splitter>
   </div>
 </template>

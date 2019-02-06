@@ -12,17 +12,21 @@
       <template v-slot:top>
         Top
       </template>
-      <q-tr v-slot:top-row>
-        <q-td colspan="100%">
-          Top row
-        </q-td>
-      </q-tr>
+      <template v-slot:top-row>
+        <q-tr>
+          <q-td colspan="100%">
+            Top row
+          </q-td>
+        </q-tr>
+      </template>
 
-      <q-tr v-slot:bottom-row>
-        <q-td colspan="100%">
-          Bottom row
-        </q-td>
-      </q-tr>
+      <template v-slot:bottom-row>
+        <q-tr>
+          <q-td colspan="100%">
+            Bottom row
+          </q-td>
+        </q-tr>
+      </template>
 
       <template v-slot:bottom>
         Bottom

@@ -108,10 +108,10 @@ export default Vue.extend({
     __getContent (h) {
       return [
 
-        this.$slots.prepend !== void 0 ? h('div', {
+        this.$scopedSlots.prepend !== void 0 ? h('div', {
           staticClass: 'q-field__prepend q-field__marginal row no-wrap items-center',
           key: 'prepend'
-        }, this.$slots.prepend) : null,
+        }, this.$scopedSlots.prepend()) : null,
 
         h('div', {
           staticClass: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
@@ -151,11 +151,11 @@ export default Vue.extend({
           }, this.__getInnerAppend(h))
           : null,
 
-        this.$slots.append !== void 0
+        this.$scopedSlots.append !== void 0
           ? h('div', {
             staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
             key: 'append'
-          }, this.$slots.append)
+          }, this.$scopedSlots.append())
           : null,
 
         this.__getLocalMenu !== void 0
@@ -176,7 +176,7 @@ export default Vue.extend({
           key = this.computedErrorMessage
         }
         else {
-          msg = this.$slots.error
+          msg = slot(this, 'error')
           key = 'q--slot-error'
         }
       }
@@ -186,7 +186,7 @@ export default Vue.extend({
           key = this.hint
         }
         else {
-          msg = this.$slots.hint
+          msg = slot(this, 'hint')
           key = 'q--slot-hint'
         }
       }
@@ -201,9 +201,9 @@ export default Vue.extend({
           }, msg)
         ]),
 
-        this.counter === true || this.$slots.counter !== void 0 ? h('div', {
+        this.counter === true || this.$scopedSlots.counter !== void 0 ? h('div', {
           staticClass: 'q-field__counter'
-        }, this.$slots.counter || [ this.computedCounter ]) : null
+        }, this.$scopedSlots.counter !== void 0 ? this.$scopedSlots.counter() : [ this.computedCounter ]) : null
       ])
     }
   },
@@ -213,9 +213,9 @@ export default Vue.extend({
       staticClass: 'q-field row no-wrap items-start',
       class: this.classes
     }, [
-      this.$slots.before !== void 0 ? h('div', {
+      this.$scopedSlots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
-      }, this.$slots.before) : null,
+      }, this.$scopedSlots.before()) : null,
 
       h('div', {
         staticClass: 'q-field__inner relative-position col self-stretch column justify-center'
@@ -230,9 +230,9 @@ export default Vue.extend({
         this.__getBottom(h)
       ]),
 
-      this.$slots.after !== void 0 ? h('div', {
+      this.$scopedSlots.after !== void 0 ? h('div', {
         staticClass: 'q-field__after q-field__marginal row no-wrap items-center'
-      }, this.$slots.after) : null
+      }, this.$scopedSlots.after()) : null
     ])
   }
 })
