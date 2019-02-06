@@ -5,6 +5,7 @@ import PortalMixin from '../../mixins/portal.js'
 
 import preventScroll from '../../utils/prevent-scroll.js'
 import EscapeKey from '../../utils/escape-key.js'
+import slot from '../../utils/slot.js'
 
 let modalsOpened = 0
 
@@ -232,7 +233,7 @@ export default Vue.extend({
             staticClass: 'q-dialog__inner fixed-full flex no-pointer-events',
             class: this.classes,
             attrs: { tabindex: -1 }
-          }, this.$slots.default) : null
+          }, slot(this, 'default')) : null
         ])
       ])
     }

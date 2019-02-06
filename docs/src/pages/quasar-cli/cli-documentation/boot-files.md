@@ -1,5 +1,7 @@
 ---
 title: Boot files
+related:
+  - /quasar-cli/quasar-conf-js
 ---
 A common use case for Quasar applications is to run code before the root Vue instance is instantiated.
 Quasar provides an elegant solution to that problem by allowing users to define so-called boot files.

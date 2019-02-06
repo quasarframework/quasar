@@ -1,5 +1,10 @@
 ---
 title: Dialog
+related:
+  - /quasar-plugins/dialog
+  - /vue-directives/close-dialog
+  - /vue-components/card
+  - /vue-components/popup-proxy
 ---
 
 The QDialog component is a great way to offer the user the ability to choose a specific action or list of actions. They also can provide the user with important information, or require them to make a decision (or multiple decisions).

@@ -1,5 +1,8 @@
 ---
 title: RTL Support
+related:
+  - /options/quasar-language-packs
+  - /options/app-internationalization
 ---
 RTL is referring to "right to left" UI for languages that need it.
 

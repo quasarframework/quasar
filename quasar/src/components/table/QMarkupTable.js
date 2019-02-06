@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QMarkupTable',
 
@@ -34,7 +36,7 @@ export default Vue.extend({
       staticClass: 'q-markup-table q-table__container',
       class: this.classes
     }, [
-      h('table', { staticClass: 'q-table' }, this.$slots.default)
+      h('table', { staticClass: 'q-table' }, slot(this, 'default'))
     ])
   }
 })

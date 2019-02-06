@@ -1,0 +1,56 @@
+<template>
+  <div class="q-px-xl q-py-md" style="max-width: 500px">
+    <p>.q-gutter and unsized children</p>
+    <div class="bg-red-4 clearfix">
+      <div class="row q-gutter-lg">
+        <div :class="`bg-green-${n+1}`" v-for="n in 7" :key="n">
+          Child
+        </div>
+      </div>
+    </div>
+
+    <q-separator class="q-my-md" />
+
+    <p>.q-col-gutter and unsized children</p>
+    <div class="bg-red-4 clearfix q-mt-lg">
+      <div class="row q-col-gutter-lg">
+        <div class="semi-transparent" :class="`bg-green-${n+1}`" v-for="n in 7" :key="n">
+          Child
+        </div>
+      </div>
+    </div>
+
+    <q-separator class="q-my-md" />
+
+    <p>.q-gutter and .col-3 sized children - 4 .col-3 adds up to <strong>more than 100%</strong></p>
+    <div class="bg-red-4 clearfix">
+      <div class="row q-gutter-lg">
+        <div class="col-3" :class="`bg-green-${n+1}`" v-for="n in 7" :key="n">
+          Child
+        </div>
+      </div>
+    </div>
+
+    <q-separator class="q-my-md" />
+
+    <p>.q-col-gutter and .col-3 sized children - 4 .col-3 adds up to <strong>100%</strong></p>
+    <div class="bg-red-4 clearfix q-mt-lg">
+      <div class="row q-col-gutter-lg">
+        <div class="semi-transparent col-3" :class="`bg-green-${n+1}`" v-for="n in 7" :key="n">
+          Child
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="stylus">
+.clearfix
+  &:before, &:after
+    content ' '
+    display table
+  &:after
+    clear both
+.semi-transparent
+  opacity .7
+</style>

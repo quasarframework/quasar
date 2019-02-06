@@ -1,5 +1,11 @@
 ---
 title: Toolbar
+related:
+  - /layout/header-and-footer
+  - /vue-components/icon
+  - /vue-components/avatar
+  - /vue-components/breadcrumbs
+  - /vue-components/separator
 ---
 
 QToolbar is a component usually part of Layout Header and Footer, but it can be used anywhere on the page.

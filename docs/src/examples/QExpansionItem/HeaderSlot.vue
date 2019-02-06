@@ -2,7 +2,7 @@
   <div class="q-pa-md" style="max-width: 350px">
     <q-list bordered class="rounded-borders">
       <q-expansion-item>
-        <template slot="header">
+        <template v-slot:header>
           <q-item-section avatar>
             <q-avatar icon="bluetooth" color="primary" text-color="white" />
           </q-item-section>
@@ -32,7 +32,7 @@
       <q-separator />
 
       <q-expansion-item>
-        <template slot="header">
+        <template v-slot:header>
           <q-item-section avatar>
             <q-avatar>
               <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
@@ -56,7 +56,7 @@
       <q-separator />
 
       <q-expansion-item>
-        <template slot="header">
+        <template v-slot:header>
           <q-item-section avatar>
             <q-icon color="purple" name="signal_wifi_off" />
           </q-item-section>

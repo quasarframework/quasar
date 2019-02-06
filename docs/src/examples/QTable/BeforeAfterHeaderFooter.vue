@@ -9,24 +9,28 @@
       :selected.sync="selected"
     >
 
-      <div slot="top" slot-scope="{}">
+      <template v-slot:top>
         Top
-      </div>
-      <q-tr slot="top-row" slot-scope="{}">
-        <q-td colspan="100%">
-          Top row
-        </q-td>
-      </q-tr>
+      </template>
+      <template v-slot:top-row>
+        <q-tr>
+          <q-td colspan="100%">
+            Top row
+          </q-td>
+        </q-tr>
+      </template>
 
-      <q-tr slot="bottom-row" slot-scope="{}">
-        <q-td colspan="100%">
-          Bottom row
-        </q-td>
-      </q-tr>
+      <template v-slot:bottom-row>
+        <q-tr>
+          <q-td colspan="100%">
+            Bottom row
+          </q-td>
+        </q-tr>
+      </template>
 
-      <div slot="bottom" slot-scope="{}">
+      <template v-slot:bottom>
         Bottom
-      </div>
+      </template>
 
     </q-table>
   </div>

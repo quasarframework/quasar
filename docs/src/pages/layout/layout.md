@@ -1,5 +1,12 @@
 ---
 title: Layout
+related:
+  - /layout/header-and-footer
+  - /layout/drawer
+  - /layout/page
+  - /layout/page-sticky
+  - /layout/page-scroller
+  - /layout/floating-action-button
 components:
   - layout/ViewProp
   - layout/ViewPlay

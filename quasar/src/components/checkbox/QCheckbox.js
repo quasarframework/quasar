@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import CheckboxMixin from '../../mixins/checkbox.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QCheckbox',
 
@@ -80,9 +82,11 @@ export default Vue.extend({
         ])
       ]),
 
-      (this.label !== void 0 || this.$slots.default !== void 0) && h('div', {
-        staticClass: 'q-checkbox__label q-anchor--skip'
-      }, (this.label !== void 0 ? [ this.label ] : []).concat(this.$slots.default))
+      this.label !== void 0 || this.$scopedSlots.default !== void 0
+        ? h('div', {
+          staticClass: 'q-checkbox__label q-anchor--skip'
+        }, (this.label !== void 0 ? [ this.label ] : []).concat(slot(this, 'default')))
+        : null
     ])
   }
 })

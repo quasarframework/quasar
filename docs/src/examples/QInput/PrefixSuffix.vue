@@ -2,17 +2,23 @@
   <div class="q-pa-md">
     <div class="q-gutter-md column" style="max-width: 300px">
       <q-input filled v-model="email" type="email" suffix="@gmail.com">
-        <q-icon slot="before" name="mail" />
+        <template v-slot:before>
+          <q-icon name="mail" />
+        </template>
       </q-input>
 
       <q-input outlined v-model="number" type="number" prefix="$">
-        <q-avatar slot="append">
-          <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
-        </q-avatar>
+        <template v-slot:append>
+          <q-avatar>
+            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+          </q-avatar>
+        </template>
       </q-input>
 
       <q-input standout v-model="email" type="email" prefix="Email:" suffix="@gmail.com">
-        <q-icon slot="prepend" name="mail" />
+        <template v-slot:prepend>
+          <q-icon name="mail" />
+        </template>
       </q-input>
     </div>
   </div>

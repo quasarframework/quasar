@@ -8,10 +8,10 @@
       style="width: 150px"
     >
       Compute PI
-      <span slot="loading">
+      <template v-slot:loading>
         <q-spinner-gears class="on-left" />
         Computing...
-      </span>
+      </template>
     </q-btn>
 
     <q-btn

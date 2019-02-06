@@ -7,7 +7,7 @@
       row-key="name"
       :visible-columns="visibleColumns"
     >
-      <template slot="top" slot-scope="props">
+      <template v-slot:top="props">
         <div class="col-2 q-table__title">Treats</div>
 
         <q-space />

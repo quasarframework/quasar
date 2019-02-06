@@ -8,41 +8,43 @@
       row-key="name"
       wrap-cells
     >
-      <q-tr slot="body" slot-scope="props" :props="props">
-        <q-td key="desc" :props="props">
-          {{ props.row.name }}
-          <q-popup-edit v-model="props.row.name">
-            <q-input v-model="props.row.name" dense autofocus counter />
-          </q-popup-edit>
-        </q-td>
-        <q-td key="comment" :props="props">
-          {{ props.row.comment }}
-          <q-popup-edit
-            buttons
-            v-model="props.row.comment"
-          >
-            <q-input
-              type="textarea"
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td key="desc" :props="props">
+            {{ props.row.name }}
+            <q-popup-edit v-model="props.row.name">
+              <q-input v-model="props.row.name" dense autofocus counter />
+            </q-popup-edit>
+          </q-td>
+          <q-td key="comment" :props="props">
+            {{ props.row.comment }}
+            <q-popup-edit
+              buttons
               v-model="props.row.comment"
-              autofocus
-              counter
-              @keyup.enter.stop
-            />
-          </q-popup-edit>
-        </q-td>
-        <q-td key="calories" :props="props">
-          {{ props.row.calories }}
-          <q-popup-edit v-model="props.row.calories">
-            <q-input v-model="props.row.calories" dense autofocus />
-          </q-popup-edit>
-        </q-td>
-        <q-td key="fat" :props="props">
-          <div class="text-pre-wrap">{{ props.row.fat }}</div>
-          <q-popup-edit v-model="props.row.fat">
-            <q-input v-model="props.row.fat" dense autofocus />
-          </q-popup-edit>
-        </q-td>
-      </q-tr>
+            >
+              <q-input
+                type="textarea"
+                v-model="props.row.comment"
+                autofocus
+                counter
+                @keyup.enter.stop
+              />
+            </q-popup-edit>
+          </q-td>
+          <q-td key="calories" :props="props">
+            {{ props.row.calories }}
+            <q-popup-edit v-model="props.row.calories">
+              <q-input v-model="props.row.calories" dense autofocus />
+            </q-popup-edit>
+          </q-td>
+          <q-td key="fat" :props="props">
+            <div class="text-pre-wrap">{{ props.row.fat }}</div>
+            <q-popup-edit v-model="props.row.fat">
+              <q-input v-model="props.row.fat" dense autofocus />
+            </q-popup-edit>
+          </q-td>
+        </q-tr>
+      </template>
     </q-table>
   </div>
 </template>

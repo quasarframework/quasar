@@ -11,7 +11,7 @@
       <q-drawer
         v-model="drawer"
 
-        :mini="miniState"
+        :mini="!drawer || miniState"
         @click.capture="drawerClick"
 
         :width="200"

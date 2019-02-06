@@ -305,11 +305,13 @@
             </div>
           </q-step>
 
-          <q-stepper-navigation slot="navigation">
-            <q-separator spaced />
-            <q-btn v-if="step !== 'play'" color="primary" class="q-mr-sm" @click="$refs.stepper.next()" label="Continue" />
-            <q-btn color="black" label="Export Layout" @click="exportDialog = true" />
-          </q-stepper-navigation>
+          <template v-slot:navigation>
+            <q-stepper-navigation>
+              <q-separator spaced />
+              <q-btn v-if="step !== 'play'" color="primary" class="q-mr-sm" @click="$refs.stepper.next()" label="Continue" />
+              <q-btn color="black" label="Export Layout" @click="exportDialog = true" />
+            </q-stepper-navigation>
+          </template>
         </q-stepper>
 
         <q-dialog v-model="exportDialog">

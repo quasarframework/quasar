@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import AlignMixin from '../../mixins/align.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QBreadcrumbs',
@@ -43,17 +44,18 @@ export default Vue.extend({
   },
 
   render (h) {
-    if (!this.$slots.default) { return }
+    const node = slot(this, 'default')
+    if (node === void 0) { return }
 
     let els = 1
 
     const
       child = [],
-      len = this.$slots.default.filter(c => c.tag !== void 0 && c.tag.endsWith('-QBreadcrumbsEl')).length,
+      len = node.filter(c => c.tag !== void 0 && c.tag.endsWith('-QBreadcrumbsEl')).length,
       separator = this.$scopedSlots.separator || (() => this.separator)
 
-    for (const i in this.$slots.default) {
-      const comp = this.$slots.default[i]
+    for (const i in node) {
+      const comp = node[i]
       if (comp.tag !== void 0 && comp.tag.endsWith('-QBreadcrumbsEl')) {
         const middle = els < len
         els++
@@ -66,7 +68,7 @@ export default Vue.extend({
         if (middle) {
           child.push(h('div', {
             staticClass: 'q-breadcrumbs__separator', class: this.sepClass
-          }, [ separator() ]))
+          }, separator()))
         }
       }
       else {

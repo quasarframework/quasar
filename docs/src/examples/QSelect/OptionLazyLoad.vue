@@ -11,11 +11,13 @@
         @filter-abort="abortFilterFn"
         style="width: 250px"
       >
-        <q-item slot="no-option">
-          <q-item-section class="text-grey">
-            No results
-          </q-item-section>
-        </q-item>
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No results
+            </q-item-section>
+          </q-item>
+        </template>
       </q-select>
 
       <q-btn

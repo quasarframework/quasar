@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QSlideItem',
 
@@ -28,13 +30,13 @@ export default Vue.extend({
         this.__scale = 0
         node.classList.add('no-transition')
 
-        if (this.$slots.left !== void 0) {
+        if (this.$scopedSlots.left !== void 0) {
           const slot = this.$refs.leftContent
           slot.style.transform = `scale3d(1,1,1)`
           this.__size.left = slot.getBoundingClientRect().width
         }
 
-        if (this.$slots.right !== void 0) {
+        if (this.$scopedSlots.right !== void 0) {
           const slot = this.$refs.rightContent
           slot.style.transform = `scale3d(1,1,1)`
           this.__size.right = slot.getBoundingClientRect().width
@@ -58,8 +60,8 @@ export default Vue.extend({
       }
 
       if (
-        (this.$slots.left === void 0 && evt.direction === 'right') ||
-        (this.$slots.right === void 0 && evt.direction === 'left')
+        (this.$scopedSlots.left === void 0 && evt.direction === 'right') ||
+        (this.$scopedSlots.right === void 0 && evt.direction === 'left')
       ) {
         node.style.transform = `translate3d(0,0,0)`
         return
@@ -94,8 +96,8 @@ export default Vue.extend({
   render (h) {
     let
       content = [],
-      left = this.$slots.left !== void 0,
-      right = this.$slots.right !== void 0
+      left = this.$scopedSlots.left !== void 0,
+      right = this.$scopedSlots.right !== void 0
 
     if (left) {
       content.push(
@@ -104,7 +106,7 @@ export default Vue.extend({
           staticClass: 'q-slide-item__left absolute-full row no-wrap items-center justify-start',
           class: this.leftColor ? `bg-${this.leftColor}` : null
         }, [
-          h('div', { ref: 'leftContent' }, this.$slots.left)
+          h('div', { ref: 'leftContent' }, slot(this, 'left'))
         ])
       )
     }
@@ -116,7 +118,7 @@ export default Vue.extend({
           staticClass: 'q-slide-item__right absolute-full row no-wrap items-center justify-end',
           class: this.rightColor ? `bg-${this.rightColor}` : null
         }, [
-          h('div', { ref: 'rightContent' }, this.$slots.right)
+          h('div', { ref: 'rightContent' }, slot(this, 'right'))
         ])
       )
     }
@@ -132,7 +134,7 @@ export default Vue.extend({
             horizontal: true
           }
         }] : null
-      }, this.$slots.default)
+      }, slot(this, 'default'))
     )
 
     return h('div', {

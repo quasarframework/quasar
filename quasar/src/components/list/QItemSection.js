@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QItemSection',
 
@@ -31,6 +33,6 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-item__section column',
       class: this.classes
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

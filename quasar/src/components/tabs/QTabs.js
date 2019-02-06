@@ -3,6 +3,8 @@ import Vue from 'vue'
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../observer/QResizeObserver.js'
 
+import slot from '../../utils/slot.js'
+
 function getIndicatorClass (color, top) {
   return `absolute-${top ? 'top' : 'bottom'}${color ? ` text-${color}` : ''}`
 }
@@ -316,7 +318,7 @@ export default Vue.extend({
         ref: 'content',
         staticClass: 'q-tabs__content row no-wrap items-center',
         class: this.alignClass
-      }, this.$slots.default),
+      }, slot(this, 'default')),
 
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--right q-tab__icon',

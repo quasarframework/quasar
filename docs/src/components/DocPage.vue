@@ -9,18 +9,40 @@ q-page.doc-page
 
   slot
 
-  .doc-page-nav.doc-page-padding.text-primary(v-if="related !== void 0")
-    .text-h6.q-pb-md Ready for more?
-    .q-gutter-sm.flex.items-stretch
-      router-link.relative-position.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center(
+  .doc-page-nav.text-primary.q-pb-lg(v-if="related !== void 0")
+    .text-h6.q-pb-md Related
+    .q-gutter-md.flex
+      router-link.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.shadow-2.bg-grey-4(
         v-for="link in related"
         :key="link.category + link.path"
         :to="link.path"
       )
-        q-icon.absolute(v-if="link.dir !== void 0", :name="`chevron_${link.dir}`")
+        .row.items-center
+          .col
+            .doc-page-nav__categ.text-uppercase {{ link.category || 'Docs' }}
+            .doc-page-nav__name.text-weight-bold {{ link.name }}
 
-        .doc-page-nav__categ.text-uppercase.q-pr-lg {{ link.category || 'Docs' }}
-        .doc-page-nav__name.text-weight-bold {{ link.name }}
+          .col-auto.q-pl-lg
+            q-icon(name="launch")
+
+  .doc-page-nav.text-primary.q-pb-xl(v-if="nav !== void 0")
+    .text-h6.q-pb-md Ready for more?
+    .q-gutter-md.flex
+      router-link.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.shadow-2.bg-white(
+        v-for="link in nav"
+        :key="link.category + link.path"
+        :to="link.path"
+      )
+        .row.items-center
+          .col-auto(
+            v-if="link.dir !== void 0"
+            :class="link.dir === 'right' ? 'order-last q-pl-md' : 'order-first q-pr-md'"
+          )
+            q-icon(:name="`chevron_${link.dir}`")
+
+          .col
+            .doc-page-nav__categ.text-uppercase {{ link.category || 'Docs' }}
+            .doc-page-nav__name.text-weight-bold {{ link.name }}
 
   .doc-edit-link
     | Caught a mistake? <doc-link :to="editHref">Suggest an edit on Github</doc-link>
@@ -35,7 +57,8 @@ export default {
 
   props: {
     title: String,
-    related: Array
+    related: Array,
+    nav: Array
   },
 
   computed: {
@@ -73,23 +96,26 @@ export default {
   margin 48px 0 12px
 
 .doc-page-related
-  background-color $grey-4
   color $grey-9
-  transition background-color .28s, color .28s
+  transition color .28s
 
   &:hover
-    background white
     color $primary
 
 .doc-page-nav
   margin 68px 0 12px
 
+  & + &
+    margin-top 0
+
   .q-icon
-    font-size 1.5em
+    font-size 1.75em
     top 12px
     right 10px
+
   &__categ
     font-size .8em
+
   &__name
     font-size 1em
 </style>

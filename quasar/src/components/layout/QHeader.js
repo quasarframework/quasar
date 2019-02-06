@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import QResizeObserver from '../observer/QResizeObserver.js'
 import CanRenderMixin from '../../mixins/can-render.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QHeader',
@@ -122,7 +123,7 @@ export default Vue.extend({
           staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
         })
         : null
-    ].concat(this.$slots.default))
+    ].concat(slot(this, 'default')))
   },
 
   created () {

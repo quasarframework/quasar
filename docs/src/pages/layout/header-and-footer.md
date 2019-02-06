@@ -1,5 +1,12 @@
 ---
 title: Layout Header and Footer
+related:
+  - /layout/layout
+  - /layout/page
+  - /vue-components/toolbar
+  - /vue-components/breadcrumbs
+  - /vue-components/tabs
+  - /vue-components/bar
 ---
 
 QLayout allows you to configure your views as a 3x3 matrix, containing an optional Header and/or Footer. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.

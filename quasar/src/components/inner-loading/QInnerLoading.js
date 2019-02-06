@@ -21,14 +21,16 @@ export default Vue.extend({
   },
 
   render (h) {
-    const content = this.$slots.default || [
-      h(QSpinner, {
-        props: {
-          size: this.size,
-          color: this.color
-        }
-      })
-    ]
+    const content = this.$scopedSlots.default !== void 0
+      ? this.$scopedSlots.default()
+      : [
+        h(QSpinner, {
+          props: {
+            size: this.size,
+            color: this.color
+          }
+        })
+      ]
 
     return h('transition', {
       props: { name: this.transition }

@@ -1,5 +1,10 @@
 ---
 title: Toggle
+related:
+  - /vue-components/checkbox
+  - /vue-components/option-group
+  - /vue-components/radio
+  - /vue-components/button-toggle
 ---
 The QToggle component is another basic element for user input. You can use this for turning settings, features or true/ false inputs on and off.
 

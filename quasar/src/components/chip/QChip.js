@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QIcon from '../icon/QIcon.js'
 import RippleMixin from '../../mixins/ripple.js'
 import { stopAndPrevent } from '../../utils/event.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QChip',
@@ -103,7 +104,7 @@ export default Vue.extend({
 
       child.push(h('div', {
         staticClass: 'q-chip__content row no-wrap items-center q-anchor--skip'
-      }, this.label !== void 0 ? [ this.label ] : this.$slots.default))
+      }, this.label !== void 0 ? [ this.label ] : slot(this, 'default')))
 
       this.iconRight && child.push(h(QIcon, {
         staticClass: 'q-chip__icon q-chip__icon--right',

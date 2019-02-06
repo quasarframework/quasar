@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QPageSticky',
 
@@ -113,14 +115,16 @@ export default Vue.extend({
   },
 
   render (h) {
+    const content = slot(this, 'default')
+
     return h('div', {
       staticClass: 'q-page-sticky q-layout__section--animate row flex-center',
       class: this.classes,
       style: this.style
     },
-    this.expand
-      ? this.$slots.default
-      : [ h('div', this.$slots.default) ]
+    this.expand === true
+      ? content
+      : [ h('div', content) ]
     )
   }
 })
