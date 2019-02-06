@@ -105,6 +105,9 @@ export default {
 .doc-page-nav
   margin 68px 0 12px
 
+  & + &
+    margin-top 0
+
   .q-icon
     font-size 1.75em
     top 12px

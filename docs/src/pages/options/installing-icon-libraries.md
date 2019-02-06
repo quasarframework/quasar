@@ -1,15 +1,14 @@
 ---
 title: Installing Icon Libraries
+related:
+  - /options/quasar-icon-sets
+  - /vue-components/icon
 ---
 
 You'll most likely want icons in your website/app and Quasar offers an easy way out of the box, for following icon libraries: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/) and [Eva Icons](https://akveo.github.io/eva-icons).
 
 ::: tip
 You can either choose to install one of them or multiple.
-:::
-
-::: tip
-Related pages: [Quasar Icon Sets](/options/quasar-icon-sets) and [QIcon component](/vue-components/icon).
 :::
 
 ## Installing

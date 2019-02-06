@@ -1,5 +1,11 @@
 ---
 title: Spinners
+related:
+  - /vue-components/linear-progress
+  - /vue-components/circular-progress
+  - /vue-components/inner-loading
+  - /quasar-plugins/loading
+  - /quasar-plugins/loading-bar
 ---
 
 A Spinner is used to show the user a timely process is currently taking place. It is an important UX feature, which gives the user the feeling the system is continuing to work for longer term activities, like grabbing data from the server or some heavy calculations.

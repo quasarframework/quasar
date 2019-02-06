@@ -1,5 +1,7 @@
 ---
 title: PreFetch Feature
+related:
+  - /quasar-cli/quasar-conf-js
 ---
 The PreFetch is a feature **available when using Quasar CLI** that allows a way for the components picked up by Vue Router (defined in `/src/router/routes.js`) to:
 * pre-fetch data
@@ -19,7 +21,7 @@ return {
 }
 ```
 ::: warning
-  When you use it to pre-fetch data, you are required to use a Vuex Store, so make sure that your project folder has the `/src/store` folder when you create your project, otherwise generate a new project and copy the store folder contents to your current project.
+When you use it to pre-fetch data, you are required to use a Vuex Store, so make sure that your project folder has the `/src/store` folder when you create your project, otherwise generate a new project and copy the store folder contents to your current project.
 :::
 
 ## How PreFetch Helps SSR Mode

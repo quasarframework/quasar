@@ -1,5 +1,8 @@
 ---
 title: Table
+related:
+  - /vue-components/markup-table
+  - /vue-components/pagination
 ---
 
 QTable is a component that allows you to display data in a tabular manner. It packs the following main features:

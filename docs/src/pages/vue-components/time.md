@@ -1,5 +1,8 @@
 ---
 title: QTime
+related:
+  - /vue-components/date
+  - /quasar-utils/date-utils
 ---
 
 The QTime component provides a method to input time.

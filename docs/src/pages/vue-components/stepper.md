@@ -1,5 +1,7 @@
 ---
 title: Stepper
+related:
+  - /options/transitions
 ---
 
 A Stepper conveys progress through numbered steps. Steppers display progress

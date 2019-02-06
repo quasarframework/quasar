@@ -1,5 +1,7 @@
 ---
 title: QNoSsr
+related:
+  - /quasar-cli/developing-ssr/introduction
 ---
 The QNoSsr component makes sense only if you are creating a SSR website/app.
 

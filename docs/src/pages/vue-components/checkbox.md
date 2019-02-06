@@ -1,5 +1,10 @@
 ---
 title: Checkbox
+related:
+  - /vue-components/toggle
+  - /vue-components/option-group
+  - /vue-components/radio
+  - /vue-components/button-toggle
 ---
 
 The QCheckbox component is another basic element for user input. You can use this to supply a way for the user to toggle an option.
