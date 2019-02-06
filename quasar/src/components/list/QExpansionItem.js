@@ -125,8 +125,8 @@ export default Vue.extend({
     __getHeader (h) {
       let child
 
-      if (this.$slots.header) {
-        child = [].concat(this.$slots.header)
+      if (this.$scopedSlots.header) {
+        child = [].concat(this.$scopedSlots.header())
       }
       else {
         child = [

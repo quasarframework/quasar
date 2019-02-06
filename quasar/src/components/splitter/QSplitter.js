@@ -122,7 +122,7 @@ export default Vue.extend({
         ref: 'before',
         staticClass: 'q-splitter__panel q-splitter__before relative-position',
         style: this.beforeStyle
-      }, this.$slots.before),
+      }, slot(this, 'before')),
 
       h('div', {
         staticClass: 'q-splitter__separator',
@@ -147,7 +147,7 @@ export default Vue.extend({
         ref: 'after',
         staticClass: 'q-splitter__panel q-splitter__after relative-position',
         style: this.afterStyle
-      }, this.$slots.after)
+      }, slot(this, 'after'))
     ].concat(slot(this, 'default')))
   }
 })

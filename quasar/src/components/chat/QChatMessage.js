@@ -1,7 +1,5 @@
 import Vue from 'vue'
 
-import slot from '../../utils/slot.js'
-
 export default Vue.extend({
   name: 'QChatMessage',
 
@@ -74,15 +72,14 @@ export default Vue.extend({
         h('span', {
           staticClass: 'q-message-text-content',
           class: this.textClass
-        }, [
-          this.$scopedSlots.default(),
+        }, this.$scopedSlots.default().concat([
           this.stamp !== void 0
             ? h('div', {
               staticClass: 'q-message-stamp',
               domProps: { innerHTML: this.stamp }
             })
             : null
-        ])
+        ]))
       ])
     }
   },
@@ -102,24 +99,26 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-message-container row items-end no-wrap'
       }, [
-        this.$slots.avatar || (
-          this.avatar
-            ? h('img', {
-              staticClass: 'q-message-avatar col-auto',
-              attrs: { src: this.avatar }
-            })
-            : null
-        ),
+        this.$scopedSlots.avatar !== void 0
+          ? this.$scopedSlots.avatar()
+          : (
+            this.avatar !== void 0
+              ? h('img', {
+                staticClass: 'q-message-avatar col-auto',
+                attrs: { src: this.avatar }
+              })
+              : null
+          ),
 
         h('div', { class: this.sizeClass }, [
-          this.name
+          this.name !== void 0
             ? h('div', {
               staticClass: 'q-message-name',
               domProps: { innerHTML: this.name }
             })
             : null,
 
-          this.text ? this.__getText(h) : null,
+          this.text !== void 0 ? this.__getText(h) : null,
           this.$scopedSlots.default !== void 0 ? this.__getMessage(h) : null
         ])
       ])

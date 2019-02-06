@@ -89,8 +89,8 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-parallax__media absolute-full'
       }, [
-        this.$slots.media !== void 0
-          ? this.$slots.media
+        this.$scopedSlots.media !== void 0
+          ? this.$scopedSlots.media()
           : h('img', {
             ref: 'media',
             attrs: {
@@ -117,8 +117,8 @@ export default Vue.extend({
     this.__update = frameDebounce(this.__update)
     this.resizeHandler = debounce(this.__onResize, 50)
 
-    this.media = this.$slots.media
-      ? this.$slots.media[0].elm
+    this.media = this.$scopedSlots.media !== void 0
+      ? this.$scopedSlots.media()[0].elm
       : this.$refs.media
 
     this.media.onload = this.media.onloadstart = this.media.loadedmetadata = this.__onResize

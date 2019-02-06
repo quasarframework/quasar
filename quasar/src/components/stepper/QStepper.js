@@ -2,7 +2,6 @@ import Vue from 'vue'
 
 import { PanelParentMixin } from '../../mixins/panel.js'
 import StepHeader from './StepHeader.js'
-
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
@@ -90,6 +89,6 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-stepper',
       class: this.classes
-    }, this.__getContent(h).concat(this.$slots.navigation))
+    }, this.__getContent(h).concat(slot(this, 'navigation')))
   }
 })

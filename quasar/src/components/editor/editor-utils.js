@@ -8,6 +8,8 @@ import QList from '../list/QList.js'
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
 
+import slot from '../../utils/slot.js'
+
 function run (e, btn, vm) {
   if (btn.handler) {
     btn.handler(e, vm, vm.caret)
@@ -178,7 +180,7 @@ export function getToolbar (h, vm) {
       { props: vm.buttonProps, staticClass: 'items-center relative-position' },
       group.map(btn => {
         if (btn.type === 'slot') {
-          return vm.$slots[btn.slot]
+          return slot(vm, btn.slot)
         }
 
         if (btn.type === 'dropdown') {

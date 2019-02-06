@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import { PanelParentMixin } from '../../mixins/panel.js'
 import { isNumber } from '../../utils/is.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QCarousel',
@@ -160,7 +161,7 @@ export default Vue.extend({
         }))
       }
 
-      return node.concat(this.$slots.control)
+      return node.concat(slot(this, 'control'))
     }
   },
 
