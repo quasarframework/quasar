@@ -3,12 +3,16 @@
     <q-list bordered separator>
 
       <q-slide-item @left="onLeft" @right="onRight" left-color="red" right-color="purple">
-        <div slot="left" class="row items-center">
-          <q-icon left name="done" /> Left
-        </div>
-        <div slot="right" class="row items-center">
-          Right content.. long <q-icon right name="alarm" />
-        </div>
+        <template v-slot:left>
+          <div class="row items-center">
+            <q-icon left name="done" /> Left
+          </div>
+        </template>
+        <template v-slot:right>
+          <div class="row items-center">
+            Right content.. long <q-icon right name="alarm" />
+          </div>
+        </template>
 
         <q-item>
           <q-item-section avatar>
@@ -19,12 +23,16 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight" left-color="amber" right-color="primary">
-        <div slot="left" class="row items-center text-black">
-          <q-icon left name="done" /> Left
-        </div>
-        <div slot="right" class="row items-center">
-          Right content.. long <q-icon right name="alarm" />
-        </div>
+        <template v-slot:left>
+          <div class="row items-center text-black">
+            <q-icon left name="done" /> Left
+          </div>
+        </template>
+        <template v-slot:right>
+          <div class="row items-center">
+            Right content.. long <q-icon right name="alarm" />
+          </div>
+        </template>
 
         <q-item class="bg-grey-3">
           <q-item-section avatar>

@@ -1,5 +1,8 @@
 ---
 title: Floating Action Button
+related:
+  - /layout/layout
+  - /layout/page
 ---
 
 A Floating Action Button (FAB) represents the primary action in a Page. But, it's not limited to only a single action. It can contain any number of sub-actions too. And more importantly, it can also be used inline in your Pages or Layouts.

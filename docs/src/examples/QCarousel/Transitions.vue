@@ -10,7 +10,7 @@
       navigation
       padding
       arrows
-      height="200px"
+      height="210px"
       class="bg-primary text-white shadow-1 rounded-borders"
     >
       <q-carousel-slide name="style" class="column no-wrap flex-center">
@@ -52,7 +52,7 @@
       navigation
       padding
       arrows
-      height="200px"
+      height="210px"
       class="bg-purple text-white shadow-1 rounded-borders"
     >
       <q-carousel-slide name="style" class="column no-wrap flex-center">

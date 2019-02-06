@@ -1,5 +1,8 @@
 ---
 title: Quasar Icon Sets
+related:
+  - /options/installing-icon-libraries
+  - /vue-components/icon
 ---
 
 Quasar components have their own icons. Rather than forcing you into using one icon library in particular (so that they can display correctly), Quasar lets you choose **which icons it should use for its components**. This is called a `Quasar Icon Set`.

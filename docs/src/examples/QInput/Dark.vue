@@ -7,28 +7,42 @@
       </div>
 
       <q-input dark v-model="text" :readonly="readonly" :disable="disable">
-        <q-icon slot="prepend" name="event" />
+        <template v-slot:prepend>
+          <q-icon name="event" />
+        </template>
       </q-input>
 
       <q-input dark filled v-model="text" :readonly="readonly" :disable="disable">
-        <q-icon slot="prepend" name="event" />
+        <template v-slot:prepend>
+          <q-icon name="event" />
+          </template>
       </q-input>
 
       <q-input dark outlined v-model="text" :readonly="readonly" :disable="disable">
-        <q-avatar slot="append">
-          <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
-        </q-avatar>
+        <template v-slot:append>
+          <q-avatar>
+            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+          </q-avatar>
+        </template>
       </q-input>
 
       <q-input dark standout bottom-slots v-model="text" label="Label" counter :readonly="readonly" :disable="disable">
-        <q-icon slot="prepend" name="place" />
-        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+        <template v-slot:prepend>
+          <q-icon name="place" />
+        </template>
+        <template v-slot:append>
+          <q-icon name="close" @click="text = ''" class="cursor-pointer" />
+        </template>
 
-        <div slot="hint">Field hint</div>
+        <template v-slot:hint>
+          Field hint
+        </template>
       </q-input>
 
       <q-input dark borderless v-model="text" :readonly="readonly" :disable="disable">
-        <q-icon slot="append" name="search" />
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
       </q-input>
     </div>
   </div>

@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import { PanelChildMixin } from '../../mixins/panel.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QCarouselSlide',
 
@@ -27,6 +29,6 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-carousel__slide relative-position scroll',
       style: this.style
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

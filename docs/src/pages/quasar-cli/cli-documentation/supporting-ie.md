@@ -1,5 +1,7 @@
 ---
 title: Supporting IE
+related:
+  - /quasar-cli/quasar-conf-js
 ---
 If you are building a website, you might want to support IE 11+. This support is not added by default to your website. Quasar CLI provides it on demand only.
 

@@ -51,30 +51,34 @@
           @lazy-load="onLazyLoad"
         >
           <!--
-            <div slot="default-header" slot-scope="prop">
-              Default H: {{prop.node.label}}
-            </div>
-            <div slot="default-body" slot-scope="prop">
-              Default body
-            </div>
-          -->
-          <div slot="header-custom" slot-scope="prop" class="row items-center">
-            <q-icon :name="prop.node.icon" class="q-tree__icon q-mr-sm" />
-            <q-avatar class="q-mr-sm">
-              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
-            </q-avatar>
-            <div>
-              <div class="row items-center">
-                <span>{{ prop.node.label }}</span>
-                <q-chip color="red" text-color="white" dense>New</q-chip>
+            <template v-slot:default-header="prop">
+              <div>
+                Default H: {{prop.node.label}}
               </div>
-              <div>Wooooow. Custom</div>
+            </template>
+            <template v-slot:default-body>
+              Default body
+            </template>
+          -->
+          <template v-slot:header-custom="prop">
+            <div class="row items-center">
+              <q-icon :name="prop.node.icon" class="q-tree__icon q-mr-sm" />
+              <q-avatar class="q-mr-sm">
+                <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+              </q-avatar>
+              <div>
+                <div class="row items-center">
+                  <span>{{ prop.node.label }}</span>
+                  <q-chip color="red" text-color="white" dense>New</q-chip>
+                </div>
+                <div>Wooooow. Custom</div>
+              </div>
             </div>
-          </div>
+          </template>
 
-          <div slot="body-2-1-2-1" slot-scope="prop">
+          <template v-slot:body-2-1-2-1="prop">
             Content for: {{ prop.key }}
-          </div>
+          </template>
         </q-tree>
       </div>
 

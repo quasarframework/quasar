@@ -1,5 +1,9 @@
 ---
 title: Button
+related:
+  - /vue-components/button-group
+  - /vue-components/button-dropdown
+  - /vue-components/button-toggle
 ---
 Quasar has a component called QBtn which is a button with a few extra useful features. For instance, it comes in two shapes: rectangle (default) and round. It also has the material ripple effect baked in (which can be disabled).
 

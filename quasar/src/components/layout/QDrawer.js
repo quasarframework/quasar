@@ -4,6 +4,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import { between } from '../../utils/format.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import preventScroll from '../../utils/prevent-scroll.js'
+import slot from '../../utils/slot.js'
 
 const duration = 150
 
@@ -38,7 +39,7 @@ export default Vue.extend({
     mini: Boolean,
     miniWidth: {
       type: Number,
-      default: 60
+      default: 57
     },
     breakpoint: {
       type: Number,
@@ -506,7 +507,7 @@ export default Vue.extend({
         staticClass: 'q-drawer__content fit ' + (this.layout.container ? 'overflow-auto' : 'scroll'),
         class: this.contentClass,
         style: this.contentStyle
-      }, this.isMini && this.$slots.mini !== void 0 ? this.$slots.mini : this.$slots.default)
+      }, this.isMini && this.$scopedSlots.mini !== void 0 ? this.$scopedSlots.mini() : slot(this, 'default'))
     ]
 
     if (this.elevated && this.showing) {

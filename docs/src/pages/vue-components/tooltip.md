@@ -1,5 +1,7 @@
 ---
 title: Tooltip
+related:
+  - /vue-components/menu
 components:
   - tooltip/TooltipPositioning
 ---

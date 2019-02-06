@@ -1,5 +1,7 @@
 ---
 title: Color Picker
+related:
+  - /quasar-utils/color-utils
 ---
 
 The QColor component provides a method to input colors.

@@ -1,5 +1,8 @@
 ---
 title: Popup Edit
+related:
+  - /vue-components/input
+  - /vue-components/menu
 ---
 
 The QPopupEdit component can be used to edit a value “in place”, like for example a cell in QTable. By default, a cell is displayed as a String, then if you are using QPopupEdit and a user clicks/taps on the table cell, a popup will open where the user will be able to edit the value using a textfield.

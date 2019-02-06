@@ -9,50 +9,80 @@
       <q-select filled v-model="model" :options="options" label="Label (stacked)" stack-label :dense="dense" :options-dense="denseOpts" />
 
       <q-select outlined v-model="model" :options="options" :dense="dense" :options-dense="denseOpts">
-        <q-icon slot="prepend" name="event" />
+        <template v-slot:prepend>
+          <q-icon name="event" />
+        </template>
       </q-select>
 
       <q-select standout v-model="model" :options="options" :dense="dense" :options-dense="denseOpts">
-        <q-avatar slot="append">
-          <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
-        </q-avatar>
+        <template v-slot:append>
+          <q-avatar>
+            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+          </q-avatar>
+        </template>
       </q-select>
 
       <q-select filled bottom-slots v-model="model" :options="options" label="Label" counter :dense="dense" :options-dense="denseOpts">
-        <q-icon slot="prepend" name="place" @click.stop />
-        <q-icon slot="append" name="close" @click.stop="model = ''" class="cursor-pointer" />
+        <template v-slot:prepend>
+          <q-icon name="place" @click.stop />
+        </template>
+        <template v-slot:append>
+          <q-icon name="close" @click.stop="model = ''" class="cursor-pointer" />
+        </template>
 
-        <div slot="hint">Field hint</div>
+        <template v-slot:hint>
+          Field hint
+        </template>
       </q-select>
 
       <q-select rounded outlined bottom-slots v-model="model" :options="options" label="Label" counter maxlength="12" :dense="dense" :options-dense="denseOpts">
-        <q-icon slot="before" name="flight_takeoff" />
+        <template v-slot:before>
+          <q-icon name="flight_takeoff" />
+        </template>
 
-        <q-icon v-if="model !== ''" slot="append" name="close" @click.stop="model = ''" class="cursor-pointer" />
-        <q-icon slot="append" name="search" @click.stop />
+        <template v-slot:append>
+          <q-icon v-if="model !== ''" name="close" @click.stop="model = ''" class="cursor-pointer" />
+          <q-icon name="search" @click.stop />
+        </template>
 
-        <div slot="hint">Field hint</div>
+        <template v-slot:hint>
+          Field hint
+        </template>
       </q-select>
 
       <q-select filled bottom-slots v-model="model" :options="options" label="Label" counter maxlength="12" :dense="dense" :options-dense="denseOpts">
-        <q-avatar slot="before">
-          <img src="https://cdn.quasar-framework.org/img/avatar5.jpg">
-        </q-avatar>
+        <template v-slot:before>
+          <q-avatar>
+            <img src="https://cdn.quasar-framework.org/img/avatar5.jpg">
+          </q-avatar>
+        </template>
 
-        <q-icon v-if="model !== ''" slot="append" name="close" @click.stop="model = ''" class="cursor-pointer" />
-        <q-icon slot="append" name="schedule" @click.stop />
+        <template v-slot:append>
+          <q-icon v-if="model !== ''" name="close" @click.stop="model = ''" class="cursor-pointer" />
+          <q-icon name="schedule" @click.stop />
+        </template>
 
-        <div slot="hint">Field hint</div>
+        <template v-slot:hint>
+          Field hint
+        </template>
 
-        <q-btn slot="after" round dense flat icon="send" />
+        <template v-slot:after>
+          <q-btn round dense flat icon="send" />
+        </template>
       </q-select>
 
       <q-select filled bottom-slots v-model="model" :options="options" label="Label" counter maxlength="12" :dense="dense" :options-dense="denseOpts">
-        <q-icon slot="before" name="event" />
+        <template v-slot:before>
+          <q-icon name="event" />
+        </template>
 
-        <div slot="hint">Field hint</div>
+        <template v-slot:hint>
+          Field hint
+        </template>
 
-        <q-btn slot="append" round dense flat icon="add" @click.stop />
+        <template v-slot:append>
+          <q-btn round dense flat icon="add" @click.stop />
+        </template>
       </q-select>
     </div>
   </div>

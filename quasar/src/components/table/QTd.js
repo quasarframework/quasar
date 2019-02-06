@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QTd',
 
@@ -12,7 +14,7 @@ export default Vue.extend({
     if (this.props === void 0) {
       return h('td', {
         class: { 'q-table--col-auto-width': this.autoWidth }
-      }, this.$slots.default)
+      }, slot(this, 'default'))
     }
 
     let col
@@ -29,6 +31,6 @@ export default Vue.extend({
     return h('td', {
       class: col.__tdClass +
         (this.autoWidth === true ? ' q-table--col-auto-width' : '')
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

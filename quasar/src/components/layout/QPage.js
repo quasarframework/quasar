@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QPage',
 
@@ -46,6 +48,6 @@ export default Vue.extend({
       staticClass: 'q-page',
       style: this.style,
       class: this.classes
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

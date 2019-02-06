@@ -20,26 +20,32 @@
         :src="url"
         style="height: 140px; max-width: 150px"
       >
-        <div slot="loading" class="text-subtitle1 text-white">
-          Loading...
-        </div>
+        <template v-slot:loading>
+          <div class="text-subtitle1 text-white">
+            Loading...
+          </div>
+        </template>
       </q-img>
 
       <q-img
         :src="url"
         style="height: 140px; max-width: 150px"
       >
-        <q-spinner-gears slot="loading" color="white" />
+        <template v-slot:loading>
+          <q-spinner-gears color="white" />
+        </template>
       </q-img>
 
       <q-img
         :src="url"
         style="height: 140px; max-width: 150px"
       >
-        <div slot="loading" class="text-yellow">
-          <q-spinner-ios slot="loading" />
-          <div class="q-mt-md">Loading...</div>
-        </div>
+        <template v-slot:loading>
+          <div class="text-yellow">
+            <q-spinner-ios />
+            <div class="q-mt-md">Loading...</div>
+          </div>
+        </template>
       </q-img>
     </div>
   </div>

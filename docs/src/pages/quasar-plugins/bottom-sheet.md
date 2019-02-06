@@ -1,5 +1,8 @@
 ---
 title: Bottom Sheet Plugin
+related:
+  - /quasar-plugins/dialog
+  - /vue-components/dialog
 ---
 
 Bottom Sheets slide up from the bottom edge of the device screen, and display a set of options with the ability to confirm or cancel an action. Bottom Sheets can sometimes be used as an alternative to menus, however, they should not be used for navigation.

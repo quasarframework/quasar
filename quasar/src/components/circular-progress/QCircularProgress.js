@@ -161,7 +161,7 @@ export default Vue.extend({
         ? h('div', {
           staticClass: 'q-circular-progress__text absolute-full row flex-center content-center',
           style: { fontSize: this.fontSize }
-        }, this.$slots.default || [ h('div', [ this.value ]) ])
+        }, this.$scopedSlots.default !== void 0 ? this.$scopedSlots.default() : [ h('div', [ this.value ]) ])
         : null
     ])
   }

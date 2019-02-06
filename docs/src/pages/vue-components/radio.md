@@ -1,5 +1,10 @@
 ---
 title: Radio
+related:
+  - /vue-components/option-group
+  - /vue-components/button-toggle
+  - /vue-components/checkbox
+  - /vue-components/toggle
 ---
 
 The QRadio component is another basic element for user input. You can use this to supply a way for the user to pick an option from multiple choices.

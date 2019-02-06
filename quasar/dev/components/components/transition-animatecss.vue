@@ -43,12 +43,13 @@
           :leave-active-class="leaveClass"
           class="group"
         >
-          <div
-            v-if="show"
-            v-for="n in 3"
-            :key="n"
-            v-html="loremipsum"
-          />
+          <template v-if="show">
+            <div
+              v-for="n in 3"
+              :key="n"
+              v-html="loremipsum"
+            />
+          </template>
         </transition-group>
       </q-card-section>
     </q-card>

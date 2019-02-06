@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { between } from '../../utils/format.js'
 import { getMouseWheelDistance } from '../../utils/event.js'
 import { setScrollPosition } from '../../utils/scroll.js'
+import slot from '../../utils/slot.js'
 import QResizeObserver from '../observer/QResizeObserver.js'
 import QScrollObserver from '../observer/QScrollObserver.js'
 import TouchPan from '../../directives/TouchPan.js'
@@ -176,7 +177,7 @@ export default Vue.extend({
         h('div', {
           ref: 'target',
           staticClass: 'scroll relative-position fit'
-        }, this.$slots.default)
+        }, slot(this, 'default'))
       ])
     }
 
@@ -210,7 +211,7 @@ export default Vue.extend({
           h(QResizeObserver, {
             on: { resize: this.__updateScrollHeight }
           }),
-          this.$slots.default
+          slot(this, 'default')
         ]),
         h(QScrollObserver, {
           on: { scroll: this.__updateScroll }

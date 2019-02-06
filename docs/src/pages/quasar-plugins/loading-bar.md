@@ -1,5 +1,11 @@
 ---
 title: LoadingBar
+related:
+  - /vue-components/linear-progress
+  - /quasar-plugins/circular-progress
+  - /vue-components/inner-loading
+  - /vue-components/spinners
+  - /quasar-plugins/loading
 ---
 The Quasar LoadingBar plugin offers an easy way to set up your app with a [QAjaxBar](/components/ajax-bar.html) in case you don't want to handle a QAjaxBar component yourself.
 

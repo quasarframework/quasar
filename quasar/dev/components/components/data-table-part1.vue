@@ -68,50 +68,52 @@
         :rows-per-page-options="[]"
         row-key="name"
       >
-        <q-tr slot="body" slot-scope="props" :props="props">
-          <q-td key="desc" :props="props">
-            {{ props.row.name }}
-            <q-popup-edit
-              ref="popupEdit"
-              buttons
-              v-model="props.row.name"
-            >
-              <q-input
-                type="textarea"
+        <template v-slot:body="props">
+          <q-tr :props="props">
+            <q-td key="desc" :props="props">
+              {{ props.row.name }}
+              <q-popup-edit
+                ref="popupEdit"
+                buttons
                 v-model="props.row.name"
-                autofocus
-                @keyup.enter.stop
-              />
-            </q-popup-edit>
-          </q-td>
-          <q-td key="calories" :props="props">
-            {{ props.row.calories }}
-            <q-popup-edit v-model="props.row.calories" title="Update calories" buttons>
-              <q-input type="number" v-model="props.row.calories" dense autofocus />
-            </q-popup-edit>
-          </q-td>
-          <q-td key="fat" :props="props">
-            <div class="text-pre-wrap">{{ props.row.fat }}</div>
-            <q-popup-edit v-model="props.row.fat">
-              <q-input type="textarea" v-model="props.row.fat" dense autofocus />
-            </q-popup-edit>
-          </q-td>
-          <q-td key="carbs" :props="props">
-            {{ props.row.carbs }}
-            <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent>
-              <q-input type="number" v-model="props.row.carbs" dense autofocus hint="Use buttons to close" />
-            </q-popup-edit>
-          </q-td>
-          <q-td key="protein" :props="props">
-            {{ props.row.protein }}
-            <q-popup-edit v-model="props.row.protein">
-              <q-input v-model="props.row.protein" dense autofocus counter />
-            </q-popup-edit>
-          </q-td>
-          <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
-          <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
-          <q-td key="iron" :props="props">{{ props.row.iron }}</q-td>
-        </q-tr>
+              >
+                <q-input
+                  type="textarea"
+                  v-model="props.row.name"
+                  autofocus
+                  @keyup.enter.stop
+                />
+              </q-popup-edit>
+            </q-td>
+            <q-td key="calories" :props="props">
+              {{ props.row.calories }}
+              <q-popup-edit v-model="props.row.calories" title="Update calories" buttons>
+                <q-input type="number" v-model="props.row.calories" dense autofocus />
+              </q-popup-edit>
+            </q-td>
+            <q-td key="fat" :props="props">
+              <div class="text-pre-wrap">{{ props.row.fat }}</div>
+              <q-popup-edit v-model="props.row.fat">
+                <q-input type="textarea" v-model="props.row.fat" dense autofocus />
+              </q-popup-edit>
+            </q-td>
+            <q-td key="carbs" :props="props">
+              {{ props.row.carbs }}
+              <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent>
+                <q-input type="number" v-model="props.row.carbs" dense autofocus hint="Use buttons to close" />
+              </q-popup-edit>
+            </q-td>
+            <q-td key="protein" :props="props">
+              {{ props.row.protein }}
+              <q-popup-edit v-model="props.row.protein">
+                <q-input v-model="props.row.protein" dense autofocus counter />
+              </q-popup-edit>
+            </q-td>
+            <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
+            <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
+            <q-td key="iron" :props="props">{{ props.row.iron }}</q-td>
+          </q-tr>
+        </template>
       </q-table>
 
       <h2>Grid style</h2>
@@ -126,35 +128,35 @@
         :visible-columns="visibleColumns"
         row-key="name"
       >
-        <template slot="top-right" slot-scope="props">
+        <template v-slot:top-right>
           <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
             <q-icon slot="append" name="search" />
           </q-input>
         </template>
 
-        <div
-          slot="item"
-          slot-scope="props"
-          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 generic-transition"
-          :style="props.selected ? 'transform: scale(0.95);' : ''"
-        >
-          <q-card class="generic-transition" :class="props.selected ? 'bg-grey-2' : ''">
-            <q-card-section>
-              <q-checkbox v-model="props.selected" :label="props.row.name" />
-            </q-card-section>
-            <q-separator />
-            <q-list>
-              <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
-                <q-item-section>
-                  <q-item-label>{{ col.label }}</q-item-label>
-                </q-item-section>
-                <q-item-section side>
-                  <q-item-label caption>{{ col.value }}</q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-card>
-        </div>
+        <template v-slot:item="props">
+          <div
+            class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 generic-transition"
+            :style="props.selected ? 'transform: scale(0.95);' : ''"
+          >
+            <q-card class="generic-transition" :class="props.selected ? 'bg-grey-2' : ''">
+              <q-card-section>
+                <q-checkbox v-model="props.selected" :label="props.row.name" />
+              </q-card-section>
+              <q-separator />
+              <q-list>
+                <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+                  <q-item-section>
+                    <q-item-label>{{ col.label }}</q-item-label>
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-item-label caption>{{ col.value }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-card>
+          </div>
+        </template>
       </q-table>
 
       <q-input filled v-model="filter" label="Search" debounce="300">
@@ -184,7 +186,7 @@
         :separator="separator"
         @request="request"
       >
-        <template slot="top-right" slot-scope="props">
+        <template v-slot:top-right>
           <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
             <q-icon slot="append" name="search" />
           </q-input>
@@ -221,14 +223,14 @@
         color="secondary"
         :separator="separator"
       >
-        <template slot="top-selection" slot-scope="props">
+        <template v-slot:top-selection>
           Selection
         </template>
-        <template slot="top-left" slot-scope="props">
+        <template v-slot:top-left="props">
           <q-btn size="sm" round flat :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen()" />
           {{ visibleColumns }}
         </template>
-        <template slot="top-right" slot-scope="props">
+        <template v-slot:top-right>
           <q-select
             v-model="visibleColumns"
             :options="columns"
@@ -242,12 +244,14 @@
           />
         </template>
 
-        <q-td slot="body-cell-desc" slot-scope="props" :props="props">
-          <div class="q-mb-xs">
+        <template v-slot:body-cell-desc="props">
+          <q-td :props="props">
+            <div class="q-mb-xs">
+              <q-badge color="secondary">{{ props.value }}</q-badge>
+            </div>
             <q-badge color="secondary">{{ props.value }}</q-badge>
-          </div>
-          <q-badge color="secondary">{{ props.value }}</q-badge>
-        </q-td>
+          </q-td>
+        </template>
       </q-table>
 
       <h2>no-top, no-bottom</h2>
@@ -276,17 +280,19 @@
         row-key="name"
         color="amber"
       >
-        <div slot="top-left" slot-scope="props">
+        <template v-slot:top-left>
           Top left template
-        </div>
+        </template>
 
-        <div slot="top-right" slot-scope="props" class="row items-center">
-          <q-btn flat round size="sm" color="grey-8" icon="filter_list" class="on-right" />
-          <q-btn flat round size="sm" color="grey-8" icon="more_vert" class="on-right" />
-        </div>
-        <div slot="top-selection" slot-scope="props">
+        <template v-slot:top-right>
+          <div class="row items-center">
+            <q-btn flat round size="sm" color="grey-8" icon="filter_list" class="on-right" />
+            <q-btn flat round size="sm" color="grey-8" icon="more_vert" class="on-right" />
+          </div>
+        </template>
+        <template v-slot:top-selection>
           Selection
-        </div>
+        </template>
       </q-table>
 
       <h2>top template</h2>
@@ -299,9 +305,11 @@
         row-key="name"
         color="primary"
       >
-        <div slot="top" slot-scope="props" class="row items-center">
-          Some awesome table
-        </div>
+        <template v-slot:top>
+          <div class="row items-center">
+            Some awesome table
+          </div>
+        </template>
       </q-table>
 
       <h2>header-cell</h2>
@@ -312,9 +320,11 @@
         :filter="filter"
         row-key="name"
       >
-        <q-th slot="header-cell" slot-scope="props" :props="props">
-          # {{ props.col.label }}
-        </q-th>
+        <template v-slot:header-cell="props">
+          <q-th :props="props">
+            # {{ props.col.label }}
+          </q-th>
+        </template>
       </q-table>
 
       <h2>header</h2>
@@ -325,11 +335,13 @@
         :title="title"
         row-key="name"
       >
-        <q-tr slot="header" slot-scope="props" :props="props">
-          <q-th v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.label }}
-          </q-th>
-        </q-tr>
+        <template v-slot:header="props">
+          <q-tr :props="props">
+            <q-th v-for="col in props.cols" :key="col.name" :props="props">
+              {{ col.label }}
+            </q-th>
+          </q-tr>
+        </template>
       </q-table>
 
       <h2>header 2</h2>
@@ -340,32 +352,34 @@
         :title="title"
         row-key="name"
       >
-        <tr slot="header" slot-scope="props">
-          <q-th key="desc" :props="props">
-            Dessert
-          </q-th>
-          <q-th key="calories" :props="props">
-            Calo
-          </q-th>
-          <q-th key="fat" :props="props">
-            Fat
-          </q-th>
-          <q-th key="carbs" :props="props">
-            Carbs
-          </q-th>
-          <q-th key="protein" :props="props">
-            Protein
-          </q-th>
-          <q-th key="sodium" :props="props">
-            Sodium
-          </q-th>
-          <q-th key="calcium" :props="props">
-            Calcium
-          </q-th>
-          <q-th key="iron" :props="props">
-            Iron
-          </q-th>
-        </tr>
+        <template v-slot:header="props">
+          <tr>
+            <q-th key="desc" :props="props">
+              Dessert
+            </q-th>
+            <q-th key="calories" :props="props">
+              Calo
+            </q-th>
+            <q-th key="fat" :props="props">
+              Fat
+            </q-th>
+            <q-th key="carbs" :props="props">
+              Carbs
+            </q-th>
+            <q-th key="protein" :props="props">
+              Protein
+            </q-th>
+            <q-th key="sodium" :props="props">
+              Sodium
+            </q-th>
+            <q-th key="calcium" :props="props">
+              Calcium
+            </q-th>
+            <q-th key="iron" :props="props">
+              Iron
+            </q-th>
+          </tr>
+        </template>
       </q-table>
       <h2>body template - cell button with loading</h2>
       <q-table
@@ -375,24 +389,26 @@
         :title="title"
         row-key="name"
       >
-        <q-tr slot="body" slot-scope="props" :props="props">
-          <q-td key="desc" :props="props">
-            {{ props.row.name }}
-          </q-td>
-          <q-td key="calories" :props="props">
-            {{ props.row.calories }}
-          </q-td>
-          <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>
-          <q-td key="carbs" :props="props">{{ props.row.carbs }}</q-td>
-          <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
-          <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
-          <q-td key="calcium" :props="props">
-            <q-btn loading color="secondary" icon="sms_failed" @click="($event, done) => { notifyWithProps(done, props) }" :label="props.row.calcium" />
-          </q-td>
-          <q-td key="iron" :props="props">
-            <q-badge color="amber">{{ props.row.iron }}</q-badge>
-          </q-td>
-        </q-tr>
+        <template v-slot:body="props">
+          <q-tr :props="props">
+            <q-td key="desc" :props="props">
+              {{ props.row.name }}
+            </q-td>
+            <q-td key="calories" :props="props">
+              {{ props.row.calories }}
+            </q-td>
+            <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>
+            <q-td key="carbs" :props="props">{{ props.row.carbs }}</q-td>
+            <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
+            <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
+            <q-td key="calcium" :props="props">
+              <q-btn loading color="secondary" icon="sms_failed" @click="($event, done) => { notifyWithProps(done, props) }" :label="props.row.calcium" />
+            </q-td>
+            <q-td key="iron" :props="props">
+              <q-badge color="amber">{{ props.row.iron }}</q-badge>
+            </q-td>
+          </q-tr>
+        </template>
       </q-table>
 
       <h2>body template 2</h2>
@@ -403,11 +419,13 @@
         :title="title"
         row-key="name"
       >
-        <q-tr slot="body" slot-scope="props" :props="props">
-          <q-td v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.value }}
-          </q-td>
-        </q-tr>
+        <template v-slot:body="props">
+          <q-tr :props="props">
+            <q-td v-for="col in props.cols" :key="col.name" :props="props">
+              {{ col.value }}
+            </q-td>
+          </q-tr>
+        </template>
       </q-table>
 
       <h2>body-cell template</h2>
@@ -418,9 +436,11 @@
         :title="title"
         row-key="name"
       >
-        <q-td slot="body-cell" slot-scope="props" :props="props">
-          !{{ props.value }}
-        </q-td>
+        <template v-slot:body-cell="props">
+          <q-td :props="props">
+            !{{ props.value }}
+          </q-td>
+        </template>
       </q-table>
 
       <h2>before/after header/footer template</h2>
@@ -431,24 +451,28 @@
         :title="title"
         row-key="name"
       >
-        <div slot="top" slot-scope="props">
+        <template v-slot:top>
           Top
-        </div>
-        <q-tr slot="top-row" slot-scope="props">
-          <q-td colspan="100%">
-            Top row
-          </q-td>
-        </q-tr>
+        </template>
+        <template v-slot:top-row>
+          <q-tr>
+            <q-td colspan="100%">
+              Top row
+            </q-td>
+          </q-tr>
+        </template>
 
-        <q-tr slot="bottom-row" slot-scope="props">
-          <q-td colspan="100%">
-            Bottom row
-          </q-td>
-        </q-tr>
+        <template v-slot:bottom-row>
+          <q-tr>
+            <q-td colspan="100%">
+              Bottom row
+            </q-td>
+          </q-tr>
+        </template>
 
-        <div slot="bottom" slot-scope="props">
+        <template v-slot:bottom>
           Bottom
-        </div>
+        </template>
       </q-table>
 
       <h2>selection template</h2>
@@ -465,16 +489,18 @@
         :visible-columns="visibleColumns"
         :title="title"
       >
-        <q-tr slot="header" slot-scope="props">
-          <q-th auto-width>
-            <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
-          </q-th>
-          <q-th v-for="col in props.cols" :key="col.name" :props="props">
-            @ {{ col.label }}
-          </q-th>
-        </q-tr>
+        <template v-slot:header="props">
+          <q-tr>
+            <q-th auto-width>
+              <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
+            </q-th>
+            <q-th v-for="col in props.cols" :key="col.name" :props="props">
+              @ {{ col.label }}
+            </q-th>
+          </q-tr>
+        </template>
 
-        <template slot="body" slot-scope="props">
+        <template v-slot:body="props">
           <q-tr :props="props">
             <q-td auto-width>
               <q-checkbox :color="color" v-model="props.selected" />
@@ -512,22 +538,26 @@
         :visible-columns="visibleColumns"
         :title="title"
       >
-        <q-tr slot="header" slot-scope="props">
-          <q-th auto-width>
-            <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
-          </q-th>
-          <q-th v-for="col in props.cols" :key="col.name" :props="props">
-            @ {{ col.label }}
-          </q-th>
-        </q-tr>
-        <q-tr slot="body" slot-scope="props" :key="props.key" :props="props">
-          <q-td auto-width>
-            <q-checkbox :color="color" v-model="props.selected" />
-          </q-td>
-          <q-td v-for="col in props.cols" :key="col.name" :props="props">
-            ^{{ col.value }}
-          </q-td>
-        </q-tr>
+        <template v-slot:header="props">
+          <q-tr>
+            <q-th auto-width>
+              <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
+            </q-th>
+            <q-th v-for="col in props.cols" :key="col.name" :props="props">
+              @ {{ col.label }}
+            </q-th>
+          </q-tr>
+        </template>
+        <template v-slot:body="props">
+          <q-tr :key="props.key" :props="props">
+            <q-td auto-width>
+              <q-checkbox :color="color" v-model="props.selected" />
+            </q-td>
+            <q-td v-for="col in props.cols" :key="col.name" :props="props">
+              ^{{ col.value }}
+            </q-td>
+          </q-tr>
+        </template>
       </q-table>
 
       <q-table
@@ -542,12 +572,16 @@
         :visible-columns="visibleColumns"
         :title="title"
       >
-        <q-th slot="header-cell" slot-scope="props" :props="props">
-          # {{ props.col.label }}
-        </q-th>
-        <q-td slot="body-cell" slot-scope="props" :props="props">
-          !{{ props.value }}
-        </q-td>
+        <template v-slot:header-cell="props">
+          <q-th :props="props">
+            # {{ props.col.label }}
+          </q-th>
+        </template>
+        <template v-slot:body-cell="props">
+          <q-td :props="props">
+            !{{ props.value }}
+          </q-td>
+        </template>
       </q-table>
 
       <q-table

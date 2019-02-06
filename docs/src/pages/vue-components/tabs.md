@@ -1,5 +1,9 @@
 ---
 title: Tabs
+related:
+  - /vue-components/tab-panels
+  - /vue-components/icon
+  - /vue-components/badge
 ---
 Tabs are a way of displaying more information using less window real estate. This page describes the tab selection part through QTabs, QTab and QRouteTab.
 

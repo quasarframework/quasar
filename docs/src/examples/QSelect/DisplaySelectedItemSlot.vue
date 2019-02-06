@@ -10,14 +10,14 @@
         stack-label
         label="Standard"
       >
-        <div slot="selected">
+        <template v-slot:selected>
           Company:
           <q-chip v-if="model" dense square color="white" text-color="primary" class="q-ma-none">
             <q-avatar color="primary" text-color="white" :icon="model.icon" />
             {{ model.label }}
           </q-chip>
           <q-badge v-else>*none*</q-badge>
-        </div>
+        </template>
       </q-select>
 
       <q-select
@@ -28,20 +28,20 @@
         label="Standard"
         color="secondary"
       >
-        <q-chip
-          slot="selected"
-          slot-scope="scope"
-          removable
-          dense
-          @remove="scope.removeAtIndex(scope.index)"
-          :tabindex="scope.tabindex"
-          color="white"
-          text-color="secondary"
-          class="q-ma-none"
-        >
-          <q-avatar color="secondary" text-color="white" :icon="scope.opt.icon" />
-          {{ scope.opt.label }}
-        </q-chip>
+        <template v-slot:selected-item="scope">
+          <q-chip
+            removable
+            dense
+            @remove="scope.removeAtIndex(scope.index)"
+            :tabindex="scope.tabindex"
+            color="white"
+            text-color="secondary"
+            class="q-ma-none"
+          >
+            <q-avatar color="secondary" text-color="white" :icon="scope.opt.icon" />
+            {{ scope.opt.label }}
+          </q-chip>
+        </template>
       </q-select>
     </div>
   </div>

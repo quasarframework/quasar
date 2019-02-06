@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QPageContainer',
 
@@ -40,6 +42,6 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-page-container q-layout__section--animate',
       style: this.style
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

@@ -1,5 +1,7 @@
 ---
 title: Scroll Fire
+related:
+  - /vue-directives/scroll
 ---
 "Scroll Fire" is a directive that enables a method to be called (once and only once) when user scrolls current page and the DOM element (or component) that it is applied to comes into the viewport.
 
