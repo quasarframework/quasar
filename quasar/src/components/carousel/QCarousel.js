@@ -162,22 +162,22 @@ export default Vue.extend({
       }
 
       return node.concat(slot(this, 'control'))
-    }
-  },
+    },
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-carousel relative-position overflow-hidden',
-      class: this.classes
-    }, [
-      h('div', {
-        staticClass: 'q-carousel__slides-container',
-        style: this.style,
-        directives: this.panelDirectives
+    __render (h) {
+      return h('div', {
+        staticClass: 'q-carousel relative-position overflow-hidden',
+        class: this.classes
       }, [
-        this.__getPanelContent(h)
-      ])
-    ].concat(this.__getContent(h)))
+        h('div', {
+          staticClass: 'q-carousel__slides-container',
+          style: this.style,
+          directives: this.panelDirectives
+        }, [
+          this.__getPanelContent(h)
+        ])
+      ].concat(this.__getContent(h)))
+    }
   },
 
   mounted () {
