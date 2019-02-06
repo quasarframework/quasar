@@ -9,8 +9,10 @@
 
         <q-space />
         <q-input dark dense standout v-model="text" input-class="text-right">
-          <q-icon slot="append" v-if="text === ''" name="search" />
-          <q-icon slot="append" v-else name="clear" class="cursor-pointer" @click="text = ''" />
+          <template v-slot:append>
+            <q-icon v-if="text === ''" name="search" />
+            <q-icon v-else name="clear" class="cursor-pointer" @click="text = ''" />
+          </template>
         </q-input>
       </q-toolbar>
     </div>

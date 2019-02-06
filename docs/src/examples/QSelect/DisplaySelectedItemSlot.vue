@@ -10,14 +10,14 @@
         stack-label
         label="Standard"
       >
-        <div slot="selected">
+        <template v-slot:selected>
           Company:
           <q-chip v-if="model" dense square color="white" text-color="primary" class="q-ma-none">
             <q-avatar color="primary" text-color="white" :icon="model.icon" />
             {{ model.label }}
           </q-chip>
           <q-badge v-else>*none*</q-badge>
-        </div>
+        </template>
       </q-select>
 
       <q-select

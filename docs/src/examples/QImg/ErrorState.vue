@@ -4,9 +4,11 @@
       src="https://cdn.quasar-framework.org/img/non-existent-image-src.png"
       style="height: 140px; max-width: 150px"
     >
-      <div slot="error" class="absolute-full flex flex-center bg-negative text-white">
-        Cannot load image
-      </div>
+      <template v-slot:error>
+        <div class="absolute-full flex flex-center bg-negative text-white">
+          Cannot load image
+        </div>
+      </template>
     </q-img>
   </div>
 </template>

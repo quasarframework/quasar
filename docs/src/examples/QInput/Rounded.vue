@@ -2,20 +2,30 @@
   <div class="q-pa-md">
     <div class="q-gutter-md column" style="max-width: 300px">
       <q-input rounded filled v-model="text">
-        <q-icon slot="prepend" name="event" />
+        <template v-slot:prepend>
+          <q-icon name="event" />
+        </template>
       </q-input>
 
       <q-input rounded outlined v-model="text">
-        <q-avatar slot="append">
-          <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
-        </q-avatar>
+        <template v-slot:append>
+          <q-avatar>
+            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+          </q-avatar>
+        </template>
       </q-input>
 
       <q-input rounded standout bottom-slots v-model="text" label="Label" counter>
-        <q-icon slot="prepend" name="place" />
-        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+        <template v-slot:prepend>
+          <q-icon name="place" />
+        </template>
+        <template v-slot:append>
+          <q-icon name="close" @click="text = ''" class="cursor-pointer" />
+        </template>
 
-        <div slot="hint">Field hint</div>
+        <template v-slot:hint>
+          Field hint
+        </template>
       </q-input>
     </div>
   </div>
