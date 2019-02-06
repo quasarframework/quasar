@@ -162,6 +162,14 @@ export default Vue.extend({
 
     mini () {
       if (this.value) {
+        if (this.$el !== void 0) {
+          this.$el.classList.add('q-drawer--mini-animate')
+          setTimeout(() => {
+            if (this.$el !== void 0) {
+              this.$el.classList.remove('q-drawer--mini-animate')
+            }
+          }, 150)
+        }
         this.layout.__animate()
       }
     }
