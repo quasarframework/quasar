@@ -37,5 +37,5 @@ Also, when on a desktop browser, hitting the `ESCAPE` key also closes the Action
 For an exhaustive list of options, please check API section.
 :::
 
-## API
+## BottomSheet API
 <doc-api file="BottomSheet" />

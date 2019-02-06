@@ -18,6 +18,10 @@ You'll notice that it contains a `package.json` file of its own. It has an npm s
 
 So what you need to do when deploying is to copy this distributables folder on your server, yarn/npm install the dependencies inside it, then run `$ yarn start` or `$ npm run start`. This boots up the webserver and starts listening for connections.
 
+::: tip
+The distributables folder generated after building your app is standalone. It does NOT require the rest of your project folder to work and it does NOT depend on `@quasar/cli` being installed.
+:::
+
 ## Enhancing Performance
 By default, the webserver runs on only one of the available server's cores. What you could do is make it use all cores. There is a solution for this: [PM2](http://pm2.keymetrics.io/).
 

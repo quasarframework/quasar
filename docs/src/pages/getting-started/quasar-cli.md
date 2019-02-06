@@ -1,83 +1,38 @@
 ---
-title: Docs
+title: Quasar CLI
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
+* a SPA (Single Page Application/Website),
+* a SSR (Server-side Rendered App/Website),
+* a PWA (Progressive Web App),
+* a Mobile App (through Cordova),
+* an Electron App
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+...within the same project folder, ensuring you are following the best Quasar practices while everything will simply work out of the box.
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+## What's Included
 
-```
-const m = 'lala'
-```
+While developing with Dev Server (`$ quasar dev`):
+* Babel, so you can write ES6 code
+* Webpack + vue-loader for Vue SFC (single file components)
+* State preserving hot-reload
+* State preserving compilation error overlay
+* Lint-on-save with ESLint
+* Source maps
+* Develop right on a device emulator (or a real phone connected to your machine) if you target a Mobile App
+* Develop right on an Electron window with Developer Tools included if you target an Electron App
+* ...many more
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
+Developing for production (`$ quasar build`):
+* Javascript minified with [UglifyJS](https://github.com/mishoo/UglifyJS2)
+* HTML minified with [html-minifier](https://github.com/kangax/html-minifier)
+* CSS across all components extracted (and auto-prefixed) into a single file and minified with [cssnano](https://github.com/ben-eb/cssnano)
+* All static assets are compiled with version hashes for efficient long-term caching, and a production index.html is auto-generated with proper URLs to these generated assets.
+* ...many more
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
-
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> Something...
-
-::: tip
-Some tip
-:::
-
-::: warning
-Some tip
-:::
-
-::: danger
-Some tip
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
+Take note of the '/quasar.conf.js' file in the root of your project folder. This file helps you quickly configure the way your website/App works. We'll go over it in the [Configuration](/quasar-cli/quasar-conf-js) section.
 
 ## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
 
-## Usage
-<doc-example title="Standard" file="QBtn/Standard" />
-
-## API
-<doc-api file="QTh" />
+Let's now [Install Quasar CLI](/quasar-cli/installation).

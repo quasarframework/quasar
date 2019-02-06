@@ -63,5 +63,5 @@ export default {
 </script>
 ```
 
-## API
+## AppFullscreen API
 <doc-api file="AppFullscreen" />

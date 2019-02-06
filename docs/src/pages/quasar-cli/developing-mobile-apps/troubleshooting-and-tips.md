@@ -13,7 +13,7 @@ If you change from desktop to mobile emulator or backwards, hit the refresh butt
 
 ## Android Tips
 
-### Remote Debugging
+### Android remote debugging
 If you are debugging Android Apps, you can use Google Chrome [Remote Debugging](https://developers.google.com/web/tools/chrome-devtools/debug/remote-debugging/remote-debugging?hl=en) through a USB cable attached to your Android phone/tablet. It can be used for emulator too.
 
 This way you have Chrome Dev Tools directly for your App running on the emulator/phone/table. Inspect elements, check console output, and so on and so forth.
@@ -65,7 +65,7 @@ The output should contain each one entry for the Android SDK 'tools'-folder and 
 
 > If you ensured your paths are set correctly and still get the error on `cordova requirements` you can try the following fix: [Replacing the Android Studio 'tools' folder manually](https://github.com/meteor/meteor/issues/8464#issuecomment-288112504)
 
-### Setting Up Device on Linux
+### Setting up device on Linux
 
 You may bump into `?????? no permissions` problem when trying to run your App directly on an Android phone/tablet.
 
@@ -121,7 +121,7 @@ Now running `adb devices` should discover your device.
 
 ## iOS Tips
 
-### Remote Debugging
+### iOS remote debugging
 If you are debugging iOS Apps, you can use the Safari developer tools to remotely debug through a USB cable attached to your iOS phone/tablet. It can be used for emulator too.
 
 This way you have Safari developer tools directly for your App running on the emulator/phone/table. Inspect elements, check console output, and so on and so forth.
