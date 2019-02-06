@@ -61,7 +61,8 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
         )
 
         q-input.q-my-lg(v-model="search", filled, dense)
-          q-icon(slot="append", name="search")
+          template(v-slot:append)
+            q-icon(name="search")
 
       app-menu.q-mb-lg
 

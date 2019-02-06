@@ -48,11 +48,15 @@
     </q-item>
 
     <q-banner rounded class="bg-primary text-white">
-      <q-avatar slot="avatar" icon="signal_wifi_off" color="white" text-color="primary" />
+      <template v-slot:avatar>
+        <q-avatar icon="signal_wifi_off" color="white" text-color="primary" />
+      </template>
 
       You have lost connection to the internet. This app is offline.
 
-      <q-btn slot="action" flat color="white" label="Turn ON Wifi" />
+      <template v-slot:action>
+        <q-btn flat color="white" label="Turn ON Wifi" />
+      </template>
     </q-banner>
   </div>
 </template>

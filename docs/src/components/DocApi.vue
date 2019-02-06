@@ -25,11 +25,11 @@ q-card.doc-api.q-my-lg(v-if="ready")
       borderless,
       placeholder="Filter..."
     )
-      q-icon.cursor-pointer(
-        slot="append",
-        :name="filter !== '' ? 'clear' : 'search'"
-        @click="onFilterClick"
-      )
+      template(v-slot:append)
+        q-icon.cursor-pointer(
+          :name="filter !== '' ? 'clear' : 'search'"
+          @click="onFilterClick"
+        )
 
   q-separator
 

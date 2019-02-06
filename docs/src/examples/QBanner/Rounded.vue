@@ -4,8 +4,10 @@
 
       We can't find your saved recipes until you sign in.
 
-      <q-btn slot="action" flat color="white" label="Continue as a Guest" />
-      <q-btn slot="action" flat color="white" label="Sign in" />
+      <template v-slot:action>
+        <q-btn flat color="white" label="Continue as a Guest" />
+        <q-btn flat color="white" label="Sign in" />
+      </template>
     </q-banner>
   </div>
 </template>
