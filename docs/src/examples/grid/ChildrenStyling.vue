@@ -24,18 +24,18 @@
 
     <q-separator class="q-my-md" />
 
-    <p>.q-col-gutter with styling on children</p>
+    <p>.q-col-gutter with direct QBtn children</p>
     <div class="bg-red-4 clearfix q-mt-lg">
-      <div class="row q-col-gutter-xl">
+      <div class="row q-col-gutter-lg">
         <q-btn class="semi-transparent col-4" color="primary" label="Button" v-for="n in 7" :key="`md-${n}`" />
       </div>
     </div>
 
     <q-separator class="q-my-md" />
 
-    <p>.q-col-gutter with styling on the element inside children</p>
+    <p>.q-col-gutter with QBtn inside children</p>
     <div class="bg-red-4 clearfix">
-      <div class="row q-col-gutter-xl">
+      <div class="row q-col-gutter-lg">
         <div class="col-4" v-for="n in 7" :key="n">
           <q-btn class="full-width" color="primary" label="Button" />
         </div>

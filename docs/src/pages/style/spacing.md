@@ -25,8 +25,6 @@ S - size
       md (medium),
       lg (large),
       xl (extra large)
-
-q-my-form - applies the default vertical margins for form controls, according to material specification.
 ```
 
 ## Examples
@@ -46,7 +44,6 @@ When enabled (through `quasar.conf > framework > cssAddon: true`) it provides br
 
 ```
 .q-(p|m)(t|r|b|l|a|x|y)-<bp>-(none|auto|xs|sm|md|lg|xl)
-.q-my-<bp>-form
 ```
 
 Examples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`
