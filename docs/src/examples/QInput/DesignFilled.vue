@@ -14,50 +14,80 @@
       <q-input filled v-model="ph" placeholder="Placeholder" hint="With placeholder" :dense="dense" />
 
       <q-input filled v-model="text" :dense="dense">
-        <q-icon slot="prepend" name="event" />
+        <template v-slot:prepend>
+          <q-icon name="event" />
+        </template>
       </q-input>
 
       <q-input filled v-model="text" :dense="dense">
-        <q-avatar slot="append">
-          <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
-        </q-avatar>
+        <template v-slot:append>
+          <q-avatar>
+            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+          </q-avatar>
+        </template>
       </q-input>
 
       <q-input filled bottom-slots v-model="text" label="Label" counter :dense="dense">
-        <q-icon slot="prepend" name="place" />
-        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+        <template v-slot:prepend>
+          <q-icon name="place" />
+        </template>
+        <template v-slot:append>
+          <q-icon name="close" @click="text = ''" class="cursor-pointer" />
+        </template>
 
-        <div slot="hint">Field hint</div>
+        <template v-slot:hint>
+          Field hint
+        </template>
       </q-input>
 
       <q-input filled bottom-slots v-model="text" label="Label" counter maxlength="12" :dense="dense">
-        <q-icon slot="before" name="flight_takeoff" />
+        <template v-slot:before>
+          <q-icon name="flight_takeoff" />
+        </template>
 
-        <q-icon v-if="text !== ''" slot="append" name="close" @click="text = ''" class="cursor-pointer" />
-        <q-icon slot="append" name="search" />
+        <template v-slot:append>
+          <q-icon v-if="text !== ''" name="close" @click="text = ''" class="cursor-pointer" />
+          <q-icon name="search" />
+        </template>
 
-        <div slot="hint">Field hint</div>
+        <template v-slot:hint>
+          Field hint
+        </template>
       </q-input>
 
       <q-input filled bottom-slots v-model="text" label="Label" counter maxlength="12" :dense="dense">
-        <q-avatar slot="before">
-          <img src="https://cdn.quasar-framework.org/img/avatar5.jpg">
-        </q-avatar>
+        <template v-slot:before>
+          <q-avatar>
+            <img src="https://cdn.quasar-framework.org/img/avatar5.jpg">
+          </q-avatar>
+        </template>
 
-        <q-icon v-if="text !== ''" slot="append" name="close" @click="text = ''" class="cursor-pointer" />
-        <q-icon slot="append" name="schedule" />
+        <template v-slot:append>
+          <q-icon v-if="text !== ''" name="close" @click="text = ''" class="cursor-pointer" />
+          <q-icon name="schedule" />
+        </template>
 
-        <div slot="hint">Field hint</div>
+        <template v-slot:hint>
+          Field hint
+        </template>
 
-        <q-btn slot="after" round dense flat icon="send" />
+        <template v-slot:after>
+          <q-btn round dense flat icon="send" />
+        </template>
       </q-input>
 
       <q-input filled bottom-slots v-model="text" label="Label" counter maxlength="12" :dense="dense">
-        <q-icon slot="before" name="event" />
+        <template v-slot:before>
+          <q-icon name="event" />
+        </template>
 
-        <div slot="hint">Field hint</div>
+        <template v-slot:hint>
+          Field hint
+        </template>
 
-        <q-btn slot="append" round dense flat icon="add" />
+        <template v-slot:append>
+          <q-btn round dense flat icon="add" />
+        </template>
       </q-input>
 
       <q-input filled v-model="text" hint="Disable" :dense="dense" disable />

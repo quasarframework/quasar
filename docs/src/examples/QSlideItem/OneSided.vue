@@ -3,7 +3,9 @@
     <q-list bordered separator>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <q-icon slot="left" name="done" />
+        <template v-slot:left>
+          <q-icon name="done" />
+        </template>
 
         <q-item>
           <q-item-section avatar>
@@ -16,7 +18,9 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <q-icon slot="right" name="alarm" />
+        <template v-slot:right>
+          <q-icon name="alarm" />
+        </template>
 
         <q-item>
           <q-item-section avatar>

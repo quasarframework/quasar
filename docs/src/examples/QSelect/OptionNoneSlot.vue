@@ -7,11 +7,13 @@
         :options="options"
         label="No options"
       >
-        <q-item slot="no-option">
-          <q-item-section>
-            No options slot
-          </q-item-section>
-        </q-item>
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section>
+              No options slot
+            </q-item-section>
+          </q-item>
+        </template>
       </q-select>
     </div>
   </div>

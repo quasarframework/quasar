@@ -46,10 +46,12 @@
         your ads, find out how to tell if they're running and how to resolve approval issues.
       </q-step>
 
-      <q-stepper-navigation slot="navigation">
-        <q-btn @click="$refs.stepper.next()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
-        <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
-      </q-stepper-navigation>
+      <template v-slot:navigation>
+        <q-stepper-navigation>
+          <q-btn @click="$refs.stepper.next()" color="primary" :label="step === 4 ? 'Finish' : 'Continue'" />
+          <q-btn v-if="step > 1" flat color="primary" @click="$refs.stepper.previous()" label="Back" class="q-ml-sm" />
+        </q-stepper-navigation>
+      </template>
     </q-stepper>
   </div>
 </template>
