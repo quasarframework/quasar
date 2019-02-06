@@ -44,5 +44,5 @@ const dismiss = this.$q.notify({...})
 dismiss()
 ```
 
-## API
+## Notify API
 <doc-api file="Notify" />

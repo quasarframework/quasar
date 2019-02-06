@@ -598,6 +598,10 @@ const cli = [
         path: 'build-commands'
       },
       {
+        name: 'Commands List',
+        path: 'commands-list'
+      },
+      {
         name: 'Routing',
         path: 'routing'
       },
@@ -636,6 +640,16 @@ const cli = [
       {
         name: 'Supporting IE',
         path: 'supporting-ie'
+      }
+    ]
+  },
+  {
+    name: 'App Extensions',
+    path: 'app-extensions',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
       }
     ]
   },
@@ -814,7 +828,7 @@ module.exports = [
     path: 'introduction-to-quasar'
   },
   {
-    name: 'Sponsors, Backers and Supporters',
+    name: 'Sponsors and Backers',
     icon: 'favorite',
     path: 'sponsors-and-backers'
   },

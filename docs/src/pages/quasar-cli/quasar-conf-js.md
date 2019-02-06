@@ -91,11 +91,11 @@ Let's take each option one by one:
 | --- | --- | --- |
 | css | Array | Global CSS/Stylus/... files from `/src/css/`, except for theme files, which are included by default. |
 | preFetch | Boolean | Enable [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature). |
-| extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons']_ |
+| extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons-v4']_ |
 | vendor | Object | Add/remove files/3rd party libraries to/from vendor chunk: { add: [...], remove: [...] }. |
 | supportIE | Boolean | Add support for IE11+. |
 | htmlVariables | Object | Add variables that you can use in index.template.html. |
-| framework | Object/String | What Quasar components/directives/plugins to import, what Quasar I18n language pack to use, what icon set to use for Quasar components. |
+| framework | Object/String | What Quasar components/directives/plugins to import, what Quasar language pack to use, what Quasar icon set to use for Quasar components. |
 | animations | Object/String | What [CSS animations](/options/animations) to import. Example: _['bounceInLeft', 'bounceOutRight']_ |
 | devServer | Object | Webpack dev server [options](https://webpack.js.org/configuration/dev-server/). Some properties are overwritten based on the Quasar mode you're using in order to ensure a correct config. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL. |
 | build | Object | Build configuration options. |
@@ -147,7 +147,7 @@ return {
     config: { /* ... */ },
 
     iconSet: 'fontawesome', // requires icon library to be specified in "extras" section too,
-    i18n: 'de', // Tell Quasar which language pack to use for its own components
+    lang: 'de', // Tell Quasar which language pack to use for its own components
 
     cssAddon: true // Adds the flex responsive++ CSS classes (noticeable bump in footprint)
   }

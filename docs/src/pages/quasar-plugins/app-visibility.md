@@ -19,5 +19,5 @@ import { AppVisibility } from 'quasar'
 
 <doc-example title="AppVisibility" file="AppVisibility/Basic" />
 
-## API
+## AppVisibility API
 <doc-api file="AppVisibility" />
