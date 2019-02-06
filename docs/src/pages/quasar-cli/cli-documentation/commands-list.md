@@ -50,6 +50,10 @@ Creates an App folder with initial project boilerplate.
 $ quasar create <folder-name>
 ```
 
+::: warning
+For v1.0-beta use `$ quasar create <folder-name> -b dev`
+:::
+
 ## info
 The Quasar CLI is equipped with a stable combination of multiple NPM build packages (Webpack, Vue, etc) which gets updated frequently after heavy testing.
 
