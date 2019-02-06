@@ -3,8 +3,10 @@
     <q-banner inline-actions rounded class="bg-orange text-white">
       You have lost connection to the internet. This app is offline.
 
-      <q-btn slot="action" flat label="Turn ON Wifi" />
-      <q-btn slot="action" flat label="Dismiss" />
+      <template v-slot:action>
+        <q-btn flat label="Turn ON Wifi" />
+        <q-btn flat label="Dismiss" />
+      </template>
     </q-banner>
   </div>
 </template>
