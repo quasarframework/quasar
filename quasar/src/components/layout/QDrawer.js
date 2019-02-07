@@ -308,7 +308,7 @@ export default Vue.extend({
     },
 
     __animateMini () {
-      if (this.timerMini) {
+      if (this.timerMini !== void 0) {
         clearTimeout(this.timerMini)
       }
       else if (this.$el !== void 0) {
@@ -316,7 +316,7 @@ export default Vue.extend({
       }
       this.timerMini = setTimeout(() => {
         this.$el !== void 0 && this.$el.classList.remove('q-drawer--mini-animate')
-        this.timerMini = null
+        this.timerMini = void 0
       }, 150)
     },
 
