@@ -6,7 +6,7 @@ title: Getting Started - Pick Quasar Flavour
 
 There are three methods for using Quasar:
  * UMD/Standalone (embed into an existing project through CDN, progressive integration)
- * Development with Quasar CLI (**the premium developer experience for free, recommended**)
+ * Quasar CLI (**the premium developer experience for free, recommended**)
  * Vue CLI 3 plugin
 
 Here's a quick comparison:
@@ -33,9 +33,9 @@ Here's a quick comparison:
 ## UMD / Standalone (uses CDN)
 If you'd like to embed Quasar into your existing website project, integrating it in a progressive manner, then go for the UMD/Standalone (Unified Module Definition) version.
 
-Get started by [reading more](/getting-started/umd) about it.
+Get started by [reading more](/start/umd) about it.
 
-## Development with Quasar CLI (The best developer experience)
+## Quasar CLI (best developer experience)
 If you want to be able to build:
 * a SPA (Single Page Application/Website),
 * a SSR (Server-side Rendered App/Website),
@@ -62,7 +62,11 @@ Note that you don't need different projects in order to build any one of the app
 
 To understand more about Quasar CLI, be sure to check its section on the main menu. With this knowledge under your belt, you'll be able to take full advantage of all of Quasar CLI's many great features.
 
-More info: [Getting started with Quasar CLI](/getting-started/quasar-cli).
+More info: [Getting started with Quasar CLI](/start/quasar-cli).
 
 ## Vue CLI 3 plugin
-To work with Quasar via its Vue CLI 3 plugin, head on to [Vue CLI 3 Quasar plugin](/getting-started/vue-cli-plugin) documentation page.
+To work with Quasar via its Vue CLI 3 plugin, head on to [Vue CLI 3 Quasar plugin](/start/vue-cli-plugin) documentation page.
+
+::: danger
+Vue CLI 3 Quasar Plugin has not been updated to support v1.0-beta yet. Will be updated soon.
+:::
