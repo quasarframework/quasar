@@ -162,14 +162,7 @@ export default Vue.extend({
 
     mini () {
       if (this.value) {
-        if (this.$el !== void 0) {
-          this.$el.classList.add('q-drawer--mini-animate')
-          setTimeout(() => {
-            if (this.$el !== void 0) {
-              this.$el.classList.remove('q-drawer--mini-animate')
-            }
-          }, 150)
-        }
+        this.__animateMini()
         this.layout.__animate()
       }
     }
@@ -312,6 +305,19 @@ export default Vue.extend({
       if (!this.layout.container) {
         document.body.classList[v ? 'add' : 'remove']('q-body--drawer-toggle')
       }
+    },
+
+    __animateMini () {
+      if (this.timerMini) {
+        clearTimeout(this.timerMini)
+      }
+      else if (this.$el !== void 0) {
+        this.$el.classList.add('q-drawer--mini-animate')
+      }
+      this.timerMini = setTimeout(() => {
+        this.$el !== void 0 && this.$el.classList.remove('q-drawer--mini-animate')
+        this.timerMini = null
+      }, 150)
     },
 
     __openByTouch (evt) {
@@ -476,6 +482,7 @@ export default Vue.extend({
 
   beforeDestroy () {
     clearTimeout(this.timer)
+    clearTimeout(this.timerMini)
     this.showing && this.__cleanup()
     if (this.layout.instances[this.side] === this) {
       this.layout.instances[this.side] = null
