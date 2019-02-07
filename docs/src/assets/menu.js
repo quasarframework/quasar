@@ -8,6 +8,14 @@ const gettingStarted = [
     path: 'how-to-use-vue'
   },
   {
+    name: 'Roadmap',
+    path: 'roadmap'
+  },
+  {
+    name: 'Upgrade guide',
+    path: 'upgrade-guide'
+  },
+  {
     name: 'Contribution Guide',
     path: 'contribution-guide'
   },

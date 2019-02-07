@@ -89,7 +89,7 @@ $layout-transition = all .12s ease-in
       &:after
         left 10px
 
-  body:not(.q-body--layout-animate) &--mini
+  &-container:not(&--mini-animate) &--mini
     padding 0 !important
     .q-item, .q-item__section
       text-align center
@@ -102,7 +102,7 @@ $layout-transition = all .12s ease-in
   &--mini
     .q-mini-drawer-hide, .q-expansion-item__content
       display none
-  .q-body--layout-animate &__content
+  &--mini-animate &__content
     overflow-x hidden
     white-space nowrap
   &--standard

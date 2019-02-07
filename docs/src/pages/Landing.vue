@@ -6,7 +6,7 @@ q-page(padding)
       div.row.col-12
         img(src='https://cdn.quasar-framework.org/img/responsive-logo.png')
 
-      div.col-12.q-pt-sm Todo... Meanwhile, go to <doc-link to="/docs">Documentation pages</doc-link>.
+      div.col-12.q-pt-sm Todo... Meanwhile, go to <doc-link to="/getting-started/pick-quasar-flavour">Documentation pages</doc-link>.
 
       div.col-12.q-pt-md If you encounter a problem you can’t solve, you can also get help from:
         li the Quasar <doc-link to="https://forum.quasar-framework.org/">forum</doc-link>.
