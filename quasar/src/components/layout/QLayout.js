@@ -132,7 +132,7 @@ export default Vue.extend({
 
   methods: {
     __animate () {
-      if (this.timer) {
+      if (this.timer !== void 0) {
         clearTimeout(this.timer)
       }
       else {
@@ -140,7 +140,7 @@ export default Vue.extend({
       }
       this.timer = setTimeout(() => {
         document.body.classList.remove('q-body--layout-animate')
-        this.timer = null
+        this.timer = void 0
       }, 150)
     },
 
