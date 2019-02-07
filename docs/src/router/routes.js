@@ -5,10 +5,6 @@ const docsPages = [
   {
     path: '',
     component: () => import('pages/Landing.vue')
-  },
-  {
-    path: 'docs',
-    component: () => import('pages/docs.md')
   }
 ]
 

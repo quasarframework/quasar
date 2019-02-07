@@ -12,7 +12,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
 
       template(v-if="hasDrawer !== true")
         q-separator.q-mx-xs(vertical, dark, inset)
-        q-btn.text-bold(key="docs", flat, stretch, no-caps, to="/docs", label="Docs")
+        q-btn.text-bold(key="docs", flat, stretch, no-caps, to="/getting-started/pick-quasar-flavour", label="Docs")
 
       q-space
 
@@ -265,15 +265,18 @@ export default {
   height 25px
 
 .footer
+  font-size 11px
   padding 24px 0
 
   &__icons
-    font-size 2em
+    font-size 28px
     a
       margin 0 8px 8px
       text-decoration none
       outline 0
       color inherit
+    .q-icon:hover
+      color lighten($primary, 50%)
   .doc-link
     color inherit
 

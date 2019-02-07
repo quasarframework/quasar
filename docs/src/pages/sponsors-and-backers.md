@@ -12,6 +12,7 @@ Quasar Framework an MIT-licensed open-source project and is maintained by Razvan
 
 Like most open source products, Quasar can't do it alone. We rely on *sponsors, backers and supporters* to keep things going. When Quasar starts to bring you some financial stability, please be considerate of the tens of thousands of hours that went into its creation and send some money back to the team that made it possible. And finally, if your company relies on Quasar, the best way to guarantee that Quasar continues to be there for you is to invest in its maintenance!
 
+## Donating
 You can help Quasar Development by making a monthly pledge through Patreon or send a one-time donation through Paypal. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com`.
 
 <div class="row q-gutter-sm">
@@ -43,6 +44,8 @@ You can help Quasar Development by making a monthly pledge through Patreon or se
     <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
   </form>
 </div>
+
+All of your donations are used for Quasar Development purposes exclusively.
 
 ::: tip
 For a full list of our wonderful people who make Quasar happen, visit the [Backers](https://github.com/quasarframework/quasar/blob/dev/backers.md) page.
