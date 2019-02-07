@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QToolbar',
 
@@ -11,6 +13,6 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-toolbar row no-wrap items-center relative-position',
       class: this.inset ? 'q-toolbar--inset' : null
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

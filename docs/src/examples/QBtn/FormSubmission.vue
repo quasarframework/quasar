@@ -21,7 +21,9 @@
         class="q-mt-md"
         color="teal"
       >
-        <q-spinner-facebook slot="loading" />
+        <template v-slot:loading>
+          <q-spinner-facebook />
+        </template>
       </q-btn>
     </div>
   </form>

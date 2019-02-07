@@ -3,7 +3,14 @@ div
   q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, :label="`v${$q.version}`", auto-close)
     q-list
       q-item(
-        v-for="version in ['17', '16', '15', '14', '13']"
+        clickable
+        tag="a"
+        :href="`https://quasar-framework.org/`"
+        target="_blank"
+      )
+        q-item-section v0.17
+      q-item(
+        v-for="version in ['16', '15', '14', '13']"
         :key="version"
         clickable
         tag="a"

@@ -1,5 +1,8 @@
 ---
 title: Layout Drawer
+related:
+  - /layout/layout
+  - /vue-components/list-and-list-items
 ---
 
 QLayout allows you to configure your views as a 3x3 matrix, containing optional left-side and/or right-side Drawers. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
@@ -40,10 +43,10 @@ Consider using QItems with routing props (like `to`) below. For demoing purposes
 
 ### Mini-mode
 
-Drawer can operate in two modes: 'normal' and 'mini', and you can switch between them by using the Boolean `mini` property on QLayoutDrawer. 
+Drawer can operate in two modes: 'normal' and 'mini', and you can switch between them by using the Boolean `mini` property on QLayoutDrawer.
 
 ::: warning
-Please note that **`mini` mode** does not apply when in **mobile** behavior. 
+Please note that **`mini` mode** does not apply when in **mobile** behavior.
 :::
 
 There are some CSS classes that will help you customize the drawer when dealing with "mini" mode. These are very useful especially when using the "click" trigger:

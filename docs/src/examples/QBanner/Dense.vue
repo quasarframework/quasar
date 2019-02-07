@@ -2,19 +2,27 @@
   <div class="q-pa-md q-gutter-sm">
     <q-banner dense class="bg-primary text-white">
       Unfortunately, the credit card did not go through, please try again.
-      <q-btn slot="action" flat color="white" label="Dismiss" />
-      <q-btn slot="action" flat color="white" label="Update Credit Card" />
+      <template v-slot:action>
+        <q-btn flat color="white" label="Dismiss" />
+        <q-btn flat color="white" label="Update Credit Card" />
+      </template>
     </q-banner>
 
     <q-banner dense class="bg-grey-3">
-      <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
+      <template v-slot:avatar>
+        <q-icon name="signal_wifi_off" color="primary" />
+      </template>
       You have lost connection to the internet. This app is offline.
-      <q-btn slot="action" flat color="primary" label="Turn on Wifi" />
+      <template v-slot:action>
+        <q-btn flat color="primary" label="Turn on Wifi" />
+      </template>
     </q-banner>
 
     <q-banner dense inline-actions class="text-white bg-red">
       You have lost connection to the internet. This app is offline.
-      <q-btn slot="action" flat color="white" label="Turn ON Wifi" />
+      <template v-slot:action>
+        <q-btn flat color="white" label="Turn ON Wifi" />
+      </template>
     </q-banner>
   </div>
 </template>

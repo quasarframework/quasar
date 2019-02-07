@@ -11,9 +11,11 @@
       @request="onRequest"
       binary-state-sort
     >
-      <template slot="top-right" slot-scope="{}">
+      <template v-slot:top-right>
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-          <q-icon slot="append" name="search" />
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
         </q-input>
       </template>
 

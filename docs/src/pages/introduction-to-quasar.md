@@ -78,4 +78,4 @@ And finally, it’s worth mentioning the significant amount of time taken to wri
 Except for Vue, which takes half a day to pick up and will change you forever, there is no requirement for you to know the other technologies. They are all integrated and configured in Quasar for you.
 
 ## Get started in under a minute
-Having said this, let's [get started](/getting-started/pick-quasar-flavour)! You'll be running a website or app in under a minute.
+Having said this, let's [get started](/start)! You'll be running a website or app in under a minute.

@@ -11,6 +11,7 @@ import QItemSection from '../list/QItemSection.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import uid from '../../utils/uid.js'
+import slot from '../../utils/slot.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
@@ -470,12 +471,12 @@ export default Vue.extend({
         return []
       }
 
-      if (this.$scopedSlots.selected !== void 0) {
-        return this.selectedScope.map(scope => this.$scopedSlots.selected(scope))
+      if (this.$scopedSlots['selected-item'] !== void 0) {
+        return this.selectedScope.map(scope => this.$scopedSlots['selected-item'](scope))
       }
 
-      if (this.$slots.selected !== void 0) {
-        return this.$slots.selected
+      if (this.$scopedSlots.selected !== void 0) {
+        return this.$scopedSlots.selected()
       }
 
       if (this.useChips === true) {
@@ -553,7 +554,7 @@ export default Vue.extend({
     __getLocalMenu (h) {
       if (
         this.editable === false ||
-        (this.noOptions === true && this.$slots['no-option'] === void 0)
+        (this.noOptions === true && this.$scopedSlots['no-option'] === void 0)
       ) {
         return
       }
@@ -573,7 +574,7 @@ export default Vue.extend({
               click: stopAndPrevent,
               '&scroll': this.__onMenuScroll
             }
-          }, this.noOptions === true ? this.$slots['no-option'] : this.__getOptions(h))
+          }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))
           : null
       ])
     },
@@ -582,8 +583,8 @@ export default Vue.extend({
       return [
         this.loading === true
           ? (
-            this.$slots.loading !== void 0
-              ? this.$slots.loading
+            this.$scopedSlots.loading !== void 0
+              ? this.$scopedSlots.loading()
               : h(QSpinner, { props: { color: this.color } })
           )
           : null,
@@ -670,7 +671,7 @@ export default Vue.extend({
         if (this.$listeners.filter !== void 0) {
           this.filter(this.inputValue)
         }
-        else if (this.noOptions !== true || this.$slots['no-option'] !== void 0) {
+        else if (this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
           this.menu = true
         }
       }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QRadio',
@@ -96,9 +97,11 @@ export default Vue.extend({
         ])
       ]),
 
-      (this.label !== void 0 || this.$slots.default !== void 0) && h('div', {
-        staticClass: 'q-radio__label q-anchor--skip'
-      }, (this.label !== void 0 ? [ this.label ] : []).concat(this.$slots.default))
+      this.label !== void 0 || this.$scopedSlots.default !== void 0
+        ? h('div', {
+          staticClass: 'q-radio__label q-anchor--skip'
+        }, (this.label !== void 0 ? [ this.label ] : []).concat(slot(this, 'default')))
+        : null
     ])
   }
 })

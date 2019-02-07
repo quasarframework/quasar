@@ -8,6 +8,14 @@ const gettingStarted = [
     path: 'how-to-use-vue'
   },
   {
+    name: 'Roadmap',
+    path: 'roadmap'
+  },
+  {
+    name: 'Upgrade guide',
+    path: 'upgrade-guide'
+  },
+  {
     name: 'Contribution Guide',
     path: 'contribution-guide'
   },
@@ -598,6 +606,10 @@ const cli = [
         path: 'build-commands'
       },
       {
+        name: 'Commands List',
+        path: 'commands-list'
+      },
+      {
         name: 'Routing',
         path: 'routing'
       },
@@ -636,6 +648,16 @@ const cli = [
       {
         name: 'Supporting IE',
         path: 'supporting-ie'
+      }
+    ]
+  },
+  {
+    name: 'App Extensions',
+    path: 'app-extensions',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
       }
     ]
   },
@@ -814,14 +836,14 @@ module.exports = [
     path: 'introduction-to-quasar'
   },
   {
-    name: 'Sponsors, Backers and Supporters',
+    name: 'Sponsors and Backers',
     icon: 'favorite',
     path: 'sponsors-and-backers'
   },
   {
     name: 'Getting Started',
     icon: 'flight_takeoff',
-    path: 'getting-started',
+    path: 'start',
     children: gettingStarted
   },
   {

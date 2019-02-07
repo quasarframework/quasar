@@ -11,22 +11,24 @@
         color="teal"
         options-selected-class="text-deep-orange"
       >
-        <q-item
-          slot="option"
-          slot-scope="scope"
-          v-bind="scope.itemProps"
-          v-on="scope.itemEvents"
-        >
-          <q-item-section avatar>
-            <q-icon :name="scope.opt.icon" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label v-html="scope.opt.label" />
-            <q-item-label caption>{{ scope.opt.description }}</q-item-label>
-          </q-item-section>
-        </q-item>
+        <template v-slot:option="scope">
+          <q-item
+            v-bind="scope.itemProps"
+            v-on="scope.itemEvents"
+          >
+            <q-item-section avatar>
+              <q-icon :name="scope.opt.icon" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label v-html="scope.opt.label" />
+              <q-item-label caption>{{ scope.opt.description }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
 
-        <q-icon slot="append" name="clear" @click.stop="model = null" />
+        <template v-slot:append>
+          <q-icon name="clear" @click.stop="model = null" />
+        </template>
       </q-select>
     </div>
   </div>

@@ -1,5 +1,9 @@
 ---
 title: Expansion Item
+related:
+  - /vue-components/list-and-list-items
+  - /vue-components/slide-item
+  - /vue-components/slide-transition
 ---
 
 The QExpansionItem component allows the hiding of content that is not immediately relevant to the user. Think of them as accordion elements that expand when clicked on.

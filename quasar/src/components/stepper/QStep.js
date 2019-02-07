@@ -4,6 +4,8 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import { PanelChildMixin } from '../../mixins/panel.js'
 import StepHeader from './StepHeader.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QStep',
 
@@ -54,7 +56,7 @@ export default Vue.extend({
       }, [
         h('div', {
           staticClass: 'q-stepper__step-inner'
-        }, this.$slots.default)
+        }, slot(this, 'default'))
       ])
       : null
 

@@ -9,14 +9,13 @@ q-page.doc-page
 
   slot
 
-  .doc-page-nav.doc-page-padding.text-primary.q-pb-lg(v-if="related !== void 0")
+  .doc-page-nav.text-primary.q-pb-lg(v-if="related !== void 0")
     .text-h6.q-pb-md Related
     .q-gutter-md.flex
       router-link.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.shadow-2.bg-grey-4(
-        v-for="(link, index) in related"
+        v-for="link in related"
         :key="link.category + link.path"
         :to="link.path"
-        target="_blank"
       )
         .row.items-center
           .col
@@ -26,17 +25,20 @@ q-page.doc-page
           .col-auto.q-pl-lg
             q-icon(name="launch")
 
-  .doc-page-nav.doc-page-padding.text-primary.q-pb-xl(v-if="nav !== void 0")
+  .doc-page-nav.text-primary.q-pb-xl(v-if="nav !== void 0")
     .text-h6.q-pb-md Ready for more?
     .q-gutter-md.flex
-      router-link.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.shadow-2(
-        v-for="(link, index) in nav"
+      router-link.q-link.doc-page-related.rounded-borders.q-pa-md.cursor-pointer.column.justify-center.shadow-2.bg-white(
+        v-for="link in nav"
         :key="link.category + link.path"
         :to="link.path"
       )
         .row.items-center
-          .col-auto(:class="index ? 'order-last q-pl-md' : 'order-first q-pr-md'")
-            q-icon(v-if="link.dir !== void 0", :name="`chevron_${link.dir}`")
+          .col-auto(
+            v-if="link.dir !== void 0"
+            :class="link.dir === 'right' ? 'order-last q-pl-md' : 'order-first q-pr-md'"
+          )
+            q-icon(:name="`chevron_${link.dir}`")
 
           .col
             .doc-page-nav__categ.text-uppercase {{ link.category || 'Docs' }}
@@ -95,14 +97,16 @@ export default {
 
 .doc-page-related
   color $grey-9
-  transition background-color .28s, color .28s
+  transition color .28s
 
   &:hover
-    background white
     color $primary
 
 .doc-page-nav
   margin 68px 0 12px
+
+  & + &
+    margin-top 0
 
   .q-icon
     font-size 1.75em

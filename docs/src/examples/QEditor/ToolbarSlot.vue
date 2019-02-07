@@ -18,31 +18,32 @@
         }]
       ]"
     >
-      <q-btn-dropdown
-        dense no-caps
-        ref="token"
-        no-wrap
-        slot="token"
-        color="white"
-        text-color="primary"
-        label="Token"
-        size="sm"
-      >
-        <q-list>
-          <q-item tag="label" clickable @click="add('email')">
-            <q-item-section side>
-              <q-icon name="mail" />
-            </q-item-section>
-            <q-item-section>Email</q-item-section>
-          </q-item>
-          <q-item tag="label" clickable @click="add('title')">
-            <q-item-section side>
-              <q-icon name="title" />
-            </q-item-section>
-            <q-item-section>Title</q-item-section>
-          </q-item>
-        </q-list>
-      </q-btn-dropdown>
+      <template v-slot:token>
+        <q-btn-dropdown
+          dense no-caps
+          ref="token"
+          no-wrap
+          color="white"
+          text-color="primary"
+          label="Token"
+          size="sm"
+        >
+          <q-list>
+            <q-item tag="label" clickable @click="add('email')">
+              <q-item-section side>
+                <q-icon name="mail" />
+              </q-item-section>
+              <q-item-section>Email</q-item-section>
+            </q-item>
+            <q-item tag="label" clickable @click="add('title')">
+              <q-item-section side>
+                <q-icon name="title" />
+              </q-item-section>
+              <q-item-section>Title</q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+      </template>
     </q-editor>
   </div>
 </template>

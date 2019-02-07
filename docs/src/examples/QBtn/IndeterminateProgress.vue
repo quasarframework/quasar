@@ -3,33 +3,41 @@
     <q-btn :loading="loading1" color="secondary" @click="simulateProgress(1)" label="Button" />
     <q-btn :loading="loading2" color="red" @click="simulateProgress(2)">
       Button
-      <span slot="loading">Loading...</span>
+      <template v-slot:loading>
+        Loading...
+      </template>
     </q-btn>
     <q-btn :loading="loading3" color="purple" @click="simulateProgress(3)">
       Button
-      <q-spinner-radio slot="loading" />
+      <template v-slot:loading>
+        <q-spinner-radio />
+      </template>
     </q-btn>
     <q-btn :loading="loading4" color="primary" @click="simulateProgress(4)" style="width: 150px">
       Button
-      <span slot="loading">
+      <template v-slot:loading>
         <q-spinner-hourglass class="on-left" />
         Loading...
-      </span>
+      </template>
     </q-btn>
     <br>
     <q-btn round :loading="loading5" color="brown" @click="simulateProgress(5)" icon="camera_front">
-      <q-spinner-facebook slot="loading" />
+      <template v-slot:loading>
+        <q-spinner-facebook />
+      </template>
     </q-btn>
     <q-btn round :loading="loading6" color="black" @click="simulateProgress(6)" icon="camera_rear">
-      <q-spinner-gears slot="loading" />
+      <template v-slot:loading>
+        <q-spinner-gears />
+      </template>
     </q-btn>
     <br>
     <q-btn :loading="progress" color="primary" @click="progress = true">
       Controlled from outside
-      <span slot="loading">
+      <template v-slot:loading>
         <q-spinner-radio class="on-left" />
         Click "Stop" Button
-      </span>
+      </template>
     </q-btn>
     <q-btn :disable="!progress" color="negative" @click="progress = false" label="Stop" />
   </div>

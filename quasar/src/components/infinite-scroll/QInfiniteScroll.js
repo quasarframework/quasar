@@ -4,6 +4,7 @@ import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
 import { getScrollTarget, getScrollHeight, getScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QInfiniteScroll',
@@ -116,9 +117,13 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h('div', { staticClass: 'q-infinite-scroll' }, this.$slots.default.concat([
+    const content = this.$scopedSlots.default !== void 0
+      ? this.$scopedSlots.default()
+      : []
+
+    return h('div', { staticClass: 'q-infinite-scroll' }, content.concat([
       this.fetching
-        ? h('div', { staticClass: 'q-infinite-scroll__loading' }, this.$slots.loading)
+        ? h('div', { staticClass: 'q-infinite-scroll__loading' }, slot(this, 'loading'))
         : null
     ]))
   }

@@ -1,59 +1,50 @@
 <template lang="pug">
-  div.sponsor.bg-white(:style="sponsorStyle", @click="openWebsite")
-    q-card-section
-      div.text-h6(v-if="amount")
-        center {{ amount }}
-      q-separator.sponsor-separator(v-if="amount")
-      q-img(v-if="image", basic, contain, :alt="name", :src="image")
-        q-tooltip {{ name }}
-      div(v-else) {{ name }}
-
+  q-card.quasar-sponsor(@click.native="openWebsite", :style="style")
+    q-card-section.quasar-sponsor__title {{ name }}
+    q-separator
+    q-card-section.quasar-sponsor__logo.flex.flex-center(v-if="img")
+      q-img(alt="name", :src="`https://cdn.quasar-framework.org/sponsors/${img}`")
 </template>
 
 <script>
 import { openURL } from 'quasar'
+
 export default {
   name: 'Sponsor',
 
   props: {
-    height: String,
-    image: String,
+    img: String,
     name: String,
-    amount: String,
-    website: String
+    url: String
   },
 
   computed: {
-    sponsorStyle () {
+    style () {
       return {
-        minHeight: this.height ? this.height : '14rem',
-        cursor: this.website ? 'pointer' : 'default'
+        cursor: this.url ? 'pointer' : 'default'
       }
     }
   },
 
   methods: {
     openWebsite () {
-      this.website && openURL(this.website)
+      this.url && openURL(this.url)
     }
   }
 }
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
-.sponsor
-  position relative
-  display inline-block
+.quasar-sponsor
   width 100%
   max-width 14rem
-  margin 5px
-  border-style solid
-  border-color $primary
-  overflow hidden
+  height 260px
 
-.sponsor-separator
-  margin 2px 0 5px 0
+  &__logo
+    height 200px
+  &__title
+    transition background .28s
 
+  &:hover .quasar-sponsor__title
+    background #eee
 </style>

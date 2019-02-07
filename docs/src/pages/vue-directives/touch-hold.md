@@ -1,5 +1,8 @@
 ---
 title: Touch Hold Directive
+related:
+  - /vue-directives/touch-pan
+  - /vue-directives/touch-swipe
 ---
 Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.
 

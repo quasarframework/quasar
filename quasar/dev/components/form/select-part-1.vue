@@ -161,20 +161,20 @@
         :options="objectOptions"
         options-selected-class="text-deep-orange"
       >
-        <q-item
-          slot="option"
-          slot-scope="scope"
-          v-bind="scope.itemProps"
-          v-on="scope.itemEvents"
-        >
-          <q-item-section avatar>
-            <q-icon :name="scope.opt.icon" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label v-html="scope.opt.label" />
-            <q-item-label caption>{{ scope.opt.description }}</q-item-label>
-          </q-item-section>
-        </q-item>
+        <template v-slot:option="scope">
+          <q-item
+            v-bind="scope.itemProps"
+            v-on="scope.itemEvents"
+          >
+            <q-item-section avatar>
+              <q-icon :name="scope.opt.icon" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label v-html="scope.opt.label" />
+              <q-item-label caption>{{ scope.opt.description }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
 
         <q-icon slot="append" name="clear" @click.stop="objectSingle = null" />
       </q-select>
@@ -186,20 +186,20 @@
         :options="objectOptions"
         multiple
       >
-        <q-item
-          slot="option"
-          slot-scope="scope"
-          v-bind="scope.itemProps"
-          v-on="scope.itemEvents"
-        >
-          <q-item-section avatar>
-            <q-icon :name="scope.opt.icon" />
-          </q-item-section>
-          <q-item-section>
-            <q-item-label v-html="scope.opt.label" />
-            <q-item-label caption>{{ scope.opt.description }}</q-item-label>
-          </q-item-section>
-        </q-item>
+        <template v-slot:option="scope">
+          <q-item
+            v-bind="scope.itemProps"
+            v-on="scope.itemEvents"
+          >
+            <q-item-section avatar>
+              <q-icon :name="scope.opt.icon" />
+            </q-item-section>
+            <q-item-section>
+              <q-item-label v-html="scope.opt.label" />
+              <q-item-label caption>{{ scope.opt.description }}</q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
 
         <q-icon slot="append" name="clear" @click.stop="objectMultiple = null" />
       </q-select>
@@ -212,18 +212,18 @@
         label="Label"
         multiple
       >
-        <q-chip
-          slot="selected"
-          slot-scope="scope"
-          removable
-          @remove="scope.removeAtIndex(scope.index)"
-          :tabindex="scope.tabindex"
-          color="white"
-          text-color="primary"
-        >
-          <q-avatar color="primary" text-color="white" :icon="scope.opt.icon" />
-          <span v-html="scope.opt.label" />
-        </q-chip>
+        <template v-slot:selected-item="scope">
+          <q-chip
+            removable
+            @remove="scope.removeAtIndex(scope.index)"
+            :tabindex="scope.tabindex"
+            color="white"
+            text-color="primary"
+          >
+            <q-avatar color="primary" text-color="white" :icon="scope.opt.icon" />
+            <span v-html="scope.opt.label" />
+          </q-chip>
+        </template>
       </q-select>
 
       <div class="text-h6">Max values (in this case 2)</div>
@@ -254,17 +254,17 @@
         multiple
         color="teal"
       >
-        <q-chip
-          slot="selected"
-          slot-scope="scope"
-          removable
-          @remove="scope.removeAtIndex(scope.index)"
-          :tabindex="scope.tabindex"
-          color="white"
-          text-color="teal"
-        >
-          <span v-html="scope.opt.label" />
-        </q-chip>
+        <template v-slot:selected-item="scope">
+          <q-chip
+            removable
+            @remove="scope.removeAtIndex(scope.index)"
+            :tabindex="scope.tabindex"
+            color="white"
+            text-color="teal"
+          >
+            <span v-html="scope.opt.label" />
+          </q-chip>
+        </template>
       </q-select>
 
       <div class="text-h6">No options</div>

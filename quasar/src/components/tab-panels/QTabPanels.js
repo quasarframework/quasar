@@ -7,10 +7,12 @@ export default Vue.extend({
 
   mixins: [ PanelParentMixin ],
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-tab-panels relative-position',
-      directives: this.panelDirectives
-    }, this.__getPanelContent(h))
+  methods: {
+    __render (h) {
+      return h('div', {
+        staticClass: 'q-tab-panels relative-position',
+        directives: this.panelDirectives
+      }, this.__getPanelContent(h))
+    }
   }
 })

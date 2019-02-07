@@ -77,6 +77,8 @@ export default {
 
       if (this.innerError !== error) {
         this.innerError = error
+      }
+      if (this.innerErrorMessage !== msg) {
         this.innerErrorMessage = msg
       }
     },

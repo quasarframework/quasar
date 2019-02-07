@@ -4,6 +4,7 @@ import QScrollObserver from '../observer/QScrollObserver.js'
 import QResizeObserver from '../observer/QResizeObserver.js'
 import { onSSR } from '../../plugins/Platform.js'
 import { getScrollbarWidth } from '../../utils/scroll.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QLayout',
@@ -106,7 +107,7 @@ export default Vue.extend({
       h(QResizeObserver, {
         on: { resize: this.__onPageResize }
       }),
-      this.$slots.default
+      slot(this, 'default')
     ])
 
     return this.container
@@ -131,7 +132,7 @@ export default Vue.extend({
 
   methods: {
     __animate () {
-      if (this.timer) {
+      if (this.timer !== void 0) {
         clearTimeout(this.timer)
       }
       else {
@@ -139,7 +140,7 @@ export default Vue.extend({
       }
       this.timer = setTimeout(() => {
         document.body.classList.remove('q-body--layout-animate')
-        this.timer = null
+        this.timer = void 0
       }, 150)
     },
 

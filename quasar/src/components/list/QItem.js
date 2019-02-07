@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import { RouterLinkMixin } from '../../mixins/router-link.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QItem',
@@ -65,7 +66,7 @@ export default Vue.extend({
 
   methods: {
     __getContent (h) {
-      const child = [].concat(this.$slots.default)
+      const child = [].concat(slot(this, 'default'))
       this.isClickable === true && child.unshift(h('div', { staticClass: 'q-focus-helper' }))
       return child
     },

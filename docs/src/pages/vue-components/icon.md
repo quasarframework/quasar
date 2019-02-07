@@ -1,5 +1,8 @@
 ---
 title: Icon
+related:
+  - /options/installing-icon-libraries
+  - /options/quasar-icon-sets
 ---
 
 The QIcon component allows you to easily insert icons within other components or any other area of your pages.

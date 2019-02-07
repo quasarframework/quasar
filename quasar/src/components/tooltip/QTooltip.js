@@ -7,6 +7,7 @@ import TransitionMixin from '../../mixins/transition.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
+import slot from '../../utils/slot.js'
 import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/position-engine.js'
@@ -212,7 +213,7 @@ export default Vue.extend({
           staticClass: 'q-tooltip no-pointer-events',
           class: this.contentClass,
           style: this.contentStyle
-        }, this.$slots.default) : null
+        }, slot(this, 'default')) : null
       ])
     }
   },

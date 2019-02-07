@@ -6,7 +6,7 @@
         if on desktop) to see Parallax in action.
       </p>
 
-      <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
     <q-parallax>
@@ -16,31 +16,31 @@
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
     <q-parallax class="q-mt-xl">
       <img slot="media" src="https://cdn.quasar-framework.org/img/parallax2.jpg">
 
-      <div
-        slot="content"
-        slot-scope="scope"
-        class="absolute column items-center"
-        :style="{
-          opacity: 0.45 + (1 - scope.percentScrolled) * 0.55,
-          top: (scope.percentScrolled * 60) + '%',
-          left: 0,
-          right: 0
-        }"
-      >
-        <img src="https://cdn.quasar-framework.org/img/quasar-logo.png" style="width: 150px; height: 150px">
-        <div class="text-h3 text-white text-center">Quasar Framework</div>
-        <div class="text-h6 text-grey-3 text-center">Scoped slot</div>
-      </div>
+      <template v-slot:content="scope">
+        <div
+          class="absolute column items-center"
+          :style="{
+            opacity: 0.45 + (1 - scope.percentScrolled) * 0.55,
+            top: (scope.percentScrolled * 60) + '%',
+            left: 0,
+            right: 0
+          }"
+        >
+          <img src="https://cdn.quasar-framework.org/img/quasar-logo.png" style="width: 150px; height: 150px">
+          <div class="text-h3 text-white text-center">Quasar Framework</div>
+          <div class="text-h6 text-grey-3 text-center">Scoped slot</div>
+        </div>
+      </template>
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
     <q-parallax :height="200" class="q-mt-xl">
@@ -53,7 +53,7 @@
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
     <q-toggle v-model="imgSrc" true-value="https://cdn.quasar-framework.org/img/parallax1.jpg" false-value="https://cdn.quasar-framework.org/img/mountains.jpg" label="Toggle Image" />
@@ -62,7 +62,7 @@
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
     <q-parallax src="https://cdn.quasar-framework.org/img/parallax2.jpg">
@@ -70,7 +70,7 @@
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
     <q-parallax src="https://cdn.quasar-framework.org/img/parallax1.jpg">
@@ -78,7 +78,7 @@
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
     <q-parallax src="https://cdn.quasar-framework.org/img/mountains.jpg" :height="200">
@@ -86,14 +86,14 @@
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
     </div>
 
     <h3>Parallax (not full width)</h3>
     <div class="row justify-around">
       <div class="col-6">
         <div class="q-layout-padding">
-          <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
+          <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
         </div>
 
         <q-parallax :height="200" class="q-mt-xl">
@@ -106,7 +106,7 @@
         </q-parallax>
 
         <div class="q-layout-padding">
-          <p v-for="n in 7" class="par-text">{{ n }} {{ loremipsum }}</p>
+          <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
         </div>
 
       </div>
