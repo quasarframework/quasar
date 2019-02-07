@@ -843,7 +843,7 @@ module.exports = [
   {
     name: 'Getting Started',
     icon: 'flight_takeoff',
-    path: 'getting-started',
+    path: 'start',
     children: gettingStarted
   },
   {

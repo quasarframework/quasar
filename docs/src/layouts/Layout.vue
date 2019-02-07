@@ -2,7 +2,7 @@
 q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
   q-header.header(elevated)
     q-toolbar
-      q-btn.q-mr-sm(v-if="hasDrawer", flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
+      q-btn.q-mr-sm(flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
         q-icon(name="menu")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
@@ -10,15 +10,11 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
           img(src="https://cdn.quasar-framework.org/img/quasar-logo.png")
         q-toolbar-title(shrink) Quasar
 
-      template(v-if="hasDrawer !== true")
-        q-separator.q-mx-xs(vertical, dark, inset)
-        q-btn.text-bold(key="docs", flat, stretch, no-caps, to="/getting-started/pick-quasar-flavour", label="Docs")
-
       q-space
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
-      q-btn.q-ml-xs(v-show="hasDrawer", flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
+      q-btn.q-ml-xs(flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
         q-icon(name="assignment")
 
   q-footer.text-white.text-center.footer
@@ -43,7 +39,6 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
     div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
 
   q-drawer(
-    v-if="hasDrawer"
     v-model="leftDrawerState"
     bordered
     show-if-above
@@ -67,7 +62,6 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
       app-menu.q-mb-lg
 
   q-drawer(
-    v-if="hasDrawer"
     v-model="rightDrawerState"
     side="right"
     content-class="bg-grey-2"
@@ -90,11 +84,6 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
         )
           q-item-section(v-if="toc.sub === true", side) •
           q-item-section {{ toc.title }}
-
-      .flex.justify-center.q-mt-sm
-        .bg-grey.flex.flex-center.text-white(
-          style="width: 160px; height: 243px"
-        ) Ad
 
   q-page-container
     transition(
@@ -132,7 +121,7 @@ export default {
     $route () {
       this.leftDrawerState = true
       this.rightDrawerState = true
-      this.hasDrawer === true && this.$nextTick(() => {
+      this.$nextTick(() => {
         this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
       })
     }
@@ -148,10 +137,6 @@ export default {
   },
 
   computed: {
-    hasDrawer () {
-      return this.$store.getters.hasDrawer
-    },
-
     leftDrawerState: {
       get () {
         return this.$store.state.leftDrawerState
@@ -212,11 +197,9 @@ export default {
     },
 
     onScroll ({ position }) {
-      if (this.scrollingPage === true || this.hasDrawer !== true) {
-        return
+      if (this.scrollingPage !== true) {
+        this.updateActiveToc(position)
       }
-
-      this.updateActiveToc(position)
     },
 
     updateActiveToc (position) {
@@ -266,7 +249,7 @@ export default {
 
 .footer
   font-size 11px
-  padding 24px 0
+  padding 16px 0
 
   &__icons
     font-size 28px
