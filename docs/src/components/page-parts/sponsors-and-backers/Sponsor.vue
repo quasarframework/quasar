@@ -1,6 +1,6 @@
 <template lang="pug">
   q-card.quasar-sponsor(@click.native="openWebsite", :style="style")
-    q-card-section {{ name }}
+    q-card-section.quasar-sponsor__title {{ name }}
     q-separator
     q-card-section.quasar-sponsor__logo.flex.flex-center(v-if="img")
       q-img(alt="name", :src="`https://cdn.quasar-framework.org/sponsors/${img}`")
@@ -39,11 +39,12 @@ export default {
   width 100%
   max-width 14rem
   height 260px
-  transition background .28s
 
   &__logo
     height 200px
+  &__title
+    transition background .28s
 
-  &:hover
+  &:hover .quasar-sponsor__title
     background #eee
 </style>

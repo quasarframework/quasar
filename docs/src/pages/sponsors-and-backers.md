@@ -12,7 +12,7 @@ Quasar Framework an MIT-licensed open-source project and is maintained by Razvan
 
 Like most open source products Quasar can't do it alone. We rely on *sponsors, backers and supporters* to keep things going. When Quasar starts to bring you some financial stability, please be considerate of the tens of thousands of hours that went into its creation and send some money back to the team that made it possible. And finally, if your company relies on Quasar, the best way to guarantee that Quasar continues to be there for you is to invest in its maintenance!
 
-A **Backer** makes a monthly pledge through Patreon. A **Supporter** makes a one-off donation. If you are representing a company who wants to become our new **Sponsor** and need an invoice for your donations, please send an email to razvan.stoenescu@gmail.com.
+A **Backer** makes a monthly pledge through Patreon. A **Supporter** makes a one-off donation. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com`.
 
 <div class="row q-gutter-sm">
   <q-btn
@@ -55,7 +55,7 @@ For a full list of our wonderful people who make Quasar happen, visit the [Backe
 ## Backers
 
 <div class="q-gutter-sm row">
-  <sponsor img="campus-cloud-services.png" name="campus Cloud Services" url="http://campuscloudservices.com/" />
+  <sponsor img="campus-cloud-services.png" name="Campus Cloud Services" url="http://campuscloudservices.com/" />
 
   <sponsor img="juggle-street.png" name="Juggle Street" url="https://www.jugglestreet.com.au/" />
 
