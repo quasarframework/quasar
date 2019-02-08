@@ -6,11 +6,12 @@ related:
 The build system uses Webpack to create your website/app. Don't worry if you aren't acquainted with Webpack. Out of the box, you won't need to configure it because it already has everything set up.
 
 ## Usage with quasar.conf.js
-For cases where you need to tweak the default Webpack config you can do so by editing `/quasar.conf.js` and configuring `build > extendWebpack (cfg)` method or (CLI v0.16.2+) `build > chainWebpack (chain)`.
+For cases where you need to tweak the default Webpack config you can do so by editing `/quasar.conf.js` and configuring `build > extendWebpack (cfg)` method or `build > chainWebpack (chain)`.
 
 Example of adding ESLint loader to Webpack (assuming you've installed it):
 
 ```js
+// quasar.conf.js
 build: {
   extendWebpack (cfg, { isServer, isClient }) {
     cfg.module.rules.push({
@@ -27,6 +28,7 @@ Notice that you don't need to return anything. The parameter of extendWebpack(cf
 
 Equivalent quasar.conf for chainWebpack():
 ```js
+// quasar.conf.js
 build: {
   chainWebpack (chain, { isServer, isClient }) {
     chain.module.rule('eslint')

@@ -33,5 +33,5 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 
 <doc-example title="Other options" file="Dialog/OtherOptions" />
 
-## API
+## Dialog API
 <doc-api file="Dialog" />

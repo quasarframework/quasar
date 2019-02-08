@@ -33,8 +33,8 @@ If you are a beginner, all you'll need to care about is `/quasar.conf.js` (Quasa
 ├── src-cordova/             # Cordova generated folder used to create Mobile Apps
 ├── src-electron/            # Electron specific code (like "main" thread)
 ├── dist/                    # where production builds go
-│   ├── spa-mat/             # example when building SPA with MAT theme
-│   ├── spa-ios/             # example when building SPA with IOS theme
+│   ├── spa/                 # example when building SPA
+│   ├── ssr/                 # example when building SSR
 │   ├── electron-mat/        # example when building Electron with MAT theme
 │   └── ....
 ├── quasar.conf.js           # Quasar App Config file

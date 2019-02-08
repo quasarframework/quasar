@@ -127,6 +127,7 @@
         <q-drawer
           side="left"
           :mini="leftMini"
+          :mini-width="72"
           :bordered="bordered"
           :elevated="elevated"
           @click.capture="e => {

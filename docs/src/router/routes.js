@@ -1,16 +1,7 @@
 import Layout from 'layouts/Layout.vue'
 import menu from 'assets/menu.js'
 
-const docsPages = [
-  {
-    path: '',
-    component: () => import('pages/Landing.vue')
-  },
-  {
-    path: 'docs',
-    component: () => import('pages/docs.md')
-  }
-]
+const docsPages = []
 
 function parseMenuNode (node, __path) {
   const prefix = __path + (node.path !== void 0 ? '/' + node.path : '')
@@ -31,6 +22,14 @@ menu.forEach(node => {
 })
 
 const routes = [
+  {
+    path: '/',
+    component: () => import('pages/Landing.vue')
+  },
+  {
+    path: '/start',
+    redirect: '/start/pick-quasar-flavour'
+  },
   {
     path: '/',
     component: Layout,

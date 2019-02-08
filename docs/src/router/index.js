@@ -18,7 +18,7 @@ export default function ({ store }) {
     scrollBehavior (to, _, savedPosition) {
       return new Promise(resolve => {
         setTimeout(() => {
-          if (to.hash !== void 0) {
+          if (to.hash !== void 0 && to.hash !== '') {
             const el = document.getElementById(to.hash.substring(1))
 
             if (el !== null) {
@@ -27,9 +27,7 @@ export default function ({ store }) {
             }
           }
 
-          if (savedPosition) {
-            resolve(savedPosition)
-          }
+          resolve(savedPosition || { x: 0, y: 0 })
         }, 100)
       })
     },
