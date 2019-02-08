@@ -21,6 +21,8 @@
                 q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
                 q-btn(push, color="white", text-color="primary", to="/start", label="Get started")
                 .text-body2.q-ml-md v{{ $q.version }}
+      .text-center(style="position:absolute; bottom: 0; width: 100%;")
+        q-icon(name="expand_more", style="opacity: .4").text-h2.text-white
 
   section.padding.landing__front.text-center
     div
