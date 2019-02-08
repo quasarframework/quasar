@@ -289,4 +289,18 @@ export default {
 
     &__hero-btns
       justify-content center
+
+body.mobile .landing
+  background unset
+  &:before
+    content ''
+    position fixed /* stretch a fixed position to the whole screen */
+    top 0
+    height 100vh /* fix for mobile browser address bar appearing disappearing */
+    left 0
+    right 0
+    bottom 0
+    z-index -1 /* needed to keep in the background */
+    background #000 url('https://cdn.quasar-framework.org/img/quasar-cover.jpg') center center
+    background-size cover
 </style>
