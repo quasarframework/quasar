@@ -30,11 +30,6 @@
       "extends": "bordered"
     },
 
-    "inline": {
-      "type": "Boolean",
-      "desc": "Show component as inline-block"
-    },
-
     "multiple": {
       "type": "Boolean",
       "desc": "Allow multiple file uploads"

@@ -9,7 +9,7 @@
       :loading="loading"
     >
 
-      <template slot="top" slot-scope="{}">
+      <template v-slot:top>
         <q-btn flat dense color="primary" :disable="loading" label="Add row" @click="addRow" />
         <q-btn class="on-right" flat dense color="primary" :disable="loading" label="Remove row" @click="removeRow" />
         <q-space />

@@ -18,7 +18,7 @@
       flat
       bordered
     >
-      <template slot="top-right" slot-scope="props">
+      <template v-slot:top-right="props">
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
           <q-icon slot="append" name="search" />
         </q-input>
@@ -89,7 +89,7 @@
       row-key="name"
       color="primary"
     >
-      <template slot="top" slot-scope="props">
+      <template v-slot:top="props">
         <q-btn flat dense color="primary" :disable="loadingDyn" icon="add" label="Add row" @click="addRow" />
         <q-btn class="on-right" flat dense color="primary" :disable="loadingDyn" icon="remove" label="Remove row" @click="removeRow" />
         <q-btn class="on-right" flat dense color="primary" :disable="loadingDyn" icon="refresh" label="Refresh" />
@@ -110,7 +110,7 @@
       row-key="name"
       color="primary"
     >
-      <template slot="top-right" slot-scope="props">
+      <template v-slot:top-right>
         <q-input borderless dense debounce="300" color="primary" class="q-mr-sm" v-model="filter">
           <q-icon slot="append" name="search" />
         </q-input>
@@ -154,7 +154,7 @@
       table-style="height: 400px"
       table-class="gigi"
     >
-      <template slot="header" slot-scope="props">
+      <template v-slot:header="props">
         <q-tr :props="props">
           <q-th rowspan="2" @click="props.sort(props.cols[0].name)" :class="props.cols[0].__thClass">
             {{ props.cols[0].label }} <q-icon :class="props.cols[0].__iconClass" name="arrow_upward" />
@@ -184,7 +184,7 @@
           </q-th>
         </q-tr>
       </template>
-      <template slot="body" slot-scope="props">
+      <template v-slot:body="props">
         <q-tr :props="props">
           <q-td rowspan="2">
             {{ props.row.name }}
@@ -210,24 +210,28 @@
       :columns="columns"
       row-key="name"
     >
-      <div slot="top" slot-scope="props">
+      <template v-slot:top>
         Top
-      </div>
-      <q-tr slot="top-row" slot-scope="props" :props="props">
-        <q-td colspan="100%">
-          <strong>Top row</strong>
-        </q-td>
-      </q-tr>
+      </template>
+      <template v-slot:top-row="props">
+        <q-tr :props="props">
+          <q-td colspan="100%">
+            <strong>Top row</strong>
+          </q-td>
+        </q-tr>
+      </template>
 
-      <q-tr slot="bottom-row" slot-scope="props" :props="props">
-        <q-td colspan="100%">
-          <strong>Bottom row</strong>
-        </q-td>
-      </q-tr>
+      <template v-slot:bottom-row="props">
+        <q-tr :props="props">
+          <q-td colspan="100%">
+            <strong>Bottom row</strong>
+          </q-td>
+        </q-tr>
+      </template>
 
-      <div slot="bottom" slot-scope="props">
+      <template v-slot:bottom>
         Bottom
-      </div>
+      </template>
     </q-table>
 
     <h4>Single selection</h4>
@@ -258,7 +262,7 @@
       color="secondary"
       title="Select some rows"
     >
-      <template slot="top-selection" slot-scope="props">
+      <template v-slot:top-selection>
         <q-btn color="secondary" flat label="Action 1" />
         <q-btn color="secondary" flat label="Action 2" />
         <div class="col"/>
