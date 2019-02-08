@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app",
-  "version": "1.0.0-alpha.15",
+  "version": "1.0.0-alpha.16",
   "description": "Quasar Framework App CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -86,14 +86,14 @@
     "stylus-loader": "3.0.2",
     "terser-webpack-plugin": "1.2.2",
     "url-loader": "1.1.2",
-    "vue": "2.6.2",
+    "vue": "2.6.3",
     "vue-loader": "15.6.2",
     "vue-router": "3.0.2",
-    "vue-server-renderer": "2.6.2",
+    "vue-server-renderer": "2.6.3",
     "vue-style-loader": "4.1.2",
-    "vue-template-compiler": "2.6.2",
+    "vue-template-compiler": "2.6.3",
     "vuex": "3.1.0",
-    "webpack": "4.29.1",
+    "webpack": "4.29.3",
     "webpack-bundle-analyzer": "3.0.3",
     "webpack-chain": "5.2.0",
     "webpack-dev-server": "3.1.14",
