@@ -50,7 +50,7 @@
         p One source code for all platforms simultaneously: responsive desktop/mobile websites (SPA or SSR), PWAs (Progressive Web Apps), mobile apps (that look native) and Desktop apps (through Electron).
 
   section.padding.bg-primary
-    .landing__features.row.justify-between.items-start.q-gutter-xl
+    .landing__features.row.justify-between.items-start.q-col-gutter-xl
       .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fab fa-google")
