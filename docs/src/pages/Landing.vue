@@ -218,8 +218,8 @@ export default {
       width 100%
 
   &__toolbar
-    background linear-gradient(to bottom, #000, transparent)
-    padding 0 !important
+    background linear-gradient(to bottom, rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.20) 76%,transparent 100%)
+    padding  3px 0 10px 0 !important
 
     .q-btn
       border-radius 0 0 5px 5px
