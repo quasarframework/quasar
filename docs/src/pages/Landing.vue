@@ -22,10 +22,10 @@
                 q-btn(push, color="white", text-color="primary", to="/start", label="Get started")
                 .text-body2.q-ml-md v{{ $q.version }}
 
-  section.padding.landing__front
+  section.padding.landing__front.text-center
     div
       div.q-mb-lg Quasar (pronounced /ˈkweɪ.zɑɹ/) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to quickly create responsive++ websites/apps in many flavours:
-      .q-gutter-md.row
+      .q-gutter-md.row.justify-center
         q-btn(color="primary", push, no-caps, no-wrap, icon-right="launch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
         q-btn(color="teal", push, no-caps, no-wrap, icon-right="launch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
         q-btn(color="accent", push, no-caps, no-wrap, icon-right="launch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
