@@ -108,6 +108,27 @@
         />
       </div>
 
+      <div class="text-h6">Negative years: {{ dateNeg }}</div>
+      <div class="q-gutter-md">
+        <q-date
+          v-model="dateNeg"
+          v-bind="props"
+          :style="style"
+        />
+
+        <q-input :dark="dark" filled v-model="dateNeg">
+          <q-icon slot="append" name="event" class="cursor-pointer">
+            <q-popup-proxy>
+              <q-date
+                v-model="dateNeg"
+                v-bind="props"
+                :style="style"
+              />
+            </q-popup-proxy>
+          </q-icon>
+        </q-input>
+      </div>
+
       <div class="text-h6">Input: {{ input }}</div>
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
@@ -139,6 +160,7 @@ export default {
       todayBtn: false,
 
       date: '2018/11/03',
+      dateNeg: '-13/11/03',
       events: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23'],
       options: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23'],
 

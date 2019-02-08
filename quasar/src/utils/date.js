@@ -55,6 +55,53 @@ export function isValid (date) {
   return isNaN(t) === false
 }
 
+export function splitDate (date) {
+  let
+    value = date,
+    [year, month, day] = value.split('/')
+      .concat([null, null, null])
+      .slice(0, 3)
+      .map(d => parseInt(d, 10))
+      .map(d => isNaN(d) === true ? null : d)
+
+  if (day < 1 || day > (new Date(year, month, 0)).getDate()) {
+    day = null
+  }
+
+  if (month > 12 || month === 0) {
+    month = month % 12 || 12
+  }
+
+  if (year === null || month === null || day === null) {
+    value = null
+
+    if (year !== null && month === null) {
+      month = 1
+    }
+  }
+
+  return {
+    year,
+    month,
+    day,
+    value
+  }
+}
+
+export function splitTime (time) {
+  let [hour, minute, second] = time.split(':')
+    .concat([null, null, null])
+    .slice(0, 3)
+    .map(d => parseInt(d, 10))
+    .map(d => isNaN(d) === true ? null : d)
+
+  return {
+    hour: hour === null ? null : hour % 24,
+    minute: minute === null ? null : minute % 60,
+    second: second === null ? null : second % 60
+  }
+}
+
 export function buildDate (mod, utc) {
   return adjustDate(new Date(), mod, utc)
 }
@@ -544,6 +591,8 @@ export function clone (value) {
 
 export default {
   isValid,
+  splitDate,
+  splitTime,
   buildDate,
   getDayOfWeek,
   getWeekOfYear,

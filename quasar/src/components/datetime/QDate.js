@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from './datetime-mixin.js'
 
-import { testPattern } from '../../utils/patterns.js'
+import { splitDate } from '../../utils/date.js'
 import { isDeepEqual } from '../../utils/is.js'
 
 const yearsInterval = 20
@@ -79,27 +79,23 @@ export default Vue.extend({
         }
       }
 
-      const date = v.split('/')
-      return {
-        value: v,
-        year: parseInt(date[0], 10),
-        month: parseInt(date[1], 10),
-        day: parseInt(date[2], 10)
-      }
+      return splitDate(v)
     },
 
     headerTitle () {
       const model = this.extModel
       if (model.value === null) { return ' --- ' }
 
-      const date = new Date(model.value)
+      const date = new Date(model.year, model.month, model.day)
+      if (isNaN(date.valueOf())) { return ' --- ' }
+
       return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
         this.$q.lang.date.monthsShort[ model.month - 1 ] + ' ' +
         model.day
     },
 
     headerSubtitle () {
-      return this.extModel.value !== null
+      return this.extModel.year !== null
         ? this.extModel.year
         : ' --- '
     },
@@ -191,7 +187,7 @@ export default Vue.extend({
 
       if (this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
         const i = index + this.innerModel.day - 1
-        Object.assign(res[i], {
+        res[i] !== void 0 && Object.assign(res[i], {
           unelevated: true,
           flat: false,
           color: this.computedColor,
@@ -217,7 +213,7 @@ export default Vue.extend({
 
   methods: {
     __isInvalid (v) {
-      return v === void 0 || v === null || v === '' || typeof v !== 'string' || testPattern.date(v) === false
+      return v === void 0 || v === null || v === '' || typeof v !== 'string'
     },
 
     __getInnerModel (v) {
@@ -240,13 +236,13 @@ export default Vue.extend({
         string = year + '/' + month + '/' + day
       }
       else {
-        const d = v.split('/')
+        const d = splitDate(v)
 
         string = v
 
-        year = parseInt(d[0], 10)
-        month = parseInt(d[1], 10)
-        day = parseInt(d[2], 10)
+        year = d.year
+        month = d.month
+        day = d.day
       }
 
       return {
@@ -615,6 +611,14 @@ export default Vue.extend({
       this.view = 'Calendar'
     },
 
+    __verifyAndUpdate () {
+      if (this.innerModel.year === null || this.innerModel.month === null || this.innerModel.day === null) {
+        return
+      }
+
+      this.__updateValue({})
+    },
+
     __updateValue (date) {
       if (date.year === void 0) {
         date.year = this.innerModel.year
@@ -626,7 +630,7 @@ export default Vue.extend({
         date.day = Math.min(this.innerModel.day, this.daysInMonth)
       }
 
-      const val = date.year + '/' +
+      const val = this.__padYear(date.year) + '/' +
         this.__pad(date.month) + '/' +
         this.__pad(date.day)
 
@@ -655,5 +659,9 @@ export default Vue.extend({
         ])
       ])
     ])
+  },
+
+  beforeDestroy () {
+    this.__verifyAndUpdate()
   }
 })
