@@ -25,7 +25,7 @@
   section.padding.landing__front
     div
       div.q-mb-lg Quasar (pronounced /ˈkweɪ.zɑɹ/) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to quickly create responsive++ websites/apps in many flavours:
-      .q-gutter-md.row
+      .q-gutter-md.row.justify-center
         q-btn(color="primary", push, no-caps, no-wrap, icon-right="launch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
         q-btn(color="teal", push, no-caps, no-wrap, icon-right="launch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
         q-btn(color="accent", push, no-caps, no-wrap, icon-right="launch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
@@ -34,7 +34,7 @@
 
       div.q-mt-lg Write code once and simultaneously deploy it as a website, a Mobile App and/or an Electron App. Yes, <strong>same codebase for all</strong>, helping you develop an app in record time by using a state of the art CLI and backed by well-written, very fast Quasar web components.
 
-  section.padding.bg-primary
+  section.padding.bg-primary.bg-first-section
     .landing__features.row.items-start.q-col-gutter-xl
       .col-12.text-center
         .feature-item.q-mx-md
@@ -248,8 +248,15 @@ export default {
   &__footer
     border-top 1px solid #fff
     background linear-gradient(to bottom, rgba(0,0,0,.5), #000)
+    background-color var(--q-color-primary)
     padding-top 72px !important
     padding-bottom 72px !important
+
+.bg-first-section
+  background-repeat no-repeat !important
+  background-position center
+  background-size cover
+  background-image url(https://cdn.quasar-framework.org/img/landing_first_section.png) !important
 
 @keyframes logo-rotate
   100%
