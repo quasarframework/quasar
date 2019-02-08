@@ -1,8 +1,8 @@
 ---
-title: Getting Started - Pick Quasar Flavour
+title: Getting Started - Pick a Quasar Flavour
 ---
 
-**If you would like to learn what Quasar is all about and what it can do for you**, read the [Introduction to Quasar](/introduction-to-quasar). Otherwise, let's get started by choosing how you'd like to use Quasar.
+**If you'd like to learn more about what Quasar can do for you**, read the [Introduction to Quasar](/introduction-to-quasar). Otherwise, let's get started by choosing how you'd like to use Quasar.
 
 There are three methods for using Quasar:
  * UMD/Standalone (embed into an existing project through CDN, progressive integration)
