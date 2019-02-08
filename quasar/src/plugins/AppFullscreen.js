@@ -55,8 +55,7 @@ export default {
       document.msFullscreenElement)
 
     ;[
-      'onfullscreenchange',
-      'onmsfullscreenchange', 'onmozfullscreenchange', 'onwebkitfullscreenchange'
+      'onfullscreenchange', 'onmsfullscreenchange', 'onwebkitfullscreenchange'
     ].forEach(evt => {
       document[evt] = () => {
         this.isActive = !this.isActive
