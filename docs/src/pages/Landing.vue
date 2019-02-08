@@ -15,14 +15,15 @@
               div.text-weight-bold Quasar
               div Framework
 
-            .text-subtitle1.text-italic.q-pl-sm High Performance Material 2.0 Full Frontend Stack
+            .text-subtitle1.text-italic.q-pl-sm High Performance <strong>Vuejs Material 2</strong> Full Frontend Stack
             .q-pt-md.q-pl-sm
               .landing__hero-btns.q-gutter-md.row.items-center
                 q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
                 q-btn(push, color="white", text-color="primary", to="/start", label="Get started")
-                .text-body2.q-ml-md v{{ $q.version }}
-        .text-center(style="position:absolute; bottom: 0; width: 100%;")
-          q-icon(name="expand_more", style="opacity: .4").text-h2.text-white
+                .text-body2 v{{ $q.version }}
+
+      .landing__arrow.absolute-bottom.text-center
+        q-icon(name="expand_more").text-h2.text-white
 
   section.padding.landing__front.text-center
     div
@@ -51,7 +52,7 @@
         h4 All Platforms in One Go
         p One source code for all platforms simultaneously: responsive desktop/mobile websites (SPA or SSR), PWAs (Progressive Web Apps), mobile apps (that look native) and Desktop apps (through Electron).
 
-  section.padding.bg-primary.bg-swirl-section
+  section.padding.bg-primary.landing__swirl-bg
     .landing__features.row.justify-between.items-start.q-col-gutter-xl
       .col-xs-12.col-sm-5
         .feature-item
@@ -239,6 +240,10 @@ export default {
   &__hero
     min-height 100vh
 
+  &__arrow
+    bottom 8px
+    opacity .4
+
   &__front
     background linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)
 
@@ -260,16 +265,20 @@ export default {
       font-size 16px
 
   &__footer
-    border-top 1px solid #fff
-    background linear-gradient(to bottom, rgba(0, 0, 0, 0.5), #000)
+    background linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 65%, #000)
     padding-top 72px !important
     padding-bottom 72px !important
 
-.bg-swirl-section
-  background-repeat no-repeat !important
-  background-position center
-  background-size cover
-  background-image url(https://cdn.quasar-framework.org/img/landing_first_section.png) !important
+    .doc-link
+      color #fff
+      &:hover
+        opacity .8
+
+  &__swirl-bg
+    background-repeat no-repeat !important
+    background-position center
+    background-size cover
+    background-image url(https://cdn.quasar-framework.org/img/landing_first_section.png) !important
 
 @keyframes logo-rotate
   100%
