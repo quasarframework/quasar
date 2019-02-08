@@ -15,7 +15,7 @@
               div.text-weight-bold Quasar
               div Framework
 
-            .text-subtitle1.text-italic.q-pl-sm High Performance <strong>Vuejs Material 2</strong> Full Frontend Stack
+            .text-subtitle1.text-italic.q-pl-sm High performance, <strong>Material Design 2</strong>, full front end stack with <strong>Vuejs</strong>
             .q-pt-md.q-pl-sm
               .landing__hero-btns.q-gutter-md.row.items-center
                 q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
@@ -284,7 +284,7 @@ export default {
   100%
     transform rotate(-360deg)
 
-@media (max-width: 691px)
+@media (max-width: 718px)
   .landing
     &__hero
       text-align center

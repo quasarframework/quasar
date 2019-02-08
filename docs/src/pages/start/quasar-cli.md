@@ -9,7 +9,17 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 * a Mobile App (through Cordova),
 * an Electron App
 
-...within the same project folder, ensuring you are following the best Quasar practices while everything will simply work out of the box.
+...within the same project folder, ensuring you are **following the best Quasar practices while everything will simply work out of the box**.
+
+<q-btn
+  push
+  no-caps
+  color="primary"
+  icon-right="launch"
+  label="Install Quasar CLI"
+  to="/quasar-cli/installation"
+  class="q-mt-md"
+/>
 
 ## What's Included
 
@@ -32,7 +42,3 @@ Developing for production (`$ quasar build`):
 * ...many more
 
 Take note of the '/quasar.conf.js' file in the root of your project folder. This file helps you quickly configure the way your website/App works. We'll go over it in the [Configuration](/quasar-cli/quasar-conf-js) section.
-
-## Installation
-
-Let's now [Install Quasar CLI](/quasar-cli/installation).
