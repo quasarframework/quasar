@@ -728,10 +728,10 @@
   resolved "https://registry.yarnpkg.com/@positron/stack-trace/-/stack-trace-1.0.0.tgz#14fcc712a530038ef9be1ce6952315a839f466a8"
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
-"@quasar/babel-preset-app@^1.0.0-alpha.0":
-  version "1.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@quasar/babel-preset-app/-/babel-preset-app-1.0.0-alpha.5.tgz#7fe97dd972db728e528a8e4868ba17e5fb7de4ca"
-  integrity sha512-eW9COYzHY/5j0+uAsWmsWc+7HFupU0Uso7i6O5QFJUu+M+d9HPzmvWbC8MnvUnq+Vtxi1m+WZg2oxwWjvIVPnw==
+"@quasar/babel-preset-app@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@quasar/babel-preset-app/-/babel-preset-app-1.0.0.tgz#5ea4831bf9d4b9bd044cafafbdc1cc868fa9abab"
+  integrity sha512-Fy61XfWL1wJchltQ/rWdKZNKZ+/dOyGmaIm3sY+m2Lg/QYJW2T2Dpdgl1M0k1dKd0HtUOlRTGCSQ53fWCFzrrA==
   dependencies:
     "@babel/core" "7.2.2"
     "@babel/plugin-proposal-class-properties" "7.2.1"
@@ -769,7 +769,7 @@
     source-map "~0.6.1"
     vue-template-es2015-compiler "^1.8.2"
 
-"@vue/preload-webpack-plugin@^1.1.0":
+"@vue/preload-webpack-plugin@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@vue/preload-webpack-plugin/-/preload-webpack-plugin-1.1.0.tgz#d768dba004261c029b53a77c5ea2d5f9ee4f3cce"
   integrity sha512-rcn2KhSHESBFMPj5vc5X2pI9bcBNQQixvJXhD5gZ4rN2iym/uH2qfDSQfUS5+qwiz0a85TCkeUs6w6jxFDudbw==
