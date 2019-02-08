@@ -8,6 +8,10 @@ const gettingStarted = [
     path: 'how-to-use-vue'
   },
   {
+    name: 'Playground',
+    path: 'playground'
+  },
+  {
     name: 'Roadmap',
     path: 'roadmap'
   },
