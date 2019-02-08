@@ -210,7 +210,7 @@ export default {
 @import '~quasar-variables'
 
 .landing
-  background #000 url('https://cdn.quasar-framework.org/img/quasar-cover.jpg') no-repeat center center fixed // cdn.quasar-framework.org/img/quasar-cover.jpg) no-repeat center center fixed
+  background #000 url('https://cdn.quasar-framework.org/img/quasar-cover.jpg') no-repeat center center fixed
   background-size cover
 
   > section
