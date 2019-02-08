@@ -215,9 +215,8 @@ export default Vue.extend({
           dist: dist * 0.7
         }
         this.dragCache = null
-        this.__updateClock(event.evt)
       }
-      else if (event.isFinal) {
+      if (event.isFinal) {
         this.__updateClock(event.evt)
         this.dragging = false
 
@@ -408,6 +407,7 @@ export default Vue.extend({
                 name: 'touch-pan',
                 value: this.__drag,
                 modifiers: {
+                  click: true,
                   stop: true,
                   prevent: true
                 }

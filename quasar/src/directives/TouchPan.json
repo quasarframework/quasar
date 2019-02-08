@@ -122,6 +122,11 @@
       "desc": "Disregard mouse events and handle only touch events"
     },
 
+    "click": {
+      "type": "Boolean",
+      "desc": "Trigger also on mouse click without pan - active only if 'noMouse' is not specified"
+    },
+
     "horizontal": {
       "type": "Boolean",
       "desc": "Catch horizontal movement; If 'horizontal' or 'vertical' are not specified, then both directions are considered by default"
