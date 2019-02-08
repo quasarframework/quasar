@@ -34,45 +34,54 @@
 
       div.q-mt-lg Write code once and simultaneously deploy it as a website, a Mobile App and/or an Electron App. Yes, <strong>same codebase for all</strong>, helping you develop an app in record time by using a state of the art CLI and backed by well-written, very fast Quasar web components.
 
-  section.padding.bg-primary
+  section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
       .col-12.text-center
         .feature-item.q-mx-md
-          img.doc-img(src="https://cdn.quasar-framework.org/img/responsive-logo.png")
-          h4 All Platforms in One Go
-          p One source code for all platforms simultaneously: responsive desktop/mobile websites (SPA or SSR), PWAs (Progressive Web Apps), mobile apps (that look native) and Desktop apps (through Electron).
+          img.doc-img(src="https://cdn.quasar-framework.org/img/responsive.png")
+      .col-12.text-center
+        .q-gutter-lg
+          q-icon(name="fab fa-apple")
+          q-icon(name="fab fa-windows")
+          q-icon(name="fab fa-android")
+          q-icon(name="fab fa-linux")
+      .col-12.text-center
+        h4 All Platforms in One Go
+        p One source code for all platforms simultaneously: responsive desktop/mobile websites (SPA or SSR), PWAs (Progressive Web Apps), mobile apps (that look native) and Desktop apps (through Electron).
 
-      .col-xs-12.col-sm-6
+  section.padding.bg-primary
+    .landing__features.row.justify-between.items-start.q-col-gutter-xl
+      .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fab fa-google")
           h6 Material Design 2.0
           p Quasar is focused on following the Material 2.0 Guidelines and to stay up-to-date to them.
 
-      .col-xs-12.col-sm-6
+      .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fas fa-users")
           h6 Big community
           p We have grown into a big community. You can get help or advise others through Quasar's Discord chat server or the Quasar Forum. You're not alone, when in need of an advice.
 
-      .col-xs-12.col-sm-6
+      .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fas fa-bolt")
           h6 Top Class, Fast Web Components
           p There's a component for almost every web development need out there. Each of these components are carefully crafted to offer the best possible experience to your users. Quasar is designed with performance and responsiveness in mind – so the overhead of using Quasar is barely noticeable. This is an area we take special pride in.
 
-      .col-xs-12.col-sm-6
+      .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fas fa-cogs")
           h6 Best practices integrated by default
           p Quasar developers are encouraged to follow web development best practices, and Quasar comes with many embedded features to that regard out of the box. HTML/CSS/JS minification, cache busting, tree shaking, sourcemapping, code-splitting and lazy loading, ES6 transpiling, linting code, accessibility features. Quasar takes care of all these and more - no configuration needed.
 
-      .col-xs-12.col-sm-6
+      .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fas fa-align-right")
           h6 Full RTL support
           p RTL (right to left) support for both Quasar components and developer's own code. Developer-written website/app CSS code gets automatically converted to RTL, if an RTL language pack is used.
 
-      .col-xs-12.col-sm-6
+      .col-xs-12.col-sm-5
         .feature-item
           .q-gutter-sm
             q-icon(name="fas fa-browser")
@@ -83,31 +92,31 @@
           h6 Wide platform support
           p Google Chrome, Firefox, IE11/Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry. We care a great deal about your website or app's behavior both on desktop browsers and on mobile browsers.
 
-      .col-xs-12.col-sm-6
+      .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fas fa-language")
           h6 Internationalization and Localization
           p There's more than 40 Quasar language packs available. If your desired language pack is missing it takes just 5 minutes to add it.
 
-      .col-xs-12.col-sm-6
+      .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fas fa-graduation-cap")
           h6 Great documentation
           p It's worth mentioning the significant amount of time that is spent on writing great, bloat-free, focused, complete documentation pages so you as a developer can quickly pick up Quasar.
 
-      .col-xs-12.col-sm-6
+      .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fas fa-sign-in-alt")
           h6 Progressively migrate your existing project
           p Quasar offers a UMD (Unified Module Definition) version, which you add as a CSS and JS HTML tag into an existing project and you're ready to use it. No build step is required.
 
-      .col-xs-12.col-sm-6
+      .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fas fa-star")
           h6 Unparalleled developer experience through Quasar CLI
           p Quasar CLI takes care of all the quirks involved in developing an SPA, PWA, SSR, Mobile and Electron App.
 
-      .col-xs-12.col-sm-6
+      .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fas fa-chart-line")
           h6 Focus on your App
@@ -201,7 +210,7 @@ export default {
 @import '~quasar-variables'
 
 .landing
-  background #000 url(https://cdn.quasar-framework.org/img/quasar-cover.jpg) no-repeat center center fixed
+  background #000 url('https://cdn.quasar-framework.org/img/quasar-cover.jpg') no-repeat center center fixed
   background-size cover
 
   > section
@@ -214,7 +223,7 @@ export default {
 
     > div
       position relative
-      max-width 800px
+      max-width 1040px
       width 100%
 
   &__toolbar
@@ -229,7 +238,7 @@ export default {
     min-height 100vh
 
   &__front
-    background linear-gradient(to bottom, transparent, rgba(0,0,0,.6) 15%)
+    background linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)
 
   &__logo
     width 150px
@@ -240,14 +249,17 @@ export default {
   &__features
     .q-icon
       font-size 64px
+
     h4, h6
       margin 26px 0
+
     p
-      opacity .6
+      opacity 0.6
+      font-size 16px
 
   &__footer
     border-top 1px solid #fff
-    background linear-gradient(to bottom, rgba(0,0,0,.5), #000)
+    background linear-gradient(to bottom, rgba(0, 0, 0, 0.5), #000)
     padding-top 72px !important
     padding-bottom 72px !important
 
@@ -255,22 +267,26 @@ export default {
   100%
     transform rotate(-360deg)
 
-@media (max-width 691px)
+@media (max-width: 691px)
   .landing
-
     &__hero
       text-align center
+
       .text-h1
         font-size 3rem
         line-height 3.05rem
         margin-bottom 24px
+
     > section.padding
       padding-top 90px
       padding-bottom 90px
+
     .feature-item
       text-align center
+
     &__hero-content
       padding-bottom 180px
+
     &__hero-btns
       justify-content center
 </style>
