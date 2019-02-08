@@ -16,11 +16,13 @@
               div Framework
 
             .text-subtitle1.text-italic.q-pl-sm High Performance Material 2.0 Full Frontend Stack
-            .landing__hero-btns.q-pt-md.q-pl-sm.row.items-center
-              q-btn(push, color="white", text-color="primary", to="/start", label="Get started")
-              .text-body2.q-ml-md v{{ $q.version }}
+            .landing__hero-btns.q-pt-md.q-pl-sm
+              .q-gutter-md.row.items-center
+                q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="Intro")
+                q-btn(push, color="white", text-color="primary", to="/start", label="Get started")
+                .text-body2.q-ml-md v{{ $q.version }}
 
-  section.padding(style="background: rgba(0,0,0,.5);")
+  section.padding.landing__front
     div
       div.q-mb-lg Quasar (pronounced /ˈkweɪ.zɑɹ/) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to quickly create responsive++ websites/apps in many flavours:
       .q-gutter-md.row
@@ -31,31 +33,6 @@
         q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
 
       div.q-mt-lg Write code once and simultaneously deploy it as a website, a Mobile App and/or an Electron App. Yes, <strong>same codebase for all</strong>, helping you develop an app in record time by using a state of the art CLI and backed by well-written, very fast Quasar web components.
-
-  section.padding.bg-white.text-grey-10.text-center
-    div
-      .text-h6.text-primary.q-mb-xl Proudly sponsored by
-      .q-gutter-md.flex.flex-center
-        a
-          img(width='200px', src='https://cdn.quasar-framework.org/sponsors/think-health-data.png')
-        a(href='https://truelogic.com', target='_blank')
-          img(width='200px', src='https://cdn.quasar-framework.org/sponsors/truelogic.png')
-        a(href='https://www.tayloredtechnology.net', target='_blank')
-          img(width='200px', src='https://cdn.quasar-framework.org/sponsors/taylored-technology-big.jpeg')
-        a(href='http://campuscloudservices.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/campus-cloud-services.png')
-        a(href='https://www.jugglestreet.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/juggle-street.png')
-        a(href='http://comcomservices.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/com-com-services.png')
-        a(href='http://www.kalisio.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/kalisio.png')
-        a(href='http://platformpurple.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/platform-purple.png')
-        a(href='http://www.bgasoft.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/bgasoft.png')
-        a(href='https://www.letsbutterfly.com/', target='_blank')
-          img(width='170px', src='https://cdn.quasar-framework.org/sponsors/letsbutterfly.png')
 
   section.padding.bg-primary
     .landing__features.row.items-start.q-col-gutter-xl
@@ -69,31 +46,31 @@
         .feature-item
           q-icon(name="fab fa-google")
           h6 Material Design 2.0
-          p Quasar is focused on following the Material Guidelines 2.0 and stay up to date to it.
+          p Quasar is focused on following the Material 2.0 Guidelines and to stay up-to-date to them.
 
       .col-xs-12.col-sm-6
         .feature-item
           q-icon(name="fas fa-users")
           h6 Big community
-          p We have grown into a big community. You can get help or advise others through Quasar's Discord chat server or the Quasar Forum. You're not alone when in need of an advice.
+          p We have grown into a big community. You can get help or advise others through Quasar's Discord chat server or the Quasar Forum. You're not alone, when in need of an advice.
 
       .col-xs-12.col-sm-6
         .feature-item
           q-icon(name="fas fa-bolt")
           h6 Top Class, Fast Web Components
-          p There's a component for almost every web development need out there. Each of these components are carefully crafted to offer the best possible experience to users. Quasar is designed with performance and responsiveness in mind – so the overhead of using Quasar is barely noticeable. This is an area we take special pride in.
+          p There's a component for almost every web development need out there. Each of these components are carefully crafted to offer the best possible experience to your users. Quasar is designed with performance and responsiveness in mind – so the overhead of using Quasar is barely noticeable. This is an area we take special pride in.
 
       .col-xs-12.col-sm-6
         .feature-item
           q-icon(name="fas fa-cogs")
           h6 Best practices integrated by default
-          p Quasar developers are encouraged to follow web development best practices, and it comes with many embedded features to that regard out of the box. HTML/CSS/JS minification, cache busting, tree shaking, sourcemapping, code-splitting and lazy loading, ES6 transpiling, linting code, accessibility features. Quasar takes care of all these and more - no configuration needed.
+          p Quasar developers are encouraged to follow web development best practices, and Quasar comes with many embedded features to that regard out of the box. HTML/CSS/JS minification, cache busting, tree shaking, sourcemapping, code-splitting and lazy loading, ES6 transpiling, linting code, accessibility features. Quasar takes care of all these and more - no configuration needed.
 
       .col-xs-12.col-sm-6
         .feature-item
           q-icon(name="fas fa-align-right")
           h6 Full RTL support
-          p RTL (right to left) support for both Quasar components and developer's own code. Developer-written website/app CSS code gets automatically converted to RTL if an RTL language pack is used.
+          p RTL (right to left) support for both Quasar components and developer's own code. Developer-written website/app CSS code gets automatically converted to RTL, if an RTL language pack is used.
 
       .col-xs-12.col-sm-6
         .feature-item
@@ -122,19 +99,50 @@
         .feature-item
           q-icon(name="fas fa-sign-in-alt")
           h6 Progressively migrate your existing project
-          p Quasar offers an UMD (Unified Module Definition) version, which you add a CSS and JS HTML tag into existing project and you're ready to use it. No build step is required.
+          p Quasar offers a UMD (Unified Module Definition) version, which you add as a CSS and JS HTML tag into an existing project and you're ready to use it. No build step is required.
 
       .col-xs-12.col-sm-6
         .feature-item
           q-icon(name="fas fa-star")
           h6 Unparalleled developer experience through Quasar CLI
-          p Quasar CLI takes care of all the quirks involved in developing a SPA, PWA, SSR, Mobile and Electron App.
+          p Quasar CLI takes care of all the quirks involved in developing an SPA, PWA, SSR, Mobile and Electron App.
 
       .col-xs-12.col-sm-6
         .feature-item
           q-icon(name="fas fa-chart-line")
           h6 Focus on your App
-          p Your full focus is on your App's content rather than all other boilerplating stuff around it (build system, layout, and many more). You'll be spending time only on what matters, which is your product. Quasar greatly increases your productivity.
+          p Your full focus is on your App's content rather than all other boilerplating stuff around it (build system, layout, and much more). You'll be spending time only on what matters, which is your product. Quasar greatly increases your productivity.
+
+  section.padding.bg-white.text-grey-10.text-center
+    div
+      .text-h6.text-primary.q-mb-xl Proudly sponsored by
+      .q-gutter-md.flex.flex-center
+        a
+          img(width='200px', src='https://cdn.quasar-framework.org/sponsors/think-health-data.png')
+        a(href='https://truelogic.com', target='_blank')
+          img(width='200px', src='https://cdn.quasar-framework.org/sponsors/truelogic.png')
+        a(href='https://www.tayloredtechnology.net', target='_blank')
+          img(width='200px', src='https://cdn.quasar-framework.org/sponsors/taylored-technology-big.jpeg')
+        a(href='http://campuscloudservices.com', target='_blank')
+          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/campus-cloud-services.png')
+        a(href='https://www.jugglestreet.com', target='_blank')
+          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/juggle-street.png')
+        a(href='http://comcomservices.com', target='_blank')
+          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/com-com-services.png')
+        a(href='http://www.kalisio.com', target='_blank')
+          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/kalisio.png')
+        a(href='http://platformpurple.com', target='_blank')
+          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/platform-purple.png')
+        a(href='http://www.bgasoft.com', target='_blank')
+          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/bgasoft.png')
+        a(href='https://www.letsbutterfly.com/', target='_blank')
+          img(width='170px', src='https://cdn.quasar-framework.org/sponsors/letsbutterfly.png')
+
+      .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Partners
+      .q-gutter-md.flex.flex-center
+
+        a(href='https://utopian.io/', target='_blank')
+          img(width='170px', src='https://cdn.quasar-framework.org/sponsors/utopian.png')
 
   section.landing__footer
     div.text-center
@@ -190,6 +198,8 @@ export default {
 </script>
 
 <style lang="stylus">
+@import '~quasar-variables'
+
 .landing
   background #000 url(https://cdn.quasar-framework.org/img/quasar-cover.jpg) no-repeat center center fixed
   background-size cover
@@ -217,6 +227,9 @@ export default {
 
   &__hero
     min-height 100vh
+
+  &__front
+    background linear-gradient(to bottom, transparent, rgba(0,0,0,.6) 15%)
 
   &__logo
     width 150px
