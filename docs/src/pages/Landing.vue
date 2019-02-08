@@ -262,7 +262,6 @@ export default {
   &__footer
     border-top 1px solid #fff
     background linear-gradient(to bottom, rgba(0, 0, 0, 0.5), #000)
-    background-color var(--q-color-primary)
     padding-top 72px !important
     padding-bottom 72px !important
 
@@ -271,6 +270,7 @@ export default {
   background-position center
   background-size cover
   background-image url(https://cdn.quasar-framework.org/img/landing_first_section.png) !important
+
 @keyframes logo-rotate
   100%
     transform rotate(-360deg)
