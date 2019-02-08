@@ -16,9 +16,9 @@
               div Framework
 
             .text-subtitle1.text-italic.q-pl-sm High Performance Material 2.0 Full Frontend Stack
-            .landing__hero-btns.q-pt-md.q-pl-sm
-              .q-gutter-md.row.items-center
-                q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="Intro")
+            .q-pt-md.q-pl-sm
+              .landing__hero-btns.q-gutter-md.row.items-center
+                q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
                 q-btn(push, color="white", text-color="primary", to="/start", label="Get started")
                 .text-body2.q-ml-md v{{ $q.version }}
 
