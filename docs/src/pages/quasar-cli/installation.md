@@ -9,6 +9,8 @@ Make sure you have Node >=8 and NPM >=5 installed on your machine.
 $ npm uninstall -g quasar-cli
 # or..
 $ yarn global remove quasar-cli
+# or if that does not remove quasar-cli (mac/linux only):
+$ QUASAR=$(which quasar); sudo rm ${QUASAR}
 
 # Node.js >= 8.9.0 is required.
 $ npm install -g @quasar/cli
