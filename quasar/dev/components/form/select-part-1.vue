@@ -1,21 +1,21 @@
 <template>
   <div>
-    <div class="q-layout-padding q-gutter-y-md">
+    <div class="q-layout-padding q-gutter-y-md" :class="{ 'bg-grey-8 text-white': dark }">
       <div class="q-gutter-sm">
-        <q-radio v-model="type" val="filled" label="Filled" />
-        <q-radio v-model="type" val="outlined" label="Outlined" />
-        <q-radio v-model="type" val="standout" label="Standout" />
-        <q-radio v-model="type" val="standard" label="Standard" />
-        <q-radio v-model="type" val="borderless" label="Borderless" />
+        <q-radio :dark="dark" v-model="type" val="filled" label="Filled" />
+        <q-radio :dark="dark" v-model="type" val="outlined" label="Outlined" />
+        <q-radio :dark="dark" v-model="type" val="standout" label="Standout" />
+        <q-radio :dark="dark" v-model="type" val="standard" label="Standard" />
+        <q-radio :dark="dark" v-model="type" val="borderless" label="Borderless" />
       </div>
       <div>
-        <q-toggle v-model="readonly" label="Readonly" />
-        <q-toggle v-model="disable" label="Disable" />
-        <q-toggle v-model="dense" label="Dense" />
-        <q-toggle v-model="optionsDense" label="(Options) Dense" />
-        <q-toggle v-model="expandBesides" label="Expand besides" />
-        <q-toggle v-model="dark" label="Dark" />
-        <q-toggle v-model="optionsDark" label="(Options) Dark" />
+        <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
+        <q-toggle :dark="dark" v-model="disable" label="Disable" />
+        <q-toggle :dark="dark" v-model="dense" label="Dense" />
+        <q-toggle :dark="dark" v-model="optionsDense" label="(Options) Dense" />
+        <q-toggle :dark="dark" v-model="expandBesides" label="Expand besides" />
+        <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="optionsDark" label="(Options) Dark" />
       </div>
 
       <div class="text-h6">String options</div>
@@ -58,7 +58,7 @@
 
       <div class="text-h6">
         Null model
-        <q-btn outline color="primary" label="Reset" @click="resetNull" />
+        <q-btn outline color="negative" label="Reset" @click="resetNull" />
       </div>
 
       <div>{{ stringNullSingle }}</div>
@@ -96,7 +96,7 @@
 
       <div class="text-h6">
         Model value not in options
-        <q-btn color="primary" outline label="Reset" @click="resetBogus" />
+        <q-btn color="negative" outline label="Reset" @click="resetBogus" />
       </div>
       <div>{{ bogusModel }}</div>
       <q-select
