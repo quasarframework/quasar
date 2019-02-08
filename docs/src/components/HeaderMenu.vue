@@ -50,12 +50,12 @@ div
 
       q-item-label(header) Playground
 
-      q-item(clickable, tag="a", href="https://codepen.io/rstoenescu/pen/KQRZJg", target="_blank")
+      q-item(clickable, tag="a", href="https://codepen.io/rstoenescu/pen/VgQbdx", target="_blank")
         q-item-section.text-brown-5(avatar)
           q-icon(name="fab fa-codepen")
         q-item-section Codepen
 
-      q-item(clickable, tag="a", href="https://jsfiddle.net/rstoenescu/waugrryy/", target="_blank")
+      q-item(clickable, tag="a", href="https://jsfiddle.net/rstoenescu/rmaodk0f", target="_blank")
         q-item-section.text-primary(avatar)
           q-icon(name="fab fa-jsfiddle")
         q-item-section jsFiddle
