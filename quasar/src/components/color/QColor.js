@@ -309,13 +309,11 @@ export default Vue.extend({
           staticClass: 'q-color-picker__spectrum non-selectable relative-position cursor-pointer',
           style: this.spectrumStyle,
           class: { readonly: !this.editable },
-          on: this.editable
-            ? { click: this.__spectrumClick }
-            : null,
           directives: this.editable
             ? [{
               name: 'touch-pan',
               modifiers: {
+                click: true,
                 mightPrevent: true
               },
               value: this.__spectrumPan
@@ -805,17 +803,6 @@ export default Vue.extend({
       this.__onSpectrumChange(
         evt.position.left,
         evt.position.top
-      )
-    },
-
-    __spectrumClick (evt) {
-      if (this.spectrumDragging) {
-        return
-      }
-      this.__onSpectrumChange(
-        evt.pageX - window.pageXOffset,
-        evt.pageY - window.pageYOffset,
-        true
       )
     }
   }

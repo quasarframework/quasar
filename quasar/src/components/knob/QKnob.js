@@ -211,6 +211,7 @@ export default Vue.extend({
         name: 'touch-pan',
         value: this.__pan,
         modifiers: {
+          click: true,
           prevent: true,
           stop: true
         }

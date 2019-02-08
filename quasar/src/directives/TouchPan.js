@@ -79,6 +79,7 @@ export default {
       mouse = binding.modifiers.noMouse !== true,
       stopPropagation = binding.modifiers.stop,
       preventDefault = binding.modifiers.prevent,
+      triggerOnClick = binding.modifiers.click && mouse === true,
       evtOpts = preventDefault || binding.modifiers.mightPrevent ? null : listenOpts.passive
 
     let ctx = {
@@ -96,7 +97,7 @@ export default {
       mouseEnd (evt) {
         document.removeEventListener('mousemove', ctx.move, evtOpts)
         document.removeEventListener('mouseup', ctx.mouseEnd, evtOpts)
-        ctx.end(evt)
+        ctx.end(evt, triggerOnClick)
       },
 
       start (evt, mouseEvent) {
@@ -163,9 +164,9 @@ export default {
         ctx.move(evt)
       },
 
-      end (evt) {
+      end (evt, triggerOnClick) {
         el.classList.remove('q-touch')
-        if (ctx.event.abort || !ctx.event.detected || ctx.event.isFirst) {
+        if (ctx.event.abort || !ctx.event.detected || (ctx.event.isFirst && triggerOnClick !== true)) {
           return
         }
 
