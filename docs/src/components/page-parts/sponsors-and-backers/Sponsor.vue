@@ -38,7 +38,7 @@ export default {
 .quasar-sponsor
   width 100%
   max-width 14rem
-  height 260px
+  height 265px
 
   &__logo
     height 200px

@@ -1,171 +1,216 @@
 <template>
-  <div>
-    <div class="q-layout-padding q-gutter-y-md">
-      <div class="q-gutter-sm">
-        <q-radio v-model="type" val="filled" label="Filled" />
-        <q-radio v-model="type" val="outlined" label="Outlined" />
-        <q-radio v-model="type" val="standout" label="Standout" />
-        <q-radio v-model="type" val="standard" label="Standard" />
-        <q-radio v-model="type" val="borderless" label="Borderless" />
-      </div>
-      <div>
-        <q-toggle v-model="readonly" label="Readonly" />
-        <q-toggle v-model="disable" label="Disable" />
-        <q-toggle v-model="dense" label="Dense" />
-        <q-toggle v-model="expandBesides" label="Expand besides" />
-      </div>
-      <div class="q-mb-lg q-gutter-sm">
-        <q-btn label="Set Google" @click="setGoogle" color="primary" outline />
-        <q-btn label="Set Null" @click="setNull" color="primary" outline />
-      </div>
+  <q-layout view="lHh LpR fFf" :class="{ 'bg-grey-8 text-white': dark }">
+    <q-page-container>
+      <q-page padding>
+        <div class="q-gutter-y-md">
+          <div class="q-gutter-sm">
+            <q-radio :dark="dark" v-model="type" val="filled" label="Filled" />
+            <q-radio :dark="dark" v-model="type" val="outlined" label="Outlined" />
+            <q-radio :dark="dark" v-model="type" val="standout" label="Standout" />
+            <q-radio :dark="dark" v-model="type" val="standard" label="Standard" />
+            <q-radio :dark="dark" v-model="type" val="borderless" label="Borderless" />
+          </div>
+          <div>
+            <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
+            <q-toggle :dark="dark" v-model="disable" label="Disable" />
+            <q-toggle :dark="dark" v-model="dense" label="Dense" />
+            <q-toggle :dark="dark" v-model="optionsDense" label="(Options) Dense" />
+            <q-toggle :dark="dark" v-model="expandBesides" label="Expand besides" />
+            <q-toggle :dark="dark" v-model="dark" label="Dark" />
+            <q-toggle :dark="dark" v-model="optionsDark" label="(Options) Dark" />
+          </div>
+          <div class="q-mb-lg q-gutter-sm">
+            <q-btn label="Set Google" @click="setGoogle" color="negative" outline />
+            <q-btn label="Set Null" @click="setNull" color="negative" outline />
+          </div>
 
-      <q-select
-        v-bind="props"
-        v-model="simpleFilter"
-        label="Simple filter - lazy load options"
-        :options="simpleFilterOptions"
-        @filter="simpleFilterFn"
-      >
-        <q-item slot="no-option">
-          <q-item-section class="text-grey">
-            No results
-          </q-item-section>
-        </q-item>
-      </q-select>
+          <q-select
+            v-bind="props"
+            v-model="simpleFilter"
+            label="Simple filter - lazy load options"
+            :options="simpleFilterOptions"
+            @filter="simpleFilterFn"
+          >
+            <q-item slot="no-option">
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </q-select>
 
-      <q-select
-        v-bind="props"
-        v-model="simpleFilterInput"
-        use-input
-        input-debounce="0"
-        label="Simple filter - useInput"
-        :options="simpleFilterInputOptions"
-        @filter="simpleFilterInputFn"
-      >
-        <q-item slot="no-option">
-          <q-item-section class="text-grey">
-            No results
-          </q-item-section>
-        </q-item>
-      </q-select>
+          <q-select
+            v-bind="props"
+            v-model="simpleFilterInput"
+            use-input
+            input-debounce="0"
+            label="Simple filter - useInput"
+            :options="simpleFilterInputOptions"
+            @filter="simpleFilterInputFn"
+          >
+            <q-item slot="no-option">
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </q-select>
 
-      <q-select
-        v-bind="props"
-        v-model="createInput"
-        use-input
-        use-chips
-        multiple
-        input-debounce="0"
-        label="Multiple - Create new values (& filter)"
-        @new-value="createInputNewValue"
-        :options="createInputOptions"
-        @filter="createInputFn"
-      />
+          <q-select
+            v-bind="props"
+            v-model="createInput"
+            use-input
+            use-chips
+            multiple
+            input-debounce="0"
+            label="Multiple - Create new values (& filter)"
+            @new-value="createInputNewValue"
+            :options="createInputOptions"
+            @filter="createInputFn"
+          />
 
-      <q-select
-        v-bind="props"
-        v-model="createSingleInput"
-        use-input
-        use-chips
-        input-debounce="0"
-        label="Single - Create new values (& filter)"
-        @new-value="createInputNewValue"
-        :options="createInputOptions"
-        @filter="createInputFn"
-      />
+          <q-select
+            v-bind="props"
+            v-model="createSingleInput"
+            use-input
+            use-chips
+            input-debounce="0"
+            label="Single - Create new values (& filter)"
+            @new-value="createInputNewValue"
+            :options="createInputOptions"
+            @filter="createInputFn"
+          />
 
-      <q-select
-        v-bind="props"
-        v-model="createInput"
-        use-input
-        use-chips
-        multiple
-        input-debounce="0"
-        label="Multiple - Create new values (no filter)"
-        @new-value="createInputNewValue"
-      />
+          <q-select
+            v-bind="props"
+            v-model="createInput"
+            use-input
+            use-chips
+            multiple
+            input-debounce="0"
+            label="Multiple - Create new values (no filter)"
+            @new-value="createInputNewValue"
+          />
 
-      <q-select
-        v-bind="props"
-        v-model="createSingleInput"
-        use-input
-        use-chips
-        input-debounce="0"
-        label="Single - Create new values (no filter)"
-        @new-value="createInputNewValue"
-      />
+          <q-select
+            v-bind="props"
+            v-model="createSingleInput"
+            use-input
+            use-chips
+            input-debounce="0"
+            label="Single - Create new values (no filter)"
+            @new-value="createInputNewValue"
+          />
 
-      <q-select
-        v-bind="props"
-        v-model="simpleFilterInput"
-        use-input
-        input-debounce="0"
-        hide-selected
-        label="Simple filter - hide selected + useInput"
-        :options="simpleFilterInputOptions"
-        @filter="simpleFilterInputFn"
-      >
-        <q-item slot="no-option">
-          <q-item-section class="text-grey">
-            No results
-          </q-item-section>
-        </q-item>
-      </q-select>
+          <q-select
+            v-bind="props"
+            v-model="simpleFilterInput"
+            use-input
+            input-debounce="0"
+            hide-selected
+            label="Simple filter - hide selected + useInput"
+            :options="simpleFilterInputOptions"
+            @filter="simpleFilterInputFn"
+          >
+            <q-item slot="no-option">
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </q-select>
 
-      <q-select
-        v-bind="props"
-        v-model="minFilterInput"
-        use-input
-        input-debounce="0"
-        label="Simple filter - min 2 chars"
-        :options="minFilterInputOptions"
-        @filter="minFilterInputFn"
-      >
-        <q-item slot="no-option">
-          <q-item-section class="text-grey">
-            No results
-          </q-item-section>
-        </q-item>
-      </q-select>
+          <q-select
+            v-bind="props"
+            v-model="minFilterInput"
+            use-input
+            input-debounce="0"
+            label="Simple filter - min 2 chars"
+            :options="minFilterInputOptions"
+            @filter="minFilterInputFn"
+          >
+            <q-item slot="no-option">
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </q-select>
 
-      <q-select
-        v-bind="props"
-        v-model="chipFilterInput"
-        use-input
-        use-chips
-        input-debounce="0"
-        label="Simple filter - selected slot"
-        :options="chipFilterInputOptions"
-        @filter="chipFilterInputFn"
-      >
-        <q-item slot="no-option">
-          <q-item-section class="text-grey">
-            No results
-          </q-item-section>
-        </q-item>
-      </q-select>
+          <q-select
+            v-bind="props"
+            v-model="chipFilterInput"
+            use-input
+            use-chips
+            input-debounce="0"
+            label="Simple filter - selected slot"
+            :options="chipFilterInputOptions"
+            @filter="chipFilterInputFn"
+          >
+            <q-item slot="no-option">
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </q-select>
 
-      <q-select
-        v-bind="props"
-        v-model="delayedFilterInput"
-        use-input
-        use-chips
-        color="teal"
-        label="Delayed filter"
-        :options="delayedFilterInputOptions"
-        @filter="delayedFilterInputFn"
-        @filter-abort="delayedAbort"
-      >
-        <q-item slot="no-option">
-          <q-item-section class="text-grey">
-            No results
-          </q-item-section>
-        </q-item>
-      </q-select>
+          <q-select
+            v-bind="props"
+            v-model="delayedFilterInput"
+            use-input
+            use-chips
+            color="teal"
+            label="Delayed filter"
+            :options="delayedFilterInputOptions"
+            @filter="delayedFilterInputFn"
+            @filter-abort="delayedAbort"
+          >
+            <q-item slot="no-option">
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </q-select>
 
-      <div style="height: 400px">Scroll on purpose</div>
-    </div>
-  </div>
+          <q-select
+            v-bind="props"
+            v-model="delayedFilterInput"
+            use-input
+            use-chips
+            color="teal"
+            label="Delayed filter with loading slot"
+            :options="delayedFilterInputOptions"
+            @filter="delayedFilterInputFn"
+            @filter-abort="delayedAbort"
+          >
+            <template #loading>
+              Click for menu
+              <q-menu fit>
+                <div class="q-pa-md text-center">
+                  Menu
+                </div>
+              </q-menu>
+            </template>
+            <q-item slot="no-option">
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </q-select>
+
+          <div style="height: 400px">Scroll on purpose</div>
+        </div>
+        <q-page-sticky expand position="bottom" :class="dark ? 'bg-blue-8 text-white' : 'bg-yellow'">
+          <q-select
+            class="full-width"
+            v-bind="props"
+            v-model="simpleFilterInput"
+            use-input
+            input-debounce="0"
+            label="Type 'aa' to have no option, then delete one 'a'"
+            :options="simpleFilterInputOptions"
+            @filter="simpleFilterInputFn"
+          />
+        </q-page-sticky>
+      </q-page>
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script>
@@ -180,6 +225,9 @@ export default {
       readonly: false,
       disable: false,
       dense: false,
+      dark: false,
+      optionsDark: false,
+      optionsDense: false,
       expandBesides: false,
 
       simpleFilter: null,
@@ -366,6 +414,9 @@ export default {
         readonly: this.readonly,
         disable: this.disable,
         dense: this.dense,
+        dark: this.dark,
+        optionsDense: this.optionsDense,
+        optionsDark: this.optionsDark,
         expandBesides: this.expandBesides
       }
     }

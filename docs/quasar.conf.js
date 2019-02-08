@@ -88,7 +88,7 @@ module.exports = function (ctx) {
       }
     },
 
-    animations: ['fadeIn', 'fadeOut'],
+    animations: ['fadeIn', 'fadeOut', 'bounce'],
 
     ssr: {
       pwa: false

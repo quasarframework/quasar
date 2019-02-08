@@ -21,11 +21,15 @@
                 q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
                 q-btn(push, color="white", text-color="primary", to="/start", label="Get started")
                 .text-body2.q-ml-md v{{ $q.version }}
+        .text-center(style="position:absolute; bottom: 30px; width: 100%;")
+          div(style="height: 30px")
+            transition(appear enter-active-class="animated bounce" leave-active-class="animated fadeOut")
+              q-icon(v-if="toggle" name="expand_more", style="opacity: .4").text-h2.text-white
 
-  section.padding.landing__front
+  section.padding.landing__front.text-center
     div
       div.q-mb-lg Quasar (pronounced /ˈkweɪ.zɑɹ/) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to quickly create responsive++ websites/apps in many flavours:
-      .q-gutter-md.row
+      .q-gutter-md.row.justify-center
         q-btn(color="primary", push, no-caps, no-wrap, icon-right="launch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
         q-btn(color="teal", push, no-caps, no-wrap, icon-right="launch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
         q-btn(color="accent", push, no-caps, no-wrap, icon-right="launch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
@@ -49,7 +53,7 @@
         h4 All Platforms in One Go
         p One source code for all platforms simultaneously: responsive desktop/mobile websites (SPA or SSR), PWAs (Progressive Web Apps), mobile apps (that look native) and Desktop apps (through Electron).
 
-  section.padding.bg-primary
+  section.padding.bg-primary.bg-swirl-section
     .landing__features.row.justify-between.items-start.q-col-gutter-xl
       .col-xs-12.col-sm-5
         .feature-item
@@ -196,12 +200,31 @@
 export default {
   name: 'Landing',
 
+  data () {
+    return {
+      toggle: true,
+      interval: null
+    }
+  },
+
   meta: {
     title: 'Quasar Framework'
   },
 
   created () {
     this.year = (new Date()).getFullYear()
+    if (this.$q.screen.gt.md) {
+      this.interval = setInterval(() => {
+        this.toggle = !this.toggle
+      }, 2000)
+    }
+    else {
+      this.toggle = false
+    }
+  },
+
+  beforeDestroy () {
+    clearInterval(this.interval)
   }
 }
 </script>
@@ -263,6 +286,12 @@ export default {
     padding-top 72px !important
     padding-bottom 72px !important
 
+.bg-swirl-section
+  background-repeat no-repeat !important
+  background-position center
+  background-size cover
+  background-image url(https://cdn.quasar-framework.org/img/landing_first_section.png) !important
+
 @keyframes logo-rotate
   100%
     transform rotate(-360deg)
@@ -289,4 +318,18 @@ export default {
 
     &__hero-btns
       justify-content center
+
+body.mobile .landing
+  background unset
+  &:before
+    content ''
+    position fixed /* stretch a fixed position to the whole screen */
+    top 0
+    height 100vh /* fix for mobile browser address bar appearing disappearing */
+    left 0
+    right 0
+    bottom 0
+    z-index -1 /* needed to keep in the background */
+    background #000 url('https://cdn.quasar-framework.org/img/quasar-cover.jpg') center center
+    background-size cover
 </style>
