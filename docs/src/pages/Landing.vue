@@ -274,13 +274,11 @@ export default {
       &:hover
         opacity .8
 
-/*
   &__swirl-bg
     background-repeat no-repeat !important
-    background-position center
-    background-size cover
+    background-position top center
+    background-size contain !important
     background-image url(https://cdn.quasar-framework.org/img/landing_first_section.png) !important
-*/
 
 @keyframes logo-rotate
   100%
