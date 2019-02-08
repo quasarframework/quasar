@@ -38,7 +38,7 @@
     .landing__features.row.items-start.q-col-gutter-xl
       .col-12.text-center
         .feature-item.q-mx-md
-          img.doc-img(src="statics/q-devices.png")
+          img.doc-img(src="https://cdn.quasar-framework.org/img/responsive-logo.png")
       .col-12.text-center
         .q-gutter-lg
           q-icon(name="fab fa-apple")
