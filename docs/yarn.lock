@@ -728,14 +728,14 @@
   resolved "https://registry.yarnpkg.com/@positron/stack-trace/-/stack-trace-1.0.0.tgz#14fcc712a530038ef9be1ce6952315a839f466a8"
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
-"@quasar/app@^1.0.0-alpha.0":
-  version "1.0.0-alpha.16"
-  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.0.0-alpha.16.tgz#7ce36a942d88280f0dfb1ba3bf96093ead13755f"
-  integrity sha512-llNyNl8huVIbzroiCGy+GfexwpuuzTKB/t21epzwIiWKkRY0XtZwqxQolCb45lxaE2MpMwZjZ6WJdyf/oYL90Q==
+"@quasar/app@^1.0.0-beta.0":
+  version "1.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.0.0-beta.0.tgz#21afc9611bf49e9a40482b8251448f74c462851c"
+  integrity sha512-qsZd/C81GyILt2C1xesqJQk1bPcgHZX1yVaOXverqd/i8jjAzplp6o3deOwcKkyE1kCFYirDUDk5UQJ9XtGDNQ==
   dependencies:
     "@babel/core" "7.2.2"
-    "@quasar/babel-preset-app" "^1.0.0-alpha.0"
-    "@vue/preload-webpack-plugin" "^1.1.0"
+    "@quasar/babel-preset-app" "^1.0.0"
+    "@vue/preload-webpack-plugin" "1.1.0"
     ajv "6.7.0"
     autoprefixer "9.4.7"
     babel-loader "8.0.5"
@@ -799,10 +799,10 @@
     webpack-node-externals "1.7.2"
     workbox-webpack-plugin "3.6.3"
 
-"@quasar/babel-preset-app@^1.0.0-alpha.0":
-  version "1.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@quasar/babel-preset-app/-/babel-preset-app-1.0.0-alpha.5.tgz#7fe97dd972db728e528a8e4868ba17e5fb7de4ca"
-  integrity sha512-eW9COYzHY/5j0+uAsWmsWc+7HFupU0Uso7i6O5QFJUu+M+d9HPzmvWbC8MnvUnq+Vtxi1m+WZg2oxwWjvIVPnw==
+"@quasar/babel-preset-app@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@quasar/babel-preset-app/-/babel-preset-app-1.0.0.tgz#5ea4831bf9d4b9bd044cafafbdc1cc868fa9abab"
+  integrity sha512-Fy61XfWL1wJchltQ/rWdKZNKZ+/dOyGmaIm3sY+m2Lg/QYJW2T2Dpdgl1M0k1dKd0HtUOlRTGCSQ53fWCFzrrA==
   dependencies:
     "@babel/core" "7.2.2"
     "@babel/plugin-proposal-class-properties" "7.2.1"
@@ -820,10 +820,10 @@
     babel-plugin-dynamic-import-node "2.2.0"
     core-js "2.6.0"
 
-"@quasar/extras@^1.0.0-alpha.0":
-  version "1.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.0.0-alpha.1.tgz#837e58b7a408c3c69f7c7bae0623ebc9ef8f915c"
-  integrity sha512-fxeNHle0h2sd6258F6E4GqG7YDf6FxiQ44Dx4i9PmrvlydCzKofp2RPiUpdCjfGlpvjmuDVuTCIQMV37/n9o8A==
+"@quasar/extras@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.0.0.tgz#60b11a272efd10a71d5e6391650360f28a6addc8"
+  integrity sha512-cEsCTkpwcCoPAOLtZp6ek0Gjbp9MbhCUrwpvx/GWuvPzjetIehOQcN0SV84cJmoLt//RB8LxHIR/lQXejNuiAw==
 
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
   version "7.0.4"
@@ -868,7 +868,7 @@
     eslint-plugin-promise "^4.0.1"
     eslint-plugin-standard "^4.0.0"
 
-"@vue/preload-webpack-plugin@^1.1.0":
+"@vue/preload-webpack-plugin@1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@vue/preload-webpack-plugin/-/preload-webpack-plugin-1.1.0.tgz#d768dba004261c029b53a77c5ea2d5f9ee4f3cce"
   integrity sha512-rcn2KhSHESBFMPj5vc5X2pI9bcBNQQixvJXhD5gZ4rN2iym/uH2qfDSQfUS5+qwiz0a85TCkeUs6w6jxFDudbw==
@@ -6232,10 +6232,10 @@ qs@6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-quasar@^1.0.0-alpha.11:
-  version "1.0.0-alpha.25"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-alpha.25.tgz#92552e4ff3d8a514f5a199e2ad5a64d3b558c7c1"
-  integrity sha512-Ujo0PgcvM8613K/DeLgOL56X09DCCoaRa9PQi1/iOVKcx+EVxm73++QkL9YAxP8B8Y2bSsFtp7e+zX8ucM43fw==
+quasar@^1.0.0-beta.0:
+  version "1.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-beta.0.tgz#bc085f3de825280fd622307d4b6e8b01a36c0839"
+  integrity sha512-MuRURzsrtLUQpwE+yMGyOf6CrJtqCk6/6TpD0BwMDfpuQkgHorJgKNkYUubsKr3Z9F8jBPyYvp+XAMq124erXA==
 
 querystring-es3@^0.2.0:
   version "0.2.1"
