@@ -146,7 +146,7 @@ export default Vue.extend({
 
         this.__getInnerAppend !== void 0
           ? h('div', {
-            staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-popup--skip',
+            staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip',
             key: 'inner-append'
           }, this.__getInnerAppend(h))
           : null,
