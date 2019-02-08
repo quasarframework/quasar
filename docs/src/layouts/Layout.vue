@@ -45,7 +45,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
   )
     q-scroll-area.fit
       .flex.justify-center
-        q-btn.q-mt-lg(
+        q-btn.q-my-lg(
           type="a"
           href="https://www.patreon.com/quasarframework"
           target="_blank"
@@ -54,10 +54,6 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
           icon="fab fa-patreon"
           label="Become a Patron"
         )
-
-        q-input.q-my-lg(v-model="search", filled, dense)
-          template(v-slot:append)
-            q-icon(name="search")
 
       app-menu.q-mb-lg
 

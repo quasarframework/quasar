@@ -64,7 +64,7 @@
         .feature-item
           q-icon(name="fas fa-users")
           h6 Big community
-          p We have grown into a big community. You can get help or advise others through Quasar's Discord chat server or the Quasar Forum. You're not alone, when in need of an advice.
+          p We have grown into a big community. You can get help or advise others through Quasar's Discord chat server or the Quasar Forum. You're not alone.
 
       .col-xs-12.col-sm-5
         .feature-item
@@ -274,11 +274,13 @@ export default {
       &:hover
         opacity .8
 
+/*
   &__swirl-bg
     background-repeat no-repeat !important
     background-position center
     background-size cover
     background-image url(https://cdn.quasar-framework.org/img/landing_first_section.png) !important
+*/
 
 @keyframes logo-rotate
   100%
