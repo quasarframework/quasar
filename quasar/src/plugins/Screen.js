@@ -51,6 +51,7 @@ export default {
         }
       }
 
+      this.height = h
       this.width = w
 
       this.gt.xs = w >= s.sm
@@ -112,7 +113,7 @@ export default {
 
       if (Object.keys(updateSizes).length > 0) {
         this.setSizes(updateSizes)
-        updateSizes = null
+        updateSizes = {}
       }
       else {
         update()
