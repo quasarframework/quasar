@@ -1,5 +1,8 @@
 ---
 title: QDate
+related:
+  - /vue-components/time
+  - /quasar-utils/date-utils
 ---
 
 The QDate component provides a method to input date.

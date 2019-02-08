@@ -34,21 +34,27 @@
       </q-breadcrumbs>
       <br><br>
       <q-breadcrumbs align="center">
-        <q-icon name="trending_flat" v-slot:separator />
+        <template v-slot:separator>
+          <q-icon name="trending_flat" />
+        </template>
         <q-breadcrumbs-el>Home</q-breadcrumbs-el>
         <q-breadcrumbs-el>Components</q-breadcrumbs-el>
         <q-breadcrumbs-el>Breadcrumbs</q-breadcrumbs-el>
       </q-breadcrumbs>
       <br><br>
       <q-breadcrumbs align="around" style="max-width: 700px" class="q-mx-auto">
-        <q-icon name="arrow_forward" v-slot:separator />
+        <template v-slot:separator>
+          <q-icon name="arrow_forward" />
+        </template>
         <q-breadcrumbs-el>Home</q-breadcrumbs-el>
         <q-breadcrumbs-el>Components</q-breadcrumbs-el>
         <q-breadcrumbs-el>Breadcrumbs</q-breadcrumbs-el>
       </q-breadcrumbs>
       <br><br>
       <q-breadcrumbs align="between" style="max-width: 700px" class="q-mx-auto">
-        <q-icon name="arrow_forward" v-slot:separator />
+        <template v-slot:separator>
+          <q-icon name="arrow_forward" />
+        </template>
         <q-breadcrumbs-el>Home</q-breadcrumbs-el>
         <q-breadcrumbs-el>Components</q-breadcrumbs-el>
         <q-breadcrumbs-el>Breadcrumbs</q-breadcrumbs-el>

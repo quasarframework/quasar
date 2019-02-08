@@ -11,13 +11,14 @@
         label="Standard"
         :display-value="`Company: ${model ? model : '*none*'}`"
       >
-        <q-icon
-          v-if="model !== null"
-          slot="append"
-          class="cursor-pointer"
-          name="clear"
-          @click.stop="model = null"
-        />
+        <template v-slot:append>
+          <q-icon
+            v-if="model !== null"
+            class="cursor-pointer"
+            name="clear"
+            @click.stop="model = null"
+          />
+        </template>
       </q-select>
     </div>
   </div>

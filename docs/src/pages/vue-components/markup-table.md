@@ -1,5 +1,7 @@
 ---
 title: Markup Table
+related:
+  - /vue-components/table
 ---
 
 The QMarkupTable is a way for you to simply wrap a native `<table>` in order to make it look like a Material Design table.

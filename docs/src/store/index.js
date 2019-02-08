@@ -16,12 +16,6 @@ export default function (/* { ssrContext } */) {
       toc: []
     },
 
-    getters: {
-      hasDrawer (state) {
-        return state.route !== void 0 && state.route.path !== '/'
-      }
-    },
-
     mutations: {
       updateLeftDrawerState (state, opened) {
         state.leftDrawerState = opened

@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import AlignMixin from '../../mixins/align.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QCardActions',
 
@@ -21,6 +23,6 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-card__actions',
       class: this.classes
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

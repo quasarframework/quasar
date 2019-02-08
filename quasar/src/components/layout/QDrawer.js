@@ -4,6 +4,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import { between } from '../../utils/format.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import preventScroll from '../../utils/prevent-scroll.js'
+import slot from '../../utils/slot.js'
 
 const duration = 150
 
@@ -38,7 +39,7 @@ export default Vue.extend({
     mini: Boolean,
     miniWidth: {
       type: Number,
-      default: 60
+      default: 57
     },
     breakpoint: {
       type: Number,
@@ -161,6 +162,7 @@ export default Vue.extend({
 
     mini () {
       if (this.value) {
+        this.__animateMini()
         this.layout.__animate()
       }
     }
@@ -303,6 +305,19 @@ export default Vue.extend({
       if (!this.layout.container) {
         document.body.classList[v ? 'add' : 'remove']('q-body--drawer-toggle')
       }
+    },
+
+    __animateMini () {
+      if (this.timerMini !== void 0) {
+        clearTimeout(this.timerMini)
+      }
+      else if (this.$el !== void 0) {
+        this.$el.classList.add('q-drawer--mini-animate')
+      }
+      this.timerMini = setTimeout(() => {
+        this.$el !== void 0 && this.$el.classList.remove('q-drawer--mini-animate')
+        this.timerMini = void 0
+      }, 150)
     },
 
     __openByTouch (evt) {
@@ -467,6 +482,7 @@ export default Vue.extend({
 
   beforeDestroy () {
     clearTimeout(this.timer)
+    clearTimeout(this.timerMini)
     this.showing && this.__cleanup()
     if (this.layout.instances[this.side] === this) {
       this.layout.instances[this.side] = null
@@ -506,7 +522,7 @@ export default Vue.extend({
         staticClass: 'q-drawer__content fit ' + (this.layout.container ? 'overflow-auto' : 'scroll'),
         class: this.contentClass,
         style: this.contentStyle
-      }, this.isMini && this.$slots.mini !== void 0 ? this.$slots.mini : this.$slots.default)
+      }, this.isMini && this.$scopedSlots.mini !== void 0 ? this.$scopedSlots.mini() : slot(this, 'default'))
     ]
 
     if (this.elevated && this.showing) {

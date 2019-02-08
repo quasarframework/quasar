@@ -1,7 +1,9 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-input ref="filter" filled v-model="filter" label="Filter">
-      <q-icon v-if="filter !== ''" slot="append" name="clear" class="cursor-pointer" @click="resetFilter" />
+      <template v-slot:append>
+        <q-icon v-if="filter !== ''" name="clear" class="cursor-pointer" @click="resetFilter" />
+      </template>
     </q-input>
 
     <q-tree

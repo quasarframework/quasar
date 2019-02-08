@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 import QIcon from '../icon/QIcon.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 
@@ -29,6 +31,6 @@ export default Vue.extend({
 
       this.label
 
-    ].concat(this.$slots.default))
+    ].concat(slot(this, 'default')))
   }
 })

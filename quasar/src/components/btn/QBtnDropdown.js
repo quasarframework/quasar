@@ -7,6 +7,8 @@ import QBtn from './QBtn.js'
 import QBtnGroup from './QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QBtnDropdown',
 
@@ -88,7 +90,7 @@ export default Vue.extend({
             this.$emit('input', false)
           }
         }
-      }, this.$slots.default)
+      }, slot(this, 'default'))
     ]
 
     const Btn = h(QBtn, {

@@ -1,5 +1,9 @@
 ---
 title: QMenu
+related:
+  - /vue-directives/close-menu
+  - /options/transitions
+  - /vue-components/popup-proxy
 components:
   - menu/MenuPositioning
 ---

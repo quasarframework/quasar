@@ -132,5 +132,5 @@ Cookies.remove('cookie_name')
 this.$q.cookies.remove('cookie_name')
 ```
 
-## API
+## Cookies API
 <doc-api file="Cookies" />

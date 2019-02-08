@@ -54,5 +54,5 @@ export default {
 Calling `set()` with no parameters will use the primary color.
 :::
 
-## API
+## AddressbarColor API
 <doc-api file="AddressbarColor" />

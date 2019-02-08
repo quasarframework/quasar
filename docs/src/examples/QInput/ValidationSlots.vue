@@ -9,9 +9,9 @@
       :error="!isValid"
       hint="Max 3 characters"
     >
-      <div slot="error">
+      <template v-slot:error>
         Please use maximum 3 characters.
-      </div>
+      </template>
     </q-input>
   </div>
 </template>

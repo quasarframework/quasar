@@ -454,17 +454,21 @@
         <template v-slot:top>
           Top
         </template>
-        <q-tr v-slot:top-row>
-          <q-td colspan="100%">
-            Top row
-          </q-td>
-        </q-tr>
+        <template v-slot:top-row>
+          <q-tr>
+            <q-td colspan="100%">
+              Top row
+            </q-td>
+          </q-tr>
+        </template>
 
-        <q-tr v-slot:bottom-row>
-          <q-td colspan="100%">
-            Bottom row
-          </q-td>
-        </q-tr>
+        <template v-slot:bottom-row>
+          <q-tr>
+            <q-td colspan="100%">
+              Bottom row
+            </q-td>
+          </q-tr>
+        </template>
 
         <template v-slot:bottom>
           Bottom
@@ -485,14 +489,16 @@
         :visible-columns="visibleColumns"
         :title="title"
       >
-        <q-tr v-slot:header="props">
-          <q-th auto-width>
-            <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
-          </q-th>
-          <q-th v-for="col in props.cols" :key="col.name" :props="props">
-            @ {{ col.label }}
-          </q-th>
-        </q-tr>
+        <template v-slot:header="props">
+          <q-tr>
+            <q-th auto-width>
+              <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
+            </q-th>
+            <q-th v-for="col in props.cols" :key="col.name" :props="props">
+              @ {{ col.label }}
+            </q-th>
+          </q-tr>
+        </template>
 
         <template v-slot:body="props">
           <q-tr :props="props">
@@ -532,14 +538,16 @@
         :visible-columns="visibleColumns"
         :title="title"
       >
-        <q-tr v-slot:header="props">
-          <q-th auto-width>
-            <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
-          </q-th>
-          <q-th v-for="col in props.cols" :key="col.name" :props="props">
-            @ {{ col.label }}
-          </q-th>
-        </q-tr>
+        <template v-slot:header="props">
+          <q-tr>
+            <q-th auto-width>
+              <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
+            </q-th>
+            <q-th v-for="col in props.cols" :key="col.name" :props="props">
+              @ {{ col.label }}
+            </q-th>
+          </q-tr>
+        </template>
         <template v-slot:body="props">
           <q-tr :key="props.key" :props="props">
             <q-td auto-width>

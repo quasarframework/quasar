@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QTimeline',
 
@@ -41,6 +43,6 @@ export default Vue.extend({
     return h('ul', {
       staticClass: 'q-timeline',
       class: this.classes
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

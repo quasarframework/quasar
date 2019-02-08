@@ -7,12 +7,13 @@
     </q-breadcrumbs>
 
     <q-breadcrumbs class="text-grey" active-color="purple">
-      <q-icon
-        v-slot:separator
-        size="1.2em"
-        name="arrow_forward"
-        color="purple"
-      />
+      <template v-slot:separator>
+        <q-icon
+          size="1.2em"
+          name="arrow_forward"
+          color="purple"
+        />
+      </template>
 
       <q-breadcrumbs-el label="Home" icon="home" />
       <q-breadcrumbs-el label="Components" icon="widgets" />
@@ -20,12 +21,13 @@
     </q-breadcrumbs>
 
     <q-breadcrumbs class="text-brown">
-      <q-icon
-        v-slot:separator
-        size="1.5em"
-        name="chevron_right"
-        color="primary"
-      />
+      <template v-slot:separator>
+        <q-icon
+          size="1.5em"
+          name="chevron_right"
+          color="primary"
+        />
+      </template>
 
       <q-breadcrumbs-el label="Home" icon="home" />
       <q-breadcrumbs-el label="Components" icon="widgets" />

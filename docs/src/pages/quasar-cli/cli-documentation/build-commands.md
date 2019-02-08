@@ -1,7 +1,11 @@
 ---
 title: Build Commands
 ---
-We will be covering Development and Production build commands. For a full list of Quasar CLI commands, make sure to read its [documentation page](/guide/quasar-cli.html).
+We will be covering Development and Production build commands.
+
+::: tip
+Full list of Quasar CLI commands: [Commands List](/quasar-cli/cli-documentation/commands-list).
+:::
 
 ### Development
 > Starts a Node.js local development server.
@@ -25,8 +29,6 @@ $ quasar dev -m cordova -T [android|ios]
 # Electron App
 $ quasar dev -m electron
 ```
-
-For a complete list, please read [Quasar CLI](/guide/quasar-cli.html#dev-Development-Server) Development Server section.
 
 While developing with the Dev Server you will have:
 * Babel, so you can write ES6 code
@@ -57,8 +59,6 @@ $ quasar build -m cordova -T [android|ios]
 # Electron App
 $ quasar build -m electron
 ```
-
-For a complete list, please read [Quasar CLI](/guide/quasar-cli.html#build-clean-Build-App-for-Production) Build App for Production section.
 
 In addition to what you get while developing your website/app, for production builds you also take advantage of:
 * Javascript minified with [UglifyJS](https://github.com/mishoo/UglifyJS2)

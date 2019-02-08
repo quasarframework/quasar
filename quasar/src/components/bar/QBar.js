@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QBar',
 
@@ -18,6 +20,6 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-bar row no-wrap items-center',
       class: this.classes
-    }, this.$slots.default)
+    }, slot(this, 'default'))
   }
 })

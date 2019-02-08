@@ -1,5 +1,8 @@
 ---
 title: Quasar Language Packs
+related:
+  - /options/rtl-support
+  - /options/app-internationalization
 ---
 A Quasar Language Pack refers to the internationalization of Quasar's own components, some of which have labels.
 

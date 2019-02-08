@@ -11,6 +11,8 @@ import { position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { MenuTreeMixin, closeRootMenu } from './menu-tree.js'
 
+import slot from '../../utils/slot.js'
+
 import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/position-engine.js'
@@ -205,7 +207,7 @@ export default Vue.extend({
             value: this.hide,
             arg: [ this.anchorEl ]
           }] : null
-        }, this.$slots.default) : null
+        }, slot(this, 'default')) : null
       ])
     }
   }

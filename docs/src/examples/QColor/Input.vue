@@ -6,11 +6,13 @@
         v-model="color"
         class="my-input"
       >
-        <q-icon slot="append" name="colorize" class="cursor-pointer">
-          <q-popup-proxy>
-            <q-color v-model="color" />
-          </q-popup-proxy>
-        </q-icon>
+        <template v-slot:append>
+          <q-icon name="colorize" class="cursor-pointer">
+            <q-popup-proxy>
+              <q-color v-model="color" />
+            </q-popup-proxy>
+          </q-icon>
+        </template>
       </q-input>
 
       <q-input
@@ -20,11 +22,13 @@
         hint="With validation"
         class="my-input"
       >
-        <q-icon slot="append" name="colorize" class="cursor-pointer">
-          <q-popup-proxy>
-            <q-color v-model="secondColor" />
-          </q-popup-proxy>
-        </q-icon>
+        <template v-slot:append>
+          <q-icon name="colorize" class="cursor-pointer">
+            <q-popup-proxy>
+              <q-color v-model="secondColor" />
+            </q-popup-proxy>
+          </q-icon>
+        </template>
       </q-input>
     </div>
   </div>
