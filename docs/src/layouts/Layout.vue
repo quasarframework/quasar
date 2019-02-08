@@ -275,7 +275,8 @@ export default {
 
 .quasar-logo
   img
+    transform rotate(0deg)
     transition transform .8s ease-in-out
   &:hover img
-    transform rotate(360deg)
+    transform rotate(-360deg)
 </style>
