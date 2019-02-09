@@ -5,6 +5,36 @@
         <q-checkbox v-model="dense" label="Dense" />
       </div>
 
+      <div style="display: flex; margin-bottom: 50px; height: 200px; position: relative;">
+        <q-tabs :dense="dense" vertical class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
+          <q-tab name="one" icon="wifi" />
+          <q-tab name="two" icon="bluetooth" />
+          <q-tab name="three" icon="map" />
+        </q-tabs>
+
+        <q-tabs :dense="dense" vertical inline-label class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
+          <q-tab name="one" label="wifi" icon="wifi" />
+          <q-tab name="two" label="bluetooth" icon="bluetooth" />
+          <q-tab name="three" label="map" icon="map" />
+          <q-tab name="four" label="phone" icon="phone" />
+          <q-tab name="five" label="location" icon="location_on" />
+          <q-tab name="six" label="favorite" icon="favorite" />
+          <q-tab name="seven" label="home" icon="home" />
+          <q-tab name="eight" label="info" icon="info" />
+        </q-tabs>
+
+        <q-tabs :dense="dense" vertical class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
+          <q-tab name="one" label="wifi" icon="wifi" />
+          <q-tab name="two" label="bluetooth" icon="bluetooth" />
+          <q-tab name="three" label="map" icon="map" />
+          <q-tab name="four" label="phone" icon="phone" />
+          <q-tab name="five" label="location" icon="location_on" />
+          <q-tab name="six" label="favorite" icon="favorite" />
+          <q-tab name="seven" label="home" icon="home" />
+          <q-tab name="eight" label="info" icon="info" />
+        </q-tabs>
+      </div>
+
       <q-tabs :dense="dense">
         <q-tab label="Item one" />
         <q-tab label="Item two" />
@@ -278,6 +308,7 @@ export default {
     return {
       dense: false,
       tab: 'one',
+      vtab: 'one',
       panelTest: false,
       some: false
     }
@@ -292,4 +323,6 @@ export default {
 <style lang="stylus">
 .tabs-demo .q-tabs
   margin-bottom 24px
+.q-tabs.vertical-tabs
+  margin-bottom 0
 </style>
