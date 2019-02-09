@@ -2,7 +2,6 @@
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { sync } from 'vuex-router-sync'
 
 import routes from './routes'
 
@@ -45,8 +44,6 @@ export default function ({ store }) {
       page_path: to.path
     })
   })
-
-  sync(store, Router)
 
   return Router
 }

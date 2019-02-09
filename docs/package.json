@@ -14,8 +14,7 @@
     "@quasar/extras": "^1.0.0",
     "prismjs": "^1.15.0",
     "quasar": "^1.0.0-beta.0",
-    "vuex": "^3.0.1",
-    "vuex-router-sync": "^5.0.0"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0-beta.0",
