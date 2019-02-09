@@ -24,11 +24,6 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
-  pullToRefresh: {
-    pull: 'Tiri por reŝargi',
-    release: 'Malpremu por reŝargi',
-    refresh: 'Ŝarĝado…'
-  },
   table: {
     noData: 'Neniu datumo afiŝenda',
     noResults: 'Neniu datumo trovita',
