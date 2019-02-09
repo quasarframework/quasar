@@ -1,6 +1,7 @@
+/* global gtag */
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { sync } from 'vuex-router-sync'
 
 import routes from './routes'
 
@@ -38,7 +39,11 @@ export default function ({ store }) {
     base: process.env.VUE_ROUTER_BASE
   })
 
-  sync(store, Router)
+  process.env.CLIENT === true && Router.afterEach(to => {
+    gtag('config', 'UA-6317975-6', {
+      page_path: to.path
+    })
+  })
 
   return Router
 }
