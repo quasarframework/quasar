@@ -1,10 +1,11 @@
-const logger = require('../helpers/logger'),
+const
+  logger = require('../helpers/logger'),
   log = logger('app:extension'),
   warn = logger('app:extension', 'red'),
   appPaths = require('../app-paths')
 
 module.exports = class Extension {
-  constructor(name) {
+  constructor (name) {
     if (name.charAt(0) === '@') {
       const slashIndex = name.indexOf('/')
       if (slashIndex === -1) {
@@ -12,34 +13,34 @@ module.exports = class Extension {
         process.exit(1)
       }
 
-      this.packageFullName =
-        name.substring(0, slashIndex + 1) +
+      this.packageFullName = name.substring(0, slashIndex + 1) +
         'quasar-app-extension-' +
         name.substring(slashIndex + 1)
 
-      this.packageName =
-        '@' + this.__stripVersion(this.packageFullName.substring(1))
+      this.packageName = '@' + this.__stripVersion(this.packageFullName.substring(1))
       this.extId = '@' + this.__stripVersion(name.substring(1))
-    } else {
+    }
+    else {
       this.packageFullName = 'quasar-app-extension-' + name
       this.packageName = this.__stripVersion('quasar-app-extension-' + name)
       this.extId = this.__stripVersion(name)
     }
   }
 
-  isInstalled() {
+  isInstalled () {
     try {
       require.resolve(this.packageName, {
-        paths: [appPaths.appDir]
+        paths: [ appPaths.appDir ]
       })
-    } catch (e) {
+    }
+    catch (e) {
       return false
     }
 
     return true
   }
 
-  async install(skipPkgInstall) {
+  async install (skipPkgInstall) {
     if (/quasar-app-extension-/.test(this.extId)) {
       this.extId = this.extId.replace('quasar-app-extension-', '')
       log(
@@ -55,14 +56,12 @@ module.exports = class Extension {
     // verify if already installed
     if (skipPkgInstall !== true && this.isInstalled()) {
       const inquirer = require('inquirer')
-      const answer = await inquirer.prompt([
-        {
-          name: 'reinstall',
-          type: 'confirm',
-          message: `Already installed. Reinstall?`,
-          default: false
-        }
-      ])
+      const answer = await inquirer.prompt([{
+        name: 'reinstall',
+        type: 'confirm',
+        message: `Already installed. Reinstall?`,
+        default: false
+      }])
 
       if (!answer.reinstall) {
         return
@@ -91,7 +90,7 @@ module.exports = class Extension {
     }
   }
 
-  async uninstall(skipPkgUninstall) {
+  async uninstall (skipPkgUninstall) {
     log(`Uninstalling "${this.extId}" App Extension`)
     log()
 
@@ -122,7 +121,7 @@ module.exports = class Extension {
     }
   }
 
-  async run(ctx) {
+  async run (ctx) {
     if (!this.isInstalled()) {
       warn(`⚠️  Quasar App Extension "${this.extId}" is missing...`)
       process.exit(1)
@@ -144,13 +143,15 @@ module.exports = class Extension {
     return api.__getHooks()
   }
 
-  __stripVersion(packageFullName) {
+  __stripVersion (packageFullName) {
     const index = packageFullName.indexOf('@')
 
-    return index > -1 ? packageFullName.substring(0, index) : packageFullName
+    return index > -1
+      ? packageFullName.substring(0, index)
+      : packageFullName
   }
 
-  async __getPrompts() {
+  async __getPrompts () {
     const questions = this.__getScript('prompts')
 
     if (!questions) {
@@ -164,11 +165,13 @@ module.exports = class Extension {
     return prompts
   }
 
-  __installPackage() {
-    const spawn = require('../helpers/spawn'),
+  __installPackage () {
+    const
+      spawn = require('../helpers/spawn'),
       nodePackager = require('../helpers/node-packager'),
-      cmdParam =
-        nodePackager === 'npm' ? ['install', '--save-dev'] : ['add', '--dev']
+      cmdParam = nodePackager === 'npm'
+        ? ['install', '--save-dev']
+        : ['add', '--dev']
 
     log(`Retrieving "${this.packageFullName}"...`)
     spawn.sync(
@@ -179,11 +182,13 @@ module.exports = class Extension {
     )
   }
 
-  __uninstallPackage() {
-    const spawn = require('../helpers/spawn'),
+  __uninstallPackage () {
+    const
+      spawn = require('../helpers/spawn'),
       nodePackager = require('../helpers/node-packager'),
-      cmdParam =
-        nodePackager === 'npm' ? ['uninstall', '--save-dev'] : ['remove']
+      cmdParam = nodePackager === 'npm'
+        ? ['uninstall', '--save-dev']
+        : ['remove']
 
     log(`Uninstalling "${this.packageName}"...`)
     spawn.sync(
@@ -194,20 +199,17 @@ module.exports = class Extension {
     )
   }
 
-  __getScript(scriptName, fatal) {
+  __getScript (scriptName, fatal) {
     let script
 
     try {
       script = require.resolve(this.packageName + '/' + scriptName, {
-        paths: [appPaths.appDir]
+        paths: [ appPaths.appDir ]
       })
-    } catch (e) {
+    }
+    catch (e) {
       if (fatal) {
-        warn(
-          `⚠️  App Extension "${
-            this.extId
-          }" has missing ${scriptName} script...`
-        )
+        warn(`⚠️  App Extension "${this.extId}" has missing ${scriptName} script...`)
         process.exit(1)
       }
 
@@ -217,7 +219,7 @@ module.exports = class Extension {
     return require(script)
   }
 
-  async __runInstallScript(prompts) {
+  async __runInstallScript (prompts) {
     const script = this.__getScript('install')
 
     if (!script) {
@@ -236,20 +238,26 @@ module.exports = class Extension {
     await script(api)
 
     if (api.__needsNodeModulesUpdate) {
-      const spawn = require('../helpers/spawn'),
+      const
+        spawn = require('../helpers/spawn'),
         nodePackager = require('../helpers/node-packager'),
-        cmdParam = nodePackager === 'npm' ? ['install'] : []
+        cmdParam = nodePackager === 'npm'
+          ? ['install']
+          : []
 
       log(`Updating dependencies...`)
-      spawn.sync(nodePackager, cmdParam, appPaths.appDir, () =>
-        warn(`⚠️  Failed to update dependencies`)
+      spawn.sync(
+        nodePackager,
+        cmdParam,
+        appPaths.appDir,
+        () => warn(`⚠️  Failed to update dependencies`)
       )
     }
 
     return api.__getHooks()
   }
 
-  async __runUninstallScript(prompts) {
+  async __runUninstallScript (prompts) {
     const script = this.__getScript('uninstall')
 
     if (!script) {
