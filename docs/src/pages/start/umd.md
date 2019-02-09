@@ -29,7 +29,7 @@ UMD is all about adding Quasar style and javascript tags. This is a full list. C
     Replace version below (1.0.0-beta.1) with your desired version of Quasar.
     Add ".rtl" for the RTL support (example: quasar.rtl.min.css).
   -->
-  <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.1/dist/quasar.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/quasar.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
