@@ -42,7 +42,7 @@ export default function ({ store }) {
 
   // Google Analytics
   Router.afterEach(to => {
-    gtag('config', 'UA-134189455-1', {
+    gtag('config', 'UA-6317975-6', {
       page_path: to.path
     })
   })
