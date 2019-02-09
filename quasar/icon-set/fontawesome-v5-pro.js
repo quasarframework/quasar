@@ -98,7 +98,9 @@ export default {
   },
   tabs: {
     left: 'fal fa-chevron-left',
-    right: 'fal fa-chevron-right'
+    right: 'fal fa-chevron-right',
+    up: 'fal fa-chevron-up',
+    down: 'fal fa-chevron-down'
   },
   table: {
     arrowUp: 'fal fa-long-arrow-up',

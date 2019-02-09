@@ -98,7 +98,9 @@ export default {
   },
   tabs: {
     left: 'eva-arrow-ios-back-outline',
-    right: 'eva-arrow-ios-forward-outline'
+    right: 'eva-arrow-ios-forward-outline',
+    up: 'eva-arrow-ios-upward-outline',
+    down: 'eva-arrow-ios-downward-outline'
   },
   table: {
     arrowUp: 'eva-arrow-upward',
