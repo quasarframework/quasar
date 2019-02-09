@@ -133,7 +133,7 @@ I'm excited if you want to contribute to Quasar under any form (report bugs, wri
 - If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.
 
 ## Semver
-Until Quasar reaches a 1.0 release (soon), breaking changes will be released with a new minor version. For example 0.8.1, and 0.8.4 will have the same API, but 0.9.0 will have breaking changes.
+Quasar is following [Semantic Versioning 2.0](https://semver.org/).
 
 ## License
 
