@@ -34,22 +34,25 @@
   &__content
     padding 16px
 
-  &__view
     &:before
       content ''
       display block
       padding-bottom 100%
 
+  &__container-parent
+    padding 16px
+
+  &__container-child
+    border-radius 50%
+    background rgba(0, 0, 0, .12)
+
   &__clock
-    display inline-block
+    padding 24px
     width 100%
     height 100%
     max-width 100%
     max-height 100%
     font-size 14px
-    border-radius 50%
-    background rgba(0, 0, 0, .12)
-    padding 24px
 
   &__clock-circle
     position relative
@@ -136,6 +139,8 @@
     background-color $primary
     background-color var(--q-color-primary)
     color white
+    top 12px
+    right 12px
 
   &__event
     position absolute
@@ -169,7 +174,8 @@
     display inline-flex
     align-items stretch
     width 420px
-    min-width 335px
+    min-width 310px
+    min-height 180px
 
     > div
       display flex
@@ -178,7 +184,7 @@
 
     .q-time__header
       border-bottom-left-radius inherit
-      width 155px
+      width 130px
 
     .q-time__header-ampm
       margin-top 12px

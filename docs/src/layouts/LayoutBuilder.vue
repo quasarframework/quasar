@@ -157,7 +157,7 @@
                   </q-item-section>
                 </q-item>
                 <q-item>
-                  <q-item-section>Separator typeZZ</q-item-section>
+                  <q-item-section>Separator type</q-item-section>
                   <q-item-section side>
                     <q-select
                       v-model="cfg.headerSep"
