@@ -31,7 +31,7 @@ export default {
     selectedRecords: function (rows) {
       return rows > 0
         ? rows + ' ' + (rows === 1 ? 'ligne sélectionnée' : 'lignes sélectionnées') + '.'
-        : 'Non lignes sélectionnées.'
+        : 'Aucune ligne sélectionnée.'
     },
     recordsPerPage: 'Lignes par page:',
     allRows: 'Tous',
@@ -85,7 +85,7 @@ export default {
     defaultFont: 'Police par défaut'
   },
   tree: {
-    noData: 'Aucune node à afficher',
-    noResults: 'Aucune node trouvée'
+    noData: 'Aucun nœud à afficher',
+    noResults: 'Aucun nœud trouvée'
   }
 }
