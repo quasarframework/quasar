@@ -157,7 +157,7 @@
                   </q-item-section>
                 </q-item>
                 <q-item>
-                  <q-item-section>Separator type</q-item-section>
+                  <q-item-section>Separator typeZZ</q-item-section>
                   <q-item-section side>
                     <q-select
                       v-model="cfg.headerSep"
@@ -167,7 +167,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -196,7 +196,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -225,7 +225,7 @@
                       map-options
                       emit-value
                       :options="drawerBehaviorOptions"
-
+                      options-cover
                       style="width: 145px"
                     />
                   </q-item-section>
@@ -241,7 +241,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -270,7 +270,7 @@
                       map-options
                       emit-value
                       :options="drawerBehaviorOptions"
-
+                      options-cover
                       style="width: 145px"
                     />
                   </q-item-section>
@@ -286,7 +286,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
