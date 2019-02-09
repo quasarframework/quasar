@@ -1,3 +1,5 @@
+/* global gtag */
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { sync } from 'vuex-router-sync'
@@ -36,6 +38,12 @@ export default function ({ store }) {
     // quasar.conf.js -> build -> vueRouterMode
     mode: process.env.VUE_ROUTER_MODE,
     base: process.env.VUE_ROUTER_BASE
+  })
+
+  process.env.CLIENT === true && Router.afterEach(to => {
+    gtag('config', 'UA-6317975-6', {
+      page_path: to.path
+    })
   })
 
   sync(store, Router)
