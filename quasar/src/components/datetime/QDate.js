@@ -396,7 +396,7 @@ export default Vue.extend({
       return [
         h('div', {
           key: 'calendar-view',
-          staticClass: 'q-date__view q-date__calendar column'
+          staticClass: 'q-date__view q-date__calendar fit'
         }, [
           h('div', {
             staticClass: 'q-date__navigation row items-center no-wrap'
@@ -421,7 +421,7 @@ export default Vue.extend({
           }, this.daysOfWeek.map(day => h('div', { staticClass: 'q-date__calendar-item' }, [ h('div', [ day ]) ]))),
 
           h('div', {
-            staticClass: 'col relative-position overflow-hidden'
+            staticClass: 'q-date__calendar-days-container relative-position overflow-hidden'
           }, [
             h('transition', {
               props: {
@@ -644,7 +644,7 @@ export default Vue.extend({
       this.__getHeader(h),
 
       h('div', {
-        staticClass: 'q-date__content col relative-position overflow-auto'
+        staticClass: 'q-date__content relative-position overflow-auto'
       }, [
         h('transition', {
           props: {
