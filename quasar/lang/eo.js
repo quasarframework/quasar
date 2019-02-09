@@ -1,5 +1,6 @@
 export default {
   isoName: 'eo',
+  nativeName: 'Esperanto',
   label: {
     clear: 'Vakigi',
     ok: 'Okej',
