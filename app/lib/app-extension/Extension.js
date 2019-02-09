@@ -41,6 +41,15 @@ module.exports = class Extension {
   }
 
   async install (skipPkgInstall) {
+    if (/quasar-app-extension-/.test(this.extId)) {
+      this.extId = this.extId.replace('quasar-app-extension-', '')
+      log(
+        `When using an extension, "quasar-app-extension-" is added automatically. Just run "quasar ext --add ${
+          this.extId
+        }"`
+      )
+    }
+
     log(`Installing "${this.extId}" Quasar App Extension`)
     log()
 

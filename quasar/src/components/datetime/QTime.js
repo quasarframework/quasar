@@ -392,62 +392,66 @@ export default Vue.extend({
           : ''
 
       return h('div', {
-        staticClass: 'q-time__content col'
+        staticClass: 'q-time__content col relative-position'
       }, [
-        h('div', {
-          staticClass: 'q-time__view fit relative-position'
+        h('transition', {
+          props: { name: 'q-transition--scale' }
         }, [
-          h('transition', {
-            props: { name: 'q-transition--scale' }
+          h('div', {
+            key: 'clock' + this.view,
+            staticClass: 'q-time__container-parent absolute-full'
           }, [
             h('div', {
               ref: 'clock',
-              key: 'clock' + this.view,
-              staticClass: 'q-time__clock cursor-pointer absolute-full',
-              directives: [{
-                name: 'touch-pan',
-                value: this.__drag,
-                modifiers: {
-                  stop: true,
-                  prevent: true
-                }
-              }]
+              staticClass: 'q-time__container-child fit overflow-hidden'
             }, [
-              h('div', { staticClass: 'q-time__clock-circle fit' }, [
-                this.innerModel[view] !== null
-                  ? h('div', {
-                    staticClass: 'q-time__clock-pointer',
-                    style: this.pointerStyle,
-                    class: this.color !== void 0 ? `text-${this.color}` : null
-                  })
-                  : null,
+              h('div', {
+                staticClass: 'q-time__clock cursor-pointer',
+                directives: [{
+                  name: 'touch-pan',
+                  value: this.__drag,
+                  modifiers: {
+                    stop: true,
+                    prevent: true
+                  }
+                }]
+              }, [
+                h('div', { staticClass: 'q-time__clock-circle fit' }, [
+                  this.innerModel[view] !== null
+                    ? h('div', {
+                      staticClass: 'q-time__clock-pointer',
+                      style: this.pointerStyle,
+                      class: this.color !== void 0 ? `text-${this.color}` : null
+                    })
+                    : null,
 
-                this.positions.map(pos => h('div', {
-                  staticClass: `q-time__clock-position row flex-center${f24} q-time__clock-pos-${pos.index}`,
-                  class: pos.val === current
-                    ? this.headerClass.concat(' q-time__clock-position--active')
-                    : (pos.disable ? 'q-time__clock-position--disable' : null)
-                }, [ h('span', [ pos.label ]) ]))
+                  this.positions.map(pos => h('div', {
+                    staticClass: `q-time__clock-position row flex-center${f24} q-time__clock-pos-${pos.index}`,
+                    class: pos.val === current
+                      ? this.headerClass.concat(' q-time__clock-position--active')
+                      : (pos.disable ? 'q-time__clock-position--disable' : null)
+                  }, [ h('span', [ pos.label ]) ]))
+                ])
               ])
             ])
-          ]),
+          ])
+        ]),
 
-          this.nowBtn === true ? h(QBtn, {
-            staticClass: 'q-time__now-button absolute-top-right',
-            props: {
-              icon: this.$q.iconSet.datetime.now,
-              unelevated: true,
-              size: 'sm',
-              round: true,
-              color: this.color,
-              textColor: this.textColor,
-              tabindex: this.computedTabindex
-            },
-            on: {
-              click: this.__setNow
-            }
-          }) : null
-        ])
+        this.nowBtn === true ? h(QBtn, {
+          staticClass: 'q-time__now-button absolute',
+          props: {
+            icon: this.$q.iconSet.datetime.now,
+            unelevated: true,
+            size: 'sm',
+            round: true,
+            color: this.color,
+            textColor: this.textColor,
+            tabindex: this.computedTabindex
+          },
+          on: {
+            click: this.__setNow
+          }
+        }) : null
       ])
     },
 
