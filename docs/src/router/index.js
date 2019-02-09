@@ -40,8 +40,7 @@ export default function ({ store }) {
     base: process.env.VUE_ROUTER_BASE
   })
 
-  // Google Analytics
-  Router.afterEach(to => {
+  process.env.CLIENT === true && Router.afterEach(to => {
     gtag('config', 'UA-6317975-6', {
       page_path: to.path
     })
