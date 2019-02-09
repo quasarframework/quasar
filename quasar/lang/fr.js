@@ -24,16 +24,21 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
+  pullToRefresh: {
+    pull: 'Tirer pour rafraîchir',
+    release: 'Relâcher pour rafraîchir',
+    refresh: 'Chargement…'
+  },
   table: {
     noData: 'Aucune donnée à afficher',
     noResults: 'Aucune donnée trouvée',
-    loading: 'Chargement...',
+    loading: 'Chargement…',
     selectedRecords: function (rows) {
       return rows > 0
         ? rows + ' ' + (rows === 1 ? 'ligne sélectionnée' : 'lignes sélectionnées') + '.'
-        : 'Non lignes sélectionnées.'
+        : 'Aucune ligne sélectionnée.'
     },
-    recordsPerPage: 'Lignes par page:',
+    recordsPerPage: 'Lignes par page :',
     allRows: 'Tous',
     pagination: function (start, end, total) {
       return start + '-' + end + ' sur ' + total
@@ -85,7 +90,7 @@ export default {
     defaultFont: 'Police par défaut'
   },
   tree: {
-    noData: 'Aucune node à afficher',
-    noResults: 'Aucune node trouvée'
+    noData: 'Aucun nœud à afficher',
+    noResults: 'Aucun nœud trouvée'
   }
 }
