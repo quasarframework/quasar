@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app",
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.2",
   "description": "Quasar Framework App CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -38,7 +38,7 @@
     "@babel/core": "7.2.2",
     "@quasar/babel-preset-app": "^1.0.0",
     "@vue/preload-webpack-plugin": "1.1.0",
-    "ajv": "6.7.0",
+    "ajv": "6.8.1",
     "autoprefixer": "9.4.7",
     "babel-loader": "8.0.5",
     "babel-plugin-transform-imports": "1.5.1",
