@@ -206,6 +206,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Taillefer Brice
 - Nafaa Boutefer
 - Bryan WB
+- Jan Pálka
 
 - Jim O'Quinn ($5)
 - Ken ($5)
