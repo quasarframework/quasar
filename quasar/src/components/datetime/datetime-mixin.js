@@ -42,6 +42,13 @@ export default {
   methods: {
     __pad (unit) {
       return (unit < 10 ? '0' : '') + unit
+    },
+
+    __padYear (unit) {
+      if (unit < 0 || unit > 9999) {
+        return '' + unit
+      }
+      return ('000' + unit).slice(-4)
     }
   }
 }
