@@ -35,9 +35,10 @@ The lightweight extension installer will ask you which testing harnesses you wan
 
 It will provide you with a new `quasar run` command that you can use to execute test-runners - and even your HMR dev environment at the same time. This approach can, for example, be quite helpful if you need to pass quasar.ctx to the test runner...
 
-```
-# Example to run jest --watch && dev server
-$ quasar run @quasar/testing test --unit=jest.watch.coverage --dev=pwa
+```shell
+# Example to run jest && dev server in pwa mode
+# "--" must be placed before any args you want to pass to the test command
+$ quasar run @quasar/testing test -- --unit jest --dev="-m pwa"
 ```
 
 If you ever need to review your choices you can take a look at `quasar.extensions.json`.
