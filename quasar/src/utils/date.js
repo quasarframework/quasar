@@ -58,7 +58,7 @@ export function isValid (date) {
 export function splitDate (date) {
   let
     value = date,
-    [year, month, day] = value.split('-')
+    [year, month, day] = value.split(/(?!^)-/)
       .concat([null, null, null])
       .slice(0, 3)
       .map(d => parseInt(d, 10))
