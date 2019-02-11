@@ -107,6 +107,15 @@ export default Vue.extend({
       }
     },
 
+    __click (evt) {
+      const { top, left, width, height } = this.$el.getBoundingClientRect()
+      this.centerPosition = {
+        top: top + height / 2,
+        left: left + width / 2
+      }
+      this.__updatePosition(evt, true)
+    },
+
     __keydown (evt) {
       if (!keyCodes.includes(evt.keyCode)) {
         return
@@ -204,6 +213,7 @@ export default Vue.extend({
     if (this.editable === true) {
       data.attrs = { tabindex: this.tabindex }
       data.on = {
+        click: this.__click,
         keydown: this.__keydown,
         keyup: this.__keyup
       }
@@ -212,7 +222,10 @@ export default Vue.extend({
         value: this.__pan,
         modifiers: {
           prevent: true,
-          stop: true
+          stop: true,
+          mouse: true,
+          mousePrevent: true,
+          mouseStop: true
         }
       }]
     }

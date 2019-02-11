@@ -419,12 +419,20 @@ export default Vue.extend({
             }, [
               h('div', {
                 staticClass: 'q-time__clock cursor-pointer',
+                on: {
+                  click () {
+                    console.log('clicked')
+                  }
+                },
                 directives: [{
                   name: 'touch-pan',
                   value: this.__drag,
                   modifiers: {
                     stop: true,
-                    prevent: true
+                    prevent: true,
+                    mouse: true,
+                    mouseStop: true,
+                    mousePrevent: true
                   }
                 }]
               }, [

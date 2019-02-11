@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 import { testPattern } from '../../utils/patterns.js'
-import { stopAndPrevent } from '../../utils/event.js'
 import throttle from '../../utils/throttle.js'
 import { hexToRgb, rgbToHex, rgbToString, stringToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
 
@@ -316,7 +315,11 @@ export default Vue.extend({
             ? [{
               name: 'touch-pan',
               modifiers: {
-                mightPrevent: true
+                prevent: true,
+                stop: true,
+                mouse: true,
+                mousePrevent: true,
+                mouseStop: true
               },
               value: this.__spectrumPan
             }]
@@ -762,45 +765,20 @@ export default Vue.extend({
     },
 
     __spectrumPan (evt) {
+      console.log('__spectrumPan')
       if (evt.isFinal) {
-        this.__dragStop(evt)
-      }
-      else if (evt.isFirst) {
-        this.__dragStart(evt)
+        this.__onSpectrumChange(
+          evt.position.left,
+          evt.position.top,
+          true
+        )
       }
       else {
-        this.__dragMove(evt)
+        this.__spectrumChange(evt)
       }
     },
 
-    __dragStart (event) {
-      stopAndPrevent(event.evt)
-
-      this.spectrumDragging = true
-      this.__spectrumChange(event)
-    },
-
-    __dragMove (event) {
-      if (!this.spectrumDragging) {
-        return
-      }
-      stopAndPrevent(event.evt)
-
-      this.__spectrumChange(event)
-    },
-
-    __dragStop (event) {
-      stopAndPrevent(event.evt)
-      setTimeout(() => {
-        this.spectrumDragging = false
-      }, 100)
-      this.__onSpectrumChange(
-        event.position.left,
-        event.position.top,
-        true
-      )
-    },
-
+    // throttled in created()
     __spectrumChange (evt) {
       this.__onSpectrumChange(
         evt.position.left,
@@ -809,9 +787,7 @@ export default Vue.extend({
     },
 
     __spectrumClick (evt) {
-      if (this.spectrumDragging) {
-        return
-      }
+      console.log('__spectrumClick')
       this.__onSpectrumChange(
         evt.pageX - window.pageXOffset,
         evt.pageY - window.pageYOffset,

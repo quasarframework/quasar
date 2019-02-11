@@ -111,6 +111,7 @@ export let SliderMixin = {
 
   methods: {
     __pan (event) {
+      console.log('__pan')
       if (event.isFinal) {
         if (this.dragging) {
           this.__updatePosition(event.evt)
@@ -157,6 +158,7 @@ export let SliderMixin = {
     },
 
     __mobileClick (evt) {
+      console.log('click')
       this.__updatePosition(evt, this.__getDragging(evt))
       this.__updateValue()
     },
