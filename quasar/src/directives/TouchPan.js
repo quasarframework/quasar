@@ -137,9 +137,9 @@ export default {
           handleEvent(evt, ctx.event.mouse)
 
           const changes = processChanges(evt, ctx, false)
-          console.log('trig?')
+          // console.log('trig?')
           if (shouldTrigger(ctx, changes)) {
-            console.log('TRIGGER', ctx.event.isFirst, ctx.event.isFinal)
+            // console.log('TRIGGER', ctx.event.isFirst, ctx.event.isFinal)
             ctx.handler(changes)
             ctx.event.lastX = changes.position.left
             ctx.event.lastY = changes.position.top
@@ -160,9 +160,9 @@ export default {
 
         ctx.event.detected = true
 
-        if (ctx.direction.all || (ctx.event.mouse && binding.modifiers.mouseAllDir)) {
-        }
-        else {
+        el.classList.add('q-touch')
+
+        if (ctx.direction.all === false && (ctx.event.mouse === false || binding.modifiers.mouseAllDir !== true)) {
           ctx.event.abort = ctx.direction.vertical
             ? distX > distY
             : distX < distY
@@ -173,6 +173,10 @@ export default {
 
       end (evt, mouseEvent) {
         el.classList.remove('q-touch')
+
+        if (mouseEvent !== true) {
+          evt.preventDefault()
+        }
 
         if (ctx.event.abort || !ctx.event.detected) {
           return
