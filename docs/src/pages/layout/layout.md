@@ -18,32 +18,12 @@ The QLayout is a component designed to manage the entire window and wrap page co
 ## Installation
 In the card below we're installing all Quasar components related to a QLayout, but **you should cherry-pick** only what you are using from this list. Only QLayout is required.
 
-<doc-installation
-  :components="[
-    'QLayout',
-    'QPageContainer',
-    'QPage',
-    'QHeader',
-    'QFooter',
-    'QDrawer',
-    'QPageSticky',
-    'QPageScroller'
-  ]"
-/>
+<doc-installation :components="[ 'QLayout', 'QPageContainer', 'QPage', 'QHeader', 'QFooter',    'QDrawer', 'QPageSticky', 'QPageScroller' ]" />
 
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
-<q-btn
-  push
-  color="primary"
-  icon-right="launch"
-  label="Layout Builder"
-  type="a"
-  href="/layout-builder"
-  target="_blank"
-  rel="noopener noreferrer"
-/>
+<q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
 
@@ -78,16 +58,7 @@ For example, if you want your layout's right side / drawer to be placed on the r
 
 These settings are completely up to you to use as you'd like. You could even go wild with a setup like this: `lhh LpR ffr`. Try it out!
 
-<q-btn
-  push
-  color="red"
-  icon-right="launch"
-  label="Layout Builder"
-  type="a"
-  href="/layout-builder"
-  target="_blank"
-  rel="noopener noreferrer"
-/>
+<q-btn push color="red" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ::: warning
 It is important that you specify all sections of a QLayout, even if you don't use them. For example, even if you don't use footer or right side drawer, still specify them within your QLayout's `view` prop.

@@ -14,15 +14,7 @@ Testing is not in and of itself hard. The most complicated part is setting up th
 
 Testing has its own documentation website (https://testing.quasar-framework.org), so head there for full info.
 
-<q-btn
-  color="primary"
-  label="testing.quasar-framework.org"
-  icon-right="launch"
-  no-caps
-  type="a"
-  href="https://testing.quasar-framework.org"
-  target="_blank"
-/>
+<q-btn color="primary" label="testing.quasar-framework.org" icon-right="launch" no-caps type="a"  href="https://testing.quasar-framework.org" target="_blank" />
 
 ## Installing
 

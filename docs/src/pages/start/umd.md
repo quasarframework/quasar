@@ -113,8 +113,8 @@ You can fork and use these links for reporting issues on Github too:
 
 | Supplier | URL |
 | --- | --- |
-| jsFiddle | [https://jsfiddle.net/rstoenescu/waugrryy/](https://jsfiddle.net/rstoenescu/waugrryy/) |
-| Codepen | [https://codepen.io/rstoenescu/pen/KQRZJg](https://codepen.io/rstoenescu/pen/KQRZJg) |
+| jsFiddle | [https://jsfiddle.net/rstoenescu/rmaodk0f/](https://jsfiddle.net/rstoenescu/rmaodk0f/) |
+| Codepen | [https://codepen.io/rstoenescu/pen/VgQbdx](https://codepen.io/rstoenescu/pen/VgQbdx) |
 
 These links (obviously) use the Quasar UMD version.
 
