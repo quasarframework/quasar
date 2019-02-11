@@ -126,8 +126,6 @@ export default {
           lastX: pos.left,
           lastY: pos.top
         }
-
-        mouseEvent && handleEvent(evt, true)
       },
 
       move (evt) {
