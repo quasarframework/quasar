@@ -41,5 +41,8 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 10"
-  ]
+  ],
+  "resolutions": {
+    "ajv": "6.8.1"
+  }
 }

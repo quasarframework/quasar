@@ -45,11 +45,19 @@
       padding 0 8px
 
     &--horiz
-      .q-btn-item + .q-btn-item
+      > .q-btn-item + .q-btn-item
+      > .q-btn-group + .q-btn-item
+      > .q-btn-item + .q-btn-group
         margin-left 8px
     &--vert
-      .q-btn-item + .q-btn-item
+      > .q-btn-item + .q-btn-item
+      > .q-btn-group + .q-btn-item
+      > .q-btn-item + .q-btn-group
         margin-top 4px
+
+      > .q-btn-group > .q-btn-item
+        flex-grow 1
+
 
   &__section + &__section
     padding-top 0

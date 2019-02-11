@@ -93,6 +93,8 @@
             {{ right }}
             <q-input v-model="inp" />
 
+            <q-slider v-model="slider" />
+
             <q-btn to="/layout-quick/a" replace>Replace Go to A</q-btn>
             <q-btn to="/layout-quick/b" replace>Replace Go to B</q-btn>
             <q-btn to="/layout-quick/c" replace>Replace Go to C</q-btn>
@@ -466,7 +468,8 @@ export default {
       ],
 
       showConfig: true,
-      inp: ''
+      inp: '',
+      slider: 1
     }
   },
   computed: {

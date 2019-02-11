@@ -50,7 +50,7 @@ module.exports = function (ctx) {
 }
 ```
 
-What this means is that, as an example, you can load a font when building with Quasar Material theme, and pick another one for Quasar iOS theme.
+What this means is that, as an example, you can load a font when building for a certain mode (like PWA), and pick another one for the others:
 ```js
 module.exports = function (ctx) {
   extras: [

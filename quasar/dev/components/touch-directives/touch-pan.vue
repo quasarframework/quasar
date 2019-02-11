@@ -9,7 +9,7 @@
         Page scrolling is prevented, but you can opt out if you wish.
       </p>
       <div
-        v-touch-pan.prevent="handlePan"
+        v-touch-pan.prevent.mouse.mousePrevent="handlePan"
         class="custom-area row flex-center"
         ref="area"
       >
@@ -44,7 +44,7 @@
         we are only capturing horizontally.
       </p>
       <div
-        v-touch-pan.horizontal.prevent="panHorizontally"
+        v-touch-pan.horizontal.prevent.mouse.mousePrevent="panHorizontally"
         class="custom-area row flex-center"
       >
         <div v-if="infoHorizontal" class="custom-info">
@@ -66,7 +66,7 @@
         Page scrolling is prevented, but you can opt out if you wish.
       </p>
       <div
-        v-touch-pan.vertical.prevent="panVertically"
+        v-touch-pan.vertical.prevent.mouse.mousePrevent="panVertically"
         class="custom-area row flex-center"
       >
         <div v-if="infoVertical" class="custom-info">

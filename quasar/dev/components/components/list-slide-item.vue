@@ -107,6 +107,21 @@
         </q-item>
       </q-slide-item>
 
+      <q-slide-item @left="onLeft" @right="onRight">
+        <q-icon slot="left" name="alarm" />
+        <q-icon slot="right" name="alarm" />
+
+        <q-item>
+          <q-item-section avatar>
+            <q-avatar color="primary" text-color="white" icon="bluetooth" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>No actions</q-item-label>
+            <q-btn label="test btn" @click="onClick" />
+          </q-item-section>
+        </q-item>
+      </q-slide-item>
+
     </q-list>
   </div>
 </template>
@@ -127,6 +142,10 @@ export default {
       setTimeout(() => {
         reset()
       }, 1000)
+    },
+
+    onClick () {
+      console.log('clicked on test btn')
     }
   }
 }

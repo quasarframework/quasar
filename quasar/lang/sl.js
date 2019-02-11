@@ -19,8 +19,8 @@ export default {
   date: {
     days: 'Nedelja_Ponedeljek_Torek_Sreda_Četrtek_Petek_Sobota'.split('_'),
     daysShort: 'Ned_Pon_Tor_Sre_Čet_Pet_Sob'.split('_'),
-    months: 'Januar_Februar_Marec_April_Maj_Junij_Julij_August_September_October_November_December'.split('_'),
-    monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
+    months: 'Januar_Februar_Marec_April_Maj_Junij_Julij_Avgust_September_Oktober_November_December'.split('_'),
+    monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Avg_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Nedelja, 1 Ponedeljek, ...
     format24h: true
   },
