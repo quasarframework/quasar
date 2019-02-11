@@ -225,12 +225,16 @@ export default {
   unbind (el, binding) {
     let ctx = el.__qtouchpan_old || el.__qtouchpan
     if (ctx !== void 0) {
-      const evtOpts = binding.modifiers.prevent ? null : listenOpts.passive
+      const evtOpts = binding.modifiers.mightPrevent || binding.modifiers.prevent
+        ? null
+        : listenOpts.passive
 
       el.removeEventListener(
         'mousedown',
         ctx.mouseStart,
-        binding.modifiers.mousePrevent ? null : listenOpts.passive
+        binding.modifiers.mouseMightPrevent || binding.modifiers.mousePrevent
+          ? null
+          : listenOpts.passive
       )
 
       el.removeEventListener('touchstart', ctx.start, evtOpts)
