@@ -214,6 +214,11 @@ export default Vue.extend({
   },
 
   methods: {
+    __click (evt) {
+      this.__drag({ isFirst: true, evt })
+      this.__drag({ isFinal: true, evt })
+    },
+
     __drag (event) {
       if (event.isFirst) {
         const
@@ -420,9 +425,7 @@ export default Vue.extend({
               h('div', {
                 staticClass: 'q-time__clock cursor-pointer',
                 on: {
-                  click () {
-                    console.log('clicked')
-                  }
+                  click: this.__click
                 },
                 directives: [{
                   name: 'touch-pan',
