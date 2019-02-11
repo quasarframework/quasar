@@ -369,6 +369,8 @@ export default Vue.extend({
       // enter
       if (e.keyCode !== 13) { return }
 
+      stopAndPrevent(e)
+
       if (this.optionIndex > -1 && this.optionIndex < this.optionsToShow) {
         this.toggleOption(this.options[this.optionIndex])
 

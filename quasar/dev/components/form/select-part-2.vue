@@ -2,7 +2,8 @@
   <q-layout view="lHh LpR fFf" :class="{ 'bg-grey-8 text-white': dark }">
     <q-page-container>
       <q-page padding>
-        <div class="q-gutter-y-md">
+        <form class="q-gutter-y-md" @submit.prevent="onSubmit">
+          <q-btn type="submit" label="Submit" />
           <div class="q-gutter-sm">
             <q-radio :dark="dark" v-model="type" val="filled" label="Filled" />
             <q-radio :dark="dark" v-model="type" val="outlined" label="Outlined" />
@@ -195,7 +196,7 @@
           </q-select>
 
           <div style="height: 400px">Scroll on purpose</div>
-        </div>
+        </form>
         <q-page-sticky expand position="bottom" :class="dark ? 'bg-blue-8 text-white' : 'bg-yellow'">
           <q-select
             class="full-width"
@@ -404,6 +405,10 @@ export default {
 
     delayedAbort () {
       console.log('delayed filter aborted')
+    },
+
+    onSubmit () {
+      this.$q.notify('submitted')
     }
   },
 
