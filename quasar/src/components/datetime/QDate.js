@@ -168,7 +168,7 @@ export default Vue.extend({
 
       const
         index = res.length,
-        prefix = this.innerModel.year + '/' + this.__pad(this.innerModel.month) + '/'
+        prefix = this.innerModel.year + '-' + this.__pad(this.innerModel.month) + '-'
 
       for (let i = 1; i <= this.daysInMonth; i++) {
         const day = prefix + this.__pad(i)
@@ -223,7 +223,7 @@ export default Vue.extend({
         day = 1
 
         if (this.defaultYearMonth !== void 0) {
-          const d = this.defaultYearMonth.split('/')
+          const d = this.defaultYearMonth.split('-')
           year = d[0]
           month = d[1]
         }
@@ -233,7 +233,7 @@ export default Vue.extend({
           month = d.getMonth() + 1
         }
 
-        string = year + '/' + month + '/' + day
+        string = year + '-' + month + '-' + day
       }
       else {
         const d = splitDate(v)
@@ -425,7 +425,7 @@ export default Vue.extend({
               }
             }, [
               h('div', {
-                key: this.innerModel.year + '/' + this.innerModel.month,
+                key: this.innerModel.year + '-' + this.innerModel.month,
                 staticClass: 'q-date__calendar-days fit'
               }, this.days.map(day => h('div', {
                 staticClass: `q-date__calendar-item q-date__calendar-item--${day.in === true ? 'in' : 'out'}`
@@ -630,8 +630,8 @@ export default Vue.extend({
         date.day = Math.min(this.innerModel.day, this.daysInMonth)
       }
 
-      const val = this.__padYear(date.year) + '/' +
-        this.__pad(date.month) + '/' +
+      const val = this.__padYear(date.year) + '-' +
+        this.__pad(date.month) + '-' +
         this.__pad(date.day)
 
       if (val !== this.value) {
