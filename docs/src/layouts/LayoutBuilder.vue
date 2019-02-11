@@ -167,7 +167,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -196,7 +196,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -225,7 +225,7 @@
                       map-options
                       emit-value
                       :options="drawerBehaviorOptions"
-
+                      options-cover
                       style="width: 145px"
                     />
                   </q-item-section>
@@ -241,7 +241,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -270,7 +270,7 @@
                       map-options
                       emit-value
                       :options="drawerBehaviorOptions"
-
+                      options-cover
                       style="width: 145px"
                     />
                   </q-item-section>
@@ -286,7 +286,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -526,7 +526,7 @@ export default {
 `
       }
 
-      if (this.pick.left) {
+      if (this.pick.right) {
         code += `
     <q-drawer v-model="right" side="right"${this.cfg.leftOverlay ? ' overlay' : ''}${this.cfg.rightBehavior !== 'default' ? ` behavior="${this.cfg.rightBehavior}"` : ''}${this.cfg.rightSep !== 'none' ? ' ' + this.cfg.rightSep : ''}>
       <!-- drawer content -->

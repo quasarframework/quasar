@@ -53,7 +53,7 @@ Clicking on the "Now" button sets time to current user time:
 ### Using with QInput
 <doc-example title="Input" file="QTime/Input" />
 
-More info: [QInput](/vue-components/input), [QInput](/vue-components/input).
+More info: [QInput](/vue-components/input).
 
 ## QTime API
 <doc-api file="QTime" />

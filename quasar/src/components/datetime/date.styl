@@ -77,6 +77,9 @@
     &--out
       opacity .18
 
+  &__calendar-days-container
+    height 75%
+
   &__calendar-days > div
     height 16.66% !important
 
@@ -108,6 +111,9 @@
     flex-direction column
     height 410px
     width 290px
+
+    .q-date__content
+      height calc(100% - 86px) // workaround for iOS -- 86px is header height
 
     .q-date__header
       border-top-right-radius inherit

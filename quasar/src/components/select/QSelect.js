@@ -369,6 +369,8 @@ export default Vue.extend({
       // enter
       if (e.keyCode !== 13) { return }
 
+      stopAndPrevent(e)
+
       if (this.optionIndex > -1 && this.optionIndex < this.optionsToShow) {
         this.toggleOption(this.options[this.optionIndex])
 
@@ -648,9 +650,11 @@ export default Vue.extend({
         val,
         fn => {
           if (this.focused === true && this.filterId === filterId) {
-            this.loading = false
-            this.menu = true
             typeof fn === 'function' && fn()
+            this.$nextTick(() => {
+              this.loading = false
+              this.menu = true
+            })
           }
         },
         () => {

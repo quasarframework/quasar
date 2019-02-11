@@ -180,7 +180,7 @@ export default Vue.extend({
     },
 
     __getDragging (event) {
-      let
+      const
         { left, width } = this.$el.getBoundingClientRect(),
         sensitivity = this.dragOnlyRange ? 0 : this.$refs.minThumb.offsetWidth / (2 * width),
         diff = this.max - this.min

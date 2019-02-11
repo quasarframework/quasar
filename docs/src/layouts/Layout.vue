@@ -34,7 +34,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
       a(href="https://forum.quasar-framework.org/", target="_blank")
         q-icon(name="fas fa-comments")
     div
-      | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link>
+      | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
 
     div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
 
@@ -45,7 +45,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
   )
     q-scroll-area.fit
       .flex.justify-center
-        q-btn.q-mt-lg(
+        q-btn.q-my-lg(
           type="a"
           href="https://www.patreon.com/quasarframework"
           target="_blank"
@@ -54,10 +54,6 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
           icon="fab fa-patreon"
           label="Become a Patron"
         )
-
-        q-input.q-my-lg(v-model="search", filled, dense)
-          template(v-slot:append)
-            q-icon(name="search")
 
       app-menu.q-mb-lg
 
@@ -275,7 +271,8 @@ export default {
 
 .quasar-logo
   img
+    transform rotate(0deg)
     transition transform .8s ease-in-out
   &:hover img
-    transform rotate(360deg)
+    transform rotate(-360deg)
 </style>

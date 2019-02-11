@@ -36,6 +36,10 @@
     "nativeName": "English (US)"
   },
   {
+    "isoName": "eo",
+    "nativeName": "Esperanto"
+  },
+  {
     "isoName": "es",
     "nativeName": "Español"
   },
@@ -90,6 +94,10 @@
   {
     "isoName": "lv",
     "nativeName": "Latviešu valoda"
+  },
+  {
+    "isoName": "ml",
+    "nativeName": "മലയാളം"
   },
   {
     "isoName": "ms",

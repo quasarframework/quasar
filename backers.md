@@ -202,6 +202,11 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Tobias Mesquita
 - Volentix
 - Pascual Strømsnæs
+- Job Stoit
+- Taillefer Brice
+- Nafaa Boutefer
+- Bryan WB (eKyNoX)
+- Jan Pálka
 
 - Jim O'Quinn ($5)
 - Ken ($5)

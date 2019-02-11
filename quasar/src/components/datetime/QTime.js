@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import { testPattern } from '../../utils/patterns.js'
+import { splitTime } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { isDeepEqual } from '../../utils/is.js'
 import DateTimeMixin from './datetime-mixin.js'
@@ -34,8 +34,20 @@ export default Vue.extend({
 
   data () {
     const model = this.__getNumberModel(this.value)
+
+    let view = 'Hour'
+
+    if (model.hour !== null) {
+      if (model.minute === null) {
+        view = 'Minute'
+      }
+      else if (this.withSeconds && model.second === null) {
+        view = 'Second'
+      }
+    }
+
     return {
-      view: 'Hour',
+      view,
       isAM: model.hour === null || model.hour < 12,
       innerModel: model
     }
@@ -48,7 +60,7 @@ export default Vue.extend({
       if (isDeepEqual(model, this.innerModel) === false) {
         this.innerModel = model
 
-        if (this.innerModel.hour === null) {
+        if (model.hour === null) {
           this.view = 'Hour'
         }
         else {
@@ -77,7 +89,7 @@ export default Vue.extend({
           : (
             this.computedFormat24h === true
               ? this.__pad(time.hour)
-              : (
+              : String(
                 this.isAM === true
                   ? (time.hour === 0 ? 12 : time.hour)
                   : (time.hour > 12 ? time.hour - 12 : time.hour)
@@ -392,71 +404,71 @@ export default Vue.extend({
           : ''
 
       return h('div', {
-        staticClass: 'q-time__content col'
+        staticClass: 'q-time__content col relative-position'
       }, [
-        h('div', {
-          staticClass: 'q-time__view fit relative-position'
+        h('transition', {
+          props: { name: 'q-transition--scale' }
         }, [
-          h('transition', {
-            props: { name: 'q-transition--scale' }
+          h('div', {
+            key: 'clock' + this.view,
+            staticClass: 'q-time__container-parent absolute-full'
           }, [
             h('div', {
               ref: 'clock',
-              key: 'clock' + this.view,
-              staticClass: 'q-time__clock cursor-pointer absolute-full',
-              directives: [{
-                name: 'touch-pan',
-                value: this.__drag,
-                modifiers: {
-                  stop: true,
-                  prevent: true
-                }
-              }]
+              staticClass: 'q-time__container-child fit overflow-hidden'
             }, [
-              h('div', { staticClass: 'q-time__clock-circle fit' }, [
-                this.innerModel[view] !== null
-                  ? h('div', {
-                    staticClass: 'q-time__clock-pointer',
-                    style: this.pointerStyle,
-                    class: this.color !== void 0 ? `text-${this.color}` : null
-                  })
-                  : null,
+              h('div', {
+                staticClass: 'q-time__clock cursor-pointer',
+                directives: [{
+                  name: 'touch-pan',
+                  value: this.__drag,
+                  modifiers: {
+                    stop: true,
+                    prevent: true
+                  }
+                }]
+              }, [
+                h('div', { staticClass: 'q-time__clock-circle fit' }, [
+                  this.innerModel[view] !== null
+                    ? h('div', {
+                      staticClass: 'q-time__clock-pointer',
+                      style: this.pointerStyle,
+                      class: this.color !== void 0 ? `text-${this.color}` : null
+                    })
+                    : null,
 
-                this.positions.map(pos => h('div', {
-                  staticClass: `q-time__clock-position row flex-center${f24} q-time__clock-pos-${pos.index}`,
-                  class: pos.val === current
-                    ? this.headerClass.concat(' q-time__clock-position--active')
-                    : (pos.disable ? 'q-time__clock-position--disable' : null)
-                }, [ h('span', [ pos.label ]) ]))
+                  this.positions.map(pos => h('div', {
+                    staticClass: `q-time__clock-position row flex-center${f24} q-time__clock-pos-${pos.index}`,
+                    class: pos.val === current
+                      ? this.headerClass.concat(' q-time__clock-position--active')
+                      : (pos.disable ? 'q-time__clock-position--disable' : null)
+                  }, [ h('span', [ pos.label ]) ]))
+                ])
               ])
             ])
-          ]),
+          ])
+        ]),
 
-          this.nowBtn === true ? h(QBtn, {
-            staticClass: 'q-time__now-button absolute-top-right',
-            props: {
-              icon: this.$q.iconSet.datetime.now,
-              unelevated: true,
-              size: 'sm',
-              round: true,
-              color: this.color,
-              textColor: this.textColor,
-              tabindex: this.computedTabindex
-            },
-            on: {
-              click: this.__setNow
-            }
-          }) : null
-        ])
+        this.nowBtn === true ? h(QBtn, {
+          staticClass: 'q-time__now-button absolute',
+          props: {
+            icon: this.$q.iconSet.datetime.now,
+            unelevated: true,
+            size: 'sm',
+            round: true,
+            color: this.color,
+            textColor: this.textColor,
+            tabindex: this.computedTabindex
+          },
+          on: {
+            click: this.__setNow
+          }
+        }) : null
       ])
     },
 
     __getNumberModel (v) {
-      if (
-        v === void 0 || v === null || v === '' ||
-        typeof v !== 'string' ||
-        testPattern.timeOrFulltime(v) === false
-      ) {
+      if (v === void 0 || v === null || v === '' || typeof v !== 'string') {
         return {
           hour: null,
           minute: null,
@@ -464,18 +476,7 @@ export default Vue.extend({
         }
       }
 
-      const val = v.split(':')
-      return {
-        hour: val[0] !== void 0
-          ? parseInt(val[0], 10)
-          : null,
-        minute: val[1] !== void 0
-          ? parseInt(val[1], 10)
-          : null,
-        second: val[2] === void 0
-          ? null
-          : parseInt(val[2], 10)
-      }
+      return splitTime(v)
     },
 
     __setHour (hour) {
@@ -531,6 +532,7 @@ export default Vue.extend({
     __verifyAndUpdate () {
       if (this.hourInSelection !== void 0 && this.hourInSelection(this.innerModel.hour) !== true) {
         this.innerModel = this.__getNumberModel(void 0)
+        this.isAM = this.innerModel.hour === null || this.innerModel.hour < 12
         this.view = 'Hour'
         return
       }
@@ -548,6 +550,10 @@ export default Vue.extend({
         return
       }
 
+      if (this.innerModel.hour === null || this.innerModel.minute === null || (this.withSeconds === true && this.innerModel.second === null)) {
+        return
+      }
+
       this.__updateValue({})
     },
 
@@ -557,9 +563,9 @@ export default Vue.extend({
           ...this.innerModel,
           ...obj
         },
-        val = this.__pad(Math.min(time.hour, 23)) + ':' +
-          this.__pad(Math.min(time.minute, 59)) +
-          (this.withSeconds ? ':' + this.__pad(Math.min(time.second, 59)) : '')
+        val = this.__pad(time.hour % 24) + ':' +
+          this.__pad(time.minute % 60) +
+          (this.withSeconds ? ':' + this.__pad(time.second % 60) : '')
 
       if (val !== this.value) {
         this.$emit('input', val)
@@ -575,5 +581,9 @@ export default Vue.extend({
       this.__getHeader(h),
       this.__getClock(h)
     ])
+  },
+
+  beforeDestroy () {
+    this.__verifyAndUpdate()
   }
 })

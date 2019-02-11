@@ -23,8 +23,17 @@ export default {
     lg: true,
     xl: true
   },
-  gt: {},
+  gt: {
+    xs: false,
+    sm: false,
+    md: false,
+    lg: false
+  },
   xs: true,
+  sm: false,
+  md: false,
+  lg: false,
+  xl: false,
 
   setSizes () {},
   setDebounce () {},
@@ -35,23 +44,21 @@ export default {
       return
     }
 
-    let update = resized => {
-      const
-        w = window.innerWidth,
-        h = window.innerHeight,
-        s = this.sizes
-
-      if (resized === true) {
-        if (h !== this.height) {
-          this.height = h
-        }
-
-        if (w === this.width) {
-          return
-        }
+    let update = force => {
+      if (window.innerHeight !== this.height) {
+        this.height = window.innerHeight
       }
 
-      this.width = w
+      const w = window.innerWidth
+
+      if (w !== this.width) {
+        this.width = w
+      }
+      else if (force !== true) {
+        return
+      }
+
+      const s = this.sizes
 
       this.gt.xs = w >= s.sm
       this.gt.sm = w >= s.md
@@ -68,7 +75,7 @@ export default {
       this.xl = w > s.xl
     }
 
-    let updateEvt, updateSizes = {}, updateDebounce
+    let updateEvt, updateSizes = {}, updateDebounce = 16
 
     this.setSizes = sizes => {
       SIZE_LIST.forEach(name => {
@@ -97,10 +104,11 @@ export default {
             this.sizes[name] = sizes[name]
           }
         })
-        update()
+        update(true)
       }
+
       this.setDebounce = delay => {
-        const fn = () => { update(true) }
+        const fn = () => { update() }
         updateEvt && window.removeEventListener('resize', updateEvt, listenOpts.passive)
         updateEvt = delay > 0
           ? debounce(fn, delay)
@@ -108,11 +116,11 @@ export default {
         window.addEventListener('resize', updateEvt, listenOpts.passive)
       }
 
-      this.setDebounce(updateDebounce || 16)
+      this.setDebounce(updateDebounce)
 
       if (Object.keys(updateSizes).length > 0) {
         this.setSizes(updateSizes)
-        updateSizes = null
+        updateSizes = void 0 // free up memory
       }
       else {
         update()

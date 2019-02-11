@@ -23,6 +23,7 @@ $ yarn global add @quasar/cli
 
 Then we create a project folder with Quasar CLI:
 ```bash
+# currently installs v0.17, for v1 see below
 $ quasar create <folder_name>
 
 ## for Quasar v1.0-beta, run this instead:

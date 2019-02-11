@@ -47,12 +47,12 @@ $ quasar [command name] --help
 
 Creates an App folder with initial project boilerplate.
 ``` bash
-$ quasar create <folder-name>
-```
+# currently installs v0.17, for v1 see below
+$ quasar create <folder_name>
 
-::: warning
-For v1.0-beta use `$ quasar create <folder-name> -b dev`
-:::
+## for Quasar v1.0-beta, run this instead:
+$ quasar create <folder_name> -b dev
+```
 
 ## info
 The Quasar CLI is equipped with a stable combination of multiple NPM build packages (Webpack, Vue, etc) which gets updated frequently after heavy testing.

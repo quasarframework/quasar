@@ -95,6 +95,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
   &__native
     width 100%
+    min-width 0 // needed for FF
     outline 0 !important // needed for FF
     line-height 1em // needed for Chrome type="file"
   &__prefix, &__suffix
@@ -240,7 +241,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     .q-field__control:hover:before
       border-color white
 
-    .q-field__native, .q-field__prefix, .q-field__suffix
+    .q-field__native, .q-field__prefix, .q-field__suffix, .q-select__input
       color white
 
     &:not(.q-field--focused) .q-field__label, .q-field__marginal, .q-field__bottom
@@ -269,7 +270,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       .q-field__control
         box-shadow $shadow-2
         background black
-      .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append
+      .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append, .q-select__input
         color white
 
     &.q-field--readonly
@@ -286,7 +287,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       &.q-field--focused
         .q-field__control
           background white
-        .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append
+        .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append, .q-select__input
           color black
       &.q-field--readonly
         .q-field__control:before

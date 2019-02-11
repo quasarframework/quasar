@@ -73,7 +73,7 @@ More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/t
 ### With QInput
 <doc-example title="With QInput" file="QDate/Input" />
 
-More info: [QInput](/vue-components/input), [QInput](/vue-components/input).
+More info: [QInput](/vue-components/input).
 
 ## API
 <doc-api file="QDate" />
