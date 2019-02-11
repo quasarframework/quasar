@@ -14,7 +14,7 @@ const TOKENS = {
 const tokenRegex = new RegExp('[' + Object.keys(TOKENS).join('') + ']', 'g')
 
 const NAMED_MASKS = {
-  date: '####/##/##',
+  date: '####-##-##',
   datetime: '####/##/## ##:##',
   time: '##:##',
   fulltime: '##:##:##',
