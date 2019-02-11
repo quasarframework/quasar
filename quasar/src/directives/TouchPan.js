@@ -45,7 +45,7 @@ function processChanges (evt, ctx, isFinal) {
     direction,
     isFirst: ctx.event.isFirst,
     isFinal,
-    mouse: ctx.event.mouse,
+    isMouse: ctx.event.mouse,
     duration: new Date().getTime() - ctx.event.time,
     distance: {
       x: absDistX,

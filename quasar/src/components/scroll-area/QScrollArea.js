@@ -198,7 +198,6 @@ export default Vue.extend({
           name: 'touch-pan',
           modifiers: {
             vertical: true,
-            noMouse: true,
             mightPrevent: true
           },
           value: this.__panContainer
