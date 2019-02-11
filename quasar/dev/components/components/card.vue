@@ -533,6 +533,96 @@
           </q-tab-panel>
         </q-tab-panels>
       </q-card>
+
+      <q-card class="bg-warning" style="width: 800px">
+        <q-card-section>
+          <div class="text-h6">QBtnGroup</div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions>
+          <q-btn unelevated label="Btn 1" color="primary" />
+
+          <q-btn-group unelevated>
+            <q-btn unelevated label="Btn 2" color="primary" />
+            <q-btn unelevated label="Btn 3" color="secondary" />
+          </q-btn-group>
+
+          <q-btn unelevated label="Btn 4" color="secondary" />
+
+          <q-btn-dropdown persistent color="primary" unelevated label="Dropdown">
+            <q-list>
+              <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-menu @click="showNotification">
+                <q-item-section avatar>
+                  <q-avatar icon="folder" color="primary" text-color="white" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Photos</q-item-label>
+                  <q-item-label caption>February 22, 2016</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-icon name="info" color="amber" />
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
+
+          <q-btn-toggle
+            v-model="toggle"
+            color="secondary"
+            toggle-color="primary"
+            unelevated
+            :options="[
+              {label: 'One', value: 'one'},
+              {label: 'Two', value: 'two'},
+              {label: 'Three', value: 'three'}
+            ]"
+          />
+        </q-card-actions>
+
+        <q-separator />
+
+        <q-card-actions vertical>
+          <q-btn unelevated label="Btn 1" color="primary" />
+
+          <q-btn-group unelevated>
+            <q-btn unelevated label="Btn 2" color="primary" />
+            <q-btn unelevated label="Btn 3 with long label" color="secondary" />
+          </q-btn-group>
+
+          <q-btn unelevated label="Btn 4" color="secondary" />
+
+          <q-btn-dropdown persistent color="primary" unelevated label="Dropdown">
+            <q-list>
+              <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-menu @click="showNotification">
+                <q-item-section avatar>
+                  <q-avatar icon="folder" color="primary" text-color="white" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Photos</q-item-label>
+                  <q-item-label caption>February 22, 2016</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-icon name="info" color="amber" />
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
+
+          <q-btn-toggle
+            v-model="toggle"
+            color="secondary"
+            toggle-color="primary"
+            unelevated
+            :options="[
+              {label: 'One', value: 'one'},
+              {label: 'Two', value: 'two'},
+              {label: 'Three', value: 'three'}
+            ]"
+          />
+        </q-card-actions>
+      </q-card>
     </div>
   </div>
 </template>
@@ -542,6 +632,7 @@ export default {
   data () {
     return {
       tab: 'one',
+      toggle: 'one',
       stars: 3,
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     }
