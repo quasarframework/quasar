@@ -28,7 +28,7 @@ Scaffold your layout(s) by clicking on the button below.
   href="/layout-builder"
   target="_blank"
   rel="noopener noreferrer"
-/>
+></q-btn>
 
 ## Usage
 ::: tip
