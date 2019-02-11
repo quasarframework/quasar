@@ -214,6 +214,11 @@ export default Vue.extend({
   },
 
   methods: {
+    __click (evt) {
+      this.__drag({ isFirst: true, evt })
+      this.__drag({ isFinal: true, evt })
+    },
+
     __drag (event) {
       if (event.isFirst) {
         const
@@ -418,13 +423,19 @@ export default Vue.extend({
               staticClass: 'q-time__container-child fit overflow-hidden'
             }, [
               h('div', {
-                staticClass: 'q-time__clock cursor-pointer',
+                staticClass: 'q-time__clock cursor-pointer non-selectable',
+                on: {
+                  click: this.__click
+                },
                 directives: [{
                   name: 'touch-pan',
                   value: this.__drag,
                   modifiers: {
                     stop: true,
-                    prevent: true
+                    prevent: true,
+                    mouse: true,
+                    mouseStop: true,
+                    mousePrevent: true
                   }
                 }]
               }, [

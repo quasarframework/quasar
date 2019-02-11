@@ -131,7 +131,9 @@ export default Vue.extend({
           name: 'touch-pan',
           value: this.__pan,
           modifiers: {
-            horizontal: true
+            horizontal: true,
+            mouse: true,
+            mouseAllDir: true
           }
         }] : null
       }, slot(this, 'default'))

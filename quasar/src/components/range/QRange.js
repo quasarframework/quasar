@@ -116,8 +116,8 @@ export default Vue.extend({
     },
 
     events () {
-      if (this.editable) {
-        if (this.$q.platform.is.mobile) {
+      if (this.editable === true) {
+        if (this.$q.platform.is.mobile === true) {
           return { click: this.__mobileClick }
         }
 
@@ -403,7 +403,10 @@ export default Vue.extend({
         modifiers: {
           horizontal: true,
           prevent: true,
-          stop: true
+          stop: true,
+          mouse: true,
+          mouseAllDir: true,
+          mouseStop: true
         }
       }] : null
     }, [

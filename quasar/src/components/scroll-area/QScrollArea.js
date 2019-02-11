@@ -198,7 +198,6 @@ export default Vue.extend({
           name: 'touch-pan',
           modifiers: {
             vertical: true,
-            noMouse: true,
             mightPrevent: true
           },
           value: this.__panContainer
@@ -230,7 +229,10 @@ export default Vue.extend({
           name: 'touch-pan',
           modifiers: {
             vertical: true,
-            prevent: true
+            prevent: true,
+            mouse: true,
+            mouseAllDir: true,
+            mousePrevent: true
           },
           value: this.__panThumb
         }]
