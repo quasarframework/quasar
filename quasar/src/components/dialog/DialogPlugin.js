@@ -235,8 +235,13 @@ export default Vue.extend({
         value: this.value,
         maximized: this.maximized,
         persistent: this.persistent,
+        seamless: this.seamless,
         noEscKey: this.noEscKey,
-        position: this.position
+        position: this.position,
+        fullWidth: this.fullWidth,
+        fullHeight: this.fullHeight,
+        transitionShow: this.transitionShow,
+        transitionHide: this.transitionHide
       },
 
       on: {
