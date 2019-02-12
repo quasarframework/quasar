@@ -10,6 +10,9 @@
 
 Please submit a PR to https://github.com/quasarframework/quasar-awesome with your website/app/Quasar tutorial/video etc. Thank you!
 
+## v1 beta is available!
+https://v1.quasar-framework.org
+
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md). If you'd like to join them, check out [Quasar Framework's Patreon campaign](https://www.patreon.com/quasarframework).
 
@@ -78,6 +81,14 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
       <td align="center" valign="middle">
         <a href="https://www.letsbutterfly.com/" target="_blank">
           <img width="170px" src="https://cdn.quasar-framework.org/sponsors/letsbutterfly.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://www.projectfinance.io/" target="_blank">
+          <img width="222px" height="150px" src="https://cdn.quasar-framework.org/sponsors/project-finance.png">
         </a>
       </td>
     </tr>
