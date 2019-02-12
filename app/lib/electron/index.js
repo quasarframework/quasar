@@ -4,8 +4,6 @@ const
   logger = require('../helpers/logger'),
   log = logger('app:electron'),
   warn = logger('app:electron', 'red'),
-  path = require('path'),
-  fse = require('fs-extra'),
   appPaths = require('../app-paths'),
   nodePackager = require('../helpers/node-packager')
 
