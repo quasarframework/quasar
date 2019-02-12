@@ -53,8 +53,14 @@ export default {
     },
 
     filterCreateValue (val, done) {
-      if (val.length > 0 && stringOptions.includes(val)) {
-        done(val)
+      if (val.length > 0) {
+        if (stringOptions.includes(val)) {
+          done(val)
+        }
+        else {
+          stringOptions.push(val)
+          done(val)
+        }
       }
     },
 
