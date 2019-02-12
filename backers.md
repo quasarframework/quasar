@@ -166,7 +166,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jörg Walter
 - Ruan de Andrade
 - Tanner Faulkner
-- Luca Borghini
 - Christian Kyony
 - Talles Dantas
 - Mast
@@ -176,7 +175,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - RED CAD Solutions AG
 - Yatima Kagurazaka
 - Matyáš Racek
-- Martin Thompson
 - David Urbansky
 - Sustained
 - Chad Shryock
@@ -207,6 +205,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Nafaa Boutefer
 - Bryan WB (eKyNoX)
 - Jan Pálka
+- Justin Dunsworth
 
 - Jim O'Quinn ($5)
 - Ken ($5)

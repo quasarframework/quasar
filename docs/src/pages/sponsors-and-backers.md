@@ -51,5 +51,5 @@ For a full list of our wonderful people who make Quasar happen, visit the [Backe
 
   <sponsor img="letsbutterfly.png" name="LetsButterfly" url="https://www.letsbutterfly.com/" />
 
-  <sponsor name="Jeff Cole" />
+  <sponsor img="project-finance.png" name="Project Finance" url="https://www.projectfinance.io/" />
 </div>
