@@ -35,7 +35,7 @@ If you are a beginner, all you'll need to care about is `/quasar.conf.js` (Quasa
 ├── dist/                    # where production builds go
 │   ├── spa/                 # example when building SPA
 │   ├── ssr/                 # example when building SSR
-│   ├── electron-mat/        # example when building Electron with MAT theme
+│   ├── electron/            # example when building Electron
 │   └── ....
 ├── quasar.conf.js           # Quasar App Config file
 ├── babel.config.js          # Babeljs config
