@@ -7,7 +7,7 @@ import preventScroll from '../../utils/prevent-scroll.js'
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
 
-let modalsOpened = 0
+let maximizedModals = 0
 
 const positionClass = {
   standard: 'flex-center',
@@ -74,6 +74,8 @@ export default Vue.extend({
     },
 
     showing (val) {
+      this.__updateState(val, this.maximized)
+
       if (this.position !== 'standard' || this.transitionShow !== this.transitionHide) {
         this.$nextTick(() => {
           this.transitionState = val
@@ -81,8 +83,13 @@ export default Vue.extend({
       }
     },
 
+    maximized (newV, oldV) {
+      this.__updateState(false, oldV)
+      this.__updateState(true, newV)
+    },
+
     seamless (v) {
-      this.showing === true && this.__updateSeamless(!v)
+      this.showing && preventScroll(!v)
     }
   },
 
@@ -126,9 +133,7 @@ export default Vue.extend({
         this.__refocusTarget.blur()
       }
 
-      if (this.seamless !== true) {
-        this.__updateSeamless(true)
-      }
+      this.__updateState(true, this.maximized)
 
       EscapeKey.register(() => {
         if (this.seamless !== true) {
@@ -180,34 +185,25 @@ export default Vue.extend({
 
       EscapeKey.pop()
 
-      if (this.seamless !== true && (hiding === true || this.showing === true)) {
-        this.__updateSeamless(false)
+      if (hiding === true || this.showing === true) {
+        this.__updateState(false, this.maximized)
       }
     },
 
-    __updateSeamless (val) {
-      if (val === true) {
-        this.__register(true)
-        preventScroll(true)
-      }
-      else {
-        preventScroll(false)
-        this.__register(false)
-      }
-    },
-
-    __register (opening) {
-      let state = opening
-        ? { action: 'add', step: 1 }
-        : { action: 'remove', step: -1 }
-
-      modalsOpened += state.step
-
-      if (opening !== true && modalsOpened > 0) {
-        return
+    __updateState (opening, maximized) {
+      if (this.seamless !== true) {
+        preventScroll(opening)
       }
 
-      document.body.classList[state.action]('q-body--dialog')
+      if (maximized === true) {
+        if (opening) {
+          maximizedModals < 1 && document.body.classList.add('q-body--dialog')
+        }
+        else if (maximizedModals < 2) {
+          document.body.classList.remove('q-body--dialog')
+        }
+        maximizedModals += opening ? 1 : -1
+      }
     },
 
     __render (h) {
