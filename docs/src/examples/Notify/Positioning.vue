@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md q-gutter-sm column items-center">
+  <div class="q-pa-md q-gutter-y-sm column items-center">
     <div>
       <div class="row q-gutter-sm">
         <q-btn round size="sm" color="secondary" @click="showNotif('top-left')">

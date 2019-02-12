@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md bg-grey-10 text-white">
-    <div class="q-gutter-md column" style="max-width: 300px">
+    <div class="q-gutter-y-md column" style="max-width: 300px">
       <div>
         <q-toggle v-model="readonly" label="Readonly" dark />
         <q-toggle v-model="disable" label="Disable" dark />

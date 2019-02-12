@@ -52,7 +52,9 @@ These classes are to be used when the direct children have `col-*` or `offset-*`
 Both set of classes have pros and cons.
 
 ::: warning
-Because both `q-gutter-*` and `q-col-gutter-*` classes apply a **negative top and left margins** to the parent you should not apply styling targeting background, margin or border related properties on the parent. Instead you need to wrap them in a container with `.clearfix` and apply the styling on the container.
+Because both `q-gutter-*` and `q-col-gutter-*` classes apply a **negative top and left margins** to the parent you should not apply styling targeting background, margin or border related properties on the parent.
+
+Instead you need to wrap them in a container, apply the styling on the container, and add `overflow-auto` or `row` class **on the container**
 :::
 
 <doc-example title="Parent styling" file="grid/ParentStyling" />

@@ -43,7 +43,7 @@ export default Vue.extend({
     },
     breakpoint: {
       type: Number,
-      default: 992
+      default: 1023
     },
     behavior: {
       type: String,
