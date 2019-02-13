@@ -97,18 +97,10 @@ export default Vue.extend({
       if (e.isFirst) {
         this.refPos = this.scrollPosition
         this.__setActive(true, true)
-        document.body.classList.add('non-selectable')
-        if (document.selection) {
-          document.selection.empty()
-        }
-        else if (window.getSelection) {
-          window.getSelection().removeAllRanges()
-        }
       }
 
       if (e.isFinal) {
         this.__setActive(false)
-        document.body.classList.remove('non-selectable')
       }
 
       const multiplier = (this.scrollHeight - this.containerHeight) / (this.containerHeight - this.thumbHeight)

@@ -37,7 +37,7 @@
     "breakpoint": {
       "type": "Number",
       "desc": "Breakpoint (in pixels) of layout width up to which mobile mode is used",
-      "default": 992,
+      "default": 1023,
       "examples": [ 1200, ":breakpoint=\"1400\"" ]
     },
 

@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-md column" style="max-width: 300px">
+    <div class="q-gutter-y-md column" style="max-width: 300px">
       <q-input filled v-model="email" type="email" suffix="@gmail.com">
         <template v-slot:before>
           <q-icon name="mail" />

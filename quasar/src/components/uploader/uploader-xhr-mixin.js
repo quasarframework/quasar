@@ -75,7 +75,7 @@ export default {
         form = new FormData(),
         xhr = new XMLHttpRequest()
 
-      if (this.xhrHeaders !== void 0) {
+      if (this.headers !== void 0) {
         const headers = this.xhrProps.headers(files)
         headers !== void 0 && headers.forEach(field => {
           form.append(field.name, field.value)
@@ -162,7 +162,7 @@ export default {
         files = [ file ],
         xhr = new XMLHttpRequest()
 
-      if (this.xhrHeaders !== void 0) {
+      if (this.headers !== void 0) {
         const headers = this.xhrProps.headers(files)
         headers !== void 0 && headers.forEach(field => {
           form.append(field.name, field.value)

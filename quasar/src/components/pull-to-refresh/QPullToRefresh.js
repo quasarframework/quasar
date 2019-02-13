@@ -99,11 +99,6 @@ export default Vue.extend({
       if (event.isFirst) {
         this.pulling = true
 
-        if (window.getSelection) {
-          const sel = window.getSelection()
-          sel.empty && sel.empty()
-        }
-
         const { top, left } = this.$el.getBoundingClientRect()
         this.positionCSS = {
           top: top + 'px',

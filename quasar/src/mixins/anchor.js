@@ -1,3 +1,4 @@
+import { clearSelection } from '../utils/selection.js'
 
 export default {
   props: {
@@ -49,6 +50,7 @@ export default {
       }
       this.hide(evt)
       this.anchorEl.classList.add('non-selectable')
+      clearSelection()
       this.touchTimer = setTimeout(() => {
         this.__mobileCleanup()
         this.touchTimer = setTimeout(() => {

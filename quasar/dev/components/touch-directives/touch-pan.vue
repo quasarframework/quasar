@@ -10,6 +10,7 @@
       </p>
       <div
         v-touch-pan.prevent.mouse.mousePrevent="handlePan"
+        @click="onClick"
         class="custom-area row flex-center"
         ref="area"
       >
@@ -45,6 +46,7 @@
       </p>
       <div
         v-touch-pan.horizontal.prevent.mouse.mousePrevent="panHorizontally"
+        @click="onClick"
         class="custom-area row flex-center"
       >
         <div v-if="infoHorizontal" class="custom-info">
@@ -67,6 +69,7 @@
       </p>
       <div
         v-touch-pan.vertical.prevent.mouse.mousePrevent="panVertically"
+        @click="onClick"
         class="custom-area row flex-center"
       >
         <div v-if="infoVertical" class="custom-info">
@@ -111,7 +114,7 @@ export default {
       this.info = { position, direction, duration, distance, delta, isFirst, isFinal }
 
       // native Javascript event
-      console.log(evt)
+      // console.log(evt)
 
       if (isFirst) {
         this.panning = true
@@ -145,6 +148,10 @@ export default {
       else if (isFinal) {
         this.panningVertical = false
       }
+    },
+
+    onClick (evt) {
+      console.log('click', evt)
     }
   }
 }

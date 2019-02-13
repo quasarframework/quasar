@@ -8,7 +8,7 @@ q-card.doc-api.q-my-lg(v-if="ready")
   q-separator
 
   div.bg-grey-2.text-grey-7.flex.no-wrap
-    q-tabs(v-model="currentTab", indicator-color="primary", align="left", dense)
+    q-tabs.col(v-model="currentTab", indicator-color="primary", align="left", dense)
       q-tab(
         v-for="tab in tabs"
         :key="`api-tab-${tab}`"
@@ -16,7 +16,7 @@ q-card.doc-api.q-my-lg(v-if="ready")
         :label="tab"
       )
 
-    q-input.col.q-mx-sm(
+    q-input.q-mx-sm(
       v-if="$q.screen.gt.xs"
       ref="input",
       v-model="filter",
@@ -24,6 +24,7 @@ q-card.doc-api.q-my-lg(v-if="ready")
       input-class="text-right",
       borderless,
       placeholder="Filter..."
+      style="min-width: 150px"
     )
       template(v-slot:append)
         q-icon.cursor-pointer(

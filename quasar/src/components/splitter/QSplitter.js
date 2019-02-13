@@ -80,7 +80,6 @@ export default Vue.extend({
         this.__value = this.value
         this.__dir = this.horizontal ? 'up' : 'left'
 
-        this.$el.classList.add('non-selectable')
         this.$el.classList.add('q-splitter--active')
         return
       }
@@ -90,7 +89,6 @@ export default Vue.extend({
           this.$emit('input', this.__normalized)
         }
 
-        this.$el.classList.remove('non-selectable')
         this.$el.classList.remove('q-splitter--active')
         return
       }

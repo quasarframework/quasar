@@ -553,7 +553,7 @@
 
           <q-btn-dropdown persistent color="primary" unelevated label="Dropdown">
             <q-list>
-              <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-menu @click="showNotification">
+              <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-menu>
                 <q-item-section avatar>
                   <q-avatar icon="folder" color="primary" text-color="white" />
                 </q-item-section>
@@ -595,7 +595,7 @@
 
           <q-btn-dropdown persistent color="primary" unelevated label="Dropdown">
             <q-list>
-              <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-menu @click="showNotification">
+              <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-menu>
                 <q-item-section avatar>
                   <q-avatar icon="folder" color="primary" text-color="white" />
                 </q-item-section>
