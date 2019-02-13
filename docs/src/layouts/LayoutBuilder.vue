@@ -476,6 +476,7 @@ export default {
     isContracted () {
       return this.$q.screen.lt.sm || (this.$q.screen.md && this.play.left && this.play.right)
     },
+
     bgTopL () {
       return this.topL === 'h' ? 'bg-primary' : 'bg-orange'
     },
