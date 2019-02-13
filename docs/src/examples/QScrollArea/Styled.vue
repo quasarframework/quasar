@@ -5,7 +5,7 @@
         :thumb-style="thumbStyle"
         :content-style="contentStyle"
         :content-active-style="contentActiveStyle"
-        style="height: 100px;"
+        style="height: 100px; max-width: 300px;"
       >
         <div v-for="n in 100" :key="n">
           Lorem ipsum dolor sit amet, consectetur adipisicing

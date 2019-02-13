@@ -7,7 +7,7 @@
     </div>
     <div class="row q-ma-md">
       <div class="col-12">
-        <q-scroll-area ref="scrollArea" style="height: 150px;">
+        <q-scroll-area ref="scrollArea" style="height: 150px; max-width: 300px;">
           <ol>
             <li v-for="n in 1000" :key="n">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
           </ol>
