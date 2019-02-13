@@ -3,7 +3,7 @@
     <div class="col-12">
       <q-scroll-area
         :delay="200"
-        style="height: 100px;"
+        style="height: 100px; max-width: 300px;"
       >
         <p>The bar will show in 200ms scrollbars become visible after mouse is hovering the container.</p>
         <div v-for="n in 100" :key="n">
