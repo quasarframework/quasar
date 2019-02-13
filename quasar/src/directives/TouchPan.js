@@ -1,4 +1,5 @@
 import { position, leftClick, listenOpts } from '../utils/event.js'
+import { clearSelection } from '../utils/selection.js'
 
 function getDirection (mod) {
   const
@@ -158,18 +159,17 @@ export default {
 
         ctx.event.detected = true
 
-        if (ctx.direction.all || (ctx.event.mouse && binding.modifiers.mouseAllDir)) {
-        }
-        else {
+        if (ctx.direction.all === false && (ctx.event.mouse === false || binding.modifiers.mouseAllDir !== true)) {
           ctx.event.abort = ctx.direction.vertical
             ? distX > distY
             : distX < distY
         }
 
-        if (!ctx.event.abort) {
+        if (ctx.event.abort !== true) {
           document.documentElement.style.cursor = 'grabbing'
           document.body.classList.add('no-pointer-events')
           document.body.classList.add('non-selectable')
+          clearSelection()
         }
 
         ctx.move(evt)
