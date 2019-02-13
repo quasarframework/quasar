@@ -114,6 +114,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Edinei Cipriani
 - Andy Burnett
 - Heitor Lessa
+- Aprixon Information Services GmbH
 
 ### $10+
 
@@ -206,6 +207,10 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Bryan WB (eKyNoX)
 - Jan Pálka
 - Justin Dunsworth
+- James Swansburg
+- Adam De Witt
+- Ade Shinichi
+- Tatsuki Sugiura
 
 - Jim O'Quinn ($5)
 - Ken ($5)
