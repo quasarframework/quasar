@@ -7,12 +7,11 @@ const
   resolveFrom = require('resolve-from')
 
 let cmd = process.argv[2]
-
-if (cmd === 'c' || cmd === 'create') {
+if (cmd === 'create') {
   process.argv.splice(2, 1)
   require(`./quasar-create`)
 }
-else if (cmd === 's' || cmd  === 'serve') {
+else if (cmd  === 'serve') {
   process.argv.splice(2, 1)
   require(`./quasar-serve`)
 }
@@ -73,7 +72,6 @@ else {
       else {
         cmd = 'help'
       }
-
       require(`./quasar-${cmd}`)
     }
   }
