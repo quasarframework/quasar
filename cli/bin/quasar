@@ -11,7 +11,7 @@ if (cmd === 'create') {
   process.argv.splice(2, 1)
   require(`./quasar-create`)
 }
-else if (cmd === 's' || cmd  === 'serve') {
+else if (cmd  === 'serve') {
   process.argv.splice(2, 1)
   require(`./quasar-serve`)
 }
@@ -23,10 +23,8 @@ else {
 
     // deferring to local @quasar/app
     require(localFile)
-  } else  if(cmd === "c") {
-    process.argv.splice(2, 1)
-    require(`./quasar-create`)
-  } else {
+  }
+  else {
     // legacy <1.0
     const localFile = resolveFrom.silent(process.cwd(), path.join('quasar-cli/bin/quasar'))
     if (localFile && path.relative(localFile, __filename) !== '') {
