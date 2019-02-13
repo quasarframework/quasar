@@ -174,6 +174,13 @@ export default Vue.extend({
     updatePosition () {
       const el = this.__portal.$el
 
+      if (el.nodeType === 8) { // IE replaces the comment with delay
+        setTimeout(() => {
+          this.__portal !== void 0 && this.__portal.showing === true && this.updatePosition()
+        }, 25)
+        return
+      }
+
       el.style.maxHeight = this.maxHeight
       el.style.maxWidth = this.maxWidth
 
