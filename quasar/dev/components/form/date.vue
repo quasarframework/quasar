@@ -14,24 +14,26 @@
 
       <div>{{ date }}</div>
 
-      <q-date
-        v-model="date"
-        v-bind="props"
-        :style="style"
-      />
+      <div class="q-gutter-y-md column">
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :style="style"
+        />
 
-      <q-date
-        v-model="date"
-        v-bind="props"
-        :style="style"
-        landscape
-      />
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :style="style"
+          landscape
+        />
+      </div>
 
       <div class="text-h6">
         Null/Undefined model
         <q-btn outline color="primary" size="sm" label="Reset" @click="nullDate = null" />
       </div>
-      <div class="q-gutter-md">
+      <div class="q-gutter-md column">
         <q-date
           v-model="nullDate"
           v-bind="props"
@@ -48,7 +50,7 @@
       </div>
 
       <div class="text-h6">Colored</div>
-      <div class="q-gutter-md">
+      <div class="q-gutter-md column">
         <q-date
           v-model="date"
           v-bind="props"
@@ -66,7 +68,7 @@
       </div>
 
       <div class="text-h6">Events</div>
-      <div class="q-gutter-md">
+      <div class="q-gutter-md column">
         <q-date
           v-model="date"
           v-bind="props"
@@ -85,7 +87,7 @@
       </div>
 
       <div class="text-h6">Limited options</div>
-      <div class="q-gutter-md">
+      <div class="q-gutter-md column">
         <q-date
           v-model="date"
           v-bind="props"
@@ -109,7 +111,7 @@
       </div>
 
       <div class="text-h6">Negative years: {{ dateNeg }}</div>
-      <div class="q-gutter-md">
+      <div class="q-gutter-md column">
         <q-date
           v-model="dateNeg"
           v-bind="props"
@@ -130,7 +132,7 @@
       </div>
 
       <div class="text-h6">Input: {{ input }}</div>
-      <div class="q-gutter-md">
+      <div class="q-gutter-md column">
         <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
           <q-icon slot="append" name="event" class="cursor-pointer">
             <q-popup-proxy>

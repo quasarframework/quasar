@@ -63,6 +63,7 @@ export default Vue.extend({
         'q-date--dark': this.dark,
         'q-date--readonly': this.readonly,
         'disabled': this.disable,
+        'q-date--minimal': this.minimal,
         [`q-date--${this.landscape === true ? 'landscape' : 'portrait'}`]: true
       }
     },
@@ -611,14 +612,6 @@ export default Vue.extend({
       this.view = 'Calendar'
     },
 
-    __verifyAndUpdate () {
-      if (this.innerModel.year === null || this.innerModel.month === null || this.innerModel.day === null) {
-        return
-      }
-
-      this.__updateValue({})
-    },
-
     __updateValue (date) {
       if (date.year === void 0) {
         date.year = this.innerModel.year
@@ -659,9 +652,5 @@ export default Vue.extend({
         ])
       ])
     ])
-  },
-
-  beforeDestroy () {
-    this.__verifyAndUpdate()
   }
 })
