@@ -16,7 +16,7 @@ q-card.doc-api.q-my-lg(v-if="ready")
         :label="tab"
       )
 
-    q-input.col.q-mx-sm(
+    q-input.q-mx-sm(
       v-if="$q.screen.gt.xs"
       ref="input",
       v-model="filter",
@@ -24,6 +24,7 @@ q-card.doc-api.q-my-lg(v-if="ready")
       input-class="text-right",
       borderless,
       placeholder="Filter..."
+      style="min-width: 150px"
     )
       template(v-slot:append)
         q-icon.cursor-pointer(
