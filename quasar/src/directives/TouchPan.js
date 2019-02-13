@@ -158,15 +158,13 @@ export default {
 
         ctx.event.detected = true
 
-        if (ctx.direction.all || (ctx.event.mouse && binding.modifiers.mouseAllDir)) {
-        }
-        else {
+        if (ctx.direction.all === false && (ctx.event.mouse === false || binding.modifiers.mouseAllDir !== true)) {
           ctx.event.abort = ctx.direction.vertical
             ? distX > distY
             : distX < distY
         }
 
-        if (!ctx.event.abort) {
+        if (ctx.event.abort !== true || (mouse === true && binding.modifiers.mousePrevent)) {
           document.documentElement.style.cursor = 'grabbing'
           document.body.classList.add('no-pointer-events')
           document.body.classList.add('non-selectable')
