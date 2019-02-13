@@ -7,8 +7,7 @@ const
   resolveFrom = require('resolve-from')
 
 let cmd = process.argv[2]
-
-if (cmd === 'c' || cmd === 'create') {
+if (cmd === 'create') {
   process.argv.splice(2, 1)
   require(`./quasar-create`)
 }
@@ -24,8 +23,10 @@ else {
 
     // deferring to local @quasar/app
     require(localFile)
-  }
-  else {
+  } else  if(cmd === "c") {
+    process.argv.splice(2, 1)
+    require(`./quasar-create`)
+  } else {
     // legacy <1.0
     const localFile = resolveFrom.silent(process.cwd(), path.join('quasar-cli/bin/quasar'))
     if (localFile && path.relative(localFile, __filename) !== '') {
@@ -73,7 +74,7 @@ else {
       else {
         cmd = 'help'
       }
-
+      console.log(cmd)
       require(`./quasar-${cmd}`)
     }
   }
