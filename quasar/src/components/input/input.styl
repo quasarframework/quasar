@@ -16,11 +16,8 @@
     padding-top 17px
     min-height 52px
 
-    .q-field--readonly&
-      pointer-events auto
-
-    .disabled&
-      resize none
+  &.q-field--readonly .q-field__native
+    pointer-events auto
 
   &.q-field--labeled
     .q-field__control-container
@@ -47,3 +44,8 @@
       .q-field__native
         min-height 24px
         padding-top 2px
+
+body.mobile .q-textarea,
+.q-textarea.disabled
+  .q-field__native
+    resize none
