@@ -74,7 +74,6 @@ else {
       else {
         cmd = 'help'
       }
-      console.log(cmd)
       require(`./quasar-${cmd}`)
     }
   }
