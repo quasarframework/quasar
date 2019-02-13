@@ -496,6 +496,10 @@ const components = [
     badge: 'new'
   },
   {
+    name: 'Scroll Area',
+    path: 'scroll-area'
+  },
+  {
     name: 'Slide Item',
     path: 'slide-item',
     badge: 'new'
