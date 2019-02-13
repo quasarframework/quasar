@@ -16,6 +16,6 @@ Quasar Rating is a Component which allows users to rate items, usually known as 
 
 <doc-example title="Readonly and disable" file="QRating/ReadonlyDisable" />
 
-## API
+## QRating API
 
 <doc-api file="QRating" />
