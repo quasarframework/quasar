@@ -51,10 +51,12 @@ export default {
   },
 
   methods: {
-    toggle () {
+    toggle (e) {
       if (this.disable === true) {
         return
       }
+
+      e !== void 0 && stopAndPrevent(e)
 
       let val
 
