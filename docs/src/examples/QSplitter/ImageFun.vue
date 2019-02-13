@@ -5,6 +5,7 @@
       v-model="splitterModel"
       :limits="[0, 100]"
       style="height: 300px; width: 400px;"
+      class="no-scroll"
     >
 
       <template v-slot:before class="no-scroll">
@@ -38,7 +39,7 @@ export default {
 }
 </script>
 <style>
-/* .q-splitter__before, .q-splitter__after { */
-  /* overflow: hidden !important; */
-/* } */
+.no-scroll > .q-splitter__before, .no-scroll > .q-splitter__after {
+  overflow: hidden !important;
+}
 </style>
