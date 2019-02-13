@@ -21,6 +21,6 @@ This is especially useful for desktop as scrollbars are hidden on a mobile devic
 
 <doc-example title="Scroll Position" file="QScrollArea/ScrollPosition" />
 
-## QResizeObserver API
+## QScrollArea API
 
 <doc-api file="QScrollArea" />
