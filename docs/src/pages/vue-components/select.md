@@ -104,7 +104,17 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 ## Create new values
 
-<doc-example title="Create new values" file="QSelect/CreateValues" />
+No filtering and no menu.
+
+<doc-example title="No filtering" file="QSelect/NoFiltering" />
+
+Filtering and adds new values to menu.
+
+<doc-example title="Filtering with add to menu" file="QSelect/FilteringAddsToMenu" />
+
+Filters new values (at least 2 chars length), does not add to menu.
+
+<doc-example title="Filtering without adding to menu" file="QSelect/FilteringNoAddToMenu" />
 
 ## Render performance
 
