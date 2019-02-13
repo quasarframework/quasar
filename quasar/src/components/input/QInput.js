@@ -47,9 +47,16 @@ export default Vue.extend({
       this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
     },
 
-    autogrow () {
+    autogrow (autogrow) {
       // textarea only
-      this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
+      if (autogrow === true) {
+        this.$nextTick(this.__adjustHeightDebounce)
+      }
+      // if it has a number of rows set respect it
+      else if (this.$attrs.rows > 0) {
+        const inp = this.$refs.input
+        inp.style.height = 'unset'
+      }
     }
   },
 

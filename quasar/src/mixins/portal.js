@@ -5,9 +5,9 @@ let inject
 
 function fillInject (root) {
   const
-    instance = new Vue(),
+    options = (new Vue()).$root.$options,
     skip = ['el', 'created', 'activated', 'deactivated', 'beforeMount', 'methods', 'mounted', 'render', 'mixins']
-      .concat(Object.keys(instance.$root.$options))
+      .concat(Object.keys(options).filter(key => options[key] !== null))
 
   inject = {}
 
