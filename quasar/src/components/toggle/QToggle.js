@@ -62,6 +62,14 @@ export default Vue.extend({
       staticClass: 'q-toggle cursor-pointer no-outline row inline no-wrap items-center',
       class: this.classes,
       attrs: { tabindex: this.computedTabindex },
+      directives: [{
+        name: 'touch-swipe',
+        value: this.__swipe,
+        modifiers: {
+          mouse: true,
+          horizontal: true
+        }
+      }],
       on: {
         click: this.toggle,
         keydown: this.__keyDown
