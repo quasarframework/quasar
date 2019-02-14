@@ -1,10 +1,11 @@
 <template>
   <div>
+    <q-resize-observer @resize="onResize" />
     <q-splitter
       id="photos"
       v-model="splitterModel"
       :limits="[0, 100]"
-      style="height: 300px; width: 400px;"
+      :style="splitterStyle"
       class="no-scroll"
     >
 
@@ -34,6 +35,21 @@ export default {
     return {
       width: 400,
       splitterModel: 50 // start at 50%
+    }
+  },
+  methods: {
+    // we are using q-resize-observer to keep this example mobile-friendly
+    onResize (size) {
+      let potentialWidth = Math.abs(size.width)
+      this.width = Math.min(potentialWidth, 400)
+    }
+  },
+  computed: {
+    splitterStyle () {
+      return {
+        height: '300px',
+        width: this.width + 'px'
+      }
     }
   }
 }
