@@ -2,7 +2,7 @@
   "props": {
     "value": {
       "type": "Number",
-      "desc": "Model of the component defining the split ratio (0.0 < x < 100.0) beetween panes; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "desc": "Model of the component defining the split ratio percent (0.0 < x < 100.0) between panes; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "examples": [ "v-model=\"ratio\"" ]
     },
 
