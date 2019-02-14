@@ -491,6 +491,10 @@ const components = [
     path: 'rating'
   },
   {
+    name: 'Scroll Area',
+    path: 'scroll-area'
+  },
+  {
     name: 'Separator',
     path: 'separator',
     badge: 'new'
