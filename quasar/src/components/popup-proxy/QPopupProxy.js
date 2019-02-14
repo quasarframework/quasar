@@ -82,9 +82,19 @@ export default Vue.extend({
   render (h) {
     if (this.disable === true || this.type === null) { return }
 
-    let component
+    const slotDefault = slot(this, 'default')
+
+    let slotProps = {}
+    if (
+      slotDefault !== void 0 &&
+      slotDefault[0].componentOptions !== void 0 &&
+      slotDefault[0].componentOptions.Ctor.options[`${this.type}ProxyProps`]
+    ) {
+      slotProps = slotDefault[0].componentOptions.Ctor.options[`${this.type}ProxyProps`]
+    }
+
     const data = {
-      props: Object.assign({}, this.$attrs, {
+      props: Object.assign({}, slotProps, this.$attrs, {
         value: this.showing
       }),
       on: Object.assign({}, this.$listeners, {
@@ -92,6 +102,7 @@ export default Vue.extend({
       })
     }
 
+    let component
     if (this.type === 'dialog') {
       component = QDialog
     }
@@ -100,6 +111,6 @@ export default Vue.extend({
       data.props.noParentEvent = true
     }
 
-    return h(component, data, slot(this, 'default'))
+    return h(component, data, slotDefault)
   }
 })

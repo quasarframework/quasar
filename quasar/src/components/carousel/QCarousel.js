@@ -10,6 +10,11 @@ export default Vue.extend({
 
   mixins: [ PanelParentMixin ],
 
+  menuProxyProps: {
+    cover: true,
+    maxHeight: '100vh'
+  },
+
   props: {
     height: String,
     padding: Boolean,

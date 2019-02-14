@@ -523,6 +523,71 @@
             <q-slider color="teal" v-model="slideVibration" :step="0" />
           </q-item-section>
         </q-item>
+
+        <q-card-section class="q-gutter-md">
+          <q-icon size="30px" name="event" class="cursor-pointer">
+            <q-popup-proxy>
+              <q-date v-model="date" />
+            </q-popup-proxy>
+          </q-icon>
+
+          <q-icon size="30px" name="colorize" class="cursor-pointer">
+            <q-popup-proxy>
+              <q-color v-model="color" />
+            </q-popup-proxy>
+          </q-icon>
+
+          <q-icon size="30px" name="view_carousel" class="cursor-pointer">
+            <q-popup-proxy>
+              <q-carousel
+                transition-prev="slide-right"
+                transition-next="slide-left"
+                swipeable
+                animated
+                v-model="slide"
+                control-color="primary"
+                navigation-icon="radio_button_unchecked"
+                navigation
+                padding
+                height="500px"
+                class="bg-white shadow-1 rounded-borders"
+              >
+                <q-carousel-slide :name="1" class="column no-wrap flex-center">
+                  <q-icon name="style" color="primary" size="56px" />
+                  <div class="q-mt-md text-center">
+                    {{ lorem }}
+                  </div>
+                </q-carousel-slide>
+                <q-carousel-slide :name="2" class="column no-wrap flex-center">
+                  <q-icon name="live_tv" color="primary" size="56px" />
+                  <div class="q-mt-md text-center">
+                    {{ lorem }}
+                  </div>
+                </q-carousel-slide>
+                <q-carousel-slide :name="3" class="column no-wrap flex-center">
+                  <q-icon name="layers" color="primary" size="56px" />
+                  <div class="q-mt-md text-center">
+                    {{ lorem }}
+                  </div>
+                </q-carousel-slide>
+                <q-carousel-slide :name="4" class="column no-wrap flex-center">
+                  <q-icon name="terrain" color="primary" size="56px" />
+                  <div class="q-mt-md text-center">
+                    {{ lorem }}
+                  </div>
+                </q-carousel-slide>
+              </q-carousel>
+            </q-popup-proxy>
+          </q-icon>
+        </q-card-section>
+
+        <q-card-section>
+          <q-select
+            v-model="select"
+            :options="selectOptions"
+            label="Select"
+          />
+        </q-card-section>
       </q-card>
     </q-dialog>
 
@@ -580,7 +645,13 @@ export default {
 
       slideVol: 39,
       slideAlarm: 56,
-      slideVibration: 63
+      slideVibration: 63,
+
+      date: '2018/03/14',
+      color: '#f46234',
+
+      select: 'ten',
+      selectOptions: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
     }
   },
 
