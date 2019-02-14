@@ -57,8 +57,12 @@ export default Vue.extend({
 
       evt !== void 0 && evt.preventDefault()
 
+      const
+        breakpoint = parseInt(this.breakpoint, 10),
+        { width, height } = this.$q.screen
+
       this.showing = true
-      this.type = this.$q.screen.width < parseInt(this.breakpoint, 10)
+      this.type = width < breakpoint || height < breakpoint
         ? 'dialog'
         : 'menu'
     },
