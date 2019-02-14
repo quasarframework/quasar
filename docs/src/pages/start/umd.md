@@ -26,41 +26,41 @@ UMD is all about adding Quasar style and javascript tags. This is a full list. C
 
   <!--
     Finally, add Quasar's CSS:
-    Replace version below (1.0.0-beta.0) with your desired version of Quasar.
+    Replace version below (1.0.0-beta.1) with your desired version of Quasar.
     Add ".rtl" for the RTL support (example: quasar.rtl.min.css).
   -->
-  <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/quasar.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.1/dist/quasar.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 
-  <!-- Do you want IE support? Replace "1.0.0-beta.0" with your desired Quasar version -->
-  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/quasar.ie.polyfills.umd.min.js"></script>
+  <!-- Do you want IE support? Replace "1.0.0-beta.1" with your desired Quasar version -->
+  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.1/dist/quasar.ie.polyfills.umd.min.js"></script>
 
   <!-- You need Vue too -->
   <script src="https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.min.js"></script>
 
   <!--
     Add Quasar's JS:
-    Replace version below (1.0.0-beta.0) with your desired version of Quasar.
+    Replace version below (1.0.0-beta.1) with your desired version of Quasar.
   -->
-  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/quasar.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.1/dist/quasar.umd.min.js"></script>
 
   <!--
     If you want to add a Quasar Language pack (other than "en-us").
     Notice "pt-br" in "i18n.pt-br.umd.min.js" for Brazilian Portuguese language pack.
-    Replace version below (1.0.0-beta.0) with your desired version of Quasar.
+    Replace version below (1.0.0-beta.1) with your desired version of Quasar.
     Also check final <script> tag below to enable the language
     Language pack list: https://github.com/quasarframework/quasar/tree/dev/quasar/lang
   -->
-  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/lang/pt-br.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.1/dist/lang/pt-br.umd.min.js"></script>
 
   <!--
     If you want to make Quasar components (not your own) use a specific set of icons (unless you're using Material Icons already).
-    Replace version below (1.0.0-beta.0) with your desired version of Quasar.
+    Replace version below (1.0.0-beta.1) with your desired version of Quasar.
     Icon sets list: https://github.com/quasarframework/quasar/tree/dev/quasar/icon-set
   -->
-  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/icon-set/fontawesome-v5.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.1/dist/icon-set/fontawesome-v5.umd.min.js"></script>
 
   <script>
     // if using a Quasar language pack other than the default "en-us";
