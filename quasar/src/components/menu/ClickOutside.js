@@ -1,11 +1,11 @@
 import { listenOpts } from '../../utils/event.js'
 
+const evtOpts = listenOpts.passive === void 0 ? true : { passive: false, capture: true }
+
 export default {
   name: 'click-outside',
 
   bind (el, { value, arg }) {
-    const evtOpts = listenOpts.passive === undefined ? true : { passive: false, capture: true }
-
     const ctx = {
       trigger: value,
       handler (evt) {
@@ -54,8 +54,6 @@ export default {
   unbind (el) {
     const ctx = el.__qclickoutside_old || el.__qclickoutside
     if (ctx !== void 0) {
-      const evtOpts = listenOpts.passive === undefined ? true : { passive: false, capture: true }
-
       document.body.removeEventListener('mousedown', ctx.handler, evtOpts)
       document.body.removeEventListener('touchstart', ctx.handler, evtOpts)
       delete el[el.__qclickoutside_old ? '__qclickoutside_old' : '__qclickoutside']
