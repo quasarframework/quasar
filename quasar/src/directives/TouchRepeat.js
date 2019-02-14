@@ -1,4 +1,5 @@
-import { position, leftClick } from '../utils/event.js'
+import { position, leftClick, stopAndPrevent } from '../utils/event.js'
+import { clearSelection } from '../utils/selection.js'
 
 const
   keyCodes = {
@@ -14,17 +15,6 @@ const
   },
   keyRegex = new RegExp(`^([\\d+]+|${Object.keys(keyCodes).join('|')})$`, 'i')
 
-function updateBinding (el, binding) {
-  const ctx = el.__qtouchrepeat
-
-  ctx.durations = ((typeof binding.arg === 'string' && binding.arg.length ? binding.arg : '0:600:300').split(':')).map(val => parseInt(val, 10))
-  ctx.durationsLast = ctx.durations.length - 1
-
-  if (binding.oldValue !== binding.value) {
-    ctx.handler = binding.value
-  }
-}
-
 export default {
   name: 'touch-repeat',
 
@@ -37,53 +27,62 @@ export default {
         }
 
         return acc
-      }, []),
-      stopPropagation = binding.modifiers.stop,
-      preventDefault = binding.modifiers.prevent
+      }, [])
+
+    const durations = typeof binding.arg === 'string' && binding.arg.length
+      ? binding.arg.split(':').map(val => parseInt(val, 10))
+      : [0, 600, 300]
+
+    const durationsLast = durations.length - 1
 
     let ctx = {
+      handler: binding.value,
+
       mouseStart (evt) {
         if (leftClick(evt)) {
-          document.addEventListener('mousemove', ctx.mouseAbort)
-          document.addEventListener('click', ctx.mouseAbort, true)
+          document.addEventListener('mousemove', ctx.mouseAbort, true)
+          document.addEventListener('mouseup', ctx.mouseAbort, true)
           ctx.start(evt)
         }
       },
 
       mouseAbort (evt) {
-        document.removeEventListener('mousemove', ctx.mouseAbort)
-        document.removeEventListener('click', ctx.mouseAbort, true)
+        document.removeEventListener('mousemove', ctx.mouseAbort, true)
+        document.removeEventListener('mouseup', ctx.mouseAbort, true)
         ctx.abort(evt)
       },
 
       keyboardStart (evt) {
+        if (ctx.event !== void 0) {
+          stopAndPrevent(evt)
+          return
+        }
+
         if (keyboard.includes(evt.keyCode)) {
-          el.removeEventListener('keydown', ctx.keyboardStart)
           document.addEventListener('keyup', ctx.keyboardAbort, true)
           ctx.start(evt, true)
         }
       },
 
       keyboardAbort (evt) {
-        ctx.event && ctx.event.keyboard && keyboard.length && el.addEventListener('keydown', ctx.keyboardStart)
         document.removeEventListener('keyup', ctx.keyboardAbort, true)
         ctx.abort(evt)
       },
 
       start (evt, keyboard) {
         ctx.event = {
-          keyboard,
+          keyboard: keyboard === true,
           startTime: new Date().getTime(),
           repeatCount: 0
         }
 
-        const timer = () => {
-          if (!ctx.event.repeatCount) {
+        const fn = () => {
+          console.log('run')
+          if (ctx.event && ctx.event.repeatCount === 0) {
             ctx.event.evt = evt
             ctx.event.position = position(evt)
-
-            stopPropagation && evt.stopPropagation()
-            preventDefault && evt.preventDefault()
+            document.documentElement.style.cursor = 'pointer'
+            clearSelection()
           }
 
           ctx.event.duration = new Date().getTime() - ctx.event.startTime
@@ -91,21 +90,33 @@ export default {
 
           ctx.handler(ctx.event)
 
-          ctx.timer = setTimeout(timer, ctx.durations[ctx.durationsLast < ctx.event.repeatCount ? ctx.durationsLast : ctx.event.repeatCount])
+          const index = durationsLast < ctx.event.repeatCount
+            ? durationsLast
+            : ctx.event.repeatCount
+
+          ctx.timer = setTimeout(fn, durations[index])
         }
 
-        ctx.timer = setTimeout(timer, ctx.durations[0])
+        console.log('start', durations)
+        if (keyboard && durations[0] === 0) {
+          stopAndPrevent(evt)
+          fn()
+        }
+        else {
+          ctx.timer = setTimeout(fn, durations[0])
+        }
       },
 
       abort (evt) {
-        if (ctx.event && ctx.event.repeatCount) {
-          stopPropagation && evt.stopPropagation()
-          preventDefault && evt.preventDefault()
+        if (ctx.event && ctx.event.repeatCount > 0) {
+          stopAndPrevent(evt)
+          document.documentElement.style.cursor = ''
+          clearSelection()
         }
 
         clearTimeout(ctx.timer)
-        ctx.timer = null
-        ctx.event = {}
+        ctx.timer = void 0
+        ctx.event = void 0
       }
     }
 
@@ -114,9 +125,8 @@ export default {
     }
 
     el.__qtouchrepeat = ctx
-    updateBinding(el, binding)
 
-    if (binding.modifiers.noMouse !== true) {
+    if (binding.modifiers.mouse === true) {
       el.addEventListener('mousedown', ctx.mouseStart)
     }
     if (keyboard.length > 0) {
@@ -128,12 +138,19 @@ export default {
   },
 
   update (el, binding) {
-    updateBinding(el, binding)
+    if (binding.oldValue !== binding.value) {
+      el.__qtouchrepeat.handler = binding.value
+    }
   },
 
   unbind (el) {
     let ctx = el.__qtouchrepeat_old || el.__qtouchrepeat
     if (ctx !== void 0) {
+      if (ctx.event !== void 0) {
+        clearTimeout(ctx.timer)
+        document.body.classList.remove('no-pointer-events')
+        document.body.classList.remove('non-selectable')
+      }
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchend', ctx.abort)
       el.removeEventListener('touchmove', ctx.abort)

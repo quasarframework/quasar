@@ -1,4 +1,6 @@
-import { position, leftClick } from '../utils/event.js'
+import Platform from '../plugins/Platform.js'
+import { position, leftClick, stopAndPrevent } from '../utils/event.js'
+import { clearSelection } from '../utils/selection.js'
 
 function getDirection (mod) {
   let dir = {}
@@ -31,15 +33,31 @@ function getDirection (mod) {
   return dir
 }
 
+function parseArg (arg) {
+  // delta (min velocity -- dist / time)
+  // mobile min distance on first move
+  // desktop min distance until deciding if it's a swipe or not
+  const data = [0.06, 6, 50]
+
+  if (typeof arg === 'string' && arg.length) {
+    arg.split(':').forEach((val, index) => {
+      const v = parseInt(val, 10)
+      v && (data[index] = v)
+    })
+  }
+
+  return data
+}
+
 export default {
   name: 'touch-swipe',
 
   bind (el, binding) {
-    const mouse = binding.modifiers.noMouse !== true
+    const mouse = binding.modifiers.mouse === true
 
     let ctx = {
       handler: binding.value,
-      threshold: parseInt(binding.arg, 10) || 300,
+      sensitivity: parseArg(binding.arg),
       mod: binding.modifiers,
       direction: getDirection(binding.modifiers),
 
@@ -50,6 +68,7 @@ export default {
           ctx.start(evt)
         }
       },
+
       mouseEnd (evt) {
         document.removeEventListener('mousemove', ctx.move)
         document.removeEventListener('mouseup', ctx.mouseEnd)
@@ -63,25 +82,24 @@ export default {
           x: pos.left,
           y: pos.top,
           time: new Date().getTime(),
-          detected: false,
+          dir: false,
           abort: false
         }
-
-        el.classList.add('q-touch')
       },
+
       move (evt) {
-        if (ctx.event.abort) {
+        if (ctx.event.abort === true) {
           return
         }
 
-        if (new Date().getTime() - ctx.event.time > ctx.threshold) {
-          ctx.event.abort = true
+        if (ctx.event.dir !== false) {
+          stopAndPrevent(evt)
           return
         }
 
-        if (ctx.event.detected) {
-          evt.stopPropagation()
-          evt.preventDefault()
+        const time = new Date().getTime() - ctx.event.time
+
+        if (time === 0) {
           return
         }
 
@@ -92,67 +110,104 @@ export default {
           distY = pos.top - ctx.event.y,
           absY = Math.abs(distY)
 
-        if (absX === absY) {
-          return
-        }
-
-        ctx.event.detected = true
-        ctx.event.abort = !(
-          (ctx.direction.vertical && absX < absY) ||
-          (ctx.direction.horizontal && absX > absY) ||
-          (ctx.direction.up && absX < absY && distY < 0) ||
-          (ctx.direction.down && absX < absY && distY > 0) ||
-          (ctx.direction.left && absX > absY && distX < 0) ||
-          (ctx.direction.right && absX > absY && distX > 0)
-        )
-
-        ctx.move(evt)
-      },
-      end (evt) {
-        el.classList.remove('q-touch')
-        if (ctx.event.abort || !ctx.event.detected) {
-          return
-        }
-
-        const duration = new Date().getTime() - ctx.event.time
-        if (duration > ctx.threshold) {
-          return
-        }
-
-        evt.stopPropagation()
-        evt.preventDefault()
-
-        let
-          pos = position(evt),
-          direction,
-          distX = pos.left - ctx.event.x,
-          absX = Math.abs(distX),
-          distY = pos.top - ctx.event.y,
-          absY = Math.abs(distY)
-
-        if (absX >= absY) {
-          if (absX < 50) {
+        if (Platform.is.mobile) {
+          if (absX < ctx.sensitivity[1] && absY < ctx.sensitivity[1]) {
+            ctx.event.abort = true
             return
           }
-          direction = distX < 0 ? 'left' : 'right'
         }
-        else {
-          if (absY < 50) {
-            return
-          }
-          direction = distY < 0 ? 'up' : 'down'
+        else if (absX < ctx.sensitivity[2] && absY < ctx.sensitivity[2]) {
+          return
         }
 
-        if (ctx.direction[direction]) {
+        const
+          velX = absX / time,
+          velY = absY / time
+
+        if (
+          ctx.direction.vertical &&
+          absX < absY &&
+          absX < 100 &&
+          velY > ctx.sensitivity[0]
+        ) {
+          ctx.event.dir = distY < 0 ? 'up' : 'down'
+        }
+
+        if (
+          ctx.direction.horizontal &&
+          absX > absY &&
+          absY < 100 &&
+          velX > ctx.sensitivity[0]
+        ) {
+          ctx.event.dir = distX < 0 ? 'left' : 'right'
+        }
+
+        if (
+          ctx.direction.up &&
+          absX < absY &&
+          distY < 0 &&
+          absX < 100 &&
+          velY > ctx.sensitivity[0]
+        ) {
+          ctx.event.dir = 'up'
+        }
+
+        if (
+          ctx.direction.down &&
+          absX < absY &&
+          distY > 0 &&
+          absX < 100 &&
+          velY > ctx.sensitivity[0]
+        ) {
+          ctx.event.dir = 'down'
+        }
+
+        if (
+          ctx.direction.left &&
+          absX > absY &&
+          distX < 0 &&
+          absY < 100 &&
+          velX > ctx.sensitivity[0]
+        ) {
+          ctx.event.dir = 'left'
+        }
+
+        if (
+          ctx.direction.right &&
+          absX > absY &&
+          distX > 0 &&
+          absY < 100 &&
+          velX > ctx.sensitivity[0]
+        ) {
+          ctx.event.dir = 'right'
+        }
+
+        if (ctx.event.dir !== false) {
+          stopAndPrevent(evt)
+          document.body.classList.add('no-pointer-events')
+          document.body.classList.add('non-selectable')
+          clearSelection()
+
           ctx.handler({
             evt,
-            direction,
-            duration,
+            direction: ctx.event.dir,
+            duration: time,
             distance: {
               x: absX,
               y: absY
             }
           })
+        }
+        else {
+          ctx.event.abort = true
+        }
+      },
+
+      end (evt) {
+        if (ctx.event.abort === false && ctx.event.dir !== false) {
+          stopAndPrevent(evt)
+          document.body.classList.remove('no-pointer-events')
+          document.body.classList.remove('non-selectable')
         }
       }
     }

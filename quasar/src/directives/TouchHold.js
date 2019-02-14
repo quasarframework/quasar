@@ -1,4 +1,5 @@
-import { position, leftClick } from '../utils/event.js'
+import { position, leftClick, stopAndPrevent } from '../utils/event.js'
+import { clearSelection } from '../utils/selection.js'
 
 function updateBinding (el, binding) {
   const ctx = el.__qtouchhold
@@ -14,35 +15,34 @@ export default {
   name: 'touch-hold',
 
   bind (el, binding) {
-    const
-      mouse = binding.modifiers.noMouse !== true,
-      stopPropagation = binding.modifiers.stop,
-      preventDefault = binding.modifiers.prevent
+    const mouse = binding.modifiers.mouse === true
 
     let ctx = {
       mouseStart (evt) {
         if (leftClick(evt)) {
-          document.addEventListener('mousemove', ctx.mouseAbort)
-          document.addEventListener('mouseup', ctx.mouseAbort)
+          document.addEventListener('mousemove', ctx.mouseMove)
+          document.addEventListener('mouseup', ctx.mouseMove)
           ctx.start(evt)
         }
       },
-      mouseAbort (evt) {
-        document.removeEventListener('mousemove', ctx.mouseAbort)
-        document.removeEventListener('mouseup', ctx.mouseAbort)
-        ctx.abort(evt)
+
+      mouseMove (evt) {
+        document.removeEventListener('mousemove', ctx.mouseMove)
+        document.removeEventListener('mouseup', ctx.mouseMove)
+        ctx.move(evt)
       },
 
       start (evt) {
         const startTime = new Date().getTime()
 
+        ctx.triggered = false
+
         ctx.timer = setTimeout(() => {
-          stopPropagation && evt.stopPropagation()
-          preventDefault && evt.preventDefault()
+          clearSelection()
 
           if (mouse) {
-            document.removeEventListener('mousemove', ctx.mouseAbort)
-            document.removeEventListener('mouseup', ctx.mouseAbort)
+            document.removeEventListener('mousemove', ctx.mouseMove)
+            document.removeEventListener('mouseup', ctx.mouseMove)
           }
 
           ctx.handler({
@@ -52,9 +52,14 @@ export default {
           })
         }, ctx.duration)
       },
-      abort () {
-        clearTimeout(ctx.timer)
-        ctx.timer = null
+
+      move (evt) {
+        if (ctx.triggered === true) {
+          stopAndPrevent(evt)
+        }
+        else {
+          clearTimeout(ctx.timer)
+        }
       }
     }
 
@@ -69,8 +74,8 @@ export default {
       el.addEventListener('mousedown', ctx.mouseStart)
     }
     el.addEventListener('touchstart', ctx.start)
-    el.addEventListener('touchmove', ctx.abort)
-    el.addEventListener('touchend', ctx.abort)
+    el.addEventListener('touchmove', ctx.move)
+    el.addEventListener('touchend', ctx.move)
   },
 
   update (el, binding) {
@@ -80,12 +85,13 @@ export default {
   unbind (el) {
     let ctx = el.__qtouchhold_old || el.__qtouchhold
     if (ctx !== void 0) {
+      clearTimeout(ctx.timer)
       el.removeEventListener('touchstart', ctx.start)
-      el.removeEventListener('touchend', ctx.abort)
-      el.removeEventListener('touchmove', ctx.abort)
+      el.removeEventListener('touchend', ctx.move)
+      el.removeEventListener('touchmove', ctx.move)
       el.removeEventListener('mousedown', ctx.mouseStart)
-      document.removeEventListener('mousemove', ctx.mouseAbort)
-      document.removeEventListener('mouseup', ctx.mouseAbort)
+      document.removeEventListener('mousemove', ctx.mouseMove)
+      document.removeEventListener('mouseup', ctx.mouseMove)
       delete el[el.__qtouchhold_old ? '__qtouchhold_old' : '__qtouchhold']
     }
   }

@@ -49,19 +49,9 @@
   },
 
   "modifiers": {
-    "stop": {
+    "mouse": {
       "type": "Boolean",
-      "desc": "Stop event propagation"
-    },
-
-    "prevent": {
-      "type": "Boolean",
-      "desc": "Calls event.preventDefault()"
-    },
-
-    "noMouse": {
-      "type": "Boolean",
-      "desc": "Disregard mouse events and handle only touch events"
+      "desc": "Listen for mouse events too"
     }
   }
 }
