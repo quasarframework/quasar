@@ -7,7 +7,8 @@
         on the area below to see it in action.
       </p>
       <div
-        v-touch-swipe="handleSwipe"
+        v-touch-swipe.mouse="handleSwipe"
+        @click="onClick"
         class="custom-area row flex-center"
       >
         <div v-if="info" class="custom-info">
@@ -31,7 +32,8 @@
 
       <p class="caption">Example on capturing only swipe to right:</p>
       <div
-        v-touch-swipe.right="swipeToRight"
+        v-touch-swipe.right.mouse="swipeToRight"
+        @click="onClick"
         class="custom-area row flex-center"
       >
         <div v-if="infoRight" class="custom-info">
@@ -45,7 +47,8 @@
 
       <p class="caption">Example on capturing only swipe up and right:</p>
       <div
-        v-touch-swipe.up.right="swipeToCustom"
+        v-touch-swipe.up.right.mouse="swipeToCustom"
+        @click="onClick"
         class="custom-area row flex-center"
       >
         <div v-if="infoCustom" class="custom-info">
@@ -88,6 +91,9 @@ export default {
     },
     swipeToCustom ({ direction, duration, distance }) {
       this.infoCustom = { direction, duration, distance }
+    },
+    onClick () {
+      console.log('onClick')
     }
   }
 }
