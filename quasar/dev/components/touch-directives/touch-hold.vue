@@ -10,8 +10,9 @@
       </p>
 
       <div
-        v-touch-hold="handleHold"
-        class="custom-area row flex-center"
+        v-touch-hold.mouse="handleHold"
+        @click="onClick"
+        class="custom-area row flex-center non-selectable"
       >
         <div v-if="info" class="custom-info">
           <pre>{{ info }}</pre>
@@ -23,8 +24,9 @@
 
       <p class="caption">Configuring to trigger after custom time (in this case 3s):</p>
       <div
-        v-touch-hold:3000="holdExtended"
-        class="custom-area row flex-center"
+        v-touch-hold:3000.mouse="holdExtended"
+        @click="onClick"
+        class="custom-area row flex-center non-selectable"
       >
         <div v-if="infoExtended" class="custom-info">
           <pre>{{ infoExtended }}</pre>
@@ -57,6 +59,10 @@ export default {
 
       // native Javascript event
       console.log(evt)
+    },
+
+    onClick () {
+      console.log('click')
     }
   }
 }

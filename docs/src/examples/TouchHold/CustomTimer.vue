@@ -2,7 +2,7 @@
   <div class="q-pa-md row justify-center">
     <q-card
       v-touch-hold:3000="handleHold"
-      class="custom-area cursor-pointer bg-purple text-white shadow-2 relative-position row flex-center"
+      class="non-selectable custom-area cursor-pointer bg-purple text-white shadow-2 relative-position row flex-center"
     >
       <div v-if="info" class="custom-info">
         <pre>{{ info }}</pre>

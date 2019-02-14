@@ -76,7 +76,6 @@ export default {
       },
 
       start (evt) {
-        console.log('start')
         const pos = position(evt)
 
         ctx.event = {
@@ -98,7 +97,7 @@ export default {
           return
         }
 
-        const time = (new Date().getTime() - ctx.event.time)
+        const time = new Date().getTime() - ctx.event.time
 
         if (time === 0) {
           return
