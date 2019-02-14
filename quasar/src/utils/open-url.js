@@ -1,6 +1,6 @@
 import Platform from '../plugins/Platform.js'
 
-export default (url, reject) => {
+export default (url, openExternal, reject) => {
   let open = window.open
 
   if (Platform.is.cordova === true) {
@@ -9,7 +9,7 @@ export default (url, reject) => {
     }
     else if (navigator !== void 0 && navigator.app !== void 0) {
       return navigator.app.loadUrl(url, {
-        openExternal: true
+        openExternal: openExternal
       })
     }
   }

@@ -5,10 +5,11 @@ title: Other Utils
 ``` js
 import { openURL } from 'quasar'
 
-openURL('http://...')
+openURL(String url, Boolean openExternal)
 ```
 
 It will take care of the quirks involved when running under Cordova or on a browser, including notifying the user he/she has to acknowledge opening popups.
+`OpenExternal` option able to choose between opening the URL in a new tab or not. This is useful for link like `tel:+1-123-456-789`.
 
 ## Debounce Function
 If your App uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it bricks browser performance. Debouncing a function limits the rate at which the function can fire.
