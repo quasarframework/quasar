@@ -127,6 +127,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Stephen Clarke ($20)
 - Ciprian Popa ($20)
 - G Edwards ($20)
+- Martin Thompson ($20)
 - Shone Radulovic ($15)
 - Sam Cassar ($15)
 - 上田 進也 (Sandbox Gmbh) ($20)
