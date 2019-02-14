@@ -41,14 +41,14 @@ export default {
       mouseStart (evt) {
         if (leftClick(evt)) {
           document.addEventListener('mousemove', ctx.mouseAbort, true)
-          document.addEventListener('mouseup', ctx.mouseAbort, true)
+          document.addEventListener('click', ctx.mouseAbort, true)
           ctx.start(evt)
         }
       },
 
       mouseAbort (evt) {
         document.removeEventListener('mousemove', ctx.mouseAbort, true)
-        document.removeEventListener('mouseup', ctx.mouseAbort, true)
+        document.removeEventListener('click', ctx.mouseAbort, true)
         ctx.abort(evt)
       },
 
@@ -77,12 +77,12 @@ export default {
         }
 
         const fn = () => {
-          console.log('run')
           if (ctx.event && ctx.event.repeatCount === 0) {
             ctx.event.evt = evt
             ctx.event.position = position(evt)
             document.documentElement.style.cursor = 'pointer'
             clearSelection()
+            document.body.classList.add('non-selectable')
           }
 
           ctx.event.duration = new Date().getTime() - ctx.event.startTime
@@ -97,7 +97,6 @@ export default {
           ctx.timer = setTimeout(fn, durations[index])
         }
 
-        console.log('start', durations)
         if (keyboard && durations[0] === 0) {
           stopAndPrevent(evt)
           fn()
@@ -111,6 +110,7 @@ export default {
         if (ctx.event && ctx.event.repeatCount > 0) {
           stopAndPrevent(evt)
           document.documentElement.style.cursor = ''
+          document.body.classList.remove('non-selectable')
           clearSelection()
         }
 
@@ -148,7 +148,6 @@ export default {
     if (ctx !== void 0) {
       if (ctx.event !== void 0) {
         clearTimeout(ctx.timer)
-        document.body.classList.remove('no-pointer-events')
         document.body.classList.remove('non-selectable')
       }
       el.removeEventListener('touchstart', ctx.start)
@@ -156,7 +155,7 @@ export default {
       el.removeEventListener('touchmove', ctx.abort)
       el.removeEventListener('mousedown', ctx.mouseStart)
       el.removeEventListener('keydown', ctx.keyboardStart)
-      document.removeEventListener('mousemove', ctx.mouseAbort)
+      document.removeEventListener('mousemove', ctx.mouseAbort, true)
       document.removeEventListener('click', ctx.mouseAbort, true)
       document.removeEventListener('keyup', ctx.keyboardAbort, true)
       delete el[el.__qtouchrepeat_old ? '__qtouchrepeat_old' : '__qtouchrepeat']
