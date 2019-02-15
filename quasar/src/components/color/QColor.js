@@ -138,7 +138,7 @@ export default Vue.extend({
 
     spectrumPointerStyle () {
       return {
-        top: `${101 - this.model.v}%`,
+        top: `${100 - this.model.v}%`,
         [this.$q.lang.rtl ? 'right' : 'left']: `${this.model.s}%`
       }
     },
@@ -247,7 +247,7 @@ export default Vue.extend({
         }
       }, [
         h(QTabPanel, {
-          staticClass: 'q-pa-sm q-color-picker__spectrum-tab',
+          staticClass: 'q-color-picker__spectrum-tab',
           props: { name: 'spectrum' }
         }, this.__getSpectrumTab(h)),
 
