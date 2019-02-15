@@ -50,10 +50,8 @@ It is also possible to include other fonts to use them in the app. The following
 @font-face
   font-family customfont
   src url(./fonts/customfont.woff)
-```
-3. Reference your custom font in the vue-component, where you want it to be used. Example:
-```css
-.title {
-  font-family: 'customfont';
-}
+
+// declare a class which applies it
+.my-font
+  font-family 'customfont'
 ```
