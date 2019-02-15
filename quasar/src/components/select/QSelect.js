@@ -43,6 +43,8 @@ export default Vue.extend({
     optionDisable: [Function, String],
 
     hideSelected: Boolean,
+    hideDropdownIcon: Boolean,
+
     counter: Boolean,
     maxValues: [Number, String],
 
@@ -582,7 +584,7 @@ export default Vue.extend({
     },
 
     __getInnerAppend (h) {
-      return [
+      return this.loading === true || this.hideDropdownIcon !== true ? [
         this.loading === true
           ? (
             this.$scopedSlots.loading !== void 0
@@ -591,11 +593,13 @@ export default Vue.extend({
           )
           : null,
 
-        h(QIcon, {
-          staticClass: 'q-select__dropdown-icon',
-          props: { name: this.dropdownArrowIcon }
-        })
-      ]
+        this.hideDropdownIcon !== true
+          ? h(QIcon, {
+            staticClass: 'q-select__dropdown-icon',
+            props: { name: this.dropdownArrowIcon }
+          })
+          : null
+      ] : null
     },
 
     __getInput (h) {
