@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 import CheckboxMixin from '../../mixins/checkbox.js'
-import TouchSwipe from '../../directives/TouchSwipe.js'
 import QIcon from '../icon/QIcon.js'
 import slot from '../../utils/slot.js'
 
@@ -9,10 +8,6 @@ export default Vue.extend({
   name: 'QToggle',
 
   mixins: [ CheckboxMixin ],
-
-  directives: {
-    TouchSwipe
-  },
 
   props: {
     icon: String,
@@ -43,17 +38,6 @@ export default Vue.extend({
 
     computedIcon () {
       return (this.isTrue ? this.checkedIcon : this.uncheckedIcon) || this.icon
-    }
-  },
-
-  methods: {
-    __swipe (evt) {
-      if (evt.direction === 'left') {
-        this.isTrue && this.toggle()
-      }
-      else if (evt.direction === 'right') {
-        this.isFalse && this.toggle()
-      }
     }
   },
 
