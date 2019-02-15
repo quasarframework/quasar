@@ -22,6 +22,24 @@
       "extends": "disable"
     },
 
+    "before-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the 'before' panel",
+      "examples": [
+        "bg-deep-orange",
+        ":before-class=\"{ 'my-special-class': <condition> }\""
+      ]
+    },
+
+    "after-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the 'after' panel",
+      "examples": [
+        "bg-deep-orange",
+        ":after-class=\"{ 'my-special-class': <condition> }\""
+      ]
+    },
+
     "separator-class": {
       "type": [ "Array", "String", "Object" ],
       "desc": "Class definitions to be attributed to the splitter separator",
