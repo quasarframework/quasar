@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 import CheckboxMixin from '../../mixins/checkbox.js'
-import TouchSwipe from '../../directives/TouchSwipe.js'
 import QIcon from '../icon/QIcon.js'
 import slot from '../../utils/slot.js'
 
@@ -9,10 +8,6 @@ export default Vue.extend({
   name: 'QToggle',
 
   mixins: [ CheckboxMixin ],
-
-  directives: {
-    TouchSwipe
-  },
 
   props: {
     icon: String,
@@ -46,30 +41,11 @@ export default Vue.extend({
     }
   },
 
-  methods: {
-    __swipe (evt) {
-      if (evt.direction === 'left') {
-        this.isTrue && this.toggle()
-      }
-      else if (evt.direction === 'right') {
-        this.isFalse && this.toggle()
-      }
-    }
-  },
-
   render (h) {
     return h('div', {
       staticClass: 'q-toggle cursor-pointer no-outline row inline no-wrap items-center',
       class: this.classes,
       attrs: { tabindex: this.computedTabindex },
-      directives: [{
-        name: 'touch-swipe',
-        value: this.__swipe,
-        modifiers: {
-          mouse: true,
-          horizontal: true
-        }
-      }],
       on: {
         click: this.toggle,
         keydown: this.__keyDown
