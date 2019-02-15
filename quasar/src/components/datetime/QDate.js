@@ -611,14 +611,6 @@ export default Vue.extend({
       this.view = 'Calendar'
     },
 
-    __verifyAndUpdate () {
-      if (this.innerModel.year === null || this.innerModel.month === null || this.innerModel.day === null) {
-        return
-      }
-
-      this.__updateValue({})
-    },
-
     __updateValue (date) {
       if (date.year === void 0) {
         date.year = this.innerModel.year
@@ -659,9 +651,5 @@ export default Vue.extend({
         ])
       ])
     ])
-  },
-
-  beforeDestroy () {
-    this.__verifyAndUpdate()
   }
 })
