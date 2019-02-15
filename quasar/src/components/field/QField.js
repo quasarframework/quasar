@@ -141,7 +141,7 @@ export default Vue.extend({
           ? h('div', {
             staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
             key: 'error'
-          }, [ h(QIcon, { props: { name: 'error', color: 'negative' } }) ])
+          }, [ h(QIcon, { props: { name: this.$q.iconSet.type.warning, color: 'negative' } }) ])
           : null,
 
         this.__getInnerAppend !== void 0

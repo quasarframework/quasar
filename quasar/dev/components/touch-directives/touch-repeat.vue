@@ -38,7 +38,7 @@
       <p class="caption">Configured to also react to <kbd>ENTER</kbd> and <kbd>h</kbd>, with 200:300* (ms) repeat pattern:</p>
       <div
         v-touch-repeat:200:300.mouse.enter.72.104="handleHold3"
-        class="custom-area row flex-center"
+        class="non-selectable custom-area row flex-center"
         tabindex="0"
       >
         <div v-if="info3" class="custom-info">

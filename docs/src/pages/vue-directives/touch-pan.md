@@ -50,5 +50,8 @@ By default, the directive does not block page scrolling. If you want to prevent 
 <div v-touch-pan.prevent="userHasPanned">...</div>
 ```
 
+### Note on HMR
+Due to performance reasons, when doing HMR updates, the modifiers are not updated, so you will require a window refresh.
+
 ## API
 <doc-api file="TouchPan" />

@@ -8,7 +8,7 @@ q-card.doc-api.q-my-lg(v-if="ready")
   q-separator
 
   div.bg-grey-2.text-grey-7.flex.no-wrap
-    q-tabs.col(v-model="currentTab", indicator-color="primary", align="left", dense)
+    q-tabs.col(v-model="currentTab", indicator-color="primary", align="left", :breakpoint="0", dense)
       q-tab(
         v-for="tab in tabs"
         :key="`api-tab-${tab}`"

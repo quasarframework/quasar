@@ -50,7 +50,7 @@ export default Vue.extend({
     const Arrow = [
       h(QIcon, {
         props: {
-          name: 'arrow_drop_down' // this.$q.iconSet.input.dropdown
+          name: this.$q.iconSet.arrow.dropdown
         },
         staticClass: 'q-btn-dropdown__arrow',
         class: {

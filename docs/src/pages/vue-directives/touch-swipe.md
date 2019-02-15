@@ -22,15 +22,14 @@ Swipe with your mouse on the area below to see it in action. If using a mouse, y
 
 <doc-example title="Several directions" file="TouchSwipe/UpOrLeft" />
 
-### Avoid Capturing Mouse Events
-When you don't want to capture mouse actions too, use the `noMouse` modifier:
+### Capturing Mouse Events
+When you want to capture mouse actions too, use the `mouse` modifier:
 ``` html
-<!--
-  directive won't be triggered by mouse actions;
-  it's exclusively triggered by touch actions now:
--->
-<div v-touch-swipe.noMouse="userHasSwiped">...</div>
+<div v-touch-swipe.mouse="userHasSwiped">...</div>
 ```
+
+### Note on HMR
+Due to performance reasons, when doing HMR updates, the argument and modifiers are not updated, so you will require a window refresh.
 
 ## API
 <doc-api file="TouchSwipe" />
