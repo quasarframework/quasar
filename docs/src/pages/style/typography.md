@@ -42,15 +42,16 @@ extras: [
 ```
 
 ## Add custom fonts
-It is also possible to include other fonts to use them in the app.
-* Copy your new font `[customfont].ttf` in a directory of your choice, for example: `./src/themes/fonts/[customfont.ttf]`
-* Declare your font in `./src/themes/app.variables.styl`:
+It is also possible to include other fonts to use them in the app. The following is one way to do it:
+
+1. Copy your new webfont `[customfont].ttf` (or whatever extension it has; recommended is `woff` for compatibility across all browsers) in a directory of your choice, for example: `./src/css/fonts/[customfont.ttf]`
+2. Declare your font in `./src/css/app.styl` (or in any place you see fit, but correctly update the relative path to the webfont file):
 ```stylus
 @font-face
   font-family customfont
-  src url(../src/themes/fonts/customfont.ttf)
+  src url(./fonts/customfont.ttf)
 ```
-* Reference your custom font in the vue-component, where you want it to be used. Example:
+3. Reference your custom font in the vue-component, where you want it to be used. Example:
 ```css
 .title {
   font-family: 'customfont';
