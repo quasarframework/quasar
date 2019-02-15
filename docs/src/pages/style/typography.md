@@ -55,3 +55,4 @@ It is also possible to include other fonts to use them in the app. The following
 .my-font
   font-family 'customfont'
 ```
+3. Then use that class where you need it.
