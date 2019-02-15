@@ -212,6 +212,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Adam De Witt
 - Ade Shinichi
 - Tatsuki Sugiura
+- Ravi Ranganathan
 
 - Jim O'Quinn ($5)
 - Ken ($5)
