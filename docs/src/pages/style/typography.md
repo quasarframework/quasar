@@ -40,3 +40,19 @@ extras: [
   'roboto-font'
 ]
 ```
+
+## Add custom fonts
+It is also possible to include other fonts to use them in the app.
+* Copy your new font `[customfont].ttf` in a directory of your choice, for example: `./src/themes/fonts/[customfont.ttf]`
+* Declare your font in `./src/themes/app.variables.styl`:
+```stylus
+@font-face
+  font-family customfont
+  src url(../src/themes/fonts/customfont.ttf)
+```
+* Reference your custom font in the vue-component, where you want it to be used. Example:
+```css
+.title {
+  font-family: 'customfont';
+}
+```
