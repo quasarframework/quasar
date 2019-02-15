@@ -1,3 +1,5 @@
+import Platform from '../plugins/Platform.js'
+
 export function clearSelection () {
   if (window.getSelection !== void 0) {
     const selection = window.getSelection()
@@ -6,7 +8,7 @@ export function clearSelection () {
     }
     else if (selection.removeAllRanges !== void 0) {
       selection.removeAllRanges()
-      selection.addRange(document.createRange())
+      Platform.is.mobile !== true && selection.addRange(document.createRange())
     }
   }
   else if (document.selection !== void 0) {

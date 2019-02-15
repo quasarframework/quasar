@@ -17,7 +17,7 @@
         <div v-if="info" class="custom-info">
           <pre>{{ info }}</pre>
         </div>
-        <div v-else class="text-center">
+        <div v-else class="text-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_upward" />
           <div class="row items-center">
             <q-icon name="arrow_back" />
@@ -52,7 +52,7 @@
         <div v-if="infoHorizontal" class="custom-info">
           <pre>{{ infoHorizontal }}</pre>
         </div>
-        <div v-else class="row items-center">
+        <div v-else class="row items-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_back" />
           <div>Pan to left or right only</div>
           <q-icon name="arrow_forward" />
@@ -75,7 +75,7 @@
         <div v-if="infoVertical" class="custom-info">
           <pre>{{ infoVertical }}</pre>
         </div>
-        <div v-else class="text-center">
+        <div v-else class="text-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_upward" />
           <div>
             Pan to up or down only
