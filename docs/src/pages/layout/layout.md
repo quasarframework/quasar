@@ -23,6 +23,14 @@ In the card below we're installing all Quasar components related to a QLayout, b
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
+::: warning The Layout Builder might use components not already inserted into quasar.conf.js
+You are likely going to need the following components - QLayout, QHeader, QToolbar, QToolbarTitle, QBtn, QAvatar, QTabs, QRouteTab, QDrawer, QPageContainer, QFooter.
+:::
+
+::: tip
+Keep an eye on your developer console for handy helpers on which components are being used but not declared in your quasar.conf.js file.
+:::
+
 <q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
