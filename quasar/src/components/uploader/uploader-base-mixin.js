@@ -408,7 +408,6 @@ export default {
         'q-uploader--bordered': this.bordered,
         'q-uploader--square no-border-radius': this.square,
         'q-uploader--flat no-shadow': this.flat,
-        'inline': this.inline,
         'disabled q-uploader--disable': this.disable
       },
       on: this.editable === true && this.isIdle === true
