@@ -16,6 +16,12 @@
       <q-input rounded outlined v-model="text" label="Rounded outlined" />
 
       <q-input rounded standout v-model="text" label="Rounded standout" />
+
+      <q-input square filled v-model="text" label="Square filled" />
+
+      <q-input square outlined v-model="text" label="Square outlined" />
+
+      <q-input square standout v-model="text" label="Square standout" />
     </div>
   </div>
 </template>

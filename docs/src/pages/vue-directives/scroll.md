@@ -2,6 +2,7 @@
 title: Directive v-scroll
 related:
   - /vue-directives/scroll-fire
+  - /vue-components/scroll-observer
 ---
 This is a Vue directive which takes one parameter (a Function) and fires when user scrolls the page containing that DOM node.
 

@@ -42,6 +42,12 @@ The `rounded` prop only works along with Filled, Outlined and Standout designs, 
 
 <doc-example title="Rounded" file="QInput/Rounded" />
 
+### Square borders
+
+The `square` prop only makes sense along with Filled, Outlined and Standout designs, as showcased in the example below:
+
+<doc-example title="Square borders" file="QInput/SquareBorders" />
+
 ### Dark background
 
 <doc-example title="Dark" file="QInput/Dark" dark />

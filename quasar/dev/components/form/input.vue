@@ -12,6 +12,7 @@
         <q-toggle :dark="dark" v-model="hideHint" label="Hide Hint" />
         <q-toggle :dark="dark" v-model="textarea" label="Textarea" />
         <q-toggle :dark="dark" v-model="autogrow" label="Auto Grow (converts to textarea)" />
+        <q-toggle :dark="dark" v-model="square" label="Force square borders" />
         <q-input :dark="dark" v-model="rows" :disable="textarea !== true || autogrow === true" label="Rows (for textarea)" class="inline" />
       </div>
 
@@ -353,6 +354,7 @@ export default {
       prefSuf: false,
       hideHint: false,
       bottomSlots: true,
+      square: false,
 
       textarea: false,
       autogrow: false,
@@ -395,7 +397,8 @@ export default {
         readonly: this.readonly,
         prefix: this.prefix,
         suffix: this.suffix,
-        dense: this.dense
+        dense: this.dense,
+        square: this.square
       }
 
       if (this.rows !== '') {

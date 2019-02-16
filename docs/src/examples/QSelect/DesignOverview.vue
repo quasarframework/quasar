@@ -16,6 +16,12 @@
       <q-select rounded outlined v-model="model" :options="options" label="Rounded outlined" />
 
       <q-select rounded standout v-model="model" :options="options" label="Rounded standout" />
+
+      <q-select square filled v-model="model" :options="options" label="Square filled" />
+
+      <q-select square outlined v-model="model" :options="options" label="Square outlined" />
+
+      <q-select square standout v-model="model" :options="options" label="Square standout" />
     </div>
   </div>
 </template>

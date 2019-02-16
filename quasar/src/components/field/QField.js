@@ -27,6 +27,8 @@ export default Vue.extend({
     borderless: Boolean,
     standout: Boolean,
 
+    square: Boolean,
+
     bottomSlots: Boolean,
     rounded: Boolean,
     dense: Boolean,
@@ -61,6 +63,7 @@ export default Vue.extend({
 
         [`q-field--${this.styleType}`]: true,
         'q-field--rounded': this.rounded,
+        'q-field--square': this.square,
 
         'q-field--focused': this.focused === true || this.hasError === true,
         'q-field--float': this.floatingLabel || this.hasError === true,
