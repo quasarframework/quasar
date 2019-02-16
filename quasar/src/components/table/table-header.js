@@ -8,11 +8,12 @@ export default {
       const child = [ this.getTableHeaderRow(h) ]
 
       if (this.loading === true) {
-        child.push(h('tr', { staticClass: 'q-table__progress q-animate--fade' }, [
-          h('td', { attrs: {colspan: '100%'} }, [
+        child.push(h('tr', { staticClass: 'q-table__progress' }, [
+          h('td', { staticClass: 'relative-position', attrs: {colspan: '100%'} }, [
             h(QLinearProgress, {
               props: {
                 color: this.color,
+                dark: this.dark,
                 indeterminate: true
               },
               style: { height: '2px' }
