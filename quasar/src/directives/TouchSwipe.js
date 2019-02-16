@@ -63,19 +63,31 @@ export default {
 
       mouseStart (evt) {
         if (leftClick(evt)) {
-          document.addEventListener('mousemove', ctx.move)
-          document.addEventListener('mouseup', ctx.mouseEnd)
-          ctx.start(evt)
+          document.addEventListener('mousemove', ctx.move, true)
+          document.addEventListener('click', ctx.mouseEnd, true)
+          ctx.start(evt, true)
         }
       },
 
       mouseEnd (evt) {
-        document.removeEventListener('mousemove', ctx.move)
-        document.removeEventListener('mouseup', ctx.mouseEnd)
+        document.removeEventListener('mousemove', ctx.move, true)
+        document.removeEventListener('click', ctx.mouseEnd, true)
         ctx.end(evt)
       },
 
-      start (evt) {
+      start (evt, mouseEvent) {
+        if (ctx.touchTargetObserver !== void 0) {
+          ctx.touchTargetObserver.disconnect()
+          ctx.touchTargetObserver = void 0
+        }
+        const target = evt.target
+        ctx.touchTargetObserver = new MutationObserver(() => {
+          if (el.contains(target) === false) {
+            ctx[mouseEvent === true ? 'mouseEnd' : 'end'](evt)
+          }
+        })
+        ctx.touchTargetObserver.observe(el, { childList: true, subtree: true })
+
         const pos = position(evt)
 
         ctx.event = {
@@ -184,8 +196,7 @@ export default {
 
         if (ctx.event.dir !== false) {
           stopAndPrevent(evt)
-          document.body.classList.add('no-pointer-events')
-          document.body.classList.add('non-selectable')
+
           clearSelection()
 
           ctx.handler({
@@ -204,10 +215,13 @@ export default {
       },
 
       end (evt) {
+        if (ctx.touchTargetObserver !== void 0) {
+          ctx.touchTargetObserver.disconnect()
+          ctx.touchTargetObserver = void 0
+        }
+
         if (ctx.event.abort === false && ctx.event.dir !== false) {
           stopAndPrevent(evt)
-          document.body.classList.remove('no-pointer-events')
-          document.body.classList.remove('non-selectable')
         }
       }
     }
@@ -218,12 +232,13 @@ export default {
 
     el.__qtouchswipe = ctx
 
-    if (mouse) {
+    if (mouse === true) {
       el.addEventListener('mousedown', ctx.mouseStart)
     }
 
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('touchmove', ctx.move)
+    el.addEventListener('touchcancel', ctx.end)
     el.addEventListener('touchend', ctx.end)
   },
 
@@ -233,13 +248,24 @@ export default {
     }
   },
 
-  unbind (el) {
+  unbind (el, binding) {
     const ctx = el.__qtouchswipe_old || el.__qtouchswipe
     if (ctx !== void 0) {
-      el.removeEventListener('mousedown', ctx.mouseStart)
+      if (ctx.touchTargetObserver !== void 0) {
+        ctx.touchTargetObserver.disconnect()
+        ctx.touchTargetObserver = void 0
+      }
+
+      if (binding.modifiers.mouse === true) {
+        el.removeEventListener('mousedown', ctx.mouseStart)
+        document.removeEventListener('mousemove', ctx.move, true)
+        document.removeEventListener('click', ctx.mouseEnd, true)
+      }
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchmove', ctx.move)
+      el.removeEventListener('touchcancel', ctx.end)
       el.removeEventListener('touchend', ctx.end)
+
       delete el[el.__qtouchswipe_old ? '__qtouchswipe_old' : '__qtouchswipe']
     }
   }

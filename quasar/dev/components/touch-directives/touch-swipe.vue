@@ -14,7 +14,7 @@
         <div v-if="info" class="custom-info">
           <pre>{{ info }}</pre>
         </div>
-        <div v-else class="text-center">
+        <div v-else class="text-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_upward" />
           <div class="row items-center">
             <q-icon name="arrow_back" />
@@ -39,7 +39,7 @@
         <div v-if="infoRight" class="custom-info">
           <pre>{{ infoRight }}</pre>
         </div>
-        <div v-else>
+        <div v-else class="q-pa-xl custom-area-placeholder">
           Swipe to right only
           <q-icon name="arrow_forward" />
         </div>
@@ -54,7 +54,7 @@
         <div v-if="infoCustom" class="custom-info">
           <pre>{{ infoCustom }}</pre>
         </div>
-        <div v-else class="text-center">
+        <div v-else class="text-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_upward" />
           <div class="row items-center">
             <div>Swipe up or right</div>

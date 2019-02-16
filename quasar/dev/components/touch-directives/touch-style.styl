@@ -15,6 +15,19 @@
       outline 1px solid $grey
       outline-offset 3px
 
+    &-placeholder
+      position relative
+
+      &:after
+        content ''
+        position absolute
+        top 0
+        bottom 0
+        left 0
+        right 0
+        pointer-events none
+        background-color rgba(150, 150, 150, .3)
+
   .custom-info pre
     width 250px
 
