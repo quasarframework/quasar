@@ -196,7 +196,6 @@ export default {
 
         if (ctx.event.dir !== false) {
           stopAndPrevent(evt)
-
           clearSelection()
 
           ctx.handler({

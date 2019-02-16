@@ -4,7 +4,7 @@
 
     <q-list bordered separator>
 
-      <q-slide-item @left="onLeft" @right="onRight">
+      <q-slide-item @left="onLeft" @right="onRight" @click.native="onClickItem">
         <q-icon slot="left" name="done" />
         <q-icon slot="right" name="alarm" />
 
@@ -142,6 +142,10 @@ export default {
       setTimeout(() => {
         reset()
       }, 1000)
+    },
+
+    onClickItem () {
+      console.log('clicked on item')
     },
 
     onClick () {

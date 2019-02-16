@@ -45,7 +45,7 @@ function processChanges (evt, ctx, isFinal) {
     position: pos,
     direction,
     isFirst: ctx.event.isFirst,
-    isFinal,
+    isFinal: isFinal === true,
     isMouse: ctx.event.mouse,
     duration: new Date().getTime() - ctx.event.time,
     distance: {
@@ -181,6 +181,9 @@ export default {
         }
 
         if (ctx.event.abort !== true) {
+          document.documentElement.style.cursor = 'grabbing'
+          document.body.classList.add('no-pointer-events')
+          document.body.classList.add('non-selectable')
           clearSelection()
         }
 
@@ -192,6 +195,10 @@ export default {
           ctx.targetObserver.disconnect()
           ctx.targetObserver = void 0
         }
+
+        document.documentElement.style.cursor = ''
+        document.body.classList.remove('no-pointer-events')
+        document.body.classList.remove('non-selectable')
 
         if (ctx.event.abort === true || ctx.event.detected !== true || ctx.event.isFirst === true) {
           return
@@ -239,6 +246,10 @@ export default {
         ctx.targetObserver.disconnect()
         ctx.targetObserver = void 0
       }
+
+      document.documentElement.style.cursor = ''
+      document.body.classList.remove('no-pointer-events')
+      document.body.classList.remove('non-selectable')
 
       const
         mouse = binding.modifiers.mouse === true,

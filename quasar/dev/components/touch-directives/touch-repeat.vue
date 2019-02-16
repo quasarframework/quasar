@@ -35,9 +35,9 @@
         <div v-else class="q-pa-xl custom-area-placeholder">Click/touch or press SPACE/ENTER/H and hold</div>
       </div>
 
-      <p class="caption">Configured to also react to <kbd>ENTER</kbd> and <kbd>h</kbd>, with 200:300* (ms) repeat pattern:</p>
+      <p class="caption">Configured to also react to <kbd>ENTER</kbd> and <kbd>h</kbd>, with 1000:300* (ms) repeat pattern:</p>
       <div
-        v-touch-repeat:200:300.mouse.enter.72.104="handleHold3"
+        v-touch-repeat:1000:300.mouse.enter.72.104="handleHold3"
         class="custom-area row flex-center"
         tabindex="0"
       >
@@ -82,9 +82,9 @@ export default {
       // native Javascript event
       console.log(evt)
     },
-    handleHold3 ({ keyboard, startTime, duration, repeatCount, evt }) {
-      this.info3 = { keyboard, startTime, duration, repeatCount }
-      if (keyboard) {
+    handleHold3 ({ evt, ...info }) {
+      this.info3 = info
+      if (info.keyboard) {
         this.info3.key = evt.key
         this.info3.code = evt.code
       }

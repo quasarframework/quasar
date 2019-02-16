@@ -38,7 +38,8 @@ export const PanelParentMixin = {
           name: 'touch-swipe',
           value: this.__swipe,
           modifiers: {
-            horizontal: true
+            horizontal: true,
+            mouse: true
           }
         }]
       }

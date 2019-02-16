@@ -1,5 +1,6 @@
 import { position, leftClick, stopAndPrevent } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
+import Platform from '../plugins/Platform.js'
 
 function updateBinding (el, binding) {
   const ctx = el.__qtouchhold
@@ -47,12 +48,18 @@ export default {
 
         const startTime = new Date().getTime()
 
-        document.body.classList.add('non-selectable')
-        clearSelection()
+        if (Platform.is.mobile === true) {
+          document.body.classList.add('non-selectable')
+          clearSelection()
+        }
 
         ctx.triggered = false
 
         ctx.timer = setTimeout(() => {
+          if (Platform.is.mobile !== true) {
+            document.body.classList.add('non-selectable')
+            clearSelection()
+          }
           ctx.triggered = true
 
           ctx.handler({

@@ -1,5 +1,6 @@
 import { position, leftClick, stopAndPrevent } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
+import Platform from '../plugins/Platform.js'
 
 const
   keyCodes = {
@@ -19,16 +20,14 @@ export default {
   name: 'touch-repeat',
 
   bind (el, binding) {
-    const
-      mouse = binding.modifiers.mouse === true,
-      keyboard = Object.keys(binding.modifiers).reduce((acc, key) => {
-        if (keyRegex.test(key)) {
-          const keyCode = parseInt(key, 10)
-          acc.push(keyCode || keyCodes[key.toLowerCase()])
-        }
+    const keyboard = Object.keys(binding.modifiers).reduce((acc, key) => {
+      if (keyRegex.test(key)) {
+        const keyCode = parseInt(key, 10)
+        acc.push(keyCode || keyCodes[key.toLowerCase()])
+      }
 
-        return acc
-      }, [])
+      return acc
+    }, [])
 
     const durations = typeof binding.arg === 'string' && binding.arg.length
       ? binding.arg.split(':').map(val => parseInt(val, 10))
@@ -56,6 +55,14 @@ export default {
 
       keyboardStart (evt) {
         if (keyboard.includes(evt.keyCode)) {
+          if (durations[0] === 0 || ctx.event !== void 0) {
+            stopAndPrevent(evt)
+
+            if (ctx.event !== void 0) {
+              return
+            }
+          }
+
           document.addEventListener('keyup', ctx.keyboardEnd, true)
           ctx.start(evt, false, true)
         }
@@ -87,9 +94,9 @@ export default {
         })
         ctx.touchTargetObserver.observe(el, { childList: true, subtree: true })
 
-        if (ctx.event !== void 0) {
-          stopAndPrevent(evt)
-          return
+        if (Platform.is.mobile === true) {
+          document.body.classList.add('non-selectable')
+          clearSelection()
         }
 
         ctx.event = {
@@ -103,8 +110,11 @@ export default {
           if (ctx.event && ctx.event.repeatCount === 0) {
             ctx.event.evt = evt
             ctx.event.position = position(evt)
-            document.body.classList.add('non-selectable')
-            clearSelection()
+            if (Platform.is.mobile !== true) {
+              document.documentElement.style.cursor = 'pointer'
+              document.body.classList.add('non-selectable')
+              clearSelection()
+            }
           }
 
           ctx.event.duration = new Date().getTime() - ctx.event.startTime
@@ -119,22 +129,17 @@ export default {
           ctx.timer = setTimeout(fn, durations[index])
         }
 
-        if (keyboard && durations[0] === 0) {
-          stopAndPrevent(evt)
-          fn()
-        }
-        else {
-          ctx.timer = setTimeout(fn, durations[0])
-        }
+        ctx.timer = setTimeout(fn, durations[0])
       },
 
-      end (evt) {
+      end () {
         if (ctx.touchTargetObserver !== void 0) {
           ctx.touchTargetObserver.disconnect()
           ctx.touchTargetObserver = void 0
         }
 
-        if (ctx.event !== void 0 && ctx.event.repeatCount > 0) {
+        if (Platform.is.mobile === true || (ctx.event !== void 0 && ctx.event.repeatCount > 0)) {
+          document.documentElement.style.cursor = ''
           document.body.classList.remove('non-selectable')
         }
 
@@ -150,7 +155,7 @@ export default {
 
     el.__qtouchrepeat = ctx
 
-    if (mouse === true) {
+    if (binding.modifiers.mouse === true) {
       el.addEventListener('mousedown', ctx.mouseStart)
     }
     if (keyboard.length > 0) {
@@ -178,16 +183,13 @@ export default {
 
       clearTimeout(ctx.timer)
 
-      if (ctx.event !== void 0 && ctx.event.repeatCount > 0) {
+      if (Platform.is.mobile === true || (ctx.event !== void 0 && ctx.event.repeatCount > 0)) {
+        document.documentElement.style.cursor = ''
         document.body.classList.remove('non-selectable')
       }
 
       ctx.timer = void 0
       ctx.event = void 0
-
-      if (ctx.event !== void 0 && ctx.event.repeatCount > 0) {
-        document.body.classList.remove('non-selectable')
-      }
 
       if (binding.modifiers.mouse === true) {
         el.removeEventListener('mousedown', ctx.mouseStart)
