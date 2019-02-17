@@ -50,7 +50,7 @@ export default Vue.extend({
   methods: {
     __getContent (h) {
       if (this.vertical) {
-        this.value && this.__updatePanelIndex()
+        this.__isValidPanelName(this.value) && this.__updatePanelIndex()
         return [
           h('div', { staticClass: 'q-stepper__content' }, slot(this, 'default'))
         ]

@@ -48,10 +48,14 @@ export const PanelParentMixin = {
 
   watch: {
     value (newVal, oldVal) {
-      const index = newVal ? this.__getPanelIndex(newVal) : -1
+      const
+        validNewPanel = this.__isValidPanelName(newVal),
+        index = validNewPanel === true
+          ? this.__getPanelIndex(newVal)
+          : -1
 
       if (this.animated) {
-        this.panelTransition = newVal && this.panelIndex !== -1
+        this.panelTransition = validNewPanel === true && this.panelIndex !== -1
           ? 'q-transition--' + (
             index < this.__getPanelIndex(oldVal)
               ? this.transitionPrev
@@ -81,6 +85,10 @@ export const PanelParentMixin = {
 
     goTo (name) {
       this.$emit('input', name)
+    },
+
+    __isValidPanelName (name) {
+      return name !== void 0 && name !== null && name !== ''
     },
 
     __getPanelIndex (name) {
@@ -152,7 +160,7 @@ export const PanelParentMixin = {
         return
       }
 
-      const panel = this.value &&
+      const panel = this.__isValidPanelName(this.value) &&
         this.__updatePanelIndex() &&
         this.panels[this.panelIndex]
 
