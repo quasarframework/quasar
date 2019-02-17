@@ -153,10 +153,10 @@ function buildEntry (config) {
   return rollup
     .rollup(config.rollup.input)
     .then(bundle => bundle.generate(config.rollup.output))
-    .then(({ code }) => {
+    .then(({ output }) => {
       return config.build.unminified
-        ? buildUtils.writeFile(config.rollup.output.file, code)
-        : code
+        ? buildUtils.writeFile(config.rollup.output.file, output[0].code)
+        : output[0].code
     })
     .then(code => {
       if (!config.build.minified) {
