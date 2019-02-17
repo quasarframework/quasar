@@ -86,7 +86,7 @@ export default Vue.extend({
       const model = this.extModel
       if (model.value === null) { return ' --- ' }
 
-      const date = new Date(model.year, model.month, model.day)
+      const date = new Date(model.year, model.month - 1, model.day)
       if (isNaN(date.valueOf())) { return ' --- ' }
 
       return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
