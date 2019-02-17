@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="q-layout-padding">
-      <p class="caption">Scroll down to see it in action.</p>
+      <p class="caption">
+        Scroll down to see it in action.
+      </p>
 
       <q-toggle v-model="active" label="Active" />
       <q-toggle v-model="disable" label="Disable" class="q-mr-sm" />
@@ -17,10 +19,12 @@
           </div>
 
           <div slot="message" class="row justify-center q-my-md">
-            <q-spinner color="primary" name="dots" :size="40"/>
+            <q-spinner color="primary" name="dots" :size="40" />
           </div>
         </q-infinite-scroll>
-        <div v-else style="height: 300vh">Placeholder for scroll</div>
+        <div v-else style="height: 300vh">
+          Placeholder for scroll
+        </div>
       </div>
     </div>
   </div>

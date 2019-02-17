@@ -15,7 +15,9 @@
         <q-toggle v-model="disable" :dark="dark" label="Disable" />
       </div>
 
-      <div class="text-h6 q-my-md">Run "yarn dev:quploader" / "npm run dev:quploader"</div>
+      <div class="text-h6 q-my-md">
+        Run "yarn dev:quploader" / "npm run dev:quploader"
+      </div>
 
       <div class="q-gutter-sm">
         <q-uploader v-bind="props" multiple url="http://localhost:4444/upload" />
@@ -26,8 +28,12 @@
               <q-btn v-if="scope.uploadedFiles.length > 0" icon="done_all" @click="scope.removeUploadedFiles" round dense flat />
               <q-spinner v-if="scope.isUploading" class="q-uploader__spinner" />
               <div class="col">
-                <div class="q-uploader__title">Upload your files</div>
-                <div class="q-uploader__subtitle">{{ scope.uploadSizeLabel }} / {{ scope.uploadProgressLabel }}</div>
+                <div class="q-uploader__title">
+                  Upload your files
+                </div>
+                <div class="q-uploader__subtitle">
+                  {{ scope.uploadSizeLabel }} / {{ scope.uploadProgressLabel }}
+                </div>
               </div>
               <q-btn v-if="scope.editable" icon="add_box" @click="scope.pickFiles" round dense flat />
               <q-btn v-if="scope.editable && scope.queuedFiles.length > 0" icon="cloud_upload" @click="scope.upload" round dense flat />

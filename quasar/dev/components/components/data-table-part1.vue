@@ -5,60 +5,134 @@
       <q-markup-table :separator="separator" wrap-cells>
         <thead>
           <tr>
-            <th class="text-left">Dessert (100g serving)</th>
-            <th class="text-right">Calories</th>
-            <th class="text-right">Fat (g)</th>
-            <th class="text-right">Carbs (g)</th>
-            <th class="text-right">Protein (g)</th>
-            <th class="text-right">Sodium (mg)</th>
+            <th class="text-left">
+              Dessert (100g serving)
+            </th>
+            <th class="text-right">
+              Calories
+            </th>
+            <th class="text-right">
+              Fat (g)
+            </th>
+            <th class="text-right">
+              Carbs (g)
+            </th>
+            <th class="text-right">
+              Protein (g)
+            </th>
+            <th class="text-right">
+              Sodium (mg)
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="text-left">Frozen Yogurt</td>
-            <td class="text-right">159</td>
-            <td class="text-right">6</td>
-            <td class="text-right">24</td>
-            <td class="text-right">4</td>
-            <td class="text-right">87</td>
+            <td class="text-left">
+              Frozen Yogurt
+            </td>
+            <td class="text-right">
+              159
+            </td>
+            <td class="text-right">
+              6
+            </td>
+            <td class="text-right">
+              24
+            </td>
+            <td class="text-right">
+              4
+            </td>
+            <td class="text-right">
+              87
+            </td>
           </tr>
           <tr>
-            <td class="text-left">Ice cream sandwich</td>
-            <td class="text-right">237</td>
-            <td class="text-right">9</td>
-            <td class="text-right">37</td>
-            <td class="text-right">4.3</td>
-            <td class="text-right">129</td>
+            <td class="text-left">
+              Ice cream sandwich
+            </td>
+            <td class="text-right">
+              237
+            </td>
+            <td class="text-right">
+              9
+            </td>
+            <td class="text-right">
+              37
+            </td>
+            <td class="text-right">
+              4.3
+            </td>
+            <td class="text-right">
+              129
+            </td>
           </tr>
           <tr>
-            <td class="text-left">Eclair</td>
-            <td class="text-right">262</td>
-            <td class="text-right">16</td>
-            <td class="text-right">23</td>
-            <td class="text-right">6</td>
-            <td class="text-right">337</td>
+            <td class="text-left">
+              Eclair
+            </td>
+            <td class="text-right">
+              262
+            </td>
+            <td class="text-right">
+              16
+            </td>
+            <td class="text-right">
+              23
+            </td>
+            <td class="text-right">
+              6
+            </td>
+            <td class="text-right">
+              337
+            </td>
           </tr>
           <tr>
-            <td class="text-left">Cupcake</td>
-            <td class="text-right">305</td>
-            <td class="text-right">3.7</td>
-            <td class="text-right">67</td>
-            <td class="text-right">4.3</td>
-            <td class="text-right">413</td>
+            <td class="text-left">
+              Cupcake
+            </td>
+            <td class="text-right">
+              305
+            </td>
+            <td class="text-right">
+              3.7
+            </td>
+            <td class="text-right">
+              67
+            </td>
+            <td class="text-right">
+              4.3
+            </td>
+            <td class="text-right">
+              413
+            </td>
           </tr>
           <tr>
-            <td class="text-left">Gingerbread</td>
-            <td class="text-right">356</td>
-            <td class="text-right">16</td>
-            <td class="text-right">49</td>
-            <td class="text-right">3.9</td>
-            <td class="text-right">327</td>
+            <td class="text-left">
+              Gingerbread
+            </td>
+            <td class="text-right">
+              356
+            </td>
+            <td class="text-right">
+              16
+            </td>
+            <td class="text-right">
+              49
+            </td>
+            <td class="text-right">
+              3.9
+            </td>
+            <td class="text-right">
+              327
+            </td>
           </tr>
         </tbody>
       </q-markup-table>
 
       <h2>Popup editing</h2>
-      <p class="caption">Click on Dessert or Calories cells.</p>
+      <p class="caption">
+        Click on Dessert or Calories cells.
+      </p>
       <q-table
         :data="data"
         :columns="columns"
@@ -92,7 +166,9 @@
               </q-popup-edit>
             </q-td>
             <q-td key="fat" :props="props">
-              <div class="text-pre-wrap">{{ props.row.fat }}</div>
+              <div class="text-pre-wrap">
+                {{ props.row.fat }}
+              </div>
               <q-popup-edit v-model="props.row.fat">
                 <q-input type="textarea" v-model="props.row.fat" dense autofocus />
               </q-popup-edit>
@@ -109,9 +185,15 @@
                 <q-input v-model="props.row.protein" dense autofocus counter />
               </q-popup-edit>
             </q-td>
-            <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
-            <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
-            <q-td key="iron" :props="props">{{ props.row.iron }}</q-td>
+            <q-td key="sodium" :props="props">
+              {{ props.row.sodium }}
+            </q-td>
+            <q-td key="calcium" :props="props">
+              {{ props.row.calcium }}
+            </q-td>
+            <q-td key="iron" :props="props">
+              {{ props.row.iron }}
+            </q-td>
           </q-tr>
         </template>
       </q-table>
@@ -150,7 +232,9 @@
                     <q-item-label>{{ col.label }}</q-item-label>
                   </q-item-section>
                   <q-item-section side>
-                    <q-item-label caption>{{ col.value }}</q-item-label>
+                    <q-item-label caption>
+                      {{ col.value }}
+                    </q-item-label>
                   </q-item-section>
                 </q-item>
               </q-list>
@@ -247,9 +331,13 @@
         <template v-slot:body-cell-desc="props">
           <q-td :props="props">
             <div class="q-mb-xs">
-              <q-badge color="secondary">{{ props.value }}</q-badge>
+              <q-badge color="secondary">
+                {{ props.value }}
+              </q-badge>
             </div>
-            <q-badge color="secondary">{{ props.value }}</q-badge>
+            <q-badge color="secondary">
+              {{ props.value }}
+            </q-badge>
           </q-td>
         </template>
       </q-table>
@@ -397,15 +485,25 @@
             <q-td key="calories" :props="props">
               {{ props.row.calories }}
             </q-td>
-            <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>
-            <q-td key="carbs" :props="props">{{ props.row.carbs }}</q-td>
-            <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
-            <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
+            <q-td key="fat" :props="props">
+              {{ props.row.fat }}
+            </q-td>
+            <q-td key="carbs" :props="props">
+              {{ props.row.carbs }}
+            </q-td>
+            <q-td key="protein" :props="props">
+              {{ props.row.protein }}
+            </q-td>
+            <q-td key="sodium" :props="props">
+              {{ props.row.sodium }}
+            </q-td>
             <q-td key="calcium" :props="props">
               <q-btn loading color="secondary" icon="sms_failed" @click="($event, done) => { notifyWithProps(done, props) }" :label="props.row.calcium" />
             </q-td>
             <q-td key="iron" :props="props">
-              <q-badge color="amber">{{ props.row.iron }}</q-badge>
+              <q-badge color="amber">
+                {{ props.row.iron }}
+              </q-badge>
             </q-td>
           </q-tr>
         </template>
@@ -509,19 +607,35 @@
               <q-checkbox :color="color" v-model="props.expand" checked-icon="remove" unchecked-icon="add" />
               %%% {{ props.row.name }} %%%
             </q-td>
-            <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
-            <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>
-            <q-td key="carbs" :props="props">{{ props.row.carbs }}</q-td>
-            <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
-            <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
-            <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
+            <q-td key="calories" :props="props">
+              {{ props.row.calories }}
+            </q-td>
+            <q-td key="fat" :props="props">
+              {{ props.row.fat }}
+            </q-td>
+            <q-td key="carbs" :props="props">
+              {{ props.row.carbs }}
+            </q-td>
+            <q-td key="protein" :props="props">
+              {{ props.row.protein }}
+            </q-td>
+            <q-td key="sodium" :props="props">
+              {{ props.row.sodium }}
+            </q-td>
+            <q-td key="calcium" :props="props">
+              {{ props.row.calcium }}
+            </q-td>
             <q-td key="iron" :props="props">
-              <q-badge square color="amber">{{ props.row.iron }}</q-badge>
+              <q-badge square color="amber">
+                {{ props.row.iron }}
+              </q-badge>
             </q-td>
           </q-tr>
           <q-tr v-show="props.expand" :props="props">
             <q-td colspan="100%">
-              <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
+              <div class="text-left">
+                This is expand slot for row above: {{ props.row.name }}.
+              </div>
             </q-td>
           </q-tr>
         </template>

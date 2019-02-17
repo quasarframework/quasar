@@ -88,7 +88,9 @@
         </div>
       </div>
 
-      <p class="caption">For desktops, you can configure to avoid capturing mouse pans if you wish.</p>
+      <p class="caption">
+        For desktops, you can configure to avoid capturing mouse pans if you wish.
+      </p>
     </div>
   </div>
 </template>

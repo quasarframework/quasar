@@ -17,7 +17,9 @@
           <q-space />
           <q-toggle dense v-model="extraRow" color="amber" dark label="Extra row" />
           <q-btn round dense flat class="relative-position q-mx-md" icon="announcement" to="/">
-            <q-badge floating color="red" text-color="white">1</q-badge>
+            <q-badge floating color="red" text-color="white">
+              1
+            </q-badge>
           </q-btn>
           <q-btn flat round dense icon="colorize">
             <q-menu>
@@ -85,9 +87,15 @@
           style="height: calc(100% - 204px); margin-top: 204px"
         >
           <div class="q-pa-sm">
-            <q-btn to="/layout-quick/a">Go to A</q-btn>
-            <q-btn to="/layout-quick/b">Go to B</q-btn>
-            <q-btn to="/layout-quick/c">Go to C</q-btn>
+            <q-btn to="/layout-quick/a">
+              Go to A
+            </q-btn>
+            <q-btn to="/layout-quick/b">
+              Go to B
+            </q-btn>
+            <q-btn to="/layout-quick/c">
+              Go to C
+            </q-btn>
 
             <br><br>fffdfs
             {{ right }}
@@ -95,10 +103,18 @@
 
             <q-slider v-model="slider" />
 
-            <q-btn to="/layout-quick/a" replace>Replace Go to A</q-btn>
-            <q-btn to="/layout-quick/b" replace>Replace Go to B</q-btn>
-            <q-btn to="/layout-quick/c" replace>Replace Go to C</q-btn>
-            <div v-for="n in 30" :key="n">{{ n }} Left drawer</div>
+            <q-btn to="/layout-quick/a" replace>
+              Replace Go to A
+            </q-btn>
+            <q-btn to="/layout-quick/b" replace>
+              Replace Go to B
+            </q-btn>
+            <q-btn to="/layout-quick/c" replace>
+              Replace Go to C
+            </q-btn>
+            <div v-for="n in 30" :key="n">
+              {{ n }} Left drawer
+            </div>
           </div>
         </q-scroll-area>
 
@@ -107,7 +123,9 @@
             <q-avatar size="56px" class="q-mb-sm">
               <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
             </q-avatar>
-            <div class="text-weight-bold">Razvan Stoenescu</div>
+            <div class="text-weight-bold">
+              Razvan Stoenescu
+            </div>
             <div>@rstoenescu</div>
           </div>
         </q-img>
@@ -160,8 +178,12 @@
             icon="keyboard_arrow_left"
             @click="leftMini = true"
           />
-          <div class="q-mini-drawer-hide">Maxi only</div>
-          <div class="q-mini-drawer-only">Mini only</div>
+          <div class="q-mini-drawer-hide">
+            Maxi only
+          </div>
+          <div class="q-mini-drawer-only">
+            Mini only
+          </div>
           <q-list>
             <q-expansion-item clickable icon="perm_identity" label="With a model and events">
               <q-card>
@@ -171,7 +193,9 @@
               </q-card>
             </q-expansion-item>
 
-            <q-item-label header>Folders</q-item-label>
+            <q-item-label header>
+              Folders
+            </q-item-label>
 
             <q-item to="/layout-quick/a" replace>
               <q-item-section side>
@@ -180,7 +204,9 @@
 
               <q-item-section>
                 <q-item-label>Link A</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
 
               <q-item-section side>
@@ -195,7 +221,9 @@
 
               <q-item-section>
                 <q-item-label>Link B</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
 
               <q-item-section side>
@@ -210,7 +238,9 @@
 
               <q-item-section>
                 <q-item-label>Link C</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
 
               <q-item-section side>
@@ -219,7 +249,9 @@
             </q-item>
 
             <q-separator spaced />
-            <q-item-label header>Files</q-item-label>
+            <q-item-label header>
+              Files
+            </q-item-label>
 
             <q-item clickable>
               <q-item-section side>
@@ -228,7 +260,9 @@
 
               <q-item-section>
                 <q-item-label>Link C</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
 
               <q-item-section side>
@@ -243,7 +277,9 @@
 
               <q-item-section>
                 <q-item-label>Link C</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
 
               <q-item-section side>
@@ -252,7 +288,9 @@
             </q-item>
 
             <q-separator spaced />
-            <q-item-label header>People</q-item-label>
+            <q-item-label header>
+              People
+            </q-item-label>
 
             <q-item v-for="n in 3" :key="'item.' + n">
               <q-item-section side>
@@ -397,7 +435,9 @@
     <q-dialog v-model="toggle">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Dialog</div>
+          <div class="text-h6">
+            Dialog
+          </div>
         </q-card-section>
 
         <q-card-section>

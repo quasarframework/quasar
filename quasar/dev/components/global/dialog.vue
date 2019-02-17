@@ -26,7 +26,9 @@
     <q-dialog v-model="alert">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Alert</div>
+          <div class="text-h6">
+            Alert
+          </div>
         </q-card-section>
 
         <q-card-section>
@@ -42,7 +44,9 @@
     <q-dialog v-model="persistent" persistent transition-show="scale" transition-hide="scale">
       <q-card class="bg-teal text-white" style="width: 300px">
         <q-card-section>
-          <div class="text-h6">Persistent</div>
+          <div class="text-h6">
+            Persistent
+          </div>
         </q-card-section>
 
         <q-card-section>
@@ -58,7 +62,9 @@
     <q-dialog v-model="icon">
       <q-card>
         <q-card-section class="row items-center">
-          <div class="text-h6">Close icon</div>
+          <div class="text-h6">
+            Close icon
+          </div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-dialog />
         </q-card-section>
@@ -105,12 +111,16 @@
           <q-space />
 
           <q-btn dense flat icon="close" v-close-dialog>
-            <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+            <q-tooltip content-class="bg-white text-primary">
+              Close
+            </q-tooltip>
           </q-btn>
         </q-bar>
 
         <q-card-section>
-          <div class="text-h6">Alert</div>
+          <div class="text-h6">
+            Alert
+          </div>
         </q-card-section>
 
         <q-card-section>
@@ -154,7 +164,9 @@
     <q-dialog v-model="prompt" persistent>
       <q-card style="min-width: 400px">
         <q-card-section>
-          <div class="text-h6">Your address</div>
+          <div class="text-h6">
+            Your address
+          </div>
         </q-card-section>
 
         <q-card-section>
@@ -171,11 +183,15 @@
     <q-dialog v-model="scroll" transition-show="rotate" transition-hide="rotate">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Terms of Agreement</div>
+          <div class="text-h6">
+            Terms of Agreement
+          </div>
         </q-card-section>
 
         <q-card-section>
-          <p v-for="n in 15" :key="n">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.</p>
+          <p v-for="n in 15" :key="n">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+          </p>
         </q-card-section>
 
         <q-card-actions align="right">
@@ -188,13 +204,17 @@
     <q-dialog v-model="scroll2">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Terms of Agreement</div>
+          <div class="text-h6">
+            Terms of Agreement
+          </div>
         </q-card-section>
 
         <q-separator />
 
         <q-card-section style="max-height: 50vh" class="scroll">
-          <p v-for="n in 15" :key="n">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.</p>
+          <p v-for="n in 15" :key="n">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+          </p>
         </q-card-section>
 
         <q-separator />
@@ -212,18 +232,26 @@
           <q-space />
 
           <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
-            <q-tooltip v-if="maximizedToggle" content-class="bg-white text-primary">Minimize</q-tooltip>
+            <q-tooltip v-if="maximizedToggle" content-class="bg-white text-primary">
+              Minimize
+            </q-tooltip>
           </q-btn>
           <q-btn dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle">
-            <q-tooltip v-if="!maximizedToggle" content-class="bg-white text-primary">Maximize</q-tooltip>
+            <q-tooltip v-if="!maximizedToggle" content-class="bg-white text-primary">
+              Maximize
+            </q-tooltip>
           </q-btn>
           <q-btn dense flat icon="close" v-close-dialog>
-            <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+            <q-tooltip content-class="bg-white text-primary">
+              Close
+            </q-tooltip>
           </q-btn>
         </q-bar>
 
         <q-card-section>
-          <div class="text-h6">Alert</div>
+          <div class="text-h6">
+            Alert
+          </div>
         </q-card-section>
 
         <q-card-section>
@@ -238,8 +266,12 @@
 
         <q-card-section class="row items-center no-wrap">
           <div>
-            <div class="text-weight-bold">The Walker</div>
-            <div class="text-grey">Fitz & The Tantrums</div>
+            <div class="text-weight-bold">
+              The Walker
+            </div>
+            <div class="text-grey">
+              Fitz & The Tantrums
+            </div>
           </div>
 
           <q-space />
@@ -257,8 +289,12 @@
 
         <q-card-section class="row items-center no-wrap">
           <div>
-            <div class="text-weight-bold">The Walker</div>
-            <div class="text-grey">Fitz & The Tantrums</div>
+            <div class="text-weight-bold">
+              The Walker
+            </div>
+            <div class="text-grey">
+              Fitz & The Tantrums
+            </div>
           </div>
 
           <q-space />
@@ -290,14 +326,20 @@
         </q-footer>
 
         <q-drawer v-model="drawer" :width="200" :breakpoint="600">
-          <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+          <div v-for="n in 50" :key="n">
+            Drawer {{ n }} / 50
+          </div>
         </q-drawer>
         <q-drawer side="right" v-model="drawerR" :width="200" :breakpoint="300">
-          <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+          <div v-for="n in 50" :key="n">
+            Drawer {{ n }} / 50
+          </div>
         </q-drawer>
         <q-page-container>
           <q-page style="padding-top: 50px" class="bg-yellow">
-            <div v-for="n in contentSize" :key="n">My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}</div>
+            <div v-for="n in contentSize" :key="n">
+              My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}
+            </div>
 
             <q-page-sticky position="top-left" :offset="[18, 58]">
               <q-btn round color="primary" icon="arrow_back" class="rotate-45" />
@@ -327,7 +369,9 @@
     <q-dialog v-model="inception">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Inception</div>
+          <div class="text-h6">
+            Inception
+          </div>
         </q-card-section>
 
         <q-card-section>
@@ -396,7 +440,9 @@
           />
 
           <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">Cafe Basilico</div>
+            <div class="col text-h6 ellipsis">
+              Cafe Basilico
+            </div>
             <div class="col-auto text-grey q-pt-md">
               <q-icon name="place" /> 250 ft
             </div>
@@ -406,18 +452,30 @@
         </q-card-section>
 
         <q-card-section>
-          <div class="text-subtitle1">$・Italian, Cafe</div>
-          <div class="text-subtitle2 text-grey">Small plates, salads & sandwiches in an intimate setting.</div>
+          <div class="text-subtitle1">
+            $・Italian, Cafe
+          </div>
+          <div class="text-subtitle2 text-grey">
+            Small plates, salads & sandwiches in an intimate setting.
+          </div>
         </q-card-section>
 
         <q-separator />
 
         <q-card-actions>
           <q-btn flat round icon="event" v-close-dialog />
-          <q-btn flat v-close-dialog>5:30PM</q-btn>
-          <q-btn flat v-close-dialog>7:30PM</q-btn>
-          <q-btn flat v-close-dialog>9:00PM</q-btn>
-          <q-btn flat color="primary" v-close-dialog>Reserve</q-btn>
+          <q-btn flat v-close-dialog>
+            5:30PM
+          </q-btn>
+          <q-btn flat v-close-dialog>
+            7:30PM
+          </q-btn>
+          <q-btn flat v-close-dialog>
+            9:00PM
+          </q-btn>
+          <q-btn flat color="primary" v-close-dialog>
+            Reserve
+          </q-btn>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -425,10 +483,14 @@
     <q-dialog v-model="sliders">
       <q-card style="width: 300px" class="q-px-sm q-pb-md">
         <q-card-section>
-          <div class="text-h6">Volumes</div>
+          <div class="text-h6">
+            Volumes
+          </div>
         </q-card-section>
 
-        <q-item-label header>Media volume</q-item-label>
+        <q-item-label header>
+          Media volume
+        </q-item-label>
         <q-item dense>
           <q-item-section avatar>
             <q-icon name="volume_up" />
@@ -438,7 +500,9 @@
           </q-item-section>
         </q-item>
 
-        <q-item-label header>Alarm volume</q-item-label>
+        <q-item-label header>
+          Alarm volume
+        </q-item-label>
         <q-item dense>
           <q-item-section avatar>
             <q-icon name="alarm" />
@@ -448,7 +512,9 @@
           </q-item-section>
         </q-item>
 
-        <q-item-label header>Ring volume</q-item-label>
+        <q-item-label header>
+          Ring volume
+        </q-item-label>
         <q-item dense>
           <q-item-section avatar>
             <q-icon name="vibration" />
@@ -460,7 +526,9 @@
       </q-card>
     </q-dialog>
 
-    <div class="text-center text-caption q-mt-xl" style="height: 1500px">Page has scroll on purpose</div>
+    <div class="text-center text-caption q-mt-xl" style="height: 1500px">
+      Page has scroll on purpose
+    </div>
   </div>
 </template>
 

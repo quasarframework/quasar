@@ -31,7 +31,6 @@
     <q-btn push color="teal" label="Refresh" @click="refresh" class="q-my-lg" />
 
     <div class="q-gutter-lg row items-start">
-
       <q-img
         :src="url"
         alt="Image"
@@ -100,7 +99,9 @@
         spinner-color="white"
         style="min-height: 100px; max-width: 225px"
       >
-        <div slot="error">Error...</div>
+        <div slot="error">
+          Error...
+        </div>
       </q-img>
     </div>
   </div>

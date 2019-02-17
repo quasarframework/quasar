@@ -54,7 +54,9 @@
         lazy-rules
       />
 
-      <div class="text-h6 q-mt-xl">External validation</div>
+      <div class="text-h6 q-mt-xl">
+        External validation
+      </div>
       <div class="q-gutter-sm">
         <q-toggle v-model="error" label="Error state" />
         <q-radio v-model="errorMessage" val="First error" label="First error" />
@@ -79,8 +81,12 @@
         :error="error"
         style="margin-bottom: 30px"
       >
-        <div slot="error">Slotted error message</div>
-        <div slot="error">Second slotted error message</div>
+        <div slot="error">
+          Slotted error message
+        </div>
+        <div slot="error">
+          Second slotted error message
+        </div>
       </q-input>
     </div>
   </div>

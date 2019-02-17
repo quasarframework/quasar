@@ -117,14 +117,14 @@ export default {
     prevPage () {
       const { page } = this.computedPagination
       if (page > 1) {
-        this.setPagination({page: page - 1})
+        this.setPagination({ page: page - 1 })
       }
     },
 
     nextPage () {
       const { page, rowsPerPage } = this.computedPagination
       if (this.lastRowIndex > 0 && page * rowsPerPage < this.computedRowsNumber) {
-        this.setPagination({page: page + 1})
+        this.setPagination({ page: page + 1 })
       }
     }
   },

@@ -78,7 +78,9 @@
       </q-carousel-slide>
     </q-carousel>
 
-    <p class="caption">Example creating custom captions for each slide.</p>
+    <p class="caption">
+      Example creating custom captions for each slide.
+    </p>
     <q-carousel
       arrows
       animated
@@ -87,25 +89,39 @@
     >
       <q-carousel-slide name="first" img-src="https://cdn.quasar-framework.org/img/mountains.jpg">
         <div class="absolute-bottom custom-caption">
-          <div class="text-h2">First stop</div>
-          <div class="text-subtitle1">Mountains</div>
+          <div class="text-h2">
+            First stop
+          </div>
+          <div class="text-subtitle1">
+            Mountains
+          </div>
         </div>
       </q-carousel-slide>
       <q-carousel-slide name="second" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg">
         <div class="absolute-bottom custom-caption">
-          <div class="text-h2">Second stop</div>
-          <div class="text-subtitle1">Famous City</div>
+          <div class="text-h2">
+            Second stop
+          </div>
+          <div class="text-subtitle1">
+            Famous City
+          </div>
         </div>
       </q-carousel-slide>
       <q-carousel-slide name="third" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg">
         <div class="absolute-bottom custom-caption">
-          <div class="text-h2">Third stop</div>
-          <div class="text-subtitle1">Famous Bridge</div>
+          <div class="text-h2">
+            Third stop
+          </div>
+          <div class="text-subtitle1">
+            Famous Bridge
+          </div>
         </div>
       </q-carousel-slide>
     </q-carousel>
 
-    <p class="caption">Carousel with Arrows, Navigation, and Slides with images.</p>
+    <p class="caption">
+      Carousel with Arrows, Navigation, and Slides with images.
+    </p>
     <q-carousel
       swipeable
       animated
@@ -131,7 +147,9 @@
       </q-carousel-control>
     </q-carousel>
 
-    <p class="caption">Carousel with Arrows, Navigation, and Slides with images.</p>
+    <p class="caption">
+      Carousel with Arrows, Navigation, and Slides with images.
+    </p>
     <q-carousel
       swipeable
       animated
@@ -146,7 +164,9 @@
       <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
     </q-carousel>
 
-    <p class="caption">Carousel with control slots.</p>
+    <p class="caption">
+      Carousel with control slots.
+    </p>
     <q-carousel
       swipeable
       animated

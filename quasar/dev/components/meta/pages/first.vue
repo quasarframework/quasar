@@ -1,6 +1,8 @@
 <template>
   <q-page padding>
-    <h5 class="text-primary">Page first</h5>
+    <h5 class="text-primary">
+      Page first
+    </h5>
     <h3>Layout 1</h3>
     <q-btn-group>
       <q-btn color="primary" to="/meta/layout_1/first" label="first" />

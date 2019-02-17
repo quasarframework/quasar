@@ -9,7 +9,7 @@ export default {
 
       if (this.loading === true) {
         child.push(h('tr', { staticClass: 'q-table__progress' }, [
-          h('td', { staticClass: 'relative-position', attrs: {colspan: '100%'} }, [
+          h('td', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
             h(QLinearProgress, {
               props: {
                 color: this.color,
@@ -31,13 +31,17 @@ export default {
         headerCell = this.$scopedSlots['header-cell']
 
       if (header !== void 0) {
-        return header(this.addTableHeaderRowMeta({header: true, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap}))
+        return header(this.addTableHeaderRowMeta({
+          header: true, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
+        }))
       }
 
       let mapFn
 
       if (headerCell !== void 0) {
-        mapFn = col => headerCell({col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap})
+        mapFn = col => headerCell({
+          col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
+        })
       }
       else {
         mapFn = col => h(QTh, {

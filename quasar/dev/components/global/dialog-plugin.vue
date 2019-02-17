@@ -14,7 +14,9 @@
       </div>
     </div>
 
-    <div class="text-center text-caption q-mt-xl" style="height: 1500px">Page has scroll on purpose</div>
+    <div class="text-center text-caption q-mt-xl" style="height: 1500px">
+      Page has scroll on purpose
+    </div>
   </div>
 </template>
 
@@ -80,9 +82,9 @@ export default {
           model: 'opt1',
           // inline: true
           items: [
-            {label: 'Option 1', value: 'opt1', color: 'secondary'},
-            {label: 'Option 2', value: 'opt2'},
-            {label: 'Option 3', value: 'opt3'}
+            { label: 'Option 1', value: 'opt1', color: 'secondary' },
+            { label: 'Option 2', value: 'opt2' },
+            { label: 'Option 3', value: 'opt3' }
           ]
         },
         cancel: true,
@@ -103,9 +105,9 @@ export default {
           model: [],
           // inline: true
           items: [
-            {label: 'Option 1', value: 'opt1', color: 'secondary'},
-            {label: 'Option 2', value: 'opt2'},
-            {label: 'Option 3', value: 'opt3'}
+            { label: 'Option 1', value: 'opt1', color: 'secondary' },
+            { label: 'Option 2', value: 'opt2' },
+            { label: 'Option 3', value: 'opt3' }
           ]
         },
         cancel: true,
@@ -126,9 +128,9 @@ export default {
           model: [],
           // inline: true,
           items: [
-            {label: 'Option 1', value: 'opt1', color: 'secondary'},
-            {label: 'Option 2', value: 'opt2'},
-            {label: 'Option 3', value: 'opt3'}
+            { label: 'Option 1', value: 'opt1', color: 'secondary' },
+            { label: 'Option 2', value: 'opt2' },
+            { label: 'Option 3', value: 'opt3' }
           ]
         },
         cancel: true,

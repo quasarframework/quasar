@@ -21,7 +21,9 @@
                     :input="inputType"
       />
 
-      <p class="caption">Inline</p>
+      <p class="caption">
+        Inline
+      </p>
       <q-pagination class="inline" @change="onChange" @input="onInput" v-model="page"
                     :min="min"
                     :max="max"
@@ -37,7 +39,9 @@
                     :input="inputType"
       />
 
-      <p class="caption">Disabled State</p>
+      <p class="caption">
+        Disabled State
+      </p>
       <q-pagination @change="onChange" @input="onInput" v-model="page" disable
                     :min="min"
                     :max="max"
@@ -46,7 +50,9 @@
                     :input="inputType"
       />
 
-      <p class="caption">Page buttons</p>
+      <p class="caption">
+        Page buttons
+      </p>
       <q-pagination @change="onChange" @input="onInput" v-model="page" color="red" type="select"
                     :min="min"
                     :max="max"
@@ -58,7 +64,9 @@
                     :input="inputType"
       />
 
-      <p class="caption">Page buttons - disabled</p>
+      <p class="caption">
+        Page buttons - disabled
+      </p>
       <q-pagination @change="onChange" @input="onInput" v-model="page" color="red" type="select" disable
                     :min="min"
                     :max="max"
@@ -70,7 +78,9 @@
                     :input="inputType"
       />
 
-      <p class="caption">Configuration</p>
+      <p class="caption">
+        Configuration
+      </p>
       <div class="row q-gutter-sm items-center">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-input type="number" v-model="min" filled stack-label label="Minimum page number" />
@@ -115,9 +125,9 @@ export default {
       ellipses: null,
       maxPages: 5,
       options: [
-        {label: 'Yes', value: true},
-        {label: 'No', value: false},
-        {label: 'Default', value: null}
+        { label: 'Yes', value: true },
+        { label: 'No', value: false },
+        { label: 'Default', value: null }
       ]
     }
   },

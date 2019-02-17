@@ -1,7 +1,6 @@
 <template>
   <div class="q-layout-padding bg-grey-3" style="min-height: 100vh">
     <div style="max-width: 500px">
-
       <q-toggle v-model="dense" label="Dense banners" />
 
       <q-banner :dense="dense" class="q-my-md">
@@ -99,7 +98,6 @@
         <q-btn slot="action" flat color="primary" label="Turn ON Wifi" />
         <q-btn slot="action" flat color="primary" label="Dismiss" />
       </q-banner>
-
     </div>
   </div>
 </template>

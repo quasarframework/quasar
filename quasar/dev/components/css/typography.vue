@@ -3,7 +3,9 @@
     <div class="q-layout-padding" :class="{ 'test-height': testHeight }">
       <q-card class="q-my-md">
         <q-card-section class="row items-center">
-          <div class="text-h6">Headings</div>
+          <div class="text-h6">
+            Headings
+          </div>
           <q-space />
           <q-select dense v-model="testFont" :options="testFonts" hide-underline />
           <q-toggle v-model="testHeight" left-label label="Test line heights" />
@@ -12,8 +14,12 @@
         <q-card-section>
           <div v-for="heading in headings" class="row items-center q-mb-lg" :key="heading.label">
             <div class="col-sm-3 col-12">
-              <q-badge color="primary">.{{ heading.cls }}</q-badge>
-              <q-badge color="secondary" class="q-ml-sm" v-if="heading.equivalent">{{ heading.equivalent }}</q-badge>
+              <q-badge color="primary">
+                .{{ heading.cls }}
+              </q-badge>
+              <q-badge color="secondary" class="q-ml-sm" v-if="heading.equivalent">
+                {{ heading.equivalent }}
+              </q-badge>
             </div>
             <div
               class="col-sm-9 col-12"
@@ -28,16 +34,22 @@
 
       <q-card class="q-my-md">
         <q-card-section>
-          <div class="text-h6">Weights</div>
+          <div class="text-h6">
+            Weights
+          </div>
         </q-card-section>
         <q-separator />
         <q-card-section>
           <div v-for="weight in weights" class="row items-center q-mb-md" :key="weight">
             <div class="col-sm-3 col-12">
-              <q-badge color="primary" text-color="white" square>.text-weight-{{ weight }}</q-badge>
+              <q-badge color="primary" text-color="white" square>
+                .text-weight-{{ weight }}
+              </q-badge>
             </div>
             <div class="col-sm-9 col-12 q-mb-none q-pl-md q-pt-sm q-pb-sm">
-              <div :class="`text-weight-${weight}`"> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+              <div :class="`text-weight-${weight}`">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              </div>
             </div>
           </div>
         </q-card-section>

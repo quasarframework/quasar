@@ -92,47 +92,47 @@ export default Vue.extend({
         i = this.$q.iconSet.editor
 
       return {
-        bold: {cmd: 'bold', icon: i.bold, tip: e.bold, key: 66},
-        italic: {cmd: 'italic', icon: i.italic, tip: e.italic, key: 73},
-        strike: {cmd: 'strikeThrough', icon: i.strikethrough, tip: e.strikethrough, key: 83},
-        underline: {cmd: 'underline', icon: i.underline, tip: e.underline, key: 85},
-        unordered: {cmd: 'insertUnorderedList', icon: i.unorderedList, tip: e.unorderedList},
-        ordered: {cmd: 'insertOrderedList', icon: i.orderedList, tip: e.orderedList},
-        subscript: {cmd: 'subscript', icon: i.subscript, tip: e.subscript, htmlTip: 'x<subscript>2</subscript>'},
-        superscript: {cmd: 'superscript', icon: i.superscript, tip: e.superscript, htmlTip: 'x<superscript>2</superscript>'},
-        link: {cmd: 'link', icon: i.hyperlink, tip: e.hyperlink, key: 76},
-        fullscreen: {cmd: 'fullscreen', icon: i.toggleFullscreen, tip: e.toggleFullscreen, key: 70},
+        bold: { cmd: 'bold', icon: i.bold, tip: e.bold, key: 66 },
+        italic: { cmd: 'italic', icon: i.italic, tip: e.italic, key: 73 },
+        strike: { cmd: 'strikeThrough', icon: i.strikethrough, tip: e.strikethrough, key: 83 },
+        underline: { cmd: 'underline', icon: i.underline, tip: e.underline, key: 85 },
+        unordered: { cmd: 'insertUnorderedList', icon: i.unorderedList, tip: e.unorderedList },
+        ordered: { cmd: 'insertOrderedList', icon: i.orderedList, tip: e.orderedList },
+        subscript: { cmd: 'subscript', icon: i.subscript, tip: e.subscript, htmlTip: 'x<subscript>2</subscript>' },
+        superscript: { cmd: 'superscript', icon: i.superscript, tip: e.superscript, htmlTip: 'x<superscript>2</superscript>' },
+        link: { cmd: 'link', icon: i.hyperlink, tip: e.hyperlink, key: 76 },
+        fullscreen: { cmd: 'fullscreen', icon: i.toggleFullscreen, tip: e.toggleFullscreen, key: 70 },
 
-        quote: {cmd: 'formatBlock', param: 'BLOCKQUOTE', icon: i.quote, tip: e.quote, key: 81},
-        left: {cmd: 'justifyLeft', icon: i.left, tip: e.left},
-        center: {cmd: 'justifyCenter', icon: i.center, tip: e.center},
-        right: {cmd: 'justifyRight', icon: i.right, tip: e.right},
-        justify: {cmd: 'justifyFull', icon: i.justify, tip: e.justify},
+        quote: { cmd: 'formatBlock', param: 'BLOCKQUOTE', icon: i.quote, tip: e.quote, key: 81 },
+        left: { cmd: 'justifyLeft', icon: i.left, tip: e.left },
+        center: { cmd: 'justifyCenter', icon: i.center, tip: e.center },
+        right: { cmd: 'justifyRight', icon: i.right, tip: e.right },
+        justify: { cmd: 'justifyFull', icon: i.justify, tip: e.justify },
 
-        print: {type: 'no-state', cmd: 'print', icon: i.print, tip: e.print, key: 80},
-        outdent: {type: 'no-state', disable: vm => vm.caret && !vm.caret.can('outdent'), cmd: 'outdent', icon: i.outdent, tip: e.outdent},
-        indent: {type: 'no-state', disable: vm => vm.caret && !vm.caret.can('indent'), cmd: 'indent', icon: i.indent, tip: e.indent},
-        removeFormat: {type: 'no-state', cmd: 'removeFormat', icon: i.removeFormat, tip: e.removeFormat},
-        hr: {type: 'no-state', cmd: 'insertHorizontalRule', icon: i.hr, tip: e.hr},
-        undo: {type: 'no-state', cmd: 'undo', icon: i.undo, tip: e.undo, key: 90},
-        redo: {type: 'no-state', cmd: 'redo', icon: i.redo, tip: e.redo, key: 89},
+        print: { type: 'no-state', cmd: 'print', icon: i.print, tip: e.print, key: 80 },
+        outdent: { type: 'no-state', disable: vm => vm.caret && !vm.caret.can('outdent'), cmd: 'outdent', icon: i.outdent, tip: e.outdent },
+        indent: { type: 'no-state', disable: vm => vm.caret && !vm.caret.can('indent'), cmd: 'indent', icon: i.indent, tip: e.indent },
+        removeFormat: { type: 'no-state', cmd: 'removeFormat', icon: i.removeFormat, tip: e.removeFormat },
+        hr: { type: 'no-state', cmd: 'insertHorizontalRule', icon: i.hr, tip: e.hr },
+        undo: { type: 'no-state', cmd: 'undo', icon: i.undo, tip: e.undo, key: 90 },
+        redo: { type: 'no-state', cmd: 'redo', icon: i.redo, tip: e.redo, key: 89 },
 
-        h1: {cmd: 'formatBlock', param: 'H1', icon: i.header, tip: e.header1, htmlTip: `<h1 class="q-ma-none">${e.header1}</h1>`},
-        h2: {cmd: 'formatBlock', param: 'H2', icon: i.header, tip: e.header2, htmlTip: `<h2 class="q-ma-none">${e.header2}</h2>`},
-        h3: {cmd: 'formatBlock', param: 'H3', icon: i.header, tip: e.header3, htmlTip: `<h3 class="q-ma-none">${e.header3}</h3>`},
-        h4: {cmd: 'formatBlock', param: 'H4', icon: i.header, tip: e.header4, htmlTip: `<h4 class="q-ma-none">${e.header4}</h4>`},
-        h5: {cmd: 'formatBlock', param: 'H5', icon: i.header, tip: e.header5, htmlTip: `<h5 class="q-ma-none">${e.header5}</h5>`},
-        h6: {cmd: 'formatBlock', param: 'H6', icon: i.header, tip: e.header6, htmlTip: `<h6 class="q-ma-none">${e.header6}</h6>`},
-        p: {cmd: 'formatBlock', param: 'DIV', icon: i.header, tip: e.paragraph},
-        code: {cmd: 'formatBlock', param: 'PRE', icon: i.code, htmlTip: `<code>${e.code}</code>`},
+        h1: { cmd: 'formatBlock', param: 'H1', icon: i.header, tip: e.header1, htmlTip: `<h1 class="q-ma-none">${e.header1}</h1>` },
+        h2: { cmd: 'formatBlock', param: 'H2', icon: i.header, tip: e.header2, htmlTip: `<h2 class="q-ma-none">${e.header2}</h2>` },
+        h3: { cmd: 'formatBlock', param: 'H3', icon: i.header, tip: e.header3, htmlTip: `<h3 class="q-ma-none">${e.header3}</h3>` },
+        h4: { cmd: 'formatBlock', param: 'H4', icon: i.header, tip: e.header4, htmlTip: `<h4 class="q-ma-none">${e.header4}</h4>` },
+        h5: { cmd: 'formatBlock', param: 'H5', icon: i.header, tip: e.header5, htmlTip: `<h5 class="q-ma-none">${e.header5}</h5>` },
+        h6: { cmd: 'formatBlock', param: 'H6', icon: i.header, tip: e.header6, htmlTip: `<h6 class="q-ma-none">${e.header6}</h6>` },
+        p: { cmd: 'formatBlock', param: 'DIV', icon: i.header, tip: e.paragraph },
+        code: { cmd: 'formatBlock', param: 'PRE', icon: i.code, htmlTip: `<code>${e.code}</code>` },
 
-        'size-1': {cmd: 'fontSize', param: '1', icon: i.size, tip: e.size1, htmlTip: `<font size="1">${e.size1}</font>`},
-        'size-2': {cmd: 'fontSize', param: '2', icon: i.size, tip: e.size2, htmlTip: `<font size="2">${e.size2}</font>`},
-        'size-3': {cmd: 'fontSize', param: '3', icon: i.size, tip: e.size3, htmlTip: `<font size="3">${e.size3}</font>`},
-        'size-4': {cmd: 'fontSize', param: '4', icon: i.size, tip: e.size4, htmlTip: `<font size="4">${e.size4}</font>`},
-        'size-5': {cmd: 'fontSize', param: '5', icon: i.size, tip: e.size5, htmlTip: `<font size="5">${e.size5}</font>`},
-        'size-6': {cmd: 'fontSize', param: '6', icon: i.size, tip: e.size6, htmlTip: `<font size="6">${e.size6}</font>`},
-        'size-7': {cmd: 'fontSize', param: '7', icon: i.size, tip: e.size7, htmlTip: `<font size="7">${e.size7}</font>`}
+        'size-1': { cmd: 'fontSize', param: '1', icon: i.size, tip: e.size1, htmlTip: `<font size="1">${e.size1}</font>` },
+        'size-2': { cmd: 'fontSize', param: '2', icon: i.size, tip: e.size2, htmlTip: `<font size="2">${e.size2}</font>` },
+        'size-3': { cmd: 'fontSize', param: '3', icon: i.size, tip: e.size3, htmlTip: `<font size="3">${e.size3}</font>` },
+        'size-4': { cmd: 'fontSize', param: '4', icon: i.size, tip: e.size4, htmlTip: `<font size="4">${e.size4}</font>` },
+        'size-5': { cmd: 'fontSize', param: '5', icon: i.size, tip: e.size5, htmlTip: `<font size="5">${e.size5}</font>` },
+        'size-6': { cmd: 'fontSize', param: '6', icon: i.size, tip: e.size6, htmlTip: `<font size="6">${e.size6}</font>` },
+        'size-7': { cmd: 'fontSize', param: '7', icon: i.size, tip: e.size7, htmlTip: `<font size="7">${e.size7}</font>` }
       }
     },
 
@@ -334,11 +334,11 @@ export default Vue.extend({
         ]
       }
       toolbars = []
-      toolbars.push(h('div', extend({key: 'qedt_top'}, toolbarConfig), [
+      toolbars.push(h('div', extend({ key: 'qedt_top' }, toolbarConfig), [
         h('div', { staticClass: 'row no-wrap q-editor-toolbar-padding fit items-center' }, getToolbar(h, this))
       ]))
       if (this.editLinkUrl !== null) {
-        toolbars.push(h('div', extend({key: 'qedt_btm'}, toolbarConfig), [
+        toolbars.push(h('div', extend({ key: 'qedt_btm' }, toolbarConfig), [
           h('div', { staticClass: 'row no-wrap q-editor-toolbar-padding fit items-center' }, getLinkEditor(h, this))
         ]))
       }

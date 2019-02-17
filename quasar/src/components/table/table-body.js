@@ -67,10 +67,10 @@ export default {
       }
 
       if (topRow !== void 0) {
-        child.unshift(topRow({cols: this.computedCols}))
+        child.unshift(topRow({ cols: this.computedCols }))
       }
       if (bottomRow !== void 0) {
-        child.push(bottomRow({cols: this.computedCols}))
+        child.push(bottomRow({ cols: this.computedCols }))
       }
 
       return h('tbody', child)

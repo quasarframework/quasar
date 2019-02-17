@@ -3,7 +3,6 @@
     <h1>Pan the items below</h1>
 
     <q-list bordered separator>
-
       <q-slide-item @left="onLeft" @right="onRight" @click.native="onClickItem">
         <q-icon slot="left" name="done" />
         <q-icon slot="right" name="alarm" />
@@ -17,8 +16,12 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <div slot="left">Left</div>
-        <div slot="right">Right content.. long</div>
+        <div slot="left">
+          Left
+        </div>
+        <div slot="right">
+          Right content.. long
+        </div>
 
         <q-item>
           <q-item-section avatar>
@@ -121,7 +124,6 @@
           </q-item-section>
         </q-item>
       </q-slide-item>
-
     </q-list>
   </div>
 </template>

@@ -30,7 +30,9 @@
         <br>You can also capture swipe to certain directions (any) only as you'll see below.
       </p>
 
-      <p class="caption">Example on capturing only swipe to right:</p>
+      <p class="caption">
+        Example on capturing only swipe to right:
+      </p>
       <div
         v-touch-swipe.right.mouse="swipeToRight"
         @click="onClick"
@@ -45,7 +47,9 @@
         </div>
       </div>
 
-      <p class="caption">Example on capturing only swipe up and right:</p>
+      <p class="caption">
+        Example on capturing only swipe up and right:
+      </p>
       <div
         v-touch-swipe.up.right.mouse="swipeToCustom"
         @click="onClick"
@@ -63,7 +67,9 @@
         </div>
       </div>
 
-      <p class="caption">For desktops, you can configure to avoid capturing mouse swipes if you wish.</p>
+      <p class="caption">
+        For desktops, you can configure to avoid capturing mouse swipes if you wish.
+      </p>
     </div>
   </div>
 </template>

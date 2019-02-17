@@ -36,7 +36,7 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
     const Key = btn.key
       ? h('div', [h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)])
       : null
-    child.push(h(QTooltip, { props: {delay: 1000} }, [
+    child.push(h(QTooltip, { props: { delay: 1000 } }, [
       h('div', { domProps: { innerHTML: btn.tip } }),
       Key
     ]))

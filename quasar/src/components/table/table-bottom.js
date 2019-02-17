@@ -22,7 +22,7 @@ export default {
           : (this.loading === true ? this.loadingLabel || this.$q.lang.table.loading : this.noDataLabel || this.$q.lang.table.noData)
 
         return h('div', { staticClass: 'q-table__bottom row items-center q-table__bottom--nodata' }, [
-          h(QIcon, {props: { name: this.$q.iconSet.table.warning }}),
+          h(QIcon, { props: { name: this.$q.iconSet.table.warning } }),
           message
         ])
       }
