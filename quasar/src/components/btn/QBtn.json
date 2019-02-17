@@ -14,6 +14,12 @@
     }
   },
 
+  "events": {
+    "click": {
+      "extends": "click"
+    }
+  },
+
   "slots": {
     "default": {
       "desc": "Use for custom content, instead of relying on 'icon' and 'label' props"
