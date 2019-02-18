@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/model-toggle" ],
+  "mixins": [ "mixins/model-toggle", "mixins/portal" ],
 
   "props": {
     "persistent": {

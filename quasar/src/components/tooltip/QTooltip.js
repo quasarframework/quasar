@@ -18,8 +18,6 @@ export default Vue.extend({
   mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
 
   props: {
-    contentClass: [Array, String, Object],
-    contentStyle: [Array, String, Object],
     maxHeight: {
       type: String,
       default: null

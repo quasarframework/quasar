@@ -48,8 +48,6 @@ export default Vue.extend({
     persistent: Boolean,
     autoClose: Boolean,
 
-    contentClass: [Array, String, Object],
-    contentStyle: [Array, String, Object],
     maxHeight: {
       type: String,
       default: null

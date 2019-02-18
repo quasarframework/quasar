@@ -1,25 +1,7 @@
 {
-  "mixins": [ "mixins/model-toggle" ],
+  "mixins": [ "mixins/model-toggle", "mixins/portal" ],
 
   "props": {
-    "content-class": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Class definitions to be attributed to the Tooltip",
-      "examples": [
-        "my-special-class",
-        ":content-class=\"{ 'my-special-class': <condition> }\""
-      ]
-    },
-
-    "content-style": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Style definitions to be attributed to the Tooltip",
-      "examples": [
-        "background-color: #ff0000",
-        ":content-style=\"{ backgroundColor: '#ff0000' }\""
-      ]
-    },
-
     "max-height": {
       "extends": "size",
       "desc": "The maximimum height of the Tooltip; Size in CSS units, including unit name"

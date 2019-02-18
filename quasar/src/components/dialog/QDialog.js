@@ -206,7 +206,9 @@ export default Vue.extend({
 
     __render (h) {
       return h('div', {
-        staticClass: 'q-dialog fullscreen no-pointer-events'
+        staticClass: 'q-dialog fullscreen no-pointer-events',
+        class: this.contentClass,
+        style: this.contentStyle
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }

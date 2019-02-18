@@ -19,6 +19,11 @@ function fillInject (root) {
 }
 
 export default {
+  props: {
+    contentClass: [Array, String, Object],
+    contentStyle: [Array, String, Object]
+  },
+
   methods: {
     __showPortal () {
       if (this.__portal !== void 0 && this.__portal.showing !== true) {
