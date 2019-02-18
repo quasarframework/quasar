@@ -51,3 +51,19 @@ body.mobile .q-textarea,
 .q-textarea.disabled
   .q-field__native
     resize none
+
+body.no-touch
+  .q-textarea
+    .q-field__native
+      scrollbar-color #a0a0a0 transparent
+      scrollbar-width thin
+
+      &::-webkit-scrollbar
+        width 8px
+        cursor pointer
+      &::-webkit-scrollbar-thumb
+        background-color #a0a0a0
+        cursor pointer
+      &::-webkit-resizer
+        background-color #a0a0a0
+        cursor ns-resize
