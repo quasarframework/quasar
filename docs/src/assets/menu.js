@@ -4,6 +4,25 @@ const gettingStarted = [
     path: 'pick-quasar-flavour'
   },
   {
+    name: 'Quasar Flavours',
+    opened: false,
+    openedPath: 'quasar-cli',
+    children: [
+      {
+        name: 'Quasar CLI',
+        path: 'quasar-cli'
+      },
+      {
+        name: 'UMD / Standalone',
+        path: 'umd'
+      },
+      {
+        name: 'Vue CLI Plugin',
+        path: 'vue-cli-plugin'
+      }
+    ]
+  },
+  {
     name: 'How to use Vue',
     path: 'how-to-use-vue'
   },
@@ -22,24 +41,6 @@ const gettingStarted = [
   {
     name: 'Contribution Guide',
     path: 'contribution-guide'
-  },
-  {
-    name: 'Quasar Flavours',
-    opened: true,
-    children: [
-      {
-        name: 'Quasar CLI',
-        path: 'quasar-cli'
-      },
-      {
-        name: 'UMD / Standalone',
-        path: 'umd'
-      },
-      {
-        name: 'Vue CLI Plugin',
-        path: 'vue-cli-plugin'
-      }
-    ]
   }
 ]
 
@@ -861,6 +862,12 @@ module.exports = [
     children: options
   },
   {
+    name: 'Quasar CLI',
+    icon: 'build',
+    path: 'quasar-cli',
+    children: cli
+  },
+  {
     name: 'Style & Identity',
     icon: 'style',
     path: 'style',
@@ -895,11 +902,5 @@ module.exports = [
     icon: 'healing',
     path: 'quasar-utils',
     children: utils
-  },
-  {
-    name: 'Quasar CLI',
-    icon: 'build',
-    path: 'quasar-cli',
-    children: cli
   }
 ]

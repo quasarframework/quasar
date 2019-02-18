@@ -21,6 +21,7 @@ export default {
           'q-expansion-item',
           {
             staticClass: 'non-selectable',
+            class: `q-expansion-item--level${level}`,
             props: {
               label: menu.name,
               dense: level > 0,
@@ -36,7 +37,7 @@ export default {
             h,
             item,
             path + (item.path !== void 0 ? '/' + item.path : ''),
-            level > 0 ? level : level + 1
+            level + 1
           ))
         )
       }
@@ -45,16 +46,25 @@ export default {
         props: {
           to: path,
           dense: level > 0,
-          insetLevel: level
+          insetLevel: level <= 1 ? level : level - 1
         },
-        staticClass: 'app-menu-entry non-selectable'
+        staticClass: 'app-menu-entry non-selectable',
+        class: `q-item--level${level}`,
+        directives: [{
+          name: 'ripple'
+        }]
       }, [
         menu.icon !== void 0
           ? h('q-item-section', {
             props: { avatar: true }
           }, [ h('q-icon', { props: { name: menu.icon } }) ])
           : null,
-        h('q-item-section', [ menu.name ]),
+        level >= 2
+          ? h('div', { staticClass: 'spacer-div' })
+          : null,
+        h('q-item-section',
+          { class: `q-item-section--level${level}` },
+          [ menu.name ]),
         menu.badge !== void 0
           ? h('q-item-section', {
             props: { side: true }
