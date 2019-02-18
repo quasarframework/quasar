@@ -2,10 +2,6 @@
 title: Vue CLI 3 Quasar Plugin
 ---
 
-::: danger
-Vue CLI 3 Quasar Plugin has not been updated to support v1.0-beta yet. Will be updated soon.
-:::
-
 To work with Quasar via its Vue CLI 3 plugin, you will need to make sure you have vue-cli 3.x.x installed globally. To make sure you have Vue CLI 3.0, use this command:
 
 ```bash
@@ -45,6 +41,13 @@ Navigate to the newly created project folder and add the cli plugin. Before inst
 
 ```bash
 $ cd my-app
+
+# for v1.0 ONLY
+# (temporary until v1.0 final build)
+$ vue add quasar@beta
+$ vue invoke quasar
+
+# for v0.17 ONLY:
 $ vue add quasar
 ```
 
