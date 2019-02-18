@@ -106,6 +106,22 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
         </a>
       </td>
     </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://wallabyjs.com/" target="_blank">
+          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/wallaby.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://snyk.io/" target="_blank">
+          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/snyk.png">
+        </a>
+      </td>
+    </tr>
   </tbody>
 </table>
 

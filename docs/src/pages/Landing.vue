@@ -151,10 +151,16 @@
           img(width='170px', src='https://cdn.quasar-framework.org/sponsors/letsbutterfly.png')
 
       .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Partners
-      .q-gutter-md.flex.flex-center
+      .q-col-gutter-md.flex.flex-center
 
         a(href='https://utopian.io/', target='_blank')
           img(width='170px', src='https://cdn.quasar-framework.org/sponsors/utopian.png')
+
+        a(href='https://wallabyjs.com/', target='_blank')
+          img(width='110px', src='https://cdn.quasar-framework.org/sponsors/wallaby.png')
+
+        a(href='https://snyk.io/', target='_blank')
+          img(width='170px', src='https://cdn.quasar-framework.org/sponsors/snyk.png')
 
   section.landing__footer
     div.text-center
@@ -242,7 +248,7 @@ export default {
 
   &__arrow
     bottom 8px
-    opacity .4
+    opacity 0.4
 
   &__front
     background linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)
@@ -271,14 +277,15 @@ export default {
 
     .doc-link
       color #fff
+
       &:hover
-        opacity .8
+        opacity 0.8
 
   &__swirl-bg
     background-repeat no-repeat !important
     background-position top center
     background-size contain !important
-    background-image url(https://cdn.quasar-framework.org/img/landing_first_section.png) !important
+    background-image url('https://cdn.quasar-framework.org/img/landing_first_section.png') !important // cdn.quasar-framework.org/img/landing_first_section.png) !important
 
 @keyframes logo-rotate
   100%
@@ -309,6 +316,7 @@ export default {
 
 body.mobile .landing
   background unset
+
   &:before
     content ''
     position fixed /* stretch a fixed position to the whole screen */
