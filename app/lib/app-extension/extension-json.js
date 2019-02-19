@@ -2,6 +2,7 @@ const
   fs = require('fs'),
   logger = require('../helpers/logger'),
   log = logger('app:extension-manager'),
+  warn = logger('app:extension-manager', 'red'),
   chalk = require('chalk'),
   appPaths = require('../app-paths')
 
@@ -13,7 +14,9 @@ class ExtensionJson {
       this.extensions = require(extensionPath)
     }
     catch (e) {
-      this.extensions = {}
+      console.log(e)
+      warn(`⚠️  [FAIL] quasar.extensions.json has errors`)
+      process.exit(1)
     }
   }
 
