@@ -22,10 +22,10 @@ Below is an example configured to also react to `SPACE`, `ENTER` and `h` keys (*
 
 <doc-example title="Custom keys" file="TouchRepeat/Keys" />
 
-### Avoid selecting text on mobile
-When you change the default repeat pattern and you set the first timer to a value other than 0 (example: `200:300`), it's recommended that you also assign `non-selectable` CSS class to the target (equivalent for `user-select: none`). Since the first timer will kick in with 200ms delay (for pattern 200:300) then the mobile browser might first select the text in your target (if any). To avoid it:
+### Capturing Mouse Events
+When you want to capture mouse actions too, use the `mouse` modifier:
 ``` html
-<div class="non-selectable" v-touch-repeat:200:300="handleRepeat">...</div>
+<div v-touch-repeat.mouse="myHandler">...</div>
 ```
 
 ### Note on HMR

@@ -37,20 +37,18 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return {
-        [`q-stepper--${this.vertical ? 'vertical' : 'horizontal'}`]: true,
-        'q-stepper--flat no-shadow': this.flat || this.dark,
-        'q-stepper--bordered': this.bordered || (this.dark && !this.flat),
-        'q-stepper--contracted': this.contracted,
-        'q-stepper--dark': this.dark
-      }
+      return `q-stepper--${this.vertical ? 'vertical' : 'horizontal'}` +
+        (this.flat || this.dark ? ' q-stepper--flat no-shadow' : '') +
+        (this.bordered || (this.dark && !this.flat) ? ' q-stepper--bordered' : '') +
+        (this.contracted === true ? ' q-stepper--contracted' : '') +
+        (this.dark === true ? ' q-stepper--dark' : '')
     }
   },
 
   methods: {
     __getContent (h) {
       if (this.vertical) {
-        this.value && this.__updatePanelIndex()
+        this.__isValidPanelName(this.value) && this.__updatePanelIndex()
         return [
           h('div', { staticClass: 'q-stepper__content' }, slot(this, 'default'))
         ]

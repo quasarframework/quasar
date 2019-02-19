@@ -22,7 +22,9 @@
       />
     </div>
     <q-timeline :layout="layout" :side="side" color="secondary" style="padding: 0 24px;">
-      <q-timeline-entry heading>November, 2017</q-timeline-entry>
+      <q-timeline-entry heading>
+        November, 2017
+      </q-timeline-entry>
 
       <q-timeline-entry
         title="Event Title"
@@ -45,7 +47,9 @@
         </div>
       </q-timeline-entry>
 
-      <q-timeline-entry heading>November, 2017</q-timeline-entry>
+      <q-timeline-entry heading>
+        November, 2017
+      </q-timeline-entry>
 
       <q-timeline-entry
         title="Event Title"
@@ -131,7 +135,9 @@
         </div>
       </q-timeline-entry>
 
-      <q-timeline-entry heading>November, 2017</q-timeline-entry>
+      <q-timeline-entry heading>
+        November, 2017
+      </q-timeline-entry>
 
       <q-timeline-entry
         title="Event Title"

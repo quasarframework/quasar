@@ -3,7 +3,7 @@ import Vue from 'vue'
 import TouchPan from '../../directives/TouchPan.js'
 import { between } from '../../utils/format.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import preventScroll from '../../utils/prevent-scroll.js'
+import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 import slot from '../../utils/slot.js'
 
 const duration = 150
@@ -19,7 +19,7 @@ export default Vue.extend({
     }
   },
 
-  mixins: [ ModelToggleMixin ],
+  mixins: [ ModelToggleMixin, PreventScrollMixin ],
 
   directives: {
     TouchPan
@@ -406,8 +406,7 @@ export default Vue.extend({
         this.mobileOpened = true
         this.applyBackdrop(1)
         if (!this.layout.container) {
-          this.preventedScroll = true
-          preventScroll(true)
+          this.__preventScroll(true)
         }
       }
       else {
@@ -440,10 +439,7 @@ export default Vue.extend({
     },
 
     __cleanup () {
-      if (this.preventedScroll) {
-        this.preventedScroll = false
-        preventScroll(false)
-      }
+      this.__preventScroll(false)
       this.__setScrollable(false)
     },
 

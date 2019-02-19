@@ -92,14 +92,26 @@
 
     <div class="container">
       <div class="column">
-        <div class="col">col</div>
-        <div class="col">col</div>
-        <div class="col">col</div>
-        <div class="col">col</div>
+        <div class="col">
+          col
+        </div>
+        <div class="col">
+          col
+        </div>
+        <div class="col">
+          col
+        </div>
+        <div class="col">
+          col
+        </div>
       </div>
       <div class="column">
-        <div class="col-8">col-8</div>
-        <div class="col-4">col-4</div>
+        <div class="col-8">
+          col-8
+        </div>
+        <div class="col-4">
+          col-4
+        </div>
       </div>
     </div>
 
@@ -108,21 +120,35 @@
     <div class="container">
       <!-- Stack the columns on mobile by making one full-width and the other half-width -->
       <div class="column">
-        <div class="col col-md-8">.col .col-md-8</div>
-        <div class="col-6 col-md-4">.col-6 .col-md-4</div>
+        <div class="col col-md-8">
+          .col .col-md-8
+        </div>
+        <div class="col-6 col-md-4">
+          .col-6 .col-md-4
+        </div>
       </div>
 
       <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
       <div class="column">
-        <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-        <div class="col-6 col-md-4">.col-6 .col-md-4</div>
-        <div class="col-6 col-md-4">.col-6 .col-md-4</div>
+        <div class="col-6 col-md-4">
+          .col-6 .col-md-4
+        </div>
+        <div class="col-6 col-md-4">
+          .col-6 .col-md-4
+        </div>
+        <div class="col-6 col-md-4">
+          .col-6 .col-md-4
+        </div>
       </div>
 
       <!-- Columns are always 50% wide, on mobile and desktop -->
       <div class="column">
-        <div class="col-6">.col-6</div>
-        <div class="col-6">.col-6</div>
+        <div class="col-6">
+          .col-6
+        </div>
+        <div class="col-6">
+          .col-6
+        </div>
       </div>
     </div>
 
@@ -229,19 +255,33 @@
 
     <div class="container">
       <div class="column">
-        <div class="col-9">.col-9</div>
-        <div class="col-4">.col-4<br>Since 9 + 4 = 13 &gt; 12,<br>this 4-row-wide div gets wrapped<br>onto a new line as<br>one contiguous unit.</div>
-        <div class="col-6">.col-6<br>Subsequent rows continue along the new line.</div>
+        <div class="col-9">
+          .col-9
+        </div>
+        <div class="col-4">
+          .col-4<br>Since 9 + 4 = 13 &gt; 12,<br>this 4-row-wide div gets wrapped<br>onto a new line as<br>one contiguous unit.
+        </div>
+        <div class="col-6">
+          .col-6<br>Subsequent rows continue along the new line.
+        </div>
       </div>
     </div>
 
     <div class="container">
       <div class="column">
-        <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
-        <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+        <div class="col-6 col-sm-3">
+          .col-6 .col-sm-3
+        </div>
+        <div class="col-6 col-sm-3">
+          .col-6 .col-sm-3
+        </div>
 
-        <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
-        <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+        <div class="col-6 col-sm-3">
+          .col-6 .col-sm-3
+        </div>
+        <div class="col-6 col-sm-3">
+          .col-6 .col-sm-3
+        </div>
       </div>
     </div>
 

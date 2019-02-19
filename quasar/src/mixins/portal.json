@@ -1,0 +1,21 @@
+{
+  "props": {
+    "content-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the content",
+      "examples": [
+        "my-special-class",
+        ":content-class=\"{ 'my-special-class': <condition> }\""
+      ]
+    },
+
+    "content-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the content",
+      "examples": [
+        "background-color: #ff0000",
+        ":content-style=\"{ color: '#ff0000' }\""
+      ]
+    }
+  }
+}

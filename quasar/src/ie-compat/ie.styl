@@ -1,3 +1,12 @@
+fr(selector, name, i = '')
+  unquote(replace(unquote('<i>'), unquote(i), replace(unquote('<name>'), unquote(name), unquote(selector))))
+
+fe(selector, name, noProc, i = '')
+  if noProc
+    return fr(selector, name, i)
+  return unquote(join(',', fr(selector, '', i) fr(selector, name, i)))
+
+
 ie_style = @block
 
   /* Min Height */
@@ -10,6 +19,18 @@ ie_style = @block
   .q-toolbar__title
   .q-menu .q-item__section--main
     flex-basis auto
+
+  .q-tab__content
+    flex-basis auto
+    min-width 100%
+
+  for $name, $size in $sizes
+    $noProcNotZero = $size > 0
+    @media (min-width $size)
+      {fe('.col<name>', s('-%s', unquote($name)), $noProcNotZero)}
+        .row > &, .flex > &
+          flex-basis auto
+          width 0%
 
   /* QCarousel */
   .q-carousel__slide > *
@@ -36,6 +57,23 @@ ie_style = @block
       opacity .5
     &.q-spinner-mat .path
       stroke-dasharray 89, 200
+
+  /* QToggle Icon */
+  .q-toggle_thumb
+    .q-icon
+      margin-left -12px
+
+  /* QDate */
+  .q-date__view.q-date__months.column
+    > .q-date__months-content.col-10
+      width 100%
+
+  /* LocalMenu */
+  .q-local-menu
+    color black
+
+    &--dark
+      color white
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
   {ie_style}

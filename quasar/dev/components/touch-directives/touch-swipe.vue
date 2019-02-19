@@ -14,7 +14,7 @@
         <div v-if="info" class="custom-info">
           <pre>{{ info }}</pre>
         </div>
-        <div v-else class="text-center">
+        <div v-else class="text-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_upward" />
           <div class="row items-center">
             <q-icon name="arrow_back" />
@@ -30,7 +30,9 @@
         <br>You can also capture swipe to certain directions (any) only as you'll see below.
       </p>
 
-      <p class="caption">Example on capturing only swipe to right:</p>
+      <p class="caption">
+        Example on capturing only swipe to right:
+      </p>
       <div
         v-touch-swipe.right.mouse="swipeToRight"
         @click="onClick"
@@ -39,13 +41,15 @@
         <div v-if="infoRight" class="custom-info">
           <pre>{{ infoRight }}</pre>
         </div>
-        <div v-else>
+        <div v-else class="q-pa-xl custom-area-placeholder">
           Swipe to right only
           <q-icon name="arrow_forward" />
         </div>
       </div>
 
-      <p class="caption">Example on capturing only swipe up and right:</p>
+      <p class="caption">
+        Example on capturing only swipe up and right:
+      </p>
       <div
         v-touch-swipe.up.right.mouse="swipeToCustom"
         @click="onClick"
@@ -54,7 +58,7 @@
         <div v-if="infoCustom" class="custom-info">
           <pre>{{ infoCustom }}</pre>
         </div>
-        <div v-else class="text-center">
+        <div v-else class="text-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_upward" />
           <div class="row items-center">
             <div>Swipe up or right</div>
@@ -63,7 +67,9 @@
         </div>
       </div>
 
-      <p class="caption">For desktops, you can configure to avoid capturing mouse swipes if you wish.</p>
+      <p class="caption">
+        For desktops, you can configure to avoid capturing mouse swipes if you wish.
+      </p>
     </div>
   </div>
 </template>

@@ -38,7 +38,8 @@ export const PanelParentMixin = {
           name: 'touch-swipe',
           value: this.__swipe,
           modifiers: {
-            horizontal: true
+            horizontal: true,
+            mouse: true
           }
         }]
       }
@@ -47,10 +48,14 @@ export const PanelParentMixin = {
 
   watch: {
     value (newVal, oldVal) {
-      const index = newVal ? this.__getPanelIndex(newVal) : -1
+      const
+        validNewPanel = this.__isValidPanelName(newVal),
+        index = validNewPanel === true
+          ? this.__getPanelIndex(newVal)
+          : -1
 
       if (this.animated) {
-        this.panelTransition = newVal && this.panelIndex !== -1
+        this.panelTransition = validNewPanel === true && this.panelIndex !== -1
           ? 'q-transition--' + (
             index < this.__getPanelIndex(oldVal)
               ? this.transitionPrev
@@ -82,19 +87,24 @@ export const PanelParentMixin = {
       this.$emit('input', name)
     },
 
+    __isValidPanelName (name) {
+      return name !== void 0 && name !== null && name !== ''
+    },
+
     __getPanelIndex (name) {
       return this.panels.findIndex(panel => {
         const opt = panel.componentOptions
         return opt &&
           opt.propsData.name === name &&
           opt.propsData.disable !== '' &&
-          opt.propsData.disable !== false
+          opt.propsData.disable !== true
       })
     },
 
     __getAllPanels () {
       return this.panels.filter(
-        panel => panel.componentOptions !== void 0 && panel.componentOptions.propsData.name !== void 0
+        panel => panel.componentOptions !== void 0 &&
+          this.__isValidPanelName(panel.componentOptions.propsData.name)
       )
     },
 
@@ -104,7 +114,7 @@ export const PanelParentMixin = {
         return opt &&
           opt.propsData.name !== void 0 &&
           opt.propsData.disable !== '' &&
-          opt.propsData.disable !== false
+          opt.propsData.disable !== true
       })
     },
 
@@ -151,7 +161,7 @@ export const PanelParentMixin = {
         return
       }
 
-      const panel = this.value &&
+      const panel = this.__isValidPanelName(this.value) &&
         this.__updatePanelIndex() &&
         this.panels[this.panelIndex]
 

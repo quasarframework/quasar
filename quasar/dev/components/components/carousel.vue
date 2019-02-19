@@ -21,25 +21,25 @@
       height="200px"
       class="bg-white shadow-1 rounded-borders"
     >
-      <q-carousel-slide :name="1" class="column no-wrap flex-center">
+      <q-carousel-slide :name="0" class="column no-wrap flex-center">
         <q-icon name="style" color="primary" size="56px" />
         <div class="q-mt-md text-center">
           {{ lorem }}
         </div>
       </q-carousel-slide>
-      <q-carousel-slide :name="2" class="column no-wrap flex-center">
+      <q-carousel-slide :name="1" class="column no-wrap flex-center">
         <q-icon name="live_tv" color="primary" size="56px" />
         <div class="q-mt-md text-center">
           {{ lorem }}
         </div>
       </q-carousel-slide>
-      <q-carousel-slide :name="3" class="column no-wrap flex-center">
+      <q-carousel-slide :name="2" class="column no-wrap flex-center">
         <q-icon name="layers" color="primary" size="56px" />
         <div class="q-mt-md text-center">
           {{ lorem }}
         </div>
       </q-carousel-slide>
-      <q-carousel-slide :name="4" class="column no-wrap flex-center">
+      <q-carousel-slide :name="3" class="column no-wrap flex-center">
         <q-icon name="terrain" color="primary" size="56px" />
         <div class="q-mt-md text-center">
           {{ lorem }}
@@ -61,24 +61,26 @@
       height="200px"
       class="bg-grey-9 text-white shadow-1 rounded-borders"
     >
-      <q-carousel-slide :name="1">
+      <q-carousel-slide :name="0">
         {{ lorem }} {{ lorem }} {{ lorem }} {{ lorem }} {{ lorem }} {{ lorem }}
       </q-carousel-slide>
-      <q-carousel-slide :name="2">
+      <q-carousel-slide :name="1">
         <q-video
           class="absolute-full"
           src="https://www.youtube.com/embed/k3_tw44QsZQ"
         />
       </q-carousel-slide>
-      <q-carousel-slide :name="3">
+      <q-carousel-slide :name="2">
         {{ lorem }} {{ lorem }} {{ lorem }} {{ lorem }} {{ lorem }} {{ lorem }}
       </q-carousel-slide>
-      <q-carousel-slide :name="4">
+      <q-carousel-slide :name="3">
         {{ lorem }} {{ lorem }} {{ lorem }} {{ lorem }} {{ lorem }} {{ lorem }}
       </q-carousel-slide>
     </q-carousel>
 
-    <p class="caption">Example creating custom captions for each slide.</p>
+    <p class="caption">
+      Example creating custom captions for each slide.
+    </p>
     <q-carousel
       arrows
       animated
@@ -87,25 +89,39 @@
     >
       <q-carousel-slide name="first" img-src="https://cdn.quasar-framework.org/img/mountains.jpg">
         <div class="absolute-bottom custom-caption">
-          <div class="text-h2">First stop</div>
-          <div class="text-subtitle1">Mountains</div>
+          <div class="text-h2">
+            First stop
+          </div>
+          <div class="text-subtitle1">
+            Mountains
+          </div>
         </div>
       </q-carousel-slide>
       <q-carousel-slide name="second" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg">
         <div class="absolute-bottom custom-caption">
-          <div class="text-h2">Second stop</div>
-          <div class="text-subtitle1">Famous City</div>
+          <div class="text-h2">
+            Second stop
+          </div>
+          <div class="text-subtitle1">
+            Famous City
+          </div>
         </div>
       </q-carousel-slide>
       <q-carousel-slide name="third" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg">
         <div class="absolute-bottom custom-caption">
-          <div class="text-h2">Third stop</div>
-          <div class="text-subtitle1">Famous Bridge</div>
+          <div class="text-h2">
+            Third stop
+          </div>
+          <div class="text-subtitle1">
+            Famous Bridge
+          </div>
         </div>
       </q-carousel-slide>
     </q-carousel>
 
-    <p class="caption">Carousel with Arrows, Navigation, and Slides with images.</p>
+    <p class="caption">
+      Carousel with Arrows, Navigation, and Slides with images.
+    </p>
     <q-carousel
       swipeable
       animated
@@ -115,10 +131,10 @@
       navigation
       infinite
     >
-      <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
-      <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
-      <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
-      <q-carousel-slide :name="4" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
+      <q-carousel-slide :name="0" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
+      <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
+      <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
+      <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
 
       <q-carousel-control
         slot="control"
@@ -131,7 +147,9 @@
       </q-carousel-control>
     </q-carousel>
 
-    <p class="caption">Carousel with Arrows, Navigation, and Slides with images.</p>
+    <p class="caption">
+      Carousel with Arrows, Navigation, and Slides with images.
+    </p>
     <q-carousel
       swipeable
       animated
@@ -140,13 +158,15 @@
       thumbnails
       infinite
     >
-      <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
-      <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
-      <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
-      <q-carousel-slide :name="4" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
+      <q-carousel-slide :name="0" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
+      <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
+      <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
+      <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
     </q-carousel>
 
-    <p class="caption">Carousel with control slots.</p>
+    <p class="caption">
+      Carousel with control slots.
+    </p>
     <q-carousel
       swipeable
       animated
@@ -155,18 +175,18 @@
       navigation-icon="favorite"
       v-model="slide2"
     >
-      <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
-      <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
-      <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
-      <q-carousel-slide :name="4" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
-      <q-carousel-slide :name="5" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
-      <q-carousel-slide :name="6" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
-      <q-carousel-slide :name="7" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
-      <q-carousel-slide :name="8" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
-      <q-carousel-slide :name="9" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
-      <q-carousel-slide :name="10" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
-      <q-carousel-slide :name="11" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
-      <q-carousel-slide :name="12" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
+      <q-carousel-slide :name="0" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
+      <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
+      <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
+      <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
+      <q-carousel-slide :name="4" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
+      <q-carousel-slide :name="5" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
+      <q-carousel-slide :name="6" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
+      <q-carousel-slide :name="7" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
+      <q-carousel-slide :name="8" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
+      <q-carousel-slide :name="9" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
+      <q-carousel-slide :name="10" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
+      <q-carousel-slide :name="11" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
 
       <q-carousel-control slot="control" position="bottom" :offset="[0, 0]">
         <q-linear-progress :value="(slide2 - 1) / 11" height="6px" stripe color="amber" />
@@ -178,7 +198,7 @@
 <script>
 export default {
   data: () => ({
-    slide: 1,
+    slide: 0,
     slide2: 1,
     slide3: 1,
     slide4: 'first',

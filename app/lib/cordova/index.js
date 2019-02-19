@@ -68,6 +68,10 @@ class CordovaRunner {
         args,
         appPaths.cordovaDir,
         code => {
+          if (code) {
+            warn(`⚠️  [FAIL] Cordova CLI has failed`)
+            process.exit(1)
+          }
           this.__cleanup()
           resolve(code)
         }

@@ -1,15 +1,17 @@
 <template>
-  <div>
-    <q-resize-observer @resize="onResize" />
+  <div class="overflow-hidden">
+    <q-resize-observer @resize="onResize" :debounce="0" />
+
     <q-splitter
       id="photos"
       v-model="splitterModel"
       :limits="[0, 100]"
       :style="splitterStyle"
-      class="no-scroll"
+      before-class="overflow-hidden"
+      after-class="overflow-hidden"
     >
 
-      <template v-slot:before class="no-scroll">
+      <template v-slot:before>
         <img
           src="https://cdn.quasar-framework.org/img/parallax1.jpg"
           :width="width"
@@ -17,7 +19,7 @@
         />
       </template>
 
-      <template v-slot:after class="no-scroll">
+      <template v-slot:after>
         <img
           src="https://cdn.quasar-framework.org/img/parallax1-bw.jpg"
           :width="width"
@@ -37,25 +39,22 @@ export default {
       splitterModel: 50 // start at 50%
     }
   },
+
   methods: {
-    // we are using q-resize-observer to keep this example mobile-friendly
-    onResize (size) {
-      let potentialWidth = Math.abs(size.width)
-      this.width = Math.min(potentialWidth, 400)
+    // we are using QResizeObserver to keep
+    // this example mobile-friendly
+    onResize ({ width }) {
+      this.width = width
     }
   },
+
   computed: {
     splitterStyle () {
       return {
-        height: '300px',
+        height: Math.min(600, 0.66 * this.width) + 'px',
         width: this.width + 'px'
       }
     }
   }
 }
 </script>
-<style>
-.no-scroll > .q-splitter__before, .no-scroll > .q-splitter__after {
-  overflow: hidden !important;
-}
-</style>

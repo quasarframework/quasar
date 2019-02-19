@@ -32,6 +32,9 @@ export default Vue.extend({
 
     dark: Boolean,
 
+    beforeClass: [Array, String, Object],
+    afterClass: [Array, String, Object],
+
     separatorClass: [Array, String, Object],
     separatorStyle: [Array, String, Object]
   },
@@ -118,8 +121,9 @@ export default Vue.extend({
     }, [
       h('div', {
         ref: 'before',
-        staticClass: 'q-splitter__panel q-splitter__before relative-position',
-        style: this.beforeStyle
+        staticClass: 'q-splitter__panel q-splitter__before',
+        style: this.beforeStyle,
+        class: this.beforeClass
       }, slot(this, 'before')),
 
       h('div', {
@@ -146,8 +150,9 @@ export default Vue.extend({
 
       h('div', {
         ref: 'after',
-        staticClass: 'q-splitter__panel q-splitter__after relative-position',
-        style: this.afterStyle
+        staticClass: 'q-splitter__panel q-splitter__after',
+        style: this.afterStyle,
+        class: this.afterClass
       }, slot(this, 'after'))
     ].concat(slot(this, 'default')))
   }

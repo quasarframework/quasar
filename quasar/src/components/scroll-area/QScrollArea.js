@@ -134,6 +134,7 @@ export default Vue.extend({
 
     __setActive (active, timer) {
       clearTimeout(this.timer)
+
       if (active === this.active) {
         if (active && this.timer) {
           this.__startTimer()

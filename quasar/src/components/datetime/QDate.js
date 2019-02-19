@@ -86,8 +86,14 @@ export default Vue.extend({
       const model = this.extModel
       if (model.value === null) { return ' --- ' }
 
-      const date = new Date(model.year, model.month, model.day)
+      const date = new Date(model.year, model.month - 1, model.day)
       if (isNaN(date.valueOf())) { return ' --- ' }
+
+      if (this.$q.lang.isoName === 'zh-hans') {
+        return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
+        model.month + '月 ' +
+        model.day + '日'
+      }
 
       return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
         this.$q.lang.date.monthsShort[ model.month - 1 ] + ' ' +
@@ -611,14 +617,6 @@ export default Vue.extend({
       this.view = 'Calendar'
     },
 
-    __verifyAndUpdate () {
-      if (this.innerModel.year === null || this.innerModel.month === null || this.innerModel.day === null) {
-        return
-      }
-
-      this.__updateValue({})
-    },
-
     __updateValue (date) {
       if (date.year === void 0) {
         date.year = this.innerModel.year
@@ -659,9 +657,5 @@ export default Vue.extend({
         ])
       ])
     ])
-  },
-
-  beforeDestroy () {
-    this.__verifyAndUpdate()
   }
 })

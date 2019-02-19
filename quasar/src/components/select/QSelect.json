@@ -69,6 +69,11 @@
       "desc": "Hides selection; Use the underlying input tag to hold the label (instead of showing it to the right of the input) of the selected option; Only works for non 'multiple' Selects"
     },
 
+    "hide-dropdown-icon": {
+      "type": "Boolean",
+      "desc": "Hides dropdown icon"
+    },
+
     "counter": {
       "type": "Boolean",
       "desc": "Show a counter of selected options on bottom right side"

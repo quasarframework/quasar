@@ -861,6 +861,12 @@ module.exports = [
     children: options
   },
   {
+    name: 'Quasar CLI',
+    icon: 'build',
+    path: 'quasar-cli',
+    children: cli
+  },
+  {
     name: 'Style & Identity',
     icon: 'style',
     path: 'style',
@@ -895,11 +901,5 @@ module.exports = [
     icon: 'healing',
     path: 'quasar-utils',
     children: utils
-  },
-  {
-    name: 'Quasar CLI',
-    icon: 'build',
-    path: 'quasar-cli',
-    children: cli
   }
 ]

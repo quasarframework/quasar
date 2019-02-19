@@ -1,7 +1,10 @@
-export function updatePosition (el, anchorEl, cover) {
+export function updatePosition (el, anchorEl, cover, dense) {
+  // cover less than 20 items otherwise scroll is not possible
+  const maxHeight = dense === true ? 600 : 940
+
   el.style.top = '100%'
   el.style.bottom = null
-  el.style.maxHeight = null
+  el.style.maxHeight = maxHeight
   el.style.maxWidth = null
   el.style.transform = cover === true
     ? 'translate3d(0,-50%,0)'
@@ -45,12 +48,12 @@ export function updatePosition (el, anchorEl, cover) {
     const diffBottom = height - anchorTop - anchorHeight
 
     if (diffBottom >= anchorTop) {
-      el.style.maxHeight = (diffBottom - 5) + 'px'
+      el.style.maxHeight = Math.min(maxHeight, diffBottom - 5) + 'px'
     }
     else {
       el.style.top = 'unset'
       el.style.bottom = '100%'
-      el.style.maxHeight = (anchorTop - 5) + 'px'
+      el.style.maxHeight = Math.min(maxHeight, anchorTop - 5) + 'px'
     }
   }
 }

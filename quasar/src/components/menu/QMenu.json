@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/model-toggle", "mixins/anchor" ],
+  "mixins": [ "mixins/model-toggle", "mixins/portal", "mixins/anchor" ],
 
   "props": {
     "fit": {
@@ -58,24 +58,6 @@
     "auto-close": {
       "type": "Boolean",
       "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap"
-    },
-
-    "content-class": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Class definitions to be attributed to the menu",
-      "examples": [
-        "my-special-class",
-        ":content-class=\"{ 'my-special-class': <condition> }\""
-      ]
-    },
-
-    "content-style": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Style definitions to be attributed to the menu",
-      "examples": [
-        "background-color: #ff0000",
-        ":content-style=\"{ backgroundColor: '#ff0000' }\""
-      ]
     },
 
     "max-height": {

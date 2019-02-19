@@ -5,9 +5,10 @@
         :thumb-style="thumbStyle"
         :content-style="contentStyle"
         :content-active-style="contentActiveStyle"
-        style="height: 100px; max-width: 300px;"
+        class="xxx"
+        style="height: 200px; max-width: 300px;"
       >
-        <div v-for="n in 100" :key="n">
+        <div v-for="n in 100" :key="n" class="q-pa-xs">
           Lorem ipsum dolor sit amet, consectetur adipisicing
           elit, sed do eiusmod tempor incididunt ut labore et
           dolore magna aliqua.
@@ -22,20 +23,23 @@ export default {
   computed: {
     contentStyle () {
       return {
-        backgroundColor: 'rgba(0,0,0,0.1)'
+        backgroundColor: 'rgba(0,0,0,0.02)',
+        color: '#555'
       }
     },
+
     contentActiveStyle () {
       return {
-        backgroundColor: 'white',
-        color: 'red'
+        backgroundColor: '#eee',
+        color: 'black'
       }
     },
+
     thumbStyle () {
       return {
-        right: '4px',
+        right: '2px',
         borderRadius: '5px',
-        background: 'blue',
+        backgroundColor: '#027be3',
         width: '5px',
         opacity: 0.75
       }

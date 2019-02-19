@@ -1,19 +1,17 @@
 <template>
   <div class="q-pa-md">
-    <div class="row">
-      <div class="col-12">
-        <q-btn :label="`Scroll to ${position}px`" color="primary" @click="scrollToRandom"/>
-      </div>
+    <div class="row q-gutter-md q-mb-md">
+      <q-btn :label="`Scroll to ${position}px`" color="primary" @click="scroll" />
+      <q-btn :label="`Animate to ${position}px`" color="primary" @click="animateScroll" />
     </div>
-    <div class="row q-ma-md">
-      <div class="col-12">
-        <q-scroll-area ref="scrollArea" style="height: 150px; max-width: 300px;">
-          <ol>
-            <li v-for="n in 1000" :key="n">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</li>
-          </ol>
-        </q-scroll-area>
-      </div>
-    </div>
+
+    <q-scroll-area ref="scrollArea" style="height: 150px; max-width: 300px;">
+      <ol>
+        <li v-for="n in 1000" :key="n">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        </li>
+      </ol>
+    </q-scroll-area>
   </div>
 </template>
 
@@ -23,9 +21,14 @@ export default {
     position: 300
   }),
   methods: {
-    scrollToRandom () {
+    scroll () {
       this.position = Math.floor(Math.random() * 1001) * 20
       this.$refs.scrollArea.setScrollPosition(this.position)
+    },
+
+    animateScroll () {
+      this.position = Math.floor(Math.random() * 1001) * 20
+      this.$refs.scrollArea.setScrollPosition(this.position, 300)
     }
   }
 }

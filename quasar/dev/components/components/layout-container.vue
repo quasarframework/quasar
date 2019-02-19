@@ -20,14 +20,20 @@
       </q-footer>
 
       <q-drawer v-model="drawer" :width="200" :breakpoint="300">
-        <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+        <div v-for="n in 50" :key="n">
+          Drawer {{ n }} / 50
+        </div>
       </q-drawer>
       <q-drawer side="right" v-model="drawerR" :width="200" :breakpoint="300">
-        <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+        <div v-for="n in 50" :key="n">
+          Drawer {{ n }} / 50
+        </div>
       </q-drawer>
       <q-page-container>
         <q-page style="padding-top: 50px" class="bg-yellow">
-          <div v-for="n in contentSize" :key="n">My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}</div>
+          <div v-for="n in contentSize" :key="n">
+            My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}
+          </div>
 
           <q-page-sticky position="top-left" :offset="[18, 58]">
             <q-btn round color="primary" icon="arrow_back" class="rotate-45" />
@@ -75,14 +81,20 @@
       </q-footer>
 
       <q-drawer v-model="drawer3" :width="200" :breakpoint="300">
-        <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+        <div v-for="n in 50" :key="n">
+          Drawer {{ n }} / 50
+        </div>
       </q-drawer>
       <q-drawer side="right" v-model="drawer3R" :width="200" :breakpoint="300">
-        <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+        <div v-for="n in 50" :key="n">
+          Drawer {{ n }} / 50
+        </div>
       </q-drawer>
       <q-page-container>
         <q-page style="padding-top: 50px" class="bg-yellow">
-          <div v-for="n in contentSize" :key="n">My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}</div>
+          <div v-for="n in contentSize" :key="n">
+            My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}
+          </div>
 
           <q-page-sticky position="top-left" :offset="[18, 58]">
             <q-btn round color="primary" icon="arrow_back" class="rotate-45" />
@@ -132,15 +144,21 @@
         </q-footer>
 
         <q-drawer v-model="drawer2" :width="200" :breakpoint="900">
-          <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+          <div v-for="n in 50" :key="n">
+            Drawer {{ n }} / 50
+          </div>
         </q-drawer>
         <q-drawer side="right" v-model="drawer2R" :width="200" :breakpoint="900">
-          <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+          <div v-for="n in 50" :key="n">
+            Drawer {{ n }} / 50
+          </div>
         </q-drawer>
 
         <q-page-container>
           <q-page style="padding-top: 50px" class="bg-yellow">
-            <div v-for="n in contentSize" :key="n">My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}</div>
+            <div v-for="n in contentSize" :key="n">
+              My page My page My page My page My page My page My page My page My page {{ n }} / {{ contentSize }}
+            </div>
 
             <q-page-sticky position="top-left" :offset="[18, 58]">
               <q-btn round color="primary" icon="arrow_back" class="rotate-45" />
@@ -168,7 +186,9 @@
     </q-dialog>
 
     <q-btn @click="modal = true" label="Open" class="q-my-xl" />
-    <div v-for="n in 50" :key="n">Some text {{ n }} / 50</div>
+    <div v-for="n in 50" :key="n">
+      Some text {{ n }} / 50
+    </div>
   </div>
 </template>
 

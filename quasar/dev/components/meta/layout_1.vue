@@ -4,7 +4,9 @@
       <q-toolbar color="primary" glossy>
         <q-toolbar-title>
           First Layout
-          <div slot="subtitle">Running on Quasar v{{ $q.version }}</div>
+          <div slot="subtitle">
+            Running on Quasar v{{ $q.version }}
+          </div>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>

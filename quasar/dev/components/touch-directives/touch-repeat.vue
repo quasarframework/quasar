@@ -18,12 +18,14 @@
         <div v-if="info1" class="custom-info">
           <pre>{{ info1 }}</pre>
         </div>
-        <div v-else class="text-center">
+        <div v-else class="text-center q-pa-xl custom-area-placeholder">
           Click/touch and hold.
         </div>
       </div>
 
-      <p class="caption">Configured to also react to <kbd>SPACE</kbd>, <kbd>ENTER</kbd> and <kbd>h</kbd>, with 0:300* (ms) repeat pattern:</p>
+      <p class="caption">
+        Configured to also react to <kbd>SPACE</kbd>, <kbd>ENTER</kbd> and <kbd>h</kbd>, with 0:300* (ms) repeat pattern:
+      </p>
       <div
         v-touch-repeat:0:300.mouse.enter.space.72.104="handleHold2"
         class="custom-area row flex-center"
@@ -32,19 +34,25 @@
         <div v-if="info2" class="custom-info">
           <pre>{{ info2 }}</pre>
         </div>
-        <div v-else>Click/touch or press SPACE/ENTER/H and hold</div>
+        <div v-else class="q-pa-xl custom-area-placeholder">
+          Click/touch or press SPACE/ENTER/H and hold
+        </div>
       </div>
 
-      <p class="caption">Configured to also react to <kbd>ENTER</kbd> and <kbd>h</kbd>, with 200:300* (ms) repeat pattern:</p>
+      <p class="caption">
+        Configured to also react to <kbd>ENTER</kbd> and <kbd>h</kbd>, with 1000:300* (ms) repeat pattern:
+      </p>
       <div
-        v-touch-repeat:200:300.mouse.enter.72.104="handleHold3"
-        class="non-selectable custom-area row flex-center"
+        v-touch-repeat:1000:300.mouse.enter.72.104="handleHold3"
+        class="custom-area row flex-center"
         tabindex="0"
       >
         <div v-if="info3" class="custom-info">
           <pre>{{ info3 }}</pre>
         </div>
-        <div v-else>Click/touch or press ENTER/H and hold</div>
+        <div v-else class="q-pa-xl custom-area-placeholder">
+          Click/touch or press ENTER/H and hold
+        </div>
       </div>
 
       <div style="height: 500px">
@@ -82,9 +90,9 @@ export default {
       // native Javascript event
       console.log(evt)
     },
-    handleHold3 ({ keyboard, startTime, duration, repeatCount, evt }) {
-      this.info3 = { keyboard, startTime, duration, repeatCount }
-      if (keyboard) {
+    handleHold3 ({ evt, ...info }) {
+      this.info3 = info
+      if (info.keyboard) {
         this.info3.key = evt.key
         this.info3.code = evt.code
       }

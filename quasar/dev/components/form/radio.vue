@@ -8,7 +8,9 @@
       <q-toggle v-model="keepColor" :dark="dark" :dense="dense" label="Keep Color" />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 
-      <p class="caption">Standalone</p>
+      <p class="caption">
+        Standalone
+      </p>
       <div class="q-gutter-md">
         <q-radio @change="onChange" @input="onInput" v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor" />
         <q-radio @change="onChange" @input="onInput" v-model="option" val="opt2" label="Option 2" :dark="dark" :dense="dense" :keep-color="keepColor" />
@@ -16,17 +18,23 @@
         <q-radio @change="onChange" @input="onInput" v-model="option" val="opt4" color="orange" label="Option 4" :dark="dark" :dense="dense" :keep-color="keepColor" />
       </div>
 
-      <p class="caption">Label on the left side</p>
+      <p class="caption">
+        Label on the left side
+      </p>
       <div class="q-gutter-md">
         <q-radio v-model="option" val="opt2" left-label label="Option 2" :dark="dark" :dense="dense" :keep-color="keepColor" />
         <q-radio v-model="option" val="opt3" left-label color="teal" label="Option 3" :dark="dark" :dense="dense" :keep-color="keepColor" />
         <q-radio v-model="option" val="opt4" left-label color="orange" label="Option 4" :dark="dark" :dense="dense" :keep-color="keepColor" />
       </div>
 
-      <p class="caption">Disabled State</p>
+      <p class="caption">
+        Disabled State
+      </p>
       <q-radio v-model="option" val="opt1" disable label="Disabled Option 1" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
-      <p class="caption">Option Group</p>
+      <p class="caption">
+        Option Group
+      </p>
       <q-option-group
         type="radio"
         v-model="group"
@@ -41,7 +49,9 @@
         ]"
       />
 
-      <p class="caption">Another Option Group</p>
+      <p class="caption">
+        Another Option Group
+      </p>
       <q-option-group
         inline
         v-model="group"
@@ -54,7 +64,9 @@
         ]"
       />
 
-      <p class="caption">Inside of a List</p>
+      <p class="caption">
+        Inside of a List
+      </p>
       <q-list :dark="dark" :dense="dense">
         <q-item tag="label">
           <q-item-section avatar>
@@ -70,7 +82,9 @@
           </q-item-section>
           <q-item-section>
             <q-item-label>Option 2</q-item-label>
-            <q-item-label caption>Allows notifications</q-item-label>
+            <q-item-label caption>
+              Allows notifications
+            </q-item-label>
           </q-item-section>
         </q-item>
         <q-item tag="label">
@@ -79,7 +93,9 @@
           </q-item-section>
           <q-item-section>
             <q-item-label>Option 3</q-item-label>
-            <q-item-label caption>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</q-item-label>
+            <q-item-label caption>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>

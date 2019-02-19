@@ -9,7 +9,8 @@
               {label: 'Leaf', value: 'leaf'},
               {label: 'Leaf Filtered', value: 'leaf-filtered'},
               {label: 'Strict', value: 'strict'}
-            ]" label="Tick Strategy" />
+            ]" label="Tick Strategy"
+            />
           </div>
           <div class="col-xs-12 col-md-4">
             <q-toggle v-model="accordion" label="Accordion mode" />
@@ -69,7 +70,9 @@
               <div>
                 <div class="row items-center">
                   <span>{{ prop.node.label }}</span>
-                  <q-chip color="red" text-color="white" dense>New</q-chip>
+                  <q-chip color="red" text-color="white" dense>
+                    New
+                  </q-chip>
                 </div>
                 <div>Wooooow. Custom</div>
               </div>
@@ -82,7 +85,9 @@
         </q-tree>
       </div>
 
-      <div class="invisible" style="height: 500px">Scroll (on purpose)</div>
+      <div class="invisible" style="height: 500px">
+        Scroll (on purpose)
+      </div>
     </div>
   </div>
 </template>

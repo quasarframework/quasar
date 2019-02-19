@@ -2,8 +2,8 @@ import Vue from 'vue'
 
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
+import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
-import preventScroll from '../../utils/prevent-scroll.js'
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
 
@@ -27,7 +27,7 @@ const transitions = {
 export default Vue.extend({
   name: 'QDialog',
 
-  mixins: [ ModelToggleMixin, PortalMixin ],
+  mixins: [ ModelToggleMixin, PortalMixin, PreventScrollMixin ],
 
   modelToggle: {
     history: true
@@ -74,8 +74,6 @@ export default Vue.extend({
     },
 
     showing (val) {
-      this.__updateState(val, this.maximized)
-
       if (this.position !== 'standard' || this.transitionShow !== this.transitionHide) {
         this.$nextTick(() => {
           this.transitionState = val
@@ -89,7 +87,7 @@ export default Vue.extend({
     },
 
     seamless (v) {
-      this.showing && preventScroll(!v)
+      this.showing && this.__preventScroll(!v)
     }
   },
 
@@ -192,7 +190,7 @@ export default Vue.extend({
 
     __updateState (opening, maximized) {
       if (this.seamless !== true) {
-        preventScroll(opening)
+        this.__preventScroll(opening)
       }
 
       if (maximized === true) {
@@ -208,7 +206,9 @@ export default Vue.extend({
 
     __render (h) {
       return h('div', {
-        staticClass: 'q-dialog fullscreen no-pointer-events'
+        staticClass: 'q-dialog fullscreen no-pointer-events',
+        class: this.contentClass,
+        style: this.contentStyle
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }

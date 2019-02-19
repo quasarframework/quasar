@@ -20,7 +20,7 @@
 
     "delay": {
       "type": [ "Number", "String" ],
-      "desc": "Number (in milliseconds) defining a delay before custom scrollbars become visible after mouse is hovering the container",
+      "desc": "When content changes, the scrollbar appears; this delay defines the amount of time (in milliseconds) before scrollbars dissapear again (if component is not hovered)",
       "default": 1000,
       "examples": [ 500, ":delay=\"550\"" ]
     }

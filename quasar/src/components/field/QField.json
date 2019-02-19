@@ -77,6 +77,11 @@
       "extends": "rounded"
     },
 
+    "square": {
+      "type": "Boolean",
+      "desc": "Remove border-radius so borders are squared; Overrides 'rounded' prop"
+    },
+
     "dense": {
       "extends": "dense"
     },

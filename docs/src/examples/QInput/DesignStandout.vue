@@ -13,6 +13,8 @@
 
       <q-input standout v-model="ph" placeholder="Placeholder" hint="With placeholder" :dense="dense" />
 
+      <q-input standout square v-model="text" hint="With perfect square borders" :dense="dense" />
+
       <q-input standout v-model="text" :dense="dense">
         <template v-slot:prepend>
           <q-icon name="event" />

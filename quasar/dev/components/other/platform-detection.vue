@@ -8,8 +8,12 @@
       <table class="q-table striped">
         <thead>
           <tr>
-            <th class="text-left">Property</th>
-            <th class="text-left">Value</th>
+            <th class="text-left">
+              Property
+            </th>
+            <th class="text-left">
+              Value
+            </th>
           </tr>
         </thead>
 

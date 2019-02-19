@@ -8,11 +8,12 @@ export default {
       const child = [ this.getTableHeaderRow(h) ]
 
       if (this.loading === true) {
-        child.push(h('tr', { staticClass: 'q-table__progress q-animate--fade' }, [
-          h('td', { attrs: {colspan: '100%'} }, [
+        child.push(h('tr', { staticClass: 'q-table__progress' }, [
+          h('td', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
             h(QLinearProgress, {
               props: {
                 color: this.color,
+                dark: this.dark,
                 indeterminate: true
               },
               style: { height: '2px' }
@@ -30,13 +31,17 @@ export default {
         headerCell = this.$scopedSlots['header-cell']
 
       if (header !== void 0) {
-        return header(this.addTableHeaderRowMeta({header: true, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap}))
+        return header(this.addTableHeaderRowMeta({
+          header: true, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
+        }))
       }
 
       let mapFn
 
       if (headerCell !== void 0) {
-        mapFn = col => headerCell({col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap})
+        mapFn = col => headerCell({
+          col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
+        })
       }
       else {
         mapFn = col => h(QTh, {

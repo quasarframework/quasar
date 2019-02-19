@@ -55,8 +55,9 @@ export default Vue.extend({
   },
 
   methods: {
-    set () {
+    set (e) {
       if (!this.disable && !this.isTrue) {
+        e !== void 0 && stopAndPrevent(e)
         this.$emit('input', this.val)
       }
     },

@@ -43,6 +43,8 @@ export default Vue.extend({
     optionDisable: [Function, String],
 
     hideSelected: Boolean,
+    hideDropdownIcon: Boolean,
+
     counter: Boolean,
     maxValues: [Number, String],
 
@@ -106,7 +108,7 @@ export default Vue.extend({
         ? (this.multiple === true ? this.value : [ this.value ])
         : []
 
-      return this.mapOptions === true
+      return this.mapOptions === true && Array.isArray(this.options) === true
         ? val.map(v => this.__getOption(v))
         : val
     },
@@ -487,7 +489,7 @@ export default Vue.extend({
         return this.selectedScope.map((scope, i) => h(QChip, {
           key: 'option-' + i,
           props: {
-            removable: true,
+            removable: this.__isDisabled(scope.opt) !== true,
             dense: true,
             textColor: this.color,
             tabindex
@@ -582,7 +584,7 @@ export default Vue.extend({
     },
 
     __getInnerAppend (h) {
-      return [
+      return this.loading === true || this.hideDropdownIcon !== true ? [
         this.loading === true
           ? (
             this.$scopedSlots.loading !== void 0
@@ -591,11 +593,13 @@ export default Vue.extend({
           )
           : null,
 
-        h(QIcon, {
-          staticClass: 'q-select__dropdown-icon',
-          props: { name: this.dropdownArrowIcon }
-        })
-      ]
+        this.hideDropdownIcon !== true
+          ? h(QIcon, {
+            staticClass: 'q-select__dropdown-icon',
+            props: { name: this.dropdownArrowIcon }
+          })
+          : null
+      ] : null
     },
 
     __getInput (h) {
@@ -732,7 +736,8 @@ export default Vue.extend({
       updatePosition(
         el,
         this.$refs.control,
-        this.optionsCover === true && this.noOptions !== true && this.useInput !== true
+        this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
+        this.optionsDense
       )
     }
   },

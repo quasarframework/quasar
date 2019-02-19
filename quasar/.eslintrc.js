@@ -27,11 +27,13 @@ module.exports = {
   'rules': {
     'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
 
-    'vue/max-attributes-per-line': 0,
-    'vue/valid-v-for': 0,
-    'vue/require-default-prop': 0,
-    'vue/require-prop-types': 0,
-    'vue/require-v-for-key': 0,
+    'vue/max-attributes-per-line': 'off',
+    'vue/valid-v-for': 'off',
+    'vue/require-default-prop': 'off',
+    'vue/require-prop-types': 'off',
+    'vue/require-v-for-key': 'off',
+    'vue/return-in-computed-property': 'off',
+    'vue/require-render-return': 'off',
 
     // allow async-await
     'generator-star-spacing': 'off',

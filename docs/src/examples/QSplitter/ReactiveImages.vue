@@ -2,8 +2,11 @@
   <div>
     <q-splitter
       v-model="splitterModel"
-      style="height: 400px"
-      class="no-scroll"
+      style="height: 300px"
+      :limits="[0, 100]"
+      before-class="overflow-hidden"
+      after-class="overflow-hidden"
+      separator-class="bg-black"
     >
 
       <template v-slot:before>
@@ -33,8 +36,3 @@ export default {
   }
 }
 </script>
-<style>
-.no-scroll > .q-splitter__before, .no-scroll > .q-splitter__after {
-  overflow: hidden !important;
-}
-</style>

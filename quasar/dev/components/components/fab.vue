@@ -58,14 +58,20 @@
         @hide="closeFab"
       >
         <q-fab-action color="blue" class="white" icon="person_add">
-          <q-tooltip ref="tooltip1" anchor="center left" self="center right" :offset="[20, 0]">Add a person</q-tooltip>
+          <q-tooltip ref="tooltip1" anchor="center left" self="center right" :offset="[20, 0]">
+            Add a person
+          </q-tooltip>
         </q-fab-action>
         <q-fab-action color="blue" class="white" icon="group_add">
-          <q-tooltip ref="tooltip2" anchor="center left" self="center right" :offset="[20, 0]">Add a group</q-tooltip>
+          <q-tooltip ref="tooltip2" anchor="center left" self="center right" :offset="[20, 0]">
+            Add a group
+          </q-tooltip>
         </q-fab-action>
       </q-fab>
 
-      <div style="height: 1000px">&nbsp;</div>
+      <div style="height: 1000px">
+&nbsp;
+      </div>
 
       <q-fab
         color="primary"
@@ -73,12 +79,18 @@
         class="fixed-bottom-right"
         style="right: 18px; bottom: 18px;"
       >
-        <q-tooltip ref="tooltip0" slot="tooltip" anchor="center left" self="center right" :offset="[20, 0]">Tooltip in FAB</q-tooltip>
+        <q-tooltip ref="tooltip0" slot="tooltip" anchor="center left" self="center right" :offset="[20, 0]">
+          Tooltip in FAB
+        </q-tooltip>
         <q-fab-action color="purple" @click="notify('mail')" icon="mail">
-          <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">Mail</q-tooltip>
+          <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">
+            Mail
+          </q-tooltip>
         </q-fab-action>
         <q-fab-action color="secondary" @click="notify('alarm')" icon="alarm">
-          <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">Alarm</q-tooltip>
+          <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">
+            Alarm
+          </q-tooltip>
         </q-fab-action>
       </q-fab>
     </div>

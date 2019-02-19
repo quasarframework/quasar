@@ -23,7 +23,7 @@ export default Vue.extend({
         'q-item__section--thumbnail': this.thumbnail,
         'q-item__section--side': side,
         'q-item__section--nowrap': this.noWrap,
-        [`q-item__section--main col`]: !side,
+        'q-item__section--main': !side,
         [`justify-${this.top ? 'start' : 'center'}`]: true
       }
     }

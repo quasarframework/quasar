@@ -4,7 +4,9 @@
       <q-toolbar color="secondary" glossy>
         <q-toolbar-title>
           Second Layout
-          <div slot="subtitle">Running on Quasar v{{ $q.version }}</div>
+          <div slot="subtitle">
+            Running on Quasar v{{ $q.version }}
+          </div>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>

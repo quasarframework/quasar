@@ -8,14 +8,20 @@
       <q-toggle v-model="keepColor" :dark="dark" :dense="dense" label="Keep Color" />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 
-      <p class="caption">Standalone</p>
+      <p class="caption">
+        Standalone
+      </p>
       <q-checkbox v-model="checked" checked-icon="sentiment very satisfied" unchecked-icon="sentiment very dissatisfied" indeterminate-icon="help" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" checked-icon="visibility" unchecked-icon="visibility_off" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
-      <p class="caption">Indeterminate</p>
+      <p class="caption">
+        Indeterminate
+      </p>
       <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Tap me to change between 3 states" />
 
-      <p class="caption">Tests</p>
+      <p class="caption">
+        Tests
+      </p>
       <q-checkbox @change="onChange" @input="onInput" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" label="Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
@@ -23,12 +29,16 @@
       <q-checkbox v-model="checked" no-focus color="teal" label="Checkbox Label - skip focus" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" color="orange" label="Checkbox Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
-      <p class="caption">Label on the left side</p>
+      <p class="caption">
+        Label on the left side
+      </p>
       <q-checkbox v-model="checked" color="teal" left-label label="Checkbox Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" color="orange" left-label label="Checkbox Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" color="dark" left-label label="Checkbox Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
-      <p class="caption">Array Model</p>
+      <p class="caption">
+        Array Model
+      </p>
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{ selection }}</em></span>
       </div>
@@ -42,10 +52,14 @@
       </div>
       <q-checkbox v-model="customChecked" true-value="Custom Active" false-value="Custom Not Active" :dark="dark" :dense="dense" :keep-color="keepColor" label="Tap me" />
 
-      <p class="caption">Disabled State</p>
+      <p class="caption">
+        Disabled State
+      </p>
       <q-checkbox v-model="checked" disable label="Disabled Checkbox" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
-      <p class="caption">Option Group</p>
+      <p class="caption">
+        Option Group
+      </p>
       <q-option-group
         inline
         type="checkbox"
@@ -61,7 +75,9 @@
         ]"
       />
 
-      <p class="caption">Another Option Group</p>
+      <p class="caption">
+        Another Option Group
+      </p>
       <q-option-group
         type="checkbox"
         v-model="group"
@@ -76,11 +92,13 @@
         ]"
       />
 
-      <p class="caption">Inside of a List</p>
+      <p class="caption">
+        Inside of a List
+      </p>
       <q-list :dark="dark" :dense="dense">
         <q-item tag="label">
           <q-item-section avatar>
-            <q-checkbox @change="onChange" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"/>
+            <q-checkbox @change="onChange" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Notification</q-item-label>
@@ -88,20 +106,26 @@
         </q-item>
         <q-item tag="label">
           <q-item-section avatar>
-            <q-checkbox @change="onChange" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"/>
+            <q-checkbox @change="onChange" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Notification</q-item-label>
-            <q-item-label caption>Allow notification</q-item-label>
+            <q-item-label caption>
+              Allow notification
+            </q-item-label>
           </q-item-section>
         </q-item>
         <q-item tag="label">
           <q-item-section avatar>
-            <q-checkbox @change="onChange" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"/>
+            <q-checkbox @change="onChange" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
           </q-item-section>
           <q-item-section>
-            <q-item-label label>Notification</q-item-label>
-            <q-item-label caption>Allow notifications Allow notifications Allow notifications Allow notifications Allow notifications</q-item-label>
+            <q-item-label label>
+              Notification
+            </q-item-label>
+            <q-item-label caption>
+              Allow notifications Allow notifications Allow notifications Allow notifications Allow notifications
+            </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>

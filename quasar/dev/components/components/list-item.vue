@@ -106,7 +106,9 @@
         </q-item>
       </q-list>
 
-      <p class="caption">Links</p>
+      <p class="caption">
+        Links
+      </p>
       <q-list bordered class="q-my-md" :dark="dark">
         <q-item to="/" exact>
           <q-item-section avatar>
@@ -145,32 +147,42 @@
         </q-item>
       </q-list>
 
-      <p class="caption">Active</p>
+      <p class="caption">
+        Active
+      </p>
       <q-list padding bordered :dark="dark">
         <q-item clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="signal_wifi_off" />
           </q-item-section>
           <q-item-section>Normal</q-item-section>
-          <q-item-section side>Side</q-item-section>
+          <q-item-section side>
+            Side
+          </q-item-section>
         </q-item>
         <q-item clickable v-ripple active>
           <q-item-section avatar>
             <q-icon name="signal_wifi_off" />
           </q-item-section>
           <q-item-section>Active</q-item-section>
-          <q-item-section side>Side</q-item-section>
+          <q-item-section side>
+            Side
+          </q-item-section>
         </q-item>
         <q-item clickable v-ripple active active-class="text-orange">
           <q-item-section avatar>
             <q-icon name="signal_wifi_off" />
           </q-item-section>
           <q-item-section>Active, Active Color</q-item-section>
-          <q-item-section side>Side</q-item-section>
+          <q-item-section side>
+            Side
+          </q-item-section>
         </q-item>
       </q-list>
 
-      <p class="caption">Dense</p>
+      <p class="caption">
+        Dense
+      </p>
       <q-list dense padding bordered class="q-my-md" :dark="dark">
         <q-item clickable class="text-primary">
           <q-item-section>Single line item</q-item-section>
@@ -192,7 +204,9 @@
         </q-item>
 
         <q-separator spaced :dark="dark" />
-        <q-item-label header>Dense</q-item-label>
+        <q-item-label header>
+          Dense
+        </q-item-label>
 
         <q-item clickable>
           <q-item-section avatar>
@@ -302,14 +316,20 @@
       <q-list bordered padding class="q-my-md" :dark="dark">
         <q-item>
           <q-item-section>
-            <q-item-label overline>OVERLINE</q-item-label>
+            <q-item-label overline>
+              OVERLINE
+            </q-item-label>
             <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+            <q-item-label caption>
+              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
+            </q-item-label>
           </q-item-section>
         </q-item>
 
         <q-separator spaced :dark="dark" />
-        <q-item-label header>Section</q-item-label>
+        <q-item-label header>
+          Section
+        </q-item-label>
 
         <q-item>
           <q-item-section avatar>
@@ -327,7 +347,9 @@
 
           <q-item-section>
             <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+            <q-item-label caption>
+              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
+            </q-item-label>
           </q-item-section>
         </q-item>
 
@@ -340,7 +362,9 @@
 
           <q-item-section>
             <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+            <q-item-label caption>
+              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
+            </q-item-label>
           </q-item-section>
         </q-item>
 
@@ -355,7 +379,9 @@
 
           <q-item-section>
             <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+            <q-item-label caption>
+              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
+            </q-item-label>
           </q-item-section>
         </q-item>
 
@@ -370,7 +396,9 @@
 
           <q-item-section>
             <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+            <q-item-label caption>
+              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
+            </q-item-label>
           </q-item-section>
         </q-item>
 
@@ -383,7 +411,9 @@
 
           <q-item-section>
             <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+            <q-item-label caption>
+              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
+            </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -391,18 +421,26 @@
       <q-list bordered padding class="q-my-md" :dark="dark">
         <q-item>
           <q-item-section>
-            <q-item-label overline>OVERLINE</q-item-label>
+            <q-item-label overline>
+              OVERLINE
+            </q-item-label>
             <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+            <q-item-label caption>
+              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
+            </q-item-label>
           </q-item-section>
 
           <q-item-section side top>
-            <q-item-label caption>5 min ago</q-item-label>
+            <q-item-label caption>
+              5 min ago
+            </q-item-label>
           </q-item-section>
         </q-item>
 
         <q-separator spaced :dark="dark" />
-        <q-item-label header>Section</q-item-label>
+        <q-item-label header>
+          Section
+        </q-item-label>
 
         <q-item>
           <q-item-section avatar>
@@ -410,7 +448,9 @@
           </q-item-section>
           <q-item-section>List item</q-item-section>
           <q-item-section side>
-            <q-item-label caption>meta</q-item-label>
+            <q-item-label caption>
+              meta
+            </q-item-label>
           </q-item-section>
         </q-item>
 
@@ -423,11 +463,15 @@
 
           <q-item-section>
             <q-item-label>Single line item</q-item-label>
-            <q-item-label caption lines="2">Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+            <q-item-label caption lines="2">
+              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
+            </q-item-label>
           </q-item-section>
 
           <q-item-section side top>
-            <q-item-label caption>5 min ago</q-item-label>
+            <q-item-label caption>
+              5 min ago
+            </q-item-label>
             <q-icon name="star" color="yellow" />
           </q-item-section>
         </q-item>
@@ -441,11 +485,15 @@
 
           <q-item-section>
             <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+            <q-item-label caption>
+              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
+            </q-item-label>
           </q-item-section>
 
           <q-item-section side top>
-            <q-item-label caption>meta</q-item-label>
+            <q-item-label caption>
+              meta
+            </q-item-label>
           </q-item-section>
         </q-item>
 
@@ -460,11 +508,15 @@
 
           <q-item-section>
             <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+            <q-item-label caption>
+              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
+            </q-item-label>
           </q-item-section>
 
           <q-item-section side top>
-            <q-chip color="primary" text-color="white" dense square>10k</q-chip>
+            <q-chip color="primary" text-color="white" dense square>
+              10k
+            </q-chip>
           </q-item-section>
         </q-item>
 
@@ -479,11 +531,15 @@
 
           <q-item-section>
             <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+            <q-item-label caption>
+              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
+            </q-item-label>
           </q-item-section>
 
           <q-item-section side top>
-            <q-item-label caption>meta</q-item-label>
+            <q-item-label caption>
+              meta
+            </q-item-label>
           </q-item-section>
         </q-item>
 
@@ -496,17 +552,23 @@
 
           <q-item-section>
             <q-item-label>Single line item</q-item-label>
-            <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
+            <q-item-label caption>
+              Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.
+            </q-item-label>
           </q-item-section>
 
           <q-item-section side top>
-            <q-item-label caption>meta</q-item-label>
+            <q-item-label caption>
+              meta
+            </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
 
       <q-list bordered padding :dark="dark">
-        <q-item-label header>User Controls</q-item-label>
+        <q-item-label header>
+          User Controls
+        </q-item-label>
 
         <q-item>
           <q-item-section>
@@ -529,7 +591,9 @@
         </q-item>
 
         <q-separator spaced :dark="dark" />
-        <q-item-label header>General</q-item-label>
+        <q-item-label header>
+          General
+        </q-item-label>
 
         <q-item tag="label">
           <q-item-section side>
@@ -573,7 +637,9 @@
     </div>
 
     <div class="q-layout-padding" style="max-width: 700px">
-      <q-item-label header>Google Inbox style</q-item-label>
+      <q-item-label header>
+        Google Inbox style
+      </q-item-label>
       <q-list class="shadow-1 q-pa-none">
         <q-item>
           <q-item-section avatar top>
@@ -581,7 +647,9 @@
           </q-item-section>
 
           <q-item-section top class="col-2 gt-sm">
-            <q-item-label class="q-mt-sm">Github</q-item-label>
+            <q-item-label class="q-mt-sm">
+              Github
+            </q-item-label>
           </q-item-section>
 
           <q-item-section top>
@@ -614,7 +682,9 @@
           </q-item-section>
 
           <q-item-section top class="col-2 gt-sm">
-            <q-item-label class="q-mt-sm">Github</q-item-label>
+            <q-item-label class="q-mt-sm">
+              Github
+            </q-item-label>
           </q-item-section>
 
           <q-item-section top>

@@ -21,7 +21,9 @@
           <q-item clickable @click="showNotify">
             <q-item-section>
               <q-item-label>Does nothing</q-item-label>
-              <q-item-label caption>Sublabel</q-item-label>
+              <q-item-label caption>
+                Sublabel
+              </q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -35,13 +37,14 @@
           <q-item clickable @click="showNotify">
             <q-item-section>
               <q-item-label>X Does nothing</q-item-label>
-              <q-item-label caption>sublabel</q-item-label>
+              <q-item-label caption>
+                sublabel
+              </q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
       </q-menu>
     </q-btn>
-
   </div>
 </template>
 

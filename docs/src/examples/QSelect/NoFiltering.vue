@@ -6,6 +6,7 @@
       use-input
       use-chips
       multiple
+      hide-dropdown-icon
       input-debounce="0"
       @new-value="createValue"
       style="width: 250px"

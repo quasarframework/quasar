@@ -195,7 +195,9 @@
             </q-item>
           </q-select>
 
-          <div style="height: 400px">Scroll on purpose</div>
+          <div style="height: 400px">
+            Scroll on purpose
+          </div>
         </form>
         <q-page-sticky expand position="bottom" :class="dark ? 'bg-blue-8 text-white' : 'bg-yellow'">
           <q-select
