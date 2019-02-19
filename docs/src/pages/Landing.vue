@@ -156,6 +156,12 @@
         a(href='https://utopian.io/', target='_blank')
           img(width='170px', src='https://cdn.quasar-framework.org/sponsors/utopian.png')
 
+        a(href='https://wallabyjs.com/', target='_blank')
+          img(width='110px', src='https://cdn.quasar-framework.org/sponsors/wallaby.png')
+
+        a(href='https://snyk.io/', target='_blank')
+          img(width='170px', src='https://cdn.quasar-framework.org/sponsors/snyk.png')
+
   section.landing__footer
     div.text-center
       div.footer__icons.row.flex-center
@@ -261,7 +267,7 @@ export default {
       margin 26px 0
 
     p
-      opacity 0.6
+      opacity .6
       font-size 16px
 
   &__footer
@@ -271,6 +277,7 @@ export default {
 
     .doc-link
       color #fff
+
       &:hover
         opacity .8
 
@@ -309,6 +316,7 @@ export default {
 
 body.mobile .landing
   background unset
+
   &:before
     content ''
     position fixed /* stretch a fixed position to the whole screen */
