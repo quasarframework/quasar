@@ -97,13 +97,14 @@ export const PanelParentMixin = {
         return opt &&
           opt.propsData.name === name &&
           opt.propsData.disable !== '' &&
-          opt.propsData.disable !== false
+          opt.propsData.disable !== true
       })
     },
 
     __getAllPanels () {
       return this.panels.filter(
-        panel => panel.componentOptions !== void 0 && panel.componentOptions.propsData.name !== void 0
+        panel => panel.componentOptions !== void 0 &&
+          this.__isValidPanelName(panel.componentOptions.propsData.name)
       )
     },
 
@@ -113,7 +114,7 @@ export const PanelParentMixin = {
         return opt &&
           opt.propsData.name !== void 0 &&
           opt.propsData.disable !== '' &&
-          opt.propsData.disable !== false
+          opt.propsData.disable !== true
       })
     },
 

@@ -15,6 +15,8 @@
       <q-toggle label="Caption" v-model="caption" />
       <q-toggle label="Use 'done' prop" v-model="useDone" />
 
+      <q-toggle label="Step 4 disable" v-model="stepDisable" />
+
       <q-stepper
         :class="'q-mt-lg' + (dark ? ' bg-black' : '')"
         :vertical="vertical"
@@ -68,7 +70,7 @@
             </q-btn>
           </q-stepper-navigation>
         </q-step>
-        <q-step :name="4" :done="useDone && step > 4" :header-nav="headerNavStep ? step > 4 : true" disable title="Disabled" icon="map">
+        <q-step :name="4" :done="useDone && step > 4" :header-nav="headerNavStep ? step > 4 : true" :disable="stepDisable" title="Disabled" icon="map">
           <div v-for="n in 3" :key="'4.'+n">
             {{ n }} Step 4
           </div>
@@ -114,6 +116,8 @@ export default {
   data () {
     return {
       color: 'primary',
+
+      stepDisable: true,
 
       step: 1,
       vertical: false,
