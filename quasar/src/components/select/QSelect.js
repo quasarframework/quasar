@@ -108,7 +108,7 @@ export default Vue.extend({
         ? (this.multiple === true ? this.value : [ this.value ])
         : []
 
-      return this.mapOptions === true
+      return this.mapOptions === true && Array.isArray(this.options) === true
         ? val.map(v => this.__getOption(v))
         : val
     },
