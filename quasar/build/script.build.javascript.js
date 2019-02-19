@@ -30,7 +30,7 @@ const builds = [
   {
     rollup: {
       input: {
-        input: resolve(`src/index.umd.js`)
+        input: resolve(`src/index.common.js`)
       },
       output: {
         file: resolve(`dist/quasar.common.js`),
