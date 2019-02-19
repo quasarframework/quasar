@@ -736,7 +736,8 @@ export default Vue.extend({
       updatePosition(
         el,
         this.$refs.control,
-        this.optionsCover === true && this.noOptions !== true && this.useInput !== true
+        this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
+        this.optionsDense
       )
     }
   },
