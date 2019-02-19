@@ -151,7 +151,7 @@
           img(width='170px', src='https://cdn.quasar-framework.org/sponsors/letsbutterfly.png')
 
       .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Partners
-      .q-col-gutter-md.flex.flex-center
+      .q-gutter-md.flex.flex-center
 
         a(href='https://utopian.io/', target='_blank')
           img(width='170px', src='https://cdn.quasar-framework.org/sponsors/utopian.png')
@@ -248,7 +248,7 @@ export default {
 
   &__arrow
     bottom 8px
-    opacity 0.4
+    opacity .4
 
   &__front
     background linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)
@@ -267,7 +267,7 @@ export default {
       margin 26px 0
 
     p
-      opacity 0.6
+      opacity .6
       font-size 16px
 
   &__footer
@@ -279,13 +279,13 @@ export default {
       color #fff
 
       &:hover
-        opacity 0.8
+        opacity .8
 
   &__swirl-bg
     background-repeat no-repeat !important
     background-position top center
     background-size contain !important
-    background-image url('https://cdn.quasar-framework.org/img/landing_first_section.png') !important // cdn.quasar-framework.org/img/landing_first_section.png) !important
+    background-image url(https://cdn.quasar-framework.org/img/landing_first_section.png) !important
 
 @keyframes logo-rotate
   100%
