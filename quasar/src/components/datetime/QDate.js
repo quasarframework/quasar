@@ -89,6 +89,12 @@ export default Vue.extend({
       const date = new Date(model.year, model.month - 1, model.day)
       if (isNaN(date.valueOf())) { return ' --- ' }
 
+      if (this.$q.lang.isoName === 'zh-hans') {
+        return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
+        model.month + '月 ' +
+        model.day + '日'
+      }
+
       return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
         this.$q.lang.date.monthsShort[ model.month - 1 ] + ' ' +
         model.day
