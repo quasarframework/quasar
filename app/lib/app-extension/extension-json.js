@@ -15,7 +15,7 @@ class ExtensionJson {
     }
     catch (e) {
       console.log(e)
-      warn(`⚠️  [FAIL] quasar.extensions.json has errors`)
+      warn(`⚠️  [FAIL] quasar.extensions.json is malformed`)
       process.exit(1)
     }
   }
