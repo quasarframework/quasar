@@ -489,7 +489,7 @@ export default Vue.extend({
         return this.selectedScope.map((scope, i) => h(QChip, {
           key: 'option-' + i,
           props: {
-            removable: true,
+            removable: this.__isDisabled(scope.opt) !== true,
             dense: true,
             textColor: this.color,
             tabindex
