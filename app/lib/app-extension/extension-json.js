@@ -10,6 +10,11 @@ const extensionPath = appPaths.resolve.app('quasar.extensions.json')
 
 class ExtensionJson {
   constructor () {
+    if (!fs.existsSync(extensionPath)) {
+      this.extensions = {}
+      return
+    }
+
     try {
       this.extensions = require(extensionPath)
     }
