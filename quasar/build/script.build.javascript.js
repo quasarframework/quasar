@@ -30,6 +30,21 @@ const builds = [
   {
     rollup: {
       input: {
+        input: resolve(`src/index.umd.js`)
+      },
+      output: {
+        file: resolve(`dist/quasar.common.js`),
+        format: 'cjs'
+      }
+    },
+    build: {
+      minified: true,
+      minExt: false
+    }
+  },
+  {
+    rollup: {
+      input: {
         input: resolve('src/ie-compat/ie.js')
       },
       output: {
