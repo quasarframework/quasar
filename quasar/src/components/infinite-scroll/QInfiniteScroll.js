@@ -70,7 +70,7 @@ export default Vue.extend({
 
     reset () {
       this.index = 0
-      this.working = true
+      this.resume()
     },
 
     resume () {
