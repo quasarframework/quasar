@@ -167,7 +167,7 @@ Quasar Flex CSS classes can be applied based on the width of the screen, to help
 What we've learned so far is that, for example, we can size the columns regardless of window width. If we are to create a response UI, we need to dynamically change the sizing while taking into account how wide the window is. First, let's learn about some tokens that you can inject at middle of `col-*`, `offset-*` and `col-auto` helper classes (look at table below for tokens).
 
 | Token | Max window width | Description / When it applies |
-| --- | --- |
+| --- | --- | --- |
 | `xs` | 599px | Extra small sized window |
 | `sm` | 1023px | Small sized window |
 | `md` | 1439px | Medium-sized window |
