@@ -154,6 +154,24 @@
           </q-icon>
         </q-input>
       </div>
+
+      <div class="text-h6">
+        Input with close on selection: {{ input }}
+      </div>
+      <div class="q-gutter-md column">
+        <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
+          <q-icon slot="append" name="event" class="cursor-pointer">
+            <q-popup-proxy ref="qDateProxy">
+              <q-date
+                v-model="input"
+                v-bind="props"
+                :style="style"
+                @input="() => $refs.qDateProxy.hide()"
+              />
+            </q-popup-proxy>
+          </q-icon>
+        </q-input>
+      </div>
     </div>
   </div>
 </template>

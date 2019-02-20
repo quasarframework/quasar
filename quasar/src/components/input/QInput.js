@@ -55,7 +55,7 @@ export default Vue.extend({
       // if it has a number of rows set respect it
       else if (this.$attrs.rows > 0) {
         const inp = this.$refs.input
-        inp.style.height = 'unset'
+        inp.style.height = 'auto'
       }
     }
   },

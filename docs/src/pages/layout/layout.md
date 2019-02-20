@@ -28,7 +28,7 @@ Scaffold your layout(s) by clicking on the button below.
 ## Usage
 
 ::: warning Using margin CSS will break the layout
-QLayout depends on taking up the whole screen and so QPageContainer, QHeader, QFooter and QLayoutDrawer positions are managed by it (through the `view` prop). You **cannot** use *CSS margins* as a style neither on QLayout itself nor on any of the QLayout components mentioned above. However use can safely use *CSS padding*.
+QLayout depends on taking up the whole screen and so QPageContainer, QHeader, QFooter and QLayoutDrawer positions are managed by it (through the `view` prop). You **cannot** use *CSS margins* as a style neither on QLayout itself nor on any of the QLayout components mentioned above. However you can safely use *CSS padding*.
 :::
 
 ::: tip

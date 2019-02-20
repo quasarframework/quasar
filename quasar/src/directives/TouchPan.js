@@ -104,14 +104,16 @@ export default {
       mouseStart (evt) {
         if (leftClick(evt)) {
           document.addEventListener('mousemove', ctx.move, mouseEvtOpts)
-          document.addEventListener('click', ctx.mouseEnd, mouseEvtOpts)
+          document.addEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
+          document.addEventListener('click', ctx.endClick, mouseEvtOpts)
           ctx.start(evt, true)
         }
       },
 
       mouseEnd (evt) {
         document.removeEventListener('mousemove', ctx.move, mouseEvtOpts)
-        document.removeEventListener('click', ctx.mouseEnd, mouseEvtOpts)
+        document.removeEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
+        document.removeEventListener('click', ctx.endClick, mouseEvtOpts)
         ctx.end(evt, true)
       },
 
@@ -135,6 +137,7 @@ export default {
           y: pos.top,
           time: new Date().getTime(),
           mouse: mouseEvent === true,
+          handleClick: false,
           detected: false,
           abort: false,
           isFirst: true,
@@ -205,7 +208,12 @@ export default {
         }
 
         handleEvent(evt, mouseEvent)
+        ctx.event.handleClick = true
         ctx.handler(processChanges(evt, ctx, true))
+      },
+
+      endClick (evt) {
+        ctx.handleClick === true && handleEvent(evt, true)
       }
     }
 
@@ -261,7 +269,8 @@ export default {
       if (mouse === true) {
         el.removeEventListener('mousedown', ctx.mouseStart, mouseEvtOpts)
         document.removeEventListener('mousemove', ctx.move, mouseEvtOpts)
-        document.removeEventListener('click', ctx.mouseEnd, mouseEvtOpts)
+        document.removeEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
+        document.removeEventListener('click', ctx.endClick, mouseEvtOpts)
       }
       el.removeEventListener('touchstart', ctx.start, touchEvtOpts)
       el.removeEventListener('touchmove', ctx.move, touchEvtOpts)

@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/field/QField" ],
+  "mixins": [ "components/field/__QField" ],
 
   "props": {
     "value": {

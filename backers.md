@@ -115,6 +115,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Andy Burnett
 - Heitor Lessa
 - Aprixon Information Services GmbH
+- Ronald Stevens
 
 ### $10+
 

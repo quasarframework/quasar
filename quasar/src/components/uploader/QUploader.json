@@ -106,6 +106,16 @@
       "examples": [ "POST", ":method=\"files => files.length > 10 ? 'POST' : 'PUT'\"" ]
     },
 
+    "field-name": {
+      "type": [ "String", "Function" ],
+      "default": "(file) => file.name",
+      "desc": "Field name for each file upload; This goes into the following header: 'Content-Disposition: form-data; name=\"__HERE__\"; filename=\"somefile.png\"",
+      "examples": [
+        "backgroundFile",
+        ":field-name=\"(file) => 'background' + file.name\""
+      ]
+    },
+
     "headers": {
       "type": [ "Array", "Function" ],
       "desc": "Array or a factory function which returns an array; Array consists of objects with header definitions; Function is called right before upload",

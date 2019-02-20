@@ -59,12 +59,11 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return {
-        'q-date--dark': this.dark,
-        'q-date--readonly': this.readonly,
-        'disabled': this.disable,
-        [`q-date--${this.landscape === true ? 'landscape' : 'portrait'}`]: true
-      }
+      const type = this.landscape === true ? 'landscape' : 'portrait'
+      return `q-date--${type} q-date--${type}-${this.minimal === true ? 'minimal' : 'standard'}` +
+        (this.dark === true ? ' q-date--dark' : '') +
+        (this.readonly === true ? ' q-date--readonly' : '') +
+        (this.disable === true ? ' disabled' : '')
     },
 
     extModel () {
@@ -89,7 +88,7 @@ export default Vue.extend({
       const date = new Date(model.year, model.month - 1, model.day)
       if (isNaN(date.valueOf())) { return ' --- ' }
 
-      if (this.$q.lang.isoName === 'zh-hans') {
+      if (this.$q.lang.isoName === 'zh-hans' || this.$q.lang.isoName === 'zh-hant') {
         return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
         model.month + '月 ' +
         model.day + '日'
@@ -516,6 +515,7 @@ export default Vue.extend({
               props: {
                 flat: !active,
                 label: i,
+                dense: true,
                 unelevated: active,
                 color: active ? this.computedColor : null,
                 textColor: active ? this.computedTextColor : null,
