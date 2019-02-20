@@ -83,7 +83,6 @@ export default Vue.extend({
     if (this.disable === true || this.type === null) { return }
 
     let component
-
     const data = {
       props: Object.assign({}, this.$attrs, {
         value: this.showing
@@ -101,6 +100,6 @@ export default Vue.extend({
       data.props.noParentEvent = true
     }
 
-    return h(component, data, slotDefault)
+    return h(component, data, slot(this, 'default'))
   }
 })
