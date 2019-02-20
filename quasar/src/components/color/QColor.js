@@ -34,11 +34,6 @@ export default Vue.extend({
     TouchPan
   },
 
-  menuProxyProps: {
-    cover: true,
-    maxHeight: '100vh'
-  },
-
   props: {
     value: String,
 
