@@ -64,14 +64,14 @@ export default {
       mouseStart (evt) {
         if (leftClick(evt)) {
           document.addEventListener('mousemove', ctx.move, true)
-          document.addEventListener('click', ctx.mouseEnd, true)
+          document.addEventListener('mouseup', ctx.mouseEnd, true)
           ctx.start(evt, true)
         }
       },
 
       mouseEnd (evt) {
         document.removeEventListener('mousemove', ctx.move, true)
-        document.removeEventListener('click', ctx.mouseEnd, true)
+        document.removeEventListener('mouseup', ctx.mouseEnd, true)
         ctx.end(evt)
       },
 
@@ -80,13 +80,15 @@ export default {
           ctx.touchTargetObserver.disconnect()
           ctx.touchTargetObserver = void 0
         }
-        const target = evt.target
-        ctx.touchTargetObserver = new MutationObserver(() => {
-          if (el.contains(target) === false) {
-            ctx[mouseEvent === true ? 'mouseEnd' : 'end'](evt)
-          }
-        })
-        ctx.touchTargetObserver.observe(el, { childList: true, subtree: true })
+        if (mouseEvent !== true) {
+          const target = evt.target
+          ctx.touchTargetObserver = new MutationObserver(() => {
+            if (el.contains(target) === false) {
+              ctx.end(evt)
+            }
+          })
+          ctx.touchTargetObserver.observe(el, { childList: true, subtree: true })
+        }
 
         const pos = position(evt)
 
@@ -195,6 +197,7 @@ export default {
         }
 
         if (ctx.event.dir !== false) {
+          document.body.classList.add('no-pointer-events')
           stopAndPrevent(evt)
           clearSelection()
 
@@ -219,8 +222,9 @@ export default {
           ctx.touchTargetObserver = void 0
         }
 
-        if (ctx.event.abort === false && ctx.event.dir !== false) {
-          stopAndPrevent(evt)
+        if (ctx.event.dir !== false) {
+          document.body.classList.remove('no-pointer-events')
+          ctx.event.abort === false && stopAndPrevent(evt)
         }
       }
     }
@@ -255,10 +259,14 @@ export default {
         ctx.touchTargetObserver = void 0
       }
 
+      if (ctx.event !== void 0 && ctx.event.dir !== false) {
+        document.body.classList.remove('no-pointer-events')
+      }
+
       if (binding.modifiers.mouse === true) {
         el.removeEventListener('mousedown', ctx.mouseStart)
         document.removeEventListener('mousemove', ctx.move, true)
-        document.removeEventListener('click', ctx.mouseEnd, true)
+        document.removeEventListener('mouseup', ctx.mouseEnd, true)
       }
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchmove', ctx.move)

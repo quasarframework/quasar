@@ -42,14 +42,14 @@ export default {
       mouseStart (evt) {
         if (leftClick(evt)) {
           document.addEventListener('mousemove', ctx.mouseEnd, true)
-          document.addEventListener('click', ctx.mouseEnd, true)
+          document.addEventListener('mouseup', ctx.mouseEnd, true)
           ctx.start(evt, true)
         }
       },
 
       mouseEnd (evt) {
         document.removeEventListener('mousemove', ctx.mouseEnd, true)
-        document.removeEventListener('click', ctx.mouseEnd, true)
+        document.removeEventListener('mouseup', ctx.mouseEnd, true)
         ctx.end(evt)
       },
 
@@ -78,21 +78,15 @@ export default {
           ctx.touchTargetObserver.disconnect()
           ctx.touchTargetObserver = void 0
         }
-        const target = evt.target
-        ctx.touchTargetObserver = new MutationObserver(() => {
-          if (el.contains(target) === false) {
-            if (keyboardEvent) {
-              ctx.keyboardEnd(evt)
+        if (mouseEvent !== true) {
+          const target = evt.target
+          ctx.touchTargetObserver = new MutationObserver(() => {
+            if (el.contains(target) === false) {
+              ctx[keyboardEvent === true ? 'keyboardEnd' : 'end'](evt)
             }
-            else if (mouseEvent) {
-              ctx.mouseEnd(evt)
-            }
-            else {
-              ctx.end(evt)
-            }
-          }
-        })
-        ctx.touchTargetObserver.observe(el, { childList: true, subtree: true })
+          })
+          ctx.touchTargetObserver.observe(el, { childList: true, subtree: true })
+        }
 
         if (Platform.is.mobile === true) {
           document.body.classList.add('non-selectable')
@@ -112,6 +106,7 @@ export default {
             ctx.event.position = position(evt)
             if (Platform.is.mobile !== true) {
               document.documentElement.style.cursor = 'pointer'
+              document.body.classList.add('no-pointer-events')
               document.body.classList.add('non-selectable')
               clearSelection()
             }
@@ -140,6 +135,7 @@ export default {
 
         if (Platform.is.mobile === true || (ctx.event !== void 0 && ctx.event.repeatCount > 0)) {
           document.documentElement.style.cursor = ''
+          document.body.classList.remove('no-pointer-events')
           document.body.classList.remove('non-selectable')
         }
 
@@ -185,6 +181,7 @@ export default {
 
       if (Platform.is.mobile === true || (ctx.event !== void 0 && ctx.event.repeatCount > 0)) {
         document.documentElement.style.cursor = ''
+        document.body.classList.remove('no-pointer-events')
         document.body.classList.remove('non-selectable')
       }
 
@@ -194,7 +191,7 @@ export default {
       if (binding.modifiers.mouse === true) {
         el.removeEventListener('mousedown', ctx.mouseStart)
         document.removeEventListener('mousemove', ctx.mouseEnd, true)
-        document.removeEventListener('click', ctx.mouseEnd, true)
+        document.removeEventListener('mouseup', ctx.mouseEnd, true)
       }
       if (ctx.keyboard.length > 0) {
         el.removeEventListener('keydown', ctx.keyboardStart)

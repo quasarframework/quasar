@@ -133,6 +133,7 @@ export default Vue.extend({
           modifiers: {
             horizontal: true,
             mouse: true,
+            mousePrevent: true,
             mouseAllDir: true
           }
         }] : null
