@@ -515,6 +515,7 @@ export default Vue.extend({
               props: {
                 flat: !active,
                 label: i,
+                dense: true,
                 unelevated: active,
                 color: active ? this.computedColor : null,
                 textColor: active ? this.computedTextColor : null,
