@@ -19,7 +19,7 @@
         Standard
       </div>
 
-      <q-input v-bind="props" v-model="text" />
+      <q-input v-bind="props" v-model="text" @focus="onFocus" @blur="onBlur" />
 
       <q-input v-bind="props" v-model="text" label="Label (stacked) g" stack-label />
 
