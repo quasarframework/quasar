@@ -59,12 +59,11 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return {
-        'q-date--dark': this.dark,
-        'q-date--readonly': this.readonly,
-        'disabled': this.disable,
-        [`q-date--${this.landscape === true ? 'landscape' : 'portrait'}`]: true
-      }
+      const type = this.landscape === true ? 'landscape' : 'portrait'
+      return `q-date--${type} q-date--${type}-${this.minimal === true ? 'minimal' : 'standard'}` +
+        (this.dark === true ? ' q-date--dark' : '') +
+        (this.readonly === true ? ' q-date--readonly' : '') +
+        (this.disable === true ? ' disabled' : '')
     },
 
     extModel () {
