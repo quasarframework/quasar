@@ -121,10 +121,10 @@ export default Vue.extend({
         directives: this.ripple !== false && this.disable ? null : [
           { name: 'ripple', value: this.ripple }
         ],
-        [tag === 'div' ? 'on' : 'nativeOn']: {
+        on: tag === 'div' ? {
           click: this.activate,
           keyup: this.__onKeyup
-        }
+        } : {}
       }
 
       if (props !== void 0) {
