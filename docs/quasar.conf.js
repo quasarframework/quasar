@@ -85,7 +85,11 @@ module.exports = function (ctx) {
         loadingBar: {
           color: 'amber'
         }
-      }
+      },
+
+      plugins: [
+        'Cookies'
+      ]
     },
 
     animations: ['fadeIn', 'fadeOut'],
