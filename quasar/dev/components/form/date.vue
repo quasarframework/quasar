@@ -155,7 +155,9 @@
         </q-input>
       </div>
 
-      <div class="text-h6">Input with close on selection: {{ input }}</div>
+      <div class="text-h6">
+        Input with close on selection: {{ input }}
+      </div>
       <div class="q-gutter-md column">
         <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
           <q-icon slot="append" name="event" class="cursor-pointer">
