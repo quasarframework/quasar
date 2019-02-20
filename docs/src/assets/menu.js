@@ -4,26 +4,6 @@ const gettingStarted = [
     path: 'pick-quasar-flavour'
   },
   {
-    name: 'How to use Vue',
-    path: 'how-to-use-vue'
-  },
-  {
-    name: 'Playground',
-    path: 'playground'
-  },
-  {
-    name: 'Roadmap',
-    path: 'roadmap'
-  },
-  {
-    name: 'Upgrade guide',
-    path: 'upgrade-guide'
-  },
-  {
-    name: 'Contribution Guide',
-    path: 'contribution-guide'
-  },
-  {
     name: 'Quasar Flavours',
     opened: true,
     children: [
@@ -40,6 +20,22 @@ const gettingStarted = [
         path: 'vue-cli-plugin'
       }
     ]
+  },
+  {
+    name: 'How to use Vue',
+    path: 'how-to-use-vue'
+  },
+  {
+    name: 'Playground',
+    path: 'playground'
+  },
+  {
+    name: 'Roadmap',
+    path: 'roadmap'
+  },
+  {
+    name: 'Upgrade guide',
+    path: 'upgrade-guide'
   }
 ]
 
@@ -87,6 +83,255 @@ const options = [
   {
     name: 'Global Event Bus',
     path: 'global-event-bus'
+  }
+]
+
+const cli = [
+  {
+    name: 'Installation',
+    path: 'installation'
+  },
+  {
+    name: 'quasar.conf.js',
+    path: 'quasar-conf-js'
+  },
+  {
+    name: 'Testing & Auditing',
+    path: 'testing-and-auditing'
+  },
+  {
+    name: 'CLI Documentation',
+    path: 'cli-documentation',
+    children: [
+      {
+        name: 'Directory Structure',
+        path: 'directory-structure'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Commands List',
+        path: 'commands-list'
+      },
+      {
+        name: 'Routing',
+        path: 'routing'
+      },
+      {
+        name: 'Lazy Loading - Code Splitting',
+        path: 'lazy-loading'
+      },
+      {
+        name: 'Handling Assets',
+        path: 'handling-assets'
+      },
+      {
+        name: 'Boot Files',
+        path: 'boot-files'
+      },
+      {
+        name: 'Prefetch Feature',
+        path: 'prefetch-feature'
+      },
+      {
+        name: 'API Proxying',
+        path: 'api-proxying'
+      },
+      {
+        name: 'Handling Webpack',
+        path: 'handling-webpack'
+      },
+      {
+        name: 'Vuex Store',
+        path: 'vuex-store'
+      },
+      {
+        name: 'Linter',
+        path: 'linter'
+      },
+      {
+        name: 'Supporting IE',
+        path: 'supporting-ie'
+      }
+    ]
+  },
+  {
+    name: 'App Extensions',
+    path: 'app-extensions',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      }
+    ]
+  },
+  {
+    name: 'Developing SPA',
+    path: 'developing-spa',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Deploying',
+        path: 'deploying'
+      }
+    ]
+  },
+  {
+    name: 'Developing SSR',
+    path: 'developing-ssr',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Writing Universal Code',
+        path: 'writing-universal-code'
+      },
+      {
+        name: 'Configuring SSR',
+        path: 'configuring-ssr'
+      },
+      {
+        name: 'Client Side Hydration',
+        path: 'client-side-hydration'
+      },
+      {
+        name: 'Handling 404 and 500 Errors',
+        path: 'handling-404-and-500-errors'
+      },
+      {
+        name: 'SSR with PWA',
+        path: 'ssr-with-pwa'
+      },
+      {
+        name: 'SSR Frequently Asked Questions',
+        path: 'ssr-frequently-asked-questions'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Deploying',
+        path: 'deploying'
+      }
+    ]
+  },
+  {
+    name: 'Developing PWA',
+    path: 'developing-pwa',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Configuring PWA',
+        path: 'configuring-pwa'
+      },
+      {
+        name: 'Handling Service Worker',
+        path: 'handling-service-worker'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      }
+    ]
+  },
+  {
+    name: 'Developing Mobile Apps',
+    path: 'developing-mobile-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Configuring Cordova',
+        path: 'configuring-cordova'
+      },
+      {
+        name: 'Cordova Plugins',
+        path: 'cordova-plugins'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips'
+      },
+      {
+        name: 'Managing Google Analytics',
+        path: 'managing-google-analytics'
+      },
+      {
+        name: 'Publishing to Store',
+        path: 'publishing-to-store'
+      }
+    ]
+  },
+  {
+    name: 'Developing Electron Apps',
+    path: 'developing-electron-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Configuring Electron',
+        path: 'configuring-electron'
+      },
+      {
+        name: 'Electron Packages',
+        path: 'electron-packages'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Electron Static Assets',
+        path: 'electron-static-assets'
+      },
+      {
+        name: 'Electron Security Concerns',
+        path: 'electron-security-concerns'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips'
+      }
+    ]
+  },
+  {
+    name: 'Ajax Requests',
+    path: 'ajax-requests'
+  },
+  {
+    name: 'Opening Dev Server To Public',
+    path: 'opening-dev-server-to-public'
   }
 ]
 
@@ -585,255 +830,6 @@ const utils = [
   {
     name: 'Other Utils',
     path: 'other-utils'
-  }
-]
-
-const cli = [
-  {
-    name: 'Installation',
-    path: 'installation'
-  },
-  {
-    name: 'quasar.conf.js',
-    path: 'quasar-conf-js'
-  },
-  {
-    name: 'Testing & Auditing',
-    path: 'testing-and-auditing'
-  },
-  {
-    name: 'CLI Documentation',
-    path: 'cli-documentation',
-    children: [
-      {
-        name: 'Directory Structure',
-        path: 'directory-structure'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Commands List',
-        path: 'commands-list'
-      },
-      {
-        name: 'Routing',
-        path: 'routing'
-      },
-      {
-        name: 'Lazy Loading - Code Splitting',
-        path: 'lazy-loading'
-      },
-      {
-        name: 'Handling Assets',
-        path: 'handling-assets'
-      },
-      {
-        name: 'Boot Files',
-        path: 'boot-files'
-      },
-      {
-        name: 'Prefetch Feature',
-        path: 'prefetch-feature'
-      },
-      {
-        name: 'API Proxying',
-        path: 'api-proxying'
-      },
-      {
-        name: 'Handling Webpack',
-        path: 'handling-webpack'
-      },
-      {
-        name: 'Vuex Store',
-        path: 'vuex-store'
-      },
-      {
-        name: 'Linter',
-        path: 'linter'
-      },
-      {
-        name: 'Supporting IE',
-        path: 'supporting-ie'
-      }
-    ]
-  },
-  {
-    name: 'App Extensions',
-    path: 'app-extensions',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      }
-    ]
-  },
-  {
-    name: 'Developing SPA',
-    path: 'developing-spa',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Deploying',
-        path: 'deploying'
-      }
-    ]
-  },
-  {
-    name: 'Developing SSR',
-    path: 'developing-ssr',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
-        name: 'Writing Universal Code',
-        path: 'writing-universal-code'
-      },
-      {
-        name: 'Configuring SSR',
-        path: 'configuring-ssr'
-      },
-      {
-        name: 'Client Side Hydration',
-        path: 'client-side-hydration'
-      },
-      {
-        name: 'Handling 404 and 500 Errors',
-        path: 'handling-404-and-500-errors'
-      },
-      {
-        name: 'SSR with PWA',
-        path: 'ssr-with-pwa'
-      },
-      {
-        name: 'SSR Frequently Asked Questions',
-        path: 'ssr-frequently-asked-questions'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Deploying',
-        path: 'deploying'
-      }
-    ]
-  },
-  {
-    name: 'Developing PWA',
-    path: 'developing-pwa',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
-        name: 'Configuring PWA',
-        path: 'configuring-pwa'
-      },
-      {
-        name: 'Handling Service Worker',
-        path: 'handling-service-worker'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      }
-    ]
-  },
-  {
-    name: 'Developing Mobile Apps',
-    path: 'developing-mobile-apps',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
-        name: 'Preparation',
-        path: 'preparation'
-      },
-      {
-        name: 'Configuring Cordova',
-        path: 'configuring-cordova'
-      },
-      {
-        name: 'Cordova Plugins',
-        path: 'cordova-plugins'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Troubleshooting and Tips',
-        path: 'troubleshooting-and-tips'
-      },
-      {
-        name: 'Managing Google Analytics',
-        path: 'managing-google-analytics'
-      },
-      {
-        name: 'Publishing to Store',
-        path: 'publishing-to-store'
-      }
-    ]
-  },
-  {
-    name: 'Developing Electron Apps',
-    path: 'developing-electron-apps',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
-        name: 'Preparation',
-        path: 'preparation'
-      },
-      {
-        name: 'Configuring Electron',
-        path: 'configuring-electron'
-      },
-      {
-        name: 'Electron Packages',
-        path: 'electron-packages'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Electron Static Assets',
-        path: 'electron-static-assets'
-      },
-      {
-        name: 'Electron Security Concerns',
-        path: 'electron-security-concerns'
-      },
-      {
-        name: 'Troubleshooting and Tips',
-        path: 'troubleshooting-and-tips'
-      }
-    ]
-  },
-  {
-    name: 'Ajax Requests',
-    path: 'ajax-requests'
-  },
-  {
-    name: 'Opening Dev Server To Public',
-    path: 'opening-dev-server-to-public'
   }
 ]
 
