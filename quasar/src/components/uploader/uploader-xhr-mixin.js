@@ -14,6 +14,10 @@ export default {
       type: [Function, String],
       default: 'POST'
     },
+    fieldName: {
+      type: [Function, String],
+      default: file => file.name
+    },
     headers: [Function, Array],
     fields: [Function, Array],
     withCredentials: Boolean,
@@ -33,6 +37,7 @@ export default {
         method: getFn(this.method),
         headers: getFn(this.headers),
         fields: getFn(this.fields),
+        fieldName: getFn(this.fieldName),
         batch: getFn(this.batch)
       }
     },
@@ -158,7 +163,7 @@ export default {
 
       files.forEach(file => {
         this.__updateFile(file, 'uploading', 0)
-        form.append(file.name, file)
+        form.append(this.xhrProps.fieldName(file), file)
         file.xhr = xhr
         file.__abort = xhr.abort
         maxUploadSize += file.size
@@ -235,7 +240,7 @@ export default {
       file.__abort = xhr.abort
       this.__emit('uploading', { files, xhr })
 
-      form.append(file.name, file)
+      form.append(this.xhrProps.fieldName(file), file)
       xhr.send(form)
     }
   }
