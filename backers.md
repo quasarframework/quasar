@@ -116,6 +116,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Heitor Lessa
 - Aprixon Information Services GmbH
 - Ronald Stevens
+- Flippen Group
 
 ### $10+
 
