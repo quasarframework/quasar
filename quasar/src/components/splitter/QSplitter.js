@@ -141,8 +141,9 @@ export default Vue.extend({
               vertical: this.horizontal,
               prevent: true,
               mouse: true,
-              mouseAllDir: true,
-              mousePrevent: true
+              mousePrevent: true,
+              mouseStop: true,
+              mouseAllDir: true
             }
           }]
         })

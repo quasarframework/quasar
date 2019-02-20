@@ -490,6 +490,8 @@ export default Vue.extend({
             modifiers: {
               horizontal: true,
               mouse: true,
+              mousePrevent: true,
+              mouseStop: true,
               mouseAllDir: true
             },
             value: this.__openByTouch
@@ -508,6 +510,8 @@ export default Vue.extend({
           modifiers: {
             horizontal: true,
             mouse: true,
+            mousePrevent: true,
+            mouseStop: true,
             mouseAllDir: true
           },
           value: this.__closeByTouch

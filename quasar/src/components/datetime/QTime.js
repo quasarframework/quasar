@@ -434,8 +434,8 @@ export default Vue.extend({
                     stop: true,
                     prevent: true,
                     mouse: true,
-                    mouseStop: true,
-                    mousePrevent: true
+                    mousePrevent: true,
+                    mouseStop: true
                   }
                 }]
               }, [

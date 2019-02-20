@@ -224,8 +224,9 @@ export default Vue.extend({
             vertical: true,
             prevent: true,
             mouse: true,
-            mouseAllDir: true,
-            mousePrevent: true
+            mousePrevent: true,
+            mouseStop: true,
+            mouseAllDir: true
           },
           value: this.__panThumb
         }]
