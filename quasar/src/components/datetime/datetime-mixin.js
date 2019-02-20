@@ -1,9 +1,4 @@
 export default {
-  menuProxyProps: {
-    cover: true,
-    maxHeight: '100vh'
-  },
-
   props: {
     value: {
       required: true
