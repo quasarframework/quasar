@@ -9,7 +9,7 @@ export default Vue.extend({
   props: {
     debounce: [String, Number],
     horisontal: {
-      type: Boolean,
+      type: [String, Boolean],
       default: false
     }
   },
