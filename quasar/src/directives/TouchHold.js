@@ -1,4 +1,5 @@
 import { position, leftClick, stopAndPrevent } from '../utils/event.js'
+import { setObserver, removeObserver } from '../utils/touch-observer.js'
 import { clearSelection } from '../utils/selection.js'
 import Platform from '../plugins/Platform.js'
 
@@ -34,17 +35,8 @@ export default {
       },
 
       start (evt, mouseEvent) {
-        if (ctx.touchTargetObserver !== void 0) {
-          ctx.touchTargetObserver.disconnect()
-          ctx.touchTargetObserver = void 0
-        }
-        const target = evt.target
-        ctx.touchTargetObserver = new MutationObserver(() => {
-          if (el.contains(target) === false) {
-            ctx[mouseEvent === true ? 'mouseEnd' : 'end'](evt)
-          }
-        })
-        ctx.touchTargetObserver.observe(el, { childList: true, subtree: true })
+        removeObserver(ctx)
+        mouseEvent !== true && setObserver(el, evt, ctx)
 
         const startTime = new Date().getTime()
 
@@ -71,11 +63,7 @@ export default {
       },
 
       end (evt) {
-        if (ctx.touchTargetObserver !== void 0) {
-          ctx.touchTargetObserver.disconnect()
-          ctx.touchTargetObserver = void 0
-        }
-
+        removeObserver(ctx)
         document.body.classList.remove('non-selectable')
 
         if (ctx.triggered === true) {
@@ -110,13 +98,8 @@ export default {
   unbind (el, binding) {
     let ctx = el.__qtouchhold_old || el.__qtouchhold
     if (ctx !== void 0) {
-      if (ctx.touchTargetObserver !== void 0) {
-        ctx.touchTargetObserver.disconnect()
-        ctx.touchTargetObserver = void 0
-      }
-
+      removeObserver(ctx)
       clearTimeout(ctx.timer)
-
       document.body.classList.remove('non-selectable')
 
       if (binding.modifiers.mouse === true) {

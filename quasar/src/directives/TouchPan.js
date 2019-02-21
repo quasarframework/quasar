@@ -1,4 +1,5 @@
-import { position, leftClick, listenOpts, stopAndPrevent } from '../utils/event.js'
+import { position, leftClick, listenOpts } from '../utils/event.js'
+import { setObserver, removeObserver } from '../utils/touch-observer.js'
 import { clearSelection } from '../utils/selection.js'
 
 function getDirection (mod) {
@@ -89,7 +90,7 @@ export default {
     function handleEvent (evt, mouseEvent) {
       if (mouse && mouseEvent) {
         binding.modifiers.mouseStop && evt.stopPropagation()
-        binding.modifiers.mousePrevent && stopAndPrevent(evt)
+        binding.modifiers.mousePrevent && evt.preventDefault()
       }
       else {
         binding.modifiers.stop && evt.stopPropagation()
@@ -105,7 +106,6 @@ export default {
         if (leftClick(evt)) {
           document.addEventListener('mousemove', ctx.move, mouseEvtOpts)
           document.addEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
-          document.addEventListener('click', ctx.endClick, mouseEvtOpts)
           ctx.start(evt, true)
         }
       },
@@ -113,22 +113,12 @@ export default {
       mouseEnd (evt) {
         document.removeEventListener('mousemove', ctx.move, mouseEvtOpts)
         document.removeEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
-        document.removeEventListener('click', ctx.endClick, mouseEvtOpts)
-        ctx.end(evt, true)
+        ctx.end(evt)
       },
 
       start (evt, mouseEvent) {
-        if (ctx.targetObserver !== void 0) {
-          ctx.targetObserver.disconnect()
-          ctx.targetObserver = void 0
-        }
-        const target = evt.target
-        ctx.targetObserver = new MutationObserver(() => {
-          if (el.contains(target) === false) {
-            ctx[mouseEvent === true ? 'mouseEnd' : 'end'](evt)
-          }
-        })
-        ctx.targetObserver.observe(el, { childList: true, subtree: true })
+        removeObserver(ctx)
+        mouseEvent !== true && setObserver(el, evt, ctx)
 
         const pos = position(evt)
 
@@ -137,7 +127,6 @@ export default {
           y: pos.top,
           time: new Date().getTime(),
           mouse: mouseEvent === true,
-          handleClick: false,
           detected: false,
           abort: false,
           isFirst: true,
@@ -193,11 +182,8 @@ export default {
         ctx.move(evt)
       },
 
-      end (evt, mouseEvent) {
-        if (ctx.targetObserver !== void 0) {
-          ctx.targetObserver.disconnect()
-          ctx.targetObserver = void 0
-        }
+      end (evt) {
+        ctx.event.mouse !== true && removeObserver(ctx)
 
         document.documentElement.style.cursor = ''
         document.body.classList.remove('no-pointer-events')
@@ -207,13 +193,8 @@ export default {
           return
         }
 
-        handleEvent(evt, mouseEvent)
-        ctx.event.handleClick = true
+        handleEvent(evt, ctx.event.mouse)
         ctx.handler(processChanges(evt, ctx, true))
-      },
-
-      endClick (evt) {
-        ctx.handleClick === true && handleEvent(evt, true)
       }
     }
 
@@ -250,10 +231,7 @@ export default {
   unbind (el, binding) {
     let ctx = el.__qtouchpan_old || el.__qtouchpan
     if (ctx !== void 0) {
-      if (ctx.targetObserver !== void 0) {
-        ctx.targetObserver.disconnect()
-        ctx.targetObserver = void 0
-      }
+      removeObserver(ctx)
 
       document.documentElement.style.cursor = ''
       document.body.classList.remove('no-pointer-events')
@@ -270,7 +248,6 @@ export default {
         el.removeEventListener('mousedown', ctx.mouseStart, mouseEvtOpts)
         document.removeEventListener('mousemove', ctx.move, mouseEvtOpts)
         document.removeEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
-        document.removeEventListener('click', ctx.endClick, mouseEvtOpts)
       }
       el.removeEventListener('touchstart', ctx.start, touchEvtOpts)
       el.removeEventListener('touchmove', ctx.move, touchEvtOpts)

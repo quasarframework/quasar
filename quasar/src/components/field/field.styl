@@ -97,7 +97,8 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     width 100%
     min-width 0 // needed for FF
     outline 0 !important // needed for FF
-    line-height 1em // needed for Chrome type="file"
+    &[type="file"]
+      line-height 1em // needed for Chrome type="file"
   &__prefix, &__suffix
     transition opacity $field-transition
   &__prefix
@@ -119,9 +120,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     transform-origin left top
     transition transform $field-transition, color $field-transition
 
-  &--float
-    .q-field__label
-      transform translate3d(0, -50%, 0) scale3d(.75, .75, .75)
+  &--float .q-field__label,
+  .q-field__native:-webkit-autofill + .q-field__label
+    transform translate3d(0, -50%, 0) scale3d(.75, .75, .75)
 
   &--focused
     .q-field__label
