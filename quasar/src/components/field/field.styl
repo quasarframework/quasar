@@ -120,7 +120,8 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     transform-origin left top
     transition transform $field-transition, color $field-transition
 
-  &--float .q-field__label,
+  &--float .q-field__label
+    transform translate3d(0, -50%, 0) scale3d(.75, .75, .75)
   .q-field__native:-webkit-autofill + .q-field__label
     transform translate3d(0, -50%, 0) scale3d(.75, .75, .75)
 
