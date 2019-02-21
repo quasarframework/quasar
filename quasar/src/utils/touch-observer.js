@@ -1,7 +1,7 @@
 export function setObserver (el, evt, ctx, fn) {
   const target = evt.target
   ctx.touchTargetObserver = new MutationObserver(() => {
-    el.contains(target) === false && fn()
+    el.contains(target) === false && ctx.end(evt)
   })
   ctx.touchTargetObserver.observe(el, { childList: true, subtree: true })
 }

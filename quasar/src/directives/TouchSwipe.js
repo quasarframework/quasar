@@ -78,9 +78,7 @@ export default {
 
       start (evt, mouseEvent) {
         removeObserver(ctx)
-        mouseEvent !== true && setObserver(el, evt, ctx, () => {
-          ctx.end(evt)
-        })
+        mouseEvent !== true && setObserver(el, evt, ctx)
 
         const pos = position(evt)
 

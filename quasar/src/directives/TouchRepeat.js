@@ -58,7 +58,7 @@ export default {
         if (keyboard.includes(evt.keyCode)) {
           if (durations[0] === 0 || ctx.event !== void 0) {
             stopAndPrevent(evt)
-
+            el.focus()
             if (ctx.event !== void 0) {
               return
             }
@@ -76,9 +76,9 @@ export default {
 
       start (evt, mouseEvent, keyboardEvent) {
         removeObserver(ctx)
-        mouseEvent !== true && setObserver(el, evt, ctx, () => {
-          ctx[keyboardEvent === true ? 'keyboardEnd' : 'end'](evt)
-        })
+        if (mouseEvent !== true && keyboardEvent !== true) {
+          setObserver(el, evt, ctx)
+        }
 
         if (Platform.is.mobile === true) {
           document.body.classList.add('non-selectable')
@@ -118,12 +118,16 @@ export default {
         ctx.timer = setTimeout(fn, durations[0])
       },
 
-      end () {
+      end (evt) {
         removeObserver(ctx)
 
-        if (Platform.is.mobile === true || (ctx.event !== void 0 && ctx.event.repeatCount > 0)) {
-          document.documentElement.style.cursor = ''
-          document.body.classList.remove('non-selectable')
+        if (ctx.event !== void 0 && ctx.event.repeatCount > 0) {
+          stopAndPrevent(evt)
+
+          if (Platform.is.mobile === true) {
+            document.documentElement.style.cursor = ''
+            document.body.classList.remove('non-selectable')
+          }
         }
 
         clearTimeout(ctx.timer)
