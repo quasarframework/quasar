@@ -41,7 +41,7 @@ export default {
 
   methods: {
     __pad (unit) {
-      return (unit < 10 ? '0' : '') + unit
+      return (unit < 10 && typeof unit === 'string' ? '0' : '') + unit
     },
 
     __padYear (unit) {
