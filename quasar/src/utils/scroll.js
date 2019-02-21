@@ -41,6 +41,25 @@ export function animScrollTo (el, to, duration) {
   })
 }
 
+export function animHorisontalScrollTo (el, to, duration) {
+  const pos = getHorizontalScrollPosition(el)
+
+  if (duration <= 0) {
+    if (pos !== to) {
+      setHorisontalScroll(el, to)
+    }
+    return
+  }
+
+  requestAnimationFrame(() => {
+    const newPos = pos + (to - pos) / Math.max(16, duration) * 16
+    setHorisontalScroll(el, newPos)
+    if (newPos !== to) {
+      animHorisontalScrollTo(el, to, duration - 16)
+    }
+  })
+}
+
 function setScroll (scrollTarget, offset) {
   if (scrollTarget === window) {
     window.scrollTo(0, offset)
@@ -49,12 +68,28 @@ function setScroll (scrollTarget, offset) {
   scrollTarget.scrollTop = offset
 }
 
+function setHorisontalScroll (scrollTarget, offset) {
+  if (scrollTarget === window) {
+    window.scrollTo(offset, 0)
+    return
+  }
+  scrollTarget.scrollLeft = offset
+}
+
 export function setScrollPosition (scrollTarget, offset, duration) {
   if (duration) {
     animScrollTo(scrollTarget, offset, duration)
     return
   }
   setScroll(scrollTarget, offset)
+}
+
+export function setHorisontalScrollPosition (scrollTarget, offset, duration) {
+  if (duration) {
+    animHorisontalScrollTo(scrollTarget, offset, duration)
+    return
+  }
+  setHorisontalScroll(scrollTarget, offset)
 }
 
 let size
