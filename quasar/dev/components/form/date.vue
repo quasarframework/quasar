@@ -32,6 +32,9 @@
         Null/Undefined model
         <q-btn outline color="primary" size="sm" label="Reset" @click="nullDate = null" />
       </div>
+
+      <div>{{ nullDate }}</div>
+
       <div class="q-gutter-md column">
         <q-date
           v-model="nullDate"
@@ -51,6 +54,9 @@
       <div class="text-h6">
         Colored
       </div>
+
+      <div>{{ date }}</div>
+
       <div class="q-gutter-md column">
         <q-date
           v-model="date"
@@ -71,6 +77,9 @@
       <div class="text-h6">
         Events
       </div>
+
+      <div>{{ date }}</div>
+
       <div class="q-gutter-md column">
         <q-date
           v-model="date"
@@ -92,6 +101,9 @@
       <div class="text-h6">
         Limited options
       </div>
+
+      <div>{{ date }}</div>
+
       <div class="q-gutter-md column">
         <q-date
           v-model="date"
