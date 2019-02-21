@@ -1,4 +1,5 @@
 import Platform from '../plugins/Platform.js'
+import { setObserver, removeObserver } from '../utils/touch-observer.js'
 import { position, leftClick, stopAndPrevent } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
@@ -64,29 +65,22 @@ export default {
       mouseStart (evt) {
         if (leftClick(evt)) {
           document.addEventListener('mousemove', ctx.move, true)
-          document.addEventListener('click', ctx.mouseEnd, true)
+          document.addEventListener('mouseup', ctx.mouseEnd, true)
           ctx.start(evt, true)
         }
       },
 
       mouseEnd (evt) {
         document.removeEventListener('mousemove', ctx.move, true)
-        document.removeEventListener('click', ctx.mouseEnd, true)
+        document.removeEventListener('mouseup', ctx.mouseEnd, true)
         ctx.end(evt)
       },
 
       start (evt, mouseEvent) {
-        if (ctx.touchTargetObserver !== void 0) {
-          ctx.touchTargetObserver.disconnect()
-          ctx.touchTargetObserver = void 0
-        }
-        const target = evt.target
-        ctx.touchTargetObserver = new MutationObserver(() => {
-          if (el.contains(target) === false) {
-            ctx[mouseEvent === true ? 'mouseEnd' : 'end'](evt)
-          }
+        removeObserver(ctx)
+        mouseEvent !== true && setObserver(el, evt, ctx, () => {
+          ctx.end(evt)
         })
-        ctx.touchTargetObserver.observe(el, { childList: true, subtree: true })
 
         const pos = position(evt)
 
@@ -195,6 +189,7 @@ export default {
         }
 
         if (ctx.event.dir !== false) {
+          document.body.classList.add('no-pointer-events')
           stopAndPrevent(evt)
           clearSelection()
 
@@ -214,12 +209,10 @@ export default {
       },
 
       end (evt) {
-        if (ctx.touchTargetObserver !== void 0) {
-          ctx.touchTargetObserver.disconnect()
-          ctx.touchTargetObserver = void 0
-        }
+        removeObserver(ctx)
 
         if (ctx.event.abort === false && ctx.event.dir !== false) {
+          document.body.classList.remove('no-pointer-events')
           stopAndPrevent(evt)
         }
       }
@@ -250,15 +243,13 @@ export default {
   unbind (el, binding) {
     const ctx = el.__qtouchswipe_old || el.__qtouchswipe
     if (ctx !== void 0) {
-      if (ctx.touchTargetObserver !== void 0) {
-        ctx.touchTargetObserver.disconnect()
-        ctx.touchTargetObserver = void 0
-      }
+      removeObserver(ctx)
+      document.body.classList.remove('no-pointer-events')
 
       if (binding.modifiers.mouse === true) {
         el.removeEventListener('mousedown', ctx.mouseStart)
         document.removeEventListener('mousemove', ctx.move, true)
-        document.removeEventListener('click', ctx.mouseEnd, true)
+        document.removeEventListener('mouseup', ctx.mouseEnd, true)
       }
       el.removeEventListener('touchstart', ctx.start)
       el.removeEventListener('touchmove', ctx.move)
