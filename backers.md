@@ -216,6 +216,9 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Tatsuki Sugiura
 - Ravi Ranganathan
 - Carl Farrington
+- Andrey Solovieff
+- Ian Claxton
+- Pascal de Sélys
 
 - Jim O'Quinn ($5)
 - Ken ($5)
