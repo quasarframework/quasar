@@ -15,45 +15,45 @@ const
   }
 
 const builds = [
-  {
-    rollup: {
-      input: {
-        input: resolve(`src/index.esm.js`)
-      },
-      output: {
-        file: resolve(`dist/quasar.esm.js`),
-        format: 'es'
-      }
-    },
-    build: { minified: true, minExt: false }
-  },
-  {
-    rollup: {
-      input: {
-        input: resolve(`src/index.common.js`)
-      },
-      output: {
-        file: resolve(`dist/quasar.common.js`),
-        format: 'cjs'
-      }
-    },
-    build: {
-      minified: true,
-      minExt: false
-    }
-  },
-  {
-    rollup: {
-      input: {
-        input: resolve('src/ie-compat/ie.js')
-      },
-      output: {
-        file: resolve('dist/quasar.ie.polyfills.js'),
-        format: 'es'
-      }
-    },
-    build: { minified: true, minExt: false }
-  },
+  // {
+  //   rollup: {
+  //     input: {
+  //       input: resolve(`src/index.esm.js`)
+  //     },
+  //     output: {
+  //       file: resolve(`dist/quasar.esm.js`),
+  //       format: 'es'
+  //     }
+  //   },
+  //   build: { minified: true, minExt: false }
+  // },
+  // {
+  //   rollup: {
+  //     input: {
+  //       input: resolve(`src/index.common.js`)
+  //     },
+  //     output: {
+  //       file: resolve(`dist/quasar.common.js`),
+  //       format: 'cjs'
+  //     }
+  //   },
+  //   build: {
+  //     minified: true,
+  //     minExt: false
+  //   }
+  // },
+  // {
+  //   rollup: {
+  //     input: {
+  //       input: resolve('src/ie-compat/ie.js')
+  //     },
+  //     output: {
+  //       file: resolve('dist/quasar.ie.polyfills.js'),
+  //       format: 'es'
+  //     }
+  //   },
+  //   build: { minified: true, minExt: false }
+  // },
   {
     rollup: {
       input: {

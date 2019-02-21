@@ -55,8 +55,8 @@ function generateFiles ({ sources, name = '', styl }) {
       return code.css
     })
     .then(code => Promise.all([
-      generateUMD(name, code),
-      postcss([ rtl({}) ]).process(code, { from: void 0 }).then(code => generateUMD(name, code.css, '.rtl'))
+      generateUMD(name, code)
+      // postcss([ rtl({}) ]).process(code, { from: void 0 }).then(code => generateUMD(name, code.css, '.rtl'))
     ]))
 }
 

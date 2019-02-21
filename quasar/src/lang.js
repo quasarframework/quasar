@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import langEn from '../lang/en-us.js'
+import langCn from '../lang/zh-hans'
 import { isSSR } from './plugins/Platform.js'
 
 export default {
@@ -25,10 +25,10 @@ export default {
       })
     }
 
-    this.set = (lang = langEn) => {
+    this.set = (lang = langCn) => {
       lang.set = this.set
       lang.getLocale = this.getLocale
-      lang.rtl = lang.rtl || false
+      lang.rtl = false
 
       if (!isSSR) {
         const el = document.documentElement
