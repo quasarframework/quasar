@@ -66,7 +66,7 @@ export default {
     },
 
     onClick (ev) {
-      console.log('click', ev.type, ev)
+      console.log('onClick', ev.type, ev)
     }
   }
 }

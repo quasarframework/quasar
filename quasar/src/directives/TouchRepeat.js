@@ -1,4 +1,5 @@
 import { position, leftClick, stopAndPrevent } from '../utils/event.js'
+import { setObserver, removeObserver } from '../utils/touch-observer.js'
 import { clearSelection } from '../utils/selection.js'
 import Platform from '../plugins/Platform.js'
 
@@ -57,7 +58,7 @@ export default {
         if (keyboard.includes(evt.keyCode)) {
           if (durations[0] === 0 || ctx.event !== void 0) {
             stopAndPrevent(evt)
-
+            el.focus()
             if (ctx.event !== void 0) {
               return
             }
@@ -74,25 +75,10 @@ export default {
       },
 
       start (evt, mouseEvent, keyboardEvent) {
-        if (ctx.touchTargetObserver !== void 0) {
-          ctx.touchTargetObserver.disconnect()
-          ctx.touchTargetObserver = void 0
+        removeObserver(ctx)
+        if (mouseEvent !== true && keyboardEvent !== true) {
+          setObserver(el, evt, ctx)
         }
-        const target = evt.target
-        ctx.touchTargetObserver = new MutationObserver(() => {
-          if (el.contains(target) === false) {
-            if (keyboardEvent) {
-              ctx.keyboardEnd(evt)
-            }
-            else if (mouseEvent) {
-              ctx.mouseEnd(evt)
-            }
-            else {
-              ctx.end(evt)
-            }
-          }
-        })
-        ctx.touchTargetObserver.observe(el, { childList: true, subtree: true })
 
         if (Platform.is.mobile === true) {
           document.body.classList.add('non-selectable')
@@ -132,13 +118,14 @@ export default {
         ctx.timer = setTimeout(fn, durations[0])
       },
 
-      end () {
-        if (ctx.touchTargetObserver !== void 0) {
-          ctx.touchTargetObserver.disconnect()
-          ctx.touchTargetObserver = void 0
-        }
+      end (evt) {
+        removeObserver(ctx)
 
-        if (Platform.is.mobile === true || (ctx.event !== void 0 && ctx.event.repeatCount > 0)) {
+        const triggered = ctx.event !== void 0 && ctx.event.repeatCount > 0
+
+        triggered === true && stopAndPrevent(evt)
+
+        if (Platform.is.mobile === true || triggered === true) {
           document.documentElement.style.cursor = ''
           document.body.classList.remove('non-selectable')
         }
@@ -176,11 +163,7 @@ export default {
   unbind (el, binding) {
     let ctx = el.__qtouchrepeat_old || el.__qtouchrepeat
     if (ctx !== void 0) {
-      if (ctx.touchTargetObserver !== void 0) {
-        ctx.touchTargetObserver.disconnect()
-        ctx.touchTargetObserver = void 0
-      }
-
+      removeObserver(ctx)
       clearTimeout(ctx.timer)
 
       if (Platform.is.mobile === true || (ctx.event !== void 0 && ctx.event.repeatCount > 0)) {

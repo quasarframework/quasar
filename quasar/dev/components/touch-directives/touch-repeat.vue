@@ -13,6 +13,7 @@
 
       <div
         v-touch-repeat.mouse="handleHold1"
+        @click="onClick"
         class="custom-area row flex-center"
       >
         <div v-if="info1" class="custom-info">
@@ -28,6 +29,7 @@
       </p>
       <div
         v-touch-repeat:0:300.mouse.enter.space.72.104="handleHold2"
+        @click="onClick"
         class="custom-area row flex-center"
         tabindex="0"
       >
@@ -44,6 +46,7 @@
       </p>
       <div
         v-touch-repeat:1000:300.mouse.enter.72.104="handleHold3"
+        @click="onClick"
         class="custom-area row flex-center"
         tabindex="0"
       >
@@ -99,6 +102,10 @@ export default {
 
       // native Javascript event
       console.log(evt)
+    },
+
+    onClick () {
+      console.log('click')
     }
   }
 }
