@@ -92,7 +92,9 @@ export default Vue.extend({
       this.optionIndex = -1
       if (show === true) {
         this.optionsToShow = 20
-        this.$nextTick(this.updateMenuPosition)
+        this.$nextTick(() => {
+          this.__hidrateOptions(true)
+        })
       }
       document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
     }
@@ -456,17 +458,24 @@ export default Vue.extend({
       }
     },
 
-    __onMenuScroll () {
-      if (this.avoidScroll !== true && this.optionsToShow < this.options.length) {
-        const el = this.$refs.menu
+    __hidrateOptions (updatePosition) {
+      if (this.avoidScroll !== true) {
+        if (this.optionsToShow < this.options.length) {
+          const el = this.$refs.menu
 
-        if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) {
-          this.optionsToShow += 20
-          this.avoidScroll = true
-          this.$nextTick(() => {
-            this.avoidScroll = false
-          })
+          if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) {
+            this.optionsToShow += 20
+            this.avoidScroll = true
+            this.$nextTick(() => {
+              this.avoidScroll = false
+              this.__hidrateOptions(updatePosition)
+            })
+
+            return
+          }
         }
+
+        updatePosition === true && this.updateMenuPosition()
       }
     },
 
@@ -576,7 +585,7 @@ export default Vue.extend({
             },
             on: {
               click: stopAndPrevent,
-              '&scroll': this.__onMenuScroll
+              '&scroll': this.__hidrateOptions
             }
           }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))
           : null
@@ -736,8 +745,7 @@ export default Vue.extend({
       updatePosition(
         el,
         this.$refs.control,
-        this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
-        this.optionsDense
+        this.optionsCover === true && this.noOptions !== true && this.useInput !== true
       )
     }
   },
