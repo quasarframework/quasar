@@ -121,13 +121,13 @@ export default {
       end (evt) {
         removeObserver(ctx)
 
-        if (ctx.event !== void 0 && ctx.event.repeatCount > 0) {
-          stopAndPrevent(evt)
+        const triggered = ctx.event !== void 0 && ctx.event.repeatCount > 0
 
-          if (Platform.is.mobile === true) {
-            document.documentElement.style.cursor = ''
-            document.body.classList.remove('non-selectable')
-          }
+        triggered === true && stopAndPrevent(evt)
+
+        if (Platform.is.mobile === true || triggered === true) {
+          document.documentElement.style.cursor = ''
+          document.body.classList.remove('non-selectable')
         }
 
         clearTimeout(ctx.timer)
