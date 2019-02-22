@@ -31,6 +31,7 @@
             ,{ label: 'Ionicons v4', value: 'ionicons-v4' }
             ,{ label: 'Fontawesome v5', value: 'fontawesome-v5' }
             ,{ label: 'Eva Icons', value: 'eva-icons' }
+            ,{ label: 'Themify', value: 'themify' }
           ]"
           options-dense
           emit-value
