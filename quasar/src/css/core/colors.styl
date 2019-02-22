@@ -1,1795 +1,331 @@
-:root
-  --q-color-primary      $primary
-  --q-color-secondary    $secondary
-  --q-color-accent       $accent
-  --q-color-positive     $positive
-  --q-color-negative     $negative
-  --q-color-info         $info
-  --q-color-warning      $warning
-
-.text-primary
-  color $primary !important
-  color var(--q-color-primary) !important
-.bg-primary
-  background $primary !important
-  background var(--q-color-primary) !important
-
-.text-secondary
-  color $secondary !important
-  color var(--q-color-secondary) !important
-.bg-secondary
-  background $secondary !important
-  background var(--q-color-secondary) !important
-
-.text-accent
-  color $accent !important
-  color var(--q-color-accent) !important
-.bg-accent
-  background $accent !important
-  background var(--q-color-accent) !important
-
-.text-positive
-  color $positive !important
-  color var(--q-color-positive) !important
-.bg-positive
-  background $positive !important
-  background var(--q-color-positive) !important
-
-.text-negative
-  color $negative !important
-  color var(--q-color-negative) !important
-.bg-negative
-  background $negative !important
-  background var(--q-color-negative) !important
-
-.text-info
-  color $info !important
-  color var(--q-color-info) !important
-.bg-info
-  background $info !important
-  background var(--q-color-info) !important
-
-.text-warning
-  color $warning !important
-  color var(--q-color-warning) !important
-.bg-warning
-  background $warning !important
-  background var(--q-color-warning) !important
-
-.text-white
-  color #fff !important
-.bg-white
-  background #fff !important
-
-.text-black
-  color #000 !important
-.bg-black
-  background #000 !important
-
-.text-transparent
-  color transparent !important
-.bg-transparent
-  background transparent !important
-
-.text-separator
-  color $separator-color !important
-.bg-separator
-  background $separator-color !important
-
-.text-dark-separator
-  color $separator-dark-color !important
-.bg-dark-separator
-  background $separator-dark-color !important
-
-// @stylint off
-
-.text-red
-  color $red !important
-
-.text-red-1
-  color $red-1 !important
-
-.text-red-2
-  color $red-2 !important
-
-.text-red-3
-  color $red-3 !important
-
-.text-red-4
-  color $red-4 !important
-
-.text-red-5
-  color $red-5 !important
-
-.text-red-6
-  color $red-6 !important
-
-.text-red-7
-  color $red-7 !important
-
-.text-red-8
-  color $red-8 !important
-
-.text-red-9
-  color $red-9 !important
-
-.text-red-10
-  color $red-10 !important
-
-.text-red-11
-  color $red-11 !important
-
-.text-red-12
-  color $red-12 !important
-
-.text-red-13
-  color $red-13 !important
-
-.text-red-14
-  color $red-14 !important
-
-.text-pink
-  color $pink !important
-
-.text-pink-1
-  color $pink-1 !important
-
-.text-pink-2
-  color $pink-2 !important
-
-.text-pink-3
-  color $pink-3 !important
-
-.text-pink-4
-  color $pink-4 !important
-
-.text-pink-5
-  color $pink-5 !important
-
-.text-pink-6
-  color $pink-6 !important
-
-.text-pink-7
-  color $pink-7 !important
-
-.text-pink-8
-  color $pink-8 !important
-
-.text-pink-9
-  color $pink-9 !important
-
-.text-pink-10
-  color $pink-10 !important
-
-.text-pink-11
-  color $pink-11 !important
-
-.text-pink-12
-  color $pink-12 !important
-
-.text-pink-13
-  color $pink-13 !important
-
-.text-pink-14
-  color $pink-14 !important
-
-.text-purple
-  color $purple !important
-
-.text-purple-1
-  color $purple-1 !important
-
-.text-purple-2
-  color $purple-2 !important
-
-.text-purple-3
-  color $purple-3 !important
-
-.text-purple-4
-  color $purple-4 !important
-
-.text-purple-5
-  color $purple-5 !important
-
-.text-purple-6
-  color $purple-6 !important
-
-.text-purple-7
-  color $purple-7 !important
-
-.text-purple-8
-  color $purple-8 !important
-
-.text-purple-9
-  color $purple-9 !important
-
-.text-purple-10
-  color $purple-10 !important
-
-.text-purple-11
-  color $purple-11 !important
-
-.text-purple-12
-  color $purple-12 !important
-
-.text-purple-13
-  color $purple-13 !important
-
-.text-purple-14
-  color $purple-14 !important
-
-.text-deep-purple
-  color $deep-purple !important
-
-.text-deep-purple-1
-  color $deep-purple-1 !important
-
-.text-deep-purple-2
-  color $deep-purple-2 !important
-
-.text-deep-purple-3
-  color $deep-purple-3 !important
-
-.text-deep-purple-4
-  color $deep-purple-4 !important
-
-.text-deep-purple-5
-  color $deep-purple-5 !important
-
-.text-deep-purple-6
-  color $deep-purple-6 !important
-
-.text-deep-purple-7
-  color $deep-purple-7 !important
-
-.text-deep-purple-8
-  color $deep-purple-8 !important
-
-.text-deep-purple-9
-  color $deep-purple-9 !important
-
-.text-deep-purple-10
-  color $deep-purple-10 !important
-
-.text-deep-purple-11
-  color $deep-purple-11 !important
-
-.text-deep-purple-12
-  color $deep-purple-12 !important
-
-.text-deep-purple-13
-  color $deep-purple-13 !important
-
-.text-deep-purple-14
-  color $deep-purple-14 !important
-
-.text-indigo
-  color $indigo !important
-
-.text-indigo-1
-  color $indigo-1 !important
-
-.text-indigo-2
-  color $indigo-2 !important
-
-.text-indigo-3
-  color $indigo-3 !important
-
-.text-indigo-4
-  color $indigo-4 !important
-
-.text-indigo-5
-  color $indigo-5 !important
-
-.text-indigo-6
-  color $indigo-6 !important
-
-.text-indigo-7
-  color $indigo-7 !important
-
-.text-indigo-8
-  color $indigo-8 !important
-
-.text-indigo-9
-  color $indigo-9 !important
-
-.text-indigo-10
-  color $indigo-10 !important
-
-.text-indigo-11
-  color $indigo-11 !important
-
-.text-indigo-12
-  color $indigo-12 !important
-
-.text-indigo-13
-  color $indigo-13 !important
-
-.text-indigo-14
-  color $indigo-14 !important
-
-.text-blue
-  color $blue !important
-
-.text-blue-1
-  color $blue-1 !important
-
-.text-blue-2
-  color $blue-2 !important
-
-.text-blue-3
-  color $blue-3 !important
-
-.text-blue-4
-  color $blue-4 !important
-
-.text-blue-5
-  color $blue-5 !important
-
-.text-blue-6
-  color $blue-6 !important
-
-.text-blue-7
-  color $blue-7 !important
-
-.text-blue-8
-  color $blue-8 !important
-
-.text-blue-9
-  color $blue-9 !important
-
-.text-blue-10
-  color $blue-10 !important
-
-.text-blue-11
-  color $blue-11 !important
-
-.text-blue-12
-  color $blue-12 !important
-
-.text-blue-13
-  color $blue-13 !important
-
-.text-blue-14
-  color $blue-14 !important
-
-.text-light-blue
-  color $light-blue !important
-
-.text-light-blue-1
-  color $light-blue-1 !important
-
-.text-light-blue-2
-  color $light-blue-2 !important
-
-.text-light-blue-3
-  color $light-blue-3 !important
-
-.text-light-blue-4
-  color $light-blue-4 !important
-
-.text-light-blue-5
-  color $light-blue-5 !important
-
-.text-light-blue-6
-  color $light-blue-6 !important
-
-.text-light-blue-7
-  color $light-blue-7 !important
-
-.text-light-blue-8
-  color $light-blue-8 !important
-
-.text-light-blue-9
-  color $light-blue-9 !important
-
-.text-light-blue-10
-  color $light-blue-10 !important
-
-.text-light-blue-11
-  color $light-blue-11 !important
-
-.text-light-blue-12
-  color $light-blue-12 !important
-
-.text-light-blue-13
-  color $light-blue-13 !important
-
-.text-light-blue-14
-  color $light-blue-14 !important
-
-.text-cyan
-  color $cyan !important
-
-.text-cyan-1
-  color $cyan-1 !important
-
-.text-cyan-2
-  color $cyan-2 !important
-
-.text-cyan-3
-  color $cyan-3 !important
-
-.text-cyan-4
-  color $cyan-4 !important
-
-.text-cyan-5
-  color $cyan-5 !important
-
-.text-cyan-6
-  color $cyan-6 !important
-
-.text-cyan-7
-  color $cyan-7 !important
-
-.text-cyan-8
-  color $cyan-8 !important
-
-.text-cyan-9
-  color $cyan-9 !important
-
-.text-cyan-10
-  color $cyan-10 !important
-
-.text-cyan-11
-  color $cyan-11 !important
-
-.text-cyan-12
-  color $cyan-12 !important
-
-.text-cyan-13
-  color $cyan-13 !important
-
-.text-cyan-14
-  color $cyan-14 !important
-
-.text-teal
-  color $teal !important
-
-.text-teal-1
-  color $teal-1 !important
-
-.text-teal-2
-  color $teal-2 !important
-
-.text-teal-3
-  color $teal-3 !important
-
-.text-teal-4
-  color $teal-4 !important
-
-.text-teal-5
-  color $teal-5 !important
-
-.text-teal-6
-  color $teal-6 !important
-
-.text-teal-7
-  color $teal-7 !important
-
-.text-teal-8
-  color $teal-8 !important
-
-.text-teal-9
-  color $teal-9 !important
-
-.text-teal-10
-  color $teal-10 !important
-
-.text-teal-11
-  color $teal-11 !important
-
-.text-teal-12
-  color $teal-12 !important
-
-.text-teal-13
-  color $teal-13 !important
-
-.text-teal-14
-  color $teal-14 !important
-
-.text-green
-  color $green !important
-
-.text-green-1
-  color $green-1 !important
-
-.text-green-2
-  color $green-2 !important
-
-.text-green-3
-  color $green-3 !important
-
-.text-green-4
-  color $green-4 !important
-
-.text-green-5
-  color $green-5 !important
-
-.text-green-6
-  color $green-6 !important
-
-.text-green-7
-  color $green-7 !important
-
-.text-green-8
-  color $green-8 !important
-
-.text-green-9
-  color $green-9 !important
-
-.text-green-10
-  color $green-10 !important
-
-.text-green-11
-  color $green-11 !important
-
-.text-green-12
-  color $green-12 !important
-
-.text-green-13
-  color $green-13 !important
-
-.text-green-14
-  color $green-14 !important
-
-.text-light-green
-  color $light-green !important
-
-.text-light-green-1
-  color $light-green-1 !important
-
-.text-light-green-2
-  color $light-green-2 !important
-
-.text-light-green-3
-  color $light-green-3 !important
-
-.text-light-green-4
-  color $light-green-4 !important
-
-.text-light-green-5
-  color $light-green-5 !important
-
-.text-light-green-6
-  color $light-green-6 !important
-
-.text-light-green-7
-  color $light-green-7 !important
-
-.text-light-green-8
-  color $light-green-8 !important
-
-.text-light-green-9
-  color $light-green-9 !important
-
-.text-light-green-10
-  color $light-green-10 !important
-
-.text-light-green-11
-  color $light-green-11 !important
-
-.text-light-green-12
-  color $light-green-12 !important
-
-.text-light-green-13
-  color $light-green-13 !important
-
-.text-light-green-14
-  color $light-green-14 !important
-
-.text-lime
-  color $lime !important
-
-.text-lime-1
-  color $lime-1 !important
-
-.text-lime-2
-  color $lime-2 !important
-
-.text-lime-3
-  color $lime-3 !important
-
-.text-lime-4
-  color $lime-4 !important
-
-.text-lime-5
-  color $lime-5 !important
-
-.text-lime-6
-  color $lime-6 !important
-
-.text-lime-7
-  color $lime-7 !important
-
-.text-lime-8
-  color $lime-8 !important
-
-.text-lime-9
-  color $lime-9 !important
-
-.text-lime-10
-  color $lime-10 !important
-
-.text-lime-11
-  color $lime-11 !important
-
-.text-lime-12
-  color $lime-12 !important
-
-.text-lime-13
-  color $lime-13 !important
-
-.text-lime-14
-  color $lime-14 !important
-
-.text-yellow
-  color $yellow !important
-
-.text-yellow-1
-  color $yellow-1 !important
-
-.text-yellow-2
-  color $yellow-2 !important
-
-.text-yellow-3
-  color $yellow-3 !important
-
-.text-yellow-4
-  color $yellow-4 !important
-
-.text-yellow-5
-  color $yellow-5 !important
-
-.text-yellow-6
-  color $yellow-6 !important
-
-.text-yellow-7
-  color $yellow-7 !important
-
-.text-yellow-8
-  color $yellow-8 !important
-
-.text-yellow-9
-  color $yellow-9 !important
-
-.text-yellow-10
-  color $yellow-10 !important
-
-.text-yellow-11
-  color $yellow-11 !important
-
-.text-yellow-12
-  color $yellow-12 !important
-
-.text-yellow-13
-  color $yellow-13 !important
-
-.text-yellow-14
-  color $yellow-14 !important
-
-.text-amber
-  color $amber !important
-
-.text-amber-1
-  color $amber-1 !important
-
-.text-amber-2
-  color $amber-2 !important
-
-.text-amber-3
-  color $amber-3 !important
-
-.text-amber-4
-  color $amber-4 !important
-
-.text-amber-5
-  color $amber-5 !important
-
-.text-amber-6
-  color $amber-6 !important
-
-.text-amber-7
-  color $amber-7 !important
-
-.text-amber-8
-  color $amber-8 !important
-
-.text-amber-9
-  color $amber-9 !important
-
-.text-amber-10
-  color $amber-10 !important
-
-.text-amber-11
-  color $amber-11 !important
-
-.text-amber-12
-  color $amber-12 !important
-
-.text-amber-13
-  color $amber-13 !important
-
-.text-amber-14
-  color $amber-14 !important
-
-.text-orange
-  color $orange !important
-
-.text-orange-1
-  color $orange-1 !important
-
-.text-orange-2
-  color $orange-2 !important
-
-.text-orange-3
-  color $orange-3 !important
-
-.text-orange-4
-  color $orange-4 !important
-
-.text-orange-5
-  color $orange-5 !important
-
-.text-orange-6
-  color $orange-6 !important
-
-.text-orange-7
-  color $orange-7 !important
-
-.text-orange-8
-  color $orange-8 !important
-
-.text-orange-9
-  color $orange-9 !important
-
-.text-orange-10
-  color $orange-10 !important
-
-.text-orange-11
-  color $orange-11 !important
-
-.text-orange-12
-  color $orange-12 !important
-
-.text-orange-13
-  color $orange-13 !important
-
-.text-orange-14
-  color $orange-14 !important
-
-.text-deep-orange
-  color $deep-orange !important
-
-.text-deep-orange-1
-  color $deep-orange-1 !important
-
-.text-deep-orange-2
-  color $deep-orange-2 !important
-
-.text-deep-orange-3
-  color $deep-orange-3 !important
-
-.text-deep-orange-4
-  color $deep-orange-4 !important
-
-.text-deep-orange-5
-  color $deep-orange-5 !important
-
-.text-deep-orange-6
-  color $deep-orange-6 !important
-
-.text-deep-orange-7
-  color $deep-orange-7 !important
-
-.text-deep-orange-8
-  color $deep-orange-8 !important
-
-.text-deep-orange-9
-  color $deep-orange-9 !important
-
-.text-deep-orange-10
-  color $deep-orange-10 !important
-
-.text-deep-orange-11
-  color $deep-orange-11 !important
-
-.text-deep-orange-12
-  color $deep-orange-12 !important
-
-.text-deep-orange-13
-  color $deep-orange-13 !important
-
-.text-deep-orange-14
-  color $deep-orange-14 !important
-
-.text-brown
-  color $brown !important
-
-.text-brown-1
-  color $brown-1 !important
-
-.text-brown-2
-  color $brown-2 !important
-
-.text-brown-3
-  color $brown-3 !important
-
-.text-brown-4
-  color $brown-4 !important
-
-.text-brown-5
-  color $brown-5 !important
-
-.text-brown-6
-  color $brown-6 !important
-
-.text-brown-7
-  color $brown-7 !important
-
-.text-brown-8
-  color $brown-8 !important
-
-.text-brown-9
-  color $brown-9 !important
-
-.text-brown-10
-  color $brown-10 !important
-
-.text-brown-11
-  color $brown-11 !important
-
-.text-brown-12
-  color $brown-12 !important
-
-.text-brown-13
-  color $brown-13 !important
-
-.text-brown-14
-  color $brown-14 !important
-
-.text-grey
-  color $grey !important
-
-.text-grey-1
-  color $grey-1 !important
-
-.text-grey-2
-  color $grey-2 !important
-
-.text-grey-3
-  color $grey-3 !important
-
-.text-grey-4
-  color $grey-4 !important
-
-.text-grey-5
-  color $grey-5 !important
-
-.text-grey-6
-  color $grey-6 !important
-
-.text-grey-7
-  color $grey-7 !important
-
-.text-grey-8
-  color $grey-8 !important
-
-.text-grey-9
-  color $grey-9 !important
-
-.text-grey-10
-  color $grey-10 !important
-
-.text-grey-11
-  color $grey-11 !important
-
-.text-grey-12
-  color $grey-12 !important
-
-.text-grey-13
-  color $grey-13 !important
-
-.text-grey-14
-  color $grey-14 !important
-
-.text-blue-grey
-  color $blue-grey !important
-
-.text-blue-grey-1
-  color $blue-grey-1 !important
-
-.text-blue-grey-2
-  color $blue-grey-2 !important
-
-.text-blue-grey-3
-  color $blue-grey-3 !important
-
-.text-blue-grey-4
-  color $blue-grey-4 !important
-
-.text-blue-grey-5
-  color $blue-grey-5 !important
-
-.text-blue-grey-6
-  color $blue-grey-6 !important
-
-.text-blue-grey-7
-  color $blue-grey-7 !important
-
-.text-blue-grey-8
-  color $blue-grey-8 !important
-
-.text-blue-grey-9
-  color $blue-grey-9 !important
-
-.text-blue-grey-10
-  color $blue-grey-10 !important
-
-.text-blue-grey-11
-  color $blue-grey-11 !important
-
-.text-blue-grey-12
-  color $blue-grey-12 !important
-
-.text-blue-grey-13
-  color $blue-grey-13 !important
-
-.text-blue-grey-14
-  color $blue-grey-14 !important
-
-
-.bg-red
-  background $red !important
-
-.bg-red-1
-  background $red-1 !important
-
-.bg-red-2
-  background $red-2 !important
-
-.bg-red-3
-  background $red-3 !important
-
-.bg-red-4
-  background $red-4 !important
-
-.bg-red-5
-  background $red-5 !important
-
-.bg-red-6
-  background $red-6 !important
-
-.bg-red-7
-  background $red-7 !important
-
-.bg-red-8
-  background $red-8 !important
-
-.bg-red-9
-  background $red-9 !important
-
-.bg-red-10
-  background $red-10 !important
-
-.bg-red-11
-  background $red-11 !important
-
-.bg-red-12
-  background $red-12 !important
-
-.bg-red-13
-  background $red-13 !important
-
-.bg-red-14
-  background $red-14 !important
-
-.bg-pink
-  background $pink !important
-
-.bg-pink-1
-  background $pink-1 !important
-
-.bg-pink-2
-  background $pink-2 !important
-
-.bg-pink-3
-  background $pink-3 !important
-
-.bg-pink-4
-  background $pink-4 !important
-
-.bg-pink-5
-  background $pink-5 !important
-
-.bg-pink-6
-  background $pink-6 !important
-
-.bg-pink-7
-  background $pink-7 !important
-
-.bg-pink-8
-  background $pink-8 !important
-
-.bg-pink-9
-  background $pink-9 !important
-
-.bg-pink-10
-  background $pink-10 !important
-
-.bg-pink-11
-  background $pink-11 !important
-
-.bg-pink-12
-  background $pink-12 !important
-
-.bg-pink-13
-  background $pink-13 !important
-
-.bg-pink-14
-  background $pink-14 !important
-
-.bg-purple
-  background $purple !important
-
-.bg-purple-1
-  background $purple-1 !important
-
-.bg-purple-2
-  background $purple-2 !important
-
-.bg-purple-3
-  background $purple-3 !important
-
-.bg-purple-4
-  background $purple-4 !important
-
-.bg-purple-5
-  background $purple-5 !important
-
-.bg-purple-6
-  background $purple-6 !important
-
-.bg-purple-7
-  background $purple-7 !important
-
-.bg-purple-8
-  background $purple-8 !important
-
-.bg-purple-9
-  background $purple-9 !important
-
-.bg-purple-10
-  background $purple-10 !important
-
-.bg-purple-11
-  background $purple-11 !important
-
-.bg-purple-12
-  background $purple-12 !important
-
-.bg-purple-13
-  background $purple-13 !important
-
-.bg-purple-14
-  background $purple-14 !important
-
-.bg-deep-purple
-  background $deep-purple !important
-
-.bg-deep-purple-1
-  background $deep-purple-1 !important
-
-.bg-deep-purple-2
-  background $deep-purple-2 !important
-
-.bg-deep-purple-3
-  background $deep-purple-3 !important
-
-.bg-deep-purple-4
-  background $deep-purple-4 !important
-
-.bg-deep-purple-5
-  background $deep-purple-5 !important
-
-.bg-deep-purple-6
-  background $deep-purple-6 !important
-
-.bg-deep-purple-7
-  background $deep-purple-7 !important
-
-.bg-deep-purple-8
-  background $deep-purple-8 !important
-
-.bg-deep-purple-9
-  background $deep-purple-9 !important
-
-.bg-deep-purple-10
-  background $deep-purple-10 !important
-
-.bg-deep-purple-11
-  background $deep-purple-11 !important
-
-.bg-deep-purple-12
-  background $deep-purple-12 !important
-
-.bg-deep-purple-13
-  background $deep-purple-13 !important
-
-.bg-deep-purple-14
-  background $deep-purple-14 !important
-
-.bg-indigo
-  background $indigo !important
-
-.bg-indigo-1
-  background $indigo-1 !important
-
-.bg-indigo-2
-  background $indigo-2 !important
-
-.bg-indigo-3
-  background $indigo-3 !important
-
-.bg-indigo-4
-  background $indigo-4 !important
-
-.bg-indigo-5
-  background $indigo-5 !important
-
-.bg-indigo-6
-  background $indigo-6 !important
-
-.bg-indigo-7
-  background $indigo-7 !important
-
-.bg-indigo-8
-  background $indigo-8 !important
-
-.bg-indigo-9
-  background $indigo-9 !important
-
-.bg-indigo-10
-  background $indigo-10 !important
-
-.bg-indigo-11
-  background $indigo-11 !important
-
-.bg-indigo-12
-  background $indigo-12 !important
-
-.bg-indigo-13
-  background $indigo-13 !important
-
-.bg-indigo-14
-  background $indigo-14 !important
-
-.bg-blue
-  background $blue !important
-
-.bg-blue-1
-  background $blue-1 !important
-
-.bg-blue-2
-  background $blue-2 !important
-
-.bg-blue-3
-  background $blue-3 !important
-
-.bg-blue-4
-  background $blue-4 !important
-
-.bg-blue-5
-  background $blue-5 !important
-
-.bg-blue-6
-  background $blue-6 !important
-
-.bg-blue-7
-  background $blue-7 !important
-
-.bg-blue-8
-  background $blue-8 !important
-
-.bg-blue-9
-  background $blue-9 !important
-
-.bg-blue-10
-  background $blue-10 !important
-
-.bg-blue-11
-  background $blue-11 !important
-
-.bg-blue-12
-  background $blue-12 !important
-
-.bg-blue-13
-  background $blue-13 !important
-
-.bg-blue-14
-  background $blue-14 !important
-
-.bg-light-blue
-  background $light-blue !important
-
-.bg-light-blue-1
-  background $light-blue-1 !important
-
-.bg-light-blue-2
-  background $light-blue-2 !important
-
-.bg-light-blue-3
-  background $light-blue-3 !important
-
-.bg-light-blue-4
-  background $light-blue-4 !important
-
-.bg-light-blue-5
-  background $light-blue-5 !important
-
-.bg-light-blue-6
-  background $light-blue-6 !important
-
-.bg-light-blue-7
-  background $light-blue-7 !important
-
-.bg-light-blue-8
-  background $light-blue-8 !important
-
-.bg-light-blue-9
-  background $light-blue-9 !important
-
-.bg-light-blue-10
-  background $light-blue-10 !important
-
-.bg-light-blue-11
-  background $light-blue-11 !important
-
-.bg-light-blue-12
-  background $light-blue-12 !important
-
-.bg-light-blue-13
-  background $light-blue-13 !important
-
-.bg-light-blue-14
-  background $light-blue-14 !important
-
-.bg-cyan
-  background $cyan !important
-
-.bg-cyan-1
-  background $cyan-1 !important
-
-.bg-cyan-2
-  background $cyan-2 !important
-
-.bg-cyan-3
-  background $cyan-3 !important
-
-.bg-cyan-4
-  background $cyan-4 !important
-
-.bg-cyan-5
-  background $cyan-5 !important
-
-.bg-cyan-6
-  background $cyan-6 !important
-
-.bg-cyan-7
-  background $cyan-7 !important
-
-.bg-cyan-8
-  background $cyan-8 !important
-
-.bg-cyan-9
-  background $cyan-9 !important
-
-.bg-cyan-10
-  background $cyan-10 !important
-
-.bg-cyan-11
-  background $cyan-11 !important
-
-.bg-cyan-12
-  background $cyan-12 !important
-
-.bg-cyan-13
-  background $cyan-13 !important
-
-.bg-cyan-14
-  background $cyan-14 !important
-
-.bg-teal
-  background $teal !important
-
-.bg-teal-1
-  background $teal-1 !important
-
-.bg-teal-2
-  background $teal-2 !important
-
-.bg-teal-3
-  background $teal-3 !important
-
-.bg-teal-4
-  background $teal-4 !important
-
-.bg-teal-5
-  background $teal-5 !important
-
-.bg-teal-6
-  background $teal-6 !important
-
-.bg-teal-7
-  background $teal-7 !important
-
-.bg-teal-8
-  background $teal-8 !important
-
-.bg-teal-9
-  background $teal-9 !important
-
-.bg-teal-10
-  background $teal-10 !important
-
-.bg-teal-11
-  background $teal-11 !important
-
-.bg-teal-12
-  background $teal-12 !important
-
-.bg-teal-13
-  background $teal-13 !important
-
-.bg-teal-14
-  background $teal-14 !important
-
-.bg-green
-  background $green !important
-
-.bg-green-1
-  background $green-1 !important
-
-.bg-green-2
-  background $green-2 !important
-
-.bg-green-3
-  background $green-3 !important
-
-.bg-green-4
-  background $green-4 !important
-
-.bg-green-5
-  background $green-5 !important
-
-.bg-green-6
-  background $green-6 !important
-
-.bg-green-7
-  background $green-7 !important
-
-.bg-green-8
-  background $green-8 !important
-
-.bg-green-9
-  background $green-9 !important
-
-.bg-green-10
-  background $green-10 !important
-
-.bg-green-11
-  background $green-11 !important
-
-.bg-green-12
-  background $green-12 !important
-
-.bg-green-13
-  background $green-13 !important
-
-.bg-green-14
-  background $green-14 !important
-
-.bg-light-green
-  background $light-green !important
-
-.bg-light-green-1
-  background $light-green-1 !important
-
-.bg-light-green-2
-  background $light-green-2 !important
-
-.bg-light-green-3
-  background $light-green-3 !important
-
-.bg-light-green-4
-  background $light-green-4 !important
-
-.bg-light-green-5
-  background $light-green-5 !important
-
-.bg-light-green-6
-  background $light-green-6 !important
-
-.bg-light-green-7
-  background $light-green-7 !important
-
-.bg-light-green-8
-  background $light-green-8 !important
-
-.bg-light-green-9
-  background $light-green-9 !important
-
-.bg-light-green-10
-  background $light-green-10 !important
-
-.bg-light-green-11
-  background $light-green-11 !important
-
-.bg-light-green-12
-  background $light-green-12 !important
-
-.bg-light-green-13
-  background $light-green-13 !important
-
-.bg-light-green-14
-  background $light-green-14 !important
-
-.bg-lime
-  background $lime !important
-
-.bg-lime-1
-  background $lime-1 !important
-
-.bg-lime-2
-  background $lime-2 !important
-
-.bg-lime-3
-  background $lime-3 !important
-
-.bg-lime-4
-  background $lime-4 !important
-
-.bg-lime-5
-  background $lime-5 !important
-
-.bg-lime-6
-  background $lime-6 !important
-
-.bg-lime-7
-  background $lime-7 !important
-
-.bg-lime-8
-  background $lime-8 !important
-
-.bg-lime-9
-  background $lime-9 !important
-
-.bg-lime-10
-  background $lime-10 !important
-
-.bg-lime-11
-  background $lime-11 !important
-
-.bg-lime-12
-  background $lime-12 !important
-
-.bg-lime-13
-  background $lime-13 !important
-
-.bg-lime-14
-  background $lime-14 !important
-
-.bg-yellow
-  background $yellow !important
-
-.bg-yellow-1
-  background $yellow-1 !important
-
-.bg-yellow-2
-  background $yellow-2 !important
-
-.bg-yellow-3
-  background $yellow-3 !important
-
-.bg-yellow-4
-  background $yellow-4 !important
-
-.bg-yellow-5
-  background $yellow-5 !important
-
-.bg-yellow-6
-  background $yellow-6 !important
-
-.bg-yellow-7
-  background $yellow-7 !important
-
-.bg-yellow-8
-  background $yellow-8 !important
-
-.bg-yellow-9
-  background $yellow-9 !important
-
-.bg-yellow-10
-  background $yellow-10 !important
-
-.bg-yellow-11
-  background $yellow-11 !important
-
-.bg-yellow-12
-  background $yellow-12 !important
-
-.bg-yellow-13
-  background $yellow-13 !important
-
-.bg-yellow-14
-  background $yellow-14 !important
-
-.bg-amber
-  background $amber !important
-
-.bg-amber-1
-  background $amber-1 !important
-
-.bg-amber-2
-  background $amber-2 !important
-
-.bg-amber-3
-  background $amber-3 !important
-
-.bg-amber-4
-  background $amber-4 !important
-
-.bg-amber-5
-  background $amber-5 !important
-
-.bg-amber-6
-  background $amber-6 !important
-
-.bg-amber-7
-  background $amber-7 !important
-
-.bg-amber-8
-  background $amber-8 !important
-
-.bg-amber-9
-  background $amber-9 !important
-
-.bg-amber-10
-  background $amber-10 !important
-
-.bg-amber-11
-  background $amber-11 !important
-
-.bg-amber-12
-  background $amber-12 !important
-
-.bg-amber-13
-  background $amber-13 !important
-
-.bg-amber-14
-  background $amber-14 !important
-
-.bg-orange
-  background $orange !important
-
-.bg-orange-1
-  background $orange-1 !important
-
-.bg-orange-2
-  background $orange-2 !important
-
-.bg-orange-3
-  background $orange-3 !important
-
-.bg-orange-4
-  background $orange-4 !important
-
-.bg-orange-5
-  background $orange-5 !important
-
-.bg-orange-6
-  background $orange-6 !important
-
-.bg-orange-7
-  background $orange-7 !important
-
-.bg-orange-8
-  background $orange-8 !important
-
-.bg-orange-9
-  background $orange-9 !important
-
-.bg-orange-10
-  background $orange-10 !important
-
-.bg-orange-11
-  background $orange-11 !important
-
-.bg-orange-12
-  background $orange-12 !important
-
-.bg-orange-13
-  background $orange-13 !important
-
-.bg-orange-14
-  background $orange-14 !important
-
-.bg-deep-orange
-  background $deep-orange !important
-
-.bg-deep-orange-1
-  background $deep-orange-1 !important
-
-.bg-deep-orange-2
-  background $deep-orange-2 !important
-
-.bg-deep-orange-3
-  background $deep-orange-3 !important
-
-.bg-deep-orange-4
-  background $deep-orange-4 !important
-
-.bg-deep-orange-5
-  background $deep-orange-5 !important
-
-.bg-deep-orange-6
-  background $deep-orange-6 !important
-
-.bg-deep-orange-7
-  background $deep-orange-7 !important
-
-.bg-deep-orange-8
-  background $deep-orange-8 !important
-
-.bg-deep-orange-9
-  background $deep-orange-9 !important
-
-.bg-deep-orange-10
-  background $deep-orange-10 !important
-
-.bg-deep-orange-11
-  background $deep-orange-11 !important
-
-.bg-deep-orange-12
-  background $deep-orange-12 !important
-
-.bg-deep-orange-13
-  background $deep-orange-13 !important
-
-.bg-deep-orange-14
-  background $deep-orange-14 !important
-
-.bg-brown
-  background $brown !important
-
-.bg-brown-1
-  background $brown-1 !important
-
-.bg-brown-2
-  background $brown-2 !important
-
-.bg-brown-3
-  background $brown-3 !important
-
-.bg-brown-4
-  background $brown-4 !important
-
-.bg-brown-5
-  background $brown-5 !important
-
-.bg-brown-6
-  background $brown-6 !important
-
-.bg-brown-7
-  background $brown-7 !important
-
-.bg-brown-8
-  background $brown-8 !important
-
-.bg-brown-9
-  background $brown-9 !important
-
-.bg-brown-10
-  background $brown-10 !important
-
-.bg-brown-11
-  background $brown-11 !important
-
-.bg-brown-12
-  background $brown-12 !important
-
-.bg-brown-13
-  background $brown-13 !important
-
-.bg-brown-14
-  background $brown-14 !important
-
-.bg-grey
-  background $grey !important
-
-.bg-grey-1
-  background $grey-1 !important
-
-.bg-grey-2
-  background $grey-2 !important
-
-.bg-grey-3
-  background $grey-3 !important
-
-.bg-grey-4
-  background $grey-4 !important
-
-.bg-grey-5
-  background $grey-5 !important
-
-.bg-grey-6
-  background $grey-6 !important
-
-.bg-grey-7
-  background $grey-7 !important
-
-.bg-grey-8
-  background $grey-8 !important
-
-.bg-grey-9
-  background $grey-9 !important
-
-.bg-grey-10
-  background $grey-10 !important
-
-.bg-grey-11
-  background $grey-11 !important
-
-.bg-grey-12
-  background $grey-12 !important
-
-.bg-grey-13
-  background $grey-13 !important
-
-.bg-grey-14
-  background $grey-14 !important
-
-.bg-blue-grey
-  background $blue-grey !important
-
-.bg-blue-grey-1
-  background $blue-grey-1 !important
-
-.bg-blue-grey-2
-  background $blue-grey-2 !important
-
-.bg-blue-grey-3
-  background $blue-grey-3 !important
-
-.bg-blue-grey-4
-  background $blue-grey-4 !important
-
-.bg-blue-grey-5
-  background $blue-grey-5 !important
-
-.bg-blue-grey-6
-  background $blue-grey-6 !important
-
-.bg-blue-grey-7
-  background $blue-grey-7 !important
-
-.bg-blue-grey-8
-  background $blue-grey-8 !important
-
-.bg-blue-grey-9
-  background $blue-grey-9 !important
-
-.bg-blue-grey-10
-  background $blue-grey-10 !important
-
-.bg-blue-grey-11
-  background $blue-grey-11 !important
-
-.bg-blue-grey-12
-  background $blue-grey-12 !important
-
-.bg-blue-grey-13
-  background $blue-grey-13 !important
-
-.bg-blue-grey-14
-  background $blue-grey-14 !important
+colors = {
+  common : {
+    primary   : #1e9fff,
+    secondary : #019486,
+    accent    : #9C27B0,
+    positive  : #5fb878,
+    negative  : #ff5722,
+    info      : #02ced1,
+    warning   : #ffb800
+  },
+  red : {
+    red1 : #ffebee,
+    red2 : #ffcdd2,
+    red3 : #ef9a9a,
+    red4 : #e57373,
+    red5 : #ef5350,
+    red6 : #f44336,
+    red7 : #e53935,
+    red8 : #d32f2f,
+    red9 : #c62828,
+    red10 : #b71c1c,
+    red11 : #ff8a80,
+    red12 : #ff5252,
+    red13 : #ff1744,
+    red14 : #d50000
+  },
+  pink : {
+    pink1 : #fce4ec,
+    pink2 : #f8bbd0,
+    pink3 : #f48fb1,
+    pink4 : #f06292,
+    pink5 : #ec407a,
+    pink6 : #e91e63,
+    pink7 : #d81b60,
+    pink8 : #c2185b,
+    pink9 : #ad1457,
+    pink10 : #880e4f,
+    pink11 : #ff80ab,
+    pink12 : #ff4081,
+    pink13 : #f50057,
+    pink14 : #c51162
+  },
+  purple : {
+    purple1 : #f3e5f5,
+    purple2 : #e1bee7,
+    purple3 : #ce93d8,
+    purple4 : #ba68c8,
+    purple5 : #ab47bc,
+    purple6 : #9c27b0,
+    purple7 : #8e24aa,
+    purple8 : #7b1fa2,
+    purple9 : #6a1b9a,
+    purple10 : #4a148c,
+    purple11 : #ea80fc,
+    purple12 : #e040fb,
+    purple13 : #d500f9,
+    purple14 : #aa00ff
+  },
+  deep-purple : {
+    purple1d : #ede7f6,
+    purple2d : #d1c4e9,
+    purple3d : #b39ddb,
+    purple4d : #9575cd,
+    purple5d : #7e57c2,
+    purple6d : #673ab7,
+    purple7d : #5e35b1,
+    purple8d : #512da8,
+    purple9d : #4527a0,
+    purple10d : #311b92,
+    purple11d : #b388ff,
+    purple12d : #7c4fdf,
+    purple13d : #651fff,
+    purple14d : #6200ea
+  },
+  indigo : {
+    indigo1 : #e8eaf6,
+    indigo2 : #c5cae9,
+    indigo3 : #9fa8da,
+    indigo4 : #7986cb,
+    indigo5 : #5c6bc0,
+    indigo6 : #3f51b5,
+    indigo7 : #3949ab,
+    indigo8 : #303f9f,
+    indigo9 : #283593,
+    indigo10 : #1a237e,
+    indigo11 : #8c9eff,
+    indigo12 : #536dfe,
+    indigo13 : #3d5afe,
+    indigo14 : #304ffe
+  },
+  blue : {
+    blue1 : #e3f2fd,
+    blue2 : #bbdefb,
+    blue3 : #90caf9,
+    blue4 : #64b5f6,
+    blue5 : #42a5f5,
+    blue6 : #2196f3,
+    blue7 : #1e88e5,
+    blue8 : #1976d2,
+    blue9 : #1565c0,
+    blue10 : #0d47a1,
+    blue11 : #82b1ff,
+    blue12 : #448aff,
+    blue13 : #2979ff,
+    blue14 : #2962ff
+  },
+  light-blue : {
+    blue1l : #e1f5fe,
+    blue2l : #b3e5fc,
+    blue3l : #81d4fa,
+    blue4l : #4fc3f7,
+    blue5l : #29b6f6,
+    blue6l : #03a9f4,
+    blue7l : #039be5,
+    blue8l : #0288d1,
+    blue9l : #0277bd,
+    blue10l : #01579b,
+    blue11l : #80d8ff,
+    blue12l : #40c4ff,
+    blue13l : #00b0ff,
+    blue14l : #0091ea
+  },
+  cyan : {
+    cyan1 : #e0f7fa,
+    cyan2 : #b2ebf2,
+    cyan3 : #80deea,
+    cyan4 : #4dd0e1,
+    cyan5 : #26c6da,
+    cyan6 : #00bcd4,
+    cyan7 : #00acc1,
+    cyan8 : #0097a7,
+    cyan9 : #00838f,
+    cyan10 : #006064,
+    cyan11 : #84ffff,
+    cyan12 : #18ffff,
+    cyan13 : #00e5ff,
+    cyan14 : #00b8d4
+  },
+  teal : {
+    teal1 : #e0f2f1,
+    teal2 : #b2dfdb,
+    teal3 : #80cbc4,
+    teal4 : #4db6ac,
+    teal5 : #26a69a,
+    teal6 : #009688,
+    teal7 : #00897b,
+    teal8 : #00796b,
+    teal9 : #00695c,
+    teal10 : #004d40,
+    teal11 : #a7ffeb,
+    teal12 : #64ffda,
+    teal13 : #1de9b6,
+    teal14 : #00bfa5
+  },
+  green : {
+    green1 : #e8f5e9,
+    green2 : #c8e6c9,
+    green3 : #a5d6a7,
+    green4 : #81c784,
+    green5 : #66bb6a,
+    green6 : #4caf50,
+    green7 : #43a047,
+    green8 : #388e3c,
+    green9 : #2e7d32,
+    green10 : #1b5e20,
+    green11 : #b9f6ca,
+    green12 : #69f0ae,
+    green13 : #00e676,
+    green14 : #00c853
+  },
+  light-green : {
+    green1l : #f1f8e9,
+    green2l : #dcedc8,
+    green3l : #c5e1a5,
+    green4l : #aed581,
+    green5l : #9ccc65,
+    green6l : #8bc34a,
+    green7l : #7cb342,
+    green8l : #689f38,
+    green9l : #558b2f,
+    green10l : #33691e,
+    green11l : #ccff90,
+    green12l : #b2ff59,
+    green13l : #76ff03,
+    green14l : #64dd17
+  },
+  lime : {
+    lime1 : #f9fbe7,
+    lime2 : #f0f4c3,
+    lime3 : #e6ee9c,
+    lime4 : #dce775,
+    lime5 : #d4e157,
+    lime6 : #cddc39,
+    lime7 : #c0ca33,
+    lime8 : #afb42b,
+    lime9 : #9e9d24,
+    lime10 : #827717,
+    lime11 : #f4ff81,
+    lime12 : #eeff41,
+    lime13 : #c6ff00,
+    lime14 : #aeea00
+  },
+  yellow : {
+    yellow1 : #fffde7,
+    yellow2 : #fff9c4,
+    yellow3 : #fff59d,
+    yellow4 : #fff176,
+    yellow5 : #ffee58,
+    yellow6 : #ffeb3b,
+    yellow7 : #fdd835,
+    yellow8 : #fbc02d,
+    yellow9 : #f9a825,
+    yellow10 : #f57f17,
+    yellow11 : #ffff8d,
+    yellow12 : #ffff00,
+    yellow13 : #ffea00,
+    yellow14 : #ffd600
+  },
+  amber : {
+    amber1 : #fff8e1,
+    amber2 : #ffecb3,
+    amber3 : #ffe082,
+    amber4 : #ffd54f,
+    amber5 : #ffca28,
+    amber6 : #ffc107,
+    amber7 : #ffb300,
+    amber8 : #ffa000,
+    amber9 : #ff8f00,
+    amber10 : #ff6f00,
+    amber11 : #ffe57f,
+    amber12 : #ffd740,
+    amber13 : #ffc400,
+    amber14 : #ffab00
+  },
+  orange : {
+    orange1 : #fff3e0,
+    orange2 : #ffe0b2,
+    orange3 : #ffcc80,
+    orange4 : #ffb74d,
+    orange5 : #ffa726,
+    orange6 : #ff9800,
+    orange7 : #fb8c00,
+    orange8 : #f57c00,
+    orange9 : #ef6c00,
+    orange10 : #e65100,
+    orange11 : #ffd180,
+    orange12 : #ffab40,
+    orange13 : #ff9100,
+    orange14 : #ff6d00
+  },
+  deep-orange : {
+    orange1d : #fbe9e7,
+    orange2d : #ffccbc,
+    orange3d : #ffab91,
+    orange4d : #ff8a65,
+    orange5d : #ff7043,
+    orange6d : #ff5722,
+    orange7d : #f4511e,
+    orange8d : #e64a19,
+    orange9d : #d84315,
+    orange10d : #bf360c,
+    orange11d : #ff9e80,
+    orange12d : #ff6e40,
+    orange13d : #ff3d00,
+    orange14d : #dd2c00
+  },
+  brown : {
+    brown1 : #efebe9,
+    brown2 : #d7ccc8,
+    brown3 : #bcaaa4,
+    brown4 : #a1887f,
+    brown5 : #8d6e63,
+    brown6 : #795548,
+    brown7 : #6d4c41,
+    brown8 : #5d4037,
+    brown9 : #4e342e,
+    brown10 : #3e2723,
+    brown11 : #d7ccc8,
+    brown12 : #bcaaa4,
+    brown13 : #8d6e63,
+    brown14 : #5d4037
+  },
+  grey : {
+    grey1 : #fafafa,
+    grey2 : #f5f5f5,
+    grey3 : #eeeeee,
+    grey4 : #e0e0e0,
+    grey5 : #bdbdbd,
+    grey6 : #9e9e9e,
+    grey7 : #757575,
+    grey8 : #616161,
+    grey9 : #424242,
+    grey10 : #212121,
+    grey11 : #f5f5f5,
+    grey12 : #eeeeee,
+    grey13 : #bdbdbd,
+    grey14 : #616161
+  },
+  blue-grey : {
+    bluegrey1 : #eceff1,
+    bluegrey2 : #cfd8dc,
+    bluegrey3 : #b0bec5,
+    bluegrey4 : #90a4ae,
+    bluegrey5 : #78909c,
+    bluegrey6 : #607d8b,
+    bluegrey7 : #546e7a,
+    bluegrey8 : #455a64,
+    bluegrey9 : #37474f,
+    bluegrey10 : #263238,
+    bluegrey11 : #cfd8dc,
+    bluegrey12 : #b0bec5,
+    bluegrey13 : #78909c,
+    bluegrey14 : #455a64
+  },
+  shades: {
+    black : #000000,
+    white : #FFFFFF,
+    transparent : transparent,
+    separator : rgba(0, 0, 0, .12),
+    dark-separator : rgba(255, 255, 255, .48)
+  }
+}
+
+for i,a in colors
+  for name, color in a
+    {'.fg-'+ name}
+      color color !important
+    {'.bg-'+ name}
+      background-color color !important
+    {'.bd-'+ name}
+border-color color !important
