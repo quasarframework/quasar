@@ -97,15 +97,15 @@ mark,.mark
   &j
     text-align justify
     hyphens auto
-
+.font-
   &i
     font-style italic
   &b
     font-weight bold
 
   for $weight in $text-weights
-    &weight{$weight}
-      font-weight $value
+    &w{$weight}
+      font-weight $weight
 
 small
   font-size 80%
