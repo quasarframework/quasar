@@ -7,7 +7,7 @@
     },
 
     "horizontal": {
-      "type": [ "Boolean" ],
+      "type": "Boolean",
       "desc": "Register for horizontal scroll instead of vertical (which is default)"
     }
   },

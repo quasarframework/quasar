@@ -5,7 +5,7 @@ related:
   - /vue-components/icon
 ---
 
-You'll most likely want icons in your website/app and Quasar offers an easy way out of the box, for following icon libraries: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/) and [Eva Icons](https://akveo.github.io/eva-icons).
+You'll most likely want icons in your website/app and Quasar offers an easy way out of the box, for following icon libraries: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons) and [Themify Icons](https://themify.me/themify-icons).
 
 ::: tip
 You can either choose to install one of them or multiple.
@@ -31,7 +31,8 @@ extras: [
   'mdi-v3',
   'ionicons-v4',
   'eva-icons',
-  'fontawesome-v5'
+  'fontawesome-v5',
+  'themify'
 ]
 ```
 
