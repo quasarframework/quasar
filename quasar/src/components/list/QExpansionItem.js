@@ -21,8 +21,13 @@ export default Vue.extend({
 
   props: {
     icon: String,
+
     label: String,
+    labelLines: [ Number, String ],
+
     caption: String,
+    captionLines: [ Number, String ],
+
     dark: Boolean,
     dense: Boolean,
 
@@ -131,9 +136,14 @@ export default Vue.extend({
       else {
         child = [
           h(QItemSection, [
-            h(QItemLabel, [ this.label || '' ]),
+            h(QItemLabel, {
+              props: { lines: this.labelLines }
+            }, [ this.label || '' ]),
+
             this.caption
-              ? h(QItemLabel, { props: { caption: true } }, [ this.caption ])
+              ? h(QItemLabel, {
+                props: { lines: this.captionLines, caption: true }
+              }, [ this.caption ])
               : null
           ])
         ]
