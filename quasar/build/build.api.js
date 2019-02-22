@@ -27,12 +27,10 @@ function getMixedInAPI (api, mainFile) {
 
     const content = require(mixinFile)
 
-    api = merge(
-      content.mixins !== void 0
-        ? getMixedInAPI(content, mixinFile)
-        : content,
-      api
-    )
+    api = merge(content, api)
+    if (content.mixins !== void 0) {
+      api = merge(getMixedInAPI(content, mixinFile), api)
+    }
   })
 
   const { mixins, ...finalApi } = api
