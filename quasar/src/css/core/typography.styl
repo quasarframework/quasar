@@ -10,15 +10,76 @@ body
   line-height $body-line-height
   font-size $body-font-size
 
-for $heading, $value in $h-tags
-  {$heading}
+h1, h2, h3, h4, h5, h6,.h1, .h2, .h3, .h4, .h5, .h6
+  margin-bottom: 0.5rem
+  font-weight: 500
+  line-height: 1.2
+
+for $heading, $value in $h1-h6
+  {'h'+$heading},.{'h'+$heading},.{'f'+(7-$heading)}
     font-size: $value.size
-    font-weight: $value.weight
-    line-height: $value.line-height
-    letter-spacing: $value.letter-spacing
+
+.f7
+  font-size: 3rem
+
+.f8
+  font-size: 3.5rem
+
+.f9
+  font-size: 4rem
+
+.f10
+  font-size: 5rem
+
+.f11
+  font-size: 6rem
+
+.f12
+  font-size: 7rem
+
+.f13
+  font-size: 8rem
+
+.f14
+  font-size: 9rem
+
+.f15
+  font-size: 10rem
+
+h1 small, .h1 small, h2 small, .h2 small, h3 small, .h3 small, h4 small, .h4 small, h5 small, .h5 small, h6 small, .h6 small, .small
+  font-size: 70%
+  opacity: 0.6
+  margin-left: 0.4rem
 
 p
   margin: 0 0 $spaces.md.y
+
+mark,.mark
+  padding: 0.2em
+  background-color: #fcf8e3
+
+.uppercase
+    text-transform uppercase
+
+.lowercase
+    text-transform lowercase
+
+.capitalize
+    text-transform capitalize
+
+.nowrap
+  white-space: nowrap !important
+
+.breakall
+  word-break: break-all
+
+.truncate
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+.indent, .indent p, .indent div
+  text-indent: 2em
 
 .text-
   for $heading, $value in $headings
@@ -27,34 +88,23 @@ p
       font-weight: $value.weight
       line-height: $value.line-height
       letter-spacing: $value.letter-spacing
-
-  &uppercase
-    text-transform uppercase
-  &lowercase
-    text-transform lowercase
-  &capitalize
-    text-transform capitalize
-
-  &center
+  &c
     text-align center
-  &left
+  &l
     text-align left
-  &right
+  &r
     text-align right
-  &justify
+  &j
     text-align justify
     hyphens auto
 
-  &italic
+  &i
     font-style italic
-  &bold
+  &b
     font-weight bold
 
-  &no-wrap
-    white-space nowrap
-
-  for $weight, $value in $text-weights
-    &weight-{$weight}
+  for $weight in $text-weights
+    &weight{$weight}
       font-weight $value
 
 small
@@ -65,3 +115,86 @@ sub
   bottom -.25em
 sup
   top -.5em
+
+.no-select, input[type=range],input[type=range] + .thumb
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+
+.line-h1
+  line-height: 1rem
+
+.line-h2
+  line-height: 1.25rem
+
+.line-h3
+  line-height: 1.5rem
+
+.line-h4
+  line-height: 2rem
+
+.line-h5
+  line-height: 2.5rem
+
+.line-h6
+  line-height: 3rem
+
+hr
+  margin-top: 1rem
+  margin-bottom: 1rem
+  border: 0
+  border-top: 1px solid rgba(0, 0, 0, 0.2)
+
+.initialism
+  font-size: 90%
+  text-transform: uppercase
+
+blockquote
+  padding: 0.5rem 1rem
+  font-size: 1.25rem
+  border-left: solid 7px #0277bd
+  background-color: #ECECEC
+
+.bq-border
+  padding: 0.5rem 1rem
+  margin: 1rem 0
+  font-size: 1.25rem
+  border: solid 1px #0277bd
+  border-left-width: 7px
+  border-radius: 5px
+  background-color: inherit
+
+.bq-footer
+  display: block
+  font-size: 80%
+  color: #818a91
+
+.bq-footer::before
+  content: "\2014 \00A0"
+
+blockquote.bq-reverse
+  text-align: right
+  border-left-width: 0
+  border-right: solid 7px #0277bd
+
+.bq-border.bq-reverse
+  text-align: right
+  border-left-width: 1px
+  border-right-width: 7px
+
+.bq-reverse .bq-footer::before
+  content: ""
+
+.bq-reverse .bq-footer::after
+  content: "\00A0 \2014"
+
+dl.row > dd + dt
+  clear: left
+
+.clearfix::after
+  content: "";
+  display: table;
+  clear: both

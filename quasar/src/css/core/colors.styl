@@ -1,4 +1,4 @@
-colors = {
+$colors = {
   common : {
     primary   : #1e9fff,
     secondary : #019486,
@@ -321,7 +321,7 @@ colors = {
   }
 }
 
-for i,a in colors
+for i,a in $colors
   for name, color in a
     {'.fg-'+ name}
       color color !important

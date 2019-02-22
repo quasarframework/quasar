@@ -77,54 +77,6 @@ $breakpoint-xl-min ?= $sizes[xl]
 $breakpoint-xl-max ?= 9999px
 
 $headings ?= {
-  h1: {
-    size: 6rem,
-    line-height: 6rem,
-    weight: 300,
-    letter-spacing: -.01562em
-  },
-  h2: {
-    size: 3.75rem,
-    line-height: 3.75rem,
-    letter-spacing: -.00833em,
-    weight: 300
-  },
-  h3: {
-    size: 3rem,
-    line-height: 3.125rem,
-    letter-spacing: normal,
-    weight: 400
-  },
-  h4: {
-    size: 2.125rem,
-    line-height: 2.5rem,
-    letter-spacing: .00735em,
-    weight: 400
-  },
-  h5: {
-    size: 1.5rem,
-    line-height: 2rem,
-    letter-spacing: normal,
-    weight: 400
-  },
-  h6: {
-    size: 1.25rem,
-    line-height: 2rem,
-    letter-spacing: .0125em,
-    weight: 500
-  },
-  subtitle1: {
-    size: 1rem,
-    line-height: 1.75rem,
-    letter-spacing: .00937em,
-    weight: 400
-  },
-  subtitle2: {
-    size: .875rem,
-    line-height: 1.375rem,
-    letter-spacing: .00714em,
-    weight: 500
-  },
   body1: {
     size: 1rem,
     line-height: 1.5rem,
@@ -148,25 +100,44 @@ $headings ?= {
     line-height: 1.25rem,
     letter-spacing: .03333em,
     weight: 400
+  },
+  hide: {
+    font: 0/0 a,
+    color: transparent,
+    text-shadow: none,
+    background-color: transparent,
+    border: 0
   }
 }
 
-$h-tags ?= {
-  h1: $headings.h1,
-  h2: $headings.h2,
-  h3: $headings.h3,
-  h4: $headings.h4,
-  h5: $headings.h5,
-  h6: $headings.h6
+$h1-h6 ?= {
+  1: {
+    size: 2.5rem,
+  },
+  2: {
+    size: 2rem,
+  },
+  3: {
+    size: 1.75rem,
+  },
+  4: {
+    size: 1.5rem,
+  },
+  5: {
+    size: 1.25rem,
+  },
+  6: {
+    size: 1rem,
+  }
 }
 
 $text-weights ?= {
-  thin: 100,
-  light: 300,
-  regular: 400,
-  medium: 500,
-  bold: 700,
-  bolder: 900
+  100,
+  300,
+  400,
+  500,
+  700,
+  900
 }
 
 $light     ?= #bdbdbd
@@ -258,7 +229,7 @@ $shadow-up-24 = 0 -11px 15px -7px $elevation-umbra, 0 -24px 38px 3px $elevation-
 
 $generic-border-radius      ?= 4px
 $generic-hover-transition   ?= .3s cubic-bezier(.25, .8, .5, 1)
-$typography-font-family     ?= 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif
+$typography-font-family     ?=  'Helvetica Neue',Helvetica,'PingFang SC','Hiragino Sans GB','Microsoft YaHei','微软雅黑',Arial,sans-serif
 $min-line-height            ?= 1.12
 
 $button-border-radius         ?= 3px

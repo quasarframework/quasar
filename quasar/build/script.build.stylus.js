@@ -1,7 +1,7 @@
 const
   path = require('path'),
   stylus = require('stylus'),
-  rtl = require('postcss-rtl'),
+  //rtl = require('postcss-rtl'),
   postcss = require('postcss'),
   cssnano = require('cssnano'),
   autoprefixer = require('autoprefixer'),
