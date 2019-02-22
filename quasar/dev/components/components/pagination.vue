@@ -89,16 +89,16 @@
           <q-input type="number" v-model="max" :min="min" filled stack-label label="Maximum page number" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-select v-model="boundaryLinks" :options="options" filled stack-label label="Show boundary buttons" />
+          <q-select emit-value map-options v-model="boundaryLinks" :options="options" filled stack-label label="Show boundary buttons" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-select v-model="directionLinks" :options="options" filled stack-label label="Show direction buttons" />
+          <q-select emit-value map-options v-model="directionLinks" :options="options" filled stack-label label="Show direction buttons" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-select v-model="boundaryNumbers" :options="options" filled stack-label label="Always show first and last page" />
+          <q-select emit-value map-options v-model="boundaryNumbers" :options="options" filled stack-label label="Always show first and last page" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-select v-model="ellipses" :options="options" filled stack-label label="Show ellipses" />
+          <q-select emit-value map-options v-model="ellipses" :options="options" filled stack-label label="Show ellipses" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-input type="number" v-model="maxPages" filled stack-label label="Maximum number of page buttons" />

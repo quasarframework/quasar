@@ -13,11 +13,11 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "prismjs": "^1.15.0",
-    "quasar": "^1.0.0-beta.0",
+    "quasar": "^1.0.0-beta.4",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0-beta.0",
+    "@quasar/app": "^1.0.0-beta.7",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",

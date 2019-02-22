@@ -23,6 +23,11 @@
       "desc": "When content changes, the scrollbar appears; this delay defines the amount of time (in milliseconds) before scrollbars dissapear again (if component is not hovered)",
       "default": 1000,
       "examples": [ 500, ":delay=\"550\"" ]
+    },
+
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Register for horizontal scroll instead of vertical (which is default)"
     }
   },
 

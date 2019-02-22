@@ -1,5 +1,8 @@
 ---
 title: Introduction to Flexbox
+related:
+  - /style/spacing
+  - /style/visibility
 ---
 
 Quasar provides lots of CSS classes to help you build your UI easily with the help of [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/). Think of it like operating with rows and columns with many options at hand.

@@ -14,7 +14,7 @@
 
     "seamless": {
       "type": "Boolean",
-      "desc": "Put Dialog into seamless mode; Does not uses a backdrop so user is able to interact with the rest of the page too"
+      "desc": "Put Dialog into seamless mode; Does not use a backdrop so user is able to interact with the rest of the page too"
     },
 
     "maximized": {
