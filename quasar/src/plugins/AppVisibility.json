@@ -4,7 +4,7 @@
   "props": {
     "appVisible": {
       "type": "Boolean",
-      "desc": "Does the app has user focus? Or the app runs in the background / another tab has the user's attention",
+      "desc": "Does the app have user focus? Or the app runs in the background / another tab has the user's attention",
       "reactive": true
     }
   }
