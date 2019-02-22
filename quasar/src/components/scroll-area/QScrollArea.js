@@ -48,9 +48,11 @@ export default Vue.extend({
     thumbHidden () {
       return this.scrollHeight <= this.containerHeight || (!this.active && !this.hover)
     },
+
     thumbHeight () {
       return Math.round(between(this.containerHeight * this.containerHeight / this.scrollHeight, 50, this.containerHeight))
     },
+
     style () {
       const top = this.scrollPercentage * (this.containerHeight - this.thumbHeight)
       return Object.assign({}, this.thumbStyle, {
@@ -58,9 +60,11 @@ export default Vue.extend({
         height: `${this.thumbHeight}px`
       })
     },
+
     mainStyle () {
       return this.thumbHidden ? this.contentStyle : this.contentActiveStyle
     },
+
     scrollPercentage () {
       const p = between(this.scrollPosition / (this.scrollHeight - this.containerHeight), 0, 1)
       return Math.round(p * 10000) / 10000

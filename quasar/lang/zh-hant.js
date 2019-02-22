@@ -21,6 +21,11 @@ export default {
     daysShort: '週日_週一_週二_週三_週四_週五_週六'.split('_'),
     months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
     monthsShort: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
+    headerTitle: function (date) {
+      return new Intl.DateTimeFormat('zh-hant', {
+        weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC'
+      }).format(date)
+    },
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false
   },
