@@ -220,6 +220,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ian Claxton
 - Pascal de Sélys
 - Constantine
+- Ivar de Pieterman
 
 - Jim O'Quinn ($5)
 - Ken ($5)
