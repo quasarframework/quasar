@@ -384,6 +384,8 @@
           </q-list>
         </q-menu>
       </q-input>
+
+      <q-input v-model="file" type="file" />
     </div>
   </div>
 </template>
@@ -413,7 +415,9 @@ export default {
       password: true,
 
       prefix: null,
-      suffix: null
+      suffix: null,
+
+      file: null
     }
   },
   watch: {
