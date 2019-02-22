@@ -4,10 +4,12 @@
   right 0
   opacity .2
   transition opacity .3s
-  &--invisible
-    opacity 0 !important
   &:hover
     opacity .3
     cursor grab
   &:active
     opacity .5
+  &--invisible
+    opacity 0 !important
+    &:hover
+      cursor inherit
