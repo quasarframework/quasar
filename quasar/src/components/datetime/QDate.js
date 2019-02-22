@@ -622,7 +622,7 @@ export default Vue.extend({
         date.year = this.innerModel.year
       }
       if (date.month === void 0) {
-        date.month = this.innerModel.month
+        date.month = parseInt(this.innerModel.month)
       }
       if (date.day === void 0) {
         date.day = Math.min(this.innerModel.day, this.daysInMonth)
