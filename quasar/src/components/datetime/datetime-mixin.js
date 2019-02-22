@@ -40,11 +40,13 @@ export default {
   },
 
   methods: {
-    __pad (unit) {
+    __pad (text) {
+      const unit = parseInt(text, 10)
       return (unit < 10 ? '0' : '') + unit
     },
 
-    __padYear (unit) {
+    __padYear (text) {
+      const unit = parseInt(text, 10)
       if (unit < 0 || unit > 9999) {
         return '' + unit
       }

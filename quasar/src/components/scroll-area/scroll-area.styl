@@ -2,18 +2,22 @@
   background black
   opacity .2
   transition opacity .3s
-  &--invisible
-    opacity 0 !important
+  
+  &--v
+    right 0
+    width 10px
+  
+  &--h
+    bottom 0
+    height 10px
+
   &:hover
     opacity .3
     cursor grab
   &:active
     opacity .5
 
-.q-scrollarea__thumb--v
-  right 0
-  width 10px
-
-.q-scrollarea__thumb--h
-  bottom 0
-  height 10px
+  &--invisible
+    opacity 0 !important
+    &:hover
+      cursor inherit

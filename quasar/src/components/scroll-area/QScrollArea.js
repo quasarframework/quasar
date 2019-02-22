@@ -53,9 +53,11 @@ export default Vue.extend({
     thumbHidden () {
       return this.scrollSize <= this.containerSize || (!this.active && !this.hover)
     },
+
     thumbSize () {
       return Math.round(between(this.containerSize * this.containerSize / this.scrollSize, 50, this.containerSize))
     },
+
     style () {
       const pos = this.scrollPercentage * (this.containerSize - this.thumbSize)
       return Object.assign({}, this.thumbStyle,
@@ -68,9 +70,11 @@ export default Vue.extend({
             height: `${this.thumbSize}px`
           })
     },
+
     mainStyle () {
       return this.thumbHidden ? this.contentStyle : this.contentActiveStyle
     },
+
     scrollPercentage () {
       const p = between(this.scrollPosition / (this.scrollSize - this.containerSize), 0, 1)
       return Math.round(p * 10000) / 10000
@@ -275,7 +279,7 @@ export default Vue.extend({
           'q-scrollarea__thumb--h absolute-bottom': this.horisontal,
           'q-scrollarea__thumb--v absolute-right': !this.horisontal
         },
-        directives: [{
+        directives: this.thumbHidden === true ? null : [{
           name: 'touch-pan',
           modifiers: {
             vertical: !this.horisontal,
