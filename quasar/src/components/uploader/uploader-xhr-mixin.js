@@ -21,6 +21,7 @@ export default {
     headers: [Function, Array],
     fields: [Function, Array],
     withCredentials: Boolean,
+    sendRaw: Boolean,
     batch: [Function, Boolean]
   },
 
@@ -163,7 +164,9 @@ export default {
 
       files.forEach(file => {
         this.__updateFile(file, 'uploading', 0)
-        form.append(this.xhrProps.fieldName(file), file)
+        if (this.sendRaw !== true) {
+          form.append(this.xhrProps.fieldName(file), file)
+        }
         file.xhr = xhr
         file.__abort = xhr.abort
         maxUploadSize += file.size
@@ -172,7 +175,12 @@ export default {
       this.__emit('uploading', { files, xhr })
       this.xhrs.push(xhr)
 
-      xhr.send(form)
+      if (this.sendRaw === true) {
+        xhr.send(files)
+      }
+      else {
+        xhr.send(form)
+      }
     },
 
     __uploadSingleFile (file) {
@@ -240,8 +248,13 @@ export default {
       file.__abort = xhr.abort
       this.__emit('uploading', { files, xhr })
 
-      form.append(this.xhrProps.fieldName(file), file)
-      xhr.send(form)
+      if (this.sendRaw === true) {
+        xhr.send(file)
+      }
+      else {
+        form.append(this.xhrProps.fieldName(file), file)
+        xhr.send(form)
+      }
     }
   }
 }
