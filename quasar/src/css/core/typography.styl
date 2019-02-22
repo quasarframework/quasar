@@ -15,9 +15,9 @@ h1, h2, h3, h4, h5, h6,.h1, .h2, .h3, .h4, .h5, .h6
   font-weight: 500
   line-height: 1.2
 
-for $heading, $value in $h1-h6
-  {'h'+$heading},.{'h'+$heading},.{'f'+(7-$heading)}
-    font-size: $value.size
+for $value,i in $h1-h6
+  {'h'+(i + 1)},.{'h'+(i + 1)},.{'f'+(6 - i)}
+    font-size: $value
 
 .f7
   font-size: 3rem
