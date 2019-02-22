@@ -8,10 +8,7 @@ export default Vue.extend({
 
   props: {
     debounce: [String, Number],
-    horisontal: {
-      type: [String, Boolean],
-      default: false
-    }
+    horizontal: Boolean
   },
 
   render () {}, // eslint-disable-line
@@ -19,7 +16,7 @@ export default Vue.extend({
   data () {
     return {
       pos: 0,
-      dir: this.horisontal ? 'right' : 'down',
+      dir: this.horizontal === true ? 'right' : 'down',
       dirChanged: false,
       dirChangePos: 0
     }
@@ -48,9 +45,9 @@ export default Vue.extend({
 
     __emit () {
       const
-        pos = Math.max(0, (this.horisontal ? getHorizontalScrollPosition(this.target) : getScrollPosition(this.target))),
+        pos = Math.max(0, (this.horizontal === true ? getHorizontalScrollPosition(this.target) : getScrollPosition(this.target))),
         delta = pos - this.pos,
-        dir = this.horisontal
+        dir = this.horizontal
           ? delta < 0 ? 'left' : 'right'
           : delta < 0 ? 'up' : 'down'
       this.dirChanged = this.dir !== dir

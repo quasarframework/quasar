@@ -4,6 +4,11 @@
       "type": [ "String", "Number" ],
       "desc": "Debounce amount (in milliseconds)",
       "examples": [ "0", "530" ]
+    },
+
+    "horizontal": {
+      "type": [ "Boolean" ],
+      "desc": "Register for horizontal scroll instead of vertical (which is default)"
     }
   },
 

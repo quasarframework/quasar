@@ -41,21 +41,21 @@ export function animScrollTo (el, to, duration) {
   })
 }
 
-export function animHorisontalScrollTo (el, to, duration) {
+export function animHorizontalScrollTo (el, to, duration) {
   const pos = getHorizontalScrollPosition(el)
 
   if (duration <= 0) {
     if (pos !== to) {
-      setHorisontalScroll(el, to)
+      setHorizontalScroll(el, to)
     }
     return
   }
 
   requestAnimationFrame(() => {
     const newPos = pos + (to - pos) / Math.max(16, duration) * 16
-    setHorisontalScroll(el, newPos)
+    setHorizontalScroll(el, newPos)
     if (newPos !== to) {
-      animHorisontalScrollTo(el, to, duration - 16)
+      animHorizontalScrollTo(el, to, duration - 16)
     }
   })
 }
@@ -68,7 +68,7 @@ function setScroll (scrollTarget, offset) {
   scrollTarget.scrollTop = offset
 }
 
-function setHorisontalScroll (scrollTarget, offset) {
+function setHorizontalScroll (scrollTarget, offset) {
   if (scrollTarget === window) {
     window.scrollTo(offset, 0)
     return
@@ -84,12 +84,12 @@ export function setScrollPosition (scrollTarget, offset, duration) {
   setScroll(scrollTarget, offset)
 }
 
-export function setHorisontalScrollPosition (scrollTarget, offset, duration) {
+export function setHorizontalScrollPosition (scrollTarget, offset, duration) {
   if (duration) {
-    animHorisontalScrollTo(scrollTarget, offset, duration)
+    animHorizontalScrollTo(scrollTarget, offset, duration)
     return
   }
-  setHorisontalScroll(scrollTarget, offset)
+  setHorizontalScroll(scrollTarget, offset)
 }
 
 let size
@@ -159,9 +159,16 @@ export function hasScrollbar (el, onY = true) {
 export default {
   getScrollTarget,
   getScrollHeight,
+
   getScrollPosition,
+  getHorizontalScrollPosition,
+
   animScrollTo,
+  animHorizontalScrollTo,
+
   setScrollPosition,
+  setHorizontalScrollPosition,
+
   getScrollbarWidth,
   hasScrollbar
 }

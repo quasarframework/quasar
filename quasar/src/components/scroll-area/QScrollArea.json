@@ -25,11 +25,9 @@
       "examples": [ 500, ":delay=\"550\"" ]
     },
 
-    "horisontal": {
-      "type": [ "Boolean", "String" ],
-      "desc": "When true, added horisontal scroll instead of default vertical.",
-      "default": false,
-      "examples": [ "horisontal=\"true\"" ]
+    "horizontal": {
+      "type": [ "Boolean" ],
+      "desc": "Register for horizontal scroll instead of vertical (which is default)"
     }
   },
 

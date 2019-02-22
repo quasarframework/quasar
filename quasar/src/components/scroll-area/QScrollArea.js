@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import { between } from '../../utils/format.js'
 import { getMouseWheelDistance } from '../../utils/event.js'
-import { setScrollPosition, setHorisontalScrollPosition } from '../../utils/scroll.js'
+import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import slot from '../../utils/slot.js'
 import QResizeObserver from '../observer/QResizeObserver.js'
 import QScrollObserver from '../observer/QScrollObserver.js'
@@ -32,10 +32,7 @@ export default Vue.extend({
       type: [String, Number],
       default: 1000
     },
-    horisontal: {
-      type: [String, Boolean],
-      default: false
-    }
+    horizontal: Boolean
   },
 
   data () {
@@ -55,42 +52,68 @@ export default Vue.extend({
     },
 
     thumbSize () {
-      return Math.round(between(this.containerSize * this.containerSize / this.scrollSize, 50, this.containerSize))
+      return Math.round(
+        between(
+          this.containerSize * this.containerSize / this.scrollSize,
+          50,
+          this.containerSize
+        )
+      )
     },
 
     style () {
       const pos = this.scrollPercentage * (this.containerSize - this.thumbSize)
-      return Object.assign({}, this.thumbStyle,
-        this.horisontal
+      return Object.assign(
+        {},
+        this.thumbStyle,
+        this.horizontal === true
           ? {
             left: `${pos}px`,
             width: `${this.thumbSize}px` }
           : {
             top: `${pos}px`,
             height: `${this.thumbSize}px`
-          })
+          }
+      )
     },
 
     mainStyle () {
-      return this.thumbHidden ? this.contentStyle : this.contentActiveStyle
+      return this.thumbHidden === true
+        ? this.contentStyle
+        : this.contentActiveStyle
     },
 
     scrollPercentage () {
       const p = between(this.scrollPosition / (this.scrollSize - this.containerSize), 0, 1)
       return Math.round(p * 10000) / 10000
     },
+
     direction () {
-      return this.horisontal ? 'right' : 'down'
+      return this.horizontal ? 'right' : 'down'
     },
+
     containerSize () {
-      return this.horisontal ? this.containerWidth : this.containerHeight
+      return this.horizontal === true
+        ? this.containerWidth
+        : this.containerHeight
+    },
+
+    dirProps () {
+      return this.horizontal === true
+        ? { el: 'scrollLeft', wheel: 'x' }
+        : { el: 'scrollTop', wheel: 'y' }
+    },
+
+    thumbClass () {
+      return `q-scrollarea__thumb--${this.horizontal === true ? 'h absolute-bottom' : 'v absolute-right'}` +
+        (this.thumbHidden === true ? ' q-scrollarea__thumb--invisible' : '')
     }
   },
 
   methods: {
     setScrollPosition (offset, duration) {
-      if (this.horisontal) {
-        setHorisontalScrollPosition(this.$refs.target, offset, duration)
+      if (this.horizontal === true) {
+        setHorizontalScrollPosition(this.$refs.target, offset, duration)
       }
       else {
         setScrollPosition(this.$refs.target, offset, duration)
@@ -116,7 +139,7 @@ export default Vue.extend({
     },
 
     __updateScrollSize ({ height, width }) {
-      if (this.horisontal) {
+      if (this.horizontal) {
         if (this.scrollSize !== width) {
           this.scrollSize = width
           this.__setActive(true, true)
@@ -141,7 +164,7 @@ export default Vue.extend({
       }
 
       const multiplier = (this.scrollSize - this.containerSize) / (this.containerSize - this.thumbSize)
-      const distance = this.horisontal ? e.distance.x : e.distance.y
+      const distance = this.horizontal ? e.distance.x : e.distance.y
       const pos = this.refPos + (e.direction === this.direction ? 1 : -1) * distance * multiplier
       this.__setScroll(pos)
     },
@@ -155,7 +178,7 @@ export default Vue.extend({
         this.__setActive(false)
       }
 
-      const distance = this.horisontal ? e.distance.x : e.distance.y
+      const distance = this.horizontal ? e.distance.x : e.distance.y
       const pos = this.refPos + (e.direction === this.direction ? -1 : 1) * distance
       this.__setScroll(pos)
 
@@ -165,12 +188,10 @@ export default Vue.extend({
     },
 
     __mouseWheel (e) {
-      if (this.horisontal) {
-        return
-      }
       const el = this.$refs.target
-      el.scrollTop += getMouseWheelDistance(e).y
-      if (el.scrollTop > 0 && el.scrollTop + this.containerSize < this.scrollSize) {
+
+      el[this.dirProps.el] += getMouseWheelDistance(e)[this.dirProps.wheel]
+      if (el[this.dirProps.el] > 0 && el[this.dirProps.el] + this.containerSize < this.scrollSize) {
         e.preventDefault()
       }
     },
@@ -204,12 +225,7 @@ export default Vue.extend({
     },
 
     __setScroll (scroll) {
-      if (this.horisontal) {
-        this.$refs.target.scrollLeft = scroll
-      }
-      else {
-        this.$refs.target.scrollTop = scroll
-      }
+      this.$refs.target[this.dirProps.el] = scroll
     }
   },
 
@@ -242,8 +258,8 @@ export default Vue.extend({
         directives: [{
           name: 'touch-pan',
           modifiers: {
-            vertical: !this.horisontal,
-            horisontal: this.horisontal,
+            vertical: !this.horizontal,
+            horizontal: this.horizontal,
             mightPrevent: true
           },
           value: this.__panContainer
@@ -252,9 +268,7 @@ export default Vue.extend({
         h('div', {
           staticClass: 'absolute',
           style: this.mainStyle,
-          class: {
-            'full-height': this.horisontal,
-            'full-width': !this.horisontal }
+          class: `full-${this.horizontal === true ? 'height' : 'width'}`
         }, [
           h(QResizeObserver, {
             on: { resize: this.__updateScrollSize }
@@ -262,7 +276,7 @@ export default Vue.extend({
           slot(this, 'default')
         ]),
         h(QScrollObserver, {
-          props: { horisontal: this.horisontal },
+          props: { horizontal: this.horizontal },
           on: { scroll: this.__updateScroll }
         })
       ]),
@@ -274,16 +288,12 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-scrollarea__thumb',
         style: this.style,
-        class: {
-          'q-scrollarea__thumb--invisible': this.thumbHidden,
-          'q-scrollarea__thumb--h absolute-bottom': this.horisontal,
-          'q-scrollarea__thumb--v absolute-right': !this.horisontal
-        },
+        class: this.thumbClass,
         directives: this.thumbHidden === true ? null : [{
           name: 'touch-pan',
           modifiers: {
-            vertical: !this.horisontal,
-            horisontal: this.horisontal,
+            vertical: !this.horizontal,
+            horizontal: this.horizontal,
             prevent: true,
             mouse: true,
             mouseAllDir: true,
