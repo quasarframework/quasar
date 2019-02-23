@@ -24,7 +24,8 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-video'
+      staticClass: 'q-video',
+      on: this.$listeners
     }, [
       h('iframe', this.iframeData)
     ])

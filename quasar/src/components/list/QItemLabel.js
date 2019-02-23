@@ -40,7 +40,8 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-item__label',
       style: this.style,
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, slot(this, 'default'))
   }
 })

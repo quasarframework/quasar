@@ -11,6 +11,7 @@ export default Vue.extend({
     return h('svg', {
       staticClass: 'q-spinner',
       class: this.classes,
+      on: this.$listeners,
       attrs: {
         'fill': 'currentColor',
         'width': this.size,
