@@ -4,7 +4,7 @@ related:
   - /vue-components/ajax-bar
   - /vue-components/linear-progress
 ---
-The Quasar LoadingBar plugin offers an easy way to set up your app with a [QAjaxBar](/components/ajax-bar.html) in case you don't want to handle a QAjaxBar component yourself.
+The Quasar LoadingBar plugin offers an easy way to set up your app with a [QAjaxBar](/vue-components/ajax-bar.html) in case you don't want to handle a QAjaxBar component yourself.
 
 For a demo, please visit the QAjaxBar documentation page.
 
