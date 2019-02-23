@@ -2,14 +2,14 @@
 title: Ajax Requests
 ---
 
-> Quasar recommends Axios during project initialization: `Use Axios for Ajax calls? (Y/n)`
+Quasar offers Axios during project initialization.
 
-Then you should create a new boot file `axios.js` that looks like this:
+When you check `Axios` during setup a file `axios.js` will be created in `boot`folder, that looks like this:
 (Here you can also specify additional settings for your axios instance)
 ```
 import axios from 'axios'
 
-export default ({app, router, Vue}) => {
+export default async ({ Vue }) => {
   Vue.prototype.$axios = axios
   // ^ ^ ^ this will allow you to use this.$axios
   //       so you won't necessarily have to import axios in each vue file
