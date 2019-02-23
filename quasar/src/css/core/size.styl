@@ -21,11 +21,6 @@
   margin-right 0 !important
   width 100vw !important
 
-.block
-  display block !important
-.inline-block
-  display inline-block !important
-
 for $space, $value in $spaces
 
   .q-pa-{$space}
@@ -64,3 +59,9 @@ for $space, $value in $spaces
   margin-right auto
 .q-mx-auto
   @extends .q-ml-auto, .q-mr-auto
+
+$box-size=32 64 128 256 512 640 768 960
+for $width,$key in $box-size 
+  .size{$key}
+    width: $width px
+    height: auto

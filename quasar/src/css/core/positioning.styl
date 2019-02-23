@@ -1,65 +1,71 @@
-.float-left
+.fl
   float left
-.float-right
+.fr
   float right
+.fn
+  float: none
+.center
+  margin-l: auto
+  margin-r: auto
+  display: block
 
-.relative-position
+.relative
   position relative
 
 .fixed,
 .fixed-full,
 .fullscreen,
-.fixed-center,
-.fixed-bottom,
-.fixed-left,
-.fixed-right,
-.fixed-top,
-.fixed-top-left,
-.fixed-top-right,
-.fixed-bottom-left,
-.fixed-bottom-right
+.fixed-c,
+.fixed-b,
+.fixed-l,
+.fixed-r,
+.fixed-t,
+.fixed-tl,
+.fixed-tr,
+.fixed-bl,
+.fixed-br
   position fixed
 
 .absolute,
 .absolute-full,
-.absolute-center,
-.absolute-bottom,
-.absolute-left,
-.absolute-right,
-.absolute-top,
-.absolute-top-left,
-.absolute-top-right,
-.absolute-bottom-left,
-.absolute-bottom-right
+.absolute-c,
+.absolute-b,
+.absolute-l,
+.absolute-r,
+.absolute-t,
+.absolute-tl,
+.absolute-tr,
+.absolute-bl,
+.absolute-br
   position absolute
 
-.fixed-top, .absolute-top
+.fixed-t, .absolute-t
   top 0
   left 0
   right 0
-.fixed-right, .absolute-right
+.fixed-r, .absolute-r
   top 0
   right 0
   bottom 0
-.fixed-bottom, .absolute-bottom
+.fixed-b, .absolute-b
   right 0
   bottom 0
   left 0
-.fixed-left, .absolute-left
+.fixed-l, .absolute-l
   top 0
   bottom 0
   left 0
 
-.fixed-top-left, .absolute-top-left
+.fixed-tl, .absolute-tl
   top 0
   left 0
-.fixed-top-right, .absolute-top-right
+.fixed-tr, .absolute-tr
   top 0
   right 0
-.fixed-bottom-left, .absolute-bottom-left
+.fixed-bl, .absolute-bl
   bottom 0
   left 0
-.fixed-bottom-right, .absolute-bottom-right
+.fixed-br, .absolute-br
   bottom 0
   right 0
 
@@ -75,20 +81,35 @@
   bottom 0
   left 0
 
-.fixed-center, .absolute-center
+.fixed-c, .absolute-c
   top 50%
   left 50%
   transform translate3d(-50%, -50%, 0)
 
-.vertical-
-  &top
+.l0
+      left: 0
+.r0
+      right: 0
+.lr0
+      left: 0;
+      right: 0
+.t0
+      top: 0
+.b0
+      bottom: 0
+.tb0
+      top: 0;
+      bottom: 0
+
+.v
+  &t
     vertical-align top !important
-  &middle
+  &m
     vertical-align middle !important
-  &bottom
+  &b
     vertical-align bottom !important
 
-.on-left
-  margin-right 12px
-.on-right
+.on-l
+  margin-right:  12px
+.on-r
   margin-left 12px
