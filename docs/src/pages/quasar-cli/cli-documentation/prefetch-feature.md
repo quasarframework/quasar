@@ -3,7 +3,7 @@ title: PreFetch Feature
 related:
   - /quasar-cli/quasar-conf-js
 ---
-The PreFetch is a feature **available when using Quasar CLI** that allows a way for the components picked up by Vue Router (defined in `/src/router/routes.js`) to:
+The PreFetch is a feature **available when using Quasar CLI** that allows a way for the components to be picked up by Vue Router (defined in `/src/router/routes.js`) to:
 * pre-fetch data
 * validate the route
 * redirect to another route should some conditions are not met (like user should be logged in)
