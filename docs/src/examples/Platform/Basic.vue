@@ -17,7 +17,7 @@
     </q-markup-table>
 
     <div class="q-mt-md">
-      The device which are using to view this website <strong>{{ touch }}</strong> touch capability.
+      The device which you are using to view this website <strong>{{ touch }}</strong> touch capability.
     </div>
   </div>
 </template>

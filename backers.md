@@ -122,6 +122,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
+- Jim O'Quinn ($25)
 - Max Matteo Staack ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
@@ -169,7 +170,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - 良平 勝目
 - Jörg Walter
 - Ruan de Andrade
-- Tanner Faulkner
 - Christian Kyony
 - Talles Dantas
 - Mast
@@ -220,8 +220,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ian Claxton
 - Pascal de Sélys
 - Constantine
+- Ivar de Pieterman
 
-- Jim O'Quinn ($5)
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
