@@ -2,10 +2,11 @@
 title: Ajax Requests
 ---
 
-Quasar offers Axios during project initialization.
+> Quasar recommends Axios during project initialization: `Use Axios for Ajax calls? (Y/n)`
 
-When you check `Axios` during setup a file `axios.js` will be created in `boot`folder, that looks like this:
+Then you should create a new boot file `axios.js` that looks like this:
 (Here you can also specify additional settings for your axios instance)
+
 ```
 import axios from 'axios'
 
