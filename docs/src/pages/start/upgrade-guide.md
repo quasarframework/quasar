@@ -2006,6 +2006,18 @@ Replace `:handler` with `@load`.
 ||`toggleFullscreen()`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QTable Slots**
+
+|Legacy|v1|
+|-|-|
+||`body-cell`|
+||`header-cell`|
+
+  </div>
+
+
 </div>
 
 
