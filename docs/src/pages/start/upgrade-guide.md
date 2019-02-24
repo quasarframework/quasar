@@ -1196,22 +1196,7 @@ The structure looks the same, but some functions have been renamed.
 ||`unmasked-value`|
 
   </div>
-  <div class="inline-block q-pa-md">
 
-**QInput Events**
-
-|v0.17|v1|
-|-|-|
-|`@blur()`|`@blur(evt)`|
-|`@change(newVal)`||
-|`@clear(newVal)`||
-|`@click()`||
-|`@focus()`|`@focus(evt)`|
-|`@keydown()`||
-|`@keyup()`||
-|`@paste()`||
-
-  </div>
   <div class="inline-block q-pa-md">
 
 **QInput Methods**
