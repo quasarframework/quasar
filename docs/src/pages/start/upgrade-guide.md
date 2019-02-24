@@ -459,6 +459,17 @@ The structure looks the same, but some functions have been renamed.
 ||`rounded`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QBanner Slots**
+
+|Legacy|v1|
+|-|-|
+||`default`|
+||`avatar`|
+||`action`|
+
+  </div>
 </div>
 
 ### QAutocomplete
