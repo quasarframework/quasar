@@ -1417,7 +1417,7 @@ The structure looks the same, but some functions have been renamed.
 |-|-|
 |`no-parent-group`||
 |`readonly`||
-||`dense|
+||`dense`|
 
   </div>
   <div class="inline-block q-pa-md">
