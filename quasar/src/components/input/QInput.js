@@ -75,7 +75,10 @@ export default Vue.extend({
 
     computedCounter () {
       if (this.counter !== false) {
-        return ('' + this.value).length + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
+        const len = typeof this.value === 'string' || typeof this.value === 'number'
+          ? ('' + this.value).length
+          : 0
+        return len + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
       }
     }
   },
