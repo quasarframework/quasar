@@ -1884,15 +1884,7 @@ The structure looks the same, but some functions have been renamed.
 ||`with-seconds`|
 
   </div>
-  <div class="inline-block q-pa-md">
 
-**QTime Events**
-
-|v0.17|v1|
-|-|-|
-||`@input(value)`|
-
-  </div>
 </div>
 
 ### QToggle
