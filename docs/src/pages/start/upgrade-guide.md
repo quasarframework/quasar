@@ -1969,6 +1969,46 @@ Replace `:handler` with `@load`.
   </div>
 </div>
 
+### QTable
+
+`filter` - type changed from `String` to `String,Object`
+
+<div class="row">
+  <div class="inline-block q-pa-md">
+
+**QTable Properties**
+|`selected-rows-label`||
+|`pagination-label`||
+||`flat`|
+||`bordered`|
+||`wrap-cells`|
+  
+  </div>
+  <div class="inline-block q-pa-md">
+
+**QTable Events**
+|`@request()`|`@request(pagination, filter, getCellValue)`|
+|`@fullscreen()`||
+||`@update:pagination(newPagination)`|
+||`@update:selected(newSelected)`|
+
+  </div>
+  <div class="inline-block q-pa-md">
+
+**QTable Methods**
+||`requestServerInteraction(props)`|
+||`setPagination(pagination, forceServerRequest)`|
+||`prevPage()`|
+||`nextPage()`|
+||`isRowSelected(key)`|
+||`clearSelection()`|
+||`sort(col)`|
+||`toggleFullscreen()`|
+
+  </div>
+</div>
+
+
 ### QTableColumns
 - **removed**, use `QTable`
 
