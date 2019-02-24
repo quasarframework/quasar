@@ -1158,6 +1158,17 @@ Replace `:handler` with `@load`.
 ||`updateScrollTarget`|
 
   </div>
+
+  <div class="inline-block q-pa-md">
+
+**QInfiniteScroll Slots**
+
+|Legacy|v1|
+|-|-|
+|`message`|`loading`|
+
+  </div>
+
 </div>
 
 ### QInnerLoading
