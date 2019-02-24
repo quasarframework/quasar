@@ -1847,6 +1847,21 @@ The structure looks the same, but some functions have been renamed.
   </div>
 </div>
 
+<div class="row">
+  <div class="inline-block q-pa-md">
+
+**QTabs Methods**
+
+|v0.17|v1|
+|-|-|
+|`selectTab(name)`||
+|`previous()`||	
+|`next()`||
+|`go(offset)`||
+
+  </div>
+</div>
+
 ### QTimeline
 
 <div class="row">
