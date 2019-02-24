@@ -73,15 +73,29 @@ mark,.mark
 .breakall
   word-break: break-all
 
-.truncate
-  overflow: hidden
-  text-overflow: ellipsis
-  white-space: nowrap
+.ellipsis
+  text-overflow ellipsis
+  white-space nowrap
+  overflow hidden
+  &-2, &-3
+    overflow hidden
+    display -webkit-box
+    -webkit-box-orient vertical
+  &-2
+    -webkit-line-clamp 2
+  &-3
+    -webkit-line-clamp 3
 
 .indent, .indent p, .indent div
   text-indent: 2em
 
 .text-
+  &hide
+    font: 0/0
+    color: transparent
+    text-shadow: none
+    background-color: transparent
+    border: 0
   for $heading, $value in $headings
     &{$heading}
       font-size: $value.size

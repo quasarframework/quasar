@@ -2,5 +2,9 @@
   {
     "isoName": "zh-hans",
     "nativeName": "中文"
+  },
+  {
+    "isoName": "zh-hant",
+    "nativeName": "汉语"
   }
 ]
