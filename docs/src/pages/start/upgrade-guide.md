@@ -560,11 +560,9 @@ The structure looks the same, but some functions have been renamed.
 
 |v0.17|v1|
 |-|-|
-|`@click()`|`@click(evt)`|
 ||`@before-hide(evt)`|
 ||`@before-show(evt)`|
 ||`@hide(evt)`|
-||`@input(value)`|
 ||`@show(evt)`|
 
   </div>
