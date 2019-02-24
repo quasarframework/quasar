@@ -1420,17 +1420,7 @@ The structure looks the same, but some functions have been renamed.
 ||`dense`|
 
   </div>
-  <div class="inline-block q-pa-md">
 
-**QOptionGroup Events**
-
-|v0.17|v1|
-|-|-|
-|`@blur()`||
-|`@change()`||
-|`@focus()`||
-
-  </div>
 </div>
 
 ### QPagination
