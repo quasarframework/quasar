@@ -6,6 +6,23 @@
       </p>
       <q-list bordered padding>
         <q-expansion-item
+          expand-separator
+          icon="perm_identity"
+          label="Account settings wwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwww"
+          label-lines="1"
+          caption="John Dowwwwwwwwwwww wwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwe"
+          caption-lines="1"
+        >
+          <q-card>
+            <q-card-section>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos corrupti
+              commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
+              eveniet doloribus ullam aliquid.
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-expansion-item
           v-model="open"
           expand-separator
           icon="perm_identity"

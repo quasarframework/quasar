@@ -32,7 +32,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-item__section column',
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, slot(this, 'default'))
   }
 })

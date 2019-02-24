@@ -53,7 +53,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-avatar relative-position',
-      style: this.style
+      style: this.style,
+      on: this.$listeners
     }, [
       h('div', {
         staticClass: 'q-avatar__content row flex-center overflow-hidden',

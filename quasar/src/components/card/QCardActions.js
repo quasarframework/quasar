@@ -22,7 +22,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-card__actions',
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, slot(this, 'default'))
   }
 })

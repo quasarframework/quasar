@@ -12,7 +12,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-toolbar__title ellipsis',
-      class: this.shrink ? 'col-auto' : null
+      class: this.shrink ? 'col-auto' : null,
+      on: this.$listeners
     }, slot(this, 'default'))
   }
 })

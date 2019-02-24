@@ -169,6 +169,11 @@
       "desc": "Sets withCredentials to true on the XHR that manages the upload"
     },
 
+    "send-raw": {
+      "type": "Boolean",
+      "desc": "Send raw files without wrapping into a Form()"
+    },
+
     "batch": {
       "type": [ "Boolean", "Function" ],
       "desc": "Upload files in batch (in one XHR request); Takes boolean or factory function for Boolean; Function is called right before upload",

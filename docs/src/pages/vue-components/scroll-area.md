@@ -30,6 +30,8 @@ When content changes, the scrollbar appears then disappears again. You can set a
 
 <doc-example title="Scroll Position" file="QScrollArea/ScrollPosition" />
 
+<doc-example title="Horizontal mode" file="QScrollArea/Horizontal" />
+
 ## QScrollArea API
 
 <doc-api file="QScrollArea" />

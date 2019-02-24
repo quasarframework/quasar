@@ -39,7 +39,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       style: this.style,
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, this.label !== void 0 ? [ this.label ] : slot(this, 'default'))
   }
 })
