@@ -713,6 +713,9 @@ The structure looks the same, but some functions have been renamed.
 |`goToSlide(slideNum)`|`goTo(panelName)`|
 
   </div>
+  
+  <div class="inline-block q-pa-md">
+
 **QCarousel Slots**
 
 |Legacy|v1|
