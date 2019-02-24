@@ -1929,6 +1929,20 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
   </div>
 </div>
 
+### QTimelineEntry
+<div class="row">
+
+  <div class="inline-block q-pa-md">
+
+**QTimelineEntry Slots**
+|Legacy|v1|
+|-|-|
+|`subtitle`||
+|`title`||
+
+  </div>
+</div>
+
 ### QTimePicker
 - **replaced** by [QTime](/vue-components/time)
 
