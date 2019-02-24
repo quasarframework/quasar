@@ -1916,6 +1916,15 @@ Replace `:handler` with `@load`.
 |`no-header-navigation`||
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QStepper Slots**
+
+|Legacy|v1|
+|-|-|
+||`navigation`|
+
+  </div>
 </div>
 
 ### QTab
