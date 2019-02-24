@@ -1426,15 +1426,7 @@ The structure looks the same, but some functions have been renamed.
 ### QPagination
 
 <div class="row">
-  <div class="inline-block q-pa-md">
 
-**QPagination Events**
-
-|v0.17|v1|
-|-|-|
-|`@change`|`@event`|
-
-  </div>
   <div class="inline-block q-pa-md">
 
 **QPagination Methods**
