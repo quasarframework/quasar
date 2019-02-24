@@ -1840,6 +1840,8 @@ The structure looks the same, but some functions have been renamed.
 
 ### QTabs
 
+Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs with QTabPanes, remove them from the QTab container and put them into separate QTabPanel container. Put `v-model` on both containers and point it to the same variable. If you have `default` on some tab, put its name as default value of the model. 
+
 <div class="row">
   <div class="inline-block q-pa-md">
 
