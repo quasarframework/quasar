@@ -747,17 +747,6 @@ The structure looks the same, but some functions have been renamed.
   </div>
   <div class="inline-block q-pa-md">
 
-**QCheckbox Events**
-
-|v0.17|v1|
-|-|-|
-|`@blur()`||
-|`@focus()`||
-|`@input()`|`@input(value)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
 **QCheckbox Methods**
 
 |v0.17|v1|
