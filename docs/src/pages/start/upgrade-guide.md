@@ -1934,7 +1934,6 @@ The structure looks the same, but some functions have been renamed.
 |v0.17|v1|
 |-|-|
 |`disabled`||
-|`self`||
 ||`content-class`|
 ||`content-style`|
 ||`max-width`|
