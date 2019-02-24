@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/model-toggle", "mixins/portal" ],
+  "mixins": [ "mixins/model-toggle", "mixins/portal", "mixins/anchor" ],
 
   "props": {
     "max-height": {
@@ -25,6 +25,17 @@
     "anchor": {
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the Tooltip relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom center", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ]
+    },
+
+    "self": {
+      "type": "String",
+      "desc": "Two values setting the menu's own position relative to its target",
       "values": [
         "top left", "top middle", "top right",
         "center left", "center middle", "center right",
