@@ -1051,6 +1051,19 @@ The structure looks the same, but some functions have been renamed.
 ||`toggle(evt)`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QDialog**
+
+|Legacy|v1|
+|-|-|
+|`body`||
+|`buttons`||
+|`message`||
+|`title`||
+
+  </div>
+
 </div>
 
 ### QEditor
