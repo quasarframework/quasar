@@ -1230,7 +1230,7 @@ The structure looks the same, but some functions have been renamed.
 |`separator`||
 |`sparse`||
 ||`clickable`|
-||`disbaled`|
+||`disabled`|
 ||`focused`|
 ||`inset-level`|
 ||`manual-focus`|
