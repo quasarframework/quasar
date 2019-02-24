@@ -2287,6 +2287,17 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 ||`removeUploadedFiles()`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QUploader Slots**
+
+|Legacy|v1|
+|-|-|
+||`header`|
+||`list`|
+
+  </div>
+
 </div>
 
 ### QWindowResizeObservable
