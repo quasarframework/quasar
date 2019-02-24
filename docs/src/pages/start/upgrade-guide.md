@@ -1903,17 +1903,6 @@ The structure looks the same, but some functions have been renamed.
 ||`tabindex`|
 
   </div>
-  <div class="inline-block q-pa-md">
-
-**QToggle Events**
-
-|v0.17|v1|
-|-|-|
-|`@blur()`||
-|`@change(newVal)`||
-|`@focus()`||
-
-  </div>
 </div>
 
 ### QToolbar
