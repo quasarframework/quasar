@@ -2280,8 +2280,8 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 |Legacy|v1|
 |-|-|
-||`addFiles(files)`|
-||`pickFiles()`|
+|`add(files)`|`addFiles(files)`|
+|`pick()`|`pickFiles()`|
 ||`removeFile(file)`|
 ||`removeQueuedFiles()`|
 ||`removeUploadedFiles()`|
