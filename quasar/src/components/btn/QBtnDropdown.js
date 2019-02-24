@@ -95,10 +95,11 @@ export default Vue.extend({
 
     const Btn = h(QBtn, {
       class: `q-btn-dropdown${this.split === true ? '--current' : ' q-btn-dropdown--simple'}`,
-      props: Object.assign({}, this.$props, {
+      props: {
+        ...this.$props,
         noWrap: true,
         iconRight: this.split === true ? this.iconRight : null
-      }),
+      },
       on: {
         click: e => {
           this.split && this.hide()

@@ -138,11 +138,12 @@ export default Vue.extend({
     },
 
     __getBtn (h, data, props) {
-      data.props = Object.assign({
+      data.props = {
         color: this.color,
         flat: true,
-        size: this.size
-      }, props)
+        size: this.size,
+        ...props
+      }
       return h(QBtn, data)
     }
   },

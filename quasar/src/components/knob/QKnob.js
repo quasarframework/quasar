@@ -204,10 +204,11 @@ export default Vue.extend({
       staticClass: 'q-knob non-selectable',
       class: this.classes,
 
-      props: Object.assign({}, this.$props, {
+      props: {
+        ...this.$props,
         value: this.model,
         instantFeedback: this.dragging
-      })
+      }
     }
 
     if (this.editable === true) {

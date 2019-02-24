@@ -43,14 +43,15 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
   }
 
   return h(QBtn, {
-    props: Object.assign({}, vm.buttonProps, {
+    props: {
+      ...vm.buttonProps,
       icon: btn.icon,
       color: toggled ? btn.toggleColor || vm.toolbarToggleColor : btn.color || vm.toolbarColor,
       textColor: toggled && (vm.toolbarFlat || vm.toolbarOutline) ? null : btn.textColor || vm.toolbarTextColor,
       label: btn.label,
       disable: btn.disable ? (typeof btn.disable === 'function' ? btn.disable(vm) : true) : false,
       size: 'sm'
-    }),
+    },
     on: events
   }, child)
 }
@@ -158,7 +159,8 @@ function getDropdown (h, vm, btn) {
   const Dropdown = h(
     QBtnDropdown,
     {
-      props: Object.assign({}, vm.buttonProps, {
+      props: {
+        ...vm.buttonProps,
         noCaps: true,
         noWrap: true,
         color: highlight ? vm.toolbarToggleColor : vm.toolbarColor,
@@ -166,7 +168,7 @@ function getDropdown (h, vm, btn) {
         label: btn.fixedLabel ? btn.label : label,
         icon: btn.fixedIcon ? btn.icon : icon,
         contentClass
-      })
+      }
     },
     Items
   )
@@ -271,10 +273,11 @@ export function getLinkEditor (h, vm) {
           attrs: {
             tabindex: -1
           },
-          props: Object.assign({}, vm.buttonProps, {
+          props: {
+            ...vm.buttonProps,
             label: vm.$q.lang.label.remove,
             noCaps: true
-          }),
+          },
           on: {
             click: () => {
               vm.caret.restore()
@@ -285,10 +288,11 @@ export function getLinkEditor (h, vm) {
         }),
         h(QBtn, {
           key: 'qedt_btm_upd',
-          props: Object.assign({}, vm.buttonProps, {
+          props: {
+            ...vm.buttonProps,
             label: vm.$q.lang.label.update,
             noCaps: true
-          }),
+          },
           on: {
             click: updateLink
           }

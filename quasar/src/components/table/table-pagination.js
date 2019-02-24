@@ -28,7 +28,10 @@ export default {
 
   computed: {
     computedPagination () {
-      return fixPagination(Object.assign({}, this.innerPagination, this.pagination))
+      return fixPagination({
+        ...this.innerPagination,
+        ...this.pagination
+      })
     },
 
     firstRowIndex () {
@@ -92,7 +95,10 @@ export default {
     },
 
     setPagination (val, forceServerRequest) {
-      const newPagination = fixPagination(Object.assign({}, this.computedPagination, val))
+      const newPagination = fixPagination({
+        ...this.computedPagination,
+        ...val
+      })
 
       if (samePagination(this.computedPagination, newPagination)) {
         if (this.isServerSide && forceServerRequest) {
@@ -130,6 +136,6 @@ export default {
   },
 
   created () {
-    this.$emit('update:pagination', Object.assign({}, this.computedPagination))
+    this.$emit('update:pagination', { ...this.computedPagination })
   }
 }
