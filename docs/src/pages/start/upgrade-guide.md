@@ -7,7 +7,7 @@ Before you start down this journey of upgrading Quasar Legacy to Quasar v1 you s
 1) Read the documentation before asking questions on Discord server or forums.
 2) Prepare a CodePen so staff can help you.
 3) Dig into the Quasar source code (it'll help you understand the framework as well as teach you best practices for programming with Vue).
-4) Don't use framework components as mixins unless absolutely necessery (wrap them if you need).
+4) Don't use framework components as mixins unless absolutely necessary (wrap them if you need).
 5) Don't target inner component stuff with CSS selectors unless absolutely necessary.
 6) We recommend `yarn` whenever possible because of its speed and efficient use. However, when using globals, we still recommend using `npm`, especially if you use `nvm` (Node Version Manager).
 7) Use `git` for repository management and make regular commits, it is like taking notes on the process and lets you revert to a previous state in case you get stuck.
