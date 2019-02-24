@@ -1153,8 +1153,7 @@ Replace `:handler` with `@load`.
 
 |Legacy|v1|
 |-|-|
-|`loadMore()`||
-||`trigger`|
+|`loadMore()`|`trigger`|
 ||`updateScrollTarget`|
 
   </div>
