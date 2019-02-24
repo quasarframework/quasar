@@ -1837,6 +1837,27 @@ Replace `:handler` with `@load`.
 |`warning`||
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QSelect Slots**
+
+|Legacy|v1|
+|-|-|
+||`prepend`|
+||`append`|
+||`before`|
+||`after`|
+||`error`|
+||`hint`|
+||`counter`|
+||`selected`|
+||`no-option`|
+||`loading`|
+||`selected-item`|
+||`option`|
+
+  </div>
+
 </div>
 
 ### QSlider
