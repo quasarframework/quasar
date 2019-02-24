@@ -1065,17 +1065,6 @@ The structure looks the same, but some functions have been renamed.
 
 ### QFabAction
 
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QFabAction Events**
-
-|v0.17|v1|
-|-|-|
-|`@click()`|`@click(evt)`|
-
-  </div>
-</div>
 
 ### QField
 - **removed**, the functionality of QField is now built into [QInput](/vue-components/input) and [QSelect](/vue-components/select).
