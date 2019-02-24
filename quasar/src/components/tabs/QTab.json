@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/ripple" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "icon": {
       "extends": "icon"
@@ -41,12 +45,6 @@
 
     "disable": {
       "extends": "disable"
-    }
-  },
-
-  "events": {
-    "click": {
-      "extends": "click"
     }
   },
 

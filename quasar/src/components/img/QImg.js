@@ -204,7 +204,8 @@ export default Vue.extend({
       attrs: this.alt !== void 0 ? {
         role: 'img',
         'aria-label': this.alt
-      } : null
+      } : null,
+      on: this.$listeners
     }, [
       h('div', {
         style: { paddingBottom: this.padding }

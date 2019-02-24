@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/model-toggle" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "value": {
       "desc": "Controls state of fab actions (showing/hidden); Works best with v-model directive, otherwise use along listening to 'input' event"

@@ -639,7 +639,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-date',
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, [
       this.__getHeader(h),
 

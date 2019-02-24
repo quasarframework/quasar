@@ -61,7 +61,8 @@ export default Vue.extend({
       : null
 
     return h('div', {
-      staticClass: 'q-stepper__step'
+      staticClass: 'q-stepper__step',
+      on: this.$listeners
     }, [
       this.stepper.vertical
         ? h(StepHeader, {
