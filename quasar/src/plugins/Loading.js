@@ -25,8 +25,7 @@ export default {
   show (opts) {
     if (isSSR) { return }
 
-    props = Object.assign({}, defaults, opts)
-
+    props = { ...defaults, ...opts }
     props.customClass += ` text-${props.backgroundColor}`
 
     if (this.isActive) {

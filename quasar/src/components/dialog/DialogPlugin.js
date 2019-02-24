@@ -69,11 +69,12 @@ export default Vue.extend({
 
     okProps () {
       return Object(this.ok) === this.ok
-        ? Object.assign({
+        ? {
           color: this.color,
           label: this.$q.lang.label.ok,
-          ripple: false
-        }, this.ok)
+          ripple: false,
+          ...this.ok
+        }
         : {
           color: this.color,
           flat: true,
@@ -84,11 +85,12 @@ export default Vue.extend({
 
     cancelProps () {
       return Object(this.cancel) === this.cancel
-        ? Object.assign({
+        ? {
           color: this.color,
           label: this.$q.lang.label.cancel,
-          ripple: false
-        }, this.cancel)
+          ripple: false,
+          ...this.cancel
+        }
         : {
           color: this.color,
           flat: true,

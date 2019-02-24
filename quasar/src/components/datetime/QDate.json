@@ -1,6 +1,10 @@
 {
   "mixins": [ "components/datetime/datetime-mixin" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "value": {
       "extends": "value",

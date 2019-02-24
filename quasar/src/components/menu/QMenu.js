@@ -204,8 +204,8 @@ export default Vue.extend({
           style: this.contentStyle,
           attrs: this.$attrs,
           on: this.autoClose === true ? {
-            click: this.__onAutoClose,
-            ...this.$listeners
+            ...this.$listeners,
+            click: this.__onAutoClose
           } : this.$listeners,
           directives: this.persistent !== true ? [{
             name: 'click-outside',

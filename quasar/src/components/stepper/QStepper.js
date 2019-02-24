@@ -85,7 +85,8 @@ export default Vue.extend({
     __render (h) {
       return h('div', {
         staticClass: 'q-stepper',
-        class: this.classes
+        class: this.classes,
+        on: this.$listeners
       }, this.__getContent(h).concat(slot(this, 'navigation')))
     }
   }

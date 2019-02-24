@@ -587,7 +587,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-time',
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, [
       this.__getHeader(h),
       this.__getClock(h)

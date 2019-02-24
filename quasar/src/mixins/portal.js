@@ -56,7 +56,9 @@ export default {
       fillInject(this.$root.$options)
     }
 
-    this.__portal = new Vue(Object.assign({}, inject, {
+    this.__portal = new Vue({
+      ...inject,
+
       render: h => this.__render(h),
 
       components: this.$options.components,
@@ -69,7 +71,7 @@ export default {
       methods: {
         __qPortalClose: this.hide
       }
-    })).$mount()
+    }).$mount()
   },
 
   beforeDestroy () {

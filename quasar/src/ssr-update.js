@@ -10,7 +10,7 @@ const mixin = {
 
 export default function (ctx) {
   if (ctx.ssr) {
-    const q = Object.assign({}, $q)
+    const q = { ...$q }
 
     Object.assign(ctx.ssr, {
       Q_HEAD_TAGS: '',

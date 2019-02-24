@@ -138,11 +138,12 @@ export default Vue.extend({
     },
 
     __getBtn (h, data, props) {
-      data.props = Object.assign({
+      data.props = {
         color: this.color,
         flat: true,
-        size: this.size
-      }, props)
+        size: this.size,
+        ...props
+      }
       return h(QBtn, data)
     }
   },
@@ -334,7 +335,8 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-pagination row no-wrap items-center',
-      class: { disabled: this.disable }
+      class: { disabled: this.disable },
+      on: this.$listeners
     }, [
       contentStart,
 

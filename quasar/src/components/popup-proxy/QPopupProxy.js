@@ -102,9 +102,9 @@ export default Vue.extend({
       props: Object.assign(props, this.$attrs, {
         value: this.showing
       }),
-      on: Object.assign({}, this.$listeners, {
+      on: {
         hide: this.__hide
-      })
+      }
     }
 
     let component

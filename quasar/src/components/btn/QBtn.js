@@ -57,7 +57,7 @@ export default Vue.extend({
       if ([13, 32].includes(e.keyCode)) {
         stopAndPrevent(e)
         this.__onKeyupAbort()
-        const evt = new MouseEvent('click', Object.assign({}, e))
+        const evt = new MouseEvent('click', { ...e })
         evt.qKeyEvent = true
         this.$el.dispatchEvent(evt)
       }

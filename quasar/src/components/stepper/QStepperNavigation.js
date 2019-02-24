@@ -7,7 +7,8 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-stepper__nav'
+      staticClass: 'q-stepper__nav',
+      on: this.$listeners
     }, slot(this, 'default'))
   }
 })

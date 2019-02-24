@@ -34,7 +34,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-markup-table q-table__container',
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, [
       h('table', { staticClass: 'q-table' }, slot(this, 'default'))
     ])

@@ -139,11 +139,12 @@ export default Vue.extend({
     },
 
     __getControl (h) {
-      const on = Object.assign({}, this.$listeners, {
+      const on = {
+        ...this.$listeners,
         input: this.__onInput,
         focus: this.__onFocus,
         blur: this.__onBlur
-      })
+      }
 
       if (this.hasMask === true) {
         on.keydown = this.__onMaskedKeydown

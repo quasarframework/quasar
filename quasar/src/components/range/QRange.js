@@ -41,7 +41,7 @@ export default Vue.extend({
 
   data () {
     return {
-      model: Object.assign({}, this.value),
+      model: { ...this.value },
       curMinRatio: 0,
       curMaxRatio: 0
     }

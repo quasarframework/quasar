@@ -1,4 +1,8 @@
 {
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "size": {
       "extends": "size"
