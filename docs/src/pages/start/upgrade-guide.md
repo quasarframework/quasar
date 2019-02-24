@@ -636,6 +636,14 @@ The structure looks the same, but some functions have been renamed.
 ||`bordered`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QCard Slots**
+|Legacy|v1|
+|-|-|
+|`overlay`||
+
+  </div>
 </div>
 
 ### QCardTitle
