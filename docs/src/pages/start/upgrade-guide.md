@@ -1979,16 +1979,16 @@ Replace `:handler` with `@load`.
 **QTable Properties**
 |`selected-rows-label`||
 |`pagination-label`||
-||`flat`|
 ||`bordered`|
+||`flat`|
 ||`wrap-cells`|
   
   </div>
   <div class="inline-block q-pa-md">
 
 **QTable Events**
-|`@request()`|`@request(pagination, filter, getCellValue)`|
 |`@fullscreen()`||
+|`@request()`|`@request(pagination, filter, getCellValue)`|
 ||`@update:pagination(newPagination)`|
 ||`@update:selected(newSelected)`|
 
@@ -1996,12 +1996,12 @@ Replace `:handler` with `@load`.
   <div class="inline-block q-pa-md">
 
 **QTable Methods**
+||`clearSelection()`|
+||`isRowSelected(key)`|
+||`nextPage()`|
+||`prevPage()`|
 ||`requestServerInteraction(props)`|
 ||`setPagination(pagination, forceServerRequest)`|
-||`prevPage()`|
-||`nextPage()`|
-||`isRowSelected(key)`|
-||`clearSelection()`|
 ||`sort(col)`|
 ||`toggleFullscreen()`|
 
@@ -2079,10 +2079,10 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 |Legacy|v1|
 |-|-|
-|`selectTab(name)`||
-|`previous()`||	
-|`next()`||
 |`go(offset)`||
+|`next()`||
+|`previous()`||	
+|`selectTab(name)`||
 
   </div>
 </div>
