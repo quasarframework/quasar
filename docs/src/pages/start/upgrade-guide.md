@@ -1919,7 +1919,7 @@ The structure looks the same, but some functions have been renamed.
 |`inverted`||
 |`shrink`||
 |`text-color`||
-||inset|
+||`inset`|
 
   </div>
 </div>
