@@ -1925,8 +1925,6 @@ The structure looks the same, but some functions have been renamed.
 </div>
 
 ### QTooltip
-- Type of `anchor` was changed from `object` to `string`
-- Type of `offset` was changed from `array of 2 numbers` to `array`
 
 <div class="row">
   <div class="inline-block q-pa-md">
