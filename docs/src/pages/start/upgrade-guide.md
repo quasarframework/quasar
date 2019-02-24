@@ -1864,6 +1864,18 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 |`text-color`||
 |`two-lines`||
 |`underline-color`|`indicator-color`|
+|`no-pane-border`||
+||`breakpoint`|
+||`active-color`|
+||`active-bg-color`|
+||`indicator-color`|
+||`left-icon`|
+||`right-icon`|
+||`top-indicator`|
+||`narrow-indicator`|
+||`inline-label`|
+||`no-caps`|
+||`dense`|
 
   </div>
 </div>
