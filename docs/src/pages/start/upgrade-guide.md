@@ -903,9 +903,7 @@ The structure looks the same, but some functions have been renamed.
 
 |v0.17|v1|
 |-|-|
-|`@blur()`||
 |`@clear(clearVal)`||
-|`@focus()`||
 
   </div>
   <div class="inline-block q-pa-md">
