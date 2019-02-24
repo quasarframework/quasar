@@ -1362,14 +1362,7 @@ The structure looks the same, but some functions have been renamed.
 ||`reveal`|
 
   </div>
-  <div class="inline-block q-pa-md">
 
-**QFooter Events**
-|v0.17|v1|
-|-|-|
-||`@reveal(value)`|
-
-  </div>
   <div class="inline-block q-pa-md">
 
 **QHeader Properties**
