@@ -1530,6 +1530,17 @@ Replace `:handler` with `@load`.
 ||`@scroll(percentage)`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QParallax Slots**
+
+|Legacy|v1|
+|-|-|
+|`loading`||
+||`content`|
+
+  </div>
+
 </div>
 
 ### QPopover
