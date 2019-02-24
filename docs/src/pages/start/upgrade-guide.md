@@ -1261,6 +1261,22 @@ Replace `:handler` with `@load`.
 ||`validate(value)`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QInput Slots**
+
+|Legacy|v1|
+|-|-|
+||`prepend`|
+||`append`|
+||`before`|
+||`after`|
+||`error`|
+||`hint`|
+||`counter`|
+
+  </div>
+
 </div>
 
 ### QItem
