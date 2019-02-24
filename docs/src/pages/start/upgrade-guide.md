@@ -514,15 +514,7 @@ The structure looks the same, but some functions have been renamed.
 ||`unelevated`|
 
   </div>
-  <div class="inline-block q-pa-md">
 
-**QBtn Events**
-
-|v0.17|v1|
-|-|-|
-|`@click`||
-
-  </div>
 </div>
 
 ### QBtnDropdown
