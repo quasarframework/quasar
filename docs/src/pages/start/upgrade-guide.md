@@ -1661,6 +1661,17 @@ The structure looks the same, but some functions have been renamed.
   </div>
 </div>
 
+<div class="inline-block q-pa-md">
+
+**QRouteTab Methods**
+
+|v0.17|v1|
+|-|-|
+|`select()`||
+
+  </div>
+</div>
+
 ### QScrollArea
 - Type of `delay` was changed from `number` to `string|number`
 
@@ -1814,6 +1825,17 @@ The structure looks the same, but some functions have been renamed.
 |v0.17|v1|
 |-|-|
 |`title`||
+
+  </div>
+</div>
+
+<div class="inline-block q-pa-md">
+
+**QTab Methods**
+
+|v0.17|v1|
+|-|-|
+|`select()`||
 
   </div>
 </div>
