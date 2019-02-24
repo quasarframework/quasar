@@ -7,7 +7,7 @@ Before you start down this journey of upgrading Quasar Legacy to Quasar v1 you s
 1) Read the documentation before asking questions on Discord server or forums.
 2) Prepare a CodePen so staff can help you.
 3) Dig into the Quasar source code (it'll help you understand the framework as well as teach you best practices for programming with Vue).
-4) Don't use framework components as mixins unless absolutely necessery (wrap them if you need).
+4) Don't use framework components as mixins unless absolutely necessary (wrap them if you need).
 5) Don't target inner component stuff with CSS selectors unless absolutely necessary.
 6) We recommend `yarn` whenever possible because of its speed and efficient use. However, when using globals, we still recommend using `npm`, especially if you use `nvm` (Node Version Manager).
 7) Use `git` for repository management and make regular commits, it is like taking notes on the process and lets you revert to a previous state in case you get stuck.
@@ -112,7 +112,8 @@ The best way to start upgrading your project is to follow these steps:
  10) In `quasar.conf.js` **rename** the value `fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v3` and `ionicons` to `ionicons-v4` inside the `extras` section, if you use them. Even if you don't use them it is still good practice to rename them in case you do use them in the future.
  11) In `quasar.conf.js` > `framework` > `iconSet` do same **rename** replacements as above to its value (`fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v3` and `ionicons` to `ionicons-v4`)
  12) In `quasar.conf.js` **rename** in `framework` > `i18n` to `lang`
- 13) **Create** the file `quasar.variables.styl` in the folder `~/src/css`, if does not already exist. Add the following to it (or verify contents):
+ 13) In `quasar.conf.js` **remove** all references to `ctx.theme`
+ 14) **Create** the file `quasar.variables.styl` in the folder `~/src/css`, if does not already exist. Add the following to it (or move the contents from `~/src/css/themes/common.variables.styl`):
 
       ```stylus
       // Quasar Stylus Variables
@@ -136,8 +137,8 @@ The best way to start upgrading your project is to follow these steps:
       $warning   = #F2C037
       ```
 
- 14) In the folder `~/src/css`, **remove** the `themes` folder.
- 15) Last, but not least, do a sanity check with `quasar info`:
+ 15) In the folder `~/src/css`, **remove** the `themes` folder.
+ 16) Last, but not least, do a sanity check with `quasar info`:
       ```bash
       Global packages
         @quasar/cli - 1.0.0-beta.0
@@ -149,7 +150,7 @@ The best way to start upgrading your project is to follow these steps:
       ```
       Notice the versions that are different from step 1.
 
-16) If you haven't already done this then it's time to **remove** the Legacy Quasar `quasar-cli` and **install** the new `@quasar/cli`.
+17) If you haven't already done this then it's time to **remove** the Legacy Quasar `quasar-cli` and **install** the new `@quasar/cli`.
 
     a) **Remove** global Quasar CLI
     ```bash
@@ -246,7 +247,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 <div class="row">
   <div class="inline-block q-pa-md">
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`$tertiary`|`$accent`|
 |`.bg-tertiary`| `.bg-accent` |
@@ -262,7 +263,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Headings
 
-||v0.17|v1|
+||Legacy|v1|
 |-|-|-|
 |h1|`.q-display-4`|`.text-h1`|
 |h2|`.q-display3`|`.text-h2`|
@@ -281,7 +282,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Text Types
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`.quote`||
 
@@ -290,7 +291,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### CSS Helper Classes
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`.capitalize`|`.text-capitalize`|
 |`.lowercase`|`.text-lowercase`|
@@ -305,7 +306,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### CSS Visibility
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`.highlight-and-fade`||
 |`.mat-only`||
@@ -318,7 +319,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Mouse Related
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`.cursor-inherit`|
 ||`.cursor-none`|
@@ -329,7 +330,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Border Related
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`.round-borders`|`.rounded-borders`|
 
@@ -343,7 +344,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Grid Row
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`.order-first`|
 ||`.order-none`|
@@ -358,7 +359,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Grid Column
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`.col-auto`|
 ||`.col-xs-auto`|
@@ -372,7 +373,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Grid Gutter
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`.gutter-xs`|`.q-gutter-xs`|
 |`.gutter-sm`|`.q-gutter-sm`|
@@ -394,7 +395,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 <div class="row">
   <div class="inline-block q-pa-md">
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`v-close-dialog`|
 |`v-close-overlay`|`v-close-menu`|
@@ -418,7 +419,7 @@ The structure looks the same, but some functions have been renamed.
 <div class="row">
   <div class="inline-block q-pa-md">
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |LocalStorage.get.item(key)|LocalStorage.getItem(key)|
 |SessionStorage.get.item(key)|SessionStorage.getItem(key)|
@@ -443,7 +444,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBanner Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`actions`||
 |`avatar`||
@@ -458,6 +459,17 @@ The structure looks the same, but some functions have been renamed.
 ||`rounded`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QBanner Slots**
+
+|Legacy|v1|
+|-|-|
+||`default`|
+||`avatar`|
+||`action`|
+
+  </div>
 </div>
 
 ### QAutocomplete
@@ -470,7 +482,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBreadcrumbs Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 ||`gutter`|
@@ -486,7 +498,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBreadcrumbsEl Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 |`event`||
@@ -503,7 +515,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBtn Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`no-ripple`||
 |`repeat-timeout`||
@@ -514,15 +526,7 @@ The structure looks the same, but some functions have been renamed.
 ||`unelevated`|
 
   </div>
-  <div class="inline-block q-pa-md">
 
-**QBtn Events**
-
-|v0.17|v1|
-|-|-|
-|`@click`||
-
-  </div>
 </div>
 
 ### QBtnDropdown
@@ -534,7 +538,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBtnDropdown Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`dark-percentage`||
 |`no-ripple`||
@@ -558,13 +562,11 @@ The structure looks the same, but some functions have been renamed.
 
 **QBtnDropdown Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
-|`@click()`|`@click(evt)`|
 ||`@before-hide(evt)`|
 ||`@before-show(evt)`|
 ||`@hide(evt)`|
-||`@input(value)`|
 ||`@show(evt)`|
 
   </div>
@@ -572,7 +574,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBtnDropdown Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`hide(evt)`|
 ||`show(evt)`|
@@ -588,7 +590,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBtnGroup Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`glossy`|
 ||`stretch`|
@@ -596,12 +598,6 @@ The structure looks the same, but some functions have been renamed.
 
   </div>
   <div class="inline-block q-pa-md">
-
-**QBtnGroup Events**
-
-|v0.17|v1|
-|-|-|
-|`@input()`|`@input(value)`|
 
   </div>
 </div>
@@ -613,7 +609,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBtnToggle Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`no-ripple`||
 |`wait-for-ripple`||
@@ -632,12 +628,20 @@ The structure looks the same, but some functions have been renamed.
 
 **QCard Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 |`inline`||
 |`text-color`||
 ||`bordered`|
+
+  </div>
+  <div class="inline-block q-pa-md">
+
+**QCard Slots**
+|Legacy|v1|
+|-|-|
+|`overlay`||
 
   </div>
 </div>
@@ -662,7 +666,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QCarousel Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`animation`||
 |`color`||
@@ -691,7 +695,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QCarousel Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`@input(index)`|`@input(value)`|
 |`@slide`||
@@ -704,9 +708,23 @@ The structure looks the same, but some functions have been renamed.
 
 **QCarousel Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`goToSlide(slideNum)`|`goTo(panelName)`|
+
+  </div>
+  
+  <div class="inline-block q-pa-md">
+
+**QCarousel Slots**
+
+|Legacy|v1|
+|-|-|
+|`control-button`||
+|`control-full`||
+|`control-nav`||
+|`control-progress`||
+|`quick-nav`||
 
   </div>
 </div>
@@ -721,7 +739,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QCarouselSlide Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`disable`|
 ||`name`|
@@ -742,7 +760,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QCheckbox Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`checked-icon`||
 |`indeterminate-icon`||
@@ -755,20 +773,9 @@ The structure looks the same, but some functions have been renamed.
   </div>
   <div class="inline-block q-pa-md">
 
-**QCheckbox Events**
-
-|v0.17|v1|
-|-|-|
-|`@blur()`||
-|`@focus()`||
-|`@input()`|`@input(value)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
 **QCheckbox Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`toggle()`|
 
@@ -782,7 +789,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QChip Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`avatar`||
 |`closable`||
@@ -805,10 +812,8 @@ The structure looks the same, but some functions have been renamed.
 
 **QChip Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
-|`@click()`|`@click(evt)`|
-|`@focus()`||
 |`@hide()`||
 ||`@update:selected(state)`|
 ||`@remove(state)`|
@@ -827,7 +832,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QExpansionItem Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`active-class`|
 ||`append`|
@@ -861,7 +866,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QExpansionItem Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@before-hide(evt)`|
 ||`@before-show(evt)`|
@@ -874,13 +879,23 @@ The structure looks the same, but some functions have been renamed.
 
 **QExpansionItem Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`show(evt)`|
 ||`toggle(evt)`|
 ||`hide(evt)`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QExpansionItem Slots**
+
+|Legacy|v1|
+|-|-|
+||`header`|
+
+  </div>
+
 </div>
 
 ### QColorPicker
@@ -892,7 +907,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QColor Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`after`||
 |`align`||
@@ -922,18 +937,16 @@ The structure looks the same, but some functions have been renamed.
 
 **QColor Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
-|`@blur()`||
 |`@clear(clearVal)`||
-|`@focus()`||
 
   </div>
   <div class="inline-block q-pa-md">
 
 **QColor Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`clear()`||
 |`hide()`||
@@ -954,7 +967,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QDate Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`color`|
 ||`dark`|
@@ -987,7 +1000,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QDialog Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`cancel`||
 |`color`||
@@ -1016,7 +1029,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QDialog Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`@ok()`||
 |`@cancel()`||
@@ -1031,13 +1044,26 @@ The structure looks the same, but some functions have been renamed.
 
 **QDialog Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`hide(evt)`|
 ||`show(evt)`|
 ||`toggle(evt)`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QDialog**
+
+|Legacy|v1|
+|-|-|
+|`body`||
+|`buttons`||
+|`message`||
+|`title`||
+
+  </div>
+
 </div>
 
 ### QEditor
@@ -1047,7 +1073,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QEditor Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`exitFullscreen()`|
 ||`focus()`|
@@ -1067,7 +1093,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QFab Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`@hide()`||
 |`@show()`||
@@ -1079,7 +1105,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QFab Slots**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`tooltip`|
 
@@ -1088,20 +1114,11 @@ The structure looks the same, but some functions have been renamed.
 
 ### QFabAction
 
-<div class="row">
-  <div class="inline-block q-pa-md">
-
-**QFabAction Events**
-
-|v0.17|v1|
-|-|-|
-|`@click()`|`@click(evt)`|
-
-  </div>
-</div>
 
 ### QField
 - **removed**, the functionality of QField is now built into [QInput](/vue-components/input) and [QSelect](/vue-components/select).
+
+If you use it to wrap Input, just move all attributes from QField to QInput. If you use `error` and `error-label`, enable `bottom-slots` on QInput and change `error-label` to `error-message`.
 
 ### QIcon
 
@@ -1110,7 +1127,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QIcon Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`left`|
 ||`right`|
@@ -1120,12 +1137,14 @@ The structure looks the same, but some functions have been renamed.
 
 ### QInfiniteScroll
 
+Replace `:handler` with `@load`.
+
 <div class="row">
   <div class="inline-block q-pa-md">
 
 **QInfiniteScroll Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`handler`||
 |`inline`||
@@ -1136,7 +1155,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QInfiniteScroll Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@load(index, done)`|
 
@@ -1145,13 +1164,23 @@ The structure looks the same, but some functions have been renamed.
 
 **QInfiniteScroll Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
-|`loadMore()`||
-||`trigger`|
+|`loadMore()`|`trigger`|
 ||`updateScrollTarget`|
 
   </div>
+
+  <div class="inline-block q-pa-md">
+
+**QInfiniteScroll Slots**
+
+|Legacy|v1|
+|-|-|
+|`message`|`loading`|
+
+  </div>
+
 </div>
 
 ### QInnerLoading
@@ -1162,7 +1191,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QInnerLoading Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`visible`||
 ||`showing`|
@@ -1181,7 +1210,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QInput Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`after`||
 |`align`||
@@ -1230,27 +1259,12 @@ The structure looks the same, but some functions have been renamed.
 ||`unmasked-value`|
 
   </div>
-  <div class="inline-block q-pa-md">
 
-**QInput Events**
-
-|v0.17|v1|
-|-|-|
-|`@blur()`|`@blur(evt)`|
-|`@change(newVal)`||
-|`@clear(newVal)`||
-|`@click()`||
-|`@focus()`|`@focus(evt)`|
-|`@keydown()`||
-|`@keyup()`||
-|`@paste()`||
-
-  </div>
   <div class="inline-block q-pa-md">
 
 **QInput Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`blur()`||
 |`clear()`||
@@ -1260,6 +1274,22 @@ The structure looks the same, but some functions have been renamed.
 ||`validate(value)`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QInput Slots**
+
+|Legacy|v1|
+|-|-|
+||`prepend`|
+||`append`|
+||`before`|
+||`after`|
+||`error`|
+||`hint`|
+||`counter`|
+
+  </div>
+
 </div>
 
 ### QItem
@@ -1269,7 +1299,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QItem Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`event`||
 |`highlight`||
@@ -1279,7 +1309,7 @@ The structure looks the same, but some functions have been renamed.
 |`separator`||
 |`sparse`||
 ||`clickable`|
-||`disbaled`|
+||`disabled`|
 ||`focused`|
 ||`inset-level`|
 ||`manual-focus`|
@@ -1290,7 +1320,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QItem Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@click(evt)`|
 ||`@keyup(evt)`|
@@ -1309,7 +1339,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QSeparator Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`color`|
 ||`dark`|
@@ -1338,7 +1368,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QKnob Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`decimals`||
 |`line-width`||
@@ -1359,7 +1389,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QLayout Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`@resize()`|`@resize(size)`|
 |`@scroll()`|`@scroll(details)`|
@@ -1376,7 +1406,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QDrawer Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`no-hide-on-route-change`||
 ||`bordered`|
@@ -1387,7 +1417,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QDrawer Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`on-layout`||
 ||`hide`|
@@ -1404,25 +1434,18 @@ The structure looks the same, but some functions have been renamed.
   <div class="inline-block q-pa-md">
 
 **QFooter Properties**
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`bordered`|
 ||`elevated`|
 ||`reveal`|
 
   </div>
-  <div class="inline-block q-pa-md">
 
-**QFooter Events**
-|v0.17|v1|
-|-|-|
-||`@reveal(value)`|
-
-  </div>
   <div class="inline-block q-pa-md">
 
 **QHeader Properties**
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`bordered`|
 ||`elevated`|
@@ -1430,14 +1453,7 @@ The structure looks the same, but some functions have been renamed.
 ||`reveal-offset`|
 
   </div>
-  <div class="inline-block q-pa-md">
 
-**QHeader Events**
-|v0.17|v1|
-|-|-|
-||`@reveal(value)`|
-
-  </div>
 </div>
 
 ### QList
@@ -1447,7 +1463,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QList Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`highlight`||
 |`inset-separator`||
@@ -1476,43 +1492,25 @@ The structure looks the same, but some functions have been renamed.
 
 **QOptionGroup Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`no-parent-group`||
 |`readonly`||
-||`dense|
+||`dense`|
 
   </div>
-  <div class="inline-block q-pa-md">
 
-**QOptionGroup Events**
-
-|v0.17|v1|
-|-|-|
-|`@blur()`||
-|`@change()`||
-|`@focus()`||
-
-  </div>
 </div>
 
 ### QPagination
 
 <div class="row">
-  <div class="inline-block q-pa-md">
 
-**QPagination Events**
-
-|v0.17|v1|
-|-|-|
-|`@change`|`@event`|
-
-  </div>
   <div class="inline-block q-pa-md">
 
 **QPagination Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`set(pageNumber)`|
 ||`setOffset(offset)`|
@@ -1527,11 +1525,22 @@ The structure looks the same, but some functions have been renamed.
 
 **QParallax Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@scroll(percentage)`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QParallax Slots**
+
+|Legacy|v1|
+|-|-|
+|`loading`||
+||`content`|
+
+  </div>
+
 </div>
 
 ### QPopover
@@ -1545,7 +1554,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QMenu Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`anchor-click`||
 |`disabled`||
@@ -1567,7 +1576,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QMenu Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@before-hide(evt)`|
 ||`@before-show(evt)`|
@@ -1578,7 +1587,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QMenu Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`hide(evt)`|
 ||`show(evt)`|
@@ -1595,7 +1604,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QPopupEdit Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`keep-on-screen`||
 |`validate`||
@@ -1605,10 +1614,19 @@ The structure looks the same, but some functions have been renamed.
 
 **QPopupEdit Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`cancel()`|
 ||`set()`|
+
+  </div>
+  <div class="inline-block q-pa-md">
+
+**QPopupEdit Slots**
+
+|Legacy|v1|
+|-|-|
+||`title`|
 
   </div>
 </div>
@@ -1621,7 +1639,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QLinearProgress Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`animate`||
 |`height`||
@@ -1642,7 +1660,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QPullToRefresh Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`handler`|use `refresh` event|
 |`distance`||
@@ -1659,7 +1677,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QPullToRefresh Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@refresh(done)`|
 
@@ -1673,7 +1691,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QRadio Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`checked-icon`||
 |`no-focus`||
@@ -1690,7 +1708,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QRange Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`decimals`||
 |`error`||
@@ -1714,7 +1732,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QResizeObserver Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`trigger`|
 
@@ -1725,7 +1743,6 @@ The structure looks the same, but some functions have been renamed.
 - Type of `name` was changed from `string` to `string|number`
 - Type of `alert` was changed from `boolean` to `boolean|string`
 - Type of `label` was changed from `string` to `string|number`
-- Type of `tabindex` was changed from `number` to `string`
 - Type of `to` was changed from `string|object` to `any`
 
 <div class="row">
@@ -1733,13 +1750,23 @@ The structure looks the same, but some functions have been renamed.
 
 **QRouteTab Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 |`count`||
-|`event`||
 |`hidden`||
 |`hide`||
+
+  </div>
+</div>
+
+<div class="inline-block q-pa-md">
+
+**QRouteTab Methods**
+
+|Legacy|v1|
+|-|-|
+|`select()`||
 
   </div>
 </div>
@@ -1755,25 +1782,16 @@ The structure looks the same, but some functions have been renamed.
 
 **QScrollObserver Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`debounce`|
 
   </div>
   <div class="inline-block q-pa-md">
 
-**QScrollObserver Events**
-
-|v0.17|v1|
-|-|-|
-||`@scroll(details)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
 **QScrollObserver Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`getPosition()`|
 ||`trigger(immediately)`|
@@ -1795,7 +1813,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QSelect Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`after`||
 |`before`||
@@ -1819,6 +1837,27 @@ The structure looks the same, but some functions have been renamed.
 |`warning`||
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QSelect Slots**
+
+|Legacy|v1|
+|-|-|
+||`prepend`|
+||`append`|
+||`before`|
+||`after`|
+||`error`|
+||`hint`|
+||`counter`|
+||`selected`|
+||`no-option`|
+||`loading`|
+||`selected-item`|
+||`option`|
+
+  </div>
+
 </div>
 
 ### QSlider
@@ -1828,7 +1867,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QSlider Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`decimals`||
 |`error`||
@@ -1851,7 +1890,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QStep Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`default`||
 |`order`||
@@ -1870,11 +1909,20 @@ The structure looks the same, but some functions have been renamed.
 
 **QStepper Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 |`contractable`||
 |`no-header-navigation`||
+
+  </div>
+  <div class="inline-block q-pa-md">
+
+**QStepper Slots**
+
+|Legacy|v1|
+|-|-|
+||`navigation`|
 
   </div>
 </div>
@@ -1890,7 +1938,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QTab Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 |`count`||
@@ -1903,12 +1951,75 @@ The structure looks the same, but some functions have been renamed.
 
 **QTab Slots**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`title`||
 
   </div>
 </div>
+
+<div class="inline-block q-pa-md">
+
+**QTab Methods**
+
+|Legacy|v1|
+|-|-|
+|`select()`||
+
+  </div>
+</div>
+
+### QTable
+
+`filter` - type changed from `String` to `String,Object`
+
+<div class="row">
+  <div class="inline-block q-pa-md">
+
+**QTable Properties**
+|`selected-rows-label`||
+|`pagination-label`||
+||`flat`|
+||`bordered`|
+||`wrap-cells`|
+  
+  </div>
+  <div class="inline-block q-pa-md">
+
+**QTable Events**
+|`@request()`|`@request(pagination, filter, getCellValue)`|
+|`@fullscreen()`||
+||`@update:pagination(newPagination)`|
+||`@update:selected(newSelected)`|
+
+  </div>
+  <div class="inline-block q-pa-md">
+
+**QTable Methods**
+||`requestServerInteraction(props)`|
+||`setPagination(pagination, forceServerRequest)`|
+||`prevPage()`|
+||`nextPage()`|
+||`isRowSelected(key)`|
+||`clearSelection()`|
+||`sort(col)`|
+||`toggleFullscreen()`|
+
+  </div>
+  <div class="inline-block q-pa-md">
+
+**QTable Slots**
+
+|Legacy|v1|
+|-|-|
+||`body-cell`|
+||`header-cell`|
+
+  </div>
+
+
+</div>
+
 
 ### QTableColumns
 - **removed**, use `QTable`
@@ -1918,12 +2029,14 @@ The structure looks the same, but some functions have been renamed.
 
 ### QTabs
 
+Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs with QTabPanes, remove them from the QTab container and put them into separate QTabPanel container. Put `v-model` on both containers and point it to the same variable. If you have `default` on some tab, put its name as default value of the model. 
+
 <div class="row">
   <div class="inline-block q-pa-md">
 
 **QTabs Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`animated`||
 |`color`||
@@ -1934,7 +2047,42 @@ The structure looks the same, but some functions have been renamed.
 |`swipeable`||
 |`text-color`||
 |`two-lines`||
-|`underline-color`||
+|`underline-color`|`indicator-color`|
+|`no-pane-border`||
+||`breakpoint`|
+||`active-color`|
+||`active-bg-color`|
+||`indicator-color`|
+||`left-icon`|
+||`right-icon`|
+||`top-indicator`|
+||`narrow-indicator`|
+||`inline-label`|
+||`no-caps`|
+||`dense`|
+
+  </div>
+
+  <div class="inline-block q-pa-md">
+
+**QTab Events**
+
+|Legacy|v1|
+|-|-|
+|`select`||
+
+  </div>
+
+  <div class="inline-block q-pa-md">
+
+**QTabs Methods**
+
+|Legacy|v1|
+|-|-|
+|`selectTab(name)`||
+|`previous()`||	
+|`next()`||
+|`go(offset)`||
 
   </div>
 </div>
@@ -1946,10 +2094,24 @@ The structure looks the same, but some functions have been renamed.
 
 **QTimeline Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`no-hover`||
 |`responsive`||
+
+  </div>
+</div>
+
+### QTimelineEntry
+<div class="row">
+
+  <div class="inline-block q-pa-md">
+
+**QTimelineEntry Slots**
+|Legacy|v1|
+|-|-|
+|`subtitle`||
+|`title`||
 
   </div>
 </div>
@@ -1959,7 +2121,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QTime Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`color`|
 ||`dark`|
@@ -1976,15 +2138,7 @@ The structure looks the same, but some functions have been renamed.
 ||`with-seconds`|
 
   </div>
-  <div class="inline-block q-pa-md">
 
-**QTime Events**
-
-|v0.17|v1|
-|-|-|
-||`@input(value)`|
-
-  </div>
 </div>
 
 ### QToggle
@@ -1995,23 +2149,12 @@ The structure looks the same, but some functions have been renamed.
 
 **QToggle Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`no-focus`||
 |`readonly`||
 ||`dense`|
 ||`tabindex`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
-**QToggle Events**
-
-|v0.17|v1|
-|-|-|
-|`@blur()`||
-|`@change(newVal)`||
-|`@focus()`||
 
   </div>
 </div>
@@ -2023,31 +2166,36 @@ The structure looks the same, but some functions have been renamed.
 
 **QToolbar Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 |`glossy`||
 |`inverted`||
 |`shrink`||
 |`text-color`||
-||inset|
+||`inset`|
+
+  </div>
+  <div class="inline-block q-pa-md">
+
+**QToolbar Slots**
+|Legacy|v1|
+|-|-|
+|`subtitle`||
 
   </div>
 </div>
 
 ### QTooltip
-- Type of `anchor` was changed from `object` to `string`
-- Type of `offset` was changed from `array of 2 numbers` to `array`
 
 <div class="row">
   <div class="inline-block q-pa-md">
 
 **QTooltip Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`disabled`||
-|`self`||
 ||`content-class`|
 ||`content-style`|
 ||`max-width`|
@@ -2060,7 +2208,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QTooltip Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@before-hide(evt)`|
 ||`@before-show(evt)`|
@@ -2073,7 +2221,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QTooltip Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`updatePosition()`|
 
@@ -2087,7 +2235,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QTree Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`selected-color`|
 
@@ -2096,7 +2244,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QTree Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@lazy-load(details)`|
 ||`@update:expanded(expanded)`|
@@ -2108,7 +2256,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QTree Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`setExpanded(key, state)`|
 ||`setTicked(keys, state)`|
@@ -2126,7 +2274,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QUploader Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`additional-fields`|`fields`|
 |`after`||
@@ -2174,7 +2322,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QUploader Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`@fail(file, xhr)`|`@failed(files, xhr)`|
 |`@finish()`||
@@ -2190,15 +2338,26 @@ The structure looks the same, but some functions have been renamed.
 
 **QUploader Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
-||`addFiles(files)`|
-||`pickFiles()`|
+|`add(files)`|`addFiles(files)`|
+|`pick()`|`pickFiles()`|
 ||`removeFile(file)`|
 ||`removeQueuedFiles()`|
 ||`removeUploadedFiles()`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QUploader Slots**
+
+|Legacy|v1|
+|-|-|
+||`header`|
+||`list`|
+
+  </div>
+
 </div>
 
 ### QWindowResizeObservable
