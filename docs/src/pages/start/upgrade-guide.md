@@ -1679,15 +1679,6 @@ The structure looks the same, but some functions have been renamed.
   </div>
   <div class="inline-block q-pa-md">
 
-**QScrollObserver Events**
-
-|v0.17|v1|
-|-|-|
-||`@scroll(details)`|
-
-  </div>
-  <div class="inline-block q-pa-md">
-
 **QScrollObserver Methods**
 
 |v0.17|v1|
