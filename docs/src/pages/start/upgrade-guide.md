@@ -1644,7 +1644,6 @@ The structure looks the same, but some functions have been renamed.
 - Type of `name` was changed from `string` to `string|number`
 - Type of `alert` was changed from `boolean` to `boolean|string`
 - Type of `label` was changed from `string` to `string|number`
-- Type of `tabindex` was changed from `number` to `string`
 - Type of `to` was changed from `string|object` to `any`
 
 <div class="row">
