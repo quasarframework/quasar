@@ -1374,14 +1374,7 @@ The structure looks the same, but some functions have been renamed.
 ||`reveal-offset`|
 
   </div>
-  <div class="inline-block q-pa-md">
 
-**QHeader Events**
-|v0.17|v1|
-|-|-|
-||`@reveal(value)`|
-
-  </div>
 </div>
 
 ### QList
