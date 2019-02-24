@@ -97,7 +97,7 @@ You can use the `dense` prop along with `$q.screen` to create a responsive behav
 <doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
 
 ::: warning
-The property `name-key` must be set in order for selection to work properly.
+The property `row-key` must be set in order for selection to work properly.
 :::
 
 <doc-example title="Single selection" file="QTable/SingleSelection" />
