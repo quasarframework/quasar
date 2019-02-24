@@ -2003,6 +2003,14 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 ||`inset`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QToolbar Slots**
+|Legacy|v1|
+|-|-|
+|`subtitle`||
+
+  </div>
 </div>
 
 ### QTooltip
