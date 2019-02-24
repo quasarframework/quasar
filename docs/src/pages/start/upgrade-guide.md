@@ -246,7 +246,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 <div class="row">
   <div class="inline-block q-pa-md">
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`$tertiary`|`$accent`|
 |`.bg-tertiary`| `.bg-accent` |
@@ -262,7 +262,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Headings
 
-||v0.17|v1|
+||Legacy|v1|
 |-|-|-|
 |h1|`.q-display-4`|`.text-h1`|
 |h2|`.q-display3`|`.text-h2`|
@@ -281,7 +281,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Text Types
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`.quote`||
 
@@ -290,7 +290,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### CSS Helper Classes
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`.capitalize`|`.text-capitalize`|
 |`.lowercase`|`.text-lowercase`|
@@ -305,7 +305,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### CSS Visibility
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`.highlight-and-fade`||
 |`.mat-only`||
@@ -318,7 +318,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Mouse Related
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`.cursor-inherit`|
 ||`.cursor-none`|
@@ -329,7 +329,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Border Related
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`.round-borders`|`.rounded-borders`|
 
@@ -343,7 +343,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Grid Row
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`.order-first`|
 ||`.order-none`|
@@ -358,7 +358,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Grid Column
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`.col-auto`|
 ||`.col-xs-auto`|
@@ -372,7 +372,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Grid Gutter
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`.gutter-xs`|`.q-gutter-xs`|
 |`.gutter-sm`|`.q-gutter-sm`|
@@ -394,7 +394,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 <div class="row">
   <div class="inline-block q-pa-md">
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`v-close-dialog`|
 |`v-close-overlay`|`v-close-menu`|
@@ -418,7 +418,7 @@ The structure looks the same, but some functions have been renamed.
 <div class="row">
   <div class="inline-block q-pa-md">
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |LocalStorage.get.item(key)|LocalStorage.getItem(key)|
 |SessionStorage.get.item(key)|SessionStorage.getItem(key)|
@@ -443,7 +443,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBanner Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`actions`||
 |`avatar`||
@@ -470,7 +470,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBreadcrumbs Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 ||`gutter`|
@@ -486,7 +486,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBreadcrumbsEl Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 |`event`||
@@ -503,7 +503,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBtn Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`no-ripple`||
 |`repeat-timeout`||
@@ -526,7 +526,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBtnDropdown Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`dark-percentage`||
 |`no-ripple`||
@@ -550,7 +550,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBtnDropdown Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@before-hide(evt)`|
 ||`@before-show(evt)`|
@@ -562,7 +562,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBtnDropdown Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`hide(evt)`|
 ||`show(evt)`|
@@ -578,7 +578,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBtnGroup Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`glossy`|
 ||`stretch`|
@@ -597,7 +597,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QBtnToggle Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`no-ripple`||
 |`wait-for-ripple`||
@@ -616,7 +616,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QCard Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 |`inline`||
@@ -646,7 +646,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QCarousel Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`animation`||
 |`color`||
@@ -675,7 +675,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QCarousel Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`@input(index)`|`@input(value)`|
 |`@slide`||
@@ -688,7 +688,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QCarousel Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`goToSlide(slideNum)`|`goTo(panelName)`|
 
@@ -705,7 +705,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QCarouselSlide Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`disable`|
 ||`name`|
@@ -726,7 +726,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QCheckbox Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`checked-icon`||
 |`indeterminate-icon`||
@@ -741,7 +741,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QCheckbox Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`toggle()`|
 
@@ -755,7 +755,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QChip Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`avatar`||
 |`closable`||
@@ -778,7 +778,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QChip Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`@hide()`||
 ||`@update:selected(state)`|
@@ -798,7 +798,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QExpansionItem Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`active-class`|
 ||`append`|
@@ -832,7 +832,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QExpansionItem Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@before-hide(evt)`|
 ||`@before-show(evt)`|
@@ -845,7 +845,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QExpansionItem Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`show(evt)`|
 ||`toggle(evt)`|
@@ -863,7 +863,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QColor Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`after`||
 |`align`||
@@ -893,7 +893,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QColor Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`@clear(clearVal)`||
 
@@ -902,7 +902,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QColor Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`clear()`||
 |`hide()`||
@@ -923,7 +923,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QDate Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`color`|
 ||`dark`|
@@ -956,7 +956,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QDialog Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`cancel`||
 |`color`||
@@ -985,7 +985,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QDialog Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`@ok()`||
 |`@cancel()`||
@@ -1000,7 +1000,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QDialog Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`hide(evt)`|
 ||`show(evt)`|
@@ -1016,7 +1016,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QEditor Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`exitFullscreen()`|
 ||`focus()`|
@@ -1036,7 +1036,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QFab Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`@hide()`||
 |`@show()`||
@@ -1048,7 +1048,7 @@ The structure looks the same, but some functions have been renamed.
 
 **QFab Slots**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`tooltip`|
 
@@ -1070,7 +1070,7 @@ If you use it to wrap Input, just move all attributes from QField to QInput. If 
 
 **QIcon Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`left`|
 ||`right`|
@@ -1087,7 +1087,7 @@ Replace `:handler` with `@load`.
 
 **QInfiniteScroll Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`handler`||
 |`inline`||
@@ -1098,7 +1098,7 @@ Replace `:handler` with `@load`.
 
 **QInfiniteScroll Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@load(index, done)`|
 
@@ -1107,7 +1107,7 @@ Replace `:handler` with `@load`.
 
 **QInfiniteScroll Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`loadMore()`||
 ||`trigger`|
@@ -1124,7 +1124,7 @@ Replace `:handler` with `@load`.
 
 **QInnerLoading Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`visible`||
 ||`showing`|
@@ -1143,7 +1143,7 @@ Replace `:handler` with `@load`.
 
 **QInput Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`after`||
 |`align`||
@@ -1197,7 +1197,7 @@ Replace `:handler` with `@load`.
 
 **QInput Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`blur()`||
 |`clear()`||
@@ -1216,7 +1216,7 @@ Replace `:handler` with `@load`.
 
 **QItem Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`event`||
 |`highlight`||
@@ -1237,7 +1237,7 @@ Replace `:handler` with `@load`.
 
 **QItem Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@click(evt)`|
 ||`@keyup(evt)`|
@@ -1256,7 +1256,7 @@ Replace `:handler` with `@load`.
 
 **QSeparator Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`color`|
 ||`dark`|
@@ -1285,7 +1285,7 @@ Replace `:handler` with `@load`.
 
 **QKnob Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`decimals`||
 |`line-width`||
@@ -1306,7 +1306,7 @@ Replace `:handler` with `@load`.
 
 **QLayout Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`@resize()`|`@resize(size)`|
 |`@scroll()`|`@scroll(details)`|
@@ -1323,7 +1323,7 @@ Replace `:handler` with `@load`.
 
 **QDrawer Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`no-hide-on-route-change`||
 ||`bordered`|
@@ -1334,7 +1334,7 @@ Replace `:handler` with `@load`.
 
 **QDrawer Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`on-layout`||
 ||`hide`|
@@ -1351,7 +1351,7 @@ Replace `:handler` with `@load`.
   <div class="inline-block q-pa-md">
 
 **QFooter Properties**
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`bordered`|
 ||`elevated`|
@@ -1362,7 +1362,7 @@ Replace `:handler` with `@load`.
   <div class="inline-block q-pa-md">
 
 **QHeader Properties**
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`bordered`|
 ||`elevated`|
@@ -1380,7 +1380,7 @@ Replace `:handler` with `@load`.
 
 **QList Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`highlight`||
 |`inset-separator`||
@@ -1409,7 +1409,7 @@ Replace `:handler` with `@load`.
 
 **QOptionGroup Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`no-parent-group`||
 |`readonly`||
@@ -1427,7 +1427,7 @@ Replace `:handler` with `@load`.
 
 **QPagination Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`set(pageNumber)`|
 ||`setOffset(offset)`|
@@ -1442,7 +1442,7 @@ Replace `:handler` with `@load`.
 
 **QParallax Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@scroll(percentage)`|
 
@@ -1460,7 +1460,7 @@ Replace `:handler` with `@load`.
 
 **QMenu Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`anchor-click`||
 |`disabled`||
@@ -1482,7 +1482,7 @@ Replace `:handler` with `@load`.
 
 **QMenu Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@before-hide(evt)`|
 ||`@before-show(evt)`|
@@ -1493,7 +1493,7 @@ Replace `:handler` with `@load`.
 
 **QMenu Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`hide(evt)`|
 ||`show(evt)`|
@@ -1510,7 +1510,7 @@ Replace `:handler` with `@load`.
 
 **QPopupEdit Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`keep-on-screen`||
 |`validate`||
@@ -1520,7 +1520,7 @@ Replace `:handler` with `@load`.
 
 **QPopupEdit Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`cancel()`|
 ||`set()`|
@@ -1536,7 +1536,7 @@ Replace `:handler` with `@load`.
 
 **QLinearProgress Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`animate`||
 |`height`||
@@ -1557,7 +1557,7 @@ Replace `:handler` with `@load`.
 
 **QPullToRefresh Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`handler`|use `refresh` event|
 |`distance`||
@@ -1574,7 +1574,7 @@ Replace `:handler` with `@load`.
 
 **QPullToRefresh Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@refresh(done)`|
 
@@ -1588,7 +1588,7 @@ Replace `:handler` with `@load`.
 
 **QRadio Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`checked-icon`||
 |`no-focus`||
@@ -1605,7 +1605,7 @@ Replace `:handler` with `@load`.
 
 **QRange Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`decimals`||
 |`error`||
@@ -1629,7 +1629,7 @@ Replace `:handler` with `@load`.
 
 **QResizeObserver Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`trigger`|
 
@@ -1647,7 +1647,7 @@ Replace `:handler` with `@load`.
 
 **QRouteTab Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 |`count`||
@@ -1661,7 +1661,7 @@ Replace `:handler` with `@load`.
 
 **QRouteTab Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`select()`||
 
@@ -1679,7 +1679,7 @@ Replace `:handler` with `@load`.
 
 **QScrollObserver Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`debounce`|
 
@@ -1688,7 +1688,7 @@ Replace `:handler` with `@load`.
 
 **QScrollObserver Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`getPosition()`|
 ||`trigger(immediately)`|
@@ -1710,7 +1710,7 @@ Replace `:handler` with `@load`.
 
 **QSelect Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`after`||
 |`before`||
@@ -1743,7 +1743,7 @@ Replace `:handler` with `@load`.
 
 **QSlider Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`decimals`||
 |`error`||
@@ -1766,7 +1766,7 @@ Replace `:handler` with `@load`.
 
 **QStep Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`default`||
 |`order`||
@@ -1785,7 +1785,7 @@ Replace `:handler` with `@load`.
 
 **QStepper Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 |`contractable`||
@@ -1805,7 +1805,7 @@ Replace `:handler` with `@load`.
 
 **QTab Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 |`count`||
@@ -1818,7 +1818,7 @@ Replace `:handler` with `@load`.
 
 **QTab Slots**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`title`||
 
@@ -1829,7 +1829,7 @@ Replace `:handler` with `@load`.
 
 **QTab Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`select()`||
 
@@ -1851,7 +1851,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QTabs Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`animated`||
 |`color`||
@@ -1872,7 +1872,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QTabs Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`selectTab(name)`||
 |`previous()`||	
@@ -1889,7 +1889,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QTimeline Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`no-hover`||
 |`responsive`||
@@ -1902,7 +1902,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QTime Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`color`|
 ||`dark`|
@@ -1930,7 +1930,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QToggle Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`no-focus`||
 |`readonly`||
@@ -1947,7 +1947,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QToolbar Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`color`||
 |`glossy`||
@@ -1966,7 +1966,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QTooltip Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`disabled`||
 ||`content-class`|
@@ -1981,7 +1981,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QTooltip Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@before-hide(evt)`|
 ||`@before-show(evt)`|
@@ -1994,7 +1994,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QTooltip Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`updatePosition()`|
 
@@ -2008,7 +2008,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QTree Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`selected-color`|
 
@@ -2017,7 +2017,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QTree Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`@lazy-load(details)`|
 ||`@update:expanded(expanded)`|
@@ -2029,7 +2029,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QTree Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`setExpanded(key, state)`|
 ||`setTicked(keys, state)`|
@@ -2047,7 +2047,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QUploader Properties**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`additional-fields`|`fields`|
 |`after`||
@@ -2095,7 +2095,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QUploader Events**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 |`@fail(file, xhr)`|`@failed(files, xhr)`|
 |`@finish()`||
@@ -2111,7 +2111,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 **QUploader Methods**
 
-|v0.17|v1|
+|Legacy|v1|
 |-|-|
 ||`addFiles(files)`|
 ||`pickFiles()`|
