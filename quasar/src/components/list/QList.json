@@ -17,6 +17,10 @@
       "desc": "Applies a separator between contained items"
     },
 
+    "dark": {
+      "extends": "dark"
+    },
+
     "padding": {
       "type": "Boolean",
       "desc": "Applies a material design-like padding on top and bottom"
