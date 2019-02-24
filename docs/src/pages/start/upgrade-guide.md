@@ -2062,9 +2062,17 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 ||`dense`|
 
   </div>
-</div>
 
-<div class="row">
+  <div class="inline-block q-pa-md">
+
+**QTab Events**
+
+|Legacy|v1|
+|-|-|
+|`select`||
+
+  </div>
+
   <div class="inline-block q-pa-md">
 
 **QTabs Methods**
