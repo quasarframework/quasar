@@ -1620,6 +1620,15 @@ Replace `:handler` with `@load`.
 ||`set()`|
 
   </div>
+  <div class="inline-block q-pa-md">
+
+**QPopupEdit Slots**
+
+|Legacy|v1|
+|-|-|
+||`title`|
+
+  </div>
 </div>
 
 ### QProgress
