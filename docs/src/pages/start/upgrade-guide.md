@@ -112,7 +112,7 @@ The best way to start upgrading your project is to follow these steps:
  10) In `quasar.conf.js` **rename** the value `fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v3` and `ionicons` to `ionicons-v4` inside the `extras` section, if you use them. Even if you don't use them it is still good practice to rename them in case you do use them in the future.
  11) In `quasar.conf.js` > `framework` > `iconSet` do same **rename** replacements as above to its value (`fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v3` and `ionicons` to `ionicons-v4`)
  12) In `quasar.conf.js` **rename** in `framework` > `i18n` to `lang`
- 13) In `quasar.conf.js` remove all references to `ctx.theme`
+ 13) In `quasar.conf.js` **remove** all references to `ctx.theme`
  14) **Create** the file `quasar.variables.styl` in the folder `~/src/css`, if does not already exist. Add the following to it (or verify contents):
 
       ```stylus
