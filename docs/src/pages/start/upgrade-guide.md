@@ -713,6 +713,17 @@ The structure looks the same, but some functions have been renamed.
 |`goToSlide(slideNum)`|`goTo(panelName)`|
 
   </div>
+**QCarousel Slots**
+
+|Legacy|v1|
+|-|-|
+|`control-button`||
+|`control-full`||
+|`control-nav`||
+|`control-progress`||
+|`quick-nav`||
+
+  </div>
 </div>
 
 ### QCarouselControl
