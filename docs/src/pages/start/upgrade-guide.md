@@ -1080,6 +1080,8 @@ If you use it to wrap Input, just move all attributes from QField to QInput. If 
 
 ### QInfiniteScroll
 
+Replace `:handler` with `@load`.
+
 <div class="row">
   <div class="inline-block q-pa-md">
 
