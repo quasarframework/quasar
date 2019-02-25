@@ -174,7 +174,14 @@ export default {
       const suffix = this.__inputDebounce ? 'Debounce' : ''
 
       if (this.inputEl && this.__input && !this.__input.hasFocus()) {
-        this.inputEl.focus()
+        if (this.$q.platform.is.ie) {
+          this.$nextTick(() => {
+            this.inputEl.focus()
+          })
+        }
+        else {
+          this.inputEl.focus()
+        }
       }
 
       this.enterKey = this.__input && value !== this.__input.val
