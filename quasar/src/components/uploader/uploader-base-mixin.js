@@ -417,10 +417,11 @@ export default {
       h('input', {
         ref: 'input',
         staticClass: 'q-uploader__input',
-        attrs: Object.assign({
+        attrs: {
           type: 'file',
-          accept: this.accept
-        }, this.multiple ? { multiple: true } : {}),
+          accept: this.accept,
+          ...(this.multiple ? { multiple: true } : {})
+        },
         on: {
           change: this.__addFiles
         }

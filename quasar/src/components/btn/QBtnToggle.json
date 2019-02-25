@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/ripple" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "value": {
       "type": "Any",

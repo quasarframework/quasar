@@ -52,12 +52,13 @@ export default Vue.extend({
       return val > this.scrollOffset
     },
 
-    __onClick () {
+    __onClick (e) {
       const target = this.layout.container === true
         ? getScrollTarget(this.$el)
         : getScrollTarget(this.layout.$el)
 
       setScrollPosition(target, 0, this.duration)
+      this.$listeners.click !== void 0 && this.$emit('click', e)
     }
   },
 
@@ -69,7 +70,10 @@ export default Vue.extend({
       ? [
         h('div', {
           staticClass: 'q-page-scroller',
-          on: { click: this.__onClick }
+          on: {
+            ...this.$listeners,
+            click: this.__onClick
+          }
         }, [
           QPageSticky.options.render.call(this, h)
         ])

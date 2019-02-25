@@ -75,7 +75,10 @@ export default Vue.extend({
 
     computedCounter () {
       if (this.counter !== false) {
-        return ('' + this.value).length + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
+        const len = typeof this.value === 'string' || typeof this.value === 'number'
+          ? ('' + this.value).length
+          : 0
+        return len + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
       }
     }
   },
@@ -139,11 +142,12 @@ export default Vue.extend({
     },
 
     __getControl (h) {
-      const on = Object.assign({}, this.$listeners, {
+      const on = {
+        ...this.$listeners,
         input: this.__onInput,
         focus: this.__onFocus,
         blur: this.__onBlur
-      })
+      }
 
       if (this.hasMask === true) {
         on.keydown = this.__onMaskedKeydown

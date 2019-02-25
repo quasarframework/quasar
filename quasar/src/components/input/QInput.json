@@ -1,6 +1,12 @@
 {
   "mixins": [ "components/field/__QField", "mixins/mask" ],
 
+  "behavior": {
+    "$listeners": {
+      "target": " to the inner native input element"
+    }
+  },
+
   "props": {
     "value": {
       "type": [ "String", "Number" ],

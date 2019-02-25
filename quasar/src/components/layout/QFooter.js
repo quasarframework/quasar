@@ -124,7 +124,8 @@ export default Vue.extend({
     return h('footer', {
       staticClass: 'q-footer q-layout__section--marginal q-layout__section--animate',
       class: this.classes,
-      style: this.style
+      style: this.style,
+      on: this.$listeners
     }, [
       h(QResizeObserver, {
         props: { debounce: 0 },

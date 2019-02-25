@@ -41,7 +41,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-page-container q-layout__section--animate',
-      style: this.style
+      style: this.style,
+      on: this.$listeners
     }, slot(this, 'default'))
   }
 })

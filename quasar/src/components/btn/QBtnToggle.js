@@ -75,7 +75,8 @@ export default Vue.extend({
         stretch: this.stretch,
         unelevated: this.unelevated,
         glossy: this.glossy
-      }
+      },
+      on: this.$listeners
     },
     this.options.map(
       (opt, i) => h(QBtn, {

@@ -1,4 +1,8 @@
 {
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "inset": {
       "type": "Boolean",

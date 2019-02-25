@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/model-toggle", "mixins/portal", "mixins/anchor" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "fit": {
       "type": "Boolean",

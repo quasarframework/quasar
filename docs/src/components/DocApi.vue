@@ -102,7 +102,7 @@ export default {
   },
 
   methods: {
-    parseJson (name, { type, ...api }) {
+    parseJson (name, { type, behavior, ...api }) {
       this.api = api
       this.filteredApi = api
       this.apiType = type
@@ -110,6 +110,18 @@ export default {
       this.name = name
       this.type = `${type === 'plugin' ? 'Quasar' : 'Vue'} ${type.charAt(0).toUpperCase()}${type.substring(1)}`
       this.tabs = Object.keys(api)
+
+      if (
+        behavior !== void 0 &&
+        behavior.$listeners !== void 0
+      ) {
+        !this.tabs.includes('events') && this.tabs.push('events')
+        this.api.events = {
+          $listeners: behavior.$listeners,
+          ...(this.api.events || {})
+        }
+      }
+
       this.currentTab = this.tabs[0]
     },
 

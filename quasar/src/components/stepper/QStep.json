@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/panel-child" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "icon": {
       "extends": "icon"

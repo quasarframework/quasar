@@ -84,7 +84,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-parallax',
-      style: { height: `${this.height}px` }
+      style: { height: `${this.height}px` },
+      on: this.$listeners
     }, [
       h('div', {
         ref: 'mediaParent',

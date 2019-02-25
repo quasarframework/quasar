@@ -28,8 +28,7 @@ export default Vue.extend({
   render (h) {
     return h('hr', {
       staticClass: 'q-separator',
-      class: this.classes,
-      on: this.$listeners
+      class: this.classes
     })
   }
 })
