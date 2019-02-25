@@ -60,6 +60,14 @@ function init ({ Vue }) {
         if (notif.timeout === void 0) {
           notif.timeout = 5000
         }
+        else {
+          const t = parseInt(notif.timeout, 10)
+          if (isNaN(t) || t < 0) {
+            console.error(`Notify: wrong timeout: ${ notif.timeout }`)
+            return false
+          }
+          notif.timeout = t
+        }
 
         const close = () => {
           this.remove(notif)
@@ -97,7 +105,7 @@ function init ({ Vue }) {
             : btn
         }
 
-        if (notif.timeout) {
+        if (notif.timeout > 0) {
           notif.__timeout = setTimeout(() => {
             close()
           }, notif.timeout + /* show duration */ 1000)
