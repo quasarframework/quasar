@@ -776,6 +776,7 @@ The structure looks the same, but some functions have been renamed.
 
 ### QCheckbox
 - Type of `val` was changed from `object` to `any`
+- `checked-icon` and `indeterminate-icon` were dropped to make `QCheckbox` more compliant with Material Standards. If you still need similar functionality, consider using `QToggle` with [icons](https://v1.quasar-framework.org/vue-components/toggle#Example--Icons).
 
 <div class="row">
   <div class="inline-block q-pa-md">
