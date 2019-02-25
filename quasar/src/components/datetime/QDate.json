@@ -22,6 +22,16 @@
       ]
     },
 
+    "default-view": {
+      "type": "String",
+      "desc": "The view which will be opened by default",
+      "default": "Calendar",
+      "examples": [
+        "default-view=\"Years\"",
+        "default-view=\"Months\""
+      ]
+    },
+
     "events": {
       "type": [ "Array", "Function" ],
       "desc": "A list of events to highlight on the calendar; If using a function, it receives the date as a String and must return a Boolean (matches or not)",
