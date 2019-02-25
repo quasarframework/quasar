@@ -38,9 +38,7 @@
     "yarn": ">= 1.6.0"
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 10"
+    "last 1 version, not dead, ie >= 11"
   ],
   "resolutions": {
     "ajv": "6.8.1"
