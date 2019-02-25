@@ -105,7 +105,7 @@ function init ({ Vue }) {
             : btn
         }
 
-        if (notif.timeout) {
+        if (notif.timeout > 0) {
           notif.__timeout = setTimeout(() => {
             close()
           }, notif.timeout + /* show duration */ 1000)
