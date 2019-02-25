@@ -489,10 +489,11 @@ class QuasarConfig {
         cfg.devServer.contentBase = false
       }
       else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
-        Object.assign(cfg.devServer, {
-          https: false,
-          open: false
-        })
+        cfg.devServer.open = false
+
+        if (this.ctx.mode.electron) {
+          cfg.devServer.https = false
+        }
       }
 
       if (this.ctx.mode.cordova) {
