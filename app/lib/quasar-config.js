@@ -367,9 +367,11 @@ class QuasarConfig {
     if (this.ctx.dev || this.ctx.debug) {
       Object.assign(cfg.build, {
         minify: false,
-        extractCSS: false,
         gzip: false
       })
+    }
+    if (this.ctx.dev) {
+      cfg.build.extractCSS = false
     }
     if (this.ctx.debug) {
       cfg.build.sourceMap = true
