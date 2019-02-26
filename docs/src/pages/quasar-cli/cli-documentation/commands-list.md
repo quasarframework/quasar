@@ -2,10 +2,10 @@
 title: Commands List
 ---
 
-Familiarize yourself with the list of commands:
+Familiarize yourself with the list of available commands inside a Quasar project:
 
 ``` bash
-$ quasar -h
+$ quasar
 
   ___
  / _ \ _   _  __ _ ___  __ _ _ __
