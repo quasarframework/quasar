@@ -10,10 +10,68 @@
         "opts": {
           "desc": "Dialog options",
           "definition": {
+            "title": {
+              "type": "String",
+              "desc": "A text for the heading title of the dialog",
+              "examples": [ ":title=\"Continue?\"" ]
+            },
+            "message": {
+              "type": "String",
+              "desc": "A text with more information about what needs to be input, selected or confirmed.",
+              "examples": [ ":message=\"Are you certain you want to continue?\"" ]
+            },
+            "prompt": {
+              "type": "Object",
+              "desc": "An object definition of the input field for the prompting question.",
+              "examples": [ ":prompt=\"{ }\"" ],
+              "definition": {
+                "model": {
+
+                },
+                "type": {
+                  
+                }
+              }
+            },
             "...props": {
               "type": "Any",
               "desc": "Other QDialog properties",
               "__exemption": [ "examples" ]
+
+              options: Object,
+          
+              ok: {
+                type: [String, Object, Boolean],
+                default: true
+              },
+              cancel: [String, Object, Boolean],
+          
+              width: {
+                type: String,
+                default: '400px'
+              },
+          
+              stackButtons: Boolean,
+              color: {
+                type: String,
+                default: 'primary'
+              },
+          
+              // QDialog props
+              maximized: Boolean,
+              persistent: Boolean,
+              seamless: Boolean,
+              noEscKey: Boolean,
+              position: { required: false },
+              fullWidth: Boolean,
+              fullHeight: Boolean,
+              transitionShow: { required: false },
+              transitionHide: { required: false }
+            },
+
+
+
+
             }
           }
         }
