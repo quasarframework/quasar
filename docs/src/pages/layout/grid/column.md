@@ -4,23 +4,23 @@ title: Grid Column
 
 In the hope that you've previously read the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox) theory, let's get deeper into Columns.
 
-Utilize breakpoint-specific row classes for equal-width rows. Add any number of unit-less classes for each breakpoint you need and every row will be the same height.
+Utilize breakpoint-specific row classes for equal-height rows. Add any number of unit-less classes for each breakpoint you need and every row will be the same height.
 
-## Equal-width
+## Equal-height
 
 For example, here are two grid layouts that apply to every device and viewport, from xs to xl.
 
-<doc-example title="Equal Width Example" file="grid/ColumnEqualWidth" />
+<doc-example title="Equal Height Example" file="grid/ColumnEqualWidth" />
 
 ## Setting one row height
 Auto-layout for flexbox grid rows also means you can set the height of one row and the others will automatically resize around it. You may use predefined grid classes (as shown below) or inline heights. Note that the other rows will resize no matter the height of the center row.
 
-<doc-example title="Setting one row width" file="grid/ColumnRowWidth" />
+<doc-example title="Setting one row height" file="grid/ColumnRowWidth" />
 
-## Variable width content
+## Variable height content
 Using the `col-{breakpoint}-auto` classes, rows can size itself based on the natural height of its content. This is super handy with single line content like inputs, numbers, etc. This, in conjunction with horizontal alignment classes, is very useful for centering layouts with uneven row sizes as viewport height changes.
 
-<doc-example title="Variable width content" file="grid/ColumnVariableWidth" />
+<doc-example title="Variable height content" file="grid/ColumnVariableWidth" />
 
 ## Responsive classes
 
