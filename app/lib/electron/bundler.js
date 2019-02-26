@@ -1,7 +1,7 @@
 const fs = require('fs')
 const
   appPath = require('../app-paths'),
-  packagerVersion = '12.0.1',
+  packagerVersion = '13.1.0',
   log = require('../helpers/logger')('app:electron-bundle')
 
 function isValidName (bundlerName) {

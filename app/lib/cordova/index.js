@@ -36,6 +36,10 @@ class CordovaRunner {
       args.push(`--target=${cfg.ctx.emulator}`)
     }
 
+    if (cfg.ctx.targetName === 'ios') {
+      args.push(`--buildFlag=-UseModernBuildSystem=0`)
+    }
+
     return this.__runCordovaCommand(
       cfg,
       args
