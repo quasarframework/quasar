@@ -10,7 +10,7 @@ fg($name, $size)
   $noProcNotZero = $size > 0
   @media (min-width $size)
     {fe('.col<name>', $name, $noProcNotZero)}
-      &, &-auto, &-grow
+      &, &-auto, &-grow, &-shrink
         .row > &, .flex > &
           width auto
           min-width 0
@@ -25,6 +25,8 @@ fg($name, $size)
         flex 0 0 auto
       &-grow
         flex 1 0 auto
+      &-shrink
+        flex 0 1 auto
 
     for $i in (0..$flex-cols)
       $ic = s('%s', $i)

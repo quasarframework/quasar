@@ -90,7 +90,11 @@ Quasar uses a 12 point column system for distributing size of row children. Here
 
 In the example above, `col-8` fills two thirds (2/3) of the row width, because 8/12 = 2/3 = 66%, while `col-2` occupies one sixth (2/12 = 1/6 ~ 16.67%).
 
-CSS helper class `col-auto` makes the cell fill only the space it needs to be rendered, with the possibility to shrink when not enough space is available. `col`, on the other hand, tries to fill all space available while also shrinking if needed.
+CSS helper class `col-auto` makes the cell fill only the space it needs to be rendered. `col`, on the other hand, tries to fill all space available while also shrinking if needed.
+
+CSS helper class `col-grow` makes the cell fill at least the space it needs to be rendered, with the possibility to grow when more space is available.
+
+CSS helper class `col-shrink` makes the cell fill at most the space it needs to be rendered, with the possibility to shrink when not enough space is available.
 
 Another example with a visual representation below it:
 ```html
@@ -144,7 +148,7 @@ This allows you, among other things, to dynamically stack rows vertically on sma
 ### Self Alignment
 **An item can override the aligned specified on parent**. This allows alignment to be overridden for individual flex items. Please see the "Alignment" explanation from "Managing Parent" to understand the available values (`self-start`, `self-center`, `self-baseline`, `self-end`, `self-stretch`).
 
-![Flexbox Grow](https://cdn.quasar-framework.org/img/flexbox-self.svg)
+![Flexbox Self](https://cdn.quasar-framework.org/img/flexbox-self.svg)
 
 ### Order
 **You can set the order** of children elements by using `order-first` and `order-last` CSS helper classes.

@@ -36,8 +36,8 @@ class ExtensionJson {
     log()
 
     for (let ext in this.extensions) {
-      console.log(' Extension name: ' + chalk.green(ext))
-      console.log(' Extension prompts: ' + JSON.stringify(this.extensions[ext], null, 2))
+      console.log('Extension name: ' + chalk.green(ext))
+      console.log('Extension prompts: ' + JSON.stringify(this.extensions[ext], null, 2))
       console.log()
     }
   }
