@@ -3,22 +3,32 @@ import { closeRootMenu } from '../components/menu/menu-tree.js'
 export default {
   name: 'close-menu',
 
-  bind (el, _, vnode) {
-    const
-      handler = () => {
-        closeRootMenu(vnode.componentInstance.$root.portalParentId)
+  bind (el, { value }, vnode) {
+    const ctx = {
+      enabled: value !== false,
+
+      handler: () => {
+        ctx.enabled !== false && closeRootMenu(vnode.componentInstance.$root.portalParentId)
       },
-      handlerKey = evt => {
-        evt.keyCode === 13 && handler(evt)
+
+      handlerKey: ev => {
+        ev.keyCode === 13 && ctx.handler(ev)
       }
+    }
 
     if (el.__qclosemenu) {
       el.__qclosemenu_old = el.__qclosemenu
     }
 
-    el.__qclosemenu = { handler, handlerKey }
-    el.addEventListener('click', handler)
-    el.addEventListener('keyup', handlerKey)
+    el.__qclosemenu = ctx
+    el.addEventListener('click', ctx.handler)
+    el.addEventListener('keyup', ctx.handlerKey)
+  },
+
+  update (el, { value }) {
+    if (el.__qclosemenu !== void 0) {
+      el.__qclosemenu.enabled = value !== false
+    }
   },
 
   unbind (el) {

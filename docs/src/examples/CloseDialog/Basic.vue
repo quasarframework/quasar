@@ -9,9 +9,14 @@
           <span class="q-ml-sm">You are currently not connected to any network.</span>
         </q-card-section>
 
+        <q-card-section class="row items-center">
+          <q-toggle v-model="cancelEnabled" label="Cancel button enabled" />
+        </q-card-section>
+
+
         <!-- Notice v-close-dialog -->
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="primary" v-close-dialog />
+          <q-btn flat label="Cancel" color="primary" v-close-dialog="cancelEnabled" :disable="!cancelEnabled" />
           <q-btn flat label="Turn on Wifi" color="primary" v-close-dialog />
         </q-card-actions>
       </q-card>
@@ -23,7 +28,8 @@
 export default {
   data () {
     return {
-      dialog: false
+      dialog: false,
+      cancelEnabled: false,
     }
   }
 }
