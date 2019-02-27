@@ -6,9 +6,11 @@ export default {
   bind (el, { value }, vnode) {
     const ctx = {
       enabled: value !== false,
+
       handler: () => {
         ctx.enabled !== false && closeRootMenu(vnode.componentInstance.$root.portalParentId)
       },
+
       handlerKey: ev => {
         ev.keyCode === 13 && ctx.handler(ev)
       }
@@ -31,10 +33,10 @@ export default {
 
   unbind (el) {
     const ctx = el.__qclosemenu_old || el.__qclosemenu
-    if (ctx === void 0) { return }
-
-    el.removeEventListener('click', ctx.handler)
-    el.removeEventListener('keyup', ctx.handlerKey)
-    delete el[el.__qclosemenu_old ? '__qclosemenu_old' : '__qclosemenu']
+    if (ctx !== void 0) {
+      el.removeEventListener('click', ctx.handler)
+      el.removeEventListener('keyup', ctx.handlerKey)
+      delete el[el.__qclosemenu_old ? '__qclosemenu_old' : '__qclosemenu']
+    }
   }
 }
