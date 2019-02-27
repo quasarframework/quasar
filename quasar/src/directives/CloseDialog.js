@@ -4,6 +4,7 @@ export default {
   bind (el, { value }, vnode) {
     const ctx = {
       enabled: value !== false,
+
       handler: ev => {
         const vm = vnode.componentInstance.$root
 
@@ -11,6 +12,7 @@ export default {
           vm.__qPortalClose(ev)
         }
       },
+
       handlerKey: ev => {
         ev.keyCode === 13 && ctx.handler(ev)
       }
@@ -33,10 +35,10 @@ export default {
 
   unbind (el) {
     const ctx = el.__qclosedialog_old || el.__qclosedialog
-    if (ctx === void 0) { return }
-
-    el.removeEventListener('click', ctx.handler)
-    el.removeEventListener('keyup', ctx.handlerKey)
-    delete el[el.__qclosedialog_old ? '__qclosedialog_old' : '__qclosedialog']
+    if (ctx !== void 0) {
+      el.removeEventListener('click', ctx.handler)
+      el.removeEventListener('keyup', ctx.handlerKey)
+      delete el[el.__qclosedialog_old ? '__qclosedialog_old' : '__qclosedialog']
+    }
   }
 }
