@@ -92,9 +92,9 @@ In the example above, `col-8` fills two thirds (2/3) of the row width, because 8
 
 CSS helper class `col-auto` makes the cell fill only the space it needs to be rendered. `col`, on the other hand, tries to fill all space available while also shrinking if needed.
 
-CSS helper class `col-grow` makes the cell fill at least the space it needs to be rendered, with the possibility to grow when more space is available. `col`.
+CSS helper class `col-grow` makes the cell fill at least the space it needs to be rendered, with the possibility to grow when more space is available.
 
-CSS helper class `col-shrink` makes the cell fill at most the space it needs to be rendered, with the possibility to shrink when not enough space is available. `col`.
+CSS helper class `col-shrink` makes the cell fill at most the space it needs to be rendered, with the possibility to shrink when not enough space is available.
 
 Another example with a visual representation below it:
 ```html
