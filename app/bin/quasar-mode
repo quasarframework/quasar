@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-const
-  parseArgs = require('minimist'),
-  chalk = require('chalk')
+const parseArgs = require('minimist')
 
 const
   log = require('../lib/helpers/logger')('app:mode')
@@ -10,11 +8,8 @@ const
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
-    a: 'add',
-    r: 'remove',
     h: 'help'
   },
-  string: ['a', 'r'],
   boolean: ['h']
 })
 
@@ -23,29 +18,50 @@ if (argv.help) {
   Description
     Add/Remove support for PWA / Cordova / Electron modes.
   Usage
-    $ quasar mode -r|-a pwa|ssr|cordova|electron
+    $ quasar mode [add|remove pwa|ssr|cordova|electron]
 
     # determine what modes are currently installed:
     $ quasar mode
+
   Options
-    --add, -a     Add support for mode [pwa|ssr|cordova|electron]
-    --remove, -r  Remove support for mode [pwa|ssr|cordova|electron]
     --help, -h    Displays this message
   `)
   process.exit(0)
 }
 
-require('../lib/helpers/ensure-argv')(argv, 'mode')
+if (argv._.length !== 0 && argv._.length !== 2) {
+  console.log()
+  warn(`⚠️  Wrong number of parameters (${argv._.length}).`)
+  showHelp()
+  process.exit(1)
+}
+
 const
   getMode = require('../lib/mode'),
   { green, grey } = require('chalk')
 
-if (argv.add) {
-  getMode(argv.add).add()
-  process.exit(0)
-}
-else if (argv.remove) {
-  getMode(argv.remove).remove()
+if (argv._.length === 2) {
+  let [ action, mode ] = argv._
+
+  if (!['add', 'remove'].includes(action)) {
+    console.log()
+    warn(`⚠️  Unknown action specified (${ action }).`)
+    showHelp()
+    process.exit(1)
+  }
+
+  if (![undefined, 'pwa', 'cordova', 'electron', 'ssr'].includes(mode)) {
+    warn(`⚠️  Unknown mode "${ mode }" to add`)
+    warn()
+    process.exit(1)
+  }
+  if (![undefined, 'pwa', 'cordova', 'electron', 'ssr'].includes(mode)) {
+    warn(`⚠️  Unknown mode "${ mode }" to remove`)
+    warn()
+    process.exit(1)
+  }
+
+  getMode(mode)[action]()
   process.exit(0)
 }
 
