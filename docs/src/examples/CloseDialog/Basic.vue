@@ -13,7 +13,6 @@
           <q-toggle v-model="cancelEnabled" label="Cancel button enabled" />
         </q-card-section>
 
-
         <!-- Notice v-close-dialog -->
         <q-card-actions align="right">
           <q-btn flat label="Cancel" color="primary" v-close-dialog="cancelEnabled" :disable="!cancelEnabled" />
@@ -29,7 +28,7 @@ export default {
   data () {
     return {
       dialog: false,
-      cancelEnabled: false,
+      cancelEnabled: false
     }
   }
 }
