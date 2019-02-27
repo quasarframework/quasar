@@ -78,6 +78,16 @@
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
 
+      <q-toolbar class="bg-purple text-white shadow-2 rounded-borders q-mb-xl">
+        <q-btn flat label="Homepage" />
+        <q-space />
+        <q-tabs inline-label class="col-shrink">
+          <q-tab icon="phone" label="Tab 1" />
+          <q-tab label="Tab 2" />
+          <q-tab icon="location_on" label="Tab 3" />
+        </q-tabs>
+      </q-toolbar>
+
       <q-tabs :dense="dense" class="bg-grey-1 text-teal">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab label="Item two" />
@@ -312,4 +322,6 @@ export default {
 <style lang="stylus">
 .tabs-demo .q-tabs
   margin-bottom 24px
+.tabs-demo .q-toolbar .q-tabs
+  margin-bottom 0
 </style>
