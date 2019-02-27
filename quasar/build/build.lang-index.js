@@ -39,14 +39,14 @@ module.exports.generate = function () {
       langFile = resolve('lang/index.json'),
       newLangJson = JSON.stringify(languages, null, 2)
 
-    let oldLangJson
+    let oldLangJson = ''
 
     try {
       oldLangJson = fs.readFileSync(langFile, 'utf-8')
     }
     catch (e) { }
 
-    if (newLangJson !== oldLangJson) {
+    if (newLangJson.split(/[\n\r]+/).join('\n') !== oldLangJson.split(/[\n\r]+/).join('\n')) {
       writeFile(langFile, newLangJson)
     }
   }
