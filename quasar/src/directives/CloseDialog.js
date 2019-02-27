@@ -1,28 +1,34 @@
 export default {
   name: 'close-dialog',
 
-  bind (el, _, vnode) {
-    const
-      handler = ev => {
+  bind (el, { value }, vnode) {
+    const ctx = {
+      enabled: value !== false,
+      handler: ev => {
         const vm = vnode.componentInstance.$root
 
-        if (vm.__qPortalClose !== void 0) {
+        if (ctx.enabled !== false && vm.__qPortalClose !== void 0) {
           vm.__qPortalClose(ev)
         }
       },
-      handlerKey = ev => {
-        if (ev.keyCode === 13) {
-          handler(ev)
-        }
+      handlerKey: ev => {
+        ev.keyCode === 13 && ctx.handler(ev)
       }
+    }
 
     if (el.__qclosedialog) {
       el.__qclosedialog_old = el.__qclosedialog
     }
 
-    el.__qclosedialog = { handler, handlerKey }
-    el.addEventListener('click', handler)
-    el.addEventListener('keyup', handlerKey)
+    el.__qclosedialog = ctx
+    el.addEventListener('click', ctx.handler)
+    el.addEventListener('keyup', ctx.handlerKey)
+  },
+
+  update (el, { value }) {
+    if (el.__qclosedialog !== void 0) {
+      el.__qclosedialog.enabled = value !== false
+    }
   },
 
   unbind (el) {

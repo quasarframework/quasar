@@ -1,1 +1,9 @@
-{}
+{
+  "value": {
+    "type": "Boolean",
+    "desc": "Set value to false to disable the directive",
+    "examples": [
+      "v-close-dialog=\"booleanState\""
+    ]
+  }
+}
