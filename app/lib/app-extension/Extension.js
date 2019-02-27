@@ -223,7 +223,7 @@ module.exports = class Extension {
     let script
 
     try {
-      script = require.resolve(this.packageName + '/' + scriptName, {
+      script = require.resolve(this.packageName + '/src/' + scriptName, {
         paths: [ appPaths.appDir ]
       })
     }
