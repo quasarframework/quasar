@@ -50,21 +50,31 @@ module.exports = class Extension {
       )
     }
 
-    log(`Installing "${this.extId}" Quasar App Extension`)
+    log(`${skipPkgInstall ? 'Invoking' : 'Installing'} "${this.extId}" Quasar App Extension`)
     log()
 
-    // verify if already installed
-    if (skipPkgInstall !== true && this.isInstalled()) {
-      const inquirer = require('inquirer')
-      const answer = await inquirer.prompt([{
-        name: 'reinstall',
-        type: 'confirm',
-        message: `Already installed. Reinstall?`,
-        default: false
-      }])
+    const isInstalled = this.isInstalled()
 
-      if (!answer.reinstall) {
-        return
+    // verify if already installed
+    if (skipPkgInstall === true) {
+      if (!isInstalled) {
+        warn(`⚠️  Tried to invoke App Extension "${this.extId}" but it's npm package is not installed`)
+        process.exit(1)
+      }
+    }
+    else {
+      if (isInstalled) {
+        const inquirer = require('inquirer')
+        const answer = await inquirer.prompt([{
+          name: 'reinstall',
+          type: 'confirm',
+          message: `Already installed. Reinstall?`,
+          default: false
+        }])
+
+        if (!answer.reinstall) {
+          return
+        }
       }
     }
 
@@ -91,13 +101,23 @@ module.exports = class Extension {
   }
 
   async uninstall (skipPkgUninstall) {
-    log(`Uninstalling "${this.extId}" App Extension`)
+    log(`${skipPkgUninstall ? 'Uninvoking' : 'Uninstalling'} "${this.extId}" Quasar App Extension`)
     log()
 
-    // verify if installed
-    if (skipPkgUninstall !== true && !this.isInstalled()) {
-      warn(`⚠️  Quasar App Extension "${this.packageName}" is not installed...`)
-      return
+    const isInstalled = this.isInstalled()
+
+    // verify if already installed
+    if (skipPkgUninstall === true) {
+      if (!isInstalled) {
+        warn(`⚠️  Tried to uninvoke App Extension "${this.extId}" but there's no npm package installed for it.`)
+        process.exit(1)
+      }
+    }
+    else {
+      if (!isInstalled) {
+        warn(`⚠️  Quasar App Extension "${this.packageName}" is not installed...`)
+        return
+      }
     }
 
     const extensionJson = require('./extension-json')
