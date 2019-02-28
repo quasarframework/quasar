@@ -195,7 +195,7 @@ $ yarn global add @quasar/cli
 
   Notice the versions that are different from step 1.
 
-<q-separator></q-separator>
+---
 
 > All that remains now, is fixing your pages and components for correctness.
 The information below can be used as a reference.
@@ -391,7 +391,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 ||`.order-last`|
 ||`.offset-<size>-<columns>`|
 
-<br/>
+<br>
 
 **`size`** is one of `xs`, `sm`, `md`, `lg` or `xl`.<br>
 **`columns`** is 1 through 12
@@ -463,10 +463,10 @@ The structure looks the same, but some functions have been renamed.
 
 |Legacy|v1|
 |-|-|
-|LocalStorage.get.item(key)|LocalStorage.getItem(key)|
-|SessionStorage.get.item(key)|SessionStorage.getItem(key)|
-|this.$q.localStorage.get.item(key)|this.$q.localStorage.getItem(key)|
-|this.$q.sessionStorage.get.item(key)|this.$q.sessionStorage.getItem(key)|
+|`LocalStorage.get.item(key)`|`LocalStorage.getItem(key)`|
+|`SessionStorage.get.item(key)`|`SessionStorage.getItem(key)`|
+|`this.$q.localStorage.get.item(key)`|`this.$q.localStorage.getItem(key)`|
+|`this.$q.sessionStorage.get.item(key)`|`this.$q.sessionStorage.getItem(key)`|
 
   </div>
 </div>
@@ -573,7 +573,6 @@ The structure looks the same, but some functions have been renamed.
 ||`unelevated`|
 
   </div>
-
 </div>
 
 ### QBtnDropdown
@@ -767,7 +766,6 @@ The structure looks the same, but some functions have been renamed.
 |`goToSlide(slideNum)`|`goTo(panelName)`|
 
   </div>
-
   <div class="inline-block q-pa-md">
 
 **QCarousel Slots**
@@ -954,7 +952,6 @@ The structure looks the same, but some functions have been renamed.
 ||`header`|
 
   </div>
-
 </div>
 
 ### QColorPicker
@@ -1127,7 +1124,6 @@ The structure looks the same, but some functions have been renamed.
 |`title`||
 
   </div>
-
 </div>
 
 ### QFab (Floating Action Button)
@@ -1215,7 +1211,6 @@ Replace `:handler` with `@load`.
 ||`updateScrollTarget`|
 
   </div>
-
   <div class="inline-block q-pa-md">
 
 **QInfiniteScroll Slots**
@@ -1305,7 +1300,6 @@ Replace `:handler` with `@load`.
 ||`unmasked-value`|
 
   </div>
-
   <div class="inline-block q-pa-md">
 
 **QInput Methods**
@@ -1494,7 +1488,6 @@ Replace `:handler` with `@load`.
 ||`reveal`|
 
   </div>
-
   <div class="inline-block q-pa-md">
 
 **QHeader Properties**
@@ -1507,7 +1500,6 @@ Replace `:handler` with `@load`.
 ||`reveal-offset`|
 
   </div>
-
 </div>
 
 ### QList
@@ -1561,7 +1553,6 @@ Replace `:handler` with `@load`.
 ### QPagination
 
 <div class="row">
-
   <div class="inline-block q-pa-md">
 
 **QPagination Methods**
@@ -1596,7 +1587,6 @@ Replace `:handler` with `@load`.
 ||`content`|
 
   </div>
-
 </div>
 
 ### QPopover
@@ -2108,7 +2098,6 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 ||`dense`|
 
   </div>
-
   <div class="inline-block q-pa-md">
 
 **QTab Events**
@@ -2118,7 +2107,6 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 |`select`||
 
   </div>
-
   <div class="inline-block q-pa-md">
 
 **QTabs Methods**
