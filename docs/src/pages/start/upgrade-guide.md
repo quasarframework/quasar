@@ -7,6 +7,7 @@ Quasar's v1 version is now on a stable API.
 :::
 
 ## Best Practices
+
 Before you start down this journey of upgrading Quasar Legacy to Quasar v1 you should know a few things:
 1) Read the documentation before asking questions on Discord server or forums.
 2) Prepare a CodePen so staff can help you.
@@ -20,6 +21,7 @@ Before you start down this journey of upgrading Quasar Legacy to Quasar v1 you s
 10) Finally, become a [Quasar Patreon](https://www.patreon.com/quasarframework) and get access to the special Discord support chat room for priority support.
 
 ## Introduction to Upgrading
+
 While upgrading Legacy Quasar projects appears like a reasonable choice, it may not always present itself as the best solution. Just be aware that there are alternative measures that may be faster and more efficient. For instance, sometimes it is best to create a new project and port your old project. In this manner, if you do it slowly and methodologically you can see issues and resolve them quickly. This is the opposite of upgrading a project in-place, which can break everything simultaneously. Should you go with the upgrade, we have assembled the steps needed below. However, you will still need to update any Quasar components that went through a revision to get to v1.
 
 In either case, when you build out your project as you go through this process, you may get a build error that gives no valid information and you will have no idea what might be causing it. Should this happen to you, we recommend running `quasar build` instead of `quasar dev` as the production build will sometimes give different information (from webpack) than the dev build.
@@ -83,6 +85,7 @@ The best way to start upgrading your project is to follow these steps:
   Start by **removing** the old `.babelrc` and **creating** a new `babel.config.js`
 
   Then update your `babel.config.js` to
+
   ```js
   module.exports = {
     presets: [
@@ -94,6 +97,7 @@ The best way to start upgrading your project is to follow these steps:
 8) **Rename** the folder `src/plugins` to `src/boot`
 
 9) In `quasar.conf.js`: **rename** the key section `plugins` to `boot`
+
   ```js
   module.exports = function (ctx) {
     return {
@@ -102,7 +106,9 @@ The best way to start upgrading your project is to follow these steps:
       ],
 
   ```
+
   should look like this:
+
   ```js
   module.exports = function (ctx) {
     return {
@@ -111,7 +117,9 @@ The best way to start upgrading your project is to follow these steps:
       ],
 
   ```
+
   Do not get the Quasar plugins mixed up. _Do not_ change this:
+
   ```js
   // Quasar plugins
   framework: {
@@ -158,6 +166,7 @@ The best way to start upgrading your project is to follow these steps:
 16) **Remove** the global Legacy Quasar `quasar-cli` and **install** the new `@quasar/cli`. (You will still be able to run legacy 0.17 projects with it)
 
 **Remove** global Quasar CLI
+
 ```bash
 $ npm remove -g quasar-cli
 # or
@@ -165,6 +174,7 @@ $ yarn global remove quasar-cli
 ```
 
 **Install** global Quasar CLI
+
 ```bash
 $ npm install -g @quasar/cli
 # or
@@ -172,6 +182,7 @@ $ yarn global add @quasar/cli
 ```
 
 17) Last, but not least, do a sanity check with `quasar info`:
+
   ```bash
   Global packages
     @quasar/cli - 1.0.0-beta.0
@@ -181,6 +192,7 @@ $ yarn global add @quasar/cli
     @quasar/app - 1.0.0-beta.5 -- Quasar Framework App CLI
     @quasar/extras - 1.0.0 -- Quasar Framework fonts, icons and animations
   ```
+
   Notice the versions that are different from step 1.
 
 <q-separator></q-separator>
@@ -189,12 +201,14 @@ $ yarn global add @quasar/cli
 The information below can be used as a reference.
 
 ## Build Themes
+
 The iOS theme is no longer available, BUT as you will see, it's also not necessary anymore:
 * There are examples in the docs of how to make different components look and feel like iOS
 * You can hook into `$q.platform.is.ios` to help you in setting component props differently
 * The new components are very easy to customize (much easier than in Legacy Quasar)
 
 ## Quasar CLI
+
 - To create a new project use `quasar create` instead of `quasar init`
 - The `--theme, -t` option is no longer available as a build option.
 - `quasar describe` was added for command-line help with Quasar components, etc.
@@ -203,18 +217,22 @@ The iOS theme is no longer available, BUT as you will see, it's also not necessa
 - `quasar new plugin ...` is now `quasar new boot ...`
 
 ## Build Output
+
 The dist folder now strips out the `-mat` and `-ios` suffixes because there's only one theme now. As a result, `dist/spa-mat`, `dist/electron-ios`, `dist/pwa-mat` etc now become `dist/spa`, `dist/electron`, `dist/pwa`.
 
 ## Animation
+
 - The JS and CSS animations were removed for v1. However, they will be offered as a separate Quasar package when v1 fully releases. Until then, if you need them, you can add them manually to your quasar project by pulling them directly out of the v0.17 repository and adding them to your project.
 - [motion.styl](https://github.com/quasarframework/quasar/blob/v0.17/src/css/core/motion.styl)
 - [animate.js](https://github.com/quasarframework/quasar/blob/v0.17/src/utils/animate.js)
 
 ## Misc
+
 - `this.$q.i18n` was changed to `this.$q.lang`
 - `this.$q.icons` was changed to `this.$q.iconSet`
 
 ## Color Palette
+
 The colors `faded`, `dark`, `light` were removed. If you need those, re-add them in a new Stylus file.
 
    ```stylus
@@ -263,6 +281,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 ## CSS
 
 ### Color
+
 - The `tertiary` color was renamed to `accent`. This applies to *Brand Colors* as well as *Color List*.
 
 <div class="row">
@@ -432,6 +451,7 @@ If you are using the new [QMenu](/vue-components/menu) component, you can altern
 ## Plugins
 
 ### Action Sheet
+
 - renamed to [**Bottom Sheet**](/quasar-plugins/bottom-sheet)
 
 ### Local/Session Storage
@@ -452,12 +472,15 @@ The structure looks the same, but some functions have been renamed.
 </div>
 
 ## Components
+
 - The components below are in alphabetical order for easier access.
 
 ### QActionSheet
+
 - **was dropped** in favor of directly using a QDialog with `position="bottom"`
 
 ### QAlert
+
 - **replaced** by [QBanner](/vue-components/banner)
 - The properties `type` and `color` are now managed by a [background css class](https://v1.quasar-framework.org/style/color-palette#Using-as-CSS-Classes).
 
@@ -495,6 +518,7 @@ The structure looks the same, but some functions have been renamed.
 </div>
 
 ### QAutocomplete
+
 - **removed**, built into [QSelect](/vue-components/select)
 
 ### QBreadcrumbs
@@ -529,6 +553,7 @@ The structure looks the same, but some functions have been renamed.
 </div>
 
 ### QBtn
+
 - Type of `align` was changed from `string` to `any`
 - Type of `tabindex` was changed from `number` to `number|string`
 
@@ -552,6 +577,7 @@ The structure looks the same, but some functions have been renamed.
 </div>
 
 ### QBtnDropdown
+
 - Type of `align` was changed from `string` to `any`
 - Type of `tabindex` was changed from `number` to `number|string`
 
@@ -661,6 +687,7 @@ The structure looks the same, but some functions have been renamed.
   <div class="inline-block q-pa-md">
 
 **QCard Slots**
+
 |Legacy|v1|
 |-|-|
 |`overlay`||
@@ -669,18 +696,23 @@ The structure looks the same, but some functions have been renamed.
 </div>
 
 ### QCardTitle
+
 - **removed**, use QCardSection of [QCard](/vue-components/card)
 
 ### QCardMain
+
 - **removed**, use QCardSection of [QCard](/vue-components/card)
 
 ### QCardMedia
+
 - **removed**, use QCardSection of [QCard](/vue-components/card) or directly place an `<img>` or QParallax.
 
 ### QCardSeparator
+
 - **removed**, use [QSeparator](/vue-components/separator)
 
 ### QCarousel
+
 - Type of `thumbnails` was changed from `array` to `boolean`
 
 <div class="row">
@@ -752,6 +784,7 @@ The structure looks the same, but some functions have been renamed.
 </div>
 
 ### QCarouselControl
+
 - Type of `offset` was changed from `array of 2 numbers` to `array`
 
 ### QCarouselSlide
@@ -770,11 +803,13 @@ The structure looks the same, but some functions have been renamed.
 </div>
 
 ### QChatMessage
+
 - Type of `size` was changed from `array` to `string`
 - Type of `text` was changed from `array` to `string`
 
 
 ### QCheckbox
+
 - Type of `val` was changed from `object` to `any`
 
 <div class="row">
@@ -844,9 +879,11 @@ The structure looks the same, but some functions have been renamed.
 </div>
 
 ### QChipsInput
+
 - **removed**, built into [QSelect](/vue-components/select)
 
 ### QCollapsible
+
 - **replaced** by [QExpansionItem](/vue-components/expansion-item)
 
 <div class="row">
@@ -921,6 +958,7 @@ The structure looks the same, but some functions have been renamed.
 </div>
 
 ### QColorPicker
+
 - **replaced** by [QColor](/vue-components/color)
 - Type of `default-value` was changed from `string|object` to `string`
 
@@ -979,9 +1017,11 @@ The structure looks the same, but some functions have been renamed.
 </div>
 
 ### QContextMenu
+
 - **removed**, use [QMenu](/vue-components/menu) with `context-menu` prop
 
 ### QDatePicker
+
 - **replaced** by [QDate](/vue-components/date)
 
 <div class="row">
@@ -1010,9 +1050,11 @@ The structure looks the same, but some functions have been renamed.
 
 
 ### QDatetime
+
 - **removed**, use [QDate](/vue-components/date) and [QTime](/vue-components/time)
 
 ### QDatetimePicker
+
 - **removed**, use [QDate](/vue-components/date) and [QTime](/vue-components/time)
 
 ### QDialog
@@ -1118,6 +1160,7 @@ The structure looks the same, but some functions have been renamed.
 
 
 ### QField
+
 - **removed**, the functionality of QField is now built into [QInput](/vue-components/input) and [QSelect](/vue-components/select).
 
 If you use it to wrap Input, just move all attributes from QField to QInput. If you use `error` and `error-label`, enable `bottom-slots` on QInput and change `error-label` to `error-message`.
@@ -1182,10 +1225,10 @@ Replace `:handler` with `@load`.
 |`message`|`loading`|
 
   </div>
-
 </div>
 
 ### QInnerLoading
+
 - Type of `size` was changed from `string|number` to `string`
 
 <div class="row">
@@ -1204,6 +1247,7 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QInput
+
 - Type of `stack-label` was changed from `string` to `boolean`
 - Type of `autofocus` was changed from `boolean|string` to `boolean`
 
@@ -1291,7 +1335,6 @@ Replace `:handler` with `@load`.
 ||`counter`|
 
   </div>
-
 </div>
 
 ### QItem
@@ -1331,9 +1374,11 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QItemMain
+
 - **removed**, use [QItemLabel](/vue-components/list-and-list-items)
 
 ### QItemSeparator
+
 - **replaced** by [QSeparator](/vue-components/separator)
 
 <div class="row">
@@ -1353,14 +1398,17 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QItemSide
+
 - **removed**, use [QItemSection](/vue-components/list-and-list-items)
 
 ### QItemTile
+
 - **removed**, use [QItemSection](/vue-components/list-and-list-items)
 - `QItemTile` with `label` property, use [QItemLabel](/vue-components/list-and-list-items) with `header` property
 - `QItemTile` with `sublabel` property, use [QItemLabel](/vue-components/list-and-list-items) with `caption` property
 
 ### QJumbotron
+
 - **removed**, use [QCard](/vue-components/card)
 
 ### QKnob
@@ -1401,6 +1449,7 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QLayoutDrawer
+
 - **renamed** to **QDrawer**
 
 <div class="row">
@@ -1430,12 +1479,14 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QLayoutHeader & QLayoutFooter
+
 - **renamed** to [QItemSection](/layout/header-and-footer) and [QFooter](/layout/header-and-footer), respectively
 
 <div class="row">
   <div class="inline-block q-pa-md">
 
 **QFooter Properties**
+
 |Legacy|v1|
 |-|-|
 ||`bordered`|
@@ -1447,6 +1498,7 @@ Replace `:handler` with `@load`.
   <div class="inline-block q-pa-md">
 
 **QHeader Properties**
+
 |Legacy|v1|
 |-|-|
 ||`bordered`|
@@ -1479,12 +1531,15 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QListHeader
+
 - **removed**, use [QItemLabel](/vue-components/list-and-list-items) with `header` property
 
 ### QModal
+
 - **removed**, use [QDialog](/vue-components/dialog)
 
 ### QModalLayout
+
 - **removed**, use [QDialog](/vue-components/dialog) with a [QLayout](/layout/layout) (and its `container` prop)
 
 ### QOptionGroup
@@ -1501,7 +1556,6 @@ Replace `:handler` with `@load`.
 ||`dense`|
 
   </div>
-
 </div>
 
 ### QPagination
@@ -1546,6 +1600,7 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QPopover
+
 - **replaced** by [QMenu](/vue-components/menu)
 - Type of `anchor` was changed from `object` to `string`
 - Type of `self` was changed from `object` to `string`
@@ -1634,6 +1689,7 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QProgress
+
 - **replaced** by [QLinearProgress](/vue-components/linear-progress) (alternatively, use [QCircularProgress](/vue-components/circular-progress))
 
 <div class="row">
@@ -1724,12 +1780,15 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QRating
+
 - Type of `max` was changed from `number` to `string|number`
 
 ### QResizeObservable
+
 - **renamed** to [QResizeObserver](/vue-components/resize-observer)
 
 ### QRouteTab
+
 - Type of `name` was changed from `string` to `string|number`
 - Type of `alert` was changed from `boolean` to `boolean|string`
 - Type of `label` was changed from `string` to `string|number`
@@ -1763,17 +1822,21 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QScrollArea
+
 - Type of `delay` was changed from `number` to `string|number`
 
 ### QScrollObservable
+
 - **renamed** to [QScrollObserver](/vue-components/scroll-observer)
 
 
 
 ### QSearch
+
 - **removed**, use [QInput](/vue-components/input) with `debounce` property (and optionally some icons on `append` or `prepend` slots)
 
 ### QSelect
+
 - Type of `stack-label` was changed from `string` to `string|number`
 - Type of `display-value` was changed from `string` to `string|number`
 
@@ -1849,9 +1912,11 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QSpinnerMat
+
 - **removed**, use [QSpinner](/vue-components/spinners)
 
 ### QStep
+
 - Type of `name` was changed from `string|number` to `any`
 
 <div class="row">
@@ -1869,6 +1934,7 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QStepper
+
 - Type of `done-icon` was changed from `boolean` to `string`
 - Type of `active-icon` was changed from `boolean` to `string`
 - Type of `error-icon` was changed from `boolean` to `string`
@@ -1897,6 +1963,7 @@ Replace `:handler` with `@load`.
 </div>
 
 ### QTab
+
 - Type of `name` was changed from `string` to `string|number`
 - Type of `alert` was changed from `boolean` to `boolean|string`
 - Type of `label` was changed from `string` to `string|number`
@@ -1995,15 +2062,15 @@ Replace `:handler` with `@load`.
 ||`header-cell`|
 
   </div>
-
-
 </div>
 
 
 ### QTableColumns
+
 - **removed**, use a `QSelect` with columns as options (see docs for example)
 
 ### QTabPane
+
 - **removed**, use [QTabPanels](/vue-components/tab-panels) and [QTabPanel](/vue-components/tab-panels) (outside of a QTabs)
 
 ### QTabs
@@ -2082,11 +2149,12 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 </div>
 
 ### QTimelineEntry
-<div class="row">
 
+<div class="row">
   <div class="inline-block q-pa-md">
 
 **QTimelineEntry Slots**
+
 |Legacy|v1|
 |-|-|
 |`subtitle`||
@@ -2096,6 +2164,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 </div>
 
 ### QTimePicker
+
 - **replaced** by [QTime](/vue-components/time)
 
 **QTime Properties**
@@ -2121,6 +2190,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 </div>
 
 ### QToggle
+
 - Type of `val` was changed from `object` to `any`
 
 <div class="row">
@@ -2158,6 +2228,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
   <div class="inline-block q-pa-md">
 
 **QToolbar Slots**
+
 |Legacy|v1|
 |-|-|
 |`subtitle`||
@@ -2244,6 +2315,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 </div>
 
 ### QUploader
+
 - Type of `headers` was changed from `object` to `function|array`
 - Type of `url` was changed from `string` to `function|string`
 - Type of `method` was changed from `string` to `function|string`
@@ -2340,4 +2412,5 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 </div>
 
 ### QWindowResizeObservable
+
 - **removed**, directly use `this.$q.screen.width` and `this.$q.screen.height` (or create a watcher on them)
