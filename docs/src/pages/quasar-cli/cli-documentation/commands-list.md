@@ -182,6 +182,10 @@ $ quasar build
 
 # build a PWA (check other modes as well)
 $ quasar build -m pwa
+
+# create a production build with ability to debug it
+# (has source-maps and code is NOT minified)
+$ quasar build -d
 ```
 
 You can also clean up all the build assets:
