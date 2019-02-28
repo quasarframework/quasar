@@ -5,6 +5,7 @@ import DateTimeMixin from './datetime-mixin.js'
 
 import { splitDate } from '../../utils/date.js'
 import { isDeepEqual } from '../../utils/is.js'
+import { jalaaliMonthLength, toJalaali, toGregorian } from './persian'
 
 const yearsInterval = 20
 
@@ -85,11 +86,22 @@ export default Vue.extend({
       const model = this.extModel
       if (model.value === null) { return ' --- ' }
 
-      const date = new Date(model.year, model.month - 1, model.day)
+      let date = new Date(model.year, model.month - 1, model.day)
+      if (this.$q.lang.date.persian === true) {
+        const gDate = toGregorian(model.year, model.month, model.day)
+        date = new Date(gDate.gy, gDate.gm - 1, gDate.gd)
+      }
+
       if (isNaN(date.valueOf())) { return ' --- ' }
 
       if (this.$q.lang.date.headerTitle !== void 0) {
         return this.$q.lang.date.headerTitle(date)
+      }
+
+      if (this.$q.lang.date.persian === true) {
+        return this.$q.lang.date.days[date.getDay()] + ', ' +
+        model.day + ' ' +
+        this.$q.lang.date.monthsShort[model.month - 1]
       }
 
       return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
@@ -125,11 +137,24 @@ export default Vue.extend({
     },
 
     daysInMonth () {
+      if (this.$q.lang.date.persian === true) {
+        return jalaaliMonthLength(this.innerModel.year, this.innerModel.month)
+      }
+
       return (new Date(this.innerModel.year, this.innerModel.month, 0)).getDate()
     },
 
     today () {
       const d = new Date()
+      if (this.$q.lang.date.persian === true) {
+        const jDate = toJalaali(d)
+        return {
+          year: jDate.jy,
+          month: jDate.jm,
+          day: jDate.jd
+        }
+      }
+
       return {
         year: d.getFullYear(),
         month: d.getMonth() + 1,
@@ -156,11 +181,19 @@ export default Vue.extend({
     },
 
     days () {
-      const
+      let
         date = new Date(this.innerModel.year, this.innerModel.month - 1, 1),
-        endDay = (new Date(this.innerModel.year, this.innerModel.month - 1, 0)).getDate(),
-        days = (date.getDay() - this.computedFirstDayOfWeek - 1),
-        res = []
+        endDay = (new Date(this.innerModel.year, this.innerModel.month - 1, 0)).getDate()
+
+      const res = []
+
+      if (this.$q.lang.date.persian === true) {
+        const gDate = toGregorian(this.innerModel.year, this.innerModel.month, 1)
+        date = new Date(gDate.gy, gDate.gm - 1, gDate.gd)
+        endDay = jalaaliMonthLength(this.innerModel.year, this.innerModel.month - 1)
+      }
+
+      const days = (date.getDay() - this.computedFirstDayOfWeek - 1)
 
       const len = days < 0 ? days + 7 : days
       if (len < 6) {
@@ -234,6 +267,12 @@ export default Vue.extend({
           const d = new Date()
           year = d.getFullYear()
           month = d.getMonth() + 1
+
+          if (this.$q.lang.date.persian === true) {
+            const jDate = toJalaali(year, month, day)
+            year = jDate.jy
+            month = jDate.jm
+          }
         }
 
         string = year + '/' + month + '/' + day
