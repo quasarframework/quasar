@@ -227,13 +227,12 @@ $ quasar mode -h
   Description
     Add/Remove support for PWA / Cordova / Electron modes.
   Usage
-    $ quasar mode -r|-a pwa|ssr|cordova|electron
+    $ quasar mode [add|remove pwa|ssr|cordova|electron]
 
     # determine what modes are currently installed:
     $ quasar mode
+
   Options
-    --add, -a     Add support for mode [pwa|ssr|cordova|electron]
-    --remove, -r  Remove support for mode [pwa|ssr|cordova|electron]
     --help, -h    Displays this message
 ```
 
@@ -250,7 +249,7 @@ These modes will add a "src-*" folder into your project with very specific code 
 
 If for some reason you decide you don't need a mode, you can remove it. **This will permanently delete** the respective "src-*" folder.
 ```bash
-$ quasar mode --remove pwa
+$ quasar mode remove pwa
 ```
 
 ## describe
@@ -343,12 +342,25 @@ $ quasar ext -h
     Manage Quasar App Extensions
 
   Usage
-    $ quasar ext [-a|-r]
+    # display list of installed extensions
+    $ quasar ext
+
+    # Add Quasar App Extension
+    $ quasar ext add <ext-id>
+
+    # Remove Quasar App Extension
+    $ quasar ext remove <ext-id>
+
+    # Add Quasar App Extension, but
+    # skip installing the npm package
+    # (assumes it's already installed)
+    $ quasar ext invoke <ext-id>
+
+    # Remove Quasar App Extension, but
+    # skip uninstalling the npm package
+    $ quasar ext uninvoke <ext-id>
 
   Options
-    --add, -a        Add Quasar App Extension
-    --remove, -r     Remove Quasar App Extension
-    --skip-pkg       Skip yarn/npm package install/uninstall
     --help, -h       Displays this message
 ```
 
