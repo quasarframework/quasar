@@ -15,6 +15,10 @@ For your QInput you can use only one of the main designs (`filled`, `outlined`, 
 
 <doc-example title="Design Overview" file="QInput/DesignOverview" />
 
+### Coloring
+
+<doc-example title="Coloring" file="QInput/Coloring" />
+
 ### Standard
 <doc-example title="Standard" file="QInput/DesignStandard" />
 
