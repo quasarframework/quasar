@@ -151,7 +151,7 @@ If you set `lazy-rules`, validation starts after first blur.
 You can also use external validation and only pass `error` and `error-message` (enable `bottom-slots` to display this error message).
 
 ::: tip
-Depending on your needs, you might connect [Vuelidate](https://monterail.github.io/vuelidate/) (our recommended approach) or some other validation library to QInput.
+Depending on your needs, you might connect [Vuelidate](https://vuelidate.netlify.com/) (our recommended approach) or some other validation library to QInput.
 :::
 
 <doc-example title="External" file="QInput/ValidationExternal" />
