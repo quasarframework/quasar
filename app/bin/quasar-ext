@@ -10,7 +10,7 @@ const argv = parseArgs(process.argv.slice(2), {
   boolean: ['h']
 })
 
-if (argv.help) {
+function showHelp () {
   console.log(`
   Description
     Manage Quasar App Extensions
@@ -37,6 +37,10 @@ if (argv.help) {
   Options
     --help, -h       Displays this message
   `)
+}
+
+if (argv.help) {
+  showHelp()
   process.exit(0)
 }
 
@@ -51,7 +55,7 @@ if (argv._.length !== 0 && argv._.length !== 2) {
   process.exit(1)
 }
 
-async function run (action, name, skipPkg) {
+async function run (action, name) {
   const Extension = require('../lib/app-extension/Extension')
   const extension = new Extension(name)
 

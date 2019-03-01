@@ -17,7 +17,12 @@ For your QSelect you can use only one of the main designs (`filled`, `outlined`,
 <doc-example title="Design Overview" file="QSelect/DesignOverview" />
 
 ### Decorators
+
 <doc-example title="Decorators" file="QSelect/Decorators" />
+
+### Coloring
+
+<doc-example title="Coloring" file="QSelect/Coloring" />
 
 ### Disable and readonly
 <doc-example title="Disable and readonly" file="QSelect/DisableReadonly" />
