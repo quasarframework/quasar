@@ -409,6 +409,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 ||`.col-md-auto`|
 ||`.col-lg-auto`|
 ||`.col-xl-auto`|
+||`.col-shrink`|
 
   </div>
   <div class="inline-block q-pa-md">
@@ -2180,6 +2181,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 ### QToggle
 
 - Type of `val` was changed from `object` to `any`
+- `checked-icon` and `indeterminate-icon` were dropped to make `QCheckbox` more compliant with Material Standards. If you still need similar functionality, consider using `QToggle` with [icons](https://v1.quasar-framework.org/vue-components/toggle#Example--Icons).
 
 <div class="row">
   <div class="inline-block q-pa-md">
