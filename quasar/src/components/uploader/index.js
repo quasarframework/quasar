@@ -1,5 +1,5 @@
 import QUploader from './QUploader.js'
-import QUploaderBase from './uploader-base-mixin.js'
+import QUploaderBase from './QUploaderBase.js'
 
 export {
   QUploader,
