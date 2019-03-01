@@ -144,7 +144,7 @@ export const PanelParentMixin = {
     },
 
     __swipe (evt) {
-      this.__go(evt.direction === 'left' ? 1 : -1)
+      this.__go((this.$q.lang.rtl === true ? -1 : 1) * (evt.direction === 'left' ? 1 : -1))
     },
 
     __updatePanelIndex () {
