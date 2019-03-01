@@ -350,7 +350,7 @@ export default Vue.extend({
       {
         staticClass: 'q-editor',
         style: {
-          height: this.inFullscreen ? '100vh' : null
+          height: this.inFullscreen ? `${this.$q.screen.height}` : null
         },
         'class': {
           disabled: this.disable,

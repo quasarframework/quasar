@@ -32,7 +32,7 @@ export default Vue.extend({
     return {
       size: 0,
       revealed: true,
-      windowHeight: onSSR || this.layout.container ? 0 : window.innerHeight
+      windowHeight: onSSR || this.layout.container ? 0 : this.$q.screen.height
     }
   },
 

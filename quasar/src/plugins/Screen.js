@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { isSSR, fromSSR } from './Platform.js'
+import Platform, { isSSR, fromSSR } from './Platform.js'
 import { listenOpts } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
 
@@ -44,9 +44,10 @@ export default {
       return
     }
 
-    let update = force => {
+    const update = force => {
       if (window.innerHeight !== this.height) {
         this.height = window.innerHeight
+        document.documentElement.style.setProperty('--q-window-height', `${this.height}px`)
       }
 
       const w = window.innerWidth
@@ -73,6 +74,17 @@ export default {
       this.md = this.gt.sm && this.lt.lg
       this.lg = this.gt.md && this.lt.xl
       this.xl = w > s.xl
+    }
+
+    const scrollUpdate = () => {
+      setTimeout(() => {
+        const scrollY = window.scrollY
+        window.scrollTo(0, document.body.scrollHeight)
+        setTimeout(() => {
+          update()
+          window.scrollTo(0, scrollY)
+        }, 150)
+      }, 150)
     }
 
     let updateEvt, updateSizes = {}, updateDebounce = 16
@@ -108,12 +120,41 @@ export default {
       }
 
       this.setDebounce = delay => {
-        const fn = () => { update() }
-        updateEvt && window.removeEventListener('resize', updateEvt, listenOpts.passive)
+        const fn = (ev) => {
+          if (Platform.is.ios !== true) {
+            update()
+            return
+          }
+          const hasKeyboard = ['input', 'textarea'].includes(document.activeElement.tagName.toLowerCase())
+
+          if (ev.type === 'focusin' && hasKeyboard) {
+            window.removeEventListener('resize', updateEvt, listenOpts.passive)
+            const focusoutEvt = () => {
+              window.addEventListener('resize', updateEvt, listenOpts.passive)
+              window.removeEventListener('focusout', focusoutEvt, listenOpts.passive)
+            }
+            window.addEventListener('focusout', focusoutEvt, listenOpts.passive)
+            scrollUpdate()
+          }
+          else {
+            update()
+          }
+        }
+        if (updateEvt) {
+          window.removeEventListener('resize', updateEvt, listenOpts.passive)
+          if (Platform.is.ios === true) {
+            window.removeEventListener('focusin', updateEvt, listenOpts.passive)
+            window.removeEventListener('focusout', updateEvt, listenOpts.passive)
+          }
+        }
         updateEvt = delay > 0
           ? debounce(fn, delay)
           : fn
         window.addEventListener('resize', updateEvt, listenOpts.passive)
+        if (Platform.is.ios === true) {
+          window.addEventListener('focusin', updateEvt, listenOpts.passive)
+          window.addEventListener('focusout', updateEvt, listenOpts.passive)
+        }
       }
 
       this.setDebounce(updateDebounce)
@@ -125,6 +166,8 @@ export default {
       else {
         update()
       }
+
+      document.documentElement.style.setProperty('--q-window-height', `${this.height}px`)
     }
 
     if (fromSSR) {

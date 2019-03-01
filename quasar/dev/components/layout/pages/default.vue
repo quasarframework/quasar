@@ -23,7 +23,7 @@
     <q-page-sticky position="top" expand>
       <q-toolbar class="bg-white text-black">
         <q-btn flat round dense icon="map" />
-        <q-toolbar-title>Title</q-toolbar-title>
+        <q-toolbar-title>Title {{ $q.screen.height }}</q-toolbar-title>
       </q-toolbar>
     </q-page-sticky>
 

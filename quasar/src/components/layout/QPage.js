@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import slot from '../../utils/slot.js'
+import Platform from '../../plugins/Platform'
 
 export default Vue.extend({
   name: 'QPage',
@@ -29,11 +30,15 @@ export default Vue.extend({
         return this.styleFn(offset)
       }
 
-      const minHeight = this.layout.container
-        ? (this.layout.containerHeight - offset) + 'px'
-        : (offset ? `calc(100vh - ${offset}px)` : `100vh`)
+      const calcHeight = Platform.is.ie
+        ? (offset ? `calc(100vh - ${offset}px)` : `100vh`)
+        : (offset ? `calc(var(--q-window-height) - ${offset}px)` : `var(--q-window-height)`)
 
-      return { minHeight }
+      const height = this.layout.container
+        ? (this.layout.containerHeight - offset) + 'px'
+        : calcHeight
+
+      return { height }
     },
 
     classes () {
