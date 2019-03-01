@@ -89,3 +89,4 @@ export default {
       noResults: 'No se encontraron nodos correspondientes'
     }
   }
+  
