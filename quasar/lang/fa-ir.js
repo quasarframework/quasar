@@ -31,7 +31,7 @@ export default {
         monthsShort[ model.month - 1 ]
     },
     firstDayOfWeek: 6,
-    format24h: false
+    format24h: true
   },
   table: {
     noData: 'اطلاعاتی موجود نیست',

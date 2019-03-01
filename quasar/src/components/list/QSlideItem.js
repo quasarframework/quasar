@@ -69,13 +69,14 @@ export default Vue.extend({
 
       const
         dir = evt.direction === 'left' ? -1 : 1,
-        showing = dir === 1 ? 'left' : 'right',
+        showing = dir * (this.$q.lang.rtl === true ? -1 : 1) === 1 ? 'left' : 'right',
+        otherDir = showing === 'left' ? 'right' : 'left',
         dist = evt.distance.x,
         scale = Math.max(0, Math.min(1, (dist - 40) / this.__size[showing])),
         content = this.$refs[`${showing}Content`]
 
       if (this.__dir !== dir) {
-        this.$refs[evt.direction] !== void 0 && (this.$refs[evt.direction].style.visibility = 'hidden')
+        this.$refs[otherDir] !== void 0 && (this.$refs[otherDir].style.visibility = 'hidden')
         this.$refs[showing] !== void 0 && (this.$refs[showing].style.visibility = 'visible')
         this.__showing = showing
         this.__dir = dir
@@ -104,7 +105,7 @@ export default Vue.extend({
         h('div', {
           ref: 'left',
           staticClass: 'q-slide-item__left absolute-full row no-wrap items-center justify-start',
-          class: this.leftColor ? `bg-${this.leftColor}` : null
+          class: this.leftColor ? `bg-${this.leftColor}` : ''
         }, [
           h('div', { ref: 'leftContent' }, slot(this, 'left'))
         ])
@@ -116,7 +117,7 @@ export default Vue.extend({
         h('div', {
           ref: 'right',
           staticClass: 'q-slide-item__right absolute-full row no-wrap items-center justify-end',
-          class: this.rightColor ? `bg-${this.rightColor}` : null
+          class: this.rightColor ? `bg-${this.rightColor}` : ''
         }, [
           h('div', { ref: 'rightContent' }, slot(this, 'right'))
         ])
