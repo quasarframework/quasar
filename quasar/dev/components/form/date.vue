@@ -9,6 +9,7 @@
         <q-toggle :dark="dark" v-model="biggerHeight" label="More Height" />
         <q-toggle :dark="dark" v-model="minimal" label="Minimal" />
         <q-toggle :dark="dark" v-model="todayBtn" label="Today Button" />
+        <q-toggle :dark="dark" v-model="persian" label="Persian calendar model" />
       </div>
 
       <div>{{ date }}</div>
@@ -193,6 +194,8 @@ export default {
       nullDate: null,
       defaultYearMonth: '1986/02',
 
+      persian: false,
+
       input: null
     }
   },
@@ -202,16 +205,14 @@ export default {
       return this.$q.lang.isoName
     },
     events () {
-      if (this.$q.lang.date.persian === true) {
-        return ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
-      }
-      return ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
+      return this.persian === true
+        ? ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
+        : ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
     },
     options () {
-      if (this.$q.lang.date.persian === true) {
-        return ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
-      }
-      return ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
+      return this.persian === true
+        ? ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
+        : ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
     },
     props () {
       return {
@@ -219,7 +220,8 @@ export default {
         disable: this.disable,
         readonly: this.readonly,
         minimal: this.minimal,
-        todayBtn: this.todayBtn
+        todayBtn: this.todayBtn,
+        calendar: this.persian ? 'persian' : 'gregorian'
       }
     },
 
@@ -235,8 +237,8 @@ export default {
     }
   },
   watch: {
-    lang (lang) {
-      if (this.$q.lang.date.persian === true) {
+    persian (val) {
+      if (val === true) {
         this.date = '1397/08/12'
         this.nullDate = undefined
         this.defaultYearMonth = '1364/11'
@@ -262,10 +264,9 @@ export default {
     },
 
     optionsFn2 (date) {
-      if (this.$q.lang.date.persian === true) {
-        return date >= '1397/08/12' && date <= '1397/08/24'
-      }
-      return date >= '2018/11/03' && date <= '2018/11/15'
+      return this.persian === true
+        ? date >= '1397/08/12' && date <= '1397/08/24'
+        : date >= '2018/11/03' && date <= '2018/11/15'
     }
   }
 }
