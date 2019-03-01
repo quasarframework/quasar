@@ -24,7 +24,7 @@
 
     "elevated": {
       "type": "Boolean",
-      "desc": "Adds a default shadow to the header"
+      "desc": "Adds a default shadow to the footer"
     }
   },
 
