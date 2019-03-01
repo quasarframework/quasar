@@ -40,7 +40,7 @@
         />
 
         <q-date
-          default-year-month="1986/02"
+          :default-year-month="defaultYearMonth"
           v-model="nullDate"
           v-bind="props"
           :style="style"
@@ -190,16 +190,29 @@ export default {
 
       date: '2018/11/03',
       dateNeg: '-13/11/03',
-      events: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23'],
-      options: ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23'],
-
       nullDate: null,
+      defaultYearMonth: '1986/02',
 
       input: null
     }
   },
 
   computed: {
+    lang () {
+      return this.$q.lang.isoName
+    },
+    events () {
+      if (this.$q.lang.date.persian === true) {
+        return ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
+      }
+      return ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
+    },
+    options () {
+      if (this.$q.lang.date.persian === true) {
+        return ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
+      }
+      return ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
+    },
     props () {
       return {
         dark: this.dark,
@@ -221,7 +234,20 @@ export default {
       return style
     }
   },
-
+  watch: {
+    lang (lang) {
+      if (this.$q.lang.date.persian === true) {
+        this.date = '1397/08/12'
+        this.nullDate = undefined
+        this.defaultYearMonth = '1364/11'
+      }
+      else {
+        this.date = '2018/11/03'
+        this.nullDate = null
+        this.defaultYearMonth = '1986/02'
+      }
+    }
+  },
   methods: {
     eventFn (date) {
       return date[9] % 3 === 0
@@ -236,6 +262,9 @@ export default {
     },
 
     optionsFn2 (date) {
+      if (this.$q.lang.date.persian === true) {
+        return date >= '1397/08/12' && date <= '1397/08/24'
+      }
       return date >= '2018/11/03' && date <= '2018/11/15'
     }
   }
