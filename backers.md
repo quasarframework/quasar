@@ -222,6 +222,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Constantine
 - Ivar de Pieterman
 - Birch P Browning
+- Дмитрий Полянин
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
