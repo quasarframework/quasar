@@ -1,11 +1,11 @@
 <template lang="pug">
   div.team-member
-    div.inner-team-member(@mouseover="visible = 1", @mouseout="visible = 0")
+    div.inner-team-member(@mouseover="visible = 1", @mouseout="visible = 0" @click="visible = !visible")
       q-avatar.profile-pic(square,size="14rem")
         img(:src="image ? image : 'https://cdn.quasar-framework.org/img/boy-avatar.png'")
 
       q-slide-transition(v-show="visible")
-        q-card.profile-card.text-white(square)
+        q-card.profile-card.text-white(square, @click="visible = false")
             q-card-section
               div.text-h6(v-if="name")
                 center {{ name }}
