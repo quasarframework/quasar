@@ -26,7 +26,7 @@ export default {
     months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_'),
     monthsShort: monthsShort,
     headerTitle: function (date, model) {
-      return days[ date.getDay() ] + ', ' +
+      return days[ date.getDay() ] + '، ' +
         model.day + ' ' +
         monthsShort[ model.month - 1 ]
     },
