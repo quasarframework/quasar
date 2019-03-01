@@ -79,7 +79,7 @@ However, there are cases where you only want some boot files to run only on the 
 // quasar.conf.js
 return {
   // ...
-  plugins: [
+  boot: [
     'some-boot-file', // runs on both server and client
     { path: 'some-other', server: false } // this boot file gets embedded only on client-side
     { path: 'third', client: false } // this boot file gets embedded only on server-side
