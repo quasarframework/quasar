@@ -1,20 +1,20 @@
 export default {
-  isoName: 'es',
-  nativeName: 'Español',
+  isoName: 'gn',
+  nativeName: 'Avañe\'ẽ',
   label: {
-    clear: 'Borrar',
-    ok: 'OK',
+    clear: 'Mbogue',
+    ok: 'OĨma',
     cancel: 'Cancelar',
-    close: 'Cerrar',
-    set: 'Establecer',
-    select: 'Seleccionar',
-    reset: 'Restablecer',
-    remove: 'Eliminar',
-    update: 'Actualizar',
-    create: 'Crear',
-    search: 'Buscar',
-    filter: 'Filtrar',
-    refresh: 'Actualizar'
+    close: 'Mboty',
+    set: 'Mohenda',
+    select: 'Poravo',
+    reset: 'MoĨ jey',
+    remove: 'Juka',
+    update: 'Actualisa',
+    create: 'Japo',
+    search: 'Heka',
+    filter: 'Mbogua',
+    refresh: 'Actualisa'
   },
   date: {
     days: 'Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado'.split('_'),
@@ -25,25 +25,25 @@ export default {
     format24h: true
   },
   table: {
-    noData: 'Sin datos disponibles',
-    noResults: 'No se han encontrado resultado',
-    loading: 'Cargando...',
+    noData: 'Ni peteĨ mba\'e',
+    noResults: 'Ni peteĨ resultado',
+    loading: 'Era\'arõ...',
     selectedRecords: function (rows) {
       return rows > 1
-        ? rows + ' filas seleccionadas.'
-        : (rows === 0 ? 'Sin' : '1') + ' fila seleccionada.'
+        ? rows + ' fila selesionada.'
+        : (rows === 0 ? 'Sin' : '1') + ' fila selesionada.'
     },
-    recordsPerPage: 'Filas por página:',
-    allRows: 'Todas',
+    recordsPerPage: 'Fila por páhina:',
+    allRows: 'Entero',
     pagination: function (start, end, total) {
       return start + '-' + end + ' de ' + total
     },
-    columns: 'Columnas'
+    columns: 'Columnakuéra'
   },
   editor: {
     url: 'URL',
     bold: 'Negrita',
-    italic: 'Itálico',
+    italic: 'Kursíva',
     strikethrough: 'Tachado',
     underline: 'Subrayado',
     unorderedList: 'Lista Desordenada',
@@ -51,7 +51,7 @@ export default {
     subscript: 'Subíndice',
     superscript: 'Superíndice',
     hyperlink: 'Hipervínculo',
-    toggleFullscreen: 'Alternar pantalla completa',
+    toggleFullscreen: 'Pantalla kompléta',
     quote: 'Cita',
     left: 'Alineación izquierda',
     center: 'Alineación centro',
