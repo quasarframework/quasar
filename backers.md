@@ -242,6 +242,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Robert Preston $250
 - Remo Laubacher $200
 - Egor Molodov $200
+- BigJump Limited 175 EUR
 - Max Matteo Staack 150 EUR
 - Jeff Galbraith 129 EUR
 - Max Matteo Staack $123
