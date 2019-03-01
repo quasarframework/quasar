@@ -409,6 +409,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 ||`.col-md-auto`|
 ||`.col-lg-auto`|
 ||`.col-xl-auto`|
+||`.col-shrink`|
 
   </div>
   <div class="inline-block q-pa-md">
