@@ -1,4 +1,5 @@
 import TouchSwipe from '../directives/TouchSwipe'
+import { stop } from '../utils/event.js'
 
 export const PanelParentMixin = {
   directives: {
@@ -173,7 +174,10 @@ export const PanelParentMixin = {
         }, [
           h('div', {
             key: this.value,
-            staticClass: 'q-panel'
+            staticClass: 'q-panel',
+            // stop propagation of content emitted @input
+            // which would tamper with Panel's model
+            on: { input: stop }
           }, [ panel ])
         ]) : panel
       ]
