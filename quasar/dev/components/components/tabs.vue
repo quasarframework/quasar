@@ -283,6 +283,8 @@
         class="q-mt-lg text-black text-center"
       >
         <q-tab-panel name="one">
+          <q-input v-model="text" />
+          <input v-model="text">
           Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
@@ -306,6 +308,7 @@
 export default {
   data () {
     return {
+      text: '',
       dense: false,
       tab: 'one',
       panelTest: false,

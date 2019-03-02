@@ -371,7 +371,8 @@ export default Vue.extend({
         class: this.headerClass
       }, [
         h('div', {
-          staticClass: 'q-time__header-label row items-center no-wrap'
+          staticClass: 'q-time__header-label row items-center no-wrap',
+          attrs: { dir: 'ltr' }
         }, label),
 
         this.computedFormat24h === false ? h('div', {

@@ -96,6 +96,14 @@ export function getMouseWheelDistance (e) {
   return { x, y }
 }
 
+export function stop (e) {
+  e.stopPropagation()
+}
+
+export function prevent (e) {
+  e.preventDefault()
+}
+
 export function stopAndPrevent (e) {
   e.preventDefault()
   e.stopPropagation()
@@ -109,5 +117,7 @@ export default {
   position,
   getEventPath,
   getMouseWheelDistance,
+  stop,
+  prevent,
   stopAndPrevent
 }

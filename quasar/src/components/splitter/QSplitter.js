@@ -82,6 +82,7 @@ export default Vue.extend({
         this.__size = this.$el.getBoundingClientRect()[this.prop]
         this.__value = this.value
         this.__dir = this.horizontal ? 'up' : 'left'
+        this.__rtlDir = this.horizontal ? 1 : (this.$q.lang.rtl === true ? -1 : 1)
 
         this.$el.classList.add('q-splitter--active')
         return
@@ -97,7 +98,9 @@ export default Vue.extend({
       }
 
       const val = this.__value +
-        (evt.direction === this.__dir ? -100 : 100) * evt.distance[this.horizontal ? 'y' : 'x'] / this.__size
+        this.__rtlDir *
+        (evt.direction === this.__dir ? -100 : 100) *
+        evt.distance[this.horizontal ? 'y' : 'x'] / this.__size
 
       this.__normalized = Math.min(this.limits[1], Math.max(this.limits[0], val))
       this.$refs.before.style[this.prop] = this.__normalized + '%'

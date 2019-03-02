@@ -173,6 +173,8 @@
           <div>mini</div>
         </div>
         -->
+          <q-input v-model="inp" />
+          <input v-model="inp">
           <q-btn
             class="q-mini-drawer-hide"
             icon="keyboard_arrow_left"
