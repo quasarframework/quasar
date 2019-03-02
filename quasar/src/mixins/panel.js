@@ -168,7 +168,7 @@ export const PanelParentMixin = {
 
       const content = [
         h('div', {
-          key: this.animated === true ? this.value : void 0,
+          key: this.value,
           staticClass: 'q-panel scroll',
           attrs: { role: 'tabpanel' },
           // stop propagation of content emitted @input
