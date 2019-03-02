@@ -26,6 +26,8 @@ Depending on whether you are using Quasar CLI or Vue CLI, you will notice that y
 
 You can freely override any of Quasar's variables (see next section) in those files. For convenience, these files initially contain only the brand color-related variables.
 
+As opposed to v0.x, Quasar is now very easy to customize without the need of tampering with the Stylus variables, so make sure that you really need to do that.
+
 ## Variables list
 
 <stylus-variables></stylus-variables>
