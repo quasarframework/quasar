@@ -191,7 +191,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Chad Shryock
 - Ross Ball
 - KPA Productions
-- Roman Sujatinov
 - Tanya Trimbakova
 - eae
 - Tomer Shalev
