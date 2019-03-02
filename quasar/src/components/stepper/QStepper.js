@@ -49,6 +49,7 @@ export default Vue.extend({
     __getContent (h) {
       if (this.vertical) {
         this.__isValidPanelName(this.value) && this.__updatePanelIndex()
+
         return [
           h('div', { staticClass: 'q-stepper__content' }, slot(this, 'default'))
         ]
@@ -74,7 +75,7 @@ export default Vue.extend({
         })),
 
         h('div', {
-          staticClass: 'q-stepper__content relative-position overflow-hidden',
+          staticClass: 'q-stepper__content q-panel-parent',
           directives: this.panelDirectives
         }, [
           this.__getPanelContent(h)

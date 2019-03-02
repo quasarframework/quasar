@@ -166,21 +166,26 @@ export const PanelParentMixin = {
         this.__updatePanelIndex() &&
         this.panels[this.panelIndex]
 
-      return [
-        this.animated ? h('transition', {
-          props: {
-            name: this.panelTransition
-          }
-        }, [
-          h('div', {
-            key: this.value,
-            staticClass: 'q-panel',
-            // stop propagation of content emitted @input
-            // which would tamper with Panel's model
-            on: { input: stop }
-          }, [ panel ])
-        ]) : panel
+      const content = [
+        h('div', {
+          key: this.animated === true ? this.value : void 0,
+          staticClass: 'q-panel scroll',
+          attrs: { role: 'tabpanel' },
+          // stop propagation of content emitted @input
+          // which would tamper with Panel's model
+          on: { input: stop }
+        }, [ panel ])
       ]
+
+      return this.animated === true
+        ? [
+          h('transition', {
+            props: {
+              name: this.panelTransition
+            }
+          }, content)
+        ]
+        : content
     }
   },
 

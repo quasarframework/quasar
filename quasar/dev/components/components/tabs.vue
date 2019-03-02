@@ -232,6 +232,7 @@
           class="text-black text-center"
         >
           <q-tab-panel :name="panelTest ? 'two' : 'one'">
+            <q-btn dense round icon="map" class="absolute-bottom-right" />
             Tab One <strong v-if="panelTest">(Swapped)</strong> <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
           </q-tab-panel>
 
@@ -258,6 +259,7 @@
         class="text-black text-center"
       >
         <q-tab-panel name="one">
+          <q-btn dense round icon="map" class="absolute-bottom-right" />
           v-if test Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
@@ -281,15 +283,22 @@
         transition-prev="fade"
         transition-next="fade"
         class="q-mt-lg text-black text-center"
+        style="height: 150px"
       >
         <q-tab-panel name="one">
+          Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
           <q-input v-model="text" />
           <input v-model="text">
+          <q-btn dense round icon="map" class="absolute-bottom-right" />
           Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
         <q-tab-panel name="two">
-          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
+          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+          <q-input v-model="text" />
+          <input v-model="text">
+          <q-btn dense round icon="map" class="absolute-bottom-right" />
+          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
         <q-tab-panel name="three">
