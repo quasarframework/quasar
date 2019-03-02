@@ -97,7 +97,15 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
         </a>
       </td>
       <td align="center" valign="middle">
-        Jeff Cole
+        <a href="https://www.projectfinance.io/" target="_blank">
+          <img width="222px" height="150px" src="https://cdn.quasar-framework.org/sponsors/project-finance.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        Ronald Stevens
       </td>
     </tr>
   </tbody>
@@ -115,7 +123,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Andy Burnett
 - Heitor Lessa
 - Aprixon Information Services GmbH
-- Ronald Stevens
 - Flippen Group
 
 ### $10+
