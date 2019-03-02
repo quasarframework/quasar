@@ -195,7 +195,13 @@ export default Vue.extend({
       else {
         const gDate = toGregorian(this.innerModel.year, this.innerModel.month, 1)
         date = new Date(gDate.gy, gDate.gm - 1, gDate.gd)
-        endDay = jalaaliMonthLength(this.innerModel.year, this.innerModel.month - 1)
+        let prevJM = this.innerModel.month - 1
+        let prevJY = this.innerModel.year
+        if (prevJM === 0) {
+          prevJM = 12
+          prevJY--
+        }
+        endDay = jalaaliMonthLength(prevJY, prevJM)
       }
 
       const days = (date.getDay() - this.computedFirstDayOfWeek - 1)
