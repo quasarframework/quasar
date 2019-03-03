@@ -44,6 +44,12 @@ export const PanelParentMixin = {
           }
         }]
       }
+    },
+
+    contentKey () {
+      return typeof this.value === 'string' || typeof this.value === 'number'
+        ? this.value
+        : String(this.value)
     }
   },
 
@@ -168,7 +174,7 @@ export const PanelParentMixin = {
 
       const content = [
         h('div', {
-          key: this.value,
+          key: this.contentKey,
           staticClass: 'q-panel scroll',
           attrs: { role: 'tabpanel' },
           // stop propagation of content emitted @input
