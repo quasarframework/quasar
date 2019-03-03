@@ -20,7 +20,7 @@ Usage inside a Vue component template:
 $q.platform.is.cordova
 ```
 
-You must import it only for usage outside a Vue component :
+You must import it when you use it outside of a Vue component :
 
 ``` js
 import { Platform } from 'quasar'
