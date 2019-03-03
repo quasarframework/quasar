@@ -3,7 +3,7 @@
 
   "behavior": {
     "$listeners": {
-      "target": " to the inner native input element"
+      "target": "to the inner native input element"
     }
   },
 

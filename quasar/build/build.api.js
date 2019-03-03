@@ -275,7 +275,7 @@ function convertBehavior (api, banner) {
   if (api.behavior.$listeners !== void 0) {
     const target = api.behavior.$listeners === true
       ? ''
-      : ` to ${api.behavior.$listeners}`
+      : ` ${api.behavior.$listeners.target}`
 
     behavior.$listeners = {
       desc: `All native events are being propagated${target} (you don't need the '.native' modifier)`
