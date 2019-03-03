@@ -1,3 +1,12 @@
+:root
+  --q-color-primary      $primary
+  --q-color-secondary    $secondary
+  --q-color-accent       $accent
+  --q-color-positive     $positive
+  --q-color-negative     $negative
+  --q-color-info         $info
+  --q-color-warning      $warning
+
 $colors = {
   common : {
     primary   : #1e9fff,
@@ -323,7 +332,7 @@ $colors = {
 
 for i,a in $colors
   for name, color in a
-    {'.fg-'+ name}
+    {'.text-'+ name}
       color color !important
     {'.bg-'+ name}
       background-color color !important
