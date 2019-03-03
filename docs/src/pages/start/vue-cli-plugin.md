@@ -40,7 +40,7 @@ If you don't yet have a project created with vue-cli 3.x, then do so with:
 $ vue create my-app
 ```
 
-## Add Quasar Vue CLI Plugin
+## Add Vue CLI Quasar Plugin
 Navigate to the newly created project folder and add the cli plugin. Before installing it, make sure to commit your current changes should you wish to revert them later.
 
 ::: warning

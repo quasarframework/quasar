@@ -8,7 +8,7 @@
       :rules="[ myRule ]"
     />
 
-    <q-btn class="q-mt-sm" label="Reset" @click="reset" color="primary"/>
+    <q-btn class="q-mt-sm" label="Reset Validation" @click="reset" color="primary"/>
   </div>
 </template>
 
