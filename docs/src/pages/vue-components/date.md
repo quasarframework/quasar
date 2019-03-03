@@ -77,10 +77,10 @@ More info: [QInput](/vue-components/input).
 
 ### Persian Calendar
 ::: tip
-You can couple this with a Quasar [language pack](/options/quasar-language-packs) such as Persian (Farsi) to have the QDate strings translated too, for the full experience.
+You can couple this with a Quasar [language pack](/options/quasar-language-packs) such as Persian (Farsi, `fa-ir`) to have the QDate strings translated too, for the full experience.
 :::
 
-<doc-example title="Persian" file="QDate/Persian" />
+<q-btn type="a" href="https://codepen.io/rstoenescu/pen/wOGpZg" target="_blank" label="See example" icon-right="launch" color="primary"></q-btn>
 
 ## API
 <doc-api file="QDate" />

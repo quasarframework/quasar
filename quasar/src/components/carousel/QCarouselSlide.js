@@ -27,7 +27,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-carousel__slide relative-position scroll',
+      staticClass: 'q-carousel__slide',
       style: this.style,
       on: this.$listeners
     }, slot(this, 'default'))

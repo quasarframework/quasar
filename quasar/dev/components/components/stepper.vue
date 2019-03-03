@@ -40,6 +40,7 @@
             <q-fab-action color="amber" icon="alarm" />
             <q-fab-action color="amber" icon="alarm" />
           </q-fab>
+          <q-btn dense round icon="map" class="absolute-top-right" />
 
           <input v-model="myInput">
           <div v-for="n in 10" :key="'1.'+n">
