@@ -832,6 +832,10 @@ const utils = [
     path: 'formatter-utils'
   },
   {
+    name: 'Scrolling Utils',
+    path: 'scrolling-utils'
+  },
+  {
     name: 'Other Utils',
     path: 'other-utils'
   }
