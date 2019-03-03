@@ -10,116 +10,52 @@ body
   line-height $body-line-height
   font-size $body-font-size
 
-h1, h2, h3, h4, h5, h6,.h1, .h2, .h3, .h4, .h5, .h6
-  margin-bottom: 0.5rem
-  font-weight: 500
-  line-height: 1.2
-
-for $value,i in $h1-h6
-  {'h'+(i + 1)},.{'h'+(i + 1)},.{'f'+(6 - i)}
-    font-size: $value
-
-.f7
-  font-size: 3rem
-
-.f8
-  font-size: 3.5rem
-
-.f9
-  font-size: 4rem
-
-.f10
-  font-size: 5rem
-
-.f11
-  font-size: 6rem
-
-.f12
-  font-size: 7rem
-
-.f13
-  font-size: 8rem
-
-.f14
-  font-size: 9rem
-
-.f15
-  font-size: 10rem
-
-h1 small, .h1 small, h2 small, .h2 small, h3 small, .h3 small, h4 small, .h4 small, h5 small, .h5 small, h6 small, .h6 small, .small
-  font-size: 70%
-  opacity: 0.6
-  margin-left: 0.4rem
+for $heading, $value in $h-tags
+  {$heading}
+    font-size: $value.size
+    font-weight: $value.weight
+    line-height: $value.line-height
+    letter-spacing: $value.letter-spacing
 
 p
   margin: 0 0 $spaces.md.y
 
-mark,.mark
-  padding: 0.2em
-  background-color: #fcf8e3
-
-.uppercase
-    text-transform uppercase
-
-.lowercase
-    text-transform lowercase
-
-.capitalize
-    text-transform capitalize
-
-.nowrap
-  white-space: nowrap !important
-
-.breakall
-  word-break: break-all
-
-.ellipsis
-  text-overflow ellipsis
-  white-space nowrap
-  overflow hidden
-  &-2, &-3
-    overflow hidden
-    display -webkit-box
-    -webkit-box-orient vertical
-  &-2
-    -webkit-line-clamp 2
-  &-3
-    -webkit-line-clamp 3
-
-.indent, .indent p, .indent div
-  text-indent: 2em
-
 .text-
-  &hide
-    font: 0/0
-    color: transparent
-    text-shadow: none
-    background-color: transparent
-    border: 0
   for $heading, $value in $headings
     &{$heading}
       font-size: $value.size
       font-weight: $value.weight
       line-height: $value.line-height
       letter-spacing: $value.letter-spacing
-  &c
+
+  &uppercase
+    text-transform uppercase
+  &lowercase
+    text-transform lowercase
+  &capitalize
+    text-transform capitalize
+
+  &center
     text-align center
-  &l
+  &left
     text-align left
-  &r
+  &right
     text-align right
-  &j
+  &justify
     text-align justify
     hyphens auto
-.font-
-  &i
+
+  &italic
     font-style italic
-  &b
+  &bold
     font-weight bold
 
-  for $weight in $text-weights
-    &w{$weight}
-      font-weight $weight
+  &no-wrap
+    white-space nowrap
+
+  for $weight, $value in $text-weights
+    &weight-{$weight}
+      font-weight $value
 
 small
   font-size 80%
@@ -129,47 +65,3 @@ sub
   bottom -.25em
 sup
   top -.5em
-
-.no-select, input[type=range],input[type=range] + .thumb
-  -webkit-touch-callout: none
-  -webkit-user-select: none
-  -khtml-user-select: none
-  -moz-user-select: none
-  -ms-user-select: none
-  user-select: none
-
-.line-h1
-  line-height: 1rem
-
-.line-h2
-  line-height: 1.25rem
-
-.line-h3
-  line-height: 1.5rem
-
-.line-h4
-  line-height: 2rem
-
-.line-h5
-  line-height: 2.5rem
-
-.line-h6
-  line-height: 3rem
-
-hr
-  margin-top: 1rem
-  margin-bottom: 1rem
-  border: 0
-  border-top: 1px solid rgba(0, 0, 0, 0.2)
-
-.initialism
-  font-size: 90%
-  text-transform: uppercase
-
-dl.row > dd + dt
-  clear: left
-
-.clearfix::after
-  content: "";
-  display: table;
-  clear: both

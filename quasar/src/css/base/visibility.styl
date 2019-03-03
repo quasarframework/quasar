@@ -2,28 +2,8 @@
   margin 0 !important
 .no-padding
   padding 0 !important
-.no-border
-  border 0 !important
-.no-border-radius
-  border-radius 0 !important
-.no-box-shadow
-  box-shadow none !important
 .no-outline
   outline 0 !important
-
-.ellipsis
-  text-overflow ellipsis
-  white-space nowrap
-  overflow hidden
-
-  &-2-lines, &-3-lines
-    overflow hidden
-    display -webkit-box
-    -webkit-box-orient vertical
-  &-2-lines
-    -webkit-line-clamp 2
-  &-3-lines
-    -webkit-line-clamp 3
 
 .readonly
   cursor default !important
@@ -34,8 +14,15 @@
 .disabled, [disabled]
   opacity .6 !important
 
-.hidden
-  display none !important
+
+.block,.show
+  display block !important
+.inline-block
+  display inline-block !important
+.inline
+  display: inline !important
+.hide,.hidden
+  display: none !important
 .invisible
   visibility hidden !important
 .transparent
@@ -65,6 +52,19 @@
   z-index $z-top !important
 .z-max
   z-index $z-max !important
+
+.z-marginals
+  z-index $z-marginals
+
+.z-notify
+  z-index $z-notify
+
+.z-fullscreen
+  z-index $z-fullscreen
+
+.z-inherit
+  z-index inherit !important
+
 
 for type in desktop mobile cordova electron ios mat touch within-iframe platform-ios platform-android
   body:not(.{type}) .{type}-only,
@@ -101,6 +101,24 @@ for type in desktop mobile cordova electron ios mat touch within-iframe platform
 @media (min-width $breakpoint-xl-min)
   .xl-hide, .xs, .lt-sm, .sm, .lt-md, .md, .lt-lg, .lg, .lt-xl
     display none !important
+
+.sr-only
+  position: absolute
+  width: 1px
+  height: 1px
+  padding: 0
+  margin: -1px
+  overflow: hidden
+  clip: rect(0, 0, 0, 0)
+  border: 0
+
+.sr-only-focusable:active, .sr-only-focusable:focus
+  position: static
+  width: auto
+  height: auto
+  margin: 0
+  overflow: visible
+  clip: auto
 
 body.desktop
   .q-focus-helper
@@ -152,3 +170,9 @@ body.desktop
     border-radius $generic-border-radius
   &--round
     border-radius 50%
+
+$opacity=0 0.2 0.4 0.5 0.6 0.8 1
+
+for $value,$key in $opacity
+  .opacity{$key}
+    opacity: $value

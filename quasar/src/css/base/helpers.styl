@@ -1,0 +1,37 @@
+.rounded-borders
+  border-radius $generic-border-radius
+
+.no-transition
+  transition none !important
+
+.transition-0
+  transition 0s !important
+
+.glossy
+  background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04)) !important
+
+.q-placeholder
+  &::-webkit-input-placeholder
+    color inherit
+    opacity .5
+  &::-moz-placeholder
+    color inherit
+    opacity .5
+  &:-ms-input-placeholder
+    color inherit
+    opacity .5
+
+/* body */
+.q-body--fullscreen-mixin, .q-body--prevent-scroll
+  overflow hidden !important
+
+.q-no-input-spinner
+  -moz-appearance textfield !important
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button
+    -webkit-appearance none
+    margin 0
+
+.q-link
+  outline 0
+  text-decoration none

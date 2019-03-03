@@ -21,46 +21,47 @@
   margin-right 0 !important
   width 100vw !important
 
-.block
-  display block !important
-.inline-block
-  display inline-block !important
-
 for $space, $value in $spaces
 
-  .q-pa-{$space}
+  .pa-{$space}
     padding: $value.y $value.x
-  .q-pl-{$space}
+  .pl-{$space}
     padding-left: $value.x
-  .q-pr-{$space}
+  .pr-{$space}
     padding-right: $value.x
-  .q-pt-{$space}
+  .pt-{$space}
     padding-top: $value.y
-  .q-pb-{$space}
+  .pb-{$space}
     padding-bottom: $value.y
-  .q-px-{$space}
-    @extends .q-pl-{$space}, .q-pr-{$space}
-  .q-py-{$space}
-    @extends .q-pt-{$space}, .q-pb-{$space}
+  .px-{$space}
+    @extends .pl-{$space}, .pr-{$space}
+  .py-{$space}
+    @extends .pt-{$space}, .pb-{$space}
 
-  .q-ma-{$space}
+  .ma-{$space}
     margin: $value.y $value.x
-  .q-ml-{$space}
+  .ml-{$space}
     margin-left: $value.x
-  .q-mr-{$space}
+  .mr-{$space}
     margin-right: $value.x
-  .q-mt-{$space}
+  .mt-{$space}
     margin-top: $value.y
-  .q-mb-{$space}
+  .mb-{$space}
     margin-bottom: $value.y
-  .q-mx-{$space}
-    @extends .q-ml-{$space}, .q-mr-{$space}
-  .q-my-{$space}
-    @extends .q-mt-{$space}, .q-mb-{$space}
+  .mx-{$space}
+    @extends .ml-{$space}, .mr-{$space}
+  .my-{$space}
+    @extends .mt-{$space}, .mb-{$space}
 
-.q-ml-auto
+.ml-auto
   margin-left auto
-.q-mr-auto
+.mr-auto
   margin-right auto
-.q-mx-auto
-  @extends .q-ml-auto, .q-mr-auto
+.mx-auto
+  @extends .ml-auto, .mr-auto
+
+$box-size=32 64 128 256 512 640 768 960
+for $width,$key in $box-size 
+  .size{$key}
+    width: $width px
+    height: auto
