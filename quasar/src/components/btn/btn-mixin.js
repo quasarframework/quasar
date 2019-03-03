@@ -72,8 +72,12 @@ export default {
       return this.isDisabled === true ? -1 : this.tabindex || 0
     },
 
+    hasRouterLink () {
+      return this.to !== void 0 && this.to !== null && this.to !== ''
+    },
+
     isLink () {
-      return this.type === 'a' || this.to !== void 0
+      return this.type === 'a' || this.hasRouterLink === true
     },
 
     attrs () {
@@ -81,7 +85,7 @@ export default {
       if (this.type !== 'a') {
         att.type = this.type || 'button'
       }
-      if (this.to !== void 0) {
+      if (this.hasRouterLink === true) {
         att.href = this.$router.resolve(this.to).href
       }
       return att
