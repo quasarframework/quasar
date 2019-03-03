@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
+import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
 import slot from '../../utils/slot.js'
@@ -29,6 +30,8 @@ export default Vue.extend({
 
     square: Boolean,
 
+    loading: Boolean,
+
     bottomSlots: Boolean,
     rounded: Boolean,
     dense: Boolean,
@@ -40,7 +43,11 @@ export default Vue.extend({
 
   data () {
     return {
-      focused: false
+      focused: false,
+
+      // used internally by validation for QInput
+      // or menu handling for QSelect
+      innerLoading: false
     }
   },
 
@@ -152,6 +159,17 @@ export default Vue.extend({
             staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
             key: 'error'
           }, [ h(QIcon, { props: { name: this.$q.iconSet.type.warning, color: 'negative' } }) ])
+          : null,
+
+        this.loading === true || this.innerLoading === true
+          ? h('div', {
+            staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip',
+            key: 'inner-loading-append'
+          }, (
+            this.$scopedSlots.loading !== void 0
+              ? this.$scopedSlots.loading()
+              : [ h(QSpinner, { props: { color: this.color } }) ]
+          ))
           : null,
 
         this.__getInnerAppend !== void 0

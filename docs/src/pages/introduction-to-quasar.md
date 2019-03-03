@@ -12,14 +12,14 @@ Quasar (pronounced `/ˈkweɪ.zɑɹ/`) is an MIT licensed open-source Vue.js base
 * Mobile Apps (Android, iOS, …) through Apache Cordova
 * Multi-platform Desktop Apps (using Electron)
 
-Quasar's moto is: **write code once and simultaneously deploy it** as a website, a Mobile App and/or an Electron App. Yes, same codebase for all, helping you develop an app in record time, by using a state of the art CLI and backed by well-written, very fast Quasar web components.
+Quasar's motto is: **write code once and simultaneously deploy it** as a website, a Mobile App and/or an Electron App. Yes, one codebase for all of them, helping you develop an app in record time by using a state of the art CLI and backed by best-practice, blazing fast Quasar web components.
 
-When using Quasar, you won't need additional heavy libraries like Hammerjs, Momentjs or Bootstrap. It's got that covered too, and with a small footprint!
+When using Quasar, you won't need additional heavy libraries like Hammerjs, Momentjs or Bootstrap. It's got those needs covered internally, and all with a small footprint!
 
 ## Why Quasar?
-Because of the simplicity and power offered to you out of the box. Quasar, with its CLI, are packed full of features, all built to make your developer life easier.
+Because of the simplicity and power offered to you out of the box. Quasar, with its CLI, is packed full of features, all built to make your developer life easier.
 
-Below is a non-exaustive list of Quasar's great aspects and features.
+Below is a non-exhaustive list of Quasar's great aspects and features.
 
 #### All Platforms in One Go
 One authoritative source of code for all platforms, simultaneously: responsive desktop/mobile websites (SPA, SSR + SPA client takeover, SSR + PWA client takeover), PWAs (Progressive Web Apps), mobile apps (that look native) and multi-platform desktop apps (through Electron).
@@ -64,7 +64,7 @@ The top-class project intitialization feature of the CLI makes getting started v
 When developers encounter a problem they can’t solve, they can visit the Quasar [forum](https://forum.quasar-framework.org/) or our [Discord chat server](https://discord.gg/5TDhbDg). The community is there to help you. You can also get updates on new versions and features by following us on [Twitter](https://twitter.com/quasarframework). You can also get special service as a [Patreon](https://www.patreon.com/quasarframework) and help make sure Quasar stays relevant for you in the future too!
 
 #### A wide range of platform support
-Google Chrome, Firefox, IE11/Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry.
+Google Chrome, Firefox, IE11/Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry, MacOS, Linux, Windows.
 
 #### Quasar Language Packs
 Quasar comes equipped with over 40 language packs out of the box. On top of that, if your language pack is missing, it takes just 5 minutes to add it.

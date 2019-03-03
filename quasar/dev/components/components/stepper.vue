@@ -32,6 +32,17 @@
         :contracted="contracted && !vertical"
       >
         <q-step :name="1" :done="useDone && step > 1" :header-nav="headerNavStep ? step > 1 : true" title="Ad style" icon="map" :caption="caption ? 'Some caption' : null">
+          <q-input v-model="myInput" />
+          <div>{{ myInput }}</div>
+          <q-date v-model="date" />
+          <q-fab color="purple" icon="keyboard_arrow_up" direction="up">
+            <q-fab-action color="amber" icon="alarm" />
+            <q-fab-action color="amber" icon="alarm" />
+            <q-fab-action color="amber" icon="alarm" />
+          </q-fab>
+          <q-btn dense round icon="map" class="absolute-top-right" />
+
+          <input v-model="myInput">
           <div v-for="n in 10" :key="'1.'+n">
             {{ n }} Step 1
           </div>
@@ -116,6 +127,8 @@ export default {
   data () {
     return {
       color: 'primary',
+      myInput: '',
+      date: null,
 
       stepDisable: true,
 

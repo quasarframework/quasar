@@ -11,11 +11,6 @@ const
   dest = path.join(root, 'dist/api'),
   extendApi = require(resolve('src/api.extends.json'))
 
-function getWithoutExtension (filename) {
-  const insertionPoint = filename.lastIndexOf('.')
-  return filename.slice(0, insertionPoint)
-}
-
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
     const mixinFile = resolve('src/' + mixin + '.json')

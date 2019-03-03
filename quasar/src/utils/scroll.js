@@ -8,6 +8,10 @@ export function getScrollHeight (el) {
   return (el === window ? document.body : el).scrollHeight
 }
 
+export function getScrollWidth (el) {
+  return (el === window ? document.body : el).scrollWidth
+}
+
 export function getScrollPosition (scrollTarget) {
   if (scrollTarget === window) {
     return window.pageYOffset || window.scrollY || document.body.scrollTop || 0
@@ -158,7 +162,9 @@ export function hasScrollbar (el, onY = true) {
 
 export default {
   getScrollTarget,
+
   getScrollHeight,
+  getScrollWidth,
 
   getScrollPosition,
   getHorizontalScrollPosition,

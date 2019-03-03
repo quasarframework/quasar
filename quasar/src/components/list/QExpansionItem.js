@@ -75,7 +75,7 @@ export default Vue.extend({
     },
 
     isClickable () {
-      return this.hasRouterLink || !this.expandIconToggle
+      return this.hasRouterLink === true || this.expandIconToggle !== true
     },
 
     expansionIcon () {
@@ -89,7 +89,7 @@ export default Vue.extend({
     },
 
     __toggleIcon (e) {
-      if (this.hasRouterLink || this.expandIconToggle) {
+      if (this.hasRouterLink === true || this.expandIconToggle === true) {
         stopAndPrevent(e)
         this.$refs.item.$el.blur()
         this.toggle(e)
@@ -182,7 +182,7 @@ export default Vue.extend({
           click: this.__toggleItem
         }
 
-        this.hasRouterLink && Object.assign(
+        this.hasRouterLink === true && Object.assign(
           data.props,
           this.routerLinkProps
         )

@@ -14,6 +14,13 @@
       ]
     },
 
+    "calendar": {
+      "type": "String",
+      "desc": "Specify calendar type",
+      "default": "gregorian",
+      "values": [ "gregorian", "persian" ]
+    },
+
     "default-year-month": {
       "type": "String",
       "desc": "The default year and month to display (in YYYY/MM format) when model is unfilled (undefined or null)",

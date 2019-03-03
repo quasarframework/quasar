@@ -2,10 +2,10 @@
 title: Platform Detection
 ---
 
-Helpers are built into Quasar to detect the Platform (and its capabilities) in which the code is running.
+Helpers are built into Quasar to detect the Platform (and its capabilities) within the context of which the code is running.
 
 ::: tip
-Based on your needs, you might want to also check [Style & Identity &gt; Visibility](/style/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
+Based on your needs, you might also want to check the [Style & Identity &gt; Visibility](/style/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
 :::
 
 ## Usage
@@ -20,23 +20,23 @@ Usage inside a Vue component template:
 $q.platform.is.cordova
 ```
 
-Only for usage outside a Vue component you need to import it:
+You must import it when you use it outside of a Vue component :
 
 ``` js
 import { Platform } from 'quasar'
 ```
 
-`Platform.is` by itself returns an object containing details about the current platform. For example when running Chrome on a Linux desktop machine, `Platform.is` would return something similar to:
+`Platform.is` by itself returns an object containing details about the current platform. For example when running Chrome on a MacOS desktop machine, `Platform.is` would return something similar to:
 
 ``` js
 {
   chrome: true,
   desktop: true,
-  linux: true,
+  mac: true,
   name: "chrome",
-  platform: "linux",
-  version: "47.0.2526.80",
-  versionNumber: 47,
+  platform: "mac",
+  version: "70.0.3538.110",
+  versionNumber: 70,
   webkit: true
 }
 ```
@@ -61,7 +61,7 @@ Now, let's say we want to render different components or DOM elements, based on 
 
 ## Properties
 
-The following properties are available to the Platform object. It's not an exhaustive list though. See the API section for more details.
+The following properties are available to the Platform object. It's not an exhaustive list though. See the API section below for more details.
 
 | Property               | Type    | Meaning                                                  |
 | ---                    | ---     | ---                                                      |

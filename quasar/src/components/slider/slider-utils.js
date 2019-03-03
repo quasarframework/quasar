@@ -106,6 +106,10 @@ export let SliderMixin = {
 
     computedTabindex () {
       return this.editable === true ? this.tabindex || 0 : -1
+    },
+
+    horizProp () {
+      return this.$q.lang.rtl === true ? 'right' : 'left'
     }
   },
 

@@ -6,6 +6,7 @@
       <q-banner :dense="dense" class="q-my-md">
         <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
 
+        <q-input v-model="text" />
         You have lost connection to the internet. This app is offline.
 
         <q-btn slot="action" flat color="primary" label="Turn ON Wifi" />
@@ -106,6 +107,7 @@
 export default {
   data () {
     return {
+      text: '',
       dense: false
     }
   }

@@ -166,7 +166,7 @@ export default Vue.extend({
 
     __render (h) {
       return h('div', {
-        staticClass: 'q-carousel relative-position overflow-hidden',
+        staticClass: 'q-carousel q-panel-parent',
         class: this.classes
       }, [
         h('div', {

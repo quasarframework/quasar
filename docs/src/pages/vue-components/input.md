@@ -90,6 +90,10 @@ The role of debouncing is for times when you watch the model and do expensive op
 
 <doc-example title="Debounce model" file="QInput/Debouncing" />
 
+### Loading state
+
+<doc-example title="Loading state" file="QInput/LoadingState" />
+
 ## Mask
 
 You can force/help the user to input a specific format with help from `mask` prop.
@@ -132,10 +136,6 @@ value => value.includes('Hello') || 'Field must contain word Hello'
 
 You can reset the validation by calling `resetValidation()` method on the QInput.
 
-::: warning
-Rules are not asynchronous and need to return immediately.
-:::
-
 <doc-example title="Basic" file="QInput/ValidationRequired" />
 
 <doc-example title="Maximum length" file="QInput/ValidationMaxLength" />
@@ -146,12 +146,21 @@ If you set `lazy-rules`, validation starts after first blur.
 
 <doc-example title="Form validation" file="QInput/ValidationForm" />
 
+#### Async rules
+Rules can be async too, by using async/await or by directly returning a Promise.
+
+::: tip
+Consider coupling async rules with `debounce` prop to avoid calling the async rules immediately on each keystroke, which might be detrimental to performance.
+:::
+
+<doc-example title="Async rules" file="QInput/ValidationAsync" />
+
 ### External validation
 
 You can also use external validation and only pass `error` and `error-message` (enable `bottom-slots` to display this error message).
 
 ::: tip
-Depending on your needs, you might connect [Vuelidate](https://monterail.github.io/vuelidate/) (our recommended approach) or some other validation library to QInput.
+Depending on your needs, you might connect [Vuelidate](https://vuelidate.netlify.com/) (our recommended approach) or some other validation library to QInput.
 :::
 
 <doc-example title="External" file="QInput/ValidationExternal" />
