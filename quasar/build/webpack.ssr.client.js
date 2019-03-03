@@ -5,7 +5,6 @@ const
   VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 
 const
-  env = require('./env'),
   resolve = file => path.resolve(__dirname, '..', file),
   chain = new WebpackChain()
 

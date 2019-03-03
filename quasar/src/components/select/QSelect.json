@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/field/QField" ],
+  "mixins": [ "components/field/__QField" ],
 
   "props": {
     "value": {
@@ -67,6 +67,11 @@
     "hide-selected": {
       "type": "Boolean",
       "desc": "Hides selection; Use the underlying input tag to hold the label (instead of showing it to the right of the input) of the selected option; Only works for non 'multiple' Selects"
+    },
+
+    "hide-dropdown-icon": {
+      "type": "Boolean",
+      "desc": "Hides dropdown icon"
     },
 
     "counter": {
@@ -156,7 +161,7 @@
     },
 
     "loading": {
-      "desc": "Override default spinner when QSelect is in loading mode; Suggestion: spinners"
+      "desc": "Override default spinner when component is in loading mode; Suggestion: spinners"
     }
   },
 

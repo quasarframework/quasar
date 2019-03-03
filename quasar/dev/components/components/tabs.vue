@@ -41,28 +41,36 @@
         <q-tab label="Item three" />
         <q-btn-dropdown stretch flat label="Dropdown">
           <q-list link>
-            <q-item-label header>Folders</q-item-label>
+            <q-item-label header>
+              Folders
+            </q-item-label>
             <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-menu tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="folder" color="secondary" text-color="white" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Photos</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-icon name="info" />
               </q-item-section>
             </q-item>
             <q-separator inset />
-            <q-item-label header>Files</q-item-label>
+            <q-item-label header>
+              Files
+            </q-item-label>
             <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-menu tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="assignment" color="primary" text-color="white" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Vacation</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-icon name="info" />
@@ -80,10 +88,14 @@
 
       <q-tabs :dense="dense" inline-label>
         <q-tab icon="map">
-          <q-badge color="red" floating>2</q-badge>
+          <q-badge color="red" floating>
+            2
+          </q-badge>
         </q-tab>
         <q-tab icon="map" label="Map">
-          <q-badge color="red" floating>2</q-badge>
+          <q-badge color="red" floating>
+            2
+          </q-badge>
         </q-tab>
         <q-tab icon="map" alert />
         <q-tab icon="map" label="Map" alert />
@@ -95,6 +107,16 @@
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
+
+      <q-toolbar class="bg-purple text-white shadow-2 rounded-borders q-mb-xl">
+        <q-btn flat label="Homepage" />
+        <q-space />
+        <q-tabs inline-label class="col-shrink">
+          <q-tab icon="phone" label="Tab 1" />
+          <q-tab label="Tab 2" />
+          <q-tab icon="location_on" label="Tab 3" />
+        </q-tabs>
+      </q-toolbar>
 
       <q-tabs :dense="dense" class="bg-grey-1 text-teal">
         <q-tab icon="phone" label="Item one Item one Item one" />
@@ -114,28 +136,36 @@
         <q-tab icon="location_on" label="Item three" />
         <q-btn-dropdown stretch flat label="Dropdown">
           <q-list link>
-            <q-item-label header>Folders</q-item-label>
+            <q-item-label header>
+              Folders
+            </q-item-label>
             <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-menu tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="folder" color="secondary" text-color="white" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Photos</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-icon name="info" />
               </q-item-section>
             </q-item>
             <q-separator inset />
-            <q-item-label header>Files</q-item-label>
+            <q-item-label header>
+              Files
+            </q-item-label>
             <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-menu tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="assignment" color="primary" text-color="white" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Vacation</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-icon name="info" />
@@ -232,6 +262,7 @@
           class="text-black text-center"
         >
           <q-tab-panel :name="panelTest ? 'two' : 'one'">
+            <q-btn dense round icon="map" class="absolute-bottom-right" />
             Tab One <strong v-if="panelTest">(Swapped)</strong> <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
           </q-tab-panel>
 
@@ -258,6 +289,7 @@
         class="text-black text-center"
       >
         <q-tab-panel name="one">
+          <q-btn dense round icon="map" class="absolute-bottom-right" />
           v-if test Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
@@ -281,13 +313,22 @@
         transition-prev="fade"
         transition-next="fade"
         class="q-mt-lg text-black text-center"
+        style="height: 150px"
       >
         <q-tab-panel name="one">
+          Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+          <q-input v-model="text" />
+          <input v-model="text">
+          <q-btn dense round icon="map" class="absolute-bottom-right" />
           Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
         <q-tab-panel name="two">
-          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
+          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+          <q-input v-model="text" />
+          <input v-model="text">
+          <q-btn dense round icon="map" class="absolute-bottom-right" />
+          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
         <q-tab-panel name="three">
@@ -306,6 +347,7 @@
 export default {
   data () {
     return {
+      text: '',
       dense: false,
       tab: 'one',
       vtab: 'one',
@@ -321,8 +363,10 @@ export default {
 </script>
 
 <style lang="stylus">
+.q-tabs.vertical-tabs
+  margin-bottom 0
 .tabs-demo .q-tabs
   margin-bottom 24px
-.q-tabs.vertical-tabs
+.tabs-demo .q-toolbar .q-tabs
   margin-bottom 0
 </style>

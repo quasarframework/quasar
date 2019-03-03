@@ -2,11 +2,15 @@
   <div class="q-layout-padding q-mx-auto" style="max-width: 600px;">
     <q-card style="margin-top: 25px">
       <q-card-section class="bg-primary text-center">
-        <q-btn push color="orange" @click="show = !show">Toggle</q-btn>
+        <q-btn push color="orange" @click="show = !show">
+          Toggle
+        </q-btn>
       </q-card-section>
 
       <q-card-section>
-        <div class="caption">(only 4 anims showcased here)</div>
+        <div class="caption">
+          (only 4 anims showcased here)
+        </div>
         <br>
         <div class="row no-wrap">
           <q-select class="col" v-model="enter" :options="enterSelectOptions" stack-label label="CSS Enter Class" />
@@ -17,7 +21,9 @@
 
     <q-card style="margin-top: 25px" class="overflow-hidden">
       <q-card-section class="text-center">
-        <div class="text-h6">Single</div>
+        <div class="text-h6">
+          Single
+        </div>
       </q-card-section>
 
       <q-card-section>
@@ -26,14 +32,16 @@
           :enter-active-class="enterClass"
           :leave-active-class="leaveClass"
         >
-          <div v-if="show" v-html="loremipsum"/>
+          <div v-if="show" v-html="loremipsum" />
         </transition>
       </q-card-section>
     </q-card>
 
     <q-card style="margin-top: 25px" class="overflow-hidden">
       <q-card-section class="text-center">
-        <div class="text-h6">Group</div>
+        <div class="text-h6">
+          Group
+        </div>
       </q-card-section>
 
       <q-card-section>

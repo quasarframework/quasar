@@ -1,68 +1,48 @@
-ie_style = @block
-  /* Inputs */
-  .q-if > .q-if-inner
-    flex-basis auto
-    display inline-flex
-    > div
-      > .q-input-target
-        flex-basis auto
-      > input.q-input-target
-        min-width 6rem
-        flex-basis 0% !important
-  .q-input-target:before
-    display block
+fr(selector, name, i = '')
+  unquote(replace(unquote('<i>'), unquote(i), replace(unquote('<name>'), unquote(name), unquote(selector))))
 
-  /* QEditor */
-  .q-editor-toolbar
-    .q-btn-group.row.inline
-      display block
-      white-space nowrap
+fe(selector, name, noProc, i = '')
+  if noProc
+    return fr(selector, name, i)
+  return unquote(join(',', fr(selector, '', i) fr(selector, name, i)))
+
+
+ie_style = @block
 
   /* Min Height */
   .q-toolbar
-  .q-actionsheet-title
-  .q-field-label-inner
     height 0px
+
+  /* Flex Basis */
+  .q-btn__content
+  .q-time__content
+  .q-toolbar__title
+  .q-menu .q-item__section--main
+  .q-local-menu .q-item__section--main
+    flex-basis auto
+
+  .q-tab__content
+    flex-basis auto
+    min-width 100%
+
+  for $name, $size in $sizes
+    $noProcNotZero = $size > 0
+    @media (min-width $size)
+      {fe('.col<name>', s('-%s', unquote($name)), $noProcNotZero)}
+        .row > &, .flex > &
+          flex-basis auto
+          width 0%
 
   /* QCarousel */
-  .q-carousel-slide
+  .q-carousel__slide > *
     max-width 100%
 
-  /* QBtn */
-  .q-btn__content
-    position relative
-    flex-basis auto
-    pointer-events none
-  a.q-btn:not(.q-btn--round)
-    height 0px
-  .q-btn-group > .q-btn.q-btn--push:not(.disabled)
-    &:active .q-btn__content
-    &.active .q-btn__content
-      margin 0
-
-  /* QChip */
-  .q-chip:not(.q-chip-small):not(.q-chip-dense) .q-chip-main
-    line-height $chip-height
-  .q-btn .q-chip
-    display inline-block
-  .q-tab .q-chip .q-chip-main
-    line-height normal
-
   /* QFab */
-  .q-fab__actions
-    &.q-fab-left
-    &.q-fab-right
+  .q-fab--opened .q-fab__actions
+    &--left
+    &--right
       display block
       white-space nowrap
-
-  /* QList */
-  .q-item-main
-    min-width 1px
-
-  /* QLayout Drawer Mini*/
-  .q-layout__drawer--mini .q-item
-    padding-left 0
-    padding-right 0
 
   /* QSpinner */
   .q-spinner
@@ -72,6 +52,23 @@ ie_style = @block
       opacity .5
     &.q-spinner-mat .path
       stroke-dasharray 89, 200
+
+  /* QToggle Icon */
+  .q-toggle_thumb
+    .q-icon
+      margin-left -12px
+
+  /* QDate */
+  .q-date__view.q-date__months.column
+    > .q-date__months-content.col-10
+      width 100%
+
+  /* LocalMenu */
+  .q-local-menu
+    color black
+
+    &--dark
+      color white
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
   {ie_style}

@@ -34,6 +34,8 @@
           header-nav
           flat
           bordered
+          alternative-labels
+          :contracted="isContracted"
           color="secondary"
           v-model="step"
           ref="stepper"
@@ -167,7 +169,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -196,7 +198,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -225,7 +227,7 @@
                       map-options
                       emit-value
                       :options="drawerBehaviorOptions"
-
+                      options-cover
                       style="width: 145px"
                     />
                   </q-item-section>
@@ -241,7 +243,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -270,7 +272,7 @@
                       map-options
                       emit-value
                       :options="drawerBehaviorOptions"
-
+                      options-cover
                       style="width: 145px"
                     />
                   </q-item-section>
@@ -286,7 +288,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -308,8 +310,14 @@
           <template v-slot:navigation>
             <q-stepper-navigation>
               <q-separator spaced />
-              <q-btn v-if="step !== 'play'" color="primary" class="q-mr-sm" @click="$refs.stepper.next()" label="Continue" />
-              <q-btn color="black" label="Export Layout" @click="exportDialog = true" />
+              <div class="row q-col-gutter-sm">
+                <div v-if="step !== 'play'" class="col-12 col-sm-auto">
+                  <q-btn class="full-width" color="primary" @click="$refs.stepper.next()" label="Continue" />
+                </div>
+                <div class="col-12 col-sm-auto">
+                  <q-btn class="full-width" color="black" label="Export Layout" @click="exportDialog = true" />
+                </div>
+              </div>
             </q-stepper-navigation>
           </template>
         </q-stepper>
@@ -337,6 +345,7 @@
       :overlay="cfg.leftOverlay"
       :elevated="cfg.leftSep === 'elevated'"
       :bordered="cfg.leftSep === 'bordered'"
+      :breakpoint="1023"
     >
       <q-scroll-area class="fit">
         <q-item-label header>Left Drawer</q-item-label>
@@ -356,6 +365,7 @@
       :overlay="cfg.rightOverlay"
       :elevated="cfg.rightSep === 'elevated'"
       :bordered="cfg.rightSep === 'bordered'"
+      :breakpoint="1023"
     >
       <q-scroll-area style="height: calc(100% - 204px); margin-top: 204px">
         <q-item-label header>Right Drawer</q-item-label>
@@ -463,6 +473,10 @@ export default {
   },
 
   computed: {
+    isContracted () {
+      return this.$q.screen.lt.sm || (this.$q.screen.md && this.play.left && this.play.right)
+    },
+
     bgTopL () {
       return this.topL === 'h' ? 'bg-primary' : 'bg-orange'
     },
@@ -526,7 +540,7 @@ export default {
 `
       }
 
-      if (this.pick.left) {
+      if (this.pick.right) {
         code += `
     <q-drawer v-model="right" side="right"${this.cfg.leftOverlay ? ' overlay' : ''}${this.cfg.rightBehavior !== 'default' ? ` behavior="${this.cfg.rightBehavior}"` : ''}${this.cfg.rightSep !== 'none' ? ' ' + this.cfg.rightSep : ''}>
       <!-- drawer content -->

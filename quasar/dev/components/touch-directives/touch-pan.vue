@@ -9,14 +9,15 @@
         Page scrolling is prevented, but you can opt out if you wish.
       </p>
       <div
-        v-touch-pan.prevent="handlePan"
+        v-touch-pan.prevent.mouse.mousePrevent="handlePan"
+        @click="onClick"
         class="custom-area row flex-center"
         ref="area"
       >
         <div v-if="info" class="custom-info">
           <pre>{{ info }}</pre>
         </div>
-        <div v-else class="text-center">
+        <div v-else class="text-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_upward" />
           <div class="row items-center">
             <q-icon name="arrow_back" />
@@ -44,13 +45,14 @@
         we are only capturing horizontally.
       </p>
       <div
-        v-touch-pan.horizontal.prevent="panHorizontally"
+        v-touch-pan.horizontal.prevent.mouse.mousePrevent="panHorizontally"
+        @click="onClick"
         class="custom-area row flex-center"
       >
         <div v-if="infoHorizontal" class="custom-info">
           <pre>{{ infoHorizontal }}</pre>
         </div>
-        <div v-else class="row items-center">
+        <div v-else class="row items-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_back" />
           <div>Pan to left or right only</div>
           <q-icon name="arrow_forward" />
@@ -66,13 +68,14 @@
         Page scrolling is prevented, but you can opt out if you wish.
       </p>
       <div
-        v-touch-pan.vertical.prevent="panVertically"
+        v-touch-pan.vertical.prevent.mouse.mousePrevent="panVertically"
+        @click="onClick"
         class="custom-area row flex-center"
       >
         <div v-if="infoVertical" class="custom-info">
           <pre>{{ infoVertical }}</pre>
         </div>
-        <div v-else class="text-center">
+        <div v-else class="text-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_upward" />
           <div>
             Pan to up or down only
@@ -85,7 +88,9 @@
         </div>
       </div>
 
-      <p class="caption">For desktops, you can configure to avoid capturing mouse pans if you wish.</p>
+      <p class="caption">
+        For desktops, you can configure to avoid capturing mouse pans if you wish.
+      </p>
     </div>
   </div>
 </template>
@@ -111,7 +116,7 @@ export default {
       this.info = { position, direction, duration, distance, delta, isFirst, isFinal }
 
       // native Javascript event
-      console.log(evt)
+      // console.log(evt)
 
       if (isFirst) {
         this.panning = true
@@ -145,6 +150,10 @@ export default {
       else if (isFinal) {
         this.panningVertical = false
       }
+    },
+
+    onClick (evt) {
+      console.log('click', evt)
     }
   }
 }

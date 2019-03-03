@@ -14,19 +14,22 @@ We will be describing `v-touch-repeat` on the lines below.
 Click and hold with your mouse on the area below to see it in action.
 Notice that on touch capable devices the scrolling is not blocked.
 
-> The default repeat pattern is 0:600:300* (ms).
+> The default repeat pattern is 0:600:300 (ms).
 
 <doc-example title="Basic" file="TouchRepeat/Basic" />
 
-Below is an example configured to also react to `SPACE`, `ENTER` and `h` keys (**focus on it first**), with 0:600* (ms) repeat pattern. Hit & hold keys, or click/tap and hold.
+Below is an example configured to also react to `SPACE`, `ENTER` and `h` keys (**focus on it first**), with 0:300:200 (ms) repeat pattern. Hit & hold keys, or click/tap and hold.
 
 <doc-example title="Custom keys" file="TouchRepeat/Keys" />
 
-### Preventing Scroll (on touch capable devices)
-By default, the directive does not block page scrolling. If you want to prevent scrolling, then use the `prevent` modifier.
+### Capturing Mouse Events
+When you want to capture mouse actions too, use the `mouse` modifier:
 ``` html
-<div v-touch-repeat.prevent="handleRepeat">...</div>
+<div v-touch-repeat.mouse="myHandler">...</div>
 ```
+
+### Note on HMR
+Due to performance reasons, when doing HMR updates, the argument and modifiers are not updated, so you will require a window refresh.
 
 ## API
 <doc-api file="TouchRepeat" />

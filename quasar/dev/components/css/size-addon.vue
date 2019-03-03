@@ -1,10 +1,12 @@
 <template>
   <div class="q-layout-padding">
     <template v-for="b in bp">
-      <h5 :key="`h${ b }`">Breakpoint {{ b || 'NONE' }}</h5>
+      <h5 :key="`h${ b }`">
+        Breakpoint {{ b || 'NONE' }}
+      </h5>
       <div class="row items-center" :key="`h${ b }`">
         <div class="box" v-for="s in sz" :key="`b${ b }-${ s }`">
-          <div :class="`q-pa${ b }-${ s } q-ma${ b }-${ s }`"/>
+          <div :class="`q-pa${ b }-${ s } q-ma${ b }-${ s }`" />
         </div>
       </div>
     </template>

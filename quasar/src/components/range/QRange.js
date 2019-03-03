@@ -41,7 +41,7 @@ export default Vue.extend({
 
   data () {
     return {
-      model: Object.assign({}, this.value),
+      model: { ...this.value },
       curMinRatio: 0,
       curMaxRatio: 0
     }
@@ -94,17 +94,20 @@ export default Vue.extend({
 
     trackStyle () {
       return {
-        left: 100 * this.ratioMin + '%',
+        [this.horizProp]: 100 * this.ratioMin + '%',
         width: 100 * (this.ratioMax - this.ratioMin) + '%'
       }
     },
 
     minThumbStyle () {
-      return { left: (100 * this.ratioMin) + '%', 'z-index': this.__nextFocus === 'min' ? 2 : void 0 }
+      return {
+        [this.horizProp]: (100 * this.ratioMin) + '%',
+        'z-index': this.__nextFocus === 'min' ? 2 : void 0
+      }
     },
 
     maxThumbStyle () {
-      return { left: (100 * this.ratioMax) + '%' }
+      return { [this.horizProp]: (100 * this.ratioMax) + '%' }
     },
 
     minThumbClass () {
@@ -116,8 +119,8 @@ export default Vue.extend({
     },
 
     events () {
-      if (this.editable) {
-        if (this.$q.platform.is.mobile) {
+      if (this.editable === true) {
+        if (this.$q.platform.is.mobile === true) {
           return { click: this.__mobileClick }
         }
 
@@ -180,7 +183,7 @@ export default Vue.extend({
     },
 
     __getDragging (event) {
-      let
+      const
         { left, width } = this.$el.getBoundingClientRect(),
         sensitivity = this.dragOnlyRange ? 0 : this.$refs.minThumb.offsetWidth / (2 * width),
         diff = this.max - this.min
@@ -403,7 +406,10 @@ export default Vue.extend({
         modifiers: {
           horizontal: true,
           prevent: true,
-          stop: true
+          stop: true,
+          mouse: true,
+          mouseAllDir: true,
+          mouseStop: true
         }
       }] : null
     }, [

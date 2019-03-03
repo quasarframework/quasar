@@ -8,7 +8,7 @@ There are three ways of using Quasar. Pick the one that suits you best:
 
 - [UMD/Standalone](/start/umd) (embed into an existing project through CDN, progressive integration)
 - [Quasar CLI](/start/quasar-cli) (**the premium developer experience for free, recommended**)
-- [Vue CLI 3 plugin](/start/vue-cli-plugin) (not yet v1.0 ready)
+- [Vue CLI 3 plugin](/start/vue-cli-plugin)
 
 Here's a quick comparison:
 

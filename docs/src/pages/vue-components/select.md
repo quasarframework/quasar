@@ -17,7 +17,12 @@ For your QSelect you can use only one of the main designs (`filled`, `outlined`,
 <doc-example title="Design Overview" file="QSelect/DesignOverview" />
 
 ### Decorators
+
 <doc-example title="Decorators" file="QSelect/Decorators" />
+
+### Coloring
+
+<doc-example title="Coloring" file="QSelect/Coloring" />
 
 ### Disable and readonly
 <doc-example title="Disable and readonly" file="QSelect/DisableReadonly" />
@@ -104,7 +109,21 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 ## Create new values
 
-<doc-example title="Create new values" file="QSelect/CreateValues" />
+::: tip
+The following are just a few examples to get you started into making your own QSelect behavior. This is not exhaustive list of possibilities that QSelect offers.
+:::
+
+No filtering and no menu:
+
+<doc-example title="No filtering" file="QSelect/NoFiltering" />
+
+Filtering and adding the new values to menu:
+
+<doc-example title="Filtering and adding to menu" file="QSelect/FilteringAddsToMenu" />
+
+Filters new values (in the example below the value to be added requires at least 3 characters to pass), and does not add to menu:
+
+<doc-example title="Filtering without adding to menu" file="QSelect/FilteringNoAddToMenu" />
 
 ## Render performance
 

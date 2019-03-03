@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-md column" style="max-width: 300px">
+    <div class="q-gutter-y-md column" style="max-width: 300px">
       <q-toggle v-model="dense" label="Dense QInput" />
 
       <q-input outlined v-model="text" :dense="dense" />
@@ -12,6 +12,8 @@
       <q-input outlined v-model="ph" label="Label" placeholder="Placeholder" hint="With placeholder" :dense="dense" />
 
       <q-input outlined v-model="ph" placeholder="Placeholder" hint="With placeholder" :dense="dense" />
+
+      <q-input outlined square v-model="text" hint="With perfect square borders" :dense="dense" />
 
       <q-input outlined v-model="text" :dense="dense">
         <template v-slot:prepend>

@@ -14,7 +14,14 @@ export default {
       type: [Function, String],
       default: 'POST'
     },
+    fieldName: {
+      type: [Function, String],
+      default: file => file.name
+    },
     headers: [Function, Array],
+    fields: [Function, Array],
+    withCredentials: Boolean,
+    sendRaw: Boolean,
     batch: [Function, Boolean]
   },
 
@@ -30,6 +37,8 @@ export default {
         url: getFn(this.url),
         method: getFn(this.method),
         headers: getFn(this.headers),
+        fields: getFn(this.fields),
+        fieldName: getFn(this.fieldName),
         batch: getFn(this.batch)
       }
     },
@@ -75,9 +84,9 @@ export default {
         form = new FormData(),
         xhr = new XMLHttpRequest()
 
-      if (this.xhrHeaders !== void 0) {
-        const headers = this.xhrProps.headers(files)
-        headers !== void 0 && headers.forEach(field => {
+      if (this.fields !== void 0) {
+        const fields = this.xhrProps.fields(files)
+        fields !== void 0 && fields.forEach(field => {
           form.append(field.name, field.value)
         })
       }
@@ -142,9 +151,22 @@ export default {
         this.xhrProps.url(files)
       )
 
+      if (this.withCredentials) {
+        xhr.withCredentials = true
+      }
+
+      if (this.headers !== void 0) {
+        const headers = this.xhrProps.headers(files)
+        headers !== void 0 && headers.forEach(head => {
+          xhr.setRequestHeader(head.name, head.value)
+        })
+      }
+
       files.forEach(file => {
         this.__updateFile(file, 'uploading', 0)
-        form.append(file.name, file)
+        if (this.sendRaw !== true) {
+          form.append(this.xhrProps.fieldName(file), file)
+        }
         file.xhr = xhr
         file.__abort = xhr.abort
         maxUploadSize += file.size
@@ -153,7 +175,12 @@ export default {
       this.__emit('uploading', { files, xhr })
       this.xhrs.push(xhr)
 
-      xhr.send(form)
+      if (this.sendRaw === true) {
+        xhr.send(files)
+      }
+      else {
+        xhr.send(form)
+      }
     },
 
     __uploadSingleFile (file) {
@@ -162,9 +189,9 @@ export default {
         files = [ file ],
         xhr = new XMLHttpRequest()
 
-      if (this.xhrHeaders !== void 0) {
-        const headers = this.xhrProps.headers(files)
-        headers !== void 0 && headers.forEach(field => {
+      if (this.fields !== void 0) {
+        const fields = this.xhrProps.fields(files)
+        fields !== void 0 && fields.forEach(field => {
           form.append(field.name, field.value)
         })
       }
@@ -205,13 +232,29 @@ export default {
         this.xhrProps.url(files)
       )
 
+      if (this.withCredentials) {
+        xhr.withCredentials = true
+      }
+
+      if (this.headers !== void 0) {
+        const headers = this.xhrProps.headers(files)
+        headers !== void 0 && headers.forEach(head => {
+          xhr.setRequestHeader(head.name, head.value)
+        })
+      }
+
       this.xhrs.push(xhr)
       file.xhr = xhr
       file.__abort = xhr.abort
       this.__emit('uploading', { files, xhr })
 
-      form.append(file.name, file)
-      xhr.send(form)
+      if (this.sendRaw === true) {
+        xhr.send(file)
+      }
+      else {
+        form.append(this.xhrProps.fieldName(file), file)
+        xhr.send(form)
+      }
     }
   }
 }

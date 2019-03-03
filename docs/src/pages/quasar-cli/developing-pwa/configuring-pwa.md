@@ -8,7 +8,7 @@ We'll be using Quasar CLI to develop and build a PWA. The difference between bui
 ## Installation
 In order to build a PWA, we first need to add the PWA mode to our Quasar project:
 ```bash
-$ quasar mode -a pwa
+$ quasar mode add pwa
 ```
 
 If you want to jump right in and start developing, you can skip the "quasar mode" command and issue:
@@ -108,7 +108,7 @@ Note that you don't need to edit your index.html file (generated from `/src/inde
 More info: [PWA Checklist](https://developers.google.com/web/progressive-web-apps/checklist)
 
 ::: danger
-Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things). See the [Testing and Auditing](/options/testing-and-auditing) section of these docs for more information.
+Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things). See the [Testing and Auditing](/quasar-cli/testing-and-auditing) section of these docs for more information.
 :::
 
 ## Reload & Update Workbox

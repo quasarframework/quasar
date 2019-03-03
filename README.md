@@ -5,10 +5,14 @@
 > Build responsive Single Page Apps, **SSR Apps**, PWAs, Hybrid Mobile Apps and Electron Apps, all using the same codebase!, powered with Vue.
 
 <a href="https://badge.fury.io/js/quasar-framework" target="_blank"><img src="https://badge.fury.io/js/quasar-framework.svg"></a>
+<a href="https://badge.fury.io/js/quasar" target="_blank"><img src="https://badge.fury.io/js/quasar.svg"></a>
 [![Join the chat at https://discord.gg/5TDhbDg](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/5TDhbDg)
 <a href="http://forum.quasar-framework.org" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 
 Please submit a PR to https://github.com/quasarframework/quasar-awesome with your website/app/Quasar tutorial/video etc. Thank you!
+
+## v1 beta is available!
+https://v1.quasar-framework.org
 
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md). If you'd like to join them, check out [Quasar Framework's Patreon campaign](https://www.patreon.com/quasarframework).
@@ -81,6 +85,14 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
         </a>
       </td>
     </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://www.projectfinance.io/" target="_blank">
+          <img width="222px" height="150px" src="https://cdn.quasar-framework.org/sponsors/project-finance.png">
+        </a>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -92,6 +104,19 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
       <td align="center" valign="middle">
         <a href="https://utopian.io" target="_blank">
           <img width="222px" src="https://cdn.quasar-framework.org/sponsors/utopian.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://wallabyjs.com/" target="_blank">
+          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/wallaby.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://snyk.io/" target="_blank">
+          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/snyk.png">
         </a>
       </td>
     </tr>

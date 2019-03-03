@@ -1,7 +1,11 @@
 <template>
   <div class="q-layout-padding">
-    <div v-for="type in types" :key="type" :class="type">{{ type }}</div>
-    <p class="caption" :class="`bg-${color}`">{{ w }} - {{ $q.screen.sizes[w] }} - {{ $q.screen.width }}</p>
+    <div v-for="type in types" :key="type" :class="type">
+      {{ type }}
+    </div>
+    <p class="caption" :class="`bg-${color}`">
+      {{ w }} - {{ $q.screen.sizes[w] }} - {{ $q.screen.width }}
+    </p>
   </div>
 </template>
 

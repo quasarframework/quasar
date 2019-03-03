@@ -1,13 +1,14 @@
 import Vue from 'vue'
 
-import { getScrollPosition, getScrollTarget } from '../../utils/scroll.js'
+import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QScrollObserver',
 
   props: {
-    debounce: [String, Number]
+    debounce: [String, Number],
+    horizontal: Boolean
   },
 
   render () {}, // eslint-disable-line
@@ -15,7 +16,7 @@ export default Vue.extend({
   data () {
     return {
       pos: 0,
-      dir: 'down',
+      dir: this.horizontal === true ? 'right' : 'down',
       dirChanged: false,
       dirChangePos: 0
     }
@@ -44,10 +45,11 @@ export default Vue.extend({
 
     __emit () {
       const
-        pos = Math.max(0, getScrollPosition(this.target)),
+        pos = Math.max(0, (this.horizontal === true ? getHorizontalScrollPosition(this.target) : getScrollPosition(this.target))),
         delta = pos - this.pos,
-        dir = delta < 0 ? 'up' : 'down'
-
+        dir = this.horizontal
+          ? delta < 0 ? 'left' : 'right'
+          : delta < 0 ? 'up' : 'down'
       this.dirChanged = this.dir !== dir
       if (this.dirChanged) {
         this.dir = dir

@@ -75,7 +75,8 @@ export default Vue.extend({
         stretch: this.stretch,
         unelevated: this.unelevated,
         glossy: this.glossy
-      }
+      },
+      on: this.$listeners
     },
     this.options.map(
       (opt, i) => h(QBtn, {
@@ -89,8 +90,8 @@ export default Vue.extend({
           textColor: this.val[i] ? opt.toggleTextColor || this.toggleTextColor : opt.textColor || this.textColor,
           icon: opt.icon,
           iconRight: opt.iconRight,
-          noCaps: this.noCaps || opt.noCaps,
-          noWrap: this.noWrap || opt.noWrap,
+          noCaps: this.noCaps === true || opt.noCaps === true,
+          noWrap: this.noWrap === true || opt.noWrap === true,
           outline: this.outline,
           flat: this.flat,
           rounded: this.rounded,
@@ -99,7 +100,7 @@ export default Vue.extend({
           size: this.size,
           dense: this.dense,
           ripple: this.ripple || opt.ripple,
-          stack: this.stack || opt.stack,
+          stack: this.stack === true || opt.stack === true,
           tabindex: opt.tabindex,
           stretch: this.stretch
         }

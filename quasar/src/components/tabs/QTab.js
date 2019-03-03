@@ -61,7 +61,7 @@ export default Vue.extend({
 
   methods: {
     activate (e) {
-      this.$emit('click', e)
+      this.$listeners.click !== void 0 && this.$emit('click', e)
       !this.disable && this.__activateTab(this.name)
       this.$el.blur()
     },
@@ -118,13 +118,20 @@ export default Vue.extend({
           role: 'tab',
           'aria-selected': this.isActive
         },
-        directives: this.ripple !== false && this.disable ? null : [
+        directives: this.ripple !== false && this.disable === true ? null : [
           { name: 'ripple', value: this.ripple }
-        ],
-        [tag === 'div' ? 'on' : 'nativeOn']: {
+        ]
+      }
+
+      if (tag === 'div') {
+        data.on = {
+          ...this.$listeners,
           click: this.activate,
           keyup: this.__onKeyup
         }
+      }
+      else {
+        data.nativeOn = this.$listeners
       }
 
       if (props !== void 0) {

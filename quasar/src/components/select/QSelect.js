@@ -2,7 +2,6 @@ import Vue from 'vue'
 
 import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
-import QSpinner from '../spinner/QSpinner.js'
 import QChip from '../chip/QChip.js'
 
 import QItem from '../list/QItem.js'
@@ -43,6 +42,8 @@ export default Vue.extend({
     optionDisable: [Function, String],
 
     hideSelected: Boolean,
+    hideDropdownIcon: Boolean,
+
     counter: Boolean,
     maxValues: [Number, String],
 
@@ -70,8 +71,7 @@ export default Vue.extend({
       menu: false,
       optionIndex: -1,
       optionsToShow: 20,
-      inputValue: '',
-      loading: false
+      inputValue: ''
     }
   },
 
@@ -90,7 +90,9 @@ export default Vue.extend({
       this.optionIndex = -1
       if (show === true) {
         this.optionsToShow = 20
-        this.$nextTick(this.updateMenuPosition)
+        this.$nextTick(() => {
+          this.__hidrateOptions(true)
+        })
       }
       document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
     }
@@ -106,7 +108,7 @@ export default Vue.extend({
         ? (this.multiple === true ? this.value : [ this.value ])
         : []
 
-      return this.mapOptions === true
+      return this.mapOptions === true && Array.isArray(this.options) === true
         ? val.map(v => this.__getOption(v))
         : val
     },
@@ -186,7 +188,7 @@ export default Vue.extend({
     dropdownArrowIcon () {
       return this.dropdownIcon !== void 0
         ? this.dropdownIcon
-        : this.$q.iconSet.select.dropdownIcon
+        : this.$q.iconSet.arrow.dropdown
     },
 
     squaredMenu () {
@@ -348,7 +350,7 @@ export default Vue.extend({
     },
 
     __onTargetKeydown (e) {
-      if (this.loading !== true && this.menu === false && e.keyCode === 40) { // down
+      if (this.innerLoading !== true && this.menu === false && e.keyCode === 40) { // down
         stopAndPrevent(e)
 
         if (this.$listeners.filter !== void 0) {
@@ -368,6 +370,8 @@ export default Vue.extend({
 
       // enter
       if (e.keyCode !== 13) { return }
+
+      stopAndPrevent(e)
 
       if (this.optionIndex > -1 && this.optionIndex < this.optionsToShow) {
         this.toggleOption(this.options[this.optionIndex])
@@ -397,7 +401,7 @@ export default Vue.extend({
       if (this.menu === true) {
         this.menu = false
       }
-      else if (this.loading !== true) {
+      else if (this.innerLoading !== true) {
         if (this.$listeners.filter !== void 0) {
           this.filter(this.inputValue)
         }
@@ -452,17 +456,24 @@ export default Vue.extend({
       }
     },
 
-    __onMenuScroll () {
-      if (this.avoidScroll !== true && this.optionsToShow < this.options.length) {
-        const el = this.$refs.menu
+    __hidrateOptions (updatePosition) {
+      if (this.avoidScroll !== true) {
+        if (this.optionsToShow < this.options.length) {
+          const el = this.$refs.menu
 
-        if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) {
-          this.optionsToShow += 20
-          this.avoidScroll = true
-          this.$nextTick(() => {
-            this.avoidScroll = false
-          })
+          if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) {
+            this.optionsToShow += 20
+            this.avoidScroll = true
+            this.$nextTick(() => {
+              this.avoidScroll = false
+              this.__hidrateOptions(updatePosition)
+            })
+
+            return
+          }
         }
+
+        updatePosition === true && this.updateMenuPosition()
       }
     },
 
@@ -485,7 +496,7 @@ export default Vue.extend({
         return this.selectedScope.map((scope, i) => h(QChip, {
           key: 'option-' + i,
           props: {
-            removable: true,
+            removable: this.__isDisabled(scope.opt) !== true,
             dense: true,
             textColor: this.color,
             tabindex
@@ -572,7 +583,7 @@ export default Vue.extend({
             },
             on: {
               click: stopAndPrevent,
-              '&scroll': this.__onMenuScroll
+              '&scroll': this.__hidrateOptions
             }
           }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))
           : null
@@ -580,20 +591,14 @@ export default Vue.extend({
     },
 
     __getInnerAppend (h) {
-      return [
-        this.loading === true
-          ? (
-            this.$scopedSlots.loading !== void 0
-              ? this.$scopedSlots.loading()
-              : h(QSpinner, { props: { color: this.color } })
-          )
-          : null,
-
-        h(QIcon, {
-          staticClass: 'q-select__dropdown-icon',
-          props: { name: this.dropdownArrowIcon }
-        })
-      ]
+      return this.hideDropdownIcon !== true
+        ? [
+          h(QIcon, {
+            staticClass: 'q-select__dropdown-icon',
+            props: { name: this.dropdownArrowIcon }
+          })
+        ]
+        : null
     },
 
     __getInput (h) {
@@ -633,11 +638,11 @@ export default Vue.extend({
       this.menu = false
       this.inputValue = val
 
-      if (this.loading === true) {
+      if (this.innerLoading === true) {
         this.$emit('filter-abort')
       }
       else {
-        this.loading = true
+        this.innerLoading = true
       }
 
       const filterId = uid()
@@ -650,14 +655,14 @@ export default Vue.extend({
           if (this.focused === true && this.filterId === filterId) {
             typeof fn === 'function' && fn()
             this.$nextTick(() => {
-              this.loading = false
+              this.innerLoading = false
               this.menu = true
             })
           }
         },
         () => {
           if (this.focused === true && this.filterId === filterId) {
-            this.loading = false
+            this.innerLoading = false
           }
         }
       )
@@ -715,9 +720,9 @@ export default Vue.extend({
 
         this.filterId = void 0
 
-        if (this.loading === true) {
+        if (this.innerLoading === true) {
           this.$emit('filter-abort')
-          this.loading = false
+          this.innerLoading = false
         }
       })
     },

@@ -10,7 +10,8 @@ export default {
     up: 'mdi-arrow-up',
     right: 'mdi-arrow-right',
     down: 'mdi-arrow-down',
-    left: 'mdi-arrow-left'
+    left: 'mdi-arrow-left',
+    dropdown: 'mdi-menu-down'
   },
   chevron: {
     left: 'mdi-chevron-left',
@@ -87,9 +88,6 @@ export default {
   },
   rating: {
     icon: 'mdi-star'
-  },
-  select: {
-    dropdownIcon: 'mdi-menu-down'
   },
   stepper: {
     done: 'mdi-check',

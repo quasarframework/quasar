@@ -57,8 +57,10 @@ export default Vue.extend({
 
       evt !== void 0 && evt.preventDefault()
 
+      const breakpoint = parseInt(this.breakpoint, 10)
+
       this.showing = true
-      this.type = this.$q.screen.width < parseInt(this.breakpoint, 10)
+      this.type = this.$q.screen.width < breakpoint || this.$q.screen.height < breakpoint
         ? 'dialog'
         : 'menu'
     },
@@ -78,17 +80,34 @@ export default Vue.extend({
   },
 
   render (h) {
-    if (this.disable === true || this.type === null) { return }
+    if (this.disable === true || this.type === null) {
+      return
+    }
 
-    let component
+    const child = slot(this, 'default')
+
+    let props = (
+      this.type === 'menu' &&
+      child !== void 0 &&
+      child[0] !== void 0 &&
+      child[0].componentOptions !== void 0 &&
+      child[0].componentOptions.Ctor !== void 0 &&
+      child[0].componentOptions.Ctor.sealedOptions !== void 0 &&
+      ['QDate', 'QTime', 'QCarousel', 'QColor'].includes(
+        child[0].componentOptions.Ctor.sealedOptions.name
+      )
+    ) ? { cover: true, maxHeight: '99vh' } : {}
+
     const data = {
-      props: Object.assign({}, this.$attrs, {
+      props: Object.assign(props, this.$attrs, {
         value: this.showing
       }),
-      on: Object.assign({}, this.$listeners, {
+      on: {
         hide: this.__hide
-      })
+      }
     }
+
+    let component
 
     if (this.type === 'dialog') {
       component = QDialog

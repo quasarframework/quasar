@@ -18,37 +18,27 @@ The QLayout is a component designed to manage the entire window and wrap page co
 ## Installation
 In the card below we're installing all Quasar components related to a QLayout, but **you should cherry-pick** only what you are using from this list. Only QLayout is required.
 
-<doc-installation
-  :components="[
-    'QLayout',
-    'QPageContainer',
-    'QPage',
-    'QHeader',
-    'QFooter',
-    'QDrawer',
-    'QPageSticky',
-    'QPageScroller'
-  ]"
-/>
+<doc-installation :components="[ 'QLayout', 'QPageContainer', 'QPage', 'QHeader', 'QFooter',    'QDrawer', 'QPageSticky', 'QPageScroller' ]" />
 
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
-<q-btn
-  push
-  color="primary"
-  icon-right="launch"
-  label="Layout Builder"
-  type="a"
-  href="/layout-builder"
-  target="_blank"
-  rel="noopener noreferrer"
-/>
+::: warning
+The Layout Builder might use components not already inserted into quasar.conf.js.
+
+You are likely going to need the following components - QLayout, QHeader, QToolbar, QToolbarTitle, QBtn, QAvatar, QTabs, QRouteTab, QDrawer, QPageContainer, QFooter.
+:::
+
+::: tip
+Keep an eye on your developer console for handy helpers on which components are being used but not declared in your quasar.conf.js file.
+:::
+
+<q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
 
 ::: warning Using margin CSS will break the layout
-QLayout depends on taking up the whole screen and so QPageContainer, QHeader, QFooter and QLayoutDrawer positions are managed by it (through the `view` prop). You **cannot** use *CSS margins* as a style neither on QLayout itself nor on any of the QLayout components mentioned above. However use can safely use *CSS padding*.
+QLayout depends on taking up the whole screen and so QPageContainer, QHeader, QFooter and QLayoutDrawer positions are managed by it (through the `view` prop). You **cannot** use *CSS margins* as a style neither on QLayout itself nor on any of the QLayout components mentioned above. However you can safely use *CSS padding*.
 :::
 
 ::: tip
@@ -78,16 +68,7 @@ For example, if you want your layout's right side / drawer to be placed on the r
 
 These settings are completely up to you to use as you'd like. You could even go wild with a setup like this: `lhh LpR ffr`. Try it out!
 
-<q-btn
-  push
-  color="red"
-  icon-right="launch"
-  label="Layout Builder"
-  type="a"
-  href="/layout-builder"
-  target="_blank"
-  rel="noopener noreferrer"
-/>
+<q-btn push color="red" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ::: warning
 It is important that you specify all sections of a QLayout, even if you don't use them. For example, even if you don't use footer or right side drawer, still specify them within your QLayout's `view` prop.

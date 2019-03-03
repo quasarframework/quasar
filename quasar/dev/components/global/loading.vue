@@ -76,10 +76,10 @@ export default {
       })
     },
     withMessage () {
-      show({message: 'Some important process is in progress. Hang on...'})
+      show({ message: 'Some important process is in progress. Hang on...' })
     },
     changeMessage () {
-      Loading.show({message: 'First message. Gonna change it in 3 seconds...'})
+      Loading.show({ message: 'First message. Gonna change it in 3 seconds...' })
       setTimeout(() => {
         show({
           spinner: QSpinnerGears,

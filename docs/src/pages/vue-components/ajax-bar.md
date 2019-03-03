@@ -1,6 +1,7 @@
 ---
 title: Ajax Bar
 related:
+  - /quasar-plugins/loading
   - /quasar-plugins/loading-bar
   - /quasar-cli/ajax-requests
 ---

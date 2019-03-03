@@ -31,7 +31,7 @@ export const RouterLinkMixin = {
 
   computed: {
     hasRouterLink () {
-      return this.to !== void 0
+      return this.to !== void 0 && this.to !== null && this.to !== ''
     },
 
     routerLinkProps () {

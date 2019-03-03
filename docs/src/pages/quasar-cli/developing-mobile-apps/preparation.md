@@ -46,7 +46,7 @@ setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools"
 In order to develop/build a Mobile app, we need to add the Cordova mode to our Quasar project. What this does is that it uses Cordova CLI to generate a Cordova project in `/src-cordova` folder. `/src-cordova/www` folder will be overwritten each time you build.
 
 ```bash
-$ quasar mode -a cordova
+$ quasar mode add cordova
 ```
 
 ## 3. Add Platform

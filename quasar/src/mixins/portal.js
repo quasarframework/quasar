@@ -5,9 +5,9 @@ let inject
 
 function fillInject (root) {
   const
-    instance = new Vue(),
+    options = (new Vue()).$root.$options,
     skip = ['el', 'created', 'activated', 'deactivated', 'beforeMount', 'methods', 'mounted', 'render', 'mixins']
-      .concat(Object.keys(instance.$root.$options))
+      .concat(Object.keys(options).filter(key => options[key] !== null))
 
   inject = {}
 
@@ -19,6 +19,11 @@ function fillInject (root) {
 }
 
 export default {
+  props: {
+    contentClass: [Array, String, Object],
+    contentStyle: [Array, String, Object]
+  },
+
   methods: {
     __showPortal () {
       if (this.__portal !== void 0 && this.__portal.showing !== true) {
@@ -51,7 +56,9 @@ export default {
       fillInject(this.$root.$options)
     }
 
-    this.__portal = new Vue(Object.assign({}, inject, {
+    this.__portal = new Vue({
+      ...inject,
+
       render: h => this.__render(h),
 
       components: this.$options.components,
@@ -64,7 +71,7 @@ export default {
       methods: {
         __qPortalClose: this.hide
       }
-    })).$mount()
+    }).$mount()
   },
 
   beforeDestroy () {

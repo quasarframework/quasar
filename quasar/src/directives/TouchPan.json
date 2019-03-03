@@ -41,6 +41,10 @@
             "type": "Boolean",
             "desc": "Is last time the handler is called since movement ended"
           },
+          "isMouse": {
+            "type": "Boolean",
+            "desc": "Is it a mouse generated event?"
+          },
           "duration": {
             "type": "Number",
             "desc": "How long it took to trigger the event (in milliseconds)",
@@ -117,9 +121,24 @@
       "desc": "Required when you might call event.stopPropagation() in your handler"
     },
 
-    "noMouse": {
+    "mouse": {
       "type": "Boolean",
-      "desc": "Disregard mouse events and handle only touch events"
+      "desc": "Listen for mouse events too"
+    },
+
+    "mouseStop": {
+      "type": "Boolean",
+      "desc": "If listening for mouse events too: stop mouse event propagation"
+    },
+
+    "mousePrevent": {
+      "type": "Boolean",
+      "desc": "If listening for mouse events too: calls event.preventDefault() on the mouse events"
+    },
+
+    "mouseMightPrevent": {
+      "type": "Boolean",
+      "desc": "If listening for mouse events too: required when you might call event.stopPropagation() in your handler"
     },
 
     "horizontal": {

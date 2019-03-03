@@ -10,7 +10,8 @@ export default {
     up: 'arrow_upward',
     right: 'arrow_forward',
     down: 'arrow_downward',
-    left: 'arrow_back'
+    left: 'arrow_back',
+    dropdown: 'arrow_drop_down'
   },
   chevron: {
     left: 'chevron_left',
@@ -87,9 +88,6 @@ export default {
   },
   rating: {
     icon: 'grade'
-  },
-  select: {
-    dropdownIcon: 'arrow_drop_down'
   },
   stepper: {
     done: 'check',

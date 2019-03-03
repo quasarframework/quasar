@@ -10,7 +10,8 @@ export default {
     up: 'fal fa-arrow-up',
     right: 'fal fa-arrow-right',
     down: 'fal fa-arrow-down',
-    left: 'fal fa-arrow-left'
+    left: 'fal fa-arrow-left',
+    dropdown: 'fal fa-caret-down'
   },
   chevron: {
     left: 'fal fa-chevron-left',
@@ -87,9 +88,6 @@ export default {
   },
   rating: {
     icon: 'fal fa-star'
-  },
-  select: {
-    dropdownIcon: 'fal fa-caret-down'
   },
   stepper: {
     done: 'fal fa-check',

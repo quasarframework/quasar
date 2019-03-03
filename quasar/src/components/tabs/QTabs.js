@@ -319,6 +319,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-tabs row no-wrap items-center',
       class: this.classes,
+      on: this.$listeners,
       attrs: { role: 'tablist' }
     }, [
       h(QResizeObserver, {

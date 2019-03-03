@@ -1,6 +1,10 @@
 {
   "mixins": [ "components/btn/__btn-mixin" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "percentage": {
       "type": "Number",

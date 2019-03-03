@@ -21,8 +21,13 @@ export default Vue.extend({
 
   props: {
     icon: String,
+
     label: String,
+    labelLines: [ Number, String ],
+
     caption: String,
+    captionLines: [ Number, String ],
+
     dark: Boolean,
     dense: Boolean,
 
@@ -70,7 +75,7 @@ export default Vue.extend({
     },
 
     isClickable () {
-      return this.hasRouterLink || !this.expandIconToggle
+      return this.hasRouterLink === true || this.expandIconToggle !== true
     },
 
     expansionIcon () {
@@ -84,7 +89,7 @@ export default Vue.extend({
     },
 
     __toggleIcon (e) {
-      if (this.hasRouterLink || this.expandIconToggle) {
+      if (this.hasRouterLink === true || this.expandIconToggle === true) {
         stopAndPrevent(e)
         this.$refs.item.$el.blur()
         this.toggle(e)
@@ -131,9 +136,14 @@ export default Vue.extend({
       else {
         child = [
           h(QItemSection, [
-            h(QItemLabel, [ this.label || '' ]),
+            h(QItemLabel, {
+              props: { lines: this.labelLines }
+            }, [ this.label || '' ]),
+
             this.caption
-              ? h(QItemLabel, { props: { caption: true } }, [ this.caption ])
+              ? h(QItemLabel, {
+                props: { lines: this.captionLines, caption: true }
+              }, [ this.caption ])
               : null
           ])
         ]
@@ -172,7 +182,7 @@ export default Vue.extend({
           click: this.__toggleItem
         }
 
-        this.hasRouterLink && Object.assign(
+        this.hasRouterLink === true && Object.assign(
           data.props,
           this.routerLinkProps
         )

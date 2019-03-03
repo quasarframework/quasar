@@ -18,6 +18,7 @@ export default Vue.extend({
     return h('svg', {
       staticClass: 'q-spinner q-spinner-mat',
       class: this.classes,
+      on: this.$listeners,
       attrs: {
         'width': this.size,
         'height': this.size,

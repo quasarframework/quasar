@@ -15,7 +15,9 @@
       <div>Model: {{ text4 }}</div>
       <q-input mask="phone" unmasked-value v-model="text4" filled hint="Phone (###) ### - #### -- with unmasked-value" counter label="Label" />
 
-      <div class="text-h6">Live mask test</div>
+      <div class="text-h6">
+        Live mask test
+      </div>
       <q-input v-model="mask" outlined label="Mask" />
       <q-input :mask="mask" v-model="textMask" filled label="Masked input" />
     </div>

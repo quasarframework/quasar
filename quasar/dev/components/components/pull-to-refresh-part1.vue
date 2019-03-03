@@ -15,7 +15,9 @@
     <q-page-container>
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
         <q-page padding class="bg-orange-4" :class="{ 'column no-wrap no-height': hasScroll }">
-          <div class="bg-green-4 q-pa-md text-center" v-show="guardTop">Guarding text above QPullToRefresh</div>
+          <div class="bg-green-4 q-pa-md text-center" v-show="guardTop">
+            Guarding text above QPullToRefresh
+          </div>
           <component :is="scrollArea ? 'QScrollArea' : 'div'" :class="scrollClass">
             <q-pull-to-refresh
               ref="pull"
@@ -50,7 +52,9 @@
               </div>
             </q-pull-to-refresh>
           </component>
-          <div class="bg-green-4 q-pa-md text-center" v-show="guardBottom">Guarding text below QPullToRefresh</div>
+          <div class="bg-green-4 q-pa-md text-center" v-show="guardBottom">
+            Guarding text below QPullToRefresh
+          </div>
         </q-page>
       </transition>
     </q-page-container>

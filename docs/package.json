@@ -13,11 +13,11 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "prismjs": "^1.15.0",
-    "quasar": "^1.0.0-beta.0",
+    "quasar": "^1.0.0-beta.4",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0-beta.0",
+    "@quasar/app": "^1.0.0-beta.7",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
@@ -38,8 +38,9 @@
     "yarn": ">= 1.6.0"
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 10"
-  ]
+    "last 1 version, not dead, ie >= 11"
+  ],
+  "resolutions": {
+    "ajv": "6.8.1"
+  }
 }

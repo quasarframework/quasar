@@ -1,6 +1,10 @@
 {
   "mixins": [ "components/datetime/datetime-mixin" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "value": {
       "extends": "value",
@@ -8,6 +12,13 @@
       "examples": [
         "v-model=\"myDate\""
       ]
+    },
+
+    "calendar": {
+      "type": "String",
+      "desc": "Specify calendar type",
+      "default": "gregorian",
+      "values": [ "gregorian", "persian" ]
     },
 
     "default-year-month": {

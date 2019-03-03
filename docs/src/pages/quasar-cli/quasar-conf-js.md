@@ -50,7 +50,7 @@ module.exports = function (ctx) {
 }
 ```
 
-What this means is that, as an example, you can load a font when building with Quasar Material theme, and pick another one for Quasar iOS theme.
+What this means is that, as an example, you can load a font when building for a certain mode (like PWA), and pick another one for the others:
 ```js
 module.exports = function (ctx) {
   extras: [
@@ -109,7 +109,7 @@ Let's take each option one by one:
 Global CSS/Stylus/... files from `/src/css/`, except for theme files, which are included by default.
 
 ```js
-// quasar.conf
+// quasar.conf.js
 return {
   css: [
     'app.styl', // referring to /src/css/app.styl
@@ -122,7 +122,7 @@ return {
 By default, everything that comes from `node_modules` will be injected into the vendor chunk for performance & caching reasons. However, should you wish to add or remove something from this special chunk, you can do so:
 
 ```js
-// quasar.conf
+// quasar.conf.js
 return {
   vendor: {
     add: ['src/plugins/my-special-plugin'],
@@ -134,7 +134,7 @@ return {
 ### framework Property
 Tells the CLI what Quasar components/directives/plugins to import, what Quasar I18n language pack to use, what icon set to use for Quasar components and more.
 ```js
-// quasar.conf
+// quasar.conf.js
 return {
   // a list with all options (all are optional)
   framework: {
@@ -204,7 +204,7 @@ If, for example, you run "quasar build --debug", sourceMap and extractCSS will b
 
 You can define and then reference variables in `src/index.template.html`, like this:
 ```js
-// quasar.conf
+// quasar.conf.js
 module.exports = function (ctx) {
   return {
     htmlVariables: { title: 'test name' }

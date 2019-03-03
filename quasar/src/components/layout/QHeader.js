@@ -111,7 +111,8 @@ export default Vue.extend({
     return h('header', {
       staticClass: 'q-header q-layout__section--marginal q-layout__section--animate',
       class: this.classes,
-      style: this.style
+      style: this.style,
+      on: this.$listeners
     }, [
       h(QResizeObserver, {
         props: { debounce: 0 },

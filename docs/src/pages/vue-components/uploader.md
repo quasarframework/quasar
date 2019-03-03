@@ -40,6 +40,18 @@ You can also apply custom filters (which are executed after user picks files):
 
 <doc-example title="Filter" file="QUploader/RestrictionFilter" />
 
+### Adding headers
+
+Use `headers` for setting additional XHR headers to be sent along the upload request. Also check `fields` prop in the API, if you need additional fields to be embedded.
+
+<doc-example title="Headers" file="QUploader/Headers" />
+
+::: tip
+These two props (`headers` and `fields`) can be used as a function too (`(files) => Array`), allowing you to dynamically set them based on the files that are to be uploaded.
+:::
+
+There is also the `with-credentials` property, which sets `withCredentials` to `true` on the XHR used by the upload process.
+
 ### Handling upload
 
 <doc-example title="Auto upload on file selection" file="QUploader/UploadAuto" />

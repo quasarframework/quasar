@@ -1,5 +1,5 @@
-import { getEventPath, stopAndPrevent } from './event.js'
-import { hasScrollbar } from './scroll.js'
+import { getEventPath, stopAndPrevent } from '../utils/event.js'
+import { hasScrollbar } from '../utils/scroll.js'
 import Platform from '../plugins/Platform.js'
 
 let registered = 0
@@ -42,7 +42,7 @@ function shouldPreventScroll (e) {
   return true
 }
 
-export default function (register) {
+function prevent (register) {
   registered += register ? 1 : -1
   if (registered > 1) { return }
 
@@ -53,5 +53,20 @@ export default function (register) {
   }
   else if (Platform.is.desktop) {
     window[`${action}EventListener`]('wheel', onWheel)
+  }
+}
+
+export default {
+  methods: {
+    __preventScroll (state) {
+      if (this.preventedScroll === void 0 && state !== true) {
+        return
+      }
+
+      if (state !== this.preventedScroll) {
+        this.preventedScroll = state
+        prevent(state)
+      }
+    }
   }
 }

@@ -8,7 +8,10 @@ export default Vue.extend({
   name: 'QRating',
 
   props: {
-    value: Number,
+    value: {
+      type: Number,
+      required: true
+    },
 
     max: {
       type: [String, Number],
@@ -30,15 +33,6 @@ export default Vue.extend({
   },
 
   computed: {
-    model: {
-      get () {
-        return this.value
-      },
-      set (value) {
-        this.$emit('input', value)
-      }
-    },
-
     editable () {
       return !this.readonly && !this.disable
     },
@@ -60,7 +54,7 @@ export default Vue.extend({
     __set (value) {
       if (this.editable === true) {
         const model = between(parseInt(value, 10), 1, parseInt(this.max, 10))
-        this.model = this.model === model ? 0 : model
+        this.$emit('input', this.value === model ? 0 : model)
         this.mouseModel = 0
       }
     },
@@ -105,8 +99,8 @@ export default Vue.extend({
           ref: `rt${i}`,
           staticClass: 'q-rating__icon',
           class: {
-            'q-rating__icon--active': (!this.mouseModel && this.model >= i) || (this.mouseModel && this.mouseModel >= i),
-            'q-rating__icon--exselected': this.mouseModel && this.model >= i && this.mouseModel < i,
+            'q-rating__icon--active': (!this.mouseModel && this.value >= i) || (this.mouseModel && this.mouseModel >= i),
+            'q-rating__icon--exselected': this.mouseModel && this.value >= i && this.mouseModel < i,
             'q-rating__icon--hovered': this.mouseModel === i
           },
           props: { name: this.icon || this.$q.iconSet.rating.icon },
@@ -126,7 +120,8 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-rating row inline items-center',
       class: this.classes,
-      style: this.style
+      style: this.style,
+      on: this.$listeners
     }, child)
   }
 })

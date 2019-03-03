@@ -13,7 +13,9 @@
       </div>
 
       <q-toggle v-model="toggle" class="z-max fixed-top" />
-      <p class="caption">With custom offset (18px)</p>
+      <p class="caption">
+        With custom offset (18px)
+      </p>
       <div class="q-gutter-sm">
         <q-btn color="indigo" label="Hover">
           <q-tooltip v-model="toggle" anchor="top middle" self="bottom middle" :offset="[18, 18]">
@@ -48,22 +50,32 @@
             <q-btn push color="orange" label="Mouse Hover">
               <q-tooltip :anchor="anchor" :self="self">
                 <div>Quasar is <strong>great</strong>!</div>
-                <div class="text-center">Try it.</div>
+                <div class="text-center">
+                  Try it.
+                </div>
               </q-tooltip>
             </q-btn>
           </q-card-section>
 
           <q-card-section>
-            <p class="text-weight-bold text-center q-my-md">Configure the Tooltip for button above.</p>
+            <p class="text-weight-bold text-center q-my-md">
+              Configure the Tooltip for button above.
+            </p>
             <div class="text-center">
-              <q-chip tag color="primary" text-color="white">anchor="{{ anchor }}"</q-chip>
-              <q-chip tag color="primary" text-color="white">self="{{ self }}"</q-chip>
+              <q-chip tag color="primary" text-color="white">
+                anchor="{{ anchor }}"
+              </q-chip>
+              <q-chip tag color="primary" text-color="white">
+                self="{{ self }}"
+              </q-chip>
             </div>
           </q-card-section>
 
           <q-card-section class="row">
             <div class="column items-center col-6">
-              <p class="text-weight-bold">Anchor Origin</p>
+              <p class="text-weight-bold">
+                Anchor Origin
+              </p>
               <div class="flex q-gutter-sm">
                 <div class="column">
                   <div>Vertical</div>
@@ -81,7 +93,9 @@
             </div>
 
             <div class="column items-center col-6">
-              <p class="text-weight-bold">Self Origin</p>
+              <p class="text-weight-bold">
+                Self Origin
+              </p>
               <div class="flex q-gutter-sm">
                 <div class="column">
                   <div>Vertical</div>
@@ -122,7 +136,9 @@
         <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
           <q-card-section>
             <div class="row items-center q-gutter-sm">
-              <q-chip square color="primary" text-color="white">target</q-chip>
+              <q-chip square color="primary" text-color="white">
+                target
+              </q-chip>
               <q-radio v-model="targetEl" :val="false" label="false (no target whatsoever)" />
               <q-radio v-model="targetEl" :val="true" label="true (original parent)" />
               <q-radio v-model="targetEl" val="#target-img-1" label="#target-img-1" />
@@ -131,18 +147,26 @@
             </div>
           </q-card-section>
           <q-img src="https://cdn.quasar-framework.org/img/material.png" id="target-img-1" style="height: 100px">
-            <div class="absolute-bottom-right">#target-img-1</div>
+            <div class="absolute-bottom-right">
+              #target-img-1
+            </div>
           </q-img>
           <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg" id="target-img-2" style="height: 100px">
-            <div class="absolute-bottom-right">#target-img-2</div>
+            <div class="absolute-bottom-right">
+              #target-img-2
+            </div>
           </q-img>
           <q-img src="https://cdn.quasar-framework.org/img/blueish.jpg" style="height: 100px">
-            <div class="absolute-bottom-right">Original parent</div>
+            <div class="absolute-bottom-right">
+              Original parent
+            </div>
             <q-tooltip
               :target="targetEl"
               anchor="center middle"
               self="center middle"
-            >Quasar Rulz!</q-tooltip>
+            >
+              Quasar Rulz!
+            </q-tooltip>
           </q-img>
         </q-card>
 
@@ -151,13 +175,17 @@
             <q-toggle v-model="vIfTest" label="v-if test" />
           </q-card-section>
           <q-img src="https://cdn.quasar-framework.org/img/material.png" style="height: 100px" v-if="vIfTest">
-            <div class="absolute-bottom-right">attached to q-img</div>
+            <div class="absolute-bottom-right">
+              attached to q-img
+            </div>
             <q-tooltip anchor="center middle" self="center middle">
               Quasar Rulz!
             </q-tooltip>
           </q-img>
           <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg" style="height: 100px">
-            <div class="absolute-bottom-right">attached to q-tooltip</div>
+            <div class="absolute-bottom-right">
+              attached to q-tooltip
+            </div>
             <q-tooltip v-if="vIfTest" anchor="center middle" self="center middle">
               Quasar Rulz!
             </q-tooltip>
@@ -165,7 +193,7 @@
         </q-card>
       </div>
 
-      <div style="margin-bottom: 700px;"/>
+      <div style="margin-bottom: 700px;" />
     </div>
   </div>
 </template>
@@ -179,8 +207,8 @@ export default {
       delay: 500,
       vIfTest: true,
       color: true,
-      anchorOrigin: {vertical: 'bottom', horizontal: 'middle'},
-      selfOrigin: {vertical: 'top', horizontal: 'middle'},
+      anchorOrigin: { vertical: 'bottom', horizontal: 'middle' },
+      selfOrigin: { vertical: 'top', horizontal: 'middle' },
       targetEl: '#target-img-1'
     }
   },

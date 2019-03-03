@@ -83,7 +83,7 @@ export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset, a
       top = anchorTop + absoluteOffset.top,
       left = anchorLeft + absoluteOffset.left
 
-    anchorProps = {top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1}
+    anchorProps = { top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1 }
   }
 
   if (fit === true || cover === true) {

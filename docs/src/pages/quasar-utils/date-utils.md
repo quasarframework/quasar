@@ -145,7 +145,7 @@ The object literal provided can contain the following keys (all are optional):
 | `seconds` | for the seconds component of the date/time |
 | `minutes` | for the minutes component of the date/time |
 | `hours` | for the hours component of the date/time |
-| `day` | for the day component of the date/time |
+| `date` | for the day component of the date/time |
 | `month` | for the month component of the date/time |
 | `year` | for the year component of the date/time |
 

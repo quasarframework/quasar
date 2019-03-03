@@ -30,9 +30,9 @@ export default Vue.extend({
 
   computed: {
     isClickable () {
-      return !this.disable && (
-        this.clickable ||
-        this.hasRouterLink ||
+      return this.disable !== true && (
+        this.clickable === true ||
+        this.hasRouterLink === true ||
         this.tag === 'a' ||
         this.tag === 'label'
       )
@@ -41,15 +41,15 @@ export default Vue.extend({
     classes () {
       return {
         'q-item--clickable q-link cursor-pointer': this.isClickable,
-        'q-focusable q-hoverable': this.isClickable && this.manualFocus === false,
+        'q-focusable q-hoverable': this.isClickable === true && this.manualFocus === false,
 
-        'q-manual-focusable': this.isClickable && this.manualFocus === true,
-        'q-manual-focusable--focused': this.isClickable && this.focused,
+        'q-manual-focusable': this.isClickable === true && this.manualFocus === true,
+        'q-manual-focusable--focused': this.isClickable === true && this.focused === true,
 
         'q-item--dense': this.dense,
         'q-item--dark': this.dark,
         'q-item--active': this.active,
-        [this.activeClass]: this.active && !this.hasRouterLink && this.activeClass,
+        [this.activeClass]: this.active === true && this.hasRouterLink !== true && this.activeClass !== void 0,
 
         'disabled': this.disable
       }
@@ -71,35 +71,43 @@ export default Vue.extend({
       return child
     },
 
-    __onClick (e) {
+    __onClick (e, avoidClick) {
       this.$el.blur()
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      if (avoidClick !== true && this.$listeners.click !== void 0) {
+        this.$emit('click', e)
+      }
     },
 
     __onKeyup (e) {
       this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
-      e.keyCode === 13 /* ENTER */ && this.__onClick(e)
+      e.keyCode === 13 /* ENTER */ && this.__onClick(e, true)
     }
   },
 
   render (h) {
+    const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
+
     const data = {
       staticClass: 'q-item q-item-type relative-position row no-wrap',
       class: this.classes,
       style: this.style
     }
 
-    if (this.isClickable) {
+    if (this.isClickable === true) {
       data.attrs = {
         tabindex: this.tabindex || '0'
       }
-      data[this.hasRouterLink ? 'nativeOn' : 'on'] = Object.assign({}, this.$listeners, {
+      data[evtProp] = {
+        ...this.$listeners,
         click: this.__onClick,
         keyup: this.__onKeyup
-      })
+      }
+    }
+    else {
+      data[evtProp] = this.$listeners
     }
 
-    if (this.hasRouterLink) {
+    if (this.hasRouterLink === true) {
       data.tag = 'a'
       data.props = this.routerLinkProps
 

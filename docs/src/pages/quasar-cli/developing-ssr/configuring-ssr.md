@@ -9,7 +9,7 @@ We’ll be using Quasar CLI to develop and build a SSR website. The difference b
 ## Installation
 In order to build a SSR website, we first need to add the SSR mode to our Quasar project:
 ```bash
-$ quasar mode -a ssr
+$ quasar mode add ssr
 ```
 
 If you want to jump right in and start developing, you can skip the "quasar mode" command and issue:
@@ -79,7 +79,7 @@ However, there are cases where you only want some boot files to run only on the 
 // quasar.conf.js
 return {
   // ...
-  plugins: [
+  boot: [
     'some-boot-file', // runs on both server and client
     { path: 'some-other', server: false } // this boot file gets embedded only on client-side
     { path: 'third', client: false } // this boot file gets embedded only on server-side

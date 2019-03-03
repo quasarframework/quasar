@@ -1,8 +1,27 @@
 <template>
   <div class="bg-white">
     <div class="q-layout-padding q-mx-auto" style="max-width: 600px;">
-      <p class="caption">Explore the possibilities</p>
+      <p class="caption">
+        Explore the possibilities
+      </p>
       <q-list bordered padding>
+        <q-expansion-item
+          expand-separator
+          icon="perm_identity"
+          label="Account settings wwwwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwww wwwwwwwwwwwwwwwww"
+          label-lines="1"
+          caption="John Dowwwwwwwwwwww wwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwe"
+          caption-lines="1"
+        >
+          <q-card>
+            <q-card-section>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos corrupti
+              commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
+              eveniet doloribus ullam aliquid.
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
         <q-expansion-item
           v-model="open"
           expand-separator
@@ -132,7 +151,9 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">Links</p>
+      <p class="caption">
+        Links
+      </p>
       <q-list bordered>
         <q-expansion-item expand-separator to="/" exact icon="home" label="Inactive link">
           <q-card>
@@ -166,17 +187,23 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">Make use of events</p>
+      <p class="caption">
+        Make use of events
+      </p>
       <q-expansion-item class="shadow-1" style="border-radius: 30px" icon="explore" label="Counter" @show="startCounting" @hide="stopCounting">
         <q-card>
           <q-card-section>
-            Counting: <q-chip dense color="secondary" text-color="white">{{ counter }}</q-chip>
+            Counting: <q-chip dense color="secondary" text-color="white">
+              {{ counter }}
+            </q-chip>
             Will only count when opened, using the show/hide events to control count timer.
           </q-card-section>
         </q-card>
       </q-expansion-item>
 
-      <p class="caption">On dark Background</p>
+      <p class="caption">
+        On dark Background
+      </p>
       <q-expansion-item dark class="bg-black" icon="shopping_cart" label="Toggle me">
         <q-card dark class="bg-black">
           <q-card-section>
@@ -185,7 +212,9 @@
         </q-card>
       </q-expansion-item>
 
-      <p class="caption">Multiline</p>
+      <p class="caption">
+        Multiline
+      </p>
       <q-list bordered inset-separator>
         <q-expansion-item icon="mail" label="Inbox" caption="5 unread emails">
           <q-card>
@@ -203,7 +232,9 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">Switch toggle side</p>
+      <p class="caption">
+        Switch toggle side
+      </p>
       <q-list bordered padding inset-separator>
         <q-expansion-item switch-toggle-side icon="mail" label="Inbox" caption="5 unread emails">
           <q-card>
@@ -236,7 +267,9 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">Popups</p>
+      <p class="caption">
+        Popups
+      </p>
       <div>
         <q-expansion-item popup icon="mail" label="Inbox" caption="5 unread emails">
           <q-card>
@@ -261,11 +294,12 @@
         </q-expansion-item>
       </div>
 
-      <p class="caption">Menu</p>
+      <p class="caption">
+        Menu
+      </p>
       <q-list bordered>
         <q-expansion-item expand-separator icon="mail" label="Inbox" :content-inset-level="1" caption="5 unread emails" default-opened>
           <q-expansion-item expand-separator icon="receipt" label="Receipts">
-
             <q-expansion-item label="Today" :header-inset-level="1" :content-inset-level="1">
               <q-card>
                 <q-card-section>
@@ -281,7 +315,6 @@
                 </q-card-section>
               </q-card>
             </q-expansion-item>
-
           </q-expansion-item>
 
           <q-expansion-item expand-separator icon="schedule" label="Postponed">
@@ -291,12 +324,10 @@
               </q-card-section>
             </q-card>
           </q-expansion-item>
-
         </q-expansion-item>
 
         <q-expansion-item expand-separator icon="mail" label="Inbox" caption="5 unread emails" default-opened>
           <q-expansion-item expand-separator :header-inset-level="1" icon="receipt" label="Receipts">
-
             <q-expansion-item label="Today" :header-inset-level="2" :content-inset-level="2">
               <q-card>
                 <q-card-section>
@@ -312,7 +343,6 @@
                 </q-card-section>
               </q-card>
             </q-expansion-item>
-
           </q-expansion-item>
 
           <q-expansion-item expand-separator :header-inset-level="1" :content-inset-level="2" icon="schedule" label="Postponed">
@@ -322,12 +352,10 @@
               </q-card-section>
             </q-card>
           </q-expansion-item>
-
         </q-expansion-item>
 
         <q-expansion-item expand-separator label="Inbox" caption="5 unread emails" :content-inset-level="0.5" default-opened>
           <q-expansion-item expand-separator label="Receipts">
-
             <q-expansion-item label="Today" :header-inset-level="0.5" :content-inset-level="0.5">
               <q-card>
                 <q-card-section>
@@ -343,7 +371,6 @@
                 </q-card-section>
               </q-card>
             </q-expansion-item>
-
           </q-expansion-item>
 
           <q-expansion-item expand-separator :content-inset-level="0.5" label="Postponed">
@@ -353,7 +380,6 @@
               </q-card-section>
             </q-card>
           </q-expansion-item>
-
         </q-expansion-item>
 
         <q-expansion-item expand-separator icon="send" label="Outbox" caption="Empty">
@@ -383,7 +409,9 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">Group a.k.a Accordion (opening one closes the other)</p>
+      <p class="caption">
+        Group a.k.a Accordion (opening one closes the other)
+      </p>
       <q-list bordered>
         <q-expansion-item group="somegroup" icon="explore" label="First" default-opened>
           <q-card>
@@ -424,7 +452,9 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">Preselected/Opened Collapsible (or use a model)</p>
+      <p class="caption">
+        Preselected/Opened Collapsible (or use a model)
+      </p>
       <q-list bordered separator>
         <q-expansion-item icon="explore" label="First">
           <q-card>
@@ -443,7 +473,9 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">Ubiquity. Using Cards as content.</p>
+      <p class="caption">
+        Ubiquity. Using Cards as content.
+      </p>
       <q-list bordered class="q-pa-none">
         <q-expansion-item icon="explore" label="First Card">
           <q-card class="bg-grey-3">
@@ -487,7 +519,9 @@
 
                 <q-item-section>
                   <q-item-label>Bar XYZ</q-item-label>
-                  <q-item-label caption>Have a drink.</q-item-label>
+                  <q-item-label caption>
+                    Have a drink.
+                  </q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -498,7 +532,9 @@
 
                 <q-item-section>
                   <q-item-label>Gas Station</q-item-label>
-                  <q-item-label caption>Fill your gas tank.</q-item-label>
+                  <q-item-label caption>
+                    Fill your gas tank.
+                  </q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -509,7 +545,9 @@
 
                 <q-item-section>
                   <q-item-label>Cinema XYZ</q-item-label>
-                  <q-item-label caption>Watch a movie.</q-item-label>
+                  <q-item-label caption>
+                    Watch a movie.
+                  </q-item-label>
                 </q-item-section>
               </q-item>
             </q-list>

@@ -1,4 +1,8 @@
 {
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "bordered": {
       "extends": "bordered"
@@ -11,6 +15,10 @@
     "separator": {
       "type": "Boolean",
       "desc": "Applies a separator between contained items"
+    },
+
+    "dark": {
+      "extends": "dark"
     },
 
     "padding": {

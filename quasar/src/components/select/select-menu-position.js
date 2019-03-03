@@ -22,7 +22,7 @@ export function updatePosition (el, anchorEl, cover) {
       el.style.maxWidth = (width - anchorLeft - 5) + 'px'
     }
     else {
-      el.style.left = 'unset'
+      el.style.left = 'auto'
       el.style.right = 0
       el.style.maxWidth = (anchorLeft + anchorWidth - 5) + 'px'
     }
@@ -35,7 +35,7 @@ export function updatePosition (el, anchorEl, cover) {
     }
     else if (elTop + elHeight > height) {
       el.style.transform = null
-      el.style.top = 'unset'
+      el.style.top = 'auto'
       el.style.bottom = (anchorTop + anchorHeight - height + 5) + 'px'
     }
   }
@@ -48,7 +48,7 @@ export function updatePosition (el, anchorEl, cover) {
       el.style.maxHeight = (diffBottom - 5) + 'px'
     }
     else {
-      el.style.top = 'unset'
+      el.style.top = 'auto'
       el.style.bottom = '100%'
       el.style.maxHeight = (anchorTop - 5) + 'px'
     }

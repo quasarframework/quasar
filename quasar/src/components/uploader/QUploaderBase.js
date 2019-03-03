@@ -408,7 +408,6 @@ export default {
         'q-uploader--bordered': this.bordered,
         'q-uploader--square no-border-radius': this.square,
         'q-uploader--flat no-shadow': this.flat,
-        'inline': this.inline,
         'disabled q-uploader--disable': this.disable
       },
       on: this.editable === true && this.isIdle === true
@@ -418,10 +417,11 @@ export default {
       h('input', {
         ref: 'input',
         staticClass: 'q-uploader__input',
-        attrs: Object.assign({
+        attrs: {
           type: 'file',
-          accept: this.accept
-        }, this.multiple ? { multiple: true } : {}),
+          accept: this.accept,
+          ...(this.multiple ? { multiple: true } : {})
+        },
         on: {
           change: this.__addFiles
         }

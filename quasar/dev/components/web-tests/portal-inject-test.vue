@@ -27,7 +27,9 @@
     <q-dialog v-model="alert">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Alert</div>
+          <div class="text-h6">
+            Alert
+          </div>
         </q-card-section>
 
         <q-card-section>

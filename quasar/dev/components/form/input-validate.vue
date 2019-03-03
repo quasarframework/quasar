@@ -49,12 +49,135 @@
         hint="Validation starts after first blur"
         :rules="[
           val => !!val || '* Required',
-          val => val.length < 2 || 'Please use maximum 1 character',
+          val => val.length < 2 || 'Please use maximum 1 character'
         ]"
         lazy-rules
       />
 
-      <div class="text-h6 q-mt-xl">External validation</div>
+      <q-input
+        ref="input3"
+        v-bind="{[type]: true}"
+        v-model="model4"
+        label="Required, Len > 1, Len > 2"
+        counter
+        hint="Multiple"
+        :rules="[
+          val => !!val || '* Required',
+          val => val.length > 1 || 'Please use min 1 characters',
+          val => val.length > 2 || 'Please use min 2 characters'
+        ]"
+      />
+
+      <q-input
+        ref="input1"
+        v-bind="{[type]: true}"
+        v-model="model5"
+        label="Multiple - call stack test *"
+        :rules="[
+          callRule1,
+          void 0,
+          callRule2
+        ]"
+      />
+
+      <q-input
+        ref="input1"
+        v-bind="{[type]: true}"
+        v-model="model6"
+        label="Multiple - async call stack test *"
+        :rules="[
+          asyncCallRule1,
+          asyncCallRule2
+        ]"
+      />
+
+      <div class="text-h6 q-mt-xl">
+        Async rules
+      </div>
+      <q-input
+        ref="input1"
+        v-bind="{[type]: true}"
+        v-model="model7"
+        label="Only async *"
+        :rules="[
+          asyncRule
+        ]"
+      />
+
+      <q-input
+        ref="input1"
+        v-bind="{[type]: true}"
+        v-model="model7"
+        label="Multiple async *"
+        :rules="[
+          asyncRule,
+          secondAsyncRule
+        ]"
+      />
+
+      <q-input
+        ref="input1"
+        v-bind="{[type]: true}"
+        v-model="model7"
+        label="Loading slot *"
+        :rules="[
+          asyncRule
+        ]"
+      >
+        <template v-slot:loading>
+          <q-spinner-gears color="purple" />
+        </template>
+      </q-input>
+
+      <q-input
+        ref="input1"
+        v-bind="{[type]: true}"
+        v-model="model7"
+        debounce="1000"
+        label="X Mixed *"
+        :rules="[
+          asyncRule,
+          val => val.length > 2 || 'Please use min 3 characters'
+        ]"
+      />
+
+      <q-input
+        ref="input1"
+        v-bind="{[type]: true}"
+        v-model="model7"
+        debounce="1000"
+        label="Debounced input *"
+        :rules="[
+          asyncRule
+        ]"
+      />
+
+      <q-input
+        ref="input1"
+        v-bind="{[type]: true}"
+        v-model="model7"
+        label="Mixed, Lazy *"
+        lazy-rules
+        :rules="[
+          asyncRule,
+          val => val.length > 2 || 'Please use min 3 characters'
+        ]"
+      />
+
+      <q-input
+        ref="input1"
+        v-bind="{[type]: true}"
+        v-model="model7"
+        label="Lazy async *"
+        lazy-rules
+        :rules="[
+          asyncRule
+        ]"
+      />
+
+      <div class="text-h6 q-mt-xl">
+        External validation
+      </div>
       <div class="q-gutter-sm">
         <q-toggle v-model="error" label="Error state" />
         <q-radio v-model="errorMessage" val="First error" label="First error" />
@@ -79,8 +202,12 @@
         :error="error"
         style="margin-bottom: 30px"
       >
-        <div slot="error">Slotted error message</div>
-        <div slot="error">Second slotted error message</div>
+        <div slot="error">
+          Slotted error message
+        </div>
+        <div slot="error">
+          Second slotted error message
+        </div>
       </q-input>
     </div>
   </div>
@@ -89,7 +216,7 @@
 <script>
 export default {
   data () {
-    const n = 3
+    const n = 7
 
     const data = {
       n,
@@ -111,6 +238,50 @@ export default {
       for (let i = 1; i <= this.n; i++) {
         this.$refs['input' + i].resetValidation()
       }
+    },
+
+    async asyncRule (val) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(!!val || '* Required')
+        }, 1000)
+      })
+    },
+
+    async secondAsyncRule (val) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve((val && val.length > 2) || 'Min 3 characters')
+        }, 1000)
+      })
+    },
+
+    callRule1 (val) {
+      console.log('call 1')
+      return false
+    },
+
+    callRule2 (val) {
+      console.log('call 2')
+    },
+
+    async asyncCallRule1 (val) {
+      console.log('call async 1')
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject(new Error('some err'))
+          // resolve(!!val || '* Required 1')
+        }, 1000)
+      })
+    },
+
+    async asyncCallRule2 (val) {
+      console.log('call async 2')
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(!!val || '* Required 2')
+        }, 1000)
+      })
     }
   }
 }

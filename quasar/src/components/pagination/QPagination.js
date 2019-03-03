@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 
+import { stop } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 
 export default Vue.extend({
@@ -138,11 +139,12 @@ export default Vue.extend({
     },
 
     __getBtn (h, data, props) {
-      data.props = Object.assign({
+      data.props = {
         color: this.color,
         flat: true,
-        size: this.size
-      }, props)
+        size: this.size,
+        ...props
+      }
       return h(QBtn, data)
     }
   },
@@ -195,7 +197,7 @@ export default Vue.extend({
       }))
     }
 
-    if (this.input) {
+    if (this.input === true) {
       contentMiddle.push(h(QInput, {
         staticClass: 'inline',
         style: {
@@ -334,11 +336,17 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-pagination row no-wrap items-center',
-      class: { disabled: this.disable }
+      class: { disabled: this.disable },
+      on: this.$listeners
     }, [
       contentStart,
 
-      h('div', { staticClass: 'row justify-center' }, [
+      h('div', {
+        staticClass: 'row justify-center',
+        on: this.input === true
+          ? { input: stop }
+          : {}
+      }, [
         contentMiddle
       ]),
 

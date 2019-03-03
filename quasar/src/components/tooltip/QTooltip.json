@@ -1,25 +1,7 @@
 {
-  "mixins": [ "mixins/model-toggle" ],
+  "mixins": [ "mixins/model-toggle", "mixins/portal" ],
 
   "props": {
-    "content-class": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Class definitions to be attributed to the Tooltip",
-      "examples": [
-        "my-special-class",
-        ":content-class=\"{ 'my-special-class': <condition> }\""
-      ]
-    },
-
-    "content-style": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Style definitions to be attributed to the Tooltip",
-      "examples": [
-        "background-color: #ff0000",
-        ":content-style=\"{ backgroundColor: '#ff0000' }\""
-      ]
-    },
-
     "max-height": {
       "extends": "size",
       "desc": "The maximimum height of the Tooltip; Size in CSS units, including unit name"
@@ -43,6 +25,17 @@
     "anchor": {
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the Tooltip relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom center", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ]
+    },
+
+    "self": {
+      "type": "String",
+      "desc": "Two values setting the menu's own position relative to its target",
       "values": [
         "top left", "top middle", "top right",
         "center left", "center middle", "center right",

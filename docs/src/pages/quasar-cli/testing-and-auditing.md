@@ -14,30 +14,23 @@ Testing is not in and of itself hard. The most complicated part is setting up th
 
 Testing has its own documentation website (https://testing.quasar-framework.org), so head there for full info.
 
-<q-btn
-  color="primary"
-  label="testing.quasar-framework.org"
-  icon-right="launch"
-  no-caps
-  type="a"
-  href="https://testing.quasar-framework.org"
-  target="_blank"
-/>
+<q-btn color="primary" label="testing.quasar-framework.org" icon-right="launch" no-caps type="a"  href="https://testing.quasar-framework.org" target="_blank" />
 
 ## Installing
 
 ```shell
 $ cd your-quasar-project
-$ quasar ext --add @quasar/testing
+$ quasar ext add @quasar/testing
 ```
 
 The lightweight extension installer will ask you which testing harnesses you want to install. Then it will install the respective extensions for these harnesses, which you can configure as you like. It is how multiple testing harnesses are ideally managed within a Quasar project.
 
 It will provide you with a new `quasar run` command that you can use to execute test-runners - and even your HMR dev environment at the same time. This approach can, for example, be quite helpful if you need to pass quasar.ctx to the test runner...
 
-```
-# Example to run jest --watch && dev server
-$ quasar run @quasar/testing test --unit=jest.watch.coverage --dev=pwa
+```shell
+# Example to run jest && dev server in pwa mode
+# "--" must be placed before any args you want to pass to the test command
+$ quasar run @quasar/testing test -- --unit jest --dev="-m pwa"
 ```
 
 If you ever need to review your choices you can take a look at `quasar.extensions.json`.

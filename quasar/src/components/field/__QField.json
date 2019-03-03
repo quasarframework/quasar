@@ -48,6 +48,11 @@
       "extends": "dark"
     },
 
+    "loading": {
+      "type": "Boolean",
+      "desc": "Signals the user a process is in progress by displaying a spinner; Spinner can be customized by using the 'loading' slot."
+    },
+
     "filled": {
       "type": "Boolean",
       "desc": "Use 'filled' design for the field"
@@ -75,6 +80,11 @@
 
     "rounded": {
       "extends": "rounded"
+    },
+
+    "square": {
+      "type": "Boolean",
+      "desc": "Remove border-radius so borders are squared; Overrides 'rounded' prop"
     },
 
     "dense": {
@@ -126,6 +136,10 @@
 
     "counter": {
       "desc": "Slot for counter text; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>"
+    },
+
+    "loading": {
+      "desc": "Override default spinner when component is in loading mode; Use in conjunction with 'loading' prop"
     }
   }
 }

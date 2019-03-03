@@ -41,8 +41,10 @@ export default Vue.extend({
     // QDialog props
     maximized: Boolean,
     persistent: Boolean,
+    noEscDismiss: Boolean,
+    noBackdropDismiss: Boolean,
+    noRouteDismiss: Boolean,
     seamless: Boolean,
-    noEscKey: Boolean,
     position: { required: false },
     fullWidth: Boolean,
     fullHeight: Boolean,
@@ -69,11 +71,12 @@ export default Vue.extend({
 
     okProps () {
       return Object(this.ok) === this.ok
-        ? Object.assign({
+        ? {
           color: this.color,
           label: this.$q.lang.label.ok,
-          ripple: false
-        }, this.ok)
+          ripple: false,
+          ...this.ok
+        }
         : {
           color: this.color,
           flat: true,
@@ -84,11 +87,12 @@ export default Vue.extend({
 
     cancelProps () {
       return Object(this.cancel) === this.cancel
-        ? Object.assign({
+        ? {
           color: this.color,
           label: this.$q.lang.label.cancel,
-          ripple: false
-        }, this.cancel)
+          ripple: false,
+          ...this.cancel
+        }
         : {
           color: this.color,
           flat: true,
@@ -235,8 +239,15 @@ export default Vue.extend({
         value: this.value,
         maximized: this.maximized,
         persistent: this.persistent,
-        noEscKey: this.noEscKey,
-        position: this.position
+        noEscDismiss: this.noEscDismiss,
+        noBackdropDismiss: this.noBackdropDismiss,
+        noRouteDismiss: this.noRouteDismiss,
+        seamless: this.seamless,
+        position: this.position,
+        fullWidth: this.fullWidth,
+        fullHeight: this.fullHeight,
+        transitionShow: this.transitionShow,
+        transitionHide: this.transitionHide
       },
 
       on: {

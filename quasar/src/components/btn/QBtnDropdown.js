@@ -50,7 +50,7 @@ export default Vue.extend({
     const Arrow = [
       h(QIcon, {
         props: {
-          name: 'arrow_drop_down' // this.$q.iconSet.input.dropdown
+          name: this.$q.iconSet.arrow.dropdown
         },
         staticClass: 'q-btn-dropdown__arrow',
         class: {
@@ -95,10 +95,11 @@ export default Vue.extend({
 
     const Btn = h(QBtn, {
       class: `q-btn-dropdown${this.split === true ? '--current' : ' q-btn-dropdown--simple'}`,
-      props: Object.assign({}, this.$props, {
+      props: {
+        ...this.$props,
         noWrap: true,
         iconRight: this.split === true ? this.iconRight : null
-      }),
+      },
       on: {
         click: e => {
           this.split && this.hide()

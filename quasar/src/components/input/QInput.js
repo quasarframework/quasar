@@ -47,9 +47,16 @@ export default Vue.extend({
       this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
     },
 
-    autogrow () {
+    autogrow (autogrow) {
       // textarea only
-      this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
+      if (autogrow === true) {
+        this.$nextTick(this.__adjustHeightDebounce)
+      }
+      // if it has a number of rows set respect it
+      else if (this.$attrs.rows > 0) {
+        const inp = this.$refs.input
+        inp.style.height = 'auto'
+      }
     }
   },
 
@@ -68,7 +75,10 @@ export default Vue.extend({
 
     computedCounter () {
       if (this.counter !== false) {
-        return ('' + this.value).length + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
+        const len = typeof this.value === 'string' || typeof this.value === 'number'
+          ? ('' + this.value).length
+          : 0
+        return len + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
       }
     }
   },
@@ -132,11 +142,12 @@ export default Vue.extend({
     },
 
     __getControl (h) {
-      const on = Object.assign({}, this.$listeners, {
+      const on = {
+        ...this.$listeners,
         input: this.__onInput,
         focus: this.__onFocus,
         blur: this.__onBlur
-      })
+      }
 
       if (this.hasMask === true) {
         on.keydown = this.__onMaskedKeydown

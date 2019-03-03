@@ -73,7 +73,6 @@
       </div>
 
       <div class="q-gutter-md q-my-md">
-
         <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
           <q-card-section class="bg-primary text-center">
             <q-btn push color="orange" label="Tap Me Large">
@@ -120,15 +119,27 @@
             </q-btn>
           </q-card-section>
 
-          <div class="text-weight-bold text-center q-my-md">Configure the Popover for button above.</div>
+          <div class="text-weight-bold text-center q-my-md">
+            Configure the Popover for button above.
+          </div>
           <div class="text-center" v-if="cover">
-            <q-chip square color="primary" text-color="white">cover</q-chip>
-            <q-chip square color="primary" text-color="white">anchor="{{ anchor }}"</q-chip>
+            <q-chip square color="primary" text-color="white">
+              cover
+            </q-chip>
+            <q-chip square color="primary" text-color="white">
+              anchor="{{ anchor }}"
+            </q-chip>
           </div>
           <div class="text-center" v-else>
-            <q-chip v-if="fit" square color="primary" text-color="white">fit</q-chip>
-            <q-chip square color="primary" text-color="white">anchor="{{ anchor }}"</q-chip>
-            <q-chip square color="primary" text-color="white">self="{{ self }}"</q-chip>
+            <q-chip v-if="fit" square color="primary" text-color="white">
+              fit
+            </q-chip>
+            <q-chip square color="primary" text-color="white">
+              anchor="{{ anchor }}"
+            </q-chip>
+            <q-chip square color="primary" text-color="white">
+              self="{{ self }}"
+            </q-chip>
           </div>
           <div class="row flex-center q-my-sm q-gutter-md">
             <q-toggle v-model="fit" label="Fit" />
@@ -136,7 +147,9 @@
           </div>
           <q-card-section class="row" :class="cover ? 'justify-center' : ''">
             <div class="column items-center col-6">
-              <div class="text-weight-bold">Anchor Origin</div>
+              <div class="text-weight-bold">
+                Anchor Origin
+              </div>
               <div class="flex q-gutter-sm">
                 <div class="column">
                   <div>Vertical</div>
@@ -154,7 +167,9 @@
             </div>
 
             <div class="column items-center col-6" v-if="!cover">
-              <div class="text-weight-bold">Self Origin</div>
+              <div class="text-weight-bold">
+                Self Origin
+              </div>
               <div class="flex q-gutter-sm">
                 <div class="column">
                   <div>Vertical</div>
@@ -203,7 +218,9 @@
             <q-toggle v-model="vIfTest" label="v-if test" />
           </q-card-section>
           <q-img src="https://cdn.quasar-framework.org/img/material.png" style="height: 100px" v-if="vIfTest">
-            <div class="absolute-bottom-right">attached to q-img</div>
+            <div class="absolute-bottom-right">
+              attached to q-img
+            </div>
             <q-menu touch-position>
               <q-list>
                 <q-item
@@ -220,7 +237,9 @@
             </q-menu>
           </q-img>
           <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg" style="height: 100px">
-            <div class="absolute-bottom-right">attached to q-menu</div>
+            <div class="absolute-bottom-right">
+              attached to q-menu
+            </div>
             <q-menu touch-position v-if="vIfTest">
               <q-list>
                 <q-item
@@ -241,7 +260,9 @@
         <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
           <q-card-section>
             <div class="row items-center q-gutter-sm">
-              <q-chip square color="primary" text-color="white">target</q-chip>
+              <q-chip square color="primary" text-color="white">
+                target
+              </q-chip>
               <q-radio v-model="targetEl" :val="false" label="false (no target whatsoever)" />
               <q-radio v-model="targetEl" :val="true" label="true (original parent)" />
               <q-radio v-model="targetEl" val="#target-img-1" label="#target-img-1" />
@@ -250,13 +271,19 @@
             </div>
           </q-card-section>
           <q-img src="https://cdn.quasar-framework.org/img/material.png" id="target-img-1" style="height: 100px">
-            <div class="absolute-bottom-right">#target-img-1</div>
+            <div class="absolute-bottom-right">
+              #target-img-1
+            </div>
           </q-img>
           <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg" id="target-img-2" style="height: 100px">
-            <div class="absolute-bottom-right">#target-img-2</div>
+            <div class="absolute-bottom-right">
+              #target-img-2
+            </div>
           </q-img>
           <q-img src="https://cdn.quasar-framework.org/img/blueish.jpg" style="height: 100px">
-            <div class="absolute-bottom-right">Original parent</div>
+            <div class="absolute-bottom-right">
+              Original parent
+            </div>
             <q-menu touch-position :target="targetEl">
               <q-list>
                 <q-item
@@ -308,8 +335,8 @@
                       </q-item>
 
                       <q-item
-                        v-for="n in 3"
-                        :key="n"
+                        v-for="x in 3"
+                        :key="x"
                         clickable
                       >
                         <q-item-section>Submenu Label</q-item-section>
@@ -319,8 +346,8 @@
                         <q-menu auto-close anchor="top right" self="top left">
                           <q-list>
                             <q-item
-                              v-for="n in 3"
-                              :key="n"
+                              v-for="y in 3"
+                              :key="y"
                               clickable
                             >
                               <q-item-section>3rd level Label</q-item-section>
@@ -335,10 +362,9 @@
             </q-menu>
           </q-img>
         </q-card>
-
       </div>
 
-      <div style="margin-bottom: 700px;"/>
+      <div style="margin-bottom: 700px;" />
 
       <q-btn color="secondary" class="fixed-top-right" icon="directions" style="top: 65px; right: 16px;">
         <q-menu ref="popover3">
@@ -394,8 +420,8 @@ export default {
       fit: false,
       cover: false,
       toggle: false,
-      anchorOrigin: {vertical: 'bottom', horizontal: 'left'},
-      selfOrigin: {vertical: 'top', horizontal: 'left'},
+      anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
+      selfOrigin: { vertical: 'top', horizontal: 'left' },
       terms: '',
       modelDate: null,
       model: 30,

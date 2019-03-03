@@ -6,20 +6,24 @@
       </div>
 
       <div style="font-size: 2rem; margin-top: 20px;">
-        <q-rating v-model="ratingModel" max="3" @change="onChange" @input="onInput"/>
+        <q-rating v-model="ratingModel" max="3" @change="onChange" @input="onInput" />
         <br>
-        <q-rating v-model="ratingModel" color="primary" max="5" icon="pets" @input="onInput"/>
+        <q-rating v-model="ratingModel" color="primary" max="5" icon="pets" @input="onInput" />
         <br>
-        <q-rating color="teal" v-model="ratingModel" max="9" icon="thumb_up"/>
+        <q-rating color="teal" v-model="ratingModel" max="9" icon="thumb_up" />
         <br>
-        <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="favorite_border"/>
+        <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="favorite_border" />
       </div>
 
-      <p class="caption">Readonly State</p>
-      <q-rating size="2rem" color="primary" v-model="ratingModel" max="6" icon="loyalty" readonly/>
+      <p class="caption">
+        Readonly State
+      </p>
+      <q-rating size="2rem" color="primary" v-model="ratingModel" max="6" icon="loyalty" readonly />
 
-      <p class="caption">Disabled State</p>
-      <q-rating size="2rem" color="primary" v-model="ratingModel" max="6" icon="create" disable/>
+      <p class="caption">
+        Disabled State
+      </p>
+      <q-rating size="2rem" color="primary" v-model="ratingModel" max="6" icon="create" disable />
     </div>
   </div>
 </template>

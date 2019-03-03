@@ -191,24 +191,29 @@ function printScopedSlots ({ scopedSlots }) {
   }
 }
 
-function printEvents ({ events }) {
+function printEvents ({ events, behavior = {} }) {
   console.log('\n ' + chalk.underline('Events'))
-  if (events === void 0 || Object.keys(events).length === 0) {
-    console.log('\n   ' + chalk.italic('*No events*'))
+
+  if (behavior.$listeners !== void 0) {
+    console.log(`\n   ${chalk.italic(behavior.$listeners.desc)}`)
   }
-  else {
-    for (let eventName in events) {
-      const event = events[eventName]
-      console.log('\n   @' + chalk.green(eventName) + getEventParams(event))
-      console.log('     Description: ' + event.desc)
-      if (!event.params) {
-        console.log('     Parameters: ' + chalk.italic('*None*'))
-      }
-      else {
-        console.log('     Parameters:')
-        for (let paramName in event.params) {
-          printProp(event.params[paramName], paramName, 7)
-        }
+  else if (events === void 0 || Object.keys(events).length === 0) {
+    console.log('\n   ' + chalk.italic('*No events*'))
+    return
+  }
+
+  for (let eventName in events) {
+    const event = events[eventName]
+
+    console.log('\n   @' + chalk.green(eventName) + getEventParams(event))
+    console.log('     Description: ' + event.desc)
+    if (!event.params) {
+      console.log('     Parameters: ' + chalk.italic('*None*'))
+    }
+    else {
+      console.log('     Parameters:')
+      for (let paramName in event.params) {
+        printProp(event.params[paramName], paramName, 7)
       }
     }
   }

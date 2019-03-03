@@ -1,5 +1,8 @@
 ---
 title: Introduction to Flexbox
+related:
+  - /style/spacing
+  - /style/visibility
 ---
 
 Quasar provides lots of CSS classes to help you build your UI easily with the help of [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/). Think of it like operating with rows and columns with many options at hand.
@@ -87,7 +90,11 @@ Quasar uses a 12 point column system for distributing size of row children. Here
 
 In the example above, `col-8` fills two thirds (2/3) of the row width, because 8/12 = 2/3 = 66%, while `col-2` occupies one sixth (2/12 = 1/6 ~ 16.67%).
 
-CSS helper class `col-auto` makes the cell fill only the space it needs to be rendered, with the possibility to shrink when not enough space is available. `col`, on the other hand, tries to fill all space available while also shrinking if needed.
+CSS helper class `col-auto` makes the cell fill only the space it needs to be rendered. `col`, on the other hand, tries to fill all space available while also shrinking if needed.
+
+CSS helper class `col-grow` makes the cell fill at least the space it needs to be rendered, with the possibility to grow when more space is available.
+
+CSS helper class `col-shrink` makes the cell fill at most the space it needs to be rendered, with the possibility to shrink when not enough space is available.
 
 Another example with a visual representation below it:
 ```html
@@ -141,7 +148,7 @@ This allows you, among other things, to dynamically stack rows vertically on sma
 ### Self Alignment
 **An item can override the aligned specified on parent**. This allows alignment to be overridden for individual flex items. Please see the "Alignment" explanation from "Managing Parent" to understand the available values (`self-start`, `self-center`, `self-baseline`, `self-end`, `self-stretch`).
 
-![Flexbox Grow](https://cdn.quasar-framework.org/img/flexbox-self.svg)
+![Flexbox Self](https://cdn.quasar-framework.org/img/flexbox-self.svg)
 
 ### Order
 **You can set the order** of children elements by using `order-first` and `order-last` CSS helper classes.
@@ -167,7 +174,7 @@ Quasar Flex CSS classes can be applied based on the width of the screen, to help
 What we've learned so far is that, for example, we can size the columns regardless of window width. If we are to create a response UI, we need to dynamically change the sizing while taking into account how wide the window is. First, let's learn about some tokens that you can inject at middle of `col-*`, `offset-*` and `col-auto` helper classes (look at table below for tokens).
 
 | Token | Max window width | Description / When it applies |
-| --- | --- |
+| --- | --- | --- |
 | `xs` | 599px | Extra small sized window |
 | `sm` | 1023px | Small sized window |
 | `md` | 1439px | Medium-sized window |

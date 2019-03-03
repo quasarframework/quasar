@@ -3,7 +3,7 @@ import Vue from 'vue'
 import TouchPan from '../../directives/TouchPan.js'
 import { between } from '../../utils/format.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import preventScroll from '../../utils/prevent-scroll.js'
+import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 import slot from '../../utils/slot.js'
 
 const duration = 150
@@ -19,7 +19,7 @@ export default Vue.extend({
     }
   },
 
-  mixins: [ ModelToggleMixin ],
+  mixins: [ ModelToggleMixin, PreventScrollMixin ],
 
   directives: {
     TouchPan
@@ -43,7 +43,7 @@ export default Vue.extend({
     },
     breakpoint: {
       type: Number,
-      default: 992
+      default: 1023
     },
     behavior: {
       type: String,
@@ -196,7 +196,7 @@ export default Vue.extend({
     },
 
     backdropClass () {
-      return !this.showing || !this.mobileView ? 'no-pointer-events' : null
+      return !this.showing ? 'no-pointer-events' : null
     },
 
     mobileView () {
@@ -321,10 +321,6 @@ export default Vue.extend({
     },
 
     __openByTouch (evt) {
-      if (!this.belowBreakpoint) {
-        return
-      }
-
       const
         width = this.size,
         position = between(evt.distance.x, 0, width)
@@ -366,10 +362,6 @@ export default Vue.extend({
     },
 
     __closeByTouch (evt) {
-      if (!this.mobileOpened) {
-        return
-      }
-
       const
         width = this.size,
         dir = evt.direction === this.side,
@@ -414,8 +406,7 @@ export default Vue.extend({
         this.mobileOpened = true
         this.applyBackdrop(1)
         if (!this.layout.container) {
-          this.preventedScroll = true
-          preventScroll(true)
+          this.__preventScroll(true)
         }
       }
       else {
@@ -448,10 +439,7 @@ export default Vue.extend({
     },
 
     __cleanup () {
-      if (this.preventedScroll) {
-        this.preventedScroll = false
-        preventScroll(false)
-      }
+      this.__preventScroll(false)
       this.__setScrollable(false)
     },
 
@@ -494,27 +482,37 @@ export default Vue.extend({
 
   render (h) {
     const child = [
-      this.mobileView && !this.noSwipeOpen
+      !this.noSwipeOpen && this.belowBreakpoint
         ? h('div', {
           staticClass: `q-drawer__opener fixed-${this.side}`,
           directives: [{
             name: 'touch-pan',
-            modifiers: { horizontal: true },
+            modifiers: {
+              horizontal: true,
+              mouse: true,
+              mouseAllDir: true
+            },
             value: this.__openByTouch
           }]
         })
         : null,
-      h('div', {
+      this.mobileView ? h('div', {
         ref: 'backdrop',
         staticClass: 'fullscreen q-drawer__backdrop q-layout__section--animate',
         class: this.backdropClass,
-        on: { click: this.hide },
+        on: {
+          click: this.hide
+        },
         directives: [{
           name: 'touch-pan',
-          modifiers: { horizontal: true },
+          modifiers: {
+            horizontal: true,
+            mouse: true,
+            mouseAllDir: true
+          },
           value: this.__closeByTouch
         }]
-      })
+      }) : null
     ]
 
     const content = [
@@ -541,12 +539,7 @@ export default Vue.extend({
         staticClass: `q-drawer q-layout__section--animate`,
         class: this.classes,
         style: this.style,
-        on: this.onNativeEvents,
-        directives: this.mobileView && !this.noSwipeClose ? [{
-          name: 'touch-pan',
-          modifiers: { horizontal: true },
-          value: this.__closeByTouch
-        }] : null
+        on: this.onNativeEvents
       }, content)
     ]))
   }

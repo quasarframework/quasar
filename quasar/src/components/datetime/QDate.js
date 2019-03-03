@@ -3,8 +3,9 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from './datetime-mixin.js'
 
-import { testPattern } from '../../utils/patterns.js'
+import { splitDate } from '../../utils/date.js'
 import { isDeepEqual } from '../../utils/is.js'
+import { jalaaliMonthLength, toJalaali, toGregorian } from './persian'
 
 const yearsInterval = 20
 
@@ -17,6 +18,12 @@ export default Vue.extend({
     defaultYearMonth: {
       type: String,
       validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
+    },
+
+    calendar: {
+      type: String,
+      validator: v => ['gregorian', 'persian'].includes(v),
+      default: 'gregorian'
     },
 
     events: [Array, Function],
@@ -59,12 +66,11 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return {
-        'q-date--dark': this.dark,
-        'q-date--readonly': this.readonly,
-        'disabled': this.disable,
-        [`q-date--${this.landscape === true ? 'landscape' : 'portrait'}`]: true
-      }
+      const type = this.landscape === true ? 'landscape' : 'portrait'
+      return `q-date--${type} q-date--${type}-${this.minimal === true ? 'minimal' : 'standard'}` +
+        (this.dark === true ? ' q-date--dark' : '') +
+        (this.readonly === true ? ' q-date--readonly' : '') +
+        (this.disable === true ? ' disabled' : '')
     },
 
     extModel () {
@@ -79,27 +85,36 @@ export default Vue.extend({
         }
       }
 
-      const date = v.split('/')
-      return {
-        value: v,
-        year: parseInt(date[0], 10),
-        month: parseInt(date[1], 10),
-        day: parseInt(date[2], 10)
-      }
+      return splitDate(v)
     },
 
     headerTitle () {
       const model = this.extModel
       if (model.value === null) { return ' --- ' }
 
-      const date = new Date(model.value)
+      let date
+
+      if (this.calendar !== 'persian') {
+        date = new Date(model.year, model.month - 1, model.day)
+      }
+      else {
+        const gDate = toGregorian(model.year, model.month, model.day)
+        date = new Date(gDate.gy, gDate.gm - 1, gDate.gd)
+      }
+
+      if (isNaN(date.valueOf())) { return ' --- ' }
+
+      if (this.$q.lang.date.headerTitle !== void 0) {
+        return this.$q.lang.date.headerTitle(date, model)
+      }
+
       return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
         this.$q.lang.date.monthsShort[ model.month - 1 ] + ' ' +
         model.day
     },
 
     headerSubtitle () {
-      return this.extModel.value !== null
+      return this.extModel.year !== null
         ? this.extModel.year
         : ' --- '
     },
@@ -126,11 +141,23 @@ export default Vue.extend({
     },
 
     daysInMonth () {
-      return (new Date(this.innerModel.year, this.innerModel.month, 0)).getDate()
+      return this.calendar !== 'persian'
+        ? (new Date(this.innerModel.year, this.innerModel.month, 0)).getDate()
+        : jalaaliMonthLength(this.innerModel.year, this.innerModel.month)
     },
 
     today () {
       const d = new Date()
+
+      if (this.calendar === 'persian') {
+        const jDate = toJalaali(d)
+        return {
+          year: jDate.jy,
+          month: jDate.jm,
+          day: jDate.jd
+        }
+      }
+
       return {
         year: d.getFullYear(),
         month: d.getMonth() + 1,
@@ -157,11 +184,27 @@ export default Vue.extend({
     },
 
     days () {
-      const
-        date = new Date(this.innerModel.year, this.innerModel.month - 1, 1),
-        endDay = (new Date(this.innerModel.year, this.innerModel.month - 1, 0)).getDate(),
-        days = (date.getDay() - this.computedFirstDayOfWeek - 1),
-        res = []
+      let date, endDay
+
+      const res = []
+
+      if (this.calendar !== 'persian') {
+        date = new Date(this.innerModel.year, this.innerModel.month - 1, 1)
+        endDay = (new Date(this.innerModel.year, this.innerModel.month - 1, 0)).getDate()
+      }
+      else {
+        const gDate = toGregorian(this.innerModel.year, this.innerModel.month, 1)
+        date = new Date(gDate.gy, gDate.gm - 1, gDate.gd)
+        let prevJM = this.innerModel.month - 1
+        let prevJY = this.innerModel.year
+        if (prevJM === 0) {
+          prevJM = 12
+          prevJY--
+        }
+        endDay = jalaaliMonthLength(prevJY, prevJM)
+      }
+
+      const days = (date.getDay() - this.computedFirstDayOfWeek - 1)
 
       const len = days < 0 ? days + 7 : days
       if (len < 6) {
@@ -191,7 +234,7 @@ export default Vue.extend({
 
       if (this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
         const i = index + this.innerModel.day - 1
-        Object.assign(res[i], {
+        res[i] !== void 0 && Object.assign(res[i], {
           unelevated: true,
           flat: false,
           color: this.computedColor,
@@ -217,7 +260,7 @@ export default Vue.extend({
 
   methods: {
     __isInvalid (v) {
-      return v === void 0 || v === null || v === '' || typeof v !== 'string' || testPattern.date(v) === false
+      return v === void 0 || v === null || v === '' || typeof v !== 'string'
     },
 
     __getInnerModel (v) {
@@ -235,18 +278,24 @@ export default Vue.extend({
           const d = new Date()
           year = d.getFullYear()
           month = d.getMonth() + 1
+
+          if (this.calendar === 'persian') {
+            const jDate = toJalaali(year, month, day)
+            year = jDate.jy
+            month = jDate.jm
+          }
         }
 
         string = year + '/' + month + '/' + day
       }
       else {
-        const d = v.split('/')
+        const d = splitDate(v)
 
         string = v
 
-        year = parseInt(d[0], 10)
-        month = parseInt(d[1], 10)
-        day = parseInt(d[2], 10)
+        year = d.year
+        month = d.month
+        day = d.day
       }
 
       return {
@@ -514,6 +563,7 @@ export default Vue.extend({
               props: {
                 flat: !active,
                 label: i,
+                dense: true,
                 unelevated: active,
                 color: active ? this.computedColor : null,
                 textColor: active ? this.computedTextColor : null,
@@ -626,7 +676,7 @@ export default Vue.extend({
         date.day = Math.min(this.innerModel.day, this.daysInMonth)
       }
 
-      const val = date.year + '/' +
+      const val = this.__padYear(date.year) + '/' +
         this.__pad(date.month) + '/' +
         this.__pad(date.day)
 
@@ -639,7 +689,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-date',
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, [
       this.__getHeader(h),
 

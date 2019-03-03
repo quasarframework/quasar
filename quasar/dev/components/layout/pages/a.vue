@@ -4,15 +4,27 @@
 
     <br>
 
-    <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
-    <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
-    <q-btn @click="$router.push('/layout-quick/c')">Go to C</q-btn>
+    <q-btn @click="$router.push('/layout-quick/a')">
+      Go to A
+    </q-btn>
+    <q-btn @click="$router.push('/layout-quick/b')">
+      Go to B
+    </q-btn>
+    <q-btn @click="$router.push('/layout-quick/c')">
+      Go to C
+    </q-btn>
 
     <br><br>
 
-    <q-btn @click="$router.replace('/layout-quick/a')">Replace Go to A</q-btn>
-    <q-btn @click="$router.replace('/layout-quick/b')">Replace Go to B</q-btn>
-    <q-btn @click="$router.replace('/layout-quick/c')">Replace Go to C</q-btn>
+    <q-btn @click="$router.replace('/layout-quick/a')">
+      Replace Go to A
+    </q-btn>
+    <q-btn @click="$router.replace('/layout-quick/b')">
+      Replace Go to B
+    </q-btn>
+    <q-btn @click="$router.replace('/layout-quick/c')">
+      Replace Go to C
+    </q-btn>
 
     <div v-for="n in 50" :key="n">
       {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

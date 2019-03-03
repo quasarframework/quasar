@@ -11,8 +11,12 @@
     <table class="q-table striped" style="width: 400px">
       <thead>
         <tr>
-          <th class="text-left">Cookie Name</th>
-          <th class="text-left">Value</th>
+          <th class="text-left">
+            Cookie Name
+          </th>
+          <th class="text-left">
+            Value
+          </th>
         </tr>
       </thead>
 

@@ -15,6 +15,10 @@ For your QInput you can use only one of the main designs (`filled`, `outlined`, 
 
 <doc-example title="Design Overview" file="QInput/DesignOverview" />
 
+### Coloring
+
+<doc-example title="Coloring" file="QInput/Coloring" />
+
 ### Standard
 <doc-example title="Standard" file="QInput/DesignStandard" />
 
@@ -41,6 +45,12 @@ The `borderless` design allows you to seamlessly integrate your QInput into othe
 The `rounded` prop only works along with Filled, Outlined and Standout designs, as showcased in the example below:
 
 <doc-example title="Rounded" file="QInput/Rounded" />
+
+### Square borders
+
+The `square` prop only makes sense along with Filled, Outlined and Standout designs, as showcased in the example below:
+
+<doc-example title="Square borders" file="QInput/SquareBorders" />
 
 ### Dark background
 
@@ -79,6 +89,10 @@ When you need QInput to grow along with its content, then use the `autogrow` pro
 The role of debouncing is for times when you watch the model and do expensive operations on it. So you want to first let user type out before triggering the model update, rather than updating the model on each keystroke.
 
 <doc-example title="Debounce model" file="QInput/Debouncing" />
+
+### Loading state
+
+<doc-example title="Loading state" file="QInput/LoadingState" />
 
 ## Mask
 
@@ -122,10 +136,6 @@ value => value.includes('Hello') || 'Field must contain word Hello'
 
 You can reset the validation by calling `resetValidation()` method on the QInput.
 
-::: warning
-Rules are not asynchronous and need to return immediately.
-:::
-
 <doc-example title="Basic" file="QInput/ValidationRequired" />
 
 <doc-example title="Maximum length" file="QInput/ValidationMaxLength" />
@@ -136,12 +146,21 @@ If you set `lazy-rules`, validation starts after first blur.
 
 <doc-example title="Form validation" file="QInput/ValidationForm" />
 
+#### Async rules
+Rules can be async too, by using async/await or by directly returning a Promise.
+
+::: tip
+Consider coupling async rules with `debounce` prop to avoid calling the async rules immediately on each keystroke, which might be detrimental to performance.
+:::
+
+<doc-example title="Async rules" file="QInput/ValidationAsync" />
+
 ### External validation
 
 You can also use external validation and only pass `error` and `error-message` (enable `bottom-slots` to display this error message).
 
 ::: tip
-Depending on your needs, you might connect [Vuelidate](https://monterail.github.io/vuelidate/) (our recommended approach) or some other validation library to QInput.
+Depending on your needs, you might connect [Vuelidate](https://vuelidate.netlify.com/) (our recommended approach) or some other validation library to QInput.
 :::
 
 <doc-example title="External" file="QInput/ValidationExternal" />

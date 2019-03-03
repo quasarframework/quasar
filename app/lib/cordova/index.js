@@ -36,6 +36,10 @@ class CordovaRunner {
       args.push(`--target=${cfg.ctx.emulator}`)
     }
 
+    if (cfg.ctx.targetName === 'ios') {
+      args.push(`--buildFlag=-UseModernBuildSystem=0`)
+    }
+
     return this.__runCordovaCommand(
       cfg,
       args
@@ -68,6 +72,10 @@ class CordovaRunner {
         args,
         appPaths.cordovaDir,
         code => {
+          if (code) {
+            warn(`⚠️  [FAIL] Cordova CLI has failed`)
+            process.exit(1)
+          }
           this.__cleanup()
           resolve(code)
         }

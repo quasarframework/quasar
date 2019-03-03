@@ -113,7 +113,7 @@ module.exports = class InstallAPI {
 
   /**
    * Render a folder from extension templates into devland.
-   * Needs a relative path to extension's /install.js script.
+   * Needs a relative path to the folder of the file calling render().
    *
    * @param {string} templatePath
    * @param {boolean} rawCopy (copy file/folder as is, don't interpret prompts)

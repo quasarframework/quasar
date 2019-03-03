@@ -10,7 +10,7 @@ const
 
 let highjackCount = 0
 
-function translate ({p, pos, active, horiz, reverse, dir}) {
+function translate ({ p, pos, active, horiz, reverse, dir }) {
   let x = 1, y = 1
 
   if (horiz) {

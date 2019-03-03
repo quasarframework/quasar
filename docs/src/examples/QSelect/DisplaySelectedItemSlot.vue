@@ -12,7 +12,14 @@
       >
         <template v-slot:selected>
           Company:
-          <q-chip v-if="model" dense square color="white" text-color="primary" class="q-ma-none">
+          <q-chip
+            v-if="model"
+            dense
+            square
+            color="white"
+            text-color="primary"
+            class="q-my-none q-ml-xs q-mr-none"
+          >
             <q-avatar color="primary" text-color="white" :icon="model.icon" />
             {{ model.label }}
           </q-chip>

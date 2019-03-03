@@ -28,14 +28,14 @@ export default Vue.extend({
     click (e) {
       if (this.pressed === true) { return }
 
-      this.to !== void 0 && e !== void 0 && stopAndPrevent(e)
+      this.hasRouterLink === true && e !== void 0 && stopAndPrevent(e)
 
       const go = () => {
         this.$router[this.replace === true ? 'replace' : 'push'](this.to)
       }
 
       this.$emit('click', e, go)
-      this.to !== void 0 && e.navigate !== false && go()
+      this.hasRouterLink === true && e.navigate !== false && go()
 
       e !== void 0 && e.qKeyEvent !== true && this.$el.blur()
     },
@@ -57,7 +57,7 @@ export default Vue.extend({
       if ([13, 32].includes(e.keyCode)) {
         stopAndPrevent(e)
         this.__onKeyupAbort()
-        const evt = new MouseEvent('click', Object.assign({}, e))
+        const evt = new MouseEvent('click', { ...e })
         evt.qKeyEvent = true
         this.$el.dispatchEvent(evt)
       }

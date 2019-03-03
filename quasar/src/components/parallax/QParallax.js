@@ -84,19 +84,19 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-parallax',
-      style: { height: `${this.height}px` }
+      style: { height: `${this.height}px` },
+      on: this.$listeners
     }, [
       h('div', {
+        ref: 'mediaParent',
         staticClass: 'q-parallax__media absolute-full'
-      }, [
-        this.$scopedSlots.media !== void 0
-          ? this.$scopedSlots.media()
-          : h('img', {
-            ref: 'media',
-            attrs: {
-              src: this.src
-            }
-          })
+      }, this.$scopedSlots.media !== void 0 ? this.$scopedSlots.media() : [
+        h('img', {
+          ref: 'media',
+          attrs: {
+            src: this.src
+          }
+        })
       ]),
 
       h(
@@ -118,7 +118,7 @@ export default Vue.extend({
     this.resizeHandler = debounce(this.__onResize, 50)
 
     this.media = this.$scopedSlots.media !== void 0
-      ? this.$scopedSlots.media()[0].elm
+      ? this.$refs.mediaParent.children[0]
       : this.$refs.media
 
     this.media.onload = this.media.onloadstart = this.media.loadedmetadata = this.__onResize

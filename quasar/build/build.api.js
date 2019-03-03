@@ -11,11 +11,6 @@ const
   dest = path.join(root, 'dist/api'),
   extendApi = require(resolve('src/api.extends.json'))
 
-function getWithoutExtension (filename) {
-  const insertionPoint = filename.lastIndexOf('.')
-  return filename.slice(0, insertionPoint)
-}
-
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
     const mixinFile = resolve('src/' + mixin + '.json')
@@ -41,7 +36,7 @@ function getMixedInAPI (api, mainFile) {
 
 const topSections = {
   plugin: [ 'injection', 'quasarConfOptions', 'props', 'methods' ],
-  component: [ 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
+  component: [ 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
   directive: [ 'value', 'arg', 'modifiers' ]
 }
 
@@ -274,6 +269,27 @@ function parseObject ({ banner, api, itemName, masterType }) {
   })
 }
 
+function convertBehavior (api, banner) {
+  const behavior = {}
+
+  if (api.behavior.$listeners !== void 0) {
+    const target = api.behavior.$listeners === true
+      ? ''
+      : ` ${api.behavior.$listeners.target}`
+
+    behavior.$listeners = {
+      desc: `All native events are being propagated${target} (you don't need the '.native' modifier)`
+    }
+  }
+
+  if (Object.keys(behavior).length === 0) {
+    logError(`${banner} "${behavior}" is empty`)
+    process.exit(1)
+  }
+
+  api.behavior = behavior
+}
+
 function parseAPI (file, apiType) {
   let api = require(file)
 
@@ -295,6 +311,11 @@ function parseAPI (file, apiType) {
         logError(`${banner} "${type}"/"injection" invalid content`)
         process.exit(1)
       }
+      continue
+    }
+
+    if (type === 'behavior') {
+      convertBehavior(api, banner)
       continue
     }
 
@@ -335,12 +356,21 @@ function parseAPI (file, apiType) {
     }
   }
 
-  api = {
-    type: apiType,
-    ...api
+  return api
+}
+
+function orderAPI (api, apiType) {
+  const ordered = {
+    type: apiType
   }
 
-  return api
+  topSections[apiType].forEach(section => {
+    if (api[section] !== void 0) {
+      ordered[section] = api[section]
+    }
+  })
+
+  return ordered
 }
 
 function fillAPI (apiType) {
@@ -349,7 +379,7 @@ function fillAPI (apiType) {
       name = path.basename(file),
       filePath = path.join(dest, name)
 
-    const api = parseAPI(file, apiType)
+    const api = orderAPI(parseAPI(file, apiType), apiType)
 
     // copy API file to dest
     writeFile(filePath, JSON.stringify(api, null, 2))

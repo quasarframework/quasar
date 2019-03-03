@@ -1,21 +1,6 @@
 const warn = require('./logger')('app:ensure-argv', 'red')
 
 module.exports = function (argv, cmd) {
-  if (cmd === 'mode') {
-    if (![undefined, 'pwa', 'cordova', 'electron', 'ssr'].includes(argv.add)) {
-      warn(`⚠️  Unknown mode "${ argv.add }" to add`)
-      warn()
-      process.exit(1)
-    }
-    if (![undefined, 'pwa', 'cordova', 'electron', 'ssr'].includes(argv.remove)) {
-      warn(`⚠️  Unknown mode "${ argv.remove }" to remove`)
-      warn()
-      process.exit(1)
-    }
-
-    return
-  }
-
   if (!['spa', 'pwa', 'cordova', 'electron', 'ssr'].includes(argv.mode)) {
     warn(`⚠️  Unknown mode "${ argv.mode }"`)
     warn()

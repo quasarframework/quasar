@@ -1,8 +1,8 @@
 <template>
-  <q-layout> <!-- Be sure to play with the Layout demo on docs -->
+  <q-layout view="hHh Lpr fFf"> <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-layout-header>
+    <q-header elevated>
       <q-toolbar>
         <q-btn
           flat
@@ -13,29 +13,42 @@
         />
         <q-toolbar-title>
           Header
-          <span slot="subtitle">Subtile</span>
         </q-toolbar-title>
       </q-toolbar>
+
       <q-tabs>
         <q-route-tab
-          slot="title"
           icon="map"
           to="/your/route"
           replace
           label="One Tab"
         />
         <q-route-tab
-          slot="title"
           icon="assignment"
           to="/some/other/route"
           replace
           label="Other Tab"
         />
       </q-tabs>
-    </q-layout-header>
+    </q-header>
 
     <!-- (Optional) The Footer -->
-    <q-layout-footer>
+    <q-footer>
+      <q-tabs top-indicator>
+        <q-route-tab
+          icon="map"
+          to="/your/route"
+          replace
+          label="One Tab"
+        />
+        <q-route-tab
+          icon="assignment"
+          to="/some/other/route"
+          replace
+          label="Other Tab"
+        />
+      </q-tabs>
+
       <q-toolbar>
         <q-btn
           flat
@@ -46,37 +59,22 @@
         />
         <q-toolbar-title>
           Footer
-          <span slot="subtitle">Subtile</span>
         </q-toolbar-title>
       </q-toolbar>
-      <q-tabs>
-        <q-route-tab
-          slot="title"
-          icon="map"
-          to="/your/route"
-          replace
-          label="One Tab"
-        />
-        <q-route-tab
-          slot="title"
-          icon="assignment"
-          to="/some/other/route"
-          replace
-          label="Other Tab"
-        />
-      </q-tabs>
-    </q-layout-footer>
+    </q-footer>
 
     <!-- (Optional) A Drawer; you can add one more with side="right" or change this one's side -->
-    <q-layout-drawer
-      side="left"
+    <q-drawer
       v-model="leftDrawer"
+      side="left"
+      bordered
+      content-class="bg-grey-2"
     >
       <!-- QScrollArea is optional -->
       <q-scroll-area class="fit q-pa-sm">
         <!-- Content here -->
       </q-scroll-area>
-    </q-layout-drawer>
+    </q-drawer>
 
     <q-page-container>
       <!-- This is where pages get injected -->
@@ -89,6 +87,7 @@
 <script>
 export default {
   // name: 'LayoutName',
+
   data () {
     return {
       leftDrawer: true
@@ -96,6 +95,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>

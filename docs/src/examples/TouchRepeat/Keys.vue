@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md row justify-center">
     <q-card
-      v-touch-repeat:0:600.enter.space.72.104="handleRepeat"
+      v-touch-repeat:0:300:200.mouse.enter.space.72.104="handleRepeat"
       tabindex="0"
       class="custom-area cursor-pointer bg-primary text-white shadow-2 relative-position row flex-center"
     >
