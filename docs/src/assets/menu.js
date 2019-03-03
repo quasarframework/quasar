@@ -366,6 +366,10 @@ const style = [
     path: 'positioning'
   },
   {
+    name: 'Stylus Variables',
+    path: 'stylus-variables'
+  },
+  {
     name: 'Other Helper Classes',
     path: 'other-helper-classes'
   }
@@ -826,6 +830,10 @@ const utils = [
   {
     name: 'Formatter Utils',
     path: 'formatter-utils'
+  },
+  {
+    name: 'Scrolling Utils',
+    path: 'scrolling-utils'
   },
   {
     name: 'Other Utils',

@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 
+import { stop } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 
 export default Vue.extend({
@@ -196,7 +197,7 @@ export default Vue.extend({
       }))
     }
 
-    if (this.input) {
+    if (this.input === true) {
       contentMiddle.push(h(QInput, {
         staticClass: 'inline',
         style: {
@@ -340,7 +341,12 @@ export default Vue.extend({
     }, [
       contentStart,
 
-      h('div', { staticClass: 'row justify-center' }, [
+      h('div', {
+        staticClass: 'row justify-center',
+        on: this.input === true
+          ? { input: stop }
+          : {}
+      }, [
         contentMiddle
       ]),
 

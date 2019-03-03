@@ -50,11 +50,6 @@ export default Vue.extend({
       validator: validateOffset
     },
 
-    target: {
-      type: [Boolean, String],
-      default: true
-    },
-
     delay: {
       type: Number,
       default: 0

@@ -23,6 +23,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
   &__after, &__append
     padding-left 12px
 
+    &:empty
+      display none
+
   &__append + &__append
     padding-left 2px
 
@@ -121,9 +124,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     transition transform $field-transition, color $field-transition
 
   &--float .q-field__label
-    transform translate3d(0, -50%, 0) scale3d(.75, .75, .75)
+    transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
   .q-field__native:-webkit-autofill + .q-field__label
-    transform translate3d(0, -50%, 0) scale3d(.75, .75, .75)
+    transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
 
   &--focused
     .q-field__label
@@ -323,11 +326,8 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
   &--dense
     .q-field__control, .q-field__marginal
       height 40px
-    .q-field__control
-      padding 0 6px
     .q-field__bottom
       font-size 11px
-      padding 8px 4px 0
 
     .q-field__label
       font-size 14px
@@ -341,6 +341,11 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
     .q-avatar
       font-size 24px
+
+    &.q-field--float .q-field__label
+      transform translate3d(0, -30%, 0) scale3d(.75, .75, .75)
+    .q-field__native:-webkit-autofill + .q-field__label
+      transform translate3d(0, -30%, 0) scale3d(.75, .75, .75)
 
   &--borderless, &--standard
 

@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { PanelParentMixin } from '../../mixins/panel.js'
 import StepHeader from './StepHeader.js'
 import slot from '../../utils/slot.js'
+import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QStepper',
@@ -49,8 +50,14 @@ export default Vue.extend({
     __getContent (h) {
       if (this.vertical) {
         this.__isValidPanelName(this.value) && this.__updatePanelIndex()
+
         return [
-          h('div', { staticClass: 'q-stepper__content' }, slot(this, 'default'))
+          h('div', {
+            staticClass: 'q-stepper__content',
+            // stop propagation of content emitted @input
+            // which would tamper with Panel's model
+            on: { input: stop }
+          }, slot(this, 'default'))
         ]
       }
 
@@ -74,7 +81,7 @@ export default Vue.extend({
         })),
 
         h('div', {
-          staticClass: 'q-stepper__content relative-position overflow-hidden',
+          staticClass: 'q-stepper__content q-panel-parent',
           directives: this.panelDirectives
         }, [
           this.__getPanelContent(h)

@@ -157,8 +157,6 @@ module.exports = function (cfg, configName) {
     sourceMap: cfg.build.sourceMap,
     extract: cfg.build.extractCSS,
     minify: cfg.build.minify
-      ? !cfg.build.extractCSS
-      : false
   })
 
   chain.plugin('vue-loader')
@@ -271,7 +269,7 @@ module.exports = function (cfg, configName) {
 
     if (cfg.ctx.debug) {
       // reset default webpack 4 minimizer
-      chain.optimization.minimizer.clear()
+      chain.optimization.minimizers.delete('js')
     }
     else if (cfg.build.minify) {
       const TerserPlugin = require('terser-webpack-plugin')

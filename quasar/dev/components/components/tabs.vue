@@ -78,6 +78,16 @@
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
 
+      <q-toolbar class="bg-purple text-white shadow-2 rounded-borders q-mb-xl">
+        <q-btn flat label="Homepage" />
+        <q-space />
+        <q-tabs inline-label class="col-shrink">
+          <q-tab icon="phone" label="Tab 1" />
+          <q-tab label="Tab 2" />
+          <q-tab icon="location_on" label="Tab 3" />
+        </q-tabs>
+      </q-toolbar>
+
       <q-tabs :dense="dense" class="bg-grey-1 text-teal">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab label="Item two" />
@@ -222,6 +232,7 @@
           class="text-black text-center"
         >
           <q-tab-panel :name="panelTest ? 'two' : 'one'">
+            <q-btn dense round icon="map" class="absolute-bottom-right" />
             Tab One <strong v-if="panelTest">(Swapped)</strong> <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
           </q-tab-panel>
 
@@ -248,6 +259,7 @@
         class="text-black text-center"
       >
         <q-tab-panel name="one">
+          <q-btn dense round icon="map" class="absolute-bottom-right" />
           v-if test Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
@@ -271,13 +283,22 @@
         transition-prev="fade"
         transition-next="fade"
         class="q-mt-lg text-black text-center"
+        style="height: 150px"
       >
         <q-tab-panel name="one">
+          Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+          <q-input v-model="text" />
+          <input v-model="text">
+          <q-btn dense round icon="map" class="absolute-bottom-right" />
           Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
         <q-tab-panel name="two">
-          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
+          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+          <q-input v-model="text" />
+          <input v-model="text">
+          <q-btn dense round icon="map" class="absolute-bottom-right" />
+          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
         <q-tab-panel name="three">
@@ -296,6 +317,7 @@
 export default {
   data () {
     return {
+      text: '',
       dense: false,
       tab: 'one',
       panelTest: false,
@@ -312,4 +334,6 @@ export default {
 <style lang="stylus">
 .tabs-demo .q-tabs
   margin-bottom 24px
+.tabs-demo .q-toolbar .q-tabs
+  margin-bottom 0
 </style>

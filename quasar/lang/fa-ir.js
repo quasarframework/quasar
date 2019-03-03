@@ -1,3 +1,6 @@
+const days = 'یکشنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنجشنبه_جمعه_شنبه'.split('_')
+const monthsShort = 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_')
+
 export default {
   isoName: 'fa-ir',
   nativeName: 'فارسی',
@@ -18,12 +21,17 @@ export default {
     refresh: 'تازه‌سازی'
   },
   date: {
-    days: 'یکشنبه/دوشنبه/سه‌شنبه/چهارشنبه/پنجشنبه/جمعه/شنبه'.split('/'),
-    daysShort: 'ی/د/س/چ/پ‌/ج‌/ش‌'.split('/'),
-    months: 'ژانویه/فوریه/مارس/آپریل/مه/ژوئن/ژولای/آگوست/سپتامبر/اکتبر/نوامبر/دسامبر'.split('/'),
-    monthsShort: 'ژانویه/فوریه/مارس/آپریل/مه/ژوئن/ژولای/آگوست/سپتامبر/اکتبر/نوامبر/دسامبر'.split('/'),
-    firstDayOfWeek: 5,
-    format24h: false
+    days: days,
+    daysShort: 'ی_د_س_چ_پ_ج_ش'.split('_'),
+    months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_'),
+    monthsShort: monthsShort,
+    headerTitle: function (date, model) {
+      return days[ date.getDay() ] + '، ' +
+        model.day + ' ' +
+        monthsShort[ model.month - 1 ]
+    },
+    firstDayOfWeek: 6,
+    format24h: true
   },
   table: {
     noData: 'اطلاعاتی موجود نیست',

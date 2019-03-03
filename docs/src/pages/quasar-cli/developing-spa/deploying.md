@@ -70,6 +70,10 @@ After the build is finished, change directory into your deploy root (example: `/
 $ now
 ```
 
+::: warning
+Make sure that you have set Now Platform Version to v1.
+:::
+
 The Now CLI should now display information regarding your deployment, like the URL. That's it. You're done.
 
 ## Deploying with Heroku

@@ -2,7 +2,6 @@ import Vue from 'vue'
 
 import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
-import QSpinner from '../spinner/QSpinner.js'
 import QChip from '../chip/QChip.js'
 
 import QItem from '../list/QItem.js'
@@ -72,8 +71,7 @@ export default Vue.extend({
       menu: false,
       optionIndex: -1,
       optionsToShow: 20,
-      inputValue: '',
-      loading: false
+      inputValue: ''
     }
   },
 
@@ -352,7 +350,7 @@ export default Vue.extend({
     },
 
     __onTargetKeydown (e) {
-      if (this.loading !== true && this.menu === false && e.keyCode === 40) { // down
+      if (this.innerLoading !== true && this.menu === false && e.keyCode === 40) { // down
         stopAndPrevent(e)
 
         if (this.$listeners.filter !== void 0) {
@@ -403,7 +401,7 @@ export default Vue.extend({
       if (this.menu === true) {
         this.menu = false
       }
-      else if (this.loading !== true) {
+      else if (this.innerLoading !== true) {
         if (this.$listeners.filter !== void 0) {
           this.filter(this.inputValue)
         }
@@ -593,22 +591,14 @@ export default Vue.extend({
     },
 
     __getInnerAppend (h) {
-      return this.loading === true || this.hideDropdownIcon !== true ? [
-        this.loading === true
-          ? (
-            this.$scopedSlots.loading !== void 0
-              ? this.$scopedSlots.loading()
-              : h(QSpinner, { props: { color: this.color } })
-          )
-          : null,
-
-        this.hideDropdownIcon !== true
-          ? h(QIcon, {
+      return this.hideDropdownIcon !== true
+        ? [
+          h(QIcon, {
             staticClass: 'q-select__dropdown-icon',
             props: { name: this.dropdownArrowIcon }
           })
-          : null
-      ] : null
+        ]
+        : null
     },
 
     __getInput (h) {
@@ -648,11 +638,11 @@ export default Vue.extend({
       this.menu = false
       this.inputValue = val
 
-      if (this.loading === true) {
+      if (this.innerLoading === true) {
         this.$emit('filter-abort')
       }
       else {
-        this.loading = true
+        this.innerLoading = true
       }
 
       const filterId = uid()
@@ -665,14 +655,14 @@ export default Vue.extend({
           if (this.focused === true && this.filterId === filterId) {
             typeof fn === 'function' && fn()
             this.$nextTick(() => {
-              this.loading = false
+              this.innerLoading = false
               this.menu = true
             })
           }
         },
         () => {
           if (this.focused === true && this.filterId === filterId) {
-            this.loading = false
+            this.innerLoading = false
           }
         }
       )
@@ -730,9 +720,9 @@ export default Vue.extend({
 
         this.filterId = void 0
 
-        if (this.loading === true) {
+        if (this.innerLoading === true) {
           this.$emit('filter-abort')
-          this.loading = false
+          this.innerLoading = false
         }
       })
     },

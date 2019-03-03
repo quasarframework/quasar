@@ -57,7 +57,9 @@ export default Vue.extend({
     },
 
     thumbStyle () {
-      return { left: (100 * this.ratio) + '%' }
+      return {
+        [this.horizProp]: (100 * this.ratio) + '%'
+      }
     },
 
     thumbClass () {

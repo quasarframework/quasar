@@ -1,5 +1,6 @@
 export default {
-  lang: 'fi',
+  isoName: 'fi',
+  nativeName: 'Suomi',
   label: {
     clear: 'Tyhjennä',
     ok: 'OK',

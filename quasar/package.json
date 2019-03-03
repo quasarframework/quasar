@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.7",
   "description": "High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase",
   "module": "src/index.esm.js",
   "files": [
@@ -111,9 +111,6 @@
     "yarn": ">= 1.6.0"
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "ie >= 11",
-    "not dead"
+    "last 1 version, not dead, ie >= 11"
   ]
 }

@@ -35,7 +35,10 @@ export default Vue.extend({
 
   props: {
     persistent: Boolean,
-    noEscKey: Boolean,
+    noEscDismiss: Boolean,
+    noBackdropDismiss: Boolean,
+    noRouteDismiss: Boolean,
+
     seamless: Boolean,
 
     maximized: Boolean,
@@ -70,7 +73,10 @@ export default Vue.extend({
 
   watch: {
     $route () {
-      this.persistent !== true && this.seamless !== true && this.hide()
+      this.persistent !== true &&
+        this.noRouteDismiss !== true &&
+        this.seamless !== true &&
+        this.hide()
     },
 
     showing (val) {
@@ -135,7 +141,7 @@ export default Vue.extend({
 
       EscapeKey.register(() => {
         if (this.seamless !== true) {
-          if (this.persistent || this.noEscKey === true) {
+          if (this.persistent === true || this.noEscDismiss === true) {
             this.maximized !== true && this.shake()
           }
           else {
@@ -216,7 +222,9 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
-              click: this.persistent === false ? this.hide : this.shake
+              click: this.persistent !== true && this.noBackdropDismiss !== true
+                ? this.hide
+                : this.shake
             }
           })
         ] : null),

@@ -97,7 +97,15 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
         </a>
       </td>
       <td align="center" valign="middle">
-        Jeff Cole
+        <a href="https://www.projectfinance.io/" target="_blank">
+          <img width="222px" height="150px" src="https://cdn.quasar-framework.org/sponsors/project-finance.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        Ronald Stevens
       </td>
     </tr>
   </tbody>
@@ -115,7 +123,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Andy Burnett
 - Heitor Lessa
 - Aprixon Information Services GmbH
-- Ronald Stevens
 - Flippen Group
 
 ### $10+
@@ -184,7 +191,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Chad Shryock
 - Ross Ball
 - KPA Productions
-- Roman Sujatinov
 - Tanya Trimbakova
 - eae
 - Tomer Shalev
@@ -221,6 +227,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Pascal de Sélys
 - Constantine
 - Ivar de Pieterman
+- Birch P Browning
+- Дмитрий Полянин
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
@@ -240,6 +248,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Robert Preston $250
 - Remo Laubacher $200
 - Egor Molodov $200
+- BigJump Limited 175 EUR
 - Max Matteo Staack 150 EUR
 - Jeff Galbraith 129 EUR
 - Max Matteo Staack $123
