@@ -118,7 +118,7 @@ export default Vue.extend({
           role: 'tab',
           'aria-selected': this.isActive
         },
-        directives: this.ripple !== false && this.disable ? null : [
+        directives: this.ripple !== false && this.disable === true ? null : [
           { name: 'ripple', value: this.ripple }
         ]
       }

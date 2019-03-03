@@ -30,9 +30,9 @@ export default Vue.extend({
 
   computed: {
     isClickable () {
-      return !this.disable && (
-        this.clickable ||
-        this.hasRouterLink ||
+      return this.disable !== true && (
+        this.clickable === true ||
+        this.hasRouterLink === true ||
         this.tag === 'a' ||
         this.tag === 'label'
       )
