@@ -10,10 +10,166 @@
         "opts": {
           "desc": "Dialog options",
           "definition": {
-            "...props": {
-              "type": "Any",
-              "desc": "Other QDialog properties",
-              "__exemption": [ "examples" ]
+
+            "title": {
+              "type": "String",
+              "desc": "A text for the heading title of the dialog",
+              "examples": [ "title: 'Continue?'" ]
+            },
+
+            "message": {
+              "type": "String",
+              "desc": "A text with more information about what needs to be input, selected or confirmed.",
+              "examples": [ "message: 'Are you certain you want to continue?'" ]
+            },
+
+            "position": {
+              "type": "String",
+              "desc": "A value of either 'top', 'right', 'bottom', 'left' or 'standard' (centered). Default is 'standard'",
+              "examples": ["position: 'top'"]
+            },
+
+            "options": {
+              "type": "Object",
+              "desc": "The options object for creating the dialog's content",
+              "definition": {
+
+                "prompt": {
+                  "type": "Object",
+                  "desc": "An object definition of the input field for the prompting question.",
+                  "examples": [ "prompt: { model: this.promptVal, type: 'number' }" ],
+                  "definition": {
+
+                    "model": {
+                      "type": ["Array", "String"],
+                      "desc": "The value of the input: Array for Selection, String for prompt",
+                      "examples": ["model: 'this.dialogVal'"]
+                    },
+
+                    "type": {
+                      "type": "String",
+                      "desc": "Optional property to determine the input field type. It can be either a text or number input field type",
+                      "default": "text",
+                      "examples": ["type: 'number'"]
+                    }
+                  }
+                },
+
+                "options": {
+                  "type": "Object",
+                  "desc": "An object definition for creating the selection form content",
+                  "examples": ["options: { model: this.dialogSelection, type: 'radio', items: [...listOfItems] }"],
+                  "definition": {
+
+                    "type": {
+                      "type": "String",
+                      "desc": "The type of selection: radio, checkbox or toggle",
+                      "examples": ["type: 'toggle'"]
+                    },
+
+                    "model": {
+                      "type": "Array",
+                      "desc": "The value of the selection",
+                      "examples": ["model: []"] 
+                    },
+
+                    "items": {
+                      "type": "Array",
+                      "desc": "The list of items to be selected. Equivalent to options prop of the QOptionsGroup component",
+                      "examples": [
+                        ":options=\"[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]\""
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "ok": {
+              "type": ["String", "Object", "Boolean"],
+              "desc": "Props for an 'OK' button",
+              "definition": {
+                "...props": {
+                  "type": "Any",
+                  "desc": "See QBtn for available props",
+                  "__exemption": [ "examples" ]
+                }
+              }
+            },
+            "cancel": {
+              "type": ["String", "Object", "Boolean"],
+              "desc": "Props for a 'CANCEL' button",
+              "definition": {
+                "...props": {
+                  "type": "Any",
+                  "desc": "See QBtn for available props",
+                  "__exemption": [ "examples" ]
+                }
+              }
+            },
+
+            "width": {
+              "type": "String",
+              "desc": "The width of the dialog. Can be any CSS value. Default is 400px",
+              "examples": ["480px", "25em", "60%", "auto"]
+            },
+
+            "stackButtons": {
+              "type": "Boolean",
+              "desc": "If true, the buttons will stacked instead of vertically aligned"
+            },
+
+            "color": {
+              "extends": "color"
+            },
+
+            "persistent": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Dialog if clicking outside of it or hitting ESC key; Also, an app route change won't dismiss it"
+            },
+        
+            "no-esc-dismiss": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Dialog by hitting ESC key; No need to set it if 'persistent' prop is also set"
+            },
+        
+            "no-backdrop-dismiss": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Dialog by clicking outside of it; No need to set it if 'persistent' prop is also set"
+            },
+        
+            "no-route-dismiss": {
+              "type": "Boolean",
+              "desc": "Changing route app won't dismiss Dialog; No need to set it if 'persistent' prop is also set"
+            },
+        
+            "seamless": {
+              "type": "Boolean",
+              "desc": "Put Dialog into seamless mode; Does not use a backdrop so user is able to interact with the rest of the page too"
+            },
+        
+            "maximized": {
+              "type": "Boolean",
+              "desc": "Put Dialog into maximized mode"
+            },
+        
+            "full-width": {
+              "type": "Boolean",
+              "desc": "Dialog will try to render with same width as the window"
+            },
+        
+            "full-height": {
+              "type": "Boolean",
+              "desc": "Dialog will try to render with same height as the window"
+            },
+
+            "transition-show": {
+              "extends": "transition",
+              "default": "scale"
+            },
+        
+            "transition-hide": {
+              "extends": "transition",
+              "default": "scale"
             }
           }
         }
