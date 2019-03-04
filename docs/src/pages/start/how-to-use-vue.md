@@ -32,7 +32,7 @@ export default {
 ```
 
 ### CSS preprocessors
-For the `<style>` tag, you can also use whatever CSS preprocessor you want. [Stylus](http://stylus-lang.com/) is available out of the box. For SCSS/SASS or LESS, you'll need to install their Webpack loaders (example: `yarn add --dev less-loader` or `npm install --save-dev less-loader`).
+For the `<style>` tag, you can also use whatever CSS preprocessor you want. [Stylus](http://stylus-lang.com/) is available out of the box. For SCSS/SASS or LESS, you'll need to install their Webpack loaders (example: `yarn add --dev less-loader`).
 
 After installing the loader you need (remember Stylus is already installed for you), you can specify you want your chosen preprocessor to handle the CSS code you're writing:
 
@@ -156,7 +156,7 @@ framework: 'all'
 ```
 
 ::: warning
-This **will not** take advantage of tree shaking, causing your bundle to become bloated with unnescesary/unused code. **Not recommended for production**. Use this only for quick testing purposes.
+This **will not** take advantage of tree shaking, causing your bundle to become bloated with unnecessary/unused code. **Not recommended for production**. Use this only for quick testing purposes.
 :::
 
 ### Self Closing Tags
