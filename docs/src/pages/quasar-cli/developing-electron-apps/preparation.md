@@ -4,7 +4,7 @@ title: Electron Preparation
 Before we dive in to the actual development, we need to do some preparation work.
 
 ## 1. Add Quasar Electron Mode
-In order to develop/build a Quasar Electron app, we need to add the Electron mode to our Quasar project. What this does is that it yarn/npm installs some Electron packages and creates `/src-electron` folder.
+In order to develop/build a Quasar Electron app, we need to add the Electron mode to our Quasar project. What this does is that it yarn installs some Electron packages and creates `/src-electron` folder.
 ```bash
 $ quasar mode add electron
 ```
