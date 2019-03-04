@@ -6,16 +6,6 @@ export default {
 
   methods: {
     getDrawerMenu (h, menu, path, level) {
-      if (menu.separator === true) {
-        return h('q-separator')
-      }
-
-      if (menu.section !== void 0) {
-        return h('q-item-label', {
-          props: { header: true }
-        }, [ menu.section ])
-      }
-
       if (menu.children !== void 0) {
         return h(
           'q-expansion-item',
@@ -28,24 +18,26 @@ export default {
               defaultOpened: menu.opened,
               expandSeparator: true,
               switchToggleSide: level > 0,
-              denseToggle: level > 0,
-              headerInsetLevel: level > 0 ? level - 1 : void 0
+              denseToggle: level > 0
             }
           },
           menu.children.map(item => this.getDrawerMenu(
             h,
             item,
             path + (item.path !== void 0 ? '/' + item.path : ''),
-            level > 0 ? level : level + 1
+            level + 1
           ))
         )
       }
 
+      if (menu.name === 'Directory Structure') {
+        console.log(level)
+      }
       return h('q-item', {
         props: {
           to: path,
           dense: level > 0,
-          insetLevel: level
+          insetLevel: level > 1 ? 1.2 : level
         },
         staticClass: 'app-menu-entry non-selectable'
       }, [
@@ -54,7 +46,9 @@ export default {
             props: { avatar: true }
           }, [ h('q-icon', { props: { name: menu.icon } }) ])
           : null,
+
         h('q-item-section', [ menu.name ]),
+
         menu.badge !== void 0
           ? h('q-item-section', {
             props: { side: true }
