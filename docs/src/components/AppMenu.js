@@ -30,9 +30,6 @@ export default {
         )
       }
 
-      if (menu.name === 'Directory Structure') {
-        console.log(level)
-      }
       return h('q-item', {
         props: {
           to: path,
