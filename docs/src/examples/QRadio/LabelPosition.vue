@@ -12,7 +12,7 @@
       <q-radio left-label v-model="shape" dense val="ellipse" label="Ellipse" />
       <q-radio left-label v-model="shape" dense val="polygon" label="Polygon" />
     </div>
-    <div>
+    <div class="q-mt-md">
       Your selection is: <strong>{{ shape }}</strong>
     </div>
   </div>
