@@ -1071,8 +1071,6 @@ The structure looks the same, but some functions have been renamed.
 |`options`||
 |`prevent-close`||
 |`prompt`||
-|`no-backdrop-dismiss`||
-|`no-esc-dismiss`||
 |`stack-buttons`||
 |`title`||
 ||`content-class`|
@@ -1080,7 +1078,6 @@ The structure looks the same, but some functions have been renamed.
 ||`full-height`|
 ||`full-width`|
 ||`maximized`|
-||`no-esc-key`|
 ||`persistent`|
 ||`seamless`|
 ||`transition-hide`|
@@ -1265,7 +1262,6 @@ Replace `:handler` with `@load`.
 |`initial-show-password`||
 |`inverted`||
 |`inverted-light`||
-|`loading`||
 |`lower-case`||
 |`max-height`||
 |`no-parent-field`||

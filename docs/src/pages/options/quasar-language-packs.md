@@ -82,7 +82,7 @@ export default async () => {
       })
   }
   catch (err) {
-    // Requested Quasar Language Pack does not exists,
+    // Requested Quasar Language Pack does not exist,
     // let's not break the app, so catching error
   }
 }

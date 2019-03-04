@@ -161,7 +161,7 @@
     },
 
     "loading": {
-      "desc": "Override default spinner when QSelect is in loading mode; Suggestion: spinners"
+      "desc": "Override default spinner when component is in loading mode; Suggestion: spinners"
     }
   },
 
