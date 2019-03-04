@@ -1,11 +1,9 @@
 import Vue from 'vue'
 
 import { height, offset } from '../../utils/dom.js'
-import debounce from '../../utils/debounce.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
-
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
@@ -44,12 +42,10 @@ export default Vue.extend({
     },
 
     __onResize () {
-      if (!this.scrollTarget) {
-        return
+      if (this.scrollTarget) {
+        this.mediaHeight = this.media.naturalHeight || this.media.videoHeight || height(this.media)
+        this.__updatePos()
       }
-
-      this.mediaHeight = this.media.naturalHeight || this.media.videoHeight || height(this.media)
-      this.__updatePos()
     },
 
     __updatePos () {
@@ -77,7 +73,8 @@ export default Vue.extend({
     },
 
     __setPos (offset) {
-      this.media.style.transform = `translate3D(-50%,${offset}px, 0)`
+      // apply it immediately without any delay
+      this.media.style.transform = `translate3D(-50%,${Math.round(offset)}px, 0)`
     }
   },
 
@@ -115,7 +112,7 @@ export default Vue.extend({
 
   mounted () {
     this.__update = frameDebounce(this.__update)
-    this.resizeHandler = debounce(this.__onResize, 50)
+    this.resizeHandler = frameDebounce(this.__onResize)
 
     this.media = this.$scopedSlots.media !== void 0
       ? this.$refs.mediaParent.children[0]
@@ -134,6 +131,6 @@ export default Vue.extend({
   beforeDestroy () {
     window.removeEventListener('resize', this.resizeHandler, listenOpts.passive)
     this.scrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)
-    this.media.onload = this.media.onloadstart = null
+    this.media.onload = this.media.onloadstart = this.media.loadedmetadata = null
   }
 })

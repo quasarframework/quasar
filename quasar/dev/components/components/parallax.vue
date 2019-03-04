@@ -12,7 +12,9 @@
     </div>
 
     <q-parallax>
-      <img slot="media" src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      <template v-slot:media>
+        <img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      </template>
 
       <h1 class="text-white">
         Basic
@@ -26,7 +28,9 @@
     </div>
 
     <q-parallax class="q-mt-xl">
-      <img slot="media" src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      <template v-slot:media>
+        <img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      </template>
 
       <template v-slot:content="scope">
         <div
@@ -56,10 +60,12 @@
     </div>
 
     <q-parallax :height="200" class="q-mt-xl">
-      <video slot="media" width="720" height="440" poster="http://www.markhillard.com/sandbox/media/polina.jpg" autoplay loop muted>
-        <source type="video/webm" src="http://www.markhillard.com/sandbox/media/polina.webm">
-        <source type="video/mp4" src="http://www.markhillard.com/sandbox/media/polina.mp4">
-      </video>
+      <template v-slot:media>
+        <video width="720" height="440" poster="http://www.markhillard.com/sandbox/media/polina.jpg" autoplay loop muted>
+          <source type="video/webm" src="http://www.markhillard.com/sandbox/media/polina.webm">
+          <source type="video/mp4" src="http://www.markhillard.com/sandbox/media/polina.mp4">
+        </video>
+      </template>
 
       <h1 class="text-white">
         Video
@@ -131,10 +137,12 @@
         </div>
 
         <q-parallax :height="200" class="q-mt-xl">
-          <video slot="media" width="720" height="440" poster="http://www.markhillard.com/sandbox/media/polina.jpg" autoplay loop muted>
-            <source type="video/webm" src="http://www.markhillard.com/sandbox/media/polina.webm">
-            <source type="video/mp4" src="http://www.markhillard.com/sandbox/media/polina.mp4">
-          </video>
+          <template v-slot:media>
+            <video width="720" height="440" poster="http://www.markhillard.com/sandbox/media/polina.jpg" autoplay loop muted>
+              <source type="video/webm" src="http://www.markhillard.com/sandbox/media/polina.webm">
+              <source type="video/mp4" src="http://www.markhillard.com/sandbox/media/polina.mp4">
+            </video>
+          </template>
 
           <h1 class="text-white">
             Video
