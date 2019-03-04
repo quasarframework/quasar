@@ -20,12 +20,12 @@
 
     "left": {
       "type": "Boolean",
-      "desc": "Apply a standard margin on the left side. Useful if icon is on the right side of something."
+      "desc": "Useful if icon is on the left side of something: applies a standard margin on the right side of Icon"
     },
 
     "right": {
       "type": "Boolean",
-      "desc": "Apply a standard margin on the right side. Useful if icon is on the left side of something."
+      "desc": "Useful if icon is on the right side of something: applies a standard margin on the left side of Icon"
     }
   },
 
