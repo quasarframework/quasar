@@ -19,7 +19,8 @@ export default {
     readonly: Boolean,
     addIcon: String,
     upperCase: Boolean,
-    lowerCase: Boolean
+    lowerCase: Boolean,
+    labelField: [String, Function]
   },
   data () {
     return {
@@ -232,7 +233,10 @@ export default {
       h('div', {
         staticClass: 'col row items-center q-input-chips'
       },
-      this.model.map((label, index) => {
+      this.model.map((item, index) => {
+        const label = this.labelField ?
+          (typeof this.labelField === 'function' ? this.labelField(item) : item[this.labelField]) :
+          item
         return h(QChip, {
           key: `${label}#${index}`,
           props: {
