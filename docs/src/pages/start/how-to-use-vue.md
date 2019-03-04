@@ -160,6 +160,11 @@ This **will not** take advantage of tree shaking, causing your bundle to become 
 :::
 
 ### Self Closing Tags
+
+::: danger
+Do NOT use self-closing tag form when you are using **Quasar UMD version**. Your browser is interpreting the HTML before Vue parses your DOM elements, so your HTML syntax must be correct. Unknown tags (like Vue components) cannot be self-closing because your browser will interpret those as if you are opening a tag but never closing it.
+:::
+
 Some Quasar components do not need you to include HTML content inside of them. In this case, you can use them as self closing tags. One example with QIcon below:
 
 ```html
