@@ -739,9 +739,9 @@
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
 "@quasar/app@^1.0.0-beta.7":
-  version "1.0.0-beta.9"
-  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.0.0-beta.9.tgz#6bfe72f9cc665a36269868288f9deb3e06b79160"
-  integrity sha512-AQzzVs6mJYMxjJnSM2Nyix1QExVRo0Ml0Qtb9LlXdYQEq9KBdGJYAz4sIC1Lu+YdLEnAK9XW3aNz70hnSy5amA==
+  version "1.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.0.0-beta.10.tgz#7628c0c22a8f20abcbd5cb94d46b66aae1cdb686"
+  integrity sha512-gEUXt1+IKBsPrK17a2302jigrYHfeYJb2eQkq1+hAspRdncxGhbnggnVKGa4NcVy4VOb/EoLass9entgZ24pSQ==
   dependencies:
     "@quasar/babel-preset-app" "1.0.1"
     "@vue/preload-webpack-plugin" "1.1.0"
