@@ -88,12 +88,14 @@ export default Vue.extend({
     },
 
     maximized (newV, oldV) {
-      this.__updateState(false, oldV)
-      if (this.value) this.__updateState(true, newV)
+      if (this.showing === true) {
+        this.__updateState(false, oldV)
+        this.__updateState(true, newV)
+      }
     },
 
     seamless (v) {
-      this.showing && this.__preventScroll(!v)
+      this.showing === true && this.__preventScroll(!v)
     }
   },
 
