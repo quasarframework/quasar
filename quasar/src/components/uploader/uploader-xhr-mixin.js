@@ -20,8 +20,8 @@ export default {
     },
     headers: [Function, Array],
     fields: [Function, Array],
-    withCredentials: Boolean,
-    sendRaw: Boolean,
+    withCredentials: [Function, Boolean],
+    sendRaw: [Function, Boolean],
     batch: [Function, Boolean]
   },
 
@@ -39,6 +39,8 @@ export default {
         headers: getFn(this.headers),
         fields: getFn(this.fields),
         fieldName: getFn(this.fieldName),
+        withCredentials: getFn(this.withCredentials),
+        sendRaw: getFn(this.sendRaw),
         batch: getFn(this.batch)
       }
     },
@@ -151,7 +153,7 @@ export default {
         this.xhrProps.url(files)
       )
 
-      if (this.withCredentials) {
+      if (this.xhrProps.withCredentials(files) === true) {
         xhr.withCredentials = true
       }
 
@@ -162,9 +164,11 @@ export default {
         })
       }
 
+      const sendRaw = this.xhrProps.sendRaw(files)
+
       files.forEach(file => {
         this.__updateFile(file, 'uploading', 0)
-        if (this.sendRaw !== true) {
+        if (sendRaw !== true) {
           form.append(this.xhrProps.fieldName(file), file)
         }
         file.xhr = xhr
@@ -175,7 +179,7 @@ export default {
       this.__emit('uploading', { files, xhr })
       this.xhrs.push(xhr)
 
-      if (this.sendRaw === true) {
+      if (sendRaw === true) {
         xhr.send(files)
       }
       else {
@@ -232,7 +236,7 @@ export default {
         this.xhrProps.url(files)
       )
 
-      if (this.withCredentials) {
+      if (this.xhrProps.withCredentials(files) === true) {
         xhr.withCredentials = true
       }
 
@@ -248,7 +252,7 @@ export default {
       file.__abort = xhr.abort
       this.__emit('uploading', { files, xhr })
 
-      if (this.sendRaw === true) {
+      if (this.xhrProps.sendRaw(file) === true) {
         xhr.send(file)
       }
       else {

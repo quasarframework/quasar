@@ -165,13 +165,15 @@
     },
 
     "with-credentials": {
-      "type": "Boolean",
-      "desc": "Sets withCredentials to true on the XHR that manages the upload"
+      "type": [ "Boolean", "Function" ],
+      "desc": "Sets withCredentials to true on the XHR that manages the upload; Takes boolean or factory function for Boolean; Function is called right before upload",
+      "examples": [ "with-credentials", ":with-credentials=\"files => ...\"" ]
     },
 
     "send-raw": {
-      "type": "Boolean",
-      "desc": "Send raw files without wrapping into a Form()"
+      "type": [ "Boolean", "Function" ],
+      "desc": "Send raw files without wrapping into a Form(); Takes boolean or factory function for Boolean; Function is called right before upload",
+      "examples": [ "send-raw", ":send-raw=\"files => ...\"" ]
     },
 
     "batch": {
