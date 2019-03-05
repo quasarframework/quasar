@@ -23,14 +23,10 @@ Should you have Vue CLI 2.x.x. installed, you'll need to uninstall it with:
 
 ```bash
 $ npm uninstall -g vue-cli
-# or:
-$ yarn global remove vue-cli
 ```
 and then install Vue CLI 3.0 as follows:
 
 ```bash
-$ yarn global add @vue/cli
-# or:
 $ npm install -g @vue/cli // recommended
 ```
 

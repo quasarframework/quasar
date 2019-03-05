@@ -6,8 +6,6 @@ title: Mobile App Build Commands
 Before we dive in, make sure you got the Cordova CLI installed.
 
 ```bash
-$ yarn global add cordova
-# or:
 $ npm install -g cordova
 ```
 

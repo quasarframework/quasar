@@ -84,7 +84,7 @@ In this example, we will use [Express](https://expressjs.com/) to create a minim
 
 First, we need to install the required dependencies to our project:
 ```bash
-$ npm install express serve-static connect-history-api-fallback
+$ yarn add express serve-static connect-history-api-fallback
 ```
 
 Now that we have installed the required dependencies, we can add our server. Create a file called `server.js` in the root directory of your project.
@@ -106,7 +106,7 @@ Heroku assumes a set of npm scripts to be available, so we have to alter our `pa
 ```js
 "build": "quasar build",
 "start": "node server.js",
-"heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
+"heroku-postbuild": "yarn && yarn build"
 ```
 
 Now it is time to create an app on Heroku by running:
@@ -135,8 +135,7 @@ $ quasar build
 
 Now we can deploy our application using Surge by calling:
 ```bash
-# make sure to replace <theme> with your actual theme
-$ surge dist/spa-<theme>
+$ surge dist/spa
 ```
 
 Now your application should be successfully deployed using Surge. You should be able to adapt this guide to any other static site deployment tool.
@@ -159,7 +158,7 @@ Manual copying all your files to your GitHub Pages repository can be a cumbersom
 
 First, install the package with:
 ```js
-$ npm install push-dir --save-dev
+$ yarn add --dev push-dir
 ```
 
 Then add a `deploy` script command to your `package.json`:
@@ -177,6 +176,6 @@ $ git remote add gh-pages git@github.com:<username>/<username>.github.io.git
 Now you can build and deploy your application using:
 ```bash
 $ quasar build
-$ npm run deploy
+$ yarn deploy
 ```
 which will push the content of your build directory to your master branch on your Github Pages repository.

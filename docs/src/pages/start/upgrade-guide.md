@@ -52,8 +52,6 @@ The best way to start upgrading your project is to follow these steps:
 
 2) **Remove** local `quasar-cli` package
   ```bash
-  $ npm uninstall --save-dev quasar-cli
-  # or
   $ yarn remove quasar-cli
   ```
 
@@ -61,22 +59,16 @@ The best way to start upgrading your project is to follow these steps:
 
 4) **Install**: `quasar` and `@quasar/extras` as dependency
   ```bash
-  $ npm install --save quasar @quasar/extras
-  # or
   $ yarn add quasar @quasar/extras
   ```
 
 5) **Install**: `@quasar/app` as development dependency
   ```bash
-  $ npm install --save-dev @quasar/app
-  # or
   $ yarn add --dev @quasar/app
   ```
 
 6) **Re-install** all the npm packages
   ```bash
-  $ npm install
-  # or
   $ yarn
   ```
 
@@ -169,16 +161,12 @@ The best way to start upgrading your project is to follow these steps:
 
 ```bash
 $ npm remove -g quasar-cli
-# or
-$ yarn global remove quasar-cli
 ```
 
 **Install** global Quasar CLI
 
 ```bash
 $ npm install -g @quasar/cli
-# or
-$ yarn global add @quasar/cli
 ```
 
 17) Last, but not least, do a sanity check with `quasar info`:

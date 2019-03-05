@@ -7,6 +7,7 @@ export default {
       canRender: !onSSR
     }
   },
+
   mounted () {
     this.canRender === false && (this.canRender = true)
   }

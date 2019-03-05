@@ -466,10 +466,6 @@ class QuasarConfig {
     }
 
     if (this.ctx.dev) {
-      const
-        initialPort = cfg.devServer && cfg.devServer.port,
-        initialHost = cfg.devServer && cfg.devServer.host
-
       cfg.devServer = merge({
         publicPath: cfg.build.publicPath,
         hot: true,
@@ -507,6 +503,11 @@ class QuasarConfig {
         if (isMinimalTerminal) {
           cfg.devServer.open = false
         }
+      }
+
+      if (cfg.devServer.open && cfg.devServer.open !== true) {
+        cfg.__opnOptions = cfg.devServer.open
+        cfg.devServer.open = true
       }
     }
 

@@ -27,12 +27,12 @@ export default Vue.extend({
   data () {
     return {
       // page related
-      height: onSSR ? 0 : window.innerHeight,
-      width: onSSR || this.container ? 0 : window.innerWidth,
+      height: onSSR === true ? 0 : window.innerHeight,
+      width: onSSR === true || this.container === true ? 0 : window.innerWidth,
 
       // container only prop
       containerHeight: 0,
-      scrollbarWidth: onSSR ? 0 : getScrollbarWidth(),
+      scrollbarWidth: onSSR === true ? 0 : getScrollbarWidth(),
 
       header: {
         size: 0,
@@ -75,15 +75,15 @@ export default Vue.extend({
     // used by container only
     targetStyle () {
       if (this.scrollbarWidth !== 0) {
-        return { [this.$q.lang.rtl ? 'left' : 'right']: `${this.scrollbarWidth}px` }
+        return { [this.$q.lang.rtl === true ? 'left' : 'right']: `${this.scrollbarWidth}px` }
       }
     },
 
     targetChildStyle () {
       if (this.scrollbarWidth !== 0) {
         return {
-          [this.$q.lang.rtl ? 'right' : 'left']: 0,
-          [this.$q.lang.rtl ? 'left' : 'right']: `-${this.scrollbarWidth}px`,
+          [this.$q.lang.rtl === true ? 'right' : 'left']: 0,
+          [this.$q.lang.rtl === true ? 'left' : 'right']: `-${this.scrollbarWidth}px`,
           width: `calc(100% + ${this.scrollbarWidth}px)`
         }
       }
@@ -91,12 +91,7 @@ export default Vue.extend({
   },
 
   created () {
-    this.instances = {
-      header: null,
-      right: null,
-      footer: null,
-      left: null
-    }
+    this.instances = {}
   },
 
   render (h) {
@@ -110,7 +105,7 @@ export default Vue.extend({
       slot(this, 'default')
     ])
 
-    return this.container
+    return this.container === true
       ? h('div', {
         staticClass: 'q-layout-container relative-position overflow-hidden'
       }, [

@@ -48,9 +48,7 @@ export default Vue.extend({
     },
 
     reveal (val) {
-      if (!val) {
-        this.__updateLocal('revealed', this.value)
-      }
+      val === false && this.__updateLocal('revealed', this.value)
     },
 
     revealed (val) {
@@ -71,37 +69,44 @@ export default Vue.extend({
     },
 
     '$q.screen.height' (val) {
-      !this.layout.container && this.__updateLocal('windowHeight', val)
+      this.layout.container !== true && this.__updateLocal('windowHeight', val)
     }
   },
 
   computed: {
     fixed () {
-      return this.reveal || this.layout.view.indexOf('F') > -1 || this.layout.container
+      return this.reveal === true ||
+        this.layout.view.indexOf('F') > -1 ||
+        this.layout.container === true
     },
 
     containerHeight () {
-      return this.layout.container
+      return this.layout.container === true
         ? this.layout.containerHeight
         : this.windowHeight
     },
 
     offset () {
-      if (!this.canRender || !this.value) {
+      if (this.canRender !== true || this.value !== true) {
         return 0
       }
-      if (this.fixed) {
-        return this.revealed ? this.size : 0
+      if (this.fixed === true) {
+        return this.revealed === true ? this.size : 0
       }
       const offset = this.layout.scroll.position + this.containerHeight + this.size - this.layout.height
       return offset > 0 ? offset : 0
     },
 
     classes () {
-      return ((this.fixed ? 'fixed' : 'absolute') + '-bottom') +
-        (this.value || this.fixed ? '' : ' hidden') +
-        (this.bordered ? ' q-footer--bordered' : '') +
-        (!this.canRender || !this.value || (this.fixed && !this.revealed) ? ' q-footer--hidden' : '')
+      return (
+        (this.fixed === true ? 'fixed' : 'absolute') + '-bottom') +
+        (this.value === true || this.fixed === true ? '' : ' hidden') +
+        (this.bordered === true ? ' q-footer--bordered' : '') +
+        (
+          this.canRender !== true || this.value !== true || (this.fixed === true && this.revealed !== true)
+            ? ' q-footer--hidden'
+            : ''
+        )
     },
 
     style () {
@@ -109,10 +114,10 @@ export default Vue.extend({
         view = this.layout.rows.bottom,
         css = {}
 
-      if (view[0] === 'l' && this.layout.left.space) {
+      if (view[0] === 'l' && this.layout.left.space === true) {
         css[this.$q.lang.rtl ? 'right' : 'left'] = `${this.layout.left.size}px`
       }
-      if (view[2] === 'r' && this.layout.right.space) {
+      if (view[2] === 'r' && this.layout.right.space === true) {
         css[this.$q.lang.rtl ? 'left' : 'right'] = `${this.layout.right.size}px`
       }
 
@@ -132,7 +137,7 @@ export default Vue.extend({
         on: { resize: this.__onResize }
       }),
 
-      this.elevated
+      this.elevated === true
         ? h('div', {
           staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
         })
@@ -148,7 +153,7 @@ export default Vue.extend({
 
   beforeDestroy () {
     if (this.layout.instances.footer === this) {
-      this.layout.instances.footer = null
+      this.layout.instances.footer = void 0
       this.__update('size', 0)
       this.__update('offset', 0)
       this.__update('space', false)
@@ -174,7 +179,7 @@ export default Vue.extend({
     },
 
     __updateRevealed () {
-      if (!this.reveal) { return }
+      if (this.reveal !== true) { return }
 
       const { direction, position, inflexionPosition } = this.layout.scroll
 

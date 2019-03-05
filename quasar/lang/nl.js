@@ -25,7 +25,7 @@ export default {
     format24h: true
   },
   table: {
-    noData: 'Geen data bechikbaar',
+    noData: 'Geen data beschikbaar',
     noResults: 'Geen records gevonden',
     loading: 'Laden...',
     selectedRecords: function (rows) {
@@ -36,7 +36,7 @@ export default {
     recordsPerPage: 'Rijen per pagina:',
     allRows: 'Alle',
     pagination: function (start, end, total) {
-      return start + '-' + end + ' op ' + total
+      return start + '-' + end + ' van ' + total
     },
     columns: 'Kolommen'
   },

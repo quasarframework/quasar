@@ -8,9 +8,17 @@ const
 
 let alreadyNotified = false
 
-function openBrowser (url) {
+function openBrowser (url, opts) {
   const opn = require('opn')
-  opn(url)
+
+  if (opts) {
+    log('Opening browser at ' + url + ' with options: ' + opts)
+    opn(url, { app: opts })
+  }
+  else {
+    log('Opening default browser at ' + url)
+    opn(url)
+  }
 }
 
 module.exports = class DevServer {
@@ -53,7 +61,7 @@ module.exports = class DevServer {
         alreadyNotified = true
 
         if (cfg.devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
-          openBrowser(cfg.build.APP_URL)
+          openBrowser(cfg.build.APP_URL, cfg.__opnOptions)
         }
       })
     })
@@ -241,7 +249,7 @@ module.exports = class DevServer {
       server.listen(cfg.devServer.port, cfg.devServer.host, () => {
         resolve()
         if (cfg.devServer.open) {
-          openBrowser(cfg.build.APP_URL)
+          openBrowser(cfg.build.APP_URL, cfg.__opnOptions)
         }
       })
     })

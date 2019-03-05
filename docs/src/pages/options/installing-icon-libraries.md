@@ -84,8 +84,6 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
 3. Install Fontawesome webfonts:
   ```bash
   $ yarn add @fortawesome/fontawesome-pro
-  # or:
-  $ npm install --save @fortawesome/fontawesome-pro
   ```
 4. Create new boot file:
   ```bash
