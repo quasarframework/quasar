@@ -178,6 +178,9 @@ devServer: {
 }
 ```
 
+> TIP
+> Be sure to write the full browser name. Eg. 'google chrome' instead of just 'chrome'.
+
 ### build Property
 | Property | Type | Description |
 | --- | --- | --- |
