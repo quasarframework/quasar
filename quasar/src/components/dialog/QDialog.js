@@ -89,7 +89,7 @@ export default Vue.extend({
 
     maximized (newV, oldV) {
       this.__updateState(false, oldV)
-      this.__updateState(true, newV)
+      if (this.value) this.__updateState(true, newV)
     },
 
     seamless (v) {
