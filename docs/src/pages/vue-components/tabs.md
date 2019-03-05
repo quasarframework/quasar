@@ -50,6 +50,12 @@ In the second QTabs from the example below, if window width is below 1024px then
 
 <doc-example title="With a dropdown" file="QTabs/Dropdown" />
 
+## Using along QToolbar
+
+Notice we need to specify the `shrink` prop. By default, QTabs tries to expand to all the available horizontal space, but in this case we are using it as a child of QToolbar so we don't want that.
+
+<doc-example title="Tabs in a QToolbar" file="QTabs/TabsInToolbar" />
+
 ## Using along QTabsPanel
 
 ::: tip

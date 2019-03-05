@@ -33,6 +33,8 @@ export default Vue.extend({
       default: 600
     },
 
+    shrink: Boolean,
+
     activeColor: String,
     activeBgColor: String,
     indicatorColor: String,
@@ -101,15 +103,17 @@ export default Vue.extend({
 
   computed: {
     alignClass () {
-      const align = this.scrollable
+      const align = this.scrollable === true
         ? 'left'
-        : (this.justify ? 'justify' : this.align)
+        : (this.justify === true ? 'justify' : this.align)
 
       return `q-tabs__content--align-${align}`
     },
 
     classes () {
-      return `q-tabs--${this.scrollable ? '' : 'not-'}scrollable${this.dense ? ' q-tabs--dense' : ''}`
+      return `q-tabs--${this.scrollable === true ? '' : 'not-'}scrollable` +
+        (this.dense === true ? ' q-tabs--dense' : '') +
+        (this.shrink === true ? ' col-shrink' : '')
     }
   },
 
@@ -159,7 +163,7 @@ export default Vue.extend({
         this.scrollable = scroll
       }
 
-      scroll && this.$nextTick(() => this.__updateArrows())
+      scroll === true && this.$nextTick(() => this.__updateArrows())
 
       const justify = width < parseInt(this.breakpoint, 10)
       if (this.justify !== justify) {
