@@ -168,7 +168,7 @@ Most used properties are:
 | open | Boolean/String | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. If specifying a String then see explanations below. |
 | public | String | Public address of the application (for use with reverse proxies) |
 
-Using `open` prop to open with a specific browser and not with the default browser of your OS:
+Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/opn/blob/master/test.js) based on the host OS):
 
 ```
 // quasar.conf.js
@@ -177,9 +177,6 @@ devServer: {
   open: 'firefox'
 }
 ```
-
-> TIP
-> Be sure to write the full browser name. Eg. 'google chrome' instead of just 'chrome'.
 
 ### build Property
 | Property | Type | Description |
