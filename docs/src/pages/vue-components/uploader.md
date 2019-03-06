@@ -62,6 +62,17 @@ There is also the `with-credentials` property, which sets `withCredentials` to `
 You can also customize the HTTP headers and HTTP method through `headers` and `method` props. Check QUploader API section.
 :::
 
+### Factory function
+There is a `factory` prop you can use which must be a Function. This function can return either an Object or a Promise resolving with an Object (and in case the Promise fails, `@factory-failed` event is emitted).
+
+The Object described above can override the following QUploader props: `url`, `method`, `headers`, `fields`, `fieldName`, `withCredentials`, `sendRaw`). The props of this Object can be Functions as well (of form `(file[s]) => value`):
+
+<doc-example title="Promise-based factory function" file="QUploader/FactoryPromise" />
+
+You can also use the `factory` Function prop and return immediately the same Object. This is useful if you want to set multiple props (described above) simultaneously:
+
+<doc-example title="Immediate return factory function" file="QUploader/FactoryImmediate" />
+
 ### Slots
 
 In the example below we're showing the equivalent of the default header:

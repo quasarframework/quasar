@@ -397,6 +397,7 @@ export default {
   },
 
   beforeDestroy () {
+    this.isDestroyed = true
     this.isUploading && this.abort()
   },
 
@@ -446,7 +447,13 @@ export default {
           dragleave: this.__onDragLeave,
           drop: this.__onDrop
         }
-      }) : null
+      }) : null,
+
+      this.isBusy === true ? h('div', {
+        staticClass: 'q-uploader__overlay absolute-full flex flex-center'
+      }, [
+        h(QSpinner)
+      ]) : null
     ])
   }
 }

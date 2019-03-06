@@ -91,9 +91,25 @@
       "extends": "readonly"
     },
 
+    "factory": {
+      "type": "Function",
+      "desc": "Function which should return an Object or a Promise resolving with an Object",
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Uploaded files",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": [ "Object", "Promise" ],
+        "desc": "Optional configuration for the upload process; You can override QUploader props in this Object (url, method, headers, fields, fieldName, withCredentials, sendRaw); Props of these Object can also be Functions with the form of (file[s]) => value",
+        "__exemption": [ "examples" ]
+      }
+    },
+
     "url": {
       "type": [ "String", "Function" ],
-      "required": true,
       "desc": "URL or path to the server which handles the upload. Takes String or factory function, which returns String. Function is called right before upload",
       "examples": ["https://example.com/path", "files => `https://example.com?count=${files.length}`"]
     },
@@ -250,6 +266,22 @@
         "xhr": {
           "type": "Object",
           "desc": "XMLHttpRequest used for uploading",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "factory-failed": {
+      "desc": "Emitted when factory function is supplied with a Promise which is rejected",
+      "params": {
+        "err": {
+          "type": "Object",
+          "desc": "Error Object which is the Promise rejection reason",
+          "__exemption": [ "examples" ]
+        },
+        "files": {
+          "type": "Array",
+          "desc": "Files which were to get uploaded",
           "__exemption": [ "examples" ]
         }
       }
