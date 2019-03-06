@@ -49,6 +49,11 @@
     outline-offset -4px
     background rgba(255, 255, 255, .6)
 
+  &__overlay
+    font-size 36px
+    color black
+    background-color rgba(255, 255, 255, .6)
+
   &__list
     position relative
     border-bottom-left-radius inherit
@@ -121,5 +126,7 @@
       background $grey-9
     .q-uploader__file
       border-color $separator-dark-color
-    .q-uploader__dnd
+    .q-uploader__dnd, .q-uploader__overlay
       background rgba(255, 255, 255, .3)
+    .q-uploader__overlay
+      color white

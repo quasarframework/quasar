@@ -6,10 +6,7 @@ function getFn (prop) {
 
 export default {
   props: {
-    url: {
-      type: [Function, String],
-      required: true
-    },
+    url: [Function, String],
     method: {
       type: [Function, String],
       default: 'POST'
@@ -22,12 +19,15 @@ export default {
     fields: [Function, Array],
     withCredentials: [Function, Boolean],
     sendRaw: [Function, Boolean],
-    batch: [Function, Boolean]
+
+    batch: [Function, Boolean],
+    factory: Function
   },
 
   data () {
     return {
-      xhrs: []
+      xhrs: [],
+      isBusy: false
     }
   },
 
@@ -64,34 +64,80 @@ export default {
     upload () {
       if (this.disable || !this.queuedFiles.length) { return }
 
-      if (this.url === void 0) {
-        console.error('q-uploader: no xhr-url prop specified')
+      const queue = this.queuedFiles.slice(0)
+      this.queuedFiles = []
+
+      if (this.xhrProps.batch(queue)) {
+        this.__runFactory('__uploadBatch', queue)
+      }
+      else {
+        queue.forEach(file => {
+          this.__runFactory('__uploadSingleFile', file)
+        })
+      }
+    },
+
+    __runFactory (method, payload) {
+      if (typeof this.factory !== 'function') {
+        this[method](payload, {})
         return
       }
 
-      if (this.xhrProps.batch(this.queuedFiles)) {
-        this.__uploadBatch(this.queuedFiles)
+      const res = this.factory(payload)
+
+      if (!res) {
+        this.$emit('factory-fail')
       }
-      else {
-        this.queuedFiles.forEach(file => {
-          this.__uploadSingleFile(file)
+      else if (typeof res.catch === 'function' && typeof res.then === 'function') {
+        this.isBusy = true
+
+        res.then(factory => {
+          if (this.isDestroyed !== true) {
+            this.isBusy = false
+            this[method](payload, factory)
+          }
+        }).catch(err => {
+          if (this.isDestroyed !== true) {
+            this.isBusy = false
+
+            const files = Array.isArray(payload)
+              ? payload
+              : [ payload ]
+
+            this.queuedFiles = this.queuedFiles.concat(files)
+            files.forEach(f => { this.__updateFile(f, 'failed') })
+
+            this.$emit('factory-failed', err, files)
+          }
         })
       }
-
-      this.queuedFiles = []
+      else {
+        this[method](payload, res || {})
+      }
     },
 
-    __uploadBatch (files) {
+    __uploadBatch (files, factory) {
       const
         form = new FormData(),
         xhr = new XMLHttpRequest()
 
-      if (this.fields !== void 0) {
-        const fields = this.xhrProps.fields(files)
-        fields !== void 0 && fields.forEach(field => {
-          form.append(field.name, field.value)
-        })
+      const getProp = (name, arg) => {
+        return factory[name] !== void 0
+          ? getFn(factory[name])(arg)
+          : this.xhrProps[name](arg)
       }
+
+      const url = getProp('url', files)
+
+      if (!url) {
+        console.error('q-uploader: invalid or no URL specified')
+        return
+      }
+
+      const fields = getProp('fields', files)
+      fields !== void 0 && fields.forEach(field => {
+        form.append(field.name, field.value)
+      })
 
       let
         uploadIndex = 0,
@@ -149,27 +195,25 @@ export default {
       }
 
       xhr.open(
-        this.xhrProps.method(files),
-        this.xhrProps.url(files)
+        getProp('method', files),
+        url
       )
 
-      if (this.xhrProps.withCredentials(files) === true) {
+      if (getProp('withCredentials', files) === true) {
         xhr.withCredentials = true
       }
 
-      if (this.headers !== void 0) {
-        const headers = this.xhrProps.headers(files)
-        headers !== void 0 && headers.forEach(head => {
-          xhr.setRequestHeader(head.name, head.value)
-        })
-      }
+      const headers = getProp('headers', files)
+      headers !== void 0 && headers.forEach(head => {
+        xhr.setRequestHeader(head.name, head.value)
+      })
 
-      const sendRaw = this.xhrProps.sendRaw(files)
+      const sendRaw = getProp('sendRaw', files)
 
       files.forEach(file => {
         this.__updateFile(file, 'uploading', 0)
         if (sendRaw !== true) {
-          form.append(this.xhrProps.fieldName(file), file)
+          form.append(getProp('fieldName', file), file)
         }
         file.xhr = xhr
         file.__abort = xhr.abort
@@ -187,18 +231,29 @@ export default {
       }
     },
 
-    __uploadSingleFile (file) {
+    __uploadSingleFile (file, factory) {
       const
         form = new FormData(),
         files = [ file ],
         xhr = new XMLHttpRequest()
 
-      if (this.fields !== void 0) {
-        const fields = this.xhrProps.fields(files)
-        fields !== void 0 && fields.forEach(field => {
-          form.append(field.name, field.value)
-        })
+      const getProp = (name, arg) => {
+        return factory[name] !== void 0
+          ? getFn(factory[name])(arg)
+          : this.xhrProps[name](arg)
       }
+
+      const url = getProp('url', file)
+
+      if (url === void 0) {
+        console.error('q-uploader: no URL prop specified')
+        return
+      }
+
+      const fields = getProp('fields', files)
+      fields !== void 0 && fields.forEach(field => {
+        form.append(field.name, field.value)
+      })
 
       xhr.upload.addEventListener('progress', e => {
         if (file.__status !== 'failed') {
@@ -232,31 +287,29 @@ export default {
       this.__updateFile(file, 'uploading', 0)
 
       xhr.open(
-        this.xhrProps.method(files),
-        this.xhrProps.url(files)
+        getProp('method', files),
+        url
       )
 
-      if (this.xhrProps.withCredentials(files) === true) {
+      if (getProp('withCredentials', files) === true) {
         xhr.withCredentials = true
       }
 
-      if (this.headers !== void 0) {
-        const headers = this.xhrProps.headers(files)
-        headers !== void 0 && headers.forEach(head => {
-          xhr.setRequestHeader(head.name, head.value)
-        })
-      }
+      const headers = getProp('headers', files)
+      headers !== void 0 && headers.forEach(head => {
+        xhr.setRequestHeader(head.name, head.value)
+      })
 
       this.xhrs.push(xhr)
       file.xhr = xhr
       file.__abort = xhr.abort
       this.__emit('uploading', { files, xhr })
 
-      if (this.xhrProps.sendRaw(file) === true) {
+      if (getProp('sendRaw', file) === true) {
         xhr.send(file)
       }
       else {
-        form.append(this.xhrProps.fieldName(file), file)
+        form.append(getProp('fieldName', file), file)
         xhr.send(form)
       }
     }
