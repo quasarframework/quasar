@@ -19,7 +19,16 @@
       </div>
 
       <div class="q-gutter-sm">
-        <q-uploader v-bind="props" multiple url="http://localhost:4444/upload" />
+        <q-banner class="bg-info q-ma-md">
+          {{ message }}
+        </q-banner>
+        <q-uploader
+          v-bind="props"
+          multiple
+          url="http://localhost:4444/upload"
+          @added="onAdded"
+          @removed="onRemoved"
+        />
 
         <q-uploader
           :dark="dark"
@@ -84,7 +93,8 @@ export default {
       label: true,
 
       readonly: false,
-      disable: false
+      disable: false,
+      message: '0 files added.'
     }
   },
 
@@ -113,6 +123,12 @@ export default {
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))
+    },
+    onAdded (files) {
+      this.message = `${files.length || 0} added`
+    },
+    onRemoved (files) {
+      this.message = `${files.length || 0} added`
     },
     promiseFn (files) {
       return new Promise((resolve) => {

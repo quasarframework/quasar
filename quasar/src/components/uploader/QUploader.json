@@ -212,12 +212,23 @@
   },
 
   "events": {
-    "add": {
+    "added": {
       "desc": "Emitted when files are added into the list",
       "params": {
         "files": {
           "type": "Array",
           "desc": "Array of files that were added",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "removed": {
+      "desc": "Emitted when files are removed from the list",
+      "params": {
+        "files": {
+          "type": "Array",
+          "desc": "Array of files that were removed",
           "__exemption": [ "examples" ]
         }
       }

@@ -149,6 +149,7 @@ export default {
 
       this.files = this.files.filter(f => f.name !== file.name)
       this.queuedFiles = this.queuedFiles.filter(f => f.name !== file.name)
+      this.__emit('removed', this.files)
     },
 
     __emit (evt, payload) {
@@ -261,7 +262,7 @@ export default {
       Promise.all(filesReady).then(() => {
         this.files = this.files.concat(files)
         this.queuedFiles = this.queuedFiles.concat(files)
-        this.__emit('add', files)
+        this.__emit('added', this.files)
         this.autoUpload === true && this.upload()
       })
     },
