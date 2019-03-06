@@ -90,7 +90,7 @@ export default {
         autoUpload: this.autoUpload,
         batch: this.batch,
         noThumbnails: this.noThumbnails,
-        label: this.label ? 'Upload' : null,
+        label: this.label ? 'Upload files' : null,
 
         readonly: this.readonly,
         disable: this.disable
