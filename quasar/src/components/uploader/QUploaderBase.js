@@ -123,14 +123,20 @@ export default {
 
     removeQueuedFiles () {
       if (!this.disable) {
+        const removedFiles = []
+
         this.files.forEach(file => {
           if (file.__status === 'idle' || file.__status === 'failed') {
             this.uploadSize -= file.size
+            removedFiles.push(file)
           }
         })
 
-        this.files = this.files.filter(f => f.__status !== 'idle' && f.__status !== 'failed')
-        this.queuedFiles = []
+        if (removedFiles.length > 0) {
+          this.files = this.files.filter(f => f.__status !== 'idle' && f.__status !== 'failed')
+          this.queuedFiles = []
+          this.$emit('removed', removedFiles)
+        }
       }
     },
 
@@ -149,7 +155,7 @@ export default {
 
       this.files = this.files.filter(f => f.name !== file.name)
       this.queuedFiles = this.queuedFiles.filter(f => f.name !== file.name)
-      this.__emit('removed', this.files)
+      this.__emit('removed', [ file ])
     },
 
     __emit (evt, payload) {
@@ -262,7 +268,7 @@ export default {
       Promise.all(filesReady).then(() => {
         this.files = this.files.concat(files)
         this.queuedFiles = this.queuedFiles.concat(files)
-        this.__emit('added', this.files)
+        this.__emit('added', files)
         this.autoUpload === true && this.upload()
       })
     },

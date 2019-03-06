@@ -19,9 +19,6 @@
       </div>
 
       <div class="q-gutter-sm">
-        <q-banner class="bg-info q-ma-md">
-          {{ message }}
-        </q-banner>
         <q-uploader
           v-bind="props"
           multiple
@@ -93,8 +90,7 @@ export default {
       label: true,
 
       readonly: false,
-      disable: false,
-      message: '0 files added.'
+      disable: false
     }
   },
 
@@ -125,10 +121,12 @@ export default {
       console.log('@input', JSON.stringify(val))
     },
     onAdded (files) {
-      this.message = `${files.length || 0} added`
+      console.log(`@added ${files.length || 0} files`)
+      console.log(files)
     },
     onRemoved (files) {
-      this.message = `${files.length || 0} added`
+      console.log(`@removed ${files.length || 0} files`)
+      console.log(files)
     },
     promiseFn (files) {
       return new Promise((resolve) => {
