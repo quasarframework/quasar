@@ -20,7 +20,16 @@
       </div>
 
       <div class="q-gutter-sm">
-        <q-uploader v-bind="props" multiple url="http://localhost:4444/upload" />
+        <q-banner class="bg-info q-ma-md">
+          {{ message }}
+        </q-banner>
+        <q-uploader
+          v-bind="props"
+          multiple
+          url="http://localhost:4444/upload"
+          @added="onAdded"
+          @removed="onRemoved"
+        />
         <q-uploader v-bind="props" multiple url="http://localhost:4444/upload">
           <template v-slot:header="scope">
             <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
@@ -29,7 +38,7 @@
               <q-spinner v-if="scope.isUploading" class="q-uploader__spinner" />
               <div class="col">
                 <div class="q-uploader__title">
-                  Upload your files
+                  Upload your
                 </div>
                 <div class="q-uploader__subtitle">
                   {{ scope.uploadSizeLabel }} / {{ scope.uploadProgressLabel }}
@@ -64,7 +73,8 @@ export default {
       label: true,
 
       readonly: false,
-      disable: false
+      disable: false,
+      message: '0 files added.'
     }
   },
 
@@ -80,7 +90,7 @@ export default {
         autoUpload: this.autoUpload,
         batch: this.batch,
         noThumbnails: this.noThumbnails,
-        label: this.label ? 'Upload files' : null,
+        label: this.label ? 'Upload' : null,
 
         readonly: this.readonly,
         disable: this.disable
@@ -94,6 +104,14 @@ export default {
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))
+    },
+    onAdded (files) {
+      this.message = `${files.length || 0}
+       added`
+    },
+    onRemoved (files) {
+      this.message = `${files.length || 0}
+       added`
     }
   }
 }
