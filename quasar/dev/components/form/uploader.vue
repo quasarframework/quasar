@@ -38,7 +38,7 @@
               <q-spinner v-if="scope.isUploading" class="q-uploader__spinner" />
               <div class="col">
                 <div class="q-uploader__title">
-                  Upload your
+                  Upload your files
                 </div>
                 <div class="q-uploader__subtitle">
                   {{ scope.uploadSizeLabel }} / {{ scope.uploadProgressLabel }}
