@@ -6,6 +6,35 @@ title: Upgrade Guide
 Quasar's v1 version is now on a stable API.
 :::
 
+## Upgrading from older v1 to latest v1
+
+### UMD
+Simply replace the version string in all the CSS and JS tags that refer to Quasar to the newer version.
+
+### Quasar CLI
+
+```bash
+$ yarn add quasar@latest
+```
+
+You may also want to make sure you have the latest of the other Quasar packages too:
+
+```bash
+$ yarn add @quasar/extras@latest
+$ yarn add --dev @quasar/app@latest
+```
+
+### Vue CLI
+```bash
+$ yarn upgrade quasar@latest
+```
+
+You may also want to make sure you have the latest of `@quasar/extras` package too:
+
+```bash
+$ yarn add @quasar/extras@latest
+```
+
 ## Best Practices
 
 Before you start down this journey of upgrading Quasar Legacy to Quasar v1 you should know a few things:
