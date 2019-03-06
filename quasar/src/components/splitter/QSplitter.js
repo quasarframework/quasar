@@ -3,6 +3,7 @@ import Vue from 'vue'
 import TouchPan from '../../directives/TouchPan.js'
 
 import slot from '../../utils/slot.js'
+import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QSplitter',
@@ -127,7 +128,8 @@ export default Vue.extend({
         ref: 'before',
         staticClass: 'q-splitter__panel q-splitter__before',
         style: this.beforeStyle,
-        class: this.beforeClass
+        class: this.beforeClass,
+        on: { input: stop }
       }, slot(this, 'before')),
 
       h('div', {
@@ -156,7 +158,8 @@ export default Vue.extend({
         ref: 'after',
         staticClass: 'q-splitter__panel q-splitter__after',
         style: this.afterStyle,
-        class: this.afterClass
+        class: this.afterClass,
+        on: { input: stop }
       }, slot(this, 'after'))
     ].concat(slot(this, 'default')))
   }
