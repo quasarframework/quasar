@@ -94,8 +94,8 @@ export default {
     classes () {
       let colors
 
-      if (this.color) {
-        if (this.flat || this.outline) {
+      if (this.color !== void 0) {
+        if (this.flat === true || this.outline === true) {
           colors = `text-${this.textColor || this.color}`
         }
         else {
@@ -106,7 +106,7 @@ export default {
         colors = `text-${this.textColor}`
       }
 
-      return `q-btn--${this.isRound ? 'round' : 'rectangle'}` +
+      return `q-btn--${this.isRound === true ? 'round' : 'rectangle'}` +
         (colors !== void 0 ? ' ' + colors : '') +
         (this.isDisabled === true ? ' disabled' : ' q-focusable q-hoverable') +
         (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +

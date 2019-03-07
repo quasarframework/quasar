@@ -49,7 +49,7 @@ export default Vue.extend({
         : this.textColor
 
       return {
-        [`bg-${this.color}`]: !this.outline && this.color,
+        [`bg-${this.color}`]: this.outline === false && this.color !== void 0,
         [`text-${text} q-chip--colored`]: text,
         disabled: this.disable,
         'q-chip--dense': this.dense,
