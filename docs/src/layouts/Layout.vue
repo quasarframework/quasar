@@ -94,8 +94,6 @@ import { scroll } from 'quasar'
 import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'
 
-import docsearch from 'docsearch.js'
-
 export default {
   name: 'Layout',
 
@@ -223,7 +221,7 @@ export default {
   },
 
   mounted () {
-    docsearch({
+    import('docsearch.js').then(docsearch => docsearch.default({
       apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
       indexName: 'quasar-framework',
       inputSelector: '.doc-algolia input',
@@ -238,7 +236,7 @@ export default {
         this.$router.push(url)
         this.$refs.docAlgolia.blur()
       }
-    })
+    }))
   },
 
   beforeDestroy () {
