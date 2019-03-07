@@ -21,6 +21,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     v-model="leftDrawerState"
     bordered
     show-if-above
+    content-class="doc-left-drawer"
   )
     q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
       .row.justify-center.q-my-lg
@@ -272,6 +273,9 @@ export default {
 
   &.q-item--active
     background lighten($primary, 90%)
+
+.doc-left-drawer
+  overflow inherit !important
 
 .quasar-logo
   img

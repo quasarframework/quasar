@@ -465,7 +465,7 @@
 
 .doc-algolia
   input
-    line-height 138px
+    line-height 38px
   .q-field__control
     align-items center
   .q-field__append
@@ -489,6 +489,8 @@
     > div
       padding 0 !important
       border 0 !important
+      max-height 80vh
+      overflow auto
 
     .ds-suggestions
       margin-top 0
@@ -554,8 +556,3 @@
         margin -6px 0
         width 100% !important
 
-@media (max-width 520px)
-  .q-drawer--mobile
-    .algolia-autocomplete
-      .ds-dropdown-menu
-        width 200px
