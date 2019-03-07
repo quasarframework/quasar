@@ -108,6 +108,10 @@
   "methods": {
     "focus": {
       "desc": "Focus underlying input tag"
+    },
+
+    "blur": {
+      "desc": "Lose focus on underlying input tag"
     }
   }
 }
