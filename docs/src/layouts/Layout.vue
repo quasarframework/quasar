@@ -23,18 +23,33 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     show-if-above
   )
     q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
+      .row.justify-center.q-my-lg
+        q-btn(
+          type="a"
+          href="https://www.patreon.com/quasarframework"
+          target="_blank"
+          size="13px"
+          color="primary"
+          icon="fab fa-patreon"
+          label="Become a Patron"
+        )
+
       app-menu.q-my-lg
 
-    q-toolbar.absolute-top.bg-white.justify-center.layout-drawer-toolbar
-      q-btn(
-        type="a"
-        href="https://www.patreon.com/quasarframework"
-        target="_blank"
-        size="13px"
-        color="red"
-        icon="fab fa-patreon"
-        label="Become a Patron"
+    .absolute-top.bg-white.layout-drawer-toolbar
+      q-input.full-width.doc-algolia(
+        ref="docAlgolia"
+        v-model="search"
+        dense
+        standout
+        square
+        placeholder="Search..."
       )
+        template(v-slot:append)
+          q-icon(
+            name="search"
+            @click="$refs.docAlgolia.focus()"
+          )
 
   q-drawer(
     v-model="rightDrawerState"
@@ -205,6 +220,25 @@ export default {
     }
   },
 
+  mounted () {
+    window.docsearch({
+      apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
+      indexName: 'quasar-framework',
+      inputSelector: '.doc-algolia input',
+      algoliaOptions: {
+        hitsPerPage: 7
+      },
+      handleSelected: (a, b, suggestion, c, context) => {
+        const url = suggestion.url
+          .replace('https://v1.quasar-framework.org', '')
+
+        this.search = ''
+        this.$router.push(url)
+        this.$refs.docAlgolia.blur()
+      }
+    })
+  },
+
   beforeDestroy () {
     clearTimeout(this.scrollTimer)
   }
@@ -215,7 +249,7 @@ export default {
 @import '~quasar-variables'
 
 .header
-  background linear-gradient(145deg, $primary 11%, $dark-primary 45%)
+  background linear-gradient(145deg, $primary 11%, $dark-primary 75%)
 
 .header-logo
   width 25px
@@ -244,4 +278,104 @@ export default {
     transition transform .8s ease-in-out
   &:hover img
     transform rotate(-360deg)
+
+/* Algolia */
+.doc-algolia
+  &, & .q-field__control
+    height 50px
+  input
+    line-height 38px
+  .q-field__control
+    align-items center
+  .q-field__append
+    cursor text
+
+.algolia-autocomplete
+  width auto
+  min-width 0
+  max-width 100%
+  flex 10000 1 0%
+
+  .ds-dropdown-menu
+    box-shadow $shadow-2
+    max-width 93vw
+    width 500px
+    min-width 250px
+
+    &:before
+      background $primary
+
+    > div
+      padding 0 !important
+      border 0 !important
+
+    .ds-suggestions
+      margin-top 0
+      border-bottom 1px solid #ddd
+
+  .algolia-docsearch
+    &-suggestion
+      text-decoration none
+
+    &-suggestion--no-results
+      background $primary !important
+      &, .algolia-docsearch-suggestion--text
+        color white
+      .algolia-docsearch-suggestion--text
+        margin-top 0
+        padding 8px
+
+    &-suggestion--category-header
+      border-bottom 0
+      padding 8px
+      margin-top 0
+      background-color $primary
+      color #fff
+      font-weight bold
+
+    &-suggestion--subcategory-column
+      color $grey-7
+      padding 6px 10px
+
+    &-suggestion--title
+      margin-bottom 0
+
+    &-suggestion--text
+      margin-top 4px
+
+      .algolia-docsearch-suggestion--highlight
+        color $primary
+
+    &-suggestion--highlight
+      color $primary
+      font-weight bold
+      background rgba(0,0,0,.05)
+
+    &-suggestion--wrapper
+      padding-top 0
+
+    &-suggestion--content
+      background #fff
+      padding 6px 8px
+
+    &-suggestion
+      padding 0
+
+    &-footer
+      margin 6px
+
+    @media (max-width 768px)
+      &-suggestion--wrapper
+        padding 6px 8px
+      &-suggestion--content
+        padding 0 4px !important
+      &-suggestion--no-results
+        margin -6px 0
+        width 100% !important
+
+@media (max-width 520px)
+  .q-drawer--mobile
+    .algolia-autocomplete
+      .ds-dropdown-menu
+        width 200px
 </style>

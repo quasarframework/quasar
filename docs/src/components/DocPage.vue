@@ -44,11 +44,13 @@ q-page.doc-page
             .doc-page-nav__categ.text-uppercase {{ link.category || 'Docs' }}
             .doc-page-nav__name.text-weight-bold {{ link.name }}
 
-  .doc-edit-link
-    | Caught a mistake? <doc-link :to="editHref">Suggest an edit on Github</doc-link>
-
   .doc-page-footer
-    div.doc-page-footer__icons.row.items-center
+    q-separator
+
+    .q-my-sm
+      | Caught a mistake? <doc-link :to="editHref">Suggest an edit on Github</doc-link>
+
+    .doc-page-footer__icons.row.items-center
       a(href="https://github.com/quasarframework/quasar", target="_blank")
         q-icon(name="fab fa-github")
 
@@ -122,9 +124,6 @@ export default {
   .doc-page
     padding 16px
 
-.doc-edit-link
-  margin 52px 0
-
 .doc-page-related
   color $grey-9
   transition color .28s
@@ -136,20 +135,25 @@ export default {
   border 1px solid $separator-color
 
 .doc-page-footer
-  padding 46px 0 16px
+  font-size 12px
+  padding 36px 0 16px
 
   &__icons
     font-size 28px
+
     a
       margin 0 8px 8px
       text-decoration none
       outline 0
       color $primary
-    .q-icon:hover
-      color #000
+      transition color .28s
+
+      &:hover
+        color $grey-8
 
 .doc-page-nav
-  margin 68px 0 12px
+  margin 68px 0 0
+  margin-bottom 0 !important
 
   & + &
     margin-top 0
