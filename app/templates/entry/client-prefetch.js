@@ -29,7 +29,7 @@ function getMatchedComponents (to, router) {
     return Object.keys(m.components).map(key => {
       return {
         path: m.path,
-        c: m.components[key]
+        c: m.components[key].options || m.components[key] // options = typescript
       }
     })
   }))
@@ -54,13 +54,8 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
           m.path.indexOf('/:') > -1 // does it has params?
         ))
       })
-      .filter(m => m.c &&
-        typeof m.c.preFetch === 'function' || (
-          m.c.extendOptions && // TypeScript
-          typeof m.c.extendOptions.preFetch === 'function'
-        )
-      )
-      .map(m => m.c.extendOptions || m.c)
+      .filter(m => m.c && typeof m.c.preFetch === 'function')
+      .map(m => m.c)
 
     <% if (!ctx.mode.ssr) { %>
     if (appPrefetch) {
