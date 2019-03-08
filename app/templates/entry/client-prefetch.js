@@ -16,7 +16,8 @@ import { LoadingBar } from 'quasar'
 <% } %>
 
 <% if (!ctx.mode.ssr) { %>
-let appPrefetch = typeof App.preFetch === 'function'
+const appOptions = App.options /* Vue.extend() */ || App
+let appPrefetch = typeof appOptions.preFetch === 'function'
 <% } %>
 
 function getMatchedComponents (to, router) {
@@ -61,7 +62,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
     <% if (!ctx.mode.ssr) { %>
     if (appPrefetch) {
       appPrefetch = false
-      components.unshift(App.options /* Vue.extend() */ || App)
+      components.unshift(appOptions)
     }
     <% } %>
 
