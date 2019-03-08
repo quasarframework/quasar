@@ -127,14 +127,12 @@ export default Vue.extend({
     __onFocus (e) {
       if (this.editable === true && this.focused === false) {
         this.focused = true
-        this.$emit('focus', e)
       }
     },
 
     __onBlur (e) {
       if (this.focused === true) {
         this.focused = false
-        this.$emit('blur', e)
       }
     },
 
