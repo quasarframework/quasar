@@ -80,6 +80,14 @@ export default {
       return this.type === 'a' || this.hasRouterLink === true
     },
 
+    design () {
+      if (this.flat === true) return 'flat'
+      if (this.outline === true) return 'outline'
+      if (this.push === true) return 'push'
+      if (this.unelevated === true) return 'unelevated'
+      return 'standard'
+    },
+
     attrs () {
       const att = { tabindex: this.computedTabIndex }
       if (this.type !== 'a') {
@@ -106,19 +114,10 @@ export default {
         colors = `text-${this.textColor}`
       }
 
-      return `q-btn--${this.isRound === true ? 'round' : 'rectangle'}` +
+      return `q-btn--${this.design} q-btn--${this.isRound === true ? 'round' : 'rectangle'}` +
         (colors !== void 0 ? ' ' + colors : '') +
         (this.isDisabled === true ? ' disabled' : ' q-focusable q-hoverable') +
         (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +
-        (
-          this.flat === true ? ' q-btn--flat' : (
-            this.outline === true ? ' q-btn--outline' : (
-              this.push === true ? ' q-btn--push' : (
-                this.unelevated === true ? ' q-btn--unelevated' : ''
-              )
-            )
-          )
-        ) +
         (this.noCaps === true ? ' q-btn--no-uppercase' : '') +
         (this.rounded === true ? ' q-btn--rounded' : '') +
         (this.dense === true ? ' q-btn--dense' : '') +
