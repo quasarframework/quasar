@@ -84,8 +84,9 @@ export default context => {
 
     // wait until router has resolved possible async hooks
     router.onReady(() => {
-      // options = typescript
-      const matchedComponents = router.getMatchedComponents().map(m => m.options || m)
+      const matchedComponents = router.getMatchedComponents()
+        .map(m => m.options /* Vue.extend() */ || m)
+
       // no matched routes
       if (!matchedComponents.length) {
         return reject({ code: 404 })
