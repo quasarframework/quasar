@@ -12,7 +12,8 @@ export default Vue.extend({
     rounded: Boolean,
     push: Boolean,
     stretch: Boolean,
-    glossy: Boolean
+    glossy: Boolean,
+    spread: Boolean
   },
 
   computed: {
@@ -25,7 +26,8 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-btn-group row no-wrap inline',
+      staticClass: 'q-btn-group row no-wrap ' +
+        (this.spread === true ? 'q-btn-group--spread' : 'inline'),
       class: this.classes,
       on: this.$listeners
     }, slot(this, 'default'))

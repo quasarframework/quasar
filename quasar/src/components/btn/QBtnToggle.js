@@ -44,6 +44,8 @@ export default Vue.extend({
     stack: Boolean,
     stretch: Boolean,
 
+    spread: Boolean,
+
     ripple: {
       type: [Boolean, Object],
       default: true
@@ -74,7 +76,8 @@ export default Vue.extend({
         push: this.push,
         stretch: this.stretch,
         unelevated: this.unelevated,
-        glossy: this.glossy
+        glossy: this.glossy,
+        spread: this.spread
       },
       on: this.$listeners
     },
