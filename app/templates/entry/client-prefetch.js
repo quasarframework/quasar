@@ -10,13 +10,13 @@
  * Boot files are your "main.js"
  **/
 import App from 'app/<%= sourceFiles.rootComponent %>'
+const appOptions = App.options /* Vue.extend() */ || App
 
 <% if (__loadingBar) { %>
 import { LoadingBar } from 'quasar'
 <% } %>
 
 <% if (!ctx.mode.ssr) { %>
-const appOptions = App.options /* Vue.extend() */ || App
 let appPrefetch = typeof appOptions.preFetch === 'function'
 <% } %>
 
