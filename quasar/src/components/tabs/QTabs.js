@@ -251,14 +251,14 @@ export default Vue.extend({
     __updateArrows () {
       const
         content = this.$refs.content,
-        start = this.vertical ? content.scrollTop : content.scrollLeft
+        left = this.vertical ? content.scrollTop : content.scrollLeft
 
-      this.leftArrow = start > 0
+      this.leftArrow = left > 0
       if (this.vertical) {
-        this.rightArrow = start + content.getBoundingClientRect().height + 5 < content.scrollHeight
+        this.rightArrow = left + content.getBoundingClientRect().height + 5 < content.scrollHeight
       }
       else {
-        this.rightArrow = start + content.getBoundingClientRect().width + 5 < content.scrollWidth
+        this.rightArrow = left + content.getBoundingClientRect().width + 5 < content.scrollWidth
       }
     },
 
@@ -288,24 +288,24 @@ export default Vue.extend({
     __scrollTowards (value) {
       let
         content = this.$refs.content,
-        start = this.vertical ? content.scrollTop : content.scrollLeft,
-        direction = value < start ? -1 : 1,
+        left = this.vertical ? content.scrollTop : content.scrollLeft,
+        direction = value < left ? -1 : 1,
         done = false
 
-      start += direction * 5
-      if (start < 0) {
+      left += direction * 5
+      if (left < 0) {
         done = true
-        start = 0
+        left = 0
       }
       else if (
-        (direction === -1 && start <= value) ||
-        (direction === 1 && start >= value)
+        (direction === -1 && left <= value) ||
+        (direction === 1 && left >= value)
       ) {
         done = true
-        start = value
+        left = value
       }
 
-      content[this.vertical ? 'scrollTop' : 'scrollLeft'] = start
+      content[this.vertical ? 'scrollTop' : 'scrollLeft'] = left
       this.__updateArrows()
       return done
     }
