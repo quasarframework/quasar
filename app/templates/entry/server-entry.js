@@ -27,6 +27,7 @@ import createApp from './app.js'
 import Vue from 'vue'
 <% if (preFetch) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
+const appOptions = App.options || App
 <% } %>
 
 <%
@@ -99,7 +100,8 @@ export default context => {
         routeUnchanged = false
         reject({ url })
       }
-      App.preFetch && matchedComponents.unshift(App)
+      
+      appOptions.preFetch && matchedComponents.unshift(appOptions)
 
       // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,
