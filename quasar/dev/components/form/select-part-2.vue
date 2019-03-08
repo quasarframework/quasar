@@ -62,7 +62,58 @@
             use-chips
             multiple
             input-debounce="0"
-            label="Multiple - Create new values (& filter)"
+            label="Multiple - Create new values (& filter) - @new-value"
+            @new-value="createInputNewValue"
+            :options="createInputOptions"
+            @filter="createInputFn"
+          />
+
+          <q-select
+            v-bind="props"
+            v-model="createInput"
+            use-input
+            use-chips
+            multiple
+            input-debounce="0"
+            label="Multiple - Create new values (& filter) - mode add"
+            new-value-mode="add"
+            :options="createInputOptions"
+            @filter="createInputFn"
+          />
+
+          <q-select
+            v-bind="props"
+            v-model="createInput"
+            use-input
+            use-chips
+            multiple
+            input-debounce="0"
+            label="Multiple - Create new values (& filter) - mode add-unique"
+            new-value-mode="add-unique"
+            :options="createInputOptions"
+            @filter="createInputFn"
+          />
+
+          <q-select
+            v-bind="props"
+            v-model="createInput"
+            use-input
+            use-chips
+            multiple
+            input-debounce="0"
+            label="Multiple - Create new values (& filter) - mode toggle"
+            new-value-mode="toggle"
+            :options="createInputOptions"
+            @filter="createInputFn"
+          />
+
+          <q-select
+            v-bind="props"
+            v-model="createSingleInput"
+            use-input
+            use-chips
+            input-debounce="0"
+            label="Single - Create new values (& filter) - @new-value"
             @new-value="createInputNewValue"
             :options="createInputOptions"
             @filter="createInputFn"
@@ -74,8 +125,8 @@
             use-input
             use-chips
             input-debounce="0"
-            label="Single - Create new values (& filter)"
-            @new-value="createInputNewValue"
+            label="Single - Create new values (& filter) - mode add"
+            new-value-mode="add"
             :options="createInputOptions"
             @filter="createInputFn"
           />

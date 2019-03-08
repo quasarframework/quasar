@@ -113,6 +113,16 @@ The following example shows a glimpse of how you can play with lazy loading the 
 The following are just a few examples to get you started into making your own QSelect behavior. This is not exhaustive list of possibilities that QSelect offers.
 :::
 
+::: tip
+There are two ways to add new values:
+- use a default mode (`new-value-mode`) to add (`add`), add only if not already selected (`add-unique`), or toggle selection (`toggle`)
+- listen for the `new-value` event and call the `done` callback (the second parameter of the event) with:
+  - the value to be added as first parameter to add the value
+  - `null` or `undefined` as first parameter if nothing should be done
+  - one of `add`, `add-unique`, or `toggle` as the second parameter to override the default mode from `new-value-mode`
+  - if no second parameter is sent and `new-value-mode` is not set the default mode is `add`
+:::
+
 No filtering and no menu:
 
 <doc-example title="No filtering" file="QSelect/NoFiltering" />
