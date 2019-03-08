@@ -27,6 +27,7 @@ import createApp from './app.js'
 import Vue from 'vue'
 <% if (preFetch) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
+const appOptions = App.options || App
 <% } %>
 
 <%
@@ -85,6 +86,8 @@ export default context => {
     // wait until router has resolved possible async hooks
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
+        .map(m => m.options /* Vue.extend() */ || m)
+
       // no matched routes
       if (!matchedComponents.length) {
         return reject({ code: 404 })
@@ -97,7 +100,8 @@ export default context => {
         routeUnchanged = false
         reject({ url })
       }
-      App.preFetch && matchedComponents.unshift(App)
+      
+      appOptions.preFetch && matchedComponents.unshift(appOptions)
 
       // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,
