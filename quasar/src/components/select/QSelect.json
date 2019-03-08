@@ -116,6 +116,12 @@
       "desc": "Use QChip to show what is currently selected"
     },
 
+    "new-value-mode": {
+      "type": "String",
+      "desc": "How to behave when a new-value is added; If no @new-value listener is active and the new-value-mode is set then it will add, add only if not already set or toggle the value; If a @new-value listener is active then this is the default mode used for done function; If not in multiple mode all modes do the same thing",
+      "values": [ "add", "add-unique", "toggle" ]
+    },
+
     "map-options": {
       "type": "Boolean",
       "desc": "Try to map labels of model from 'options' Array; has a small performance penalty"
@@ -333,11 +339,16 @@
         },
         "itemToAddToModel": {
           "type": "Function",
-          "desc": "Adds (optional) value to the model; Do not forget to call it after you validate the newly created value; Call it with no parameters if nothing should be added",
+          "desc": "Adds, adds if not already set (optional) or toggles (optional) value to the model; Do not forget to call it after you validate the newly created value; Call it with no parameters if nothing should be added",
           "params": {
             "item": {
               "type": "Any",
               "desc": "Item to add",
+              "__exemption": [ "examples" ]
+            },
+            "mode": {
+              "type": "String",
+              "desc": "Overrides how the value modifies the selection (if not present the value of new-value-mode or add will be used)",
               "__exemption": [ "examples" ]
             }
           },

@@ -54,6 +54,10 @@ export default Vue.extend({
 
     useInput: Boolean,
     useChips: Boolean,
+    newValueMode: {
+      type: String,
+      validator: v => ['add', 'add-unique', 'toggle'].includes(v)
+    },
 
     mapOptions: Boolean,
     emitValue: Boolean,
@@ -218,7 +222,7 @@ export default Vue.extend({
       }
     },
 
-    add (opt) {
+    add (opt, unique) {
       const val = this.emitValue === true
         ? this.__getOptionValue(opt)
         : opt
@@ -231,6 +235,10 @@ export default Vue.extend({
       if (this.innerValue.length === 0) {
         this.$emit('add', { index: 0, value: val })
         this.$emit('input', this.multiple === true ? [ val ] : val)
+        return
+      }
+
+      if (unique === true && this.__isSelected(opt) === true) {
         return
       }
 
@@ -388,14 +396,24 @@ export default Vue.extend({
         return
       }
 
+      const hasNewValueListener = this.$listeners['new-value'] !== void 0
       if (
-        this.$listeners['new-value'] !== void 0 &&
+        (this.newValueMode !== void 0 || hasNewValueListener) &&
         this.inputValue.length > 0
       ) {
-        this.$emit('new-value', this.inputValue, val => {
-          val !== void 0 && val !== null && this.add(val)
+        const done = (val, mode = this.newValueMode) => {
+          if (val !== void 0 && val !== null) {
+            this[mode === 'toggle' ? 'toggleOption' : 'add'](val, this.newValueMode === 'add-unique')
+          }
           this.inputValue = ''
-        })
+        }
+
+        if (hasNewValueListener) {
+          this.$emit('new-value', this.inputValue, done)
+        }
+        else {
+          done(this.inputValue)
+        }
       }
 
       if (this.menu === true) {
