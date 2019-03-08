@@ -164,7 +164,7 @@
 
   section.landing__footer
     div.text-center
-      div.footer__icons.row.flex-center
+      div.landing__footer-icons.row.flex-center
         a(href="https://github.com/quasarframework/quasar", target="_blank")
           q-icon(name="fab fa-github")
 
@@ -179,6 +179,9 @@
 
         a(href="https://forum.quasar-framework.org/", target="_blank")
           q-icon(name="fas fa-comments")
+
+        a(href="https://www.patreon.com/quasarframework", target="_blank")
+          q-icon(name="fab fa-patreon")
 
       div.q-mt-md
         | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
@@ -286,6 +289,19 @@ export default {
     background-position top center
     background-size contain !important
     background-image url(https://cdn.quasar-framework.org/img/landing_first_section.png) !important
+
+  &__footer-icons
+    font-size 28px
+
+    a
+      margin 0 8px 8px
+      text-decoration none
+      outline 0
+      color white
+      transition color .28s
+
+      &:hover
+        color $grey-4
 
 @keyframes logo-rotate
   100%

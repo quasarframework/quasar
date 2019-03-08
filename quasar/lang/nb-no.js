@@ -25,7 +25,7 @@ export default {
     format24h: true
   },
   table: {
-    noData: 'Ingen data tilgjenelig',
+    noData: 'Ingen data tilgjengelig',
     noResults: 'Ingen treff i data funnet',
     loading: 'Laster...',
     row: 'rad',
@@ -45,7 +45,7 @@ export default {
     url: 'URL',
     bold: 'Fet',
     italic: 'Kursiv',
-    strikethrough: 'Strikethrough',
+    strikethrough: 'Gjennomstreking',
     underline: 'Understrek',
     unorderedList: 'Uordnet liste',
     orderedList: 'Ordnet liste',
@@ -86,7 +86,7 @@ export default {
     defaultFont: 'Normal font'
   },
   tree: {
-    noNodes: 'Ingen noder tilgjenelig',
+    noNodes: 'Ingen noder tilgjengelig',
     noResults: 'Ingen treff i noder funnet'
   }
 }

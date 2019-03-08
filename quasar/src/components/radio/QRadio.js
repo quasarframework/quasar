@@ -84,11 +84,13 @@ export default Vue.extend({
         staticClass: 'q-radio__inner relative-position',
         class: this.innerClass
       }, [
-        this.disable ? null : h('input', {
-          staticClass: 'q-radio__native q-ma-none q-pa-none invisible',
-          attrs: { type: 'checkbox' },
-          on: { change: this.set }
-        }),
+        this.disable !== true
+          ? h('input', {
+            staticClass: 'q-radio__native q-ma-none q-pa-none invisible',
+            attrs: { type: 'checkbox' },
+            on: { change: this.set }
+          })
+          : null,
 
         h('div', {
           staticClass: 'q-radio__bg absolute'

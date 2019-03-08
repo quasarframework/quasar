@@ -57,6 +57,11 @@
       "examples": [ "arrow_right" ]
     },
 
+    "shrink": {
+      "type": "Boolean",
+      "desc": "By default, QTabs is set to grow to the available space; However, you can reverse that with this prop; Useful (and required) when placing the component in a QToolbar"
+    },
+
     "top-indicator": {
       "type": "Boolean",
       "desc": "Allows the indicator to be placed above the tab, instead of below it"

@@ -1,5 +1,5 @@
 <template lang="pug">
-q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
+q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
   q-header.header(elevated)
     q-toolbar
       q-btn.q-mr-sm(flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
@@ -17,50 +17,45 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
       q-btn.q-ml-xs(flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
         q-icon(name="assignment")
 
-  q-footer.text-white.text-center.footer
-    div.footer__icons.row.flex-center
-      a(href="https://github.com/quasarframework/quasar", target="_blank")
-        q-icon(name="fab fa-github")
-
-      a(href="https://twitter.com/quasarframework", target="_blank")
-        q-icon(name="fab fa-twitter")
-
-      a(href="https://medium.com/quasar-framework", target="_blank")
-        q-icon(name="fab fa-medium")
-
-      a(href="https://discord.gg/5TDhbDg", target="_blank")
-        q-icon(name="fab fa-discord")
-
-      a(href="https://forum.quasar-framework.org/", target="_blank")
-        q-icon(name="fas fa-comments")
-    div
-      | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
-
-    div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
-
   q-drawer(
     v-model="leftDrawerState"
     bordered
     show-if-above
+    content-class="doc-left-drawer"
   )
-    q-scroll-area.fit
-      .flex.justify-center
-        q-btn.q-my-lg(
+    q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
+      .row.justify-center.q-my-lg
+        q-btn(
           type="a"
           href="https://www.patreon.com/quasarframework"
           target="_blank"
           size="13px"
-          color="red"
+          color="primary"
           icon="fab fa-patreon"
           label="Become a Patron"
         )
 
-      app-menu.q-mb-lg
+      app-menu.q-my-lg
+
+    .absolute-top.bg-white.layout-drawer-toolbar
+      q-input.full-width.doc-algolia(
+        ref="docAlgolia"
+        v-model="search"
+        dense
+        standout
+        square
+        placeholder="Search..."
+      )
+        template(v-slot:append)
+          q-icon(
+            name="search"
+            @click="$refs.docAlgolia.focus()"
+          )
 
   q-drawer(
     v-model="rightDrawerState"
     side="right"
-    content-class="bg-grey-2"
+    content-class="bg-grey-1"
     :width="180"
     show-if-above
     @on-layout="updateRightDrawerOnLayout"
@@ -125,7 +120,6 @@ export default {
 
   data () {
     return {
-      year: (new Date()).getFullYear(),
       search: '',
       rightDrawerOnLayout: false,
       activeToc: void 0
@@ -227,6 +221,25 @@ export default {
     }
   },
 
+  mounted () {
+    import('docsearch.js').then(docsearch => docsearch.default({
+      apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
+      indexName: 'quasar-framework',
+      inputSelector: '.doc-algolia input',
+      algoliaOptions: {
+        hitsPerPage: 7
+      },
+      handleSelected: (a, b, suggestion, c, context) => {
+        const url = suggestion.url
+          .replace('https://v1.quasar-framework.org', '')
+
+        this.search = ''
+        this.$router.push(url)
+        this.$refs.docAlgolia.blur()
+      }
+    }))
+  },
+
   beforeDestroy () {
     clearTimeout(this.scrollTimer)
   }
@@ -235,39 +248,34 @@ export default {
 
 <style lang="stylus">
 @import '~quasar-variables'
+@import '../css/docsearch'
 
-.header, .footer
-  background linear-gradient(145deg, $primary 11%, $dark-primary 45%)
+.header
+  background linear-gradient(145deg, $primary 11%, $dark-primary 75%)
 
 .header-logo
   width 25px
   height 25px
 
-.footer
-  font-size 11px
-  padding 16px 0
+.layout-drawer-toolbar
+  border-bottom 1px solid $separator-color
 
-  &__icons
-    font-size 28px
-    a
-      margin 0 8px 8px
-      text-decoration none
-      outline 0
-      color inherit
-    .q-icon:hover
-      color lighten($primary, 50%)
-  .doc-link
-    color inherit
-
-.q-drawer--standard .doc-toc
-  .q-item
-    border-radius 5px 0 0 5px
-    border-left 3px solid transparent
-  .q-item--active
-    border-left 3px solid $primary
 .q-drawer--mobile .doc-toc
+  .q-item
+    margin-left 3px
   .q-item--active
     font-weight 600
+
+.doc-toc .q-item
+  border-radius 10px 0 0 10px
+  margin-top 1px
+  margin-bottom 1px
+
+  &.q-item--active
+    background lighten($primary, 90%)
+
+.doc-left-drawer
+  overflow inherit !important
 
 .quasar-logo
   img

@@ -57,11 +57,13 @@ export default Vue.extend({
         staticClass: 'q-checkbox__inner relative-position',
         class: this.innerClass
       }, [
-        this.disable ? null : h('input', {
-          staticClass: 'q-checkbox__native q-ma-none q-pa-none invisible',
-          attrs: { type: 'checkbox' },
-          on: { change: this.toggle }
-        }),
+        this.disable !== true
+          ? h('input', {
+            staticClass: 'q-checkbox__native q-ma-none q-pa-none invisible',
+            attrs: { type: 'checkbox' },
+            on: { change: this.toggle }
+          })
+          : null,
 
         h('div', {
           staticClass: 'q-checkbox__bg absolute'

@@ -58,7 +58,7 @@ export default Vue.extend({
 
   methods: {
     set (value, opt) {
-      if (!this.readonly && value !== this.value) {
+      if (this.readonly === false && value !== this.value) {
         this.$emit('input', value, opt)
       }
     }

@@ -50,9 +50,7 @@ export default Vue.extend({
     },
 
     reveal (val) {
-      if (!val) {
-        this.__updateLocal('revealed', this.value)
-      }
+      val === false && this.__updateLocal('revealed', this.value)
     },
 
     revealed (val) {
@@ -71,24 +69,31 @@ export default Vue.extend({
 
   computed: {
     fixed () {
-      return this.reveal || this.layout.view.indexOf('H') > -1 || this.layout.container
+      return this.reveal === true ||
+        this.layout.view.indexOf('H') > -1 ||
+        this.layout.container === true
     },
 
     offset () {
-      if (!this.canRender || !this.value) {
+      if (this.canRender !== true || this.value !== true) {
         return 0
       }
-      if (this.fixed) {
-        return this.revealed ? this.size : 0
+      if (this.fixed === true) {
+        return this.revealed === true ? this.size : 0
       }
       const offset = this.size - this.layout.scroll.position
       return offset > 0 ? offset : 0
     },
 
     classes () {
-      return (this.fixed ? 'fixed' : 'absolute') + '-top' +
-        (this.bordered ? ' q-header--bordered' : '') +
-        (!this.canRender || !this.value || (this.fixed && !this.revealed) ? ' q-header--hidden' : '')
+      return (
+        this.fixed === true ? 'fixed' : 'absolute') + '-top' +
+        (this.bordered === true ? ' q-header--bordered' : '') +
+        (
+          this.canRender !== true || this.value !== true || (this.fixed === true && this.revealed !== true)
+            ? ' q-header--hidden'
+            : ''
+        )
     },
 
     style () {
@@ -96,10 +101,10 @@ export default Vue.extend({
         view = this.layout.rows.top,
         css = {}
 
-      if (view[0] === 'l' && this.layout.left.space) {
+      if (view[0] === 'l' && this.layout.left.space === true) {
         css[this.$q.lang.rtl ? 'right' : 'left'] = `${this.layout.left.size}px`
       }
-      if (view[2] === 'r' && this.layout.right.space) {
+      if (view[2] === 'r' && this.layout.right.space === true) {
         css[this.$q.lang.rtl ? 'left' : 'right'] = `${this.layout.right.size}px`
       }
 
@@ -119,7 +124,7 @@ export default Vue.extend({
         on: { resize: this.__onResize }
       }),
 
-      this.elevated
+      this.elevated === true
         ? h('div', {
           staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
         })
@@ -135,7 +140,7 @@ export default Vue.extend({
 
   beforeDestroy () {
     if (this.layout.instances.header === this) {
-      this.layout.instances.header = null
+      this.layout.instances.header = void 0
       this.__update('size', 0)
       this.__update('offset', 0)
       this.__update('space', false)

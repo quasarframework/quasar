@@ -6,6 +6,35 @@ title: Upgrade Guide
 Quasar's v1 version is now on a stable API.
 :::
 
+## Upgrading from older v1 to latest v1
+
+### UMD
+Simply replace the version string in all the CSS and JS tags that refer to Quasar to the newer version.
+
+### Quasar CLI
+
+```bash
+$ yarn add quasar@latest
+```
+
+You may also want to make sure you have the latest of the other Quasar packages too:
+
+```bash
+$ yarn add @quasar/extras@latest
+$ yarn add --dev @quasar/app@latest
+```
+
+### Vue CLI
+```bash
+$ yarn upgrade quasar@latest
+```
+
+You may also want to make sure you have the latest of `@quasar/extras` package too:
+
+```bash
+$ yarn add @quasar/extras@latest
+```
+
 ## Best Practices
 
 Before you start down this journey of upgrading Quasar Legacy to Quasar v1 you should know a few things:
@@ -52,8 +81,6 @@ The best way to start upgrading your project is to follow these steps:
 
 2) **Remove** local `quasar-cli` package
   ```bash
-  $ npm uninstall --save-dev quasar-cli
-  # or
   $ yarn remove quasar-cli
   ```
 
@@ -61,22 +88,16 @@ The best way to start upgrading your project is to follow these steps:
 
 4) **Install**: `quasar` and `@quasar/extras` as dependency
   ```bash
-  $ npm install --save quasar @quasar/extras
-  # or
   $ yarn add quasar @quasar/extras
   ```
 
 5) **Install**: `@quasar/app` as development dependency
   ```bash
-  $ npm install --save-dev @quasar/app
-  # or
   $ yarn add --dev @quasar/app
   ```
 
 6) **Re-install** all the npm packages
   ```bash
-  $ npm install
-  # or
   $ yarn
   ```
 
@@ -169,16 +190,12 @@ The best way to start upgrading your project is to follow these steps:
 
 ```bash
 $ npm remove -g quasar-cli
-# or
-$ yarn global remove quasar-cli
 ```
 
 **Install** global Quasar CLI
 
 ```bash
 $ npm install -g @quasar/cli
-# or
-$ yarn global add @quasar/cli
 ```
 
 17) Last, but not least, do a sanity check with `quasar info`:

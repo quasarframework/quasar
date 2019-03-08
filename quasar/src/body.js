@@ -1,17 +1,32 @@
 import { setBrand } from './utils/colors.js'
 import { isSSR } from './plugins/Platform.js'
 
+function getMobilePlatform (is) {
+  if (is.ios === true) return 'ios'
+  if (is.android === true) return 'android'
+  if (is.winphone === true) return 'winphone'
+}
+
 function getBodyClasses ({ is, has, within }, cfg) {
   const cls = [
     is.desktop ? 'desktop' : 'mobile',
-    has.touch ? 'touch' : 'no-touch',
-    `platform-${is.ios ? 'ios' : 'mat'}`
+    has.touch ? 'touch' : 'no-touch'
   ]
 
-  if (is.cordova) {
+  if (is.mobile === true) {
+    const mobile = getMobilePlatform(is)
+    if (mobile !== void 0) {
+      cls.push('platform-' + mobile)
+    }
+  }
+
+  if (is.cordova === true) {
     cls.push('cordova')
 
-    if (is.ios && (cfg.cordova === void 0 || cfg.cordova.iosStatusBarPadding !== false)) {
+    if (
+      is.ios === true &&
+      (cfg.cordova === void 0 || cfg.cordova.iosStatusBarPadding !== false)
+    ) {
       const
         ratio = window.devicePixelRatio || 1,
         width = window.screen.width * ratio,
@@ -25,8 +40,9 @@ function getBodyClasses ({ is, has, within }, cfg) {
       }
     }
   }
-  within.iframe && cls.push('within-iframe')
-  is.electron && cls.push('electron')
+
+  within.iframe === true && cls.push('within-iframe')
+  is.electron === true && cls.push('electron')
 
   return cls
 }
@@ -34,14 +50,14 @@ function getBodyClasses ({ is, has, within }, cfg) {
 function bodyInit (Platform, cfg) {
   const cls = getBodyClasses(Platform, cfg)
 
-  if (Platform.is.ie && Platform.is.versionNumber === 11) {
+  if (Platform.is.ie === true && Platform.is.versionNumber === 11) {
     cls.forEach(c => document.body.classList.add(c))
   }
   else {
     document.body.classList.add.apply(document.body.classList, cls)
   }
 
-  if (Platform.is.ios) {
+  if (Platform.is.ios === true) {
     // needed for iOS button active state
     document.body.addEventListener('touchstart', () => {})
   }
