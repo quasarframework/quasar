@@ -327,6 +327,109 @@
           </q-item-section>
         </q-item>
       </q-select>
+
+      <div class="text-h6">
+        Alignment test: standard, use-input, use-input + hide-selected, normal input
+      </div>
+      <div class="row q-gutter-sm">
+        <q-select
+          class="col-2"
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - standard"
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
+          </template>
+        </q-select>
+
+        <q-select
+          class="col-2"
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - use input"
+          use-input
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
+          </template>
+        </q-select>
+
+        <q-select
+          class="col-2"
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - hide-selected"
+          use-input
+          hide-selected
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
+          </template>
+        </q-select>
+
+        <q-input
+          class="col-2"
+          v-bind="props"
+          v-model="stringSingle"
+          label="Input"
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = ''" />
+          </template>
+        </q-input>
+      </div>
+
+      <div class="row q-gutter-sm">
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - standard"
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
+          </template>
+        </q-select>
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - use input"
+          use-input
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
+          </template>
+        </q-select>
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - hide-selected"
+          use-input
+          hide-selected
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
+          </template>
+        </q-select>
+
+        <q-input
+          v-bind="props"
+          v-model="stringSingle"
+          label="Input"
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = ''" />
+          </template>
+        </q-input>
+      </div>
     </div>
   </div>
 </template>
