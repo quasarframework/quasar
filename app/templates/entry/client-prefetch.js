@@ -61,7 +61,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
     <% if (!ctx.mode.ssr) { %>
     if (appPrefetch) {
       appPrefetch = false
-      components.unshift(App.options || App)
+      components.unshift(App.options /* Vue.extend() */ || App)
     }
     <% } %>
 
