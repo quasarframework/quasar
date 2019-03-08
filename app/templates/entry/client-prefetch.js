@@ -27,9 +27,10 @@ function getMatchedComponents (to, router) {
   if (!route) { return [] }
   return [].concat.apply([], route.matched.map(m => {
     return Object.keys(m.components).map(key => {
+      const comp = m.components[key]
       return {
         path: m.path,
-        c: m.components[key].options || m.components[key] // options = typescript
+        c: comp.options /* Vue.extend() */ || comp
       }
     })
   }))
