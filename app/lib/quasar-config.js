@@ -359,8 +359,6 @@ class QuasarConfig {
       }
     }, cfg.build || {})
 
-    cfg.build.transpileDependencies.push(/[\\/]node_modules[\\/]quasar[\\/]/)
-
     cfg.__loadingBar = cfg.framework.all || (cfg.framework.plugins && cfg.framework.plugins.includes('LoadingBar'))
     cfg.__meta = cfg.framework.all || (cfg.framework.plugins && cfg.framework.plugins.includes('Meta'))
 
