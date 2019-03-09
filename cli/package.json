@@ -55,7 +55,6 @@
     "metalsmith": "2.3.0",
     "minimatch": "3.0.4",
     "minimist": "1.2.0",
-    "ms": "2.1.1",
     "multimatch": "2.1.0",
     "opn": "5.4.0",
     "ora": "3.1.0",
