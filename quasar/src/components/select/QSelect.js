@@ -83,14 +83,17 @@ export default Vue.extend({
   },
 
   watch: {
-    selectedString (val) {
-      const value = this.multiple !== true && this.hideSelected === true
-        ? val
-        : ''
+    selectedString: {
+      handler (val) {
+        const value = this.multiple !== true && this.hideSelected === true
+          ? val
+          : ''
 
-      if (this.inputValue !== value) {
-        this.inputValue = value
-      }
+        if (this.inputValue !== value) {
+          this.inputValue = value
+        }
+      },
+      immediate: true
     },
 
     menu (show) {
