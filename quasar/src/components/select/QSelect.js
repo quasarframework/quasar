@@ -17,6 +17,8 @@ import { normalizeToInterval } from '../../utils/format.js'
 
 import { updatePosition } from './select-menu-position.js'
 
+const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
+
 export default Vue.extend({
   name: 'QSelect',
 
@@ -54,9 +56,10 @@ export default Vue.extend({
 
     useInput: Boolean,
     useChips: Boolean,
+
     newValueMode: {
       type: String,
-      validator: v => ['add', 'add-unique', 'toggle'].includes(v)
+      validator: validateNewValueMode
     },
 
     mapOptions: Boolean,
@@ -396,23 +399,35 @@ export default Vue.extend({
         return
       }
 
-      const hasNewValueListener = this.$listeners['new-value'] !== void 0
-      if (
-        (this.newValueMode !== void 0 || hasNewValueListener) &&
-        this.inputValue.length > 0
-      ) {
-        const done = (val, mode = this.newValueMode) => {
-          if (val !== void 0 && val !== null) {
-            this[mode === 'toggle' ? 'toggleOption' : 'add'](val, this.newValueMode === 'add-unique')
-          }
-          this.inputValue = ''
-        }
+      if (this.inputValue.length > 0) {
+        if (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0) {
+          const done = (val, mode) => {
+            if (mode) {
+              if (validateNewValueMode(mode) !== true) {
+                console.error('QSelect: invalid new value mode - ' + mode)
+                return
+              }
+            }
+            else {
+              mode = this.newValueMode
+            }
 
-        if (hasNewValueListener) {
-          this.$emit('new-value', this.inputValue, done)
-        }
-        else {
-          done(this.inputValue)
+            if (val !== void 0 && val !== null) {
+              this[mode === 'toggle' ? 'toggleOption' : 'add'](
+                val,
+                mode === 'add-unique'
+              )
+            }
+
+            this.inputValue = ''
+          }
+
+          if (this.$listeners['new-value'] !== void 0) {
+            this.$emit('new-value', this.inputValue, done)
+          }
+          else {
+            done(this.inputValue)
+          }
         }
       }
 

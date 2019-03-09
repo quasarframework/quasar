@@ -111,22 +111,31 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 ::: tip
 The following are just a few examples to get you started into making your own QSelect behavior. This is not exhaustive list of possibilities that QSelect offers.
+
+It makes sense to use this feature along with `use-input` prop.
 :::
 
-::: tip
-There are two ways to add new values:
-- use a default mode (`new-value-mode`) to add (`add`), add only if not already selected (`add-unique`), or toggle selection (`toggle`)
-- listen for the `new-value` event and call the `done` callback (the second parameter of the event) with:
-  - the value to be added as first parameter to add the value
-  - `null` or `undefined` as first parameter if nothing should be done
-  - one of `add`, `add-unique`, or `toggle` as the second parameter to override the default mode from `new-value-mode`
-  - if no second parameter is sent and `new-value-mode` is not set the default mode is `add`
-:::
+In order to enable the creation of new values, you need to **either specify** the `new-value-mode` prop **and/or** listen for `@new-value` event. If you use both, then the purpose of listening to `@new-value` would be only to override the `new-value-mode` in your custom scenarios.
 
-No filtering and no menu:
+### The new-value-mode prop
+The `new-value-mode` prop value specifies how the value should be added: `add` (adds a value, even if duplicate), `add-unique` (add only if NOT duplicate) or `toggle` (adds value if it's not already in model, otherwise it removes it).
 
-<doc-example title="No filtering" file="QSelect/NoFiltering" />
+By using this prop you don't need to also listen for `@new-value` event, unless you have some specific scenarios for which you want to override the behavior.
 
+<doc-example title="New value mode" file="QSelect/CreateNewValueMode" />
+
+### The @new-value event
+The `@new-value` event is emitted with the value to be added and a `done` callback. The `done` callback has two **optional** parameters:
+  - the value to be added
+  - the behavior (same values of `new-value-mode` prop, and when it is specified it overrides that prop -- if it is used) -- default behavior (if not using `new-value-mode`) is to add the value even if it would be a duplicate
+
+Calling `done()` with no parameters simply empties the input box value, without tampering with the model in any way.
+
+<doc-example title="Listening on @new-value" file="QSelect/CreateListener" />
+
+<doc-example title="Adding only unique values" file="QSelect/CreateListenerUnique" />
+
+### Using menu and filtering
 Filtering and adding the new values to menu:
 
 <doc-example title="Filtering and adding to menu" file="QSelect/FilteringAddsToMenu" />

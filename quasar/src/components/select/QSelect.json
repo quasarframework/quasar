@@ -20,10 +20,6 @@
       "examples": [ "Options: x, y, z"]
     },
 
-    "dropdown-icon": {
-      "extends": "icon"
-    },
-
     "options": {
       "type": "Array",
       "desc": "Available options that the user can select from",
@@ -74,6 +70,10 @@
       "desc": "Hides dropdown icon"
     },
 
+    "dropdown-icon": {
+      "extends": "icon"
+    },
+
     "counter": {
       "type": "Boolean",
       "desc": "Show a counter of selected options on bottom right side"
@@ -118,7 +118,7 @@
 
     "new-value-mode": {
       "type": "String",
-      "desc": "How to behave when a new-value is added; If no @new-value listener is active and the new-value-mode is set then it will add, add only if not already set or toggle the value; If a @new-value listener is active then this is the default mode used for done function; If not in multiple mode all modes do the same thing",
+      "desc": "Enables creation of new values and defines behavior when a new value is added: 'add' means it adds the value (even if possible duplicate), 'add-unique' adds only unique values, and 'toggle' adds or removes the value (based on if it exists or not already); When using this prop then listening for @new-value becomes optional (only to override the behavior defined by 'new-value-mode')",
       "values": [ "add", "add-unique", "toggle" ]
     },
 
@@ -330,16 +330,16 @@
     },
 
     "new-value": {
-      "desc": "Emitted when a new value has been created",
+      "desc": "Enables creation of new values; Emitted when a new value has been created; You can override 'new-value-mode' property with it",
       "params": {
         "inputValue": {
           "type": "String",
           "desc": "What the user typed",
           "examples": [ "phone" ]
         },
-        "itemToAddToModel": {
+        "doneFn": {
           "type": "Function",
-          "desc": "Adds, adds if not already set (optional) or toggles (optional) value to the model; Do not forget to call it after you validate the newly created value; Call it with no parameters if nothing should be added",
+          "desc": "Adds (optional) value to the model; Do not forget to call it after you validate the newly created value; Call it with no parameters if nothing should be added",
           "params": {
             "item": {
               "type": "Any",
@@ -348,8 +348,9 @@
             },
             "mode": {
               "type": "String",
-              "desc": "Overrides how the value modifies the selection (if not present the value of new-value-mode or add will be used)",
-              "__exemption": [ "examples" ]
+              "desc": "Override 'new-value-mode' (prop) behavior should you wish to",
+              "values": [ "add", "add-unique", "toggle" ],
+              "default": "add"
             }
           },
           "returns": null
