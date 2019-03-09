@@ -321,6 +321,11 @@ const cli = [
         path: 'electron-static-assets'
       },
       {
+        name: 'Frameless Electron Window',
+        path: 'frameless-electron-window',
+        badge: 'new'
+      },
+      {
         name: 'Electron Security Concerns',
         path: 'electron-security-concerns'
       },

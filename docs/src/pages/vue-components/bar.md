@@ -1,5 +1,7 @@
 ---
 title: Bar
+related:
+  - /quasar-cli/developing-electron-apps/frameless-electron-window
 ---
 
 The QBar is a small component for creating the top bar on different types of mobile or desktop websites/apps. For instance, in desktop apps QBar will have things like the close, minimize or maximize buttons and other menu controls for your application.
@@ -32,6 +34,11 @@ For responsiveness, use [Visibility](/style/visibility#Window-Width-Related) Qua
 <doc-example title="QDialog" file="QBar/Dialog" />
 
 <doc-example title="QHeader with QToolbar" file="QBar/Header" />
+
+### Frameless Electron Window
+QBar component can come in really handy when developing Electron apps, especially if you choose to use a frameless window.
+
+Read more on [Frameless Electron Window](/quasar-cli/developing-electron-apps/frameless-electron-window) page.
 
 ## QBar API
 <doc-api file="QBar" />
