@@ -144,6 +144,11 @@ const cli = [
         path: 'handling-webpack'
       },
       {
+        name: 'Handling process.env',
+        path: 'handling-process-env',
+        badge: 'new'
+      },
+      {
         name: 'Vuex Store',
         path: 'vuex-store'
       },
