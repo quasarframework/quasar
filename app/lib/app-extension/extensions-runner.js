@@ -19,10 +19,10 @@ class ExtensionsRunner {
     }
   }
 
-  async runHook (hookName, fn) {
+  runHook (hookName, fn) {
     if (this.hooks[hookName] && this.hooks[hookName].length > 0) {
       for (let hook of this.hooks[hookName]) {
-        await fn(hook)
+        fn(hook)
       }
     }
   }
