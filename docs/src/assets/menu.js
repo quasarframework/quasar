@@ -144,6 +144,11 @@ const cli = [
         path: 'handling-webpack'
       },
       {
+        name: 'Handling process.env',
+        path: 'handling-process-env',
+        badge: 'new'
+      },
+      {
         name: 'Vuex Store',
         path: 'vuex-store'
       },
@@ -314,6 +319,11 @@ const cli = [
       {
         name: 'Electron Static Assets',
         path: 'electron-static-assets'
+      },
+      {
+        name: 'Frameless Electron Window',
+        path: 'frameless-electron-window',
+        badge: 'new'
       },
       {
         name: 'Electron Security Concerns',

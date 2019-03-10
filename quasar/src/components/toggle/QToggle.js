@@ -55,11 +55,13 @@ export default Vue.extend({
         staticClass: 'q-toggle__inner relative-position',
         class: this.innerClass
       }, [
-        this.disable ? null : h('input', {
-          staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
-          attrs: { type: 'toggle' },
-          on: { change: this.toggle }
-        }),
+        this.disable !== true
+          ? h('input', {
+            staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
+            attrs: { type: 'toggle' },
+            on: { change: this.toggle }
+          })
+          : null,
 
         h('div', { staticClass: 'q-toggle__track' }),
         h('div', { staticClass: 'q-toggle__thumb-container absolute' }, [

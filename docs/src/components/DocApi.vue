@@ -1,5 +1,5 @@
 <template lang="pug">
-q-card.doc-api.q-my-lg(v-if="ready")
+q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
   q-toolbar.text-grey-8.bg-white
     card-title(:title="name", prefix="API--")
     q-space

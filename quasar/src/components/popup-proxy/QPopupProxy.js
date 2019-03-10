@@ -103,6 +103,7 @@ export default Vue.extend({
         value: this.showing
       }),
       on: {
+        ...this.$listeners,
         hide: this.__hide
       }
     }

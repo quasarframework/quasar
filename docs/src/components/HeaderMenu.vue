@@ -19,7 +19,7 @@ div
       )
         q-item-section {{ `v0.${version}` }}
 
-  q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, label="Quick Links", auto-close)
+  q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, label="Links", auto-close)
     q-list
       q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar-awesome", target="_blank")
         q-item-section.text-yellow-9(avatar)

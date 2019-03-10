@@ -7,8 +7,6 @@ Before we dive in to the actual development, we need to do some preparation work
 First step is to make sure you got the Cordova CLI installed and the necessary SDKs.
 
 ```bash
-$ yarn global add cordova
-# or:
 $ npm install -g cordova
 ```
 

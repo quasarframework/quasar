@@ -21,17 +21,17 @@ export default Vue.extend({
     style () {
       const css = {}
 
-      if (this.layout.header.space) {
+      if (this.layout.header.space === true) {
         css.paddingTop = `${this.layout.header.size}px`
       }
-      if (this.layout.right.space) {
-        css[`padding${this.$q.lang.rtl ? 'Left' : 'Right'}`] = `${this.layout.right.size}px`
+      if (this.layout.right.space === true) {
+        css[`padding${this.$q.lang.rtl === true ? 'Left' : 'Right'}`] = `${this.layout.right.size}px`
       }
-      if (this.layout.footer.space) {
+      if (this.layout.footer.space === true) {
         css.paddingBottom = `${this.layout.footer.size}px`
       }
-      if (this.layout.left.space) {
-        css[`padding${this.$q.lang.rtl ? 'Right' : 'Left'}`] = `${this.layout.left.size}px`
+      if (this.layout.left.space === true) {
+        css[`padding${this.$q.lang.rtl === true ? 'Right' : 'Left'}`] = `${this.layout.left.size}px`
       }
 
       return css

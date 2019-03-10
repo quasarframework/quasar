@@ -5,9 +5,9 @@ Quasar makes use of some awesome development tools under it's hood, like [Webpac
 
 So what can you configure through `/quasar.conf.js`?
 * Quasar components, directives and plugins that you'll be using in your website/app.
-* Default Quasar I18n language pack
-* Icon pack(s) that you wish to use
-* Default icon set for Quasar components
+* Default [Quasar Language Pack](/options/quasar-language-packs)
+* [Icon libraries](/options/installing-icon-libraries) that you wish to use
+* Default [Quasar Icon Set](/options/quasar-icon-sets) for Quasar components
 * Development server port, HTTPS mode, hostname and so on
 * [CSS animations](/options/animations) that you wish to use
 * [Boot Files](/quasar-cli/cli-documentation/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
@@ -165,8 +165,18 @@ Most used properties are:
 | --- | --- | --- |
 | port | Number | Port of dev server |
 | host | String | Local IP/Host to use for dev server |
-| open | Boolean | Open up browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. |
+| open | Boolean/String | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. If specifying a String then see explanations below. |
 | public | String | Public address of the application (for use with reverse proxies) |
+
+Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/opn/blob/master/test.js) based on the host OS):
+
+```
+// quasar.conf.js
+
+devServer: {
+  open: 'firefox'
+}
+```
 
 ### build Property
 | Property | Type | Description |
@@ -263,5 +273,11 @@ build: {
 }
 ```
 
+> Alternatively you can use our [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) App Extension.
+
+::: tip
+Also check out [Handling process.env](/quasar-cli/cli-documentation/handling-process-env) page.
+:::
+
 ### Handling Webpack configuration
-In depth analysis on [Handling Webpack](/quasar-cli/cli-documentation/handling-webpack) documentation pagee.
+In depth analysis on [Handling Webpack](/quasar-cli/cli-documentation/handling-webpack) documentation page.

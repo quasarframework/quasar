@@ -115,7 +115,7 @@ body.desktop
       transform scale3d(0, 0, 0)
       transition transform $option-focus-transition
 
-    &:focus
+    &:focus:not(.disabled)
       .q-toggle__thumb:before
         transform scale3d(2, 2, 2)
 

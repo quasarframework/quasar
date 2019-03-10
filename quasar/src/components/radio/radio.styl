@@ -98,8 +98,9 @@ body.desktop
       transform scale3d(0, 0, 0)
       transition transform $radio-transition
 
-    &:focus .q-radio__inner:before
-      transform scale3d(1, 1, 1)
+    &:focus:not(.disabled)
+      .q-radio__inner:before
+        transform scale3d(1, 1, 1)
 
     &--dense:focus .q-radio__inner:before
       transform scale3d(2, 2, 2)

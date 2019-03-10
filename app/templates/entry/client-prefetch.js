@@ -10,13 +10,14 @@
  * Boot files are your "main.js"
  **/
 import App from 'app/<%= sourceFiles.rootComponent %>'
+const appOptions = App.options /* Vue.extend() */ || App
 
 <% if (__loadingBar) { %>
 import { LoadingBar } from 'quasar'
 <% } %>
 
 <% if (!ctx.mode.ssr) { %>
-let appPrefetch = typeof App.preFetch === 'function'
+let appPrefetch = typeof appOptions.preFetch === 'function'
 <% } %>
 
 function getMatchedComponents (to, router) {
@@ -27,9 +28,10 @@ function getMatchedComponents (to, router) {
   if (!route) { return [] }
   return [].concat.apply([], route.matched.map(m => {
     return Object.keys(m.components).map(key => {
+      const comp = m.components[key]
       return {
         path: m.path,
-        c: m.components[key]
+        c: comp.options /* Vue.extend() */ || comp
       }
     })
   }))
@@ -60,7 +62,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
     <% if (!ctx.mode.ssr) { %>
     if (appPrefetch) {
       appPrefetch = false
-      components.unshift(App)
+      components.unshift(appOptions)
     }
     <% } %>
 

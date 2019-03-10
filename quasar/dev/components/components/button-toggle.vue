@@ -14,6 +14,15 @@
                   ]"
     />
 
+    <q-btn-toggle v-model="model" toggle-color="primary" color="white" text-color="black"
+                  spread no-caps
+                  :options="[
+                    {label: 'One', value: 'one'},
+                    {label: 'Two', value: 'two'},
+                    {label: 'Three', value: 'three'}
+                  ]"
+    />
+
     <div v-for="push in options" :key="push">
       <template v-if="!push || !flat">
         <div v-for="flat in options" :key="flat">

@@ -7,7 +7,7 @@ import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { position, listenOpts } from '../../utils/event.js'
+import { stop, position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { MenuTreeMixin, closeRootMenu } from './menu-tree.js'
 
@@ -195,6 +195,15 @@ export default Vue.extend({
     },
 
     __render (h) {
+      const on = {
+        ...this.$listeners,
+        input: stop
+      }
+
+      if (this.autoClose === true) {
+        on.click = this.__onAutoClose
+      }
+
       return h('transition', {
         props: { name: this.transition }
       }, [
@@ -203,10 +212,7 @@ export default Vue.extend({
           class: this.contentClass,
           style: this.contentStyle,
           attrs: this.$attrs,
-          on: this.autoClose === true ? {
-            ...this.$listeners,
-            click: this.__onAutoClose
-          } : this.$listeners,
+          on,
           directives: this.persistent !== true ? [{
             name: 'click-outside',
             value: this.hide,

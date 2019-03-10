@@ -24,7 +24,7 @@
   &.disabled
     opacity .7 !important
 
-  &:not(.disabled):not(.q-btn--flat):not(.q-btn--outline):not(.q-btn--push)
+  &--standard:not(.disabled)
     &:before
       // This places the button active raise shadow behind adjacent elements
       // Active raise shadow will still be visible under adjacent transparent elements, this is ok and coherent with a desired transparency effect.
@@ -37,7 +37,6 @@
       bottom 0
       left 0
       border-radius inherit
-      z-index -1
       transition $button-transition
     &:active
     &.q-btn--active

@@ -79,17 +79,17 @@ export default Vue.extend({
 
   beforeCreate () {
     this.size = { width: -1, height: -1 }
-    if (isSSR) { return }
+    if (isSSR === true) { return }
 
     this.hasObserver = typeof ResizeObserver !== 'undefined'
 
-    if (!this.hasObserver) {
+    if (this.hasObserver !== true) {
       this.style = `${this.$q.platform.is.ie ? 'visibility:hidden;' : ''}display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;`
     }
   },
 
   mounted () {
-    if (this.hasObserver) {
+    if (this.hasObserver === true) {
       this.observer = new ResizeObserver(this.trigger)
       this.observer.observe(this.$el.parentNode)
       return
@@ -105,7 +105,7 @@ export default Vue.extend({
   beforeDestroy () {
     clearTimeout(this.timer)
 
-    if (this.hasObserver) {
+    if (this.hasObserver === true) {
       this.$el.parentNode && this.observer.unobserve(this.$el.parentNode)
       return
     }

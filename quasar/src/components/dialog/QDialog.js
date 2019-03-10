@@ -6,6 +6,7 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
+import { stop } from '../../utils/event.js'
 
 let maximizedModals = 0
 
@@ -88,12 +89,14 @@ export default Vue.extend({
     },
 
     maximized (newV, oldV) {
-      this.__updateState(false, oldV)
-      this.__updateState(true, newV)
+      if (this.showing === true) {
+        this.__updateState(false, oldV)
+        this.__updateState(true, newV)
+      }
     },
 
     seamless (v) {
-      this.showing && this.__preventScroll(!v)
+      this.showing === true && this.__preventScroll(!v)
     }
   },
 
@@ -236,7 +239,11 @@ export default Vue.extend({
             ref: 'inner',
             staticClass: 'q-dialog__inner fixed-full flex no-pointer-events',
             class: this.classes,
-            attrs: { tabindex: -1 }
+            attrs: { tabindex: -1 },
+            on: {
+              ...this.$listeners,
+              input: stop
+            }
           }, slot(this, 'default')) : null
         ])
       ])
