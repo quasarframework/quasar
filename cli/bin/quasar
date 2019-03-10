@@ -11,9 +11,13 @@ if (cmd === 'create') {
   process.argv.splice(2, 1)
   require(`./quasar-create`)
 }
-else if (cmd  === 'serve') {
+else if (cmd === 'serve') {
   process.argv.splice(2, 1)
   require(`./quasar-serve`)
+}
+else if (cmd === 'upgrade') {
+  process.argv.splice(2, 1)
+  require(`./quasar-upgrade`)
 }
 else {
   const localFile = resolveFrom.silent(process.cwd(), path.join('@quasar/app/bin/quasar'))
