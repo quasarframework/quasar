@@ -282,12 +282,16 @@ class QuasarConfig {
       }
     }
 
+    // anything in an object means, leave me alone, I know what I am doing
     if (cfg.css.length > 0) {
-      cfg.css = cfg.css.filter(_ => _).map(
-        asset => asset[0] === '~' ? asset.substring(1) : `src/css/${asset}`
-      )
+      cfg.css = cfg.css.filter(_ => _).map(asset => {
+        return typeof asset === 'string'
+        ? { path: asset[0] === '~' ? asset.substring(1) : `src/css/${asset}` }
+        : asset
+      }).map(asset => asset.path)
     }
 
+    // anything in an object means, leave me alone, I know what I am doing
     if (cfg.boot.length > 0) {
       cfg.boot = cfg.boot.filter(_ => _).map(asset => {
         return typeof asset === 'string'
