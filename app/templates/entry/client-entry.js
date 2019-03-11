@@ -45,7 +45,7 @@ if (boot.length > 0) {
     let importName = 'b_' + hash(asset.path)
     bootNames.push(importName)
 %>
-import <%= importName %> from 'boot/<%= asset.path %>'
+import <%= importName %> from '<%= asset.path %>'
 <% }) } %>
 
 <% if (preFetch) { %>

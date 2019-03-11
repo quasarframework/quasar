@@ -41,7 +41,7 @@ if (boot.length > 0) {
     let importName = 'plugin' + hash(asset.path)
     bootNames.push(importName)
 %>
-import <%= importName %> from 'boot/<%= asset.path %>'
+import <%= importName %> from '<%= asset.path %>'
 <% }) } %>
 
 // This exported function will be called by `bundleRenderer`.

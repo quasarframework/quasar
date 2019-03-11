@@ -132,6 +132,11 @@ class QuasarConfig {
       ctx: this.ctx,
       css: [],
       boot: [],
+      build: {
+        transpileDependencies: [],
+        env: {},
+        uglifyOptions: {}
+      },
       animations: [],
       extras: []
     }, this.quasarConfigFunction(this.ctx))
@@ -293,7 +298,7 @@ class QuasarConfig {
     if (cfg.boot.length > 0) {
       cfg.boot = cfg.boot.filter(_ => _).map(asset => {
         return typeof asset === 'string'
-          ? { path: asset }
+          ? { path: asset[0] === '~' ? asset.substring(1) : `boot/${asset}` }
           : asset
       }).filter(asset => asset.path)
     }
