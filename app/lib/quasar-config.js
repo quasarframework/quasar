@@ -47,6 +47,23 @@ function parseBuildEnv (env) {
   return obj
 }
 
+function parseAssetProperty (prefix) {
+  return asset => {
+    if (typeof asset === 'string') {
+      return {
+        path: asset[0] === '~' ? asset.substring(1) : prefix + `/${asset}`
+      }
+    }
+
+    return {
+      ...asset,
+      path: typeof asset.path === 'string'
+        ? (asset.path[0] === '~' ? asset.path.substring(1) : prefix + `/${asset.path}`)
+        : asset.path
+    }
+  }
+}
+
 /*
  * this.buildConfig           - Compiled Object from quasar.conf.js
  * this.webpackConfig         - Webpack config object for main thread
@@ -288,19 +305,15 @@ class QuasarConfig {
     }
 
     if (cfg.css.length > 0) {
-      cfg.css = cfg.css.filter(_ => _).map(
-        asset => typeof asset === 'string'
-          ? { path: asset[0] === '~' ? asset.substring(1) : `src/css/${asset}` }
-          : asset
-      ).filter(asset => asset.path)
+      cfg.css = cfg.css.filter(_ => _)
+        .map(parseAssetProperty('src/css'))
+        .filter(asset => asset.path)
     }
 
     if (cfg.boot.length > 0) {
-      cfg.boot = cfg.boot.filter(_ => _).map(asset => {
-        return typeof asset === 'string'
-          ? { path: asset[0] === '~' ? asset.substring(1) : `boot/${asset}` }
-          : asset
-      }).filter(asset => asset.path)
+      cfg.boot = cfg.boot.filter(_ => _)
+        .map(parseAssetProperty('boot'))
+        .filter(asset => asset.path)
     }
 
     cfg.build = merge({
