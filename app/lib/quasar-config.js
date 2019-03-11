@@ -233,9 +233,9 @@ class QuasarConfig {
   compile () {
     let cfg = this.quasarConfig
 
-    extensionRunner.runHook('extendQuasarConf', hook => {
+    await extensionRunner.runHook('extendQuasarConf', async hook => {
       log(`Extension(${hook.extId}): Extending quasar.conf...`)
-      hook.fn(cfg)
+      await hook.fn(cfg)
     })
 
     // if watching for changes,
@@ -284,8 +284,10 @@ class QuasarConfig {
 
     if (cfg.css.length > 0) {
       cfg.css = cfg.css.filter(_ => _).map(
-        asset => asset[0] === '~' ? asset.substring(1) : `src/css/${asset}`
-      )
+        asset => typeof asset === 'string'
+          ? { path: asset[0] === '~' ? asset.substring(1) : `src/css/${asset}` }
+          : asset
+      ).filter(asset => asset.path)
     }
 
     if (cfg.boot.length > 0) {

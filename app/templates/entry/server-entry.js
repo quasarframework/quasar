@@ -19,7 +19,7 @@ import '@quasar/extras/animate/<%= asset %>.css'
 
 import 'quasar-styl'
 
-<% css.length > 0 && css.forEach(asset => { %>
+<% css.length > 0 && css.filter(asset => asset.server !== false).forEach(asset => { %>
 import '<%= asset %>'
 <% }) %>
 
@@ -100,7 +100,7 @@ export default context => {
         routeUnchanged = false
         reject({ url })
       }
-      
+
       appOptions.preFetch && matchedComponents.unshift(appOptions)
 
       // Call preFetch hooks on components matched by the route.

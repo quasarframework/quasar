@@ -1488,7 +1488,7 @@ Replace `:handler` with `@load`.
 
 ### QLayoutHeader & QLayoutFooter
 
-- **renamed** to [QItemSection](/layout/header-and-footer) and [QFooter](/layout/header-and-footer), respectively
+- **renamed** to [QHeader](/layout/header-and-footer) and [QFooter](/layout/header-and-footer), respectively
 
 <div class="row">
   <div class="inline-block q-pa-md">

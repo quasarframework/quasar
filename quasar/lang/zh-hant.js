@@ -23,7 +23,7 @@ export default {
     monthsShort: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
     headerTitle: function (date) {
       return new Intl.DateTimeFormat('zh-hant', {
-        weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC'
+        weekday: 'short', month: 'short', day: 'numeric'
       }).format(date)
     },
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
