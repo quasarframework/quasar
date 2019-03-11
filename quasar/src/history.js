@@ -24,6 +24,10 @@ export default {
 
     document.addEventListener('deviceready', () => {
       document.addEventListener('backbutton', () => {
+        if($q.customBackButtonAction !== 'undefined' && $q.customBackButtonAction === true) {
+          $q.customBackButtonAction = false
+          return
+        }
         if (this.__history.length) {
           this.__history.pop().handler()
         }
