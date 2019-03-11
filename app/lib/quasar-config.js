@@ -82,7 +82,7 @@ class QuasarConfig {
           return
         }
 
-        this.compile()
+        await this.compile()
 
         if (this.webpackConfigChanged) {
           opts.onBuildChange()
@@ -230,7 +230,7 @@ class QuasarConfig {
     }
   }
 
-  compile () {
+  async compile () {
     let cfg = this.quasarConfig
 
     await extensionRunner.runHook('extendQuasarConf', async hook => {
@@ -701,7 +701,7 @@ class QuasarConfig {
         : undefined
     }
 
-    this.webpackConfig = require('./webpack')(cfg)
+    this.webpackConfig = await require('./webpack')(cfg)
     this.buildConfig = cfg
   }
 }

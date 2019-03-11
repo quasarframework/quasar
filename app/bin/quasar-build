@@ -126,7 +126,7 @@ async function build () {
     process.exit(1)
   }
 
-  quasarConfig.compile()
+  await quasarConfig.compile()
 
   const
     generator = new Generator(quasarConfig),

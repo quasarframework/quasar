@@ -161,7 +161,7 @@ async function goLive () {
     process.exit(1)
   }
 
-  quasarConfig.compile()
+  await quasarConfig.compile()
 
   const
     generator = new Generator(quasarConfig),

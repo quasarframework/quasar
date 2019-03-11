@@ -24,7 +24,7 @@ import '@quasar/extras/animate/<%= asset %>.css'
 import 'quasar-styl'
 
 <% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
-import '<%= asset %>'
+import '<%= asset.path %>'
 <% }) %>
 
 import Vue from 'vue'
