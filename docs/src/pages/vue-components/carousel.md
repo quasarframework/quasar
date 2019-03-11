@@ -2,7 +2,7 @@
 title: Carousel
 ---
 
-The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards too.
+The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards or an image gallery too.
 
 ## Installation
 <doc-installation :components="['QCarousel', 'QCarouselControl', 'QCarouselSlide']" />
