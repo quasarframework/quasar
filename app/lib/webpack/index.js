@@ -3,7 +3,7 @@ const
   log = require('../helpers/logger')('app:webpack'),
   extensionRunner = require('../app-extension/extensions-runner')
 
-function getWebpackConfig (chain, cfg, {
+async function getWebpackConfig (chain, cfg, {
   name,
   hot,
   cfgExtendBase = cfg.build,
@@ -39,38 +39,38 @@ function getWebpackConfig (chain, cfg, {
   return webpackConfig
 }
 
-function getSPA (cfg) {
+async function getSPA (cfg) {
   const chain = createChain(cfg, 'SPA')
   require('./spa')(chain, cfg)
-  return getWebpackConfig(chain, cfg, {
+  return await getWebpackConfig(chain, cfg, {
     name: 'SPA',
     hot: true,
     invokeParams: { isClient: true, isServer: false }
   })
 }
 
-function getPWA (cfg) {
+async function getPWA (cfg) {
   const chain = createChain(cfg, 'PWA')
   require('./spa')(chain, cfg) // extending a SPA
   require('./pwa')(chain, cfg)
-  return getWebpackConfig(chain, cfg, {
+  return await getWebpackConfig(chain, cfg, {
     name: 'PWA',
     hot: true,
     invokeParams: { isClient: true, isServer: false }
   })
 }
 
-function getCordova (cfg) {
+async function getCordova (cfg) {
   const chain = createChain(cfg, 'Cordova')
   require('./cordova')(chain, cfg)
-  return getWebpackConfig(chain, cfg, {
+  return await getWebpackConfig(chain, cfg, {
     name: 'Cordova',
     hot: true,
     invokeParams: { isClient: true, isServer: false }
   })
 }
 
-function getElectron (cfg) {
+async function getElectron (cfg) {
   const
     rendererChain = createChain(cfg, 'Renderer process'),
     mainChain = require('./electron/main')(cfg, 'Main process')
@@ -78,19 +78,19 @@ function getElectron (cfg) {
   require('./electron/renderer')(rendererChain, cfg)
 
   return {
-    renderer: getWebpackConfig(rendererChain, cfg, {
+    renderer: await getWebpackConfig(rendererChain, cfg, {
       name: 'Renderer process',
       hot: true,
       invokeParams: { isClient: true, isServer: false }
     }),
-    main: getWebpackConfig(mainChain, cfg, {
+    main: await getWebpackConfig(mainChain, cfg, {
       name: 'Main process',
       cfgExtendBase: cfg.electron
     })
   }
 }
 
-function getSSR (cfg) {
+async function getSSR (cfg) {
   const
     client = createChain(cfg, 'Client'),
     server = createChain(cfg, 'Server')
@@ -103,34 +103,34 @@ function getSSR (cfg) {
   require('./ssr/server')(server, cfg)
 
   return {
-    client: getWebpackConfig(client, cfg, {
+    client: await getWebpackConfig(client, cfg, {
       name: 'Client',
       hot: true,
       invokeParams: { isClient: true, isServer: false }
     }),
-    server: getWebpackConfig(server, cfg, {
+    server: await getWebpackConfig(server, cfg, {
       name: 'Server',
       invokeParams: { isClient: false, isServer: true }
     })
   }
 }
 
-module.exports = function (cfg) {
+module.exports = async function (cfg) {
   const mode = cfg.ctx.mode
 
   if (mode.ssr) {
-    return getSSR(cfg)
+    return await getSSR(cfg)
   }
   else if (mode.electron) {
-    return getElectron(cfg)
+    return await getElectron(cfg)
   }
   else if (mode.cordova) {
-    return getCordova(cfg)
+    return await getCordova(cfg)
   }
   else if (mode.pwa) {
-    return getPWA(cfg)
+    return await getPWA(cfg)
   }
   else {
-    return getSPA(cfg)
+    return await getSPA(cfg)
   }
 }
