@@ -23,7 +23,7 @@ import '@quasar/extras/animate/<%= asset %>.css'
 
 import 'quasar-styl'
 
-<% css.length > 0 && css.forEach(asset => { %>
+<% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
 import '<%= asset %>'
 <% }) %>
 

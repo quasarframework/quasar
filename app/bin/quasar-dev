@@ -132,9 +132,9 @@ async function goLive () {
   await extensionRunner.registerExtensions(ctx)
 
   // run possible beforeDevStart hooks
-  await extensionRunner.runHook('beforeDevStart', hook => {
+  await extensionRunner.runHook('beforeDevStart', async hook => {
     log(`Extension(${hook.extId}): Running beforeDevStart hook...`)
-    hook.fn()
+    await hook.fn()
   })
 
   const
