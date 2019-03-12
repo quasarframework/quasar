@@ -85,7 +85,7 @@ export default {
       mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
       mouseEvtOpts = listenOpts.passive === void 0 ? true : { passive: mouseEvtPassive, capture: true },
       touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
-      touchEvtOpts = touchEvtPassive ? listenOpts.passive : null
+      touchEvtOpts = touchEvtPassive ? listenOpts.passive : (listenOpts.passive === void 0 ? null : { passive: false })
 
     function handleEvent (evt, mouseEvent) {
       if (mouse && mouseEvent) {
@@ -209,8 +209,8 @@ export default {
     }
     el.addEventListener('touchstart', ctx.start, touchEvtOpts)
     el.addEventListener('touchmove', ctx.move, touchEvtOpts)
-    el.addEventListener('touchcancel', ctx.end, touchEvtOpts)
-    el.addEventListener('touchend', ctx.end, touchEvtOpts)
+    el.addEventListener('touchcancel', ctx.end)
+    el.addEventListener('touchend', ctx.end)
   },
 
   update (el, { oldValue, value, modifiers }) {
@@ -242,7 +242,7 @@ export default {
         mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
         mouseEvtOpts = listenOpts.passive === void 0 ? true : { passive: mouseEvtPassive, capture: true },
         touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
-        touchEvtOpts = touchEvtPassive ? listenOpts.passive : null
+        touchEvtOpts = touchEvtPassive ? listenOpts.passive : (listenOpts.passive === void 0 ? null : { passive: false })
 
       if (mouse === true) {
         el.removeEventListener('mousedown', ctx.mouseStart, mouseEvtOpts)
@@ -251,8 +251,8 @@ export default {
       }
       el.removeEventListener('touchstart', ctx.start, touchEvtOpts)
       el.removeEventListener('touchmove', ctx.move, touchEvtOpts)
-      el.removeEventListener('touchcancel', ctx.end, touchEvtOpts)
-      el.removeEventListener('touchend', ctx.end, touchEvtOpts)
+      el.removeEventListener('touchcancel', ctx.end)
+      el.removeEventListener('touchend', ctx.end)
 
       delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
     }

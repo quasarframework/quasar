@@ -1,7 +1,9 @@
 import Platform from '../plugins/Platform.js'
 import { setObserver, removeObserver } from '../utils/touch-observer.js'
-import { position, leftClick, stopAndPrevent } from '../utils/event.js'
+import { position, leftClick, stopAndPrevent, listenOpts } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
+
+const evtOpts = listenOpts.passive === void 0 ? null : { passive: false }
 
 function getDirection (mod) {
   let dir = {}
@@ -226,8 +228,8 @@ export default {
       el.addEventListener('mousedown', ctx.mouseStart)
     }
 
-    el.addEventListener('touchstart', ctx.start)
-    el.addEventListener('touchmove', ctx.move)
+    el.addEventListener('touchstart', ctx.start, evtOpts)
+    el.addEventListener('touchmove', ctx.move, evtOpts)
     el.addEventListener('touchcancel', ctx.end)
     el.addEventListener('touchend', ctx.end)
   },
@@ -249,8 +251,8 @@ export default {
         document.removeEventListener('mousemove', ctx.move, true)
         document.removeEventListener('mouseup', ctx.mouseEnd, true)
       }
-      el.removeEventListener('touchstart', ctx.start)
-      el.removeEventListener('touchmove', ctx.move)
+      el.removeEventListener('touchstart', ctx.start, evtOpts)
+      el.removeEventListener('touchmove', ctx.move, evtOpts)
       el.removeEventListener('touchcancel', ctx.end)
       el.removeEventListener('touchend', ctx.end)
 
