@@ -35,6 +35,7 @@ export default Vue.extend({
         this.resume()
       }
     },
+
     scrollTarget () {
       this.updateScrollTarget()
     }
