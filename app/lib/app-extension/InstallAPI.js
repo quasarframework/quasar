@@ -65,29 +65,63 @@ module.exports = class InstallAPI {
    * Extend package.json with new props.
    * If specifying existing props, it will override them.
    *
-   * @param {object} extPkg
+   * @param {object|string} extPkg - Object to extend with or relative path to a JSON file
    */
   extendPackageJson (extPkg) {
-    if (extPkg !== void 0 && Object(extPkg) === extPkg && Object.keys(extPkg).length > 0) {
+    if (!extPkg) {
+      return
+    }
+
+    if (typeof extPkg === 'string') {
       const
-        filePath = appPaths.resolve.app('package.json'),
-        pkg = merge(require(filePath), extPkg)
+        dir = getCallerPath(),
+        source = path.resolve(dir, extPkg)
 
-      fs.writeFileSync(
-        filePath,
-        JSON.stringify(pkg, null, 2),
-        'utf-8'
-      )
-
-      if (
-        extPkg.dependencies ||
-        extPkg.devDependencies ||
-        extPkg.optionalDependencies ||
-        extPkg.bundleDependencies ||
-        extPkg.peerDependencies
-      ) {
-        this.__needsNodeModulesUpdate = true
+      if (!fs.existsSync(source)) {
+        warn()
+        warn(`⚠️  Extension(${this.extId}): extendPackageJson() - cannot locate ${extPkg}. Skipping...`)
+        warn()
+        return
       }
+      if (fs.lstatSync(source).isDirectory()) {
+        warn()
+        warn(`⚠️  Extension(${this.extId}): extendPackageJson() - "${extPkg}" is a folder instead of file. Skipping...`)
+        warn()
+        return
+      }
+
+      try {
+        extPkg = require(source)
+      }
+      catch (e) {
+        warn(`⚠️  Extension(${this.extId}): extendPackageJson() - "${extPkg}" is malformed`)
+        warn()
+        process.exit(1)
+      }
+    }
+
+    if (Object(extPkg) !== extPkg || Object.keys(extPkg).length === 0) {
+      return
+    }
+
+    const
+      filePath = appPaths.resolve.app('package.json'),
+      pkg = merge(require(filePath), extPkg)
+
+    fs.writeFileSync(
+      filePath,
+      JSON.stringify(pkg, null, 2),
+      'utf-8'
+    )
+
+    if (
+      extPkg.dependencies ||
+      extPkg.devDependencies ||
+      extPkg.optionalDependencies ||
+      extPkg.bundleDependencies ||
+      extPkg.peerDependencies
+    ) {
+      this.__needsNodeModulesUpdate = true
     }
   }
 
