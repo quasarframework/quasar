@@ -6,7 +6,7 @@
       </div>
 
       <div class="q-gutter-sm">
-        <q-toggle v-model="toggle" class="z-max fixed-top-left" />
+        <q-toggle v-model="toggle" class="z-max fixed-top" />
         <q-btn color="primary" label="Persistent">
           <q-menu
             v-model="toggle"
@@ -16,6 +16,7 @@
             @show="log('@show popover1 persistent')"
             @hide="log('@hide popover1 persistent')"
           >
+            <input v-model="gigi">
             <q-list padding style="min-width: 100px">
               <q-item
                 v-for="n in 20"
@@ -266,7 +267,7 @@
               <q-radio v-model="targetEl" :val="false" label="false (no target whatsoever)" />
               <q-radio v-model="targetEl" :val="true" label="true (original parent)" />
               <q-radio v-model="targetEl" val="#target-img-1" label="#target-img-1" />
-              <q-radio v-model="targetEl" :val="$refs.targetImg2 ? $refs.targetImg2.$el : void 0" label="#target-img-2" />
+              <q-radio v-model="targetEl" val="#target-img-2" label="#target-img-2" />
               <q-radio v-model="targetEl" val="#bogus" label="#bogus" />
             </div>
           </q-card-section>
@@ -275,7 +276,7 @@
               #target-img-1
             </div>
           </q-img>
-          <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg" ref="targetImg2" style="height: 100px">
+          <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg" id="target-img-2" style="height: 100px">
             <div class="absolute-bottom-right">
               #target-img-2
             </div>
@@ -417,6 +418,7 @@ export default {
       list.push({ label: v, value: v })
     }
     return {
+      gigi: '',
       fit: false,
       cover: false,
       toggle: false,
