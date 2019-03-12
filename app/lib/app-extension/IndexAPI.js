@@ -1,8 +1,12 @@
 const
+  path = require('path')
+
+const
   appPaths = require('../app-paths'),
   logger = require('../helpers/logger'),
   warn = logger('app:extension(index)', 'red'),
-  quasarAppVersion = require('../../package.json').version
+  quasarAppVersion = require('../../package.json').version,
+  getCallerPath = require('../helpers/get-caller-path')
 
 /**
  * API for extension's /index.js script
@@ -21,7 +25,8 @@ module.exports = class IndexAPI {
       extendWebpack: [],
       chainWebpack: [],
       beforeDevStart: [],
-      commands: {}
+      commands: {},
+      describeApi: {}
     }
   }
 
@@ -98,6 +103,18 @@ module.exports = class IndexAPI {
    */
   registerCommand (commandName, fn) {
     this.__hooks.commands[commandName] = fn
+  }
+
+  /**
+   * Register an API file for "quasar describe" command
+   *
+   * @param {string} name
+   * @param {string} relativePath
+   *   (relative path to Api file)
+   */
+  registerDescribeApi (name, relativePath) {
+    const dir = getCallerPath()
+    this.__hooks.describeApi[name] = path.resolve(dir, relativePath)
   }
 
   /**

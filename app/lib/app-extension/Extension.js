@@ -4,6 +4,77 @@ const
   warn = logger('app:extension', 'red'),
   appPaths = require('../app-paths')
 
+async function renderFolders ({ source, rawCopy, scope }) {
+  const
+    fs = require('fs-extra'),
+    path = require('path'),
+    fglob = require('fast-glob'),
+    isBinary = require('isbinaryfile').isBinaryFileSync,
+    inquirer = require('inquirer'),
+    compileTemplate = require('lodash.template')
+
+  let overwrite
+  const files = fglob.sync(['**/*'], { cwd: source })
+
+  for (const rawPath of files) {
+    const targetRelativePath = rawPath.split('/').map(name => {
+      // dotfiles are ignored when published to npm, therefore in templates
+      // we need to use underscore instead (e.g. "_gitignore")
+      if (name.charAt(0) === '_' && name.charAt(1) !== '_') {
+        return `.${name.slice(1)}`
+      }
+      if (name.charAt(0) === '_' && name.charAt(1) === '_') {
+        return `${name.slice(1)}`
+      }
+      return name
+    }).join('/')
+
+    const targetPath = appPaths.resolve.app(targetRelativePath)
+    const sourcePath = path.resolve(source, rawPath)
+
+    if (overwrite !== 'overwriteAll' && fs.existsSync(targetPath)) {
+      if (overwrite === 'skipAll') {
+        continue
+      }
+      else {
+        const answer = await inquirer.prompt([{
+          name: 'action',
+          type: 'list',
+          message: `Overwrite "${path.relative(appPaths.appDir, targetPath)}"?`,
+          choices: [
+            { name: 'Overwrite', value: 'overwrite' },
+            { name: 'Overwrite all', value: 'overwriteAll' },
+            { name: 'Skip (might break extension)', value: 'skip' },
+            { name: 'Skip all (might break extension)', value: 'skipAll' }
+          ],
+          default: 'overwrite'
+        }])
+
+        if (answer.action === 'overwriteAll') {
+          overwrite = 'overwriteAll'
+        }
+        else if (answer.action === 'skipAll') {
+          overwrite = 'skipAll'
+          continue
+        }
+        else if (answer.action === 'skip') {
+          continue
+        }
+      }
+    }
+
+    if (rawCopy || isBinary(sourcePath)) {
+      fs.ensureFileSync(targetPath)
+      fs.copyFileSync(sourcePath, targetPath)
+    }
+    else {
+      const rawContent = fs.readFileSync(sourcePath, 'utf-8')
+      const template = compileTemplate(rawContent)
+      fs.writeFileSync(targetPath, template(scope), 'utf-8')
+    }
+  }
+}
+
 module.exports = class Extension {
   constructor (name) {
     if (name.charAt(0) === '@') {
@@ -257,6 +328,14 @@ module.exports = class Extension {
 
     await script(api)
 
+    const hooks = api.__getHooks()
+
+    if (hooks.renderFolders.length > 0) {
+      for (let entry of hooks.renderFolders) {
+        await renderFolders(entry)
+      }
+    }
+
     if (api.__needsNodeModulesUpdate) {
       const
         spawn = require('../helpers/spawn'),
@@ -274,7 +353,7 @@ module.exports = class Extension {
       )
     }
 
-    return api.__getHooks()
+    return hooks
   }
 
   async __runUninstallScript (prompts) {

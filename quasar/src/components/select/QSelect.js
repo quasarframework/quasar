@@ -101,7 +101,7 @@ export default Vue.extend({
       if (show === true) {
         this.optionsToShow = 20
         this.$nextTick(() => {
-          this.__hidrateOptions(true)
+          this.__hydrateOptions(true)
         })
       }
       document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
@@ -492,7 +492,7 @@ export default Vue.extend({
       }
     },
 
-    __hidrateOptions (updatePosition) {
+    __hydrateOptions (updatePosition) {
       if (this.avoidScroll !== true) {
         if (this.optionsToShow < this.options.length) {
           const el = this.$refs.menu
@@ -502,7 +502,7 @@ export default Vue.extend({
             this.avoidScroll = true
             this.$nextTick(() => {
               this.avoidScroll = false
-              this.__hidrateOptions(updatePosition)
+              this.__hydrateOptions(updatePosition)
             })
 
             return
@@ -619,7 +619,7 @@ export default Vue.extend({
             },
             on: {
               click: stopAndPrevent,
-              '&scroll': this.__hidrateOptions
+              '&scroll': this.__hydrateOptions
             }
           }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))
           : null

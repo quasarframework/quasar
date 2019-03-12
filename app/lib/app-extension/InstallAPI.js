@@ -1,14 +1,14 @@
 const
   fs = require('fs-extra'),
   path = require('path'),
-  merge = require('webpack-merge'),
-  compileTemplate = require('lodash.template')
+  merge = require('webpack-merge')
 
 const
   appPaths = require('../app-paths'),
   logger = require('../helpers/logger'),
   warn = logger('app:extension(install)', 'red'),
-  quasarAppVersion = require('../../package.json').version
+  quasarAppVersion = require('../../package.json').version,
+  getCallerPath = require('../helpers/get-caller-path')
 
 /**
  * API for extension's /install.js script
@@ -23,6 +23,7 @@ module.exports = class InstallAPI {
 
     this.__needsNodeModulesUpdate = false
     this.__hooks = {
+      renderFolders: [],
       exitLog: []
     }
   }
@@ -64,29 +65,63 @@ module.exports = class InstallAPI {
    * Extend package.json with new props.
    * If specifying existing props, it will override them.
    *
-   * @param {object} extPkg
+   * @param {object|string} extPkg - Object to extend with or relative path to a JSON file
    */
   extendPackageJson (extPkg) {
-    if (extPkg !== void 0 && Object(extPkg) === extPkg && Object.keys(extPkg).length > 0) {
+    if (!extPkg) {
+      return
+    }
+
+    if (typeof extPkg === 'string') {
       const
-        filePath = appPaths.resolve.app('package.json'),
-        pkg = merge(require(filePath), extPkg)
+        dir = getCallerPath(),
+        source = path.resolve(dir, extPkg)
 
-      fs.writeFileSync(
-        appPaths.resolve.app('package.json'),
-        JSON.stringify(pkg, null, 2),
-        'utf-8'
-      )
-
-      if (
-        extPkg.dependencies ||
-        extPkg.devDependencies ||
-        extPkg.optionalDependencies ||
-        extPkg.bundleDependencies ||
-        extPkg.peerDependencies
-      ) {
-        this.__needsNodeModulesUpdate = true
+      if (!fs.existsSync(source)) {
+        warn()
+        warn(`⚠️  Extension(${this.extId}): extendPackageJson() - cannot locate ${extPkg}. Skipping...`)
+        warn()
+        return
       }
+      if (fs.lstatSync(source).isDirectory()) {
+        warn()
+        warn(`⚠️  Extension(${this.extId}): extendPackageJson() - "${extPkg}" is a folder instead of file. Skipping...`)
+        warn()
+        return
+      }
+
+      try {
+        extPkg = require(source)
+      }
+      catch (e) {
+        warn(`⚠️  Extension(${this.extId}): extendPackageJson() - "${extPkg}" is malformed`)
+        warn()
+        process.exit(1)
+      }
+    }
+
+    if (Object(extPkg) !== extPkg || Object.keys(extPkg).length === 0) {
+      return
+    }
+
+    const
+      filePath = appPaths.resolve.app('package.json'),
+      pkg = merge(require(filePath), extPkg)
+
+    fs.writeFileSync(
+      filePath,
+      JSON.stringify(pkg, null, 2),
+      'utf-8'
+    )
+
+    if (
+      extPkg.dependencies ||
+      extPkg.devDependencies ||
+      extPkg.optionalDependencies ||
+      extPkg.bundleDependencies ||
+      extPkg.peerDependencies
+    ) {
+      this.__needsNodeModulesUpdate = true
     }
   }
 
@@ -115,17 +150,14 @@ module.exports = class InstallAPI {
    * Render a folder from extension templates into devland.
    * Needs a relative path to the folder of the file calling render().
    *
-   * @param {string} templatePath
-   * @param {boolean} rawCopy (copy file/folder as is, don't interpret prompts)
-   * @param {object} additionalOpts (rendering opts)
+   * @param {string} templatePath (relative path to folder to render in app)
+   * @param {object} scope (optional; rendering scope variables)
    */
-  render (templatePath, additionalOpts, rawCopy = false) {
+  render (templatePath, scope) {
     const
       dir = getCallerPath(),
       source = path.resolve(dir, templatePath),
-      scope = additionalOpts
-        ? Object.assign({}, this.prompts, additionalOpts || {})
-        : this.prompts
+      rawCopy = !scope || Object.keys(scope).length === 0
 
     if (!fs.existsSync(source)) {
       warn()
@@ -140,38 +172,11 @@ module.exports = class InstallAPI {
       return
     }
 
-    const
-      fglob = require('fast-glob'),
-      isBinary = require('isbinaryfile').isBinaryFileSync
-
-    const files = fglob.sync(['**/*'], { cwd: source })
-
-    for (const rawPath of files) {
-      const targetRelativePath = rawPath.split('/').map(name => {
-        // dotfiles are ignored when published to npm, therefore in templates
-        // we need to use underscore instead (e.g. "_gitignore")
-        if (name.charAt(0) === '_' && name.charAt(1) !== '_') {
-          return `.${name.slice(1)}`
-        }
-        if (name.charAt(0) === '_' && name.charAt(1) === '_') {
-          return `${name.slice(1)}`
-        }
-        return name
-      }).join('/')
-
-      const targetPath = appPaths.resolve.app(targetRelativePath)
-      const sourcePath = path.resolve(source, rawPath)
-
-      if (rawCopy || isBinary(sourcePath)) {
-        fs.ensureFileSync(targetPath)
-        fs.copyFileSync(sourcePath, targetPath)
-      }
-      else {
-        const rawContent = fs.readFileSync(sourcePath, 'utf-8')
-        const template = compileTemplate(rawContent)
-        fs.writeFileSync(targetPath, template(scope), 'utf-8')
-      }
-    }
+    this.__hooks.renderFolders.push({
+      source,
+      rawCopy,
+      scope
+    })
   }
 
   /**
@@ -190,12 +195,4 @@ module.exports = class InstallAPI {
   __getHooks () {
     return this.__hooks
   }
-}
-
-function getCallerPath () {
-  const _prepareStackTrace = Error.prepareStackTrace
-	Error.prepareStackTrace = (_, stack) => stack
-	const stack = new Error().stack.slice(1)
-  Error.prepareStackTrace = _prepareStackTrace
-  return path.dirname(stack[1].getFileName())
 }
