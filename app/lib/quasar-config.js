@@ -435,8 +435,8 @@ class QuasarConfig {
 
     cfg.sourceFiles = merge({
       rootComponent: 'src/App.vue',
-      router: 'src/router/index.js',
-      store: 'src/store/index.js',
+      router: 'src/router/index',
+      store: 'src/store/index',
       indexHtmlTemplate: 'src/index.template.html',
       registerServiceWorker: 'src-pwa/register-service-worker.js',
       serviceWorker: 'src-pwa/custom-service-worker.js',
