@@ -10,7 +10,7 @@ const
   logger = require('./helpers/logger'),
   log = logger('app:quasar-conf'),
   warn = logger('app:quasar-conf', 'red'),
-  legacyValidations = require('./legacy-validations'),
+  appFilesValidations = require('./app-files-validations'),
   extensionRunner = require('./app-extension/extensions-runner')
 
 function encode (obj) {
@@ -634,7 +634,7 @@ class QuasarConfig {
       cfg.build.env.__statics = `"${this.ctx.dev ? '/' : cfg.build.publicPath || '/'}statics"`
     }
 
-    legacyValidations(cfg)
+    appFilesValidations(cfg)
 
     if (this.ctx.mode.cordova && !cfg.cordova) {
       cfg.cordova = {}
