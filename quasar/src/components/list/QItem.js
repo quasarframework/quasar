@@ -23,9 +23,7 @@ export default Vue.extend({
     },
 
     focused: Boolean,
-    manualFocus: Boolean,
-
-    disable: Boolean
+    manualFocus: Boolean
   },
 
   computed: {

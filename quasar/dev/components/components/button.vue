@@ -61,11 +61,12 @@
       <br><br>
       <div class="heading-3">
         Links
+        <q-toggle v-model="toDisable" label="Disabled" />
       </div>
-      <q-btn to="/" label="To index" outline color="secondary" />
+      <q-btn to="/" :disable="toDisable" label="To index" outline color="secondary" />
       <q-btn type="a" href="#/gigi" label="Type 'a' - bogus href" push color="secondary" class="q-ml-md" />
       <q-btn type="a" href="#/gigi" target="_blank" label="Type 'a' - external" color="secondary" class="q-ml-md" />
-      <q-btn to="/" label="To index in 2s" @click="linkClick" glossy color="secondary" class="q-ml-md" />
+      <q-btn to="/" :disable="toDisable" label="To index in 2s" @click="linkClick" glossy color="secondary" class="q-ml-md" />
       <br><br>
       <div>
         <q-toggle v-model="testD" label="Disable form buttons" />
@@ -672,7 +673,8 @@ export default {
       testN: 0,
       testD: false,
       testR: false,
-      tag: 'button'
+      tag: 'button',
+      toDisable: false
     }
   },
   methods: {
