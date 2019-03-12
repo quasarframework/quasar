@@ -137,7 +137,7 @@ export default Vue.extend({
 
     __delayShow (evt) {
       clearTimeout(this.timer)
-      this.$q.platform.is.mobile && document.body.classList.add('non-selectable')
+      this.$q.platform.is.mobile === true && document.body.classList.add('non-selectable')
       this.timer = setTimeout(() => {
         this.show(evt)
       }, this.delay)
@@ -145,7 +145,7 @@ export default Vue.extend({
 
     __delayHide (evt) {
       clearTimeout(this.timer)
-      this.$q.platform.is.mobile && document.body.classList.remove('non-selectable')
+      this.$q.platform.is.mobile === true && document.body.classList.remove('non-selectable')
       this.hide(evt)
     },
 
