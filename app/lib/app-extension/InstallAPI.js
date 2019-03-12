@@ -8,7 +8,8 @@ const
   appPaths = require('../app-paths'),
   logger = require('../helpers/logger'),
   warn = logger('app:extension(install)', 'red'),
-  quasarAppVersion = require('../../package.json').version
+  quasarAppVersion = require('../../package.json').version,
+  getCallerPath = require('../helpers/get-caller-path')
 
 /**
  * API for extension's /install.js script
@@ -190,12 +191,4 @@ module.exports = class InstallAPI {
   __getHooks () {
     return this.__hooks
   }
-}
-
-function getCallerPath () {
-  const _prepareStackTrace = Error.prepareStackTrace
-	Error.prepareStackTrace = (_, stack) => stack
-	const stack = new Error().stack.slice(1)
-  Error.prepareStackTrace = _prepareStackTrace
-  return path.dirname(stack[1].getFileName())
 }
