@@ -49,10 +49,6 @@
     "focused": {
       "type": "Boolean",
       "desc": "Determines focus state, ONLY if 'manual-focus' is enabled / set to true"
-    },
-
-    "disable": {
-      "extends": "disable"
     }
   },
 

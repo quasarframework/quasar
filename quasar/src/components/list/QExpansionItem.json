@@ -123,10 +123,6 @@
         "my-custom-class",
         ":header-class=\"{ 'my-custom-class': someCondition }\""
       ]
-    },
-
-    "disable": {
-      "extends": "disable"
     }
   },
 

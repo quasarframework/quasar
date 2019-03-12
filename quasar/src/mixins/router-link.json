@@ -34,6 +34,10 @@
       "type": "String",
       "desc": "Equivalent to Vue Router <router-link> 'active-class' property",
       "examples": [ "my-exact-active-class" ]
+    },
+
+    "disable": {
+      "extends": "disable"
     }
   }
 }

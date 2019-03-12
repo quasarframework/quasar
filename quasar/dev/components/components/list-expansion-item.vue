@@ -163,6 +163,14 @@
           </q-card>
         </q-expansion-item>
 
+        <q-expansion-item expand-separator to="/" exact disable icon="home" label="Inactive link - Disabled">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
         <q-expansion-item expand-separator :to="$route.path" icon="home" label="Active link">
           <q-card>
             <q-card-section>

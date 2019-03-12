@@ -73,7 +73,7 @@ export default {
     },
 
     hasRouterLink () {
-      return this.to !== void 0 && this.to !== null && this.to !== ''
+      return this.disable !== true && this.to !== void 0 && this.to !== null && this.to !== ''
     },
 
     isLink () {
