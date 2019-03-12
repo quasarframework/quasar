@@ -16,7 +16,6 @@
             @show="log('@show popover1 persistent')"
             @hide="log('@hide popover1 persistent')"
           >
-            <input v-model="gigi">
             <q-list padding style="min-width: 100px">
               <q-item
                 v-for="n in 20"
@@ -418,7 +417,6 @@ export default {
       list.push({ label: v, value: v })
     }
     return {
-      gigi: '',
       fit: false,
       cover: false,
       toggle: false,
