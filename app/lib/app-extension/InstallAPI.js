@@ -1,8 +1,7 @@
 const
   fs = require('fs-extra'),
   path = require('path'),
-  merge = require('webpack-merge'),
-  compileTemplate = require('lodash.template')
+  merge = require('webpack-merge')
 
 const
   appPaths = require('../app-paths'),
@@ -24,6 +23,7 @@ module.exports = class InstallAPI {
 
     this.__needsNodeModulesUpdate = false
     this.__hooks = {
+      renderFolders: [],
       exitLog: []
     }
   }
@@ -74,7 +74,7 @@ module.exports = class InstallAPI {
         pkg = merge(require(filePath), extPkg)
 
       fs.writeFileSync(
-        appPaths.resolve.app('package.json'),
+        filePath,
         JSON.stringify(pkg, null, 2),
         'utf-8'
       )
@@ -116,8 +116,8 @@ module.exports = class InstallAPI {
    * Render a folder from extension templates into devland.
    * Needs a relative path to the folder of the file calling render().
    *
-   * @param {string} templatePath
-   * @param {object} scope (Rendering scope variables)
+   * @param {string} templatePath (relative path to folder to render in app)
+   * @param {object} scope (optional; rendering scope variables)
    */
   render (templatePath, scope) {
     const
@@ -138,38 +138,11 @@ module.exports = class InstallAPI {
       return
     }
 
-    const
-      fglob = require('fast-glob'),
-      isBinary = require('isbinaryfile').isBinaryFileSync
-
-    const files = fglob.sync(['**/*'], { cwd: source })
-
-    for (const rawPath of files) {
-      const targetRelativePath = rawPath.split('/').map(name => {
-        // dotfiles are ignored when published to npm, therefore in templates
-        // we need to use underscore instead (e.g. "_gitignore")
-        if (name.charAt(0) === '_' && name.charAt(1) !== '_') {
-          return `.${name.slice(1)}`
-        }
-        if (name.charAt(0) === '_' && name.charAt(1) === '_') {
-          return `${name.slice(1)}`
-        }
-        return name
-      }).join('/')
-
-      const targetPath = appPaths.resolve.app(targetRelativePath)
-      const sourcePath = path.resolve(source, rawPath)
-
-      if (rawCopy || isBinary(sourcePath)) {
-        fs.ensureFileSync(targetPath)
-        fs.copyFileSync(sourcePath, targetPath)
-      }
-      else {
-        const rawContent = fs.readFileSync(sourcePath, 'utf-8')
-        const template = compileTemplate(rawContent)
-        fs.writeFileSync(targetPath, template(scope), 'utf-8')
-      }
-    }
+    this.__hooks.renderFolders.push({
+      source,
+      rawCopy,
+      scope
+    })
   }
 
   /**
