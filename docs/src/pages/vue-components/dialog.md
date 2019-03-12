@@ -63,3 +63,6 @@ You are able to customize the size of the Dialogs. Notice we either tamper with 
 
 ## QDialog API
 <doc-api file="QDialog" />
+
+## Problems with Vue Dev Tools
+If you encounter a problem with Vue Dev Tools not registering your component, it's advised to force reload in the upper right corner.
