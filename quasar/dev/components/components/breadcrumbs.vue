@@ -27,6 +27,7 @@
       </q-breadcrumbs>
       <br><br>
       <q-breadcrumbs active-color="secondary" class="text-orange" align="right">
+        <q-breadcrumbs-el label="Home Disabled" disable to="/" />
         <q-breadcrumbs-el label="Home" to="/" />
         <q-breadcrumbs-el label="Components" to="/components" />
         <q-breadcrumbs-el label="Breadcrumbs" to="/components/breadcrumbs" />

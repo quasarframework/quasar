@@ -21,7 +21,8 @@ export const routerLinkProps = {
   append: Boolean,
   replace: Boolean,
   activeClass: String,
-  exactActiveClass: String
+  exactActiveClass: String,
+  disable: Boolean
 }
 
 export { evt as routerLinkEvent }
@@ -31,7 +32,7 @@ export const RouterLinkMixin = {
 
   computed: {
     hasRouterLink () {
-      return this.to !== void 0 && this.to !== null && this.to !== ''
+      return this.disable !== true && this.to !== void 0 && this.to !== null && this.to !== ''
     },
 
     routerLinkProps () {
