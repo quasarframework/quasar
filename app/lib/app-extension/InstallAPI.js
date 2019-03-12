@@ -117,16 +117,13 @@ module.exports = class InstallAPI {
    * Needs a relative path to the folder of the file calling render().
    *
    * @param {string} templatePath
-   * @param {boolean} rawCopy (copy file/folder as is, don't interpret prompts)
-   * @param {object} additionalOpts (rendering opts)
+   * @param {object} scope (Rendering scope variables)
    */
-  render (templatePath, additionalOpts, rawCopy = false) {
+  render (templatePath, scope) {
     const
       dir = getCallerPath(),
       source = path.resolve(dir, templatePath),
-      scope = additionalOpts
-        ? Object.assign({}, this.prompts, additionalOpts || {})
-        : this.prompts
+      rawCopy = !scope || Object.keys(scope).length === 0
 
     if (!fs.existsSync(source)) {
       warn()
