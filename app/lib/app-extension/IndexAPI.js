@@ -23,6 +23,8 @@ module.exports = class IndexAPI {
     this.__hooks = {
       extendQuasarConf: [],
       extendWebpack: [],
+      chainWebpackMainElectronProcess: [],
+      extendWebpackMainElectronProcess: [],
       chainWebpack: [],
       beforeDevStart: [],
       commands: {},
@@ -91,6 +93,26 @@ module.exports = class IndexAPI {
    */
   extendWebpack (fn) {
     this.__hooks.extendWebpack.push({ extId: this.extId, fn })
+  }
+
+  /**
+   * Chain webpack config of main electron process
+   *
+   * @param {function} fn
+   *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
+   */
+  chainWebpackMainElectronProcess (fn) {
+    this.__hooks.chainWebpackMainElectronProcess.push({ extId: this.extId, fn })
+  }
+
+  /**
+   * Extend webpack config of main electron process
+   *
+   * @param {function} fn
+   *   (cfg: Object, invoke: Object {isClient, isServer}) => undefined
+   */
+  extendWebpackMainElectronProcess (fn) {
+    this.__hooks.extendWebpackMainElectronProcess.push({ extId: this.extId, fn })
   }
 
   /**
