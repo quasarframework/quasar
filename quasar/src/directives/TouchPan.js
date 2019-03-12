@@ -242,7 +242,7 @@ export default {
         mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
         mouseEvtOpts = listenOpts.passive === void 0 ? true : { passive: mouseEvtPassive, capture: true },
         touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
-        touchEvtOpts = touchEvtPassive ? listenOpts.passive : null
+        touchEvtOpts = touchEvtPassive ? listenOpts.passive : (listenOpts.passive === void 0 ? null : { passive: false })
 
       if (mouse === true) {
         el.removeEventListener('mousedown', ctx.mouseStart, mouseEvtOpts)
