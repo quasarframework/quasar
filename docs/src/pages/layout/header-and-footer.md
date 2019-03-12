@@ -28,6 +28,10 @@ Since the header and footer needs a layout and QLayout by default manages the en
 
 <doc-example title="Basic" file="QHeader/Basic" />
 
+You can use `glossy` class on toolbars in header and footer.
+
+<doc-example title="Glossy" file="QHeader/Glossy" />
+
 ### Various content
 
 <doc-example title="Playing with QToolbar" file="QHeader/Extended" />
