@@ -29,10 +29,10 @@ Scroll to the bottom to see QInfiniteScroll in action.
 ### Tips
 * Works best when placed as direct child of the Vue component rendering your Page
 * If you change the parent of this component, don't forget to call `updateScrollTarget()` on the QInfiniteScroll Vue reference.
-* If you need to specify the scroll target iner element (because the auto detected one is not the desired one) pass a CSS selector (as string) or the DOM element in the `scroll-target` prop
+* If you need to specify the scroll target inner element (because the auto detected one is not the desired one) pass a CSS selector (as string) or the DOM element in the `scroll-target` prop
 
 ::: warning
-If you pass a custom scroll target container  in `scroll-target` prop you must make sure the element exists and that it can be overflowed (it must have a maximum height and an overflow that allows scrolling).
+If you pass a custom scroll target container with `scroll-target` prop you must make sure that the element exists and that it can be overflowed (it must have a maximum height and an overflow that allows scrolling).
 
 If the scroll target container cannot be overflowed you'll get a forever loading situation.
 :::
