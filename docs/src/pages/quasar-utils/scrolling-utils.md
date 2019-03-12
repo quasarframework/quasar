@@ -2,6 +2,10 @@
 title: Scrolling Utils
 ---
 
+::: tip
+For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+:::
+
 ## Determine scrolling container
 Might be worthwhile to read how this is done [here](/components/scroll-observable.html#Determining-Scrolling-Container)
 ```js

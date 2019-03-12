@@ -25,7 +25,7 @@ let newDate = addToDate(new Date(), { days: 7, month: 1 })
 ```
 
 ::: tip
-For usage with the UMD build see [here](https://v1.quasar-framework.org/start/umd#Quasar-Global-Object).
+For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
 :::
 
 ## Format for display

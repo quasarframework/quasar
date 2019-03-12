@@ -1,6 +1,11 @@
 ---
 title: Other Utils
 ---
+
+::: tip
+For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+:::
+
 ## Open External URL
 ``` js
 import { openURL } from 'quasar'
