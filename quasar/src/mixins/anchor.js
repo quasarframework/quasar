@@ -3,6 +3,7 @@ import { clearSelection } from '../utils/selection.js'
 export default {
   props: {
     target: {
+      type: [Boolean, String],
       default: true
     },
     contextMenu: Boolean
@@ -112,8 +113,8 @@ export default {
     },
 
     __pickAnchorEl () {
-      if (typeof this.target === 'string' || this.target instanceof Element) {
-        const el = this.target instanceof Element ? this.target : document.querySelector(this.target)
+      if (this.target && typeof this.target === 'string') {
+        const el = document.querySelector(this.target)
         if (el !== null) {
           this.anchorEl = el
           this.__configureAnchorEl()
