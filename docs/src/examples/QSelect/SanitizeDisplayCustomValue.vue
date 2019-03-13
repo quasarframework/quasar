@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
-      <q-badge color="secondary">Model: "{{ model }}"</q-badge>
+      <div>Model: {{ model || 'empty' }}</div>
 
       <q-toggle v-model="displayValueSanitize" label="Sanitize display value" />
 
@@ -31,16 +31,11 @@
 const options = [
   {
     label: '<span class="text-primary">G</span>oogle',
-    value: 'Google',
-    description: 'Search engine',
-    icon: 'mail'
+    value: 'Google'
   },
   {
-    label: '<span class="text-primary">F</span>acebook',
-    value: 'Facebook',
-    description: 'Social media - will be sanitized',
-    icon: 'bluetooth',
-    sanitize: true
+    label: '<span class="text-red">Face</span>book',
+    value: 'Facebook'
   }
 ]
 

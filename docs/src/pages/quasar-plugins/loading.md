@@ -51,7 +51,7 @@ Loading.hide()
 
 <doc-example title="With message" file="Loading/WithMessage" />
 
-<doc-example title="With unsafe message (sanitize)" file="Loading/WithMessageSanitized" />
+<doc-example title="With unsafe message, but sanitized" file="Loading/WithMessageSanitized" />
 
 <doc-example title="Customized" file="Loading/Customized" />
 

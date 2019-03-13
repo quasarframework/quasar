@@ -145,25 +145,33 @@ Filters new values (in the example below the value to be added requires at least
 
 <doc-example title="Filtering without adding to menu" file="QSelect/FilteringNoAddToMenu" />
 
-### Sanitization
+## Sanitization
 
 ::: warning
 Always sanitize values if you do not trust the origin (if the value comes from user input).
 :::
 
-You can force sanitization of the options by:
+You can force sanitization of the menu options by:
   - setting `sanitize` key of the untrusted option to `true` (for specific untrusted options)
-  - by setting `options-sanitize` prop of QSelect (for all options)
+  - or by setting `options-sanitize` prop of QSelect (for all options)
+
+::: warning
+If you use `option` slot, then you are responsible for sanitization of the menu options. The `options-sanitize` prop will not apply.
+:::
 
 The displayed value of QSelect is sanitized if:
   - the `display-value-sanitize` prop of QSelect is set
-  - you are not using `display-value` and
+  - or you are not using `display-value` and
     - the `options-sanitize` prop of QSelect is set
     - any selected option has `sanitize` key set to `true`
 
-<doc-example title="Sanitize Options" file="QSelect/OptionSanitize" />
+::: warning
+If you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-sanitize` prop will not apply.
+:::
 
-<doc-example title="Sanitize Display Value" file="QSelect/DisplayCustomValueSanitized" />
+<doc-example title="Sanitize options" file="QSelect/SanitizeOptions" />
+
+<doc-example title="Sanitize display value" file="QSelect/SanitizeDisplayCustomValue" />
 
 ## Render performance
 

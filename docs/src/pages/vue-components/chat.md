@@ -42,7 +42,7 @@ Using the property `sent` is intended for the sender of the chat message. The ot
 Always sanitize values if you do not trust the origin (if the value comes from user input).
 :::
 
-<doc-example title="Sanitize" file="QChatMessage/Sanitize" />
+<doc-example title="Sanitized content" file="QChatMessage/Sanitize" />
 
 
 ## QChatMessage API
