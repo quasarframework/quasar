@@ -10,6 +10,7 @@ The QSelect component has two types of selection: single or multiple. This compo
 ## Design
 
 ### Overview
+
 ::: warning
 For your QSelect you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
 :::
@@ -145,6 +146,7 @@ Filters new values (in the example below the value to be added requires at least
 <doc-example title="Filtering without adding to menu" file="QSelect/FilteringNoAddToMenu" />
 
 ### Sanitization
+
 ::: warning
 Always sanitize values if you do not trust the origin (if the value comes from user input).
 :::
@@ -158,7 +160,6 @@ The displayed value of QSelect is sanitized if:
   - you are not using `display-value` and
     - the `options-sanitize` prop of QSelect is set
     - any selected option has `sanitize` key set to `true`
-
 
 <doc-example title="Sanitize Options" file="QSelect/OptionSanitize" />
 
