@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-btn color="teal" @click="showLoading" label="Show Loading" />
+    <q-btn color="teal" @click="showLoading" label="Show Loading (Sanitized)" />
   </div>
 </template>
 
@@ -9,7 +9,8 @@ export default {
   methods: {
     showLoading () {
       this.$q.loading.show({
-        message: 'Some important <b>process</b> is in progress.<br/><span class="text-primary">Hang on...</span>'
+        message: 'Some important <b>process</b> is in progress.<br/><span class="text-primary">Hang on...</span>',
+        sanitize: true
       })
 
       // hiding in 3s

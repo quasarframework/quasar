@@ -512,6 +512,19 @@ export default {
           disable: true,
           description: 'Databases',
           icon: 'casino'
+        },
+        {
+          label: '<span class="text-primary">Safe</span> option with <b>HTML</b>',
+          value: 'safe_option_with_html',
+          description: 'It does not come from user',
+          icon: 'golf_course'
+        },
+        {
+          label: '<span class="text-negative">Unsafe</span> option with <b>HTML</b>',
+          value: 'unsafe_option_with_html',
+          description: 'It comea from user - you should sanitize',
+          icon: 'golf_course',
+          sanitize: true
         }
       ],
 

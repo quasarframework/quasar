@@ -6,7 +6,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         q-icon(name="menu")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
-        q-avatar
+        q-avatar.doc-layout-avatar
           img(src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg")
         q-toolbar-title(shrink) Quasar
 
@@ -256,6 +256,9 @@ export default {
 .header-logo
   width 25px
   height 25px
+
+.doc-layout-avatar > div
+  border-radius 0
 
 .layout-drawer-toolbar
   border-bottom 1px solid $separator-color
