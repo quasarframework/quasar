@@ -22,7 +22,7 @@
 
     "display-value-sanitize": {
       "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render selected option(s); Use it when the selected option(s) might be unsafe (from user input); Does NOT applies when using 'selected' or 'selected-item' slots!"
+      "desc": "Force use of textContent instead of innerHTML to render selected option(s); Use it when the selected option(s) might be unsafe (from user input); Does NOT apply when using 'selected' or 'selected-item' slots!"
     },
 
     "options": {
