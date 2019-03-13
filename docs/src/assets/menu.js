@@ -100,10 +100,6 @@ const cli = [
     path: 'testing-and-auditing'
   },
   {
-    name: 'Security',
-    path: 'security'
-  },
-  {
     name: 'CLI Documentation',
     path: 'cli-documentation',
     children: [
@@ -877,6 +873,11 @@ module.exports = [
     icon: 'tune',
     path: 'options',
     children: options
+  },
+  {
+    name: 'Security',
+    icon: 'security',
+    path: 'security'
   },
   {
     name: 'Quasar CLI',

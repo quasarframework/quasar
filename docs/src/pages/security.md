@@ -1,7 +1,7 @@
 ---
 title: Security Do's and Don'ts
 ---
-**DO** periodically review the security of your application, because any lapse may be putting yourself, your team, your users and even your server at risk of serious exploitation. **DON'T** ignore this page because you think you know everything. 
+**DO** periodically review the security of your application, because any lapse may be putting yourself, your team, your users and even your server at risk of serious exploitation. **DON'T** ignore this page because you think you know everything.
 
 We have collected some best practices for those of you new to the security theater and a few insights for security professionals new to the Vue ecosystem. We will be revising and adding to this document as we become aware of risks through our own research and the publications of the amazing security community.
 
@@ -9,15 +9,25 @@ We have collected some best practices for those of you new to the security theat
 
 ## Vulnerability Reports
 
-If you have found a potential security threat, vulnerability or exploit in Quasar or one of its upstream dependencies, please **DON'T** create a pull-request, **DON'T** file an issue on Github, **DON'T** mention it on Discord and **DON'T** create a forum thread. 
+If you have found a potential security threat, vulnerability or exploit in Quasar or one of its upstream dependencies, please **DON'T** create a pull-request, **DON'T** file an issue on Github, **DON'T** mention it on Discord and **DON'T** create a forum thread.
 
 **DO** reach out to the team by sending an email to [security@quasar-framework.org](mailto:security@quasar-framework.org) - we will investigate and work with you to triage this issue and help you to report it if appropriate. At the current time we do not have the financial ability to reward bounties, but in extreme cases will at our discretion consider a reward.
- 
+
+<img src="https://cdn.quasar-framework.org/img/audit-sample-badge.png" style="float:right;max-width:15%;min-width:150px;padding-top:50px" />
+
+## Get Help!
+
+Did you know you can apply to book the Quasar team to perform a Security Audit for your project? Contact us to find out more about how to get, validate and publish an official timestamped and version-locked audit badge.
+
+
+
+[security@quasar-framework.org](mailto:security@quasar-framework.org)
+
 ## Vue Security Risks
 
 ### User Input and the Dangers of v-html
 
-The `v-html` directive is a wonderful way to programmatically render markup, but even the Vue docs come with [this warning](https://vuejs.org/v2/guide/syntax.html#Raw-HTML): 
+The `v-html` directive is a wonderful way to programmatically render markup, but even the Vue docs come with [this warning](https://vuejs.org/v2/guide/syntax.html#Raw-HTML):
 > "Dynamically rendering arbitrary HTML on your website can be very dangerous because it can easily lead to XSS vulnerabilities. Only use HTML interpolation on trusted content and never on user-provided content."
 
 If you don't know what that means, take a quick look at what OWASP has to say about [XSS (aka cross-site scripting)](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)).
@@ -46,7 +56,7 @@ The `QChatMessage` component can similarly be prevented from passing html to the
 
 ::: tip
 There have been a number of recent exploits (especially for older Android and iOS devices) where certain emoji and non-standard UTF-8 actually triggered mobile device restarts and boot-screen loops. **DO** consider a devland integration of markdown parsing in a plain-text type of input field and render it to HTML on the server side before you pass it to the chat recipients.
-::: 
+:::
 
 ### QInput
 Any field that enables users to enter keystrokes, paste from the buffer or drop a file is a security risk. We won't go into the nitty-gritty details of this, but just remember it is YOUR responsibility to maintain safety. Only you can prevent help-desk fires!
@@ -60,7 +70,7 @@ So how do you validate and sanitize a file? Well, although this is a bit out of 
 ### Images
 If you are allowing users to upload images to your server, you should know that many commonly used modules merely check the file suffix. It is trivial to craft an image that only superficially appears to be an image. **DO** verify that the file is what it claims to be by checking the magic numbers and for this consider using [is-image](https://github.com/sindresorhus/image-type). While you could check the magic number in the browser [with this method](https://medium.com/the-everyday-developer/detect-file-mime-type-using-magic-numbers-and-javascript-16bc513d4e1e), another approach is to let the user load an image into a canvas and then upload directly from the canvas. [Vue-croppa](https://github.com/zhanziyang/vue-croppa) is great front-end tool to do this.
 
-### Archives 
+### Archives
 Archive decompression attacks for directory traversal are a real security issue and are virtually impossible to detect without decompressing the file. If you can get away with NOT accepting this type of media, then do it. Otherwise, on linux **DO** use the humble `less` / `lesspipe` and `.lessfilter` for preprocessing these files with your custom workflows.
 
 ## Passwords
@@ -77,7 +87,7 @@ Archive decompression attacks for directory traversal are a real security issue 
  - **DON'T** create your own cryptographic solution
  - **DON'T** use MD5 or SHA1
  - **DON’T** create your [own cryptographic solution](https://about.unimelb.edu.au/newsroom/news/2019/march/researchers-find-trapdoor-in-swissvote-election-system)
- 
+
 A great place to read about this topic and properly choose an industrial strength solution is [libsodium](https://download.libsodium.org/doc/)
 
 
@@ -112,7 +122,7 @@ Electron is a very special case, because XSS and remote code injection can actua
 - **DO** read our guidelines for enhanced [Electron Safety](/quasar-cli/developing-electron-apps/electron-security-concerns).
 
 ## Environmental Safety
-Being more safe means taking many things into consideration, and the more of the following guidelines you respect, the smaller the attack footprint will be. 
+Being more safe means taking many things into consideration, and the more of the following guidelines you respect, the smaller the attack footprint will be.
 
 <center><img src="https://cdn.quasar-framework.org/img/lets-encrypt.jpg" style="max-width:100%"/></center>
 
@@ -123,8 +133,8 @@ Audit how your development systems work:
  - **DO** use a password manager
  - **DO** Use 2FA everywhere possible
  - **DON'T** retain unneeded software
-  
-Audit how your production environment works:  
+
+Audit how your production environment works:
  - **DO** turn off password and root access to your server
  - **DO** use secure transfer protocols (SSH, HTTPS, SFTP, WSS)
  - **DO** install fail2ban and rkhunter
@@ -155,16 +165,6 @@ This is something that every team should have on their radar and put some though
  - **DON'T** put sensitive data in your source code
  - **DON'T** ignore `yarn audit` or `npm audit` reports
  - **DON'T** blindly rely on third-party services
-
-<img src="https://cdn.quasar-framework.org/img/audit-sample-badge.png" style="float:right;max-width:15%;min-width:150px;padding-top:50px" />
-
-## Get Help!
-
-Did you know you can apply to book the Quasar team to perform a Security Audit for your project? Contact us to find out more about how to get, validate and publish an official timestamped and version-locked audit badge.
-
-
-
-[security@quasar-framework.org](mailto:security@quasar-framework.org)
 
 ## Final Note
 Security is not peace of mind, it is a practical application of knowledge that requires vigilance and awareness. **DON'T** stop being concerned about security and **DON'T** think you are doing enough. There is always more you can undertake, there are constantly new vulnerabilities to be aware of. But the biggest security threat of them all is laziness, so put your outside shoes on, scroll back up the page and **DO** read the [OWASP link about XSS](/quasar-cli/security#User-Input-and-the-Dangers-of-v-html). We won't tell anybody.
