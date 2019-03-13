@@ -20,6 +20,11 @@
       "examples": [ "Options: x, y, z"]
     },
 
+    "display-value-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render selected option(s); Use it when the selected option(s) might be unsafe (from user input)"
+    },
+
     "options": {
       "type": "Array",
       "desc": "Available options that the user can select from",
@@ -104,6 +109,11 @@
     "options-cover": {
       "type": "Boolean",
       "desc": "Expanded menu will cover the component"
+    },
+
+    "options-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input)"
     },
 
     "use-input": {

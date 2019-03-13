@@ -10,6 +10,7 @@ The QSelect component has two types of selection: single or multiple. This compo
 ## Design
 
 ### Overview
+
 ::: warning
 For your QSelect you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
 :::
@@ -69,7 +70,7 @@ When `map-options` is used, the model can contain only the `value`, and it will 
 
 ### Custom prop names
 
-By default, QSelect looks at `label`, `value` and `disable` props of each option from the options array Objects. But you can override those:
+By default, QSelect looks at `label`, `value`, `disable` and `sanitize` props of each option from the options array Objects. But you can override those:
 
 <doc-example title="Custom label, value and disable props" file="QSelect/OptionCustomProps" />
 
@@ -143,6 +144,26 @@ Filtering and adding the new values to menu:
 Filters new values (in the example below the value to be added requires at least 3 characters to pass), and does not add to menu:
 
 <doc-example title="Filtering without adding to menu" file="QSelect/FilteringNoAddToMenu" />
+
+### Sanitization
+
+::: warning
+Always sanitize values if you do not trust the origin (if the value comes from user input).
+:::
+
+You can force sanitization of the options by:
+  - setting `sanitize` key of the untrusted option to `true` (for specific untrusted options)
+  - by setting `options-sanitize` prop of QSelect (for all options)
+
+The displayed value of QSelect is sanitized if:
+  - the `display-value-sanitize` prop of QSelect is set
+  - you are not using `display-value` and
+    - the `options-sanitize` prop of QSelect is set
+    - any selected option has `sanitize` key set to `true`
+
+<doc-example title="Sanitize Options" file="QSelect/OptionSanitize" />
+
+<doc-example title="Sanitize Display Value" file="QSelect/DisplayCustomValueSanitized" />
 
 ## Render performance
 

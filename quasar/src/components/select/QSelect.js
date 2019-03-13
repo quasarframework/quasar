@@ -6,6 +6,7 @@ import QChip from '../chip/QChip.js'
 
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
+import QItemLabel from '../list/QItemLabel.js'
 
 import TransitionMixin from '../../mixins/transition.js'
 
@@ -32,6 +33,7 @@ export default Vue.extend({
     multiple: Boolean,
 
     displayValue: [String, Number],
+    displayValueSanitize: Boolean,
     dropdownIcon: String,
 
     options: {
@@ -53,6 +55,7 @@ export default Vue.extend({
     optionsDark: Boolean,
     optionsSelectedClass: String,
     optionsCover: Boolean,
+    optionsSanitize: Boolean,
 
     useInput: Boolean,
     useChips: Boolean,
@@ -133,12 +136,22 @@ export default Vue.extend({
         .join(', ')
     },
 
+    displayAsText () {
+      return this.displayValueSanitize === true || (
+        this.displayValue === void 0 && (
+          this.optionsSanitize === true ||
+          this.innerValue.some(opt => opt.sanitize === true)
+        )
+      )
+    },
+
     selectedScope () {
       const tabindex = this.focused === true ? 0 : -1
 
       return this.innerValue.map((opt, i) => ({
         index: i,
         opt,
+        sanitize: this.optionsSanitize === true || opt.sanitize === true,
         selected: true,
         removeAtIndex: this.removeAtIndex,
         toggleOption: this.toggleOption,
@@ -185,6 +198,7 @@ export default Vue.extend({
         return {
           index: i,
           opt,
+          sanitize: this.optionsSanitize === true || opt.sanitize === true,
           selected: itemProps.active,
           focused: itemProps.focused,
           toggleOption: this.toggleOption,
@@ -543,7 +557,7 @@ export default Vue.extend({
         }, [
           h('span', {
             domProps: {
-              innerHTML: this.__getOptionLabel(scope.opt)
+              [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.__getOptionLabel(scope.opt)
             }
           })
         ]))
@@ -552,7 +566,7 @@ export default Vue.extend({
       return [
         h('span', {
           domProps: {
-            innerHTML: this.displayValue !== void 0
+            [this.displayAsText ? 'textContent' : 'innerHTML']: this.displayValue !== void 0
               ? this.displayValue
               : this.selectedString
           }
@@ -588,11 +602,13 @@ export default Vue.extend({
         props: scope.itemProps,
         on: scope.itemEvents
       }, [
-        h(QItemSection, {
-          domProps: {
-            innerHTML: this.__getOptionLabel(scope.opt)
-          }
-        })
+        h(QItemSection, [
+          h(QItemLabel, {
+            domProps: {
+              [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.__getOptionLabel(scope.opt)
+            }
+          })
+        ])
       ]))
 
       return this.optionScope.map(fn)
