@@ -86,6 +86,21 @@ const options = [
   }
 ]
 
+const security = [
+  {
+    name: `DO's and DON'Ts`,
+    path: 'dos-and-donts'
+  },
+  {
+    name: 'Report a vulnerability',
+    path: 'report-a-vulnerability'
+  },
+  {
+    name: 'Get help!',
+    path: 'get-help'
+  }
+]
+
 const cli = [
   {
     name: 'Installation',
@@ -877,7 +892,8 @@ module.exports = [
   {
     name: 'Security',
     icon: 'security',
-    path: 'security'
+    path: 'security',
+    children: security
   },
   {
     name: 'Quasar CLI',

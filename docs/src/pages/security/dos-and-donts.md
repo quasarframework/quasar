@@ -1,27 +1,11 @@
 ---
-title: Security Do's and Don'ts
+title: Security DO's and DON'Ts
 ---
 **DO** periodically review the security of your application, because any lapse may be putting yourself, your team, your users and even your server at risk of serious exploitation. **DON'T** ignore this page because you think you know everything.
 
 We have collected some best practices for those of you new to the security theater and a few insights for security professionals new to the Vue ecosystem. We will be revising and adding to this document as we become aware of risks through our own research and the publications of the amazing security community.
 
 ![Quasar Audited - Gold](https://cdn.quasar-framework.org/img/secure-gold-hero.jpg "Quasar Audited - Gold")
-
-## Vulnerability Reports
-
-If you have found a potential security threat, vulnerability or exploit in Quasar or one of its upstream dependencies, please **DON'T** create a pull-request, **DON'T** file an issue on Github, **DON'T** mention it on Discord and **DON'T** create a forum thread.
-
-**DO** reach out to the team by sending an email to [security@quasar-framework.org](mailto:security@quasar-framework.org) - we will investigate and work with you to triage this issue and help you to report it if appropriate. At the current time we do not have the financial ability to reward bounties, but in extreme cases will at our discretion consider a reward.
-
-<img src="https://cdn.quasar-framework.org/img/audit-sample-badge.png" style="float:right;max-width:15%;min-width:150px;padding-top:50px" />
-
-## Get Help!
-
-Did you know you can apply to book the Quasar team to perform a Security Audit for your project? Contact us to find out more about how to get, validate and publish an official timestamped and version-locked audit badge.
-
-
-
-[security@quasar-framework.org](mailto:security@quasar-framework.org)
 
 ## Vue Security Risks
 
@@ -61,7 +45,7 @@ There have been a number of recent exploits (especially for older Android and iO
 Any field that enables users to enter keystrokes, paste from the buffer or drop a file is a security risk. We won't go into the nitty-gritty details of this, but just remember it is YOUR responsibility to maintain safety. Only you can prevent help-desk fires!
 
 ### QEditor
-This component allows the users to actually create HTML (and even paste it). If you are going to be saving this and showing it to other users, care will be needed on the server-side to validate it. In that case **DO** strip out `<script></script>` and `<iframe></iframe>`. You can visit the [v-html vs. double-moustache](/vue-components/editor#Example--Default-editor) example in the docs to play around with the QEditor component and see what it the two rendering methods will provide. There is NO `sanitize` tag for QEditor. Further, if you create custom buttons, it is your responsibility to make them safe. You have been warned.
+This component allows the users to actually create HTML (and even paste it). If you are going to be saving this and showing it to other users, care will be needed on the server-side to validate it. In that case **DO** strip out `<script></script>` and `<iframe></iframe>`. You can visit the [v-html vs. double-moustache](/vue-components/editor#Example--Default-editor) example in the docs to play around with the QEditor component and see what the two rendering methods will provide. There is NO `sanitize` tag for QEditor. Further, if you create custom buttons, it is your responsibility to make them safe. You have been warned.
 
 ## Dealing with Files
 So how do you validate and sanitize a file? Well, although this is a bit out of scope for a "front-end-framework", we know that many of you reading this will also be storing user-created files on servers. If you are just storing them (and not processing them in any way), **DO** validate that the file is of the appropriate type by detecting the [magic numbers](https://en.wikipedia.org/wiki/List_of_file_signatures). **DO** consider using ClamAV to check files for known viral signatures.
@@ -164,6 +148,9 @@ This is something that every team should have on their radar and put some though
  - **DON'T** put sensitive data in your source code
  - **DON'T** ignore `yarn audit` or `npm audit` reports
  - **DON'T** blindly rely on third-party services
+
+## Get Help!
+Please [read more](/security/get-help) on how our team of experts can help you.
 
 ## Final Note
 Security is not peace of mind, it is a practical application of knowledge that requires vigilance and awareness. **DON'T** stop being concerned about security and **DON'T** think you are doing enough. There is always more you can undertake, there are constantly new vulnerabilities to be aware of. But the biggest security threat of them all is laziness, so put your outside shoes on, scroll back up the page and **DO** read the [OWASP link about XSS](/quasar-cli/security#User-Input-and-the-Dangers-of-v-html). We won't tell anybody.
