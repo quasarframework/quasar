@@ -2,7 +2,7 @@
 title: Get Help!
 ---
 
-We take security seriously, and so should you. If your company is too, we can help you become safer.
+We take security seriously and so should you. If your company does too, we can help you become safer.
 
 <img src="https://cdn.quasar-framework.org/img/audit-sample-badge.png" style="float:right;max-width:15%;min-width:150px;padding-top:50px" />
 
