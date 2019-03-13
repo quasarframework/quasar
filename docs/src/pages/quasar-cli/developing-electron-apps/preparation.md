@@ -6,7 +6,7 @@ Before we dive in to the actual development, we need to do some preparation work
 ## 1. Add Quasar Electron Mode
 In order to develop/build a Quasar Electron app, we need to add the Electron mode to our Quasar project. What this does is that it yarn installs some Electron packages and creates `/src-electron` folder.
 ```bash
-$ quasar mode add electron
+$ quasar mode -a electron
 ```
 
 Every Electron app has two threads: the main thread (deals with the window and initialization code -- from the newly created folder `/src-electron`) and the renderer thread (which deals with the actual content of your app from `/src`).
