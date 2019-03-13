@@ -22,13 +22,13 @@ export default {
   }),
   methods: {
     scroll () {
-      this.position = Math.floor(Math.random() * 1001) * 20
       this.$refs.scrollArea.setScrollPosition(this.position)
+      this.position = Math.floor(Math.random() * 1001) * 20
     },
 
     animateScroll () {
-      this.position = Math.floor(Math.random() * 1001) * 20
       this.$refs.scrollArea.setScrollPosition(this.position, 300)
+      this.position = Math.floor(Math.random() * 1001) * 20
     }
   }
 }
