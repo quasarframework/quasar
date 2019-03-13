@@ -100,6 +100,10 @@ const cli = [
     path: 'testing-and-auditing'
   },
   {
+    name: 'Security',
+    path: 'security'
+  },
+  {
     name: 'CLI Documentation',
     path: 'cli-documentation',
     children: [
