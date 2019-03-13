@@ -12,7 +12,11 @@ export default Vue.extend({
     avatar: String,
     text: Array,
     stamp: String,
-    size: String
+    size: String,
+    labelSanitize: Boolean,
+    nameSanitize: Boolean,
+    textSanitize: Boolean,
+    stampSanitize: Boolean
   },
 
   computed: {
@@ -44,6 +48,10 @@ export default Vue.extend({
 
   methods: {
     __getText (h) {
+      const
+        domPropText = this.textSanitize === true ? 'textContent' : 'innerHTML',
+        domPropStamp = this.stampSanitize === true ? 'textContent' : 'innerHTML'
+
       return this.text.map((msg, index) => h('div', {
         key: index,
         staticClass: 'q-message-text',
@@ -53,11 +61,11 @@ export default Vue.extend({
           staticClass: 'q-message-text-content',
           class: this.textClass
         }, [
-          h('div', { domProps: { innerHTML: msg } }),
+          h('div', { domProps: { [domPropText]: msg } }),
           this.stamp
             ? h('div', {
               staticClass: 'q-message-stamp',
-              domProps: { innerHTML: this.stamp }
+              domProps: { [domPropStamp]: this.stamp }
             })
             : null
         ])
@@ -76,7 +84,7 @@ export default Vue.extend({
           this.stamp !== void 0
             ? h('div', {
               staticClass: 'q-message-stamp',
-              domProps: { innerHTML: this.stamp }
+              domProps: { [this.stampSanitize === true ? 'textContent' : 'innerHTML']: this.stamp }
             })
             : null
         ]))
@@ -92,7 +100,7 @@ export default Vue.extend({
       this.label
         ? h('div', {
           staticClass: 'q-message-label text-center',
-          domProps: { innerHTML: this.label }
+          domProps: { [this.labelSanitize === true ? 'textContent' : 'innerHTML']: this.label }
         })
         : null,
 
@@ -114,7 +122,7 @@ export default Vue.extend({
           this.name !== void 0
             ? h('div', {
               staticClass: 'q-message-name',
-              domProps: { innerHTML: this.name }
+              domProps: { [this.nameSanitize === true ? 'textContent' : 'innerHTML']: this.name }
             })
             : null,
 

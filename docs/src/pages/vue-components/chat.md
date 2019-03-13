@@ -36,6 +36,13 @@ Using the property `sent` is intended for the sender of the chat message. The ot
 
 <doc-example title="Slot" file="QChatMessage/Slot" />
 
+### Sanitization
+::: warning
+Always sanitize values if you do not trust the origin (if the value comes from user input).
+:::
+
+<doc-example title="Sanitize" file="QChatMessage/Sanitize" />
+
 
 ## QChatMessage API
 <doc-api file="QChatMessage" />
