@@ -192,7 +192,7 @@
     q-toolbar.q-pa-none
       q-btn.quasar-logo.text-bold(flat, no-caps, no-wrap, to="/start")
         q-avatar
-          img(src="https://cdn.quasar-framework.org/img/quasar-logo.png")
+          img(src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg")
         q-toolbar-title(shrink) Docs
 
       q-space

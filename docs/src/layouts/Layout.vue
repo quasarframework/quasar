@@ -7,7 +7,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
         q-avatar
-          img(src="https://cdn.quasar-framework.org/img/quasar-logo.png")
+          img(src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg")
         q-toolbar-title(shrink) Quasar
 
       q-space

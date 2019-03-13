@@ -2,6 +2,8 @@ import { testPattern } from '../utils/patterns.js'
 
 export default {
   props: {
+    value: {},
+
     error: Boolean,
     errorMessage: String,
 
@@ -44,11 +46,11 @@ export default {
 
   mounted () {
     this.validateIndex = 0
-    this.$on('blur', this.__triggerValidation)
+    this.$el.addEventListener('focusout', this.__triggerValidation)
   },
 
   beforeDestroy () {
-    this.$off('blur', this.__triggerValidation)
+    this.$el.removeEventListener('focusout', this.__triggerValidation)
   },
 
   methods: {

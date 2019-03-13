@@ -446,7 +446,12 @@ class QuasarConfig {
     }, cfg.sourceFiles || {})
 
     // do we got vuex?
-    cfg.store = fs.existsSync(appPaths.resolve.app(cfg.sourceFiles.store))
+    const storePath = appPaths.resolve.app(cfg.sourceFiles.store)
+    cfg.store = (
+      fs.existsSync(storePath) ||
+      fs.existsSync(storePath + '.js') ||
+      fs.existsSync(storePath + '.ts')
+    )
 
     //make sure we have preFetch in config
     cfg.preFetch = cfg.preFetch || false

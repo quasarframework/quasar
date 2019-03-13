@@ -7,28 +7,29 @@ async function getWebpackConfig (chain, cfg, {
   name,
   hot,
   cfgExtendBase = cfg.build,
+  hookSuffix = '',
   invokeParams
 }) {
-  await extensionRunner.runHook('chainWebpack', async hook => {
+  await extensionRunner.runHook('chainWebpack' + hookSuffix, async hook => {
     log(`Extension(${hook.extId}): Chaining ${name ? name + ' ' : ''}Webpack config`)
     await hook.fn(chain, invokeParams)
   })
 
   if (typeof cfgExtendBase.chainWebpack === 'function') {
     log(`Chaining ${name ? name + ' ' : ''}Webpack config`)
-    cfgExtendBase.chainWebpack(chain, invokeParams)
+    await cfgExtendBase.chainWebpack(chain, invokeParams)
   }
 
   const webpackConfig = chain.toConfig()
 
-  await extensionRunner.runHook('extendWebpack', async hook => {
+  await extensionRunner.runHook('extendWebpack' + hookSuffix, async hook => {
     log(`Extension(${hook.extId}): Extending ${name ? name + ' ' : ''}Webpack config`)
     await hook.fn(webpackConfig, invokeParams)
   })
 
   if (typeof cfgExtendBase.extendWebpack === 'function') {
     log(`Extending ${name ? name + ' ' : ''}Webpack config`)
-    cfgExtendBase.extendWebpack(webpackConfig, invokeParams)
+    await cfgExtendBase.extendWebpack(webpackConfig, invokeParams)
   }
 
   if (hot && cfg.ctx.dev && cfg.devServer.hot) {
@@ -85,7 +86,8 @@ async function getElectron (cfg) {
     }),
     main: await getWebpackConfig(mainChain, cfg, {
       name: 'Main process',
-      cfgExtendBase: cfg.electron
+      cfgExtendBase: cfg.electron,
+      hookSuffix: 'MainElectronProcess'
     })
   }
 }
