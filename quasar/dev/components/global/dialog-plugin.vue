@@ -3,6 +3,7 @@
     <div class="row justify-center">
       <div class="q-gutter-md" style="max-width: 700px">
         <q-btn label="Alert" flat color="primary" @click="alert" />
+        <q-btn label="Alert - custom" flat color="primary" @click="alertCustom" />
         <q-btn label="Confirm" flat color="primary" @click="confirm" />
         <q-btn label="Prompt" flat color="primary" @click="prompt" />
         <q-btn label="Radio Options" flat color="primary" @click="radio" />
@@ -27,6 +28,19 @@ export default {
       this.$q.dialog({
         title: 'Alert',
         message: 'Some message'
+      }).onOk(() => {
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
+      })
+    },
+
+    alertCustom () {
+      this.$q.dialog({
+        title: 'Alert',
+        message: 'Some message',
+        style: { backgroundColor: 'red' },
+        className: 'custom-dialog'
       }).onOk(() => {
         console.log('OK')
       }).onCancel(() => {

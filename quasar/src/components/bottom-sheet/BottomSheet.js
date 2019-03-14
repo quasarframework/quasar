@@ -25,11 +25,7 @@ export default Vue.extend({
     color: {
       type: String,
       default: 'primary'
-    },
-
-    // QDialog props
-    seamless: Boolean,
-    persistent: Boolean
+    }
   },
 
   methods: {
@@ -140,8 +136,7 @@ export default Vue.extend({
       ref: 'dialog',
 
       props: {
-        seamless: this.seamless,
-        persistent: this.persistent,
+        ...this.$attrs,
         position: 'bottom'
       },
 
