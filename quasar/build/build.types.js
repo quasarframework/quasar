@@ -2,19 +2,50 @@ module.exports.generate = function () {
   const
     fs = require('fs'),
     path = require('path'),
-    root = path.resolve(__dirname, '../dist/api'),
+    apiRoot = path.resolve(__dirname, '../dist/api'),
     { writeFile } = require('./build.utils'),
-    resolve = file => path.resolve(root, file),
+    resolve = file => path.resolve(apiRoot, file),
     // eslint-disable-next-line no-useless-escape
     toCamelCase = s => s.replace(/(\-\w)/g, m => { return m[1].toUpperCase() })
 
+  var copyTypeFile = function (file) {
+    var orig = require(file)
+    writeFile(resolve(file), JSON.stringify(orig, null, 2))
+  }
+
+  var convertTypeVal = function (type) {
+    const t = type.trim()
+    if (t === 'Array') {
+      return '[]'
+    }
+    else if (t === 'Any') {
+      return 'any'
+    }
+    return t
+  }
+  var getTypeVal = function (types) {
+    if (Array.isArray(types)) {
+      const propTypes = types.map(convertTypeVal)
+      return propTypes.join(' | ')
+    }
+    else {
+      return convertTypeVal(types)
+    }
+  }
+
   var contents = []
 
+  contents.push('declare module "quasar" {\n')
   contents.push('// Quasar Type Definitions \n')
   contents.push('import Vue from "vue";\n')
-  contents.push('import { VueClass } from "vue-class-component/lib/declarations";\n\n')
+  // Remove this for now, this may cause the Mixins to be mixin<VueClass<MyComponent>>()
+  // contents.push('import { VueClass } from "vue-class-component/lib/declarations";\n\n')
 
-  const distDir = fs.readdirSync(root)
+  // Copy Typescript config files
+  copyTypeFile('../types/tsconfig.json')
+  copyTypeFile('../types/typings.json')
+
+  const distDir = fs.readdirSync(apiRoot)
   var injections = {}
 
   distDir.forEach(file => {
@@ -27,15 +58,15 @@ module.exports.generate = function () {
       contents.push(`export interface ${typeName} extends Vue {\n`)
     }
     else {
-      contents.push(`export = ${typeName}; \n`)
-      contents.push(`export class ${typeName} {\n`)
+      contents.push(`export const ${typeName}: ${typeName}; \n`)
+      contents.push(`export interface ${typeName} {\n`)
     }
 
     // Write Props
     for (var key in content.props) {
       const propName = toCamelCase(key)
-      const propType = content.props[key].type
-      const propTypeVal = Array.isArray(propType) ? propType.join('| ') : propType
+      var propType = getTypeVal(content.props[key].type)
+      const propTypeVal = propType
       contents.push(`    ${propName}: ${propTypeVal};\n`)
     }
 
@@ -57,7 +88,7 @@ module.exports.generate = function () {
     contents.push(`}\n`)
 
     if (content.type === 'component') {
-      contents.push(`export const ${typeName}: VueClass<${typeName}>\n`)
+      contents.push(`export const ${typeName}: Vue`) // VueClass<${typeName}>\n`)
     }
     contents.push(`\n`)
 
@@ -76,21 +107,26 @@ module.exports.generate = function () {
   for (var key in injections) {
     const props = injections[key]
     if (props) {
-      contents.push(`export interface ${key.replace('$', '')}VueGlobals {\n`)
+      contents.push(`export interface ${key.toUpperCase().replace('$', '')}VueGlobals {\n`)
       for (var prop in props) {
         contents.push(`    ${props[prop].injection}: ${props[prop].class};\n`)
       }
       contents.push('}\n')
     }
   }
+  contents.push('}\n')
+  contents.push('\n')
 
   if (injections) {
     contents.push('declare module "vue/types/vue" {\n')
+    for (var key2 in injections) {
+      contents.push(`    import { ${key2.toUpperCase().replace('$', '')}VueGlobals } from "quasar";\n`)
+    }
     contents.push('    interface Vue {\n')
   }
 
-  for (var key2 in injections) {
-    contents.push(`    ${key2}: ${key2.replace('$', '')}VueGlobals;\n`)
+  for (var key3 in injections) {
+    contents.push(`    ${key3}: ${key3.toUpperCase().replace('$', '')}VueGlobals;\n`)
   }
 
   if (injections) {
@@ -98,5 +134,6 @@ module.exports.generate = function () {
     contents.push('}\n')
   }
 
-  writeFile(resolve('quasar.d.ts'), contents.join(''))
+  // writeFile(resolve('quasar.d.ts'), contents.join(''))
+  writeFile(resolve('../types/index.d.ts'), contents.join(''))
 }
