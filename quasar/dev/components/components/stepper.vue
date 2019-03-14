@@ -108,14 +108,22 @@
           </q-stepper-navigation>
         </q-step>
 
-        <q-stepper-navigation v-if="globalNav" slot="navigation">
-          <q-btn :disable="step === 5" :color="color" @click="$refs.stepper.next()">
-            Continue
-          </q-btn>
-          <q-btn v-if="step !== 1" flat @click="$refs.stepper.previous()" class="q-ml-sm">
-            Back
-          </q-btn>
-        </q-stepper-navigation>
+        <template v-slot:message>
+          <div class="q-pa-lg">
+            Message slot
+          </div>
+        </template>
+
+        <template v-if="globalNav" v-slot:navigation>
+          <q-stepper-navigation>
+            <q-btn :disable="step === 5" :color="color" @click="$refs.stepper.next()">
+              Continue
+            </q-btn>
+            <q-btn v-if="step !== 1" flat @click="$refs.stepper.previous()" class="q-ml-sm">
+              Back
+            </q-btn>
+          </q-stepper-navigation>
+        </template>
       </q-stepper>
     </div>
   </div>
