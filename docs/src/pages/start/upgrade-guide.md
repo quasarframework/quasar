@@ -20,8 +20,14 @@ $ yarn add quasar@latest
 You may also want to make sure you have the latest of the other Quasar packages too:
 
 ```bash
-$ yarn add @quasar/extras@latest
-$ yarn add --dev @quasar/app@latest
+# run these commands inside
+# of a Quasar v1 project
+
+# check for upgradable packages
+$ quasar upgrade
+
+# do the actual upgrade
+$ quasar upgrade --install
 ```
 
 ### Vue CLI
