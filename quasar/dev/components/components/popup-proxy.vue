@@ -53,6 +53,21 @@
           </template>
         </q-input>
       </div>
+
+      <div class="q-mt-xl">
+        <p>Model is: {{ model }}</p>
+        <q-btn push color="primary" label="Open Popup">
+          <q-popup-proxy v-model="model">
+            <q-banner>
+              <template v-slot:avatar>
+                <q-icon name="signal_wifi_off" color="primary" />
+              </template>
+              You have lost connection to the internet. This app is offline.
+              <q-btn color="primary" label="Primary" @click="model = false" />
+            </q-banner>
+          </q-popup-proxy>
+        </q-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -64,7 +79,8 @@ export default {
       text: '',
       type: this.$q.screen.width < 600 ? 'dialog' : 'menu',
       input: '',
-      date: '2018/11/03'
+      date: '2018/11/03',
+      model: false
     }
   },
 
