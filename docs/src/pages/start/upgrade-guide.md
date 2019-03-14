@@ -14,14 +14,9 @@ Simply replace the version string in all the CSS and JS tags that refer to Quasa
 ### Quasar CLI
 
 ```bash
-$ yarn add quasar@latest
-```
-
-You may also want to make sure you have the latest of the other Quasar packages too:
-
-```bash
 # run these commands inside
 # of a Quasar v1 project
+# (need global @quasar/cli to be >= 1.0.0-beta.3)
 
 # check for upgradable packages
 $ quasar upgrade

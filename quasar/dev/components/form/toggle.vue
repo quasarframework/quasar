@@ -43,6 +43,15 @@
       <q-toggle v-model="checked" icon="mail" color="secondary" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-toggle v-model="checked" unchecked-icon="visibility_off" checked-icon="visibility" color="red" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
+      <div>
+        <q-toggle icon="fas fa-street-view" v-model="checked" />
+        <q-toggle icon="map" v-model="checked" />
+        <q-toggle icon="ion-compass" v-model="checked" />
+        <q-toggle icon="mdi-account" v-model="checked" />
+        <q-toggle icon="eva-alert-circle-outline" v-model="checked" />
+        <q-toggle icon="ti-save" v-model="checked" />
+      </div>
+
       <p class="caption">
         Disabled State
       </p>
