@@ -13,6 +13,8 @@ import QItemSection from '../list/QItemSection.js'
 
 export default Vue.extend({
   name: 'BottomSheetPlugin',
+  
+  inheritAttrs: false,
 
   props: {
     title: String,
