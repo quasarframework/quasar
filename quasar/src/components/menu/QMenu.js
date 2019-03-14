@@ -220,6 +220,10 @@ export default Vue.extend({
           }] : null
         }, slot(this, 'default')) : null
       ])
+    },
+
+    __registerParentPortalId (vm, id) {
+      vm.menuPortalParentId = id
     }
   }
 })
