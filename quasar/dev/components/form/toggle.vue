@@ -4,24 +4,30 @@
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{ checked }}</em></span>
       </div>
-      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" />
-      <q-toggle v-model="keepColor" :dark="dark" :dense="dense" label="Keep Color" />
-      <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
+      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark"/>
+      <q-toggle v-model="keepColor" :dark="dark" :dense="dense" label="Keep Color"/>
+      <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense"/>
 
       <p class="caption">
         Standalone
       </p>
-      <q-toggle @change="onChange" @input="onInput" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
-      <q-toggle v-model="checked" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
-      <q-toggle v-model="checked" color="orange" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
-      <q-toggle v-model="checked" color="teal" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-toggle @change="onChange" @input="onInput" v-model="checked" :dark="dark" :dense="dense"
+                :keep-color="keepColor"/>
+      <q-toggle v-model="checked" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor"/>
+      <q-toggle v-model="checked" color="orange" label="Toggle Label" :dark="dark" :dense="dense"
+                :keep-color="keepColor"/>
+      <q-toggle v-model="checked" color="teal" label="Toggle Label" :dark="dark" :dense="dense"
+                :keep-color="keepColor"/>
 
       <p class="caption">
         Label on the left side
       </p>
-      <q-toggle v-model="checked" color="orange" left-label label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
-      <q-toggle v-model="checked" color="teal" left-label label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
-      <q-toggle v-model="checked" color="blue" left-label label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-toggle v-model="checked" color="orange" left-label label="Toggle Label" :dark="dark" :dense="dense"
+                :keep-color="keepColor"/>
+      <q-toggle v-model="checked" color="teal" left-label label="Toggle Label" :dark="dark" :dense="dense"
+                :keep-color="keepColor"/>
+      <q-toggle v-model="checked" color="blue" left-label label="Toggle Label" :dark="dark" :dense="dense"
+                :keep-color="keepColor"/>
 
       <p class="caption">
         Array Model
@@ -30,36 +36,42 @@
         Model <span class="right-detail"><em>{{ selection }}</em></span>
       </div>
 
-      <q-toggle @change="onChange" v-model="selection" val="one" label="One" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-toggle @change="onChange" v-model="selection" val="one" label="One" :dark="dark" :dense="dense"
+                :keep-color="keepColor"/>
       <br>
-      <q-toggle @change="onChange" v-model="selection" val="two" label="Two" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-toggle @change="onChange" v-model="selection" val="two" label="Two" :dark="dark" :dense="dense"
+                :keep-color="keepColor"/>
       <br>
-      <q-toggle @change="onChange" v-model="selection" val="three" label="Three" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-toggle @change="onChange" v-model="selection" val="three" label="Three" :dark="dark" :dense="dense"
+                :keep-color="keepColor"/>
 
       <p class="caption">
         With Icon
       </p>
-      <q-toggle v-model="checked" icon="alarm" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
-      <q-toggle v-model="checked" icon="mail" color="secondary" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
-      <q-toggle v-model="checked" unchecked-icon="visibility_off" checked-icon="visibility" color="red" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-toggle v-model="checked" :icon="icons.alarm" label="Toggle Label" :dark="dark" :dense="dense"
+                :keep-color="keepColor"/>
+      <q-toggle v-model="checked" :icon="icons.mail" color="secondary" label="Toggle Label" :dark="dark" :dense="dense"
+                :keep-color="keepColor"/>
+      <q-toggle v-model="checked" :unchecked-icon="icons.visibility_off" :checked-icon="icons.visibility" color="red"
+                label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor"/>
 
       <p class="caption">
         Disabled State
       </p>
-      <q-toggle v-model="checked" disable label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-toggle v-model="checked" disable label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor"/>
 
       <p class="caption">
         Option Group
       </p>
       <q-option-group
-        inline
-        type="toggle"
-        v-model="group"
-        @change="onChange"
-        @input="onInput"
-        :dark="dark" :dense="dense"
-        :keep-color="keepColor"
-        :options="[
+          inline
+          type="toggle"
+          v-model="group"
+          @change="onChange"
+          @input="onInput"
+          :dark="dark" :dense="dense"
+          :keep-color="keepColor"
+          :options="[
           { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
           { label: 'Option 3', value: 'op3', color: 'secondary' },
           { label: 'Option 4', value: 'op4', color: 'accent' }
@@ -70,11 +82,11 @@
         Another Option Group
       </p>
       <q-option-group
-        type="toggle"
-        v-model="group"
-        :dark="dark" :dense="dense"
-        :keep-color="keepColor"
-        :options="[
+          type="toggle"
+          v-model="group"
+          :dark="dark" :dense="dense"
+          :keep-color="keepColor"
+          :options="[
           { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2', dark, keepColor },
           { label: 'Option 3', value: 'op3', dark, keepColor },
           { label: 'Option 4', value: 'op4', dark, keepColor }
@@ -90,7 +102,7 @@
             <q-item-label>Events and reminders</q-item-label>
           </q-item-section>
           <q-item-section avatar>
-            <q-toggle v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
+            <q-toggle v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"/>
           </q-item-section>
         </q-item>
         <q-item tag="label" multiline>
@@ -101,18 +113,22 @@
             </q-item-label>
           </q-item-section>
           <q-item-section avatar>
-            <q-toggle v-model="checked" class="purple" :dark="dark" :dense="dense" :keep-color="keepColor" />
+            <q-toggle v-model="checked" class="purple" :dark="dark" :dense="dense" :keep-color="keepColor"/>
           </q-item-section>
         </q-item>
         <q-item tag="label" multiline>
           <q-item-section>
             <q-item-label>Events and reminders</q-item-label>
             <q-item-label caption>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+              ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+              fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum.
             </q-item-label>
           </q-item-section>
           <q-item-section avatar>
-            <q-toggle v-model="checked" class="red" :dark="dark" :dense="dense" :keep-color="keepColor" />
+            <q-toggle v-model="checked" class="red" :dark="dark" :dense="dense" :keep-color="keepColor"/>
           </q-item-section>
         </q-item>
       </q-list>
@@ -121,6 +137,22 @@
 </template>
 
 <script>
+const DEFAULT_ICON_SET = 'material-icons'
+// @TODO : Add and test with other icons set
+const oIcons = {
+  'fontawesome-v5': {
+    alarm: 'fa fa-clock',
+    mail: 'fa fa-envelope',
+    visibility: 'fa fa-eye',
+    visibility_off: 'fa fa-eye-slash'
+  },
+  [DEFAULT_ICON_SET]: {
+    alarm: 'alarm',
+    mail: 'mail',
+    visibility: 'visibility',
+    visibility_off: 'visibility_off'
+  }
+}
 export default {
   data () {
     return {
@@ -149,6 +181,11 @@ export default {
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))
+    }
+  },
+  computed: {
+    icons () {
+      return oIcons[this.$q.iconSet.name] || oIcons[DEFAULT_ICON_SET]
     }
   }
 }
