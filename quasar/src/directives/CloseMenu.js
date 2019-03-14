@@ -8,7 +8,7 @@ export default {
       enabled: value !== false,
 
       handler: () => {
-        ctx.enabled !== false && closeRootMenu(vnode.componentInstance.$root.portalParentId)
+        ctx.enabled !== false && closeRootMenu(vnode.componentInstance.$root.menuPortalParentId)
       },
 
       handlerKey: ev => {

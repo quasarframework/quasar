@@ -78,6 +78,10 @@
 
     "navigation": {
       "desc": "Slot specific for the global navigation; Suggestion: QStepperNavigation"
+    },
+
+    "message": {
+      "desc": "Slot specific for putting a message on top of each step (if horizontal stepper) or above steps (if vertical); Suggestion: QBanner, div.q-pa-lg"
     }
   }
 }

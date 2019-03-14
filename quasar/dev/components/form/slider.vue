@@ -73,10 +73,10 @@
       <p class="caption">
         Display Label Always
         <span class="label inline bg-secondary text-white">
-          Model <span class="right-detail"><em>{{ label }}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
+          Model <span class="right-detail"><em>{{ label }}</em> &nbsp;&nbsp;(-20000 to 20000, step 400)</span>
         </span>
       </p>
-      <q-slider :dark="dark" :dense="dense" v-model="label" :min="-20" :max="20" :step="4" label-always />
+      <q-slider :dark="dark" :dense="dense" v-model="label" :min="-20000" :max="20000" :step="400" label-always />
 
       <p class="caption">
         With custom value for Label

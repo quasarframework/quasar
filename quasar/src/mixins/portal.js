@@ -50,7 +50,9 @@ export default {
   },
 
   beforeMount () {
-    const id = this.portalId
+    const
+      id = this.portalId,
+      registerPortalParentId = this.__registerParentPortalId
 
     if (inject === void 0) {
       fillInject(this.$root.$options)
@@ -65,7 +67,7 @@ export default {
       directives: this.$options.directives,
 
       created () {
-        this.portalParentId = id
+        registerPortalParentId !== void 0 && registerPortalParentId(this, id)
       },
 
       methods: {
