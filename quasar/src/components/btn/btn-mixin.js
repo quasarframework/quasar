@@ -96,6 +96,9 @@ export default {
       if (this.hasRouterLink === true) {
         att.href = this.$router.resolve(this.to).href
       }
+      if (this.isDisabled === true) {
+        att.disabled = true
+      }
       return att
     },
 
@@ -116,7 +119,7 @@ export default {
 
       return `q-btn--${this.design} q-btn--${this.isRound === true ? 'round' : 'rectangle'}` +
         (colors !== void 0 ? ' ' + colors : '') +
-        (this.isDisabled === true ? ' disabled' : ' q-focusable q-hoverable') +
+        (this.isDisabled !== true ? ' q-focusable q-hoverable' : '') +
         (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +
         (this.noCaps === true ? ' q-btn--no-uppercase' : '') +
         (this.rounded === true ? ' q-btn--rounded' : '') +

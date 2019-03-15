@@ -10,7 +10,7 @@
           <q-btn :key="`n_1_4_${ n }`" :type="tag" :size="n" icon="android" color="primary" label="Test" />
           <q-btn :key="`n_1_5_${ n }`" :type="tag" :size="n" round icon="android" color="primary" />
           <q-btn :key="`n_1_6_${ n }`" :type="tag" :size="n" round icon="android" color="primary" dense />
-          <q-btn :key="`n_1_7_${ n }`" :type="tag" :size="n" label="Test" color="primary" />
+          <q-btn gigi="true" :key="`n_1_7_${ n }`" :type="tag" :size="n" label="Test" color="primary" />
           <span :key="`n_1_8_${ n }`">{{ n }}</span>
           <br :key="`n_1_9_${ n }`"><br :key="`n_1_10_${ n }`">
         </template>
