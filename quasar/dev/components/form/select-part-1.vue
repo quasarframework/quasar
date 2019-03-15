@@ -430,6 +430,20 @@
           </template>
         </q-input>
       </div>
+
+      <div class="text-h6">
+        Display value and floating label test
+      </div>
+      <div>
+        <q-select
+          label="Options"
+          filled
+          v-model="dispValSelection"
+          :options="dispValOptions"
+          :display-value="dispVal"
+          multiple
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -446,6 +460,13 @@ export default {
     }
 
     return {
+      dispValSelection: [],
+      dispValOptions: [
+        'Option 1',
+        'Option 2',
+        'Option 3'
+      ],
+
       type: 'filled',
       readonly: false,
       disable: false,
@@ -571,6 +592,15 @@ export default {
         optionsDense: this.optionsDense,
         optionsDark: this.optionsDark,
         expandBesides: this.expandBesides
+      }
+    },
+
+    dispVal () {
+      if (this.dispValSelection.length === 1) {
+        return '1 option selected'
+      }
+      else {
+        return this.dispValSelection.length + ' options selected'
       }
     }
   }
