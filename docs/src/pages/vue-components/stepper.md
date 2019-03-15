@@ -46,6 +46,10 @@ Play with coloring using the `*-icon` and `*-color` props (on QStepper or overri
 
 <doc-example title="Dark" file="QStepper/Dark" />
 
+### Message slot
+
+<doc-example title="Message slot with fixed height steps" file="QStepper/MessageSlot" />
+
 ## QStepper API
 
 <doc-api file="QStepper" />
