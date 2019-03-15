@@ -127,6 +127,12 @@ export default Vue.extend({
     },
 
     __activateRoute (params) {
+      if (this.bufferRoute !== this.$route && this.buffer.length > 0) {
+        clearTimeout(this.bufferTimer)
+        this.buffer.length = 0
+      }
+      this.bufferRoute = this.$route
+
       const
         { name, selectable, exact, selected, priority } = params,
         first = !this.buffer.length,

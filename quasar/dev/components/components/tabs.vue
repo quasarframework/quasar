@@ -194,6 +194,26 @@
         <q-route-tab name="tabs/c" to="/components/tabs/c" exact label="/tabs/c" />
       </q-tabs>
 
+      <div class="row q-gutter-xs justify-stretch">
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'ta', params: { id: 1 }}" replace label="t/1/a" />
+        </div>
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'tb', params: { id: 1 }}" replace label="t/1/b" />
+        </div>
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'ta', params: { id: 2 }}" replace label="t/2/a" />
+        </div>
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'tb', params: { id: 2 }}" replace label="t/2/b" />
+        </div>
+      </div>
+      <q-tabs :dense="dense" class="test q-mt-sm">
+        <q-route-tab to="/components/tabs/t" exact label="t" />
+        <q-route-tab v-if="$route.params.id" :to="{ name: 'ta', params: $route.params }" exact :label="`t/${ $route.params.id }/a`" />
+        <q-route-tab v-if="$route.params.id" :to="{ name: 'tb', params: $route.params }" exact :label="`t/${ $route.params.id }/b`" />
+      </q-tabs>
+
       <h4>Tabs content (animated, swipeable)</h4>
       <q-option-group
         type="radio"
