@@ -25,8 +25,15 @@ export default Vue.extend({
 
   methods: {
     activate (e) {
-      this.$listeners.click !== void 0 && this.$emit('click', e)
-      this.disable !== true && this.__activateRoute({ name: this.name, selected: true })
+      if (this.disable !== true) {
+        const
+          current = this.$route,
+          { route } = this.$router.resolve(this.to, current, this.append)
+
+        this.$listeners.click !== void 0 && this.$emit('click', e)
+        this.__activateRoute({ name: this.name, selected: true, selectable: isSameRoute(current, route) })
+      }
+
       this.$el.blur()
     },
 

@@ -145,14 +145,14 @@ export default Vue.extend({
 
       if (first) {
         this.bufferTimer = setTimeout(() => {
-          let tab = this.buffer.find(t => t.exact && t.selected) ||
+          let tab = this.buffer.find(t => t.selectable && t.selected && t.exact) ||
             this.buffer.find(t => t.selectable && t.selected) ||
-            this.buffer.find(t => t.exact) ||
+            this.buffer.find(t => t.selectable && t.exact) ||
             this.buffer.filter(t => t.selectable).sort((t1, t2) => t2.priority - t1.priority)[0] ||
-            this.buffer[0]
+            this.buffer.filter(t => t.name === null)[0]
 
           this.buffer.length = 0
-          this.__activateTab(tab.name)
+          tab !== void 0 && this.__activateTab(tab.name)
         }, 1)
       }
     },
