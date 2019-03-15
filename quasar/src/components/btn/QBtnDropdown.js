@@ -42,7 +42,7 @@ export default Vue.extend({
 
   watch: {
     value (val) {
-      this.$refs.menu && this.$refs.menu[val ? 'show' : 'hide']()
+      this.$refs.menu !== void 0 && this.$refs.menu[val ? 'show' : 'hide']()
     }
   },
 
@@ -157,6 +157,6 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.value && this.show()
+    this.value === true && this.show()
   }
 })

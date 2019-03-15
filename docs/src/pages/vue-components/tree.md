@@ -27,9 +27,15 @@ Notice (in the example below) the custom header and body slots.
 
 <doc-example title="Customizing nodes" file="QTree/SlotsCustomized" />
 
-In the example below, sibling nodes get contracted when one gets expanded.
+:::warning
+Clicking or pressing `SPACE` or `ENTER` on the custom header selects the tree item (and the custom header is blurred).
+
+If you don't want this to happen just wrap the content of the custom header in a `<div @click.stop @keyup.13.32.stop>`.
+:::
 
 ### Accordion, filtering and selectable
+
+In the example below, sibling nodes get contracted when one gets expanded.
 
 <doc-example title="Accordion mode" file="QTree/Accordion" />
 

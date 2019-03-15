@@ -44,7 +44,14 @@ let routes = [
       { path: 'a/b' },
       { path: 'b' },
       { path: 'b/a' },
-      { path: 'c' }
+      { path: 'c' },
+      {
+        path: 't',
+        children: [
+          { path: ':id/a', name: 'ta' },
+          { path: ':id/b', name: 'tb' }
+        ]
+      }
     ]
   },
   {
