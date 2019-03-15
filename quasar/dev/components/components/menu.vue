@@ -81,6 +81,22 @@
                   <q-item v-for="n in 5" :key="n" v-close-menu clickable>
                     <q-item-section>Menu Item {{ n }}</q-item-section>
                   </q-item>
+                  <q-item clickable>
+                    <q-item-section>Submenu Label</q-item-section>
+                    <q-item-section side>
+                      <q-icon name="keyboard_arrow_right" />
+                    </q-item-section>
+                    <q-menu anchor="top right" self="top left">
+                      <q-list>
+                        <q-item v-for="n in 5" :key="n" v-close-menu clickable>
+                          <q-item-section>Menu Item {{ n }}</q-item-section>
+                        </q-item>
+                        <q-item clickable v-close-dialog>
+                          <q-item-section>Close dialog</q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-item>
                   <q-item clickable v-close-dialog>
                     <q-item-section>Close dialog</q-item-section>
                   </q-item>

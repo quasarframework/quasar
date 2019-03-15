@@ -29,6 +29,9 @@ export default {
             if (parent.classList.contains('q-menu')) {
               return
             }
+            if (parent.classList.contains('q-dialog') && parent.previousSibling === el) {
+              return
+            }
           }
         }
 

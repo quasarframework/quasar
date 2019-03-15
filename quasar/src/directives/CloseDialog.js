@@ -6,10 +6,15 @@ export default {
       enabled: value !== false,
 
       handler: ev => {
-        const vm = vnode.componentInstance.$root
+        if (ctx.enabled !== false) {
+          const vm = vnode.componentInstance.$root
 
-        if (ctx.enabled !== false && vm.__qPortalClose !== void 0) {
-          vm.__qPortalClose(ev)
+          if (vm.menuPortalParentDialog !== void 0 && vm.menuPortalParentDialog.__qPortalClose !== void 0) {
+            vm.menuPortalParentDialog.__qPortalClose(ev)
+          }
+          else if (vm.__qPortalClose !== void 0) {
+            vm.__qPortalClose(ev)
+          }
         }
       },
 

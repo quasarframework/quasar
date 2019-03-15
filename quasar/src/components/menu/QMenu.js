@@ -106,6 +106,10 @@ export default Vue.extend({
         this.$emit('escape-key')
         this.hide()
       })
+      this.__cleanupEscape = () => {
+        this.__cleanupEscape = void 0
+        EscapeKey.pop()
+      }
 
       this.__showPortal()
       this.__registerTree()
@@ -148,7 +152,7 @@ export default Vue.extend({
       clearTimeout(this.timer)
       this.absoluteOffset = void 0
 
-      EscapeKey.pop()
+      this.__cleanupEscape !== void 0 && this.__cleanupEscape()
       this.__unregisterTree()
 
       if (this.unwatch !== void 0) {
@@ -222,8 +226,17 @@ export default Vue.extend({
       ])
     },
 
-    __registerParentPortalId (vm, id) {
+    __registerPortalParent (vm, id) {
+      const root = this.$root
+
       vm.menuPortalParentId = id
+
+      if (this.noParentEvent === true) {
+        vm.menuPortalParentDialog = vm
+      }
+      else {
+        vm.menuPortalParentDialog = root.menuPortalParentId === void 0 && root.__qPortalClose !== void 0 ? root : root.menuPortalParentDialog
+      }
     }
   }
 })

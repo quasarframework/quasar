@@ -153,6 +153,10 @@ export default Vue.extend({
           }
         }
       })
+      this.__cleanupEscape = () => {
+        this.__cleanupEscape = void 0
+        EscapeKey.pop()
+      }
 
       this.__showPortal()
 
@@ -190,7 +194,7 @@ export default Vue.extend({
       clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
 
-      EscapeKey.pop()
+      this.__cleanupEscape !== void 0 && this.__cleanupEscape()
 
       if (hiding === true || this.showing === true) {
         this.__updateState(false, this.maximized)
