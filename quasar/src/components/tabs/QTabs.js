@@ -153,7 +153,7 @@ export default Vue.extend({
 
           this.buffer.length = 0
           this.__activateTab(tab.name)
-        }, 100)
+        }, 1)
       }
     },
 

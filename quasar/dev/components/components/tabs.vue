@@ -181,17 +181,17 @@
         </div>
       </div>
       <q-tabs :dense="dense" class="test q-mt-sm">
-        <q-route-tab name="tabs" to="/components/tabs" exact replace label="/tabs" />
-        <q-route-tab name="tabs/a" to="/components/tabs/a" exact replace label="/tabs/a" />
-        <q-route-tab name="tabs/a *" to="/components/tabs/a" replace label="/tabs/a *" />
-        <q-route-tab name="tabs/a#1" to="/components/tabs/a#1" exact replace label="/tabs/a#1" />
-        <q-route-tab name="tabs/a/a" to="/components/tabs/a/a" exact replace label="/tabs/a/a" />
-        <q-route-tab name="tabs/a/a *" to="/components/tabs/a/a" replace label="/tabs/a/a *" />
-        <q-route-tab name="tabs/a/a#1" to="/components/tabs/a/a#1" exact replace label="/tabs/a/a#1" />
-        <q-route-tab name="tabs/a/b" to="/components/tabs/a/b" exact replace label="/tabs/a/b" />
-        <q-route-tab name="tabs/b" to="/components/tabs/b" exact replace label="/tabs/b" />
-        <q-route-tab name="tabs/b/a" to="/components/tabs/b/a" exact replace label="/tabs/b/a" />
-        <q-route-tab name="tabs/c" to="/components/tabs/c" exact replace label="/tabs/c" />
+        <q-route-tab name="tabs" to="/components/tabs" exact label="/tabs" />
+        <q-route-tab name="tabs/a" to="/components/tabs/a" exact label="/tabs/a" />
+        <q-route-tab name="tabs/a *" to="/components/tabs/a" label="/tabs/a *" />
+        <q-route-tab name="tabs/a#1" to="/components/tabs/a#1" exact label="/tabs/a#1" />
+        <q-route-tab name="tabs/a/a" to="/components/tabs/a/a" exact label="/tabs/a/a" />
+        <q-route-tab name="tabs/a/a *" to="/components/tabs/a/a" label="/tabs/a/a *" />
+        <q-route-tab name="tabs/a/a#1" to="/components/tabs/a/a#1" exact label="/tabs/a/a#1" />
+        <q-route-tab name="tabs/a/b" to="/components/tabs/a/b" exact label="/tabs/a/b" />
+        <q-route-tab name="tabs/b" to="/components/tabs/b" exact label="/tabs/b" />
+        <q-route-tab name="tabs/b/a" to="/components/tabs/b/a" exact label="/tabs/b/a" />
+        <q-route-tab name="tabs/c" to="/components/tabs/c" exact label="/tabs/c" />
       </q-tabs>
 
       <h4>Tabs content (animated, swipeable)</h4>
