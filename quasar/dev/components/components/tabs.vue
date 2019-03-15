@@ -168,16 +168,16 @@
 
       <div class="row q-gutter-xs justify-stretch">
         <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a#123" label="/tabs/a#123 - select most specific tab" />
+          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/a#123" label="/tabs/a#123 - select most specific tab" />
         </div>
         <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a/a#123" label="/tabs/a/a#123 - select most specific tab" />
+          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/a/a#123" label="/tabs/a/a#123 - select most specific tab" />
         </div>
         <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a/a" label="/tabs/b#123 - select exact tab" />
+          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/a/a" label="/tabs/a/a - select exact tab" />
         </div>
         <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/b#123" label="/tabs/b#123 - select no tab" />
+          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/b#123" label="/tabs/b#123 - select no tab" />
         </div>
       </div>
       <q-tabs :dense="dense" class="test q-mt-sm">

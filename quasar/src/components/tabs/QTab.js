@@ -62,7 +62,7 @@ export default Vue.extend({
   methods: {
     activate (e) {
       this.$listeners.click !== void 0 && this.$emit('click', e)
-      !this.disable && this.__activateTab(this.name)
+      this.disable !== true && this.__activateTab(this.name)
       this.$el.blur()
     },
 
@@ -120,18 +120,12 @@ export default Vue.extend({
         },
         directives: this.ripple !== false && this.disable === true ? null : [
           { name: 'ripple', value: this.ripple }
-        ]
-      }
-
-      if (tag === 'div') {
-        data.on = {
+        ],
+        [tag === 'div' ? 'on' : 'nativeOn']: {
           ...this.$listeners,
           click: this.activate,
           keyup: this.__onKeyup
         }
-      }
-      else {
-        data.nativeOn = this.$listeners
       }
 
       if (props !== void 0) {
