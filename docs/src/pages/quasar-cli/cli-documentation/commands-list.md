@@ -41,6 +41,13 @@ $ quasar
                     - this is an alias command for convenience purposes
     info, i       Display info about your machine and your App
     help, h       Displays this message
+
+
+  Commands supplied by @quasar/cli global installation:
+
+    upgrade       Check (and optionally) upgrade Quasar packages
+                    from a Quasar project folder
+    serve         Create an ad-hoc server on App's distributables
 ```
 
 See help for any command:
@@ -51,12 +58,25 @@ $ quasar [command name] --help
 ## create
 
 Creates an App folder with initial project boilerplate.
+
 ``` bash
 # currently installs v0.17, for v1 see below
 $ quasar create <folder_name>
 
 ## for Quasar v1.0-beta, run this instead:
 $ quasar create <folder_name> -b dev
+```
+
+## upgrade
+
+Check (and optionally) upgrade Quasar packages from a Quasar project folder:
+
+```bash
+# check for upgradable packages
+$ quasar upgrade
+
+# do the actual upgrade
+$ quasar upgrade --install
 ```
 
 ## info

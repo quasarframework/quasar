@@ -73,11 +73,19 @@ export default {
     },
 
     hasRouterLink () {
-      return this.to !== void 0 && this.to !== null && this.to !== ''
+      return this.disable !== true && this.to !== void 0 && this.to !== null && this.to !== ''
     },
 
     isLink () {
       return this.type === 'a' || this.hasRouterLink === true
+    },
+
+    design () {
+      if (this.flat === true) return 'flat'
+      if (this.outline === true) return 'outline'
+      if (this.push === true) return 'push'
+      if (this.unelevated === true) return 'unelevated'
+      return 'standard'
     },
 
     attrs () {
@@ -88,14 +96,17 @@ export default {
       if (this.hasRouterLink === true) {
         att.href = this.$router.resolve(this.to).href
       }
+      if (this.isDisabled === true) {
+        att.disabled = true
+      }
       return att
     },
 
     classes () {
       let colors
 
-      if (this.color) {
-        if (this.flat || this.outline) {
+      if (this.color !== void 0) {
+        if (this.flat === true || this.outline === true) {
           colors = `text-${this.textColor || this.color}`
         }
         else {
@@ -106,19 +117,10 @@ export default {
         colors = `text-${this.textColor}`
       }
 
-      return `q-btn--${this.isRound ? 'round' : 'rectangle'}` +
+      return `q-btn--${this.design} q-btn--${this.isRound === true ? 'round' : 'rectangle'}` +
         (colors !== void 0 ? ' ' + colors : '') +
-        (this.isDisabled === true ? ' disabled' : ' q-focusable q-hoverable') +
+        (this.isDisabled !== true ? ' q-focusable q-hoverable' : '') +
         (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +
-        (
-          this.flat === true ? ' q-btn--flat' : (
-            this.outline === true ? ' q-btn--outline' : (
-              this.push === true ? ' q-btn--push' : (
-                this.unelevated === true ? ' q-btn--unelevated' : ''
-              )
-            )
-          )
-        ) +
         (this.noCaps === true ? ' q-btn--no-uppercase' : '') +
         (this.rounded === true ? ' q-btn--rounded' : '') +
         (this.dense === true ? ' q-btn--dense' : '') +

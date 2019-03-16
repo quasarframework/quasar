@@ -108,7 +108,7 @@ export default Vue.extend({
     __getContent (h) {
       const node = []
 
-      if (this.arrows) {
+      if (this.arrows === true) {
         node.push(
           h(QBtn, {
             staticClass: 'q-carousel__control q-carousel__prev-arrow absolute',
@@ -125,7 +125,7 @@ export default Vue.extend({
         )
       }
 
-      if (this.navigation) {
+      if (this.navigation === true) {
         node.push(this.__getNavigationContainer(h, 'buttons', panel => {
           const name = panel.componentOptions.propsData.name
 
@@ -167,11 +167,11 @@ export default Vue.extend({
     __render (h) {
       return h('div', {
         staticClass: 'q-carousel q-panel-parent',
+        style: this.style,
         class: this.classes
       }, [
         h('div', {
           staticClass: 'q-carousel__slides-container',
-          style: this.style,
           directives: this.panelDirectives
         }, [
           this.__getPanelContent(h)

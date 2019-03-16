@@ -64,6 +64,11 @@ export default Vue.extend({
           this.innerValue !== void 0 &&
           this.innerValue !== null &&
           ('' + this.innerValue).length > 0
+        ) ||
+        (
+          this.displayValue !== void 0 &&
+          this.displayValue !== null &&
+          ('' + this.displayValue).length > 0
         )
     },
 

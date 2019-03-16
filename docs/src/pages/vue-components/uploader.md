@@ -16,6 +16,10 @@ QUploader requires a back-end server to receive the files. The examples below wi
 QUploader is `drag and drop` compliant.
 :::
 
+::: warning
+When using vee-validate, you have to rename the "fieldBagName" configuration of vee-validate for the q-uploader to work.
+:::
+
 ### Design
 
 <doc-example title="Basic" file="QUploader/Basic" />

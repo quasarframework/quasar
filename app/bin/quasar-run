@@ -52,7 +52,7 @@ async function run () {
   const Extension = require('../lib/app-extension/Extension')
   const extension = new Extension(extId)
 
-  const hooks = await extension.run()
+  const hooks = await extension.run({})
 
   const list = () => {
     if (Object.keys(hooks.commands).length === 0) {

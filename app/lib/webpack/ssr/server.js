@@ -29,7 +29,7 @@ module.exports = function (chain, cfg) {
 
   chain.externals(nodeExternals({
     // do not externalize CSS files in case we need to import it from a dep
-    whitelist: /(\.css$|\.vue$|\?vue&type=style|^quasar$|^quasar[\\/])/
+    whitelist: /(\.css$|\.vue$|\?vue&type=style|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^quasar[\\/]src[\\/])/
   }))
 
   chain.plugin('vue-ssr-client')

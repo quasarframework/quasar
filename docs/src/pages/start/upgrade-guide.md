@@ -14,14 +14,15 @@ Simply replace the version string in all the CSS and JS tags that refer to Quasa
 ### Quasar CLI
 
 ```bash
-$ yarn add quasar@latest
-```
+# run these commands inside
+# of a Quasar v1 project
+# (need global @quasar/cli to be >= 1.0.0-beta.3)
 
-You may also want to make sure you have the latest of the other Quasar packages too:
+# check for upgradable packages
+$ quasar upgrade
 
-```bash
-$ yarn add @quasar/extras@latest
-$ yarn add --dev @quasar/app@latest
+# do the actual upgrade
+$ quasar upgrade --install
 ```
 
 ### Vue CLI
@@ -1488,7 +1489,7 @@ Replace `:handler` with `@load`.
 
 ### QLayoutHeader & QLayoutFooter
 
-- **renamed** to [QItemSection](/layout/header-and-footer) and [QFooter](/layout/header-and-footer), respectively
+- **renamed** to [QHeader](/layout/header-and-footer) and [QFooter](/layout/header-and-footer), respectively
 
 <div class="row">
   <div class="inline-block q-pa-md">

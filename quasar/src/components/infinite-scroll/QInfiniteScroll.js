@@ -14,6 +14,7 @@ export default Vue.extend({
       type: Number,
       default: 500
     },
+    scrollTarget: {},
     disable: Boolean
   },
 
@@ -33,6 +34,10 @@ export default Vue.extend({
       else {
         this.resume()
       }
+    },
+
+    scrollTarget () {
+      this.updateScrollTarget()
     }
   },
 
@@ -94,7 +99,16 @@ export default Vue.extend({
         this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
       }
 
-      this.scrollContainer = getScrollTarget(this.$el)
+      if (typeof this.scrollTarget === 'string') {
+        this.scrollContainer = document.querySelector(this.scrollTarget)
+        if (this.scrollContainer === null) {
+          console.error(`InfiniteScroll: scroll target container "${this.scrollTarget}" not found`, this)
+          return
+        }
+      }
+      else {
+        this.scrollContainer = this.scrollTarget instanceof Element ? this.scrollTarget : getScrollTarget(this.$el)
+      }
 
       if (this.working === true) {
         this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)

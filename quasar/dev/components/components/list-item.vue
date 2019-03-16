@@ -117,6 +117,13 @@
           <q-item-section>Inactive link</q-item-section>
         </q-item>
 
+        <q-item to="/" exact disable>
+          <q-item-section avatar>
+            <q-icon name="bluetooth" />
+          </q-item-section>
+          <q-item-section>Inactive link - Disabled</q-item-section>
+        </q-item>
+
         <q-item :to="$route.path">
           <q-item-section avatar>
             <q-icon name="signal_wifi_off" />

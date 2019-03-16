@@ -36,3 +36,9 @@ console.log(`
     info, i       Display info about your machine and your App
     help, h       Displays this message
 `)
+
+if (global.quasarCli) {
+  console.log(`
+  Commands supplied by @quasar/cli global installation:`)
+  console.log(global.quasarCli.help)
+}

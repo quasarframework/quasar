@@ -49,6 +49,26 @@
       "type": "String",
       "desc": "1-12 out of 12 (same as col-*)",
       "examples": [ "4", "6", "12" ]
+    },
+
+    "label-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render label; Use it when the label might be unsafe (from user input)"
+    },
+
+    "name-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render name; Use it when the name might be unsafe (from user input)"
+    },
+
+    "text-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)"
+    },
+
+    "stamp-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render stamp; Use it when the stamp might be unsafe (from user input)"
     }
   },
 

@@ -2,6 +2,7 @@
   border-radius $button-border-radius
   box-shadow $button-shadow
   vertical-align middle
+
   > .q-btn-item
     box-shadow none
   > .q-btn-group
@@ -49,3 +50,12 @@
   &--glossy
     > .q-btn-item
       background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04)) !important
+
+  &--spread
+    > .q-btn-group
+      display flex !important
+    > .q-btn-item, > .q-btn-group > .q-btn-item:not(.q-btn-dropdown__arrow-container)
+      width auto
+      min-width 0
+      max-width 100%
+      flex 10000 1 0%

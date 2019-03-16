@@ -86,6 +86,21 @@ const options = [
   }
 ]
 
+const security = [
+  {
+    name: `DO's and DON'Ts`,
+    path: 'dos-and-donts'
+  },
+  {
+    name: 'Report a vulnerability',
+    path: 'report-a-vulnerability'
+  },
+  {
+    name: 'Get help!',
+    path: 'get-help'
+  }
+]
+
 const cli = [
   {
     name: 'Installation',
@@ -142,6 +157,11 @@ const cli = [
       {
         name: 'Handling Webpack',
         path: 'handling-webpack'
+      },
+      {
+        name: 'Handling process.env',
+        path: 'handling-process-env',
+        badge: 'new'
       },
       {
         name: 'Vuex Store',
@@ -314,6 +334,11 @@ const cli = [
       {
         name: 'Electron Static Assets',
         path: 'electron-static-assets'
+      },
+      {
+        name: 'Frameless Electron Window',
+        path: 'frameless-electron-window',
+        badge: 'new'
       },
       {
         name: 'Electron Security Concerns',
@@ -863,6 +888,12 @@ module.exports = [
     icon: 'tune',
     path: 'options',
     children: options
+  },
+  {
+    name: 'Security',
+    icon: 'security',
+    path: 'security',
+    children: security
   },
   {
     name: 'Quasar CLI',

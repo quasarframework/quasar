@@ -6,6 +6,7 @@ import QChip from '../chip/QChip.js'
 
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
+import QItemLabel from '../list/QItemLabel.js'
 
 import TransitionMixin from '../../mixins/transition.js'
 
@@ -16,6 +17,8 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 
 import { updatePosition } from './select-menu-position.js'
+
+const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 
 export default Vue.extend({
   name: 'QSelect',
@@ -30,6 +33,7 @@ export default Vue.extend({
     multiple: Boolean,
 
     displayValue: [String, Number],
+    displayValueSanitize: Boolean,
     dropdownIcon: String,
 
     options: {
@@ -51,9 +55,15 @@ export default Vue.extend({
     optionsDark: Boolean,
     optionsSelectedClass: String,
     optionsCover: Boolean,
+    optionsSanitize: Boolean,
 
     useInput: Boolean,
     useChips: Boolean,
+
+    newValueMode: {
+      type: String,
+      validator: validateNewValueMode
+    },
 
     mapOptions: Boolean,
     emitValue: Boolean,
@@ -76,14 +86,17 @@ export default Vue.extend({
   },
 
   watch: {
-    selectedString (val) {
-      const value = this.multiple !== true && this.hideSelected === true
-        ? val
-        : ''
+    selectedString: {
+      handler (val) {
+        const value = this.multiple !== true && this.hideSelected === true
+          ? val
+          : ''
 
-      if (this.inputValue !== value) {
-        this.inputValue = value
-      }
+        if (this.inputValue !== value) {
+          this.inputValue = value
+        }
+      },
+      immediate: true
     },
 
     menu (show) {
@@ -91,7 +104,7 @@ export default Vue.extend({
       if (show === true) {
         this.optionsToShow = 20
         this.$nextTick(() => {
-          this.__hidrateOptions(true)
+          this.__hydrateOptions(true)
         })
       }
       document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
@@ -123,12 +136,22 @@ export default Vue.extend({
         .join(', ')
     },
 
+    displayAsText () {
+      return this.displayValueSanitize === true || (
+        this.displayValue === void 0 && (
+          this.optionsSanitize === true ||
+          this.innerValue.some(opt => opt.sanitize === true)
+        )
+      )
+    },
+
     selectedScope () {
       const tabindex = this.focused === true ? 0 : -1
 
       return this.innerValue.map((opt, i) => ({
         index: i,
         opt,
+        sanitize: this.optionsSanitize === true || opt.sanitize === true,
         selected: true,
         removeAtIndex: this.removeAtIndex,
         toggleOption: this.toggleOption,
@@ -175,6 +198,7 @@ export default Vue.extend({
         return {
           index: i,
           opt,
+          sanitize: this.optionsSanitize === true || opt.sanitize === true,
           selected: itemProps.active,
           focused: itemProps.focused,
           toggleOption: this.toggleOption,
@@ -218,7 +242,7 @@ export default Vue.extend({
       }
     },
 
-    add (opt) {
+    add (opt, unique) {
       const val = this.emitValue === true
         ? this.__getOptionValue(opt)
         : opt
@@ -231,6 +255,10 @@ export default Vue.extend({
       if (this.innerValue.length === 0) {
         this.$emit('add', { index: 0, value: val })
         this.$emit('input', this.multiple === true ? [ val ] : val)
+        return
+      }
+
+      if (unique === true && this.__isSelected(opt) === true) {
         return
       }
 
@@ -388,14 +416,36 @@ export default Vue.extend({
         return
       }
 
-      if (
-        this.$listeners['new-value'] !== void 0 &&
-        this.inputValue.length > 0
-      ) {
-        this.$emit('new-value', this.inputValue, val => {
-          val !== void 0 && val !== null && this.add(val)
-          this.inputValue = ''
-        })
+      if (this.inputValue.length > 0) {
+        if (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0) {
+          const done = (val, mode) => {
+            if (mode) {
+              if (validateNewValueMode(mode) !== true) {
+                console.error('QSelect: invalid new value mode - ' + mode)
+                return
+              }
+            }
+            else {
+              mode = this.newValueMode
+            }
+
+            if (val !== void 0 && val !== null) {
+              this[mode === 'toggle' ? 'toggleOption' : 'add'](
+                val,
+                mode === 'add-unique'
+              )
+            }
+
+            this.inputValue = ''
+          }
+
+          if (this.$listeners['new-value'] !== void 0) {
+            this.$emit('new-value', this.inputValue, done)
+          }
+          else {
+            done(this.inputValue)
+          }
+        }
       }
 
       if (this.menu === true) {
@@ -456,7 +506,7 @@ export default Vue.extend({
       }
     },
 
-    __hidrateOptions (updatePosition) {
+    __hydrateOptions (updatePosition) {
       if (this.avoidScroll !== true) {
         if (this.optionsToShow < this.options.length) {
           const el = this.$refs.menu
@@ -466,7 +516,7 @@ export default Vue.extend({
             this.avoidScroll = true
             this.$nextTick(() => {
               this.avoidScroll = false
-              this.__hidrateOptions(updatePosition)
+              this.__hydrateOptions(updatePosition)
             })
 
             return
@@ -507,7 +557,7 @@ export default Vue.extend({
         }, [
           h('span', {
             domProps: {
-              innerHTML: this.__getOptionLabel(scope.opt)
+              [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.__getOptionLabel(scope.opt)
             }
           })
         ]))
@@ -516,7 +566,7 @@ export default Vue.extend({
       return [
         h('span', {
           domProps: {
-            innerHTML: this.displayValue !== void 0
+            [this.displayAsText ? 'textContent' : 'innerHTML']: this.displayValue !== void 0
               ? this.displayValue
               : this.selectedString
           }
@@ -552,11 +602,13 @@ export default Vue.extend({
         props: scope.itemProps,
         on: scope.itemEvents
       }, [
-        h(QItemSection, {
-          domProps: {
-            innerHTML: this.__getOptionLabel(scope.opt)
-          }
-        })
+        h(QItemSection, [
+          h(QItemLabel, {
+            domProps: {
+              [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.__getOptionLabel(scope.opt)
+            }
+          })
+        ])
       ]))
 
       return this.optionScope.map(fn)
@@ -583,7 +635,7 @@ export default Vue.extend({
             },
             on: {
               click: stopAndPrevent,
-              '&scroll': this.__hidrateOptions
+              '&scroll': this.__hydrateOptions
             }
           }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))
           : null

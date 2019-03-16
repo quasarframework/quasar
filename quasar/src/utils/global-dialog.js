@@ -12,6 +12,9 @@ export default function (Component) {
   return ({ className, style, ...props }) => {
     if (isSSR) { return ssrAPI }
 
+    className !== void 0 && (props.contentClass = className)
+    style !== void 0 && (props.contentStyle = style)
+
     const
       okFns = [],
       cancelFns = [],
@@ -52,8 +55,7 @@ export default function (Component) {
       render: h => h(Component, {
         ref: 'dialog',
         props,
-        style,
-        class: className,
+        attrs: props,
         on: {
           ok,
           cancel,

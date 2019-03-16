@@ -54,6 +54,76 @@
         lazy-rules
       />
 
+      <q-select
+        v-bind="{[type]: true}"
+        v-model="stringSingle"
+        :options="stringOptions"
+        label="Single - Required, Lazy"
+        :rules="[
+          val => !!val || '* Required',
+        ]"
+        lazy-rules
+      />
+
+      <q-select
+        v-bind="{[type]: true}"
+        v-model="stringSingle"
+        :options="stringOptions"
+        use-input
+        label="Single - use-input - Required, Lazy"
+        :rules="[
+          val => !!val || '* Required',
+        ]"
+        lazy-rules
+      />
+
+      <q-field
+        class="q-textarea"
+        v-bind="{[type]: true}"
+        label="Slider - >= 10, Lazy"
+        :value="num"
+        :rules="[
+          val => val >= 10 || 'Select at least 10',
+        ]"
+        lazy-rules
+      >
+        <div class="q-field__native row items-center">
+          <q-slider
+            class="q-mt-xl"
+            v-model="num"
+            :min="0"
+            :max="50"
+            label-always
+          />
+        </div>
+      </q-field>
+
+      <q-field
+        class="q-textarea"
+        v-bind="{[type]: true}"
+        label="Knob - >= 10, Lazy"
+        :value="num"
+        :rules="[
+          val => val >= 10 || 'Select at least 10',
+        ]"
+        lazy-rules
+      >
+        <div class="q-field__native row items-center">
+          <q-knob
+            class="q-mt-md"
+            v-model="num"
+            color="black"
+            center-color="grey-8"
+            size="150px"
+            show-value
+            :min="0"
+            :max="50"
+          >
+            {{ num }}
+          </q-knob>
+        </div>
+      </q-field>
+
       <q-input
         ref="input3"
         v-bind="{[type]: true}"
@@ -223,7 +293,12 @@ export default {
       type: 'filled',
       modelExternal: '',
       error: false,
-      errorMessage: 'First error'
+      errorMessage: 'First error',
+      stringSingle: null,
+      stringOptions: [
+        'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+      ],
+      num: 0
     }
 
     for (let i = 1; i <= n; i++) {

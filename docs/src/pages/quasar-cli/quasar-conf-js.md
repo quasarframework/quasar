@@ -273,5 +273,11 @@ build: {
 }
 ```
 
+> Alternatively you can use our [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) App Extension.
+
+::: tip
+Also check out [Handling process.env](/quasar-cli/cli-documentation/handling-process-env) page.
+:::
+
 ### Handling Webpack configuration
-In depth analysis on [Handling Webpack](/quasar-cli/cli-documentation/handling-webpack) documentation pagee.
+In depth analysis on [Handling Webpack](/quasar-cli/cli-documentation/handling-webpack) documentation page.

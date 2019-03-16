@@ -24,6 +24,10 @@ const { addToDate } = date
 let newDate = addToDate(new Date(), { days: 7, month: 1 })
 ```
 
+::: tip
+For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+:::
+
 ## Format for display
 
 It takes a string of tokens and replaces them with their corresponding date values:

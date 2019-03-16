@@ -34,17 +34,17 @@ export const MenuTreeMixin = {
     __registerTree () {
       tree[this.portalId] = true
 
-      if (this.$root.portalParentId === void 0) {
+      if (this.$root.menuPortalParentId === void 0) {
         rootHide[this.portalId] = this.hide
         return
       }
 
-      if (tree[this.$root.portalParentId] !== true) {
-        bus.$emit('hide', tree[this.$root.portalParentId])
+      if (tree[this.$root.menuPortalParentId] !== true) {
+        bus.$emit('hide', tree[this.$root.menuPortalParentId])
       }
 
       bus.$on('hide', this.__processEvent)
-      tree[this.$root.portalParentId] = this.portalId
+      tree[this.$root.menuPortalParentId] = this.portalId
     },
 
     __unregisterTree () {
@@ -55,7 +55,7 @@ export const MenuTreeMixin = {
 
       delete rootHide[this.portalId]
 
-      if (this.$root.portalParentId !== void 0) {
+      if (this.$root.menuPortalParentId !== void 0) {
         bus.$off('hide', this.__processEvent)
       }
 

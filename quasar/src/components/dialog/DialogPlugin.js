@@ -15,6 +15,8 @@ import QOptionGroup from '../option-group/QOptionGroup.js'
 export default Vue.extend({
   name: 'DialogPlugin',
 
+  inheritAttrs: false,
+
   props: {
     title: String,
     message: String,
@@ -36,20 +38,7 @@ export default Vue.extend({
     color: {
       type: String,
       default: 'primary'
-    },
-
-    // QDialog props
-    maximized: Boolean,
-    persistent: Boolean,
-    noEscDismiss: Boolean,
-    noBackdropDismiss: Boolean,
-    noRouteDismiss: Boolean,
-    seamless: Boolean,
-    position: { required: false },
-    fullWidth: Boolean,
-    fullHeight: Boolean,
-    transitionShow: { required: false },
-    transitionHide: { required: false }
+    }
   },
 
   computed: {
@@ -236,18 +225,8 @@ export default Vue.extend({
       ref: 'dialog',
 
       props: {
-        value: this.value,
-        maximized: this.maximized,
-        persistent: this.persistent,
-        noEscDismiss: this.noEscDismiss,
-        noBackdropDismiss: this.noBackdropDismiss,
-        noRouteDismiss: this.noRouteDismiss,
-        seamless: this.seamless,
-        position: this.position,
-        fullWidth: this.fullWidth,
-        fullHeight: this.fullHeight,
-        transitionShow: this.transitionShow,
-        transitionHide: this.transitionHide
+        ...this.$attrs,
+        value: this.value
       },
 
       on: {

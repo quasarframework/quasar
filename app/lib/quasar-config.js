@@ -10,7 +10,7 @@ const
   logger = require('./helpers/logger'),
   log = logger('app:quasar-conf'),
   warn = logger('app:quasar-conf', 'red'),
-  legacyValidations = require('./legacy-validations'),
+  appFilesValidations = require('./app-files-validations'),
   extensionRunner = require('./app-extension/extensions-runner')
 
 function encode (obj) {
@@ -45,6 +45,23 @@ function parseBuildEnv (env) {
     }
   })
   return obj
+}
+
+function parseAssetProperty (prefix) {
+  return asset => {
+    if (typeof asset === 'string') {
+      return {
+        path: asset[0] === '~' ? asset.substring(1) : prefix + `/${asset}`
+      }
+    }
+
+    return {
+      ...asset,
+      path: typeof asset.path === 'string'
+        ? (asset.path[0] === '~' ? asset.path.substring(1) : prefix + `/${asset.path}`)
+        : asset.path
+    }
+  }
 }
 
 /*
@@ -82,7 +99,7 @@ class QuasarConfig {
           return
         }
 
-        this.compile()
+        await this.compile()
 
         if (this.webpackConfigChanged) {
           opts.onBuildChange()
@@ -132,6 +149,11 @@ class QuasarConfig {
       ctx: this.ctx,
       css: [],
       boot: [],
+      build: {
+        transpileDependencies: [],
+        env: {},
+        uglifyOptions: {}
+      },
       animations: [],
       extras: []
     }, this.quasarConfigFunction(this.ctx))
@@ -230,12 +252,12 @@ class QuasarConfig {
     }
   }
 
-  compile () {
+  async compile () {
     let cfg = this.quasarConfig
 
-    extensionRunner.runHook('extendQuasarConf', hook => {
+    await extensionRunner.runHook('extendQuasarConf', async hook => {
       log(`Extension(${hook.extId}): Extending quasar.conf...`)
-      hook.fn(cfg)
+      await hook.fn(cfg)
     })
 
     // if watching for changes,
@@ -283,17 +305,15 @@ class QuasarConfig {
     }
 
     if (cfg.css.length > 0) {
-      cfg.css = cfg.css.filter(_ => _).map(
-        asset => asset[0] === '~' ? asset.substring(1) : `src/css/${asset}`
-      )
+      cfg.css = cfg.css.filter(_ => _)
+        .map(parseAssetProperty('src/css'))
+        .filter(asset => asset.path)
     }
 
     if (cfg.boot.length > 0) {
-      cfg.boot = cfg.boot.filter(_ => _).map(asset => {
-        return typeof asset === 'string'
-          ? { path: asset }
-          : asset
-      }).filter(asset => asset.path)
+      cfg.boot = cfg.boot.filter(_ => _)
+        .map(parseAssetProperty('boot'))
+        .filter(asset => asset.path)
     }
 
     cfg.build = merge({
@@ -359,8 +379,6 @@ class QuasarConfig {
       }
     }, cfg.build || {})
 
-    cfg.build.transpileDependencies.push(/[\\/]node_modules[\\/]quasar[\\/]/)
-
     cfg.__loadingBar = cfg.framework.all || (cfg.framework.plugins && cfg.framework.plugins.includes('LoadingBar'))
     cfg.__meta = cfg.framework.all || (cfg.framework.plugins && cfg.framework.plugins.includes('Meta'))
 
@@ -417,8 +435,8 @@ class QuasarConfig {
 
     cfg.sourceFiles = merge({
       rootComponent: 'src/App.vue',
-      router: 'src/router/index.js',
-      store: 'src/store/index.js',
+      router: 'src/router/index',
+      store: 'src/store/index',
       indexHtmlTemplate: 'src/index.template.html',
       registerServiceWorker: 'src-pwa/register-service-worker.js',
       serviceWorker: 'src-pwa/custom-service-worker.js',
@@ -428,7 +446,12 @@ class QuasarConfig {
     }, cfg.sourceFiles || {})
 
     // do we got vuex?
-    cfg.store = fs.existsSync(appPaths.resolve.app(cfg.sourceFiles.store))
+    const storePath = appPaths.resolve.app(cfg.sourceFiles.store)
+    cfg.store = (
+      fs.existsSync(storePath) ||
+      fs.existsSync(storePath + '.js') ||
+      fs.existsSync(storePath + '.ts')
+    )
 
     //make sure we have preFetch in config
     cfg.preFetch = cfg.preFetch || false
@@ -616,7 +639,7 @@ class QuasarConfig {
       cfg.build.env.__statics = `"${this.ctx.dev ? '/' : cfg.build.publicPath || '/'}statics"`
     }
 
-    legacyValidations(cfg)
+    appFilesValidations(cfg)
 
     if (this.ctx.mode.cordova && !cfg.cordova) {
       cfg.cordova = {}
@@ -701,7 +724,7 @@ class QuasarConfig {
         : undefined
     }
 
-    this.webpackConfig = require('./webpack')(cfg)
+    this.webpackConfig = await require('./webpack')(cfg)
     this.buildConfig = cfg
   }
 }

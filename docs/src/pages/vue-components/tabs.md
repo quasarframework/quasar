@@ -2,6 +2,7 @@
 title: Tabs
 related:
   - /vue-components/tab-panels
+  - /vue-components/button-toggle
   - /vue-components/icon
   - /vue-components/badge
 ---

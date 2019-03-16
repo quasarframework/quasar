@@ -1,6 +1,11 @@
 ---
 title: Other Utils
 ---
+
+::: tip
+For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+:::
+
 ## Open External URL
 ``` js
 import { openURL } from 'quasar'
@@ -9,6 +14,10 @@ openURL('http://...')
 ```
 
 It will take care of the quirks involved when running under Cordova or on a browser, including notifying the user he/she has to acknowledge opening popups.
+
+::: tip
+If you want to open the telephone dialer in a Cordova app, don't use `openURL()`. Instead you should directly use `<a href="tel:123456789">` tags or `<QBtn type="a" href="tel:123456789">`
+:::
 
 ## Debounce Function
 If your App uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it bricks browser performance. Debouncing a function limits the rate at which the function can fire.

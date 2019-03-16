@@ -47,9 +47,7 @@ export default Vue.extend({
     popup: Boolean,
 
     headerStyle: [Array, String, Object],
-    headerClass: [Array, String, Object],
-
-    disable: Boolean
+    headerClass: [Array, String, Object]
   },
 
   watch: {

@@ -6,8 +6,8 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         q-icon(name="menu")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
-        q-avatar
-          img(src="https://cdn.quasar-framework.org/img/quasar-logo.png")
+        q-avatar.doc-layout-avatar
+          img(src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg")
         q-toolbar-title(shrink) Quasar
 
       q-space
@@ -21,6 +21,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     v-model="leftDrawerState"
     bordered
     show-if-above
+    content-class="doc-left-drawer"
   )
     q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
       .row.justify-center.q-my-lg
@@ -221,7 +222,7 @@ export default {
   },
 
   mounted () {
-    window.docsearch({
+    import('docsearch.js').then(docsearch => docsearch.default({
       apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
       indexName: 'quasar-framework',
       inputSelector: '.doc-algolia input',
@@ -236,7 +237,7 @@ export default {
         this.$router.push(url)
         this.$refs.docAlgolia.blur()
       }
-    })
+    }))
   },
 
   beforeDestroy () {
@@ -247,6 +248,7 @@ export default {
 
 <style lang="stylus">
 @import '~quasar-variables'
+@import '../css/docsearch'
 
 .header
   background linear-gradient(145deg, $primary 11%, $dark-primary 75%)
@@ -254,6 +256,9 @@ export default {
 .header-logo
   width 25px
   height 25px
+
+.doc-layout-avatar > div
+  border-radius 0
 
 .layout-drawer-toolbar
   border-bottom 1px solid $separator-color
@@ -272,110 +277,13 @@ export default {
   &.q-item--active
     background lighten($primary, 90%)
 
+.doc-left-drawer
+  overflow inherit !important
+
 .quasar-logo
   img
     transform rotate(0deg)
     transition transform .8s ease-in-out
   &:hover img
     transform rotate(-360deg)
-
-/* Algolia */
-.doc-algolia
-  &, & .q-field__control
-    height 50px
-  input
-    line-height 38px
-  .q-field__control
-    align-items center
-  .q-field__append
-    cursor text
-
-.algolia-autocomplete
-  width auto
-  min-width 0
-  max-width 100%
-  flex 10000 1 0%
-
-  .ds-dropdown-menu
-    box-shadow $shadow-2
-    max-width 93vw
-    width 500px
-    min-width 250px
-
-    &:before
-      background $primary
-
-    > div
-      padding 0 !important
-      border 0 !important
-
-    .ds-suggestions
-      margin-top 0
-      border-bottom 1px solid #ddd
-
-  .algolia-docsearch
-    &-suggestion
-      text-decoration none
-
-    &-suggestion--no-results
-      background $primary !important
-      &, .algolia-docsearch-suggestion--text
-        color white
-      .algolia-docsearch-suggestion--text
-        margin-top 0
-        padding 8px
-
-    &-suggestion--category-header
-      border-bottom 0
-      padding 8px
-      margin-top 0
-      background-color $primary
-      color #fff
-      font-weight bold
-
-    &-suggestion--subcategory-column
-      color $grey-7
-      padding 6px 10px
-
-    &-suggestion--title
-      margin-bottom 0
-
-    &-suggestion--text
-      margin-top 4px
-
-      .algolia-docsearch-suggestion--highlight
-        color $primary
-
-    &-suggestion--highlight
-      color $primary
-      font-weight bold
-      background rgba(0,0,0,.05)
-
-    &-suggestion--wrapper
-      padding-top 0
-
-    &-suggestion--content
-      background #fff
-      padding 6px 8px
-
-    &-suggestion
-      padding 0
-
-    &-footer
-      margin 6px
-
-    @media (max-width 768px)
-      &-suggestion--wrapper
-        padding 6px 8px
-      &-suggestion--content
-        padding 0 4px !important
-      &-suggestion--no-results
-        margin -6px 0
-        width 100% !important
-
-@media (max-width 520px)
-  .q-drawer--mobile
-    .algolia-autocomplete
-      .ds-dropdown-menu
-        width 200px
 </style>

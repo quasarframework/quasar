@@ -17,7 +17,7 @@ export default {
       }
     },
 
-    target (val) {
+    target () {
       if (this.anchorEl !== void 0) {
         this.__unconfigureAnchorEl()
       }
@@ -116,14 +116,19 @@ export default {
       if (this.target && typeof this.target === 'string') {
         const el = document.querySelector(this.target)
         if (el !== null) {
-          this.__setAnchorEl(el)
+          this.anchorEl = el
+          this.__configureAnchorEl()
         }
         else {
+          this.anchorEl = void 0
           console.error(`Anchor: target "${this.target}" not found`, this)
         }
       }
       else if (this.target !== false) {
         this.__setAnchorEl(this.parentEl)
+      }
+      else {
+        this.anchorEl = void 0
       }
     }
   },

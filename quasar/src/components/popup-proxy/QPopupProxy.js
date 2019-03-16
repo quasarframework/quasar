@@ -60,6 +60,8 @@ export default Vue.extend({
       const breakpoint = parseInt(this.breakpoint, 10)
 
       this.showing = true
+      this.$emit('input', true)
+
       this.type = this.$q.screen.width < breakpoint || this.$q.screen.height < breakpoint
         ? 'dialog'
         : 'menu'
@@ -71,10 +73,13 @@ export default Vue.extend({
       }
 
       this.showing = false
+      this.$emit('input', false)
     },
 
     __hide (evt) {
       this.showing = false
+      this.$emit('input', false)
+
       this.$listeners.hide !== void 0 && this.$emit('hide', evt)
     }
   },
@@ -103,6 +108,7 @@ export default Vue.extend({
         value: this.showing
       }),
       on: {
+        ...this.$listeners,
         hide: this.__hide
       }
     }

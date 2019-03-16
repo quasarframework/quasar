@@ -71,6 +71,24 @@
             This Popover content won't be shown because of "disable"
           </q-menu>
         </q-btn>
+
+        <q-btn @click="dialog = true" label="Dialog" />
+        <q-dialog v-model="dialog">
+          <q-card class="q-pa-xl">
+            <q-btn label="Menu" color="primary">
+              <q-menu>
+                <q-list>
+                  <q-item v-for="n in 5" :key="n" v-close-menu clickable>
+                    <q-item-section>Menu Item {{ n }}</q-item-section>
+                  </q-item>
+                  <q-item clickable v-close-dialog>
+                    <q-item-section>Close dialog</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </q-card>
+        </q-dialog>
       </div>
 
       <div class="q-gutter-md q-my-md">
@@ -434,7 +452,9 @@ export default {
       vIfTest: true,
       touchPosition: true,
       contextMenu: true,
-      targetEl: '#target-img-1'
+      targetEl: '#target-img-1',
+
+      dialog: false
     }
   },
   computed: {

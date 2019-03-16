@@ -59,6 +59,11 @@
       "extends": "text-color"
     },
 
+    "spread": {
+      "type": "Boolean",
+      "desc": "Spread horizontally to all available space"
+    },
+
     "outline": {
       "type": "Boolean",
       "desc": "Use 'outline' design"

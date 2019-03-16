@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-select
       filled
-      v-model="modelFilter"
+      v-model="model"
       use-input
       use-chips
       multiple
@@ -24,7 +24,6 @@ export default {
   data () {
     return {
       model: null,
-      modelFilter: null,
 
       filterOptions: stringOptions
     }
@@ -32,18 +31,25 @@ export default {
 
   methods: {
     createValue (val, done) {
-      // Calling done(var) toggles the model with "var" content
+      // Calling done(var) when new-value-mode is not set or "add", or done(var, "add") adds "var" content to the model
+      // and it resets the input textbox to empty string
+      // ----
+      // Calling done(var) when new-value-mode is "add-unique", or done(var, "add-unique") adds "var" content to the model
+      // only if is not already set
+      // and it resets the input textbox to empty string
+      // ----
+      // Calling done(var) when new-value-mode is "toggle", or done(var, "toggle") toggles the model with "var" content
       // (adds to model if not already in the model, removes from model if already has it)
       // and it resets the input textbox to empty string
       // ----
-      // If "var" content is undefined/void 0/null, then it doesn't tampers with the model
+      // If "var" content is undefined/null, then it doesn't tampers with the model
       // and only resets the input textbox to empty string
 
       if (val.length > 0) {
         if (!stringOptions.includes(val)) {
           stringOptions.push(val)
         }
-        done(val)
+        done(val, 'toggle')
       }
     },
 
