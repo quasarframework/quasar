@@ -123,7 +123,7 @@ export default Vue.extend({
       return `q-tabs--${this.scrollable === true ? '' : 'not-'}scrollable` +
         (this.dense === true ? ' q-tabs--dense' : '') +
         (this.shrink === true ? ' col-shrink' : '') +
-        (this.vertical ? ' q-tabs--vertical' : '')
+        (this.vertical === true ? ' q-tabs--vertical' : '')
     }
   },
 
