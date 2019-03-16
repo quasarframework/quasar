@@ -89,20 +89,20 @@ export default Vue.extend({
 
         this.timer = setTimeout(() => {
           this.$emit('show', evt)
-        }, 600)
+        }, 300)
       }, 0)
     },
 
     __hide (evt) {
-      this.__cleanup()
+      this.__anchorCleanup()
 
       this.timer = setTimeout(() => {
         this.__hidePortal()
         this.$emit('hide', evt)
-      }, 600)
+      }, 300)
     },
 
-    __cleanup () {
+    __anchorCleanup () {
       clearTimeout(this.timer)
 
       if (this.scrollTarget) {

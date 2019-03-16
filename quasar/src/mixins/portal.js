@@ -56,9 +56,11 @@ export default {
       render: h => this.__render(h),
 
       components: this.$options.components,
-      directives: this.$options.directives,
+      directives: this.$options.directives
+    }
 
-      methods: {
+    if (this.__onPortalClose !== void 0) {
+      obj.methods = {
         __qClosePopup: this.__onPortalClose
       }
     }

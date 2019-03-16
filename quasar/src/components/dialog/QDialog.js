@@ -169,7 +169,7 @@ export default Vue.extend({
 
       this.timer = setTimeout(() => {
         this.$emit('show', evt)
-      }, 600)
+      }, 300)
     },
 
     __hide (evt) {
@@ -183,7 +183,7 @@ export default Vue.extend({
         }
 
         this.$emit('hide', evt)
-      }, 600)
+      }, 300)
     },
 
     __cleanup (hiding) {
