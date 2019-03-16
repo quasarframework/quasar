@@ -85,12 +85,16 @@ export default Vue.extend({
       this.tabs.activeBgColor = v
     },
 
+    vertical (v) {
+      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, this.topIndicator, v)
+    },
+
     indicatorColor (v) {
-      this.tabs.indicatorClass = getIndicatorClass(v, this.topIndicator)
+      this.tabs.indicatorClass = getIndicatorClass(v, this.topIndicator, this.vertical)
     },
 
     topIndicator (v) {
-      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, v)
+      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, v, this.vertical)
     },
 
     narrowIndicator (v) {
