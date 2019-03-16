@@ -247,6 +247,10 @@ export default Vue.extend({
           }, slot(this, 'default')) : null
         ])
       ])
+    },
+
+    __onPortalClose (evt) {
+      this.hide(evt)
     }
   },
 

@@ -22,7 +22,7 @@
                 v-for="n in 20"
                 :key="n"
                 clickable
-                v-close-menu
+                v-close-popup
                 @click="showNotify()"
                 @keyup.native.13.32="showNotify()"
               >
@@ -39,7 +39,7 @@
                 v-for="n in 20"
                 :key="n"
                 clickable
-                v-close-menu
+                v-close-popup
                 @click="showNotify()"
                 @keyup.native.13.32="showNotify()"
               >
@@ -56,7 +56,7 @@
                 v-for="n in 20"
                 :key="n"
                 clickable
-                v-close-menu
+                v-close-popup
                 @click="showNotify()"
                 @keyup.native.13.32="showNotify()"
               >
@@ -75,14 +75,12 @@
         <q-btn @click="dialog = true" label="Dialog" />
         <q-dialog v-model="dialog">
           <q-card class="q-pa-xl">
+            <q-btn label="Close Dialog" v-close-popup />
             <q-btn label="Menu" color="primary">
               <q-menu>
                 <q-list>
-                  <q-item v-for="n in 5" :key="n" v-close-menu clickable>
+                  <q-item v-for="n in 5" :key="n" v-close-popup clickable>
                     <q-item-section>Menu Item {{ n }}</q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-dialog>
-                    <q-item-section>Close dialog</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -126,7 +124,7 @@
                   <q-item
                     v-for="n in 5"
                     :key="n"
-                    v-close-menu
+                    v-close-popup
                     clickable
                     @click="showNotify()"
                     @keyup.native.13.32="showNotify()"
@@ -220,7 +218,7 @@
                 <q-item
                   v-for="n in 5"
                   :key="n"
-                  v-close-menu
+                  v-close-popup
                   clickable
                   @click="showNotify()"
                   @keyup.native.13.32="showNotify()"
@@ -245,7 +243,7 @@
                 <q-item
                   v-for="n in 5"
                   :key="n"
-                  v-close-menu
+                  v-close-popup
                   clickable
                   @click="showNotify()"
                   @keyup.native.13.32="showNotify()"
@@ -264,7 +262,7 @@
                 <q-item
                   v-for="n in 5"
                   :key="n"
-                  v-close-menu
+                  v-close-popup
                   clickable
                   @click="showNotify()"
                   @keyup.native.13.32="showNotify()"
@@ -308,7 +306,7 @@
                 <q-item
                   v-for="n in 5"
                   :key="n"
-                  v-close-menu
+                  v-close-popup
                   clickable
                   @click="showNotify()"
                   @keyup.native.13.32="showNotify()"
@@ -328,10 +326,10 @@
             <q-menu touch-position>
               <q-list>
                 <q-item
-                  v-close-menu
+                  v-close-popup
                   clickable
                 >
-                  <q-item-section>v-close-menu</q-item-section>
+                  <q-item-section>v-close-popup</q-item-section>
                 </q-item>
 
                 <q-item
@@ -347,10 +345,10 @@
                   <q-menu anchor="top right" self="top left">
                     <q-list>
                       <q-item
-                        v-close-menu
+                        v-close-popup
                         clickable
                       >
-                        <q-item-section>v-close-menu</q-item-section>
+                        <q-item-section>v-close-popup</q-item-section>
                       </q-item>
 
                       <q-item

@@ -40,7 +40,7 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="OK" color="primary" v-close-dialog="!preventCloseToggle" :disable="preventCloseToggle" />
+          <q-btn flat label="OK" color="primary" v-close-popup="!preventCloseToggle" :disable="preventCloseToggle" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -58,7 +58,7 @@
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
-          <q-btn flat label="OK" v-close-dialog />
+          <q-btn flat label="OK" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -70,7 +70,7 @@
             Close icon
           </div>
           <q-space />
-          <q-btn icon="close" flat round dense v-close-dialog />
+          <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
 
         <q-card-section>
@@ -89,7 +89,7 @@
 
           <q-space />
 
-          <q-btn dense flat icon="close" v-close-dialog>
+          <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip>Close</q-tooltip>
           </q-btn>
         </q-bar>
@@ -114,7 +114,7 @@
 
           <q-space />
 
-          <q-btn dense flat icon="close" v-close-dialog>
+          <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-white text-primary">
               Close
             </q-tooltip>
@@ -142,7 +142,7 @@
 
           <q-toolbar-title><span class="text-weight-bold">Quasar</span> Framework</q-toolbar-title>
 
-          <q-btn flat round dense icon="close" v-close-dialog />
+          <q-btn flat round dense icon="close" v-close-popup />
         </q-toolbar>
 
         <q-card-section>
@@ -159,8 +159,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="primary" v-close-dialog />
-          <q-btn flat label="Turn on Wifi" color="primary" v-close-dialog />
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Turn on Wifi" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -178,8 +178,8 @@
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancel" v-close-dialog />
-          <q-btn flat label="Add address" v-close-dialog />
+          <q-btn flat label="Cancel" v-close-popup />
+          <q-btn flat label="Add address" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -199,8 +199,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Decline" color="primary" v-close-dialog />
-          <q-btn flat label="Accept" color="primary" v-close-dialog />
+          <q-btn flat label="Decline" color="primary" v-close-popup />
+          <q-btn flat label="Accept" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -224,8 +224,8 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn flat label="Decline" color="primary" v-close-dialog />
-          <q-btn flat label="Accept" color="primary" v-close-dialog />
+          <q-btn flat label="Decline" color="primary" v-close-popup />
+          <q-btn flat label="Accept" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -245,7 +245,7 @@
               Maximize
             </q-tooltip>
           </q-btn>
-          <q-btn dense flat icon="close" v-close-dialog>
+          <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-white text-primary">
               Close
             </q-tooltip>
@@ -305,7 +305,7 @@
 
           <q-btn flat round icon="play_arrow" />
           <q-btn flat round icon="pause" />
-          <q-btn flat round icon="close" v-close-dialog />
+          <q-btn flat round icon="close" v-close-popup />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -317,7 +317,7 @@
             <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
             <q-toolbar-title>Header</q-toolbar-title>
             <q-btn flat @click="drawerR = !drawerR" round dense icon="menu" />
-            <q-btn flat v-close-dialog round dense icon="close" />
+            <q-btn flat v-close-popup round dense icon="close" />
           </q-toolbar>
         </q-header>
 
@@ -384,7 +384,7 @@
 
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Open another dialog" @click="persistent = true" />
-          <q-btn flat label="Close" v-close-dialog />
+          <q-btn flat label="Close" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -467,17 +467,17 @@
         <q-separator />
 
         <q-card-actions>
-          <q-btn flat round icon="event" v-close-dialog />
-          <q-btn flat v-close-dialog>
+          <q-btn flat round icon="event" v-close-popup />
+          <q-btn flat v-close-popup>
             5:30PM
           </q-btn>
-          <q-btn flat v-close-dialog>
+          <q-btn flat v-close-popup>
             7:30PM
           </q-btn>
-          <q-btn flat v-close-dialog>
+          <q-btn flat v-close-popup>
             9:00PM
           </q-btn>
-          <q-btn flat color="primary" v-close-dialog>
+          <q-btn flat color="primary" v-close-popup>
             Reserve
           </q-btn>
         </q-card-actions>

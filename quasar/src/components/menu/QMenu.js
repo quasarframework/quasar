@@ -6,6 +6,7 @@ import PortalMixin from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
+import uid from '../../utils/uid.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { stop, position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
@@ -55,6 +56,12 @@ export default Vue.extend({
     maxWidth: {
       type: String,
       default: null
+    }
+  },
+
+  data () {
+    return {
+      menuId: uid()
     }
   },
 
@@ -165,7 +172,7 @@ export default Vue.extend({
     },
 
     __onAutoClose (e) {
-      closeRootMenu(this.portalId)
+      closeRootMenu(this.menuId)
       this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 
@@ -222,8 +229,12 @@ export default Vue.extend({
       ])
     },
 
-    __registerParentPortalId (vm, id) {
-      vm.menuPortalParentId = id
+    __onPortalCreated (vm) {
+      vm.menuParentId = this.menuId
+    },
+
+    __onPortalClose () {
+      closeRootMenu(this.menuId)
     }
   }
 })

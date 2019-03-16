@@ -14,7 +14,7 @@
             <q-item-label header>
               Folders
             </q-item-label>
-            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-menu tabindex="0">
+            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="folder" color="secondary" text-color="white" />
               </q-item-section>
@@ -32,7 +32,7 @@
             <q-item-label header>
               Files
             </q-item-label>
-            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-menu tabindex="0">
+            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="assignment" color="primary" text-color="white" />
               </q-item-section>
@@ -109,7 +109,7 @@
             <q-item-label header>
               Folders
             </q-item-label>
-            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-menu tabindex="0">
+            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="folder" color="secondary" text-color="white" />
               </q-item-section>
@@ -127,7 +127,7 @@
             <q-item-label header>
               Files
             </q-item-label>
-            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-menu tabindex="0">
+            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="assignment" color="primary" text-color="white" />
               </q-item-section>

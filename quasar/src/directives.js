@@ -1,5 +1,6 @@
 import CloseDialog from './directives/CloseDialog.js'
 import CloseMenu from './directives/CloseMenu.js'
+import ClosePopup from './directives/ClosePopup.js'
 import GoBack from './directives/GoBack.js'
 import Ripple from './directives/Ripple.js'
 import ScrollFire from './directives/ScrollFire.js'
@@ -12,6 +13,7 @@ import TouchSwipe from './directives/TouchSwipe.js'
 export {
   CloseDialog,
   CloseMenu,
+  ClosePopup,
   GoBack,
   Ripple,
   ScrollFire,
