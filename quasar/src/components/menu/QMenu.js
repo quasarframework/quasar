@@ -6,11 +6,9 @@ import PortalMixin from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
-import uid from '../../utils/uid.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { stop, position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
-import { MenuTreeMixin, closeRootMenu } from './menu-tree.js'
 
 import slot from '../../utils/slot.js'
 
@@ -21,7 +19,7 @@ import {
 export default Vue.extend({
   name: 'QMenu',
 
-  mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, MenuTreeMixin, TransitionMixin ],
+  mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
 
   directives: {
     ClickOutside
@@ -56,12 +54,6 @@ export default Vue.extend({
     maxWidth: {
       type: String,
       default: null
-    }
-  },
-
-  data () {
-    return {
-      menuId: uid()
     }
   },
 
@@ -114,8 +106,7 @@ export default Vue.extend({
         this.hide()
       })
 
-      this.__showPortal()
-      this.__registerTree()
+      this.__showPortal(true)
 
       this.timer = setTimeout(() => {
         const { top, left } = this.anchorEl.getBoundingClientRect()
@@ -141,9 +132,11 @@ export default Vue.extend({
     },
 
     __hide (evt) {
-      this.__cleanup()
+      this.__anchorCleanup()
 
       evt !== void 0 && evt.preventDefault()
+
+      this.__removePortal()
 
       this.timer = setTimeout(() => {
         this.__hidePortal()
@@ -151,12 +144,11 @@ export default Vue.extend({
       }, 600)
     },
 
-    __cleanup () {
+    __anchorCleanup () {
       clearTimeout(this.timer)
       this.absoluteOffset = void 0
 
       EscapeKey.pop()
-      this.__unregisterTree()
 
       if (this.unwatch !== void 0) {
         this.unwatch()
@@ -172,7 +164,7 @@ export default Vue.extend({
     },
 
     __onAutoClose (e) {
-      closeRootMenu(this.menuId)
+      this.hide(e)
       this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 
@@ -227,14 +219,6 @@ export default Vue.extend({
           }] : null
         }, slot(this, 'default')) : null
       ])
-    },
-
-    __onPortalCreated (vm) {
-      vm.menuParentId = this.menuId
-    },
-
-    __onPortalClose () {
-      closeRootMenu(this.menuId)
     }
   }
 })

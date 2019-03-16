@@ -152,7 +152,7 @@ export default {
 
   beforeDestroy () {
     clearTimeout(this.touchTimer)
-    this.__cleanup !== void 0 && this.__cleanup()
+    this.__anchorCleanup !== void 0 && this.__anchorCleanup()
 
     if (this.anchorEl !== void 0) {
       this.__unconfigureAnchorEl()

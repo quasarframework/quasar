@@ -1,14 +1,16 @@
 export default {
   name: 'close-popup',
 
-  bind (el, { value }, vnode) {
+  bind (el, { value, arg }, vnode) {
     const ctx = {
       enabled: value !== false,
+      levels: arg,
 
       handler: ev => {
         if (ctx.enabled !== false) {
           const vm = vnode.componentInstance.$root
-          vm.__qClosePopup !== void 0 && vm.__qClosePopup(ev)
+          console.log('popup-close', ctx.levels || 1)
+          vm.__qClosePopup !== void 0 && vm.__qClosePopup(ev, ctx.levels || 1)
         }
       },
 
@@ -26,9 +28,11 @@ export default {
     el.addEventListener('keyup', ctx.handlerKey)
   },
 
-  update (el, { value }) {
-    if (el.__qclosepopup !== void 0) {
-      el.__qclosepopup.enabled = value !== false
+  update (el, { value, arg }) {
+    const ctx = el.__qclosepopup
+    if (ctx !== void 0) {
+      ctx.enabled = value !== false
+      ctx.levels = arg
     }
   },
 

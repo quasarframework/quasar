@@ -154,7 +154,7 @@ export default Vue.extend({
         }
       })
 
-      this.__showPortal()
+      this.__showPortal(true)
 
       this.$nextTick(() => {
         const node = this.__portal.$refs.inner
@@ -174,6 +174,8 @@ export default Vue.extend({
 
     __hide (evt) {
       this.__cleanup(true)
+
+      this.__removePortal()
 
       this.timer = setTimeout(() => {
         this.__hidePortal(evt)

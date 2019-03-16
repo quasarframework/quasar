@@ -75,16 +75,36 @@
         <q-btn @click="dialog = true" label="Dialog" />
         <q-dialog v-model="dialog">
           <q-card class="q-pa-xl">
-            <q-btn label="Close Dialog" v-close-popup />
-            <q-btn label="Menu" color="primary">
-              <q-menu>
-                <q-list>
-                  <q-item v-for="n in 5" :key="n" v-close-popup clickable>
-                    <q-item-section>Menu Item {{ n }}</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-            </q-btn>
+            <div class="q-gutter-md">
+              <q-btn label="Close Dialog" v-close-popup />
+              <q-btn label="Open Dialog" @click="dialog2 = true" />
+              <q-btn label="Menu" color="primary">
+                <q-menu>
+                  <q-list>
+                    <q-item v-for="n in 5" :key="n" v-close-popup clickable>
+                      <q-item-section>Menu Item {{ n }}</q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-btn>
+            </div>
+          </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="dialog2">
+          <q-card class="q-pa-xl">
+            <div class="q-gutter-md">
+              <q-btn label="Close Dialog" v-close-popup:2 />
+              <q-btn label="Menu" color="primary">
+                <q-menu>
+                  <q-list>
+                    <q-item v-for="n in 5" :key="n" v-close-popup:3 clickable>
+                      <q-item-section>Menu Item {{ n }}</q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-btn>
+            </div>
           </q-card>
         </q-dialog>
       </div>
@@ -452,7 +472,8 @@ export default {
       contextMenu: true,
       targetEl: '#target-img-1',
 
-      dialog: false
+      dialog: false,
+      dialog2: false
     }
   },
   computed: {
