@@ -6,10 +6,11 @@ import QResizeObserver from '../observer/QResizeObserver.js'
 import slot from '../../utils/slot.js'
 
 function getIndicatorClass (color, top, vertical) {
-  if (vertical) {
-    return `absolute-${top ? 'left' : 'right'}${color ? ` text-${color}` : ''}`
-  }
-  return `absolute-${top ? 'top' : 'bottom'}${color ? ` text-${color}` : ''}`
+  const pos = vertical === true
+    ? ['left', 'right']
+    : ['top', 'bottom']
+
+  return `absolute-${top === true ? pos[0] : pos[1]}${color ? ` text-${color}` : ''}`
 }
 
 export default Vue.extend({
@@ -26,10 +27,7 @@ export default Vue.extend({
   props: {
     value: [Number, String],
 
-    vertical: {
-      type: Boolean,
-      default: false
-    },
+    vertical: Boolean,
     align: {
       type: String,
       default: 'center',
