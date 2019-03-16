@@ -168,13 +168,10 @@ export default Vue.extend({
     },
 
     __updateContainer ({ width, height }) {
-      let scroll
-      if (this.vertical) {
-        scroll = this.$refs.content.scrollHeight - (this.scrollable ? this.extraOffset : 0) > height
-      }
-      else {
-        scroll = this.$refs.content.scrollWidth - (this.scrollable ? this.extraOffset : 0) > width
-      }
+      const offset = this.scrollable === true ? this.extraOffset : 0
+      const scroll = this.vertical === true
+        ? this.$refs.content.scrollHeight - offset > height
+        : this.$refs.content.scrollWidth - offset > width
 
       if (this.scrollable !== scroll) {
         this.scrollable = scroll
@@ -182,7 +179,7 @@ export default Vue.extend({
 
       scroll === true && this.$nextTick(() => this.__updateArrows())
 
-      const justify = (this.vertical ? height : width) < parseInt(this.breakpoint, 10)
+      const justify = (this.vertical === true ? height : width) < parseInt(this.breakpoint, 10)
       if (this.justify !== justify) {
         this.justify = justify
       }
@@ -213,12 +210,9 @@ export default Vue.extend({
           oldPos = oldEl.getBoundingClientRect(),
           newPos = newEl.getBoundingClientRect()
 
-        if (this.vertical) {
-          newEl.style.transform = `translate3d(0, ${oldPos.top - newPos.top}px, 0) scale3d(1, ${newPos.height ? oldPos.height / newPos.height : 1}, 1)`
-        }
-        else {
-          newEl.style.transform = `translate3d(${oldPos.left - newPos.left}px, 0, 0) scale3d(${newPos.width ? oldPos.width / newPos.width : 1}, 1, 1)`
-        }
+        newEl.style.transform = this.vertical === true
+          ? `translate3d(0, ${oldPos.top - newPos.top}px, 0) scale3d(1, ${newPos.height ? oldPos.height / newPos.height : 1}, 1)`
+          : `translate3d(${oldPos.left - newPos.left}px, 0, 0) scale3d(${newPos.width ? oldPos.width / newPos.width : 1}, 1, 1)`
 
         // allow scope updates to kick in
         this.$nextTick(() => {
@@ -234,17 +228,17 @@ export default Vue.extend({
           { left, width, top, height } = this.$refs.content.getBoundingClientRect(),
           newPos = newTab.$el.getBoundingClientRect()
 
-        let offset = this.vertical ? newPos.top - top : newPos.left - left
+        let offset = this.vertical === true ? newPos.top - top : newPos.left - left
 
         if (offset < 0) {
-          this.$refs.content[this.vertical ? 'scrollTop' : 'scrollLeft'] += offset
+          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += offset
           this.__updateArrows()
           return
         }
 
-        offset += this.vertical ? newPos.height - height : newPos.width - width
+        offset += this.vertical === true ? newPos.height - height : newPos.width - width
         if (offset > 0) {
-          this.$refs.content[this.vertical ? 'scrollTop' : 'scrollLeft'] += offset
+          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += offset
           this.__updateArrows()
         }
       }
@@ -253,15 +247,13 @@ export default Vue.extend({
     __updateArrows () {
       const
         content = this.$refs.content,
-        left = this.vertical ? content.scrollTop : content.scrollLeft
+        rect = content.getBoundingClientRect(),
+        left = this.vertical === true ? content.scrollTop : content.scrollLeft
 
       this.leftArrow = left > 0
-      if (this.vertical) {
-        this.rightArrow = left + content.getBoundingClientRect().height + 5 < content.scrollHeight
-      }
-      else {
-        this.rightArrow = left + content.getBoundingClientRect().width + 5 < content.scrollWidth
-      }
+      this.rightArrow = this.vertical === true
+        ? left + rect.height + 5 < content.scrollHeight
+        : left + rect.width + 5 < content.scrollWidth
     },
 
     __animScrollTo (value) {
@@ -290,7 +282,7 @@ export default Vue.extend({
     __scrollTowards (value) {
       let
         content = this.$refs.content,
-        left = this.vertical ? content.scrollTop : content.scrollLeft,
+        left = this.vertical === true ? content.scrollTop : content.scrollLeft,
         direction = value < left ? -1 : 1,
         done = false
 
@@ -307,7 +299,7 @@ export default Vue.extend({
         left = value
       }
 
-      content[this.vertical ? 'scrollTop' : 'scrollLeft'] = left
+      content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] = left
       this.__updateArrows()
       return done
     }
@@ -336,7 +328,7 @@ export default Vue.extend({
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--left q-tab__icon',
         class: this.leftArrow ? '' : 'q-tabs__arrow--faded',
-        props: { name: this.leftIcon || this.vertical ? this.$q.iconSet.tabs.up : this.$q.iconSet.tabs.left },
+        props: { name: this.leftIcon || this.vertical === true ? this.$q.iconSet.tabs.up : this.$q.iconSet.tabs.left },
         nativeOn: {
           mousedown: this.__scrollToStart,
           touchstart: this.__scrollToStart,
@@ -355,7 +347,7 @@ export default Vue.extend({
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--right q-tab__icon',
         class: this.rightArrow ? '' : 'q-tabs__arrow--faded',
-        props: { name: this.rightIcon || this.vertical ? this.$q.iconSet.tabs.down : this.$q.iconSet.tabs.right },
+        props: { name: this.rightIcon || this.vertical === true ? this.$q.iconSet.tabs.down : this.$q.iconSet.tabs.right },
         nativeOn: {
           mousedown: this.__scrollToEnd,
           touchstart: this.__scrollToEnd,
