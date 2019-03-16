@@ -96,7 +96,9 @@ export default {
   },
   tabs: {
     left: 'chevron_left',
-    right: 'chevron_right'
+    right: 'chevron_right',
+    up: 'keyboard_arrow_up',
+    down: 'keyboard_arrow_down'
   },
   table: {
     arrowUp: 'arrow_upward',

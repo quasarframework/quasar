@@ -96,7 +96,9 @@ export default {
   },
   tabs: {
     left: 'fas fa-chevron-left',
-    right: 'fas fa-chevron-right'
+    right: 'fas fa-chevron-right',
+    up: 'fas fa-chevron-up',
+    down: 'fas fa-chevron-down'
   },
   table: {
     arrowUp: 'fas fa-arrow-up',

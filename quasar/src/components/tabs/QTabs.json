@@ -10,6 +10,11 @@
       "examples": [ "v-model=\"selectedTab\"" ]
     },
 
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Use vertical design (tabs one on top of each other rather than one next to the other horizontally)"
+    },
+
     "align": {
       "type": "String",
       "desc": "Horizontal alignment the tabs within the tabs container",
