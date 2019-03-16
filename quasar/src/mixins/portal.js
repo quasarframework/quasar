@@ -18,6 +18,8 @@ function fillInject (root) {
 }
 
 export default {
+  inheritAttrs: false,
+
   props: {
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object]
