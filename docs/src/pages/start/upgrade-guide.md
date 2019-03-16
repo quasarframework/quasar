@@ -458,9 +458,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 |Legacy|v1|
 |-|-|
-||`v-close-dialog`|
-|`v-close-overlay`|`v-close-menu`|
-||`v-touch-repeat`|
+|`v-close-overlay`|`v-close-popup`|
 
   </div>
 </div>

@@ -43,7 +43,6 @@ export default {
 
   render () {
     this.__portal !== void 0 && this.__portal.$forceUpdate()
-    return null
   },
 
   beforeMount () {

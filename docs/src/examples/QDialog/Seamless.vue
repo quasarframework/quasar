@@ -16,7 +16,7 @@
 
           <q-btn flat round icon="play_arrow" />
           <q-btn flat round icon="pause" />
-          <q-btn flat round icon="close" v-close-dialog />
+          <q-btn flat round icon="close" v-close-popup />
         </q-card-section>
       </q-card>
     </q-dialog>

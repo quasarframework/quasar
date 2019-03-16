@@ -1,16 +1,7 @@
 ---
 title: Close Menu Directive
-related:
-  - /vue-components/menu
 ---
 
-This directive is a helper when dealing with [QMenu](/vue-components/menu) component. When attached to a DOM element or component then that component will close the Menu when clicked/tapped.
+Starting with Quasar v1.0.0-beta.11, it is recommended that you use [ClosePopup](/vue-directives/close-popup) directive instead, with same API but with additional functionality.
 
-## Installation
-<doc-installation directives="CloseMenu" />
-
-## Usage
-Clicking on the menu items in the example below will close the QMenu.
-
-<doc-example title="Basic" file="CloseMenu/Basic" />
-
+Vue directive `v-close-menu` will still work (until Quasar v1.0.0-rc.1 will arrive) but will display a console.log() message when on development mode (informing you to replace it with `v-close-popup`).
