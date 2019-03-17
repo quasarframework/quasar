@@ -1774,9 +1774,7 @@ Replace `:handler` with `@load`.
 |`decimals`||
 |`error`||
 |`fill-handle-always`||
-|`left-label-value`||
 |`square`||
-|`right-label-value`||
 |`warning`||
 
   </div>
@@ -1907,7 +1905,6 @@ Replace `:handler` with `@load`.
 |`decimals`||
 |`error`||
 |`fill-handle-always`||
-|`label-value`||
 |`square`||
 |`warning`||
 

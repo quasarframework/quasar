@@ -1,6 +1,8 @@
 import { listenOpts } from '../../utils/event.js'
 
-const evtOpts = listenOpts.passive === void 0 ? true : { passive: false, capture: true }
+const evtOpts = listenOpts.hasPassive === true
+  ? { passive: false, capture: true }
+  : true
 
 export default {
   name: 'click-outside',
