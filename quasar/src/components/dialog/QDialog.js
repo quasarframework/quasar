@@ -142,7 +142,7 @@ export default Vue.extend({
 
       this.__updateState(true, this.maximized)
 
-      EscapeKey.register(() => {
+      EscapeKey.register(this, () => {
         if (this.seamless !== true) {
           if (this.persistent === true || this.noEscDismiss === true) {
             this.maximized !== true && this.shake()
@@ -169,30 +169,29 @@ export default Vue.extend({
 
       this.timer = setTimeout(() => {
         this.$emit('show', evt)
-      }, 600)
+      }, 300)
     },
 
     __hide (evt) {
       this.__cleanup(true)
 
       this.timer = setTimeout(() => {
-        this.__hidePortal(evt)
+        this.__hidePortal()
 
         if (this.__refocusTarget !== void 0) {
           this.__refocusTarget.focus()
         }
 
         this.$emit('hide', evt)
-      }, 600)
+      }, 300)
     },
 
     __cleanup (hiding) {
       clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
 
-      EscapeKey.pop()
-
       if (hiding === true || this.showing === true) {
+        EscapeKey.pop(this)
         this.__updateState(false, this.maximized)
       }
     },
@@ -217,7 +216,8 @@ export default Vue.extend({
       return h('div', {
         staticClass: 'q-dialog fullscreen no-pointer-events',
         class: this.contentClass,
-        style: this.contentStyle
+        style: this.contentStyle,
+        attrs: this.$attrs
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }
@@ -247,6 +247,10 @@ export default Vue.extend({
           }, slot(this, 'default')) : null
         ])
       ])
+    },
+
+    __onPortalClose (evt) {
+      this.hide(evt)
     }
   },
 

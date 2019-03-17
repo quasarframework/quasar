@@ -1,14 +1,7 @@
 ---
 title: Close Dialog Directive
-related:
-  - /vue-components/dialog
 ---
 
-This directive is a helper when dealing with [QDialog](/vue-components/dialog) component. When attached to a DOM element or component then that component will close the Dialog when clicked/tapped.
+Starting with Quasar v1.0.0-beta.11, it is recommended that you use [ClosePopup](/vue-directives/close-popup) directive instead, with same API but with additional functionality.
 
-## Installation
-<doc-installation directives="CloseDialog" />
-
-## Usage
-<doc-example title="Basic" file="CloseDialog/Basic" />
-
+Vue directive `v-close-dialog` will still work (until Quasar v1.0.0-rc.1 will arrive) but will display a console.log() message when on development mode (informing you to replace it with `v-close-popup`).

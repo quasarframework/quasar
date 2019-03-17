@@ -461,14 +461,17 @@ const layout = [
 
 const directives = [
   {
-    name: 'Close Dialog',
-    path: 'close-dialog',
+    name: 'Close Popup',
+    path: 'close-popup',
     badge: 'new'
   },
   {
+    name: 'Close Dialog',
+    path: 'close-dialog'
+  },
+  {
     name: 'Close Menu',
-    path: 'close-menu',
-    badge: 'new'
+    path: 'close-menu'
   },
   {
     name: 'Go Back (Handling Back Button)',

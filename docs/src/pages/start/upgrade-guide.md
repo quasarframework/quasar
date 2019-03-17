@@ -458,9 +458,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 |Legacy|v1|
 |-|-|
-||`v-close-dialog`|
-|`v-close-overlay`|`v-close-menu`|
-||`v-touch-repeat`|
+|`v-close-overlay`|`v-close-popup`|
 
   </div>
 </div>
@@ -1776,9 +1774,7 @@ Replace `:handler` with `@load`.
 |`decimals`||
 |`error`||
 |`fill-handle-always`||
-|`left-label-value`||
 |`square`||
-|`right-label-value`||
 |`warning`||
 
   </div>
@@ -1909,7 +1905,6 @@ Replace `:handler` with `@load`.
 |`decimals`||
 |`error`||
 |`fill-handle-always`||
-|`label-value`||
 |`square`||
 |`warning`||
 
@@ -2106,7 +2101,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 ||`indicator-color`|
 ||`left-icon`|
 ||`right-icon`|
-||`top-indicator`|
+||`switch-indicator`|
 ||`narrow-indicator`|
 ||`inline-label`|
 ||`no-caps`|

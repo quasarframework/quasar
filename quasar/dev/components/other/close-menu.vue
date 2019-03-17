@@ -17,7 +17,7 @@
           >
             <q-item-main label="Closable" sublabel="Closes" />
           </q-item>-->
-          <q-btn color="primary" v-close-menu label="Shut up" icon="map" />
+          <q-btn color="primary" v-close-popup label="Shut up" icon="map" />
           <q-item clickable @click="showNotify">
             <q-item-section>
               <q-item-label>Does nothing</q-item-label>
@@ -33,7 +33,7 @@
     <q-btn color="primary" icon="map" :label="menu ? 'yes' : 'no'">
       <q-menu v-model="menu">
         <q-list link separator class="scroll" style="min-width: 100px">
-          <q-btn color="primary" v-close-menu label="X Shut up" icon="map" @click="showNotify" />
+          <q-btn color="primary" v-close-popup label="X Shut up" icon="map" @click="showNotify" />
           <q-item clickable @click="showNotify">
             <q-item-section>
               <q-item-label>X Does nothing</q-item-label>

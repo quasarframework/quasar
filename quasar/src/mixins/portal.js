@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import uid from '../utils/uid.js'
 
 let inject
 
@@ -19,6 +18,8 @@ function fillInject (root) {
 }
 
 export default {
+  inheritAttrs: false,
+
   props: {
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object]
@@ -40,40 +41,39 @@ export default {
     }
   },
 
-  data: () => ({
-    portalId: uid()
-  }),
-
   render () {
     this.__portal !== void 0 && this.__portal.$forceUpdate()
-    return null
   },
 
   beforeMount () {
-    const
-      id = this.portalId,
-      registerPortalParentId = this.__registerParentPortalId
-
     if (inject === void 0) {
       fillInject(this.$root.$options)
     }
 
-    this.__portal = new Vue({
+    const obj = {
       ...inject,
 
       render: h => this.__render(h),
 
       components: this.$options.components,
-      directives: this.$options.directives,
+      directives: this.$options.directives
+    }
 
-      created () {
-        registerPortalParentId !== void 0 && registerPortalParentId(this, id)
-      },
-
-      methods: {
-        __qPortalClose: this.hide
+    if (this.__onPortalClose !== void 0) {
+      obj.methods = {
+        __qClosePopup: this.__onPortalClose
       }
-    }).$mount()
+    }
+
+    const onCreated = this.__onPortalCreated
+
+    if (onCreated !== void 0) {
+      obj.created = function () {
+        onCreated(this)
+      }
+    }
+
+    this.__portal = new Vue(obj).$mount()
   },
 
   beforeDestroy () {

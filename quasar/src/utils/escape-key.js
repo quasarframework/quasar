@@ -6,26 +6,28 @@ export default {
   __install () {
     this.__installed = true
     window.addEventListener('keyup', evt => {
-      if (handlers.length === 0) {
-        return
-      }
-
-      if (evt.which === 27 || evt.keyCode === 27) {
-        handlers[handlers.length - 1]()
+      if (
+        handlers.length !== 0 &&
+        (evt.which === 27 || evt.keyCode === 27)
+      ) {
+        handlers[handlers.length - 1].fn()
       }
     })
   },
 
-  register (handler) {
-    if (Platform.is.desktop) {
-      !this.__installed && this.__install()
-      handlers.push(handler)
+  register (comp, fn) {
+    if (Platform.is.desktop === true) {
+      this.__installed !== true && this.__install()
+      handlers.push({ comp, fn })
     }
   },
 
-  pop () {
-    if (Platform.is.desktop) {
-      handlers.pop()
+  pop (comp) {
+    if (Platform.is.desktop === true) {
+      const index = handlers.findIndex(h => h.comp === comp)
+      if (index > -1) {
+        handlers.splice(index, 1)
+      }
     }
   }
 }

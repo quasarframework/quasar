@@ -33,6 +33,7 @@ export default {
       firstItemEnabled: false
     }
   },
+
   methods: {
     onClick (index) {
       if (index > 1 || this.firstItemEnabled) {

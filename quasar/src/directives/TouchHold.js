@@ -3,8 +3,6 @@ import { setObserver, removeObserver } from '../utils/touch-observer.js'
 import { clearSelection } from '../utils/selection.js'
 import Platform from '../plugins/Platform.js'
 
-const evtOpts = listenOpts.passive === void 0 ? null : { passive: false }
-
 function updateBinding (el, binding) {
   const ctx = el.__qtouchhold
 
@@ -87,8 +85,8 @@ export default {
     if (mouse === true) {
       el.addEventListener('mousedown', ctx.mouseStart)
     }
-    el.addEventListener('touchstart', ctx.start, evtOpts)
-    el.addEventListener('touchmove', ctx.end, evtOpts)
+    el.addEventListener('touchstart', ctx.start, listenOpts.notPassive)
+    el.addEventListener('touchmove', ctx.end, listenOpts.notPassive)
     el.addEventListener('touchcancel', ctx.end)
     el.addEventListener('touchend', ctx.end)
   },
@@ -109,8 +107,8 @@ export default {
         document.removeEventListener('mousemove', ctx.mouseEnd, true)
         document.removeEventListener('click', ctx.mouseEnd, true)
       }
-      el.removeEventListener('touchstart', ctx.start, evtOpts)
-      el.removeEventListener('touchmove', ctx.end, evtOpts)
+      el.removeEventListener('touchstart', ctx.start, listenOpts.notPassive)
+      el.removeEventListener('touchmove', ctx.end, listenOpts.notPassive)
       el.removeEventListener('touchcancel', ctx.end)
       el.removeEventListener('touchend', ctx.end)
 

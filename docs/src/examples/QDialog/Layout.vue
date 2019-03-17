@@ -9,7 +9,7 @@
             <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
             <q-toolbar-title>Header</q-toolbar-title>
             <q-btn flat @click="drawerR = !drawerR" round dense icon="menu" />
-            <q-btn flat v-close-dialog round dense icon="close" />
+            <q-btn flat v-close-popup round dense icon="close" />
           </q-toolbar>
         </q-header>
 

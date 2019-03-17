@@ -83,9 +83,9 @@ export default {
     const
       mouse = binding.modifiers.mouse === true,
       mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
-      mouseEvtOpts = listenOpts.passive === void 0 ? true : { passive: mouseEvtPassive, capture: true },
+      mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
       touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
-      touchEvtOpts = touchEvtPassive ? listenOpts.passive : (listenOpts.passive === void 0 ? null : { passive: false })
+      touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive']
 
     function handleEvent (evt, mouseEvent) {
       if (mouse && mouseEvent) {
@@ -240,9 +240,9 @@ export default {
       const
         mouse = binding.modifiers.mouse === true,
         mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
-        mouseEvtOpts = listenOpts.passive === void 0 ? true : { passive: mouseEvtPassive, capture: true },
+        mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
         touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
-        touchEvtOpts = touchEvtPassive ? listenOpts.passive : (listenOpts.passive === void 0 ? null : { passive: false })
+        touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive']
 
       if (mouse === true) {
         el.removeEventListener('mousedown', ctx.mouseStart, mouseEvtOpts)
