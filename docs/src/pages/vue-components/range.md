@@ -31,6 +31,8 @@ In the example below, move the slider to see the label.
 
 <doc-example title="Always display label" file="QRange/LabelAlways" />
 
+<doc-example title="Custom label values" file="QRange/LabelValue" />
+
 Use the `drag-range` or `drag-only-range` props to allow the user to move the selected range or only a predetermined range as a whole.
 
 <doc-example title="Drag range" file="QRange/Drag" />

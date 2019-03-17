@@ -176,7 +176,7 @@ export default Vue.extend({
       this.__cleanup(true)
 
       this.timer = setTimeout(() => {
-        this.__hidePortal(evt)
+        this.__hidePortal()
 
         if (this.__refocusTarget !== void 0) {
           this.__refocusTarget.focus()

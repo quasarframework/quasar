@@ -40,6 +40,14 @@
       "extends": "color"
     },
 
+    "label-value": {
+      "type": [ "String", "Number" ],
+      "desc": "Override default label value",
+      "examples": [
+        ":label-value=\"model + 'px'\""
+      ]
+    },
+
     "label-always": {
       "type": "Boolean",
       "desc": "Always display the label"
