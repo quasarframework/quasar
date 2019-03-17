@@ -31,6 +31,8 @@ QTabs can be scrolled horizontally when the width is longer than the container w
 
 <doc-example title="Basic" file="QTabs/Basic" />
 
+<doc-example title="Vertical (example with QSplitter)" file="QTabs/Vertical" />
+
 <doc-example title="Dense" file="QTabs/Dense" />
 
 <doc-example title="Individual colors" file="QTabs/IndividualColor" />

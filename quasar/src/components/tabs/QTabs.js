@@ -27,7 +27,6 @@ export default Vue.extend({
   props: {
     value: [Number, String],
 
-    vertical: Boolean,
     align: {
       type: String,
       default: 'center',
@@ -38,6 +37,7 @@ export default Vue.extend({
       default: 600
     },
 
+    vertical: Boolean,
     shrink: Boolean,
 
     activeColor: String,
@@ -46,7 +46,10 @@ export default Vue.extend({
     leftIcon: String,
     rightIcon: String,
 
+    // TODO remove in v1 final
     topIndicator: Boolean,
+    switchIndicator: Boolean,
+
     narrowIndicator: Boolean,
     inlineLabel: Boolean,
     noCaps: Boolean,
@@ -60,7 +63,11 @@ export default Vue.extend({
         current: this.value,
         activeColor: this.activeColor,
         activeBgColor: this.activeBgColor,
-        indicatorClass: getIndicatorClass(this.indicatorColor, this.topIndicator, this.vertical),
+        indicatorClass: getIndicatorClass(
+          this.indicatorColor,
+          this.topIndicator || this.switchIndicator,
+          this.vertical
+        ),
         narrowIndicator: this.narrowIndicator,
         inlineLabel: this.inlineLabel,
         noCaps: this.noCaps
@@ -86,14 +93,19 @@ export default Vue.extend({
     },
 
     vertical (v) {
-      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, this.topIndicator, v)
+      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, this.switchIndicatorPos, v)
     },
 
     indicatorColor (v) {
-      this.tabs.indicatorClass = getIndicatorClass(v, this.topIndicator, this.vertical)
+      this.tabs.indicatorClass = getIndicatorClass(v, this.switchIndicatorPos, this.vertical)
     },
 
+    // TODO remove in v1 final
     topIndicator (v) {
+      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, v, this.vertical)
+    },
+
+    switchIndicator (v) {
       this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, v, this.vertical)
     },
 
@@ -124,6 +136,11 @@ export default Vue.extend({
         (this.dense === true ? ' q-tabs--dense' : '') +
         (this.shrink === true ? ' col-shrink' : '') +
         (this.vertical === true ? ' q-tabs--vertical' : '')
+    },
+
+    // TODO remove in v1 final, directly use switchIndicator
+    switchIndicatorPos () {
+      return this.topIndicator || this.switchIndicator
     }
   },
 
@@ -315,6 +332,16 @@ export default Vue.extend({
     this.buffer = []
   },
 
+  // TODO remove in v1 final
+  mounted () {
+    if (this.topIndicator === true) {
+      const p = process.env
+      if (p.PROD !== true) {
+        console.info('\n\n[Quasar] QTabs info: please rename top-indicator to switch-indicator prop')
+      }
+    }
+  },
+
   beforeDestroy () {
     clearTimeout(this.bufferTimer)
     clearTimeout(this.animateTimer)
@@ -333,7 +360,7 @@ export default Vue.extend({
 
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--left q-tab__icon',
-        class: this.leftArrow ? '' : 'q-tabs__arrow--faded',
+        class: this.leftArrow === true ? '' : 'q-tabs__arrow--faded',
         props: { name: this.leftIcon || (this.vertical === true ? this.$q.iconSet.tabs.up : this.$q.iconSet.tabs.left) },
         nativeOn: {
           mousedown: this.__scrollToStart,
@@ -352,7 +379,7 @@ export default Vue.extend({
 
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--right q-tab__icon',
-        class: this.rightArrow ? '' : 'q-tabs__arrow--faded',
+        class: this.rightArrow === true ? '' : 'q-tabs__arrow--faded',
         props: { name: this.rightIcon || (this.vertical === true ? this.$q.iconSet.tabs.down : this.$q.iconSet.tabs.right) },
         nativeOn: {
           mousedown: this.__scrollToEnd,

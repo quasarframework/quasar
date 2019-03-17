@@ -62,9 +62,9 @@
       "desc": "By default, QTabs is set to grow to the available space; However, you can reverse that with this prop; Useful (and required) when placing the component in a QToolbar"
     },
 
-    "top-indicator": {
+    "switch-indicator": {
       "type": "Boolean",
-      "desc": "Allows the indicator to be placed above the tab, instead of below it"
+      "desc": "Switches the indicator position (on left of tab for vertical mode or above the tab for default horizontal mode)"
     },
 
     "narrow-indicator": {
