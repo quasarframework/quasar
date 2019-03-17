@@ -330,8 +330,8 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 |h5|`.q-headline`|`.text-h5` |
 |h6|`.q-title`|`.text-h6` |
 ||`.q-subheading`|`.text-subtitle1` or `.text-subtitle2` |
-||`.q-body1`|`.text-body1` |
-||`.q-body2`|`.text-body2` |
+||`.q-body-1`|`.text-body1` |
+||`.q-body-2`|`.text-body2` |
 ||`.q-caption`|`.text-caption` |
 |||`.text-overline` |
 
