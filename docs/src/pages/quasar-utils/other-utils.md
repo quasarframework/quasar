@@ -13,7 +13,7 @@ import { openURL } from 'quasar'
 openURL('http://...')
 ```
 
-It will take care of the quirks involved when running under Cordova or on a browser, including notifying the user he/she has to acknowledge opening popups.
+It will take care of the quirks involved when running under Cordova or on a browser, including notifying the user he/she has to acknowledge opening popups. For electron, it will open links in the users default browser. 
 
 ::: tip
 If you want to open the telephone dialer in a Cordova app, don't use `openURL()`. Instead you should directly use `<a href="tel:123456789">` tags or `<QBtn type="a" href="tel:123456789">`
