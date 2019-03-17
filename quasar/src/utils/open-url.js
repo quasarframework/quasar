@@ -14,7 +14,7 @@ export default (url, reject) => {
       })
     }
   }
-  else if (Platform.is.electron === true) {
+  else if (Vue.prototype.$q.electron !== void 0) {
     return Vue.prototype.$q.electron.shell.openExternal(url)
   }
 
