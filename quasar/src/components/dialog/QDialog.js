@@ -142,7 +142,7 @@ export default Vue.extend({
 
       this.__updateState(true, this.maximized)
 
-      EscapeKey.register(() => {
+      EscapeKey.register(this, () => {
         if (this.seamless !== true) {
           if (this.persistent === true || this.noEscDismiss === true) {
             this.maximized !== true && this.shake()
@@ -190,9 +190,8 @@ export default Vue.extend({
       clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
 
-      EscapeKey.pop()
-
       if (hiding === true || this.showing === true) {
+        EscapeKey.pop(this)
         this.__updateState(false, this.maximized)
       }
     },

@@ -109,7 +109,7 @@ export default Vue.extend({
         window.addEventListener('scroll', this.updatePosition, listenOpts.passive)
       }
 
-      EscapeKey.register(() => {
+      EscapeKey.register(this, () => {
         this.$emit('escape-key')
         this.hide()
       })
@@ -141,7 +141,7 @@ export default Vue.extend({
     },
 
     __hide (evt) {
-      this.__anchorCleanup()
+      this.__anchorCleanup(true)
 
       evt !== void 0 && evt.preventDefault()
 
@@ -151,19 +151,19 @@ export default Vue.extend({
       }, 300)
     },
 
-    __anchorCleanup () {
+    __anchorCleanup (hiding) {
       clearTimeout(this.timer)
       this.absoluteOffset = void 0
-
-      EscapeKey.pop()
-      this.__unregisterTree()
 
       if (this.unwatch !== void 0) {
         this.unwatch()
         this.unwatch = void 0
       }
 
-      if (this.scrollTarget) {
+      if (hiding === true || this.showing === true) {
+        EscapeKey.pop(this)
+        this.__unregisterTree()
+
         this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
         if (this.scrollTarget !== window) {
           window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
