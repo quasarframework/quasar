@@ -207,16 +207,7 @@ export default Vue.extend({
           class: this.pinClass
         }, [
           h('div', { staticClass: 'q-slider__pin-value-marker' }, [
-            h('svg', { staticClass: 'q-slider__pin-value-marker-bg' }, [
-              h('ellipse', {
-                attrs: {
-                  cx: '50%',
-                  cy: '50%',
-                  rx: '50%',
-                  ry: '50%'
-                }
-              })
-            ]),
+            h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
             h('div', { staticClass: 'q-slider__pin-value-marker-text' }, [
               this.computedLabel
             ])
