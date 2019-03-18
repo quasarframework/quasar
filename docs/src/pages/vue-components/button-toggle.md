@@ -18,7 +18,7 @@ The QBtnToggle component is another basic element for user input, similar to QRa
 <doc-example title="Basic" file="QBtnToggle/Basic" />
 
 ::: tip
-Singe QBtnToggle uses QBtn, you can use design related props of QBtn to style this component.
+Since QBtnToggle uses QBtn, you can use design related props of QBtn to style this component.
 :::
 
 <doc-example title="Some design examples" file="QBtnToggle/Design" />
