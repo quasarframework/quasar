@@ -25,9 +25,17 @@ export default {
           }
 
           let parent = target
-          while ((parent = parent.parentNode) !== document.body) {
-            if (parent.classList.contains('q-menu')) {
+          while ((parent = parent.parentNode) !== document.body && parent !== null) {
+            if (parent === el) {
               return
+            }
+            if (parent.classList.contains('q-menu') || parent.classList.contains('q-dialog')) {
+              let sibling = parent
+              while ((sibling = sibling.previousSibling) !== null) {
+                if (sibling === el) {
+                  return
+                }
+              }
             }
           }
         }
