@@ -24,12 +24,9 @@
 
     "default-view": {
       "type": "String",
-      "desc": "The view which will be opened by default",
+      "desc": "The view which will be displayed by default",
       "default": "Calendar",
-      "examples": [
-        "default-view=\"Years\"",
-        "default-view=\"Months\""
-      ]
+      "values": [ "Calendar", "Months", "Years" ]
     },
 
     "events": {
