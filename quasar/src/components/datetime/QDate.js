@@ -33,12 +33,17 @@ export default Vue.extend({
 
     firstDayOfWeek: [String, Number],
     todayBtn: Boolean,
-    minimal: Boolean
+    minimal: Boolean,
+    defaultView: {
+      type: String,
+      default: 'Calendar',
+      validator: v => ['Calendar', 'Years', 'Months'].includes(v)
+    }
   },
 
   data () {
     return {
-      view: 'Calendar',
+      view: this.defaultView,
       monthDirection: 'left',
       yearDirection: 'left',
       innerModel: this.__getInnerModel(this.value)

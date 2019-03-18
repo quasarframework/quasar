@@ -34,6 +34,10 @@ QDate requires a default year + month when model is unfilled (like `null`, `void
 
 <doc-example title="Default year month" file="QDate/DefaultYearMonth" />
 
+The default view can be changed.
+
+<doc-example title="Default view" file="QDate/DefaultView" />
+
 The first day of the week is applied depending on the [Quasar Language Pack](/options/quasar-language-packs) that you've set, but you can also force it, like in the example below.
 
 <doc-example title="First day of week" file="QDate/FirstDayOfWeek" />
