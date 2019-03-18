@@ -324,9 +324,9 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 ||Legacy|v1|
 |-|-|-|
 |h1|`.q-display-4`|`.text-h1`|
-|h2|`.q-display3`|`.text-h2`|
-|h3|`.q-display2`|`.text-h3` |
-|h4|`.q-display1`|`.text-h4` |
+|h2|`.q-display-3`|`.text-h2`|
+|h3|`.q-display-2`|`.text-h3` |
+|h4|`.q-display-1`|`.text-h4` |
 |h5|`.q-headline`|`.text-h5` |
 |h6|`.q-title`|`.text-h6` |
 ||`.q-subheading`|`.text-subtitle1` or `.text-subtitle2` |
