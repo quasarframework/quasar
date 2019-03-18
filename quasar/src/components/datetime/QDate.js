@@ -30,7 +30,7 @@ export default Vue.extend({
     defaultView: {
       type: String,
       default: 'Calendar',
-      validator: v => ['Calendar', 'Years', 'Months'].indexOf(v) !== -1
+      validator: v => ['Calendar', 'Years', 'Months'].includes(v)
     }
   },
 
