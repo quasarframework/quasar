@@ -106,6 +106,10 @@ export default Vue.extend({
         this.$nextTick(() => {
           this.__hydrateOptions(true)
         })
+        this.$emit('menu-show')
+      }
+      else {
+        this.$emit('menu-hide')
       }
       document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
     }
@@ -739,12 +743,14 @@ export default Vue.extend({
     __onControlFocusin (e) {
       this.focused = true
 
+      this.$emit('focus', e)
+
       if (this.useInput === true && this.inputValue.length > 0) {
         this.$refs.target.setSelectionRange(0, this.inputValue.length)
       }
     },
 
-    __onControlFocusout () {
+    __onControlFocusout (e) {
       setTimeout(() => {
         clearTimeout(this.inputTimer)
 
@@ -757,6 +763,8 @@ export default Vue.extend({
         }
 
         this.focused = false
+
+        this.$emit('blur', e)
 
         if (this.menu === true) {
           this.menu = false

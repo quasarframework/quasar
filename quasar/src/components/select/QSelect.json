@@ -400,6 +400,36 @@
 
     "filter-abort": {
       "desc": "Emitted when a filtering was aborted; Probably a new one was requested?"
+    },
+
+    "menu-show": {
+      "desc": "Emitted when the menu becomes visible"
+    },
+
+    "menu-hide": {
+      "desc": "Emitted when the menu hides"
+    },
+
+    "focus": {
+      "desc": "Emitted when component gets focused",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": ["examples"]
+        }
+      }
+    },
+
+    "blur": {
+      "desc": "Emitted when component loses focus",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": ["examples"]
+        }
+      }
     }
   },
 
