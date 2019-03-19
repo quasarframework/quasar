@@ -117,12 +117,18 @@ export default Vue.extend({
     },
 
     innerValue () {
-      const val = this.value !== void 0 && this.value !== null
-        ? (this.multiple === true ? this.value : [ this.value ])
-        : []
+      const
+        mapNull = this.mapOptions === true && this.multiple !== true,
+        val = this.value !== void 0 && (this.value !== null || mapNull === true)
+          ? (this.multiple === true ? this.value : [ this.value ])
+          : []
 
       return this.mapOptions === true && Array.isArray(this.options) === true
-        ? val.map(v => this.__getOption(v))
+        ? (
+          this.value === null && mapNull === true
+            ? val.map(v => this.__getOption(v)).filter(v => v !== null)
+            : val.map(v => this.__getOption(v))
+        )
         : val
     },
 
