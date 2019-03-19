@@ -45,7 +45,9 @@ module.exports.generate = function () {
 
   var contents = []
 
-  contents.push('export as namespace quasar;\n')
+  contents.push('import "./vue"\n')
+  contents.push('\n')
+  contents.push('export as namespace quasar\n')
   contents.push('export * from "./utils"\n')
   contents.push('\n')
 
