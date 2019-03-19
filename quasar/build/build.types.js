@@ -3,17 +3,21 @@ module.exports.generate = function () {
     fs = require('fs'),
     path = require('path'),
     apiRoot = path.resolve(__dirname, '../dist/api'),
+    typeRoot = path.resolve(__dirname, '../types'),
     { writeFile } = require('./build.utils'),
     resolve = file => path.resolve(apiRoot, file),
     // eslint-disable-next-line no-useless-escape
     toCamelCase = s => s.replace(/(\-\w)/g, m => { return m[1].toUpperCase() })
 
-  var copyTypeFile = function (file) {
-    var orig = require(file)
-    writeFile(resolve(file), JSON.stringify(orig, null, 2))
+  function copyTypeFiles (dir) {
+    const typeDir = fs.readdirSync(dir)
+    typeDir.forEach(file => {
+      const filePath = path.resolve(typeRoot, file)
+      writeFile(resolve('../types/' + file), fs.readFileSync(filePath))
+    })
   }
 
-  var convertTypeVal = function (type) {
+  function convertTypeVal (type) {
     const t = type.trim()
     if (t === 'Array') {
       return '[]'
@@ -21,9 +25,13 @@ module.exports.generate = function () {
     else if (t === 'Any') {
       return 'any'
     }
+    else if (t === 'Object') {
+      return 'any'
+    }
     return t
   }
-  var getTypeVal = function (types) {
+
+  function getTypeVal (types) {
     if (Array.isArray(types)) {
       const propTypes = types.map(convertTypeVal)
       return propTypes.join(' | ')
@@ -33,17 +41,18 @@ module.exports.generate = function () {
     }
   }
 
+  copyTypeFiles(typeRoot)
+
   var contents = []
 
-  contents.push('declare module "quasar" {\n')
+  contents.push('export as namespace quasar;\n')
+  contents.push('export * from "./utils"\n')
+  contents.push('\n')
+
   contents.push('// Quasar Type Definitions \n')
   contents.push('import Vue from "vue";\n')
   // Remove this for now, this may cause the Mixins to be mixin<VueClass<MyComponent>>()
   // contents.push('import { VueClass } from "vue-class-component/lib/declarations";\n\n')
-
-  // Copy Typescript config files
-  copyTypeFile('../types/tsconfig.json')
-  copyTypeFile('../types/typings.json')
 
   const distDir = fs.readdirSync(apiRoot)
   var injections = {}
@@ -114,14 +123,11 @@ module.exports.generate = function () {
       contents.push('}\n')
     }
   }
-  contents.push('}\n')
+  // contents.push('}\n')
   contents.push('\n')
 
   if (injections) {
     contents.push('declare module "vue/types/vue" {\n')
-    for (var key2 in injections) {
-      contents.push(`    import { ${key2.toUpperCase().replace('$', '')}VueGlobals } from "quasar";\n`)
-    }
     contents.push('    interface Vue {\n')
   }
 
@@ -134,6 +140,5 @@ module.exports.generate = function () {
     contents.push('}\n')
   }
 
-  // writeFile(resolve('quasar.d.ts'), contents.join(''))
   writeFile(resolve('../types/index.d.ts'), contents.join(''))
 }
