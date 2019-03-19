@@ -662,6 +662,7 @@ export default Vue.extend({
           : null,
         domProps: { value: this.inputValue },
         attrs: {
+          ...this.$attrs,
           disabled: this.editable !== true
         },
         on: {
