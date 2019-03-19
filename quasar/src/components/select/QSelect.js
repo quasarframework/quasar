@@ -13,7 +13,7 @@ import TransitionMixin from '../../mixins/transition.js'
 import uid from '../../utils/uid.js'
 import slot from '../../utils/slot.js'
 import { isDeepEqual } from '../../utils/is.js'
-import { stopAndPrevent } from '../../utils/event.js'
+import { stop, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 
 import { updatePosition } from './select-menu-position.js'
@@ -635,6 +635,7 @@ export default Vue.extend({
             },
             on: {
               click: stopAndPrevent,
+              touchstart: stop,
               '&scroll': this.__hydrateOptions
             }
           }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))

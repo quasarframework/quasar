@@ -25,6 +25,12 @@
               @refresh="refresh"
               :disable="disable"
             >
+              <q-select
+                v-model="selectModel"
+                :options="selectOptions"
+                label="Test options scroll"
+              />
+
               <div class="bg-white overflow-hidden-y">
                 <div>
                   <div class="caption bg-yellow-6">
@@ -40,6 +46,14 @@
                     <q-toggle v-model="disable" label="Disable" />
                     <q-toggle v-model="scroll" label="Scroll" />
                     <q-toggle v-model="scrollArea" label="QScrollArea" />
+                  </div>
+
+                  <div class="bg-yellow-6 q-mx-md">
+                    <q-select
+                      v-model="selectModel"
+                      :options="selectOptions"
+                      label="Test options scroll"
+                    />
                   </div>
                 </div>
 
@@ -77,7 +91,9 @@ export default {
       footer: true,
       disable: false,
       scroll: false,
-      scrollArea: false
+      scrollArea: false,
+      selectModel: null,
+      selectOptions: Array(50).fill(null).map((_, index) => `Option ${index + 1}`)
     }
   },
   watch: {
@@ -110,6 +126,10 @@ export default {
         this.$q.notify('Item #' + this.items.length + ' is new.')
         done()
       }, 1000)
+    },
+    test (evt) {
+      evt.stopPropagation()
+      console.log('test', evt)
     }
   }
 }
