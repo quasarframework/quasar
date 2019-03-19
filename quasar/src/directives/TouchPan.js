@@ -137,7 +137,7 @@ export default {
       },
 
       move (evt) {
-        if (ctx.event.abort === true) {
+        if (ctx.event === void 0 || ctx.event.abort === true) {
           return
         }
 
@@ -183,18 +183,22 @@ export default {
       },
 
       end (evt) {
+        if (ctx.event === void 0) {
+          return
+        }
+
         ctx.event.mouse !== true && removeObserver(ctx)
 
         document.documentElement.style.cursor = ''
         document.body.classList.remove('no-pointer-events')
         document.body.classList.remove('non-selectable')
 
-        if (ctx.event.abort === true || ctx.event.detected !== true || ctx.event.isFirst === true) {
-          return
+        if (ctx.event.abort !== true && ctx.event.detected === true && ctx.event.isFirst !== true) {
+          handleEvent(evt, ctx.event.mouse)
+          ctx.handler(processChanges(evt, ctx, true))
         }
 
-        handleEvent(evt, ctx.event.mouse)
-        ctx.handler(processChanges(evt, ctx, true))
+        ctx.event = void 0
       }
     }
 
