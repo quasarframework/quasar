@@ -3,7 +3,7 @@ import Vue from 'vue'
 import TouchPan from '../../directives/TouchPan.js'
 import { between } from '../../utils/format.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import preventScroll from '../../utils/prevent-scroll.js'
+import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 import slot from '../../utils/slot.js'
 
 const duration = 150
@@ -19,7 +19,7 @@ export default Vue.extend({
     }
   },
 
-  mixins: [ ModelToggleMixin ],
+  mixins: [ ModelToggleMixin, PreventScrollMixin ],
 
   directives: {
     TouchPan
@@ -43,7 +43,7 @@ export default Vue.extend({
     },
     breakpoint: {
       type: Number,
-      default: 992
+      default: 1023
     },
     behavior: {
       type: String,
@@ -62,10 +62,10 @@ export default Vue.extend({
 
   data () {
     const
-      largeScreenState = this.showIfAbove || (
+      largeScreenState = this.showIfAbove === true || (
         this.value !== void 0 ? this.value : true
       ),
-      showing = this.behavior !== 'mobile' && this.breakpoint < this.layout.width && !this.overlay
+      showing = this.behavior !== 'mobile' && this.breakpoint < this.layout.width && this.overlay === false
         ? largeScreenState
         : false
 
@@ -86,18 +86,18 @@ export default Vue.extend({
 
   watch: {
     belowBreakpoint (val) {
-      if (this.mobileOpened) {
+      if (this.mobileOpened === true) {
         return
       }
 
-      if (val) { // from lg to xs
-        if (!this.overlay) {
+      if (val === true) { // from lg to xs
+        if (this.overlay === false) {
           this.largeScreenState = this.showing
         }
         // ensure we close it for small screen
         this.hide(false)
       }
-      else if (!this.overlay) { // from xs to lg
+      else if (this.overlay === false) { // from xs to lg
         this[this.largeScreenState ? 'show' : 'hide'](false)
       }
     },
@@ -142,7 +142,10 @@ export default Vue.extend({
     },
 
     $route () {
-      if (!this.persistent && (this.mobileOpened || this.onScreenOverlay)) {
+      if (
+        this.persistent !== true &&
+        (this.mobileOpened === true || this.onScreenOverlay === true)
+      ) {
         this.hide()
       }
     },
@@ -161,7 +164,7 @@ export default Vue.extend({
     },
 
     mini () {
-      if (this.value) {
+      if (this.value === true) {
         this.__animateMini()
         this.layout.__animate()
       }
@@ -174,43 +177,43 @@ export default Vue.extend({
     },
 
     offset () {
-      return this.showing && !this.mobileOpened && !this.overlay
+      return this.showing === true && this.mobileOpened === false && this.overlay === false
         ? this.size
         : 0
     },
 
     size () {
-      return this.isMini ? this.miniWidth : this.width
+      return this.isMini === true ? this.miniWidth : this.width
     },
 
     fixed () {
-      return this.overlay || this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
+      return this.overlay === true || this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
     },
 
     onLayout () {
-      return this.showing && !this.mobileView && !this.overlay
+      return this.showing === true && this.mobileView === false && this.overlay === false
     },
 
     onScreenOverlay () {
-      return this.showing && !this.mobileView && this.overlay
+      return this.showing === true && this.mobileView === false && this.overlay === true
     },
 
     backdropClass () {
-      return !this.showing || !this.mobileView ? 'no-pointer-events' : null
+      return this.showing === false ? 'no-pointer-events' : null
     },
 
     mobileView () {
-      return this.belowBreakpoint || this.mobileOpened
+      return this.belowBreakpoint === true || this.mobileOpened === true
     },
 
     headerSlot () {
-      return this.rightSide
+      return this.rightSide === true
         ? this.layout.rows.top[2] === 'r'
         : this.layout.rows.top[0] === 'l'
     },
 
     footerSlot () {
-      return this.rightSide
+      return this.rightSide === true
         ? this.layout.rows.bottom[2] === 'r'
         : this.layout.rows.bottom[0] === 'l'
     },
@@ -218,20 +221,20 @@ export default Vue.extend({
     aboveStyle () {
       const css = {}
 
-      if (this.layout.header.space && !this.headerSlot) {
-        if (this.fixed) {
+      if (this.layout.header.space === true && this.headerSlot === false) {
+        if (this.fixed === true) {
           css.top = `${this.layout.header.offset}px`
         }
-        else if (this.layout.header.space) {
+        else if (this.layout.header.space === true) {
           css.top = `${this.layout.header.size}px`
         }
       }
 
-      if (this.layout.footer.space && !this.footerSlot) {
-        if (this.fixed) {
+      if (this.layout.footer.space === true && this.footerSlot === false) {
+        if (this.fixed === true) {
           css.bottom = `${this.layout.footer.offset}px`
         }
-        else if (this.layout.footer.space) {
+        else if (this.layout.footer.space === true) {
           css.bottom = `${this.layout.footer.size}px`
         }
       }
@@ -241,34 +244,34 @@ export default Vue.extend({
 
     style () {
       const style = { width: `${this.size}px` }
-      return this.mobileView
+      return this.mobileView === true
         ? style
         : Object.assign(style, this.aboveStyle)
     },
 
     classes () {
       return `q-drawer--${this.side}` +
-        (this.bordered ? ' q-drawer--bordered' : '') +
+        (this.bordered === true ? ' q-drawer--bordered' : '') +
         (
-          this.mobileView
+          this.mobileView === true
             ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'
-            : ` q-drawer--${this.isMini ? 'mini' : 'standard'}` +
-              (this.fixed || !this.onLayout ? ' fixed' : '') +
-              (this.overlay ? ' q-drawer--on-top' : '') +
-              (this.headerSlot ? ' q-drawer--top-padding' : '')
+            : ` q-drawer--${this.isMini === true ? 'mini' : 'standard'}` +
+              (this.fixed === true || this.onLayout !== true ? ' fixed' : '') +
+              (this.overlay === true ? ' q-drawer--on-top' : '') +
+              (this.headerSlot === true ? ' q-drawer--top-padding' : '')
         )
     },
 
     stateDirection () {
-      return (this.$q.lang.rtl ? -1 : 1) * (this.rightSide ? 1 : -1)
+      return (this.$q.lang.rtl === true ? -1 : 1) * (this.rightSide === true ? 1 : -1)
     },
 
     isMini () {
-      return this.mini && !this.mobileView
+      return this.mini === true && this.mobileView !== true
     },
 
     onNativeEvents () {
-      if (!this.mobileView) {
+      if (this.mobileView !== true) {
         return {
           '!click': e => { this.$emit('click', e) },
           mouseover: e => { this.$emit('mouseover', e) },
@@ -287,8 +290,12 @@ export default Vue.extend({
           this.applyPosition(this.stateDirection * position)
         })
       }
-      else if (this.$refs.content) {
-        if (this.layout.container && this.rightSide && (this.mobileView || Math.abs(position) === this.size)) {
+      else if (this.$refs.content !== void 0) {
+        if (
+          this.layout.container === true &&
+          this.rightSide === true &&
+          (this.mobileView === true || Math.abs(position) === this.size)
+        ) {
           position += this.stateDirection * this.layout.scrollbarWidth
         }
         this.$refs.content.style.transform = `translate3d(${position}px, 0, 0)`
@@ -296,14 +303,14 @@ export default Vue.extend({
     },
 
     applyBackdrop (x) {
-      if (this.$refs.backdrop) {
+      if (this.$refs.backdrop !== void 0) {
         this.$refs.backdrop.style.backgroundColor = `rgba(0,0,0,${x * 0.4})`
       }
     },
 
     __setScrollable (v) {
-      if (!this.layout.container) {
-        document.body.classList[v ? 'add' : 'remove']('q-body--drawer-toggle')
+      if (this.layout.container !== true) {
+        document.body.classList[v === true ? 'add' : 'remove']('q-body--drawer-toggle')
       }
     },
 
@@ -321,22 +328,18 @@ export default Vue.extend({
     },
 
     __openByTouch (evt) {
-      if (!this.belowBreakpoint) {
-        return
-      }
-
       const
         width = this.size,
         position = between(evt.distance.x, 0, width)
 
-      if (evt.isFinal) {
+      if (evt.isFinal === true) {
         const
           el = this.$refs.content,
           opened = position >= Math.min(75, width)
 
         el.classList.remove('no-transition')
 
-        if (opened) {
+        if (opened === true) {
           this.show()
         }
         else {
@@ -350,7 +353,7 @@ export default Vue.extend({
       }
 
       this.applyPosition(
-        (this.$q.lang.rtl ? !this.rightSide : this.rightSide)
+        (this.$q.lang.rtl === true ? !this.rightSide : this.rightSide)
           ? Math.max(width - position, 0)
           : Math.min(0, position - width)
       )
@@ -358,7 +361,7 @@ export default Vue.extend({
         between(position / width, 0, 1)
       )
 
-      if (evt.isFirst) {
+      if (evt.isFirst === true) {
         const el = this.$refs.content
         el.classList.add('no-transition')
         el.classList.add('q-drawer--delimiter')
@@ -366,22 +369,18 @@ export default Vue.extend({
     },
 
     __closeByTouch (evt) {
-      if (!this.mobileOpened) {
-        return
-      }
-
       const
         width = this.size,
         dir = evt.direction === this.side,
-        position = (this.$q.lang.rtl ? !dir : dir)
+        position = (this.$q.lang.rtl === true ? !dir : dir)
           ? between(evt.distance.x, 0, width)
           : 0
 
-      if (evt.isFinal) {
+      if (evt.isFinal === true) {
         const opened = Math.abs(position) < Math.min(75, width)
         this.$refs.content.classList.remove('no-transition')
 
-        if (opened) {
+        if (opened === true) {
           this.layout.__animate()
           this.applyBackdrop(1)
           this.applyPosition(0)
@@ -396,7 +395,7 @@ export default Vue.extend({
       this.applyPosition(this.stateDirection * position)
       this.applyBackdrop(between(1 - position / width, 0, 1))
 
-      if (evt.isFirst) {
+      if (evt.isFirst === true) {
         this.$refs.content.classList.add('no-transition')
       }
     },
@@ -405,17 +404,16 @@ export default Vue.extend({
       evt !== false && this.layout.__animate()
       this.applyPosition(0)
 
-      const otherSide = this.layout.instances[this.rightSide ? 'left' : 'right']
-      if (otherSide && otherSide.mobileOpened) {
+      const otherSide = this.layout.instances[this.rightSide === true ? 'left' : 'right']
+      if (otherSide !== void 0 && otherSide.mobileOpened === true) {
         otherSide.hide(false)
       }
 
-      if (this.belowBreakpoint) {
+      if (this.belowBreakpoint === true) {
         this.mobileOpened = true
         this.applyBackdrop(1)
-        if (!this.layout.container) {
-          this.preventedScroll = true
-          preventScroll(true)
+        if (this.layout.container !== true) {
+          this.__preventScroll(true)
         }
       }
       else {
@@ -432,7 +430,7 @@ export default Vue.extend({
     __hide (evt = true) {
       evt !== false && this.layout.__animate()
 
-      if (this.mobileOpened) {
+      if (this.mobileOpened === true) {
         this.mobileOpened = false
       }
 
@@ -448,10 +446,7 @@ export default Vue.extend({
     },
 
     __cleanup () {
-      if (this.preventedScroll) {
-        this.preventedScroll = false
-        preventScroll(false)
-      }
+      this.__preventScroll(false)
       this.__setScrollable(false)
     },
 
@@ -485,7 +480,7 @@ export default Vue.extend({
     clearTimeout(this.timerMini)
     this.showing && this.__cleanup()
     if (this.layout.instances[this.side] === this) {
-      this.layout.instances[this.side] = null
+      this.layout.instances[this.side] = void 0
       this.__update('size', 0)
       this.__update('offset', 0)
       this.__update('space', false)
@@ -494,38 +489,49 @@ export default Vue.extend({
 
   render (h) {
     const child = [
-      this.mobileView && !this.noSwipeOpen
+      this.noSwipeOpen !== true && this.belowBreakpoint === true
         ? h('div', {
           staticClass: `q-drawer__opener fixed-${this.side}`,
           directives: [{
             name: 'touch-pan',
-            modifiers: { horizontal: true },
+            modifiers: {
+              horizontal: true,
+              mouse: true,
+              mouseAllDir: true
+            },
             value: this.__openByTouch
           }]
         })
         : null,
-      h('div', {
+
+      this.mobileView === true ? h('div', {
         ref: 'backdrop',
         staticClass: 'fullscreen q-drawer__backdrop q-layout__section--animate',
         class: this.backdropClass,
-        on: { click: this.hide },
+        on: {
+          click: this.hide
+        },
         directives: [{
           name: 'touch-pan',
-          modifiers: { horizontal: true },
+          modifiers: {
+            horizontal: true,
+            mouse: true,
+            mouseAllDir: true
+          },
           value: this.__closeByTouch
         }]
-      })
+      }) : null
     ]
 
     const content = [
       h('div', {
-        staticClass: 'q-drawer__content fit ' + (this.layout.container ? 'overflow-auto' : 'scroll'),
+        staticClass: 'q-drawer__content fit ' + (this.layout.container === true ? 'overflow-auto' : 'scroll'),
         class: this.contentClass,
         style: this.contentStyle
-      }, this.isMini && this.$scopedSlots.mini !== void 0 ? this.$scopedSlots.mini() : slot(this, 'default'))
+      }, this.isMini === true && this.$scopedSlots.mini !== void 0 ? this.$scopedSlots.mini() : slot(this, 'default'))
     ]
 
-    if (this.elevated && this.showing) {
+    if (this.elevated === true && this.showing === true) {
       content.push(
         h('div', {
           staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
@@ -541,12 +547,7 @@ export default Vue.extend({
         staticClass: `q-drawer q-layout__section--animate`,
         class: this.classes,
         style: this.style,
-        on: this.onNativeEvents,
-        directives: this.mobileView && !this.noSwipeClose ? [{
-          name: 'touch-pan',
-          modifiers: { horizontal: true },
-          value: this.__closeByTouch
-        }] : null
+        on: this.onNativeEvents
       }, content)
     ]))
   }

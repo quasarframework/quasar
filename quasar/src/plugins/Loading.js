@@ -25,8 +25,7 @@ export default {
   show (opts) {
     if (isSSR) { return }
 
-    props = Object.assign({}, defaults, opts)
-
+    props = { ...defaults, ...opts }
     props.customClass += ` text-${props.backgroundColor}`
 
     if (this.isActive) {
@@ -80,7 +79,7 @@ export default {
               (props.message && h('div', {
                 class: `text-${props.messageColor}`,
                 domProps: {
-                  innerHTML: props.message
+                  [props.sanitize === true ? 'textContent' : 'innerHTML']: props.message
                 }
               })) || void 0
             ]) : null

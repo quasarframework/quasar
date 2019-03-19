@@ -6,7 +6,7 @@ related:
 ---
 
 The QIcon component allows you to easily insert icons within other components or any other area of your pages.
-Quasar currently supports: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/) and [Eva Icons](https://akveo.github.io/eva-icons).
+Quasar currently supports: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons) and [Themify Icons](https://themify.me/themify-icons).
 
 ::: tip
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
@@ -29,6 +29,7 @@ Make sure that you [installed the icon library](/options/installing-icon-librari
 | fontawesome-v5 | fa[s,r,l,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
 | mdi-v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
+| themify | ti- | ti-hand-point-up | Notice the use of dash characters |
 
 ### Size & colors
 All icons are **webfont icons**. This means that you can change size by manipulating `font-size` CSS property. And also, they inherit the current CSS text `color` used.

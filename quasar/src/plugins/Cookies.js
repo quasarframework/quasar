@@ -131,7 +131,7 @@ function remove (key, options, ssr) {
   set(
     key,
     '',
-    Object.assign({}, options, { expires: -1 }),
+    { ...options, expires: -1 },
     ssr
   )
 }

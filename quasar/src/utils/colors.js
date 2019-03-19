@@ -63,8 +63,8 @@ export function hexToRgb (hex) {
   let num = parseInt(hex, 16)
 
   return hex.length > 6
-    ? {r: num >> 24 & 255, g: num >> 16 & 255, b: num >> 8 & 255, a: Math.round((num & 255) / 2.55)}
-    : {r: num >> 16, g: num >> 8 & 255, b: num & 255}
+    ? { r: num >> 24 & 255, g: num >> 16 & 255, b: num >> 8 & 255, a: Math.round((num & 255) / 2.55) }
+    : { r: num >> 16, g: num >> 8 & 255, b: num & 255 }
 }
 
 export function hsvToRgb ({ h, s, v, a }) {

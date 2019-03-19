@@ -14,50 +14,54 @@ export default Vue.extend({
   },
 
   computed: {
-    classes () {
+    type () {
       let cls
       const icon = this.name
 
       if (!icon) {
-        return
+        return {
+          cls: void 0,
+          content: void 0
+        }
       }
-      else if (/^fa[s|r|l|b]{0,1} /.test(icon) || icon.startsWith('icon-')) {
+
+      let content = ' '
+
+      if (/^fa[s|r|l|b]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
         cls = icon
       }
-      else if (icon.startsWith('bt-')) {
+      else if (icon.startsWith('bt-') === true) {
         cls = `bt ${icon}`
       }
-      else if (icon.startsWith('eva-')) {
+      else if (icon.startsWith('eva-') === true) {
         cls = `eva ${icon}`
       }
-      else if (/^ion-(md|ios|logo)/.test(icon)) {
+      else if (/^ion-(md|ios|logo)/.test(icon) === true) {
         cls = `ionicons ${icon}`
       }
-      else if (icon.startsWith('ion-')) {
-        cls = `ionicons ion-${this.$q.platform.is.ios ? 'ios' : 'md'}${icon.substr(3)}`
+      else if (icon.startsWith('ion-') === true) {
+        cls = `ionicons ion-${this.$q.platform.is.ios === true ? 'ios' : 'md'}${icon.substr(3)}`
       }
-      else if (icon.startsWith('mdi-')) {
+      else if (icon.startsWith('mdi-') === true) {
         cls = `mdi ${icon}`
       }
-      else if (icon.startsWith('iconfont ')) {
+      else if (icon.startsWith('iconfont ') === true) {
         cls = `${icon}`
+      }
+      else if (icon.startsWith('ti-') === true) {
+        cls = `themify-icon ${icon}`
       }
       else {
         cls = 'material-icons'
+        content = icon
       }
 
       return {
-        [`text-${this.color}`]: this.color,
-        [cls]: true,
-        'on-left': this.left,
-        'on-right': this.right
+        cls: cls + (this.color !== void 0 ? ` text-${this.color}` : '') +
+          (this.left === true ? ' on-left' : '') +
+          (this.right === true ? ' on-right' : ''),
+        content
       }
-    },
-
-    content () {
-      return this.classes && this.classes['material-icons']
-        ? this.name
-        : ' '
     },
 
     style () {
@@ -70,12 +74,12 @@ export default Vue.extend({
   render (h) {
     return h('i', {
       staticClass: 'q-icon',
-      class: this.classes,
+      class: this.type.cls,
       style: this.style,
       attrs: { 'aria-hidden': true },
       on: this.$listeners
     }, [
-      this.content,
+      this.type.content,
       slot(this, 'default')
     ])
   }

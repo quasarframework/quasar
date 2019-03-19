@@ -7,8 +7,6 @@ Before we dive in to the actual development, we need to do some preparation work
 First step is to make sure you got the Cordova CLI installed and the necessary SDKs.
 
 ```bash
-$ yarn global add cordova
-# or:
 $ npm install -g cordova
 ```
 
@@ -46,7 +44,7 @@ setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools"
 In order to develop/build a Mobile app, we need to add the Cordova mode to our Quasar project. What this does is that it uses Cordova CLI to generate a Cordova project in `/src-cordova` folder. `/src-cordova/www` folder will be overwritten each time you build.
 
 ```bash
-$ quasar mode -a cordova
+$ quasar mode add cordova
 ```
 
 ## 3. Add Platform

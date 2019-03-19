@@ -2,7 +2,7 @@
 title: Dialog
 related:
   - /quasar-plugins/dialog
-  - /vue-directives/close-dialog
+  - /vue-directives/close-popup
   - /vue-components/card
   - /vue-components/popup-proxy
 ---
@@ -20,7 +20,7 @@ When the user hits the phone/tablet back button (only for Cordova apps), the Dia
 :::
 
 ## Installation
-<doc-installation components="QDialog" directives="CloseDialog" />
+<doc-installation components="QDialog" directives="ClosePopup" />
 
 ## Usage
 <doc-example title="Basic" file="QDialog/Basic" />

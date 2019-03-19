@@ -10,7 +10,8 @@ export default {
     up: 'fas fa-arrow-up',
     right: 'fas fa-arrow-right',
     down: 'fas fa-arrow-down',
-    left: 'fas fa-arrow-left'
+    left: 'fas fa-arrow-left',
+    dropdown: 'fas fa-caret-down'
   },
   chevron: {
     left: 'fas fa-chevron-left',
@@ -88,9 +89,6 @@ export default {
   rating: {
     icon: 'fas fa-star'
   },
-  select: {
-    dropdownIcon: 'fas fa-caret-down'
-  },
   stepper: {
     done: 'fas fa-check',
     active: 'fas fa-pencil-alt',
@@ -98,7 +96,9 @@ export default {
   },
   tabs: {
     left: 'fas fa-chevron-left',
-    right: 'fas fa-chevron-right'
+    right: 'fas fa-chevron-right',
+    up: 'fas fa-chevron-up',
+    down: 'fas fa-chevron-down'
   },
   table: {
     arrowUp: 'fas fa-arrow-up',

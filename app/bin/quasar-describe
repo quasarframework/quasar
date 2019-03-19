@@ -34,20 +34,53 @@ if (!item || argv.help) {
   process.exit(0)
 }
 
-function getApi (item) {
+async function getApi (item) {
   try {
     const api = require(
       require.resolve(`quasar/dist/api/${item}.json`, {
         paths: [ appPaths.appDir ]
       })
     )
-    return api
+    return { api }
   }
-  catch (e) {
-    warn(`No API found for requested "${item}"`)
-    warn()
-    process.exit(1)
+  catch (e) {}
+
+  const extensionJson = require('../lib/app-extension/extension-json')
+  const extensions = Object.keys(extensionJson.getList())
+
+  if (extensions.length > 0) {
+    const Extension = require('../lib/app-extension/Extension.js')
+
+    for (let ext of extensions) {
+      const instance = new Extension(ext)
+      const hooks = await instance.run({})
+
+      if (hooks.describeApi !== void 0 && hooks.describeApi[item]) {
+        const fs = require('fs')
+        const file = hooks.describeApi[item]
+
+        if (!fs.existsSync(file)) {
+          warn(`⚠️  Extension(${instance.extId}): registerDescribeApi - there is no file at ${file}`)
+          process.exit(1)
+        }
+
+        try {
+          return {
+            api: require(file),
+            supplier: instance.extId
+          }
+        }
+        catch (e) {
+          warn(`⚠️  Extension(${instance.extId}): Malformed API file at ${file}`)
+          process.exit(1)
+        }
+      }
+    }
   }
+
+  warn(`No API found for requested "${item}"`)
+  warn()
+  process.exit(1)
 }
 
 function getEventParams (event) {
@@ -191,24 +224,29 @@ function printScopedSlots ({ scopedSlots }) {
   }
 }
 
-function printEvents ({ events }) {
+function printEvents ({ events, behavior = {} }) {
   console.log('\n ' + chalk.underline('Events'))
-  if (events === void 0 || Object.keys(events).length === 0) {
-    console.log('\n   ' + chalk.italic('*No events*'))
+
+  if (behavior.$listeners !== void 0) {
+    console.log(`\n   ${chalk.italic(behavior.$listeners.desc)}`)
   }
-  else {
-    for (let eventName in events) {
-      const event = events[eventName]
-      console.log('\n   @' + chalk.green(eventName) + getEventParams(event))
-      console.log('     Description: ' + event.desc)
-      if (!event.params) {
-        console.log('     Parameters: ' + chalk.italic('*None*'))
-      }
-      else {
-        console.log('     Parameters:')
-        for (let paramName in event.params) {
-          printProp(event.params[paramName], paramName, 7)
-        }
+  else if (events === void 0 || Object.keys(events).length === 0) {
+    console.log('\n   ' + chalk.italic('*No events*'))
+    return
+  }
+
+  for (let eventName in events) {
+    const event = events[eventName]
+
+    console.log('\n   @' + chalk.green(eventName) + getEventParams(event))
+    console.log('     Description: ' + event.desc)
+    if (!event.params) {
+      console.log('     Parameters: ' + chalk.italic('*None*'))
+    }
+    else {
+      console.log('     Parameters:')
+      for (let paramName in event.params) {
+        printProp(event.params[paramName], paramName, 7)
       }
     }
   }
@@ -325,10 +363,21 @@ function describe (api) {
   }
 }
 
-const api = getApi(item)
+async function run () {
+  const { api, supplier } = await getApi(item)
 
-console.log()
-console.log(` Describing ${chalk.green(item)} ${api.type} API`)
-console.log(` ${chalk.italic(`Description is based on your project's Quasar version`)}`)
-describe(api)
-console.log()
+  console.log()
+  console.log(` Describing ${chalk.green(item)} ${api.type} API`)
+
+  if (supplier === void 0) {
+    console.log(` ${chalk.italic(`Description is based on your project's Quasar version`)}`)
+  }
+  else {
+    console.log(` ${chalk.italic(`Supplied by "${supplier}" App Extension`)}`)
+  }
+
+  describe(api)
+  console.log()
+}
+
+run()

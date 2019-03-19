@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import QTab from './QTab.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
+import { isSameRoute, isIncludedRoute } from '../../utils/router.js'
 
 export default Vue.extend({
   name: 'QRouteTab',
@@ -18,25 +19,34 @@ export default Vue.extend({
 
   watch: {
     $route () {
-      this.$nextTick(() => {
-        this.__checkActivation()
-      })
+      this.__checkActivation()
     }
   },
 
   methods: {
     activate (e) {
-      this.$emit('click', e)
-      !this.disable && this.__activateRoute({ name: this.name, selected: true })
+      if (this.disable !== true) {
+        const
+          current = this.$route,
+          { route } = this.$router.resolve(this.to, current, this.append)
+
+        this.$listeners.click !== void 0 && this.$emit('click', e)
+        this.__activateRoute({ name: this.name, selected: true, selectable: isSameRoute(current, route) })
+      }
+
       this.$el.blur()
     },
 
     __checkActivation () {
-      if (this.isExactActiveRoute(this.$el)) {
+      const
+        current = this.$route,
+        { href, route } = this.$router.resolve(this.to, current, this.append)
+
+      if (isSameRoute(current, route)) {
         this.__activateRoute({ name: this.name, selectable: true, exact: true })
       }
-      else if (this.isActiveRoute(this.$el)) {
-        const priority = this.$router.resolve(this.to, undefined, this.append).href.length
+      else if (this.exact !== true && isIncludedRoute(current, route)) {
+        const priority = href.length
         this.__activateRoute({ name: this.name, selectable: true, priority })
       }
       else if (this.isActive) {
@@ -46,7 +56,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.__checkActivation()
+    this.$router !== void 0 && this.__checkActivation()
   },
 
   render (h) {

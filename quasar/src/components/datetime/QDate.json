@@ -1,6 +1,10 @@
 {
   "mixins": [ "components/datetime/datetime-mixin" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "value": {
       "extends": "value",
@@ -10,12 +14,26 @@
       ]
     },
 
+    "calendar": {
+      "type": "String",
+      "desc": "Specify calendar type",
+      "default": "gregorian",
+      "values": [ "gregorian", "persian" ]
+    },
+
     "default-year-month": {
       "type": "String",
       "desc": "The default year and month to display (in YYYY/MM format) when model is unfilled (undefined or null)",
       "examples": [
         "1986/02"
       ]
+    },
+
+    "default-view": {
+      "type": "String",
+      "desc": "The view which will be displayed by default",
+      "default": "Calendar",
+      "values": [ "Calendar", "Months", "Years" ]
     },
 
     "events": {

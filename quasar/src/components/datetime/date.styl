@@ -109,6 +109,8 @@
 
   &--portrait
     flex-direction column
+
+  &--portrait-standard
     height 410px
     width 290px
 
@@ -123,11 +125,16 @@
       align-items center
       height 30px
 
+  &--portrait-minimal
+    height 324px
+    width 290px
+
+    .q-date__content
+      height 100% // workaround for iOS -- 86px is header height
+
   &--landscape
     flex-direction row
     align-items stretch
-    height 321px
-    width 420px
 
     > div
       display flex
@@ -135,6 +142,10 @@
 
     .q-date__content
       height 100%
+
+  &--landscape-standard
+    height 321px
+    width 420px
 
     .q-date__header
       border-bottom-left-radius inherit
@@ -145,6 +156,10 @@
       flex-direction column
     .q-date__header-today
       margin-top 12px
+
+  &--landscape-minimal
+    height 321px
+    width 310px
 
   &--dark
     color white

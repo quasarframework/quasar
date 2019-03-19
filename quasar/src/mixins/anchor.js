@@ -1,3 +1,4 @@
+import { clearSelection } from '../utils/selection.js'
 
 export default {
   props: {
@@ -16,7 +17,7 @@ export default {
       }
     },
 
-    target (val) {
+    target () {
       if (this.anchorEl !== void 0) {
         this.__unconfigureAnchorEl()
       }
@@ -49,12 +50,13 @@ export default {
       }
       this.hide(evt)
       this.anchorEl.classList.add('non-selectable')
+      clearSelection()
       this.touchTimer = setTimeout(() => {
         this.__mobileCleanup()
         this.touchTimer = setTimeout(() => {
           this.show(evt)
         }, 10)
-      }, 600)
+      }, 300)
     },
 
     __mobileCleanup () {
@@ -114,14 +116,19 @@ export default {
       if (this.target && typeof this.target === 'string') {
         const el = document.querySelector(this.target)
         if (el !== null) {
-          this.__setAnchorEl(el)
+          this.anchorEl = el
+          this.__configureAnchorEl()
         }
         else {
+          this.anchorEl = void 0
           console.error(`Anchor: target "${this.target}" not found`, this)
         }
       }
       else if (this.target !== false) {
         this.__setAnchorEl(this.parentEl)
+      }
+      else {
+        this.anchorEl = void 0
       }
     }
   },
@@ -145,7 +152,7 @@ export default {
 
   beforeDestroy () {
     clearTimeout(this.touchTimer)
-    this.__cleanup !== void 0 && this.__cleanup()
+    this.__anchorCleanup !== void 0 && this.__anchorCleanup()
 
     if (this.anchorEl !== void 0) {
       this.__unconfigureAnchorEl()

@@ -44,6 +44,7 @@ export default Vue.extend({
         icon: this.icon
       },
       on: {
+        ...this.$listeners,
         click: this.click
       }
     }, slot(this, 'default'))

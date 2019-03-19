@@ -1,5 +1,11 @@
 {
-  "mixins": [ "components/field/QField", "mixins/mask" ],
+  "mixins": [ "components/field/__QField", "mixins/mask" ],
+
+  "behavior": {
+    "$listeners": {
+      "target": "to the inner native input element"
+    }
+  },
 
   "props": {
     "value": {
@@ -102,6 +108,10 @@
   "methods": {
     "focus": {
       "desc": "Focus underlying input tag"
+    },
+
+    "blur": {
+      "desc": "Lose focus on underlying input tag"
     }
   }
 }

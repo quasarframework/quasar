@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-md column" style="max-width: 300px">
+    <div class="q-gutter-y-md column" style="max-width: 300px">
       <q-input rounded filled v-model="text">
         <template v-slot:prepend>
           <q-icon name="event" />
@@ -10,7 +10,7 @@
       <q-input rounded outlined v-model="text">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
           </q-avatar>
         </template>
       </q-input>

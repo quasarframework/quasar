@@ -1,9 +1,18 @@
 {
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "value":{
       "type": [ "Number", "String" ],
       "desc": "Model of the component defining current panel name; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "examples": [ "v-model=\"selectedTab\"" ]
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Use vertical design (tabs one on top of each other rather than one next to the other horizontally)"
     },
 
     "align": {
@@ -48,9 +57,14 @@
       "examples": [ "arrow_right" ]
     },
 
-    "top-indicator": {
+    "shrink": {
       "type": "Boolean",
-      "desc": "Allows the indicator to be placed above the tab, instead of below it"
+      "desc": "By default, QTabs is set to grow to the available space; However, you can reverse that with this prop; Useful (and required) when placing the component in a QToolbar"
+    },
+
+    "switch-indicator": {
+      "type": "Boolean",
+      "desc": "Switches the indicator position (on left of tab for vertical mode or above the tab for default horizontal mode)"
     },
 
     "narrow-indicator": {

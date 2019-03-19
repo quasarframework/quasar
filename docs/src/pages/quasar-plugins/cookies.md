@@ -49,7 +49,7 @@ this.$q.cookies.get('cookie_name')
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
-var cookies = Cookies.getAll()
+const cookies = Cookies.getAll()
 ```
 `cookies` variable will be an object with key-value pairs (cookie_name : cookie_value).
 

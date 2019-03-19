@@ -17,6 +17,10 @@ const { setBrand } = colors
 setBrand('primary', '#f33')
 ```
 
+::: tip
+For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+:::
+
 ## Color Conversion
 These functions take a color as string or Object and convert it to another format.
 

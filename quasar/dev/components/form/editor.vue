@@ -138,7 +138,9 @@
         gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')}
       }"
     >
-      <q-btn dense color="yellow" slot="custom_btn" size="sm">Wow</q-btn>
+      <q-btn dense color="yellow" slot="custom_btn" size="sm">
+        Wow
+      </q-btn>
       <q-btn-dropdown dense no-caps ref="token" no-wrap slot="token" color="green" label="Token" size="sm">
         <q-list>
           <q-item tag="label" clickable @click="add('email')">
@@ -157,7 +159,9 @@
       </q-btn-dropdown>
     </q-editor>
 
-    <p class="caption bg-yellow">Model</p>
+    <p class="caption bg-yellow">
+      Model
+    </p>
     <span>{{ model }}</span>
   </div>
 </template>

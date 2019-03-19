@@ -10,8 +10,9 @@ export default Vue.extend({
   methods: {
     __render (h) {
       return h('div', {
-        staticClass: 'q-tab-panels relative-position',
-        directives: this.panelDirectives
+        staticClass: 'q-tab-panels q-panel-parent',
+        directives: this.panelDirectives,
+        on: this.$listeners
       }, this.__getPanelContent(h))
     }
   }

@@ -1,9 +1,13 @@
 import { position, leftClick, listenOpts } from '../utils/event.js'
+import { setObserver, removeObserver } from '../utils/touch-observer.js'
+import { clearSelection } from '../utils/selection.js'
 
 function getDirection (mod) {
   const
     none = mod.horizontal !== true && mod.vertical !== true,
-    dir = {}
+    dir = {
+      all: none === true || (mod.horizontal === true && mod.vertical === true)
+    }
 
   if (mod.horizontal === true || none === true) {
     dir.horizontal = true
@@ -42,7 +46,8 @@ function processChanges (evt, ctx, isFinal) {
     position: pos,
     direction,
     isFirst: ctx.event.isFirst,
-    isFinal,
+    isFinal: isFinal === true,
+    isMouse: ctx.event.mouse,
     duration: new Date().getTime() - ctx.event.time,
     distance: {
       x: absDistX,
@@ -76,51 +81,58 @@ export default {
 
   bind (el, binding) {
     const
-      mouse = binding.modifiers.noMouse !== true,
-      stopPropagation = binding.modifiers.stop,
-      preventDefault = binding.modifiers.prevent,
-      evtOpts = preventDefault || binding.modifiers.mightPrevent ? null : listenOpts.passive
+      mouse = binding.modifiers.mouse === true,
+      mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
+      mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
+      touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
+      touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive']
 
-    let ctx = {
+    function handleEvent (evt, mouseEvent) {
+      if (mouse && mouseEvent) {
+        binding.modifiers.mouseStop && evt.stopPropagation()
+        binding.modifiers.mousePrevent && evt.preventDefault()
+      }
+      else {
+        binding.modifiers.stop && evt.stopPropagation()
+        binding.modifiers.prevent && evt.preventDefault()
+      }
+    }
+
+    const ctx = {
       handler: binding.value,
       direction: getDirection(binding.modifiers),
 
       mouseStart (evt) {
         if (leftClick(evt)) {
-          document.addEventListener('mousemove', ctx.move, evtOpts)
-          document.addEventListener('mouseup', ctx.mouseEnd, evtOpts)
+          document.addEventListener('mousemove', ctx.move, mouseEvtOpts)
+          document.addEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
           ctx.start(evt, true)
         }
       },
 
       mouseEnd (evt) {
-        document.removeEventListener('mousemove', ctx.move, evtOpts)
-        document.removeEventListener('mouseup', ctx.mouseEnd, evtOpts)
+        document.removeEventListener('mousemove', ctx.move, mouseEvtOpts)
+        document.removeEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
         ctx.end(evt)
       },
 
       start (evt, mouseEvent) {
+        removeObserver(ctx)
+        mouseEvent !== true && setObserver(el, evt, ctx)
+
         const pos = position(evt)
 
         ctx.event = {
           x: pos.left,
           y: pos.top,
           time: new Date().getTime(),
-          detected: mouseEvent === true || (ctx.direction.horizontal && ctx.direction.vertical),
+          mouse: mouseEvent === true,
+          detected: false,
           abort: false,
           isFirst: true,
+          isFinal: false,
           lastX: pos.left,
           lastY: pos.top
-        }
-
-        if (ctx.event.detected) {
-          el.classList.add('q-touch')
-
-          if (mouseEvent !== true) {
-            stopPropagation && evt.stopPropagation()
-            preventDefault && evt.preventDefault()
-            ctx.move(evt)
-          }
         }
       },
 
@@ -130,8 +142,7 @@ export default {
         }
 
         if (ctx.event.detected === true) {
-          stopPropagation && evt.stopPropagation()
-          preventDefault && evt.preventDefault()
+          handleEvent(evt, ctx.event.mouse)
 
           const changes = processChanges(evt, ctx, false)
           if (shouldTrigger(ctx, changes)) {
@@ -154,21 +165,35 @@ export default {
         }
 
         ctx.event.detected = true
-        ctx.event.abort = ctx.direction.vertical
-          ? distX > distY
-          : distX < distY
+
+        if (ctx.direction.all === false && (ctx.event.mouse === false || binding.modifiers.mouseAllDir !== true)) {
+          ctx.event.abort = ctx.direction.vertical
+            ? distX > distY
+            : distX < distY
+        }
+
+        if (ctx.event.abort !== true) {
+          document.documentElement.style.cursor = 'grabbing'
+          document.body.classList.add('no-pointer-events')
+          document.body.classList.add('non-selectable')
+          clearSelection()
+        }
 
         ctx.move(evt)
       },
 
       end (evt) {
-        el.classList.remove('q-touch')
-        if (ctx.event.abort || !ctx.event.detected || ctx.event.isFirst) {
+        ctx.event.mouse !== true && removeObserver(ctx)
+
+        document.documentElement.style.cursor = ''
+        document.body.classList.remove('no-pointer-events')
+        document.body.classList.remove('non-selectable')
+
+        if (ctx.event.abort === true || ctx.event.detected !== true || ctx.event.isFirst === true) {
           return
         }
 
-        stopPropagation && evt.stopPropagation()
-        preventDefault && evt.preventDefault()
+        handleEvent(evt, ctx.event.mouse)
         ctx.handler(processChanges(evt, ctx, true))
       }
     }
@@ -179,12 +204,13 @@ export default {
 
     el.__qtouchpan = ctx
 
-    if (mouse) {
-      el.addEventListener('mousedown', ctx.mouseStart, evtOpts)
+    if (mouse === true) {
+      el.addEventListener('mousedown', ctx.mouseStart, mouseEvtOpts)
     }
-    el.addEventListener('touchstart', ctx.start, evtOpts)
-    el.addEventListener('touchmove', ctx.move, evtOpts)
-    el.addEventListener('touchend', ctx.end, evtOpts)
+    el.addEventListener('touchstart', ctx.start, touchEvtOpts)
+    el.addEventListener('touchmove', ctx.move, touchEvtOpts)
+    el.addEventListener('touchcancel', ctx.end)
+    el.addEventListener('touchend', ctx.end)
   },
 
   update (el, { oldValue, value, modifiers }) {
@@ -205,13 +231,28 @@ export default {
   unbind (el, binding) {
     let ctx = el.__qtouchpan_old || el.__qtouchpan
     if (ctx !== void 0) {
-      const evtOpts = binding.modifiers.prevent ? null : listenOpts.passive
+      removeObserver(ctx)
 
-      el.removeEventListener('mousedown', ctx.mouseStart, evtOpts)
+      document.documentElement.style.cursor = ''
+      document.body.classList.remove('no-pointer-events')
+      document.body.classList.remove('non-selectable')
 
-      el.removeEventListener('touchstart', ctx.start, evtOpts)
-      el.removeEventListener('touchmove', ctx.move, evtOpts)
-      el.removeEventListener('touchend', ctx.end, evtOpts)
+      const
+        mouse = binding.modifiers.mouse === true,
+        mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
+        mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
+        touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
+        touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive']
+
+      if (mouse === true) {
+        el.removeEventListener('mousedown', ctx.mouseStart, mouseEvtOpts)
+        document.removeEventListener('mousemove', ctx.move, mouseEvtOpts)
+        document.removeEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
+      }
+      el.removeEventListener('touchstart', ctx.start, touchEvtOpts)
+      el.removeEventListener('touchmove', ctx.move, touchEvtOpts)
+      el.removeEventListener('touchcancel', ctx.end)
+      el.removeEventListener('touchend', ctx.end)
 
       delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
     }

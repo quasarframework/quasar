@@ -10,7 +10,8 @@ export default {
     up: 'eva-arrow-upward-outline',
     right: 'eva-arrow-forward-outline',
     down: 'eva-arrow-downward-outline',
-    left: 'eva-arrow-back-outline'
+    left: 'eva-arrow-back-outline',
+    dropdown: 'eva-chevron-down'
   },
   chevron: {
     left: 'eva-arrow-ios-back-outline',
@@ -88,9 +89,6 @@ export default {
   rating: {
     icon: 'eva-star'
   },
-  select: {
-    dropdownIcon: 'eva-chevron-down'
-  },
   stepper: {
     done: 'eva-checkmark',
     active: 'eva-edit',
@@ -98,7 +96,9 @@ export default {
   },
   tabs: {
     left: 'eva-arrow-ios-back-outline',
-    right: 'eva-arrow-ios-forward-outline'
+    right: 'eva-arrow-ios-forward-outline',
+    up: 'eva-arrow-ios-upward-outline',
+    down: 'eva-arrow-ios-downward-outline'
   },
   table: {
     arrowUp: 'eva-arrow-upward',

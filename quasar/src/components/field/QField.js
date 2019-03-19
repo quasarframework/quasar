@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
+import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
 import slot from '../../utils/slot.js'
@@ -27,6 +28,10 @@ export default Vue.extend({
     borderless: Boolean,
     standout: Boolean,
 
+    square: Boolean,
+
+    loading: Boolean,
+
     bottomSlots: Boolean,
     rounded: Boolean,
     dense: Boolean,
@@ -38,7 +43,11 @@ export default Vue.extend({
 
   data () {
     return {
-      focused: false
+      focused: false,
+
+      // used internally by validation for QInput
+      // or menu handling for QSelect
+      innerLoading: false
     }
   },
 
@@ -48,7 +57,19 @@ export default Vue.extend({
     },
 
     floatingLabel () {
-      return this.stackLabel || this.focused || (this.innerValue !== void 0 && this.innerValue !== null && ('' + this.innerValue).length > 0)
+      return this.hasError === true ||
+        this.stackLabel === true ||
+        this.focused === true ||
+        (
+          this.innerValue !== void 0 &&
+          this.innerValue !== null &&
+          ('' + this.innerValue).length > 0
+        ) ||
+        (
+          this.displayValue !== void 0 &&
+          this.displayValue !== null &&
+          ('' + this.displayValue).length > 0
+        )
     },
 
     hasBottom () {
@@ -61,20 +82,21 @@ export default Vue.extend({
 
         [`q-field--${this.styleType}`]: true,
         'q-field--rounded': this.rounded,
+        'q-field--square': this.square,
 
         'q-field--focused': this.focused === true || this.hasError === true,
-        'q-field--float': this.floatingLabel || this.hasError === true,
+        'q-field--float': this.floatingLabel,
         'q-field--labeled': this.label !== void 0,
 
         'q-field--dense': this.dense,
-        'q-field--item-aligned q-item-type': this.itemAligned === true,
-        'q-field--dark': this.dark === true,
+        'q-field--item-aligned q-item-type': this.itemAligned,
+        'q-field--dark': this.dark,
 
-        'q-field--with-bottom': this.hasBottom === true,
-        'q-field--error': this.hasError === true,
+        'q-field--with-bottom': this.hasBottom,
+        'q-field--error': this.hasError,
 
-        'q-field--readonly no-pointer-events': this.readonly === true,
-        'disabled no-pointer-events': this.disable === true
+        'q-field--readonly no-pointer-events': this.readonly,
+        'disabled no-pointer-events': this.disable
       }
     },
 
@@ -116,10 +138,6 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
         }, [
-          this.label !== void 0 ? h('div', {
-            staticClass: 'q-field__label no-pointer-events absolute ellipsis'
-          }, [ this.label ]) : null,
-
           this.prefix !== void 0 && this.prefix !== null ? h('div', {
             staticClass: 'q-field__prefix no-pointer-events row items-center'
           }, [ this.prefix ]) : null,
@@ -127,6 +145,10 @@ export default Vue.extend({
           this.__getControl !== void 0
             ? this.__getControl(h)
             : null,
+
+          this.label !== void 0 ? h('div', {
+            staticClass: 'q-field__label no-pointer-events absolute ellipsis'
+          }, [ this.label ]) : null,
 
           this.suffix !== void 0 && this.suffix !== null ? h('div', {
             staticClass: 'q-field__suffix no-pointer-events row items-center'
@@ -141,7 +163,18 @@ export default Vue.extend({
           ? h('div', {
             staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
             key: 'error'
-          }, [ h(QIcon, { props: { name: 'error', color: 'negative' } }) ])
+          }, [ h(QIcon, { props: { name: this.$q.iconSet.type.warning, color: 'negative' } }) ])
+          : null,
+
+        this.loading === true || this.innerLoading === true
+          ? h('div', {
+            staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip',
+            key: 'inner-loading-append'
+          }, (
+            this.$scopedSlots.loading !== void 0
+              ? this.$scopedSlots.loading()
+              : [ h(QSpinner, { props: { color: this.color } }) ]
+          ))
           : null,
 
         this.__getInnerAppend !== void 0

@@ -10,7 +10,8 @@ export default {
     up: 'ion-arrow-up',
     right: 'ion-arrow-forward',
     down: 'ion-arrow-down',
-    left: 'ion-arrow-back'
+    left: 'ion-arrow-back',
+    dropdown: 'ion-arrow-dropdown'
   },
   chevron: {
     left: 'ion-ios-arrow-back',
@@ -88,9 +89,6 @@ export default {
   rating: {
     icon: 'ion-star'
   },
-  select: {
-    dropdownIcon: 'ion-arrow-dropdown'
-  },
   stepper: {
     done: 'ion-checkmark',
     active: 'ion-create',
@@ -98,7 +96,9 @@ export default {
   },
   tabs: {
     left: 'ion-ios-arrow-back',
-    right: 'ion-ios-arrow-forward'
+    right: 'ion-ios-arrow-forward',
+    up: 'ion-ios-arrow-up',
+    down: 'ion-ios-arrow-down'
   },
   table: {
     arrowUp: 'ion-arrow-up',

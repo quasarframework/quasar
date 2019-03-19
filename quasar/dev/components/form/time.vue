@@ -1,7 +1,6 @@
 <template>
   <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
     <div style="max-width: 600px" class="q-gutter-y-md">
-
       <div class="q-gutter-x-md">
         <q-toggle :dark="dark" v-model="dark" label="Dark" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
@@ -37,7 +36,9 @@
         :style="style"
       />
 
-      <div class="text-h6">Colored</div>
+      <div class="text-h6">
+        Colored
+      </div>
       <div class="q-gutter-md">
         <q-time
           v-model="time"
@@ -76,7 +77,9 @@
       </div>
       -->
 
-      <div class="text-h6">Limited options</div>
+      <div class="text-h6">
+        Limited options
+      </div>
       <div class="q-gutter-md">
         <q-time
           v-model="timeLimit"
@@ -95,7 +98,9 @@
         />
       </div>
 
-      <div class="text-h6">Input: {{ input }}</div>
+      <div class="text-h6">
+        Input: {{ input }}
+      </div>
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="input" :mask="withSeconds ? 'fulltime' : 'time'" :rules="[withSeconds ? 'fulltime' : 'time']">
           <q-icon slot="append" name="access_time" class="cursor-pointer">

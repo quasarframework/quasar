@@ -1,4 +1,8 @@
 {
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "showing": {
       "type": "Boolean",

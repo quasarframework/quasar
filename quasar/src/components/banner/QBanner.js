@@ -20,7 +20,8 @@ export default Vue.extend({
         'q-banner--top-padding': actions !== void 0 && !this.inlineActions,
         'q-banner--dense': this.dense,
         'rounded-borders': this.rounded
-      }
+      },
+      on: this.$listeners
     }, [
 
       h('div', {

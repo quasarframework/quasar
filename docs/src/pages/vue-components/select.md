@@ -10,6 +10,7 @@ The QSelect component has two types of selection: single or multiple. This compo
 ## Design
 
 ### Overview
+
 ::: warning
 For your QSelect you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
 :::
@@ -17,7 +18,12 @@ For your QSelect you can use only one of the main designs (`filled`, `outlined`,
 <doc-example title="Design Overview" file="QSelect/DesignOverview" />
 
 ### Decorators
+
 <doc-example title="Decorators" file="QSelect/Decorators" />
+
+### Coloring
+
+<doc-example title="Coloring" file="QSelect/Coloring" />
 
 ### Disable and readonly
 <doc-example title="Disable and readonly" file="QSelect/DisableReadonly" />
@@ -64,7 +70,7 @@ When `map-options` is used, the model can contain only the `value`, and it will 
 
 ### Custom prop names
 
-By default, QSelect looks at `label`, `value` and `disable` props of each option from the options array Objects. But you can override those:
+By default, QSelect looks at `label`, `value`, `disable` and `sanitize` props of each option from the options array Objects. But you can override those:
 
 <doc-example title="Custom label, value and disable props" file="QSelect/OptionCustomProps" />
 
@@ -104,7 +110,68 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 ## Create new values
 
-<doc-example title="Create new values" file="QSelect/CreateValues" />
+::: tip
+The following are just a few examples to get you started into making your own QSelect behavior. This is not exhaustive list of possibilities that QSelect offers.
+
+It makes sense to use this feature along with `use-input` prop.
+:::
+
+In order to enable the creation of new values, you need to **either specify** the `new-value-mode` prop **and/or** listen for `@new-value` event. If you use both, then the purpose of listening to `@new-value` would be only to override the `new-value-mode` in your custom scenarios.
+
+### The new-value-mode prop
+The `new-value-mode` prop value specifies how the value should be added: `add` (adds a value, even if duplicate), `add-unique` (add only if NOT duplicate) or `toggle` (adds value if it's not already in model, otherwise it removes it).
+
+By using this prop you don't need to also listen for `@new-value` event, unless you have some specific scenarios for which you want to override the behavior.
+
+<doc-example title="New value mode" file="QSelect/CreateNewValueMode" />
+
+### The @new-value event
+The `@new-value` event is emitted with the value to be added and a `done` callback. The `done` callback has two **optional** parameters:
+  - the value to be added
+  - the behavior (same values of `new-value-mode` prop, and when it is specified it overrides that prop -- if it is used) -- default behavior (if not using `new-value-mode`) is to add the value even if it would be a duplicate
+
+Calling `done()` with no parameters simply empties the input box value, without tampering with the model in any way.
+
+<doc-example title="Listening on @new-value" file="QSelect/CreateListener" />
+
+<doc-example title="Adding only unique values" file="QSelect/CreateListenerUnique" />
+
+### Using menu and filtering
+Filtering and adding the new values to menu:
+
+<doc-example title="Filtering and adding to menu" file="QSelect/FilteringAddsToMenu" />
+
+Filters new values (in the example below the value to be added requires at least 3 characters to pass), and does not add to menu:
+
+<doc-example title="Filtering without adding to menu" file="QSelect/FilteringNoAddToMenu" />
+
+## Sanitization
+
+::: warning
+Always sanitize values if you do not trust the origin (if the value comes from user input).
+:::
+
+You can force sanitization of the menu options by:
+  - setting `sanitize` key of the untrusted option to `true` (for specific untrusted options)
+  - or by setting `options-sanitize` prop of QSelect (for all options)
+
+::: warning
+If you use `option` slot, then you are responsible for sanitization of the menu options. The `options-sanitize` prop will not apply.
+:::
+
+The displayed value of QSelect is sanitized if:
+  - the `display-value-sanitize` prop of QSelect is set
+  - or you are not using `display-value` and
+    - the `options-sanitize` prop of QSelect is set
+    - any selected option has `sanitize` key set to `true`
+
+::: warning
+If you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-sanitize` prop will not apply.
+:::
+
+<doc-example title="Sanitize options" file="QSelect/SanitizeOptions" />
+
+<doc-example title="Sanitize display value" file="QSelect/SanitizeDisplayCustomValue" />
 
 ## Render performance
 

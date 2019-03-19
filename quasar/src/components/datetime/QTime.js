@@ -214,6 +214,11 @@ export default Vue.extend({
   },
 
   methods: {
+    __click (evt) {
+      this.__drag({ isFirst: true, evt })
+      this.__drag({ isFinal: true, evt })
+    },
+
     __drag (event) {
       if (event.isFirst) {
         const
@@ -366,7 +371,8 @@ export default Vue.extend({
         class: this.headerClass
       }, [
         h('div', {
-          staticClass: 'q-time__header-label row items-center no-wrap'
+          staticClass: 'q-time__header-label row items-center no-wrap',
+          attrs: { dir: 'ltr' }
         }, label),
 
         this.computedFormat24h === false ? h('div', {
@@ -418,13 +424,19 @@ export default Vue.extend({
               staticClass: 'q-time__container-child fit overflow-hidden'
             }, [
               h('div', {
-                staticClass: 'q-time__clock cursor-pointer',
+                staticClass: 'q-time__clock cursor-pointer non-selectable',
+                on: {
+                  click: this.__click
+                },
                 directives: [{
                   name: 'touch-pan',
                   value: this.__drag,
                   modifiers: {
                     stop: true,
-                    prevent: true
+                    prevent: true,
+                    mouse: true,
+                    mouseStop: true,
+                    mousePrevent: true
                   }
                 }]
               }, [
@@ -576,7 +588,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-time',
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, [
       this.__getHeader(h),
       this.__getClock(h)

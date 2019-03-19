@@ -4,7 +4,7 @@
     <q-input
       filled
       color="teal"
-      hint="Type Enter above"
+      hint="Type then hit Enter key above"
       v-model="test"
     />
 

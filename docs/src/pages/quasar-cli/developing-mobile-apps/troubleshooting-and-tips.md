@@ -2,6 +2,9 @@
 title: Cordova Troubleshooting and Tips
 ---
 
+## $q.cordova
+While you are developing a Mobile App with Cordova Mode, you can access `this.$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
+
 ## Browser Simulator
 Use Google Chrome's emulator from Developer Tools. It's a fantastic tool. You can select which device to emulate, but keep in mind that it's an *emulator* and not the real deal.
 

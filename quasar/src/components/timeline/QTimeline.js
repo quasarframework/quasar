@@ -42,7 +42,8 @@ export default Vue.extend({
   render (h) {
     return h('ul', {
       staticClass: 'q-timeline',
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, slot(this, 'default'))
   }
 })

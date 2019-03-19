@@ -65,7 +65,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-linear-progress',
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, [
       h('div', {
         staticClass: 'q-linear-progress__track absolute-full',

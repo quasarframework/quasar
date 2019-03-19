@@ -28,7 +28,7 @@
     "nativeName": "ελληνικά"
   },
   {
-    "isoName": "en-uk",
+    "isoName": "en-gb",
     "nativeName": "English (UK)"
   },
   {
@@ -49,7 +49,7 @@
   },
   {
     "isoName": "fi",
-    "nativeName": "fi"
+    "nativeName": "Suomi"
   },
   {
     "isoName": "fr",
@@ -82,6 +82,10 @@
   {
     "isoName": "ja",
     "nativeName": "日本語 (にほんご)"
+  },
+  {
+    "isoName": "km",
+    "nativeName": "ខ្មែរ"
   },
   {
     "isoName": "ko-kr",

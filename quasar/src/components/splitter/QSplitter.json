@@ -1,8 +1,12 @@
 {
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "value": {
       "type": "Number",
-      "desc": "Model of the component defining the split ratio (0.0 < x < 100.0) beetween panes; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "desc": "Model of the component defining the split ratio percent (0.0 < x < 100.0) between panes; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "examples": [ "v-model=\"ratio\"" ]
     },
 
@@ -20,6 +24,24 @@
 
     "disable": {
       "extends": "disable"
+    },
+
+    "before-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the 'before' panel",
+      "examples": [
+        "bg-deep-orange",
+        ":before-class=\"{ 'my-special-class': <condition> }\""
+      ]
+    },
+
+    "after-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the 'after' panel",
+      "examples": [
+        "bg-deep-orange",
+        ":after-class=\"{ 'my-special-class': <condition> }\""
+      ]
     },
 
     "separator-class": {

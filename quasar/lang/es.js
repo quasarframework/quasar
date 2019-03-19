@@ -26,7 +26,7 @@ export default {
   },
   table: {
     noData: 'Sin datos disponibles',
-    noResults: 'No se encontraron resultados',
+    noResults: 'No se han encontrado resultado',
     loading: 'Cargando...',
     selectedRecords: function (rows) {
       return rows > 1

@@ -8,11 +8,11 @@ const
 /*
  * Tree has (key: value) entries where
  *
- *    key: portalId
+ *    key: menuId
  *
- *    value --> (true / portalId)
+ *    value --> (true / menuId)
  *       true --- means has no sub-menu opened
- *       portalId --- portalId of the sub-menu that is currently opened
+ *       menuId --- menuId of the sub-menu that is currently opened
  *
  */
 
@@ -24,7 +24,7 @@ export function closeRootMenu (id) {
     }
     else {
       rootHide[id] !== void 0 && rootHide[id]()
-      return
+      return true
     }
   }
 }
@@ -32,36 +32,36 @@ export function closeRootMenu (id) {
 export const MenuTreeMixin = {
   methods: {
     __registerTree () {
-      tree[this.portalId] = true
+      tree[this.menuId] = true
 
-      if (this.$root.portalParentId === void 0) {
-        rootHide[this.portalId] = this.hide
+      if (this.$root.menuParentId === void 0) {
+        rootHide[this.menuId] = this.hide
         return
       }
 
-      if (tree[this.$root.portalParentId] !== true) {
-        bus.$emit('hide', tree[this.$root.portalParentId])
+      if (tree[this.$root.menuParentId] !== true) {
+        bus.$emit('hide', tree[this.$root.menuParentId])
       }
 
       bus.$on('hide', this.__processEvent)
-      tree[this.$root.portalParentId] = this.portalId
+      tree[this.$root.menuParentId] = this.menuId
     },
 
     __unregisterTree () {
       // if it hasn't been registered or already unregistered (beforeDestroy)
-      if (tree[this.portalId] === void 0) {
+      if (tree[this.menuId] === void 0) {
         return
       }
 
-      delete rootHide[this.portalId]
+      delete rootHide[this.menuId]
 
-      if (this.$root.portalParentId !== void 0) {
+      if (this.$root.menuParentId !== void 0) {
         bus.$off('hide', this.__processEvent)
       }
 
-      const child = tree[this.portalId]
+      const child = tree[this.menuId]
 
-      delete tree[this.portalId]
+      delete tree[this.menuId]
 
       if (child !== true) {
         bus.$emit('hide', child)
@@ -69,7 +69,7 @@ export const MenuTreeMixin = {
     },
 
     __processEvent (id) {
-      this.portalId === id && this.hide()
+      this.menuId === id && this.hide()
     }
   }
 }

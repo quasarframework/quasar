@@ -1,3 +1,9 @@
+import { listenOpts } from '../../utils/event.js'
+
+const evtOpts = listenOpts.hasPassive === true
+  ? { passive: false, capture: true }
+  : true
+
 export default {
   name: 'click-outside',
 
@@ -22,8 +28,16 @@ export default {
 
           let parent = target
           while ((parent = parent.parentNode) !== document.body) {
-            if (parent.classList.contains('q-menu')) {
+            if (parent === el) {
               return
+            }
+            if (parent.classList.contains('q-menu') || parent.classList.contains('q-dialog')) {
+              let sibling = parent
+              while ((sibling = sibling.previousSibling) !== null) {
+                if (sibling === el) {
+                  return
+                }
+              }
             }
           }
         }
@@ -37,8 +51,8 @@ export default {
     }
 
     el.__qclickoutside = ctx
-    document.body.addEventListener('mousedown', ctx.handler, true)
-    document.body.addEventListener('touchstart', ctx.handler, true)
+    document.body.addEventListener('mousedown', ctx.handler, evtOpts)
+    document.body.addEventListener('touchstart', ctx.handler, evtOpts)
   },
 
   update (el, { value, oldValue }) {
@@ -50,8 +64,8 @@ export default {
   unbind (el) {
     const ctx = el.__qclickoutside_old || el.__qclickoutside
     if (ctx !== void 0) {
-      document.body.removeEventListener('mousedown', ctx.handler, true)
-      document.body.removeEventListener('touchstart', ctx.handler, true)
+      document.body.removeEventListener('mousedown', ctx.handler, evtOpts)
+      document.body.removeEventListener('touchstart', ctx.handler, evtOpts)
       delete el[el.__qclickoutside_old ? '__qclickoutside_old' : '__qclickoutside']
     }
   }

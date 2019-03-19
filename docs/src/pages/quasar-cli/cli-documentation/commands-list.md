@@ -2,16 +2,18 @@
 title: Commands List
 ---
 
-Familiarize yourself with the list of commands:
+Familiarize yourself with the list of available commands inside a Quasar project:
 
 ``` bash
-$ quasar -h
+$ quasar
 
   ___
  / _ \ _   _  __ _ ___  __ _ _ __
 | | | | | | |/ _` / __|/ _` | '__|
 | |_| | |_| | (_| \__ \ (_| | |
  \__\_\\__,_|\__,_|___/\__,_|_|
+
+
 
   Example usage
     $ quasar <command> <options>
@@ -34,8 +36,18 @@ $ quasar -h
     run, r        Run specific command provided by an installed
                     Quasar App Extension
     describe      Describe a Quasar API (component)
+    test, t       Run @quasar/testing App Extension command
+                    - requires @quasar/testing App Extension to be installed
+                    - this is an alias command for convenience purposes
     info, i       Display info about your machine and your App
     help, h       Displays this message
+
+
+  Commands supplied by @quasar/cli global installation:
+
+    upgrade       Check (and optionally) upgrade Quasar packages
+                    from a Quasar project folder
+    serve         Create an ad-hoc server on App's distributables
 ```
 
 See help for any command:
@@ -46,12 +58,25 @@ $ quasar [command name] --help
 ## create
 
 Creates an App folder with initial project boilerplate.
+
 ``` bash
 # currently installs v0.17, for v1 see below
 $ quasar create <folder_name>
 
 ## for Quasar v1.0-beta, run this instead:
 $ quasar create <folder_name> -b dev
+```
+
+## upgrade
+
+Check (and optionally) upgrade Quasar packages from a Quasar project folder:
+
+```bash
+# check for upgradable packages
+$ quasar upgrade
+
+# do the actual upgrade
+$ quasar upgrade --install
 ```
 
 ## info
@@ -177,6 +202,10 @@ $ quasar build
 
 # build a PWA (check other modes as well)
 $ quasar build -m pwa
+
+# create a production build with ability to debug it
+# (has source-maps and code is NOT minified)
+$ quasar build -d
 ```
 
 You can also clean up all the build assets:
@@ -227,13 +256,12 @@ $ quasar mode -h
   Description
     Add/Remove support for PWA / Cordova / Electron modes.
   Usage
-    $ quasar mode -r|-a pwa|ssr|cordova|electron
+    $ quasar mode [add|remove pwa|ssr|cordova|electron]
 
     # determine what modes are currently installed:
     $ quasar mode
+
   Options
-    --add, -a     Add support for mode [pwa|ssr|cordova|electron]
-    --remove, -r  Remove support for mode [pwa|ssr|cordova|electron]
     --help, -h    Displays this message
 ```
 
@@ -250,7 +278,7 @@ These modes will add a "src-*" folder into your project with very specific code 
 
 If for some reason you decide you don't need a mode, you can remove it. **This will permanently delete** the respective "src-*" folder.
 ```bash
-$ quasar mode --remove pwa
+$ quasar mode remove pwa
 ```
 
 ## describe
@@ -343,12 +371,25 @@ $ quasar ext -h
     Manage Quasar App Extensions
 
   Usage
-    $ quasar ext [-a|-r]
+    # display list of installed extensions
+    $ quasar ext
+
+    # Add Quasar App Extension
+    $ quasar ext add <ext-id>
+
+    # Remove Quasar App Extension
+    $ quasar ext remove <ext-id>
+
+    # Add Quasar App Extension, but
+    # skip installing the npm package
+    # (assumes it's already installed)
+    $ quasar ext invoke <ext-id>
+
+    # Remove Quasar App Extension, but
+    # skip uninstalling the npm package
+    $ quasar ext uninvoke <ext-id>
 
   Options
-    --add, -a        Add Quasar App Extension
-    --remove, -r     Remove Quasar App Extension
-    --skip-pkg       Skip yarn/npm package install/uninstall
     --help, -h       Displays this message
 ```
 

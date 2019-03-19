@@ -20,6 +20,7 @@ export default Vue.extend({
     classes () {
       return `absolute-${this.position}`
     },
+
     style () {
       return {
         margin: `${this.offset[1]}px ${this.offset[0]}px`
@@ -31,7 +32,8 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-carousel__control absolute',
       style: this.style,
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, slot(this, 'default'))
   }
 })

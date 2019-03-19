@@ -16,6 +16,10 @@ QUploader requires a back-end server to receive the files. The examples below wi
 QUploader is `drag and drop` compliant.
 :::
 
+::: warning
+When using vee-validate, you have to rename the "fieldBagName" configuration of vee-validate for the q-uploader to work.
+:::
+
 ### Design
 
 <doc-example title="Basic" file="QUploader/Basic" />
@@ -40,6 +44,18 @@ You can also apply custom filters (which are executed after user picks files):
 
 <doc-example title="Filter" file="QUploader/RestrictionFilter" />
 
+### Adding headers
+
+Use `headers` for setting additional XHR headers to be sent along the upload request. Also check `fields` prop in the API, if you need additional fields to be embedded.
+
+<doc-example title="Headers" file="QUploader/Headers" />
+
+::: tip
+These two props (`headers` and `fields`) can be used as a function too (`(files) => Array`), allowing you to dynamically set them based on the files that are to be uploaded.
+:::
+
+There is also the `with-credentials` property, which sets `withCredentials` to `true` on the XHR used by the upload process.
+
 ### Handling upload
 
 <doc-example title="Auto upload on file selection" file="QUploader/UploadAuto" />
@@ -49,6 +65,17 @@ You can also apply custom filters (which are executed after user picks files):
 ::: tip
 You can also customize the HTTP headers and HTTP method through `headers` and `method` props. Check QUploader API section.
 :::
+
+### Factory function
+There is a `factory` prop you can use which must be a Function. This function can return either an Object or a Promise resolving with an Object (and in case the Promise fails, `@factory-failed` event is emitted).
+
+The Object described above can override the following QUploader props: `url`, `method`, `headers`, `fields`, `fieldName`, `withCredentials`, `sendRaw`). The props of this Object can be Functions as well (of form `(file[s]) => value`):
+
+<doc-example title="Promise-based factory function" file="QUploader/FactoryPromise" />
+
+You can also use the `factory` Function prop and return immediately the same Object. This is useful if you want to set multiple props (described above) simultaneously:
+
+<doc-example title="Immediate return factory function" file="QUploader/FactoryImmediate" />
 
 ### Slots
 

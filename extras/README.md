@@ -6,7 +6,7 @@
 
 # Quasar Framework Extras
 
-<a href="https://badge.fury.io/js/quasar-extras" target="_blank"><img src="https://badge.fury.io/js/quasar-extras.svg"></a>
+<a href="https://badge.fury.io/js/%40quasar%2Fextras" target="_blank"><img src="https://badge.fury.io/js/%40quasar%2Fextras.svg"></a>
 [![Join the chat at https://discord.gg/5TDhbDg](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/5TDhbDg)
 <a href="http://forum.quasar-framework.org" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 
@@ -14,11 +14,12 @@
 | --- | --- | --- | --- |
 | Roboto Font | `roboto-font` | CDN v18 | Recommended font along Material theme |
 | Roboto Font Latin Extended | `roboto-font-latin-ext` | CDN v18 | Recommended font along Material theme |
-| [Material Icons](https://material.io/icons/) | `material-icons` | CDN v41 | Material icons font |
-| [MDI](https://materialdesignicons.com/) (Material Design Icons) | `mdi` | 3.0.39 | Extended Material Design icons font |
-| [Font Awesome](https://fontawesome.com/icons?d=gallery) | `fontawesome` | 5.5.0 | Fontawesome icons font |
-| [Ionicons](http://ionicons.com/) | `ionicons` | 4.4.5 | Ionicons font |
+| [Material Icons](https://material.io/icons/) | `material-icons` | CDN v43 | Material icons font |
+| [MDI](https://materialdesignicons.com/) (Material Design Icons) | `mdi-v3` | 3.4.93 | Extended Material Design icons font |
+| [Font Awesome](https://fontawesome.com/icons?d=gallery) | `fontawesome-v5` | 5.7.2 | Fontawesome icons font |
+| [Ionicons](http://ionicons.com/) | `ionicons-v4` | 4.4.5 | Ionicons font |
 | [Eva Icons](https://akveo.github.io/eva-icons) | `eva-icons` | 1.1.1 | Eva Icons font |
+| [Themify Icons](https://themify.me/themify-icons) | `themify` | 1.0.0 | Themify Icons font |
 | [Animate.css](https://daneden.github.io/animate.css/) | Use `animations` prop | 3.5.2 | Bundle of animations you can use in your website/app |
 
 Why this package? Because it strips down unnecessary package files (so faster download times), all in one place, tested and ready to use with Quasar. One other reason is that the material icons npm package sometimes fails to be downloaded by NPM.

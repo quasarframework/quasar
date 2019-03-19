@@ -31,21 +31,27 @@ Example on capturing only vertically panning. Page scrolling is prevented, but y
 
 <doc-example title="Vertically" file="TouchPan/Vertical" />
 
-### Avoid Capturing Mouse Events
-When you don't want to capture mouse actions too, use the `noMouse` modifier:
+### Capturing Mouse Events
+Remember that when you want to capture mouse actions too, use the `mouse` modifier:
+
 ``` html
 <!--
-  directive won't be triggered by mouse actions;
-  it's exclusively triggered by touch actions now:
+  directive will also be triggered by mouse actions
 -->
-<div v-touch-pan.noMouse="userHasPanned">...</div>
+<div v-touch-pan.mouse="userHasPanned">...</div>
 ```
+
+Take a look at the examples above. They all capture mouse events too.
 
 ### Preventing Scroll (on touch capable devices)
 By default, the directive does not block page scrolling. If you want to prevent scrolling, then use the `prevent` modifier.
+
 ``` html
 <div v-touch-pan.prevent="userHasPanned">...</div>
 ```
+
+### Note on HMR
+Due to performance reasons, when doing HMR updates, the modifiers are not updated, so you will require a window refresh.
 
 ## API
 <doc-api file="TouchPan" />

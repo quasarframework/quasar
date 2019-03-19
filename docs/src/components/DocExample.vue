@@ -1,5 +1,5 @@
 <template lang="pug">
-q-card.doc-example.q-my-lg(:class="classes")
+q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
   q-toolbar.doc-example__toolbar
     card-title(:title="title", prefix="Example--")
 
@@ -47,7 +47,8 @@ q-card.doc-example.q-my-lg(:class="classes")
 
       q-separator.doc-example__separator
 
-  component.doc-example__content(:is="component", :class="componentClass")
+  .row
+    component.col.doc-example__content(:is="component", :class="componentClass")
 
   codepen(ref="codepen", :title="title", :parts="parts")
 </template>

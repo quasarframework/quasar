@@ -5,34 +5,72 @@
         <q-checkbox v-model="dense" label="Dense" />
       </div>
 
+      <div style="display: flex; margin-bottom: 50px; height: 200px; position: relative;">
+        <q-tabs :dense="dense" vertical class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
+          <q-tab name="one" icon="wifi" />
+          <q-tab name="two" icon="bluetooth" />
+          <q-tab name="three" icon="map" />
+        </q-tabs>
+
+        <q-tabs :dense="dense" vertical inline-label class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
+          <q-tab name="one" label="wifi" icon="wifi" />
+          <q-tab name="two" label="bluetooth" icon="bluetooth" />
+          <q-tab name="three" label="map" icon="map" />
+          <q-tab name="four" label="phone" icon="phone" />
+          <q-tab name="five" label="location" icon="location_on" />
+          <q-tab name="six" label="favorite" icon="favorite" />
+          <q-tab name="seven" label="home" icon="home" />
+          <q-tab name="eight" label="info" icon="info" />
+        </q-tabs>
+
+        <q-tabs :dense="dense" vertical class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
+          <q-tab name="one" label="wifi" icon="wifi" />
+          <q-tab name="two" label="bluetooth" icon="bluetooth" />
+          <q-tab name="three" label="map" icon="map" />
+          <q-tab name="four" label="phone" icon="phone" />
+          <q-tab name="five" label="location" icon="location_on" />
+          <q-tab name="six" label="favorite" icon="favorite" />
+          <q-tab name="seven" label="home" icon="home" />
+          <q-tab name="eight" label="info" icon="info" />
+        </q-tabs>
+      </div>
+
       <q-tabs :dense="dense">
         <q-tab label="Item one" />
         <q-tab label="Item two" />
         <q-tab label="Item three" />
         <q-btn-dropdown stretch flat label="Dropdown">
           <q-list link>
-            <q-item-label header>Folders</q-item-label>
-            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-menu tabindex="0">
+            <q-item-label header>
+              Folders
+            </q-item-label>
+            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="folder" color="secondary" text-color="white" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Photos</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-icon name="info" />
               </q-item-section>
             </q-item>
             <q-separator inset />
-            <q-item-label header>Files</q-item-label>
-            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-menu tabindex="0">
+            <q-item-label header>
+              Files
+            </q-item-label>
+            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="assignment" color="primary" text-color="white" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Vacation</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-icon name="info" />
@@ -50,10 +88,14 @@
 
       <q-tabs :dense="dense" inline-label>
         <q-tab icon="map">
-          <q-badge color="red" floating>2</q-badge>
+          <q-badge color="red" floating>
+            2
+          </q-badge>
         </q-tab>
         <q-tab icon="map" label="Map">
-          <q-badge color="red" floating>2</q-badge>
+          <q-badge color="red" floating>
+            2
+          </q-badge>
         </q-tab>
         <q-tab icon="map" alert />
         <q-tab icon="map" label="Map" alert />
@@ -65,6 +107,16 @@
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
+
+      <q-toolbar class="bg-purple text-white shadow-2 rounded-borders q-mb-xl">
+        <q-btn flat label="Homepage" />
+        <q-space />
+        <q-tabs inline-label class="col-shrink">
+          <q-tab icon="phone" label="Tab 1" />
+          <q-tab label="Tab 2" />
+          <q-tab icon="location_on" label="Tab 3" />
+        </q-tabs>
+      </q-toolbar>
 
       <q-tabs :dense="dense" class="bg-grey-1 text-teal">
         <q-tab icon="phone" label="Item one Item one Item one" />
@@ -84,28 +136,36 @@
         <q-tab icon="location_on" label="Item three" />
         <q-btn-dropdown stretch flat label="Dropdown">
           <q-list link>
-            <q-item-label header>Folders</q-item-label>
-            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-menu tabindex="0">
+            <q-item-label header>
+              Folders
+            </q-item-label>
+            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="folder" color="secondary" text-color="white" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Photos</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-icon name="info" />
               </q-item-section>
             </q-item>
             <q-separator inset />
-            <q-item-label header>Files</q-item-label>
-            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-menu tabindex="0">
+            <q-item-label header>
+              Files
+            </q-item-label>
+            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="assignment" color="primary" text-color="white" />
               </q-item-section>
               <q-item-section>
                 <q-item-label>Vacation</q-item-label>
-                <q-item-label caption>February 22, 2016</q-item-label>
+                <q-item-label caption>
+                  February 22, 2016
+                </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-icon name="info" />
@@ -138,30 +198,50 @@
 
       <div class="row q-gutter-xs justify-stretch">
         <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a#123" label="/tabs/a#123 - select most specific tab" />
+          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/a#123" label="/tabs/a#123 - select most specific tab" />
         </div>
         <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a/a#123" label="/tabs/a/a#123 - select most specific tab" />
+          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/a/a#123" label="/tabs/a/a#123 - select most specific tab" />
         </div>
         <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a/a" label="/tabs/b#123 - select exact tab" />
+          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/a/a" label="/tabs/a/a - select exact tab" />
         </div>
         <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/b#123" label="/tabs/b#123 - select no tab" />
+          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/b#123" label="/tabs/b#123 - select no tab" />
         </div>
       </div>
       <q-tabs :dense="dense" class="test q-mt-sm">
-        <q-route-tab name="tabs" to="/components/tabs" exact replace label="/tabs" />
-        <q-route-tab name="tabs/a" to="/components/tabs/a" exact replace label="/tabs/a" />
-        <q-route-tab name="tabs/a *" to="/components/tabs/a" replace label="/tabs/a *" />
-        <q-route-tab name="tabs/a#1" to="/components/tabs/a#1" exact replace label="/tabs/a#1" />
-        <q-route-tab name="tabs/a/a" to="/components/tabs/a/a" exact replace label="/tabs/a/a" />
-        <q-route-tab name="tabs/a/a *" to="/components/tabs/a/a" replace label="/tabs/a/a *" />
-        <q-route-tab name="tabs/a/a#1" to="/components/tabs/a/a#1" exact replace label="/tabs/a/a#1" />
-        <q-route-tab name="tabs/a/b" to="/components/tabs/a/b" exact replace label="/tabs/a/b" />
-        <q-route-tab name="tabs/b" to="/components/tabs/b" exact replace label="/tabs/b" />
-        <q-route-tab name="tabs/b/a" to="/components/tabs/b/a" exact replace label="/tabs/b/a" />
-        <q-route-tab name="tabs/c" to="/components/tabs/c" exact replace label="/tabs/c" />
+        <q-route-tab name="tabs" to="/components/tabs" exact label="/tabs" />
+        <q-route-tab name="tabs/a" to="/components/tabs/a" exact label="/tabs/a" />
+        <q-route-tab name="tabs/a *" to="/components/tabs/a" label="/tabs/a *" />
+        <q-route-tab name="tabs/a#1" to="/components/tabs/a#1" exact label="/tabs/a#1" />
+        <q-route-tab name="tabs/a/a" to="/components/tabs/a/a" exact label="/tabs/a/a" />
+        <q-route-tab name="tabs/a/a *" to="/components/tabs/a/a" label="/tabs/a/a *" />
+        <q-route-tab name="tabs/a/a#1" to="/components/tabs/a/a#1" exact label="/tabs/a/a#1" />
+        <q-route-tab name="tabs/a/b" to="/components/tabs/a/b" exact label="/tabs/a/b" />
+        <q-route-tab name="tabs/b" to="/components/tabs/b" exact label="/tabs/b" />
+        <q-route-tab name="tabs/b/a" to="/components/tabs/b/a" exact label="/tabs/b/a" />
+        <q-route-tab name="tabs/c" to="/components/tabs/c" exact label="/tabs/c" />
+      </q-tabs>
+
+      <div class="row q-gutter-xs justify-stretch">
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'ta', params: { id: 1 }}" replace label="t/1/a" />
+        </div>
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'tb', params: { id: 1 }}" replace label="t/1/b" />
+        </div>
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'ta', params: { id: 2 }}" replace label="t/2/a" />
+        </div>
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'tb', params: { id: 2 }}" replace label="t/2/b" />
+        </div>
+      </div>
+      <q-tabs :dense="dense" class="test q-mt-sm">
+        <q-route-tab to="/components/tabs/t" exact label="t" />
+        <q-route-tab v-if="$route.params.id" :to="{ name: 'ta', params: $route.params }" exact :label="`t/${ $route.params.id }/a`" />
+        <q-route-tab v-if="$route.params.id" :to="{ name: 'tb', params: $route.params }" exact :label="`t/${ $route.params.id }/b`" />
       </q-tabs>
 
       <h4>Tabs content (animated, swipeable)</h4>
@@ -202,6 +282,7 @@
           class="text-black text-center"
         >
           <q-tab-panel :name="panelTest ? 'two' : 'one'">
+            <q-btn dense round icon="map" class="absolute-bottom-right" />
             Tab One <strong v-if="panelTest">(Swapped)</strong> <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
           </q-tab-panel>
 
@@ -228,6 +309,7 @@
         class="text-black text-center"
       >
         <q-tab-panel name="one">
+          <q-btn dense round icon="map" class="absolute-bottom-right" />
           v-if test Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
@@ -251,13 +333,22 @@
         transition-prev="fade"
         transition-next="fade"
         class="q-mt-lg text-black text-center"
+        style="height: 150px"
       >
         <q-tab-panel name="one">
+          Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+          <q-input v-model="text" />
+          <input v-model="text">
+          <q-btn dense round icon="map" class="absolute-bottom-right" />
           Tab One <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
         <q-tab-panel name="two">
-          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. At iusto neque odio porro, animi ducimus iure autem commodi sint, magni voluptatum molestias illo accusamus voluptate ratione aperiam. Saepe, fugiat vel.
+          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
+          <q-input v-model="text" />
+          <input v-model="text">
+          <q-btn dense round icon="map" class="absolute-bottom-right" />
+          Tab Two <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.
         </q-tab-panel>
 
         <q-tab-panel name="three">
@@ -276,8 +367,10 @@
 export default {
   data () {
     return {
+      text: '',
       dense: false,
       tab: 'one',
+      vtab: 'one',
       panelTest: false,
       some: false
     }
@@ -290,6 +383,10 @@ export default {
 </script>
 
 <style lang="stylus">
+.q-tabs.vertical-tabs
+  margin-bottom 0
 .tabs-demo .q-tabs
   margin-bottom 24px
+.tabs-demo .q-toolbar .q-tabs
+  margin-bottom 0
 </style>

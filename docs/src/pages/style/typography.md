@@ -40,3 +40,19 @@ extras: [
   'roboto-font'
 ]
 ```
+
+## Add custom fonts
+It is also possible to include other fonts to use them in the app. The following is one way to do it:
+
+1. Copy your new webfont `[customfont].woff` (or whatever extension it has; recommended is `woff` for compatibility across all browsers) in a directory of your choice, for example: `./src/css/fonts/[customfont.woff]`
+2. Declare your font in `./src/css/app.styl` (or in any place you see fit, but correctly update the relative path to the webfont file):
+```stylus
+@font-face
+  font-family customfont
+  src url(./fonts/customfont.woff)
+
+// declare a class which applies it
+.my-font
+  font-family 'customfont'
+```
+3. Then use that class where you need it.

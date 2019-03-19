@@ -29,19 +29,23 @@ Let's discuss about each of these two requirements:
 * Both RTL and non-RTL Quasar language packs will work together and dynamically switch to/from RTL. So only choosing an RTL Quasar language pack will trigger the RTL UI for you. You don't need separate builds of your app (one for non-RTL and one for RTL-only). The RTL is dynamically changed for you automatically.
 * You can dynamically detect if you are on RTL mode by taking a look at Boolean `this.$q.lang.rtl`. More info on [Vue Prototype Injections](/options/vue-prototype-injections).
 * You need to be careful when writing your own CSS. Like mentioned above, Quasar will automatically add RTL rules based on your CSS code. So writing:
-  ```css
-  .my-class {
-    margin-left: 10px;
-    right: 5px;
-  }
-  ```
+
+```css
+.my-class {
+  margin-left: 10px;
+  right: 5px;
+}
+```
+
   ...will add this rule for RTL:
-  ```css
-  [dir=rtl] .my-class {
-    margin-right: 10px;
-    left: 5px;
-  }
-  ```
+
+```css
+[dir=rtl] .my-class {
+  margin-right: 10px;
+  left: 5px;
+}
+```
+
   Any CSS rule that refers to "left" or "right" is automatically triggering an equivalent RTL CSS rule to be added.
 
 ### Marking CSS rules as exceptions
@@ -81,8 +85,8 @@ To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your
 <html>
   <head>
     ...
-    <!-- Replace "1.0.0-beta.1" (below) with your Quasar version. -->
-    <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.1/dist/quasar.rtl.min.css" rel="stylesheet" type="text/css">
+    <!-- Replace "1.0.0-beta.0" (below) with your Quasar version. -->
+    <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/quasar.rtl.min.css" rel="stylesheet" type="text/css">
   </head>
 
   <body>
@@ -91,9 +95,9 @@ To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your
     <!--
       We also need an RTL Quasar language pack; let's take Hebrew as an example;
       include this after Quasar JS tag;
-      Replace "1.0.0-beta.1" (below) with your Quasar version.
+      Replace "1.0.0-beta.0" (below) with your Quasar version.
     -->
-    <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.1/dist/lang/he.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/lang/he.umd.min.js"></script>
     <script>
       Quasar.lang.set(Quasar.lang.he)
     </script>

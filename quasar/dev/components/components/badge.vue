@@ -1,7 +1,6 @@
 <template>
   <div class="q-layout-padding bg-grey-3" style="min-height: 100vh">
     <div class="q-gutter-md" style="max-width: 500px">
-
       <q-badge color="blue">
         #4D96F2
       </q-badge>
@@ -17,11 +16,15 @@
       </q-badge>
 
       <div class="text-h6">
-        Badge <q-badge color="primary">v1.0.0+</q-badge>
+        Badge <q-badge color="primary">
+          v1.0.0+
+        </q-badge>
       </div>
 
       <div>
-        Feature <q-badge color="primary">v1.0.0+</q-badge>
+        Feature <q-badge color="primary">
+          v1.0.0+
+        </q-badge>
       </div>
 
       <q-item clickable v-ripple class="bg-grey-2">
@@ -54,29 +57,39 @@
 
       <div class="text-h4">
         Title
-        <q-badge align="top">cli v1.0.0</q-badge>
+        <q-badge align="top">
+          cli v1.0.0
+        </q-badge>
       </div>
 
       <q-separator />
 
       <div class="text-h4">
         Title
-        <q-badge align="middle">app v1.0.0</q-badge>
+        <q-badge align="middle">
+          app v1.0.0
+        </q-badge>
       </div>
 
       <q-separator />
 
       <div class="text-h4">
         Title
-        <q-badge align="bottom">docs v1.0.0</q-badge>
+        <q-badge align="bottom">
+          docs v1.0.0
+        </q-badge>
       </div>
 
       <q-btn push color="white" text-color="primary" label="Unread Mails">
-        <q-badge color="orange" floating>22</q-badge>
+        <q-badge color="orange" floating>
+          22
+        </q-badge>
       </q-btn>
 
       <q-btn dense color="purple" round icon="email" class="q-ml-md">
-        <q-badge color="red" floating>4</q-badge>
+        <q-badge color="red" floating>
+          4
+        </q-badge>
       </q-btn>
 
       <q-btn color="teal" size="sm" label="Unread Mails">
@@ -99,28 +112,48 @@
       </div>
 
       <div>Some text <q-badge>100</q-badge></div>
-      <div>Some text <q-badge color="orange">100</q-badge></div>
-      <div>Some text <q-badge color="yellow" text-color="black">100</q-badge></div>
+      <div>
+        Some text <q-badge color="orange">
+          100
+        </q-badge>
+      </div>
+      <div>
+        Some text <q-badge color="yellow" text-color="black">
+          100
+        </q-badge>
+      </div>
 
       <q-btn color="primary" label="Button">
-        <q-badge color="orange" floating>100+</q-badge>
+        <q-badge color="orange" floating>
+          100+
+        </q-badge>
       </q-btn>
       <q-btn size="sm" color="primary" label="Button" class="q-ml-md">
-        <q-badge color="orange" floating>100+</q-badge>
+        <q-badge color="orange" floating>
+          100+
+        </q-badge>
       </q-btn>
       <q-btn size="lg" dense color="primary" label="Button" class="q-ml-md">
-        <q-badge color="orange" floating>4</q-badge>
+        <q-badge color="orange" floating>
+          4
+        </q-badge>
       </q-btn>
       <q-btn color="primary" icon="map" round class="q-ml-md">
-        <q-badge color="orange" floating>2</q-badge>
+        <q-badge color="orange" floating>
+          2
+        </q-badge>
       </q-btn>
       <q-btn dense color="primary" icon="map" round class="q-ml-md">
-        <q-badge color="orange" floating>2</q-badge>
+        <q-badge color="orange" floating>
+          2
+        </q-badge>
       </q-btn>
 
       <h2>
         Some title
-        <q-badge align="top">1.0.0+</q-badge>
+        <q-badge align="top">
+          1.0.0+
+        </q-badge>
       </h2>
 
       <h2>

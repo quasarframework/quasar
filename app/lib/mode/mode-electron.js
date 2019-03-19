@@ -10,8 +10,8 @@ const
 
 const
   electronDeps = {
-    'electron': '3.0.8',
-    'electron-debug': '2.0.0',
+    'electron': '4.0.5',
+    'electron-debug': '2.1.0',
     'electron-devtools-installer': '2.2.4',
     'devtron': '1.4.0'
   }

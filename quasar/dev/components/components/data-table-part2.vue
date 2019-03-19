@@ -128,13 +128,13 @@
         <q-btn color="primary" flat round dense icon="more_vert">
           <q-menu cover>
             <q-list>
-              <q-item clickable v-close-menu>
+              <q-item clickable v-close-popup>
                 <q-item-section avatar>
                   <q-icon name="map" />
                 </q-item-section>
                 <q-item-section>View map</q-item-section>
               </q-item>
-              <q-item clickable v-close-menu>
+              <q-item clickable v-close-popup>
                 <q-item-section avatar>
                   <q-icon name="add" />
                 </q-item-section>
@@ -189,17 +189,31 @@
           <q-td rowspan="2">
             {{ props.row.name }}
           </q-td>
-          <q-td key="calories" :props="props" style="border: 0">{{ props.row.calories }}</q-td>
-          <q-td key="fat" :props="props" style="border: 0">{{ props.row.fat }}</q-td>
-          <q-td key="carbs" :props="props" style="border: 0">{{ props.row.carbs }}</q-td>
+          <q-td key="calories" :props="props" style="border: 0">
+            {{ props.row.calories }}
+          </q-td>
+          <q-td key="fat" :props="props" style="border: 0">
+            {{ props.row.fat }}
+          </q-td>
+          <q-td key="carbs" :props="props" style="border: 0">
+            {{ props.row.carbs }}
+          </q-td>
           <q-td key="iron" :props="props" rowspan="2">
-            <q-chip square color="amber">{{ props.row.iron }}</q-chip>
+            <q-chip square color="amber">
+              {{ props.row.iron }}
+            </q-chip>
           </q-td>
         </q-tr>
         <q-tr :props="props">
-          <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
-          <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
-          <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
+          <q-td key="protein" :props="props">
+            {{ props.row.protein }}
+          </q-td>
+          <q-td key="sodium" :props="props">
+            {{ props.row.sodium }}
+          </q-td>
+          <q-td key="calcium" :props="props">
+            {{ props.row.calcium }}
+          </q-td>
         </q-tr>
       </template>
     </q-table>
@@ -265,7 +279,7 @@
       <template v-slot:top-selection>
         <q-btn color="secondary" flat label="Action 1" />
         <q-btn color="secondary" flat label="Action 2" />
-        <div class="col"/>
+        <div class="col" />
         <q-btn color="negative" flat round dense icon="delete" />
       </template>
     </q-table>

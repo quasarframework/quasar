@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-md column" style="max-width: 300px">
+    <div class="q-gutter-y-md column" style="max-width: 300px">
       <q-toggle v-model="dense" label="Dense QInput" />
 
       <q-input standout v-model="text" :dense="dense" />
@@ -13,6 +13,8 @@
 
       <q-input standout v-model="ph" placeholder="Placeholder" hint="With placeholder" :dense="dense" />
 
+      <q-input standout square v-model="text" hint="With perfect square borders" :dense="dense" />
+
       <q-input standout v-model="text" :dense="dense">
         <template v-slot:prepend>
           <q-icon name="event" />
@@ -22,7 +24,7 @@
       <q-input standout v-model="text" :dense="dense">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
           </q-avatar>
         </template>
       </q-input>

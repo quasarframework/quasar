@@ -2,6 +2,8 @@ import { testPattern } from '../utils/patterns.js'
 
 export default {
   props: {
+    value: {},
+
     error: Boolean,
     errorMessage: String,
 
@@ -19,8 +21,12 @@ export default {
 
   watch: {
     value (v) {
-      if (this.rules === void 0) { return }
-      if (this.lazyRules === true && this.isDirty === false) { return }
+      if (this.rules === void 0) {
+        return
+      }
+      if (this.lazyRules === true && this.isDirty === false) {
+        return
+      }
 
       this.validate(v)
     }
@@ -39,48 +45,101 @@ export default {
   },
 
   mounted () {
-    this.$on('blur', this.__triggerValidation)
+    this.validateIndex = 0
+    this.$el.addEventListener('focusout', this.__triggerValidation)
   },
 
   beforeDestroy () {
-    this.$off('blur', this.__triggerValidation)
+    this.$el.removeEventListener('focusout', this.__triggerValidation)
   },
 
   methods: {
     resetValidation () {
+      this.validateIndex++
+      this.innerLoading = false
       this.isDirty = false
       this.innerError = false
       this.innerErrorMessage = void 0
     },
 
     validate (val = this.value) {
-      let msg, error = false
+      if (!this.rules || this.rules.length === 0) {
+        return
+      }
+
+      this.validateIndex++
+
+      if (this.innerLoading !== true && this.lazyRules !== true) {
+        this.isDirty = true
+      }
+
+      const update = (err, msg) => {
+        if (this.innerError !== err) {
+          this.innerError = err
+        }
+
+        const m = msg || void 0
+        if (this.innerErrorMessage !== m) {
+          this.innerErrorMessage = m
+        }
+
+        if (this.innerLoading !== false) {
+          this.innerLoading = false
+        }
+      }
+
+      const promises = []
 
       for (let i = 0; i < this.rules.length; i++) {
         const rule = this.rules[i]
-        if (typeof rule === 'function') {
-          const res = rule(val)
+        let res
 
-          if (typeof res === 'string') {
-            error = true
-            msg = res
-            break
-          }
+        if (typeof rule === 'function') {
+          res = rule(val)
         }
         else if (typeof rule === 'string' && testPattern[rule] !== void 0) {
-          if (testPattern[rule](val) !== true) {
-            error = true
-            break
-          }
+          res = testPattern[rule](val)
+        }
+
+        if (res === false || typeof res === 'string') {
+          update(true, res)
+          return
+        }
+        else if (res !== true && res !== void 0) {
+          promises.push(res)
         }
       }
 
-      if (this.innerError !== error) {
-        this.innerError = error
+      if (promises.length === 0) {
+        update(false)
+        return
       }
-      if (this.innerErrorMessage !== msg) {
-        this.innerErrorMessage = msg
+
+      if (this.innerLoading !== true) {
+        this.innerLoading = true
       }
+
+      const index = this.validateIndex
+
+      Promise.all(promises).then(
+        res => {
+          if (index === this.validateIndex) {
+            if (res === void 0 || Array.isArray(res) === false || res.length === 0) {
+              update(false)
+            }
+            else {
+              const msg = res.find(r => r === false || typeof r === 'string')
+              update(msg !== void 0, msg)
+            }
+          }
+        },
+        (e) => {
+          if (index === this.validateIndex) {
+            console.error(e)
+            update(true)
+          }
+        }
+      )
     },
 
     __triggerValidation () {

@@ -23,8 +23,8 @@ import '@quasar/extras/animate/<%= asset %>.css'
 
 import 'quasar-styl'
 
-<% css.length > 0 && css.forEach(asset => { %>
-import '<%= asset %>'
+<% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
+import '<%= asset.path %>'
 <% }) %>
 
 import Vue from 'vue'
@@ -45,7 +45,7 @@ if (boot.length > 0) {
     let importName = 'b_' + hash(asset.path)
     bootNames.push(importName)
 %>
-import <%= importName %> from 'boot/<%= asset.path %>'
+import <%= importName %> from '<%= asset.path %>'
 <% }) } %>
 
 <% if (preFetch) { %>

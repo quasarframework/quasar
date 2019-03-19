@@ -22,22 +22,22 @@ export default Vue.extend({
   computed: {
     style () {
       const offset =
-        (this.layout.header.space ? this.layout.header.size : 0) +
-        (this.layout.footer.space ? this.layout.footer.size : 0)
+        (this.layout.header.space === true ? this.layout.header.size : 0) +
+        (this.layout.footer.space === true ? this.layout.footer.size : 0)
 
       if (typeof this.styleFn === 'function') {
         return this.styleFn(offset)
       }
 
-      const minHeight = this.layout.container
+      const minHeight = this.layout.container === true
         ? (this.layout.containerHeight - offset) + 'px'
-        : (offset ? `calc(100vh - ${offset}px)` : `100vh`)
+        : (offset !== 0 ? `calc(100vh - ${offset}px)` : `100vh`)
 
       return { minHeight }
     },
 
     classes () {
-      if (this.padding) {
+      if (this.padding === true) {
         return 'q-layout-padding'
       }
     }
@@ -47,7 +47,8 @@ export default Vue.extend({
     return h('main', {
       staticClass: 'q-page',
       style: this.style,
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, slot(this, 'default'))
   }
 })

@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/router-link" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "active": {
       "type": "Boolean",
@@ -45,34 +49,12 @@
     "focused": {
       "type": "Boolean",
       "desc": "Determines focus state, ONLY if 'manual-focus' is enabled / set to true"
-    },
-
-    "disable": {
-      "extends": "disable"
     }
   },
 
   "slots": {
     "default": {
       "desc": "This is where QItem's content goes"
-    }
-  },
-
-  "events": {
-    "click": {
-      "extends": "click",
-      "desc": "Emitted if 'clickable' is set"
-    },
-
-    "keyup": {
-      "desc": "Emitted (only if 'clickable' is set) when user focuses the component and hits a key",
-      "params": {
-        "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
-        }
-      }
     }
   }
 }

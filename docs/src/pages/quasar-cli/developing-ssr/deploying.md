@@ -16,7 +16,7 @@ You'll notice that it contains a `package.json` file of its own. It has an npm s
 }
 ```
 
-So what you need to do when deploying is to copy this distributables folder on your server, yarn/npm install the dependencies inside it, then run `$ yarn start` or `$ npm run start`. This boots up the webserver and starts listening for connections.
+So what you need to do when deploying is to copy this distributables folder on your server, yarn/npm install the dependencies inside it, then run `$ yarn start`. This boots up the webserver and starts listening for connections.
 
 ::: tip
 The distributables folder generated after building your app is standalone. It does NOT require the rest of your project folder to work and it does NOT depend on `@quasar/cli` being installed.
@@ -40,6 +40,10 @@ $ npm install -g now
 $ now login
 ```
 
+::: warning
+Make sure that you have set Now Platform Version to v1.
+:::
+
 Then, you cd into the distributables folder and run `$ now`. You might want to use a "now alias" or connect your domain to Now. And you're done!
 
-`Now.sh` will npm install the dependencies automatically then run `$ npm run start`. Your website will be up and running on an HTTPS connection in a matter of seconds!
+`Now.sh` will install the dependencies automatically then run `$ yarn start`. Your website will be up and running on an HTTPS connection in a matter of seconds!

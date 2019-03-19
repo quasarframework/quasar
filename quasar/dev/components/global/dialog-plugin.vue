@@ -3,6 +3,7 @@
     <div class="row justify-center">
       <div class="q-gutter-md" style="max-width: 700px">
         <q-btn label="Alert" flat color="primary" @click="alert" />
+        <q-btn label="Alert - custom" flat color="primary" @click="alertCustom" />
         <q-btn label="Confirm" flat color="primary" @click="confirm" />
         <q-btn label="Prompt" flat color="primary" @click="prompt" />
         <q-btn label="Radio Options" flat color="primary" @click="radio" />
@@ -14,7 +15,9 @@
       </div>
     </div>
 
-    <div class="text-center text-caption q-mt-xl" style="height: 1500px">Page has scroll on purpose</div>
+    <div class="text-center text-caption q-mt-xl" style="height: 1500px">
+      Page has scroll on purpose
+    </div>
   </div>
 </template>
 
@@ -25,6 +28,19 @@ export default {
       this.$q.dialog({
         title: 'Alert',
         message: 'Some message'
+      }).onOk(() => {
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
+      })
+    },
+
+    alertCustom () {
+      this.$q.dialog({
+        title: 'Alert',
+        message: 'Some message',
+        style: { backgroundColor: 'red' },
+        className: 'custom-dialog'
       }).onOk(() => {
         console.log('OK')
       }).onCancel(() => {
@@ -80,9 +96,9 @@ export default {
           model: 'opt1',
           // inline: true
           items: [
-            {label: 'Option 1', value: 'opt1', color: 'secondary'},
-            {label: 'Option 2', value: 'opt2'},
-            {label: 'Option 3', value: 'opt3'}
+            { label: 'Option 1', value: 'opt1', color: 'secondary' },
+            { label: 'Option 2', value: 'opt2' },
+            { label: 'Option 3', value: 'opt3' }
           ]
         },
         cancel: true,
@@ -103,9 +119,9 @@ export default {
           model: [],
           // inline: true
           items: [
-            {label: 'Option 1', value: 'opt1', color: 'secondary'},
-            {label: 'Option 2', value: 'opt2'},
-            {label: 'Option 3', value: 'opt3'}
+            { label: 'Option 1', value: 'opt1', color: 'secondary' },
+            { label: 'Option 2', value: 'opt2' },
+            { label: 'Option 3', value: 'opt3' }
           ]
         },
         cancel: true,
@@ -126,9 +142,9 @@ export default {
           model: [],
           // inline: true,
           items: [
-            {label: 'Option 1', value: 'opt1', color: 'secondary'},
-            {label: 'Option 2', value: 'opt2'},
-            {label: 'Option 3', value: 'opt3'}
+            { label: 'Option 1', value: 'opt1', color: 'secondary' },
+            { label: 'Option 2', value: 'opt2' },
+            { label: 'Option 3', value: 'opt3' }
           ]
         },
         cancel: true,

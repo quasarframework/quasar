@@ -10,7 +10,7 @@
         <q-card-section class="row items-center">
           <div class="text-h6">Close icon</div>
           <q-space />
-          <q-btn icon="close" flat round dense v-close-dialog />
+          <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
 
         <q-card-section>
@@ -29,7 +29,7 @@
 
           <q-space />
 
-          <q-btn dense flat icon="close" v-close-dialog>
+          <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip>Close</q-tooltip>
           </q-btn>
         </q-bar>
@@ -54,7 +54,7 @@
 
           <q-space />
 
-          <q-btn dense flat icon="close" v-close-dialog>
+          <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>
@@ -73,12 +73,12 @@
       <q-card>
         <q-toolbar>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
           </q-avatar>
 
           <q-toolbar-title><span class="text-weight-bold">Quasar</span> Framework</q-toolbar-title>
 
-          <q-btn flat round dense icon="close" v-close-dialog />
+          <q-btn flat round dense icon="close" v-close-popup />
         </q-toolbar>
 
         <q-card-section>

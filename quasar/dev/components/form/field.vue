@@ -1,7 +1,6 @@
 <template>
   <div class="q-layout-padding" :class="classes">
     <div style="max-width: 600px" class="q-gutter-y-md">
-
       <div class="q-gutter-x-md">
         <q-toggle :dark="dark" v-model="dark" label="Dark" />
         <q-toggle :dark="dark" v-model="border" label="Border" />
@@ -15,9 +14,13 @@
 
         <div>Field content</div>
 
-        <div slot="message">Field message</div>
+        <div slot="message">
+          Field message
+        </div>
 
-        <div slot="counter">3/12</div>
+        <div slot="counter">
+          3/12
+        </div>
 
         <q-icon slot="after" name="search" />
       </q-field>
@@ -27,9 +30,13 @@
 
         <div>Field content</div>
 
-        <div slot="message">Field message</div>
+        <div slot="message">
+          Field message
+        </div>
 
-        <div slot="counter">3/12</div>
+        <div slot="counter">
+          3/12
+        </div>
 
         <q-icon slot="after" name="search" />
         <q-icon slot="after" name="delete" />
@@ -49,9 +56,13 @@
 
         <div>Field content</div>
 
-        <div slot="message">Field message</div>
+        <div slot="message">
+          Field message
+        </div>
 
-        <div slot="counter">3/12</div>
+        <div slot="counter">
+          3/12
+        </div>
 
         <q-spinner slot="after" />
       </q-field>
@@ -59,13 +70,19 @@
       <q-field :dark="dark">
         <div>Field content</div>
 
-        <div slot="message">Field message</div>
-        <div slot="counter">3/12</div>
+        <div slot="message">
+          Field message
+        </div>
+        <div slot="counter">
+          3/12
+        </div>
       </q-field>
 
       <q-field :dark="dark">
         <div>Field content</div>
-        <div slot="counter">3/12</div>
+        <div slot="counter">
+          3/12
+        </div>
       </q-field>
 
       <q-field :dark="dark">
@@ -77,22 +94,32 @@
 
         <div>Field content</div>
 
-        <div slot="message">Field message</div>
+        <div slot="message">
+          Field message
+        </div>
 
-        <div slot="counter">3/12</div>
+        <div slot="counter">
+          3/12
+        </div>
 
         <q-btn slot="after" flat round dense icon="delete" />
       </q-field>
 
-      <p class="caption">Item aligned test</p>
+      <p class="caption">
+        Item aligned test
+      </p>
       <q-field :dark="dark" item-aligned>
         <q-icon slot="before" name="event" />
 
         <div>Field content</div>
 
-        <div slot="message">Field message</div>
+        <div slot="message">
+          Field message
+        </div>
 
-        <div slot="counter">3/12</div>
+        <div slot="counter">
+          3/12
+        </div>
 
         <q-icon slot="after" name="search" />
       </q-field>
@@ -102,7 +129,6 @@
         </q-item-section>
         <q-item-section>List item</q-item-section>
       </q-item>
-
     </div>
   </div>
 </template>

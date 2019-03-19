@@ -18,8 +18,6 @@ export default Vue.extend({
   mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
 
   props: {
-    contentClass: [Array, String, Object],
-    contentStyle: [Array, String, Object],
     maxHeight: {
       type: String,
       default: null
@@ -52,11 +50,6 @@ export default Vue.extend({
       validator: validateOffset
     },
 
-    target: {
-      type: [Boolean, String],
-      default: true
-    },
-
     delay: {
       type: Number,
       default: 0
@@ -66,14 +59,6 @@ export default Vue.extend({
   watch: {
     $route () {
       this.hide()
-    },
-
-    target (val) {
-      if (this.anchorEl !== void 0) {
-        this.__unconfigureAnchorEl()
-      }
-
-      this.__pickAnchorEl()
     }
   },
 
@@ -88,11 +73,6 @@ export default Vue.extend({
   },
 
   methods: {
-    __showCondition (evt) {
-      // abort with no parent configured or on multi-touch
-      return !(this.anchorEl === void 0 || (evt !== void 0 && evt.touches !== void 0 && evt.touches.length > 1))
-    },
-
     __show (evt) {
       clearTimeout(this.timer)
 
@@ -109,20 +89,20 @@ export default Vue.extend({
 
         this.timer = setTimeout(() => {
           this.$emit('show', evt)
-        }, 600)
+        }, 300)
       }, 0)
     },
 
     __hide (evt) {
-      this.__cleanup()
+      this.__anchorCleanup()
 
       this.timer = setTimeout(() => {
         this.__hidePortal()
         this.$emit('hide', evt)
-      }, 600)
+      }, 300)
     },
 
-    __cleanup () {
+    __anchorCleanup () {
       clearTimeout(this.timer)
 
       if (this.scrollTarget) {
@@ -135,6 +115,13 @@ export default Vue.extend({
 
     updatePosition () {
       const el = this.__portal.$el
+
+      if (el.nodeType === 8) { // IE replaces the comment with delay
+        setTimeout(() => {
+          this.__portal !== void 0 && this.__portal.showing === true && this.updatePosition()
+        }, 25)
+        return
+      }
 
       el.style.maxHeight = this.maxHeight
       el.style.maxWidth = this.maxWidth
@@ -150,6 +137,7 @@ export default Vue.extend({
 
     __delayShow (evt) {
       clearTimeout(this.timer)
+      this.$q.platform.is.mobile === true && document.body.classList.add('non-selectable')
       this.timer = setTimeout(() => {
         this.show(evt)
       }, this.delay)
@@ -157,51 +145,41 @@ export default Vue.extend({
 
     __delayHide (evt) {
       clearTimeout(this.timer)
+      this.$q.platform.is.mobile === true && document.body.classList.remove('non-selectable')
       this.hide(evt)
     },
 
     __unconfigureAnchorEl () {
+      // mobile hover ref https://stackoverflow.com/a/22444532
       if (this.$q.platform.is.mobile) {
         this.anchorEl.removeEventListener('touchstart', this.__delayShow)
-        this.anchorEl.removeEventListener('touchmove', this.__delayHide)
-        this.anchorEl.removeEventListener('touchend', this.__delayHide)
+        ;['touchcancel', 'touchmove', 'click'].forEach(evt => {
+          this.anchorEl.removeEventListener(evt, this.__delayHide)
+        })
+      }
+      else {
+        this.anchorEl.removeEventListener('mouseenter', this.__delayShow)
       }
 
-      this.anchorEl.removeEventListener('mouseenter', this.__delayShow)
-      this.anchorEl.removeEventListener('mouseleave', this.__delayHide)
+      if (this.$q.platform.is.ios !== true) {
+        this.anchorEl.removeEventListener('mouseleave', this.__delayHide)
+      }
     },
 
     __configureAnchorEl () {
+      // mobile hover ref https://stackoverflow.com/a/22444532
       if (this.$q.platform.is.mobile) {
         this.anchorEl.addEventListener('touchstart', this.__delayShow)
-        this.anchorEl.addEventListener('touchmove', this.__delayHide)
-        this.anchorEl.addEventListener('touchend', this.__delayHide)
+        ;['touchcancel', 'touchmove', 'click'].forEach(evt => {
+          this.anchorEl.addEventListener(evt, this.__delayHide)
+        })
+      }
+      else {
+        this.anchorEl.addEventListener('mouseenter', this.__delayShow)
       }
 
-      this.anchorEl.addEventListener('mouseenter', this.__delayShow)
-      this.anchorEl.addEventListener('mouseleave', this.__delayHide)
-    },
-
-    __setAnchorEl (el) {
-      this.anchorEl = el
-      while (this.anchorEl.classList.contains('q-anchor--skip')) {
-        this.anchorEl = this.anchorEl.parentNode
-      }
-      this.__configureAnchorEl()
-    },
-
-    __pickAnchorEl () {
-      if (this.target && typeof this.target === 'string') {
-        const el = document.querySelector(this.target)
-        if (el !== null) {
-          this.__setAnchorEl(el)
-        }
-        else {
-          console.error(`QTooltip: target "${this.target}" not found`, this)
-        }
-      }
-      else if (this.target !== false) {
-        this.__setAnchorEl(this.parentEl)
+      if (this.$q.platform.is.ios !== true) {
+        this.anchorEl.addEventListener('mouseleave', this.__delayHide)
       }
     },
 
@@ -215,31 +193,6 @@ export default Vue.extend({
           style: this.contentStyle
         }, slot(this, 'default')) : null
       ])
-    }
-  },
-
-  mounted () {
-    this.parentEl = this.$el.parentNode
-
-    this.$nextTick(() => {
-      this.__pickAnchorEl()
-
-      if (this.value === true) {
-        if (this.anchorEl === void 0) {
-          this.$emit('input', false)
-        }
-        else {
-          this.show()
-        }
-      }
-    })
-  },
-
-  beforeDestroy () {
-    this.__cleanup()
-
-    if (this.anchorEl !== void 0) {
-      this.__unconfigureAnchorEl()
     }
   }
 })

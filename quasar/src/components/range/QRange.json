@@ -73,6 +73,22 @@
       "desc": "Color name for right label background from the Quasar Color Palette"
     },
 
+    "left-label-value": {
+      "type": [ "String", "Number" ],
+      "desc": "Override default label for min value",
+      "examples": [
+        ":left-label-value=\"model.min + 'px'\""
+      ]
+    },
+
+    "right-label-value": {
+      "type": [ "String", "Number" ],
+      "desc": "Override default label for max value",
+      "examples": [
+        ":right-label-value=\"model.max + 'px'\""
+      ]
+    },
+
     "label-always": {
       "type": "Boolean",
       "desc": "Always display the labels"

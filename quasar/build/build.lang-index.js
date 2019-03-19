@@ -35,10 +35,20 @@ module.exports.generate = function () {
         languages.push({ isoName, nativeName })
       })
 
-    writeFile(
-      resolve('lang/index.json'),
-      JSON.stringify(languages, null, 2)
-    )
+    const
+      langFile = resolve('lang/index.json'),
+      newLangJson = JSON.stringify(languages, null, 2)
+
+    let oldLangJson = ''
+
+    try {
+      oldLangJson = fs.readFileSync(langFile, 'utf-8')
+    }
+    catch (e) { }
+
+    if (newLangJson.split(/[\n\r]+/).join('\n') !== oldLangJson.split(/[\n\r]+/).join('\n')) {
+      writeFile(langFile, newLangJson)
+    }
   }
   catch (err) {
     logError(`build.lang-index.js: something went wrong...`)

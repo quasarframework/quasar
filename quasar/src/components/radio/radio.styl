@@ -38,6 +38,7 @@ $radio-transition = .22s cubic-bezier(0,0,.2,1) 0ms
 
   &__inner
     width 40px
+    min-width 40px
     height 40px
     padding 10px
     outline 0
@@ -78,6 +79,7 @@ $radio-transition = .22s cubic-bezier(0,0,.2,1) 0ms
 
     .q-radio__inner
       width 20px
+      min-width 20px
       height 20px
 
 body.desktop
@@ -96,8 +98,9 @@ body.desktop
       transform scale3d(0, 0, 0)
       transition transform $radio-transition
 
-    &:focus .q-radio__inner:before
-      transform scale3d(1, 1, 1)
+    &:focus:not(.disabled)
+      .q-radio__inner:before
+        transform scale3d(1, 1, 1)
 
     &--dense:focus .q-radio__inner:before
       transform scale3d(2, 2, 2)

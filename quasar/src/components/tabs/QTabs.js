@@ -5,8 +5,12 @@ import QResizeObserver from '../observer/QResizeObserver.js'
 
 import slot from '../../utils/slot.js'
 
-function getIndicatorClass (color, top) {
-  return `absolute-${top ? 'top' : 'bottom'}${color ? ` text-${color}` : ''}`
+function getIndicatorClass (color, top, vertical) {
+  const pos = vertical === true
+    ? ['left', 'right']
+    : ['top', 'bottom']
+
+  return `absolute-${top === true ? pos[0] : pos[1]}${color ? ` text-${color}` : ''}`
 }
 
 export default Vue.extend({
@@ -33,13 +37,19 @@ export default Vue.extend({
       default: 600
     },
 
+    vertical: Boolean,
+    shrink: Boolean,
+
     activeColor: String,
     activeBgColor: String,
     indicatorColor: String,
     leftIcon: String,
     rightIcon: String,
 
+    // TODO remove in v1 final
     topIndicator: Boolean,
+    switchIndicator: Boolean,
+
     narrowIndicator: Boolean,
     inlineLabel: Boolean,
     noCaps: Boolean,
@@ -53,7 +63,11 @@ export default Vue.extend({
         current: this.value,
         activeColor: this.activeColor,
         activeBgColor: this.activeBgColor,
-        indicatorClass: getIndicatorClass(this.indicatorColor, this.topIndicator),
+        indicatorClass: getIndicatorClass(
+          this.indicatorColor,
+          this.topIndicator || this.switchIndicator,
+          this.vertical
+        ),
         narrowIndicator: this.narrowIndicator,
         inlineLabel: this.inlineLabel,
         noCaps: this.noCaps
@@ -78,12 +92,21 @@ export default Vue.extend({
       this.tabs.activeBgColor = v
     },
 
-    indicatorColor (v) {
-      this.tabs.indicatorClass = getIndicatorClass(v, this.topIndicator)
+    vertical (v) {
+      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, this.switchIndicatorPos, v)
     },
 
+    indicatorColor (v) {
+      this.tabs.indicatorClass = getIndicatorClass(v, this.switchIndicatorPos, this.vertical)
+    },
+
+    // TODO remove in v1 final
     topIndicator (v) {
-      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, v)
+      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, v, this.vertical)
+    },
+
+    switchIndicator (v) {
+      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, v, this.vertical)
     },
 
     narrowIndicator (v) {
@@ -101,15 +124,23 @@ export default Vue.extend({
 
   computed: {
     alignClass () {
-      const align = this.scrollable
+      const align = this.scrollable === true
         ? 'left'
-        : (this.justify ? 'justify' : this.align)
+        : (this.justify === true ? 'justify' : this.align)
 
       return `q-tabs__content--align-${align}`
     },
 
     classes () {
-      return `q-tabs--${this.scrollable ? '' : 'not-'}scrollable${this.dense ? ' q-tabs--dense' : ''}`
+      return `q-tabs--${this.scrollable === true ? '' : 'not-'}scrollable` +
+        (this.dense === true ? ' q-tabs--dense' : '') +
+        (this.shrink === true ? ' col-shrink' : '') +
+        (this.vertical === true ? ' q-tabs--vertical' : '')
+    },
+
+    // TODO remove in v1 final, directly use switchIndicator
+    switchIndicatorPos () {
+      return this.topIndicator || this.switchIndicator
     }
   },
 
@@ -123,6 +154,12 @@ export default Vue.extend({
     },
 
     __activateRoute (params) {
+      if (this.bufferRoute !== this.$route && this.buffer.length > 0) {
+        clearTimeout(this.bufferTimer)
+        this.buffer.length = 0
+      }
+      this.bufferRoute = this.$route
+
       const
         { name, selectable, exact, selected, priority } = params,
         first = !this.buffer.length,
@@ -141,27 +178,31 @@ export default Vue.extend({
 
       if (first) {
         this.bufferTimer = setTimeout(() => {
-          let tab = this.buffer.find(t => t.exact && t.selected) ||
+          let tab = this.buffer.find(t => t.selectable && t.selected && t.exact) ||
             this.buffer.find(t => t.selectable && t.selected) ||
-            this.buffer.find(t => t.exact) ||
+            this.buffer.find(t => t.selectable && t.exact) ||
             this.buffer.filter(t => t.selectable).sort((t1, t2) => t2.priority - t1.priority)[0] ||
-            this.buffer[0]
+            this.buffer.filter(t => t.name === null)[0]
 
           this.buffer.length = 0
-          this.__activateTab(tab.name)
-        }, 100)
+          tab !== void 0 && this.__activateTab(tab.name)
+        }, 1)
       }
     },
 
-    __updateContainer ({ width }) {
-      const scroll = this.$refs.content.scrollWidth > width
+    __updateContainer ({ width, height }) {
+      const offset = this.scrollable === true ? this.extraOffset : 0
+      const scroll = this.vertical === true
+        ? this.$refs.content.scrollHeight - offset > height
+        : this.$refs.content.scrollWidth - offset > width
+
       if (this.scrollable !== scroll) {
         this.scrollable = scroll
       }
 
-      scroll && this.$nextTick(() => this.__updateArrows())
+      scroll === true && this.$nextTick(() => this.__updateArrows())
 
-      const justify = width < parseInt(this.breakpoint, 10)
+      const justify = (this.vertical === true ? height : width) < parseInt(this.breakpoint, 10)
       if (this.justify !== justify) {
         this.justify = justify
       }
@@ -192,7 +233,9 @@ export default Vue.extend({
           oldPos = oldEl.getBoundingClientRect(),
           newPos = newEl.getBoundingClientRect()
 
-        newEl.style.transform = `translate3d(${oldPos.left - newPos.left}px, 0, 0) scale3d(${newPos.width ? oldPos.width / newPos.width : 1}, 1, 1)`
+        newEl.style.transform = this.vertical === true
+          ? `translate3d(0, ${oldPos.top - newPos.top}px, 0) scale3d(1, ${newPos.height ? oldPos.height / newPos.height : 1}, 1)`
+          : `translate3d(${oldPos.left - newPos.left}px, 0, 0) scale3d(${newPos.width ? oldPos.width / newPos.width : 1}, 1, 1)`
 
         // allow scope updates to kick in
         this.$nextTick(() => {
@@ -205,20 +248,20 @@ export default Vue.extend({
 
       if (newTab && this.scrollable) {
         const
-          { left, width } = this.$refs.content.getBoundingClientRect(),
+          { left, width, top, height } = this.$refs.content.getBoundingClientRect(),
           newPos = newTab.$el.getBoundingClientRect()
 
-        let offset = newPos.left - left
+        let offset = this.vertical === true ? newPos.top - top : newPos.left - left
 
         if (offset < 0) {
-          this.$refs.content.scrollLeft += offset
+          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += offset
           this.__updateArrows()
           return
         }
 
-        offset += newPos.width - width
+        offset += this.vertical === true ? newPos.height - height : newPos.width - width
         if (offset > 0) {
-          this.$refs.content.scrollLeft += offset
+          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += offset
           this.__updateArrows()
         }
       }
@@ -227,10 +270,13 @@ export default Vue.extend({
     __updateArrows () {
       const
         content = this.$refs.content,
-        left = content.scrollLeft
+        rect = content.getBoundingClientRect(),
+        left = this.vertical === true ? content.scrollTop : content.scrollLeft
 
       this.leftArrow = left > 0
-      this.rightArrow = left + content.getBoundingClientRect().width + 5 < content.scrollWidth
+      this.rightArrow = this.vertical === true
+        ? left + rect.height + 5 < content.scrollHeight
+        : left + rect.width + 5 < content.scrollWidth
     },
 
     __animScrollTo (value) {
@@ -259,7 +305,7 @@ export default Vue.extend({
     __scrollTowards (value) {
       let
         content = this.$refs.content,
-        left = content.scrollLeft,
+        left = this.vertical === true ? content.scrollTop : content.scrollLeft,
         direction = value < left ? -1 : 1,
         done = false
 
@@ -276,7 +322,7 @@ export default Vue.extend({
         left = value
       }
 
-      content.scrollLeft = left
+      content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] = left
       this.__updateArrows()
       return done
     }
@@ -284,6 +330,16 @@ export default Vue.extend({
 
   created () {
     this.buffer = []
+  },
+
+  // TODO remove in v1 final
+  mounted () {
+    if (this.topIndicator === true) {
+      const p = process.env
+      if (p.PROD !== true) {
+        console.info('\n\n[Quasar] QTabs info: please rename top-indicator to switch-indicator prop')
+      }
+    }
   },
 
   beforeDestroy () {
@@ -295,6 +351,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-tabs row no-wrap items-center',
       class: this.classes,
+      on: this.$listeners,
       attrs: { role: 'tablist' }
     }, [
       h(QResizeObserver, {
@@ -303,8 +360,8 @@ export default Vue.extend({
 
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--left q-tab__icon',
-        class: this.leftArrow ? '' : 'q-tabs__arrow--faded',
-        props: { name: this.leftIcon || this.$q.iconSet.tabs.left },
+        class: this.leftArrow === true ? '' : 'q-tabs__arrow--faded',
+        props: { name: this.leftIcon || (this.vertical === true ? this.$q.iconSet.tabs.up : this.$q.iconSet.tabs.left) },
         nativeOn: {
           mousedown: this.__scrollToStart,
           touchstart: this.__scrollToStart,
@@ -322,8 +379,8 @@ export default Vue.extend({
 
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--right q-tab__icon',
-        class: this.rightArrow ? '' : 'q-tabs__arrow--faded',
-        props: { name: this.rightIcon || this.$q.iconSet.tabs.right },
+        class: this.rightArrow === true ? '' : 'q-tabs__arrow--faded',
+        props: { name: this.rightIcon || (this.vertical === true ? this.$q.iconSet.tabs.down : this.$q.iconSet.tabs.right) },
         nativeOn: {
           mousedown: this.__scrollToEnd,
           touchstart: this.__scrollToEnd,

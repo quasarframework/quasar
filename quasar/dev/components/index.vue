@@ -4,7 +4,9 @@
       <router-link tag="a" to="/layout-quick/a" class="cursor-pointer row justify-center" style="margin-bottom: 25px">
         <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
       </router-link>
-      <div class="text-caption text-center">Quasar v{{ $q.version }}</div>
+      <div class="text-caption text-center">
+        Quasar v{{ $q.version }}
+      </div>
       <q-list
         dense
         v-for="(category, title) in list"

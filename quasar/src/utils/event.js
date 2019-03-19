@@ -1,29 +1,21 @@
-export const listenOpts = {}
-Object.defineProperty(listenOpts, 'passive', {
-  configurable: true,
-  get () {
-    let passive
+export const listenOpts = {
+  hasPassive: false
+}
 
-    try {
-      var opts = Object.defineProperty({}, 'passive', {
-        get () {
-          passive = { passive: true }
-        }
+try {
+  var opts = Object.defineProperty({}, 'passive', {
+    get () {
+      Object.assign(listenOpts, {
+        hasPassive: true,
+        passive: { passive: true },
+        notPassive: { passive: false }
       })
-      window.addEventListener('qtest', null, opts)
-      window.removeEventListener('qtest', null, opts)
     }
-    catch (e) {}
-
-    listenOpts.passive = passive
-    return passive
-  },
-  set (val) {
-    Object.defineProperty(this, 'passive', {
-      value: val
-    })
-  }
-})
+  })
+  window.addEventListener('qtest', null, opts)
+  window.removeEventListener('qtest', null, opts)
+}
+catch (e) {}
 
 export function leftClick (e) {
   return e.button === 0
@@ -96,6 +88,14 @@ export function getMouseWheelDistance (e) {
   return { x, y }
 }
 
+export function stop (e) {
+  e.stopPropagation()
+}
+
+export function prevent (e) {
+  e.preventDefault()
+}
+
 export function stopAndPrevent (e) {
   e.preventDefault()
   e.stopPropagation()
@@ -109,5 +109,7 @@ export default {
   position,
   getEventPath,
   getMouseWheelDistance,
+  stop,
+  prevent,
   stopAndPrevent
 }

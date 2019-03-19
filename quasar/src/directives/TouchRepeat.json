@@ -21,14 +21,9 @@
   },
 
   "modifiers": {
-    "stop": {
+    "mouse": {
       "type": "Boolean",
-      "desc": "Stop event propagation"
-    },
-
-    "prevent": {
-      "type": "Boolean",
-      "desc": "Calls event.preventDefault()"
+      "desc": "Listen for mouse events too"
     },
 
     "esc": {

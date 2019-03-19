@@ -61,13 +61,6 @@
 .light-dimmed:after
   background $light-dimmed-background !important
 
-.clearfix
-  &:before, &:after
-    content ' '
-    display table
-  &:after
-    clear both
-
 .z-top
   z-index $z-top !important
 .z-max
@@ -120,7 +113,7 @@ body.desktop
     border-radius inherit
     outline 0
     opacity 0
-    transition background-color .3s cubic-bezier(.25, .8, .5, 1), opacity .6s cubic-bezier(.25, .8, .5, 1)
+    transition background-color .3s cubic-bezier(.25, .8, .5, 1), opacity .4s cubic-bezier(.25, .8, .5, 1)
 
     &:before, &:after
       content ''

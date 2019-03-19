@@ -35,3 +35,10 @@
 .q-link
   outline 0
   text-decoration none
+
+body.electron
+  .q-electron-drag
+    -webkit-user-select none
+    -webkit-app-region drag
+  .q-electron-drag .q-btn, .q-electron-drag--exception
+    -webkit-app-region no-drag

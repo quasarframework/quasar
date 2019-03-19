@@ -18,7 +18,9 @@
         <q-toggle :dark="dark" v-model="optionsDark" label="(Options) Dark" />
       </div>
 
-      <div class="text-h6">String options</div>
+      <div class="text-h6">
+        String options
+      </div>
 
       <div>{{ stringSingle }}</div>
       <q-select
@@ -37,7 +39,9 @@
         multiple
       />
 
-      <div class="text-h6">Object options</div>
+      <div class="text-h6">
+        Object options
+      </div>
 
       <div>{{ objectSingle }}</div>
       <q-select
@@ -113,7 +117,9 @@
         options-selected-class="text-orange"
       />
 
-      <div class="text-h6">Emit value</div>
+      <div class="text-h6">
+        Emit value
+      </div>
 
       <div>{{ stringEmitSingle }}</div>
       <q-select
@@ -153,7 +159,9 @@
         multiple
       />
 
-      <div class="text-h6">Scoped Slot: option</div>
+      <div class="text-h6">
+        Scoped Slot: option
+      </div>
       <q-select
         v-bind="props"
         v-model="objectSingle"
@@ -171,7 +179,9 @@
             </q-item-section>
             <q-item-section>
               <q-item-label v-html="scope.opt.label" />
-              <q-item-label caption>{{ scope.opt.description }}</q-item-label>
+              <q-item-label caption>
+                {{ scope.opt.description }}
+              </q-item-label>
             </q-item-section>
           </q-item>
         </template>
@@ -196,7 +206,9 @@
             </q-item-section>
             <q-item-section>
               <q-item-label v-html="scope.opt.label" />
-              <q-item-label caption>{{ scope.opt.description }}</q-item-label>
+              <q-item-label caption>
+                {{ scope.opt.description }}
+              </q-item-label>
             </q-item-section>
           </q-item>
         </template>
@@ -204,7 +216,9 @@
         <q-icon slot="append" name="clear" @click.stop="objectMultiple = null" />
       </q-select>
 
-      <div class="text-h6">Scoped slot: selected</div>
+      <div class="text-h6">
+        Scoped slot: selected
+      </div>
       <q-select
         v-bind="props"
         v-model="objectMultiple"
@@ -226,7 +240,9 @@
         </template>
       </q-select>
 
-      <div class="text-h6">Max values (in this case 2)</div>
+      <div class="text-h6">
+        Max values (in this case 2)
+      </div>
       <q-select
         v-bind="props"
         v-model="objectMultiple"
@@ -237,7 +253,9 @@
         color="teal"
       />
 
-      <div class="text-h6">Heavy test (10k options)</div>
+      <div class="text-h6">
+        Heavy test (10k options)
+      </div>
       <q-select
         v-bind="props"
         v-model="heavyModel"
@@ -267,7 +285,9 @@
         </template>
       </q-select>
 
-      <div class="text-h6">No options</div>
+      <div class="text-h6">
+        No options
+      </div>
       <q-select
         v-bind="props"
         v-model="stringSingle"
@@ -291,7 +311,9 @@
         multiple
       />
 
-      <div class="text-h6">No options, slot: no-options</div>
+      <div class="text-h6">
+        No options, slot: no-options
+      </div>
       <q-select
         v-bind="props"
         v-model="stringSingle"
@@ -305,6 +327,123 @@
           </q-item-section>
         </q-item>
       </q-select>
+
+      <div class="text-h6">
+        Alignment test: standard, use-input, use-input + hide-selected, normal input
+      </div>
+      <div class="row q-gutter-sm">
+        <q-select
+          class="col-2"
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - standard"
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
+          </template>
+        </q-select>
+
+        <q-select
+          class="col-2"
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - use input"
+          use-input
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
+          </template>
+        </q-select>
+
+        <q-select
+          class="col-2"
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - hide-selected"
+          use-input
+          hide-selected
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
+          </template>
+        </q-select>
+
+        <q-input
+          class="col-2"
+          v-bind="props"
+          v-model="stringSingle"
+          label="Input"
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = ''" />
+          </template>
+        </q-input>
+      </div>
+
+      <div class="row q-gutter-sm">
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - standard"
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
+          </template>
+        </q-select>
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - use input"
+          use-input
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
+          </template>
+        </q-select>
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - hide-selected"
+          use-input
+          hide-selected
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
+          </template>
+        </q-select>
+
+        <q-input
+          v-bind="props"
+          v-model="stringSingle"
+          label="Input"
+        >
+          <template #append>
+            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = ''" />
+          </template>
+        </q-input>
+      </div>
+
+      <div class="text-h6">
+        Display value and floating label test
+      </div>
+      <div>
+        <q-select
+          label="Options"
+          filled
+          v-model="dispValSelection"
+          :options="dispValOptions"
+          :display-value="dispVal"
+          multiple
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -321,6 +460,13 @@ export default {
     }
 
     return {
+      dispValSelection: [],
+      dispValOptions: [
+        'Option 1',
+        'Option 2',
+        'Option 3'
+      ],
+
       type: 'filled',
       readonly: false,
       disable: false,
@@ -387,6 +533,19 @@ export default {
           disable: true,
           description: 'Databases',
           icon: 'casino'
+        },
+        {
+          label: '<span class="text-primary">Safe</span> option with <b>HTML</b>',
+          value: 'safe_option_with_html',
+          description: 'It does not come from user',
+          icon: 'golf_course'
+        },
+        {
+          label: '<span class="text-negative">Unsafe</span> option with <b>HTML</b>',
+          value: 'unsafe_option_with_html',
+          description: 'It comea from user - you should sanitize',
+          icon: 'golf_course',
+          sanitize: true
         }
       ],
 
@@ -433,6 +592,15 @@ export default {
         optionsDense: this.optionsDense,
         optionsDark: this.optionsDark,
         expandBesides: this.expandBesides
+      }
+    },
+
+    dispVal () {
+      if (this.dispValSelection.length === 1) {
+        return '1 option selected'
+      }
+      else {
+        return this.dispValSelection.length + ' options selected'
       }
     }
   }

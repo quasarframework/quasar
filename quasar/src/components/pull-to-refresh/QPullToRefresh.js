@@ -99,11 +99,6 @@ export default Vue.extend({
       if (event.isFirst) {
         this.pulling = true
 
-        if (window.getSelection) {
-          const sel = window.getSelection()
-          sel.empty && sel.empty()
-        }
-
         const { top, left } = this.$el.getBoundingClientRect()
         this.positionCSS = {
           top: top + 'px',
@@ -158,7 +153,8 @@ export default Vue.extend({
           modifiers: {
             vertical: true,
             mightPrevent: true,
-            noMouse: this.noMouse
+            mouseMightPrevent: true,
+            mouse: !this.noMouse
           },
           value: this.__pull
         }]

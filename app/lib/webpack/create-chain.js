@@ -101,6 +101,19 @@ module.exports = function (cfg, configName) {
           return false
         }
 
+        if (filepath.match(/[\\/]node_modules[\\/]quasar[\\/]/)) {
+          if (configName === 'Server') {
+            // transpile only if not from 'quasar/dist' folder
+            if (!filepath.match(/[\\/]node_modules[\\/]quasar[\\/]dist/)) {
+              return false
+            }
+          }
+          else {
+            // always transpile Quasar
+            return false
+          }
+        }
+
         if (cfg.build.transpileDependencies.some(dep => filepath.match(dep))) {
           return false
         }
@@ -113,7 +126,7 @@ module.exports = function (cfg, configName) {
       .loader('babel-loader')
         .options({
           extends: appPaths.resolve.app('babel.config.js'),
-          plugins: cfg.framework.all !== true ? [
+          plugins: cfg.framework.all !== true && configName !== 'Server' ? [
             [
               'transform-imports', {
                 quasar: {
@@ -157,8 +170,6 @@ module.exports = function (cfg, configName) {
     sourceMap: cfg.build.sourceMap,
     extract: cfg.build.extractCSS,
     minify: cfg.build.minify
-      ? !cfg.build.extractCSS
-      : false
   })
 
   chain.plugin('vue-loader')
@@ -271,7 +282,7 @@ module.exports = function (cfg, configName) {
 
     if (cfg.ctx.debug) {
       // reset default webpack 4 minimizer
-      chain.optimization.minimizer.clear()
+      chain.optimization.minimizers.delete('js')
     }
     else if (cfg.build.minify) {
       const TerserPlugin = require('terser-webpack-plugin')

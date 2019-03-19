@@ -5,7 +5,9 @@
         Model <span class="right-detail"><em>{{ model }}</em></span>
       </div>
 
-      <p class="caption">Default (@input, @change)</p>
+      <p class="caption">
+        Default (@input, @change)
+      </p>
       <div class="q-gutter-sm">
         <q-knob
           v-model="model"
@@ -24,7 +26,9 @@
         />
       </div>
 
-      <p class="caption">With Step ({{ min }} to {{ max }}, step 10)</p>
+      <p class="caption">
+        With Step ({{ min }} to {{ max }}, step 10)
+      </p>
       <q-knob
         v-model="model"
         :min="min"
@@ -32,7 +36,9 @@
         :step="10"
       />
 
-      <p class="caption">With Step ({{ min }} to {{ maxSmall }}, step 0.01)</p>
+      <p class="caption">
+        With Step ({{ min }} to {{ maxSmall }}, step 0.01)
+      </p>
       <q-knob
         v-model="modelSmall"
         :min="min"
@@ -40,7 +46,9 @@
         :step="0.01"
       />
 
-      <p class="caption">With Step ({{ min }} to {{ max }}, step 0) -- {{ modelZero }}</p>
+      <p class="caption">
+        With Step ({{ min }} to {{ max }}, step 0) -- {{ modelZero }}
+      </p>
       <q-knob
         v-model="modelZero"
         :min="min"
@@ -48,7 +56,9 @@
         :step="0"
       />
 
-      <p class="caption">Styling</p>
+      <p class="caption">
+        Styling
+      </p>
       <div class="q-gutter-md">
         <q-knob
           v-model="model"
@@ -91,7 +101,9 @@
         </q-knob>
       </div>
 
-      <p class="caption">Readonly state</p>
+      <p class="caption">
+        Readonly state
+      </p>
       <q-knob
         v-model="model"
         :min="min"
@@ -102,7 +114,9 @@
         <q-icon name="volume_up" /> {{ model }}
       </q-knob>
 
-      <p class="caption">Disabled state</p>
+      <p class="caption">
+        Disabled state
+      </p>
       <q-knob
         v-model="model"
         :min="min"
@@ -112,7 +126,9 @@
         <q-icon name="volume_up" /> {{ model }}
       </q-knob>
 
-      <p class="caption">Icon and value added with default slot</p>
+      <p class="caption">
+        Icon and value added with default slot
+      </p>
       <q-knob
         v-model="model"
         :thickness="0.15"
@@ -128,7 +144,9 @@
         <q-icon name="volume_up" /> {{ model }}
       </q-knob>
 
-      <p class="caption">Inside Field</p>
+      <p class="caption">
+        Inside Field
+      </p>
       <q-field>
         <q-knob
           v-model="model"
@@ -139,7 +157,9 @@
         </q-knob>
 
         <q-icon slot="before" name="cake" />
-        <div slot="message">Touch to change</div>
+        <div slot="message">
+          Touch to change
+        </div>
       </q-field>
     </div>
   </div>

@@ -1,3 +1,6 @@
+const days = 'یکشنبه_دوشنبه_سه‌شنبه_چهارشنبه_پنجشنبه_جمعه_شنبه'.split('_')
+const monthsShort = 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_')
+
 export default {
   isoName: 'fa-ir',
   nativeName: 'فارسی',
@@ -18,21 +21,26 @@ export default {
     refresh: 'تازه‌سازی'
   },
   date: {
-    days: 'یکشنبه/دوشنبه/سه‌شنبه/چهارشنبه/پنجشنبه/جمعه/شنبه'.split('/'),
-    daysShort: 'ی/د/س/چ/پ‌/ج‌/ش‌'.split('/'),
-    months: 'ژانویه/فوریه/مارس/آپریل/مه/ژوئن/ژولای/آگوست/سپتامبر/اکتبر/نوامبر/دسامبر'.split('/'),
-    monthsShort: 'ژانویه/فوریه/مارس/آپریل/مه/ژوئن/ژولای/آگوست/سپتامبر/اکتبر/نوامبر/دسامبر'.split('/'),
-    firstDayOfWeek: 5,
-    format24h: false
+    days: days,
+    daysShort: 'ی_د_س_چ_پ_ج_ش'.split('_'),
+    months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_'),
+    monthsShort: monthsShort,
+    headerTitle: function (date, model) {
+      return days[ date.getDay() ] + '، ' +
+        model.day + ' ' +
+        monthsShort[ model.month - 1 ]
+    },
+    firstDayOfWeek: 6,
+    format24h: true
   },
   table: {
-    noData: 'تاریخ دردسترس نیست',
+    noData: 'اطلاعاتی موجود نیست',
     noResults: 'هیچ موردی یافت نشد',
     loading: 'در حال بارگذاری ...',
     selectedRecords: function (rows) {
-      return rows === 0 ? 'ردیفی انتخاب نشده' : rows + ' ردیف انتخاب شده'
+      return rows === 0 ? 'رکوردی انتخاب نشده' : rows + ' رکورد انتخاب شده'
     },
-    recordsPerPage: 'ردیف بر صفحه:',
+    recordsPerPage: 'رکورد در صفحه:',
     allRows: 'همه',
     pagination: function (start, end, total) {
       return start + '-' + end + ' از ' + total
@@ -62,29 +70,29 @@ export default {
     removeFormat: 'حذف قالب‌بندی',
     formatting: 'قالب‌بندی',
     fontSize: 'اندازه قلم',
-    align: 'تراز کردن',
-    hr: 'درج خطکش افقی',
+    align: 'تراز',
+    hr: 'درج خط افقی',
     undo: 'عمل قبلی',
     redo: 'عملی بعدی',
-    header1: 'سرفصل 1',
-    header2: 'سرفصل 2',
-    header3: 'سرفصل 3',
-    header4: 'سرفصل 4',
-    header5: 'سرفصل 5',
-    header6: 'سرفصل 6',
+    header1: 'سرفصل ۱',
+    header2: 'سرفصل ۲',
+    header3: 'سرفصل ۳',
+    header4: 'سرفصل ۴',
+    header5: 'سرفصل ۵',
+    header6: 'سرفصل ۶',
     paragraph: 'پاراگراف',
     code: 'کد',
     size1: 'خیلی کوچک',
-    size2: 'کمی کوچک',
+    size2: 'کوچک',
     size3: 'معمولی',
     size4: 'متوسط-بزرگ',
     size5: 'بزرگ',
     size6: 'خیلی بزرگ',
-    size7: 'بیشترین',
+    size7: 'بزرگترین',
     defaultFont: 'قلم پیش‌فرض'
   },
   tree: {
     noNodes: 'گره‌ای در دسترس نیست',
-    noResults: 'گره‌ی منطبقی یافت نشد'
+    noResults: 'گره‌ای یافت نشد'
   }
 }

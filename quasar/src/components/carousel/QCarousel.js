@@ -1,14 +1,17 @@
 import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
+
 import { PanelParentMixin } from '../../mixins/panel.js'
+import FullscreenMixin from '../../mixins/fullscreen.js'
+
 import { isNumber } from '../../utils/is.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QCarousel',
 
-  mixins: [ PanelParentMixin ],
+  mixins: [ PanelParentMixin, FullscreenMixin ],
 
   props: {
     height: String,
@@ -36,7 +39,7 @@ export default Vue.extend({
 
   computed: {
     style () {
-      if (this.height) {
+      if (this.inFullscreen !== true && this.height !== void 0) {
         return {
           height: this.height
         }
@@ -44,11 +47,10 @@ export default Vue.extend({
     },
 
     classes () {
-      if (this.padding) {
-        return {
-          'q-carousel--arrows': this.arrows,
-          'q-carousel--navigation': this.navigation
-        }
+      return {
+        fullscreen: this.inFullscreen,
+        'q-carousel--arrows': this.padding === true && this.arrows === true,
+        'q-carousel--navigation': this.padding === true && this.navigation === true
       }
     },
 
@@ -108,24 +110,22 @@ export default Vue.extend({
     __getContent (h) {
       const node = []
 
-      if (this.arrows) {
+      if (this.arrows === true) {
         node.push(
           h(QBtn, {
             staticClass: 'q-carousel__control q-carousel__prev-arrow absolute',
             props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
-            // directives: [{ name: 'show', value: this.canGoToPrevious }],
             on: { click: this.previous }
           }),
           h(QBtn, {
             staticClass: 'q-carousel__control q-carousel__next-arrow absolute',
             props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
-            // directives: [{ name: 'show', value: this.canGoToNext }],
             on: { click: this.next }
           })
         )
       }
 
-      if (this.navigation) {
+      if (this.navigation === true) {
         node.push(this.__getNavigationContainer(h, 'buttons', panel => {
           const name = panel.componentOptions.propsData.name
 
@@ -166,12 +166,12 @@ export default Vue.extend({
 
     __render (h) {
       return h('div', {
-        staticClass: 'q-carousel relative-position overflow-hidden',
+        staticClass: 'q-carousel q-panel-parent',
+        style: this.style,
         class: this.classes
       }, [
         h('div', {
           staticClass: 'q-carousel__slides-container',
-          style: this.style,
           directives: this.panelDirectives
         }, [
           this.__getPanelContent(h)

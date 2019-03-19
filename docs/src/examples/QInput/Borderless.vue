@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-md column" style="width: 300px; max-width: 100%">
+    <div class="q-gutter-y-md column" style="width: 300px; max-width: 100%">
       <q-toolbar class="bg-primary text-white rounded-borders">
         <q-btn round dense flat icon="menu" class="q-mr-xs" />
         <q-avatar class="gt-xs">
-          <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+          <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
         </q-avatar>
 
         <q-space />

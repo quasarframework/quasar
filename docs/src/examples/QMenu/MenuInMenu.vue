@@ -5,10 +5,10 @@
       <q-btn color="primary" label="Click me">
         <q-menu>
           <q-list dense style="min-width: 100px">
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>Open...</q-item-section>
             </q-item>
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>New</q-item-section>
             </q-item>
             <q-separator />
@@ -48,7 +48,7 @@
 
             </q-item>
             <q-separator />
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>Quit</q-item-section>
             </q-item>
           </q-list>
@@ -60,10 +60,10 @@
           File
           <q-menu>
             <q-list dense style="min-width: 100px">
-              <q-item clickable v-close-menu>
+              <q-item clickable v-close-popup>
                 <q-item-section>Open...</q-item-section>
               </q-item>
-              <q-item clickable v-close-menu>
+              <q-item clickable v-close-popup>
                 <q-item-section>New</q-item-section>
               </q-item>
               <q-separator />
@@ -101,7 +101,7 @@
 
               </q-item>
               <q-separator />
-              <q-item clickable v-close-menu>
+              <q-item clickable v-close-popup>
                 <q-item-section>Quit</q-item-section>
               </q-item>
             </q-list>
@@ -110,17 +110,17 @@
         <div class="cursor-pointer non-selectable">Edit
           <q-menu>
             <q-list dense style="min-width: 100px">
-              <q-item clickable v-close-menu>
+              <q-item clickable v-close-popup>
                 <q-item-section>Cut</q-item-section>
               </q-item>
-              <q-item clickable v-close-menu>
+              <q-item clickable v-close-popup>
                 <q-item-section>Copy</q-item-section>
               </q-item>
-              <q-item clickable v-close-menu>
+              <q-item clickable v-close-popup>
                 <q-item-section>Paste</q-item-section>
               </q-item>
               <q-separator />
-              <q-item clickable v-close-menu>
+              <q-item clickable v-close-popup>
                 <q-item-section>Select All</q-item-section>
               </q-item>
             </q-list>

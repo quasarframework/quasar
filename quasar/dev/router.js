@@ -24,7 +24,7 @@ const metaChildren = [
 ]
 
 let routes = [
-  {path: '/', component: load('index')},
+  { path: '/', component: load('index') },
   {
     path: '/meta/layout_1',
     component: load('meta/layout_1'),
@@ -44,27 +44,34 @@ let routes = [
       { path: 'a/b' },
       { path: 'b' },
       { path: 'b/a' },
-      { path: 'c' }
+      { path: 'c' },
+      {
+        path: 't',
+        children: [
+          { path: ':id/a', name: 'ta' },
+          { path: ':id/b', name: 'tb' }
+        ]
+      }
     ]
   },
   {
     path: '/lay',
     component: load('web-tests/layout'),
     children: [
-      {path: 'a', component: load('web-tests/a')},
-      {path: 'b', component: load('web-tests/b')},
-      {path: 'c', component: load('web-tests/c')}
+      { path: 'a', component: load('web-tests/a') },
+      { path: 'b', component: load('web-tests/b') },
+      { path: 'c', component: load('web-tests/c') }
     ]
   },
   {
     path: '/layout-quick',
     component: load('layout/layout'),
     children: [
-      {path: '', redirect: 'default'},
-      {path: 'default', component: load('layout/pages/default')},
-      {path: 'a', component: load('layout/pages/a')},
-      {path: 'b', component: load('layout/pages/b')},
-      {path: 'c', component: load('layout/pages/c')}
+      { path: '', redirect: 'default' },
+      { path: 'default', component: load('layout/pages/default') },
+      { path: 'a', component: load('layout/pages/a') },
+      { path: 'b', component: load('layout/pages/b') },
+      { path: 'c', component: load('layout/pages/c') }
     ]
   }
 ]

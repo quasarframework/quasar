@@ -71,9 +71,23 @@
     z-index 1
 
   &__pin-value-marker
-    color white
-    font-size 12px
     transform rotate(45deg)
+
+    &-text
+      position relative
+      color white
+      font-size 12px
+
+    &-bg
+      position absolute
+      min-width 27px
+      width 130%
+      height 27px
+      left 50%
+      top 50%
+      transform translate3d(-50%, -50%, 0)
+      background-color currentColor
+      border-radius 50%
 
   &--editable
     cursor grab

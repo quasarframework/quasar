@@ -29,6 +29,8 @@ In the example below, move the slider to see the label.
 
 <doc-example title="Always display label" file="QSlider/LabelAlways" />
 
+<doc-example title="Custom label value" file="QSlider/LabelValue" />
+
 <doc-example title="Dark" file="QSlider/Dark" dark />
 
 <doc-example title="Lazy input" file="QSlider/Lazy" />

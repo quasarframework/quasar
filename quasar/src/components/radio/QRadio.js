@@ -55,8 +55,9 @@ export default Vue.extend({
   },
 
   methods: {
-    set () {
+    set (e) {
       if (!this.disable && !this.isTrue) {
+        e !== void 0 && stopAndPrevent(e)
         this.$emit('input', this.val)
       }
     },
@@ -83,11 +84,13 @@ export default Vue.extend({
         staticClass: 'q-radio__inner relative-position',
         class: this.innerClass
       }, [
-        this.disable ? null : h('input', {
-          staticClass: 'q-radio__native q-ma-none q-pa-none invisible',
-          attrs: { type: 'checkbox' },
-          on: { change: this.set }
-        }),
+        this.disable !== true
+          ? h('input', {
+            staticClass: 'q-radio__native q-ma-none q-pa-none invisible',
+            attrs: { type: 'checkbox' },
+            on: { change: this.set }
+          })
+          : null,
 
         h('div', {
           staticClass: 'q-radio__bg absolute'

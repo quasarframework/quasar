@@ -2,6 +2,7 @@
 title: Button Toggle
 related:
   - /vue-components/button
+  - /vue-components/tabs
   - /vue-components/option-group
   - /vue-components/radio
   - /vue-components/checkbox
@@ -17,10 +18,12 @@ The QBtnToggle component is another basic element for user input, similar to QRa
 <doc-example title="Basic" file="QBtnToggle/Basic" />
 
 ::: tip
-Singe QBtnToggle uses QBtn, you can use design related props of QBtn to style this component.
+Since QBtnToggle uses QBtn, you can use design related props of QBtn to style this component.
 :::
 
 <doc-example title="Some design examples" file="QBtnToggle/Design" />
+
+<doc-example title="Spread horizontally" file="QBtnToggle/Spread" />
 
 <doc-example title="Disable and readonly" file="QBtnToggle/DisableReadonly" />
 

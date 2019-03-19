@@ -1,6 +1,10 @@
 {
   "mixins": [ "components/layout/QPageSticky" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "scroll-offset": {
       "type": "Number",

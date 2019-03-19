@@ -1,5 +1,5 @@
-import { getEventPath, stopAndPrevent } from './event.js'
-import { hasScrollbar } from './scroll.js'
+import { getEventPath, listenOpts, stopAndPrevent } from '../utils/event.js'
+import { hasScrollbar } from '../utils/scroll.js'
 import Platform from '../plugins/Platform.js'
 
 let registered = 0
@@ -42,7 +42,7 @@ function shouldPreventScroll (e) {
   return true
 }
 
-export default function (register) {
+function prevent (register) {
   registered += register ? 1 : -1
   if (registered > 1) { return }
 
@@ -52,6 +52,22 @@ export default function (register) {
     document.body.classList[action]('q-body--prevent-scroll')
   }
   else if (Platform.is.desktop) {
-    window[`${action}EventListener`]('wheel', onWheel)
+    // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
+    window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
+  }
+}
+
+export default {
+  methods: {
+    __preventScroll (state) {
+      if (this.preventedScroll === void 0 && state !== true) {
+        return
+      }
+
+      if (state !== this.preventedScroll) {
+        this.preventedScroll = state
+        prevent(state)
+      }
+    }
   }
 }

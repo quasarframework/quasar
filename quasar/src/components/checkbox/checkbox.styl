@@ -47,6 +47,7 @@ $checkbox-transition = .22s cubic-bezier(0,0,.2,1) 0ms
 
   &__inner
     width 40px
+    min-width 40px
     height 40px
     padding 11px
     outline 0
@@ -93,6 +94,7 @@ $checkbox-transition = .22s cubic-bezier(0,0,.2,1) 0ms
 
     .q-checkbox__inner
       width 20px
+      min-width 20px
       height 20px
       padding 0
 
@@ -118,7 +120,7 @@ body.desktop
       transform scale3d(0, 0, 0)
       transition transform $option-focus-transition
 
-    &:focus
+    &:focus:not(.disabled)
       .q-checkbox__inner:before
         transform scale3d(1, 1, 1)
 

@@ -34,11 +34,15 @@ $toggle-transition = .22s cubic-bezier(.4,0,.2,1)
 
     .q-icon
       font-size 12px
+      width 20px
+      height 0
+      line-height 0
       color black
       opacity .54
 
   &__inner
     width 56px
+    min-width 56px
     height 40px
     padding 13px 12px
 
@@ -112,7 +116,7 @@ body.desktop
       transform scale3d(0, 0, 0)
       transition transform $option-focus-transition
 
-    &:focus
+    &:focus:not(.disabled)
       .q-toggle__thumb:before
         transform scale3d(2, 2, 2)
 

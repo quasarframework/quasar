@@ -24,7 +24,7 @@
   &.disabled
     opacity .7 !important
 
-  &:not(.disabled):not(.q-btn--flat):not(.q-btn--outline):not(.q-btn--push)
+  &--standard:not(.disabled)
     &:before
       // This places the button active raise shadow behind adjacent elements
       // Active raise shadow will still be visible under adjacent transparent elements, this is ok and coherent with a desired transparency effect.
@@ -37,7 +37,6 @@
       bottom 0
       left 0
       border-radius inherit
-      z-index -1
       transition $button-transition
     &:active
     &.q-btn--active
@@ -77,6 +76,8 @@
     min-height 0
     height 3em
     width 3em
+    min-width 3em
+    min-height 3em
 
   &--flat, &--outline, &--unelevated
     box-shadow none
@@ -88,6 +89,8 @@
       padding 0
       height 2.4em
       width 2.4em
+      min-height 2.4em
+      min-width 2.4em
     .on-left
       margin-right 6px
     .on-right
@@ -105,7 +108,7 @@
 
   // workaround for alignment/sizing change when showing loader
   &__content
-    transition opacity .6s
+    transition opacity .3s
     &--hidden
       opacity 0
     &:before

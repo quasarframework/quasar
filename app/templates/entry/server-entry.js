@@ -19,14 +19,15 @@ import '@quasar/extras/animate/<%= asset %>.css'
 
 import 'quasar-styl'
 
-<% css.length > 0 && css.forEach(asset => { %>
-import '<%= asset %>'
+<% css.length > 0 && css.filter(asset => asset.server !== false).forEach(asset => { %>
+import '<%= asset.path %>'
 <% }) %>
 
 import createApp from './app.js'
 import Vue from 'vue'
 <% if (preFetch) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
+const appOptions = App.options || App
 <% } %>
 
 <%
@@ -40,7 +41,7 @@ if (boot.length > 0) {
     let importName = 'plugin' + hash(asset.path)
     bootNames.push(importName)
 %>
-import <%= importName %> from 'boot/<%= asset.path %>'
+import <%= importName %> from '<%= asset.path %>'
 <% }) } %>
 
 // This exported function will be called by `bundleRenderer`.
@@ -85,6 +86,8 @@ export default context => {
     // wait until router has resolved possible async hooks
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
+        .map(m => m.options /* Vue.extend() */ || m)
+
       // no matched routes
       if (!matchedComponents.length) {
         return reject({ code: 404 })
@@ -97,7 +100,8 @@ export default context => {
         routeUnchanged = false
         reject({ url })
       }
-      App.preFetch && matchedComponents.unshift(App)
+
+      appOptions.preFetch && matchedComponents.unshift(appOptions)
 
       // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,

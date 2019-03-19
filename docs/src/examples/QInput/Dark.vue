@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md bg-grey-10 text-white">
-    <div class="q-gutter-md column" style="max-width: 300px">
+    <div class="q-gutter-y-md column" style="max-width: 300px">
       <div>
         <q-toggle v-model="readonly" label="Readonly" dark />
         <q-toggle v-model="disable" label="Disable" dark />
@@ -21,7 +21,7 @@
       <q-input dark outlined v-model="text" :readonly="readonly" :disable="disable">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
           </q-avatar>
         </template>
       </q-input>

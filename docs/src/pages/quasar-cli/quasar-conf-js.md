@@ -5,9 +5,9 @@ Quasar makes use of some awesome development tools under it's hood, like [Webpac
 
 So what can you configure through `/quasar.conf.js`?
 * Quasar components, directives and plugins that you'll be using in your website/app.
-* Default Quasar I18n language pack
-* Icon pack(s) that you wish to use
-* Default icon set for Quasar components
+* Default [Quasar Language Pack](/options/quasar-language-packs)
+* [Icon libraries](/options/installing-icon-libraries) that you wish to use
+* Default [Quasar Icon Set](/options/quasar-icon-sets) for Quasar components
 * Development server port, HTTPS mode, hostname and so on
 * [CSS animations](/options/animations) that you wish to use
 * [Boot Files](/quasar-cli/cli-documentation/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
@@ -50,7 +50,7 @@ module.exports = function (ctx) {
 }
 ```
 
-What this means is that, as an example, you can load a font when building with Quasar Material theme, and pick another one for Quasar iOS theme.
+What this means is that, as an example, you can load a font when building for a certain mode (like PWA), and pick another one for the others:
 ```js
 module.exports = function (ctx) {
   extras: [
@@ -109,7 +109,7 @@ Let's take each option one by one:
 Global CSS/Stylus/... files from `/src/css/`, except for theme files, which are included by default.
 
 ```js
-// quasar.conf
+// quasar.conf.js
 return {
   css: [
     'app.styl', // referring to /src/css/app.styl
@@ -122,7 +122,7 @@ return {
 By default, everything that comes from `node_modules` will be injected into the vendor chunk for performance & caching reasons. However, should you wish to add or remove something from this special chunk, you can do so:
 
 ```js
-// quasar.conf
+// quasar.conf.js
 return {
   vendor: {
     add: ['src/plugins/my-special-plugin'],
@@ -134,7 +134,7 @@ return {
 ### framework Property
 Tells the CLI what Quasar components/directives/plugins to import, what Quasar I18n language pack to use, what icon set to use for Quasar components and more.
 ```js
-// quasar.conf
+// quasar.conf.js
 return {
   // a list with all options (all are optional)
   framework: {
@@ -165,8 +165,18 @@ Most used properties are:
 | --- | --- | --- |
 | port | Number | Port of dev server |
 | host | String | Local IP/Host to use for dev server |
-| open | Boolean | Open up browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. |
+| open | Boolean/String | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. If specifying a String then see explanations below. |
 | public | String | Public address of the application (for use with reverse proxies) |
+
+Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/opn/blob/master/test.js) based on the host OS):
+
+```
+// quasar.conf.js
+
+devServer: {
+  open: 'firefox'
+}
+```
 
 ### build Property
 | Property | Type | Description |
@@ -204,7 +214,7 @@ If, for example, you run "quasar build --debug", sourceMap and extractCSS will b
 
 You can define and then reference variables in `src/index.template.html`, like this:
 ```js
-// quasar.conf
+// quasar.conf.js
 module.exports = function (ctx) {
   return {
     htmlVariables: { title: 'test name' }
@@ -263,5 +273,11 @@ build: {
 }
 ```
 
+> Alternatively you can use our [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) App Extension.
+
+::: tip
+Also check out [Handling process.env](/quasar-cli/cli-documentation/handling-process-env) page.
+:::
+
 ### Handling Webpack configuration
-In depth analysis on [Handling Webpack](/quasar-cli/cli-documentation/handling-webpack) documentation pagee.
+In depth analysis on [Handling Webpack](/quasar-cli/cli-documentation/handling-webpack) documentation page.

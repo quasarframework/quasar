@@ -67,7 +67,7 @@ Check what tags you need to include in your HTML files by generating a sample wi
 Quasar CLI: If your desired Quasar Language Pack must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-lang-pack`. This will create `/src/boot/quasar-lang-pack.js` file. Edit it to:
 
 ```js
-// for when you don't specify quasar.conf > framework: 'all'
+// for when you don't specify quasar.conf.js > framework: 'all'
 import { Quasar } from 'quasar'
 // OTHERWISE:
 import Quasar from 'quasar'
@@ -82,7 +82,7 @@ export default async () => {
       })
   }
   catch (err) {
-    // Requested Quasar Language Pack does not exists,
+    // Requested Quasar Language Pack does not exist,
     // let's not break the app, so catching error
   }
 }
@@ -155,7 +155,7 @@ There's also a method to determine user locale which is supplied by Quasar out o
 ```js
 // outside of a Vue file
 
-// for when you don't specify quasar.conf > framework: 'all'
+// for when you don't specify quasar.conf.js > framework: 'all'
 import { Quasar } from 'quasar'
 // OTHERWISE:
 import Quasar from 'quasar'

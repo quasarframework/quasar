@@ -4,7 +4,7 @@ related:
   - /vue-components/ajax-bar
   - /vue-components/linear-progress
 ---
-The Quasar LoadingBar plugin offers an easy way to set up your app with a [QAjaxBar](/components/ajax-bar.html) in case you don't want to handle a QAjaxBar component yourself.
+The Quasar LoadingBar plugin offers an easy way to set up your app with a [QAjaxBar](/vue-components/ajax-bar.html) in case you don't want to handle a QAjaxBar component yourself.
 
 For a demo, please visit the QAjaxBar documentation page.
 
@@ -36,7 +36,7 @@ LoadingBar.increment(value)
 
 ### Setting Up Defaults
 
-Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.conf > framework > config > loadingBar: {...} or by calling `LoadingBar.setDefaults({...})` or `this.$q.loadingBar.setDefaults({...})`.
+Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.conf.js > framework > config > loadingBar: {...} or by calling `LoadingBar.setDefaults({...})` or `this.$q.loadingBar.setDefaults({...})`.
 
 ## LoadingBar API
 <doc-api file="LoadingBar" />

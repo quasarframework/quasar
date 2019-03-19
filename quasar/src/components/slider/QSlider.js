@@ -19,7 +19,9 @@ export default Vue.extend({
     value: {
       type: Number,
       required: true
-    }
+    },
+
+    labelValue: [String, Number]
   },
 
   data () {
@@ -57,7 +59,9 @@ export default Vue.extend({
     },
 
     thumbStyle () {
-      return { left: (100 * this.ratio) + '%' }
+      return {
+        [this.horizProp]: (100 * this.ratio) + '%'
+      }
     },
 
     thumbClass () {
@@ -69,8 +73,8 @@ export default Vue.extend({
     },
 
     events () {
-      if (this.editable) {
-        return this.$q.platform.is.mobile
+      if (this.editable === true) {
+        return this.$q.platform.is.mobile === true
           ? { click: this.__mobileClick }
           : {
             mousedown: this.__activate,
@@ -80,6 +84,12 @@ export default Vue.extend({
             keyup: this.__keyup
           }
       }
+    },
+
+    computedLabel () {
+      return this.labelValue !== void 0
+        ? this.labelValue
+        : this.model
     }
   },
 
@@ -153,7 +163,10 @@ export default Vue.extend({
         modifiers: {
           horizontal: true,
           prevent: true,
-          stop: true
+          stop: true,
+          mouse: true,
+          mouseAllDir: true,
+          mouseStop: true
         }
       }] : null
     }, [
@@ -193,7 +206,12 @@ export default Vue.extend({
           staticClass: 'q-slider__pin absolute flex flex-center',
           class: this.pinClass
         }, [
-          h('span', { staticClass: 'q-slider__pin-value-marker' }, [ this.model ])
+          h('div', { staticClass: 'q-slider__pin-value-marker' }, [
+            h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
+            h('div', { staticClass: 'q-slider__pin-value-marker-text' }, [
+              this.computedLabel
+            ])
+          ])
         ]) : null,
 
         h('div', { staticClass: 'q-slider__focus-ring' })

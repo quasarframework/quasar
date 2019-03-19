@@ -8,7 +8,7 @@ Each Electron app has two threads: one is the main thread (dealing with the App 
 ## Renderer Thread
 Electron uses Chromium for displaying web pages in a separate process called the render process. This thread deals with your UI code in `/src` folder.
 
-In normal browsers, web pages usually run in a sand-boxed environment and are not allowed access to native resources. For Electron users, however, you got the power to use Node.js APIs in web pages allowing lower level operating system interactions.
+In normal browsers, web pages usually run in a sand-boxed environment and are not allowed access to native resources. For Electron users, however, you've got the power to use Node.js APIs in web pages allowing lower level operating system interactions.
 
 ## Main Thread
 In Electron, the process that runs package.json’s main script is called the main process. This is the script that runs in the main process and can display a GUI by initializing the renderer thread. This thread deals with your code in `/src-electron/main-process` folder.

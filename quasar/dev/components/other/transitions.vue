@@ -3,7 +3,6 @@
     <q-btn push color="teal" label="Trigger" @click="trigger" class="q-my-lg" />
 
     <div class="q-gutter-lg row items-start">
-
       <q-img
         v-for="transition in transitions"
         :key="transition"
@@ -17,7 +16,6 @@
           {{ transition }}
         </div>
       </q-img>
-
     </div>
   </div>
 </template>

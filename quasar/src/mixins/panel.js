@@ -1,4 +1,5 @@
 import TouchSwipe from '../directives/TouchSwipe'
+import { stop } from '../utils/event.js'
 
 export const PanelParentMixin = {
   directives: {
@@ -38,19 +39,30 @@ export const PanelParentMixin = {
           name: 'touch-swipe',
           value: this.__swipe,
           modifiers: {
-            horizontal: true
+            horizontal: true,
+            mouse: true
           }
         }]
       }
+    },
+
+    contentKey () {
+      return typeof this.value === 'string' || typeof this.value === 'number'
+        ? this.value
+        : String(this.value)
     }
   },
 
   watch: {
     value (newVal, oldVal) {
-      const index = newVal ? this.__getPanelIndex(newVal) : -1
+      const
+        validNewPanel = this.__isValidPanelName(newVal),
+        index = validNewPanel === true
+          ? this.__getPanelIndex(newVal)
+          : -1
 
       if (this.animated) {
-        this.panelTransition = newVal && this.panelIndex !== -1
+        this.panelTransition = validNewPanel === true && this.panelIndex !== -1
           ? 'q-transition--' + (
             index < this.__getPanelIndex(oldVal)
               ? this.transitionPrev
@@ -82,19 +94,24 @@ export const PanelParentMixin = {
       this.$emit('input', name)
     },
 
+    __isValidPanelName (name) {
+      return name !== void 0 && name !== null && name !== ''
+    },
+
     __getPanelIndex (name) {
       return this.panels.findIndex(panel => {
         const opt = panel.componentOptions
         return opt &&
           opt.propsData.name === name &&
           opt.propsData.disable !== '' &&
-          opt.propsData.disable !== false
+          opt.propsData.disable !== true
       })
     },
 
     __getAllPanels () {
       return this.panels.filter(
-        panel => panel.componentOptions !== void 0 && panel.componentOptions.propsData.name !== void 0
+        panel => panel.componentOptions !== void 0 &&
+          this.__isValidPanelName(panel.componentOptions.propsData.name)
       )
     },
 
@@ -104,7 +121,7 @@ export const PanelParentMixin = {
         return opt &&
           opt.propsData.name !== void 0 &&
           opt.propsData.disable !== '' &&
-          opt.propsData.disable !== false
+          opt.propsData.disable !== true
       })
     },
 
@@ -133,7 +150,7 @@ export const PanelParentMixin = {
     },
 
     __swipe (evt) {
-      this.__go(evt.direction === 'left' ? 1 : -1)
+      this.__go((this.$q.lang.rtl === true ? -1 : 1) * (evt.direction === 'left' ? 1 : -1))
     },
 
     __updatePanelIndex () {
@@ -151,22 +168,30 @@ export const PanelParentMixin = {
         return
       }
 
-      const panel = this.value &&
+      const panel = this.__isValidPanelName(this.value) &&
         this.__updatePanelIndex() &&
         this.panels[this.panelIndex]
 
-      return [
-        this.animated ? h('transition', {
-          props: {
-            name: this.panelTransition
-          }
-        }, [
-          h('div', {
-            key: this.value,
-            staticClass: 'q-panel'
-          }, [ panel ])
-        ]) : panel
+      const content = [
+        h('div', {
+          key: this.contentKey,
+          staticClass: 'q-panel scroll',
+          attrs: { role: 'tabpanel' },
+          // stop propagation of content emitted @input
+          // which would tamper with Panel's model
+          on: { input: stop }
+        }, [ panel ])
       ]
+
+      return this.animated === true
+        ? [
+          h('transition', {
+            props: {
+              name: this.panelTransition
+            }
+          }, content)
+        ]
+        : content
     }
   },
 

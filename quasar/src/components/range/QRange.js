@@ -36,12 +36,15 @@ export default Vue.extend({
     dragOnlyRange: Boolean,
 
     leftLabelColor: String,
-    rightLabelColor: String
+    rightLabelColor: String,
+
+    leftLabelValue: [String, Number],
+    rightLabelValue: [String, Number]
   },
 
   data () {
     return {
-      model: Object.assign({}, this.value),
+      model: { ...this.value },
       curMinRatio: 0,
       curMaxRatio: 0
     }
@@ -94,17 +97,20 @@ export default Vue.extend({
 
     trackStyle () {
       return {
-        left: 100 * this.ratioMin + '%',
+        [this.horizProp]: 100 * this.ratioMin + '%',
         width: 100 * (this.ratioMax - this.ratioMin) + '%'
       }
     },
 
     minThumbStyle () {
-      return { left: (100 * this.ratioMin) + '%', 'z-index': this.__nextFocus === 'min' ? 2 : void 0 }
+      return {
+        [this.horizProp]: (100 * this.ratioMin) + '%',
+        'z-index': this.__nextFocus === 'min' ? 2 : void 0
+      }
     },
 
     maxThumbStyle () {
-      return { left: (100 * this.ratioMax) + '%' }
+      return { [this.horizProp]: (100 * this.ratioMax) + '%' }
     },
 
     minThumbClass () {
@@ -116,8 +122,8 @@ export default Vue.extend({
     },
 
     events () {
-      if (this.editable) {
-        if (this.$q.platform.is.mobile) {
+      if (this.editable === true) {
+        if (this.$q.platform.is.mobile === true) {
           return { click: this.__mobileClick }
         }
 
@@ -168,6 +174,18 @@ export default Vue.extend({
       if (color) {
         return `text-${color}`
       }
+    },
+
+    minLabel () {
+      return this.leftLabelValue !== void 0
+        ? this.leftLabelValue
+        : this.model.min
+    },
+
+    maxLabel () {
+      return this.rightLabelValue !== void 0
+        ? this.rightLabelValue
+        : this.model.max
     }
   },
 
@@ -374,7 +392,12 @@ export default Vue.extend({
           staticClass: 'q-slider__pin absolute flex flex-center',
           class: this[which + 'PinClass']
         }, [
-          h('span', { staticClass: 'q-slider__pin-value-marker' }, [ this.model[which] ])
+          h('div', { staticClass: 'q-slider__pin-value-marker' }, [
+            h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
+            h('div', { staticClass: 'q-slider__pin-value-marker-text' }, [
+              this[which + 'Label']
+            ])
+          ])
         ]) : null,
 
         h('div', { staticClass: 'q-slider__focus-ring' })
@@ -403,7 +426,10 @@ export default Vue.extend({
         modifiers: {
           horizontal: true,
           prevent: true,
-          stop: true
+          stop: true,
+          mouse: true,
+          mouseAllDir: true,
+          mouseStop: true
         }
       }] : null
     }, [

@@ -97,7 +97,15 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
         </a>
       </td>
       <td align="center" valign="middle">
-        Jeff Cole
+        <a href="https://www.projectfinance.io/" target="_blank">
+          <img width="222px" height="150px" src="https://cdn.quasar-framework.org/sponsors/project-finance.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        Ronald Stevens
       </td>
     </tr>
   </tbody>
@@ -114,11 +122,15 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Edinei Cipriani
 - Andy Burnett
 - Heitor Lessa
+- Aprixon Information Services GmbH
+- Flippen Group
 
 ### $10+
 
+- Milan Paun ($30.75)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
+- Jim O'Quinn ($25)
 - Max Matteo Staack ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
@@ -126,6 +138,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Stephen Clarke ($20)
 - Ciprian Popa ($20)
 - G Edwards ($20)
+- Martin Thompson ($20)
 - Shone Radulovic ($15)
 - Sam Cassar ($15)
 - 上田 進也 (Sandbox Gmbh) ($20)
@@ -165,8 +178,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - 良平 勝目
 - Jörg Walter
 - Ruan de Andrade
-- Tanner Faulkner
-- Luca Borghini
 - Christian Kyony
 - Talles Dantas
 - Mast
@@ -176,13 +187,11 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - RED CAD Solutions AG
 - Yatima Kagurazaka
 - Matyáš Racek
-- Martin Thompson
 - David Urbansky
 - Sustained
 - Chad Shryock
 - Ross Ball
 - KPA Productions
-- Roman Sujatinov
 - Tanya Trimbakova
 - eae
 - Tomer Shalev
@@ -198,7 +207,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jay McGuinness
 - Matheus Botura Pimenta
 - Jesse Sudich (Outflank Pay Tracker)
-- Robson Martins
+- Controle Digital 
 - Tobias Mesquita
 - Volentix
 - Pascual Strømsnæs
@@ -207,8 +216,22 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Nafaa Boutefer
 - Bryan WB (eKyNoX)
 - Jan Pálka
+- Justin Dunsworth
+- James Swansburg
+- Adam De Witt
+- Ade Shinichi
+- Tatsuki Sugiura
+- Ravi Ranganathan
+- Carl Farrington
+- Andrey Solovieff
+- Ian Claxton
+- Pascal de Sélys
+- Constantine
+- Ivar de Pieterman
+- Birch P Browning
+- Дмитрий Полянин
+- Guillaume Malignon
 
-- Jim O'Quinn ($5)
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
@@ -227,6 +250,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Robert Preston $250
 - Remo Laubacher $200
 - Egor Molodov $200
+- BigJump Limited 175 EUR
 - Max Matteo Staack 150 EUR
 - Jeff Galbraith 129 EUR
 - Max Matteo Staack $123

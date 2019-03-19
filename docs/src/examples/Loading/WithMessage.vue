@@ -9,7 +9,7 @@ export default {
   methods: {
     showLoading () {
       this.$q.loading.show({
-        message: 'Some important process is in progress. Hang on...'
+        message: 'Some important <b>process</b> is in progress.<br/><span class="text-primary">Hang on...</span>'
       })
 
       // hiding in 3s

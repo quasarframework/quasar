@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/field/QField" ],
+  "mixins": [ "components/field/__QField" ],
 
   "props": {
     "value": {
@@ -20,8 +20,9 @@
       "examples": [ "Options: x, y, z"]
     },
 
-    "dropdown-icon": {
-      "extends": "icon"
+    "display-value-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render selected option(s); Use it when the selected option(s) might be unsafe (from user input); Does NOT apply when using 'selected' or 'selected-item' slots!"
     },
 
     "options": {
@@ -69,6 +70,15 @@
       "desc": "Hides selection; Use the underlying input tag to hold the label (instead of showing it to the right of the input) of the selected option; Only works for non 'multiple' Selects"
     },
 
+    "hide-dropdown-icon": {
+      "type": "Boolean",
+      "desc": "Hides dropdown icon"
+    },
+
+    "dropdown-icon": {
+      "extends": "icon"
+    },
+
     "counter": {
       "type": "Boolean",
       "desc": "Show a counter of selected options on bottom right side"
@@ -101,6 +111,11 @@
       "desc": "Expanded menu will cover the component"
     },
 
+    "options-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT applies when using 'option' slot!"
+    },
+
     "use-input": {
       "type": "Boolean",
       "desc": "Use an input tag where users can type"
@@ -109,6 +124,12 @@
     "use-chips": {
       "type": "Boolean",
       "desc": "Use QChip to show what is currently selected"
+    },
+
+    "new-value-mode": {
+      "type": "String",
+      "desc": "Enables creation of new values and defines behavior when a new value is added: 'add' means it adds the value (even if possible duplicate), 'add-unique' adds only unique values, and 'toggle' adds or removes the value (based on if it exists or not already); When using this prop then listening for @new-value becomes optional (only to override the behavior defined by 'new-value-mode')",
+      "values": [ "add", "add-unique", "toggle" ]
     },
 
     "map-options": {
@@ -156,7 +177,7 @@
     },
 
     "loading": {
-      "desc": "Override default spinner when QSelect is in loading mode; Suggestion: spinners"
+      "desc": "Override default spinner when component is in loading mode; Suggestion: spinners"
     }
   },
 
@@ -319,14 +340,14 @@
     },
 
     "new-value": {
-      "desc": "Emitted when a new value has been created",
+      "desc": "Enables creation of new values; Emitted when a new value has been created; You can override 'new-value-mode' property with it",
       "params": {
         "inputValue": {
           "type": "String",
           "desc": "What the user typed",
           "examples": [ "phone" ]
         },
-        "itemToAddToModel": {
+        "doneFn": {
           "type": "Function",
           "desc": "Adds (optional) value to the model; Do not forget to call it after you validate the newly created value; Call it with no parameters if nothing should be added",
           "params": {
@@ -334,6 +355,12 @@
               "type": "Any",
               "desc": "Item to add",
               "__exemption": [ "examples" ]
+            },
+            "mode": {
+              "type": "String",
+              "desc": "Override 'new-value-mode' (prop) behavior should you wish to",
+              "values": [ "add", "add-unique", "toggle" ],
+              "default": "add"
             }
           },
           "returns": null

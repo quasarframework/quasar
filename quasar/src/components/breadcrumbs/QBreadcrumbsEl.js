@@ -16,9 +16,10 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h(this.hasRouterLink ? 'router-link' : 'span', {
+    return h(this.hasRouterLink === true ? 'router-link' : 'span', {
       staticClass: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
-      props: this.hasRouterLink ? this.routerLinkProps : null
+      props: this.hasRouterLink === true ? this.routerLinkProps : null,
+      [this.hasRouterLink === true ? 'nativeOn' : 'on']: this.$listeners
     }, [
 
       this.icon !== void 0

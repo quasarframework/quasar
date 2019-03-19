@@ -3,26 +3,44 @@
     <div class="q-layout-padding">
       <p>Basic</p>
       <div class="q-ma-md">
-        <q-chip icon="event" size="10px">Add to calendar</q-chip>
-        <q-chip icon="bookmark">Bookmark</q-chip>
+        <q-chip icon="event" size="10px">
+          Add to calendar
+        </q-chip>
+        <q-chip icon="bookmark">
+          Bookmark
+        </q-chip>
         <q-chip icon="alarm" label="Set alarm" />
-        <q-chip icon="directions">Get directions</q-chip>
+        <q-chip icon="directions">
+          Get directions
+        </q-chip>
 
         <q-chip>Get directions</q-chip>
-        <q-chip dense>Get directions</q-chip>
+        <q-chip dense>
+          Get directions
+        </q-chip>
       </div>
       <div class="q-ma-md">
-        <q-chip color="primary" text-color="white" icon="event" removable>Add to calendar </q-chip>
-        <q-chip color="teal" text-color="white" icon="bookmark">Bookmark</q-chip>
-        <q-chip color="orange" text-color="white" icon-right="star">Star</q-chip>
+        <q-chip color="primary" text-color="white" icon="event" removable>
+          Add to calendar
+        </q-chip>
+        <q-chip color="teal" text-color="white" icon="bookmark">
+          Bookmark
+        </q-chip>
+        <q-chip color="orange" text-color="white" icon-right="star">
+          Star
+        </q-chip>
         <q-chip color="red" text-color="white" icon="alarm" label="Set alarm" removable />
-        <q-chip color="deep-orange" text-color="white" icon="directions" removable>Get directions</q-chip>
+        <q-chip color="deep-orange" text-color="white" icon="directions" removable>
+          Get directions
+        </q-chip>
         <q-chip>
           <q-avatar icon="bookmark" color="red" text-color="white" />
           Bookmark
         </q-chip>
         <q-chip>
-          <q-avatar color="red" text-color="white">50</q-avatar>
+          <q-avatar color="red" text-color="white">
+            50
+          </q-avatar>
           Emails
         </q-chip>
         <q-chip>
@@ -43,17 +61,27 @@
 
       <p>Square</p>
       <div class="q-ma-md">
-        <q-chip square color="primary" text-color="white" icon="event" removable>Add to calendar</q-chip>
-        <q-chip square color="teal" text-color="white" icon="bookmark">Bookmark</q-chip>
-        <q-chip square color="orange" text-color="white" icon-right="star">Star</q-chip>
+        <q-chip square color="primary" text-color="white" icon="event" removable>
+          Add to calendar
+        </q-chip>
+        <q-chip square color="teal" text-color="white" icon="bookmark">
+          Bookmark
+        </q-chip>
+        <q-chip square color="orange" text-color="white" icon-right="star">
+          Star
+        </q-chip>
         <q-chip square color="red" text-color="white" icon="alarm" label="Set alarm" removable />
-        <q-chip square color="deep-orange" text-color="white" icon="directions" removable>Get directions</q-chip>
+        <q-chip square color="deep-orange" text-color="white" icon="directions" removable>
+          Get directions
+        </q-chip>
         <q-chip square>
           <q-avatar icon="bookmark" color="red" text-color="white" />
           Bookmark
         </q-chip>
         <q-chip square>
-          <q-avatar color="red" text-color="white">50</q-avatar>
+          <q-avatar color="red" text-color="white">
+            50
+          </q-avatar>
           Emails
         </q-chip>
         <q-chip square>
@@ -66,17 +94,27 @@
 
       <p>Dense</p>
       <div class="q-ma-md">
-        <q-chip dense color="primary" text-color="white" icon="event" removable>Add to calendar</q-chip>
-        <q-chip dense color="teal" text-color="white" icon="bookmark">Bookmark</q-chip>
-        <q-chip dense color="orange" text-color="white" icon-right="star">Star</q-chip>
+        <q-chip dense color="primary" text-color="white" icon="event" removable>
+          Add to calendar
+        </q-chip>
+        <q-chip dense color="teal" text-color="white" icon="bookmark">
+          Bookmark
+        </q-chip>
+        <q-chip dense color="orange" text-color="white" icon-right="star">
+          Star
+        </q-chip>
         <q-chip dense color="red" text-color="white" icon="alarm" label="Set alarm" removable />
-        <q-chip dense color="deep-orange" text-color="white" icon="directions" removable>Get directions</q-chip>
+        <q-chip dense color="deep-orange" text-color="white" icon="directions" removable>
+          Get directions
+        </q-chip>
         <q-chip dense>
           <q-avatar icon="bookmark" color="red" text-color="white" />
           Bookmark
         </q-chip>
         <q-chip dense>
-          <q-avatar color="red" text-color="white">50</q-avatar>
+          <q-avatar color="red" text-color="white">
+            50
+          </q-avatar>
           Emails
         </q-chip>
         <q-chip dense>
@@ -89,17 +127,27 @@
 
       <p>Dense Square</p>
       <div class="q-ma-md">
-        <q-chip square dense color="primary" text-color="white" icon="event" removable>Add to calendar</q-chip>
-        <q-chip square dense color="teal" text-color="white" icon="bookmark">Bookmark</q-chip>
-        <q-chip square dense color="orange" text-color="white" icon-right="star">Star</q-chip>
+        <q-chip square dense color="primary" text-color="white" icon="event" removable>
+          Add to calendar
+        </q-chip>
+        <q-chip square dense color="teal" text-color="white" icon="bookmark">
+          Bookmark
+        </q-chip>
+        <q-chip square dense color="orange" text-color="white" icon-right="star">
+          Star
+        </q-chip>
         <q-chip square dense color="red" text-color="white" icon="alarm" label="Set alarm" removable />
-        <q-chip square dense color="deep-orange" text-color="white" icon="directions" removable>Get directions</q-chip>
+        <q-chip square dense color="deep-orange" text-color="white" icon="directions" removable>
+          Get directions
+        </q-chip>
         <q-chip square dense>
           <q-avatar icon="bookmark" color="red" text-color="white" />
           Bookmark
         </q-chip>
         <q-chip square dense>
-          <q-avatar color="red" text-color="white">50</q-avatar>
+          <q-avatar color="red" text-color="white">
+            50
+          </q-avatar>
           Emails
         </q-chip>
         <q-chip square dense>
@@ -112,17 +160,29 @@
 
       <p>Clickable</p>
       <div class="q-ma-md">
-        <q-chip clickable color="primary" text-color="white" icon="event" removable>Add to calendar</q-chip>
-        <q-chip clickable icon="bookmark">Bookmark</q-chip>
-        <q-chip clickable color="teal" text-color="white" icon="bookmark">Bookmark</q-chip>
+        <q-chip clickable color="primary" text-color="white" icon="event" removable>
+          Add to calendar
+        </q-chip>
+        <q-chip clickable icon="bookmark">
+          Bookmark
+        </q-chip>
+        <q-chip clickable color="teal" text-color="white" icon="bookmark">
+          Bookmark
+        </q-chip>
         <q-chip clickable color="red" text-color="white" icon="alarm" label="Set alarm" removable />
-        <q-chip clickable color="orange" text-color="white" icon="directions" removable>Get directions</q-chip>
+        <q-chip clickable color="orange" text-color="white" icon="directions" removable>
+          Get directions
+        </q-chip>
       </div>
 
       <p>Selected</p>
       <div class="q-ma-md">
-        <q-chip :selected.sync="selected1" icon="bookmark" removable>Bookmark</q-chip>
-        <q-chip :selected.sync="selected1" removable>EmptyTest</q-chip>
+        <q-chip :selected.sync="selected1" icon="bookmark" removable>
+          Bookmark
+        </q-chip>
+        <q-chip :selected.sync="selected1" removable>
+          EmptyTest
+        </q-chip>
 
         <q-chip :selected.sync="selected2">
           <q-avatar>
@@ -132,12 +192,16 @@
         </q-chip>
 
         <q-chip :selected.sync="selected3">
-          <q-avatar color="primary" text-color="white">J</q-avatar>
+          <q-avatar color="primary" text-color="white">
+            J
+          </q-avatar>
           Add to calendar
         </q-chip>
 
         <q-chip :selected.sync="selected4" color="orange">
-          <q-avatar color="teal" text-color="white">J</q-avatar>
+          <q-avatar color="teal" text-color="white">
+            J
+          </q-avatar>
           Add to calendar
         </q-chip>
 
@@ -156,7 +220,9 @@
       <div class="q-ma-md">
         <q-btn label="Reset" flat size="sm" @click="resetRemovable" />
 
-        <q-chip v-model="close1" icon="bookmark" removable>Bookmark</q-chip>
+        <q-chip v-model="close1" icon="bookmark" removable>
+          Bookmark
+        </q-chip>
 
         <q-chip v-model="close2" removable>
           <q-avatar>
@@ -166,12 +232,16 @@
         </q-chip>
 
         <q-chip v-model="close3" removable>
-          <q-avatar color="primary" text-color="white">J</q-avatar>
+          <q-avatar color="primary" text-color="white">
+            J
+          </q-avatar>
           Add to calendar
         </q-chip>
 
         <q-chip v-model="close4" removable color="orange">
-          <q-avatar color="teal" text-color="white">J</q-avatar>
+          <q-avatar color="teal" text-color="white">
+            J
+          </q-avatar>
           Add to calendar
         </q-chip>
 
@@ -183,7 +253,9 @@
 
       <p>Disable</p>
       <div class="q-ma-md">
-        <q-chip disable :selected.sync="selected1" clickable icon="bookmark" removable>Bookmark</q-chip>
+        <q-chip disable :selected.sync="selected1" clickable icon="bookmark" removable>
+          Bookmark
+        </q-chip>
 
         <q-chip disable :selected.sync="selected2" clickable>
           <q-avatar>
@@ -193,12 +265,16 @@
         </q-chip>
 
         <q-chip disable :selected.sync="selected3" clickable>
-          <q-avatar color="primary" text-color="white">J</q-avatar>
+          <q-avatar color="primary" text-color="white">
+            J
+          </q-avatar>
           Add to calendar
         </q-chip>
 
         <q-chip disable :selected.sync="selected4" clickable color="orange">
-          <q-avatar color="teal" text-color="white">J</q-avatar>
+          <q-avatar color="teal" text-color="white">
+            J
+          </q-avatar>
           Add to calendar
         </q-chip>
 
@@ -210,15 +286,29 @@
 
       <p>Outline</p>
       <div class="q-ma-md">
-        <q-chip outline icon="bookmark">Bookmark</q-chip>
-        <q-chip outline color="primary" icon="event" removable>Add to calendar</q-chip>
-        <q-chip outline color="teal" icon="bookmark">Bookmark</q-chip>
+        <q-chip outline icon="bookmark">
+          Bookmark
+        </q-chip>
+        <q-chip outline color="primary" icon="event" removable>
+          Add to calendar
+        </q-chip>
+        <q-chip outline color="teal" icon="bookmark">
+          Bookmark
+        </q-chip>
         <q-chip outline color="red" icon="alarm" label="Set alarm" removable />
-        <q-chip outline color="orange" icon="directions" removable>Get directions</q-chip>
-        <q-chip outline color="teal" icon-right="bookmark">Bookmark</q-chip>
+        <q-chip outline color="orange" icon="directions" removable>
+          Get directions
+        </q-chip>
+        <q-chip outline color="teal" icon-right="bookmark">
+          Bookmark
+        </q-chip>
 
-        <q-chip outline>Get directions</q-chip>
-        <q-chip dense outline>Get directions</q-chip>
+        <q-chip outline>
+          Get directions
+        </q-chip>
+        <q-chip dense outline>
+          Get directions
+        </q-chip>
       </div>
     </div>
   </div>

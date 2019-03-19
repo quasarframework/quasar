@@ -45,6 +45,23 @@
         ]"
       />
     </div>
+
+    <div>
+      <q-btn-toggle
+        v-model="model"
+        class="my-custom-toggle"
+        no-caps
+        rounded
+        unelevated
+        toggle-color="primary"
+        color="white"
+        text-color="primary"
+        :options="[
+          {label: 'Option 1', value: 'one'},
+          {label: 'Option 2', value: 'two'}
+        ]"
+      />
+    </div>
   </div>
 </template>
 
@@ -52,10 +69,13 @@
 export default {
   data () {
     return {
-      model: null,
-      states: 'two',
-      field: 'cake'
+      model: 'one'
     }
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.my-custom-toggle
+  border 1px solid #027be3
+</style>

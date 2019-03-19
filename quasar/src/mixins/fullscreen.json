@@ -1,4 +1,15 @@
 {
+  "props": {
+    "fullscreen": {
+      "type": "Boolean",
+      "sync": true,
+      "desc": "Fullscreen mode",
+      "examples": [
+        ":fullscreen.sync=\"isFullscreen\""
+      ]
+    }
+  },
+
   "methods": {
     "toggleFullscreen": {
       "desc": "Toggle the view to be fullscreen or not fullscreen"

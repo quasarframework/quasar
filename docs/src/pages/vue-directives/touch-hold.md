@@ -18,21 +18,14 @@ We will be describing `v-touch-hold` on the lines below.
 
 <doc-example title="Custom wait time" file="TouchHold/CustomTimer" />
 
-### Avoid Capturing Mouse Events
-When you don't want to capture mouse actions too, use the `noMouse` modifier:
+### Capturing Mouse Events
+When you want to capture mouse actions events too, use the `mouse` modifier:
 ``` html
-<!--
-  directive won't be triggered by mouse actions;
-  it's exclusively triggered by touch actions now:
--->
-<div v-touch-hold.noMouse="userHasHold">...</div>
+<div v-touch-hold.mouse="userHasHold">...</div>
 ```
 
-### Preventing Scroll (on touch capable devices)
-By default, the directive does not block page scrolling. If you want to prevent scrolling, then use the `prevent` modifier.
-``` html
-<div v-touch-hold.prevent="userHasHold">...</div>
-```
+### Note on HMR
+Due to performance reasons, when doing HMR updates, the argument and modifiers are not updated, so you will require a window refresh.
 
 ## API
 <doc-api file="TouchHold" />

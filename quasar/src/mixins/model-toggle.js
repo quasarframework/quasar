@@ -76,7 +76,7 @@ export default {
     },
 
     __removeHistory () {
-      if (this.__historyEntry) {
+      if (this.__historyEntry !== void 0) {
         History.remove(this.__historyEntry)
         this.__historyEntry = null
       }
@@ -84,6 +84,6 @@ export default {
   },
 
   beforeDestroy () {
-    this.showing && this.__removeHistory()
+    this.showing === true && this.__removeHistory()
   }
 }

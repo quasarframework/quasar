@@ -6,21 +6,31 @@
         if on desktop) to see Parallax in action.
       </p>
 
-      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">
+        {{ n }} {{ loremipsum }}
+      </p>
     </div>
 
     <q-parallax>
-      <img slot="media" src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      <template v-slot:media>
+        <img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      </template>
 
-      <h1 class="text-white">Basic</h1>
+      <h1 class="text-white">
+        Basic
+      </h1>
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">
+        {{ n }} {{ loremipsum }}
+      </p>
     </div>
 
     <q-parallax class="q-mt-xl">
-      <img slot="media" src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      <template v-slot:media>
+        <img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      </template>
 
       <template v-slot:content="scope">
         <div
@@ -33,86 +43,120 @@
           }"
         >
           <img src="https://cdn.quasar-framework.org/img/quasar-logo.png" style="width: 150px; height: 150px">
-          <div class="text-h3 text-white text-center">Quasar Framework</div>
-          <div class="text-h6 text-grey-3 text-center">Scoped slot</div>
+          <div class="text-h3 text-white text-center">
+            Quasar Framework
+          </div>
+          <div class="text-h6 text-grey-3 text-center">
+            Scoped slot
+          </div>
         </div>
       </template>
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">
+        {{ n }} {{ loremipsum }}
+      </p>
     </div>
 
     <q-parallax :height="200" class="q-mt-xl">
-      <video slot="media" width="720" height="440" poster="http://www.markhillard.com/sandbox/media/polina.jpg" autoplay loop muted>
-        <source type="video/webm" src="http://www.markhillard.com/sandbox/media/polina.webm">
-        <source type="video/mp4" src="http://www.markhillard.com/sandbox/media/polina.mp4">
-      </video>
+      <template v-slot:media>
+        <video width="720" height="440" poster="http://www.markhillard.com/sandbox/media/polina.jpg" autoplay loop muted>
+          <source type="video/webm" src="http://www.markhillard.com/sandbox/media/polina.webm">
+          <source type="video/mp4" src="http://www.markhillard.com/sandbox/media/polina.mp4">
+        </video>
+      </template>
 
-      <h1 class="text-white">Video</h1>
+      <h1 class="text-white">
+        Video
+      </h1>
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">
+        {{ n }} {{ loremipsum }}
+      </p>
     </div>
 
     <q-toggle v-model="imgSrc" true-value="https://cdn.quasar-framework.org/img/parallax1.jpg" false-value="https://cdn.quasar-framework.org/img/mountains.jpg" label="Toggle Image" />
     <q-parallax :src="imgSrc" :height="200">
-      <h1 class="text-white">Parallax  Title</h1>
+      <h1 class="text-white">
+        Parallax  Title
+      </h1>
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">
+        {{ n }} {{ loremipsum }}
+      </p>
     </div>
 
     <q-parallax src="https://cdn.quasar-framework.org/img/parallax2.jpg">
-      <h1 class="text-white">Bridge</h1>
+      <h1 class="text-white">
+        Bridge
+      </h1>
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">
+        {{ n }} {{ loremipsum }}
+      </p>
     </div>
 
     <q-parallax src="https://cdn.quasar-framework.org/img/parallax1.jpg">
-      <h1 class="text-white">Title</h1>
+      <h1 class="text-white">
+        Title
+      </h1>
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">
+        {{ n }} {{ loremipsum }}
+      </p>
     </div>
 
     <q-parallax src="https://cdn.quasar-framework.org/img/mountains.jpg" :height="200">
-      <h1 class="text-white">Mountains</h1>
+      <h1 class="text-white">
+        Mountains
+      </h1>
     </q-parallax>
 
     <div class="q-layout-padding">
-      <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
+      <p v-for="n in 7" :key="n" class="par-text">
+        {{ n }} {{ loremipsum }}
+      </p>
     </div>
 
     <h3>Parallax (not full width)</h3>
     <div class="row justify-around">
       <div class="col-6">
         <div class="q-layout-padding">
-          <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
+          <p v-for="n in 7" :key="n" class="par-text">
+            {{ n }} {{ loremipsum }}
+          </p>
         </div>
 
         <q-parallax :height="200" class="q-mt-xl">
-          <video slot="media" width="720" height="440" poster="http://www.markhillard.com/sandbox/media/polina.jpg" autoplay loop muted>
-            <source type="video/webm" src="http://www.markhillard.com/sandbox/media/polina.webm">
-            <source type="video/mp4" src="http://www.markhillard.com/sandbox/media/polina.mp4">
-          </video>
+          <template v-slot:media>
+            <video width="720" height="440" poster="http://www.markhillard.com/sandbox/media/polina.jpg" autoplay loop muted>
+              <source type="video/webm" src="http://www.markhillard.com/sandbox/media/polina.webm">
+              <source type="video/mp4" src="http://www.markhillard.com/sandbox/media/polina.mp4">
+            </video>
+          </template>
 
-          <h1 class="text-white">Video</h1>
+          <h1 class="text-white">
+            Video
+          </h1>
         </q-parallax>
 
         <div class="q-layout-padding">
-          <p v-for="n in 7" :key="n" class="par-text">{{ n }} {{ loremipsum }}</p>
+          <p v-for="n in 7" :key="n" class="par-text">
+            {{ n }} {{ loremipsum }}
+          </p>
         </div>
-
       </div>
     </div>
     <div style="height: 500px;" />
-
   </div>
 </template>
 

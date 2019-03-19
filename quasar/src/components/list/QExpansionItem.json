@@ -26,10 +26,22 @@
       "examples": [ "My expansion item" ]
     },
 
+    "label-lines": {
+      "type": [ "Number", "String" ],
+      "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines; If more than one line specified, then it will only work on webkit browsers because it uses the '-webkit-line-clamp' CSS property!",
+      "examples": [ "1", "3", ":label-lines=\"2\"" ]
+    },
+
     "caption": {
       "type": "String",
       "desc": "Header sub-label (unless using 'header' slot)",
       "examples": [ "Unread message: 5" ]
+    },
+
+    "caption-lines": {
+      "type": [ "Number", "String" ],
+      "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines; If more than one line specified, then it will only work on webkit browsers because it uses the '-webkit-line-clamp' CSS property!",
+      "examples": [ "1", "3", ":caption-lines=\"2\"" ]
     },
 
     "dark": {
@@ -111,10 +123,6 @@
         "my-custom-class",
         ":header-class=\"{ 'my-custom-class': someCondition }\""
       ]
-    },
-
-    "disable": {
-      "extends": "disable"
     }
   },
 

@@ -1,9 +1,9 @@
 export function offset (el) {
   if (el === window) {
-    return {top: 0, left: 0}
+    return { top: 0, left: 0 }
   }
-  const {top, left} = el.getBoundingClientRect()
-  return {top, left}
+  const { top, left } = el.getBoundingClientRect()
+  return { top, left }
 }
 
 export function style (el, property) {

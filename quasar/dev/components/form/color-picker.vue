@@ -1,7 +1,6 @@
 <template>
   <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
     <div style="max-width: 600px" class="q-gutter-y-md">
-
       <div class="q-gutter-x-md">
         <q-toggle :dark="dark" v-model="dark" label="Dark" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
@@ -55,7 +54,9 @@
         <q-color v-bind="props" :value="rgba" @change="val => rgba = val" />
       </div>
 
-      <div class="text-h6">Input: {{ inputModelHex }}</div>
+      <div class="text-h6">
+        Input: {{ inputModelHex }}
+      </div>
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="inputModelHex" :rules="['anyColor']">
           <q-icon slot="append" name="colorize" class="cursor-pointer">

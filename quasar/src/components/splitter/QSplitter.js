@@ -3,6 +3,7 @@ import Vue from 'vue'
 import TouchPan from '../../directives/TouchPan.js'
 
 import slot from '../../utils/slot.js'
+import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QSplitter',
@@ -31,6 +32,9 @@ export default Vue.extend({
     disable: Boolean,
 
     dark: Boolean,
+
+    beforeClass: [Array, String, Object],
+    afterClass: [Array, String, Object],
 
     separatorClass: [Array, String, Object],
     separatorStyle: [Array, String, Object]
@@ -79,8 +83,8 @@ export default Vue.extend({
         this.__size = this.$el.getBoundingClientRect()[this.prop]
         this.__value = this.value
         this.__dir = this.horizontal ? 'up' : 'left'
+        this.__rtlDir = this.horizontal ? 1 : (this.$q.lang.rtl === true ? -1 : 1)
 
-        this.$el.classList.add('non-selectable')
         this.$el.classList.add('q-splitter--active')
         return
       }
@@ -90,13 +94,14 @@ export default Vue.extend({
           this.$emit('input', this.__normalized)
         }
 
-        this.$el.classList.remove('non-selectable')
         this.$el.classList.remove('q-splitter--active')
         return
       }
 
       const val = this.__value +
-        (evt.direction === this.__dir ? -100 : 100) * evt.distance[this.horizontal ? 'y' : 'x'] / this.__size
+        this.__rtlDir *
+        (evt.direction === this.__dir ? -100 : 100) *
+        evt.distance[this.horizontal ? 'y' : 'x'] / this.__size
 
       this.__normalized = Math.min(this.limits[1], Math.max(this.limits[0], val))
       this.$refs.before.style[this.prop] = this.__normalized + '%'
@@ -116,12 +121,15 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-splitter no-wrap',
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, [
       h('div', {
         ref: 'before',
-        staticClass: 'q-splitter__panel q-splitter__before relative-position',
-        style: this.beforeStyle
+        staticClass: 'q-splitter__panel q-splitter__before',
+        style: this.beforeStyle,
+        class: this.beforeClass,
+        on: { input: stop }
       }, slot(this, 'before')),
 
       h('div', {
@@ -137,7 +145,10 @@ export default Vue.extend({
             modifiers: {
               horizontal: !this.horizontal,
               vertical: this.horizontal,
-              prevent: true
+              prevent: true,
+              mouse: true,
+              mouseAllDir: true,
+              mousePrevent: true
             }
           }]
         })
@@ -145,8 +156,10 @@ export default Vue.extend({
 
       h('div', {
         ref: 'after',
-        staticClass: 'q-splitter__panel q-splitter__after relative-position',
-        style: this.afterStyle
+        staticClass: 'q-splitter__panel q-splitter__after',
+        style: this.afterStyle,
+        class: this.afterClass,
+        on: { input: stop }
       }, slot(this, 'after'))
     ].concat(slot(this, 'default')))
   }

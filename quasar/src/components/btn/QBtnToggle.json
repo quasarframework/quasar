@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/ripple" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "value": {
       "type": "Any",
@@ -53,6 +57,11 @@
 
     "toggle-text-color": {
       "extends": "text-color"
+    },
+
+    "spread": {
+      "type": "Boolean",
+      "desc": "Spread horizontally to all available space"
     },
 
     "outline": {

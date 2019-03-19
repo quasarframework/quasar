@@ -12,7 +12,7 @@
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
           </q-avatar>
           Layout Builder
         </q-toolbar-title>
@@ -34,6 +34,8 @@
           header-nav
           flat
           bordered
+          alternative-labels
+          :contracted="isContracted"
           color="secondary"
           v-model="step"
           ref="stepper"
@@ -308,8 +310,14 @@
           <template v-slot:navigation>
             <q-stepper-navigation>
               <q-separator spaced />
-              <q-btn v-if="step !== 'play'" color="primary" class="q-mr-sm" @click="$refs.stepper.next()" label="Continue" />
-              <q-btn color="black" label="Export Layout" @click="exportDialog = true" />
+              <div class="row q-col-gutter-sm">
+                <div v-if="step !== 'play'" class="col-12 col-sm-auto">
+                  <q-btn class="full-width" color="primary" @click="$refs.stepper.next()" label="Continue" />
+                </div>
+                <div class="col-12 col-sm-auto">
+                  <q-btn class="full-width" color="black" label="Export Layout" @click="exportDialog = true" />
+                </div>
+              </div>
             </q-stepper-navigation>
           </template>
         </q-stepper>
@@ -323,7 +331,7 @@
             <q-separator />
 
             <q-card-actions align="right">
-              <q-btn color="primary" flat label="Close" v-close-dialog />
+              <q-btn color="primary" flat label="Close" v-close-popup />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -337,6 +345,7 @@
       :overlay="cfg.leftOverlay"
       :elevated="cfg.leftSep === 'elevated'"
       :bordered="cfg.leftSep === 'bordered'"
+      :breakpoint="1023"
     >
       <q-scroll-area class="fit">
         <q-item-label header>Left Drawer</q-item-label>
@@ -356,6 +365,7 @@
       :overlay="cfg.rightOverlay"
       :elevated="cfg.rightSep === 'elevated'"
       :bordered="cfg.rightSep === 'bordered'"
+      :breakpoint="1023"
     >
       <q-scroll-area style="height: calc(100% - 204px); margin-top: 204px">
         <q-item-label header>Right Drawer</q-item-label>
@@ -463,6 +473,10 @@ export default {
   },
 
   computed: {
+    isContracted () {
+      return this.$q.screen.lt.sm || (this.$q.screen.md && this.play.left && this.play.right)
+    },
+
     bgTopL () {
       return this.topL === 'h' ? 'bg-primary' : 'bg-orange'
     },
@@ -501,7 +515,7 @@ export default {
 ` : ''}
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
           </q-avatar>
           Title
         </q-toolbar-title>${this.pick.right ? `
@@ -546,7 +560,7 @@ export default {
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
           </q-avatar>
           Title
         </q-toolbar-title>

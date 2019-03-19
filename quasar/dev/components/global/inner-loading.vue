@@ -10,7 +10,8 @@
       </q-btn>
     </div>
     <div class="q-layout-padding relative-position q-mx-auto"
-         style="height: 450px; width: 600px; background-color: lightgrey; padding: 15px;">
+         style="height: 450px; width: 600px; background-color: lightgrey; padding: 15px;"
+    >
       <transition name="q-transition--fade">
         <div v-show="showSimulatedReturnData">
           <h4>Lorem Ipsum</h4>
@@ -24,7 +25,7 @@
       </transition>
 
       <q-inner-loading :showing="showing">
-        <q-spinner-gears size="50px" color="primary"/>
+        <q-spinner-gears size="50px" color="primary" />
       </q-inner-loading>
     </div>
   </div>

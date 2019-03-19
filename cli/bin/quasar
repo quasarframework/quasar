@@ -7,20 +7,31 @@ const
   resolveFrom = require('resolve-from')
 
 let cmd = process.argv[2]
-
-if (cmd === 'c' || cmd === 'create') {
+if (cmd === 'create') {
   process.argv.splice(2, 1)
   require(`./quasar-create`)
 }
-else if (cmd === 's' || cmd  === 'serve') {
+else if (cmd === 'serve') {
   process.argv.splice(2, 1)
   require(`./quasar-serve`)
+}
+else if (cmd === 'upgrade') {
+  process.argv.splice(2, 1)
+  require(`./quasar-upgrade`)
 }
 else {
   const localFile = resolveFrom.silent(process.cwd(), path.join('@quasar/app/bin/quasar'))
 
   if (localFile && path.relative(localFile, __filename) !== '') {
     process.env.QUASAR_CLI_VERSION = require('../package.json').version
+
+    global.quasarCli = {
+      help: `
+    upgrade       Check (and optionally) upgrade Quasar packages
+                    from a Quasar project folder
+    serve         Create an ad-hoc server on App's distributables
+`
+    }
 
     // deferring to local @quasar/app
     require(localFile)
@@ -73,7 +84,6 @@ else {
       else {
         cmd = 'help'
       }
-
       require(`./quasar-${cmd}`)
     }
   }

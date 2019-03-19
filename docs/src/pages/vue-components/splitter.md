@@ -1,5 +1,9 @@
 ---
 title: QSplitter
+related:
+  - /vue-components/expansion-item
+  - /vue-components/slide-item
+  - /vue-components/separator
 ---
 
 The QSplitter component allow containers to be split vertically and/or horizontally through a draggable separator bar.
@@ -26,6 +30,10 @@ Click and drag on the splitter separator bar to see results.
 A QSplitter can be embedded in another QSplitter's `before` and/or `after` slots, like shown in example below.
 
 <doc-example title="Embedded" file="QSplitter/Embedded" />
+
+<doc-example title="Image Fun" file="QSplitter/ImageFun" />
+
+<doc-example title="Reactive Images" file="QSplitter/ReactiveImages" />
 
 ## API
 <doc-api file="QSplitter" />

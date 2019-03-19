@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-md column" style="max-width: 300px">
+    <div class="q-gutter-y-md column" style="max-width: 300px">
       <q-input filled v-model="email" type="email" suffix="@gmail.com">
         <template v-slot:before>
           <q-icon name="mail" />
@@ -10,7 +10,7 @@
       <q-input outlined v-model="number" type="number" prefix="$">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
           </q-avatar>
         </template>
       </q-input>

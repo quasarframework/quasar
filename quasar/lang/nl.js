@@ -6,7 +6,7 @@ export default {
     ok: 'OK',
     cancel: 'Annuleer',
     close: 'Sluit',
-    set: 'Toepassen',
+    set: 'Pas toe',
     select: 'Selecteer',
     reset: 'Herinitialiseren',
     remove: 'Verwijder',
@@ -14,29 +14,29 @@ export default {
     create: 'Maak aan',
     search: 'Zoek',
     filter: 'Filter',
-    refresh: 'Vernieuw'
+    refresh: 'Ververs'
   },
   date: {
     days: 'Zondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrijdag_Zaterdag'.split('_'),
-    daysShort: 'Zo_Ma_Di_Woe_Do_Vrij_Zat'.split('_'),
+    daysShort: 'Zo_Ma_Di_Wo_Do_Vr_Za'.split('_'),
     months: 'Januari_Februari_Maart_April_Mei_Juni_Juli_Augustus_September_Oktober_November_December'.split('_'),
     monthsShort: 'Jan_Feb_Mrt_Apr_Mei_Jun_Jul_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
   table: {
-    noData: 'Geen data bechikbaar',
+    noData: 'Geen gegevens bechikbaar',
     noResults: 'Geen records gevonden',
     loading: 'Laden...',
     selectedRecords: function (rows) {
       return rows === 1
-        ? '1 rij geselecteerd.'
-        : (rows === 0 ? 'Geen' : rows) + ' geselecteerde rijen.'
+        ? '1 record geselecteerd.'
+        : (rows === 0 ? 'Geen' : rows) + ' geselecteerde records.'
     },
-    recordsPerPage: 'Rijen per pagina:',
+    recordsPerPage: 'Records per pagina:',
     allRows: 'Alle',
     pagination: function (start, end, total) {
-      return start + '-' + end + ' op ' + total
+      return start + '-' + end + ' van ' + total
     },
     columns: 'Kolommen'
   },
@@ -44,28 +44,28 @@ export default {
     url: 'URL',
     bold: 'Vet',
     italic: 'Cursief',
-    strikethrough: 'Doorhalen',
-    underline: 'Onderlijnen',
+    strikethrough: 'Doorstrepen',
+    underline: 'Onderstrepen',
     unorderedList: 'Ongeordende lijst',
     orderedList: 'Geordende lijst ',
-    subscript: 'Bovenschrift',
-    superscript: 'Onderschrift',
+    subscript: 'Onderschrift',
+    superscript: 'Bovenschrift',
     hyperlink: 'Hyperlink',
-    toggleFullscreen: 'Volledig scherm activeren',
+    toggleFullscreen: 'Volledig scherm',
     quote: 'Citaat',
     left: 'Links uitlijnen',
-    center: 'Tekst centreren',
+    center: 'Centreren',
     right: 'Rechts uitlijnen',
-    justify: 'Tekst uitvullen',
+    justify: 'Uitvullen',
     print: 'Afdrukken',
-    outdent: 'Inspringen verkleinen',
-    indent: 'Inspringen vergroten',
+    outdent: 'Minder inspringen',
+    indent: 'Meer inspringen',
     removeFormat: 'Opmaak verwijderen',
     formatting: 'Opmaak',
     fontSize: 'Tekengrootte',
     align: 'Uitlijnen',
     hr: 'Horizontale lijn invoegen',
-    undo: 'Ongedaan maken',
+    undo: 'Herstel',
     redo: 'Opnieuw',
     header1: 'Kop 1',
     header2: 'Kop 2',
@@ -78,7 +78,7 @@ export default {
     size1: 'Heel klein',
     size2: 'Klein',
     size3: 'Normaal',
-    size4: 'Medium-groot',
+    size4: 'Medium',
     size5: 'Groot',
     size6: 'Heel groot',
     size7: 'Maximum',
@@ -86,6 +86,6 @@ export default {
   },
   tree: {
     noNodes: 'Geen nodes beschikbaar',
-    noResults: 'Geen overeenkomende nodes gevonden'
+    noResults: 'Geen overeenkomstige nodes gevonden'
   }
 }

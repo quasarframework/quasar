@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md row justify-center">
     <q-card
-      v-touch-repeat="handleRepeat"
+      v-touch-repeat.mouse="handleRepeat"
       class="custom-area cursor-pointer bg-primary text-white shadow-2 relative-position row flex-center"
     >
       <div v-if="info" class="custom-info">
