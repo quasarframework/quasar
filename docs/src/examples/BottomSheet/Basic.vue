@@ -56,6 +56,8 @@ export default {
         console.log('Action chosen:', action.id)
       }).onCancel(() => {
         console.log('Dismissed')
+      }).onDismiss(() => {
+        console.log('I am triggered on both OK and Cancel')
       })
     }
   }
