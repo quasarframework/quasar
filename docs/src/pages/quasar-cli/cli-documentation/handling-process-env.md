@@ -7,6 +7,17 @@ Accessing `process.env` can help you in many ways:
   * differentiating runtime procedure depending if running a dev or production build
   * adding flags to it based on terminal environment variables at build time
 
+## Values supplied by Quasar CLI
+
+| Name | Type | Meaning |
+| --- | --- | --- |
+| `process.env.DEV` | Boolean | Code runs in development mode |
+| `process.env.PROD` | Boolean | Code runs in production mode |
+| `process.env.CLIENT` | Boolean | Code runs on client (not on server) |
+| `process.env.SERVER` | Boolean | Code runs on server (not on client) |
+| `process.env.MODE` | String | Quasar CLI mode (`spa`, `pwa`, ...) |
+| `process.env.NODE_ENV` | String | Has two possible values: `production` or `development` |
+
 ## Example
 
 ```js

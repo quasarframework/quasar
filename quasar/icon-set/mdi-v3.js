@@ -80,6 +80,9 @@ export default {
     icon: 'mdi-plus',
     activeIcon: 'mdi-close'
   },
+  field: {
+    clear: 'mdi-close'
+  },
   pagination: {
     first: 'mdi-page-first',
     prev: 'mdi-chevron-left',
@@ -96,7 +99,9 @@ export default {
   },
   tabs: {
     left: 'mdi-chevron-left',
-    right: 'mdi-chevron-right'
+    right: 'mdi-chevron-right',
+    up: 'mdi-chevron-up',
+    down: 'mdi-chevron-down'
   },
   table: {
     arrowUp: 'mdi-arrow-up',

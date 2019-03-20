@@ -36,7 +36,10 @@ export default Vue.extend({
     dragOnlyRange: Boolean,
 
     leftLabelColor: String,
-    rightLabelColor: String
+    rightLabelColor: String,
+
+    leftLabelValue: [String, Number],
+    rightLabelValue: [String, Number]
   },
 
   data () {
@@ -171,6 +174,18 @@ export default Vue.extend({
       if (color) {
         return `text-${color}`
       }
+    },
+
+    minLabel () {
+      return this.leftLabelValue !== void 0
+        ? this.leftLabelValue
+        : this.model.min
+    },
+
+    maxLabel () {
+      return this.rightLabelValue !== void 0
+        ? this.rightLabelValue
+        : this.model.max
     }
   },
 
@@ -377,7 +392,12 @@ export default Vue.extend({
           staticClass: 'q-slider__pin absolute flex flex-center',
           class: this[which + 'PinClass']
         }, [
-          h('span', { staticClass: 'q-slider__pin-value-marker' }, [ this.model[which] ])
+          h('div', { staticClass: 'q-slider__pin-value-marker' }, [
+            h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
+            h('div', { staticClass: 'q-slider__pin-value-marker-text' }, [
+              this[which + 'Label']
+            ])
+          ])
         ]) : null,
 
         h('div', { staticClass: 'q-slider__focus-ring' })

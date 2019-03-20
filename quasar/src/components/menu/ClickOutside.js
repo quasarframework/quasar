@@ -1,6 +1,8 @@
 import { listenOpts } from '../../utils/event.js'
 
-const evtOpts = listenOpts.passive === void 0 ? true : { passive: false, capture: true }
+const evtOpts = listenOpts.hasPassive === true
+  ? { passive: false, capture: true }
+  : true
 
 export default {
   name: 'click-outside',
@@ -26,8 +28,16 @@ export default {
 
           let parent = target
           while ((parent = parent.parentNode) !== document.body) {
-            if (parent.classList.contains('q-menu')) {
+            if (parent === el) {
               return
+            }
+            if (parent.classList.contains('q-menu') || parent.classList.contains('q-dialog')) {
+              let sibling = parent
+              while ((sibling = sibling.previousSibling) !== null) {
+                if (sibling === el) {
+                  return
+                }
+              }
             }
           }
         }

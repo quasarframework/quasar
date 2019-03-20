@@ -80,6 +80,9 @@ export default {
     icon: 'add',
     activeIcon: 'close'
   },
+  field: {
+    clear: 'clear'
+  },
   pagination: {
     first: 'first_page',
     prev: 'keyboard_arrow_left',
@@ -96,7 +99,9 @@ export default {
   },
   tabs: {
     left: 'chevron_left',
-    right: 'chevron_right'
+    right: 'chevron_right',
+    up: 'keyboard_arrow_up',
+    down: 'keyboard_arrow_down'
   },
   table: {
     arrowUp: 'arrow_upward',

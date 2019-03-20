@@ -80,6 +80,9 @@ export default {
     icon: 'ion-add',
     activeIcon: 'ion-close'
   },
+  field: {
+    clear: 'ion-close'
+  },
   pagination: {
     first: 'ion-skip-backward',
     prev: 'ion-arrow-back',
@@ -96,7 +99,9 @@ export default {
   },
   tabs: {
     left: 'ion-ios-arrow-back',
-    right: 'ion-ios-arrow-forward'
+    right: 'ion-ios-arrow-forward',
+    up: 'ion-ios-arrow-up',
+    down: 'ion-ios-arrow-down'
   },
   table: {
     arrowUp: 'ion-arrow-up',

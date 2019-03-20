@@ -1,4 +1,5 @@
 import Platform from '../plugins/Platform.js'
+import Vue from 'vue'
 
 export default (url, reject) => {
   let open = window.open
@@ -12,6 +13,9 @@ export default (url, reject) => {
         openExternal: true
       })
     }
+  }
+  else if (Vue.prototype.$q.electron !== void 0) {
+    return Vue.prototype.$q.electron.shell.openExternal(url)
   }
 
   let win = open(url, '_blank')

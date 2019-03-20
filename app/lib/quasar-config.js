@@ -569,6 +569,13 @@ class QuasarConfig {
         }
       }, cfg.pwa || {})
 
+      if (!cfg.pwa.manifest.icons) {
+        console.log()
+        console.log(`⚠️  PWA manifest in quasar.conf.js > pwa > manifest is missing "icons" prop.`)
+        console.log()
+        process.exit(1)
+      }
+
       if (!['GenerateSW', 'InjectManifest'].includes(cfg.pwa.workboxPluginMode)) {
         console.log()
         console.log(`⚠️  Workbox webpack plugin mode "${cfg.pwa.workboxPluginMode}" is invalid.`)

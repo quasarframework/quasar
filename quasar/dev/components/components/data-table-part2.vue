@@ -128,13 +128,13 @@
         <q-btn color="primary" flat round dense icon="more_vert">
           <q-menu cover>
             <q-list>
-              <q-item clickable v-close-menu>
+              <q-item clickable v-close-popup>
                 <q-item-section avatar>
                   <q-icon name="map" />
                 </q-item-section>
                 <q-item-section>View map</q-item-section>
               </q-item>
-              <q-item clickable v-close-menu>
+              <q-item clickable v-close-popup>
                 <q-item-section avatar>
                   <q-icon name="add" />
                 </q-item-section>

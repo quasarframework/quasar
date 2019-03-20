@@ -447,6 +447,7 @@ export default {
         prefix: this.prefix,
         suffix: this.suffix,
         dense: this.dense,
+        clearable: true,
         square: this.square
       }
 

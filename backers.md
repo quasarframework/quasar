@@ -231,6 +231,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Birch P Browning
 - Дмитрий Полянин
 - Guillaume Malignon
+- Alvin Tse Chen Hao
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)

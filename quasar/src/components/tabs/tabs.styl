@@ -98,6 +98,35 @@
   &__offset
     display none
 
+  &--vertical
+    display block !important
+    height 100%
+
+    .q-tabs__content
+      display block !important
+      height calc(100% - 72px)
+
+    .q-tabs__arrow
+      width 100%
+      height 36px
+      text-align center
+
+    .q-tab
+      padding 0 8px
+
+    .q-tab__indicator
+      height unset
+      width 2px
+
+  &--vertical.q-tabs--not-scrollable
+    .q-tabs__content
+      height 100%
+
+  &--vertical.q-tabs--dense
+    .q-tab__content
+      min-width 24px
+
+
   &--dense
     .q-tab
       min-height 36px

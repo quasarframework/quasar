@@ -19,7 +19,9 @@ export default Vue.extend({
     value: {
       type: Number,
       required: true
-    }
+    },
+
+    labelValue: [String, Number]
   },
 
   data () {
@@ -82,6 +84,12 @@ export default Vue.extend({
             keyup: this.__keyup
           }
       }
+    },
+
+    computedLabel () {
+      return this.labelValue !== void 0
+        ? this.labelValue
+        : this.model
     }
   },
 
@@ -199,17 +207,10 @@ export default Vue.extend({
           class: this.pinClass
         }, [
           h('div', { staticClass: 'q-slider__pin-value-marker' }, [
-            h('svg', { staticClass: 'q-slider__pin-value-marker-bg' }, [
-              h('ellipse', {
-                attrs: {
-                  cx: '50%',
-                  cy: '50%',
-                  rx: '50%',
-                  ry: '50%'
-                }
-              })
-            ]),
-            h('div', { staticClass: 'q-slider__pin-value-marker-text' }, [this.model])
+            h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
+            h('div', { staticClass: 'q-slider__pin-value-marker-text' }, [
+              this.computedLabel
+            ])
           ])
         ]) : null,
 

@@ -5,6 +5,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
 import slot from '../../utils/slot.js'
+import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QField',
@@ -37,6 +38,9 @@ export default Vue.extend({
     dense: Boolean,
     itemAligned: Boolean,
 
+    clearable: Boolean,
+    clearIcon: String,
+
     disable: Boolean,
     readonly: Boolean
   },
@@ -56,15 +60,17 @@ export default Vue.extend({
       return this.disable !== true && this.readonly !== true
     },
 
+    hasValue () {
+      return this.innerValue !== void 0 &&
+        this.innerValue !== null &&
+        ('' + this.innerValue).length > 0
+    },
+
     floatingLabel () {
       return this.hasError === true ||
         this.stackLabel === true ||
         this.focused === true ||
-        (
-          this.innerValue !== void 0 &&
-          this.innerValue !== null &&
-          ('' + this.innerValue).length > 0
-        ) ||
+        this.hasValue === true ||
         (
           this.displayValue !== void 0 &&
           this.displayValue !== null &&
@@ -89,14 +95,14 @@ export default Vue.extend({
         'q-field--labeled': this.label !== void 0,
 
         'q-field--dense': this.dense,
-        'q-field--item-aligned q-item-type': this.itemAligned === true,
-        'q-field--dark': this.dark === true,
+        'q-field--item-aligned q-item-type': this.itemAligned,
+        'q-field--dark': this.dark,
 
-        'q-field--with-bottom': this.hasBottom === true,
-        'q-field--error': this.hasError === true,
+        'q-field--with-bottom': this.hasBottom,
+        'q-field--error': this.hasError,
 
-        'q-field--readonly no-pointer-events': this.readonly === true,
-        'disabled no-pointer-events': this.disable === true
+        'q-field--readonly no-pointer-events': this.readonly,
+        'disabled no-pointer-events': this.disable
       }
     },
 
@@ -128,74 +134,97 @@ export default Vue.extend({
 
   methods: {
     __getContent (h) {
-      return [
+      const node = []
 
-        this.$scopedSlots.prepend !== void 0 ? h('div', {
+      this.$scopedSlots.prepend !== void 0 && node.push(
+        h('div', {
           staticClass: 'q-field__prepend q-field__marginal row no-wrap items-center',
           key: 'prepend'
-        }, this.$scopedSlots.prepend()) : null,
+        }, this.$scopedSlots.prepend())
+      )
 
+      node.push(
         h('div', {
           staticClass: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
-        }, [
-          this.prefix !== void 0 && this.prefix !== null ? h('div', {
-            staticClass: 'q-field__prefix no-pointer-events row items-center'
-          }, [ this.prefix ]) : null,
+        }, this.__getControlContainer(h))
+      )
 
-          this.__getControl !== void 0
-            ? this.__getControl(h)
-            : null,
+      this.hasError === true && node.push(
+        this.__getInnerAppendNode(h, 'error', [
+          h(QIcon, { props: { name: this.$q.iconSet.type.warning, color: 'negative' } })
+        ])
+      )
 
-          this.label !== void 0 ? h('div', {
-            staticClass: 'q-field__label no-pointer-events absolute ellipsis'
-          }, [ this.label ]) : null,
+      ;(this.loading === true || this.innerLoading === true) && node.push(
+        this.__getInnerAppendNode(
+          h,
+          'inner-loading-append',
+          this.$scopedSlots.loading !== void 0
+            ? this.$scopedSlots.loading()
+            : [ h(QSpinner, { props: { color: this.color } }) ]
+        )
+      )
 
-          this.suffix !== void 0 && this.suffix !== null ? h('div', {
-            staticClass: 'q-field__suffix no-pointer-events row items-center'
-          }, [ this.suffix ]) : null
-        ].concat(
-          this.__getDefaultSlot !== void 0
-            ? this.__getDefaultSlot(h)
-            : slot(this, 'default')
-        )),
+      this.clearable === true && this.hasValue === true && node.push(
+        this.__getInnerAppendNode(h, 'inner-clearable-append', [
+          h(QIcon, {
+            staticClass: 'cursor-pointer',
+            props: { name: this.clearIcon || this.$q.iconSet.field.clear },
+            on: {
+              click: this.__clearValue
+            }
+          })
+        ])
+      )
 
-        this.hasError === true
-          ? h('div', {
-            staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
-            key: 'error'
-          }, [ h(QIcon, { props: { name: this.$q.iconSet.type.warning, color: 'negative' } }) ])
-          : null,
+      this.__getInnerAppend !== void 0 && node.push(
+        this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
+      )
 
-        this.loading === true || this.innerLoading === true
-          ? h('div', {
-            staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip',
-            key: 'inner-loading-append'
-          }, (
-            this.$scopedSlots.loading !== void 0
-              ? this.$scopedSlots.loading()
-              : [ h(QSpinner, { props: { color: this.color } }) ]
-          ))
-          : null,
+      this.$scopedSlots.append !== void 0 && node.push(
+        h('div', {
+          staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
+          key: 'append'
+        }, this.$scopedSlots.append())
+      )
 
-        this.__getInnerAppend !== void 0
-          ? h('div', {
-            staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip',
-            key: 'inner-append'
-          }, this.__getInnerAppend(h))
-          : null,
+      this.__getLocalMenu !== void 0 && node.push(
+        this.__getLocalMenu(h)
+      )
 
-        this.$scopedSlots.append !== void 0
-          ? h('div', {
-            staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
-            key: 'append'
-          }, this.$scopedSlots.append())
-          : null,
+      return node
+    },
 
-        this.__getLocalMenu !== void 0
-          ? this.__getLocalMenu(h)
-          : null
+    __getControlContainer (h) {
+      const node = []
 
-      ]
+      this.prefix !== void 0 && this.prefix !== null && node.push(
+        h('div', {
+          staticClass: 'q-field__prefix no-pointer-events row items-center'
+        }, [ this.prefix ])
+      )
+
+      this.__getControl !== void 0 && node.push(
+        this.__getControl(h)
+      )
+
+      this.label !== void 0 && node.push(
+        h('div', {
+          staticClass: 'q-field__label no-pointer-events absolute ellipsis'
+        }, [ this.label ])
+      )
+
+      this.suffix !== void 0 && this.suffix !== null && node.push(
+        h('div', {
+          staticClass: 'q-field__suffix no-pointer-events row items-center'
+        }, [ this.suffix ])
+      )
+
+      return node.concat(
+        this.__getDefaultSlot !== void 0
+          ? this.__getDefaultSlot(h)
+          : slot(this, 'default')
+      )
     },
 
     __getBottom (h) {
@@ -238,6 +267,18 @@ export default Vue.extend({
           staticClass: 'q-field__counter'
         }, this.$scopedSlots.counter !== void 0 ? this.$scopedSlots.counter() : [ this.computedCounter ]) : null
       ])
+    },
+
+    __getInnerAppendNode (h, key, content) {
+      return h('div', {
+        staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip',
+        key
+      }, content)
+    },
+
+    __clearValue (e) {
+      stop(e)
+      this.$emit('input', null)
     }
   },
 
