@@ -610,11 +610,13 @@ class QuasarConfig {
     }
 
     if (this.ctx.dev) {
-      const host = cfg.devServer.host === '0.0.0.0'
-        ? 'localhost'
-        : cfg.devServer.host
-      const urlPath = `${cfg.build.vueRouterMode === 'hash' ? (cfg.build.htmlFilename !== 'index.html' ? cfg.build.htmlFilename : '') : ''}`
-      cfg.build.APP_URL = `http${cfg.devServer.https ? 's' : ''}://${host}:${cfg.devServer.port}/${urlPath}`
+      if (!cfg.build.APP_URL) {
+        const host = cfg.devServer.host === '0.0.0.0'
+          ? 'localhost'
+          : cfg.devServer.host
+        const urlPath = `${cfg.build.vueRouterMode === 'hash' ? (cfg.build.htmlFilename !== 'index.html' ? cfg.build.htmlFilename : '') : ''}`
+        cfg.build.APP_URL = `http${cfg.devServer.https ? 's' : ''}://${host}:${cfg.devServer.port}/${urlPath}`
+      }
     }
     else if (this.ctx.mode.cordova) {
       cfg.build.APP_URL = 'index.html'
