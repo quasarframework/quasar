@@ -43,6 +43,24 @@ fg($name, $size)
         {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
           height (round($i / $flex-cols * 100, 4))%
           width auto
+      if $size == 0
+        if $i == $flex-cols
+          .row > .qcol-1of1
+            height auto
+            flex 0 0 (round($i / $flex-cols * 100, 4))%
+        if $i * 3 == $flex-cols
+          .row > .qcol-1of3
+            height auto
+            flex 0 0 (round($i / $flex-cols * 100, 4))%
+        if $i * 12 == $flex-cols * 10
+          .row > .qcol-10of12
+            height auto
+            flex 0 0 (round($i / $flex-cols * 100, 4))%
+      if $name == '-sm'
+        if $i * 4 == $flex-cols
+          .row > .qcol-sm-1of4
+            height auto
+            flex 0 0 (round($i / $flex-cols * 100, 4))%
 
 .row, .column, .flex
   display flex

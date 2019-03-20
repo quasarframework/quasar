@@ -35,7 +35,7 @@ export default Vue.extend({
       actions !== void 0
         ? h('div', {
           staticClass: 'q-banner__actions row items-center justify-end',
-          class: this.inlineActions ? 'col-auto' : 'col-12'
+          class: this.inlineActions ? 'col-auto' : 'qcol-1of1'
         }, actions)
         : null
 

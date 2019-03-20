@@ -49,9 +49,9 @@ export default Vue.extend({
     __getGrid (h) {
       return this.actions.map(action => {
         return action.label === void 0
-          ? h(QSeparator, { staticClass: 'col-12' })
+          ? h(QSeparator, { staticClass: 'qcol-1of1' })
           : h('div', {
-            staticClass: 'q-bottom-sheet__item col-4 col-sm-3 q-hoverable q-focusable cursor-pointer relative-position',
+            staticClass: 'q-bottom-sheet__item qcol-1of3 qcol-sm-1of4 q-hoverable q-focusable cursor-pointer relative-position',
             class: action.classes,
             attrs: { tabindex: 0 },
             on: {

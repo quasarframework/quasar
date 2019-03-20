@@ -60,8 +60,13 @@ ie_style = @block
 
   /* QDate */
   .q-date__view.q-date__months.column
-    > .q-date__months-content.col-10
+    > .q-date__months-content.qcol-10of12
       width 100%
+  .q-date--landscape .q-date__content
+    width 100%
+    > .q-date__view
+      width 0
+      min-width 100%
 
   /* LocalMenu */
   .q-local-menu
