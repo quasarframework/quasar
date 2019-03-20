@@ -1271,7 +1271,6 @@ Replace `:handler` with `@load`.
 |`align`||
 |`before`||
 |`clear-value`||
-|`clearable`||
 |`decimals`||
 |`float-label`||
 |`hide-underline`||
@@ -1854,7 +1853,6 @@ Replace `:handler` with `@load`.
 |`chips-bg-color`||
 |`chips-color`||
 |`clear-value`||
-|`clearable`||
 |`filter`||
 |`filter-placeholder`||
 |`float-label`||

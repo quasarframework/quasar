@@ -638,7 +638,8 @@ export default {
         dark: this.dark,
         optionsDense: this.optionsDense,
         optionsDark: this.optionsDark,
-        expandBesides: this.expandBesides
+        expandBesides: this.expandBesides,
+        clearable: true
       }
     },
 
