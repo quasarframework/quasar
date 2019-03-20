@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-btn-dropdown color="primary" label="Dropdown Button" v-model="menu" @mouseover.native="menuOver = true" @mouseout.native="menuOver = false">
+    <q-btn-dropdown color="primary" label="Hover Me" v-model="menu" @mouseover.native="menuOver = true" @mouseout.native="menuOver = false">
       <q-list @mouseover.native="listOver = true" @mouseout.native="listOver = false">
         <q-item v-close-popup clickable>
           <q-item-section>
