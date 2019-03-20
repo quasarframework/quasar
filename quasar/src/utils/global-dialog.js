@@ -27,7 +27,7 @@ export default function (Component) {
           cancelFns.push(fn)
           return API
         },
-        onHide (fn) {
+        onDismiss (fn) {
           okFns.push(fn)
           cancelFns.push(fn)
           return API

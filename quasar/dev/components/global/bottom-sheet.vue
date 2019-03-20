@@ -75,7 +75,7 @@ export default {
         console.log('Action chosen:', action.id)
       }).onCancel(() => {
         console.log('Dismissed')
-      }).onHide(() => {
+      }).onDismiss(() => {
         this.bottomSheetHandler = void 0
       })
     },
@@ -91,7 +91,7 @@ export default {
         console.log('Action chosen:', action.id)
       }).onCancel(() => {
         console.log('Dismissed')
-      }).onHide(() => {
+      }).onDismiss(() => {
         this.bottomSheetHandler = void 0
       })
     }

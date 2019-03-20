@@ -58,7 +58,7 @@
               "__exemption": [ "examples" ]
             }
           },
-          "onHide": {
+          "onDismiss": {
             "type": "Function",
             "desc": "Receives a Function param to tell what to do when the dialog is closed",
             "params": {

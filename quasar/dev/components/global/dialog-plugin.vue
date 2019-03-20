@@ -38,7 +38,7 @@ export default {
         console.log('OK')
       }).onCancel(() => {
         console.log('Cancel')
-      }).onHide(() => {
+      }).onDismiss(() => {
         this.dialogHandler = void 0
       })
     },
@@ -53,7 +53,7 @@ export default {
         console.log('OK')
       }).onCancel(() => {
         console.log('Cancel')
-      }).onHide(() => {
+      }).onDismiss(() => {
         this.dialogHandler = void 0
       })
     },
@@ -76,7 +76,7 @@ export default {
         console.log('>>>> second OK catcher')
       }).onCancel(() => {
         console.log('>>>> Cancel')
-      }).onHide(() => {
+      }).onDismiss(() => {
         this.dialogHandler = void 0
       })
     },
@@ -96,7 +96,7 @@ export default {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
         console.log('>>>> Cancel')
-      }).onHide(() => {
+      }).onDismiss(() => {
         this.dialogHandler = void 0
       })
     },
@@ -121,7 +121,7 @@ export default {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
         console.log('>>>> Cancel')
-      }).onHide(() => {
+      }).onDismiss(() => {
         this.dialogHandler = void 0
       })
     },
@@ -146,7 +146,7 @@ export default {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
         console.log('>>>> Cancel')
-      }).onHide(() => {
+      }).onDismiss(() => {
         this.dialogHandler = void 0
       })
     },
@@ -171,7 +171,7 @@ export default {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
         console.log('>>>> Cancel')
-      }).onHide(() => {
+      }).onDismiss(() => {
         this.dialogHandler = void 0
       })
     },
@@ -181,7 +181,7 @@ export default {
         title: 'Positioned',
         message: 'This dialog appears from bottom.',
         position: 'bottom'
-      }).onHide(() => {
+      }).onDismiss(() => {
         this.dialogHandler = void 0
       })
     },
@@ -191,7 +191,7 @@ export default {
         title: 'Stacked Buttons',
         stackButtons: true,
         cancel: true
-      }).onHide(() => {
+      }).onDismiss(() => {
         this.dialogHandler = void 0
       })
     },
@@ -206,7 +206,7 @@ export default {
       }).onCancel(() => {
         console.log('Cancel')
         clearTimeout(timer)
-      }).onHide(() => {
+      }).onDismiss(() => {
         this.dialogHandler = void 0
       })
 
