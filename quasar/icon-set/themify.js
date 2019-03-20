@@ -80,6 +80,9 @@ export default {
     icon: 'ti-plus',
     activeIcon: 'ti-close'
   },
+  field: {
+    clear: 'ti-close'
+  },
   pagination: {
     first: 'ti-angle-double-left',
     prev: 'ti-angle-left',

@@ -92,7 +92,7 @@ export default {
       },
 
       move (evt) {
-        if (ctx.event.abort === true) {
+        if (ctx.event === void 0 || ctx.event.abort === true) {
           return
         }
 
@@ -207,12 +207,18 @@ export default {
       },
 
       end (evt) {
+        if (ctx.event === void 0) {
+          return
+        }
+
         removeObserver(ctx)
 
         if (ctx.event.abort === false && ctx.event.dir !== false) {
           document.body.classList.remove('no-pointer-events')
           stopAndPrevent(evt)
         }
+
+        ctx.event = void 0
       }
     }
 

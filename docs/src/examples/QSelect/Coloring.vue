@@ -27,12 +27,12 @@
         </template>
       </q-select>
 
-      <q-select color="orange" standout bottom-slots v-model="model" :options="options" label="Label" counter>
+      <q-select clearable color="orange" standout bottom-slots v-model="model" :options="options" label="Label" counter>
         <template v-slot:prepend>
           <q-icon name="place" />
         </template>
         <template v-slot:append>
-          <q-icon name="close" @click="model = ''" class="cursor-pointer" />
+          <q-icon name="favorite" />
         </template>
 
         <template v-slot:hint>

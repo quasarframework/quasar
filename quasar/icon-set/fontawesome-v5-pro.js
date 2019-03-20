@@ -80,6 +80,9 @@ export default {
     icon: 'fal fa-plus',
     activeIcon: 'fal fa-times'
   },
+  field: {
+    clear: 'fal fa-times'
+  },
   pagination: {
     first: 'fal fa-step-backward',
     prev: 'fal fa-chevron-left',

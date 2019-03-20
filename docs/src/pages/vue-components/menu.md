@@ -11,7 +11,7 @@ components:
 The QMenu component is a convenient way to show menus. Goes very well with [QList](/vue-components/lists-and-list-items) as dropdown content, but it's by no means limited to it.
 
 ## Installation
-<doc-installation components="QMenu" directives="CloseMenu" />
+<doc-installation components="QMenu" directives="ClosePopup" />
 
 ## Usage
 

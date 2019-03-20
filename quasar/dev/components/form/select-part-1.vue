@@ -70,6 +70,7 @@
         v-bind="props"
         v-model="stringNullSingle"
         :options="stringOptions"
+        map-options
         label="Single - string"
       />
       <div>{{ objectNullSingle }}</div>
@@ -78,6 +79,26 @@
         v-model="objectNullSingle"
         :options="objectOptions"
         label="Single - object"
+      />
+
+      <div>{{ stringEmitNullSingle === null ? 'null' : stringEmitNullSingle }}</div>
+      <q-select
+        v-bind="props"
+        v-model="stringEmitNullSingle"
+        :options="objectNullOptions"
+        emit-value
+        map-options
+        label="Single - emit - map - object"
+      />
+      <div>{{ stringEmitNullMultiple }}</div>
+      <q-select
+        v-bind="props"
+        v-model="stringEmitNullMultiple"
+        :options="objectNullOptions"
+        emit-value
+        map-options
+        label="Multiple - emit - map - object"
+        multiple
       />
 
       <div>{{ stringNullMultiple }}</div>
@@ -549,10 +570,34 @@ export default {
         }
       ],
 
+      objectNullOptions: [
+        {
+          label: 'Borg - null',
+          value: null,
+          description: 'I am null',
+          icon: 'warning'
+        },
+        {
+          label: 'Google',
+          value: 'Google',
+          description: 'Search engine',
+          icon: 'mail'
+        },
+        {
+          label: 'Facebook',
+          value: 'Facebook',
+          description: 'Social media',
+          icon: 'bluetooth'
+        }
+      ],
+
       stringNullSingle: null,
       stringNullMultiple: null,
       objectNullSingle: null,
       objectNullMultiple: null,
+
+      stringEmitNullSingle: null,
+      stringEmitNullMultiple: [null],
 
       stringEmitSingle: 'Facebook',
       stringEmitMultiple: ['Facebook'],
@@ -571,6 +616,8 @@ export default {
     resetNull () {
       this.stringNullSingle = null
       this.stringNullMultiple = null
+      this.stringEmitNullSingle = null
+      this.stringEmitNullMultiple = [null]
       this.objectNullSingle = null
       this.objectNullMultiple = null
     },
@@ -591,7 +638,8 @@ export default {
         dark: this.dark,
         optionsDense: this.optionsDense,
         optionsDark: this.optionsDark,
-        expandBesides: this.expandBesides
+        expandBesides: this.expandBesides,
+        clearable: true
       }
     },
 

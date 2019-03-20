@@ -1,30 +1,45 @@
 import History from '../history.js'
 
 export default {
+  props: {
+    fullscreen: Boolean
+  },
+
   data () {
     return {
       inFullscreen: false
     }
   },
+
   watch: {
     $route () {
       this.exitFullscreen()
     },
+
+    fullscreen (v) {
+      if (this.inFullscreen !== v) {
+        this.toggleFullscreen()
+      }
+    },
+
     inFullscreen (v) {
+      this.$emit('update:fullscreen', v)
       this.$emit('fullscreen', v)
     }
   },
+
   methods: {
     toggleFullscreen () {
-      if (this.inFullscreen) {
+      if (this.inFullscreen === true) {
         this.exitFullscreen()
       }
       else {
         this.setFullscreen()
       }
     },
+
     setFullscreen () {
-      if (this.inFullscreen) {
+      if (this.inFullscreen === true) {
         return
       }
 
@@ -39,23 +54,30 @@ export default {
       }
       History.add(this.__historyFullscreen)
     },
+
     exitFullscreen () {
-      if (!this.inFullscreen) {
+      if (this.inFullscreen !== true) {
         return
       }
 
-      if (this.__historyFullscreen) {
+      if (this.__historyFullscreen !== void 0) {
         History.remove(this.__historyFullscreen)
-        this.__historyFullscreen = null
+        this.__historyFullscreen = void 0
       }
       this.container.replaceChild(this.$el, this.fullscreenFillerNode)
       document.body.classList.remove('q-body--fullscreen-mixin')
       this.inFullscreen = false
     }
   },
+
   beforeMount () {
     this.fullscreenFillerNode = document.createElement('span')
   },
+
+  mounted () {
+    this.fullscreen === true && this.setFullscreen()
+  },
+
   beforeDestroy () {
     this.exitFullscreen()
   }

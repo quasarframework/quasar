@@ -1,5 +1,5 @@
 {
-  "mixins": ["mixins/fullscreen"],
+  "mixins": [ "mixins/fullscreen" ],
 
   "props": {
     "value": {

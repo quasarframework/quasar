@@ -70,7 +70,8 @@ export default Vue.extend({
     },
 
     fieldClass () {
-      return `q-${this.isTextarea ? 'textarea' : 'input'}${this.autogrow ? ' q-textarea--autogrow' : ''}`
+      return `q-${this.isTextarea === true ? 'textarea' : 'input'}` +
+        (this.autogrow === true ? ' q-textarea--autogrow' : '')
     },
 
     computedCounter () {

@@ -2,7 +2,7 @@
 title: Testing & Auditing
 ---
 
-Your Quasar projects have the ability to add unit and e2e testing harnesses, as well as an ever-growing suite of product quality auditing tools. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the dedicated [Quasar Testing](https://testing.quasar-framework.org) docs site. For issues, please report to the [Testing repo at GitHub](https://github.com/quasarframework/quasar-testing). If you are a beginner, consider reading one of the books in the "Further Reading" section.
+Your Quasar projects have the ability to add unit and e2e testing harnesses, as well as an ever-growing suite of product quality auditing tools. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the [Testing repo at GitHub](https://github.com/quasarframework/quasar-testing). If you are a beginner, consider reading one of the books in the "Further Reading" section.
 
 ## High level overview
 
@@ -29,13 +29,12 @@ It will provide you with a new `quasar run` command that you can use to execute 
 
 ```shell
 # Example to run jest && dev server in pwa mode
-# "--" must be placed before any args you want to pass to the test command
-$ quasar run @quasar/testing test -- --unit jest --dev="-m pwa"
+$ quasar test --unit jest --dev="-m pwa"
 ```
 
 If you ever need to review your choices you can take a look at `quasar.extensions.json`.
 
-If you don't want to install the base package, you don't have to do so. You can install each test harness app extension individually. They are completely standalone.
+If you don't want to install the base package, you don't have to do so. You can install each test harness app extension individually. They are completely standalone, but you won't have the tight integration with the `quasar test` command functionality.
 
 ## Further Reading
 

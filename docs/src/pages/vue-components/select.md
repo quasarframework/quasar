@@ -25,6 +25,11 @@ For your QSelect you can use only one of the main designs (`filled`, `outlined`,
 
 <doc-example title="Coloring" file="QSelect/Coloring" />
 
+### Clearable
+As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QSelect in the example below is the equivalent of using `clearable`.
+
+<doc-example title="Clearable" file="QSelect/Clearable" />
+
 ### Disable and readonly
 <doc-example title="Disable and readonly" file="QSelect/DisableReadonly" />
 

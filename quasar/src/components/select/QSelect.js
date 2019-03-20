@@ -13,7 +13,7 @@ import TransitionMixin from '../../mixins/transition.js'
 import uid from '../../utils/uid.js'
 import slot from '../../utils/slot.js'
 import { isDeepEqual } from '../../utils/is.js'
-import { stopAndPrevent } from '../../utils/event.js'
+import { stop, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 
 import { updatePosition } from './select-menu-position.js'
@@ -117,12 +117,18 @@ export default Vue.extend({
     },
 
     innerValue () {
-      const val = this.value !== void 0 && this.value !== null
-        ? (this.multiple === true ? this.value : [ this.value ])
-        : []
+      const
+        mapNull = this.mapOptions === true && this.multiple !== true,
+        val = this.value !== void 0 && (this.value !== null || mapNull === true)
+          ? (this.multiple === true ? this.value : [ this.value ])
+          : []
 
       return this.mapOptions === true && Array.isArray(this.options) === true
-        ? val.map(v => this.__getOption(v))
+        ? (
+          this.value === null && mapNull === true
+            ? val.map(v => this.__getOption(v)).filter(v => v !== null)
+            : val.map(v => this.__getOption(v))
+        )
         : val
     },
 
@@ -635,6 +641,7 @@ export default Vue.extend({
             },
             on: {
               click: stopAndPrevent,
+              touchstart: stop,
               '&scroll': this.__hydrateOptions
             }
           }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))
@@ -662,6 +669,7 @@ export default Vue.extend({
           : null,
         domProps: { value: this.inputValue },
         attrs: {
+          ...this.$attrs,
           disabled: this.editable !== true
         },
         on: {

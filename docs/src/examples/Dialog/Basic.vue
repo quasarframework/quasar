@@ -17,6 +17,8 @@ export default {
         console.log('OK')
       }).onCancel(() => {
         console.log('Cancel')
+      }).onDismiss(() => {
+        console.log('I am triggered on both OK and Cancel')
       })
     },
 
@@ -37,6 +39,8 @@ export default {
         console.log('>>>> second OK catcher')
       }).onCancel(() => {
         console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        console.log('I am triggered on both OK and Cancel')
       })
     },
 
@@ -55,6 +59,8 @@ export default {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
         console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        console.log('I am triggered on both OK and Cancel')
       })
     }
   }

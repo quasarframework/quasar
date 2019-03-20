@@ -11,6 +11,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     font-size 24px
     transition color $field-transition
 
+    > .q-icon
+      min-width 24px
+
     > * + *
       margin-left 2px
 
@@ -308,16 +311,17 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       .q-field__prefix, .q-field__suffix
         opacity 0
 
-    &:not(.q-field--focused) .q-field__native
+    &:not(.q-field--float)
+      .q-field__native, .q-select__input
 
-      &::-webkit-input-placeholder
-        color transparent
+        &::-webkit-input-placeholder
+          color transparent
 
-      &::-moz-placeholder
-        color transparent
+        &::-moz-placeholder
+          color transparent
 
-      &:-ms-input-placeholder
-        color transparent
+        &:-ms-input-placeholder
+          color transparent
 
     &.q-field--dense
       .q-field__native, .q-field__prefix, .q-field__suffix

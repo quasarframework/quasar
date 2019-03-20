@@ -27,9 +27,13 @@ export default function (Component) {
           cancelFns.push(fn)
           return API
         },
+        onDismiss (fn) {
+          okFns.push(fn)
+          cancelFns.push(fn)
+          return API
+        },
         hide () {
           vm.$refs.dialog.hide()
-          cancel()
           return API
         }
       }

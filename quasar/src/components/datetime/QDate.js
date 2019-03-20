@@ -33,12 +33,17 @@ export default Vue.extend({
 
     firstDayOfWeek: [String, Number],
     todayBtn: Boolean,
-    minimal: Boolean
+    minimal: Boolean,
+    defaultView: {
+      type: String,
+      default: 'Calendar',
+      validator: v => ['Calendar', 'Years', 'Months'].includes(v)
+    }
   },
 
   data () {
     return {
-      view: 'Calendar',
+      view: this.defaultView,
       monthDirection: 'left',
       yearDirection: 'left',
       innerModel: this.__getInnerModel(this.value)
@@ -445,7 +450,7 @@ export default Vue.extend({
       return [
         h('div', {
           key: 'calendar-view',
-          staticClass: 'q-date__view q-date__calendar fit'
+          staticClass: 'q-date__view q-date__calendar'
         }, [
           h('div', {
             staticClass: 'q-date__navigation row items-center no-wrap'
@@ -516,7 +521,7 @@ export default Vue.extend({
         const active = this.innerModel.month === i + 1
 
         return h('div', {
-          staticClass: 'col-4 flex flex-center'
+          staticClass: 'q-date__months-item flex flex-center'
         }, [
           h(QBtn, {
             staticClass: currentYear === true && this.today.month === i + 1 ? 'q-date__today' : null,
@@ -540,7 +545,7 @@ export default Vue.extend({
         staticClass: 'q-date__view q-date__months column flex-center'
       }, [
         h('div', {
-          staticClass: 'q-date__months-content row col-10'
+          staticClass: 'q-date__months-content row'
         }, content)
       ])
     },
@@ -556,7 +561,7 @@ export default Vue.extend({
 
         years.push(
           h('div', {
-            staticClass: 'col-4 flex flex-center'
+            staticClass: 'q-date__years-item flex flex-center'
           }, [
             h(QBtn, {
               staticClass: this.today.year === i ? 'q-date__today' : null,

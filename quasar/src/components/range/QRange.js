@@ -392,17 +392,8 @@ export default Vue.extend({
           staticClass: 'q-slider__pin absolute flex flex-center',
           class: this[which + 'PinClass']
         }, [
-          h('span', { staticClass: 'q-slider__pin-value-marker' }, [
-            h('svg', { staticClass: 'q-slider__pin-value-marker-bg' }, [
-              h('ellipse', {
-                attrs: {
-                  cx: '50%',
-                  cy: '50%',
-                  rx: '50%',
-                  ry: '50%'
-                }
-              })
-            ]),
+          h('div', { staticClass: 'q-slider__pin-value-marker' }, [
+            h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
             h('div', { staticClass: 'q-slider__pin-value-marker-text' }, [
               this[which + 'Label']
             ])

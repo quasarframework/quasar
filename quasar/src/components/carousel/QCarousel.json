@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/panel-parent" ],
+  "mixins": [ "mixins/panel-parent", "mixins/fullscreen" ],
 
   "props": {
     "transition-prev": {

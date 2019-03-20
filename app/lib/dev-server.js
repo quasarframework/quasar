@@ -13,10 +13,12 @@ function openBrowser (url, opts) {
 
   if (opts) {
     log('Opening browser at ' + url + ' with options: ' + opts)
+    log()
     opn(url, { app: opts })
   }
   else {
     log('Opening default browser at ' + url)
+    log()
     opn(url)
   }
 }
