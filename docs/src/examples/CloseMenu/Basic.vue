@@ -14,7 +14,7 @@
           <q-item
             v-for="n in 5"
             :key="n"
-            v-close-menu="n > 1 || firstItemEnabled"
+            v-close-popup="n > 1 || firstItemEnabled"
             :clickable="n > 1 || firstItemEnabled"
             @click="onClick(n)"
           >

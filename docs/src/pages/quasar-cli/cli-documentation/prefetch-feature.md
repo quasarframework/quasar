@@ -189,7 +189,10 @@ export default {
     store.registerModule('foo', fooStoreModule)
     return store.dispatch('foo/inc')
   },
-
+  mounted () {
+    // Preserve the previous state if it was injected from the server
+    store.registerModule('foo', fooStoreModule, { preserveState: true })
+  },
   // IMPORTANT: avoid duplicate module registration on the client
   // when the route is visited multiple times.
   destroyed () {
@@ -206,6 +209,10 @@ export default {
 ```
 
 Also note that because the module is now a dependency of the route component, it will be moved into the route component's async chunk by Webpack.
+
+::: warning
+Don't forget to use the `preserveState: true` option for `registerModule` so we keep the state injected by the server.
+:::
 
 ## Loading State
 A good UX includes notifying the user that something is being worked on in the background while he/she waits for the page to be ready. Quasar CLI offers two options for this out of the box.

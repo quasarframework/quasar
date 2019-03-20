@@ -10,6 +10,7 @@ The QSelect component has two types of selection: single or multiple. This compo
 ## Design
 
 ### Overview
+
 ::: warning
 For your QSelect you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
 :::
@@ -69,7 +70,7 @@ When `map-options` is used, the model can contain only the `value`, and it will 
 
 ### Custom prop names
 
-By default, QSelect looks at `label`, `value` and `disable` props of each option from the options array Objects. But you can override those:
+By default, QSelect looks at `label`, `value`, `disable` and `sanitize` props of each option from the options array Objects. But you can override those:
 
 <doc-example title="Custom label, value and disable props" file="QSelect/OptionCustomProps" />
 
@@ -143,6 +144,34 @@ Filtering and adding the new values to menu:
 Filters new values (in the example below the value to be added requires at least 3 characters to pass), and does not add to menu:
 
 <doc-example title="Filtering without adding to menu" file="QSelect/FilteringNoAddToMenu" />
+
+## Sanitization
+
+::: warning
+Always sanitize values if you do not trust the origin (if the value comes from user input).
+:::
+
+You can force sanitization of the menu options by:
+  - setting `sanitize` key of the untrusted option to `true` (for specific untrusted options)
+  - or by setting `options-sanitize` prop of QSelect (for all options)
+
+::: warning
+If you use `option` slot, then you are responsible for sanitization of the menu options. The `options-sanitize` prop will not apply.
+:::
+
+The displayed value of QSelect is sanitized if:
+  - the `display-value-sanitize` prop of QSelect is set
+  - or you are not using `display-value` and
+    - the `options-sanitize` prop of QSelect is set
+    - any selected option has `sanitize` key set to `true`
+
+::: warning
+If you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-sanitize` prop will not apply.
+:::
+
+<doc-example title="Sanitize options" file="QSelect/SanitizeOptions" />
+
+<doc-example title="Sanitize display value" file="QSelect/SanitizeDisplayCustomValue" />
 
 ## Render performance
 

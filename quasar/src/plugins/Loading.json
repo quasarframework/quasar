@@ -27,6 +27,10 @@
               "desc": "Message to display",
               "examples": [ "Processing your request" ]
             },
+            "sanitize": {
+              "extends": "sanitize",
+              "desc": "Force use of textContent instead of innerHTML to render message; Use it when the message might be unsafe (from user input)"
+            },
             "spinnerSize": {
               "type": "Number",
               "desc": "Spinner size (in pixels)",

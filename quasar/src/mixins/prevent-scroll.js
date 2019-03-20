@@ -53,9 +53,7 @@ function prevent (register) {
   }
   else if (Platform.is.desktop) {
     // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
-    const evtOpts = listenOpts.passive === void 0 ? void 0 : { passive: false }
-
-    window[`${action}EventListener`]('wheel', onWheel, evtOpts)
+    window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
   }
 }
 

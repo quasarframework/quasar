@@ -14,6 +14,8 @@
 
             <input v-model="text">
             You have lost connection to the internet. This app is offline.
+
+            <q-btn label="Close" v-close-popup />
           </q-banner>
         </q-popup-proxy>
       </div>
@@ -27,6 +29,7 @@
 
             <input v-model="text">
             You have lost connection to the internet. This app is offline.
+            <q-btn label="Close" v-close-popup />
           </q-banner>
         </q-popup-proxy>
       </div>
@@ -38,6 +41,7 @@
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy :breakpoint="600" @before-show="onBeforeShow1" @show="onShow1" @before-hide="onBeforeHide1" @hide="onHide1">
                 <q-date v-model="input" filled />
+                <q-btn label="Close" v-close-popup />
               </q-popup-proxy>
             </q-icon>
           </template>
@@ -48,10 +52,41 @@
             <q-icon name="event" class="cursor-pointer">
               <q-menu :breakpoint="600" @before-show="onBeforeShow2" @show="onShow2" @before-hide="onBeforeHide2" @hide="onHide2">
                 <q-date v-model="input" filled />
+                <q-btn label="Close" v-close-popup />
               </q-menu>
             </q-icon>
           </template>
         </q-input>
+      </div>
+
+      <div class="q-mt-xl">
+        <p>Model is: {{ model }}</p>
+        <q-btn push color="primary" label="Open Popup">
+          <q-popup-proxy v-model="model">
+            <q-banner>
+              <template v-slot:avatar>
+                <q-icon name="signal_wifi_off" color="primary" />
+              </template>
+              You have lost connection to the internet. This app is offline.
+              <q-btn color="primary" label="Close" @click="model = false" />
+            </q-banner>
+          </q-popup-proxy>
+        </q-btn>
+      </div>
+
+      <div class="q-mt-xl">
+        <p>v-close-popup Model is: {{ model }}</p>
+        <q-btn push color="primary" label="Open Popup">
+          <q-popup-proxy>
+            <q-banner>
+              <template v-slot:avatar>
+                <q-icon name="signal_wifi_off" color="primary" />
+              </template>
+              You have lost connection to the internet. This app is offline.
+              <q-btn color="primary" label="Close" v-close-popup />
+            </q-banner>
+          </q-popup-proxy>
+        </q-btn>
       </div>
     </div>
   </div>
@@ -64,7 +99,8 @@ export default {
       text: '',
       type: this.$q.screen.width < 600 ? 'dialog' : 'menu',
       input: '',
-      date: '2018/11/03'
+      date: '2018/11/03',
+      model: false
     }
   },
 

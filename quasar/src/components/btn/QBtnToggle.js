@@ -89,8 +89,8 @@ export default Vue.extend({
           disable: this.disable || opt.disable,
           label: opt.label,
           // Colors come from the button specific options first, then from general props
-          color: this.val[i] ? opt.toggleColor || this.toggleColor : opt.color || this.color,
-          textColor: this.val[i] ? opt.toggleTextColor || this.toggleTextColor : opt.textColor || this.textColor,
+          color: this.val[i] === true ? opt.toggleColor || this.toggleColor : opt.color || this.color,
+          textColor: this.val[i] === true ? opt.toggleTextColor || this.toggleTextColor : opt.textColor || this.textColor,
           icon: opt.icon,
           iconRight: opt.iconRight,
           noCaps: this.noCaps === true || opt.noCaps === true,

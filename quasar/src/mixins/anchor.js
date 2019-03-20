@@ -56,7 +56,7 @@ export default {
         this.touchTimer = setTimeout(() => {
           this.show(evt)
         }, 10)
-      }, 600)
+      }, 300)
     },
 
     __mobileCleanup () {
@@ -152,7 +152,7 @@ export default {
 
   beforeDestroy () {
     clearTimeout(this.touchTimer)
-    this.__cleanup !== void 0 && this.__cleanup()
+    this.__anchorCleanup !== void 0 && this.__anchorCleanup()
 
     if (this.anchorEl !== void 0) {
       this.__unconfigureAnchorEl()

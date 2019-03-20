@@ -64,6 +64,11 @@ export default Vue.extend({
           this.innerValue !== void 0 &&
           this.innerValue !== null &&
           ('' + this.innerValue).length > 0
+        ) ||
+        (
+          this.displayValue !== void 0 &&
+          this.displayValue !== null &&
+          ('' + this.displayValue).length > 0
         )
     },
 
@@ -84,14 +89,14 @@ export default Vue.extend({
         'q-field--labeled': this.label !== void 0,
 
         'q-field--dense': this.dense,
-        'q-field--item-aligned q-item-type': this.itemAligned === true,
-        'q-field--dark': this.dark === true,
+        'q-field--item-aligned q-item-type': this.itemAligned,
+        'q-field--dark': this.dark,
 
-        'q-field--with-bottom': this.hasBottom === true,
-        'q-field--error': this.hasError === true,
+        'q-field--with-bottom': this.hasBottom,
+        'q-field--error': this.hasError,
 
-        'q-field--readonly no-pointer-events': this.readonly === true,
-        'disabled no-pointer-events': this.disable === true
+        'q-field--readonly no-pointer-events': this.readonly,
+        'disabled no-pointer-events': this.disable
       }
     },
 

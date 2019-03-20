@@ -76,11 +76,11 @@
         <q-separator />
 
         <q-card-actions>
-          <q-btn flat round icon="event" v-close-dialog />
-          <q-btn flat v-close-dialog>5:30PM</q-btn>
-          <q-btn flat v-close-dialog>7:30PM</q-btn>
-          <q-btn flat v-close-dialog>9:00PM</q-btn>
-          <q-btn flat color="primary" v-close-dialog>Reserve</q-btn>
+          <q-btn flat round icon="event" v-close-popup />
+          <q-btn flat v-close-popup>5:30PM</q-btn>
+          <q-btn flat v-close-popup>7:30PM</q-btn>
+          <q-btn flat v-close-popup>9:00PM</q-btn>
+          <q-btn flat color="primary" v-close-popup>Reserve</q-btn>
         </q-card-actions>
       </q-card>
     </q-dialog>

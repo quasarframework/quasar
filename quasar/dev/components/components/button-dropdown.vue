@@ -3,7 +3,7 @@
     <q-toggle v-model="toggle" label="Show" />
     <q-btn-dropdown persistent v-model="toggle" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
       <q-list>
-        <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-menu @click="showNotification">
+        <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-popup @click="showNotification">
           <q-item-section avatar>
             <q-avatar icon="folder" color="primary" text-color="white" />
           </q-item-section>
@@ -21,7 +21,7 @@
         <q-item-label header inset>
           Files
         </q-item-label>
-        <q-item clickable v-close-menu @click="showNotification">
+        <q-item clickable v-close-popup @click="showNotification">
           <q-item-section avatar>
             <q-avatar icon="assignment" color="secondary" text-color="white" />
           </q-item-section>
@@ -40,7 +40,7 @@
 
     <q-btn-dropdown to="/" color="primary" split glossy label="Link /" style="margin: 15px">
       <q-list>
-        <q-item clickable v-for="n in 2" :key="`2.${n}`" v-close-menu @click="showNotification">
+        <q-item clickable v-for="n in 2" :key="`2.${n}`" v-close-popup @click="showNotification">
           <q-item-section avatar>
             <q-avatar icon="folder" color="primary" text-color="white" />
           </q-item-section>
@@ -58,7 +58,7 @@
         <q-item-label header inset>
           Files
         </q-item-label>
-        <q-item clickable v-close-menu @click="showNotification">
+        <q-item clickable v-close-popup @click="showNotification">
           <q-item-section avatar>
             <q-avatar icon="assignment" color="secondary" text-color="white" />
           </q-item-section>
@@ -77,7 +77,7 @@
 
     <q-btn-dropdown @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
       <q-list>
-        <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-menu @click="showNotification">
+        <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-popup @click="showNotification">
           <q-item-section avatar>
             <q-avatar icon="folder" color="primary" text-color="white" />
           </q-item-section>
@@ -95,7 +95,7 @@
         <q-item-label header inset>
           Files
         </q-item-label>
-        <q-item clickable v-close-menu @click="showNotification">
+        <q-item clickable v-close-popup @click="showNotification">
           <q-item-section avatar>
             <q-avatar icon="assignment" color="secondary" text-color="white" />
           </q-item-section>
@@ -114,7 +114,7 @@
 
     <q-btn-dropdown color="primary" split glossy label="btn" @click="log('click')" style="margin: 15px">
       <q-list>
-        <q-item clickable v-for="n in 2" :key="`2.${n}`" v-close-menu @click="showNotification">
+        <q-item clickable v-for="n in 2" :key="`2.${n}`" v-close-popup @click="showNotification">
           <q-item-section avatar>
             <q-avatar icon="folder" color="primary" text-color="white" />
           </q-item-section>
@@ -132,7 +132,7 @@
         <q-item-label header inset>
           Files
         </q-item-label>
-        <q-item clickable v-close-menu @click="showNotification">
+        <q-item clickable v-close-popup @click="showNotification">
           <q-item-section avatar>
             <q-avatar icon="assignment" color="secondary" text-color="white" />
           </q-item-section>

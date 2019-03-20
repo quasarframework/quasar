@@ -215,13 +215,13 @@
               <q-btn color="grey-7" round flat icon="more_vert">
                 <q-menu cover>
                   <q-list>
-                    <q-item clickable v-close-menu>
+                    <q-item clickable v-close-popup>
                       <q-item-section>Remove Card</q-item-section>
                     </q-item>
-                    <q-item clickable v-close-menu>
+                    <q-item clickable v-close-popup>
                       <q-item-section>Send Feedback</q-item-section>
                     </q-item>
-                    <q-item clickable v-close-menu>
+                    <q-item clickable v-close-popup>
                       <q-item-section>Share</q-item-section>
                     </q-item>
                   </q-list>
@@ -761,7 +761,7 @@
 
           <q-btn-dropdown persistent color="primary" unelevated label="Dropdown">
             <q-list>
-              <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-menu>
+              <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-popup>
                 <q-item-section avatar>
                   <q-avatar icon="folder" color="primary" text-color="white" />
                 </q-item-section>
@@ -805,7 +805,7 @@
 
           <q-btn-dropdown persistent color="primary" unelevated label="Dropdown">
             <q-list>
-              <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-menu>
+              <q-item clickable v-for="n in 2" :key="`1.${n}`" v-close-popup>
                 <q-item-section avatar>
                   <q-avatar icon="folder" color="primary" text-color="white" />
                 </q-item-section>

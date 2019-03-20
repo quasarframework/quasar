@@ -96,7 +96,9 @@ export default {
   },
   tabs: {
     left: 'ti-angle-left',
-    right: 'ti-angle-right'
+    right: 'ti-angle-right',
+    up: 'ti-angle-up',
+    down: 'ti-angle-down'
   },
   table: {
     arrowUp: 'ti-arrow-up',

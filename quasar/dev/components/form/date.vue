@@ -117,6 +117,25 @@
       </div>
 
       <div class="text-h6">
+        Default view
+      </div>
+      <div class="q-gutter-md column">
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :style="style"
+          default-view="Years"
+        />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :style="style"
+          default-view="Months"
+        />
+      </div>
+
+      <div class="text-h6">
         Negative years: {{ dateNeg }}
       </div>
       <div class="q-gutter-md column">

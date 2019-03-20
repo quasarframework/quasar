@@ -95,7 +95,7 @@
         q-separator
 
         q-card-actions(align="right")
-          q-btn(color="primary", flat, label="Close", v-close-dialog)
+          q-btn(color="primary", flat, label="Close", v-close-popup)
 </template>
 
 <script>

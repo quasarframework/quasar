@@ -29,10 +29,10 @@ Although you may be tempted to use `eval()`, even if you know what you are doing
 ![Don't be eval()](https://cdn.quasar-framework.org/img/dont-be-eval.png "Don't be eval()")
 
 ## Quasar Components
-Some Quasar components can be enabled to prevent the rendering of "insecure content". This is an opt-in feature (available starting in `quasar@1.0.0-beta.10`) that is performed by adding the `sanitize` boolean prop to the component. These components are discussed below.
+Two Quasar components and one Plugin can be empowered to prevent the rendering of "insecure content". This is an opt-in feature (available starting in `quasar@1.0.0-beta.10`) that is performed by adding a `sanitize` type of boolean prop to the component. These components are discussed below.
 
 ### QSelect
-If you are not customizing menu-related scoped-slots (i.e. `option` scoped slot), **DO** prevent the component from rendering HTML in the labels and sublabels with the `sanitize` property. Generally speaking, this is not user-supplied data. If you are customizing this slot, it is your responsibility to do sanitization yourself.
+If you are not customizing menu-related scoped-slots (i.e. `option` scoped slot), **DO** prevent the component from rendering HTML in the labels and sublabels with one or more of the `sanitize` properties. Generally speaking, this is not user-supplied data. If you are customizing this slot, it is your responsibility to do sanitization yourself.
 
 ### QChat & Emoji
 The `QChatMessage` component can similarly be prevented from passing html to the browser by using the `sanitize` property.
@@ -40,6 +40,9 @@ The `QChatMessage` component can similarly be prevented from passing html to the
 ::: tip
 There have been a number of recent exploits (especially for older Android and iOS devices) where certain emoji and non-standard UTF-8 actually triggered mobile device restarts and boot-screen loops. **DO** consider a devland integration of markdown parsing in a plain-text type of input field and render it to HTML on the server side before you pass it to the chat recipients.
 :::
+
+### Loading
+Many developers have asked that the Loading plugin be able to display HTML, so this was enabled by default, but if you are worried, **DO** add `sanitize: true` and you removed the vector.
 
 ### QInput
 Any field that enables users to enter keystrokes, paste from the buffer or drop a file is a security risk. We won't go into the nitty-gritty details of this, but just remember it is YOUR responsibility to maintain safety. Only you can prevent help-desk fires!
@@ -77,23 +80,23 @@ A great place to read about this topic and properly choose an industrial strengt
 ## Distribution
 
 ::: tip
-If someone wants to change something in your database or add some file to the server and they are not using an SSH key, **DO** validate && sanitize the input.
+If someone wants to change something in your database or add some file to the server and they are not using an SSH key, **DO** validate **AND** sanitize the input.
 :::
 
 ### Web
-- **DO** Use https / wss
 - **DON'T** use http
+- **DON'T** store sensitive data in JWT
+- **DO** Use https / wss
 - **DO** manually audit your certificates
 - **DO** validate users
 - **DO** remember that JWT isn't encrypted per sé
-- **DON'T** store sensitive data in JWT
 - **DO** use JWE instead of JWT and use AES256 CBC + HMAC SHA512
 - **DO** double-down and perform the complete OWASP web audit
 
 ### Cordova
 - **DON'T** use iframes
-- **DO** sign all your builds
 - **DON'T** package for Android Gingerbread
+- **DO** sign all your builds
 - **DO** encrypt all data at rest
 
 The [Cordova Docs Page](https://cordova.apache.org/docs/en/latest/guide/appdev/security/) goes into detail about securing Cordova, and although it seems outdated, the information is mostly still on point.
@@ -111,13 +114,17 @@ Being more safe means taking many things into consideration, and the more of the
 
 ### Operational Security
 Audit how your development systems work:
+ - **DON'T** retain unneeded software
  - **DO** use an OS and distro with a smaller footprint and security features enabled (like SELinux for example)
  - **DO** make sure ALL software on your machine is up to date (especially NODE)
  - **DO** use a password manager
  - **DO** Use 2FA everywhere possible
- - **DON'T** retain unneeded software
 
 Audit how your production environment works:
+ - **DON'T** think security through obscurity will help you when you are under attack
+ - **DON'T** leave unneeded ports open
+ - **DON'T** pretend containers or VM's keep you safe by their nature
+ - **DON'T** ever stop being paranoid
  - **DO** turn off password and root access to your server
  - **DO** use secure transfer protocols (SSH, HTTPS, SFTP, WSS)
  - **DO** install fail2ban and rkhunter
@@ -127,15 +134,14 @@ Audit how your production environment works:
  - **DO** use ClamAV to detect infected files
  - **DO** undertake regular system maintenance
  - **DO** remove old ciphers from permitted / available types
- - **DON'T** think security through obscurity will help you when you are under attack
- - **DON'T** leave unneeded ports open
- - **DON'T** pretend containers or VM's keep you safe by their nature
- - **DON'T** ever stop being paranoid
 
 ### Organizational & Repository Security
 
 This is something that every team should have on their radar and put some thought into. **DO** consider who has access to your repositories, how commits are merged and how assets are published. Here are some good things to remember:
 
+ - **DON'T** put sensitive data in your source code
+ - **DON'T** ignore `yarn audit` or `npm audit` reports
+ - **DON'T** blindly rely on third-party services
  - **DO** require a review before merging to master
  - **DO** require 2FA for reviewers / code committers
  - **DO** require signed commits
@@ -145,12 +151,9 @@ This is something that every team should have on their radar and put some though
  - **DO** pin versions of critical libraries
  - **DO** commit package lock files
  - **DO** Add `.env` files to your `.gitignore`
- - **DON'T** put sensitive data in your source code
- - **DON'T** ignore `yarn audit` or `npm audit` reports
- - **DON'T** blindly rely on third-party services
 
 ## Get Help!
 Please [read more](/security/get-help) on how our team of experts can help you.
 
 ## Final Note
-Security is not peace of mind, it is a practical application of knowledge that requires vigilance and awareness. **DON'T** stop being concerned about security and **DON'T** think you are doing enough. There is always more you can undertake, there are constantly new vulnerabilities to be aware of. But the biggest security threat of them all is laziness, so put your outside shoes on, scroll back up the page and **DO** read the [OWASP link about XSS](/quasar-cli/security#User-Input-and-the-Dangers-of-v-html). We won't tell anybody.
+Security is not peace of mind, it is a practical application of knowledge that requires vigilance and awareness. **DON'T** stop being concerned about security and **DON'T** think you are doing enough. There is always more you can undertake, there are constantly new vulnerabilities to be aware of. But the biggest security threat of them all is laziness, so put your outside shoes on, scroll back up the page and **DO** read the [OWASP link about XSS](/security/dos-and-donts#User-Input-and-the-Dangers-of-v-html). We won't tell anybody.

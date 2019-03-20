@@ -11,6 +11,9 @@
         <q-btn push color="primary" @click="withMessage()">
           Show With Message
         </q-btn>
+        <q-btn push color="primary" @click="withMessageSanitized()">
+          Show With Message (Sanitized)
+        </q-btn>
       </div>
       <p class="caption">
         ...with a custom spinner, colors and size.
@@ -76,7 +79,10 @@ export default {
       })
     },
     withMessage () {
-      show({ message: 'Some important process is in progress. Hang on...' })
+      show({ message: 'Some <b class="text-negative">important</b> process is in progress. Hang on...' })
+    },
+    withMessageSanitized () {
+      show({ message: 'Some <b class="text-negative">important</b> process is in progress. Hang on...', sanitize: true })
     },
     changeMessage () {
       Loading.show({ message: 'First message. Gonna change it in 3 seconds...' })

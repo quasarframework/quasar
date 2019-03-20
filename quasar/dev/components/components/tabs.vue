@@ -5,6 +5,36 @@
         <q-checkbox v-model="dense" label="Dense" />
       </div>
 
+      <div style="display: flex; margin-bottom: 50px; height: 200px; position: relative;">
+        <q-tabs :dense="dense" vertical class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
+          <q-tab name="one" icon="wifi" />
+          <q-tab name="two" icon="bluetooth" />
+          <q-tab name="three" icon="map" />
+        </q-tabs>
+
+        <q-tabs :dense="dense" vertical inline-label class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
+          <q-tab name="one" label="wifi" icon="wifi" />
+          <q-tab name="two" label="bluetooth" icon="bluetooth" />
+          <q-tab name="three" label="map" icon="map" />
+          <q-tab name="four" label="phone" icon="phone" />
+          <q-tab name="five" label="location" icon="location_on" />
+          <q-tab name="six" label="favorite" icon="favorite" />
+          <q-tab name="seven" label="home" icon="home" />
+          <q-tab name="eight" label="info" icon="info" />
+        </q-tabs>
+
+        <q-tabs :dense="dense" vertical class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
+          <q-tab name="one" label="wifi" icon="wifi" />
+          <q-tab name="two" label="bluetooth" icon="bluetooth" />
+          <q-tab name="three" label="map" icon="map" />
+          <q-tab name="four" label="phone" icon="phone" />
+          <q-tab name="five" label="location" icon="location_on" />
+          <q-tab name="six" label="favorite" icon="favorite" />
+          <q-tab name="seven" label="home" icon="home" />
+          <q-tab name="eight" label="info" icon="info" />
+        </q-tabs>
+      </div>
+
       <q-tabs :dense="dense">
         <q-tab label="Item one" />
         <q-tab label="Item two" />
@@ -14,7 +44,7 @@
             <q-item-label header>
               Folders
             </q-item-label>
-            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-menu tabindex="0">
+            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="folder" color="secondary" text-color="white" />
               </q-item-section>
@@ -32,7 +62,7 @@
             <q-item-label header>
               Files
             </q-item-label>
-            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-menu tabindex="0">
+            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="assignment" color="primary" text-color="white" />
               </q-item-section>
@@ -109,7 +139,7 @@
             <q-item-label header>
               Folders
             </q-item-label>
-            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-menu tabindex="0">
+            <q-item v-for="n in 3" :key="`x.${n}`" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="folder" color="secondary" text-color="white" />
               </q-item-section>
@@ -127,7 +157,7 @@
             <q-item-label header>
               Files
             </q-item-label>
-            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-menu tabindex="0">
+            <q-item v-for="n in 3" :key="`y.${n}`" clickable v-close-popup tabindex="0">
               <q-item-section avatar>
                 <q-avatar icon="assignment" color="primary" text-color="white" />
               </q-item-section>
@@ -168,30 +198,50 @@
 
       <div class="row q-gutter-xs justify-stretch">
         <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a#123" label="/tabs/a#123 - select most specific tab" />
+          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/a#123" label="/tabs/a#123 - select most specific tab" />
         </div>
         <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a/a#123" label="/tabs/a/a#123 - select most specific tab" />
+          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/a/a#123" label="/tabs/a/a#123 - select most specific tab" />
         </div>
         <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/a/a" label="/tabs/b#123 - select exact tab" />
+          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/a/a" label="/tabs/a/a - select exact tab" />
         </div>
         <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" to="/components/tabs/b#123" label="/tabs/b#123 - select no tab" />
+          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/b#123" label="/tabs/b#123 - select no tab" />
         </div>
       </div>
       <q-tabs :dense="dense" class="test q-mt-sm">
-        <q-route-tab name="tabs" to="/components/tabs" exact replace label="/tabs" />
-        <q-route-tab name="tabs/a" to="/components/tabs/a" exact replace label="/tabs/a" />
-        <q-route-tab name="tabs/a *" to="/components/tabs/a" replace label="/tabs/a *" />
-        <q-route-tab name="tabs/a#1" to="/components/tabs/a#1" exact replace label="/tabs/a#1" />
-        <q-route-tab name="tabs/a/a" to="/components/tabs/a/a" exact replace label="/tabs/a/a" />
-        <q-route-tab name="tabs/a/a *" to="/components/tabs/a/a" replace label="/tabs/a/a *" />
-        <q-route-tab name="tabs/a/a#1" to="/components/tabs/a/a#1" exact replace label="/tabs/a/a#1" />
-        <q-route-tab name="tabs/a/b" to="/components/tabs/a/b" exact replace label="/tabs/a/b" />
-        <q-route-tab name="tabs/b" to="/components/tabs/b" exact replace label="/tabs/b" />
-        <q-route-tab name="tabs/b/a" to="/components/tabs/b/a" exact replace label="/tabs/b/a" />
-        <q-route-tab name="tabs/c" to="/components/tabs/c" exact replace label="/tabs/c" />
+        <q-route-tab name="tabs" to="/components/tabs" exact label="/tabs" />
+        <q-route-tab name="tabs/a" to="/components/tabs/a" exact label="/tabs/a" />
+        <q-route-tab name="tabs/a *" to="/components/tabs/a" label="/tabs/a *" />
+        <q-route-tab name="tabs/a#1" to="/components/tabs/a#1" exact label="/tabs/a#1" />
+        <q-route-tab name="tabs/a/a" to="/components/tabs/a/a" exact label="/tabs/a/a" />
+        <q-route-tab name="tabs/a/a *" to="/components/tabs/a/a" label="/tabs/a/a *" />
+        <q-route-tab name="tabs/a/a#1" to="/components/tabs/a/a#1" exact label="/tabs/a/a#1" />
+        <q-route-tab name="tabs/a/b" to="/components/tabs/a/b" exact label="/tabs/a/b" />
+        <q-route-tab name="tabs/b" to="/components/tabs/b" exact label="/tabs/b" />
+        <q-route-tab name="tabs/b/a" to="/components/tabs/b/a" exact label="/tabs/b/a" />
+        <q-route-tab name="tabs/c" to="/components/tabs/c" exact label="/tabs/c" />
+      </q-tabs>
+
+      <div class="row q-gutter-xs justify-stretch">
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'ta', params: { id: 1 }}" replace label="t/1/a" />
+        </div>
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'tb', params: { id: 1 }}" replace label="t/1/b" />
+        </div>
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'ta', params: { id: 2 }}" replace label="t/2/a" />
+        </div>
+        <div class="col-12 col-sm-6 col-md">
+          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'tb', params: { id: 2 }}" replace label="t/2/b" />
+        </div>
+      </div>
+      <q-tabs :dense="dense" class="test q-mt-sm">
+        <q-route-tab to="/components/tabs/t" exact label="t" />
+        <q-route-tab v-if="$route.params.id" :to="{ name: 'ta', params: $route.params }" exact :label="`t/${ $route.params.id }/a`" />
+        <q-route-tab v-if="$route.params.id" :to="{ name: 'tb', params: $route.params }" exact :label="`t/${ $route.params.id }/b`" />
       </q-tabs>
 
       <h4>Tabs content (animated, swipeable)</h4>
@@ -320,6 +370,7 @@ export default {
       text: '',
       dense: false,
       tab: 'one',
+      vtab: 'one',
       panelTest: false,
       some: false
     }
@@ -332,6 +383,8 @@ export default {
 </script>
 
 <style lang="stylus">
+.q-tabs.vertical-tabs
+  margin-bottom 0
 .tabs-demo .q-tabs
   margin-bottom 24px
 .tabs-demo .q-toolbar .q-tabs

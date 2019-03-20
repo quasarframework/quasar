@@ -70,6 +70,7 @@
         v-bind="props"
         v-model="stringNullSingle"
         :options="stringOptions"
+        map-options
         label="Single - string"
       />
       <div>{{ objectNullSingle }}</div>
@@ -78,6 +79,26 @@
         v-model="objectNullSingle"
         :options="objectOptions"
         label="Single - object"
+      />
+
+      <div>{{ stringEmitNullSingle === null ? 'null' : stringEmitNullSingle }}</div>
+      <q-select
+        v-bind="props"
+        v-model="stringEmitNullSingle"
+        :options="objectNullOptions"
+        emit-value
+        map-options
+        label="Single - emit - map - object"
+      />
+      <div>{{ stringEmitNullMultiple }}</div>
+      <q-select
+        v-bind="props"
+        v-model="stringEmitNullMultiple"
+        :options="objectNullOptions"
+        emit-value
+        map-options
+        label="Multiple - emit - map - object"
+        multiple
       />
 
       <div>{{ stringNullMultiple }}</div>
@@ -430,6 +451,20 @@
           </template>
         </q-input>
       </div>
+
+      <div class="text-h6">
+        Display value and floating label test
+      </div>
+      <div>
+        <q-select
+          label="Options"
+          filled
+          v-model="dispValSelection"
+          :options="dispValOptions"
+          :display-value="dispVal"
+          multiple
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -446,6 +481,13 @@ export default {
     }
 
     return {
+      dispValSelection: [],
+      dispValOptions: [
+        'Option 1',
+        'Option 2',
+        'Option 3'
+      ],
+
       type: 'filled',
       readonly: false,
       disable: false,
@@ -512,6 +554,40 @@ export default {
           disable: true,
           description: 'Databases',
           icon: 'casino'
+        },
+        {
+          label: '<span class="text-primary">Safe</span> option with <b>HTML</b>',
+          value: 'safe_option_with_html',
+          description: 'It does not come from user',
+          icon: 'golf_course'
+        },
+        {
+          label: '<span class="text-negative">Unsafe</span> option with <b>HTML</b>',
+          value: 'unsafe_option_with_html',
+          description: 'It comea from user - you should sanitize',
+          icon: 'golf_course',
+          sanitize: true
+        }
+      ],
+
+      objectNullOptions: [
+        {
+          label: 'Borg - null',
+          value: null,
+          description: 'I am null',
+          icon: 'warning'
+        },
+        {
+          label: 'Google',
+          value: 'Google',
+          description: 'Search engine',
+          icon: 'mail'
+        },
+        {
+          label: 'Facebook',
+          value: 'Facebook',
+          description: 'Social media',
+          icon: 'bluetooth'
         }
       ],
 
@@ -519,6 +595,9 @@ export default {
       stringNullMultiple: null,
       objectNullSingle: null,
       objectNullMultiple: null,
+
+      stringEmitNullSingle: null,
+      stringEmitNullMultiple: [null],
 
       stringEmitSingle: 'Facebook',
       stringEmitMultiple: ['Facebook'],
@@ -537,6 +616,8 @@ export default {
     resetNull () {
       this.stringNullSingle = null
       this.stringNullMultiple = null
+      this.stringEmitNullSingle = null
+      this.stringEmitNullMultiple = [null]
       this.objectNullSingle = null
       this.objectNullMultiple = null
     },
@@ -558,6 +639,15 @@ export default {
         optionsDense: this.optionsDense,
         optionsDark: this.optionsDark,
         expandBesides: this.expandBesides
+      }
+    },
+
+    dispVal () {
+      if (this.dispValSelection.length === 1) {
+        return '1 option selected'
+      }
+      else {
+        return this.dispValSelection.length + ' options selected'
       }
     }
   }

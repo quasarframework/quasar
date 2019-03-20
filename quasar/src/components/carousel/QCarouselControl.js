@@ -20,6 +20,7 @@ export default Vue.extend({
     classes () {
       return `absolute-${this.position}`
     },
+
     style () {
       return {
         margin: `${this.offset[1]}px ${this.offset[0]}px`

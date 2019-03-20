@@ -83,9 +83,9 @@ export default {
     const
       mouse = binding.modifiers.mouse === true,
       mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
-      mouseEvtOpts = listenOpts.passive === void 0 ? true : { passive: mouseEvtPassive, capture: true },
+      mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
       touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
-      touchEvtOpts = touchEvtPassive ? listenOpts.passive : (listenOpts.passive === void 0 ? null : { passive: false })
+      touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive']
 
     function handleEvent (evt, mouseEvent) {
       if (mouse && mouseEvent) {
@@ -137,7 +137,7 @@ export default {
       },
 
       move (evt) {
-        if (ctx.event.abort === true) {
+        if (ctx.event === void 0 || ctx.event.abort === true) {
           return
         }
 
@@ -183,18 +183,22 @@ export default {
       },
 
       end (evt) {
+        if (ctx.event === void 0) {
+          return
+        }
+
         ctx.event.mouse !== true && removeObserver(ctx)
 
         document.documentElement.style.cursor = ''
         document.body.classList.remove('no-pointer-events')
         document.body.classList.remove('non-selectable')
 
-        if (ctx.event.abort === true || ctx.event.detected !== true || ctx.event.isFirst === true) {
-          return
+        if (ctx.event.abort !== true && ctx.event.detected === true && ctx.event.isFirst !== true) {
+          handleEvent(evt, ctx.event.mouse)
+          ctx.handler(processChanges(evt, ctx, true))
         }
 
-        handleEvent(evt, ctx.event.mouse)
-        ctx.handler(processChanges(evt, ctx, true))
+        ctx.event = void 0
       }
     }
 
@@ -240,9 +244,9 @@ export default {
       const
         mouse = binding.modifiers.mouse === true,
         mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
-        mouseEvtOpts = listenOpts.passive === void 0 ? true : { passive: mouseEvtPassive, capture: true },
+        mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
         touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
-        touchEvtOpts = touchEvtPassive ? listenOpts.passive : (listenOpts.passive === void 0 ? null : { passive: false })
+        touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive']
 
       if (mouse === true) {
         el.removeEventListener('mousedown', ctx.mouseStart, mouseEvtOpts)

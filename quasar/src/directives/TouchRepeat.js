@@ -3,8 +3,6 @@ import { setObserver, removeObserver } from '../utils/touch-observer.js'
 import { clearSelection } from '../utils/selection.js'
 import Platform from '../plugins/Platform.js'
 
-const evtOpts = listenOpts.passive === void 0 ? null : { passive: false }
-
 const
   keyCodes = {
     esc: 27,
@@ -95,7 +93,11 @@ export default {
         }
 
         const fn = () => {
-          if (ctx.event && ctx.event.repeatCount === 0) {
+          if (ctx.event === void 0) {
+            return
+          }
+
+          if (ctx.event.repeatCount === 0) {
             ctx.event.evt = evt
             ctx.event.position = position(evt)
             if (Platform.is.mobile !== true) {
@@ -121,9 +123,13 @@ export default {
       },
 
       end (evt) {
+        if (ctx.event === void 0) {
+          return
+        }
+
         removeObserver(ctx)
 
-        const triggered = ctx.event !== void 0 && ctx.event.repeatCount > 0
+        const triggered = ctx.event.repeatCount > 0
 
         triggered === true && stopAndPrevent(evt)
 
@@ -150,8 +156,8 @@ export default {
     if (keyboard.length > 0) {
       el.addEventListener('keydown', ctx.keyboardStart)
     }
-    el.addEventListener('touchstart', ctx.start, evtOpts)
-    el.addEventListener('touchmove', ctx.end, evtOpts)
+    el.addEventListener('touchstart', ctx.start, listenOpts.notPassive)
+    el.addEventListener('touchmove', ctx.end, listenOpts.notPassive)
     el.addEventListener('touchcancel', ctx.end)
     el.addEventListener('touchend', ctx.end)
   },
@@ -185,8 +191,8 @@ export default {
         el.removeEventListener('keydown', ctx.keyboardStart)
         document.removeEventListener('keyup', ctx.keyboardEnd, true)
       }
-      el.removeEventListener('touchstart', ctx.start, evtOpts)
-      el.removeEventListener('touchmove', ctx.end, evtOpts)
+      el.removeEventListener('touchstart', ctx.start, listenOpts.notPassive)
+      el.removeEventListener('touchmove', ctx.end, listenOpts.notPassive)
       el.removeEventListener('touchcancel', ctx.end)
       el.removeEventListener('touchend', ctx.end)
 

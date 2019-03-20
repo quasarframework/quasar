@@ -14,14 +14,15 @@ Simply replace the version string in all the CSS and JS tags that refer to Quasa
 ### Quasar CLI
 
 ```bash
-$ yarn add quasar@latest
-```
+# run these commands inside
+# of a Quasar v1 project
+# (need global @quasar/cli to be >= 1.0.0-beta.3)
 
-You may also want to make sure you have the latest of the other Quasar packages too:
+# check for upgradable packages
+$ quasar upgrade
 
-```bash
-$ yarn add @quasar/extras@latest
-$ yarn add --dev @quasar/app@latest
+# do the actual upgrade
+$ quasar upgrade --install
 ```
 
 ### Vue CLI
@@ -323,14 +324,14 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 ||Legacy|v1|
 |-|-|-|
 |h1|`.q-display-4`|`.text-h1`|
-|h2|`.q-display3`|`.text-h2`|
-|h3|`.q-display2`|`.text-h3` |
-|h4|`.q-display1`|`.text-h4` |
+|h2|`.q-display-3`|`.text-h2`|
+|h3|`.q-display-2`|`.text-h3` |
+|h4|`.q-display-1`|`.text-h4` |
 |h5|`.q-headline`|`.text-h5` |
 |h6|`.q-title`|`.text-h6` |
 ||`.q-subheading`|`.text-subtitle1` or `.text-subtitle2` |
-||`.q-body1`|`.text-body1` |
-||`.q-body2`|`.text-body2` |
+||`.q-body-1`|`.text-body1` |
+||`.q-body-2`|`.text-body2` |
 ||`.q-caption`|`.text-caption` |
 |||`.text-overline` |
 
@@ -457,9 +458,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 |Legacy|v1|
 |-|-|
-||`v-close-dialog`|
-|`v-close-overlay`|`v-close-menu`|
-||`v-touch-repeat`|
+|`v-close-overlay`|`v-close-popup`|
 
   </div>
 </div>
@@ -1775,9 +1774,7 @@ Replace `:handler` with `@load`.
 |`decimals`||
 |`error`||
 |`fill-handle-always`||
-|`left-label-value`||
 |`square`||
-|`right-label-value`||
 |`warning`||
 
   </div>
@@ -1908,7 +1905,6 @@ Replace `:handler` with `@load`.
 |`decimals`||
 |`error`||
 |`fill-handle-always`||
-|`label-value`||
 |`square`||
 |`warning`||
 
@@ -2105,7 +2101,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 ||`indicator-color`|
 ||`left-icon`|
 ||`right-icon`|
-||`top-indicator`|
+||`switch-indicator`|
 ||`narrow-indicator`|
 ||`inline-label`|
 ||`no-caps`|

@@ -7,11 +7,15 @@
     <p>
       <q-toggle v-model="arrows" label="Show arrows" class="q-ml-sm" />
     </p>
+    <q-btn label="fullscreen" class="fixed-top-left z-top" color="purple" @click="$refs.carousel.toggleFullscreen()" />
+    <q-toggle v-model="fullscreen" label="Fullscreen" class="fixed-top-right z-top" />
     <q-carousel
+      ref="carousel"
       transition-prev="slide-right"
       transition-next="slide-left"
       swipeable
       animated
+      :fullscreen.sync="fullscreen"
       v-model="slide"
       control-color="primary"
       navigation-icon="radio_button_unchecked"
@@ -198,6 +202,7 @@
 <script>
 export default {
   data: () => ({
+    fullscreen: false,
     slide: 0,
     slide2: 1,
     slide3: 1,
