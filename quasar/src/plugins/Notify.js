@@ -177,7 +177,7 @@ const Notifications = {
           staticClass: notif.staticClass
         }, [
 
-          h('div', { staticClass: 'row items-center ' + (notif.multiLine ? 'col-12' : 'col') }, [
+          h('div', { staticClass: 'row items-center ' + (notif.multiLine ? 'col-all' : 'col') }, [
             notif.icon ? h(QIcon, {
               staticClass: 'q-notification__icon col-auto',
               props: { name: notif.icon }
@@ -191,7 +191,7 @@ const Notifications = {
           ]),
 
           notif.actions ? h('div', {
-            staticClass: 'q-notification__actions row items-center ' + (notif.multiLine ? 'col-12 justify-end' : 'col-auto')
+            staticClass: 'q-notification__actions row items-center ' + (notif.multiLine ? 'col-all justify-end' : 'col-auto')
           }, notif.actions.map(action => h(QBtn, {
             props: { flat: true, ...action },
             on: { click: action.handler }
