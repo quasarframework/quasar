@@ -58,6 +58,25 @@
               "__exemption": [ "examples" ]
             }
           },
+          "onHide": {
+            "type": "Function",
+            "desc": "Receives a Function param to tell what to do when the dialog is closed",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "params": null,
+                "returns": null
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "__exemption": [
+                "examples"
+              ]
+            }
+          },
           "hide": {
             "type": "Function",
             "desc": "Hides the dialog when called",

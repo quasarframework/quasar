@@ -24,19 +24,27 @@
 <script>
 export default {
   methods: {
+    hideDialog () {
+      if (this.dialogHandler !== void 0) {
+        this.dialogHandler.hide()
+      }
+    },
+
     alert () {
-      this.$q.dialog({
+      this.dialogHandler = this.$q.dialog({
         title: 'Alert',
         message: 'Some message'
       }).onOk(() => {
         console.log('OK')
       }).onCancel(() => {
         console.log('Cancel')
+      }).onHide(() => {
+        this.dialogHandler = void 0
       })
     },
 
     alertCustom () {
-      this.$q.dialog({
+      this.dialogHandler = this.$q.dialog({
         title: 'Alert',
         message: 'Some message',
         style: { backgroundColor: 'red' },
@@ -45,11 +53,13 @@ export default {
         console.log('OK')
       }).onCancel(() => {
         console.log('Cancel')
+      }).onHide(() => {
+        this.dialogHandler = void 0
       })
     },
 
     confirm () {
-      this.$q.dialog({
+      this.dialogHandler = this.$q.dialog({
         title: 'Confirm',
         message: 'Would you like to turn on the wifi?',
         ok: {
@@ -66,11 +76,13 @@ export default {
         console.log('>>>> second OK catcher')
       }).onCancel(() => {
         console.log('>>>> Cancel')
+      }).onHide(() => {
+        this.dialogHandler = void 0
       })
     },
 
     prompt () {
-      this.$q.dialog({
+      this.dialogHandler = this.$q.dialog({
         title: 'Prompt',
         message: 'What is your name?',
         prompt: {
@@ -84,11 +96,13 @@ export default {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
         console.log('>>>> Cancel')
+      }).onHide(() => {
+        this.dialogHandler = void 0
       })
     },
 
     radio () {
-      this.$q.dialog({
+      this.dialogHandler = this.$q.dialog({
         title: 'Options',
         message: 'Choose your options',
         options: {
@@ -107,11 +121,13 @@ export default {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
         console.log('>>>> Cancel')
+      }).onHide(() => {
+        this.dialogHandler = void 0
       })
     },
 
     checkbox () {
-      this.$q.dialog({
+      this.dialogHandler = this.$q.dialog({
         title: 'Options',
         message: 'Choose your options',
         options: {
@@ -130,11 +146,13 @@ export default {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
         console.log('>>>> Cancel')
+      }).onHide(() => {
+        this.dialogHandler = void 0
       })
     },
 
     toggle () {
-      this.$q.dialog({
+      this.dialogHandler = this.$q.dialog({
         title: 'Options',
         message: 'Choose your options',
         options: {
@@ -153,27 +171,33 @@ export default {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
         console.log('>>>> Cancel')
+      }).onHide(() => {
+        this.dialogHandler = void 0
       })
     },
 
     positioned () {
-      this.$q.dialog({
+      this.dialogHandler = this.$q.dialog({
         title: 'Positioned',
         message: 'This dialog appears from bottom.',
         position: 'bottom'
+      }).onHide(() => {
+        this.dialogHandler = void 0
       })
     },
 
     stacked () {
-      this.$q.dialog({
+      this.dialogHandler = this.$q.dialog({
         title: 'Stacked Buttons',
         stackButtons: true,
         cancel: true
+      }).onHide(() => {
+        this.dialogHandler = void 0
       })
     },
 
     autoClose () {
-      const dialog = this.$q.dialog({
+      this.dialogHandler = this.$q.dialog({
         title: 'Alert',
         message: 'Autoclosing in 3 seconds.'
       }).onOk(() => {
@@ -182,12 +206,19 @@ export default {
       }).onCancel(() => {
         console.log('Cancel')
         clearTimeout(timer)
+      }).onHide(() => {
+        this.dialogHandler = void 0
       })
 
       const timer = setTimeout(() => {
-        dialog.hide()
+        this.dialogHandler !== void 0 && this.dialogHandler.hide()
       }, 3000)
     }
+  },
+
+  beforeRouteLeave (to, from, next) {
+    this.hideDialog()
+    next()
   }
 }
 </script>
