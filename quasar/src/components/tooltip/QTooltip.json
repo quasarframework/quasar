@@ -35,7 +35,7 @@
 
     "self": {
       "type": "String",
-      "desc": "Two values setting the menu's own position relative to its target",
+      "desc": "Two values setting the Tooltip's own position relative to its target",
       "values": [
         "top left", "top middle", "top right",
         "center left", "center middle", "center right",
