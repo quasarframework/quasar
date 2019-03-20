@@ -35,6 +35,8 @@ export default {
       }).onCancel(() => {
         console.log('Cancel')
         clearTimeout(timer)
+      }).onDismiss(() => {
+        console.log('I am triggered on both OK and Cancel')
       })
 
       const timer = setTimeout(() => {

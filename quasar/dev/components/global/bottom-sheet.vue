@@ -60,8 +60,14 @@ const actions = [
 
 export default {
   methods: {
+    hideBottomSheet () {
+      if (this.bottomSheetHandler !== void 0) {
+        this.bottomSheetHandler.hide()
+      }
+    },
+
     show (grid) {
-      this.$q.bottomSheet({
+      this.bottomSheetHandler = this.$q.bottomSheet({
         message: 'Bottom Sheet message',
         grid,
         actions
@@ -69,11 +75,13 @@ export default {
         console.log('Action chosen:', action.id)
       }).onCancel(() => {
         console.log('Dismissed')
+      }).onDismiss(() => {
+        this.bottomSheetHandler = void 0
       })
     },
 
     showCustom (grid) {
-      this.$q.bottomSheet({
+      this.bottomSheetHandler = this.$q.bottomSheet({
         message: 'Bottom Sheet message',
         grid,
         actions,
@@ -83,8 +91,15 @@ export default {
         console.log('Action chosen:', action.id)
       }).onCancel(() => {
         console.log('Dismissed')
+      }).onDismiss(() => {
+        this.bottomSheetHandler = void 0
       })
     }
+  },
+
+  beforeRouteLeave (to, from, next) {
+    this.hideBottomSheet()
+    next()
   }
 }
 </script>
