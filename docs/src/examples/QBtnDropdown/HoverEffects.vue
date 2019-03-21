@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-btn-dropdown auto-close color="primary" label="Hover Me" v-model="menu" @mouseover.native="menuOver = true" @mouseout.native="menuOver = false">
-      <q-list @mouseover.native="listOver = true" @mouseout.native="listOver = false">
+      <q-list @mouseover="listOver = true" @mouseout="listOver = false">
         <q-item clickable>
           <q-item-section>
             <q-item-label>Photos</q-item-label>
