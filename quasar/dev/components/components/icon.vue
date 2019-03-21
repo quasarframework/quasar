@@ -33,6 +33,12 @@
         </div>
       </div>
     </div>
+
+    <div class="q-mt-xl">
+      <q-icon name="img:https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg" />
+      <q-icon size="100px" name="img:https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg" />
+      <q-input v-model="text" clearable clear-icon="img:https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg" />
+    </div>
   </div>
 </template>
 
@@ -64,7 +70,8 @@ function parseSet (setName, set) {
 export default {
   data () {
     return {
-      icon: 'cloud'
+      icon: 'cloud',
+      text: 'gigi'
     }
   },
   computed: {
