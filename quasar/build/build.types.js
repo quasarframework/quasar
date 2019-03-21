@@ -59,9 +59,7 @@ module.exports.generate = function () {
   contents.push('\n')
 
   contents.push('// Quasar Type Definitions \n')
-  contents.push('import Vue from "vue";\n')
-  // Remove this for now, this may cause the Mixins to be mixin<VueClass<MyComponent>>()
-  // contents.push('import { VueClass } from "vue-class-component/lib/declarations";\n\n')
+  contents.push('import Vue, { VueConstructor } from "vue";\n')
 
   const distDir = fs.readdirSync(apiRoot)
   var injections = {}
@@ -72,7 +70,8 @@ module.exports.generate = function () {
     const typeName = file.split('.')[0]
 
     // Declare class
-    if (content.type === 'component') {
+    if (content.type === 'component' || content.type === 'mixin') {
+      contents.push(`export const ${typeName}: VueConstructor<${typeName}>\n`)
       contents.push(`export interface ${typeName} extends Vue {\n`)
     }
     else {
@@ -90,7 +89,6 @@ module.exports.generate = function () {
 
     // Write Methods
     for (var methodKey in content.methods) {
-    // export function theNewMethod(x: m.foo): other.bar;
       contents.push(`    ${methodKey}(`)
       if (content.methods[methodKey].params) {
         const params = []
@@ -104,10 +102,6 @@ module.exports.generate = function () {
 
     // Close class declaration
     contents.push(`}\n`)
-
-    if (content.type === 'component') {
-      contents.push(`export const ${typeName}: Vue`) // VueClass<${typeName}>\n`)
-    }
     contents.push(`\n`)
 
     // Write Vue Injections
