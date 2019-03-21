@@ -26,11 +26,10 @@ export default Vue.extend({
       }
 
       const commonCls = 'q-icon' +
-        (this.color !== void 0 ? ` text-${this.color}` : '') +
         (this.left === true ? ' on-left' : '') +
         (this.right === true ? ' on-right' : '')
 
-      if (icon.startsWith('img:')) {
+      if (icon.startsWith('img:') === true) {
         return {
           img: true,
           cls: commonCls,
@@ -70,13 +69,14 @@ export default Vue.extend({
       }
 
       return {
-        cls: cls + ' ' + commonCls,
+        cls: cls + ' ' + commonCls +
+          (this.color !== void 0 ? ` text-${this.color}` : ''),
         content
       }
     },
 
     style () {
-      if (this.size) {
+      if (this.size !== void 0) {
         return { fontSize: this.size }
       }
     }
