@@ -9,11 +9,18 @@ module.exports.generate = function () {
     // eslint-disable-next-line no-useless-escape
     toCamelCase = s => s.replace(/(\-\w)/g, m => { return m[1].toUpperCase() })
 
-  function copyTypeFiles (dir) {
+  function copyTypeFiles (dir, parentDir) {
     const typeDir = fs.readdirSync(dir)
     typeDir.forEach(file => {
-      const filePath = path.resolve(typeRoot, file)
-      writeFile(resolve('../types/' + file), fs.readFileSync(filePath))
+      const fullPath = path.resolve(dir, file)
+      const stats = fs.lstatSync(fullPath)
+      if (stats.isFile()) {
+        writeFile(resolve('../types/' + (parentDir ? parentDir + file : file)), fs.readFileSync(fullPath))
+      }
+      else if (stats.isDirectory()) {
+        fs.mkdirSync(resolve('../types/' + (parentDir ? parentDir + file : file)))
+        copyTypeFiles(fullPath, parentDir ? parentDir + file : file + '/')
+      }
     })
   }
 

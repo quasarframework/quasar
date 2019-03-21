@@ -1,95 +1,42 @@
-export interface BuildDateOptions {
-  milliseconds?: number;
-  seconds?: number;
-  minutes?: number;
-  hours?: number;
-  date?: number;
-  month?: number;
-  year?: number;
-}
-export interface ModifyDateOptions {
-  milliseconds?: number;
-  seconds?: number;
-  minutes?: number;
-  hours?: number;
-  days?: number;
-  month?: number;
-  year?: number;
-}
+export * from './utils/date';
+export * from './utils/colors';
+export * from './utils/dom';
+export * from './utils/format';
+export * from './utils/scroll';
+export * from './utils/event';
 
-export interface I18nDateOptions {
-  dayNames: string[];
-  monthNames: string[];
-}
 
-export interface DateValues {
-  year: number;
-  month: number;
-  day: number;
-  value: number;
-}
 
-export interface TimeValues {
-  hour: number;
-  minute: number;
-  second: number;
-}
-
-export type DateUnitOptions = "second" | "minute" | "hour" | "day" | "month" | "year";
-
-export namespace date {
-  function isValid(date: string): boolean;
-  function splitDate(date: string) : DateValues;
-  function splitTime(time: string) : TimeValues;
-  function buildDate(options: BuildDateOptions, utc?: boolean): string;
-  function getDayOfWeek(date: Date | number | string | number): number;
-  function getWeekOfYear (date: Date | number | string) : number;
-  function isBetweenDates (date: Date | number | string, from: Date, to: Date, opts? : { inclusiveFrom: boolean, inclusiveTo: boolean}) : boolean;
-  function addToDate(date: Date | number | string, options: ModifyDateOptions): Date;
-  function subtractFromDate(date: Date | number | string, options: ModifyDateOptions): Date;
-  function adjustDate (date: Date | number | string, options: ModifyDateOptions, utc?: boolean) : Date;
-  function startOfDate(date: Date | number | string, option: DateUnitOptions) : Date;
-  function endOfDate(date: Date | number | string, option: DateUnitOptions) : Date;
-  function getMaxDate (date: Date | number | string, ...args: (Date | number | string)[]) : Date;
-  function getMinDate (date: Date | number | string, ...args: (Date | number | string)[]) : Date;
-  function getDateDiff (date: Date | number | string, subtract: Date | number | string, unit?: string) : Date;
-  function getDayOfYear (date: Date | number | string) : number;
-  // function inferDateFormat (example: any) : string;
-  // function convertDateToFormat (date: Date, type, format)
-  function getDateBetween (date: Date | number | string, min: Date | number | string, max: Date | number | string) : Date
-  function isSameDate (date: Date | number | string, date2: Date | number | string, unit?: string) : boolean;
-  function daysInMonth (date: Date | number | string) : number;
-  function formatDate(date: Date | number | undefined, format: string, i18n?: I18nDateOptions): string;
-  function clone (date: Date) : Date;
-}
-
-export interface NotifyAction {
-    label: string;
-    icon?: string;
-    noDismiss?: boolean;
-    handler: Function;
-}
-
-export interface NotifyOptions {
-  message: string;
-  timeout?: number;
-  type?: string;
-  color?: string;
-  textColor?: string;
-  icon?: string;
-  avitar?: string;
-  detail?: string;
-  position?: string; 
-  closeBtn?: boolean;
-  actions?: NotifyAction[];
-  onDismiss?: Function;
-}
-export namespace Notify{
-  function create(message: string | NotifyOptions): void;
-}
-
-export function debounce(fn: Function, wait?: Number, immediate?: boolean) : Function
-
+// others utils
 export function openURL(url: string): void;
-
+export function debounce(fn: Function, wait?: Number, immediate?: boolean) : Function
 export function extend(...args: any[]): any;
+export function throttle(fn: Function, limit: Number): Function; 
+export function uid(): string;
+
+
+
+// export interface NotifyAction {
+//   label: string;
+//   icon?: string;
+//   noDismiss?: boolean;
+//   handler: Function;
+// }
+
+// export interface NotifyOptions {
+// message: string;
+// timeout?: number;
+// type?: string;
+// color?: string;
+// textColor?: string;
+// icon?: string;
+// avitar?: string;
+// detail?: string;
+// position?: string; 
+// closeBtn?: boolean;
+// actions?: NotifyAction[];
+// onDismiss?: Function;
+// }
+// export namespace Notify{
+// function create(message: string | NotifyOptions): void;
+// }

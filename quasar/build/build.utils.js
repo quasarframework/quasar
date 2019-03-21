@@ -20,7 +20,9 @@ module.exports.writeFile = function (dest, code, zip) {
     ? red('[json]')
     : dest.indexOf('.js') > -1
       ? green('[js]  ')
-      : blue('[css] ')
+      : dest.indexOf('.ts') > -1
+        ? green('[ts]  ')
+        : blue('[css] ')
 
   return new Promise((resolve, reject) => {
     function report (extra) {
