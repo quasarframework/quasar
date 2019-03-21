@@ -24,7 +24,23 @@ module.exports.generate = function () {
     })
   }
 
-  function convertTypeVal (type) {
+  function getPropDeclaration (prop) {
+    const propDef = prop.def
+    var propType = getTypeVal(propDef)
+    // const propTypeVal = propType
+    return `${prop.name}${!propDef.required ? '?' : ''} : ${propType};`
+  }
+
+  function getObjectDeclaration (objectDef) {
+    const props = []
+    for (var prop in objectDef) {
+      const propDef = { name: toCamelCase(prop), def: objectDef[prop] }
+      props.push(getPropDeclaration(propDef))
+    }
+    return props
+  }
+
+  function convertTypeVal (type, def) {
     const t = type.trim()
     if (t === 'Array') {
       return '[]'
@@ -32,19 +48,28 @@ module.exports.generate = function () {
     else if (t === 'Any') {
       return 'any'
     }
+    else if (t === 'Component') {
+      return 'Vue'
+    }
     else if (t === 'Object') {
-      return 'any'
+      if (def.definition) {
+        return `{ ${getObjectDeclaration(def.definition).join(' ')} }`
+      }
+      else {
+        return 'any'
+      }
     }
     return t
   }
 
-  function getTypeVal (types) {
+  function getTypeVal (def) {
+    const types = def.type
     if (Array.isArray(types)) {
       const propTypes = types.map(convertTypeVal)
-      return propTypes.join(' | ')
+      return propTypes.join('|')
     }
     else {
-      return convertTypeVal(types)
+      return convertTypeVal(types, def)
     }
   }
 
@@ -82,9 +107,10 @@ module.exports.generate = function () {
     // Write Props
     for (var key in content.props) {
       const propName = toCamelCase(key)
-      var propType = getTypeVal(content.props[key].type)
+      const propDef = content.props[key]
+      var propType = getTypeVal(propDef)
       const propTypeVal = propType
-      contents.push(`    ${propName}: ${propTypeVal};\n`)
+      contents.push(`    ${propName}${!propDef.required ? '?' : ''} : ${propTypeVal};\n`)
     }
 
     // Write Methods
@@ -93,7 +119,9 @@ module.exports.generate = function () {
       if (content.methods[methodKey].params) {
         const params = []
         for (var paramsKey in content.methods[methodKey].params) {
-          params.push(`${paramsKey}: any`)
+          const prarmName = toCamelCase(paramsKey)
+          const paramDef = content.methods[methodKey].params[paramsKey]
+          params.push(`${prarmName}${!paramDef.required ? '?' : ''}: ${getTypeVal(paramDef)}`)
         }
         contents.push(params.join(', '))
       }
