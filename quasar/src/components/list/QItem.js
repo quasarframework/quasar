@@ -70,9 +70,11 @@ export default Vue.extend({
     },
 
     __onClick (e, avoidClick) {
-      this.$el.blur()
-      if (avoidClick !== true && this.$listeners.click !== void 0) {
-        this.$emit('click', e)
+      if (this.isClickable === true) {
+        this.$el.blur()
+        if (avoidClick !== true && this.$listeners.click !== void 0) {
+          this.$emit('click', e)
+        }
       }
     },
 
@@ -83,26 +85,23 @@ export default Vue.extend({
   },
 
   render (h) {
-    const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
-
     const data = {
       staticClass: 'q-item q-item-type relative-position row no-wrap',
       class: this.classes,
       style: this.style
     }
 
+    const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
+    data[evtProp] = {
+      ...this.$listeners,
+      click: this.__onClick,
+      keyup: this.__onKeyup
+    }
+
     if (this.isClickable === true) {
       data.attrs = {
         tabindex: this.tabindex || '0'
       }
-      data[evtProp] = {
-        ...this.$listeners,
-        click: this.__onClick,
-        keyup: this.__onKeyup
-      }
-    }
-    else {
-      data[evtProp] = this.$listeners
     }
 
     if (this.hasRouterLink === true) {
