@@ -26,7 +26,7 @@
 
     "closer": {
       "type": "Boolean",
-      "desc": "Causes the content to be closer to the icon or thumbnail"
+      "desc": "Causes the content to be closer to the avatar or thumbnail"
     },
 
     "no-wrap": {
