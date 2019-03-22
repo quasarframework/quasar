@@ -94,7 +94,7 @@ export default {
         att.type = this.type || 'button'
       }
       if (this.hasRouterLink === true) {
-        att.href = this.$router.resolve(this.to, this.$route, this.append).href
+        att.href = this.$router.resolve(this.to).href
       }
       if (this.isDisabled === true) {
         att.disabled = true
