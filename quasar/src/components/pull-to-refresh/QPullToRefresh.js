@@ -6,6 +6,7 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
+import { prevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 const
@@ -107,7 +108,7 @@ export default Vue.extend({
         }
       }
 
-      event.evt.preventDefault()
+      prevent(event.evt)
 
       const distance = Math.max(0, event.distance.y)
       this.pullPosition = distance - PULLER_HEIGHT
