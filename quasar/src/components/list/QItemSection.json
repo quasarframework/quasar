@@ -24,6 +24,11 @@
       "desc": "Align content to top (useful for multi-line items)"
     },
 
+    "closer": {
+      "type": "Boolean",
+      "desc": "Causes the content to be closer to the icon or thumbnail"
+    },
+
     "no-wrap": {
       "type": "Boolean",
       "desc": "Do not wrap text (useful for item's main content)"
