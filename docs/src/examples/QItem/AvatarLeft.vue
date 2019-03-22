@@ -10,6 +10,14 @@
       </q-item>
 
       <q-item clickable v-ripple>
+        <q-item-section avatar closer>
+          <q-icon color="primary" name="text_fields" />
+        </q-item-section>
+
+        <q-item-section>Icon as avatar with text closer to it</q-item-section>
+      </q-item>
+
+      <q-item clickable v-ripple>
         <q-item-section avatar>
           <q-avatar color="teal" text-color="white" icon="bluetooth" />
         </q-item-section>
