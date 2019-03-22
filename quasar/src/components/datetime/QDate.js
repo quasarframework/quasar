@@ -285,7 +285,7 @@ export default Vue.extend({
           month = d.getMonth() + 1
 
           if (this.calendar === 'persian') {
-            const jDate = toJalaali(year, month, day)
+            const jDate = toJalaali(year, month, d.getDate())
             year = jDate.jy
             month = jDate.jm
           }
