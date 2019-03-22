@@ -44,5 +44,28 @@ For `icon` properties on different Quasar components you won't have the means to
 />
 ```
 
+### Images instead of webfont
+You can also make an icon point to an image URL instead of relying on any webfont, by using the `img:` prefix.
+
+```html
+<q-icon name="img:https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg" />
+<q-btn icon="img:https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg" ... />
+<q-icon name="img:statics/my/path/to/some.svg" />
+```
+
+This is not restricted to SVG only. You can use whatever image type you want (png, jpg, ...):
+
+```html
+<q-icon name="img:statics/bla/bla/my.png" />
+<q-btn icon="img:statics/bla/bla/my.jpg" ... />
+<q-input clearable clear-icon="img:statics/bla/bla/my.gif" ... />
+```
+
+All `icon` related props from Quasar components can make use of this.
+
+::: tip
+Remember that you can place images in your `/src/statics` folder too and point to them. You don't always need a full URL.
+:::
+
 ## QIcon API
 <doc-api file="QIcon" />
