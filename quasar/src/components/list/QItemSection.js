@@ -10,7 +10,7 @@ export default Vue.extend({
     thumbnail: Boolean,
     side: Boolean,
     top: Boolean,
-    near: Boolean,
+    closer: Boolean,
     noWrap: Boolean
   },
 
@@ -20,7 +20,7 @@ export default Vue.extend({
 
       return {
         'q-item__section--top': this.top,
-        'q-item__section--near': this.near,
+        'q-item__section--closer': this.closer,
         'q-item__section--avatar': this.avatar,
         'q-item__section--thumbnail': this.thumbnail,
         'q-item__section--side': side,
