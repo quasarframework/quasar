@@ -29,6 +29,11 @@
       "extends": "size"
     },
 
+    "no-reset": {
+      "type": "Boolean",
+      "desc": "When used, disables default behavior of clicking/tapping on icon which represents current model value to reset model to 0"
+    },
+
     "readonly": {
       "extends": "readonly"
     },
