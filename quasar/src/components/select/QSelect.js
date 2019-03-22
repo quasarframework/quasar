@@ -10,7 +10,6 @@ import QItemLabel from '../list/QItemLabel.js'
 
 import TransitionMixin from '../../mixins/transition.js'
 
-import uid from '../../utils/uid.js'
 import slot from '../../utils/slot.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { stop, stopAndPrevent } from '../../utils/event.js'
@@ -100,14 +99,7 @@ export default Vue.extend({
     },
 
     menu (show) {
-      this.optionIndex = -1
-      if (show === true) {
-        this.optionsToShow = 20
-        this.$nextTick(() => {
-          this.__hydrateOptions(true)
-        })
-      }
-      document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
+      this.__updateLocalMenu(show)
     }
   },
 
@@ -284,6 +276,7 @@ export default Vue.extend({
 
       if (this.multiple !== true) {
         this.menu = false
+        this.__onFilterAbort()
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
@@ -384,6 +377,13 @@ export default Vue.extend({
     },
 
     __onTargetKeydown (e) {
+      // escape
+      if (e.keyCode === 27) {
+        this.menu = false
+        this.__onFilterAbort()
+        return
+      }
+
       if (this.innerLoading !== true && this.menu === false && e.keyCode === 40) { // down
         stopAndPrevent(e)
 
@@ -456,6 +456,7 @@ export default Vue.extend({
 
       if (this.menu === true) {
         this.menu = false
+        this.__onFilterAbort()
       }
       else if (this.innerLoading !== true) {
         if (this.$listeners.filter !== void 0) {
@@ -471,6 +472,7 @@ export default Vue.extend({
       // escape
       if (e.keyCode === 27) {
         this.menu = false
+        this.__onFilterAbort()
         return
       }
 
@@ -695,7 +697,6 @@ export default Vue.extend({
     },
 
     filter (val) {
-      this.menu = false
       this.inputValue = val
 
       if (this.innerLoading === true) {
@@ -705,7 +706,10 @@ export default Vue.extend({
         this.innerLoading = true
       }
 
-      const filterId = uid()
+      const filterId = setTimeout(() => {
+        this.menu === true && (this.menu = false)
+      }, 10)
+      clearTimeout(this.filterId)
       this.filterId = filterId
 
       this.$emit(
@@ -713,17 +717,25 @@ export default Vue.extend({
         val,
         fn => {
           if (this.focused === true && this.filterId === filterId) {
+            clearTimeout(this.filterId)
             typeof fn === 'function' && fn()
             this.$nextTick(() => {
               this.innerLoading = false
-              this.menu = true
+              if (this.menu === true) {
+                this.__updateLocalMenu(true)
+              }
+              else {
+                this.menu = true
+              }
             })
           }
         },
         () => {
           if (this.focused === true && this.filterId === filterId) {
+            clearTimeout(this.filterId)
             this.innerLoading = false
           }
+          this.menu === true && (this.menu = false)
         }
       )
     },
@@ -733,6 +745,7 @@ export default Vue.extend({
 
       if (this.menu === true) {
         this.menu = false
+        this.__onFilterAbort()
       }
       else {
         if (this.$listeners.filter !== void 0) {
@@ -741,6 +754,12 @@ export default Vue.extend({
         else if (this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
           this.menu = true
         }
+      }
+    },
+
+    __onControlMouseDown (e) {
+      if (e.target !== void 0 && !e.target.classList.contains('q-select__input')) {
+        stopAndPrevent(e)
       }
     },
 
@@ -765,6 +784,7 @@ export default Vue.extend({
         }
 
         this.focused = false
+        clearTimeout(this.filterId)
 
         if (this.menu === true) {
           this.menu = false
@@ -778,13 +798,28 @@ export default Vue.extend({
           this.inputValue = val
         }
 
-        this.filterId = void 0
-
-        if (this.innerLoading === true) {
-          this.$emit('filter-abort')
-          this.innerLoading = false
-        }
+        this.__onFilterAbort()
       })
+    },
+
+    __onFilterAbort () {
+      this.filterId = void 0
+
+      if (this.innerLoading === true) {
+        this.$emit('filter-abort')
+        this.innerLoading = false
+      }
+    },
+
+    __updateLocalMenu (show) {
+      this.optionIndex = -1
+      if (show === true) {
+        this.optionsToShow = 20
+        this.$nextTick(() => {
+          this.__hydrateOptions(true)
+        })
+      }
+      document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
     },
 
     updateMenuPosition () {
@@ -803,7 +838,7 @@ export default Vue.extend({
   created () {
     this.controlEvents = {
       click: this.__onControlClick,
-      mousedown: stopAndPrevent,
+      mousedown: this.__onControlMouseDown,
       focusin: this.__onControlFocusin,
       focusout: this.__onControlFocusout
     }
