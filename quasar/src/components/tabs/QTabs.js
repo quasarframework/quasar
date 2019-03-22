@@ -199,16 +199,13 @@ export default Vue.extend({
         this.bufferTimer = setTimeout(() => {
           let tabs = []
 
-          for (let i = 0; i < bufferFiltersLen && tabs.length === 0; i += 1) {
+          for (let i = 0; i < bufferFiltersLen && tabs.length === 0; i++) {
             tabs = this.buffer.filter(bufferFilters[i])
           }
 
           tabs.sort(bufferPrioritySort)
-
           this.__activateTab(tabs.length === 0 ? null : tabs[0].name)
-
           this.buffer = this.buffer.map(bufferCleanSelected)
-
           this.bufferTimer = void 0
         }, 1)
       }
