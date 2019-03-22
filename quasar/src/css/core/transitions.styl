@@ -1,3 +1,5 @@
+$transition-easing = cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
+
 .q-transition
 
   &--slide-right,
@@ -23,7 +25,7 @@
   &--slide-down
 
     &-enter-active, &-leave-active
-      transition transform .3s cubic-bezier(.77, 0, .175, 1)
+      transition transform .3s $transition-easing
 
   &--slide-right
     &-enter
@@ -94,14 +96,14 @@
 
   &--scale
     &-enter-active, &-leave-active
-      transition opacity .3s, transform .3s cubic-bezier(.77, 0, .175, 1)
+      transition opacity .3s, transform .3s $transition-easing
     &-enter, &-leave, &-leave-to
       opacity 0
       transform scale3d(0, 0, 1)
 
   &--rotate
     &-enter-active, &-leave-active
-      transition opacity .3s, transform .3s cubic-bezier(.77, 0, .175, 1)
+      transition opacity .3s, transform .3s $transition-easing
       transform-style preserve-3d
     &-enter, &-leave, &-leave-to
       opacity 0
