@@ -68,6 +68,15 @@ export default Vue.extend({
         ('' + value).length > 0
     },
 
+    computedCounter () {
+      if (this.counter !== false) {
+        const len = typeof this.value === 'string' || typeof this.value === 'number'
+          ? ('' + this.value).length
+          : 0
+        return len + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
+      }
+    },
+
     floatingLabel () {
       return this.hasError === true ||
         this.stackLabel === true ||

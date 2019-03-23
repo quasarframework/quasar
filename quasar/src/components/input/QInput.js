@@ -72,15 +72,6 @@ export default Vue.extend({
     fieldClass () {
       return `q-${this.isTextarea === true ? 'textarea' : 'input'}` +
         (this.autogrow === true ? ' q-textarea--autogrow' : '')
-    },
-
-    computedCounter () {
-      if (this.counter !== false) {
-        const len = typeof this.value === 'string' || typeof this.value === 'number'
-          ? ('' + this.value).length
-          : 0
-        return len + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
-      }
     }
   },
 
