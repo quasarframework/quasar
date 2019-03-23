@@ -6474,9 +6474,9 @@ qs@6.5.2, qs@~6.5.2:
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
 quasar@^1.0.0-beta.4:
-  version "1.0.0-beta.12"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-beta.12.tgz#05a9f4c2ba62df0221a1fc61ffdf155c2ccdcd78"
-  integrity sha512-kzOX8FgjkcHJXMBBHR6OvNw8sZc9zVQ+thok6Lu2StPF1N8tEMvwAWz27gsr3xvqHuxUalm2VgraLGU9uzn6jg==
+  version "1.0.0-beta.13"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-beta.13.tgz#81622ece941b93a0186c646f1b343f400c16ebe6"
+  integrity sha512-9sDSUYRVzQu2WezUy329K9yBCGaoXFkeVYp9NnvKtzs7b/Wk76GrV4kwkBqVvFZDdOYuI4OFFdjPdKdDDMAILw==
 
 querystring-es3@^0.2.0, querystring-es3@^0.2.1:
   version "0.2.1"
