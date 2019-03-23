@@ -13,7 +13,7 @@
       </template>
 
       <template v-slot:separator>
-        <q-icon color="primary" size="40px" name="drag_indicator" />
+        <q-avatar color="primary" text-color="white" size="40px" icon="drag_indicator" />
       </template>
 
       <template v-slot:after>

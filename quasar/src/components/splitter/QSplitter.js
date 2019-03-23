@@ -138,8 +138,7 @@ export default Vue.extend({
         class: this.separatorClass
       }, [
         h('div', {
-          staticClass: 'absolute-full',
-          class: this.disable === true ? void 0 : 'q-splitter__separator-area',
+          staticClass: 'absolute-full q-splitter__separator-area',
           directives: this.disable === true ? void 0 : [{
             name: 'touch-pan',
             value: this.__pan,

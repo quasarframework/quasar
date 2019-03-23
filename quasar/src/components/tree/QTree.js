@@ -620,7 +620,7 @@ export default Vue.extend({
 
     return h(
       'div', {
-        staticClass: 'q-tree relative-position',
+        staticClass: 'q-tree',
         class: this.classes
       },
       children.length === 0

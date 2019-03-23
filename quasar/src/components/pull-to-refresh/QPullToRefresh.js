@@ -146,7 +146,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-pull-to-refresh relative-position overflow-hidden',
+      staticClass: 'q-pull-to-refresh overflow-hidden',
       directives: this.disable
         ? null
         : [{

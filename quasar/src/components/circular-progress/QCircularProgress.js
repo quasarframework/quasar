@@ -113,7 +113,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-circular-progress relative-position',
+      staticClass: 'q-circular-progress',
       'class': `q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
       style: this.style,
       on: this.$listeners,

@@ -14,11 +14,11 @@
     position relative
     z-index 1
 
-    &-area > *
-      position absolute
-      top 50%
-      left 50%
-      transform translate3d(-50%, -50%, 0)
+  &__separator-area > *
+    position absolute
+    top 50%
+    left 50%
+    transform translate3d(-50%, -50%, 0)
 
   &--dark
     .q-splitter__separator
@@ -31,7 +31,7 @@
       cursor col-resize
     > .q-splitter__separator
       width 1px
-      > .q-splitter__separator-area
+      > div
         left -6px
         right -6px
     &.q-splitter--workable > .q-splitter__separator
@@ -44,7 +44,7 @@
       cursor row-resize
     > .q-splitter__separator
       height 1px
-      > .q-splitter__separator-area
+      > div
         top -6px
         bottom -6px
     &.q-splitter--workable > .q-splitter__separator

@@ -232,7 +232,7 @@ export default Vue.extend({
   render (h) {
     if (!this.$q.platform.is.desktop) {
       return h('div', {
-        staticClass: 'q-scroll-area relative-position',
+        staticClass: 'q-scroll-area',
         style: this.contentStyle
       }, [
         h('div', {
@@ -243,7 +243,7 @@ export default Vue.extend({
     }
 
     return h('div', {
-      staticClass: 'q-scrollarea relative-position',
+      staticClass: 'q-scrollarea',
       on: {
         mouseenter: () => { this.hover = true },
         mouseleave: () => { this.hover = false }

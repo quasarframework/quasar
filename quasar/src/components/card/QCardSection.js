@@ -7,7 +7,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-card__section relative-position',
+      staticClass: 'q-card__section',
       on: this.$listeners
     }, slot(this, 'default'))
   }
