@@ -78,37 +78,37 @@
       />
 
       <q-field
-        class="q-textarea"
         v-bind="{[type]: true}"
         label="Slider - >= 10, Lazy"
+        stack-label
         :value="num"
         :rules="[
           val => val >= 10 || 'Select at least 10',
         ]"
         lazy-rules
       >
-        <div class="q-field__native row items-center">
+        <template v-slot:control>
           <q-slider
-            class="q-mt-xl"
+            class="q-mt-xl q-mx-md"
             v-model="num"
             :min="0"
             :max="50"
             label-always
           />
-        </div>
+        </template>
       </q-field>
 
       <q-field
-        class="q-textarea"
         v-bind="{[type]: true}"
         label="Knob - >= 10, Lazy"
+        stack-label
         :value="num"
         :rules="[
           val => val >= 10 || 'Select at least 10',
         ]"
         lazy-rules
       >
-        <div class="q-field__native row items-center">
+        <template v-slot:control>
           <q-knob
             class="q-mt-md"
             v-model="num"
@@ -121,7 +121,7 @@
           >
             {{ num }}
           </q-knob>
-        </div>
+        </template>
       </q-field>
 
       <q-input

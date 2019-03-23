@@ -535,6 +535,15 @@ export default Vue.extend({
       }
     },
 
+    __getControlEvents () {
+      return {
+        click: this.__onControlClick,
+        mousedown: this.__onControlMouseDown,
+        focusin: this.__onControlFocusin,
+        focusout: this.__onControlFocusout
+      }
+    },
+
     __getSelection (h) {
       if (this.hideSelected === true) {
         return []
@@ -764,14 +773,19 @@ export default Vue.extend({
     },
 
     __onControlFocusin (e) {
-      this.focused = true
+      if (this.editable === true) {
+        if (this.focused === false) {
+          this.focused = true
+          this.$listeners.focus !== void 0 && this.$emit('focus', e)
+        }
 
-      if (this.useInput === true && this.inputValue.length > 0) {
-        this.$refs.target.setSelectionRange(0, this.inputValue.length)
+        if (this.useInput === true && this.inputValue.length > 0) {
+          this.$refs.target.setSelectionRange(0, this.inputValue.length)
+        }
       }
     },
 
-    __onControlFocusout () {
+    __onControlFocusout (e) {
       setTimeout(() => {
         clearTimeout(this.inputTimer)
 
@@ -783,7 +797,11 @@ export default Vue.extend({
           return
         }
 
-        this.focused = false
+        if (this.focused === true) {
+          this.focused = false
+          this.$listeners.blur !== void 0 && this.$emit('blur', e)
+        }
+
         clearTimeout(this.filterId)
 
         if (this.menu === true) {
@@ -832,15 +850,6 @@ export default Vue.extend({
         this.$refs.control,
         this.optionsCover === true && this.noOptions !== true && this.useInput !== true
       )
-    }
-  },
-
-  created () {
-    this.controlEvents = {
-      click: this.__onControlClick,
-      mousedown: this.__onControlMouseDown,
-      focusin: this.__onControlFocusin,
-      focusout: this.__onControlFocusout
     }
   },
 
