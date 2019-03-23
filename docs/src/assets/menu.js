@@ -689,10 +689,6 @@ const components = [
       {
         name: 'Date Picker',
         path: 'date'
-      },
-      {
-        name: 'Field',
-        path: 'field'
       }
     ]
   },
