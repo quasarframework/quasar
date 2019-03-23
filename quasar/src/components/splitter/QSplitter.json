@@ -79,6 +79,10 @@
 
     "after": {
       "desc": "Content of the pane on right/bottom"
+    },
+
+    "separator": {
+      "desc": "Content to be placed inside the separator; By default it is centered"
     }
   },
 

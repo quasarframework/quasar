@@ -136,10 +136,11 @@ export default Vue.extend({
         staticClass: 'q-splitter__separator',
         style: this.separatorStyle,
         class: this.separatorClass
-      }, this.disable === false ? [
+      }, [
         h('div', {
           staticClass: 'absolute-full',
-          directives: [{
+          class: this.disable === true ? void 0 : 'q-splitter__separator-area',
+          directives: this.disable === true ? void 0 : [{
             name: 'touch-pan',
             value: this.__pan,
             modifiers: {
@@ -151,8 +152,8 @@ export default Vue.extend({
               mousePrevent: true
             }
           }]
-        })
-      ] : null),
+        }, slot(this, 'separator'))
+      ]),
 
       h('div', {
         ref: 'after',
