@@ -98,7 +98,7 @@ export default Vue.extend({
         'q-field--item-aligned q-item-type': this.itemAligned,
         'q-field--dark': this.dark,
 
-        'q-field--custom-control': this.$scopedSlots.control !== void 0,
+        'q-field--auto-height': this.__getControl,
 
         'q-field--with-bottom': this.hasBottom,
         'q-field--error': this.hasError,

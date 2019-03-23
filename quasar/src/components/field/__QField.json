@@ -136,10 +136,6 @@
       "desc": "Append outer field; Suggestions: QIcon, QBtn"
     },
 
-    "control": {
-      "desc": "Slot for custom controls; Suggestion QSlider, QRange"
-    },
-
     "error": {
       "desc": "Slot for errors; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>"
     },

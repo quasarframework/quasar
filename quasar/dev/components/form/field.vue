@@ -3,13 +3,14 @@
     <div style="max-width: 600px" class="q-gutter-y-md">
       <div class="q-gutter-x-md">
         <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="dense" label="Dense" />
         <q-toggle :dark="dark" v-model="border" label="Border" />
         <q-toggle :dark="dark" v-model="individualBorder" label="Individual Border" />
       </div>
 
       <h1>Field wrapper tests</h1>
 
-      <q-field :dark="dark" label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots>
         <q-icon slot="before" name="event" />
 
         <template v-slot:control>
@@ -29,7 +30,7 @@
         <q-icon slot="after" name="search" />
       </q-field>
 
-      <q-field :dark="dark" label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots>
         <q-icon slot="before" name="event" />
 
         <template v-slot:control>
@@ -52,7 +53,7 @@
         </template>
       </q-field>
 
-      <q-field :dark="dark" label="Field label" stack-label>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label>
         <q-icon slot="before" name="event" color="orange" />
 
         <template v-slot:control>
@@ -67,7 +68,7 @@
         </template>
       </q-field>
 
-      <q-field :dark="dark" label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots>
         <q-icon slot="before" name="event" />
 
         <template v-slot:control>
@@ -87,7 +88,7 @@
         <q-spinner slot="after" />
       </q-field>
 
-      <q-field :dark="dark" label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots>
         <template v-slot:control>
           <div tabindex="0">
             Field content
@@ -102,7 +103,7 @@
         </div>
       </q-field>
 
-      <q-field :dark="dark" label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots>
         <template v-slot:control>
           <div tabindex="0">
             Field content
@@ -113,7 +114,7 @@
         </div>
       </q-field>
 
-      <q-field :dark="dark" label="Field label" stack-label>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label>
         <template v-slot:control>
           <div tabindex="0">
             Field content
@@ -121,7 +122,7 @@
         </template>
       </q-field>
 
-      <q-field :dark="dark" label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots>
         <q-btn slot="before" flat round dense icon="event" />
 
         <template v-slot:control>
@@ -144,7 +145,7 @@
       <p class="caption">
         Item aligned test
       </p>
-      <q-field :dark="dark" item-aligned label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" item-aligned label="Field label" stack-label bottom-slots>
         <q-icon slot="before" name="event" />
 
         <template v-slot:control>
@@ -179,6 +180,7 @@ export default {
     return {
       dark: false,
       border: false,
+      dense: false,
       individualBorder: false
     }
   },
