@@ -86,7 +86,7 @@ export default Vue.extend({
 
   render (h) {
     const data = {
-      staticClass: 'q-item q-item-type relative-position row no-wrap',
+      staticClass: 'q-item q-item-type row no-wrap',
       class: this.classes,
       style: this.style
     }

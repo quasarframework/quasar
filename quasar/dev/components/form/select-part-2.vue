@@ -31,12 +31,19 @@
             label="Simple filter - lazy load options"
             :options="simpleFilterOptions"
             @filter="simpleFilterFn"
+            @focus="onFocus"
+            @blur="onBlur"
           >
             <q-item slot="no-option">
               <q-item-section class="text-grey">
                 No results
               </q-item-section>
             </q-item>
+
+            <q-icon slot="before" color="green" name="event" />
+            <q-icon slot="prepend" name="event" />
+            <q-icon slot="append" name="delete" />
+            <q-icon slot="after" color="green" name="delete" />
           </q-select>
 
           <q-select
@@ -47,12 +54,20 @@
             label="Simple filter - useInput"
             :options="simpleFilterInputOptions"
             @filter="simpleFilterInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
+            clearable
           >
             <q-item slot="no-option">
               <q-item-section class="text-grey">
                 No results
               </q-item-section>
             </q-item>
+
+            <q-icon slot="before" color="green" name="event" />
+            <q-icon slot="prepend" name="event" />
+            <q-icon slot="append" name="delete" />
+            <q-icon slot="after" color="green" name="delete" />
           </q-select>
 
           <q-select
@@ -66,6 +81,8 @@
             @new-value="createInputNewValue"
             :options="createInputOptions"
             @filter="createInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
           />
 
           <q-select
@@ -79,6 +96,8 @@
             new-value-mode="add"
             :options="createInputOptions"
             @filter="createInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
           />
 
           <q-select
@@ -92,6 +111,8 @@
             new-value-mode="add-unique"
             :options="createInputOptions"
             @filter="createInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
           />
 
           <q-select
@@ -105,6 +126,8 @@
             new-value-mode="toggle"
             :options="createInputOptions"
             @filter="createInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
           />
 
           <q-select
@@ -117,6 +140,8 @@
             @new-value="createInputNewValue"
             :options="createInputOptions"
             @filter="createInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
           />
 
           <q-select
@@ -129,6 +154,8 @@
             new-value-mode="add"
             :options="createInputOptions"
             @filter="createInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
           />
 
           <q-select
@@ -140,6 +167,8 @@
             input-debounce="0"
             label="Multiple - Create new values (no filter)"
             @new-value="createInputNewValue"
+            @focus="onFocus"
+            @blur="onBlur"
           />
 
           <q-select
@@ -150,6 +179,8 @@
             input-debounce="0"
             label="Single - Create new values (no filter)"
             @new-value="createInputNewValue"
+            @focus="onFocus"
+            @blur="onBlur"
           />
 
           <q-select
@@ -161,6 +192,8 @@
             label="Simple filter - hide selected + useInput"
             :options="simpleFilterInputOptions"
             @filter="simpleFilterInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
           >
             <q-item slot="no-option">
               <q-item-section class="text-grey">
@@ -177,6 +210,8 @@
             label="Simple filter - min 2 chars"
             :options="minFilterInputOptions"
             @filter="minFilterInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
           >
             <q-item slot="no-option">
               <q-item-section class="text-grey">
@@ -194,6 +229,8 @@
             label="Simple filter - selected slot"
             :options="chipFilterInputOptions"
             @filter="chipFilterInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
           >
             <q-item slot="no-option">
               <q-item-section class="text-grey">
@@ -212,6 +249,8 @@
             :options="delayedFilterInputOptions"
             @filter="delayedFilterInputFn"
             @filter-abort="delayedAbort"
+            @focus="onFocus"
+            @blur="onBlur"
           >
             <q-item slot="no-option">
               <q-item-section class="text-grey">
@@ -230,6 +269,8 @@
             :options="delayedFilterInputOptions"
             @filter="delayedFilterInputFn"
             @filter-abort="delayedAbort"
+            @focus="onFocus"
+            @blur="onBlur"
           >
             <template #loading>
               Click for menu
@@ -462,6 +503,13 @@ export default {
 
     onSubmit () {
       this.$q.notify('submitted')
+    },
+
+    onBlur (e) {
+      console.log('@blur', e)
+    },
+    onFocus (e) {
+      console.log('@focus', e)
     }
   },
 

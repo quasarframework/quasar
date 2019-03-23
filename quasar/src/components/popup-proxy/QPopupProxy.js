@@ -4,6 +4,7 @@ import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 
 import AnchorMixin from '../../mixins/anchor.js'
+import { prevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
@@ -55,7 +56,7 @@ export default Vue.extend({
         return
       }
 
-      evt !== void 0 && evt.preventDefault()
+      evt !== void 0 && prevent(evt)
 
       const breakpoint = parseInt(this.breakpoint, 10)
 

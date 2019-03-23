@@ -107,7 +107,7 @@ export default Vue.extend({
 
     return this.container === true
       ? h('div', {
-        staticClass: 'q-layout-container relative-position overflow-hidden'
+        staticClass: 'q-layout-container overflow-hidden'
       }, [
         h(QResizeObserver, {
           on: { resize: this.__onContainerResize }
