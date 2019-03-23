@@ -13,7 +13,10 @@ export default Vue.extend({
     icon: {
       type: String,
       required: true
-    }
+    },
+
+    to: [String, Object],
+    replace: Boolean
   },
 
   inject: {
@@ -34,14 +37,8 @@ export default Vue.extend({
   render (h) {
     return h(QBtn, {
       props: {
-        fabMini: true,
-        outline: this.outline,
-        push: this.push,
-        flat: this.flat,
-        color: this.color,
-        textColor: this.textColor,
-        glossy: this.glossy,
-        icon: this.icon
+        ...this.$props,
+        fabMini: true
       },
       on: {
         ...this.$listeners,

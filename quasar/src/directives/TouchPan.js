@@ -1,4 +1,4 @@
-import { position, leftClick, listenOpts } from '../utils/event.js'
+import { position, leftClick, listenOpts, prevent, stop } from '../utils/event.js'
 import { setObserver, removeObserver } from '../utils/touch-observer.js'
 import { clearSelection } from '../utils/selection.js'
 
@@ -89,12 +89,12 @@ export default {
 
     function handleEvent (evt, mouseEvent) {
       if (mouse && mouseEvent) {
-        binding.modifiers.mouseStop && evt.stopPropagation()
-        binding.modifiers.mousePrevent && evt.preventDefault()
+        binding.modifiers.mouseStop && stop(evt)
+        binding.modifiers.mousePrevent && prevent(evt)
       }
       else {
-        binding.modifiers.stop && evt.stopPropagation()
-        binding.modifiers.prevent && evt.preventDefault()
+        binding.modifiers.stop && stop(evt)
+        binding.modifiers.prevent && prevent(evt)
       }
     }
 

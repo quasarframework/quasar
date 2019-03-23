@@ -198,7 +198,7 @@
       <p class="caption">
         Make use of events
       </p>
-      <q-expansion-item class="shadow-1" style="border-radius: 30px" icon="explore" label="Counter" @show="startCounting" @hide="stopCounting">
+      <q-expansion-item class="shadow-1 overflow-hidden" style="border-radius: 30px" icon="explore" label="Counter" @show="startCounting" @hide="stopCounting">
         <q-card>
           <q-card-section>
             Counting: <q-chip dense color="secondary" text-color="white">

@@ -80,7 +80,7 @@ export default Vue.extend({
     },
 
     textColorClass () {
-      if (this.textColor) {
+      if (this.textColor !== void 0) {
         return `text-${this.textColor}`
       }
     },
@@ -296,7 +296,7 @@ export default Vue.extend({
           done: children => {
             this.lazy[key] = 'loaded'
             if (children) {
-              node.children = children
+              this.$set(node, 'children', children)
             }
             this.$nextTick(() => {
               const m = this.meta[key]
@@ -319,7 +319,7 @@ export default Vue.extend({
       let target = this.innerExpanded
       const emit = this.expanded !== void 0
 
-      if (emit) {
+      if (emit === true) {
         target = target.slice()
       }
 
@@ -355,7 +355,7 @@ export default Vue.extend({
         target = target.filter(k => k !== key)
       }
 
-      if (emit) {
+      if (emit === true) {
         this.$emit(`update:expanded`, target)
       }
       else {
@@ -373,7 +373,7 @@ export default Vue.extend({
       let target = this.innerTicked
       const emit = this.ticked !== void 0
 
-      if (emit) {
+      if (emit === true) {
         target = target.slice()
       }
 
@@ -385,7 +385,7 @@ export default Vue.extend({
         target = target.filter(k => !keys.includes(k))
       }
 
-      if (emit) {
+      if (emit === true) {
         this.$emit(`update:ticked`, target)
       }
     },
@@ -414,7 +414,7 @@ export default Vue.extend({
     },
 
     __getNodeMedia (h, node) {
-      if (node.icon) {
+      if (node.icon !== void 0) {
         return h(QIcon, {
           staticClass: `q-tree__icon q-mr-sm`,
           props: { name: node.icon, color: node.iconColor }
@@ -451,7 +451,7 @@ export default Vue.extend({
           ? this.__getSlotScope(node, meta, key)
           : null
 
-      if (body) {
+      if (body !== void 0) {
         body = h('div', { staticClass: 'q-tree__node-body relative-position' }, [
           h('div', { class: this.textColorClass }, [
             body(slotScope)
@@ -490,7 +490,7 @@ export default Vue.extend({
               props: { color: this.computedControlColor }
             })
             : (
-              isParent
+              isParent === true
                 ? h(QIcon, {
                   staticClass: 'q-tree__arrow q-mr-xs',
                   class: { 'q-tree__arrow--rotate': meta.expanded },
@@ -518,7 +518,7 @@ export default Vue.extend({
               on: {
                 keydown: stopAndPrevent,
                 input: v => {
-                  this.__onTickedClick(node, meta, v)
+                  this.__onTickedClick(meta, v)
                 }
               }
             })
@@ -537,7 +537,7 @@ export default Vue.extend({
           ])
         ]),
 
-        isParent
+        isParent === true
           ? h(QSlideTransition, {
             props: { duration: this.duration }
           }, [
@@ -587,7 +587,7 @@ export default Vue.extend({
       this.setExpanded(meta.key, !meta.expanded, node, meta)
     },
 
-    __onTickedClick (node, meta, state) {
+    __onTickedClick (meta, state) {
       if (meta.indeterminate && state) {
         state = false
       }
@@ -620,7 +620,7 @@ export default Vue.extend({
 
     return h(
       'div', {
-        staticClass: 'q-tree relative-position',
+        staticClass: 'q-tree',
         class: this.classes
       },
       children.length === 0
@@ -634,8 +634,6 @@ export default Vue.extend({
   },
 
   created () {
-    if (this.defaultExpandAll) {
-      this.expandAll()
-    }
+    this.defaultExpandAll === true && this.expandAll()
   }
 })

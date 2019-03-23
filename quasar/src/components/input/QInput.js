@@ -125,20 +125,6 @@ export default Vue.extend({
       }
     },
 
-    __onFocus (e) {
-      if (this.editable === true && this.focused === false) {
-        this.focused = true
-        this.$listeners.focus !== void 0 && this.$emit('focus', e)
-      }
-    },
-
-    __onBlur (e) {
-      if (this.focused === true) {
-        this.focused = false
-        this.$listeners.blur !== void 0 && this.$emit('blur', e)
-      }
-    },
-
     // textarea only
     __adjustHeight () {
       const inp = this.$refs.input
@@ -150,8 +136,8 @@ export default Vue.extend({
       const on = {
         ...this.$listeners,
         input: this.__onInput,
-        focus: this.__onFocus,
-        blur: this.__onBlur
+        focus: stop,
+        blur: stop
       }
 
       if (this.hasMask === true) {

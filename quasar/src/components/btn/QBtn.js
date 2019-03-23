@@ -80,7 +80,7 @@ export default Vue.extend({
     const
       inner = [].concat(slot(this, 'default')),
       data = {
-        staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
+        staticClass: 'q-btn inline q-btn-item non-selectable',
         class: this.classes,
         style: this.style,
         attrs: this.attrs
