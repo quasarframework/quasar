@@ -61,9 +61,11 @@ export default Vue.extend({
     },
 
     hasValue () {
-      return this.innerValue !== void 0 &&
-        this.innerValue !== null &&
-        ('' + this.innerValue).length > 0
+      const value = this.__getControl === void 0 ? this.value : this.innerValue
+
+      return value !== void 0 &&
+        value !== null &&
+        ('' + value).length > 0
     },
 
     floatingLabel () {

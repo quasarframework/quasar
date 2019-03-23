@@ -1,4 +1,4 @@
-import TouchSwipe from '../directives/TouchSwipe'
+import TouchSwipe from '../directives/TouchSwipe.js'
 import { stop } from '../utils/event.js'
 
 export const PanelParentMixin = {
