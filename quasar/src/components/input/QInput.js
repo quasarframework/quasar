@@ -4,6 +4,7 @@ import QField from '../field/QField.js'
 
 import MaskMixin from '../../mixins/mask.js'
 import debounce from '../../utils/debounce.js'
+import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QInput',
