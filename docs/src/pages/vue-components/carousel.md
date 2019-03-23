@@ -43,6 +43,9 @@ Don't use the property `navigation` with `thumbnails` as it supercedes and thumb
 ### Controls
 <doc-example title="Controls" file="QCarousel/Controls" />
 
+### Fullscreen
+<doc-example title="Fullscreen" file="QCarousel/Fullscreen" />
+
 ## QCarousel API
 <doc-api file="QCarousel" />
 

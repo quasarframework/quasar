@@ -4,6 +4,7 @@ import QField from '../field/QField.js'
 
 import MaskMixin from '../../mixins/mask.js'
 import debounce from '../../utils/debounce.js'
+import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QInput',
@@ -72,15 +73,6 @@ export default Vue.extend({
     fieldClass () {
       return `q-${this.isTextarea === true ? 'textarea' : 'input'}` +
         (this.autogrow === true ? ' q-textarea--autogrow' : '')
-    },
-
-    computedCounter () {
-      if (this.counter !== false) {
-        const len = typeof this.value === 'string' || typeof this.value === 'number'
-          ? ('' + this.value).length
-          : 0
-        return len + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
-      }
     }
   },
 

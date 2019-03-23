@@ -61,9 +61,20 @@ export default Vue.extend({
     },
 
     hasValue () {
-      return this.innerValue !== void 0 &&
-        this.innerValue !== null &&
-        ('' + this.innerValue).length > 0
+      const value = this.__getControl === void 0 ? this.value : this.innerValue
+
+      return value !== void 0 &&
+        value !== null &&
+        ('' + value).length > 0
+    },
+
+    computedCounter () {
+      if (this.counter !== false) {
+        const len = typeof this.value === 'string' || typeof this.value === 'number'
+          ? ('' + this.value).length
+          : 0
+        return len + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
+      }
     },
 
     floatingLabel () {
@@ -98,7 +109,7 @@ export default Vue.extend({
         'q-field--item-aligned q-item-type': this.itemAligned,
         'q-field--dark': this.dark,
 
-        'q-field--auto-height': this.__getControl,
+        'q-field--auto-height': this.__getControl === void 0,
 
         'q-field--with-bottom': this.hasBottom,
         'q-field--error': this.hasError,

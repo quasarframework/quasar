@@ -161,11 +161,25 @@
       arrows
       thumbnails
       infinite
+      :fullscreen.sync="full"
     >
       <q-carousel-slide :name="0" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
       <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
       <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
       <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
+
+      <template v-slot:control>
+        <q-carousel-control
+          position="top-right"
+          :offset="[38, 38]"
+        >
+          <q-btn
+            push round dense color="white" text-color="primary"
+            :icon="full ? 'fullscreen_exit' : 'fullscreen'"
+            @click="full = !full"
+          />
+        </q-carousel-control>
+      </template>
     </q-carousel>
 
     <p class="caption">
@@ -203,6 +217,7 @@
 export default {
   data: () => ({
     fullscreen: false,
+    full: false,
     slide: 0,
     slide2: 1,
     slide3: 1,
