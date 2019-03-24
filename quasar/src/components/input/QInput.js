@@ -21,7 +21,6 @@ export default Vue.extend({
 
     debounce: [String, Number],
 
-    counter: Boolean,
     maxlength: [Number, String],
     autogrow: Boolean, // makes a textarea
     autofocus: Boolean,

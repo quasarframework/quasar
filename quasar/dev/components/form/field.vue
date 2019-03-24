@@ -10,7 +10,7 @@
 
       <h1>Field wrapper tests</h1>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots>
+      <q-field value="We count this" :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots counter>
         <q-icon slot="before" name="event" />
 
         <template v-slot:control>
@@ -21,10 +21,6 @@
 
         <div slot="hint">
           Field message
-        </div>
-
-        <div slot="counter">
-          3/12
         </div>
 
         <q-icon slot="after" name="search" />
