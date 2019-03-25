@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-btn push color="purple" label="Handles right-click">
-      <q-popup-proxy context-menu>
+      <q-popup-proxy touch-position context-menu>
         <q-banner>
           <template v-slot:avatar>
             <q-icon name="signal_wifi_off" color="primary" />

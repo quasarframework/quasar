@@ -45,6 +45,8 @@ export default Vue.extend({
     },
     noParentEvent: Boolean,
 
+    touchPositionEvent: {},
+
     touchPosition: Boolean,
     persistent: Boolean,
     autoClose: Boolean,
@@ -120,8 +122,8 @@ export default Vue.extend({
       this.timer = setTimeout(() => {
         const { top, left } = this.anchorEl.getBoundingClientRect()
 
-        if (this.touchPosition || this.contextMenu) {
-          const pos = position(evt)
+        if (this.touchPosition) {
+          const pos = position(evt || this.touchPositionEvent)
           this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
         }
         else {

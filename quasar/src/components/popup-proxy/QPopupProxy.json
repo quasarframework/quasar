@@ -14,6 +14,11 @@
       "examples": [ 992, ":breakpoint=\"1024\"" ]
     },
 
+    "touch-position": {
+      "type": "Boolean",
+      "desc": "Allows for the target position to be set by the mouse position, when in menu mode and the target of the menu is either clicked or touched"
+    },
+
     "disable": {
       "extends": "disable"
     }
