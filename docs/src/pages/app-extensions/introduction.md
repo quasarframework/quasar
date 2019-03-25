@@ -15,8 +15,8 @@ Because of their deep integration with Quasar, app extensions will only run in t
  
 1. Enhance CLI behavior with new commands
 2. Make a Quasar UI plug-in
-3. Install a accompanying application
-4. Create and share a custom components
+3. Install an accompanying application
+4. Create and share a custom component
 5. Create and share added features to the framework or other applications
 6. Build, launch and control an API server
 7. Hook, combine and extend quasar core components
@@ -26,7 +26,6 @@ Because of their deep integration with Quasar, app extensions will only run in t
 
 ## Anatomy of App Extensions
 App Extensions are installed, executed and can be uninstalled. The following guide discusses this in an abstract way. For details about individual extensions and how to work with them, please consult their respective repositories.
-
 
 ### Installing an App Extension
 ```
