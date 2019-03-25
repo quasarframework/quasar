@@ -655,6 +655,10 @@ const components = [
         path: 'select'
       },
       {
+        name: 'Form',
+        path: 'form'
+      },
+      {
         name: 'Radio',
         path: 'radio'
       },
