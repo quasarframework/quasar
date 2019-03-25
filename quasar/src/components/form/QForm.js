@@ -18,6 +18,9 @@ export default Vue.extend({
       this.validateIndex++
 
       const components = getAllChildren(this)
+      const emit = res => {
+        this.$emit('validation-' + (res === true ? 'success' : 'error'))
+      }
 
       for (let i = 0; i < components.length; i++) {
         const comp = components[i]
@@ -29,13 +32,15 @@ export default Vue.extend({
             promises.push(valid)
           }
           else if (valid !== true) {
-            return Promise.resolve([ false ])
+            emit(false)
+            return Promise.resolve(false)
           }
         }
       }
 
       if (promises.length === 0) {
-        return Promise.resolve([ true ])
+        emit(true)
+        return Promise.resolve(true)
       }
 
       const index = this.validateIndex
@@ -43,11 +48,13 @@ export default Vue.extend({
       return Promise.all(promises).then(
         res => {
           if (index === this.validateIndex) {
-            return res
+            emit(res[0])
+            return res[0]
           }
         },
         () => {
           if (index === this.validateIndex) {
+            emit(false)
             return false
           }
         }
@@ -69,12 +76,7 @@ export default Vue.extend({
       evt !== void 0 && stopAndPrevent(evt)
 
       this.validate().then(val => {
-        if (val[0] === true) {
-          this.$emit('submit')
-        }
-        else if (val[0] === false) {
-          this.$emit('validation-error')
-        }
+        val === true && this.$emit('submit')
       })
     },
 

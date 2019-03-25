@@ -9,6 +9,7 @@
       ref="form"
       @submit="onSubmit"
       @reset="onReset"
+      @validation-success="onValidationSuccess"
       @validation-error="onValidationError"
       class="q-gutter-md"
     >
@@ -87,6 +88,10 @@ export default {
       this.native = null
 
       console.log('@reset')
+    },
+
+    onValidationSuccess () {
+      console.log('@validation-success')
     },
 
     onValidationError () {

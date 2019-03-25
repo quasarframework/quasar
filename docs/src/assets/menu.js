@@ -656,6 +656,7 @@ const components = [
       },
       {
         name: 'Form',
+        badge: 'new',
         path: 'form'
       },
       {
@@ -696,6 +697,7 @@ const components = [
       },
       {
         name: 'Field',
+        badge: 'new',
         path: 'field'
       }
     ]
