@@ -29,6 +29,10 @@ export default {
       }
 
       this.validate(v)
+    },
+
+    focused (focused) {
+      focused === false && this.__triggerValidation()
     }
   },
 
@@ -46,11 +50,11 @@ export default {
 
   mounted () {
     this.validateIndex = 0
-    this.$el.addEventListener('focusout', this.__triggerValidation)
+    this.focused === void 0 && this.$el.addEventListener('focusout', this.__triggerValidation)
   },
 
   beforeDestroy () {
-    this.$el.removeEventListener('focusout', this.__triggerValidation)
+    this.focused === void 0 && this.$el.removeEventListener('focusout', this.__triggerValidation)
   },
 
   methods: {
@@ -62,9 +66,15 @@ export default {
       this.innerErrorMessage = void 0
     },
 
+    /*
+     * Return value
+     *   - true (validation succeeded)
+     *   - false (validation failed)
+     *   - Promise (pending async validation)
+     */
     validate (val = this.value) {
       if (!this.rules || this.rules.length === 0) {
-        return
+        return true
       }
 
       this.validateIndex++
@@ -103,7 +113,7 @@ export default {
 
         if (res === false || typeof res === 'string') {
           update(true, res)
-          return
+          return false
         }
         else if (res !== true && res !== void 0) {
           promises.push(res)
@@ -112,7 +122,7 @@ export default {
 
       if (promises.length === 0) {
         update(false)
-        return
+        return true
       }
 
       if (this.innerLoading !== true) {
@@ -121,22 +131,26 @@ export default {
 
       const index = this.validateIndex
 
-      Promise.all(promises).then(
+      return Promise.all(promises).then(
         res => {
           if (index === this.validateIndex) {
             if (res === void 0 || Array.isArray(res) === false || res.length === 0) {
               update(false)
+              return true
             }
             else {
               const msg = res.find(r => r === false || typeof r === 'string')
               update(msg !== void 0, msg)
+              return msg === void 0
             }
           }
+          return true
         },
         (e) => {
           if (index === this.validateIndex) {
             console.error(e)
             update(true)
+            return false
           }
         }
       )
