@@ -447,6 +447,7 @@ export default {
         prefix: this.prefix,
         suffix: this.suffix,
         dense: this.dense,
+        clearable: true,
         square: this.square
       }
 
@@ -462,11 +463,11 @@ export default {
     }
   },
   methods: {
-    onBlur () {
-      console.log('@blur')
+    onBlur (e) {
+      console.log('@blur', e)
     },
-    onFocus () {
-      console.log('@focus')
+    onFocus (e) {
+      console.log('@focus', e)
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))

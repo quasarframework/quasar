@@ -1,4 +1,5 @@
 .q-btn
+  position relative
   outline 0
   border 0
   vertical-align middle
@@ -60,9 +61,8 @@
     &:active,
     &.q-btn--active
       &:not(.disabled)
-        box-shadow none
         transform translate3d(0, 3px, 0)
-        border-bottom-color transparent
+        border-bottom-width 0
     .q-focus-helper, .q-ripple-container
       height auto
       bottom -3px
@@ -99,6 +99,8 @@
   &--fab, &--fab-mini
     .q-icon
       font-size 24px
+      width 100%
+      height 100%
   &--fab
     height 56px
     width 56px

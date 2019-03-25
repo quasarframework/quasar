@@ -80,6 +80,9 @@ export default {
     icon: 'mdi-plus',
     activeIcon: 'mdi-close'
   },
+  field: {
+    clear: 'mdi-close'
+  },
   pagination: {
     first: 'mdi-page-first',
     prev: 'mdi-chevron-left',

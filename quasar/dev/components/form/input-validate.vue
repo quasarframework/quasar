@@ -78,37 +78,71 @@
       />
 
       <q-field
-        class="q-textarea"
         v-bind="{[type]: true}"
         label="Slider - >= 10, Lazy"
+        stack-label
         :value="num"
         :rules="[
           val => val >= 10 || 'Select at least 10',
         ]"
         lazy-rules
       >
-        <div class="q-field__native row items-center">
+        <template v-slot:control>
           <q-slider
-            class="q-mt-xl"
+            class="q-mt-xl q-mx-md"
             v-model="num"
             :min="0"
             :max="50"
             label-always
           />
-        </div>
+        </template>
       </q-field>
 
       <q-field
-        class="q-textarea"
+        v-bind="{[type]: true}"
+        label="Date - required, Lazy"
+        stack-label
+        :value="date"
+        :rules="[
+          val => !!val || '* Required',
+        ]"
+        lazy-rules
+      >
+        <template v-slot:control>
+          <q-date
+            v-model="date"
+          />
+        </template>
+      </q-field>
+
+      <q-field
+        v-bind="{[type]: true}"
+        label="Time - required, Lazy"
+        stack-label
+        :value="time"
+        :rules="[
+          val => !!val || '* Required',
+        ]"
+        lazy-rules
+      >
+        <template v-slot:control>
+          <q-time
+            v-model="time"
+          />
+        </template>
+      </q-field>
+
+      <q-field
         v-bind="{[type]: true}"
         label="Knob - >= 10, Lazy"
+        stack-label
         :value="num"
         :rules="[
           val => val >= 10 || 'Select at least 10',
         ]"
         lazy-rules
       >
-        <div class="q-field__native row items-center">
+        <template v-slot:control>
           <q-knob
             class="q-mt-md"
             v-model="num"
@@ -121,7 +155,7 @@
           >
             {{ num }}
           </q-knob>
-        </div>
+        </template>
       </q-field>
 
       <q-input
@@ -298,7 +332,9 @@ export default {
       stringOptions: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
       ],
-      num: 0
+      num: 0,
+      date: '',
+      time: ''
     }
 
     for (let i = 1; i <= n; i++) {

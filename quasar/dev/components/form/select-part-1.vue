@@ -28,7 +28,10 @@
         v-model="stringSingle"
         :options="stringOptions"
         label="Single"
-      />
+      >
+        <q-icon slot="prepend" name="event" />
+        <q-icon slot="append" name="search" />
+      </q-select>
 
       <div>{{ stringMultiple }}</div>
       <q-select
@@ -196,7 +199,7 @@
             v-on="scope.itemEvents"
           >
             <q-item-section avatar>
-              <q-icon :name="scope.opt.icon" />
+              <q-icon tabindex="0" :name="scope.opt.icon" />
             </q-item-section>
             <q-item-section>
               <q-item-label v-html="scope.opt.label" />
@@ -223,7 +226,7 @@
             v-on="scope.itemEvents"
           >
             <q-item-section avatar>
-              <q-icon :name="scope.opt.icon" />
+              <q-icon tabindex="0" :name="scope.opt.icon" />
             </q-item-section>
             <q-item-section>
               <q-item-label v-html="scope.opt.label" />
@@ -638,7 +641,8 @@ export default {
         dark: this.dark,
         optionsDense: this.optionsDense,
         optionsDark: this.optionsDark,
-        expandBesides: this.expandBesides
+        expandBesides: this.expandBesides,
+        clearable: true
       }
     },
 

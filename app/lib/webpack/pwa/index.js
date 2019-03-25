@@ -51,7 +51,7 @@ module.exports = function (chain, cfg) {
       if (!opts.runtimeCaching.find(entry => entry.urlPattern === '/')) {
         opts.runtimeCaching.unshift({
           urlPattern: '/',
-          handler: 'networkFirst'
+          handler: 'NetworkFirst'
         })
       }
     }
@@ -69,7 +69,7 @@ module.exports = function (chain, cfg) {
       opts.runtimeCaching = opts.runtimeCaching || []
       opts.runtimeCaching.push({
         urlPattern: /^http/,
-        handler: 'networkFirst'
+        handler: 'NetworkFirst'
       })
     }
   }

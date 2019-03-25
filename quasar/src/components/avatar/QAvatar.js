@@ -52,7 +52,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-avatar relative-position',
+      staticClass: 'q-avatar',
       style: this.style,
       on: this.$listeners
     }, [

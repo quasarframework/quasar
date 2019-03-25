@@ -53,6 +53,16 @@
       "desc": "Signals the user a process is in progress by displaying a spinner; Spinner can be customized by using the 'loading' slot."
     },
 
+    "clearable": {
+      "type": "Boolean",
+      "desc": "Appends clearable icon when a value (not undefined or null) is set; When clicked, model becomes null"
+    },
+
+    "clear-icon": {
+      "type": "Boolean",
+      "desc": "Custom icon to use for the clear button when using along with 'clearable' prop"
+    },
+
     "filled": {
       "type": "Boolean",
       "desc": "Use 'filled' design for the field"
@@ -76,6 +86,11 @@
     "bottom-slots": {
       "type": "Boolean",
       "desc": "Enables bottom slots ('error', 'hint', 'counter')"
+    },
+
+    "counter": {
+      "type": "Boolean",
+      "desc": "Show an automatic counter on bottom right"
     },
 
     "rounded": {

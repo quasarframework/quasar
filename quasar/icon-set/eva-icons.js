@@ -80,6 +80,9 @@ export default {
     icon: 'eva-plus-outline',
     activeIcon: 'eva-close'
   },
+  field: {
+    clear: 'eva-close'
+  },
   pagination: {
     first: 'eva-arrowhead-left-outline',
     prev: 'eva-arrow-ios-back-outline',

@@ -4,20 +4,35 @@ const
 
 const
   appPaths = require('./app-paths'),
-  log = require('./helpers/logger')('app:dev-server')
+  logger = require('./helpers/logger')
+  log = logger('app:dev-server'),
+  warn = logger('app:dev-server', 'red')
 
 let alreadyNotified = false
 
 function openBrowser (url, opts) {
   const opn = require('opn')
 
+  const openDefault = () => {
+    log('Opening default browser at ' + url)
+    log()
+    opn(url).catch(() => {
+      warn(`⚠️  Failed to open default browser`)
+      warn()
+    })
+  }
+
   if (opts) {
     log('Opening browser at ' + url + ' with options: ' + opts)
-    opn(url, { app: opts })
+    log()
+    opn(url, { app: opts }).catch(() => {
+      warn(`⚠️  Failed to open specific browser`)
+      warn()
+      openDefault()
+    })
   }
   else {
-    log('Opening default browser at ' + url)
-    opn(url)
+    openDefault()
   }
 }
 

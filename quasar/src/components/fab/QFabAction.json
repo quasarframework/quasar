@@ -35,6 +35,20 @@
     "glossy": {
       "type": "Boolean",
       "desc": "Apply the glossy effect over the button"
+    },
+
+    "to": {
+      "type": [ "String", "Object" ],
+      "desc": "Equivalent to Vue Router <router-link> 'to' property",
+      "examples": [
+        "/home/dashboard",
+        ":to=\"{ name: 'my-route-name' }\""
+      ]
+    },
+
+    "replace": {
+      "type": "Boolean",
+      "desc": "Equivalent to Vue Router <router-link> 'replace' property"
     }
   },
 

@@ -39,6 +39,13 @@
 
         <q-item clickable v-ripple>
           <q-item-section avatar>
+            <q-icon color="primary" name="img:https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg" />
+          </q-item-section>
+          <q-item-section>List item</q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
             <q-icon name="signal_wifi_off" />
           </q-item-section>
           <q-item-section>List item</q-item-section>

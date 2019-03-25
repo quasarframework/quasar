@@ -79,11 +79,6 @@
       "extends": "icon"
     },
 
-    "counter": {
-      "type": "Boolean",
-      "desc": "Show a counter of selected options on bottom right side"
-    },
-
     "max-values": {
       "type": [ "Number", "String" ],
       "desc": "Allow a maximum number of selections that the user can do",
