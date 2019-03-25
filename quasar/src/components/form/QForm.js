@@ -1,55 +1,97 @@
 import Vue from 'vue'
-import slot from 'quasar/src/utils/slot.js'
+
+import { stopAndPrevent } from '../../utils/event.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QForm',
 
+  mounted () {
+    this.validateIndex = 0
+  },
+
   methods: {
     validate () {
-      let value = true
+      const promises = []
+
+      this.validateIndex++
+
       for (let i = 0; i < this.$children.length; ++i) {
-        const component = this.$children[i]
-        if ('validate' in component && typeof component.validate === 'function') {
-          if (!component.validate()) {
-            value = false
+        const comp = this.$children[i]
+
+        if (typeof comp.validate === 'function') {
+          const valid = comp.validate()
+
+          if (typeof valid.then === 'function') {
+            promises.push(valid)
+          }
+          else if (valid !== true) {
+            return false
           }
         }
       }
-      return value
+
+      if (promises.length === 0) {
+        return true
+      }
+
+      const index = this.validateIndex
+
+      return Promise.all(promises).then(
+        res => {
+          if (index === this.validateIndex) {
+            return res
+          }
+        },
+        () => {
+          if (index === this.validateIndex) {
+            return false
+          }
+        }
+      )
     },
+
     resetValidation () {
+      this.validateIndex++
+
       for (let i = 0; i < this.$children.length; ++i) {
-        const component = this.$children[i]
-        if ('resetValidation' in component && typeof component.resetValidation === 'function') {
-          component.resetValidation()
+        const comp = this.$children[i]
+        if (typeof comp.resetValidation === 'function') {
+          comp.$emit('input', null)
+          this.$nextTick(() => {
+            comp.resetValidation()
+          })
         }
       }
     },
-    __onSubmit (event) {
-      // Abort if the element emitting the event is not
-      // the element the event is bound to
-      if (event.target !== event.currentTarget) return
-      // Stop event propagation
-      event.stopPropagation()
-      // Prevent the default handler for this element
-      event.preventDefault()
-      if (this.validate()) {
-        this.$emit('submit')
-      } else {
-        this.$emit('error')
+
+    submit (evt) {
+      evt !== void 0 && stopAndPrevent(evt)
+
+      const validate = this.validate()
+
+      const update = val => {
+        if (val === true) {
+          this.$emit('submit')
+        }
+        else if (val === false) {
+          this.$emit('validation-error')
+        }
+      }
+
+      if (typeof validate.then !== 'function') {
+        update(validate)
+      }
+      else {
+        validate.then(val => {
+          update(val[0])
+        })
       }
     },
-    __onReset (event) {
-      // Abort if the element emitting the event is not
-      // the element the event is bound to
-      if (event.target !== event.currentTarget) return
-      // Stop event propagation
-      event.stopPropagation()
-      // Prevent the default handler for this element
-      event.preventDefault()
-      if (this.resetValidation()) {
-        this.$emit('reset')
-      }
+
+    reset () {
+      this.resetValidation()
+      this.$emit('reset')
     }
   },
 
@@ -57,10 +99,10 @@ export default Vue.extend({
     return h('form', {
       staticClass: 'q-form',
       on: {
-        submit: this.__onSubmit,
-        reset: this.__onReset
+        ...this.$listeners,
+        submit: this.submit,
+        reset: this.reset
       }
-    }, slot(this, "default"))
+    }, slot(this, 'default'))
   }
 })
-
