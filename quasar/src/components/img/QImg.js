@@ -200,7 +200,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-img relative-position overflow-hidden',
+      staticClass: 'q-img overflow-hidden',
       attrs: this.alt !== void 0 ? {
         role: 'img',
         'aria-label': this.alt

@@ -1,0 +1,9 @@
+{
+  "mixins": [ "components/field/__QField" ],
+
+  "slots": {
+    "control": {
+      "desc": "Slot for controls; Suggestion QSlider, QRange, QKnob, ..."
+    }
+  }
+}

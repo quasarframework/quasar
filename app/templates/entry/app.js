@@ -9,6 +9,7 @@
  *
  * Boot files are your "main.js"
  **/
+import Vue from 'vue'
 import './import-quasar.js'
 
 <% if (ctx.mode.ssr) { %>
@@ -26,11 +27,11 @@ export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // create store and router instances
   <% if (store) { %>
   const store = typeof createStore === 'function'
-    ? createStore(<%= ctx.mode.ssr ? '{ ssrContext }' : '' %>)
+    ? createStore({Vue<%= ctx.mode.ssr ? ', ssrContext' : '' %>})
     : createStore
   <% } %>
   const router = typeof createRouter === 'function'
-    ? createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (store ? ', ' : '') : '' %><%= store ? 'store' : '' %>})
+    ? createRouter({Vue, <%= ctx.mode.ssr ? 'ssrContext' + (store ? ', ' : '') : '' %><%= store ? 'store' : '' %>})
     : createRouter
   <% if (store) { %>
   // make router instance available in store

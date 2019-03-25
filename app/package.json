@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app",
-  "version": "1.0.0-beta.12",
+  "version": "1.0.0-beta.13",
   "description": "Quasar Framework App CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -42,10 +42,10 @@
     "babel-loader": "8.0.5",
     "babel-plugin-transform-imports": "1.5.1",
     "chalk": "2.4.2",
-    "chokidar": "2.1.2",
+    "chokidar": "2.1.5",
     "ci-info": "2.0.0",
     "compression-webpack-plugin": "2.0.0",
-    "copy-webpack-plugin": "5.0.1",
+    "copy-webpack-plugin": "5.0.2",
     "cross-spawn": "6.0.5",
     "css-loader": "2.1.1",
     "cssnano": "4.1.10",
@@ -94,7 +94,7 @@
     "vuex": "3.1.0",
     "webpack": "4.29.6",
     "webpack-bundle-analyzer": "3.1.0",
-    "webpack-chain": "5.2.2",
+    "webpack-chain": "5.2.3",
     "webpack-dev-server": "3.2.1",
     "webpack-merge": "4.2.1",
     "webpack-node-externals": "1.7.2",

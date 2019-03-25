@@ -37,7 +37,7 @@ export default Vue.extend({
       this.$emit('click', e, go)
       this.hasRouterLink === true && e.navigate !== false && go()
 
-      e !== void 0 && e.qKeyEvent !== true && this.$el.blur()
+      e !== void 0 && e.qKeyEvent !== true && this.$refs.blurTarget.focus()
     },
 
     __onKeydown (e) {
@@ -80,7 +80,7 @@ export default Vue.extend({
     const
       inner = [].concat(slot(this, 'default')),
       data = {
-        staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
+        staticClass: 'q-btn inline q-btn-item non-selectable',
         class: this.classes,
         style: this.style,
         attrs: this.attrs
@@ -126,7 +126,11 @@ export default Vue.extend({
     }
 
     return h(this.isLink ? 'a' : 'button', data, [
-      h('div', { staticClass: 'q-focus-helper' }),
+      h('div', {
+        staticClass: 'q-focus-helper',
+        ref: 'blurTarget',
+        attrs: { tabindex: -1 }
+      }),
 
       this.loading === true && this.percentage !== void 0
         ? h('div', {

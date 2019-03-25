@@ -22,6 +22,8 @@ export default Vue.extend({
     color: String,
     size: String,
 
+    noReset: Boolean,
+
     readonly: Boolean,
     disable: Boolean
   },
@@ -53,8 +55,11 @@ export default Vue.extend({
   methods: {
     __set (value) {
       if (this.editable === true) {
-        const model = between(parseInt(value, 10), 1, parseInt(this.max, 10))
-        this.$emit('input', this.value === model ? 0 : model)
+        const
+          model = between(parseInt(value, 10), 1, parseInt(this.max, 10)),
+          newVal = this.noReset !== true && this.value === model ? 0 : model
+
+        newVal !== this.value && this.$emit('input', newVal)
         this.mouseModel = 0
       }
     },

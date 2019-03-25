@@ -51,6 +51,24 @@ let routes = [
           { path: ':id/a', name: 'ta' },
           { path: ':id/b', name: 'tb' }
         ]
+      },
+      {
+        name: 'r',
+        path: 'r',
+        redirect: { name: 'r.1' },
+        children: [
+          {
+            name: 'r.1',
+            path: '1',
+            children: [
+              { name: 'r.1.1', path: '1' },
+              { name: 'r.1.2', path: '2', redirect: { name: 'r' } },
+              { name: 'r.1.3', path: '3', redirect: { name: 'r.1.1' } }
+            ]
+          },
+          { name: 'r.2', path: '2' },
+          { name: 'r.3', path: '3', redirect: { name: 'ta', params: { id: 2 } } }
+        ]
       }
     ]
   },

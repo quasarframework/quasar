@@ -8,6 +8,7 @@ import QList from '../list/QList.js'
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
 
+import { prevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 function run (e, btn, vm) {
@@ -253,7 +254,7 @@ export function getLinkEditor (h, vm) {
           keydown: event => {
             switch (event.keyCode) {
               case 13: // ENTER key
-                event.preventDefault()
+                prevent(event)
                 return updateLink()
               case 27: // ESCAPE key
                 vm.caret.restore()

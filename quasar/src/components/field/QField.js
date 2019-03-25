@@ -38,6 +38,8 @@ export default Vue.extend({
     dense: Boolean,
     itemAligned: Boolean,
 
+    counter: Boolean,
+
     clearable: Boolean,
     clearIcon: String,
 
@@ -61,9 +63,20 @@ export default Vue.extend({
     },
 
     hasValue () {
-      return this.innerValue !== void 0 &&
-        this.innerValue !== null &&
-        ('' + this.innerValue).length > 0
+      const value = this.__getControl === void 0 ? this.value : this.innerValue
+
+      return value !== void 0 &&
+        value !== null &&
+        ('' + value).length > 0
+    },
+
+    computedCounter () {
+      if (this.counter !== false) {
+        const len = typeof this.value === 'string' || typeof this.value === 'number'
+          ? ('' + this.value).length
+          : 0
+        return len + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
+      }
     },
 
     floatingLabel () {
@@ -97,6 +110,8 @@ export default Vue.extend({
         'q-field--dense': this.dense,
         'q-field--item-aligned q-item-type': this.itemAligned,
         'q-field--dark': this.dark,
+
+        'q-field--auto-height': this.__getControl === void 0,
 
         'q-field--with-bottom': this.hasBottom,
         'q-field--error': this.hasError,
@@ -204,9 +219,18 @@ export default Vue.extend({
         }, [ this.prefix ])
       )
 
-      this.__getControl !== void 0 && node.push(
-        this.__getControl(h)
-      )
+      if (this.__getControl !== void 0) {
+        node.push(
+          this.__getControl(h)
+        )
+      }
+      else if (this.$scopedSlots.control !== void 0) {
+        node.push(
+          h('div', {
+            staticClass: 'q-field__native row'
+          }, this.$scopedSlots.control())
+        )
+      }
 
       this.label !== void 0 && node.push(
         h('div', {
@@ -276,6 +300,30 @@ export default Vue.extend({
       }, content)
     },
 
+    __onControlFocusin (e) {
+      if (this.editable === true && this.focused === false) {
+        this.focused = true
+        this.$listeners.focus !== void 0 && this.$emit('focus', e)
+      }
+    },
+
+    __onControlFocusout (e) {
+      setTimeout(() => {
+        if (this.$refs === void 0 || this.$refs.control === void 0) {
+          return
+        }
+
+        if (this.$refs.control.contains(document.activeElement) !== false) {
+          return
+        }
+
+        if (this.focused === true) {
+          this.focused = false
+          this.$listeners.blur !== void 0 && this.$emit('blur', e)
+        }
+      })
+    },
+
     __clearValue (e) {
       stop(e)
       this.$emit('input', null)
@@ -308,5 +356,14 @@ export default Vue.extend({
         staticClass: 'q-field__after q-field__marginal row no-wrap items-center'
       }, this.$scopedSlots.after()) : null
     ])
+  },
+
+  created () {
+    this.controlEvents = this.__getControlEvents !== void 0
+      ? this.__getControlEvents()
+      : {
+        focusin: this.__onControlFocusin,
+        focusout: this.__onControlFocusout
+      }
   }
 })

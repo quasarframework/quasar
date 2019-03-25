@@ -30,6 +30,11 @@ const gettingStarted = [
     path: 'playground'
   },
   {
+    name: 'Release notes',
+    badge: 'new',
+    path: 'release-notes'
+  },
+  {
     name: 'Roadmap',
     path: 'roadmap'
   },
@@ -684,6 +689,10 @@ const components = [
       {
         name: 'Date Picker',
         path: 'date'
+      },
+      {
+        name: 'Field',
+        path: 'field'
       }
     ]
   },

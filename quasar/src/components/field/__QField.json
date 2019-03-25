@@ -88,6 +88,11 @@
       "desc": "Enables bottom slots ('error', 'hint', 'counter')"
     },
 
+    "counter": {
+      "type": "Boolean",
+      "desc": "Show an automatic counter on bottom right"
+    },
+
     "rounded": {
       "extends": "rounded"
     },

@@ -43,7 +43,7 @@ export default {
   },
   editor: {
     bold: 'format_bold',
-    italic: 'ti-italic',
+    italic: 'ti-Italic',
     strikethrough: 'strikethrough_s',
     underline: 'ti-underline',
     unorderedList: 'ti-list',

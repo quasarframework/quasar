@@ -9,6 +9,7 @@
         :options="options"
         label="Standard"
         color="teal"
+        clearable
         options-selected-class="text-deep-orange"
       >
         <template v-slot:option="scope">
@@ -24,10 +25,6 @@
               <q-item-label caption>{{ scope.opt.description }}</q-item-label>
             </q-item-section>
           </q-item>
-        </template>
-
-        <template v-slot:append>
-          <q-icon name="clear" @click.stop="model = null" />
         </template>
       </q-select>
     </div>
