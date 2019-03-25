@@ -29,13 +29,13 @@ export default Vue.extend({
             promises.push(valid)
           }
           else if (valid !== true) {
-            return false
+            return Promise.resolve([ false ])
           }
         }
       }
 
       if (promises.length === 0) {
-        return true
+        return Promise.resolve([ true ])
       }
 
       const index = this.validateIndex
@@ -68,25 +68,14 @@ export default Vue.extend({
     submit (evt) {
       evt !== void 0 && stopAndPrevent(evt)
 
-      const validate = this.validate()
-
-      const update = val => {
-        if (val === true) {
+      this.validate().then(val => {
+        if (val[0] === true) {
           this.$emit('submit')
         }
-        else if (val === false) {
+        else if (val[0] === false) {
           this.$emit('validation-error')
         }
-      }
-
-      if (typeof validate.then !== 'function') {
-        update(validate)
-      }
-      else {
-        validate.then(val => {
-          update(val[0])
-        })
-      }
+      })
     },
 
     reset () {
