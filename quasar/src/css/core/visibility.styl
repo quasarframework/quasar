@@ -131,6 +131,11 @@ body.desktop
     &:after
       background white
 
+    &--rounded
+      border-radius $generic-border-radius
+    &--round
+      border-radius 50%
+
   .q-focusable, .q-manual-focusable, .q-hoverable
     outline 0
 
@@ -147,8 +152,3 @@ body.desktop
     > .q-focus-helper
       opacity .22
 
-.q-focus-helper
-  &--rounded
-    border-radius $generic-border-radius
-  &--round
-    border-radius 50%

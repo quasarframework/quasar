@@ -41,7 +41,7 @@ export default Vue.extend({
     },
 
     __onKeydown (e) {
-      if ([13, 32].includes(e.keyCode)) {
+      if ([13, 32].includes(e.keyCode) === true) {
         stopAndPrevent(e)
         if (this.pressed !== true) {
           this.pressed = true
@@ -54,7 +54,7 @@ export default Vue.extend({
     },
 
     __onKeyup (e) {
-      if ([13, 32].includes(e.keyCode)) {
+      if ([13, 32].includes(e.keyCode) === true) {
         stopAndPrevent(e)
         this.__onKeyupAbort()
         const evt = new MouseEvent('click', { ...e })

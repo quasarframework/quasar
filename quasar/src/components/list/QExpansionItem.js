@@ -82,14 +82,22 @@ export default Vue.extend({
   },
 
   methods: {
-    __toggleItem (e) {
-      !this.hasRouterLink && this.toggle(e)
+    __toggleItemKeyboard (e) {
+      e.keyCode === 13 && this.__toggleItem(e)
     },
 
-    __toggleIcon (e) {
+    __toggleItem (e) {
+      this.hasRouterLink !== true && this.toggle(e)
+    },
+
+    __toggleIconKeyboard (e) {
+      e.keyCode === 13 && this.__toggleIcon(e, true)
+    },
+
+    __toggleIcon (e, keyboard) {
       if (this.hasRouterLink === true || this.expandIconToggle === true) {
         stopAndPrevent(e)
-        this.$refs.item.$el.blur()
+        keyboard !== true && this.$refs.blurTarget.focus()
         this.toggle(e)
       }
     },
@@ -101,6 +109,8 @@ export default Vue.extend({
     },
 
     __getToggleIcon (h) {
+      const isActive = this.disable !== true && (this.hasRouterLink === true || this.expandIconToggle === true)
+
       return h(QItemSection, {
         staticClass: `cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
         class: this.expandIconClass,
@@ -108,20 +118,26 @@ export default Vue.extend({
           side: this.switchToggleSide !== true,
           avatar: this.switchToggleSide === true
         },
-        nativeOn: {
-          click: this.__toggleIcon
-        }
+        nativeOn: isActive === true ? {
+          click: this.__toggleIcon,
+          keyup: this.__toggleIconKeyboard
+        } : void 0
       }, [
         h(QIcon, {
-          staticClass: 'q-expansion-item__toggle-icon',
+          staticClass: 'q-expansion-item__toggle-icon q-focusable',
           class: {
             'rotate-180': this.showing,
             invisible: this.disable
           },
           props: {
             name: this.expansionIcon
-          }
-        })
+          },
+          attrs: isActive === true ? { tabindex: 0 } : void 0
+        }, [ h('div', {
+          staticClass: 'q-focus-helper q-focus-helper--round',
+          attrs: { tabindex: -1 },
+          ref: 'blurTarget'
+        }) ])
       ])
     },
 
@@ -177,7 +193,8 @@ export default Vue.extend({
       if (this.isClickable) {
         data.props.clickable = true
         data.on = {
-          click: this.__toggleItem
+          click: this.__toggleItem,
+          keyup: this.__toggleItemKeyboard
         }
 
         this.hasRouterLink === true && Object.assign(

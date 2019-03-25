@@ -38,7 +38,7 @@ export default {
     },
 
     __toggleKey (evt) {
-      if (evt.keyCode === 13) {
+      if (evt.keyCode === 13 && evt.defaultPrevented !== true) {
         this.toggle(evt)
       }
     },
