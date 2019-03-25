@@ -47,7 +47,6 @@ export default Vue.extend({
     hideSelected: Boolean,
     hideDropdownIcon: Boolean,
 
-    counter: Boolean,
     maxValues: [Number, String],
 
     optionsDense: Boolean,
