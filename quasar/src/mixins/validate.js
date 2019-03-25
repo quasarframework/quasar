@@ -29,6 +29,10 @@ export default {
       }
 
       this.validate(v)
+    },
+
+    focused (focused) {
+      focused === false && this.__triggerValidation()
     }
   },
 
@@ -46,11 +50,11 @@ export default {
 
   mounted () {
     this.validateIndex = 0
-    this.$el.addEventListener('focusout', this.__triggerValidation)
+    this.focused === void 0 && this.$el.addEventListener('focusout', this.__triggerValidation)
   },
 
   beforeDestroy () {
-    this.$el.removeEventListener('focusout', this.__triggerValidation)
+    this.focused === void 0 && this.$el.removeEventListener('focusout', this.__triggerValidation)
   },
 
   methods: {
