@@ -1,25 +1,37 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
-      <q-input filled v-model="email" type="email" suffix="@gmail.com">
+      <q-field filled :value="email" suffix="@gmail.com">
         <template v-slot:before>
           <q-icon name="mail" />
         </template>
-      </q-input>
 
-      <q-input outlined v-model="number" type="number" prefix="$">
+        <template v-slot:control>
+          <div class="self-center full-width no-outline text-right" tabindex="0">{{email}}</div>
+        </template>
+      </q-field>
+
+      <q-field outlined :value="number" prefix="$">
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" tabindex="0">{{number}}</div>
+        </template>
+
         <template v-slot:append>
           <q-avatar>
             <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
           </q-avatar>
         </template>
-      </q-input>
+      </q-field>
 
-      <q-input standout v-model="email" type="email" prefix="Email:" suffix="@gmail.com">
+      <q-field standout :value="email" prefix="Email:" suffix="@gmail.com">
         <template v-slot:prepend>
           <q-icon name="mail" />
         </template>
-      </q-input>
+
+        <template v-slot:control>
+          <div class="self-center full-width no-outline text-right" tabindex="0">{{email}}</div>
+        </template>
+      </q-field>
     </div>
   </div>
 </template>
@@ -28,9 +40,8 @@
 export default {
   data () {
     return {
-      email: '',
-      number: null,
-      text: ''
+      email: 'john.doe',
+      number: 123
     }
   }
 }
