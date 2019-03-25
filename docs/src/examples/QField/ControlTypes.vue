@@ -1,37 +1,47 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-md row items-start">
-      <q-input v-model="password" filled type="password" hint="Password" />
-
-      <q-input v-model="password" filled :type="isPwd ? 'password' : 'text'" hint="Password with toggle">
-        <template v-slot:append>
-          <q-icon
-            :name="isPwd ? 'visibility_off' : 'visibility'"
-            class="cursor-pointer"
-            @click="isPwd = !isPwd"
-          />
+    <div class="q-gutter-md column" style="max-width: 300px">
+      <q-field filled :hint="`Slider with value ${ slider }`" :value="slider" @input="val => (val === null && (slider = 50))" clearable>
+        <template v-slot:control>
+          <q-slider v-model="slider" :min="0" :max="100" label label-always class="q-mt-lg" />
         </template>
-      </q-input>
+      </q-field>
 
-      <q-input v-model="number" filled type="number" hint="Number" />
-
-      <q-input v-model="email" filled type="email" hint="Email" />
-
-      <q-input v-model="search" filled type="search" hint="Search">
-        <template v-slot:append>
-          <q-icon name="search" />
+      <q-field filled :hint="`Range between ${ range.min } and ${ range.max }`" :value="range" @input="val => (val === null && (range = { min: 0, max: 100}))" clearable>
+        <template v-slot:control>
+          <q-range v-model="range" :min="0" :max="100" />
         </template>
-      </q-input>
+      </q-field>
 
-      <q-input v-model="tel" filled type="tel" hint="Telephone number" />
+      <q-field filled :hint="`Knob with value ${ knob }`" :value="knob" @input="val => (val === null && (knob = 50))" clearable>
+        <template v-slot:control>
+          <div class="full-width text-center">
+            <q-knob
+              v-model="knob"
+              :min="0"
+              :max="100"
+              size="45px"
+              :thickness="1"
+              color="light-blue"
+              track-color="grey-8"
+            />
+          </div>
+        </template>
+      </q-field>
 
-      <q-input v-model="url" filled type="url" hint="URL" />
+      <q-field filled :hint="`Calendar with value ${ date }`" label="Pick a date" stack-label>
+        <template v-slot:control>
+          <q-date class="full-width" minimal v-model="date" />
+        </template>
+      </q-field>
 
-      <q-input v-model="time" filled type="time" hint="Native time" />
-
-      <q-input v-model="date" filled type="date" hint="Native date" />
-
-      <q-input v-model="file" filled type="file" hint="Native file" />
+      <q-field filled :hint="`Time with value ${ time }`" label="Pick a time" stack-label>
+        <template v-slot:control>
+          <div class="full-width">
+            <q-time v-model="time" />
+          </div>
+        </template>
+      </q-field>
     </div>
   </div>
 </template>
@@ -40,19 +50,16 @@
 export default {
   data () {
     return {
-      password: '',
-      isPwd: true,
+      slider: 50,
+      range: {
+        min: 10,
+        max: 30
+      },
 
-      number: null,
+      knob: 50,
 
-      email: '',
-      search: '',
-      tel: '',
-      url: '',
       time: '',
-      date: '',
-
-      file: null
+      date: ''
     }
   }
 }

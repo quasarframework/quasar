@@ -8,12 +8,15 @@
         </q-avatar>
 
         <q-space />
-        <q-input dark dense standout v-model="text" input-class="text-right">
-          <template v-slot:append>
-            <q-icon v-if="text === ''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="text = ''" />
+        <q-field dark dense standout>
+          <template v-slot:control>
+            <div class="self-center no-outline" tabindex="0">Time is {{value}}</div>
           </template>
-        </q-input>
+          <template v-slot:append>
+            <q-btn flat round dense :disable="value < 10" icon="replay_10" @click.stop="value -= 10" />
+            <q-btn flat round dense :disable="value > 90" icon="forward_10" @click.stop="value += 10" />
+          </template>
+        </q-field>
       </q-toolbar>
     </div>
   </div>
@@ -23,7 +26,7 @@
 export default {
   data () {
     return {
-      text: ''
+      value: 50
     }
   }
 }

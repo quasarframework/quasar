@@ -1,12 +1,17 @@
 <template>
-  <div class="q-pa-md" style="max-width: 300px">
-    <q-input
-      ref="input"
+  <div class="q-pa-md" style="max-width: 350px">
+    <q-field
+      ref="slider"
       filled
-      v-model="model"
+      :value="slider"
       label="Required Field *"
+      hint="Move it to 0 to see validation"
       :rules="[ myRule ]"
-    />
+    >
+      <template v-slot:control>
+        <q-slider v-model="slider" :min="0" :max="100" label label-always class="q-mt-lg" style="width: 200px" />
+      </template>
+    </q-field>
 
     <q-btn class="q-mt-sm" label="Reset Validation" @click="reset" color="primary"/>
   </div>
@@ -16,7 +21,7 @@
 export default {
   data () {
     return {
-      model: ''
+      slider: 10
     }
   },
 
@@ -44,7 +49,7 @@ export default {
     },
 
     reset () {
-      this.$refs.input.resetValidation()
+      this.$refs.slider.resetValidation()
     }
   }
 }
