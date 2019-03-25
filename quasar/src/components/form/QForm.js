@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
+import { getAllChildren } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QForm',
@@ -16,8 +17,10 @@ export default Vue.extend({
 
       this.validateIndex++
 
-      for (let i = 0; i < this.$children.length; ++i) {
-        const comp = this.$children[i]
+      const components = getAllChildren(this)
+
+      for (let i = 0; i < components.length; i++) {
+        const comp = components[i]
 
         if (typeof comp.validate === 'function') {
           const valid = comp.validate()
@@ -54,15 +57,12 @@ export default Vue.extend({
     resetValidation () {
       this.validateIndex++
 
-      for (let i = 0; i < this.$children.length; ++i) {
-        const comp = this.$children[i]
+      getAllChildren(this).forEach(comp => {
         if (typeof comp.resetValidation === 'function') {
           comp.$emit('input', null)
-          this.$nextTick(() => {
-            comp.resetValidation()
-          })
+          comp.resetValidation()
         }
-      }
+      })
     },
 
     submit (evt) {
