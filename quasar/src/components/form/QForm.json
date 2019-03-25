@@ -1,5 +1,4 @@
 {
-  "type": "component",
   "slots": {
     "default": {
       "desc": "Anything can go into this slot"
