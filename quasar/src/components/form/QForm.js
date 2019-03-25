@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
+import { getAllChildren } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QForm',
@@ -16,8 +17,13 @@ export default Vue.extend({
 
       this.validateIndex++
 
-      for (let i = 0; i < this.$children.length; ++i) {
-        const comp = this.$children[i]
+      const components = getAllChildren(this)
+      const emit = res => {
+        this.$emit('validation-' + (res === true ? 'success' : 'error'))
+      }
+
+      for (let i = 0; i < components.length; i++) {
+        const comp = components[i]
 
         if (typeof comp.validate === 'function') {
           const valid = comp.validate()
@@ -26,13 +32,15 @@ export default Vue.extend({
             promises.push(valid)
           }
           else if (valid !== true) {
-            return false
+            emit(false)
+            return Promise.resolve(false)
           }
         }
       }
 
       if (promises.length === 0) {
-        return true
+        emit(true)
+        return Promise.resolve(true)
       }
 
       const index = this.validateIndex
@@ -40,11 +48,13 @@ export default Vue.extend({
       return Promise.all(promises).then(
         res => {
           if (index === this.validateIndex) {
-            return res
+            emit(res[0])
+            return res[0]
           }
         },
         () => {
           if (index === this.validateIndex) {
+            emit(false)
             return false
           }
         }
@@ -54,39 +64,20 @@ export default Vue.extend({
     resetValidation () {
       this.validateIndex++
 
-      for (let i = 0; i < this.$children.length; ++i) {
-        const comp = this.$children[i]
+      getAllChildren(this).forEach(comp => {
         if (typeof comp.resetValidation === 'function') {
           comp.$emit('input', null)
-          this.$nextTick(() => {
-            comp.resetValidation()
-          })
+          comp.resetValidation()
         }
-      }
+      })
     },
 
     submit (evt) {
       evt !== void 0 && stopAndPrevent(evt)
 
-      const validate = this.validate()
-
-      const update = val => {
-        if (val === true) {
-          this.$emit('submit')
-        }
-        else if (val === false) {
-          this.$emit('validation-error')
-        }
-      }
-
-      if (typeof validate.then !== 'function') {
-        update(validate)
-      }
-      else {
-        validate.then(val => {
-          update(val[0])
-        })
-      }
+      this.validate().then(val => {
+        val === true && this.$emit('submit')
+      })
     },
 
     reset () {
