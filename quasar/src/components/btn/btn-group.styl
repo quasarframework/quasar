@@ -28,12 +28,13 @@
     > .q-btn--push
       .q-btn__content
         transition $button-transition
-      &:active:not(.disabled)
-      &.q-btn--active:not(.disabled)
-        border-bottom-color rgba(0, 0, 0, .15)
-        transform translate3d(0, 0, 0)
-        .q-btn__content
-          transform translate3d(0, 3px, 0)
+      &:active,
+      &.q-btn--active
+        &:not(.disabled)
+          border-bottom-width 3px
+          transform none
+          .q-btn__content
+            transform translate3d(0, 3px, 0)
   &--rounded
     border-radius $button-rounded-border-radius
   &--flat, &--outline, &--unelevated
