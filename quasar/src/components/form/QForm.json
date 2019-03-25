@@ -1,0 +1,27 @@
+{
+  "type": "component",
+  "slots": {
+    "default": {
+      "desc": "Anything can go into this slot"
+    }
+  },
+  "events": {
+    "submit": {
+      "desc": "Emitted when all validations have passed when tethered to a submit button"
+    },
+    "error": {
+      "desc": "Emitted when one or more validations have failed"
+    },
+    "reset": {
+      "desc": "Emitted when all calidations have been reset when tethered to a reset button"
+    }
+  },
+  "methods": {
+    "validate": {
+      "desc": "Validates all applicable child components"
+    },
+    "resetValidation": {
+      "desc": "Resets the validation status for all applicable child components"
+    }
+  }
+}
