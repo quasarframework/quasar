@@ -133,11 +133,13 @@ export default Vue.extend({
             name: this.expansionIcon
           },
           attrs: isActive === true ? { tabindex: 0 } : void 0
-        }, [ h('div', {
-          staticClass: 'q-focus-helper q-focus-helper--round',
-          attrs: { tabindex: -1 },
-          ref: 'blurTarget'
-        }) ])
+        }, [
+          h('div', {
+            staticClass: 'q-focus-helper q-focus-helper--round',
+            attrs: { tabindex: -1 },
+            ref: 'blurTarget'
+          })
+        ])
       ])
     },
 
