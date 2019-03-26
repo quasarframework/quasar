@@ -42,7 +42,8 @@ export const RouterLinkMixin = {
         append: this.append,
         replace: this.replace,
         activeClass: this.activeClass || 'q-router-link--active',
-        exactActiveClass: this.exactActiveClass || 'q-router-link--exact-active'
+        exactActiveClass: this.exactActiveClass || 'q-router-link--exact-active',
+        event: this.disable === true ? '' : void 0
       }
     }
   }
