@@ -625,7 +625,8 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-time',
       class: this.classes,
-      on: this.$listeners
+      on: this.$listeners,
+      attrs: { tabindex: -1 }
     }, [
       this.__getHeader(h),
       this.__getClock(h)

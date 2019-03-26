@@ -24,12 +24,17 @@ export default Vue.extend({
   },
 
   methods: {
-    activate (e) {
+    activate (e, keyboard) {
       if (this.disable !== true) {
         this.__checkActivation(true)
       }
 
-      this.$el.blur()
+      if (keyboard === true) {
+        this.$el.focus()
+      }
+      else {
+        this.$refs.blurTarget.focus()
+      }
     },
 
     __checkActivation (selected = false) {
