@@ -59,24 +59,6 @@
         "examples": [ 2500 ]
       },
 
-      "actions": {
-        "type": "Array",
-        "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
-        "examples": [
-          "[ { label: 'Show', handler: (Function) }, { icon: 'map', handler: (Function), color: 'yellow' } ]"
-        ]
-      },
-
-      "onDismiss": {
-        "type": "Function",
-        "desc": "Function to call when notification gets dismissed",
-        "params": null,
-        "returns": null,
-        "examples": [
-          "() => { console.log('Dismissed') }"
-        ]
-      },
-
       "closeBtn": {
         "type": "String",
         "desc": "Convenience way to add a dismiss button with a specific label, without using the 'actions' convoluted prop",
