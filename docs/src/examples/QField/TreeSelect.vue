@@ -70,18 +70,6 @@ export default {
         }
       ]
     }
-  },
-
-  methods: {
-    selectGoodService () {
-      if (this.selected !== 'Good service') {
-        this.selected = 'Good service'
-      }
-    },
-
-    unselectNode () {
-      this.selected = null
-    }
   }
 }
 </script>
