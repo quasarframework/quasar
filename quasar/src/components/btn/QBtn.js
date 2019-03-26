@@ -120,7 +120,7 @@ export default Vue.extend({
     if (this.iconRight !== void 0 && this.isRound === false) {
       inner.push(
         h(QIcon, {
-          props: { name: this.iconRight, right: this.stack === false }
+          props: { name: this.iconRight, right: this.stack === false && this.hasLabel === true }
         })
       )
     }
