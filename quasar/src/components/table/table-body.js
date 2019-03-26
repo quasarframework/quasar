@@ -40,7 +40,7 @@ export default {
                   : h('td', {
                     staticClass: col.__tdClass,
                     style: col.style,
-                    class: col.classes
+                    class: this.getClasses(col, row)
                   }, this.getCellValue(col, row))
               })
 
@@ -114,6 +114,31 @@ export default {
     getCellValue (col, row) {
       const val = typeof col.field === 'function' ? col.field(row) : row[col.field]
       return col.format !== void 0 ? col.format(val) : val
+    },
+
+    getClasses (col, row) {
+      let colClasses = []
+      switch (typeof col.classes) {
+        case 'object':
+          if (Array.isArray(col.classes)) {
+            col.classes.forEach(function (elem) {
+              switch (typeof elem) {
+                case 'function':
+                  colClasses.push(elem(row))
+                  break
+                default:
+                  colClasses.push(elem)
+              } 
+           })
+          }
+          break
+        case 'function':
+          colClasses.push(col.classes(row))
+          break
+        default:
+          return col.classes
+      }
+      return colClasses
     }
   }
 }
