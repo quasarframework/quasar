@@ -113,7 +113,7 @@ export default {
 
     getCellValue (col, row) {
       const val = typeof col.field === 'function' ? col.field(row) : row[col.field]
-      return col.format !== void 0 ? col.format(val) : val
+      return col.format !== void 0 ? col.format(val, row) : val
     }
   }
 }
