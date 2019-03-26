@@ -7,6 +7,8 @@ related:
 
 QLayout allows you to configure your views as a 3x3 matrix, containing optional left-side and/or right-side Drawers. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
 
+QDrawer is the sidebar part of your QLayout.
+
 ## Installation
 <doc-installation components="QDrawer" />
 
