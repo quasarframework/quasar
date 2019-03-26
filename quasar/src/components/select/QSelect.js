@@ -260,6 +260,10 @@ export default Vue.extend({
       }
 
       const model = [].concat(this.value)
+      
+      if (this.maxValues !== void 0 && model.length >= this.maxValues) {
+        return
+      }
 
       this.$emit('add', { index: model.length, value: val })
       model.push(val)
