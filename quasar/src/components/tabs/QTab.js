@@ -55,7 +55,7 @@ export default Vue.extend({
     },
 
     computedTabIndex () {
-      return this.disable || this.isActive ? -1 : this.tabindex || 0
+      return this.disable === true || this.isActive === true ? -1 : this.tabindex || 0
     }
   },
 
