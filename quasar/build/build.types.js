@@ -24,20 +24,12 @@ module.exports.generate = function () {
     })
   }
 
-  function getPropDeclaration (prop) {
-    const propDef = prop.def
-    var propType = getTypeVal(propDef)
-    // const propTypeVal = propType
-    return `${prop.name}${!propDef.required ? '?' : ''} : ${propType};`
+  function writeLine (fileContent, line = '', indent = 0) {
+    fileContent.push(`${line.padStart(line.length + (indent * 4), ' ')}\n`)
   }
 
-  function getObjectDeclaration (objectDef) {
-    const props = []
-    for (var prop in objectDef) {
-      const propDef = { name: toCamelCase(prop), def: objectDef[prop] }
-      props.push(getPropDeclaration(propDef))
-    }
-    return props
+  function write (fileContent, text = '') {
+    fileContent.push(`${text}`)
   }
 
   function convertTypeVal (type, def) {
@@ -53,7 +45,7 @@ module.exports.generate = function () {
     }
     else if (t === 'Object') {
       if (def.definition) {
-        return `{ ${getObjectDeclaration(def.definition).join(' ')} }`
+        return `{\n        ${getPropDefinitions(def.definition).join('\n        ')} }`
       }
       else {
         return 'any'
@@ -66,25 +58,37 @@ module.exports.generate = function () {
     const types = def.type
     if (Array.isArray(types)) {
       const propTypes = types.map(convertTypeVal)
-      return propTypes.join('|')
+      return propTypes.join(' | ')
     }
     else {
       return convertTypeVal(types, def)
     }
   }
 
+  function getPropDefinitions (propDefs) {
+    const defs = []
+    for (var key in propDefs) {
+      const propName = toCamelCase(key)
+      const propDef = propDefs[key]
+      var propType = getTypeVal(propDef)
+      const propTypeVal = propType
+      defs.push(`${propName}${!propDef.required ? '?' : ''} : ${propTypeVal}`)
+    }
+    return defs
+  }
+
   copyTypeFiles(typeRoot)
 
   var contents = []
 
-  contents.push('import "./vue"\n')
-  contents.push('\n')
-  contents.push('export as namespace quasar\n')
-  contents.push('export * from "./utils"\n')
-  contents.push('\n')
-
-  contents.push('// Quasar Type Definitions \n')
-  contents.push('import Vue, { VueConstructor } from "vue";\n')
+  writeLine(contents, `import './vue'`)
+  writeLine(contents)
+  writeLine(contents, 'export as namespace quasar')
+  writeLine(contents, `export * from './utils'`)
+  writeLine(contents)
+  writeLine(contents, '// Quasar Type Definitions')
+  writeLine(contents, `import Vue, { VueConstructor } from 'vue'`)
+  writeLine(contents)
 
   const distDir = fs.readdirSync(apiRoot)
   var injections = {}
@@ -95,44 +99,30 @@ module.exports.generate = function () {
     const typeName = file.split('.')[0]
 
     // Declare class
-    if (content.type === 'component' || content.type === 'mixin') {
-      contents.push(`export const ${typeName}: VueConstructor<${typeName}>\n`)
-      contents.push(`export interface ${typeName} extends Vue {\n`)
-    }
-    else {
-      contents.push(`export const ${typeName}: ${typeName}; \n`)
-      contents.push(`export interface ${typeName} {\n`)
-    }
+    const extendsVue = (content.type === 'component' || content.type === 'mixin')
+    writeLine(contents, `export const ${typeName}: ${extendsVue ? `VueConstructor<${typeName}>` : typeName}`)
+    writeLine(contents, `export interface ${typeName} ${extendsVue ? 'extends Vue ' : ''}{`)
 
     // Write Props
-    for (var key in content.props) {
-      const propName = toCamelCase(key)
-      const propDef = content.props[key]
-      var propType = getTypeVal(propDef)
-      const propTypeVal = propType
-      contents.push(`    ${propName}${!propDef.required ? '?' : ''} : ${propTypeVal};\n`)
-    }
+    const props = getPropDefinitions(content.props)
+    props.forEach(prop => writeLine(contents, prop, 1))
 
     // Write Methods
     for (var methodKey in content.methods) {
-      contents.push(`    ${methodKey}(`)
+      write(contents, `    ${methodKey}(`)
       if (content.methods[methodKey].params) {
-        const params = []
-        for (var paramsKey in content.methods[methodKey].params) {
-          const prarmName = toCamelCase(paramsKey)
-          const paramDef = content.methods[methodKey].params[paramsKey]
-          params.push(`${prarmName}${!paramDef.required ? '?' : ''}: ${getTypeVal(paramDef)}`)
-        }
-        contents.push(params.join(', '))
+        const params = getPropDefinitions(content.methods[methodKey].params)
+        write(contents, params.join(', '))
       }
-      contents.push(`): void;\n`)
+      const returns = content.methods[methodKey].returns
+      writeLine(contents, `): ${returns ? getTypeVal(returns) : 'void'}`)
     }
 
     // Close class declaration
-    contents.push(`}\n`)
-    contents.push(`\n`)
+    writeLine(contents, `}`)
+    writeLine(contents)
 
-    // Write Vue Injections
+    // Copy Injections for type declaration
     if (content.type === 'plugin') {
       if (content.injection) {
         const injectionParts = content.injection.split('.')
@@ -144,31 +134,30 @@ module.exports.generate = function () {
     }
   })
 
+  // Write injection types
   for (var key in injections) {
     const props = injections[key]
     if (props) {
-      contents.push(`export interface ${key.toUpperCase().replace('$', '')}VueGlobals {\n`)
+      writeLine(contents, `export interface ${key.toUpperCase().replace('$', '')}VueGlobals {`)
       for (var prop in props) {
-        contents.push(`    ${props[prop].injection}: ${props[prop].class};\n`)
+        writeLine(contents, `${props[prop].injection}: ${props[prop].class}`, 1)
       }
-      contents.push('}\n')
+      writeLine(contents, '}')
     }
   }
-  // contents.push('}\n')
-  contents.push('\n')
 
+  writeLine(contents)
+
+  // Extend Vue instance with injections
   if (injections) {
-    contents.push('declare module "vue/types/vue" {\n')
-    contents.push('    interface Vue {\n')
-  }
+    writeLine(contents, `declare module 'vue/types/vue' {`)
+    writeLine(contents, 'interface Vue {', 1)
 
-  for (var key3 in injections) {
-    contents.push(`    ${key3}: ${key3.toUpperCase().replace('$', '')}VueGlobals;\n`)
-  }
-
-  if (injections) {
-    contents.push('    }\n')
-    contents.push('}\n')
+    for (var key3 in injections) {
+      writeLine(contents, `${key3}: ${key3.toUpperCase().replace('$', '')}VueGlobals`, 2)
+    }
+    writeLine(contents, '}', 1)
+    writeLine(contents, '}')
   }
 
   writeFile(resolve('../types/index.d.ts'), contents.join(''))
