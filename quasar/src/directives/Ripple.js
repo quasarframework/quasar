@@ -28,6 +28,7 @@ function showRipple (evt, el, ctx, forceCenter) {
   })
 
   node.className = `q-ripple${color ? ' text-' + color : ''}`
+  node.setAttribute('dir', 'ltr')
   node.appendChild(innerNode)
   el.appendChild(node)
 
