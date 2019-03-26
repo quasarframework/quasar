@@ -1,6 +1,20 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
-    <form @submit.prevent.stop="onSubmit" @reset.prevent.stop="onReset" class="q-gutter-md">
+    <div>{{ native }}</div>
+    <div>{{ name }}</div>
+    <div>{{ age }}</div>
+    <div>{{ modelAsync }}</div>
+
+    <q-form
+      ref="form"
+      @submit="onSubmit"
+      @reset="onReset"
+      @validation-success="onValidationSuccess"
+      @validation-error="onValidationError"
+      class="q-gutter-md"
+    >
+      <input v-model="native">
+
       <q-input
         ref="name"
         filled
@@ -24,13 +38,22 @@
         ]"
       />
 
+      <q-input
+        v-model="modelAsync"
+        filled
+        label="Only async *"
+        :rules="[
+          asyncRule
+        ]"
+      />
+
       <q-toggle v-model="accept" label="I accept the license and terms" />
 
       <div>
         <q-btn label="Submit" type="submit" color="primary" />
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
-    </form>
+    </q-form>
   </div>
 </template>
 
@@ -38,42 +61,41 @@
 export default {
   data () {
     return {
+      native: null,
       name: null,
       age: null,
+      modelAsync: null,
 
       accept: false
     }
   },
 
   methods: {
-    onSubmit () {
-      this.$refs.name.validate()
-      this.$refs.age.validate()
+    async asyncRule (val) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(!!val || '* Required')
+        }, 1000)
+      })
+    },
 
-      if (this.$refs.name.hasError || this.$refs.age.hasError) {
-        this.formHasError = true
-      }
-      else if (this.accept !== true) {
-        this.$q.notify({
-          color: 'negative',
-          message: 'You need to accept the license and terms first'
-        })
-      }
-      else {
-        this.$q.notify({
-          icon: 'done',
-          color: 'positive',
-          message: 'Submitted'
-        })
-      }
+    onSubmit () {
+      console.log('@submit')
     },
 
     onReset () {
-      this.name = null
-      this.age = null
+      // reset manually all non-Quasar component's model
+      this.native = null
 
-      this.$refs.name.resetValidation()
-      this.$refs.age.resetValidation()
+      console.log('@reset')
+    },
+
+    onValidationSuccess () {
+      console.log('@validation-success')
+    },
+
+    onValidationError () {
+      console.log('@validation-error')
     }
   }
 }

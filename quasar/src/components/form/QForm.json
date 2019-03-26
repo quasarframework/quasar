@@ -1,0 +1,42 @@
+{
+  "slots": {
+    "default": {
+      "desc": "Anything can go into this slot"
+    }
+  },
+
+  "events": {
+    "submit": {
+      "desc": "Emitted when all validations have passed when tethered to a submit button"
+    },
+
+    "reset": {
+      "desc": "Emitted when all validations have been reset when tethered to a reset button"
+    },
+
+    "validation-success": {
+      "desc": "Emitted after a validation was triggered and all inner Quasar components models are valid"
+    },
+
+    "validation-error": {
+      "desc": "Emitted after a validation was triggered and at least one of the inner Quasar components models are NOT valid"
+    }
+  },
+
+  "methods": {
+    "validate": {
+      "desc": "Triggers a validation on all applicable inner Quasar components",
+      "returns": {
+        "type": "Promise",
+        "desc": "Promise is always fulfilled and receives the outcome (true -> validation was a success, false -> invalid models detected)",
+        "examples": [
+          "validate().then(outcome => { ... })"
+        ]
+      }
+    },
+
+    "resetValidation": {
+      "desc": "Resets the validation on all applicable inner Quasar components"
+    }
+  }
+}

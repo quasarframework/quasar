@@ -38,6 +38,8 @@ export default Vue.extend({
     dense: Boolean,
     itemAligned: Boolean,
 
+    counter: Boolean,
+
     clearable: Boolean,
     clearIcon: String,
 

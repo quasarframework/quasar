@@ -100,6 +100,40 @@
 
       <q-field
         v-bind="{[type]: true}"
+        label="Date - required, Lazy"
+        stack-label
+        :value="date"
+        :rules="[
+          val => !!val || '* Required',
+        ]"
+        lazy-rules
+      >
+        <template v-slot:control>
+          <q-date
+            v-model="date"
+          />
+        </template>
+      </q-field>
+
+      <q-field
+        v-bind="{[type]: true}"
+        label="Time - required, Lazy"
+        stack-label
+        :value="time"
+        :rules="[
+          val => !!val || '* Required',
+        ]"
+        lazy-rules
+      >
+        <template v-slot:control>
+          <q-time
+            v-model="time"
+          />
+        </template>
+      </q-field>
+
+      <q-field
+        v-bind="{[type]: true}"
         label="Knob - >= 10, Lazy"
         stack-label
         :value="num"
@@ -298,7 +332,9 @@ export default {
       stringOptions: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
       ],
-      num: 0
+      num: 0,
+      date: '',
+      time: ''
     }
 
     for (let i = 1; i <= n; i++) {

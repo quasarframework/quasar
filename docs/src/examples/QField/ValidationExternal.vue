@@ -1,15 +1,18 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
-    <q-input
-      ref="input"
+    <q-field
       filled
-      v-model="model"
-      label="Type here"
+      :value="slider"
+      label="Move it above 30"
       bottom-slots
-      hint="Max 3 characters"
-      error-message="Please use maximum 3 characters"
+      hint="Max value is 30"
+      error-message="Please use a maximum value of 30"
       :error="!isValid"
-    />
+    >
+      <template v-slot:control>
+        <q-slider v-model="slider" :min="0" :max="100" label label-always class="q-mt-lg" style="width: 200px" />
+      </template>
+    </q-field>
   </div>
 </template>
 
@@ -17,13 +20,13 @@
 export default {
   data () {
     return {
-      model: ''
+      slider: 10
     }
   },
 
   computed: {
     isValid () {
-      return this.model.length <= 3
+      return this.slider <= 30
     }
   }
 }

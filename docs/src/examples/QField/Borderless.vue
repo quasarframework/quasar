@@ -9,13 +9,11 @@
 
         <q-space />
         <q-field dark borderless>
-          <template v-slot:prepend>
-            <q-btn flat round dense :disable="value < 10" icon="replay_10" @click.stop="value -= 10" />
-          </template>
           <template v-slot:control>
             <div class="self-center no-outline" tabindex="0">Time is {{value}}</div>
           </template>
           <template v-slot:append>
+            <q-btn flat round dense :disable="value < 10" icon="replay_10" @click.stop="value -= 10" />
             <q-btn flat round dense :disable="value > 90" icon="forward_10" @click.stop="value += 10" />
           </template>
         </q-field>

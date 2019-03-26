@@ -32,11 +32,6 @@
       "examples": [ "0", "530" ]
     },
 
-    "counter": {
-      "type": "Boolean",
-      "desc": "Show a counter on bottom right"
-    },
-
     "maxlength": {
       "type": [ "String", "Number" ],
       "desc": "Specify a max length of model",

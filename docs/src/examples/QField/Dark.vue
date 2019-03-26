@@ -6,30 +6,47 @@
         <q-toggle v-model="disable" label="Disable" dark />
       </div>
 
-      <q-input dark v-model="text" :readonly="readonly" :disable="disable">
+      <q-field dark :readonly="readonly" :disable="disable">
         <template v-slot:prepend>
           <q-icon name="event" />
         </template>
-      </q-input>
 
-      <q-input dark filled v-model="text" :readonly="readonly" :disable="disable">
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" :tabindex="tabindex">{{text}}</div>
+        </template>
+      </q-field>
+
+      <q-field dark filled :readonly="readonly" :disable="disable">
         <template v-slot:prepend>
           <q-icon name="event" />
-          </template>
-      </q-input>
+        </template>
 
-      <q-input dark outlined v-model="text" :readonly="readonly" :disable="disable">
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" :tabindex="tabindex">{{text}}</div>
+        </template>
+      </q-field>
+
+      <q-field dark outlined :readonly="readonly" :disable="disable">
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" :tabindex="tabindex">{{text}}</div>
+        </template>
+
         <template v-slot:append>
           <q-avatar>
             <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
           </q-avatar>
         </template>
-      </q-input>
+      </q-field>
 
-      <q-input dark standout bottom-slots v-model="text" label="Label" counter :readonly="readonly" :disable="disable">
+      <q-field dark standout bottom-slots :value="text" label="Label" stack-label counter :readonly="readonly" :disable="disable">
         <template v-slot:prepend>
           <q-icon name="place" />
         </template>
+
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" :tabindex="tabindex">{{text}}</div>
+        </template>
+
         <template v-slot:append>
           <q-icon name="close" @click="text = ''" class="cursor-pointer" />
         </template>
@@ -37,13 +54,17 @@
         <template v-slot:hint>
           Field hint
         </template>
-      </q-input>
+      </q-field>
 
-      <q-input dark borderless v-model="text" :readonly="readonly" :disable="disable">
+      <q-field dark borderless :readonly="readonly" :disable="disable">
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" :tabindex="tabindex">{{text}}</div>
+        </template>
+
         <template v-slot:append>
           <q-icon name="search" />
         </template>
-      </q-input>
+      </q-field>
     </div>
   </div>
 </template>
@@ -52,10 +73,16 @@
 export default {
   data () {
     return {
-      text: '',
+      text: 'Field content',
 
       readonly: false,
       disable: false
+    }
+  },
+
+  computed: {
+    tabindex () {
+      return this.disable === true || this.readonly === true ? -1 : 0
     }
   }
 }

@@ -1,14 +1,24 @@
 <template>
-  <div class="q-pa-md" style="max-width: 300px">
-    <q-input
-      ref="input"
+  <div class="q-pa-md" style="max-width: 400px">
+    <q-field
+      ref="field"
       filled
-      v-model="model"
+      v-model="date"
       label="Required Field"
+      stack-label
       :rules="[val => !!val || 'Field is required']"
-    />
+    >
+      <template v-slot:control>
+        <q-date style="width: 300px" minimal v-model="date" />
+      </template>
+    </q-field>
 
-    <q-btn class="q-mt-sm" label="Reset Validation" @click="reset" color="primary"/>
+    <div class="q-mt-sm">
+      <div class="q-gutter-sm">
+        <q-btn label="Reset Validation" @click="resetValidation" color="primary"/>
+        <q-btn label="Reset Date" @click="resetDate" color="primary"/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -16,13 +26,16 @@
 export default {
   data () {
     return {
-      model: ''
+      date: ''
     }
   },
 
   methods: {
-    reset () {
-      this.$refs.input.resetValidation()
+    resetValidation () {
+      this.$refs.field.resetValidation()
+    },
+    resetDate () {
+      this.date = ''
     }
   }
 }

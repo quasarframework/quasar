@@ -1,32 +1,45 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column" style="max-width: 300px">
-      <q-input rounded filled v-model="text">
+      <q-field rounded filled>
         <template v-slot:prepend>
           <q-icon name="event" />
         </template>
-      </q-input>
 
-      <q-input rounded outlined v-model="text">
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" tabindex="0">{{text}}</div>
+        </template>
+      </q-field>
+
+      <q-field rounded outlined>
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" tabindex="0">{{text}}</div>
+        </template>
+
         <template v-slot:append>
           <q-avatar>
             <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
           </q-avatar>
         </template>
-      </q-input>
+      </q-field>
 
-      <q-input rounded standout bottom-slots v-model="text" label="Label" counter>
+      <q-field rounded standout bottom-slots :value="text" label="Label" stack-label counter>
         <template v-slot:prepend>
           <q-icon name="place" />
         </template>
+
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" tabindex="0">{{text}}</div>
+        </template>
+
         <template v-slot:append>
-          <q-icon name="close" @click="text = ''" class="cursor-pointer" />
+          <q-icon name="close" class="cursor-pointer" />
         </template>
 
         <template v-slot:hint>
           Field hint
         </template>
-      </q-input>
+      </q-field>
     </div>
   </div>
 </template>
@@ -35,7 +48,7 @@
 export default {
   data () {
     return {
-      text: ''
+      text: 'Field content'
     }
   }
 }

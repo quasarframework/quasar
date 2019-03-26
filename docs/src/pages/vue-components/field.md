@@ -108,13 +108,11 @@ You can reset the validation by calling `resetValidation()` method on the QField
 
 <doc-example title="Basic" file="QField/ValidationRequired" />
 
-<doc-example title="Maximum length" file="QField/ValidationMaxLength" />
+<doc-example title="Maximum value" file="QField/ValidationMaxValue" />
 
 If you set `lazy-rules`, validation starts after first blur.
 
 <doc-example title="Lazy rules" file="QField/ValidationLazy" />
-
-<doc-example title="Form validation" file="QField/ValidationForm" />
 
 #### Async rules
 Rules can be async too, by using async/await or by directly returning a Promise.

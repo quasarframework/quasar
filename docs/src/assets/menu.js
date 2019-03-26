@@ -183,16 +183,6 @@ const cli = [
     ]
   },
   {
-    name: 'App Extensions',
-    path: 'app-extensions',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      }
-    ]
-  },
-  {
     name: 'Developing SPA',
     path: 'developing-spa',
     children: [
@@ -655,6 +645,11 @@ const components = [
         path: 'select'
       },
       {
+        name: 'Form',
+        badge: 'new',
+        path: 'form'
+      },
+      {
         name: 'Radio',
         path: 'radio'
       },
@@ -689,6 +684,11 @@ const components = [
       {
         name: 'Date Picker',
         path: 'date'
+      },
+      {
+        name: 'Field',
+        badge: 'new',
+        path: 'field'
       }
     ]
   },
@@ -847,6 +847,13 @@ const components = [
   }
 ]
 
+const appExtensions = [
+  {
+    name: 'Introduction',
+    path: 'introduction'
+  }
+]
+
 const utils = [
   {
     name: 'Date Utils',
@@ -938,6 +945,12 @@ module.exports = [
     icon: 'extension',
     path: 'quasar-plugins',
     children: plugins
+  },
+  {
+    name: 'App Extensions',
+    icon: 'note_add',
+    path: 'app-extensions',
+    children: appExtensions
   },
   {
     name: 'Quasar Utils',
