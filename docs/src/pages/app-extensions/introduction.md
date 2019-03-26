@@ -74,7 +74,8 @@ Here is the current list of official app-extensions made by the Quasar team.
 
 ### Project Rigging
  - [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) a slightly opinionated management tool to use dotenv in your application
- - [@quasar/icon-factory](https://github.com/quasarframework/app-extension-icon-factory) cross-platform construction kit to generate all app-icons (favicons, .ico, .icns) for distributables
+ - [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) a less slightly opinionated management tool to propogate variables to the browser for a variety of unlimited environments (dev, prod, test, etc) for use in your application
+- [@quasar/icon-factory](https://github.com/quasarframework/app-extension-icon-factory) cross-platform construction kit to generate all app-icons (favicons, .ico, .icns) for distributables
 
 ### Components
  - [@quasar/qmediaplayer](https://github.com/quasarframework/app-extension-qmediaplayer) HTML5 Video and Audio player
@@ -87,5 +88,5 @@ Here is the current list of official app-extensions made by the Quasar team.
  - [@quasar/feathersjs](https://github.com/quasarframework/app-extension-feathersjs) Create FeathersJS server and front-end integration
  - [@quasar/amplify](https://github.com/quasarframework/app-extension-amplify) Integrate and manage AWS Amplify 
  - [@quasar/firebase](https://github.com/quasarframework/app-extension-firebase) Integrate and manage Google Firebase / Firestore
-  - [@quasar/qtranslate](https://github.com/quasarframework/app-extension-firebase) Deep localization including datetime, currency and string management
+  - [@quasar/qtranslate](https://github.com/quasarframework/app-extension-qtranslate) Deep localization including datetime, currency and string management
   - [@quasar/universal-fs](https://github.com/quasarframework/app-extension-universal-fs) Wrap the filesystem interface for web, cordova and electron with one abstraction
