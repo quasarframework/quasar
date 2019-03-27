@@ -1,7 +1,7 @@
 {
   "slots": {
     "default": {
-      "desc": "Anything can go into this slot"
+      "extends": "default"
     }
   },
 
@@ -11,7 +11,7 @@
     },
 
     "reset": {
-      "desc": "Emitted when all validations have been reset when tethered to a reset button"
+      "desc": "Emitted when all validations have been reset when tethered to a reset button; It is recommended to manually reset the wrapped components models in this handler"
     },
 
     "validation-success": {

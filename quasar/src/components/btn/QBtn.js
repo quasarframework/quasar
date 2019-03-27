@@ -41,7 +41,7 @@ export default Vue.extend({
     },
 
     __onKeydown (e) {
-      if ([13, 32].includes(e.keyCode)) {
+      if ([13, 32].includes(e.keyCode) === true) {
         stopAndPrevent(e)
         if (this.pressed !== true) {
           this.pressed = true
@@ -54,7 +54,7 @@ export default Vue.extend({
     },
 
     __onKeyup (e) {
-      if ([13, 32].includes(e.keyCode)) {
+      if ([13, 32].includes(e.keyCode) === true) {
         stopAndPrevent(e)
         this.__onKeyupAbort()
         const evt = new MouseEvent('click', { ...e })
@@ -120,7 +120,7 @@ export default Vue.extend({
     if (this.iconRight !== void 0 && this.isRound === false) {
       inner.push(
         h(QIcon, {
-          props: { name: this.iconRight, right: this.stack === false }
+          props: { name: this.iconRight, right: this.stack === false && this.hasLabel === true }
         })
       )
     }

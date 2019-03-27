@@ -66,7 +66,6 @@ export default Vue.extend({
 
       getAllChildren(this).forEach(comp => {
         if (typeof comp.resetValidation === 'function') {
-          comp.$emit('input', null)
           comp.resetValidation()
         }
       })
@@ -80,7 +79,9 @@ export default Vue.extend({
       })
     },
 
-    reset () {
+    reset (evt) {
+      evt !== void 0 && stopAndPrevent(evt)
+
       this.resetValidation()
       this.$emit('reset')
     }

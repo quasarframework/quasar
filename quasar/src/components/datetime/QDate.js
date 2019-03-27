@@ -66,6 +66,10 @@ export default Vue.extend({
       this.$nextTick(() => {
         this.innerModel = model
       })
+    },
+
+    view () {
+      this.$refs.blurTarget && this.$refs.blurTarget.focus()
     }
   },
 
@@ -700,7 +704,9 @@ export default Vue.extend({
       this.__getHeader(h),
 
       h('div', {
-        staticClass: 'q-date__content relative-position overflow-auto'
+        staticClass: 'q-date__content relative-position overflow-auto',
+        attrs: { tabindex: -1 },
+        ref: 'blurTarget'
       }, [
         h('transition', {
           props: {
