@@ -2,7 +2,7 @@
 title: App Extensions
 ---
 
-App Extensions are a way to painlessly inject complicated (or simple) libraries with a variety of dependencies, boot files, templates and custom logic. They can extend webpack, `quasar.conf.js`, tightly couple external UI components to core, and even register new commands with the CLI. They can be run with `quasar dev` and have complete access to the current live **`ctx`** (context).
+App Extensions are a way to painlessly inject complicated (or simple) libraries with a variety of dependencies, boot files, templates and custom logic. They can extend webpack, `quasar.conf.js`, tightly couple external UI components to core, and even register new commands with the CLI. They can be run with `quasar dev` and have complete access to the current live `ctx` (context).
 
 The patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there - now limited only by your imagination and innovation. This page will introduce you to the usage of App Extensions.
 
@@ -12,7 +12,7 @@ Because of their deep integration with Quasar, app extensions will only run in t
 
 
 ## What can an App Extension do?
- 
+
 1. Enhance CLI behavior with new commands
 2. Make a Quasar UI plug-in
 3. Install an accompanying application
@@ -22,7 +22,7 @@ Because of their deep integration with Quasar, app extensions will only run in t
 7. Hook, combine and extend quasar core components
 8. Modify code based on dynamically changing values that sit outside of the Quasar environment
 9. Create and manage abstractions of platform specific interfaces
-10. ... and a whole lot more 
+10. ... and a whole lot more
 
 ## Anatomy of App Extensions
 App Extensions are installed, executed and can be uninstalled. The following guide discusses this in an abstract way. For details about individual extensions and how to work with them, please consult their respective repositories.
@@ -52,7 +52,7 @@ You may need to update your extension, and this is done with the same command as
 $ quasar ext add <ext-id>
 ```
 ::: warning
-Reinstalling the extension MIGHT overwrite files that you have changed. You will be presented with the option to overwrite the files detected. 
+Reinstalling the extension MIGHT overwrite files that you have changed. You will be presented with the option to overwrite the files detected.
 
 :::
 
@@ -62,11 +62,11 @@ You can remove an App Extension from being hooked from the Quasar CLI by running
 ```
 $ quasar ext remove <ext-id>
 ```
- 
+
 
 
 ## List of official app-extensions
-Here is the current list of official app-extensions made by the Quasar team. 
+Here is the current list of official app-extensions made by the Quasar team.
 
 ### Tooling
  - [@quasar/testing](https://github.com/quasarframework/quasar-testing) includes 9 pre-configured sub-extensions for all of your testing needs
@@ -84,9 +84,9 @@ Here is the current list of official app-extensions made by the Quasar team.
  - [@quasar/qactivity](https://github.com/quasarframework/app-extension-qactivity) Create activity timelines
 
 ### In Development
- - [@quasar/graphql](https://github.com/quasarframework/app-extension-graphql) Create GraphQL server and Apollo frontend
+ - [@quasar/apollo](https://github.com/quasarframework/app-extension-graphql) Apollo and GraphQL with server and front-end integration
  - [@quasar/feathersjs](https://github.com/quasarframework/app-extension-feathersjs) Create FeathersJS server and front-end integration
- - [@quasar/amplify](https://github.com/quasarframework/app-extension-amplify) Integrate and manage AWS Amplify 
+ - [@quasar/amplify](https://github.com/quasarframework/app-extension-amplify) Integrate and manage AWS Amplify
  - [@quasar/firebase](https://github.com/quasarframework/app-extension-firebase) Integrate and manage Google Firebase / Firestore
   - [@quasar/qtranslate](https://github.com/quasarframework/app-extension-qtranslate) Deep localization including datetime, currency and string management
   - [@quasar/universal-fs](https://github.com/quasarframework/app-extension-universal-fs) Wrap the filesystem interface for web, cordova and electron with one abstraction
