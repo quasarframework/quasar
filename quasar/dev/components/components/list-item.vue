@@ -111,6 +111,13 @@
           </q-item-section>
           <q-item-section>List item</q-item-section>
         </q-item>
+
+        <q-item clickable v-ripple>
+          <q-item-section>List item</q-item-section>
+          <q-item-section thumbnail>
+            <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
+          </q-item-section>
+        </q-item>
       </q-list>
 
       <p class="caption">
