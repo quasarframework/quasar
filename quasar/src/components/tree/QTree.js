@@ -473,16 +473,16 @@ export default Vue.extend({
           },
           attrs: { tabindex: meta.link ? 0 : -1 },
           on: {
-            click: () => {
-              this.__onClick(node, meta)
+            click: (e) => {
+              this.__onClick(node, meta, e)
             },
-            keyup: e => {
-              if (e.keyCode === 13) { this.__onClick(node, meta) }
-              else if (e.keyCode === 32) { this.__onExpandClick(node, meta, e) }
+            keypress: e => {
+              if (e.keyCode === 13) { this.__onClick(node, meta, e, true) }
+              else if (e.keyCode === 32) { this.__onExpandClick(node, meta, e, true) }
             }
           }
         }, [
-          h('div', { staticClass: 'q-focus-helper' }),
+          h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: `blurTarget_${meta.key}` }),
 
           meta.lazy === 'loading'
             ? h(QSpinner, {
@@ -558,12 +558,13 @@ export default Vue.extend({
       ])
     },
 
-    __blur () {
-      document.activeElement && document.activeElement.blur()
+    __blur (key) {
+      const blurTarget = this.$refs[`blurTarget_${key}`]
+      blurTarget !== void 0 && blurTarget.focus()
     },
 
-    __onClick (node, meta) {
-      this.__blur()
+    __onClick (node, meta, e, keyboard) {
+      keyboard !== true && this.__blur(meta.key)
 
       if (this.hasSelection) {
         if (meta.selectable) {
@@ -571,7 +572,7 @@ export default Vue.extend({
         }
       }
       else {
-        this.__onExpandClick(node, meta)
+        this.__onExpandClick(node, meta, e, keyboard)
       }
 
       if (typeof node.handler === 'function') {
@@ -579,11 +580,11 @@ export default Vue.extend({
       }
     },
 
-    __onExpandClick (node, meta, e) {
+    __onExpandClick (node, meta, e, keyboard) {
       if (e !== void 0) {
         stopAndPrevent(e)
       }
-      this.__blur()
+      keyboard !== true && this.__blur(meta.key)
       this.setExpanded(meta.key, !meta.expanded, node, meta)
     },
 

@@ -38,19 +38,25 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       app-menu.q-my-lg
 
     .absolute-top.bg-white.layout-drawer-toolbar
-      q-input.full-width.doc-algolia(
-        ref="docAlgolia"
-        v-model="search"
-        dense
-        standout
-        square
-        placeholder="Search..."
+      form(
+        autocorrect="off"
+        autocapitalize="off"
+        autocomplete="off"
+        spellcheck="false"
       )
-        template(v-slot:append)
-          q-icon(
-            name="search"
-            @click="$refs.docAlgolia.focus()"
-          )
+        q-input.full-width.doc-algolia(
+          ref="docAlgolia"
+          v-model="search"
+          dense
+          standout
+          square
+          placeholder="Search..."
+        )
+          template(v-slot:append)
+            q-icon(
+              name="search"
+              @click="$refs.docAlgolia.focus()"
+            )
 
   q-drawer(
     v-model="rightDrawerState"

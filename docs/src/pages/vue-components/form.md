@@ -3,9 +3,26 @@ title: Form
 related:
   - /vue-components/input
   - /vue-components/select
+  - /vue-components/field
 ---
 
-The QForm component allows you to easily validate child form components that have rules associated with them. To have this done automatically, create a button with type **submit**. Do the same if you wish to tie into **reset**.
+The QForm component renders a `<form>` DOM element and allows you to easily validate child form components (like [QInput](/vue-components/input#Internal-validation), [QSelect](/vue-components/select) or your [QField](/vue-components/field) wrapped components) that have the **internal validation** (NOT the external one) through `rules` associated with them.
+
+## Installation
+<doc-installation components="QForm" />
+
+## Usage
+
+::: warning
+Please be aware of the following:
+* QForm hooks into QInput, QSelect or QField wrapped components
+* QInput, QSelect or QField wrapped components must use the internal validation (NOT the external one).
+* If you want to take advantage of the `reset` functionality, then be sure to also capture the `@reset` event on QForm and make its handler reset all of the wrapped components models.
+:::
+
+<doc-example title="Basic" file="QForm/Basic" />
+
+In order for the user to be able to activate the `@submit` or `@reset` events on the form, create a QBtn with `type` set to `submit` or `reset`:
 
 ```html
 <div>
@@ -14,24 +31,26 @@ The QForm component allows you to easily validate child form components that hav
 </div>
 ```
 
-Alternatvely, you can give the QForm a ref name and call the `validate` and `resetValidation` functions directly.
+Alternatively, you can give the QForm a Vue ref name and call the `validate` and `resetValidation` functions directly:
 
 ```
-<q-form ref="myForm" class="q-gutter-md">
+<q-form ref="myForm">
 
 // and then in code:
 
-if (this.$refs.myForm.validate()) {
-  // do something
-}
+this.$refs.myForm.validate().then(success => {
+  if (success) {
+    // yay, models are correct
+  }
+  else {
+    // oh no, user has filled in
+    // at least an invalid value
+  }
+})
+
+// to reset validations:
+this.$refs.myForm.resetValidation()
 ```
-
-## Installation
-<doc-installation components="QForm" />
-
-## Usage
-
-<doc-example title="Basic" file="QForm/Basic" />
 
 ## QForm API
 <doc-api file="QForm" />

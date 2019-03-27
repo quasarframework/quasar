@@ -102,8 +102,8 @@ export default Vue.extend({
       },
       on: {
         click: e => {
-          this.split && this.hide()
-          !this.disable && this.$emit('click', e)
+          this.split === true && this.hide()
+          this.disable !== true && this.$emit('click', e)
         }
       }
     }, this.split !== true ? Arrow : null)

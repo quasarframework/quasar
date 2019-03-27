@@ -31,6 +31,7 @@ if (!type || type === 'js') {
   createFolder('dist/babel-transforms')
   createFolder('dist/lang')
   createFolder('dist/icon-set')
+  createFolder('dist/types')
   runJob(join(__dirname, './script.build.javascript'))
 }
 if (!type || type === 'css') {

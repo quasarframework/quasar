@@ -55,22 +55,22 @@ export default Vue.extend({
     },
 
     computedTabIndex () {
-      return this.disable || this.isActive ? -1 : this.tabindex || 0
+      return this.disable === true || this.isActive === true ? -1 : this.tabindex || 0
     }
   },
 
   methods: {
-    activate (e) {
+    activate (e, keyboard) {
       if (this.disable !== true) {
         this.$listeners.click !== void 0 && this.$emit('click', e)
         this.__activateTab(this.name)
       }
 
-      this.$el.blur()
+      keyboard !== true && this.$refs.blurTarget.focus()
     },
 
     __onKeyup (e) {
-      e.keyCode === 13 && this.activate(e)
+      e.keyCode === 13 && this.activate(e, true)
     },
 
     __getContent (h) {
@@ -99,7 +99,7 @@ export default Vue.extend({
       narrow && content.push(indicator)
 
       const node = [
-        h('div', { staticClass: 'q-focus-helper' }),
+        h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }),
 
         h('div', {
           staticClass: 'q-tab__content flex-center relative-position no-pointer-events non-selectable',

@@ -346,6 +346,7 @@ export default Vue.extend({
           ref: 'control',
           staticClass: 'q-field__control relative-position row no-wrap',
           class: this.contentClass,
+          attrs: { tabindex: -1 },
           on: this.controlEvents
         }, this.__getContent(h)),
 
