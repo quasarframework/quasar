@@ -7,6 +7,8 @@ import DocInstallation from 'components/DocInstallation.vue'
 import DocLink from 'components/DocLink.vue'
 import DocPage from 'components/DocPage.vue'
 
+import AppExtensionDiscover from 'components/AppExtensionDiscover.vue'
+
 // leave the export, even if you don't use it
 export default async ({ Vue }) => {
   Vue.component('DocExample', DocExample)
@@ -16,4 +18,6 @@ export default async ({ Vue }) => {
 
   Vue.component('DocLink', DocLink)
   Vue.component('DocPage', DocPage)
+
+  Vue.component('AppExtensionDiscover', AppExtensionDiscover)
 }
