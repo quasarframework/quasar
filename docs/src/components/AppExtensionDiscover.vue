@@ -91,7 +91,6 @@ export default {
       // fetch data from server
       this.query(filter)
         .then(response => {
-          console.log(response)
           // clear out existing data and add new
           this.data.splice(0, this.data.length, ...response.data.results)
           this.pagination.rowsNumber = response.data.total
