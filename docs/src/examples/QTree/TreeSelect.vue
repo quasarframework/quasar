@@ -3,7 +3,7 @@
     <q-field filled label="Tree Select" stack-label>
       <template v-slot:control>
         <div tabindex="0" class="no-outline full-width">
-          {{selected}}
+          {{ selected }}
         </div>
       </template>
       <template v-slot:append>
