@@ -3,6 +3,7 @@ title: QTime
 related:
   - /vue-components/date
   - /quasar-utils/date-utils
+  - /vue-components/field
 ---
 
 The QTime component provides a method to input time.

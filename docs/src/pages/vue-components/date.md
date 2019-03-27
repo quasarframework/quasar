@@ -3,6 +3,7 @@ title: QDate
 related:
   - /vue-components/time
   - /quasar-utils/date-utils
+  - /vue-components/field
 ---
 
 The QDate component provides a method to input date. Currently it supports Gregorian (default) and Persian calendars.

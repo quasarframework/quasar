@@ -6,7 +6,7 @@ related:
   - /vue-components/field
 ---
 
-The QForm component renders a `<form>` DOM element and allows you to easily validate child form components (like [QInput](/vue-components/input#Internal-validation), [QSelect](/vue-components/select) or your [QField](/vue-components/field) wrapped components) that have the **inner validation** (NOT the external one) through `rules` associated with them.
+The QForm component renders a `<form>` DOM element and allows you to easily validate child form components (like [QInput](/vue-components/input#Internal-validation), [QSelect](/vue-components/select) or your [QField](/vue-components/field) wrapped components) that have the **internal validation** (NOT the external one) through `rules` associated with them.
 
 ## Installation
 <doc-installation components="QForm" />
@@ -16,7 +16,7 @@ The QForm component renders a `<form>` DOM element and allows you to easily vali
 ::: warning
 Please be aware of the following:
 * QForm hooks into QInput, QSelect or QField wrapped components
-* QInput, QSelect or QField wrapped components must use the inner validation (NOT the external one).
+* QInput, QSelect or QField wrapped components must use the internal validation (NOT the external one).
 * If you want to take advantage of the `reset` functionality, then be sure to also capture the `@reset` event on QForm and make its handler reset all of the wrapped components models.
 :::
 
