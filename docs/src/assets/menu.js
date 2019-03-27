@@ -851,6 +851,10 @@ const appExtensions = [
   {
     name: 'Introduction',
     path: 'introduction'
+  },
+  {
+    name: 'Discover',
+    path: 'discover'
   }
 ]
 
