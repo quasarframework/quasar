@@ -18,7 +18,10 @@ module.exports.generate = function () {
         writeFile(resolve('../types/' + (parentDir ? parentDir + file : file)), fs.readFileSync(fullPath))
       }
       else if (stats.isDirectory()) {
-        fs.mkdirSync(resolve('../types/' + (parentDir ? parentDir + file : file)))
+        const p = resolve('../types/' + (parentDir ? parentDir + file : file))
+        if (!fs.existsSync(p)) {
+          fs.mkdirSync(p)
+        }
         copyTypeFiles(fullPath, parentDir ? parentDir + file : file + '/')
       }
     })
