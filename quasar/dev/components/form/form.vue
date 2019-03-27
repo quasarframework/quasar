@@ -84,8 +84,11 @@ export default {
     },
 
     onReset () {
-      // reset manually all non-Quasar component's model
       this.native = null
+      this.name = null
+      this.age = null
+      this.modelAsync = null
+      this.accept = false
 
       console.log('@reset')
     },
