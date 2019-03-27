@@ -98,6 +98,10 @@ export default {
           // ...and turn of loading indicator
           this.loading = false
         })
+        .catch(() => {
+          this.$q.notify('Error looking for packages')
+          this.loading = false
+        })
     },
 
     query (filter) {
