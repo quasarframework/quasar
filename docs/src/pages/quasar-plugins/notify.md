@@ -40,7 +40,7 @@ For a full list of options, check the API section.
 :::
 
 ### Setting Defaults from Code
-Similar to how you can define Notify defaults in the configuration you can also define defaults in code, using `setDefaults`
+Similar to how you can define Notify defaults in the configuration you can also define defaults in code, using `setDefaults` method. Create a boot file (`$ quasar new boot notify-defaults`):
 
 ``` js
 // outside of a Vue file, in a boot plugin
