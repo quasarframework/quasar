@@ -1,6 +1,6 @@
 <template>
   <div class="q-layout-padding" :class="classes">
-    <div style="max-width: 600px" class="q-gutter-y-md">
+    <div style="max-width: 600px; margin-bottom: 100vh" class="q-gutter-y-md">
       <div class="q-gutter-x-md">
         <q-toggle :dark="dark" v-model="dark" label="Dark" />
         <q-toggle :dark="dark" v-model="dense" label="Dense" />
@@ -166,6 +166,58 @@
         </q-item-section>
         <q-item-section>List item</q-item-section>
       </q-item>
+
+      <p class="caption">
+        Tree select
+      </p>
+      <q-field filled :value="selected" label="Tree Select - Single">
+        <template v-slot:control>
+          <div tabindex="0" class="no-outline full-width">
+            {{ selected }}
+          </div>
+        </template>
+        <template v-slot:append>
+          <q-icon
+            name="expand_more"
+            class="q-expansion-item__toggle-icon"
+            :class="{ 'rotate-180': $refs.menu1 !== void 0 && $refs.menu1.showing === true }"
+          />
+        </template>
+        <q-popup-proxy fit auto-close ref="menu1">
+          <q-tree
+            :nodes="props"
+            default-expand-all
+            :selected.sync="selected"
+            node-key="label"
+            class="bg-white"
+          />
+        </q-popup-proxy>
+      </q-field>
+
+      <q-field filled :value="tickedValue" label="Tree Select - Multiple">
+        <template v-slot:control>
+          <div tabindex="0" class="no-outline full-width">
+            {{ tickedValue }}
+          </div>
+        </template>
+        <template v-slot:append>
+          <q-icon
+            name="expand_more"
+            class="q-expansion-item__toggle-icon"
+            :class="{ 'rotate-180': $refs.menu2 !== void 0 && $refs.menu2.showing === true }"
+          />
+        </template>
+        <q-popup-proxy fit ref="menu2">
+          <q-tree
+            :nodes="props"
+            default-expand-all
+            tick-strategy="leaf"
+            :ticked.sync="ticked"
+            node-key="label"
+            class="bg-white"
+          />
+        </q-popup-proxy>
+      </q-field>
     </div>
   </div>
 </template>
@@ -177,7 +229,49 @@ export default {
       dark: false,
       border: false,
       dense: false,
-      individualBorder: false
+      individualBorder: false,
+
+      selected: null,
+      ticked: [],
+      props: [
+        {
+          label: 'Satisfied customers',
+          avatar: 'https://cdn.quasar-framework.org/img/boy-avatar.png',
+          children: [
+            {
+              label: 'Good food',
+              icon: 'restaurant_menu',
+              children: [
+                { label: 'Quality ingredients' },
+                { label: 'Good recipe' }
+              ]
+            },
+            {
+              label: 'Good service',
+              icon: 'room_service',
+              children: [
+                { label: 'Prompt attention' },
+                { label: 'Professional waiter' }
+              ]
+            },
+            {
+              label: 'Pleasant surroundings',
+              icon: 'photo',
+              children: [
+                {
+                  label: 'Happy atmosphere'
+                },
+                {
+                  label: 'Good table presentation'
+                },
+                {
+                  label: 'Pleasing decor'
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
 
@@ -198,6 +292,10 @@ export default {
         'fields-border': this.border,
         'fields-individual-border': this.individualBorder
       }
+    },
+
+    tickedValue () {
+      return this.ticked.join(', ')
     }
   }
 }

@@ -69,7 +69,7 @@ export default Vue.extend({
     },
 
     view () {
-      this.$refs.blurTarget && this.$refs.blurTarget.focus()
+      this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
     }
   },
 
