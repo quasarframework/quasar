@@ -192,15 +192,15 @@ export default Vue.extend({
         ])
       )
 
-      this.__getInnerAppend !== void 0 && node.push(
-        this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
-      )
-
       this.$scopedSlots.append !== void 0 && node.push(
         h('div', {
           staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
           key: 'append'
         }, this.$scopedSlots.append())
+      )
+
+      this.__getInnerAppend !== void 0 && node.push(
+        this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
       )
 
       this.__getLocalMenu !== void 0 && node.push(
