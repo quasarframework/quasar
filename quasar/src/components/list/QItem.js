@@ -65,15 +65,15 @@ export default Vue.extend({
   methods: {
     __getContent (h) {
       const child = [].concat(slot(this, 'default'))
-      this.isClickable === true && child.unshift(h('div', { staticClass: 'q-focus-helper' }))
+      this.isClickable === true && child.unshift(h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }))
       return child
     },
 
     __onClick (e, avoidClick) {
       if (this.isClickable === true) {
-        this.$el.blur()
-        if (avoidClick !== true && this.$listeners.click !== void 0) {
-          this.$emit('click', e)
+        if (avoidClick !== true) {
+          this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+          this.$listeners.click !== void 0 && this.$emit('click', e)
         }
       }
     },

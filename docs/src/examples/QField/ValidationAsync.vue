@@ -4,12 +4,19 @@
       ref="slider"
       filled
       :value="slider"
-      label="Required Field *"
-      hint="Move it to 0 to see validation"
+      hint="Pick between 10 and 60"
       :rules="[ myRule ]"
     >
       <template v-slot:control>
-        <q-slider v-model="slider" :min="0" :max="100" label label-always class="q-mt-lg" style="width: 200px" />
+        <q-slider
+          v-model="slider"
+          :min="0"
+          :max="100"
+          label
+          label-always
+          class="q-mt-lg"
+          style="width: 200px"
+        />
       </template>
     </q-field>
 
@@ -38,7 +45,7 @@ export default {
           //     --> content is NOT valid, no error message
           //  resolve(error_message)
           //     --> content is NOT valid, we have error message
-          resolve(!!val || '* Required')
+          resolve((val >= 10 && val <= 60) || 'Please set value to maximum 60')
 
           // calling reject(...) will also mark the input
           // as having an error, but there will not be any

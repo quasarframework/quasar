@@ -316,6 +316,42 @@ export default Vue.extend({
       this[`__set${this.view}`](val)
     },
 
+    __onKeyupHour (e) {
+      if (e.keyCode === 13) { // ENTER
+        this.view = 'Hour'
+      }
+      else if (e.keyCode === 37) { // ARROW LEFT
+        this.__setHour((24 + this.innerModel.hour - 1) % (this.computedFormat24h === true ? 24 : 12))
+      }
+      else if (e.keyCode === 39) { // ARROW RIGHT
+        this.__setHour((24 + this.innerModel.hour + 1) % (this.computedFormat24h === true ? 24 : 12))
+      }
+    },
+
+    __onKeyupMinute (e) {
+      if (e.keyCode === 13) { // ENTER
+        this.view = 'Minute'
+      }
+      else if (e.keyCode === 37) { // ARROW LEFT
+        this.__setMinute((60 + this.innerModel.minute - 1) % 60)
+      }
+      else if (e.keyCode === 39) { // ARROW RIGHT
+        this.__setMinute((60 + this.innerModel.minute + 1) % 60)
+      }
+    },
+
+    __onKeyupSecond (e) {
+      if (e.keyCode === 13) { // ENTER
+        this.view = 'Second'
+      }
+      else if (e.keyCode === 37) { // ARROW LEFT
+        this.__setSecond((60 + this.innerModel.second - 1) % 60)
+      }
+      else if (e.keyCode === 39) { // ARROW RIGHT
+        this.__setSecond((60 + this.innerModel.second + 1) % 60)
+      }
+    },
+
     __getHeader (h) {
       const label = [
         h('div', {
@@ -324,7 +360,7 @@ export default Vue.extend({
           attrs: { tabindex: this.computedTabindex },
           on: {
             click: () => { this.view = 'Hour' },
-            keyup: e => { e.keyCode === 13 && (this.view = 'Hour') }
+            keyup: this.__onKeyupHour
           }
         }, [ this.stringModel.hour ]),
         h('div', [ ':' ]),
@@ -337,7 +373,7 @@ export default Vue.extend({
               attrs: { tabindex: this.computedTabindex },
               on: {
                 click: () => { this.view = 'Minute' },
-                keyup: e => { e.keyCode === 13 && (this.view = 'Minute') }
+                keyup: this.__onKeyupMinute
               }
             }
             : { staticClass: 'q-time__link' },
@@ -357,7 +393,7 @@ export default Vue.extend({
                 attrs: { tabindex: this.computedTabindex },
                 on: {
                   click: () => { this.view = 'Second' },
-                  keyup: e => { e.keyCode === 13 && (this.view = 'Second') }
+                  keyup: this.__onKeyupSecond
                 }
               }
               : { staticClass: 'q-time__link' },
@@ -589,7 +625,8 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-time',
       class: this.classes,
-      on: this.$listeners
+      on: this.$listeners,
+      attrs: { tabindex: -1 }
     }, [
       this.__getHeader(h),
       this.__getClock(h)

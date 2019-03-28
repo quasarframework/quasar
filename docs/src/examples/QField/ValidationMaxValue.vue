@@ -6,7 +6,7 @@
       :value="slider"
       label="Maximum 60"
       stack-label
-      :rules="[ val => val <= 60 || 'Please set value to maximum 60']"
+      :rules="[ val => val <= 60 || 'Please set value to maximum 60' ]"
     >
       <template v-slot:control>
         <q-slider v-model="slider" :min="0" :max="100" label label-always class="q-mt-lg" style="width: 200px" />

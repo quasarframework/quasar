@@ -650,6 +650,11 @@ const components = [
         path: 'form'
       },
       {
+        name: 'Field (wrapper)',
+        badge: 'new',
+        path: 'field'
+      },
+      {
         name: 'Radio',
         path: 'radio'
       },
@@ -684,11 +689,6 @@ const components = [
       {
         name: 'Date Picker',
         path: 'date'
-      },
-      {
-        name: 'Field',
-        badge: 'new',
-        path: 'field'
       }
     ]
   },
@@ -851,6 +851,10 @@ const appExtensions = [
   {
     name: 'Introduction',
     path: 'introduction'
+  },
+  {
+    name: 'Discover',
+    path: 'discover'
   }
 ]
 
