@@ -13,7 +13,7 @@
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="dense" label="Dense" />
         <q-toggle :dark="dark" v-model="optionsDense" label="(Options) Dense" />
-        <q-toggle :dark="dark" v-model="expandBesides" label="Expand besides" />
+        <q-toggle :dark="dark" v-model="optionsCover" label="Options cover" />
         <q-toggle :dark="dark" v-model="dark" label="Dark" />
         <q-toggle :dark="dark" v-model="optionsDark" label="(Options) Dark" />
       </div>
@@ -209,8 +209,6 @@
             </q-item-section>
           </q-item>
         </template>
-
-        <q-icon slot="append" name="clear" @click.stop="objectSingle = null" />
       </q-select>
 
       <q-select
@@ -236,8 +234,6 @@
             </q-item-section>
           </q-item>
         </template>
-
-        <q-icon slot="append" name="clear" @click.stop="objectMultiple = null" />
       </q-select>
 
       <div class="text-h6">
@@ -286,6 +282,7 @@
         :options="heavyOptions"
         label="Heavy"
         multiple
+        use-chips
       />
 
       <q-select
@@ -362,11 +359,7 @@
           v-model="stringSingle"
           :options="stringOptions"
           label="Single - standard"
-        >
-          <template #append>
-            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
-          </template>
-        </q-select>
+        />
 
         <q-select
           class="col-2"
@@ -375,11 +368,7 @@
           :options="stringOptions"
           label="Single - use input"
           use-input
-        >
-          <template #append>
-            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
-          </template>
-        </q-select>
+        />
 
         <q-select
           class="col-2"
@@ -389,22 +378,15 @@
           label="Single - hide-selected"
           use-input
           hide-selected
-        >
-          <template #append>
-            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
-          </template>
-        </q-select>
+        />
 
         <q-input
           class="col-2"
           v-bind="props"
-          v-model="stringSingle"
+          :value="stringSingle"
+          @input="val => stringSingle = val === null ? '' : val"
           label="Input"
-        >
-          <template #append>
-            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = ''" />
-          </template>
-        </q-input>
+        />
       </div>
 
       <div class="row q-gutter-sm">
@@ -413,11 +395,7 @@
           v-model="stringSingle"
           :options="stringOptions"
           label="Single - standard"
-        >
-          <template #append>
-            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
-          </template>
-        </q-select>
+        />
 
         <q-select
           v-bind="props"
@@ -425,11 +403,7 @@
           :options="stringOptions"
           label="Single - use input"
           use-input
-        >
-          <template #append>
-            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
-          </template>
-        </q-select>
+        />
 
         <q-select
           v-bind="props"
@@ -438,21 +412,14 @@
           label="Single - hide-selected"
           use-input
           hide-selected
-        >
-          <template #append>
-            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = null" />
-          </template>
-        </q-select>
+        />
 
         <q-input
           v-bind="props"
-          v-model="stringSingle"
+          :value="stringSingle"
+          @input="val => stringSingle = val === null ? '' : val"
           label="Input"
-        >
-          <template #append>
-            <q-icon v-if="stringSingle !== null" class="cursor-pointer" name="clear" @click.stop="stringSingle = ''" />
-          </template>
-        </q-input>
+        />
       </div>
 
       <div class="text-h6">
@@ -498,7 +465,7 @@ export default {
       dark: false,
       optionsDark: false,
       optionsDense: false,
-      expandBesides: false,
+      optionsCover: false,
 
       stringSingle: 'Facebook',
       stringMultiple: ['Facebook', 'Twitter'],
@@ -641,7 +608,7 @@ export default {
         dark: this.dark,
         optionsDense: this.optionsDense,
         optionsDark: this.optionsDark,
-        expandBesides: this.expandBesides,
+        optionsCover: this.optionsCover,
         clearable: true
       }
     },

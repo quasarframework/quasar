@@ -223,7 +223,7 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      this.$refs.target.focus()
+      this.$refs.control.focus()
     },
 
     removeAtIndex (index) {
@@ -260,7 +260,7 @@ export default Vue.extend({
       }
 
       const model = [].concat(this.value)
-      
+
       if (this.maxValues !== void 0 && model.length >= this.maxValues) {
         return
       }
@@ -406,14 +406,14 @@ export default Vue.extend({
       }
 
       // enter
-      if (e.keyCode !== 13) { return }
+      if (e.target !== this.$refs.target || e.keyCode !== 13) { return }
 
       stopAndPrevent(e)
 
       if (this.optionIndex > -1 && this.optionIndex < this.optionsToShow) {
         this.toggleOption(this.options[this.optionIndex])
 
-        if (this.multiple === true) {
+        if (this.multiple === true && this.inputValue.length > 0) {
           if (this.$listeners.filter !== void 0) {
             this.filter('')
             this.optionIndex = -1
@@ -489,7 +489,7 @@ export default Vue.extend({
             index = normalizeToInterval(
               index + (e.keyCode === 38 ? -1 : 1),
               -1,
-              this.options.length - 1
+              Math.min(this.optionsToShow, this.options.length) - 1
             )
 
             if (index === -1) {
@@ -604,7 +604,10 @@ export default Vue.extend({
       const data = this.editable === true && this.useInput === false
         ? {
           ref: 'target',
-          attrs: { tabindex: 0 },
+          attrs: {
+            tabindex: 0,
+            ...this.$attrs
+          },
           on: {
             keydown: this.__onTargetKeydown
           }
@@ -683,6 +686,7 @@ export default Vue.extend({
           : null,
         domProps: { value: this.inputValue },
         attrs: {
+          tabindex: 0,
           ...this.$attrs,
           disabled: this.editable !== true
         },
@@ -776,15 +780,18 @@ export default Vue.extend({
     },
 
     __onControlFocusin (e) {
-      if (this.editable === true) {
-        if (this.focused === false) {
-          this.focused = true
-          this.$listeners.focus !== void 0 && this.$emit('focus', e)
-        }
+      const target = this.$refs.target
+      if (this.editable === true && this.focused === false) {
+        this.focused = true
+        this.$listeners.focus !== void 0 && this.$emit('focus', e)
 
-        if (this.useInput === true && this.inputValue.length > 0) {
-          this.$refs.target.setSelectionRange(0, this.inputValue.length)
+        if (this.useInput === true && this.inputValue.length > 0 && target !== void 0) {
+          target.setSelectionRange(0, this.inputValue.length)
         }
+      }
+
+      if (e.target === this.$refs.control && target !== void 0) {
+        target.focus()
       }
     },
 
@@ -792,12 +799,14 @@ export default Vue.extend({
       setTimeout(() => {
         clearTimeout(this.inputTimer)
 
-        if (this.$refs === void 0 || this.$refs.control === void 0) {
-          return
-        }
+        if (document.hasFocus() === true) {
+          if (this.$refs === void 0 || this.$refs.control === void 0) {
+            return
+          }
 
-        if (this.$refs.control.contains(document.activeElement) !== false) {
-          return
+          if (this.$refs.control.contains(document.activeElement) !== false) {
+            return
+          }
         }
 
         if (this.focused === true) {

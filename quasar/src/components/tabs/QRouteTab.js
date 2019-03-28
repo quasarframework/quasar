@@ -33,7 +33,7 @@ export default Vue.extend({
         this.$el.focus()
       }
       else {
-        this.$refs.blurTarget.focus()
+        this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
       }
     },
 

@@ -85,7 +85,7 @@ export default Vue.extend({
 
   methods: {
     activate () {
-      this.$refs.blurTarget.focus()
+      this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
       !this.isActive && this.stepper.goTo(this.step.name)
     },
     keyup (e) {

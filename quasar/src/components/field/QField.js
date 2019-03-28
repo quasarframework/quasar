@@ -10,6 +10,8 @@ import { stop } from '../../utils/event.js'
 export default Vue.extend({
   name: 'QField',
 
+  inheritAttrs: false,
+
   mixins: [ ValidateMixin ],
 
   props: {
@@ -192,15 +194,15 @@ export default Vue.extend({
         ])
       )
 
-      this.__getInnerAppend !== void 0 && node.push(
-        this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
-      )
-
       this.$scopedSlots.append !== void 0 && node.push(
         h('div', {
           staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
           key: 'append'
         }, this.$scopedSlots.append())
+      )
+
+      this.__getInnerAppend !== void 0 && node.push(
+        this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
       )
 
       this.__getLocalMenu !== void 0 && node.push(
@@ -227,7 +229,11 @@ export default Vue.extend({
       else if (this.$scopedSlots.control !== void 0) {
         node.push(
           h('div', {
-            staticClass: 'q-field__native row'
+            ref: 'target',
+            staticClass: 'q-field__native row',
+            attrs: this.$attrs.tabindex !== void 0 ? {
+              tabindex: this.$attrs.tabindex
+            } : void 0
           }, this.$scopedSlots.control())
         )
       }
@@ -305,16 +311,24 @@ export default Vue.extend({
         this.focused = true
         this.$listeners.focus !== void 0 && this.$emit('focus', e)
       }
+
+      let target = this.$refs.target || this.$refs.input
+      if (e.target === this.$refs.control && target !== void 0) {
+        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
+        target !== null && target.focus()
+      }
     },
 
     __onControlFocusout (e) {
       setTimeout(() => {
-        if (this.$refs === void 0 || this.$refs.control === void 0) {
-          return
-        }
+        if (document.hasFocus() === true) {
+          if (this.$refs === void 0 || this.$refs.control === void 0) {
+            return
+          }
 
-        if (this.$refs.control.contains(document.activeElement) !== false) {
-          return
+          if (this.$refs.control.contains(document.activeElement) !== false) {
+            return
+          }
         }
 
         if (this.focused === true) {
@@ -333,7 +347,11 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
-      class: this.classes
+      class: this.classes,
+      attrs: {
+        ...this.$attrs,
+        tabindex: void 0
+      }
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
