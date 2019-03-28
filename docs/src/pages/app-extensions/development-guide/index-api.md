@@ -144,8 +144,8 @@ api.chainWebpackMainElectronProcess((cfg, { isClient, isServer }) => {
 })
 ```
 
-## api.chainWebpackMainElectronProcess
-Chain webpack config of main electron process
+## api.extendWebpackMainElectronProcess
+Extend webpack config Object of main electron process
 
 ```js
 /**

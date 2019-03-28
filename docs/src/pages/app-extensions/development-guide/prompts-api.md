@@ -30,10 +30,26 @@ The following is not an exhaustive list of possible types of questions and by no
   // "description" will be the variable
   // storing the answer
   name: 'description'
-  type: 'string',
+  type: 'input',
   required: false, // optional
   message: 'Project description',
   default: 'A Quasar Framework app', // optional
+}
+```
+
+```js
+{
+  name: 'source_build',
+  type: 'input',
+  required: true, // optional
+  message:
+    'If you want a separate file to be the source image during production, please specify it here: ',
+  validate: (input) => {
+    // ...do something ...
+  },
+  default: (answers) => {
+    return answers.source_dev || defaultImg
+  }
 }
 ```
 

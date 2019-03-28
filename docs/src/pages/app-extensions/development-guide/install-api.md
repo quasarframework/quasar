@@ -124,6 +124,21 @@ Needs a relative path to the folder of the file calling render().
 api.render('./path/to/a/template/folder')
 ```
 
+### Filename edge cases
+If you want to render a template file that either begins with a dot (i.e. .env) you will have to follow a specific naming convention, since dotfiles are ignored when publishing your plugin to npm:
+
+```
+# templates containing dotfiles must use an
+# underscore instead of the dot in their names:
+
+some-folder/_env
+
+# When calling api.render('./some-folder'), this will be
+# rendered in the project folder as:
+
+/.env
+```
+
 ### Using scope
 You can also inject some decision-making code into the files to be rendered by interpolating with [lodash.template](https://www.npmjs.com/package/lodash.template) syntax.
 

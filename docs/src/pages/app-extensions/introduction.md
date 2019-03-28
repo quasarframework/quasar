@@ -10,7 +10,6 @@ The patterns for development literally open the floodgates to making Quasar one 
 App Extensions are designed specifically for Quasar CLI only. This means that you will not be able to install them or run them in Vue CLI or UMD environments.
 :::
 
-
 ## What can an App Extension do?
 
 1. Enhance CLI behavior with new commands

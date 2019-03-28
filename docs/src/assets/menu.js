@@ -866,20 +866,16 @@ const appExtensions = [
         path: 'introduction'
       },
       {
-        name: 'Codex',
-        path: 'codex'
-      },
-      {
-        name: 'Index API',
-        path: 'index-api'
-      },
-      {
         name: 'Prompts API',
         path: 'prompts-api'
       },
       {
         name: 'Install API',
         path: 'install-api'
+      },
+      {
+        name: 'Index API',
+        path: 'index-api'
       },
       {
         name: 'Uninstall API',
