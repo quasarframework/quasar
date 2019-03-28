@@ -2,12 +2,12 @@
 title: App Extensions
 ---
 
-App Extensions are a way to painlessly inject complicated (or simple) libraries with a variety of dependencies, boot files, templates and custom logic. They can extend webpack, `quasar.conf.js`, tightly couple external UI components to core, and even register new commands with the CLI. They can be run with `quasar dev` and have complete access to the current live `ctx` (context).
+App Extensions are a way to painlessly inject complicated (or simple) libraries with a variety of dependencies, boot files, templates and custom logic. They can extend webpack, `quasar.conf.js`, tightly couple external UI components to core, and even register new commands with the Quasar CLI. They can be run with `quasar dev` and have complete access to the current live `ctx` (context).
 
 The patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there - now limited only by your imagination and innovation. This page will introduce you to the usage of App Extensions.
 
-::: tip
-Because of their deep integration with Quasar, app extensions will only run in the context of the Quasar CLI. This means that you will not be able to install them or run them in vue-cli or UMD environments.
+::: warning
+App Extensions are designed specifically for Quasar CLI only. This means that you will not be able to install them or run them in Vue CLI or UMD environments.
 :::
 
 
@@ -19,13 +19,24 @@ Because of their deep integration with Quasar, app extensions will only run in t
 4. Create and share a custom component
 5. Create and share added features to the framework or other applications
 6. Build, launch and control an API server
-7. Hook, combine and extend quasar core components
+7. Hook, combine and extend Quasar core components
 8. Modify code based on dynamically changing values that sit outside of the Quasar environment
 9. Create and manage abstractions of platform specific interfaces
 10. ... and a whole lot more
 
+App Extensions **replace the need to create custom starter kits**. Anything you add on top of the official starter kit can come in the form of an App Extension. This also eliminates maintenance overhead of keeping unofficial starter kits up to date with the official one and so we can ensure that every developer will always get the latest and greatest Quasar specs out of the box.
+
+## App Extension ext-id
+All App Extensions must prefix their name with `quasar-app-extension-`. Everything that follows after this prefix is considered to be the short alias of it. We call this the `ext-id` throughout the documentation.
+
+Example:
+* ext-id for `quasar-app-extension-awesomeness` is `awesomeness`
+* ext-id for `@some-npm-org/quasar-app-extension-awesomeness` is `@some-npm-org/awesomeness`
+
+One of the benefits of this naming scheme is that it makes Quasar App Extensions discoverability easy while searching for their npm packages: [App Extension - Discover](/app-extensions/discover).
+
 ## Anatomy of App Extensions
-App Extensions are installed, executed and can be uninstalled. The following guide discusses this in an abstract way. For details about individual extensions and how to work with them, please consult their respective repositories.
+App Extensions can be installed, executed and also uninstalled. The following guide discusses this in an abstract way. For details about individual extensions and how to work with them, please consult their respective repositories.
 
 ### Installing an App Extension
 ```
@@ -66,27 +77,4 @@ $ quasar ext remove <ext-id>
 
 
 ## List of official app-extensions
-Here is the current list of official app-extensions made by the Quasar team.
-
-### Tooling
- - [@quasar/testing](https://github.com/quasarframework/quasar-testing) includes 9 pre-configured sub-extensions for all of your testing needs
- - [@quasar/typescript](https://github.com/quasarframework/app-extension-typescript) transform your project into typescript awesomeness
-
-### Project Rigging
- - [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) a slightly opinionated management tool to use dotenv in your application
- - [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) a less slightly opinionated management tool to propogate variables to the browser for a variety of unlimited environments (dev, prod, test, etc) for use in your application
-- [@quasar/icon-factory](https://github.com/quasarframework/app-extension-icon-factory) cross-platform construction kit to generate all app-icons (favicons, .ico, .icns) for distributables
-
-### Components
- - [@quasar/qmediaplayer](https://github.com/quasarframework/app-extension-qmediaplayer) HTML5 Video and Audio player
- - [@quasar/qflashcard](https://github.com/quasarframework/app-extension-qflashcard) Show some information and reveal more with CSS Transition Mashups
- - [@quasar/qoverlay](https://github.com/quasarframework/app-extension-qoverlay) Overlays simplified
- - [@quasar/qactivity](https://github.com/quasarframework/app-extension-qactivity) Create activity timelines
-
-### In Development
- - [@quasar/apollo](https://github.com/quasarframework/app-extension-graphql) Apollo and GraphQL with server and front-end integration
- - [@quasar/feathersjs](https://github.com/quasarframework/app-extension-feathersjs) Create FeathersJS server and front-end integration
- - [@quasar/amplify](https://github.com/quasarframework/app-extension-amplify) Integrate and manage AWS Amplify
- - [@quasar/firebase](https://github.com/quasarframework/app-extension-firebase) Integrate and manage Google Firebase / Firestore
-  - [@quasar/qtranslate](https://github.com/quasarframework/app-extension-qtranslate) Deep localization including datetime, currency and string management
-  - [@quasar/universal-fs](https://github.com/quasarframework/app-extension-universal-fs) Wrap the filesystem interface for web, cordova and electron with one abstraction
+Check out [Discover App Extensions](/app-extensions/discover) page.
