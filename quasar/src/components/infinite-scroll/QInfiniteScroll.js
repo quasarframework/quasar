@@ -15,7 +15,8 @@ export default Vue.extend({
       default: 500
     },
     scrollTarget: {},
-    disable: Boolean
+    disable: Boolean,
+    reverse: Boolean
   },
 
   data () {
@@ -52,8 +53,15 @@ export default Vue.extend({
         scrollPosition = getScrollPosition(this.scrollContainer),
         containerHeight = height(this.scrollContainer)
 
-      if (scrollPosition + containerHeight + this.offset >= scrollHeight) {
-        this.trigger()
+      if (this.reverse) {
+        if (scrollPosition < this.offset) {
+          this.trigger()
+        }
+      }
+      else {
+        if (scrollPosition + containerHeight + this.offset >= scrollHeight) {
+          this.trigger()
+        }
       }
     },
 
@@ -64,10 +72,19 @@ export default Vue.extend({
 
       this.index++
       this.fetching = true
+      const heightBefore = getScrollHeight(this.scrollContainer)
       this.$emit('load', this.index, () => {
         if (this.working === true) {
           this.fetching = false
           this.$nextTick(() => {
+            if (this.reverse) {
+              const
+                heightAfter = getScrollHeight(this.scrollContainer),
+                scrollPosition = getScrollPosition(this.scrollContainer),
+                heightDifference = heightAfter - heightBefore
+
+              this.scrollContainer.scrollTop = scrollPosition + heightDifference
+            }
             this.$el.closest('body') && this.poll()
           })
         }
@@ -122,6 +139,14 @@ export default Vue.extend({
 
     this.updateScrollTarget()
     this.immediatePoll()
+
+    if (this.reverse) {
+      const
+        scrollHeight = getScrollHeight(this.scrollContainer),
+        containerHeight = height(this.scrollContainer)
+
+      this.scrollContainer.scrollTop = scrollHeight - containerHeight
+    }
   },
 
   beforeDestroy () {
@@ -132,13 +157,15 @@ export default Vue.extend({
 
   render (h) {
     const content = this.$scopedSlots.default !== void 0
-      ? this.$scopedSlots.default()
-      : []
-
-    return h('div', { staticClass: 'q-infinite-scroll' }, content.concat([
-      this.fetching
+        ? this.$scopedSlots.default()
+        : [],
+      body = this.fetching
         ? h('div', { staticClass: 'q-infinite-scroll__loading' }, slot(this, 'loading'))
-        : null
-    ]))
+        : null,
+      children = this.reverse
+        ? ([body]).concat(content)
+        : content.concat([body])
+
+    return h('div', { staticClass: 'q-infinite-scroll' }, children)
   }
 })

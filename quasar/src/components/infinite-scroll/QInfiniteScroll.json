@@ -18,6 +18,15 @@
 
     "disable": {
       "extends": "disable"
+    },
+
+    "reverse": {
+      "type": [ "Boolean" ],
+      "desc": "Scroll area should behave like a messenger - starting scrolled to bottom and loading from the top",
+      "examples": [
+        ":reverse=\"true\"",
+        "reverse"
+      ]
     }
   },
 
