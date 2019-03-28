@@ -338,6 +338,9 @@
       </div>
       <div class="q-gutter-sm">
         <q-btn :type="tag" color="primary" icon="mail" label="On Left" />
+        <q-btn :type="tag" color="white" text-color="black" icon="mail">
+          On left, slot instead of label
+        </q-btn>
         <q-btn :type="tag" color="secondary" icon-right="mail" label="On Right" />
       </div>
 
