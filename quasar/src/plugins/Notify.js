@@ -92,6 +92,15 @@ const Notifications = {
           return action
         })
       }
+      else if (notif.actions) {
+        notif.actions = notif.actions.map(item => {
+          const action = clone(item)
+
+          action.handler = () => close()
+
+          return action
+        })
+      }
 
       if (typeof config.onDismiss === 'function') {
         notif.onDismiss = config.onDismiss
