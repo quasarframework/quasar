@@ -10,6 +10,8 @@ import { stop } from '../../utils/event.js'
 export default Vue.extend({
   name: 'QField',
 
+  inheritAttrs: false,
+
   mixins: [ ValidateMixin ],
 
   props: {
@@ -227,7 +229,11 @@ export default Vue.extend({
       else if (this.$scopedSlots.control !== void 0) {
         node.push(
           h('div', {
-            staticClass: 'q-field__native row'
+            ref: 'target',
+            staticClass: 'q-field__native row',
+            attrs: this.$attrs.tabindex !== void 0 ? {
+              tabindex: this.$attrs.tabindex
+            } : void 0
           }, this.$scopedSlots.control())
         )
       }
@@ -305,6 +311,12 @@ export default Vue.extend({
         this.focused = true
         this.$listeners.focus !== void 0 && this.$emit('focus', e)
       }
+
+      let target = this.$refs.target || this.$refs.input
+      if (e.target === this.$refs.control && target !== void 0) {
+        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
+        target !== null && target.focus()
+      }
     },
 
     __onControlFocusout (e) {
@@ -335,7 +347,11 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
-      class: this.classes
+      class: this.classes,
+      attrs: {
+        ...this.$attrs,
+        tabindex: void 0
+      }
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center'

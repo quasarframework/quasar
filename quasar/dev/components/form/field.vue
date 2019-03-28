@@ -10,11 +10,11 @@
 
       <h1>Field wrapper tests</h1>
 
-      <q-field value="We count this" :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots counter>
+      <q-field value="We count this" :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots counter tabindex="0">
         <q-icon slot="before" name="event" />
 
         <template v-slot:control>
-          <div tabindex="0">
+          <div>
             Field content
           </div>
         </template>
@@ -26,11 +26,11 @@
         <q-icon slot="after" name="search" />
       </q-field>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
         <q-icon slot="before" name="event" />
 
         <template v-slot:control>
-          <div tabindex="0">
+          <div>
             Field content
           </div>
         </template>
@@ -49,11 +49,11 @@
         </template>
       </q-field>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label tabindex="0">
         <q-icon slot="before" name="event" color="orange" />
 
         <template v-slot:control>
-          <div tabindex="0">
+          <div>
             Field content
           </div>
         </template>
@@ -64,11 +64,11 @@
         </template>
       </q-field>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
         <q-icon slot="before" name="event" />
 
         <template v-slot:control>
-          <div tabindex="0">
+          <div>
             Field content
           </div>
         </template>
@@ -84,9 +84,9 @@
         <q-spinner slot="after" />
       </q-field>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
         <template v-slot:control>
-          <div tabindex="0">
+          <div>
             Field content
           </div>
         </template>
@@ -99,9 +99,9 @@
         </div>
       </q-field>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
         <template v-slot:control>
-          <div tabindex="0">
+          <div>
             Field content
           </div>
         </template>
@@ -110,19 +110,19 @@
         </div>
       </q-field>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label tabindex="0">
         <template v-slot:control>
-          <div tabindex="0">
+          <div>
             Field content
           </div>
         </template>
       </q-field>
 
-      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
         <q-btn slot="before" flat round dense icon="event" />
 
         <template v-slot:control>
-          <div tabindex="0">
+          <div>
             Field content
           </div>
         </template>
@@ -141,11 +141,11 @@
       <p class="caption">
         Item aligned test
       </p>
-      <q-field :dark="dark" :dense="dense" item-aligned label="Field label" stack-label bottom-slots>
+      <q-field :dark="dark" :dense="dense" item-aligned label="Field label" stack-label bottom-slots tabindex="0">
         <q-icon slot="before" name="event" />
 
         <template v-slot:control>
-          <div tabindex="0">
+          <div>
             Field content
           </div>
         </template>
@@ -170,9 +170,9 @@
       <p class="caption">
         Tree select
       </p>
-      <q-field filled :value="selected" label="Tree Select - Single">
+      <q-field filled :value="selected" label="Tree Select - Single" tabindex="0">
         <template v-slot:control>
-          <div tabindex="0" class="no-outline full-width">
+          <div class="no-outline full-width">
             {{ selected }}
           </div>
         </template>
@@ -194,9 +194,9 @@
         </q-popup-proxy>
       </q-field>
 
-      <q-field filled :value="tickedValue" label="Tree Select - Multiple">
+      <q-field filled :value="tickedValue" label="Tree Select - Multiple" tabindex="2">
         <template v-slot:control>
-          <div tabindex="0" class="no-outline full-width">
+          <div class="no-outline full-width">
             {{ tickedValue }}
           </div>
         </template>
