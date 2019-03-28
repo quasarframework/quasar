@@ -16,7 +16,7 @@
             <q-toggle :dark="dark" v-model="disable" label="Disable" />
             <q-toggle :dark="dark" v-model="dense" label="Dense" />
             <q-toggle :dark="dark" v-model="optionsDense" label="(Options) Dense" />
-            <q-toggle :dark="dark" v-model="expandBesides" label="Expand besides" />
+            <q-toggle :dark="dark" v-model="optionsCover" label="Options cover" />
             <q-toggle :dark="dark" v-model="dark" label="Dark" />
             <q-toggle :dark="dark" v-model="optionsDark" label="(Options) Dark" />
           </div>
@@ -323,7 +323,7 @@ export default {
       dark: false,
       optionsDark: false,
       optionsDense: false,
-      expandBesides: false,
+      optionsCover: false,
 
       simpleFilter: null,
       simpleFilterOptions: null,
@@ -523,7 +523,7 @@ export default {
         dark: this.dark,
         optionsDense: this.optionsDense,
         optionsDark: this.optionsDark,
-        expandBesides: this.expandBesides
+        optionsCover: this.optionsCover
       }
     }
   }
