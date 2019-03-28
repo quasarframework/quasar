@@ -309,12 +309,14 @@ export default Vue.extend({
 
     __onControlFocusout (e) {
       setTimeout(() => {
-        if (this.$refs === void 0 || this.$refs.control === void 0) {
-          return
-        }
+        if (document.hasFocus() === true) {
+          if (this.$refs === void 0 || this.$refs.control === void 0) {
+            return
+          }
 
-        if (this.$refs.control.contains(document.activeElement) !== false) {
-          return
+          if (this.$refs.control.contains(document.activeElement) !== false) {
+            return
+          }
         }
 
         if (this.focused === true) {

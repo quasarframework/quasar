@@ -37,7 +37,7 @@ export default Vue.extend({
       this.$emit('click', e, go)
       this.hasRouterLink === true && e.navigate !== false && go()
 
-      e !== void 0 && e.qKeyEvent !== true && this.$refs.blurTarget.focus()
+      e !== void 0 && e.qKeyEvent !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
     },
 
     __onKeydown (e) {

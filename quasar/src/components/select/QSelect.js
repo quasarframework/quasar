@@ -260,7 +260,7 @@ export default Vue.extend({
       }
 
       const model = [].concat(this.value)
-      
+
       if (this.maxValues !== void 0 && model.length >= this.maxValues) {
         return
       }
@@ -792,12 +792,14 @@ export default Vue.extend({
       setTimeout(() => {
         clearTimeout(this.inputTimer)
 
-        if (this.$refs === void 0 || this.$refs.control === void 0) {
-          return
-        }
+        if (document.hasFocus() === true) {
+          if (this.$refs === void 0 || this.$refs.control === void 0) {
+            return
+          }
 
-        if (this.$refs.control.contains(document.activeElement) !== false) {
-          return
+          if (this.$refs.control.contains(document.activeElement) !== false) {
+            return
+          }
         }
 
         if (this.focused === true) {
