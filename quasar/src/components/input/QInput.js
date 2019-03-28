@@ -136,6 +136,7 @@ export default Vue.extend({
       }
 
       const attrs = {
+        tabindex: 0,
         rows: this.type === 'textarea' ? 6 : void 0,
         ...this.$attrs,
         'aria-label': this.label,

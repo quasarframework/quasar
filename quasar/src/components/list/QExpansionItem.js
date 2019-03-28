@@ -97,7 +97,7 @@ export default Vue.extend({
     __toggleIcon (e, keyboard) {
       if (this.hasRouterLink === true || this.expandIconToggle === true) {
         stopAndPrevent(e)
-        keyboard !== true && this.$refs.blurTarget.focus()
+        keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
         this.toggle(e)
       }
     },
