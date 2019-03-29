@@ -4,6 +4,9 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
+import ClickOutside from '../menu/ClickOutside.js'
+import ClosePopup from '../../directives/ClosePopup.js'
+
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
@@ -30,6 +33,11 @@ export default Vue.extend({
 
   mixins: [ ModelToggleMixin, PortalMixin, PreventScrollMixin ],
 
+  directives: {
+    ClickOutside,
+    ClosePopup
+  },
+
   modelToggle: {
     history: true
   },
@@ -39,6 +47,7 @@ export default Vue.extend({
     noEscDismiss: Boolean,
     noBackdropDismiss: Boolean,
     noRouteDismiss: Boolean,
+    autoClose: Boolean,
 
     seamless: Boolean,
 
@@ -114,12 +123,39 @@ export default Vue.extend({
           ? (this.transitionState === true ? this.transitionHide : this.transitionShow)
           : 'slide-' + transitions[this.position][this.transitionState === true ? 1 : 0]
       )
+    },
+
+    showBackdrop () {
+      return this.showing === true && this.seamless !== true
+    },
+
+    directives () {
+      const directives = []
+
+      if (this.autoClose === true) {
+        directives.push({
+          name: 'close-popup'
+        })
+      }
+
+      if (this.showBackdrop === true) {
+        directives.push({
+          name: 'click-outside',
+          arg: this.__portal !== void 0 ? this.__portal.$refs : void 0
+        })
+      }
+
+      return directives.length > 0 ? directives : void 0
     }
   },
 
   methods: {
     shake () {
       const node = this.__portal.$refs.inner
+
+      if (node.contains(document.activeElement) === false) {
+        node.focus()
+      }
 
       node.classList.remove('q-animate--scale')
       node.classList.add('q-animate--scale')
@@ -140,11 +176,19 @@ export default Vue.extend({
         this.__refocusTarget.blur()
       }
 
+      this.$el.dispatchEvent(new Event('popup-show', { bubbles: true }))
+
       this.__updateState(true, this.maximized)
 
-      EscapeKey.register(this, () => {
+      EscapeKey.register(this, (e) => {
         if (this.seamless !== true) {
-          if (this.persistent === true || this.noEscDismiss === true) {
+          if (
+            this.persistent === true ||
+            (
+              this.noEscDismiss === true &&
+              (e === void 0 || e.code !== 'click-outside')
+            )
+          ) {
             this.maximized !== true && this.shake()
           }
           else {
@@ -181,6 +225,8 @@ export default Vue.extend({
         if (this.__refocusTarget !== void 0) {
           this.__refocusTarget.focus()
         }
+
+        this.$el.dispatchEvent(new Event('popup-hide', { bubbles: true }))
 
         this.$emit('hide', evt)
       }, 300)
@@ -221,14 +267,9 @@ export default Vue.extend({
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }
-        }, this.showing && this.seamless !== true ? [
+        }, this.showBackdrop === true ? [
           h('div', {
-            staticClass: 'q-dialog__backdrop fixed-full',
-            on: {
-              click: this.persistent !== true && this.noBackdropDismiss !== true
-                ? this.hide
-                : this.shake
-            }
+            staticClass: 'q-dialog__backdrop fixed-full'
           })
         ] : null),
 
@@ -240,6 +281,7 @@ export default Vue.extend({
             staticClass: 'q-dialog__inner fixed-full flex no-pointer-events',
             class: this.classes,
             attrs: { tabindex: -1 },
+            directives: this.directives,
             on: {
               ...this.$listeners,
               input: stop
