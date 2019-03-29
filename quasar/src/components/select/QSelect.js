@@ -852,8 +852,9 @@ export default Vue.extend({
           this.__hydrateOptions()
         })
       }
-      document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
-      document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keyup', this.__onGlobalKeyup)
+      const action = (show === true ? 'add' : 'remove') + 'EventListener'
+      document.body[action]('keydown', this.__onGlobalKeydown)
+      document.body[action]('keyup', this.__onGlobalKeyup)
     }
   },
 
