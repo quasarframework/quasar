@@ -1,4 +1,4 @@
-.q-menu, .q-local-menu
+.q-menu
   box-shadow $menu-box-shadow
   background $menu-background
   border-radius $generic-border-radius
@@ -6,24 +6,7 @@
   overflow-x hidden
   outline 0
   max-height 65vh
-
-.q-menu
   z-index $z-menu
   position fixed !important
   display inline-block
   max-width $menu-max-width
-
-.q-local-menu
-  z-index $z-local-menu
-  cursor default
-  position absolute
-  color initial
-  left 0
-  min-width 100%
-  max-width 100vw
-
-  &--dark
-    color white
-    background $grey-9
-  &--square
-    border-radius 0
