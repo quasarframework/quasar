@@ -133,6 +133,7 @@ $ quasar ext uninvoke my-ext
 # Re-install the app ext
 $ quasar ext invoke my-ext
 ```
+
 You really only need to `quasar ext invoke my-ext` (install) the App Extension to re-install it. The above information is for completeness.
 
 ::: warning
