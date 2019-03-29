@@ -401,6 +401,9 @@ export default Vue.extend({
     __onTargetKeyup (e) {
       // escape
       if (e.keyCode === 27) {
+        if (this.menu === true) {
+          this.$emit('escape-key')
+        }
         stopAndPrevent(e)
         this.__setMenuStatus(false)
         return
@@ -513,6 +516,9 @@ export default Vue.extend({
     __onGlobalKeyup (e) {
       // escape
       if (e.keyCode === 27) {
+        if (this.menu === true) {
+          this.$emit('escape-key')
+        }
         stopAndPrevent(e)
         this.__setMenuStatus(false)
       }

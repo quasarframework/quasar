@@ -182,17 +182,12 @@ export default Vue.extend({
 
       EscapeKey.register(this, (e) => {
         if (this.seamless !== true) {
-          if (
-            this.persistent === true ||
-            (
-              this.noEscDismiss === true &&
-              (e === void 0 || e.type !== 'click-outside')
-            )
-          ) {
+          const notClickOutside = e === void 0 || e.type !== 'click-outside'
+          if (this.persistent === true || (this.noEscDismiss === true && notClickOutside === true)) {
             this.maximized !== true && this.shake()
           }
           else {
-            this.$emit('escape-key')
+            notClickOutside === true && this.$emit('escape-key')
             this.hide()
           }
         }

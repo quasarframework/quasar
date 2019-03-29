@@ -154,8 +154,9 @@ export default Vue.extend({
         window.addEventListener('scroll', this.updatePosition, listenOpts.passive)
       }
 
-      EscapeKey.register(this, () => {
-        this.$emit('escape-key')
+      EscapeKey.register(this, e => {
+        const notClickOutside = e === void 0 || e.type !== 'click-outside'
+        notClickOutside === true && this.$emit('escape-key')
         this.hide()
       })
 
