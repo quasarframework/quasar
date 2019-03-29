@@ -44,3 +44,4 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/firebase](https://github.com/quasarframework/app-extension-firebase) | Integrate and manage Google Firebase / Firestore |
 | [@quasar/qtranslate](https://github.com/quasarframework/app-extension-qtranslate) | Deep localization including datetime, currency and string management |
 | [@quasar/universal-fs](https://github.com/quasarframework/app-extension-universal-fs) | Wrap the filesystem interface for web, cordova and electron with one abstraction |
+| [@quasar/obyte](https://github.com/quasarframework/quasar-starter-kit-Obyte) | Create an Obyte application |
