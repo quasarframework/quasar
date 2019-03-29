@@ -112,33 +112,26 @@ module.exports = function (api, ctx) {
   api.extendQuasarConf((conf) => {
     // make sure directives needed are compiled into app project
     if (!conf.directives.includes('CloseMenu')) {
-      console.log(` App Extension (my-ext) Info: 'Adding CloseMenu directive - consider adding this to your quasar.conf.js'`)
       conf.directives.push('CloseMenu')
     }
 
     // make sure my-ext boot file is registered
-    if (!conf.boot.includes('~quasar-app-extension-my-ext/src/boot/my-ext.js')) {
-      conf.boot.push('~quasar-app-extension-my-ext/src/boot/qmarkdown.js')
-      // make sure boot file transpiles
-      conf.build.transpileDependencies.push(/quasar-app-extension-my-ext[\\/]src[\\/]boot/)
-      console.log(` App Extension (my-ext) Info: 'Adding my-ext boot reference to your quasar.conf.js'`)
-    }
+    conf.boot.push('~quasar-app-extension-my-ext/src/boot/qmarkdown.js')
+    // make sure boot file transpiles
+    conf.build.transpileDependencies.push(/quasar-app-extension-my-ext[\\/]src[\\/]boot/)
 
     // make sure my-ext css goes through webpack to avoid ssr issues
-    if (!conf.css.includes('~quasar-app-extension-my-ext/src/component/my-ext.styl')) {
-      conf.css.push('~quasar-app-extension-qmarkdown/src/component/my-ext.styl')
-      console.log(` App Extension (my-ext) Info: 'Adding my-ext.styl css reference to your quasar.conf.js'`)
-    }
+    conf.css.push('~quasar-app-extension-qmarkdown/src/component/my-ext.styl')
   })
 }
 ```
 
 ::: tip
-Notice the tidle (~) in front of the paths. This tells the quasar build to use this absolute path (to node_modules). If you do not do this, expect an error when the app is built.
+Notice the tidle (`~`) in front of the paths. This tells Quasar CLI that the path is a dependency from node_modules instead of a relative path to App Extension index script file.
 :::
 
 ::: tip
-Always check for the existence of anything you need added to the conf file before adding it (like directives).
+Always check for the existence of anything you need added to the conf file before adding it (like directives). The developer might have added it already in his `/quasar.conf.js`.
 :::
 
 ## api.chainWebpack
