@@ -745,10 +745,10 @@
   resolved "https://registry.yarnpkg.com/@positron/stack-trace/-/stack-trace-1.0.0.tgz#14fcc712a530038ef9be1ce6952315a839f466a8"
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
-"@quasar/app@^1.0.0-beta.7":
-  version "1.0.0-beta.13"
-  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.0.0-beta.13.tgz#55127104ed2fc3b7bbed2882ecbaf8412a00a3e2"
-  integrity sha512-BMF/U/5xE7EntvVWVeQ0ud2k9z5xo4TGast5/Wv/g2+X4/VBIYUFPlDMNJh93okZ6QnRaNycU5xORo+dUiF8Cg==
+"@quasar/app@^1.0.0-beta.14":
+  version "1.0.0-beta.14"
+  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.0.0-beta.14.tgz#83a683dd9f9c665b4a82da212b90ff87ee642220"
+  integrity sha512-RYN82W9i85YiYoPvq54Cycsy7VP49B+HRrl/ERpYjMRJS2jauvkbD6DSKeBMGdP1/n77Pi/Rw6zJ3B0gZKMLqA==
   dependencies:
     "@quasar/babel-preset-app" "1.0.2"
     "@vue/preload-webpack-plugin" "1.1.0"
@@ -757,10 +757,10 @@
     babel-loader "8.0.5"
     babel-plugin-transform-imports "1.5.1"
     chalk "2.4.2"
-    chokidar "2.1.2"
+    chokidar "2.1.5"
     ci-info "2.0.0"
     compression-webpack-plugin "2.0.0"
-    copy-webpack-plugin "5.0.1"
+    copy-webpack-plugin "5.0.2"
     cross-spawn "6.0.5"
     css-loader "2.1.1"
     cssnano "4.1.10"
@@ -809,7 +809,7 @@
     vuex "3.1.0"
     webpack "4.29.6"
     webpack-bundle-analyzer "3.1.0"
-    webpack-chain "5.2.2"
+    webpack-chain "5.2.3"
     webpack-dev-server "3.2.1"
     webpack-merge "4.2.1"
     webpack-node-externals "1.7.2"
@@ -1369,14 +1369,6 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.8.0.tgz#f0e003d9ca9e7f59c7a508945d7b2ef9a04a542f"
   integrity sha512-ReZxvNHIOv88FlT7rxcXIIC0fPt4KZqZbOlivyWtXLt8ESx84zd3kMC6iK5jVeS2qt+g7ftS7ye4fi06X5rtRQ==
 
-axios@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
-  integrity sha1-MtU+SFHv3AoRmTts0AB4nXDAUQI=
-  dependencies:
-    follow-redirects "^1.3.0"
-    is-buffer "^1.1.5"
-
 babel-eslint@^10.0.1:
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-10.0.1.tgz#919681dc099614cd7d31d45c8908695092a1faed"
@@ -1847,26 +1839,7 @@ check-types@^7.3.0:
   resolved "https://registry.yarnpkg.com/check-types/-/check-types-7.4.0.tgz#0378ec1b9616ec71f774931a3c6516fad8c152f4"
   integrity sha512-YbulWHdfP99UfZ73NcUDlNJhEIDgm9Doq9GhpyXbF+7Aegi3CVV7qqMCKTTqJxlvEvnQBp9IA+dxsGN6xK/nSg==
 
-chokidar@2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.2.tgz#9c23ea40b01638439e0513864d362aeacc5ad058"
-  integrity sha512-IwXUx0FXc5ibYmPC2XeEj5mpXoV66sR+t3jqu2NS2GYwCktt3KF1/Qqjws/NkegajBA4RbZ5+DDwlOiJsxDHEg==
-  dependencies:
-    anymatch "^2.0.0"
-    async-each "^1.0.1"
-    braces "^2.3.2"
-    glob-parent "^3.1.0"
-    inherits "^2.0.3"
-    is-binary-path "^1.0.0"
-    is-glob "^4.0.0"
-    normalize-path "^3.0.0"
-    path-is-absolute "^1.0.0"
-    readdirp "^2.2.1"
-    upath "^1.1.0"
-  optionalDependencies:
-    fsevents "^1.2.7"
-
-chokidar@^2.0.0, chokidar@^2.0.2:
+chokidar@2.1.5, chokidar@^2.0.0, chokidar@^2.0.2:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.5.tgz#0ae8434d962281a5f56c72869e79cb6d9d86ad4d"
   integrity sha512-i0TprVWp+Kj4WRPtInjexJ8Q+BqTE909VpH8xVhXrJkoc5QC8VO9TryGOqTr+2hljzc1sC62t22h5tZePodM/A==
@@ -2198,10 +2171,10 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
-copy-webpack-plugin@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/copy-webpack-plugin/-/copy-webpack-plugin-5.0.1.tgz#97997989cc5bc69976bf64f660bd19663481f089"
-  integrity sha512-yMTURAkYZO/6h6pGMbHQl2jpKtRNC+0Cy/4kRRP6qUHmpbGGAzNnyMecE6aHgGFCb4ksrL3YcDqYGb8ds3J9cw==
+copy-webpack-plugin@5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/copy-webpack-plugin/-/copy-webpack-plugin-5.0.2.tgz#56186dfddbf9aa1b29c97fa4c796c1be98870da4"
+  integrity sha512-7nC7EynPrnBTtBwwbG1aTqrfNS1aTb9eEjSmQDqFtKAsJrR3uDb+pCDIFT2LzhW+SgGJxQcYzThrmXzzZ720uw==
   dependencies:
     cacache "^11.3.1"
     find-cache-dir "^2.0.0"
@@ -3461,7 +3434,7 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
 
-follow-redirects@^1.0.0, follow-redirects@^1.3.0:
+follow-redirects@^1.0.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.7.0.tgz#489ebc198dc0e7f64167bd23b03c4c19b5784c76"
   integrity sha512-m/pZQy4Gj287eNy94nivy5wchN3Kp+Q5WgUPNy5lJSZ3sgkVKSYV/ZChMAQVIgx1SqfZ2zBZtPA2YlXIWxxJOQ==
@@ -7815,7 +7788,7 @@ unset-value@^1.0.0:
     has-value "^0.3.1"
     isobject "^3.0.0"
 
-upath@^1.1.0, upath@^1.1.1:
+upath@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/upath/-/upath-1.1.2.tgz#3db658600edaeeccbe6db5e684d67ee8c2acd068"
   integrity sha512-kXpym8nmDmlCBr7nKdIx8P2jNBa+pBpIUFRnKJ4dr8htyYGJFokkr2ZvERRtUN+9SY+JqXouNgUPtv6JQva/2Q==
@@ -8061,10 +8034,10 @@ webpack-bundle-analyzer@3.1.0:
     opener "^1.5.1"
     ws "^6.0.0"
 
-webpack-chain@5.2.2:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/webpack-chain/-/webpack-chain-5.2.2.tgz#5018d49b0d41cedb5609ed63a4d5c5d2f88fff1a"
-  integrity sha512-543uSulIfWmJWPPFkt334U2EjMkCojEsaBj4KXn9+RbR4ST+FKSk7JpMYal6YiTzcuB0xj4uXKB8P5iTmP98uQ==
+webpack-chain@5.2.3:
+  version "5.2.3"
+  resolved "https://registry.yarnpkg.com/webpack-chain/-/webpack-chain-5.2.3.tgz#dbe782b1ae3c8a3658600dbb85be0cc8c6eee94d"
+  integrity sha512-4s4X02RiiPKz3v9LwSCTNUyieY8EOfj0DflUC2ySUvtj2/IWH+ai9Orz07uYiQ4l/knR5U88Q9Nty3Oay6OGGw==
   dependencies:
     deepmerge "^1.5.2"
     javascript-stringify "^2.0.0"

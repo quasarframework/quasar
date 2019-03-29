@@ -16,6 +16,9 @@
             You have lost connection to the internet. This app is offline.
 
             <q-btn label="Close" v-close-popup />
+            <div>Popup text.</div>
+
+            <q-btn slot="action" flat color="primary" label="close" v-close-popup />
           </q-banner>
         </q-popup-proxy>
       </div>
@@ -30,8 +33,74 @@
             <input v-model="text">
             You have lost connection to the internet. This app is offline.
             <q-btn label="Close" v-close-popup />
+            <div>Popup text.</div>
+
+            <q-btn slot="action" flat color="primary" label="close" v-close-popup />
           </q-banner>
         </q-popup-proxy>
+      </div>
+
+      <div class="q-mt-xl">
+        <q-btn @click="dialog = true" label="Dialog" />
+        <q-dialog v-model="dialog">
+          <q-card class="q-pa-xl">
+            <q-btn label="Popup proxy" color="primary" class="q-ma-md">
+              <q-popup-proxy>
+                <q-banner>
+                  <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
+
+                  <input v-model="text">
+                  <div>Popup text.</div>
+
+                  <q-btn slot="action" flat color="primary" label="Close popup" v-close-popup />
+                </q-banner>
+              </q-popup-proxy>
+            </q-btn>
+            <q-btn label="Menu" color="primary" class="q-ma-md">
+              <q-menu>
+                <q-list>
+                  <q-item clickable>
+                    <q-item-section>
+                      Popup proxy
+                      <q-popup-proxy>
+                        <q-banner>
+                          <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
+
+                          <input v-model="text">
+                          <div>Popup text.</div>
+
+                          <q-btn slot="action" flat color="primary" label="Close popup" v-close-popup />
+                        </q-banner>
+                      </q-popup-proxy>
+                    </q-item-section>
+                  </q-item>
+                  <q-item v-for="n in 5" :key="n" v-close-popup clickable>
+                    <q-item-section>Menu Item {{ n }}</q-item-section>
+                  </q-item>
+                  <q-item clickable>
+                    <q-item-section>Submenu Label</q-item-section>
+                    <q-item-section side>
+                      <q-icon name="keyboard_arrow_right" />
+                    </q-item-section>
+                    <q-menu anchor="top right" self="top left">
+                      <q-list>
+                        <q-item v-for="n in 5" :key="n" v-close-popup clickable>
+                          <q-item-section>Menu Item {{ n }}</q-item-section>
+                        </q-item>
+                        <q-item clickable v-close-popup:2>
+                          <q-item-section>Close dialog</q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-item>
+                  <q-item clickable v-close-popup:2>
+                    <q-item-section>Close dialog</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+          </q-card>
+        </q-dialog>
       </div>
 
       <div class="q-mt-xl">
@@ -100,7 +169,8 @@ export default {
       type: this.$q.screen.width < 600 ? 'dialog' : 'menu',
       input: '',
       date: '2018/11/03',
-      model: false
+      model: false,
+      dialog: false
     }
   },
 
