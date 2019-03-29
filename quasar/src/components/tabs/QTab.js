@@ -66,7 +66,7 @@ export default Vue.extend({
         this.__activateTab(this.name)
       }
 
-      keyboard !== true && this.$refs.blurTarget.focus()
+      keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
     },
 
     __onKeyup (e) {

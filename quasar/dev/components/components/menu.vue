@@ -81,6 +81,16 @@
               <q-btn label="Menu" color="primary">
                 <q-menu>
                   <q-list>
+                    <q-item clickable>
+                      <q-item-section @click="dialog2 = true">
+                        Open Dialog
+                      </q-item-section>
+                    </q-item>
+                    <q-item v-close-popup clickable>
+                      <q-item-section @click="dialog2 = true">
+                        Close Menu and Open Dialog
+                      </q-item-section>
+                    </q-item>
                     <q-item v-for="n in 5" :key="n" v-close-popup clickable>
                       <q-item-section>Menu Item {{ n }}</q-item-section>
                     </q-item>
@@ -100,6 +110,22 @@
                   <q-list>
                     <q-item v-for="n in 5" :key="n" v-close-popup clickable>
                       <q-item-section>Menu Item {{ n }}</q-item-section>
+                    </q-item>
+                    <q-item clickable>
+                      <q-item-section>Submenu Label</q-item-section>
+                      <q-item-section side>
+                        <q-icon name="keyboard_arrow_right" />
+                      </q-item-section>
+                      <q-menu anchor="top right" self="top left">
+                        <q-list>
+                          <q-item v-for="n in 5" :key="n" v-close-popup clickable>
+                            <q-item-section>Menu Item {{ n }}</q-item-section>
+                          </q-item>
+                          <q-item clickable v-close-popup:2>
+                            <q-item-section>Close dialog</q-item-section>
+                          </q-item>
+                        </q-list>
+                      </q-menu>
                     </q-item>
                   </q-list>
                 </q-menu>

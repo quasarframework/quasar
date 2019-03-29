@@ -29,7 +29,7 @@ export default {
             return 1 * dir
           }
           if (col.sort !== void 0) {
-            return col.sort(A, B) * dir
+            return col.sort(A, B, a, b) * dir
           }
           if (isNumber(A) === true && isNumber(B) === true) {
             return (A - B) * dir

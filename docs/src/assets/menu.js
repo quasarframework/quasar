@@ -851,6 +851,37 @@ const appExtensions = [
   {
     name: 'Introduction',
     path: 'introduction'
+  },
+  {
+    name: 'Discover App Extensions',
+    path: 'discover'
+  },
+  {
+    name: 'Development Guide',
+    path: 'development-guide',
+    opened: true,
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Prompts API',
+        path: 'prompts-api'
+      },
+      {
+        name: 'Install API',
+        path: 'install-api'
+      },
+      {
+        name: 'Index API',
+        path: 'index-api'
+      },
+      {
+        name: 'Uninstall API',
+        path: 'uninstall-api'
+      }
+    ]
   }
 ]
 

@@ -17,8 +17,6 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/tab-panels).
 
-<doc-example title="Tree select" file="QTree/TreeSelect" />
-
 ### Customize content
 
 Notice (in the example below) the default header and body slot customization.
