@@ -2,7 +2,7 @@
 title: App Extension Index API
 ---
 
-This page refers to `src/index.js` file, which is executed on `quasar dev` and `quasar build`.
+This page refers to `src/index.js` file, which is executed on `quasar dev` and `quasar build`. This is the main process where you can modify the build to suit the needs of your App Extension. For instance, registering a boot file, registering CSS, registering a UI component, modifying the webpack process, etc.
 
 Example of basic structure of the file:
 
@@ -105,6 +105,42 @@ api.extendQuasarConf ((cfg, ctx) => {
 })
 ```
 
+### Registering boot and css files and a directive
+
+```
+module.exports = function (api, ctx) {
+  api.extendQuasarConf((conf) => {
+    // make sure directives needed are compiled into app project
+    if (!conf.directives.includes('CloseMenu')) {
+      console.log(` App Extension (my-ext) Info: 'Adding CloseMenu directive - consider adding this to your quasar.conf.js'`)
+      conf.directives.push('CloseMenu')
+    }
+
+    // make sure my-ext boot file is registered
+    if (!conf.boot.includes('~quasar-app-extension-my-ext/src/boot/my-ext.js')) {
+      conf.boot.push('~quasar-app-extension-my-ext/src/boot/qmarkdown.js')
+      // make sure boot file transpiles
+      conf.build.transpileDependencies.push(/quasar-app-extension-my-ext[\\/]src[\\/]boot/)
+      console.log(` App Extension (my-ext) Info: 'Adding my-ext boot reference to your quasar.conf.js'`)
+    }
+
+    // make sure my-ext css goes through webpack to avoid ssr issues
+    if (!conf.css.includes('~quasar-app-extension-my-ext/src/component/my-ext.styl')) {
+      conf.css.push('~quasar-app-extension-qmarkdown/src/component/my-ext.styl')
+      console.log(` App Extension (my-ext) Info: 'Adding my-ext.styl css reference to your quasar.conf.js'`)
+    }
+  })
+}
+```
+
+::: tip
+Notice the tidle (~) in front of the paths. This tells the quasar build to use this absolute path (to node_modules). If you do not do this, expect an error when the app is built.
+:::
+
+::: tip
+Always check for the existence of anything you need added to the conf file before adding it (like directives).
+:::
+
 ## api.chainWebpack
 Chain webpack config
 
@@ -192,7 +228,21 @@ api.registerDescribeApi(
 
 The above will then respond to `$ quasar describe MyComponent`.
 
-For syntax of such a JSON file, look into `/node_modules/quasar/dist/api` (in your project folder).
+For syntax of such a JSON file, look into `/node_modules/quasar/dist/api` (in your project folder). However, be aware that yor JSON will need a `type` added based on the type of app extension. For instance:
+
+```
+{
+  "type": "component",
+  "props": {
+  },
+  "events": {
+  },
+  "methods": {
+  },
+  "slots": {
+  }
+}
+```
 
 ::: tip
 Always test with the `quasar describe` command to ensure you got the syntax right and there are no errors.

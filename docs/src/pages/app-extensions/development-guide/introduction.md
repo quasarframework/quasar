@@ -55,11 +55,16 @@ $ quasar create test-app -b dev
 Learn more about what you can do with the [Prompts API](/app-extensions/development-guide/prompts-api) and the [Install API](/app-extensions/development-guide/install-api).
 :::
 
-Inside of the testing Quasar project folder, we manually add our App Extension. Notice that we are not specifying the npm package name (it's not published yet!) but a path to our App Extension folder where we develop it, since we want to test unpublished work:
+Inside the testing Quasar project folder, we manually add our App Extension. Notice that we are not specifying the npm package name (it's not published yet!) but a path to our App Extension folder where we develop it, since we want to test unpublished work:
 
 ```bash
 $ yarn add --dev file://path/to/our/app/ext/root
+
+# or
+
+$ yarn add --dev link://path/to/our/app/ext/root
 ```
+You will need to figure out which command works best for your environment.
 
 ::: warning
 There have been many reports of problems linking via `file:` and `link:`. This is outside of Quasar's reach, but is likely to do with your development environment, aka your mileage with Windows will vary.
@@ -113,7 +118,7 @@ $ yarn link quasar-app-extension-<ext-id>
 # $ yarn link quasar-app-extension-my-ext
 ```
 
-Remember that if you need to yarn/npm install any dependencies in your App Extension folder you must then also uninstall the extension and install it back up:
+Remember that if you need to `yarn/npm install` any dependencies into **your** App Extension, then you must also uninstall your App Extension and re-install it in your test app:
 
 ```bash
 $ cd /path/to/app/extension/folder
@@ -123,10 +128,14 @@ $ cd /path/to/app/extension/folder
 # then
 
 $ cd /path/to/quasar/testing/app/folder
+
+# Uninstall the app ext
 $ quasar ext uninvoke my-ext
-# assuming you already executed "$ yarn link" in the extension's folder:
-$ yarn link quasar-app-extension-my-ext
+
+# Re-install the app ext
+$ quasar ext invoke my-ext
 ```
+You really only need to `quasar ext invoke my-ext` (install) the App Extension to re-install it. The above information is for completeness.
 
 ::: warning
 There have been many reports of problems with `yarn link` on Windows. This is outside of Quasar's reach, but is likely to do with your development environment, aka your mileage with Windows will vary.
