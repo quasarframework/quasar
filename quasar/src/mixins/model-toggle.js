@@ -80,7 +80,7 @@ export default {
     __removeHistory () {
       if (this.__historyEntry !== void 0) {
         History.remove(this.__historyEntry)
-        this.__historyEntry = null
+        this.__historyEntry = void 0
       }
     }
   },
