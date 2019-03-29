@@ -2,7 +2,7 @@
 title: App Extension Prompts API
 ---
 
-This page refers to `src/prompts.js` file which handles the prompts when installing the App Extension.
+This page refers to `src/prompts.js` file which handles the prompts when installing the App Extension. Not all App Extensions will need prompts -- this is an optional step.
 
 The user's answers are stored into `/quasar.extensions.json` (root of project folder), which should not be tampered with unless you really know what you are doing.
 
@@ -16,7 +16,7 @@ module.exports = function () {
 }
 ```
 
-You will have access to `api.prompts` (which holds the answers) in [Install](/app-extensions/development-guide/install-api), [Index](/app-extensions/development-guide/index-api) and [Uninstall](/app-extensions/development-guide/uninstall-api).
+You will have access to `api.prompts` (which holds your App Extension's answers) in [Install](/app-extensions/development-guide/install-api), [Index](/app-extensions/development-guide/index-api) and [Uninstall](/app-extensions/development-guide/uninstall-api).
 
 Let's now focus on the structure of the returned Array which defines the questions. The sections below offer examples for the most used types of questions.
 

@@ -9,6 +9,9 @@
       style="max-width: 300px"
       @input="query"
       :loading="loading"
+      :error="errorMessage !== null"
+      :error-message="errorMessage"
+      bottom-slots
       ref="searchInput"
     >
       <template v-slot:append>
@@ -54,6 +57,7 @@ export default {
   data () {
     return {
       filter: '',
+      errorMessage: null,
       results: [],
       loading: false
     }
@@ -64,6 +68,7 @@ export default {
       if (val === '') {
         this.loading = false
         this.results = []
+        this.errorMessage = null
       }
     }
   },
@@ -81,7 +86,10 @@ export default {
     },
 
     query (filter) {
-      this.xhr !== void 0 && this.xhr.abort()
+      if (this.xhr !== void 0) {
+        this.xhr.abort()
+        this.xhr = void 0
+      }
 
       if (filter === '') {
         return
@@ -97,7 +105,7 @@ export default {
         const json = JSON.parse(this.responseText)
 
         if (json.code !== void 0 || json.results === void 0) {
-          self.$q.notify('Error looking for packages')
+          self.errorMessage = 'NPM API service is currently unavailable. Please try again later.'
           return
         }
 
@@ -107,6 +115,10 @@ export default {
           item.extId = item.name.replace('quasar-app-extension-', '')
           return item
         })
+      })
+      xhr.addEventListener('error', () => {
+        this.loading = false
+        this.errorMessage = 'Cannot connect to NPM. Please try again later.'
       })
 
       const q = encodeURI('quasar-app-extension ' + filter)

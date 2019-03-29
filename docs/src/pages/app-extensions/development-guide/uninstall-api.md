@@ -2,7 +2,7 @@
 title: App Extension Uninstall API
 ---
 
-This page refers to `src/uninstall.js` file which is executed when the App Extension is uninstalled.
+This page refers to `src/uninstall.js` file which is executed when the App Extension is uninstalled. Not all App Extensions will need an uninstall -- this is an optional step.
 
 Example of basic structure of the file:
 
