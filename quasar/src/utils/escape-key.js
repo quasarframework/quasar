@@ -14,23 +14,19 @@ export default {
         handlers[handlers.length - 1].fn(evt)
       }
     }
-    window.addEventListener('keyup', trigger)
+    Platform.is.desktop === true && window.addEventListener('keyup', trigger)
     window.addEventListener('click-outside', trigger)
   },
 
   register (comp, fn) {
-    if (Platform.is.desktop === true) {
-      this.__installed !== true && this.__install()
-      handlers.push({ comp, fn })
-    }
+    this.__installed !== true && this.__install()
+    handlers.push({ comp, fn })
   },
 
   pop (comp) {
-    if (Platform.is.desktop === true) {
-      const index = handlers.findIndex(h => h.comp === comp)
-      if (index > -1) {
-        handlers.splice(index, 1)
-      }
+    const index = handlers.findIndex(h => h.comp === comp)
+    if (index > -1) {
+      handlers.splice(index, 1)
     }
   }
 }
