@@ -2,7 +2,7 @@
 title: App Extension Index API
 ---
 
-This page refers to `src/index.js` file, which is executed on `quasar dev` and `quasar build`. This is the main process where you can modify the build to suit the needs of your App Extension. For instance, registering a boot file, registering CSS, registering a UI component, modifying the webpack process, etc.
+This page refers to `src/index.js` file, which is executed on `quasar dev` and `quasar build`. This is the main process where you can modify the build to suit the needs of your App Extension. For instance, registering a boot file, modifying the webpack process, registering CSS, registering a UI component, registering a Quasar CLI command, etc.
 
 Example of basic structure of the file:
 
