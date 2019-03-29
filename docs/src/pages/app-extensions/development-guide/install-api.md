@@ -2,7 +2,7 @@
 title: App Extension Install API
 ---
 
-This page refers to `src/install.js` file which is executed on the installation of the App Extension only.
+This page refers to `src/install.js` file which is executed on the installation of the App Extension only. Not all App Extensions will need an install -- this is an optional step.
 
 Example of basic structure of the file:
 
