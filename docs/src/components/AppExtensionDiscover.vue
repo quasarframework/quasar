@@ -112,6 +112,8 @@ export default {
       const q = encodeURI('quasar-app-extension ' + filter)
       xhr.open('GET', `https://api.npms.io/v2/search?q=${q}&size=30`)
       xhr.send()
+
+      this.xhr = xhr
     }
   }
 }
