@@ -117,7 +117,8 @@ export default Vue.extend({
       props: {
         contentClass: 'q-popup-edit  q-py-sm q-px-md',
         cover: true,
-        persistent: this.persistent
+        persistent: this.persistent,
+        noFocus: true
       },
       on: {
         show: () => {

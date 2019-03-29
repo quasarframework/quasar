@@ -82,6 +82,21 @@
     "transition-hide": {
       "extends": "transition",
       "default": "fade"
+    },
+
+    "use-observer": {
+      "type": "Boolean",
+      "desc": "Use observers to reposition on changes on anchor or menu height"
+    },
+
+    "no-focus": {
+      "type": "Boolean",
+      "desc": "(Accessibility) Do not focus menu when it is shown"
+    },
+
+    "no-refocus": {
+      "type": "Boolean",
+      "desc": "(Accessibility) When Menu gets hidden, do not refocus on the DOM element that previously had focus"
     }
   },
 

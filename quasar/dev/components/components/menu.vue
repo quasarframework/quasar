@@ -66,12 +66,6 @@
           </q-menu>
         </q-btn>
 
-        <q-btn ref="target4" color="negative" label="Disabled Popover">
-          <q-menu disable>
-            This Popover content won't be shown because of "disable"
-          </q-menu>
-        </q-btn>
-
         <q-btn @click="dialog = true" label="Dialog" />
         <q-dialog v-model="dialog">
           <q-card class="q-pa-xl">
@@ -483,7 +477,7 @@ export default {
       gigi: '',
       fit: false,
       cover: false,
-      toggle: false,
+      toggle: true,
       anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
       selfOrigin: { vertical: 'top', horizontal: 'left' },
       terms: '',

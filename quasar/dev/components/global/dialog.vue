@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <q-dialog attr="test" v-model="alert" content-class="test-class">
+    <q-dialog attr="test" v-model="alert" content-class="test-class" no-esc-dismiss>
       <q-card>
         <q-card-section>
           <div class="text-h6">
@@ -615,7 +615,7 @@ export default {
 
   data () {
     return {
-      alert: false,
+      alert: true,
       persistent: false,
       confirm: false,
       prompt: false,

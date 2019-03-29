@@ -183,7 +183,7 @@
             :class="{ 'rotate-180': $refs.menu1 !== void 0 && $refs.menu1.showing === true }"
           />
         </template>
-        <q-popup-proxy fit auto-close ref="menu1">
+        <q-popup-proxy fit auto-close use-observer ref="menu1">
           <q-tree
             :nodes="props"
             default-expand-all
@@ -207,7 +207,7 @@
             :class="{ 'rotate-180': $refs.menu2 !== void 0 && $refs.menu2.showing === true }"
           />
         </template>
-        <q-popup-proxy fit ref="menu2">
+        <q-popup-proxy fit use-observer ref="menu2">
           <q-tree
             :nodes="props"
             default-expand-all

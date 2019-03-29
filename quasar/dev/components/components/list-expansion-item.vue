@@ -581,7 +581,7 @@
 export default {
   data () {
     return {
-      open: false,
+      open: true,
       counter: 0,
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, nemo minus dolore facere saepe molestias, fugiat officia aspernatur expedita pariatur, accusantium hic exercitationem perspiciatis voluptate possimus nobis temporibus ipsa officiis!'
     }
