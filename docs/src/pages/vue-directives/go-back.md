@@ -69,7 +69,7 @@ Then we use it:
 This directive determines if the Platform is Cordova, and if so, it performs a `window.history.back()` call instead of a `$router.push('/')`.
 
 ## Quirks
-Now you may think everything will work smoothly, but you must be careful about how your app is stacking up the window history. Remember, we started out by saying that the List page has a layout with multiple tabs, each one with its own route ("/list/shoes", "/list/hats"). If we'd use `to="/list/shoes"` and `to="/list/hats"` on your Tabs (read more about [QTabs](/vue-components/tabs.html)), then window history will build up when switching between the tabs.
+Now you may think everything will work smoothly, but you must be careful about how your app is stacking up the window history. Remember, we started out by saying that the List page has a layout with multiple tabs, each one with its own route ("/list/shoes", "/list/hats"). If we'd use `to="/list/shoes"` and `to="/list/hats"` on your Tabs (read more about [QTabs](/vue-components/tabs)), then window history will build up when switching between the tabs.
 
 This incorrect behavior for apps is due to Vue Router pushing routes to the history by default. What you'd like instead, is for your window history length to stay the same, even if routes change. Fortunately, Vue Router comes to the rescue with the `replace` property, which essentially replaces current route instead of pushing it as a new route.
 

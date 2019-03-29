@@ -99,7 +99,7 @@ module.exports = class IndexAPI {
    * Chain webpack config of main electron process
    *
    * @param {function} fn
-   *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
+   *   (cfg: ChainObject) => undefined
    */
   chainWebpackMainElectronProcess (fn) {
     this.__hooks.chainWebpackMainElectronProcess.push({ extId: this.extId, fn })
@@ -109,7 +109,7 @@ module.exports = class IndexAPI {
    * Extend webpack config of main electron process
    *
    * @param {function} fn
-   *   (cfg: Object, invoke: Object {isClient, isServer}) => undefined
+   *   (cfg: Object) => undefined
    */
   extendWebpackMainElectronProcess (fn) {
     this.__hooks.extendWebpackMainElectronProcess.push({ extId: this.extId, fn })
