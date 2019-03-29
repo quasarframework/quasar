@@ -69,12 +69,13 @@ export default Vue.extend({
       return child
     },
 
-    __onClick (e, avoidClick) {
+    __onClick (e, keyEvent) {
       if (this.isClickable === true) {
-        if (avoidClick !== true) {
+        if (keyEvent !== true) {
           this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
-          this.$listeners.click !== void 0 && this.$emit('click', e)
         }
+
+        this.$listeners.click !== void 0 && this.$emit('click', e)
       }
     },
 
