@@ -615,7 +615,7 @@ export default {
 
   data () {
     return {
-      alert: false,
+      alert: true,
       persistent: false,
       confirm: false,
       prompt: false,

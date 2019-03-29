@@ -255,8 +255,13 @@ export default Vue.extend({
 
   created () {
     this.$root.$on(eventName, this.__eventHandler)
-    if (this.defaultOpened || this.value) {
-      this.show()
+
+    if (this.value === true) {
+      this.showing = true
+    }
+    else if (this.defaultOpened === true) {
+      this.$emit('input', true)
+      this.showing = true
     }
   },
 
