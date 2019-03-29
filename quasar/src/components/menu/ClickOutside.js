@@ -21,7 +21,11 @@ export default {
     const ctx = {
       trigger: value || emitEsc(el),
       handler (evt) {
-        const target = evt && evt.target
+        if (evt === void 0 || evt.defaultPrevented === true) {
+          return
+        }
+
+        const target = evt.target
 
         if (target && target !== document.body) {
           if (el.contains(target)) {

@@ -8,6 +8,7 @@ export default {
     window.addEventListener('keyup', evt => {
       if (
         handlers.length !== 0 &&
+        evt.defaultPrevented !== true &&
         (evt.which === 27 || evt.keyCode === 27)
       ) {
         handlers[handlers.length - 1].fn(evt)
