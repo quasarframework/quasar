@@ -7,7 +7,7 @@ export default {
 
       handler: ev => {
         if (ctx.enabled !== false) {
-          const vm = vnode.componentInstance.$root
+          const vm = (vnode.componentInstance || vnode.context).$root
           vm.__qClosePopup !== void 0 && vm.__qClosePopup(ev)
         }
       },
