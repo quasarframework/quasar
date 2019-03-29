@@ -59,9 +59,7 @@ Inside the testing Quasar project folder, we manually add our App Extension. Not
 
 ```bash
 $ yarn add --dev file://path/to/our/app/ext/root
-
 # or
-
 $ yarn add --dev link://path/to/our/app/ext/root
 ```
 You will need to figure out which command works best for your environment.
