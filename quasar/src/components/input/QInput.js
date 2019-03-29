@@ -80,10 +80,6 @@ export default Vue.extend({
       this.$refs.input.focus()
     },
 
-    blur () {
-      this.$refs.input.blur()
-    },
-
     __onInput (e) {
       const val = e.target.value
 
