@@ -223,7 +223,7 @@ The above will then respond to `$ quasar describe MyComponent`.
 
 For syntax of such a JSON file, look into `/node_modules/quasar/dist/api` (in your project folder). Be aware that your JSON must contain a `type` property ("component", "directive", "plugin"). For instance:
 
-```
+```json
 {
   "type": "component",
   "props": {
