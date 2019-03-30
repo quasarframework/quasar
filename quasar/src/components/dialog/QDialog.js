@@ -186,7 +186,7 @@ export default Vue.extend({
             this.persistent === true ||
             (
               this.noEscDismiss === true &&
-              (e === void 0 || e.type !== 'click-outside')
+              (e === void 0 || e.code !== 'click-outside')
             )
           ) {
             this.maximized !== true && this.shake()
@@ -219,14 +219,12 @@ export default Vue.extend({
     __hide (evt) {
       this.__cleanup(true)
 
-      this.$nextTick(() => {
+      this.timer = setTimeout(() => {
+        this.__hidePortal()
+
         if (this.__refocusTarget !== void 0) {
           this.__refocusTarget.focus()
         }
-      })
-
-      this.timer = setTimeout(() => {
-        this.__hidePortal()
 
         this.$el.dispatchEvent(new Event('popup-hide', { bubbles: true }))
 

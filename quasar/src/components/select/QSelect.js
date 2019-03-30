@@ -374,8 +374,8 @@ export default Vue.extend({
     },
 
     __onTargetKeydown (e) {
-      // tab
-      if (e.keyCode === 9) {
+      // escape or tab
+      if (e.keyCode === 27 || e.keyCode === 9) {
         this.__setMenuStatus(false)
         return
       }
@@ -395,14 +395,6 @@ export default Vue.extend({
 
       if (this.multiple === true && this.inputValue.length === 0 && e.keyCode === 8) { // delete
         this.removeAtIndex(this.value.length - 1)
-      }
-    },
-
-    __onTargetKeyup (e) {
-      // escape
-      if (e.keyCode === 27) {
-        stopAndPrevent(e)
-        this.__setMenuStatus(false)
         return
       }
 
@@ -472,6 +464,12 @@ export default Vue.extend({
     },
 
     __onGlobalKeydown (e) {
+      // escape
+      if (e.keyCode === 27) {
+        this.__setMenuStatus(false)
+        return
+      }
+
       // up, down
       if (e.keyCode === 38 || e.keyCode === 40) {
         stopAndPrevent(e)
@@ -507,14 +505,6 @@ export default Vue.extend({
             }
           })
         }
-      }
-    },
-
-    __onGlobalKeyup (e) {
-      // escape
-      if (e.keyCode === 27) {
-        stopAndPrevent(e)
-        this.__setMenuStatus(false)
       }
     },
 
@@ -606,8 +596,7 @@ export default Vue.extend({
             ...this.$attrs
           },
           on: {
-            keydown: this.__onTargetKeydown,
-            keyup: this.__onTargetKeyup
+            keydown: this.__onTargetKeydown
           }
         }))
       }
@@ -718,7 +707,6 @@ export default Vue.extend({
         on: {
           input: this.__onInputValue,
           keydown: this.__onTargetKeydown,
-          keyup: this.__onTargetKeyup,
           focus: this.__onTargetFocus
         }
       })
@@ -852,9 +840,7 @@ export default Vue.extend({
           this.__hydrateOptions()
         })
       }
-      const action = (show === true ? 'add' : 'remove') + 'EventListener'
-      document.body[action]('keydown', this.__onGlobalKeydown)
-      document.body[action]('keyup', this.__onGlobalKeyup)
+      document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
     }
   },
 
@@ -865,6 +851,5 @@ export default Vue.extend({
   beforeDestroy () {
     clearTimeout(this.inputTimer)
     document.body.removeEventListener('keydown', this.__onGlobalKeydown)
-    document.body.removeEventListener('keyup', this.__onGlobalKeyup)
   }
 })

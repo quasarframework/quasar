@@ -3,20 +3,25 @@ import { listenOpts } from '../../utils/event.js'
 const
   evtOpts = listenOpts.hasPassive === true
     ? { passive: false, capture: true }
-    : true
+    : true,
+  emitEsc = el => () => {
+    el.dispatchEvent(new KeyboardEvent('keyup', {
+      bubbles: true,
+      cancelable: true,
+      which: 27,
+      keyCode: 27,
+      code: 'click-outside'
+    }))
+  }
 
 export default {
   name: 'click-outside',
 
   bind (el, { value, arg }) {
     const ctx = {
-      trigger: value,
+      trigger: value || emitEsc(el),
       handler (evt) {
-        if (evt === void 0 || evt.defaultPrevented === true) {
-          return
-        }
-
-        const target = evt.target
+        const target = evt && evt.target
 
         if (target && target !== document.body) {
           if (el.contains(target)) {
@@ -49,12 +54,7 @@ export default {
           }
         }
 
-        ctx.trigger !== void 0 && ctx.trigger(evt)
-
-        el.dispatchEvent(new Event('click-outside', {
-          bubbles: true,
-          cancelable: false
-        }))
+        ctx.trigger(evt)
       }
     }
 

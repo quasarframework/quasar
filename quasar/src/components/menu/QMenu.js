@@ -133,10 +133,6 @@ export default Vue.extend({
         ? document.activeElement
         : void 0
 
-      if (this.__refocusTarget !== void 0) {
-        this.__refocusTarget.blur()
-      }
-
       if (this.useObserver === true) {
         this.touchTargetObserver = new MutationObserver(() => {
           this.updatePosition()
@@ -192,17 +188,14 @@ export default Vue.extend({
     __hide (evt) {
       this.__anchorCleanup(true)
 
-      this.$nextTick(() => {
-        if (this.__refocusTarget !== void 0) {
-          this.__refocusTarget.focus()
-        }
-      })
+      if (this.__refocusTarget !== void 0) {
+        this.__refocusTarget.focus()
+      }
+
+      this.$el.dispatchEvent(new Event('popup-hide', { bubbles: true }))
 
       this.timer = setTimeout(() => {
         this.__hidePortal()
-
-        this.$el.dispatchEvent(new Event('popup-hide', { bubbles: true }))
-
         this.$emit('hide', evt)
       }, 300)
     },
