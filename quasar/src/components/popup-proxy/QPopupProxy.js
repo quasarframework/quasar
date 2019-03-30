@@ -38,9 +38,7 @@ export default Vue.extend({
 
   methods: {
     toggle (evt) {
-      if (evt === void 0 || evt.defaultPrevented !== true) {
-        this[this.showing === true ? 'hide' : 'show'](evt)
-      }
+      return this[this.showing === true ? 'hide' : 'show'](evt)
     },
 
     show (evt) {
