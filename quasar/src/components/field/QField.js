@@ -150,21 +150,6 @@ export default Vue.extend({
   },
 
   methods: {
-    focus () {
-      let target = this.$refs.target
-      if (target !== void 0) {
-        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
-        target !== null && target.focus()
-      }
-    },
-
-    blur () {
-      const el = document.activeElement
-      if (this.$el.contains(el)) {
-        el.blur()
-      }
-    },
-
     __getContent (h) {
       const node = []
 
@@ -326,15 +311,24 @@ export default Vue.extend({
         this.focused = true
         this.$listeners.focus !== void 0 && this.$emit('focus', e)
       }
+
+      let target = this.$refs.target || this.$refs.input
+      if (e.target === this.$refs.control && target !== void 0) {
+        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
+        target !== null && target.focus()
+      }
     },
 
     __onControlFocusout (e) {
       setTimeout(() => {
-        if (
-          document.hasFocus() === true &&
-          (this.$refs === void 0 || this.$refs.control === void 0 || this.$refs.control.contains(document.activeElement) !== false)
-        ) {
-          return
+        if (document.hasFocus() === true) {
+          if (this.$refs === void 0 || this.$refs.control === void 0) {
+            return
+          }
+
+          if (this.$refs.control.contains(document.activeElement) !== false) {
+            return
+          }
         }
 
         if (this.focused === true) {
@@ -387,7 +381,6 @@ export default Vue.extend({
     this.controlEvents = this.__getControlEvents !== void 0
       ? this.__getControlEvents()
       : {
-        focus: this.focus,
         focusin: this.__onControlFocusin,
         focusout: this.__onControlFocusout
       }
