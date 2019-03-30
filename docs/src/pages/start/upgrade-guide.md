@@ -1837,7 +1837,7 @@ Replace `:handler` with `@load`.
 
 ### QSelect
 
-- Type of `stack-label` was changed from `string` to `string|number`
+- Type of `stack-label` was changed from `string` to `boolean`
 - Type of `display-value` was changed from `string` to `string|number`
 
 <div class="row">
