@@ -1,15 +1,15 @@
 .q-img
   position relative
-  width 100%
+  width $img-width
 
   &__loading .q-spinner
-    font-size 50px
+    font-size $img-loading-font-size
 
   &__image
-    background-repeat no-repeat
+    background-repeat $img-background-repeat
 
   &__content > div
-    position absolute
-    padding 16px
-    color white
-    background rgba(0, 0, 0, .47)
+    position $img-content-position
+    padding $img-content-padding
+    color $img-content-color
+    background $img-content-background
