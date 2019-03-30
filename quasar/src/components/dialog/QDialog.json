@@ -22,6 +22,11 @@
       "desc": "Changing route app won't dismiss Dialog; No need to set it if 'persistent' prop is also set"
     },
 
+    "auto-close": {
+      "type": "Boolean",
+      "desc": "Any click/tap inside of the dialog will close it"
+    },
+
     "seamless": {
       "type": "Boolean",
       "desc": "Put Dialog into seamless mode; Does not use a backdrop so user is able to interact with the rest of the page too"

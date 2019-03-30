@@ -36,6 +36,7 @@ export default Vue.extend({
 
   props: {
     persistent: Boolean,
+    autoClose: Boolean,
     noEscDismiss: Boolean,
     noBackdropDismiss: Boolean,
     noRouteDismiss: Boolean,
@@ -216,7 +217,21 @@ export default Vue.extend({
       }
     },
 
+    __onAutoClose (e) {
+      this.hide(e)
+      this.$listeners.click !== void 0 && this.$emit('click', e)
+    },
+
     __render (h) {
+      const on = {
+        ...this.$listeners,
+        input: stop
+      }
+
+      if (this.autoClose === true) {
+        on.click = this.__onAutoClose
+      }
+
       return h('div', {
         staticClass: 'q-dialog fullscreen no-pointer-events',
         class: this.contentClass,
@@ -244,10 +259,7 @@ export default Vue.extend({
             staticClass: 'q-dialog__inner fixed-full flex no-pointer-events',
             class: this.classes,
             attrs: { tabindex: -1 },
-            on: {
-              ...this.$listeners,
-              input: stop
-            }
+            on
           }, slot(this, 'default')) : null
         ])
       ])

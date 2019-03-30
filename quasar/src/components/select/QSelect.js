@@ -274,8 +274,7 @@ export default Vue.extend({
       const optValue = this.__getOptionValue(opt)
 
       if (this.multiple !== true) {
-        this.menu = false
-        this.__onFilterAbort()
+        this.__closeMenu()
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
@@ -378,8 +377,7 @@ export default Vue.extend({
     __onTargetKeydown (e) {
       // escape
       if (e.keyCode === 27) {
-        this.menu = false
-        this.__onFilterAbort()
+        this.__closeMenu()
         return
       }
 
@@ -454,8 +452,7 @@ export default Vue.extend({
       }
 
       if (this.menu === true) {
-        this.menu = false
-        this.__onFilterAbort()
+        this.__closeMenu()
       }
       else if (this.innerLoading !== true) {
         if (this.$listeners.filter !== void 0) {
@@ -470,8 +467,7 @@ export default Vue.extend({
     __onGlobalKeydown (e) {
       // escape
       if (e.keyCode === 27) {
-        this.menu = false
-        this.__onFilterAbort()
+        this.__closeMenu()
         return
       }
 
@@ -754,8 +750,7 @@ export default Vue.extend({
 
     __onControlClick () {
       if (this.menu === true) {
-        this.menu = false
-        this.__onFilterAbort()
+        this.__closeMenu()
       }
       else {
         if (this.$listeners.filter !== void 0) {
@@ -787,8 +782,7 @@ export default Vue.extend({
         e.target !== this.$refs.target &&
         this.$refs.menu.contains(e.target) === false
       ) {
-        this.menu = false
-        this.__onFilterAbort()
+        this.__closeMenu()
       }
     },
 
@@ -811,12 +805,6 @@ export default Vue.extend({
           this.$listeners.blur !== void 0 && this.$emit('blur', e)
         }
 
-        clearTimeout(this.filterId)
-
-        if (this.menu === true) {
-          this.menu = false
-        }
-
         const val = this.multiple !== true && this.hideSelected === true
           ? this.selectedString
           : ''
@@ -825,11 +813,14 @@ export default Vue.extend({
           this.inputValue = val
         }
 
-        this.__onFilterAbort()
+        this.__closeMenu()
       })
     },
 
-    __onFilterAbort () {
+    __closeMenu () {
+      this.menu = false
+
+      clearTimeout(this.filterId)
       this.filterId = void 0
 
       if (this.innerLoading === true) {

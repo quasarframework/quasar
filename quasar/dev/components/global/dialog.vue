@@ -8,7 +8,7 @@
         <q-btn label="Persistent" flat color="primary" @click="persistent = true" />
         <q-btn label="Close Icon" flat color="primary" @click="icon = true" />
         <q-btn label="Bar" flat color="primary" @click="bar = true" />
-        <q-btn label="Bar 2" flat color="primary" @click="bar2 = true" />
+        <q-btn label="Bar 2 (auto-close)" flat color="primary" @click="bar2 = true" />
         <q-btn label="Toolbar" flat color="primary" @click="toolbar = true" />
         <q-btn label="Scroll" flat color="primary" @click="scroll = true" />
         <q-btn label="Scroll 2" flat color="primary" @click="scroll2 = true" />
@@ -104,7 +104,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="bar2" persistent transition-show="flip-down" transition-hide="flip-up">
+    <q-dialog v-model="bar2" auto-close persistent transition-show="flip-down" transition-hide="flip-up">
       <q-card class="bg-primary text-white">
         <q-bar>
           <q-icon name="network_wifi" />
@@ -123,7 +123,7 @@
 
         <q-card-section>
           <div class="text-h6">
-            Alert
+            Alert, Auto-closing on click
           </div>
         </q-card-section>
 
