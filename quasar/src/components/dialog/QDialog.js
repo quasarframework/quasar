@@ -37,9 +37,11 @@ export default Vue.extend({
   props: {
     persistent: Boolean,
     autoClose: Boolean,
+
     noEscDismiss: Boolean,
     noBackdropDismiss: Boolean,
     noRouteDismiss: Boolean,
+    noRefocus: Boolean,
 
     seamless: Boolean,
 
@@ -62,9 +64,7 @@ export default Vue.extend({
     transitionHide: {
       type: String,
       default: 'scale'
-    },
-
-    noRefocus: Boolean
+    }
   },
 
   data () {
@@ -180,13 +180,12 @@ export default Vue.extend({
     __hide (evt) {
       this.__cleanup(true)
 
+      if (this.__refocusTarget !== void 0) {
+        this.__refocusTarget.focus()
+      }
+
       this.timer = setTimeout(() => {
         this.__hidePortal()
-
-        if (this.__refocusTarget !== void 0) {
-          this.__refocusTarget.focus()
-        }
-
         this.$emit('hide', evt)
       }, 300)
     },
