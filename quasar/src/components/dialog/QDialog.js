@@ -11,11 +11,11 @@ import { stop, stopAndPrevent } from '../../utils/event.js'
 let maximizedModals = 0
 
 const positionClass = {
-  standard: 'flex-center',
-  top: 'items-start justify-center',
-  bottom: 'items-end justify-center',
-  right: 'items-center justify-end',
-  left: 'items-center justify-start'
+  standard: 'fixed-full flex-center',
+  top: 'fixed-top justify-center',
+  bottom: 'fixed-bottom justify-center',
+  right: 'fixed-right items-center',
+  left: 'fixed-left items-center'
 }
 
 const transitions = {
@@ -103,10 +103,10 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-dialog__inner--${this.maximized ? 'maximized' : 'minimized'} ` +
+      return `q-dialog__inner--${this.maximized === true ? 'maximized' : 'minimized'} ` +
         `q-dialog__inner--${this.position} ${positionClass[this.position]}` +
-        (this.fullWidth ? ' q-dialog__inner--fullwidth' : '') +
-        (this.fullHeight ? ' q-dialog__inner--fullheight' : '')
+        (this.fullWidth === true ? ' q-dialog__inner--fullwidth' : '') +
+        (this.fullHeight === true ? ' q-dialog__inner--fullheight' : '')
     },
 
     transition () {
@@ -208,13 +208,13 @@ export default Vue.extend({
       }
 
       if (maximized === true) {
-        if (opening) {
+        if (opening === true) {
           maximizedModals < 1 && document.body.classList.add('q-body--dialog')
         }
         else if (maximizedModals < 2) {
           document.body.classList.remove('q-body--dialog')
         }
-        maximizedModals += opening ? 1 : -1
+        maximizedModals += opening === true ? 1 : -1
       }
     },
 
@@ -267,7 +267,7 @@ export default Vue.extend({
         }, [
           this.showing === true ? h('div', {
             ref: 'inner',
-            staticClass: 'q-dialog__inner fixed-full flex no-pointer-events',
+            staticClass: 'q-dialog__inner flex no-pointer-events',
             class: this.classes,
             attrs: { tabindex: -1 },
             on
