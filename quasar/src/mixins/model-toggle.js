@@ -26,7 +26,9 @@ export default {
 
   methods: {
     toggle (evt) {
-      return this[this.showing === true ? 'hide' : 'show'](evt)
+      if (evt === void 0 || evt.defaultPrevented !== true) {
+        this[this.showing === true ? 'hide' : 'show'](evt)
+      }
     },
 
     show (evt) {

@@ -38,7 +38,9 @@ export default Vue.extend({
 
   methods: {
     toggle (evt) {
-      return this[this.showing === true ? 'hide' : 'show'](evt)
+      if (evt === void 0 || evt.defaultPrevented !== true) {
+        this[this.showing === true ? 'hide' : 'show'](evt)
+      }
     },
 
     show (evt) {
@@ -62,12 +64,10 @@ export default Vue.extend({
     },
 
     hide () {
-      if (this.showing === false) {
-        return
+      if (this.showing !== true) {
+        this.showing = false
+        this.$emit('input', false)
       }
-
-      this.showing = false
-      this.$emit('input', false)
     },
 
     __hide (evt) {

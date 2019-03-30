@@ -121,6 +121,10 @@ export default Vue.extend({
     shake () {
       const node = this.__portal.$refs.inner
 
+      if (node.contains(document.activeElement) === false) {
+        node.focus()
+      }
+
       node.classList.remove('q-animate--scale')
       node.classList.add('q-animate--scale')
       clearTimeout(this.shakeTimeout)
