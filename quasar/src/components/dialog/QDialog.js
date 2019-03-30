@@ -6,7 +6,7 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
+import { stop, stopAndPrevent } from '../../utils/event.js'
 
 let maximizedModals = 0
 
@@ -166,7 +166,9 @@ export default Vue.extend({
 
         if (this.$q.platform.is.ios) {
           // workaround the iOS hover/touch issue
+          this.avoidAutoClose = true
           node.click()
+          this.avoidAutoClose = false
         }
 
         node.focus()
@@ -217,8 +219,19 @@ export default Vue.extend({
     },
 
     __onAutoClose (e) {
-      this.hide(e)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      if (this.avoidAutoClose !== true) {
+        this.hide(e)
+        this.$listeners.click !== void 0 && this.$emit('click', e)
+      }
+    },
+
+    __onBackdropClick (e) {
+      if (this.persistent !== true && this.noBackdropDismiss !== true) {
+        this.hide(e)
+      }
+      else {
+        this.shake()
+      }
     },
 
     __render (h) {
@@ -243,9 +256,8 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
-              click: this.persistent !== true && this.noBackdropDismiss !== true
-                ? this.hide
-                : this.shake
+              touchmove: stopAndPrevent, // prevent iOS page scroll
+              click: this.__onBackdropClick
             }
           })
         ] : null),
