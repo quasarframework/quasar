@@ -3,7 +3,6 @@ import Vue from 'vue'
 import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
 import QChip from '../chip/QChip.js'
-import QMenu from '../menu/QMenu.js'
 
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
@@ -15,6 +14,8 @@ import slot from '../../utils/slot.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { stop, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
+
+import { updatePosition } from './select-menu-position.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 
@@ -273,7 +274,8 @@ export default Vue.extend({
       const optValue = this.__getOptionValue(opt)
 
       if (this.multiple !== true) {
-        this.__setMenuStatus(false)
+        this.menu = false
+        this.__onFilterAbort()
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
@@ -374,9 +376,10 @@ export default Vue.extend({
     },
 
     __onTargetKeydown (e) {
-      // escape or tab
-      if (e.keyCode === 27 || e.keyCode === 9) {
-        this.__setMenuStatus(false)
+      // escape
+      if (e.keyCode === 27) {
+        this.menu = false
+        this.__onFilterAbort()
         return
       }
 
@@ -387,7 +390,7 @@ export default Vue.extend({
           this.filter(this.inputValue)
         }
         else {
-          this.__setMenuStatus(true)
+          this.menu = true
         }
 
         return
@@ -451,14 +454,15 @@ export default Vue.extend({
       }
 
       if (this.menu === true) {
-        this.__setMenuStatus(false)
+        this.menu = false
+        this.__onFilterAbort()
       }
       else if (this.innerLoading !== true) {
         if (this.$listeners.filter !== void 0) {
           this.filter(this.inputValue)
         }
         else {
-          this.__setMenuStatus(true)
+          this.menu = true
         }
       }
     },
@@ -466,7 +470,8 @@ export default Vue.extend({
     __onGlobalKeydown (e) {
       // escape
       if (e.keyCode === 27) {
-        this.__setMenuStatus(false)
+        this.menu = false
+        this.__onFilterAbort()
         return
       }
 
@@ -508,19 +513,24 @@ export default Vue.extend({
       }
     },
 
-    __hydrateOptions () {
-      const el = this.$refs.menu
-      if (
-        this.avoidScroll !== true &&
-        this.optionsToShow < this.options.length &&
-        el.scrollHeight - el.scrollTop - el.clientHeight < 200
-      ) {
-        this.optionsToShow += 20
-        this.avoidScroll = true
-        this.$nextTick(() => {
-          this.avoidScroll = false
-          this.__hydrateOptions()
-        })
+    __hydrateOptions (updatePosition) {
+      if (this.avoidScroll !== true) {
+        if (this.optionsToShow < this.options.length) {
+          const el = this.$refs.menu
+
+          if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) {
+            this.optionsToShow += 20
+            this.avoidScroll = true
+            this.$nextTick(() => {
+              this.avoidScroll = false
+              this.__hydrateOptions(updatePosition)
+            })
+
+            return
+          }
+        }
+
+        updatePosition === true && this.updateMenuPosition()
       }
     },
 
@@ -529,9 +539,7 @@ export default Vue.extend({
         click: this.__onControlClick,
         focus: this.focus,
         focusin: this.__onControlFocusin,
-        focusout: this.__onControlFocusout,
-        'popup-show': this.__onControlPopupShow,
-        'popup-hide': this.__onControlPopupHide
+        focusout: this.__onControlFocusout
       }
     },
 
@@ -588,8 +596,9 @@ export default Vue.extend({
       if (this.useInput === true) {
         child.push(this.__getInput(h))
       }
-      else if (this.editable === true) {
-        child.push(h('div', {
+
+      const data = this.editable === true && this.useInput === false
+        ? {
           ref: 'target',
           attrs: {
             tabindex: 0,
@@ -598,10 +607,12 @@ export default Vue.extend({
           on: {
             keydown: this.__onTargetKeydown
           }
-        }))
-      }
+        }
+        : {}
 
-      return h('div', { staticClass: 'q-field__native row items-center' }, child)
+      data.staticClass = 'q-field__native row items-center'
+
+      return h('div', data, child)
     },
 
     __getOptions (h) {
@@ -622,17 +633,6 @@ export default Vue.extend({
       return this.optionScope.map(fn)
     },
 
-    __setMenuStatus (val) {
-      this.menu !== val && (this.menu = val)
-
-      if (val !== true) {
-        this.__onFilterAbort()
-      }
-      else {
-        this.focus()
-      }
-    },
-
     __getLocalMenu (h) {
       if (
         this.editable === false ||
@@ -641,43 +641,25 @@ export default Vue.extend({
         return
       }
 
-      const mode = this.optionsCover === true && this.noOptions !== true && this.useInput !== true ? 'cover' : 'fit'
-
-      const list = this.menu === true
-        ? h('div', {
-          ref: 'menu',
-          staticClass: 'q-select__menu-list scroll',
-          attrs: { tabindex: -1 },
-          on: {
-            click: stopAndPrevent,
-            touchstart: stop,
-            '&scroll': this.__hydrateOptions
-          }
-        }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))
-        : null
-
-      return h(QMenu, {
-        props: {
-          value: this.menu
-        },
-        attrs: {
-          transition: this.transition,
-          [ mode ]: true,
-          autoClose: this.multiple !== true,
-          noFocus: true,
-          noRefocus: true,
-          noParentEvent: true,
-          useObserver: true,
-          contentClass: {
-            'q-select__menu': true,
-            'q-select__menu--dark': this.optionsDark,
-            'q-select__menu--square': this.squaredMenu
-          }
-        },
-        on: {
-          input: this.__setMenuStatus
-        }
-      }, [ list ])
+      return h('transition', {
+        props: { name: this.transition }
+      }, [
+        this.menu === true
+          ? h('div', {
+            ref: 'menu',
+            staticClass: 'q-local-menu scroll',
+            class: {
+              'q-local-menu--dark': this.optionsDark,
+              'q-local-menu--square': this.squaredMenu
+            },
+            on: {
+              click: stopAndPrevent,
+              touchstart: stop,
+              '&scroll': this.__hydrateOptions
+            }
+          }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))
+          : null
+      ])
     },
 
     __getInnerAppend (h) {
@@ -706,8 +688,7 @@ export default Vue.extend({
         },
         on: {
           input: this.__onInputValue,
-          keydown: this.__onTargetKeydown,
-          focus: this.__onTargetFocus
+          keydown: this.__onTargetKeydown
         }
       })
     },
@@ -773,7 +754,8 @@ export default Vue.extend({
 
     __onControlClick () {
       if (this.menu === true) {
-        this.__setMenuStatus(false)
+        this.menu = false
+        this.__onFilterAbort()
       }
       else {
         if (this.$listeners.filter !== void 0) {
@@ -785,10 +767,21 @@ export default Vue.extend({
       }
     },
 
-    __onTargetFocus () {
-      const target = this.$refs.target
-      if (target !== void 0 && this.useInput === true && this.inputValue.length > 0) {
-        target.setSelectionRange(0, this.inputValue.length)
+    __onControlFocusin (e) {
+      if (this.editable === true) {
+        if (this.focused === false) {
+          this.focused = true
+          this.$listeners.focus !== void 0 && this.$emit('focus', e)
+
+          const target = this.$refs.target
+          if (target !== void 0 && this.useInput === true && this.inputValue.length > 0) {
+            target.setSelectionRange(0, this.inputValue.length)
+          }
+        }
+        else if (this.menu === true && e !== void 0 && e.target !== this.$refs.target && this.$refs.menu.contains(e.target) === false) {
+          this.menu = false
+          this.__onFilterAbort()
+        }
       }
     },
 
@@ -798,19 +791,21 @@ export default Vue.extend({
 
         if (
           document.hasFocus() === true &&
-          (this.keepFocus === true || this.$refs === void 0 || this.$refs.control === void 0 || this.$refs.control.contains(document.activeElement) !== false)
+          (this.$refs === void 0 || this.$refs.control === void 0 || this.$refs.control.contains(document.activeElement) !== false)
         ) {
           return
         }
-
-        this.keepFocus = false
 
         if (this.focused === true) {
           this.focused = false
           this.$listeners.blur !== void 0 && this.$emit('blur', e)
         }
 
-        this.__setMenuStatus(false)
+        clearTimeout(this.filterId)
+
+        if (this.menu === true) {
+          this.menu = false
+        }
 
         const val = this.multiple !== true && this.hideSelected === true
           ? this.selectedString
@@ -819,11 +814,12 @@ export default Vue.extend({
         if (this.inputValue !== val) {
           this.inputValue = val
         }
+
+        this.__onFilterAbort()
       })
     },
 
     __onFilterAbort () {
-      clearTimeout(this.filterId)
       this.filterId = void 0
 
       if (this.innerLoading === true) {
@@ -837,10 +833,22 @@ export default Vue.extend({
       if (show === true) {
         this.optionsToShow = 20
         this.$nextTick(() => {
-          this.__hydrateOptions()
+          this.__hydrateOptions(true)
         })
       }
       document.body[(show === true ? 'add' : 'remove') + 'EventListener']('keydown', this.__onGlobalKeydown)
+    },
+
+    updateMenuPosition () {
+      const el = this.$refs.menu
+
+      if (el === void 0) { return }
+
+      updatePosition(
+        el,
+        this.$refs.control,
+        this.optionsCover === true && this.noOptions !== true && this.useInput !== true
+      )
     }
   },
 
