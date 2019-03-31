@@ -4,21 +4,18 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
-import ClickOutside from '../menu/ClickOutside.js'
-import ClosePopup from '../../directives/ClosePopup.js'
-
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
+import { stop, stopAndPrevent } from '../../utils/event.js'
 
 let maximizedModals = 0
 
 const positionClass = {
-  standard: 'flex-center',
-  top: 'items-start justify-center',
-  bottom: 'items-end justify-center',
-  right: 'items-center justify-end',
-  left: 'items-center justify-start'
+  standard: 'fixed-full flex-center',
+  top: 'fixed-top justify-center',
+  bottom: 'fixed-bottom justify-center',
+  right: 'fixed-right items-center',
+  left: 'fixed-left items-center'
 }
 
 const transitions = {
@@ -33,21 +30,18 @@ export default Vue.extend({
 
   mixins: [ ModelToggleMixin, PortalMixin, PreventScrollMixin ],
 
-  directives: {
-    ClickOutside,
-    ClosePopup
-  },
-
   modelToggle: {
     history: true
   },
 
   props: {
     persistent: Boolean,
+    autoClose: Boolean,
+
     noEscDismiss: Boolean,
     noBackdropDismiss: Boolean,
     noRouteDismiss: Boolean,
-    autoClose: Boolean,
+    noRefocus: Boolean,
 
     seamless: Boolean,
 
@@ -70,9 +64,7 @@ export default Vue.extend({
     transitionHide: {
       type: String,
       default: 'scale'
-    },
-
-    noRefocus: Boolean
+    }
   },
 
   data () {
@@ -111,10 +103,10 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-dialog__inner--${this.maximized ? 'maximized' : 'minimized'} ` +
+      return `q-dialog__inner--${this.maximized === true ? 'maximized' : 'minimized'} ` +
         `q-dialog__inner--${this.position} ${positionClass[this.position]}` +
-        (this.fullWidth ? ' q-dialog__inner--fullwidth' : '') +
-        (this.fullHeight ? ' q-dialog__inner--fullheight' : '')
+        (this.fullWidth === true ? ' q-dialog__inner--fullwidth' : '') +
+        (this.fullHeight === true ? ' q-dialog__inner--fullheight' : '')
     },
 
     transition () {
@@ -123,29 +115,6 @@ export default Vue.extend({
           ? (this.transitionState === true ? this.transitionHide : this.transitionShow)
           : 'slide-' + transitions[this.position][this.transitionState === true ? 1 : 0]
       )
-    },
-
-    showBackdrop () {
-      return this.showing === true && this.seamless !== true
-    },
-
-    directives () {
-      const directives = []
-
-      if (this.autoClose === true) {
-        directives.push({
-          name: 'close-popup'
-        })
-      }
-
-      if (this.showBackdrop === true) {
-        directives.push({
-          name: 'click-outside',
-          arg: this.__portal !== void 0 ? this.__portal.$refs : void 0
-        })
-      }
-
-      return directives.length > 0 ? directives : void 0
     }
   },
 
@@ -176,19 +145,11 @@ export default Vue.extend({
         this.__refocusTarget.blur()
       }
 
-      this.$el.dispatchEvent(new Event('popup-show', { bubbles: true }))
-
       this.__updateState(true, this.maximized)
 
-      EscapeKey.register(this, (e) => {
+      EscapeKey.register(this, () => {
         if (this.seamless !== true) {
-          if (
-            this.persistent === true ||
-            (
-              this.noEscDismiss === true &&
-              (e === void 0 || e.type !== 'click-outside')
-            )
-          ) {
+          if (this.persistent === true || this.noEscDismiss === true) {
             this.maximized !== true && this.shake()
           }
           else {
@@ -205,7 +166,9 @@ export default Vue.extend({
 
         if (this.$q.platform.is.ios) {
           // workaround the iOS hover/touch issue
+          this.avoidAutoClose = true
           node.click()
+          this.avoidAutoClose = false
         }
 
         node.focus()
@@ -219,17 +182,12 @@ export default Vue.extend({
     __hide (evt) {
       this.__cleanup(true)
 
-      this.$nextTick(() => {
-        if (this.__refocusTarget !== void 0) {
-          this.__refocusTarget.focus()
-        }
-      })
+      if (this.__refocusTarget !== void 0) {
+        this.__refocusTarget.focus()
+      }
 
       this.timer = setTimeout(() => {
         this.__hidePortal()
-
-        this.$el.dispatchEvent(new Event('popup-hide', { bubbles: true }))
-
         this.$emit('hide', evt)
       }, 300)
     },
@@ -250,17 +208,42 @@ export default Vue.extend({
       }
 
       if (maximized === true) {
-        if (opening) {
+        if (opening === true) {
           maximizedModals < 1 && document.body.classList.add('q-body--dialog')
         }
         else if (maximizedModals < 2) {
           document.body.classList.remove('q-body--dialog')
         }
-        maximizedModals += opening ? 1 : -1
+        maximizedModals += opening === true ? 1 : -1
+      }
+    },
+
+    __onAutoClose (e) {
+      if (this.avoidAutoClose !== true) {
+        this.hide(e)
+        this.$listeners.click !== void 0 && this.$emit('click', e)
+      }
+    },
+
+    __onBackdropClick (e) {
+      if (this.persistent !== true && this.noBackdropDismiss !== true) {
+        this.hide(e)
+      }
+      else {
+        this.shake()
       }
     },
 
     __render (h) {
+      const on = {
+        ...this.$listeners,
+        input: stop
+      }
+
+      if (this.autoClose === true) {
+        on.click = this.__onAutoClose
+      }
+
       return h('div', {
         staticClass: 'q-dialog fullscreen no-pointer-events',
         class: this.contentClass,
@@ -269,9 +252,13 @@ export default Vue.extend({
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }
-        }, this.showBackdrop === true ? [
+        }, this.showing && this.seamless !== true ? [
           h('div', {
-            staticClass: 'q-dialog__backdrop fixed-full'
+            staticClass: 'q-dialog__backdrop fixed-full',
+            on: {
+              touchmove: stopAndPrevent, // prevent iOS page scroll
+              click: this.__onBackdropClick
+            }
           })
         ] : null),
 
@@ -280,14 +267,10 @@ export default Vue.extend({
         }, [
           this.showing === true ? h('div', {
             ref: 'inner',
-            staticClass: 'q-dialog__inner fixed-full flex no-pointer-events',
+            staticClass: 'q-dialog__inner flex no-pointer-events',
             class: this.classes,
             attrs: { tabindex: -1 },
-            directives: this.directives,
-            on: {
-              ...this.$listeners,
-              input: stop
-            }
+            on
           }, slot(this, 'default')) : null
         ])
       ])

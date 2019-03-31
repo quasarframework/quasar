@@ -160,9 +160,7 @@ export default Vue.extend({
 
     blur () {
       const el = document.activeElement
-      if (this.$el.contains(el)) {
-        el.blur()
-      }
+      this.$el.contains(el) && el.blur()
     },
 
     __getContent (h) {
@@ -220,6 +218,10 @@ export default Vue.extend({
         this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
       )
 
+      this.__getLocalMenu !== void 0 && node.push(
+        this.__getLocalMenu(h)
+      )
+
       return node
     },
 
@@ -264,11 +266,7 @@ export default Vue.extend({
       return node.concat(
         this.__getDefaultSlot !== void 0
           ? this.__getDefaultSlot(h)
-          : slot(this, 'default'),
-
-        this.__getLocalMenu !== void 0
-          ? this.__getLocalMenu(h)
-          : void 0
+          : slot(this, 'default')
       )
     },
 
@@ -321,16 +319,6 @@ export default Vue.extend({
       }, content)
     },
 
-    __onControlPopupShow (e) {
-      this.keepFocus = true
-      this.__onControlFocusin(e)
-    },
-
-    __onControlPopupHide (e) {
-      this.keepFocus = false
-      this.__onControlFocusout(e)
-    },
-
     __onControlFocusin (e) {
       if (this.editable === true && this.focused === false) {
         this.focused = true
@@ -341,13 +329,14 @@ export default Vue.extend({
     __onControlFocusout (e) {
       setTimeout(() => {
         if (
-          document.hasFocus() === true &&
-          (this.keepFocus === true || this.$refs === void 0 || this.$refs.control === void 0 || this.$refs.control.contains(document.activeElement) !== false)
+          document.hasFocus() === true && (
+            this.$refs === void 0 ||
+            this.$refs.control === void 0 ||
+            this.$refs.control.contains(document.activeElement) !== false
+          )
         ) {
           return
         }
-
-        this.keepFocus = false
 
         if (this.focused === true) {
           this.focused = false
@@ -401,9 +390,7 @@ export default Vue.extend({
       : {
         focus: this.focus,
         focusin: this.__onControlFocusin,
-        focusout: this.__onControlFocusout,
-        'popup-show': this.__onControlPopupShow,
-        'popup-hide': this.__onControlPopupHide
+        focusout: this.__onControlFocusout
       }
   }
 })

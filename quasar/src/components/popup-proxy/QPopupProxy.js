@@ -64,12 +64,10 @@ export default Vue.extend({
     },
 
     hide () {
-      if (this.showing === false) {
-        return
+      if (this.showing !== false) {
+        this.showing = false
+        this.$emit('input', false)
       }
-
-      this.showing = false
-      this.$emit('input', false)
     },
 
     __hide (evt) {

@@ -1,9 +1,8 @@
 import { listenOpts } from '../../utils/event.js'
 
-const
-  evtOpts = listenOpts.hasPassive === true
-    ? { passive: false, capture: true }
-    : true
+const evtOpts = listenOpts.hasPassive === true
+  ? { passive: false, capture: true }
+  : true
 
 export default {
   name: 'click-outside',
@@ -12,11 +11,7 @@ export default {
     const ctx = {
       trigger: value,
       handler (evt) {
-        if (evt === void 0 || evt.defaultPrevented === true) {
-          return
-        }
-
-        const target = evt.target
+        const target = evt && evt.target
 
         if (target && target !== document.body) {
           if (el.contains(target)) {
@@ -24,37 +19,30 @@ export default {
           }
 
           if (arg !== void 0) {
-            const parents = Object.values(arg)
-            for (let i = 0; i < parents.length; i++) {
-              if (parents[i].contains(target)) {
+            for (let i = 0; i < arg.length; i++) {
+              if (arg[i].contains(target)) {
                 return
               }
             }
           }
 
           let parent = target
-          while (parent !== document.body) {
+          while ((parent = parent.parentNode) !== document.body) {
             if (parent === el) {
               return
             }
             if (parent.classList.contains('q-menu') || parent.classList.contains('q-dialog')) {
               let sibling = parent
-              while ((sibling = sibling.previousElementSibling) !== null) {
-                if (sibling.contains(el)) {
+              while ((sibling = sibling.previousSibling) !== null) {
+                if (sibling === el) {
                   return
                 }
               }
             }
-            parent = parent.parentNode
           }
         }
 
-        ctx.trigger !== void 0 && ctx.trigger(evt)
-
-        el.dispatchEvent(new Event('click-outside', {
-          bubbles: true,
-          cancelable: false
-        }))
+        ctx.trigger(evt)
       }
     }
 
@@ -65,7 +53,6 @@ export default {
     el.__qclickoutside = ctx
     document.body.addEventListener('mousedown', ctx.handler, evtOpts)
     document.body.addEventListener('touchstart', ctx.handler, evtOpts)
-    document.body.addEventListener('focusin', ctx.handler, evtOpts)
   },
 
   update (el, { value, oldValue }) {
@@ -79,7 +66,6 @@ export default {
     if (ctx !== void 0) {
       document.body.removeEventListener('mousedown', ctx.handler, evtOpts)
       document.body.removeEventListener('touchstart', ctx.handler, evtOpts)
-      document.body.removeEventListener('focusin', ctx.handler, evtOpts)
       delete el[el.__qclickoutside_old ? '__qclickoutside_old' : '__qclickoutside']
     }
   }

@@ -81,7 +81,7 @@ export default {
     activeIcon: 'fas fa-times'
   },
   field: {
-    clear: 'fas fa-times'
+    clear: 'fas fa-times-circle'
   },
   pagination: {
     first: 'fas fa-step-backward',

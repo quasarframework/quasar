@@ -36,7 +36,8 @@ export default {
       if (evt === void 0) {
         return true
       }
-      return evt.defaultPrevented !== true && (evt.touches === void 0 || evt.touches.length <= 1)
+      return evt.defaultPrevented !== true &&
+        (evt.touches === void 0 || evt.touches.length <= 1)
     },
 
     __contextClick (evt) {
@@ -54,12 +55,15 @@ export default {
     },
 
     __mobileTouch (evt) {
-      this.__mobileCleanup()
+      this.__mobileCleanup(evt)
+
       if (this.__showCondition(evt) !== true) {
         return
       }
+
       this.hide(evt)
       this.anchorEl.classList.add('non-selectable')
+
       this.touchTimer = setTimeout(() => {
         this.show(evt)
       }, 300)
@@ -68,6 +72,7 @@ export default {
     __mobileCleanup (evt) {
       this.anchorEl.classList.remove('non-selectable')
       clearTimeout(this.touchTimer)
+
       if (this.showing === true && evt !== void 0) {
         clearSelection()
         prevent(evt)

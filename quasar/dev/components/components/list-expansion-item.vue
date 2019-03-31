@@ -196,6 +196,45 @@
       </q-list>
 
       <p class="caption">
+        Testing icon toggle attached events
+      </p>
+      <q-expansion-item expand-separator icon="shopping_cart" label="Toggle by right-side icon only" expand-icon-toggle>
+        <q-card>
+          <q-card-section>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora voluptatum natus consectetur ipsam laboriosam tenetur? Et ducimus quaerat labore a amet distinctio, facilis dolores, iusto, quam excepturi tempora porro fugit?
+            <q-btn label="Btn" />
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-expansion-item to="/" expand-separator icon="shopping_cart" label="Toggle by right-side icon only">
+        <q-card>
+          <q-card-section>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod soluta neque, earum porro nostrum odio iure numquam temporibus beatae non reiciendis consequuntur. Minima reiciendis, modi possimus explicabo beatae necessitatibus voluptas.
+            <q-btn label="Btn" />
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-expansion-item disable expand-separator icon="shopping_cart" label="Toggle by right-side icon only" expand-icon-toggle>
+        <q-card>
+          <q-card-section>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora voluptatum natus consectetur ipsam laboriosam tenetur? Et ducimus quaerat labore a amet distinctio, facilis dolores, iusto, quam excepturi tempora porro fugit?
+            <q-btn label="Btn" />
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-expansion-item disable to="/" expand-separator icon="shopping_cart" label="Toggle by right-side icon only">
+        <q-card>
+          <q-card-section>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod soluta neque, earum porro nostrum odio iure numquam temporibus beatae non reiciendis consequuntur. Minima reiciendis, modi possimus explicabo beatae necessitatibus voluptas.
+            <q-btn label="Btn" />
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <p class="caption">
         Make use of events
       </p>
       <q-expansion-item class="shadow-1 overflow-hidden" style="border-radius: 30px" icon="explore" label="Counter" @show="startCounting" @hide="stopCounting">

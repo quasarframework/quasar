@@ -81,7 +81,7 @@ export default {
     activeIcon: 'eva-close'
   },
   field: {
-    clear: 'eva-close'
+    clear: 'eva-close-circle-outline'
   },
   pagination: {
     first: 'eva-arrowhead-left-outline',

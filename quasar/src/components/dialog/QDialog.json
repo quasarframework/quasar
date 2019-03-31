@@ -24,7 +24,7 @@
 
     "auto-close": {
       "type": "Boolean",
-      "desc": "Allows any click/tap in the dialog to close it; Useful instead of attaching events to each item that should close the dialog on click/tap"
+      "desc": "Any click/tap inside of the dialog will close it"
     },
 
     "seamless": {

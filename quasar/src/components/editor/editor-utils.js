@@ -8,7 +8,7 @@ import QList from '../list/QList.js'
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
 
-import { stopAndPrevent, prevent } from '../../utils/event.js'
+import { prevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 function run (e, btn, vm) {
@@ -257,7 +257,6 @@ export function getLinkEditor (h, vm) {
                 prevent(event)
                 return updateLink()
               case 27: // ESCAPE key
-                stopAndPrevent(event)
                 vm.caret.restore()
                 !vm.editLinkUrl && document.execCommand('unlink')
                 vm.editLinkUrl = null

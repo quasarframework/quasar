@@ -7,8 +7,27 @@ import { getAllChildren } from '../../utils/vm.js'
 export default Vue.extend({
   name: 'QForm',
 
+  props: {
+    autofocus: {
+      type: Boolean,
+      default: true
+    }
+  },
+
   mounted () {
     this.validateIndex = 0
+
+    if (this.autofocus === true) {
+      const components = getAllChildren(this)
+
+      for (let i = 0; i < components.length; i++) {
+        const comp = components[i]
+        if (typeof comp.focus === 'function') {
+          this.$nextTick(comp.focus)
+          break
+        }
+      }
+    }
   },
 
   methods: {
