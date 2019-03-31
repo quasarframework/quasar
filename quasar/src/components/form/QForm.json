@@ -44,6 +44,10 @@
 
     "resetValidation": {
       "desc": "Resets the validation on all applicable inner Quasar components"
+    },
+
+    "focus": {
+      "desc": "On render focus the first focusable element in form"
     }
   }
 }
