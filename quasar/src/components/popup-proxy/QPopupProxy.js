@@ -64,7 +64,7 @@ export default Vue.extend({
     },
 
     hide () {
-      if (this.showing !== true) {
+      if (this.showing !== false) {
         this.showing = false
         this.$emit('input', false)
       }
