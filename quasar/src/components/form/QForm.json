@@ -2,7 +2,7 @@
   "props": {
     "autofocus": {
       "type": "Boolean",
-      "desc": "Focus first field on initial component render"
+      "desc": "Focus first focusable element on initial component render"
     }
   },
 
@@ -44,6 +44,10 @@
 
     "resetValidation": {
       "desc": "Resets the validation on all applicable inner Quasar components"
+    },
+
+    "focus": {
+      "desc": "Focus on first focusable element/component in the form"
     }
   }
 }

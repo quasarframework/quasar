@@ -14,17 +14,7 @@ export default Vue.extend({
   mounted () {
     this.validateIndex = 0
 
-    if (this.autofocus === true) {
-      const components = getAllChildren(this)
-
-      for (let i = 0; i < components.length; i++) {
-        const comp = components[i]
-        if (typeof comp.focus === 'function') {
-          this.$nextTick(comp.focus)
-          break
-        }
-      }
-    }
+    this.autofocus === true && this.focus()
   },
 
   methods: {
@@ -99,7 +89,13 @@ export default Vue.extend({
       evt !== void 0 && stopAndPrevent(evt)
 
       this.resetValidation()
+      this.autofocus === true && this.focus()
       this.$emit('reset')
+    },
+
+    focus () {
+      const target = this.$el.querySelector('[tabindex]')
+      target !== null && target.focus()
     }
   },
 
