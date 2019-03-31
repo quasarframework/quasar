@@ -8,10 +8,7 @@ export default Vue.extend({
   name: 'QForm',
 
   props: {
-    autofocus: {
-      type: Boolean,
-      default: true
-    }
+    autofocus: Boolean
   },
 
   mounted () {
