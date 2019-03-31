@@ -6,7 +6,8 @@
 
     "landscape": {
       "type": "Boolean",
-      "desc": "Display the component in landscape mode"
+      "desc": "Display the component in landscape mode",
+      "category": "style"
     },
 
     "color": {

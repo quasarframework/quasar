@@ -8,13 +8,15 @@
       "type": "Number",
       "desc": "Progress value (0.0 < x < 1.0)",
       "default": 0,
-      "examples": [ ":value=\"0.28\"" ]
+      "examples": [ ":value=\"0.28\"" ],
+      "category": "behavior"
     },
 
     "buffer": {
       "type": "Number",
       "desc": "Optional buffer value (0.0 < x < 1.0)",
-      "examples": [ ":buffer=\"0.78\"" ]
+      "examples": [ ":buffer=\"0.78\"" ],
+      "category": "behavior"
     },
 
     "color": {
@@ -23,7 +25,8 @@
 
     "track-color": {
       "extends": "color",
-      "desc": "Color name for component's track from the Quasar Color Palette"
+      "desc": "Color name for component's track from the Quasar Color Palette",
+      "category": "style"
     },
 
     "dark": {
@@ -32,22 +35,26 @@
 
     "reverse":  {
       "type": "Boolean",
-      "desc": "Reverse direction of progress"
+      "desc": "Reverse direction of progress",
+      "category": "behavior"
     },
 
     "stripe": {
       "type": "Boolean",
-      "desc":  "Draw stripes; For determinate state only (for performance reasons)"
+      "desc":  "Draw stripes; For determinate state only (for performance reasons)",
+      "category": "behavior"
     },
 
     "indeterminate": {
       "type": "Boolean",
-      "desc": "Put component into indeterminate mode"
+      "desc": "Put component into indeterminate mode",
+      "category": "behavior"
     },
 
     "query": {
       "type": "Boolean",
-      "desc": "Put component into query mode"
+      "desc": "Put component into query mode",
+      "category": "behavior"
     },
 
     "rounded": {

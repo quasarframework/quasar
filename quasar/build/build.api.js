@@ -42,28 +42,28 @@ const topSections = {
 
 const objectTypes = {
   Boolean: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples' ],
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category' ],
     required: [ 'desc' ],
     isBoolean: [ 'required', 'reactive', 'sync' ],
     isArray: [ 'examples' ]
   },
 
   String: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples' ],
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'required', 'reactive', 'sync' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Number: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples' ],
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'required', 'reactive', 'sync' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Object: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples' ],
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     recursive: [ 'definition' ],
     isBoolean: [ 'required', 'reactive', 'sync' ],
@@ -72,7 +72,7 @@ const objectTypes = {
   },
 
   Array: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples' ],
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'required', 'reactive', 'sync' ],
     isObject: [ 'definition' ],
@@ -80,7 +80,7 @@ const objectTypes = {
   },
 
   Promise: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples' ],
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'required', 'reactive', 'sync' ],
     isObject: [ 'definition' ],
@@ -88,7 +88,7 @@ const objectTypes = {
   },
 
   Function: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples' ],
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples', 'category' ],
     required: [ 'desc', 'params', 'returns' ],
     isBoolean: [ 'required', 'reactive', 'sync' ],
     isObject: [ 'params', 'returns' ],
@@ -97,7 +97,7 @@ const objectTypes = {
   },
 
   MultipleTypes: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples' ],
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'required', 'reactive', 'sync' ],
     isObject: [ 'definition', 'params', 'returns' ],

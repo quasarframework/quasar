@@ -11,20 +11,23 @@
         "(statics folder) statics/img/something.png",
         "(relative path format) :src=\"require('./my_img.jpg')\"",
         "(URL) https://some-site.net/some-img.jpg"
-      ]
+      ],
+      "category": "content"
     },
 
     "height": {
       "type": "Number",
       "desc": "Height of component (in pixels)",
       "default": 500,
-      "examples": [ ":height=\"1000\"" ]
+      "examples": [ ":height=\"1000\"" ],
+      "category": "style"
     },
 
     "speed": {
       "type": "Number",
       "desc": "Speed of parallax effect (0.0 < x < 1.0)",
-      "examples": [ ":speed=\"0.24\"" ]
+      "examples": [ ":speed=\"0.24\"" ],
+      "category": "behavior"
     }
   },
 

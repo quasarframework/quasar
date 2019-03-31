@@ -3,7 +3,8 @@
     "autofocus": {
       "type": "Boolean",
       "desc": "Focus first field on initial component render",
-      "default": true
+      "default": true,
+      "category": "behavior"
     }
   },
 

@@ -17,7 +17,8 @@
     "format24h": {
       "type": "Boolean",
       "desc": "Forces 24 hour time display instead of AM/PM system",
-      "default": "(based on Quasar lang language being used)"
+      "default": "(based on Quasar lang language being used)",
+      "category": "content"
     },
 
     "options": {
@@ -43,7 +44,8 @@
       "returns": null,
       "examples": [
         ":options=\"(hr, min, sec) => hr <= 6\""
-      ]
+      ],
+      "category": "behavior"
     },
 
     "hour-options": {
@@ -51,7 +53,8 @@
       "desc": "Optionally configure what hours is the user allowed to set; Overrides 'options' prop if that is also set",
       "examples": [
         ":hour-options=\"[3, 6, 9]\""
-      ]
+      ],
+      "category": "behavior"
     },
 
     "minute-options": {
@@ -59,7 +62,8 @@
       "desc": "Optionally configure what minutes is the user allowed to set; Overrides 'options' prop if that is also set",
       "examples": [
         ":minute-options=\"[0, 15, 30, 45]\""
-      ]
+      ],
+      "category": "behavior"
     },
 
     "second-options": {
@@ -67,17 +71,20 @@
       "desc": "Optionally configure what seconds is the user allowed to set; Overrides 'options' prop if that is also set",
       "examples": [
         ":second-options=\"[0, 7, 10, 23]\""
-      ]
+      ],
+      "category": "behavior"
     },
 
     "with-seconds": {
       "type": "Boolean",
-      "desc": "Allow the time to be set with seconds"
+      "desc": "Allow the time to be set with seconds",
+      "category": "behavior"
     },
 
     "now-btn": {
       "type": "Boolean",
-      "desc": "Display a button that selects the current time"
+      "desc": "Display a button that selects the current time",
+      "category": "content"
     }
   },
 

@@ -38,7 +38,8 @@
     "size": {
       "type": "String",
       "desc": "Button size in CSS units, including unit name",
-      "examples": [ "20px" ]
+      "examples": [ "20px" ],
+      "category": "content"
     },
 
     "disable": {
@@ -47,34 +48,40 @@
 
     "input": {
       "type": "Boolean",
-      "desc": "Use an input instead of buttons"
+      "desc": "Use an input instead of buttons",
+      "category": "content"
     },
 
     "boundary-links": {
       "type": "Boolean",
-      "desc": "Show boundary button links"
+      "desc": "Show boundary button links",
+      "category": "content"
     },
 
     "boundary-numbers": {
       "type": "Boolean",
-      "desc": "Always show first and last page buttons (if not using 'input')"
+      "desc": "Always show first and last page buttons (if not using 'input')",
+      "category": "content"
     },
 
     "direction-links": {
       "type": "Boolean",
-      "desc": "Show direction buttons"
+      "desc": "Show direction buttons",
+      "category": "content"
     },
 
     "ellipses": {
       "type": "Boolean",
-      "desc": "Show ellipses (...) when pages are available"
+      "desc": "Show ellipses (...) when pages are available",
+      "category": "content"
     },
 
     "max-pages": {
       "type": "Number",
       "default": 0,
       "desc": "Maximum number of page links to display at a time; 0 means Infinite",
-      "examples": [ 5 ]
+      "examples": [ 5 ],
+      "category": "content"
     }
   },
 

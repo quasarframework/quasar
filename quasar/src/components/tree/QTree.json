@@ -4,21 +4,24 @@
       "type": "Array",
       "desc": "The array of nodes that designates the tree structure",
       "required": true,
-      "examples": [ "[ {...}, {...} ]" ]
+      "examples": [ "[ {...}, {...} ]" ],
+      "category": "content"
     },
 
     "node-key": {
       "type": "String",
       "desc": "The property name of each node object that holds a unique node id",
       "required": true,
-      "examples": [ "key", "id" ]
+      "examples": [ "key", "id" ],
+      "category": "content"
     },
 
     "label-key": {
       "type": "String",
       "desc": "The property name of each node object that holds the label of the node",
       "default": "label",
-      "examples": [ "name", "description" ]
+      "examples": [ "name", "description" ],
+      "category": "content"
     },
 
     "color": {
@@ -27,7 +30,8 @@
 
     "control-color": {
       "extends": "color",
-      "desc": "Color name for controls (like checkboxes) from the Quasar Color Palette"
+      "desc": "Color name for controls (like checkboxes) from the Quasar Color Palette",
+      "category": "style"
     },
 
     "text-color": {
@@ -36,7 +40,8 @@
 
     "selected-color": {
       "extends": "color",
-      "desc": "Color name for selected nodes (from the Quasar Color Palette)"
+      "desc": "Color name for selected nodes (from the Quasar Color Palette)",
+      "category": "style"
     },
 
     "dark": {
@@ -51,44 +56,51 @@
       "type": "String",
       "desc": "The type of strategy to use for the selection of the nodes",
       "default": "none",
-      "values": [ "none", "strict", "leaf", "leaf-filtered" ]
+      "values": [ "none", "strict", "leaf", "leaf-filtered" ],
+      "category": "behavior"
     },
 
     "ticked": {
       "type": "Array",
       "desc": "Keys of nodes that are ticked",
       "sync": true,
-      "examples": [ ":ticked.sync=\"tickedKeys\"" ]
+      "examples": [ ":ticked.sync=\"tickedKeys\"" ],
+      "category": "content"
     },
 
     "expanded": {
       "type": "Array",
       "desc": "Keys of nodes that are expanded",
       "sync": true,
-      "examples": [ ":expanded.sync=\"expandedKeys\"" ]
+      "examples": [ ":expanded.sync=\"expandedKeys\"" ],
+      "category": "content"
     },
 
     "selected": {
       "type": "Any",
       "desc": "Key of node currently selected",
       "sync": true,
-      "examples": [ ":selected.sync=\"selectedKey\"" ]
+      "examples": [ ":selected.sync=\"selectedKey\"" ],
+      "category": "content"
     },
 
     "default-expand-all": {
       "type": "Boolean",
-      "desc": "Allow the tree to have all its branches expanded, when first rendered"
+      "desc": "Allow the tree to have all its branches expanded, when first rendered",
+      "category": "behavior"
     },
 
     "accordion": {
       "type": "Boolean",
-      "desc": "Allows the tree to be set in accordion mode"
+      "desc": "Allows the tree to be set in accordion mode",
+      "category": "behavior"
     },
 
     "filter": {
       "type": "String",
       "desc": "The text value to be used for filtering nodes",
-      "examples": [ ":filter=\"searchText\"" ]
+      "examples": [ ":filter=\"searchText\"" ],
+      "category": "behavior"
     },
 
     "filter-method": {
@@ -110,26 +122,30 @@
       "returns": {
         "type": "Boolean",
         "desc": "Matches or not"
-      }
+      },
+      "category": "behavior"
     },
 
     "duration": {
       "type": "Number",
       "desc": "Toggle animation duration (in milliseconds)",
       "default": 300,
-      "examples": [ ":duration=\"500\"" ]
+      "examples": [ ":duration=\"500\"" ],
+      "category": "style"
     },
 
     "no-nodes-label": {
       "type": "String",
       "desc": "Override default such label for when no nodes are available",
-      "examples": [ "No nodes to show!" ]
+      "examples": [ "No nodes to show!" ],
+      "category": "content"
     },
 
     "no-results-label": {
       "type": "String",
       "desc": "Override default such label for when no nodes are available due to filtering",
-      "examples": [ "No results" ]
+      "examples": [ "No results" ],
+      "category": "content"
     }
   },
 

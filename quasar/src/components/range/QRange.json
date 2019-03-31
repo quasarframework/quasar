@@ -15,38 +15,44 @@
           "examples": [ 12 ]
         }
       },
-      "examples": [ "v-model=\"positionModel\"" ]
+      "examples": [ "v-model=\"positionModel\"" ],
+      "category": "behavior"
     },
 
     "min": {
       "type": "Number",
       "desc": "Minimum value of the model",
       "default": 0,
-      "examples": [ ":min=\"0\"" ]
+      "examples": [ ":min=\"0\"" ],
+      "category": "behavior"
     },
 
     "max": {
       "type": "Number",
       "desc": "Maximum value of the model",
       "default": 100,
-      "examples": [ ":max=\"100\"" ]
+      "examples": [ ":max=\"100\"" ],
+      "category": "behavior"
     },
 
     "step": {
       "type": "Number",
       "desc": "Specify step amount between valid values (> 0.0); When step equals to 0 it defines infinite granularity",
       "default": 1,
-      "examples": [ ":step=\"1\"" ]
+      "examples": [ ":step=\"1\"" ],
+      "category": "behavior"
     },
 
     "drag-range": {
       "type": "Boolean",
-      "desc": "User can drag range instead of just the two thumbs"
+      "desc": "User can drag range instead of just the two thumbs",
+      "category": "behavior"
     },
 
     "drag-range-only": {
       "type": "Boolean",
-      "desc": "User can drag only the range instead and NOT the two thumbs"
+      "desc": "User can drag only the range instead and NOT the two thumbs",
+      "category": "behavior"
     },
 
     "color": {
@@ -55,22 +61,26 @@
 
     "label": {
       "type": "Boolean",
-      "desc": "Popup labels (for left and right thumbs) when user clicks/taps on the slider thumb and moves it"
+      "desc": "Popup labels (for left and right thumbs) when user clicks/taps on the slider thumb and moves it",
+      "category": "content"
     },
 
     "label-color": {
       "extends": "color",
-      "desc": "Color name for labels background from the Quasar Color Palette; Applies to both labels, unless specific label color props are used"
+      "desc": "Color name for labels background from the Quasar Color Palette; Applies to both labels, unless specific label color props are used",
+      "category": "content"
     },
 
     "left-label-color": {
       "extends": "color",
-      "desc": "Color name for left label background from the Quasar Color Palette"
+      "desc": "Color name for left label background from the Quasar Color Palette",
+      "category": "content"
     },
 
     "right-label-color": {
       "extends": "color",
-      "desc": "Color name for right label background from the Quasar Color Palette"
+      "desc": "Color name for right label background from the Quasar Color Palette",
+      "category": "content"
     },
 
     "left-label-value": {
@@ -78,7 +88,8 @@
       "desc": "Override default label for min value",
       "examples": [
         ":left-label-value=\"model.min + 'px'\""
-      ]
+      ],
+      "category": "content"
     },
 
     "right-label-value": {
@@ -86,22 +97,26 @@
       "desc": "Override default label for max value",
       "examples": [
         ":right-label-value=\"model.max + 'px'\""
-      ]
+      ],
+      "category": "content"
     },
 
     "label-always": {
       "type": "Boolean",
-      "desc": "Always display the labels"
+      "desc": "Always display the labels",
+      "category": "content|behavior"
     },
 
     "markers": {
       "type": "Boolean",
-      "desc": "Display markers on the track, one for each possible value for the model"
+      "desc": "Display markers on the track, one for each possible value for the model",
+      "category": "content|behavior"
     },
 
     "snap": {
       "type": "Boolean",
-      "desc": "Snap thumbs on valid values, rather than sliding freely; Suggestion: use with 'step' prop"
+      "desc": "Snap thumbs on valid values, rather than sliding freely; Suggestion: use with 'step' prop",
+      "category": "behavior"
     },
 
     "dark": {

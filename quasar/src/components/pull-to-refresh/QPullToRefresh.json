@@ -6,12 +6,14 @@
 
     "icon": {
       "extends": "icon",
-      "desc": "Icon to display when refreshing the content"
+      "desc": "Icon to display when refreshing the content",
+      "category": "content"
     },
 
     "no-mouse": {
       "type": "Boolean",
-      "desc": "Don't listen for mouse events"
+      "desc": "Don't listen for mouse events",
+      "category": "behavior"
     },
 
     "disable": {

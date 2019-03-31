@@ -4,12 +4,14 @@
   "props": {
     "max-height": {
       "extends": "size",
-      "desc": "The maximimum height of the Tooltip; Size in CSS units, including unit name"
+      "desc": "The maximimum height of the Tooltip; Size in CSS units, including unit name",
+      "category": "style"
     },
 
     "max-width": {
       "extends": "size",
-      "desc": "The maximimum width of the Tooltip; Size in CSS units, including unit name"
+      "desc": "The maximimum width of the Tooltip; Size in CSS units, including unit name",
+      "category": "style"
     },
 
     "transition-show": {
@@ -30,7 +32,8 @@
         "center left", "center middle", "center right",
         "bottom left", "bottom middle", "bottom right"
       ],
-      "examples": [ "top left", "bottom right" ]
+      "examples": [ "top left", "bottom right" ],
+      "category": "behavior"
     },
 
     "self": {
@@ -41,14 +44,16 @@
         "center left", "center middle", "center right",
         "bottom left", "bottom middle", "bottom right"
       ],
-      "examples": [ "top left", "bottom right" ]
+      "examples": [ "top left", "bottom right" ],
+      "category": "style"
     },
 
     "offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the Tooltip horizontally and vertically in pixels",
       "default": "[14, 14]",
-      "examples": [ "[8, 8]", "[5, 10]" ]
+      "examples": [ "[8, 8]", "[5, 10]" ],
+      "category": "style"
     },
 
     "target": {
@@ -59,14 +64,16 @@
       "examples": [
         ":target=\"false\"",
         "target=\".my-parent\""
-      ]
+      ],
+      "category": "behavior"
     },
 
     "delay": {
       "type": "Number",
       "desc": "Configure Tooltip to appear with delay",
       "default": 0,
-      "examples": [ ":delay=\"550\"" ]
+      "examples": [ ":delay=\"550\"" ],
+      "category": "behavior"
     }
   },
 

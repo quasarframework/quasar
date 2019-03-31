@@ -4,7 +4,8 @@
       "type": [ "String", "Number" ],
       "desc": "Debounce amount (in milliseconds)",
       "default": 100,
-      "examples": [ "0", "530" ]
+      "examples": [ "0", "530" ],
+      "category": "behavior"
     }
   },
 

@@ -9,29 +9,34 @@
     "title": {
       "type": "String",
       "desc": "Optional title (unless 'title' slot is used)",
-      "examples": [ "Calories" ]
+      "examples": [ "Calories" ],
+      "category": "content"
     },
 
     "buttons": {
       "type": "Boolean",
-      "desc": "Show Set and Cancel buttons"
+      "desc": "Show Set and Cancel buttons",
+      "category": "content"
     },
 
     "label-set": {
       "type": "String",
       "desc": "Override Set button label",
-      "examples": [ "OK" ]
+      "examples": [ "OK" ],
+      "category": "content"
     },
 
     "label-cancel": {
       "type": "String",
       "desc": "Override Cancel button label",
-      "examples": [ "Cancel" ]
+      "examples": [ "Cancel" ],
+      "category": "content"
     },
 
     "persistent": {
       "type": "Boolean",
-      "desc": "Avoid Popup closing by hitting ESC key or by clicking/tapping outside of the Popup"
+      "desc": "Avoid Popup closing by hitting ESC key or by clicking/tapping outside of the Popup",
+      "category": "behavior"
     },
 
     "color": {
@@ -55,7 +60,8 @@
       },
       "examples": [
         ":validate=\"myValidation\""
-      ]
+      ],
+      "category": "behavior"
     },
 
     "disable": {

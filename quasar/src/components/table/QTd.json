@@ -8,7 +8,8 @@
 
     "auto-width": {
       "type": "Boolean",
-      "desc": "Tries to shrink column width size; Useful for columns with a checkbox/radio/toggle"
+      "desc": "Tries to shrink column width size; Useful for columns with a checkbox/radio/toggle",
+      "category": "style"
     }
   },
 
