@@ -612,6 +612,39 @@
           </q-card>
         </q-expansion-item>
       </q-list>
+
+      <p class="caption">
+        Events test
+      </p>
+      <q-expansion-item @click="onClick(1)" @keyup="onKeyup(1)" expand-separator icon="shopping_cart" label="1. Toggle by right-side icon only">
+        <q-card>
+          <q-card-section>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod soluta neque, earum porro nostrum odio iure numquam temporibus beatae non reiciendis consequuntur. Minima reiciendis, modi possimus explicabo beatae necessitatibus voluptas.
+            <q-btn label="Btn" />
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-expansion-item @click="onClick(2)" @keyup="onKeyup(2)" to="/" expand-separator icon="shopping_cart" label="2. Toggle by right-side icon only">
+        <q-card>
+          <q-card-section>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod soluta neque, earum porro nostrum odio iure numquam temporibus beatae non reiciendis consequuntur. Minima reiciendis, modi possimus explicabo beatae necessitatibus voluptas.
+            <q-btn label="Btn" />
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-item @click="onClick(3)" @keyup="onKeyup(3)" clickable>
+        <q-item-section>
+          3. Gigi
+        </q-item-section>
+      </q-item>
+
+      <q-item to="/" @click="onClick(4)" @keyup="onKeyup(4)" clickable>
+        <q-item-section>
+          4. Gigi
+        </q-item-section>
+      </q-item>
     </div>
   </div>
 </template>
@@ -643,6 +676,13 @@ export default {
       console.log('counter stop')
 
       clearInterval(this.hndl)
+    },
+
+    onClick (which) {
+      console.log('onClick', which)
+    },
+    onKeyup (which) {
+      console.log('onKeyup', which)
     }
   }
 }

@@ -86,12 +86,18 @@ export default Vue.extend({
   },
 
   methods: {
-    __toggleItemKeyboard (e) {
-      e.keyCode === 13 && this.__toggleItem(e)
+    __onHeaderKeyup (e) {
+      if (e.keyCode === 13) {
+        this.__onHeaderClick(e)
+      }
+      else {
+        this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
+      }
     },
 
-    __toggleItem (e) {
+    __onHeaderClick (e) {
       this.hasRouterLink !== true && this.toggle(e)
+      this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 
     __toggleIconKeyboard (e) {
@@ -118,7 +124,7 @@ export default Vue.extend({
           side: this.switchToggleSide !== true,
           avatar: this.switchToggleSide
         },
-        nativeOn: this.activeToggleIcon === true ? {
+        on: this.activeToggleIcon === true ? {
           click: this.__toggleIcon,
           keyup: this.__toggleIconKeyboard
         } : void 0
@@ -194,11 +200,14 @@ export default Vue.extend({
         }
       }
 
-      if (this.isClickable) {
+      if (this.isClickable === true) {
+        const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
+
         data.props.clickable = true
-        data.on = {
-          click: this.__toggleItem,
-          keyup: this.__toggleItemKeyboard
+        data[evtProp] = {
+          ...this.$listeners,
+          click: this.__onHeaderClick,
+          keyup: this.__onHeaderKeyup
         }
 
         this.hasRouterLink === true && Object.assign(
