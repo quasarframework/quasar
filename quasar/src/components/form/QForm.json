@@ -2,7 +2,7 @@
   "props": {
     "autofocus": {
       "type": "Boolean",
-      "desc": "Focus first field on initial component render"
+      "desc": "Focus first focusable element on initial component render"
     }
   },
 
@@ -47,7 +47,7 @@
     },
 
     "focus": {
-      "desc": "On render focus the first focusable element in form"
+      "desc": "Focus on first focusable element/component in the form"
     }
   }
 }
