@@ -5,7 +5,12 @@
     <div>{{ age }}</div>
     <div>{{ modelAsync }}</div>
 
+    <q-toggle v-model="show" label="Show form" />
+    <q-toggle v-model="autofocus" label="Autofocus" />
+
     <q-form
+      v-if="show"
+      :autofocus="autofocus"
       ref="form"
       @submit="onSubmit"
       @reset="onReset"
@@ -66,7 +71,10 @@ export default {
       age: null,
       modelAsync: null,
 
-      accept: false
+      accept: false,
+
+      show: true,
+      autofocus: true
     }
   },
 
