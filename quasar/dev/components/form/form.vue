@@ -7,6 +7,7 @@
 
     <q-toggle v-model="show" label="Show form" />
     <q-toggle v-model="autofocus" label="Autofocus" />
+    <q-option-group class="q-mb-lg" inline v-model="autofocusEl" dense="dense" :options="autofocusEls" />
 
     <q-form
       v-if="show"
@@ -18,7 +19,7 @@
       @validation-error="onValidationError"
       class="q-gutter-md"
     >
-      <input v-model="native">
+      <input v-model="native" :autofocus="autofocusEl === 0">
 
       <q-input
         ref="name"
@@ -28,6 +29,7 @@
         hint="Name and surname"
         lazy-rules
         :rules="[ val => val && val.length > 0 || 'Please type something']"
+        :autofocus="autofocusEl === 1"
       />
 
       <q-input
@@ -41,6 +43,7 @@
           val => val !== null && val !== '' || 'Please type your age',
           val => val > 0 && val < 100 || 'Please type a real age'
         ]"
+        :autofocus="autofocusEl === 2"
       />
 
       <q-input
@@ -52,7 +55,7 @@
         ]"
       />
 
-      <q-toggle v-model="accept" label="I accept the license and terms" />
+      <q-toggle v-model="accept" label="I accept the license and terms" :autofocus="autofocusEl === 3" />
 
       <div>
         <q-btn label="Submit" type="submit" color="primary" />
@@ -74,7 +77,14 @@ export default {
       accept: false,
 
       show: true,
-      autofocus: true
+      autofocus: true,
+      autofocusEls: [
+        { value: 0, label: 'Native input' },
+        { value: 1, label: 'Name' },
+        { value: 2, label: 'Age' },
+        { value: 3, label: 'Toggle' }
+      ],
+      autofocusEl: 1
     }
   },
 

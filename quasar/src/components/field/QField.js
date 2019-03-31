@@ -46,7 +46,9 @@ export default Vue.extend({
     clearIcon: String,
 
     disable: Boolean,
-    readonly: Boolean
+    readonly: Boolean,
+
+    autofocus: Boolean
   },
 
   data () {
@@ -245,7 +247,8 @@ export default Vue.extend({
             ref: 'target',
             staticClass: 'q-field__native row',
             attrs: this.$attrs.tabindex !== void 0 ? {
-              tabindex: this.$attrs.tabindex
+              tabindex: this.$attrs.tabindex,
+              autofocus: this.autofocus
             } : void 0
           }, this.$scopedSlots.control())
         )
@@ -392,5 +395,9 @@ export default Vue.extend({
         focusin: this.__onControlFocusin,
         focusout: this.__onControlFocusout
       }
+  },
+
+  mounted () {
+    this.autofocus === true && this.$nextTick(this.focus)
   }
 })

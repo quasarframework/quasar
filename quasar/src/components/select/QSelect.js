@@ -69,9 +69,7 @@ export default Vue.extend({
     inputDebounce: {
       type: [Number, String],
       default: 500
-    },
-
-    autofocus: Boolean
+    }
   },
 
   data () {
@@ -598,6 +596,7 @@ export default Vue.extend({
           ref: 'target',
           attrs: {
             tabindex: 0,
+            autofocus: this.autofocus,
             ...this.$attrs
           },
           on: {
@@ -679,6 +678,7 @@ export default Vue.extend({
         domProps: { value: this.inputValue },
         attrs: {
           tabindex: 0,
+          autofocus: this.autofocus,
           ...this.$attrs,
           disabled: this.editable !== true
         },
@@ -851,10 +851,6 @@ export default Vue.extend({
         this.optionsCover === true && this.noOptions !== true && this.useInput !== true
       )
     }
-  },
-
-  mounted () {
-    this.autofocus === true && this.$nextTick(this.focus)
   },
 
   beforeDestroy () {

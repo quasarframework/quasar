@@ -43,11 +43,6 @@
       "desc": "Make field autogrow along with its content (uses a textarea)"
     },
 
-    "autofocus": {
-      "type": "Boolean",
-      "desc": "Focus field on initial component render"
-    },
-
     "input-class": {
       "type": [ "Array", "String", "Object" ],
       "desc": "Class definitions to be attributed to the underlying input tag",
