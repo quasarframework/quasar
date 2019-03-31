@@ -13,6 +13,7 @@ export default Vue.extend({
 
   mounted () {
     this.validateIndex = 0
+
     this.autofocus === true && this.focus()
   },
 
