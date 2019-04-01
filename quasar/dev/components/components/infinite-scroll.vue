@@ -47,11 +47,12 @@
 
       <div v-if="container" id="reverse-target" :style="styles">
         <q-infinite-scroll reverse @load="loadReverse" :disable="disable" v-if="active" scroll-target="#reverse-target">
-          <div style="height: 40px">
-            <div slot="loading" class="row justify-center q-my-md">
-              <q-spinner color="primary" name="dots" :size="40" />
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner color="primary" name="dots" size="40px" />
             </div>
-          </div>
+          </template>
+
           <div v-for="(item, index) in itemsReverse" :key="itemsReverse.length - index" class="caption">
             <q-chip square color="secondary" class="shadow-1">
               {{ itemsReverse.length - index }}
