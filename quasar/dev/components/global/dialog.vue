@@ -20,6 +20,7 @@
         <q-btn label="Non standard content" flat color="primary" @click="nonStandard = true" />
         <q-btn label="Complex card" flat color="primary" @click="complexCard = true" />
         <q-btn label="Sliders" flat color="primary" @click="sliders = true" />
+        <q-btn label="Layout Bottom" flat color="primary" @click="layoutBottom = true" />
       </div>
     </div>
 
@@ -265,7 +266,7 @@
     </q-dialog>
 
     <q-dialog v-model="positioned" position="bottom">
-      <q-card style="width: 500px">
+      <q-card style="width: 500px;">
         <q-linear-progress :value="0.6" color="pink" />
 
         <q-card-section class="row items-center no-wrap">
@@ -595,6 +596,22 @@
       </q-card>
     </q-dialog>
 
+    <q-dialog
+      v-model="layoutBottom"
+      maximized
+      position="bottom"
+    >
+      <q-layout container style="height: 50vh">
+        <q-header>Header</q-header>
+        <q-page-container>
+          <q-page padding class="bg-white">
+            I should be a maximized dialog sliding from the bottom of the screen
+          </q-page>
+        </q-page-container>
+        <q-inner-loading visible />
+      </q-layout>
+    </q-dialog>
+
     <div class="text-center text-caption q-mt-xl" style="height: 1500px">
       Page has scroll on purpose
     </div>
@@ -633,6 +650,7 @@ export default {
       nonStandard: false,
       complexCard: false,
       sliders: false,
+      layoutBottom: false,
 
       maximizedToggle: true,
       preventCloseToggle: false,
