@@ -53,13 +53,13 @@ export default Vue.extend({
         scrollPosition = getScrollPosition(this.scrollContainer),
         containerHeight = height(this.scrollContainer)
 
-      if (this.reverse) {
-        if (scrollPosition < this.offset) {
+      if (this.reverse === false) {
+        if (scrollPosition + containerHeight + this.offset >= scrollHeight) {
           this.trigger()
         }
       }
       else {
-        if (scrollPosition + containerHeight + this.offset >= scrollHeight) {
+        if (scrollPosition < this.offset) {
           this.trigger()
         }
       }
@@ -72,12 +72,14 @@ export default Vue.extend({
 
       this.index++
       this.fetching = true
+
       const heightBefore = getScrollHeight(this.scrollContainer)
+
       this.$emit('load', this.index, () => {
         if (this.working === true) {
           this.fetching = false
           this.$nextTick(() => {
-            if (this.reverse) {
+            if (this.reverse === true) {
               const
                 heightAfter = getScrollHeight(this.scrollContainer),
                 scrollPosition = getScrollPosition(this.scrollContainer),
@@ -85,6 +87,7 @@ export default Vue.extend({
 
               this.scrollContainer.scrollTop = scrollPosition + heightDifference
             }
+
             this.$el.closest('body') && this.poll()
           })
         }
@@ -140,7 +143,7 @@ export default Vue.extend({
     this.updateScrollTarget()
     this.immediatePoll()
 
-    if (this.reverse) {
+    if (this.reverse === true) {
       const
         scrollHeight = getScrollHeight(this.scrollContainer),
         containerHeight = height(this.scrollContainer)
@@ -159,12 +162,12 @@ export default Vue.extend({
     const content = this.$scopedSlots.default !== void 0
         ? this.$scopedSlots.default()
         : [],
-      body = this.fetching
+      body = this.fetching === true
         ? h('div', { staticClass: 'q-infinite-scroll__loading' }, slot(this, 'loading'))
         : null,
-      children = this.reverse
-        ? ([body]).concat(content)
-        : content.concat([body])
+      children = this.reverse === false
+        ? content.concat([body])
+        : [body].concat(content)
 
     return h('div', { staticClass: 'q-infinite-scroll' }, children)
   }
