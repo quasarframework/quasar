@@ -1172,7 +1172,8 @@ The structure looks the same, but some functions have been renamed.
 
 ### QField
 
-- **removed**, the functionality of QField is now built into [QInput](/vue-components/input) and [QSelect](/vue-components/select).
+- **updated**, **completely new**
+- Do NOT use to wrap QInput or QSelect; the functionality of QField is now built into [QInput](/vue-components/input) and [QSelect](/vue-components/select).
 
 If you use it to wrap Input, just move all attributes from QField to QInput. If you use `error` and `error-label`, enable `bottom-slots` on QInput and change `error-label` to `error-message`.
 
