@@ -160,15 +160,18 @@ export default Vue.extend({
 
   render (h) {
     const content = this.$scopedSlots.default !== void 0
-        ? this.$scopedSlots.default()
-        : [],
-      body = this.fetching === true
-        ? h('div', { staticClass: 'q-infinite-scroll__loading' }, slot(this, 'loading'))
-        : null,
-      children = this.reverse === false
-        ? content.concat([body])
-        : [body].concat(content)
+      ? this.$scopedSlots.default()
+      : []
+    const body = this.fetching === true
+      ? [ h('div', { staticClass: 'q-infinite-scroll__loading' }, slot(this, 'loading')) ]
+      : []
 
-    return h('div', { staticClass: 'q-infinite-scroll' }, children)
+    return h(
+      'div',
+      { staticClass: 'q-infinite-scroll' },
+      this.reverse === false
+        ? content.concat(body)
+        : body.concat(content)
+    )
   }
 })
