@@ -8,10 +8,11 @@
         <q-btn label="Persistent" flat color="primary" @click="persistent = true" />
         <q-btn label="Close Icon" flat color="primary" @click="icon = true" />
         <q-btn label="Bar" flat color="primary" @click="bar = true" />
-        <q-btn label="Bar 2" flat color="primary" @click="bar2 = true" />
+        <q-btn label="Bar 2 (auto-close)" flat color="primary" @click="bar2 = true" />
         <q-btn label="Toolbar" flat color="primary" @click="toolbar = true" />
         <q-btn label="Scroll" flat color="primary" @click="scroll = true" />
         <q-btn label="Scroll 2" flat color="primary" @click="scroll2 = true" />
+        <q-btn label="Scroll 3 bottom" flat color="primary" @click="scroll3 = true" />
         <q-btn label="Maximized" flat color="primary" @click="maximized = true" />
         <q-btn label="Positioned" flat color="primary" @click="positioned = true" />
         <q-btn label="Seamless" flat color="primary" @click="seamless = true" />
@@ -20,6 +21,7 @@
         <q-btn label="Non standard content" flat color="primary" @click="nonStandard = true" />
         <q-btn label="Complex card" flat color="primary" @click="complexCard = true" />
         <q-btn label="Sliders" flat color="primary" @click="sliders = true" />
+        <q-btn label="Layout Bottom" flat color="primary" @click="layoutBottom = true" />
       </div>
     </div>
 
@@ -104,7 +106,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="bar2" persistent transition-show="flip-down" transition-hide="flip-up">
+    <q-dialog v-model="bar2" auto-close persistent transition-show="flip-down" transition-hide="flip-up">
       <q-card class="bg-primary text-white">
         <q-bar>
           <q-icon name="network_wifi" />
@@ -123,7 +125,7 @@
 
         <q-card-section>
           <div class="text-h6">
-            Alert
+            Alert, Auto-closing on click
           </div>
         </q-card-section>
 
@@ -230,6 +232,31 @@
       </q-card>
     </q-dialog>
 
+    <q-dialog v-model="scroll3" position="bottom" maximized>
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">
+            Terms of Agreement
+          </div>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section style="max-height: 50vh" class="scroll">
+          <p v-for="n in 15" :key="n">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+          </p>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions align="right">
+          <q-btn flat label="Decline" color="primary" v-close-popup />
+          <q-btn flat label="Accept" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
     <q-dialog v-model="maximized" persistent :maximized="maximizedToggle" transition-show="slide-up" transition-hide="slide-down">
       <q-card class="bg-primary text-white">
         <q-bar>
@@ -265,7 +292,7 @@
     </q-dialog>
 
     <q-dialog v-model="positioned" position="bottom">
-      <q-card style="width: 500px">
+      <q-card style="width: 500px;">
         <q-linear-progress :value="0.6" color="pink" />
 
         <q-card-section class="row items-center no-wrap">
@@ -595,6 +622,21 @@
       </q-card>
     </q-dialog>
 
+    <q-dialog
+      v-model="layoutBottom"
+      maximized
+      position="bottom"
+    >
+      <q-layout container style="height: 50vh">
+        <q-header>Header</q-header>
+        <q-page-container>
+          <q-page padding class="bg-white">
+            I should be a maximized dialog sliding from the bottom of the screen
+          </q-page>
+        </q-page-container>
+      </q-layout>
+    </q-dialog>
+
     <div class="text-center text-caption q-mt-xl" style="height: 1500px">
       Page has scroll on purpose
     </div>
@@ -615,7 +657,7 @@ export default {
 
   data () {
     return {
-      alert: false,
+      alert: true,
       persistent: false,
       confirm: false,
       prompt: false,
@@ -625,6 +667,7 @@ export default {
       toolbar: false,
       scroll: false,
       scroll2: false,
+      scroll3: false,
       maximized: false,
       positioned: false,
       seamless: false,
@@ -633,6 +676,7 @@ export default {
       nonStandard: false,
       complexCard: false,
       sliders: false,
+      layoutBottom: false,
 
       maximizedToggle: true,
       preventCloseToggle: false,

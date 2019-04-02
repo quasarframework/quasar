@@ -6,16 +6,16 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
+import { stop, stopAndPrevent } from '../../utils/event.js'
 
 let maximizedModals = 0
 
 const positionClass = {
-  standard: 'flex-center',
-  top: 'items-start justify-center',
-  bottom: 'items-end justify-center',
-  right: 'items-center justify-end',
-  left: 'items-center justify-start'
+  standard: 'fixed-full flex-center',
+  top: 'fixed-top justify-center',
+  bottom: 'fixed-bottom justify-center',
+  right: 'fixed-right items-center',
+  left: 'fixed-left items-center'
 }
 
 const transitions = {
@@ -36,9 +36,12 @@ export default Vue.extend({
 
   props: {
     persistent: Boolean,
+    autoClose: Boolean,
+
     noEscDismiss: Boolean,
     noBackdropDismiss: Boolean,
     noRouteDismiss: Boolean,
+    noRefocus: Boolean,
 
     seamless: Boolean,
 
@@ -61,9 +64,7 @@ export default Vue.extend({
     transitionHide: {
       type: String,
       default: 'scale'
-    },
-
-    noRefocus: Boolean
+    }
   },
 
   data () {
@@ -102,10 +103,10 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-dialog__inner--${this.maximized ? 'maximized' : 'minimized'} ` +
+      return `q-dialog__inner--${this.maximized === true ? 'maximized' : 'minimized'} ` +
         `q-dialog__inner--${this.position} ${positionClass[this.position]}` +
-        (this.fullWidth ? ' q-dialog__inner--fullwidth' : '') +
-        (this.fullHeight ? ' q-dialog__inner--fullheight' : '')
+        (this.fullWidth === true ? ' q-dialog__inner--fullwidth' : '') +
+        (this.fullHeight === true ? ' q-dialog__inner--fullheight' : '')
     },
 
     transition () {
@@ -120,6 +121,10 @@ export default Vue.extend({
   methods: {
     shake () {
       const node = this.__portal.$refs.inner
+
+      if (node.contains(document.activeElement) === false) {
+        node.focus()
+      }
 
       node.classList.remove('q-animate--scale')
       node.classList.add('q-animate--scale')
@@ -161,7 +166,9 @@ export default Vue.extend({
 
         if (this.$q.platform.is.ios) {
           // workaround the iOS hover/touch issue
+          this.avoidAutoClose = true
           node.click()
+          this.avoidAutoClose = false
         }
 
         node.focus()
@@ -175,13 +182,12 @@ export default Vue.extend({
     __hide (evt) {
       this.__cleanup(true)
 
+      if (this.__refocusTarget !== void 0) {
+        this.__refocusTarget.focus()
+      }
+
       this.timer = setTimeout(() => {
         this.__hidePortal()
-
-        if (this.__refocusTarget !== void 0) {
-          this.__refocusTarget.focus()
-        }
-
         this.$emit('hide', evt)
       }, 300)
     },
@@ -202,17 +208,42 @@ export default Vue.extend({
       }
 
       if (maximized === true) {
-        if (opening) {
+        if (opening === true) {
           maximizedModals < 1 && document.body.classList.add('q-body--dialog')
         }
         else if (maximizedModals < 2) {
           document.body.classList.remove('q-body--dialog')
         }
-        maximizedModals += opening ? 1 : -1
+        maximizedModals += opening === true ? 1 : -1
+      }
+    },
+
+    __onAutoClose (e) {
+      if (this.avoidAutoClose !== true) {
+        this.hide(e)
+        this.$listeners.click !== void 0 && this.$emit('click', e)
+      }
+    },
+
+    __onBackdropClick (e) {
+      if (this.persistent !== true && this.noBackdropDismiss !== true) {
+        this.hide(e)
+      }
+      else {
+        this.shake()
       }
     },
 
     __render (h) {
+      const on = {
+        ...this.$listeners,
+        input: stop
+      }
+
+      if (this.autoClose === true) {
+        on.click = this.__onAutoClose
+      }
+
       return h('div', {
         staticClass: 'q-dialog fullscreen no-pointer-events',
         class: this.contentClass,
@@ -225,9 +256,8 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
-              click: this.persistent !== true && this.noBackdropDismiss !== true
-                ? this.hide
-                : this.shake
+              touchmove: stopAndPrevent, // prevent iOS page scroll
+              click: this.__onBackdropClick
             }
           })
         ] : null),
@@ -237,13 +267,10 @@ export default Vue.extend({
         }, [
           this.showing === true ? h('div', {
             ref: 'inner',
-            staticClass: 'q-dialog__inner fixed-full flex no-pointer-events',
+            staticClass: 'q-dialog__inner flex no-pointer-events',
             class: this.classes,
             attrs: { tabindex: -1 },
-            on: {
-              ...this.$listeners,
-              input: stop
-            }
+            on
           }, slot(this, 'default')) : null
         ])
       ])

@@ -65,19 +65,26 @@ function isQuasarPackage (name) {
   return false
 }
 
-function getLatestVersion (packageName, curVersion) {
-  let version = JSON.parse(
+function getLatestVersion (packager, packageName, curVersion) {
+  let versions = JSON.parse(
     execSync(
-      `npm view ${packageName}@${curVersion} version --json`,
+      `${packager} info ${packageName} versions --json`,
       { stdio: ['ignore', 'pipe', 'pipe'] }
     )
   )
 
-  if (typeof version !== 'string') {
-    version = version[version.length - 1]
+  if (packager === 'yarn') {
+    versions = versions.data
   }
 
-  return version
+  if (curVersion === null) {
+    return versions[versions.length - 1]
+  }
+
+  const prefix = curVersion.substring(0, curVersion.indexOf('.') + 1)
+  versions = versions.filter(version => version.startsWith(prefix))
+
+  return versions[versions.length - 1]
 }
 
 function upgradeQuasar () {
@@ -86,8 +93,10 @@ function upgradeQuasar () {
     devDependencies: []
   }
 
+  const packager = require('../lib/node-packager')(root)
+
   console.log()
-  log('Gathering information...')
+  log(`Gathering information with ${packager}...`)
   console.log()
 
   let updateAvailable = false
@@ -100,23 +109,22 @@ function upgradeQuasar () {
 
       const json = path.join(root, 'node_modules', packageName, 'package.json')
       const curVersion = fs.existsSync(json)
-        ? '^' + require(json).version
-        : 'latest'
+        ? require(json).version
+        : null
 
-      const latestVersion = getLatestVersion(packageName, curVersion)
+      const latestVersion = getLatestVersion(packager, packageName, curVersion)
 
-      if (curVersion !== '^' + latestVersion) {
+      if (curVersion !== latestVersion) {
         deps[type].push({
           packageName,
-          curVersion,
           latestVersion
         })
 
         updateAvailable = true
 
-        const current = curVersion === 'latest'
+        const current = curVersion === null
           ? red('Missing!')
-          : curVersion.substring(1)
+          : curVersion
 
         console.log(` ${green(packageName)}: ${current} → ${latestVersion}`)
       }
@@ -135,7 +143,7 @@ function upgradeQuasar () {
     return
   }
 
-  const packager = require('../lib/node-packager')(root)
+  const { removeSync } = require('fs-extra')
   const spawn = require('../lib/spawn')
 
   for (const type of Object.keys(deps)) {
@@ -148,6 +156,10 @@ function upgradeQuasar () {
       : [ `install`, `--save${type === 'devDependencies' ? '--dev' : ''}` ]
 
     deps[type].forEach(dep => {
+      // need to delete tha package otherwise
+      // installing the new version might fail on Windows
+      removeSync(path.join(root, 'node_modules', dep.packageName))
+
       params.push(`${dep.packageName}@^${dep.latestVersion}`)
     })
 

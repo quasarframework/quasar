@@ -64,6 +64,11 @@
       "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap"
     },
 
+    "no-refocus": {
+      "type": "Boolean",
+      "desc": "(Accessibility) When Menu gets hidden, do not refocus on the DOM element that previously had focus"
+    },
+
     "max-height": {
       "extends": "size",
       "desc": "The maximimum height of the menu; Size in CSS units, including unit name"

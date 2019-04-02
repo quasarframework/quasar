@@ -81,7 +81,7 @@ export default {
     activeIcon: 'mdi-close'
   },
   field: {
-    clear: 'mdi-close'
+    clear: 'mdi-close-circle'
   },
   pagination: {
     first: 'mdi-page-first',

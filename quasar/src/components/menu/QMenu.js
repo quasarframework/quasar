@@ -28,6 +28,12 @@ export default Vue.extend({
   },
 
   props: {
+    persistent: Boolean,
+    autoClose: Boolean,
+
+    noParentEvent: Boolean,
+    noRefocus: Boolean,
+
     fit: Boolean,
     cover: Boolean,
 
@@ -43,11 +49,8 @@ export default Vue.extend({
       type: Array,
       validator: validateOffset
     },
-    noParentEvent: Boolean,
 
     touchPosition: Boolean,
-    persistent: Boolean,
-    autoClose: Boolean,
 
     maxHeight: {
       type: String,
@@ -103,6 +106,14 @@ export default Vue.extend({
       clearTimeout(this.timer)
       evt !== void 0 && prevent(evt)
 
+      this.__refocusTarget = this.noRefocus === false
+        ? document.activeElement
+        : void 0
+
+      if (this.__refocusTarget !== void 0) {
+        this.__refocusTarget.blur()
+      }
+
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
       if (this.scrollTarget !== window) {
@@ -144,6 +155,10 @@ export default Vue.extend({
       this.__anchorCleanup(true)
 
       evt !== void 0 && prevent(evt)
+
+      if (this.__refocusTarget !== void 0) {
+        this.__refocusTarget.focus()
+      }
 
       this.timer = setTimeout(() => {
         this.__hidePortal()

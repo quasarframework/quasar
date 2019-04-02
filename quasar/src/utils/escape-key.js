@@ -10,7 +10,7 @@ export default {
         handlers.length !== 0 &&
         (evt.which === 27 || evt.keyCode === 27)
       ) {
-        handlers[handlers.length - 1].fn()
+        handlers[handlers.length - 1].fn(evt)
       }
     })
   },

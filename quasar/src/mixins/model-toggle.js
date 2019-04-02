@@ -26,7 +26,9 @@ export default {
 
   methods: {
     toggle (evt) {
-      return this[this.showing === true ? 'hide' : 'show'](evt)
+      if (evt === void 0 || evt.defaultPrevented !== true) {
+        this[this.showing === true ? 'hide' : 'show'](evt)
+      }
     },
 
     show (evt) {
@@ -78,7 +80,7 @@ export default {
     __removeHistory () {
       if (this.__historyEntry !== void 0) {
         History.remove(this.__historyEntry)
-        this.__historyEntry = null
+        this.__historyEntry = void 0
       }
     }
   },

@@ -6,7 +6,7 @@
       <!-- equivalent -->
       <q-input color="orange" filled v-model="text" label="Label">
         <template v-if="text" v-slot:append>
-          <q-icon name="close" @click.stop="text = null" class="cursor-pointer" />
+          <q-icon name="cancel" @click.stop="text = null" class="cursor-pointer" />
         </template>
       </q-input>
     </div>

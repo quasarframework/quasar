@@ -7,7 +7,7 @@ App Extensions are a way to painlessly inject complicated (or simple) libraries 
 The patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there - now limited only by your imagination and innovation. This page will introduce you to the usage of App Extensions.
 
 ::: warning
-App Extensions are designed specifically for Quasar CLI only. This means that you will not be able to install them or run them in Vue CLI or UMD environments.
+App Extensions are designed specifically **for Quasar CLI only**. This means that you will not be able to install them or run them in Vue CLI or UMD environments.
 :::
 
 ## What can an App Extension do?
