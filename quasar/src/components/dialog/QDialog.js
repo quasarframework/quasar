@@ -9,7 +9,7 @@ import ClosePopup from '../../directives/ClosePopup.js'
 
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
-import { stop, stopAndPrevent } from '../../utils/event.js'
+import { create, stop, stopAndPrevent } from '../../utils/event.js'
 
 let maximizedModals = 0
 
@@ -173,11 +173,7 @@ export default Vue.extend({
         ? document.activeElement
         : void 0
 
-      if (this.__refocusTarget !== void 0) {
-        this.__refocusTarget.blur()
-      }
-
-      this.$el.dispatchEvent(new Event('popup-show', { bubbles: true }))
+      this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
 
       this.__updateState(true, this.maximized)
 
@@ -232,7 +228,7 @@ export default Vue.extend({
       this.timer = setTimeout(() => {
         this.__hidePortal()
 
-        this.$el.dispatchEvent(new Event('popup-hide', { bubbles: true }))
+        this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
         this.$emit('hide', evt)
         this.__refocusTarget !== void 0 && (this.__refocusTarget.__refocusing = false)

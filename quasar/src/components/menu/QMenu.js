@@ -10,7 +10,7 @@ import ClosePopup from '../../directives/ClosePopup.js'
 
 import uid from '../../utils/uid.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { stop, position, listenOpts } from '../../utils/event.js'
+import { create, stop, position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { MenuTreeMixin, closeRootMenu } from './menu-tree.js'
 
@@ -177,7 +177,7 @@ export default Vue.extend({
           this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
         }
 
-        this.$el.dispatchEvent(new Event('popup-show', { bubbles: true }))
+        this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
 
         this.timer = setTimeout(() => {
           this.$emit('show', evt)
@@ -198,7 +198,7 @@ export default Vue.extend({
       this.timer = setTimeout(() => {
         this.__hidePortal()
 
-        this.$el.dispatchEvent(new Event('popup-hide', { bubbles: true }))
+        this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
         this.$emit('hide', evt)
         this.__refocusTarget !== void 0 && (this.__refocusTarget.__refocusing = false)

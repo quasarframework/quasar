@@ -1,3 +1,5 @@
+import { isSSR } from '../plugins/Platform.js'
+
 export const listenOpts = {
   hasPassive: false
 }
@@ -101,6 +103,23 @@ export function stopAndPrevent (e) {
   e.stopPropagation()
 }
 
+export function create (name, { bubbles = false, cancelable = false } = {}) {
+  let evt = null
+
+  if (!isSSR) {
+    try {
+      evt = new Event(name, { bubbles, cancelable })
+    }
+    catch (e) {
+      // IE doesn't support `new Event()`, so...`
+      evt = document.createEvent('Event')
+      evt.initEvent(name, bubbles, cancelable)
+    }
+  }
+
+  return evt
+}
+
 export default {
   listenOpts,
   leftClick,
@@ -111,5 +130,6 @@ export default {
   getMouseWheelDistance,
   stop,
   prevent,
-  stopAndPrevent
+  stopAndPrevent,
+  create
 }

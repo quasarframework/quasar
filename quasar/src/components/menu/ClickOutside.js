@@ -1,4 +1,4 @@
-import { listenOpts, stop } from '../../utils/event.js'
+import { create, listenOpts, stop } from '../../utils/event.js'
 
 const evtOpts = listenOpts.hasPassive === true
   ? { passive: false, capture: true }
@@ -51,10 +51,7 @@ export default {
         ctx.trigger !== void 0 && ctx.trigger(evt)
         modifiers.stop === true && stop(evt)
 
-        el.dispatchEvent(new Event('click-outside', {
-          bubbles: true,
-          cancelable: false
-        }))
+        el.dispatchEvent(create('click-outside', { bubbles: true, cancelable: false }))
       }
     }
 
