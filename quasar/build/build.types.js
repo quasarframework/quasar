@@ -38,7 +38,7 @@ module.exports.generate = function () {
   function convertTypeVal (type, def) {
     const t = type.trim()
     var typeMap = new Map([
-      ['Array', '[]'],
+      ['Array', 'any[]'],
       ['Any', 'any'],
       ['Component', 'Vue'],
       ['String', 'string'],
