@@ -71,16 +71,52 @@ module.exports.generate = function () {
     }
   }
 
+  function getPropDefinition (key, propDef) {
+    const propName = toCamelCase(key)
+    var propType = getTypeVal(propDef)
+    const propTypeVal = propType
+    return `${propName}${!propDef.required ? '?' : ''} : ${propTypeVal}`
+  }
+
   function getPropDefinitions (propDefs) {
     const defs = []
     for (var key in propDefs) {
-      const propName = toCamelCase(key)
       const propDef = propDefs[key]
-      var propType = getTypeVal(propDef)
-      const propTypeVal = propType
-      defs.push(`${propName}${!propDef.required ? '?' : ''} : ${propTypeVal}`)
+      defs.push(getPropDefinition(key, propDef))
     }
     return defs
+  }
+
+  function getMethodDefinition (key, methodDef) {
+    let def = ''
+    def += `${key} (`
+    if (methodDef.params) {
+      const params = getPropDefinitions(methodDef.params)
+      def += params.join(', ')
+    }
+    const returns = methodDef.returns
+    def += `): ${returns ? getTypeVal(returns) : 'void'}`
+    return def
+  }
+
+  function getInjectionDefinition (injectionName, typeDef) {
+    // Get property injeciton point.
+    for (var propKey in typeDef.props) {
+      const propDef = typeDef.props[propKey]
+      if (propDef.injectionPoint) {
+        return getPropDefinition(injectionName, propDef)
+      }
+    }
+
+    // Get method injection point.
+    for (var methodKey in typeDef.methods) {
+      const methodDef = typeDef.methods[methodKey]
+      if (methodDef.injectionPoint) {
+        return getMethodDefinition(injectionName, methodDef)
+      }
+    }
+
+    return undefined
   }
 
   copyTypeFiles(typeRoot)
@@ -132,18 +168,22 @@ module.exports.generate = function () {
         if (!injections[injectionParts[0]]) {
           injections[injectionParts[0]] = []
         }
-        injections[injectionParts[0]].push({ 'class': typeName, 'injection': injectionParts[1] })
+        let def = getInjectionDefinition(injectionParts[1], content)
+        if (!def) {
+          def = `${injectionParts[1]}: ${typeName}`
+        }
+        injections[injectionParts[0]].push(def)
       }
     }
   })
 
   // Write injection types
   for (var key in injections) {
-    const props = injections[key]
-    if (props) {
+    const injectionDefs = injections[key]
+    if (injectionDefs) {
       writeLine(contents, `export interface ${key.toUpperCase().replace('$', '')}VueGlobals {`)
-      for (var prop in props) {
-        writeLine(contents, `${props[prop].injection}: ${props[prop].class}`, 1)
+      for (var defKey in injectionDefs) {
+        writeLine(contents, injectionDefs[defKey], 1)
       }
       writeLine(contents, '}')
     }
