@@ -37,14 +37,26 @@ module.exports.generate = function () {
 
   function convertTypeVal (type, def) {
     const t = type.trim()
-    if (t === 'Array') {
-      return '[]'
-    }
-    else if (t === 'Any') {
-      return 'any'
-    }
-    else if (t === 'Component') {
-      return 'Vue'
+    var typeMap = new Map([
+      ['Array', '[]'],
+      ['Any', 'any'],
+      ['Component', 'Vue'],
+      ['String', 'string'],
+      ['Boolean', 'boolean'],
+      ['Number', 'number']
+    ])
+
+    // if (t === 'Array') {
+    //   return '[]'
+    // }
+    // else if (t === 'Any') {
+    //   return 'any'
+    // }
+    // else if (t === 'Component') {
+    //   return 'Vue'
+    // }
+    if (typeMap.has(t)) {
+      return typeMap.get(t)
     }
     else if (t === 'Object') {
       if (def.definition) {
@@ -84,13 +96,10 @@ module.exports.generate = function () {
 
   var contents = []
 
-  writeLine(contents, `import './vue'`)
+  writeLine(contents, `import Vue, { VueConstructor } from 'vue'`)
   writeLine(contents)
   writeLine(contents, 'export as namespace quasar')
   writeLine(contents, `export * from './utils'`)
-  writeLine(contents)
-  writeLine(contents, '// Quasar Type Definitions')
-  writeLine(contents, `import Vue, { VueConstructor } from 'vue'`)
   writeLine(contents)
 
   const distDir = fs.readdirSync(apiRoot)
@@ -162,6 +171,8 @@ module.exports.generate = function () {
     writeLine(contents, '}', 1)
     writeLine(contents, '}')
   }
+
+  writeLine(contents, `import './vue'`)
 
   writeFile(resolve('../types/index.d.ts'), contents.join(''))
 }
