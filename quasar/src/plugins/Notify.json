@@ -61,7 +61,7 @@
 
       "closeBtn": {
         "type": "String",
-        "desc": "Convenience way to add a dismiss button with a specific label, without using the 'actions' convoluted prop",
+        "desc": "Convenient way to add a dismiss button with a specific label, without using the 'actions' convoluted prop",
         "examples": [ "Close me" ]
       },
 
