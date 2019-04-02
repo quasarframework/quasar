@@ -139,9 +139,11 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ciprian Popa ($20)
 - G Edwards ($20)
 - Martin Thompson ($20)
+- 上田 進也 (Sandbox Gmbh) ($20)
+- Shapovalov Pavel
 - Shone Radulovic ($15)
 - Sam Cassar ($15)
-- 上田 進也 (Sandbox Gmbh) ($20)
+- Francis Vithayathil ($15)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
 - Marek Urbanowicz
