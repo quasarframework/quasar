@@ -34,10 +34,11 @@ export default Vue.extend({
           const valid = comp.validate()
 
           if (typeof valid.then === 'function') {
-            promises.push(valid)
+            promises.push(valid.then(v => ({ valid: v, comp }), error => ({ valid: false, comp, error })))
           }
           else if (valid !== true) {
             emit(false)
+            typeof comp.focus === 'function' && comp.focus()
             return Promise.resolve(false)
           }
         }
@@ -53,14 +54,10 @@ export default Vue.extend({
       return Promise.all(promises).then(
         res => {
           if (index === this.validateIndex) {
-            emit(res[0])
-            return res[0]
-          }
-        },
-        () => {
-          if (index === this.validateIndex) {
-            emit(false)
-            return false
+            const { valid, comp } = res[0]
+            emit(valid)
+            valid !== true && typeof comp.focus === 'function' && comp.focus()
+            return valid
           }
         }
       )
@@ -87,13 +84,16 @@ export default Vue.extend({
     reset (evt) {
       evt !== void 0 && stopAndPrevent(evt)
 
-      this.resetValidation()
-      this.autofocus === true && this.focus()
       this.$emit('reset')
+
+      this.$nextTick(() => { // allow userland to reset values before
+        this.resetValidation()
+        this.autofocus === true && this.focus()
+      })
     },
 
     focus () {
-      const target = this.$el.querySelector('[tabindex]')
+      const target = this.$el.querySelector('[autofocus]') || this.$el.querySelector('[tabindex]')
       target !== null && target.focus()
     }
   },

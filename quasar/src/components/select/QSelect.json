@@ -144,11 +144,6 @@
       "examples": [ 650 ]
     },
 
-    "autofocus": {
-      "type": "Boolean",
-      "desc": "Focus component on initial render"
-    },
-
     "transition-show": {
       "extends": "transition",
       "desc": "Transition when showing the menu; One of Quasar's embedded transitions; Works only if \"cover-options\" is not used",
