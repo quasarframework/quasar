@@ -41,7 +41,7 @@
         </q-fab>
       </div>
 
-      <q-toggle v-model="toggle" class="z-max fixed-top" />
+      <q-toggle v-model="toggle" class="z-max fixed-top-left" />
 
       <p class="caption" style="margin-bottom: 100px;">
         There's also the absolute positioned one on bottom

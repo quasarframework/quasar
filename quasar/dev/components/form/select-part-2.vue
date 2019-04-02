@@ -287,6 +287,23 @@
             </q-item>
           </q-select>
 
+          <div class="text-h6">
+            Heavy test (10k options)
+          </div>
+          <q-select
+            v-bind="props"
+            v-model="heavyModel"
+            label="Heavy"
+            multiple
+            use-chips
+            use-input
+            :options="heavyFilterInputOptions"
+            @filter="heavyFilterInputFn"
+            @filter-abort="delayedAbort"
+            @focus="onFocus"
+            @blur="onBlur"
+          />
+
           <div style="height: 400px">
             Scroll on purpose
           </div>
@@ -309,9 +326,18 @@
 </template>
 
 <script>
-const stringOptions = [
-  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-]
+const
+  stringOptions = [
+    'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+  ],
+  heavyOptions = []
+
+for (let i = 0; i <= 10000; i++) {
+  heavyOptions.push({
+    label: 'Opt ' + i,
+    value: Math.random()
+  })
+}
 
 export default {
   data () {
@@ -400,7 +426,10 @@ export default {
           description: 'Databases',
           icon: 'casino'
         }
-      ]
+      ],
+
+      heavyModel: [],
+      heavyFilterInputOptions: null
     }
   },
 
@@ -495,6 +524,20 @@ export default {
           }
         })
       }, 2500)
+    },
+
+    heavyFilterInputFn (val, update) {
+      if (val === '') {
+        update(() => {
+          this.heavyFilterInputOptions = heavyOptions
+        })
+        return
+      }
+
+      update(() => {
+        const needle = val.toLowerCase()
+        this.heavyFilterInputOptions = heavyOptions.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+      })
     },
 
     delayedAbort () {
