@@ -74,6 +74,7 @@
 
   "methods": {
     "create": {
+      "injectionPoint": true,
       "desc": "Creates a notification; Same as calling $q.notify(...)",
       "params": {
         "opts": {
@@ -83,22 +84,22 @@
             "color": {
               "extends": "color"
             },
-      
+
             "textColor": {
               "extends": "color"
             },
-      
+
             "message": {
               "type": "String",
               "desc": "The content of your message",
               "examples": [ "John Doe pinged you" ],
               "required": true
             },
-      
+
             "icon": {
               "extends": "icon"
             },
-      
+
             "avatar": {
               "type": "String",
               "desc": "URL to an avatar/image; Suggestion: use statics folder",
@@ -108,7 +109,7 @@
                 "(URL) https://some-site.net/some-img.gif"
               ]
             },
-      
+
             "position": {
               "type": "String",
               "desc": "Window side/corner to stick to",
@@ -120,7 +121,7 @@
               ],
               "examples": [ "top-right" ]
             },
-      
+
             "classes": {
               "type": "String",
               "desc": "Add CSS class(es) to the notification for easier customization",
@@ -128,14 +129,14 @@
                 "my-notif-class"
               ]
             },
-      
+
             "timeout": {
               "type": "Number",
               "desc": "Amount of time to display (in milliseconds)",
               "default": 5000,
               "examples": [ 2500 ]
             },
-      
+
             "actions": {
               "type": "Array",
               "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
@@ -143,7 +144,7 @@
                 "[ { label: 'Show', handler: (Function) }, { icon: 'map', handler: (Function), color: 'yellow' } ]"
               ]
             },
-      
+
             "onDismiss": {
               "type": "Function",
               "desc": "Function to call when notification gets dismissed",
@@ -153,13 +154,13 @@
                 "() => { console.log('Dismissed') }"
               ]
             },
-      
+
             "closeBtn": {
               "type": "String",
               "desc": "Convenience way to add a dismiss button with a specific label, without using the 'actions' convoluted prop",
               "examples": [ "Close me" ]
             },
-      
+
             "multiLine": {
               "type": "Boolean",
               "desc": "Put notification into multi-line mode; If this prop isn't used and more than one 'action' is specified then notification goes into multi-line mode by default"
@@ -187,22 +188,22 @@
             "color": {
               "extends": "color"
             },
-      
+
             "textColor": {
               "extends": "color"
             },
-      
+
             "message": {
               "type": "String",
               "desc": "The content of your message",
               "examples": [ "John Doe pinged you" ],
               "required": true
             },
-      
+
             "icon": {
               "extends": "icon"
             },
-      
+
             "avatar": {
               "type": "String",
               "desc": "URL to an avatar/image; Suggestion: use statics folder",
@@ -212,7 +213,7 @@
                 "(URL) https://some-site.net/some-img.gif"
               ]
             },
-      
+
             "position": {
               "type": "String",
               "desc": "Window side/corner to stick to",
@@ -224,7 +225,7 @@
               ],
               "examples": [ "top-right" ]
             },
-      
+
             "classes": {
               "type": "String",
               "desc": "Add CSS class(es) to the notification for easier customization",
@@ -232,14 +233,14 @@
                 "my-notif-class"
               ]
             },
-      
+
             "timeout": {
               "type": "Number",
               "desc": "Amount of time to display (in milliseconds)",
               "default": 5000,
               "examples": [ 2500 ]
             },
-      
+
             "actions": {
               "type": "Array",
               "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
@@ -247,7 +248,7 @@
                 "[ { label: 'Show', handler: (Function) }, { icon: 'map', handler: (Function), color: 'yellow' } ]"
               ]
             },
-      
+
             "onDismiss": {
               "type": "Function",
               "desc": "Function to call when notification gets dismissed",
@@ -257,13 +258,13 @@
                 "() => { console.log('Dismissed') }"
               ]
             },
-      
+
             "closeBtn": {
               "type": "String",
               "desc": "Convenience way to add a dismiss button with a specific label, without using the 'actions' convoluted prop",
               "examples": [ "Close me" ]
             },
-      
+
             "multiLine": {
               "type": "Boolean",
               "desc": "Put notification into multi-line mode; If this prop isn't used and more than one 'action' is specified then notification goes into multi-line mode by default"
