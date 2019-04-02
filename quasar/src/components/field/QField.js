@@ -179,7 +179,7 @@ export default Vue.extend({
         }, this.__getControlContainer(h))
       )
 
-      this.hasError === true && node.push(
+      this.hasError === true && this.noErrorIcon === false && node.push(
         this.__getInnerAppendNode(h, 'error', [
           h(QIcon, { props: { name: this.$q.iconSet.type.warning, color: 'negative' } })
         ])

@@ -11,6 +11,11 @@
       "examples": [ "Username must have at least 5 characters" ]
     },
 
+    "no-error-icon": {
+      "type": "Boolean",
+      "desc": "Hide error icon when there is an error"
+    },
+
     "rules": {
       "type": "Array",
       "desc": "Array of Functions/Strings; If String, then it must be a name of one of the embedded validation rules",
