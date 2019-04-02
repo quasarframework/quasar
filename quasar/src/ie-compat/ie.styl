@@ -21,7 +21,6 @@ ie_style = @block
   .q-time__content
   .q-toolbar__title
   .q-menu .q-item__section--main
-  .q-local-menu .q-item__section--main
     flex-basis auto
 
   .q-tab__content
@@ -81,12 +80,13 @@ ie_style = @block
       width 0
       min-width 100%
 
-  /* LocalMenu */
-  .q-local-menu
-    color black
+  /* SelectMenu */
+  .q-select
+    &__options, &__dialog
+      color black
 
-    &--dark
-      color white
+      &--dark
+        color white
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
   {ie_style}

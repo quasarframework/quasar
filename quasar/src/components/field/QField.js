@@ -220,10 +220,6 @@ export default Vue.extend({
         this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
       )
 
-      this.__getLocalMenu !== void 0 && node.push(
-        this.__getLocalMenu(h)
-      )
-
       return node
     },
 
@@ -269,7 +265,11 @@ export default Vue.extend({
       return node.concat(
         this.__getDefaultSlot !== void 0
           ? this.__getDefaultSlot(h)
-          : slot(this, 'default')
+          : slot(this, 'default'),
+
+        this.__getLocalPopup !== void 0
+          ? this.__getLocalPopup(h)
+          : void 0
       )
     },
 
