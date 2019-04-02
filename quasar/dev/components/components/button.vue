@@ -23,7 +23,11 @@
           <br :key="`n_2_6_${ n }`"><br :key="`n_2_7_${ n }`">
         </template>
       </div>
-      <q-btn icon="phone" label="Phone" stack color="primary" />
+      <div class="q-gutter-sm">
+        <q-btn icon="fas fa-address-book" color="primary" />
+        <q-btn round icon="fas fa-address-book" color="primary" />
+        <q-btn icon="phone" label="Phone" stack color="primary" />
+      </div>
       <q-toolbar color="secondary" style="width: 500px">
         <q-btn :type="tag" flat dense round icon="menu" />
         <q-btn :type="tag" flat round dense icon="android" />

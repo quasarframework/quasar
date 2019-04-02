@@ -183,6 +183,8 @@ function parseObject ({ banner, api, itemName, masterType }) {
     type = masterType
   }
 
+  type = type.startsWith('Promise') ? 'Promise' : type
+
   if (objectTypes[type] === void 0) {
     logError(`${banner} object has unrecognized API type prop value: "${type}"`)
     console.error(obj)

@@ -80,8 +80,12 @@ export default Vue.extend({
     },
 
     __onKeyup (e) {
-      this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
-      e.keyCode === 13 /* ENTER */ && this.__onClick(e, true)
+      if (e.keyCode === 13) {
+        this.__onClick(e, true)
+      }
+      else {
+        this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
+      }
     }
   },
 

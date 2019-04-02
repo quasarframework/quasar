@@ -11,6 +11,7 @@
       :loading="loading"
       :error="errorMessage !== null"
       :error-message="errorMessage"
+      hint="Discover official and community App Extensions"
       bottom-slots
       ref="searchInput"
     >
@@ -109,6 +110,12 @@ export default {
           return
         }
 
+        if (json.results.length === 0) {
+          self.errorMessage = 'Sorry, nothing found. Please refine search terms.'
+          return
+        }
+
+        self.errorMessage = null
         self.results = json.results.map(item => {
           item = item.package
           item.official = item.name.startsWith('@quasar/')

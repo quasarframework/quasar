@@ -233,6 +233,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Alvin Tse Chen Hao
 - ThomasD
 - Michael Freeman
+- Michael Cole
+- Marek Bartos
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)

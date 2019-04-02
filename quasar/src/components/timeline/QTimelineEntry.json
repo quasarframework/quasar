@@ -33,20 +33,34 @@
 
     "title": {
       "type": "String",
-      "desc": "Title of timeline entry",
+      "desc": "Title of timeline entry; Is overriden if using 'title' slot",
       "examples": [ "December party" ]
     },
 
     "subtitle": {
       "type": "String",
-      "desc": "Subtitle of timeline entry",
+      "desc": "Subtitle of timeline entry; Is overriden if using 'subtitle' slot",
       "examples": [ "All invited" ]
+    },
+
+    "body": {
+      "type": "String",
+      "desc": "Body content of timeline entry; Use this prop or the default slot",
+      "examples": [ "Lorem ipsum dolor sit amet, consectetur adipisicing elit." ]
     }
   },
 
   "slots": {
     "default": {
-      "desc": "Timeline entry content"
+      "desc": "Timeline entry content (body)"
+    },
+
+    "title": {
+      "desc": "Optional slot for title; When used, it overrides 'title' prop"
+    },
+
+    "subtitle": {
+      "desc": "Optional slot for subtitle; When used, it overrides 'subtitle' prop"
     }
   }
 }
