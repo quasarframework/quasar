@@ -6,7 +6,7 @@ export default {
       enabled: value !== false,
 
       handler: evt => {
-        if (ctx.enabled !== false) {
+        if (ctx.enabled !== false && (evt === void 0 || evt.defaultPrevented !== true)) {
           const vm = (vnode.componentInstance || vnode.context).$root
           vm.__qClosePopup !== void 0 && vm.__qClosePopup(evt)
         }

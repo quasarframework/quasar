@@ -5,29 +5,28 @@ let handlers = []
 export default {
   __install () {
     this.__installed = true
-    window.addEventListener('keyup', evt => {
+    const trigger = evt => {
       if (
         handlers.length !== 0 &&
-        (evt.which === 27 || evt.keyCode === 27)
+        evt.defaultPrevented !== true &&
+        (evt.type === 'click-outside' || evt.which === 27 || evt.keyCode === 27)
       ) {
         handlers[handlers.length - 1].fn(evt)
       }
-    })
+    }
+    Platform.is.desktop === true && window.addEventListener('keyup', trigger)
+    window.addEventListener('click-outside', trigger)
   },
 
   register (comp, fn) {
-    if (Platform.is.desktop === true) {
-      this.__installed !== true && this.__install()
-      handlers.push({ comp, fn })
-    }
+    this.__installed !== true && this.__install()
+    handlers.push({ comp, fn })
   },
 
   pop (comp) {
-    if (Platform.is.desktop === true) {
-      const index = handlers.findIndex(h => h.comp === comp)
-      if (index > -1) {
-        handlers.splice(index, 1)
-      }
+    const index = handlers.findIndex(h => h.comp === comp)
+    if (index > -1) {
+      handlers.splice(index, 1)
     }
   }
 }

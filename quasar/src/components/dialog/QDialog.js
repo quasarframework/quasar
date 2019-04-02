@@ -4,6 +4,9 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
+import ClickOutside from '../menu/ClickOutside.js'
+import ClosePopup from '../../directives/ClosePopup.js'
+
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
 import { stop, stopAndPrevent } from '../../utils/event.js'
@@ -29,6 +32,11 @@ export default Vue.extend({
   name: 'QDialog',
 
   mixins: [ ModelToggleMixin, PortalMixin, PreventScrollMixin ],
+
+  directives: {
+    ClickOutside,
+    ClosePopup
+  },
 
   modelToggle: {
     history: true
@@ -115,6 +123,30 @@ export default Vue.extend({
           ? (this.transitionState === true ? this.transitionHide : this.transitionShow)
           : 'slide-' + transitions[this.position][this.transitionState === true ? 1 : 0]
       )
+    },
+
+    showBackdrop () {
+      return this.showing === true && this.seamless !== true
+    },
+
+    directives () {
+      const directives = []
+
+      if (this.autoClose === true) {
+        directives.push({
+          name: 'close-popup'
+        })
+      }
+
+      if (this.showBackdrop === true) {
+        directives.push({
+          name: 'click-outside',
+          modifiers: { stop: true },
+          arg: this.__portal !== void 0 ? this.__portal.$refs : void 0
+        })
+      }
+
+      return directives.length > 0 ? directives : void 0
     }
   },
 
@@ -145,15 +177,25 @@ export default Vue.extend({
         this.__refocusTarget.blur()
       }
 
+      this.$el.dispatchEvent(new Event('popup-show', { bubbles: true }))
+
       this.__updateState(true, this.maximized)
 
-      EscapeKey.register(this, () => {
+      EscapeKey.register(this, (e) => {
         if (this.seamless !== true) {
-          if (this.persistent === true || this.noEscDismiss === true) {
+          const isBackdropDismiss = e !== void 0 && e.type === 'click-outside'
+
+          if (
+            this.persistent === true || (
+              this.noEscDismiss === true && isBackdropDismiss !== true
+            ) || (
+              this.noBackdropDismiss === true && isBackdropDismiss === true
+            )
+          ) {
             this.maximized !== true && this.shake()
           }
           else {
-            this.$emit('escape-key')
+            isBackdropDismiss !== true && this.$emit('escape-key')
             this.hide()
           }
         }
@@ -166,9 +208,9 @@ export default Vue.extend({
 
         if (this.$q.platform.is.ios) {
           // workaround the iOS hover/touch issue
-          this.avoidAutoClose = true
-          node.click()
-          this.avoidAutoClose = false
+          const clickEvent = new MouseEvent('click', { cancelable: true })
+          clickEvent.preventDefault()
+          node.dispatchEvent(clickEvent)
         }
 
         node.focus()
@@ -183,12 +225,17 @@ export default Vue.extend({
       this.__cleanup(true)
 
       if (this.__refocusTarget !== void 0) {
+        this.__refocusTarget.__refocusing = true
         this.__refocusTarget.focus()
       }
 
       this.timer = setTimeout(() => {
         this.__hidePortal()
+
+        this.$el.dispatchEvent(new Event('popup-hide', { bubbles: true }))
+
         this.$emit('hide', evt)
+        this.__refocusTarget !== void 0 && (this.__refocusTarget.__refocusing = false)
       }, 300)
     },
 
@@ -218,30 +265,11 @@ export default Vue.extend({
       }
     },
 
-    __onAutoClose (e) {
-      if (this.avoidAutoClose !== true) {
-        this.hide(e)
-        this.$listeners.click !== void 0 && this.$emit('click', e)
-      }
-    },
-
-    __onBackdropClick (e) {
-      if (this.persistent !== true && this.noBackdropDismiss !== true) {
-        this.hide(e)
-      }
-      else {
-        this.shake()
-      }
-    },
-
     __render (h) {
       const on = {
         ...this.$listeners,
+        touchmove: stop,
         input: stop
-      }
-
-      if (this.autoClose === true) {
-        on.click = this.__onAutoClose
       }
 
       return h('div', {
@@ -252,12 +280,11 @@ export default Vue.extend({
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }
-        }, this.showing && this.seamless !== true ? [
+        }, this.showBackdrop === true ? [
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
-              touchmove: stopAndPrevent, // prevent iOS page scroll
-              click: this.__onBackdropClick
+              touchmove: stopAndPrevent // prevent iOS page scroll
             }
           })
         ] : null),
@@ -270,6 +297,7 @@ export default Vue.extend({
             staticClass: 'q-dialog__inner flex no-pointer-events',
             class: this.classes,
             attrs: { tabindex: -1 },
+            directives: this.directives,
             on
           }, slot(this, 'default')) : null
         ])
