@@ -81,7 +81,8 @@ export default {
     activeIcon: 'ion-close'
   },
   field: {
-    clear: 'ion-close-circle'
+    clear: 'ion-close-circle',
+    error: 'ion-alert'
   },
   pagination: {
     first: 'ion-skip-backward',

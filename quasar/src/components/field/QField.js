@@ -181,7 +181,7 @@ export default Vue.extend({
 
       this.hasError === true && this.noErrorIcon === false && node.push(
         this.__getInnerAppendNode(h, 'error', [
-          h(QIcon, { props: { name: this.$q.iconSet.type.warning, color: 'negative' } })
+          h(QIcon, { props: { name: this.$q.iconSet.field.error, color: 'negative' } })
         ])
       )
 

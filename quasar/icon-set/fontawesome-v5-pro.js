@@ -81,7 +81,8 @@ export default {
     activeIcon: 'fal fa-times'
   },
   field: {
-    clear: 'fal fa-times-circle'
+    clear: 'fal fa-times-circle',
+    error: 'fal fa-exclamation-circle'
   },
   pagination: {
     first: 'fal fa-step-backward',
