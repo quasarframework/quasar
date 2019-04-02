@@ -46,15 +46,6 @@ module.exports.generate = function () {
       ['Number', 'number']
     ])
 
-    // if (t === 'Array') {
-    //   return '[]'
-    // }
-    // else if (t === 'Any') {
-    //   return 'any'
-    // }
-    // else if (t === 'Component') {
-    //   return 'Vue'
-    // }
     if (typeMap.has(t)) {
       return typeMap.get(t)
     }
@@ -95,12 +86,12 @@ module.exports.generate = function () {
   copyTypeFiles(typeRoot)
 
   var contents = []
+  var quasarTypeContents = []
 
   writeLine(contents, `import Vue, { VueConstructor } from 'vue'`)
   writeLine(contents)
-  writeLine(contents, 'export as namespace quasar')
-  writeLine(contents, `export * from './utils'`)
-  writeLine(contents)
+  writeLine(quasarTypeContents, 'export as namespace quasar')
+  writeLine(quasarTypeContents, `export * from './utils'`)
 
   const distDir = fs.readdirSync(apiRoot)
   var injections = {}
@@ -112,7 +103,7 @@ module.exports.generate = function () {
 
     // Declare class
     const extendsVue = (content.type === 'component' || content.type === 'mixin')
-    writeLine(contents, `export const ${typeName}: ${extendsVue ? `VueConstructor<${typeName}>` : typeName}`)
+    writeLine(quasarTypeContents, `export const ${typeName}: ${extendsVue ? `VueConstructor<${typeName}>` : typeName}`)
     writeLine(contents, `export interface ${typeName} ${extendsVue ? 'extends Vue ' : ''}{`)
 
     // Write Props
@@ -171,6 +162,8 @@ module.exports.generate = function () {
     writeLine(contents, '}', 1)
     writeLine(contents, '}')
   }
+
+  quasarTypeContents.forEach(line => write(contents, line))
 
   writeLine(contents, `import './vue'`)
 
