@@ -221,7 +221,7 @@ export default Vue.extend({
       this.__cleanup(true)
 
       if (this.__refocusTarget !== void 0) {
-        this.__refocusTarget.__refocusing = true
+        this.__refocusTarget.preventClickOutside = true
         this.__refocusTarget.focus()
       }
 
@@ -231,7 +231,7 @@ export default Vue.extend({
         this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
         this.$emit('hide', evt)
-        this.__refocusTarget !== void 0 && (this.__refocusTarget.__refocusing = false)
+        this.__refocusTarget !== void 0 && (this.__refocusTarget.preventClickOutside = false)
       }, 300)
     },
 

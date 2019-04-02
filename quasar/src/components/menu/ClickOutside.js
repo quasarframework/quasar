@@ -18,7 +18,7 @@ export default {
         const target = evt.target
 
         if (target && target !== document.body) {
-          if (target.__refocusing === true || el.contains(target)) {
+          if (target.preventClickOutside === true || el.contains(target)) {
             return
           }
 
