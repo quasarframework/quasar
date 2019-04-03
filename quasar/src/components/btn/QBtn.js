@@ -28,7 +28,19 @@ export default Vue.extend({
     click (e) {
       if (this.pressed === true) { return }
 
-      this.hasRouterLink === true && e !== void 0 && stopAndPrevent(e)
+      if (e !== void 0) {
+        if (e.defaultPrevented !== true) {
+          if (this.type === 'submit' && this.$el.contains(document.activeElement) === false) {
+            stopAndPrevent(e)
+            this.$el.focus()
+            return
+          }
+
+          this.hasRouterLink === true && stopAndPrevent(e)
+        }
+
+        e.qKeyEvent !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+      }
 
       const go = () => {
         this.$router[this.replace === true ? 'replace' : 'push'](this.to)
@@ -36,13 +48,12 @@ export default Vue.extend({
 
       this.$emit('click', e, go)
       this.hasRouterLink === true && e.navigate !== false && go()
-
-      e !== void 0 && e.qKeyEvent !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
     },
 
     __onKeydown (e) {
       if ([13, 32].includes(e.keyCode) === true) {
         stopAndPrevent(e)
+        this.$el.focus()
         if (this.pressed !== true) {
           this.pressed = true
           this.$el.classList.add('q-btn--active')
@@ -55,17 +66,18 @@ export default Vue.extend({
 
     __onKeyup (e) {
       if ([13, 32].includes(e.keyCode) === true) {
-        stopAndPrevent(e)
         this.__onKeyupAbort()
-        const evt = new MouseEvent('click', { ...e })
-        evt.qKeyEvent = true
-        this.$el.dispatchEvent(evt)
+        const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true })
+        clickEvent.qKeyEvent = true
+        e.defaultPrevented === true && clickEvent.preventDefault()
+        this.$el.dispatchEvent(clickEvent)
+        stopAndPrevent(e)
       }
 
       this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
     },
 
-    __onKeyupAbort (e) {
+    __onKeyupAbort () {
       this.pressed = false
       document.removeEventListener('keyup', this.__onKeyupAbort)
       this.$el && this.$el.classList.remove('q-btn--active')

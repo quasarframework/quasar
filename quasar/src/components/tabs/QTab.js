@@ -61,12 +61,12 @@ export default Vue.extend({
 
   methods: {
     activate (e, keyboard) {
+      keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+
       if (this.disable !== true) {
         this.$listeners.click !== void 0 && this.$emit('click', e)
         this.__activateTab(this.name)
       }
-
-      keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
     },
 
     __onKeyup (e) {

@@ -1,5 +1,7 @@
 export const listenOpts = {
-  hasPassive: false
+  hasPassive: false,
+  passiveCapture: true,
+  notPassiveCapture: true
 }
 
 try {
@@ -8,7 +10,9 @@ try {
       Object.assign(listenOpts, {
         hasPassive: true,
         passive: { passive: true },
-        notPassive: { passive: false }
+        notPassive: { passive: false },
+        passiveCapture: { passive: true, capture: true },
+        notPassiveCapture: { passive: false, capture: true }
       })
     }
   })

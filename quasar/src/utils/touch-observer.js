@@ -1,4 +1,4 @@
-export function setObserver (el, evt, ctx, fn) {
+export function setObserver (el, evt, ctx) {
   const target = evt.target
   ctx.touchTargetObserver = new MutationObserver(() => {
     el.contains(target) === false && ctx.end(evt)
