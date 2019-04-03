@@ -42,39 +42,39 @@ const topSections = {
 
 const objectTypes = {
   Boolean: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples' ],
     required: [ 'desc' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isArray: [ 'examples' ]
   },
 
   String: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Number: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Object: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples' ],
     required: [ 'desc', 'examples' ],
     recursive: [ 'definition' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Array: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples', 'values' ]
   },
@@ -82,24 +82,24 @@ const objectTypes = {
   Promise: {
     props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples' ]
   },
 
   Function: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples' ],
     required: [ 'desc', 'params', 'returns' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'params', 'returns' ],
     canBeNull: [ 'params', 'returns' ],
     isArray: [ 'examples' ]
   },
 
   MultipleTypes: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition', 'params', 'returns' ],
     isArray: [ 'examples', 'values' ]
   },
@@ -137,8 +137,9 @@ const objectTypes = {
   },
 
   methods: {
-    props: [ 'desc', 'link', 'params', 'returns' ],
+    props: [ 'injectionPoint', 'desc', 'link', 'params', 'returns' ],
     required: [ 'desc' ],
+    isBoolean: [ 'injectionPoint' ],
     isObject: [ 'params', 'returns' ]
   },
 

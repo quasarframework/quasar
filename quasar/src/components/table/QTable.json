@@ -886,51 +886,83 @@
     "request": {
       "desc": "Emitted when a server request is triggered",
       "params": {
-        "pagination": {
+        "requestProp": {
           "type": "Object",
-          "desc": "Pagination object",
+          "desc": "Props of the request",
           "definition": {
-            "sortBy": {
-              "type": "String",
-              "desc": "Column name (from column definition)",
-              "examples": [ "calories" ]
+            "pagination": {
+              "type": "Object",
+              "desc": "Pagination object",
+              "definition": {
+                "sortBy": {
+                  "type": "String",
+                  "desc": "Column name (from column definition)",
+                  "examples": [ "calories" ]
+                },
+                "descending": {
+                  "type": "Boolean",
+                  "desc": "Is sorting in descending order?"
+                },
+                "page": {
+                  "type": "Number",
+                  "desc": "Page number (1-based)",
+                  "examples": [ 3 ]
+                },
+                "rowsPerPage": {
+                  "type": "Number",
+                  "desc": "How many rows per page? 0 means Infinite",
+                  "examples": [ 10 ]
+                }
+              }
             },
-            "descending": {
-              "type": "Boolean",
-              "desc": "Is sorting in descending order?"
-            },
-            "page": {
-              "type": "Number",
-              "desc": "Page number (1-based)",
-              "examples": [ 3 ]
-            },
-            "rowsPerPage": {
-              "type": "Number",
-              "desc": "How many rows per page? 0 means Infinite",
-              "examples": [ 10 ]
-            }
-          }
-        },
-        "filter": {
-          "type": "Function",
-          "desc": "Filter method (the 'filter-method' prop)",
-          "params": {
-            "rows": {
-              "type": "Array",
-              "desc": "Array of rows",
-              "required": true,
-              "__exemption": [ "examples" ]
-            },
-            "terms": {
-              "type": [ "String", "Object" ],
-              "desc": "Terms to filter with (is essentially the 'filter' prop value)",
-              "required": true,
-              "__exemption": [ "examples" ]
-            },
-            "cols": {
-              "type": "Array",
-              "desc": "Optional column definitions",
-              "__exemption": [ "examples" ]
+            "filter": {
+              "type": "Function",
+              "desc": "Filter method (the 'filter-method' prop)",
+              "params": {
+                "rows": {
+                  "type": "Array",
+                  "desc": "Array of rows",
+                  "required": true,
+                  "__exemption": [ "examples" ]
+                },
+                "terms": {
+                  "type": [ "String", "Object" ],
+                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
+                  "required": true,
+                  "__exemption": [ "examples" ]
+                },
+                "cols": {
+                  "type": "Array",
+                  "desc": "Optional column definitions",
+                  "__exemption": [ "examples" ]
+                },
+                "getCellValue": {
+                  "type": "Function",
+                  "desc": "Optional function to get a cell value",
+                  "params": {
+                    "col": {
+                      "type": "Object",
+                      "desc": "Column name from column definitions",
+                      "__exemption": [ "examples" ]
+                    },
+                    "row": {
+                      "type": "Object",
+                      "desc": "The row object",
+                      "__exemption": [ "examples" ]
+                    }
+                  },
+                  "returns": {
+                    "type": "Any",
+                    "desc": "Parsed/Processed cell value",
+                    "examples": [ "Ice Cream Sandwich" ]
+                  }
+                }
+              },
+              "returns": {
+                "type": "Array",
+                "desc": "Filtered rows",
+                "__exemption": [ "examples" ]
+              }
             },
             "getCellValue": {
               "type": "Function",
@@ -953,32 +985,6 @@
                 "examples": [ "Ice Cream Sandwich" ]
               }
             }
-          },
-          "returns": {
-            "type": "Array",
-            "desc": "Filtered rows",
-            "__exemption": [ "examples" ]
-          }
-        },
-        "getCellValue": {
-          "type": "Function",
-          "desc": "Optional function to get a cell value",
-          "params": {
-            "col": {
-              "type": "Object",
-              "desc": "Column name from column definitions",
-              "__exemption": [ "examples" ]
-            },
-            "row": {
-              "type": "Object",
-              "desc": "The row object",
-              "__exemption": [ "examples" ]
-            }
-          },
-          "returns": {
-            "type": "Any",
-            "desc": "Parsed/Processed cell value",
-            "examples": [ "Ice Cream Sandwich" ]
           }
         }
       }

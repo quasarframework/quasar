@@ -79,7 +79,7 @@ export default function (/* { ssrContext } */) {
   if (process.env.DEV && module.hot) {
     module.hot.accept(['./showcase'], () => {
       const newShowcase = require('./showcase').default
-      store.hotUpdate({ modules: { showcase: newShowcase } })
+      Store.hotUpdate({ modules: { showcase: newShowcase } })
     })
   }
 

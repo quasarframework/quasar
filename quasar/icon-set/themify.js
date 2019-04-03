@@ -81,7 +81,8 @@ export default {
     activeIcon: 'ti-close'
   },
   field: {
-    clear: 'ti-close'
+    clear: 'ti-close',
+    error: 'ti-alert'
   },
   pagination: {
     first: 'ti-angle-double-left',
