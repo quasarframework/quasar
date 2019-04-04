@@ -21,7 +21,7 @@
 
     "hide-hint": {
       "type": "Boolean",
-      "desc": "Hide the helper (hint) text when field doesn't has focus"
+      "desc": "Hide the helper (hint) text when field doesn't have focus"
     },
 
     "prefix": {

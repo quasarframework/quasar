@@ -5,6 +5,7 @@
 
   "methods": {
     "create": {
+      "injectionPoint": true,
       "desc": "Creates an ad-hoc Bottom Sheet; Same as calling $q.bottomSheet(...)",
       "params": {
         "opts": {

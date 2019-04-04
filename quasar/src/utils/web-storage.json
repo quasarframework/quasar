@@ -81,7 +81,7 @@
         },
 
         "value": {
-          "type": "String",
+          "type": "Any",
           "desc": "Entry value",
           "required": true,
           "examples": [ "john12" ]
