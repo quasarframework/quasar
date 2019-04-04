@@ -35,6 +35,10 @@ export default Vue.extend({
     },
 
     stackButtons: Boolean,
+    enterConfirm: {
+      type: Boolean,
+      default: false
+    },
     color: {
       type: String,
       default: 'primary'
@@ -112,13 +116,7 @@ export default Vue.extend({
             autofocus: true
           },
           on: {
-            input: v => { this.prompt.model = v },
-            keyup: evt => {
-              // if ENTER key
-              if (evt.keyCode === 13) {
-                this.onOk()
-              }
-            }
+            input: v => { this.prompt.model = v }
           }
         })
       ]
@@ -230,6 +228,11 @@ export default Vue.extend({
       },
 
       on: {
+        keyup: evt => {
+          if (evt.keyCode === 13 && this.enterConfirm) {
+            this.onOk()
+          }
+        },
         hide: () => {
           this.cancelled === true && this.$emit('cancel')
           this.$emit('hide')
