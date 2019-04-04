@@ -129,7 +129,7 @@ export default Vue.extend({
       return this.displayValueSanitize === true || (
         this.displayValue === void 0 && (
           this.optionsSanitize === true ||
-          this.innerValue.some(opt => opt.sanitize === true)
+          this.innerValue.some(opt => opt !== null && opt.sanitize === true)
         )
       )
     },
