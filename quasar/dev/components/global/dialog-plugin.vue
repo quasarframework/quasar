@@ -69,6 +69,7 @@ export default {
           push: true,
           color: 'negative'
         },
+        enterConfirm: true,
         persistent: true
       }).onOk(() => {
         console.log('>>>> OK')

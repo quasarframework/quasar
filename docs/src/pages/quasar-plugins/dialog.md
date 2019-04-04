@@ -24,6 +24,8 @@ In order to create #1, the prompting input form, you have the `prompt` property 
 
 In order to create #2, the options selection form, you have the `options` property within the `opts` object.
 
+I'ts also possible to make the ENTER key a confirmation button setting the prop `enterConfirm` to true.
+
 ## Installation
 <doc-installation plugins="Dialog" />
 
