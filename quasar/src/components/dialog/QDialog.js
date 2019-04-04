@@ -154,9 +154,7 @@ export default Vue.extend({
     shake () {
       const node = this.__portal.$refs.inner
 
-      if (node.contains(document.activeElement) === false) {
-        node.focus()
-      }
+      this.focus()
 
       node.classList.remove('q-animate--scale')
       node.classList.add('q-animate--scale')
@@ -164,6 +162,24 @@ export default Vue.extend({
       this.shakeTimeout = setTimeout(() => {
         node.classList.remove('q-animate--scale')
       }, 170)
+    },
+
+    focus () {
+      let node = this.__portal.$refs.inner
+
+      if (node === void 0 || node.contains(document.activeElement) === true) {
+        return
+      }
+
+      if (this.$q.platform.is.ios) {
+        // workaround the iOS hover/touch issue
+        const clickEvent = new MouseEvent('click', { cancelable: true })
+        clickEvent.preventDefault()
+        node.dispatchEvent(clickEvent)
+      }
+
+      node = node.querySelector('[autofocus]') || node.querySelector('[tabindex]') || node
+      node.focus()
     },
 
     __show (evt) {
@@ -200,16 +216,7 @@ export default Vue.extend({
       this.__showPortal()
 
       this.$nextTick(() => {
-        const node = this.__portal.$refs.inner
-
-        if (this.$q.platform.is.ios) {
-          // workaround the iOS hover/touch issue
-          const clickEvent = new MouseEvent('click', { cancelable: true })
-          clickEvent.preventDefault()
-          node.dispatchEvent(clickEvent)
-        }
-
-        node.focus()
+        this.focus()
       })
 
       this.timer = setTimeout(() => {
