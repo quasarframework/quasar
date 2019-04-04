@@ -97,8 +97,8 @@ export default {
       }
 
       this.loading = true
-
       this.results = []
+
       const self = this
       const xhr = new XMLHttpRequest()
 
