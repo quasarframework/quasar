@@ -272,9 +272,7 @@ export function getLinkEditor (h, vm) {
       }, [
         h(QBtn, {
           key: 'qedt_btm_rem',
-          attrs: {
-            tabindex: -1
-          },
+          attrs: { tabindex: -1 },
           props: {
             ...vm.buttonProps,
             label: vm.$q.lang.label.remove,

@@ -242,10 +242,10 @@ export default Vue.extend({
           h('div', {
             ref: 'target',
             staticClass: 'q-field__native row',
-            attrs: this.$attrs.tabindex !== void 0 ? {
-              tabindex: this.$attrs.tabindex,
+            attrs: {
+              ...this.$attrs,
               autofocus: this.autofocus
-            } : void 0
+            }
           }, this.$scopedSlots.control())
         )
       }
@@ -370,11 +370,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
-      class: this.classes,
-      attrs: {
-        ...this.$attrs,
-        tabindex: void 0
-      }
+      class: this.classes
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center'

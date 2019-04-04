@@ -178,7 +178,7 @@ export default Vue.extend({
         node.dispatchEvent(clickEvent)
       }
 
-      node = node.querySelector('[autofocus]') || node.querySelector('[tabindex]') || node
+      node = node.querySelector('[autofocus]') || node
       node.focus()
     },
 

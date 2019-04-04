@@ -33,7 +33,7 @@ export default Vue.extend({
 
     noCaps: Boolean,
 
-    tabindex: String,
+    tabindex: [String, Number],
     disable: Boolean
   },
 
