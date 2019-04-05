@@ -65,9 +65,19 @@
       "default": "scale"
     },
 
+    "square": {
+      "type": "Boolean",
+      "desc": "Forces content to have squared borders"
+    },
+
     "no-refocus": {
       "type": "Boolean",
       "desc": "(Accessibility) When Dialog gets hidden, do not refocus on the DOM element that previously had focus"
+    },
+
+    "no-focus": {
+      "type": "Boolean",
+      "desc": "(Accessibility) When Dialog gets shown, do not switch focus on it"
     }
   },
 

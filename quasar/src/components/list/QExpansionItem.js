@@ -86,18 +86,9 @@ export default Vue.extend({
   },
 
   methods: {
-    __onHeaderKeyup (e) {
-      if (e.keyCode === 13) {
-        this.__onHeaderClick(e)
-      }
-      else {
-        this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
-      }
-    },
-
     __onHeaderClick (e) {
       this.hasRouterLink !== true && this.toggle(e)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      this.$emit('click', e)
     },
 
     __toggleIconKeyboard (e) {
@@ -206,8 +197,7 @@ export default Vue.extend({
         data.props.clickable = true
         data[evtProp] = {
           ...this.$listeners,
-          click: this.__onHeaderClick,
-          keyup: this.__onHeaderKeyup
+          click: this.__onHeaderClick
         }
 
         this.hasRouterLink === true && Object.assign(

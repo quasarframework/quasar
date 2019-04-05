@@ -37,12 +37,15 @@ export default Vue.extend({
       this.$emit('click', e, go)
       this.hasRouterLink === true && e.navigate !== false && go()
 
-      e !== void 0 && e.qKeyEvent !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+      if (e !== void 0 && e.qKeyEvent !== true && this.$refs.blurTarget !== void 0) {
+        this.$refs.blurTarget.focus()
+      }
     },
 
     __onKeydown (e) {
       if ([13, 32].includes(e.keyCode) === true) {
         stopAndPrevent(e)
+
         if (this.pressed !== true) {
           this.pressed = true
           this.$el.classList.add('q-btn--active')
@@ -50,22 +53,27 @@ export default Vue.extend({
         }
       }
 
-      this.$listeners.keydown !== void 0 && this.$emit('keydown', e)
+      this.$emit('keydown', e)
     },
 
     __onKeyup (e) {
       if ([13, 32].includes(e.keyCode) === true) {
         stopAndPrevent(e)
         this.__onKeyupAbort()
-        const evt = new MouseEvent('click', { ...e })
+
+        // for ripple
+        e.qKeyEvent = true
+
+        // for click trigger
+        const evt = new MouseEvent('click', e)
         evt.qKeyEvent = true
         this.$el.dispatchEvent(evt)
       }
 
-      this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
+      this.$emit('keyup', e)
     },
 
-    __onKeyupAbort (e) {
+    __onKeyupAbort () {
       this.pressed = false
       document.removeEventListener('keyup', this.__onKeyupAbort)
       this.$el && this.$el.classList.remove('q-btn--active')

@@ -81,13 +81,13 @@ export default {
       modifiers: {},
 
       click (evt) {
-        if (ctx.enabled === true && evt.qKeyEvent !== true) {
-          showRipple(evt, el, ctx)
+        if (ctx.enabled === true) {
+          showRipple(evt, el, ctx, evt.qKeyEvent === true)
         }
       },
 
       keyup (evt) {
-        if (ctx.enabled === true && evt.keyCode === 13) {
+        if (ctx.enabled === true && evt.keyCode === 13 && evt.qKeyEvent !== true) {
           showRipple(evt, el, ctx, true)
         }
       }
