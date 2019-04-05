@@ -13,7 +13,8 @@
     "label": {
       "type": [ "Number", "String" ],
       "desc": "A number or string to label the tab",
-      "examples": [ "Home" ]
+      "examples": [ "Home" ],
+      "category": "content"
     },
 
     "alert": {
@@ -22,7 +23,8 @@
       "examples": [
         "alert",
         "alert=\"purple\""
-      ]
+      ],
+      "category": "content"
     },
 
     "name": {
@@ -31,12 +33,14 @@
       "default": "A random UID",
       "examples": [
         "home", ":name=\"1\""
-      ]
+      ],
+      "category": "general"
     },
 
     "no-caps": {
       "type": "Boolean",
-      "desc": "Turns off capitalizing all letters within the tab (which is the default)"
+      "desc": "Turns off capitalizing all letters within the tab (which is the default)",
+      "category": "content"
     },
 
     "tabindex": {

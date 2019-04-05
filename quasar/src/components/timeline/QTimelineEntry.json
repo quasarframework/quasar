@@ -6,21 +6,24 @@
   "props": {
     "heading": {
       "type": "Boolean",
-      "desc": "Defines a heading timeline item"
+      "desc": "Defines a heading timeline item",
+      "category": "content"
     },
 
     "tag": {
       "type": "String",
       "desc": "Tag to use, if of type 'heading' only",
       "default": "h3",
-      "examples": [ "h1" ]
+      "examples": [ "h1" ],
+      "category": "content"
     },
 
     "side": {
       "type": "String",
       "desc": "Side to place the timeline entry; Works only if QTimeline layout is loose.",
       "default": "right",
-      "values": [ "left", "right" ]
+      "values": [ "left", "right" ],
+      "category": "content"
     },
 
     "icon": {
@@ -34,19 +37,22 @@
     "title": {
       "type": "String",
       "desc": "Title of timeline entry; Is overriden if using 'title' slot",
-      "examples": [ "December party" ]
+      "examples": [ "December party" ],
+      "category": "content"
     },
 
     "subtitle": {
       "type": "String",
       "desc": "Subtitle of timeline entry; Is overriden if using 'subtitle' slot",
-      "examples": [ "All invited" ]
+      "examples": [ "All invited" ],
+      "category": "content"
     },
 
     "body": {
       "type": "String",
       "desc": "Body content of timeline entry; Use this prop or the default slot",
-      "examples": [ "Lorem ipsum dolor sit amet, consectetur adipisicing elit." ]
+      "examples": [ "Lorem ipsum dolor sit amet, consectetur adipisicing elit." ],
+      "category": "content"
     }
   },
 

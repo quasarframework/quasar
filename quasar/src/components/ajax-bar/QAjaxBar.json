@@ -5,7 +5,8 @@
       "desc": "Position within window of where QAjaxBar should be displayed",
       "default": "top",
       "values": [ "top", "right", "bottom", "left" ],
-      "examples": [ "bottom" ]
+      "examples": [ "bottom" ],
+      "category": "content"
     },
 
     "size": {
@@ -19,12 +20,14 @@
 
     "skip-hijack": {
       "type": "Boolean",
-      "desc": "Skip Ajax hijacking (not a reactive prop)"
+      "desc": "Skip Ajax hijacking (not a reactive prop)",
+      "category": "behavior"
     },
 
     "reverse": {
       "type": "Boolean",
-      "desc": "Reverse direction of progress"
+      "desc": "Reverse direction of progress",
+      "category": "behavior"
     }
   },
 

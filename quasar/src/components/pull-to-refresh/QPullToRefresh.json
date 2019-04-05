@@ -11,7 +11,8 @@
 
     "no-mouse": {
       "type": "Boolean",
-      "desc": "Don't listen for mouse events"
+      "desc": "Don't listen for mouse events",
+      "category": "behavior"
     },
 
     "disable": {

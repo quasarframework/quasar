@@ -10,12 +10,14 @@
       "default": true,
       "examples": [
         "v-model=\"footerState\""
-      ]
+      ],
+      "category": "model"
     },
 
     "reveal": {
       "type": "Boolean",
-      "desc": "Enable 'reveal' mode; Takes into account user scroll to temporarily show/hide footer"
+      "desc": "Enable 'reveal' mode; Takes into account user scroll to temporarily show/hide footer",
+      "category": "behavior"
     },
 
     "bordered": {
@@ -24,7 +26,8 @@
 
     "elevated": {
       "type": "Boolean",
-      "desc": "Adds a default shadow to the footer"
+      "desc": "Adds a default shadow to the footer",
+      "category": "style"
     }
   },
 

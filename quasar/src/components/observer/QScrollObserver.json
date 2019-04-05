@@ -3,12 +3,14 @@
     "debounce": {
       "type": [ "String", "Number" ],
       "desc": "Debounce amount (in milliseconds)",
-      "examples": [ "0", "530" ]
+      "examples": [ "0", "530" ],
+      "category": "behavior"
     },
 
     "horizontal": {
       "type": "Boolean",
-      "desc": "Register for horizontal scroll instead of vertical (which is default)"
+      "desc": "Register for horizontal scroll instead of vertical (which is default)",
+      "category": "behavior"
     }
   },
 
