@@ -8,7 +8,7 @@ import TransitionMixin from '../../mixins/transition.js'
 import ClickOutside from './ClickOutside.js'
 import uid from '../../utils/uid.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { stop, prevent, position, listenOpts } from '../../utils/event.js'
+import { stop, position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { MenuTreeMixin, closeRootMenu } from './menu-tree.js'
 
@@ -104,14 +104,19 @@ export default Vue.extend({
   methods: {
     __show (evt) {
       clearTimeout(this.timer)
-      evt !== void 0 && prevent(evt)
 
       this.__refocusTarget = this.noRefocus === false
         ? document.activeElement
         : void 0
 
-      if (this.__refocusTarget !== void 0) {
-        this.__refocusTarget.blur()
+      if (this.noRefocus === false) {
+        if (this.__refocusTarget !== void 0) {
+          this.__refocusTarget.blur()
+        }
+
+        this.$nextTick(() => {
+          this.__portal.$refs.inner.focus()
+        })
       }
 
       this.scrollTarget = getScrollTarget(this.anchorEl)
@@ -154,13 +159,11 @@ export default Vue.extend({
     __hide (evt) {
       this.__anchorCleanup(true)
 
-      evt !== void 0 && prevent(evt)
-
-      if (this.__refocusTarget !== void 0) {
-        this.__refocusTarget.focus()
-      }
-
       this.timer = setTimeout(() => {
+        if (this.__refocusTarget !== void 0) {
+          this.__refocusTarget.focus()
+        }
+
         this.__hidePortal()
         this.$emit('hide', evt)
       }, 300)
@@ -230,10 +233,14 @@ export default Vue.extend({
         props: { name: this.transition }
       }, [
         this.showing === true ? h('div', {
+          ref: 'inner',
           staticClass: 'q-menu scroll',
           class: this.contentClass,
           style: this.contentStyle,
-          attrs: this.$attrs,
+          attrs: {
+            ...this.$attrs,
+            tabindex: 0
+          },
           on,
           directives: this.persistent !== true ? [{
             name: 'click-outside',

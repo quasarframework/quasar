@@ -141,8 +141,8 @@ export default Vue.extend({
         ? document.activeElement
         : void 0
 
-      if (this.__refocusTarget !== void 0) {
-        this.__refocusTarget.blur()
+      if (document.activeElement !== void 0) {
+        document.activeElement.blur()
       }
 
       this.__updateState(true, this.maximized)
@@ -182,11 +182,11 @@ export default Vue.extend({
     __hide (evt) {
       this.__cleanup(true)
 
-      if (this.__refocusTarget !== void 0) {
-        this.__refocusTarget.focus()
-      }
-
       this.timer = setTimeout(() => {
+        if (this.__refocusTarget !== void 0) {
+          this.__refocusTarget.focus()
+        }
+
         this.__hidePortal()
         this.$emit('hide', evt)
       }, 300)

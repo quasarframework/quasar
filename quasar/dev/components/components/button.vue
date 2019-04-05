@@ -1,6 +1,13 @@
 <template>
   <div>
     <div class="q-layout-padding buttons-test">
+      <q-btn :type="tag" size="50px" label="clickme" @click="e => handle('click', e, true)" @keyup="e => handle('keyup', e)" @keydown="e => handle('keydown', e)" />
+      <button @click="e => handle('click', e)" @keyup="e => handle('keyup', e)" @keydown="e => handle('keydown', e)">
+        My btn
+      </button>
+      <a href="#" @click="e => handle('click', e, true)" @keyup="e => handle('keyup', e)" @keydown="e => handle('keydown', e)">
+        My link
+      </a>
       <q-toggle v-model="tag" :label="tag === 'button' ? 'Button' : 'Link'" true-value="button" false-value="a" />
       <div class="q-gutter-sm">
         <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">
@@ -724,6 +731,10 @@ export default {
         console.log('navigating as promised 2s ago')
         go()
       }, 2000)
+    },
+    handle (type, e, abort) {
+      console.log(type, e)
+      abort === true && e.preventDefault()
     }
   },
   beforeDestroy () {

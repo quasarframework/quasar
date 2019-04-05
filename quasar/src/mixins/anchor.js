@@ -36,20 +36,17 @@ export default {
       if (evt === void 0) {
         return true
       }
-      return evt.defaultPrevented !== true &&
-        (evt.touches === void 0 || evt.touches.length <= 1)
+      return evt.touches === void 0 || evt.touches.length <= 1
     },
 
     __contextClick (evt) {
-      if (evt === void 0 || evt.defaultPrevented !== true) {
-        this.hide(evt)
-        this.show(evt)
-        prevent(evt)
-      }
+      this.hide(evt)
+      this.show(evt)
+      prevent(evt)
     },
 
     __toggleKey (evt) {
-      if (evt !== void 0 && evt.keyCode === 13 && evt.defaultPrevented !== true) {
+      if (evt !== void 0 && evt.keyCode === 13 && evt.qKeyEvent !== true) {
         this.toggle(evt)
       }
     },
