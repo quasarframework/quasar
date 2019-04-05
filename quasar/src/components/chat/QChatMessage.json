@@ -75,6 +75,10 @@
   "slots": {
     "default": {
       "desc": "You can use this slot to define a custom message (overrides props)"
+    },
+
+    "avatar": {
+      "desc": "Slot for avatar; Suggestion: QAvatar, img"
     }
   }
 }
