@@ -218,8 +218,8 @@ export default Vue.extend({
         this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
       )
 
-      this.__getLocalMenu !== void 0 && node.push(
-        this.__getLocalMenu(h)
+      this.__getPopup !== void 0 && node.push(
+        this.__getPopup(h)
       )
 
       return node
@@ -352,6 +352,10 @@ export default Vue.extend({
   },
 
   render (h) {
+    this.__onPostRender !== void 0 && this.$nextTick(() => {
+      this.__onPostRender()
+    })
+
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
       class: this.classes,

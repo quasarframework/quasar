@@ -33,9 +33,12 @@ export default Vue.extend({
 
     noParentEvent: Boolean,
     noRefocus: Boolean,
+    noFocus: Boolean,
 
     fit: Boolean,
     cover: Boolean,
+
+    square: Boolean,
 
     anchor: {
       type: String,
@@ -85,6 +88,10 @@ export default Vue.extend({
       return this.cover === true
         ? this.anchorOrigin
         : parsePosition(this.self || `top ${this.horizSide}`)
+    },
+
+    menuClass () {
+      return this.square === true ? ' q-menu--square' : ''
     }
   },
 
@@ -109,11 +116,13 @@ export default Vue.extend({
         ? document.activeElement
         : void 0
 
-      document.activeElement.blur()
+      if (this.noFocus !== true) {
+        document.activeElement.blur()
 
-      this.$nextTick(() => {
-        this.__portal.$refs.inner.focus()
-      })
+        this.$nextTick(() => {
+          this.__portal.$refs.inner.focus()
+        })
+      }
 
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
@@ -187,7 +196,7 @@ export default Vue.extend({
 
     __onAutoClose (e) {
       closeRootMenu(this.menuId)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      this.$emit('click', e)
     },
 
     updatePosition () {
@@ -230,7 +239,7 @@ export default Vue.extend({
       }, [
         this.showing === true ? h('div', {
           ref: 'inner',
-          staticClass: 'q-menu scroll',
+          staticClass: 'q-menu scroll' + this.menuClass,
           class: this.contentClass,
           style: this.contentStyle,
           attrs: {

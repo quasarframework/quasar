@@ -42,12 +42,15 @@ export default Vue.extend({
     noBackdropDismiss: Boolean,
     noRouteDismiss: Boolean,
     noRefocus: Boolean,
+    noFocus: Boolean,
 
     seamless: Boolean,
 
     maximized: Boolean,
     fullWidth: Boolean,
     fullHeight: Boolean,
+
+    square: Boolean,
 
     position: {
       type: String,
@@ -106,7 +109,8 @@ export default Vue.extend({
       return `q-dialog__inner--${this.maximized === true ? 'maximized' : 'minimized'} ` +
         `q-dialog__inner--${this.position} ${positionClass[this.position]}` +
         (this.fullWidth === true ? ' q-dialog__inner--fullwidth' : '') +
-        (this.fullHeight === true ? ' q-dialog__inner--fullheight' : '')
+        (this.fullHeight === true ? ' q-dialog__inner--fullheight' : '') +
+        (this.square === true ? ' q-dialog__inner--square' : '')
     },
 
     transition () {
@@ -141,20 +145,22 @@ export default Vue.extend({
         ? document.activeElement
         : void 0
 
-      document.activeElement.blur()
+      if (this.noFocus !== true) {
+        document.activeElement.blur()
 
-      this.$nextTick(() => {
-        const node = this.__portal.$refs.inner
+        this.$nextTick(() => {
+          const node = this.__portal.$refs.inner
 
-        if (this.$q.platform.is.ios === true) {
-          // workaround the iOS hover/touch issue
-          this.avoidAutoClose = true
-          node.click()
-          this.avoidAutoClose = false
-        }
+          if (this.$q.platform.is.ios === true) {
+            // workaround the iOS hover/touch issue
+            this.avoidAutoClose = true
+            node.click()
+            this.avoidAutoClose = false
+          }
 
-        node.focus()
-      })
+          node.focus()
+        })
+      }
 
       this.__updateState(true, this.maximized)
 
