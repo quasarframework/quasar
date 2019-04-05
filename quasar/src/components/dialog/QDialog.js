@@ -141,9 +141,20 @@ export default Vue.extend({
         ? document.activeElement
         : void 0
 
-      if (document.activeElement !== void 0) {
-        document.activeElement.blur()
-      }
+      document.activeElement.blur()
+
+      this.$nextTick(() => {
+        const node = this.__portal.$refs.inner
+
+        if (this.$q.platform.is.ios === true) {
+          // workaround the iOS hover/touch issue
+          this.avoidAutoClose = true
+          node.click()
+          this.avoidAutoClose = false
+        }
+
+        node.focus()
+      })
 
       this.__updateState(true, this.maximized)
 
@@ -160,19 +171,6 @@ export default Vue.extend({
       })
 
       this.__showPortal()
-
-      this.$nextTick(() => {
-        const node = this.__portal.$refs.inner
-
-        if (this.$q.platform.is.ios) {
-          // workaround the iOS hover/touch issue
-          this.avoidAutoClose = true
-          node.click()
-          this.avoidAutoClose = false
-        }
-
-        node.focus()
-      })
 
       this.timer = setTimeout(() => {
         this.$emit('show', evt)

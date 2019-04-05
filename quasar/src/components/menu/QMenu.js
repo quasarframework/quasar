@@ -109,15 +109,11 @@ export default Vue.extend({
         ? document.activeElement
         : void 0
 
-      if (this.noRefocus === false) {
-        if (this.__refocusTarget !== void 0) {
-          this.__refocusTarget.blur()
-        }
+      document.activeElement.blur()
 
-        this.$nextTick(() => {
-          this.__portal.$refs.inner.focus()
-        })
-      }
+      this.$nextTick(() => {
+        this.__portal.$refs.inner.focus()
+      })
 
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
