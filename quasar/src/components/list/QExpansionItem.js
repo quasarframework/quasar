@@ -87,7 +87,7 @@ export default Vue.extend({
 
   methods: {
     __onHeaderClick (e) {
-      this.hasRouterLink !== true && this.toggle(e)
+      this.hasRouterLink !== true && this.toggle(e, false)
       this.$emit('click', e)
     },
 

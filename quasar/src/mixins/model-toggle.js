@@ -25,11 +25,11 @@ export default {
   },
 
   methods: {
-    toggle (evt) {
-      this[this.showing === true ? 'hide' : 'show'](evt)
+    toggle (evt, triggerModelChange = true) {
+      this[this.showing === true ? 'hide' : 'show'](evt, triggerModelChange)
     },
 
-    show (evt) {
+    show (evt, triggerModelChange = true) {
       if (this.disable === true || this.showing === true) {
         return
       }
@@ -37,9 +37,15 @@ export default {
         return
       }
 
-      this.$emit('before-show', evt)
-      this.showing = true
-      this.$emit('input', true)
+      if (triggerModelChange) {
+        this.$emit('before-show', evt)
+        this.showing = true
+        this.$emit('input', true)
+      }
+      else {
+        this.$emit('input', true)
+        return
+      }
 
       if (this.$options.modelToggle !== void 0 && this.$options.modelToggle.history === true) {
         this.__historyEntry = {
@@ -56,14 +62,20 @@ export default {
       }
     },
 
-    hide (evt) {
+    hide (evt, triggerModelChange = true) {
       if (this.disable === true || this.showing === false) {
         return
       }
 
-      this.$emit('before-hide', evt)
-      this.showing = false
-      this.value !== false && this.$emit('input', false)
+      if (triggerModelChange) {
+        this.$emit('before-hide', evt)
+        this.showing = false
+        this.value !== false && this.$emit('input', false)
+      }
+      else {
+        this.value !== false && this.$emit('input', false)
+        return
+      }
 
       this.__removeHistory()
 
