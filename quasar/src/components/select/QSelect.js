@@ -550,9 +550,17 @@ export default Vue.extend({
       }
     },
 
-    __getSelection (h) {
+    __getSelection (h, fromDialog) {
       if (this.hideSelected === true) {
-        return []
+        return fromDialog !== true && this.hasDialog === true
+          ? [
+            h('span', {
+              domProps: {
+                'textContent': this.inputValue
+              }
+            })
+          ]
+          : []
       }
 
       if (this.$scopedSlots['selected-item'] !== void 0) {
@@ -599,7 +607,7 @@ export default Vue.extend({
 
     __getControl (h, fromDialog) {
       let data = {}
-      const child = this.__getSelection(h)
+      const child = this.__getSelection(h, fromDialog)
 
       if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
         child.push(this.__getInput(h))
@@ -903,6 +911,7 @@ export default Vue.extend({
         props: {
           value: this.dialog,
           noRefocus: true,
+          noFocus: true,
           position: this.useInput === true ? 'top' : void 0
         },
         on: {
