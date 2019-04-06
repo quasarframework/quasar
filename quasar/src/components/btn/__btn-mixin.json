@@ -11,7 +11,8 @@
       ],
       "examples": [
         ":type=\"a\" href=\"http://some-site.net\" target=\"__blank\""
-      ]
+      ],
+      "category": "general"
     },
 
     "to": {
@@ -20,18 +21,21 @@
       "examples": [
         "/home/dashboard",
         ":to=\"{ name: 'my-route-name' }\""
-      ]
+      ],
+      "category": "router"
     },
 
     "replace": {
       "type": "Boolean",
-      "desc": "Equivalent to Vue Router <router-link> 'replace' property"
+      "desc": "Equivalent to Vue Router <router-link> 'replace' property",
+      "category": "router"
     },
 
     "label":{
       "type": [ "String", "Number" ],
       "desc": "The text that will be shown on the button",
-      "examples": [ "Button Label" ]
+      "examples": [ "Button Label" ],
+      "category": "content"
     },
 
     "icon": {
@@ -44,53 +48,63 @@
 
     "round": {
       "type": "Boolean",
-      "desc": "Makes a circle shaped button"
+      "desc": "Makes a circle shaped button",
+      "category": "style"
     },
 
     "outline": {
       "type": "Boolean",
-      "desc": "Use 'outline' design"
+      "desc": "Use 'outline' design",
+      "category": "style"
     },
 
     "flat": {
       "type": "Boolean",
-      "desc": "Use 'flat' design"
+      "desc": "Use 'flat' design",
+      "category": "style"
     },
 
     "unelevated": {
       "type": "Boolean",
-      "desc": "Remove shadow"
+      "desc": "Remove shadow",
+      "category": "style"
     },
 
     "rounded": {
       "type": "Boolean",
-      "desc": "Applies a more prominent border-radius for a squared shape button"
+      "desc": "Applies a more prominent border-radius for a squared shape button",
+      "category": "style"
     },
 
     "push": {
       "type": "Boolean",
-      "desc": "Use 'push' design"
+      "desc": "Use 'push' design",
+      "category": "style"
     },
 
     "glossy": {
       "type": "Boolean",
-      "desc": "Applies a glossy effect"
+      "desc": "Applies a glossy effect",
+      "category": "style"
     },
 
     "size": {
       "type": "String",
       "desc": "Button size name or a CSS unit including unit name",
-      "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ]
+      "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ],
+      "category": "style"
     },
 
     "fab": {
       "type": "Boolean",
-      "desc": "Makes button size and shape to fit a Floating Action Button"
+      "desc": "Makes button size and shape to fit a Floating Action Button",
+      "category": "style"
     },
 
     "fab-mini": {
       "type": "Boolean",
-      "desc": "Makes button size and shape to fit a small Floating Action Button"
+      "desc": "Makes button size and shape to fit a small Floating Action Button",
+      "category": "style"
     },
 
     "color": {
@@ -103,12 +117,14 @@
 
     "no-caps": {
       "type": "Boolean",
-      "desc": "Avoid turning label text into caps (which happens by default)"
+      "desc": "Avoid turning label text into caps (which happens by default)",
+      "category": "content"
     },
 
     "no-wrap": {
       "type": "Boolean",
-      "desc": "Avoid label text wrapping"
+      "desc": "Avoid label text wrapping",
+      "category": "content"
     },
 
     "dense": {
@@ -123,22 +139,26 @@
       "type": "String",
       "desc": "Label or content alignment",
       "default": "center",
-      "values": [ "left", "right", "center", "around", "between" ]
+      "values": [ "left", "right", "center", "around", "between" ],
+      "category": "content"
     },
 
     "stack": {
       "type": "Boolean",
-      "desc": "Stack icon and label vertically instead of on same line (like it is by default)"
+      "desc": "Stack icon and label vertically instead of on same line (like it is by default)",
+      "category": "content"
     },
 
     "stretch": {
       "type": "Boolean",
-      "desc": "When used on flexbox parent, button will stretch to parent's height"
+      "desc": "When used on flexbox parent, button will stretch to parent's height",
+      "category": "content"
     },
 
     "loading": {
       "type": "Boolean",
-      "desc": "Put button into loading state (displays a QSpinner -- can be overriden by using a 'loading' slot)"
+      "desc": "Put button into loading state (displays a QSpinner -- can be overriden by using a 'loading' slot)",
+      "category": "behavior|content"
     },
 
     "disable": {

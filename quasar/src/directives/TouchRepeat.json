@@ -10,7 +10,8 @@
       }
     },
     "returns": null,
-    "examples": [ "v-touch-repeat=\"fnToCall\"" ]
+    "examples": [ "v-touch-repeat=\"fnToCall\"" ],
+    "category": "general"
   },
 
   "arg": {

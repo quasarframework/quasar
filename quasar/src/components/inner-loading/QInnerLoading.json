@@ -6,7 +6,8 @@
   "props": {
     "showing": {
       "type": "Boolean",
-      "desc": "State - loading or not"
+      "desc": "State - loading or not",
+      "category": "state"
     },
 
     "color": {

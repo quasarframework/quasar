@@ -8,12 +8,14 @@
   "props": {
     "fit": {
       "type": "Boolean",
-      "desc": "Allows the menu to match at least the full width of its target"
+      "desc": "Allows the menu to match at least the full width of its target",
+      "category": "behavior"
     },
 
     "cover": {
       "type": "Boolean",
-      "desc": "Allows the menu to cover its target. When used, the 'self' and 'fit' props are no longer effective"
+      "desc": "Allows the menu to cover its target. When used, the 'self' and 'fit' props are no longer effective",
+      "category": "position"
     },
 
     "anchor": {
@@ -24,7 +26,8 @@
         "center left", "center middle", "center right",
         "bottom left", "bottom middle", "bottom right"
       ],
-      "examples": [ "top left", "bottom right" ]
+      "examples": [ "top left", "bottom right" ],
+      "category": "position"
     },
 
     "self": {
@@ -35,33 +38,39 @@
         "center left", "center middle", "center right",
         "bottom left", "bottom middle", "bottom right"
       ],
-      "examples": [ "top left", "bottom right" ]
+      "examples": [ "top left", "bottom right" ],
+      "category": "position"
     },
 
     "offset": {
       "type": "Array",
       "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
-      "examples": [ "[8, 8]", "[5, 10]" ]
+      "examples": [ "[8, 8]", "[5, 10]" ],
+      "category": "position"
     },
 
     "no-parent-event":{
       "type": "Boolean",
-      "desc": "Skips attaching events to the target DOM element (that trigger the menu to get shown)"
+      "desc": "Skips attaching events to the target DOM element (that trigger the menu to get shown)",
+      "category": "behavior"
     },
 
     "touch-position": {
       "type": "Boolean",
-      "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched"
+      "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched",
+      "category": "behavior"
     },
 
     "persistent": {
       "type": "Boolean",
-      "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key"
+      "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key",
+      "category": "behavior"
     },
 
     "auto-close": {
       "type": "Boolean",
-      "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap"
+      "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap",
+      "category": "behavior"
     },
 
     "square": {
@@ -71,7 +80,8 @@
 
     "no-refocus": {
       "type": "Boolean",
-      "desc": "(Accessibility) When Menu gets hidden, do not refocus on the DOM element that previously had focus"
+      "desc": "(Accessibility) When Menu gets hidden, do not refocus on the DOM element that previously had focus",
+      "category": "behavior"
     },
 
     "no-focus": {
@@ -81,22 +91,26 @@
 
     "max-height": {
       "extends": "size",
-      "desc": "The maximimum height of the menu; Size in CSS units, including unit name"
+      "desc": "The maximimum height of the menu; Size in CSS units, including unit name",
+      "category": "style"
     },
 
     "max-width": {
       "extends": "size",
-      "desc": "The maximimum width of the menu; Size in CSS units, including unit name"
+      "desc": "The maximimum width of the menu; Size in CSS units, including unit name",
+      "category": "style"
     },
 
     "transition-show": {
       "extends": "transition",
-      "default": "fade"
+      "default": "fade",
+      "category": "behavior"
     },
 
     "transition-hide": {
       "extends": "transition",
-      "default": "fade"
+      "default": "fade",
+      "category": "behavior"
     }
   },
 

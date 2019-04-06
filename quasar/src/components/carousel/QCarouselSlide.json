@@ -10,7 +10,8 @@
       "desc": "Slide name",
       "examples": [
         "accounts", "firstSlide", ":name=\"1\""
-      ]
+      ],
+      "category": "model"
     },
 
     "img-src": {
@@ -19,7 +20,8 @@
       "examples": [
         "statics/my-background.png",
         "https://placeimg.com/500/300/nature"
-      ]
+      ],
+      "category": "model"
     }
   },
 

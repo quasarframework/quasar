@@ -4,13 +4,15 @@
       "type": "String",
       "desc": "HTML tag to render",
       "default": "div",
-      "examples": [ "span", "blockquote" ]
+      "examples": [ "span", "blockquote" ],
+      "category": "content"
     },
 
     "placeholder": {
       "type": "String",
       "desc": "Text to display on server-side render (unless using 'placeholder' slot)",
-      "examples": [ "This is server-side only" ]
+      "examples": [ "This is server-side only" ],
+      "category": "content"
     }
   },
 
