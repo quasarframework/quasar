@@ -150,7 +150,7 @@ const objectTypes = {
   }
 }
 
-function parseObject ({ banner, api, itemName, masterType }) {
+function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
   let obj = api[itemName]
 
   if (obj.extends !== void 0 && extendApi[masterType] !== void 0) {
@@ -197,6 +197,13 @@ function parseObject ({ banner, api, itemName, masterType }) {
   for (let prop in obj) {
     if ([ 'type', '__exemption' ].includes(prop)) {
       continue
+    }
+
+    if (verifyCategory && obj.category === void 0) {
+      logError(`${banner} missing required API prop "category" for its type (${type})`)
+      console.error(obj)
+      console.log()
+      process.exit(1)
     }
 
     if (!def.props.includes(prop)) {
@@ -357,12 +364,15 @@ function parseAPI (file, apiType) {
       continue
     }
 
+    const isComponent = banner.indexOf('component') > -1
+
     for (let itemName in api[type]) {
       parseObject({
         banner: `${banner} "${type}"/"${itemName}"`,
         api: api[type],
         itemName,
-        masterType: type
+        masterType: type,
+        verifyCategory: type === 'props' && isComponent
       })
     }
   }

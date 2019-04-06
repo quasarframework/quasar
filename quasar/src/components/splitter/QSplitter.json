@@ -71,7 +71,8 @@
 
     "dark": {
       "type": "Boolean",
-      "desc": "Applies a default lighter color on the separator; To be used when background is darker; Avoid using when you are overriding through separator-class or separator-style props"
+      "desc": "Applies a default lighter color on the separator; To be used when background is darker; Avoid using when you are overriding through separator-class or separator-style props",
+      "category": "style"
     }
   },
 

@@ -75,7 +75,8 @@
 
     "square": {
       "type": "Boolean",
-      "desc": "Forces content to have squared borders"
+      "desc": "Forces content to have squared borders",
+      "category": "style"
     },
 
     "no-refocus": {
@@ -86,7 +87,8 @@
 
     "no-focus": {
       "type": "Boolean",
-      "desc": "(Accessibility) When Menu gets shown, do not switch focus on it"
+      "desc": "(Accessibility) When Menu gets shown, do not switch focus on it",
+      "category": "behavior"
     },
 
     "max-height": {
