@@ -41,14 +41,14 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
           template(v-slot:before)
             q-tabs(v-model="currentInnerTab[tab]", indicator-color="primary", align="left", :breakpoint="0", dense, vertical)
               q-tab(
-                v-for="(_, category) in api[tab]"
+                v-for="category in apiTabs(tab)"
                 :key="`api-inner-tab-${category}`"
                 :name="category"
                 :label="category"
               )
           template(v-slot:after)
             q-tab-panels(v-model="currentInnerTab[tab]", animated)
-              q-tab-panel(v-for="(_, category) in api[tab]", :name="category", :key="category", class="q-pa-none")
+              q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
                 ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
       ApiRows(:which="tab", :api="filteredApi", v-else)
 </template>
@@ -189,6 +189,10 @@ export default {
         this.filter = ''
       }
       this.$refs.input.focus()
+    },
+
+    apiTabs (tab) {
+      return Object.keys(this.filteredApi[tab]).sort()
     }
   },
 
