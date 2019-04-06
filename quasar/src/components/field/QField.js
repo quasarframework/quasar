@@ -352,9 +352,8 @@ export default Vue.extend({
   },
 
   render (h) {
-    this.__onPostRender !== void 0 && this.$nextTick(() => {
-      this.__onPostRender()
-    })
+    this.__onPreRender !== void 0 && this.__onPreRender()
+    this.__onPostRender !== void 0 && this.$nextTick(this.__onPostRender)
 
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
@@ -389,6 +388,8 @@ export default Vue.extend({
   },
 
   created () {
+    this.__onPreRender !== void 0 && this.__onPreRender()
+
     this.controlEvents = this.__getControlEvents !== void 0
       ? this.__getControlEvents()
       : {
