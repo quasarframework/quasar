@@ -46,6 +46,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
                 :name="category"
                 :label="category"
               )
+                q-badge(color="primary" floating v-if="apiCount(tab, category)") {{ apiCount(tab, category) }}
           template(v-slot:after)
             q-tab-panels(v-model="currentInnerTab[tab]", animated)
               q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
@@ -195,6 +196,10 @@ export default {
 
     apiTabs (tab) {
       return Object.keys(this.filteredApi[tab]).sort()
+    },
+
+    apiCount (tab, category) {
+      return Object.keys(this.filteredApi[tab][category]).length
     }
   },
 
@@ -214,4 +219,7 @@ export default {
 <style lang="stylus">
 .doc-api .q-tab
   height 40px
+
+.doc-api .q-badge
+  right: -20px
 </style>
