@@ -161,7 +161,7 @@ export default {
       if (type === 'component') {
         for (let apiGroup of ['props']) {
           api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
-          this.currentInnerTab[apiGroup] = Object.keys(api[apiGroup])[0]
+          this.currentInnerTab[apiGroup] = this.apiTabs(apiGroup, api)[0]
           this.aggregationModel[apiGroup] = true
         }
       }
@@ -194,8 +194,8 @@ export default {
       this.$refs.input.focus()
     },
 
-    apiTabs (tab) {
-      return Object.keys(this.filteredApi[tab]).sort()
+    apiTabs (tab, api) {
+      return Object.keys((api || this.filteredApi)[tab]).sort()
     },
 
     apiCount (tab, category) {
