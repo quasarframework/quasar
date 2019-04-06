@@ -645,6 +645,31 @@
           4. Gigi
         </q-item-section>
       </q-item>
+
+      <p class="caption">
+        Input handler test
+      </p>
+      <div>
+        <div class="q-pa-md">
+          <q-toggle v-model="modelExpanded" label="Expanded" class="q-mb-md" />
+          <div>
+            model value: {{ modelExpanded }}
+          </div>
+          <q-expansion-item
+            :value="modelExpanded"
+            icon="perm_identity"
+            label="Account settings"
+            caption="John Doe"
+            @input="handleModelExpandedToggle"
+          >
+            <q-card>
+              <q-card-section>
+                {{ lorem }}
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -655,7 +680,8 @@ export default {
     return {
       open: true,
       counter: 0,
-      lorem: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, nemo minus dolore facere saepe molestias, fugiat officia aspernatur expedita pariatur, accusantium hic exercitationem perspiciatis voluptate possimus nobis temporibus ipsa officiis!'
+      lorem: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, nemo minus dolore facere saepe molestias, fugiat officia aspernatur expedita pariatur, accusantium hic exercitationem perspiciatis voluptate possimus nobis temporibus ipsa officiis!',
+      modelExpanded: true
     }
   },
   methods: {
@@ -683,6 +709,10 @@ export default {
     },
     onKeyup (which) {
       console.log('onKeyup', which)
+    },
+    handleModelExpandedToggle (newState) {
+      // do not change modelExpanded
+      console.log(`handleModelExpandedToggle model state: ${newState}`)
     }
   }
 }
