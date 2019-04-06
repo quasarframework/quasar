@@ -1096,6 +1096,7 @@ The structure looks the same, but some functions have been renamed.
 ||`maximized`|
 ||`seamless`|
 ||`no-refocus`|
+||`no-focus`|
 ||`auto-close`|
 ||`transition-hide`|
 ||`transition-show`|
@@ -1620,7 +1621,6 @@ Replace `:handler` with `@load`.
 |`anchor-click`||
 |`disabled`||
 |`keep-on-screen`||
-|`no-focus`||
 ||`auto-close`|
 ||`context-class`|
 ||`context-menu`|

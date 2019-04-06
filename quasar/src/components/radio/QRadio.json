@@ -4,25 +4,29 @@
       "extends": "value",
       "type": [ "Number", "String" ],
       "required": true,
-      "examples": [ "v-model=\"option\"" ]
+      "examples": [ "v-model=\"option\"" ],
+      "category": "mdoel"
     },
 
     "val": {
       "type": [ "Number", "String" ],
       "required": true,
       "desc": "The actual value of the option with which model value is changed",
-      "examples": [ "opt1", 50 ]
+      "examples": [ "opt1", 50 ],
+      "category": "model"
     },
 
     "label": {
       "type": "String",
       "desc": "Label to display along the radio control (or use the default slot instead of this prop)",
-      "examples": [ "label=\"Option 1\"" ]
+      "examples": [ "label=\"Option 1\"" ],
+      "category": "label"
     },
 
     "left-label": {
       "type": "Boolean",
-      "desc": "Label (if any specified) should be displayed on the left side of the checkbox"
+      "desc": "Label (if any specified) should be displayed on the left side of the checkbox",
+      "category": "label"
     },
 
     "color": {
@@ -31,7 +35,8 @@
 
     "keep-color": {
       "type": "Boolean",
-      "desc": "Should the color (if specified any) be kept when checkbox is unticked?"
+      "desc": "Should the color (if specified any) be kept when checkbox is unticked?",
+      "category": "behavior"
     },
 
     "dark": {

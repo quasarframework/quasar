@@ -6,7 +6,8 @@
   "props": {
     "padding": {
       "type": "Boolean",
-      "desc": "Applies a default responsive page padding"
+      "desc": "Applies a default responsive page padding",
+      "category": "content"
     },
 
     "style-fn": {
@@ -25,7 +26,8 @@
         "__exemption": [ "examples" ]
       },
       "default": "(see source code)",
-      "examples": [ "(see source code)" ]
+      "examples": [ "(see source code)" ],
+      "category": "style"
     }
   },
 

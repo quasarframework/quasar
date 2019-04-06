@@ -13,6 +13,7 @@
         <q-toggle :dark="dark" v-model="autogrow" label="Auto Grow (converts to textarea)" />
         <q-toggle :dark="dark" v-model="square" label="Force square borders" />
         <q-input :dark="dark" v-model="rows" :disable="textarea !== true || autogrow === true" label="Rows (for textarea)" class="inline" />
+        <q-slider class="q-mt-lg" v-model="fontSize" :min="8" :max="24" label-always />
       </div>
 
       <div class="text-h6">
@@ -403,6 +404,8 @@ export default {
       bottomSlots: true,
       square: false,
 
+      fontSize: 14,
+
       textarea: false,
       autogrow: false,
       rows: '6',
@@ -448,7 +451,8 @@ export default {
         suffix: this.suffix,
         dense: this.dense,
         clearable: true,
-        square: this.square
+        square: this.square,
+        style: { fontSize: `${this.fontSize}px` }
       }
 
       if (this.rows !== '') {

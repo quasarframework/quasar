@@ -2,7 +2,8 @@
   "props": {
     "autofocus": {
       "type": "Boolean",
-      "desc": "Focus first focusable element on initial component render"
+      "desc": "Focus first focusable element on initial component render",
+      "category": "behavior"
     }
   },
 

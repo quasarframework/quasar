@@ -58,6 +58,12 @@ export default Vue.extend({
 
     __onKeyup (e) {
       if ([13, 32].includes(e.keyCode) === true) {
+        // from form submit -- keydown was called
+        // on other form item then keydown was attached to btn
+        if (this.pressed !== true) {
+          return
+        }
+
         stopAndPrevent(e)
         this.__onKeyupAbort()
 

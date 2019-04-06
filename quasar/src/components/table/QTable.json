@@ -5,14 +5,16 @@
     "data": {
       "type": "Array",
       "desc": "Rows of data to display",
-      "examples": [ ":data=\"myData\"" ]
+      "examples": [ ":data=\"myData\"" ],
+      "category": "general"
     },
 
     "row-key": {
       "type": "String",
       "desc": "Property of each row that defines the unique key of each row; The value of property must be string or number",
       "default": "id",
-      "examples": [ "myprop" ]
+      "examples": [ "myprop" ],
+      "category": "general"
     },
 
     "color": {
@@ -22,7 +24,8 @@
 
     "grid": {
       "type": "Boolean",
-      "desc": "Display data as a grid instead of the default table"
+      "desc": "Display data as a grid instead of the default table",
+      "category": "style"
     },
 
     "dense": {
@@ -33,7 +36,8 @@
     "columns": {
       "type": "Array",
       "desc": "The column definitions (Array of Objects)",
-      "examples": [ ":columns=\"tableColumns\"" ]
+      "examples": [ ":columns=\"tableColumns\"" ],
+      "category": "column"
     },
 
     "visible-columns": {
@@ -42,28 +46,33 @@
       "examples": [
         ":visible-columns=\"myCols\"",
         "[ 'desc', 'carbs', 'protein' ]"
-      ]
+      ],
+      "category": "column"
     },
 
     "loading": {
       "type": "Boolean",
-      "desc": "Put Table into 'loading' state; Notify the user something is happening behind the covers"
+      "desc": "Put Table into 'loading' state; Notify the user something is happening behind the covers",
+      "category": "behavior|content"
     },
 
     "title": {
       "type": "String",
       "desc": "Table title",
-      "examples": [ "Device list" ]
+      "examples": [ "Device list" ],
+      "category": "content"
     },
 
     "hide-header": {
       "type": "Boolean",
-      "desc": "Hide table header layer"
+      "desc": "Hide table header layer",
+      "category": "content"
     },
 
     "hide-bottom": {
       "type": "Boolean",
-      "desc": "Hide table bottom layer"
+      "desc": "Hide table bottom layer",
+      "category": "content"
     },
 
     "dark": {
@@ -83,35 +92,41 @@
       "desc": "Use a separator/border between rows, columns or all cells",
       "default": "horizontal",
       "values": [ "horizontal", "vertical", "cell", "none" ],
-      "examples": [ "cell" ]
+      "examples": [ "cell" ],
+      "category": "content"
     },
 
     "wrap-cells": {
       "type": "Boolean",
-      "desc": "Wrap text within table cells"
+      "desc": "Wrap text within table cells",
+      "category": "content"
     },
 
     "binary-state-sort": {
       "type": "Boolean",
-      "desc": "Skip the third state (unsorted) when user toggles column sort direction"
+      "desc": "Skip the third state (unsorted) when user toggles column sort direction",
+      "category": "sorting"
     },
 
     "no-data-label": {
       "type": "String",
       "desc": "Override default text to display when no data is available",
-      "examples": [ "No devices available" ]
+      "examples": [ "No devices available" ],
+      "category": "content"
     },
 
     "no-results-label": {
       "type": "String",
       "desc": "Override default text to display when user filters the table and no matched results are found",
-      "examples": [ "No matched records" ]
+      "examples": [ "No matched records" ],
+      "category": "content"
     },
 
     "loading-label": {
       "type": "String",
       "desc": "Override default text to display when table is in loading state (see 'loading' prop)",
-      "examples": [ "Loading devices..." ]
+      "examples": [ "Loading devices..." ],
+      "category": "content"
     },
 
     "selected-rows-label": {
@@ -129,13 +144,15 @@
         "desc": "Label to display",
         "examples": [ "5 rows are selected" ]
       },
-      "examples": [ ":selected-rows-label=\"getSelectedString\"" ]
+      "examples": [ ":selected-rows-label=\"getSelectedString\"" ],
+      "category": "selection"
     },
 
     "rows-per-page-label": {
       "type": "String",
       "desc": "Text to override default rows per page label at bottom of table",
-      "examples": [ "Records per page:" ]
+      "examples": [ "Records per page:" ],
+      "category": "pagination"
     },
 
     "pagination-label": {
@@ -163,7 +180,8 @@
         "desc": "Label to display",
         "examples": [ "1-10 of 132" ]
       },
-      "examples": [ ":rows-per-page=\"getPaginationLabel\"" ]
+      "examples": [ ":rows-per-page=\"getPaginationLabel\"" ],
+      "category": "pagination"
     },
 
     "table-style": {
@@ -172,7 +190,8 @@
       "examples": [
         "background-color: #ff0000",
         ":table-style=\"{ backgroundColor: '#ff0000' }\""
-      ]
+      ],
+      "category": "style"
     },
 
     "table-class": {
@@ -181,13 +200,15 @@
       "examples": [
         "my-special-class",
         ":table-class=\"{ 'my-special-class': [Boolean condition] }\""
-      ]
+      ],
+      "category": "style"
     },
 
     "filter": {
       "type": [ "String", "Object" ],
       "desc": "String/Object to filter table with; When using an Object it requires 'filter-method' to also be specified since it will be a custom filtering",
-      "examples": [ ":filter=\"myFilterInput\"" ]
+      "examples": [ ":filter=\"myFilterInput\"" ],
+      "category": "filter"
     },
 
     "filter-method": {
@@ -241,7 +262,8 @@
       "default": "(see source code)",
       "examples": [
         "(see source code)"
-      ]
+      ],
+      "category": "filter"
     },
 
     "pagination": {
@@ -276,7 +298,8 @@
       },
       "examples": [
         ":pagination.sync=\"myPagination\""
-      ]
+      ],
+      "category": "pagination"
     },
 
     "rows-per-page-options": {
@@ -285,7 +308,8 @@
       "default": "[3, 5, 7, 10, 15, 20, 25, 50, 0]",
       "examples": [
         ":rows-per-page-options=\"[10, 20]\""
-      ]
+      ],
+      "category": "pagination"
     },
 
     "selection": {
@@ -293,7 +317,8 @@
       "desc": "Selection type",
       "default": "none",
       "values": [ "single", "multiple", "none" ],
-      "examples": [ "multiple" ]
+      "examples": [ "multiple" ],
+      "category": "selection"
     },
 
     "selected": {
@@ -303,7 +328,8 @@
       "default": "[]",
       "examples": [
         ":selected.sync=\"selection\""
-      ]
+      ],
+      "category": "selection"
     },
 
     "sort-method": {
@@ -333,7 +359,8 @@
       "default": "(see source code)",
       "examples": [
         "(see source code)"
-      ]
+      ],
+      "category": "sorting"
     }
   },
 

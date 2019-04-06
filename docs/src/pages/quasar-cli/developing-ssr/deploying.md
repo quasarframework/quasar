@@ -40,10 +40,20 @@ $ npm install -g now
 $ now login
 ```
 
-::: warning
-Make sure that you have set Now Platform Version to v1.
-:::
+There are several ways to use the v1 of now's services:
 
-Then, you cd into the distributables folder and run `$ now`. You might want to use a "now alias" or connect your domain to Now. And you're done!
+The robust way is to add the following file to `/dist/ssr/now.json` , and it should look like this:
+```
+{
+  "name": "Your Project Name",
+  "version": 1
+}
+```
+
+And then cd into the distributables folder and run `$ now`. If you do it this way, then you can also execute directly from a github repo, but we'll leave the details of setting that up to you.
+
+If you prefer, however, to set the version from the command line, you can also run `now -V 1`.
+
+At any rate, you might want to use a "now alias" or connect your domain to Now. And you're done!
 
 `Now.sh` will install the dependencies automatically then run `$ yarn start`. Your website will be up and running on an HTTPS connection in a matter of seconds!

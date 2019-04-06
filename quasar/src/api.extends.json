@@ -2,40 +2,47 @@
   "props": {
     "readonly": {
       "type": "Boolean",
-      "desc": "Put component in readonly mode"
+      "desc": "Put component in readonly mode",
+      "category": "state"
     },
 
     "disable": {
       "type": "Boolean",
-      "desc": "Put component in disabled mode"
+      "desc": "Put component in disabled mode",
+      "category": "state"
     },
 
     "color": {
       "type": "String",
       "desc": "Color name for component from the Quasar Color Palette",
-      "examples": [ "primary", "teal-10" ]
+      "examples": [ "primary", "teal-10" ],
+      "category": "style"
     },
 
     "text-color": {
       "type": "String",
       "desc": "Overrides text color (if needed); color name from the Quasar Color Palette",
-      "examples": [ "primary", "teal-10" ]
+      "examples": [ "primary", "teal-10" ],
+      "category": "style"
     },
 
     "dense": {
       "type": "Boolean",
-      "desc": "Dense mode; occupies less space"
+      "desc": "Dense mode; occupies less space",
+      "category": "style"
     },
 
     "size": {
       "type": "String",
       "desc": "Size in CSS units, including unit name",
-      "examples": [ "16px", "2rem" ]
+      "examples": [ "16px", "2rem" ],
+      "category": "style"
     },
 
     "dark": {
       "type": "Boolean",
-      "desc": "Notify the component that the background is a dark color"
+      "desc": "Notify the component that the background is a dark color",
+      "category": "style"
     },
 
     "icon": {
@@ -46,49 +53,58 @@
         "ion-add",
         "img:https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg",
         "img:statics/path/to/some_image.png"
-      ]
+      ],
+      "category": "content"
     },
 
     "flat": {
       "type": "Boolean",
-      "desc": "Applies a 'flat' design (no default shadow)"
+      "desc": "Applies a 'flat' design (no default shadow)",
+      "category": "style"
     },
 
     "bordered": {
       "type": "Boolean",
-      "desc": "Applies a default border to the component"
+      "desc": "Applies a default border to the component",
+      "category": "style"
     },
 
     "square": {
       "type": "Boolean",
-      "desc": "Removes border-radius so borders are squared"
+      "desc": "Removes border-radius so borders are squared",
+      "category": "style"
     },
 
     "rounded": {
       "type": "Boolean",
-      "desc": "Applies a small standard border-radius for a squared shape of the component"
+      "desc": "Applies a small standard border-radius for a squared shape of the component",
+      "category": "style"
     },
 
     "tabindex": {
       "type": [ "Number", "String" ],
       "desc": "Tabindex HTML attribute value",
-      "examples": [ "0", "100" ]
+      "examples": [ "0", "100" ],
+      "category": "general"
     },
 
     "transition": {
       "type": "String",
       "desc": "One of Quasar's embedded transitions",
-      "examples": [ "fade", "slide-down" ]
+      "examples": [ "fade", "slide-down" ],
+      "category": "behavior"
     },
 
     "value": {
-      "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive"
+      "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "category": "model"
     },
 
     "sanitize": {
       "type": "Boolean",
       "default": "false",
-      "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)"
+      "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)",
+      "category": "behavior"
     }
   },
 

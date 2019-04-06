@@ -25,12 +25,14 @@
       "desc": "Use a separator/border between rows, columns or all cells",
       "default": "horizontal",
       "values": [ "horizontal", "vertical", "cell", "none" ],
-      "examples": [ "cell" ]
+      "examples": [ "cell" ],
+      "category": "content"
     },
 
     "wrap-cells": {
       "type": "Boolean",
-      "desc": "Wrap text within table cells"
+      "desc": "Wrap text within table cells",
+      "category": "content"
     }
   },
 

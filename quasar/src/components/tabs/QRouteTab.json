@@ -3,7 +3,8 @@
   
   "props": {
     "to": {
-      "required": true
+      "required": true,
+      "category": "general"
     }
   }
 }
