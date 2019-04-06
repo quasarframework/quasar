@@ -146,6 +146,21 @@ export default {
               api[tab][group] = filterApi(this.api[tab][group])
             }
           }
+
+          if (this.currentTab === tab) {
+            let apiWithResultsCount = 0,
+              lastFoundApiWithResults = null
+            for (let group in this.api[tab]) {
+              if (Object.keys(api[tab][group]).length > 0) {
+                apiWithResultsCount++
+                lastFoundApiWithResults = group
+              }
+            }
+
+            if (apiWithResultsCount === 1) {
+              this.currentInnerTab[tab] = lastFoundApiWithResults
+            }
+          }
         }
         else {
           api[tab] = filterApi(this.api[tab])
