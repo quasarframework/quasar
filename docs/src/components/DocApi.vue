@@ -46,7 +46,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
                 :name="category"
                 :label="category"
               )
-                q-badge(color="primary" floating v-if="apiCount(tab, category)") {{ apiCount(tab, category) }}
+                q-badge(color="primary" v-if="apiCount(tab, category)") {{ apiCount(tab, category) }}
           template(v-slot:after)
             q-tab-panels(v-model="currentInnerTab[tab]", animated)
               q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
@@ -101,7 +101,7 @@ export default {
       },
       aggregationModel: {},
       splitterModel: {
-        props: 15
+        props: 20
       },
       filter: '',
       filteredApi: {}
@@ -236,5 +236,6 @@ export default {
   height 40px
 
 .doc-api .q-badge
-  right: -20px
+  margin-left: 2px;
+  margin-bottom: 16px;
 </style>
