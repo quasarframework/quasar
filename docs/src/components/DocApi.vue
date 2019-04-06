@@ -37,7 +37,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
   q-tab-panels(v-model="currentTab", animated)
     q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
       template(v-if="aggregationModel[tab]")
-        q-splitter(v-model="splitterModel[tab]")
+        q-splitter(v-model="splitterModel[tab]" :limits="[20, 20]")
           template(v-slot:before)
             q-tabs(v-model="currentInnerTab[tab]", indicator-color="primary", align="left", :breakpoint="0", dense, vertical)
               q-tab(
