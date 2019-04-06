@@ -36,12 +36,45 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
 
   q-tab-panels(v-model="currentTab", animated)
     q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
-      ApiRows(:which="tab", :api="filteredApi")
+      template(v-if="aggregationModel[tab]")
+        q-splitter(v-model="splitterModel[tab]")
+          template(v-slot:before)
+            q-tabs(v-model="currentInnerTab[tab]", indicator-color="primary", align="left", :breakpoint="0", dense, vertical)
+              q-tab(
+                v-for="(_, category) in api[tab]"
+                :key="`api-inner-tab-${category}`"
+                :name="category"
+                :label="category"
+              )
+          template(v-slot:after)
+            q-tab-panels(v-model="currentInnerTab[tab]", animated)
+              q-tab-panel(v-for="(_, category) in api[tab]", :name="category", :key="category", class="q-pa-none")
+                ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
+      ApiRows(:which="tab", :api="filteredApi", v-else)
 </template>
 
 <script>
 import ApiRows from './ApiRows.js'
 import CardTitle from './CardTitle.vue'
+
+const groupBy = (list, groupKey, defaultGroupKeyValue) => {
+  const res = {}
+
+  for (let key in list) {
+    if (list.hasOwnProperty(key)) {
+      let value = list[key]
+      let groupKeyValue = (value[groupKey] || defaultGroupKeyValue).split('|')
+      for (let groupKeyV of groupKeyValue) {
+        if (res[groupKeyV] === void 0) {
+          res[groupKeyV] = {}
+        }
+        res[groupKeyV][key] = value
+      }
+    }
+  }
+
+  return res
+}
 
 export default {
   name: 'DocApi',
@@ -62,6 +95,13 @@ export default {
     return {
       ready: false,
       currentTab: null,
+      currentInnerTab: {
+        props: null
+      },
+      aggregationModel: {},
+      splitterModel: {
+        props: 15
+      },
       filter: '',
       filteredApi: {}
     }
@@ -84,17 +124,31 @@ export default {
           return
         }
 
-        api[tab] = {}
-        const tabApi = this.api[tab]
+        const filterApi = tabApi => {
+          const filtered = {}
 
-        Object.keys(tabApi).forEach(name => {
-          if (
-            (name.indexOf(val) > -1) ||
-            (tabApi[name].desc !== void 0 && tabApi[name].desc.toLowerCase().indexOf(val) > -1)
-          ) {
-            api[tab][name] = tabApi[name]
+          Object.keys(tabApi).forEach(name => {
+            if (
+              (name.indexOf(val) > -1) ||
+              (tabApi[name].desc !== void 0 && tabApi[name].desc.toLowerCase().indexOf(val) > -1)
+            ) {
+              filtered[name] = tabApi[name]
+            }
+          })
+          return filtered
+        }
+
+        if (this.aggregationModel[tab]) {
+          api[tab] = {}
+          for (let group in this.api[tab]) {
+            if (this.api[tab].hasOwnProperty(group)) {
+              api[tab][group] = filterApi(this.api[tab][group])
+            }
           }
-        })
+        }
+        else {
+          api[tab] = filterApi(this.api[tab])
+        }
       })
 
       this.filteredApi = api
@@ -103,6 +157,11 @@ export default {
 
   methods: {
     parseJson (name, { type, behavior, ...api }) {
+      for (let apiGroup of ['props']) {
+        api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
+        this.currentInnerTab[apiGroup] = Object.keys(api[apiGroup])[0]
+        this.aggregationModel[apiGroup] = true
+      }
       this.api = api
       this.filteredApi = api
       this.apiType = type
