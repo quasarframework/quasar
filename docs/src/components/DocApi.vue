@@ -157,10 +157,12 @@ export default {
 
   methods: {
     parseJson (name, { type, behavior, ...api }) {
-      for (let apiGroup of ['props']) {
-        api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
-        this.currentInnerTab[apiGroup] = Object.keys(api[apiGroup])[0]
-        this.aggregationModel[apiGroup] = true
+      if (type === 'component') {
+        for (let apiGroup of ['props']) {
+          api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
+          this.currentInnerTab[apiGroup] = Object.keys(api[apiGroup])[0]
+          this.aggregationModel[apiGroup] = true
+        }
       }
       this.api = api
       this.filteredApi = api
