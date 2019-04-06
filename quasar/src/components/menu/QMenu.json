@@ -73,10 +73,20 @@
       "category": "behavior"
     },
 
+    "square": {
+      "type": "Boolean",
+      "desc": "Forces content to have squared borders"
+    },
+
     "no-refocus": {
       "type": "Boolean",
       "desc": "(Accessibility) When Menu gets hidden, do not refocus on the DOM element that previously had focus",
       "category": "behavior"
+    },
+
+    "no-focus": {
+      "type": "Boolean",
+      "desc": "(Accessibility) When Menu gets shown, do not switch focus on it"
     },
 
     "max-height": {

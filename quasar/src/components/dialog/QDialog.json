@@ -67,17 +67,31 @@
 
     "transition-show": {
       "extends": "transition",
-      "default": "scale"
+      "default": "scale",
+      "category": "behavior"
     },
 
     "transition-hide": {
       "extends": "transition",
-      "default": "scale"
+      "default": "scale",
+      "category": "behavior"
+    },
+
+    "square": {
+      "type": "Boolean",
+      "desc": "Forces content to have squared borders",
+      "category": "style"
     },
 
     "no-refocus": {
       "type": "Boolean",
       "desc": "(Accessibility) When Dialog gets hidden, do not refocus on the DOM element that previously had focus",
+      "category": "behavior"
+    },
+
+    "no-focus": {
+      "type": "Boolean",
+      "desc": "(Accessibility) When Dialog gets shown, do not switch focus on it",
       "category": "behavior"
     }
   },
