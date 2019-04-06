@@ -212,7 +212,7 @@ export default Vue.extend({
     },
 
     __updateContainer ({ width, height }) {
-      const offset = this.scrollable === true ? this.extraOffset : 0
+      const offset = this.scrollable === true ? (this.extraOffset ? this.extraOffset : 0) : 0
       const scroll = this.vertical === true
         ? this.$refs.content.scrollHeight - offset > height
         : this.$refs.content.scrollWidth - offset > width
