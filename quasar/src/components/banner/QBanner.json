@@ -27,6 +27,10 @@
       "desc": "Slot for displaying an avatar (suggestions: QIcon, QAvatar)"
     },
 
+    "avatar-right": {
+      "desc": "Slot for displaying an avatar on the right (suggestions: QIcon, QAvatar)"
+    },
+
     "action": {
       "desc": "Slot for Banner action (suggestions: QBtn)"
     }

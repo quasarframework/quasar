@@ -16,6 +16,17 @@
   &__avatar:not(:empty) + &__content
     padding-left 16px
 
+  &__avatar-right
+    min-width 1px !important
+    right 0
+    > .q-avatar
+      font-size 46px
+    > .q-icon
+      font-size 40px
+
+  &__avatar-right:not(:empty) + &__content
+    padding-right 16px
+
   &__actions
     &.col-auto
       padding-left 16px
@@ -32,6 +43,11 @@
       > .q-avatar, > .q-icon
         font-size 28px
     .q-banner__avatar:not(:empty) + .q-banner__content
+      padding-left 8px
+    .q-banner__avatar-right
+      > .q-avatar, > .q-icon
+        font-size 28px
+    .q-banner__avatar-right:not(:empty) + .q-banner__content
       padding-left 8px
     .q-banner__actions
       &.col-auto

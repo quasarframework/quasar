@@ -14,6 +14,27 @@
       </q-banner>
 
       <q-banner :dense="dense" class="q-my-md">
+        <q-icon slot="avatar-right" name="signal_wifi_off" color="primary" />
+
+        <q-input v-model="text" />
+        You have lost connection to the internet. This app is offline.
+
+        <q-btn slot="action" flat color="primary" label="Turn ON Wifi" />
+        <q-btn slot="action" flat color="primary" label="Dismiss" />
+      </q-banner>
+
+      <q-banner :dense="dense" class="q-my-md">
+        <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
+        <q-icon slot="avatar-right" name="signal_wifi_off" color="primary" />
+
+        <q-input v-model="text" />
+        You have lost connection to the internet. This app is offline.
+
+        <q-btn slot="action" flat color="primary" label="Turn ON Wifi" />
+        <q-btn slot="action" flat color="primary" label="Dismiss" />
+      </q-banner>
+
+      <q-banner :dense="dense" class="q-my-md">
         <q-avatar slot="avatar" icon="signal_wifi_off" color="primary" text-color="white" />
 
         You have lost connection to the internet. This app is offline.

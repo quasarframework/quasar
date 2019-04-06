@@ -18,6 +18,29 @@
       </template>
     </q-banner>
 
+    <q-banner dense class="bg-grey-3">
+      <template v-slot:avatar-right>
+        <q-icon name="signal_wifi_off" color="primary" />
+      </template>
+      You have lost connection to the internet. This app is offline.
+      <template v-slot:action>
+        <q-btn flat color="primary" label="Turn on Wifi" />
+      </template>
+    </q-banner>
+
+    <q-banner dense class="bg-grey-3">
+      <template v-slot:avatar>
+        <q-icon name="signal_wifi_off" color="primary" />
+      </template>
+      <template v-slot:avatar-right>
+        <q-icon name="signal_wifi_off" color="primary" />
+      </template>
+      <center>You have lost connection to the internet. This app is offline.</center>
+      <template v-slot:action>
+        <q-btn flat color="primary" label="Turn on Wifi" />
+      </template>
+    </q-banner>
+
     <q-banner dense inline-actions class="text-white bg-red">
       You have lost connection to the internet. This app is offline.
       <template v-slot:action>
