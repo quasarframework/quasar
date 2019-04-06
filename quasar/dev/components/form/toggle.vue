@@ -55,7 +55,9 @@
       <p class="caption">
         Disabled State
       </p>
-      <q-toggle v-model="checked" disable label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-toggle v-model="checked" disable color="primary" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-toggle v-model="checked" disable color="accent" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-toggle v-model="checked" disable color="teal" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <p class="caption">
         Option Group

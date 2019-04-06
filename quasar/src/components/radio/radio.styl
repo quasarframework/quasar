@@ -17,14 +17,13 @@ $radio-transition = .22s cubic-bezier(0,0,.2,1) 0ms
     border-width 2px
     border-style solid
     border-radius 50%
-    transition color $radio-transition
 
   &__inner-circle
     border-width 10px
     border-style solid
     border-radius 50%
     transform scale3d(0, 0, 0)
-    transition color $radio-transition, transform $radio-transition
+    transition transform $radio-transition
 
   &__label
     padding-left 4px
@@ -52,9 +51,7 @@ $radio-transition = .22s cubic-bezier(0,0,.2,1) 0ms
         transform scale3d(.5, .5, .5)
 
   &.disabled
-    opacity 1 !important
-    .q-radio__inner, .q-radio__label
-      color rgba(0,0,0,.26)
+    opacity .75 !important
 
   &--dark
     .q-radio__inner
@@ -64,10 +61,6 @@ $radio-transition = .22s cubic-bezier(0,0,.2,1) 0ms
       &--active
         color $primary
         color var(--q-color-primary)
-
-    &.disabled
-      .q-radio__inner, .q-radio__label
-        color rgba(255,255,255,.3)
 
   &--dense
 
