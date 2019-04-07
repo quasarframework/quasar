@@ -54,7 +54,9 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
               q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
                 q-scroll-area.api-container
                   ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
-      ApiRows(:which="tab", :api="filteredApi", v-else)
+      template(v-else)
+        q-scroll-area.api-container
+          ApiRows(:which="tab", :api="filteredApi")
 </template>
 
 <script>
