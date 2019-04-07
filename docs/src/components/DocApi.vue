@@ -37,8 +37,8 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
   q-tab-panels(v-model="currentTab", animated)
     q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
       template(v-if="aggregationModel[tab]")
-        q-splitter(v-model="splitterModel[tab]" :limits="[20, 20]" disable style="height: 600px")
-          template(v-slot:before)
+        div.row(style="height: 600px")
+          div.col-xs-6.col-sm-4.col-md-2.col-xl-1
             q-tabs(v-model="currentInnerTab[tab]", indicator-color="primary", align="left", :breakpoint="0", dense, vertical)
               q-tab(
                 v-for="category in apiTabs(tab)"
@@ -47,7 +47,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
                 :label="category"
               )
                 q-badge(color="primary" v-if="apiCount(tab, category)") {{ apiCount(tab, category) }}
-          template(v-slot:after)
+          div.col
             q-tab-panels(v-model="currentInnerTab[tab]", animated)
               q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
                 ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
@@ -100,9 +100,6 @@ export default {
         props: null
       },
       aggregationModel: {},
-      splitterModel: {
-        props: 20
-      },
       filter: '',
       filteredApi: {}
     }
