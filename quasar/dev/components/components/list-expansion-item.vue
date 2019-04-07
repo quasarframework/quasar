@@ -731,7 +731,7 @@ export default {
       console.log('onKeyup', which)
     },
     handleModelExpandedToggle (newState) {
-      // do not change modelExpanded
+      this.modelExpanded = newState
       console.log(`handleModelExpandedToggle model state: ${newState}`)
     }
   }
