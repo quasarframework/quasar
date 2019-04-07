@@ -36,27 +36,34 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
 
   q-tab-panels(v-model="currentTab", animated)
     q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
-      template(v-if="aggregationModel[tab]")
-        div.row.api-container
-          div.col-auto
-            q-tabs(v-model="currentInnerTab[tab]", indicator-color="primary", align="left", :breakpoint="0", dense, vertical)
-              q-tab(
-                v-for="category in apiTabs(tab)"
-                :key="`api-inner-tab-${category}`"
-                class="inner-tab"
-                :name="category"
-              )
-                div.q-tab__label
-                  q-badge(color="primary" v-if="apiCount(tab, category)") {{ formattedApiCount(tab, category) }}
-                  span.q-ml-xs {{ category }}
-          div.col
-            q-tab-panels(v-model="currentInnerTab[tab]", animated)
-              q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
-                q-scroll-area.api-container
-                  ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
-      template(v-else)
-        q-scroll-area.api-container
-          ApiRows(:which="tab", :api="filteredApi")
+      .row.no-wrap.api-container(v-if="aggregationModel[tab]")
+        .col-auto.row.items-center.bg-grey-1.text-grey-7.q-py-lg
+          q-tabs(
+            v-model="currentInnerTab[tab]",
+            active-color="primary",
+            indicator-color="primary",
+            :breakpoint="0",
+            vertical,
+            dense,
+            shrink
+          )
+            q-tab(
+              v-for="category in apiTabs(tab)"
+              :key="`api-inner-tab-${category}`"
+              class="inner-tab"
+              :name="category"
+            )
+              .row.no-wrap.items-center
+                q-badge(v-if="apiCount(tab, category)") {{ formattedApiCount(tab, category) }}
+                span.q-ml-xs.text-capitalize.text-weight-medium {{ category }}
+
+        q-separator(vertical)
+
+        q-tab-panels.col(v-model="currentInnerTab[tab]", animated)
+          q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
+            ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
+      .api-container(v-else)
+        ApiRows(:which="tab", :api="filteredApi")
 </template>
 
 <script>
@@ -106,7 +113,6 @@ export default {
       currentInnerTab: {
         props: null
       },
-      aggregationModel: {},
       filter: '',
       filteredApi: {}
     }
@@ -177,6 +183,8 @@ export default {
 
   methods: {
     parseJson (name, { type, behavior, ...api }) {
+      this.aggregationModel = {}
+
       if (type === 'component') {
         for (let apiGroup of ['props']) {
           api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
@@ -256,12 +264,13 @@ export default {
 </script>
 
 <style lang="stylus">
-.doc-api .q-tab
-  height 40px
+.doc-api
+  .q-tab
+    height 40px
 
-.doc-api .inner-tab
-  justify-content left
+  .inner-tab
+    justify-content left
 
-.doc-api .api-container
-  height: 600px
+  .api-container
+    max-height 600px
 </style>
