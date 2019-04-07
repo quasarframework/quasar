@@ -65,11 +65,11 @@ export default Vue.extend({
     },
 
     isClickable () {
-      return !this.disable && (this.clickable === true || this.selected !== null)
+      return this.disable === false && (this.clickable === true || this.selected !== null)
     },
 
     computedTabindex () {
-      return this.disable ? -1 : this.tabindex || 0
+      return this.disable === true ? -1 : this.tabindex || 0
     }
   },
 
@@ -95,31 +95,41 @@ export default Vue.extend({
     __getContent (h) {
       const child = []
 
-      this.isClickable && child.push(h('div', { staticClass: 'q-focus-helper' }))
+      this.isClickable && child.push(
+        h('div', { staticClass: 'q-focus-helper' })
+      )
 
-      this.hasLeftIcon && child.push(h(QIcon, {
-        staticClass: 'q-chip__icon q-chip__icon--left',
-        props: { name: this.selected === true ? this.$q.iconSet.chip.selected : this.icon }
-      }))
+      this.hasLeftIcon && child.push(
+        h(QIcon, {
+          staticClass: 'q-chip__icon q-chip__icon--left',
+          props: { name: this.selected === true ? this.$q.iconSet.chip.selected : this.icon }
+        })
+      )
 
-      child.push(h('div', {
-        staticClass: 'q-chip__content row no-wrap items-center q-anchor--skip'
-      }, this.label !== void 0 ? [ this.label ] : slot(this, 'default')))
+      child.push(
+        h('div', {
+          staticClass: 'q-chip__content row no-wrap items-center q-anchor--skip'
+        }, this.label !== void 0 ? [ this.label ] : slot(this, 'default'))
+      )
 
-      this.iconRight && child.push(h(QIcon, {
-        staticClass: 'q-chip__icon q-chip__icon--right',
-        props: { name: this.iconRight }
-      }))
+      this.iconRight && child.push(
+        h(QIcon, {
+          staticClass: 'q-chip__icon q-chip__icon--right',
+          props: { name: this.iconRight }
+        })
+      )
 
-      this.removable && child.push(h(QIcon, {
-        staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
-        props: { name: this.$q.iconSet.chip.remove },
-        attrs: { tabindex: this.computedTabindex },
-        nativeOn: {
-          click: this.__onRemove,
-          keyup: this.__onRemove
-        }
-      }))
+      this.removable && child.push(
+        h(QIcon, {
+          staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
+          props: { name: this.$q.iconSet.chip.remove },
+          attrs: { tabindex: this.computedTabindex },
+          nativeOn: {
+            click: this.__onRemove,
+            keyup: this.__onRemove
+          }
+        })
+      )
 
       return child
     }

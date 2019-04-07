@@ -24,6 +24,12 @@
       "category": "content"
     },
 
+    "multi-line": {
+      "type": "Boolean",
+      "desc": "Content can wrap to multiple lines",
+      "category": "content"
+    },
+
     "label": {
       "type": [ "String", "Number" ],
       "desc": "Badge's content as string; overrides default slot if specified",
