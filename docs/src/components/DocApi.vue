@@ -38,15 +38,17 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
     q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
       template(v-if="aggregationModel[tab]")
         div.row(style="height: 600px")
-          div.col-xs-6.col-sm-4.col-md-2.col-xl-1
+          div.col-auto
             q-tabs(v-model="currentInnerTab[tab]", indicator-color="primary", align="left", :breakpoint="0", dense, vertical)
               q-tab(
                 v-for="category in apiTabs(tab)"
                 :key="`api-inner-tab-${category}`"
+                class="inner-tab"
                 :name="category"
-                :label="category"
               )
-                q-badge(color="primary" v-if="apiCount(tab, category)") {{ apiCount(tab, category) }}
+                div.q-tab__label
+                  q-badge(color="primary" v-if="apiCount(tab, category)") {{ formattedApiCount(tab, category) }}
+                  span.q-ml-xs {{ category }}
           div.col
             q-tab-panels(v-model="currentInnerTab[tab]", animated)
               q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
@@ -57,6 +59,8 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
 <script>
 import ApiRows from './ApiRows.js'
 import CardTitle from './CardTitle.vue'
+import { format } from 'quasar'
+const { pad } = format
 
 const groupBy = (list, groupKey, defaultGroupKeyValue) => {
   const res = {}
@@ -212,6 +216,26 @@ export default {
 
     apiCount (tab, category) {
       return Object.keys(this.filteredApi[tab][category]).length
+    },
+
+    formattedApiCount (tab, category) {
+      return pad(this.apiCount(tab, category), (this.currentTabMaxCategoryPropCount + '').length)
+    }
+  },
+
+  computed: {
+    currentTabMaxCategoryPropCount () {
+      const calculateFn = () => {
+        let max = -1
+        for (let category in this.filteredApi[this.currentTab]) {
+          let count = this.apiCount(this.currentTab, category)
+          if (count > max) {
+            max = count
+          }
+        }
+        return max
+      }
+      return this.aggregationModel[this.currentTab] ? calculateFn() : 0
     }
   },
 
@@ -232,7 +256,9 @@ export default {
 .doc-api .q-tab
   height 40px
 
-.doc-api .q-badge
-  margin-left: 2px;
-  margin-bottom: 16px;
+.dosc-api .q-badge
+  position absolute
+
+.doc-api .inner-tab
+  justify-content left
 </style>
