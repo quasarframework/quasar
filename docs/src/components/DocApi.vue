@@ -37,7 +37,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
   q-tab-panels(v-model="currentTab", animated)
     q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
       template(v-if="aggregationModel[tab]")
-        div.row(style="height: 600px")
+        div.row.api-container
           div.col-auto
             q-tabs(v-model="currentInnerTab[tab]", indicator-color="primary", align="left", :breakpoint="0", dense, vertical)
               q-tab(
@@ -52,7 +52,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
           div.col
             q-tab-panels(v-model="currentInnerTab[tab]", animated)
               q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
-                q-scroll-area(style="height: 600px")
+                q-scroll-area.api-container
                   ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
       ApiRows(:which="tab", :api="filteredApi", v-else)
 </template>
@@ -259,4 +259,7 @@ export default {
 
 .doc-api .inner-tab
   justify-content left
+
+.doc-api .api-container
+  height: 600px
 </style>
