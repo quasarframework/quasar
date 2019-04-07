@@ -256,9 +256,6 @@ export default {
 .doc-api .q-tab
   height 40px
 
-.dosc-api .q-badge
-  position absolute
-
 .doc-api .inner-tab
   justify-content left
 </style>
