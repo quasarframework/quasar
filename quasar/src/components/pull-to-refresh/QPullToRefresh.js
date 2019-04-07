@@ -11,7 +11,8 @@ import slot from '../../utils/slot.js'
 
 const
   PULLER_HEIGHT = 40,
-  OFFSET_TOP = 20
+  OFFSET_TOP = 20,
+  MAX_PULL_DISTANCE = 140
 
 export default Vue.extend({
   name: 'QPullToRefresh',
@@ -111,6 +112,9 @@ export default Vue.extend({
       prevent(event.evt)
 
       const distance = Math.max(0, event.distance.y)
+      if (distance > MAX_PULL_DISTANCE) {
+        return
+      }
       this.pullPosition = distance - PULLER_HEIGHT
       this.pullRatio = between(distance / (OFFSET_TOP + PULLER_HEIGHT), 0, 1)
 
