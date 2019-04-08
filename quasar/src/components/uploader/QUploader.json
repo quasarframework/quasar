@@ -169,7 +169,7 @@
       "category": "upload"
     },
 
-    "fields": {
+    "form-fields": {
       "type": [ "Array", "Function" ],
       "desc": "Array or a factory function which returns an array; Array consists of objects with additional fields definitions (used by Form to be uploaded); Function is called right before upload",
       "definition": {
