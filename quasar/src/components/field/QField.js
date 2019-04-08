@@ -46,7 +46,9 @@ export default Vue.extend({
     clearIcon: String,
 
     disable: Boolean,
-    readonly: Boolean
+    readonly: Boolean,
+
+    autofocus: Boolean
   },
 
   data () {
@@ -218,10 +220,6 @@ export default Vue.extend({
         this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
       )
 
-      this.__getPopup !== void 0 && node.push(
-        this.__getPopup(h)
-      )
-
       return node
     },
 
@@ -244,9 +242,10 @@ export default Vue.extend({
           h('div', {
             ref: 'target',
             staticClass: 'q-field__native row',
-            attrs: this.$attrs.tabindex !== void 0 ? {
-              tabindex: this.$attrs.tabindex
-            } : void 0
+            attrs: {
+              ...this.$attrs,
+              autofocus: this.autofocus
+            }
           }, this.$scopedSlots.control())
         )
       }
@@ -266,7 +265,11 @@ export default Vue.extend({
       return node.concat(
         this.__getDefaultSlot !== void 0
           ? this.__getDefaultSlot(h)
-          : slot(this, 'default')
+          : slot(this, 'default'),
+
+        this.__getPopup !== void 0
+          ? this.__getPopup(h)
+          : void 0
       )
     },
 
@@ -319,6 +322,16 @@ export default Vue.extend({
       }, content)
     },
 
+    __onControlPopupShow (e) {
+      this.keepFocus = true
+      this.__onControlFocusin(e)
+    },
+
+    __onControlPopupHide (e) {
+      this.keepFocus = false
+      this.__onControlFocusout(e)
+    },
+
     __onControlFocusin (e) {
       if (this.editable === true && this.focused === false) {
         this.focused = true
@@ -330,6 +343,7 @@ export default Vue.extend({
       setTimeout(() => {
         if (
           document.hasFocus() === true && (
+            this.keepFocus === true ||
             this.$refs === void 0 ||
             this.$refs.control === void 0 ||
             this.$refs.control.contains(document.activeElement) !== false
@@ -337,6 +351,8 @@ export default Vue.extend({
         ) {
           return
         }
+
+        this.keepFocus = false
 
         if (this.focused === true) {
           this.focused = false
@@ -352,16 +368,9 @@ export default Vue.extend({
   },
 
   render (h) {
-    this.__onPreRender !== void 0 && this.__onPreRender()
-    this.__onPostRender !== void 0 && this.$nextTick(this.__onPostRender)
-
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
-      class: this.classes,
-      attrs: {
-        ...this.$attrs,
-        tabindex: void 0
-      }
+      class: this.classes
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
@@ -388,14 +397,18 @@ export default Vue.extend({
   },
 
   created () {
-    this.__onPreRender !== void 0 && this.__onPreRender()
-
     this.controlEvents = this.__getControlEvents !== void 0
       ? this.__getControlEvents()
       : {
         focus: this.focus,
         focusin: this.__onControlFocusin,
-        focusout: this.__onControlFocusout
+        focusout: this.__onControlFocusout,
+        'popup-show': this.__onControlPopupShow,
+        'popup-hide': this.__onControlPopupHide
       }
+  },
+
+  mounted () {
+    this.autofocus === true && setTimeout(this.focus)
   }
 })

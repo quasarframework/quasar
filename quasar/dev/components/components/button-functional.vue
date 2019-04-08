@@ -41,11 +41,11 @@
       </div>
 
       <div class="row flex-center q-my-md">
-        <q-btn round class="on-left" icon="remove" v-touch-repeat:0:600.mouse.enter.space="() => { testN -= 1 }" />
-        <q-btn push round class="on-left" icon="remove" v-touch-repeat.mouse.enter.space="() => { testN -= 1 }" />
+        <q-btn round class="on-left" icon="remove" v-touch-repeat:300:600.mouse.enter.space="() => { testN -= 1 }" @click="onClick" />
+        <q-btn push round class="on-left" icon="remove" v-touch-repeat.mouse.enter.space="() => { testN -= 1 }" @click="onClick" />
         <q-input type="number" v-model="testN" align="right" />
-        <q-btn push round class="on-right" icon="add" v-touch-repeat.mouse.enter.space="() => { testN += 1 }" />
-        <q-btn round class="on-right" icon="add" v-touch-repeat:0:600.mouse.enter.space="() => { testN += 1 }" />
+        <q-btn push round class="on-right" icon="add" v-touch-repeat.mouse.enter.space="() => { testN += 1 }" @click="onClick" />
+        <q-btn round class="on-right" icon="add" v-touch-repeat:300:600.mouse.enter.space="() => { testN += 1 }" @click="onClick" />
       </div>
 
       <form @submit.prevent="submit" @reset.prevent="reset" class="shadow-2 q-pa-md q-my-sm row items-center">

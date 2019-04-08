@@ -22,15 +22,26 @@ export default {
     const ctx = {
       mouseStart (evt) {
         if (leftClick(evt)) {
-          document.addEventListener('mousemove', ctx.mouseEnd, true)
-          document.addEventListener('click', ctx.mouseEnd, true)
+          // first click on a page is also a mousemove
+          setTimeout(() => {
+            ctx.timer !== void 0 && document.addEventListener('mousemove', ctx.mouseEnd, listenOpts.notPassive)
+          }, 1)
+          document.addEventListener('mouseup', ctx.mouseEnd, listenOpts.notPassive)
+          document.addEventListener('click', ctx.mouseEndClick, listenOpts.notPassiveCapture)
           ctx.start(evt, true)
         }
       },
 
       mouseEnd (evt) {
-        document.removeEventListener('mousemove', ctx.mouseEnd, true)
-        document.removeEventListener('click', ctx.mouseEnd, true)
+        setTimeout(() => {
+          ctx.mouseEndClick(evt)
+        })
+      },
+
+      mouseEndClick (evt) {
+        document.removeEventListener('mousemove', ctx.mouseEnd, listenOpts.notPassive)
+        document.removeEventListener('mouseup', ctx.mouseEnd, listenOpts.notPassive)
+        document.removeEventListener('click', ctx.mouseEndClick, listenOpts.notPassiveCapture)
         ctx.end(evt)
       },
 
@@ -48,10 +59,6 @@ export default {
         ctx.triggered = false
 
         ctx.timer = setTimeout(() => {
-          if (Platform.is.mobile !== true) {
-            document.body.classList.add('non-selectable')
-            clearSelection()
-          }
           ctx.triggered = true
 
           ctx.handler({
@@ -64,7 +71,7 @@ export default {
 
       end (evt) {
         removeObserver(ctx)
-        document.body.classList.remove('non-selectable')
+        Platform.is.mobile === true && document.body.classList.remove('non-selectable')
 
         if (ctx.triggered === true) {
           stopAndPrevent(evt)
@@ -72,6 +79,8 @@ export default {
         else {
           clearTimeout(ctx.timer)
         }
+
+        ctx.timer = void 0
       }
     }
 
@@ -87,8 +96,8 @@ export default {
     }
     el.addEventListener('touchstart', ctx.start, listenOpts.notPassive)
     el.addEventListener('touchmove', ctx.end, listenOpts.notPassive)
-    el.addEventListener('touchcancel', ctx.end)
-    el.addEventListener('touchend', ctx.end)
+    el.addEventListener('touchcancel', ctx.end, listenOpts.notPassive)
+    el.addEventListener('touchend', ctx.end, listenOpts.notPassive)
   },
 
   update (el, binding) {
@@ -100,17 +109,20 @@ export default {
     if (ctx !== void 0) {
       removeObserver(ctx)
       clearTimeout(ctx.timer)
-      document.body.classList.remove('non-selectable')
+      ctx.timer = void 0
+
+      Platform.is.mobile === true && document.body.classList.remove('non-selectable')
 
       if (binding.modifiers.mouse === true) {
         el.removeEventListener('mousedown', ctx.mouseStart)
-        document.removeEventListener('mousemove', ctx.mouseEnd, true)
-        document.removeEventListener('click', ctx.mouseEnd, true)
+        document.removeEventListener('mousemove', ctx.mouseEnd, listenOpts.notPassive)
+        document.removeEventListener('mouseup', ctx.mouseEnd, listenOpts.notPassive)
+        document.removeEventListener('click', ctx.mouseEndClick, listenOpts.notPassiveCapture)
       }
       el.removeEventListener('touchstart', ctx.start, listenOpts.notPassive)
       el.removeEventListener('touchmove', ctx.end, listenOpts.notPassive)
-      el.removeEventListener('touchcancel', ctx.end)
-      el.removeEventListener('touchend', ctx.end)
+      el.removeEventListener('touchcancel', ctx.end, listenOpts.notPassive)
+      el.removeEventListener('touchend', ctx.end, listenOpts.notPassive)
 
       delete el[el.__qtouchhold_old ? '__qtouchhold_old' : '__qtouchhold']
     }

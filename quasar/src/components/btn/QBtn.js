@@ -28,7 +28,25 @@ export default Vue.extend({
     click (e) {
       if (this.pressed === true) { return }
 
-      this.hasRouterLink === true && e !== void 0 && stopAndPrevent(e)
+      if (e !== void 0) {
+        // focus button if it came from ENTER on form
+        // prevent the new submit (already done)
+        if (this.type === 'submit' && this.$el.contains(document.activeElement) === false) {
+          stopAndPrevent(e)
+          this.$el.focus()
+          return
+        }
+
+        if (e.qKeyEvent !== true && this.$refs.blurTarget !== void 0) {
+          this.$refs.blurTarget.focus()
+        }
+
+        if (e.defaultPrevented === true) {
+          return
+        }
+
+        this.hasRouterLink === true && stopAndPrevent(e)
+      }
 
       const go = () => {
         this.$router[this.replace === true ? 'replace' : 'push'](this.to)
@@ -36,14 +54,13 @@ export default Vue.extend({
 
       this.$emit('click', e, go)
       this.hasRouterLink === true && e.navigate !== false && go()
-
-      if (e !== void 0 && e.qKeyEvent !== true && this.$refs.blurTarget !== void 0) {
-        this.$refs.blurTarget.focus()
-      }
     },
 
     __onKeydown (e) {
       if ([13, 32].includes(e.keyCode) === true) {
+        // focus external button if the focus helper was focused before
+        this.$el.focus()
+
         stopAndPrevent(e)
 
         if (this.pressed !== true) {
@@ -58,22 +75,17 @@ export default Vue.extend({
 
     __onKeyup (e) {
       if ([13, 32].includes(e.keyCode) === true) {
-        // from form submit -- keydown was called
-        // on other form item then keydown was attached to btn
-        if (this.pressed !== true) {
-          return
-        }
-
-        stopAndPrevent(e)
         this.__onKeyupAbort()
-
-        // for ripple
-        e.qKeyEvent = true
 
         // for click trigger
         const evt = new MouseEvent('click', e)
         evt.qKeyEvent = true
+        e.defaultPrevented === true && evt.preventDefault()
         this.$el.dispatchEvent(evt)
+
+        stopAndPrevent(e)
+        // for ripple
+        e.qKeyEvent = true
       }
 
       this.$emit('keyup', e)

@@ -19,13 +19,29 @@
   &__dropdown-icon
     cursor pointer
 
+  &__menu
+    display flex
+    flex-direction column
+    outline none
+
+  &__options, &__dialog
+    cursor default
+    color initial
+    background $menu-background
+
+    &--dark
+      color white
+      background $grey-9
+
   &__dialog
-    width 95vh !important
-    max-height 50vh !important
-    background white
+    width 95vw
+    max-height calc(100% - 48px) !important
     display flex
     flex-direction column
 
-  &__menu--dark
-    color white
-    background $grey-9
+    > .q-select__options
+      flex 0 1 auto
+
+.platform-ios
+  .q-select__dialog--with-input
+    max-height calc(60% - 48px) !important

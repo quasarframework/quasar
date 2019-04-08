@@ -13,7 +13,7 @@ import QDialog from '../dialog/QDialog.js'
 
 import slot from '../../utils/slot.js'
 import { isDeepEqual } from '../../utils/is.js'
-import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
+import { stop, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
@@ -78,15 +78,12 @@ export default Vue.extend({
     transitionHide: {
       type: String,
       default: 'fade'
-    },
-
-    autofocus: Boolean
+    }
   },
 
   data () {
     return {
       menu: false,
-      dialog: false,
       optionIndex: -1,
       optionsToShow: 20,
       inputValue: ''
@@ -100,15 +97,9 @@ export default Vue.extend({
           ? val
           : ''
 
-        if (this.inputValue !== value) {
-          this.inputValue = value
-        }
+        this.__setInputValue(value)
       },
       immediate: true
-    },
-
-    menu (show) {
-      this.__updateMenu(show)
     }
   },
 
@@ -147,7 +138,7 @@ export default Vue.extend({
       return this.displayValueSanitize === true || (
         this.displayValue === void 0 && (
           this.optionsSanitize === true ||
-          this.innerValue.some(opt => opt.sanitize === true)
+          this.innerValue.some(opt => opt !== null && opt.sanitize === true)
         )
       )
     },
@@ -284,16 +275,13 @@ export default Vue.extend({
       const optValue = this.__getOptionValue(opt)
 
       if (this.multiple !== true) {
-        this.__closePopup()
+        this.__closeMenu()
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
         }
         else {
-          const val = this.__getOptionLabel(opt)
-          if (val !== this.inputValue) {
-            this.inputValue = val
-          }
+          this.__setInputValue(this.__getOptionLabel(opt))
         }
 
         return
@@ -385,8 +373,8 @@ export default Vue.extend({
     },
 
     __onTargetKeydown (e) {
-      // escape
-      if (e.keyCode === 27) {
+      // tab
+      if (e.keyCode === 9) {
         this.__closeMenu()
         return
       }
@@ -398,13 +386,13 @@ export default Vue.extend({
           this.filter(this.inputValue)
         }
         else {
-          this.menu = true
+          this.__setMenuStatus(true)
         }
 
         return
       }
 
-      if (this.multiple === true && this.inputValue.length === 0 && e.keyCode === 8) { // delete
+      if (Array.isArray(this.value) && this.multiple === true && this.inputValue.length === 0 && e.keyCode === 8) { // delete
         this.removeAtIndex(this.value.length - 1)
         return
       }
@@ -417,15 +405,7 @@ export default Vue.extend({
       if (this.optionIndex > -1 && this.optionIndex < this.optionsToShow) {
         this.toggleOption(this.options[this.optionIndex])
 
-        if (this.multiple === true && this.inputValue.length > 0) {
-          if (this.$listeners.filter !== void 0) {
-            this.filter('')
-            this.optionIndex = -1
-          }
-          else {
-            this.inputValue = ''
-          }
-        }
+        this.__setInputValue('')
         return
       }
 
@@ -449,7 +429,7 @@ export default Vue.extend({
               )
             }
 
-            this.inputValue = ''
+            this.__setInputValue('')
           }
 
           if (this.$listeners['new-value'] !== void 0) {
@@ -459,28 +439,25 @@ export default Vue.extend({
             done(this.inputValue)
           }
         }
+        else {
+          this.__setInputValue('')
+        }
       }
 
       if (this.menu === true) {
-        this.__closeMenu()
+        this.$q.platform.is.mobile !== true && this.__closeMenu()
       }
       else if (this.innerLoading !== true) {
         if (this.$listeners.filter !== void 0) {
           this.filter(this.inputValue)
         }
         else {
-          this.menu = true
+          this.__setMenuStatus(true)
         }
       }
     },
 
     __onGlobalKeydown (e) {
-      // escape
-      if (e.keyCode === 27) {
-        this.__closeMenu()
-        return
-      }
-
       // up, down
       if (e.keyCode === 38 || e.keyCode === 40) {
         stopAndPrevent(e)
@@ -505,7 +482,7 @@ export default Vue.extend({
           this.optionIndex = index
 
           this.$nextTick(() => {
-            const el = this.__getMenuContentEl().querySelector('.q-manual-focusable--focused')
+            const el = this.$refs.menu.querySelector('.q-manual-focusable--focused')
             if (el !== null && el.scrollIntoView !== void 0) {
               if (el.scrollIntoViewIfNeeded !== void 0) {
                 el.scrollIntoViewIfNeeded(false)
@@ -519,48 +496,37 @@ export default Vue.extend({
       }
     },
 
-    __getMenuContentEl () {
-      return this.hasDialog === true
-        ? this.$refs.menuContent
-        : (
-          this.$refs.menu !== void 0
-            ? this.$refs.menu.__portal.$el
-            : void 0
-        )
-    },
-
-    __hydrateOptions (updatePosition) {
-      if (this.avoidScroll !== true) {
-        if (this.optionsToShow < this.options.length) {
-          const el = this.__getMenuContentEl()
-
-          if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) {
-            this.optionsToShow += 20
-            this.avoidScroll = true
-            this.$nextTick(() => {
-              this.avoidScroll = false
-              this.__hydrateOptions(updatePosition)
-            })
-
-            return
-          }
+    __onEscapeKey (e) {
+      // escape
+      if (e.keyCode === 27) {
+        if (this.menu === true) {
+          this.$emit('escape-key')
         }
-
-        updatePosition === true && this.__updateMenuPosition()
+        stopAndPrevent(e)
+        this.__closeMenu()
       }
     },
 
-    __getSelection (h, fromDialog) {
+    __hydrateOptions () {
+      const el = this.$refs.menu
+      if (
+        this.avoidScroll !== true &&
+        Array.isArray(this.options) &&
+        this.optionsToShow < this.options.length &&
+        el.scrollHeight - el.scrollTop - el.clientHeight < 200
+      ) {
+        this.optionsToShow += 20
+        this.avoidScroll = true
+        this.$nextTick(() => {
+          this.avoidScroll = false
+          this.__hydrateOptions()
+        })
+      }
+    },
+
+    __getSelection (h) {
       if (this.hideSelected === true) {
-        return fromDialog !== true && this.hasDialog === true
-          ? [
-            h('span', {
-              domProps: {
-                'textContent': this.inputValue
-              }
-            })
-          ]
-          : []
+        return []
       }
 
       if (this.$scopedSlots['selected-item'] !== void 0) {
@@ -605,29 +571,17 @@ export default Vue.extend({
       ]
     },
 
-    __getControl (h, fromDialog) {
-      let data = {}
-      const child = this.__getSelection(h, fromDialog)
+    __getControl (h) {
+      const child = this.__getSelection(h)
 
-      if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
-        child.push(this.__getInput(h))
+      if (this.useInput === true) {
+        child.push(this[`__getInput${this.$q.platform.is.mobile ? 'Mobile' : ''}`](h))
       }
       else if (this.editable === true) {
-        data = {
-          ref: 'target',
-          attrs: {
-            tabindex: 0,
-            ...this.$attrs
-          },
-          on: {
-            keydown: this.__onTargetKeydown
-          }
-        }
+        child.push(this.__getTarget(h))
       }
 
-      data.staticClass = 'q-field__native row items-center'
-
-      return h('div', data, child)
+      return h('div', { staticClass: 'q-field__native row items-center' }, child)
     },
 
     __getOptions (h) {
@@ -659,6 +613,34 @@ export default Vue.extend({
         : null
     },
 
+    __getControlDialog (h) {
+      const child = this.__getSelection(h)
+
+      if (this.useInput === true) {
+        child.push(this.__getInput(h))
+      }
+      else if (this.editable === true) {
+        child.push(this.__getTarget(h))
+      }
+
+      return h('div', { staticClass: 'q-field__native row items-center' }, child)
+    },
+
+    __getTarget (h) {
+      h('div', {
+        ref: 'target',
+        attrs: {
+          tabindex: 0,
+          autofocus: this.autofocus,
+          ...this.$attrs
+        },
+        on: {
+          keydown: this.__onTargetKeydown,
+          keyup: this.__onEscapeKey
+        }
+      })
+    },
+
     __getInput (h) {
       return h('input', {
         ref: 'target',
@@ -669,14 +651,48 @@ export default Vue.extend({
         domProps: { value: this.inputValue },
         attrs: {
           tabindex: 0,
+          autofocus: this.autofocus,
           ...this.$attrs,
           disabled: this.editable !== true
         },
         on: {
           input: this.__onInputValue,
-          keydown: this.__onTargetKeydown
+          keydown: this.__onTargetKeydown,
+          keyup: this.__onEscapeKey,
+          focus: this.__onTargetFocus
         }
       })
+    },
+
+    __getInputMobile (h) {
+      return h('input', {
+        staticClass: 'q-select__input col',
+        class: this.hideSelected !== true && this.innerValue.length > 0
+          ? 'q-select__input--padding'
+          : null,
+        domProps: { value: this.inputValue },
+        attrs: {
+          tabindex: 0,
+          ...this.$attrs,
+          readonly: true
+        }
+      })
+    },
+
+    __setInputValue (value) {
+      if (this.inputValue !== value) {
+        if (
+          this.menu === true &&
+          this.multiple === true &&
+          this.$listeners.filter !== void 0
+        ) {
+          this.filter(value)
+          this.optionIndex !== -1 && (this.optionIndex = -1)
+        }
+        else {
+          this.inputValue = value
+        }
+      }
     },
 
     __onInputValue (e) {
@@ -705,7 +721,7 @@ export default Vue.extend({
       }
 
       const filterId = setTimeout(() => {
-        this.menu === true && (this.menu = false)
+        this.$q.platform.is.mobile !== true && this.menu === true && (this.menu = false)
       }, 10)
       clearTimeout(this.filterId)
       this.filterId = filterId
@@ -723,7 +739,7 @@ export default Vue.extend({
                 this.__updateMenu(true)
               }
               else {
-                this.menu = true
+                this.__setMenuStatus(true)
               }
             })
           }
@@ -733,72 +749,38 @@ export default Vue.extend({
             clearTimeout(this.filterId)
             this.innerLoading = false
           }
-          this.menu === true && (this.menu = false)
+          this.$q.platform.is.mobile !== true && this.menu === true && (this.menu = false)
         }
       )
     },
 
     __getControlEvents () {
-      return this.hasDialog === true
-        ? {
-          click: e => {
-            this.focused = true
-            this.dialog = true
-
-            this.$emit('focus', e)
-
-            if (this.$listeners.filter !== void 0) {
-              this.filter(this.inputValue)
-            }
-            else if (this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
-              this.menu = true
-            }
-          }
-        }
-        : {
-          focus: this.focus,
-          click: () => {
-            if (this.menu === true) {
-              this.__closeMenu()
-            }
-            else {
-              if (this.$listeners.filter !== void 0) {
-                this.filter(this.inputValue)
-              }
-              else if (this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
-                this.menu = true
-              }
-            }
-          },
-          focusin: this.__onControlFocusin,
-          focusout: this.__onControlFocusout
-        }
+      return {
+        click: this.__onControlClick,
+        focus: this.focus,
+        focusin: this.__onControlFocusin,
+        focusout: this.__onControlFocusout,
+        'popup-show': this.__onControlPopupShow,
+        'popup-hide': this.__onControlPopupHide
+      }
     },
 
-    __hasInnerFocus () {
-      let menu
-
-      return (
-        document.hasFocus() === true &&
-        this.$refs !== void 0 && (
-          (this.$refs.control !== void 0 && this.$refs.control.contains(document.activeElement) !== false) ||
-          ((menu = this.__getMenuContentEl()) !== void 0 && menu.contains(document.activeElement) !== false)
-        )
-      )
+    __onControlClick () {
+      if (this.menu === true) {
+        this.__closeMenu()
+      }
+      else {
+        if (this.$listeners.filter !== void 0) {
+          this.$q.platform.is.mobile === true && this.__setMenuStatus(true)
+          this.filter(this.inputValue)
+        }
+        else if (this.$q.platform.is.mobile === true || this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
+          this.__setMenuStatus(true)
+        }
+      }
     },
 
-    __onControlFocusin (e) {
-      if (this.editable !== true) {
-        return
-      }
-
-      if (this.__hasInnerFocus() === false) {
-        return
-      }
-
-      this.focused = true
-      this.$emit('focus', e)
-
+    __onTargetFocus () {
       const target = this.$refs.target
       if (target !== void 0 && this.useInput === true && this.inputValue.length > 0) {
         target.setSelectionRange(0, this.inputValue.length)
@@ -809,14 +791,25 @@ export default Vue.extend({
       setTimeout(() => {
         clearTimeout(this.inputTimer)
 
-        if (this.__hasInnerFocus() === true) {
+        if (
+          document.hasFocus() === true && (
+            this.keepFocus === true ||
+            this.$refs === void 0 ||
+            this.$refs.control === void 0 ||
+            this.$refs.control.contains(document.activeElement) !== false
+          )
+        ) {
           return
         }
 
+        this.keepFocus = false
+
         if (this.focused === true) {
           this.focused = false
-          this.$emit('blur', e)
+          this.$listeners.blur !== void 0 && this.$emit('blur', e)
         }
+
+        this.__closeMenu()
 
         const val = this.multiple !== true && this.hideSelected === true
           ? this.selectedString
@@ -825,112 +818,127 @@ export default Vue.extend({
         if (this.inputValue !== val) {
           this.inputValue = val
         }
-
-        this.__closeMenu()
-      }, 100)
+      })
     },
 
     __getPopup (h) {
       if (
-        this.editable !== false && (
-          this.dialog === true || // dialog always has menu displayed, so need to render it
-          this.noOptions !== true ||
-          this.$scopedSlots['no-option'] !== void 0
-        )
+        this.editable === false ||
+        (this.menu !== true && this.noOptions === true && this.$scopedSlots['no-option'] === void 0)
       ) {
-        return this[`__get${this.hasDialog === true ? 'Dialog' : 'Menu'}`](h)
+        return
       }
-    },
 
-    __getMenu (h) {
-      return h(QMenu, {
-        ref: 'menu',
-        props: {
-          value: this.menu,
-          fit: true,
-          cover: this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
-          noParentEvent: true,
-          noRefocus: true,
-          noFocus: true,
-          square: this.squaredMenu,
-          transitionShow: this.transitionShow,
-          transitionHide: this.transitionHide
-        },
-        on: {
-          '&scroll': this.__hydrateOptions,
-          'before-show': e => {
-            this.$nextTick(() => {
-              this.__onControlFocusin(e)
-            })
+      const list = this.menu === true
+        ? h('div', {
+          ref: 'menu',
+          staticClass: 'q-select__options scroll',
+          class: {
+            'q-select__options--dark': this.optionsDark
           },
-          hide: e => {
-            this.__closeMenu()
-            this.__onControlFocusout(e)
-          }
-        }
-      }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))
-    },
-
-    __getDialog (h) {
-      const content = [
-        h(QField, {
-          staticClass: 'col-auto',
-          props: {
-            ...this.$props,
-            dark: this.optionsDark,
-            square: true,
-            loading: this.innerLoading,
-            filled: true
-          },
+          attrs: { tabindex: -1 },
           on: {
-            ...this.$listeners,
-            focus: stop,
-            blur: stop
-          },
-          scopedSlots: {
-            ...this.$scopedSlots,
-            control: () => this.__getControl(h, true),
-            before: void 0,
-            after: void 0
-          }
-        })
-      ]
-
-      this.menu === true && content.push(
-        h('div', {
-          ref: 'menuContent',
-          staticClass: 'scroll' + (this.optionsDark === true ? ' q-select__menu--dark' : ''),
-          on: {
-            click: prevent,
+            click: stopAndPrevent,
+            touchstart: stop,
             '&scroll': this.__hydrateOptions
           }
         }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))
-      )
+        : null
 
-      return h(QDialog, {
-        props: {
-          value: this.dialog,
-          noRefocus: true,
+      return this[`__get${this.$q.platform.is.mobile === true && this.useMenu !== true ? 'Dialog' : 'Menu'}`](h, list)
+    },
+
+    __getMenu (h, list) {
+      const
+        mode = this.optionsCover === true && this.noOptions !== true && this.useInput !== true ? 'cover' : 'fit',
+        props = {
+          value: this.menu,
+          [mode]: true,
+          autoClose: this.multiple !== true,
+          noParentEvent: true,
           noFocus: true,
+          square: this.squaredMenu,
+          transitionShow: this.transitionShow,
+          transitionHide: this.transitionHide,
+          useObserver: true,
+          contentClass: {
+            'q-select__menu': true
+          }
+        },
+        on = {
+          input: this.__setMenuStatus
+        }
+
+      return h(QMenu, { props, on }, [ list ])
+    },
+
+    __getDialog (h, list) {
+      const scopedSlots = {
+        control: () => this.__getControlDialog(h)
+      }
+
+      if (this.$scopedSlots.loading !== void 0) {
+        scopedSlots.loading = this.$scopedSlots.loading
+      }
+      if (this.$scopedSlots.default !== void 0) {
+        scopedSlots.default = this.$scopedSlots.default
+      }
+
+      const
+        input = this.useInput === true && this.menu === true
+          ? h(QField, {
+            staticClass: 'col-auto',
+            props: {
+              ...this.$props,
+              dark: this.optionsDark,
+              square: true,
+              loading: this.innerLoading,
+              filled: true
+            },
+            nativeOn: {
+              click: stopAndPrevent
+            },
+            on: this.$listeners,
+            scopedSlots
+          })
+          : void 0,
+        props = {
+          value: this.menu,
+          autoClose: this.multiple !== true,
           position: this.useInput === true ? 'top' : void 0
         },
-        on: {
-          'before-hide': () => {
-            this.focused = false
-          },
-          hide: e => {
-            this.__closePopup()
-            this.$emit('blur', e)
-          },
+        on = {
+          input: this.__setMenuStatus,
           show: () => {
-            this.$refs.target.focus()
+            this.$nextTick(() => {
+              this.$refs.target !== void 0 && this.$refs.target.focus()
+            })
           }
         }
-      }, [
+
+      return h(QDialog, { props, on }, [
         h('div', {
-          staticClass: 'q-select__dialog' + (this.optionsDark === true ? ' q-select__menu--dark' : '')
-        }, content)
+          staticClass: 'q-select__dialog',
+          class: {
+            'q-select__dialog--dark': this.dark,
+            'q-select__dialog--with-input': this.useInput
+          }
+        }, [ input, list ])
       ])
+    },
+
+    __setMenuStatus (show) {
+      if (this.menu === show) {
+        return
+      }
+
+      if (show === true) {
+        this.menu = true
+        this.__updateMenu(true)
+      }
+      else {
+        this.__closeMenu()
+      }
     },
 
     __closeMenu () {
@@ -945,53 +953,23 @@ export default Vue.extend({
       }
     },
 
-    __closePopup () {
-      this.dialog = false
-      this.__closeMenu()
-    },
-
     __updateMenu (show) {
       this.optionIndex = -1
       if (show === true) {
         this.optionsToShow = 20
         this.$nextTick(() => {
-          this.__hydrateOptions(true)
+          this.__hydrateOptions()
         })
       }
-
-      if (this.$q.platform.is.desktop === true) {
-        const action = (show === true ? 'add' : 'remove') + 'EventListener'
-        document.body[action]('keydown', this.__onGlobalKeydown)
-      }
-    },
-
-    __updateMenuPosition () {
-      if (this.dialog === false && this.$refs.menu !== void 0) {
-        this.$refs.menu.updatePosition()
-      }
-    },
-
-    __onPreRender () {
-      this.hasDialog = this.$q.platform.is.mobile !== true
-        ? false
-        : (
-          this.$listeners['new-value'] !== void 0
-            ? this.$listeners.filter !== void 0
-            : true
-        )
-    },
-
-    __onPostRender () {
-      this.__updateMenuPosition()
+      const action = (show === true ? 'add' : 'remove') + 'EventListener'
+      document.body[action]('keydown', this.__onGlobalKeydown)
+      document.body[action]('keyup', this.__onEscapeKey)
     }
-  },
-
-  mounted () {
-    this.autofocus === true && this.$nextTick(this.focus)
   },
 
   beforeDestroy () {
     clearTimeout(this.inputTimer)
     document.body.removeEventListener('keydown', this.__onGlobalKeydown)
+    document.body.removeEventListener('keyup', this.__onEscapeKey)
   }
 })

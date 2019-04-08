@@ -6,9 +6,11 @@ import PortalMixin from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
+import ClosePopup from '../../directives/ClosePopup.js'
+
 import uid from '../../utils/uid.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { stop, position, listenOpts } from '../../utils/event.js'
+import { create, stop, position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { MenuTreeMixin, closeRootMenu } from './menu-tree.js'
 
@@ -24,7 +26,8 @@ export default Vue.extend({
   mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, MenuTreeMixin, TransitionMixin ],
 
   directives: {
-    ClickOutside
+    ClickOutside,
+    ClosePopup
   },
 
   props: {
@@ -54,6 +57,8 @@ export default Vue.extend({
     },
 
     touchPosition: Boolean,
+
+    useObserver: Boolean,
 
     maxHeight: {
       type: String,
@@ -92,6 +97,25 @@ export default Vue.extend({
 
     menuClass () {
       return this.square === true ? ' q-menu--square' : ''
+    },
+
+    directives () {
+      const directives = []
+
+      if (this.autoClose === true) {
+        directives.push({
+          name: 'close-popup'
+        })
+      }
+
+      if (this.persistent !== true && this.anchorEl !== void 0) {
+        directives.push({
+          name: 'click-outside',
+          arg: [this.anchorEl]
+        })
+      }
+
+      return directives.length > 0 ? directives : void 0
     }
   },
 
@@ -116,11 +140,14 @@ export default Vue.extend({
         ? document.activeElement
         : void 0
 
-      if (this.noFocus !== true) {
-        document.activeElement.blur()
-
-        this.$nextTick(() => {
-          this.__portal.$refs.inner.focus()
+      if (this.useObserver === true) {
+        this.touchTargetObserver = new MutationObserver(() => {
+          this.updatePosition()
+        })
+        this.touchTargetObserver.observe(this.anchorEl, {
+          childList: true,
+          characterData: true,
+          subtree: true
         })
       }
 
@@ -130,8 +157,9 @@ export default Vue.extend({
         window.addEventListener('scroll', this.updatePosition, listenOpts.passive)
       }
 
-      EscapeKey.register(this, () => {
-        this.$emit('escape-key')
+      EscapeKey.register(this, e => {
+        const notClickOutside = e === void 0 || e.type !== 'click-outside'
+        notClickOutside === true && this.$emit('escape-key')
         this.hide()
       })
 
@@ -155,8 +183,18 @@ export default Vue.extend({
           this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
         }
 
+        this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
+
+        if (this.noFocus !== true) {
+          document.activeElement.blur()
+        }
+
         this.timer = setTimeout(() => {
           this.$emit('show', evt)
+
+          if (this.noFocus !== true && this.__portal.$el !== void 0 && this.__portal.$el.focus !== void 0) {
+            this.__portal.$el.focus()
+          }
         }, 300)
       }, 0)
     },
@@ -164,13 +202,18 @@ export default Vue.extend({
     __hide (evt) {
       this.__anchorCleanup(true)
 
-      this.timer = setTimeout(() => {
-        if (this.__refocusTarget !== void 0) {
-          this.__refocusTarget.focus()
-        }
+      if (this.__refocusTarget !== void 0) {
+        this.__refocusTarget.preventClickOutside = true
+        this.__refocusTarget.focus()
+      }
 
+      this.timer = setTimeout(() => {
         this.__hidePortal()
+
+        this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
+
         this.$emit('hide', evt)
+        this.__refocusTarget !== void 0 && (this.__refocusTarget.preventClickOutside = false)
       }, 300)
     },
 
@@ -187,16 +230,16 @@ export default Vue.extend({
         EscapeKey.pop(this)
         this.__unregisterTree()
 
+        if (this.touchTargetObserver !== void 0) {
+          this.touchTargetObserver.disconnect()
+          this.touchTargetObserver = void 0
+        }
+
         this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
         if (this.scrollTarget !== window) {
           window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
         }
       }
-    },
-
-    __onAutoClose (e) {
-      closeRootMenu(this.menuId)
-      this.$emit('click', e)
     },
 
     updatePosition () {
@@ -230,28 +273,19 @@ export default Vue.extend({
         input: stop
       }
 
-      if (this.autoClose === true) {
-        on.click = this.__onAutoClose
-      }
-
       return h('transition', {
         props: { name: this.transition }
       }, [
         this.showing === true ? h('div', {
-          ref: 'inner',
           staticClass: 'q-menu scroll' + this.menuClass,
           class: this.contentClass,
           style: this.contentStyle,
           attrs: {
-            ...this.$attrs,
-            tabindex: 0
+            tabindex: -1,
+            ...this.$attrs
           },
           on,
-          directives: this.persistent !== true ? [{
-            name: 'click-outside',
-            value: this.hide,
-            arg: [ this.anchorEl ]
-          }] : null
+          directives: this.directives
         }, slot(this, 'default')) : null
       ])
     },

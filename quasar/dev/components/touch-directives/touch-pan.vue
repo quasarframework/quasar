@@ -8,6 +8,9 @@
         <br>
         Page scrolling is prevented, but you can opt out if you wish.
       </p>
+      <div>
+        Click status: {{ clickStatus }}
+      </div>
       <div
         v-touch-pan.prevent.mouse.mousePrevent="handlePan"
         @click="onClick"
@@ -21,7 +24,7 @@
           <q-icon name="arrow_upward" />
           <div class="row items-center">
             <q-icon name="arrow_back" />
-            <div>Pan in any direction</div>
+            <div>Pan in any direction (mouse prevent)</div>
             <q-icon name="arrow_forward" />
           </div>
           <q-icon name="arrow_downward" />
@@ -44,8 +47,11 @@
         Notice that on touch capable devices the scrolling is automatically not blocked, since
         we are only capturing horizontally.
       </p>
+      <div>
+        Click status: {{ clickStatus }}
+      </div>
       <div
-        v-touch-pan.horizontal.prevent.mouse.mousePrevent="panHorizontally"
+        v-touch-pan.horizontal.prevent.mouse.mouseStop.mousePrevent="panHorizontally"
         @click="onClick"
         class="custom-area row flex-center"
       >
@@ -54,7 +60,7 @@
         </div>
         <div v-else class="row items-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_back" />
-          <div>Pan to left or right only</div>
+          <div>Pan to left or right only (mouse stop + prevent)</div>
           <q-icon name="arrow_forward" />
         </div>
 
@@ -67,8 +73,11 @@
         Example on capturing only vertically panning.
         Page scrolling is prevented, but you can opt out if you wish.
       </p>
+      <div>
+        Click status: {{ clickStatus }}
+      </div>
       <div
-        v-touch-pan.vertical.prevent.mouse.mousePrevent="panVertically"
+        v-touch-pan.vertical.prevent.mouse.mouseStop="panVertically"
         @click="onClick"
         class="custom-area row flex-center"
       >
@@ -78,7 +87,7 @@
         <div v-else class="text-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_upward" />
           <div>
-            Pan to up or down only
+            Pan to up or down only (mouse stop)
           </div>
           <q-icon name="arrow_downward" />
         </div>
@@ -103,6 +112,7 @@ export default {
     return {
       info: null,
       panning: false,
+      clickStatus: null,
 
       infoHorizontal: null,
       panningHorizontal: false,
@@ -120,6 +130,7 @@ export default {
 
       if (isFirst) {
         this.panning = true
+        this.clickStatus = null
       }
       else if (isFinal) {
         this.panning = false
@@ -133,6 +144,7 @@ export default {
 
       if (isFirst) {
         this.panningHorizontal = true
+        this.clickStatus = null
       }
       else if (isFinal) {
         this.panningHorizontal = false
@@ -146,6 +158,7 @@ export default {
 
       if (isFirst) {
         this.panningVertical = true
+        this.clickStatus = null
       }
       else if (isFinal) {
         this.panningVertical = false
@@ -154,6 +167,7 @@ export default {
 
     onClick (evt) {
       console.log('click', evt)
+      this.clickStatus = { stopped: evt.cancelBubble, prevented: evt.defaultPrevented }
     }
   }
 }

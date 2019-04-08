@@ -1,4 +1,4 @@
-import { position, leftClick, stopAndPrevent, listenOpts } from '../utils/event.js'
+import { position, leftClick, prevent, stopAndPrevent, listenOpts } from '../utils/event.js'
 import { setObserver, removeObserver } from '../utils/touch-observer.js'
 import { clearSelection } from '../utils/selection.js'
 import Platform from '../plugins/Platform.js'
@@ -42,15 +42,26 @@ export default {
 
       mouseStart (evt) {
         if (leftClick(evt)) {
-          document.addEventListener('mousemove', ctx.mouseEnd, true)
-          document.addEventListener('click', ctx.mouseEnd, true)
+          // first click on a page is also a mousemove
+          setTimeout(() => {
+            ctx.timer !== void 0 && document.addEventListener('mousemove', ctx.mouseEnd)
+          }, 1)
+          document.addEventListener('mouseup', ctx.mouseEnd, listenOpts.notPassive)
+          document.addEventListener('click', ctx.mouseEndClick, listenOpts.notPassiveCapture)
           ctx.start(evt, true)
         }
       },
 
       mouseEnd (evt) {
-        document.removeEventListener('mousemove', ctx.mouseEnd, true)
-        document.removeEventListener('click', ctx.mouseEnd, true)
+        setTimeout(() => {
+          ctx.mouseEndClick(evt)
+        })
+      },
+
+      mouseEndClick (evt) {
+        document.removeEventListener('mousemove', ctx.mouseEnd)
+        document.removeEventListener('mouseup', ctx.mouseEnd, listenOpts.notPassive)
+        document.removeEventListener('click', ctx.mouseEndClick, listenOpts.notPassiveCapture)
         ctx.end(evt)
       },
 
@@ -64,13 +75,13 @@ export default {
             }
           }
 
-          document.addEventListener('keyup', ctx.keyboardEnd, true)
+          document.addEventListener('keyup', ctx.keyboardEnd, listenOpts.notPassiveCapture)
           ctx.start(evt, false, true)
         }
       },
 
       keyboardEnd (evt) {
-        document.removeEventListener('keyup', ctx.keyboardEnd, true)
+        document.removeEventListener('keyup', ctx.keyboardEnd, listenOpts.notPassiveCapture)
         ctx.end(evt)
       },
 
@@ -119,7 +130,12 @@ export default {
           ctx.timer = setTimeout(fn, durations[index])
         }
 
-        ctx.timer = setTimeout(fn, durations[0])
+        if (durations[0] === 0) {
+          fn()
+        }
+        else {
+          ctx.timer = setTimeout(fn, durations[0])
+        }
       },
 
       end (evt) {
@@ -131,7 +147,7 @@ export default {
 
         const triggered = ctx.event.repeatCount > 0
 
-        triggered === true && stopAndPrevent(evt)
+        triggered === true && prevent(evt)
 
         if (Platform.is.mobile === true || triggered === true) {
           document.documentElement.style.cursor = ''
@@ -184,12 +200,13 @@ export default {
 
       if (binding.modifiers.mouse === true) {
         el.removeEventListener('mousedown', ctx.mouseStart)
-        document.removeEventListener('mousemove', ctx.mouseEnd, true)
-        document.removeEventListener('click', ctx.mouseEnd, true)
+        document.removeEventListener('mousemove', ctx.mouseEnd)
+        document.removeEventListener('mouseup', ctx.mouseEnd, listenOpts.notPassive)
+        document.removeEventListener('click', ctx.mouseEndClick, listenOpts.notPassiveCapture)
       }
       if (ctx.keyboard.length > 0) {
         el.removeEventListener('keydown', ctx.keyboardStart)
-        document.removeEventListener('keyup', ctx.keyboardEnd, true)
+        document.removeEventListener('keyup', ctx.keyboardEnd, listenOpts.notPassiveCapture)
       }
       el.removeEventListener('touchstart', ctx.start, listenOpts.notPassive)
       el.removeEventListener('touchmove', ctx.end, listenOpts.notPassive)
