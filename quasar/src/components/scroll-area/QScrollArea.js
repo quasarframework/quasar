@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import { between } from '../../utils/format.js'
-import { getMouseWheelDistance } from '../../utils/event.js'
+import { getMouseWheelDistance, prevent } from '../../utils/event.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import slot from '../../utils/slot.js'
 import QResizeObserver from '../observer/QResizeObserver.js'
@@ -183,7 +183,7 @@ export default Vue.extend({
       this.__setScroll(pos)
 
       if (pos > 0 && pos + this.containerSize < this.scrollSize) {
-        e.evt.preventDefault()
+        prevent(e.evt)
       }
     },
 
@@ -192,7 +192,7 @@ export default Vue.extend({
 
       el[this.dirProps.el] += getMouseWheelDistance(e)[this.dirProps.wheel]
       if (el[this.dirProps.el] > 0 && el[this.dirProps.el] + this.containerSize < this.scrollSize) {
-        e.preventDefault()
+        prevent(e)
       }
     },
 
@@ -232,7 +232,7 @@ export default Vue.extend({
   render (h) {
     if (!this.$q.platform.is.desktop) {
       return h('div', {
-        staticClass: 'q-scroll-area relative-position',
+        staticClass: 'q-scroll-area',
         style: this.contentStyle
       }, [
         h('div', {
@@ -243,7 +243,7 @@ export default Vue.extend({
     }
 
     return h('div', {
-      staticClass: 'q-scrollarea relative-position',
+      staticClass: 'q-scrollarea',
       on: {
         mouseenter: () => { this.hover = true },
         mouseleave: () => { this.hover = false }

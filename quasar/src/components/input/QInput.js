@@ -4,6 +4,7 @@ import QField from '../field/QField.js'
 
 import MaskMixin from '../../mixins/mask.js'
 import debounce from '../../utils/debounce.js'
+import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QInput',
@@ -20,7 +21,6 @@ export default Vue.extend({
 
     debounce: [String, Number],
 
-    counter: Boolean,
     maxlength: [Number, String],
     autogrow: Boolean, // makes a textarea
     autofocus: Boolean,
@@ -70,26 +70,14 @@ export default Vue.extend({
     },
 
     fieldClass () {
-      return `q-${this.isTextarea ? 'textarea' : 'input'}${this.autogrow ? ' q-textarea--autogrow' : ''}`
-    },
-
-    computedCounter () {
-      if (this.counter !== false) {
-        const len = typeof this.value === 'string' || typeof this.value === 'number'
-          ? ('' + this.value).length
-          : 0
-        return len + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
-      }
+      return `q-${this.isTextarea === true ? 'textarea' : 'input'}` +
+        (this.autogrow === true ? ' q-textarea--autogrow' : '')
     }
   },
 
   methods: {
     focus () {
       this.$refs.input.focus()
-    },
-
-    blur () {
-      this.$refs.input.blur()
     },
 
     __onInput (e) {
@@ -109,6 +97,9 @@ export default Vue.extend({
 
     __emitValue (val, stopWatcher) {
       const fn = () => {
+        if (this.hasOwnProperty('tempValue') === true) {
+          delete this.tempValue
+        }
         if (this.value !== val) {
           stopWatcher === true && (this.stopValueWatcher = true)
           this.$emit('input', val)
@@ -117,24 +108,11 @@ export default Vue.extend({
 
       if (this.debounce !== void 0) {
         clearTimeout(this.emitTimer)
+        this.tempValue = val
         this.emitTimer = setTimeout(fn, this.debounce)
       }
       else {
         fn()
-      }
-    },
-
-    __onFocus (e) {
-      if (this.editable === true && this.focused === false) {
-        this.focused = true
-        this.$listeners.focus !== void 0 && this.$emit('focus', e)
-      }
-    },
-
-    __onBlur (e) {
-      if (this.focused === true) {
-        this.focused = false
-        this.$listeners.blur !== void 0 && this.$emit('blur', e)
       }
     },
 
@@ -149,8 +127,8 @@ export default Vue.extend({
       const on = {
         ...this.$listeners,
         input: this.__onInput,
-        focus: this.__onFocus,
-        blur: this.__onBlur
+        focus: stop,
+        blur: stop
       }
 
       if (this.hasMask === true) {
@@ -158,6 +136,7 @@ export default Vue.extend({
       }
 
       const attrs = {
+        tabindex: 0,
         rows: this.type === 'textarea' ? 6 : void 0,
         ...this.$attrs,
         'aria-label': this.label,
@@ -179,7 +158,9 @@ export default Vue.extend({
         attrs,
         on,
         domProps: {
-          value: this.innerValue
+          value: this.hasOwnProperty('tempValue') === true
+            ? this.tempValue
+            : this.innerValue
         }
       })
     }

@@ -503,7 +503,7 @@ export default Vue.extend({
           staticClass: 'row items-center',
           class: this.editable ? 'cursor-pointer' : null
         }, palette.map(color => h('div', {
-          staticClass: 'q-color-picker__cube col-1',
+          staticClass: 'q-color-picker__cube col-auto',
           style: { backgroundColor: color },
           on: this.editable ? {
             click: () => {

@@ -196,9 +196,48 @@
       </q-list>
 
       <p class="caption">
+        Testing icon toggle attached events
+      </p>
+      <q-expansion-item expand-separator icon="shopping_cart" label="Toggle by right-side icon only" expand-icon-toggle>
+        <q-card>
+          <q-card-section>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora voluptatum natus consectetur ipsam laboriosam tenetur? Et ducimus quaerat labore a amet distinctio, facilis dolores, iusto, quam excepturi tempora porro fugit?
+            <q-btn label="Btn" />
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-expansion-item to="/" expand-separator icon="shopping_cart" label="Toggle by right-side icon only">
+        <q-card>
+          <q-card-section>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod soluta neque, earum porro nostrum odio iure numquam temporibus beatae non reiciendis consequuntur. Minima reiciendis, modi possimus explicabo beatae necessitatibus voluptas.
+            <q-btn label="Btn" />
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-expansion-item disable expand-separator icon="shopping_cart" label="Toggle by right-side icon only" expand-icon-toggle>
+        <q-card>
+          <q-card-section>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora voluptatum natus consectetur ipsam laboriosam tenetur? Et ducimus quaerat labore a amet distinctio, facilis dolores, iusto, quam excepturi tempora porro fugit?
+            <q-btn label="Btn" />
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-expansion-item disable to="/" expand-separator icon="shopping_cart" label="Toggle by right-side icon only">
+        <q-card>
+          <q-card-section>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod soluta neque, earum porro nostrum odio iure numquam temporibus beatae non reiciendis consequuntur. Minima reiciendis, modi possimus explicabo beatae necessitatibus voluptas.
+            <q-btn label="Btn" />
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <p class="caption">
         Make use of events
       </p>
-      <q-expansion-item class="shadow-1" style="border-radius: 30px" icon="explore" label="Counter" @show="startCounting" @hide="stopCounting">
+      <q-expansion-item class="shadow-1 overflow-hidden" style="border-radius: 30px" icon="explore" label="Counter" @show="startCounting" @hide="stopCounting">
         <q-card>
           <q-card-section>
             Counting: <q-chip dense color="secondary" text-color="white">
@@ -573,6 +612,39 @@
           </q-card>
         </q-expansion-item>
       </q-list>
+
+      <p class="caption">
+        Events test
+      </p>
+      <q-expansion-item @click="onClick(1)" @keyup="onKeyup(1)" expand-separator icon="shopping_cart" label="1. Toggle by right-side icon only">
+        <q-card>
+          <q-card-section>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod soluta neque, earum porro nostrum odio iure numquam temporibus beatae non reiciendis consequuntur. Minima reiciendis, modi possimus explicabo beatae necessitatibus voluptas.
+            <q-btn label="Btn" />
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-expansion-item @click="onClick(2)" @keyup="onKeyup(2)" to="/" expand-separator icon="shopping_cart" label="2. Toggle by right-side icon only">
+        <q-card>
+          <q-card-section>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quod soluta neque, earum porro nostrum odio iure numquam temporibus beatae non reiciendis consequuntur. Minima reiciendis, modi possimus explicabo beatae necessitatibus voluptas.
+            <q-btn label="Btn" />
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+
+      <q-item @click="onClick(3)" @keyup="onKeyup(3)" clickable>
+        <q-item-section>
+          3. Gigi
+        </q-item-section>
+      </q-item>
+
+      <q-item to="/" @click="onClick(4)" @keyup="onKeyup(4)" clickable>
+        <q-item-section>
+          4. Gigi
+        </q-item-section>
+      </q-item>
     </div>
   </div>
 </template>
@@ -581,7 +653,7 @@
 export default {
   data () {
     return {
-      open: false,
+      open: true,
       counter: 0,
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, nemo minus dolore facere saepe molestias, fugiat officia aspernatur expedita pariatur, accusantium hic exercitationem perspiciatis voluptate possimus nobis temporibus ipsa officiis!'
     }
@@ -604,6 +676,13 @@ export default {
       console.log('counter stop')
 
       clearInterval(this.hndl)
+    },
+
+    onClick (which) {
+      console.log('onClick', which)
+    },
+    onKeyup (which) {
+      console.log('onKeyup', which)
     }
   }
 }

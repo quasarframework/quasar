@@ -1,4 +1,5 @@
 import { clearSelection } from '../utils/selection.js'
+import { prevent } from '../utils/event.js'
 
 export default {
   props: {
@@ -29,39 +30,50 @@ export default {
   methods: {
     __showCondition (evt) {
       // abort with no parent configured or on multi-touch
-      return !(this.anchorEl === void 0 || (evt !== void 0 && evt.touches !== void 0 && evt.touches.length > 1))
+      if (this.anchorEl === void 0) {
+        return false
+      }
+      if (evt === void 0) {
+        return true
+      }
+      return evt.touches === void 0 || evt.touches.length <= 1
     },
 
     __contextClick (evt) {
       this.hide(evt)
       this.show(evt)
+      prevent(evt)
     },
 
     __toggleKey (evt) {
-      if (evt.keyCode === 13) {
+      if (evt !== void 0 && evt.keyCode === 13 && evt.qKeyEvent !== true) {
         this.toggle(evt)
       }
     },
 
     __mobileTouch (evt) {
-      this.__mobileCleanup()
-      if (evt && evt.touches && evt.touches.length > 1) {
+      this.__mobileCleanup(evt)
+
+      if (this.__showCondition(evt) !== true) {
         return
       }
+
       this.hide(evt)
       this.anchorEl.classList.add('non-selectable')
-      clearSelection()
+
       this.touchTimer = setTimeout(() => {
-        this.__mobileCleanup()
-        this.touchTimer = setTimeout(() => {
-          this.show(evt)
-        }, 10)
+        this.show(evt)
       }, 300)
     },
 
-    __mobileCleanup () {
+    __mobileCleanup (evt) {
       this.anchorEl.classList.remove('non-selectable')
       clearTimeout(this.touchTimer)
+
+      if (this.showing === true && evt !== void 0) {
+        clearSelection()
+        prevent(evt)
+      }
     },
 
     __unconfigureAnchorEl (context = this.contextMenu) {

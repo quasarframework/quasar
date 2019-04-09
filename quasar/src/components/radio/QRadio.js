@@ -41,31 +41,31 @@ export default Vue.extend({
     },
 
     innerClass () {
-      if (this.isTrue) {
-        return `q-radio__inner--active${this.color ? ' text-' + this.color : ''}`
+      if (this.isTrue === true) {
+        return 'q-radio__inner--active' +
+          (this.color !== void 0 ? ' text-' + this.color : '')
       }
-      else if (this.keepColor) {
+      else if (this.keepColor === true && this.color !== void 0) {
         return 'text-' + this.color
       }
     },
 
     computedTabindex () {
-      return this.disable ? -1 : this.tabindex || 0
+      return this.disable === true ? -1 : this.tabindex || 0
     }
   },
 
   methods: {
     set (e) {
-      if (!this.disable && !this.isTrue) {
-        e !== void 0 && stopAndPrevent(e)
+      e !== void 0 && stopAndPrevent(e)
+      if (this.disable !== true && this.isTrue !== true) {
         this.$emit('input', this.val)
       }
     },
 
     __keyDown (e) {
       if (e.keyCode === 13 || e.keyCode === 32) {
-        stopAndPrevent(e)
-        this.set()
+        this.set(e)
       }
     }
   },

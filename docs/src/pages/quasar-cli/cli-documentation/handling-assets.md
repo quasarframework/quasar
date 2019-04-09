@@ -55,7 +55,7 @@ export default {
 </script>
 ```
 
-You can force serving static assets by binding `src` to a value with Vue. Instead of `src="statics/path/to/image"` use `:src="'statics/path/to/image'"`. Please note the usage of single and double quotes.
+You can force serving static assets by binding `src` to a value with Vue. Instead of `src="statics/path/to/image"` use `:src=" 'statics/path/to/image' "` or `:src="imageSrc"`. Please note the usage of single quotes within double quotes on the second code example (spaces have been added to see this visually on the documentation website - normally you would not have the spaces).
 
 ## Getting Asset Paths in JavaScript
 

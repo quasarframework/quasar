@@ -5,15 +5,16 @@ export default {
     const ctx = {
       enabled: value !== false,
 
-      handler: ev => {
-        if (ctx.enabled !== false) {
-          const vm = vnode.componentInstance.$root
-          vm.__qClosePopup !== void 0 && vm.__qClosePopup(ev)
-        }
+      handler (evt) {
+        // allow @click to be emitted
+        ctx.enabled !== false && setTimeout(() => {
+          const vm = (vnode.componentInstance || vnode.context).$root
+          vm.__qClosePopup !== void 0 && vm.__qClosePopup(evt)
+        })
       },
 
-      handlerKey: ev => {
-        ev.keyCode === 13 && ctx.handler(ev)
+      handlerKey (evt) {
+        evt.keyCode === 13 && ctx.handler(evt)
       }
     }
 

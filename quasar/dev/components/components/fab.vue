@@ -10,7 +10,7 @@
 
       <div class="column items-center" style="margin-top: 100px; margin-bottom: 100px;">
         <q-fab color="purple" icon="keyboard_arrow_up" direction="up">
-          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="amber" to="/" @click="notify('alarm')" icon="alarm" />
           <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
           <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
         </q-fab>
@@ -26,10 +26,11 @@
         <br>
 
         <q-fab color="secondary" push icon="keyboard_arrow_right" direction="right">
-          <q-fab-action color="primary" @click="notify('mail')" icon="mail" />
-          <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
-          <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
-          <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="primary" @click="notify('mail')" icon="ion-aperture" />
+          <q-fab-action color="primary" @click="notify('alarm')" icon="mdi-map" />
+          <q-fab-action color="primary" @click="notify('alarm')" icon="fas fa-address-book" />
+          <q-fab-action color="primary" @click="notify('alarm')" icon="ti-tablet" />
+          <q-fab-action color="primary" @click="notify('alarm')" icon="eva-attach-outline" />
         </q-fab>
 
         <br>
@@ -51,7 +52,7 @@
       <q-fab
         class="fixed-bottom-right"
         style="right: 18px; bottom: 86px;"
-        icon="add"
+        icon="fas fa-address-book"
         direction="up"
         color="primary"
         @show="openFab"
@@ -101,7 +102,7 @@
 export default {
   data () {
     return {
-      toggle: false
+      toggle: true
     }
   },
   methods: {

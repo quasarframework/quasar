@@ -22,7 +22,7 @@
       </q-item>
 
       <q-list bordered padding class="q-my-md" :dark="dark" :separator="separator">
-        <q-item clickable class="text-primary">
+        <q-item clickable class="text-primary" @click="onClick">
           <q-item-section>Single line item</q-item-section>
         </q-item>
 
@@ -30,9 +30,16 @@
           <q-item-section>Single line item longer text</q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple @click="onClick">
           <q-item-section avatar>
             <q-icon color="primary" name="bluetooth" />
+          </q-item-section>
+          <q-item-section>List item</q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon color="primary" name="img:https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg" />
           </q-item-section>
           <q-item-section>List item</q-item-section>
         </q-item>
@@ -103,6 +110,13 @@
             <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
           </q-item-section>
           <q-item-section>List item</q-item-section>
+        </q-item>
+
+        <q-item clickable v-ripple>
+          <q-item-section>List item</q-item-section>
+          <q-item-section thumbnail>
+            <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
+          </q-item-section>
         </q-item>
       </q-list>
 
@@ -730,6 +744,12 @@ export default {
       check1: true,
       check2: false,
       check3: false
+    }
+  },
+
+  methods: {
+    onClick () {
+      console.log('onClick')
     }
   }
 }

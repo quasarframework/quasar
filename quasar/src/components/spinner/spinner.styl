@@ -1,13 +1,14 @@
+
 .q-spinner
   vertical-align middle
 
 .q-spinner-mat
-  animation q-spin 2s linear infinite /* rtl:ignore */
-  transform-origin center center /* rtl:ignore */
+  animation q-spin 2s linear infinite
+  transform-origin center center
   .path
-    stroke-dasharray 1, 200
-    stroke-dashoffset 0
-    animation q-mat-dash 1.5s ease-in-out infinite /* rtl:ignore */
+    stroke-dasharray 1, 200 /* rtl:ignore */
+    stroke-dashoffset 0 /* rtl:ignore */
+    animation q-mat-dash 1.5s ease-in-out infinite
 
 @keyframes q-spin
   0%
@@ -17,11 +18,11 @@
 
 @keyframes q-mat-dash
   0%
-    stroke-dasharray 1, 200
-    stroke-dashoffset 0
+    stroke-dasharray 1, 200 /* rtl:ignore */
+    stroke-dashoffset 0 /* rtl:ignore */
   50%
-    stroke-dasharray 89, 200
-    stroke-dashoffset -35px
+    stroke-dasharray 89, 200 /* rtl:ignore */
+    stroke-dashoffset -35px /* rtl:ignore */
   100%
-    stroke-dasharray 89, 200
-    stroke-dashoffset -124px
+    stroke-dasharray 89, 200 /* rtl:ignore */
+    stroke-dashoffset -124px /* rtl:ignore */

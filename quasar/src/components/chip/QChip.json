@@ -17,7 +17,8 @@
     "label": {
       "type": [ "String", "Number" ],
       "desc": "Chip's content as string; overrides default slot if specified",
-      "examples": [ "John Doe", "Book" ]
+      "examples": [ "John Doe", "Book" ],
+      "category": "content"
     },
 
     "color": {
@@ -31,13 +32,15 @@
     "value": {
       "type": "Boolean",
       "desc": "Model of the component determining if QChip should be rendered or not",
-      "default": true
+      "default": true,
+      "category": "model"
     },
 
     "selected": {
       "type": "Boolean",
       "sync": true,
-      "desc": "Model for QChip if it's selected or not"
+      "desc": "Model for QChip if it's selected or not",
+      "category": "model"
     },
 
     "square": {
@@ -46,17 +49,20 @@
 
     "outline": {
       "type": "Boolean",
-      "desc": "Display using the 'outline' design"
+      "desc": "Display using the 'outline' design",
+      "category": "style"
     },
 
     "clickable": {
       "type": "Boolean",
-      "desc": "Is QChip clickable? If it's the case, then it will add hover effects and emit 'click' events"
+      "desc": "Is QChip clickable? If it's the case, then it will add hover effects and emit 'click' events",
+      "category": "state"
     },
 
     "removable": {
       "type": "Boolean",
-      "desc": "If set, then it displays a 'remove' icon that when clicked the QChip emits 'remove' event"
+      "desc": "If set, then it displays a 'remove' icon that when clicked the QChip emits 'remove' event",
+      "category": "state"
     },
 
     "tabindex": {

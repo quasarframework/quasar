@@ -80,6 +80,10 @@ export default {
     icon: 'fal fa-plus',
     activeIcon: 'fal fa-times'
   },
+  field: {
+    clear: 'fal fa-times-circle',
+    error: 'fal fa-exclamation-circle'
+  },
   pagination: {
     first: 'fal fa-step-backward',
     prev: 'fal fa-chevron-left',

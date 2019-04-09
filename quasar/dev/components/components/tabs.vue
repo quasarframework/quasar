@@ -175,9 +175,9 @@
         </q-btn-dropdown>
       </q-tabs>
 
-      <q-tabs :dense="dense" class="bg-teal text-yellow" top-indicator inline-label>
+      <q-tabs :dense="dense" class="bg-teal text-yellow" switch-indicator inline-label>
         <q-tab icon="phone" label="Item one" />
-        <q-tab icon="favorite" label="-- Top indicator --" />
+        <q-tab icon="favorite" label="-- Switch indicator --" />
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
 
@@ -196,18 +196,26 @@
         <q-tab icon="location_on" label="Item six" />
       </q-tabs>
 
-      <div class="row q-gutter-xs justify-stretch">
-        <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/a#123" label="/tabs/a#123 - select most specific tab" />
+      <div class="row q-col-gutter-xs justify-stretch">
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" replace to="/components/tabs/a#123">
+            /tabs/a#123 - select most specific tab
+          </router-link>
         </div>
-        <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/a/a#123" label="/tabs/a/a#123 - select most specific tab" />
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" replace to="/components/tabs/a/a#123">
+            /tabs/a/a#123 - select most specific tab
+          </router-link>
         </div>
-        <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/a/a" label="/tabs/a/a - select exact tab" />
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" replace to="/components/tabs/a/a">
+            /tabs/a/a - select exact tab
+          </router-link>
         </div>
-        <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" replace to="/components/tabs/b#123" label="/tabs/b#123 - select no tab" />
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" replace to="/components/tabs/b#123">
+            /tabs/b#123 - select no tab
+          </router-link>
         </div>
       </div>
       <q-tabs :dense="dense" class="test q-mt-sm">
@@ -224,24 +232,104 @@
         <q-route-tab name="tabs/c" to="/components/tabs/c" exact label="/tabs/c" />
       </q-tabs>
 
-      <div class="row q-gutter-xs justify-stretch">
-        <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'ta', params: { id: 1 }}" replace label="t/1/a" />
+      <div class="row q-col-gutter-xs justify-stretch">
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" replace :to="{ name: 'ta', params: { id: 1 }}">
+            t/1/a
+          </router-link>
         </div>
-        <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'tb', params: { id: 1 }}" replace label="t/1/b" />
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" replace :to="{ name: 'tb', params: { id: 1 }}">
+            t/1/b
+          </router-link>
         </div>
-        <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'ta', params: { id: 2 }}" replace label="t/2/a" />
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" replace :to="{ name: 'ta', params: { id: 2 }}">
+            t/2/a
+          </router-link>
         </div>
-        <div class="col-12 col-sm-6 col-md">
-          <q-btn class="fit" size="sm" color="secondary" :to="{ name: 'tb', params: { id: 2 }}" replace label="t/2/b" />
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" replace :to="{ name: 'tb', params: { id: 2 }}">
+            t/2/b
+          </router-link>
         </div>
       </div>
       <q-tabs :dense="dense" class="test q-mt-sm">
         <q-route-tab to="/components/tabs/t" exact label="t" />
         <q-route-tab v-if="$route.params.id" :to="{ name: 'ta', params: $route.params }" exact :label="`t/${ $route.params.id }/a`" />
         <q-route-tab v-if="$route.params.id" :to="{ name: 'tb', params: $route.params }" exact :label="`t/${ $route.params.id }/b`" />
+      </q-tabs>
+
+      <div class="row q-col-gutter-xs justify-stretch">
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" to="/components/tabs/r" replace>
+            r => r.1
+          </router-link>
+        </div>
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" to="/components/tabs/r?q=2" replace>
+            r q=2 => r.1 q=2
+          </router-link>
+        </div>
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" to="/components/tabs/r/1?a=1" replace>
+            r.1 a=1
+          </router-link>
+        </div>
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" to="/components/tabs/r/1/1" replace>
+            r.1.1
+          </router-link>
+        </div>
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" to="/components/tabs/r/1?q=1" replace>
+            r.1 q=1
+          </router-link>
+        </div>
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" to="/components/tabs/r/1/1?a=1" replace>
+            r.1.1 a=1
+          </router-link>
+        </div>
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" to="/components/tabs/r/1/2" replace>
+            r.1.2 => r => r.1
+          </router-link>
+        </div>
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" to="/components/tabs/r/1/3" replace>
+            r.1.3 => r.1.1
+          </router-link>
+        </div>
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" to="/components/tabs/r/2" replace>
+            r.2
+          </router-link>
+        </div>
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="router-link" to="/components/tabs/r/3" replace>
+            r.3
+          </router-link>
+        </div>
+      </div>
+      <q-toggle v-model="exact" label="Show exact match tabs" />
+      <q-toggle v-model="loose" label="Show loose match tabs" />
+      <q-tabs :dense="dense" class="test q-mt-sm">
+        <q-route-tab v-if="exact" key="01" :to="{ name: 'r' }" exact label="r" />
+        <q-route-tab v-if="loose" key="02" :to="{ name: 'r' }" label="r *" />
+        <q-route-tab v-if="exact" key="03" :to="{ name: 'r.1', query: { q: '1' } }" exact label="r.1 q=1" />
+        <q-route-tab v-if="loose" key="04" :to="{ name: 'r.1', query: { q: '1' } }" label="r.1 q=1 *" />
+        <q-route-tab v-if="loose" key="15" :to="{ name: 'r.1', query: { q: '1' } }" label="r.1 q=1 * disabled" disable />
+        <q-route-tab v-if="exact" key="05" :to="{ name: 'r.1.1' }" exact label="r.1.1" />
+        <q-route-tab v-if="loose" key="06" :to="{ name: 'r.1.1' }" label="r.1.1 *" />
+        <q-route-tab v-if="exact" key="07" :to="{ name: 'r.1.2' }" exact label="r.1.2" />
+        <q-route-tab v-if="loose" key="08" :to="{ name: 'r.1.2' }" label="r.1.2 *" />
+        <q-route-tab v-if="exact" key="09" :to="{ name: 'r.1.3' }" exact label="r.1.3" />
+        <q-route-tab v-if="loose" key="10" :to="{ name: 'r.1.3' }" label="r.1.3 *" />
+        <q-route-tab v-if="exact" key="11" :to="{ name: 'r.2' }" exact label="r.2" />
+        <q-route-tab v-if="loose" key="12" :to="{ name: 'r.2' }" label="r.2 *" />
+        <q-route-tab v-if="exact" key="13" :to="{ name: 'r.3' }" exact label="r.3" />
+        <q-route-tab v-if="loose" key="14" :to="{ name: 'r.3' }" label="r.3 *" />
       </q-tabs>
 
       <h4>Tabs content (animated, swipeable)</h4>
@@ -372,7 +460,9 @@ export default {
       tab: 'one',
       vtab: 'one',
       panelTest: false,
-      some: false
+      some: false,
+      exact: true,
+      loose: true
     }
   },
 
@@ -389,4 +479,18 @@ export default {
   margin-bottom 24px
 .tabs-demo .q-toolbar .q-tabs
   margin-bottom 0
+
+.router-link
+  display block
+  text-align center
+  text-decoration none
+  color black
+  padding 2px
+  border 1px solid black
+
+  &-active
+    background-color #ee9
+
+  &-exact-active
+    background-color #9e9
 </style>

@@ -6,7 +6,8 @@
   "props": {
     "inset": {
       "type": "Boolean",
-      "desc": "Apply an inset to content (useful for subsequent toolbars)"
+      "desc": "Apply an inset to content (useful for subsequent toolbars)",
+      "category": "content"
     }
   },
 

@@ -33,7 +33,7 @@
   > .q-focus-helper + .q-item__section--thumbnail
     margin-left -16px
 
-  > .q-item__section--thumbnail:last-child
+  > .q-item__section--thumbnail:last-of-type
     margin-right -16px
 
   &__label
@@ -108,6 +108,8 @@
       color rgba(255, 255, 255, .8)
 
 .q-item
+  position relative
+
   &.q-router-link--active, &--active
     color $primary
     color var(--q-color-primary)

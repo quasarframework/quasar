@@ -17,9 +17,7 @@ export default Vue.extend({
     breakpoint: {
       type: [String, Number],
       default: 450
-    },
-
-    disable: Boolean
+    }
   },
 
   data () {
@@ -31,31 +29,22 @@ export default Vue.extend({
 
   watch: {
     value (val) {
-      if (this.disable === true && val === true) {
-        this.$emit('input', false)
-        return
-      }
-
-      if (val !== this.showing) {
-        this[val ? 'show' : 'hide']()
-      }
+      val !== this.showing && this[val ? 'show' : 'hide']()
     }
   },
 
   methods: {
     toggle (evt) {
-      return this[this.showing === true ? 'hide' : 'show'](evt)
+      this[this.showing === true ? 'hide' : 'show'](evt)
     },
 
     show (evt) {
-      if (this.disable === true || this.showing === true) {
+      if (
+        this.showing === true ||
+        (this.__showCondition !== void 0 && this.__showCondition(evt) !== true)
+      ) {
         return
       }
-      if (this.__showCondition !== void 0 && this.__showCondition(evt) !== true) {
-        return
-      }
-
-      evt !== void 0 && evt.preventDefault()
 
       const breakpoint = parseInt(this.breakpoint, 10)
 
@@ -68,12 +57,10 @@ export default Vue.extend({
     },
 
     hide () {
-      if (this.disable === true || this.showing === false) {
-        return
+      if (this.showing !== false) {
+        this.showing = false
+        this.$emit('input', false)
       }
-
-      this.showing = false
-      this.$emit('input', false)
     },
 
     __hide (evt) {
@@ -85,7 +72,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    if (this.disable === true || this.type === null) {
+    if (this.type === null) {
       return
     }
 

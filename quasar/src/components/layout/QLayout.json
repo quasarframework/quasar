@@ -6,12 +6,14 @@
       "default": "hhh lpr fff",
       "examples": [
         "hHh lpR fFf"
-      ]
+      ],
+      "category": "content"
     },
 
     "container": {
       "type": "Boolean",
-      "desc": "Containerize the layout which means it changes the default behavior of expanding to the whole window; Useful (but not limited to) for when using on a QDialog"
+      "desc": "Containerize the layout which means it changes the default behavior of expanding to the whole window; Useful (but not limited to) for when using on a QDialog",
+      "category": "content"
     }
   },
 

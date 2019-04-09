@@ -14,7 +14,8 @@
       "type": [ "Number", "String" ],
       "desc": "Number of icons to display",
       "default": 5,
-      "examples": [ "3", ":max=\"5\"" ]
+      "examples": [ "3", ":max=\"5\"" ],
+      "category": "general"
     },
 
     "icon": {
@@ -27,6 +28,12 @@
 
     "size": {
       "extends": "size"
+    },
+
+    "no-reset": {
+      "type": "Boolean",
+      "desc": "When used, disables default behavior of clicking/tapping on icon which represents current model value to reset model to 0",
+      "category": "model"
     },
 
     "readonly": {

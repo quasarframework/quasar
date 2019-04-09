@@ -80,6 +80,10 @@ export default {
     icon: 'ion-add',
     activeIcon: 'ion-close'
   },
+  field: {
+    clear: 'ion-close-circle',
+    error: 'ion-alert'
+  },
   pagination: {
     first: 'ion-skip-backward',
     prev: 'ion-arrow-back',

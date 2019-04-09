@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import slot from '../../utils/slot.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QItem',
@@ -65,44 +66,55 @@ export default Vue.extend({
   methods: {
     __getContent (h) {
       const child = [].concat(slot(this, 'default'))
-      this.isClickable === true && child.unshift(h('div', { staticClass: 'q-focus-helper' }))
+      this.isClickable === true && child.unshift(h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }))
       return child
     },
 
-    __onClick (e, avoidClick) {
-      this.$el.blur()
-      if (avoidClick !== true && this.$listeners.click !== void 0) {
+    __onClick (e) {
+      if (this.isClickable === true) {
+        if (e.qKeyEvent !== true && this.$refs.blurTarget !== void 0) {
+          this.$refs.blurTarget.focus()
+        }
+
         this.$emit('click', e)
       }
     },
 
     __onKeyup (e) {
-      this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
-      e.keyCode === 13 /* ENTER */ && this.__onClick(e, true)
+      if (e.keyCode === 13 && this.isClickable === true) {
+        stopAndPrevent(e)
+
+        // for ripple
+        e.qKeyEvent = true
+
+        // for click trigger
+        const evt = new MouseEvent('click', e)
+        evt.qKeyEvent = true
+        this.$el.dispatchEvent(evt)
+      }
+
+      this.$emit('keyup', e)
     }
   },
 
   render (h) {
-    const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
-
     const data = {
-      staticClass: 'q-item q-item-type relative-position row no-wrap',
+      staticClass: 'q-item q-item-type row no-wrap',
       class: this.classes,
       style: this.style
+    }
+
+    const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
+    data[evtProp] = {
+      ...this.$listeners,
+      click: this.__onClick,
+      keyup: this.__onKeyup
     }
 
     if (this.isClickable === true) {
       data.attrs = {
         tabindex: this.tabindex || '0'
       }
-      data[evtProp] = {
-        ...this.$listeners,
-        click: this.__onClick,
-        keyup: this.__onKeyup
-      }
-    }
-    else {
-      data[evtProp] = this.$listeners
     }
 
     if (this.hasRouterLink === true) {

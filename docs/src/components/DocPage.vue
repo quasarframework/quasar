@@ -17,13 +17,12 @@ q-page.doc-page
         :key="link.category + link.path"
         :to="link.path"
       )
-        .row.items-center
+        .row.no-wrap.items-center
           .col
             .doc-page-nav__categ.text-uppercase {{ link.category || 'Docs' }}
             .doc-page-nav__name.text-weight-bold {{ link.name }}
 
-          .col-auto.q-pl-lg
-            q-icon(name="launch")
+          q-icon.col-auto.q-pl-lg(name="launch")
 
   .doc-page-nav.text-primary.q-pb-xl(v-if="nav !== void 0")
     .text-h6.q-pb-md Ready for more?
@@ -33,12 +32,12 @@ q-page.doc-page
         :key="link.category + link.path"
         :to="link.path"
       )
-        .row.items-center
-          .col-auto(
+        .row.no-wrap.items-center
+          q-icon.col-auto(
+            :name="`chevron_${link.dir}`"
             v-if="link.dir !== void 0"
             :class="link.dir === 'right' ? 'order-last q-pl-md' : 'order-first q-pr-md'"
           )
-            q-icon(:name="`chevron_${link.dir}`")
 
           .col
             .doc-page-nav__categ.text-uppercase {{ link.category || 'Docs' }}
@@ -159,13 +158,26 @@ export default {
   margin 68px 0 0
   margin-bottom 0 !important
 
+  .q-link
+    position relative
+    &:before
+      content ''
+      position absolute
+      top 0
+      right 0
+      bottom 0
+      left 0
+      background #000
+      opacity 0
+      transition opacity .28s
+    &:focus:before
+      opacity .1
+
   & + &
     margin-top 0
 
   .q-icon
     font-size 1.75em
-    top 12px
-    right 10px
 
   &__categ
     font-size .8em

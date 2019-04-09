@@ -24,39 +24,45 @@ export default Vue.extend({
   },
 
   methods: {
-    activate (e) {
+    activate (e, keyboard) {
       if (this.disable !== true) {
-        const
-          current = this.$route,
-          { route } = this.$router.resolve(this.to, current, this.append)
-
-        this.$listeners.click !== void 0 && this.$emit('click', e)
-        this.__activateRoute({ name: this.name, selected: true, selectable: isSameRoute(current, route) })
+        this.__checkActivation(true)
       }
 
-      this.$el.blur()
+      if (keyboard === true) {
+        this.$el.focus()
+      }
+      else {
+        this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+      }
     },
 
-    __checkActivation () {
+    __checkActivation (selected = false) {
       const
         current = this.$route,
-        { href, route } = this.$router.resolve(this.to, current, this.append)
+        { href, location, route } = this.$router.resolve(this.to, current, this.append),
+        redirected = route.redirectedFrom !== void 0,
+        checkFunction = this.exact === true ? isSameRoute : isIncludedRoute,
+        params = {
+          name: this.name,
+          selected,
+          exact: this.exact,
+          priorityMatched: route.matched.length,
+          priorityHref: href.length
+        }
 
-      if (isSameRoute(current, route)) {
-        this.__activateRoute({ name: this.name, selectable: true, exact: true })
-      }
-      else if (this.exact !== true && isIncludedRoute(current, route)) {
-        const priority = href.length
-        this.__activateRoute({ name: this.name, selectable: true, priority })
-      }
-      else if (this.isActive) {
-        this.__activateRoute({ name: null })
-      }
+      checkFunction(current, route) && this.__activateRoute({ ...params, redirected })
+      redirected === true && checkFunction(current, location) && this.__activateRoute(params)
+      this.isActive && this.__activateRoute()
     }
   },
 
   mounted () {
     this.$router !== void 0 && this.__checkActivation()
+  },
+
+  beforeDestroy () {
+    this.__activateRoute({ remove: true, name: this.name })
   },
 
   render (h) {

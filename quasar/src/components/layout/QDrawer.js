@@ -478,7 +478,7 @@ export default Vue.extend({
   beforeDestroy () {
     clearTimeout(this.timer)
     clearTimeout(this.timerMini)
-    this.showing && this.__cleanup()
+    this.showing === true && this.__cleanup()
     if (this.layout.instances[this.side] === this) {
       this.layout.instances[this.side] = void 0
       this.__update('size', 0)

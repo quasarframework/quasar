@@ -55,7 +55,9 @@
       <p class="caption">
         Disabled State
       </p>
-      <q-checkbox v-model="checked" disable label="Disabled Checkbox" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-checkbox v-model="checked" disable color="primary" label="Disabled Checkbox" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-checkbox v-model="checked" disable color="accent" label="Disabled Checkbox" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-checkbox v-model="checked" disable color="teal" label="Disabled Checkbox" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <p class="caption">
         Option Group

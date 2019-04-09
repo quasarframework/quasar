@@ -80,6 +80,10 @@ export default {
     icon: 'add',
     activeIcon: 'close'
   },
+  field: {
+    clear: 'cancel',
+    error: 'error'
+  },
   pagination: {
     first: 'first_page',
     prev: 'keyboard_arrow_left',

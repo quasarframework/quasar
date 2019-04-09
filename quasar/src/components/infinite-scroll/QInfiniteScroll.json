@@ -4,7 +4,8 @@
       "type": "Number",
       "desc": "Offset (pixels) to bottom of Infinite Scroll container from which the component should start loading more content in advance",
       "default": 500,
-      "examples": [ ":offset=\"250\"" ]
+      "examples": [ ":offset=\"250\"" ],
+      "category": "behavior"
     },
 
     "scrollTarget": {
@@ -13,11 +14,18 @@
       "examples": [
         ":scroll-target=\"$refs.scrollTarget\"",
         "scroll-target=\"scroll-target\""
-      ]
+      ],
+      "category": "behavior"
     },
 
     "disable": {
       "extends": "disable"
+    },
+
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Scroll area should behave like a messenger - starting scrolled to bottom and loading whean reaching the top",
+      "category": "behavior"
     }
   },
 

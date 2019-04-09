@@ -39,6 +39,10 @@ When dealing with inset levels, a general rule of thumb is that `header-inset-le
 
 ### Behavior
 
+::: tip
+The behavior below of toggling by expand icon only is especially useful when having a route attached to the header of QExpansionItem. This way by clicking header it will activate the route and by clicking the expand icon it will, well, expand the content. You can't have both actions attached to the whole header, obviously.
+:::
+
 <doc-example title="Toggle by expand icon only" file="QExpansionItem/IconToggle" />
 
 <doc-example title="Accordion mode" file="QExpansionItem/Accordion" />

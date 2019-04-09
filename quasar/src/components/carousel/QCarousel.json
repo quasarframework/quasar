@@ -3,11 +3,13 @@
 
   "props": {
     "transition-prev": {
-      "default": "fade"
+      "default": "fade",
+      "category": "behavior"
     },
 
     "transition-next": {
-      "default": "fade"
+      "default": "fade",
+      "category": "behavior"
     },
 
     "height": {
@@ -17,7 +19,8 @@
 
     "padding": {
       "type": "Boolean",
-      "desc": "Applies a default padding to each slide, according to the usage of 'arrows' and 'navigation' props"
+      "desc": "Applies a default padding to each slide, according to the usage of 'arrows' and 'navigation' props",
+      "category": "content"
     },
 
     "control-color": {
@@ -32,12 +35,14 @@
         ":autoplay=\"2500\"",
         true,
         false
-      ]
+      ],
+      "category": "behavior"
     },
 
     "arrows": {
       "type": "Boolean",
-      "desc": "Show navigation arrow buttons"
+      "desc": "Show navigation arrow buttons",
+      "category": "content"
     },
 
     "prev-icon": {
@@ -50,7 +55,8 @@
 
     "navigation": {
       "type": "Boolean",
-      "desc": "Show navigation dots"
+      "desc": "Show navigation dots",
+      "category": "content"
     },
 
     "navigation-icon": {
@@ -59,7 +65,8 @@
 
     "thumbnails": {
       "type": "Boolean",
-      "desc": "Show thumbnails"
+      "desc": "Show thumbnails",
+      "category": "content"
     }
   },
 

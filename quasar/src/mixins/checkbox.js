@@ -36,7 +36,7 @@ export default {
     },
 
     index () {
-      if (this.modelIsArray) {
+      if (this.modelIsArray === true) {
         return this.value.indexOf(this.val)
       }
     },
@@ -46,22 +46,22 @@ export default {
     },
 
     computedTabindex () {
-      return this.disable ? -1 : this.tabindex || 0
+      return this.disable === true ? -1 : this.tabindex || 0
     }
   },
 
   methods: {
     toggle (e) {
+      e !== void 0 && stopAndPrevent(e)
+
       if (this.disable === true) {
         return
       }
 
-      e !== void 0 && stopAndPrevent(e)
-
       let val
 
-      if (this.modelIsArray) {
-        if (this.isTrue) {
+      if (this.modelIsArray === true) {
+        if (this.isTrue === true) {
           val = this.value.slice()
           val.splice(this.index, 1)
         }
@@ -69,10 +69,10 @@ export default {
           val = this.value.concat(this.val)
         }
       }
-      else if (this.isTrue) {
+      else if (this.isTrue === true) {
         val = this.toggleIndeterminate ? this.indeterminateValue : this.falseValue
       }
-      else if (this.isFalse) {
+      else if (this.isFalse === true) {
         val = this.trueValue
       }
       else {
@@ -84,8 +84,7 @@ export default {
 
     __keyDown (e) {
       if (e.keyCode === 13 || e.keyCode === 32) {
-        stopAndPrevent(e)
-        this.toggle()
+        this.toggle(e)
       }
     }
   }

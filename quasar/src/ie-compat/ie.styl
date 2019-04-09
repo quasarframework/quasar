@@ -10,8 +10,11 @@ fe(selector, name, noProc, i = '')
 ie_style = @block
 
   /* Min Height */
-  .q-toolbar
-    height 0px
+  .q-toolbar:after
+    content ''
+    display block
+    min-height inherit
+    font-size 0
 
   /* Flex Basis */
   .q-btn__content
@@ -32,6 +35,16 @@ ie_style = @block
         .row > &, .flex > &
           flex-basis auto
           width 0%
+
+  /* QBtn */
+  .q-btn
+    &:not(.disabled):active,
+    &:not(.disabled):focus,
+    &.q-btn--active
+      .q-btn__content
+        position relative
+        top 0
+        left 0
 
   /* QCarousel */
   .q-carousel__slide > *
@@ -60,8 +73,13 @@ ie_style = @block
 
   /* QDate */
   .q-date__view.q-date__months.column
-    > .q-date__months-content.col-10
+    > .q-date__months-content
       width 100%
+  .q-date--landscape .q-date__content
+    width 100%
+    > .q-date__view
+      width 0
+      min-width 100%
 
   /* LocalMenu */
   .q-local-menu

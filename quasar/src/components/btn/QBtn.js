@@ -37,12 +37,15 @@ export default Vue.extend({
       this.$emit('click', e, go)
       this.hasRouterLink === true && e.navigate !== false && go()
 
-      e !== void 0 && e.qKeyEvent !== true && this.$el.blur()
+      if (e !== void 0 && e.qKeyEvent !== true && this.$refs.blurTarget !== void 0) {
+        this.$refs.blurTarget.focus()
+      }
     },
 
     __onKeydown (e) {
-      if ([13, 32].includes(e.keyCode)) {
+      if ([13, 32].includes(e.keyCode) === true) {
         stopAndPrevent(e)
+
         if (this.pressed !== true) {
           this.pressed = true
           this.$el.classList.add('q-btn--active')
@@ -50,22 +53,33 @@ export default Vue.extend({
         }
       }
 
-      this.$listeners.keydown !== void 0 && this.$emit('keydown', e)
+      this.$emit('keydown', e)
     },
 
     __onKeyup (e) {
-      if ([13, 32].includes(e.keyCode)) {
+      if ([13, 32].includes(e.keyCode) === true) {
+        // from form submit -- keydown was called
+        // on other form item then keydown was attached to btn
+        if (this.pressed !== true) {
+          return
+        }
+
         stopAndPrevent(e)
         this.__onKeyupAbort()
-        const evt = new MouseEvent('click', { ...e })
+
+        // for ripple
+        e.qKeyEvent = true
+
+        // for click trigger
+        const evt = new MouseEvent('click', e)
         evt.qKeyEvent = true
         this.$el.dispatchEvent(evt)
       }
 
-      this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
+      this.$emit('keyup', e)
     },
 
-    __onKeyupAbort (e) {
+    __onKeyupAbort () {
       this.pressed = false
       document.removeEventListener('keyup', this.__onKeyupAbort)
       this.$el && this.$el.classList.remove('q-btn--active')
@@ -80,7 +94,7 @@ export default Vue.extend({
     const
       inner = [].concat(slot(this, 'default')),
       data = {
-        staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
+        staticClass: 'q-btn inline q-btn-item non-selectable',
         class: this.classes,
         style: this.style,
         attrs: this.attrs
@@ -120,13 +134,17 @@ export default Vue.extend({
     if (this.iconRight !== void 0 && this.isRound === false) {
       inner.push(
         h(QIcon, {
-          props: { name: this.iconRight, right: this.stack === false }
+          props: { name: this.iconRight, right: this.stack === false && this.hasLabel === true }
         })
       )
     }
 
     return h(this.isLink ? 'a' : 'button', data, [
-      h('div', { staticClass: 'q-focus-helper' }),
+      h('div', {
+        staticClass: 'q-focus-helper',
+        ref: 'blurTarget',
+        attrs: { tabindex: -1 }
+      }),
 
       this.loading === true && this.percentage !== void 0
         ? h('div', {

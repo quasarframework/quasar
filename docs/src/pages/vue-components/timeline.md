@@ -14,7 +14,17 @@ QTimeline has 3 layouts:
 
 ## Usage
 
-<doc-example title="Default usage" file="QTimeline/Basic" scrollable />
+<doc-example title="Basic" file="QTimeline/Basic" scrollable />
+
+Below is the same example, but using QTimelineEntry properties only instead of the default slot:
+
+<doc-example title="Props only" file="QTimeline/PropsOnly" scrollable />
+
+Below is again the same example, but using only QTimelineEntry slots:
+
+<doc-example title="Slots only" file="QTimeline/SlotsOnly" scrollable />
+
+### On dark background
 
 <doc-example title="On a dark background" file="QTimeline/Dark" dark scrollable />
 

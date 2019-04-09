@@ -80,6 +80,10 @@ export default {
     icon: 'eva-plus-outline',
     activeIcon: 'eva-close'
   },
+  field: {
+    clear: 'eva-close-circle',
+    error: 'eva-alert-circle'
+  },
   pagination: {
     first: 'eva-arrowhead-left-outline',
     prev: 'eva-arrow-ios-back-outline',

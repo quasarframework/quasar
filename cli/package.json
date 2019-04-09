@@ -1,6 +1,6 @@
 {
   "name": "@quasar/cli",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Quasar Framework CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -42,14 +42,14 @@
     "async": "2.6.2",
     "chalk": "2.4.2",
     "ci-info": "2.0.0",
-    "compression": "1.7.3",
+    "compression": "1.7.4",
     "connect-history-api-fallback": "1.6.0",
     "consolidate": "0.15.1",
     "cross-spawn": "6.0.5",
     "download-git-repo": "1.1.0",
     "express": "4.16.4",
     "fs-extra": "7.0.1",
-    "handlebars": "4.1.0",
+    "handlebars": "4.1.1",
     "http-proxy-middleware": "0.19.1",
     "inquirer": "6.2.2",
     "metalsmith": "2.3.0",

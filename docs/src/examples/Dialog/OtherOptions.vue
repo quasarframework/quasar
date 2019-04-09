@@ -31,10 +31,11 @@ export default {
         message: 'Autoclosing in 3 seconds.'
       }).onOk(() => {
         console.log('OK')
-        clearTimeout(timer)
       }).onCancel(() => {
         console.log('Cancel')
+      }).onDismiss(() => {
         clearTimeout(timer)
+        console.log('I am triggered on both OK and Cancel')
       })
 
       const timer = setTimeout(() => {

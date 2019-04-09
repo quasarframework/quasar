@@ -25,6 +25,18 @@ export default Vue.extend({
         }
       }
 
+      const commonCls = 'q-icon' +
+        (this.left === true ? ' on-left' : '') +
+        (this.right === true ? ' on-right' : '')
+
+      if (icon.startsWith('img:') === true) {
+        return {
+          img: true,
+          cls: commonCls,
+          src: icon.substring(4)
+        }
+      }
+
       let content = ' '
 
       if (/^fa[s|r|l|b]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
@@ -57,30 +69,35 @@ export default Vue.extend({
       }
 
       return {
-        cls: cls + (this.color !== void 0 ? ` text-${this.color}` : '') +
-          (this.left === true ? ' on-left' : '') +
-          (this.right === true ? ' on-right' : ''),
+        cls: cls + ' ' + commonCls +
+          (this.color !== void 0 ? ` text-${this.color}` : ''),
         content
       }
     },
 
     style () {
-      if (this.size) {
+      if (this.size !== void 0) {
         return { fontSize: this.size }
       }
     }
   },
 
   render (h) {
-    return h('i', {
-      staticClass: 'q-icon',
-      class: this.type.cls,
-      style: this.style,
-      attrs: { 'aria-hidden': true },
-      on: this.$listeners
-    }, [
-      this.type.content,
-      slot(this, 'default')
-    ])
+    return this.type.img === true
+      ? h('img', {
+        staticClass: this.type.cls,
+        style: this.style,
+        on: this.$listeners,
+        attrs: { src: this.type.src }
+      })
+      : h('i', {
+        staticClass: this.type.cls,
+        style: this.style,
+        on: this.$listeners,
+        attrs: { 'aria-hidden': true }
+      }, [
+        this.type.content,
+        slot(this, 'default')
+      ])
   }
 })

@@ -5,7 +5,7 @@ related:
   - /vue-components/pagination
 ---
 
-QTable is a component that allows you to display data in a tabular manner. It packs the following main features:
+QTable is a component that allows you to display data in a tabular manner. It's generally called a datatable. It packs the following main features:
   * Filtering
   * Sorting
   * Single / Multiple rows selection with custom selection actions
@@ -53,14 +53,14 @@ columns: [ // array of Objects
 
     // (optional) compare function if you have
     // some custom data or want a specific way to compare two rows
-    sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+    sort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10)
     // function return value:
     //   * is less than 0 then sort a to an index lower than b, i.e. a comes first
     //   * is 0 then leave a and b unchanged with respect to each other, but sorted with respect to all different elements
     //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
 
     // (optional) you can format the data with a function
-    format: val => `${val}%`
+    format: (val, row) => `${val}%`
 
     // v0.17.9+; if using scoped slots, apply this yourself instead
     style: 'width: 500px',

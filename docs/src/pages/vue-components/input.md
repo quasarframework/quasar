@@ -58,6 +58,11 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 
 ## Basic features
 
+### Clearable
+As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QInput in the example below is the equivalent of using `clearable`.
+
+<doc-example title="Clearable" file="QInput/Clearable" />
+
 ### Input types
 
 The following QInputs make use of the `type` prop in order to render native equivalent `<input type="...">` inside of them.

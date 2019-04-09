@@ -11,7 +11,8 @@
     "font-size": {
       "type": "String",
       "desc": "The size in CSS units, including unit name, of the content (icon, text)",
-      "examples": [ "18px", "2rem" ]
+      "examples": [ "18px", "2rem" ],
+      "category": "style"
     },
 
     "color": {

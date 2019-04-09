@@ -24,7 +24,6 @@
                 clickable
                 v-close-popup
                 @click="showNotify()"
-                @keyup.native.13.32="showNotify()"
               >
                 <q-item-section>Label</q-item-section>
               </q-item>
@@ -41,7 +40,6 @@
                 clickable
                 v-close-popup
                 @click="showNotify()"
-                @keyup.native.13.32="showNotify()"
               >
                 <q-item-section>Label</q-item-section>
               </q-item>
@@ -58,17 +56,10 @@
                 clickable
                 v-close-popup
                 @click="showNotify()"
-                @keyup.native.13.32="showNotify()"
               >
                 <q-item-section>Label</q-item-section>
               </q-item>
             </q-list>
-          </q-menu>
-        </q-btn>
-
-        <q-btn ref="target4" color="negative" label="Disabled Popover">
-          <q-menu disable>
-            This Popover content won't be shown because of "disable"
           </q-menu>
         </q-btn>
 
@@ -81,6 +72,16 @@
               <q-btn label="Menu" color="primary">
                 <q-menu>
                   <q-list>
+                    <q-item clickable>
+                      <q-item-section @click="dialog2 = true">
+                        Open Dialog
+                      </q-item-section>
+                    </q-item>
+                    <q-item v-close-popup clickable>
+                      <q-item-section @click="dialog2 = true">
+                        Close Menu and Open Dialog
+                      </q-item-section>
+                    </q-item>
                     <q-item v-for="n in 5" :key="n" v-close-popup clickable>
                       <q-item-section>Menu Item {{ n }}</q-item-section>
                     </q-item>
@@ -100,6 +101,22 @@
                   <q-list>
                     <q-item v-for="n in 5" :key="n" v-close-popup clickable>
                       <q-item-section>Menu Item {{ n }}</q-item-section>
+                    </q-item>
+                    <q-item clickable>
+                      <q-item-section>Submenu Label</q-item-section>
+                      <q-item-section side>
+                        <q-icon name="keyboard_arrow_right" />
+                      </q-item-section>
+                      <q-menu anchor="top right" self="top left">
+                        <q-list>
+                          <q-item v-for="n in 5" :key="n" v-close-popup clickable>
+                            <q-item-section>Menu Item {{ n }}</q-item-section>
+                          </q-item>
+                          <q-item clickable v-close-popup:2>
+                            <q-item-section>Close dialog</q-item-section>
+                          </q-item>
+                        </q-list>
+                      </q-menu>
                     </q-item>
                   </q-list>
                 </q-menu>
@@ -126,7 +143,6 @@
                     :key="n"
                     clickable
                     @click="showNotify()"
-                    @keyup.native.13.32="showNotify()"
                   >
                     <q-item-section>Label</q-item-section>
                   </q-item>
@@ -147,7 +163,6 @@
                     v-close-popup
                     clickable
                     @click="showNotify()"
-                    @keyup.native.13.32="showNotify()"
                   >
                     <q-item-section>Label</q-item-section>
                   </q-item>
@@ -241,7 +256,6 @@
                   v-close-popup
                   clickable
                   @click="showNotify()"
-                  @keyup.native.13.32="showNotify()"
                 >
                   <q-item-section>Label</q-item-section>
                 </q-item>
@@ -266,7 +280,6 @@
                   v-close-popup
                   clickable
                   @click="showNotify()"
-                  @keyup.native.13.32="showNotify()"
                 >
                   <q-item-section>Label</q-item-section>
                 </q-item>
@@ -285,7 +298,6 @@
                   v-close-popup
                   clickable
                   @click="showNotify()"
-                  @keyup.native.13.32="showNotify()"
                 >
                   <q-item-section>Label</q-item-section>
                 </q-item>
@@ -329,7 +341,6 @@
                   v-close-popup
                   clickable
                   @click="showNotify()"
-                  @keyup.native.13.32="showNotify()"
                 >
                   <q-item-section>Label</q-item-section>
                 </q-item>
@@ -409,7 +420,6 @@
             src="https://cdn.quasar-framework.org/img/map.png"
             style="height: 150px; width: 200px;"
             @click.native="showNotify(), $refs.popover3.hide()"
-            @keyup.13.32.native="showNotify(), $refs.popover3.hide()"
             tabindex="0"
           />
         </q-menu>
@@ -434,7 +444,6 @@
             :key="n"
             clickable
             @click.native="showNotify(), $refs.popover5.hide()"
-            @keyup.native.13.32="showNotify(), $refs.popover5.hide()"
           >
             <q-item-section>Label</q-item-section>
           </q-item>

@@ -103,7 +103,7 @@ async function inspect () {
     process.exit(1)
   }
 
-  quasarConfig.compile()
+  await quasarConfig.compile()
 
   const util = require('util')
   let cfgEntries = getCfgEntries(quasarConfig.getWebpackConfig(), argv.mode)

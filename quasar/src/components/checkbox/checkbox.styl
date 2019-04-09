@@ -71,11 +71,7 @@ $checkbox-transition = .22s cubic-bezier(0,0,.2,1) 0ms
         transition transform $checkbox-transition
 
   &.disabled
-    opacity 1 !important
-    .q-checkbox__inner, .q-checkbox__label
-      color rgba(0, 0, 0, .26)
-    .q-checkbox__inner--active .q-checkbox__bg
-      border-color transparent
+    opacity .75 !important
 
   &--dark
     .q-checkbox__inner
@@ -85,10 +81,6 @@ $checkbox-transition = .22s cubic-bezier(0,0,.2,1) 0ms
       &--active, &--indeterminate
         color $primary
         color var(--q-color-primary)
-
-    &.disabled
-      .q-checkbox__inner, .q-checkbox__label
-        color rgba(255, 255, 255, .3)
 
   &--dense
 
@@ -124,6 +116,6 @@ body.desktop
       .q-checkbox__inner:before
         transform scale3d(1, 1, 1)
 
-    &--dense:focus .q-checkbox__inner:before
+    &--dense:focus:not(.disabled) .q-checkbox__inner:before
       transform scale3d(2, 2, 2)
 

@@ -28,8 +28,17 @@ export default Vue.extend({
   },
 
   props: {
+    persistent: Boolean,
+    autoClose: Boolean,
+
+    noParentEvent: Boolean,
+    noRefocus: Boolean,
+    noFocus: Boolean,
+
     fit: Boolean,
     cover: Boolean,
+
+    square: Boolean,
 
     anchor: {
       type: String,
@@ -43,11 +52,8 @@ export default Vue.extend({
       type: Array,
       validator: validateOffset
     },
-    noParentEvent: Boolean,
 
     touchPosition: Boolean,
-    persistent: Boolean,
-    autoClose: Boolean,
 
     maxHeight: {
       type: String,
@@ -82,6 +88,10 @@ export default Vue.extend({
       return this.cover === true
         ? this.anchorOrigin
         : parsePosition(this.self || `top ${this.horizSide}`)
+    },
+
+    menuClass () {
+      return this.square === true ? ' q-menu--square' : ''
     }
   },
 
@@ -101,7 +111,18 @@ export default Vue.extend({
   methods: {
     __show (evt) {
       clearTimeout(this.timer)
-      evt !== void 0 && evt.preventDefault()
+
+      this.__refocusTarget = this.noRefocus === false
+        ? document.activeElement
+        : void 0
+
+      if (this.noFocus !== true) {
+        document.activeElement.blur()
+
+        this.$nextTick(() => {
+          this.__portal.$refs.inner.focus()
+        })
+      }
 
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
@@ -143,9 +164,11 @@ export default Vue.extend({
     __hide (evt) {
       this.__anchorCleanup(true)
 
-      evt !== void 0 && evt.preventDefault()
-
       this.timer = setTimeout(() => {
+        if (this.__refocusTarget !== void 0) {
+          this.__refocusTarget.focus()
+        }
+
         this.__hidePortal()
         this.$emit('hide', evt)
       }, 300)
@@ -173,7 +196,7 @@ export default Vue.extend({
 
     __onAutoClose (e) {
       closeRootMenu(this.menuId)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      this.$emit('click', e)
     },
 
     updatePosition () {
@@ -215,10 +238,14 @@ export default Vue.extend({
         props: { name: this.transition }
       }, [
         this.showing === true ? h('div', {
-          staticClass: 'q-menu scroll',
+          ref: 'inner',
+          staticClass: 'q-menu scroll' + this.menuClass,
           class: this.contentClass,
           style: this.contentStyle,
-          attrs: this.$attrs,
+          attrs: {
+            ...this.$attrs,
+            tabindex: 0
+          },
           on,
           directives: this.persistent !== true ? [{
             name: 'click-outside',

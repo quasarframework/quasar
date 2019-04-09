@@ -13,13 +13,14 @@
         <q-toggle :dark="dark" v-model="autogrow" label="Auto Grow (converts to textarea)" />
         <q-toggle :dark="dark" v-model="square" label="Force square borders" />
         <q-input :dark="dark" v-model="rows" :disable="textarea !== true || autogrow === true" label="Rows (for textarea)" class="inline" />
+        <q-slider class="q-mt-lg" v-model="fontSize" :min="8" :max="24" label-always />
       </div>
 
       <div class="text-h6">
         Standard
       </div>
 
-      <q-input v-bind="props" v-model="text" @focus="onFocus" @blur="onBlur" />
+      <q-input v-bind="props" v-model="text" @focus="onFocus" @blur="onBlur" tabindex="1" />
 
       <q-input v-bind="props" v-model="text" label="Label (stacked) g" stack-label />
 
@@ -403,6 +404,8 @@ export default {
       bottomSlots: true,
       square: false,
 
+      fontSize: 14,
+
       textarea: false,
       autogrow: false,
       rows: '6',
@@ -447,7 +450,9 @@ export default {
         prefix: this.prefix,
         suffix: this.suffix,
         dense: this.dense,
-        square: this.square
+        clearable: true,
+        square: this.square,
+        style: { fontSize: `${this.fontSize}px` }
       }
 
       if (this.rows !== '') {
@@ -462,11 +467,11 @@ export default {
     }
   },
   methods: {
-    onBlur () {
-      console.log('@blur')
+    onBlur (e) {
+      console.log('@blur', e)
     },
-    onFocus () {
-      console.log('@focus')
+    onFocus (e) {
+      console.log('@focus', e)
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))

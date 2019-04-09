@@ -85,7 +85,7 @@ export default Vue.extend({
 
   methods: {
     activate () {
-      this.$el.blur()
+      this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
       !this.isActive && this.stepper.goTo(this.step.name)
     },
     keyup (e) {
@@ -112,7 +112,7 @@ export default Vue.extend({
     }
 
     return h('div', data, [
-      h('div', { staticClass: 'q-focus-helper' }),
+      h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }),
 
       h('div', { staticClass: 'q-stepper__dot row flex-center q-stepper__line relative-position' }, [
         h('span', { staticClass: 'row flex-center' }, [

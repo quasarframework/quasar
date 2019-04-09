@@ -15,6 +15,9 @@
     background-color var(--q-color-primary)
     padding 16px
 
+  &__content
+    outline none
+
   &__header-link
     opacity .64
     outline 0
@@ -99,6 +102,12 @@
 
   &__years-content
     padding 0 8px
+
+  &__years-item, &__months-item
+    flex 0 0 (round(1 / 3 * 100, 4))%
+
+  &__months-content
+    flex 0 0 (round(10 / 12 * 100, 4))%
 
   &.disabled, &--readonly
     .q-date__header, .q-date__content

@@ -29,16 +29,16 @@ export default Vue.extend({
     },
 
     innerClass () {
-      const color = 'text-' + this.color
-
-      if (this.isTrue) {
-        return `q-checkbox__inner--active${this.color ? ' ' + color : ''}`
+      if (this.isTrue === true) {
+        return 'q-checkbox__inner--active' +
+          (this.color !== void 0 ? ' text-' + this.color : '')
       }
-      else if (this.isIndeterminate) {
-        return `q-checkbox__inner--indeterminate${this.color ? ' ' + color : ''}`
+      else if (this.isIndeterminate === true) {
+        return 'q-checkbox__inner--indeterminate' +
+          (this.color !== void 0 ? ' text-' + this.color : '')
       }
-      else if (this.keepColor && this.color) {
-        return color
+      else if (this.keepColor === true && this.color !== void 0) {
+        return 'text-' + this.color
       }
     }
   },

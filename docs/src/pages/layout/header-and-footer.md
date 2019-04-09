@@ -9,7 +9,7 @@ related:
   - /vue-components/bar
 ---
 
-QLayout allows you to configure your views as a 3x3 matrix, containing an optional Header and/or Footer. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
+QLayout allows you to configure your views as a 3x3 matrix, containing an optional Header and/or Footer (mostly used for navbar, but can be anything). If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
 
 ## Installation
 Pick only what you are using from the list below.

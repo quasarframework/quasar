@@ -42,56 +42,64 @@ const topSections = {
 
 const objectTypes = {
   Boolean: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category' ],
     required: [ 'desc' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isArray: [ 'examples' ]
   },
 
   String: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Number: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Object: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     recursive: [ 'definition' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Array: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples', 'values' ]
   },
 
+  Promise: {
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category' ],
+    required: [ 'desc', 'examples' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
+    isObject: [ 'definition' ],
+    isArray: [ 'examples' ]
+  },
+
   Function: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples', 'category' ],
     required: [ 'desc', 'params', 'returns' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'params', 'returns' ],
     canBeNull: [ 'params', 'returns' ],
     isArray: [ 'examples' ]
   },
 
   MultipleTypes: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition', 'params', 'returns' ],
     isArray: [ 'examples', 'values' ]
   },
@@ -129,8 +137,9 @@ const objectTypes = {
   },
 
   methods: {
-    props: [ 'desc', 'link', 'params', 'returns' ],
+    props: [ 'injectionPoint', 'desc', 'link', 'params', 'returns' ],
     required: [ 'desc' ],
+    isBoolean: [ 'injectionPoint' ],
     isObject: [ 'params', 'returns' ]
   },
 
@@ -141,7 +150,7 @@ const objectTypes = {
   }
 }
 
-function parseObject ({ banner, api, itemName, masterType }) {
+function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
   let obj = api[itemName]
 
   if (obj.extends !== void 0 && extendApi[masterType] !== void 0) {
@@ -175,6 +184,8 @@ function parseObject ({ banner, api, itemName, masterType }) {
     type = masterType
   }
 
+  type = type.startsWith('Promise') ? 'Promise' : type
+
   if (objectTypes[type] === void 0) {
     logError(`${banner} object has unrecognized API type prop value: "${type}"`)
     console.error(obj)
@@ -186,6 +197,13 @@ function parseObject ({ banner, api, itemName, masterType }) {
   for (let prop in obj) {
     if ([ 'type', '__exemption' ].includes(prop)) {
       continue
+    }
+
+    if (verifyCategory && obj.category === void 0) {
+      logError(`${banner} missing required API prop "category" for its type (${type})`)
+      console.error(obj)
+      console.log()
+      process.exit(1)
     }
 
     if (!def.props.includes(prop)) {
@@ -346,12 +364,15 @@ function parseAPI (file, apiType) {
       continue
     }
 
+    const isComponent = banner.indexOf('component') > -1
+
     for (let itemName in api[type]) {
       parseObject({
         banner: `${banner} "${type}"/"${itemName}"`,
         api: api[type],
         itemName,
-        masterType: type
+        masterType: type,
+        verifyCategory: type === 'props' && isComponent
       })
     }
   }

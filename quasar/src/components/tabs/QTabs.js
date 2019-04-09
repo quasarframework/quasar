@@ -13,6 +13,31 @@ function getIndicatorClass (color, top, vertical) {
   return `absolute-${top === true ? pos[0] : pos[1]}${color ? ` text-${color}` : ''}`
 }
 
+function bufferPrioritySort (t1, t2) {
+  if (t1.priorityMatched === t2.priorityMatched) {
+    return t2.priorityHref - t1.priorityHref
+  }
+  return t2.priorityMatched - t1.priorityMatched
+}
+
+function bufferCleanSelected (t) {
+  t.selected = false
+  return t
+}
+
+const
+  bufferFilters = [
+    function (t) { return t.selected === true && t.exact === true && t.redirected !== true },
+    function (t) { return t.selected === true && t.exact === true },
+    function (t) { return t.selected === true && t.redirected !== true },
+    function (t) { return t.selected === true },
+    function (t) { return t.exact === true && t.redirected !== true },
+    function (t) { return t.redirected !== true },
+    function (t) { return t.exact === true },
+    function (t) { return true }
+  ],
+  bufferFiltersLen = bufferFilters.length
+
 export default Vue.extend({
   name: 'QTabs',
 
@@ -156,45 +181,40 @@ export default Vue.extend({
     __activateRoute (params) {
       if (this.bufferRoute !== this.$route && this.buffer.length > 0) {
         clearTimeout(this.bufferTimer)
+        this.bufferTimer = void 0
         this.buffer.length = 0
       }
       this.bufferRoute = this.$route
 
-      const
-        { name, selectable, exact, selected, priority } = params,
-        first = !this.buffer.length,
-        existingIndex = first ? -1 : this.buffer.findIndex(t => t.name === name)
-
-      if (existingIndex > -1) {
-        const buffer = this.buffer[existingIndex]
-        exact && (buffer.exact = exact)
-        selectable && (buffer.selectable = selectable)
-        selected && (buffer.selected = selected)
-        priority && (buffer.priority = priority)
-      }
-      else {
-        this.buffer.push(params)
+      if (params !== void 0) {
+        if (params.remove === true) {
+          this.buffer = this.buffer.filter(t => t.name !== params.name)
+        }
+        else {
+          this.buffer.push(params)
+        }
       }
 
-      if (first) {
+      if (this.bufferTimer === void 0) {
         this.bufferTimer = setTimeout(() => {
-          let tab = this.buffer.find(t => t.selectable && t.selected && t.exact) ||
-            this.buffer.find(t => t.selectable && t.selected) ||
-            this.buffer.find(t => t.selectable && t.exact) ||
-            this.buffer.filter(t => t.selectable).sort((t1, t2) => t2.priority - t1.priority)[0] ||
-            this.buffer.filter(t => t.name === null)[0]
+          let tabs = []
 
-          this.buffer.length = 0
-          tab !== void 0 && this.__activateTab(tab.name)
+          for (let i = 0; i < bufferFiltersLen && tabs.length === 0; i++) {
+            tabs = this.buffer.filter(bufferFilters[i])
+          }
+
+          tabs.sort(bufferPrioritySort)
+          this.__activateTab(tabs.length === 0 ? null : tabs[0].name)
+          this.buffer = this.buffer.map(bufferCleanSelected)
+          this.bufferTimer = void 0
         }, 1)
       }
     },
 
     __updateContainer ({ width, height }) {
-      const offset = this.scrollable === true ? this.extraOffset : 0
       const scroll = this.vertical === true
-        ? this.$refs.content.scrollHeight - offset > height
-        : this.$refs.content.scrollWidth - offset > width
+        ? this.$refs.content.scrollHeight > height
+        : this.$refs.content.scrollWidth > width
 
       if (this.scrollable !== scroll) {
         this.scrollable = scroll

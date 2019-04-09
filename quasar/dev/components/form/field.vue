@@ -1,20 +1,41 @@
 <template>
   <div class="q-layout-padding" :class="classes">
-    <div style="max-width: 600px" class="q-gutter-y-md">
+    <div style="max-width: 600px; margin-bottom: 100vh" class="q-gutter-y-md">
       <div class="q-gutter-x-md">
         <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="dense" label="Dense" />
         <q-toggle :dark="dark" v-model="border" label="Border" />
         <q-toggle :dark="dark" v-model="individualBorder" label="Individual Border" />
       </div>
 
       <h1>Field wrapper tests</h1>
 
-      <q-field :dark="dark">
+      <q-field value="We count this" :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots counter tabindex="0">
         <q-icon slot="before" name="event" />
 
-        <div>Field content</div>
+        <template v-slot:control>
+          <div>
+            Field content
+          </div>
+        </template>
 
-        <div slot="message">
+        <div slot="hint">
+          Field message
+        </div>
+
+        <q-icon slot="after" name="search" />
+      </q-field>
+
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
+        <q-icon slot="before" name="event" />
+
+        <template v-slot:control>
+          <div>
+            Field content
+          </div>
+        </template>
+
+        <div slot="hint">
           Field message
         </div>
 
@@ -22,41 +43,37 @@
           3/12
         </div>
 
-        <q-icon slot="after" name="search" />
+        <template v-slot:after>
+          <q-icon name="search" />
+          <q-icon name="delete" />
+        </template>
       </q-field>
 
-      <q-field :dark="dark">
-        <q-icon slot="before" name="event" />
-
-        <div>Field content</div>
-
-        <div slot="message">
-          Field message
-        </div>
-
-        <div slot="counter">
-          3/12
-        </div>
-
-        <q-icon slot="after" name="search" />
-        <q-icon slot="after" name="delete" />
-      </q-field>
-
-      <q-field :dark="dark">
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label tabindex="0">
         <q-icon slot="before" name="event" color="orange" />
 
-        <div>Field content</div>
+        <template v-slot:control>
+          <div>
+            Field content
+          </div>
+        </template>
 
-        <q-icon slot="after" name="search" color="primary" />
-        <q-icon slot="after" name="delete" color="red" />
+        <template v-slot:after>
+          <q-icon name="search" color="primary" />
+          <q-icon name="delete" color="red" />
+        </template>
       </q-field>
 
-      <q-field :dark="dark">
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
         <q-icon slot="before" name="event" />
 
-        <div>Field content</div>
+        <template v-slot:control>
+          <div>
+            Field content
+          </div>
+        </template>
 
-        <div slot="message">
+        <div slot="hint">
           Field message
         </div>
 
@@ -67,10 +84,14 @@
         <q-spinner slot="after" />
       </q-field>
 
-      <q-field :dark="dark">
-        <div>Field content</div>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
+        <template v-slot:control>
+          <div>
+            Field content
+          </div>
+        </template>
 
-        <div slot="message">
+        <div slot="hint">
           Field message
         </div>
         <div slot="counter">
@@ -78,23 +99,35 @@
         </div>
       </q-field>
 
-      <q-field :dark="dark">
-        <div>Field content</div>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
+        <template v-slot:control>
+          <div>
+            Field content
+          </div>
+        </template>
         <div slot="counter">
           3/12
         </div>
       </q-field>
 
-      <q-field :dark="dark">
-        <div>Field content</div>
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label tabindex="0">
+        <template v-slot:control>
+          <div>
+            Field content
+          </div>
+        </template>
       </q-field>
 
-      <q-field :dark="dark">
+      <q-field :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots tabindex="0">
         <q-btn slot="before" flat round dense icon="event" />
 
-        <div>Field content</div>
+        <template v-slot:control>
+          <div>
+            Field content
+          </div>
+        </template>
 
-        <div slot="message">
+        <div slot="hint">
           Field message
         </div>
 
@@ -108,12 +141,16 @@
       <p class="caption">
         Item aligned test
       </p>
-      <q-field :dark="dark" item-aligned>
+      <q-field :dark="dark" :dense="dense" item-aligned label="Field label" stack-label bottom-slots tabindex="0">
         <q-icon slot="before" name="event" />
 
-        <div>Field content</div>
+        <template v-slot:control>
+          <div>
+            Field content
+          </div>
+        </template>
 
-        <div slot="message">
+        <div slot="hint">
           Field message
         </div>
 
@@ -129,6 +166,58 @@
         </q-item-section>
         <q-item-section>List item</q-item-section>
       </q-item>
+
+      <p class="caption">
+        Tree select
+      </p>
+      <q-field filled :value="selected" label="Tree Select - Single" tabindex="0">
+        <template v-slot:control>
+          <div class="no-outline full-width">
+            {{ selected }}
+          </div>
+        </template>
+        <template v-slot:append>
+          <q-icon
+            name="expand_more"
+            class="q-expansion-item__toggle-icon"
+            :class="{ 'rotate-180': $refs.menu1 !== void 0 && $refs.menu1.showing === true }"
+          />
+        </template>
+        <q-popup-proxy fit auto-close ref="menu1">
+          <q-tree
+            :nodes="props"
+            default-expand-all
+            :selected.sync="selected"
+            node-key="label"
+            class="bg-white"
+          />
+        </q-popup-proxy>
+      </q-field>
+
+      <q-field filled :value="tickedValue" label="Tree Select - Multiple" tabindex="2">
+        <template v-slot:control>
+          <div class="no-outline full-width">
+            {{ tickedValue }}
+          </div>
+        </template>
+        <template v-slot:append>
+          <q-icon
+            name="expand_more"
+            class="q-expansion-item__toggle-icon"
+            :class="{ 'rotate-180': $refs.menu2 !== void 0 && $refs.menu2.showing === true }"
+          />
+        </template>
+        <q-popup-proxy fit ref="menu2">
+          <q-tree
+            :nodes="props"
+            default-expand-all
+            tick-strategy="leaf"
+            :ticked.sync="ticked"
+            node-key="label"
+            class="bg-white"
+          />
+        </q-popup-proxy>
+      </q-field>
     </div>
   </div>
 </template>
@@ -139,7 +228,50 @@ export default {
     return {
       dark: false,
       border: false,
-      individualBorder: false
+      dense: false,
+      individualBorder: false,
+
+      selected: null,
+      ticked: [],
+      props: [
+        {
+          label: 'Satisfied customers',
+          avatar: 'https://cdn.quasar-framework.org/img/boy-avatar.png',
+          children: [
+            {
+              label: 'Good food',
+              icon: 'restaurant_menu',
+              children: [
+                { label: 'Quality ingredients' },
+                { label: 'Good recipe' }
+              ]
+            },
+            {
+              label: 'Good service',
+              icon: 'room_service',
+              children: [
+                { label: 'Prompt attention' },
+                { label: 'Professional waiter' }
+              ]
+            },
+            {
+              label: 'Pleasant surroundings',
+              icon: 'photo',
+              children: [
+                {
+                  label: 'Happy atmosphere'
+                },
+                {
+                  label: 'Good table presentation'
+                },
+                {
+                  label: 'Pleasing decor'
+                }
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
 
@@ -160,6 +292,10 @@ export default {
         'fields-border': this.border,
         'fields-individual-border': this.individualBorder
       }
+    },
+
+    tickedValue () {
+      return this.ticked.join(', ')
     }
   }
 }

@@ -43,7 +43,7 @@ export default {
   },
   editor: {
     bold: 'format_bold',
-    italic: 'ti-italic',
+    italic: 'ti-Italic',
     strikethrough: 'strikethrough_s',
     underline: 'ti-underline',
     unorderedList: 'ti-list',
@@ -79,6 +79,10 @@ export default {
   fab: {
     icon: 'ti-plus',
     activeIcon: 'ti-close'
+  },
+  field: {
+    clear: 'ti-close',
+    error: 'ti-alert'
   },
   pagination: {
     first: 'ti-angle-double-left',

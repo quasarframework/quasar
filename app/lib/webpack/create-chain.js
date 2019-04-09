@@ -313,8 +313,7 @@ module.exports = function (cfg, configName) {
 
         const cssProcessorOptions = {
           parser: require('postcss-safe-parser'),
-          autoprefixer: { disable: true },
-          mergeLonghand: false
+          autoprefixer: { disable: true }
         }
         if (cfg.build.sourceMap) {
           cssProcessorOptions.map = { inline: false }
@@ -326,7 +325,14 @@ module.exports = function (cfg, configName) {
           .use(OptimizeCSSPlugin, [{
             canPrint: false,
             cssProcessor: require('cssnano'),
-            cssProcessorOptions
+            cssProcessorOptions,
+            cssProcessorPluginOptions: {
+              preset: ['default', {
+                mergeLonghand: false,
+                cssDeclarationSorter: false,
+                reduceTransforms: false
+              }]
+            }
           }])
       }
     }
