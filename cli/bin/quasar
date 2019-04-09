@@ -2,6 +2,20 @@
 
 require('../lib/node-version-check')
 
+const updateNotifier = require('update-notifier')
+const pkg = require('../package.json')
+ 
+// checks for available update and returns an instance
+const notifier = updateNotifier({
+  pkg,
+  updateCheckInterval: 1000 * 60 * 60 * 24 // no more than once a day
+})
+ 
+// notify with global
+notifier.notify({
+  isGlobal: true
+})
+ 
 const
   path = require('path'),
   resolveFrom = require('resolve-from')
