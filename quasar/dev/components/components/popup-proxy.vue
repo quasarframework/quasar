@@ -115,6 +115,20 @@
             </q-icon>
           </template>
         </q-input>
+        <q-input filled v-model="input" mask="date" :rules="['date']">
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy :breakpoint="600" @before-show="onBeforeShow1" @show="onShow1" @before-hide="onBeforeHide1" @hide="onHide1">
+                <q-card ref="card">
+                  <q-date v-model="input" filled />
+                  <q-card-actions>
+                    <q-btn label="Close" v-close-popup />
+                  </q-card-actions>
+                </q-card>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
         <!-- With QMenu -->
         <q-input filled v-model="input" mask="date" :rules="['date']">
           <template v-slot:append>
@@ -122,6 +136,20 @@
               <q-menu :breakpoint="600" @before-show="onBeforeShow2" @show="onShow2" @before-hide="onBeforeHide2" @hide="onHide2">
                 <q-date v-model="input" filled />
                 <q-btn label="Close" v-close-popup />
+              </q-menu>
+            </q-icon>
+          </template>
+        </q-input>
+        <q-input filled v-model="input" mask="date" :rules="['date']">
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-menu :breakpoint="600" @before-show="onBeforeShow2" @show="onShow2" @before-hide="onBeforeHide2" @hide="onHide2">
+                <q-card ref="card">
+                  <q-date v-model="input" filled />
+                  <q-card-actions>
+                    <q-btn label="Close" v-close-popup />
+                  </q-card-actions>
+                </q-card>
               </q-menu>
             </q-icon>
           </template>
