@@ -26,18 +26,17 @@ export default Vue.extend({
     },
 
     innerClass () {
-      const color = 'text-' + this.color
-
-      if (this.isTrue) {
-        return `q-toggle__inner--active${this.color ? ' ' + color : ''}`
+      if (this.isTrue === true) {
+        return 'q-toggle__inner--active' +
+          (this.color !== void 0 ? ' text-' + this.color : '')
       }
-      else if (this.keepColor && this.color) {
-        return color
+      else if (this.keepColor === true && this.color !== void 0) {
+        return 'text-' + this.color
       }
     },
 
     computedIcon () {
-      return (this.isTrue ? this.checkedIcon : this.uncheckedIcon) || this.icon
+      return (this.isTrue === true ? this.checkedIcon : this.uncheckedIcon) || this.icon
     }
   },
 

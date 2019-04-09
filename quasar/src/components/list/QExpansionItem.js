@@ -78,16 +78,17 @@ export default Vue.extend({
 
     expansionIcon () {
       return this.expandIcon || (this.denseToggle ? this.$q.iconSet.expansionItem.denseIcon : this.$q.iconSet.expansionItem.icon)
+    },
+
+    activeToggleIcon () {
+      return this.disable !== true && (this.hasRouterLink === true || this.expandIconToggle === true)
     }
   },
 
   methods: {
-    __toggleItemKeyboard (e) {
-      e.keyCode === 13 && this.__toggleItem(e)
-    },
-
-    __toggleItem (e) {
+    __onHeaderClick (e) {
       this.hasRouterLink !== true && this.toggle(e)
+      this.$emit('click', e)
     },
 
     __toggleIconKeyboard (e) {
@@ -95,11 +96,9 @@ export default Vue.extend({
     },
 
     __toggleIcon (e, keyboard) {
-      if (this.hasRouterLink === true || this.expandIconToggle === true) {
-        stopAndPrevent(e)
-        keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
-        this.toggle(e)
-      }
+      keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+      this.toggle(e)
+      stopAndPrevent(e)
     },
 
     __eventHandler (comp) {
@@ -109,16 +108,14 @@ export default Vue.extend({
     },
 
     __getToggleIcon (h) {
-      const isActive = this.disable !== true && (this.hasRouterLink === true || this.expandIconToggle === true)
-
       return h(QItemSection, {
         staticClass: `cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
         class: this.expandIconClass,
         props: {
           side: this.switchToggleSide !== true,
-          avatar: this.switchToggleSide === true
+          avatar: this.switchToggleSide
         },
-        nativeOn: isActive === true ? {
+        on: this.activeToggleIcon === true ? {
           click: this.__toggleIcon,
           keyup: this.__toggleIconKeyboard
         } : void 0
@@ -132,7 +129,9 @@ export default Vue.extend({
           props: {
             name: this.expansionIcon
           },
-          attrs: isActive === true ? { tabindex: 0 } : void 0
+          attrs: this.activeToggleIcon === true
+            ? { tabindex: 0 }
+            : void 0
         }, [
           h('div', {
             staticClass: 'q-focus-helper q-focus-helper--round',
@@ -192,11 +191,13 @@ export default Vue.extend({
         }
       }
 
-      if (this.isClickable) {
+      if (this.isClickable === true) {
+        const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
+
         data.props.clickable = true
-        data.on = {
-          click: this.__toggleItem,
-          keyup: this.__toggleItemKeyboard
+        data[evtProp] = {
+          ...this.$listeners,
+          click: this.__onHeaderClick
         }
 
         this.hasRouterLink === true && Object.assign(
@@ -255,8 +256,13 @@ export default Vue.extend({
 
   created () {
     this.$root.$on(eventName, this.__eventHandler)
-    if (this.defaultOpened || this.value) {
-      this.show()
+
+    if (this.value === true) {
+      this.showing = true
+    }
+    else if (this.defaultOpened === true) {
+      this.$emit('input', true)
+      this.showing = true
     }
   },
 

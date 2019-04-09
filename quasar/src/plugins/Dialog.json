@@ -5,6 +5,7 @@
 
   "methods": {
     "create": {
+      "injectionPoint": true,
       "params": {
         "opts": {
           "desc": "Dialog options",

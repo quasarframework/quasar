@@ -5,17 +5,20 @@
       "desc": "Custom mask or one of the predefined mask names",
       "examples": [
         "date", "###-##"
-      ]
+      ],
+      "category": "behavior"
     },
 
     "fill-mask": {
       "type": "Boolean",
-      "desc": "Fills string with underscore characters to fill mask's length"
+      "desc": "Fills string with underscore characters to fill mask's length",
+      "category": "behavior"
     },
 
     "unmasked-value": {
       "type": "Boolean",
-      "desc": "Model will be unmasked (won't contain tokens/separation characters)"
+      "desc": "Model will be unmasked (won't contain tokens/separation characters)",
+      "category": "behavior"
     }
   }
 }

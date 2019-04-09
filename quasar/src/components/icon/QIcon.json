@@ -7,7 +7,8 @@
     "name": {
       "type": "String",
       "desc": "Name of the icon, following Quasar convention",
-      "examples": [ "map", "ion-add" ]
+      "examples": [ "map", "ion-add" ],
+      "category": "model"
     },
 
     "color": {
@@ -20,12 +21,14 @@
 
     "left": {
       "type": "Boolean",
-      "desc": "Useful if icon is on the left side of something: applies a standard margin on the right side of Icon"
+      "desc": "Useful if icon is on the left side of something: applies a standard margin on the right side of Icon",
+      "category": "content"
     },
 
     "right": {
       "type": "Boolean",
-      "desc": "Useful if icon is on the right side of something: applies a standard margin on the left side of Icon"
+      "desc": "Useful if icon is on the right side of something: applies a standard margin on the left side of Icon",
+      "category": "content"
     }
   },
 

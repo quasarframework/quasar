@@ -81,7 +81,8 @@ export default {
     activeIcon: 'close'
   },
   field: {
-    clear: 'clear'
+    clear: 'cancel',
+    error: 'error'
   },
   pagination: {
     first: 'first_page',

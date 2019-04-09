@@ -1,12 +1,14 @@
 {
   "props": {
     "value": {
-      "type": "String"
+      "type": "String",
+      "category": "model"
     },
 
     "landscape": {
       "type": "Boolean",
-      "desc": "Display the component in landscape mode"
+      "desc": "Display the component in landscape mode",
+      "category": "behavior"
     },
 
     "color": {

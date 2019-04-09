@@ -7,8 +7,13 @@ import { getAllChildren } from '../../utils/vm.js'
 export default Vue.extend({
   name: 'QForm',
 
+  props: {
+    autofocus: Boolean
+  },
+
   mounted () {
     this.validateIndex = 0
+    this.autofocus === true && this.focus()
   },
 
   methods: {
@@ -83,7 +88,13 @@ export default Vue.extend({
       evt !== void 0 && stopAndPrevent(evt)
 
       this.resetValidation()
+      this.autofocus === true && this.focus()
       this.$emit('reset')
+    },
+
+    focus () {
+      const target = this.$el.querySelector('[tabindex]')
+      target !== null && target.focus()
     }
   },
 

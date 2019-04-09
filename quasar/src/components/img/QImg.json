@@ -11,7 +11,8 @@
         "(statics folder) statics/img/something.png",
         "(relative path format) :src=\"require('./my_img.jpg')\"",
         "(URL) https://some-site.net/some-img.gif"
-      ]
+      ],
+      "category": "model"
     },
 
     "srcset": {
@@ -20,7 +21,8 @@
       "link": "https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes",
       "examples": [
         "elva-fairy-320w.jpg 320w, elva-fairy-480w.jpg 480w"
-      ]
+      ],
+      "category": "model"
     },
 
     "sizes": {
@@ -29,36 +31,42 @@
       "link": "https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes",
       "examples": [
         "(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
-      ]
+      ],
+      "category": "model"
     },
 
     "alt": {
       "type": "String",
       "desc": "Specifies an alternate text for the image, if the image cannot be displayed",
-      "examples": [ "Two cats" ]
+      "examples": [ "Two cats" ],
+      "category": "content"
     },
 
     "placeholder-src": {
       "type": "String",
       "desc": "While waiting for your image to load, you can use a placeholder image",
-      "examples": [ "https://some-site.net/some-placeholder.jpg" ]
+      "examples": [ "https://some-site.net/some-placeholder.jpg" ],
+      "category": "model"
     },
 
     "basic": {
       "type": "Boolean",
-      "desc": "Do not use transitions; faster render"
+      "desc": "Do not use transitions; faster render",
+      "category": "content"
     },
 
     "contain": {
       "type": "Boolean",
-      "desc": "Make sure that the image getting displayed is fully contained, regardless if additional blank space besides the image is needed on horizontal or vertical"
+      "desc": "Make sure that the image getting displayed is fully contained, regardless if additional blank space besides the image is needed on horizontal or vertical",
+      "category": "content"
     },
 
     "position": {
       "type": "String",
       "desc": "Equivalent to CSS background-position property",
       "default": "50% 50%",
-      "examples": [ "0 0", "20px 50px" ]
+      "examples": [ "0 0", "20px 50px" ],
+      "category": "content"
     },
 
     "ratio": {
@@ -67,7 +75,8 @@
       "examples": [
         "(Number format) :ratio=\"16/9\"",
         "(String format) ratio=\"1\""
-      ]
+      ],
+      "category": "content"
     },
 
     "transition": {
@@ -77,12 +86,14 @@
 
     "spinner-color": {
       "extends": "color",
-      "desc": "Color name for default Spinner (unless using a 'loading' slot)"
+      "desc": "Color name for default Spinner (unless using a 'loading' slot)",
+      "category": "style"
     },
 
     "spinnner-size": {
       "extends": "size",
-      "desc": "Size in CSS units, including unit name, for default Spinner (unless using a 'loading' slot)"
+      "desc": "Size in CSS units, including unit name, for default Spinner (unless using a 'loading' slot)",
+      "category": "style"
     }
   },
 

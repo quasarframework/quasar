@@ -1,4 +1,5 @@
-import { listenOpts } from '../../utils/event.js'
+import { listenOpts, stopAndPrevent } from '../../utils/event.js'
+import Platform from '../../plugins/Platform.js'
 
 const evtOpts = listenOpts.hasPassive === true
   ? { passive: false, capture: true }
@@ -41,6 +42,10 @@ export default {
             }
           }
         }
+
+        // prevent accidental click/tap on something else
+        // that has a trigger --> improves UX
+        Platform.is.mobile === true && stopAndPrevent(evt)
 
         ctx.trigger(evt)
       }

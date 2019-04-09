@@ -4,7 +4,7 @@ const
   appPaths = require('../app-paths'),
   postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
 
-function injectRule ({ chain, pref }, lang, test, loader, options) {
+function injectRule (chain, pref, lang, test, loader, options) {
   const baseRule = chain.module.rule(lang).test(test)
 
   // rules for <style lang="module">
@@ -33,7 +33,11 @@ function injectRule ({ chain, pref }, lang, test, loader, options) {
     }
 
     const cssLoaderOptions = {
-      importLoaders: 2 + (loader ? 1 : 0),
+      importLoaders:
+        1 + // stylePostLoader injected by vue-loader
+        1 + // postCSS loader
+        (!pref.extract && pref.minify ? 1 : 0) + // postCSS with cssnano
+        (loader ? 1 : 0),
       sourceMap: pref.sourceMap
     }
 
@@ -48,18 +52,30 @@ function injectRule ({ chain, pref }, lang, test, loader, options) {
       .loader('css-loader')
       .options(cssLoaderOptions)
 
-    const
-      postCssOpts = Object.assign({ sourceMap: pref.sourceMap }, postCssConfig),
-      rtlOptions = pref.rtl === true ? {} : pref.rtl
-
-    if (pref.rtl || pref.minify) {
-      pref.rtl && postCssOpts.plugins.push(
-        require('postcss-rtl')(rtlOptions)
-      )
-      pref.minify && postCssOpts.plugins.push(
-        require('cssnano')
-      )
+    if (!pref.extract && pref.minify) {
+      // needs to be applied separately,
+      // otherwise it messes up RTL
+      rule.use('cssnano')
+        .loader('postcss-loader')
+        .options({
+          sourceMap: pref.sourceMap,
+          plugins: [
+            require('cssnano')({
+              preset: ['default', {
+                mergeLonghand: false,
+                cssDeclarationSorter: false,
+                reduceTransforms: false
+              }]
+            })
+          ]
+        })
     }
+
+    const postCssOpts = Object.assign({ sourceMap: pref.sourceMap }, postCssConfig)
+
+    pref.rtl && postCssOpts.plugins.push(
+      require('postcss-rtl')(pref.rtl === true ? {} : pref.rtl)
+    )
 
     rule.use('postcss-loader')
       .loader('postcss-loader')
@@ -76,19 +92,14 @@ function injectRule ({ chain, pref }, lang, test, loader, options) {
   }
 }
 
-module.exports = function (chain, options) {
-  const meta = {
-    chain,
-    pref: options
-  }
-
-  injectRule(meta, 'css', /\.css$/)
-  injectRule(meta, 'stylus', /\.styl(us)?$/, 'stylus-loader', {
+module.exports = function (chain, pref) {
+  injectRule(chain, pref, 'css', /\.css$/)
+  injectRule(chain, pref, 'stylus', /\.styl(us)?$/, 'stylus-loader', {
     preferPathResolver: 'webpack'
   })
-  injectRule(meta, 'scss', /\.scss$/, 'sass-loader')
-  injectRule(meta, 'sass', /\.sass$/, 'sass-loader', {
+  injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader')
+  injectRule(chain, pref, 'sass', /\.sass$/, 'sass-loader', {
     indentedSyntax: true
   })
-  injectRule(meta, 'less', /\.less$/, 'less-loader')
+  injectRule(chain, pref, 'less', /\.less$/, 'less-loader')
 }

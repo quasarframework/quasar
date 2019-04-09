@@ -1,4 +1,12 @@
 {
+  "props": {
+    "autofocus": {
+      "type": "Boolean",
+      "desc": "Focus first focusable element on initial component render",
+      "category": "behavior"
+    }
+  },
+
   "slots": {
     "default": {
       "extends": "default"
@@ -27,7 +35,7 @@
     "validate": {
       "desc": "Triggers a validation on all applicable inner Quasar components",
       "returns": {
-        "type": "Promise",
+        "type": "Promise<boolean>",
         "desc": "Promise is always fulfilled and receives the outcome (true -> validation was a success, false -> invalid models detected)",
         "examples": [
           "validate().then(outcome => { ... })"
@@ -37,6 +45,10 @@
 
     "resetValidation": {
       "desc": "Resets the validation on all applicable inner Quasar components"
+    },
+
+    "focus": {
+      "desc": "Focus on first focusable element/component in the form"
     }
   }
 }

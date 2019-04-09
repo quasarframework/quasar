@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import slot from '../../utils/slot.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QItem',
@@ -69,19 +70,30 @@ export default Vue.extend({
       return child
     },
 
-    __onClick (e, keyEvent) {
+    __onClick (e) {
       if (this.isClickable === true) {
-        if (keyEvent !== true) {
-          this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+        if (e.qKeyEvent !== true && this.$refs.blurTarget !== void 0) {
+          this.$refs.blurTarget.focus()
         }
 
-        this.$listeners.click !== void 0 && this.$emit('click', e)
+        this.$emit('click', e)
       }
     },
 
     __onKeyup (e) {
-      this.$listeners.keyup !== void 0 && this.$emit('keyup', e)
-      e.keyCode === 13 /* ENTER */ && this.__onClick(e, true)
+      if (e.keyCode === 13 && this.isClickable === true) {
+        stopAndPrevent(e)
+
+        // for ripple
+        e.qKeyEvent = true
+
+        // for click trigger
+        const evt = new MouseEvent('click', e)
+        evt.qKeyEvent = true
+        this.$el.dispatchEvent(evt)
+      }
+
+      this.$emit('keyup', e)
     }
   },
 

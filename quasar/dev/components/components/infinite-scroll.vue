@@ -18,7 +18,7 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           </div>
 
-          <div slot="message" class="row justify-center q-my-md">
+          <div slot="loading" class="row justify-center q-my-md">
             <q-spinner color="primary" name="dots" :size="40" />
           </div>
         </q-infinite-scroll>
@@ -36,8 +36,28 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           </div>
 
-          <div slot="message" class="row justify-center q-my-md">
+          <div slot="loading" class="row justify-center q-my-md">
             <q-spinner color="primary" name="dots" :size="40" />
+          </div>
+        </q-infinite-scroll>
+        <div v-else style="height: 300vh">
+          Placeholder for scroll
+        </div>
+      </div>
+
+      <div v-if="container" id="reverse-target" :style="styles">
+        <q-infinite-scroll reverse @load="loadReverse" :disable="disable" v-if="active" scroll-target="#reverse-target">
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner color="primary" name="dots" size="40px" />
+            </div>
+          </template>
+
+          <div v-for="(item, index) in itemsReverse" :key="itemsReverse.length - index" class="caption">
+            <q-chip square color="secondary" class="shadow-1">
+              {{ itemsReverse.length - index }}
+            </q-chip>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           </div>
         </q-infinite-scroll>
         <div v-else style="height: 300vh">
@@ -52,6 +72,7 @@
 export default {
   data () {
     return {
+      itemsReverse: [{}, {}, {}, {}, {}],
       itemsRef: [{}, {}, {}, {}, {}],
       itemsId: [{}, {}, {}, {}, {}],
       disable: false,
@@ -65,6 +86,14 @@ export default {
     }
   },
   methods: {
+    loadReverse (index, done) {
+      console.log('load reverse called')
+      setTimeout(() => {
+        this.itemsReverse.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
+        done()
+      }, 2500)
+    },
+
     loadRef (index, done) {
       console.log('load ref called')
       setTimeout(() => {

@@ -22,7 +22,7 @@ $toggle-transition = .22s cubic-bezier(.4,0,.2,1)
     right auto
     top 10px
     transform translate3d(0, 0, 0)
-    transition transform $toggle-transition, background-color $toggle-transition, border-color .22s
+    transition transform $toggle-transition
     user-select none
 
   &__thumb
@@ -62,35 +62,16 @@ $toggle-transition = .22s cubic-bezier(.4,0,.2,1)
           opacity 1
 
   &.disabled
-    opacity 1 !important
-    .q-toggle__inner
-      color $grey-5
-    .q-toggle__thumb
-      border-color $grey-5
-    .q-toggle__track
-      opacity 1
-      color rgba(0, 0, 0, .12)
-    .q-toggle__label
-      color rgba(0, 0, 0, .26)
+    opacity .75 !important
 
   &--dark
     .q-toggle__inner
-      color rgba(255, 255, 255, .7)
+      color #fff
       &--active
         color $primary
         color var(--q-color-primary)
     .q-toggle__thumb:before
       opacity .32 !important
-
-    &.disabled
-      .q-toggle__inner
-        color $grey-9
-      .q-toggle__thumb
-        border-color $grey-9
-      .q-toggle__track
-        color rgba(255, 255, 255, .2)
-      .q-toggle__label
-        color rgba(255, 255, 255, .3)
 
   &--dense
 

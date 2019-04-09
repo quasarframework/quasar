@@ -34,7 +34,7 @@
           Get directions
         </q-chip>
         <q-chip>
-          <q-avatar icon="bookmark" color="red" text-color="white" />
+          <q-avatar icon="fas fa-address-book" color="red" text-color="white" />
           Bookmark
         </q-chip>
         <q-chip>
@@ -141,7 +141,7 @@
           Get directions
         </q-chip>
         <q-chip square dense>
-          <q-avatar icon="bookmark" color="red" text-color="white" />
+          <q-avatar icon="fas fa-address-book" color="red" text-color="white" />
           Bookmark
         </q-chip>
         <q-chip square dense>
@@ -166,7 +166,7 @@
         <q-chip clickable icon="bookmark">
           Bookmark
         </q-chip>
-        <q-chip clickable color="teal" text-color="white" icon="bookmark">
+        <q-chip clickable color="teal" text-color="white" icon="fas fa-address-book">
           Bookmark
         </q-chip>
         <q-chip clickable color="red" text-color="white" icon="alarm" label="Set alarm" removable />

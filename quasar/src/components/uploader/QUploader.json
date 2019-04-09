@@ -3,7 +3,8 @@
     "label": {
       "type": "String",
       "desc": "Label for the uploader",
-      "examples": [ "Upload photo here" ]
+      "examples": [ "Upload photo here" ],
+      "category": "content"
     },
 
     "color": {
@@ -32,7 +33,8 @@
 
     "multiple": {
       "type": "Boolean",
-      "desc": "Allow multiple file uploads"
+      "desc": "Allow multiple file uploads",
+      "category": "behavior"
     },
 
     "accept": {
@@ -40,19 +42,22 @@
       "desc": "Comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element",
       "examples": [
         ".jpg, .pdf, image/*", "image/jpeg, .pdf"
-      ]
+      ],
+      "category": "behavior"
     },
 
     "max-file-size": {
       "type": "Number",
       "desc": "Maximum size of individual file in bytes",
-      "examples": [ 1024, 1048576 ]
+      "examples": [ 1024, 1048576 ],
+      "category": "behavior"
     },
 
     "max-total-size": {
       "type": "Number",
       "desc": "Maximum size of all files combined in bytes",
-      "examples": [ 1024, 1048576 ]
+      "examples": [ 1024, 1048576 ],
+      "category": "behavior"
     },
 
     "filter": {
@@ -70,17 +75,20 @@
         "desc": "Filtered files to be added to queue",
         "__exemption": [ "examples" ]
       },
-      "examples": [ ":filter=\"files => files.filter(file => file.size === 1024)\"" ]
+      "examples": [ ":filter=\"files => files.filter(file => file.size === 1024)\"" ],
+      "category": "behavior"
     },
 
     "no-thumbnails": {
       "type": "Boolean",
-      "desc": "Don't display thumbnails for image files"
+      "desc": "Don't display thumbnails for image files",
+      "category": "content"
     },
 
     "auto-upload": {
       "type": "Boolean",
-      "desc": "Upload files immediately when added"
+      "desc": "Upload files immediately when added",
+      "category": "behavior"
     },
 
     "disable": {
@@ -105,13 +113,15 @@
         "type": [ "Object", "Promise" ],
         "desc": "Optional configuration for the upload process; You can override QUploader props in this Object (url, method, headers, fields, fieldName, withCredentials, sendRaw); Props of these Object can also be Functions with the form of (file[s]) => value",
         "__exemption": [ "examples" ]
-      }
+      },
+      "category": "upload"
     },
 
     "url": {
       "type": [ "String", "Function" ],
       "desc": "URL or path to the server which handles the upload. Takes String or factory function, which returns String. Function is called right before upload",
-      "examples": ["https://example.com/path", "files => `https://example.com?count=${files.length}`"]
+      "examples": ["https://example.com/path", "files => `https://example.com?count=${files.length}`"],
+      "category": "upload"
     },
 
     "method": {
@@ -119,7 +129,8 @@
       "default": "POST",
       "desc": "HTTP method to use for upload; Takes String or factory function which returns a String; Function is called right before upload",
       "values": [ "POST", "PUT" ],
-      "examples": [ "POST", ":method=\"files => files.length > 10 ? 'POST' : 'PUT'\"" ]
+      "examples": [ "POST", ":method=\"files => files.length > 10 ? 'POST' : 'PUT'\"" ],
+      "category": "upload"
     },
 
     "field-name": {
@@ -129,7 +140,8 @@
       "examples": [
         "backgroundFile",
         ":field-name=\"(file) => 'background' + file.name\""
-      ]
+      ],
+      "category": "upload"
     },
 
     "headers": {
@@ -153,10 +165,11 @@
         "[{name: 'Content-Type', value: 'application/json'}, {name: 'Accept', value: 'application/json'}]",
         "() => [{name: 'X-Custom-Timestamp', value: Date.now()}]",
         "files => [{name: 'X-Custom-Count', value: files.length}]"
-      ]
+      ],
+      "category": "upload"
     },
 
-    "fields": {
+    "form-fields": {
       "type": [ "Array", "Function" ],
       "desc": "Array or a factory function which returns an array; Array consists of objects with additional fields definitions (used by Form to be uploaded); Function is called right before upload",
       "definition": {
@@ -177,25 +190,29 @@
         "[{name: 'my-field', value: 'my-value'}]",
         "() => [{name: 'my-field', value: 'my-value'}]",
         "files => [{name: 'my-field', value: 'my-value' + files.length}]"
-      ]
+      ],
+      "category": "upload"
     },
 
     "with-credentials": {
       "type": [ "Boolean", "Function" ],
       "desc": "Sets withCredentials to true on the XHR that manages the upload; Takes boolean or factory function for Boolean; Function is called right before upload",
-      "examples": [ "with-credentials", ":with-credentials=\"files => ...\"" ]
+      "examples": [ "with-credentials", ":with-credentials=\"files => ...\"" ],
+      "category": "upload"
     },
 
     "send-raw": {
       "type": [ "Boolean", "Function" ],
       "desc": "Send raw files without wrapping into a Form(); Takes boolean or factory function for Boolean; Function is called right before upload",
-      "examples": [ "send-raw", ":send-raw=\"files => ...\"" ]
+      "examples": [ "send-raw", ":send-raw=\"files => ...\"" ],
+      "category": "upload"
     },
 
     "batch": {
       "type": [ "Boolean", "Function" ],
       "desc": "Upload files in batch (in one XHR request); Takes boolean or factory function for Boolean; Function is called right before upload",
-      "examples": [ "files => files.length > 10" ]
+      "examples": [ "files => files.length > 10" ],
+      "category": "upload"
     }
   },
 

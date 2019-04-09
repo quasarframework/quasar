@@ -6,7 +6,8 @@
       "examples": [
         "my-special-class",
         ":content-class=\"{ 'my-special-class': <condition> }\""
-      ]
+      ],
+      "category": "style"
     },
 
     "content-style": {
@@ -15,7 +16,8 @@
       "examples": [
         "background-color: #ff0000",
         ":content-style=\"{ color: '#ff0000' }\""
-      ]
+      ],
+      "category": "style"
     }
   }
 }

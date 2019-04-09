@@ -6,6 +6,7 @@ export default {
 
     error: Boolean,
     errorMessage: String,
+    noErrorIcon: Boolean,
 
     rules: Array,
     lazyRules: Boolean

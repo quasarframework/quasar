@@ -7,38 +7,44 @@
       "desc": "Side to attach to",
       "values": [ "left", "right" ],
       "default": "left",
-      "examples": [ "right" ]
+      "examples": [ "right" ],
+      "category": "behavior"
     },
 
     "overlay": {
       "type": "Boolean",
-      "desc": "Puts drawer into overlay mode (does not occupies space on screen, narrowing the page)"
+      "desc": "Puts drawer into overlay mode (does not occupies space on screen, narrowing the page)",
+      "category": "behavior"
     },
 
     "width": {
       "type": "Number",
       "desc": "Width of drawer (in pixels)",
       "default": 300,
-      "examples": [ ":width=\"350\"" ]
+      "examples": [ ":width=\"350\"" ],
+      "category": "style"
     },
 
     "mini": {
       "type": "Boolean",
-      "desc": "Puts drawer into mini mode"
+      "desc": "Puts drawer into mini mode",
+      "category": "behavior"
     },
 
     "mini-width": {
       "type": "Number",
       "desc": "Width of drawer (in pixels) when in mini-mode",
       "default": 60,
-      "examples": [ ":width=\"100\"" ]
+      "examples": [ ":width=\"100\"" ],
+      "category": "style"
     },
 
     "breakpoint": {
       "type": "Number",
       "desc": "Breakpoint (in pixels) of layout width up to which mobile mode is used",
       "default": 1023,
-      "examples": [ 1200, ":breakpoint=\"1400\"" ]
+      "examples": [ 1200, ":breakpoint=\"1400\"" ],
+      "category": "behavior"
     },
 
     "behavior": {
@@ -50,7 +56,8 @@
       "default": "default",
       "examples": [
         "mobile"
-      ]
+      ],
+      "category": "behavior"
     },
 
     "bordered": {
@@ -59,17 +66,20 @@
 
     "elevated": {
       "type": "Boolean",
-      "desc": "Adds a default shadow to the header"
+      "desc": "Adds a default shadow to the header",
+      "category": "style"
     },
 
     "persistent": {
       "type": "Boolean",
-      "desc": "Does not auto-closes when app's route changes"
+      "desc": "Does not auto-closes when app's route changes",
+      "category": "behavior"
     },
 
     "show-if-above": {
       "type": "Boolean",
-      "desc": "Force drawer to be shown on screen on initial render if the layout width is above breakpoint"
+      "desc": "Force drawer to be shown on screen on initial render if the layout width is above breakpoint",
+      "category": "behavior"
     },
 
     "content-class": {
@@ -78,7 +88,8 @@
       "examples": [
         "my-special-class",
         ":content-class=\"{ 'my-special-class': <condition> }\""
-      ]
+      ],
+      "category": "style"
     },
 
     "content-style": {
@@ -87,17 +98,20 @@
       "examples": [
         "background-color: #ff0000",
         ":content-style=\"{ backgroundColor: '#ff0000' }\""
-      ]
+      ],
+      "category": "style"
     },
 
     "no-swipe-open": {
       "type": "Boolean",
-      "desc": "Disables the default behavior where drawer can be swiped into view; Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature"
+      "desc": "Disables the default behavior where drawer can be swiped into view; Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature",
+      "category": "behavior"
     },
 
     "no-swipe-close": {
       "type": "Boolean",
-      "desc": "Disables the default behavior where drawer can be swiped out of view; Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature"
+      "desc": "Disables the default behavior where drawer can be swiped out of view; Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature",
+      "category": "behavior"
     }
   },
 

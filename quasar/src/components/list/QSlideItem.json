@@ -2,12 +2,14 @@
   "props": {
     "left-color": {
       "extends": "color",
-      "desc": "Color name for left-side background from the Quasar Color Palette"
+      "desc": "Color name for left-side background from the Quasar Color Palette",
+      "category": "style"
     },
 
     "right-color": {
       "extends": "color",
-      "desc": "Color name for right-side background from the Quasar Color Palette"
+      "desc": "Color name for right-side background from the Quasar Color Palette",
+      "category": "style"
     }
   },
 

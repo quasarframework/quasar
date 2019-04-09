@@ -87,7 +87,7 @@
       top 50%
       transform translate3d(-50%, -50%, 0)
       background-color currentColor
-      border-radius 50%
+      border-radius $generic-border-radius
 
   &--editable
     cursor grab
@@ -101,6 +101,7 @@
   &--focus
     .q-slider__thumb
       animation q-slider-emphasize 266.67ms linear
+      transform scale3d(.571, .571, .571) !important
 
     .q-slider__focus-ring
       background currentColor

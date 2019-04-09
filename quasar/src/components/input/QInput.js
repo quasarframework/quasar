@@ -80,10 +80,6 @@ export default Vue.extend({
       this.$refs.input.focus()
     },
 
-    blur () {
-      this.$refs.input.blur()
-    },
-
     __onInput (e) {
       const val = e.target.value
 
@@ -101,6 +97,9 @@ export default Vue.extend({
 
     __emitValue (val, stopWatcher) {
       const fn = () => {
+        if (this.hasOwnProperty('tempValue') === true) {
+          delete this.tempValue
+        }
         if (this.value !== val) {
           stopWatcher === true && (this.stopValueWatcher = true)
           this.$emit('input', val)
@@ -109,6 +108,7 @@ export default Vue.extend({
 
       if (this.debounce !== void 0) {
         clearTimeout(this.emitTimer)
+        this.tempValue = val
         this.emitTimer = setTimeout(fn, this.debounce)
       }
       else {
@@ -158,7 +158,9 @@ export default Vue.extend({
         attrs,
         on,
         domProps: {
-          value: this.innerValue
+          value: this.hasOwnProperty('tempValue') === true
+            ? this.tempValue
+            : this.innerValue
         }
       })
     }

@@ -6,7 +6,7 @@
       <q-avatar color="primary" text-color="white">
         J
       </q-avatar>
-      <q-avatar size="100px" font-size="52px" color="teal" text-color="white" icon="directions" />
+      <q-avatar size="100px" font-size="52px" color="teal" text-color="white" icon="fas fa-address-book" />
       <q-avatar size="24px" color="orange">
         J
       </q-avatar>

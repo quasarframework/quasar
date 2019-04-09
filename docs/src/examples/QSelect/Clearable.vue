@@ -6,7 +6,7 @@
       <!-- equivalent -->
       <q-select color="orange" filled v-model="model" :options="options" label="Label">
         <template v-if="model" v-slot:append>
-          <q-icon name="close" @click.stop="model = null" class="cursor-pointer" />
+          <q-icon name="cancel" @click.stop="model = null" class="cursor-pointer" />
         </template>
       </q-select>
     </div>

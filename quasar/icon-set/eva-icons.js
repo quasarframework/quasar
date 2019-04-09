@@ -81,7 +81,8 @@ export default {
     activeIcon: 'eva-close'
   },
   field: {
-    clear: 'eva-close'
+    clear: 'eva-close-circle',
+    error: 'eva-alert-circle'
   },
   pagination: {
     first: 'eva-arrowhead-left-outline',
