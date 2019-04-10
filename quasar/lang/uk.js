@@ -8,7 +8,7 @@ export default {
   label: {
     clear: 'Очистити',
     ok: 'OK',
-    cancel: 'Відміна',
+    cancel: 'Скасувати',
     close: 'Закрити',
     set: 'Встановити',
     select: 'Обрати',
