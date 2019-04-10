@@ -110,28 +110,27 @@ class QuasarConfig {
       }, 1000))
 
       if (this.ctx.mode.ssr) {
-        this.ssrExtensionFile = appPaths.resolve.ssr('extension.js')
+        const SsrExtension = require('./ssr/ssr-extension')
+
+        if (!SsrExtension.isValid()) {
+          process.exit(1)
+        }
 
         chokidar
-        .watch(this.ssrExtensionFile, { watchers: { chokidar: { ignoreInitial: true } } })
+        .watch(appPaths.ssrDir, { watchers: { chokidar: { ignoreInitial: true } } })
         .on('change', debounce(async () => {
           console.log()
-          log(`src-ssr/extension.js changed`)
+          log(`src-ssr/* changed`)
 
-          try {
-            this.readSSRextension()
+          SsrExtension.deleteCache()
+
+          if (SsrExtension.isValid()) {
+            // trigger build update
+            opts.onBuildChange()
           }
-          catch (e) {
-            if (e.message !== 'NETWORK_ERROR') {
-              console.log(e)
-              warn(`src-ssr/extension.js has JS errors. Please fix them then save file again.`)
-              warn()
-            }
-
-            return
+          else {
+            warn(`⚠️  [FAIL] Please fix the error then save the file so we can continue.`)
           }
-
-          opts.onBuildChange()
         }, 1000))
       }
     }
@@ -140,10 +139,6 @@ class QuasarConfig {
   // synchronous for build
   async prepare () {
     this.readConfig()
-
-    if (this.watch && this.ctx.mode.ssr) {
-      this.readSSRextension()
-    }
 
     const cfg = merge({
       ctx: this.ctx,
@@ -235,19 +230,6 @@ class QuasarConfig {
     }
     else {
       warn(`⚠️  [FAIL] Could not load quasar.conf.js config file`)
-      process.exit(1)
-    }
-  }
-
-  readSSRextension () {
-    log(`Reading src-ssr/extension.js`)
-
-    if (fs.existsSync(this.ssrExtensionFile)) {
-      delete require.cache[this.ssrExtensionFile]
-      this.ssrExtension = require(this.ssrExtensionFile)
-    }
-    else {
-      warn(`⚠️  [FAIL] Could not load src-ssr/extension.js file`)
       process.exit(1)
     }
   }
@@ -484,8 +466,6 @@ class QuasarConfig {
         require('./mode/install-missing')('pwa')
       }
       this.ctx.mode.pwa = cfg.ctx.mode.pwa = cfg.ssr.pwa !== false
-
-      this.watch && (cfg.__ssrExtension = this.ssrExtension)
     }
 
     if (this.ctx.dev) {

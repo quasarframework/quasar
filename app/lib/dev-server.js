@@ -99,7 +99,8 @@ module.exports = class DevServer {
       express = require('express'),
       chokidar = require('chokidar'),
       { createBundleRenderer } = require('vue-server-renderer'),
-      ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
+      ouchInstance = require('./helpers/cli-error-handling').getOuchInstance(),
+      SsrExtension = require('./ssr/ssr-extension')
 
     let renderer
 
@@ -252,7 +253,7 @@ module.exports = class DevServer {
             maxAge: 0
           }))
 
-          cfg.__ssrExtension.extendApp({ app })
+          SsrExtension.getModule().extendApp({ app })
 
           app.get('*', render)
         }
