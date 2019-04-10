@@ -115,6 +115,12 @@ async function build () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
+  // run possible beforeBuild hooks
+  await extensionRunner.runHook('beforeBuild', async hook => {
+    log(`Extension(${hook.extId}): Running beforeBuild hook...`)
+    await hook.fn()
+  })
+
   const quasarConfig = new QuasarConfig(ctx)
 
   try {
@@ -141,7 +147,7 @@ async function build () {
 
   log(chalk.bold(`Building...`))
 
-  webpack(parseWebpackConfig(webpackConfig, argv.mode), (err, stats) => {
+  webpack(parseWebpackConfig(webpackConfig, argv.mode), async (err, stats) => {
     if (err) { throw err }
 
     artifacts.add(outputFolder)
@@ -173,11 +179,17 @@ async function build () {
       }
     })
 
-    finalize(argv.mode, quasarConfig).then(() => {
+    finalize(argv.mode, quasarConfig).then(async () => {
       banner(argv, 'build', {
         outputFolder: argv.mode === 'cordova'
           ? path.join(outputFolder, '..')
           : outputFolder
+      })
+
+      // run possible beforeBuild hooks
+      await extensionRunner.runHook('afterBuild', async hook => {
+        log(`Extension(${hook.extId}): Running afterBuild hook...`)
+        await hook.fn()
       })
     })
   })
