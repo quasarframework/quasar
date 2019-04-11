@@ -368,11 +368,11 @@
         </div>
       </q-input>
 
-      <q-input v-model="text" filled hint="With tooltip">
+      <q-input :dark="dark" v-model="text" filled hint="With tooltip">
         <q-tooltip>Some tooltip</q-tooltip>
       </q-input>
 
-      <q-input v-model="text" filled hint="With menu" style="margin-bottom: 100px">
+      <q-input :dark="dark" v-model="text" filled hint="With menu" style="margin-bottom: 100px">
         <q-menu fit auto-close>
           <q-list padding style="min-width: 100px">
             <q-item
@@ -386,7 +386,7 @@
         </q-menu>
       </q-input>
 
-      <q-input v-model="file" type="file" />
+      <q-input :dark="dark" v-model="file" type="file" />
     </div>
   </div>
 </template>
