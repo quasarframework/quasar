@@ -64,15 +64,23 @@ export default {
 
       mouseStart (evt) {
         if (leftClick(evt)) {
-          document.addEventListener('mousemove', ctx.move, true)
-          document.addEventListener('mouseup', ctx.mouseEnd, true)
+          document.addEventListener('mousemove', ctx.move, listenOpts.notPassive)
+          document.addEventListener('mouseup', ctx.mouseEnd, listenOpts.notPassive)
+          document.addEventListener('click', ctx.mouseEndClick, listenOpts.notPassiveCapture)
           ctx.start(evt, true)
         }
       },
 
       mouseEnd (evt) {
-        document.removeEventListener('mousemove', ctx.move, true)
-        document.removeEventListener('mouseup', ctx.mouseEnd, true)
+        setTimeout(() => {
+          ctx.mouseEndClick(evt)
+        })
+      },
+
+      mouseEndClick (evt) {
+        document.removeEventListener('mousemove', ctx.move, listenOpts.notPassive)
+        document.removeEventListener('mouseup', ctx.mouseEnd, listenOpts.notPassive)
+        document.removeEventListener('click', ctx.mouseEndClick, listenOpts.notPassiveCapture)
         ctx.end(evt)
       },
 
@@ -187,7 +195,6 @@ export default {
         }
 
         if (ctx.event.dir !== false) {
-          document.body.classList.add('no-pointer-events')
           stopAndPrevent(evt)
           clearSelection()
 
@@ -213,9 +220,8 @@ export default {
 
         removeObserver(ctx)
 
-        if (ctx.event.abort === false && ctx.event.dir !== false) {
-          document.body.classList.remove('no-pointer-events')
-          stopAndPrevent(evt)
+        if (ctx.event.dir !== false) {
+          ctx.event.abort === false && stopAndPrevent(evt)
         }
 
         ctx.event = void 0
@@ -234,8 +240,8 @@ export default {
 
     el.addEventListener('touchstart', ctx.start, listenOpts.notPassive)
     el.addEventListener('touchmove', ctx.move, listenOpts.notPassive)
-    el.addEventListener('touchcancel', ctx.end)
-    el.addEventListener('touchend', ctx.end)
+    el.addEventListener('touchcancel', ctx.end, listenOpts.notPassive)
+    el.addEventListener('touchend', ctx.end, listenOpts.notPassive)
   },
 
   update (el, binding) {
@@ -248,17 +254,17 @@ export default {
     const ctx = el.__qtouchswipe_old || el.__qtouchswipe
     if (ctx !== void 0) {
       removeObserver(ctx)
-      document.body.classList.remove('no-pointer-events')
 
       if (binding.modifiers.mouse === true) {
         el.removeEventListener('mousedown', ctx.mouseStart)
-        document.removeEventListener('mousemove', ctx.move, true)
-        document.removeEventListener('mouseup', ctx.mouseEnd, true)
+        document.removeEventListener('mousemove', ctx.move, listenOpts.notPassive)
+        document.removeEventListener('mouseup', ctx.mouseEnd, listenOpts.notPassive)
+        document.removeEventListener('click', ctx.mouseEndClick, listenOpts.notPassiveCapture)
       }
       el.removeEventListener('touchstart', ctx.start, listenOpts.notPassive)
       el.removeEventListener('touchmove', ctx.move, listenOpts.notPassive)
-      el.removeEventListener('touchcancel', ctx.end)
-      el.removeEventListener('touchend', ctx.end)
+      el.removeEventListener('touchcancel', ctx.end, listenOpts.notPassive)
+      el.removeEventListener('touchend', ctx.end, listenOpts.notPassive)
 
       delete el[el.__qtouchswipe_old ? '__qtouchswipe_old' : '__qtouchswipe']
     }

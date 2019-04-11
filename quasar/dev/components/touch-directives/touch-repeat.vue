@@ -19,7 +19,7 @@
         <div v-if="info1" class="custom-info">
           <pre>{{ info1 }}</pre>
         </div>
-        <div v-else class="text-center q-pa-xl custom-area-placeholder">
+        <div v-else class="text-center q-pa-xl custom-area-placeholder" tabindex="0">
           Click/touch and hold.
         </div>
       </div>
@@ -36,7 +36,7 @@
         <div v-if="info2" class="custom-info">
           <pre>{{ info2 }}</pre>
         </div>
-        <div v-else class="q-pa-xl custom-area-placeholder">
+        <div v-else class="q-pa-xl custom-area-placeholder" tabindex="0">
           Click/touch or press SPACE/ENTER/H and hold
         </div>
       </div>
@@ -53,7 +53,7 @@
         <div v-if="info3" class="custom-info">
           <pre>{{ info3 }}</pre>
         </div>
-        <div v-else class="q-pa-xl custom-area-placeholder">
+        <div v-else class="q-pa-xl custom-area-placeholder" tabindex="0">
           Click/touch or press ENTER/H and hold
         </div>
       </div>
@@ -104,8 +104,8 @@ export default {
       console.log(evt)
     },
 
-    onClick () {
-      console.log('click')
+    onClick (evt) {
+      console.log('click', evt)
     }
   }
 }
