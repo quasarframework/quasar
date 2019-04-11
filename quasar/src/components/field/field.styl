@@ -126,8 +126,12 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
   &--float .q-field__label
     transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
-  .q-field__native:-webkit-autofill + .q-field__label
-    transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
+  .q-field__native
+    &:-webkit-autofill, &:-internal-autofill-selected
+      background-clip content-box
+
+      & + .q-field__label
+        transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
 
   &--focused
     .q-field__label
