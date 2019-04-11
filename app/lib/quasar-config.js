@@ -546,6 +546,11 @@ class QuasarConfig {
           description: this.pkg.description,
           display: 'standalone',
           start_url: '.'
+        },
+        metaVariables: {
+          appleMobileWebAppCapable: 'yes',
+          appleMobileWebAppStatusBarStyle: 'default',
+          msapplicationTileColor: '#000000'
         }
       }, cfg.pwa || {})
 
