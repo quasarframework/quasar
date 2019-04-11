@@ -565,16 +565,12 @@ export const formatter = {
 }
 
 export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ', opts) {
-  if (val !== 0 && !val) {
+  if (
+    (val !== 0 && !val) ||
+    val === Infinity ||
+    val === -Infinity
+  ) {
     return
-  }
-
-  if (val === Infinity) {
-    return 'Infinity'
-  }
-
-  if (val === -Infinity) {
-    return '-Infinity'
   }
 
   let date = new Date(val)
