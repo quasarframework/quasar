@@ -32,6 +32,6 @@ console.log(`
 
   --------------
   => IMPORTANT !
-  => ${chalk.italic('Trigger this inside of a Quasar project for more commands.')}
+  => ${chalk.italic('Trigger this inside of a Quasar project (and npm/yarn install) for more commands.')}
   --------------
 `)
