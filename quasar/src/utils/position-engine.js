@@ -71,9 +71,18 @@ export function getTargetProps (el) {
   }
 }
 
-// cfg: { el, anchorEl, anchorOrigin, selfOrigin, offset, absoluteOffset, cover, fit }
+// cfg: { el, anchorEl, anchorOrigin, selfOrigin, offset, absoluteOffset, cover, fit, maxHeight, maxWidth }
 export function setPosition (cfg) {
   let anchorProps
+
+  // scroll position might change
+  // if max-height changes, so we
+  // need to restore it after we calculate
+  // the new positioning
+  const scrollTop = cfg.el.scrollTop
+
+  cfg.el.style.maxHeight = cfg.maxHeight
+  cfg.el.style.maxWidth = cfg.maxWidth
 
   if (cfg.absoluteOffset === void 0) {
     anchorProps = getAnchorProps(cfg.anchorEl, cfg.cover === true ? [0, 0] : cfg.offset)
@@ -111,6 +120,11 @@ export function setPosition (cfg) {
   }
   if (props.maxWidth !== void 0) {
     cfg.el.style.maxWidth = Math.floor(props.maxWidth) + 'px'
+  }
+
+  // restore scroll position
+  if (cfg.el.scrollTop !== scrollTop) {
+    cfg.el.scrollTop = scrollTop
   }
 }
 
