@@ -84,6 +84,7 @@ export default Vue.extend({
         this.$el.dispatchEvent(evt)
 
         stopAndPrevent(e)
+
         // for ripple
         e.qKeyEvent = true
       }
