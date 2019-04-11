@@ -569,7 +569,19 @@ export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ', opts) {
     return
   }
 
+  if (val === Infinity) {
+    return 'Infinity'
+  }
+
+  if (val === -Infinity) {
+    return '-Infinity'
+  }
+
   let date = new Date(val)
+
+  if (isNaN(date)) {
+    return
+  }
 
   return mask.replace(token, function (match, text) {
     if (match in formatter) {
