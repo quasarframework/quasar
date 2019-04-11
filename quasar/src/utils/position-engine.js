@@ -112,8 +112,25 @@ export function setPosition (cfg) {
 
   applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
 
-  cfg.el.style.top = Math.max(0, Math.floor(props.top)) + 'px'
-  cfg.el.style.left = Math.max(0, Math.floor(props.left)) + 'px'
+  if (props.top >= anchorProps.top) {
+    cfg.el.style.top = Math.max(0, Math.floor(props.top)) + 'px'
+    cfg.el.style.bottom = 'auto'
+  }
+  else {
+    const offset = props.maxHeight === void 0 ? targetProps.bottom : Math.min(targetProps.bottom, props.maxHeight)
+    cfg.el.style.top = 'auto'
+    cfg.el.style.bottom = 'calc(100% - ' + Math.floor(props.top + offset) + 'px)'
+  }
+
+  if (props.left >= anchorProps.left) {
+    cfg.el.style.left = Math.max(0, Math.floor(props.left)) + 'px'
+    cfg.el.style.right = 'auto'
+  }
+  else {
+    const offset = props.maxWidth === void 0 ? targetProps.right : Math.min(targetProps.right, props.maxWidth)
+    cfg.el.style.left = 'auto'
+    cfg.el.style.right = 'calc(100% - ' + Math.floor(props.left + offset) + 'px)'
+  }
 
   if (props.maxHeight !== void 0) {
     cfg.el.style.maxHeight = Math.floor(props.maxHeight) + 'px'
@@ -138,12 +155,12 @@ function applyBoundaries (props, anchorProps, targetProps, anchorOrigin, selfOri
 
   if (props.top < 0 || props.top + targetProps.bottom > innerHeight) {
     if (selfOrigin.vertical === 'center') {
-      props.top = anchorProps[selfOrigin.vertical] > innerHeight / 2
+      props.top = anchorProps[anchorOrigin.vertical] > innerHeight / 2
         ? innerHeight - targetProps.bottom
         : 0
       props.maxHeight = Math.min(targetProps.bottom, innerHeight)
     }
-    else if (anchorProps[selfOrigin.vertical] > innerHeight / 2) {
+    else if (anchorProps[anchorOrigin.vertical] > innerHeight / 2) {
       const anchorY = Math.min(
         innerHeight,
         anchorOrigin.vertical === 'center'
@@ -164,13 +181,15 @@ function applyBoundaries (props, anchorProps, targetProps, anchorOrigin, selfOri
   if (props.left < 0 || props.left + targetProps.right > innerWidth) {
     props.maxWidth = Math.min(targetProps.right, innerWidth)
     if (selfOrigin.horizontal === 'middle') {
-      props.left = anchorProps[selfOrigin.horizontal] > innerWidth / 2 ? innerWidth - targetProps.right : 0
+      props.left = anchorProps[anchorOrigin.horizontal] > innerWidth / 2
+        ? innerWidth - targetProps.right
+        : 0
     }
-    else if (anchorProps[selfOrigin.horizontal] > innerWidth / 2) {
+    else if (anchorProps[anchorOrigin.horizontal] > innerWidth / 2) {
       const anchorX = Math.min(
         innerWidth,
         anchorOrigin.horizontal === 'middle'
-          ? anchorProps.center
+          ? anchorProps.middle
           : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchorProps.right : anchorProps.left)
       )
       props.maxWidth = Math.min(targetProps.right, anchorX)
@@ -178,7 +197,7 @@ function applyBoundaries (props, anchorProps, targetProps, anchorOrigin, selfOri
     }
     else {
       props.left = anchorOrigin.horizontal === 'middle'
-        ? anchorProps.center
+        ? anchorProps.middle
         : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchorProps.left : anchorProps.right)
       props.maxWidth = Math.min(targetProps.right, innerWidth - props.left)
     }
