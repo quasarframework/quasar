@@ -102,8 +102,8 @@ export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset, a
 
   applyBoundaries(props, anchorProps, targetProps, anchorOrigin, selfOrigin)
 
-  el.style.top = Math.floor(Math.max(0, props.top)) + 'px'
-  el.style.left = Math.floor(Math.max(0, props.left)) + 'px'
+  el.style.top = Math.max(0, Math.floor(props.top)) + 'px'
+  el.style.left = Math.max(0, Math.floor(props.left)) + 'px'
 
   if (props.maxHeight !== void 0) {
     el.style.maxHeight = Math.floor(props.maxHeight) + 'px'
