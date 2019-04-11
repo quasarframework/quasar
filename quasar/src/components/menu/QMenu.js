@@ -209,6 +209,12 @@ export default Vue.extend({
         return
       }
 
+      // scroll position might change
+      // if max-height changes, so we
+      // need to restore it after we calculate
+      // the new positioning
+      const scrollTop = el.scrollTop
+
       el.style.maxHeight = this.maxHeight
       el.style.maxWidth = this.maxWidth
 
@@ -222,6 +228,10 @@ export default Vue.extend({
         fit: this.fit,
         cover: this.cover
       })
+
+      if (el.scrollTop !== scrollTop) {
+        el.scrollTop = scrollTop
+      }
     },
 
     __render (h) {

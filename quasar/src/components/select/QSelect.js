@@ -952,6 +952,7 @@ export default Vue.extend({
 
     __updateMenu (show) {
       this.optionIndex = -1
+
       if (show === true) {
         this.optionsToShow = 20
         this.$nextTick(() => {
