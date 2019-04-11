@@ -975,7 +975,7 @@ export default Vue.extend({
       this.hasDialog = this.$q.platform.is.mobile !== true
         ? false
         : (
-          this.$listeners['new-value'] !== void 0
+          this.useInput === true
             ? this.$listeners.filter !== void 0
             : true
         )

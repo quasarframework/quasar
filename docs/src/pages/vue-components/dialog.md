@@ -39,6 +39,10 @@ Dialogs can contain any content. Some examples:
 
 <doc-example title="With containerized QLayout" file="QDialog/Layout" />
 
+::: tip
+If you are going to use the containerized QLayout, you'll need to put a width on your QDialog, if using left/right position, or a height, if using top/bottom position. You can use vw and vh units.
+:::
+
 ### Handling scroll
 <doc-example title="Scrollable dialogs" file="QDialog/Scrollable" />
 
