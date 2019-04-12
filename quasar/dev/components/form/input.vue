@@ -386,6 +386,20 @@
         </q-menu>
       </q-input>
 
+      <q-input v-bind="props" :bottom-slots="bottomSlots" v-model="text" label="Label" counter maxlength="12">
+        <q-icon slot="before" name="event" @click="log('before')" />
+
+        <q-icon slot="prepend" name="schedule" @click="log('prepend')" />
+        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+        <q-icon slot="append" name="search" @click="log('append')" />
+
+        <div slot="hint" @click="log('hint')">
+          Field hint
+        </div>
+
+        <q-icon slot="after" name="delete" @click="log('after')" />
+      </q-input>
+
       <q-input :dark="dark" v-model="file" type="file" />
     </div>
   </div>
@@ -478,6 +492,9 @@ export default {
     },
     onChange (val) {
       console.log('@change', JSON.stringify(val))
+    },
+    log (what) {
+      console.log('LOG:', what)
     }
   }
 }
