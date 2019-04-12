@@ -2,6 +2,9 @@ const
   nodeExternals = require('webpack-node-externals'),
   VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 
+const
+  appPaths = require('../../app-paths')
+
 module.exports = function (chain, cfg) {
   chain.entry('app')
     .clear()
