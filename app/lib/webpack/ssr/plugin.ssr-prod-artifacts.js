@@ -5,25 +5,8 @@ const
 
 const
   appPaths = require('../../app-paths'),
-  getPackageJson = require('../../helpers/get-package-json'),
+  getFixedDeps = require('../../helpers/get-fixed-deps'),
   { getIndexHtml } = require('../../ssr/html-template')
-
-function getFixedAppDeps (appPkg) {
-  const deps = appPkg.dependencies
-
-  if (!deps) {
-    return {}
-  }
-
-  const appDeps = { ...deps }
-
-  Object.keys(deps).forEach(name => {
-    const pkg = getPackageJson(name)
-    appDeps[name] = pkg ? pkg.version : deps[name]
-  })
-
-  return appDeps
-}
 
 module.exports = class SsrProdArtifacts {
   constructor (cfg = {}) {
@@ -74,7 +57,7 @@ module.exports = class SsrProdArtifacts {
       const
         appPkg = require(appPaths.resolve.app('package.json')),
         cliPkg = require(appPaths.resolve.cli('package.json')),
-        appDeps = getFixedAppDeps(appPkg),
+        appDeps = getFixedDeps(appPkg.dependencies),
         cliDeps = cliPkg.dependencies
 
       let pkg = {
