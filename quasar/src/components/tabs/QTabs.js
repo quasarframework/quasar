@@ -393,7 +393,7 @@ export default Vue.extend({
 
       h('div', {
         ref: 'content',
-        staticClass: 'q-tabs__content row no-wrap items-center',
+        staticClass: 'q-tabs__content row no-wrap',
         class: this.alignClass
       }, slot(this, 'default')),
 
