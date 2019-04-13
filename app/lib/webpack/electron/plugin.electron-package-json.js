@@ -1,10 +1,15 @@
 const
-  appPaths = require('../../app-paths')
+  appPaths = require('../../app-paths'),
+  getFixedDeps = require('../../helpers/get-fixed-deps')
 
 module.exports = class ElectronPackageJson {
   apply (compiler) {
     compiler.hooks.emit.tapAsync('package.json', (compiler, callback) => {
       const pkg = require(appPaths.resolve.app('package.json'))
+
+      if (pkg.dependencies) {
+        pkg.dependencies = getFixedDeps(pkg.dependencies)
+      }
 
       // we don't need this (also, faster install time & smaller bundles)
       delete pkg.devDependencies

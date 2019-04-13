@@ -44,18 +44,17 @@ export default Vue.extend({
   },
 
   render (h) {
-    const node = slot(this, 'default')
-    if (node === void 0) { return }
+    const nodes = slot(this, 'default')
+    if (nodes === void 0) { return }
 
     let els = 1
 
     const
       child = [],
-      len = node.filter(c => c.tag !== void 0 && c.tag.endsWith('-QBreadcrumbsEl')).length,
+      len = nodes.filter(c => c.tag !== void 0 && c.tag.endsWith('-QBreadcrumbsEl')).length,
       separator = this.$scopedSlots.separator || (() => this.separator)
 
-    for (const i in node) {
-      const comp = node[i]
+    nodes.forEach(comp => {
       if (comp.tag !== void 0 && comp.tag.endsWith('-QBreadcrumbsEl')) {
         const middle = els < len
         els++
@@ -74,14 +73,14 @@ export default Vue.extend({
       else {
         child.push(comp)
       }
-    }
+    })
 
     return h('div', {
       staticClass: 'q-breadcrumbs',
       on: this.$listeners
     }, [
       h('div', {
-        staticClass: ' flex items-center',
+        staticClass: 'flex items-center',
         class: this.classes
       }, child)
     ])

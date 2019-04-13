@@ -118,8 +118,8 @@ export default Vue.extend({
         'q-field--with-bottom': this.hasBottom,
         'q-field--error': this.hasError,
 
-        'q-field--readonly no-pointer-events': this.readonly,
-        'disabled no-pointer-events': this.disable
+        'q-field--readonly': this.readonly,
+        'q-field--disabled': this.disable
       }
     },
 
@@ -185,27 +185,31 @@ export default Vue.extend({
         ])
       )
 
-      ;(this.loading === true || this.innerLoading === true) && node.push(
-        this.__getInnerAppendNode(
-          h,
-          'inner-loading-append',
-          this.$scopedSlots.loading !== void 0
-            ? this.$scopedSlots.loading()
-            : [ h(QSpinner, { props: { color: this.color } }) ]
+      if (this.loading === true || this.innerLoading === true) {
+        node.push(
+          this.__getInnerAppendNode(
+            h,
+            'inner-loading-append',
+            this.$scopedSlots.loading !== void 0
+              ? this.$scopedSlots.loading()
+              : [ h(QSpinner, { props: { color: this.color } }) ]
+          )
         )
-      )
+      }
 
-      this.clearable === true && this.hasValue === true && node.push(
-        this.__getInnerAppendNode(h, 'inner-clearable-append', [
-          h(QIcon, {
-            staticClass: 'cursor-pointer',
-            props: { name: this.clearIcon || this.$q.iconSet.field.clear },
-            on: {
-              click: this.__clearValue
-            }
-          })
-        ])
-      )
+      if (this.clearable === true && this.hasValue === true && this.editable === true) {
+        node.push(
+          this.__getInnerAppendNode(h, 'inner-clearable-append', [
+            h(QIcon, {
+              staticClass: 'cursor-pointer',
+              props: { name: this.clearIcon || this.$q.iconSet.field.clear },
+              on: {
+                click: this.__clearValue
+              }
+            })
+          ])
+        )
+      }
 
       this.$scopedSlots.append !== void 0 && node.push(
         h('div', {

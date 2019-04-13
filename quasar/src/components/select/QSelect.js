@@ -529,7 +529,7 @@ export default Vue.extend({
         )
     },
 
-    __hydrateOptions (updatePosition) {
+    __hydrateOptions () {
       if (this.avoidScroll !== true) {
         if (this.optionsToShow < this.options.length) {
           const el = this.__getMenuContentEl()
@@ -539,14 +539,10 @@ export default Vue.extend({
             this.avoidScroll = true
             this.$nextTick(() => {
               this.avoidScroll = false
-              this.__hydrateOptions(updatePosition)
+              this.__hydrateOptions()
             })
-
-            return
           }
         }
-
-        updatePosition === true && this.__updateMenuPosition()
       }
     },
 
@@ -798,11 +794,6 @@ export default Vue.extend({
 
       this.focused = true
       this.$emit('focus', e)
-
-      const target = this.$refs.target
-      if (target !== void 0 && this.useInput === true && this.inputValue.length > 0) {
-        target.setSelectionRange(0, this.inputValue.length)
-      }
     },
 
     __onControlFocusout (e) {
@@ -952,10 +943,11 @@ export default Vue.extend({
 
     __updateMenu (show) {
       this.optionIndex = -1
+
       if (show === true) {
         this.optionsToShow = 20
         this.$nextTick(() => {
-          this.__hydrateOptions(true)
+          this.__hydrateOptions()
         })
       }
 
@@ -965,24 +957,20 @@ export default Vue.extend({
       }
     },
 
-    __updateMenuPosition () {
-      if (this.dialog === false && this.$refs.menu !== void 0) {
-        this.$refs.menu.updatePosition()
-      }
-    },
-
     __onPreRender () {
       this.hasDialog = this.$q.platform.is.mobile !== true
         ? false
         : (
-          this.$listeners['new-value'] !== void 0
+          this.useInput === true
             ? this.$listeners.filter !== void 0
             : true
         )
     },
 
     __onPostRender () {
-      this.__updateMenuPosition()
+      if (this.dialog === false && this.$refs.menu !== void 0) {
+        this.$refs.menu.updatePosition()
+      }
     }
   },
 

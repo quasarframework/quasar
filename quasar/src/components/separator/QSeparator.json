@@ -7,7 +7,7 @@
     "spaced": {
       "type": "Boolean",
       "desc": "If set to true, the top and bottom margins will be set to 8px",
-      "category": "contnet"
+      "category": "content"
     },
 
     "inset": {

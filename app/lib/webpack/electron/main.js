@@ -1,7 +1,4 @@
 const
-  fs = require('fs'),
-  path = require('path'),
-  chalk = require('chalk'),
   webpack = require('webpack'),
   WebpackChain = require('webpack-chain'),
   WebpackProgress = require('../plugin.progress')
@@ -75,8 +72,10 @@ module.exports = function (cfg, configName) {
   chain.optimization
     .noEmitOnErrors(true)
 
-  chain.plugin('progress')
-    .use(WebpackProgress, [{ name: configName }])
+  if (cfg.build.showProgress) {
+    chain.plugin('progress')
+      .use(WebpackProgress, [{ name: configName }])
+  }
 
   chain.plugin('define')
     .use(webpack.DefinePlugin, [ cfg.build.env ])

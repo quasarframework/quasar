@@ -304,7 +304,8 @@ export default Vue.extend({
 
     applyBackdrop (x) {
       if (this.$refs.backdrop !== void 0) {
-        this.$refs.backdrop.style.backgroundColor = `rgba(0,0,0,${x * 0.4})`
+        this.$refs.backdrop.style.backgroundColor =
+          this.lastBackdropBg = `rgba(0,0,0,${x * 0.4})`
       }
     },
 
@@ -508,6 +509,9 @@ export default Vue.extend({
         ref: 'backdrop',
         staticClass: 'fullscreen q-drawer__backdrop q-layout__section--animate',
         class: this.backdropClass,
+        style: this.lastBackdropBg !== void 0
+          ? { backgroundColor: this.lastBackdropBg }
+          : null,
         on: {
           click: this.hide
         },

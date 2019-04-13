@@ -34,7 +34,7 @@
 
     <!-- (Optional) The Footer -->
     <q-footer>
-      <q-tabs top-indicator>
+      <q-tabs switch-indicator>
         <q-route-tab
           icon="map"
           to="/your/route"
