@@ -508,7 +508,7 @@ class QuasarConfig {
       }
 
       if (cfg.devServer.open && cfg.devServer.open !== true) {
-        cfg.__opnOptions = cfg.devServer.open
+        cfg.__openOptions = cfg.devServer.open
         cfg.devServer.open = true
       }
     }
