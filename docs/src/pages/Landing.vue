@@ -87,7 +87,6 @@
       .col-xs-12.col-sm-5
         .feature-item
           .q-gutter-sm
-            q-icon(name="fas fa-browser")
             q-icon(name="fab fa-chrome")
             q-icon(name="fab fa-firefox")
             q-icon(name="fab fa-safari")

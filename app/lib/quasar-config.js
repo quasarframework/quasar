@@ -387,7 +387,6 @@ class QuasarConfig {
     }
     else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
       Object.assign(cfg.build, {
-        extractCSS: false,
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
         gzip: false,
