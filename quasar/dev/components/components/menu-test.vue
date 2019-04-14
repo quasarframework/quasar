@@ -44,6 +44,4 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 </style>

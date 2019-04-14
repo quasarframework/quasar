@@ -106,8 +106,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 .doc-page
   padding 16px 46px
   font-weight 300

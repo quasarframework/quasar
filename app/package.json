@@ -81,6 +81,7 @@
     "register-service-worker": "1.6.2",
     "semver": "5.6.0",
     "strip-ansi": "=3.0.1",
+    "style-resources-loader": "1.2.1",
     "stylus": "0.54.5",
     "stylus-loader": "3.0.2",
     "terser-webpack-plugin": "1.2.3",

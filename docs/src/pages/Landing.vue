@@ -218,8 +218,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 .doc-landing-avatar > div
   border-radius 0
 

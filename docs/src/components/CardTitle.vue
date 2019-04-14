@@ -27,8 +27,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 $title-color = $grey-4
 
 .doc-card-title
