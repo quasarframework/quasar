@@ -13,6 +13,7 @@ module.exports = function (cfg, configName) {
 
   const chain = new WebpackChain()
   const resolveModules = [
+    'node_modules',
     appPaths.resolve.app('node_modules'),
     appPaths.resolve.cli('node_modules')
   ]
