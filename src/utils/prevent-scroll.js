@@ -52,6 +52,6 @@ export default function (register) {
     document.body.classList[action]('q-body-prevent-scroll')
   }
   else if (Platform.is.desktop) {
-    window[`${action}EventListener`]('wheel', onWheel)
+    window[`${action}EventListener`]('wheel', onWheel, { passive: false })
   }
 }
