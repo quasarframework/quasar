@@ -127,7 +127,7 @@ api.render('./path/to/a/template/folder')
 ### Filename edge cases
 If you want to render a template file that either begins with a dot (i.e. .env) you will have to follow a specific naming convention, since dotfiles are ignored when publishing your plugin to npm:
 
-```
+```bash
 # templates containing dotfiles must use an
 # underscore instead of the dot in their names:
 
@@ -139,12 +139,23 @@ some-folder/_env
 /.env
 ```
 
+If you want to render a file whose name actually begins with an underscore, then the filename must begin with `__` (two underscore characters instead of only one):
+
+```bash
+some-folder/__my.css
+
+# When calling api.render('./template'), this will be
+# rendered in the project folder as:
+
+/_my.css
+```
+
 ### Using scope
 You can also inject some decision-making code into the files to be rendered by interpolating with [lodash.template](https://www.npmjs.com/package/lodash.template) syntax.
 
 Example:
 
-```
+```js
 // src/install.js
 // (my-folder is located in same folder as
 // the file in which following call takes place)
@@ -157,7 +168,7 @@ Let's imagine we use a [Prompts API](/app-extensions/development-guide/prompts-a
 
 We can take some decisions on what the files that we render look like, during rendering them. This removes the need of creating two folders and deciding which to render, based on some decision.
 
-```
+```js
 // src/my-folder/some-file.js
 
 <% if (prompts.featureX) { %>
