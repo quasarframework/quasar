@@ -64,6 +64,14 @@ function parseAssetProperty (prefix) {
   }
 }
 
+function uniqueFilter (value, index, self) {
+  return self.indexOf(value) === index
+}
+
+function uniquePathFilter (obj, index, self) {
+  return self.map(obj => obj.path).indexOf(obj.path) === index
+}
+
 /*
  * this.buildConfig           - Compiled Object from quasar.conf.js
  * this.webpackConfig         - Webpack config object for main thread
@@ -144,13 +152,38 @@ class QuasarConfig {
       ctx: this.ctx,
       css: [],
       boot: [],
+      vendor: {
+        add: false,
+        remove: false
+      },
       build: {
         transpileDependencies: [],
         env: {},
-        uglifyOptions: {}
+        uglifyOptions: {
+          compress: {},
+          mangle: {}
+        }
       },
+      devServer: {},
       animations: [],
-      extras: []
+      extras: [],
+      sourceFiles: {},
+      ssr: {
+        componentCache: {}
+      },
+      pwa: {
+        workboxOptions: {},
+        manifest: {
+          icons: []
+        },
+        metaVariables: {}
+      },
+      electron: {
+        packager: {},
+        builder: {}
+      },
+      cordova: {},
+      htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
 
     if (cfg.framework === void 0 || cfg.framework === 'all') {
@@ -158,11 +191,20 @@ class QuasarConfig {
         all: true
       }
     }
-    cfg.framework.config = cfg.framework.config || {}
+    if (!cfg.framework.components) {
+      cfg.framework.components = []
+    }
+    if (!cfg.framework.directives) {
+      cfg.framework.directives = []
+    }
+    if (!cfg.framework.plugins) {
+      cfg.framework.plugins = []
+    }
+    if (!cfg.framework.config) {
+      cfg.framework.config = {}
+    }
 
     if (this.ctx.dev) {
-      cfg.devServer = cfg.devServer || {}
-
       if (this.opts.host) {
         cfg.devServer.host = this.opts.host
       }
@@ -266,13 +308,6 @@ class QuasarConfig {
       ? false
       : (cfg.supportIE || false)
 
-    cfg.vendor = merge({
-      vendor: {
-        add: false,
-        remove: false
-      }
-    }, cfg.vendor || {})
-
     if (cfg.vendor.add) {
       cfg.vendor.add = cfg.vendor.add.filter(v => v).join('|')
       if (cfg.vendor.add) {
@@ -290,13 +325,23 @@ class QuasarConfig {
       cfg.css = cfg.css.filter(_ => _)
         .map(parseAssetProperty('src/css'))
         .filter(asset => asset.path)
+        .filter(uniquePathFilter)
     }
 
     if (cfg.boot.length > 0) {
       cfg.boot = cfg.boot.filter(_ => _)
         .map(parseAssetProperty('boot'))
         .filter(asset => asset.path)
+        .filter(uniquePathFilter)
     }
+
+    if (cfg.extras.length > 0) {
+      cfg.extras = cfg.extras.filter(uniqueFilter)
+    }
+
+    cfg.framework.components = cfg.framework.components.filter(uniqueFilter)
+    cfg.framework.directives = cfg.framework.directives.filter(uniqueFilter)
+    cfg.framework.plugins = cfg.framework.plugins.filter(uniqueFilter)
 
     cfg.build = merge({
       showProgress: true,
@@ -359,10 +404,12 @@ class QuasarConfig {
           safari10: true
         }
       }
-    }, cfg.build || {})
+    }, cfg.build)
 
-    cfg.__loadingBar = cfg.framework.all || (cfg.framework.plugins && cfg.framework.plugins.includes('LoadingBar'))
-    cfg.__meta = cfg.framework.all || (cfg.framework.plugins && cfg.framework.plugins.includes('Meta'))
+    cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueFilter)
+
+    cfg.__loadingBar = cfg.framework.all || cfg.framework.plugins.includes('LoadingBar')
+    cfg.__meta = cfg.framework.all || cfg.framework.plugins.includes('Meta')
 
     if (this.ctx.dev || this.ctx.debug) {
       Object.assign(cfg.build, {
@@ -424,7 +471,7 @@ class QuasarConfig {
       electronMainDev: 'src-electron/main-process/electron-main.dev.js',
       electronMainProd: 'src-electron/main-process/electron-main.js',
       ssrServerIndex: 'src-ssr/index.js'
-    }, cfg.sourceFiles || {})
+    }, cfg.sourceFiles)
 
     // do we got vuex?
     const storePath = appPaths.resolve.app(cfg.sourceFiles.store)
@@ -448,7 +495,7 @@ class QuasarConfig {
           max: 1000,
           maxAge: 1000 * 60 * 15
         }
-      }, cfg.ssr || {})
+      }, cfg.ssr)
 
       cfg.ssr.debug = this.ctx.debug
 
@@ -479,7 +526,7 @@ class QuasarConfig {
         disableHostCheck: true,
         compress: true,
         open: true
-      }, cfg.devServer || {}, {
+      }, cfg.devServer, {
         contentBase: [ appPaths.srcDir ]
       })
 
@@ -551,9 +598,9 @@ class QuasarConfig {
           appleMobileWebAppStatusBarStyle: 'default',
           msapplicationTileColor: '#000000'
         }
-      }, cfg.pwa || {})
+      }, cfg.pwa)
 
-      if (!cfg.pwa.manifest.icons) {
+      if (cfg.pwa.manifest.icons.length === 0) {
         console.log()
         console.log(`⚠️  PWA manifest in quasar.conf.js > pwa > manifest is missing "icons" prop.`)
         console.log()
@@ -607,7 +654,7 @@ class QuasarConfig {
       cfg.build.APP_URL = `file://" + __dirname + "/index.html`
     }
 
-    cfg.build.env = merge(cfg.build.env || {}, {
+    cfg.build.env = merge(cfg.build.env, {
       VUE_ROUTER_MODE: `"${cfg.build.vueRouterMode}"`,
       VUE_ROUTER_BASE: `"${cfg.build.publicPath}"`,
       APP_URL: `"${cfg.build.APP_URL}"`
@@ -632,10 +679,6 @@ class QuasarConfig {
 
     appFilesValidations(cfg)
 
-    if (this.ctx.mode.cordova && !cfg.cordova) {
-      cfg.cordova = {}
-    }
-
     if (this.ctx.mode.electron) {
       if (this.ctx.prod) {
         const bundler = require('./electron/bundler')
@@ -653,7 +696,7 @@ class QuasarConfig {
               buildResources: appPaths.resolve.electron('')
             }
           }
-        }, cfg.electron || {}, {
+        }, cfg.electron, {
           packager: {
             dir: cfg.build.distDir,
             out: cfg.build.packagedElectronDist
@@ -703,7 +746,7 @@ class QuasarConfig {
         },
         productName: cfg.build.productName,
         productDescription: cfg.build.productDescription
-      }, cfg.htmlVariables || {}),
+      }, cfg.htmlVariables),
       minifyOptions: cfg.build.minify
         ? {
           removeComments: true,
