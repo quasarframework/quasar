@@ -239,11 +239,11 @@ module.exports = function (cfg, configName) {
               chunks: 'initial',
               priority: -10,
               // a module is extracted into the vendor chunk if...
-              test: add || rem
+              test: add.length > 0 || rem.length > 0
                 ? module => {
                   if (module.resource) {
-                    if (add && add.test(module.resource)) { return true }
-                    if (rem && rem.test(module.resource)) { return false }
+                    if (add.length > 0 && add.test(module.resource)) { return true }
+                    if (rem.length > 0 && rem.test(module.resource)) { return false }
                   }
                   return regex.test(module.resource)
                 }

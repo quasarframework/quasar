@@ -153,8 +153,8 @@ class QuasarConfig {
       css: [],
       boot: [],
       vendor: {
-        add: false,
-        remove: false
+        add: [],
+        remove: []
       },
       build: {
         transpileDependencies: [],
@@ -308,17 +308,14 @@ class QuasarConfig {
       ? false
       : (cfg.supportIE || false)
 
+    cfg.vendor.add = cfg.vendor.add.filter(v => v).join('|')
     if (cfg.vendor.add) {
-      cfg.vendor.add = cfg.vendor.add.filter(v => v).join('|')
-      if (cfg.vendor.add) {
-        cfg.vendor.add = new RegExp(cfg.vendor.add)
-      }
+      cfg.vendor.add = new RegExp(cfg.vendor.add)
     }
+
+    cfg.vendor.remove = cfg.vendor.remove.filter(v => v).join('|')
     if (cfg.vendor.remove) {
-      cfg.vendor.remove = cfg.vendor.remove.filter(v => v).join('|')
-      if (cfg.vendor.remove) {
-        cfg.vendor.remove = new RegExp(cfg.vendor.remove)
-      }
+      cfg.vendor.remove = new RegExp(cfg.vendor.remove)
     }
 
     if (cfg.css.length > 0) {
@@ -356,7 +353,7 @@ class QuasarConfig {
       webpackManifest: this.ctx.prod,
       vueRouterMode: 'hash',
       preloadChunks: true,
-      transpileDependencies: [],
+      // transpileDependencies: [], // leaving here for completeness
       devtool: this.ctx.dev
         ? '#cheap-module-eval-source-map'
         : '#source-map',
@@ -405,8 +402,6 @@ class QuasarConfig {
         }
       }
     }, cfg.build)
-
-    cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueFilter)
 
     cfg.__loadingBar = cfg.framework.all || cfg.framework.plugins.includes('LoadingBar')
     cfg.__meta = cfg.framework.all || cfg.framework.plugins.includes('Meta')
