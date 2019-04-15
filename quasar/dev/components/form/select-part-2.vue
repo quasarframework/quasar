@@ -299,6 +299,22 @@
             style="width: 250px"
           />
 
+          <q-select
+            v-bind="props"
+            v-model="createInput"
+            use-input
+            use-chips
+            multiple
+            input-debounce="0"
+            label="Menu Custom Class"
+            new-value-mode="add"
+            :options="createInputOptions"
+            @filter="createInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
+            menu-content-class="bg-blue customTAG"
+          />
+
           <div style="height: 400px">
             Scroll on purpose
           </div>
