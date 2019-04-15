@@ -91,7 +91,7 @@ Let's take each option one by one:
 | --- | --- | --- |
 | css | Array | Global CSS/Stylus/... files from `/src/css/`, except for theme files, which are included by default. |
 | preFetch | Boolean | Enable [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature). |
-| extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons-v4']_ |
+| extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons-v4']_ |
 | vendor | Object | Add/remove files/3rd party libraries to/from vendor chunk: { add: [...], remove: [...] }. |
 | supportIE | Boolean | Add support for IE11+. |
 | htmlVariables | Object | Add variables that you can use in index.template.html. |
