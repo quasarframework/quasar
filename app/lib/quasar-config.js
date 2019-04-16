@@ -68,8 +68,12 @@ function uniqueFilter (value, index, self) {
   return self.indexOf(value) === index
 }
 
-function uniquePathFilter (obj, index, self) {
-  return self.map(obj => obj.path).indexOf(obj.path) === index
+function uniquePathFilter (value, index, self) {
+  return self.map(obj => obj.path).indexOf(value.path) === index
+}
+
+function uniqueRegexFilter (value, index, self) {
+  return self.map(regex => regex.toString()).indexOf(value.toString()) === index
 }
 
 /*
@@ -402,6 +406,8 @@ class QuasarConfig {
         }
       }
     }, cfg.build)
+
+    cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
 
     cfg.__loadingBar = cfg.framework.all || cfg.framework.plugins.includes('LoadingBar')
     cfg.__meta = cfg.framework.all || cfg.framework.plugins.includes('Meta')
