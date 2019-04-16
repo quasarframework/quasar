@@ -53,12 +53,12 @@ this.$refs.myForm.resetValidation()
 ```
 
 ## Turning off Autocompletion
-If you want to turn off the way that some browsers use autocorrection or spellchecking of all of the input elements of your form, you can also add these pure html attributes to the QForm component:
+If you want to turn off the way that some browsers use autocorrection or spellchecking of all of the input elements of your form, you can also add these pure HTML attributes to the QForm component:
 ```html
-  autocorrect="off"
-  autocapitalize="off"
-  autocomplete="off"
-  spellcheck="false"
+autocorrect="off"
+autocapitalize="off"
+autocomplete="off"
+spellcheck="false"
 ```
 
 ## QForm API
