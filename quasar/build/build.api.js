@@ -42,28 +42,28 @@ const topSections = {
 
 const objectTypes = {
   Boolean: {
-    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category' ],
     required: [ 'desc' ],
     isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isArray: [ 'examples' ]
   },
 
   String: {
-    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Number: {
-    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Object: {
-    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     recursive: [ 'definition' ],
     isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
@@ -72,7 +72,7 @@ const objectTypes = {
   },
 
   Array: {
-    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition' ],
@@ -80,7 +80,7 @@ const objectTypes = {
   },
 
   Promise: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples' ],
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition' ],
@@ -88,7 +88,7 @@ const objectTypes = {
   },
 
   Function: {
-    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples', 'category' ],
     required: [ 'desc', 'params', 'returns' ],
     isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'params', 'returns' ],
@@ -97,7 +97,7 @@ const objectTypes = {
   },
 
   MultipleTypes: {
-    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples' ],
+    props: [ 'injectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'injectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition', 'params', 'returns' ],
@@ -150,7 +150,7 @@ const objectTypes = {
   }
 }
 
-function parseObject ({ banner, api, itemName, masterType }) {
+function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
   let obj = api[itemName]
 
   if (obj.extends !== void 0 && extendApi[masterType] !== void 0) {
@@ -197,6 +197,13 @@ function parseObject ({ banner, api, itemName, masterType }) {
   for (let prop in obj) {
     if ([ 'type', '__exemption' ].includes(prop)) {
       continue
+    }
+
+    if (verifyCategory && obj.category === void 0) {
+      logError(`${banner} missing required API prop "category" for its type (${type})`)
+      console.error(obj)
+      console.log()
+      process.exit(1)
     }
 
     if (!def.props.includes(prop)) {
@@ -357,12 +364,15 @@ function parseAPI (file, apiType) {
       continue
     }
 
+    const isComponent = banner.indexOf('component') > -1
+
     for (let itemName in api[type]) {
       parseObject({
         banner: `${banner} "${type}"/"${itemName}"`,
         api: api[type],
         itemName,
-        masterType: type
+        masterType: type,
+        verifyCategory: type === 'props' && isComponent
       })
     }
   }

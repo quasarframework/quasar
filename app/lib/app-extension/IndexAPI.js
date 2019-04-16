@@ -27,6 +27,8 @@ module.exports = class IndexAPI {
       extendWebpackMainElectronProcess: [],
       chainWebpack: [],
       beforeDevStart: [],
+      beforeBuild: [],
+      afterBuild: [],
       commands: {},
       describeApi: {}
     }
@@ -147,6 +149,29 @@ module.exports = class IndexAPI {
    */
   beforeDevStart (fn) {
     this.__hooks.beforeDevStart.push({ extId: this.extId, fn })
+  }
+
+  /**
+   * Run hook before Quasar builds app for production ($ quasar build).
+   * At this point, the distributables folder hasn't been created yet.
+   *
+   * @param {function} fn
+   *   () => ?Promise
+   */
+  beforeBuild (fn) {
+    this.__hooks.beforeBuild.push({ extId: this.extId, fn })
+  }
+
+  /**
+   * Run hook after Quasar built app for production ($ quasar build).
+   * At this point, the distributables folder has been created and is available
+   * should you wish to do something with it.
+   *
+   * @param {function} fn
+   *   () => ?Promise
+   */
+  afterBuild (fn) {
+    this.__hooks.afterBuild.push({ extId: this.extId, fn })
   }
 
   /**

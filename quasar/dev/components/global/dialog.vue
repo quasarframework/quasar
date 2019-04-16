@@ -22,6 +22,7 @@
         <q-btn label="Complex card" flat color="primary" @click="complexCard = true" />
         <q-btn label="Sliders" flat color="primary" @click="sliders = true" />
         <q-btn label="Layout Bottom" flat color="primary" @click="layoutBottom = true" />
+        <q-btn label="Close popup test" flat color="primary" @click="closePopupTest = true" />
       </div>
     </div>
 
@@ -637,6 +638,15 @@
       </q-layout>
     </q-dialog>
 
+    <q-dialog v-model="closePopupTest">
+      <q-card>
+        <q-card-section>
+          <q-toggle v-model="closePopupBtn" label="Enable button" />
+          <q-btn v-close-popup @click="closePopupBtnHandler" :disable="!closePopupBtn" label="Click" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
     <div class="text-center text-caption q-mt-xl" style="height: 1500px">
       Page has scroll on purpose
     </div>
@@ -645,16 +655,6 @@
 
 <script>
 export default {
-  methods: {
-    openSpecialPosition (position) {
-      this.$q.dialog({
-        title: 'Positioned',
-        message: `This dialog appears from ${position}.`,
-        position
-      })
-    }
-  },
-
   data () {
     return {
       alert: true,
@@ -700,13 +700,30 @@ export default {
       color: '#f46234',
 
       select: 'ten',
-      selectOptions: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
+      selectOptions: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+
+      closePopupTest: false,
+      closePopupBtn: false
     }
   },
 
   computed: {
     contentSize () {
       return this.moreContent ? 150 : 5
+    }
+  },
+
+  methods: {
+    openSpecialPosition (position) {
+      this.$q.dialog({
+        title: 'Positioned',
+        message: `This dialog appears from ${position}.`,
+        position
+      })
+    },
+
+    closePopupBtnHandler () {
+      console.log('closePopupBtnHandler')
     }
   }
 }

@@ -3,34 +3,40 @@
     "value": {
       "type": "Any",
       "desc": "Model of the component defining current panel's name; If used as Number, it does not defines panel index though but slide name's which may be an Integer; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "examples": [ "v-model=\"panelName\"" ]
+      "examples": [ "v-model=\"panelName\"" ],
+      "category": "model"
     },
 
     "animated": {
       "type": "Boolean",
-      "desc": "Enable transitions between panel (also see 'transition-prev' and 'transition-next' props)"
+      "desc": "Enable transitions between panel (also see 'transition-prev' and 'transition-next' props)",
+      "category": "behavior"
     },
 
     "infinite": {
       "type": "Boolean",
-      "desc": "Makes component appear as infinite (when reaching last panel, next one will become the first one)"
+      "desc": "Makes component appear as infinite (when reaching last panel, next one will become the first one)",
+      "category": "behavior"
     },
 
     "swipeable": {
       "type": "Boolean",
-      "desc": "Enable swipe events (may interfere with content's touch/mouse events)"
+      "desc": "Enable swipe events (may interfere with content's touch/mouse events)",
+      "category": "behavior"
     },
 
     "transition-prev": {
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
-      "default": "slide-right"
+      "default": "slide-right",
+      "category": "behavior"
     },
 
     "transition-next": {
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
-      "default": "slide-left"
+      "default": "slide-left",
+      "category": "behavior"
     }
   },
 

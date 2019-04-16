@@ -2,13 +2,15 @@
   "props": {
     "hidden": {
       "type": "Boolean",
-      "desc": "Puts component into 'hidden' mode"
+      "desc": "Puts component into 'hidden' mode",
+      "category": "state"
     },
 
     "width": {
       "type": [ "Number", "String" ],
       "desc": "Component width (in pixels)",
-      "examples": [ ":width=\"300\"", "400" ]
+      "examples": [ ":width=\"300\"", "400" ],
+      "category": "style"
     },
 
     "position": {
@@ -17,13 +19,15 @@
       "examples": [ "bottom" ],
       "required": true,
       "default": "top",
-      "values": [ "top", "right", "bottom", "left" ]
+      "values": [ "top", "right", "bottom", "left" ],
+      "category": "content"
     },
 
     "font-size": {
       "type": "String",
       "desc": "The size in CSS units, including unit name, of the content (icon, text)",
-      "examples": [ "18px", "2rem" ]
+      "examples": [ "18px", "2rem" ],
+      "category": "style"
     },
 
     "color": {

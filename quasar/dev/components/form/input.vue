@@ -13,6 +13,7 @@
         <q-toggle :dark="dark" v-model="autogrow" label="Auto Grow (converts to textarea)" />
         <q-toggle :dark="dark" v-model="square" label="Force square borders" />
         <q-input :dark="dark" v-model="rows" :disable="textarea !== true || autogrow === true" label="Rows (for textarea)" class="inline" />
+        <q-slider class="q-mt-lg" v-model="fontSize" :min="8" :max="24" label-always />
       </div>
 
       <div class="text-h6">
@@ -367,11 +368,11 @@
         </div>
       </q-input>
 
-      <q-input v-model="text" filled hint="With tooltip">
+      <q-input :dark="dark" v-model="text" filled hint="With tooltip">
         <q-tooltip>Some tooltip</q-tooltip>
       </q-input>
 
-      <q-input v-model="text" filled hint="With menu" style="margin-bottom: 100px">
+      <q-input :dark="dark" v-model="text" filled hint="With menu" style="margin-bottom: 100px">
         <q-menu fit auto-close>
           <q-list padding style="min-width: 100px">
             <q-item
@@ -385,7 +386,21 @@
         </q-menu>
       </q-input>
 
-      <q-input v-model="file" type="file" />
+      <q-input v-bind="props" :bottom-slots="bottomSlots" v-model="text" label="Label" counter maxlength="12">
+        <q-icon slot="before" name="event" @click="log('before')" />
+
+        <q-icon slot="prepend" name="schedule" @click="log('prepend')" />
+        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+        <q-icon slot="append" name="search" @click="log('append')" />
+
+        <div slot="hint" @click="log('hint')">
+          Field hint
+        </div>
+
+        <q-icon slot="after" name="delete" @click="log('after')" />
+      </q-input>
+
+      <q-input :dark="dark" v-model="file" type="file" />
     </div>
   </div>
 </template>
@@ -402,6 +417,8 @@ export default {
       hideHint: false,
       bottomSlots: true,
       square: false,
+
+      fontSize: 14,
 
       textarea: false,
       autogrow: false,
@@ -448,7 +465,8 @@ export default {
         suffix: this.suffix,
         dense: this.dense,
         clearable: true,
-        square: this.square
+        square: this.square,
+        style: { fontSize: `${this.fontSize}px` }
       }
 
       if (this.rows !== '') {
@@ -474,6 +492,9 @@ export default {
     },
     onChange (val) {
       console.log('@change', JSON.stringify(val))
+    },
+    log (what) {
+      console.log('LOG:', what)
     }
   }
 }

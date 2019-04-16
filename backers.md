@@ -124,6 +124,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Heitor Lessa
 - Aprixon Information Services GmbH
 - Flippen Group
+- Ryan Hill
 
 ### $10+
 
@@ -235,6 +236,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Michael Freeman
 - Michael Cole
 - Marek Bartos
+- Kasper
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
@@ -243,6 +245,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Felipe Santiago ($5)
 - Hugo Ramses Moreno Ramos (5$)
 - Louis Ameline ($5)
+- Peter Dzurcanin ($5)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)

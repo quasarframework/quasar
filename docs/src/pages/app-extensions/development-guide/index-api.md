@@ -248,3 +248,35 @@ api.beforeDevStart(() => {
   // do something
 })
 ```
+
+## api.beforeBuild
+
+<q-badge label="@quasar/app v1.0.0-beta.16+" />
+
+Run hook before Quasar builds app for production (`$ quasar build`). At this point, the distributables folder hasn't been created yet.
+
+```js
+/**
+ * @param {function} fn
+ *   () => ?Promise
+ */
+api.beforeBuild(() => {
+  // do something
+})
+```
+
+## api.afterBuild
+
+<q-badge label="@quasar/app v1.0.0-beta.16+" />
+
+Run hook after Quasar built app for production (`$ quasar build`). At this point, the distributables folder has been created and is available should you wish to do something with it.
+
+```js
+/**
+ * @param {function} fn
+ *   () => ?Promise
+ */
+api.afterBuild(() => {
+  // do something
+})
+```

@@ -21,6 +21,12 @@
         </q-badge>
       </div>
 
+      <div class="text-h6">
+        Badge <q-badge color="primary" multi-line style="width: 40px">
+          v1.0.0+ multi liiiiine
+        </q-badge>
+      </div>
+
       <div>
         Feature <q-badge color="primary">
           v1.0.0+

@@ -5,6 +5,7 @@ const
 
 const
   appPaths = require('../../app-paths'),
+  getFixedDeps = require('../../helpers/get-fixed-deps'),
   { getIndexHtml } = require('../../ssr/html-template')
 
 module.exports = class SsrProdArtifacts {
@@ -56,7 +57,8 @@ module.exports = class SsrProdArtifacts {
       const
         appPkg = require(appPaths.resolve.app('package.json')),
         cliPkg = require(appPaths.resolve.cli('package.json')),
-        deps = cliPkg.dependencies
+        appDeps = getFixedDeps(appPkg.dependencies),
+        cliDeps = cliPkg.dependencies
 
       let pkg = {
         name: appPkg.name,
@@ -67,21 +69,21 @@ module.exports = class SsrProdArtifacts {
         scripts: {
           start: 'node index.js'
         },
-        dependencies: Object.assign(appPkg.dependencies || {}, {
-          '@quasar/babel-preset-app': deps['@quasar/babel-preset-app'],
+        dependencies: Object.assign(appDeps, {
+          '@quasar/babel-preset-app': cliDeps['@quasar/babel-preset-app'],
           'compression': '^1.0.0',
           'express': '^4.0.0',
-          'lru-cache': deps['lru-cache'],
-          'vue': deps.vue,
-          'vue-server-renderer': deps['vue-server-renderer'],
-          'vue-router': deps['vue-router']
+          'lru-cache': cliDeps['lru-cache'],
+          'vue': cliDeps.vue,
+          'vue-server-renderer': cliDeps['vue-server-renderer'],
+          'vue-router': cliDeps['vue-router']
         }),
         engines: appPkg.engines,
         quasar: { ssr: true }
       }
 
       if (this.cfg.store) {
-        pkg.dependencies.vuex = deps.vuex
+        pkg.dependencies.vuex = cliDeps.vuex
       }
 
       pkg = JSON.stringify(pkg, null, 2)

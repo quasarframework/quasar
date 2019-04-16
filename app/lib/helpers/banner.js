@@ -1,8 +1,8 @@
 const { green, grey, underline } = require('chalk')
 const
-  appPaths = require('../app-paths'),
-  quasarVersion = require(appPaths.resolve.app('node_modules/quasar/package.json')).version,
-  cliAppVersion = require(appPaths.resolve.cli('package.json')).version
+  getPackageJson = require('./get-package-json'),
+  quasarVersion = getPackageJson('quasar').version,
+  cliAppVersion = getPackageJson('@quasar/app').version
 
 module.exports = function (argv, cmd, details) {
   let banner = ''

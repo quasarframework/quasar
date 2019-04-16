@@ -689,8 +689,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 .my-expand-link
   color $secondary
   background alpha($secondary, .1)

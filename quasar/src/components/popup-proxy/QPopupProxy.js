@@ -4,7 +4,6 @@ import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 
 import AnchorMixin from '../../mixins/anchor.js'
-import { prevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
@@ -30,17 +29,13 @@ export default Vue.extend({
 
   watch: {
     value (val) {
-      if (val !== this.showing) {
-        this[val ? 'show' : 'hide']()
-      }
+      val !== this.showing && this[val ? 'show' : 'hide']()
     }
   },
 
   methods: {
     toggle (evt) {
-      if (evt === void 0 || evt.defaultPrevented !== true) {
-        this[this.showing === true ? 'hide' : 'show'](evt)
-      }
+      this[this.showing === true ? 'hide' : 'show'](evt)
     },
 
     show (evt) {
@@ -50,8 +45,6 @@ export default Vue.extend({
       ) {
         return
       }
-
-      evt !== void 0 && prevent(evt)
 
       const breakpoint = parseInt(this.breakpoint, 10)
 

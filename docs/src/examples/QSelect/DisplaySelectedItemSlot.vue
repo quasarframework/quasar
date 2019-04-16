@@ -1,7 +1,9 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
-      <q-badge color="secondary">Model: "{{ model }}"</q-badge>
+      <q-badge color="secondary" multi-line>
+        Model: "{{ model }}"
+      </q-badge>
 
       <q-select
         filled

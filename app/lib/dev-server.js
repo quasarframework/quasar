@@ -11,12 +11,12 @@ const
 let alreadyNotified = false
 
 function openBrowser (url, opts) {
-  const opn = require('opn')
+  const open = require('open')
 
   const openDefault = () => {
     log('Opening default browser at ' + url)
     log()
-    opn(url).catch(() => {
+    open(url, { wait: true }).catch(() => {
       warn(`⚠️  Failed to open default browser`)
       warn()
     })
@@ -25,7 +25,7 @@ function openBrowser (url, opts) {
   if (opts) {
     log('Opening browser at ' + url + ' with options: ' + opts)
     log()
-    opn(url, { app: opts }).catch(() => {
+    open(url, { app: opts, wait: true }).catch(() => {
       warn(`⚠️  Failed to open specific browser`)
       warn()
       openDefault()
@@ -76,7 +76,7 @@ module.exports = class DevServer {
         alreadyNotified = true
 
         if (cfg.devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
-          openBrowser(cfg.build.APP_URL, cfg.__opnOptions)
+          openBrowser(cfg.build.APP_URL, cfg.__openOptions)
         }
       })
     })
@@ -99,7 +99,8 @@ module.exports = class DevServer {
       express = require('express'),
       chokidar = require('chokidar'),
       { createBundleRenderer } = require('vue-server-renderer'),
-      ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
+      ouchInstance = require('./helpers/cli-error-handling').getOuchInstance(),
+      SsrExtension = require('./ssr/ssr-extension')
 
     let renderer
 
@@ -252,7 +253,7 @@ module.exports = class DevServer {
             maxAge: 0
           }))
 
-          cfg.__ssrExtension.extendApp({ app })
+          SsrExtension.getModule().extendApp({ app })
 
           app.get('*', render)
         }
@@ -264,7 +265,7 @@ module.exports = class DevServer {
       server.listen(cfg.devServer.port, cfg.devServer.host, () => {
         resolve()
         if (cfg.devServer.open) {
-          openBrowser(cfg.build.APP_URL, cfg.__opnOptions)
+          openBrowser(cfg.build.APP_URL, cfg.__openOptions)
         }
       })
     })

@@ -2,18 +2,21 @@
   "props": {
     "error": {
       "type": "Boolean",
-      "desc": "Does field has validation errors?"
+      "desc": "Does field has validation errors?",
+      "category": "behavior"
     },
 
     "error-message": {
       "type": "String",
       "desc": "Validation error message (gets displayed only if 'error' is set to 'true')",
-      "examples": [ "Username must have at least 5 characters" ]
+      "examples": [ "Username must have at least 5 characters" ],
+      "category": "content"
     },
 
     "no-error-icon": {
       "type": "Boolean",
-      "desc": "Hide error icon when there is an error"
+      "desc": "Hide error icon when there is an error",
+      "category": "content"
     },
 
     "rules": {
@@ -22,12 +25,14 @@
       "examples": [
         ":rules=\"[ val => val.length <= 3 || 'Please use maximum 3 characters' ]\"",
         ":rules=\"[ 'fulltime' ]\""
-      ]
+      ],
+      "category": "behavior"
     },
 
     "lazy-rules": {
       "type": "Boolean",
-      "desc": "Check validation status against the 'rules' only after field loses focus for first time"
+      "desc": "Check validation status against the 'rules' only after field loses focus for first time",
+      "category": "behavior"
     }
   },
 

@@ -1,20 +1,3 @@
-import { isSSR } from '../plugins/Platform.js'
-
-export const routerLinkEventName = 'qrouterlinkclick'
-
-let evt = null
-
-if (!isSSR) {
-  try {
-    evt = new Event(routerLinkEventName)
-  }
-  catch (e) {
-    // IE doesn't support `new Event()`, so...`
-    evt = document.createEvent('Event')
-    evt.initEvent(routerLinkEventName, true, false)
-  }
-}
-
 export const routerLinkProps = {
   to: [String, Object],
   exact: Boolean,
@@ -24,8 +7,6 @@ export const routerLinkProps = {
   exactActiveClass: String,
   disable: Boolean
 }
-
-export { evt as routerLinkEvent }
 
 export const RouterLinkMixin = {
   props: routerLinkProps,

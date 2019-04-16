@@ -30,7 +30,9 @@
       <p class="caption">
         Disabled State
       </p>
-      <q-radio v-model="option" val="opt1" disable label="Disabled Option 1" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-radio v-model="option" val="opt1" disable color="primary" label="Disabled Option 1" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-radio v-model="option" val="opt2" disable color="accent" label="Disabled Option 2" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-radio v-model="option" val="opt3" disable color="teal" label="Disabled Option 3" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <p class="caption">
         Option Group

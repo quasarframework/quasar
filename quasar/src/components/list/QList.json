@@ -14,7 +14,8 @@
 
     "separator": {
       "type": "Boolean",
-      "desc": "Applies a separator between contained items"
+      "desc": "Applies a separator between contained items",
+      "category": "content"
     },
 
     "dark": {
@@ -23,7 +24,8 @@
 
     "padding": {
       "type": "Boolean",
-      "desc": "Applies a material design-like padding on top and bottom"
+      "desc": "Applies a material design-like padding on top and bottom",
+      "category": "content"
     }
   },
 

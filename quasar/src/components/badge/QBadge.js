@@ -11,6 +11,7 @@ export default Vue.extend({
 
     floating: Boolean,
     transparent: Boolean,
+    multiLine: Boolean,
 
     label: [Number, String],
 
@@ -29,7 +30,8 @@ export default Vue.extend({
 
     classes () {
       return 'q-badge flex inline items-center no-wrap' +
-        (this.color ? ` bg-${this.color}` : '') +
+        ` q-badge--${this.multiLine === true ? 'multi' : 'single'}-line` +
+        (this.color !== void 0 ? ` bg-${this.color}` : '') +
         (this.textColor !== void 0 ? ` text-${this.textColor}` : '') +
         (this.floating === true ? ' q-badge--floating' : '') +
         (this.transparent === true ? ' q-badge--transparent' : '')

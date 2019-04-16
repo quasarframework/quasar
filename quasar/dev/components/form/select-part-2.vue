@@ -287,6 +287,18 @@
             </q-item>
           </q-select>
 
+          <q-select
+            v-bind="props"
+            label="Mode: 'add'"
+            v-model="modelAdd"
+            use-input
+            use-chips
+            multiple
+            hide-dropdown-icon
+            new-value-mode="add"
+            style="width: 250px"
+          />
+
           <div style="height: 400px">
             Scroll on purpose
           </div>
@@ -343,6 +355,8 @@ export default {
 
       delayedFilterInput: null,
       delayedFilterInputOptions: null,
+
+      modelAdd: null,
 
       stringSingle: 'Facebook',
       stringMultiple: ['Facebook', 'Twitter'],
@@ -531,8 +545,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 .select-card
   transition .3s background-color
   &:not(.disabled):hover

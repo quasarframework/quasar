@@ -6,7 +6,8 @@
   "props": {
     "inline-actions": {
       "type": "Boolean",
-      "desc": "Display actions on same row as content"
+      "desc": "Display actions on same row as content",
+      "category": "content"
     },
 
     "dense": {

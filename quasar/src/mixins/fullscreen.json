@@ -6,7 +6,8 @@
       "desc": "Fullscreen mode",
       "examples": [
         ":fullscreen.sync=\"isFullscreen\""
-      ]
+      ],
+      "category": "behavior"
     }
   },
 

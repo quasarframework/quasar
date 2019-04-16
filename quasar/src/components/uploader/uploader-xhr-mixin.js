@@ -16,7 +16,8 @@ export default {
       default: file => file.name
     },
     headers: [Function, Array],
-    fields: [Function, Array],
+    fields: [Function, Array], /* TODO remove in v1 final */
+    formFields: [Function, Array],
     withCredentials: [Function, Boolean],
     sendRaw: [Function, Boolean],
 
@@ -38,6 +39,7 @@ export default {
         method: getFn(this.method),
         headers: getFn(this.headers),
         fields: getFn(this.fields),
+        formFields: getFn(this.formFields),
         fieldName: getFn(this.fieldName),
         withCredentials: getFn(this.withCredentials),
         sendRaw: getFn(this.sendRaw),
@@ -134,7 +136,10 @@ export default {
         return
       }
 
-      const fields = getProp('fields', files)
+      const fields = (
+        getProp('formFields', files) ||
+        /* TODO remove in v1 final */ getProp('fields', files)
+      )
       fields !== void 0 && fields.forEach(field => {
         form.append(field.name, field.value)
       })
@@ -250,7 +255,10 @@ export default {
         return
       }
 
-      const fields = getProp('fields', files)
+      const fields = (
+        getProp('formFields', files) ||
+        /* TODO remove in v1 final */ getProp('fields', files)
+      )
       fields !== void 0 && fields.forEach(field => {
         form.append(field.name, field.value)
       })
@@ -311,6 +319,16 @@ export default {
       else {
         form.append(getProp('fieldName', file), file)
         xhr.send(form)
+      }
+    }
+  },
+
+  // TODO remove in v1 final
+  mounted () {
+    if (this.fields !== void 0) {
+      const p = process.env
+      if (p.PROD !== true) {
+        console.info('\n\n[Quasar] QUploader: please rename "fields" prop to "form-fields"')
       }
     }
   }

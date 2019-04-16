@@ -10,12 +10,14 @@
       "default": true,
       "examples": [
         "v-model=\"headerState\""
-      ]
+      ],
+      "category": "model"
     },
 
     "reveal": {
       "type": "Boolean",
-      "desc": "Enable 'reveal' mode; Takes into account user scroll to temporarily show/hide header"
+      "desc": "Enable 'reveal' mode; Takes into account user scroll to temporarily show/hide header",
+      "category": "behavior"
     },
 
     "reveal-offset": {
@@ -24,7 +26,8 @@
       "default": 250,
       "examples": [
         ":reveal-offset=\"500\""
-      ]
+      ],
+      "category": "behavior"
     },
 
     "bordered": {
@@ -33,7 +36,8 @@
 
     "elevated": {
       "type": "Boolean",
-      "desc": "Adds a default shadow to the header"
+      "desc": "Adds a default shadow to the header",
+      "category": "style"
     }
   },
 

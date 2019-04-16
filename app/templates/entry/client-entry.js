@@ -91,6 +91,10 @@ async function start () {
   <% if (bootNames.length > 0) { %>
   const bootFiles = [<%= bootNames.join(',') %>]
   for (let i = 0; i < bootFiles.length; i++) {
+    if (typeof bootFiles[i] !== 'function') {
+      continue
+    }
+
     try {
       await bootFiles[i]({
         app,

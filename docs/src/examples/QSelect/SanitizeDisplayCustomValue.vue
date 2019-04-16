@@ -1,8 +1,10 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
-    <div class="q-gutter-md">
-      <div>Model: {{ model || 'empty' }}</div>
+    <q-badge color="secondary" multi-line class="q-mb-md">
+      Model: {{ model || 'empty' }}
+    </q-badge>
 
+    <div class="q-gutter-md">
       <q-toggle v-model="displayValueSanitize" label="Sanitize display value" />
 
       <q-select

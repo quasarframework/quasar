@@ -4,6 +4,8 @@ title: Vue CLI 3 Quasar Plugin
 
 ::: warning
 Cross-platform support with Vue CLI 3 is handled by community plugins. These are not tightly integrated with Quasar as with Quasar CLI and may have issues.
+
+Also, before you begin on this path of development with Quasar, we need you to understand the following. To guarantee you the best developer experience with Quasar, we highly recommend using Quasar's CLI and building your project with it. You'll get the full range of features offered by Quasar, like full cross-platform build support and you can still do practically everything you'd like to do with Vue too, i.e. use Vue plugins via Quasar's [Boot File System](/quasar-cli/cli-documentation/boot-files#Anatomy-of-an-boot-file).
 :::
 
 To work with Quasar via its Vue CLI 3 plugin, you will need to make sure you have vue-cli 3.x.x installed globally. To make sure you have Vue CLI 3.0, use this command:

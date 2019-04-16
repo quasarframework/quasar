@@ -36,12 +36,65 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
 
   q-tab-panels(v-model="currentTab", animated)
     q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
-      ApiRows(:which="tab", :api="filteredApi")
+      .row.no-wrap.api-container(v-if="aggregationModel[tab]")
+        .col-auto.row.items-center.bg-grey-1.text-grey-7.q-py-lg
+          q-tabs(
+            v-model="currentInnerTab[tab]",
+            active-color="primary",
+            indicator-color="primary",
+            :breakpoint="0",
+            vertical,
+            dense,
+            shrink
+          )
+            q-tab(
+              v-for="category in apiTabs(tab)"
+              :key="`api-inner-tab-${category}`"
+              class="inner-tab"
+              :name="category"
+            )
+              .row.no-wrap.items-center
+                q-badge(v-if="apiCount(tab, category)") {{ formattedApiCount(tab, category) }}
+                span.q-ml-xs.text-capitalize.text-weight-medium {{ category }}
+
+        q-separator(vertical)
+
+        q-tab-panels.col(
+          v-model="currentInnerTab[tab]",
+          animated,
+          transition-prev="slide-down",
+          transition-next="slide-up"
+        )
+          q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
+            ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
+      .api-container(v-else)
+        ApiRows(:which="tab", :api="filteredApi")
 </template>
 
 <script>
 import ApiRows from './ApiRows.js'
 import CardTitle from './CardTitle.vue'
+import { format } from 'quasar'
+const { pad } = format
+
+const groupBy = (list, groupKey, defaultGroupKeyValue) => {
+  const res = {}
+
+  for (let key in list) {
+    if (list.hasOwnProperty(key)) {
+      let value = list[key]
+      let groupKeyValue = (value[groupKey] || defaultGroupKeyValue).split('|')
+      for (let groupKeyV of groupKeyValue) {
+        if (res[groupKeyV] === void 0) {
+          res[groupKeyV] = {}
+        }
+        res[groupKeyV][key] = value
+      }
+    }
+  }
+
+  return res
+}
 
 export default {
   name: 'DocApi',
@@ -62,6 +115,9 @@ export default {
     return {
       ready: false,
       currentTab: null,
+      currentInnerTab: {
+        props: null
+      },
       filter: '',
       filteredApi: {}
     }
@@ -84,17 +140,46 @@ export default {
           return
         }
 
-        api[tab] = {}
-        const tabApi = this.api[tab]
+        const filterApi = tabApi => {
+          const filtered = {}
 
-        Object.keys(tabApi).forEach(name => {
-          if (
-            (name.indexOf(val) > -1) ||
-            (tabApi[name].desc !== void 0 && tabApi[name].desc.toLowerCase().indexOf(val) > -1)
-          ) {
-            api[tab][name] = tabApi[name]
+          Object.keys(tabApi).forEach(name => {
+            if (
+              (name.indexOf(val) > -1) ||
+              (tabApi[name].desc !== void 0 && tabApi[name].desc.toLowerCase().indexOf(val) > -1)
+            ) {
+              filtered[name] = tabApi[name]
+            }
+          })
+          return filtered
+        }
+
+        if (this.aggregationModel[tab]) {
+          api[tab] = {}
+          for (let group in this.api[tab]) {
+            if (this.api[tab].hasOwnProperty(group)) {
+              api[tab][group] = filterApi(this.api[tab][group])
+            }
           }
-        })
+
+          if (this.currentTab === tab) {
+            let apiWithResultsCount = 0,
+              lastFoundApiWithResults = null
+            for (let group in this.api[tab]) {
+              if (Object.keys(api[tab][group]).length > 0) {
+                apiWithResultsCount++
+                lastFoundApiWithResults = group
+              }
+            }
+
+            if (apiWithResultsCount === 1) {
+              this.currentInnerTab[tab] = lastFoundApiWithResults
+            }
+          }
+        }
+        else {
+          api[tab] = filterApi(this.api[tab])
+        }
       })
 
       this.filteredApi = api
@@ -103,6 +188,15 @@ export default {
 
   methods: {
     parseJson (name, { type, behavior, ...api }) {
+      this.aggregationModel = {}
+
+      if (type === 'component') {
+        for (let apiGroup of ['props']) {
+          api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
+          this.currentInnerTab[apiGroup] = this.apiTabs(apiGroup, api)[0]
+          this.aggregationModel[apiGroup] = true
+        }
+      }
       this.api = api
       this.filteredApi = api
       this.apiType = type
@@ -130,6 +224,34 @@ export default {
         this.filter = ''
       }
       this.$refs.input.focus()
+    },
+
+    apiTabs (tab, api) {
+      return Object.keys((api || this.filteredApi)[tab]).sort()
+    },
+
+    apiCount (tab, category) {
+      return Object.keys(this.filteredApi[tab][category]).length
+    },
+
+    formattedApiCount (tab, category) {
+      return pad(this.apiCount(tab, category), (this.currentTabMaxCategoryPropCount + '').length)
+    }
+  },
+
+  computed: {
+    currentTabMaxCategoryPropCount () {
+      const calculateFn = () => {
+        let max = -1
+        for (let category in this.filteredApi[this.currentTab]) {
+          let count = this.apiCount(this.currentTab, category)
+          if (count > max) {
+            max = count
+          }
+        }
+        return max
+      }
+      return this.aggregationModel[this.currentTab] ? calculateFn() : 0
     }
   },
 
@@ -147,6 +269,13 @@ export default {
 </script>
 
 <style lang="stylus">
-.doc-api .q-tab
-  height 40px
+.doc-api
+  .q-tab
+    height 40px
+
+  .inner-tab
+    justify-content left
+
+  .api-container
+    max-height 600px
 </style>

@@ -118,8 +118,8 @@ export default Vue.extend({
         'q-field--with-bottom': this.hasBottom,
         'q-field--error': this.hasError,
 
-        'q-field--readonly no-pointer-events': this.readonly,
-        'disabled no-pointer-events': this.disable
+        'q-field--readonly': this.readonly,
+        'q-field--disabled': this.disable
       }
     },
 
@@ -185,27 +185,31 @@ export default Vue.extend({
         ])
       )
 
-      ;(this.loading === true || this.innerLoading === true) && node.push(
-        this.__getInnerAppendNode(
-          h,
-          'inner-loading-append',
-          this.$scopedSlots.loading !== void 0
-            ? this.$scopedSlots.loading()
-            : [ h(QSpinner, { props: { color: this.color } }) ]
+      if (this.loading === true || this.innerLoading === true) {
+        node.push(
+          this.__getInnerAppendNode(
+            h,
+            'inner-loading-append',
+            this.$scopedSlots.loading !== void 0
+              ? this.$scopedSlots.loading()
+              : [ h(QSpinner, { props: { color: this.color } }) ]
+          )
         )
-      )
+      }
 
-      this.clearable === true && this.hasValue === true && node.push(
-        this.__getInnerAppendNode(h, 'inner-clearable-append', [
-          h(QIcon, {
-            staticClass: 'cursor-pointer',
-            props: { name: this.clearIcon || this.$q.iconSet.field.clear },
-            on: {
-              click: this.__clearValue
-            }
-          })
-        ])
-      )
+      if (this.clearable === true && this.hasValue === true && this.editable === true) {
+        node.push(
+          this.__getInnerAppendNode(h, 'inner-clearable-append', [
+            h(QIcon, {
+              staticClass: 'cursor-pointer',
+              props: { name: this.clearIcon || this.$q.iconSet.field.clear },
+              on: {
+                click: this.__clearValue
+              }
+            })
+          ])
+        )
+      }
 
       this.$scopedSlots.append !== void 0 && node.push(
         h('div', {
@@ -218,8 +222,8 @@ export default Vue.extend({
         this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
       )
 
-      this.__getLocalMenu !== void 0 && node.push(
-        this.__getLocalMenu(h)
+      this.__getPopup !== void 0 && node.push(
+        this.__getPopup(h)
       )
 
       return node
@@ -352,6 +356,9 @@ export default Vue.extend({
   },
 
   render (h) {
+    this.__onPreRender !== void 0 && this.__onPreRender()
+    this.__onPostRender !== void 0 && this.$nextTick(this.__onPostRender)
+
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
       class: this.classes,
@@ -385,6 +392,8 @@ export default Vue.extend({
   },
 
   created () {
+    this.__onPreRender !== void 0 && this.__onPreRender()
+
     this.controlEvents = this.__getControlEvents !== void 0
       ? this.__getControlEvents()
       : {

@@ -3,7 +3,8 @@
     "props": {
       "type": "Object",
       "desc": "QTable's row scoped slot property",
-      "examples": [ ":props=\"props\"" ]
+      "examples": [ ":props=\"props\"" ],
+      "category": "general"
     }
   },
 

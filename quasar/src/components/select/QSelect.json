@@ -6,23 +6,27 @@
       "type": [ "Number", "String", "Array" ],
       "desc": "Model of the component; Must be Array if using 'multiple' prop; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "required": true,
-      "examples": [ "v-model=\"myModel\"" ]
+      "examples": [ "v-model=\"myModel\"" ],
+      "category": "model"
     },
 
     "multiple": {
       "type": "Boolean",
-      "desc": "Allow multiple selection; Model must be Array"
+      "desc": "Allow multiple selection; Model must be Array",
+      "category": "model|selection"
     },
 
     "display-value": {
       "type": [ "Number", "String" ],
       "desc": "Override default selection string, if not using 'selected' slot/scoped slot and if not using 'use-chips' prop",
-      "examples": [ "Options: x, y, z"]
+      "examples": [ "Options: x, y, z"],
+      "category": "selection"
     },
 
     "display-value-sanitize": {
       "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render selected option(s); Use it when the selected option(s) might be unsafe (from user input); Does NOT apply when using 'selected' or 'selected-item' slots!"
+      "desc": "Force use of textContent instead of innerHTML to render selected option(s); Use it when the selected option(s) might be unsafe (from user input); Does NOT apply when using 'selected' or 'selected-item' slots!",
+      "category": "selection"
     },
 
     "options": {
@@ -32,7 +36,8 @@
       "examples": [
         ":options=\"[ 'BMW', 'Samsung Phone' ]\"",
         ":options=\"[ { label: 'BMW', value: 'car' }, { label: 'Samsung Phone', value: 'phone' } ]\""
-      ]
+      ],
+      "category": "options"
     },
 
     "option-value": {
@@ -42,7 +47,8 @@
       "examples": [
         "option-value=\"modelNumber\"",
         ":option-value=\"(item) => item.modelNumber\""
-      ]
+      ],
+      "category": "options"
     },
 
     "option-label": {
@@ -52,7 +58,8 @@
       "examples": [
         "option-label=\"itemName\"",
         ":option-label=\"(item) => item.itemName\""
-      ]
+      ],
+      "category": "options"
     },
 
     "option-disable": {
@@ -62,17 +69,20 @@
       "examples": [
         "option-disable=\"cannotSelect\"",
         ":option-disable=\"(item) => item.cannotSelect\""
-      ]
+      ],
+      "category": "options"
     },
 
     "hide-selected": {
       "type": "Boolean",
-      "desc": "Hides selection; Use the underlying input tag to hold the label (instead of showing it to the right of the input) of the selected option; Only works for non 'multiple' Selects"
+      "desc": "Hides selection; Use the underlying input tag to hold the label (instead of showing it to the right of the input) of the selected option; Only works for non 'multiple' Selects",
+      "category": "selection"
     },
 
     "hide-dropdown-icon": {
       "type": "Boolean",
-      "desc": "Hides dropdown icon"
+      "desc": "Hides dropdown icon",
+      "category": "content|behavior"
     },
 
     "dropdown-icon": {
@@ -82,83 +92,98 @@
     "max-values": {
       "type": [ "Number", "String" ],
       "desc": "Allow a maximum number of selections that the user can do",
-      "examples": [ "5" ]
+      "examples": [ "5" ],
+      "category": "selection"
     },
 
     "options-dense": {
       "extends": "dense",
-      "desc": "Dense mode for options list; occupies less space"
+      "desc": "Dense mode for options list; occupies less space",
+      "category": "options"
     },
 
     "options-dark": {
       "type": "Boolean",
-      "desc": "Options menu will be colored with a dark color"
+      "desc": "Options menu will be colored with a dark color",
+      "category": "options"
     },
 
     "options-selected-class": {
       "type": "String",
       "desc": "CSS class name for options that are active/selected",
-      "examples": [ "text-orange" ]
+      "examples": [ "text-orange" ],
+      "category": "options"
     },
 
     "options-cover": {
       "type": "Boolean",
-      "desc": "Expanded menu will cover the component"
+      "desc": "Expanded menu will cover the component",
+      "category": "options"
     },
 
     "options-sanitize": {
       "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT applies when using 'option' slot!"
+      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT applies when using 'option' slot!",
+      "category": "options"
     },
 
     "use-input": {
       "type": "Boolean",
-      "desc": "Use an input tag where users can type"
+      "desc": "Use an input tag where users can type",
+      "category": "content"
     },
 
     "use-chips": {
       "type": "Boolean",
-      "desc": "Use QChip to show what is currently selected"
+      "desc": "Use QChip to show what is currently selected",
+      "category": "selection"
     },
 
     "new-value-mode": {
       "type": "String",
       "desc": "Enables creation of new values and defines behavior when a new value is added: 'add' means it adds the value (even if possible duplicate), 'add-unique' adds only unique values, and 'toggle' adds or removes the value (based on if it exists or not already); When using this prop then listening for @new-value becomes optional (only to override the behavior defined by 'new-value-mode')",
-      "values": [ "add", "add-unique", "toggle" ]
+      "values": [ "add", "add-unique", "toggle" ],
+      "category": "behavior"
     },
 
     "map-options": {
       "type": "Boolean",
-      "desc": "Try to map labels of model from 'options' Array; has a small performance penalty"
+      "desc": "Try to map labels of model from 'options' Array; has a small performance penalty",
+      "category": "options"
     },
 
     "emit-value": {
       "type": "Boolean",
-      "desc": "Update model with the value of the selected option instead of the whole option"
+      "desc": "Update model with the value of the selected option instead of the whole option",
+      "category": "model"
     },
 
     "input-debounce": {
       "type": [ "Number", "String" ],
       "desc": "Debounce the input model update with an amount of milliseconds",
       "default": 500,
-      "examples": [ 650 ]
+      "examples": [ 650 ],
+      "category": "content"
     },
 
     "autofocus": {
       "type": "Boolean",
-      "desc": "Focus component on initial render"
+      "desc": "Focus component on initial render",
+      "category": "behavior"
     },
 
     "transition-show": {
       "extends": "transition",
       "desc": "Transition when showing the menu; One of Quasar's embedded transitions; Works only if \"cover-options\" is not used",
-      "default": "fade"
+      "default": "fade",
+      "category": "behavior"
     },
 
     "transition-hide": {
       "extends": "transition",
       "desc": "Transition when hiding the menu; One of Quasar's embedded transitions; Works only if \"cover-options\" is not used",
-      "default": "fade"
+      "default": "fade",
+      "category": "behavior"
     }
   },
 

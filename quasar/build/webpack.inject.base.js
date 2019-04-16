@@ -31,8 +31,7 @@ module.exports = function (chain) {
       'quasar-css': resolve(`src/css/index.styl`),
       assets: resolve('dev/assets'),
       components: resolve('dev/components'),
-      data: resolve('dev/data'),
-      'quasar-variables': resolve(`src/css/variables.styl`)
+      data: resolve('dev/data')
     })
 
   chain.module.rule('lint')
@@ -174,5 +173,16 @@ function injectRule (chain, lang, test, loader, options) {
         { sourceMap: true },
         options
       ))
+
+    if (loader === 'stylus-loader') {
+      // inject Stylus variables automatically
+      rule.use('style-resources-loader')
+        .loader('style-resources-loader')
+        .options({
+          patterns: [
+            resolve(`src/css/variables.styl`)
+          ]
+        })
+    }
   }
 }

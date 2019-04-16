@@ -169,8 +169,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 .stylish-splitter
   border 3px solid $deep-orange
   height 700px
