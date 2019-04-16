@@ -11,15 +11,13 @@
     <q-form
       v-if="show"
       :autofocus="autofocus"
-      ref="form"
+      ref="form1"
       @submit="onSubmit"
       @reset="onReset"
       @validation-success="onValidationSuccess"
       @validation-error="onValidationError"
       class="q-gutter-md"
     >
-      <input v-model="native">
-
       <q-input
         ref="name"
         filled
@@ -29,7 +27,6 @@
         lazy-rules
         :rules="[ val => val && val.length > 0 || 'Please type something']"
       />
-
       <q-input
         ref="age"
         filled
@@ -42,7 +39,6 @@
           val => val > 0 && val < 100 || 'Please type a real age'
         ]"
       />
-
       <q-input
         v-model="modelAsync"
         filled
@@ -55,12 +51,13 @@
       <q-toggle v-model="accept" label="I accept the license and terms" />
 
       <div>
-        <q-btn label="Submit" type="submit" color="primary" />
+        <!-- <q-input label="Submit" type="submit" color="primary" value="submit" /> -->
+        <q-btn label="Submit" type="submit" color="primary" @click.native="$refs.form1.submit" />
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
     </q-form>
 
-    <q-form class="q-mt-xl">
+    <q-form class="q-mt-xl" ref="form2">
       <div class="q-gutter-md">
         <q-badge :label="user" />
         <q-badge :label="pwd" />
@@ -78,7 +75,7 @@
         label="Password"
         :rules="[ val => !!val ]"
       />
-      <q-btn label="Submit" type="submit" color="primary" />
+      <q-btn label="Submit" type="submit" color="primary" @click.native="$refs.form2.submit" />
     </q-form>
   </div>
 </template>
@@ -89,13 +86,13 @@ export default {
     return {
       native: null,
       name: null,
-      age: null,
+      age: 19,
       modelAsync: null,
 
       accept: false,
 
       show: true,
-      autofocus: true,
+      autofocus: false,
 
       user: null,
       pwd: null

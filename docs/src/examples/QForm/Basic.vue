@@ -5,6 +5,7 @@
       @submit="onSubmit"
       @reset="onReset"
       class="q-gutter-md"
+      ref="form"
     >
       <q-input
         filled
@@ -30,7 +31,7 @@
       <q-toggle v-model="accept" label="I accept the license and terms" />
 
       <div>
-        <q-btn label="Submit" type="submit" color="primary"/>
+        <q-btn label="Submit" type="submit" color="primary" @click.native="$refs.form.submit" />
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
     </q-form>
@@ -44,7 +45,6 @@ export default {
     return {
       name: null,
       age: null,
-
       accept: false
     }
   },

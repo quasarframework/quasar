@@ -18,15 +18,16 @@ Please be aware of the following:
 * QForm hooks into QInput, QSelect or QField wrapped components
 * QInput, QSelect or QField wrapped components must use the internal validation (NOT the external one).
 * If you want to take advantage of the `reset` functionality, then be sure to also capture the `@reset` event on QForm and make its handler reset all of the wrapped components models.
+
 :::
 
 <doc-example title="Basic" file="QForm/Basic" />
 
-In order for the user to be able to activate the `@submit` or `@reset` events on the form, create a QBtn with `type` set to `submit` or `reset`:
+Unfortunately, some Browsers (like Safari and IE) still believe that you need to use an `<input />` dom element in order to submit a form (but not to reset it). In order for the user to be able to activate the `@submit` or `@reset` events on the form, create a QBtn with `type` set to `submit` or `reset`, and in the case of the submit, make sure you have set a ref prop on the QForm and then call the submit function of the form directly:
 
 ```html
 <div>
-  <q-btn label="Submit" type="submit" color="primary"/>
+  <q-btn label="Submit" type="submit" color="primary" @click.native="$refs.form.submit" />/>
   <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
 </div>
 ```
@@ -50,6 +51,16 @@ this.$refs.myForm.validate().then(success => {
 
 // to reset validations:
 this.$refs.myForm.resetValidation()
+```
+
+
+## Turning off Autocompletion
+If you want to turn off the way that some browsers use autocorrection or spellchecking of all of the input elements of your form, you can also add these pure html attributes to the QForm component:
+```html
+  autocorrect="off"
+  autocapitalize="off"
+  autocomplete="off"
+  spellcheck="false"
 ```
 
 ## QForm API
