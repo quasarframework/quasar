@@ -101,6 +101,10 @@ export default Vue.extend({
 
     seamless (v) {
       this.showing === true && this.__preventScroll(!v)
+    },
+
+    useBackdrop (v) {
+      document.body[v === true ? 'addEventListener' : 'removeEventListener']('focusin', this.__onChangeFocus)
     }
   },
 
@@ -119,6 +123,10 @@ export default Vue.extend({
           ? (this.transitionState === true ? this.transitionHide : this.transitionShow)
           : 'slide-' + transitions[this.position][this.transitionState === true ? 1 : 0]
       )
+    },
+
+    useBackdrop () {
+      return this.showing === true && this.seamless !== true
     }
   },
 
@@ -176,6 +184,10 @@ export default Vue.extend({
         }
       })
 
+      if (this.useBackdrop === true) {
+        document.body.addEventListener('focusin', this.__onChangeFocus)
+      }
+
       this.__showPortal()
 
       this.timer = setTimeout(() => {
@@ -199,6 +211,10 @@ export default Vue.extend({
     __cleanup (hiding) {
       clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
+
+      if (this.useBackdrop === true) {
+        document.body.removeEventListener('focusin', this.__onChangeFocus)
+      }
 
       if (hiding === true || this.showing === true) {
         EscapeKey.pop(this)
@@ -229,12 +245,21 @@ export default Vue.extend({
       }
     },
 
-    __onBackdropClick (e) {
-      if (this.persistent !== true && this.noBackdropDismiss !== true) {
-        this.hide(e)
+    __onChangeFocus (e) {
+      if (
+        this.__portal === void 0 ||
+        this.__portal.$el === void 0 ||
+        this.__portal.$el.nextElementSibling !== null ||
+        this.__portal.$el.contains(e.target) === true
+      ) {
+        return
+      }
+
+      if (this.persistent === true || this.noEscDismiss === true) {
+        this.maximized !== true && this.shake()
       }
       else {
-        this.shake()
+        this.hide(e)
       }
     },
 
@@ -256,12 +281,11 @@ export default Vue.extend({
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }
-        }, this.showing && this.seamless !== true ? [
+        }, this.useBackdrop === true ? [
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
-              touchmove: stopAndPrevent, // prevent iOS page scroll
-              click: this.__onBackdropClick
+              touchmove: stopAndPrevent // prevent iOS page scroll
             }
           })
         ] : null),
