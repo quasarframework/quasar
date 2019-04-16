@@ -6,7 +6,7 @@ module.exports = class PwaManifest {
   apply (compiler) {
     compiler.hooks.emit.tapAsync('manifest.json', (compiler, callback) => {
       compiler.assets['manifest.json'] = {
-        source: () => new Buffer(this.manifest),
+        source: () => Buffer.from(this.manifest, 'utf8'),
         size: () => Buffer.byteLength(this.manifest)
       }
 
