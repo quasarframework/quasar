@@ -18,7 +18,7 @@ module.exports = class ElectronPackageJson {
       const source = JSON.stringify(pkg)
 
       compiler.assets['package.json'] = {
-        source: () => new Buffer(source),
+        source: () => Buffer.from(source, 'utf8'),
         size: () => Buffer.byteLength(source)
       }
 

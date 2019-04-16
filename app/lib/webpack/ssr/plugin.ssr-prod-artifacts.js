@@ -23,7 +23,7 @@ module.exports = class SsrProdArtifacts {
         htmlTemplate = getIndexHtml(fs.readFileSync(htmlFile, 'utf-8'), this.cfg)
 
       compiler.assets['../template.html'] = {
-        source: () => new Buffer(htmlTemplate),
+        source: () => Buffer.from(htmlTemplate, 'utf8'),
         size: () => Buffer.byteLength(htmlTemplate)
       }
 
@@ -38,7 +38,7 @@ module.exports = class SsrProdArtifacts {
         })
 
       compiler.assets['../ssr.js'] = {
-        source: () => new Buffer(ssrTemplate),
+        source: () => Buffer.from(ssrTemplate, 'utf8'),
         size: () => Buffer.byteLength(ssrTemplate)
       }
 
@@ -47,7 +47,7 @@ module.exports = class SsrProdArtifacts {
        */
       const index = `require('./server/${this.cfg.ssr.__index}')`
       compiler.assets[`../${this.cfg.ssr.__index}`] = {
-        source: () => new Buffer(index),
+        source: () => Buffer.from(index, 'utf8'),
         size: () => Buffer.byteLength(index)
       }
 
@@ -88,7 +88,7 @@ module.exports = class SsrProdArtifacts {
 
       pkg = JSON.stringify(pkg, null, 2)
       compiler.assets['../package.json'] = {
-        source: () => new Buffer(pkg),
+        source: () => Buffer.from(pkg, 'utf8'),
         size: () => Buffer.byteLength(pkg)
       }
 
