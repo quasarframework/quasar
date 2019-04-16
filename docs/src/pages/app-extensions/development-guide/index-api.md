@@ -7,9 +7,8 @@ This page refers to `src/index.js` file, which is executed on `quasar dev` and `
 Example of basic structure of the file:
 
 ```js
-module.exports = function (api, ctx) {
-  // props & methods for "api" Object described below;
-  // ctx is same as that of /quasar.conf.js
+module.exports = function (api) {
+  // props & methods for "api" Object described below
 }
 ```
 
@@ -29,9 +28,6 @@ if (api.ctx.dev === true && api.ctx.mode === 'electron') {
 
 ## api.extId
 Contains the `ext-id` (String) of this App Extension.
-
-## api.quasarAppVersion
-Contains the exact `@quasar/app` package version in String format.
 
 ## api.prompts
 Is an Object which has the answers to the prompts when this App Extension got installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts).
@@ -62,8 +58,11 @@ api.resolve.electron('some-file.js')
 ## api.appDir
 Contains the full path (String) to the root of the app on which this App Extension is running.
 
-## api.compatibleWithQuasarApp
-Ensure the App Extension is compatible with locally installed @quasar/app through a semver condition.
+## api.compatibleWith
+
+<q-badge label="@quasar/app v1.0.0-beta.18+" />
+
+Ensure the App Extension is compatible with a package installed in the host app through a semver condition.
 
 If the semver condition is not met, then @quasar/app errors out and halts execution.
 
@@ -71,24 +70,64 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 
 ```js
 /**
+ * @param {string} packageName
  * @param {string} semverCondition
  */
-api.compatibleWithQuasarApp('1.x')
+api.compatibleWith('@quasar/app', '1.x')
+```
+
+## api.hasPackage
+
+<q-badge label="@quasar/app v1.0.0-beta.18+" />
+
+Determine if some package is installed in the host app through a semver condition.
+
+Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
+
+```js
+/**
+ * @param {string} packageName
+ * @param {string} (optional) semverCondition
+ * @return {boolean} package is installed and meets optional semver condition
+ */
+if (api.hasPackage('vuelidate')) {
+  // hey, this app has it (any version of it)
+}
+if (api.hasPackage('quasar', '^1.0.0-beta.0')) {
+  // hey, this app has v1 installed
+}
 ```
 
 ## api.hasExtension
-Check if another app extension is installed.
+Check if another app extension is npm installed and Quasar CLI has invoked it.
 
 ```js
 /**
  * Check if another app extension is installed
  *
  * @param {string} extId
- * @return {boolean} has the extension installed.
+ * @return {boolean} has the extension installed & invoked
  */
 if (api.hasExtension(extId)) {
   // hey, we have it
 }
+```
+
+## api.getPackageVersion
+
+<q-badge label="@quasar/app v1.0.0-beta.18+" />
+
+Get the version of a host app package.
+
+```js
+/**
+ * @param {string} packageName
+ * @return {string|undefined} version of app's package
+ */
+console.log( api.getPackageVersion(packageName) )
+// output examples:
+//   1.1.3
+//   undefined (when package not found)
 ```
 
 ## api.extendQuasarConf
@@ -107,20 +146,21 @@ api.extendQuasarConf ((cfg, ctx) => {
 
 ### Registering boot and css files and a directive
 
-```
+```js
 module.exports = function (api, ctx) {
   api.extendQuasarConf((conf) => {
     // make sure directives needed are compiled into app project
-    if (!conf.directives.includes('CloseMenu')) {
-      conf.directives.push('CloseMenu')
-    }
+    conf.framework.directives.push('CloseMenu')
 
     // make sure my-ext boot file is registered
     conf.boot.push('~quasar-app-extension-my-ext/src/boot/qmarkdown.js')
+
     // make sure boot file transpiles
     conf.build.transpileDependencies.push(/quasar-app-extension-my-ext[\\/]src[\\/]boot/)
+    // if boot file imports anything, make sure that
+    // the regex above matches those files too!
 
-    // make sure my-ext css goes through webpack to avoid ssr issues
+    // make sure my-ext css goes through webpack
     conf.css.push('~quasar-app-extension-qmarkdown/src/component/my-ext.styl')
   })
 }
@@ -128,10 +168,6 @@ module.exports = function (api, ctx) {
 
 ::: tip
 Notice the tidle (`~`) in front of the paths. This tells Quasar CLI that the path is a dependency from node_modules instead of a relative path to App Extension index script file.
-:::
-
-::: tip
-Always check for the existence of anything you need added to the conf file before adding it (like directives). The developer might have added it already in his `/quasar.conf.js`.
 :::
 
 ## api.chainWebpack
@@ -236,7 +272,10 @@ For syntax of such a JSON file, look into `/node_modules/quasar/dist/api` (in yo
 Always test with the `quasar describe` command to ensure you got the syntax right and there are no errors.
 :::
 
-## api.beforeDevStart
+## api.beforeDev
+
+<q-badge label="@quasar/app v1.0.0-beta.18+" />
+
 Prepare external services before `$ quasar dev` command runs, like starting some backend or any other service that the app relies on.
 
 ```js
@@ -244,7 +283,7 @@ Prepare external services before `$ quasar dev` command runs, like starting some
  * @param {function} fn
  *   () => ?Promise
  */
-api.beforeDevStart(() => {
+api.beforeDev(() => {
   // do something
 })
 ```
@@ -267,7 +306,6 @@ api.beforeBuild(() => {
 
 ## api.afterBuild
 
-<q-badge label="@quasar/app v1.0.0-beta.16+" />
 
 Run hook after Quasar built app for production (`$ quasar build`). At this point, the distributables folder has been created and is available should you wish to do something with it.
 
