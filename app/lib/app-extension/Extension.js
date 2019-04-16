@@ -63,14 +63,14 @@ async function renderFolders ({ source, rawCopy, scope }) {
       }
     }
 
+    fs.ensureFileSync(targetPath)
+
     if (rawCopy || isBinary(sourcePath)) {
-      fs.ensureFileSync(targetPath)
       fs.copyFileSync(sourcePath, targetPath)
     }
     else {
       const rawContent = fs.readFileSync(sourcePath, 'utf-8')
       const template = compileTemplate(rawContent)
-      fs.ensureFileSync(targetPath)
       fs.writeFileSync(targetPath, template(scope), 'utf-8')
     }
   }
