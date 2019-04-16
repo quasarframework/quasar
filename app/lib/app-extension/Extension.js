@@ -63,8 +63,9 @@ async function renderFolders ({ source, rawCopy, scope }) {
       }
     }
 
+    fs.ensureFileSync(targetPath)
+
     if (rawCopy || isBinary(sourcePath)) {
-      fs.ensureFileSync(targetPath)
       fs.copyFileSync(sourcePath, targetPath)
     }
     else {
