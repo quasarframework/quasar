@@ -276,7 +276,7 @@ build: {
 }
 ```
 
-> Alternatively you can use our [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) App Extension.
+> Alternatively you can use our [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) or [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) App Extensions.
 
 ::: tip
 Also check out [Handling process.env](/quasar-cli/cli-documentation/handling-process-env) page.
