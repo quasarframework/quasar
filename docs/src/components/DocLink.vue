@@ -32,8 +32,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 .doc-link
   color $primary
   font-weight 500

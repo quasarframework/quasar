@@ -923,7 +923,7 @@ export default {
     return {}
   },
   created () {
-    import('./flex-addon.styl')
+    import('../../../src/css/flex-addon.styl')
   }
 }
 </script>

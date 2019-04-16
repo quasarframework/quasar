@@ -159,13 +159,13 @@ async function goLive () {
 
   buildConfig = quasarConfig.getBuildConfig()
 
-  if (typeof buildConfig.build.beforeDevStart === 'function') {
-    await buildConfig.build.beforeDevStart()
+  if (typeof buildConfig.build.beforeDev === 'function') {
+    await buildConfig.build.beforeDev()
   }
 
-  // run possible beforeDevStart hooks
-  await extensionRunner.runHook('beforeDevStart', async hook => {
-    log(`Extension(${hook.extId}): Running beforeDevStart hook...`)
+  // run possible beforeDev hooks
+  await extensionRunner.runHook('beforeDev', async hook => {
+    log(`Extension(${hook.extId}): Running beforeDev hook...`)
     await hook.fn()
   })
 
