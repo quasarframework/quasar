@@ -86,6 +86,6 @@ export default {
   },
   tree: {
     noNodes: 'Ni dosegljivih vozlišč',
-    noResults: 'Ne najdem ustreznih vozljišč'
+    noResults: 'Ne najdem ustreznih vozlišč'
   }
 }

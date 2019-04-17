@@ -545,8 +545,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 .select-card
   transition .3s background-color
   &:not(.disabled):hover

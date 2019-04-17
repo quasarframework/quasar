@@ -1,5 +1,10 @@
 $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
+@keyframes q-autofill
+  to
+    background transparent
+    color $input-autofill-color
+
 .q-field
   font-size $input-font-size
 
@@ -110,6 +115,10 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
   &__suffix
     padding-left 4px
 
+  &--readonly, &--disabled
+    .q-field__control
+      pointer-events none
+
   &__label
     left 0
     right 0
@@ -126,8 +135,13 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
   &--float .q-field__label
     transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
-  .q-field__native:-webkit-autofill + .q-field__label
-    transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
+
+  .q-field__native
+    &:-webkit-autofill
+      -webkit-animation-name q-autofill
+      -webkit-animation-fill-mode both
+    &:-webkit-autofill + .q-field__label
+      transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
 
   &--focused
     .q-field__label

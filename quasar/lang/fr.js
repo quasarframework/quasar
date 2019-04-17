@@ -33,7 +33,7 @@ export default {
         ? rows + ' ' + (rows === 1 ? 'ligne sélectionnée' : 'lignes sélectionnées') + '.'
         : 'Aucune ligne sélectionnée.'
     },
-    recordsPerPage: 'Lignes par page:',
+    recordsPerPage: 'Lignes par page :',
     allRows: 'Tous',
     pagination: function (start, end, total) {
       return start + '-' + end + ' sur ' + total
@@ -86,6 +86,6 @@ export default {
   },
   tree: {
     noData: 'Aucun nœud à afficher',
-    noResults: 'Aucun nœud trouvée'
+    noResults: 'Aucun nœud trouvé'
   }
 }

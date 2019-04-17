@@ -1,11 +1,12 @@
 const
-  path = require('path')
+  path = require('path'),
+  semver = require('semver')
 
 const
   appPaths = require('../app-paths'),
   logger = require('../helpers/logger'),
   warn = logger('app:extension(index)', 'red'),
-  quasarAppVersion = require('../../package.json').version,
+  getPackageJson = require('../helpers/get-package-json'),
   getCallerPath = require('../helpers/get-caller-path')
 
 /**
@@ -15,7 +16,6 @@ module.exports = class IndexAPI {
   constructor ({ extId, prompts, ctx }) {
     this.ctx = ctx
     this.extId = extId
-    this.quasarAppVersion = quasarAppVersion
     this.prompts = prompts
     this.resolve = appPaths.resolve
     this.appDir = appPaths.appDir
@@ -26,7 +26,7 @@ module.exports = class IndexAPI {
       chainWebpackMainElectronProcess: [],
       extendWebpackMainElectronProcess: [],
       chainWebpack: [],
-      beforeDevStart: [],
+      beforeDev: [],
       beforeBuild: [],
       afterBuild: [],
       commands: {},
@@ -36,7 +36,7 @@ module.exports = class IndexAPI {
 
   /**
    * Ensure the App Extension is compatible with
-   * locally installed @quasar/app through a
+   * host app package through a
    * semver condition.
    *
    * If the semver condition is not met, then
@@ -45,26 +45,81 @@ module.exports = class IndexAPI {
    * Example of semver condition:
    *   '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
    *
+   * @param {string} packageName
    * @param {string} semverCondition
    */
-  compatibleWithQuasarApp (semverCondition) {
-    const semver = require('semver')
+  compatibleWith (packageName, semverCondition) {
+    const json = getPackageJson(packageName)
 
-    if (!semver.satisfies(quasarAppVersion, semverCondition)) {
-      warn(`⚠️  Extension(${this.extId}): is not compatible with @quasar/app v${quasarAppVersion}`)
+    if (json === void 0) {
+      warn(`⚠️  Extension(${this.extId}): Dependency not found - ${packageName}. Please install it.`)
+      process.exit(1)
+    }
+
+    if (!semver.satisfies(json.version, semverCondition)) {
+      warn(`⚠️  Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`)
       process.exit(1)
     }
   }
 
   /**
+   * DEPRECATED
+   * Alias to compatibleWith('@quasar/app', semverCondition)
+   * TODO: remove in rc.1
+   *
+   * @param {string} semverCondition
+   */
+  compatibleWithQuasarApp (semverCondition) {
+    warn(`⚠️  Extension(${this.extId}): using deprecated compatibleWithQuasarApp() instead of compatibleWith()`)
+    this.compatibleWith('@quasar/app', semverCondition)
+  }
+
+  /**
+   * Check if a host app package is installed. Can also
+   * check its version against specific semver condition.
+   *
+   * Example of semver condition:
+   *   '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
+   *
+   * @param {string} packageName
+   * @param {string} (optional) semverCondition
+   * @return {boolean} package is installed and meets optional semver condition
+   */
+  hasPackage (packageName, semverCondition) {
+    const json = getPackageJson(packageName)
+
+    if (json === void 0) {
+      return false
+    }
+
+    return semverCondition !== void 0
+      ? semver.satisfies(json.version, semverCondition)
+      : true
+  }
+
+  /**
    * Check if another app extension is installed
+   * (app extension npm package is installed and it was invoked)
    *
    * @param {string} extId
-   * @return {boolean} has the extension installed.
+   * @return {boolean} has the extension installed & invoked
    */
   hasExtension (extId) {
     const extensionJson = require('./extension-json')
     return extensionJson.has(extId)
+  }
+
+  /**
+   * Get the version of a host app package.
+   *
+   * @param {string} packageName
+   * @return {string|undefined} version of app's package
+   */
+  getPackageVersion (packageName) {
+    const json = getPackageJson(packageName)
+    return json !== void 0
+      ? json.version
+      : void 0
   }
 
   /**
@@ -147,8 +202,20 @@ module.exports = class IndexAPI {
    * @param {function} fn
    *   () => ?Promise
    */
+  beforeDev (fn) {
+    this.__hooks.beforeDev.push({ extId: this.extId, fn })
+  }
+
+  /**
+   * Alias to beforeDev
+   * TODO: remove in rc.1
+   *
+   * @param {function} fn
+   *   () => ?Promise
+   */
   beforeDevStart (fn) {
-    this.__hooks.beforeDevStart.push({ extId: this.extId, fn })
+    warn(`⚠️  Extension(${this.extId}): using deprecated beforeDevStart() instead of beforeDev()`)
+    this.beforeDev(fn)
   }
 
   /**

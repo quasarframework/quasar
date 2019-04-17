@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-card
+  q-card(flat, bordered)
     .q-pa-md.text-center
       q-btn(push, color="orange", label="Test me", style="width: 200px")
         q-tooltip(

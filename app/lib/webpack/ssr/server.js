@@ -2,6 +2,9 @@ const
   nodeExternals = require('webpack-node-externals'),
   VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 
+const
+  appPaths = require('../../app-paths')
+
 module.exports = function (chain, cfg) {
   chain.entry('app')
     .clear()
@@ -29,7 +32,9 @@ module.exports = function (chain, cfg) {
 
   chain.externals(nodeExternals({
     // do not externalize CSS files in case we need to import it from a dep
-    whitelist: /(\.css$|\.vue$|\?vue&type=style|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^quasar[\\/]src[\\/])/
+    whitelist: [
+      /(\.css$|\.vue$|\?vue&type=style|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^quasar[\\/]src[\\/])/
+    ].concat(cfg.build.transpileDependencies)
   }))
 
   chain.plugin('vue-ssr-client')

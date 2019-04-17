@@ -11,13 +11,13 @@
     </div>
     <div class="row justify-center">
       <q-img src="https://cdn.quasar-framework.org/img/material.png" id="target-img-1" style="height: 100px">
-        <div class="absolute-bottom-right">#target-img-1</div>
+        <div class="absolute-bottom-right" style="border-top-left-radius: 5px">#target-img-11</div>
       </q-img>
       <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg" id="target-img-2" style="height: 100px">
-        <div class="absolute-bottom-right">#target-img-2</div>
+        <div class="absolute-bottom-right" style="border-top-left-radius: 5px">#target-img-2</div>
       </q-img>
       <q-img src="https://cdn.quasar-framework.org/img/blueish.jpg" style="height: 100px">
-        <div class="absolute-bottom-right">Original parent</div>
+        <div class="absolute-bottom-right" style="border-top-left-radius: 5px">Original parent</div>
         <q-menu touch-position :target="targetEl">
           <q-list>
             <q-item

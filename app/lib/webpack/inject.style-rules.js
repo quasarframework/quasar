@@ -4,7 +4,7 @@ const
   appPaths = require('../app-paths'),
   postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
 
-function injectRule (chain, pref, lang, test, loader, options) {
+function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
 
   // rules for <style lang="module">
@@ -37,7 +37,7 @@ function injectRule (chain, pref, lang, test, loader, options) {
         1 + // stylePostLoader injected by vue-loader
         1 + // postCSS loader
         (!pref.extract && pref.minify ? 1 : 0) + // postCSS with cssnano
-        (loader ? 1 : 0),
+        (loader ? (loader === 'stylus-loader' ? 2 : 1) : 0),
       sourceMap: pref.sourceMap
     }
 
@@ -86,8 +86,19 @@ function injectRule (chain, pref, lang, test, loader, options) {
         .loader(loader)
         .options(Object.assign(
           { sourceMap: pref.sourceMap },
-          options
+          loaderOptions
         ))
+
+      if (loader === 'stylus-loader') {
+        // inject Stylus variables automatically
+        rule.use('style-resources-loader')
+          .loader('style-resources-loader')
+          .options({
+            patterns: [
+              appPaths.resolve.app(`.quasar/app.quasar-variables.styl`)
+            ]
+          })
+      }
     }
   }
 }

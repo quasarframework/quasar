@@ -59,6 +59,27 @@
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
     </q-form>
+
+    <q-form class="q-mt-xl">
+      <div class="q-gutter-md">
+        <q-badge :label="user" />
+        <q-badge :label="pwd" />
+      </div>
+      <q-input
+        v-model="user"
+        filled
+        label="Username"
+        :rules="[ val => !!val ]"
+      />
+      <q-input
+        v-model="pwd"
+        filled
+        type="password"
+        label="Password"
+        :rules="[ val => !!val ]"
+      />
+      <q-btn label="Submit" type="submit" color="primary" />
+    </q-form>
   </div>
 </template>
 
@@ -74,7 +95,10 @@ export default {
       accept: false,
 
       show: true,
-      autofocus: true
+      autofocus: true,
+
+      user: null,
+      pwd: null
     }
   },
 

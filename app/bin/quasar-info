@@ -5,7 +5,7 @@ const
   chalk = require('chalk')
 
 const
-  appPaths = require('../lib/app-paths')
+  getPackageJson = require('../lib/helpers/get-package-json')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -43,14 +43,15 @@ function getSpawnOutput (command) {
 }
 
 function safePkgInfo (pkg) {
-  try {
-    const content = require(appPaths.resolve.app(`node_modules/${pkg}/package.json`))
+  const json = getPackageJson(pkg)
+
+  if (json !== void 0) {
     return {
-      key: `  ${String(content.name).trim()}`,
-      value: `${chalk.green(String(content.version).trim())}${content.description ? ` -- ${content.description}` : ''}`
+      key: `  ${String(json.name).trim()}`,
+      value: `${chalk.green(String(json.version).trim())}${json.description ? ` -- ${json.description}` : ''}`
     }
   }
-  catch (err) {
+  else {
     return {
       key: `  ${pkg}`,
       value: chalk.red('Not installed')

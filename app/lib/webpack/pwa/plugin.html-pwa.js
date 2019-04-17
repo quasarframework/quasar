@@ -6,7 +6,7 @@ function makeTag (tagName, attributes) {
   }
 }
 
-function fillPwaTags (data, { pwa: { manifest }}) {
+function fillPwaTags (data, { pwa: { manifest, metaVariables }}) {
   data.head.push(
     // Add to home screen for Android and modern mobile browsers
     makeTag('link', {
@@ -21,11 +21,11 @@ function fillPwaTags (data, { pwa: { manifest }}) {
     // Add to home screen for Safari on iOS
     makeTag('meta', {
       name: 'apple-mobile-web-app-capable',
-      content: 'yes'
+      content: metaVariables.appleMobileWebAppCapable
     }),
     makeTag('meta', {
       name: 'apple-mobile-web-app-status-bar-style',
-      content: manifest.background_color
+      content: metaVariables.appleMobileWebAppStatusBarStyle
     }),
     makeTag('meta', {
       name: 'apple-mobile-web-app-title',
@@ -48,7 +48,7 @@ function fillPwaTags (data, { pwa: { manifest }}) {
     }),
     makeTag('meta', {
       name: 'msapplication-TileColor',
-      content: manifest.background_color
+      content: metaVariables.msapplicationTileColor
     })
   )
 }

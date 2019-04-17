@@ -59,7 +59,12 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
 
         q-separator(vertical)
 
-        q-tab-panels.col(v-model="currentInnerTab[tab]", animated)
+        q-tab-panels.col(
+          v-model="currentInnerTab[tab]",
+          animated,
+          transition-prev="slide-down",
+          transition-next="slide-up"
+        )
           q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
             ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
       .api-container(v-else)

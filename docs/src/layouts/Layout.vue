@@ -253,7 +253,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
 @import '../css/docsearch'
 
 .header

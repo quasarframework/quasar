@@ -565,11 +565,19 @@ export const formatter = {
 }
 
 export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ', opts) {
-  if (val !== 0 && !val) {
+  if (
+    (val !== 0 && !val) ||
+    val === Infinity ||
+    val === -Infinity
+  ) {
     return
   }
 
   let date = new Date(val)
+
+  if (isNaN(date)) {
+    return
+  }
 
   return mask.replace(token, function (match, text) {
     if (match in formatter) {

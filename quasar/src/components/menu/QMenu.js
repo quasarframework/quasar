@@ -209,9 +209,6 @@ export default Vue.extend({
         return
       }
 
-      el.style.maxHeight = this.maxHeight
-      el.style.maxWidth = this.maxWidth
-
       setPosition({
         el,
         offset: this.offset,
@@ -220,7 +217,9 @@ export default Vue.extend({
         selfOrigin: this.selfOrigin,
         absoluteOffset: this.absoluteOffset,
         fit: this.fit,
-        cover: this.cover
+        cover: this.cover,
+        maxHeight: this.maxHeight,
+        maxWidth: this.maxWidth
       })
     },
 

@@ -244,8 +244,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 .docs-carousel
   p.caption:not(:first-of-type)
     margin-top 38px
