@@ -12,7 +12,7 @@ export default Vue.extend({
   mixins: [ QField, MaskMixin ],
 
   props: {
-    value: { required: true },
+    value: [String, Number],
 
     type: {
       type: String,
@@ -82,6 +82,11 @@ export default Vue.extend({
 
     __onInput (e) {
       const val = e.target.value
+
+      if (this.type === 'file') {
+        this.$emit('input', val)
+        return
+      }
 
       if (this.hasMask === true) {
         this.__updateMaskValue(val)
@@ -157,11 +162,13 @@ export default Vue.extend({
         class: this.inputClass,
         attrs,
         on,
-        domProps: {
-          value: this.hasOwnProperty('tempValue') === true
-            ? this.tempValue
-            : this.innerValue
-        }
+        domProps: this.type !== 'file'
+          ? {
+            value: this.hasOwnProperty('tempValue') === true
+              ? this.tempValue
+              : this.innerValue
+          }
+          : null
       })
     }
   },

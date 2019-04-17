@@ -60,7 +60,7 @@
       </div>
     </q-form>
 
-    <q-form class="q-mt-xl">
+    <q-form class="q-mt-xl" @submit="onSubmit" @reset="onReset">
       <div class="q-gutter-md">
         <q-badge :label="user" />
         <q-badge :label="pwd" />
@@ -112,6 +112,7 @@ export default {
     },
 
     onSubmit () {
+      this.$q.notify('submit')
       console.log('@submit')
     },
 

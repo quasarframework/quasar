@@ -30,8 +30,6 @@
       <q-input v-model="time" filled type="time" hint="Native time" />
 
       <q-input v-model="date" filled type="date" hint="Native date" />
-
-      <q-input v-model="file" filled type="file" hint="Native file" />
     </div>
   </div>
 </template>
@@ -50,9 +48,7 @@ export default {
       tel: '',
       url: '',
       time: '',
-      date: '',
-
-      file: null
+      date: ''
     }
   }
 }
