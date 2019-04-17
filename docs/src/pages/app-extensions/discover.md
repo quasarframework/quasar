@@ -32,6 +32,7 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/qoverlay](https://github.com/quasarframework/app-extension-qoverlay) | Overlays simplified. Add any component on top of the overlay |
 | [@quasar/qactivity](https://github.com/quasarframework/app-extension-qactivity) | Create activity timelines |
 | [@quasar/qmarkdown](https://github.com/quasarframework/app-extension-qmarkdown) | Markdown for your pages |
+| [@quasar/qpdfviewer](https://github.com/quasarframework/app-extension-qpdfviewer) | View PDF documents in your Quasar app |
 
 ### In Development
 
