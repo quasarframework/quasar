@@ -81,12 +81,12 @@ export default Vue.extend({
     },
 
     __onInput (e) {
-      const val = e.target.value
-
       if (this.type === 'file') {
-        this.$emit('input', val)
+        this.$emit('input', e.target.files)
         return
       }
+
+      const val = e.target.value
 
       if (this.hasMask === true) {
         this.__updateMaskValue(val)
