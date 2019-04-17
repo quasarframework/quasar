@@ -840,6 +840,7 @@ export default Vue.extend({
           value: this.menu,
           fit: true,
           cover: this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
+          contentClass: this.optionsDark === true ? 'q-select__menu--dark' : '',
           noParentEvent: true,
           noRefocus: true,
           noFocus: true,
@@ -890,7 +891,7 @@ export default Vue.extend({
       this.menu === true && content.push(
         h('div', {
           ref: 'menuContent',
-          staticClass: 'scroll' + (this.optionsDark === true ? ' q-select__menu--dark' : ''),
+          staticClass: 'scroll',
           on: {
             click: prevent,
             '&scroll': this.__hydrateOptions
