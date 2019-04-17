@@ -81,7 +81,6 @@ export default {
       modifiers: {},
 
       click (evt) {
-        // on ENTER in form IE emits a PointerEvent with negative client cordinates
         if (ctx.enabled === true) {
           showRipple(evt, el, ctx, evt.qKeyEvent === true)
         }
