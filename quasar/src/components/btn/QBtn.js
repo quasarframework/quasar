@@ -31,10 +31,19 @@ export default Vue.extend({
       if (e !== void 0) {
         // focus button if it came from ENTER on form
         // prevent the new submit (already done)
-        if (this.type === 'submit' && document.activeElement !== document.body && this.$el.contains(document.activeElement) === false) {
-          stopAndPrevent(e)
-          this.$el.focus()
-          return
+        if (this.type === 'submit') {
+          let shouldPrevent = document.activeElement !== document.body && this.$el.contains(document.activeElement) === false
+
+          // on ENTER in form IE emits a PointerEvent with negative client cordinates
+          if (shouldPrevent === false && this.$q.platform.is.ie === true && e.clientX < 0) {
+            shouldPrevent = true
+          }
+
+          if (shouldPrevent === true) {
+            stopAndPrevent(e)
+            this.$el.focus()
+            return
+          }
         }
 
         if (e.qKeyEvent !== true && this.$refs.blurTarget !== void 0) {

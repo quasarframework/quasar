@@ -1,5 +1,6 @@
 import { css } from '../utils/dom.js'
 import { position, stop } from '../utils/event.js'
+import Platform from '../plugins/Platform.js'
 
 function showRipple (evt, el, ctx, forceCenter) {
   ctx.modifiers.stop === true && stop(evt)
@@ -81,7 +82,8 @@ export default {
       modifiers: {},
 
       click (evt) {
-        if (ctx.enabled === true) {
+        // on ENTER in form IE emits a PointerEvent with negative client cordinates
+        if (ctx.enabled === true && (Platform.is.ie === false || evt.clientX >= 0)) {
           showRipple(evt, el, ctx, evt.qKeyEvent === true)
         }
       },
