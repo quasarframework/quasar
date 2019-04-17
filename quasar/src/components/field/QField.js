@@ -46,7 +46,10 @@ export default Vue.extend({
     clearIcon: String,
 
     disable: Boolean,
-    readonly: Boolean
+    readonly: Boolean,
+
+    maxlength: [Number, String],
+    maxValues: [Number, String] // do not add to JSON, internally needed by QSelect
   },
 
   data () {
@@ -76,8 +79,10 @@ export default Vue.extend({
       if (this.counter !== false) {
         const len = typeof this.value === 'string' || typeof this.value === 'number'
           ? ('' + this.value).length
-          : 0
-        return len + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
+          : (Array.isArray(this.value) === true ? this.value.length : 0)
+        const max = this.maxlength !== void 0 ? this.maxlength : this.maxValues
+
+        return len + (max !== void 0 ? ' / ' + max : '')
       }
     },
 

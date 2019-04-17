@@ -166,13 +166,6 @@ export default Vue.extend({
       }))
     },
 
-    computedCounter () {
-      if (this.multiple === true && this.counter === true) {
-        return (this.value !== void 0 && this.value !== null ? this.value.length : '0') +
-          (this.maxValues !== void 0 ? ' / ' + this.maxValues : '')
-      }
-    },
-
     optionScope () {
       return this.options.slice(0, this.optionsToShow).map((opt, i) => {
         const disable = this.__isDisabled(opt)
