@@ -283,6 +283,16 @@
         <q-btn color="negative" flat round dense icon="delete" />
       </template>
     </q-table>
+
+    <h4>Dense selection</h4>
+    <q-table
+      :data="data"
+      :columns="columns"
+      row-key="name"
+      selection="single"
+      dense
+      :selected.sync="selected"
+    />
   </div>
 </template>
 
