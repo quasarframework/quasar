@@ -27,12 +27,14 @@ function getBodyClasses ({ is, has, within }, cfg) {
       is.ios === true &&
       (cfg.cordova === void 0 || cfg.cordova.iosStatusBarPadding !== false)
     ) {
-      cls.push('q-ios-statusbar-padding')
+      cls.push('q-ios-padding')
     }
+  }
+  else if (is.electron === true) {
+    cls.push('electron')
   }
 
   within.iframe === true && cls.push('within-iframe')
-  is.electron === true && cls.push('electron')
 
   return cls
 }

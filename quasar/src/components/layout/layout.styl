@@ -132,26 +132,19 @@ $layout-transition = all .12s ease-in
     display inline-block
     pointer-events auto
 
-body.q-ios-statusbar-padding
+body.q-ios-padding
   .q-layout--standard .q-header > .q-toolbar:nth-child(2),
   .q-layout--standard .q-header > .q-tabs:nth-child(2) .q-tabs-head
-  .q-layout--standard .q-drawer--top-padding .q-drawer__content,
-  .q-dialog__inner--maximized .q-header > .q-toolbar:nth-child(2)
+  .q-layout--standard .q-drawer--top-padding .q-drawer__content
     padding-top $ios-statusbar-height
     min-height ($toolbar-min-height + $ios-statusbar-height)
     padding-top env(safe-area-inset-top)
     min-height "calc(env(safe-area-inset-top) + %s)" % $toolbar-min-height
-  .q-dialog__inner--maximized .q-drawer--top-padding .q-drawer__content
-    padding-top $ios-statusbar-height
-    padding-top env(safe-area-inset-top)
   .q-layout--standard .q-footer > .q-toolbar:last-child,
   .q-layout--standard .q-footer > .q-tabs:last-child .q-tabs-head
-  .q-layout--standard .q-drawer--top-padding .q-drawer__content,
-  .q-dialog__inner--maximized .q-footer > .q-toolbar:last-child
+  .q-layout--standard .q-drawer--top-padding .q-drawer__content
     padding-bottom env(safe-area-inset-bottom)
     min-height "calc(env(safe-area-inset-bottom) + %s)" % $toolbar-min-height
-  .q-dialog__inner--maximized .q-drawer--top-padding .q-drawer__content
-    padding-bottom env(safe-area-inset-bottom)
 
 .q-body--layout-animate .q-layout__section--animate
   transition $layout-transition !important
