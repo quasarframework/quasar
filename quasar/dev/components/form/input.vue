@@ -400,7 +400,16 @@
         <q-icon slot="after" name="delete" @click="log('after')" />
       </q-input>
 
-      <q-input :dark="dark" v-model="file" type="file" />
+      <div class="text-h6">
+        Files
+      </div>
+      <q-toggle v-model="showFileCopy" label="Show copy of file fields" />
+
+      <q-input :dark="dark" v-model="file" type="file" label="File" stack-label clearable @input="onFilesChange" />
+      <q-input v-if="showFileCopy" :dark="dark" v-model="file" type="file" label="Same file" stack-label @input="onFilesChange" />
+
+      <q-input :dark="dark" v-model="files" type="file" multiple label="Files" stack-label clearable @input="onFilesChange" />
+      <q-input v-if="showFileCopy" :dark="dark" v-model="files" type="file" multiple label="Same files" stack-label @input="onFilesChange" />
     </div>
   </div>
 </template>
@@ -434,7 +443,9 @@ export default {
       prefix: null,
       suffix: null,
 
-      file: null
+      file: null,
+      files: null,
+      showFileCopy: true
     }
   },
   watch: {
@@ -492,6 +503,9 @@ export default {
     },
     onChange (val) {
       console.log('@change', JSON.stringify(val))
+    },
+    onFilesChange (files) {
+      console.log('@input file', Array.from(files).map(f => f.name).join(' | '))
     },
     log (what) {
       console.log('LOG:', what)

@@ -80,8 +80,14 @@ Some input types (like `date` or `time`) always render some controls, so you if 
 #### Input of file type
 
 ::: warning
-Do NOT use a `v-model` when QInput is of `type="file"`. Browser security policy does not allow a value to be set to such an input. As a result, you can only read it (attach an `@input` event), but not write it.
+When QInput is of `type="file"` the model should always be a FileList.
+Do NOT try to pass something else because the browser security policy will not allow it.
 :::
+
+::: warning
+Do NOT use a `v-model` in IE when QInput is of `type="file"`. Browser security policy does not allow a value to be set to such an input. As a result, you can only read it (attach an `@input` event), but not write it.
+:::
+
 
 <doc-example title="Input of file type" file="QInput/InputTypeFile" />
 

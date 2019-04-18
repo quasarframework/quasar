@@ -5,6 +5,22 @@ import QField from '../field/QField.js'
 import MaskMixin from '../../mixins/mask.js'
 import debounce from '../../utils/debounce.js'
 import { stop } from '../../utils/event.js'
+import Platform from '../../plugins/Platform.js'
+
+function cloneFileList (original) {
+  if (Platform.is.ie === true) {
+    return original
+  }
+
+  const dataTransfer = new ClipboardEvent('').clipboardData || // Firefox < 62 workaround exploiting https://bugzilla.mozilla.org/show_bug.cgi?id=1422655
+    new DataTransfer() // specs compliant (as of March 2018 only Chrome)
+
+  Array.from(original).forEach(file => {
+    dataTransfer.items.add(file)
+  })
+
+  return dataTransfer.files
+}
 
 export default Vue.extend({
   name: 'QInput',
@@ -12,7 +28,7 @@ export default Vue.extend({
   mixins: [ QField, MaskMixin ],
 
   props: {
-    value: [String, Number],
+    value: {},
 
     type: {
       type: String,
@@ -30,21 +46,36 @@ export default Vue.extend({
   },
 
   watch: {
-    value (v) {
-      if (this.hasMask === true) {
-        if (this.stopValueWatcher === true) {
-          this.stopValueWatcher = false
-          return
+    value: {
+      handler (v) {
+        if (this.hasMask === true) {
+          if (this.stopValueWatcher === true) {
+            this.stopValueWatcher = false
+            return
+          }
+
+          this.__updateMaskValue(v)
+        }
+        else if (this.type === 'file') {
+          this.innerValue = v
+          if (this.$refs.input !== void 0 && v !== this.$refs.input.files) {
+            if ((v instanceof FileList) === true) {
+              // This is needed so that objects remain different
+              Platform.is.ie !== true && (this.$refs.input.files = cloneFileList(v))
+            }
+            else {
+              this.$refs.input.value = ''
+            }
+          }
+        }
+        else if (this.innerValue !== v) {
+          this.innerValue = v
         }
 
-        this.__updateMaskValue(v)
-      }
-      else if (this.innerValue !== v) {
-        this.innerValue = v
-      }
-
-      // textarea only
-      this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
+        // textarea only
+        this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
+      },
+      immediate: true
     },
 
     autogrow (autogrow) {
@@ -82,7 +113,12 @@ export default Vue.extend({
 
     __onInput (e) {
       if (this.type === 'file') {
-        this.$emit('input', e.target.files)
+        // This is needed so that Vue detects the change
+        const files = cloneFileList(e.target.files)
+
+        this.$refs.input.files !== files && (this.$refs.input.files = files)
+
+        this.$emit('input', files)
         return
       }
 
