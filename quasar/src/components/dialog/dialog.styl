@@ -29,9 +29,14 @@
 
     &--minimized
       padding 24px
-
       > div
         max-height calc(100vh - 48px)
+
+      body.q-ios-statusbar-padding &
+        padding-top $ios-statusbar-height
+        padding-top env(safe-area-inset-top)
+        padding-bottom env(safe-area-inset-bottom)
+        max-height "calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))"
 
     &--maximized
       > div

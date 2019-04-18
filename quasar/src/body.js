@@ -27,17 +27,7 @@ function getBodyClasses ({ is, has, within }, cfg) {
       is.ios === true &&
       (cfg.cordova === void 0 || cfg.cordova.iosStatusBarPadding !== false)
     ) {
-      const
-        ratio = window.devicePixelRatio || 1,
-        width = window.screen.width * ratio,
-        height = window.screen.height * ratio
-
-      if (width === 1125 && height === 2436) { // iPhoneX fullscreen
-        cls.push('q-ios-statusbar-x')
-      }
-      if (width !== 1125 || height !== 2001) { // not iPhoneX on non-fullscreen
-        cls.push('q-ios-statusbar-padding')
-      }
+      cls.push('q-ios-statusbar-padding')
     }
   }
 
