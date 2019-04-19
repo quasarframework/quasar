@@ -192,16 +192,23 @@
       "desc": "Override default selection slot; Suggestion: QChip"
     },
 
-    "no-option": {
-      "desc": "What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>"
-    },
-
     "loading": {
       "desc": "Override default spinner when component is in loading mode; Suggestion: spinners"
     }
   },
 
   "scopedSlots": {
+    "no-option": {
+      "desc": "What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>",
+      "scope": {
+        "inputValue": {
+          "type": "String",
+          "desc": "Input textfield value, if any (not QSelect model)",
+          "examples": [ "typed something" ]
+        }
+      }
+    },
+
     "selected-item": {
       "desc": "Override default selection slot; Suggestion: QChip",
       "scope": {
