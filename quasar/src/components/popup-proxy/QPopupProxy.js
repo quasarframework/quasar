@@ -17,7 +17,9 @@ export default Vue.extend({
     breakpoint: {
       type: [String, Number],
       default: 450
-    }
+    },
+
+    touchPosition: Boolean
   },
 
   data () {
@@ -47,6 +49,8 @@ export default Vue.extend({
       }
 
       const breakpoint = parseInt(this.breakpoint, 10)
+
+      this.touchPositionEvent = this.touchPosition === true ? evt : void 0
 
       this.showing = true
       this.$emit('input', true)
@@ -89,6 +93,11 @@ export default Vue.extend({
         child[0].componentOptions.Ctor.sealedOptions.name
       )
     ) ? { cover: true, maxHeight: '99vh' } : {}
+
+    if (this.touchPosition === true && this.touchPositionEvent !== void 0 && this.type === 'menu') {
+      props.touchPosition = this.touchPosition
+      props.touchPositionEvent = this.touchPositionEvent
+    }
 
     const data = {
       props: Object.assign(props, this.$attrs, {

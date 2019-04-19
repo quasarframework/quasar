@@ -61,6 +61,13 @@
       "category": "behavior"
     },
 
+    "touch-position-event": {
+      "type": "Object",
+      "desc": "The event to be used for touch position as if the target of the menu was either clicked or touched",
+      "examples": [ "A click event" ],
+      "category": "behavior"
+    },
+
     "persistent": {
       "type": "Boolean",
       "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key",

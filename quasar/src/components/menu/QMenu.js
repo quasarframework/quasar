@@ -54,6 +54,7 @@ export default Vue.extend({
     },
 
     touchPosition: Boolean,
+    touchPositionEvent: Object,
 
     maxHeight: {
       type: String,
@@ -141,8 +142,8 @@ export default Vue.extend({
       this.timer = setTimeout(() => {
         const { top, left } = this.anchorEl.getBoundingClientRect()
 
-        if (this.touchPosition || this.contextMenu) {
-          const pos = position(evt)
+        if (this.touchPosition && (evt !== void 0 || this.touchPositionEvent !== void 0)) {
+          const pos = position(evt || this.touchPositionEvent)
           this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
         }
         else {

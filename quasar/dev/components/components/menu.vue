@@ -6,7 +6,7 @@
       </div>
 
       <div class="q-gutter-sm">
-        <q-toggle v-model="toggle" class="z-max fixed-top" />
+        <q-toggle v-model="toggle" class="z-max fixed-top-left" />
         <q-btn color="primary" label="Persistent">
           <q-menu
             v-model="toggle"
@@ -72,13 +72,13 @@
               <q-btn label="Menu" color="primary">
                 <q-menu>
                   <q-list>
-                    <q-item clickable>
-                      <q-item-section @click="dialog2 = true">
+                    <q-item clickable @click="dialog2 = true">
+                      <q-item-section>
                         Open Dialog
                       </q-item-section>
                     </q-item>
-                    <q-item v-close-popup clickable>
-                      <q-item-section @click="dialog2 = true">
+                    <q-item clickable @click="dialog2 = true" v-close-popup>
+                      <q-item-section>
                         Close Menu and Open Dialog
                       </q-item-section>
                     </q-item>
@@ -354,7 +354,7 @@
             Menu in menu
           </q-card-section>
           <q-img src="https://cdn.quasar-framework.org/img/parallax1.jpg" style="height: 100px">
-            <q-menu touch-position>
+            <q-menu touch-position :context-menu="contextMenu">
               <q-list>
                 <q-item
                   v-close-popup
