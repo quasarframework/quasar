@@ -265,7 +265,6 @@ export default Vue.extend({
         this.__portal.$el.nextElementSibling === null &&
         this.__portal.$el.contains(e.target) !== true
       ) {
-        console.log('TRIGGER')
         this.__portal.$refs.inner.focus()
       }
     },
