@@ -3,7 +3,8 @@ const
   webpack = require('webpack'),
   WebpackChain = require('webpack-chain'),
   VueLoaderPlugin = require('vue-loader/lib/plugin'),
-  WebpackProgress = require('./plugin.progress')
+  WebpackProgress = require('./plugin.progress'),
+  BootDefaultExport = require('./plugin.boot-default-export')
 
 const
   appPaths = require('../app-paths'),
@@ -185,6 +186,9 @@ module.exports = function (cfg, configName) {
     chain.plugin('progress')
       .use(WebpackProgress, [{ name: configName }])
   }
+
+  chain.plugin('boot-default-export')
+    .use(BootDefaultExport)
 
   chain.performance
     .hints(false)
