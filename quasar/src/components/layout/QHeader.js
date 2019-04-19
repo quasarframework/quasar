@@ -113,23 +113,27 @@ export default Vue.extend({
   },
 
   render (h) {
+    const child = [
+      h(QResizeObserver, {
+        props: { debounce: 0 },
+        on: { resize: this.__onResize }
+      })
+    ].concat(
+      slot(this, 'default')
+    )
+
+    this.elevated === true && child.push(
+      h('div', {
+        staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
+      })
+    )
+
     return h('header', {
       staticClass: 'q-header q-layout__section--marginal q-layout__section--animate',
       class: this.classes,
       style: this.style,
       on: this.$listeners
-    }, [
-      h(QResizeObserver, {
-        props: { debounce: 0 },
-        on: { resize: this.__onResize }
-      }),
-
-      this.elevated === true
-        ? h('div', {
-          staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
-        })
-        : null
-    ].concat(slot(this, 'default')))
+    }, child)
   },
 
   created () {

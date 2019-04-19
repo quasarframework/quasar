@@ -338,15 +338,16 @@
       <q-select
         v-bind="props"
         v-model="stringSingle"
+        use-input
         label="String - single"
       >
-        <q-item
-          slot="no-option"
-        >
-          <q-item-section>
-            No options slot
-          </q-item-section>
-        </q-item>
+        <template v-slot:no-option="scope">
+          <q-item>
+            <q-item-section>
+              No options slot. Input value: {{ scope.inputValue }}
+            </q-item-section>
+          </q-item>
+        </template>
       </q-select>
 
       <div class="text-h6">
