@@ -104,7 +104,10 @@ export default Vue.extend({
     },
 
     useBackdrop (v) {
-      document.body[v === true ? 'addEventListener' : 'removeEventListener']('focusin', this.__onChangeFocus)
+      if (this.$q.platform.is.desktop === true) {
+        const action = `${v === true ? 'add' : 'remove'}EventListener`
+        document.body[action]('focusin', this.__onFocusChange)
+      }
     }
   },
 
@@ -184,8 +187,8 @@ export default Vue.extend({
         }
       })
 
-      if (this.useBackdrop === true) {
-        document.body.addEventListener('focusin', this.__onChangeFocus)
+      if (this.$q.platform.is.desktop === true && this.useBackdrop === true) {
+        document.body.addEventListener('focusin', this.__onFocusChange)
       }
 
       this.__showPortal()
@@ -212,8 +215,8 @@ export default Vue.extend({
       clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
 
-      if (this.useBackdrop === true) {
-        document.body.removeEventListener('focusin', this.__onChangeFocus)
+      if (this.$q.platform.is.desktop === true && this.useBackdrop === true) {
+        document.body.removeEventListener('focusin', this.__onFocusChange)
       }
 
       if (hiding === true || this.showing === true) {
@@ -245,21 +248,25 @@ export default Vue.extend({
       }
     },
 
-    __onChangeFocus (e) {
-      if (
-        this.__portal === void 0 ||
-        this.__portal.$el === void 0 ||
-        this.__portal.$el.nextElementSibling !== null ||
-        this.__portal.$el.contains(e.target) === true
-      ) {
-        return
-      }
-
-      if (this.persistent === true || this.noEscDismiss === true) {
-        this.maximized !== true && this.shake()
+    __onBackdropClick (e) {
+      if (this.persistent !== true && this.noBackdropDismiss !== true) {
+        this.hide(e)
       }
       else {
-        this.hide(e)
+        this.shake()
+      }
+    },
+
+    __onFocusChange (e) {
+      if (
+        this.__portal !== void 0 &&
+        this.__portal.$el !== void 0 &&
+        // we don't have another portal opened:
+        this.__portal.$el.nextElementSibling === null &&
+        this.__portal.$el.contains(e.target) !== true
+      ) {
+        console.log('TRIGGER')
+        this.__portal.$refs.inner.focus()
       }
     },
 
@@ -285,7 +292,8 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
-              touchmove: stopAndPrevent // prevent iOS page scroll
+              touchmove: stopAndPrevent, // prevent iOS page scroll
+              click: this.__onBackdropClick
             }
           })
         ] : null),
