@@ -49,10 +49,6 @@ function bodyInit (Platform, cfg) {
     document.body.classList.add.apply(document.body.classList, cls)
   }
 
-  if (document.body.hasAttribute('tabindex') === false) {
-    document.body.setAttribute('tabindex', -1)
-  }
-
   if (Platform.is.ios === true) {
     // needed for iOS button active state
     document.body.addEventListener('touchstart', () => {})
