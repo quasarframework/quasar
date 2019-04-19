@@ -638,11 +638,16 @@
       </q-layout>
     </q-dialog>
 
-    <q-dialog v-model="closePopupTest">
+    <q-dialog v-model="closePopupTest" v-bind="testDialog">
       <q-card>
         <q-card-section>
           <q-toggle v-model="closePopupBtn" label="Enable button" />
           <q-btn v-close-popup @click="closePopupBtnHandler" :disable="!closePopupBtn" label="Click" />
+        </q-card-section>
+        <q-card-section>
+          <q-toggle v-model="testDialog.seamless" label="Seamless" />
+          <q-toggle v-model="testDialog.persistent" label="Persistent" />
+          <q-toggle v-model="testDialog.noBackdropDismiss" label="No Backdrop Dismiss" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -680,6 +685,12 @@ export default {
 
       maximizedToggle: true,
       preventCloseToggle: false,
+
+      testDialog: {
+        seamless: false,
+        persistent: false,
+        noBackdropDismiss: false
+      },
 
       address: '',
 
