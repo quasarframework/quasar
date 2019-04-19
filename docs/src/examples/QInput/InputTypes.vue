@@ -13,8 +13,6 @@
         </template>
       </q-input>
 
-      <q-input v-model="number" filled type="number" hint="Number" />
-
       <q-input v-model="email" filled type="email" hint="Email" />
 
       <q-input v-model="search" filled type="search" hint="Search">
@@ -40,8 +38,6 @@ export default {
     return {
       password: '',
       isPwd: true,
-
-      number: null,
 
       email: '',
       search: '',
