@@ -63,7 +63,7 @@ export default {
 
       this.$emit('before-hide', evt)
       this.showing = false
-      this.$emit('input', false)
+      this.value !== false && this.$emit('input', false)
 
       this.__removeHistory()
 
