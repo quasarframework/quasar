@@ -70,7 +70,11 @@ export default Vue.extend({
         : false
 
     if (this.value !== void 0 && this.value !== showing) {
-      this.$emit('input', showing)
+      // setTimeout needed otherwise
+      // it breaks Vue state
+      setTimeout(() => {
+        this.$emit('input', showing)
+      })
     }
 
     return {
