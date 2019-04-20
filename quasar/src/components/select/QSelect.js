@@ -38,8 +38,6 @@ export default Vue.extend({
       default: () => []
     },
 
-    menuContentClass: String,
-
     optionValue: [Function, String],
     optionLabel: [Function, String],
     optionDisable: [Function, String],
@@ -54,6 +52,9 @@ export default Vue.extend({
     optionsSelectedClass: String,
     optionsCover: Boolean,
     optionsSanitize: Boolean,
+
+    popupContentClass: String,
+    popupContentStyle: [String, Array, Object],
 
     useInput: Boolean,
     useChips: Boolean,
@@ -116,6 +117,11 @@ export default Vue.extend({
   computed: {
     fieldClass () {
       return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input`
+    },
+
+    menuClass () {
+      return (this.optionsDark === true ? 'q-select__menu--dark' : '') +
+        (this.popupContentClass ? ' ' + this.popupContentClass : '')
     },
 
     innerValue () {
@@ -840,12 +846,12 @@ export default Vue.extend({
           value: this.menu,
           fit: true,
           cover: this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
-          contentClass: this.optionsDark === true ? 'q-select__menu--dark' : '',
+          contentClass: this.menuClass,
+          contentStyle: this.popupContentStyle,
           noParentEvent: true,
           noRefocus: true,
           noFocus: true,
           square: this.squaredMenu,
-          contentClass: this.menuContentClass,
           transitionShow: this.transitionShow,
           transitionHide: this.transitionHide
         },
@@ -893,6 +899,8 @@ export default Vue.extend({
         h('div', {
           ref: 'menuContent',
           staticClass: 'scroll',
+          class: this.popupContentClass,
+          style: this.popupContentStyle,
           on: {
             click: prevent,
             '&scroll': this.__hydrateOptions
