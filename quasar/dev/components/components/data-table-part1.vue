@@ -148,11 +148,15 @@
               {{ props.row.name }}
               <q-popup-edit
                 ref="popupEdit"
+                content-class="bg-primary text-white"
                 buttons
+                color="white"
                 v-model="props.row.name"
               >
                 <q-input
                   type="textarea"
+                  dark
+                  color="white"
                   v-model="props.row.name"
                   autofocus
                   @keyup.enter.stop
