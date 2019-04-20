@@ -38,6 +38,8 @@ export default Vue.extend({
       default: () => []
     },
 
+    menuContentClass: String,
+
     optionValue: [Function, String],
     optionLabel: [Function, String],
     optionDisable: [Function, String],
@@ -843,6 +845,7 @@ export default Vue.extend({
           noRefocus: true,
           noFocus: true,
           square: this.squaredMenu,
+          contentClass: this.menuContentClass,
           transitionShow: this.transitionShow,
           transitionHide: this.transitionHide
         },
