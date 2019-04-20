@@ -18,6 +18,8 @@ $ quasar dev --mode cordova -T [ios|android]
 
 # using a specific emulator (--emulator, -e)
 $ quasar dev -m cordova -T ios -e iPhone-7
+# or
+$ quasar dev -m cordova -T ios -e iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
 ```
 
 In order for you to be able to develop on a device emulator or directly on a phone (with Hot Module Reload included), Quasar CLI follows these steps:
@@ -31,6 +33,18 @@ In order for you to be able to develop on a device emulator or directly on a pho
 ::: danger
 If developing on a mobile phone/tablet, it is very important that the external IP address of your build machine is accessible from the phone/tablet, otherwise you'll get a development app with white screen only. Also check your machine's firewall to allow connections to the development chosen port.
 :::
+
+### Enabling iOS modern build
+
+By default, Xcode modern build for iOS is disabled due to Cordova issues. However, if you know what you are doing and you want to enable it, do so from `/quasar.conf.js`:
+
+```js
+cordova: {
+  noIosLegacyBuildFlag: true
+}
+```
+
+The above applies also if you want to specify the build type in your "build.json".
 
 ## Building for Production
 ```bash
