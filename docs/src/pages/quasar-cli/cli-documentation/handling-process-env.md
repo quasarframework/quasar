@@ -111,4 +111,4 @@ build: {
 }
 ```
 
-Alternatively you can use our [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) App Extension.
+Alternatively you can use our [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) or [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) App Extensions.

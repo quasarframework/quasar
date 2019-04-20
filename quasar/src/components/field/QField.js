@@ -46,7 +46,10 @@ export default Vue.extend({
     clearIcon: String,
 
     disable: Boolean,
-    readonly: Boolean
+    readonly: Boolean,
+
+    maxlength: [Number, String],
+    maxValues: [Number, String] // do not add to JSON, internally needed by QSelect
   },
 
   data () {
@@ -76,8 +79,10 @@ export default Vue.extend({
       if (this.counter !== false) {
         const len = typeof this.value === 'string' || typeof this.value === 'number'
           ? ('' + this.value).length
-          : 0
-        return len + (this.maxlength !== void 0 ? ' / ' + this.maxlength : '')
+          : (Array.isArray(this.value) === true ? this.value.length : 0)
+        const max = this.maxlength !== void 0 ? this.maxlength : this.maxValues
+
+        return len + (max !== void 0 ? ' / ' + max : '')
       }
     },
 
@@ -118,8 +123,8 @@ export default Vue.extend({
         'q-field--with-bottom': this.hasBottom,
         'q-field--error': this.hasError,
 
-        'q-field--readonly no-pointer-events': this.readonly,
-        'disabled no-pointer-events': this.disable
+        'q-field--readonly': this.readonly,
+        'q-field--disabled': this.disable
       }
     },
 
@@ -185,27 +190,31 @@ export default Vue.extend({
         ])
       )
 
-      ;(this.loading === true || this.innerLoading === true) && node.push(
-        this.__getInnerAppendNode(
-          h,
-          'inner-loading-append',
-          this.$scopedSlots.loading !== void 0
-            ? this.$scopedSlots.loading()
-            : [ h(QSpinner, { props: { color: this.color } }) ]
+      if (this.loading === true || this.innerLoading === true) {
+        node.push(
+          this.__getInnerAppendNode(
+            h,
+            'inner-loading-append',
+            this.$scopedSlots.loading !== void 0
+              ? this.$scopedSlots.loading()
+              : [ h(QSpinner, { props: { color: this.color } }) ]
+          )
         )
-      )
+      }
 
-      this.clearable === true && this.hasValue === true && node.push(
-        this.__getInnerAppendNode(h, 'inner-clearable-append', [
-          h(QIcon, {
-            staticClass: 'cursor-pointer',
-            props: { name: this.clearIcon || this.$q.iconSet.field.clear },
-            on: {
-              click: this.__clearValue
-            }
-          })
-        ])
-      )
+      if (this.clearable === true && this.hasValue === true && this.editable === true) {
+        node.push(
+          this.__getInnerAppendNode(h, 'inner-clearable-append', [
+            h(QIcon, {
+              staticClass: 'cursor-pointer',
+              props: { name: this.clearIcon || this.$q.iconSet.field.clear },
+              on: {
+                click: this.__clearValue
+              }
+            })
+          ])
+        )
+      }
 
       this.$scopedSlots.append !== void 0 && node.push(
         h('div', {

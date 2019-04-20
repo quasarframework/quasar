@@ -35,13 +35,54 @@ If you define any actions, the notification will automatically be dismissed when
 For a full list of options, check the API section.
 :::
 
-### Programmatically Closing Alert
+### Programmatically closing
 Notifications are meant to be dismissed only by the user, however for exceptional cases you can do it programmatically. Especially useful when you set indefinite timeout (0).
 
 ```js
 const dismiss = this.$q.notify({...})
 ...
 dismiss()
+```
+
+### Setting defaults
+There are two ways of setting default configuration that will apply to all Notifications: through quasar.conf.js > framework > config > notify Object (see Installation section) or programmatically (see below).
+
+We'll describe setting the defaults through a [boot file](/quasar-cli/cli-documentation/boot-files) (works the same anywhere in your code, but a boot file ensures this is run before your app starts):
+
+First we create the boot file. Let's name it "notify-defaults.js".
+
+```bash
+$ quasar new boot notify-defaults
+# we then add 'notify-defaults' to quasar.conf.js > boot Array
+```
+
+We then edit the newly created `/src/boot/notify-defaults.js`:
+
+```js
+import { Notify } from 'quasar'
+
+Notify.setDefaults({
+  position: 'top-right',
+  timeout: 2500,
+  textColor: 'white',
+  actions: [{ icon: 'close', color: 'white' }]
+})
+```
+
+::: warning
+You can only set default `actions` through this method. Specifying `actions` with handlers in quasar.conf.js cannot and will NOT work.
+:::
+
+We could also set the defaults in some Vue file:
+
+```js
+// inside of a Vue component
+this.$q.setDefaults({
+  position: 'top-right',
+  timeout: 2500,
+  textColor: 'white',
+  actions: [{ icon: 'close', color: 'white' }]
+})
 ```
 
 ## Notify API

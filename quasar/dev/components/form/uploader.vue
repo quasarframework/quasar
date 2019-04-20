@@ -22,6 +22,7 @@
         <q-uploader
           v-bind="props"
           multiple
+          :form-fields="[{name: 'my-field', value: 'my-value'}]"
           url="http://localhost:4444/upload"
           @added="onAdded"
           @removed="onRemoved"

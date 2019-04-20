@@ -88,8 +88,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 .ripple-example
   border-radius 3px
   cursor pointer

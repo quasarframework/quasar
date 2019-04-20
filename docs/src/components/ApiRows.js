@@ -49,6 +49,7 @@ export default {
 
   props: {
     which: String,
+    apiKey: String,
     api: Object
   },
 
@@ -438,7 +439,7 @@ export default {
   },
 
   render (h) {
-    const api = this.api[this.which]
+    const api = this.api[this.apiKey || this.which]
 
     const content = Object.keys(api).length !== 0
       ? this[this.which](h, api)

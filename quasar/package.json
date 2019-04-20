@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.17",
   "description": "High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase",
   "module": "src/index.esm.js",
   "typings": "dist/types/index.d.ts",
@@ -85,6 +85,7 @@
     "rollup-plugin-buble": "^0.19.6",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^4.0.1",
+    "style-resources-loader": "^1.2.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "uglify-es": "^3.3.9",

@@ -127,6 +127,25 @@
       "category": "options"
     },
 
+    "popup-content-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the popup content",
+      "examples": [
+        "my-special-class"
+      ],
+      "category": "style"
+    },
+
+    "popup-content-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the popup content",
+      "examples": [
+        "background-color: #ff0000",
+        ":content-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
     "use-input": {
       "type": "Boolean",
       "desc": "Use an input tag where users can type",
@@ -192,16 +211,23 @@
       "desc": "Override default selection slot; Suggestion: QChip"
     },
 
-    "no-option": {
-      "desc": "What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>"
-    },
-
     "loading": {
       "desc": "Override default spinner when component is in loading mode; Suggestion: spinners"
     }
   },
 
   "scopedSlots": {
+    "no-option": {
+      "desc": "What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>",
+      "scope": {
+        "inputValue": {
+          "type": "String",
+          "desc": "Input textfield value, if any (not QSelect model)",
+          "examples": [ "typed something" ]
+        }
+      }
+    },
+
     "selected-item": {
       "desc": "Override default selection slot; Suggestion: QChip",
       "scope": {

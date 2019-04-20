@@ -2,6 +2,7 @@ const fs = require('fs')
 const
   appPath = require('../app-paths'),
   packagerVersion = '13.1.0',
+  getPackageJson = require('../helpers/get-package-json')
   log = require('../helpers/logger')('app:electron-bundle')
 
 function isValidName (bundlerName) {
@@ -27,7 +28,7 @@ function installBundler (bundlerName) {
 }
 
 function isInstalled (bundlerName) {
-  return fs.existsSync(appPath.resolve.app(`node_modules/electron-${bundlerName}`))
+  return getPackageJson(`electron-${bundlerName}`) !== void 0
 }
 
 module.exports.ensureInstall = function (bundlerName) {
@@ -41,7 +42,7 @@ module.exports.ensureInstall = function (bundlerName) {
     if (isInstalled('packager')) {
       const
         semver = require('semver'),
-        pkg = require(appPath.resolve.app(`node_modules/electron-${bundlerName}/package.json`))
+        pkg = getPackageJson(`electron-${bundlerName}`)
 
       if (semver.satisfies(pkg.version, `>= ${packagerVersion}`)) {
         return

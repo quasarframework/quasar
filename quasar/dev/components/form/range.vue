@@ -84,7 +84,7 @@
           Model <span class="right-detail"><em>{{ label.min }} to {{ label.max }}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
         </span>
       </p>
-      <q-range :dark="dark" :dense="dense" v-model="label" :min="-20" :max="20" :step="4" label-always :left-label-value="`${label.min}px`" :right-label-value="`${label.max}px`" />
+      <q-range :dark="dark" :dense="dense" v-model="label" :min="-20" :max="20" :step="4" label-always :left-label-value="`${label.min}px`" :right-label-value="`${label.max} px test`" />
 
       <p class="caption">
         Drag Range

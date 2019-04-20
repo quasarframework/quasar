@@ -5,7 +5,7 @@
       "type": [ "Number", "String" ],
       "required": true,
       "examples": [ "v-model=\"option\"" ],
-      "category": "mdoel"
+      "category": "model"
     },
 
     "val": {

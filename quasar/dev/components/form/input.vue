@@ -368,11 +368,11 @@
         </div>
       </q-input>
 
-      <q-input v-model="text" filled hint="With tooltip">
+      <q-input :dark="dark" v-model="text" filled hint="With tooltip">
         <q-tooltip>Some tooltip</q-tooltip>
       </q-input>
 
-      <q-input v-model="text" filled hint="With menu" style="margin-bottom: 100px">
+      <q-input :dark="dark" v-model="text" filled hint="With menu" style="margin-bottom: 100px">
         <q-menu fit auto-close>
           <q-list padding style="min-width: 100px">
             <q-item
@@ -386,7 +386,21 @@
         </q-menu>
       </q-input>
 
-      <q-input v-model="file" type="file" />
+      <q-input v-bind="props" :bottom-slots="bottomSlots" v-model="text" label="Label" counter maxlength="12">
+        <q-icon slot="before" name="event" @click="log('before')" />
+
+        <q-icon slot="prepend" name="schedule" @click="log('prepend')" />
+        <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
+        <q-icon slot="append" name="search" @click="log('append')" />
+
+        <div slot="hint" @click="log('hint')">
+          Field hint
+        </div>
+
+        <q-icon slot="after" name="delete" @click="log('after')" />
+      </q-input>
+
+      <q-input :dark="dark" v-model="file" type="file" />
     </div>
   </div>
 </template>
@@ -478,6 +492,9 @@ export default {
     },
     onChange (val) {
       console.log('@change', JSON.stringify(val))
+    },
+    log (what) {
+      console.log('LOG:', what)
     }
   }
 }

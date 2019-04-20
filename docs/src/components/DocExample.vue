@@ -150,8 +150,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 .doc-example
   &__toolbar
     background white

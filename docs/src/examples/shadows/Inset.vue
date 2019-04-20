@@ -7,8 +7,6 @@
 </template>
 
 <style lang="stylus" scoped>
-@import '~quasar-variables'
-
 .shadow-box
   width 90px
   height 90px
@@ -16,5 +14,5 @@
   border-radius 50%
   font-size 12px
 .doc-inset-shadow
-  border 1px solid $grey-3
+  border 1px solid #eee
 </style>

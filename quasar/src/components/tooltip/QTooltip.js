@@ -123,15 +123,14 @@ export default Vue.extend({
         return
       }
 
-      el.style.maxHeight = this.maxHeight
-      el.style.maxWidth = this.maxWidth
-
       setPosition({
         el,
         offset: this.offset,
         anchorEl: this.anchorEl,
         anchorOrigin: this.anchorOrigin,
-        selfOrigin: this.selfOrigin
+        selfOrigin: this.selfOrigin,
+        maxHeight: this.maxHeight,
+        maxWidth: this.maxWidth
       })
     },
 

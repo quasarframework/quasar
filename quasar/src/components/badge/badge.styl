@@ -7,8 +7,13 @@
   font-size 12px
   line-height 12px
   font-weight normal
-  white-space nowrap
   vertical-align baseline
+
+  &--single-line
+    white-space nowrap
+  &--multi-line
+    word-break break-all
+    word-wrap break-word
 
   &--floating
     position absolute

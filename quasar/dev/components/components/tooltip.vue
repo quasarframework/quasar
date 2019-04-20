@@ -12,7 +12,7 @@
         </span>
       </div>
 
-      <q-toggle v-model="toggle" class="z-max fixed-top" />
+      <q-toggle v-model="toggle" class="z-max fixed-top-left" />
       <p class="caption">
         With custom offset (18px)
       </p>

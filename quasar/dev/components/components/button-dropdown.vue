@@ -112,7 +112,7 @@
       </q-list>
     </q-btn-dropdown>
 
-    <q-btn-dropdown color="primary" split glossy label="btn" @click="log('click')" style="margin: 15px">
+    <q-btn-dropdown :disable-main-btn="disableMainBtn" :disable-dropdown="disableDropdown" color="primary" split glossy label="btn" @click="log('click')" style="margin: 15px">
       <q-list>
         <q-item clickable v-for="n in 2" :key="`2.${n}`" v-close-popup @click="showNotification">
           <q-item-section avatar>
@@ -149,6 +149,9 @@
       </q-list>
     </q-btn-dropdown>
 
+    <q-toggle v-model="disableMainBtn" label="Disable main btn" />
+    <q-toggle v-model="disableDropdown" label="Disable dropdown" />
+
     <p class="caption">
       Empty label reactivity problem. Label should be {{ labelA }}
     </p>
@@ -174,7 +177,9 @@ export default {
         { split: true, dense: true, disable: true }
       ],
       sizes: ['sm', 'md', 'lg'],
-      labelA: ''
+      labelA: '',
+      disableMainBtn: false,
+      disableDropdown: false
     }
   },
   methods: {

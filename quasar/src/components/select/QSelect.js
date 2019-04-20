@@ -11,7 +11,6 @@ import QItemLabel from '../list/QItemLabel.js'
 import QMenu from '../menu/QMenu.js'
 import QDialog from '../dialog/QDialog.js'
 
-import slot from '../../utils/slot.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
@@ -53,6 +52,9 @@ export default Vue.extend({
     optionsSelectedClass: String,
     optionsCover: Boolean,
     optionsSanitize: Boolean,
+
+    popupContentClass: String,
+    popupContentStyle: [String, Array, Object],
 
     useInput: Boolean,
     useChips: Boolean,
@@ -117,6 +119,11 @@ export default Vue.extend({
       return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input`
     },
 
+    menuClass () {
+      return (this.optionsDark === true ? 'q-select__menu--dark' : '') +
+        (this.popupContentClass ? ' ' + this.popupContentClass : '')
+    },
+
     innerValue () {
       const
         mapNull = this.mapOptions === true && this.multiple !== true,
@@ -164,13 +171,6 @@ export default Vue.extend({
         toggleOption: this.toggleOption,
         tabindex
       }))
-    },
-
-    computedCounter () {
-      if (this.multiple === true && this.counter === true) {
-        return (this.value !== void 0 && this.value !== null ? this.value.length : '0') +
-          (this.maxValues !== void 0 ? ' / ' + this.maxValues : '')
-      }
     },
 
     optionScope () {
@@ -529,7 +529,7 @@ export default Vue.extend({
         )
     },
 
-    __hydrateOptions (updatePosition) {
+    __hydrateOptions () {
       if (this.avoidScroll !== true) {
         if (this.optionsToShow < this.options.length) {
           const el = this.__getMenuContentEl()
@@ -539,14 +539,10 @@ export default Vue.extend({
             this.avoidScroll = true
             this.$nextTick(() => {
               this.avoidScroll = false
-              this.__hydrateOptions(updatePosition)
+              this.__hydrateOptions()
             })
-
-            return
           }
         }
-
-        updatePosition === true && this.__updateMenuPosition()
       }
     },
 
@@ -631,19 +627,21 @@ export default Vue.extend({
     },
 
     __getOptions (h) {
-      const fn = this.$scopedSlots.option || (scope => h(QItem, {
-        key: scope.index,
-        props: scope.itemProps,
-        on: scope.itemEvents
-      }, [
-        h(QItemSection, [
-          h(QItemLabel, {
-            domProps: {
-              [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.__getOptionLabel(scope.opt)
-            }
-          })
+      const fn = this.$scopedSlots.option !== void 0
+        ? this.$scopedSlots.option
+        : scope => h(QItem, {
+          key: scope.index,
+          props: scope.itemProps,
+          on: scope.itemEvents
+        }, [
+          h(QItemSection, [
+            h(QItemLabel, {
+              domProps: {
+                [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.__getOptionLabel(scope.opt)
+              }
+            })
+          ])
         ])
-      ]))
 
       return this.optionScope.map(fn)
     },
@@ -739,40 +737,36 @@ export default Vue.extend({
     },
 
     __getControlEvents () {
-      return this.hasDialog === true
-        ? {
-          click: e => {
+      return {
+        focus: e => {
+          this.hasDialog !== true && this.focus(e)
+        },
+        focusin: e => {
+          this.hasDialog !== true && this.__onControlFocusin(e)
+        },
+        focusout: e => {
+          this.hasDialog !== true && this.__onControlFocusout(e)
+        },
+        click: e => {
+          if (this.hasDialog === true) {
             this.focused = true
             this.dialog = true
 
             this.$emit('focus', e)
+          }
+          else if (this.menu === true) {
+            this.__closeMenu()
+            return
+          }
 
-            if (this.$listeners.filter !== void 0) {
-              this.filter(this.inputValue)
-            }
-            else if (this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
-              this.menu = true
-            }
+          if (this.$listeners.filter !== void 0) {
+            this.filter(this.inputValue)
+          }
+          else if (this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
+            this.menu = true
           }
         }
-        : {
-          focus: this.focus,
-          click: () => {
-            if (this.menu === true) {
-              this.__closeMenu()
-            }
-            else {
-              if (this.$listeners.filter !== void 0) {
-                this.filter(this.inputValue)
-              }
-              else if (this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
-                this.menu = true
-              }
-            }
-          },
-          focusin: this.__onControlFocusin,
-          focusout: this.__onControlFocusout
-        }
+      }
     },
 
     __hasInnerFocus () {
@@ -798,11 +792,6 @@ export default Vue.extend({
 
       this.focused = true
       this.$emit('focus', e)
-
-      const target = this.$refs.target
-      if (target !== void 0 && this.useInput === true && this.inputValue.length > 0) {
-        target.setSelectionRange(0, this.inputValue.length)
-      }
     },
 
     __onControlFocusout (e) {
@@ -843,12 +832,22 @@ export default Vue.extend({
     },
 
     __getMenu (h) {
+      const child = this.noOptions === true
+        ? (
+          this.$scopedSlots['no-option'] !== void 0
+            ? this.$scopedSlots['no-option']({ inputValue: this.inputValue })
+            : null
+        )
+        : this.__getOptions(h)
+
       return h(QMenu, {
         ref: 'menu',
         props: {
           value: this.menu,
           fit: true,
           cover: this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
+          contentClass: this.menuClass,
+          contentStyle: this.popupContentStyle,
           noParentEvent: true,
           noRefocus: true,
           noFocus: true,
@@ -868,7 +867,7 @@ export default Vue.extend({
             this.__onControlFocusout(e)
           }
         }
-      }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))
+      }, child)
     },
 
     __getDialog (h) {
@@ -899,12 +898,22 @@ export default Vue.extend({
       this.menu === true && content.push(
         h('div', {
           ref: 'menuContent',
-          staticClass: 'scroll' + (this.optionsDark === true ? ' q-select__menu--dark' : ''),
+          staticClass: 'scroll',
+          class: this.popupContentClass,
+          style: this.popupContentStyle,
           on: {
             click: prevent,
             '&scroll': this.__hydrateOptions
           }
-        }, this.noOptions === true ? slot(this, 'no-option') : this.__getOptions(h))
+        }, (
+          this.noOptions === true
+            ? (
+              this.$scopedSlots['no-option'] !== void 0
+                ? this.$scopedSlots['no-option']({ inputValue: this.inputValue })
+                : null
+            )
+            : this.__getOptions(h)
+        ))
       )
 
       return h(QDialog, {
@@ -952,10 +961,11 @@ export default Vue.extend({
 
     __updateMenu (show) {
       this.optionIndex = -1
+
       if (show === true) {
         this.optionsToShow = 20
         this.$nextTick(() => {
-          this.__hydrateOptions(true)
+          this.__hydrateOptions()
         })
       }
 
@@ -965,24 +975,20 @@ export default Vue.extend({
       }
     },
 
-    __updateMenuPosition () {
-      if (this.dialog === false && this.$refs.menu !== void 0) {
-        this.$refs.menu.updatePosition()
-      }
-    },
-
     __onPreRender () {
       this.hasDialog = this.$q.platform.is.mobile !== true
         ? false
         : (
-          this.$listeners['new-value'] !== void 0
-            ? this.$listeners.filter !== void 0
+          this.useInput === true
+            ? this.$scopedSlots['no-option'] !== void 0 || this.$listeners.filter !== void 0
             : true
         )
     },
 
     __onPostRender () {
-      this.__updateMenuPosition()
+      if (this.dialog === false && this.$refs.menu !== void 0) {
+        this.$refs.menu.updatePosition()
+      }
     }
   },
 

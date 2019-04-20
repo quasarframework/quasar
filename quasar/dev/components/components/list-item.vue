@@ -756,8 +756,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 .my-link
   color white
   background $deep-orange

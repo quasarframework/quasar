@@ -38,7 +38,7 @@ if (boot.length > 0) {
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
   boot.filter(asset => asset.server !== false).forEach(asset => {
-    let importName = 'plugin' + hash(asset.path)
+    let importName = 'qboot_' + hash(asset.path)
     bootNames.push(importName)
 %>
 import <%= importName %> from '<%= asset.path %>'
@@ -56,6 +56,10 @@ export default context => {
     <% if (bootNames.length > 0) { %>
     const bootFiles = [<%= bootNames.join(',') %>]
     for (let i = 0; i < bootFiles.length; i++) {
+      if (typeof bootFiles[i] !== 'function') {
+        continue
+      }
+
       try {
         await bootFiles[i]({
           app,

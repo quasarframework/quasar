@@ -101,6 +101,13 @@ export default Vue.extend({
 
     seamless (v) {
       this.showing === true && this.__preventScroll(!v)
+    },
+
+    useBackdrop (v) {
+      if (this.$q.platform.is.desktop === true) {
+        const action = `${v === true ? 'add' : 'remove'}EventListener`
+        document.body[action]('focusin', this.__onFocusChange)
+      }
     }
   },
 
@@ -119,6 +126,10 @@ export default Vue.extend({
           ? (this.transitionState === true ? this.transitionHide : this.transitionShow)
           : 'slide-' + transitions[this.position][this.transitionState === true ? 1 : 0]
       )
+    },
+
+    useBackdrop () {
+      return this.showing === true && this.seamless !== true
     }
   },
 
@@ -176,6 +187,10 @@ export default Vue.extend({
         }
       })
 
+      if (this.$q.platform.is.desktop === true && this.useBackdrop === true) {
+        document.body.addEventListener('focusin', this.__onFocusChange)
+      }
+
       this.__showPortal()
 
       this.timer = setTimeout(() => {
@@ -199,6 +214,10 @@ export default Vue.extend({
     __cleanup (hiding) {
       clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
+
+      if (this.$q.platform.is.desktop === true && this.useBackdrop === true) {
+        document.body.removeEventListener('focusin', this.__onFocusChange)
+      }
 
       if (hiding === true || this.showing === true) {
         EscapeKey.pop(this)
@@ -238,6 +257,18 @@ export default Vue.extend({
       }
     },
 
+    __onFocusChange (e) {
+      if (
+        this.__portal !== void 0 &&
+        this.__portal.$el !== void 0 &&
+        // we don't have another portal opened:
+        this.__portal.$el.nextElementSibling === null &&
+        this.__portal.$el.contains(e.target) !== true
+      ) {
+        this.__portal.$refs.inner.focus()
+      }
+    },
+
     __render (h) {
       const on = {
         ...this.$listeners,
@@ -256,7 +287,7 @@ export default Vue.extend({
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }
-        }, this.showing && this.seamless !== true ? [
+        }, this.useBackdrop === true ? [
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {

@@ -71,45 +71,60 @@ export function getTargetProps (el) {
   }
 }
 
-export function setPosition ({ el, anchorEl, anchorOrigin, selfOrigin, offset, absoluteOffset, cover, fit }) {
+// cfg: { el, anchorEl, anchorOrigin, selfOrigin, offset, absoluteOffset, cover, fit, maxHeight, maxWidth }
+export function setPosition (cfg) {
   let anchorProps
 
-  if (absoluteOffset === void 0) {
-    anchorProps = getAnchorProps(anchorEl, cover === true ? [0, 0] : offset)
+  // scroll position might change
+  // if max-height changes, so we
+  // need to restore it after we calculate
+  // the new positioning
+  const scrollTop = cfg.el.scrollTop
+
+  cfg.el.style.maxHeight = cfg.maxHeight
+  cfg.el.style.maxWidth = cfg.maxWidth
+
+  if (cfg.absoluteOffset === void 0) {
+    anchorProps = getAnchorProps(cfg.anchorEl, cfg.cover === true ? [0, 0] : cfg.offset)
   }
   else {
     const
-      { top: anchorTop, left: anchorLeft } = anchorEl.getBoundingClientRect(),
-      top = anchorTop + absoluteOffset.top,
-      left = anchorLeft + absoluteOffset.left
+      { top: anchorTop, left: anchorLeft } = cfg.anchorEl.getBoundingClientRect(),
+      top = anchorTop + cfg.absoluteOffset.top,
+      left = anchorLeft + cfg.absoluteOffset.left
 
     anchorProps = { top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1 }
   }
 
-  if (fit === true || cover === true) {
-    el.style.minWidth = anchorProps.width + 'px'
-    if (cover === true) {
-      el.style.minHeight = anchorProps.height + 'px'
+  if (cfg.fit === true || cfg.cover === true) {
+    cfg.el.style.minWidth = anchorProps.width + 'px'
+    if (cfg.cover === true) {
+      cfg.el.style.minHeight = anchorProps.height + 'px'
     }
   }
 
   const
-    targetProps = getTargetProps(el),
+    targetProps = getTargetProps(cfg.el),
     props = {
-      top: anchorProps[anchorOrigin.vertical] - targetProps[selfOrigin.vertical],
-      left: anchorProps[anchorOrigin.horizontal] - targetProps[selfOrigin.horizontal]
+      top: anchorProps[cfg.anchorOrigin.vertical] - targetProps[cfg.selfOrigin.vertical],
+      left: anchorProps[cfg.anchorOrigin.horizontal] - targetProps[cfg.selfOrigin.horizontal]
     }
 
-  applyBoundaries(props, anchorProps, targetProps, anchorOrigin, selfOrigin)
+  applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
 
-  el.style.top = Math.max(0, props.top) + 'px'
-  el.style.left = Math.max(0, props.left) + 'px'
+  cfg.el.style.top = Math.max(0, Math.floor(props.top)) + 'px'
+  cfg.el.style.left = Math.max(0, Math.floor(props.left)) + 'px'
 
   if (props.maxHeight !== void 0) {
-    el.style.maxHeight = props.maxHeight + 'px'
+    cfg.el.style.maxHeight = Math.floor(props.maxHeight) + 'px'
   }
   if (props.maxWidth !== void 0) {
-    el.style.maxWidth = props.maxWidth + 'px'
+    cfg.el.style.maxWidth = Math.floor(props.maxWidth) + 'px'
+  }
+
+  // restore scroll position
+  if (cfg.el.scrollTop !== scrollTop) {
+    cfg.el.scrollTop = scrollTop
   }
 }
 

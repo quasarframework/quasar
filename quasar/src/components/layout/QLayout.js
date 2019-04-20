@@ -95,15 +95,19 @@ export default Vue.extend({
   },
 
   render (h) {
-    const layout = h('div', { staticClass: 'q-layout' }, [
+    const layout = h('div', {
+      staticClass: 'q-layout q-layout--' +
+        (this.container === true ? 'containerized' : 'standard')
+    }, [
       h(QScrollObserver, {
         on: { scroll: this.__onPageScroll }
       }),
       h(QResizeObserver, {
         on: { resize: this.__onPageResize }
-      }),
+      })
+    ].concat(
       slot(this, 'default')
-    ])
+    ))
 
     return this.container === true
       ? h('div', {

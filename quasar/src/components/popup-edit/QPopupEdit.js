@@ -29,12 +29,22 @@ export default Vue.extend({
       default: () => true
     },
 
+    contentClass: String,
+    contentStyle: [String, Array, Object],
+
     disable: Boolean
   },
 
   data () {
     return {
       initialValue: ''
+    }
+  },
+
+  computed: {
+    classes () {
+      return 'q-popup-edit' +
+        (this.contentClass ? ' ' + this.contentClass : '')
     }
   },
 
@@ -84,7 +94,7 @@ export default Vue.extend({
       )
 
       this.buttons === true && child.push(
-        h('div', { staticClass: 'row justify-center no-wrap q-mt-sm' }, [
+        h('div', { staticClass: 'q-popup-edit__buttons row justify-center no-wrap' }, [
           h(QBtn, {
             props: {
               flat: true,
@@ -94,7 +104,6 @@ export default Vue.extend({
             on: { click: this.cancel }
           }),
           h(QBtn, {
-            staticClass: 'q-ml-sm',
             props: {
               flat: true,
               color: this.color,
@@ -115,7 +124,8 @@ export default Vue.extend({
     return h(QMenu, {
       ref: 'menu',
       props: {
-        contentClass: 'q-popup-edit  q-py-sm q-px-md',
+        contentClass: this.classes,
+        contentStyle: this.contentStyle,
         cover: true,
         persistent: this.persistent
       },

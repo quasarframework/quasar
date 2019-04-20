@@ -63,8 +63,9 @@ async function renderFolders ({ source, rawCopy, scope }) {
       }
     }
 
+    fs.ensureFileSync(targetPath)
+
     if (rawCopy || isBinary(sourcePath)) {
-      fs.ensureFileSync(targetPath)
       fs.copyFileSync(sourcePath, targetPath)
     }
     else {
@@ -229,7 +230,7 @@ module.exports = class Extension {
     })
 
     log(`Running "${this.extId}" Quasar App Extension...`)
-    await script(api, ctx)
+    await script(api)
 
     return api.__getHooks()
   }

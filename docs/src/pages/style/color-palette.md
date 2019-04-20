@@ -17,7 +17,7 @@ Also check [Theme Builder](/style/theme-builder) for a tool on customizing the b
 
 ## Color List
 
-Here's the list of colors provided out of the box. Within your app's `*.vue` files you can use them as CSS classes (in HTML templates) or as Stylus variables (in `<style lang="stylus">` tags -- don't forget to also `@import '~quasar-variables'`).
+Here's the list of colors provided out of the box. Within your app's `*.vue` files you can use them as CSS classes (in HTML templates) or as Stylus variables (in `<style lang="stylus">` tags.
 
 <color-list />
 
@@ -38,9 +38,6 @@ In your app's `*.vue` files you can use the colors as `$primary`, `$red-1`, and 
 ```html
 <!-- Notice lang="stylus" -->
 <style lang="stylus">
-// "quasar-variables" is a Webpack alias injected by Quasar CLI
-@import '~quasar-variables'
-
 div
   color $red-1
   background-color $grey-5

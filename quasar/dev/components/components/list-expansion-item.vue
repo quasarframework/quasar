@@ -739,14 +739,9 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables';
-
-.my-expand-link {
-  color: $secondary;
-  background: alpha($secondary, 0.1);
-
-  .q-item__section--side .q-icon {
-    color: $secondary;
-  }
-}
+.my-expand-link
+  color $secondary
+  background alpha($secondary, .1)
+  .q-item__section--side .q-icon
+    color $secondary
 </style>

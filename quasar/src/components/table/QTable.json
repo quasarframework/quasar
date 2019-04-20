@@ -180,7 +180,7 @@
         "desc": "Label to display",
         "examples": [ "1-10 of 132" ]
       },
-      "examples": [ ":rows-per-page=\"getPaginationLabel\"" ],
+      "examples": [ ":pagination-label=\"getPaginationLabel\"" ],
       "category": "pagination"
     },
 

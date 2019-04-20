@@ -1,5 +1,5 @@
 <template lang="pug">
-q-card(v-if="ready")
+q-card(v-if="ready", flat, bordered)
   doc-code(lang="markup") {{ file }}
 </template>
 
