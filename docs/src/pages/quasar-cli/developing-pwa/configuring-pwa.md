@@ -58,7 +58,7 @@ pwa: {
 ```
 
 ::: warning
-If you use the `injectManifest` workbox plugin mode, you **must not** set any workboxOptions, because injecting your own is basically entirely a custom approach and you are required to do everything manually. However, this shouldn't stop you from doing anything that workbox can do. 
+If you use the `injectManifest` workbox plugin mode, you **must not** set any workboxOptions, because injecting your own is basically entirely a custom approach and you are required to do everything manually. However, this shouldn't stop you from doing anything that Workbox can do. 
 :::
 
 More information: [Workbox Webpack Plugin](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin), [Workbox](https://developers.google.com/web/tools/workbox/).
