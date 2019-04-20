@@ -110,7 +110,7 @@ export default Vue.extend({
 
       prevent(event.evt)
 
-      const distance = Math.max(0, event.distance.y)
+      const distance = Math.min(140, Math.max(0, event.distance.y))
       this.pullPosition = distance - PULLER_HEIGHT
       this.pullRatio = between(distance / (OFFSET_TOP + PULLER_HEIGHT), 0, 1)
 
