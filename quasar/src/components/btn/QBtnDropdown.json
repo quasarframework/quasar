@@ -14,6 +14,18 @@
       "category": "content|behavior"
     },
 
+    "disable-main-btn": {
+      "type": "Boolean",
+      "desc": "Disable main button (useful along with 'split' prop)",
+      "category": "behavior"
+    },
+
+    "disable-dropdown": {
+      "type": "Boolean",
+      "desc": "Disables dropdown (dropdown button if using along 'split' prop)",
+      "category": "behavior"
+    },
+
     "content-style": {
       "type": [ "Array", "String", "Object" ],
       "desc": "Style definitions to be attributed to the menu",

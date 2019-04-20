@@ -31,7 +31,10 @@ export default Vue.extend({
     menuSelf: {
       type: String,
       default: 'top right'
-    }
+    },
+
+    disableMainBtn: Boolean,
+    disableDropdown: Boolean
   },
 
   data () {
@@ -57,12 +60,13 @@ export default Vue.extend({
           'rotate-180': this.showing,
           'q-btn-dropdown__arrow-container': this.split === false
         }
-      }),
+      })
+    ]
 
+    this.disableDropdown !== true && Arrow.push(
       h(QMenu, {
         ref: 'menu',
         props: {
-          disable: this.disable,
           cover: this.cover,
           fit: true,
           persistent: this.persistent,
@@ -91,26 +95,39 @@ export default Vue.extend({
           }
         }
       }, slot(this, 'default'))
-    ]
+    )
+
+    if (this.split === false) {
+      return h(QBtn, {
+        class: 'q-btn-dropdown q-btn-dropdown--simple',
+        props: {
+          ...this.$props,
+          disable: this.disable === true || this.disableMainBtn === true,
+          noWrap: true
+        },
+        on: {
+          click: e => {
+            this.$emit('click', e)
+          }
+        }
+      }, Arrow)
+    }
 
     const Btn = h(QBtn, {
-      class: `q-btn-dropdown${this.split === true ? '--current' : ' q-btn-dropdown--simple'}`,
+      class: 'q-btn-dropdown--current',
       props: {
         ...this.$props,
+        disable: this.disable === true || this.disableMainBtn === true,
         noWrap: true,
-        iconRight: this.split === true ? this.iconRight : null
+        iconRight: this.iconRight
       },
       on: {
         click: e => {
-          this.split === true && this.hide()
-          this.disable !== true && this.$emit('click', e)
+          this.hide()
+          this.$emit('click', e)
         }
       }
-    }, this.split !== true ? Arrow : null)
-
-    if (this.split === false) {
-      return Btn
-    }
+    })
 
     return h(QBtnGroup, {
       props: {
@@ -129,7 +146,7 @@ export default Vue.extend({
       h(QBtn, {
         staticClass: 'q-btn-dropdown__arrow-container',
         props: {
-          disable: this.disable,
+          disable: this.disable === true || this.disableDropdown === true,
           outline: this.outline,
           flat: this.flat,
           rounded: this.rounded,
