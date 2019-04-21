@@ -1,48 +1,62 @@
 .q-editor
-  border $editor-border
+  border 1px solid $editor-border-color
+  border-radius $generic-border-radius
+
   &.disabled
     border-style dashed
   &.fullscreen
+    background inherit
     border 0 !important
 
-.q-editor-content
-  outline 0
-  padding $editor-content-padding
-  min-height $editor-content-min-height
-  background white
-  overflow auto
-  pre
-    white-space pre-wrap
-  hr
-    border 0
+  > div:first-child, &__toolbars-container, &__toolbars-container > div:first-child
+    border-top-left-radius inherit
+    border-top-right-radius inherit
+
+  &__content
     outline 0
-    margin 1px
-    height 1px
-    background $editor-hr-color
+    padding $editor-content-padding
+    min-height $editor-content-min-height
+    border-bottom-left-radius inherit
+    border-bottom-right-radius inherit
+    overflow auto
+    pre
+      white-space pre-wrap
+    hr
+      border 0
+      outline 0
+      margin 1px
+      height 1px
+      background $editor-hr-color
 
-.q-editor-toolbar-padding
-  padding $editor-toolbar-padding
+  &__toolbar
+    border-bottom 1px solid $editor-border-color
+    min-height 32px
 
-.q-editor-toolbar
-  border-bottom $editor-border
-  background $grey-4
-  min-height 32px
-  .q-btn-group
-    box-shadow none
-  .q-btn-group + .q-btn-group
-    margin-left $editor-button-gutter
-.q-editor-toolbar-separator
-  .q-btn-group + .q-btn-group
-    padding-left $editor-button-gutter
-    &:before
-      content ''
-      position absolute
-      left 0
-      top 0
-      bottom 0
-      height 100%
-      width 1px
-      background $editor-border-color
+  .q-btn
+    margin $editor-button-gutter
 
-.q-editor-input input
-  color inherit
+  &__toolbar-group
+    position relative
+    margin 0 $editor-button-gutter
+    & + &
+      &:before
+        content ''
+        position absolute
+        left (- $editor-button-gutter)
+        top $editor-button-gutter
+        bottom $editor-button-gutter
+        width 1px
+        background $editor-border-color
+
+  &_input input
+    color inherit
+
+  &--flat
+    &, .q-editor__toolbar
+      border 0
+
+  &--dense
+    .q-editor__toolbar-group
+      display flex
+      align-items center
+      flex-wrap nowrap
