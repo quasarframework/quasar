@@ -36,6 +36,8 @@ export default Vue.extend({
     loading: Boolean,
 
     bottomSlots: Boolean,
+    hideBottomSpace: Boolean,
+
     rounded: Boolean,
     dense: Boolean,
     itemAligned: Boolean,
@@ -120,7 +122,7 @@ export default Vue.extend({
 
         'q-field--auto-height': this.__getControl === void 0,
 
-        'q-field--with-bottom': this.hasBottom,
+        'q-field--with-bottom': this.hideBottomSpace !== true && this.hasBottom,
         'q-field--error': this.hasError,
 
         'q-field--readonly': this.readonly,
@@ -283,7 +285,7 @@ export default Vue.extend({
     },
 
     __getBottom (h) {
-      if (this.hasBottom !== true) { return }
+      if (this.hideBottomSpace !== true && this.hasBottom !== true) { return }
 
       let msg, key
 
@@ -308,17 +310,28 @@ export default Vue.extend({
         }
       }
 
-      return h('div', {
-        staticClass: 'q-field__bottom absolute-bottom row items-start relative-position'
-      }, [
-        h('transition', { props: { name: 'q-transition--field-message' } }, [
-          h('div', {
-            staticClass: 'q-field__messages col',
-            key
-          }, msg)
-        ]),
+      const hasCounter = this.counter === true || this.$scopedSlots.counter !== void 0
 
-        this.counter === true || this.$scopedSlots.counter !== void 0 ? h('div', {
+      if (this.hideBottomSpace === true && hasCounter === false && !msg) {
+        return
+      }
+
+      const main = h('div', {
+        staticClass: 'q-field__messages col',
+        key
+      }, msg)
+
+      return h('div', {
+        staticClass: 'q-field__bottom row items-start q-field__bottom--' +
+          (this.hideBottomSpace !== true ? 'animated' : 'stale')
+      }, [
+        this.hideBottomSpace === true
+          ? main
+          : h('transition', { props: { name: 'q-transition--field-message' } }, [
+            main
+          ]),
+
+        hasCounter === true ? h('div', {
           staticClass: 'q-field__counter'
         }, this.$scopedSlots.counter !== void 0 ? this.$scopedSlots.counter() : [ this.computedCounter ]) : null
       ])

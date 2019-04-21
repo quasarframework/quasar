@@ -9,7 +9,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
   font-size $input-font-size
 
   &--with-bottom
-    padding-bottom 22px
+    padding-bottom 20px
 
   &__marginal
     height 56px
@@ -43,8 +43,14 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     min-height 12px
     line-height 1
     color rgba(0, 0, 0, .54)
-    transform translate3d(0, 100%, 0)
     padding 8px 12px 0
+
+    &--animated
+      transform translate3d(0, 100%, 0)
+      position absolute
+      left 0
+      right 0
+      bottom 0
 
   &__messages
     line-height 1
