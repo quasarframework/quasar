@@ -17,6 +17,14 @@
       </div>
 
       <q-input
+        v-model.number="model"
+        type="number"
+        :rules="[
+          val => !!val || 'Type a number'
+        ]"
+      />
+
+      <q-input
         ref="input1"
         v-bind="{[type]: true}"
         v-model="model1"
@@ -323,6 +331,7 @@ export default {
     const n = 7
 
     const data = {
+      model: null,
       n,
       type: 'filled',
       modelExternal: '',

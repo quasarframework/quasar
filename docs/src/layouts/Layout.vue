@@ -48,7 +48,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           ref="docAlgolia"
           v-model="search"
           dense
-          standout
+          standout="bg-primary text-white"
           square
           placeholder="Search..."
         )

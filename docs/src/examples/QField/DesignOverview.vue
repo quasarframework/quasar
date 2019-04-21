@@ -25,6 +25,12 @@
         </template>
       </q-field>
 
+      <q-field standout="bg-teal text-white" label="Custom standout" stack-label>
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" tabindex="0">Field content</div>
+        </template>
+      </q-field>
+
       <q-field borderless label="Borderless" stack-label>
         <template v-slot:control>
           <div class="self-center full-width no-outline" tabindex="0">Field content</div>

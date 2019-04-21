@@ -5,6 +5,8 @@
 
       <q-input standout v-model="text" :dense="dense" />
 
+      <q-input standout="bg-teal text-white" v-model="text" label="Custom standout" :dense="dense" />
+
       <q-input standout v-model="text" label="Label (stacked)" stack-label :dense="dense" />
 
       <q-input standout v-model="text" label="Label" :dense="dense" />

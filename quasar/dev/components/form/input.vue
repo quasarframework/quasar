@@ -244,6 +244,12 @@
         </q-input>
       </div>
 
+      <div class="bg-white q-pa-lg">
+        <q-input :dense="dense" standout="bg-primary text-white" v-model="text">
+          <q-icon slot="append" name="search" />
+        </q-input>
+      </div>
+
       <div class="bg-primary q-pa-lg">
         <q-input :dense="dense" dark standout v-model="text">
           <q-icon slot="append" name="search" />

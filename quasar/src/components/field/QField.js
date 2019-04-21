@@ -29,7 +29,7 @@ export default Vue.extend({
     filled: Boolean,
     outlined: Boolean,
     borderless: Boolean,
-    standout: Boolean,
+    standout: [Boolean, String],
 
     square: Boolean,
 
@@ -132,7 +132,7 @@ export default Vue.extend({
       if (this.filled === true) { return 'filled' }
       if (this.outlined === true) { return 'outlined' }
       if (this.borderless === true) { return 'borderless' }
-      if (this.standout === true) { return 'standout' }
+      if (this.standout) { return 'standout' }
       return 'standard'
     },
 
@@ -141,6 +141,9 @@ export default Vue.extend({
 
       if (this.hasError) {
         cls.push('text-negative')
+      }
+      else if (typeof this.standout === 'string' && this.standout.length > 0 && this.focused === true) {
+        return this.standout
       }
       else if (this.color !== void 0) {
         cls.push('text-' + this.color)
