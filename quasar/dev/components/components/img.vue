@@ -93,9 +93,15 @@
           Contain
         </div>
       </q-img>
+    </div>
+
+    <div class="q-mt-lg">
+      <q-btn label="Set null src" @click="bogusSrc = null" />
+      <q-btn label="Set good src" @click="bogusSrc = 'https://placeimg.com/500/300/nature?t=' + Math.random()" />
+      <q-btn label="Set bogus src" @click="bogusSrc = 'https://bogu.bogus'" />
 
       <q-img
-        src="https://bogu.bogus"
+        :src="bogusSrc"
         spinner-color="white"
         style="min-height: 100px; max-width: 225px"
       >
@@ -111,7 +117,8 @@
 export default {
   data () {
     return {
-      url: 'https://placeimg.com/500/300/nature'
+      url: 'https://placeimg.com/500/300/nature',
+      bogusSrc: 'https://bogu.bogus'
     }
   },
 
