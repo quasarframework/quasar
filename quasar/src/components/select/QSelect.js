@@ -165,7 +165,7 @@ export default Vue.extend({
         opt,
         sanitize: this.optionsSanitize === true || opt.sanitize === true,
         selected: true,
-        removeAtIndex: this.removeAtIndex,
+        removeAtIndex: this.__removeAtIndexAndFocus,
         toggleOption: this.toggleOption,
         tabindex
       }))
@@ -241,7 +241,10 @@ export default Vue.extend({
           this.$emit('input', null)
         }
       }
+    },
 
+    __removeAtIndexAndFocus (index) {
+      this.removeAtIndex(index)
       this.focus()
     },
 
