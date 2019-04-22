@@ -34,7 +34,12 @@ export default Vue.extend({
           const valid = comp.validate()
 
           if (typeof valid.then === 'function') {
-            promises.push(valid.then(v => ({ valid: v, comp }), error => ({ valid: false, comp, error })))
+            promises.push(
+              valid.then(
+                v => ({ valid: v, comp }),
+                error => ({ valid: false, comp, error })
+              )
+            )
           }
           else if (valid !== true) {
             emit(false)
