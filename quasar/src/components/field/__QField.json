@@ -108,7 +108,8 @@
 
     "hide-bottom-space": {
       "type": "Boolean",
-      "desc": "Does not reserves space for hint/error/counter anymore when these are not used; as a result, it also disables the animation for those"
+      "desc": "Does not reserves space for hint/error/counter anymore when these are not used; as a result, it also disables the animation for those",
+      "category": "style"
     },
 
     "counter": {
