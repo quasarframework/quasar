@@ -144,6 +144,12 @@
 
     "readonly": {
       "extends": "readonly"
+    },
+
+    "autofocus": {
+      "type": "Boolean",
+      "desc": "Focus field on initial component render",
+      "category": "behavior"
     }
   },
 
