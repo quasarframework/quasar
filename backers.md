@@ -238,6 +238,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Marek Bartos
 - Kasper
 - Paolo Nesti Poggi
+- Michael Alford
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
