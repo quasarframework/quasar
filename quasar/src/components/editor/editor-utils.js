@@ -253,6 +253,7 @@ export function getLinkEditor (h, vm) {
                 prevent(event)
                 return updateLink()
               case 27: // ESCAPE key
+                prevent(event)
                 vm.caret.restore()
                 !vm.editLinkUrl && document.execCommand('unlink')
                 vm.editLinkUrl = null
@@ -264,9 +265,7 @@ export function getLinkEditor (h, vm) {
       vm.__getGroup(h, [
         h(QBtn, {
           key: 'qedt_btm_rem',
-          attrs: {
-            tabindex: -1
-          },
+          attrs: { tabindex: -1 },
           props: {
             ...vm.buttonProps,
             label: vm.$q.lang.label.remove,

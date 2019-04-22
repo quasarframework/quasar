@@ -147,12 +147,14 @@ export default Vue.extend({
       if (this.cancel) {
         child.push(h(QBtn, {
           props: this.cancelProps,
+          attrs: { autofocus: !this.prompt && !this.ok },
           on: { click: this.onCancel }
         }))
       }
       if (this.ok) {
         child.push(h(QBtn, {
           props: this.okProps,
+          attrs: { autofocus: !this.prompt },
           on: { click: this.onOk }
         }))
       }

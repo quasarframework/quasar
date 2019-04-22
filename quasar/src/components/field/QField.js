@@ -50,6 +50,8 @@ export default Vue.extend({
     disable: Boolean,
     readonly: Boolean,
 
+    autofocus: Boolean,
+
     maxlength: [Number, String],
     maxValues: [Number, String] // do not add to JSON, internally needed by QSelect
   },
@@ -258,9 +260,10 @@ export default Vue.extend({
           h('div', {
             ref: 'target',
             staticClass: 'q-field__native row',
-            attrs: this.$attrs.tabindex !== void 0 ? {
-              tabindex: this.$attrs.tabindex
-            } : void 0
+            attrs: {
+              ...this.$attrs,
+              autofocus: this.autofocus
+            }
           }, this.$scopedSlots.control())
         )
       }
@@ -382,11 +385,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
-      class: this.classes,
-      attrs: {
-        ...this.$attrs,
-        tabindex: void 0
-      }
+      class: this.classes
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
@@ -422,5 +421,9 @@ export default Vue.extend({
         focusin: this.__onControlFocusin,
         focusout: this.__onControlFocusout
       }
+  },
+
+  mounted () {
+    this.autofocus === true && setTimeout(this.focus)
   }
 })
