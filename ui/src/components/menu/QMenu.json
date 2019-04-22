@@ -113,6 +113,12 @@
       "extends": "transition",
       "default": "fade",
       "category": "behavior"
+    },
+
+    "use-observer": {
+      "type": "Boolean",
+      "desc": "Use observers to reposition on changes on anchor or menu height",
+      "category": "behavior"
     }
   },
 

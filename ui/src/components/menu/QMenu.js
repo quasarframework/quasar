@@ -55,6 +55,8 @@ export default Vue.extend({
 
     touchPosition: Boolean,
 
+    useObserver: Boolean,
+
     maxHeight: {
       type: String,
       default: null
@@ -124,6 +126,17 @@ export default Vue.extend({
       this.__refocusTarget = this.noRefocus === false
         ? document.activeElement
         : void 0
+
+      if (this.useObserver === true) {
+        this.touchTargetObserver = new MutationObserver(() => {
+          this.updatePosition()
+        })
+        this.touchTargetObserver.observe(this.anchorEl, {
+          childList: true,
+          characterData: true,
+          subtree: true
+        })
+      }
 
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
@@ -195,6 +208,11 @@ export default Vue.extend({
       if (hiding === true || this.showing === true) {
         EscapeKey.pop(this)
         this.__unregisterTree()
+
+        if (this.touchTargetObserver !== void 0) {
+          this.touchTargetObserver.disconnect()
+          this.touchTargetObserver = void 0
+        }
 
         this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
         if (this.scrollTarget !== window) {
