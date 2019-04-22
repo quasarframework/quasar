@@ -753,6 +753,8 @@ export default Vue.extend({
         focusout: e => {
           this.hasDialog !== true && this.__onControlFocusout(e)
         },
+        'popup-show': this.__onControlPopupShow,
+        'popup-hide': this.__onControlPopupHide,
         click: e => {
           if (this.hasDialog === true) {
             this.focused = true
@@ -781,6 +783,7 @@ export default Vue.extend({
       return (
         document.hasFocus() === true &&
         this.$refs !== void 0 && (
+          this.hasPopupOpen === true ||
           (this.$refs.control !== void 0 && this.$refs.control.contains(document.activeElement) !== false) ||
           ((menu = this.__getMenuContentEl()) !== void 0 && menu.contains(document.activeElement) !== false)
         )

@@ -347,6 +347,16 @@ export default Vue.extend({
       }, content)
     },
 
+    __onControlPopupShow (e) {
+      this.hasPopupOpen = true
+      this.__onControlFocusin(e)
+    },
+
+    __onControlPopupHide (e) {
+      this.hasPopupOpen = false
+      this.__onControlFocusout(e)
+    },
+
     __onControlFocusin (e) {
       if (this.editable === true && this.focused === false) {
         this.focused = true
@@ -358,6 +368,7 @@ export default Vue.extend({
       setTimeout(() => {
         if (
           document.hasFocus() === true && (
+            this.hasPopupOpen === true ||
             this.$refs === void 0 ||
             this.$refs.control === void 0 ||
             this.$refs.control.contains(document.activeElement) !== false
@@ -365,6 +376,8 @@ export default Vue.extend({
         ) {
           return
         }
+
+        this.hasPopupOpen = false
 
         if (this.focused === true) {
           this.focused = false
@@ -419,7 +432,9 @@ export default Vue.extend({
       : {
         focus: this.focus,
         focusin: this.__onControlFocusin,
-        focusout: this.__onControlFocusout
+        focusout: this.__onControlFocusout,
+        'popup-show': this.__onControlPopupShow,
+        'popup-hide': this.__onControlPopupHide
       }
   },
 
