@@ -100,9 +100,7 @@ export default Vue.extend({
           ? val
           : ''
 
-        if (this.inputValue !== value) {
-          this.inputValue = value
-        }
+        this.__setInputValue(value)
       },
       immediate: true
     },
@@ -293,10 +291,7 @@ export default Vue.extend({
           this.$emit('input', this.emitValue === true ? optValue : opt)
         }
         else {
-          const val = this.__getOptionLabel(opt)
-          if (val !== this.inputValue) {
-            this.inputValue = val
-          }
+          this.__setInputValue(this.hideSelected === true ? this.__getOptionLabel(opt) : '')
         }
 
         return
@@ -472,7 +467,7 @@ export default Vue.extend({
             this.optionIndex = -1
           }
           else {
-            this.inputValue = ''
+            this.__setInputValue('')
           }
         }
         return
@@ -498,7 +493,7 @@ export default Vue.extend({
               )
             }
 
-            this.inputValue = ''
+            this.__setInputValue('')
           }
 
           if (this.$listeners['new-value'] !== void 0) {
@@ -507,6 +502,9 @@ export default Vue.extend({
           else {
             done(this.inputValue)
           }
+        }
+        else {
+          this.__setInputValue('')
         }
       }
 
@@ -681,6 +679,22 @@ export default Vue.extend({
           keydown: this.__onTargetKeydown
         }
       })
+    },
+
+    __setInputValue (value) {
+      if (this.inputValue !== value) {
+        if (
+          this.menu === true &&
+          this.multiple === true &&
+          this.$listeners.filter !== void 0
+        ) {
+          this.filter(value)
+          this.optionIndex !== -1 && (this.optionIndex = -1)
+        }
+        else {
+          this.inputValue = value
+        }
+      }
     },
 
     __onInputValue (e) {
