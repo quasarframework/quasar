@@ -134,19 +134,37 @@ export default Vue.extend({
   },
 
   methods: {
-    shake () {
-      const node = this.__portal.$refs.inner
+    focus () {
+      let node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
 
-      if (node.contains(document.activeElement) === false) {
-        node.focus()
+      if (node === void 0 || node.contains(document.activeElement) === true) {
+        return
       }
 
-      node.classList.remove('q-animate--scale')
-      node.classList.add('q-animate--scale')
-      clearTimeout(this.shakeTimeout)
-      this.shakeTimeout = setTimeout(() => {
+      if (this.$q.platform.is.ios) {
+        // workaround the iOS hover/touch issue
+        this.avoidAutoClose = true
+        node.click()
+        this.avoidAutoClose = false
+      }
+
+      node = node.querySelector('[autofocus]') || node
+      node.focus()
+    },
+
+    shake () {
+      this.focus()
+
+      const node = this.__portal.$refs === void 0 ? this.__portal.$refs.inner : void 0
+
+      if (node !== void 0) {
         node.classList.remove('q-animate--scale')
-      }, 170)
+        node.classList.add('q-animate--scale')
+        clearTimeout(this.shakeTimeout)
+        this.shakeTimeout = setTimeout(() => {
+          node.classList.remove('q-animate--scale')
+        }, 170)
+      }
     },
 
     __show (evt) {
@@ -155,23 +173,6 @@ export default Vue.extend({
       this.__refocusTarget = this.noRefocus === false
         ? document.activeElement
         : void 0
-
-      if (this.noFocus !== true) {
-        document.activeElement.blur()
-
-        this.$nextTick(() => {
-          const node = this.__portal.$refs.inner
-
-          if (this.$q.platform.is.ios === true) {
-            // workaround the iOS hover/touch issue
-            this.avoidAutoClose = true
-            node.click()
-            this.avoidAutoClose = false
-          }
-
-          node.focus()
-        })
-      }
 
       this.__updateState(true, this.maximized)
 
@@ -187,11 +188,19 @@ export default Vue.extend({
         }
       })
 
+      this.__showPortal()
+
+      if (this.noFocus !== true) {
+        document.activeElement.blur()
+
+        this.$nextTick(() => {
+          this.focus()
+        })
+      }
+
       if (this.$q.platform.is.desktop === true && this.useBackdrop === true) {
         document.body.addEventListener('focusin', this.__onFocusChange)
       }
-
-      this.__showPortal()
 
       this.timer = setTimeout(() => {
         this.$emit('show', evt)
@@ -215,7 +224,7 @@ export default Vue.extend({
       clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
 
-      if (this.$q.platform.is.desktop === true && this.useBackdrop === true) {
+      if (this.$q.platform.is.desktop === true && this.seamless !== true) {
         document.body.removeEventListener('focusin', this.__onFocusChange)
       }
 
