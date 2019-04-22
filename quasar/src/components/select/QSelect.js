@@ -393,7 +393,8 @@ export default Vue.extend({
 
       if (e.target !== this.$refs.target) { return }
 
-      if (this.innerLoading !== true && this.menu === false && e.keyCode === 40) { // down
+      // down
+      if (e.keyCode === 40 && this.innerLoading !== true && this.menu === false) {
         stopAndPrevent(e)
 
         if (this.$listeners.filter !== void 0) {
@@ -406,7 +407,13 @@ export default Vue.extend({
         return
       }
 
-      if (Array.isArray(this.value) && this.multiple === true && this.inputValue.length === 0 && e.keyCode === 8) { // delete
+      // delete
+      if (
+        e.keyCode === 8 &&
+        Array.isArray(this.value) &&
+        this.multiple === true &&
+        this.inputValue.length === 0
+      ) {
         this.removeAtIndex(this.value.length - 1)
         return
       }
