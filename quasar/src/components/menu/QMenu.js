@@ -112,12 +112,10 @@ export default Vue.extend({
     focus () {
       let node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
 
-      if (node === void 0 || node.contains(document.activeElement) === true) {
-        return
+      if (node !== void 0 && node.contains(document.activeElement) !== true) {
+        node = node.querySelector('[autofocus]') || node
+        node.focus()
       }
-
-      node = node.querySelector('[autofocus]') || node
-      node.focus()
     },
 
     __show (evt) {
