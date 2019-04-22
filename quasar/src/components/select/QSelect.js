@@ -152,7 +152,7 @@ export default Vue.extend({
       return this.displayValueSanitize === true || (
         this.displayValue === void 0 && (
           this.optionsSanitize === true ||
-          this.innerValue.some(opt => opt.sanitize === true)
+          this.innerValue.some(opt => opt !== null && opt.sanitize === true)
         )
       )
     },
@@ -165,7 +165,7 @@ export default Vue.extend({
         opt,
         sanitize: this.optionsSanitize === true || opt.sanitize === true,
         selected: true,
-        removeAtIndex: this.removeAtIndex,
+        removeAtIndex: this.__removeAtIndexAndFocus,
         toggleOption: this.toggleOption,
         tabindex
       }))
@@ -241,6 +241,11 @@ export default Vue.extend({
           this.$emit('input', null)
         }
       }
+    },
+
+    __removeAtIndexAndFocus (index) {
+      this.removeAtIndex(index)
+      this.focus()
     },
 
     add (opt, unique) {
@@ -389,7 +394,10 @@ export default Vue.extend({
         return
       }
 
-      if (this.innerLoading !== true && this.menu === false && e.keyCode === 40) { // down
+      if (e.target !== this.$refs.target) { return }
+
+      // down
+      if (e.keyCode === 40 && this.innerLoading !== true && this.menu === false) {
         stopAndPrevent(e)
 
         if (this.$listeners.filter !== void 0) {
@@ -402,9 +410,52 @@ export default Vue.extend({
         return
       }
 
-      if (this.multiple === true && this.inputValue.length === 0 && e.keyCode === 8) { // delete
+      // delete
+      if (
+        e.keyCode === 8 &&
+        Array.isArray(this.value) &&
+        this.multiple === true &&
+        this.inputValue.length === 0
+      ) {
         this.removeAtIndex(this.value.length - 1)
         return
+      }
+
+      // up, down
+      if (e.keyCode === 38 || e.keyCode === 40) {
+        stopAndPrevent(e)
+
+        if (this.menu === true) {
+          let index = this.optionIndex
+          do {
+            index = normalizeToInterval(
+              index + (e.keyCode === 38 ? -1 : 1),
+              -1,
+              Math.min(this.optionsToShow, this.options.length) - 1
+            )
+
+            if (index === -1) {
+              this.optionIndex = -1
+              return
+            }
+          }
+          while (index !== this.optionIndex && this.__isDisabled(this.options[index]) === true)
+
+          const dir = index > this.optionIndex ? 1 : -1
+          this.optionIndex = index
+
+          this.$nextTick(() => {
+            const el = this.__getMenuContentEl().querySelector('.q-manual-focusable--focused')
+            if (el !== null && el.scrollIntoView !== void 0) {
+              if (el.scrollIntoViewIfNeeded !== void 0) {
+                el.scrollIntoViewIfNeeded(false)
+              }
+              else {
+                el.scrollIntoView(dir === -1)
+              }
+            }
+          })
+        }
       }
 
       // enter
@@ -468,51 +519,6 @@ export default Vue.extend({
         }
         else {
           this.menu = true
-        }
-      }
-    },
-
-    __onGlobalKeydown (e) {
-      // escape
-      if (e.keyCode === 27) {
-        this.__closeMenu()
-        return
-      }
-
-      // up, down
-      if (e.keyCode === 38 || e.keyCode === 40) {
-        stopAndPrevent(e)
-
-        if (this.menu === true) {
-          let index = this.optionIndex
-          do {
-            index = normalizeToInterval(
-              index + (e.keyCode === 38 ? -1 : 1),
-              -1,
-              Math.min(this.optionsToShow, this.options.length) - 1
-            )
-
-            if (index === -1) {
-              this.optionIndex = -1
-              return
-            }
-          }
-          while (index !== this.optionIndex && this.__isDisabled(this.options[index]) === true)
-
-          const dir = index > this.optionIndex ? 1 : -1
-          this.optionIndex = index
-
-          this.$nextTick(() => {
-            const el = this.__getMenuContentEl().querySelector('.q-manual-focusable--focused')
-            if (el !== null && el.scrollIntoView !== void 0) {
-              if (el.scrollIntoViewIfNeeded !== void 0) {
-                el.scrollIntoViewIfNeeded(false)
-              }
-              else {
-                el.scrollIntoView(dir === -1)
-              }
-            }
-          })
         }
       }
     },
@@ -782,7 +788,9 @@ export default Vue.extend({
     },
 
     __onControlFocusin (e) {
-      if (this.editable !== true) {
+      this.optionIndex = -1
+
+      if (this.editable !== true || this.focused === true) {
         return
       }
 
@@ -968,11 +976,6 @@ export default Vue.extend({
           this.__hydrateOptions()
         })
       }
-
-      if (this.$q.platform.is.desktop === true) {
-        const action = (show === true ? 'add' : 'remove') + 'EventListener'
-        document.body[action]('keydown', this.__onGlobalKeydown)
-      }
     },
 
     __onPreRender () {
@@ -994,6 +997,5 @@ export default Vue.extend({
 
   beforeDestroy () {
     clearTimeout(this.inputTimer)
-    document.body.removeEventListener('keydown', this.__onGlobalKeydown)
   }
 })
