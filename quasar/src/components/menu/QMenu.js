@@ -116,13 +116,6 @@ export default Vue.extend({
         return
       }
 
-      if (this.$q.platform.is.ios) {
-        // workaround the iOS hover/touch issue
-        this.avoidAutoClose = true
-        node.click()
-        this.avoidAutoClose = false
-      }
-
       node = node.querySelector('[autofocus]') || node
       node.focus()
     },
@@ -213,10 +206,8 @@ export default Vue.extend({
     },
 
     __onAutoClose (e) {
-      if (this.avoidAutoClose !== true) {
-        closeRootMenu(this.menuId)
-        this.$emit('click', e)
-      }
+      closeRootMenu(this.menuId)
+      this.$emit('click', e)
     },
 
     updatePosition () {
