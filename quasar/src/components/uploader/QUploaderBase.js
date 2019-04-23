@@ -334,7 +334,7 @@ export default {
           ])
         ]),
 
-        this.__getBtn(h, this.editable && (this.multiple || this.queuedFiles.length == 0), 'add', this.pickFiles),
+        this.__getBtn(h, this.editable && this.queuedFiles.length == 0, 'add', this.pickFiles),
         this.__getBtn(h, !this.hideUploadButton && this.editable && this.queuedFiles.length > 0, 'upload', this.upload),
         this.__getBtn(h, this.editable && this.isUploading, 'clear', this.abort)
       ])
