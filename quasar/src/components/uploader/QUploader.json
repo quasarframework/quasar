@@ -91,6 +91,12 @@
       "category": "behavior"
     },
 
+    "hide-upload-btn": {
+      "type": "Boolean",
+      "desc": "Don't show the upload button",
+      "category": "behavior"
+    },
+
     "disable": {
       "extends": "disable"
     },

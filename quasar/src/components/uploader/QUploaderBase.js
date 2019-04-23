@@ -26,7 +26,7 @@ export default {
     filter: Function,
     noThumbnails: Boolean,
     autoUpload: Boolean,
-    hideUploadButton: Boolean,
+    hideUploadBtn: Boolean,
 
     disable: Boolean,
     readonly: Boolean
@@ -41,7 +41,9 @@ export default {
       expanded: false,
 
       uploadSize: 0,
-      uploadedSize: 0
+      uploadedSize: 0,
+
+      isBusy: false
     }
   },
 
@@ -334,8 +336,8 @@ export default {
           ])
         ]),
 
-        this.__getBtn(h, this.editable && this.queuedFiles.length == 0, 'add', this.pickFiles),
-        this.__getBtn(h, !this.hideUploadButton && this.editable && this.queuedFiles.length > 0, 'upload', this.upload),
+        this.__getBtn(h, this.editable && !this.isUploading && (this.multiple || this.queuedFiles.length === 0), 'add', this.pickFiles),
+        this.__getBtn(h, this.editable && this.hideUploadBtn === false && this.queuedFiles.length > 0, 'upload', this.upload),
         this.__getBtn(h, this.editable && this.isUploading, 'clear', this.abort)
       ])
     },
