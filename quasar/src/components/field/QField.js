@@ -94,7 +94,11 @@ export default Vue.extend({
       return this.hasError === true ||
         this.stackLabel === true ||
         this.focused === true ||
-        this.hasValue === true ||
+        (
+          this.inputValue !== void 0 && this.hideSelected === true
+            ? this.inputValue.length > 0
+            : this.hasValue === true
+        ) ||
         (
           this.displayValue !== void 0 &&
           this.displayValue !== null &&
