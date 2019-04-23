@@ -240,6 +240,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Paolo Nesti Poggi
 - Michael Alford
 - Joseph Phillips
+- Harshad Gole
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
