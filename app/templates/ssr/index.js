@@ -66,7 +66,7 @@ app.get('*', (req, res) => {
   // res.setHeader('X-DNS-Prefetch-Control', 'off') // may be slower, but stops some leaks
 
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-  //   // res.setHeader('Content-Security-Policy', 'default-src https:')
+  // res.setHeader('Content-Security-Policy', 'default-src https:')
 
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/sandbox
   // res.setHeader('Content-Security-Policy', 'sandbox') // this will lockdown your server!!!
