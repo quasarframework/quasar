@@ -259,6 +259,9 @@ export default Vue.extend({
           this.__getControl(h)
         )
       }
+      else if (this.$scopedSlots.nativeControl !== void 0) {
+        node.push(this.$scopedSlots.nativeControl())
+      }
       else if (this.$scopedSlots.control !== void 0) {
         node.push(
           h('div', {

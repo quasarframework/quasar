@@ -604,6 +604,10 @@ export default Vue.extend({
 
       data.staticClass = 'q-field__native row items-center'
 
+      if (this.useChips === true && this.selectedScope.length > 0) {
+        data.staticClass += ' q-field__native--with-chips'
+      }
+
       return h('div', data, child)
     },
 
@@ -846,7 +850,7 @@ export default Vue.extend({
     __getDialog (h) {
       const content = [
         h(QField, {
-          staticClass: 'col-auto',
+          staticClass: 'col-auto q-select',
           props: {
             ...this.$props,
             dark: this.optionsDark,
@@ -861,7 +865,7 @@ export default Vue.extend({
           },
           scopedSlots: {
             ...this.$scopedSlots,
-            control: () => this.__getControl(h, true),
+            nativeControl: () => this.__getControl(h, true),
             before: void 0,
             after: void 0
           }

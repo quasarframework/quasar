@@ -175,6 +175,19 @@
             @focus="onFocus"
             @blur="onBlur"
           />
+          <q-select
+            v-bind="props"
+            v-model="createInput"
+            use-input
+            use-chips
+            multiple
+            input-debounce="0"
+            @new-value="createInputNewValue"
+            :options="createInputOptions"
+            @filter="createInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
+          />
 
           <q-select
             v-bind="props"
