@@ -50,21 +50,6 @@ if (!fs.existsSync(path.join(root, 'node_modules'))) {
 
 const pkg = require(path.join(root, 'package.json'))
 
-function isQuasarPackage (name) {
-  if (name === 'quasar') {
-    return true
-  }
-
-  if (
-    name.indexOf('@quasar/') > -1 &&
-    name.indexOf('quasar-app-extension') === -1
-  ) {
-    return true
-  }
-
-  return false
-}
-
 function getLatestVersion (packager, packageName, curVersion) {
   let versions = JSON.parse(
     execSync(
@@ -103,7 +88,8 @@ function upgradeQuasar () {
 
   for (const type of Object.keys(deps)) {
     for (const packageName of Object.keys(pkg[type] || {})) {
-      if (isQuasarPackage(packageName) === false) {
+      // is it a Quasar package?
+      if (name !== 'quasar' && !name.startsWith('@quasar/')) {
         continue
       }
 
