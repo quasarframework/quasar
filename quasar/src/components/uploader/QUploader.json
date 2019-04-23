@@ -257,6 +257,14 @@
       }
     },
 
+    "start": {
+      "desc": "Started working"
+    },
+
+    "finish": {
+      "desc": "Finished working (regardless of success or fail)"
+    },
+
     "uploaded": {
       "desc": "Emitted when file or batch of files is uploaded",
       "params": {

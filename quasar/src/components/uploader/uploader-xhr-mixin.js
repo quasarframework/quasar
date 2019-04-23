@@ -27,7 +27,9 @@ export default {
 
   data () {
     return {
-      xhrs: []
+      xhrs: [],
+      promises: [],
+      workingThreads: 0
     }
   },
 
@@ -46,24 +48,25 @@ export default {
       }
     },
 
-    isIdle () {
-      return this.xhrs.length === 0
+    isUploading () {
+      return this.workingThreads > 0
     },
 
-    isUploading () {
-      return this.xhrs.length > 0
+    isBusy () {
+      return this.promises.length > 0
     }
   },
 
   methods: {
     abort () {
-      if (!this.disable && this.isUploading) {
-        this.xhrs.forEach(x => { x.abort() })
-      }
+      this.xhrs.forEach(x => { x.abort() })
+      this.promises.forEach(p => { p.abort() })
     },
 
     upload () {
-      if (this.disable || !this.queuedFiles.length) { return }
+      if (this.canUpload === false) {
+        return
+      }
 
       const queue = this.queuedFiles.slice(0)
       this.queuedFiles = []
@@ -79,6 +82,8 @@ export default {
     },
 
     __runFactory (payload) {
+      this.workingThreads++
+
       if (typeof this.factory !== 'function') {
         this.__uploadFiles(payload, {})
         return
@@ -88,18 +93,19 @@ export default {
 
       if (!res) {
         this.$emit('factory-fail')
+        this.workingThreads--
       }
       else if (typeof res.catch === 'function' && typeof res.then === 'function') {
-        this.isBusy = true
+        this.promises.push(res)
 
         res.then(factory => {
           if (this.isDestroyed !== true) {
-            this.isBusy = false
+            this.promises = this.promises.filter(p => p !== res)
             this.__uploadFiles(payload, factory)
           }
         }).catch(err => {
           if (this.isDestroyed !== true) {
-            this.isBusy = false
+            this.promises = this.promises.filter(p => p !== res)
 
             const files = Array.isArray(payload)
               ? payload
@@ -109,6 +115,7 @@ export default {
             files.forEach(f => { this.__updateFile(f, 'failed') })
 
             this.$emit('factory-failed', err, files)
+            this.workingThreads--
           }
         })
       }
@@ -132,6 +139,7 @@ export default {
 
       if (!url) {
         console.error('q-uploader: invalid or no URL specified')
+        this.workingThreads--
         return
       }
 
@@ -195,6 +203,7 @@ export default {
           this.__emit('failed', { files, xhr })
         }
 
+        this.workingThreads--
         this.xhrs = this.xhrs.filter(x => x !== xhr)
       }
 

@@ -41,15 +41,32 @@ export default {
       expanded: false,
 
       uploadSize: 0,
-      uploadedSize: 0,
+      uploadedSize: 0
+    }
+  },
 
-      isBusy: false
+  watch: {
+    isUploading (newVal, oldVal) {
+      if (oldVal === false && newVal === true) {
+        this.$emit('start')
+      }
+      else if (oldVal === true && newVal === false) {
+        this.$emit('finish')
+      }
     }
   },
 
   computed: {
+    /*
+     * When extending:
+     *   Required : isUploading
+     *   Optional: isBusy
+     */
+
     canUpload () {
-      return this.editable === true && this.queuedFiles.length > 0
+      return this.editable === true &&
+        this.isUploading !== true &&
+        this.queuedFiles.length > 0
     },
 
     extensions () {
@@ -336,9 +353,9 @@ export default {
           ])
         ]),
 
-        this.__getBtn(h, this.editable && !this.isUploading && (this.multiple || this.queuedFiles.length === 0), 'add', this.pickFiles),
+        this.__getBtn(h, this.editable && this.isUploading !== true && (this.multiple || this.queuedFiles.length === 0), 'add', this.pickFiles),
         this.__getBtn(h, this.editable && this.hideUploadBtn === false && this.queuedFiles.length > 0, 'upload', this.upload),
-        this.__getBtn(h, this.editable && this.isUploading, 'clear', this.abort)
+        this.__getBtn(h, this.editable && this.isUploading === true, 'clear', this.abort)
       ])
     },
 
@@ -408,7 +425,7 @@ export default {
 
   beforeDestroy () {
     this.isDestroyed = true
-    this.isUploading && this.abort()
+    this.isUploading === true && this.abort()
   },
 
   render (h) {
@@ -421,7 +438,7 @@ export default {
         'q-uploader--flat no-shadow': this.flat,
         'disabled q-uploader--disable': this.disable
       },
-      on: this.editable === true && this.isIdle === true
+      on: this.editable === true && this.isUploading !== true
         ? { dragover: this.__onDragOver }
         : null
     }, [
