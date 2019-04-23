@@ -2325,7 +2325,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 |Legacy|v1|
 |-|-|
-|`additional-fields`|`fields`|
+|`additional-fields`|`form-fields`|
 |`after`||
 |`align`||
 |`auto-expand`||
@@ -2337,7 +2337,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 |`extensions`||
 |`float-label`||
 |`hide-underline`||
-|`hide-upload-button`||
+|`hide-upload-button`|`hide-upload-btn`|
 |`hide-upload-progress`||
 |`inverted`||
 |`inverted-light`||
@@ -2346,19 +2346,17 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 |`no-parent-field`||
 |`placeholder`||
 |`prefix`||
-|`send-raw`||
 |`stack-label`||
 |`suffix`||
 |`upload-factory`||
 |`url-factory`||
 |`warning`||
-|`with-credentials`||
 ||`accept`|
 ||`auto-upload`|
+||`factory`|
 ||`batch`|
 ||`bordered`|
 ||`field-name`|
-||`fields`|
 ||`label`|
 ||`flat`|
 ||`max-file-size`|
@@ -2373,14 +2371,12 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 |Legacy|v1|
 |-|-|
-|`@fail(file, xhr)`|`@failed(files, xhr)`|
-|`@finish()`||
+|`@fail(file, xhr)`|`@failed({ files, xhr })`|
 |`@remove:abort(file)`||
 |`@remove:cancel(file)`||
 |`@remove:done(file)`||
-|`@start()`||
-|`@uploaded(file, xhr)`|`@uploaded(files, xhr)`|
-||`@uploading(files, xhr)`|
+|`@uploaded(file, xhr)`|`@uploaded({ files, xhr })`|
+||`@uploading({ files, xhr })`|
 
   </div>
   <div class="inline-block q-pa-md">
