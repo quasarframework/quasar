@@ -78,8 +78,9 @@ export default {
         .trim()
     },
     backLink () {
+      const page = (this.page ? this.page + ': ' : '') + (this.title ? this.title : '')
       return `  <div class="absolute-bottom bg-blue-4 shadow-up-4">
-    <q-btn type="a" target="_blank" href="https://v1.quasar-framework.org${this.$route.path}#Example--${this.title}" label="Return to ${this.computedTitle}" color="blue" size="sm" class="float-right q-ma-sm"></q-btn>
+    <q-btn type="a" target="_blank" href="https://v1.quasar-framework.org${this.$route.path}#Example--${this.title}" label="Return to the docs > ${page}" color="blue" size="sm" class="float-right q-ma-sm"></q-btn>
   </div>`
     },
     editors () {
