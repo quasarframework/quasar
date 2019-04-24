@@ -604,10 +604,6 @@ export default Vue.extend({
 
       data.staticClass = 'q-field__native row items-center'
 
-      if (this.useChips === true && this.selectedScope.length > 0) {
-        data.staticClass += ' q-field__native--with-chips'
-      }
-
       return h('div', data, child)
     },
 
