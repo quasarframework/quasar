@@ -51,9 +51,6 @@ app.get('*', (req, res) => {
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
   res.setHeader('X-Content-Type-Options', 'nosniff')
 
-  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-  res.setHeader('Content-Security-Policy', 'default-src https:')
-
   ssr.renderToString({ req, res }, (err, html) => {
     if (err) {
       if (err.url) {
