@@ -40,7 +40,10 @@ class Mode {
       appName = pkg.productName || pkg.name || 'Quasar App'
 
     if (/^[0-9]/.test(appName)) {
-      warn(`⚠️  App name cannot start with a number. Aborting.`)
+      warn(
+        `⚠️  App product name cannot start with a number. ` +
+        `Please change the "productName" prop in your /package.json then try again.`
+      )
       return
     }
     
