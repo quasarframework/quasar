@@ -1840,6 +1840,7 @@ Replace `:handler` with `@load`.
 
 - Type of `stack-label` was changed from `string` to `boolean`
 - Type of `display-value` was changed from `string` to `string|number`
+- When the option list is an array of objects (as opposed to simple strings or numbers), upgraders may want to turn on the `emit-value` and `map-options` flags to preserve the behavior of previous versions. 1.0 defaults to emitting the entire object, not just the `value` property, upon selection.
 
 <div class="row">
   <div class="inline-block q-pa-md">
@@ -2325,7 +2326,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 |Legacy|v1|
 |-|-|
-|`additional-fields`|`fields`|
+|`additional-fields`|`form-fields`|
 |`after`||
 |`align`||
 |`auto-expand`||
@@ -2337,7 +2338,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 |`extensions`||
 |`float-label`||
 |`hide-underline`||
-|`hide-upload-button`||
+|`hide-upload-button`|`hide-upload-btn`|
 |`hide-upload-progress`||
 |`inverted`||
 |`inverted-light`||
@@ -2346,19 +2347,17 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 |`no-parent-field`||
 |`placeholder`||
 |`prefix`||
-|`send-raw`||
 |`stack-label`||
 |`suffix`||
 |`upload-factory`||
 |`url-factory`||
 |`warning`||
-|`with-credentials`||
 ||`accept`|
 ||`auto-upload`|
+||`factory`|
 ||`batch`|
 ||`bordered`|
 ||`field-name`|
-||`fields`|
 ||`label`|
 ||`flat`|
 ||`max-file-size`|
@@ -2373,14 +2372,12 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 |Legacy|v1|
 |-|-|
-|`@fail(file, xhr)`|`@failed(files, xhr)`|
-|`@finish()`||
+|`@fail(file, xhr)`|`@failed({ files, xhr })`|
 |`@remove:abort(file)`||
 |`@remove:cancel(file)`||
 |`@remove:done(file)`||
-|`@start()`||
-|`@uploaded(file, xhr)`|`@uploaded(files, xhr)`|
-||`@uploading(files, xhr)`|
+|`@uploaded(file, xhr)`|`@uploaded({ files, xhr })`|
+||`@uploading({ files, xhr })`|
 
   </div>
   <div class="inline-block q-pa-md">

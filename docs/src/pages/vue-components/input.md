@@ -77,6 +77,20 @@ Support and behavior is the subject entirely of the browser rendering the page a
 Some input types (like `date` or `time`) always render some controls, so you if you're using a `label` then you might want to set it along with `stack-label`, otherwise the label will overlap native browser controls.
 :::
 
+#### Input of number type
+
+You'll be using `v-model.number` (notice the `number` modifier) along with `type="number"` prop:
+
+<doc-example title="Input of number type" file="QInput/InputTypeNumber" />
+
+#### Input of file type
+
+::: warning
+Do NOT use a `v-model` when QInput is of `type="file"`. Browser security policy does not allow a value to be set to such an input. As a result, you can only read it (attach an `@input` event), but not write it.
+:::
+
+<doc-example title="Input of file type" file="QInput/InputTypeFile" />
+
 ### Textarea
 
 <doc-example title="Textarea" file="QInput/Textarea" />

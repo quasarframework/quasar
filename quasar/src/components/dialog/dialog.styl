@@ -29,7 +29,6 @@
 
     &--minimized
       padding 24px
-
       > div
         max-height calc(100vh - 48px)
 
@@ -75,6 +74,13 @@
     pointer-events all
     background $dimmed-background
 
+body.q-ios-padding .q-dialog__inner
+  padding-top $ios-statusbar-height !important
+  padding-top env(safe-area-inset-top) !important
+  padding-bottom env(safe-area-inset-bottom) !important
+  > div
+    // quotes are stylus workaround to not error when parsing env()
+    max-height "calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important" % $ios-statusbar-height
 
 @media (max-width $breakpoint-xs-max)
   .q-dialog__inner
@@ -86,7 +92,6 @@
 
       > div
         width 100% !important
-        border-radius 0 !important
 
 @media (min-width $breakpoint-sm-min)
   .q-dialog__inner--minimized > div

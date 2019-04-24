@@ -42,6 +42,15 @@ extension.extendApp({ app })
 // this should be last get(), rendering with SSR
 app.get('*', (req, res) => {
   res.setHeader('Content-Type', 'text/html')
+  // https://developer.mozilla.org/en-us/docs/Web/HTTP/Headers/X-Frame-Options
+  res.setHeader('X-frame-options', 'SAMEORIGIN')
+
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
+  res.setHeader('X-XSS-Protection', 1)
+
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
+  res.setHeader('X-Content-Type-Options', 'nosniff')
+
   ssr.renderToString({ req, res }, (err, html) => {
     if (err) {
       if (err.url) {

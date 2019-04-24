@@ -12,7 +12,7 @@ export default Vue.extend({
   mixins: [ QField, MaskMixin ],
 
   props: {
-    value: { required: true },
+    value: [String, Number],
 
     type: {
       type: String,
@@ -23,7 +23,6 @@ export default Vue.extend({
 
     maxlength: [Number, String],
     autogrow: Boolean, // makes a textarea
-    autofocus: Boolean,
 
     inputClass: [Array, String, Object],
     inputStyle: [Array, String, Object]
@@ -81,6 +80,11 @@ export default Vue.extend({
     },
 
     __onInput (e) {
+      if (this.type === 'file') {
+        this.$emit('input', e.target.files)
+        return
+      }
+
       const val = e.target.value
 
       if (this.hasMask === true) {
@@ -137,6 +141,7 @@ export default Vue.extend({
 
       const attrs = {
         tabindex: 0,
+        autofocus: this.autofocus,
         rows: this.type === 'textarea' ? 6 : void 0,
         ...this.$attrs,
         'aria-label': this.label,
@@ -157,11 +162,13 @@ export default Vue.extend({
         class: this.inputClass,
         attrs,
         on,
-        domProps: {
-          value: this.hasOwnProperty('tempValue') === true
-            ? this.tempValue
-            : this.innerValue
-        }
+        domProps: this.type !== 'file'
+          ? {
+            value: this.hasOwnProperty('tempValue') === true
+              ? this.tempValue
+              : this.innerValue
+          }
+          : null
       })
     }
   },
@@ -174,7 +181,6 @@ export default Vue.extend({
   mounted () {
     // textarea only
     this.autogrow === true && this.__adjustHeight()
-    this.autofocus === true && this.$nextTick(this.focus)
   },
 
   beforeDestroy () {

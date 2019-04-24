@@ -42,7 +42,7 @@ if (boot.length > 0) {
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
   boot.filter(asset => asset.client !== false).forEach(asset => {
-    let importName = 'b_' + hash(asset.path)
+    let importName = 'qboot_' + hash(asset.path)
     bootNames.push(importName)
 %>
 import <%= importName %> from '<%= asset.path %>'

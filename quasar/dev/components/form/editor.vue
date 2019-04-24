@@ -1,8 +1,15 @@
 <template>
   <div class="q-layout-padding">
     <q-toggle v-model="hideToolbar" label="Hide Toolbar" class="q-mb-lg" />
+    <q-toggle v-model="flat" label="Flat" class="q-mb-lg" />
+    <q-toggle v-model="square" label="Square" class="q-mb-lg" />
+    <q-toggle v-model="dense" label="Dense" class="q-mb-lg" />
+
     <q-editor
       v-model="model"
+      :flat="flat"
+      :square="square"
+      :dense="dense"
       :toolbar="hideToolbar ? [] : [
         ['underline', 'print', 'bold', 'italic', 'link'],
         ['customItalic'],
@@ -29,6 +36,8 @@
         color="secondary"
         icon="import_contacts"
         label="Import"
+        no-wrap
+        unelevated
         @click="importSomething"
       />
     </q-editor>
@@ -36,10 +45,12 @@
     <br><br><br>
     <q-editor
       v-model="model"
+      :flat="flat"
+      :square="square"
+      :dense="dense"
       toolbar-text-color="white"
       toolbar-toggle-color="yellow-8"
       toolbar-bg="primary"
-      toolbar-flat
       :toolbar="[
         ['bold', 'italic', 'underline'],
         [{
@@ -55,8 +66,7 @@
     <q-select
       v-model="btnType"
       :options="[
-        { label: 'Default', value: 'none' },
-        { label: 'Flat', value: 'flat' },
+        { label: 'Default (flat)', value: 'none' },
         { label: 'Outline', value: 'outline' },
         { label: 'Push', value: 'push' }
       ]"
@@ -66,8 +76,11 @@
     />
     <q-editor
       ref="editor"
+      class="bg-white"
       v-model="model"
-      :toolbar-flat="flat"
+      :flat="flat"
+      :square="square"
+      :dense="dense"
       :toolbar-push="push"
       :toolbar-outline="outline"
       :toolbar-rounded="rounded"
@@ -138,7 +151,7 @@
         gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')}
       }"
     >
-      <q-btn dense color="yellow" slot="custom_btn" size="sm">
+      <q-btn dense color="yellow" slot="custom_btn" no-wrap size="sm">
         Wow
       </q-btn>
       <q-btn-dropdown dense no-caps ref="token" no-wrap slot="token" color="green" label="Token" size="sm">
@@ -171,10 +184,12 @@ export default {
   data () {
     return {
       hideToolbar: false,
+      flat: false,
+      square: false,
+      dense: false,
       btnType: 'none',
       push: false,
       outline: false,
-      flat: false,
       rounded: false,
       model: '<div>Editor in <a href="http://quasar-framework.org">Quasar</a></div><div>Second line</div>'
     }

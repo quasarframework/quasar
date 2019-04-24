@@ -1,6 +1,5 @@
 import QBtn from '../btn/QBtn.js'
 import QBtnDropdown from '../btn/QBtnDropdown.js'
-import QBtnGroup from '../btn/QBtnGroup.js'
 import QInput from '../input/QInput.js'
 import QIcon from '../icon/QIcon.js'
 import QTooltip from '../tooltip/QTooltip.js'
@@ -20,6 +19,12 @@ function run (e, btn, vm) {
   }
 }
 
+function __getGroup (h, children) {
+  return h('div', {
+    staticClass: 'q-editor__toolbar-group'
+  }, children)
+}
+
 function getBtn (h, vm, btn, clickHandler, active = false) {
   const
     toggled = active || (btn.type === 'toggle'
@@ -37,10 +42,12 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
     const Key = btn.key
       ? h('div', [h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)])
       : null
-    child.push(h(QTooltip, { props: { delay: 1000 } }, [
-      h('div', { domProps: { innerHTML: btn.tip } }),
-      Key
-    ]))
+    child.push(
+      h(QTooltip, { props: { delay: 1000 } }, [
+        h('div', { domProps: { innerHTML: btn.tip } }),
+        Key
+      ])
+    )
   }
 
   return h(QBtn, {
@@ -48,7 +55,7 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
       ...vm.buttonProps,
       icon: btn.icon,
       color: toggled ? btn.toggleColor || vm.toolbarToggleColor : btn.color || vm.toolbarColor,
-      textColor: toggled && (vm.toolbarFlat || vm.toolbarOutline) ? null : btn.textColor || vm.toolbarTextColor,
+      textColor: toggled && !vm.toolbarPush ? null : btn.textColor || vm.toolbarTextColor,
       label: btn.label,
       disable: btn.disable ? (typeof btn.disable === 'function' ? btn.disable(vm) : true) : false,
       size: 'sm'
@@ -83,17 +90,7 @@ function getDropdown (h, vm, btn) {
     })
     contentClass = vm.toolbarBackgroundClass
     Items = [
-      h(
-        QBtnGroup,
-        {
-          props: vm.buttonProps,
-          staticClass: 'relative-position q-editor-toolbar-padding',
-          style: { borderRadius: '0' },
-          size: 'sm',
-          dense: true
-        },
-        Items
-      )
+      __getGroup(h, Items)
     ]
   }
   else {
@@ -165,7 +162,7 @@ function getDropdown (h, vm, btn) {
         noCaps: true,
         noWrap: true,
         color: highlight ? vm.toolbarToggleColor : vm.toolbarColor,
-        textColor: highlight && (vm.toolbarFlat || vm.toolbarOutline) ? null : vm.toolbarTextColor,
+        textColor: highlight && !vm.toolbarPush ? null : vm.toolbarTextColor,
         label: btn.fixedLabel ? btn.label : label,
         icon: btn.fixedIcon ? btn.icon : icon,
         contentClass
@@ -178,9 +175,8 @@ function getDropdown (h, vm, btn) {
 
 export function getToolbar (h, vm) {
   if (vm.caret) {
-    return vm.buttons.map(group => h(
-      QBtnGroup,
-      { props: vm.buttonProps, staticClass: 'items-center relative-position' },
+    return vm.buttons.map(group => __getGroup(
+      h,
       group.map(btn => {
         if (btn.type === 'slot') {
           return slot(vm, btn.slot)
@@ -257,6 +253,7 @@ export function getLinkEditor (h, vm) {
                 prevent(event)
                 return updateLink()
               case 27: // ESCAPE key
+                prevent(event)
                 vm.caret.restore()
                 !vm.editLinkUrl && document.execCommand('unlink')
                 vm.editLinkUrl = null
@@ -265,15 +262,10 @@ export function getLinkEditor (h, vm) {
           }
         }
       }),
-      h(QBtnGroup, {
-        key: 'qedt_btm_grp',
-        props: vm.buttonProps
-      }, [
+      vm.__getGroup(h, [
         h(QBtn, {
           key: 'qedt_btm_rem',
-          attrs: {
-            tabindex: -1
-          },
+          attrs: { tabindex: -1 },
           props: {
             ...vm.buttonProps,
             label: vm.$q.lang.label.remove,

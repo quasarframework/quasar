@@ -29,6 +29,7 @@ export default Vue.extend({
     height: String,
     definitions: Object,
     fonts: Object,
+
     toolbar: {
       type: Array,
       validator: v => v.length === 0 || v.every(group => group.length),
@@ -41,21 +42,22 @@ export default Vue.extend({
       }
     },
     toolbarColor: String,
+    toolbarBg: String,
     toolbarTextColor: String,
     toolbarToggleColor: {
       type: String,
       default: 'primary'
     },
-    toolbarBg: {
-      type: String,
-      default: 'grey-3'
-    },
-    toolbarFlat: Boolean,
     toolbarOutline: Boolean,
     toolbarPush: Boolean,
     toolbarRounded: Boolean,
+
     contentStyle: Object,
-    contentClass: [Object, Array, String]
+    contentClass: [Object, Array, String],
+
+    square: Boolean,
+    flat: Boolean,
+    dense: Boolean
   },
 
   computed: {
@@ -74,9 +76,13 @@ export default Vue.extend({
     },
 
     buttonProps () {
+      const flat = this.toolbarOutline !== true &&
+        this.toolbarPush !== true
+
       return {
+        flat,
+        noWrap: true,
         outline: this.toolbarOutline,
-        flat: this.toolbarFlat,
         push: this.toolbarPush,
         rounded: this.toolbarRounded,
         dense: true,
@@ -177,7 +183,7 @@ export default Vue.extend({
               obj.cmd === void 0 || (this.buttonDef[obj.cmd] && this.buttonDef[obj.cmd].type === 'no-state')
             ))
               ? obj
-              : extend(true, { type: 'toggle' }, obj)
+              : Object.assign({ type: 'toggle' }, obj)
           }
           else {
             return {
@@ -314,35 +320,37 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.$nextTick(() => {
-      if (this.$refs.content) {
-        this.caret = new Caret(this.$refs.content, this)
-        this.$refs.content.innerHTML = this.value
-      }
-      this.$nextTick(this.refreshToolbar)
-    })
+    this.caret = new Caret(this.$refs.content, this)
+    this.$refs.content.innerHTML = this.value
+    this.refreshToolbar()
   },
 
   render (h) {
     let toolbars
+
     if (this.hasToolbar) {
-      const toolbarConfig = {
-        staticClass: `q-editor-toolbar row no-wrap scroll-x`,
-        'class': [
-          { 'q-editor-toolbar-separator': !this.toolbarOutline && !this.toolbarPush },
-          this.toolbarBackgroundClass
-        ]
-      }
-      toolbars = []
-      toolbars.push(h('div', extend({ key: 'qedt_top' }, toolbarConfig), [
-        h('div', { staticClass: 'row no-wrap q-editor-toolbar-padding fit items-center' }, getToolbar(h, this))
-      ]))
-      if (this.editLinkUrl !== null) {
-        toolbars.push(h('div', extend({ key: 'qedt_btm' }, toolbarConfig), [
-          h('div', { staticClass: 'row no-wrap q-editor-toolbar-padding fit items-center' }, getLinkEditor(h, this))
-        ]))
-      }
-      toolbars = h('div', toolbars)
+      const bars = []
+
+      bars.push(
+        h('div', {
+          key: 'qedt_top',
+          staticClass: 'q-editor__toolbar row no-wrap scroll-x',
+          class: this.toolbarBackgroundClass
+        }, getToolbar(h, this))
+      )
+
+      this.editLinkUrl !== null && bars.push(
+        h('div', {
+          key: 'qedt_btm',
+          staticClass: 'q-editor__toolbar row no-wrap items-center scroll-x',
+          class: this.toolbarBackgroundClass
+        }, getLinkEditor(h, this))
+      )
+
+      toolbars = h('div', {
+        key: 'toolbar_ctainer',
+        staticClass: 'q-editor__toolbars-container'
+      }, bars)
     }
 
     return h(
@@ -354,17 +362,20 @@ export default Vue.extend({
         },
         'class': {
           disabled: this.disable,
-          fullscreen: this.inFullscreen,
-          column: this.inFullscreen
+          'fullscreen column': this.inFullscreen,
+          'q-editor--square no-border-radius': this.square,
+          'q-editor--flat': this.flat,
+          'q-editor--dense': this.dense
         }
       },
       [
         toolbars,
+
         h(
           'div',
           {
             ref: 'content',
-            staticClass: `q-editor-content`,
+            staticClass: `q-editor__content`,
             style: this.innerStyle,
             class: this.innerClass,
             attrs: { contenteditable: this.editable },

@@ -119,5 +119,13 @@ export default {
       */
     }
   }
+
+  /*
+  mounted () {
+    this.$q.notify.setDefaults({
+      actions: [{ icon: 'close', handler () { console.log('cloooose') } }]
+    })
+  }
+  */
 }
 </script>

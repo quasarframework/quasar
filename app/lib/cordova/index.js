@@ -16,7 +16,9 @@ class CordovaRunner {
   }
 
   run (quasarConfig) {
-    const url = quasarConfig.getBuildConfig().build.APP_URL
+    const
+      cfg = quasarConfig.getBuildConfig(),
+      url = cfg.build.APP_URL
 
     if (this.url === url) {
       return
@@ -28,16 +30,10 @@ class CordovaRunner {
 
     this.url = url
 
-    const
-      cfg = quasarConfig.getBuildConfig(),
-      args = ['run', cfg.ctx.targetName]
+    const args = ['run', cfg.ctx.targetName]
 
     if (cfg.ctx.emulator) {
       args.push(`--target=${cfg.ctx.emulator}`)
-    }
-
-    if (cfg.ctx.targetName === 'ios') {
-      args.push(`--buildFlag=-UseModernBuildSystem=0`)
     }
 
     return this.__runCordovaCommand(
@@ -65,6 +61,10 @@ class CordovaRunner {
 
   __runCordovaCommand (cfg, args) {
     this.config.prepare(cfg)
+
+    if (cfg.ctx.targetName === 'ios' && cfg.cordova.noIosLegacyBuildFlag !== true) {
+      args.push(`--buildFlag=-UseModernBuildSystem=0`)
+    }
 
     return new Promise((resolve, reject) => {
       this.pid = spawn(

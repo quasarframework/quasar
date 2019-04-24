@@ -76,8 +76,11 @@ const Notifications = {
         this.remove(notif)
       }
 
-      if (config.actions) {
-        notif.actions = config.actions.map(item => {
+      const actions =
+        (config.actions || []).concat(defaults.actions || [])
+
+      if (actions.length > 0) {
+        notif.actions = actions.map(item => {
           const
             handler = item.handler,
             action = clone(item)
