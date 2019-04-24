@@ -259,6 +259,10 @@ export default Vue.extend({
           this.__getControl(h)
         )
       }
+      // internal usage only:
+      else if (this.$scopedSlots.rawControl !== void 0) {
+        node.push(this.$scopedSlots.rawControl())
+      }
       else if (this.$scopedSlots.control !== void 0) {
         node.push(
           h('div', {
