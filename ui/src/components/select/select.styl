@@ -6,6 +6,27 @@
     .q-field__control
       cursor text
 
+  &--with-chips
+    .q-select__input
+      margin 7px 0
+
+    &.q-field--labeled
+      .q-field__native
+        margin-top -6px
+        padding-bottom 0
+
+    &.q-field--dense
+      .q-chip--dense
+        margin 1px 4px
+        height 20px
+
+      .q-select__input
+        margin 2px 0
+
+      &.q-field--labeled
+        .q-field__native
+          margin-top 0
+
   &__input
     border 0
     outline 0 !important // needed for FF

@@ -101,7 +101,7 @@ export default Vue.extend({
 
   computed: {
     fieldClass () {
-      return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input`
+      return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input${this.useChips === true ? ' q-select--with-chips' : ''}`
     },
 
     menuClass () {
