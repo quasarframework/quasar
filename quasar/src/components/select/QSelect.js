@@ -865,7 +865,7 @@ export default Vue.extend({
           },
           scopedSlots: {
             ...this.$scopedSlots,
-            nativeControl: () => this.__getControl(h, true),
+            rawControl: () => this.__getControl(h, true),
             before: void 0,
             after: void 0
           }
