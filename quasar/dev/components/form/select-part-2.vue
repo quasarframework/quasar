@@ -412,6 +412,19 @@
             label="Heavy"
             multiple
             use-chips
+            :options="heavyFilterInputOptions"
+            @filter="heavyFilterInputFn"
+            @filter-abort="delayedAbort"
+            @focus="onFocus"
+            @blur="onBlur"
+          />
+
+          <q-select
+            v-bind="props"
+            v-model="heavyModel"
+            label="Heavy"
+            multiple
+            use-chips
             use-input
             :options="heavyFilterInputOptions"
             @filter="heavyFilterInputFn"

@@ -20,8 +20,9 @@
     cursor pointer
 
   &__dialog
-    width 95vh !important
-    max-height 50vh !important
+    width 90vw !important
+    max-width 90vw !important
+    max-height calc(100vh - 120px) !important
     background white
     display flex
     flex-direction column
@@ -29,3 +30,6 @@
   &__menu--dark
     color white
     background $grey-9
+
+body.ios .q-select__dialog
+  max-height 50vh !important
