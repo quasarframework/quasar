@@ -740,13 +740,21 @@
           </q-item-section>
 
           <q-item-section>
-            <q-item-label lines="2">Ruddy Jedrzej</q-item-label>
-            <q-item-label caption lines="1">VERRRYY LOOONNNGGGGGG TEXTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT</q-item-label>
+            <q-item-label lines="2">
+              Ruddy Jedrzej
+            </q-item-label>
+            <q-item-label caption lines="1">
+              VERRRYY LOOONNNGGGGGG TEXTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+            </q-item-label>
           </q-item-section>
 
           <q-item-section side>
-            <q-item-label lines="1">Ruddy Jedrzej</q-item-label>
-            <q-item-label caption lines="1">VERRRYY LOOONNNGGGGGG TEXTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT</q-item-label>
+            <q-item-label lines="1">
+              Ruddy Jedrzej
+            </q-item-label>
+            <q-item-label caption lines="1">
+              VERRRYY LOOONNNGGGGGG TEXTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+            </q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
