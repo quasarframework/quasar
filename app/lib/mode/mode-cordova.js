@@ -39,6 +39,11 @@ class Mode {
       pkg = require(appPaths.resolve.app('package.json')),
       appName = pkg.productName || pkg.name || 'Quasar App'
 
+    if (/^[0-9]/.test(appName)) {
+      warn(`⚠️  App name cannot start with a number. Aborting.`)
+      return
+    }
+    
     log('Creating Cordova source folder...')
 
     spawn.sync(
