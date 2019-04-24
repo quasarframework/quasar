@@ -1840,7 +1840,7 @@ Replace `:handler` with `@load`.
 
 - Type of `stack-label` was changed from `string` to `boolean`
 - Type of `display-value` was changed from `string` to `string|number`
-- When the option list is an array of objects (as opposed to simple strings or numbers), upgraders may want to turn on the `emit-value` and `map-options` flags to preserve the behavior of previous versions. 1.0 defaults to emitting the entire object, not just the `value` property, upon selection. Also, during initialization, if the model is a simple value, 1.0 will display it exactly, and not attempt to find the associated `label` property among the option list. 
+- When the option list is an array of objects (as opposed to simple strings or numbers), upgraders may want to turn on the `emit-value` and `map-options` flags to preserve the behavior of previous versions. 1.0 defaults to emitting the entire object, not just the `value` property, upon selection.
 
 <div class="row">
   <div class="inline-block q-pa-md">
