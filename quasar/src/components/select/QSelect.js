@@ -846,7 +846,7 @@ export default Vue.extend({
     __getDialog (h) {
       const content = [
         h(QField, {
-          staticClass: 'col-auto q-select',
+          staticClass: `col-auto ${this.fieldClass}`,
           props: {
             ...this.$props,
             dark: this.optionsDark,
