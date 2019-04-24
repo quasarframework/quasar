@@ -77,7 +77,11 @@ export default {
         .replace(/___TEMP_REPLACEMENT___/gs, '>')
         .trim()
     },
-
+    backLink () {
+      return `  <div class="absolute-bottom bg-blue-4 shadow-up-4">
+    <q-btn type="a" target="_blank" href="https://v1.quasar-framework.org${this.$route.path}#Example--${this.title}" label="Return to ${this.computedTitle}" color="blue" size="sm" class="float-right q-ma-sm"></q-btn>
+  </div>`
+    },
     editors () {
       const flag = (this.html && 0b100) | (this.css && 0b010) | (this.js && 0b001)
       return flag.toString(2)
@@ -105,6 +109,7 @@ export default {
         html:
           `<div id="q-app">
   ${this.html}
+  ${this.backLink}
 </div>`,
         css: this.css,
         css_pre_processor: this.cssPreprocessor,
