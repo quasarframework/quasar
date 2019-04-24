@@ -211,6 +211,7 @@
         :filter="filter"
         :selection="selection"
         :selected.sync="selected"
+        @selection="onSelection"
         :visible-columns="visibleColumns"
         row-key="name"
       >
@@ -902,6 +903,9 @@ export default {
         this.serverData = rows
         this.loading = false
       }, 2000)
+    },
+    onSelection (rows, added) {
+      console.log(added ? 'selected' : 'un-selected', rows)
     }
   },
   mounted () {
