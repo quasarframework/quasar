@@ -730,6 +730,26 @@
           </q-item-section>
         </q-item>
       </q-list>
+
+      <q-list class="q-my-sm" bordered style="max-width: 100px">
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-avatar color="primary" text-color="white">
+              R
+            </q-avatar>
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label lines="2">Ruddy Jedrzej</q-item-label>
+            <q-item-label caption lines="1">VERRRYY LOOONNNGGGGGG TEXTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT</q-item-label>
+          </q-item-section>
+
+          <q-item-section side>
+            <q-item-label lines="1">Ruddy Jedrzej</q-item-label>
+            <q-item-label caption lines="1">VERRRYY LOOONNNGGGGGG TEXTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
     </div>
   </div>
 </template>
