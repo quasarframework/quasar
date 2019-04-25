@@ -1321,7 +1321,6 @@ Replace `:handler` with `@load`.
 
 |Legacy|v1|
 |-|-|
-|`blur()`||
 |`clear()`||
 |`select()`||
 |`togglePass()`||
