@@ -241,6 +241,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Michael Alford
 - Joseph Phillips
 - Harshad Gole
+- David McLean
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
