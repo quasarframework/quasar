@@ -9,7 +9,8 @@ export default {
     noErrorIcon: Boolean,
 
     rules: Array,
-    lazyRules: Boolean
+    lazyRules: Boolean,
+    instantRules: Boolean,
   },
 
   data () {
@@ -52,6 +53,7 @@ export default {
   mounted () {
     this.validateIndex = 0
     this.focused === void 0 && this.$el.addEventListener('focusout', this.__triggerValidation)
+    this.instantRules && this.__triggerValidation()
   },
 
   beforeDestroy () {
