@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../observer/QResizeObserver.js'
 
+import { stop } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 function getIndicatorClass (color, top, vertical) {
@@ -371,7 +372,10 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-tabs row no-wrap items-center',
       class: this.classes,
-      on: this.$listeners,
+      on: {
+        input: stop,
+        ...this.$listeners
+      },
       attrs: { role: 'tablist' }
     }, [
       h(QResizeObserver, {

@@ -4,6 +4,7 @@ import uid from '../../utils/uid.js'
 import QIcon from '../icon/QIcon.js'
 import RippleMixin from '../../mixins/ripple.js'
 
+import { stop } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
@@ -125,6 +126,7 @@ export default Vue.extend({
           { name: 'ripple', value: this.ripple }
         ],
         [tag === 'div' ? 'on' : 'nativeOn']: {
+          input: stop,
           ...this.$listeners,
           click: this.activate,
           keyup: this.__onKeyup
