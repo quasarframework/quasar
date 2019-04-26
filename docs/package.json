@@ -11,7 +11,19 @@
     "build": "quasar build -m ssr",
     "deploy": "yarn build && cd dist/ssr && now --public",
     "lint": "eslint --ext .js,.vue src",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "test:e2e": "wdio ./test/webdriver/config/wdio.conf.js",
+    "test:e2e:appium": "wdio ./test/webdriver/config/wdio.appium.conf.js",
+    "test:e2e:electron": "wdio ./test/webdriver/config/wdio.electron.conf.js",
+    "selenium:install": "selenium-standalone install",
+    "selenium:start": "selenium-standalone start",
+    "electron-chromedriver": "./node_modules/electron-chromedriver/bin/chromedriver --port=9515 --url-base=wd/hub --verbose",
+    "serve:test:coverage": "quasar serve ./test/jest/coverage/lcov-report --port 8790",
+    "serve:test:lighthouse": "quasar serve ./test/lighthouse/reports --port 8789",
+    "audit:snyk": "snyk test --json > ./test/audits/snyk.json",
+    "audit:node_modules": "yarn audit --json > ./test/audits/node_modules_audit.json",
+    "audit:licenses": "nlf --summary detail > ./test/audits/licenses.txt",
+    "audit:lighthouse": "lighthouse http://localhost:3000 view --output-path=./test/lighthouse/reports/index.html --config-path=./test/lighthouse/configs/full-config.js"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -22,6 +34,11 @@
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0-beta.14",
+    "@quasar/quasar-app-extension-testing": "^1.0.0-rc.6",
+    "@quasar/quasar-app-extension-testing-e2e-webdriver": "^1.0.0-beta.8",
+    "@quasar/quasar-app-extension-testing-quality": "^1.0.0-beta.6",
+    "@quasar/quasar-app-extension-testing-security": "^1.0.0-alpha.3",
+    "@quasar/quasar-app-extension-testing-unit-jest": "^1.0.0-beta.23",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
@@ -34,7 +51,8 @@
     "pug-plain-loader": "^1.0.0",
     "raw-loader": "^1.0.0",
     "strip-ansi": "=3.0.1",
-    "toml": "^2.3.5"
+    "toml": "^2.3.5",
+    "wallaby-vue-compiler": "^1.0.3"
   },
   "engines": {
     "node": ">= 8.9.0",

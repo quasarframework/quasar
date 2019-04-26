@@ -1,0 +1,57 @@
+{
+  "name": "internal-testing",
+  "version": "0.0.1",
+  "author": {
+    "name": "Daniel Thompson-Yvetot",
+    "url": "https://v1.quasar-framework.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue src",
+    "test": "echo \"See package.json => scripts for available tests.\" && exit 0",
+    "test:unit": "jest --updateSnapshot"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.10.0",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-vue": "^5.0.0",
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@types/jest": "^24.0.1",
+    "@vue/test-utils": "^1.0.0-beta.29",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^24.7.1",
+    "babel-plugin-transform-relative-paths": "^0.1.0",
+    "chai": "^4.2.0",
+    "concurrently": "^4.1.0",
+    "enhanced-resolve": "^4.1.0",
+    "jest": "^24.7.1",
+    "jest-serializer-vue": "^2.0.2",
+    "jest-transform-stub": "^2.0.0",
+    "loader-utils": "^1.2.3",
+    "promise": "^8.0.2",
+    "regenerator-runtime": "^0.13.1",
+    "vue-jest": "^3.0.2",
+    "wallaby-vue-compiler": "^1.0.3"
+  },
+  "engines": {
+    "node": ">= 10.15.3",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ],
+  "resolutions": {
+    "ajv": "6.8.1"
+  }
+}

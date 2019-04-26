@@ -5,7 +5,7 @@ dev-umd/dist
 dist/
 deploy/
 npm-debug.log
-test/unit/coverage/
+test/jest/coverage/
 test/e2e/dist/
 cordova
 *.sublime*

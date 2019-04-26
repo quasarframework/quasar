@@ -5,3 +5,4 @@
 debug.log
 package-lock.json
 .vscode/settings.json
+node_modules

@@ -1,0 +1,29 @@
+{
+  "extends": "defaults/configurations/google",
+
+  "env": {
+    "browser": false,
+    "node": true
+  },
+
+  "globals": {
+    "require": true,
+
+    "moquire": true,
+    "expect": true,
+    "sinon": true,
+    "describe": true,
+    "it": true,
+    "before": true,
+    "after": true,
+    "beforeEach": true,
+    "afterEach": true
+  },
+
+  "rules": {
+    "max-len": [1, 120, 4],
+    "no-invalid-this": 0,
+    "dot-location": 0,
+    "brace-style": [2, "stroustrup", { "allowSingleLine": true }]
+  }
+}

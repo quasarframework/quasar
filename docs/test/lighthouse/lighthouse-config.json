@@ -1,0 +1,8 @@
+{
+  "settings": {
+    "output": "html",
+    "output-path": "./test/lighthouse/reports",
+    "perf": true,
+    "view": true
+  }
+}

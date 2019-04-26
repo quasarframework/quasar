@@ -1,0 +1,14 @@
+{
+  "unit-jest": {
+    "runnerCommand": "jest"
+  },
+  "e2e-wdio": {
+    "runnerCommand": "wdio ./test/webdriver/config/wdio.conf.js"
+  },
+  "e2e-wdio-appium": {
+    "runnerCommand": "wdio ./test/webdriver/config/wdio.appium.conf.js"
+  },
+  "e2e-wdio-electron": {
+    "runnerCommand": "wdio ./test/webdriver/config/wdio.electron.conf.js"
+  }
+}

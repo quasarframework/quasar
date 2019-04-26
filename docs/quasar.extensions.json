@@ -1,0 +1,29 @@
+{
+  "@quasar/testing-unit-jest": {
+    "babel": "babelrc",
+    "options": [
+      "wallabyjs"
+    ]
+  },
+  "@quasar/testing-e2e-webdriver": {
+    "options": [
+      "scripts"
+    ]
+  },
+  "@quasar/testing-quality": {
+    "options": [
+      "scripts"
+    ]
+  },
+  "@quasar/testing-security": {
+    "options": []
+  },
+  "@quasar/testing": {
+    "harnesses": [
+      "unit-jest",
+      "e2e-webdriver",
+      "quality",
+      "security"
+    ]
+  }
+}
