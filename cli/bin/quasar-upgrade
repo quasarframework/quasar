@@ -93,7 +93,7 @@ function upgradeQuasar () {
   for (const type of Object.keys(deps)) {
     for (const packageName of Object.keys(pkg[type] || {})) {
       // is it a Quasar package?
-      if (name !== 'quasar' && !name.startsWith('@quasar/')) {
+      if (packageName !== 'quasar' && !packageName.startsWith('@quasar/')) {
         continue
       }
 
