@@ -1,8 +1,7 @@
 'use strict';
 
 var
-  fs = require('fs'),
-  fse = require('fs-extra'),
+  fs = require('fs-extra'),
   path = require('path'),
   quasarfs = require('../../lib/file-system')
   ;

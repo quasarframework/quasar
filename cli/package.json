@@ -38,6 +38,9 @@
     "npm": ">= 5.6.0",
     "yarn": ">= 1.6.0"
   },
+  "scripts": {
+    "test": "jest"
+  },
   "dependencies": {
     "async": "2.6.2",
     "chalk": "2.4.2",
@@ -69,5 +72,12 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.4.3",
+    "babel-jest": "^24.7.1",
+    "babel-plugin-dynamic-import-node": "^2.2.0",
+    "jest": "^24.7.1"
   }
 }
