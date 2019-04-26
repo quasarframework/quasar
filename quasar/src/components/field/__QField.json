@@ -69,6 +69,7 @@
     "clear-icon": {
       "type": "String",
       "desc": "Custom icon to use for the clear button when using along with 'clearable' prop",
+      "examples": [ "close" ],
       "category": "content"
     },
 
