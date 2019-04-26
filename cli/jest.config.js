@@ -4,7 +4,8 @@
 module.exports = {
   coverageDirectory: '<rootDir>/test/coverage',
   collectCoverageFrom: [
-    '<rootDir>/bin/*.js',
+    '<rootDir>/bin/quasar',
+    '<rootDir>/bin/quasar-create',
     '<rootDir>/lib/*.js'
   ],
   coverageThreshold: {
@@ -26,8 +27,6 @@ module.exports = {
   collectCoverage: true,
   transform: {
     '.*\\.js$': 'babel-jest'
-    // use these if NPM is being flaky
-    // '.*\\.js$': '<rootDir>/node_modules/@quasar/quasar-app-extension-testing-unit-jest/node_modules/babel-jest'
   },
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -51,9 +50,9 @@ module.exports = {
   // collectCoverageFrom: null,
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  coveragePathIgnorePatterns: [
+    "/node_modules/"
+  ],
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
