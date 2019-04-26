@@ -59,7 +59,6 @@
     "opn": "5.4.0",
     "ora": "3.1.0",
     "read-metadata": "1.0.0",
-    "resolve-from": "4.0.0",
     "rimraf": "2.6.3",
     "route-cache": "0.4.4",
     "selfsigned": "1.10.4",

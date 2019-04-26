@@ -44,6 +44,10 @@ const
 const root = require('../lib/get-project-root')()
 const { log, fatal } = require('../lib/logger')
 
+if (!root) {
+  fatal(`⚠️  Error. This command must be executed inside a Quasar project folder only.`)
+}
+
 if (!fs.existsSync(path.join(root, 'node_modules'))) {
   fatal('⚠️  Please run "yarn" / "npm install" first\n')
 }

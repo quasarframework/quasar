@@ -2,9 +2,16 @@
 
 require('../lib/node-version-check')
 
-const
-  path = require('path'),
-  resolveFrom = require('resolve-from')
+function getQuasarAppExecutable (which, root) {
+  try {
+    return require.resolve(which, {
+      paths: [ root ]
+    })
+  }
+  catch (e) {
+    return false
+  }
+}
 
 let cmd = process.argv[2]
 if (cmd === 'create') {
@@ -20,9 +27,16 @@ else if (cmd === 'upgrade') {
   require(`./quasar-upgrade`)
 }
 else {
-  const localFile = resolveFrom.silent(process.cwd(), path.join('@quasar/app/bin/quasar'))
+  const root = require('../lib/get-project-root')()
 
-  if (localFile && path.relative(localFile, __filename) !== '') {
+  const localFile = root
+    ? (
+      getQuasarAppExecutable('@quasar/app/bin/quasar', root) ||
+      getQuasarAppExecutable('quasar-cli/bin/quasar', root) // legacy <1.0
+    )
+    : void 0
+
+  if (localFile) {
     process.env.QUASAR_CLI_VERSION = require('../package.json').version
 
     global.quasarCli = {
@@ -33,58 +47,50 @@ else {
 `
     }
 
-    // deferring to local @quasar/app
+    // deferring to local @quasar/app or pre-v1 quasar-cli
     require(localFile)
   }
   else {
-    // legacy <1.0
-    const localFile = resolveFrom.silent(process.cwd(), path.join('quasar-cli/bin/quasar'))
-    if (localFile && path.relative(localFile, __filename) !== '') {
-      // deferring to local quasar-cli
-      require(localFile)
-    }
-    else {
-      const commands = [
-        'info',
-        'serve',
-        'help'
-      ]
+    const commands = [
+      'info',
+      'serve',
+      'help'
+    ]
 
-      if (cmd) {
-        if (cmd.length === 1) {
-          const mapToCmd = {
-            i: 'info',
-            s: 'serve',
-            h: 'help'
-          }
-          cmd = mapToCmd[cmd]
+    if (cmd) {
+      if (cmd.length === 1) {
+        const mapToCmd = {
+          i: 'info',
+          s: 'serve',
+          h: 'help'
         }
+        cmd = mapToCmd[cmd]
+      }
 
-        if (commands.includes(cmd)) {
-          process.argv.splice(2, 1)
-        }
-        else {
-          if (cmd === '-v' || cmd === '--version') {
-            console.log(require('../package.json').version)
-            process.exit(0)
-          }
-
-          const chalk = require('chalk')
-
-          console.log(`\n ${chalk.red(`Error`)} Unknown command "${ cmd }"`)
-
-          if (cmd.indexOf('-') === 0) {
-            console.log(`\n ${chalk.red(`Error`)} Command must come before the options`)
-          }
-
-          console.log()
-          cmd = 'help'
-        }
+      if (commands.includes(cmd)) {
+        process.argv.splice(2, 1)
       }
       else {
+        if (cmd === '-v' || cmd === '--version') {
+          console.log(require('../package.json').version)
+          process.exit(0)
+        }
+
+        const chalk = require('chalk')
+
+        console.log(`\n ${chalk.red(`Error`)} Unknown command "${ cmd }"`)
+
+        if (cmd.indexOf('-') === 0) {
+          console.log(`\n ${chalk.red(`Error`)} Command must come before the options`)
+        }
+
+        console.log()
         cmd = 'help'
       }
-      require(`./quasar-${cmd}`)
     }
+    else {
+      cmd = 'help'
+    }
+    require(`./quasar-${cmd}`)
   }
 }

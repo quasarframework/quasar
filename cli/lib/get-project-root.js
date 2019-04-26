@@ -12,7 +12,4 @@ module.exports = function () {
 
     dir = normalize(join(dir, '..'))
   }
-
-  const { fatal } = require('./logger')
-  fatal(`⚠️  Error. This command must be executed inside a Quasar project folder only.`)
 }
