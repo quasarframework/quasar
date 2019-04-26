@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QSEPARATOR from './../components/QSEPARATOR.vue'
 import { Quasar, QSeparator } from 'quasar'
 

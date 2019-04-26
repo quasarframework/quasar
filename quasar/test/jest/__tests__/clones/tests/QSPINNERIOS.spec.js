@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QSPINNERIOS from './../components/QSPINNERIOS.vue'
 import { Quasar, QSpinnerIos } from 'quasar'
 

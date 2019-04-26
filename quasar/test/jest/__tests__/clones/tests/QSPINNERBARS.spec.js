@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QSPINNERBARS from './../components/QSPINNERBARS.vue'
 import { Quasar, QSpinnerBars } from 'quasar'
 

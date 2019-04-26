@@ -45,12 +45,13 @@ module.exports = {
     '^quasar$': '<rootDir>/node_modules/quasar/dist/quasar.common.js',
     '^~/(.*)$': '<rootDir>/$1',
     '^src/(.*)$': '<rootDir>/src/$1',
-    '.*css$': '<rootDir>/test/jest/utils/stub.css'
+    '.*css$': '<rootDir>/test/jest/utils/stub.css',
+    '@$': '<rootDir>/src/$1'
   },
   transform: {
     '.*\\.vue$': 'vue-jest',
     '.*\\.js$': 'babel-jest',
-    '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
+    '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub'
     // use these if NPM is being flaky
     // '.*\\.vue$': '<rootDir>/node_modules/@quasar/quasar-app-extension-testing-unit-jest/node_modules/vue-jest',
     // '.*\\.js$': '<rootDir>/node_modules/@quasar/quasar-app-extension-testing-unit-jest/node_modules/babel-jest'

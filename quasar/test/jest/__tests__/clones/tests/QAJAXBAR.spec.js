@@ -5,8 +5,9 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QAJAXBAR from './../components/QAJAXBAR.vue'
-import { Quasar, QAjaxBar } from 'quasar'
+import { Quasar, QAjaxBar } from '~/dist/quasar.common.js'
 
 describe('generated QAjaxBar test', () => {
   const wrapper = mountQuasar(QAJAXBAR, {

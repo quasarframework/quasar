@@ -5,7 +5,7 @@ const path = require('path')
 
 console.log = jest.fn()
 
-describe('bin', function() {
+describe('quasar command', function() {
 
   const cmd = 'node ' + path.join(__dirname, '../../bin/quasar') + ' '
 

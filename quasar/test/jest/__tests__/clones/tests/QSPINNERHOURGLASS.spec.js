@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QSPINNERHOURGLASS from './../components/QSPINNERHOURGLASS.vue'
 import { Quasar, QSpinnerHourglass } from 'quasar'
 

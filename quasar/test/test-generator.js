@@ -1,7 +1,8 @@
 const fs = require('fs-extra')
+const path = require('path')
 
-let newApiDir = '../dist/api'
-let targetFolder = './jest/__tests__/generated'
+let newApiDir = path.join(__dirname, '../dist/api')
+let targetFolder = path.join(__dirname, './jest/__tests__/generated')
 
 if (fs.existsSync(targetFolder)) {
   fs.removeSync(targetFolder)
@@ -76,8 +77,10 @@ export default {
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
-import ${upperCaseName} from './../components/${vueFileName}'
-import { Quasar, ${name} } from 'quasar'
+import { mountQuasar } from '~/test/jest/utils'
+import ${upperCaseName} from '~/src/components/${vueFileName}'
+import { Quasar, ${name} } from '~/dist/quasar.common.js'
+'
 
 describe('generated ${name} test', () => {
   const wrapper = mountQuasar(${upperCaseName}, {

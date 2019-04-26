@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QSLIDETRANSITION from './../components/QSLIDETRANSITION.vue'
 import { Quasar, QSlideTransition } from 'quasar'
 

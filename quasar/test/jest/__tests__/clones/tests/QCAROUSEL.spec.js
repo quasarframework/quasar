@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QCAROUSEL from './../components/QCAROUSEL.vue'
 import { Quasar, QCarousel } from 'quasar'
 

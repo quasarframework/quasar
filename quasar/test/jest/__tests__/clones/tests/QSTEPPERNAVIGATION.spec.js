@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QSTEPPERNAVIGATION from './../components/QSTEPPERNAVIGATION.vue'
 import { Quasar, QStepperNavigation } from 'quasar'
 

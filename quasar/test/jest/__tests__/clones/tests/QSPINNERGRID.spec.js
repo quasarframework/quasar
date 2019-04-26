@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QSPINNERGRID from './../components/QSPINNERGRID.vue'
 import { Quasar, QSpinnerGrid } from 'quasar'
 

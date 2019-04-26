@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QSCROLLOBSERVER from './../components/QSCROLLOBSERVER.vue'
 import { Quasar, QScrollObserver } from 'quasar'
 

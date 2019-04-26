@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QRANGE from './../components/QRANGE.vue'
 import { Quasar, QRange } from 'quasar'
 

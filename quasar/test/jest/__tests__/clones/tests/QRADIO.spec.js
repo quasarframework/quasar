@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QRADIO from './../components/QRADIO.vue'
 import { Quasar, QRadio } from 'quasar'
 

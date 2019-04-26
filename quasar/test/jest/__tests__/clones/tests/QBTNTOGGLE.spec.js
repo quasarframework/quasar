@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QBTNTOGGLE from './../components/QBTNTOGGLE.vue'
 import { Quasar, QBtnToggle } from 'quasar'
 

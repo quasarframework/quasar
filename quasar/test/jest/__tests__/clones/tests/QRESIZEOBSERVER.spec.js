@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QRESIZEOBSERVER from './../components/QRESIZEOBSERVER.vue'
 import { Quasar, QResizeObserver } from 'quasar'
 

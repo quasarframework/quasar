@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QFABACTION from './../components/QFABACTION.vue'
 import { Quasar, QFabAction } from 'quasar'
 

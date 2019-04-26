@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QBREADCRUMBSEL from './../components/QBREADCRUMBSEL.vue'
 import { Quasar, QBreadcrumbsEl } from 'quasar'
 

@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QPAGESTICKY from './../components/QPAGESTICKY.vue'
 import { Quasar, QPageSticky } from 'quasar'
 

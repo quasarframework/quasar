@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QCIRCULARPROGRESS from './../components/QCIRCULARPROGRESS.vue'
 import { Quasar, QCircularProgress } from 'quasar'
 

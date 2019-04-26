@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QCHIP from './../components/QCHIP.vue'
 import { Quasar, QChip } from 'quasar'
 

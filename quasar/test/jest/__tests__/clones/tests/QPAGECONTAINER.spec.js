@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QPAGECONTAINER from './../components/QPAGECONTAINER.vue'
 import { Quasar, QPageContainer } from 'quasar'
 

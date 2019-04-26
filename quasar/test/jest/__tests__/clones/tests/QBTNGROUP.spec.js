@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QBTNGROUP from './../components/QBTNGROUP.vue'
 import { Quasar, QBtnGroup } from 'quasar'
 

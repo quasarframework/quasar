@@ -5,6 +5,7 @@
  */
 
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
+import { mountQuasar } from '~/test/jest/utils'
 import QBTNDROPDOWN from './../components/QBTNDROPDOWN.vue'
 import { Quasar, QBtnDropdown } from 'quasar'
 
