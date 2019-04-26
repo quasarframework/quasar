@@ -100,6 +100,21 @@ module.exports = function (cfg, configName) {
     // write package.json file
     chain.plugin('package-json')
       .use(ElectronPackageJson)
+
+    const CopyWebpackPlugin = require('copy-webpack-plugin')
+    chain.plugin('copy-webpack')
+      .use(CopyWebpackPlugin, [[
+        // copy optional .npmrc
+        {
+          from: appPaths.resolve.app('.npmrc'),
+          to: '.'
+        },
+        // copy optional .yarnrc
+        {
+          from: appPaths.resolve.app('.yarnrc'),
+          to: '.'
+        }
+      ]])
   }
 
   return chain

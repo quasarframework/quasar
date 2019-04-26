@@ -47,15 +47,25 @@ module.exports = function (chain, cfg) {
     chain.plugin('ssr-artifacts')
       .use(SsrProdArtifacts, [ cfg ])
 
-    // copy src-ssr to dist folder in /server
     const CopyWebpackPlugin = require('copy-webpack-plugin')
     chain.plugin('copy-webpack')
-      .use(CopyWebpackPlugin, [
-        [{
+      .use(CopyWebpackPlugin, [[
+        // copy src-ssr to dist folder in /server
+        {
           from: cfg.ssr.__dir,
           to: '../server',
           ignore: ['.*']
-        }]
-      ])
+        },
+        // copy optional .npmrc
+        {
+          from: appPaths.resolve.app('.npmrc'),
+          to: '..'
+        },
+        // copy optional .yarnrc
+        {
+          from: appPaths.resolve.app('.yarnrc'),
+          to: '..'
+        }
+      ]])
   }
 }

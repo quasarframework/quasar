@@ -14,6 +14,7 @@ function getQuasarAppExecutable (which, root) {
 }
 
 let cmd = process.argv[2]
+
 if (cmd === 'create') {
   process.argv.splice(2, 1)
   require(`./quasar-create`)
