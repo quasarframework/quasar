@@ -10,8 +10,6 @@ import { stop } from '../../utils/event.js'
 export default Vue.extend({
   name: 'QField',
 
-  inheritAttrs: false,
-
   mixins: [ ValidateMixin ],
 
   props: {

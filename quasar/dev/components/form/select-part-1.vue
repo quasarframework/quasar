@@ -28,6 +28,7 @@
         v-model="stringSingle"
         :options="stringOptions"
         label="Single"
+        attr="gigi"
       >
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="search" />
