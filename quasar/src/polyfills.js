@@ -95,7 +95,7 @@ if (!String.prototype.endsWith) {
   }
 }
 
-if (!isSSR) {
+if (isSSR === false) {
   if (typeof Element.prototype.matches !== 'function') {
     Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.webkitMatchesSelector || function matches (selector) {
       let

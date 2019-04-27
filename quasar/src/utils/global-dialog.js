@@ -10,7 +10,7 @@ const ssrAPI = {
 
 export default function (Component) {
   return ({ className, style, ...props }) => {
-    if (isSSR) { return ssrAPI }
+    if (isSSR === true) { return ssrAPI }
 
     className !== void 0 && (props.contentClass = className)
     style !== void 0 && (props.contentStyle = style)

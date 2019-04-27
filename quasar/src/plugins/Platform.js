@@ -150,7 +150,7 @@ function getPlatform (userAgent) {
   browser.name = matched.browser
   browser.platform = matched.platform
 
-  if (!isSSR) {
+  if (isSSR === false) {
     if (window.process && window.process.versions && window.process.versions.electron) {
       browser.electron = true
     }
@@ -165,7 +165,7 @@ function getPlatform (userAgent) {
       browser.electron === void 0 &&
       !!document.querySelector('[data-server-rendered]')
 
-    fromSSR && (onSSR = true)
+    fromSSR === true && (onSSR = true)
   }
 
   return browser
@@ -221,7 +221,7 @@ export default {
   },
 
   install ($q, queues) {
-    if (isSSR) {
+    if (isSSR === true) {
       queues.server.push((q, ctx) => {
         q.platform = this.parseSSR(ctx.ssr)
       })
@@ -230,7 +230,7 @@ export default {
 
     this.is = getPlatform()
 
-    if (fromSSR) {
+    if (fromSSR === true) {
       queues.takeover.push(q => {
         onSSR = fromSSR = false
         Object.assign(q.platform, getClientProperties())

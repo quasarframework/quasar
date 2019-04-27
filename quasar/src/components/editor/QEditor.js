@@ -313,7 +313,7 @@ export default Vue.extend({
   },
 
   created () {
-    if (!isSSR) {
+    if (isSSR === false) {
       document.execCommand('defaultParagraphSeparator', false, 'div')
       this.defaultFont = window.getComputedStyle(document.body).fontFamily
     }
