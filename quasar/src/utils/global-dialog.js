@@ -9,11 +9,21 @@ const ssrAPI = {
 }
 
 export default function (Component) {
-  return ({ className, style, ...props }) => {
+  return ({ className, class: klass, style, ...props }) => {
     if (isSSR === true) { return ssrAPI }
 
-    className !== void 0 && (props.contentClass = className)
-    style !== void 0 && (props.contentStyle = style)
+    // TODO remove in v1 final
+    if (className !== void 0) {
+      props.cardClass = className
+
+      const p = process.env
+      if (p.PROD !== true) {
+        console.info('\n\n[Quasar] Dialog/BottomSheet Plugin info: please rename "className" to "class" prop')
+      }
+    }
+
+    klass !== void 0 && (props.cardClass = klass)
+    style !== void 0 && (props.cardStyle = style)
 
     const
       okFns = [],

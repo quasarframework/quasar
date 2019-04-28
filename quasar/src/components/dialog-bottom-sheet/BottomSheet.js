@@ -22,12 +22,11 @@ export default Vue.extend({
     actions: Array,
 
     grid: Boolean,
-    width: String,
 
-    color: {
-      type: String,
-      default: 'primary'
-    }
+    cardClass: [String, Array, Object],
+    cardStyle: [String, Array, Object],
+
+    dark: Boolean
   },
 
   methods: {
@@ -49,7 +48,10 @@ export default Vue.extend({
     __getGrid (h) {
       return this.actions.map(action => {
         return action.label === void 0
-          ? h(QSeparator, { staticClass: 'col-all' })
+          ? h(QSeparator, {
+            staticClass: 'col-all',
+            props: { dark: this.dark }
+          })
           : h('div', {
             staticClass: 'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
             class: action.classes,
@@ -78,13 +80,14 @@ export default Vue.extend({
     __getList (h) {
       return this.actions.map(action => {
         return action.label === void 0
-          ? h(QSeparator, { props: { spaced: true } })
+          ? h(QSeparator, { props: { spaced: true, dark: this.dark } })
           : h(QItem, {
             staticClass: 'q-bottom-sheet__item',
             class: action.classes,
             props: {
               tabindex: 0,
-              clickable: true
+              clickable: true,
+              dark: this.dark
             },
             on: {
               click: () => this.onOk(action),
@@ -150,8 +153,10 @@ export default Vue.extend({
       }
     }, [
       h(QCard, {
-        staticClass: `q-bottom-sheet q-bottom-sheet--${this.grid ? 'grid' : 'list'}`,
-        style: { width: this.width }
+        staticClass: `q-bottom-sheet q-bottom-sheet--${this.grid === true ? 'grid' : 'list'}` +
+          (this.dark === true ? ' q-bottom-sheet--dark' : ''),
+        style: this.cardStyle,
+        class: this.cardClass
       }, child)
     ])
   }

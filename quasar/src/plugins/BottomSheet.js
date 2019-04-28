@@ -1,4 +1,4 @@
-import BottomSheet from '../components/bottom-sheet/BottomSheet.js'
+import BottomSheet from '../components/dialog-bottom-sheet/BottomSheet.js'
 import globalDialog from '../utils/global-dialog.js'
 
 export default {

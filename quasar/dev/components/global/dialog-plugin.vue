@@ -2,6 +2,7 @@
   <div class="q-layout-padding q-mx-auto">
     <div class="row justify-center">
       <div class="q-gutter-md" style="max-width: 700px">
+        <q-toggle v-model="dark" label="Dark" />
         <q-btn label="Alert" flat color="primary" @click="alert" />
         <q-btn label="Alert - custom" flat color="primary" @click="alertCustom" />
         <q-btn label="Confirm" flat color="primary" @click="confirm" />
@@ -23,6 +24,12 @@
 
 <script>
 export default {
+  data () {
+    return {
+      dark: false
+    }
+  },
+
   methods: {
     hideDialog () {
       if (this.dialogHandler !== void 0) {
@@ -33,7 +40,8 @@ export default {
     alert () {
       this.dialogHandler = this.$q.dialog({
         title: 'Alert',
-        message: 'Some message'
+        message: 'Some message',
+        dark: this.dark
       }).onOk(() => {
         console.log('OK')
       }).onCancel(() => {
@@ -47,8 +55,11 @@ export default {
       this.dialogHandler = this.$q.dialog({
         title: 'Alert',
         message: 'Some message',
-        style: { backgroundColor: 'red' },
-        className: 'custom-dialog'
+        class: 'custom-dialog',
+        dark: this.dark,
+        ok: {
+          color: 'black'
+        }
       }).onOk(() => {
         console.log('OK')
       }).onCancel(() => {
@@ -63,13 +74,15 @@ export default {
         title: 'Confirm',
         message: 'Would you like to turn on the wifi?',
         ok: {
-          push: true
+          push: true,
+          textColor: this.dark ? 'primary' : 'white'
         },
         cancel: {
           push: true,
           color: 'negative'
         },
-        persistent: true
+        persistent: true,
+        dark: this.dark
       }).onOk(() => {
         console.log('>>>> OK')
       }).onOk(() => {
@@ -91,7 +104,8 @@ export default {
         },
         cancel: true,
         persistent: true,
-        color: 'secondary'
+        color: 'secondary',
+        dark: this.dark
       }).onOk(data => {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
@@ -116,7 +130,8 @@ export default {
           ]
         },
         cancel: true,
-        persistent: true
+        persistent: true,
+        dark: this.dark
       }).onOk(data => {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
@@ -141,7 +156,8 @@ export default {
           ]
         },
         cancel: true,
-        persistent: true
+        persistent: true,
+        dark: this.dark
       }).onOk(data => {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
@@ -166,7 +182,8 @@ export default {
           ]
         },
         cancel: true,
-        persistent: true
+        persistent: true,
+        dark: this.dark
       }).onOk(data => {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {
@@ -180,7 +197,8 @@ export default {
       this.dialogHandler = this.$q.dialog({
         title: 'Positioned',
         message: 'This dialog appears from bottom.',
-        position: 'bottom'
+        position: 'bottom',
+        dark: this.dark
       }).onDismiss(() => {
         this.dialogHandler = void 0
       })
@@ -190,7 +208,8 @@ export default {
       this.dialogHandler = this.$q.dialog({
         title: 'Stacked Buttons',
         stackButtons: true,
-        cancel: true
+        cancel: true,
+        dark: this.dark
       }).onDismiss(() => {
         this.dialogHandler = void 0
       })
@@ -199,7 +218,8 @@ export default {
     autoClose () {
       this.dialogHandler = this.$q.dialog({
         title: 'Alert',
-        message: 'Autoclosing in 3 seconds.'
+        message: 'Autoclosing in 3 seconds.',
+        dark: this.dark
       }).onOk(() => {
         console.log('OK')
         clearTimeout(timer)
@@ -222,3 +242,10 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.custom-dialog
+  color #33c
+  background-color #ee9
+  padding 40px
+</style>

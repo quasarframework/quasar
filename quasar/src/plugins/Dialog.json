@@ -106,13 +106,6 @@
               }
             },
 
-            "width": {
-              "type": "String",
-              "desc": "The width of the dialog (including CSS unit)",
-              "default": "400px",
-              "examples": [ "480px", "25em", "60%", "auto" ]
-            },
-
             "stackButtons": {
               "type": "Boolean",
               "desc": "Makes buttons be stacked instead of vertically aligned"
@@ -120,6 +113,11 @@
 
             "color": {
               "extends": "color"
+            },
+
+            "dark": {
+              "extends": "dark",
+              "desc": "Apply dark mode"
             },
 
             "persistent": {
