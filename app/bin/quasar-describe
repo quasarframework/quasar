@@ -9,14 +9,37 @@ const
   logger = require('../lib/helpers/logger'),
   warn = logger('app:describe', 'red')
 
+const printArgs = {
+  p: 'props',
+  s: 'slots',
+  m: 'methods',
+  e: 'events',
+  v: 'value',
+  a: 'arg',
+  M: 'modifiers',
+  i: 'injection',
+  q: 'quasar'
+}
+
 const argv = parseArgs(process.argv.slice(2), {
-  alias: {
-    h: 'help'
-  },
-  boolean: ['h']
+  alias: Object.assign({
+    h: 'help',
+    f: 'filter'
+  }, printArgs),
+  boolean: ['h'].concat(Object.keys(printArgs)),
+  string: ['f']
 })
 
 const item = argv._[0]
+
+const filter = argv.filter;
+
+const printFlags = {}
+Object.values(printArgs).forEach(opt => {
+  if (argv[opt])
+    printFlags[opt] = true
+})
+const hasPrintFlags = Object.keys(printFlags).length > 0
 
 if (!item || argv.help) {
   console.log(`
@@ -29,7 +52,17 @@ if (!item || argv.help) {
     $ quasar describe QIcon
 
   Options
-    --help, -h     Displays this message
+    --help, -h            Displays this message
+    --filter, -f <filter> Filters the API
+    --props, -p           Displays the API props
+    --slots, -s           Displays the API slots
+    --methods, -m         Displays the API methods
+    --events, -e          Displays the API events
+    --value, -v           Displays the API value
+    --arg, -a             Displays the API arg
+    --modifiers, -M       Displays the API modifiers
+    --injection, -i       Displays the API injection
+    --quasar, -q          Displays the API quasar conf options
   `)
   process.exit(0)
 }
@@ -187,11 +220,12 @@ function printProp (prop, propName, indentLevel) {
 
 function printProperties ({ props }) {
   console.log('\n ' + chalk.underline('Properties'))
-  if (props === void 0 || Object.keys(props).length === 0) {
+  const filtered = Object.keys(props).filter(k => !filter || k.includes(filter))
+  if (filtered === void 0 || Object.keys(filtered).length === 0) {
     console.log('\n   ' + chalk.italic('*No properties*'))
   }
   else {
-    for (let propName in props) {
+    for (let propName of filtered) {
       console.log()
       printProp(props[propName], propName, 3)
     }
@@ -200,11 +234,12 @@ function printProperties ({ props }) {
 
 function printSlots ({ slots }) {
   console.log('\n ' + chalk.underline('Slots'))
-  if (slots === void 0 || Object.keys(slots).length === 0) {
+  const filtered = Object.keys(slots).filter(k => !filter || k.includes(filter))
+  if (filtered === void 0 || Object.keys(filtered).length === 0) {
     console.log('\n   ' + chalk.italic('*No slots*'))
   }
   else {
-    for (let slot in slots) {
+    for (let slot of filtered) {
       console.log('\n   ' + chalk.green(slot))
       console.log('     ' + slots[slot].desc)
     }
@@ -213,11 +248,12 @@ function printSlots ({ slots }) {
 
 function printScopedSlots ({ scopedSlots }) {
   console.log('\n ' + chalk.underline('Scoped Slots'))
-  if (scopedSlots === void 0 || Object.keys(scopedSlots).length === 0) {
+  const filtered = Object.keys(scopedSlots).filter(k => !filter || k.includes(filter))
+  if (filtered === void 0 || Object.keys(filtered).length === 0) {
     console.log('\n   ' + chalk.italic('*No scoped slots*'))
   }
   else {
-    for (let slot in scopedSlots) {
+    for (let slot of filtered) {
       console.log()
       printProp(scopedSlots[slot], slot, 3)
     }
@@ -227,15 +263,17 @@ function printScopedSlots ({ scopedSlots }) {
 function printEvents ({ events, behavior = {} }) {
   console.log('\n ' + chalk.underline('Events'))
 
+  const filtered = Object.keys(events).filter(k => !filter || k.includes(filter))
+
   if (behavior.$listeners !== void 0) {
     console.log(`\n   ${chalk.italic(behavior.$listeners.desc)}`)
   }
-  else if (events === void 0 || Object.keys(events).length === 0) {
+  else if (filtered === void 0 || Object.keys(filtered).length === 0) {
     console.log('\n   ' + chalk.italic('*No events*'))
     return
   }
 
-  for (let eventName in events) {
+  for (let eventName of filtered) {
     const event = events[eventName]
 
     console.log('\n   @' + chalk.green(eventName) + getEventParams(event))
@@ -254,11 +292,12 @@ function printEvents ({ events, behavior = {} }) {
 
 function printMethods ({ methods }) {
   console.log('\n ' + chalk.underline('Methods'))
-  if (methods === void 0 || Object.keys(methods).length === 0) {
+  const filtered = Object.keys(methods).filter(k => !filter || k.includes(filter))
+  if (filtered === void 0 || Object.keys(filtered).length === 0) {
     console.log('\n   ' + chalk.italic('*No methods*'))
   }
   else {
-    for (let methodName in methods) {
+    for (let methodName of filtered) {
       const method = methods[methodName]
       console.log('\n   ' + chalk.green(methodName) + getMethodParams(method) + getMethodReturnValue(method))
       console.log('     ' + method.desc)
@@ -301,11 +340,12 @@ function printArg ({ arg }) {
 
 function printModifiers ({ modifiers }) {
   console.log('\n ' + chalk.underline('Modifiers'))
-  if (modifiers === void 0 || Object.keys(modifiers).length === 0) {
+  const filtered = Object.keys(modifiers).filter(k => !filter || k.includes(filter))
+  if (filtered === void 0 || Object.keys(filtered).length === 0) {
     console.log('\n   ' + chalk.italic('*No methods*'))
   }
   else {
-    for (let modifierName in modifiers) {
+    for (let modifierName of filtered) {
       const modifier = modifiers[modifierName]
       console.log('\n   ' + chalk.green(modifierName))
       printProp(modifier, void 0, 5)
@@ -331,34 +371,73 @@ function printQuasarConfOptions ({ quasarConfOptions: conf }) {
   else {
     console.log('\n   Property name: ' + chalk.green(conf.propName))
     console.log('   Definition:')
-    for (let propName in conf.definition) {
+    const filtered = Object.keys(conf.definition).filter(k => !filter || k.includes(filter))
+    for (let propName of filtered) {
       console.log()
       printProp(conf.definition[propName], propName, 5)
     }
   }
 }
 
+function printFromFlags(api, allowed) {
+  for (let printArg in printFlags) {
+    if (allowed.includes(printArg)) {
+      const _printFns = printFns[printArg]
+      for (let printFunc of _printFns)
+        printFunc(api)
+    }
+    else {
+      console.warn(`API with type ${api.type} doesn't have an entry for ${printArg}.`)
+    }
+  }
+}
+
+const printFns = {
+  props: [printProperties],
+  slots: [printSlots, printScopedSlots],
+  methods: [printMethods],
+  events: [printEvents],
+  value: [printValue],
+  arg: [printArg],
+  modifiers: [printModifiers],
+  injection: [printInjection],
+  quasar: [printQuasarConfOptions]
+}
+
 function describe (api) {
   switch (api.type) {
     case 'component':
-      printProperties(api)
-      printSlots(api)
-      printScopedSlots(api)
-      printEvents(api)
-      printMethods(api)
+      if (hasPrintFlags)
+        printFromFlags(api, ['props', 'slots', 'events', 'methods'])
+      else {
+        printProperties(api)
+        printSlots(api)
+        printScopedSlots(api)
+        printEvents(api)
+        printMethods(api)
+      }
       break
 
     case 'directive':
-      printValue(api)
-      printArg(api)
-      printModifiers(api)
+      if (hasPrintFlags)
+        printFromFlags(api, ['value', 'arg', 'modifiers'])
+      else {   
+        printValue(api)
+        printArg(api)
+        printModifiers(api)
+      }
       break
 
     case 'plugin':
-      printInjection(api)
-      printQuasarConfOptions(api)
-      printProperties(api)
-      printMethods(api)
+      if (hasPrintFlags) {
+        printFromFlags(api, ['injection', 'quasar', 'props'])
+      }
+      else {
+        printInjection(api)
+        printQuasarConfOptions(api)
+        printProperties(api)
+        printMethods(api)
+      }
       break
   }
 }
