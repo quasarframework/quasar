@@ -31,7 +31,6 @@ export default Vue.extend({
 
   methods: {
     show () {
-      this.cancelled = true
       this.$refs.dialog.show()
     },
 
@@ -40,7 +39,6 @@ export default Vue.extend({
     },
 
     onOk (action) {
-      this.cancelled = false
       this.$emit('ok', action)
       this.hide()
     },
@@ -147,7 +145,6 @@ export default Vue.extend({
 
       on: {
         hide: () => {
-          this.cancelled === true && this.$emit('cancel')
           this.$emit('hide')
         }
       }

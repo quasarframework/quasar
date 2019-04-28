@@ -13,6 +13,7 @@
         <q-btn label="Positioned" flat color="primary" @click="positioned" />
         <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
         <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
+        <q-btn label="Custom component" flat color="primary" @click="customComponent" />
       </div>
     </div>
 
@@ -23,6 +24,8 @@
 </template>
 
 <script>
+import DialogComponent from './dialog-component.js'
+
 export default {
   data () {
     return {
@@ -199,6 +202,10 @@ export default {
         message: 'This dialog appears from bottom.',
         position: 'bottom',
         dark: this.dark
+      }).onOk(() => {
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
       }).onDismiss(() => {
         this.dialogHandler = void 0
       })
@@ -210,6 +217,10 @@ export default {
         stackButtons: true,
         cancel: true,
         dark: this.dark
+      }).onOk(() => {
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
       }).onDismiss(() => {
         this.dialogHandler = void 0
       })
@@ -233,6 +244,20 @@ export default {
       const timer = setTimeout(() => {
         this.dialogHandler !== void 0 && this.dialogHandler.hide()
       }, 3000)
+    },
+
+    customComponent () {
+      this.dialogHandler = this.$q.dialog({
+        component: DialogComponent,
+        // props forwarded to component:
+        text: 'gigi'
+      }).onOk(() => {
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
+      }).onDismiss(() => {
+        this.dialogHandler = void 0
+      })
     }
   },
 
