@@ -467,8 +467,11 @@ function printInjection ({ injection }) {
   }
 }
 
-function printQuasarConfOptions ({ quasarConfOptions: conf }) {
-  const keys = Object.keys(conf.definition || {})
+function printQuasarConfOptions ({ quasarConfOptions }) {
+  const conf = quasarConfOptions !== void 0
+    ? quasarConfOptions.definition || {}
+    : {}
+  const keys = Object.keys(conf)
 
   console.log('\n ' + chalk.underline('quasar.conf > framework > config'))
 
@@ -480,20 +483,20 @@ function printQuasarConfOptions ({ quasarConfOptions: conf }) {
   if (argv.filter !== void 0) {
     keys.forEach(key => {
       if (key.indexOf(argv.filter) === -1) {
-        delete conf.definition[key]
+        delete conf[key]
       }
     })
-    if (Object.keys(conf.definition).length === 0) {
-      console.log('\n   ' + chalk.italic('*No matching slots*'))
+    if (Object.keys(conf).length === 0) {
+      console.log('\n   ' + chalk.italic('*No matching configuration options*'))
       return
     }
   }
 
   console.log('\n   Property name: ' + chalk.green(conf.propName))
   console.log('   Definition:')
-  for (let propName in conf.definition) {
+  for (let propName in conf) {
     console.log()
-    printProp(conf.definition[propName], propName, 5)
+    printProp(conf[propName], propName, 5)
   }
 }
 
