@@ -12,8 +12,6 @@ export default Vue.extend({
   mixins: [ AnchorMixin ],
 
   props: {
-    value: Boolean,
-
     breakpoint: {
       type: [String, Number],
       default: 450
@@ -21,61 +19,70 @@ export default Vue.extend({
   },
 
   data () {
+    const breakpoint = parseInt(this.breakpoint, 10)
     return {
-      showing: false,
-      type: null
+      type: this.$q.screen.width < breakpoint || this.$q.screen.height < breakpoint
+        ? 'dialog'
+        : 'menu'
+    }
+  },
+
+  computed: {
+    parsedBreakpoint () {
+      return parseInt(this.breakpoint, 10)
     }
   },
 
   watch: {
-    value (val) {
-      val !== this.showing && this[val ? 'show' : 'hide']()
+    '$q.screen.width' (width) {
+      if (this.$refs.popup.showing !== true) {
+        this.__updateType(width, this.$q.screen.height, this.parsedBreakpoint)
+      }
+    },
+
+    '$q.screen.height' (height) {
+      if (this.$refs.popup.showing !== true) {
+        this.__updateType(this.$q.screen.width, height, this.parsedBreakpoint)
+      }
+    },
+
+    breakpoint (breakpoint) {
+      if (this.$refs.popup.showing !== true) {
+        this.__updateType(this.$q.screen.width, this.$q.screen.height, parseInt(breakpoint, 10))
+      }
     }
   },
 
   methods: {
     toggle (evt) {
-      this[this.showing === true ? 'hide' : 'show'](evt)
+      this.$refs.popup.toggle(evt)
     },
 
     show (evt) {
-      if (
-        this.showing === true ||
-        (this.__showCondition !== void 0 && this.__showCondition(evt) !== true)
-      ) {
-        return
-      }
+      this.$refs.popup.show(evt)
+    },
 
-      const breakpoint = parseInt(this.breakpoint, 10)
+    hide (evt) {
+      this.$refs.popup.hide(evt)
+    },
 
-      this.showing = true
-      this.$emit('input', true)
+    __onHide (evt) {
+      this.__updateType(this.$q.screen.width, this.$q.screen.height, this.parsedBreakpoint)
+      this.$emit('hide', evt)
+    },
 
-      this.type = this.$q.screen.width < breakpoint || this.$q.screen.height < breakpoint
+    __updateType (width, height, breakpoint) {
+      const type = width < breakpoint || height < breakpoint
         ? 'dialog'
         : 'menu'
-    },
 
-    hide () {
-      if (this.showing !== false) {
-        this.showing = false
-        this.$emit('input', false)
+      if (this.type !== type) {
+        this.type = type
       }
-    },
-
-    __hide (evt) {
-      this.showing = false
-      this.$emit('input', false)
-
-      this.$listeners.hide !== void 0 && this.$emit('hide', evt)
     }
   },
 
   render (h) {
-    if (this.type === null) {
-      return
-    }
-
     const child = slot(this, 'default')
 
     let props = (
@@ -91,12 +98,11 @@ export default Vue.extend({
     ) ? { cover: true, maxHeight: '99vh' } : {}
 
     const data = {
-      props: Object.assign(props, this.$attrs, {
-        value: this.showing
-      }),
+      ref: 'popup',
+      props: Object.assign(props, this.$attrs),
       on: {
         ...this.$listeners,
-        hide: this.__hide
+        hide: this.__onHide
       }
     }
 
@@ -107,6 +113,7 @@ export default Vue.extend({
     }
     else {
       component = QMenu
+      data.props.contextMenu = this.contextMenu
       data.props.noParentEvent = true
     }
 

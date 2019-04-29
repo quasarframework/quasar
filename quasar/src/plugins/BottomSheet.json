@@ -16,11 +16,13 @@
               "desc": "Title",
               "examples": [ "Share" ]
             },
+
             "message": {
               "type": "String",
               "desc": "Message",
               "examples": [ "Please select how to share" ]
             },
+
             "actions": {
               "type": "Array",
               "desc": "Array of Objects, each Object defining an action",
@@ -30,9 +32,11 @@
                   "desc": "CSS classes for this action",
                   "examples": [ "my-class" ]
                 },
+
                 "icon": {
                   "extends": "icon"
                 },
+
                 "img": {
                   "type": "String",
                   "desc": "Path to an image for this action",
@@ -42,10 +46,12 @@
                     "(URL) https://some-site.net/some-img.gif"
                   ]
                 },
+
                 "avatar": {
                   "type": "Boolean",
                   "desc": "Display img as avatar (round borders)"
                 },
+
                 "label": {
                   "type": [ "String", "Number" ],
                   "desc": "Action label",
@@ -53,22 +59,22 @@
                 }
               }
             },
+
             "grid": {
               "type": "Boolean",
               "desc": "Display actions as a grid instead of as a list"
             },
-            "width": {
-              "extends": "size",
-              "desc": "Specific Bottom Sheet width (in CSS unit, including unit name)"
+
+            "dark": {
+              "extends": "dark",
+              "desc": "Apply dark mode"
             },
-            "color": {
-              "extends": "color",
-              "default": "primary"
-            },
+
             "seamless": {
               "type": "Boolean",
               "desc": "Put Bottom Sheet into seamless mode; Does not use a backdrop so user is able to interact with the rest of the page too"
             },
+
             "persistent": {
               "type": "Boolean",
               "desc": "User cannot dismiss Bottom Sheet if clicking outside of it or hitting ESC key"

@@ -9,7 +9,6 @@ export default Vue.extend({
     overline: Boolean,
     caption: Boolean,
     header: Boolean,
-    inset: Boolean,
     lines: [Number, String]
   },
 
@@ -19,7 +18,6 @@ export default Vue.extend({
         'q-item__label--overline text-overline': this.overline,
         'q-item__label--caption text-caption': this.caption,
         'q-item__label--header': this.header,
-        'q-item__label--inset': this.inset,
         'ellipsis': parseInt(this.lines, 10) === 1
       }
     },

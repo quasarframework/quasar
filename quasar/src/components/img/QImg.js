@@ -35,7 +35,7 @@ export default Vue.extend({
     return {
       currentSrc: '',
       image: null,
-      isLoading: true,
+      isLoading: !!this.src,
       hasError: false,
       naturalRatio: void 0
     }
@@ -69,20 +69,19 @@ export default Vue.extend({
 
   methods: {
     __onLoad () {
-      this.isLoading = false
       this.__updateSrc()
       this.__updateWatcher(this.srcset)
       this.$emit('load', this.currentSrc)
     },
 
     __onError (err) {
-      this.isLoading = false
       this.hasError = true
+      this.currentSrc = ''
       this.$emit('error', err)
     },
 
     __updateSrc () {
-      if (this.image && this.isLoading === false) {
+      if (this.image !== void 0 && this.isLoading === false) {
         const src = this.image.currentSrc || this.image.src
         if (this.currentSrc !== src) {
           this.currentSrc = src
@@ -104,22 +103,42 @@ export default Vue.extend({
 
     __load () {
       clearTimeout(this.timer)
-      this.isLoading = true
       this.hasError = false
+
+      if (!this.src) {
+        this.isLoading = false
+        this.image = void 0
+        this.currentSrc = ''
+        return
+      }
+
+      this.isLoading = true
 
       const img = new Image()
       this.image = img
 
-      img.onerror = this.__onError
-      img.onload = () => {
-        if (this.image.decode) {
-          this.image
-            .decode()
-            .catch(this.__onError)
-            .then(this.__onLoad)
+      img.onerror = err => {
+        // if we are still rendering same image
+        if (this.image === img) {
+          this.isLoading = false
+          this.__onError(err)
         }
-        else {
-          this.__onLoad()
+      }
+
+      img.onload = () => {
+        // if we are still rendering same image
+        if (this.image === img) {
+          this.isLoading = false
+
+          if (this.image.decode) {
+            this.image
+              .decode()
+              .catch(this.__onError)
+              .then(this.__onLoad)
+          }
+          else {
+            this.__onLoad()
+          }
         }
       }
 
@@ -159,20 +178,21 @@ export default Vue.extend({
         }
       }) : null
 
-      if (this.basic) {
-        return content
-      }
-
-      return h('transition', {
-        props: { name: 'q-transition--' + this.transition }
-      }, [ content ])
+      return this.basic === true
+        ? content
+        : h('transition', {
+          props: { name: 'q-transition--' + this.transition }
+        }, [ content ])
     },
 
     __getContent (h) {
-      if (this.basic) {
+      const slotVm = slot(this, this.hasError === true ? 'error' : 'default')
+
+      if (this.basic === true) {
         return h('div', {
+          key: 'content',
           staticClass: 'q-img__content absolute-full'
-        }, slot(this, 'default'))
+        }, slotVm)
       }
 
       const content = this.isLoading === true
@@ -190,7 +210,7 @@ export default Vue.extend({
         : h('div', {
           key: 'content',
           staticClass: 'q-img__content absolute-full'
-        }, slot(this, this.hasError === true ? 'error' : 'default'))
+        }, slotVm)
 
       return h('transition', {
         props: { name: 'q-transition--fade' }
@@ -221,7 +241,7 @@ export default Vue.extend({
       img.src = this.placeholderSrc
       this.__computeRatio(img)
     }
-    this.src && this.__load()
+    this.isLoading === true && this.__load()
   },
 
   beforeDestroy () {

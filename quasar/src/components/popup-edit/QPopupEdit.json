@@ -45,6 +45,25 @@
       "default": "primary"
     },
 
+    "content-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the content",
+      "examples": [
+        "my-special-class"
+      ],
+      "category": "style"
+    },
+
+    "content-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the content",
+      "examples": [
+        "background-color: #ff0000",
+        ":content-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
     "validate": {
       "type": "Function",
       "desc": "Validates model then triggers 'save' and closes Popup; Returns a Boolean ('true' means valid, 'false' means abort); Syntax: validate(value)",

@@ -8,12 +8,22 @@ const ssrAPI = {
   hide: () => ssrAPI
 }
 
-export default function (Component) {
-  return ({ className, style, ...props }) => {
-    if (isSSR) { return ssrAPI }
+export default function (DefaultComponent) {
+  return ({ className, class: klass, style, component, ...props }) => {
+    if (isSSR === true) { return ssrAPI }
 
-    className !== void 0 && (props.contentClass = className)
-    style !== void 0 && (props.contentStyle = style)
+    // TODO remove in v1 final
+    if (className !== void 0) {
+      props.cardClass = className
+
+      const p = process.env
+      if (p.PROD !== true) {
+        console.info('\n\n[Quasar] Dialog/BottomSheet Plugin info: please rename "className" to "class" prop')
+      }
+    }
+
+    klass !== void 0 && (props.cardClass = klass)
+    style !== void 0 && (props.cardStyle = style)
 
     const
       okFns = [],
@@ -41,35 +51,42 @@ export default function (Component) {
     const node = document.createElement('div')
     document.body.appendChild(node)
 
-    const
-      ok = data => {
+    let emittedOK = false
+
+    const on = {
+      ok: data => {
+        emittedOK = true
         okFns.forEach(fn => { fn(data) })
       },
-      cancel = () => {
-        cancelFns.forEach(fn => { fn() })
+
+      hide: () => {
+        vm.$destroy()
+        vm.$el.remove()
+        vm = null
+
+        if (emittedOK !== true) {
+          cancelFns.forEach(fn => { fn() })
+        }
       }
+    }
+
+    const vmData = {}
+    Vue.util.defineReactive(vmData, 'props', props)
+
+    const DialogComponent = component !== void 0
+      ? component
+      : DefaultComponent
 
     let vm = new Vue({
       el: node,
 
-      data () {
-        return { props }
+      render (h) {
+        return h(DialogComponent, {
+          ref: 'dialog',
+          props: vmData.props,
+          on
+        })
       },
-
-      render: h => h(Component, {
-        ref: 'dialog',
-        props,
-        attrs: props,
-        on: {
-          ok,
-          cancel,
-          hide: () => {
-            vm.$destroy()
-            vm.$el.remove()
-            vm = null
-          }
-        }
-      }),
 
       mounted () {
         this.$refs.dialog.show()

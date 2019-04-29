@@ -130,6 +130,7 @@
 
       <div class="q-mt-xl">
         <p>Model is: {{ model }}</p>
+        <q-btn label="Show" @click="model = true" />
         <q-btn push color="primary" label="Open Popup">
           <q-popup-proxy v-model="model">
             <q-banner>
@@ -144,7 +145,6 @@
       </div>
 
       <div class="q-mt-xl">
-        <p>v-close-popup Model is: {{ model }}</p>
         <q-btn push color="primary" label="Open Popup">
           <q-popup-proxy>
             <q-banner>

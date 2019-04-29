@@ -41,7 +41,8 @@ if (argv.help) {
     --target, -T     (required) App target
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
     --emulator, -e   (optional) Emulator name
-                        Example: iPhone-7, iPhone-X
+                        Examples: iPhone-7, iPhone-X
+                        iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
   `)
   process.exit(0)
 }

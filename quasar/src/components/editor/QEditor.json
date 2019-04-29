@@ -15,6 +15,20 @@
       "extends": "readonly"
     },
 
+    "square": {
+      "extends": "square"
+    },
+
+    "flat": {
+      "extends": "flat",
+      "desc": "Applies a 'flat' design (no borders)"
+    },
+
+    "dense": {
+      "extends": "dense",
+      "desc": "Dense mode; toolbar buttons are shown on one-line only"
+    },
+
     "disable": {
       "extends": "disable"
     },
@@ -160,12 +174,6 @@
       "default": "grey-3",
       "examples": ["secondary", "blue-3"],
       "category": "toolbar"
-    },
-
-    "toolbar-flat": {
-      "type": "Boolean",
-      "desc": "Toolbar buttons are rendered \"flat\"",
-      "category": "toolbar|style"
     },
 
     "toolbar-outline": {

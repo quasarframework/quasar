@@ -44,26 +44,15 @@ const
 const root = require('../lib/get-project-root')()
 const { log, fatal } = require('../lib/logger')
 
+if (!root) {
+  fatal(`⚠️  Error. This command must be executed inside a Quasar project folder only.`)
+}
+
 if (!fs.existsSync(path.join(root, 'node_modules'))) {
   fatal('⚠️  Please run "yarn" / "npm install" first\n')
 }
 
 const pkg = require(path.join(root, 'package.json'))
-
-function isQuasarPackage (name) {
-  if (name === 'quasar') {
-    return true
-  }
-
-  if (
-    name.indexOf('@quasar/') > -1 &&
-    name.indexOf('quasar-app-extension') === -1
-  ) {
-    return true
-  }
-
-  return false
-}
 
 function getLatestVersion (packager, packageName, curVersion) {
   let versions = JSON.parse(
@@ -103,7 +92,8 @@ function upgradeQuasar () {
 
   for (const type of Object.keys(deps)) {
     for (const packageName of Object.keys(pkg[type] || {})) {
-      if (isQuasarPackage(packageName) === false) {
+      // is it a Quasar package?
+      if (packageName !== 'quasar' && !packageName.startsWith('@quasar/')) {
         continue
       }
 

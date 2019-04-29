@@ -5,7 +5,7 @@ import { isSSR } from './plugins/Platform.js'
 
 export default {
   install ($q, queues, lang) {
-    if (isSSR) {
+    if (isSSR === true) {
       queues.server.push((q, ctx) => {
         const
           opt = {
@@ -30,13 +30,13 @@ export default {
       lang.getLocale = this.getLocale
       lang.rtl = false
 
-      if (!isSSR) {
+      if (isSSR === false) {
         const el = document.documentElement
         el.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
         el.setAttribute('lang', lang.isoName)
       }
 
-      if (isSSR || $q.lang) {
+      if (isSSR === true || $q.lang !== void 0) {
         $q.lang = lang
       }
       else {
@@ -52,7 +52,7 @@ export default {
   },
 
   getLocale () {
-    if (isSSR) { return }
+    if (isSSR === true) { return }
 
     let val =
       navigator.language ||

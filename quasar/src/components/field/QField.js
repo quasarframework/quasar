@@ -29,13 +29,15 @@ export default Vue.extend({
     filled: Boolean,
     outlined: Boolean,
     borderless: Boolean,
-    standout: Boolean,
+    standout: [Boolean, String],
 
     square: Boolean,
 
     loading: Boolean,
 
     bottomSlots: Boolean,
+    hideBottomSpace: Boolean,
+
     rounded: Boolean,
     dense: Boolean,
     itemAligned: Boolean,
@@ -47,6 +49,8 @@ export default Vue.extend({
 
     disable: Boolean,
     readonly: Boolean,
+
+    autofocus: Boolean,
 
     maxlength: [Number, String],
     maxValues: [Number, String] // do not add to JSON, internally needed by QSelect
@@ -90,7 +94,11 @@ export default Vue.extend({
       return this.hasError === true ||
         this.stackLabel === true ||
         this.focused === true ||
-        this.hasValue === true ||
+        (
+          this.inputValue !== void 0 && this.hideSelected === true
+            ? this.inputValue.length > 0
+            : this.hasValue === true
+        ) ||
         (
           this.displayValue !== void 0 &&
           this.displayValue !== null &&
@@ -120,7 +128,7 @@ export default Vue.extend({
 
         'q-field--auto-height': this.__getControl === void 0,
 
-        'q-field--with-bottom': this.hasBottom,
+        'q-field--with-bottom': this.hideBottomSpace !== true && this.hasBottom,
         'q-field--error': this.hasError,
 
         'q-field--readonly': this.readonly,
@@ -132,7 +140,7 @@ export default Vue.extend({
       if (this.filled === true) { return 'filled' }
       if (this.outlined === true) { return 'outlined' }
       if (this.borderless === true) { return 'borderless' }
-      if (this.standout === true) { return 'standout' }
+      if (this.standout) { return 'standout' }
       return 'standard'
     },
 
@@ -141,6 +149,9 @@ export default Vue.extend({
 
       if (this.hasError) {
         cls.push('text-negative')
+      }
+      else if (typeof this.standout === 'string' && this.standout.length > 0 && this.focused === true) {
+        return this.standout
       }
       else if (this.color !== void 0) {
         cls.push('text-' + this.color)
@@ -248,14 +259,19 @@ export default Vue.extend({
           this.__getControl(h)
         )
       }
+      // internal usage only:
+      else if (this.$scopedSlots.rawControl !== void 0) {
+        node.push(this.$scopedSlots.rawControl())
+      }
       else if (this.$scopedSlots.control !== void 0) {
         node.push(
           h('div', {
             ref: 'target',
             staticClass: 'q-field__native row',
-            attrs: this.$attrs.tabindex !== void 0 ? {
-              tabindex: this.$attrs.tabindex
-            } : void 0
+            attrs: {
+              ...this.$attrs,
+              autofocus: this.autofocus
+            }
           }, this.$scopedSlots.control())
         )
       }
@@ -280,7 +296,7 @@ export default Vue.extend({
     },
 
     __getBottom (h) {
-      if (this.hasBottom !== true) { return }
+      if (this.hideBottomSpace !== true && this.hasBottom !== true) { return }
 
       let msg, key
 
@@ -305,17 +321,28 @@ export default Vue.extend({
         }
       }
 
-      return h('div', {
-        staticClass: 'q-field__bottom absolute-bottom row items-start relative-position'
-      }, [
-        h('transition', { props: { name: 'q-transition--field-message' } }, [
-          h('div', {
-            staticClass: 'q-field__messages col',
-            key
-          }, msg)
-        ]),
+      const hasCounter = this.counter === true || this.$scopedSlots.counter !== void 0
 
-        this.counter === true || this.$scopedSlots.counter !== void 0 ? h('div', {
+      if (this.hideBottomSpace === true && hasCounter === false && !msg) {
+        return
+      }
+
+      const main = h('div', {
+        staticClass: 'q-field__messages col',
+        key
+      }, msg)
+
+      return h('div', {
+        staticClass: 'q-field__bottom row items-start q-field__bottom--' +
+          (this.hideBottomSpace !== true ? 'animated' : 'stale')
+      }, [
+        this.hideBottomSpace === true
+          ? main
+          : h('transition', { props: { name: 'q-transition--field-message' } }, [
+            main
+          ]),
+
+        hasCounter === true ? h('div', {
           staticClass: 'q-field__counter'
         }, this.$scopedSlots.counter !== void 0 ? this.$scopedSlots.counter() : [ this.computedCounter ]) : null
       ])
@@ -366,11 +393,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
-      class: this.classes,
-      attrs: {
-        ...this.$attrs,
-        tabindex: void 0
-      }
+      class: this.classes
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
@@ -406,5 +429,9 @@ export default Vue.extend({
         focusin: this.__onControlFocusin,
         focusout: this.__onControlFocusout
       }
+  },
+
+  mounted () {
+    this.autofocus === true && setTimeout(this.focus)
   }
 })

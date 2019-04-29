@@ -7,6 +7,7 @@
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
         <q-toggle :dark="dark" v-model="bottomSlots" label="Bottom Slots" />
+        <q-toggle :dark="dark" v-model="hideBottomSpace" label="hide-bottom-space" />
         <q-toggle :dark="dark" v-model="prefSuf" label="Prefix + Suffix" />
         <q-toggle :dark="dark" v-model="hideHint" label="Hide Hint" />
         <q-toggle :dark="dark" v-model="textarea" label="Textarea" />
@@ -244,6 +245,12 @@
         </q-input>
       </div>
 
+      <div class="bg-white q-pa-lg">
+        <q-input :dense="dense" standout="bg-primary text-white" v-model="text">
+          <q-icon slot="append" name="search" />
+        </q-input>
+      </div>
+
       <div class="bg-primary q-pa-lg">
         <q-input :dense="dense" dark standout v-model="text">
           <q-icon slot="append" name="search" />
@@ -416,6 +423,7 @@ export default {
       prefSuf: false,
       hideHint: false,
       bottomSlots: true,
+      hideBottomSpace: false,
       square: false,
 
       fontSize: 14,
@@ -455,6 +463,7 @@ export default {
 
     props () {
       const props = {
+        hideBottomSpace: this.hideBottomSpace,
         dark: this.dark,
         type: this.type,
         autogrow: this.autogrow,

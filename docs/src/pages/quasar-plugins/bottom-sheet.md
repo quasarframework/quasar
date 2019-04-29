@@ -33,6 +33,8 @@ Also, when on a desktop browser, hitting the `ESCAPE` key also closes the Action
 
 <doc-example title="List and Grid" file="BottomSheet/Basic" />
 
+<doc-example title="Dark mode" file="BottomSheet/Dark" />
+
 ::: tip
 For an exhaustive list of options, please check API section.
 :::

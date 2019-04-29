@@ -8,7 +8,7 @@ let updateId, ssrTakeover
 function normalize (meta) {
   if (meta.title) {
     meta.title = meta.titleTemplate
-      ? meta.titleTemplate(meta.title || '')
+      ? meta.titleTemplate(meta.title)
       : meta.title
     delete meta.titleTemplate
   }
@@ -20,6 +20,7 @@ function normalize (meta) {
 
     for (let name in metaType) {
       const metaLink = metaType[name]
+
       if (metaLink.template) {
         if (Object.keys(metaLink).length === 1) {
           delete metaType[name]
@@ -38,22 +39,24 @@ function changed (old, def) {
     return true
   }
   for (let key in old) {
-    if (old[key] !== def[key]) { return true }
+    if (old[key] !== def[key]) {
+      return true
+    }
   }
 }
 
 function bodyFilter (name) {
-  return !['class', 'style'].includes(name)
+  return ['class', 'style'].includes(name) === false
 }
 
 function htmlFilter (name) {
-  return !['lang', 'dir'].includes(name)
+  return ['lang', 'dir'].includes(name) === false
 }
 
 function diff (meta, other) {
   let add = {}, remove = {}
 
-  if (!meta) {
+  if (meta === void 0) {
     return { add: other, remove }
   }
 
@@ -65,7 +68,7 @@ function diff (meta, other) {
     const old = meta[type], cur = other[type]
     remove[type] = []
 
-    if (!old) {
+    if (old === void 0 || old === null) {
       add[type] = cur
       return
     }
@@ -73,11 +76,15 @@ function diff (meta, other) {
     add[type] = {}
 
     for (let key in old) {
-      if (!cur.hasOwnProperty(key)) { remove[type].push(key) }
+      if (cur.hasOwnProperty(key) === false) {
+        remove[type].push(key)
+      }
     }
     for (let key in cur) {
-      if (!old.hasOwnProperty(key)) { add[type][key] = cur[key] }
-      else if (changed(old[key], cur[key])) {
+      if (old.hasOwnProperty(key) === false) {
+        add[type][key] = cur[key]
+      }
+      else if (changed(old[key], cur[key]) === true) {
         remove[type].push(key)
         add[type][key] = cur[key]
       }
@@ -132,21 +139,23 @@ function apply ({ add, remove }) {
 }
 
 function parseMeta (component, meta) {
-  if (component._inactive) { return }
+  if (component._inactive === true) { return }
 
-  const hasMeta = component.$options.meta
-  if (hasMeta) {
+  // if it has meta
+  if (component.__qMeta !== void 0) {
     extend(true, meta, component.__qMeta)
-    if (hasMeta.stopPropagation) { return }
+    if (component.$options.meta.stopPropagation === true) {
+      return
+    }
   }
 
-  component.$children && component.$children.forEach(child => {
+  component.$children.forEach(child => {
     parseMeta(child, meta)
   })
 }
 
 function updateClient () {
-  if (ssrTakeover) {
+  if (ssrTakeover === true) {
     ssrTakeover = false
     this.$root.__currentMeta = window.__Q_META__
     document.body.querySelector('script[data-qmeta-init]').remove()
@@ -236,30 +245,34 @@ function getServerMeta (app, html) {
 }
 
 function beforeCreate () {
-  if (this.$options.meta) {
-    if (typeof this.$options.meta === 'function') {
-      if (!this.$options.computed) {
-        this.$options.computed = {}
-      }
-      this.$options.computed.__qMeta = this.$options.meta
+  if (typeof this.$options.meta === 'function') {
+    if (this.$options.computed === void 0) {
+      this.$options.computed = {}
     }
-    else {
-      this.__qMeta = this.$options.meta
-    }
+    this.$options.computed.__qMeta = this.$options.meta
+  }
+  else if (hasMeta(this) === true) {
+    this.__qMeta = this.$options.meta
   }
 }
 
+// needs to be really fast
+function hasMeta (vm) {
+  return vm.$options.meta !== void 0 &&
+    vm.$options.meta !== null
+}
+
 function triggerMeta () {
-  this.$options.meta && this.__qMetaUpdate()
+  hasMeta(this) === true && this.__qMetaUpdate()
 }
 
 export default {
   install ({ queues }) {
-    if (isSSR) {
+    if (isSSR === true) {
       Vue.prototype.$getMetaHTML = app => html => getServerMeta(app, html)
       Vue.mixin({ beforeCreate })
 
-      queues.server.push((q, ctx) => {
+      queues.server.push((_, ctx) => {
         ctx.ssr.Q_HTML_ATTRS += ' %%Q_HTML_ATTRS%%'
         Object.assign(ctx.ssr, {
           Q_HEAD_TAGS: '%%Q_HEAD_TAGS%%',
@@ -274,7 +287,7 @@ export default {
       Vue.mixin({
         beforeCreate,
         created () {
-          if (this.$options.meta) {
+          if (hasMeta(this) === true) {
             this.__qMetaUnwatch = this.$watch('__qMeta', this.__qMetaUpdate)
           }
         },
@@ -282,7 +295,7 @@ export default {
         deactivated: triggerMeta,
         beforeMount: triggerMeta,
         destroyed () {
-          if (this.$options.meta) {
+          if (hasMeta(this) === true) {
             this.__qMetaUnwatch()
             this.__qMetaUpdate()
           }

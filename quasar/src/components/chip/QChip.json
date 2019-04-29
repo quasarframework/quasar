@@ -44,7 +44,8 @@
     },
 
     "square": {
-      "extends": "square"
+      "extends": "square",
+      "desc": "Sets a low value for border-radius instead of the default one, making it close to a square"
     },
 
     "outline": {

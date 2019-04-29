@@ -53,6 +53,8 @@ export default {
     const obj = {
       ...inject,
 
+      inheritAttrs: false,
+
       render: h => this.__render(h),
 
       components: this.$options.components,

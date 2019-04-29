@@ -41,11 +41,11 @@ function setFields (root, cfg) {
 
 class CordovaConfig {
   prepare (cfg) {
-    this.doc = et.parse(fs.readFileSync(filePath, 'utf-8'))
+    const doc = et.parse(fs.readFileSync(filePath, 'utf-8'))
     this.pkg = require(appPaths.resolve.app('package.json'))
     this.APP_URL = cfg.build.APP_URL
 
-    const root = this.doc.getroot()
+    const root = doc.getroot()
 
     root.set('id', cfg.cordova.id || this.pkg.cordovaId || 'org.quasar.cordova.app')
     root.set('version', cfg.cordova.version || this.pkg.version)
@@ -103,7 +103,7 @@ class CordovaConfig {
       }
     }
 
-    this.__save()
+    this.__save(doc)
   }
 
   reset () {
@@ -111,7 +111,8 @@ class CordovaConfig {
       return
     }
 
-    const root = this.doc.getroot()
+    const doc = et.parse(fs.readFileSync(filePath, 'utf-8'))
+    const root = doc.getroot()
 
     root.find('content').set('src', 'index.html')
 
@@ -124,11 +125,11 @@ class CordovaConfig {
       this.iosDelegateNew = this.iosDelegateOriginal
     }
 
-    this.__save()
+    this.__save(doc)
   }
 
-  __save () {
-    const content = this.doc.write({ indent: 4 })
+  __save (doc) {
+    const content = doc.write({ indent: 4 })
     fs.writeFileSync(filePath, content, 'utf8')
     log('Updated Cordova config.xml')
 

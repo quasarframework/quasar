@@ -4,6 +4,7 @@ import uid from '../../utils/uid.js'
 import QIcon from '../icon/QIcon.js'
 import RippleMixin from '../../mixins/ripple.js'
 
+import { stop } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
@@ -33,7 +34,7 @@ export default Vue.extend({
 
     noCaps: Boolean,
 
-    tabindex: String,
+    tabindex: [String, Number],
     disable: Boolean
   },
 
@@ -61,12 +62,12 @@ export default Vue.extend({
 
   methods: {
     activate (e, keyboard) {
+      keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+
       if (this.disable !== true) {
         this.$listeners.click !== void 0 && this.$emit('click', e)
         this.__activateTab(this.name)
       }
-
-      keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
     },
 
     __onKeyup (e) {
@@ -125,6 +126,7 @@ export default Vue.extend({
           { name: 'ripple', value: this.ripple }
         ],
         [tag === 'div' ? 'on' : 'nativeOn']: {
+          input: stop,
           ...this.$listeners,
           click: this.activate,
           keyup: this.__onKeyup

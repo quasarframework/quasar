@@ -68,3 +68,20 @@ methods: {
 }
 ```
 
+### Usage with QDialog and QMenu
+
+These components use Quasar Portals so that content can be rendered at the end of the `<body>` tag in order to:
+1. avoid css pollution
+2. avoid z-index issues
+3. avoid possible parent CSS overflow
+4. work correctly on iOS
+
+If you need to use a bus in these components, you must create your own global bus through a .js file:
+
+```js
+import Vue from 'vue'
+const bus = new Vue()
+export default bus
+```
+
+And then import this file wherever you need access to this bus.

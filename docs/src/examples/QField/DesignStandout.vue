@@ -15,6 +15,12 @@
         </template>
       </q-field>
 
+      <q-field standout="bg-teal text-white" label="Custom standout" stack-label :dense="dense">
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" tabindex="0">{{text}}</div>
+        </template>
+      </q-field>
+
       <q-field standout square hint="With perfect square borders" :dense="dense">
         <template v-slot:control>
           <div class="self-center full-width no-outline" tabindex="0">{{text}}</div>

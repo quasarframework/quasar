@@ -127,6 +127,25 @@
       "category": "options"
     },
 
+    "popup-content-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the popup content",
+      "examples": [
+        "my-special-class"
+      ],
+      "category": "style"
+    },
+
+    "popup-content-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the popup content",
+      "examples": [
+        "background-color: #ff0000",
+        ":content-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
     "use-input": {
       "type": "Boolean",
       "desc": "Use an input tag where users can type",
@@ -164,12 +183,6 @@
       "default": 500,
       "examples": [ 650 ],
       "category": "content"
-    },
-
-    "autofocus": {
-      "type": "Boolean",
-      "desc": "Focus component on initial render",
-      "category": "behavior"
     },
 
     "transition-show": {

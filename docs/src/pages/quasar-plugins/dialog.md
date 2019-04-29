@@ -38,6 +38,8 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 
 <doc-example title="Basic" file="Dialog/Basic" />
 
+<doc-example title="Dark mode" file="Dialog/Dark" />
+
 <doc-example title="Radios, Checkboxes, Toggles" file="Dialog/Pickers" />
 
 <doc-example title="Other options" file="Dialog/OtherOptions" />

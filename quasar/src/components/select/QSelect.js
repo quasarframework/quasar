@@ -53,6 +53,9 @@ export default Vue.extend({
     optionsCover: Boolean,
     optionsSanitize: Boolean,
 
+    popupContentClass: String,
+    popupContentStyle: [String, Array, Object],
+
     useInput: Boolean,
     useChips: Boolean,
 
@@ -77,9 +80,7 @@ export default Vue.extend({
     transitionHide: {
       type: String,
       default: 'fade'
-    },
-
-    autofocus: Boolean
+    }
   },
 
   data () {
@@ -93,19 +94,6 @@ export default Vue.extend({
   },
 
   watch: {
-    selectedString: {
-      handler (val) {
-        const value = this.multiple !== true && this.hideSelected === true
-          ? val
-          : ''
-
-        if (this.inputValue !== value) {
-          this.inputValue = value
-        }
-      },
-      immediate: true
-    },
-
     menu (show) {
       this.__updateMenu(show)
     }
@@ -114,6 +102,11 @@ export default Vue.extend({
   computed: {
     fieldClass () {
       return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input`
+    },
+
+    menuClass () {
+      return (this.optionsDark === true ? 'q-select__menu--dark' : '') +
+        (this.popupContentClass ? ' ' + this.popupContentClass : '')
     },
 
     innerValue () {
@@ -146,7 +139,7 @@ export default Vue.extend({
       return this.displayValueSanitize === true || (
         this.displayValue === void 0 && (
           this.optionsSanitize === true ||
-          this.innerValue.some(opt => opt.sanitize === true)
+          this.innerValue.some(opt => opt !== null && opt.sanitize === true)
         )
       )
     },
@@ -159,7 +152,7 @@ export default Vue.extend({
         opt,
         sanitize: this.optionsSanitize === true || opt.sanitize === true,
         selected: true,
-        removeAtIndex: this.removeAtIndex,
+        removeAtIndex: this.__removeAtIndexAndFocus,
         toggleOption: this.toggleOption,
         tabindex
       }))
@@ -237,6 +230,11 @@ export default Vue.extend({
       }
     },
 
+    __removeAtIndexAndFocus (index) {
+      this.removeAtIndex(index)
+      this.focus()
+    },
+
     add (opt, unique) {
       const val = this.emitValue === true
         ? this.__getOptionValue(opt)
@@ -269,8 +267,11 @@ export default Vue.extend({
     },
 
     toggleOption (opt) {
-      if (this.editable !== true || opt === void 0 || this.__isDisabled(opt) === true) { return }
+      if (this.editable !== true || opt === void 0 || this.__isDisabled(opt) === true) {
+        return
+      }
 
+      this.multiple !== true && this.updateInputValue('', true)
       this.focus()
 
       const optValue = this.__getOptionValue(opt)
@@ -281,13 +282,6 @@ export default Vue.extend({
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
         }
-        else {
-          const val = this.__getOptionLabel(opt)
-          if (val !== this.inputValue) {
-            this.inputValue = val
-          }
-        }
-
         return
       }
 
@@ -373,17 +367,25 @@ export default Vue.extend({
 
     __isSelected (opt) {
       const val = this.__getOptionValue(opt)
-      return this.innerValue.find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
+      return this.innerValue
+        .find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
     },
 
     __onTargetKeydown (e) {
-      // escape
-      if (e.keyCode === 27) {
+      // escape, tab
+      if (e.keyCode === 27 || e.keyCode === 9) {
         this.__closeMenu()
         return
       }
 
-      if (this.innerLoading !== true && this.menu === false && e.keyCode === 40) { // down
+      if (e.target !== this.$refs.target) { return }
+
+      // down
+      if (
+        e.keyCode === 40 &&
+        this.innerLoading !== true &&
+        this.menu === false
+      ) {
         stopAndPrevent(e)
 
         if (this.$listeners.filter !== void 0) {
@@ -396,80 +398,14 @@ export default Vue.extend({
         return
       }
 
-      if (this.multiple === true && this.inputValue.length === 0 && e.keyCode === 8) { // delete
+      // delete
+      if (
+        e.keyCode === 8 &&
+        this.multiple === true &&
+        this.inputValue.length === 0 &&
+        Array.isArray(this.value)
+      ) {
         this.removeAtIndex(this.value.length - 1)
-        return
-      }
-
-      // enter
-      if (e.target !== this.$refs.target || e.keyCode !== 13) { return }
-
-      stopAndPrevent(e)
-
-      if (this.optionIndex > -1 && this.optionIndex < this.optionsToShow) {
-        this.toggleOption(this.options[this.optionIndex])
-
-        if (this.multiple === true && this.inputValue.length > 0) {
-          if (this.$listeners.filter !== void 0) {
-            this.filter('')
-            this.optionIndex = -1
-          }
-          else {
-            this.inputValue = ''
-          }
-        }
-        return
-      }
-
-      if (this.inputValue.length > 0) {
-        if (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0) {
-          const done = (val, mode) => {
-            if (mode) {
-              if (validateNewValueMode(mode) !== true) {
-                console.error('QSelect: invalid new value mode - ' + mode)
-                return
-              }
-            }
-            else {
-              mode = this.newValueMode
-            }
-
-            if (val !== void 0 && val !== null) {
-              this[mode === 'toggle' ? 'toggleOption' : 'add'](
-                val,
-                mode === 'add-unique'
-              )
-            }
-
-            this.inputValue = ''
-          }
-
-          if (this.$listeners['new-value'] !== void 0) {
-            this.$emit('new-value', this.inputValue, done)
-          }
-          else {
-            done(this.inputValue)
-          }
-        }
-      }
-
-      if (this.menu === true) {
-        this.__closeMenu()
-      }
-      else if (this.innerLoading !== true) {
-        if (this.$listeners.filter !== void 0) {
-          this.filter(this.inputValue)
-        }
-        else {
-          this.menu = true
-        }
-      }
-    },
-
-    __onGlobalKeydown (e) {
-      // escape
-      if (e.keyCode === 27) {
-        this.__closeMenu()
         return
       }
 
@@ -507,6 +443,58 @@ export default Vue.extend({
               }
             }
           })
+        }
+      }
+
+      // enter
+      if (e.target !== this.$refs.target || e.keyCode !== 13) { return }
+
+      stopAndPrevent(e)
+
+      if (this.optionIndex > -1 && this.optionIndex < this.optionsToShow) {
+        this.toggleOption(this.options[this.optionIndex])
+        return
+      }
+
+      if (this.inputValue.length > 0) {
+        if (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0) {
+          const done = (val, mode) => {
+            if (mode) {
+              if (validateNewValueMode(mode) !== true) {
+                console.error('QSelect: invalid new value mode - ' + mode)
+                return
+              }
+            }
+            else {
+              mode = this.newValueMode
+            }
+
+            if (val !== void 0 && val !== null) {
+              this[mode === 'toggle' ? 'toggleOption' : 'add'](
+                val,
+                mode === 'add-unique'
+              )
+            }
+
+            this.updateInputValue('')
+          }
+
+          if (this.$listeners['new-value'] !== void 0) {
+            this.$emit('new-value', this.inputValue, done)
+          }
+          else {
+            done(this.inputValue)
+          }
+        }
+      }
+
+      if (this.menu === true) {
+        this.dialog !== true && this.__closeMenu()
+      }
+      else if (this.innerLoading !== true) {
+        this.updateInputValue('')
+        if (this.$listeners.filter === void 0) {
+          this.menu = true
         }
       }
     },
@@ -605,6 +593,7 @@ export default Vue.extend({
           ref: 'target',
           attrs: {
             tabindex: 0,
+            autofocus: this.autofocus,
             ...this.$attrs
           },
           on: {
@@ -659,6 +648,7 @@ export default Vue.extend({
         domProps: { value: this.inputValue },
         attrs: {
           tabindex: 0,
+          autofocus: this.autofocus,
           ...this.$attrs,
           disabled: this.editable !== true
         },
@@ -673,10 +663,6 @@ export default Vue.extend({
       clearTimeout(this.inputTimer)
       this.inputValue = e.target.value || ''
 
-      if (this.optionIndex !== -1) {
-        this.optionIndex = -1
-      }
-
       if (this.$listeners.filter !== void 0) {
         this.inputTimer = setTimeout(() => {
           this.filter(this.inputValue)
@@ -684,8 +670,18 @@ export default Vue.extend({
       }
     },
 
+    updateInputValue (val, noFiltering) {
+      if (this.inputValue !== val) {
+        this.inputValue = val
+      }
+
+      noFiltering !== true && this.filter(val)
+    },
+
     filter (val) {
-      this.inputValue = val
+      if (this.$listeners.filter === void 0 || this.focused !== true) {
+        return
+      }
 
       if (this.innerLoading === true) {
         this.$emit('filter-abort')
@@ -774,7 +770,7 @@ export default Vue.extend({
     },
 
     __onControlFocusin (e) {
-      if (this.editable !== true) {
+      if (this.editable !== true || this.focused === true) {
         return
       }
 
@@ -799,14 +795,7 @@ export default Vue.extend({
           this.$emit('blur', e)
         }
 
-        const val = this.multiple !== true && this.hideSelected === true
-          ? this.selectedString
-          : ''
-
-        if (this.inputValue !== val) {
-          this.inputValue = val
-        }
-
+        this.updateInputValue('', true)
         this.__closeMenu()
       }, 100)
     },
@@ -838,7 +827,8 @@ export default Vue.extend({
           value: this.menu,
           fit: true,
           cover: this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
-          contentClass: this.optionsDark === true ? 'q-select__menu--dark' : '',
+          contentClass: this.menuClass,
+          contentStyle: this.popupContentStyle,
           noParentEvent: true,
           noRefocus: true,
           noFocus: true,
@@ -848,15 +838,7 @@ export default Vue.extend({
         },
         on: {
           '&scroll': this.__hydrateOptions,
-          'before-show': e => {
-            this.$nextTick(() => {
-              this.__onControlFocusin(e)
-            })
-          },
-          hide: e => {
-            this.__closeMenu()
-            this.__onControlFocusout(e)
-          }
+          hide: this.__closeMenu
         }
       }, child)
     },
@@ -864,7 +846,7 @@ export default Vue.extend({
     __getDialog (h) {
       const content = [
         h(QField, {
-          staticClass: 'col-auto',
+          staticClass: `col-auto ${this.fieldClass}`,
           props: {
             ...this.$props,
             dark: this.optionsDark,
@@ -879,7 +861,7 @@ export default Vue.extend({
           },
           scopedSlots: {
             ...this.$scopedSlots,
-            control: () => this.__getControl(h, true),
+            rawControl: () => this.__getControl(h, true),
             before: void 0,
             after: void 0
           }
@@ -890,6 +872,8 @@ export default Vue.extend({
         h('div', {
           ref: 'menuContent',
           staticClass: 'scroll',
+          class: this.popupContentClass,
+          style: this.popupContentStyle,
           on: {
             click: prevent,
             '&scroll': this.__hydrateOptions
@@ -919,6 +903,7 @@ export default Vue.extend({
           hide: e => {
             this.__closePopup()
             this.$emit('blur', e)
+            this.updateInputValue('', true)
           },
           show: () => {
             this.$refs.target.focus()
@@ -957,11 +942,6 @@ export default Vue.extend({
           this.__hydrateOptions()
         })
       }
-
-      if (this.$q.platform.is.desktop === true) {
-        const action = (show === true ? 'add' : 'remove') + 'EventListener'
-        document.body[action]('keydown', this.__onGlobalKeydown)
-      }
     },
 
     __onPreRender () {
@@ -981,12 +961,7 @@ export default Vue.extend({
     }
   },
 
-  mounted () {
-    this.autofocus === true && this.$nextTick(this.focus)
-  },
-
   beforeDestroy () {
     clearTimeout(this.inputTimer)
-    document.body.removeEventListener('keydown', this.__onGlobalKeydown)
   }
 })
