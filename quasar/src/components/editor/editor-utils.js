@@ -262,7 +262,7 @@ export function getLinkEditor (h, vm) {
           }
         }
       }),
-      vm.__getGroup(h, [
+      __getGroup(h, [
         h(QBtn, {
           key: 'qedt_btm_rem',
           attrs: { tabindex: -1 },
