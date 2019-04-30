@@ -30,7 +30,7 @@ export default function (Vue, opts = {}) {
   Lang.install($q, queues, opts.lang)
   IconSet.install($q, opts.iconSet)
 
-  if (isSSR) {
+  if (isSSR === true) {
     Vue.mixin({
       beforeCreate () {
         this.$q = this.$root.$options.$q

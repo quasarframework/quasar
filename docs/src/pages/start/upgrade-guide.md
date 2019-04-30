@@ -494,7 +494,7 @@ The structure looks the same, but some functions have been renamed.
 
 ### QActionSheet
 
-- **was dropped** in favor of directly using a QDialog with `position="bottom"`
+- **was dropped** in favor of [BottomSheet](/quasar-plugins/bottom-sheet) (from code) or using a [QDialog](/vue-components/dialog) with `position="bottom"` (from the template).
 
 ### QAlert
 
@@ -1321,7 +1321,6 @@ Replace `:handler` with `@load`.
 
 |Legacy|v1|
 |-|-|
-|`blur()`||
 |`clear()`||
 |`select()`||
 |`togglePass()`||

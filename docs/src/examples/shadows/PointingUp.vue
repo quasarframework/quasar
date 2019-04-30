@@ -5,7 +5,7 @@
       v-for="n in 24" :key="n"
       :class="`shadow-up-${n}`"
     >
-      .shadow-{{ n }}
+      .shadow-up-{{ n }}
     </div>
   </div>
 </template>

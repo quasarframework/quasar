@@ -23,7 +23,7 @@ export default {
   isActive: false,
 
   show (opts) {
-    if (isSSR) { return }
+    if (isSSR === true) { return }
 
     props = { ...defaults, ...opts }
     props.customClass += ` text-${props.backgroundColor}`

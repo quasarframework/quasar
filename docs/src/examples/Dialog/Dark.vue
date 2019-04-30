@@ -11,6 +11,7 @@ export default {
   methods: {
     alert () {
       this.$q.dialog({
+        dark: true,
         title: 'Alert',
         message: 'Some message'
       }).onOk(() => {
@@ -24,8 +25,10 @@ export default {
 
     confirm () {
       this.$q.dialog({
+        dark: true,
         title: 'Confirm',
         message: 'Would you like to turn on the wifi?',
+        cancel: true,
         persistent: true
       }).onOk(() => {
         console.log('>>>> OK')
@@ -40,6 +43,7 @@ export default {
 
     prompt () {
       this.$q.dialog({
+        dark: true,
         title: 'Prompt',
         message: 'What is your name?',
         prompt: {

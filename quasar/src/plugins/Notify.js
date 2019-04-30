@@ -216,7 +216,7 @@ function init () {
 
 export default {
   create (opts) {
-    if (isSSR) { return () => {} }
+    if (isSSR === true) { return () => {} }
     return this.__vm.add(opts)
   },
   setDefaults (opts) {
@@ -224,7 +224,7 @@ export default {
   },
 
   install (args) {
-    if (isSSR) {
+    if (isSSR === true) {
       args.$q.notify = () => {}
       args.$q.notify.setDefaults = () => {}
       return

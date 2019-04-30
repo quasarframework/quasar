@@ -1,6 +1,5 @@
 const
   fs = require('fs'),
-  fse = require('fs-extra'),
   path = require('path'),
   compileTemplate = require('lodash.template')
 
@@ -11,7 +10,7 @@ const
 
 class Generator {
   constructor (quasarConfig) {
-    const { ctx, loadingBar, preFetch } = quasarConfig.getBuildConfig()
+    const { ctx, preFetch } = quasarConfig.getBuildConfig()
 
     this.alreadyGenerated = false
     this.quasarConfig = quasarConfig
@@ -45,30 +44,14 @@ class Generator {
     })
   }
 
-  prepare () {
-    const
-      now = Date.now() / 1000,
-      then = now - 100,
-      appVariablesFile = appPaths.resolve.cli('templates/app/app.quasar-variables.styl'),
-      appStylFile = appPaths.resolve.cli('templates/app/app.quasar.styl'),
-      emptyStylFile = path.join(quasarFolder, 'empty.styl')
-
-    function copy (file) {
-      const dest = path.join(quasarFolder, path.basename(file))
-      fse.copySync(file, dest)
-      fs.utimes(dest, then, then, function (err) { if (err) throw err })
-    }
-
-    copy(appStylFile)
-    copy(appVariablesFile)
-
-    fs.writeFileSync(emptyStylFile, '', 'utf-8'),
-    fs.utimes(emptyStylFile, then, then, function (err) { if (err) throw err })
-  }
-
   build () {
     log(`Generating Webpack entry point`)
     const data = this.quasarConfig.getBuildConfig()
+
+    // ensure .quasar folder
+    if (!fs.existsSync(quasarFolder)){
+      fs.mkdirSync(quasarFolder)
+    }
 
     this.files.forEach(file => {
       fs.writeFileSync(file.dest, file.template(data), 'utf-8')

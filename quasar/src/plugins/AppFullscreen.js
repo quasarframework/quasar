@@ -31,7 +31,7 @@ export default {
   install ({ $q }) {
     $q.fullscreen = this
 
-    if (isSSR) { return }
+    if (isSSR === true) { return }
 
     prefixes.request = [
       'requestFullscreen',

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import QDialog from './QDialog.js'
+import QDialog from '../dialog/QDialog.js'
 import QBtn from '../btn/QBtn.js'
 
 import clone from '../../utils/clone.js'
@@ -29,16 +29,13 @@ export default Vue.extend({
     },
     cancel: [String, Object, Boolean],
 
-    width: {
-      type: String,
-      default: '400px'
-    },
-
     stackButtons: Boolean,
-    color: {
-      type: String,
-      default: 'primary'
-    }
+    color: String,
+
+    cardClass: [String, Array, Object],
+    cardStyle: [String, Array, Object],
+
+    dark: Boolean
   },
 
   computed: {
@@ -58,16 +55,20 @@ export default Vue.extend({
         : this.cancel
     },
 
+    vmColor () {
+      return this.color || (this.dark === true ? 'amber' : 'primary')
+    },
+
     okProps () {
       return Object(this.ok) === this.ok
         ? {
-          color: this.color,
+          color: this.vmColor,
           label: this.$q.lang.label.ok,
           ripple: false,
           ...this.ok
         }
         : {
-          color: this.color,
+          color: this.vmColor,
           flat: true,
           label: this.okLabel,
           ripple: false
@@ -77,13 +78,13 @@ export default Vue.extend({
     cancelProps () {
       return Object(this.cancel) === this.cancel
         ? {
-          color: this.color,
+          color: this.vmColor,
           label: this.$q.lang.label.cancel,
           ripple: false,
           ...this.cancel
         }
         : {
-          color: this.color,
+          color: this.vmColor,
           flat: true,
           label: this.cancelLabel,
           ripple: false
@@ -93,7 +94,6 @@ export default Vue.extend({
 
   methods: {
     show () {
-      this.cancelled = true
       this.$refs.dialog.show()
     },
 
@@ -107,9 +107,10 @@ export default Vue.extend({
           props: {
             value: this.prompt.model,
             type: this.prompt.type || 'text',
-            color: this.color,
+            color: this.vmColor,
             dense: true,
-            autofocus: true
+            autofocus: true,
+            dark: this.dark
           },
           on: {
             input: v => { this.prompt.model = v },
@@ -130,9 +131,10 @@ export default Vue.extend({
           props: {
             value: this.options.model,
             type: this.options.type,
-            color: this.color,
+            color: this.vmColor,
             inline: this.options.inline,
-            options: this.options.items
+            options: this.options.items,
+            dark: this.dark
           },
           on: {
             input: v => { this.options.model = v }
@@ -171,7 +173,6 @@ export default Vue.extend({
     },
 
     onOk () {
-      this.cancelled = false
       this.$emit('ok', clone(this.getData()))
       this.hide()
     },
@@ -233,13 +234,18 @@ export default Vue.extend({
 
       on: {
         hide: () => {
-          this.cancelled === true && this.$emit('cancel')
           this.$emit('hide')
         }
       }
     }, [
       h(QCard, {
-        style: 'width: ' + this.width
+        staticClass: 'q-dialog-plugin' +
+          (this.dark === true ? ' q-dialog-plugin--dark' : ''),
+        style: this.cardStyle,
+        class: this.cardClass,
+        props: {
+          dark: this.dark
+        }
       }, child)
     ])
   }

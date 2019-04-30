@@ -7,19 +7,21 @@
           "type": "Object",
           "required": true,
           "definition": {
-            "className": {
+            "class": {
               "type": [ "String", "Array", "Object" ],
-              "desc": "CSS Class name to apply to the Dialog",
+              "desc": "CSS Class name to apply to the Dialog's QCard",
               "examples": [ "my-class" ]
             },
+
             "style": {
               "type": [ "String", "Array", "Object" ],
-              "desc": "CSS style to apply to the Dialog",
+              "desc": "CSS style to apply to the Dialog's QCard",
               "examples": [ "border: 2px solid black" ]
             }
           }
         }
       },
+
       "returns": {
         "type": "Object",
         "desc": "Chainable Object",
@@ -41,6 +43,7 @@
               "__exemption": [ "examples" ]
             }
           },
+
           "onCancel": {
             "type": "Function",
             "desc": "Receives a Function as param to tell what to do when Cancel is pressed / dialog is dismissed",
@@ -58,6 +61,7 @@
               "__exemption": [ "examples" ]
             }
           },
+
           "onDismiss": {
             "type": "Function",
             "desc": "Receives a Function param to tell what to do when the dialog is closed",
@@ -77,6 +81,7 @@
               ]
             }
           },
+
           "hide": {
             "type": "Function",
             "desc": "Hides the dialog when called",

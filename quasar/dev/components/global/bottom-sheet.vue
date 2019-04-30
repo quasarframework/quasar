@@ -3,6 +3,8 @@
     <div style="max-width: 500px" class="q-mx-auto">
       <h1>Bottom Sheet</h1>
 
+      <q-toggle v-model="dark" label="Dark" />
+
       <div class="q-gutter-sm">
         <q-btn flat color="primary" label="List" @click="show()" />
         <q-btn flat color="primary" label="Grid" @click="show(true)" />
@@ -59,6 +61,12 @@ const actions = [
 ]
 
 export default {
+  data () {
+    return {
+      dark: false
+    }
+  },
+
   methods: {
     hideBottomSheet () {
       if (this.bottomSheetHandler !== void 0) {
@@ -70,7 +78,8 @@ export default {
       this.bottomSheetHandler = this.$q.bottomSheet({
         message: 'Bottom Sheet message',
         grid,
-        actions
+        actions,
+        dark: this.dark
       }).onOk(action => {
         console.log('Action chosen:', action.id)
       }).onCancel(() => {
@@ -85,8 +94,8 @@ export default {
         message: 'Bottom Sheet message',
         grid,
         actions,
-        style: { backgroundColor: 'red' },
-        className: 'custom-bottom-sheet'
+        class: 'custom-bottom-sheet',
+        dark: this.dark
       }).onOk(action => {
         console.log('Action chosen:', action.id)
       }).onCancel(() => {
@@ -103,3 +112,10 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.custom-bottom-sheet
+  color #33c
+  background-color #ee9
+  padding 40px
+</style>

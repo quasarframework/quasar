@@ -158,7 +158,7 @@ export default {
   },
 
   install ({ $q, queues }) {
-    if (isSSR) {
+    if (isSSR === true) {
       queues.server.push((q, ctx) => {
         q.cookies = getObject(ctx)
       })

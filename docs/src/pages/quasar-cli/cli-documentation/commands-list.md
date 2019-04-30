@@ -287,6 +287,41 @@ This command is useful to describe the API of any Quasar components/directives/p
 Examples: `$ quasar describe QIcon`, `$ quasar describe TouchPan`, `$ quasar describe Cookies`.
 
 ```bash
+$ quasar describe -h
+
+  Description
+    Describes a component API for project's Quasar version being used
+
+  Usage
+    $ quasar describe <component/directive/Quasar plugin>
+
+    # display everything:
+    $ quasar describe QIcon
+
+    # displaying only props:
+    $ quasar describe QIcon -p
+    # displaying props and methods only:
+    $ quasar describe QIcon -p -m
+    # filtering by "si":
+    $ quasar describe QIcon -f si
+    # filtering only props by "co":
+    $ quasar describe QIcon -p -f co
+
+  Options
+    --filter, -f <filter> Filters the API
+    --props, -p           Displays the API props
+    --slots, -s           Displays the API slots
+    --methods, -m         Displays the API methods
+    --events, -e          Displays the API events
+    --value, -v           Displays the API value
+    --arg, -a             Displays the API arg
+    --modifiers, -M       Displays the API modifiers
+    --injection, -i       Displays the API injection
+    --quasar, -q          Displays the API quasar conf options
+    --help, -h            Displays this message
+```
+
+```bash
 $ quasar describe QIcon
 
  Describing QIcon component API
