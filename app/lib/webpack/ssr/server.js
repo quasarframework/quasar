@@ -47,25 +47,29 @@ module.exports = function (chain, cfg) {
     chain.plugin('ssr-artifacts')
       .use(SsrProdArtifacts, [ cfg ])
 
+    const
+      fs = require('fs'),
+      copyArray = [{
+        // copy src-ssr to dist folder in /server
+        from: cfg.ssr.__dir,
+        to: '../server',
+        ignore: ['.*']
+      }],
+      npmrc = appPaths.resolve.app('.npmrc')
+      yarnrc = appPaths.resolve.app('.yarnrc')
+
+    fs.existsSync(npmrc) && copyArray.push({
+      from: npmrc,
+      to: '..'
+    })
+
+    fs.existsSync(yarnrc) && copyArray.push({
+      from: yarnrc,
+      to: '..'
+    })
+
     const CopyWebpackPlugin = require('copy-webpack-plugin')
     chain.plugin('copy-webpack')
-      .use(CopyWebpackPlugin, [[
-        // copy src-ssr to dist folder in /server
-        {
-          from: cfg.ssr.__dir,
-          to: '../server',
-          ignore: ['.*']
-        },
-        // copy optional .npmrc
-        {
-          from: appPaths.resolve.app('.npmrc'),
-          to: '..'
-        },
-        // copy optional .yarnrc
-        {
-          from: appPaths.resolve.app('.yarnrc'),
-          to: '..'
-        }
-      ]])
+      .use(CopyWebpackPlugin, [ copyArray ])
   }
 }

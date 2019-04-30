@@ -101,20 +101,27 @@ module.exports = function (cfg, configName) {
     chain.plugin('package-json')
       .use(ElectronPackageJson)
 
-    const CopyWebpackPlugin = require('copy-webpack-plugin')
-    chain.plugin('copy-webpack')
-      .use(CopyWebpackPlugin, [[
-        // copy optional .npmrc
-        {
-          from: appPaths.resolve.app('.npmrc'),
-          to: '.'
-        },
-        // copy optional .yarnrc
-        {
-          from: appPaths.resolve.app('.yarnrc'),
-          to: '.'
-        }
-      ]])
+    const
+      fs = require('fs'),
+      copyArray = [],
+      npmrc = appPaths.resolve.app('.npmrc')
+      yarnrc = appPaths.resolve.app('.yarnrc')
+
+    fs.existsSync(npmrc) && copyArray.push({
+      from: npmrc,
+      to: '.'
+    })
+
+    fs.existsSync(yarnrc) && copyArray.push({
+      from: yarnrc,
+      to: '.'
+    })
+
+    if (copyArray.length > 0) {
+      const CopyWebpackPlugin = require('copy-webpack-plugin')
+      chain.plugin('copy-webpack')
+        .use(CopyWebpackPlugin, [ copyArray ])
+    }
   }
 
   return chain
