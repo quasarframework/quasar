@@ -62,11 +62,16 @@ export const PanelParentMixin = {
           : -1
 
       if (this.animated) {
+        const oldWasFirstPanel = this.__getPanelIndex(oldVal) === 0,
+          oldWasLastPanel = this.__getPanelIndex(oldVal) === this.__getAvailablePanels().length - 1,
+          newIsFirstPanel = index === 0,
+          newIsLastPanel = index === this.__getAvailablePanels().length - 1
+
         this.panelTransition = validNewPanel === true && this.panelIndex !== -1
           ? 'q-transition--' + (
             index < this.__getPanelIndex(oldVal)
-              ? this.transitionPrev
-              : this.transitionNext
+              ? this.infinite && oldWasLastPanel && newIsFirstPanel ? this.transitionNext : this.transitionPrev
+              : this.infinite && oldWasFirstPanel && newIsLastPanel ? this.transitionPrev : this.transitionNext
           )
           : null
       }
