@@ -60,6 +60,12 @@
       "category": "behavior|content"
     },
 
+    "thumb-always": {
+      "type": "Boolean",
+      "desc": "Always display the thumb - the default is to hide it when a label is visible",
+      "category": "behavior|content"
+    },
+
     "markers": {
       "type": "Boolean",
       "desc": "Display markers on the track, one for each possible value for the model",

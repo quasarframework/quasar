@@ -117,12 +117,14 @@
     .q-slider__track
       transition width .28s, left .28s
 
-  &--label
+  &--label:not(.q-slider--thumb-always)
     &.q-slider--active, .q-slider--focus, &.q-slider--label-always
       .q-slider__thumb
         animation none
         transform scale(0)
 
+  &--label
+    &.q-slider--active, .q-slider--focus, &.q-slider--label-always
       .q-slider__pin
         transform rotate(-45deg) scale3d(1, 1, 1) translate3d(19px, -20px, 0)
 

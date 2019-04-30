@@ -55,6 +55,7 @@ export let SliderMixin = {
 
     label: Boolean,
     labelAlways: Boolean,
+    thumbAlways: Boolean,
     markers: Boolean,
     snap: Boolean,
 
@@ -81,6 +82,7 @@ export let SliderMixin = {
         'q-slider--focus': this.focus === 'both',
         'q-slider--label': this.label || this.labelAlways,
         'q-slider--label-always': this.labelAlways,
+        'q-slider--thumb-always': this.thumbAlways,
         'q-slider--dark': this.dark,
         'q-slider--dense': this.dense
       }
