@@ -135,7 +135,6 @@ async function build () {
     outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
 
   artifacts.clean(outputFolder)
-  generator.prepare()
   generator.build()
 
   if (typeof buildConfig.build.beforeBuild === 'function') {

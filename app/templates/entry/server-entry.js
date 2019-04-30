@@ -17,7 +17,13 @@ import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 import '@quasar/extras/animate/<%= asset %>.css'
 <% }) %>
 
-import 'quasar-styl'
+// We load Quasar stylus files
+import 'quasar/dist/quasar.styl'
+
+<% if (framework.cssAddon) { %>
+// We add Quasar addons, if they were requested
+import 'quasar/src/css/flex-addon.styl'
+<% } %>
 
 <% css.length > 0 && css.filter(asset => asset.server !== false).forEach(asset => { %>
 import '<%= asset.path %>'
