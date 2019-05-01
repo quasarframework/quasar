@@ -93,35 +93,33 @@
   &--editable
     cursor grab
 
-  &--active
-    cursor grabbing
-
-    .q-slider__thumb
-      transform scale3d(1, 1, 1)
-
   &--focus
     .q-slider__thumb
-      animation q-slider-emphasize 266.67ms linear
-      transform scale3d(.571, .571, .571) !important
+      transform scale3d(.571, .571, .571)
 
+  &--focus, body.desktop &.q-slider--editable:hover
     .q-slider__focus-ring
       background currentColor
       transform scale3d(1.55, 1.55, 1.55)
       opacity .25
 
   &--inactive
-    .q-slider__thumb
-      transition-delay .14s
     .q-slider__thumb-container
       transition left .28s
     .q-slider__track
       transition width .28s, left .28s
 
-  &--label:not(.q-slider--thumb-always)
-    &.q-slider--active, .q-slider--focus, &.q-slider--label-always
-      .q-slider__thumb
-        animation none
-        transform scale(0)
+  &--active
+    cursor grabbing
+
+    .q-slider__thumb
+      transform scale3d(1, 1, 1)
+
+    .q-slider__focus-ring, &.q-slider--label .q-slider__thumb
+      transform scale3d(0, 0, 0) !important
+
+  body.desktop &.q-slider--editable:hover .q-slider__pin
+    transform rotate(-45deg) scale3d(1, 1, 1) translate3d(19px, -20px, 0)
 
   &--label
     &.q-slider--active, .q-slider--focus, &.q-slider--label-always
@@ -139,14 +137,3 @@
 
     .q-slider__thumb-container
       top 0
-
-@keyframes q-slider-emphasize
-  0%
-    animation-timing-function ease-out
-
-  50%
-    animation-timing-function ease-in
-    transform scale3d(.85, .85, .85)
-
-  100%
-    transform scale3d(.571, .571, .571)
