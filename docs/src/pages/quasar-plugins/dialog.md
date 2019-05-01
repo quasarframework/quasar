@@ -27,6 +27,15 @@ In order to create #2, the options selection form, you have the `options` proper
 ## Installation
 <doc-installation plugins="Dialog" />
 
+When calling from outside of a vue component, you must import Dialog like so:
+
+```js
+import { Dialog } from 'quasar'
+
+// use like
+Dialog.create({})
+```
+
 ## Usage
 
 ### Predefined
