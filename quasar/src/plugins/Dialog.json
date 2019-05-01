@@ -168,6 +168,18 @@
             "transition-hide": {
               "extends": "transition",
               "default": "scale"
+            },
+
+            "component": {
+              "type": "Any",
+              "desc": "Use custom dialog component; use along with 'root' prop where possible; if using this prop, all others described here will be supplied to your custom component",
+              "__exemption": [ "examples" ]
+            },
+
+            "root": {
+              "type": "Object",
+              "desc": "Required if using 'component' prop and you need access to vuex store, router and so on; Specify root of your App",
+              "examples": [ "root: this.$root" ]
             }
           }
         }
