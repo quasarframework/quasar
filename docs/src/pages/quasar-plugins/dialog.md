@@ -29,6 +29,15 @@ In order to create #2, the options selection form, you have the `options` proper
 
 ## Usage
 
+```js
+// outside of a Vue file
+import { Dialog } from 'quasar'
+(Object) Dialog.create({ ... })
+
+// inside of a Vue file
+(Object) this.$q.dialog({ ... })
+```
+
 ### Predefined
 
 ::: tip
@@ -59,8 +68,13 @@ import CustomComponent from '..path.to.component..'
 this.$q.dialog({
   component: CustomComponent,
 
+  // optional if you want to have access to
+  // Router, Vuex store, and so on, in your
+  // custom component:
+  root: this.$root,
+
   // props forwarded to component
-  // (everything except "component" prop above):
+  // (everything except "component" and "root" props above):
   text: 'something',
   // ...more.props...
 }).onOk(() => {

@@ -237,7 +237,7 @@ export default {
       this.xhrs.push(xhr)
 
       if (sendRaw === true) {
-        xhr.send(files)
+        xhr.send(new Blob(files))
       }
       else {
         xhr.send(form)

@@ -34,6 +34,14 @@ The first item we need to check is our npm version and ensure that it is not out
 
 Once that is complete, we can then continue to setup the needed build tools. Using [windows-build-tools](https://github.com/felixrieseberg/windows-build-tools), most of the dirty work is done for us. Installing this globally will in turn setup Visual C++ packages, Python, and more.
 
+::: warning Note: April 2019
+In Powershell.exe (Run as Admin) `npm install --global windows-build-tools` seems to fail at the moment with errors pointing to python2 and vctools. You can get around this with Chocolatey. One-liner install:
+
+**Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))**
+
+and then run `choco upgrade python2 visualstudio2017-workload-vctools`.
+:::
+
 At this point things should successfully install, but if not then you will need a clean installation of Visual Studio. Please note that these are not problems with Quasar, but they are related to NPM and Windows.
 
 ## 2. Start Developing
