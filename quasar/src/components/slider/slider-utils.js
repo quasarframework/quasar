@@ -159,7 +159,7 @@ export let SliderMixin = {
 
     __mobileClick (evt) {
       this.__updatePosition(evt, this.__getDragging(evt))
-      this.__updateValue()
+      this.__updateValue(true)
     },
 
     __keyup (evt) {
