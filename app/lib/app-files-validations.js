@@ -1,6 +1,5 @@
 const
   fs = require('fs'),
-  fse = require('fs-extra'),
   { green } = require('chalk')
 
 const
