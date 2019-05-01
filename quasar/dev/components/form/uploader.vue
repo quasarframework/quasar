@@ -105,6 +105,17 @@
           </template>
         </q-uploader>
         <q-uploader v-bind="props" color="yellow" text-color="black" multiple url="http://localhost:4444/upload" />
+
+        <q-uploader
+          v-bind="props"
+          label="Raw"
+          send-raw
+          url="http://localhost:4444/upload"
+          @added="onAdded"
+          @removed="onRemoved"
+          @start="onStart"
+          @finish="onFinish"
+        />
       </div>
     </div>
   </div>
