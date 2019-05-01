@@ -90,7 +90,7 @@
       "category": "style"
     },
 
-    "spinnner-size": {
+    "spinner-size": {
       "extends": "size",
       "desc": "Size in CSS units, including unit name, for default Spinner (unless using a 'loading' slot)",
       "category": "style"

@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QResizeObserver from '../observer/QResizeObserver.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import slot from '../../utils/slot.js'
+import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QHeader',
@@ -132,7 +133,10 @@ export default Vue.extend({
       staticClass: 'q-header q-layout__section--marginal q-layout__section--animate',
       class: this.classes,
       style: this.style,
-      on: this.$listeners
+      on: {
+        ...this.$listeners,
+        input: stop
+      }
     }, child)
   },
 

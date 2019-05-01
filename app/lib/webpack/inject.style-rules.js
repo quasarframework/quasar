@@ -1,8 +1,11 @@
 const ExtractLoader = require('mini-css-extract-plugin').loader
 
 const
+  { join } = require('path'),
   appPaths = require('../app-paths'),
   postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
+
+const QuasarStylusVariablesLoader = join(__dirname, 'loader.quasar-stylus-variables')
 
 function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
@@ -90,14 +93,8 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
         ))
 
       if (loader === 'stylus-loader') {
-        // inject Stylus variables automatically
-        rule.use('style-resources-loader')
-          .loader('style-resources-loader')
-          .options({
-            patterns: [
-              appPaths.resolve.app(`.quasar/app.quasar-variables.styl`)
-            ]
-          })
+        rule.use('quasar-stylus-variables-loader')
+          .loader(QuasarStylusVariablesLoader)
       }
     }
   }

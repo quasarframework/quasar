@@ -1,4 +1,4 @@
-import DialogPlugin from '../components/dialog/DialogPlugin.js'
+import DialogPlugin from '../components/dialog-plugin/DialogPlugin.js'
 import globalDialog from '../utils/global-dialog.js'
 
 export default {

@@ -109,20 +109,21 @@ export default Vue.extend({
   },
 
   methods: {
+    focus () {
+      let node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
+
+      if (node !== void 0 && node.contains(document.activeElement) !== true) {
+        node = node.querySelector('[autofocus]') || node
+        node.focus()
+      }
+    },
+
     __show (evt) {
       clearTimeout(this.timer)
 
       this.__refocusTarget = this.noRefocus === false
         ? document.activeElement
         : void 0
-
-      if (this.noFocus !== true) {
-        document.activeElement.blur()
-
-        this.$nextTick(() => {
-          this.__portal.$refs.inner.focus()
-        })
-      }
 
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
@@ -153,6 +154,14 @@ export default Vue.extend({
 
         if (this.unwatch === void 0) {
           this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
+        }
+
+        if (this.noFocus !== true) {
+          document.activeElement.blur()
+
+          this.$nextTick(() => {
+            this.focus()
+          })
         }
 
         this.timer = setTimeout(() => {
@@ -242,8 +251,8 @@ export default Vue.extend({
           class: this.contentClass,
           style: this.contentStyle,
           attrs: {
-            ...this.$attrs,
-            tabindex: 0
+            tabindex: -1,
+            ...this.$attrs
           },
           on,
           directives: this.persistent !== true ? [{

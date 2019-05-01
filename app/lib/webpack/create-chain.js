@@ -3,7 +3,8 @@ const
   webpack = require('webpack'),
   WebpackChain = require('webpack-chain'),
   VueLoaderPlugin = require('vue-loader/lib/plugin'),
-  WebpackProgress = require('./plugin.progress')
+  WebpackProgress = require('./plugin.progress'),
+  BootDefaultExport = require('./plugin.boot-default-export')
 
 const
   appPaths = require('../app-paths'),
@@ -57,13 +58,7 @@ module.exports = function (cfg, configName) {
 
       // TODO: remove in final v1.0
       // (no longer needed; automatically injects Stylus variables)
-      'quasar-variables': appPaths.resolve.app(`.quasar/app.quasar-variables.styl`),
-
-      // CLI/App using this one:
-      'quasar-styl': appPaths.resolve.app(`.quasar/app.quasar.styl`),
-      'quasar-addon-styl': cfg.framework.cssAddon
-        ? `quasar/src/css/flex-addon.styl`
-        : appPaths.resolve.app(`.quasar/empty.styl`)
+      'quasar-variables': appPaths.resolve.cli(`templates/app/empty.styl`)
     })
 
   if (cfg.framework.all === true) {
@@ -185,6 +180,9 @@ module.exports = function (cfg, configName) {
     chain.plugin('progress')
       .use(WebpackProgress, [{ name: configName }])
   }
+
+  chain.plugin('boot-default-export')
+    .use(BootDefaultExport)
 
   chain.performance
     .hints(false)

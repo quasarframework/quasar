@@ -9,7 +9,7 @@ export default {
   increment () {},
 
   install ({ $q, cfg }) {
-    if (isSSR) {
+    if (isSSR === true) {
       $q.loadingBar = this
       return
     }

@@ -25,6 +25,7 @@
             <q-btn label="Set Null" @click="setNull" color="negative" outline />
           </div>
 
+          <div>Single</div>
           <q-select
             v-bind="props"
             v-model="simpleFilter"
@@ -72,12 +73,115 @@
 
           <q-select
             v-bind="props"
+            v-model="simpleFilterInput"
+            use-input
+            input-debounce="0"
+            hide-selected
+            label="Simple filter - useInput, hide-selected"
+            :options="simpleFilterInputOptions"
+            @filter="simpleFilterInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
+            clearable
+          >
+            <q-item slot="no-option">
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </q-select>
+
+          <div>Multiple</div>
+          <q-select
+            v-bind="props"
+            v-model="multipleFilter"
+            multiple
+            label="Multiple filter - lazy load options"
+            :options="multipleFilterOptions"
+            @filter="multipleFilterFn"
+            @focus="onFocus"
+            @blur="onBlur"
+          >
+            <q-item slot="no-option">
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+
+            <q-icon slot="before" color="green" name="event" />
+            <q-icon slot="prepend" name="event" />
+            <q-icon slot="append" name="delete" />
+            <q-icon slot="after" color="green" name="delete" />
+          </q-select>
+
+          <q-select
+            v-bind="props"
+            v-model="multipleFilterInput"
+            multiple
+            use-input
+            input-debounce="0"
+            label="Multiple filter - useInput"
+            :options="multipleFilterInputOptions"
+            @filter="multipleFilterInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
+            clearable
+          >
+            <q-item slot="no-option">
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+
+            <q-icon slot="before" color="green" name="event" />
+            <q-icon slot="prepend" name="event" />
+            <q-icon slot="append" name="delete" />
+            <q-icon slot="after" color="green" name="delete" />
+          </q-select>
+
+          <q-select
+            v-bind="props"
+            v-model="multipleFilterInput"
+            multiple
+            use-input
+            input-debounce="0"
+            hide-selected
+            label="Multiple filter - useInput, hide-selected"
+            :options="multipleFilterInputOptions"
+            @filter="multipleFilterInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
+            clearable
+          >
+            <q-item slot="no-option">
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </q-select>
+
+          <div>Create new value</div>
+          <q-select
+            v-bind="props"
             v-model="createInput"
             use-input
             use-chips
             multiple
             input-debounce="0"
             label="Multiple - Create new values (& filter) - @new-value"
+            @new-value="createInputNewValue"
+            :options="createInputOptions"
+            @filter="createInputFn"
+            @focus="onFocus"
+            @blur="onBlur"
+          />
+          <q-select
+            v-bind="props"
+            v-model="createInput"
+            use-input
+            use-chips
+            multiple
+            input-debounce="0"
             @new-value="createInputNewValue"
             :options="createInputOptions"
             @filter="createInputFn"
@@ -299,6 +403,36 @@
             style="width: 250px"
           />
 
+          <div class="text-h6">
+            Heavy test (10k options)
+          </div>
+          <q-select
+            v-bind="props"
+            v-model="heavyModel"
+            label="Heavy"
+            multiple
+            use-chips
+            :options="heavyFilterInputOptions"
+            @filter="heavyFilterInputFn"
+            @filter-abort="delayedAbort"
+            @focus="onFocus"
+            @blur="onBlur"
+          />
+
+          <q-select
+            v-bind="props"
+            v-model="heavyModel"
+            label="Heavy"
+            multiple
+            use-chips
+            use-input
+            :options="heavyFilterInputOptions"
+            @filter="heavyFilterInputFn"
+            @filter-abort="delayedAbort"
+            @focus="onFocus"
+            @blur="onBlur"
+          />
+
           <div style="height: 400px">
             Scroll on purpose
           </div>
@@ -321,9 +455,18 @@
 </template>
 
 <script>
-const stringOptions = [
-  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-]
+const
+  stringOptions = [
+    'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+  ],
+  heavyOptions = []
+
+for (let i = 0; i <= 10000; i++) {
+  heavyOptions.push({
+    label: 'Opt ' + i,
+    value: Math.random()
+  })
+}
 
 export default {
   data () {
@@ -340,12 +483,18 @@ export default {
       simpleFilter: null,
       simpleFilterOptions: null,
 
+      multipleFilter: null,
+      multipleFilterOptions: null,
+
       createInput: null,
       createSingleInput: null,
       createInputOptions: null,
 
       simpleFilterInput: null,
       simpleFilterInputOptions: null,
+
+      multipleFilterInput: null,
+      multipleFilterInputOptions: null,
 
       minFilterInput: null,
       minFilterInputOptions: null,
@@ -414,7 +563,10 @@ export default {
           description: 'Databases',
           icon: 'casino'
         }
-      ]
+      ],
+
+      heavyModel: [],
+      heavyFilterInputOptions: null
     }
   },
 
@@ -471,6 +623,31 @@ export default {
       })
     },
 
+    multipleFilterFn (val, update) {
+      if (this.multipleFilterOptions !== null) {
+        update()
+        return
+      }
+
+      update(() => {
+        this.multipleFilterOptions = stringOptions
+      })
+    },
+
+    multipleFilterInputFn (val, update) {
+      if (val === '') {
+        update(() => {
+          this.multipleFilterInputOptions = stringOptions
+        })
+        return
+      }
+
+      update(() => {
+        const needle = val.toLowerCase()
+        this.multipleFilterInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
+    },
+
     minFilterInputFn (val, update, abort) {
       if (val.length < 2) {
         abort()
@@ -509,6 +686,20 @@ export default {
           }
         })
       }, 2500)
+    },
+
+    heavyFilterInputFn (val, update) {
+      if (val === '') {
+        update(() => {
+          this.heavyFilterInputOptions = heavyOptions
+        })
+        return
+      }
+
+      update(() => {
+        const needle = val.toLowerCase()
+        this.heavyFilterInputOptions = heavyOptions.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+      })
     },
 
     delayedAbort () {

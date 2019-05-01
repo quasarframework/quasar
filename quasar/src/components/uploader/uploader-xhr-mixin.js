@@ -28,7 +28,8 @@ export default {
   data () {
     return {
       xhrs: [],
-      isBusy: false
+      promises: [],
+      workingThreads: 0
     }
   },
 
@@ -47,41 +48,44 @@ export default {
       }
     },
 
-    isIdle () {
-      return this.xhrs.length === 0
+    isUploading () {
+      return this.workingThreads > 0
     },
 
-    isUploading () {
-      return this.xhrs.length > 0
+    isBusy () {
+      return this.promises.length > 0
     }
   },
 
   methods: {
     abort () {
-      if (!this.disable && this.isUploading) {
-        this.xhrs.forEach(x => { x.abort() })
-      }
+      this.xhrs.forEach(x => { x.abort() })
+      this.promises.forEach(p => { p.abort() })
     },
 
     upload () {
-      if (this.disable || !this.queuedFiles.length) { return }
+      if (this.canUpload === false) {
+        return
+      }
 
       const queue = this.queuedFiles.slice(0)
       this.queuedFiles = []
 
       if (this.xhrProps.batch(queue)) {
-        this.__runFactory('__uploadBatch', queue)
+        this.__runFactory(queue)
       }
       else {
         queue.forEach(file => {
-          this.__runFactory('__uploadSingleFile', file)
+          this.__runFactory([ file ])
         })
       }
     },
 
-    __runFactory (method, payload) {
+    __runFactory (payload) {
+      this.workingThreads++
+
       if (typeof this.factory !== 'function') {
-        this[method](payload, {})
+        this.__uploadFiles(payload, {})
         return
       }
 
@@ -89,18 +93,19 @@ export default {
 
       if (!res) {
         this.$emit('factory-fail')
+        this.workingThreads--
       }
       else if (typeof res.catch === 'function' && typeof res.then === 'function') {
-        this.isBusy = true
+        this.promises.push(res)
 
         res.then(factory => {
           if (this.isDestroyed !== true) {
-            this.isBusy = false
-            this[method](payload, factory)
+            this.promises = this.promises.filter(p => p !== res)
+            this.__uploadFiles(payload, factory)
           }
         }).catch(err => {
           if (this.isDestroyed !== true) {
-            this.isBusy = false
+            this.promises = this.promises.filter(p => p !== res)
 
             const files = Array.isArray(payload)
               ? payload
@@ -110,15 +115,16 @@ export default {
             files.forEach(f => { this.__updateFile(f, 'failed') })
 
             this.$emit('factory-failed', err, files)
+            this.workingThreads--
           }
         })
       }
       else {
-        this[method](payload, res || {})
+        this.__uploadFiles(payload, res || {})
       }
     },
 
-    __uploadBatch (files, factory) {
+    __uploadFiles (files, factory) {
       const
         form = new FormData(),
         xhr = new XMLHttpRequest()
@@ -133,6 +139,7 @@ export default {
 
       if (!url) {
         console.error('q-uploader: invalid or no URL specified')
+        this.workingThreads--
         return
       }
 
@@ -196,6 +203,7 @@ export default {
           this.__emit('failed', { files, xhr })
         }
 
+        this.workingThreads--
         this.xhrs = this.xhrs.filter(x => x !== xhr)
       }
 
@@ -232,92 +240,6 @@ export default {
         xhr.send(files)
       }
       else {
-        xhr.send(form)
-      }
-    },
-
-    __uploadSingleFile (file, factory) {
-      const
-        form = new FormData(),
-        files = [ file ],
-        xhr = new XMLHttpRequest()
-
-      const getProp = (name, arg) => {
-        return factory[name] !== void 0
-          ? getFn(factory[name])(arg)
-          : this.xhrProps[name](arg)
-      }
-
-      const url = getProp('url', file)
-
-      if (url === void 0) {
-        console.error('q-uploader: no URL prop specified')
-        return
-      }
-
-      const fields = (
-        getProp('formFields', files) ||
-        /* TODO remove in v1 final */ getProp('fields', files)
-      )
-      fields !== void 0 && fields.forEach(field => {
-        form.append(field.name, field.value)
-      })
-
-      xhr.upload.addEventListener('progress', e => {
-        if (file.__status !== 'failed') {
-          const loaded = Math.min(file.size, e.loaded)
-          this.uploadedSize += loaded - file.__uploaded
-          this.__updateFile(file, 'uploading', loaded)
-        }
-      }, false)
-
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState < 4) {
-          return
-        }
-
-        if (xhr.status && xhr.status < 400) {
-          this.uploadedFiles.push(file)
-          this.__updateFile(file, 'uploaded')
-          this.__emit('uploaded', { files, xhr })
-          this.uploadedSize += file.size - file.__uploaded
-        }
-        else {
-          this.queuedFiles.push(file)
-          this.__updateFile(file, 'failed')
-          this.__emit('failed', { files, xhr })
-          this.uploadedSize -= file.__uploaded
-        }
-
-        this.xhrs = this.xhrs.filter(x => x !== xhr)
-      }
-
-      this.__updateFile(file, 'uploading', 0)
-
-      xhr.open(
-        getProp('method', files),
-        url
-      )
-
-      if (getProp('withCredentials', files) === true) {
-        xhr.withCredentials = true
-      }
-
-      const headers = getProp('headers', files)
-      headers !== void 0 && headers.forEach(head => {
-        xhr.setRequestHeader(head.name, head.value)
-      })
-
-      this.xhrs.push(xhr)
-      file.xhr = xhr
-      file.__abort = xhr.abort
-      this.__emit('uploading', { files, xhr })
-
-      if (getProp('sendRaw', file) === true) {
-        xhr.send(file)
-      }
-      else {
-        form.append(getProp('fieldName', file), file)
         xhr.send(form)
       }
     }

@@ -91,6 +91,12 @@
       "category": "behavior"
     },
 
+    "hide-upload-btn": {
+      "type": "Boolean",
+      "desc": "Don't show the upload button",
+      "category": "behavior"
+    },
+
     "disable": {
       "extends": "disable"
     },
@@ -249,6 +255,14 @@
           "__exemption": [ "examples" ]
         }
       }
+    },
+
+    "start": {
+      "desc": "Started working"
+    },
+
+    "finish": {
+      "desc": "Finished working (regardless of success or fail)"
     },
 
     "uploaded": {

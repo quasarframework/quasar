@@ -108,7 +108,7 @@ export default Vue.extend({
         click: this.activate,
         keyup: this.keyup
       }
-      data.attrs = { tabindex: 0 }
+      data.attrs = { tabindex: this.isDisable === true ? -1 : this.$attrs.tabindex || 0 }
     }
 
     return h('div', data, [

@@ -41,7 +41,8 @@ if (argv.help) {
     --target, -T     (required) App target
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
     --emulator, -e   (optional) Emulator name
-                        Example: iPhone-7, iPhone-X
+                        Examples: iPhone-7, iPhone-X
+                        iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
   `)
   process.exit(0)
 }
@@ -173,8 +174,6 @@ async function goLive () {
     generator = new Generator(quasarConfig),
     Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
     Electron = argv.mode === 'electron' ? require('../lib/electron') : false
-
-  generator.prepare()
 
   function startDev (oldDevServer) {
     let devServer

@@ -100,6 +100,28 @@ module.exports = function (cfg, configName) {
     // write package.json file
     chain.plugin('package-json')
       .use(ElectronPackageJson)
+
+    const
+      fs = require('fs'),
+      copyArray = [],
+      npmrc = appPaths.resolve.app('.npmrc')
+      yarnrc = appPaths.resolve.app('.yarnrc')
+
+    fs.existsSync(npmrc) && copyArray.push({
+      from: npmrc,
+      to: '.'
+    })
+
+    fs.existsSync(yarnrc) && copyArray.push({
+      from: yarnrc,
+      to: '.'
+    })
+
+    if (copyArray.length > 0) {
+      const CopyWebpackPlugin = require('copy-webpack-plugin')
+      chain.plugin('copy-webpack')
+        .use(CopyWebpackPlugin, [ copyArray ])
+    }
   }
 
   return chain

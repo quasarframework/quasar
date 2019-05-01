@@ -23,12 +23,13 @@
           dense no-caps
           ref="token"
           no-wrap
+          unelevated
           color="white"
           text-color="primary"
           label="Token"
           size="sm"
         >
-          <q-list>
+          <q-list dense>
             <q-item tag="label" clickable @click="add('email')">
               <q-item-section side>
                 <q-icon name="mail" />

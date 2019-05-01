@@ -4,6 +4,7 @@ import QResizeObserver from '../observer/QResizeObserver.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import { onSSR } from '../../plugins/Platform.js'
 import slot from '../../utils/slot.js'
+import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QFooter',
@@ -143,7 +144,10 @@ export default Vue.extend({
       staticClass: 'q-footer q-layout__section--marginal q-layout__section--animate',
       class: this.classes,
       style: this.style,
-      on: this.$listeners
+      on: {
+        ...this.$listeners,
+        input: stop
+      }
     }, child.concat(slot(this, 'default')))
   },
 

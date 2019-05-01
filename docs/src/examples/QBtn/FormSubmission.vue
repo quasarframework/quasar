@@ -16,7 +16,6 @@
       <q-btn
         type="submit"
         :loading="submitting"
-        @click="simulateSubmit"
         label="Save"
         class="q-mt-md"
         color="teal"

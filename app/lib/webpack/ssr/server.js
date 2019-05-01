@@ -33,7 +33,7 @@ module.exports = function (chain, cfg) {
   chain.externals(nodeExternals({
     // do not externalize CSS files in case we need to import it from a dep
     whitelist: [
-      /(\.css$|\.vue$|\?vue&type=style|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^quasar[\\/]src[\\/])/
+      /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]src[\\/]|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]$)/
     ].concat(cfg.build.transpileDependencies)
   }))
 
@@ -47,15 +47,29 @@ module.exports = function (chain, cfg) {
     chain.plugin('ssr-artifacts')
       .use(SsrProdArtifacts, [ cfg ])
 
-    // copy src-ssr to dist folder in /server
+    const
+      fs = require('fs'),
+      copyArray = [{
+        // copy src-ssr to dist folder in /server
+        from: cfg.ssr.__dir,
+        to: '../server',
+        ignore: ['.*']
+      }],
+      npmrc = appPaths.resolve.app('.npmrc')
+      yarnrc = appPaths.resolve.app('.yarnrc')
+
+    fs.existsSync(npmrc) && copyArray.push({
+      from: npmrc,
+      to: '..'
+    })
+
+    fs.existsSync(yarnrc) && copyArray.push({
+      from: yarnrc,
+      to: '..'
+    })
+
     const CopyWebpackPlugin = require('copy-webpack-plugin')
     chain.plugin('copy-webpack')
-      .use(CopyWebpackPlugin, [
-        [{
-          from: cfg.ssr.__dir,
-          to: '../server',
-          ignore: ['.*']
-        }]
-      ])
+      .use(CopyWebpackPlugin, [ copyArray ])
   }
 }

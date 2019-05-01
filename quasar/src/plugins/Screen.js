@@ -39,7 +39,7 @@ export default {
   setDebounce () {},
 
   install ($q, queues) {
-    if (isSSR) {
+    if (isSSR === true) {
       $q.screen = this
       return
     }
@@ -127,7 +127,7 @@ export default {
       }
     }
 
-    if (fromSSR) {
+    if (fromSSR === true) {
       queues.takeover.push(start)
     }
     else {

@@ -178,6 +178,23 @@ devServer: {
 }
 ```
 
+When you set `devServer > https: true` in your quasar.conf.js file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.conf.js > devServer > https` should look like this:
+
+```js
+// quasar.conf.js
+
+const fs = require('fs')
+// ...
+
+devServer: {
+  https: {
+    key: fs.readFileSync('/path/to/server.key'),
+    cert: fs.readFileSync('/path/to/server.crt'),
+    ca: fs.readFileSync('/path/to/ca.pem'),
+  }
+}
+```
+
 ### build Property
 | Property | Type | Description |
 | --- | --- | --- |

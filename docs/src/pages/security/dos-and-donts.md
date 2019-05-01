@@ -107,6 +107,12 @@ Electron is a very special case, because XSS and remote code injection can actua
 - **DON'T** enable remote code execution
 - **DO** read our guidelines for enhanced [Electron Safety](/quasar-cli/developing-electron-apps/electron-security-concerns).
 
+### SSR
+When you generate your project with the SSR mode, you are provided with a minimal Express server. It is your responsibility to harden your environment to protect your server and your users. To this end, we have provided a collection of important HEADERS that you can consider and should selectively activate before your project enters the production phase (see `src-ssr/index.js`). It is important to remember, that HEADERS are not bulletproof, because it is up to Browser vendors to respect them - and for example [Chrome will break PDF viewing](https://bugs.chromium.org/p/chromium/issues/detail?id=413851) if your Content Security Policy uses the `sandbox` value.
+- **DON'T** forget to set restrictive headers
+- **DON'T** think that headers alone will protect you from all attacks
+- **DO** read about [headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)
+
 ## Environmental Safety
 Being more safe means taking many things into consideration, and the more of the following guidelines you respect, the smaller the attack footprint will be.
 
@@ -134,6 +140,7 @@ Audit how your production environment works:
  - **DO** use ClamAV to detect infected files
  - **DO** undertake regular system maintenance
  - **DO** remove old ciphers from permitted / available types
+ - **DO** protect users with CSP headers
 
 ### Organizational & Repository Security
 

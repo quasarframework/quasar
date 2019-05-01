@@ -22,12 +22,6 @@
       "category": "content"
     },
 
-    "inset": {
-      "type": "Boolean",
-      "desc": "Applies an inset to the label",
-      "category": "content"
-    },
-
     "lines": {
       "type": [ "Number", "String" ],
       "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines; If more than one line specified, then it will only work on webkit browsers because it uses the '-webkit-line-clamp' CSS property!",

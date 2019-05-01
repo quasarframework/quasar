@@ -124,6 +124,31 @@ Now running `adb devices` should discover your device.
 
 ## iOS Tips
 
+### Device type not found
+If you get this error while running `$ quasar dev -m cordova -T ios`:
+
+```
+No target specified for emulator. Deploying to undefined simulator
+Device type "com.apple.CoreSimulator.SimDeviceType.undefined" could not be found.
+```
+
+Then it means you need to specify an emulator. Example:
+
+```bash
+$ quasar dev -m cordova -T ios -e iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
+```
+
+### Enabling modern build
+By default, Xcode modern build for iOS is disabled due to Cordova issues. However, if you know what you are doing and you want to enable it, do so from `/quasar.conf.js`:
+
+```js
+cordova: {
+  noIosLegacyBuildFlag: true
+}
+```
+
+The above applies also if you want to specify the build type in your "build.json".
+
 ### iOS remote debugging
 If you are debugging iOS Apps, you can use the Safari developer tools to remotely debug through a USB cable attached to your iOS phone/tablet. It can be used for emulator too.
 

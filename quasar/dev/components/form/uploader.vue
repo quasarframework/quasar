@@ -22,17 +22,35 @@
         <q-uploader
           v-bind="props"
           multiple
+          label="Multiple"
           :form-fields="[{name: 'my-field', value: 'my-value'}]"
           url="http://localhost:4444/upload"
           @added="onAdded"
           @removed="onRemoved"
+          @start="onStart"
+          @finish="onFinish"
+        />
+
+        <q-uploader
+          v-bind="props"
+          label="Single"
+          :form-fields="[{name: 'my-field', value: 'my-value'}]"
+          url="http://localhost:4444/upload"
+          @added="onAdded"
+          @removed="onRemoved"
+          @start="onStart"
+          @finish="onFinish"
         />
 
         <q-uploader
           :dark="dark"
           label="Fn returning immediately"
           multiple
-          :factory="files => ({ url: 'http://localhost:4444/upload' })"
+          :factory="files => ({ batch, url: 'http://localhost:4444/upload' })"
+          @added="onAdded"
+          @removed="onRemoved"
+          @start="onStart"
+          @finish="onFinish"
         />
 
         <q-uploader
@@ -40,6 +58,10 @@
           label="Fn returning promise"
           multiple
           :factory="promiseFn"
+          @added="onAdded"
+          @removed="onRemoved"
+          @start="onStart"
+          @finish="onFinish"
         />
 
         <q-uploader
@@ -47,9 +69,21 @@
           label="Fn returning promise - reject"
           multiple
           :factory="rejectFn"
+          @added="onAdded"
+          @removed="onRemoved"
+          @start="onStart"
+          @finish="onFinish"
         />
 
-        <q-uploader v-bind="props" multiple url="http://localhost:4444/upload">
+        <q-uploader
+          v-bind="props"
+          multiple
+          url="http://localhost:4444/upload"
+          @added="onAdded"
+          @removed="onRemoved"
+          @start="onStart"
+          @finish="onFinish"
+        >
           <template v-slot:header="scope">
             <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
               <q-btn v-if="scope.queuedFiles.length > 0" icon="clear_all" @click="scope.removeQueuedFiles" round dense flat />
@@ -129,10 +163,18 @@ export default {
       console.log(`@removed ${files.length || 0} files`)
       console.log(files)
     },
+    onStart () {
+      console.log(`@start`)
+    },
+    onFinish () {
+      console.log(`@finish`)
+    },
     promiseFn (files) {
       return new Promise((resolve) => {
         setTimeout(() => {
+          console.log('resolving promise', this.batch)
           resolve({
+            batch: this.batch,
             url: 'http://localhost:4444/upload'
           })
         }, 2000)

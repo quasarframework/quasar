@@ -67,8 +67,9 @@
     },
 
     "clear-icon": {
-      "type": "Boolean",
+      "type": "String",
       "desc": "Custom icon to use for the clear button when using along with 'clearable' prop",
+      "examples": [ "close" ],
       "category": "content"
     },
 
@@ -91,8 +92,12 @@
     },
 
     "standout": {
-      "type": "Boolean",
-      "desc": "Use 'standout' design for the field",
+      "type": [ "Boolean", "String" ],
+      "desc": "Use 'standout' design for the field; Specifies classes to be applied when focused (overriding default ones)",
+      "examples": [
+        "standout",
+        "standout=\"bg-primary text-white\""
+      ],
       "category": "style"
     },
 
@@ -100,6 +105,12 @@
       "type": "Boolean",
       "desc": "Enables bottom slots ('error', 'hint', 'counter')",
       "category": "content"
+    },
+
+    "hide-bottom-space": {
+      "type": "Boolean",
+      "desc": "Does not reserves space for hint/error/counter anymore when these are not used; as a result, it also disables the animation for those",
+      "category": "style"
     },
 
     "counter": {
@@ -134,6 +145,12 @@
 
     "readonly": {
       "extends": "readonly"
+    },
+
+    "autofocus": {
+      "type": "Boolean",
+      "desc": "Focus field on initial component render",
+      "category": "behavior"
     }
   },
 

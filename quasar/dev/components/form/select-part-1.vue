@@ -33,6 +33,17 @@
         <q-icon slot="append" name="search" />
       </q-select>
 
+      <q-select
+        v-bind="props"
+        v-model="stringSingle"
+        :options="stringOptions"
+        popup-content-class="bg-amber"
+        label="Single - Colored popup"
+      >
+        <q-icon slot="prepend" name="event" />
+        <q-icon slot="append" name="search" />
+      </q-select>
+
       <div>{{ stringMultiple }}</div>
       <q-select
         v-bind="props"
@@ -338,15 +349,16 @@
       <q-select
         v-bind="props"
         v-model="stringSingle"
+        use-input
         label="String - single"
       >
-        <q-item
-          slot="no-option"
-        >
-          <q-item-section>
-            No options slot
-          </q-item-section>
-        </q-item>
+        <template v-slot:no-option="scope">
+          <q-item>
+            <q-item-section>
+              No options slot. Input value: {{ scope.inputValue }}
+            </q-item-section>
+          </q-item>
+        </template>
       </q-select>
 
       <div class="text-h6">

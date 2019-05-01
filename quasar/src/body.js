@@ -63,7 +63,7 @@ function setColors (brand) {
 
 export default {
   install ($q, queues, cfg) {
-    if (isSSR) {
+    if (isSSR === true) {
       queues.server.push((q, ctx) => {
         const
           cls = getBodyClasses(q.platform, cfg),

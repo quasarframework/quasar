@@ -67,6 +67,10 @@ export default {
       this.container.replaceChild(this.$el, this.fullscreenFillerNode)
       document.body.classList.remove('q-body--fullscreen-mixin')
       this.inFullscreen = false
+
+      if (this.$el.scrollIntoView !== void 0) {
+        setTimeout(() => { this.$el.scrollIntoView() })
+      }
     }
   },
 

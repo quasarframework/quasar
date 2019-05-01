@@ -1017,6 +1017,32 @@
       }
     },
 
+    "selection": {
+      "desc": "Emitted when user selects/unselects row(s)",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Selection details",
+          "definition": {
+            "rows": {
+              "type": "Array",
+              "desc": "Array of row objects that were selected/unselected",
+              "__exemption": [ "examples" ]
+            },
+            "keys": {
+              "type": "Array",
+              "desc": "Array of the keys of rows that were selected/unselected",
+              "__exemption": [ "examples" ]
+            },
+            "added": {
+              "type": "Boolean",
+              "desc": "Were the rows added to selection (true) or removed from selection (false)"
+            }
+          }
+        }
+      }
+    },
+
     "update:pagination": {
       "desc": "Used by Vue on 'pagination.sync' prop for updating its value",
       "params": {

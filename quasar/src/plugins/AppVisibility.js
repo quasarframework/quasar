@@ -6,7 +6,7 @@ export default {
   appVisible: false,
 
   install ({ $q }) {
-    if (isSSR) {
+    if (isSSR === true) {
       this.appVisible = $q.appVisible = true
       return
     }

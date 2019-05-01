@@ -9,6 +9,8 @@
 
       <q-input standout v-model="text" label="Standout" />
 
+      <q-input standout="bg-teal text-white" v-model="text" label="Custom standout" />
+
       <q-input borderless v-model="text" label="Borderless" />
 
       <q-input rounded filled v-model="text" label="Rounded filled" />
