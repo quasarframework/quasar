@@ -29,6 +29,15 @@ In order to create #2, the options selection form, you have the `options` proper
 
 ## Usage
 
+```js
+// outside of a Vue file
+import { Dialog } from 'quasar'
+(Object) Dialog.create({ ... })
+
+// inside of a Vue file
+(Object) this.$q.dialog({ ... })
+```
+
 ### Predefined
 
 ::: tip
