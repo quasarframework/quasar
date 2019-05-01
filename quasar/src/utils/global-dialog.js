@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import { isSSR } from '../plugins/Platform.js'
+import { getVm } from './vm.js'
 
 const ssrAPI = {
   onOk: () => ssrAPI,
@@ -9,7 +10,7 @@ const ssrAPI = {
 }
 
 export default function (DefaultComponent) {
-  return ({ className, class: klass, style, component, ...props }) => {
+  return ({ className, class: klass, style, component, root, ...props }) => {
     if (isSSR === true) { return ssrAPI }
 
     // TODO remove in v1 final
@@ -77,7 +78,7 @@ export default function (DefaultComponent) {
       ? component
       : DefaultComponent
 
-    let vm = new Vue({
+    let vm = getVm(root, {
       el: node,
 
       render (h) {

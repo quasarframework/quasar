@@ -1,21 +1,4 @@
-import Vue from 'vue'
-
-let inject
-
-function fillInject (root) {
-  const
-    options = (new Vue()).$root.$options,
-    skip = ['el', 'created', 'activated', 'deactivated', 'beforeMount', 'methods', 'mounted', 'render', 'mixins']
-      .concat(Object.keys(options).filter(key => options[key] !== null))
-
-  inject = {}
-
-  Object.keys(root)
-    .filter(name => skip.includes(name) === false)
-    .forEach(p => {
-      inject[p] = root[p]
-    })
-}
+import { getVm } from '../utils/vm.js'
 
 export default {
   inheritAttrs: false,
@@ -46,13 +29,7 @@ export default {
   },
 
   beforeMount () {
-    if (inject === void 0) {
-      fillInject(this.$root.$options)
-    }
-
     const obj = {
-      ...inject,
-
       inheritAttrs: false,
 
       render: h => this.__render(h),
@@ -75,7 +52,7 @@ export default {
       }
     }
 
-    this.__portal = new Vue(obj).$mount()
+    this.__portal = getVm(this.$root.$options, obj).$mount()
   },
 
   beforeDestroy () {

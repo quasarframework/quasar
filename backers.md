@@ -128,7 +128,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $10+
 
-- Milan Paun ($30.75)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Jim O'Quinn ($25)

@@ -152,10 +152,7 @@ export let SliderMixin = {
       this.active = false
 
       this.__updateValue(true)
-
-      if (this.__nextFocus !== void 0 && !this.$q.platform.is.mobile) {
-        this.$refs[this.__nextFocus + 'Thumb'].focus()
-      }
+      this.__blur()
 
       document.removeEventListener('mouseup', this.__deactivate, true)
     },
