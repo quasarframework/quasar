@@ -59,19 +59,37 @@ export const PanelParentMixin = {
         validNewPanel = this.__isValidPanelName(newVal),
         index = validNewPanel === true
           ? this.__getPanelIndex(newVal)
+          : -1,
+        validOldPanel = this.__isValidPanelName(oldVal),
+        oldIndex = validOldPanel === true
+          ? this.__getPanelIndex(oldVal)
           : -1
 
       if (this.animated) {
-        const oldWasFirstPanel = this.__getPanelIndex(oldVal) === 0,
-          oldWasLastPanel = this.__getPanelIndex(oldVal) === this.__getAvailablePanels().length - 1,
-          newIsFirstPanel = index === 0,
-          newIsLastPanel = index === this.__getAvailablePanels().length - 1
+        let infiniteTransition
+
+        if (this.infinite && validNewPanel && validOldPanel && index > -1 && oldIndex > -1) {
+          const
+            availablePanels = this.__getAvailablePanels(),
+            oldPanelIndex = availablePanels.indexOf(this.panels[oldIndex]),
+            newPanelIndex = availablePanels.indexOf(this.panels[index]),
+            oldWasFirstPanel = oldPanelIndex === 0,
+            oldWasLastPanel = oldPanelIndex === availablePanels.length - 1,
+            newIsFirstPanel = newPanelIndex === 0,
+            newIsLastPanel = newPanelIndex === availablePanels.length - 1
+
+          infiniteTransition = (oldWasLastPanel && newIsFirstPanel)
+            ? this.transitionNext
+            : (oldWasFirstPanel && newIsLastPanel)
+              ? this.transitionPrev
+              : null
+        }
 
         this.panelTransition = validNewPanel === true && this.panelIndex !== -1
           ? 'q-transition--' + (
-            index < this.__getPanelIndex(oldVal)
-              ? this.infinite && oldWasLastPanel && newIsFirstPanel ? this.transitionNext : this.transitionPrev
-              : this.infinite && oldWasFirstPanel && newIsLastPanel ? this.transitionPrev : this.transitionNext
+            infiniteTransition || (index < oldIndex
+              ? this.transitionPrev
+              : this.transitionNext)
           )
           : null
       }
