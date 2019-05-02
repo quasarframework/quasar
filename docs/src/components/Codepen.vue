@@ -113,8 +113,8 @@ export default {
         html:
           `<div id="q-app">
   ${this.html}
-${this.backLink}
-</div>`,
+</div>
+${this.backLink}`,
         css: this.css,
         css_pre_processor: this.cssPreprocessor,
         css_external: cssResources,
