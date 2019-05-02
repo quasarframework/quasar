@@ -45,7 +45,10 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import languages from '../lang/index.json'
+
+window.Vue = Vue
 
 export default {
   meta: {

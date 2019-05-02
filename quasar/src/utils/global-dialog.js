@@ -71,8 +71,7 @@ export default function (DefaultComponent) {
       }
     }
 
-    const vmData = {}
-    Vue.util.defineReactive(vmData, 'props', props)
+    Vue.observable(props)
 
     const DialogComponent = component !== void 0
       ? component
@@ -84,7 +83,7 @@ export default function (DefaultComponent) {
       render (h) {
         return h(DialogComponent, {
           ref: 'dialog',
-          props: vmData.props,
+          props,
           on
         })
       },
