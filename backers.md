@@ -239,8 +239,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Paolo Nesti Poggi
 - Michael Alford
 - Joseph Phillips
-- Harshad Gole
 - David McLean
+- Alfonso Herrera
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
