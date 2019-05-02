@@ -59,40 +59,7 @@ export const PanelParentMixin = {
         validNewPanel = this.__isValidPanelName(newVal),
         index = validNewPanel === true
           ? this.__getPanelIndex(newVal)
-          : -1,
-        validOldPanel = this.__isValidPanelName(oldVal),
-        oldIndex = validOldPanel === true
-          ? this.__getPanelIndex(oldVal)
           : -1
-
-      if (this.animated) {
-        let infiniteTransition
-
-        if (this.infinite && index > -1 && oldIndex > -1) {
-          const
-            availablePanels = this.__getAvailablePanels(),
-            oldPanelIndex = availablePanels.indexOf(this.panels[oldIndex]),
-            newPanelIndex = availablePanels.indexOf(this.panels[index]),
-            oldWasFirstPanel = oldPanelIndex === 0,
-            oldWasLastPanel = oldPanelIndex === availablePanels.length - 1,
-            newIsFirstPanel = newPanelIndex === 0,
-            newIsLastPanel = newPanelIndex === availablePanels.length - 1
-
-          infiniteTransition = (oldWasLastPanel && newIsFirstPanel)
-            ? this.transitionNext
-            : (oldWasFirstPanel && newIsLastPanel)
-              ? this.transitionPrev
-              : null
-        }
-
-        this.panelTransition = validNewPanel === true && this.panelIndex !== -1
-          ? 'q-transition--' + (
-            infiniteTransition || (index < oldIndex
-              ? this.transitionPrev
-              : this.transitionNext)
-          )
-          : null
-      }
 
       if (this.panelIndex !== index) {
         this.panelIndex = index
@@ -151,6 +118,9 @@ export const PanelParentMixin = {
     __go (direction, startIndex = this.panelIndex) {
       let index = startIndex + direction
       const slots = this.panels
+      this.panelTransition = 'q-transition--' + (direction === -1
+        ? this.transitionPrev
+        : this.transitionNext)
 
       while (index > -1 && index < slots.length) {
         const opt = slots[index].componentOptions
