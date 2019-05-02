@@ -19,7 +19,7 @@ function fillInject (root) {
 }
 
 export function getVm (root, vm) {
-  inject === void 0 && root !== void 0 && fillInject(root)
+  inject === void 0 && root !== void 0 && fillInject(root.$root.$options)
   return new Vue(inject !== void 0 ? { ...inject, ...vm } : vm)
 }
 

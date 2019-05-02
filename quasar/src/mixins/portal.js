@@ -52,7 +52,7 @@ export default {
       }
     }
 
-    this.__portal = getVm(this.$root.$options, obj).$mount()
+    this.__portal = getVm(this, obj).$mount()
   },
 
   beforeDestroy () {
