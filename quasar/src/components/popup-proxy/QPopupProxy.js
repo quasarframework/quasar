@@ -15,6 +15,18 @@ export default Vue.extend({
     breakpoint: {
       type: [String, Number],
       default: 450
+    },
+    cover: {
+      type: [Boolean],
+      default: true
+    },
+    self: {
+      type: [String],
+      default: ''
+    },
+    anchor: {
+      type: [String],
+      default: ''
     }
   },
 
@@ -95,7 +107,7 @@ export default Vue.extend({
       ['QDate', 'QTime', 'QCarousel', 'QColor'].includes(
         child[0].componentOptions.Ctor.sealedOptions.name
       )
-    ) ? { cover: true, maxHeight: '99vh' } : {}
+    ) ? { cover: this.cover, maxHeight: '99vh', self: this.self, anchor: this.anchor } : {}
 
     const data = {
       ref: 'popup',
