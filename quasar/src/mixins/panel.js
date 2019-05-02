@@ -77,10 +77,8 @@ export const PanelParentMixin = {
     },
 
     goTo (name) {
-      if (this.animated) {
-        const newPanelIndex = this.__getNewPanelIndex(name)
-        this.__panelTransition(newPanelIndex < this.panelIndex ? -1 : 1, newPanelIndex !== -1)
-      }
+      const newPanelIndex = this.__getNewPanelIndex(name)
+      this.__panelTransition(newPanelIndex < this.panelIndex ? -1 : 1, newPanelIndex !== -1)
       this.$emit('input', name)
     },
 
