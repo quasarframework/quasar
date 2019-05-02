@@ -94,7 +94,7 @@ export const PanelParentMixin = {
     },
 
     __panelTransition (direction) {
-      this.panelTransition = this.animated
+      this.panelTransition = this.animated && this.panelIndex !== -1
         ? 'q-transition--' + (direction === -1
           ? this.transitionPrev
           : this.transitionNext)
