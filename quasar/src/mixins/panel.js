@@ -68,7 +68,7 @@ export const PanelParentMixin = {
       if (this.animated) {
         let infiniteTransition
 
-        if (this.infinite && validNewPanel && validOldPanel && index > -1 && oldIndex > -1) {
+        if (this.infinite && index > -1 && oldIndex > -1) {
           const
             availablePanels = this.__getAvailablePanels(),
             oldPanelIndex = availablePanels.indexOf(this.panels[oldIndex]),
