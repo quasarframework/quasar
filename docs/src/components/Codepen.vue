@@ -31,6 +31,7 @@ export default {
 
   props: {
     title: String,
+    slugifiedTitle: String,
     parts: Object
   },
 
@@ -77,15 +78,6 @@ export default {
         .replace(/___TEMP_REPLACEMENT___/gs, '>')
         .trim()
     },
-    backLink () {
-      const page = (this.page ? this.page + ': ' : '') + (this.title ? this.title : '')
-      return `
-<!--
-  Visit https://v1.quasar-framework.org${this.$route.path}#Example--${this.title.replace(/\s+/g, '-')}
-  to see the documentation for this component example:
-  ${page}
--->`
-    },
     editors () {
       const flag = (this.html && 0b100) | (this.css && 0b010) | (this.js && 0b001)
       return flag.toString(2)
@@ -111,10 +103,13 @@ export default {
       const data = {
         title: this.computedTitle,
         html:
-          `<div id="q-app">
+          `<!--
+  Forked from:
+  ${window.location.origin + window.location.pathname}#${this.slugifiedTitle}
+-->
+<div id="q-app">
   ${this.html}
-</div>
-${this.backLink}`,
+</div>`,
         css: this.css,
         css_pre_processor: this.cssPreprocessor,
         css_external: cssResources,

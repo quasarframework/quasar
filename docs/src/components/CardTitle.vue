@@ -1,23 +1,18 @@
 <template lang="pug">
-section.q-my-sm.q-mr-md.cursor-pointer.text-subtitle1(:id="id", @click="copyHeading(id)")
+section.q-my-sm.q-mr-md.cursor-pointer.text-subtitle1(:id="slugifiedTitle", @click="copyHeading(slugifiedTitle)")
   div.doc-card-title {{ title }}
 </template>
 
 <script>
-import { copyHeading, slugify } from 'assets/page-utils'
+import { copyHeading } from 'assets/page-utils'
 
 export default {
   name: 'DocHeading',
 
   props: {
     title: String,
+    slugifiedTitle: String,
     prefix: String
-  },
-
-  computed: {
-    id () {
-      return this.prefix + slugify(this.title)
-    }
   },
 
   methods: {
