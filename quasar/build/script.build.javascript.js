@@ -77,6 +77,7 @@ const builds = [
       }
     },
     build: {
+      requireVue: true,
       unminified: true,
       minified: true
     }
@@ -165,14 +166,37 @@ function addExtension (filename, ext = 'min') {
   return `${filename.slice(0, insertionPoint)}.${ext}${filename.slice(insertionPoint)}`
 }
 
+function injectVueRequirement (code) {
+  const index = code.indexOf(`Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue`)
+
+  if (index === -1) {
+    console.error('UMD code could not find Vue initial declaration. Aborting...')
+    process.exit(1)
+  }
+
+  const checkMe = ` if (Vue === void 0) {
+    console.error('[ Quasar ] Vue is required to run. Please add a script tag for it before loading Quasar.')
+    return
+  }
+  `
+
+  return code.substring(0, index - 1) +
+    checkMe +
+    code.substring(index)
+}
+
 function buildEntry (config) {
   return rollup
     .rollup(config.rollup.input)
     .then(bundle => bundle.generate(config.rollup.output))
     .then(({ output }) => {
-      return config.build.unminified
-        ? buildUtils.writeFile(config.rollup.output.file, output[0].code)
+      const code = config.build.requireVue === true
+        ? injectVueRequirement(output[0].code)
         : output[0].code
+
+      return config.build.unminified
+        ? buildUtils.writeFile(config.rollup.output.file, code)
+        : code
     })
     .then(code => {
       if (!config.build.minified) {
@@ -196,5 +220,9 @@ function buildEntry (config) {
         buildConf.banner + minified.code,
         true
       )
+    })
+    .catch(err => {
+      console.error(err)
+      process.exit(1)
     })
 }
