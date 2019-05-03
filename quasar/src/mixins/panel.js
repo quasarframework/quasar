@@ -55,7 +55,7 @@ export const PanelParentMixin = {
 
   watch: {
     value (newVal, oldVal) {
-      const index = this.__getNewPanelIndex(name)
+      const index = this.__getNewPanelIndex(newVal)
 
       if (this.panelIndex !== index) {
         this.panelIndex = index
