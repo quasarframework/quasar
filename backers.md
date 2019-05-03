@@ -204,7 +204,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ryohei Katsume
 - David Flasterstein
 - Jay McGuinness
-- Matheus Botura Pimenta
 - Jesse Sudich (Outflank Pay Tracker)
 - Controle Digital 
 - Tobias Mesquita
