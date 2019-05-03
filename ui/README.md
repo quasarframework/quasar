@@ -113,7 +113,7 @@ I'm excited if you want to contribute to Quasar under any form (report bugs, wri
 
 ### Issue Reporting Guidelines
 
-**Please use the appropriate Github repo to report issues. See "Related Components" above.** For example, a bug related to CLI should be reported to the CLI repo, one related to build issues to Quasar Framework Templates repo and so on.
+**Please use the appropriate GitHub repo to report issues. See "Related Components" above.** For example, a bug related to CLI should be reported to the CLI repo, one related to build issues to Quasar Framework Templates repo and so on.
 
 - The issue list of the repository is **exclusively** for bug reports and feature requests. For anything else please use the [Community Forum](https://forum.quasar-framework.org).
 

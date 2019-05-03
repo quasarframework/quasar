@@ -47,7 +47,7 @@ q-page.doc-page
     q-separator
 
     .q-my-sm
-      | Caught a mistake? <doc-link :to="editHref">Suggest an edit on Github</doc-link>
+      | Caught a mistake? <doc-link :to="editHref">Suggest an edit on GitHub</doc-link>
 
     .doc-page-footer__icons.row.items-center
       a(href="https://github.com/quasarframework/quasar", target="_blank")

@@ -6,8 +6,8 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
     q-space
 
     div.col-auto
-      q-btn(dense, flat, round, icon="fab fa-github", @click="openGithub")
-        q-tooltip View on Github
+      q-btn(dense, flat, round, icon="fab fa-github", @click="openGitHub")
+        q-tooltip View on GitHub
       q-btn.q-ml-sm(dense, flat, round, icon="fab fa-codepen", @click="$refs.codepen.open()")
         q-tooltip Edit in Codepen
       q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded")
@@ -148,7 +148,7 @@ export default {
       return parsed[1] || ''
     },
 
-    openGithub () {
+    openGitHub () {
       openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/src/examples/${this.file}.vue`)
     }
   }

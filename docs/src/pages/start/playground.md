@@ -2,7 +2,7 @@
 title: Quasar Playground
 ---
 
-You can fork and use these links for reporting issues on Github too. These links (obviously) use the Quasar UMD version.
+You can fork and use these links for reporting issues on GitHub too. These links (obviously) use the Quasar UMD version.
 
 | Supplier | URL |
 | --- | --- |

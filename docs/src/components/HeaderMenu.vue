@@ -34,7 +34,7 @@ div
       q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar", target="_blank")
         q-item-section(avatar)
           q-icon(name="fab fa-github")
-        q-item-section Github
+        q-item-section GitHub
 
       q-item-label(header) Quick Tools
 
