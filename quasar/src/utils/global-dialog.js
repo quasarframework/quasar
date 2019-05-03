@@ -77,6 +77,10 @@ export default function (DefaultComponent) {
       ? component
       : DefaultComponent
 
+    const attrs = component === void 0
+      ? props
+      : void 0
+
     let vm = getVm(root, {
       el: node,
 
@@ -84,6 +88,7 @@ export default function (DefaultComponent) {
         return h(DialogComponent, {
           ref: 'dialog',
           props,
+          attrs,
           on
         })
       },
