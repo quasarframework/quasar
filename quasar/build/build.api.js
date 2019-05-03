@@ -7,13 +7,13 @@ const
 
 const
   root = path.resolve(__dirname, '..'),
-  resolve = file => path.resolve(root, file),
+  resolvePath = file => path.resolve(root, file),
   dest = path.join(root, 'dist/api'),
-  extendApi = require(resolve('src/api.extends.json'))
+  extendApi = require(resolvePath('src/api.extends.json'))
 
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
-    const mixinFile = resolve('src/' + mixin + '.json')
+    const mixinFile = resolvePath('src/' + mixin + '.json')
 
     if (!fs.existsSync(mixinFile)) {
       logError(`build.api.js: ${path.relative(root, mainFile)} -> no such mixin ${mixin}`)
@@ -404,28 +404,34 @@ function fillAPI (apiType) {
 
     // copy API file to dest
     writeFile(filePath, JSON.stringify(api, null, 2))
+
+    return {
+      name: name.substring(0, name.length - 5),
+      api
+    }
   }
 }
 
 module.exports.generate = function () {
-  try {
-    glob.sync(resolve('src/components/**/Q*.json'))
+  return new Promise((resolve) => {
+    const plugins = glob.sync(resolvePath('src/plugins/*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
-      .forEach(fillAPI('component'))
+      .map(fillAPI('plugin'))
 
-    glob.sync(resolve('src/plugins/*.json'))
+    const directives = glob.sync(resolvePath('src/directives/*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
-      .forEach(fillAPI('plugin'))
+      .map(fillAPI('directive'))
 
-    glob.sync(resolve('src/directives/*.json'))
+    const components = glob.sync(resolvePath('src/components/**/Q*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
-      .forEach(fillAPI('directive'))
-  }
-  catch (err) {
+      .map(fillAPI('component'))
+
+    resolve({ components, directives, plugins })
+  }).catch(err => {
     logError(`build.api.js: something went wrong...`)
     console.log()
     console.error(err)
     console.log()
     process.exit(1)
-  }
+  })
 }

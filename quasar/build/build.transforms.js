@@ -6,7 +6,7 @@ const
 
 const
   root = path.resolve(__dirname, '..'),
-  resolve = file => path.resolve(root, file),
+  resolvePath = file => path.resolve(root, file),
   { writeFile } = require('./build.utils')
 
 function relative (name) {
@@ -27,7 +27,7 @@ function isExternalUtil (name) {
 }
 
 function addComponents (map) {
-  glob.sync(resolve('src/components/**/Q*.js'))
+  glob.sync(resolvePath('src/components/**/Q*.js'))
     .map(relative)
     .forEach(file => {
       const name = path.basename(file)
@@ -36,7 +36,7 @@ function addComponents (map) {
 }
 
 function addDirectives (map) {
-  glob.sync(resolve('src/directives/*.js'))
+  glob.sync(resolvePath('src/directives/*.js'))
     .map(relative)
     .forEach(file => {
       const name = path.basename(file)
@@ -45,7 +45,7 @@ function addDirectives (map) {
 }
 
 function addPlugins (map) {
-  glob.sync(resolve('src/plugins/*.js'))
+  glob.sync(resolvePath('src/plugins/*.js'))
     .map(relative)
     .forEach(file => {
       const name = path.basename(file)
@@ -54,7 +54,7 @@ function addPlugins (map) {
 }
 
 function addUtils (map) {
-  glob.sync(resolve('src/utils/*.js'))
+  glob.sync(resolvePath('src/utils/*.js'))
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
@@ -78,7 +78,7 @@ module.exports = function (importName) {
 
 module.exports.generate = function () {
   const map = {
-    Quasar: relative(resolve('src/vue-plugin.js'))
+    Quasar: relative(resolvePath('src/vue-plugin.js'))
   }
 
   addComponents(map)
@@ -87,7 +87,7 @@ module.exports.generate = function () {
   addUtils(map)
 
   writeFile(
-    resolve(`dist/babel-transforms/imports.js`),
+    resolvePath(`dist/babel-transforms/imports.js`),
     generateFile(map)
   )
 }

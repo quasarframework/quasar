@@ -87,14 +87,15 @@ const builds = [
 addAssets(builds, 'lang', 'lang')
 addAssets(builds, 'icon-set', 'iconSet')
 
-require('./build.transforms').generate()
-require('./build.api').generate()
+build(builds)
 
-build(builds).then(() => {
-  require('./build.lang-index').generate()
-  require('./build.vetur').generate()
-  require('./build.types').generate()
-})
+require('./build.api').generate()
+  .then(data => {
+    require('./build.transforms').generate()
+    require('./build.vetur').generate(data)
+    require('./build.lang-index').generate()
+    require('./build.types').generate(data)
+  })
 
 /**
  * Helpers

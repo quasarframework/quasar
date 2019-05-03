@@ -2,7 +2,7 @@ const
   fs = require('fs'),
   path = require('path'),
   zlib = require('zlib'),
-  { green, blue, red } = require('chalk')
+  { green, blue, red, cyan } = require('chalk')
 
 function getSize (code) {
   return (code.length / 1024).toFixed(2) + 'kb'
@@ -21,7 +21,7 @@ module.exports.writeFile = function (dest, code, zip) {
     : dest.indexOf('.js') > -1
       ? green('[js]  ')
       : dest.indexOf('.ts') > -1
-        ? green('[ts]  ')
+        ? cyan('[ts]  ')
         : blue('[css] ')
 
   return new Promise((resolve, reject) => {

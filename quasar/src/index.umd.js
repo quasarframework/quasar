@@ -14,9 +14,7 @@ Vue.use({ install }, {
   components,
   directives,
   plugins,
-  config: typeof window !== 'undefined'
-    ? (window.quasarConfig || {})
-    : {}
+  config: window.quasarConfig || {}
 })
 
 export default {

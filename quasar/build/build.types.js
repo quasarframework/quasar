@@ -1,126 +1,121 @@
-module.exports.generate = function () {
-  const
-    fs = require('fs'),
-    path = require('path'),
-    apiRoot = path.resolve(__dirname, '../dist/api'),
-    typeRoot = path.resolve(__dirname, '../types'),
-    { writeFile } = require('./build.utils'),
-    resolve = file => path.resolve(apiRoot, file),
-    // eslint-disable-next-line no-useless-escape
-    toCamelCase = s => s.replace(/(\-\w)/g, m => { return m[1].toUpperCase() })
+const
+  fs = require('fs'),
+  path = require('path')
 
-  function copyTypeFiles (dir, parentDir) {
-    const typeDir = fs.readdirSync(dir)
-    typeDir.forEach(file => {
-      const fullPath = path.resolve(dir, file)
-      const stats = fs.lstatSync(fullPath)
-      if (stats.isFile()) {
-        writeFile(resolve('../types/' + (parentDir ? parentDir + file : file)), fs.readFileSync(fullPath))
+const
+  { logError, writeFile } = require('./build.utils'),
+  typeRoot = path.resolve(__dirname, '../types'),
+  distRoot = path.resolve(__dirname, '../dist/types'),
+  resolvePath = file => path.resolve(distRoot, file),
+  // eslint-disable-next-line no-useless-escape
+  toCamelCase = s => s.replace(/(\-\w)/g, m => { return m[1].toUpperCase() })
+
+function writeLine (fileContent, line = '', indent = 0) {
+  fileContent.push(`${line.padStart(line.length + (indent * 4), ' ')}\n`)
+}
+
+function write (fileContent, text = '') {
+  fileContent.push(`${text}`)
+}
+
+const typeMap = new Map([
+  ['Array', 'any[]'],
+  ['Any', 'any'],
+  ['Component', 'Vue'],
+  ['String', 'string'],
+  ['Boolean', 'boolean'],
+  ['Number', 'number']
+])
+
+function convertTypeVal (type, def) {
+  const t = type.trim()
+
+  if (typeMap.has(t)) {
+    return typeMap.get(t)
+  }
+
+  if (t === 'Object') {
+    return def.definition
+      ? `{\n        ${getPropDefinitions(def.definition).join('\n        ')} }`
+      : 'any'
+  }
+
+  return t
+}
+
+function getTypeVal (def) {
+  return Array.isArray(def.type)
+    ? def.type.map(convertTypeVal).join(' | ')
+    : convertTypeVal(def.type, def)
+}
+
+function getPropDefinition (key, propDef) {
+  const propName = toCamelCase(key)
+  const propType = getTypeVal(propDef)
+
+  return `${propName}${!propDef.required ? '?' : ''} : ${propType}`
+}
+
+function getPropDefinitions (propDefs) {
+  const defs = []
+  for (const key in propDefs) {
+    defs.push(getPropDefinition(key, propDefs[key]))
+  }
+  return defs
+}
+
+function getMethodDefinition (key, methodDef) {
+  let def = ''
+  def += `${key} (`
+  if (methodDef.params) {
+    const params = getPropDefinitions(methodDef.params)
+    def += params.join(', ')
+  }
+  const returns = methodDef.returns
+  def += `): ${returns ? getTypeVal(returns) : 'void'}`
+
+  return def
+}
+
+function getInjectionDefinition (injectionName, typeDef) {
+  // Get property injection point
+  for (var propKey in typeDef.props) {
+    const propDef = typeDef.props[propKey]
+    if (propDef.injectionPoint) {
+      return getPropDefinition(injectionName, propDef)
+    }
+  }
+
+  // Get method injection point
+  for (var methodKey in typeDef.methods) {
+    const methodDef = typeDef.methods[methodKey]
+    if (methodDef.injectionPoint) {
+      return getMethodDefinition(injectionName, methodDef)
+    }
+  }
+}
+
+function copyPredefinedTypes (dir, parentDir) {
+  fs.readdirSync(dir).forEach(file => {
+    const fullPath = path.resolve(dir, file)
+    const stats = fs.lstatSync(fullPath)
+    if (stats.isFile()) {
+      writeFile(
+        resolvePath(parentDir ? parentDir + file : file),
+        fs.readFileSync(fullPath)
+      )
+    }
+    else if (stats.isDirectory()) {
+      const p = resolvePath(parentDir ? parentDir + file : file)
+      if (!fs.existsSync(p)) {
+        fs.mkdirSync(p)
       }
-      else if (stats.isDirectory()) {
-        const p = resolve('../types/' + (parentDir ? parentDir + file : file))
-        if (!fs.existsSync(p)) {
-          fs.mkdirSync(p)
-        }
-        copyTypeFiles(fullPath, parentDir ? parentDir + file : file + '/')
-      }
-    })
-  }
-
-  function writeLine (fileContent, line = '', indent = 0) {
-    fileContent.push(`${line.padStart(line.length + (indent * 4), ' ')}\n`)
-  }
-
-  function write (fileContent, text = '') {
-    fileContent.push(`${text}`)
-  }
-
-  function convertTypeVal (type, def) {
-    const t = type.trim()
-    var typeMap = new Map([
-      ['Array', 'any[]'],
-      ['Any', 'any'],
-      ['Component', 'Vue'],
-      ['String', 'string'],
-      ['Boolean', 'boolean'],
-      ['Number', 'number']
-    ])
-
-    if (typeMap.has(t)) {
-      return typeMap.get(t)
+      copyPredefinedTypes(fullPath, parentDir ? parentDir + file : file + '/')
     }
-    else if (t === 'Object') {
-      if (def.definition) {
-        return `{\n        ${getPropDefinitions(def.definition).join('\n        ')} }`
-      }
-      else {
-        return 'any'
-      }
-    }
-    return t
-  }
+  })
+}
 
-  function getTypeVal (def) {
-    const types = def.type
-    if (Array.isArray(types)) {
-      const propTypes = types.map(convertTypeVal)
-      return propTypes.join(' | ')
-    }
-    else {
-      return convertTypeVal(types, def)
-    }
-  }
-
-  function getPropDefinition (key, propDef) {
-    const propName = toCamelCase(key)
-    var propType = getTypeVal(propDef)
-    const propTypeVal = propType
-    return `${propName}${!propDef.required ? '?' : ''} : ${propTypeVal}`
-  }
-
-  function getPropDefinitions (propDefs) {
-    const defs = []
-    for (var key in propDefs) {
-      const propDef = propDefs[key]
-      defs.push(getPropDefinition(key, propDef))
-    }
-    return defs
-  }
-
-  function getMethodDefinition (key, methodDef) {
-    let def = ''
-    def += `${key} (`
-    if (methodDef.params) {
-      const params = getPropDefinitions(methodDef.params)
-      def += params.join(', ')
-    }
-    const returns = methodDef.returns
-    def += `): ${returns ? getTypeVal(returns) : 'void'}`
-    return def
-  }
-
-  function getInjectionDefinition (injectionName, typeDef) {
-    // Get property injeciton point.
-    for (var propKey in typeDef.props) {
-      const propDef = typeDef.props[propKey]
-      if (propDef.injectionPoint) {
-        return getPropDefinition(injectionName, propDef)
-      }
-    }
-
-    // Get method injection point.
-    for (var methodKey in typeDef.methods) {
-      const methodDef = typeDef.methods[methodKey]
-      if (methodDef.injectionPoint) {
-        return getMethodDefinition(injectionName, methodDef)
-      }
-    }
-
-    return undefined
-  }
-
-  copyTypeFiles(typeRoot)
-
+function writeIndexDTS (apis) {
   var contents = []
   var quasarTypeContents = []
 
@@ -129,13 +124,11 @@ module.exports.generate = function () {
   writeLine(quasarTypeContents, 'export as namespace quasar')
   writeLine(quasarTypeContents, `export * from './utils'`)
 
-  const distDir = fs.readdirSync(apiRoot)
-  var injections = {}
+  const injections = {}
 
-  distDir.forEach(file => {
-    const fileContent = resolve(file)
-    const content = require(fileContent)
-    const typeName = file.split('.')[0]
+  apis.forEach(data => {
+    const content = data.api
+    const typeName = data.name
 
     // Declare class
     const extendsVue = (content.type === 'component' || content.type === 'mixin')
@@ -147,7 +140,7 @@ module.exports.generate = function () {
     props.forEach(prop => writeLine(contents, prop, 1))
 
     // Write Methods
-    for (var methodKey in content.methods) {
+    for (const methodKey in content.methods) {
       write(contents, `    ${methodKey}(`)
       if (content.methods[methodKey].params) {
         const params = getPropDefinitions(content.methods[methodKey].params)
@@ -178,11 +171,11 @@ module.exports.generate = function () {
   })
 
   // Write injection types
-  for (var key in injections) {
+  for (const key in injections) {
     const injectionDefs = injections[key]
     if (injectionDefs) {
       writeLine(contents, `export interface ${key.toUpperCase().replace('$', '')}VueGlobals {`)
-      for (var defKey in injectionDefs) {
+      for (const defKey in injectionDefs) {
         writeLine(contents, injectionDefs[defKey], 1)
       }
       writeLine(contents, '}')
@@ -196,7 +189,7 @@ module.exports.generate = function () {
     writeLine(contents, `declare module 'vue/types/vue' {`)
     writeLine(contents, 'interface Vue {', 1)
 
-    for (var key3 in injections) {
+    for (const key3 in injections) {
       writeLine(contents, `${key3}: ${key3.toUpperCase().replace('$', '')}VueGlobals`, 2)
     }
     writeLine(contents, '}', 1)
@@ -207,5 +200,23 @@ module.exports.generate = function () {
 
   writeLine(contents, `import './vue'`)
 
-  writeFile(resolve('../types/index.d.ts'), contents.join(''))
+  writeFile(resolvePath('index.d.ts'), contents.join(''))
+}
+
+module.exports.generate = function (data) {
+  const apis = data.plugins
+    .concat(data.directives)
+    .concat(data.components)
+
+  try {
+    copyPredefinedTypes(typeRoot)
+    writeIndexDTS(apis)
+  }
+  catch (err) {
+    logError(`build.types.js: something went wrong...`)
+    console.log()
+    console.error(err)
+    console.log()
+    process.exit(1)
+  }
 }
