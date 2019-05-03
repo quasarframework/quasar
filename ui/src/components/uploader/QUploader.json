@@ -268,15 +268,21 @@
     "uploaded": {
       "desc": "Emitted when file or batch of files is uploaded",
       "params": {
-        "files": {
-          "type": "Array",
-          "desc": "Uploaded files",
-          "__exemption": [ "examples" ]
-        },
-        "xhr": {
+        "info": {
           "type": "Object",
-          "desc": "XMLHttpRequest that has been used to upload this batch of files",
-          "__exemption": [ "examples" ]
+          "desc": "Object containing information about the event",
+          "definition": {
+            "files": {
+              "type": "Array",
+              "desc": "Uploaded files",
+              "__exemption": [ "examples" ]
+            },
+            "xhr": {
+              "type": "Object",
+              "desc": "XMLHttpRequest that has been used to upload this batch of files",
+              "__exemption": [ "examples" ]
+            }
+          }
         }
       }
     },
@@ -284,15 +290,21 @@
     "failed": {
       "desc": "Emitted when file or batch of files has encountered error while uploading",
       "params": {
-        "files": {
-          "type": "Array",
-          "desc": "Files which encountered error",
-          "__exemption": [ "examples" ]
-        },
-        "xhr": {
+        "info": {
           "type": "Object",
-          "desc": "XMLHttpRequest that has been used to upload this batch of files",
-          "__exemption": [ "examples" ]
+          "desc": "Object containing information about the event",
+          "definition": {
+            "files": {
+              "type": "Array",
+              "desc": "Files which encountered error",
+              "__exemption": [ "examples" ]
+            },
+            "xhr": {
+              "type": "Object",
+              "desc": "XMLHttpRequest that has been used to upload this batch of files",
+              "__exemption": [ "examples" ]
+            }
+          }
         }
       }
     },
@@ -300,15 +312,21 @@
     "uploading": {
       "desc": "Emitted when file or batch of files started uploading",
       "params": {
-        "files": {
-          "type": "Array",
-          "desc": "Files which are now uploading",
-          "__exemption": [ "examples" ]
-        },
-        "xhr": {
+        "info": {
           "type": "Object",
-          "desc": "XMLHttpRequest used for uploading",
-          "__exemption": [ "examples" ]
+          "desc": "Object containing information about the event",
+          "definition": {
+            "files": {
+              "type": "Array",
+              "desc": "Files which are now uploading",
+              "__exemption": [ "examples" ]
+            },
+            "xhr": {
+              "type": "Object",
+              "desc": "XMLHttpRequest used for uploading",
+              "__exemption": [ "examples" ]
+            }
+          }
         }
       }
     },

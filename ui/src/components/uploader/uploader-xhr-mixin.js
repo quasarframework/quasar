@@ -81,18 +81,22 @@ export default {
       }
     },
 
-    __runFactory (payload) {
+    __runFactory (files) {
       this.workingThreads++
 
       if (typeof this.factory !== 'function') {
-        this.__uploadFiles(payload, {})
+        this.__uploadFiles(files, {})
         return
       }
 
-      const res = this.factory(payload)
+      const res = this.factory(files)
 
       if (!res) {
-        this.$emit('factory-fail')
+        this.$emit(
+          'factory-failed',
+          new Error('QUploader: factory() does not return properly'),
+          files
+        )
         this.workingThreads--
       }
       else if (typeof res.catch === 'function' && typeof res.then === 'function') {
@@ -101,15 +105,11 @@ export default {
         res.then(factory => {
           if (this.isDestroyed !== true) {
             this.promises = this.promises.filter(p => p !== res)
-            this.__uploadFiles(payload, factory)
+            this.__uploadFiles(files, factory)
           }
         }).catch(err => {
           if (this.isDestroyed !== true) {
             this.promises = this.promises.filter(p => p !== res)
-
-            const files = Array.isArray(payload)
-              ? payload
-              : [ payload ]
 
             this.queuedFiles = this.queuedFiles.concat(files)
             files.forEach(f => { this.__updateFile(f, 'failed') })
@@ -120,7 +120,7 @@ export default {
         })
       }
       else {
-        this.__uploadFiles(payload, res || {})
+        this.__uploadFiles(files, res || {})
       }
     },
 
@@ -193,14 +193,14 @@ export default {
         if (xhr.status && xhr.status < 400) {
           this.uploadedFiles = this.uploadedFiles.concat(files)
           files.forEach(f => { this.__updateFile(f, 'uploaded') })
-          this.__emit('uploaded', { files, xhr })
+          this.$emit('uploaded', { files, xhr })
         }
         else {
           aborted = true
           this.uploadedSize -= uploadedSize
           this.queuedFiles = this.queuedFiles.concat(files)
           files.forEach(f => { this.__updateFile(f, 'failed') })
-          this.__emit('failed', { files, xhr })
+          this.$emit('failed', { files, xhr })
         }
 
         this.workingThreads--
@@ -233,7 +233,7 @@ export default {
         maxUploadSize += file.size
       })
 
-      this.__emit('uploading', { files, xhr })
+      this.$emit('uploading', { files, xhr })
       this.xhrs.push(xhr)
 
       if (sendRaw === true) {

@@ -175,11 +175,7 @@ export default {
 
       this.files = this.files.filter(f => f.name !== file.name)
       this.queuedFiles = this.queuedFiles.filter(f => f.name !== file.name)
-      this.__emit('removed', [ file ])
-    },
-
-    __emit (evt, payload) {
-      this.$listeners[evt] !== void 0 && this.$emit(evt, payload)
+      this.$emit('removed', [ file ])
     },
 
     __getProgressLabel (p) {
@@ -288,7 +284,7 @@ export default {
       Promise.all(filesReady).then(() => {
         this.files = this.files.concat(files)
         this.queuedFiles = this.queuedFiles.concat(files)
-        this.__emit('added', files)
+        this.$emit('added', files)
         this.autoUpload === true && this.upload()
       })
     },
