@@ -12,12 +12,12 @@
 
 | Package | quasar.conf.js extras name | Version | Description |
 | --- | --- | --- | --- |
-| Roboto Font | `roboto-font` | CDN v18 | Recommended font along Material theme |
-| Roboto Font Latin Extended | `roboto-font-latin-ext` | CDN v18 | Recommended font along Material theme |
-| [Material Icons](https://material.io/icons/) | `material-icons` | CDN v43 | Material icons font |
-| [MDI](https://materialdesignicons.com/) (Material Design Icons) | `mdi-v3` | 3.4.93 | Extended Material Design icons font |
-| [Font Awesome](https://fontawesome.com/icons?d=gallery) | `fontawesome-v5` | 5.7.2 | Fontawesome icons font |
-| [Ionicons](http://ionicons.com/) | `ionicons-v4` | 4.4.5 | Ionicons font |
+| Roboto Font | `roboto-font` | CDN v19 | Recommended font along Material theme |
+| Roboto Font Latin Extended | `roboto-font-latin-ext` | CDN v19 | Recommended font along Material theme |
+| [Material Icons](https://material.io/icons/) | `material-icons` | CDN v47 | Material icons font |
+| [MDI](https://materialdesignicons.com/) (Material Design Icons) | `mdi-v3` | 3.6.95 | Extended Material Design icons font |
+| [Font Awesome](https://fontawesome.com/icons?d=gallery) | `fontawesome-v5` | 5.8.1 | Fontawesome icons font |
+| [Ionicons](http://ionicons.com/) | `ionicons-v4` | 4.5.5 | Ionicons font |
 | [Eva Icons](https://akveo.github.io/eva-icons) | `eva-icons` | 1.1.1 | Eva Icons font |
 | [Themify Icons](https://themify.me/themify-icons) | `themify` | 1.0.0 | Themify Icons font |
 | [Animate.css](https://daneden.github.io/animate.css/) | Use `animations` prop | 3.5.2 | Bundle of animations you can use in your website/app |
@@ -29,7 +29,7 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
 
 ## Documentation
 
-Head on to the Quasar Framework official website: [https://quasar-framework.org](http://quasar-framework.org)
+Head on to the Quasar Framework official website: [https://v1.quasar-framework.org](http://v1.quasar-framework.org)
 
 ## Stay in Touch
 
