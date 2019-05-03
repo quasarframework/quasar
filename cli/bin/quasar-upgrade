@@ -55,12 +55,23 @@ if (!fs.existsSync(path.join(root, 'node_modules'))) {
 const pkg = require(path.join(root, 'package.json'))
 
 function getLatestVersion (packager, packageName, curVersion) {
-  let versions = JSON.parse(
-    execSync(
-      `${packager} info ${packageName} versions --json`,
-      { stdio: ['ignore', 'pipe', 'pipe'] }
+  let versions
+
+  try {
+    versions = JSON.parse(
+      execSync(
+        `${packager} info ${packageName} versions --json`,
+        { stdio: ['ignore', 'pipe', 'pipe'] }
+      )
     )
-  )
+  }
+  catch (err) {
+    return null
+  }
+
+  if (versions.type === 'error') {
+    return null
+  }
 
   if (packager === 'yarn') {
     versions = versions.data
@@ -104,17 +115,21 @@ function upgradeQuasar () {
 
       const latestVersion = getLatestVersion(packager, packageName, curVersion)
 
-      if (curVersion !== latestVersion) {
+      const current = curVersion === null
+        ? red('Missing!')
+        : curVersion
+
+      if (latestVersion === null) {
+        console.log(` ${green(packageName)}: ${current} → ${red('Skipping!')}`)
+        console.log(`   (⚠️  NPM server returned an error, so we cannot detect latest version)`)
+      }
+      else if (curVersion !== latestVersion) {
         deps[type].push({
           packageName,
           latestVersion
         })
 
         updateAvailable = true
-
-        const current = curVersion === null
-          ? red('Missing!')
-          : curVersion
 
         console.log(` ${green(packageName)}: ${current} → ${latestVersion}`)
       }
