@@ -45,6 +45,8 @@ export default Vue.extend({
 
     __getGrid (h) {
       return this.actions.map(action => {
+        const img = action.avatar || action.img
+
         return action.label === void 0
           ? h(QSeparator, {
             staticClass: 'col-all',
@@ -65,10 +67,14 @@ export default Vue.extend({
 
             action.icon
               ? h(QIcon, { props: { name: action.icon, color: action.color } })
-              : h('img', {
-                attrs: { src: action.avatar || action.img },
-                staticClass: action.avatar ? 'q-bottom-sheet__avatar' : null
-              }),
+              : (
+                img
+                  ? h('img', {
+                    attrs: { src: img },
+                    staticClass: action.avatar ? 'q-bottom-sheet__avatar' : null
+                  })
+                  : h('div', { staticClass: 'q-bottom-sheet__empty-icon' })
+              ),
 
             h('div', [ action.label ])
           ])
@@ -77,6 +83,8 @@ export default Vue.extend({
 
     __getList (h) {
       return this.actions.map(action => {
+        const img = action.avatar || action.img
+
         return action.label === void 0
           ? h(QSeparator, { props: { spaced: true, dark: this.dark } })
           : h(QItem, {
@@ -97,10 +105,14 @@ export default Vue.extend({
             h(QItemSection, { props: { avatar: true } }, [
               action.icon
                 ? h(QIcon, { props: { name: action.icon, color: action.color } })
-                : h('img', {
-                  attrs: { src: action.avatar || action.img },
-                  staticClass: action.avatar ? 'q-bottom-sheet__avatar' : null
-                })
+                : (
+                  img
+                    ? h('img', {
+                      attrs: { src: img },
+                      staticClass: action.avatar ? 'q-bottom-sheet__avatar' : null
+                    })
+                    : null
+                )
             ]),
             h(QItemSection, [ action.label ])
           ])
