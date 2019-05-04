@@ -192,6 +192,10 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 
 <doc-example title="Synchronizing with server" file="QTable/Synchronizing" />
 
+### Cell click
+
+<doc-example title="Cell click" file="QTable/CellClick" />
+
 ## QTable API
 <doc-api file="QTable" />
 
