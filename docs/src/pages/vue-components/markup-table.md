@@ -18,13 +18,13 @@ For advanced functionality like pagination, sorting, filtering, and many more, y
 Notice that the content of `QMarkupTable` reflects an accurate markup representation of a native HTML `<table>`, having a `<thead>` and `<tbody>` to wrap header and table body. This is required.
 :::
 
-<doc-example title="Basic" file="QMarkupTable/Basic" />
+<doc-example title="Basic" file="QMarkupTable/Basic" no-edit />
 
-<doc-example title="Separators" file="QMarkupTable/Separators" />
+<doc-example title="Separators" file="QMarkupTable/Separators" no-edit />
 
-<doc-example title="Dark" file="QMarkupTable/Dark" />
+<doc-example title="Dark" file="QMarkupTable/Dark" no-edit />
 
-<doc-example title="Customization" file="QMarkupTable/Customization" />
+<doc-example title="Customization" file="QMarkupTable/Customization" no-edit />
 
 ## QMarkupTable API
 <doc-api file="QMarkupTable" />
