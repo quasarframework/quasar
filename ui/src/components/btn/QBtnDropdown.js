@@ -50,6 +50,10 @@ export default Vue.extend({
   },
 
   render (h) {
+    const label = this.$scopedSlots.label !== void 0
+      ? this.$scopedSlots.label()
+      : []
+
     const Arrow = [
       h(QIcon, {
         props: {
@@ -110,7 +114,7 @@ export default Vue.extend({
             this.$emit('click', e)
           }
         }
-      }, Arrow)
+      }, label.concat(Arrow))
     }
 
     const Btn = h(QBtn, {
@@ -127,7 +131,7 @@ export default Vue.extend({
           this.$emit('click', e)
         }
       }
-    })
+    }, label)
 
     return h(QBtnGroup, {
       props: {
