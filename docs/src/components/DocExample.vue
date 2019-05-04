@@ -1,7 +1,7 @@
 <template lang="pug">
 q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
   q-toolbar.doc-example__toolbar
-    card-title(:title="title", prefix="Example--")
+    card-title(:title="title", :slugifiedTitle="slugifiedTitle")
 
     q-space
 
@@ -50,11 +50,13 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
   .row
     component.col.doc-example__content(:is="component", :class="componentClass")
 
-  codepen(ref="codepen", :title="title", :parts="parts")
+  codepen(ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle", :parts="parts")
 </template>
 
 <script>
 import { openURL } from 'quasar'
+
+import { slugify } from 'assets/page-utils'
 
 import DocCode from './DocCode.vue'
 import Codepen from './Codepen.vue'
@@ -97,6 +99,10 @@ export default {
       if (this.scrollable === true) {
         return 'doc-example__content--scrollable scroll-y'
       }
+    },
+
+    slugifiedTitle () {
+      return 'Example--' + slugify(this.title)
     }
   },
 
