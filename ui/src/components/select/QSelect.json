@@ -513,17 +513,16 @@
     },
 
     "updateInputValue": {
-      "desc": "Method to reset the input value",
+      "desc": "If 'use-input' is specified, this updates the value that it holds",
       "params": {
         "value": {
           "type": "String",
           "desc": "String to set the input value to",
-          "examples": [ "'' to empty the input" ]
+          "examples": [ "hotel" ]
         },
         "noFilter": {
           "type": "Boolean",
-          "desc": "Set to true, if you don't want the filter to act on any new input value",
-          "__exemption": [ "examples" ]
+          "desc": "Set to true if you don't want the filter (if any) to be also triggered"
         }
       }
     }
