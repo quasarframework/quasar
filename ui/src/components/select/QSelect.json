@@ -510,6 +510,21 @@
 
     "updateMenuPosition": {
       "desc": "Recomputes menu position"
+    },
+
+    "updateInputValue": {
+      "desc": "If 'use-input' is specified, this updates the value that it holds",
+      "params": {
+        "value": {
+          "type": "String",
+          "desc": "String to set the input value to",
+          "examples": [ "hotel" ]
+        },
+        "noFilter": {
+          "type": "Boolean",
+          "desc": "Set to true if you don't want the filter (if any) to be also triggered"
+        }
+      }
     }
   }
 }
