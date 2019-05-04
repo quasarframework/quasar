@@ -521,11 +521,9 @@
           "examples": [ "'' to empty the input" ]
         },
         "noFilter": {
-          "value": {
-            "type": "Boolean",
-            "desc": "Set to true, if you don't want the filter to act on any new input value",
-            "__exemption": [ "examples" ]
-          }
+          "type": "Boolean",
+          "desc": "Set to true, if you don't want the filter to act on any new input value",
+          "__exemption": [ "examples" ]
         }
       }
     }
