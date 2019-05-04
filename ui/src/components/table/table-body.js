@@ -40,7 +40,10 @@ export default {
                   : h('td', {
                     staticClass: col.__tdClass,
                     style: col.style,
-                    class: col.classes
+                    class: col.classes,
+                    on: {
+                      click: (evt) => this.$emit('cellclick', col, row, evt)
+                    }
                   }, this.getCellValue(col, row))
               })
 
