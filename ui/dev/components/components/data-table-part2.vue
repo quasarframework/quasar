@@ -293,6 +293,14 @@
       dense
       :selected.sync="selected"
     />
+
+    <h4>Cell click</h4>
+    <q-table
+      :data="data"
+      :columns="columns"
+      row-key="name"
+      @cellclick="onCellClick"
+    />
   </div>
 </template>
 
@@ -503,6 +511,12 @@ export default {
         this.dataDyn = [...this.dataDyn.slice(0, removePoint), ...this.dataDyn.slice(removePoint + 1)]
         this.loadingDyn = false
       }, 500)
+    },
+    onCellClick (row, col, evt) {
+      console.info('Cell clicked')
+      console.info(row)
+      console.info(col)
+      console.info(evt)
     }
   },
   mounted () {
