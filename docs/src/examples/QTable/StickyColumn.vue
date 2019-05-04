@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      class="my-sticky-header-table"
+      class="my-sticky-column-table"
       title="Treats"
       :data="data"
       :columns="columns"
@@ -169,17 +169,23 @@ export default {
 </script>
 
 <style lang="stylus">
-.my-sticky-header-table
-  /* max height is important */
-  .q-table__middle
-    max-height 200px
+.my-sticky-column-table
+  /*
+    specifying max-width so the example can
+    highlight the sticky column on any browser window
+  */
+  max-width 600px
 
-  .q-table__top,
-  .q-table__bottom,
-  thead tr:first-child th /* bg color is important for th; just specify one */
+  /* bg color is important for th; just specify one */
+  thead tr:first-child th:first-child
+    background-color #fff
+
+  td:first-child
     background-color #f5f5dc
 
-  thead tr:first-child th
+  thead tr:first-child th:first-child,
+  td:first-child
     position sticky
-    top 0
+    left 0
+    z-index 1
 </style>
