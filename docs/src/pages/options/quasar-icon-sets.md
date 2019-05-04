@@ -30,7 +30,7 @@ framework: {
 }
 ```
 
-For all available options, visit the [Github](https://github.com/quasarframework/quasar/tree/dev/quasar/icon-set) repository.
+For all available options, visit the [GitHub](https://github.com/quasarframework/quasar/tree/dev/quasar/icon-set) repository.
 
 #### Full Example
 Here is an example of including Ionicons & Fontawesome and telling Quasar to use Fontawesome for its components.

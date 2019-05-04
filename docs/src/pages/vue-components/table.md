@@ -78,6 +78,9 @@ columns: [ // array of Objects
 
 ## Usage
 
+
+### Basic
+
 <doc-example title="Basic" file="QTable/Basic" />
 
 <doc-example title="Dark" file="QTable/Dark" />
@@ -88,13 +91,29 @@ columns: [ // array of Objects
 You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md`. More info: [Screen Plugin](/options/screen-plugin).
 :::
 
+### Sticky header/column
+
+::: warning
+Sticky headers and columns are achieved through CSS with `position: sticky`. This is NOT supported on all browsers. Check [caniuse.com](https://caniuse.com/#search=sticky) before using this technique.
+:::
+
+<doc-example title="Sticky header" file="QTable/StickyHeader" />
+
+<doc-example title="Sticky column" file="QTable/StickyColumn" />
+
+### Separators
+
 <doc-example title="Separators" file="QTable/Separators" />
+
+### Styling
 
 <doc-example title="Custom column" file="QTable/CustomColumn" />
 
 <doc-example title="Custom color" file="QTable/CustomColor" />
 
 <doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
+
+### Selection
 
 ::: warning
 The property `row-key` must be set in order for selection to work properly.
@@ -104,13 +123,19 @@ The property `row-key` must be set in order for selection to work properly.
 
 <doc-example title="Multiple selection and custom selected rows label" file="QTable/MultipleSelection" />
 
+### Visible columns, custom top, fullscreen
+
 <doc-example title="Visible columns, custom top and fullscreen" file="QTable/VisibleColumns" />
+
+### Popup editing
 
 ::: tip
 Below is an example with the user being able to edit “in place” with the help of **QPopupEdit** component. Please note that we are using the `body` scoped slot. **QPopupEdit** won’t work with cell scoped slots.
 :::
 
 <doc-example title="Popup editing" file="QTable/PopupEditing" />
+
+### Grid style
 
 In the example below:
   * We’re using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
@@ -119,9 +144,15 @@ In the example below:
 
 <doc-example title="Grid style with selection and search (filter)" file="QTable/GridStyle" />
 
+### Expanding rows
+
 <doc-example title="Expanded row and custom selector" file="QTable/ExpandedRow" />
 
+### Before/after slots
+
 <doc-example title="Before/After slots (header/footer)" file="QTable/BeforeAfterHeaderFooter" />
+
+### Pagination
 
 ::: tip
 If you want to control Table’s pagination, use `pagination` prop, but don’t forget to add the `.sync` modifier
@@ -133,9 +164,15 @@ When `pagination` has a property named `rowsNumber`, then this means that you’
 
 <doc-example title="Pagination with initial sort and rows per page" file="QTable/Pagination" />
 
+### Loading state
+
 <doc-example title="Loading" file="QTable/Loading" />
 
+### Custom top
+
 <doc-example title="Custom top with add/remove row" file="QTable/CustomTop" />
+
+### Custom sorting
 
 <doc-example title="Custom sorting" file="QTable/CustomSorting" />
 
