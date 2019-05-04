@@ -510,6 +510,24 @@
 
     "updateMenuPosition": {
       "desc": "Recomputes menu position"
+    },
+
+    "updateInputValue": {
+      "desc": "Method to reset the input value",
+      "params": {
+        "value": {
+          "type": "String",
+          "desc": "String to set the input value to",
+          "examples": [ "'' to empty the input" ]
+        },
+        "noFilter": {
+          "value": {
+            "type": "Boolean",
+            "desc": "Set to true, if you don't want the filter to act on any new input value",
+            "__exemption": [ "examples" ]
+          }
+        }
+      }
     }
   }
 }
