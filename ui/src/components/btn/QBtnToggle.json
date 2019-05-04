@@ -32,6 +32,11 @@
           "required": true,
           "__exemption": [ "examples" ]
         },
+        "slot": {
+          "type": "String",
+          "desc": "Slot name to use for this button content; Useful for customizing content or even add tooltips",
+          "examples": [ "mySlot" ]
+        },
         "...props": {
           "type": "Any",
           "desc": "Any other QBtn props",
