@@ -1085,6 +1085,33 @@
           ]
         }
       }
+    },
+
+    "cellclick": {
+      "desc": "Emitted when user clicks on table cell",
+      "params": {
+        "col": {
+          "type": "Object",
+          "desc": "Table column",
+          "examples": [
+            "{name: 'name', required: true, label:'Dessert (100g serving)', align: 'left', sortable: true }"
+          ]
+        },
+        "row": {
+          "type": "Object",
+          "desc": "Table row",
+          "examples": [
+            "{ name: 'Eclair', calories : 262, fat: 16, carbs: 23, protein: 6, sodium: 337, calcium: '6%', iron: '7%', __index: 2 }"
+          ]
+        },
+        "evt": {
+          "type": "Object",
+          "desc": "Click event object",
+          "examples": [
+            "{ offsetX: 78, offsetY: 25, pageX: 441, pageY: 16065, pointerId: 1, pointerType: 'mouse' }"
+          ]
+        }
+      }
     }
   },
 
