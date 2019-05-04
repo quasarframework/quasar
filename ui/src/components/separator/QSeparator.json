@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "apiAnchor": "API"
+  },
+  
   "props": {
     "dark": {
       "extends": "dark"

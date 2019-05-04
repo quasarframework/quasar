@@ -1,5 +1,9 @@
 {
-  "mixins": [ "mixins/router-link" ],
+  "docs": {
+    "page": "list-and-list-items"
+  },
+
+  "mixins": ["mixins/router-link"],
 
   "behavior": {
     "$listeners": true
@@ -29,7 +33,7 @@
     "inset-level": {
       "type": "Number",
       "desc": "Apply an inset; Useful when avatar/left side is missing but you want to align content with other items that do have a left side, or when you're building a menu",
-      "examples": [ ":inset-level=\"1\"" ],
+      "examples": [":inset-level=\"1\""],
       "category": "content"
     },
 
@@ -41,7 +45,7 @@
       "type": "String",
       "desc": "HTML tag to render; Suggestion: use 'label' when encapsulating a QCheckbox/QRadio/QToggle so that when user clicks/taps on the whole item it will trigger a model change for the mentioned components",
       "default": "div",
-      "examples": [ "a", "label" ],
+      "examples": ["a", "label"],
       "category": "content"
     },
 

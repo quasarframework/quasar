@@ -1,4 +1,9 @@
 {
+  "docs": {
+    "route": "layout",
+    "page": "floating-action-button"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -42,7 +47,7 @@
     },
 
     "to": {
-      "type": [ "String", "Object" ],
+      "type": ["String", "Object"],
       "desc": "Equivalent to Vue Router <router-link> 'to' property",
       "examples": [
         "/home/dashboard",

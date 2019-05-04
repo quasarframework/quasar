@@ -1,15 +1,19 @@
 {
+  "docs": {
+    "page": "color-picker"
+  },
+
   "props": {
     "value": {
       "extends": "value",
       "type": "String",
-      "examples": [ "v-model=\"myColor\"" ]
+      "examples": ["v-model=\"myColor\""]
     },
 
     "default-value": {
       "type": "String",
       "desc": "The default value to show when the model doesn't has one",
-      "examples": [ "default-value=\"#c0c0c0\"" ],
+      "examples": ["default-value=\"#c0c0c0\""],
       "category": "model"
     },
 
@@ -25,8 +29,8 @@
       "type": "String",
       "default": "auto",
       "desc": "Forces a certain model format upon the model",
-      "values": [ "auto", "hex", "rgb", "hexa", "rgba" ],
-      "examples": [ "hex" ],
+      "values": ["auto", "hex", "rgb", "hexa", "rgba"],
+      "examples": ["hex"],
       "category": "model"
     },
 

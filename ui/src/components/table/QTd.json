@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "page": "table"
+  },
+
   "props": {
     "props": {
       "type": "Object",

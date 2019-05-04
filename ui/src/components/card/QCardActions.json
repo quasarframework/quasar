@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "page": "card"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -8,8 +12,8 @@
       "type": "String",
       "desc": "Specify how to align the actions",
       "default": "left",
-      "values": [ "left", "center", "right", "between", "around" ],
-      "examples": [ "between" ],
+      "values": ["left", "center", "right", "between", "around"],
+      "examples": ["between"],
       "category": "content"
     },
 

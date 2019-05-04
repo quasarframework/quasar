@@ -1,4 +1,10 @@
 {
+  "docs": {
+    "route": "options",
+    "page": "platform-detection",
+    "apiAnchor": "API"
+  },
+
   "injection": "$q.platform",
 
   "props": {
@@ -23,7 +29,7 @@
           "desc": "Client browser has Web Storage support"
         }
       },
-      "examples": [ "{ touch: false, webStorage: true }" ]
+      "examples": ["{ touch: false, webStorage: true }"]
     },
 
     "within": {
@@ -35,7 +41,7 @@
           "desc": "Does the app run under an iframe?"
         }
       },
-      "examples": [ "{ iframe: false }" ]
+      "examples": ["{ iframe: false }"]
     }
   }
 }

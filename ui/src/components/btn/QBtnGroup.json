@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "page": "button-group"
+  },
+
   "behavior": {
     "$listeners": true
   },

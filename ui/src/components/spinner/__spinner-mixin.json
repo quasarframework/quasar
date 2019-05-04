@@ -1,4 +1,9 @@
 {
+  "docs": {
+    "page": "spinners",
+    "apiAnchor": "Other-Spinners-API"
+  },
+
   "behavior": {
     "$listeners": true
   },

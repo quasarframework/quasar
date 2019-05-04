@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "page": "tabs"
+  },
+
   "mixins": [ "mixins/ripple" ],
 
   "behavior": {

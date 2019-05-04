@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "page": "breadcrumbs"
+  },
+
   "mixins": [ "mixins/router-link" ],
 
   "behavior": {

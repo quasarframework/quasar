@@ -1,0 +1,142 @@
+#!/usr/bin/env node
+
+const
+  parseArgs = require('minimist'),
+  chalk = require('chalk')
+
+const
+  logger = require('../lib/helpers/logger'),
+  getApi = require('../lib/helpers/get-api'),
+  openBrowser = require('../lib/helpers/open-browser'),
+  log = logger('app:docs'),
+  warn = logger('app:docs', 'red')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    a: 'api',
+    h: 'help'
+  },
+  boolean: ['a', 'h']
+})
+
+const item = argv._[0]
+
+if (!item || argv.help) {
+  console.log(`
+  Description
+    Opens a component documentation page
+
+  Usage
+    $ quasar docs <component/directive/Quasar plugin>
+
+  Options
+    --api, -a    Opens the API table URL
+    --help, -h   Displays this message
+  `)
+  process.exit(0)
+}
+
+function docs (api, supplier) {
+  let route, page, apiAnchor, url
+
+  if (supplier === void 0) {
+    const quasarRoutes = {
+      component: 'vue-components',
+      directive: 'vue-directives',
+      plugin: 'quasar-plugins'
+    }
+
+    if (api.docs) {
+      page = api.docs.page
+      route = api.docs.route
+      apiAnchor = api.docs.apiAnchor
+    }
+
+    if (page === void 0) {
+      if (item.startsWith('Q')) {
+        page = item.slice(1)
+      }
+      else {
+        page = item
+      }
+      // kebab-case
+      page = page.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase()
+    }
+
+    if (route === void 0) {
+      route = quasarRoutes[api.type]
+    }
+
+    url = 'https://v1.quasar-framework.org/' + route + '/' + page
+
+    if (argv.api) {
+      if (apiAnchor === void 0) {
+        apiAnchor = api.type === 'directive' ? 'API' : item + '-API'
+      }
+
+      if (apiAnchor === false) {
+        log(`${item} docs page does not contain a API anchor. Opening default page...`)
+      }
+      else {
+        url += '#' + apiAnchor
+      }
+    }
+  }
+  else {
+    if (!api.docs || !api.docs.page) {
+      warn(`App Extension API file does not contain a definition for key 'docs'.`)
+      process.exit(1)
+    }
+
+    if (typeof api.docs === 'string') {
+      page = api.docs
+      apiAnchor = ''
+    }
+    else {
+      page = api.docs.page
+      apiAnchor = api.docs.apiAnchor
+    }
+
+    url = page
+
+    if (!url) {
+      warn(`App Extension API file has an invalid definition for 'docs'.`)
+      process.exit(1)
+    }
+
+    if (argv.api) {
+      if (apiAnchor) {
+        url += '#' + apiAnchor
+      }
+      else {
+        log(`Opening default App Extension docs page because its API file does not contain a definition for 'apiAnchor'`)
+      }
+    }
+  }
+
+  openBrowser(url, null, log)
+}
+
+async function run () {
+  try {
+    const { api, supplier } = await getApi(item)
+
+    console.log()
+    console.log(` Found ${chalk.green(item)} ${api.type} API`)
+
+    if (supplier === void 0) {
+      console.log(` ${chalk.italic(`Supplied by Quasar Framework`)}`)
+    }
+    else {
+      console.log(` ${chalk.italic(`Supplied by "${supplier}" App Extension`)}`)
+    }
+
+    docs(api)
+    console.log()
+  } catch (e) {
+    warn(e)
+    process.exit(1)
+  }
+}
+
+run()

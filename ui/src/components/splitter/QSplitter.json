@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "apiAnchor": "API"
+  },
+
   "behavior": {
     "$listeners": true
   },

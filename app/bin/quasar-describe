@@ -6,6 +6,7 @@ const
 
 const
   appPaths = require('../lib/app-paths'),
+  getApi = require('../lib/helpers/get-api'),
   logger = require('../lib/helpers/logger'),
   warn = logger('app:describe', 'red')
 
@@ -81,55 +82,6 @@ else {
   Object.values(partArgs).forEach(part => {
     apiParts[part] = true
   })
-}
-
-async function getApi (item) {
-  try {
-    const api = require(
-      require.resolve(`quasar/dist/api/${item}.json`, {
-        paths: [ appPaths.appDir ]
-      })
-    )
-    return { api }
-  }
-  catch (e) {}
-
-  const extensionJson = require('../lib/app-extension/extension-json')
-  const extensions = Object.keys(extensionJson.getList())
-
-  if (extensions.length > 0) {
-    const Extension = require('../lib/app-extension/Extension.js')
-
-    for (let ext of extensions) {
-      const instance = new Extension(ext)
-      const hooks = await instance.run({})
-
-      if (hooks.describeApi !== void 0 && hooks.describeApi[item]) {
-        const fs = require('fs')
-        const file = hooks.describeApi[item]
-
-        if (!fs.existsSync(file)) {
-          warn(`⚠️  Extension(${instance.extId}): registerDescribeApi - there is no file at ${file}`)
-          process.exit(1)
-        }
-
-        try {
-          return {
-            api: require(file),
-            supplier: instance.extId
-          }
-        }
-        catch (e) {
-          warn(`⚠️  Extension(${instance.extId}): Malformed API file at ${file}`)
-          process.exit(1)
-        }
-      }
-    }
-  }
-
-  warn(`No API found for requested "${item}"`)
-  warn()
-  process.exit(1)
 }
 
 function getEventParams (event) {
@@ -526,20 +478,26 @@ function describe (api) {
 }
 
 async function run () {
-  const { api, supplier } = await getApi(item)
+  try {
+    const { api, supplier } = await getApi(item)
 
-  console.log()
-  console.log(` Describing ${chalk.green(item)} ${api.type} API`)
+    console.log()
+    console.log(` Describing ${chalk.green(item)} ${api.type} API`)
 
-  if (supplier === void 0) {
-    console.log(` ${chalk.italic(`Description is based on your project's Quasar version`)}`)
+    if (supplier === void 0) {
+      console.log(` ${chalk.italic(`Description is based on your project's Quasar version`)}`)
+    }
+    else {
+      console.log(` ${chalk.italic(`Supplied by "${supplier}" App Extension`)}`)
+    }
+
+    describe(api)
+    console.log()
   }
-  else {
-    console.log(` ${chalk.italic(`Supplied by "${supplier}" App Extension`)}`)
+  catch (e) {
+    warn(e)
+    process.exit(1)
   }
-
-  describe(api)
-  console.log()
 }
 
 run()

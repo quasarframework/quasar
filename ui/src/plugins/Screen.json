@@ -1,4 +1,10 @@
 {
+  "docs": {
+    "route": "options",
+    "page": "screen-plugin",
+    "apiAnchor": "API"
+  },
+
   "injection": "$q.screen",
 
   "props": {

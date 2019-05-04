@@ -1,6 +1,10 @@
 {
-  "mixins": [ "components/tabs/QTab", "mixins/router-link" ],
-  
+  "docs": {
+    "page": "tabs"
+  },
+
+  "mixins": ["components/tabs/QTab", "mixins/router-link"],
+
   "props": {
     "to": {
       "required": true,

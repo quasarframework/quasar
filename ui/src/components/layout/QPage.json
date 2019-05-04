@@ -1,4 +1,9 @@
 {
+  "docs": {
+    "route": "layout",
+    "page": "page"
+  },
+
   "behavior": {
     "$listeners": true
   },

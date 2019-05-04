@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "page": "web-storage"
+  },
+
   "methods": {
     "has": {
       "desc": "Check if storage item exists",

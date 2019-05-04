@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "page": "stepper"
+  },
+
   "behavior": {
     "$listeners": true
   },

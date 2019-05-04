@@ -1,10 +1,14 @@
 {
-  "mixins": [ "components/btn/__btn-mixin", "mixins/model-toggle" ],
+  "docs": {
+    "page": "button-dropdown"
+  },
+
+  "mixins": ["components/btn/__btn-mixin", "mixins/model-toggle"],
 
   "props": {
     "value": {
       "desc": "Controls Menu show/hidden state; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "examples": [ "v-model=\"menuState\"" ],
+      "examples": ["v-model=\"menuState\""],
       "category": "model"
     },
 
@@ -27,7 +31,7 @@
     },
 
     "content-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": ["Array", "String", "Object"],
       "desc": "Style definitions to be attributed to the menu",
       "examples": [
         "background-color: #ff0000",
@@ -37,7 +41,7 @@
     },
 
     "content-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": ["Array", "String", "Object"],
       "desc": "Class definitions to be attributed to the menu",
       "examples": [
         "my-special-class",
@@ -72,7 +76,7 @@
         "center left", "center middle", "center right",
         "bottom left", "bottom center", "bottom right"
       ],
-      "examples": [ "top left", "bottom right" ],
+      "examples": ["top left", "bottom right"],
       "category": "position"
     },
 
@@ -84,7 +88,7 @@
         "center left", "center middle", "center right",
         "bottom left", "bottom center", "bottom right"
       ],
-      "examples": [ "top left", "bottom right" ],
+      "examples": ["top left", "bottom right"],
       "category": "position"
     }
   },

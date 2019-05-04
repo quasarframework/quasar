@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "page": "list-and-list-items"
+  },
+
   "behavior": {
     "$listeners": true
   },

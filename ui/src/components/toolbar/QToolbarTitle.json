@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "page": "toolbar"
+  },
+
   "behavior": {
     "$listeners": true
   },

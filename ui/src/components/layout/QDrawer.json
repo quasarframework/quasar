@@ -1,13 +1,18 @@
 {
-  "mixins": [ "mixins/model-toggle" ],
+  "docs": {
+    "route": "layout",
+    "page": "drawer"
+  },
+
+  "mixins": ["mixins/model-toggle"],
 
   "props": {
     "side": {
       "type": "String",
       "desc": "Side to attach to",
-      "values": [ "left", "right" ],
+      "values": ["left", "right"],
       "default": "left",
-      "examples": [ "right" ],
+      "examples": ["right"],
       "category": "behavior"
     },
 
@@ -21,7 +26,7 @@
       "type": "Number",
       "desc": "Width of drawer (in pixels)",
       "default": 300,
-      "examples": [ ":width=\"350\"" ],
+      "examples": [":width=\"350\""],
       "category": "style"
     },
 
@@ -35,7 +40,7 @@
       "type": "Number",
       "desc": "Width of drawer (in pixels) when in mini-mode",
       "default": 60,
-      "examples": [ ":width=\"100\"" ],
+      "examples": [":width=\"100\""],
       "category": "style"
     },
 
@@ -43,7 +48,7 @@
       "type": "Number",
       "desc": "Breakpoint (in pixels) of layout width up to which mobile mode is used",
       "default": 1023,
-      "examples": [ 1200, ":breakpoint=\"1400\"" ],
+      "examples": [1200, ":breakpoint=\"1400\""],
       "category": "behavior"
     },
 
@@ -83,7 +88,7 @@
     },
 
     "content-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": ["Array", "String", "Object"],
       "desc": "Class definitions to be attributed to the drawer",
       "examples": [
         "my-special-class",
@@ -93,7 +98,7 @@
     },
 
     "content-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": ["Array", "String", "Object"],
       "desc": "Style definitions to be attributed to the drawer",
       "examples": [
         "background-color: #ff0000",

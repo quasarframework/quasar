@@ -8,7 +8,7 @@
       "type": "String",
       "desc": "The string used to separate the breadcrumbs",
       "default": "/",
-      "examples": [ "-", "|", ">" ],
+      "examples": ["-", "|", ">"],
       "category": "content"
     },
 
@@ -38,8 +38,8 @@
       "type": "String",
       "default": "left",
       "desc": "Specify how to align the breadcrumbs horizontally",
-      "values": [ "left", "center", "right", "between", "around" ],
-      "examples": [ "left", "center" ],
+      "values": ["left", "center", "right", "between", "around"],
+      "examples": ["left", "center"],
       "category": "content"
     }
   },

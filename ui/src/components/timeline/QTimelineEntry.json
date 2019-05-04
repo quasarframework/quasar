@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "page": "timeline"
+  },
+
   "behavior": {
     "$listeners": true
   },

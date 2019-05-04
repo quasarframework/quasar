@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "apiAnchor": "API"
+  },
+
   "mixins": [ "components/datetime/datetime-mixin" ],
 
   "behavior": {

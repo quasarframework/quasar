@@ -1,4 +1,8 @@
 {
+  "docs": {
+    "page": "card"
+  },
+
   "behavior": {
     "$listeners": true
   },

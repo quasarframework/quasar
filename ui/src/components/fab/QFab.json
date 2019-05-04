@@ -1,5 +1,10 @@
 {
-  "mixins": [ "mixins/model-toggle" ],
+  "docs": {
+    "route": "layout",
+    "page": "floating-action-button"
+  },
+
+  "mixins": ["mixins/model-toggle"],
 
   "behavior": {
     "$listeners": true
@@ -23,8 +28,8 @@
       "type": "String",
       "desc": "Direction to expand Fab Actions to",
       "default": "right",
-      "values": [ "up", "right", "down", "left" ],
-      "examples": [ "bottom" ],
+      "values": ["up", "right", "down", "left"],
+      "examples": ["bottom"],
       "category": "behavior"
     },
 

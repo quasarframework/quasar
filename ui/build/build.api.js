@@ -35,9 +35,9 @@ function getMixedInAPI (api, mainFile) {
 }
 
 const topSections = {
-  plugin: [ 'injection', 'quasarConfOptions', 'props', 'methods' ],
-  component: [ 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
-  directive: [ 'value', 'arg', 'modifiers' ]
+  plugin: [ 'docs', 'injection', 'quasarConfOptions', 'props', 'methods' ],
+  component: [ 'docs', 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
+  directive: [ 'docs', 'value', 'arg', 'modifiers' ]
 }
 
 const objectTypes = {
@@ -116,6 +116,11 @@ const objectTypes = {
     required: [ 'desc' ]
   },
 
+  docs: {
+    props: [ 'route', 'page', 'apiAnchor' ],
+    required: []
+  },
+
   // component only
   slots: {
     props: [ 'desc', 'link' ],
@@ -185,7 +190,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
   }
 
   type = type.startsWith('Promise') ? 'Promise' : type
-
+  
   if (objectTypes[type] === void 0) {
     logError(`${banner} object has unrecognized API type prop value: "${type}"`)
     console.error(obj)
@@ -349,6 +354,16 @@ function parseAPI (file, apiType) {
         banner: `${banner} "${type}"`,
         api,
         itemName: 'quasarConfOptions',
+        masterType: type
+      })
+      continue
+    }
+
+    if (type === 'docs') {
+      parseObject({
+        banner: `${banner} "${type}"`,
+        api,
+        itemName: 'docs',
         masterType: type
       })
       continue
