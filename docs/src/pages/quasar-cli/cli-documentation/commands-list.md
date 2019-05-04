@@ -373,6 +373,7 @@ $ quasar describe QIcon
 
 ## docs
 This command is useful to open the docs page of any Quasar components/directives/plugins that your project is using. **It is specific to your Quasar version installed in your project folder.**
+Also, it can be used to open the page of sections like components, plugins, directives and extensions. 
 
 Examples: `$ quasar docs QTh`, `$ quasar docs TouchPan`, `$ quasar docs Cookies`.
 
@@ -382,7 +383,8 @@ Description
   Opens a component documentation page
 
 Usage
-  $ quasar docs <component/directive/Quasar plugin>
+  $ quasar docs <component/directive/Quasar plugin name>
+  $ quasar docs [components|plugins|directives|extensions]
 
 Options
   --api, -a    Opens the API table URL
