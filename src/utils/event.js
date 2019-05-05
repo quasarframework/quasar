@@ -135,7 +135,7 @@ export function getMouseWheelDistance (e) {
 }
 
 export function stopAndPrevent (e) {
-  e.preventDefault()
+  e.cancelable !== false && e.preventDefault()
   e.stopPropagation()
 }
 
