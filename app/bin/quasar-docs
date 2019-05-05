@@ -27,13 +27,23 @@ if (!item || argv.help) {
     Opens a component documentation page
 
   Usage
-    $ quasar docs <component/directive/Quasar plugin>
+    $ quasar docs <component/directive/Quasar plugin name>
+    $ quasar docs [components|plugins|directives|extensions]
 
   Options
     --api, -a    Opens the API table URL
     --help, -h   Displays this message
   `)
   process.exit(0)
+}
+
+const quasarBaseUrl = 'https://v1.quasar-framework.org/'
+
+const sections = {
+  components: 'vue-components',
+  directives: 'vue-directives',
+  plugins: 'quasar-plugins',
+  extensions: 'app-extensions/development-guide/introduction'
 }
 
 function docs (api, supplier) {
@@ -67,7 +77,7 @@ function docs (api, supplier) {
       route = quasarRoutes[api.type]
     }
 
-    url = 'https://v1.quasar-framework.org/' + route + '/' + page
+    url = quasarBaseUrl + route + '/' + page
 
     if (argv.api) {
       if (apiAnchor === void 0) {
@@ -119,20 +129,25 @@ function docs (api, supplier) {
 
 async function run () {
   try {
-    const { api, supplier } = await getApi(item)
-
-    console.log()
-    console.log(` Found ${chalk.green(item)} ${api.type} API`)
-
-    if (supplier === void 0) {
-      console.log(` ${chalk.italic(`Supplied by Quasar Framework`)}`)
+    if (sections[item]) {
+      openBrowser(quasarBaseUrl + sections[item], null, log)
     }
     else {
-      console.log(` ${chalk.italic(`Supplied by "${supplier}" App Extension`)}`)
-    }
+      const { api, supplier } = await getApi(item)
 
-    docs(api)
-    console.log()
+      console.log()
+      console.log(` Found ${chalk.green(item)} ${api.type} API`)
+
+      if (supplier === void 0) {
+        console.log(` ${chalk.italic(`Supplied by Quasar Framework`)}`)
+      }
+      else {
+        console.log(` ${chalk.italic(`Supplied by "${supplier}" App Extension`)}`)
+      }
+
+      docs(api)
+      console.log()
+    }
   } catch (e) {
     warn(e)
     process.exit(1)
