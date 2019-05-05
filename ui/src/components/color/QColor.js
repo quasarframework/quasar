@@ -38,12 +38,20 @@ export default Vue.extend({
     value: String,
 
     defaultValue: String,
+    defaultView: {
+      type: String,
+      default: 'spectrum',
+      validator: v => ['spectrum', 'tune', 'palette']
+    },
 
     formatModel: {
       type: String,
       default: 'auto',
       validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
     },
+
+    noHeader: Boolean,
+    noFooter: Boolean,
 
     disable: Boolean,
     readonly: Boolean,
@@ -59,7 +67,7 @@ export default Vue.extend({
             : 'rgb'
         )
         : (this.formatModel.startsWith('hex') ? 'hex' : 'rgb'),
-      view: 'spectrum',
+      view: this.defaultView,
       model: this.__parseModel(this.value || this.defaultValue)
     }
   },
@@ -157,17 +165,23 @@ export default Vue.extend({
   },
 
   render (h) {
+    const child = [ this.__getContent(h) ]
+
+    this.noHeader !== true && child.unshift(
+      this.__getHeader(h)
+    )
+
+    this.noFooter !== true && child.push(
+      this.__getFooter(h)
+    )
+
     return h('div', {
       staticClass: 'q-color-picker',
       class: {
         disabled: this.disable,
         'q-color-picker--dark': this.dark
       }
-    }, [
-      this.__getHeader(h),
-      this.__getContent(h),
-      this.__getFooter(h)
-    ])
+    }, child)
   },
 
   methods: {

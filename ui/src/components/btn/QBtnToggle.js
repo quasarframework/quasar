@@ -3,6 +3,8 @@ import Vue from 'vue'
 import QBtn from './QBtn.js'
 import QBtnGroup from './QBtnGroup.js'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QBtnToggle',
 
@@ -14,7 +16,9 @@ export default Vue.extend({
     options: {
       type: Array,
       required: true,
-      validator: v => v.every(opt => ('label' in opt || 'icon' in opt) && 'value' in opt)
+      validator: v => v.every(
+        opt => ('label' in opt || 'icon' in opt || 'slot' in opt) && 'value' in opt
+      )
     },
 
     // To avoid seeing the active raise shadow through the transparent button, give it a color (even white).
@@ -107,7 +111,7 @@ export default Vue.extend({
           tabindex: opt.tabindex,
           stretch: this.stretch
         }
-      })
+      }, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
     ))
   }
 })

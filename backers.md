@@ -241,6 +241,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - David McLean
 - Alfonso Herrera
 - Mojimo
+- Todd E
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)

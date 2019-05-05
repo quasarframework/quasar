@@ -13,6 +13,14 @@
       "category": "model"
     },
 
+    "default-view": {
+      "type": "String",
+      "desc": "The default view of the picker",
+      "default": "spectrum",
+      "values": [ "spectrum", "tune", "palette" ],
+      "category": "behavior"
+    },
+
     "format-model": {
       "type": "String",
       "default": "auto",
@@ -20,6 +28,18 @@
       "values": [ "auto", "hex", "rgb", "hexa", "rgba" ],
       "examples": [ "hex" ],
       "category": "model"
+    },
+
+    "no-header": {
+      "type": "Boolean",
+      "desc": "Do not render header",
+      "category": "behavior"
+    },
+
+    "no-footer": {
+      "type": "Boolean",
+      "desc": "Do not render footer; Useful when you want a specific view ('default-view' prop) and don't want the user to be able to switch it",
+      "category": "behavior"
     },
 
     "disable": {
