@@ -289,7 +289,9 @@ export default Vue.extend({
       this.focus()
       this.caret.apply(cmd, param, () => {
         this.focus()
-        this.$q.platform.is.ie && this.$nextTick(this.__onInput)
+        if (this.$q.platform.is.ie === true || this.$q.platform.is.edge === true) {
+          this.$nextTick(this.__onInput)
+        }
         if (update) {
           this.refreshToolbar()
         }

@@ -191,7 +191,7 @@ export default {
       push: false,
       outline: false,
       rounded: false,
-      model: '<div>Editor in <a href="http://quasar-framework.org">Quasar</a></div><div>Second line</div>'
+      model: 'Editor in <a href="http://quasar-framework.org">Quasar</a></div><div>Second line'
     }
   },
   watch: {
