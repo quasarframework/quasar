@@ -63,25 +63,25 @@ module.exports.spawnAE = function (cmd, params, cwd, opts, sync) {
   )
 
   if (sync) {
-    return new Promise((resolve, reject) => {
-      const runner = crossSpawn.sync(
-        cmd,
-        params,
-        spawnOpts
-      )
-
-      if (runner.status || runner.error) {
-        reject(runner)
-      }
-      else {
-        resolve(runner)
-      }
-    })
+    return crossSpawn(
+      cmd,
+      params,
+      spawnOpts
+    )
   }
 
-  return crossSpawn(
-    cmd,
-    params,
-    spawnOpts
-  )
+  return new Promise((resolve, reject) => {
+    const runner = crossSpawn.sync(
+      cmd,
+      params,
+      spawnOpts
+    )
+
+    if (runner.status || runner.error) {
+      reject(runner)
+    }
+    else {
+      resolve(runner)
+    }
+  })
 }

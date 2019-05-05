@@ -238,8 +238,8 @@ module.exports = class InstallAPI {
   /**
    * Spawn a process synchronously.
    *
-   * @param {object} params (cmd: String, params: Array, opts: Object - Nodejs spawn opts)
-   * @return Promise
+   * @param {object} params ({ cmd: String, params: Array, opts: Object - Nodejs spawn opts })
+   * @return {object} Nodejs subprocess
    */
   spawnSync ({ cmd, params, opts }) {
     return spawnAE(cmd, params, appPaths.appDir, opts, true)

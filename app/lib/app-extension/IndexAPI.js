@@ -243,20 +243,25 @@ module.exports = class IndexAPI {
   }
 
   /**
-   * Spawn a process.
+   * Spawn a process asynchronously.
    *
-   * @param {object} params
-   *    (cmd: String,
-   *     params: Array,
-   *     sync: Boolean,
-   *     opts: Object - Nodejs spawn opts
-   *    )
-   * @return {object|Promise}
-   *    - Nodejs subprocess if sync
-   *    - Promise if async
+   * @param {object} params (cmd: String, params: Array, opts: Object - Nodejs spawn opts)
+   * @return Promise
+   *   resolve ({ pid, output, stdout, ...})
+   *   reject ({ pid, output, error, stdout, ...})
    */
-  spawn ({ cmd, params, sync, opts }) {
-    return spawnAE(cmd, params, appPaths.appDir, opts, sync)
+  spawn ({ cmd, params, opts }) {
+    return spawnAE(cmd, params, appPaths.appDir, opts)
+  }
+
+  /**
+   * Spawn a process synchronously.
+   *
+   * @param {object} params ({ cmd: String, params: Array, opts: Object - Nodejs spawn opts })
+   * @return {object} Nodejs subprocess
+   */
+  spawnSync ({ cmd, params, opts }) {
+    return spawnAE(cmd, params, appPaths.appDir, opts, true)
   }
 
   /**
