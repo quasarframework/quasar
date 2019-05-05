@@ -11,7 +11,7 @@ function isValidName (bundlerName) {
 
 function installBundler (bundlerName) {
   const
-    spawn = require('../helpers/spawn'),
+    { spawnSync } = require('../helpers/spawn'),
     nodePackager = require('../helpers/node-packager'),
     version = bundlerName === 'packager' ? `^${packagerVersion}` : 'latest',
     cmdParam = nodePackager === 'npm'
@@ -19,7 +19,7 @@ function installBundler (bundlerName) {
       : ['add', '--dev']
 
   log(`Installing required Electron bundler (electron-${bundlerName})...`)
-  spawn.sync(
+  spawnSync(
     nodePackager,
     cmdParam.concat([`electron-${bundlerName}@${version}`]),
     appPaths.appDir,

@@ -2,16 +2,16 @@ const
   logger = require('./logger'),
   log = logger('app:spawn'),
   warn = logger('app:spawn', 'red'),
-  spawn = require('cross-spawn')
+  crossSpawn = require('cross-spawn')
 
 /*
  Returns pid, takes onClose
  */
-module.exports = function (cmd, params, cwd, onClose) {
+module.exports.spawn = function (cmd, params, cwd, onClose) {
   log(`Running "${cmd} ${params.join(' ')}"`)
   log()
 
-  const runner = spawn(
+  const runner = crossSpawn(
     cmd,
     params,
     { stdio: 'inherit', stdout: 'inherit', stderr: 'inherit', cwd }
@@ -32,11 +32,11 @@ module.exports = function (cmd, params, cwd, onClose) {
 /*
  Returns nothing, takes onFail
  */
-module.exports.sync = function (cmd, params, cwd, onFail) {
+module.exports.spawnSync = function (cmd, params, cwd, onFail) {
   log(`[sync] Running "${cmd} ${params.join(' ')}"`)
   log()
 
-  const runner = spawn.sync(
+  const runner = crossSpawn.sync(
     cmd,
     params,
     { stdio: 'inherit', stdout: 'inherit', stderr: 'inherit', cwd }
@@ -51,4 +51,37 @@ module.exports.sync = function (cmd, params, cwd, onFail) {
     onFail && onFail()
     process.exit(1)
   }
+}
+
+module.exports.spawnAE = function (cmd, params, cwd, opts, sync) {
+  log(`[sync] Running "${cmd} ${params.join(' ')}"`)
+  log()
+
+  const spawnOpts = Object.assign(
+    { stdio: 'inherit', stdout: 'inherit', stderr: 'inherit', cwd },
+    opts
+  )
+
+  if (sync) {
+    return new Promise((resolve, reject) => {
+      const runner = crossSpawn.sync(
+        cmd,
+        params,
+        spawnOpts
+      )
+
+      if (runner.status || runner.error) {
+        reject(runner)
+      }
+      else {
+        resolve(runner)
+      }
+    })
+  }
+
+  return crossSpawn(
+    cmd,
+    params,
+    spawnOpts
+  )
 }

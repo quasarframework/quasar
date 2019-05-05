@@ -1,7 +1,7 @@
 const
   log = require('../helpers/logger')('app:cordova'),
   CordovaConfig = require('./cordova-config'),
-  spawn = require('../helpers/spawn'),
+  { spawn } = require('../helpers/spawn'),
   onShutdown = require('../helpers/on-shutdown'),
   appPaths = require('../app-paths')
 
