@@ -1189,6 +1189,34 @@ Promise$2._setScheduler = setScheduler;
 Promise$2._setAsap = setAsap;
 Promise$2._asap = asap;
 
+typeof window !== 'undefined' &&
+typeof document !== 'undefined' && (function (win, doc) {
+  var oldExecCommand = doc.execCommand.bind(doc);
+  var newExecCommand = function (cmd, showUI, param) {
+    if(cmd.indexOf('justify') !== -1) {
+      var range = win.getSelection().getRangeAt(0)
+      var dummyDiv = doc.createElement('div')
+
+      var ceNode = range.startContainer.parentNode
+      while (ceNode && ceNode.contentEditable !== 'true') {
+        ceNode = ceNode.parentNode
+      }
+
+      if (!ceNode) {
+        throw new Error('Node is NOT contentEditable!')
+      }
+      ceNode.appendChild(dummyDiv)
+      var execResult = oldExecCommand(cmd, false, null)
+      dummyDiv.parentNode.removeChild(dummyDiv)
+      return execResult
+    } else {
+      return oldExecCommand(cmd, showUI, param);
+    }
+  };
+
+  doc.execCommand = newExecCommand;
+}(window, document));
+
 /*global self*/
 function polyfill() {
   var local = void 0;
