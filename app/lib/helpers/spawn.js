@@ -62,7 +62,7 @@ module.exports.spawnAE = function (cmd, params, cwd, opts, sync) {
     opts
   )
 
-  if (sync) {
+  if (sync !== true) {
     return crossSpawn(
       cmd,
       params,
