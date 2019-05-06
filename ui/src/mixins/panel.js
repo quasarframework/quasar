@@ -1,5 +1,25 @@
+import Vue from 'vue'
+
 import TouchSwipe from '../directives/TouchSwipe.js'
+
 import { stop } from '../utils/event.js'
+import slot from '../utils/slot.js'
+
+const PanelWrapper = Vue.extend({
+  name: 'QTabPanelWrapper',
+
+  render (h) {
+    return h('div', {
+      staticClass: 'q-panel scroll',
+      attrs: { role: 'tabpanel' },
+      // stop propagation of content emitted @input
+      // which would tamper with Panel's model
+      on: {
+        input: stop
+      }
+    }, slot(this, 'default'))
+  }
+})
 
 export const PanelParentMixin = {
   directives: {
@@ -22,7 +42,9 @@ export const PanelParentMixin = {
     transitionNext: {
       type: String,
       default: 'slide-left'
-    }
+    },
+
+    keepAlive: Boolean
   },
 
   data () {
@@ -172,16 +194,24 @@ export const PanelParentMixin = {
         this.__updatePanelIndex() &&
         this.panels[this.panelIndex]
 
-      const content = [
-        h('div', {
-          key: this.contentKey,
-          staticClass: 'q-panel scroll',
-          attrs: { role: 'tabpanel' },
-          // stop propagation of content emitted @input
-          // which would tamper with Panel's model
-          on: { input: stop }
-        }, [ panel ])
-      ]
+      const content = this.keepAlive === true
+        ? [
+          h('keep-alive', [
+            h(PanelWrapper, {
+              key: this.contentKey
+            }, [ panel ])
+          ])
+        ]
+        : [
+          h('div', {
+            staticClass: 'q-panel scroll',
+            key: this.contentKey,
+            attrs: { role: 'tabpanel' },
+            // stop propagation of content emitted @input
+            // which would tamper with Panel's model
+            on: { input: stop }
+          }, [ panel ])
+        ]
 
       return this.animated === true
         ? [

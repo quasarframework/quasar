@@ -7,6 +7,12 @@
       "category": "model"
     },
 
+    "keep-alive": {
+      "type": "Boolean",
+      "desc": "Equivalent to using Vue's native <keep-alive> component on the content",
+      "category": "behavior"
+    },
+
     "animated": {
       "type": "Boolean",
       "desc": "Enable transitions between panel (also see 'transition-prev' and 'transition-next' props)",

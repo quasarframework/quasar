@@ -6,6 +6,20 @@ import StepHeader from './StepHeader.js'
 
 import slot from '../../utils/slot.js'
 
+const StepWrapper = Vue.extend({
+  name: 'QStepWrapper',
+
+  render (h) {
+    return h('div', {
+      staticClass: 'q-stepper__step-content'
+    }, [
+      h('div', {
+        staticClass: 'q-stepper__step-inner'
+      }, slot(this, 'default'))
+    ])
+  }
+})
+
 export default Vue.extend({
   name: 'QStep',
 
@@ -50,32 +64,40 @@ export default Vue.extend({
   },
 
   render (h) {
-    const content = this.isActive
-      ? h('div', {
-        staticClass: 'q-stepper__step-content'
-      }, [
-        h('div', {
-          staticClass: 'q-stepper__step-inner'
-        }, slot(this, 'default'))
-      ])
-      : null
+    const vertical = this.stepper.vertical
+    const content = vertical === true && this.stepper.keepAlive === true
+      ? h(
+        'keep-alive',
+        this.isActive === true
+          ? [ h(StepWrapper, { key: this.name }, slot(this, 'default')) ]
+          : void 0
+      )
+      : (
+        vertical !== true || this.isActive === true
+          ? StepWrapper.options.render.call(this, h)
+          : void 0
+      )
 
-    return h('div', {
-      staticClass: 'q-stepper__step',
-      on: this.$listeners
-    }, [
-      this.stepper.vertical
-        ? h(StepHeader, {
-          props: {
-            stepper: this.stepper,
-            step: this
-          }
-        })
-        : null,
+    return h(
+      'div',
+      {
+        staticClass: 'q-stepper__step',
+        on: this.$listeners
+      },
+      vertical === true
+        ? [
+          h(StepHeader, {
+            props: {
+              stepper: this.stepper,
+              step: this
+            }
+          }),
 
-      this.stepper.vertical && this.stepper.animated
-        ? h(QSlideTransition, [ content ])
-        : content
-    ])
+          this.stepper.animated === true
+            ? h(QSlideTransition, [ content ])
+            : content
+        ]
+        : [ content ]
+    )
   }
 })

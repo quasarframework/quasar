@@ -17,6 +17,11 @@
 
       <q-toggle label="Step 4 disable" v-model="stepDisable" />
 
+      <q-toggle label="Keep alive" v-model="keepAlive" />
+
+      <q-btn label="One" @click="step = 1" />
+      <q-btn label="Two" @click="step = 2" />
+
       <q-stepper
         :class="'q-mt-lg' + (dark ? ' bg-black' : '')"
         :vertical="vertical"
@@ -28,12 +33,14 @@
         :color="color"
         ref="stepper"
         v-model="step"
+        :keep-alive="keepAlive"
         :alternative-labels="alt"
         :contracted="contracted && !vertical"
       >
         <q-step :name="1" :done="useDone && step > 1" :header-nav="headerNavStep ? step > 1 : true" title="Ad style" icon="map" :caption="caption ? 'Some caption' : null">
           <q-input v-model="myInput" />
           <div>{{ myInput }}</div>
+          <keep-alive-test name="one" />
           <q-date v-model="date" />
           <q-fab color="purple" icon="keyboard_arrow_up" direction="up">
             <q-fab-action color="amber" icon="alarm" />
@@ -43,6 +50,11 @@
           <q-btn dense round icon="map" class="absolute-top-right" />
 
           <input v-model="myInput">
+          <q-uploader
+            multiple
+            label="Multiple"
+            url="http://localhost:4444/upload"
+          />
           <div v-for="n in 10" :key="'1.'+n">
             {{ n }} Step 1
           </div>
@@ -55,10 +67,12 @@
             </q-btn>
           </q-stepper-navigation>
         </q-step>
+
         <q-step :name="2" :done="useDone && step > 2" :header-nav="headerNavStep ? step > 2 : true" error title="Custom channels" :caption="caption ? 'Alert message' : null" icon="map">
           <div v-for="n in 10" :key="'2.'+n">
             {{ n }} Step 2
           </div>
+          <keep-alive-test name="two" />
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="$refs.stepper.next()">
               Continue
@@ -68,10 +82,12 @@
             </q-btn>
           </q-stepper-navigation>
         </q-step>
+
         <q-step :name="3" done-color="orange" :done="useDone && step > 3" :header-nav="headerNavStep ? step > 3 : true" title="Get code" icon="map">
           <div v-for="n in 3" :key="'3.'+n">
             {{ n }} Step 3
           </div>
+          <keep-alive-test name="three" />
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="$refs.stepper.next()">
               Continue
@@ -81,10 +97,12 @@
             </q-btn>
           </q-stepper-navigation>
         </q-step>
+
         <q-step :name="4" :done="useDone && step > 4" :header-nav="headerNavStep ? step > 4 : true" :disable="stepDisable" title="Disabled" icon="map">
           <div v-for="n in 3" :key="'4.'+n">
             {{ n }} Step 4
           </div>
+          <keep-alive-test name="four" />
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="$refs.stepper.next()">
               Continue
@@ -94,10 +112,12 @@
             </q-btn>
           </q-stepper-navigation>
         </q-step>
+
         <q-step :name="5" title="Wrap up" :header-nav="headerNavStep ? step > 5 : true" icon="map">
           <div v-for="n in 3" :key="'5.'+n">
             {{ n }} Step 5
           </div>
+          <keep-alive-test name="five" />
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="step = 1">
               Restart
@@ -132,6 +152,46 @@
 <script>
 
 export default {
+  components: {
+    KeepAliveTest: {
+      name: 'KeepAliveTest',
+
+      props: {
+        name: String
+      },
+
+      created () {
+        this.log('created')
+      },
+
+      beforeMount () {
+        this.log('beforeMount')
+      },
+
+      mounted () {
+        this.log('mounted')
+      },
+
+      beforeDestroy () {
+        this.log('beforeDestroy')
+      },
+
+      destroyed () {
+        this.log('destroyed')
+      },
+
+      methods: {
+        log (what) {
+          console.log(`[KeepAliveTest > ${this.name}] ${what}`)
+        }
+      },
+
+      render (h) {
+        return h('div', [ 'keep alive test ' + this.name ])
+      }
+    }
+  },
+
   data () {
     return {
       color: 'primary',
@@ -153,7 +213,9 @@ export default {
       globalNav: false,
       caption: false,
       useDone: false,
-      headerNavStep: false
+      headerNavStep: false,
+
+      keepAlive: true
     }
   },
   watch: {
