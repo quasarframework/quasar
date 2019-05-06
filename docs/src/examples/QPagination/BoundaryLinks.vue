@@ -4,7 +4,7 @@
       v-model="current"
       color="deep-orange"
       :max="5"
-      :boundaryLinks="true"
+      :boundary-links="true"
     >
     </q-pagination>
   </div>
