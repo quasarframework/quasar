@@ -61,14 +61,8 @@ export const PanelParentMixin = {
           ? this.__getPanelIndex(newVal)
           : -1
 
-      if (this.animated) {
-        this.panelTransition = validNewPanel === true && this.panelIndex !== -1
-          ? 'q-transition--' + (
-            index < this.__getPanelIndex(oldVal)
-              ? this.transitionPrev
-              : this.transitionNext
-          )
-          : null
+      if (!this.panelTransition) {
+        this.__panelTransition(index < this.__getPanelIndex(oldVal) ? -1 : 1, validNewPanel)
       }
 
       if (this.panelIndex !== index) {
@@ -76,6 +70,7 @@ export const PanelParentMixin = {
         this.$emit('before-transition', newVal, oldVal)
         this.$nextTick(() => {
           this.$emit('transition', newVal, oldVal)
+          this.panelTransition = null
         })
       }
     }
@@ -125,9 +120,18 @@ export const PanelParentMixin = {
       })
     },
 
+    __panelTransition (direction, validNewPanel = true) {
+      this.panelTransition = this.animated && validNewPanel === true && this.panelIndex !== -1
+        ? 'q-transition--' + (direction === -1
+        ? this.transitionPrev
+        : this.transitionNext)
+        : null
+    },
+
     __go (direction, startIndex = this.panelIndex) {
       let index = startIndex + direction
       const slots = this.panels
+      this.__panelTransition(direction)
 
       while (index > -1 && index < slots.length) {
         const opt = slots[index].componentOptions
