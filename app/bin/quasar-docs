@@ -145,7 +145,7 @@ async function run () {
         console.log(` ${chalk.italic(`Supplied by "${supplier}" App Extension`)}`)
       }
 
-      docs(api)
+      docs(api, supplier)
       console.log()
     }
   } catch (e) {
