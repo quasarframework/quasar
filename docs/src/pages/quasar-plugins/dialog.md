@@ -28,6 +28,18 @@ In order to create #2, the options selection form, you have the `options` proper
 <doc-installation plugins="Dialog" />
 
 ## Usage
+
+```js
+// outside of a Vue file
+import { Dialog } from 'quasar'
+(Object) Dialog.create({ ... })
+
+// inside of a Vue file
+(Object) this.$q.dialog({ ... })
+```
+
+### Predefined
+
 ::: tip
 For all the examples below, also see the browser console while you check them out.
 :::
@@ -43,6 +55,103 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 <doc-example title="Radios, Checkboxes, Toggles" file="Dialog/Pickers" />
 
 <doc-example title="Other options" file="Dialog/OtherOptions" />
+
+### Invoking custom component
+
+You can also invoke your own custom component rather than relying on the default one that the Dialog plugin comes with out of the box. But in this case you will be responsible for handling everything (including your own component props).
+
+```js
+import CustomComponent from '..path.to.component..'
+
+// ...
+
+this.$q.dialog({
+  component: CustomComponent,
+
+  // optional if you want to have access to
+  // Router, Vuex store, and so on, in your
+  // custom component:
+  root: this.$root,
+
+  // props forwarded to component
+  // (everything except "component" and "root" props above):
+  text: 'something',
+  // ...more.props...
+}).onOk(() => {
+  console.log('OK')
+}).onCancel(() => {
+  console.log('Cancel')
+}).onDismiss(() => {
+  console.log('Called on OK or Cancel')
+})
+```
+
+::: warning
+Your custom component however must follow the interface described below in order to perfectly hook into the Dialog plugin. **Notice the "REQUIRED" comments** and take it as is -- just a bare-bone example, nothing more.
+:::
+
+```html
+<template>
+  <q-dialog ref="dialog" @hide="onDialogHide">
+    <q-card class="q-dialog-plugin">
+      <!--
+        ...content
+        ... use q-card-section for it?
+      -->
+
+      <!-- buttons example -->
+      <q-card-actions align="right">
+        <q-btn color="primary" label="OK" @click="onOKClick" />
+        <q-btn color="primary" label="Cancel" @click="onCancelClick" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+</template>
+
+<script>
+export default {
+  props: {
+    // ...your custom props
+  },
+
+  methods: {
+    // following method is REQUIRED
+    // (don't change its name --> "show")
+    show () {
+      this.$refs.dialog.show()
+    },
+
+    // following method is REQUIRED
+    // (don't change its name --> "hide")
+    hide () {
+      this.$refs.dialog.hide()
+    },
+
+    onDialogHide () {
+      // required to be emitted
+      // when QDialog emits "hide" event
+      this.$emit('hide')
+    }
+
+    onOKClick () {
+      // on OK, it is REQUIRED to
+      // emit "ok" event (with optional payload)
+      // before hiding the QDialog
+      this.$emit('ok')
+      // or with payload: this.$emit('ok', { ... })
+
+      // then hiding dialog
+      this.hide()
+    },
+
+    onCancelClick () {
+      // we just need to hide dialog
+      this.hide()
+    }
+  }
+}
+</script>
+```
 
 ## Dialog API
 <doc-api file="Dialog" />

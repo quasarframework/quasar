@@ -1,14 +1,14 @@
 <template lang="pug">
 q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
   q-toolbar.doc-example__toolbar
-    card-title(:title="title", prefix="Example--")
+    card-title(:title="title", :slugifiedTitle="slugifiedTitle")
 
     q-space
 
     div.col-auto
-      q-btn(dense, flat, round, icon="fab fa-github", @click="openGithub")
-        q-tooltip View on Github
-      q-btn.q-ml-sm(dense, flat, round, icon="fab fa-codepen", @click="$refs.codepen.open()")
+      q-btn(dense, flat, round, icon="fab fa-github", @click="openGitHub")
+        q-tooltip View on GitHub
+      q-btn.q-ml-sm(v-if="noEdit === false", dense, flat, round, icon="fab fa-codepen", @click="$refs.codepen.open()")
         q-tooltip Edit in Codepen
       q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded")
         q-tooltip View Source
@@ -50,11 +50,13 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
   .row
     component.col.doc-example__content(:is="component", :class="componentClass")
 
-  codepen(ref="codepen", :title="title", :parts="parts")
+  codepen(ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle", :parts="parts")
 </template>
 
 <script>
 import { openURL } from 'quasar'
+
+import { slugify } from 'assets/page-utils'
 
 import DocCode from './DocCode.vue'
 import Codepen from './Codepen.vue'
@@ -72,6 +74,7 @@ export default {
   props: {
     title: String,
     file: String,
+    noEdit: Boolean,
     dark: Boolean,
     scrollable: Boolean
   },
@@ -97,6 +100,10 @@ export default {
       if (this.scrollable === true) {
         return 'doc-example__content--scrollable scroll-y'
       }
+    },
+
+    slugifiedTitle () {
+      return 'Example--' + slugify(this.title)
     }
   },
 
@@ -142,7 +149,7 @@ export default {
       return parsed[1] || ''
     },
 
-    openGithub () {
+    openGitHub () {
       openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/src/examples/${this.file}.vue`)
     }
   }

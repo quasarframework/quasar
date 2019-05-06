@@ -16,9 +16,9 @@
     </q-btn>
 
     <q-btn color="deep-orange" push>
-      <div class="row no-wrap">
+      <div class="row items-center no-wrap">
         <q-icon left name="map" />
-        <div>
+        <div class="text-center">
           Custom<br>Content
         </div>
       </div>

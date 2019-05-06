@@ -581,6 +581,7 @@ const components = [
   },
   {
     name: 'Buttons',
+    listPath: 'buttons',
     children: [
       {
         name: 'Button',
@@ -635,6 +636,7 @@ const components = [
   },
   {
     name: 'Form Components',
+    listPath: 'form-components',
     children: [
       {
         name: 'Input Textfield',
@@ -736,6 +738,7 @@ const components = [
   },
   {
     name: 'Observers',
+    listPath: 'observers',
     children: [
       {
         name: 'Resize Observer (for Element)',

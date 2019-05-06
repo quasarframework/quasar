@@ -175,8 +175,6 @@ async function goLive () {
     Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
     Electron = argv.mode === 'electron' ? require('../lib/electron') : false
 
-  generator.prepare()
-
   function startDev (oldDevServer) {
     let devServer
 

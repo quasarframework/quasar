@@ -152,7 +152,7 @@ This is something that every team should have on their radar and put some though
  - **DO** require a review before merging to master
  - **DO** require 2FA for reviewers / code committers
  - **DO** require signed commits
- - **DO** take Github Security Warnings seriously
+ - **DO** take GitHub Security Warnings seriously
  - **DO** undertake deep code reviews
  - **DO** review critical third-party libraries, especially any working with real files
  - **DO** pin versions of critical libraries

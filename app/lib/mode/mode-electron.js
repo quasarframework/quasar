@@ -5,7 +5,7 @@ const
   logger = require('../helpers/logger'),
   log = logger('app:mode-electron'),
   warn = logger('app:mode-electron', 'red'),
-  spawn = require('../helpers/spawn'),
+  { spawnSync } = require('../helpers/spawn'),
   nodePackager = require('../helpers/node-packager')
 
 const
@@ -32,7 +32,7 @@ class Mode {
       : ['add', '--dev']
 
     log(`Installing Electron dependencies...`)
-    spawn.sync(
+    spawnSync(
       nodePackager,
       cmdParam.concat(Object.keys(electronDeps).map(dep => {
         return `${dep}@${electronDeps[dep]}`
@@ -60,7 +60,7 @@ class Mode {
       : ['remove', '--dev']
 
     log(`Uninstalling Electron dependencies...`)
-    spawn.sync(
+    spawnSync(
       nodePackager,
       cmdParam.concat(Object.keys(electronDeps)),
       appPaths.appDir,

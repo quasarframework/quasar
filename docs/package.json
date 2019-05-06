@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "quasar dev",
+    "dev:ssr": "quasar dev -m ssr",
     "build": "quasar build -m ssr",
     "deploy": "yarn build && cd dist/ssr && now --public",
     "lint": "eslint --ext .js,.vue src",

@@ -1,0 +1,138 @@
+{
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "src": {
+      "type": "String",
+      "desc": "Path to image",
+      "examples": [
+        "(statics folder) statics/img/something.png",
+        "(relative path format) :src=\"require('./my_img.jpg')\"",
+        "(URL) https://some-site.net/some-img.gif"
+      ],
+      "category": "model"
+    },
+
+    "srcset": {
+      "type": "String",
+      "desc": "Same syntax as <img> srcset attribute.",
+      "link": "https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes",
+      "examples": [
+        "elva-fairy-320w.jpg 320w, elva-fairy-480w.jpg 480w"
+      ],
+      "category": "model"
+    },
+
+    "sizes": {
+      "type": "String",
+      "desc": "Same syntax as <img> sizes attribute.",
+      "link": "https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Different_sizes",
+      "examples": [
+        "(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
+      ],
+      "category": "model"
+    },
+
+    "alt": {
+      "type": "String",
+      "desc": "Specifies an alternate text for the image, if the image cannot be displayed",
+      "examples": [ "Two cats" ],
+      "category": "content"
+    },
+
+    "placeholder-src": {
+      "type": "String",
+      "desc": "While waiting for your image to load, you can use a placeholder image",
+      "examples": [ "https://some-site.net/some-placeholder.jpg" ],
+      "category": "model"
+    },
+
+    "basic": {
+      "type": "Boolean",
+      "desc": "Do not use transitions; faster render",
+      "category": "content"
+    },
+
+    "contain": {
+      "type": "Boolean",
+      "desc": "Make sure that the image getting displayed is fully contained, regardless if additional blank space besides the image is needed on horizontal or vertical",
+      "category": "content"
+    },
+
+    "position": {
+      "type": "String",
+      "desc": "Equivalent to CSS background-position property",
+      "default": "50% 50%",
+      "examples": [ "0 0", "20px 50px" ],
+      "category": "content"
+    },
+
+    "ratio": {
+      "type": [ "String", "Number" ],
+      "desc": "Force the component to maintain an aspect ratio",
+      "examples": [
+        "(Number format) :ratio=\"16/9\"",
+        "(String format) ratio=\"1\""
+      ],
+      "category": "content"
+    },
+
+    "transition": {
+      "extends": "transition",
+      "default": "fade"
+    },
+
+    "spinner-color": {
+      "extends": "color",
+      "desc": "Color name for default Spinner (unless using a 'loading' slot)",
+      "category": "style"
+    },
+
+    "spinner-size": {
+      "extends": "size",
+      "desc": "Size in CSS units, including unit name, for default Spinner (unless using a 'loading' slot)",
+      "category": "style"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot can be used for captions. See examples"
+    },
+
+    "loading": {
+      "desc": "While image is loading, this slot is being displayed on top of the component; Suggestions: a spinner or text"
+    },
+
+    "error": {
+      "desc": "Optional slot to be used when image could not be loaded; make sure you assign a min-height and min-width to the component through CSS"
+    }
+  },
+
+  "events": {
+    "load": {
+      "desc": "Emitted when image has been loaded by the browser",
+      "params": {
+        "src": {
+          "type": "String",
+          "desc": "URL of image that has been loaded; useful when using 'srcset' and/or 'sizes'",
+          "examples": [
+            "https://some-site.net/some-img.gif"
+          ]
+        }
+      }
+    },
+
+    "error": {
+      "desc": "Emitted when browser could not load the image",
+      "params": {
+        "src": {
+          "type": "Error",
+          "desc": "JS Error object"
+        }
+      }
+    }
+  }
+}

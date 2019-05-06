@@ -128,7 +128,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $10+
 
-- Milan Paun ($30.75)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Jim O'Quinn ($25)
@@ -205,7 +204,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ryohei Katsume
 - David Flasterstein
 - Jay McGuinness
-- Matheus Botura Pimenta
 - Jesse Sudich (Outflank Pay Tracker)
 - Controle Digital 
 - Tobias Mesquita
@@ -240,8 +238,10 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Paolo Nesti Poggi
 - Michael Alford
 - Joseph Phillips
-- Harshad Gole
 - David McLean
+- Alfonso Herrera
+- Mojimo
+- Todd E
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)

@@ -2,7 +2,8 @@ const
   logger = require('../helpers/logger'),
   log = logger('app:extension'),
   warn = logger('app:extension', 'red'),
-  appPaths = require('../app-paths')
+  appPaths = require('../app-paths'),
+  { spawnSync } = require('../helpers/spawn')
 
 async function renderFolders ({ source, rawCopy, scope }) {
   const
@@ -259,14 +260,13 @@ module.exports = class Extension {
 
   __installPackage () {
     const
-      spawn = require('../helpers/spawn'),
       nodePackager = require('../helpers/node-packager'),
       cmdParam = nodePackager === 'npm'
         ? ['install', '--save-dev']
         : ['add', '--dev']
 
     log(`Retrieving "${this.packageFullName}"...`)
-    spawn.sync(
+    spawnSync(
       nodePackager,
       cmdParam.concat(this.packageFullName),
       appPaths.appDir,
@@ -276,14 +276,13 @@ module.exports = class Extension {
 
   __uninstallPackage () {
     const
-      spawn = require('../helpers/spawn'),
       nodePackager = require('../helpers/node-packager'),
       cmdParam = nodePackager === 'npm'
         ? ['uninstall', '--save-dev']
         : ['remove']
 
     log(`Uninstalling "${this.packageName}"...`)
-    spawn.sync(
+    spawnSync(
       nodePackager,
       cmdParam.concat(this.packageName),
       appPaths.appDir,
@@ -339,14 +338,13 @@ module.exports = class Extension {
 
     if (api.__needsNodeModulesUpdate) {
       const
-        spawn = require('../helpers/spawn'),
         nodePackager = require('../helpers/node-packager'),
         cmdParam = nodePackager === 'npm'
           ? ['install']
           : []
 
       log(`Updating dependencies...`)
-      spawn.sync(
+      spawnSync(
         nodePackager,
         cmdParam,
         appPaths.appDir,
