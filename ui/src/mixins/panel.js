@@ -123,8 +123,8 @@ export const PanelParentMixin = {
     __panelTransition (direction, validNewPanel = true) {
       this.panelTransition = this.animated && validNewPanel === true && this.panelIndex !== -1
         ? 'q-transition--' + (direction === -1
-        ? this.transitionPrev
-        : this.transitionNext)
+          ? this.transitionPrev
+          : this.transitionNext)
         : null
     },
 
