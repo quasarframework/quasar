@@ -48,7 +48,9 @@
 import Vue from 'vue'
 import languages from '../lang/index.json'
 
-window.Vue = Vue
+if (process.env.SERVER !== true) {
+  window.Vue = Vue
+}
 
 export default {
   meta: {
