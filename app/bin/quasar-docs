@@ -8,6 +8,8 @@ const
   logger = require('../lib/helpers/logger'),
   getApi = require('../lib/helpers/get-api'),
   openBrowser = require('../lib/helpers/open-browser'),
+  QuasarConfig = require('../lib/quasar-config'),
+  getQuasarCtx = require('../lib/helpers/get-quasar-ctx'),
   log = logger('app:docs'),
   warn = logger('app:docs', 'red')
 
@@ -46,7 +48,7 @@ const sections = {
   extensions: 'app-extensions/development-guide/introduction'
 }
 
-function docs (api, supplier) {
+function docs (api, supplier, openOptions) {
   let route, page, apiAnchor, url
 
   if (supplier === void 0) {
@@ -124,13 +126,29 @@ function docs (api, supplier) {
     }
   }
 
-  openBrowser(url, null, log)
+  openBrowser(url, openOptions, log, warn)
 }
 
 async function run () {
   try {
+    const ctx = getQuasarCtx({
+      mode: 'spa',
+      dev: true
+    })
+    const quasarConfig = new QuasarConfig(ctx)
+
+    try {
+      await quasarConfig.prepare()
+    } catch (e) {
+      console.log(e)
+      warn(`⚠️ [FAIL] quasar.conf.js has JS errors`)
+      process.exit(1)
+    }
+
+    await quasarConfig.compile()
+
     if (sections[item]) {
-      openBrowser(quasarBaseUrl + sections[item], null, log)
+      openBrowser(quasarBaseUrl + sections[item], quasarConfig.getBuildConfig().__openOptions, log, warn)
     }
     else {
       const { api, supplier } = await getApi(item)
@@ -145,7 +163,7 @@ async function run () {
         console.log(` ${chalk.italic(`Supplied by "${supplier}" App Extension`)}`)
       }
 
-      docs(api, supplier)
+      docs(api, supplier, quasarConfig.getBuildConfig().__openOptions)
       console.log()
     }
   } catch (e) {
