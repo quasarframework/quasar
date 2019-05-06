@@ -1,4 +1,4 @@
-module.exports = function openBrowser(url, opts, log) {
+module.exports = function openBrowser(url, opts, log, warn) {
   const open = require('open')
 
   const openDefault = () => {

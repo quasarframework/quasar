@@ -51,7 +51,7 @@ module.exports = class DevServer {
         alreadyNotified = true
 
         if (cfg.devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
-          openBrowser(cfg.build.APP_URL, cfg.__openOptions)
+          openBrowser(cfg.build.APP_URL, cfg.__openOptions, log, warn)
         }
       })
     })
@@ -240,7 +240,7 @@ module.exports = class DevServer {
       server.listen(cfg.devServer.port, cfg.devServer.host, () => {
         resolve()
         if (cfg.devServer.open) {
-          openBrowser(cfg.build.APP_URL, cfg.__openOptions)
+          openBrowser(cfg.build.APP_URL, cfg.__openOptions, log, warn)
         }
       })
     })
