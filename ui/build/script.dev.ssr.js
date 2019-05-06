@@ -120,7 +120,7 @@ function setupDevServer (app, templatePath, cb) {
   ]).then(() => {
     app.listen(env.port, env.host, () => {
       showBanner()
-      require('opn')(env.uri)
+      require('open')(env.uri)
     })
   })
 
