@@ -95,7 +95,7 @@ function docs (api, supplier, openOptions) {
     }
   }
   else {
-    if (!api.docs || !api.docs.page) {
+    if (!api.docs && !api.docs.page) {
       warn(`App Extension API file does not contain a definition for key 'docs'.`)
       process.exit(1)
     }
