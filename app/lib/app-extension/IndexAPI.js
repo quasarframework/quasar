@@ -7,8 +7,7 @@ const
   logger = require('../helpers/logger'),
   warn = logger('app:extension(index)', 'red'),
   getPackageJson = require('../helpers/get-package-json'),
-  getCallerPath = require('../helpers/get-caller-path'),
-  { spawnAE } = require('../helpers/spawn')
+  getCallerPath = require('../helpers/get-caller-path')
 
 /**
  * API for extension's /index.js script
@@ -240,28 +239,6 @@ module.exports = class IndexAPI {
    */
   afterBuild (fn) {
     this.__hooks.afterBuild.push({ extId: this.extId, fn })
-  }
-
-  /**
-   * Spawn a process asynchronously.
-   *
-   * @param {object} params (cmd: String, params: Array, opts: Object - Nodejs spawn opts)
-   * @return Promise
-   *   resolve ({ pid, output, stdout, ...})
-   *   reject ({ pid, output, error, stdout, ...})
-   */
-  spawn ({ cmd, params, opts }) {
-    return spawnAE(cmd, params, appPaths.appDir, opts)
-  }
-
-  /**
-   * Spawn a process synchronously.
-   *
-   * @param {object} params ({ cmd: String, params: Array, opts: Object - Nodejs spawn opts })
-   * @return {object} Nodejs subprocess
-   */
-  spawnSync ({ cmd, params, opts }) {
-    return spawnAE(cmd, params, appPaths.appDir, opts, true)
   }
 
   /**

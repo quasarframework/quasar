@@ -1,9 +1,8 @@
 const
-  appPaths = require('../app-paths'),
   { removeSync } = require('fs-extra')
 
 const
-  { spawnAE } = require('../helpers/spawn')
+  appPaths = require('../app-paths')
 
 /**
  * API for extension's /uninstall.js script
@@ -45,16 +44,6 @@ module.exports = class UninstallAPI {
    */
   removePath (__path) {
     removeSync(appPaths.resolve.app(__path))
-  }
-
-  /**
-   * Spawn a process synchronously.
-   *
-   * @param {object} params ({ cmd: String, params: Array, opts: Object - Nodejs spawn opts })
-   * @return {object} Nodejs subprocess
-   */
-  spawnSync ({ cmd, params, opts }) {
-    return spawnAE(cmd, params, appPaths.appDir, opts, true)
   }
 
   /**
