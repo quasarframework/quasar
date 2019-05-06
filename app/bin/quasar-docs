@@ -126,7 +126,7 @@ function docs (api, supplier, openOptions) {
     }
   }
 
-  openBrowser(url, openOptions, log, warn)
+  openBrowser(url, openOptions)
 }
 
 async function run () {
@@ -148,7 +148,7 @@ async function run () {
     await quasarConfig.compile()
 
     if (sections[item]) {
-      openBrowser(quasarBaseUrl + sections[item], quasarConfig.getBuildConfig().__openOptions, log, warn)
+      openBrowser(quasarBaseUrl + sections[item], quasarConfig.getBuildConfig().__openOptions)
     }
     else {
       const { api, supplier } = await getApi(item)

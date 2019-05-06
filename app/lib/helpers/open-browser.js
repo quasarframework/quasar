@@ -1,4 +1,8 @@
-module.exports = function openBrowser(url, opts, log, warn) {
+const logger = require('./logger'),
+  log = logger('app:browser'),
+  warn = logger('app:browser', 'red')
+
+module.exports = function openBrowser(url, opts) {
   const open = require('open')
 
   const openDefault = () => {
