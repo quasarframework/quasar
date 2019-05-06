@@ -77,20 +77,14 @@ export const PanelParentMixin = {
 
   watch: {
     value (newVal, oldVal) {
-      const
-        validNewPanel = this.__isValidPanelName(newVal),
-        index = validNewPanel === true
-          ? this.__getPanelIndex(newVal)
-          : -1
+      const index = this.__isValidPanelName(newVal) === true
+        ? this.__getPanelIndex(newVal)
+        : -1
 
-      if (this.animated) {
-        this.panelTransition = validNewPanel === true && this.panelIndex !== -1
-          ? 'q-transition--' + (
-            index < this.__getPanelIndex(oldVal)
-              ? this.transitionPrev
-              : this.transitionNext
-          )
-          : null
+      if (this.__forcedPanelTransition !== true) {
+        this.__updatePanelTransition(
+          index === -1 ? 0 : (index < this.__getPanelIndex(oldVal) ? -1 : 1)
+        )
       }
 
       if (this.panelIndex !== index) {
@@ -147,6 +141,16 @@ export const PanelParentMixin = {
       })
     },
 
+    __updatePanelTransition (direction) {
+      const val = direction !== 0 && this.animated === true && this.panelIndex !== -1
+        ? 'q-transition--' + (direction === -1 ? this.transitionPrev : this.transitionNext)
+        : null
+
+      if (this.panelTransition !== val) {
+        this.panelTransition = val
+      }
+    },
+
     __go (direction, startIndex = this.panelIndex) {
       let index = startIndex + direction
       const slots = this.panels
@@ -159,14 +163,19 @@ export const PanelParentMixin = {
           opt.propsData.disable !== '' &&
           opt.propsData.disable !== true
         ) {
+          this.__updatePanelTransition(direction)
+          this.__forcedPanelTransition = true
           this.$emit('input', slots[index].componentOptions.propsData.name)
+          setTimeout(() => {
+            this.__forcedPanelTransition = false
+          })
           return
         }
 
         index += direction
       }
 
-      if (this.infinite && slots.length > 0 && startIndex !== -1 && startIndex !== slots.length) {
+      if (this.infinite === true && slots.length > 0 && startIndex !== -1 && startIndex !== slots.length) {
         this.__go(direction, direction === -1 ? slots.length : -1)
       }
     },
