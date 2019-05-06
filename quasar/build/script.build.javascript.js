@@ -15,45 +15,45 @@ const
   }
 
 const builds = [
-  // {
-  //   rollup: {
-  //     input: {
-  //       input: resolve(`src/index.esm.js`)
-  //     },
-  //     output: {
-  //       file: resolve(`dist/quasar.esm.js`),
-  //       format: 'es'
-  //     }
-  //   },
-  //   build: { minified: true, minExt: false }
-  // },
-  // {
-  //   rollup: {
-  //     input: {
-  //       input: resolve(`src/index.common.js`)
-  //     },
-  //     output: {
-  //       file: resolve(`dist/quasar.common.js`),
-  //       format: 'cjs'
-  //     }
-  //   },
-  //   build: {
-  //     minified: true,
-  //     minExt: false
-  //   }
-  // },
-  // {
-  //   rollup: {
-  //     input: {
-  //       input: resolve('src/ie-compat/ie.js')
-  //     },
-  //     output: {
-  //       file: resolve('dist/quasar.ie.polyfills.js'),
-  //       format: 'es'
-  //     }
-  //   },
-  //   build: { minified: true, minExt: false }
-  // },
+  {
+    rollup: {
+      input: {
+        input: resolve(`src/index.esm.js`)
+      },
+      output: {
+        file: resolve(`dist/quasar.esm.js`),
+        format: 'es'
+      }
+    },
+    build: { minified: true, minExt: false }
+  },
+  {
+    rollup: {
+      input: {
+        input: resolve(`src/index.common.js`)
+      },
+      output: {
+        file: resolve(`dist/quasar.common.js`),
+        format: 'cjs'
+      }
+    },
+    build: {
+      minified: true,
+      minExt: false
+    }
+  },
+  {
+    rollup: {
+      input: {
+        input: resolve('src/ie-compat/ie.js')
+      },
+      output: {
+        file: resolve('dist/quasar.ie.polyfills.js'),
+        format: 'es'
+      }
+    },
+    build: { minified: true, minExt: false }
+  },
   {
     rollup: {
       input: {
@@ -77,6 +77,7 @@ const builds = [
       }
     },
     build: {
+      requireVue: true,
       unminified: true,
       minified: true
     }
@@ -86,14 +87,15 @@ const builds = [
 addAssets(builds, 'lang', 'lang')
 addAssets(builds, 'icon-set', 'iconSet')
 
-require('./build.transforms').generate()
-require('./build.api').generate()
+build(builds)
 
-build(builds).then(() => {
-  require('./build.lang-index').generate()
-  require('./build.vetur').generate()
-  require('./build.types').generate()
-})
+require('./build.api').generate()
+  .then(data => {
+    require('./build.transforms').generate()
+    require('./build.vetur').generate(data)
+    require('./build.lang-index').generate()
+    require('./build.types').generate(data)
+  })
 
 /**
  * Helpers
@@ -165,14 +167,37 @@ function addExtension (filename, ext = 'min') {
   return `${filename.slice(0, insertionPoint)}.${ext}${filename.slice(insertionPoint)}`
 }
 
+function injectVueRequirement (code) {
+  const index = code.indexOf(`Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue`)
+
+  if (index === -1) {
+    console.error('UMD code could not find Vue initial declaration. Aborting...')
+    process.exit(1)
+  }
+
+  const checkMe = ` if (Vue === void 0) {
+    console.error('[ Quasar ] Vue is required to run. Please add a script tag for it before loading Quasar.')
+    return
+  }
+  `
+
+  return code.substring(0, index - 1) +
+    checkMe +
+    code.substring(index)
+}
+
 function buildEntry (config) {
   return rollup
     .rollup(config.rollup.input)
     .then(bundle => bundle.generate(config.rollup.output))
     .then(({ output }) => {
-      return config.build.unminified
-        ? buildUtils.writeFile(config.rollup.output.file, output[0].code)
+      const code = config.build.requireVue === true
+        ? injectVueRequirement(output[0].code)
         : output[0].code
+
+      return config.build.unminified
+        ? buildUtils.writeFile(config.rollup.output.file, code)
+        : code
     })
     .then(code => {
       if (!config.build.minified) {
@@ -196,5 +221,9 @@ function buildEntry (config) {
         buildConf.banner + minified.code,
         true
       )
+    })
+    .catch(err => {
+      console.error(err)
+      process.exit(1)
     })
 }

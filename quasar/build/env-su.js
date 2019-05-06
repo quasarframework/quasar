@@ -7,7 +7,7 @@ module.exports = {
   host,
   port,
   uri: `http://${host}:${port}`,
-  rtl: process.env.QUASAR_RTL !== void 0,
+  rtl: false, //process.env.QUASAR_RTL !== void 0,
   devServerConfig: {
     publicPath: '/',
     host,

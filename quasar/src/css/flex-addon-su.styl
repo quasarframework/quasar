@@ -24,41 +24,41 @@ fg($name, $size)
       flex-direction column-reverse
 
     for $space, $value in $spaces
-      .q-pa{$name}-{$space}
+      .pa{$name}-{$space}
         padding: $value.y $value.x
-      .q-pl{$name}-{$space}
+      .pl{$name}-{$space}
         padding-left: $value.x
-      .q-pr{$name}-{$space}
+      .pr{$name}-{$space}
         padding-right: $value.x
-      .q-pt{$name}-{$space}
+      .pt{$name}-{$space}
         padding-top: $value.y
-      .q-pb{$name}-{$space}
+      .pb{$name}-{$space}
         padding-bottom: $value.y
-      .q-px{$name}-{$space}
-        @extends .q-pl{$name}-{$space}, .q-pr{$name}-{$space}
-      .q-py{$name}-{$space}
-        @extends .q-pt{$name}-{$space}, .q-pb{$name}-{$space}
-      .q-ma{$name}-{$space}
+      .px{$name}-{$space}
+        @extends .pl{$name}-{$space}, .pr{$name}-{$space}
+      .py{$name}-{$space}
+        @extends .pt{$name}-{$space}, .pb{$name}-{$space}
+      .ma{$name}-{$space}
         margin: $value.y $value.x
-      .q-ml{$name}-{$space}
+      .ml{$name}-{$space}
         margin-left: $value.x
-      .q-mr{$name}-{$space}
+      .mr{$name}-{$space}
         margin-right: $value.x
-      .q-mt{$name}-{$space}
+      .mt{$name}-{$space}
         margin-top: $value.y
-      .q-mb{$name}-{$space}
+      .mb{$name}-{$space}
         margin-bottom: $value.y
-      .q-mx{$name}-{$space}
-        @extends .q-ml{$name}-{$space}, .q-mr{$name}-{$space}
-      .q-my{$name}-{$space}
-        @extends .q-mt{$name}-{$space}, .q-mb{$name}-{$space}
+      .mx{$name}-{$space}
+        @extends .ml{$name}-{$space}, .mr{$name}-{$space}
+      .my{$name}-{$space}
+        @extends .mt{$name}-{$space}, .mb{$name}-{$space}
 
-    .q-ml{$name}-auto
+    .ml{$name}-auto
       margin-left auto
-    .q-mr{$name}-auto
+    .mr{$name}-auto
       margin-right auto
-    .q-mx{$name}-auto
-      @extends .q-ml{$name}-auto, .q-mr{$name}-auto
+    .mx{$name}-auto
+      @extends .ml{$name}-auto, .mr{$name}-auto
 
     .row, .column, .flex
       if $noProcNotZero
