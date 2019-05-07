@@ -92,7 +92,6 @@
   "events": {
     "input": {
       "extends": "input",
-      "type": "String",
       "params": {
         "value": {
           "type": "String"

@@ -87,5 +87,5 @@ You can couple this with a Quasar [language pack](/options/quasar-language-packs
 
 <q-btn type="a" href="https://codepen.io/rstoenescu/pen/wOGpZg" target="_blank" label="See example" icon-right="launch" color="primary" />
 
-## API
+## QDate API
 <doc-api file="QDate" />

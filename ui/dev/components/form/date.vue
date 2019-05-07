@@ -19,6 +19,8 @@
           v-model="date"
           v-bind="props"
           :style="style"
+          emit-immediately
+          @input="inputLog"
         />
 
         <q-date
@@ -26,6 +28,7 @@
           v-bind="props"
           :style="style"
           landscape
+          @input="inputLog"
         />
       </div>
 
@@ -286,6 +289,10 @@ export default {
       return this.persian === true
         ? date >= '1397/08/12' && date <= '1397/08/24'
         : date >= '2018/11/03' && date <= '2018/11/15'
+    },
+
+    inputLog (value, reason, date) {
+      console.log('@input', value, reason, date)
     }
   }
 }
