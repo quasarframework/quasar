@@ -45,7 +45,7 @@
 
         <q-date
           :default-year-month="defaultYearMonth"
-          v-model="nullDate"
+          v-model="nullDate2"
           v-bind="props"
           :style="style"
           landscape
@@ -214,6 +214,7 @@ export default {
       date: '2018/11/03',
       dateNeg: '-13/11/03',
       nullDate: null,
+      nullDate2: null,
       defaultYearMonth: '1986/02',
 
       persian: false,

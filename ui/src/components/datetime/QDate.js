@@ -280,8 +280,8 @@ export default Vue.extend({
 
         if (this.defaultYearMonth !== void 0) {
           const d = this.defaultYearMonth.split('/')
-          year = d[0]
-          month = d[1]
+          year = parseInt(d[0], 10)
+          month = parseInt(d[1], 10)
         }
         else {
           const d = new Date()
@@ -295,7 +295,7 @@ export default Vue.extend({
           }
         }
 
-        string = year + '/' + month + '/' + day
+        string = this.__padYear(year) + '/' + this.__pad(month) + '/' + this.__pad(day)
       }
       else {
         const d = splitDate(v)
@@ -661,17 +661,18 @@ export default Vue.extend({
     __goToYear (offset) {
       this.monthDirection = this.yearDirection = offset > 0 ? 'left' : 'right'
       this.innerModel.year = Number(this.innerModel.year) + offset
-
       this.emitImmediately === true && this.__updateValue('year', {})
     },
 
     __setYear (year) {
-      this.__updateValue('year', { year })
+      this.innerModel.year = year
+      this.emitImmediately === true && this.__updateValue('year', { year })
       this.view = 'Calendar'
     },
 
     __setMonth (month) {
-      this.__updateValue('month', { month })
+      this.innerModel.month = month
+      this.emitImmediately === true && this.__updateValue('month', { month })
       this.view = 'Calendar'
     },
 
