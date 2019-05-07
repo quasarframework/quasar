@@ -144,6 +144,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Shone Radulovic ($15)
 - Sam Cassar ($15)
 - Francis Vithayathil ($15)
+- Vaidotas Beržinskas ($13.37)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
 - Marek Urbanowicz
