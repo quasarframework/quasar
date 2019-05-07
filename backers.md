@@ -243,6 +243,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Alfonso Herrera
 - Mojimo
 - Todd E
+- Chip Drop
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
