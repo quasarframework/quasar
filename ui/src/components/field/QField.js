@@ -128,7 +128,7 @@ export default Vue.extend({
 
         'q-field--auto-height': this.__getControl === void 0,
 
-        'q-field--with-bottom': this.hideBottomSpace !== true && this.hasBottom,
+        'q-field--with-bottom': this.hideBottomSpace !== true && this.hasBottom === true,
         'q-field--error': this.hasError,
 
         'q-field--readonly': this.readonly,
@@ -296,7 +296,7 @@ export default Vue.extend({
     },
 
     __getBottom (h) {
-      if (this.hideBottomSpace !== true && this.hasBottom !== true) { return }
+      if (this.hideBottomSpace === true && this.hasBottom !== true) { return }
 
       let msg, key
 
@@ -323,7 +323,7 @@ export default Vue.extend({
 
       const hasCounter = this.counter === true || this.$scopedSlots.counter !== void 0
 
-      if (this.hideBottomSpace === true && hasCounter === false && !msg) {
+      if (this.hideBottomSpace === true && hasCounter === false && msg === void 0) {
         return
       }
 
