@@ -17,7 +17,7 @@
 
     "emit-immediately": {
       "type": "Boolean",
-      "desc": "Emit value when user browses month and year too",
+      "desc": "Emit model when user browses month and year too",
       "category": "model"
     },
 

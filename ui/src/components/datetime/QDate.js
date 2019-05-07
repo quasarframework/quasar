@@ -152,9 +152,7 @@ export default Vue.extend({
     },
 
     daysInMonth () {
-      return this.calendar !== 'persian'
-        ? (new Date(this.innerModel.year, this.innerModel.month, 0)).getDate()
-        : jalaaliMonthLength(this.innerModel.year, this.innerModel.month)
+      return this.__getDaysInMonth(this.innerModel)
     },
 
     today () {
@@ -631,6 +629,12 @@ export default Vue.extend({
       ])
     },
 
+    __getDaysInMonth (obj) {
+      return this.calendar !== 'persian'
+        ? (new Date(obj.year, obj.month, 0)).getDate()
+        : jalaaliMonthLength(obj.year, obj.month)
+    },
+
     __goToMonth (offset) {
       let
         month = Number(this.innerModel.month) + offset,
@@ -688,7 +692,12 @@ export default Vue.extend({
         date.month = this.innerModel.month
       }
       if (date.day === void 0 || (this.emitImmediately === true && reason !== 'day')) {
-        date.day = Math.min(this.innerModel.day, this.daysInMonth)
+        date.day = this.innerModel.day
+        const maxDay = this.emitImmediately === true
+          ? this.__getDaysInMonth(date)
+          : this.daysInMonth
+
+        date.day = Math.min(date.day, maxDay)
       }
 
       const val = this.__padYear(date.year) + '/' +
