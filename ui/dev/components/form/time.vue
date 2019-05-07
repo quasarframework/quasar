@@ -17,6 +17,9 @@
         v-model="time"
         v-bind="props"
         :style="style"
+        @pick-hour="evt => log('@pick-hour', evt)"
+        @pick-minute="evt => log('@pick-minute', evt)"
+        @pick-second="evt => log('@pick-second', evt)"
       />
 
       <q-time
@@ -170,6 +173,10 @@ export default {
       if (min !== null && (min <= 25 || min >= 58)) { return false }
       if (sec !== null && sec % 10 !== 0) { return false }
       return true
+    },
+
+    log (type, evt) {
+      console.log(type, evt)
     }
   }
 }

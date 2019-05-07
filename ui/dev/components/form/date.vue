@@ -19,6 +19,9 @@
           v-model="date"
           v-bind="props"
           :style="style"
+          @pick-day="evt => log('@pick-day', evt)"
+          @pick-month="evt => log('@pick-month', evt)"
+          @pick-year="evt => log('@pick-year', evt)"
         />
 
         <q-date
@@ -286,6 +289,10 @@ export default {
       return this.persian === true
         ? date >= '1397/08/12' && date <= '1397/08/24'
         : date >= '2018/11/03' && date <= '2018/11/15'
+    },
+
+    log (type, evt) {
+      console.log(type, evt)
     }
   }
 }

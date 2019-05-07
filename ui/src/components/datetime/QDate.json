@@ -104,6 +104,87 @@
           "type": "String"
         }
       }
+    },
+
+    "pick-day": {
+      "desc": "Emitted when a day is selected",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Selection model",
+          "definition": {
+            "day": {
+              "type": "Number",
+              "desc": "Day",
+              "examples": [ 30 ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "Month",
+              "examples": [ 1 ]
+            },
+            "year": {
+              "type": "Number",
+              "desc": "Year",
+              "examples": [ 2018 ]
+            }
+          }
+        }
+      }
+    },
+
+    "pick-month": {
+      "desc": "Emitted when a month is selected",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Selection model",
+          "definition": {
+            "day": {
+              "type": "Number",
+              "desc": "Day",
+              "examples": [ 30 ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "Month",
+              "examples": [ 1 ]
+            },
+            "year": {
+              "type": "Number",
+              "desc": "Year",
+              "examples": [ 2018 ]
+            }
+          }
+        }
+      }
+    },
+
+    "pick-year": {
+      "desc": "Emitted when a year is selected",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Selection model",
+          "definition": {
+            "day": {
+              "type": "Number",
+              "desc": "Day",
+              "examples": [ 30 ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "Month",
+              "examples": [ 1 ]
+            },
+            "year": {
+              "type": "Number",
+              "desc": "Year",
+              "examples": [ 2018 ]
+            }
+          }
+        }
+      }
     }
   }
 }

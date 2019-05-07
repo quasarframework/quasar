@@ -104,6 +104,16 @@ export default Vue.extend({
       }
     },
 
+    pickModel () {
+      const pickModel = {
+        hour: this.innerModel.hour,
+        minute: this.innerModel.minute
+      }
+      this.withSeconds === true && (pickModel.second = this.innerModel.second)
+
+      return pickModel
+    },
+
     computedFormat24h () {
       return this.format24h !== null
         ? this.format24h
@@ -532,6 +542,8 @@ export default Vue.extend({
         this.innerModel.hour = hour
         this.innerModel.minute = null
         this.innerModel.second = null
+
+        this.$emit('pick-hour', this.pickModel)
       }
     },
 
@@ -540,11 +552,17 @@ export default Vue.extend({
         this.innerModel.minute = minute
         this.innerModel.second = null
         this.withSeconds !== true && this.__updateValue({ minute })
+
+        this.$emit('pick-minute', this.pickModel)
       }
     },
 
     __setSecond (second) {
-      this.innerModel.second !== second && this.__updateValue({ second })
+      if (this.innerModel.second !== second) {
+        this.__updateValue({ second })
+
+        this.$emit('pick-second', this.pickModel)
+      }
     },
 
     __setAm () {
@@ -555,6 +573,8 @@ export default Vue.extend({
       if (this.innerModel.hour === null) { return }
       this.innerModel.hour -= 12
       this.__verifyAndUpdate()
+
+      this.$emit('pick-hour', this.pickModel)
     },
 
     __setPm () {
@@ -565,15 +585,17 @@ export default Vue.extend({
       if (this.innerModel.hour === null) { return }
       this.innerModel.hour += 12
       this.__verifyAndUpdate()
+
+      this.$emit('pick-hour', this.pickModel)
     },
 
     __setNow () {
       const now = new Date()
-      this.__updateValue({
+      this.$emit(`pick-${this.withSeconds === true ? 'second' : 'minute'}`, this.__updateValue({
         hour: now.getHours(),
         minute: now.getMinutes(),
         second: now.getSeconds()
-      })
+      }))
       this.view = 'Hour'
     },
 
@@ -613,11 +635,20 @@ export default Vue.extend({
         },
         val = this.__pad(time.hour % 24) + ':' +
           this.__pad(time.minute % 60) +
-          (this.withSeconds ? ':' + this.__pad(time.second % 60) : '')
+          (this.withSeconds === true ? ':' + this.__pad(time.second % 60) : '')
 
       if (val !== this.value) {
         this.$emit('input', val)
       }
+
+      const pickModel = {
+        hour: time.hour,
+        minute: time.minute
+      }
+
+      this.withSeconds === true && (pickModel.second = time.second)
+
+      return pickModel
     }
   },
 

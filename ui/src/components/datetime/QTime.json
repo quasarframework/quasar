@@ -98,6 +98,87 @@
           "type": "String"
         }
       }
+    },
+
+    "pick-hour": {
+      "desc": "Emitted when an hour is selected",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Selection model",
+          "definition": {
+            "day": {
+              "type": "Number",
+              "desc": "Hour",
+              "examples": [ 13 ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "Minute",
+              "examples": [ 23 ]
+            },
+            "year": {
+              "type": "Number",
+              "desc": "Second - present only when with-seconds is true",
+              "examples": [ 23 ]
+            }
+          }
+        }
+      }
+    },
+
+    "pick-minute": {
+      "desc": "Emitted when a minute is selected",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Selection model",
+          "definition": {
+            "day": {
+              "type": "Number",
+              "desc": "Hour",
+              "examples": [ 13 ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "Minute",
+              "examples": [ 23 ]
+            },
+            "year": {
+              "type": "Number",
+              "desc": "Second - present only when with-seconds is true",
+              "examples": [ 23 ]
+            }
+          }
+        }
+      }
+    },
+
+    "pick-second": {
+      "desc": "Emitted when a second is selected",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Selection model",
+          "definition": {
+            "day": {
+              "type": "Number",
+              "desc": "Hour",
+              "examples": [ 13 ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "Minute",
+              "examples": [ 23 ]
+            },
+            "year": {
+              "type": "Number",
+              "desc": "Second",
+              "examples": [ 23 ]
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -97,6 +97,14 @@ export default Vue.extend({
       return splitDate(v)
     },
 
+    pickModel () {
+      return {
+        day: this.innerModel.day,
+        month: this.innerModel.month,
+        year: this.innerModel.year
+      }
+    },
+
     headerTitle () {
       const model = this.extModel
       if (model.value === null) { return ' --- ' }
@@ -150,9 +158,7 @@ export default Vue.extend({
     },
 
     daysInMonth () {
-      return this.calendar !== 'persian'
-        ? (new Date(this.innerModel.year, this.innerModel.month, 0)).getDate()
-        : jalaaliMonthLength(this.innerModel.year, this.innerModel.month)
+      return this.__getDaysInMonth(this.innerModel)
     },
 
     today () {
@@ -270,6 +276,12 @@ export default Vue.extend({
   methods: {
     __isInvalid (v) {
       return v === void 0 || v === null || v === '' || typeof v !== 'string'
+    },
+
+    __getDaysInMonth (model) {
+      return this.calendar !== 'persian'
+        ? (new Date(model.year, model.month, 0)).getDate()
+        : jalaaliMonthLength(model.year, model.month)
     },
 
     __getInnerModel (v) {
@@ -648,29 +660,33 @@ export default Vue.extend({
       this.monthDirection = offset > 0 ? 'left' : 'right'
       this.yearDirection = yearDir
       this.innerModel.month = month
+
+      this.$emit('pick-month', this.pickModel)
     },
 
     __goToYear (offset) {
       this.monthDirection = this.yearDirection = offset > 0 ? 'left' : 'right'
       this.innerModel.year = Number(this.innerModel.year) + offset
+
+      this.$emit('pick-year', this.pickModel)
     },
 
     __setYear (year) {
-      this.__updateValue({ year })
+      this.$emit('pick-year', this.__updateValue({ year }))
       this.view = 'Calendar'
     },
 
     __setMonth (month) {
-      this.__updateValue({ month })
+      this.$emit('pick-month', this.__updateValue({ month }))
       this.view = 'Calendar'
     },
 
     __setDay (day) {
-      this.__updateValue({ day })
+      this.$emit('pick-day', this.__updateValue({ day }))
     },
 
     __setToday () {
-      this.__updateValue({ ...this.today })
+      this.$emit('pick-day', this.__updateValue({ ...this.today }))
       this.view = 'Calendar'
     },
 
@@ -681,9 +697,7 @@ export default Vue.extend({
       if (date.month === void 0) {
         date.month = this.innerModel.month
       }
-      if (date.day === void 0) {
-        date.day = Math.min(this.innerModel.day, this.daysInMonth)
-      }
+      date.day = Math.min(date.day !== void 0 ? date.day : this.innerModel.day, this.__getDaysInMonth(date))
 
       const val = this.__padYear(date.year) + '/' +
         this.__pad(date.month) + '/' +
@@ -692,6 +706,8 @@ export default Vue.extend({
       if (val !== this.value) {
         this.$emit('input', val)
       }
+
+      return date
     }
   },
 
