@@ -764,7 +764,7 @@ export default Vue.extend({
         document.hasFocus() === true &&
         this.$refs !== void 0 && (
           (this.$refs.control !== void 0 && this.$refs.control.contains(document.activeElement) !== false) ||
-          ((menu = this.__getMenuContentEl()) !== void 0 && menu.contains(document.activeElement) !== false)
+          ((menu = this.__getMenuContentEl()) !== void 0 && menu.contains !== void 0 && menu.contains(document.activeElement) !== false)
         )
       )
     },
