@@ -41,6 +41,7 @@ export default Vue.extend({
       required: true
     },
     caption: String,
+    prefix: [ String, Number ],
 
     doneIcon: String,
     doneColor: String,

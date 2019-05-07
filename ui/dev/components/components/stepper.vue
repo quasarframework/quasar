@@ -13,6 +13,7 @@
 
       <q-toggle label="Global Navigation" v-model="globalNav" />
       <q-toggle label="Caption" v-model="caption" />
+      <q-toggle label="Prefix" v-model="prefix" />
       <q-toggle label="Use 'done' prop" v-model="useDone" />
 
       <q-toggle label="Step 4 disable" v-model="stepDisable" />
@@ -37,7 +38,7 @@
         :alternative-labels="alt"
         :contracted="contracted && !vertical"
       >
-        <q-step :name="1" :done="useDone && step > 1" :header-nav="headerNavStep ? step > 1 : true" title="Ad style" icon="map" :caption="caption ? 'Some caption' : null">
+        <q-step :name="1" :prefix="prefix ? 1 : ''" :done="useDone && step > 1" :header-nav="headerNavStep ? step > 1 : true" title="Ad style" icon="map" :caption="caption ? 'Some caption' : null">
           <q-input v-model="myInput" />
           <div>{{ myInput }}</div>
           <keep-alive-test name="one" />
@@ -68,7 +69,7 @@
           </q-stepper-navigation>
         </q-step>
 
-        <q-step :name="2" :done="useDone && step > 2" :header-nav="headerNavStep ? step > 2 : true" error title="Custom channels" :caption="caption ? 'Alert message' : null" icon="map">
+        <q-step :name="2" :prefix="prefix ? 2 : ''" :done="useDone && step > 2" :header-nav="headerNavStep ? step > 2 : true" error title="Custom channels" :caption="caption ? 'Alert message' : null" icon="map">
           <div v-for="n in 10" :key="'2.'+n">
             {{ n }} Step 2
           </div>
@@ -83,7 +84,7 @@
           </q-stepper-navigation>
         </q-step>
 
-        <q-step :name="3" done-color="orange" :done="useDone && step > 3" :header-nav="headerNavStep ? step > 3 : true" title="Get code" icon="map">
+        <q-step :name="3" :prefix="prefix ? 3 : ''" done-color="orange" :done="useDone && step > 3" :header-nav="headerNavStep ? step > 3 : true" title="Get code" icon="map">
           <div v-for="n in 3" :key="'3.'+n">
             {{ n }} Step 3
           </div>
@@ -98,7 +99,7 @@
           </q-stepper-navigation>
         </q-step>
 
-        <q-step :name="4" :done="useDone && step > 4" :header-nav="headerNavStep ? step > 4 : true" :disable="stepDisable" title="Disabled" icon="map">
+        <q-step :name="4" :prefix="prefix ? 4 : ''" :done="useDone && step > 4" :header-nav="headerNavStep ? step > 4 : true" :disable="stepDisable" title="Disabled" icon="map">
           <div v-for="n in 3" :key="'4.'+n">
             {{ n }} Step 4
           </div>
@@ -113,7 +114,7 @@
           </q-stepper-navigation>
         </q-step>
 
-        <q-step :name="5" title="Wrap up" :header-nav="headerNavStep ? step > 5 : true" icon="map">
+        <q-step :name="5" :prefix="prefix ? 5 : ''" title="Wrap up" :header-nav="headerNavStep ? step > 5 : true" icon="map">
           <div v-for="n in 3" :key="'5.'+n">
             {{ n }} Step 5
           </div>
@@ -212,6 +213,7 @@ export default {
 
       globalNav: false,
       caption: false,
+      prefix: false,
       useDone: false,
       headerNavStep: false,
 

@@ -48,6 +48,10 @@ Play with coloring using the `*-icon` and `*-color` props (on QStepper or overri
 
 <doc-example title="Coloring" file="QStepper/Coloring" />
 
+You can also use `prefix` prop (max 2 characters) instead of an icon for each step's header. This will be displayed if the step is not currently being edited and it isn't marked with error or as "done".
+
+<doc-example title="Step prefix" file="QStepper/Prefix" />
+
 <doc-example title="Dark" file="QStepper/Dark" />
 
 ### Message slot
