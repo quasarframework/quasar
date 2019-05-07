@@ -1,0 +1,24 @@
+/*--------------
+   水平分割线
+   直接添加divider类，如下所示：
+   <p class="divider">滚动条</p>
+   <h4 class="divider"><i class="fa fa-fw fa-desktop"></i>这是一个带文字的分割线</h4>
+---------------*/
+
+.divider
+  display: table
+  white-space: nowrap
+  letter-spacing: 0.05em
+  height: auto
+  overflow: hidden
+  text-align: center
+
+.divider:before,
+.divider:after
+  content: ''
+  display: table-cell
+  position: relative
+  bottom: 0.5em
+  width: 50%
+  border-bottom:1px solid currentColor
+  transform: scaleX(0.9)

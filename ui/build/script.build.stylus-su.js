@@ -19,7 +19,7 @@ Promise
   })
 
 function generateBase () {
-  const src = `src/css/index.styl`
+  const src = `src/css/index-su.styl`
   const deps = stylus(buildUtils.readFile(src))
     .set('paths', pathList)
     .deps()
@@ -33,8 +33,8 @@ function generateBase () {
 function generateAddon () {
   return generateFiles({
     sources: [
-      'src/css/variables.styl',
-      'src/css/flex-addon.styl'
+      'src/css/vars.styl',
+      'src/css/flex-addon-su.styl'
     ],
     name: '.addon'
   })

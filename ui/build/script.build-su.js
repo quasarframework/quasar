@@ -26,14 +26,14 @@ console.log(` 📦 Building Quasar ${green('v' + require('../package.json').vers
 createFolder('dist')
 
 if (!type || type === 'js') {
-  createFolder('dist/vetur')
-  createFolder('dist/api')
-  createFolder('dist/babel-transforms')
-  createFolder('dist/lang')
-  createFolder('dist/icon-set')
-  createFolder('dist/types')
-  runJob(join(__dirname, './script.build.javascript-su'))
+  // createFolder('dist/vetur')
+  // createFolder('dist/api')
+  // createFolder('dist/babel-transforms')
+  // createFolder('dist/lang')
+  // createFolder('dist/icon-set')
+  // createFolder('dist/types')
+  runJob(join(__dirname, './script.build.javascript-su'))//su：使用自定义文件
 }
 if (!type || type === 'css') {
-  runJob(join(__dirname, './script.build.stylus-su'))
+  runJob(join(__dirname, './script.build.stylus-su'))//su：使用自定义文件
 }

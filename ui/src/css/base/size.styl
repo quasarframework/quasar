@@ -1,0 +1,67 @@
+:root
+  for $name, $size in $sizes
+    --q-size-{$name} $size
+
+.fit
+  width 100% !important
+  height 100% !important
+.full-height
+  height 100% !important
+.full-width
+  width 100% !important
+  margin-left 0 !important
+  margin-right 0 !important
+
+.window-height
+  margin-top 0 !important
+  margin-bottom 0 !important
+  height 100vh !important
+.window-width
+  margin-left 0 !important
+  margin-right 0 !important
+  width 100vw !important
+
+for $space, $value in $spaces
+
+  .pa-{$space}
+    padding: $value.y $value.x
+  .pl-{$space}
+    padding-left: $value.x
+  .pr-{$space}
+    padding-right: $value.x
+  .pt-{$space}
+    padding-top: $value.y
+  .pb-{$space}
+    padding-bottom: $value.y
+  .px-{$space}
+    @extends .pl-{$space}, .pr-{$space}
+  .py-{$space}
+    @extends .pt-{$space}, .pb-{$space}
+
+  .ma-{$space}
+    margin: $value.y $value.x
+  .ml-{$space}
+    margin-left: $value.x
+  .mr-{$space}
+    margin-right: $value.x
+  .mt-{$space}
+    margin-top: $value.y
+  .mb-{$space}
+    margin-bottom: $value.y
+  .mx-{$space}
+    @extends .ml-{$space}, .mr-{$space}
+  .my-{$space}
+    @extends .mt-{$space}, .mb-{$space}
+
+.ml-auto
+  margin-left auto
+.mr-auto
+  margin-right auto
+.mx-auto
+  @extends .ml-auto, .mr-auto
+
+$box-size=32 64 128 256 512 640 768 960
+for $width,$key in $box-size 
+  .size{$key}
+    width: $width px
+    height: auto
