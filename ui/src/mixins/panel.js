@@ -44,7 +44,10 @@ export const PanelParentMixin = {
       default: 'slide-left'
     },
 
-    keepAlive: Boolean
+    keepAlive: Boolean,
+    keepAliveInclude: {},
+    keepAliveExclude: {},
+    keepAliveMax: {}
   },
 
   data () {
@@ -72,6 +75,15 @@ export const PanelParentMixin = {
       return typeof this.value === 'string' || typeof this.value === 'number'
         ? this.value
         : String(this.value)
+    },
+
+    keepAliveProps () {
+      const props = {}
+      this.keepAliveInclude !== void 0 && (props.include = this.keepAliveInclude)
+      this.keepAliveExclude !== void 0 && (props.exclude = this.keepAliveExclude)
+      this.keepAliveMax !== void 0 && (props.max = this.keepAliveMax)
+
+      return props
     }
   },
 
@@ -207,7 +219,8 @@ export const PanelParentMixin = {
         ? [
           h('keep-alive', [
             h(PanelWrapper, {
-              key: this.contentKey
+              key: this.contentKey,
+              props: this.keepAliveProps
             }, [ panel ])
           ])
         ]
