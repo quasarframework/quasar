@@ -6,6 +6,8 @@
       navigation
       infinite
       autoplay
+      transition-prev="slide-right"
+      transition-next="slide-left"
     >
       <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
       <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
