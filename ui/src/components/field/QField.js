@@ -106,8 +106,12 @@ export default Vue.extend({
         )
     },
 
-    hasBottom () {
-      return this.bottomSlots === true || this.hint !== void 0 || this.rules !== void 0 || this.counter === true
+    shouldRenderBottom () {
+      return this.bottomSlots === true ||
+        this.hint !== void 0 ||
+        this.rules !== void 0 ||
+        this.counter === true ||
+        this.error !== null
     },
 
     classes () {
@@ -128,7 +132,7 @@ export default Vue.extend({
 
         'q-field--auto-height': this.__getControl === void 0,
 
-        'q-field--with-bottom': this.hideBottomSpace !== true && this.hasBottom === true,
+        'q-field--with-bottom': this.hideBottomSpace !== true && this.shouldRenderBottom === true,
         'q-field--error': this.hasError,
 
         'q-field--readonly': this.readonly,
@@ -147,7 +151,7 @@ export default Vue.extend({
     contentClass () {
       const cls = []
 
-      if (this.hasError) {
+      if (this.hasError === true) {
         cls.push('text-negative')
       }
       else if (typeof this.standout === 'string' && this.standout.length > 0 && this.focused === true) {
@@ -296,8 +300,6 @@ export default Vue.extend({
     },
 
     __getBottom (h) {
-      if (this.hideBottomSpace === true && this.hasBottom !== true) { return }
-
       let msg, key
 
       if (this.hasError === true) {
@@ -328,8 +330,8 @@ export default Vue.extend({
       }
 
       const main = h('div', {
-        staticClass: 'q-field__messages col',
-        key
+        key,
+        staticClass: 'q-field__messages col'
       }, msg)
 
       return h('div', {
@@ -342,9 +344,11 @@ export default Vue.extend({
             main
           ]),
 
-        hasCounter === true ? h('div', {
-          staticClass: 'q-field__counter'
-        }, this.$scopedSlots.counter !== void 0 ? this.$scopedSlots.counter() : [ this.computedCounter ]) : null
+        hasCounter === true
+          ? h('div', {
+            staticClass: 'q-field__counter'
+          }, this.$scopedSlots.counter !== void 0 ? this.$scopedSlots.counter() : [ this.computedCounter ])
+          : null
       ])
     },
 
@@ -410,7 +414,9 @@ export default Vue.extend({
           on: this.controlEvents
         }, this.__getContent(h)),
 
-        this.__getBottom(h)
+        this.shouldRenderBottom === true
+          ? this.__getBottom(h)
+          : null
       ]),
 
       this.$scopedSlots.after !== void 0 ? h('div', {

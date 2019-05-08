@@ -4,7 +4,10 @@ export default {
   props: {
     value: {},
 
-    error: Boolean,
+    error: {
+      type: Boolean,
+      default: null
+    },
     errorMessage: String,
     noErrorIcon: Boolean,
 
@@ -43,7 +46,7 @@ export default {
     },
 
     computedErrorMessage () {
-      return this.errorMessage !== void 0
+      return typeof this.errorMessage === 'string' && this.errorMessage.length > 0
         ? this.errorMessage
         : this.innerErrorMessage
     }
