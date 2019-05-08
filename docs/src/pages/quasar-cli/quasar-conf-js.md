@@ -219,7 +219,7 @@ devServer: {
 | uglifyOptions | Object | Minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify). |
 | preloadChunks | Boolean | Default is "true". Preload chunks when browser is idle to improve user's later navigation to the other pages. |
 | stylusLoaderOptions | Object | Options to supply to `stylus-loader`. |
-| scssLoaderOptions | Object | Options to supply to `scss-loader` for `.scss` files. |
+| scssLoaderOptions | Object | Options to supply to `sass-loader` for `.scss` files. |
 | sassLoaderOptions | Object | Options to supply to `sass-loader` for `.sass` files. |
 | lessLoaderOptions | Object | Options to supply to `less-loader`. |
 
