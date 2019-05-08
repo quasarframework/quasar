@@ -33,7 +33,6 @@ const argv = parseArgs(process.argv.slice(2), {
   string: ['f']
 })
 
-console.log('YUHJV')
 const item = argv._[0]
 
 if (!item || argv.help) {
