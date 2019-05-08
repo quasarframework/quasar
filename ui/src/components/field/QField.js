@@ -171,6 +171,11 @@ export default Vue.extend({
 
   methods: {
     focus () {
+      if (this.showPopup !== void 0 && this.$q.platform.is.desktop !== true) {
+        this.showPopup()
+        return
+      }
+
       let target = this.$refs.target
       if (target !== void 0) {
         target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))

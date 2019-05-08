@@ -384,11 +384,14 @@
                 </div>
               </q-menu>
             </template>
-            <q-item slot="no-option">
-              <q-item-section class="text-grey">
-                No results
-              </q-item-section>
-            </q-item>
+
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  No results
+                </q-item-section>
+              </q-item>
+            </template>
           </q-select>
 
           <q-select
@@ -675,6 +678,7 @@ export default {
     delayedFilterInputFn (val, update, abort) {
       // call abort() at any time if you can't retrieve data somehow
 
+      console.log('DEV delayedFilterInputFn')
       setTimeout(() => {
         update(() => {
           if (val === '') {
