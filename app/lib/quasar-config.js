@@ -162,6 +162,11 @@ class QuasarConfig {
       },
       build: {
         transpileDependencies: [],
+        stylusLoaderOptions: {},
+        sassLoaderOptions: {},
+        scssLoaderOptions: {},
+        lessLoaderOptions: {},
+        analyze: {},
         env: {},
         uglifyOptions: {
           compress: {},
@@ -740,14 +745,16 @@ class QuasarConfig {
     }
 
     cfg.__html = {
-      variables: Object.assign({
+      variables: {
         ctx: cfg.ctx,
         process: {
           env: parseBuildEnv(cfg.build.env['process.env'])
         },
         productName: cfg.build.productName,
-        productDescription: cfg.build.productDescription
-      }, cfg.htmlVariables),
+        productDescription: cfg.build.productDescription,
+
+        ...cfg.htmlVariables
+      },
       minifyOptions: cfg.build.minify
         ? {
           removeComments: true,

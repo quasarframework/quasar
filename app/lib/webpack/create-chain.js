@@ -167,7 +167,11 @@ module.exports = function (cfg, configName) {
     rtl: cfg.build.rtl,
     sourceMap: cfg.build.sourceMap,
     extract: cfg.build.extractCSS,
-    minify: cfg.build.minify
+    minify: cfg.build.minify,
+    stylusLoaderOptions: cfg.build.stylusLoaderOptions,
+    sassLoaderOptions: cfg.build.sassLoaderOptions,
+    scssLoaderOptions: cfg.build.scssLoaderOptions,
+    lessLoaderOptions: cfg.build.lessLoaderOptions
   })
 
   chain.plugin('vue-loader')
@@ -349,7 +353,7 @@ module.exports = function (cfg, configName) {
       if (cfg.build.analyze) {
         const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
         chain.plugin('bundle-analyzer')
-          .use(BundleAnalyzerPlugin, [ Object.assign({}, cfg.build.analyze) ])
+          .use(BundleAnalyzerPlugin, [ { ...cfg.build.analyze } ])
       }
     }
   }

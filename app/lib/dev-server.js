@@ -106,7 +106,9 @@ module.exports = class DevServer {
 
     function createRenderer (bundle, options) {
       // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
-      return createBundleRenderer(bundle, Object.assign(options, {
+      return createBundleRenderer(bundle, {
+        ...options,
+
         // for component caching
         cache: new LRU({
           max: 1000,
@@ -114,7 +116,7 @@ module.exports = class DevServer {
         }),
         // recommended for performance
         runInNewContext: false
-      }))
+      })
     }
 
     function render (req, res) {
@@ -235,31 +237,30 @@ module.exports = class DevServer {
     const serverCompilerWatcher = serverCompiler.watch({}, () => {})
 
     // start building & launch server
-    const server = new WebpackDevServer(clientCompiler, Object.assign(
-      {
-        after: app => {
-          if (cfg.ctx.mode.pwa) {
-            app.use('/manifest.json', (req, res) => {
-              res.setHeader('Content-Type', 'application/json')
-              res.send(pwa.manifest)
-            })
-            app.use('/service-worker.js', (req, res) => {
-              res.setHeader('Content-Type', 'text/javascript')
-              res.send(pwa.serviceWorker)
-            })
-          }
-
-          app.use('/statics', express.static(appPaths.resolve.src('statics'), {
-            maxAge: 0
-          }))
-
-          SsrExtension.getModule().extendApp({ app })
-
-          app.get('*', render)
+    const server = new WebpackDevServer(clientCompiler, {
+      after: app => {
+        if (cfg.ctx.mode.pwa) {
+          app.use('/manifest.json', (req, res) => {
+            res.setHeader('Content-Type', 'application/json')
+            res.send(pwa.manifest)
+          })
+          app.use('/service-worker.js', (req, res) => {
+            res.setHeader('Content-Type', 'text/javascript')
+            res.send(pwa.serviceWorker)
+          })
         }
+
+        app.use('/statics', express.static(appPaths.resolve.src('statics'), {
+          maxAge: 0
+        }))
+
+        SsrExtension.getModule().extendApp({ app })
+
+        app.get('*', render)
       },
-      cfg.devServer
-    ))
+
+      ...cfg.devServer
+    })
 
     readyPromise.then(() => {
       server.listen(cfg.devServer.port, cfg.devServer.host, () => {
