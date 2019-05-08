@@ -21,7 +21,7 @@ class Mode {
     return fs.existsSync(appPaths.electronDir)
   }
 
-  add (params) {
+  add () {
     if (this.isInstalled) {
       warn(`Electron support detected already. Aborting.`)
       return
@@ -57,7 +57,7 @@ class Mode {
 
     const cmdParam = nodePackager === 'npm'
       ? ['uninstall', '--save-dev']
-      : ['remove', '--dev']
+      : ['remove']
 
     log(`Uninstalling Electron dependencies...`)
     spawnSync(
