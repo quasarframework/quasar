@@ -187,18 +187,10 @@
       &--alternative-labels
         .q-stepper__tab
           min-height 72px
-          &:first-child
-            align-items flex-start
-          &:last-child
-            align-items flex-end
+          justify-content center
       .q-stepper__tab
         padding 24px 0
-        &:first-child
-          .q-stepper__dot
-            transform translate3d(24px, 0, 0)
-        &:last-child
-          .q-stepper__dot
-            transform translate3d(-24px, 0, 0)
+        justify-content center
     .q-stepper__tab:not(:last-child)
       .q-stepper__dot:after
         display block !important
