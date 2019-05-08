@@ -244,6 +244,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Mojimo
 - Todd E
 - Chip Drop
+- Jeff Jorczak
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
