@@ -6,7 +6,8 @@ const
   warn = logger('app:electron', 'red'),
   { spawn } = require('../helpers/spawn'),
   appPaths = require('../app-paths'),
-  nodePackager = require('../helpers/node-packager')
+  nodePackager = require('../helpers/node-packager'),
+  getPackageJson = require('../helpers/get-package-json')
 
 class ElectronRunner {
   constructor () {
@@ -110,7 +111,10 @@ class ElectronRunner {
         log()
 
         const bundlePromise = bundlerName === 'packager'
-          ? bundler(bundlerConfig)
+          ? bundler({
+            ...bundlerConfig,
+            electronVersion: getPackageJson('electron').version
+          })
           : bundler.build(bundlerConfig)
 
         bundlePromise
