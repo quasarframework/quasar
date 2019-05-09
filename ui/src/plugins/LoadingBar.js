@@ -8,6 +8,7 @@ export default {
   start () {},
   stop () {},
   increment () {},
+  setDefaults () {},
 
   install ({ $q, cfg }) {
     if (isSSR === true) {
@@ -15,16 +16,17 @@ export default {
       return
     }
 
+    let props = cfg.loadingBar !== void 0
+      ? { ...cfg.loadingBar }
+      : {}
+
     const bar = $q.loadingBar = new Vue({
       name: 'LoadingBar',
       render: h => h(QAjaxBar, {
         ref: 'bar',
-        props: cfg.loadingBar
+        props
       })
     }).$mount().$refs.bar
-
-    Vue.util.defineReactive(this, 'isActive', this.isActive)
-    Vue.util.defineReactive(bar, 'isActive', this.isActive)
 
     Object.assign(this, {
       start: speed => {
@@ -37,9 +39,17 @@ export default {
         this.isActive = bar.isActive = bar.calls > 0
         console.log('--', bar.calls, this.isActive)
       },
-      increment: bar.increment
+      increment: bar.increment,
+      setDefaults: def => {
+        Object.assign(props, def || {})
+        bar.$parent.$forceUpdate()
+      }
     })
 
-    document.body.appendChild($q.loadingBar.$parent.$el)
+    Vue.util.defineReactive(this, 'isActive', this.isActive)
+    Vue.util.defineReactive(bar, 'isActive', this.isActive)
+    bar.setDefaults = this.setDefaults
+
+    document.body.appendChild(bar.$parent.$el)
   }
 }
