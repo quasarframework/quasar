@@ -32,12 +32,10 @@ export default {
       start: speed => {
         bar.start(speed)
         this.isActive = bar.isActive = bar.calls > 0
-        console.log('++', bar.calls, this.isActive)
       },
       stop: () => {
         bar.stop()
         this.isActive = bar.isActive = bar.calls > 0
-        console.log('--', bar.calls, this.isActive)
       },
       increment: bar.increment,
       setDefaults: def => {
