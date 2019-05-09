@@ -166,7 +166,6 @@ class QuasarConfig {
         sassLoaderOptions: {},
         scssLoaderOptions: {},
         lessLoaderOptions: {},
-        analyze: {},
         env: {},
         uglifyOptions: {
           compress: {},
