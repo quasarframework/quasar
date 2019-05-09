@@ -33,18 +33,33 @@ function fillPwaTags (data, { pwa: { manifest, metaVariables }}) {
     }),
     makeTag('link', {
       rel: 'apple-touch-icon',
-      href: 'statics/icons/apple-icon-152x152.png'
+      href: metaVariables.appleTouchIcon120
     }),
-    /* makeTag('link', {
+    makeTag('link', {
+      rel: 'apple-touch-icon',
+      sizes: '180x180',
+      href: metaVariables.appleTouchIcon180
+    }),
+    makeTag('link', {
+      rel: 'apple-touch-icon',
+      sizes: '152x152',
+      href: metaVariables.appleTouchIcon152
+    }),
+    makeTag('link', {
+      rel: 'apple-touch-icon',
+      sizes: '167x167',
+      href: metaVariables.appleTouchIcon167
+    }),
+    makeTag('link', {
       rel: 'mask-icon',
-      href: 'statics/icons/safari-pinned-tab.svg',
+      href: metaVariables.appleSafariPinnedTab,
       color: manifest.theme_color
-    }), */
+    }),
 
     // Add to home screen for Windows
     makeTag('meta', {
       name: 'msapplication-TileImage',
-      content: 'statics/icons/ms-icon-144x144.png'
+      content: metaVariables.msapplicationTileImage
     }),
     makeTag('meta', {
       name: 'msapplication-TileColor',
