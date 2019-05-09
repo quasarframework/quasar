@@ -6066,6 +6066,11 @@ strict-uri-encode@^1.0.0:
   resolved "https://registry.yarnpkg.com/strict-uri-encode/-/strict-uri-encode-1.1.0.tgz#279b225df1d582b1f54e65addd4352e18faa0713"
   integrity sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=
 
+string-score@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/string-score/-/string-score-1.0.1.tgz#a1f31910705a119337a506ca718b1e85df12dd58"
+  integrity sha1-ofMZEHBaEZM3pQbKcYsehd8S3Vg=
+
 string-width@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-1.0.2.tgz#118bdf5b8cdc51a2a7e70d211e07e2b0b9b107d3"

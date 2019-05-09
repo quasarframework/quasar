@@ -1,0 +1,137 @@
+#!/usr/bin/env node
+
+const
+  parseArgs = require('minimist'),
+  appPaths = require('../lib/app-paths'),
+  logger = require('../lib/helpers/logger'),
+  warn = logger('app:api', 'red')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    h: 'help',
+    l: 'limit',
+    s: 'skip',
+    f: 'fuzzyness',
+    m: 'min-score'
+  },
+  boolean: ['h'],
+  string: ['l', 's', 'f', 'm'],
+  default: {
+    f: 0,
+    s: 0,
+    l: 0,
+    m: 0
+  }
+})
+
+const command = argv._[0]
+
+if (!command || argv.help) {
+  console.log(`
+  Description
+    Searchs Quasar and app extensions API for project's Quasar version being used
+
+  Usage
+    $ quasar api search <query>
+
+  Options
+    --limit, -l [n]  Outputs the [n] best matches
+    --skip, -s  [n]  Skips [n] first matches
+    --fuzzyness, -f [n]  Sets the search fuzzyness to [n]
+    --help, -h       Displays this message
+  `)
+  process.exit(0)
+}
+
+async function getApis () {
+    let api = {}
+
+    const extensionJson = require('../lib/app-extension/extension-json')
+    const extensions = Object.keys(extensionJson.getList())
+
+    if (extensions.length > 0) {
+      const Extension = require('../lib/app-extension/Extension.js')
+
+      for (let ext of extensions) {
+        const instance = new Extension(ext)
+        const hooks = await instance.run({})
+        if (hooks.describeApi !== void 0) {
+          api = {...api, ...hooks.describeApi}
+        }
+      }
+    }
+
+    const path = require('path'),
+      fs = require('fs')
+
+    const quasarPath = path.dirname(require.resolve(`quasar/package.json`, {
+        paths: [ appPaths.appDir ]
+    }))
+
+    const quasarApi = fs.readdirSync(quasarPath + '/dist/api')
+
+    quasarApi.forEach(file => {
+      api[file.replace('.json', '')] = `${quasarPath}/dist/api/${file}`
+    })
+
+    return api
+}
+
+async function run () {
+  const query = argv._[1]
+  
+  if (command === 'search') {
+    if (query !== void 0) {
+      const limit = parseInt(argv.limit)
+      const skip = parseInt(argv.skip)
+      const fuzzyness = parseInt(argv.fuzzyness)
+      const minScore = parseFloat(argv['min-score'])
+
+      const validate = {
+        limit,
+        skip,
+        fuzzyness,
+        minScore
+      }
+      
+      for (const field in validate) {
+        const value = validate[field]
+        if (value !== void 0 && isNaN(value)) {
+          warn(`Invalid ${field} value ${value}`)
+          process.exit(1)
+        }
+      }
+
+      const apis = await getApis()
+
+      const score = require('string-score')
+      const scores = {}
+      for (let api in apis) {
+        const apiScore = score(api, query, fuzzyness)
+        scores[api] = apiScore
+      }
+
+      let sortedByScoreApis = Object.keys(apis).sort((a, b) => scores[b] - scores[a])
+
+      if (limit) 
+        sortedByScoreApis = sortedByScoreApis.slice(skip, skip + limit)
+      else if (skip)
+        sortedByScoreApis = sortedByScoreApis.slice(skip)
+
+      const apiData = {}
+      for (let api of sortedByScoreApis) {
+        const data = require(apis[api])
+        data._score = scores[api]
+        if (data._score > minScore)
+          apiData[api] = data
+      }
+
+      console.log(JSON.stringify(apiData, null, 2))
+    }
+  }
+  else {
+    warn(`Invalid command ${command}`)
+  }
+}
+
+run()
