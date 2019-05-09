@@ -73,7 +73,7 @@ module.exports = function (ctx) {
     },
 
     devServer: {
-      // https: true,
+      https: ctx.mode.pwa === true,
       port: 9090,
       open: true // opens browser window automatically
     },
@@ -135,6 +135,14 @@ module.exports = function (ctx) {
             'type': 'image/png'
           }
         ]
+      },
+      metaVariables: {
+        appleTouchIcon120: 'https://cdn.quasar-framework.org/app-icons/apple-icon-120x120.png',
+        appleTouchIcon180: 'https://cdn.quasar-framework.org/app-icons/apple-icon-180x180.png',
+        appleTouchIcon152: 'https://cdn.quasar-framework.org/app-icons/apple-icon-152x152.png',
+        appleTouchIcon167: 'https://cdn.quasar-framework.org/app-icons/apple-icon-167x167.png',
+        appleSafariPinnedTab: 'https://cdn.quasar-framework.org/app-icons/safari-pinned-tab.svg',
+        msapplicationTileImage: 'https://cdn.quasar-framework.org/app-icons/ms-icon-144x144.png'
       }
     },
 

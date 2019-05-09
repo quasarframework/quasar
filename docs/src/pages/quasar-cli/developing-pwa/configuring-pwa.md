@@ -39,7 +39,7 @@ Read more on `register-service-worker.js` and how to interact with the Service W
 ## Quasar.conf.js
 This is the place where you can configure Workbox's behavior and also tweak your manifest.json.
 
-```
+```js
 pwa: {
   // workboxPluginMode: 'InjectManifest',
   // workboxOptions: {},
@@ -52,13 +52,19 @@ pwa: {
   metaVariables: {
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'default',
+    appleTouchIcon120: 'statics/icons/apple-icon-120x120.png',
+    appleTouchIcon180: 'statics/icons/apple-icon-180x180.png',
+    appleTouchIcon152: 'statics/icons/apple-icon-152x152.png',
+    appleTouchIcon167: 'statics/icons/apple-icon-167x167.png',
+    appleSafariPinnedTab: 'statics/icons/safari-pinned-tab.svg',
+    msapplicationTileImage: 'statics/icons/ms-icon-144x144.png',
     msapplicationTileColor: '#000000'
   }
 }
 ```
 
 ::: warning
-If you use the `injectManifest` workbox plugin mode, you **must not** set any workboxOptions, because injecting your own is basically entirely a custom approach and you are required to do everything manually. However, this shouldn't stop you from doing anything that Workbox can do. 
+If you use the `injectManifest` workbox plugin mode, you **must not** set any workboxOptions, because injecting your own is basically entirely a custom approach and you are required to do everything manually. However, this shouldn't stop you from doing anything that Workbox can do.
 :::
 
 More information: [Workbox Webpack Plugin](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin), [Workbox](https://developers.google.com/web/tools/workbox/).
