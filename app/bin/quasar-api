@@ -128,9 +128,14 @@ async function run () {
 
       console.log(JSON.stringify(apiData, null, 2))
     }
+    else {
+      warn('Query is required')
+      process.exit(1)
+    }
   }
   else {
     warn(`Invalid command ${command}`)
+    process.exit(1)
   }
 }
 
