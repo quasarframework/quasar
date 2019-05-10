@@ -649,7 +649,7 @@ export default Vue.extend({
     __getInput (h) {
       return h('input', {
         ref: 'target',
-        staticClass: 'q-select__input col',
+        staticClass: 'q-select__input q-placeholder col',
         class: this.hideSelected !== true && this.innerValue.length > 0
           ? 'q-select__input--padding'
           : null,

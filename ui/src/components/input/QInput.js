@@ -157,7 +157,7 @@ export default Vue.extend({
 
       return h(this.isTextarea ? 'textarea' : 'input', {
         ref: 'input',
-        staticClass: 'q-field__native',
+        staticClass: 'q-field__native q-placeholder',
         style: this.inputStyle,
         class: this.inputClass,
         attrs,
