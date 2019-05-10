@@ -8,7 +8,8 @@ const
   MILLISECONDS_IN_DAY = 86400000,
   MILLISECONDS_IN_HOUR = 3600000,
   MILLISECONDS_IN_MINUTE = 60000,
-  token = /\[((?:[^\]\\]|\\]|\\)*)\]|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g
+  token = /\[((?:[^\]\\]|\\]|\\)*)\]|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g,
+  parseConvertFns = {}
 
 function formatTimezone (offset, delimeter = '') {
   const
@@ -47,6 +48,87 @@ function getChange (date, mod, add) {
   return t
 }
 
+function maskToRegex (mask, opts = {}) {
+  let index = 0
+
+  const
+    maskMap = {
+      year: null,
+      month: null,
+      day: null
+    },
+    maskText = mask.replace(token, function (match, text) {
+      switch (match) {
+        case 'YYYY':
+        case 'YY':
+          maskMap.year = (++index)
+          return '(-?\\d*)'
+        case 'MM':
+        case 'M':
+          maskMap.month = (++index)
+          return '(\\d{0,2})'
+        case 'MMMM':
+          maskMap.month = (++index)
+          return `(${(opts.months || lang.props.date.months).join('|')})`
+        case 'MMM':
+          maskMap.month = (++index)
+          return `(${(opts.monthsShort || lang.props.date.monthsShort).join('|')})`
+        case 'DD':
+        case 'D':
+          maskMap.day = (++index)
+          return '(\\d{0,2})'
+        case 'Do':
+          maskMap.day = (++index)
+          return '(\\d{0,2}[^\\d]*?)'
+        default:
+          return (text === void 0 ? match : text.split('\\]').join(']'))
+            .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+            .replace(/\s+/g, '\\$&\\s*')
+      }
+    })
+
+  return {
+    maskRegex: new RegExp(maskText),
+    maskMap
+  }
+}
+
+function standardDateFromMask (date, mask, opts = {}) {
+  if (typeof mask !== 'string' || mask.length === 0 || mask === 'YYYY/MM/DD') {
+    return date
+  }
+
+  const
+    shortMonths = (opts.monthsShort || lang.props.date.monthsShort),
+    months = (opts.months || lang.props.date.months),
+    key = `${mask.toLowerCase()}|${shortMonths.join('|')}|${months.join('|')}`
+  if (parseConvertFns[key] === void 0) {
+    const
+      { maskRegex, maskMap } = maskToRegex(mask, opts),
+      parseFormatTo = (...args) => {
+        let month = args[maskMap.month]
+
+        if (/\d+/.test(month) === false) {
+          let found = shortMonths.indexOf(month)
+          if (found === -1) {
+            found = months.indexOf(month)
+          }
+          if (found > -1) {
+            month = found + 1
+          }
+        }
+
+        return `${args[maskMap.year]}/${month}/${args[maskMap.day]}`
+      }
+
+    parseConvertFns[key] = text => {
+      return text.replace(maskRegex, parseFormatTo)
+    }
+  }
+
+  return parseConvertFns[key](date)
+}
+
 export function isValid (date) {
   if (typeof date === 'number') {
     return true
@@ -55,29 +137,30 @@ export function isValid (date) {
   return isNaN(t) === false
 }
 
-export function splitDate (date) {
+export function splitDate (date, mask, opts = {}) {
   let
     value = date,
-    [year, month, day] = value.split('/')
-      .concat([null, null, null])
-      .slice(0, 3)
-      .map(d => parseInt(d, 10))
-      .map(d => isNaN(d) === true ? null : d)
+    year, month, day
+
+  [year, month, day] = standardDateFromMask(value, mask, opts).split('/')
+    .concat([null, null, null])
+    .slice(0, 3)
+    .map(d => parseInt(d, 10))
+    .map(d => isNaN(d) === true ? null : d)
+
+  if (month > 12 || month === 0) {
+    month = month % 12 || 12
+  }
+  else if (year !== null && month === null) {
+    month = 1
+  }
 
   if (day < 1 || day > (new Date(year, month, 0)).getDate()) {
     day = null
   }
 
-  if (month > 12 || month === 0) {
-    month = month % 12 || 12
-  }
-
   if (year === null || month === null || day === null) {
     value = null
-
-    if (year !== null && month === null) {
-      month = 1
-    }
   }
 
   return {
@@ -388,12 +471,12 @@ export const formatter = {
 
   // Month Short Name: Jan, Feb, ...
   MMM (date, opts = {}) {
-    return (opts.monthNamesShort || lang.props.date.monthsShort)[date.getMonth()]
+    return (opts.monthsShort || lang.props.date.monthsShort)[date.getMonth()]
   },
 
   // Month Name: January, February, ...
   MMMM (date, opts = {}) {
-    return (opts.monthNames || lang.props.date.months)[date.getMonth()]
+    return (opts.months || lang.props.date.months)[date.getMonth()]
   },
 
   // Quarter: 1, 2, 3, 4
@@ -443,12 +526,12 @@ export const formatter = {
 
   // Day of week: Sun, Mon, ...
   ddd (date, opts = {}) {
-    return (opts.dayNamesShort || lang.props.date.daysShort)[date.getDay()]
+    return (opts.daysShort || lang.props.date.daysShort)[date.getDay()]
   },
 
   // Day of week: Sunday, Monday, ...
   dddd (date, opts = {}) {
-    return (opts.dayNames || lang.props.date.days)[date.getDay()]
+    return (opts.days || lang.props.date.days)[date.getDay()]
   },
 
   // Day of ISO week: 1, 2, ..., 7
