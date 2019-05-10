@@ -704,7 +704,7 @@ export default Vue.extend({
         val !== '' &&
         this.multiple !== true &&
         this.innerValue.length > 0 &&
-        val === this.__getOptionValue(this.innerValue[0])
+        val === this.__getOptionLabel(this.innerValue[0])
       ) {
         val = ''
       }
