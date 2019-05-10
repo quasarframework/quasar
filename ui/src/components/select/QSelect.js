@@ -704,7 +704,7 @@ export default Vue.extend({
         val !== '' &&
         this.multiple !== true &&
         this.innerValue.length > 0 &&
-        val === this.__getOptionValue(this.innerValue[0])
+        val === this.__getOptionLabel(this.innerValue[0])
       ) {
         val = ''
       }
@@ -972,7 +972,7 @@ export default Vue.extend({
     __resetInputValue () {
       this.useInput === true && this.updateInputValue(
         this.multiple !== true && this.fillInput === true && this.innerValue.length > 0
-          ? this.__getOptionValue(this.innerValue[0]) || ''
+          ? this.__getOptionLabel(this.innerValue[0]) || ''
           : '',
         true
       )
