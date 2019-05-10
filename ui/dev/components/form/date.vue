@@ -19,6 +19,8 @@
           v-model="date"
           v-bind="props"
           :style="style"
+          emit-immediately
+          @input="inputLog"
         />
 
         <q-date
@@ -26,6 +28,7 @@
           v-bind="props"
           :style="style"
           landscape
+          @input="inputLog"
         />
       </div>
 
@@ -42,7 +45,7 @@
 
         <q-date
           :default-year-month="defaultYearMonth"
-          v-model="nullDate"
+          v-model="nullDate2"
           v-bind="props"
           :style="style"
           landscape
@@ -211,6 +214,7 @@ export default {
       date: '2018/11/03',
       dateNeg: '-13/11/03',
       nullDate: null,
+      nullDate2: null,
       defaultYearMonth: '1986/02',
 
       persian: false,
@@ -286,6 +290,10 @@ export default {
       return this.persian === true
         ? date >= '1397/08/12' && date <= '1397/08/24'
         : date >= '2018/11/03' && date <= '2018/11/15'
+    },
+
+    inputLog (value, reason, date) {
+      console.log('@input', value, reason, date)
     }
   }
 }

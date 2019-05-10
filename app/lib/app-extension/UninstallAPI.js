@@ -1,6 +1,8 @@
 const
-  appPaths = require('../app-paths'),
   { removeSync } = require('fs-extra')
+
+const
+  appPaths = require('../app-paths')
 
 /**
  * API for extension's /uninstall.js script

@@ -15,6 +15,12 @@
       "category": "model"
     },
 
+    "emit-immediately": {
+      "type": "Boolean",
+      "desc": "Emit model when user browses month and year too",
+      "category": "model"
+    },
+
     "calendar": {
       "type": "String",
       "desc": "Specify calendar type",
@@ -98,10 +104,29 @@
   "events": {
     "input": {
       "extends": "input",
-      "type": "String",
       "params": {
         "value": {
           "type": "String"
+        },
+        "reason": {
+          "type": "String",
+          "desc": "Reason of the user interaction (what was picked)",
+          "values": [ "year", "month", "day", "today" ]
+        },
+        "details": {
+          "type": "Object",
+          "desc": "Object of properties on the new model",
+          "definition": {
+            "year": {
+              "type": "Number"
+            },
+            "month": {
+              "type": "Number"
+            },
+            "day": {
+              "type": "Number"
+            }
+          }
         }
       }
     }

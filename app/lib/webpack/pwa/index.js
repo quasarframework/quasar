@@ -30,10 +30,10 @@ module.exports = function (chain, cfg) {
     log('[InjectManifest] Using your custom service-worker written file')
   }
 
-  let opts = Object.assign(
-    defaultOptions,
-    cfg.pwa.workboxOptions
-  )
+  let opts = {
+    ...defaultOptions,
+    ...cfg.pwa.workboxOptions
+  }
 
   if (cfg.ctx.mode.ssr) {
     if (!opts.directoryIndex) {

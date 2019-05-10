@@ -37,5 +37,5 @@ A QSplitter can be embedded in another QSplitter's `before` and/or `after` slots
 
 <doc-example title="Reactive Images" file="QSplitter/ReactiveImages" />
 
-## API
+## QSplitter API
 <doc-api file="QSplitter" />

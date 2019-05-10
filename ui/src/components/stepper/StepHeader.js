@@ -43,6 +43,10 @@ export default Vue.extend({
       return !this.isDisable && this.stepper.headerNav && (this.isActive || nav)
     },
 
+    hasPrefix () {
+      return this.step.prefix && !this.isActive && !this.isError && !this.isDone
+    },
+
     icon () {
       if (this.isActive) {
         return this.step.activeIcon || this.stepper.activeIcon || this.$q.iconSet.stepper.active
@@ -116,7 +120,9 @@ export default Vue.extend({
 
       h('div', { staticClass: 'q-stepper__dot row flex-center q-stepper__line relative-position' }, [
         h('span', { staticClass: 'row flex-center' }, [
-          h(QIcon, { props: { name: this.icon } })
+          this.hasPrefix === true
+            ? this.step.prefix
+            : h(QIcon, { props: { name: this.icon } })
         ])
       ]),
 

@@ -493,6 +493,16 @@ export default Vue.extend({
   },
 
   render (h) {
+    const directives = [{
+      name: 'touch-pan',
+      modifiers: {
+        horizontal: true,
+        mouse: true,
+        mouseAllDir: true
+      },
+      value: this.__closeByTouch
+    }]
+
     const child = [
       this.noSwipeOpen !== true && this.belowBreakpoint === true
         ? h('div', {
@@ -516,18 +526,8 @@ export default Vue.extend({
         style: this.lastBackdropBg !== void 0
           ? { backgroundColor: this.lastBackdropBg }
           : null,
-        on: {
-          click: this.hide
-        },
-        directives: [{
-          name: 'touch-pan',
-          modifiers: {
-            horizontal: true,
-            mouse: true,
-            mouseAllDir: true
-          },
-          value: this.__closeByTouch
-        }]
+        on: { click: this.hide },
+        directives
       }) : null
     ]
 
@@ -555,7 +555,10 @@ export default Vue.extend({
         staticClass: `q-drawer q-layout__section--animate`,
         class: this.classes,
         style: this.style,
-        on: this.onNativeEvents
+        on: this.onNativeEvents,
+        directives: this.mobileView === true && this.noSwipeClose !== true
+          ? directives
+          : void 0
       }, content)
     ]))
   }

@@ -110,7 +110,7 @@
 
     "no-swipe-close": {
       "type": "Boolean",
-      "desc": "Disables the default behavior where drawer can be swiped out of view; Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature",
+      "desc": "Disables the default behavior where drawer can be swiped out of view (applies to drawer content only); Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature",
       "category": "behavior"
     }
   },

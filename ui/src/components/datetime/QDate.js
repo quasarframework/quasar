@@ -15,6 +15,8 @@ export default Vue.extend({
   mixins: [ DateTimeMixin ],
 
   props: {
+    emitImmediately: Boolean,
+
     defaultYearMonth: {
       type: String,
       validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
@@ -150,9 +152,7 @@ export default Vue.extend({
     },
 
     daysInMonth () {
-      return this.calendar !== 'persian'
-        ? (new Date(this.innerModel.year, this.innerModel.month, 0)).getDate()
-        : jalaaliMonthLength(this.innerModel.year, this.innerModel.month)
+      return this.__getDaysInMonth(this.innerModel)
     },
 
     today () {
@@ -280,8 +280,8 @@ export default Vue.extend({
 
         if (this.defaultYearMonth !== void 0) {
           const d = this.defaultYearMonth.split('/')
-          year = d[0]
-          month = d[1]
+          year = parseInt(d[0], 10)
+          month = parseInt(d[1], 10)
         }
         else {
           const d = new Date()
@@ -295,7 +295,7 @@ export default Vue.extend({
           }
         }
 
-        string = year + '/' + month + '/' + day
+        string = this.__padYear(year) + '/' + this.__pad(month) + '/' + this.__pad(day)
       }
       else {
         const d = splitDate(v)
@@ -629,6 +629,12 @@ export default Vue.extend({
       ])
     },
 
+    __getDaysInMonth (obj) {
+      return this.calendar !== 'persian'
+        ? (new Date(obj.year, obj.month, 0)).getDate()
+        : jalaaliMonthLength(obj.year, obj.month)
+    },
+
     __goToMonth (offset) {
       let
         month = Number(this.innerModel.month) + offset,
@@ -648,41 +654,51 @@ export default Vue.extend({
       this.monthDirection = offset > 0 ? 'left' : 'right'
       this.yearDirection = yearDir
       this.innerModel.month = month
+
+      this.emitImmediately === true && this.__updateValue('month', {})
     },
 
     __goToYear (offset) {
       this.monthDirection = this.yearDirection = offset > 0 ? 'left' : 'right'
       this.innerModel.year = Number(this.innerModel.year) + offset
+      this.emitImmediately === true && this.__updateValue('year', {})
     },
 
     __setYear (year) {
-      this.__updateValue({ year })
+      this.innerModel.year = year
+      this.emitImmediately === true && this.__updateValue('year', { year })
       this.view = 'Calendar'
     },
 
     __setMonth (month) {
-      this.__updateValue({ month })
+      this.innerModel.month = month
+      this.emitImmediately === true && this.__updateValue('month', { month })
       this.view = 'Calendar'
     },
 
     __setDay (day) {
-      this.__updateValue({ day })
+      this.__updateValue('day', { day })
     },
 
     __setToday () {
-      this.__updateValue({ ...this.today })
+      this.__updateValue('today', { ...this.today })
       this.view = 'Calendar'
     },
 
-    __updateValue (date) {
+    __updateValue (reason, date) {
       if (date.year === void 0) {
         date.year = this.innerModel.year
       }
       if (date.month === void 0) {
         date.month = this.innerModel.month
       }
-      if (date.day === void 0) {
-        date.day = Math.min(this.innerModel.day, this.daysInMonth)
+      if (date.day === void 0 || (this.emitImmediately === true && reason !== 'day')) {
+        date.day = this.innerModel.day
+        const maxDay = this.emitImmediately === true
+          ? this.__getDaysInMonth(date)
+          : this.daysInMonth
+
+        date.day = Math.min(date.day, maxDay)
       }
 
       const val = this.__padYear(date.year) + '/' +
@@ -690,7 +706,7 @@ export default Vue.extend({
         this.__pad(date.day)
 
       if (val !== this.value) {
-        this.$emit('input', val)
+        this.$emit('input', val, reason, date)
       }
     }
   },

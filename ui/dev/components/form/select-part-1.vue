@@ -407,6 +407,15 @@
           v-model="stringSingle"
           :options="stringOptions"
           label="Single - standard"
+          prefix="A"
+        />
+
+        <q-input
+          v-bind="props"
+          :value="stringSingle"
+          @input="val => stringSingle = val === null ? '' : val"
+          label="Input"
+          prefix="A"
         />
 
         <q-select
@@ -426,11 +435,67 @@
           hide-selected
         />
 
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - use-chips use-input"
+          use-chips
+          use-input
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          label="Single - use-chips"
+          use-chips
+        />
+      </div>
+
+      <div class="row q-gutter-sm">
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          prefix="A"
+        />
+
         <q-input
           v-bind="props"
           :value="stringSingle"
           @input="val => stringSingle = val === null ? '' : val"
-          label="Input"
+          prefix="A"
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          use-input
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          use-input
+          hide-selected
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          use-chips
+          use-input
+        />
+
+        <q-select
+          v-bind="props"
+          v-model="stringSingle"
+          :options="stringOptions"
+          use-chips
         />
       </div>
 

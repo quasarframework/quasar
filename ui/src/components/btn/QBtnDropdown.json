@@ -92,6 +92,10 @@
   "slots": {
     "default": {
       "extends": "default"
+    },
+
+    "label": {
+      "desc": "Customize main button's content through this slot, unless you're using the 'icon' and 'label' props"
     }
   },
 

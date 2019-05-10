@@ -306,7 +306,6 @@ api.beforeBuild(() => {
 
 ## api.afterBuild
 
-
 Run hook after Quasar built app for production (`$ quasar build`). At this point, the distributables folder has been created and is available should you wish to do something with it.
 
 ```js

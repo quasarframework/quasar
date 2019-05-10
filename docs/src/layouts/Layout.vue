@@ -93,7 +93,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       router-view
 
   q-page-scroller
-    q-btn(fab, color="red", icon="keyboard_arrow_up")
+    q-btn(fab-mini, color="primary", glossy, icon="keyboard_arrow_up")
 </template>
 
 <script>

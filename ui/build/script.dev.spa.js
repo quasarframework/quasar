@@ -28,7 +28,7 @@ compiler.hooks.done.tap('dev-server-done-compiling', compiler => {
   this.__started = true
 
   server.listen(env.port, env.host, () => {
-    require('opn')(env.uri)
+    require('open')(env.uri)
   })
 })
 

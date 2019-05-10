@@ -111,6 +111,8 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 <doc-example title="Filtering options" file="QSelect/InputFilter" />
 
+<doc-example title="Basic autocomplete" file="QSelect/InputAutocomplete" />
+
 <doc-example title="Autocomplete on more than 2 chars" file="QSelect/InputFilterMin" />
 
 <doc-example title="Lazy autocomplete" file="QSelect/InputFilterLazy" />

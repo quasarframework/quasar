@@ -3,7 +3,7 @@ const
   logger = require('../helpers/logger'),
   log = logger('app:ensure-dev-deps'),
   warn = logger('app:ensure-dev-deps', 'red'),
-  spawn = require('./spawn'),
+  { spawnSync } = require('./spawn'),
   nodePackager = require('./node-packager')
 
 function needsStripAnsi (pkg) {
@@ -28,7 +28,7 @@ module.exports = function () {
     cmdParam.push('strip-ansi@=3.0.1')
 
     log(`Pinning strip-ansi dependency...`)
-    spawn.sync(
+    spawnSync(
       nodePackager,
       cmdParam,
       appPaths.appDir,
