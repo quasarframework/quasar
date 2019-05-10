@@ -74,6 +74,8 @@ These settings are completely up to you to use as you'd like. You could even go 
 It is important that you specify all sections of a QLayout, even if you don't use them. For example, even if you don't use footer or right side drawer, still specify them within your QLayout's `view` prop.
 :::
 
+If you would like see more examples of layouts, go [here](https://github.com/hawkeye64/quasar-layouts).
+
 ### Containerized QLayout
 By default, QLayout is managing the entire window. However, you can also use QLayout as a container (with specific height and width) to isolate it somewhere in your pages.
 
