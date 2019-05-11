@@ -161,6 +161,24 @@
         </q-input>
       </div>
 
+      <div class="text-h6 q-mt-xl q-mb-none">
+        ParseFormat: {{ dateParse }}
+      </div>
+      <div class="q-gutter-md column">
+        <q-input :dark="dark" filled v-model="mask" label="Mask" />
+        <q-select :dark="dark" filled v-model="locale" label="Locale" :options="localeOptions" emit-value map-options clearable />
+
+        <q-date
+          v-model="dateParse"
+          :mask="mask"
+          :locale="localeComputed"
+          v-bind="props"
+          :style="style"
+        />
+
+        <q-input :dark="dark" filled v-model="dateParse" />
+      </div>
+
       <div class="text-h6">
         Input: {{ input }}
       </div>
@@ -200,6 +218,13 @@
 </template>
 
 <script>
+import languages from '../../../lang/index.json'
+
+const localeOptions = languages.map(lang => ({
+  label: lang.nativeName,
+  value: require(`../../../lang/${lang.isoName}.js`).default
+}))
+
 export default {
   data () {
     return {
@@ -211,7 +236,10 @@ export default {
       minimal: false,
       todayBtn: false,
 
+      mask: '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY',
+
       date: '2018/11/03',
+      dateParse: 'Month: Aug, Day: 28th, Year: 2018',
       dateNeg: '-13/11/03',
       nullDate: null,
       nullDate2: null,
@@ -219,7 +247,10 @@ export default {
 
       persian: false,
 
-      input: null
+      input: null,
+
+      locale: null,
+      localeOptions
     }
   },
 
@@ -257,6 +288,10 @@ export default {
         style += 'height: 650px'
       }
       return style
+    },
+
+    localeComputed () {
+      return this.locale ? this.locale.date : this.$q.lang.date
     }
   },
   watch: {

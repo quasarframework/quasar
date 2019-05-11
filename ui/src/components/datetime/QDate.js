@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from './datetime-mixin.js'
 
-import { splitDate } from '../../utils/date.js'
+import { formatDate, splitDate } from '../../utils/date.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { jalaaliMonthLength, toJalaali, toGregorian } from './persian'
 
@@ -16,6 +16,12 @@ export default Vue.extend({
 
   props: {
     emitImmediately: Boolean,
+
+    mask: {
+      type: String,
+      default: 'YYYY/MM/DD'
+    },
+    locale: Object,
 
     defaultYearMonth: {
       type: String,
@@ -84,6 +90,10 @@ export default Vue.extend({
         (this.disable === true ? ' disabled' : '')
     },
 
+    computedLocale () {
+      return this.locale || this.$q.lang.date
+    },
+
     extModel () {
       const v = this.value
 
@@ -96,7 +106,7 @@ export default Vue.extend({
         }
       }
 
-      return splitDate(v)
+      return splitDate(v, this.mask, this.computedLocale)
     },
 
     headerTitle () {
@@ -115,12 +125,12 @@ export default Vue.extend({
 
       if (isNaN(date.valueOf())) { return ' --- ' }
 
-      if (this.$q.lang.date.headerTitle !== void 0) {
-        return this.$q.lang.date.headerTitle(date, model)
+      if (this.computedLocale.headerTitle !== void 0) {
+        return this.computedLocale.headerTitle(date, model)
       }
 
-      return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
-        this.$q.lang.date.monthsShort[ model.month - 1 ] + ' ' +
+      return this.computedLocale.daysShort[ date.getDay() ] + ', ' +
+        this.computedLocale.monthsShort[ model.month - 1 ] + ' ' +
         model.day
     },
 
@@ -138,12 +148,12 @@ export default Vue.extend({
     computedFirstDayOfWeek () {
       return this.firstDayOfWeek !== void 0
         ? Number(this.firstDayOfWeek)
-        : this.$q.lang.date.firstDayOfWeek
+        : this.computedLocale.firstDayOfWeek
     },
 
     daysOfWeek () {
       const
-        days = this.$q.lang.date.daysShort,
+        days = this.computedLocale.daysShort,
         first = this.computedFirstDayOfWeek
 
       return first > 0
@@ -298,7 +308,7 @@ export default Vue.extend({
         string = this.__padYear(year) + '/' + this.__pad(month) + '/' + this.__pad(day)
       }
       else {
-        const d = splitDate(v)
+        const d = splitDate(v, this.mask, this.computedLocale)
 
         string = v
 
@@ -459,7 +469,7 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-date__navigation row items-center no-wrap'
           }, this.__getNavigation(h, {
-            label: this.$q.lang.date.months[ this.innerModel.month - 1 ],
+            label: this.computedLocale.months[ this.innerModel.month - 1 ],
             view: 'Months',
             key: this.innerModel.month,
             dir: this.monthDirection,
@@ -521,7 +531,7 @@ export default Vue.extend({
     __getMonthsView (h) {
       const currentYear = this.innerModel.year === this.today.year
 
-      const content = this.$q.lang.date.monthsShort.map((month, i) => {
+      const content = this.computedLocale.monthsShort.map((month, i) => {
         const active = this.innerModel.month === i + 1
 
         return h('div', {
@@ -701,9 +711,7 @@ export default Vue.extend({
         date.day = Math.min(date.day, maxDay)
       }
 
-      const val = this.__padYear(date.year) + '/' +
-        this.__pad(date.month) + '/' +
-        this.__pad(date.day)
+      const val = formatDate(new Date(date.year, date.month - 1, date.day), this.mask, this.computedLocale)
 
       if (val !== this.value) {
         this.$emit('input', val, reason, date)
