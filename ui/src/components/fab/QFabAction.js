@@ -38,6 +38,7 @@ export default Vue.extend({
     return h(QBtn, {
       props: {
         ...this.$props,
+        disable: this.disable,
         fabMini: true
       },
       on: {

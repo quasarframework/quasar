@@ -56,7 +56,8 @@ export default Vue.extend({
           flat: this.flat,
           color: this.color,
           textColor: this.textColor,
-          glossy: this.glossy
+          glossy: this.glossy,
+          disable: this.disable
         },
         on: {
           click: this.toggle
@@ -80,6 +81,8 @@ export default Vue.extend({
   },
 
   created () {
-    this.value === true && (this.showing = true)
+    if (this.value === true && this.disable !== true) {
+      this.showing = true
+    }
   }
 })

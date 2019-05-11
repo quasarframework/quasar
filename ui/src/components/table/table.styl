@@ -20,7 +20,7 @@
       &:hover .q-table__sort-icon
         opacity .64
     &.sorted .q-table__sort-icon
-      opacity 1 !important
+      opacity .86 !important
     &.sort-desc .q-table__sort-icon
       transform rotate3d(0, 0, 1, 180deg)
 
@@ -228,8 +228,9 @@
     border-color $table-border-color
   th
     opacity .54
+    transition opacity $table-transition
     &.sortable:hover, &.sorted
-      opacity 1
+      opacity .86
   tbody tr
     &.selected
       background $table-selected-background
