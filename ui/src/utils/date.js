@@ -102,6 +102,7 @@ function standardDateFromMask (date, mask, opts = {}) {
     shortMonths = (opts.monthsShort || lang.props.date.monthsShort),
     months = (opts.months || lang.props.date.months),
     key = `${mask.toLowerCase()}|${shortMonths.join('|')}|${months.join('|')}`
+
   if (parseConvertFns[key] === void 0) {
     const
       { maskRegex, maskMap } = maskToRegex(mask, opts),
