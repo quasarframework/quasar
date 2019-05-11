@@ -46,16 +46,29 @@ if (cmd) {
       process.exit(0)
     }
 
-    const warn = require('../lib/helpers/logger')('app', 'red')
+    const logger = require('../lib/helpers/logger'),
+      log = logger('app'),
+      warn = logger('app', 'red')
 
-    warn()
-    warn(`Unknown command "${ cmd }"`)
     if (cmd.indexOf('-') === 0) {
       warn(`Command must come before the options`)
+      cmd = 'help'
     }
+    else {
+      log(`Looking for Quasar App Extension "${process.argv[2]}" command${(process.argv[3] && ' "' + process.argv[3] + '"') || ''}`)
 
-    warn()
-    cmd = 'help'
+      const exit = process.exit
+      process.exit = (code, reason) => {
+        if (reason === 'ext-missing') {
+          require('./quasar-help')
+          exit(0)
+        }
+        else
+          exit(code)
+      }
+
+      cmd = 'run'
+    }
   }
 }
 else {

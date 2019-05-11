@@ -20,8 +20,10 @@ if (!extId || argv.help) {
 
   Usage
     $ quasar run <extension-id> <cmd> [args, params]
+    $ quasar <extension-id> <cmd> [args, params]
 
-    $ quasar run iconify create -s
+    $ quasar run iconify create -s 
+    $ quasar iconify create -s
         # Note: "iconify" is an example and not a real extension.
         # Looks for installed extension called "iconify"
         # (quasar-app-extension-iconify extension package)

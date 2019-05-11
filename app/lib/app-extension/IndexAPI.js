@@ -174,7 +174,7 @@ module.exports = class IndexAPI {
 
   /**
    * Register a command that will become available as
-   * `quasar run <ext-id> <cmd> [args]`.
+   * `quasar run <ext-id> <cmd> [args]` and `quasar <ext-id> <cmd> [args]`
    *
    * @param {string} commandName
    * @param {function} fn

@@ -217,7 +217,7 @@ module.exports = class Extension {
   async run (ctx) {
     if (!this.isInstalled()) {
       warn(`⚠️  Quasar App Extension "${this.extId}" is missing...`)
-      process.exit(1)
+      process.exit(1, 'ext-missing')
     }
 
     const script = this.__getScript('index', true)
