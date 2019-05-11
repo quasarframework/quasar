@@ -1,5 +1,3 @@
-import { isSSR } from '../plugins/Platform.js'
-
 export const listenOpts = {
   hasPassive: false,
   passiveCapture: true,
@@ -107,14 +105,13 @@ export function stopAndPrevent (e) {
   e.stopPropagation()
 }
 
-
 export function create (name, { bubbles = false, cancelable = false } = {}) {
   try {
     return new Event(name, { bubbles, cancelable })
   }
   catch (e) {
     // IE doesn't support `new Event()`, so...`
-    evt = document.createEvent('Event')
+    const evt = document.createEvent('Event')
     evt.initEvent(name, bubbles, cancelable)
     return evt
   }
