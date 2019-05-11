@@ -93,10 +93,12 @@ function maskToRegex (mask, opts = {}) {
   }
 }
 
-function standardDateFromMask (date, mask, opts = {}) {
+function standardDateFromMask (date, mask, opts) {
   if (typeof mask !== 'string' || mask.length === 0 || mask === 'YYYY/MM/DD') {
     return date
   }
+
+  opts = opts || {}
 
   const
     shortMonths = (opts.monthsShort || lang.props.date.monthsShort),
@@ -143,7 +145,7 @@ export function splitDate (date, mask, opts = {}) {
     value = date,
     year, month, day
 
-  [year, month, day] = standardDateFromMask(value, mask, opts).split('/')
+  ;[year, month, day] = standardDateFromMask(value, mask, opts || {}).split('/')
     .concat([null, null, null])
     .slice(0, 3)
     .map(d => parseInt(d, 10))
