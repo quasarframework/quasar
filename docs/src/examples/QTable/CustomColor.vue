@@ -1,11 +1,16 @@
 <template>
   <div class="q-pa-md">
     <q-table
+      color="primary"
+      card-class="bg-amber-5 text-brown"
+      table-class="text-grey-8"
+      table-header-class="text-brown"
+      flat
+      bordered
       title="Treats"
       :data="data"
       :columns="columns"
       row-key="name"
-      table-class="my-custom"
     />
   </div>
 </template>
@@ -138,12 +143,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.my-custom th {
-  color: #2196f3 !important;
-}
-.my-custom td {
-  color: #009688 !important;
-}
-</style>
