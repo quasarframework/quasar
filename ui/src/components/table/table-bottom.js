@@ -44,7 +44,7 @@ export default {
       return [
         h('div', { staticClass: 'q-table__control' }, [
           h('div', [
-            this.hasSelectionMode && this.rowsSelectedNumber > 0
+            this.hasSelectionMode === true && this.rowsSelectedNumber > 0
               ? (this.selectedRowsLabel || this.$q.lang.table.selectedRecords)(this.rowsSelectedNumber)
               : ''
           ])

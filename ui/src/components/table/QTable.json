@@ -204,6 +204,26 @@
       "category": "style"
     },
 
+    "card-style": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS style to apply to the card",
+      "examples": [
+        "background-color: #ff0000",
+        ":table-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "card-class": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS classes to apply to the card",
+      "examples": [
+        "my-special-class",
+        ":table-class=\"{ 'my-special-class': [Boolean condition] }\""
+      ],
+      "category": "style"
+    },
+
     "filter": {
       "type": [ "String", "Object" ],
       "desc": "String/Object to filter table with; When using an Object it requires 'filter-method' to also be specified since it will be a custom filtering",

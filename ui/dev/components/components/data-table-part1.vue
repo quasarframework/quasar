@@ -205,7 +205,6 @@
       <h2>Grid style</h2>
       <q-table
         grid
-        hide-header
         :data="data"
         :columns="columns"
         :filter="filter"

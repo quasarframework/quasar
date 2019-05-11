@@ -14,20 +14,15 @@
   th
     font-weight 500
     font-size 12px
-    transition $table-transition
     user-select none
     &.sortable
       cursor pointer
       &:hover .q-table__sort-icon
-        opacity .5
+        opacity .64
     &.sorted .q-table__sort-icon
       opacity 1 !important
     &.sort-desc .q-table__sort-icon
       transform rotate3d(0, 0, 1, 180deg)
-
-  tbody tr
-    transition $table-transition
-    will-change background
 
   th, td
     padding 7px 16px
@@ -41,15 +36,14 @@
     font-weight 400
     font-size 13px
 
-
-  &__container
+  &__card
+    color #000
+    background-color #fff
     border-radius $table-border-radius
     box-shadow $table-box-shadow
+
+  &__container
     position relative
-    &:not(.q-table--grid)
-      background white
-    &.fullscreen
-      background-color inherit
 
     > div:first-child
       border-top-left-radius inherit
@@ -60,17 +54,7 @@
       border-bottom-right-radius inherit
 
   &__top
-    padding 8px 16px
-    &:before
-      content ''
-      position absolute
-      pointer-events none
-      top 0
-      right 0
-      bottom 0
-      left 0
-      opacity .2
-      transition $table-transition
+    padding 12px 16px
     .q-table__control
       flex-wrap wrap
 
@@ -78,6 +62,7 @@
     font-size 20px
     letter-spacing 0.005em
     font-weight 400
+
   &__separator
     min-width 8px !important
 
@@ -96,9 +81,7 @@
   &__bottom
     min-height 48px
     padding 4px 14px 4px 16px
-
-    &, .q-if
-      font-size 12px
+    font-size 12px
 
     .q-table__control
       min-height 24px
@@ -115,8 +98,7 @@
     align-items center
 
   &__sort-icon
-    transition $table-transition
-    will-change opacity, transform
+    transition transform $table-transition
     opacity 0
     font-size 120%
 
@@ -126,6 +108,7 @@
       margin-right 4px
 
   &--col-auto-width
+    opacity 1 !important
     width 1px
     padding-right 0 !important
 
@@ -143,9 +126,35 @@
   &--bordered
     border 1px solid $table-border-color
 
-.q-table--no-wrap
-  th, td
-    white-space nowrap
+  &__linear-progress, &--grid .q-table__middle
+    height 2px
+
+  &--no-wrap
+    th, td
+      white-space nowrap
+
+  &__grid-item-card
+    vertical-align top
+    padding 12px
+
+    .q-separator
+      margin 12px 0
+
+  &__grid-item-row + &__grid-item-row
+    margin-top 8px
+
+  &__grid-item-title
+    opacity .54
+
+  &__grid-item-value
+    // font-weight 300
+
+  &__grid-item
+    padding 4px
+    transition transform $table-transition
+
+    &--selected
+      transform scale3d(0.95, 0.95, 0.95)
 
 /*
  * Separators
@@ -212,17 +221,15 @@
  * On light background
  */
 .q-table__bottom // @stylint ignore
-  color $table-header-color
   border-top 1px solid $table-border-color
 
 .q-table // @stylint ignore
-  color $table-color
   thead, tr, th, td
     border-color $table-border-color
   th
-    color $table-header-color
+    opacity .54
     &.sortable:hover, &.sorted
-      color $table-color
+      opacity 1
   tbody tr
     &.selected
       background $table-selected-background
@@ -232,21 +239,17 @@
 /*
  * On dark background
  */
-.q-table--dark
-  &, > .q-table
-    color $table-dark-color
+.q-table__card--dark
+  color #fff
+  background $grey-9
 
-  .q-table__bottom, .q-table__top
-    color $table-dark-header-color
+.q-table--dark
+
   .q-table__bottom
     border-top 1px solid $table-dark-border-color
 
   thead, tr, th, td
     border-color $table-dark-border-color
-  th
-    color $table-dark-header-color
-    &.sortable:hover, &.sorted
-      color $table-dark-color
   tbody tr
     &.selected
       background $table-dark-selected-background

@@ -20,20 +20,18 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return {
-        [`q-table--${this.separator}-separator`]: true,
-        'q-table--dark': this.dark,
-        'q-table--dense': this.dense,
-        'q-table--flat': this.flat,
-        'q-table--bordered': this.bordered,
-        'q-table--no-wrap': this.wrapCells === false
-      }
+      return `q-table--${this.separator}-separator` +
+        (this.dark === true ? ` q-table--dark q-table__card--dark` : '') +
+        (this.dense === true ? ` q-table--dense` : '') +
+        (this.flat === true ? ` q-table--flat` : '') +
+        (this.bordered === true ? ` q-table--bordered` : '') +
+        (this.wrapCells === false ? ` q-table--no-wrap` : '')
     }
   },
 
   render (h) {
     return h('div', {
-      staticClass: 'q-markup-table q-table__container',
+      staticClass: 'q-markup-table q-table__container q-table__card',
       class: this.classes,
       on: this.$listeners
     }, [

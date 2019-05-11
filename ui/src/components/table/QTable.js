@@ -4,6 +4,7 @@ import Top from './table-top.js'
 import TableHeader from './table-header.js'
 import TableBody from './table-body.js'
 import Bottom from './table-bottom.js'
+import TableGrid from './table-grid.js'
 
 import Sort from './table-sort.js'
 import Filter from './table-filter.js'
@@ -21,6 +22,7 @@ export default Vue.extend({
     TableHeader,
     TableBody,
     Bottom,
+    TableGrid,
     Sort,
     Filter,
     Pagination,
@@ -37,18 +39,18 @@ export default Vue.extend({
       type: String,
       default: 'id'
     },
-    color: {
-      type: String,
-      default: 'grey-8'
-    },
-    grid: Boolean,
-    dense: Boolean,
+
     columns: Array,
     loading: Boolean,
+    binaryStateSort: Boolean,
+
     title: String,
+
     hideHeader: Boolean,
     hideBottom: Boolean,
-    dark: Boolean,
+
+    grid: Boolean,
+    dense: Boolean,
     flat: Boolean,
     bordered: Boolean,
     separator: {
@@ -57,21 +59,25 @@ export default Vue.extend({
       validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
     },
     wrapCells: Boolean,
-    binaryStateSort: Boolean,
+
     noDataLabel: String,
     noResultsLabel: String,
     loadingLabel: String,
     selectedRowsLabel: Function,
     rowsPerPageLabel: String,
     paginationLabel: Function,
-    tableStyle: {
-      type: [String, Array, Object],
-      default: ''
+
+    color: {
+      type: String,
+      default: 'grey-8'
     },
-    tableClass: {
-      type: [String, Array, Object],
-      default: ''
-    }
+
+    tableStyle: [String, Array, Object],
+    tableClass: [String, Array, Object],
+    cardStyle: [String, Array, Object],
+    cardClass: [String, Array, Object],
+
+    dark: Boolean
   },
 
   data () {
@@ -138,31 +144,33 @@ export default Vue.extend({
 
     isServerSide () {
       return this.computedPagination.rowsNumber !== void 0
+    },
+
+    containerClass () {
+      return `q-table__container q-table--${this.separator}-separator` +
+        ` q-table${this.grid === true ? '--grid' : `__card${this.dark === true ? ' q-table__card--dark' : ''}`}` +
+        (this.dark === true ? ` q-table--dark` : '') +
+        (this.dense === true ? ` q-table--dense` : '') +
+        (this.flat === true ? ` q-table--flat` : '') +
+        (this.bordered === true ? ` q-table--bordered` : '') +
+        (this.wrapCells === false ? ` q-table--no-wrap` : '') +
+        (this.inFullscreen === true ? ` fullscreen scroll` : '')
     }
   },
 
   render (h) {
-    return h('div',
-      {
-        staticClass: 'q-table__container',
-        class: {
-          'q-table--grid': this.grid,
-          'q-table--dark': this.dark,
-          'q-table--dense': this.dense,
-          'q-table--flat': this.flat,
-          'q-table--bordered': this.bordered,
-          'q-table--no-wrap': this.wrapCells === false,
-          [`q-table--${this.separator}-separator`]: true,
-          fullscreen: this.inFullscreen,
-          scroll: this.inFullscreen
-        }
-      },
-      [
-        this.getTop(h),
-        this.getBody(h),
-        this.getBottom(h)
-      ]
-    )
+    const data = { staticClass: this.containerClass }
+
+    if (this.grid === false) {
+      data.class = this.cardClass
+      data.style = this.cardStyle
+    }
+
+    return h('div', data, [
+      this.getTop(h),
+      this.getBody(h),
+      this.getBottom(h)
+    ])
   },
 
   methods: {
@@ -177,44 +185,17 @@ export default Vue.extend({
     },
 
     getBody (h) {
-      const hasHeader = !this.hideHeader
-
       if (this.grid === true) {
-        const item = this.$scopedSlots.item
-
-        if (item !== void 0) {
-          return [
-            (hasHeader && h('div', { staticClass: 'q-table__middle scroll' }, [
-              h('table', {
-                staticClass: 'q-table',
-                class: { 'q-table--dark': this.dark }
-              }, [
-                this.getTableHeader(h)
-              ])
-            ])) || null,
-            h('div', { staticClass: 'row' }, this.computedRows.map(row => {
-              const
-                key = row[this.rowKey],
-                selected = this.isRowSelected(key)
-
-              return item(this.addBodyRowMeta({
-                key,
-                row,
-                cols: this.computedCols,
-                colsMap: this.computedColsMap,
-                __trClass: selected ? 'selected' : ''
-              }))
-            }))
-          ]
-        }
+        return this.getTableGrid(h)
       }
 
-      return h('div', { staticClass: 'q-table__middle scroll', class: this.tableClass, style: this.tableStyle }, [
-        h('table', {
-          staticClass: 'q-table',
-          class: this.dark ? ' q-table--dark' : ''
-        }, [
-          (hasHeader && this.getTableHeader(h)) || null,
+      return h('div', {
+        staticClass: 'q-table__middle scroll',
+        class: this.tableClass,
+        style: this.tableStyle
+      }, [
+        h('table', { staticClass: 'q-table' }, [
+          this.hideHeader !== true ? this.getTableHeader(h) : null,
           this.getTableBody(h)
         ])
       ])
