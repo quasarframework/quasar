@@ -88,7 +88,10 @@ export default {
         ]))
       }
 
-      return h('tr', child)
+      return h('tr', {
+        style: this.tableHeaderStyle,
+        class: this.tableHeaderClass
+      }, child)
     },
 
     addTableHeaderRowMeta (data) {

@@ -40,7 +40,7 @@ export default {
             class: scope.selected === true ? 'q-table__grid-item--selected' : null
           }, [
             h('div', {
-              staticClass: `q-table__card${this.dark === true ? ' q-table__card--dark' : ''} q-table__grid-item-card`,
+              staticClass: 'q-table__grid-item-card' + this.cardDefaultClass,
               class: this.cardClass,
               style: this.cardStyle
             }, child)

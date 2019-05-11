@@ -10,6 +10,7 @@ export default Vue.extend({
     dark: Boolean,
     flat: Boolean,
     bordered: Boolean,
+    square: Boolean,
     separator: {
       type: String,
       default: 'horizontal',
@@ -25,6 +26,7 @@ export default Vue.extend({
         (this.dense === true ? ` q-table--dense` : '') +
         (this.flat === true ? ` q-table--flat` : '') +
         (this.bordered === true ? ` q-table--bordered` : '') +
+        (this.square === true ? ` q-table--square` : '') +
         (this.wrapCells === false ? ` q-table--no-wrap` : '')
     }
   },

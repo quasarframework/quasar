@@ -53,6 +53,7 @@ export default Vue.extend({
     dense: Boolean,
     flat: Boolean,
     bordered: Boolean,
+    square: Boolean,
     separator: {
       type: String,
       default: 'horizontal',
@@ -74,6 +75,8 @@ export default Vue.extend({
 
     tableStyle: [String, Array, Object],
     tableClass: [String, Array, Object],
+    tableHeaderStyle: [String, Array, Object],
+    tableHeaderClass: [String, Array, Object],
     cardStyle: [String, Array, Object],
     cardClass: [String, Array, Object],
 
@@ -147,13 +150,19 @@ export default Vue.extend({
       return this.computedPagination.rowsNumber !== void 0
     },
 
+    cardDefaultClass () {
+      return ` q-table__card` +
+        (this.dark === true ? ' q-table__card--dark' : '') +
+        (this.square === true ? ` q-table--square` : '') +
+        (this.flat === true ? ` q-table--flat` : '') +
+        (this.bordered === true ? ` q-table--bordered` : '')
+    },
+
     containerClass () {
       return `q-table__container q-table--${this.separator}-separator` +
-        ` q-table${this.grid === true ? '--grid' : `__card${this.dark === true ? ' q-table__card--dark' : ''}`}` +
+        (this.grid === true ? ' q-table--grid' : this.cardDefaultClass) +
         (this.dark === true ? ` q-table--dark` : '') +
         (this.dense === true ? ` q-table--dense` : '') +
-        (this.flat === true ? ` q-table--flat` : '') +
-        (this.bordered === true ? ` q-table--bordered` : '') +
         (this.wrapCells === false ? ` q-table--no-wrap` : '') +
         (this.inFullscreen === true ? ` fullscreen scroll` : '')
     }

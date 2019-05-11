@@ -33,7 +33,6 @@
     border-width 0
 
   tbody td
-    font-weight 400
     font-size 13px
 
   &__card
@@ -112,6 +111,20 @@
     width 1px
     padding-right 0 !important
 
+  &--flat
+    box-shadow none
+  &--bordered
+    border 1px solid $table-border-color
+  &--square
+    border-radius 0
+
+  &__linear-progress, &--grid .q-table__middle
+    height 2px
+
+  &--no-wrap
+    th, td
+      white-space nowrap
+
   &--grid
     box-shadow none
     .q-table__bottom
@@ -120,18 +133,6 @@
       height 2px
       thead
         border 0
-
-  &--flat
-    box-shadow none
-  &--bordered
-    border 1px solid $table-border-color
-
-  &__linear-progress, &--grid .q-table__middle
-    height 2px
-
-  &--no-wrap
-    th, td
-      white-space nowrap
 
   &__grid-item-card
     vertical-align top
@@ -145,9 +146,11 @@
 
   &__grid-item-title
     opacity .54
+    font-weight 500
+    font-size 12px
 
   &__grid-item-value
-    // font-weight 300
+    font-size 13px
 
   &__grid-item
     padding 4px

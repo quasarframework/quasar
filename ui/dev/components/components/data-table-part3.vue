@@ -17,6 +17,8 @@
       :selection="selection"
       :selected.sync="selected"
       :dark="dark"
+      flat
+      bordered
     />
 
     <q-table
@@ -37,7 +39,7 @@
         >
           <q-card :class="dark ? 'bg-grey-9 text-white' : ''">
             <q-card-section>
-              <q-checkbox v-model="props.selected" :label="props.row.name" />
+              <q-checkbox :dark="dark" v-model="props.selected" :label="props.row.name" />
             </q-card-section>
             <q-separator :dark="dark" />
             <q-list :dark="dark">

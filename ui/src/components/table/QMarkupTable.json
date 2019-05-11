@@ -20,6 +20,10 @@
       "extends": "bordered"
     },
 
+    "square": {
+      "extends": "square"
+    },
+
     "separator": {
       "type": "String",
       "desc": "Use a separator/border between rows, columns or all cells",
