@@ -287,7 +287,7 @@ export default Vue.extend({
         else if (this.isAM === false && val !== 12) {
           val += 12
         }
-        
+
         if (val === 24) {
           val = 0
         }
