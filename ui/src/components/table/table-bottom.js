@@ -6,7 +6,7 @@ export default {
   computed: {
     navIcon () {
       const ico = [ this.$q.iconSet.table.prevPage, this.$q.iconSet.table.nextPage ]
-      return this.$q.lang.rtl ? ico.reverse() : ico
+      return this.$q.lang.rtl === true ? ico.reverse() : ico
     }
   },
 

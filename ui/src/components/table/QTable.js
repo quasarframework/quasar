@@ -105,7 +105,8 @@ export default Vue.extend({
           rows: []
         }
       }
-      if (this.isServerSide) {
+
+      if (this.isServerSide === true) {
         return { rows }
       }
 
@@ -133,7 +134,7 @@ export default Vue.extend({
     },
 
     computedRowsNumber () {
-      return this.isServerSide
+      return this.isServerSide === true
         ? this.computedPagination.rowsNumber || 0
         : this.computedData.rowsNumber
     },
