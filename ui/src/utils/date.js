@@ -48,7 +48,7 @@ function getChange (date, mod, add) {
   return t
 }
 
-function maskToRegex (mask, opts = {}) {
+function maskToRegex (mask, monthsJoined, monthsShortJoined) {
   let index = 0
 
   const
@@ -69,10 +69,10 @@ function maskToRegex (mask, opts = {}) {
           return '(\\d{0,2})'
         case 'MMMM':
           maskMap.month = (++index)
-          return `(${(opts.months || lang.props.date.months).join('|')})`
+          return '(' + monthsJoined + ')'
         case 'MMM':
           maskMap.month = (++index)
-          return `(${(opts.monthsShort || lang.props.date.monthsShort).join('|')})`
+          return '(' + monthsShortJoined + ')'
         case 'DD':
         case 'D':
           maskMap.day = (++index)
@@ -98,21 +98,22 @@ function standardDateFromMask (date, mask, opts) {
     return date
   }
 
-  opts = opts || {}
-
   const
-    shortMonths = (opts.monthsShort || lang.props.date.monthsShort),
-    months = (opts.months || lang.props.date.months),
-    key = `${mask.toLowerCase()}|${shortMonths.join('|')}|${months.join('|')}`
+    langOpts = opts !== void 0 ? opts : lang.props.date,
+    monthsShort = langOpts.monthsShort,
+    monthsShortJoined = monthsShort.join('|'),
+    months = langOpts.months,
+    monthsJoined = months.join('|'),
+    key = mask.toLowerCase() + '|' + monthsJoined + monthsShortJoined
 
   if (parseConvertFns[key] === void 0) {
     const
-      { maskRegex, maskMap } = maskToRegex(mask, opts),
+      { maskRegex, maskMap } = maskToRegex(mask, monthsJoined, monthsShortJoined),
       parseFormatTo = (...args) => {
         let month = args[maskMap.month]
 
         if (/\d+/.test(month) === false) {
-          let found = shortMonths.indexOf(month)
+          let found = monthsShort.indexOf(month)
           if (found === -1) {
             found = months.indexOf(month)
           }
@@ -121,7 +122,7 @@ function standardDateFromMask (date, mask, opts) {
           }
         }
 
-        return `${args[maskMap.year]}/${month}/${args[maskMap.day]}`
+        return args[maskMap.year] + '/' + month + '/' + args[maskMap.day]
       }
 
     parseConvertFns[key] = text => {
@@ -133,19 +134,15 @@ function standardDateFromMask (date, mask, opts) {
 }
 
 export function isValid (date) {
-  if (typeof date === 'number') {
-    return true
-  }
-  const t = Date.parse(date)
-  return isNaN(t) === false
+  return typeof date === 'number'
+    ? true
+    : isNaN(Date.parse(date)) === false
 }
 
-export function splitDate (date, mask, opts = {}) {
-  let
-    value = date,
-    year, month, day
-
-  ;[year, month, day] = standardDateFromMask(value, mask, opts || {}).split('/')
+export function splitDate (date, mask, opts) {
+  let value = date
+  let [year, month, day] = standardDateFromMask(value, mask, opts)
+    .split('/')
     .concat([null, null, null])
     .slice(0, 3)
     .map(d => parseInt(d, 10))
@@ -254,6 +251,7 @@ export function adjustDate (date, mod, utc) {
       : key.charAt(0).toUpperCase() + key.slice(1)
     t[`${prefix}${op}`](mod[key])
   })
+
   return t
 }
 
@@ -347,30 +345,20 @@ export function getDayOfYear (date) {
   return getDateDiff(date, startOfDate(date, 'year'), 'days') + 1
 }
 
-export function inferDateFormat (example) {
-  if (isDate(example)) {
-    return 'date'
-  }
-  if (typeof example === 'number') {
-    return 'number'
-  }
-
-  return 'string'
+export function inferDateFormat (date) {
+  return isDate(date) === true
+    ? 'date'
+    : (typeof date === 'number' ? 'number' : 'string')
 }
 
 export function convertDateToFormat (date, type, format) {
-  if (!date && date !== 0) {
+  if (date !== 0 && !date) {
     return
   }
 
-  switch (type) {
-    case 'date':
-      return date
-    case 'number':
-      return date.getTime()
-    default:
-      return formatDate(date, format)
-  }
+  return type === 'date'
+    ? date
+    : (type === 'number' ? date.getTime() : formatDate(date, format))
 }
 
 export function getDateBetween (date, min, max) {
@@ -473,13 +461,15 @@ export const formatter = {
   },
 
   // Month Short Name: Jan, Feb, ...
-  MMM (date, opts = {}) {
-    return (opts.monthsShort || lang.props.date.monthsShort)[date.getMonth()]
+  MMM (date, opts) {
+    const langOpts = opts !== void 0 ? opts : lang.props.date
+    return langOpts.monthsShort[date.getMonth()]
   },
 
   // Month Name: January, February, ...
-  MMMM (date, opts = {}) {
-    return (opts.months || lang.props.date.months)[date.getMonth()]
+  MMMM (date, opts) {
+    const langOpts = opts !== void 0 ? opts : lang.props.date
+    return langOpts.months[date.getMonth()]
   },
 
   // Quarter: 1, 2, 3, 4
@@ -528,13 +518,15 @@ export const formatter = {
   },
 
   // Day of week: Sun, Mon, ...
-  ddd (date, opts = {}) {
-    return (opts.daysShort || lang.props.date.daysShort)[date.getDay()]
+  ddd (date, opts) {
+    const langOpts = opts !== void 0 ? opts : lang.props.date
+    return langOpts.daysShort[date.getDay()]
   },
 
   // Day of week: Sunday, Monday, ...
-  dddd (date, opts = {}) {
-    return (opts.days || lang.props.date.days)[date.getDay()]
+  dddd (date, opts) {
+    const langOpts = opts !== void 0 ? opts : lang.props.date
+    return langOpts.days[date.getDay()]
   },
 
   // Day of ISO week: 1, 2, ..., 7
@@ -650,7 +642,7 @@ export const formatter = {
   }
 }
 
-export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ', opts) {
+export function formatDate (val, mask, opts) {
   if (
     (val !== 0 && !val) ||
     val === Infinity ||
@@ -665,22 +657,28 @@ export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ', opts) {
     return
   }
 
-  return mask.replace(token, function (match, text) {
-    if (match in formatter) {
-      return formatter[match](date, opts)
-    }
-    return text === void 0
-      ? match
-      : text.split('\\]').join(']')
-  })
+  if (mask === void 0) {
+    mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
+  }
+
+  return mask.replace(
+    token,
+    (match, text) => match in formatter
+      ? formatter[match](date, opts)
+      : (text === void 0 ? match : text.split('\\]').join(']'))
+  )
 }
 
-export function matchFormat (format = '') {
-  return format.match(token)
+export function matchFormat (format) {
+  return format !== void 0
+    ? format.match(token)
+    : null
 }
 
-export function clone (value) {
-  return isDate(value) ? new Date(value.getTime()) : value
+export function clone (date) {
+  return isDate(date) === true
+    ? new Date(date.getTime())
+    : date
 }
 
 export default {
