@@ -18,8 +18,10 @@ export interface ModifyDateOptions {
 }
 
 export interface I18nDateOptions {
-  dayNames: string[];
-  monthNames: string[];
+  days?: string[];
+  daysShort?: string[];
+  months?: string[];
+  monthsShort?: string[];
 }
 
 export interface DateValues {
@@ -39,7 +41,7 @@ export type DateUnitOptions = "second" | "minute" | "hour" | "day" | "month" | "
 
 export namespace date {
   function isValid(date: string): boolean;
-  function splitDate(date: string) : DateValues;
+  function splitDate(date: string, format?: string, i18n?: I18nDateOptions) : DateValues;
   function splitTime(time: string) : TimeValues;
   function buildDate(options: BuildDateOptions, utc?: boolean): string;
   function getDayOfWeek(date: Date | number | string | number): number;

@@ -12,7 +12,7 @@ export default {
         }
 
         const
-          dir = descending ? -1 : 1,
+          dir = descending === true ? -1 : 1,
           val = typeof col.field === 'function'
             ? v => col.field(v)
             : v => v[col.field]

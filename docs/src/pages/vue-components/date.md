@@ -49,6 +49,18 @@ Clicking on the "Today" button sets date to current user date. Requires the head
 
 <doc-example title="Disable and readonly" file="QDate/DisableReadonly" />
 
+### Custom model mask
+
+The `mask` prop format can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#Format-for-display).
+
+<doc-example title="Custom mask" file="QDate/CustomMask" />
+
+### Custom ad-hoc locale
+
+If, for some reason, you need to use a custom ad-hoc locale rather than the current Quasar Language Pack that has been set, you can use the `locale` prop:
+
+<doc-example title="Custom ad-hoc locale" file="QDate/CustomLocale" />
+
 ### Coloring
 
 <doc-example title="Coloring" file="QDate/Color" />

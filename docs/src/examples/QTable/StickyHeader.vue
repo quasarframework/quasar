@@ -6,6 +6,8 @@
       :data="data"
       :columns="columns"
       row-key="name"
+      flat
+      bordered
     ></q-table>
   </div>
 </template>
@@ -177,9 +179,11 @@ export default {
   .q-table__top,
   .q-table__bottom,
   thead tr:first-child th /* bg color is important for th; just specify one */
-    background-color #f5f5dc
+    background-color #c1f4cd
 
   thead tr:first-child th
     position sticky
     top 0
+    opacity 1
+    z-index 1
 </style>

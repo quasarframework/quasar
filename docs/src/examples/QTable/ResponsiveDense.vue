@@ -1,12 +1,12 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      class="my-sticky-column-table"
+      :dense="$q.screen.lt.md"
       title="Treats"
       :data="data"
       :columns="columns"
       row-key="name"
-    ></q-table>
+    />
   </div>
 </template>
 
@@ -24,43 +24,14 @@ export default {
           format: val => `${val}`,
           sortable: true
         },
-        {
-          name: 'calories',
-          align: 'center',
-          label: 'Calories',
-          field: 'calories',
-          sortable: true
-        },
+        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs', sortable: true },
-        {
-          name: 'protein',
-          label: 'Protein (g)',
-          field: 'protein',
-          sortable: true
-        },
-        {
-          name: 'sodium',
-          label: 'Sodium (mg)',
-          field: 'sodium',
-          sortable: true
-        },
-        {
-          name: 'calcium',
-          label: 'Calcium (%)',
-          field: 'calcium',
-          sortable: true,
-          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
-        },
-        {
-          name: 'iron',
-          label: 'Iron (%)',
-          field: 'iron',
-          sortable: true,
-          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
-        }
+        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
+        { name: 'protein', label: 'Protein (g)', field: 'protein' },
+        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
-
       data: [
         {
           name: 'Frozen Yogurt',
@@ -167,26 +138,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-.my-sticky-column-table
-  /*
-    specifying max-width so the example can
-    highlight the sticky column on any browser window
-  */
-  max-width 600px
-
-  /* bg color is important for th; just specify one */
-  thead tr:first-child th:first-child
-    background-color #fff
-    opacity 1
-
-  td:first-child
-    background-color #f5f5dc
-
-  thead tr:first-child th:first-child,
-  td:first-child
-    position sticky
-    left 0
-    z-index 1
-</style>

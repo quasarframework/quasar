@@ -272,22 +272,20 @@ export default Vue.extend({
         val = Math.round(angle / 30)
 
         if (this.computedFormat24h === true) {
-          if (val === 0) {
-            val = distance < this.dragging.dist ? 0 : 12
-          }
-          else if (distance < this.dragging.dist) {
-            val += 12
-          }
-        }
-        else {
-          if (this.isAM === true) {
-            if (val === 12) {
-              val = 0
+          if (distance < this.dragging.dist) {
+            if (val !== 0) {
+              val += 12
             }
           }
-          else {
-            val += 12
+          else if (val === 0) {
+            val = 12
           }
+        }
+        else if (this.isAM === true && val === 12) {
+          val = 0
+        }
+        else if (this.isAM === false && val !== 12) {
+          val += 12
         }
 
         if (val === 24) {
@@ -320,11 +318,17 @@ export default Vue.extend({
       if (e.keyCode === 13) { // ENTER
         this.view = 'Hour'
       }
-      else if (e.keyCode === 37) { // ARROW LEFT
-        this.__setHour((24 + this.innerModel.hour - 1) % (this.computedFormat24h === true ? 24 : 12))
-      }
-      else if (e.keyCode === 39) { // ARROW RIGHT
-        this.__setHour((24 + this.innerModel.hour + 1) % (this.computedFormat24h === true ? 24 : 12))
+      else {
+        const
+          wrap = this.computedFormat24h === true ? 24 : 12,
+          offset = this.computedFormat24h !== true && this.isAM === false ? 12 : 0
+
+        if (e.keyCode === 37) { // ARROW LEFT
+          this.__setHour(offset + (24 + this.innerModel.hour - 1) % wrap)
+        }
+        else if (e.keyCode === 39) { // ARROW RIGHT
+          this.__setHour(offset + (24 + this.innerModel.hour + 1) % wrap)
+        }
       }
     },
 

@@ -6,7 +6,7 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
-import { stop, stopAndPrevent } from '../../utils/event.js'
+import { create, stop, stopAndPrevent } from '../../utils/event.js'
 
 let maximizedModals = 0
 
@@ -174,6 +174,8 @@ export default Vue.extend({
         ? document.activeElement
         : void 0
 
+      this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
+
       this.__updateState(true, this.maximized)
 
       EscapeKey.register(this, () => {
@@ -210,12 +212,15 @@ export default Vue.extend({
     __hide (evt) {
       this.__cleanup(true)
 
-      this.timer = setTimeout(() => {
-        if (this.__refocusTarget !== void 0) {
-          this.__refocusTarget.focus()
-        }
+      if (this.__refocusTarget !== void 0) {
+        this.__refocusTarget.focus()
+      }
 
+      this.timer = setTimeout(() => {
         this.__hidePortal()
+
+        this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
+
         this.$emit('hide', evt)
       }, 300)
     },

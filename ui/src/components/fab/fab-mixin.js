@@ -5,6 +5,8 @@ export default {
     flat: Boolean,
     color: String,
     textColor: String,
-    glossy: Boolean
+    glossy: Boolean,
+
+    disable: Boolean
   }
 }
