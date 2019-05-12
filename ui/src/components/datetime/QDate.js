@@ -95,18 +95,9 @@ export default Vue.extend({
     },
 
     extModel () {
-      const v = this.value
-
-      if (this.__isInvalid(v) === true) {
-        return {
-          value: null,
-          year: null,
-          month: null,
-          day: null
-        }
-      }
-
-      return splitDate(v, this.mask, this.computedLocale)
+      return this.__isInvalid(this.value) === true
+        ? { value: null, year: null, month: null, day: null }
+        : splitDate(this.value, this.mask, this.computedLocale)
     },
 
     headerTitle () {

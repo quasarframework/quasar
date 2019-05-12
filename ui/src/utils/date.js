@@ -351,16 +351,6 @@ export function inferDateFormat (date) {
     : (typeof date === 'number' ? 'number' : 'string')
 }
 
-export function convertDateToFormat (date, type, format) {
-  if (date !== 0 && !date) {
-    return
-  }
-
-  return type === 'date'
-    ? date
-    : (type === 'number' ? date.getTime() : formatDate(date, format))
-}
-
 export function getDateBetween (date, min, max) {
   const t = new Date(date)
 
@@ -669,12 +659,6 @@ export function formatDate (val, mask, opts) {
   )
 }
 
-export function matchFormat (format) {
-  return format !== void 0
-    ? format.match(token)
-    : null
-}
-
 export function clone (date) {
   return isDate(date) === true
     ? new Date(date.getTime())
@@ -699,12 +683,10 @@ export default {
   getDateDiff,
   getDayOfYear,
   inferDateFormat,
-  convertDateToFormat,
   getDateBetween,
   isSameDate,
   daysInMonth,
   formatter,
   formatDate,
-  matchFormat,
   clone
 }
