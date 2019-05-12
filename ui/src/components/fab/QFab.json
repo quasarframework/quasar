@@ -19,6 +19,10 @@
       "extends": "icon"
     },
 
+    "disable": {
+      "extends": "disable"
+    },
+
     "direction": {
       "type": "String",
       "desc": "Direction to expand Fab Actions to",

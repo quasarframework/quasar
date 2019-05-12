@@ -1,13 +1,63 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-layout-padding" :class="dark ? 'bg-grey-10 text-white' : ''">
+    <q-toggle v-model="loading" label="Loading" :dark="dark" />
+    <q-toggle v-model="dark" label="Dark" :dark="dark" />
+    <q-toggle v-model="hasSelection" label="Selection" />
+
     <q-table
-      title="Treats"
       :data="data"
       :columns="columns"
+      title="Responsive with grid (no slot)"
       row-key="name"
-      dark
-      color="amber"
+      :loading="loading"
+      :grid="$q.screen.lt.md"
+      class="q-my-lg"
+      :color="dark ? 'amber' : 'primary'"
+      :card-class="dark ? 'bg-purple text-white' : 'bg-amber text-black'"
+      :selection="selection"
+      :selected.sync="selected"
+      :dark="dark"
+      flat
+      bordered
     />
+
+    <q-table
+      :data="data"
+      :columns="columns"
+      title="Responsive with grid item slot"
+      row-key="name"
+      :loading="loading"
+      :grid="$q.screen.lt.md"
+      selection="multiple"
+      :selected.sync="selected"
+      :dark="dark"
+    >
+      <template v-slot:item="props">
+        <div
+          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3"
+          :style="props.selected ? 'transform: scale(0.95);' : ''"
+        >
+          <q-card :class="dark ? 'bg-grey-9 text-white' : ''">
+            <q-card-section>
+              <q-checkbox :dark="dark" v-model="props.selected" :label="props.row.name" />
+            </q-card-section>
+            <q-separator :dark="dark" />
+            <q-list :dark="dark">
+              <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+                <q-item-section>
+                  <q-item-label>{{ col.label }}</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-item-label caption>
+                    {{ col.value }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card>
+        </div>
+      </template>
+    </q-table>
   </div>
 </template>
 
@@ -15,18 +65,22 @@
 export default {
   data () {
     return {
+      loading: false,
+      dark: false,
+      hasSelection: false,
+      selected: [],
+
       columns: [
         {
           name: 'desc',
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',
-          field: row => row.name,
-          format: val => `${val}`,
+          field: 'name',
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
+        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
@@ -35,7 +89,7 @@ export default {
       ],
       data: [
         {
-          name: 'Frozen Yogurt',
+          name: '1Frozen Yogurt',
           calories: 159,
           fat: 6.0,
           carbs: 24,
@@ -45,7 +99,7 @@ export default {
           iron: '1%'
         },
         {
-          name: 'Ice cream sandwich',
+          name: '2Ice cream sandwich',
           calories: 237,
           fat: 9.0,
           carbs: 37,
@@ -55,7 +109,7 @@ export default {
           iron: '1%'
         },
         {
-          name: 'Eclair',
+          name: '3Eclair',
           calories: 262,
           fat: 16.0,
           carbs: 23,
@@ -65,7 +119,7 @@ export default {
           iron: '7%'
         },
         {
-          name: 'Cupcake',
+          name: '4Cupcake',
           calories: 305,
           fat: 3.7,
           carbs: 67,
@@ -75,7 +129,7 @@ export default {
           iron: '8%'
         },
         {
-          name: 'Gingerbread',
+          name: '5Gingerbread',
           calories: 356,
           fat: 16.0,
           carbs: 49,
@@ -85,7 +139,7 @@ export default {
           iron: '16%'
         },
         {
-          name: 'Jelly bean',
+          name: '6Jelly bean',
           calories: 375,
           fat: 0.0,
           carbs: 94,
@@ -95,7 +149,7 @@ export default {
           iron: '0%'
         },
         {
-          name: 'Lollipop',
+          name: '7Lollipop',
           calories: 392,
           fat: 0.2,
           carbs: 98,
@@ -105,7 +159,7 @@ export default {
           iron: '2%'
         },
         {
-          name: 'Honeycomb',
+          name: '8Honeycomb',
           calories: 408,
           fat: 3.2,
           carbs: 87,
@@ -115,7 +169,7 @@ export default {
           iron: '45%'
         },
         {
-          name: 'Donut',
+          name: '9Donut',
           calories: 452,
           fat: 25.0,
           carbs: 51,
@@ -125,7 +179,7 @@ export default {
           iron: '22%'
         },
         {
-          name: 'KitKat',
+          name: '10KitKat',
           calories: 518,
           fat: 26.0,
           carbs: 65,
@@ -135,6 +189,14 @@ export default {
           iron: '6%'
         }
       ]
+    }
+  },
+
+  computed: {
+    selection () {
+      return this.hasSelection === true
+        ? 'multiple'
+        : void 0
     }
   }
 }

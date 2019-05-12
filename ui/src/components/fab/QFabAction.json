@@ -4,6 +4,10 @@
   },
 
   "props": {
+    "disable": {
+      "extends": "disable"
+    },
+
     "icon": {
       "extends": "icon",
       "required": true

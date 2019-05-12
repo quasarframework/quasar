@@ -170,7 +170,7 @@
               </q-popup-edit>
             </q-td>
             <q-td key="fat" :props="props">
-              <div class="text-pre-wrap">
+              <div>
                 {{ props.row.fat }}
               </div>
               <q-popup-edit v-model="props.row.fat">
@@ -205,7 +205,6 @@
       <h2>Grid style</h2>
       <q-table
         grid
-        hide-header
         :data="data"
         :columns="columns"
         :filter="filter"

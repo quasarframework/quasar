@@ -353,7 +353,7 @@ module.exports = function (cfg, configName) {
       if (cfg.build.analyze) {
         const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
         chain.plugin('bundle-analyzer')
-          .use(BundleAnalyzerPlugin, [ { ...cfg.build.analyze } ])
+          .use(BundleAnalyzerPlugin, [ Object.assign({}, cfg.build.analyze) ])
       }
     }
   }

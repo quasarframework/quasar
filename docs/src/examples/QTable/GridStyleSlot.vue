@@ -1,12 +1,49 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      class="my-sticky-column-table"
       title="Treats"
       :data="data"
       :columns="columns"
       row-key="name"
-    ></q-table>
+      selection="multiple"
+      :selected.sync="selected"
+      :filter="filter"
+      grid
+      hide-header
+    >
+      <template v-slot:top-right>
+        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
+
+      <template v-slot:item="props">
+        <div
+          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+          :style="props.selected ? 'transform: scale(0.95);' : ''"
+        >
+          <q-card :class="props.selected ? 'bg-grey-2' : ''">
+            <q-card-section>
+              <q-checkbox dense v-model="props.selected" :label="props.row.name" />
+            </q-card-section>
+            <q-separator />
+            <q-list dense>
+              <q-item v-for="col in props.cols.filter(col => col.name !== 'desc')" :key="col.name">
+                <q-item-section>
+                  <q-item-label>{{ col.label }}</q-item-label>
+                </q-item-section>
+                <q-item-section side>
+                  <q-item-label caption>{{ col.value }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card>
+        </div>
+      </template>
+
+    </q-table>
   </div>
 </template>
 
@@ -14,9 +51,11 @@
 export default {
   data () {
     return {
+      filter: '',
+      selected: [],
       columns: [
         {
-          name: 'name',
+          name: 'desc',
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',
@@ -24,43 +63,14 @@ export default {
           format: val => `${val}`,
           sortable: true
         },
-        {
-          name: 'calories',
-          align: 'center',
-          label: 'Calories',
-          field: 'calories',
-          sortable: true
-        },
+        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs', sortable: true },
-        {
-          name: 'protein',
-          label: 'Protein (g)',
-          field: 'protein',
-          sortable: true
-        },
-        {
-          name: 'sodium',
-          label: 'Sodium (mg)',
-          field: 'sodium',
-          sortable: true
-        },
-        {
-          name: 'calcium',
-          label: 'Calcium (%)',
-          field: 'calcium',
-          sortable: true,
-          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
-        },
-        {
-          name: 'iron',
-          label: 'Iron (%)',
-          field: 'iron',
-          sortable: true,
-          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
-        }
+        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
+        { name: 'protein', label: 'Protein (g)', field: 'protein' },
+        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
-
       data: [
         {
           name: 'Frozen Yogurt',
@@ -169,24 +179,6 @@ export default {
 </script>
 
 <style lang="stylus">
-.my-sticky-column-table
-  /*
-    specifying max-width so the example can
-    highlight the sticky column on any browser window
-  */
-  max-width 600px
-
-  /* bg color is important for th; just specify one */
-  thead tr:first-child th:first-child
-    background-color #fff
-    opacity 1
-
-  td:first-child
-    background-color #f5f5dc
-
-  thead tr:first-child th:first-child,
-  td:first-child
-    position sticky
-    left 0
-    z-index 1
+.grid-style-transition
+  transition transform .28s, background-color .28s
 </style>

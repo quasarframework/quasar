@@ -7,20 +7,20 @@ export default {
     getTableHeader (h) {
       const child = [ this.getTableHeaderRow(h) ]
 
-      if (this.loading === true) {
-        child.push(h('tr', { staticClass: 'q-table__progress' }, [
+      this.loading === true && child.push(
+        h('tr', { staticClass: 'q-table__progress' }, [
           h('td', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
             h(QLinearProgress, {
+              staticClass: 'q-table__linear-progress',
               props: {
                 color: this.color,
                 dark: this.dark,
                 indeterminate: true
-              },
-              style: { height: '2px' }
+              }
             })
           ])
-        ]))
-      }
+        ])
+      )
 
       return h('thead', child)
     },
@@ -88,7 +88,10 @@ export default {
         ]))
       }
 
-      return h('tr', child)
+      return h('tr', {
+        style: this.tableHeaderStyle,
+        class: this.tableHeaderClass
+      }, child)
     },
 
     addTableHeaderRowMeta (data) {

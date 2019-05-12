@@ -649,7 +649,7 @@ export default Vue.extend({
     __getInput (h) {
       return h('input', {
         ref: 'target',
-        staticClass: 'q-select__input col',
+        staticClass: 'q-select__input q-placeholder col',
         class: this.hideSelected !== true && this.innerValue.length > 0
           ? 'q-select__input--padding'
           : null,
@@ -704,7 +704,7 @@ export default Vue.extend({
         val !== '' &&
         this.multiple !== true &&
         this.innerValue.length > 0 &&
-        val === this.__getOptionValue(this.innerValue[0])
+        val === this.__getOptionLabel(this.innerValue[0])
       ) {
         val = ''
       }
@@ -748,12 +748,10 @@ export default Vue.extend({
         focus: e => {
           this.hasDialog !== true && this.focus(e)
         },
-        focusin: e => {
-          this.hasDialog !== true && this.__onControlFocusin(e)
-        },
-        focusout: e => {
-          this.hasDialog !== true && this.__onControlFocusout(e)
-        },
+        focusin: this.__onControlFocusin,
+        focusout: this.__onControlFocusoutSelect,
+        'popup-show': this.__onControlPopupShow,
+        'popup-hide': this.__onControlPopupHide,
         click: e => {
           if (this.hasDialog !== true && this.menu === true) {
             this.__closeMenu()
@@ -765,51 +763,11 @@ export default Vue.extend({
       }
     },
 
-    __hasInnerFocus () {
-      let menu
-
-      return (
-        document.hasFocus() === true &&
-        this.$refs !== void 0 && (
-          (this.$refs.control !== void 0 && this.$refs.control.contains(document.activeElement) !== false) ||
-          ((menu = this.__getMenuContentEl()) !== void 0 && menu.contains !== void 0 && menu.contains(document.activeElement) !== false)
-        )
-      )
-    },
-
-    __onControlFocusin (e) {
-      if (this.editable !== true || this.focused === true) {
-        return
-      }
-
-      if (this.__hasInnerFocus() === false) {
-        return
-      }
-
-      clearTimeout(this.focusoutTimer)
-
-      this.focused = true
-      this.$emit('focus', e)
-    },
-
-    __onControlFocusout (e) {
-      clearTimeout(this.focusoutTimer)
-
-      this.focusoutTimer = setTimeout(() => {
-        clearTimeout(this.inputTimer)
-
-        if (this.__hasInnerFocus() === true) {
-          return
-        }
-
-        if (this.focused === true) {
-          this.focused = false
-          this.$emit('blur', e)
-        }
-
+    __onControlFocusoutSelect (e) {
+      this.__onControlFocusout(e, () => {
         this.__resetInputValue()
         this.__closeMenu()
-      }, 100)
+      })
     },
 
     __getPopup (h) {
@@ -943,13 +901,8 @@ export default Vue.extend({
     },
 
     showPopup (e) {
-      clearTimeout(this.focusoutTimer)
-
       if (this.hasDialog === true) {
-        if (this.focused === false) {
-          this.$emit('focus', e)
-        }
-        this.focused = true
+        this.__onControlFocusin(e)
         this.dialog = true
       }
       else {
@@ -972,7 +925,7 @@ export default Vue.extend({
     __resetInputValue () {
       this.useInput === true && this.updateInputValue(
         this.multiple !== true && this.fillInput === true && this.innerValue.length > 0
-          ? this.__getOptionValue(this.innerValue[0]) || ''
+          ? this.__getOptionLabel(this.innerValue[0]) || ''
           : '',
         true
       )
@@ -1008,6 +961,5 @@ export default Vue.extend({
 
   beforeDestroy () {
     clearTimeout(this.inputTimer)
-    clearTimeout(this.focusoutTimer)
   }
 })
