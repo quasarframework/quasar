@@ -9,7 +9,8 @@ const
   logger = require('../helpers/logger'),
   warn = logger('app:extension(install)', 'red'),
   getPackageJson = require('../helpers/get-package-json'),
-  getCallerPath = require('../helpers/get-caller-path')
+  getCallerPath = require('../helpers/get-caller-path'),
+  extensionJson = require('./extension-json')
 
 /**
  * API for extension's /install.js script
@@ -26,6 +27,38 @@ module.exports = class InstallAPI {
       renderFolders: [],
       exitLog: []
     }
+  }
+
+  /**
+   * Get the internal persistent config of this extension.
+   * Returns empty object if it has none.
+   *
+   * @return {object} cfg
+   */
+  getPersistentCfg () {
+    return extensionJson.getInternal(this.extId)
+  }
+
+  /**
+   * Set the internal persistent config of this extension.
+   * If it already exists, it is overwritten.
+   *
+   * @param {object} cfg
+   */
+  setPersistentCfg (cfg) {
+    extensionJson.setInternal(this.extId, cfg || {})
+  }
+
+  /**
+   * Deep merge into the internal persistent config of this extension.
+   * If extension does not have any config already set, this is
+   * essentially equivalent to setting it for the first time.
+   *
+   * @param {object} cfg
+   */
+  mergePersistentCfg (cfg = {}) {
+    const currentCfg = this.getPersistentCfg()
+    this.setPersistentCfg(merge(currentCfg, cfg))
   }
 
   /**
@@ -99,7 +132,6 @@ module.exports = class InstallAPI {
    * @return {boolean} has the extension installed & invoked
    */
   hasExtension (extId) {
-    const extensionJson = require('./extension-json')
     return extensionJson.has(extId)
   }
 

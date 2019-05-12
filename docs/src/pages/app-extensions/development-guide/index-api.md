@@ -144,14 +144,11 @@ api.extendQuasarConf ((cfg, ctx) => {
 })
 ```
 
-### Registering boot and css files and a directive
+### Registering boot and css files
 
 ```js
 module.exports = function (api, ctx) {
   api.extendQuasarConf((conf) => {
-    // make sure directives needed are compiled into app project
-    conf.framework.directives.push('CloseMenu')
-
     // make sure my-ext boot file is registered
     conf.boot.push('~quasar-app-extension-my-ext/src/boot/qmarkdown.js')
 
@@ -271,6 +268,49 @@ For syntax of such a JSON file, look into `/node_modules/quasar/dist/api` (in yo
 ::: tip
 Always test with the `quasar describe` command to ensure you got the syntax right and there are no errors.
 :::
+
+## api.getPersistentCfg
+
+<q-badge label="@quasar/app v1.0.0-beta.25+" />
+
+Get the internal persistent config of this extension. Returns empty object if it has none.
+
+```js
+/**
+ * @return {object} cfg
+ */
+api.getPersistentCfg()
+```
+
+## api.setPersistentCfg
+
+<q-badge label="@quasar/app v1.0.0-beta.25+" />
+
+Set the internal persistent config of this extension. If it already exists, it is overwritten.
+
+```js
+/**
+ * @param {object} cfg
+ */
+api.setPersistentCfg({
+  // ....
+})
+```
+
+## api.mergePersistentCfg
+
+<q-badge label="@quasar/app v1.0.0-beta.25+" />
+
+Deep merge into the internal persistent config of this extension. If extension does not have any config already set, this is essentially equivalent to setting it for the first time.
+
+```js
+/**
+ * @param {object} cfg
+ */
+api.mergePersistentCfg({
+  // ....
+})
+```
 
 ## api.beforeDev
 
