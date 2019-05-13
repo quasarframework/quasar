@@ -35,9 +35,13 @@ function convertTypeVal (type, def) {
   }
 
   if (t === 'Object') {
-    return def.definition
-      ? `{\n        ${getPropDefinitions(def.definition).join('\n        ')} }`
-      : 'any'
+    if (def.definition) {
+      const defs = getPropDefinitions(def.definition)
+      return defs && defs.length > 0 ? `{\n        ${getPropDefinitions(def.definition).join('\n        ')} }` : 'any'
+    }
+    else {
+      return 'any'
+    }
   }
 
   return t
@@ -45,21 +49,27 @@ function convertTypeVal (type, def) {
 
 function getTypeVal (def) {
   return Array.isArray(def.type)
-    ? def.type.map(convertTypeVal).join(' | ')
+    ? def.type.map(type => convertTypeVal(type, def)).join(' | ')
     : convertTypeVal(def.type, def)
 }
 
 function getPropDefinition (key, propDef) {
   const propName = toCamelCase(key)
-  const propType = getTypeVal(propDef)
+  if (!propName.startsWith('...')) {
+    const propType = getTypeVal(propDef)
 
-  return `${propName}${!propDef.required ? '?' : ''} : ${propType}`
+    return `${propName}${!propDef.required ? '?' : ''} : ${propType}`
+  }
+  return undefined
 }
 
 function getPropDefinitions (propDefs) {
   const defs = []
   for (const key in propDefs) {
-    defs.push(getPropDefinition(key, propDefs[key]))
+    const def = getPropDefinition(key, propDefs[key])
+    if (def) {
+      defs.push(def)
+    }
   }
   return defs
 }
