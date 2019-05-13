@@ -39,9 +39,8 @@ function convertTypeVal (type, def) {
       const defs = getPropDefinitions(def.definition)
       return defs && defs.length > 0 ? `{\n        ${getPropDefinitions(def.definition).join('\n        ')} }` : 'any'
     }
-    else {
-      return 'any'
-    }
+
+    return 'any'
   }
 
   return t
@@ -55,22 +54,21 @@ function getTypeVal (def) {
 
 function getPropDefinition (key, propDef) {
   const propName = toCamelCase(key)
+
   if (!propName.startsWith('...')) {
     const propType = getTypeVal(propDef)
-
     return `${propName}${!propDef.required ? '?' : ''} : ${propType}`
   }
-  return undefined
 }
 
 function getPropDefinitions (propDefs) {
   const defs = []
+
   for (const key in propDefs) {
     const def = getPropDefinition(key, propDefs[key])
-    if (def) {
-      defs.push(def)
-    }
+    def && defs.push(def)
   }
+
   return defs
 }
 
