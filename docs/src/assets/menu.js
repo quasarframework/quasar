@@ -50,6 +50,10 @@ const options = [
     path: 'vue-prototype-injections'
   },
   {
+    name: 'App Icons',
+    path: 'app-icons'
+  },
+  {
     name: 'Quasar Language Packs',
     path: 'quasar-language-packs'
   },
@@ -114,6 +118,10 @@ const cli = [
   {
     name: 'quasar.conf.js',
     path: 'quasar-conf-js'
+  },
+  {
+    name: 'App Icons',
+    path: 'app-icon-details'
   },
   {
     name: 'Testing & Auditing',
@@ -191,6 +199,10 @@ const cli = [
         path: 'introduction'
       },
       {
+        name: 'App Icons for SPA',
+        path: 'app-icons-spa'
+      },
+      {
         name: 'Build Commands',
         path: 'build-commands'
       },
@@ -215,6 +227,10 @@ const cli = [
       {
         name: 'Configuring SSR',
         path: 'configuring-ssr'
+      },
+      {
+        name: 'App Icons for SSR',
+        path: 'app-icons-ssr'
       },
       {
         name: 'Client Side Hydration',
@@ -255,6 +271,10 @@ const cli = [
         path: 'configuring-pwa'
       },
       {
+        name: 'App Icons for PWA',
+        path: 'app-icons-pwa'
+      },
+      {
         name: 'Handling Service Worker',
         path: 'handling-service-worker'
       },
@@ -279,6 +299,10 @@ const cli = [
       {
         name: 'Configuring Cordova',
         path: 'configuring-cordova'
+      },
+      {
+        name: 'App Icons for Cordova',
+        path: 'app-icons-cordova'
       },
       {
         name: 'Cordova Plugins',
@@ -317,6 +341,10 @@ const cli = [
       {
         name: 'Configuring Electron',
         path: 'configuring-electron'
+      },
+      {
+        name: 'App Icons for Electron',
+        path: 'app-icons-electron'
       },
       {
         name: 'Electron Packages',
