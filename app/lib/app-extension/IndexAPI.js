@@ -162,7 +162,7 @@ module.exports = class IndexAPI {
    *   (cfg: Object, ctx: Object) => undefined
    */
   extendQuasarConf (fn) {
-    this.__hooks.extendQuasarConf.push({ extId: this.extId, fn })
+    this.__addHook('extendQuasarConf', fn)
   }
 
   /**
@@ -172,7 +172,7 @@ module.exports = class IndexAPI {
    *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
    */
   chainWebpack (fn) {
-    this.__hooks.chainWebpack.push({ extId: this.extId, fn })
+    this.__addHook('chainWebpack', fn)
   }
 
   /**
@@ -182,7 +182,7 @@ module.exports = class IndexAPI {
    *   (cfg: Object, invoke: Object {isClient, isServer}) => undefined
    */
   extendWebpack (fn) {
-    this.__hooks.extendWebpack.push({ extId: this.extId, fn })
+    this.__addHook('extendWebpack', fn)
   }
 
   /**
@@ -192,7 +192,7 @@ module.exports = class IndexAPI {
    *   (cfg: ChainObject) => undefined
    */
   chainWebpackMainElectronProcess (fn) {
-    this.__hooks.chainWebpackMainElectronProcess.push({ extId: this.extId, fn })
+    this.__addHook('chainWebpackMainElectronProcess', fn)
   }
 
   /**
@@ -202,7 +202,7 @@ module.exports = class IndexAPI {
    *   (cfg: Object) => undefined
    */
   extendWebpackMainElectronProcess (fn) {
-    this.__hooks.extendWebpackMainElectronProcess.push({ extId: this.extId, fn })
+    this.__addHook('extendWebpackMainElectronProcess', fn)
   }
 
   /**
@@ -236,7 +236,7 @@ module.exports = class IndexAPI {
    *   () => ?Promise
    */
   beforeDev (fn) {
-    this.__hooks.beforeDev.push({ extId: this.extId, fn })
+    this.__addHook('beforeDev', fn)
   }
 
   /**
@@ -259,7 +259,7 @@ module.exports = class IndexAPI {
    *   () => ?Promise
    */
   beforeBuild (fn) {
-    this.__hooks.beforeBuild.push({ extId: this.extId, fn })
+    this.__addHook('beforeBuild', fn)
   }
 
   /**
@@ -271,7 +271,7 @@ module.exports = class IndexAPI {
    *   () => ?Promise
    */
   afterBuild (fn) {
-    this.__hooks.afterBuild.push({ extId: this.extId, fn })
+    this.__addHook('afterBuild', fn)
   }
 
   /**
@@ -280,5 +280,9 @@ module.exports = class IndexAPI {
 
   __getHooks () {
     return this.__hooks
+  }
+
+  __addHook (name, fn) {
+    this.__hooks[name].push({ fn, api: this })
   }
 }
