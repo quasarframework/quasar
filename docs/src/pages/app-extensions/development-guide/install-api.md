@@ -220,7 +220,7 @@ const message = 'This is content when we don\'t have "Feature X"'
 
 Possibilities are limited only by your imagination.
 
-## api.getPersistentCfg
+## api.getPersistentConf
 
 <q-badge label="@quasar/app v1.0.0-beta.25+" />
 
@@ -230,10 +230,10 @@ Get the internal persistent config of this extension. Returns empty object if it
 /**
  * @return {object} cfg
  */
-api.getPersistentCfg()
+api.getPersistentConf()
 ```
 
-## api.setPersistentCfg
+## api.setPersistentConf
 
 <q-badge label="@quasar/app v1.0.0-beta.25+" />
 
@@ -243,12 +243,12 @@ Set the internal persistent config of this extension. If it already exists, it i
 /**
  * @param {object} cfg
  */
-api.setPersistentCfg({
+api.setPersistentConf({
   // ....
 })
 ```
 
-## api.mergePersistentCfg
+## api.mergePersistentConf
 
 <q-badge label="@quasar/app v1.0.0-beta.25+" />
 
@@ -258,7 +258,7 @@ Deep merge into the internal persistent config of this extension. If extension d
 /**
  * @param {object} cfg
  */
-api.mergePersistentCfg({
+api.mergePersistentConf({
   // ....
 })
 ```

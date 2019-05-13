@@ -26,7 +26,7 @@ module.exports = class UninstallAPI {
    *
    * @return {object} internal persistent config of this extension
    */
-  getPersistentCfg () {
+  getPersistentConf () {
     return extensionJson.getInternal(this.extId)
   }
 

@@ -35,7 +35,7 @@ module.exports = class InstallAPI {
    *
    * @return {object} cfg
    */
-  getPersistentCfg () {
+  getPersistentConf () {
     return extensionJson.getInternal(this.extId)
   }
 
@@ -45,7 +45,7 @@ module.exports = class InstallAPI {
    *
    * @param {object} cfg
    */
-  setPersistentCfg (cfg) {
+  setPersistentConf (cfg) {
     extensionJson.setInternal(this.extId, cfg || {})
   }
 
@@ -56,9 +56,9 @@ module.exports = class InstallAPI {
    *
    * @param {object} cfg
    */
-  mergePersistentCfg (cfg = {}) {
-    const currentCfg = this.getPersistentCfg()
-    this.setPersistentCfg(merge(currentCfg, cfg))
+  mergePersistentConf (cfg = {}) {
+    const currentCfg = this.getPersistentConf()
+    this.setPersistentConf(merge(currentCfg, cfg))
   }
 
   /**
