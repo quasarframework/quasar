@@ -55,37 +55,107 @@ function maskToRegex (mask, monthsJoined, monthsShortJoined) {
     maskMap = {
       year: null,
       month: null,
-      day: null
+      day: null,
+      hour: null,
+      minute: null,
+      second: null,
+      millisecond: null,
+      meridiem: null,
+      tz_s: null,
+      tz_h: null,
+      tz_m: null
     },
-    maskText = mask.replace(token, function (match, text) {
-      switch (match) {
-        case 'YYYY':
-        case 'YY':
-          maskMap.year = (++index)
-          return '(-?\\d*)'
-        case 'MM':
-        case 'M':
-          maskMap.month = (++index)
-          return '(\\d{0,2})'
-        case 'MMMM':
-          maskMap.month = (++index)
-          return '(' + monthsJoined + ')'
-        case 'MMM':
-          maskMap.month = (++index)
-          return '(' + monthsShortJoined + ')'
-        case 'DD':
-        case 'D':
-          maskMap.day = (++index)
-          return '(\\d{0,2})'
-        case 'Do':
-          maskMap.day = (++index)
-          return '(\\d{0,2}[^\\d]*?)'
-        default:
-          return (text === void 0 ? match : text.split('\\]').join(']'))
-            .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-            .replace(/\s+/g, '\\$&\\s*')
-      }
-    })
+    maskText = mask
+      .replace(token, function (match, text) {
+        switch (match) {
+          case 'YYYY':
+          case 'YY':
+            maskMap.year = (++index)
+            return '##YEAR##'
+          case 'MM':
+          case 'M':
+            maskMap.month = (++index)
+            return '##MONTH_NUM##'
+          case 'MMMM':
+            maskMap.month = (++index)
+            return '##MONTH_LONG##'
+          case 'MMM':
+            maskMap.month = (++index)
+            return '##MONTH_SHORT##'
+          case 'DD':
+          case 'D':
+            maskMap.day = (++index)
+            return '##DAY_NUM##'
+          case 'Do':
+            maskMap.day = (++index)
+            return '##DAY_ORD##'
+          case 'HH':
+          case 'H':
+          case 'hh':
+          case 'h':
+            maskMap.hour = (++index)
+            return '##HOUR_NUM##'
+          case 'mm':
+          case 'm':
+            maskMap.minute = (++index)
+            return '##MINUTE_NUM##'
+          case 'ss':
+          case 's':
+            maskMap.second = (++index)
+            return '##SECOND_NUM##'
+          case 'SSS':
+          case 'SS':
+          case 'S':
+            maskMap.millisecond = (++index)
+            return '##MILLISECOND_NUM##'
+          case 'A':
+          case 'aa':
+          case 'a':
+            maskMap.meridiem = (++index)
+            return '##MERIDIEM##'
+          case 'ZZ':
+          case 'Z':
+            maskMap.tz_s = (++index)
+            maskMap.tz_h = (++index)
+            maskMap.tz_m = (++index)
+            return '##TZ##'
+          case 'Q':
+          case 'DDDD':
+          case 'DDD':
+          case 'd':
+          case 'E':
+          case 'ww':
+          case 'w':
+          case 'X':
+          case 'x':
+            return '##GENERIC_NUM##'
+          case 'Qo':
+            return '##GENERIC_ORD##'
+          case 'dddd':
+          case 'ddd':
+          case 'dd':
+            return '##GENERIC_TXT##'
+          default:
+            return (text === void 0 ? match : text.split('\\]').join(']'))
+        }
+      })
+      .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      .replace(/\s+/g, '\\$&\\s*')
+      .split('##YEAR##').join('(-?\\d*)')
+      .split('##MONTH_NUM##').join('(\\d{0,2})')
+      .split('##MONTH_LONG##').join('(' + monthsJoined + ')')
+      .split('##MONTH_SHORT##').join('(' + monthsShortJoined + ')')
+      .split('##DAY_NUM##').join('(\\d{0,2})')
+      .split('##DAY_ORD##').join('(\\d{0,2}[^\\d]*?)')
+      .split('##HOUR_NUM##').join('(\\d{0,2})')
+      .split('##MINUTE_NUM##').join('(\\d{0,2})')
+      .split('##SECOND_NUM##').join('(\\d{0,2})')
+      .split('##MILLISECOND_NUM##').join('(\\d{0,3})')
+      .split('##MERIDIEM##').join('(AM|PM|am|pm|a\\.m\\.|p\\.m\\.)')
+      .split('##TZ##').join('(?:(Z)()()|([+-])?(\\d{2}):?(\\d{2}))')
+      .split('##GENERIC_NUM##').join('\\d*')
+      .split('##GENERIC_ORD##').join('\\d*[^\\d]*?')
+      .split('##GENERIC_TXT##').join('.*?')
 
   return {
     maskRegex: new RegExp(maskText),
@@ -93,9 +163,9 @@ function maskToRegex (mask, monthsJoined, monthsShortJoined) {
   }
 }
 
-function standardDateFromMask (date, mask, opts) {
-  if (typeof mask !== 'string' || mask.length === 0 || mask === 'YYYY/MM/DD') {
-    return date
+function extractWithMask (date, mask, opts) {
+  if (typeof mask !== 'string' || mask.length === 0) {
+    mask = 'YYYY-MM-DDTHH:mm:ss.sssZ'
   }
 
   const
@@ -109,25 +179,118 @@ function standardDateFromMask (date, mask, opts) {
   if (parseConvertFns[key] === void 0) {
     const
       { maskRegex, maskMap } = maskToRegex(mask, monthsJoined, monthsShortJoined),
-      parseFormatTo = (...args) => {
-        let month = args[maskMap.month]
+      parseFormatTo = (args) => ['year', 'month', 'day', 'hour', 'minute', 'second', 'millisecond', 'tz']
+        .reduce((acc, key) => {
+          if (key === 'month') {
+            const val = args[maskMap.month]
+            if (/\d+/.test(val) === false) {
+              let found = monthsShort.indexOf(val)
+              if (found === -1) {
+                found = months.indexOf(val)
+              }
+              if (found > -1) {
+                acc.month = found + 1
+              }
+              else {
+                acc.month = null
+              }
+            }
+            else {
+              acc.month = parseInt(val, 10)
+            }
 
-        if (/\d+/.test(month) === false) {
-          let found = monthsShort.indexOf(month)
-          if (found === -1) {
-            found = months.indexOf(month)
+            if (acc.month > 12 || acc.month === 0) {
+              acc.month = acc.month % 12 || 12
+            }
+            else if (acc.year !== null && acc.month === null) {
+              acc.month = 1
+            }
+
+            return acc
           }
-          if (found > -1) {
-            month = found + 1
+
+          if (key === 'hour') {
+            let val = parseInt(args[maskMap.hour], 10)
+
+            if (isNaN(val) === false) {
+              if (['PM', 'pm', 'p.m.'].indexOf(args[maskMap.meridiem]) > -1) {
+                val += 12
+              }
+              else if (val === 12 && ['AM', 'am', 'a.m.'].indexOf(args[maskMap.meridiem]) > -1) {
+                val = 0
+              }
+
+              acc.hour = val % 24
+            }
+            else {
+              acc.hour = null
+            }
+
+            return acc
           }
-        }
 
-        return args[maskMap.year] + '/' + month + '/' + args[maskMap.day]
-      }
+          if (key === 'millisecond') {
+            const val = args[maskMap.millisecond]
 
-    parseConvertFns[key] = text => {
-      return text.replace(maskRegex, parseFormatTo)
-    }
+            if (typeof val === 'string' && val.length > 0) {
+              acc.millisecond = Math.floor(parseInt(val, 10) * (10 ** (3 - val.length))) % 1000
+            }
+            else {
+              acc.millisecond = null
+            }
+
+            return acc
+          }
+
+          if (key === 'tz') {
+            const tzS = args[maskMap.tz_s]
+
+            if (tzS === 'Z') {
+              acc.tz = '+0000'
+            }
+            else {
+              const
+                tsH = args[maskMap.tz_h],
+                tsM = args[maskMap.tz_h]
+
+              if (typeof tsH === 'string' && tsH.length > 0 && typeof tsM === 'string' && tsM.length > 0) {
+                acc.tz = (tzS === '-' ? '-' : '+') + tsH + tsM
+              }
+              else {
+                acc.tz = null
+              }
+            }
+
+            return acc
+          }
+
+          const val = parseInt(args[maskMap[key]], 10)
+
+          acc[key] = isNaN(val) ? null : val
+
+          if (key === 'day' && acc.year !== null && acc.month !== null && acc.day !== null && (acc.day < 1 || acc.day > (new Date(acc.year, acc.month, 0)).getDate())) {
+            acc.day = null
+          }
+
+          if ((key === 'minute' || key === 'second') && acc[key] !== null) {
+            acc[key] = acc[key] % 60
+          }
+
+          return acc
+        }, {
+          year: null,
+          month: null,
+          day: null,
+          hour: null,
+          minute: null,
+          second: null,
+          millisecond: null,
+          tz_s: null,
+          tz_h: null,
+          tz_m: null
+        })
+
+    parseConvertFns[key] = text => parseFormatTo(maskRegex.exec(text) || [])
   }
 
   return parseConvertFns[key](date)
@@ -140,48 +303,28 @@ export function isValid (date) {
 }
 
 export function splitDate (date, mask, opts) {
-  let value = date
-  let [year, month, day] = standardDateFromMask(value, mask, opts)
-    .split('/')
-    .concat([null, null, null])
-    .slice(0, 3)
-    .map(d => parseInt(d, 10))
-    .map(d => isNaN(d) === true ? null : d)
-
-  if (month > 12 || month === 0) {
-    month = month % 12 || 12
-  }
-  else if (year !== null && month === null) {
-    month = 1
+  if (typeof mask !== 'string' || mask.length === 0) {
+    mask = 'YYYY/MM/DD'
   }
 
-  if (day < 1 || day > (new Date(year, month, 0)).getDate()) {
-    day = null
-  }
-
-  if (year === null || month === null || day === null) {
-    value = null
-  }
+  const split = extractWithMask(date, mask, opts)
 
   return {
-    year,
-    month,
-    day,
-    value
+    ...split,
+    value: split.year === null || split.month === null || split.day === null ? null : date
   }
 }
 
-export function splitTime (time) {
-  let [hour, minute, second] = time.split(':')
-    .concat([null, null, null])
-    .slice(0, 3)
-    .map(d => parseInt(d, 10))
-    .map(d => isNaN(d) === true ? null : d)
+export function splitTime (time, mask, opts) {
+  if (typeof mask !== 'string' || mask.length === 0) {
+    mask = 'HH:mm:ss'
+  }
+
+  const split = extractWithMask(time, mask, opts)
 
   return {
-    hour: hour === null ? null : hour % 24,
-    minute: minute === null ? null : minute % 60,
-    second: second === null ? null : second % 60
+    ...split,
+    value: split.hour === null || split.minute === null ? null : time
   }
 }
 

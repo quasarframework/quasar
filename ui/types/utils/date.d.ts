@@ -24,25 +24,24 @@ export interface I18nDateOptions {
   monthsShort?: string[];
 }
 
-export interface DateValues {
+export interface DateTimeValues {
   year: number;
   month: number;
   day: number;
-  value: number;
-}
-
-export interface TimeValues {
   hour: number;
   minute: number;
   second: number;
+  millisecond: number;
+  tz: string;
+  value: string;
 }
 
 export type DateUnitOptions = "second" | "minute" | "hour" | "day" | "month" | "year";
 
 export namespace date {
   function isValid(date: string): boolean;
-  function splitDate(date: string, format?: string, i18n?: I18nDateOptions) : DateValues;
-  function splitTime(time: string) : TimeValues;
+  function splitDate(date: string, format?: string, i18n?: I18nDateOptions) : DateTimeValues;
+  function splitTime(time: string, format?: string, i18n?: I18nDateOptions) : DateTimeValues;
   function buildDate(options: BuildDateOptions, utc?: boolean): string;
   function getDayOfWeek(date: Date | number | string | number): number;
   function getWeekOfYear (date: Date | number | string) : number;

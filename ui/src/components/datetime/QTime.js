@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import { splitTime } from '../../utils/date.js'
+import { formatDate, splitTime } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { isDeepEqual } from '../../utils/is.js'
 import DateTimeMixin from './datetime-mixin.js'
@@ -23,6 +23,9 @@ export default Vue.extend({
       default: null
     },
 
+    mask: String,
+    locale: Object,
+
     options: Function,
     hourOptions: Array,
     minuteOptions: Array,
@@ -33,7 +36,9 @@ export default Vue.extend({
   },
 
   data () {
-    const model = this.__getNumberModel(this.value)
+    const
+      locale = this.__getComputedLocale(),
+      model = this.__getInnerModel(this.value, this.__getComputedMask(locale), locale)
 
     let view = 'Hour'
 
@@ -55,7 +60,7 @@ export default Vue.extend({
 
   watch: {
     value (v) {
-      const model = this.__getNumberModel(v)
+      const model = this.__getInnerModel(v, this.computedMask, this.computedLocale)
 
       if (isDeepEqual(model, this.innerModel) === false) {
         this.innerModel = model
@@ -104,10 +109,16 @@ export default Vue.extend({
       }
     },
 
+    computedLocale () {
+      return this.__getComputedLocale()
+    },
+
     computedFormat24h () {
-      return this.format24h !== null
-        ? this.format24h
-        : this.$q.lang.date.format24h
+      return this.__getComputedFormat24h(this.computedLocale)
+    },
+
+    computedMask () {
+      return this.__getComputedMask(this.computedFormat24h)
     },
 
     pointerStyle () {
@@ -214,6 +225,26 @@ export default Vue.extend({
   },
 
   methods: {
+    __getComputedLocale () {
+      return this.locale === void 0 ? this.$q.lang.date : this.locale
+    },
+
+    __getComputedFormat24h (locale) {
+      return this.format24h !== null
+        ? this.format24h
+        : locale.format24h
+    },
+
+    __getComputedMask (format24h) {
+      if (typeof this.mask === 'string' && this.mask.length > 0) {
+        return this.mask
+      }
+
+      return format24h === true
+        ? 'HH:mm' + (this.withSeconds === true ? ':ss' : '')
+        : 'hh:mm' + (this.withSeconds === true ? ':ss' : '') + ' A'
+    },
+
     __click (evt) {
       this.__drag({ isFirst: true, evt })
       this.__drag({ isFinal: true, evt })
@@ -519,16 +550,21 @@ export default Vue.extend({
       ])
     },
 
-    __getNumberModel (v) {
+    __getInnerModel (v, mask, locale) {
       if (v === void 0 || v === null || v === '' || typeof v !== 'string') {
         return {
+          year: null,
+          month: null,
+          day: null,
           hour: null,
           minute: null,
-          second: null
+          second: null,
+          millisecond: null,
+          tz: null
         }
       }
 
-      return splitTime(v)
+      return splitTime(v, mask, locale)
     },
 
     __setHour (hour) {
@@ -583,7 +619,7 @@ export default Vue.extend({
 
     __verifyAndUpdate () {
       if (this.hourInSelection !== void 0 && this.hourInSelection(this.innerModel.hour) !== true) {
-        this.innerModel = this.__getNumberModel(void 0)
+        this.innerModel = this.__getInnerModel(void 0)
         this.isAM = this.innerModel.hour === null || this.innerModel.hour < 12
         this.view = 'Hour'
         return
@@ -615,9 +651,7 @@ export default Vue.extend({
           ...this.innerModel,
           ...obj
         },
-        val = this.__pad(time.hour % 24) + ':' +
-          this.__pad(time.minute % 60) +
-          (this.withSeconds ? ':' + this.__pad(time.second % 60) : '')
+        val = formatDate(new Date(time.year, time.month - 1, time.day, time.hour, time.minute, time.second, time.millisecond), this.computedMask, this.computedLocale)
 
       if (val !== this.value) {
         this.$emit('input', val)

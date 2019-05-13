@@ -54,13 +54,13 @@ export default Vue.extend({
       view: this.defaultView,
       monthDirection: 'left',
       yearDirection: 'left',
-      innerModel: this.__getInnerModel(this.value)
+      innerModel: this.__getInnerModel(this.value, this.__getComputedLocale())
     }
   },
 
   watch: {
     value (v) {
-      const model = this.__getInnerModel(v)
+      const model = this.__getInnerModel(v, this.computedLocale)
 
       if (isDeepEqual(model, this.innerModel) === true) {
         return
@@ -91,7 +91,7 @@ export default Vue.extend({
     },
 
     computedLocale () {
-      return this.locale || this.$q.lang.date
+      return this.__getComputedLocale()
     },
 
     extModel () {
@@ -273,47 +273,53 @@ export default Vue.extend({
       return v === void 0 || v === null || v === '' || typeof v !== 'string'
     },
 
-    __getInnerModel (v) {
-      let string, year, month, day
+    __getComputedLocale () {
+      return this.locale === void 0 ? this.$q.lang.date : this.locale
+    },
 
-      if (this.__isInvalid(v) === true) {
-        day = 1
+    __getInnerModel (v, locale) {
+      let string = v
+
+      const dateObj = this.__isInvalid(v) === true
+        ? {
+          year: null,
+          month: null,
+          day: null,
+          hour: null,
+          minute: null,
+          second: null,
+          millisecond: null,
+          tz: null
+        }
+        : splitDate(v, this.mask, locale)
+
+      if (dateObj.year === null) {
+        dateObj.day = 1
 
         if (this.defaultYearMonth !== void 0) {
           const d = this.defaultYearMonth.split('/')
-          year = parseInt(d[0], 10)
-          month = parseInt(d[1], 10)
+          dateObj.year = parseInt(d[0], 10)
+          dateObj.month = parseInt(d[1], 10)
         }
         else {
           const d = new Date()
-          year = d.getFullYear()
-          month = d.getMonth() + 1
+          dateObj.year = d.getFullYear()
+          dateObj.month = d.getMonth() + 1
 
           if (this.calendar === 'persian') {
-            const jDate = toJalaali(year, month, d.getDate())
-            year = jDate.jy
-            month = jDate.jm
+            const jDate = toJalaali(dateObj.year, dateObj.month, d.getDate())
+            dateObj.year = jDate.jy
+            dateObj.month = jDate.jm
           }
         }
 
-        string = this.__padYear(year) + '/' + this.__pad(month) + '/' + this.__pad(day)
-      }
-      else {
-        const d = splitDate(v, this.mask, this.computedLocale)
-
-        string = v
-
-        year = d.year
-        month = d.month
-        day = d.day
+        string = this.__padYear(dateObj.year) + '/' + this.__pad(dateObj.month) + '/' + this.__pad(dateObj.day)
       }
 
       return {
+        ...dateObj,
         string,
-        startYear: year - year % yearsInterval,
-        year,
-        month,
-        day
+        startYear: dateObj.year - dateObj.year % yearsInterval
       }
     },
 
@@ -702,7 +708,7 @@ export default Vue.extend({
         date.day = Math.min(date.day, maxDay)
       }
 
-      const val = formatDate(new Date(date.year, date.month - 1, date.day), this.mask, this.computedLocale)
+      const val = formatDate(new Date(date.year, date.month - 1, date.day, this.innerModel.hour, this.innerModel.minute, this.innerModel.second, this.innerModel.millisecond), this.mask, this.computedLocale)
 
       if (val !== this.value) {
         this.$emit('input', val, reason, date)

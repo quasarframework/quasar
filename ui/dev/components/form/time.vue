@@ -114,11 +114,45 @@
           </q-icon>
         </q-input>
       </div>
+
+      <div class="text-h6 q-mt-xl q-mb-none">
+        ParseFormat: {{ timeParse }}
+      </div>
+      <div class="q-gutter-md column">
+        <q-input :dark="dark" filled v-model="mask" label="Mask" />
+        <q-select :dark="dark" filled v-model="locale" label="Locale" :options="localeOptions" emit-value map-options clearable />
+
+        <div class="row q-gutter-sm items-center">
+          <q-date
+            v-model="timeParse"
+            :mask="mask"
+            :locale="localeComputed"
+            v-bind="props"
+            :style="style"
+          />
+          <q-time
+            v-model="timeParse"
+            :mask="mask"
+            :locale="localeComputed"
+            v-bind="props"
+            :style="style"
+          />
+        </div>
+
+        <q-input :dark="dark" filled v-model="timeParse" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import languages from '../../../lang/index.json'
+
+const localeOptions = languages.map(lang => ({
+  label: lang.nativeName,
+  value: require(`../../../lang/${lang.isoName}.js`).default
+}))
+
 export default {
   data () {
     return {
@@ -130,14 +164,20 @@ export default {
       fullWidth: false,
       nowBtn: false,
 
+      mask: 'MMMM, Do YYYY, hh:mm A',
+
       time: '10:56',
       nullTime: null,
       input: null,
+      timeParse: 'January, 23 2019, 11:23 PM',
 
       timeLimit: '10:56',
       hourOptions: [9, 10, 11, 13, 15],
       minuteOptions: [0, 15, 30, 45],
-      secondOptions: [0, 10, 20, 30, 40, 50]
+      secondOptions: [0, 10, 20, 30, 40, 50],
+
+      locale: null,
+      localeOptions
     }
   },
 
@@ -157,6 +197,10 @@ export default {
       if (this.fullWidth) {
         return 'width: 100%;'
       }
+    },
+
+    localeComputed () {
+      return this.locale ? this.locale.date : this.$q.lang.date
     }
   },
 
