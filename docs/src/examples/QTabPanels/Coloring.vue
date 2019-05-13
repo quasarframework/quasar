@@ -66,6 +66,43 @@
       </q-card>
     </div>
   </div>
+  
+  <div class="q-pa-md" style="color: white; background: #303030;">
+    <div class="q-gutter-y-md" style="max-width: 600px">
+      <q-card dark class="bg-grey-9">
+        <q-tabs
+          v-model="tab"
+          dense
+          active-color="primary"
+          indicator-color="purple"
+          align="justify"
+        >
+          <q-tab name="mails" label="Mails" ></q-tab>
+          <q-tab name="alarms" label="Alarms" ></q-tab>
+          <q-tab name="movies" label="Movies" ></q-tab>
+        </q-tabs>
+
+        <q-separator dark></q-separator>
+
+        <q-tab-panels v-model="tab" animated class="bg-grey-9 text-white">
+          <q-tab-panel name="mails">
+            <div class="text-h6">Mails</div>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </q-tab-panel>
+
+          <q-tab-panel name="alarms">
+            <div class="text-h6">Alarms</div>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </q-tab-panel>
+
+          <q-tab-panel name="movies">
+            <div class="text-h6">Movies</div>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </q-tab-panel>
+        </q-tab-panels>
+      </q-card>
+    </div>
+  </div>
 </template>
 
 <script>
