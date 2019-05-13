@@ -395,7 +395,31 @@ function parseAPI (file, apiType) {
   return api
 }
 
-function orderAPI (api, apiType) {
+const routes = {
+  component: 'vue-components',
+  directive: 'vue-directives',
+  plugin: 'quasar-plugins'
+}
+
+function getPage (fileName) {
+  let page
+  if (fileName.startsWith('Q')) {
+    page = fileName.slice(1)
+  } else {
+    page = fileName
+  }    
+  // kebab-case
+  return page.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase()
+}
+
+function orderAPI (api, apiType, fileName) {
+  let docs = api.docs || {}
+  docs.page = docs.page || getPage(fileName)
+  docs.route = docs.route || routes[apiType]
+  if (docs.apiAnchor === void 0) {
+    docs.apiAnchor = apiType === 'directive' ? 'API' : fileName + '-API'
+  }
+
   const ordered = {
     type: apiType
   }
@@ -405,6 +429,8 @@ function orderAPI (api, apiType) {
       ordered[section] = api[section]
     }
   })
+  
+  ordered.docs = docs
 
   return ordered
 }
@@ -415,7 +441,7 @@ function fillAPI (apiType) {
       name = path.basename(file),
       filePath = path.join(dest, name)
 
-    const api = orderAPI(parseAPI(file, apiType), apiType)
+    const api = orderAPI(parseAPI(file, apiType), apiType, name.replace('.json', ''))
 
     // copy API file to dest
     writeFile(filePath, JSON.stringify(api, null, 2))

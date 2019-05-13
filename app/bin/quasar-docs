@@ -52,40 +52,13 @@ function docs (api, supplier, openOptions) {
   let route, page, apiAnchor, url
 
   if (supplier === void 0) {
-    const quasarRoutes = {
-      component: 'vue-components',
-      directive: 'vue-directives',
-      plugin: 'quasar-plugins'
-    }
-
-    if (api.docs) {
-      page = api.docs.page
-      route = api.docs.route
-      apiAnchor = api.docs.apiAnchor
-    }
-
-    if (page === void 0) {
-      if (item.startsWith('Q')) {
-        page = item.slice(1)
-      }
-      else {
-        page = item
-      }
-      // kebab-case
-      page = page.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase()
-    }
-
-    if (route === void 0) {
-      route = quasarRoutes[api.type]
-    }
+    page = api.docs.page
+    route = api.docs.route
+    apiAnchor = api.docs.apiAnchor
 
     url = quasarBaseUrl + route + '/' + page
 
     if (argv.api) {
-      if (apiAnchor === void 0) {
-        apiAnchor = api.type === 'directive' ? 'API' : item + '-API'
-      }
-
       if (apiAnchor === false) {
         log(`${item} docs page does not contain a API anchor. Opening default page...`)
       }
