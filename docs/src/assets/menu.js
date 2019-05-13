@@ -51,7 +51,13 @@ const options = [
   },
   {
     name: 'App Icons',
-    path: 'app-icons'
+    path: 'app-icons',
+    badge: 'new'
+  },
+  {
+    name: 'SEO',
+    path: 'seo',
+    badge: 'new'
   },
   {
     name: 'Quasar Language Packs',
@@ -121,7 +127,8 @@ const cli = [
   },
   {
     name: 'App Icons',
-    path: 'app-icons'
+    path: 'app-icons',
+    badge: 'new'
   },
   {
     name: 'Testing & Auditing',
@@ -200,7 +207,8 @@ const cli = [
       },
       {
         name: 'App Icons for SPA',
-        path: 'app-icons-spa'
+        path: 'app-icons-spa',
+        badge: 'new'
       },
       {
         name: 'Build Commands',
@@ -230,7 +238,13 @@ const cli = [
       },
       {
         name: 'App Icons for SSR',
-        path: 'app-icons-ssr'
+        path: 'app-icons-ssr',
+        badge: 'new'
+      },
+      {
+        name: 'SEO for SSR',
+        path: 'seo-for-ssr',
+        badge: 'new'
       },
       {
         name: 'Client Side Hydration',
@@ -272,7 +286,8 @@ const cli = [
       },
       {
         name: 'App Icons for PWA',
-        path: 'app-icons-pwa'
+        path: 'app-icons-pwa',
+        badge: 'new'
       },
       {
         name: 'Handling Service Worker',
@@ -302,7 +317,8 @@ const cli = [
       },
       {
         name: 'App Icons for Cordova',
-        path: 'app-icons-cordova'
+        path: 'app-icons-cordova',
+        badge: 'new'
       },
       {
         name: 'Cordova Plugins',
@@ -344,7 +360,8 @@ const cli = [
       },
       {
         name: 'App Icons for Electron',
-        path: 'app-icons-electron'
+        path: 'app-icons-electron',
+        badge: 'new'
       },
       {
         name: 'Electron Packages',
