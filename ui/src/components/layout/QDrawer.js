@@ -65,7 +65,7 @@ export default Vue.extend({
       largeScreenState = this.showIfAbove === true || (
         this.value !== void 0 ? this.value : true
       ),
-      showing = this.behavior !== 'mobile' && this.breakpoint < this.layout.width && this.overlay === false
+      showing = this.behavior !== 'mobile' && this.breakpoint < this.layout.width
         ? largeScreenState
         : false
 
