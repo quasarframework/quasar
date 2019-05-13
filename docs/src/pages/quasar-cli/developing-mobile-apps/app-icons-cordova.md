@@ -3,16 +3,28 @@ title: App Icons for Cordova
 ---
 
 
-Cordova is the most complicated of all of the build targets as far as icons go, because not only do you need to place the icons in specific folders, you also need to register them in the `src-cordova/config.xml` file. Further, if you are using splashscreens (which you should), you will also need to install `cordova-plugin-splashscreen` and register it in your config.xml - unless of course you are using the Icon Factory, in which case that is all taken care of for you.
+Cordova is the most complicated of all of the build targets as far as icons go, because not only do you need to place the icons in specific folders, you also need to register them in the `src-cordova/config.xml` file. Further, if you are using splashscreens (which you should), you will also need to install `cordova-plugin-splashscreen` and register it in your config.xml.
 
-```shell
+<img src="https://cdn.quasar-framework.org/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
+
+## The Icon Factory
+
+::: tip
+We highly recommend using our official [Icon Factory](https://github.com/quasarframework/app-extension-icon-factory/) app extension, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When you change this source file (or some of the extension's settings) the icons will be automatically rebuilt on the next dev or build command.
+:::
+
+## Manual instructions
+
+Unless you are using the Icon Factory app extension, this is what you need to do:
+
+```bash
 $ cd src-cordova
 $ cordova plugin add cordova-plugin-splashscreen
 $ cordova plugin save
 $ cd ..
 ```
 
-```text
+```
 src-cordova/
   config.xml
   res/
@@ -20,9 +32,9 @@ src-cordova/
       icon-36-ldpi.png
       icon-48-mdpi.png
       icon-72-hdpi.png
-      icon-96-xhdpi.png 
+      icon-96-xhdpi.png
       icon-144-xxhdpi.png
-      icon-192-xxxhdpi.png 
+      icon-192-xxxhdpi.png
     ios/
       icon.png
       icon-2x.png

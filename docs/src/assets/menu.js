@@ -121,7 +121,7 @@ const cli = [
   },
   {
     name: 'App Icons',
-    path: 'app-icon-details'
+    path: 'app-icons'
   },
   {
     name: 'Testing & Auditing',

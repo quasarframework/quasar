@@ -33,24 +33,24 @@ All of these filenames are important and non-negotiable (because of either the b
 ### SPA, PWA & SSR
 These build targets are classical websites, and include a variety of special icons for individual browsers and operating systems. You need all of them - and if you discover one that is new or missing, please open an issue.
 
-```text
+```
 src/
   statics/
      app-logo-128x128.png
      icons/
-        apple-icon-120x120.png  
-        apple-icon-152x152.png  
-        apple-icon-167x167.png  
-        apple-icon-180x180.png  
-        favicon-16x16.png       
-        favicon-32x32.png       
-        favicon-96x96.png       
-        favicon.ico             
-        icon-128x128.png        
-        icon-192x192.png        
-        icon-256x256.png        
-        icon-384x384.png        
-        icon-512x512.png        
+        apple-icon-120x120.png
+        apple-icon-152x152.png
+        apple-icon-167x167.png
+        apple-icon-180x180.png
+        favicon-16x16.png
+        favicon-32x32.png
+        favicon-96x96.png
+        favicon.ico
+        icon-128x128.png
+        icon-192x192.png
+        icon-256x256.png
+        icon-384x384.png
+        icon-512x512.png
         ms-icon-144x144.png
         safari-pinned-tab.svg
 ```
@@ -60,14 +60,14 @@ src/
 
 Cordova is the most complicated of the build targets, because not only do you need to place the icons in specific folders, you also need to register them in the `src-cordova/config.xml` file. Further, if you are using splashscreens (which you should), you will also need to install `cordova-plugin-splashscreen` and register it in your config.xml - unless of course you are using the Icon Factory, in which case that is all taken care of for you.
 
-```shell
+```bash
 $ cd src-cordova
 $ cordova plugin add cordova-plugin-splashscreen
 $ cordova plugin save
 $ cd ..
 ```
 
-```text
+```
 src-cordova/
   config.xml
   res/
@@ -75,9 +75,9 @@ src-cordova/
       icon-36-ldpi.png
       icon-48-mdpi.png
       icon-72-hdpi.png
-      icon-96-xhdpi.png 
+      icon-96-xhdpi.png
       icon-144-xxhdpi.png
-      icon-192-xxxhdpi.png 
+      icon-192-xxxhdpi.png
     ios/
       icon.png
       icon-2x.png
@@ -122,7 +122,7 @@ src-cordova/
 
 And here is what your config.xml should look like:
 
-```xml
+```
 <platform name="android">
     <icon density="ldpi" src="res/android/icon-36-ldpi.png" />
     <icon density="mdpi" src="res/android/icon-48-mdpi.png" />
@@ -176,7 +176,7 @@ And here is what your config.xml should look like:
 ### Electron
 These images are used to display the icon of the application in the desktop operating system in the tray, on the desktop, in the file-browser and in relevant stores. The `icon.ico` file is for Windows and `icon.icns` is for MacOS. If you discover any that are missing, please file an issue.
 
-```text
+```
 src-electron/
   icons/
     icon.ico
