@@ -216,11 +216,10 @@ export default Vue.extend({
         this.__refocusTarget.focus()
       }
 
+      this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
+
       this.timer = setTimeout(() => {
         this.__hidePortal()
-
-        this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
-
         this.$emit('hide', evt)
       }, 300)
     },
