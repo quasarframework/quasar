@@ -13,7 +13,9 @@ export default {
         const target = evt && evt.target
 
         if (target && target !== document.body) {
-          const related = (arg !== void 0 ? Object.values(arg) : []).concat(el)
+          const related = arg !== void 0
+            ? [ ...arg, el ]
+            : [ el ]
 
           for (let i = related.length - 1; i >= 0; i--) {
             if (related[i].contains(target)) {
