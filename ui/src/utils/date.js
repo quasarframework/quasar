@@ -89,10 +89,10 @@ function getRegexData (mask, locale) {
         map.S = index
         return '(\\d{1})'
       case 'SS':
-        map.S = index // bumping to S
+        map.SS = index
         return '(\\d{2})'
       case 'SSS':
-        map.S = index // bumping to S
+        map.SSS = index
         return '(\\d{3})'
       case 'A':
         map.A = index
@@ -251,7 +251,13 @@ export function __splitDate (str, mask, locale, calendar) {
   }
 
   if (map.S !== void 0) {
-    date.millisecond = parseInt(match[map.S], 10)
+    date.millisecond = parseInt(match[map.S], 10) * 100
+  }
+  else if (map.SS !== void 0) {
+    date.millisecond = parseInt(match[map.SS], 10) * 10
+  }
+  else if (map.SSS !== void 0) {
+    date.millisecond = parseInt(match[map.SSS], 10)
   }
 
   date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
