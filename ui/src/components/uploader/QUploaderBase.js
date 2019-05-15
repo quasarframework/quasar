@@ -420,7 +420,6 @@ export default {
   },
 
   beforeDestroy () {
-    this.isDestroyed = true
     this.isUploading === true && this.abort()
   },
 

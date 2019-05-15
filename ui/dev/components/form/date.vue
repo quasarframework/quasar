@@ -200,17 +200,30 @@
         Input with close on selection: {{ input }}
       </div>
       <div class="q-gutter-md column">
-        <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
-          <q-icon slot="append" name="event" class="cursor-pointer">
-            <q-popup-proxy ref="qDateProxy">
-              <q-date
-                v-model="input"
-                v-bind="props"
-                :style="style"
-                @input="() => $refs.qDateProxy.hide()"
-              />
-            </q-popup-proxy>
-          </q-icon>
+        <q-input :dark="dark" filled v-model="inputFull">
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy ref="qDateProxy1">
+                <q-date
+                  v-model="inputFull"
+                  v-bind="props"
+                  mask="YYYY-MM-DD HH:mm"
+                  today-btn
+                  :style="style"
+                  @input="() => $refs.qDateProxy1.hide()"
+                />
+              </q-popup-proxy>
+            </q-icon>
+            <q-icon name="alarm" class="cursor-pointer">
+              <q-popup-proxy ref="qDateProxy2">
+                <q-time
+                  v-model="inputFull"
+                  mask="YYYY-MM-DD HH:mm"
+                  @input="() => $refs.qDateProxy2.hide()"
+                />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
         </q-input>
       </div>
     </div>
@@ -248,6 +261,7 @@ export default {
       persian: false,
 
       input: null,
+      inputFull: null,
 
       locale: null,
       localeOptions

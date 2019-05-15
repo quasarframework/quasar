@@ -22,6 +22,11 @@
       "category": "behavior"
     },
 
+    "mask": {
+      "default": "HH:mm",
+      "examples": [ "HH:mm:ss", "YYYY-MM-DD HH:mm:ss", "HH:mm MMMM Do, YYYY" ]
+    },
+
     "options": {
       "type": "Function",
       "desc": "Optionally configure what time is the user allowed to set; Overriden by 'hour-options', 'minute-options' and 'second-options' if those are set",
