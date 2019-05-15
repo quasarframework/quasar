@@ -377,7 +377,7 @@ export default Vue.extend({
     __onControlFocusin (e) {
       if (this.editable === true && this.focused === false) {
         this.focused = true
-        this.$listeners.focus !== void 0 && this.$emit('focus', e)
+        this.$emit('focus', e)
       }
     },
 
@@ -394,11 +394,9 @@ export default Vue.extend({
           return
         }
 
-        this.hasPopupOpen = false
-
         if (this.focused === true) {
           this.focused = false
-          this.$listeners.blur !== void 0 && this.$emit('blur', e)
+          this.$emit('blur', e)
         }
 
         then !== void 0 && then()

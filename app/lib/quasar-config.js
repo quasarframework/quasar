@@ -288,8 +288,8 @@ class QuasarConfig {
     let cfg = this.quasarConfig
 
     await extensionRunner.runHook('extendQuasarConf', async hook => {
-      log(`Extension(${hook.extId}): Extending quasar.conf...`)
-      await hook.fn(cfg)
+      log(`Extension(${hook.api.extId}): Extending quasar.conf...`)
+      await hook.fn(cfg, hook.api)
     })
 
     // if watching for changes,

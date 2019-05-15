@@ -143,8 +143,8 @@ async function build () {
 
   // run possible beforeBuild hooks
   await extensionRunner.runHook('beforeBuild', async hook => {
-    log(`Extension(${hook.extId}): Running beforeBuild hook...`)
-    await hook.fn()
+    log(`Extension(${hook.api.extId}): Running beforeBuild hook...`)
+    await hook.fn(hook.api)
   })
 
   log(chalk.bold(`Building...`))
@@ -194,8 +194,8 @@ async function build () {
 
       // run possible beforeBuild hooks
       await extensionRunner.runHook('afterBuild', async hook => {
-        log(`Extension(${hook.extId}): Running afterBuild hook...`)
-        await hook.fn()
+        log(`Extension(${hook.api.extId}): Running afterBuild hook...`)
+        await hook.fn(hook.api)
       })
     })
   })

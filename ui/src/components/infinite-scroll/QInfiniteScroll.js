@@ -127,7 +127,9 @@ export default Vue.extend({
         }
       }
       else {
-        this.scrollContainer = this.scrollTarget instanceof Element ? this.scrollTarget : getScrollTarget(this.$el)
+        this.scrollContainer = this.scrollTarget === document.defaultView || this.scrollTarget instanceof Element
+          ? this.scrollTarget
+          : getScrollTarget(this.$el)
       }
 
       if (this.working === true) {
