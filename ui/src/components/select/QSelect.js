@@ -763,6 +763,11 @@ export default Vue.extend({
       }
     },
 
+    __onControlPopupHide (e) {
+      this.hasPopupOpen = false
+      this.__onControlFocusoutSelect(e)
+    },
+
     __onControlFocusoutSelect (e) {
       this.__onControlFocusout(e, () => {
         this.__resetInputValue()
