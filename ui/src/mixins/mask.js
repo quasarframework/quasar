@@ -82,6 +82,10 @@ export default {
     },
 
     __getPaddedMaskMarked (size) {
+      if (size < this.maskMarked.length) {
+        return this.maskMarked.slice(-size)
+      }
+
       let
         maskMarked = this.maskMarked,
         padPos = maskMarked.indexOf(MARKER),
@@ -185,16 +189,25 @@ export default {
         this.__moveCursorRightReverse(inp, cursor, cursor)
       }
       else {
-        const cursor = val === this.maskReplaced ? 0 : Math.max(0, oldCursor - 1)
-        this.__moveCursorRight(inp, cursor, cursor)
+        if (val === this.maskReplaced) {
+          this.__moveCursorLeft(inp, 0, 0)
+        }
+        else {
+          const cursor = Math.max(0, this.maskMarked.indexOf(MARKER), oldCursor - 1)
+          this.__moveCursorRight(inp, cursor, cursor)
+        }
       }
     },
 
     __moveCursorLeft (inp, start, end, selection) {
+      const noMarkBefore = this.maskMarked.slice(start - 1).indexOf(MARKER) === -1
       let i = Math.max(0, start - 1)
       for (; i >= 0; i--) {
         if (this.maskMarked[i] === MARKER) {
           start = i
+          if (noMarkBefore === true) {
+            start++
+          }
           break
         }
       }
@@ -208,15 +221,18 @@ export default {
 
     __moveCursorRight (inp, start, end, selection) {
       const limit = inp.value.length
-      let i = Math.min(limit - 1, end + 1)
-      for (; i < limit; i++) {
+      let i = Math.min(limit, end + 1)
+      for (; i <= limit; i++) {
         if (this.maskMarked[i] === MARKER) {
           end = i
           break
         }
+        else if (this.maskMarked[i - 1] === MARKER) {
+          end = i
+        }
       }
 
-      if (i >= limit && this.maskMarked[end - 1] !== void 0 && this.maskMarked[end - 1] !== MARKER) {
+      if (i > limit && this.maskMarked[end - 1] !== void 0 && this.maskMarked[end - 1] !== MARKER) {
         return this.__moveCursorLeft(inp, limit, limit)
       }
 
@@ -272,13 +288,22 @@ export default {
     },
 
     __onMaskedKeydown (e) {
-      if (e.keyCode === 37 || e.keyCode === 39) {
-        const
-          inp = this.$refs.input,
-          fn = this['__moveCursor' + (e.keyCode === 39 ? 'Right' : 'Left') + (this.reverseFillMask === true ? 'Reverse' : '')]
+      const
+        inp = this.$refs.input,
+        start = inp.selectionStart,
+        end = inp.selectionEnd
+
+      if (e.keyCode === 37 || e.keyCode === 39) { // Left / Right
+        const fn = this['__moveCursor' + (e.keyCode === 39 ? 'Right' : 'Left') + (this.reverseFillMask === true ? 'Reverse' : '')]
 
         e.preventDefault()
-        fn(inp, inp.selectionStart, inp.selectionEnd, e.shiftKey, e)
+        fn(inp, start, end, e.shiftKey)
+      }
+      else if (e.keyCode === 8 && this.reverseFillMask !== true && start === end) { // Backspace
+        this.__moveCursorLeft(inp, start, end, true)
+      }
+      else if (e.keyCode === 46 && this.reverseFillMask === true && start === end) { // Delete
+        this.__moveCursorRightReverse(inp, start, end, true)
       }
 
       this.$emit('keydown', e)
