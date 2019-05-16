@@ -4,6 +4,12 @@
       "type": "Boolean",
       "desc": "Focus first focusable element on initial component render",
       "category": "behavior"
+    },
+
+    "no-error-focus": {
+      "type": "Boolean",
+      "desc": "Do not try to focus on first component that has a validation error when submitting form",
+      "category": "behavior"
     }
   },
 
