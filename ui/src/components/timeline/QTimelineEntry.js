@@ -24,8 +24,12 @@ export default Vue.extend({
       default: 'right',
       validator: v => ['left', 'right'].includes(v)
     },
+
     icon: String,
+    avatar: String,
+
     color: String,
+
     title: String,
     subtitle: String,
     body: String
@@ -37,10 +41,8 @@ export default Vue.extend({
     },
 
     classes () {
-      return [
-        `q-timeline__entry--${this.side}`,
-        this.icon ? 'q-timeline__entry--icon' : ''
-      ]
+      return `q-timeline__entry--${this.side}` +
+        (this.icon !== void 0 || this.avatar !== void 0 ? ' q-timeline__entry--icon' : '')
     },
 
     reverse () {
@@ -74,6 +76,25 @@ export default Vue.extend({
       }, this.reverse === true ? content.reverse() : content)
     }
 
+    let dot
+
+    if (this.icon !== void 0) {
+      dot = [
+        h(QIcon, {
+          staticClass: 'row items-center justify-center',
+          props: { name: this.icon }
+        })
+      ]
+    }
+    else if (this.avatar !== void 0) {
+      dot = [
+        h('img', {
+          staticClass: 'q-timeline__dot-img',
+          domProps: { src: this.avatar }
+        })
+      ]
+    }
+
     const content = [
       h('div', { staticClass: 'q-timeline__subtitle' }, [
         h(
@@ -87,12 +108,7 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-timeline__dot',
         class: this.colorClass
-      }, this.icon !== void 0 ? [
-        h(QIcon, {
-          staticClass: 'row items-center justify-center',
-          props: { name: this.icon }
-        })
-      ] : null),
+      }, dot),
 
       h('div', { staticClass: 'q-timeline__content' }, [
         h(
