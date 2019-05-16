@@ -1,4 +1,3 @@
-import Platform from '../plugins/Platform.js'
 
 export default {
   name: 'go-back',
@@ -13,7 +12,7 @@ export default {
     }
     else {
       ctx.goBack = () => {
-        vnode.context.$router.replace(ctx.value)
+        vnode.context.$router.go(ctx.single ? -1 : ctx.value)
       }
     }
     ctx.goBackKey = ev => {
