@@ -10,8 +10,15 @@
     },
 
     "fill-mask": {
+      "type": [ "Boolean", "String" ],
+      "desc": "Fills string with specified characters (or underscore if value is not string) to fill mask's length",
+      "examples": [ "true", "'0'", "'_'" ],
+      "category": "behavior"
+    },
+
+    "reverse-fill-mask": {
       "type": "Boolean",
-      "desc": "Fills string with underscore characters to fill mask's length",
+      "desc": "Fills string from the right side of the mask",
       "category": "behavior"
     },
 

@@ -1,17 +1,26 @@
 const TOKENS = {
-  '#': { pattern: /[\d]/ },
+  '#': { pattern: '[\\d]' },
 
-  S: { pattern: /[a-zA-Z]/ },
-  N: { pattern: /[0-9a-zA-Z]/ },
+  S: { pattern: '[a-zA-Z]' },
+  N: { pattern: '[0-9a-zA-Z]' },
 
-  A: { pattern: /[a-zA-Z]/, transform: v => v.toLocaleUpperCase() },
-  a: { pattern: /[a-zA-Z]/, transform: v => v.toLocaleLowerCase() },
+  A: { pattern: '[a-zA-Z]', transform: v => v.toLocaleUpperCase() },
+  a: { pattern: '[a-zA-Z]', transform: v => v.toLocaleLowerCase() },
 
-  X: { pattern: /[0-9a-zA-Z]/, transform: v => v.toLocaleUpperCase() },
-  x: { pattern: /[0-9a-zA-Z]/, transform: v => v.toLocaleLowerCase() }
+  X: { pattern: '[0-9a-zA-Z]', transform: v => v.toLocaleUpperCase() },
+  x: { pattern: '[0-9a-zA-Z]', transform: v => v.toLocaleLowerCase() }
 }
 
-const tokenRegex = new RegExp('[' + Object.keys(TOKENS).join('') + ']', 'g')
+Object.keys(TOKENS).forEach(key => {
+  TOKENS[key].regex = new RegExp(TOKENS[key].pattern)
+})
+
+const
+  tokenRegex = new RegExp('\\\\(.)|([' + Object.keys(TOKENS).join('') + '])', 'g'),
+  tokenRegexMask = new RegExp('\\\\([^.*+?^${}()|([\\]])|([.*+?^${}()|[\\]])|([' + Object.keys(TOKENS).join('') + '])|(.)', 'g'),
+  tokenRegexStrip = new RegExp('\\\\.', 'g'),
+  tokenRegexTest = new RegExp('[' + Object.keys(TOKENS).join('') + ']'),
+  tokenIsFirst = (mask, maskIndex) => maskIndex === 0 || tokenRegexTest.test(mask.slice(0, maskIndex - 1).replace(tokenRegexStrip, '')) === false
 
 const NAMED_MASKS = {
   date: '####/##/##',
@@ -22,68 +31,125 @@ const NAMED_MASKS = {
   card: '#### #### #### ####'
 }
 
+const MARKER = String.fromCharCode(1)
+
 export default {
   props: {
     mask: String,
-    fillMask: Boolean,
+    reverseFillMask: Boolean,
+    fillMask: [Boolean, String],
     unmaskedValue: Boolean
   },
 
   watch: {
     mask (v) {
       if (v !== void 0) {
-        this.__updateMaskValue(this.innerValue)
+        this.__updateMaskValue(this.innerValue, true)
       }
       else {
         const val = this.__unmask(this.innerValue)
+        this.__updateMaskInternals()
         this.value !== val && this.$emit('input', val)
       }
     },
 
-    fillMask (v) {
+    fillMask () {
+      this.hasMask === true && this.__updateMaskValue(this.innerValue, true)
+    },
+
+    reverseFillMask () {
       this.hasMask === true && this.__updateMaskValue(this.innerValue)
     },
 
-    unmaskedValue (v) {
+    unmaskedValue () {
       this.hasMask === true && this.__updateMaskValue(this.innerValue)
-    }
-  },
-
-  computed: {
-    hasMask () {
-      return this.mask !== void 0 && this.mask.length > 0
-    },
-
-    computedMask () {
-      return NAMED_MASKS[this.mask] || this.mask
     }
   },
 
   methods: {
     __getInitialMaskedValue () {
-      if (this.mask !== void 0 && this.mask.length > 0) {
-        const mask = NAMED_MASKS[this.mask] || this.mask
-        const masked = this.__mask(this.__unmask(this.value), mask)
+      this.__updateMaskInternals()
 
-        return this.fillMask === true
-          ? this.__fillWithMask(masked, mask)
+      if (this.hasMask === true) {
+        const masked = this.__mask(this.__unmask(this.value))
+
+        return this.fillMask !== false
+          ? this.__fillWithMask(masked)
           : masked
       }
 
       return this.value
     },
 
-    __updateMaskValue (rawVal) {
+    __getPaddedMaskMarked (size) {
+      let
+        maskMarked = this.maskMarked,
+        padPos = maskMarked.indexOf(MARKER),
+        pad = ''
+
+      if (padPos > -1) {
+        for (let i = size - maskMarked.length; i > 0; i--) {
+          pad += MARKER
+        }
+        maskMarked = maskMarked.slice(0, padPos) + pad + maskMarked.slice(padPos)
+      }
+
+      return maskMarked
+    },
+
+    __updateMaskInternals () {
+      this.hasMask = this.mask !== void 0 && this.mask.length > 0 && ['text', 'search', 'url', 'tel', 'password'].indexOf(this.type) > -1
+      this.computedMask = NAMED_MASKS[this.mask] === void 0 ? this.mask : NAMED_MASKS[this.mask]
+
+      if (this.hasMask === false) {
+        this.fillChar = void 0
+        this.fillCharReplacer = void 0
+        this.fillMaskRegex = void 0
+        this.maskReplaced = ''
+        this.maskMarked = ''
+        return
+      }
+
+      this.fillChar = typeof this.fillMask === 'string' && this.fillMask.length > 0
+        ? this.fillMask.slice(0, 1)
+        : '_'
+
+      const fillCharEscaped = this.fillChar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+      this.fillCharReplacer = new RegExp('^' + fillCharEscaped + '*(.*)$')
+      this.fillCharMatcher = new RegExp(fillCharEscaped)
+
+      const fillMaskRegex = []
+      this.computedMask.replace(tokenRegexMask, (_, char1, esc, token, char2) => {
+        if (token !== void 0) {
+          fillMaskRegex.push('(?:(' + TOKENS[token].pattern + '*?)|' + fillCharEscaped + '*?)')
+        }
+        else if (esc !== void 0) {
+          fillMaskRegex.push('\\' + esc + '?')
+        }
+        else {
+          fillMaskRegex.push((char1 !== void 0 ? char1 : char2).replace(/[.*+?^${}()|[\]\\]/g, '\\\\$&') + '?')
+        }
+      })
+
+      this.fillMaskRegex = new RegExp('^' + fillMaskRegex.join('') + '$')
+
+      this.maskMarked = this.computedMask.replace(tokenRegex, (_, char, token) => token !== void 0 ? MARKER : char)
+      this.maskReplaced = this.maskMarked.split(MARKER).join(this.fillChar)
+    },
+
+    __updateMaskValue (rawVal, updateMaskInternals) {
       const inp = this.$refs.input
 
       const unmasked = this.__unmask(rawVal)
-      const masked = this.__mask(
-        unmasked,
-        this.computedMask
-      )
 
-      let val = this.fillMask === true
-        ? this.__fillWithMask(masked, this.computedMask)
+      // Update here so unmask uses the original fillChar
+      updateMaskInternals === true && this.__updateMaskInternals()
+
+      const masked = this.__mask(unmasked)
+
+      let val = this.fillMask !== false
+        ? this.__fillWithMask(masked)
         : masked
 
       const cursor = this.__getCursor(inp)
@@ -99,7 +165,7 @@ export default {
       }
 
       this.$nextTick(() => {
-        this.__updateCursor(inp, cursor, this.innerValue)
+        this.__updateCursor(inp, cursor, val)
       })
 
       if (this.unmaskedValue === true) {
@@ -110,83 +176,143 @@ export default {
     },
 
     __getCursor (inp) {
-      const index = inp.selectionEnd
-      const val = inp.value
-
-      let cursor = 0
-
-      for (let i = 0; i < index; i++) {
-        /[\w]/.test(val[i]) && cursor++
-      }
-
-      return cursor
+      return this.reverseFillMask === true ? inp.value.length - inp.selectionEnd : inp.selectionEnd
     },
 
     __updateCursor (inp, oldCursor, val) {
-      let cursor = 0
+      if (this.reverseFillMask === true) {
+        const cursor = Math.max(0, val.length - (val === this.maskReplaced ? 0 : oldCursor + 1))
+        this.__moveCursorRightReverse(inp, cursor, cursor)
+      }
+      else {
+        const cursor = val === this.maskReplaced ? 0 : Math.max(0, oldCursor - 1)
+        this.__moveCursorRight(inp, cursor, cursor)
+      }
+    },
 
-      for (let i = 0; i < val.length && oldCursor > 0; i++) {
-        /[\w]/.test(val[i]) && oldCursor--
-        cursor++
+    __moveCursorLeft (inp, start, end, selection) {
+      let i = Math.max(0, start - 1)
+      for (; i >= 0; i--) {
+        if (this.maskMarked[i] === MARKER) {
+          start = i
+          break
+        }
       }
 
-      inp.setSelectionRange(cursor, cursor)
+      if (i < 0 && this.maskMarked[start] !== void 0 && this.maskMarked[start] !== MARKER) {
+        return this.__moveCursorRight(inp, 0, 0)
+      }
+
+      start >= 0 && inp.setSelectionRange(start, selection === true ? end : start, 'backward')
+    },
+
+    __moveCursorRight (inp, start, end, selection) {
+      const limit = inp.value.length
+      let i = Math.min(limit - 1, end + 1)
+      for (; i < limit; i++) {
+        if (this.maskMarked[i] === MARKER) {
+          end = i
+          break
+        }
+      }
+
+      if (i >= limit && this.maskMarked[end - 1] !== void 0 && this.maskMarked[end - 1] !== MARKER) {
+        return this.__moveCursorLeft(inp, limit, limit)
+      }
+
+      inp.setSelectionRange(selection ? start : end, end, 'forward')
+    },
+
+    __moveCursorLeftReverse (inp, start, end, selection) {
+      const
+        maskMarked = this.__getPaddedMaskMarked(inp.value.length)
+      let i = Math.max(0, start - 1)
+      for (; i >= 0; i--) {
+        if (maskMarked[i - 1] === MARKER) {
+          start = i
+          break
+        }
+        else if (i === 0 && maskMarked[0] === MARKER) {
+          start = 0
+          break
+        }
+        else if (maskMarked[i] === MARKER) {
+          start = i
+        }
+      }
+
+      if (i < 0 && maskMarked[start] !== void 0 && maskMarked[start] !== MARKER) {
+        return this.__moveCursorRightReverse(inp, 0, 0)
+      }
+
+      start >= 0 && inp.setSelectionRange(start, selection === true ? end : start, 'backward')
+    },
+
+    __moveCursorRightReverse (inp, start, end, selection) {
+      const
+        limit = inp.value.length,
+        maskMarked = this.__getPaddedMaskMarked(limit),
+        noMarkBefore = maskMarked.slice(0, end + 1).indexOf(MARKER) === -1
+      let i = Math.min(limit, end + 1)
+      for (; i <= limit; i++) {
+        if (maskMarked[i - 1] === MARKER) {
+          end = i
+          if (end > 0 && noMarkBefore === true) {
+            end--
+          }
+          break
+        }
+      }
+
+      if (i > limit && maskMarked[end - 1] !== void 0 && maskMarked[end - 1] !== MARKER) {
+        return this.__moveCursorLeftReverse(inp, limit, limit)
+      }
+
+      inp.setSelectionRange(selection === true ? start : end, end, 'forward')
     },
 
     __onMaskedKeydown (e) {
-      const inp = this.$refs.input
+      if (e.keyCode === 37 || e.keyCode === 39) {
+        const
+          inp = this.$refs.input,
+          fn = this['__moveCursor' + (e.keyCode === 39 ? 'Right' : 'Left') + (this.reverseFillMask === true ? 'Reverse' : '')]
 
-      if (e.keyCode === 39) { // right
-        let i = inp.selectionEnd
-        if (/[\W ]/.test(inp.value[i])) {
-          i++
-          for (; i < inp.value.length; i++) {
-            if (/[\w]/.test(inp.value[i])) {
-              i--
-              break
-            }
-          }
-
-          inp.setSelectionRange(i, i)
-        }
-      }
-      else if (e.keyCode === 37) { // left
-        let i = inp.selectionEnd - 1
-        if (/[\W ]/.test(inp.value[i])) {
-          i--
-          for (; i > 0; i--) {
-            if (/[\w]/.test(inp.value[i])) {
-              i += 2
-              break
-            }
-          }
-
-          i >= 0 && inp.setSelectionRange(i, i)
-        }
+        e.preventDefault()
+        fn(inp, inp.selectionStart, inp.selectionEnd, e.shiftKey, e)
       }
 
-      this.$listeners.keydown !== void 0 && this.$emit('keydown', e)
+      this.$emit('keydown', e)
     },
 
-    __mask (val, mask) {
+    __mask (val) {
       if (val === void 0 || val === null || val === '') { return '' }
+
+      if (this.reverseFillMask === true) {
+        return this.__maskReverse(val)
+      }
+
+      const mask = this.computedMask
 
       let maskIndex = 0, valIndex = 0, output = ''
 
       while (maskIndex < mask.length) {
-        const
+        const valChar = val[valIndex]
+
+        let
           maskChar = mask[maskIndex],
-          valChar = val[valIndex],
           maskDef = TOKENS[maskChar]
 
-        if (maskDef === void 0 && valChar === maskChar) {
-          output += maskChar
-          valIndex++
+        if (maskChar === '\\' && maskIndex < mask.length - 1) {
+          maskIndex++
+          maskChar = mask[maskIndex]
+          maskDef = void 0
         }
-        else if (maskDef === void 0) {
+
+        if (maskDef === void 0) {
           output += maskChar
+          valChar === maskChar && valIndex++
         }
-        else if (maskDef !== void 0 && valChar !== void 0 && maskDef.pattern.test(valChar)) {
+        else if (valChar !== void 0 && maskDef.regex.test(valChar)) {
           output += maskDef.transform !== void 0
             ? maskDef.transform(valChar)
             : valChar
@@ -202,18 +328,68 @@ export default {
       return output
     },
 
-    __unmask (val) {
-      return val !== void 0 && val !== null
-        ? val.replace(/[\W _]/g, '')
-        : val
+    __maskReverse (val) {
+      const mask = this.computedMask
+
+      let maskIndex = mask.length - 1, valIndex = val.length - 1, output = ''
+
+      while (maskIndex >= 0) {
+        const maskChar = mask[maskIndex]
+
+        let
+          valChar = val[valIndex],
+          maskDef = TOKENS[maskChar]
+
+        if (maskIndex > 0 && mask[maskIndex - 1] === '\\') {
+          maskIndex--
+          maskDef = void 0
+        }
+
+        if (maskDef === void 0) {
+          output = maskChar + output
+          valChar === maskChar && valIndex--
+        }
+        else if (valChar !== void 0 && maskDef.regex.test(valChar)) {
+          const isFirst = tokenIsFirst(mask, maskIndex)
+          do {
+            output = (maskDef.transform !== void 0 ? maskDef.transform(valChar) : valChar) + output
+            valIndex--
+            valChar = val[valIndex]
+          // eslint-disable-next-line no-unmodified-loop-condition
+          } while (isFirst === true && valChar !== void 0 && maskDef.regex.test(valChar))
+        }
+        else {
+          return output
+        }
+
+        maskIndex--
+      }
+
+      return output
     },
 
-    __fillWithMask (val, mask) {
-      const diff = mask.length - val.length
+    __unmask (val) {
+      if (typeof val !== 'string' || this.fillMaskRegex === void 0) {
+        return val
+      }
 
-      return diff > 0
-        ? val + mask.slice(val.length).replace(tokenRegex, '_')
-        : val
+      const
+        maskMatch = this.fillMaskRegex.exec(val),
+        unmasked = maskMatch === null ? val : maskMatch.slice(1).join('')
+
+      return this.fillCharReplacer === void 0 ? unmasked : this.fillCharReplacer.exec(unmasked)[1]
+    },
+
+    __fillWithMask (val) {
+      if (this.maskReplaced.length - val.length <= 0) {
+        return val
+      }
+
+      if (this.reverseFillMask === true && val.length > 0) {
+        return this.maskReplaced.slice(0, -val.length) + val
+      }
+
+      return val + this.maskReplaced.slice(val.length)
     }
   }
 }
