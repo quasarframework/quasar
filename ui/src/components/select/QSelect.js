@@ -744,14 +744,24 @@ export default Vue.extend({
     },
 
     __getControlEvents () {
+      const focusout = e => {
+        this.__onControlFocusout(e, () => {
+          this.__resetInputValue()
+          this.__closeMenu()
+        })
+      }
+
       return {
         focus: e => {
           this.hasDialog !== true && this.focus(e)
         },
         focusin: this.__onControlFocusin,
-        focusout: this.__onControlFocusoutSelect,
+        focusout,
         'popup-show': this.__onControlPopupShow,
-        'popup-hide': this.__onControlPopupHide,
+        'popup-hide': e => {
+          this.hasPopupOpen = false
+          focusout(e)
+        },
         click: e => {
           if (this.hasDialog !== true && this.menu === true) {
             this.__closeMenu()
@@ -761,18 +771,6 @@ export default Vue.extend({
           }
         }
       }
-    },
-
-    __onControlPopupHide (e) {
-      this.hasPopupOpen = false
-      this.__onControlFocusoutSelect(e)
-    },
-
-    __onControlFocusoutSelect (e) {
-      this.__onControlFocusout(e, () => {
-        this.__resetInputValue()
-        this.__closeMenu()
-      })
     },
 
     __getPopup (h) {
