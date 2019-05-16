@@ -210,7 +210,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Tobias Mesquita
 - Volentix
 - Pascual Strømsnæs
-- Job Stoit
 - Taillefer Brice
 - Nafaa Boutefer
 - Bryan WB (eKyNoX)
@@ -245,6 +244,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Todd E
 - Chip Drop
 - Jeff Jorczak
+- Furatama
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
