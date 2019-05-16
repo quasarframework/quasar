@@ -26,21 +26,6 @@
 
         <q-date v-model="model2" mask="MM-DD-YYYY" />
       </div>
-
-      <div>
-        <div class="q-pb-sm">
-          <q-badge color="teal">
-            Model: {{ model3 }}
-          </q-badge>
-        </div>
-        <div class="q-pb-sm">
-          <q-badge color="purple" text-color="white">
-            Mask: dddd[, ]MMM D[, ]YYYY
-          </q-badge>
-        </div>
-
-        <q-date v-model="model3" mask="dddd[, ]MMM D[, ]YYYY" />
-      </div>
     </div>
   </div>
 </template>
@@ -50,8 +35,7 @@ export default {
   data () {
     return {
       model1: '2019-02-15',
-      model2: '03-21-2019',
-      model3: 'Sunday, Apr 28, 2019'
+      model2: '03-21-2019'
     }
   }
 }

@@ -6,7 +6,7 @@
       </q-badge>
     </div>
 
-    <q-date v-model="model" :locale="myLocale" />
+    <q-time v-model="model" mask="MMMM D, YYYY - HH:mm" :locale="myLocale" />
   </div>
 </template>
 
@@ -14,7 +14,7 @@
 export default {
   data () {
     return {
-      model: '2019/03/15',
+      model: 'Febrero 22, 2019 - 21:02',
 
       myLocale: {
         /* starting with Sunday */
