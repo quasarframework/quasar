@@ -3,9 +3,9 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from './datetime-mixin.js'
 
-import { formatDate, splitDate } from '../../utils/date.js'
-import { isDeepEqual } from '../../utils/is.js'
-import { jalaaliMonthLength, toJalaali, toGregorian } from './persian'
+import { formatDate, __splitDate } from '../../utils/date.js'
+import { pad } from '../../utils/format.js'
+import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
 
 const yearsInterval = 20
 
@@ -18,20 +18,12 @@ export default Vue.extend({
     emitImmediately: Boolean,
 
     mask: {
-      type: String,
       default: 'YYYY/MM/DD'
     },
-    locale: Object,
 
     defaultYearMonth: {
       type: String,
       validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
-    },
-
-    calendar: {
-      type: String,
-      validator: v => ['gregorian', 'persian'].includes(v),
-      default: 'gregorian'
     },
 
     events: [Array, Function],
@@ -50,30 +42,39 @@ export default Vue.extend({
   },
 
   data () {
+    const { inner, external } = this.__getModels(this.value, this.mask, this.__getComputedLocale())
     return {
       view: this.defaultView,
       monthDirection: 'left',
       yearDirection: 'left',
-      innerModel: this.__getInnerModel(this.value)
+      startYear: inner.year - inner.year % yearsInterval,
+      innerModel: inner,
+      extModel: external
     }
   },
 
   watch: {
     value (v) {
-      const model = this.__getInnerModel(v)
+      const { inner, external } = this.__getModels(v, this.mask, this.__getComputedLocale())
 
-      if (isDeepEqual(model, this.innerModel) === true) {
-        return
+      if (
+        this.extModel.dateHash !== external.dateHash ||
+        this.extModel.timeHash !== external.timeHash
+      ) {
+        this.extModel = external
       }
 
-      this.monthDirection = this.innerModel.string < v ? 'left' : 'right'
-      if (model.year !== this.innerModel.year) {
-        this.yearDirection = this.monthDirection
-      }
+      if (inner.dateHash !== this.innerModel.dateHash) {
+        this.monthDirection = this.innerModel.dateHash < inner.dateHash ? 'left' : 'right'
+        if (inner.year !== this.innerModel.year) {
+          this.yearDirection = this.monthDirection
+        }
 
-      this.$nextTick(() => {
-        this.innerModel = model
-      })
+        this.$nextTick(() => {
+          this.startYear = inner.year - inner.year % yearsInterval
+          this.innerModel = inner
+        })
+      }
     },
 
     view () {
@@ -90,19 +91,9 @@ export default Vue.extend({
         (this.disable === true ? ' disabled' : '')
     },
 
-    computedLocale () {
-      return this.locale || this.$q.lang.date
-    },
-
-    extModel () {
-      return this.__isInvalid(this.value) === true
-        ? { value: null, year: null, month: null, day: null }
-        : splitDate(this.value, this.mask, this.computedLocale)
-    },
-
     headerTitle () {
       const model = this.extModel
-      if (model.value === null) { return ' --- ' }
+      if (model.dateHash === null) { return ' --- ' }
 
       let date
 
@@ -114,7 +105,7 @@ export default Vue.extend({
         date = new Date(gDate.gy, gDate.gm - 1, gDate.gd)
       }
 
-      if (isNaN(date.valueOf())) { return ' --- ' }
+      if (isNaN(date.valueOf()) === true) { return ' --- ' }
 
       if (this.computedLocale.headerTitle !== void 0) {
         return this.computedLocale.headerTitle(date, model)
@@ -157,22 +148,7 @@ export default Vue.extend({
     },
 
     today () {
-      const d = new Date()
-
-      if (this.calendar === 'persian') {
-        const jDate = toJalaali(d)
-        return {
-          year: jDate.jy,
-          month: jDate.jm,
-          day: jDate.jd
-        }
-      }
-
-      return {
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate()
-      }
+      return this.__getCurrentDate()
     },
 
     evtFn () {
@@ -225,10 +201,10 @@ export default Vue.extend({
 
       const
         index = res.length,
-        prefix = this.innerModel.year + '/' + this.__pad(this.innerModel.month) + '/'
+        prefix = this.innerModel.year + '/' + pad(this.innerModel.month) + '/'
 
       for (let i = 1; i <= this.daysInMonth; i++) {
-        const day = prefix + this.__pad(i)
+        const day = prefix + pad(i)
 
         if (this.options !== void 0 && this.isInSelection(day) !== true) {
           res.push({ i })
@@ -269,51 +245,44 @@ export default Vue.extend({
   },
 
   methods: {
-    __isInvalid (v) {
-      return v === void 0 || v === null || v === '' || typeof v !== 'string'
+    __getModels (val, mask, locale) {
+      const external = __splitDate(val, mask, locale, this.calendar)
+      return {
+        external,
+        inner: external.dateHash === null
+          ? this.__getDefaultModel()
+          : { ...external }
+      }
     },
 
-    __getInnerModel (v) {
-      let string, year, month, day
+    __getDefaultModel () {
+      let year, month
 
-      if (this.__isInvalid(v) === true) {
-        day = 1
-
-        if (this.defaultYearMonth !== void 0) {
-          const d = this.defaultYearMonth.split('/')
-          year = parseInt(d[0], 10)
-          month = parseInt(d[1], 10)
-        }
-        else {
-          const d = new Date()
-          year = d.getFullYear()
-          month = d.getMonth() + 1
-
-          if (this.calendar === 'persian') {
-            const jDate = toJalaali(year, month, d.getDate())
-            year = jDate.jy
-            month = jDate.jm
-          }
-        }
-
-        string = this.__padYear(year) + '/' + this.__pad(month) + '/' + this.__pad(day)
+      if (this.defaultYearMonth !== void 0) {
+        const d = this.defaultYearMonth.split('/')
+        year = parseInt(d[0], 10)
+        month = parseInt(d[1], 10)
       }
       else {
-        const d = splitDate(v, this.mask, this.computedLocale)
-
-        string = v
+        // may come from data() where computed
+        // props are not yet available
+        const d = this.today !== void 0
+          ? this.today
+          : this.__getCurrentDate()
 
         year = d.year
         month = d.month
-        day = d.day
       }
 
       return {
-        string,
-        startYear: year - year % yearsInterval,
         year,
         month,
-        day
+        day: 1,
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+        dateHash: year + '/' + pad(month) + '/01'
       }
     },
 
@@ -357,12 +326,12 @@ export default Vue.extend({
               }
             }, [
               h('div', {
-                key: this.value,
+                key: 'h-sub' + this.headerTitle,
                 staticClass: 'q-date__header-title-label q-date__header-link',
                 class: this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
                 attrs: { tabindex: this.computedTabindex },
                 on: {
-                  click: e => { this.view = 'Calendar' },
+                  click: () => { this.view = 'Calendar' },
                   keyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
                 }
               }, [ this.headerTitle ])
@@ -557,7 +526,7 @@ export default Vue.extend({
 
     __getYearsView (h) {
       const
-        start = this.innerModel.startYear,
+        start = this.startYear,
         stop = start + yearsInterval,
         years = []
 
@@ -602,7 +571,7 @@ export default Vue.extend({
               tabindex: this.computedTabindex
             },
             on: {
-              click: () => { this.innerModel.startYear -= yearsInterval }
+              click: () => { this.startYear -= yearsInterval }
             }
           })
         ]),
@@ -623,7 +592,7 @@ export default Vue.extend({
               tabindex: this.computedTabindex
             },
             on: {
-              click: () => { this.innerModel.startYear += yearsInterval }
+              click: () => { this.startYear += yearsInterval }
             }
           })
         ])
@@ -656,44 +625,47 @@ export default Vue.extend({
       this.yearDirection = yearDir
       this.innerModel.month = month
 
-      this.emitImmediately === true && this.__updateValue('month', {})
+      this.emitImmediately === true && this.__updateValue({}, 'month')
     },
 
     __goToYear (offset) {
       this.monthDirection = this.yearDirection = offset > 0 ? 'left' : 'right'
       this.innerModel.year = Number(this.innerModel.year) + offset
-      this.emitImmediately === true && this.__updateValue('year', {})
+      this.emitImmediately === true && this.__updateValue({}, 'year')
     },
 
     __setYear (year) {
       this.innerModel.year = year
-      this.emitImmediately === true && this.__updateValue('year', { year })
+      this.emitImmediately === true && this.__updateValue({ year }, 'year')
       this.view = 'Calendar'
     },
 
     __setMonth (month) {
       this.innerModel.month = month
-      this.emitImmediately === true && this.__updateValue('month', { month })
+      this.emitImmediately === true && this.__updateValue({ month }, 'month')
       this.view = 'Calendar'
     },
 
     __setDay (day) {
-      this.__updateValue('day', { day })
+      this.__updateValue({ day }, 'day')
     },
 
     __setToday () {
-      this.__updateValue('today', { ...this.today })
+      this.__updateValue({ ...this.today }, 'today')
       this.view = 'Calendar'
     },
 
-    __updateValue (reason, date) {
+    __updateValue (date, reason) {
       if (date.year === void 0) {
         date.year = this.innerModel.year
       }
       if (date.month === void 0) {
         date.month = this.innerModel.month
       }
-      if (date.day === void 0 || (this.emitImmediately === true && reason !== 'day')) {
+      if (
+        date.day === void 0 ||
+        (this.emitImmediately === true && (reason === 'year' || reason === 'month'))
+      ) {
         date.day = this.innerModel.day
         const maxDay = this.emitImmediately === true
           ? this.__getDaysInMonth(date)
@@ -702,7 +674,20 @@ export default Vue.extend({
         date.day = Math.min(date.day, maxDay)
       }
 
-      const val = formatDate(new Date(date.year, date.month - 1, date.day), this.mask, this.computedLocale)
+      const val = formatDate(
+        new Date(
+          date.year,
+          date.month - 1,
+          date.day,
+          this.extModel.hour,
+          this.extModel.minute,
+          this.extModel.second,
+          this.extModel.millisecond
+        ),
+        this.mask,
+        this.computedLocale,
+        date.year
+      )
 
       if (val !== this.value) {
         this.$emit('input', val, reason, date)

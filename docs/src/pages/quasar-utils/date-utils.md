@@ -359,55 +359,27 @@ date.addToDate(newDate, { days: 1 })
 console.log(newDate.getDate() === clonedDate.getDate()) // false
 ```
 
-### Destructure Date
+### Extract Date
+
+Using locale set by current Quasar language pack:
 
 ```js
 import { date } from 'quasar'
 
-const obj = date.splitDate('2019/10/29')
-console.log(obj)
-// { year: 2019, month: 10, day: 29, value: '2019/10/29' }
+const date = date.extractDate('2019-10-29 --- 23:12', 'YYYY-MM-DD --- HH:mm')
+// date is a new Date() object
 ```
 
-With optional mask:
+With optional custom locale:
 
 ```js
 import { date } from 'quasar'
 
-const obj = date.splitDate('2019-10-29', 'YYYY-MM-DD')
-console.log(obj)
-// { year: 2019, month: 10, day: 29, value: '2019-10-29' }
-```
-
-With optional mask and locale:
-
-```js
-import { date } from 'quasar'
-
-const obj = date.splitDate('Month: Aug, Day: 11th, Year: 2018', '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY', {
+const obj = date.extractDate('Month: Feb, Day: 11th, Year: 2018', '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY', {
   days: ['Duminica', 'Luni', /* and all the rest of days - remember starting with Sunday */],
   daysShort: ['Dum', 'Lun', /* and all the rest of days - remember starting with Sunday */],
   months: ['Ianuarie', 'Februarie', /* and all the rest of months */],
   monthsShort: ['Ian', 'Feb', /* and all the rest of months */]
 })
-console.log(obj)
-// { year: 2019, month: 10, day: 29, value: 'Month: Aug, Day: 11th, Year: 2018' }
-```
-
-### Destructure Time
-
-```js
-import { date } from 'quasar'
-
-const obj = date.splitTime('10:28')
-console.log(obj)
-// { hour: 10, minutes: 28, second: null }
-```
-
-```js
-import { date } from 'quasar'
-
-const obj = date.splitTime('23:28:59')
-console.log(obj)
-// { hour: 23, minutes: 28, second: 59 }
+// date is a new Date() object
 ```

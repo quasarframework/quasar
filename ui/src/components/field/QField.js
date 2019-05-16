@@ -382,7 +382,8 @@ export default Vue.extend({
     },
 
     __onControlFocusout (e, then) {
-      setTimeout(() => {
+      clearTimeout(this.focusoutTimer)
+      this.focusoutTimer = setTimeout(() => {
         if (
           document.hasFocus() === true && (
             this.hasPopupOpen === true ||
@@ -459,5 +460,9 @@ export default Vue.extend({
 
   mounted () {
     this.autofocus === true && setTimeout(this.focus)
+  },
+
+  beforeDestroy () {
+    clearTimeout(this.focusoutTimer)
   }
 })

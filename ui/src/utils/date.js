@@ -2,14 +2,263 @@
 
 import { isDate } from './is.js'
 import { pad, capitalize } from './format.js'
+import { jalaaliMonthLength } from './date-persian.js'
 import lang from '../lang.js'
 
 const
   MILLISECONDS_IN_DAY = 86400000,
   MILLISECONDS_IN_HOUR = 3600000,
   MILLISECONDS_IN_MINUTE = 60000,
+  defaultMask = 'YYYY-MM-DDTHH:mm:ss.SSSZ',
   token = /\[((?:[^\]\\]|\\]|\\)*)\]|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g,
-  parseConvertFns = {}
+  reverseToken = /(\[[^\]]*\])|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,
+  regexStore = {}
+
+function getRegexData (mask, locale) {
+  const
+    days = '(' + locale.days.join('|') + ')',
+    key = mask + days
+
+  if (regexStore[key] !== void 0) {
+    return regexStore[key]
+  }
+
+  const
+    daysShort = '(' + locale.daysShort.join('|') + ')',
+    months = '(' + locale.months.join('|') + ')',
+    monthsShort = '(' + locale.monthsShort.join('|') + ')'
+
+  const map = {}
+  let index = 0
+
+  const regexText = mask.replace(reverseToken, match => {
+    index++
+    switch (match) { // TODO: Z ZZ X x
+      case 'YY':
+        map.YY = index
+        return '(-?\\d{1,2})'
+      case 'YYYY':
+        map.YYYY = index
+        return '(-?\\d{1,4})'
+      case 'M':
+        map.M = index
+        return '(\\d{1,2})'
+      case 'MM':
+        map.M = index // bumping to M
+        return '(\\d{2})'
+      case 'MMM':
+        map.MMM = index
+        return monthsShort
+      case 'MMMM':
+        map.MMMM = index
+        return months
+      case 'D':
+        map.D = index
+        return '(\\d{1,2})'
+      case 'Do':
+        map.D = index++ // bumping to D
+        return '(\\d{1,2}(st|nd|rd|th))'
+      case 'DD':
+        map.D = index // bumping to D
+        return '(\\d{2})'
+      case 'H':
+        map.H = index
+        return '(\\d{1,2})'
+      case 'HH':
+        map.H = index // bumping to H
+        return '(\\d{2})'
+      case 'h':
+        map.h = index
+        return '(\\d{1,2})'
+      case 'hh':
+        map.h = index // bumping to h
+        return '(\\d{2})'
+      case 'm':
+        map.m = index
+        return '(\\d{1,2})'
+      case 'mm':
+        map.m = index // bumping to m
+        return '(\\d{2})'
+      case 's':
+        map.s = index
+        return '(\\d{1,2})'
+      case 'ss':
+        map.s = index // bumping to s
+        return '(\\d{2})'
+      case 'S':
+        map.S = index
+        return '(\\d{1})'
+      case 'SS':
+        map.S = index // bump to S
+        return '(\\d{2})'
+      case 'SSS':
+        map.S = index // bump to S
+        return '(\\d{3})'
+      case 'A':
+        map.A = index
+        return '(AM|PM)'
+      case 'a':
+        map.a = index
+        return '(am|pm)'
+      case 'aa':
+        map.aa = index
+        return '(a\\.m\\.|p\\.m\\.)'
+
+      case 'ddd':
+        return daysShort
+      case 'dddd':
+        return days
+      case 'Q':
+      case 'd':
+      case 'E':
+        return '(\\d{1})'
+      case 'Qo':
+        return '(1st|2nd|3rd|4th)'
+      case 'DDD':
+      case 'DDDD':
+        return '(\\d{1,3})'
+      case 'w':
+        return '(\\d{1,2})'
+      case 'ww':
+        return '(\\d{2})'
+
+      default:
+        index--
+        if (match[0] === '[') {
+          match = match.substring(1, match.length - 1)
+        }
+        return match.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    }
+  })
+
+  const res = { map, regex: new RegExp('^' + regexText + '$') }
+  regexStore[key] = res
+
+  return res
+}
+
+export function extractDate (str, mask, locale) {
+  const d = __splitDate(str, mask, locale)
+
+  return new Date(
+    d.year,
+    d.month === null ? null : d.month - 1,
+    d.day,
+    d.hour,
+    d.minute,
+    d.second,
+    d.millisecond
+  )
+}
+
+export function __splitDate (str, mask, locale, calendar) {
+  const date = {
+    year: null,
+    month: null,
+    day: null,
+    hour: null,
+    minute: null,
+    second: null,
+    millisecond: null,
+    dateHash: null,
+    timeHash: null
+  }
+
+  if (
+    str === void 0 ||
+    str === null ||
+    str === '' ||
+    typeof str !== 'string'
+  ) {
+    return date
+  }
+
+  if (mask === void 0) {
+    mask = defaultMask
+  }
+
+  const
+    langOpts = locale !== void 0 ? locale : lang.props.date,
+    months = langOpts.months,
+    monthsShort = langOpts.monthsShort
+
+  const { regex, map } = getRegexData(mask, langOpts)
+
+  const match = str.match(regex)
+
+  if (match === null) {
+    return date
+  }
+
+  if (map.YYYY !== void 0) {
+    date.year = parseInt(match[map.YYYY], 10)
+  }
+  else if (map.YY !== void 0) {
+    const y = parseInt(match[map.YY], 10)
+    date.year = y < 0 ? y : 2000 + y
+  }
+
+  if (map.M !== void 0) {
+    date.month = parseInt(match[map.M], 10)
+    if (date.month < 1 || date.month > 12) {
+      return date
+    }
+  }
+  else if (map.MMM !== void 0) {
+    date.month = monthsShort.indexOf(match[map.MMM]) + 1
+  }
+  else if (map.MMMM !== void 0) {
+    date.month = months.indexOf(match[map.MMMM]) + 1
+  }
+
+  if (map.D !== void 0) {
+    date.day = parseInt(match[map.D], 10)
+
+    if (date.year === null || date.month === null || date.day < 1) {
+      return date
+    }
+
+    const maxDay = calendar !== 'persian'
+      ? (new Date(date.year, date.month, 0)).getDate()
+      : jalaaliMonthLength(date.year, date.month)
+
+    if (date.day > maxDay) {
+      return date
+    }
+  }
+
+  if (map.H !== void 0) {
+    date.hour = parseInt(match[map.H], 10) % 24
+  }
+  else if (map.h !== void 0) {
+    date.hour = parseInt(match[map.h], 10)
+    if (
+      (map.A && match[map.A] === 'PM') ||
+      (map.a && match[map.a] === 'pm') ||
+      (map.aa && match[map.aa] === 'p.m.')
+    ) {
+      date.hour += 12
+    }
+    date.hour = date.hour % 12 || 12
+  }
+
+  if (map.m !== void 0) {
+    date.minute = parseInt(match[map.m], 10) % 60
+  }
+
+  if (map.s !== void 0) {
+    date.second = parseInt(match[map.s], 10) % 60
+  }
+
+  if (map.S !== void 0) {
+    date.millisecond = parseInt(match[map.S], 10) * 10 ** (3 - match[map.S].length)
+  }
+
+  date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
+  date.timeHash = pad(date.hour) + ':' + pad(date.minute) + ':' + pad(date.second)
+
+  return date
+}
 
 function formatTimezone (offset, delimeter = '') {
   const
@@ -48,141 +297,10 @@ function getChange (date, mod, add) {
   return t
 }
 
-function maskToRegex (mask, monthsJoined, monthsShortJoined) {
-  let index = 0
-
-  const
-    maskMap = {
-      year: null,
-      month: null,
-      day: null
-    },
-    maskText = mask.replace(token, function (match, text) {
-      switch (match) {
-        case 'YYYY':
-        case 'YY':
-          maskMap.year = (++index)
-          return '(-?\\d*)'
-        case 'MM':
-        case 'M':
-          maskMap.month = (++index)
-          return '(\\d{0,2})'
-        case 'MMMM':
-          maskMap.month = (++index)
-          return '(' + monthsJoined + ')'
-        case 'MMM':
-          maskMap.month = (++index)
-          return '(' + monthsShortJoined + ')'
-        case 'DD':
-        case 'D':
-          maskMap.day = (++index)
-          return '(\\d{0,2})'
-        case 'Do':
-          maskMap.day = (++index)
-          return '(\\d{0,2}[^\\d]*?)'
-        default:
-          return (text === void 0 ? match : text.split('\\]').join(']'))
-            .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-            .replace(/\s+/g, '\\$&\\s*')
-      }
-    })
-
-  return {
-    maskRegex: new RegExp(maskText),
-    maskMap
-  }
-}
-
-function standardDateFromMask (date, mask, opts) {
-  if (typeof mask !== 'string' || mask.length === 0 || mask === 'YYYY/MM/DD') {
-    return date
-  }
-
-  const
-    langOpts = opts !== void 0 ? opts : lang.props.date,
-    monthsShort = langOpts.monthsShort,
-    monthsShortJoined = monthsShort.join('|'),
-    months = langOpts.months,
-    monthsJoined = months.join('|'),
-    key = mask.toLowerCase() + '|' + monthsJoined + monthsShortJoined
-
-  if (parseConvertFns[key] === void 0) {
-    const
-      { maskRegex, maskMap } = maskToRegex(mask, monthsJoined, monthsShortJoined),
-      parseFormatTo = (...args) => {
-        let month = args[maskMap.month]
-
-        if (/\d+/.test(month) === false) {
-          let found = monthsShort.indexOf(month)
-          if (found === -1) {
-            found = months.indexOf(month)
-          }
-          if (found > -1) {
-            month = found + 1
-          }
-        }
-
-        return args[maskMap.year] + '/' + month + '/' + args[maskMap.day]
-      }
-
-    parseConvertFns[key] = text => {
-      return text.replace(maskRegex, parseFormatTo)
-    }
-  }
-
-  return parseConvertFns[key](date)
-}
-
 export function isValid (date) {
   return typeof date === 'number'
     ? true
     : isNaN(Date.parse(date)) === false
-}
-
-export function splitDate (date, mask, opts) {
-  let value = date
-  let [year, month, day] = standardDateFromMask(value, mask, opts)
-    .split('/')
-    .concat([null, null, null])
-    .slice(0, 3)
-    .map(d => parseInt(d, 10))
-    .map(d => isNaN(d) === true ? null : d)
-
-  if (month > 12 || month === 0) {
-    month = month % 12 || 12
-  }
-  else if (year !== null && month === null) {
-    month = 1
-  }
-
-  if (day < 1 || day > (new Date(year, month, 0)).getDate()) {
-    day = null
-  }
-
-  if (year === null || month === null || day === null) {
-    value = null
-  }
-
-  return {
-    year,
-    month,
-    day,
-    value
-  }
-}
-
-export function splitTime (time) {
-  let [hour, minute, second] = time.split(':')
-    .concat([null, null, null])
-    .slice(0, 3)
-    .map(d => parseInt(d, 10))
-    .map(d => isNaN(d) === true ? null : d)
-
-  return {
-    hour: hour === null ? null : hour % 24,
-    minute: minute === null ? null : minute % 60,
-    second: second === null ? null : second % 60
-  }
 }
 
 export function buildDate (mod, utc) {
@@ -431,13 +549,20 @@ function getOrdinal (n) {
 
 export const formatter = {
   // Year: 00, 01, ..., 99
-  YY (date) {
-    return pad(date.getFullYear(), 4).substr(2)
+  YY (date, _, forcedYear) {
+    // workaround for < 1900 with new Date()
+    const y = this.YYYY(date, _, forcedYear) % 100
+    return y > 0
+      ? pad(y)
+      : '-' + pad(Math.abs(y))
   },
 
   // Year: 1900, 1901, ..., 2099
-  YYYY (date) {
-    return pad(date.getFullYear(), 4)
+  YYYY (date, _, forcedYear) {
+    // workaround for < 1900 with new Date()
+    return forcedYear !== void 0 && forcedYear !== null
+      ? forcedYear
+      : date.getFullYear()
   },
 
   // Month: 1, 2, ..., 12
@@ -606,7 +731,7 @@ export const formatter = {
     return this.H(date) < 12 ? 'am' : 'pm'
   },
 
-  // Meridiem: a.m., p.m
+  // Meridiem: a.m., p.m.
   aa (date) {
     return this.H(date) < 12 ? 'a.m.' : 'p.m.'
   },
@@ -632,7 +757,7 @@ export const formatter = {
   }
 }
 
-export function formatDate (val, mask, opts) {
+export function formatDate (val, mask, opts, __forcedYear) {
   if (
     (val !== 0 && !val) ||
     val === Infinity ||
@@ -648,13 +773,13 @@ export function formatDate (val, mask, opts) {
   }
 
   if (mask === void 0) {
-    mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ'
+    mask = defaultMask
   }
 
   return mask.replace(
     token,
     (match, text) => match in formatter
-      ? formatter[match](date, opts)
+      ? formatter[match](date, opts, __forcedYear)
       : (text === void 0 ? match : text.split('\\]').join(']'))
   )
 }
@@ -667,8 +792,7 @@ export function clone (date) {
 
 export default {
   isValid,
-  splitDate,
-  splitTime,
+  extractDate,
   buildDate,
   getDayOfWeek,
   getWeekOfYear,
