@@ -9,7 +9,8 @@ export default Vue.extend({
 
   props: {
     autofocus: Boolean,
-    noErrorFocus: Boolean
+    noErrorFocus: Boolean,
+    noResetFocus: Boolean
   },
 
   mounted () {
@@ -18,8 +19,11 @@ export default Vue.extend({
   },
 
   methods: {
-    validate () {
+    validate (shouldFocus) {
       const promises = []
+      const focus = typeof shouldFocus === 'boolean'
+        ? shouldFocus
+        : this.noErrorFocus !== true
 
       this.validateIndex++
 
@@ -44,9 +48,11 @@ export default Vue.extend({
           }
           else if (valid !== true) {
             emit(false)
-            if (this.noErrorFocus !== true && typeof comp.focus === 'function') {
+
+            if (focus === true && typeof comp.focus === 'function') {
               comp.focus()
             }
+
             return Promise.resolve(false)
           }
         }
@@ -67,7 +73,7 @@ export default Vue.extend({
             emit(valid)
 
             if (
-              this.noErrorFocus !== true &&
+              focus === true &&
               valid !== true &&
               typeof comp.focus === 'function'
             ) {
@@ -105,7 +111,9 @@ export default Vue.extend({
 
       this.$nextTick(() => { // allow userland to reset values before
         this.resetValidation()
-        this.autofocus === true && this.focus()
+        if (this.autofocus === true && this.noResetFocus !== true) {
+          this.focus()
+        }
       })
     },
 
