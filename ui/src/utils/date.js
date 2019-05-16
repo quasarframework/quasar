@@ -251,7 +251,7 @@ export function __splitDate (str, mask, locale, calendar) {
   }
 
   if (map.S !== void 0) {
-    date.millisecond = parseInt(match[map.S], 10) * 10 ^ (3 - match[map.S].length)
+    date.millisecond = parseInt(match[map.S], 10) * 10 ** (3 - match[map.S].length)
   }
 
   date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
