@@ -32,6 +32,12 @@ export default {
     readonly: Boolean
   },
 
+  provide () {
+    return {
+      __qUploaderGetInput: this.__getInputControl
+    }
+  },
+
   data () {
     return {
       files: [],
@@ -113,8 +119,11 @@ export default {
   },
 
   methods: {
-    pickFiles () {
-      this.editable && this.$refs.input.click()
+    pickFiles (e) {
+      if (this.editable) {
+        const input = this.__getFileInput()
+        input && input.click(e)
+      }
     },
 
     addFiles (files) {
@@ -178,6 +187,11 @@ export default {
       this.$emit('removed', [ file ])
     },
 
+    __getFileInput () {
+      return this.$refs.input ||
+        this.$el.getElementsByClassName('q-uploader__input')
+    },
+
     __getProgressLabel (p) {
       return (p * 100).toFixed(2) + '%'
     },
@@ -211,7 +225,7 @@ export default {
 
     __addFiles (e, files) {
       files = Array.prototype.slice.call(files || e.target.files)
-      this.$refs.input.value = ''
+      this.__getFileInput().value = ''
 
       // make sure we don't duplicate files
       files = files.filter(file => !this.files.some(f => file.name === f.name))
@@ -319,9 +333,27 @@ export default {
             flat: true,
             dense: true
           },
-          on: { click: fn }
-        })
+          on: icon === 'add' ? null : { click: fn }
+        }, icon === 'add' ? this.__getInputControl(h) : null)
       }
+    },
+
+    __getInputControl (h) {
+      return [
+        h('input', {
+          ref: 'input',
+          staticClass: 'q-uploader__input absolute-full',
+          attrs: {
+            type: 'file',
+            title: '', // try to remove default tooltip
+            accept: this.accept,
+            ...(this.multiple === true ? { multiple: true } : {})
+          },
+          on: {
+            change: this.__addFiles
+          }
+        })
+      ]
     },
 
     __getHeader (h) {
@@ -437,19 +469,6 @@ export default {
         ? { dragover: this.__onDragOver }
         : null
     }, [
-      h('input', {
-        ref: 'input',
-        staticClass: 'q-uploader__input',
-        attrs: {
-          type: 'file',
-          accept: this.accept,
-          ...(this.multiple ? { multiple: true } : {})
-        },
-        on: {
-          change: this.__addFiles
-        }
-      }),
-
       h('div', {
         staticClass: 'q-uploader__header',
         class: this.colorClass
