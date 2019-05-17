@@ -79,7 +79,11 @@ You can also use the `factory` Function prop and return immediately the same Obj
 
 ### Slots
 
-In the example below we're showing the equivalent of the default header:
+In the example below we're showing the equivalent of the default header. Also notice some Boolean scope properties that you can use: `scope.canAddFiles`, `scope.canUpload`, `scope.isUploading`.
+
+::: warning
+Notice that you must install and use one more component (QUploaderAddTrigger) in order to be able to add files to the queue. This component needs to be placed under a DOM node which has `position: relative` (hint: QBtn has it already) and will automatically inject the necessary events when user clicks on its parent (do NOT manually add `@click="scope.pickFiles"`).
+:::
 
 <doc-example title="Custom header" file="QUploader/SlotHeader" />
 

@@ -75,6 +75,12 @@ export default {
         this.queuedFiles.length > 0
     },
 
+    canAddFiles () {
+      return this.editable &&
+        this.isUploading !== true &&
+        (this.multiple === true || this.queuedFiles.length === 0)
+    },
+
     extensions () {
       if (this.accept !== void 0) {
         return this.accept.split(',').map(ext => {
@@ -381,9 +387,9 @@ export default {
           ])
         ]),
 
-        this.__getBtn(h, this.editable && this.isUploading !== true && (this.multiple || this.queuedFiles.length === 0), 'add', this.pickFiles),
-        this.__getBtn(h, this.editable && this.hideUploadBtn === false && this.queuedFiles.length > 0, 'upload', this.upload),
-        this.__getBtn(h, this.editable && this.isUploading === true, 'clear', this.abort)
+        this.__getBtn(h, this.canAddFiles, 'add', this.pickFiles),
+        this.__getBtn(h, this.hideUploadBtn === false && this.canUpload === true, 'upload', this.upload),
+        this.__getBtn(h, this.isUploading, 'clear', this.abort)
       ])
     },
 

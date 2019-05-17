@@ -100,11 +100,11 @@
                   {{ scope.uploadSizeLabel }} / {{ scope.uploadProgressLabel }}
                 </div>
               </div>
-              <q-btn v-if="scope.editable" icon="add_box" round dense flat>
+              <q-btn v-if="scope.canAddFiles" icon="add_box" round dense flat>
                 <q-uploader-add-trigger />
               </q-btn>
-              <q-btn v-if="scope.editable && scope.queuedFiles.length > 0" icon="cloud_upload" @click="scope.upload" round dense flat />
-              <q-btn v-if="scope.editable && scope.isUploading" icon="clear" @click="scope.abort" round dense flat />
+              <q-btn v-if="scope.canUpload" icon="cloud_upload" @click="scope.upload" round dense flat />
+              <q-btn v-if="scope.isUploading" icon="clear" @click="scope.abort" round dense flat />
             </div>
           </template>
         </q-uploader>
