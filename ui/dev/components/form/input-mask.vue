@@ -15,11 +15,29 @@
       <div>Model: {{ text4 }}</div>
       <q-input mask="phone" unmasked-value v-model="text4" filled hint="Phone (###) ### - #### -- with unmasked-value" counter label="Label" />
 
+      <div>Model: {{ text5 }}</div>
+      <q-input mask="phone" fill-mask="*" v-model="text5" filled hint="Phone (###) ### - #### --- with fill-mask *" counter label="Label" />
+
       <div class="text-h6">
-        Live mask test
+        Live mask test: {{ textMask }}
       </div>
-      <q-input v-model="mask" outlined label="Mask" />
-      <q-input :mask="mask" v-model="textMask" filled label="Masked input" />
+      <div class="row q-gutter-sm">
+        <q-input class="col" v-model="mask" outlined dense label="Mask" />
+        <q-input class="col" v-model="fillMaskText" outlined dense label="Fill mask char" :disable="!fillMask" />
+        <q-toggle class="col" v-model="fillMask" label="Mask" />
+        <q-toggle class="col" v-model="fillUnmask" label="Unmask" />
+        <q-toggle class="col" v-model="fillRight" label="Right" />
+      </div>
+      <q-input
+        :mask="mask"
+        :reverse-fill-mask="fillRight"
+        :fill-mask="fillMaskComp"
+        :unmasked-value="fillUnmask"
+        v-model="textMask"
+        filled
+        label="Masked input"
+        :input-class="{ 'text-right': fillRight }"
+      />
     </div>
   </div>
 </template>
@@ -32,9 +50,22 @@ export default {
       text2: '',
       text3: '',
       text4: '',
+      text5: '',
 
-      mask: '(###) ###S - (###)',
-      textMask: ''
+      // mask: '(###) ###S - (###)',
+      mask: '#.##',
+      textMask: '123.50',
+
+      fillRight: true,
+      fillMask: true,
+      fillUnmask: false,
+      fillMaskText: '0'
+    }
+  },
+
+  computed: {
+    fillMaskComp () {
+      return this.fillMask === false ? false : this.fillMaskText
     }
   }
 }
