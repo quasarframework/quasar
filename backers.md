@@ -202,7 +202,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jonathan G
 - rangepoker
 - Amitabh Akolkar
-- Ryohei Katsume
 - David Flasterstein
 - Jay McGuinness
 - Jesse Sudich (Outflank Pay Tracker)
@@ -245,6 +244,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Chip Drop
 - Jeff Jorczak
 - Furatama
+- Godwin Peter .O
+- Support Logient
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
