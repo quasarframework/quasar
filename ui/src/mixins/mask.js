@@ -107,7 +107,7 @@ export default {
     __updateMaskInternals () {
       this.hasMask = this.mask !== void 0 &&
         this.mask.length > 0 &&
-        ['text', 'search', 'url', 'tel', 'password'].indexOf(this.type) > -1
+        ['text', 'search', 'url', 'tel', 'password'].includes(this.type)
 
       if (this.hasMask === false) {
         this.computedUnmask = void 0
@@ -194,7 +194,9 @@ export default {
     __updateMaskValue (rawVal, updateMaskInternals) {
       const
         inp = this.$refs.input,
-        oldCursor = this.reverseFillMask === true ? inp.value.length - inp.selectionEnd : inp.selectionEnd,
+        oldCursor = this.reverseFillMask === true
+          ? inp.value.length - inp.selectionEnd
+          : inp.selectionEnd,
         unmasked = this.__unmask(rawVal)
 
       // Update here so unmask uses the original fillChar
@@ -257,7 +259,8 @@ export default {
 
       if (
         i < 0 &&
-        this.maskMarked[start] !== void 0 && this.maskMarked[start] !== MARKER
+        this.maskMarked[start] !== void 0 &&
+        this.maskMarked[start] !== MARKER
       ) {
         return this.__moveCursorRight(inp, 0, 0)
       }
@@ -284,7 +287,8 @@ export default {
 
       if (
         i > limit &&
-        this.maskMarked[end - 1] !== void 0 && this.maskMarked[end - 1] !== MARKER
+        this.maskMarked[end - 1] !== void 0 &&
+        this.maskMarked[end - 1] !== MARKER
       ) {
         return this.__moveCursorLeft(inp, limit, limit)
       }
@@ -312,7 +316,8 @@ export default {
 
       if (
         i < 0 &&
-        maskMarked[start] !== void 0 && maskMarked[start] !== MARKER
+        maskMarked[start] !== void 0 &&
+        maskMarked[start] !== MARKER
       ) {
         return this.__moveCursorRightReverse(inp, 0, 0)
       }
@@ -340,7 +345,8 @@ export default {
 
       if (
         i > limit &&
-        maskMarked[end - 1] !== void 0 && maskMarked[end - 1] !== MARKER
+        maskMarked[end - 1] !== void 0 &&
+        maskMarked[end - 1] !== MARKER
       ) {
         return this.__moveCursorLeftReverse(inp, limit, limit)
       }
@@ -360,10 +366,18 @@ export default {
         e.preventDefault()
         fn(inp, start, end, e.shiftKey)
       }
-      else if (e.keyCode === 8 && this.reverseFillMask !== true && start === end) { // Backspace
+      else if (
+        e.keyCode === 8 && // Backspace
+        this.reverseFillMask !== true &&
+        start === end
+      ) {
         this.__moveCursorLeft(inp, start, end, true)
       }
-      else if (e.keyCode === 46 && this.reverseFillMask === true && start === end) { // Delete
+      else if (
+        e.keyCode === 46 && // Delete
+        this.reverseFillMask === true &&
+        start === end
+      ) {
         this.__moveCursorRightReverse(inp, start, end, true)
       }
 
