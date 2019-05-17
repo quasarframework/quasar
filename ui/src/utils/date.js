@@ -33,7 +33,7 @@ function getRegexData (mask, locale) {
 
   const regexText = mask.replace(reverseToken, match => {
     index++
-    switch (match) { // TODO: Z ZZ X x
+    switch (match) {
       case 'YY':
         map.YY = index
         return '(-?\\d{1,2})'
@@ -121,6 +121,16 @@ function getRegexData (mask, locale) {
         return '(\\d{1,2})'
       case 'ww':
         return '(\\d{2})'
+
+      case 'Z': // to split: (?:(Z)()()|([+-])?(\\d{2}):?(\\d{2}))
+        return '(Z|[+-]\\d{2}:\\d{2})'
+      case 'ZZ':
+        return '(Z|[+-]\\d{2}\\d{2})'
+
+      case 'X':
+        return '(-?\\d+)'
+      case 'x':
+        return '(-?\\d{4,})'
 
       default:
         index--
