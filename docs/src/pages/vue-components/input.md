@@ -117,6 +117,10 @@ The role of debouncing is for times when you watch the model and do expensive op
 
 You can force/help the user to input a specific format with help from `mask` prop.
 
+::: warning
+Mask is only available if the `type` is one of 'text' (default), 'search', 'url', 'tel', or 'password'.
+:::
+
 Below are mask tokens:
 
 | Token | Description |
