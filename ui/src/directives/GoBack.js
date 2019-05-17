@@ -13,7 +13,11 @@ export default {
     }
     else {
       ctx.goBack = () => {
-        vnode.context.$router.go(ctx.single ? -1 : ctx.value)
+        if (ctx.single){
+          vnode.context.$router.go(-1)
+        } else {
+          vnode.context.$router.push(ctx.value)
+        }
       }
     }
     ctx.goBackKey = ev => {
