@@ -29,55 +29,49 @@
               "default": "standard"
             },
 
-            "options": {
+            "prompt": {
               "type": "Object",
-              "desc": "The options object for creating the Dialog's content",
+              "desc": "An object definition of the input field for the prompting question.",
+              "examples": [ "prompt: { model: this.promptVal, type: 'number' }" ],
               "definition": {
-                "prompt": {
-                  "type": "Object",
-                  "desc": "An object definition of the input field for the prompting question.",
-                  "examples": [ "prompt: { model: this.promptVal, type: 'number' }" ],
-                  "definition": {
-                    "model": {
-                      "type": [ "Array", "String" ],
-                      "desc": "The value of the input: Array for Selection, String for prompt",
-                      "examples": [ "this.dialogVal" ]
-                    },
-
-                    "type": {
-                      "type": "String",
-                      "desc": "Optional property to determine the input field type. It can be either a text or number input field type",
-                      "default": "text",
-                      "examples": [ "number" ]
-                    }
-                  }
+                "model": {
+                  "type": [ "Array", "String" ],
+                  "desc": "The value of the input: Array for Selection, String for prompt",
+                  "examples": [ "this.dialogVal" ]
                 },
 
-                "options": {
-                  "type": "Object",
-                  "desc": "An object definition for creating the selection form content",
-                  "examples": [ "{ model: this.dialogSelection, type: 'radio', items: [...listOfItems] }" ],
-                  "definition": {
-                    "type": {
-                      "type": "String",
-                      "desc": "The type of selection",
-                      "values": [ "radio", "checkbox", "toggle" ]
-                    },
+                "type": {
+                  "type": "String",
+                  "desc": "Optional property to determine the input field type. It can be either a text or number input field type",
+                  "default": "text",
+                  "examples": [ "number" ]
+                }
+              }
+            },
 
-                    "model": {
-                      "type": "Array",
-                      "desc": "The value of the selection",
-                      "examples": [ "[]" ]
-                    },
+            "options": {
+              "type": "Object",
+              "desc": "An object definition for creating the selection form content",
+              "examples": [ "{ model: this.dialogSelection, type: 'radio', items: [...listOfItems] }" ],
+              "definition": {
+                "type": {
+                  "type": "String",
+                  "desc": "The type of selection",
+                  "values": [ "radio", "checkbox", "toggle" ]
+                },
 
-                    "items": {
-                      "type": "Array",
-                      "desc": "The list of options to interact with; Equivalent to options prop of the QOptionsGroup component",
-                      "examples": [
-                        "[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]"
-                      ]
-                    }
-                  }
+                "model": {
+                  "type": "Array",
+                  "desc": "The value of the selection",
+                  "examples": [ "[]" ]
+                },
+
+                "items": {
+                  "type": "Array",
+                  "desc": "The list of options to interact with; Equivalent to options prop of the QOptionsGroup component",
+                  "examples": [
+                    "[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]"
+                  ]
                 }
               }
             },
