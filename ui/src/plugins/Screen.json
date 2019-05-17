@@ -18,7 +18,7 @@
 
     "sizes": {
       "type": "Object",
-      "desc": "Breakpoints (in pixels)"
+      "desc": "Breakpoints (in pixels)",
       "definition": {
         "sm": {
           "type": "Number",
@@ -76,7 +76,7 @@
 
     "gt": {
       "type": "Object",
-      "desc": "Tells if current screen width is greater than breakpoint-name"
+      "desc": "Tells if current screen width is greater than breakpoint-name",
       "reactive": true,
       "definition": {
         "xs": {
