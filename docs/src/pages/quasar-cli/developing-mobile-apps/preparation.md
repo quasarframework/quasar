@@ -66,6 +66,22 @@ $ cordova requirements
 
 > On some newer Debian-based operating systems you might face a very persistent problem when running `cordova requirements`. Please see the ["Android SDK not found" after installation](/quasar-cli/developing-mobile-apps/troubleshooting-and-tips#Android-SDK-not-found-after-installation-of-the-SDK) section for assistance.
 
+To switch to iOS WkWebView:
+1. Install Ionic Webview Plugin
+```bash
+# from /src-cordova
+$ cordova plugin add cordova-plugin-ionic-webview
+```
+2. Add ScrollEnabled Preference to Config.xml
+```xml
+<platform name="ios">
+  <preference name="ScrollEnabled" value="true" />
+</platform>
+```
+3. Consult Ionic Docs for Caveats for WkWebViewPlugin
+* https://beta.ionicframework.com/docs/building/webview
+* https://github.com/ionic-team/cordova-plugin-ionic-webview
+
 ## 4. Start Developing
 If you want to jump right in and start developing, you can skip step #2 and #3 commands and issue:
 
