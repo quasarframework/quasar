@@ -27,7 +27,7 @@ const typeMap = new Map([
   ['Number', 'number']
 ])
 
-function convertTypeVal (type, def) {
+function convertTypeVal (type, def, required) {
   const t = type.trim()
 
   if (typeMap.has(t)) {
@@ -36,8 +36,8 @@ function convertTypeVal (type, def) {
 
   if (t === 'Object') {
     if (def.definition) {
-      const defs = getPropDefinitions(def.definition)
-      return defs && defs.length > 0 ? `{\n        ${getPropDefinitions(def.definition).join('\n        ')} }` : 'any'
+      const defs = getPropDefinitions(def.definition, required)
+      return defs && defs.length > 0 ? `{\n        ${getPropDefinitions(def.definition, required).join('\n        ')} }` : 'any'
     }
 
     return 'any'
@@ -46,41 +46,42 @@ function convertTypeVal (type, def) {
   return t
 }
 
-function getTypeVal (def) {
+function getTypeVal (def, required) {
   return Array.isArray(def.type)
-    ? def.type.map(type => convertTypeVal(type, def)).join(' | ')
-    : convertTypeVal(def.type, def)
+    ? def.type.map(type => convertTypeVal(type, def, required)).join(' | ')
+    : convertTypeVal(def.type, def, required)
 }
 
-function getPropDefinition (key, propDef) {
+function getPropDefinition (key, propDef, required) {
   const propName = toCamelCase(key)
 
   if (!propName.startsWith('...')) {
-    const propType = getTypeVal(propDef)
-    return `${propName}${!propDef.required ? '?' : ''} : ${propType}`
+    const propType = getTypeVal(propDef, required)
+    return `${propName}${!propDef.required && !required ? '?' : ''} : ${propType}`
   }
 }
 
-function getPropDefinitions (propDefs) {
+function getPropDefinitions (propDefs, required) {
   const defs = []
 
   for (const key in propDefs) {
-    const def = getPropDefinition(key, propDefs[key])
+    const def = getPropDefinition(key, propDefs[key], required)
     def && defs.push(def)
   }
 
   return defs
 }
 
-function getMethodDefinition (key, methodDef) {
+function getMethodDefinition (key, methodDef, required) {
   let def = ''
   def += `${key} (`
   if (methodDef.params) {
+    // TODO: Verify if this should be optional even for plugins
     const params = getPropDefinitions(methodDef.params)
     def += params.join(', ')
   }
   const returns = methodDef.returns
-  def += `): ${returns ? getTypeVal(returns) : 'void'}`
+  def += `): ${returns ? getTypeVal(returns, required) : 'void'}`
 
   return def
 }
@@ -90,7 +91,7 @@ function getInjectionDefinition (injectionName, typeDef) {
   for (var propKey in typeDef.props) {
     const propDef = typeDef.props[propKey]
     if (propDef.injectionPoint) {
-      return getPropDefinition(injectionName, propDef)
+      return getPropDefinition(injectionName, propDef, true)
     }
   }
 
@@ -98,7 +99,7 @@ function getInjectionDefinition (injectionName, typeDef) {
   for (var methodKey in typeDef.methods) {
     const methodDef = typeDef.methods[methodKey]
     if (methodDef.injectionPoint) {
-      return getMethodDefinition(injectionName, methodDef)
+      return getMethodDefinition(injectionName, methodDef, true)
     }
   }
 }
@@ -144,7 +145,7 @@ function writeIndexDTS (apis) {
     writeLine(contents, `export interface ${typeName} ${extendsVue ? 'extends Vue ' : ''}{`)
 
     // Write Props
-    const props = getPropDefinitions(content.props)
+    const props = getPropDefinitions(content.props, content.type === 'plugin')
     props.forEach(prop => writeLine(contents, prop, 1))
 
     // Write Methods
@@ -155,7 +156,7 @@ function writeIndexDTS (apis) {
         write(contents, params.join(', '))
       }
       const returns = content.methods[methodKey].returns
-      writeLine(contents, `): ${returns ? getTypeVal(returns) : 'void'}`)
+      writeLine(contents, `): ${returns ? getTypeVal(returns, content.type === 'plugin') : 'void'}`)
     }
 
     // Close class declaration
