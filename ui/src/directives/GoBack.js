@@ -16,7 +16,7 @@ export default {
         if (ctx.single){
           vnode.context.$router.go(-1)
         } else {
-          vnode.context.$router.push(ctx.value)
+          vnode.context.$router.replace(ctx.value)
         }
       }
     }
