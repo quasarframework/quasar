@@ -11,12 +11,13 @@ const TOKENS = {
   x: { pattern: '[0-9a-zA-Z]', negate: '[^0-9a-zA-Z]', transform: v => v.toLocaleLowerCase() }
 }
 
-Object.keys(TOKENS).forEach(key => {
+const KEYS = Object.keys(TOKENS)
+KEYS.forEach(key => {
   TOKENS[key].regex = new RegExp(TOKENS[key].pattern)
 })
 
 const
-  tokenRegexMask = new RegExp('\\\\([^.*+?^${}()|([\\]])|([.*+?^${}()|[\\]])|([' + Object.keys(TOKENS).join('') + '])|(.)', 'g'),
+  tokenRegexMask = new RegExp('\\\\([^.*+?^${}()|([\\]])|([.*+?^${}()|[\\]])|([' + KEYS.join('') + '])|(.)', 'g'),
   escRegex = /[.*+?^${}()|[\]\\]/g
 
 const NAMED_MASKS = {
@@ -96,6 +97,7 @@ export default {
         for (let i = size - maskMarked.length; i > 0; i--) {
           pad += MARKER
         }
+
         maskMarked = maskMarked.slice(0, padPos) + pad + maskMarked.slice(padPos)
       }
 
@@ -103,7 +105,9 @@ export default {
     },
 
     __updateMaskInternals () {
-      this.hasMask = this.mask !== void 0 && this.mask.length > 0 && ['text', 'search', 'url', 'tel', 'password'].indexOf(this.type) > -1
+      this.hasMask = this.mask !== void 0 &&
+        this.mask.length > 0 &&
+        ['text', 'search', 'url', 'tel', 'password'].indexOf(this.type) > -1
 
       if (this.hasMask === false) {
         this.computedUnmask = void 0
@@ -113,7 +117,9 @@ export default {
       }
 
       const
-        computedMask = NAMED_MASKS[this.mask] === void 0 ? this.mask : NAMED_MASKS[this.mask],
+        computedMask = NAMED_MASKS[this.mask] === void 0
+          ? this.mask
+          : NAMED_MASKS[this.mask],
         fillChar = typeof this.fillMask === 'string' && this.fillMask.length > 0
           ? this.fillMask.slice(0, 1)
           : '_',
@@ -230,7 +236,9 @@ export default {
         }
       })
 
-      const val = this.unmaskedValue === true ? this.__unmask(masked) : masked
+      const val = this.unmaskedValue === true
+        ? this.__unmask(masked)
+        : masked
 
       this.value !== val && this.__emitValue(val, true)
     },
@@ -238,6 +246,7 @@ export default {
     __moveCursorLeft (inp, start, end, selection) {
       const noMarkBefore = this.maskMarked.slice(start - 1).indexOf(MARKER) === -1
       let i = Math.max(0, start - 1)
+
       for (; i >= 0; i--) {
         if (this.maskMarked[i] === MARKER) {
           start = i
@@ -246,16 +255,23 @@ export default {
         }
       }
 
-      if (i < 0 && this.maskMarked[start] !== void 0 && this.maskMarked[start] !== MARKER) {
+      if (
+        i < 0 &&
+        this.maskMarked[start] !== void 0 && this.maskMarked[start] !== MARKER
+      ) {
         return this.__moveCursorRight(inp, 0, 0)
       }
 
-      start >= 0 && inp.setSelectionRange(start, selection === true ? end : start, 'backward')
+      start >= 0 && inp.setSelectionRange(
+        start,
+        selection === true ? end : start, 'backward'
+      )
     },
 
     __moveCursorRight (inp, start, end, selection) {
       const limit = inp.value.length
       let i = Math.min(limit, end + 1)
+
       for (; i <= limit; i++) {
         if (this.maskMarked[i] === MARKER) {
           end = i
@@ -266,7 +282,10 @@ export default {
         }
       }
 
-      if (i > limit && this.maskMarked[end - 1] !== void 0 && this.maskMarked[end - 1] !== MARKER) {
+      if (
+        i > limit &&
+        this.maskMarked[end - 1] !== void 0 && this.maskMarked[end - 1] !== MARKER
+      ) {
         return this.__moveCursorLeft(inp, limit, limit)
       }
 
@@ -277,6 +296,7 @@ export default {
       const
         maskMarked = this.__getPaddedMaskMarked(inp.value.length)
       let i = Math.max(0, start - 1)
+
       for (; i >= 0; i--) {
         if (maskMarked[i - 1] === MARKER) {
           start = i
@@ -290,11 +310,17 @@ export default {
         }
       }
 
-      if (i < 0 && maskMarked[start] !== void 0 && maskMarked[start] !== MARKER) {
+      if (
+        i < 0 &&
+        maskMarked[start] !== void 0 && maskMarked[start] !== MARKER
+      ) {
         return this.__moveCursorRightReverse(inp, 0, 0)
       }
 
-      start >= 0 && inp.setSelectionRange(start, selection === true ? end : start, 'backward')
+      start >= 0 && inp.setSelectionRange(
+        start,
+        selection === true ? end : start, 'backward'
+      )
     },
 
     __moveCursorRightReverse (inp, start, end, selection) {
@@ -303,6 +329,7 @@ export default {
         maskMarked = this.__getPaddedMaskMarked(limit),
         noMarkBefore = maskMarked.slice(0, end + 1).indexOf(MARKER) === -1
       let i = Math.min(limit, end + 1)
+
       for (; i <= limit; i++) {
         if (maskMarked[i - 1] === MARKER) {
           end = i
@@ -311,7 +338,10 @@ export default {
         }
       }
 
-      if (i > limit && maskMarked[end - 1] !== void 0 && maskMarked[end - 1] !== MARKER) {
+      if (
+        i > limit &&
+        maskMarked[end - 1] !== void 0 && maskMarked[end - 1] !== MARKER
+      ) {
         return this.__moveCursorLeftReverse(inp, limit, limit)
       }
 
@@ -360,8 +390,10 @@ export default {
           output += maskDef
           valChar === maskDef && valIndex++
         }
-        else if (maskDef.regex.test(valChar)) {
-          output += maskDef.transform !== void 0 ? maskDef.transform(valChar) : valChar
+        else if (valChar !== void 0 && maskDef.regex.test(valChar)) {
+          output += maskDef.transform !== void 0
+            ? maskDef.transform(valChar)
+            : valChar
           valIndex++
         }
         else {
@@ -388,13 +420,13 @@ export default {
           output = maskDef + output
           valChar === maskDef && valIndex--
         }
-        else if (maskDef.regex.test(valChar)) {
+        else if (valChar !== void 0 && maskDef.regex.test(valChar)) {
           do {
             output = (maskDef.transform !== void 0 ? maskDef.transform(valChar) : valChar) + output
             valIndex--
             valChar = val[valIndex]
           // eslint-disable-next-line no-unmodified-loop-condition
-          } while (firstTokenIndex === maskIndex && maskDef.regex.test(valChar))
+          } while (firstTokenIndex === maskIndex && valChar !== void 0 && maskDef.regex.test(valChar))
         }
         else {
           return output
@@ -405,7 +437,9 @@ export default {
     },
 
     __unmask (val) {
-      return typeof val !== 'string' || this.computedUnmask === void 0 ? val : this.computedUnmask(val)
+      return typeof val !== 'string' || this.computedUnmask === void 0
+        ? val
+        : this.computedUnmask(val)
     },
 
     __fillWithMask (val) {

@@ -18,6 +18,42 @@
       <div>Model: {{ text5 }}</div>
       <q-input mask="phone" fill-mask="*" v-model="text5" filled hint="Phone (###) ### - #### --- with fill-mask *" counter label="Label" />
 
+      <div>Mixed mask: {{ text6 }}</div>
+      <q-input
+        filled
+        v-model="text6"
+        label="Mixed"
+        mask="AAAA - #### - #### - SSS"
+        hint="Mask: AAAA - #### - #### - SSS"
+      />
+
+      <div>Uppercase - letters only mask: {{ text7 }}</div>
+      <q-input
+        filled
+        v-model="text7"
+        label="Uppercase letters"
+        mask="AAAA - AAAA"
+        hint="Mask: AAAA - AAAA"
+      />
+
+      <div>Anycase - letters only mask: {{ text8 }}</div>
+      <q-input
+        filled
+        v-model="text8"
+        label="Anycase letters"
+        mask="SSSS - SSSS"
+        hint="Mask: SSSS - SSSS"
+      />
+
+      <div>Alphanum only mask: {{ text9 }}</div>
+      <q-input
+        filled
+        v-model="text9"
+        label="Alphanum"
+        mask="NNNN - NNNN"
+        hint="Mask: NNNN - NNNN"
+      />
+
       <div class="text-h6">
         Live mask test: {{ textMask }}
       </div>
@@ -51,6 +87,10 @@ export default {
       text3: '',
       text4: '',
       text5: '',
+      text6: '',
+      text7: '',
+      text8: '',
+      text9: '',
 
       // mask: '(###) ###S - (###)',
       mask: '#.##',
