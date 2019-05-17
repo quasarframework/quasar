@@ -6,46 +6,39 @@
       "type": "Number",
       "desc": "Screen width (in pixels)",
       "reactive": true,
-      "examples": [ 452 ],
-      "required": true
+      "examples": [ 452 ]
     },
 
     "height": {
       "type": "Number",
       "desc": "Screen height (in pixels)",
       "reactive": true,
-      "examples": [ 721 ],
-      "required": true
+      "examples": [ 721 ]
     },
 
     "sizes": {
       "type": "Object",
-      "desc": "Breakpoints (in pixels)",
-      "required": true,
+      "desc": "Breakpoints (in pixels)"
       "definition": {
         "sm": {
           "type": "Number",
           "desc": "Breakpoint width size",
-          "examples": [ 600 ],
-          "required": true
+          "examples": [ 600 ]
         },
         "md": {
           "type": "Number",
           "desc": "Breakpoint width size",
-          "examples": [ 1024 ],
-          "required": true
+          "examples": [ 1024 ]
         },
         "lg": {
           "type": "Number",
           "desc": "Breakpoint width size",
-          "examples": [ 1440 ],
-          "required": true
+          "examples": [ 1440 ]
         },
         "xl": {
           "type": "Number",
           "desc": "Breakpoint width size",
-          "examples": [ 1920 ],
-          "required": true
+          "examples": [ 1920 ]
         }
       },
       "reactive": true,
@@ -57,28 +50,23 @@
     "lt": {
       "type": "Object",
       "desc": "Tells if current screen width is lower than breakpoint-name",
-      "required": true,
       "reactive": true,
       "definition": {
         "sm": {
           "type": "Boolean",
-          "desc": "Is current screen width lower than this breakpoint's lowest limit?",
-          "required": true
+          "desc": "Is current screen width lower than this breakpoint's lowest limit?"
         },
         "md": {
           "type": "Boolean",
-          "desc": "Is current screen width lower than this breakpoint's lowest limit?",
-          "required": true
+          "desc": "Is current screen width lower than this breakpoint's lowest limit?"
         },
         "lg": {
           "type": "Boolean",
-          "desc": "Is current screen width lower than this breakpoint's lowest limit?",
-          "required": true
+          "desc": "Is current screen width lower than this breakpoint's lowest limit?"
         },
         "xl": {
           "type": "Boolean",
-          "desc": "Is current screen width lower than this breakpoint's lowest limit?",
-          "required": true
+          "desc": "Is current screen width lower than this breakpoint's lowest limit?"
         }
       },
       "examples": [
@@ -88,29 +76,24 @@
 
     "gt": {
       "type": "Object",
-      "desc": "Tells if current screen width is greater than breakpoint-name",
-      "required": true,
+      "desc": "Tells if current screen width is greater than breakpoint-name"
       "reactive": true,
       "definition": {
         "xs": {
           "type": "Boolean",
-          "desc": "Is current screen width greater than this breakpoint's max limit?",
-          "required": true
+          "desc": "Is current screen width greater than this breakpoint's max limit?"
         },
         "sm": {
           "type": "Boolean",
-          "desc": "Is current screen width greater than this breakpoint's max limit?",
-          "required": true
+          "desc": "Is current screen width greater than this breakpoint's max limit?"
         },
         "md": {
           "type": "Boolean",
-          "desc": "Is current screen width greater than this breakpoint's max limit?",
-          "required": true
+          "desc": "Is current screen width greater than this breakpoint's max limit?"
         },
         "lg": {
           "type": "Boolean",
-          "desc": "Is current screen width greater than this breakpoint's max limit?",
-          "required": true
+          "desc": "Is current screen width greater than this breakpoint's max limit?"
         }
       },
       "examples": [
@@ -121,36 +104,31 @@
     "xs": {
       "type": "Boolean",
       "desc": "Current screen width fits exactly 'xs' breakpoint",
-      "reactive": true,
-      "required": true
+      "reactive": true
     },
 
     "sm": {
       "type": "Boolean",
       "desc": "Current screen width fits exactly 'sm' breakpoint",
-      "reactive": true,
-      "required": true
+      "reactive": true
     },
 
     "md": {
       "type": "Boolean",
       "desc": "Current screen width fits exactly 'md' breakpoint",
-      "reactive": true,
-      "required": true
+      "reactive": true
     },
 
     "lg": {
       "type": "Boolean",
       "desc": "Current screen width fits exactly 'lg' breakpoint",
-      "reactive": true,
-      "required": true
+      "reactive": true
     },
 
     "xl": {
       "type": "Boolean",
       "desc": "Current screen width fits exactly 'xl' breakpoint",
-      "reactive": true,
-      "required": true
+      "reactive": true
     }
   },
 
