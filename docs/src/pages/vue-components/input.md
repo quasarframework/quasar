@@ -137,6 +137,10 @@ The `unmask-value` is useful if for example you want to force the user type a ce
 
 <doc-example title="Unmasked model" file="QInput/MaskUnmaskedModel" />
 
+The `reverse-fill-mask` is useful if you want to force the user to fill the mask from the end and allow non-fixed length of input:
+
+<doc-example title="Filling the mask in reverse" file="QInput/MaskFillReverse" />
+
 ## Validation
 
 ### Internal validation

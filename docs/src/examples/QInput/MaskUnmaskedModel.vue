@@ -20,6 +20,17 @@
         unmasked-value
         hint="Mask: (###) ### - ####"
       />
+
+      <q-badge color="secondary">Card model: "{{ card }}"</q-badge>
+      <q-input
+        filled
+        v-model="card"
+        label="Card"
+        mask="#### - #### - #### - ####"
+        fill-mask="#"
+        unmasked-value
+        hint="Mask: #### - #### - #### - ####, FillMask: #"
+      />
     </div>
   </div>
 </template>
@@ -29,7 +40,8 @@ export default {
   data () {
     return {
       id: null,
-      phone: null
+      phone: null,
+      card: null
     }
   }
 }
