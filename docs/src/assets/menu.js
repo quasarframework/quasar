@@ -506,14 +506,6 @@ const directives = [
     badge: 'new'
   },
   {
-    name: 'Close Dialog',
-    path: 'close-dialog'
-  },
-  {
-    name: 'Close Menu',
-    path: 'close-menu'
-  },
-  {
     name: 'Go Back (Handling Back Button)',
     path: 'go-back'
   },
