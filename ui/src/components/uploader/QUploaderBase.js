@@ -237,12 +237,6 @@ export default {
       files = files.filter(file => !this.files.some(f => file.name === f.name))
       if (files.length === 0) { return }
 
-      // FYI, Safari on Cordova/iOS allows selecting multiple files even when the
-      // multiple attribute is not specified.
-      if (this.multiple !== true) {
-        files = [ files[0] ]
-      }
-
       // filter file types
       if (this.accept !== void 0) {
         files = Array.prototype.filter.call(files, file => {
@@ -258,6 +252,13 @@ export default {
       if (this.maxFileSize !== void 0) {
         files = Array.prototype.filter.call(files, file => file.size <= this.maxFileSize)
         if (files.length === 0) { return }
+      }
+
+      // Cordova/iOS allows selecting multiple files even when the
+      // multiple attribute is not specified. We also normalize drag'n'dropped
+      // files here:
+      if (this.multiple !== true) {
+        files = [ files[0] ]
       }
 
       if (this.maxTotalSize !== void 0) {
