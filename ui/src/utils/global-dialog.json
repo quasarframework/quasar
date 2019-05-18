@@ -25,6 +25,7 @@
       "returns": {
         "type": "Object",
         "desc": "Chainable Object",
+        "tsType": "DialogChainObject",
         "definition": {
           "onOk": {
             "type": "Function",
@@ -33,6 +34,7 @@
               "callbackFn": {
                 "type": "Function",
                 "desc": "Tell what to do",
+                "required": true,
                 "params": null,
                 "returns": null
               }
@@ -40,6 +42,7 @@
             "returns": {
               "type": "Object",
               "desc": "Chained Object",
+              "tsType": "DialogChainObject",
               "__exemption": [ "examples" ]
             }
           },
@@ -51,6 +54,7 @@
               "callbackFn": {
                 "type": "Function",
                 "desc": "Tell what to do",
+                "required": true,
                 "params": null,
                 "returns": null
               }
@@ -58,6 +62,7 @@
             "returns": {
               "type": "Object",
               "desc": "Chained Object",
+              "tsType": "DialogChainObject",
               "__exemption": [ "examples" ]
             }
           },
@@ -69,6 +74,7 @@
               "callbackFn": {
                 "type": "Function",
                 "desc": "Tell what to do",
+                "required": true,
                 "params": null,
                 "returns": null
               }
@@ -76,9 +82,8 @@
             "returns": {
               "type": "Object",
               "desc": "Chained Object",
-              "__exemption": [
-                "examples"
-              ]
+              "tsType": "DialogChainObject",
+              "__exemption": [ "examples" ]
             }
           },
 
@@ -89,6 +94,7 @@
             "returns": {
               "type": "Object",
               "desc": "Chained Object",
+              "tsType": "DialogChainObject",
               "__exemption": [ "examples" ]
             }
           }

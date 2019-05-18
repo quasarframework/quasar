@@ -7,6 +7,7 @@ const
   typeRoot = path.resolve(__dirname, '../types'),
   distRoot = path.resolve(__dirname, '../dist/types'),
   resolvePath = file => path.resolve(distRoot, file),
+  extraInterfaces = {},
   // eslint-disable-next-line no-useless-escape
   toCamelCase = s => s.replace(/(\-\w)/g, m => { return m[1].toUpperCase() })
 
@@ -28,6 +29,10 @@ const typeMap = new Map([
 ])
 
 function convertTypeVal (type, def, required) {
+  if (def.tsType !== void 0) {
+    return def.tsType
+  }
+
   const t = type.trim()
 
   if (typeMap.has(t)) {
@@ -86,11 +91,23 @@ function getMethodDefinition (key, methodDef, required) {
   return def
 }
 
+function getObjectFunctionsDefinition (def) {
+  let res = []
+
+  Object.keys(def).forEach(propName => {
+    res.push(
+      getMethodDefinition(propName, def[propName], true)
+    )
+  })
+
+  return res
+}
+
 function getInjectionDefinition (injectionName, typeDef) {
   // Get property injection point
   for (var propKey in typeDef.props) {
     const propDef = typeDef.props[propKey]
-    if (propDef.injectionPoint) {
+    if (propDef.tsInjectionPoint) {
       return getPropDefinition(injectionName, propDef, true)
     }
   }
@@ -98,7 +115,7 @@ function getInjectionDefinition (injectionName, typeDef) {
   // Get method injection point
   for (var methodKey in typeDef.methods) {
     const methodDef = typeDef.methods[methodKey]
-    if (methodDef.injectionPoint) {
+    if (methodDef.tsInjectionPoint) {
       return getMethodDefinition(injectionName, methodDef, true)
     }
   }
@@ -151,12 +168,24 @@ function writeIndexDTS (apis) {
     // Write Methods
     for (const methodKey in content.methods) {
       write(contents, `    ${methodKey}(`)
-      if (content.methods[methodKey].params) {
-        const params = getPropDefinitions(content.methods[methodKey].params)
+      const method = content.methods[methodKey]
+      if (method.params) {
+        const params = getPropDefinitions(method.params)
         write(contents, params.join(', '))
       }
-      const returns = content.methods[methodKey].returns
+      const returns = method.returns
       writeLine(contents, `): ${returns ? getTypeVal(returns, content.type === 'plugin') : 'void'}`)
+
+      if (
+        returns !== void 0 &&
+        returns.tsType !== void 0 &&
+        extraInterfaces[returns.tsType] === void 0 &&
+        returns.definition !== void 0
+      ) {
+        extraInterfaces[returns.tsType] = getObjectFunctionsDefinition(
+          returns.definition
+        )
+      }
     }
 
     // Close class declaration
@@ -177,6 +206,14 @@ function writeIndexDTS (apis) {
         injections[injectionParts[0]].push(def)
       }
     }
+  })
+
+  Object.keys(extraInterfaces).forEach(name => {
+    writeLine(contents, `export interface ${name} {`)
+    extraInterfaces[name].forEach(def => {
+      writeLine(contents, def, 1)
+    })
+    writeLine(contents, `}\n`)
   })
 
   // Write injection types
