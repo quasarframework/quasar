@@ -128,6 +128,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $10+
 
+- David Watson ($30)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Jim O'Quinn ($25)
