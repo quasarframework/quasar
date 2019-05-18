@@ -1,5 +1,3 @@
-import { isSSR } from '../plugins/Platform.js'
-
 export const listenOpts = {
   hasPassive: false,
   passiveCapture: true,
