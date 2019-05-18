@@ -254,6 +254,13 @@ export default {
         if (files.length === 0) { return }
       }
 
+      // Cordova/iOS allows selecting multiple files even when the
+      // multiple attribute is not specified. We also normalize drag'n'dropped
+      // files here:
+      if (this.multiple !== true) {
+        files = [ files[0] ]
+      }
+
       if (this.maxTotalSize !== void 0) {
         let size = 0
         for (let i = 0; i < files.length; i++) {
@@ -324,7 +331,6 @@ export default {
       let files = e.dataTransfer.files
 
       if (files.length > 0) {
-        files = this.multiple ? files : [ files[0] ]
         this.__addFiles(null, files)
       }
 
