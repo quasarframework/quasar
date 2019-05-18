@@ -46,6 +46,6 @@ export namespace date {
   function getDateBetween (date: Date | number | string, min: Date | number | string, max: Date | number | string) : Date
   function isSameDate (date: Date | number | string, date2: Date | number | string, unit?: string) : boolean;
   function daysInMonth (date: Date | number | string) : number;
-  function formatDate(date: Date | number | undefined, format: string, i18n?: I18nDateOptions, __forcedYear?: number): string;
+  function formatDate(date: Date | number | string | undefined, format: string, i18n?: I18nDateOptions, __forcedYear?: number): string;
   function clone (date: Date) : Date;
 }
