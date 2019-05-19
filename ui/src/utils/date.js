@@ -14,9 +14,9 @@ const
   reverseToken = /(\[[^\]]*\])|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,
   regexStore = {}
 
-function getRegexData (mask, locale) {
+function getRegexData (mask, dateLocale) {
   const
-    days = '(' + locale.days.join('|') + ')',
+    days = '(' + dateLocale.days.join('|') + ')',
     key = mask + days
 
   if (regexStore[key] !== void 0) {
@@ -24,9 +24,9 @@ function getRegexData (mask, locale) {
   }
 
   const
-    daysShort = '(' + locale.daysShort.join('|') + ')',
-    months = '(' + locale.months.join('|') + ')',
-    monthsShort = '(' + locale.monthsShort.join('|') + ')'
+    daysShort = '(' + dateLocale.daysShort.join('|') + ')',
+    months = '(' + dateLocale.months.join('|') + ')',
+    monthsShort = '(' + dateLocale.monthsShort.join('|') + ')'
 
   const map = {}
   let index = 0
@@ -147,8 +147,8 @@ function getRegexData (mask, locale) {
   return res
 }
 
-export function extractDate (str, mask, locale) {
-  const d = __splitDate(str, mask, locale)
+export function extractDate (str, mask, dateLocale) {
+  const d = __splitDate(str, mask, dateLocale)
 
   return new Date(
     d.year,
@@ -161,7 +161,7 @@ export function extractDate (str, mask, locale) {
   )
 }
 
-export function __splitDate (str, mask, locale, calendar) {
+export function __splitDate (str, mask, dateLocale, calendar) {
   const date = {
     year: null,
     month: null,
@@ -188,7 +188,7 @@ export function __splitDate (str, mask, locale, calendar) {
   }
 
   const
-    langOpts = locale !== void 0 ? locale : lang.props.date,
+    langOpts = dateLocale !== void 0 ? dateLocale : lang.props.date,
     months = langOpts.months,
     monthsShort = langOpts.monthsShort
 
@@ -557,7 +557,7 @@ function getOrdinal (n) {
   return `${n}th`
 }
 
-export const formatter = {
+const formatter = {
   // Year: 00, 01, ..., 99
   YY (date, _, forcedYear) {
     // workaround for < 1900 with new Date()
@@ -586,15 +586,13 @@ export const formatter = {
   },
 
   // Month Short Name: Jan, Feb, ...
-  MMM (date, opts) {
-    const langOpts = opts !== void 0 ? opts : lang.props.date
-    return langOpts.monthsShort[date.getMonth()]
+  MMM (date, dateLocale) {
+    return dateLocale.monthsShort[date.getMonth()]
   },
 
   // Month Name: January, February, ...
-  MMMM (date, opts) {
-    const langOpts = opts !== void 0 ? opts : lang.props.date
-    return langOpts.months[date.getMonth()]
+  MMMM (date, dateLocale) {
+    return dateLocale.months[date.getMonth()]
   },
 
   // Quarter: 1, 2, 3, 4
@@ -643,15 +641,13 @@ export const formatter = {
   },
 
   // Day of week: Sun, Mon, ...
-  ddd (date, opts) {
-    const langOpts = opts !== void 0 ? opts : lang.props.date
-    return langOpts.daysShort[date.getDay()]
+  ddd (date, dateLocale) {
+    return dateLocale.daysShort[date.getDay()]
   },
 
   // Day of week: Sunday, Monday, ...
-  dddd (date, opts) {
-    const langOpts = opts !== void 0 ? opts : lang.props.date
-    return langOpts.days[date.getDay()]
+  dddd (date, dateLocale) {
+    return dateLocale.days[date.getDay()]
   },
 
   // Day of ISO week: 1, 2, ..., 7
@@ -767,7 +763,7 @@ export const formatter = {
   }
 }
 
-export function formatDate (val, mask, opts, __forcedYear) {
+export function formatDate (val, mask, dateLocale, __forcedYear) {
   if (
     (val !== 0 && !val) ||
     val === Infinity ||
@@ -786,10 +782,14 @@ export function formatDate (val, mask, opts, __forcedYear) {
     mask = defaultMask
   }
 
+  const locale = dateLocale !== void 0
+    ? dateLocale
+    : lang.props.date
+
   return mask.replace(
     token,
     (match, text) => match in formatter
-      ? formatter[match](date, opts, __forcedYear)
+      ? formatter[match](date, locale, __forcedYear)
       : (text === void 0 ? match : text.split('\\]').join(']'))
   )
 }
@@ -820,7 +820,6 @@ export default {
   getDateBetween,
   isSameDate,
   daysInMonth,
-  formatter,
   formatDate,
   clone
 }

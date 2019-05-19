@@ -214,7 +214,7 @@
                 />
               </q-popup-proxy>
             </q-icon>
-            <q-icon name="alarm" class="cursor-pointer">
+            <q-icon name="access_time" class="cursor-pointer">
               <q-popup-proxy ref="qDateProxy2">
                 <q-time
                   v-model="inputFull"
