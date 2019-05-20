@@ -31,6 +31,12 @@ Quasar has some smart algorithms behind the curtains which ensure that no matter
 <img src="/statics/logo.png">
 ```
 
+::: tip
+**Assets vs Statics**
+Assets is a "special" folder where only the files truly referenced get added to your final build.
+Statics brings everything.
+:::
+
 ## Vue Binding Requires Statics Only
 Please note that whenever you bind "src" to a variable in your Vue scope, it must be one from the statics folder. The reason is simple: the URL is dynamic, so Webpack (which packs up assets at compile time) doesn't know which file you'll be referencing at runtime, so it won't process the URL.
 
