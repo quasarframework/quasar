@@ -145,7 +145,11 @@ export default {
           handleEvent(evt, ctx.event.mouse)
 
           const changes = processChanges(evt, ctx, false)
-          if (shouldTrigger(ctx, changes)) {
+
+          if (
+            (ctx.event.mouse === true && binding.modifiers.mouseAllDir === true) ||
+            shouldTrigger(ctx, changes) === true
+          ) {
             ctx.handler(changes)
             ctx.event.lastX = changes.position.left
             ctx.event.lastY = changes.position.top
