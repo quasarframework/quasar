@@ -220,8 +220,8 @@ export default {
 
         removeObserver(ctx)
 
-        if (ctx.event.dir !== false) {
-          ctx.event.abort === false && stopAndPrevent(evt)
+        if (ctx.event.abort === false && ctx.event.dir !== false) {
+          stopAndPrevent(evt)
         }
 
         ctx.event = void 0
