@@ -674,20 +674,23 @@ export default Vue.extend({
         date.day = Math.min(date.day, maxDay)
       }
 
-      const val = formatDate(
-        new Date(
-          date.year,
-          date.month - 1,
-          date.day,
-          this.extModel.hour,
-          this.extModel.minute,
-          this.extModel.second,
-          this.extModel.millisecond
-        ),
-        this.mask,
-        this.computedLocale,
-        date.year
-      )
+      let val = String(date.year) + '/' + String(date.month).padStart(2, '0') + '/' + String(date.day).padStart(2, '0')
+      if (this.calendar !== 'persian') {
+        val = formatDate(
+          new Date(
+            date.year,
+            date.month - 1,
+            date.day,
+            this.extModel.hour,
+            this.extModel.minute,
+            this.extModel.second,
+            this.extModel.millisecond
+          ),
+          this.mask,
+          this.computedLocale,
+          date.year
+        )
+      }
 
       if (val !== this.value) {
         this.$emit('input', val, reason, date)
