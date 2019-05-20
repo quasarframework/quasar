@@ -3,9 +3,9 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import { splitTime } from '../../utils/date.js'
+import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
-import { isDeepEqual } from '../../utils/is.js'
+import { pad } from '../../utils/format.js'
 import DateTimeMixin from './datetime-mixin.js'
 
 export default Vue.extend({
@@ -18,6 +18,10 @@ export default Vue.extend({
   },
 
   props: {
+    mask: {
+      default: null
+    },
+
     format24h: {
       type: Boolean,
       default: null
@@ -33,7 +37,12 @@ export default Vue.extend({
   },
 
   data () {
-    const model = this.__getNumberModel(this.value)
+    const model = __splitDate(
+      this.value,
+      this.__getComputedMask(),
+      this.__getComputedLocale(),
+      this.calendar
+    )
 
     let view = 'Hour'
 
@@ -41,7 +50,7 @@ export default Vue.extend({
       if (model.minute === null) {
         view = 'Minute'
       }
-      else if (this.withSeconds && model.second === null) {
+      else if (this.withSeconds === true && model.second === null) {
         view = 'Second'
       }
     }
@@ -55,9 +64,12 @@ export default Vue.extend({
 
   watch: {
     value (v) {
-      const model = this.__getNumberModel(v)
+      const model = __splitDate(v, this.computedMask, this.computedLocale, this.calendar)
 
-      if (isDeepEqual(model, this.innerModel) === false) {
+      if (
+        model.dateHash !== this.innerModel.dateHash ||
+        model.timeHash !== this.innerModel.timeHash
+      ) {
         this.innerModel = model
 
         if (model.hour === null) {
@@ -80,6 +92,10 @@ export default Vue.extend({
       }
     },
 
+    computedMask () {
+      return this.__getComputedMask()
+    },
+
     stringModel () {
       const time = this.innerModel
 
@@ -88,7 +104,7 @@ export default Vue.extend({
           ? '--'
           : (
             this.computedFormat24h === true
-              ? this.__pad(time.hour)
+              ? pad(time.hour)
               : String(
                 this.isAM === true
                   ? (time.hour === 0 ? 12 : time.hour)
@@ -97,10 +113,10 @@ export default Vue.extend({
           ),
         minute: time.minute === null
           ? '--'
-          : this.__pad(time.minute),
+          : pad(time.minute),
         second: time.second === null
           ? '--'
-          : this.__pad(time.second)
+          : pad(time.second)
       }
     },
 
@@ -113,13 +129,17 @@ export default Vue.extend({
     pointerStyle () {
       const
         forHour = this.view === 'Hour',
-        divider = forHour ? 12 : 60,
+        divider = forHour === true ? 12 : 60,
         amount = this.innerModel[this.view.toLowerCase()],
         degrees = Math.round(amount * (360 / divider)) - 180
 
       let transform = `rotate3d(0,0,1,${degrees}deg) translate3d(-50%,0,0)`
 
-      if (forHour && this.computedFormat24h && !(this.innerModel.hour > 0 && this.innerModel.hour < 13)) {
+      if (
+        forHour === true &&
+        this.computedFormat24h === true &&
+        !(this.innerModel.hour > 0 && this.innerModel.hour < 13)
+      ) {
         transform += ' scale3d(.7,.7,.7)'
       }
 
@@ -131,7 +151,7 @@ export default Vue.extend({
     },
 
     secLink () {
-      return this.minLink && this.innerModel.minute !== null
+      return this.minLink === true && this.innerModel.minute !== null
     },
 
     hourInSelection () {
@@ -220,6 +240,12 @@ export default Vue.extend({
     },
 
     __drag (event) {
+      // cases when on a popup getting closed
+      // on previously emitted value
+      if (this._isBeingDestroyed === true || this._isDestroyed === true) {
+        return
+      }
+
       if (event.isFirst) {
         const
           clock = this.$refs.clock,
@@ -233,9 +259,12 @@ export default Vue.extend({
         }
         this.dragCache = null
         this.__updateClock(event.evt)
+        return
       }
-      else if (event.isFinal) {
-        this.__updateClock(event.evt)
+
+      this.__updateClock(event.evt)
+
+      if (event.isFinal) {
         this.dragging = false
 
         if (this.view === 'Hour') {
@@ -244,9 +273,6 @@ export default Vue.extend({
         else if (this.withSeconds && this.view === 'Minute') {
           this.view = 'Second'
         }
-      }
-      else {
-        this.__updateClock(event.evt)
       }
     },
 
@@ -272,22 +298,20 @@ export default Vue.extend({
         val = Math.round(angle / 30)
 
         if (this.computedFormat24h === true) {
-          if (val === 0) {
-            val = distance < this.dragging.dist ? 0 : 12
-          }
-          else if (distance < this.dragging.dist) {
-            val += 12
-          }
-        }
-        else {
-          if (this.isAM === true) {
-            if (val === 12) {
-              val = 0
+          if (distance < this.dragging.dist) {
+            if (val !== 0) {
+              val += 12
             }
           }
-          else {
-            val += 12
+          else if (val === 0) {
+            val = 12
           }
+        }
+        else if (this.isAM === true && val === 12) {
+          val = 0
+        }
+        else if (this.isAM === false && val !== 12) {
+          val += 12
         }
 
         if (val === 24) {
@@ -320,11 +344,17 @@ export default Vue.extend({
       if (e.keyCode === 13) { // ENTER
         this.view = 'Hour'
       }
-      else if (e.keyCode === 37) { // ARROW LEFT
-        this.__setHour((24 + this.innerModel.hour - 1) % (this.computedFormat24h === true ? 24 : 12))
-      }
-      else if (e.keyCode === 39) { // ARROW RIGHT
-        this.__setHour((24 + this.innerModel.hour + 1) % (this.computedFormat24h === true ? 24 : 12))
+      else {
+        const
+          wrap = this.computedFormat24h === true ? 24 : 12,
+          offset = this.computedFormat24h !== true && this.isAM === false ? 12 : 0
+
+        if (e.keyCode === 37) { // ARROW LEFT
+          this.__setHour(offset + (24 + this.innerModel.hour - 1) % wrap)
+        }
+        else if (e.keyCode === 39) { // ARROW RIGHT
+          this.__setHour(offset + (24 + this.innerModel.hour + 1) % wrap)
+        }
       }
     },
 
@@ -515,18 +545,6 @@ export default Vue.extend({
       ])
     },
 
-    __getNumberModel (v) {
-      if (v === void 0 || v === null || v === '' || typeof v !== 'string') {
-        return {
-          hour: null,
-          minute: null,
-          second: null
-        }
-      }
-
-      return splitTime(v)
-    },
-
     __setHour (hour) {
       if (this.innerModel.hour !== hour) {
         this.innerModel.hour = hour
@@ -568,19 +586,17 @@ export default Vue.extend({
     },
 
     __setNow () {
-      const now = new Date()
       this.__updateValue({
-        hour: now.getHours(),
-        minute: now.getMinutes(),
-        second: now.getSeconds()
+        ...this.__getCurrentDate(),
+        ...this.__getCurrentTime()
       })
       this.view = 'Hour'
     },
 
     __verifyAndUpdate () {
       if (this.hourInSelection !== void 0 && this.hourInSelection(this.innerModel.hour) !== true) {
-        this.innerModel = this.__getNumberModel(void 0)
-        this.isAM = this.innerModel.hour === null || this.innerModel.hour < 12
+        this.innerModel = __splitDate()
+        this.isAM = true
         this.view = 'Hour'
         return
       }
@@ -605,15 +621,32 @@ export default Vue.extend({
       this.__updateValue({})
     },
 
+    __getComputedMask () {
+      return this.mask !== null
+        ? this.mask
+        : `HH:mm${this.withSeconds === true ? ':ss' : ''}`
+    },
+
     __updateValue (obj) {
-      const
-        time = {
-          ...this.innerModel,
-          ...obj
-        },
-        val = this.__pad(time.hour % 24) + ':' +
-          this.__pad(time.minute % 60) +
-          (this.withSeconds ? ':' + this.__pad(time.second % 60) : '')
+      const date = {
+        ...this.innerModel,
+        ...obj
+      }
+
+      const val = formatDate(
+        new Date(
+          date.year,
+          date.month === null ? null : date.month - 1,
+          date.day,
+          date.hour,
+          date.minute,
+          date.second,
+          date.millisecond
+        ),
+        this.computedMask,
+        this.computedLocale,
+        date.year
+      )
 
       if (val !== this.value) {
         this.$emit('input', val)
@@ -631,9 +664,5 @@ export default Vue.extend({
       this.__getHeader(h),
       this.__getClock(h)
     ])
-  },
-
-  beforeDestroy () {
-    this.__verifyAndUpdate()
   }
 })

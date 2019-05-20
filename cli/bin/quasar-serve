@@ -222,8 +222,7 @@ if (ssrDetected === false) {
     if (argv.open) {
       const isMinimalTerminal = require('../lib/is-minimal-terminal')
       if (!isMinimalTerminal) {
-        const opn = require('opn')
-        opn(url)
+        require('open')(url)
       }
     }
   })

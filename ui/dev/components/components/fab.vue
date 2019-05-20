@@ -17,7 +17,7 @@
 
         <br>
 
-        <q-fab v-model="toggle" icon="keyboard_arrow_left" direction="left">
+        <q-fab v-model="toggle" icon="keyboard_arrow_left" direction="left" disable>
           <q-fab-action color="primary" @click="notify('mail')" icon="mail" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
@@ -26,7 +26,7 @@
         <br>
 
         <q-fab color="secondary" push icon="keyboard_arrow_right" direction="right">
-          <q-fab-action color="primary" @click="notify('mail')" icon="ion-aperture" />
+          <q-fab-action color="primary" @click="notify('mail')" icon="ion-aperture" disable />
           <q-fab-action color="primary" @click="notify('alarm')" icon="mdi-map" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="fas fa-address-book" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="ti-tablet" />

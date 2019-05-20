@@ -74,11 +74,11 @@
 
   "methods": {
     "create": {
-      "injectionPoint": true,
+      "tsInjectionPoint": true,
       "desc": "Creates a notification; Same as calling $q.notify(...)",
       "params": {
         "opts": {
-          "type": "Object",
+          "type": ["Object", "String"],
           "desc": "For syntax, check quasar.conf options parameters",
           "definition": {
             "color": {

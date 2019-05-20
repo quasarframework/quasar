@@ -16,7 +16,6 @@ export default {
       default: file => file.name
     },
     headers: [Function, Array],
-    fields: [Function, Array], /* TODO remove in v1 final */
     formFields: [Function, Array],
     withCredentials: [Function, Boolean],
     sendRaw: [Function, Boolean],
@@ -39,7 +38,6 @@ export default {
         url: getFn(this.url),
         method: getFn(this.method),
         headers: getFn(this.headers),
-        fields: getFn(this.fields),
         formFields: getFn(this.formFields),
         fieldName: getFn(this.fieldName),
         withCredentials: getFn(this.withCredentials),
@@ -103,12 +101,12 @@ export default {
         this.promises.push(res)
 
         res.then(factory => {
-          if (this.isDestroyed !== true) {
+          if (this._isBeingDestroyed === true || this._isDestroyed === true) {
             this.promises = this.promises.filter(p => p !== res)
             this.__uploadFiles(files, factory)
           }
         }).catch(err => {
-          if (this.isDestroyed !== true) {
+          if (this._isBeingDestroyed === true || this._isDestroyed === true) {
             this.promises = this.promises.filter(p => p !== res)
 
             this.queuedFiles = this.queuedFiles.concat(files)
@@ -143,10 +141,7 @@ export default {
         return
       }
 
-      const fields = (
-        getProp('formFields', files) ||
-        /* TODO remove in v1 final */ getProp('fields', files)
-      )
+      const fields = getProp('formFields', files)
       fields !== void 0 && fields.forEach(field => {
         form.append(field.name, field.value)
       })
@@ -241,16 +236,6 @@ export default {
       }
       else {
         xhr.send(form)
-      }
-    }
-  },
-
-  // TODO remove in v1 final
-  mounted () {
-    if (this.fields !== void 0) {
-      const p = process.env
-      if (p.PROD !== true) {
-        console.info('\n\n[Quasar] QUploader: please rename "fields" prop to "form-fields"')
       }
     }
   }

@@ -31,7 +31,7 @@ For landscape mode, you can use it along with `$q.screen` to make QDate responsi
 
 ### Functionality
 
-QDate requires a default year + month when model is unfilled (like `null`, `void 0`/`undefined`).
+When model is unfilled (like `null`, `void 0`/`undefined`) QDate still has to show the calendar for a month of a year. You can use `default-year-month` prop for this, otherwise the current month of the year will be shown:
 
 <doc-example title="Default year month" file="QDate/DefaultYearMonth" />
 
@@ -48,6 +48,28 @@ Clicking on the "Today" button sets date to current user date. Requires the head
 <doc-example title="Today button" file="QDate/TodayBtn" />
 
 <doc-example title="Disable and readonly" file="QDate/DisableReadonly" />
+
+### Model mask
+
+The default model mask is `YYYY/MM/DD`, however you can use custom ones too.
+
+The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#Format-for-display).
+
+<doc-example title="Simple mask" file="QDate/MaskSimple" />
+
+If you want to insert strings into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.
+
+<doc-example title="Mask with escaped characters" file="QDate/MaskEscape" />
+
+Using the mask to connect a QDate and [QTime](/vue-components/time) to the same model:
+
+<doc-example title="QDate and QTime on same model" file="QDate/MaskDateTime" />
+
+### Custom ad-hoc locale
+
+If, for some reason, you need to use a custom ad-hoc locale rather than the current Quasar Language Pack that has been set, you can use the `locale` prop:
+
+<doc-example title="Custom ad-hoc locale" file="QDate/CustomLocale" />
 
 ### Coloring
 
@@ -76,7 +98,12 @@ The first example is using an array and the second example is using a function.
 More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/tab-panels).
 
 ### With QInput
+
 <doc-example title="With QInput" file="QDate/Input" />
+
+Connecting a QDate and QTime with same model on a QInput:
+
+<doc-example title="QDate and QTime with QInput" file="QDate/InputFull" />
 
 More info: [QInput](/vue-components/input).
 
@@ -87,5 +114,5 @@ You can couple this with a Quasar [language pack](/options/quasar-language-packs
 
 <q-btn type="a" href="https://codepen.io/rstoenescu/pen/wOGpZg" target="_blank" label="See example" icon-right="launch" color="primary" />
 
-## API
+## QDate API
 <doc-api file="QDate" />

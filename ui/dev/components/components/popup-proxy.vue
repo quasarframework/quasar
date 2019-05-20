@@ -24,6 +24,24 @@
       </div>
 
       <div class="popup-surface-test">
+        <div>Handles click - touch position</div>
+
+        <q-popup-proxy touch-position>
+          <q-banner>
+            <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
+
+            <input v-model="text">
+            You have lost connection to the internet. This app is offline.
+
+            <q-btn label="Close" v-close-popup />
+            <div>Popup text.</div>
+
+            <q-btn slot="action" flat color="primary" label="close" v-close-popup />
+          </q-banner>
+        </q-popup-proxy>
+      </div>
+
+      <div class="popup-surface-test">
         <div>Handles right-click (context)</div>
 
         <q-popup-proxy context-menu>
@@ -60,7 +78,7 @@
               <q-menu>
                 <q-list>
                   <q-item clickable>
-                    <q-item-section>
+                    <q-item-section @click.stop>
                       Popup proxy
                       <q-popup-proxy>
                         <q-banner>

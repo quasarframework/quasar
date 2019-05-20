@@ -8,10 +8,10 @@ Quasar's v1 version is now on a stable API.
 
 ## Upgrading from older v1 to latest v1
 
-### UMD
+### With UMD
 Simply replace the version string in all the CSS and JS tags that refer to Quasar to the newer version.
 
-### Quasar CLI
+### With Quasar CLI
 
 ```bash
 # run these commands inside
@@ -25,7 +25,7 @@ $ quasar upgrade
 $ quasar upgrade --install
 ```
 
-### Vue CLI
+### With Vue CLI
 ```bash
 $ yarn upgrade quasar@latest
 ```
@@ -536,7 +536,7 @@ The structure looks the same, but some functions have been renamed.
 
 ### QAutocomplete
 
-- **removed**, built into [QSelect](/vue-components/select)
+- **removed**, built into [QSelect](/vue-components/select#Filtering-and-autocomplete), which is far more powerfull and offers a lot more options for your autocomplete needs; make sure you get accustomed to all the features of QSelect
 
 ### QBreadcrumbs
 

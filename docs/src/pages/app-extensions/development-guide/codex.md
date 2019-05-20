@@ -1,3 +1,0 @@
----
-title: App Extension Codex
----

@@ -6,6 +6,7 @@
         v-model="model"
         use-input
         hide-selected
+        fill-input
         input-debounce="0"
         :options="options"
         @filter="filterFn"

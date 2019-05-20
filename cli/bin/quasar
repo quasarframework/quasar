@@ -54,7 +54,6 @@ else {
   else {
     const commands = [
       'info',
-      'serve',
       'help'
     ]
 
@@ -62,7 +61,6 @@ else {
       if (cmd.length === 1) {
         const mapToCmd = {
           i: 'info',
-          s: 'serve',
           h: 'help'
         }
         cmd = mapToCmd[cmd]

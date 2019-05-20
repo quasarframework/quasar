@@ -33,6 +33,8 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/qactivity](https://github.com/quasarframework/app-extension-qactivity) | Create activity timelines |
 | [@quasar/qmarkdown](https://github.com/quasarframework/app-extension-qmarkdown) | Markdown for your pages |
 | [@quasar/qpdfviewer](https://github.com/quasarframework/app-extension-qpdfviewer) | View PDF documents in your Quasar app |
+| [@quasar/qcalendar](https://github.com/quasarframework/app-extension-qcalendar) | Calendar for Quasar |
+| [@quasar/qscroller](https://github.com/quasarframework/app-extension-qscroller) | Many scrolling components, including QScroller, QTimeScroller, QDateScroller, QDateTimeScroller and scrolling time ranges |
 
 ### In Development
 
@@ -44,5 +46,3 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/firebase](https://github.com/quasarframework/app-extension-firebase) | Integrate and manage Google Firebase / Firestore |
 | [@quasar/qtranslate](https://github.com/quasarframework/app-extension-qtranslate) | Deep localization including datetime, currency and string management |
 | [@quasar/universal-fs](https://github.com/quasarframework/app-extension-universal-fs) | Wrap the filesystem interface for web, cordova and electron with one abstraction |
-| [@quasar/qcalendar](https://github.com/quasarframework/app-extension-qcalendar) | Calendar for Quasar |
-| [@quasar/qscroller](https://github.com/quasarframework/app-extension-qscroller) | Many scrolling components, including QScroller, QTimeScroller, QDateScroller, QDateTimeScroller and scrolling time ranges |

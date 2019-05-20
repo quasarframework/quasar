@@ -11,7 +11,8 @@
 
   "props": {
     "icon": {
-      "extends": "icon"
+      "extends": "icon",
+      "category": "header"
     },
 
     "color": {
@@ -25,7 +26,7 @@
       "examples": [
         "Ad Groups", "Payment"
       ],
-      "category": "content"
+      "category": "header"
     },
 
     "caption": {
@@ -34,31 +35,46 @@
       "examples": [
         "Create an account", "Payment details"
       ],
-      "category": "content"
+      "category": "header"
+    },
+
+    "prefix": {
+      "type": [ "String", "Number" ],
+      "desc": "Step's prefix (max 2 characters) which replaces the icon if step does not has error, is being edited or is marked as done",
+      "examples": [
+        "1", "2", "A", "B"
+      ],
+      "category": "header"
     },
 
     "done-icon": {
-      "extends": "icon"
+      "extends": "icon",
+      "category": "header"
     },
 
     "done-color": {
-      "extends": "color"
+      "extends": "color",
+      "category": "header"
     },
 
     "active-icon": {
-      "extends": "icon"
+      "extends": "icon",
+      "category": "header"
     },
 
     "active-color": {
-      "extends": "color"
+      "extends": "color",
+      "category": "header"
     },
 
     "error-icon": {
-      "extends": "icon"
+      "extends": "icon",
+      "category": "header"
     },
 
     "error-color": {
-      "extends": "color"
+      "extends": "color",
+      "category": "header"
     },
 
     "header-nav": {

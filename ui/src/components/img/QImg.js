@@ -64,6 +64,14 @@ export default Vue.extend({
 
     url () {
       return this.currentSrc || this.placeholderSrc || void 0
+    },
+
+    attrs () {
+      const att = { role: 'img' }
+      if (this.alt !== void 0) {
+        att['aria-label'] = this.alt
+      }
+      return att
     }
   },
 
@@ -221,10 +229,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-img overflow-hidden',
-      attrs: this.alt !== void 0 ? {
-        role: 'img',
-        'aria-label': this.alt
-      } : null,
+      attrs: this.attrs,
       on: this.$listeners
     }, [
       h('div', {

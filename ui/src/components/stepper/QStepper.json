@@ -21,13 +21,13 @@
     "vertical": {
       "type": "Boolean",
       "desc": "Put Stepper in vertical mode (instead of horizontal by default)",
-      "category": "content"
+      "category": "behavior"
     },
 
     "alternative-labels": {
       "type": "Boolean",
       "desc": "Use alternative labels (applies only to horizontal stepper)",
-      "category": "content"
+      "category": "header"
     },
 
     "header-nav": {
@@ -39,39 +39,47 @@
     "contracted": {
       "type": "Boolean",
       "desc": "Hide header labels on narrow windows",
-      "category": "content|behavior"
+      "category": "header|behavior"
     },
 
     "inactive-icon": {
-      "extends": "icon"
+      "extends": "icon",
+      "category": "header"
     },
 
     "inactive-color": {
-      "extends": "color"
+      "extends": "color",
+      "category": "header"
     },
 
     "done-icon": {
-      "extends": "icon"
+      "extends": "icon",
+      "category": "header"
     },
 
     "done-color": {
-      "extends": "color"
+      "extends": "color",
+      "category": "header"
     },
 
     "active-icon": {
-      "extends": "icon"
+      "extends": "icon",
+      "category": "header"
     },
 
     "active-color": {
-      "extends": "color"
+      "extends": "color",
+      "category": "header"
     },
 
     "error-icon": {
-      "extends": "icon"
+      "extends": "icon",
+      "category": "header"
     },
 
     "error-color": {
-      "extends": "color"
+      "extends": "color",
+      "category": "header"
     }
   },
 

@@ -5,7 +5,7 @@ const
   logger = require('../helpers/logger'),
   log = logger('app:mode-cordova'),
   warn = logger('app:mode-cordova', 'red'),
-  spawn = require('../helpers/spawn')
+  { spawnSync } = require('../helpers/spawn')
 
 function ensureNpmInstalled () {
   if (fs.existsSync(appPaths.resolve.cordova('node_modules'))) {
@@ -13,7 +13,7 @@ function ensureNpmInstalled () {
   }
 
   log('Installing dependencies in /src-cordova')
-  spawn.sync(
+  spawnSync(
     'npm',
     [ 'install' ],
     appPaths.cordovaDir,
@@ -46,10 +46,10 @@ class Mode {
       )
       return
     }
-    
+
     log('Creating Cordova source folder...')
 
-    spawn.sync(
+    spawnSync(
       'cordova',
       ['create', 'src-cordova', pkg.cordovaId || 'org.quasar.cordova.app', appName],
       appPaths.appDir,
@@ -87,7 +87,7 @@ class Mode {
     }
 
     log(`Adding Cordova platform "${target}"`)
-    spawn.sync(
+    spawnSync(
       'cordova',
       ['platform', 'add', target],
       appPaths.cordovaDir,

@@ -162,6 +162,10 @@ class QuasarConfig {
       },
       build: {
         transpileDependencies: [],
+        stylusLoaderOptions: {},
+        sassLoaderOptions: {},
+        scssLoaderOptions: {},
+        lessLoaderOptions: {},
         env: {},
         uglifyOptions: {
           compress: {},
@@ -284,8 +288,8 @@ class QuasarConfig {
     let cfg = this.quasarConfig
 
     await extensionRunner.runHook('extendQuasarConf', async hook => {
-      log(`Extension(${hook.extId}): Extending quasar.conf...`)
-      await hook.fn(cfg)
+      log(`Extension(${hook.api.extId}): Extending quasar.conf...`)
+      await hook.fn(cfg, hook.api)
     })
 
     // if watching for changes,
@@ -597,6 +601,12 @@ class QuasarConfig {
         metaVariables: {
           appleMobileWebAppCapable: 'yes',
           appleMobileWebAppStatusBarStyle: 'default',
+          appleTouchIcon120: 'statics/icons/apple-icon-120x120.png',
+          appleTouchIcon180: 'statics/icons/apple-icon-180x180.png',
+          appleTouchIcon152: 'statics/icons/apple-icon-152x152.png',
+          appleTouchIcon167: 'statics/icons/apple-icon-167x167.png',
+          appleSafariPinnedTab: 'statics/icons/safari-pinned-tab.svg',
+          msapplicationTileImage: 'statics/icons/ms-icon-144x144.png',
           msapplicationTileColor: '#000000'
         }
       }, cfg.pwa)
@@ -740,14 +750,16 @@ class QuasarConfig {
     }
 
     cfg.__html = {
-      variables: Object.assign({
+      variables: {
         ctx: cfg.ctx,
         process: {
           env: parseBuildEnv(cfg.build.env['process.env'])
         },
         productName: cfg.build.productName,
-        productDescription: cfg.build.productDescription
-      }, cfg.htmlVariables),
+        productDescription: cfg.build.productDescription,
+
+        ...cfg.htmlVariables
+      },
       minifyOptions: cfg.build.minify
         ? {
           removeComments: true,

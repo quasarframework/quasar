@@ -55,16 +55,56 @@ $ cd src-cordova
 ```
 
 To add a target platform, type:
+
 ```
 $ cordova platform add [android|ios]
 ```
 
 To verify that everything is in order, type:
+
 ```bash
 $ cordova requirements
 ```
 
 > On some newer Debian-based operating systems you might face a very persistent problem when running `cordova requirements`. Please see the ["Android SDK not found" after installation](/quasar-cli/developing-mobile-apps/troubleshooting-and-tips#Android-SDK-not-found-after-installation-of-the-SDK) section for assistance.
+
+### Switching to iOS WkWebView
+
+Switching to WKWebView is highly recommended (but optional!) as UIWebView has been deprecated in iOS 12.0 as described in this Cordova blog post: [https://cordova.apache.org/news/2018/08/01/future-cordova-ios-webview.html](https://cordova.apache.org/news/2018/08/01/future-cordova-ios-webview.html).
+
+**However, choose wisely if you want to replace the default webview. Each comes with its own caveats.** Make sure that you visit the link above.
+
+#### Option 1: Ionic Webview Plugin
+
+1. Install Ionic Webview Plugin
+
+```bash
+# from /src-cordova
+$ cordova plugin add cordova-plugin-ionic-webview
+```
+
+2. Add ScrollEnabled Preference to Config.xml
+
+```xml
+<platform name="ios">
+  <preference name="ScrollEnabled" value="true" />
+</platform>
+```
+
+3. Consult Ionic Docs for caveats on WkWebViewPlugin
+  * [https://beta.ionicframework.com/docs/building/webview](https://beta.ionicframework.com/docs/building/webview)
+  * [https://github.com/ionic-team/cordova-plugin-ionic-webview](https://github.com/ionic-team/cordova-plugin-ionic-webview)
+
+#### Option 2: Cordova WkWebviewEngine Plugin
+
+1. Install Cordova WkWebviewEngine Plugin
+
+```bash
+# from /src-cordova
+$ cordova plugin add cordova-plugin-wkwebview-engine
+```
+
+2. For caveats and more info, visit: [https://github.com/apache/cordova-plugin-wkwebview-engine](https://github.com/apache/cordova-plugin-wkwebview-engine)
 
 ## 4. Start Developing
 If you want to jump right in and start developing, you can skip step #2 and #3 commands and issue:

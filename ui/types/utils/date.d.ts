@@ -17,30 +17,18 @@ export interface ModifyDateOptions {
   year?: number;
 }
 
-export interface I18nDateOptions {
-  dayNames: string[];
-  monthNames: string[];
-}
-
-export interface DateValues {
-  year: number;
-  month: number;
-  day: number;
-  value: number;
-}
-
-export interface TimeValues {
-  hour: number;
-  minute: number;
-  second: number;
+export interface DateLocale {
+  days?: string[];
+  daysShort?: string[];
+  months?: string[];
+  monthsShort?: string[];
 }
 
 export type DateUnitOptions = "second" | "minute" | "hour" | "day" | "month" | "year";
 
 export namespace date {
   function isValid(date: string): boolean;
-  function splitDate(date: string) : DateValues;
-  function splitTime(time: string) : TimeValues;
+  function extractDate(str: string, mask: string, locale?: DateLocale): Date;
   function buildDate(options: BuildDateOptions, utc?: boolean): string;
   function getDayOfWeek(date: Date | number | string | number): number;
   function getWeekOfYear (date: Date | number | string) : number;
@@ -54,11 +42,10 @@ export namespace date {
   function getMinDate (date: Date | number | string, ...args: (Date | number | string)[]) : Date;
   function getDateDiff (date: Date | number | string, subtract: Date | number | string, unit?: string) : Date;
   function getDayOfYear (date: Date | number | string) : number;
-  // function inferDateFormat (example: any) : string;
-  // function convertDateToFormat (date: Date, type, format)
+  function inferDateFormat (date: any) : string;
   function getDateBetween (date: Date | number | string, min: Date | number | string, max: Date | number | string) : Date
   function isSameDate (date: Date | number | string, date2: Date | number | string, unit?: string) : boolean;
   function daysInMonth (date: Date | number | string) : number;
-  function formatDate(date: Date | number | undefined, format: string, i18n?: I18nDateOptions): string;
+  function formatDate(date: Date | number | string | undefined, format: string, locale?: DateLocale, __forcedYear?: number): string;
   function clone (date: Date) : Date;
 }

@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="q-gutter-md row items-start">
       <div class="col-12">
-        <q-badge color="secondary">
+        <q-badge color="secondary" multi-line>
           Model: "{{ model }}"
         </q-badge>
       </div>

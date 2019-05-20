@@ -158,6 +158,12 @@
       "category": "selection"
     },
 
+    "fill-input": {
+      "type": "Boolean",
+      "desc": "Fills the input with current value; Useful along with 'hide-selected'; Does NOT works along with 'multiple' selection",
+      "category": "behavior"
+    },
+
     "new-value-mode": {
       "type": "String",
       "desc": "Enables creation of new values and defines behavior when a new value is added: 'add' means it adds the value (even if possible duplicate), 'add-unique' adds only unique values, and 'toggle' adds or removes the value (based on if it exists or not already); When using this prop then listening for @new-value becomes optional (only to override the behavior defined by 'new-value-mode')",
@@ -446,6 +452,14 @@
   "methods": {
     "focus": {
       "desc": "Focus component"
+    },
+
+    "showPopup": {
+      "desc": "Focus and open popup"
+    },
+
+    "hidePopup": {
+      "desc": "Hide popup"
     },
 
     "removeAtIndex": {
