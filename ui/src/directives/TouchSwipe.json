@@ -70,22 +70,22 @@
 
     "up": {
       "type": "Boolean",
-      "desc": "Catch swipe up"
+      "desc": "Catch swipe to up"
     },
 
     "right": {
       "type": "Boolean",
-      "desc": "Catch swipe right"
+      "desc": "Catch swipe to right"
     },
 
     "down": {
       "type": "Boolean",
-      "desc": "Catch swipe down"
+      "desc": "Catch swipe to down"
     },
 
     "left": {
       "type": "Boolean",
-      "desc": "Catch swipe left"
+      "desc": "Catch swipe to left"
     }
   }
 }
