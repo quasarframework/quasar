@@ -13,7 +13,10 @@
       </div>
       <div
         v-touch-pan.prevent.mouse.mousePrevent="handlePan"
-        @click="onClick"
+        @click="e => onEvt('click', e)"
+        @mousedown="e => onEvt('mousedown', e)"
+        @mousemove="e => onEvt('mousemove', e)"
+        @mouseup="e => onEvt('mouseup', e)"
         class="custom-area row flex-center"
         ref="area"
       >
@@ -52,7 +55,10 @@
       </div>
       <div
         v-touch-pan.horizontal.prevent.mouse.mouseStop.mousePrevent="panHorizontally"
-        @click="onClick"
+        @click="e => onEvt('click', e)"
+        @mousedown="e => onEvt('mousedown', e)"
+        @mousemove="e => onEvt('mousemove', e)"
+        @mouseup="e => onEvt('mouseup', e)"
         class="custom-area row flex-center"
       >
         <div v-if="infoHorizontal" class="custom-info">
@@ -78,7 +84,10 @@
       </div>
       <div
         v-touch-pan.vertical.prevent.mouse.mouseStop="panVertically"
-        @click="onClick"
+        @click="e => onEvt('click', e)"
+        @mousedown="e => onEvt('mousedown', e)"
+        @mousemove="e => onEvt('mousemove', e)"
+        @mouseup="e => onEvt('mouseup', e)"
         class="custom-area row flex-center"
       >
         <div v-if="infoVertical" class="custom-info">
@@ -165,9 +174,11 @@ export default {
       }
     },
 
-    onClick (evt) {
-      console.log('click', evt)
-      this.clickStatus = { stopped: evt.cancelBubble, prevented: evt.defaultPrevented }
+    onEvt (reason, evt) {
+      console.log('@' + reason)
+      if (reason === 'click') {
+        this.clickStatus = { stopped: evt.cancelBubble, prevented: evt.defaultPrevented }
+      }
     }
   }
 }
