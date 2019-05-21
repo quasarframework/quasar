@@ -83,7 +83,8 @@ export default {
     const
       mouse = binding.modifiers.mouse === true,
       mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
-      mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
+      mouseEvtOpts = listenOpts[mouseEvtPassive === true ? 'passive' : 'notPassive'],
+      mouseEvtCaptureOpts = listenOpts[mouseEvtPassive === true ? 'passiveCapture' : 'notPassiveCapture'],
       touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
       touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive']
 
@@ -106,13 +107,21 @@ export default {
         if (leftClick(evt)) {
           document.addEventListener('mousemove', ctx.move, mouseEvtOpts)
           document.addEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
+          document.addEventListener('click', ctx.mouseEndClick, mouseEvtCaptureOpts)
           ctx.start(evt, true)
         }
       },
 
       mouseEnd (evt) {
+        setTimeout(() => {
+          ctx.mouseEndClick(evt)
+        })
+      },
+
+      mouseEndClick (evt) {
         document.removeEventListener('mousemove', ctx.move, mouseEvtOpts)
         document.removeEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
+        document.removeEventListener('click', ctx.mouseEndClick, mouseEvtCaptureOpts)
         ctx.end(evt)
       },
 
@@ -178,7 +187,6 @@ export default {
 
         if (ctx.event.abort !== true) {
           document.documentElement.style.cursor = 'grabbing'
-          document.body.classList.add('no-pointer-events')
           document.body.classList.add('non-selectable')
           clearSelection()
         }
@@ -194,7 +202,6 @@ export default {
         ctx.event.mouse !== true && removeObserver(ctx)
 
         document.documentElement.style.cursor = ''
-        document.body.classList.remove('no-pointer-events')
         document.body.classList.remove('non-selectable')
 
         if (ctx.event.abort !== true && ctx.event.detected === true && ctx.event.isFirst !== true) {
@@ -217,8 +224,8 @@ export default {
     }
     el.addEventListener('touchstart', ctx.start, touchEvtOpts)
     el.addEventListener('touchmove', ctx.move, touchEvtOpts)
-    el.addEventListener('touchcancel', ctx.end)
-    el.addEventListener('touchend', ctx.end)
+    el.addEventListener('touchcancel', ctx.end, touchEvtOpts)
+    el.addEventListener('touchend', ctx.end, touchEvtOpts)
   },
 
   update (el, { oldValue, value, modifiers }) {
@@ -242,13 +249,13 @@ export default {
       removeObserver(ctx)
 
       document.documentElement.style.cursor = ''
-      document.body.classList.remove('no-pointer-events')
       document.body.classList.remove('non-selectable')
 
       const
         mouse = binding.modifiers.mouse === true,
         mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
-        mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
+        mouseEvtOpts = listenOpts[mouseEvtPassive === true ? 'passive' : 'notPassive'],
+        mouseEvtCaptureOpts = listenOpts[mouseEvtPassive === true ? 'passiveCapture' : 'notPassiveCapture'],
         touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
         touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive']
 
@@ -256,11 +263,12 @@ export default {
         el.removeEventListener('mousedown', ctx.mouseStart, mouseEvtOpts)
         document.removeEventListener('mousemove', ctx.move, mouseEvtOpts)
         document.removeEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
+        document.removeEventListener('click', ctx.mouseEndClick, mouseEvtCaptureOpts)
       }
       el.removeEventListener('touchstart', ctx.start, touchEvtOpts)
       el.removeEventListener('touchmove', ctx.move, touchEvtOpts)
-      el.removeEventListener('touchcancel', ctx.end)
-      el.removeEventListener('touchend', ctx.end)
+      el.removeEventListener('touchcancel', ctx.end, touchEvtOpts)
+      el.removeEventListener('touchend', ctx.end, touchEvtOpts)
 
       delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
     }
