@@ -41,7 +41,7 @@ export default Vue.extend({
     defaultView: {
       type: String,
       default: 'spectrum',
-      validator: v => ['spectrum', 'tune', 'palette']
+      validator: v => ['spectrum', 'tune', 'palette'].includes(v)
     },
 
     formatModel: {
