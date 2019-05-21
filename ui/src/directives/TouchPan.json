@@ -136,14 +136,39 @@
       "desc": "Use capture for mousedown event"
     },
 
+    "mouseAllDir": {
+      "type": "Boolean",
+      "desc": "Ignore initial mouse move direction (do not abort if the first mouse move is in an unaccepted direction)"
+    },
+
     "horizontal": {
       "type": "Boolean",
-      "desc": "Catch horizontal movement; If 'horizontal' or 'vertical' are not specified, then both directions are considered by default"
+      "desc": "Catch horizontal (left/right) movement"
     },
 
     "vertical": {
       "type": "Boolean",
-      "desc": "Catch vertical movement; If 'horizontal' or 'vertical' are not specified, then both directions are considered by default"
+      "desc": "Catch vertical (up/down) movement"
+    },
+
+    "up": {
+      "type": "Boolean",
+      "desc": "Catch panning to up"
+    },
+
+    "right": {
+      "type": "Boolean",
+      "desc": "Catch panning to right"
+    },
+
+    "down": {
+      "type": "Boolean",
+      "desc": "Catch panning to down"
+    },
+
+    "left": {
+      "type": "Boolean",
+      "desc": "Catch panning to left"
     }
   }
 }

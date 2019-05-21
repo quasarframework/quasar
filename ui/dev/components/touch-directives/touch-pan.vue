@@ -198,73 +198,73 @@ export default {
     }
   },
   methods: {
-    handlePan ({ position, direction, duration, distance, delta, isFirst, isFinal, evt }) {
-      this.info = { position, direction, duration, distance, delta, isFirst, isFinal }
+    handlePan ({ evt, ...info }) {
+      this.info = info
 
       // native Javascript event
       // console.log(evt)
 
-      if (isFirst) {
+      if (info.isFirst) {
         this.panning = true
         this.clickStatus = null
       }
-      else if (isFinal) {
+      else if (info.isFinal) {
         this.panning = false
       }
     },
-    handlePanRight ({ position, direction, duration, distance, delta, isFirst, isFinal, evt }) {
-      this.infoRight = { position, direction, duration, distance, delta, isFirst, isFinal }
+    handlePanRight ({ evt, ...info }) {
+      this.infoRight = info
 
       // native Javascript event
       // console.log(evt)
 
-      if (isFirst) {
+      if (info.isFirst) {
         this.panningRight = true
         this.clickStatus = null
       }
-      else if (isFinal) {
+      else if (info.isFinal) {
         this.panningRight = false
       }
     },
-    handlePanUpRight ({ position, direction, duration, distance, delta, isFirst, isFinal, evt }) {
-      this.infoUpRight = { position, direction, duration, distance, delta, isFirst, isFinal }
+    handlePanUpRight ({ evt, ...info }) {
+      this.infoUpRight = info
 
       // native Javascript event
       // console.log(evt)
 
-      if (isFirst) {
+      if (info.isFirst) {
         this.panningUpRight = true
         this.clickStatus = null
       }
-      else if (isFinal) {
+      else if (info.isFinal) {
         this.panningUpRight = false
       }
     },
-    panHorizontally ({ position, direction, duration, distance, delta, isFirst, isFinal, evt }) {
-      this.infoHorizontal = { position, direction, duration, distance, delta, isFirst, isFinal }
+    panHorizontally ({ evt, ...info }) {
+      this.infoHorizontal = info
 
       // native Javascript event
       // console.log(evt)
 
-      if (isFirst) {
+      if (info.isFirst) {
         this.panningHorizontal = true
         this.clickStatus = null
       }
-      else if (isFinal) {
+      else if (info.isFinal) {
         this.panningHorizontal = false
       }
     },
-    panVertically ({ position, direction, duration, distance, delta, isFirst, isFinal, evt }) {
-      this.infoVertical = { position, direction, duration, distance, delta, isFirst, isFinal }
+    panVertically ({ evt, ...info }) {
+      this.infoVertical = info
 
       // native Javascript event
       // console.log(evt)
 
-      if (isFirst) {
+      if (info.isFirst) {
         this.panningVertical = true
         this.clickStatus = null
       }
-      else if (isFinal) {
+      else if (info.isFinal) {
         this.panningVertical = false
       }
     },
