@@ -135,7 +135,8 @@ export default Vue.extend({
             horizontal: true,
             mouse: true,
             mouseAllDir: true,
-            mousePrevent: true
+            mousePrevent: true,
+            mouseStop: true
           }
         }] : null
       }, slot(this, 'default'))
