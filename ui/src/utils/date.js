@@ -128,8 +128,10 @@ function getRegexData (mask, dateLocale) {
         return '(Z|[+-]\\d{2}\\d{2})'
 
       case 'X':
+        map.X = index
         return '(-?\\d+)'
       case 'x':
+        map.x = index
         return '(-?\\d{4,})'
 
       default:
@@ -262,6 +264,23 @@ export function __splitDate (str, mask, dateLocale, calendar) {
 
   if (map.S !== void 0) {
     date.millisecond = parseInt(match[map.S], 10) * 10 ** (3 - match[map.S].length)
+  }
+
+  const d = map.X !== void 0
+    ? new Date(parseInt(match[map.X], 10) * 1000)
+    : (
+      map.x !== void 0
+        ? new Date(parseInt(match[map.x], 10))
+        : NaN
+    )
+  if (isNaN(d) === false) {
+    date.year = d.getFullYear()
+    date.month = d.getMonth() + 1
+    date.day = d.getDate()
+    date.hour = d.getHours()
+    date.minute = d.getMinutes()
+    date.second = d.getSeconds()
+    date.millisecond = d.getMilliseconds()
   }
 
   date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
