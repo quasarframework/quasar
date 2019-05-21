@@ -12,7 +12,7 @@
         Click status: {{ clickStatus }}
       </div>
       <div
-        v-touch-pan.prevent.mouse.mousePrevent="handlePan"
+        v-touch-pan.prevent.mouse="handlePan"
         @click="e => onEvt('click', e)"
         @mousedown="e => onEvt('mousedown', e)"
         @mousemove="e => onEvt('mousemove', e)"
@@ -27,7 +27,7 @@
           <q-icon name="arrow_upward" />
           <div class="row items-center">
             <q-icon name="arrow_back" />
-            <div>Pan in any direction (mouse prevent)</div>
+            <div>Pan in any direction</div>
             <q-icon name="arrow_forward" />
           </div>
           <q-icon name="arrow_downward" />
@@ -54,7 +54,7 @@
         Click status: {{ clickStatus }}
       </div>
       <div
-        v-touch-pan.horizontal.prevent.mouse.mouseStop.mousePrevent="panHorizontally"
+        v-touch-pan.horizontal.prevent.mouse.mouseStop="panHorizontally"
         @click="e => onEvt('click', e)"
         @mousedown="e => onEvt('mousedown', e)"
         @mousemove="e => onEvt('mousemove', e)"
@@ -66,7 +66,7 @@
         </div>
         <div v-else class="row items-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_back" />
-          <div>Pan to left or right only (mouse stop + prevent)</div>
+          <div>Pan to left or right only</div>
           <q-icon name="arrow_forward" />
         </div>
 
@@ -83,7 +83,7 @@
         Click status: {{ clickStatus }}
       </div>
       <div
-        v-touch-pan.vertical.prevent.mouse.mouseStop="panVertically"
+        v-touch-pan.vertical.prevent.mouse="panVertically"
         @click="e => onEvt('click', e)"
         @mousedown="e => onEvt('mousedown', e)"
         @mousemove="e => onEvt('mousemove', e)"
@@ -96,7 +96,7 @@
         <div v-else class="text-center q-pa-xl custom-area-placeholder">
           <q-icon name="arrow_upward" />
           <div>
-            Pan to up or down only (mouse stop)
+            Pan to up or down only
           </div>
           <q-icon name="arrow_downward" />
         </div>
