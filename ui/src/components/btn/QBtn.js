@@ -16,7 +16,7 @@ export default Vue.extend({
   props: {
     percentage: {
       type: Number,
-      validator: v => v === void 0 || (v >= 0 && v <= 100)
+      validator: v => v >= 0 && v <= 100
     },
     darkPercentage: Boolean
   },
