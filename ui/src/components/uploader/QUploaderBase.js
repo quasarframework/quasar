@@ -195,7 +195,7 @@ export default {
 
     __getFileInput () {
       return this.$refs.input ||
-        this.$el.getElementsByClassName('q-uploader__input')
+        this.$el.getElementsByClassName('q-uploader__input')[0]
     },
 
     __getProgressLabel (p) {
