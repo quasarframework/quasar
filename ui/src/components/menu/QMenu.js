@@ -132,8 +132,10 @@ export default Vue.extend({
       }
 
       EscapeKey.register(this, () => {
-        this.$emit('escape-key')
-        this.hide()
+        if (this.persistent !== true) {
+          this.$emit('escape-key')
+          this.hide()
+        }
       })
 
       this.__showPortal()
