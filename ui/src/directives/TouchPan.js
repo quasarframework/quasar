@@ -1,3 +1,4 @@
+import Platform from '../plugins/Platform.js'
 import { position, leftClick, listenOpts, prevent, stop, stopAndPrevent } from '../utils/event.js'
 import { setObserver, removeObserver } from '../utils/touch-observer.js'
 import { clearSelection } from '../utils/selection.js'
@@ -82,8 +83,14 @@ export default {
   name: 'touch-pan',
 
   bind (el, binding) {
+    const mouse = binding.modifiers.mouse === true
+
+    // early return, we don't need to do anything
+    if (mouse !== true && Platform.has.touch !== true) {
+      return
+    }
+
     const
-      mouse = binding.modifiers.mouse === true,
       touchEvtCapture = binding.modifiers.capture === true ? { capture: true } : void 0,
       touchPassiveStr = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true
         ? 'passive'
@@ -231,29 +238,35 @@ export default {
         listenOpts[`notPassive${binding.modifiers.mouseCapture === true ? 'Capture' : ''}`]
       )
     }
-    el.addEventListener('touchstart', ctx.start, touchEvtOpts)
-    el.addEventListener('touchmove', ctx.move, touchEvtOpts)
-    el.addEventListener('touchcancel', ctx.end, touchEvtCapture)
-    el.addEventListener('touchend', ctx.end, touchEvtCapture)
+
+    if (Platform.has.touch === true) {
+      el.addEventListener('touchstart', ctx.start, touchEvtOpts)
+      el.addEventListener('touchmove', ctx.move, touchEvtOpts)
+      el.addEventListener('touchcancel', ctx.end, touchEvtCapture)
+      el.addEventListener('touchend', ctx.end, touchEvtCapture)
+    }
   },
 
   update (el, { oldValue, value, modifiers }) {
     const ctx = el.__qtouchpan
 
-    if (oldValue !== value) {
-      ctx.handler = value
-    }
+    if (ctx !== void 0) {
+      if (oldValue !== value) {
+        ctx.handler = value
+      }
 
-    if (
-      (modifiers.horizontal !== ctx.direction.horizontal) ||
-      (modifiers.vertical !== ctx.direction.vertical)
-    ) {
-      ctx.direction = getDirection(modifiers)
+      if (
+        (modifiers.horizontal !== ctx.direction.horizontal) ||
+        (modifiers.vertical !== ctx.direction.vertical)
+      ) {
+        ctx.direction = getDirection(modifiers)
+      }
     }
   },
 
   unbind (el, binding) {
     let ctx = el.__qtouchpan_old || el.__qtouchpan
+
     if (ctx !== void 0) {
       removeObserver(ctx)
 
@@ -277,10 +290,13 @@ export default {
         document.removeEventListener('mousemove', ctx.move, mouseEvtOpts)
         document.removeEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
       }
-      el.removeEventListener('touchstart', ctx.start, touchEvtOpts)
-      el.removeEventListener('touchmove', ctx.move, touchEvtOpts)
-      el.removeEventListener('touchcancel', ctx.end, touchEvtCapture)
-      el.removeEventListener('touchend', ctx.end, touchEvtCapture)
+
+      if (Platform.has.touch === true) {
+        el.removeEventListener('touchstart', ctx.start, touchEvtOpts)
+        el.removeEventListener('touchmove', ctx.move, touchEvtOpts)
+        el.removeEventListener('touchcancel', ctx.end, touchEvtCapture)
+        el.removeEventListener('touchend', ctx.end, touchEvtCapture)
+      }
 
       delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
     }
