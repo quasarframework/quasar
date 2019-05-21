@@ -146,9 +146,9 @@ export default Vue.extend({
               horizontal: !this.horizontal,
               vertical: this.horizontal,
               prevent: true,
+              stop: true,
               mouse: true,
-              mouseAllDir: true,
-              mousePrevent: true
+              mouseAllDir: true
             }
           }]
         }, slot(this, 'separator'))

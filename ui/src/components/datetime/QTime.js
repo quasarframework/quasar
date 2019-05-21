@@ -500,9 +500,7 @@ export default Vue.extend({
                   modifiers: {
                     stop: true,
                     prevent: true,
-                    mouse: true,
-                    mouseStop: true,
-                    mousePrevent: true
+                    mouse: true
                   }
                 }]
               }, [

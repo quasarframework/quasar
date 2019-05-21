@@ -108,17 +108,22 @@
   "modifiers": {
     "stop": {
       "type": "Boolean",
-      "desc": "Stop event propagation"
+      "desc": "Stop event propagation for touch events"
     },
 
     "prevent": {
       "type": "Boolean",
-      "desc": "Calls event.preventDefault()"
+      "desc": "Calls event.preventDefault() for touch events"
     },
 
     "mightPrevent": {
       "type": "Boolean",
-      "desc": "Required when you might call event.stopPropagation() in your handler"
+      "desc": "Required when you might call event.stopPropagation() in your handler for touch events"
+    },
+
+    "capture": {
+      "type": "Boolean",
+      "desc": "Use capture for touchstart event"
     },
 
     "mouse": {
@@ -126,19 +131,9 @@
       "desc": "Listen for mouse events too"
     },
 
-    "mouseStop": {
+    "mouseCapture": {
       "type": "Boolean",
-      "desc": "If listening for mouse events too: stop mouse event propagation"
-    },
-
-    "mousePrevent": {
-      "type": "Boolean",
-      "desc": "If listening for mouse events too: calls event.preventDefault() on the mouse events"
-    },
-
-    "mouseMightPrevent": {
-      "type": "Boolean",
-      "desc": "If listening for mouse events too: required when you might call event.stopPropagation() in your handler"
+      "desc": "Use capture for mousedown event"
     },
 
     "horizontal": {

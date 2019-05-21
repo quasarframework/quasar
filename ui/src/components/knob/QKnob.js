@@ -225,8 +225,7 @@ export default Vue.extend({
           prevent: true,
           stop: true,
           mouse: true,
-          mousePrevent: true,
-          mouseStop: true
+          mouseAllDir: true
         }
       }]
     }

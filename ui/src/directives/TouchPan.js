@@ -1,4 +1,4 @@
-import { position, leftClick, listenOpts, prevent, stop } from '../utils/event.js'
+import { position, leftClick, listenOpts, prevent, stop, stopAndPrevent } from '../utils/event.js'
 import { setObserver, removeObserver } from '../utils/touch-observer.js'
 import { clearSelection } from '../utils/selection.js'
 
@@ -76,21 +76,23 @@ function shouldTrigger (ctx, changes) {
   }
 }
 
+const mouseEvtOpts = listenOpts.notPassiveCapture
+
 export default {
   name: 'touch-pan',
 
   bind (el, binding) {
     const
       mouse = binding.modifiers.mouse === true,
-      mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
-      mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
-      touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
-      touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive']
+      touchEvtCapture = binding.modifiers.capture === true ? { capture: true } : void 0,
+      touchPassiveStr = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true
+        ? 'passive'
+        : 'notPassive',
+      touchEvtOpts = listenOpts[touchPassiveStr + (touchEvtCapture !== void 0 ? 'Capture' : '')]
 
     function handleEvent (evt, mouseEvent) {
-      if (mouse && mouseEvent) {
-        binding.modifiers.mouseStop && stop(evt)
-        binding.modifiers.mousePrevent && prevent(evt)
+      if (mouse === true && mouseEvent === true) {
+        stopAndPrevent(evt)
       }
       else {
         binding.modifiers.stop && stop(evt)
@@ -104,6 +106,9 @@ export default {
 
       mouseStart (evt) {
         if (leftClick(evt)) {
+          // stop propagation so possible upper v-touch-pan don't catch this as well
+          binding.modifiers.mouseAllDir === true && stop(evt)
+
           document.addEventListener('mousemove', ctx.move, mouseEvtOpts)
           document.addEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
           ctx.start(evt, true)
@@ -170,7 +175,10 @@ export default {
 
         ctx.event.detected = true
 
-        if (ctx.direction.all === false && (ctx.event.mouse === false || binding.modifiers.mouseAllDir !== true)) {
+        if (
+          ctx.direction.all === false &&
+          (ctx.event.mouse === false || binding.modifiers.mouseAllDir !== true)
+        ) {
           ctx.event.abort = ctx.direction.vertical
             ? distX > distY
             : distX < distY
@@ -197,7 +205,11 @@ export default {
         document.body.classList.remove('no-pointer-events')
         document.body.classList.remove('non-selectable')
 
-        if (ctx.event.abort !== true && ctx.event.detected === true && ctx.event.isFirst !== true) {
+        if (
+          ctx.event.abort !== true &&
+          ctx.event.detected === true &&
+          ctx.event.isFirst !== true
+        ) {
           handleEvent(evt, ctx.event.mouse)
           ctx.handler(processChanges(evt, ctx, true))
         }
@@ -213,12 +225,16 @@ export default {
     el.__qtouchpan = ctx
 
     if (mouse === true) {
-      el.addEventListener('mousedown', ctx.mouseStart, mouseEvtOpts)
+      el.addEventListener(
+        'mousedown',
+        ctx.mouseStart,
+        listenOpts[`notPassive${binding.modifiers.mouseCapture === true ? 'Capture' : ''}`]
+      )
     }
     el.addEventListener('touchstart', ctx.start, touchEvtOpts)
     el.addEventListener('touchmove', ctx.move, touchEvtOpts)
-    el.addEventListener('touchcancel', ctx.end)
-    el.addEventListener('touchend', ctx.end)
+    el.addEventListener('touchcancel', ctx.end, touchEvtCapture)
+    el.addEventListener('touchend', ctx.end, touchEvtCapture)
   },
 
   update (el, { oldValue, value, modifiers }) {
@@ -246,21 +262,25 @@ export default {
       document.body.classList.remove('non-selectable')
 
       const
-        mouse = binding.modifiers.mouse === true,
-        mouseEvtPassive = binding.modifiers.mouseMightPrevent !== true && binding.modifiers.mousePrevent !== true,
-        mouseEvtOpts = listenOpts.hasPassive === true ? { passive: mouseEvtPassive, capture: true } : true,
-        touchEvtPassive = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true,
-        touchEvtOpts = listenOpts[touchEvtPassive === true ? 'passive' : 'notPassive']
+        touchEvtCapture = binding.modifiers.capture === true ? { capture: true } : void 0,
+        touchPassiveStr = binding.modifiers.mightPrevent !== true && binding.modifiers.prevent !== true
+          ? 'passive'
+          : 'notPassive',
+        touchEvtOpts = listenOpts[touchPassiveStr + (touchEvtCapture !== void 0 ? 'Capture' : '')]
 
-      if (mouse === true) {
-        el.removeEventListener('mousedown', ctx.mouseStart, mouseEvtOpts)
+      if (binding.modifiers.mouse === true) {
+        el.removeEventListener(
+          'mousedown',
+          ctx.mouseStart,
+          listenOpts[`notPassive${binding.modifiers.mouseCapture === true ? 'Capture' : ''}`]
+        )
         document.removeEventListener('mousemove', ctx.move, mouseEvtOpts)
         document.removeEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
       }
       el.removeEventListener('touchstart', ctx.start, touchEvtOpts)
       el.removeEventListener('touchmove', ctx.move, touchEvtOpts)
-      el.removeEventListener('touchcancel', ctx.end)
-      el.removeEventListener('touchend', ctx.end)
+      el.removeEventListener('touchcancel', ctx.end, touchEvtCapture)
+      el.removeEventListener('touchend', ctx.end, touchEvtCapture)
 
       delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
     }
