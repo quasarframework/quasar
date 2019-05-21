@@ -24,6 +24,7 @@ export default {
       }
       done()
     },
+
     preventPull (e) {
       let parent = e.target
 

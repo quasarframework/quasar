@@ -133,6 +133,8 @@ export default Vue.extend({
           value: this.__pan,
           modifiers: {
             horizontal: true,
+            prevent: true,
+            stop: true,
             mouse: true,
             mouseAllDir: true
           }

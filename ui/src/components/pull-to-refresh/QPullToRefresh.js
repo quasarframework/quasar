@@ -62,8 +62,6 @@ export default Vue.extend({
 
     __pull (event) {
       if (event.isFinal) {
-        this.scrolling = false
-
         if (this.pulling) {
           this.pulling = false
 
@@ -80,24 +78,21 @@ export default Vue.extend({
         return
       }
 
-      if (this.animating || this.scrolling || this.state === 'refreshing') {
-        return true
-      }
-
-      let top = getScrollPosition(this.scrollContainer)
-      if (top !== 0 || (top === 0 && event.direction !== 'down')) {
-        this.scrolling = true
-
-        if (this.pulling) {
-          this.pulling = false
-          this.state = 'pull'
-          this.__animateTo({ pos: -PULLER_HEIGHT, ratio: 0 })
-        }
-
-        return true
+      if (this.animating || this.state === 'refreshing') {
+        return false
       }
 
       if (event.isFirst) {
+        if (getScrollPosition(this.scrollContainer) !== 0) {
+          if (this.pulling) {
+            this.pulling = false
+            this.state = 'pull'
+            this.__animateTo({ pos: -PULLER_HEIGHT, ratio: 0 })
+          }
+
+          return false
+        }
+
         this.pulling = true
 
         const { top, left } = this.$el.getBoundingClientRect()
@@ -147,12 +142,12 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-pull-to-refresh overflow-hidden',
-      directives: this.disable
+      directives: this.disable === true
         ? null
         : [{
           name: 'touch-pan',
           modifiers: {
-            vertical: true,
+            down: true,
             mightPrevent: true,
             mouse: !this.noMouse
           },

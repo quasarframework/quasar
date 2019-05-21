@@ -39,6 +39,67 @@
       </div>
 
       <p class="caption">
+        Page scrolling is prevented, but you can opt out if you wish.
+      </p>
+      <div>
+        Click status: {{ clickStatus }}
+      </div>
+      <div
+        v-touch-pan.prevent.right.mouse="handlePanRight"
+        @click="e => onEvt('click', e)"
+        @mousedown="e => onEvt('mousedown', e)"
+        @mousemove="e => onEvt('mousemove', e)"
+        @mouseup="e => onEvt('mouseup', e)"
+        class="custom-area row flex-center"
+        ref="area"
+      >
+        <div v-if="infoRight" class="custom-info">
+          <pre>{{ infoRight }}</pre>
+        </div>
+        <div v-else class="text-center q-pa-xl custom-area-placeholder">
+          <div class="row items-center">
+            <div>Pan right</div>
+            <q-icon name="arrow_forward" />
+          </div>
+        </div>
+
+        <div v-if="panningRight" class="touch-signal">
+          <q-icon name="touch_app" />
+        </div>
+      </div>
+
+      <p class="caption">
+        Page scrolling is prevented, but you can opt out if you wish.
+      </p>
+      <div>
+        Click status: {{ clickStatus }}
+      </div>
+      <div
+        v-touch-pan.prevent.up.right.mouse="handlePanUpRight"
+        @click="e => onEvt('click', e)"
+        @mousedown="e => onEvt('mousedown', e)"
+        @mousemove="e => onEvt('mousemove', e)"
+        @mouseup="e => onEvt('mouseup', e)"
+        class="custom-area row flex-center"
+        ref="area"
+      >
+        <div v-if="infoUpRight" class="custom-info">
+          <pre>{{ infoUpRight }}</pre>
+        </div>
+        <div v-else class="text-center q-pa-xl custom-area-placeholder">
+          <q-icon name="arrow_upward" />
+          <div class="row items-center">
+            <div>Pan up & right</div>
+            <q-icon name="arrow_forward" />
+          </div>
+        </div>
+
+        <div v-if="panningUpRight" class="touch-signal">
+          <q-icon name="touch_app" />
+        </div>
+      </div>
+
+      <p class="caption">
         Panning works both with a mouse or a native touch action.
         <br>
         You can also capture pan to certain directions (any) only as you'll see below.
@@ -123,6 +184,12 @@ export default {
       panning: false,
       clickStatus: null,
 
+      infoRight: null,
+      panningRight: false,
+
+      infoUpRight: null,
+      panningUpRight: false,
+
       infoHorizontal: null,
       panningHorizontal: false,
 
@@ -143,6 +210,34 @@ export default {
       }
       else if (isFinal) {
         this.panning = false
+      }
+    },
+    handlePanRight ({ position, direction, duration, distance, delta, isFirst, isFinal, evt }) {
+      this.infoRight = { position, direction, duration, distance, delta, isFirst, isFinal }
+
+      // native Javascript event
+      // console.log(evt)
+
+      if (isFirst) {
+        this.panningRight = true
+        this.clickStatus = null
+      }
+      else if (isFinal) {
+        this.panningRight = false
+      }
+    },
+    handlePanUpRight ({ position, direction, duration, distance, delta, isFirst, isFinal, evt }) {
+      this.infoUpRight = { position, direction, duration, distance, delta, isFirst, isFinal }
+
+      // native Javascript event
+      // console.log(evt)
+
+      if (isFirst) {
+        this.panningUpRight = true
+        this.clickStatus = null
+      }
+      else if (isFinal) {
+        this.panningUpRight = false
       }
     },
     panHorizontally ({ position, direction, duration, distance, delta, isFirst, isFinal, evt }) {

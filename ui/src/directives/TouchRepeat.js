@@ -1,5 +1,5 @@
 import { position, leftClick, stopAndPrevent, listenOpts } from '../utils/event.js'
-import { setObserver, removeObserver } from '../utils/touch-observer.js'
+import { setObserver, removeObserver } from '../utils/touch.js'
 import { clearSelection } from '../utils/selection.js'
 import Platform from '../plugins/Platform.js'
 

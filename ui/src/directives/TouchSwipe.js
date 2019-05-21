@@ -1,38 +1,7 @@
 import Platform from '../plugins/Platform.js'
-import { setObserver, removeObserver } from '../utils/touch-observer.js'
+import { setObserver, removeObserver, getModifierDirections, updateModifiers } from '../utils/touch.js'
 import { position, leftClick, stopAndPrevent, listenOpts } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
-
-function getDirection (mod) {
-  let dir = {}
-
-  ;['left', 'right', 'up', 'down', 'horizontal', 'vertical'].forEach(direction => {
-    if (mod[direction]) {
-      dir[direction] = true
-    }
-  })
-
-  if (Object.keys(dir).length === 0) {
-    return {
-      left: true, right: true, up: true, down: true, horizontal: true, vertical: true
-    }
-  }
-
-  if (dir.horizontal) {
-    dir.left = dir.right = true
-  }
-  if (dir.vertical) {
-    dir.up = dir.down = true
-  }
-  if (dir.left && dir.right) {
-    dir.horizontal = true
-  }
-  if (dir.up && dir.down) {
-    dir.vertical = true
-  }
-
-  return dir
-}
 
 function parseArg (arg) {
   // delta (min velocity -- dist / time)
@@ -53,14 +22,15 @@ function parseArg (arg) {
 export default {
   name: 'touch-swipe',
 
-  bind (el, binding) {
-    const mouse = binding.modifiers.mouse === true
+  bind (el, { value, arg, modifiers }) {
+    const mouse = modifiers.mouse === true
 
     let ctx = {
-      handler: binding.value,
-      sensitivity: parseArg(binding.arg),
-      mod: binding.modifiers,
-      direction: getDirection(binding.modifiers),
+      handler: value,
+      sensitivity: parseArg(arg),
+
+      modifiers: modifiers,
+      direction: getModifierDirections(modifiers),
 
       mouseStart (evt) {
         if (leftClick(evt)) {
@@ -239,8 +209,9 @@ export default {
   },
 
   update (el, binding) {
-    if (binding.oldValue !== binding.value) {
-      el.__qtouchswipe.handler = binding.value
+    const ctx = el.__qtouchswipe
+    if (ctx !== void 0) {
+      updateModifiers(ctx, binding)
     }
   },
 
