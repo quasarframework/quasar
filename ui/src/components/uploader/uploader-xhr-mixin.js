@@ -101,12 +101,12 @@ export default {
         this.promises.push(res)
 
         res.then(factory => {
-          if (this._isBeingDestroyed === true || this._isDestroyed === true) {
+          if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
             this.promises = this.promises.filter(p => p !== res)
             this.__uploadFiles(files, factory)
           }
         }).catch(err => {
-          if (this._isBeingDestroyed === true || this._isDestroyed === true) {
+          if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
             this.promises = this.promises.filter(p => p !== res)
 
             this.queuedFiles = this.queuedFiles.concat(files)
