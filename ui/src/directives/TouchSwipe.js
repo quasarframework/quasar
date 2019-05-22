@@ -23,7 +23,10 @@ export default {
   name: 'touch-swipe',
 
   bind (el, { value, arg, modifiers }) {
-    const mouse = modifiers.mouse === true
+    // early return, we don't need to do anything
+    if (modifiers.mouse !== true && Platform.has.touch !== true) {
+      return
+    }
 
     let ctx = {
       handler: value,
@@ -198,14 +201,18 @@ export default {
 
     el.__qtouchswipe = ctx
 
-    if (mouse === true) {
-      el.addEventListener('mousedown', ctx.mouseStart)
+    if (modifiers.mouse === true) {
+      el.addEventListener('mousedown', ctx.mouseStart, modifiers.mouseCapture)
     }
 
-    el.addEventListener('touchstart', ctx.start, listenOpts.notPassive)
-    el.addEventListener('touchmove', ctx.move, listenOpts.notPassive)
-    el.addEventListener('touchcancel', ctx.end)
-    el.addEventListener('touchend', ctx.end)
+    if (Platform.has.touch === true) {
+      const opts = listenOpts['notPassive' + (modifiers.capture === true ? 'Capture' : '')]
+
+      el.addEventListener('touchstart', ctx.start, opts)
+      el.addEventListener('touchmove', ctx.move, opts)
+      el.addEventListener('touchcancel', ctx.end, opts)
+      el.addEventListener('touchend', ctx.end, opts)
+    }
   },
 
   update (el, binding) {
@@ -216,22 +223,27 @@ export default {
     }
   },
 
-  unbind (el, binding) {
+  unbind (el, { modifiers }) {
     const ctx = el.__qtouchswipe_old || el.__qtouchswipe
 
     if (ctx !== void 0) {
       removeObserver(ctx)
       document.body.classList.remove('no-pointer-events')
 
-      if (binding.modifiers.mouse === true) {
-        el.removeEventListener('mousedown', ctx.mouseStart)
+      if (modifiers.mouse === true) {
+        el.removeEventListener('mousedown', ctx.mouseStart, modifiers.mouseCapture)
         document.removeEventListener('mousemove', ctx.move, true)
         document.removeEventListener('mouseup', ctx.mouseEnd, true)
       }
-      el.removeEventListener('touchstart', ctx.start, listenOpts.notPassive)
-      el.removeEventListener('touchmove', ctx.move, listenOpts.notPassive)
-      el.removeEventListener('touchcancel', ctx.end)
-      el.removeEventListener('touchend', ctx.end)
+
+      if (Platform.has.touch === true) {
+        const opts = listenOpts['notPassive' + (modifiers.capture === true ? 'Capture' : '')]
+
+        el.removeEventListener('touchstart', ctx.start, opts)
+        el.removeEventListener('touchmove', ctx.move, opts)
+        el.removeEventListener('touchcancel', ctx.end, opts)
+        el.removeEventListener('touchend', ctx.end, opts)
+      }
 
       delete el[el.__qtouchswipe_old ? '__qtouchswipe_old' : '__qtouchswipe']
     }

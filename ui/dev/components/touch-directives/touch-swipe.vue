@@ -93,6 +93,31 @@
           </div>
         </div>
       </div>
+
+      <p class="caption">
+        Swipe test (capture + preventing it from inner square)
+        -- should still work
+      </p>
+      <div
+        v-touch-swipe.capture.mouse.mouseCapture="handleSwipeTestCapture"
+        @click="onClick"
+        class="row flex-center"
+      >
+        <div @touchstart.stop @mousedown.stop style="padding: 24px" class="cursor-pointer bg-primary text-white rounded-borders shadow-2">
+          <div v-if="infoTestCapture" class="custom-info">
+            <pre>{{ infoTestCapture }}</pre>
+          </div>
+          <div v-else class="text-center q-pa-xl custom-area-placeholder">
+            <q-icon name="arrow_upward" />
+            <div class="row items-center">
+              <q-icon name="arrow_back" />
+              <div>Swipe in any direction</div>
+              <q-icon name="arrow_forward" />
+            </div>
+            <q-icon name="arrow_downward" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -107,6 +132,7 @@ export default {
       infoRight: null,
       infoCustom: null,
       infoTest: null,
+      infoTestCapture: null,
       swipeTestStopPropagation: true
     }
   },
@@ -117,21 +143,33 @@ export default {
       // native Javascript event
       console.log(evt)
     },
+
     handleSwipeTest ({ evt, ...info }) {
       this.infoTest = info
 
       // native Javascript event
       console.log(evt)
     },
+
+    handleSwipeTestCapture ({ evt, ...info }) {
+      this.infoTestCapture = info
+
+      // native Javascript event
+      console.log(evt)
+    },
+
     swipeToRight ({ evt, ...info }) {
       this.infoRight = info
     },
+
     swipeToCustom ({ evt, ...info }) {
       this.infoCustom = info
     },
+
     onClick () {
       console.log('onClick')
     },
+
     handleEvt (e) {
       if (this.swipeTestStopPropagation) {
         e.stopPropagation()
