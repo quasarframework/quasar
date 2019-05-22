@@ -84,7 +84,7 @@ export default {
           distY = pos.top - ctx.event.y,
           absY = Math.abs(distY)
 
-        if (Platform.is.mobile) {
+        if (Platform.is.mobile === true) {
           if (absX < ctx.sensitivity[1] && absY < ctx.sensitivity[1]) {
             ctx.event.abort = true
             return
@@ -99,7 +99,7 @@ export default {
           velY = absY / time
 
         if (
-          ctx.direction.vertical &&
+          ctx.direction.vertical === true &&
           absX < absY &&
           absX < 100 &&
           velY > ctx.sensitivity[0]
@@ -108,7 +108,7 @@ export default {
         }
 
         if (
-          ctx.direction.horizontal &&
+          ctx.direction.horizontal === true &&
           absX > absY &&
           absY < 100 &&
           velX > ctx.sensitivity[0]
@@ -117,7 +117,7 @@ export default {
         }
 
         if (
-          ctx.direction.up &&
+          ctx.direction.up === true &&
           absX < absY &&
           distY < 0 &&
           absX < 100 &&
@@ -127,7 +127,7 @@ export default {
         }
 
         if (
-          ctx.direction.down &&
+          ctx.direction.down === true &&
           absX < absY &&
           distY > 0 &&
           absX < 100 &&
@@ -137,7 +137,7 @@ export default {
         }
 
         if (
-          ctx.direction.left &&
+          ctx.direction.left === true &&
           absX > absY &&
           distX < 0 &&
           absY < 100 &&
@@ -147,7 +147,7 @@ export default {
         }
 
         if (
-          ctx.direction.right &&
+          ctx.direction.right === true &&
           absX > absY &&
           distX > 0 &&
           absY < 100 &&
@@ -210,6 +210,7 @@ export default {
 
   update (el, binding) {
     const ctx = el.__qtouchswipe
+
     if (ctx !== void 0) {
       updateModifiers(ctx, binding)
     }
@@ -217,6 +218,7 @@ export default {
 
   unbind (el, binding) {
     const ctx = el.__qtouchswipe_old || el.__qtouchswipe
+
     if (ctx !== void 0) {
       removeObserver(ctx)
       document.body.classList.remove('no-pointer-events')
