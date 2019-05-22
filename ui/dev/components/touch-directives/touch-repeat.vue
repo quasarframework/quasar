@@ -58,6 +58,49 @@
         </div>
       </div>
 
+      <p class="caption">
+        Repeat test (preventing it from inner square)
+      </p>
+      <div
+        v-touch-repeat:1000:300.mouse.enter.72.104="handleRepeatTest"
+        @click="onClick"
+        class="row flex-center"
+      >
+        <div @touchstart="handleEvt" @mousedown="handleEvt" @keydown="handleEvt" style="padding: 24px" class="cursor-pointer bg-primary text-white rounded-borders shadow-2 relative-position">
+          <div>
+            <q-toggle dark color="black" v-model="repeatTestStopPropagation" label="Stop propagation" />
+          </div>
+
+          <div v-if="infoTest" class="custom-info">
+            <pre>{{ infoTest }}</pre>
+          </div>
+
+          <div v-else class="q-pa-xl custom-area-placeholder" tabindex="0">
+            Click/touch or press ENTER/H and hold
+          </div>
+        </div>
+      </div>
+
+      <p class="caption">
+        Repeat test (capture + preventing it from inner square)
+        -- should still work
+      </p>
+      <div
+        v-touch-repeat:1000:300.capture.mouse.mouseCapture.keyCapture.enter.72.104="handleRepeatTestCapture"
+        @click="onClick"
+        class="row flex-center"
+      >
+        <div @touchstart.stop @mousedown.stop @keydown.stop style="padding: 24px" class="cursor-pointer bg-primary text-white rounded-borders shadow-2 relative-position">
+          <div v-if="infoTestCapture" class="custom-info">
+            <pre>{{ infoTestCapture }}</pre>
+          </div>
+
+          <div v-else class="q-pa-xl custom-area-placeholder" tabindex="0">
+            Click/touch or press ENTER/H and hold
+          </div>
+        </div>
+      </div>
+
       <div style="height: 500px">
         Scroll on purpose
       </div>
@@ -73,7 +116,12 @@ export default {
     return {
       info1: null,
       info2: null,
-      info3: null
+      info3: null,
+
+      repeatTestStopPropagation: true,
+      infoTest: null,
+
+      infoTestCapture: null
     }
   },
   methods: {
@@ -99,6 +147,25 @@ export default {
         this.info3.key = evt.key
         this.info3.code = evt.code
       }
+
+      // native Javascript event
+      console.log(evt)
+    },
+
+    handleEvt (e) {
+      if (this.repeatTestStopPropagation) {
+        e.stopPropagation()
+      }
+    },
+    handleRepeatTest ({ evt, ...info }) {
+      this.infoTest = info
+
+      // native Javascript event
+      console.log(evt)
+    },
+
+    handleRepeatTestCapture ({ evt, ...info }) {
+      this.infoTestCapture = info
 
       // native Javascript event
       console.log(evt)
