@@ -23,6 +23,10 @@ export default {
   name: 'touch-swipe',
 
   bind (el, { value, arg, modifiers }) {
+    if (el.__qtouchswipe) {
+      el.__qtouchswipe_old = el.__qtouchswipe
+    }
+
     // early return, we don't need to do anything
     if (modifiers.mouse !== true && Platform.has.touch !== true) {
       return
@@ -193,10 +197,6 @@ export default {
 
         ctx.event = void 0
       }
-    }
-
-    if (el.__qtouchswipe) {
-      el.__qtouchswipe_old = el.__qtouchswipe
     }
 
     el.__qtouchswipe = ctx

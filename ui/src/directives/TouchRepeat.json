@@ -22,9 +22,24 @@
   },
 
   "modifiers": {
+    "capture": {
+      "type": "Boolean",
+      "desc": "Use capture for touchstart event"
+    },
+
     "mouse": {
       "type": "Boolean",
       "desc": "Listen for mouse events too"
+    },
+
+    "mouseCapture": {
+      "type": "Boolean",
+      "desc": "Use capture for mousedown event"
+    },
+
+    "keyCapture": {
+      "type": "Boolean",
+      "desc": "Use capture for keydown event"
     },
 
     "esc": {

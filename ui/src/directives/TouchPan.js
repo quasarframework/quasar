@@ -98,6 +98,10 @@ export default {
   name: 'touch-pan',
 
   bind (el, { value, modifiers }) {
+    if (el.__qtouchpan) {
+      el.__qtouchpan_old = el.__qtouchpan
+    }
+
     // early return, we don't need to do anything
     if (modifiers.mouse !== true && Platform.has.touch !== true) {
       return
@@ -250,10 +254,6 @@ export default {
 
         ctx.event = void 0
       }
-    }
-
-    if (el.__qtouchpan) {
-      el.__qtouchpan_old = el.__qtouchpan
     }
 
     el.__qtouchpan = ctx

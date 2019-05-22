@@ -101,6 +101,17 @@
         </div>
       </div>
 
+      <p class="caption">
+        Btn test
+      </p>
+      <div class="row flex-center q-my-md">
+        <q-btn round class="on-left" icon="remove" v-touch-repeat:300:600.mouse.enter.space="() => { testN -= 1 }" @click="onClick" />
+        <q-btn push round class="on-left" icon="remove" v-touch-repeat.mouse.enter.space="() => { testN -= 1 }" @click="onClick" />
+        <span class="q-mx-sm">{{ testN }}</span>
+        <q-btn push round class="on-right" icon="add" v-touch-repeat.mouse.enter.space="() => { testN += 1 }" @click="onClick" />
+        <q-btn round class="on-right" icon="add" v-touch-repeat:300:600.mouse.enter.space="() => { testN += 1 }" @click="onClick" />
+      </div>
+
       <div style="height: 500px">
         Scroll on purpose
       </div>
@@ -121,35 +132,41 @@ export default {
       repeatTestStopPropagation: true,
       infoTest: null,
 
-      infoTestCapture: null
+      infoTestCapture: null,
+
+      testN: 0
     }
   },
   methods: {
-    handleHold1 ({ keyboard, startTime, duration, repeatCount, evt }) {
-      this.info1 = { keyboard, startTime, duration, repeatCount }
+    handleHold1 ({ evt, ...info }) {
+      this.info1 = info
 
       // native Javascript event
-      console.log(evt)
+      console.log('TRIGGER', evt)
     },
-    handleHold2 ({ keyboard, startTime, duration, repeatCount, evt }) {
-      this.info2 = { keyboard, startTime, duration, repeatCount }
-      if (keyboard) {
+
+    handleHold2 ({ evt, ...info }) {
+      this.info2 = info
+
+      if (info.keyboard) {
         this.info2.key = evt.key
         this.info2.code = evt.code
       }
 
       // native Javascript event
-      console.log(evt)
+      console.log('TRIGGER', evt)
     },
+
     handleHold3 ({ evt, ...info }) {
       this.info3 = info
+
       if (info.keyboard) {
         this.info3.key = evt.key
         this.info3.code = evt.code
       }
 
       // native Javascript event
-      console.log(evt)
+      console.log('TRIGGER', evt)
     },
 
     handleEvt (e) {
@@ -157,22 +174,23 @@ export default {
         e.stopPropagation()
       }
     },
+
     handleRepeatTest ({ evt, ...info }) {
       this.infoTest = info
 
       // native Javascript event
-      console.log(evt)
+      console.log('TRIGGER', evt)
     },
 
     handleRepeatTestCapture ({ evt, ...info }) {
       this.infoTestCapture = info
 
       // native Javascript event
-      console.log(evt)
+      console.log('TRIGGER', evt)
     },
 
     onClick (evt) {
-      console.log('click', evt)
+      console.log('@click', evt)
     }
   }
 }

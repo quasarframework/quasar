@@ -29,6 +29,10 @@ export default {
   name: 'touch-hold',
 
   bind (el, { modifiers, ...rest }) {
+    if (el.__qtouchhold) {
+      el.__qtouchhold_old = el.__qtouchhold
+    }
+
     // early return, we don't need to do anything
     if (modifiers.mouse !== true && Platform.has.touch !== true) {
       return
@@ -110,10 +114,6 @@ export default {
           clearTimeout(ctx.timer)
         }
       }
-    }
-
-    if (el.__qtouchhold) {
-      el.__qtouchhold_old = el.__qtouchhold
     }
 
     el.__qtouchhold = ctx
