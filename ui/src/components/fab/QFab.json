@@ -38,6 +38,19 @@
       "category": "behavior"
     },
 
+    "type":{
+      "type": "String",
+      "desc": "Define the button HTML DOM type",
+      "values": [
+        "a",
+        "submit", "button", "reset"
+      ],
+      "examples": [
+        ":type=\"a\""
+      ],
+      "category": "general"
+    },
+
     "outline": {
       "type": "Boolean",
       "desc": "Use 'outline' design for Fab button",
