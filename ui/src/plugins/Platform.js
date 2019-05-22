@@ -67,9 +67,19 @@ function getPlatform (userAgent) {
     browser[matched.platform] = true
   }
 
+  const knownMobiles = browser.android ||
+    browser.bb ||
+    browser.blackberry ||
+    browser.ipad ||
+    browser.iphone ||
+    browser.ipod ||
+    browser.kindle ||
+    browser.playbook ||
+    browser.silk ||
+    browser['windows phone']
+
   // These are all considered mobile platforms, meaning they run a mobile browser
-  if (browser.android || browser.bb || browser.blackberry || browser.ipad || browser.iphone ||
-    browser.ipod || browser.kindle || browser.playbook || browser.silk || browser['windows phone']) {
+  if (knownMobiles === true || /mobile|opera\s*mobi/.test(userAgent) === true) {
     browser.mobile = true
   }
   // If it's not mobile we should consider it's desktop platform, meaning it runs a desktop browser
@@ -90,7 +100,18 @@ function getPlatform (userAgent) {
   }
 
   // Chrome, Opera 15+, Vivaldi and Safari are webkit based browsers
-  if (browser.chrome || browser.opr || browser.safari || browser.vivaldi) {
+  if (
+    browser.chrome ||
+    browser.opr ||
+    browser.safari ||
+    browser.vivaldi ||
+    // we expect unknown, non iOS mobile browsers to be webkit based
+    (
+      browser.mobile === true &&
+      browser.ios !== true &&
+      knownMobiles !== true
+    )
+  ) {
     browser.webkit = true
   }
 
