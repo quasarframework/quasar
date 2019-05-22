@@ -74,6 +74,7 @@ function getPlatform (userAgent) {
   }
   // If it's not mobile we should consider it's desktop platform, meaning it runs a desktop browser
   // It's a workaround for anonymized user agents
+  // (browser.cros || browser.mac || browser.linux || browser.win)
   else {
     browser.desktop = true
   }
