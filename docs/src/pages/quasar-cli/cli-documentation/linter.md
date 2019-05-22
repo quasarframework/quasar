@@ -7,7 +7,6 @@ When you create a Quasar project folder with Quasar CLI it will ask you if you w
 
 * [Standard](https://github.com/standard/standard)
 * [Airbnb](https://github.com/airbnb/javascript)
-* [Prettier](https://github.com/prettier/prettier)
 * .. or you can configure one yourself
 
 Two dot files will be created:
