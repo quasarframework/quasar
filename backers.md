@@ -250,6 +250,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Support Logient
 - Oleksander Mashianov
 - James
+- VHCI Business Development SRL
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
