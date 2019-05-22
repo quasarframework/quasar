@@ -170,6 +170,69 @@
       <p class="caption">
         For desktops, you can configure to avoid capturing mouse pans if you wish.
       </p>
+
+      <p class="caption">
+        Pan test (preventing it from inner square)
+      </p>
+      <div
+        v-touch-pan.mouse="handlePanTest"
+        @click="e => onEvt('click', e)"
+        class="row flex-center"
+      >
+        <div @touchstart="handleEvt" @mousedown="handleEvt" style="padding: 24px" class="cursor-pointer bg-primary text-white rounded-borders shadow-2 relative-position">
+          <div>
+            <q-toggle dark color="black" v-model="panTestStopPropagation" label="Stop propagation" />
+          </div>
+
+          <div v-if="infoTest" class="custom-info">
+            <pre>{{ infoTest }}</pre>
+          </div>
+
+          <div v-else class="text-center q-pa-xl custom-area-placeholder">
+            <q-icon name="arrow_upward" />
+            <div class="row items-center">
+              <q-icon name="arrow_back" />
+              <div>Pan in any direction</div>
+              <q-icon name="arrow_forward" />
+            </div>
+            <q-icon name="arrow_downward" />
+          </div>
+
+          <div v-if="panningTest" class="touch-signal">
+            <q-icon name="touch_app" />
+          </div>
+        </div>
+      </div>
+
+      <p class="caption">
+        Pan test (capture + preventing it from inner square)
+        -- should still work
+      </p>
+      <div
+        v-touch-pan.capture.mouse.mouseCapture="handlePanTestCapture"
+        @click="e => onEvt('click', e)"
+        class="row flex-center"
+      >
+        <div @touchstart.stop @mousedown.stop style="padding: 24px" class="cursor-pointer bg-primary text-white rounded-borders shadow-2 relative-position">
+          <div v-if="infoTestCapture" class="custom-info">
+            <pre>{{ infoTestCapture }}</pre>
+          </div>
+
+          <div v-else class="text-center q-pa-xl custom-area-placeholder">
+            <q-icon name="arrow_upward" />
+            <div class="row items-center">
+              <q-icon name="arrow_back" />
+              <div>Pan in any direction</div>
+              <q-icon name="arrow_forward" />
+            </div>
+            <q-icon name="arrow_downward" />
+          </div>
+
+          <div v-if="panningTestCapture" class="touch-signal">
+            <q-icon name="touch_app" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -194,7 +257,14 @@ export default {
       panningHorizontal: false,
 
       infoVertical: null,
-      panningVertical: false
+      panningVertical: false,
+
+      panTestStopPropagation: true,
+      infoTest: null,
+      panningTest: false,
+
+      infoTestCapture: null,
+      panningTestCapture: false
     }
   },
   methods: {
@@ -266,6 +336,41 @@ export default {
       }
       else if (info.isFinal) {
         this.panningVertical = false
+      }
+    },
+
+    handleEvt (e) {
+      if (this.panTestStopPropagation) {
+        e.stopPropagation()
+      }
+    },
+    handlePanTest ({ evt, ...info }) {
+      this.infoTest = info
+
+      // native Javascript event
+      console.log(evt)
+
+      if (info.isFirst) {
+        this.panningTest = true
+        this.clickStatus = null
+      }
+      else if (info.isFinal) {
+        this.panningTest = false
+      }
+    },
+
+    handlePanTestCapture ({ evt, ...info }) {
+      this.infoTestCapture = info
+
+      // native Javascript event
+      console.log(evt)
+
+      if (info.isFirst) {
+        this.panningTestCapture = true
+        this.clickStatus = null
+      }
+      else if (info.isFinal) {
+        this.panningTestCapture = false
       }
     },
 
