@@ -5,12 +5,12 @@
     "type":{
       "type": "String",
       "desc": "Define the button HTML DOM type",
+      "default": "button",
       "values": [
-        "a",
-        "submit", "button", "reset"
+        "a", "submit", "button", "reset"
       ],
       "examples": [
-        ":type=\"a\" href=\"http://some-site.net\" target=\"__blank\""
+        "type=\"a\" href=\"http://some-site.net\" target=\"__blank\""
       ],
       "category": "general"
     },

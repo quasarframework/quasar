@@ -51,6 +51,9 @@ export default Vue.extend({
         ref: 'trigger',
         props: {
           ...this.$props,
+          icon: void 0,
+          iconRight: void 0,
+          label: void 0,
           fab: true
         },
         on: {

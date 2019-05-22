@@ -41,6 +41,7 @@
     "type":{
       "type": "String",
       "desc": "Define the button HTML DOM type",
+      "default": "a",
       "values": [
         "a", "submit", "button", "reset"
       ],
