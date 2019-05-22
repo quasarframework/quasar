@@ -73,9 +73,7 @@ export default {
       },
 
       mouseMove (evt) {
-        ctx.event !== void 0 && shouldEnd(evt, ctx.origin) === true && setTimeout(() => {
-          ctx.mouseEnd(evt)
-        })
+        ctx.event !== void 0 && shouldEnd(evt, ctx.origin) === true && ctx.mouseEnd(evt)
       },
 
       mouseEnd (evt) {
