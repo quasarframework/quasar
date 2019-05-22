@@ -118,14 +118,18 @@ export default {
       })
       */
     }
-  }
+  },
 
-  /*
   mounted () {
+    this.$q.notify({
+      message: '<em>I can</em> <span style="color: red">inject</span> <strong>HTML</strong>',
+      html: true
+    })
+    /*
     this.$q.notify.setDefaults({
       actions: [{ icon: 'close', handler () { console.log('cloooose') } }]
     })
+    */
   }
-  */
 }
 </script>
