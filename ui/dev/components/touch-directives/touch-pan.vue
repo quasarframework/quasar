@@ -209,7 +209,7 @@
         -- should still work
       </p>
       <div
-        v-touch-pan.capture.mouse.mouseCapture="handlePanTestCapture"
+        v-touch-pan.prevent.capture.mouse.mouseCapture="handlePanTestCapture"
         @click="e => onEvt('click', e)"
         class="row flex-center"
       >

@@ -138,7 +138,7 @@ export default {
       infoCustom: null,
 
       infoTest: null,
-      holdTestStopPropagation: false,
+      holdTestStopPropagation: true,
 
       infoTestCapture: null
     }
