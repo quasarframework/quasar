@@ -50,14 +50,8 @@ export default Vue.extend({
       h(QBtn, {
         ref: 'trigger',
         props: {
-          fab: true,
-          outline: this.outline,
-          push: this.push,
-          flat: this.flat,
-          color: this.color,
-          textColor: this.textColor,
-          glossy: this.glossy,
-          disable: this.disable
+          ...this.$props,
+          fab: true
         },
         on: {
           click: this.toggle
