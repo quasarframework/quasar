@@ -115,6 +115,14 @@ export default {
 </script>
 ```
 
+### Asynchronous Example
+Use `async` if your action relies on a asynchronous request, such as an api call, to assure your data is loaded on intital SSR. 
+
+```
+async preFetch ({ store, currentRoute}) {
+  return store.dispatch('fetchItem', currentRoute.params.id)
+}
+```
 ### Redirecting Example
 Example of redirecting the user under some circumstances, like when they try to access a page that only an authenticated user should see.
 
