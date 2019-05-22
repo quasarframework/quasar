@@ -72,6 +72,12 @@ function getPlatform (userAgent) {
     browser.ipod || browser.kindle || browser.playbook || browser.silk || browser['windows phone']) {
     browser.mobile = true
   }
+  // If it's not mobile we should consider it's desktop platform, meaning it runs a desktop browser
+  // It's a workaround for anonymized user agents
+  // (browser.cros || browser.mac || browser.linux || browser.win)
+  else {
+    browser.desktop = true
+  }
 
   // Set iOS if on iPod, iPad or iPhone
   if (browser.ipod || browser.ipad || browser.iphone) {
@@ -81,11 +87,6 @@ function getPlatform (userAgent) {
   if (browser['windows phone']) {
     browser.winphone = true
     delete browser['windows phone']
-  }
-
-  // These are all considered desktop platforms, meaning they run a desktop browser
-  if (browser.cros || browser.mac || browser.linux || browser.win) {
-    browser.desktop = true
   }
 
   // Chrome, Opera 15+, Vivaldi and Safari are webkit based browsers
