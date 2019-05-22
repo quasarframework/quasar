@@ -42,11 +42,7 @@
       "type": "String",
       "desc": "Define the button HTML DOM type",
       "values": [
-        "a",
-        "submit", "button", "reset"
-      ],
-      "examples": [
-        ":type=\"a\""
+        "a", "submit", "button", "reset"
       ],
       "category": "general"
     },
