@@ -54,6 +54,7 @@ export default {
   width 90%
   height 480px
   border-radius 3px
+  padding 8px
 
 .custom-info pre
   width 180px

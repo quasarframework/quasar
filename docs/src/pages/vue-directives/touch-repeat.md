@@ -22,6 +22,10 @@ Below is an example configured to also react to `SPACE`, `ENTER` and `h` keys (*
 
 <doc-example title="Custom keys" file="TouchRepeat/Keys" />
 
+Below is an example of applying TouchRepeat to QBtn. Notice how we play with the directive arguments in order to make the blue buttons increment slower than the red ones.
+
+<doc-example title="Applied to QBtn" file="TouchRepeat/Buttons" />
+
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:
 
