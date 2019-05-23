@@ -13,6 +13,14 @@
             "desc": "Original JS event Object",
             "__exemption": [ "examples" ]
           },
+          "touch": {
+            "type": "Boolean",
+            "desc": "Triggered by a touch event"
+          },
+          "mouse": {
+            "type": "Boolean",
+            "desc": "Triggered by a mouse event"
+          },
           "position": {
             "type": "Object",
             "desc": "Event Position Object",
@@ -43,9 +51,13 @@
 
   "arg": {
     "type": "Number",
-    "desc": "Amount of time to wait (in milliseconds)",
-    "default": 600,
-    "examples": [ "v-touch-hold:400=\"fnToCall\"" ]
+    "desc": "Amount of time to wait (in milliseconds) and touch event sensitivity and mouse event sensitivity",
+    "default": "600:5:7",
+    "examples": [
+      "v-touch-hold:400=\"fnToCall\"",
+      "v-touch-hold:400:15=\"fnToCall\"",
+      "v-touch-hold:400:10:10=\"fnToCall\""
+    ]
   },
 
   "modifiers": {

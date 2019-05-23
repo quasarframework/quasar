@@ -87,6 +87,8 @@ export default {
 
           ctx.handler({
             evt,
+            touch: mouseEvent !== true,
+            mouse: mouseEvent === true,
             position: ctx.origin,
             duration: new Date().getTime() - startTime
           })
