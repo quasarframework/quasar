@@ -24,7 +24,7 @@ For your QField you can use only one of the main designs (`filled`, `outlined`, 
 :::
 
 ::: danger
-QField is not (and should not) manage your `control` slot, so if you use `label` prop, it might be a good idea to also specify `stack-label`, otherwise it might overlap your control when QField is not focused.
+QField does not (and should not) manage your `control` slot, so if you use `label` prop, it might be a good idea to also specify `stack-label`, otherwise it might overlap your control when QField is not focused.
 :::
 
 <doc-example title="Design Overview" file="QField/DesignOverview" />
