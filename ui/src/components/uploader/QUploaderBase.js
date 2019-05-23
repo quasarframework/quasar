@@ -71,6 +71,7 @@ export default {
 
     canUpload () {
       return this.editable === true &&
+        this.isBusy !== true &&
         this.isUploading !== true &&
         this.queuedFiles.length > 0
     },

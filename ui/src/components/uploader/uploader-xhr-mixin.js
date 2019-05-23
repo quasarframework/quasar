@@ -58,6 +58,10 @@ export default {
   methods: {
     abort () {
       this.xhrs.forEach(x => { x.abort() })
+
+      if (this.promises.length > 0) {
+        this.abortPromises = true
+      }
     },
 
     upload () {
@@ -99,14 +103,13 @@ export default {
       else if (typeof res.catch === 'function' && typeof res.then === 'function') {
         this.promises.push(res)
 
-        res.then(factory => {
+        const failed = err => {
           if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
             this.promises = this.promises.filter(p => p !== res)
-            this.__uploadFiles(files, factory)
-          }
-        }).catch(err => {
-          if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
-            this.promises = this.promises.filter(p => p !== res)
+
+            if (this.promises.length === 0) {
+              this.abortPromises = false
+            }
 
             this.queuedFiles = this.queuedFiles.concat(files)
             files.forEach(f => { this.__updateFile(f, 'failed') })
@@ -114,7 +117,17 @@ export default {
             this.$emit('factory-failed', err, files)
             this.workingThreads--
           }
-        })
+        }
+
+        res.then(factory => {
+          if (this.abortPromises === true) {
+            failed(new Error('Aborted'))
+          }
+          else if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
+            this.promises = this.promises.filter(p => p !== res)
+            this.__uploadFiles(files, factory)
+          }
+        }).catch(failed)
       }
       else {
         this.__uploadFiles(files, res || {})

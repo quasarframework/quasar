@@ -46,9 +46,11 @@
           :dark="dark"
           label="Fn returning immediately"
           multiple
-          :factory="files => ({ batch, url: 'http://localhost:4444/upload' })"
+          :batch="batch"
+          :factory="files => ({ url: 'http://localhost:4444/upload' })"
           @added="onAdded"
           @removed="onRemoved"
+          @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
         />
@@ -57,9 +59,25 @@
           :dark="dark"
           label="Fn returning promise"
           multiple
+          :batch="batch"
           :factory="promiseFn"
           @added="onAdded"
           @removed="onRemoved"
+          @factory-failed="onFactoryFailed"
+          @start="onStart"
+          @finish="onFinish"
+        />
+
+        <q-uploader
+          ref="aborter"
+          :dark="dark"
+          label="Aborting & fn returning promise"
+          multiple
+          :batch="batch"
+          :factory="promiseFnAbort"
+          @added="onAdded"
+          @removed="onRemoved"
+          @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
         />
@@ -68,9 +86,11 @@
           :dark="dark"
           label="Fn returning promise - reject"
           multiple
+          :batch="batch"
           :factory="rejectFn"
           @added="onAdded"
           @removed="onRemoved"
+          @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
         />
@@ -179,6 +199,9 @@ export default {
       console.log(`@removed ${files.length || 0} files`)
       console.log(files)
     },
+    onFactoryFailed (err) {
+      console.log(`@factory-failed`, err)
+    },
     onStart () {
       console.log(`@start`)
     },
@@ -186,6 +209,20 @@ export default {
       console.log(`@finish`)
     },
     promiseFn (files) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log('resolving promise', this.batch)
+          resolve({
+            batch: this.batch,
+            url: 'http://localhost:4444/upload'
+          })
+        }, 2000)
+      })
+    },
+    promiseFnAbort (files) {
+      setTimeout(() => {
+        this.$refs.aborter.abort()
+      }, 100)
       return new Promise((resolve) => {
         setTimeout(() => {
           console.log('resolving promise', this.batch)

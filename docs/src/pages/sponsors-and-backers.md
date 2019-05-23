@@ -34,7 +34,7 @@ For a full list of our wonderful people who make Quasar happen, visit the [Backe
   <sponsor img="taylored-technology.jpeg" name="Taylored Technology" url="https://tayloredtechnology.net/" />
 </div>
 
-## Backers
+## Gold Backers
 
 <div class="q-gutter-sm row">
   <sponsor img="campus-cloud-services.png" name="Campus Cloud Services" url="http://campuscloudservices.com/" />

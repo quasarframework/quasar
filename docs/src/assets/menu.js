@@ -965,7 +965,7 @@ module.exports = [
   },
   {
     name: 'Why donations are important',
-    icon: 'contact_support',
+    icon: 'assignment_late',
     path: 'why-donate'
   },
   {
