@@ -63,13 +63,13 @@
 
       <q-field filled :hint="`Calendar with value ${ date }`" label="Pick a date" stack-label>
         <template v-slot:control>
-          <q-date class="full-width" minimal v-model="date" />
+          <q-date class="q-mt-sm full-width" minimal v-model="date" />
         </template>
       </q-field>
 
       <q-field filled :hint="`Time with value ${ time }`" label="Pick a time" stack-label>
         <template v-slot:control>
-          <div class="full-width">
+          <div class="q-mt-sm full-width">
             <q-time v-model="time" />
           </div>
         </template>
