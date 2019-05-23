@@ -21,6 +21,8 @@ export default Vue.extend({
     emitImmediately: Boolean,
 
     mask: {
+      // this mask is forced
+      // when using persian calendar
       default: 'YYYY/MM/DD'
     },
 
@@ -257,7 +259,13 @@ export default Vue.extend({
 
   methods: {
     __getModels (val, mask, locale) {
-      const external = __splitDate(val, mask, locale, this.calendar)
+      const external = __splitDate(
+        val,
+        this.calendar === 'persian' ? 'YYYY/MM/DD' : mask,
+        locale,
+        this.calendar
+      )
+
       return {
         external,
         inner: external.dateHash === null
@@ -685,20 +693,22 @@ export default Vue.extend({
         date.day = Math.min(date.day, maxDay)
       }
 
-      const val = formatDate(
-        new Date(
-          date.year,
-          date.month - 1,
-          date.day,
-          this.extModel.hour,
-          this.extModel.minute,
-          this.extModel.second,
-          this.extModel.millisecond
-        ),
-        this.mask,
-        this.computedLocale,
-        date.year
-      )
+      const val = this.calendar === 'persian'
+        ? date.year + '/' + pad(date.month) + '/' + pad(date.day)
+        : formatDate(
+          new Date(
+            date.year,
+            date.month - 1,
+            date.day,
+            this.extModel.hour,
+            this.extModel.minute,
+            this.extModel.second,
+            this.extModel.millisecond
+          ),
+          this.mask,
+          this.computedLocale,
+          date.year
+        )
 
       if (val !== this.value) {
         this.$emit('input', val, reason, date)
