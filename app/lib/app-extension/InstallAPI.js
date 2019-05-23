@@ -90,18 +90,6 @@ module.exports = class InstallAPI {
   }
 
   /**
-   * DEPRECATED
-   * Alias to compatibleWith('@quasar/app', semverCondition)
-   * TODO: remove in rc.1
-   *
-   * @param {string} semverCondition
-   */
-  compatibleWithQuasarApp (semverCondition) {
-    warn(`⚠️  Extension(${this.extId}): using deprecated compatibleWithQuasarApp() instead of compatibleWith()`)
-    this.compatibleWith('@quasar/app', semverCondition)
-  }
-
-  /**
    * Check if an app package is installed. Can also
    * check its version against specific semver condition.
    *
