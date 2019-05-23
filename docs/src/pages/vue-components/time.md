@@ -51,6 +51,10 @@ The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils
 Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
 :::
 
+::: danger Note on persian calendar
+When using the persian calendar, the mask for QTime is forced to `HH:mm` or `HH:mm:ss` (if `with-seconds` is specified).
+:::
+
 <doc-example title="Simple mask" file="QTime/MaskSimple" />
 
 If you want to insert strings into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.

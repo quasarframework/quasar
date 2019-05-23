@@ -69,6 +69,10 @@ The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils
 Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
 :::
 
+::: danger Note on persian calendar
+When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
+:::
+
 <doc-example title="Simple mask" file="QDate/MaskSimple" />
 
 If you want to insert strings into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.
@@ -121,9 +125,13 @@ Connecting a QDate and QTime with same model on a QInput:
 
 More info: [QInput](/vue-components/input).
 
-### Persian Calendar
+### Persian calendar
 ::: tip
 You can couple this with a Quasar [language pack](/options/quasar-language-packs) such as Persian (Farsi, `fa-ir`) to have the QDate strings translated too, for the full experience.
+:::
+
+::: warning
+When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 :::
 
 <q-btn type="a" href="https://codepen.io/rstoenescu/pen/wOGpZg" target="_blank" label="See example" icon-right="launch" color="primary" />
