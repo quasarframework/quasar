@@ -7,7 +7,7 @@ components:
 There are Stylus variables built into Quasar that you can change and/or use within devland should you wish to. This applies to apps built with Quasar CLI or Vue CLI only. It does NOT apply to UMD.
 
 ## Usage
-In your app's `*.vue` files you can use any Quasar Stylus variables (examples: `$primary`, `$red-1`), and any other Stylus variables that you declared in your `/src/css/quasar.variables.styl` (when using Quasar CLI) and `src/styles/quasar.variables.styl` (when using Vue CLI).
+In your app's `*.vue` files or in stylus files you can use any Quasar Stylus variables (examples: `$primary`, `$red-1`), and any other Stylus variables that you declared in your `/src/css/quasar.variables.styl` (when using Quasar CLI) and `src/styles/quasar.variables.styl` (when using Vue CLI).
 
 ```html
 <!-- Notice lang="stylus" -->
