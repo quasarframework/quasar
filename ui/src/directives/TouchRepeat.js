@@ -120,6 +120,7 @@ export default {
         }
 
         ctx.event = {
+          touch: mouseEvent !== true && keyboardEvent !== true,
           mouse: mouseEvent === true,
           keyboard: keyboardEvent === true,
           startTime: new Date().getTime(),
@@ -133,7 +134,14 @@ export default {
 
           if (ctx.event.repeatCount === 0) {
             ctx.event.evt = evt
-            ctx.event.position = position(evt)
+
+            if (keyboardEvent === true) {
+              ctx.event.keyCode = evt.keyCode
+            }
+            else {
+              ctx.event.position = position(evt)
+            }
+
             if (Platform.is.mobile !== true) {
               document.documentElement.style.cursor = 'pointer'
               document.body.classList.add('non-selectable')

@@ -5,12 +5,20 @@
     "params": {
       "details": {
         "type": "Object",
-        "desc": "Touch details",
+        "desc": "Event details",
         "definition": {
           "evt": {
             "type": "Object",
             "desc": "Original JS event Object",
             "__exemption": [ "examples" ]
+          },
+          "touch": {
+            "type": "Boolean",
+            "desc": "Triggered by a touch event"
+          },
+          "mouse": {
+            "type": "Boolean",
+            "desc": "Triggered by a mouse event"
           },
           "direction": {
             "type": "String",

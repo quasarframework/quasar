@@ -22,11 +22,40 @@ Below is an example configured to also react to `SPACE`, `ENTER` and `h` keys (*
 
 <doc-example title="Custom keys" file="TouchRepeat/Keys" />
 
-### Capturing Mouse Events
-When you want to capture mouse actions too, use the `mouse` modifier:
+### Handling Mouse Events
+When you want to handle mouse events too, use the `mouse` modifier:
+
 ``` html
 <div v-touch-repeat.mouse="myHandler">...</div>
 ```
+
+### Handling Key Events
+When you want to handle key events too, use [keycodes](https://keycode.info/) as modifiers:
+
+``` html
+<div v-touch-repeat.65.70="myHandler">...</div>
+```
+
+There are some special modifiers that you do not require to write the equivalent keycode: `space`, `tab`, `enter`.
+
+### Inhibiting TouchRepeat
+When you want to inhibit TouchRepeat, you can do so by stopping propagation of the `touchstart`/`mousedown`/`keydown` events from the inner content:
+
+``` html
+<div v-touch-repeat.mouse.enter="userHasHold">
+  <!-- ...content -->
+  <div @touchstart.stop @mousedown.stop @keydown.stop>
+    <!--
+      TouchRepeat will not apply here because
+      we are calling stopPropagation() on touchstart,
+      mousedown and keydown events
+    -->
+  </div>
+  <!-- ...content -->
+</div>
+```
+
+However, if you are using `capture`, `mouseCapture` or `keyCapture` modifiers then events will first reach the TouchRepeat directive then the inner content, so TouchRepeat will still trigger.
 
 ### Note on HMR
 Due to performance reasons, when doing HMR updates, the argument and modifiers are not updated, so you will require a window refresh.

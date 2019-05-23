@@ -59,6 +59,7 @@ export default {
 
         const pos = position(evt)
 
+        ctx.mouse = mouseEvent
         ctx.event = {
           x: pos.left,
           y: pos.top,
@@ -170,6 +171,8 @@ export default {
 
           ctx.handler({
             evt,
+            touch: ctx.mouse !== true,
+            mouse: ctx.mouse === true,
             direction: ctx.event.dir,
             duration: time,
             distance: {

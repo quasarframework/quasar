@@ -71,11 +71,12 @@ function getChanges (evt, ctx, isFinal) {
 
   return {
     evt,
+    touch: ctx.event.mouse !== true,
+    mouse: ctx.event.mouse,
     position: pos,
     direction: dir,
     isFirst: ctx.event.isFirst,
     isFinal: isFinal === true,
-    isMouse: ctx.event.mouse,
     duration: new Date().getTime() - ctx.event.time,
     distance: {
       x: absX,

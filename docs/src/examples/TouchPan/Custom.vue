@@ -1,16 +1,18 @@
 <template>
   <div class="q-pa-md row justify-center">
     <q-card
-      v-touch-pan.horizontal.prevent.mouse="handlePan"
+      v-touch-pan.up.right.prevent.mouse="handlePan"
       class="custom-area cursor-pointer bg-primary text-white shadow-2 relative-position row flex-center"
     >
       <div v-if="info" class="custom-info">
         <pre>{{ info }}</pre>
       </div>
-      <div v-else class="row items-center">
-        <q-icon name="arrow_back" />
-        <div>Pan to left or right only</div>
-        <q-icon name="arrow_forward" />
+      <div v-else class="text-center">
+        <q-icon name="arrow_upward" />
+        <div class="row items-center">
+          <div>Pan to up or to right</div>
+          <q-icon name="arrow_forward" />
+        </div>
       </div>
 
       <div v-show="panning" class="touch-signal">

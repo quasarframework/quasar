@@ -5,8 +5,7 @@
     "params": {
       "details": {
         "type": "Object",
-        "desc": "Touch details",
-        "required": true,
+        "desc": "Event details",
         "definition": {
           "evt": {
             "type": "Object",
@@ -51,7 +50,7 @@
 
   "arg": {
     "type": "Number",
-    "desc": "Amount of time to wait (in milliseconds) and touch event sensitivity and mouse event sensitivity",
+    "desc": "x:y:z, where x is the amount of time to wait (in milliseconds), y is the touch event sensitivity (in pixels) and z is the mouse event sensitivity (in pixels)",
     "default": "600:5:7",
     "examples": [
       "v-touch-hold:400=\"fnToCall\"",

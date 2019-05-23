@@ -51,12 +51,12 @@ export default {
 
 <style lang="stylus" scoped>
 .custom-area
-  width 80%
-  height 450px
+  width 90%
+  height 480px
   border-radius 3px
 
 .custom-info pre
-  width 250px
+  width 180px
   font-size 12px
 
 .touch-signal
