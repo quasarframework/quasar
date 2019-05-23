@@ -15,9 +15,14 @@ export default Vue.extend({
   mixins: [ DateTimeMixin ],
 
   props: {
+    title: String,
+    subtitle: String,
+
     emitImmediately: Boolean,
 
     mask: {
+      // this mask is forced
+      // when using persian calendar
       default: 'YYYY/MM/DD'
     },
 
@@ -92,6 +97,10 @@ export default Vue.extend({
     },
 
     headerTitle () {
+      if (this.title !== void 0 && this.title !== null && this.title.length > 0) {
+        return this.title
+      }
+
       const model = this.extModel
       if (model.dateHash === null) { return ' --- ' }
 
@@ -117,9 +126,13 @@ export default Vue.extend({
     },
 
     headerSubtitle () {
-      return this.extModel.year !== null
-        ? this.extModel.year
-        : ' --- '
+      return this.subtitle !== void 0 && this.subtitle !== null && this.subtitle.length > 0
+        ? this.subtitle
+        : (
+          this.extModel.year !== null
+            ? this.extModel.year
+            : ' --- '
+        )
     },
 
     dateArrow () {
@@ -246,7 +259,13 @@ export default Vue.extend({
 
   methods: {
     __getModels (val, mask, locale) {
-      const external = __splitDate(val, mask, locale, this.calendar)
+      const external = __splitDate(
+        val,
+        this.calendar === 'persian' ? 'YYYY/MM/DD' : mask,
+        locale,
+        this.calendar
+      )
+
       return {
         external,
         inner: external.dateHash === null
@@ -674,9 +693,9 @@ export default Vue.extend({
         date.day = Math.min(date.day, maxDay)
       }
 
-      let val = String(date.year) + '/' + String(date.month).padStart(2, '0') + '/' + String(date.day).padStart(2, '0')
-      if (this.calendar !== 'persian') {
-        val = formatDate(
+      const val = this.calendar === 'persian'
+        ? date.year + '/' + pad(date.month) + '/' + pad(date.day)
+        : formatDate(
           new Date(
             date.year,
             date.month - 1,
@@ -690,7 +709,6 @@ export default Vue.extend({
           this.computedLocale,
           date.year
         )
-      }
 
       if (val !== this.value) {
         this.$emit('input', val, reason, date)
