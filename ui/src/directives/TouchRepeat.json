@@ -42,7 +42,8 @@
           },
           "keyCode": {
             "type": "Number",
-            "desc": "Keycode; Supplied ONLY if it's a keyboard event"
+            "desc": "Keycode; Supplied ONLY if it's a keyboard event",
+            "examples": [ 65 ]
           },
           "duration": {
             "type": "Number",

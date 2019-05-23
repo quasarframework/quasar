@@ -15,6 +15,9 @@ export default Vue.extend({
   mixins: [ DateTimeMixin ],
 
   props: {
+    title: String,
+    subtitle: String,
+
     emitImmediately: Boolean,
 
     mask: {
@@ -92,6 +95,10 @@ export default Vue.extend({
     },
 
     headerTitle () {
+      if (this.title !== void 0 && this.title !== null && this.title.length > 0) {
+        return this.title
+      }
+
       const model = this.extModel
       if (model.dateHash === null) { return ' --- ' }
 
@@ -117,9 +124,13 @@ export default Vue.extend({
     },
 
     headerSubtitle () {
-      return this.extModel.year !== null
-        ? this.extModel.year
-        : ' --- '
+      return this.subtitle !== void 0 && this.subtitle !== null && this.subtitle.length > 0
+        ? this.subtitle
+        : (
+          this.extModel.year !== null
+            ? this.extModel.year
+            : ' --- '
+        )
     },
 
     dateArrow () {

@@ -15,6 +15,20 @@
       "category": "model"
     },
 
+    "title": {
+      "type": "String",
+      "desc": "When specified, it overrides the default header title; Makes sense when not in 'minimal' mode",
+      "examples": [ "Birthday" ],
+      "category": "content"
+    },
+
+    "subtitle": {
+      "type": "String",
+      "desc": "When specified, it overrides the default header subtitle; Makes sense when not in 'minimal' mode",
+      "examples": [ "John Doe" ],
+      "category": "content"
+    },
+
     "emit-immediately": {
       "type": "Boolean",
       "desc": "Emit model when user browses month and year too",

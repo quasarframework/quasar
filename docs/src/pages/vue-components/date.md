@@ -21,6 +21,8 @@ For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/
 Notice that the model is a String only.
 :::
 
+### Basic
+
 <doc-example title="Basic" file="QDate/Basic" />
 
 ::: tip
@@ -28,6 +30,14 @@ For landscape mode, you can use it along with `$q.screen` to make QDate responsi
 :::
 
 <doc-example title="Landscape" file="QDate/Landscape" />
+
+### Custom title and subtitle
+
+When not in 'minimal' mode, QDate has a computed header title and subtitle. You can override it, like in the example below.
+
+When clicking on title then the QDate's view is changed to the calendar and when clicking on subtitle, the view will switch to year picking.
+
+<doc-example title="Custom title and subtitle" file="QDate/CustomTitleSubtitle" />
 
 ### Functionality
 

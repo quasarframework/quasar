@@ -30,6 +30,16 @@
           landscape
           @input="inputLog"
         />
+
+        <q-date
+          title="Title"
+          subtitle="Subtitle"
+          v-model="date"
+          v-bind="props"
+          :style="style"
+          emit-immediately
+          @input="inputLog"
+        />
       </div>
 
       <div class="text-h6">
