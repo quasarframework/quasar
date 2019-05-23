@@ -58,7 +58,6 @@ export default {
   methods: {
     abort () {
       this.xhrs.forEach(x => { x.abort() })
-      this.promises.forEach(p => { p.abort() })
     },
 
     upload () {
