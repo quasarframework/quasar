@@ -251,6 +251,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Oleksander Mashianov
 - James
 - VHCI Business Development SRL
+- Fergus Meiklejohn
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
