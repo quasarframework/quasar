@@ -77,12 +77,15 @@ export default Vue.extend({
 
   methods: {
     __onLoad () {
+      this.isLoading = false
+      this.hasError = false
       this.__updateSrc()
       this.__updateWatcher(this.srcset)
       this.$emit('load', this.currentSrc)
     },
 
     __onError (err) {
+      this.isLoading = false
       this.hasError = true
       this.currentSrc = ''
       this.$emit('error', err)
@@ -128,7 +131,6 @@ export default Vue.extend({
       img.onerror = err => {
         // if we are still rendering same image
         if (this.image === img) {
-          this.isLoading = false
           this.__onError(err)
         }
       }
@@ -136,12 +138,19 @@ export default Vue.extend({
       img.onload = () => {
         // if we are still rendering same image
         if (this.image === img) {
-          this.isLoading = false
-
           if (this.image.decode) {
             this.image
               .decode()
-              .catch(this.__onError)
+              .catch(err => {
+                if (this.image === img) {
+                  this.__onError(err)
+                }
+              })
+              .then(() => {
+                if (this.image === img) {
+                  this.__onLoad()
+                }
+              })
               .then(this.__onLoad)
           }
           else {
