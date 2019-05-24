@@ -31,10 +31,9 @@ Quasar has some smart algorithms behind the curtains which ensure that no matter
 <img src="/statics/logo.png">
 ```
 
-::: tip
-**Assets vs Statics**
+::: tip Assets vs Statics
 Files in the "assets" folder are only included in your build if they have a literal reference in one of your Vue files.
-Files in the "statics" folder are included in your final build, no matter what.
+Every file and folder from the "statics" folder are copied into your production build as-is, no matter what.
 :::
 
 ## Vue Binding Requires Statics Only
