@@ -85,6 +85,7 @@ export default Vue.extend({
     },
 
     __onError (err) {
+      clearTimeout(this.timer)
       this.isLoading = false
       this.hasError = true
       this.currentSrc = ''
@@ -151,7 +152,6 @@ export default Vue.extend({
                   this.__onLoad()
                 }
               })
-              .then(this.__onLoad)
           }
           else {
             this.__onLoad()
@@ -172,10 +172,14 @@ export default Vue.extend({
     },
 
     __computeRatio (img) {
+      if (this.image !== img) {
+        return
+      }
+
       const { naturalHeight, naturalWidth } = img
 
       if (naturalHeight || naturalWidth) {
-        this.naturalRatio = naturalWidth / naturalHeight
+        this.naturalRatio = naturalHeight === 0 ? 1 : naturalWidth / naturalHeight
       }
       else {
         this.timer = setTimeout(() => {
