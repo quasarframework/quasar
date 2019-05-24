@@ -78,6 +78,7 @@ export default Vue.extend({
   methods: {
     __onLoad () {
       this.isLoading = false
+      this.hasError = false
       this.__updateSrc()
       this.__updateWatcher(this.srcset)
       this.$emit('load', this.currentSrc)
@@ -178,7 +179,6 @@ export default Vue.extend({
       const { naturalHeight, naturalWidth } = img
 
       if (naturalHeight || naturalWidth) {
-        this.hasError = false
         this.naturalRatio = naturalHeight === 0 ? 1 : naturalWidth / naturalHeight
       }
       else {
