@@ -171,6 +171,10 @@ export default Vue.extend({
     },
 
     __computeRatio (img) {
+      if (this.image !== img) {
+        return
+      }
+
       const { naturalHeight, naturalWidth } = img
 
       if (naturalHeight || naturalWidth) {
