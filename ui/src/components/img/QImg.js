@@ -132,24 +132,28 @@ export default Vue.extend({
 
       img.onerror = err => {
         // if we are still rendering same image
-        if (this.image === img) {
+        if (this.image === img && this.destroyed !== true) {
           this.__onError(err)
         }
       }
 
       img.onload = () => {
+        if (this.destroyed === true) {
+          return
+        }
+
         // if we are still rendering same image
         if (this.image === img) {
           if (img.decode !== void 0) {
             img
               .decode()
               .catch(err => {
-                if (this.image === img) {
+                if (this.image === img && this.destroyed !== true) {
                   this.__onError(err)
                 }
               })
               .then(() => {
-                if (this.image === img) {
+                if (this.image === img && this.destroyed !== true) {
                   this.__onLoad(img)
                 }
               })
@@ -181,7 +185,9 @@ export default Vue.extend({
       }
       else {
         this.ratioTimer = setTimeout(() => {
-          this.image === img && this.__computeRatio(img)
+          if (this.image === img && this.destroyed !== true) {
+            this.__computeRatio(img)
+          }
         }, 100)
       }
     },
@@ -261,6 +267,7 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
+    this.destroyed = true
     clearTimeout(this.ratioTimer)
     this.unwatch !== void 0 && this.unwatch()
   }
