@@ -7,7 +7,7 @@ export default {
 
       handler (evt) {
         // allow @click to be emitted
-        ctx.enabled !== false && evt.defaultPrevented !== true && setTimeout(() => {
+        ctx.enabled !== false && setTimeout(() => {
           const vm = (vnode.componentInstance || vnode.context).$root
           vm.__qClosePopup !== void 0 && vm.__qClosePopup(evt)
         })

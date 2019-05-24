@@ -7,6 +7,7 @@ const
   typeRoot = path.resolve(__dirname, '../types'),
   distRoot = path.resolve(__dirname, '../dist/types'),
   resolvePath = file => path.resolve(distRoot, file),
+  extraInterfaces = {},
   // eslint-disable-next-line no-useless-escape
   toCamelCase = s => s.replace(/(\-\w)/g, m => { return m[1].toUpperCase() })
 
@@ -27,7 +28,11 @@ const typeMap = new Map([
   ['Number', 'number']
 ])
 
-function convertTypeVal (type, def) {
+function convertTypeVal (type, def, required) {
+  if (def.tsType !== void 0) {
+    return def.tsType
+  }
+
   const t = type.trim()
 
   if (typeMap.has(t)) {
@@ -35,62 +40,83 @@ function convertTypeVal (type, def) {
   }
 
   if (t === 'Object') {
-    return def.definition
-      ? `{\n        ${getPropDefinitions(def.definition).join('\n        ')} }`
-      : 'any'
+    if (def.definition) {
+      const defs = getPropDefinitions(def.definition, required)
+      return defs && defs.length > 0 ? `{\n        ${getPropDefinitions(def.definition, required).join('\n        ')} }` : 'any'
+    }
+
+    return 'any'
   }
 
   return t
 }
 
-function getTypeVal (def) {
+function getTypeVal (def, required) {
   return Array.isArray(def.type)
-    ? def.type.map(convertTypeVal).join(' | ')
-    : convertTypeVal(def.type, def)
+    ? def.type.map(type => convertTypeVal(type, def, required)).join(' | ')
+    : convertTypeVal(def.type, def, required)
 }
 
-function getPropDefinition (key, propDef) {
+function getPropDefinition (key, propDef, required) {
   const propName = toCamelCase(key)
-  const propType = getTypeVal(propDef)
 
-  return `${propName}${!propDef.required ? '?' : ''} : ${propType}`
+  if (!propName.startsWith('...')) {
+    const propType = getTypeVal(propDef, required)
+    return `${propName}${!propDef.required && !required ? '?' : ''} : ${propType}`
+  }
 }
 
-function getPropDefinitions (propDefs) {
+function getPropDefinitions (propDefs, required) {
   const defs = []
+
   for (const key in propDefs) {
-    defs.push(getPropDefinition(key, propDefs[key]))
+    const def = getPropDefinition(key, propDefs[key], required)
+    def && defs.push(def)
   }
+
   return defs
 }
 
-function getMethodDefinition (key, methodDef) {
+function getMethodDefinition (key, methodDef, required) {
   let def = ''
   def += `${key} (`
   if (methodDef.params) {
+    // TODO: Verify if this should be optional even for plugins
     const params = getPropDefinitions(methodDef.params)
     def += params.join(', ')
   }
   const returns = methodDef.returns
-  def += `): ${returns ? getTypeVal(returns) : 'void'}`
+  def += `): ${returns ? getTypeVal(returns, required) : 'void'}`
 
   return def
+}
+
+function getObjectFunctionsDefinition (def) {
+  let res = []
+
+  Object.keys(def).forEach(propName => {
+    res.push(
+      getMethodDefinition(propName, def[propName], true)
+    )
+  })
+
+  return res
 }
 
 function getInjectionDefinition (injectionName, typeDef) {
   // Get property injection point
   for (var propKey in typeDef.props) {
     const propDef = typeDef.props[propKey]
-    if (propDef.injectionPoint) {
-      return getPropDefinition(injectionName, propDef)
+    if (propDef.tsInjectionPoint) {
+      return getPropDefinition(injectionName, propDef, true)
     }
   }
 
   // Get method injection point
   for (var methodKey in typeDef.methods) {
     const methodDef = typeDef.methods[methodKey]
-    if (methodDef.injectionPoint) {
-      return getMethodDefinition(injectionName, methodDef)
+    if (methodDef.tsInjectionPoint) {
+      return getMethodDefinition(injectionName, methodDef, true)
     }
   }
 }
@@ -136,18 +162,30 @@ function writeIndexDTS (apis) {
     writeLine(contents, `export interface ${typeName} ${extendsVue ? 'extends Vue ' : ''}{`)
 
     // Write Props
-    const props = getPropDefinitions(content.props)
+    const props = getPropDefinitions(content.props, content.type === 'plugin')
     props.forEach(prop => writeLine(contents, prop, 1))
 
     // Write Methods
     for (const methodKey in content.methods) {
       write(contents, `    ${methodKey}(`)
-      if (content.methods[methodKey].params) {
-        const params = getPropDefinitions(content.methods[methodKey].params)
+      const method = content.methods[methodKey]
+      if (method.params) {
+        const params = getPropDefinitions(method.params)
         write(contents, params.join(', '))
       }
-      const returns = content.methods[methodKey].returns
-      writeLine(contents, `): ${returns ? getTypeVal(returns) : 'void'}`)
+      const returns = method.returns
+      writeLine(contents, `): ${returns ? getTypeVal(returns, content.type === 'plugin') : 'void'}`)
+
+      if (
+        returns !== void 0 &&
+        returns.tsType !== void 0 &&
+        extraInterfaces[returns.tsType] === void 0 &&
+        returns.definition !== void 0
+      ) {
+        extraInterfaces[returns.tsType] = getObjectFunctionsDefinition(
+          returns.definition
+        )
+      }
     }
 
     // Close class declaration
@@ -168,6 +206,14 @@ function writeIndexDTS (apis) {
         injections[injectionParts[0]].push(def)
       }
     }
+  })
+
+  Object.keys(extraInterfaces).forEach(name => {
+    writeLine(contents, `export interface ${name} {`)
+    extraInterfaces[name].forEach(def => {
+      writeLine(contents, def, 1)
+    })
+    writeLine(contents, `}\n`)
   })
 
   // Write injection types

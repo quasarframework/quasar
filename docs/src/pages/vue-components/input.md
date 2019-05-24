@@ -117,6 +117,10 @@ The role of debouncing is for times when you watch the model and do expensive op
 
 You can force/help the user to input a specific format with help from `mask` prop.
 
+::: warning
+Mask is only available if the `type` is one of 'text' (default), 'search', 'url', 'tel', or 'password'.
+:::
+
 Below are mask tokens:
 
 | Token | Description |
@@ -136,6 +140,10 @@ Below are mask tokens:
 The `unmask-value` is useful if for example you want to force the user type a certain format, but you want the model to contain the raw value:
 
 <doc-example title="Unmasked model" file="QInput/MaskUnmaskedModel" />
+
+The `reverse-fill-mask` is useful if you want to force the user to fill the mask from the end and allow non-fixed length of input:
+
+<doc-example title="Filling the mask in reverse" file="QInput/MaskFillReverse" />
 
 ## Validation
 

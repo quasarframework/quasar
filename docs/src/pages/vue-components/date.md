@@ -21,6 +21,8 @@ For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/
 Notice that the model is a String only.
 :::
 
+### Basic
+
 <doc-example title="Basic" file="QDate/Basic" />
 
 ::: tip
@@ -29,9 +31,17 @@ For landscape mode, you can use it along with `$q.screen` to make QDate responsi
 
 <doc-example title="Landscape" file="QDate/Landscape" />
 
+### Custom title and subtitle
+
+When not in 'minimal' mode, QDate has a computed header title and subtitle. You can override it, like in the example below.
+
+When clicking on title then the QDate's view is changed to the calendar and when clicking on subtitle, the view will switch to year picking.
+
+<doc-example title="Custom title and subtitle" file="QDate/CustomTitleSubtitle" />
+
 ### Functionality
 
-QDate requires a default year + month when model is unfilled (like `null`, `void 0`/`undefined`).
+When model is unfilled (like `null`, `void 0`/`undefined`) QDate still has to show the calendar for a month of a year. You can use `default-year-month` prop for this, otherwise the current month of the year will be shown:
 
 <doc-example title="Default year month" file="QDate/DefaultYearMonth" />
 
@@ -54,6 +64,14 @@ Clicking on the "Today" button sets date to current user date. Requires the head
 The default model mask is `YYYY/MM/DD`, however you can use custom ones too.
 
 The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#Format-for-display).
+
+::: warning Note on SSR
+Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
+:::
+
+::: danger Note on persian calendar
+When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
+:::
 
 <doc-example title="Simple mask" file="QDate/MaskSimple" />
 
@@ -107,9 +125,13 @@ Connecting a QDate and QTime with same model on a QInput:
 
 More info: [QInput](/vue-components/input).
 
-### Persian Calendar
+### Persian calendar
 ::: tip
 You can couple this with a Quasar [language pack](/options/quasar-language-packs) such as Persian (Farsi, `fa-ir`) to have the QDate strings translated too, for the full experience.
+:::
+
+::: warning
+When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 :::
 
 <q-btn type="a" href="https://codepen.io/rstoenescu/pen/wOGpZg" target="_blank" label="See example" icon-right="launch" color="primary" />

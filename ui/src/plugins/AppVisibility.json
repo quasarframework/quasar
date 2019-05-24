@@ -3,7 +3,7 @@
 
   "props": {
     "appVisible": {
-      "injectionPoint": true,
+      "tsInjectionPoint": true,
       "type": "Boolean",
       "desc": "Does the app have user focus? Or the app runs in the background / another tab has the user's attention",
       "reactive": true

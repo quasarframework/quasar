@@ -97,18 +97,6 @@ module.exports = class IndexAPI {
   }
 
   /**
-   * DEPRECATED
-   * Alias to compatibleWith('@quasar/app', semverCondition)
-   * TODO: remove in rc.1
-   *
-   * @param {string} semverCondition
-   */
-  compatibleWithQuasarApp (semverCondition) {
-    warn(`⚠️  Extension(${this.extId}): using deprecated compatibleWithQuasarApp() instead of compatibleWith()`)
-    this.compatibleWith('@quasar/app', semverCondition)
-  }
-
-  /**
    * Check if a host app package is installed. Can also
    * check its version against specific semver condition.
    *
@@ -237,18 +225,6 @@ module.exports = class IndexAPI {
    */
   beforeDev (fn) {
     this.__addHook('beforeDev', fn)
-  }
-
-  /**
-   * Alias to beforeDev
-   * TODO: remove in rc.1
-   *
-   * @param {function} fn
-   *   () => ?Promise
-   */
-  beforeDevStart (fn) {
-    warn(`⚠️  Extension(${this.extId}): using deprecated beforeDevStart() instead of beforeDev()`)
-    this.beforeDev(fn)
   }
 
   /**

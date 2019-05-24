@@ -5,12 +5,20 @@
     "params": {
       "details": {
         "type": "Object",
-        "desc": "Touch details",
+        "desc": "Event details",
         "definition": {
           "evt": {
             "type": "Object",
             "desc": "Original JS event Object",
             "__exemption": [ "examples" ]
+          },
+          "touch": {
+            "type": "Boolean",
+            "desc": "Triggered by a touch event"
+          },
+          "mouse": {
+            "type": "Boolean",
+            "desc": "Triggered by a mouse event"
           },
           "position": {
             "type": "Object",
@@ -40,10 +48,6 @@
           "isFinal": {
             "type": "Boolean",
             "desc": "Is last time the handler is called since movement ended"
-          },
-          "isMouse": {
-            "type": "Boolean",
-            "desc": "Is it a mouse generated event?"
           },
           "duration": {
             "type": "Number",
@@ -108,17 +112,22 @@
   "modifiers": {
     "stop": {
       "type": "Boolean",
-      "desc": "Stop event propagation"
+      "desc": "Stop event propagation for touch events"
     },
 
     "prevent": {
       "type": "Boolean",
-      "desc": "Calls event.preventDefault()"
+      "desc": "Calls event.preventDefault() for touch events"
     },
 
     "mightPrevent": {
       "type": "Boolean",
-      "desc": "Required when you might call event.stopPropagation() in your handler"
+      "desc": "Required when you might call event.stopPropagation() in your handler for touch events"
+    },
+
+    "capture": {
+      "type": "Boolean",
+      "desc": "Use capture for touchstart event"
     },
 
     "mouse": {
@@ -126,29 +135,44 @@
       "desc": "Listen for mouse events too"
     },
 
-    "mouseStop": {
+    "mouseCapture": {
       "type": "Boolean",
-      "desc": "If listening for mouse events too: stop mouse event propagation"
+      "desc": "Use capture for mousedown event"
     },
 
-    "mousePrevent": {
+    "mouseAllDir": {
       "type": "Boolean",
-      "desc": "If listening for mouse events too: calls event.preventDefault() on the mouse events"
-    },
-
-    "mouseMightPrevent": {
-      "type": "Boolean",
-      "desc": "If listening for mouse events too: required when you might call event.stopPropagation() in your handler"
+      "desc": "Ignore initial mouse move direction (do not abort if the first mouse move is in an unaccepted direction)"
     },
 
     "horizontal": {
       "type": "Boolean",
-      "desc": "Catch horizontal movement; If 'horizontal' or 'vertical' are not specified, then both directions are considered by default"
+      "desc": "Catch horizontal (left/right) movement"
     },
 
     "vertical": {
       "type": "Boolean",
-      "desc": "Catch vertical movement; If 'horizontal' or 'vertical' are not specified, then both directions are considered by default"
+      "desc": "Catch vertical (up/down) movement"
+    },
+
+    "up": {
+      "type": "Boolean",
+      "desc": "Catch panning to up"
+    },
+
+    "right": {
+      "type": "Boolean",
+      "desc": "Catch panning to right"
+    },
+
+    "down": {
+      "type": "Boolean",
+      "desc": "Catch panning to down"
+    },
+
+    "left": {
+      "type": "Boolean",
+      "desc": "Catch panning to left"
     }
   }
 }

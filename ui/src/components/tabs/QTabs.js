@@ -72,8 +72,6 @@ export default Vue.extend({
     leftIcon: String,
     rightIcon: String,
 
-    // TODO remove in v1 final
-    topIndicator: Boolean,
     switchIndicator: Boolean,
 
     narrowIndicator: Boolean,
@@ -91,7 +89,7 @@ export default Vue.extend({
         activeBgColor: this.activeBgColor,
         indicatorClass: getIndicatorClass(
           this.indicatorColor,
-          this.topIndicator || this.switchIndicator,
+          this.switchIndicator,
           this.vertical
         ),
         narrowIndicator: this.narrowIndicator,
@@ -119,16 +117,11 @@ export default Vue.extend({
     },
 
     vertical (v) {
-      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, this.switchIndicatorPos, v)
+      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, this.switchIndicator, v)
     },
 
     indicatorColor (v) {
-      this.tabs.indicatorClass = getIndicatorClass(v, this.switchIndicatorPos, this.vertical)
-    },
-
-    // TODO remove in v1 final
-    topIndicator (v) {
-      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, v, this.vertical)
+      this.tabs.indicatorClass = getIndicatorClass(v, this.switchIndicator, this.vertical)
     },
 
     switchIndicator (v) {
@@ -162,11 +155,6 @@ export default Vue.extend({
         (this.dense === true ? ' q-tabs--dense' : '') +
         (this.shrink === true ? ' col-shrink' : '') +
         (this.vertical === true ? ' q-tabs--vertical' : '')
-    },
-
-    // TODO remove in v1 final, directly use switchIndicator
-    switchIndicatorPos () {
-      return this.topIndicator || this.switchIndicator
     }
   },
 
@@ -351,16 +339,6 @@ export default Vue.extend({
 
   created () {
     this.buffer = []
-  },
-
-  // TODO remove in v1 final
-  mounted () {
-    if (this.topIndicator === true) {
-      const p = process.env
-      if (p.PROD !== true) {
-        console.info('\n\n[Quasar] QTabs info: please rename top-indicator to switch-indicator prop')
-      }
-    }
   },
 
   beforeDestroy () {

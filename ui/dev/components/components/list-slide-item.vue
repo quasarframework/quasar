@@ -147,7 +147,12 @@ export default {
     },
 
     onClickItem () {
-      console.log('clicked on item')
+      if (this.$q.platform.is.desktop) {
+        console.log('clicked on item')
+      }
+      else {
+        this.$q.notify('clicked on item')
+      }
     },
 
     onClick () {

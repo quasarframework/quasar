@@ -46,9 +46,11 @@
           :dark="dark"
           label="Fn returning immediately"
           multiple
-          :factory="files => ({ batch, url: 'http://localhost:4444/upload' })"
+          :batch="batch"
+          :factory="files => ({ url: 'http://localhost:4444/upload' })"
           @added="onAdded"
           @removed="onRemoved"
+          @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
         />
@@ -57,9 +59,25 @@
           :dark="dark"
           label="Fn returning promise"
           multiple
+          :batch="batch"
           :factory="promiseFn"
           @added="onAdded"
           @removed="onRemoved"
+          @factory-failed="onFactoryFailed"
+          @start="onStart"
+          @finish="onFinish"
+        />
+
+        <q-uploader
+          ref="aborter"
+          :dark="dark"
+          label="Aborting & fn returning promise"
+          multiple
+          :batch="batch"
+          :factory="promiseFnAbort"
+          @added="onAdded"
+          @removed="onRemoved"
+          @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
         />
@@ -68,13 +86,18 @@
           :dark="dark"
           label="Fn returning promise - reject"
           multiple
+          :batch="batch"
           :factory="rejectFn"
           @added="onAdded"
           @removed="onRemoved"
+          @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
         />
 
+        <div>
+          Header slot
+        </div>
         <q-uploader
           v-bind="props"
           multiple
@@ -97,13 +120,15 @@
                   {{ scope.uploadSizeLabel }} / {{ scope.uploadProgressLabel }}
                 </div>
               </div>
-              <q-btn v-if="scope.editable" icon="add_box" @click="scope.pickFiles" round dense flat />
-              <q-btn v-if="scope.editable && scope.queuedFiles.length > 0" icon="cloud_upload" @click="scope.upload" round dense flat />
-
-              <q-btn v-if="scope.editable && scope.isUploading" icon="clear" @click="scope.abort" round dense flat />
+              <q-btn v-if="scope.canAddFiles" icon="add_box" round dense flat>
+                <q-uploader-add-trigger />
+              </q-btn>
+              <q-btn v-if="scope.canUpload" icon="cloud_upload" @click="scope.upload" round dense flat />
+              <q-btn v-if="scope.isUploading" icon="clear" @click="scope.abort" round dense flat />
             </div>
           </template>
         </q-uploader>
+
         <q-uploader v-bind="props" color="yellow" text-color="black" multiple url="http://localhost:4444/upload" />
 
         <q-uploader
@@ -174,6 +199,9 @@ export default {
       console.log(`@removed ${files.length || 0} files`)
       console.log(files)
     },
+    onFactoryFailed (err) {
+      console.log(`@factory-failed`, err)
+    },
     onStart () {
       console.log(`@start`)
     },
@@ -181,6 +209,20 @@ export default {
       console.log(`@finish`)
     },
     promiseFn (files) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log('resolving promise', this.batch)
+          resolve({
+            batch: this.batch,
+            url: 'http://localhost:4444/upload'
+          })
+        }, 2000)
+      })
+    },
+    promiseFnAbort (files) {
+      setTimeout(() => {
+        this.$refs.aborter.abort()
+      }, 100)
       return new Promise((resolve) => {
         setTimeout(() => {
           console.log('resolving promise', this.batch)

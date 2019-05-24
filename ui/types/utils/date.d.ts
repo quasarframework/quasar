@@ -17,7 +17,7 @@ export interface ModifyDateOptions {
   year?: number;
 }
 
-export interface I18nDateOptions {
+export interface DateLocale {
   days?: string[];
   daysShort?: string[];
   months?: string[];
@@ -28,7 +28,7 @@ export type DateUnitOptions = "second" | "minute" | "hour" | "day" | "month" | "
 
 export namespace date {
   function isValid(date: string): boolean;
-  function extractDate(str: string, mask: string, locale?: I18nDateOptions): Date;
+  function extractDate(str: string, mask: string, locale?: DateLocale): Date;
   function buildDate(options: BuildDateOptions, utc?: boolean): string;
   function getDayOfWeek(date: Date | number | string | number): number;
   function getWeekOfYear (date: Date | number | string) : number;
@@ -46,6 +46,6 @@ export namespace date {
   function getDateBetween (date: Date | number | string, min: Date | number | string, max: Date | number | string) : Date
   function isSameDate (date: Date | number | string, date2: Date | number | string, unit?: string) : boolean;
   function daysInMonth (date: Date | number | string) : number;
-  function formatDate(date: Date | number | undefined, format: string, i18n?: I18nDateOptions, __forcedYear?: number): string;
+  function formatDate(date: Date | number | string | undefined, format: string, locale?: DateLocale, __forcedYear?: number): string;
   function clone (date: Date) : Date;
 }

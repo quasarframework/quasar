@@ -128,9 +128,12 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $10+
 
+- David Watson ($30)
+- 上田 進也(合同会社サンドボックス) (Sandbox Gmbh) ($30)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Jim O'Quinn ($25)
+- Elad Yaniv ($25)
 - Max Matteo Staack ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
@@ -139,7 +142,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ciprian Popa ($20)
 - G Edwards ($20)
 - Martin Thompson ($20)
-- 上田 進也 (Sandbox Gmbh) ($20)
 - Shapovalov Pavel ($20)
 - Shone Radulovic ($15)
 - Sam Cassar ($15)
@@ -202,7 +204,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jonathan G
 - rangepoker
 - Amitabh Akolkar
-- Ryohei Katsume
 - David Flasterstein
 - Jay McGuinness
 - Jesse Sudich (Outflank Pay Tracker)
@@ -245,6 +246,12 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Chip Drop
 - Jeff Jorczak
 - Furatama
+- Godwin Peter .O
+- Support Logient
+- Oleksander Mashianov
+- James
+- VHCI Business Development SRL
+- Fergus Meiklejohn
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)

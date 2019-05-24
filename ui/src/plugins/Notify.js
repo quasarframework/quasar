@@ -174,6 +174,10 @@ const Notifications = {
           mode: 'out-in'
         }
       }, this.notifs[pos].map(notif => {
+        const msg = notif.html === true
+          ? h('div', { staticClass: 'q-notification__message col', domProps: { innerHTML: notif.message } })
+          : h('div', { staticClass: 'q-notification__message col' }, [ notif.message ])
+
         return h('div', {
           ref: `notif_${notif.__uid}`,
           key: notif.__uid,
@@ -190,7 +194,7 @@ const Notifications = {
               h('img', { attrs: { src: notif.avatar } })
             ]) : null,
 
-            h('div', { staticClass: 'q-notification__message col' }, [ notif.message ])
+            msg
           ]),
 
           notif.actions ? h('div', {

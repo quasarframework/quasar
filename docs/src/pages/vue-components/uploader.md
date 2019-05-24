@@ -40,6 +40,10 @@ By default, multiple files will be uploaded individually (one thread per file). 
 In the example above, we're using `accept` property. Its value must be a comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element. [More info](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Unique_file_type_specifiers).
 :::
 
+::: warning
+Recommended format for the `accept` property is `<mediatype>/<extension>`. Examples: "image/png", "image/png". QUploader uses an `<input type="file">` under the covers and it relies entirely on the host browser to trigger the file picker. If the `accept` property (that gets applied to the input) is not correct, no file picker will appear on screen or it will appear but it will accept all file types.
+:::
+
 You can also apply custom filters (which are executed after user picks files):
 
 <doc-example title="Filter" file="QUploader/RestrictionFilter" />
@@ -79,7 +83,11 @@ You can also use the `factory` Function prop and return immediately the same Obj
 
 ### Slots
 
-In the example below we're showing the equivalent of the default header:
+In the example below we're showing the equivalent of the default header. Also notice some Boolean scope properties that you can use: `scope.canAddFiles`, `scope.canUpload`, `scope.isUploading`.
+
+::: warning
+Notice that you must install and use one more component (QUploaderAddTrigger) in order to be able to add files to the queue. This component needs to be placed under a DOM node which has `position: relative` (hint: QBtn has it already) and will automatically inject the necessary events when user clicks on its parent (do NOT manually add `@click="scope.pickFiles"`).
+:::
 
 <doc-example title="Custom header" file="QUploader/SlotHeader" />
 

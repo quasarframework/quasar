@@ -18,6 +18,15 @@
         fill-mask
         hint="Mask: (###) ### - ####"
       />
+
+      <q-input
+        filled
+        v-model="card"
+        label="Card"
+        mask="#### #### #### ####"
+        fill-mask="#"
+        hint="Mask: #### #### #### ####, FillMask: #"
+      />
     </div>
   </div>
 </template>
@@ -27,7 +36,8 @@ export default {
   data () {
     return {
       id: null,
-      phone: null
+      phone: null,
+      card: null
     }
   }
 }

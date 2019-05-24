@@ -14,7 +14,10 @@ export default Vue.extend({
   mixins: [ BtnMixin ],
 
   props: {
-    percentage: Number,
+    percentage: {
+      type: Number,
+      validator: v => v >= 0 && v <= 100
+    },
     darkPercentage: Boolean
   },
 

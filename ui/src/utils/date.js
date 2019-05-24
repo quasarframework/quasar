@@ -14,9 +14,9 @@ const
   reverseToken = /(\[[^\]]*\])|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,
   regexStore = {}
 
-function getRegexData (mask, locale) {
+function getRegexData (mask, dateLocale) {
   const
-    days = '(' + locale.days.join('|') + ')',
+    days = '(' + dateLocale.days.join('|') + ')',
     key = mask + days
 
   if (regexStore[key] !== void 0) {
@@ -24,16 +24,16 @@ function getRegexData (mask, locale) {
   }
 
   const
-    daysShort = '(' + locale.daysShort.join('|') + ')',
-    months = '(' + locale.months.join('|') + ')',
-    monthsShort = '(' + locale.monthsShort.join('|') + ')'
+    daysShort = '(' + dateLocale.daysShort.join('|') + ')',
+    months = '(' + dateLocale.months.join('|') + ')',
+    monthsShort = '(' + dateLocale.monthsShort.join('|') + ')'
 
   const map = {}
   let index = 0
 
   const regexText = mask.replace(reverseToken, match => {
     index++
-    switch (match) { // TODO: Z ZZ X x
+    switch (match) {
       case 'YY':
         map.YY = index
         return '(-?\\d{1,2})'
@@ -122,6 +122,18 @@ function getRegexData (mask, locale) {
       case 'ww':
         return '(\\d{2})'
 
+      case 'Z': // to split: (?:(Z)()()|([+-])?(\\d{2}):?(\\d{2}))
+        return '(Z|[+-]\\d{2}:\\d{2})'
+      case 'ZZ':
+        return '(Z|[+-]\\d{2}\\d{2})'
+
+      case 'X':
+        map.X = index
+        return '(-?\\d+)'
+      case 'x':
+        map.x = index
+        return '(-?\\d{4,})'
+
       default:
         index--
         if (match[0] === '[') {
@@ -137,8 +149,8 @@ function getRegexData (mask, locale) {
   return res
 }
 
-export function extractDate (str, mask, locale) {
-  const d = __splitDate(str, mask, locale)
+export function extractDate (str, mask, dateLocale) {
+  const d = __splitDate(str, mask, dateLocale)
 
   return new Date(
     d.year,
@@ -151,7 +163,7 @@ export function extractDate (str, mask, locale) {
   )
 }
 
-export function __splitDate (str, mask, locale, calendar) {
+export function __splitDate (str, mask, dateLocale, calendar) {
   const date = {
     year: null,
     month: null,
@@ -178,7 +190,7 @@ export function __splitDate (str, mask, locale, calendar) {
   }
 
   const
-    langOpts = locale !== void 0 ? locale : lang.props.date,
+    langOpts = dateLocale !== void 0 ? dateLocale : lang.props.date,
     months = langOpts.months,
     monthsShort = langOpts.monthsShort
 
@@ -190,68 +202,87 @@ export function __splitDate (str, mask, locale, calendar) {
     return date
   }
 
-  if (map.YYYY !== void 0) {
-    date.year = parseInt(match[map.YYYY], 10)
-  }
-  else if (map.YY !== void 0) {
-    const y = parseInt(match[map.YY], 10)
-    date.year = y < 0 ? y : 2000 + y
-  }
+  if (map.X !== void 0 || map.x !== void 0) {
+    const stamp = parseInt(match[map.X !== void 0 ? map.X : map.x], 10)
 
-  if (map.M !== void 0) {
-    date.month = parseInt(match[map.M], 10)
-    if (date.month < 1 || date.month > 12) {
-      return date
-    }
-  }
-  else if (map.MMM !== void 0) {
-    date.month = monthsShort.indexOf(match[map.MMM]) + 1
-  }
-  else if (map.MMMM !== void 0) {
-    date.month = months.indexOf(match[map.MMMM]) + 1
-  }
-
-  if (map.D !== void 0) {
-    date.day = parseInt(match[map.D], 10)
-
-    if (date.year === null || date.month === null || date.day < 1) {
+    if (isNaN(stamp) === true || stamp < 0) {
       return date
     }
 
-    const maxDay = calendar !== 'persian'
-      ? (new Date(date.year, date.month, 0)).getDate()
-      : jalaaliMonthLength(date.year, date.month)
+    const d = new Date(stamp * (map.X !== void 0 ? 1000 : 1))
 
-    if (date.day > maxDay) {
-      return date
+    date.year = d.getFullYear()
+    date.month = d.getMonth() + 1
+    date.day = d.getDate()
+    date.hour = d.getHours()
+    date.minute = d.getMinutes()
+    date.second = d.getSeconds()
+    date.millisecond = d.getMilliseconds()
+  }
+  else {
+    if (map.YYYY !== void 0) {
+      date.year = parseInt(match[map.YYYY], 10)
     }
-  }
-
-  if (map.H !== void 0) {
-    date.hour = parseInt(match[map.H], 10) % 24
-  }
-  else if (map.h !== void 0) {
-    date.hour = parseInt(match[map.h], 10)
-    if (
-      (map.A && match[map.A] === 'PM') ||
-      (map.a && match[map.a] === 'pm') ||
-      (map.aa && match[map.aa] === 'p.m.')
-    ) {
-      date.hour += 12
+    else if (map.YY !== void 0) {
+      const y = parseInt(match[map.YY], 10)
+      date.year = y < 0 ? y : 2000 + y
     }
-    date.hour = date.hour % 12 || 12
-  }
 
-  if (map.m !== void 0) {
-    date.minute = parseInt(match[map.m], 10) % 60
-  }
+    if (map.M !== void 0) {
+      date.month = parseInt(match[map.M], 10)
+      if (date.month < 1 || date.month > 12) {
+        return date
+      }
+    }
+    else if (map.MMM !== void 0) {
+      date.month = monthsShort.indexOf(match[map.MMM]) + 1
+    }
+    else if (map.MMMM !== void 0) {
+      date.month = months.indexOf(match[map.MMMM]) + 1
+    }
 
-  if (map.s !== void 0) {
-    date.second = parseInt(match[map.s], 10) % 60
-  }
+    if (map.D !== void 0) {
+      date.day = parseInt(match[map.D], 10)
 
-  if (map.S !== void 0) {
-    date.millisecond = parseInt(match[map.S], 10) * 10 ** (3 - match[map.S].length)
+      if (date.year === null || date.month === null || date.day < 1) {
+        return date
+      }
+
+      const maxDay = calendar !== 'persian'
+        ? (new Date(date.year, date.month, 0)).getDate()
+        : jalaaliMonthLength(date.year, date.month)
+
+      if (date.day > maxDay) {
+        return date
+      }
+    }
+
+    if (map.H !== void 0) {
+      date.hour = parseInt(match[map.H], 10) % 24
+    }
+    else if (map.h !== void 0) {
+      date.hour = parseInt(match[map.h], 10)
+      if (
+        (map.A && match[map.A] === 'PM') ||
+        (map.a && match[map.a] === 'pm') ||
+        (map.aa && match[map.aa] === 'p.m.')
+      ) {
+        date.hour += 12
+      }
+      date.hour = date.hour % 12 || 12
+    }
+
+    if (map.m !== void 0) {
+      date.minute = parseInt(match[map.m], 10) % 60
+    }
+
+    if (map.s !== void 0) {
+      date.second = parseInt(match[map.s], 10) % 60
+    }
+
+    if (map.S !== void 0) {
+      date.millisecond = parseInt(match[map.S], 10) * 10 ** (3 - match[map.S].length)
+    }
   }
 
   date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
@@ -547,7 +578,7 @@ function getOrdinal (n) {
   return `${n}th`
 }
 
-export const formatter = {
+const formatter = {
   // Year: 00, 01, ..., 99
   YY (date, _, forcedYear) {
     // workaround for < 1900 with new Date()
@@ -576,15 +607,13 @@ export const formatter = {
   },
 
   // Month Short Name: Jan, Feb, ...
-  MMM (date, opts) {
-    const langOpts = opts !== void 0 ? opts : lang.props.date
-    return langOpts.monthsShort[date.getMonth()]
+  MMM (date, dateLocale) {
+    return dateLocale.monthsShort[date.getMonth()]
   },
 
   // Month Name: January, February, ...
-  MMMM (date, opts) {
-    const langOpts = opts !== void 0 ? opts : lang.props.date
-    return langOpts.months[date.getMonth()]
+  MMMM (date, dateLocale) {
+    return dateLocale.months[date.getMonth()]
   },
 
   // Quarter: 1, 2, 3, 4
@@ -633,15 +662,13 @@ export const formatter = {
   },
 
   // Day of week: Sun, Mon, ...
-  ddd (date, opts) {
-    const langOpts = opts !== void 0 ? opts : lang.props.date
-    return langOpts.daysShort[date.getDay()]
+  ddd (date, dateLocale) {
+    return dateLocale.daysShort[date.getDay()]
   },
 
   // Day of week: Sunday, Monday, ...
-  dddd (date, opts) {
-    const langOpts = opts !== void 0 ? opts : lang.props.date
-    return langOpts.days[date.getDay()]
+  dddd (date, dateLocale) {
+    return dateLocale.days[date.getDay()]
   },
 
   // Day of ISO week: 1, 2, ..., 7
@@ -757,7 +784,7 @@ export const formatter = {
   }
 }
 
-export function formatDate (val, mask, opts, __forcedYear) {
+export function formatDate (val, mask, dateLocale, __forcedYear) {
   if (
     (val !== 0 && !val) ||
     val === Infinity ||
@@ -776,10 +803,14 @@ export function formatDate (val, mask, opts, __forcedYear) {
     mask = defaultMask
   }
 
+  const locale = dateLocale !== void 0
+    ? dateLocale
+    : lang.props.date
+
   return mask.replace(
     token,
     (match, text) => match in formatter
-      ? formatter[match](date, opts, __forcedYear)
+      ? formatter[match](date, locale, __forcedYear)
       : (text === void 0 ? match : text.split('\\]').join(']'))
   )
 }
@@ -810,7 +841,6 @@ export default {
   getDateBetween,
   isSameDate,
   daysInMonth,
-  formatter,
   formatDate,
   clone
 }
