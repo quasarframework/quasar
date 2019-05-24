@@ -33,8 +33,8 @@ Quasar has some smart algorithms behind the curtains which ensure that no matter
 
 ::: tip
 **Assets vs Statics**
-Assets is a "special" folder where only the files truly referenced get added to your final build.
-Statics brings everything.
+Files in the "assets" folder are only included in your build if it has a literal reference in one of your Vue files.
+Files in the "statics" folder are included in your final build, no matter what.
 :::
 
 ## Vue Binding Requires Statics Only
