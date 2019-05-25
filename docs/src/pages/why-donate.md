@@ -22,7 +22,7 @@ Many open source projects, like the Quasar Framework and Vue.js, have been devel
 
 So who are these people? They are people, like you, in need of a certain feature and have found an open source solution, like Quasar. They are people who use the software and decided to contribute by helping to improve it.
 
-Possibly they are passionate about coding and want a project to occupy their talents. There are many reasons to get involved in an community around an open source project. But the majority have one thing in common:
+Possibly they are passionate about coding and want a project to occupy their talents. There are many reasons to get involved in a community around an open source project. But the majority have one thing in common:
 
 > They find free time in their busy schedules of jobs, families and commitments in order to participate because it makes them feel good to be part of something bigger than any one individual.
 
