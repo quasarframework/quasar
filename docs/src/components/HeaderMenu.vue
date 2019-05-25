@@ -68,7 +68,7 @@ div
   q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, label="Support", auto-close)
     q-list
 
-      q-item(clickable, tag="a", href="https://discord.gg/5TDhbDg", target="_blank")
+      q-item(clickable, tag="a", href="https://chat.quasar.dev", target="_blank")
         q-item-section.text-primary(avatar)
           q-icon(name="fab fa-discord")
         q-item-section Chat

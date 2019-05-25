@@ -173,7 +173,7 @@
         a(href="https://medium.com/quasar-framework", target="_blank")
           q-icon(name="fab fa-medium")
 
-        a(href="https://discord.gg/5TDhbDg", target="_blank")
+        a(href="https://chat.quasar.dev", target="_blank")
           q-icon(name="fab fa-discord")
 
         a(href="https://forum.quasar.dev/", target="_blank")
@@ -199,7 +199,7 @@
       q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.com/quasarframework/quasar", target="_blank")
       q-btn.q-mr-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.com/quasarframework", target="_blank")
       q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://medium.com/quasar-framework", target="_blank")
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://discord.gg/5TDhbDg", target="_blank")
+      q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://chat.quasar.dev", target="_blank")
       q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank")
 </template>
 

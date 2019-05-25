@@ -59,7 +59,7 @@ q-page.doc-page
       a(href="https://medium.com/quasar-framework", target="_blank")
         q-icon(name="fab fa-medium")
 
-      a(href="https://discord.gg/5TDhbDg", target="_blank")
+      a(href="https://chat.quasar.dev", target="_blank")
         q-icon(name="fab fa-discord")
 
       a(href="https://forum.quasar.dev/", target="_blank")
