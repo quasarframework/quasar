@@ -31,7 +31,7 @@
         </q-toolbar>
         <q-toolbar v-if="extraRow" inset>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/img/quasar-logo.png">
           </q-avatar>
           <q-toolbar-title>
             <strong>Quasar</strong> Framework
@@ -118,10 +118,10 @@
           </div>
         </q-scroll-area>
 
-        <q-img class="absolute-top" src="https://cdn.quasar-framework.org/img/material.png" style="height: 204px">
+        <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 204px">
           <div class="absolute-bottom bg-transparent">
             <q-avatar size="56px" class="q-mb-sm">
-              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
             </q-avatar>
             <div class="text-weight-bold">
               Razvan Stoenescu
@@ -297,7 +297,7 @@
             <q-item v-for="n in 3" :key="'item.' + n">
               <q-item-section side>
                 <q-avatar>
-                  <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+                  <img src="https://cdn.quasar.dev/img/boy-avatar.png">
                 </q-avatar>
               </q-item-section>
               <q-item-section>

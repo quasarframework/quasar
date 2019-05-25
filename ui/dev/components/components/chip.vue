@@ -45,7 +45,7 @@
         </q-chip>
         <q-chip>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           Emails
         </q-chip>
@@ -86,7 +86,7 @@
         </q-chip>
         <q-chip square>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           Emails
         </q-chip>
@@ -119,7 +119,7 @@
         </q-chip>
         <q-chip dense>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           Emails
         </q-chip>
@@ -152,7 +152,7 @@
         </q-chip>
         <q-chip square dense>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           Emails
         </q-chip>
@@ -186,7 +186,7 @@
 
         <q-chip :selected.sync="selected2">
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           Add to calendar
         </q-chip>
@@ -226,7 +226,7 @@
 
         <q-chip v-model="close2" removable>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           Add to calendar
         </q-chip>
@@ -259,7 +259,7 @@
 
         <q-chip disable :selected.sync="selected2" clickable>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           Add to calendar
         </q-chip>
