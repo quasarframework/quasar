@@ -252,6 +252,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - James
 - VHCI Business Development SRL
 - Fergus Meiklejohn
+- Aydin Sakar
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
