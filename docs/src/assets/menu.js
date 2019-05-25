@@ -964,7 +964,7 @@ module.exports = [
     path: 'sponsors-and-backers'
   },
   {
-    name: 'Why donations are important',
+    name: 'Why Donations are Important',
     icon: 'assignment_late',
     path: 'why-donate'
   },
