@@ -1,5 +1,5 @@
 ---
-title: Why to donate
+title: Why Donate?
 components:
   - sponsors-and-backers/DonatingButtons
 ---
