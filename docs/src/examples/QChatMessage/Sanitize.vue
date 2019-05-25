@@ -3,7 +3,7 @@
     <div style="width: 100%; max-width: 400px">
       <q-chat-message
         name="<span class='text-positive'>Trusted Source</span>"
-        avatar="https://cdn.quasar-framework.org/img/avatar3.jpg"
+        avatar="https://cdn.quasar.dev/img/avatar3.jpg"
         :text="['hey, how are <strong>you</strong>?']"
         stamp="7 minutes ago"
         sent
@@ -11,7 +11,7 @@
       />
       <q-chat-message
         name="<span class='text-negative'>Jane (untrusted text but trusted name)</span>"
-        avatar="https://cdn.quasar-framework.org/img/avatar5.jpg"
+        avatar="https://cdn.quasar.dev/img/avatar5.jpg"
         :text="[
           'doing fine, how r you?',
           'I just feel like typing a really, really, <strong>REALY</strong> long message to annoy you...'
@@ -25,7 +25,7 @@
       <q-chat-message
         name="<span class='text-negative'>Jao (untrusted)</span>"
         name-sanitize
-        avatar="https://cdn.quasar-framework.org/img/avatar5.jpg"
+        avatar="https://cdn.quasar.dev/img/avatar5.jpg"
         :text="['<strong>Did it work?</strong>']"
         text-sanitize
         stamp="1 minutes ago"

@@ -1,6 +1,6 @@
 {
   "name": "@quasar/babel-preset-app",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Babel preset for Quasar CLI",
   "main": "index.js",
   "scripts": {
@@ -46,7 +46,7 @@
   },
   "license": "MIT",
   "bugs": "https://github.com/quasarframework/quasar/issues",
-  "homepage": "http://quasar-framework.org",
+  "homepage": "https://quasar.dev",
   "engines": {
     "node": ">= 8.9.0",
     "npm": ">= 5.6.0",

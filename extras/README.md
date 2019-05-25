@@ -8,7 +8,7 @@
 
 <a href="https://badge.fury.io/js/%40quasar%2Fextras" target="_blank"><img src="https://badge.fury.io/js/%40quasar%2Fextras.svg"></a>
 [![Join the chat at https://discord.gg/5TDhbDg](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/5TDhbDg)
-<a href="http://forum.quasar-framework.org" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
+<a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 
 | Package | quasar.conf.js extras name | Version | Description |
 | --- | --- | --- | --- |
@@ -29,7 +29,7 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
 
 ## Documentation
 
-Head on to the Quasar Framework official website: [https://v1.quasar-framework.org](http://v1.quasar-framework.org)
+Head on to the Quasar Framework official website: [https://quasar.dev](https://quasar.dev)
 
 ## Stay in Touch
 
@@ -37,7 +37,7 @@ For latest releases and announcements, follow on Twitter: [@quasarframework](htt
 
 ## Community Forum
 
-Head on to the official community forum: [http://forum.quasar-framework.org](https://forum.quasar-framework.org)
+Head on to the official community forum: [https://forum.quasar.dev](https://forum.quasar.dev)
 
 ## Semver
 Using [semver 2.0](http://semver.org/) notation for 'quasar-extras' package.

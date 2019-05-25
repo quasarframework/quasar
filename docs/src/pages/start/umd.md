@@ -203,7 +203,7 @@ Quasar.plugins.bottomSheet.create({...})
 An example.
 
 ```js
-Quasar.utils.openURL('https://quasar-framework.org')
+Quasar.utils.openURL('https://quasar.dev')
 ```
 
 ### Changing Quasar Icon Set

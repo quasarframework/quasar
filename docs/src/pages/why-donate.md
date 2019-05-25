@@ -14,7 +14,7 @@ The dream of open source is a noble cause, where communities grow and code is nu
 
 This means that Quasar is and always will be free and open source, a self-managed place where everyone who abides by the community rules is invited and encouraged to participate.
 
-![What do we sustain](https://cdn.quasar-framework.org/img/what-do-we-sustain.png)
+![What do we sustain](https://cdn.quasar.dev/img/what-do-we-sustain.png)
 
 ### Participation is a Form of Collaborative Appreciation
 
@@ -36,7 +36,7 @@ Nothing is certain, other than the fact that `node_modules` is still the heavies
 
 That point in time for Quasar is right now and your support will make the difference.
 
-![Sustain with money](https://cdn.quasar-framework.org/img/sustain-people-code.png)
+![Sustain with money](https://cdn.quasar.dev/img/sustain-people-code.png)
 
 If your business relies on open source you can hedge the risk of it disappearing by financially supporting it so that you can rest assured that the software will continue to be available for you.
 

@@ -34,11 +34,11 @@ setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools"
 
 * Open the "Configure" menu at the bottom of the window:
 
-  ![SDK manager](https://cdn.quasar-framework.org/img/Android-Studio-SDK-Menu.png "SDK manager")
+  ![SDK manager](https://cdn.quasar.dev/img/Android-Studio-SDK-Menu.png "SDK manager")
 
 * Select the desired SDKs. As per August 2018 Cordova supports 5.0 and up and click on "Apply" to install the SDKs.
 
-  ![SDK selection](https://cdn.quasar-framework.org/img/Android-Studio-SDK-selection.png "SDK selection")
+  ![SDK selection](https://cdn.quasar.dev/img/Android-Studio-SDK-selection.png "SDK selection")
 
 ## 2. Add Cordova Quasar Mode
 In order to develop/build a Mobile app, we need to add the Cordova mode to our Quasar project. What this does is that it uses Cordova CLI to generate a Cordova project in `/src-cordova` folder. `/src-cordova/www` folder will be overwritten each time you build.

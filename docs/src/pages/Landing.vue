@@ -7,7 +7,7 @@
       .landing__hero-content.row.justify-center.q-gutter-xl
 
         .row
-          img.landing__logo(src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg")
+          img.landing__logo(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
 
         .flex.justify-end
           .q-gutter-sm
@@ -41,7 +41,7 @@
     .landing__features.row.items-start.q-col-gutter-xl
       .col-12.text-center
         .feature-item.q-mx-md
-          img.doc-img(src="https://cdn.quasar-framework.org/img/responsive.png")
+          img.doc-img(src="https://cdn.quasar.dev/img/responsive.png")
       .col-12.text-center
         .q-gutter-lg
           q-icon(name="fab fa-apple")
@@ -129,37 +129,37 @@
       .text-h6.text-primary.q-mb-xl Proudly sponsored by
       .q-gutter-md.flex.flex-center
         a
-          img(width='200px', src='https://cdn.quasar-framework.org/sponsors/think-health-data.png')
+          img(width='200px', src='https://cdn.quasar.dev/sponsors/think-health-data.png')
         a(href='https://truelogic.com', target='_blank')
-          img(width='200px', src='https://cdn.quasar-framework.org/sponsors/truelogic.png')
+          img(width='200px', src='https://cdn.quasar.dev/sponsors/truelogic.png')
         a(href='https://www.tayloredtechnology.net', target='_blank')
-          img(width='200px', src='https://cdn.quasar-framework.org/sponsors/taylored-technology-big.jpeg')
+          img(width='200px', src='https://cdn.quasar.dev/sponsors/taylored-technology-big.jpeg')
         a(href='http://campuscloudservices.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/campus-cloud-services.png')
+          img(width='222px', src='https://cdn.quasar.dev/sponsors/campus-cloud-services.png')
         a(href='https://www.jugglestreet.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/juggle-street.png')
+          img(width='222px', src='https://cdn.quasar.dev/sponsors/juggle-street.png')
         a(href='http://comcomservices.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/com-com-services.png')
+          img(width='222px', src='https://cdn.quasar.dev/sponsors/com-com-services.png')
         a(href='http://www.kalisio.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/kalisio.png')
+          img(width='222px', src='https://cdn.quasar.dev/sponsors/kalisio.png')
         a(href='http://platformpurple.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/platform-purple.png')
+          img(width='222px', src='https://cdn.quasar.dev/sponsors/platform-purple.png')
         a(href='http://www.bgasoft.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/bgasoft.png')
+          img(width='222px', src='https://cdn.quasar.dev/sponsors/bgasoft.png')
         a(href='https://www.letsbutterfly.com/', target='_blank')
-          img(width='170px', src='https://cdn.quasar-framework.org/sponsors/letsbutterfly.png')
+          img(width='170px', src='https://cdn.quasar.dev/sponsors/letsbutterfly.png')
 
       .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Partners
       .q-gutter-md.flex.flex-center
 
         a(href='https://utopian.io/', target='_blank')
-          img(width='170px', src='https://cdn.quasar-framework.org/sponsors/utopian.png')
+          img(width='170px', src='https://cdn.quasar.dev/sponsors/utopian.png')
 
         a(href='https://wallabyjs.com/', target='_blank')
-          img(width='110px', src='https://cdn.quasar-framework.org/sponsors/wallaby.png')
+          img(width='110px', src='https://cdn.quasar.dev/sponsors/wallaby.png')
 
         a(href='https://snyk.io/', target='_blank')
-          img(width='170px', src='https://cdn.quasar-framework.org/sponsors/snyk.png')
+          img(width='170px', src='https://cdn.quasar.dev/sponsors/snyk.png')
 
   section.landing__footer
     div.text-center
@@ -176,7 +176,7 @@
         a(href="https://discord.gg/5TDhbDg", target="_blank")
           q-icon(name="fab fa-discord")
 
-        a(href="https://forum.quasar-framework.org/", target="_blank")
+        a(href="https://forum.quasar.dev/", target="_blank")
           q-icon(name="fas fa-comments")
 
         a(href="https://www.patreon.com/quasarframework", target="_blank")
@@ -191,7 +191,7 @@
     q-toolbar.q-pa-none
       q-btn.quasar-logo.text-bold(flat, no-caps, no-wrap, to="/start")
         q-avatar.doc-landing-avatar
-          img(src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg")
+          img(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
         q-toolbar-title(shrink) Docs
 
       q-space
@@ -200,7 +200,7 @@
       q-btn.q-mr-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.com/quasarframework", target="_blank")
       q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://medium.com/quasar-framework", target="_blank")
       q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://discord.gg/5TDhbDg", target="_blank")
-      q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar-framework.org/", target="_blank")
+      q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank")
 </template>
 
 <script>
@@ -222,7 +222,7 @@ export default {
   border-radius 0
 
 .landing
-  background #000 url('https://cdn.quasar-framework.org/img/quasar-cover.jpg') no-repeat center center fixed
+  background #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') no-repeat center center fixed
   background-size cover
 
   > section
@@ -288,7 +288,7 @@ export default {
     background-repeat no-repeat !important
     background-position top center
     background-size contain !important
-    background-image url(https://cdn.quasar-framework.org/img/landing_first_section.png) !important
+    background-image url(https://cdn.quasar.dev/img/landing_first_section.png) !important
 
   &__footer-icons
     font-size 28px
@@ -342,6 +342,6 @@ body.mobile .landing
     right 0
     bottom 0
     z-index -1 /* needed to keep in the background */
-    background #000 url('https://cdn.quasar-framework.org/img/quasar-cover.jpg') center center
+    background #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') center center
     background-size cover
 </style>

@@ -7,7 +7,7 @@ If you were to target all platforms that Quasar currently supports, you will nee
 This page documents all of the icons you will need for each of the build targets.
 
 
-<img src="https://cdn.quasar-framework.org/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
+<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
 
 ## The Icon Factory
 
