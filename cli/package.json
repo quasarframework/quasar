@@ -1,6 +1,6 @@
 {
   "name": "@quasar/cli",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-rc.1",
   "description": "Quasar Framework CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -32,7 +32,7 @@
   },
   "license": "MIT",
   "bugs": "https://github.com/quasarframework/quasar/issues",
-  "homepage": "http://quasar-framework.org",
+  "homepage": "https://quasar.dev",
   "engines": {
     "node": ">= 8.9.0",
     "npm": ">= 5.6.0",
