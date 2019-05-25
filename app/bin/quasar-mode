@@ -18,8 +18,9 @@ function showHelp() {
   console.log(`
   Description
     Add/Remove support for PWA / Cordova / Electron modes.
+
   Usage
-    $ quasar mode [add|remove pwa|ssr|cordova|electron]
+    $ quasar mode [add|remove] pwa|ssr|cordova|electron]
 
     # determine what modes are currently installed:
     $ quasar mode
@@ -32,6 +33,7 @@ function showHelp() {
 
 if (argv.help) {
   showHelp()
+  process.exit(1)
 }
 
 if (argv._.length !== 0 && argv._.length !== 2) {
