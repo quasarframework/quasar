@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app",
-  "version": "1.0.0-beta.26",
+  "version": "1.0.0-rc.1",
   "description": "Quasar Framework App CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -33,9 +33,9 @@
   },
   "license": "MIT",
   "bugs": "https://github.com/quasarframework/quasar/issues",
-  "homepage": "http://quasar-framework.org",
+  "homepage": "https://quasar.dev",
   "dependencies": {
-    "@quasar/babel-preset-app": "1.0.2",
+    "@quasar/babel-preset-app": "1.0.3",
     "@vue/preload-webpack-plugin": "1.1.0",
     "ajv": "6.8.1",
     "autoprefixer": "9.5.1",
