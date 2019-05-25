@@ -2,9 +2,31 @@ Quasar Framework is an MIT licensed open source project and completely free to u
 
 ## Platinum sponsors:
 
-[![Truelogic](https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/truelogic.png)](http://truelogic.com)
-
-[![Taylored Technology](https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/d589296b/taylored-technology.jpeg)](https://www.tayloredtechnology.net/)
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a>
+          <img width="200px" src="https://cdn.quasar.dev/sponsors/think-health-data.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://truelogic.com" target="_blank">
+          <img width="200px" src="https://cdn.quasar.dev/sponsors/truelogic.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <tr>
+      <td align="center" valign="middle">
+        <a href="https://www.tayloredtechnology.net" target="_blank">
+          <img width="200px" src="https://cdn.quasar.dev/sponsors/taylored-technology-big.jpeg">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 # Backers
 
@@ -12,29 +34,82 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $500
 
-<a href="http://campuscloudservices.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/4de8637c/campus-cloud-services.png" width="350px"></a>
-
----
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="http://campuscloudservices.com" target="_blank">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/campus-cloud-services.png">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ### $250
 
-<a href="https://www.jugglestreet.com.au/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/juggle-street.png" width="200px"></a>
-
----
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://www.jugglestreet.com" target="_blank">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/juggle-street.png">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ### $100+
 
-<a href="http://comcomservices.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/com-com-services.png" width="200px"></a>
-
-<a href="http://www.kalisio.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/kalisio.png" width="200px"></a>
-
-<a href="http://platformpurple.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/592beec0/platform-purple.png" width="200px"></a>
-
-<a href="http://www.bgasoft.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/3e1d0d43/bgasoft.png" width="200px"></a>
-
-- Mark Crady
-
----
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="http://comcomservices.com" target="_blank">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/com-com-services.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="http://www.kalisio.com" target="_blank">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/kalisio.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="http://platformpurple.com" target="_blank">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/platform-purple.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="http://www.bgasoft.com" target="_blank">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/bgasoft.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://www.letsbutterfly.com/" target="_blank">
+          <img width="170px" src="https://cdn.quasar.dev/sponsors/letsbutterfly.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://www.projectfinance.io/" target="_blank">
+          <img width="222px" height="150px" src="https://cdn.quasar.dev/sponsors/project-finance.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        Ronald Stevens
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ### $50+
 
@@ -46,21 +121,32 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Netanel Edri
 - Edinei Cipriani
 - Andy Burnett
-
----
+- Heitor Lessa
+- Aprixon Information Services GmbH
+- Flippen Group
+- Ryan Hill
 
 ### $10+
 
+- David Watson ($30)
+- 上田 進也(合同会社サンドボックス) (Sandbox Gmbh) ($30)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
+- Jim O'Quinn ($25)
+- Elad Yaniv ($25)
 - Max Matteo Staack ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
 - Pawel Rakowski ($20)
 - Stephen Clarke ($20)
 - Ciprian Popa ($20)
+- G Edwards ($20)
+- Martin Thompson ($20)
+- Shapovalov Pavel ($20)
 - Shone Radulovic ($15)
 - Sam Cassar ($15)
+- Francis Vithayathil ($15)
+- Vaidotas Beržinskas ($13.37)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
 - Marek Urbanowicz
@@ -96,47 +182,89 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Kévin Marrec
 - 良平 勝目
 - Jörg Walter
-- Alex Pereira Vieira
-- Ruan de Andrade
-- Tanner Faulkner
-- Luca Borghini
 - Christian Kyony
-- Talles Dantas
 - Mast
-- 上田 進也 (Sandbox Gmbh)
 - altShiftDev
 - Simon Kimber
 - Arjan Dhupia
 - RED CAD Solutions AG
 - Yatima Kagurazaka
 - Matyáš Racek
-- Martin Thompson
 - David Urbansky
 - Sustained
 - Chad Shryock
 - Ross Ball
 - KPA Productions
-- Roman Sujatinov
-- Tanya Trimbakova
 - eae
 - Tomer Shalev
 - Ildemaro Martinez Jr.
 - Uri Levitsky
 - Pascal Guérin
-- Jo Lee
+- Justin Coker
+- Jonathan G
+- rangepoker
+- Amitabh Akolkar
+- David Flasterstein
+- Jay McGuinness
+- Jesse Sudich (Outflank Pay Tracker)
+- Controle Digital
+- Tobias Mesquita
+- Volentix
+- Pascual Strømsnæs
+- Taillefer Brice
+- Nafaa Boutefer
+- Bryan WB (eKyNoX)
+- Jan Pálka
+- Justin Dunsworth
+- James Swansburg
+- Adam De Witt
+- Ade Shinichi
+- Tatsuki Sugiura
+- Ravi Ranganathan
+- Carl Farrington
+- Andrey Solovieff
+- Ian Claxton
+- Pascal de Sélys
+- Constantine
+- Ivar de Pieterman
+- Birch P Browning
+- Дмитрий Полянин
+- Guillaume Malignon
+- Alvin Tse Chen Hao
+- ThomasD
+- Michael Freeman
+- Michael Cole
+- Marek Bartos
+- Kasper
+- Paolo Nesti Poggi
+- Michael Alford
+- Joseph Phillips
+- David McLean
+- Alfonso Herrera
+- Mojimo
+- Todd E
+- Chip Drop
+- Jeff Jorczak
+- Furatama
+- Godwin Peter .O
+- Support Logient
+- Oleksander Mashianov
+- James
+- VHCI Business Development SRL
+- Fergus Meiklejohn
+- Aydin Sakar
 
-- Jim O'Quinn ($5)
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
 - Walison Moreira ($5)
 - Felipe Santiago ($5)
 - Hugo Ramses Moreno Ramos (5$)
+- Louis Ameline ($5)
+- Peter Dzurcanin ($5)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)
-
----
 
 ### Notable one time
 
@@ -145,8 +273,11 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Robert Preston $250
 - Remo Laubacher $200
 - Egor Molodov $200
+- BigJump Limited 175 EUR
 - Max Matteo Staack 150 EUR
+- Jeff Galbraith 129 EUR
 - Max Matteo Staack $123
+- Daniel Thompson-Yvetot (0.035 BTC, ~100 EUR)
 - Musicformellons $100
 - Kyle Tippetts $100 (x2)
 - Gerard Eviston $50

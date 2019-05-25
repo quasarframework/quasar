@@ -1,0 +1,109 @@
+{
+  "value": {
+    "type": "Function",
+    "desc": "Handler for swipe",
+    "params": {
+      "details": {
+        "type": "Object",
+        "desc": "Event details",
+        "definition": {
+          "evt": {
+            "type": "Object",
+            "desc": "Original JS event Object",
+            "__exemption": [ "examples" ]
+          },
+          "touch": {
+            "type": "Boolean",
+            "desc": "Triggered by a touch event"
+          },
+          "mouse": {
+            "type": "Boolean",
+            "desc": "Triggered by a mouse event"
+          },
+          "direction": {
+            "type": "String",
+            "desc": "Direction of movement",
+            "values": [ "up", "right", "down", "left" ]
+          },
+          "duration": {
+            "type": "Number",
+            "desc": "How long it took to trigger the event (in milliseconds)",
+            "examples": [ 612 ]
+          },
+          "distance": {
+            "type": "Object",
+            "desc": "Absolute distance (in pixels) since movement started from initial point",
+            "definition": {
+              "x": {
+                "type": "Number",
+                "desc": "Absolute distance horizontally",
+                "examples": [ 231 ]
+              },
+              "y": {
+                "type": "Number",
+                "desc": "Absolute distance vertically",
+                "examples": [ 231 ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "returns": null,
+    "examples": [ "v-touch-swipe=\"fnToCall\"" ]
+  },
+
+  "arg": {
+    "type": "String",
+    "desc": "x:y:z, where x is minimum velocity (dist/time), y is minimum distance on first move on mobile, z is minimum distance on desktop until deciding if it's a swipe indeed",
+    "default": "0.06:6:50",
+    "examples": [ "v-touch-swipe:0.07:10:100=\"fnToCall\"" ]
+  },
+
+  "modifiers": {
+    "capture": {
+      "type": "Boolean",
+      "desc": "Use capture for touchstart event"
+    },
+
+    "mouse": {
+      "type": "Boolean",
+      "desc": "Listen for mouse events too"
+    },
+
+    "mouseCapture": {
+      "type": "Boolean",
+      "desc": "Use capture for mousedown event"
+    },
+
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Catch horizontal (left/right) movement"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Catch vertical (up/down) movement"
+    },
+
+    "up": {
+      "type": "Boolean",
+      "desc": "Catch swipe to up"
+    },
+
+    "right": {
+      "type": "Boolean",
+      "desc": "Catch swipe to right"
+    },
+
+    "down": {
+      "type": "Boolean",
+      "desc": "Catch swipe to down"
+    },
+
+    "left": {
+      "type": "Boolean",
+      "desc": "Catch swipe to left"
+    }
+  }
+}

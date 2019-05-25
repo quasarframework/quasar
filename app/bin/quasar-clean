@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+const
+  parseArgs = require('minimist'),
+  path = require('path'),
+  chalk = require('chalk')
+
+const
+  appPaths = require('../lib/app-paths'),
+  log = require('../lib/helpers/logger')('app:clean')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    h: 'help'
+  },
+  boolean: ['h']
+})
+
+if (argv.help) {
+  console.log(`
+  Description
+    Cleans all build artifacts
+  Usage
+    $ quasar clean
+  Options
+    --help, -h     Displays this message
+  `)
+  process.exit(0)
+}
+
+require('../lib/artifacts').cleanAll()
+
+console.log()
+log(`Done cleaning build artifacts`)
+log()

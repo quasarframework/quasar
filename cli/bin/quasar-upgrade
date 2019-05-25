@@ -1,0 +1,180 @@
+#!/usr/bin/env node
+
+const parseArgs = require('minimist')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    i: 'install',
+    h: 'help'
+  },
+  boolean: ['h', 'i']
+})
+
+if (argv.help) {
+  console.log(`
+  Description
+    Upgrades all quasar packages to their latest version
+    which are compatible with the API that you are currently using.
+
+    Works only in a project folder by upgrading to latest minor versions
+    of all quasar related packages.
+
+    This will also upgrade official Quasar App Extensions.
+
+  Usage
+    # checks for upgrades only
+    $ quasar upgrade
+
+    # also performs the upgrades
+    $ quasar upgrade -i
+
+  Options
+    --install, -i  Also perform package upgrades
+    --help, -h     Displays this message
+  `)
+  process.exit(0)
+}
+
+const
+  fs = require('fs'),
+  path = require('path'),
+  execSync = require('child_process').execSync,
+  { green, red } = require('chalk')
+
+const root = require('../lib/get-project-root')()
+const { log, fatal } = require('../lib/logger')
+
+if (!root) {
+  fatal(`⚠️  Error. This command must be executed inside a Quasar project folder only.`)
+}
+
+if (!fs.existsSync(path.join(root, 'node_modules'))) {
+  fatal('⚠️  Please run "yarn" / "npm install" first\n')
+}
+
+const pkg = require(path.join(root, 'package.json'))
+
+function getLatestVersion (packager, packageName, curVersion) {
+  let versions
+
+  try {
+    versions = JSON.parse(
+      execSync(
+        `${packager} info ${packageName} versions --json`,
+        { stdio: ['ignore', 'pipe', 'pipe'] }
+      )
+    )
+  }
+  catch (err) {
+    return null
+  }
+
+  if (versions.type === 'error') {
+    return null
+  }
+
+  if (packager === 'yarn') {
+    versions = versions.data
+  }
+
+  if (curVersion === null) {
+    return versions[versions.length - 1]
+  }
+
+  const prefix = curVersion.substring(0, curVersion.indexOf('.') + 1)
+  versions = versions.filter(version => version.startsWith(prefix))
+
+  return versions[versions.length - 1]
+}
+
+function upgradeQuasar () {
+  const deps = {
+    dependencies: [],
+    devDependencies: []
+  }
+
+  const packager = require('../lib/node-packager')(root)
+
+  console.log()
+  log(`Gathering information with ${packager}...`)
+  console.log()
+
+  let updateAvailable = false
+
+  for (const type of Object.keys(deps)) {
+    for (const packageName of Object.keys(pkg[type] || {})) {
+      // is it a Quasar package?
+      if (packageName !== 'quasar' && !packageName.startsWith('@quasar/')) {
+        continue
+      }
+
+      const json = path.join(root, 'node_modules', packageName, 'package.json')
+      const curVersion = fs.existsSync(json)
+        ? require(json).version
+        : null
+
+      const latestVersion = getLatestVersion(packager, packageName, curVersion)
+
+      const current = curVersion === null
+        ? red('Missing!')
+        : curVersion
+
+      if (latestVersion === null) {
+        console.log(` ${green(packageName)}: ${current} → ${red('Skipping!')}`)
+        console.log(`   (⚠️  NPM server returned an error, so we cannot detect latest version)`)
+      }
+      else if (curVersion !== latestVersion) {
+        deps[type].push({
+          packageName,
+          latestVersion
+        })
+
+        updateAvailable = true
+
+        console.log(` ${green(packageName)}: ${current} → ${latestVersion}`)
+      }
+    }
+  }
+
+  if (!updateAvailable) {
+    console.log('  Congrats! All Quasar packages are up to date.\n')
+    return
+  }
+
+  if (!argv.install) {
+    console.log()
+    console.log(' Run "quasar upgrade -i" to do the actual upgrade.')
+    console.log()
+    return
+  }
+
+  const { removeSync } = require('fs-extra')
+  const spawn = require('../lib/spawn')
+
+  for (const type of Object.keys(deps)) {
+    if (deps[type].length === 0) {
+      continue
+    }
+
+    const params = packager === 'yarn'
+      ? (type === 'devDependencies' ? [ 'add', '--dev' ] : [ 'add' ])
+      : [ `install`, `--save${type === 'devDependencies' ? '--dev' : ''}` ]
+
+    deps[type].forEach(dep => {
+      // need to delete tha package otherwise
+      // installing the new version might fail on Windows
+      removeSync(path.join(root, 'node_modules', dep.packageName))
+
+      params.push(`${dep.packageName}@^${dep.latestVersion}`)
+    })
+
+    console.log()
+    spawn(packager, params, root)
+  }
+
+  console.log()
+  log('Successfully upgraded Quasar packages.\n')
+}
+
+upgradeQuasar()
+

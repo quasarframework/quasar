@@ -1,0 +1,16 @@
+.q-breadcrumbs
+
+  &__el
+    color inherit
+
+  &__el-icon
+    font-size 125%
+
+    &--with-label
+      margin-right 8px
+
+  &--last a
+    pointer-events none
+
+[dir=rtl] .q-breadcrumbs__separator .q-icon
+  transform scale3d(-1, 1, 1) /* rtl:ignore */

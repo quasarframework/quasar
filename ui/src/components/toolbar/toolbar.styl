@@ -1,0 +1,25 @@
+.q-toolbar
+  position relative
+  padding $toolbar-padding
+  min-height $toolbar-min-height
+  width 100%
+
+  &--inset
+    padding-left $toolbar-inset-size
+
+  .q-avatar
+    font-size 38px
+
+.q-toolbar__title
+  flex 1 1 0%
+  min-width 1px
+  max-width 100%
+  font-size $toolbar-title-font-size
+  font-weight $toolbar-title-font-weight
+  letter-spacing $toolbar-title-letter-spacing
+  padding $toolbar-title-padding
+
+  &:first-child
+    padding-left 0
+  &:last-child
+    padding-right 0

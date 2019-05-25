@@ -1,0 +1,149 @@
+{
+  "value": {
+    "type": "Function",
+    "desc": "Handler for touch-repeat",
+    "params": {
+      "details": {
+        "type": "Object",
+        "desc": "Event details",
+        "definition": {
+          "evt": {
+            "type": "Object",
+            "desc": "Original JS event Object",
+            "__exemption": [ "examples" ]
+          },
+          "touch": {
+            "type": "Boolean",
+            "desc": "Triggered by a touch event"
+          },
+          "mouse": {
+            "type": "Boolean",
+            "desc": "Triggered by a mouse event"
+          },
+          "keyboard": {
+            "type": "Boolean",
+            "desc": "Triggered by a keyboard event"
+          },
+          "position": {
+            "type": "Object",
+            "desc": "Event Position Object; Supplied ONLY if it's a touch or mouse event",
+            "definition": {
+              "top": {
+                "type": "Number",
+                "desc": "Vertical offset from top of window",
+                "examples": [ 235 ]
+              },
+              "left": {
+                "type": "Number",
+                "desc": "Horizontal offset from left of window",
+                "examples": [ 235 ]
+              }
+            }
+          },
+          "keyCode": {
+            "type": "Number",
+            "desc": "Keycode; Supplied ONLY if it's a keyboard event",
+            "examples": [ 65 ]
+          },
+          "duration": {
+            "type": "Number",
+            "desc": "How long it took to trigger the event (in milliseconds)",
+            "examples": [ 612 ]
+          },
+          "repeatCount": {
+            "type": "Number",
+            "desc": "Handler called for nth time",
+            "examples": [ 2 ]
+          },
+          "startTime": {
+            "type": "Number",
+            "desc": "Unix timestamp of the moment when event started; Equivalent to new Date().getTime()",
+            "examples": [ 1558603256472 ]
+          }
+        }
+      }
+    },
+    "returns": null,
+    "examples": [ "v-touch-repeat=\"fnToCall\"" ]
+  },
+
+  "arg": {
+    "type": "String",
+    "desc": "String of numbers (at least one number) separated by ':' which defines the amount of time to wait for 1st handler call, 2nd, 3rd and so on; All subsequent calls will use last value as time to wait until triggering",
+    "default": "0:600:300",
+    "examples": [ "v-touch-repeat:0:400=\"fnToCall\"" ]
+  },
+
+  "modifiers": {
+    "capture": {
+      "type": "Boolean",
+      "desc": "Use capture for touchstart event"
+    },
+
+    "mouse": {
+      "type": "Boolean",
+      "desc": "Listen for mouse events too"
+    },
+
+    "mouseCapture": {
+      "type": "Boolean",
+      "desc": "Use capture for mousedown event"
+    },
+
+    "keyCapture": {
+      "type": "Boolean",
+      "desc": "Use capture for keydown event"
+    },
+
+    "esc": {
+      "type": "Boolean",
+      "desc": "Catch ESC key"
+    },
+
+    "tab": {
+      "type": "Boolean",
+      "desc": "Catch TAB key"
+    },
+
+    "enter": {
+      "type": "Boolean",
+      "desc": "Catch ENTER key"
+    },
+
+    "space": {
+      "type": "Boolean",
+      "desc": "Catch SPACE key"
+    },
+
+    "up": {
+      "type": "Boolean",
+      "desc": "Catch UP arrow key"
+    },
+
+    "left": {
+      "type": "Boolean",
+      "desc": "Catch LEFT arrow key"
+    },
+
+    "right": {
+      "type": "Boolean",
+      "desc": "Catch RIGHT arrow key"
+    },
+
+    "down": {
+      "type": "Boolean",
+      "desc": "Catch DOWN key"
+    },
+
+    "delete": {
+      "type": "Boolean",
+      "desc": "Catch DELETE key"
+    },
+
+    "[keycode]": {
+      "type": "Number",
+      "desc": "Key code to catch",
+      "examples": [ "v-touch-repeat.68=\"fnToCall\"" ]
+    }
+  }
+}

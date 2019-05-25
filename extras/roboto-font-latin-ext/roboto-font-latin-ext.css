@@ -1,0 +1,36 @@
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 100;
+  src: url(./web-font/KFOkCnqEu92Fr1MmgVxGIzQ.woff) format('woff');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: url(./web-font/KFOlCnqEu92Fr1MmSU5fChc-.woff) format('woff');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url(./web-font/KFOmCnqEu92Fr1Mu7GxM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  src: url(./web-font/KFOlCnqEu92Fr1MmEU9fChc-.woff) format('woff');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  src: url(./web-font/KFOlCnqEu92Fr1MmWUlfChc-.woff) format('woff');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 900;
+  src: url(./web-font/KFOlCnqEu92Fr1MmYUtfChc-.woff) format('woff');
+}

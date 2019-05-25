@@ -1,0 +1,86 @@
+{
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "disable": {
+      "extends": "disable"
+    },
+
+    "icon": {
+      "extends": "icon",
+      "required": true
+    },
+
+    "type":{
+      "type": "String",
+      "desc": "Define the button HTML DOM type",
+      "default": "a",
+      "values": [
+        "a", "submit", "button", "reset"
+      ],
+      "category": "general"
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design for Fab button",
+      "category": "style"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design for Fab button",
+      "category": "style"
+    },
+
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design for Fab button",
+      "category": "style"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "glossy": {
+      "type": "Boolean",
+      "desc": "Apply the glossy effect over the button",
+      "category": "style"
+    },
+
+    "to": {
+      "type": [ "String", "Object" ],
+      "desc": "Equivalent to Vue Router <router-link> 'to' property",
+      "examples": [
+        "/home/dashboard",
+        ":to=\"{ name: 'my-route-name' }\""
+      ],
+      "category": "router"
+    },
+
+    "replace": {
+      "type": "Boolean",
+      "desc": "Equivalent to Vue Router <router-link> 'replace' property",
+      "category": "router"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion for this slot: QTooltip"
+    }
+  },
+
+  "events": {
+    "click": {
+      "extends": "click"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.q-slide-item
+  position relative
+
+  &__left, &__right
+    visibility hidden
+    padding 8px 16px
+    font-size 14px
+
+    .q-icon
+      font-size 1.714em
+
+  &__left
+    background $green
+    color white
+
+    > div
+      transform-origin left center
+
+  &__right
+    background $orange
+    color white
+
+    > div
+      transform-origin right center
+
+  &__content
+    background white
+    transition transform .2s ease-in
+    user-select none
+    cursor pointer

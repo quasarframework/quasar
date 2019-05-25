@@ -1,0 +1,95 @@
+fr(selector, name, i = '')
+  unquote(replace(unquote('<i>'), unquote(i), replace(unquote('<name>'), unquote(name), unquote(selector))))
+
+fe(selector, name, noProc, i = '')
+  if noProc
+    return fr(selector, name, i)
+  return unquote(join(',', fr(selector, '', i) fr(selector, name, i)))
+
+
+ie_style = @block
+
+  /* Min Height */
+  .q-toolbar:after
+    content ''
+    display block
+    min-height inherit
+    font-size 0
+
+  /* Flex Basis */
+  .q-btn__content
+  .q-time__content
+  .q-toolbar__title
+  .q-menu .q-item__section--main
+    flex-basis auto
+
+  .q-tab__content
+    flex-basis auto
+    min-width 100%
+
+  for $name, $size in $sizes
+    $noProcNotZero = $size > 0
+    @media (min-width $size)
+      {fe('.col<name>', s('-%s', unquote($name)), $noProcNotZero)}
+        .row > &, .flex > &
+          flex-basis auto
+          width 0%
+
+  /* QBtn */
+  .q-btn
+    &:not(.disabled):active,
+    &:not(.disabled):focus,
+    &.q-btn--active
+      .q-btn__content
+        position relative
+        top 0
+        left 0
+
+  /* QCarousel */
+  .q-carousel__slide > *
+    max-width 100%
+
+  /* QFab */
+  .q-fab--opened .q-fab__actions
+    &--left
+    &--right
+      display block
+      white-space nowrap
+
+  /* QSpinner */
+  .q-spinner
+    animation q-ie-spinner 2s linear infinite /* rtl:ignore */
+    transform-origin center center /* rtl:ignore */
+    opacity .5
+
+    &.q-spinner-mat .path
+      stroke-dasharray 89, 200
+
+  /* QToggle Icon */
+  .q-toggle__thumb
+    .q-icon
+      margin-left -6px
+
+  /* QDate */
+  .q-date__view.q-date__months.column
+    > .q-date__months-content
+      width 100%
+  .q-date--landscape .q-date__content
+    width 100%
+    > .q-date__view
+      width 0
+      min-width 100%
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+  {ie_style}
+
+@supports (-ms-ime-align:auto)
+  {ie_style}
+
+@keyframes q-ie-spinner
+  0%
+    opacity .5
+  50%
+    opacity 1
+  100%
+    opacity .5

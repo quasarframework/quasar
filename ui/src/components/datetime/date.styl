@@ -1,0 +1,175 @@
+.q-date
+  display inline-flex
+  box-shadow $shadow-2
+  border-radius $generic-border-radius
+  background white
+  max-width 100%
+
+  .q-btn
+    font-weight normal
+
+  &__header
+    border-top-left-radius inherit
+    color white
+    background-color $primary
+    background-color var(--q-color-primary)
+    padding 16px
+
+  &__content
+    outline none
+
+  &__header-link
+    opacity .64
+    outline 0
+    transition opacity .3s ease-out
+    &--active, &:hover, &:focus
+      opacity 1
+
+  &__header-subtitle
+    height 24px
+    font-size 14px
+    line-height 1.75
+    letter-spacing 0.00938em
+
+  &__header-title-label
+    font-size 24px
+    line-height 1.2
+    letter-spacing 0.00735em
+
+  &__view
+    height 100%
+    width 100%
+    min-width 290px
+    padding 16px
+
+  &__navigation
+    height 12.5%
+
+    > div:first-child
+      width 8%
+      min-width 24px
+      justify-content flex-end
+    > div:last-child
+      width 8%
+      min-width 24px
+      justify-content flex-start
+
+  &__calendar-weekdays
+    height 12.5%
+    > div
+      opacity .38
+      font-size 12px
+
+  &__calendar-item
+    display inline-flex
+    align-items center
+    justify-content center
+    vertical-align middle
+    width 14.285% !important
+    height 12.5% !important
+    position relative
+
+    > div, button
+      width 32px
+      height 32px
+      border-radius 50%
+    > div
+      line-height 32px
+      text-align center
+
+    &--out
+      opacity .18
+
+  &__calendar-days-container
+    height 75%
+
+  &__calendar-days > div
+    height 16.66% !important
+
+  &__event
+    position absolute
+    bottom 2px
+    left 50%
+    height 5px
+    width 8px
+    border-radius 5px
+    background-color $secondary
+    background-color var(--q-color-secondary)
+    transform translate3d(-50%, 0, 0)
+
+  &__today
+    box-shadow 0 0 1px 0 currentColor
+
+  &__years-content
+    padding 0 8px
+
+  &__years-item, &__months-item
+    flex 0 0 (round(1 / 3 * 100, 4))%
+
+  &__months-content
+    flex 0 0 (round(10 / 12 * 100, 4))%
+
+  &.disabled, &--readonly
+    .q-date__header, .q-date__content
+      pointer-events none
+
+  &--readonly .q-date__navigation
+    display none
+
+  &--portrait
+    flex-direction column
+
+  &--portrait-standard
+    height 410px
+    width 290px
+
+    .q-date__content
+      height calc(100% - 86px) // workaround for iOS -- 86px is header height
+
+    .q-date__header
+      border-top-right-radius inherit
+      height 86px
+
+    .q-date__header-title
+      align-items center
+      height 30px
+
+  &--portrait-minimal
+    height 324px
+    width 290px
+
+    .q-date__content
+      height 100% // workaround for iOS -- 86px is header height
+
+  &--landscape
+    flex-direction row
+    align-items stretch
+
+    > div
+      display flex
+      flex-direction column
+
+    .q-date__content
+      height 100%
+
+  &--landscape-standard
+    height 321px
+    width 420px
+
+    .q-date__header
+      border-bottom-left-radius inherit
+      min-width 110px
+      width 110px
+
+    .q-date__header-title
+      flex-direction column
+    .q-date__header-today
+      margin-top 12px
+
+  &--landscape-minimal
+    height 321px
+    width 310px
+
+  &--dark
+    color white
+    background $grey-9

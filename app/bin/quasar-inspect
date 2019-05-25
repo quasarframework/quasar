@@ -1,0 +1,136 @@
+#!/usr/bin/env node
+
+const
+  parseArgs = require('minimist')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    c: 'cmd',
+    m: 'mode',
+
+    d: 'depth',
+    p: 'path',
+
+    h: 'help'
+  },
+  boolean: ['h'],
+  string: ['c', 'm', 'p'],
+  default: {
+    c: 'dev',
+    m: 'spa',
+    d: 5
+  }
+})
+
+if (argv.help) {
+  console.log(`
+  Description
+    Inspect Quasar generated Webpack config
+
+  Usage
+    $ quasar inspect
+    $ quasar inspect -c build
+    $ quasar inspect -m electron -p 'module.rules'
+
+  Options
+    --cmd, -c        Quasar command [dev|build] (default: dev)
+    --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --depth, -d      Number of levels deep (default: 5)
+    --path, -p       Path of config in dot notation
+                        Examples:
+                          -p module.rules
+                          -p plugins
+    --help, -h       Displays this message
+  `)
+  process.exit(0)
+}
+
+require('../lib/helpers/ensure-argv')(argv, 'inspect')
+require('../lib/helpers/banner')(argv, argv.cmd)
+
+if (argv.mode !== 'spa') {
+  require('../lib/mode/install-missing')(argv.mode, argv.target)
+}
+
+const
+  logger = require('../lib/helpers/logger'),
+  log = logger('app:inspect'),
+  warn = logger('app:inspect', 'red'),
+  QuasarConfig = require('../lib/quasar-config')
+
+const depth = parseInt(argv.depth, 10) || Infinity
+
+function getCfgEntries (webpackConfig, mode) {
+  if (mode === 'ssr') {
+    return [
+      { name: 'Server', webpackCfg: webpackConfig.server },
+      { name: 'Client', webpackCfg: webpackConfig.client }
+    ]
+  }
+  if (mode === 'electron') {
+    return [
+      { name: 'Renderer', webpackCfg: webpackConfig.renderer },
+      { name: 'Main', webpackCfg: webpackConfig.main }
+    ]
+  }
+  return [ { name: 'Main', webpackCfg: webpackConfig } ]
+}
+
+async function inspect () {
+  const
+    extensionRunner = require('../lib/app-extension/extensions-runner'),
+    getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
+
+  const ctx = getQuasarCtx({
+    mode: argv.mode,
+    target: argv.target,
+    debug: argv.debug,
+    dev: argv.cmd === 'dev',
+    prod: argv.cmd === 'build'
+  })
+
+  // register app extensions
+  await extensionRunner.registerExtensions(ctx)
+
+  const quasarConfig = new QuasarConfig(ctx)
+
+  try {
+    await quasarConfig.prepare()
+  }
+  catch (e) {
+    console.log(e)
+    warn(`⚠️ [FAIL] quasar.conf.js has JS errors`)
+    process.exit(1)
+  }
+
+  await quasarConfig.compile()
+
+  const util = require('util')
+  let cfgEntries = getCfgEntries(quasarConfig.getWebpackConfig(), argv.mode)
+
+  if (argv.path) {
+    const dot = require('dot-prop')
+    cfgEntries = cfgEntries.map(cfgEntry => ({
+      name: cfgEntry.name,
+      webpackCfg: dot.get(cfgEntry.webpackCfg, argv.path)
+    }))
+  }
+
+  cfgEntries.forEach(cfgEntry => {
+    console.log()
+    log(`Showing Webpack config "${cfgEntry.name}" with depth of ${depth}`)
+    console.log()
+    console.log(
+      util.inspect(cfgEntry.webpackCfg, {
+        showHidden: true,
+        depth: depth,
+        colors: true,
+        compact: false
+      })
+    )
+  })
+
+  console.log(`\n  Depth used: ${depth}. You can change it with "-d" parameter.\n`)
+}
+
+inspect()

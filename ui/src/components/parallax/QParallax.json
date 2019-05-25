@@ -1,0 +1,69 @@
+{
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "src": {
+      "type": "String",
+      "desc": "Path to image (unless a 'media' slot is used)",
+      "examples": [
+        "(statics folder) statics/img/something.png",
+        "(relative path format) :src=\"require('./my_img.jpg')\"",
+        "(URL) https://some-site.net/some-img.jpg"
+      ],
+      "category": "model"
+    },
+
+    "height": {
+      "type": "Number",
+      "desc": "Height of component (in pixels)",
+      "default": 500,
+      "examples": [ ":height=\"1000\"" ],
+      "category": "style"
+    },
+
+    "speed": {
+      "type": "Number",
+      "desc": "Speed of parallax effect (0.0 < x < 1.0)",
+      "examples": [ ":speed=\"0.24\"" ],
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot can be used for content that gets displayed on top of the component"
+    },
+
+    "media": {
+      "desc": "Slot for describing <img> or <video> tags"
+    }
+  },
+
+  "scopedSlots": {
+    "content": {
+      "desc": "Scoped slot for describing content that gets displayed on top of the component; If specified, it overrides the default slot",
+      "scope": {
+        "percentScrolled": {
+          "type": "Number",
+          "desc": "Percentage (0.0 < x < 1.0) of scroll in regards to QParallax",
+          "examples": [ 0.241 ]
+        }
+      }
+    }
+  },
+
+  "events": {
+    "scroll": {
+      "desc": "Emitted when scrolling occurs",
+      "params": {
+        "percentage": {
+          "type": "Number",
+          "desc": "Number between 0.0 and 1.0 defining the scrolled percentage of the component",
+          "examples": [ 0.234 ]
+        }
+      }
+    }
+  }
+}

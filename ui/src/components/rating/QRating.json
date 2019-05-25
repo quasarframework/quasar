@@ -1,0 +1,53 @@
+{
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "value": {
+      "extends": "value",
+      "type": "Number",
+      "examples": [ ":value=\"2\"" ]
+    },
+
+    "max": {
+      "type": [ "Number", "String" ],
+      "desc": "Number of icons to display",
+      "default": 5,
+      "examples": [ "3", ":max=\"5\"" ],
+      "category": "general"
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "size": {
+      "extends": "size"
+    },
+
+    "no-reset": {
+      "type": "Boolean",
+      "desc": "When used, disables default behavior of clicking/tapping on icon which represents current model value to reset model to 0",
+      "category": "model"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    }
+  }
+}

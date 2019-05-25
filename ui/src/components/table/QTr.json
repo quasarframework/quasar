@@ -1,0 +1,16 @@
+{
+  "props": {
+    "props": {
+      "type": "Object",
+      "desc": "QTable's row scoped slot property",
+      "examples": [ ":props=\"props\"" ],
+      "category": "general"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

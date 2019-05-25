@@ -1,0 +1,152 @@
+{
+  "injection": "$q.cookies",
+
+  "methods": {
+    "get": {
+      "desc": "Get cookie",
+      "params": {
+        "name": {
+          "type": "String",
+          "desc": "Cookie name",
+          "required": true,
+          "examples": [ "userId" ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Cookie value",
+        "examples": [ "john12" ]
+      }
+    },
+
+    "getAll": {
+      "desc": "Get all cookies",
+      "returns": {
+        "type": "Object",
+        "desc": "Object with cookie names (as keys) and their values",
+        "examples": [
+          "{ userId: 'john12', XFrame: 'x534' }"
+        ]
+      }
+    },
+
+    "set": {
+      "desc": "Set cookie",
+      "params": {
+        "name": {
+          "type": "String",
+          "desc": "Cookie name",
+          "required": true,
+          "examples": [ "userId" ]
+        },
+
+        "value": {
+          "type": "String",
+          "desc": "Cookie value",
+          "required": true,
+          "examples": [ "john12" ]
+        },
+
+        "options": {
+          "type": "Object",
+          "desc": "Cookie options",
+          "definition": {
+            "expires": {
+              "type": [ "Number", "String" ],
+              "desc": "Cookie expires detail",
+              "examples": [ 45877, "Wed, 13 Jan 2021 22:23:01 GMT" ]
+            },
+            "path": {
+              "type": "String",
+              "desc": "Cookie path",
+              "examples": [ "/accounts" ]
+            },
+            "domain": {
+              "type": "String",
+              "desc": "Cookie domain",
+              "examples": [ ".foo.com" ]
+            },
+            "httpOnly": {
+              "type": "Boolean",
+              "desc": "Is cookie Http Only?"
+            },
+            "secure": {
+              "type": "Boolean",
+              "desc": "Is cookie secure? (https only)"
+            }
+          }
+        }
+      }
+    },
+
+    "has": {
+      "desc": "Check if cookie exists",
+      "params": {
+        "name": {
+          "type": "String",
+          "desc": "Cookie name",
+          "required": true,
+          "examples": [ "userId" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Does cookie exists or not?"
+      }
+    },
+
+    "remove": {
+      "desc": "Remove a cookie",
+      "params": {
+        "name": {
+          "type": "String",
+          "desc": "Cookie name",
+          "required": true,
+          "examples": [ "userId" ]
+        },
+
+        "options": {
+          "type": "Object",
+          "desc": "Cookie options",
+          "definition": {
+            "path": {
+              "type": "String",
+              "desc": "Cookie path",
+              "examples": [ "/accounts" ]
+            },
+            "domain": {
+              "type": "String",
+              "desc": "Cookie domain",
+              "examples": [ ".foo.com" ]
+            },
+            "httpOnly": {
+              "type": "Boolean",
+              "desc": "Is cookie Http Only?"
+            },
+            "secure": {
+              "type": "Boolean",
+              "desc": "Is cookie secure? (https only)"
+            }
+          }
+        }
+      }
+    },
+
+    "parseSSR": {
+      "desc": "For SSR usage only, and only on the global import (not on $q.cookies)",
+      "params": {
+        "ssrContext": {
+          "type": "Object",
+          "desc": "SSR Context Object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "Cookie object (like $q.cookies) for SSR usage purposes",
+        "__exemption": [ "examples" ]
+      }
+    }
+  }
+}

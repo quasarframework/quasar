@@ -1,0 +1,154 @@
+.no-margin
+  margin 0 !important
+.no-padding
+  padding 0 !important
+.no-border
+  border 0 !important
+.no-border-radius
+  border-radius 0 !important
+.no-box-shadow
+  box-shadow none !important
+.no-outline
+  outline 0 !important
+
+.ellipsis
+  text-overflow ellipsis
+  white-space nowrap
+  overflow hidden
+
+  &-2-lines, &-3-lines
+    overflow hidden
+    display -webkit-box
+    -webkit-box-orient vertical
+  &-2-lines
+    -webkit-line-clamp 2
+  &-3-lines
+    -webkit-line-clamp 3
+
+.readonly
+  cursor default !important
+.disabled, [disabled]
+  &, * // @stylint ignore
+    outline 0 !important
+    cursor not-allowed !important
+.disabled, [disabled]
+  opacity .6 !important
+
+.hidden
+  display none !important
+.invisible
+  visibility hidden !important
+.transparent
+  background transparent !important
+
+.overflow-auto
+  overflow auto !important
+.overflow-hidden
+  overflow hidden !important
+.overflow-hidden-y
+  overflow-y hidden !important
+
+.dimmed, .light-dimmed
+  &:after
+    content ''
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    left 0
+.dimmed:after
+  background $dimmed-background !important
+.light-dimmed:after
+  background $light-dimmed-background !important
+
+.z-top
+  z-index $z-top !important
+.z-max
+  z-index $z-max !important
+
+for type in desktop mobile cordova electron ios mat touch within-iframe platform-ios platform-android
+  body:not(.{type}) .{type}-only,
+  body.{type} .{type}-hide
+    display none !important
+
+@media all and (orientation portrait)
+  .orientation-landscape
+    display none !important
+
+@media all and (orientation landscape)
+  .orientation-portrait
+    display none !important
+
+@media screen
+  .print-only
+    display none !important
+@media print
+  .print-hide
+    display none !important
+
+@media (max-width $breakpoint-xs-max)
+  .xs-hide, .gt-xs, .sm, .gt-sm, .md, .gt-md, .lg, .gt-lg, .xl
+    display none !important
+@media (min-width $breakpoint-sm-min) and (max-width $breakpoint-sm-max)
+  .sm-hide, .xs, .lt-sm, .gt-sm, .md, .gt-md, .lg, .gt-lg, .xl
+    display none !important
+@media (min-width $breakpoint-md-min) and (max-width $breakpoint-md-max)
+  .md-hide, .xs, .lt-sm, .sm, .lt-md, .gt-md, .lg, .gt-lg, .xl
+    display none !important
+@media (min-width $breakpoint-lg-min) and (max-width $breakpoint-lg-max)
+  .lg-hide, .xs, .lt-sm, .sm, .lt-md, .md, .lt-lg, .gt-lg, .xl
+    display none !important
+@media (min-width $breakpoint-xl-min)
+  .xl-hide, .xs, .lt-sm, .sm, .lt-md, .md, .lt-lg, .lg, .lt-xl
+    display none !important
+
+body.desktop
+  .q-focus-helper
+    position absolute
+    top 0
+    left 0 /* rtl:ignore */
+    width 100%
+    height 100%
+    pointer-events none
+    border-radius inherit
+    outline 0
+    opacity 0
+    transition background-color .3s cubic-bezier(.25, .8, .5, 1), opacity .4s cubic-bezier(.25, .8, .5, 1)
+
+    &:before, &:after
+      content ''
+      position absolute
+      top 0
+      left 0
+      width 100%
+      height 100%
+      opacity 0
+      border-radius inherit
+      transition background-color .3s cubic-bezier(.25, .8, .5, 1), opacity .6s cubic-bezier(.25, .8, .5, 1)
+
+    &:before
+      background black
+    &:after
+      background white
+
+    &--rounded
+      border-radius $generic-border-radius
+    &--round
+      border-radius 50%
+
+  .q-focusable, .q-manual-focusable, .q-hoverable
+    outline 0
+
+  .q-focusable:focus, .q-manual-focusable--focused, .q-hoverable:hover
+    > .q-focus-helper
+      background currentColor
+      opacity .15
+      &:before
+        opacity .1
+      &:after
+        opacity .4
+
+  .q-focusable:focus, .q-manual-focusable--focused
+    > .q-focus-helper
+      opacity .22
+

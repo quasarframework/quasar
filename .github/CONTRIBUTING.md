@@ -12,9 +12,9 @@ Hi! I’m really excited that you are interested in contributing to Quasar. Befo
 
 - The issue list of this repo is **exclusively** for bug reports and feature requests. Non-conforming issues will be closed immediately.
 
-  - For simple beginner questions, you can get quick answers from the [Quasar Discord chat](http://chat.quasar-framework.org).
+  - For simple beginner questions, you can get quick answers from the [Quasar Discord chat](https://chat.quasar.dev).
 
-  - For more complicated questions, you can use [the official forum](https://forum.quasar-framework.org/). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!
+  - For more complicated questions, you can use [the official forum](https://forum.quasar.dev/). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!
 
 - Try to search for your issue, it may have already been answered or even fixed in the development branch (`dev`).
 
@@ -36,7 +36,7 @@ Hi! I’m really excited that you are interested in contributing to Quasar. Befo
 
 - Checkout a topic branch from the relevant branch, e.g. `dev`, and merge back against that branch.
 
-- Work in the `src` folder and **DO NOT** checkin `dist` in the commits.
+- **DO NOT** checkin `dist` in the commits.
 
 - It's OK to have multiple small commits as you work on the PR - we will let GitHub automatically squash it before merging.
 
@@ -51,7 +51,7 @@ Hi! I’m really excited that you are interested in contributing to Quasar. Befo
 
 You will need [Node.js](http://nodejs.org) **version 8.9+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
 
-After cloning the repo, run:
+After cloning the repo, in each subfolder run:
 
 ``` bash
 $ yarn # or: npm install
@@ -75,7 +75,7 @@ $ yarn build css  # or: npm run build css
 $ yarn lint # or: npm run lint
 ```
 
-## Project Structure
+## Project Structure (/quasar)
 
 - **`build`**: contains build-related configuration files. In most cases you don't need to touch them.
 
@@ -106,5 +106,5 @@ $ yarn lint # or: npm run lint
 
 - **`dev`**: app with Quasar sources linked directly used for testing purposes. Each feature/component has its own `*.vue` file. Adding a new file automatically creates a route for it and adds it to the "homepage" list (based on the file name).
 
-## Dev Server for Quasar
+## Dev Server for Quasar (/quasar)
 Running `yarn dev [theme]` (or `npm run dev [theme]`) starts up a dev server which uses HMR (Hot Module Reload) for Quasar source code. You can easily test your changes by making necessary changes to `/dev` `*.vue` files.

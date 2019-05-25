@@ -1,0 +1,10 @@
+{
+  "value": {
+    "type": "Boolean",
+    "desc": "If value is 'false' then directive is disabled, otherwise any other value enables it",
+    "examples": [
+      "v-close-popup",
+      "v-close-popup=\"booleanState\""
+    ]
+  }
+}

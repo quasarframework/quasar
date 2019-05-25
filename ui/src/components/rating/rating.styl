@@ -1,0 +1,25 @@
+.q-rating
+  color $rating-grade-color
+  vertical-align middle
+
+  &__icon
+    color currentColor
+    text-shadow $rating-shadow
+    position relative
+    opacity .4
+    transition transform .2s ease-in, opacity .2s ease-in
+
+    &--hovered
+      transform scale3d(1.3, 1.3, 1)
+    &--exselected
+      opacity .7
+    &--active
+      opacity 1
+
+    & + &
+      margin-left 2px
+
+  &--editable .q-icon
+    cursor pointer
+  &--non-editable span, .q-icon
+    outline 0

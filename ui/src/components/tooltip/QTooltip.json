@@ -1,0 +1,93 @@
+{
+  "mixins": [ "mixins/model-toggle", "mixins/portal" ],
+
+  "props": {
+    "max-height": {
+      "extends": "size",
+      "desc": "The maximimum height of the Tooltip; Size in CSS units, including unit name",
+      "category": "content"
+    },
+
+    "max-width": {
+      "extends": "size",
+      "desc": "The maximimum width of the Tooltip; Size in CSS units, including unit name",
+      "category": "content"
+    },
+
+    "transition-show": {
+      "extends": "transition",
+      "default": "jump-down",
+      "category": "behavior"
+    },
+
+    "transition-hide": {
+      "extends": "transition",
+      "default": "jump-up",
+      "category": "behavior"
+    },
+
+    "anchor": {
+      "type": "String",
+      "desc": "Two values setting the starting position or anchor point of the Tooltip relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom middle", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position"
+    },
+
+    "self": {
+      "type": "String",
+      "desc": "Two values setting the Tooltip's own position relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom middle", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position"
+    },
+
+    "offset": {
+      "type": "Array",
+      "desc": "An array of two numbers to offset the Tooltip horizontally and vertically in pixels",
+      "default": "[14, 14]",
+      "examples": [ "[8, 8]", "[5, 10]" ],
+      "category": "position"
+    },
+
+    "target": {
+      "type": [ "Boolean", "String" ],
+      "desc": "Configure a target element to trigger Tooltip toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) it attaches the events to the specified DOM element (if it exists)",
+      "default": true,
+      "values": [ true, false, "(CSS selector)" ],
+      "examples": [
+        ":target=\"false\"",
+        "target=\".my-parent\""
+      ],
+      "category": "behavior"
+    },
+
+    "delay": {
+      "type": "Number",
+      "desc": "Configure Tooltip to appear with delay",
+      "default": 0,
+      "examples": [ ":delay=\"550\"" ],
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  },
+
+  "methods": {
+    "updatePosition": {
+      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the tooltip without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
+    }
+  }
+}

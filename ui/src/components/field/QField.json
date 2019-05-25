@@ -1,0 +1,18 @@
+{
+  "mixins": [ "components/field/__QField" ],
+
+  "props": {
+    "maxlength": {
+      "type": [ "String", "Number" ],
+      "desc": "Specify a max length of model",
+      "examples": [ "12" ],
+      "category": "model"
+    }
+  },
+
+  "slots": {
+    "control": {
+      "desc": "Slot for controls; Suggestion QSlider, QRange, QKnob, ..."
+    }
+  }
+}

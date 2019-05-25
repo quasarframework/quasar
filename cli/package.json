@@ -1,0 +1,72 @@
+{
+  "name": "@quasar/cli",
+  "version": "1.0.0-rc.1",
+  "description": "Quasar Framework CLI",
+  "bin": {
+    "quasar": "./bin/quasar"
+  },
+  "files": [
+    "assets",
+    "bin",
+    "lib"
+  ],
+  "keywords": [
+    "quasar",
+    "cli",
+    "web",
+    "spa",
+    "pwa",
+    "electron",
+    "vue",
+    "vuejs",
+    "cordova"
+  ],
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "homepage": "https://quasar.dev",
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  },
+  "dependencies": {
+    "async": "2.6.2",
+    "chalk": "2.4.2",
+    "ci-info": "2.0.0",
+    "compression": "1.7.4",
+    "connect-history-api-fallback": "1.6.0",
+    "consolidate": "0.15.1",
+    "cross-spawn": "6.0.5",
+    "download-git-repo": "1.1.0",
+    "express": "4.17.0",
+    "fs-extra": "8.0.1",
+    "handlebars": "4.1.1",
+    "http-proxy-middleware": "0.19.1",
+    "inquirer": "6.2.2",
+    "metalsmith": "2.3.0",
+    "minimatch": "3.0.4",
+    "minimist": "1.2.0",
+    "multimatch": "2.1.0",
+    "open": "6.3.0",
+    "ora": "3.4.0",
+    "read-metadata": "1.0.0",
+    "rimraf": "2.6.3",
+    "route-cache": "0.4.4",
+    "selfsigned": "1.10.4",
+    "tildify": "1.2.0",
+    "user-home": "2.0.0",
+    "validate-npm-package-name": "3.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "injection": "$q.fullscreen",
+
+  "props": {
+    "isCapable": {
+      "type": "Boolean",
+      "desc": "Does browser support it?"
+    },
+
+    "isActive": {
+      "type": "Boolean",
+      "desc": "Is Fullscreen active?",
+      "reactive": true
+    }
+  },
+
+  "methods": {
+    "request": {
+      "desc": "Request going into Fullscreen (with optional target)",
+      "params": {
+        "target": {
+          "type": "String",
+          "desc": "Optional CSS selector of target to request Fullscreen on",
+          "examples": [ "div.dashboard div.description" ]
+        }
+      }
+    },
+
+    "exit": {
+      "desc": "Request exiting out of Fullscreen mode"
+    },
+
+    "toggle": {
+      "desc": "Request toggling Fullscreen mode (with optional target if requesting going into Fullscreen only)",
+      "params": {
+        "target": {
+          "type": "String",
+          "desc": "Optional CSS selector of target to request Fullscreen on",
+          "examples": [ "div.dashboard div.description" ]
+        }
+      }
+    }
+  }
+}

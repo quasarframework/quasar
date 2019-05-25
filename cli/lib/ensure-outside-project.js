@@ -1,0 +1,16 @@
+const
+  { existsSync } = require('fs'),
+  { sep, normalize, join } = require('path')
+
+module.exports = function () {
+  let dir = process.cwd()
+
+  while (dir.length && dir[dir.length - 1] !== sep) {
+    if (existsSync(join(dir, 'quasar.conf.js'))) {
+      const { fatal } = require('./logger')
+      fatal(`⚠️  Error. This command must NOT be executed inside a Quasar project folder.`)
+    }
+
+    dir = normalize(join(dir, '..'))
+  }
+}

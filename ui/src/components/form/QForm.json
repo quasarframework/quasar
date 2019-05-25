@@ -1,0 +1,94 @@
+{
+  "props": {
+    "autofocus": {
+      "type": "Boolean",
+      "desc": "Focus first focusable element on initial component render",
+      "category": "behavior"
+    },
+
+    "no-error-focus": {
+      "type": "Boolean",
+      "desc": "Do not try to focus on first component that has a validation error when submitting form",
+      "category": "behavior"
+    },
+
+    "no-reset-focus": {
+      "type": "Boolean",
+      "desc": "Do not try to focus on first component when resetting form",
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  },
+
+  "events": {
+    "submit": {
+      "desc": "Emitted when all validations have passed when tethered to a submit button"
+    },
+
+    "reset": {
+      "desc": "Emitted when all validations have been reset when tethered to a reset button; It is recommended to manually reset the wrapped components models in this handler"
+    },
+
+    "validation-success": {
+      "desc": "Emitted after a validation was triggered and all inner Quasar components models are valid"
+    },
+
+    "validation-error": {
+      "desc": "Emitted after a validation was triggered and at least one of the inner Quasar components models are NOT valid"
+    }
+  },
+
+  "methods": {
+    "focus": {
+      "desc": "Focus on first focusable element/component in the form"
+    },
+
+    "validate": {
+      "desc": "Triggers a validation on all applicable inner Quasar components",
+      "params": {
+        "shouldFocus": {
+          "type": "Boolean",
+          "desc": "Tell if it should focus or not on component with error on submitting form; Overrides 'no-focus-error' prop if specified"
+        }
+      },
+      "returns": {
+        "type": "Promise<boolean>",
+        "desc": "Promise is always fulfilled and receives the outcome (true -> validation was a success, false -> invalid models detected)",
+        "examples": [
+          "validate().then(outcome => { ... })"
+        ]
+      }
+    },
+
+    "resetValidation": {
+      "desc": "Resets the validation on all applicable inner Quasar components"
+    },
+
+    "submit": {
+      "desc": "Manually trigger form validation and submit",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "reset": {
+      "desc": "Manually trigger form reset",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
+  }
+}

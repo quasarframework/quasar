@@ -1,0 +1,19 @@
+{
+  "mixins": [ "mixins/checkbox" ],
+
+  "props": {
+    "indeterminate-value": {
+      "type": "Any",
+      "desc": "What model value should be considered as 'indeterminate'?",
+      "default": null,
+      "examples": [ 0, "not_answered" ],
+      "category": "behavior"
+    },
+
+    "toggle-indeterminate": {
+      "type": "Boolean",
+      "desc": "When user clicks/taps on the component, should we toggle through the indeterminate state too?",
+      "category": "behavior"
+    }
+  }
+}

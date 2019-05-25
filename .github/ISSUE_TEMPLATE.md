@@ -4,17 +4,17 @@ Got a question?
 ===
 The issue list of this repo is **exclusively** for bug reports and feature requests. For simple questions, please use the following resources:
 
-- Read the docs: https://quasar-framework.org
-- For simple/quick questions ask on the Discord chat room: http://chat.quasar-framework.org/
-- For complex questions or requiring help, ask on the forum: https://forum.quasar-framework.org/
+- Read the docs: https://quasar.dev
+- For simple/quick questions ask on the Discord chat room: https://chat.quasar.dev/
+- For complex questions or requiring help, ask on the forum: https://forum.quasar.dev/
 
 Reporting a bug?
 ================
 - Are you sure it isn't already reported? Do a search first! It may have already been answered or even fixed in the development branch (`dev`).
 
-- If you are reporting a bug for Quasar v0.15+, then please try to include a forked JsFiddle/Codepen from one of these: https://jsfiddle.net/rstoenescu/waugrryy/ (jsFiddle - Material theme) or https://jsfiddle.net/rstoenescu/7gu065yg/ (jsFiddle - iOS theme) or https://codepen.io/rstoenescu/pen/KQRZJg (Codepen - Material theme) or https://codepen.io/rstoenescu/pen/paVpBN (Codepen - iOS theme)
+- If you are reporting a bug for Quasar v1.0+, then please try to include a forked JsFiddle/Codepen: https://jsfiddle.net/rstoenescu/rmaodk0f or https://codepen.io/rstoenescu/pen/VgQbdx
 
-- Are you sure you are reporting to the right repo? If you are not reporting an issue which deals directly with Quasar distributable, then there are [multiple Quasar repos](https://github.com/quasarframework) besides this one. Find the right one.
+- If you are reporting a bug for Quasar v0.15+, then please try to include a forked JsFiddle/Codepen from one of these: https://jsfiddle.net/rstoenescu/waugrryy/ (jsFiddle - Material theme) or https://jsfiddle.net/rstoenescu/7gu065yg/ (jsFiddle - iOS theme) or https://codepen.io/rstoenescu/pen/KQRZJg (Codepen - Material theme) or https://codepen.io/rstoenescu/pen/paVpBN (Codepen - iOS theme)
 
 - Check if the issue is reproducible with the latest stable version of Quasar. If you are using a pre-release, please indicate the specific version you are using.
 
@@ -32,6 +32,7 @@ Remove the template from below and provide thoughtful commentary *and code sampl
 
 <!-- You can use the `quasar info` command and copy paste it here -->
 Quasar:
+@quasar/app (v1+ only):
 OS:
 Node:
 NPM:
@@ -40,8 +41,10 @@ iOS:
 Android:
 Any other software related to your bug:
 
-### JsFiddle (for Quasar v0.15+ only)
-<!-- Fork this https://jsfiddle.net/rstoenescu/waugrryy/ and fill it in here -->
+### JsFiddle
+<!-- v1 only: Fork this https://jsfiddle.net/rstoenescu/rmaodk0f or https://codepen.io/rstoenescu/pen/VgQbdx and fill it in here -->
+
+<!-- v0.15-17: fork this https://jsfiddle.net/rstoenescu/waugrryy/ and fill it in here -->
 
 ### What did you get as the error?
 

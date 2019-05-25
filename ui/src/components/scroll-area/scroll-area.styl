@@ -1,0 +1,26 @@
+.q-scrollarea
+  position relative
+
+.q-scrollarea__thumb
+  background black
+  opacity .2
+  transition opacity .3s
+
+  &--v
+    right 0
+    width 10px
+
+  &--h
+    bottom 0
+    height 10px
+
+  &:hover
+    opacity .3
+    cursor grab
+  &:active
+    opacity .5
+
+  &--invisible
+    opacity 0 !important
+    &:hover
+      cursor inherit

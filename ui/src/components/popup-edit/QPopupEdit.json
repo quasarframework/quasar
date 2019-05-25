@@ -1,0 +1,158 @@
+{
+  "props": {
+    "value": {
+      "extends": "value",
+      "type": "Any",
+      "examples": [ "v-model=\"myValue\"" ],
+      "category": "model"
+    },
+
+    "title": {
+      "type": "String",
+      "desc": "Optional title (unless 'title' slot is used)",
+      "examples": [ "Calories" ],
+      "category": "content"
+    },
+
+    "buttons": {
+      "type": "Boolean",
+      "desc": "Show Set and Cancel buttons",
+      "category": "content"
+    },
+
+    "label-set": {
+      "type": "String",
+      "desc": "Override Set button label",
+      "examples": [ "OK" ],
+      "category": "content"
+    },
+
+    "label-cancel": {
+      "type": "String",
+      "desc": "Override Cancel button label",
+      "examples": [ "Cancel" ],
+      "category": "content"
+    },
+
+    "persistent": {
+      "type": "Boolean",
+      "desc": "Avoid Popup closing by hitting ESC key or by clicking/tapping outside of the Popup",
+      "category": "behavior"
+    },
+
+    "color": {
+      "extends": "color",
+      "default": "primary"
+    },
+
+    "content-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the content",
+      "examples": [
+        "my-special-class"
+      ],
+      "category": "style"
+    },
+
+    "content-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the content",
+      "examples": [
+        "background-color: #ff0000",
+        ":content-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "validate": {
+      "type": "Function",
+      "desc": "Validates model then triggers 'save' and closes Popup; Returns a Boolean ('true' means valid, 'false' means abort); Syntax: validate(value)",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "Model to validate",
+          "examples": [ "My car" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is the model valid or not?"
+      },
+      "examples": [
+        ":validate=\"myValidation\""
+      ],
+      "category": "model"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Used for injecting the form component"
+    },
+
+    "title": {
+      "desc": "Slot for custom title (overrides 'title' prop when used)"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input",
+      "desc": "Emitted when Popup gets cancelled in order to reset model to its initial value; Is also used by v-model"
+    },
+
+    "show": {
+      "desc": "Emitted right after Popup gets shown"
+    },
+
+    "hide": {
+      "desc": "Emitted right after Popup gets dismissed"
+    },
+
+    "save": {
+      "desc": "Emitted when value has been successfully validated and it should be saved",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "Validated value to be saved",
+          "__exemption": [ "examples" ]
+        },
+        "initialValue": {
+          "type": "Any",
+          "desc": "Initial value, before changes",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "cancel": {
+      "desc": "Emitted when user cancelled the change (hit ESC key or clicking outside of Popup or hit 'Cancel' button)",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "Edited value",
+          "__exemption": [ "examples" ]
+        },
+        "initialValue": {
+          "type": "Any",
+          "desc": "Initial value, before changes",
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "set": {
+      "desc": "Trigger a model update; Validates model (and emits 'save' event if it's the case) then closes Popup"
+    },
+
+    "cancel": {
+      "desc": "Triggers a model reset to its initial value ('cancel' event is emitted) then closes Popup"
+    }
+  }
+}

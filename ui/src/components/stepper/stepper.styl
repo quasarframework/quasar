@@ -1,0 +1,208 @@
+.q-stepper
+  box-shadow $shadow-2
+  border-radius $generic-border-radius
+  background white
+
+  &__title
+    font-size 14px
+    line-height 18px
+    letter-spacing .1px
+
+  &__caption
+    font-size 12px
+    line-height 14px
+
+  &__dot
+    margin-right 8px
+    font-size 14px
+    width 24px
+    height 24px
+    border-radius 50%
+    background currentColor
+    span
+      color white
+
+  &__tab
+    padding 8px 24px
+    font-size 14px
+    color $grey
+    flex-direction row
+
+  &--dark
+    .q-stepper__dot span
+      color black
+
+  &__tab
+    &--navigation
+      user-select none
+      cursor pointer
+
+    &--active, &--done
+      color $primary
+      .q-stepper__dot, .q-stepper__label
+        text-shadow 0 0 0 currentColor
+    &--disabled
+      .q-stepper__dot
+        background rgba(0, 0, 0, .22)
+      .q-stepper__label
+        color rgba(0, 0, 0, .32)
+    &--error
+      color $negative
+
+      .q-stepper__dot
+        background transparent !important
+        span
+          color currentColor
+          font-size 24px
+
+  &__header
+    border-top-left-radius inherit
+    border-top-right-radius inherit
+
+    &--border
+      border-bottom 1px solid $separator-color
+    &--standard-labels
+      .q-stepper__tab
+        min-height 72px
+        justify-content center
+        &:first-child
+          justify-content flex-start
+        &:last-child
+          justify-content flex-end
+      .q-stepper__dot:after
+        display none
+    &--alternative-labels
+      .q-stepper__tab
+        min-height 104px
+        padding 24px 32px
+        flex-direction column
+        justify-content flex-start
+      .q-stepper__dot
+        margin-right 0
+      .q-stepper__label
+        margin-top 8px
+        text-align center
+        &:before, &:after
+          display none
+
+  &__nav
+    padding-top 24px
+
+  &--bordered
+    border 1px solid $separator-color
+
+  &--horizontal
+    .q-stepper__step-inner
+      padding 24px
+
+    .q-stepper__tab:first-child
+      border-top-left-radius inherit
+    .q-stepper__tab:last-child
+      border-top-right-radius inherit
+    .q-stepper__tab:first-child .q-stepper__dot:before,
+    .q-stepper__tab:last-child .q-stepper__label:after,
+    .q-stepper__tab:last-child .q-stepper__dot:after
+      display none
+    .q-stepper__tab
+      overflow hidden
+    .q-stepper__line
+      &:before, &:after
+        position absolute
+        top 50%
+        height 1px
+        width 100vw
+        background $separator-color
+    .q-stepper__label:after, .q-stepper__dot:after
+      content ''
+      left 100%
+      margin-left 8px
+    .q-stepper__dot:before
+      content ''
+      right 100%
+      margin-right 8px
+
+    > .q-stepper__nav
+      padding 0 24px 24px
+
+  &--vertical
+    padding 16px 0
+
+    .q-stepper__tab
+      padding 12px 24px
+    .q-stepper__title
+      line-height 18px
+    .q-stepper__step-inner
+      padding 0 24px 32px 60px
+    > .q-stepper__nav
+      padding 24px 24px 0
+
+    .q-stepper__step
+      overflow hidden
+    .q-stepper__dot
+      margin-right 12px
+      &:before, &:after
+        content ''
+        position absolute
+        left 50%
+        width 1px
+        height 99999px
+        background $separator-color
+    .q-stepper__dot:before
+      bottom 100%
+      margin-bottom 8px
+    .q-stepper__dot:after
+      top 100%
+      margin-top 8px
+    .q-stepper__step:first-child .q-stepper__dot:before,
+    .q-stepper__step:last-child .q-stepper__dot:after
+      display none
+    .q-stepper__step:last-child .q-stepper__step-inner
+      padding-bottom 8px
+
+  &--dark
+    color white
+
+    &.q-stepper--bordered,
+    .q-stepper__header--border
+      border-color $separator-dark-color
+    &.q-stepper--horizontal
+      .q-stepper__line
+        &:before, &:after
+          background $separator-dark-color
+    &.q-stepper--vertical
+      .q-stepper__dot
+        &:before, &:after
+          background $separator-dark-color
+    .q-stepper__tab
+      &--disabled
+        color $separator-dark-color
+        .q-stepper__dot
+          background $separator-dark-color
+        .q-stepper__label
+          color rgba(255, 255, 255, .54)
+
+  &--contracted
+    .q-stepper__header
+      min-height 72px
+      &--alternative-labels
+        .q-stepper__tab
+          min-height 72px
+          &:first-child
+            align-items flex-start
+          &:last-child
+            align-items flex-end
+      .q-stepper__tab
+        padding 24px 0
+        &:first-child
+          .q-stepper__dot
+            transform translate3d(24px, 0, 0)
+        &:last-child
+          .q-stepper__dot
+            transform translate3d(-24px, 0, 0)
+    .q-stepper__tab:not(:last-child)
+      .q-stepper__dot:after
+        display block !important
+    .q-stepper__dot
+      margin 0
+    .q-stepper__label
+      display none

@@ -1,0 +1,234 @@
+{
+  "props": {
+    "readonly": {
+      "type": "Boolean",
+      "desc": "Put component in readonly mode",
+      "category": "state"
+    },
+
+    "disable": {
+      "type": "Boolean",
+      "desc": "Put component in disabled mode",
+      "category": "state"
+    },
+
+    "color": {
+      "type": "String",
+      "desc": "Color name for component from the Quasar Color Palette",
+      "examples": [ "primary", "teal-10" ],
+      "category": "style"
+    },
+
+    "text-color": {
+      "type": "String",
+      "desc": "Overrides text color (if needed); color name from the Quasar Color Palette",
+      "examples": [ "primary", "teal-10" ],
+      "category": "style"
+    },
+
+    "dense": {
+      "type": "Boolean",
+      "desc": "Dense mode; occupies less space",
+      "category": "style"
+    },
+
+    "size": {
+      "type": "String",
+      "desc": "Size in CSS units, including unit name",
+      "examples": [ "16px", "2rem" ],
+      "category": "style"
+    },
+
+    "dark": {
+      "type": "Boolean",
+      "desc": "Notify the component that the background is a dark color",
+      "category": "style"
+    },
+
+    "icon": {
+      "type": "String",
+      "desc": "Icon name following Quasar convention; make sure you have the icon library installed unless you are using 'img:' prefix",
+      "examples": [
+        "map",
+        "ion-add",
+        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
+        "img:statics/path/to/some_image.png"
+      ],
+      "category": "content"
+    },
+
+    "flat": {
+      "type": "Boolean",
+      "desc": "Applies a 'flat' design (no default shadow)",
+      "category": "style"
+    },
+
+    "bordered": {
+      "type": "Boolean",
+      "desc": "Applies a default border to the component",
+      "category": "style"
+    },
+
+    "square": {
+      "type": "Boolean",
+      "desc": "Removes border-radius so borders are squared",
+      "category": "style"
+    },
+
+    "rounded": {
+      "type": "Boolean",
+      "desc": "Applies a small standard border-radius for a squared shape of the component",
+      "category": "style"
+    },
+
+    "tabindex": {
+      "type": [ "Number", "String" ],
+      "desc": "Tabindex HTML attribute value",
+      "examples": [ "0", "100" ],
+      "category": "general"
+    },
+
+    "transition": {
+      "type": "String",
+      "desc": "One of Quasar's embedded transitions",
+      "examples": [ "fade", "slide-down" ],
+      "category": "behavior"
+    },
+
+    "value": {
+      "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "category": "model"
+    },
+
+    "sanitize": {
+      "type": "Boolean",
+      "default": "false",
+      "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)",
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot in the devland unslotted content of the component"
+    }
+  },
+
+  "scopedSlots": {
+    "default": {
+      "desc": "Default scoped slot in the devland content of the component"
+    }
+  },
+
+  "events": {
+    "input": {
+      "desc": "Emitted when component's model changes; Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "New model value",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "show": {
+      "desc": "Emitted after component has triggered show()",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "before-show": {
+      "desc": "Emitted when component triggers show() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "hide": {
+      "desc": "Emitted after component has triggered hide()",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "before-hide": {
+      "desc": "Emitted when component triggers hide() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "click": {
+      "desc": "Emitted when user clicks/taps on the component",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "show": {
+      "desc": "Triggers component to show",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "required": false,
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "hide": {
+      "desc": "Triggers component to hide",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "required": false,
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "toggle": {
+      "params": {
+        "evt": {
+          "type": "Object",
+          "required": false,
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "desc": "Triggers component to toggle between show/hide"
+    }
+  }
+}

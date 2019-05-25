@@ -1,0 +1,67 @@
+.q-carousel
+  background-color inherit // needed for fullscreen
+  height 400px
+
+  &__slide
+    height 100%
+    padding 16px
+
+  &__slides-container
+    height 100%
+
+  &__control
+    color white
+
+  &__prev-arrow,
+  &__next-arrow
+    top 50%
+    transform translate3d(0, -50%, 0)
+    .q-icon
+      font-size 46px
+
+  &__prev-arrow
+    left 4px
+  &__next-arrow
+    right 4px
+
+  &__navigation
+    padding 0 8px 8px
+    left 0
+    right 0
+    bottom 0
+
+    &-inner
+      flex 1 1 auto
+
+    .q-btn
+      margin 6px 4px
+      padding 5px
+    .q-btn:not(.q-carousel__navigation-icon--active)
+      opacity .5
+
+    img
+      margin 2px
+      height 50px
+      width auto
+      display inline-block
+      cursor pointer
+      border 1px solid transparent
+      vertical-align middle
+      opacity .8
+      transition opacity .3s
+
+      &:hover, &.q-carousel__thumbnail--active
+        opacity 1
+      &.q-carousel__thumbnail--active
+        border-color white
+        cursor default
+
+  &.q-carousel--navigation .q-carousel__slide
+    padding-bottom 50px
+
+  &.q-carousel--arrows .q-carousel__slide
+    padding-left 56px
+    padding-right 56px
+
+  &.fullscreen
+    height 100%

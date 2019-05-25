@@ -1,0 +1,95 @@
+#!/usr/bin/env node
+
+require('../lib/node-version-check')
+
+function getQuasarAppExecutable (which, root) {
+  try {
+    return require.resolve(which, {
+      paths: [ root ]
+    })
+  }
+  catch (e) {
+    return false
+  }
+}
+
+let cmd = process.argv[2]
+
+if (cmd === 'create') {
+  process.argv.splice(2, 1)
+  require(`./quasar-create`)
+}
+else if (cmd === 'serve') {
+  process.argv.splice(2, 1)
+  require(`./quasar-serve`)
+}
+else if (cmd === 'upgrade') {
+  process.argv.splice(2, 1)
+  require(`./quasar-upgrade`)
+}
+else {
+  const root = require('../lib/get-project-root')()
+
+  const localFile = root
+    ? (
+      getQuasarAppExecutable('@quasar/app/bin/quasar', root) ||
+      getQuasarAppExecutable('quasar-cli/bin/quasar', root) // legacy <1.0
+    )
+    : void 0
+
+  if (localFile) {
+    process.env.QUASAR_CLI_VERSION = require('../package.json').version
+
+    global.quasarCli = {
+      help: `
+    upgrade       Check (and optionally) upgrade Quasar packages
+                    from a Quasar project folder
+    serve         Create an ad-hoc server on App's distributables
+`
+    }
+
+    // deferring to local @quasar/app or pre-v1 quasar-cli
+    require(localFile)
+  }
+  else {
+    const commands = [
+      'info',
+      'help'
+    ]
+
+    if (cmd) {
+      if (cmd.length === 1) {
+        const mapToCmd = {
+          i: 'info',
+          h: 'help'
+        }
+        cmd = mapToCmd[cmd]
+      }
+
+      if (commands.includes(cmd)) {
+        process.argv.splice(2, 1)
+      }
+      else {
+        if (cmd === '-v' || cmd === '--version') {
+          console.log(require('../package.json').version)
+          process.exit(0)
+        }
+
+        const chalk = require('chalk')
+
+        console.log(`\n ${chalk.red(`Error`)} Unknown command "${ cmd }"`)
+
+        if (cmd.indexOf('-') === 0) {
+          console.log(`\n ${chalk.red(`Error`)} Command must come before the options`)
+        }
+
+        console.log()
+        cmd = 'help'
+      }
+    }
+    else {
+      cmd = 'help'
+    }
+    require(`./quasar-${cmd}`)
+  }
+}

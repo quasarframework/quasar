@@ -1,0 +1,52 @@
+{
+  "props": {
+    "color": {
+      "extends": "color"
+    },
+
+    "icon": {
+      "extends": "icon",
+      "desc": "Icon to display when refreshing the content"
+    },
+
+    "no-mouse": {
+      "type": "Boolean",
+      "desc": "Don't listen for mouse events",
+      "category": "behavior"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Content (area controlled by the component) goes here"
+    }
+  },
+
+  "events": {
+    "refresh": {
+      "desc": "Called whenever a refresh is triggered; at this time, your function should load more data",
+      "params": {
+        "done": {
+          "type": "Function",
+          "desc": "Call the done() function when your data has been refreshed",
+          "params": null,
+          "returns": null
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "trigger": {
+      "desc": "Triggers a refresh"
+    },
+
+    "updateScrollTarget": {
+      "desc": "Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes"
+    }
+  }
+}

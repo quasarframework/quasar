@@ -1,0 +1,29 @@
+.non-selectable
+  user-select none !important
+
+.scroll
+  overflow auto
+.scroll, .scroll-x, .scroll-y
+  -webkit-overflow-scrolling touch
+  will-change scroll-position
+.scroll-x
+  overflow-x auto
+.scroll-y
+  overflow-y auto
+.no-scroll
+  overflow hidden !important
+
+.no-pointer-events
+  pointer-events none !important
+.all-pointer-events
+  pointer-events all !important
+
+.cursor
+  &-pointer
+    cursor pointer !important
+  &-not-allowed
+    cursor not-allowed !important
+  &-inherit
+    cursor inherit !important
+  &-none
+    cursor none !important

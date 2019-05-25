@@ -1,0 +1,76 @@
+{
+  "props": {
+    "value": {
+      "extends": "value",
+      "type": [ "Number", "String" ],
+      "required": true,
+      "examples": [ "v-model=\"option\"" ],
+      "category": "model"
+    },
+
+    "val": {
+      "type": [ "Number", "String" ],
+      "required": true,
+      "desc": "The actual value of the option with which model value is changed",
+      "examples": [ "opt1", 50 ],
+      "category": "model"
+    },
+
+    "label": {
+      "type": "String",
+      "desc": "Label to display along the radio control (or use the default slot instead of this prop)",
+      "examples": [ "label=\"Option 1\"" ],
+      "category": "label"
+    },
+
+    "left-label": {
+      "type": "Boolean",
+      "desc": "Label (if any specified) should be displayed on the left side of the checkbox",
+      "category": "label"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "keep-color": {
+      "type": "Boolean",
+      "desc": "Should the color (if specified any) be kept when checkbox is unticked?",
+      "category": "behavior"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot can be used as label, unless 'label' prop is specified; Suggestion: string"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    }
+  },
+
+  "methods": {
+    "set": {
+      "desc": "Sets the Radio's v-model to equal the val"
+    }
+  }
+}

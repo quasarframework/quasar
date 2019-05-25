@@ -1,0 +1,11 @@
+{
+  "behavior": {
+    "$listeners": true
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

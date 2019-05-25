@@ -1,0 +1,91 @@
+{
+  "props": {
+    "view": {
+      "type": "String",
+      "desc": "Defines how your layout components (header/footer/drawer) should be placed on screen; See docs examples",
+      "default": "hhh lpr fff",
+      "examples": [
+        "hHh lpR fFf"
+      ],
+      "category": "content"
+    },
+
+    "container": {
+      "type": "Boolean",
+      "desc": "Containerize the layout which means it changes the default behavior of expanding to the whole window; Useful (but not limited to) for when using on a QDialog",
+      "category": "content"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QHeader, QFooter, QDrawer, QPageContainer"
+    }
+  },
+
+  "events": {
+    "resize": {
+      "desc": "Emitted when layout size (height, width) changes",
+      "params": {
+        "size": {
+          "type": "Object",
+          "desc": "New size",
+          "definition": {
+            "height": {
+              "type": "Number",
+              "desc": "Layout height",
+              "examples": [ 575 ]
+            },
+            "width": {
+              "type": "Number",
+              "desc": "Layout height",
+              "examples": [ 575 ]
+            }
+          }
+        }
+      }
+    },
+
+    "scroll": {
+      "desc": "Emitted when user scrolls within layout",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Scroll details",
+          "definition": {
+            "position": {
+              "type": "Number",
+              "desc": "Scroll offset (from top)",
+              "examples": [ 575 ]
+            },
+            "direction": {
+              "type": "String",
+              "desc": "Direction of scroll",
+              "values": [ "up", "down" ]
+            },
+            "directionChanged": {
+              "type": "Boolean",
+              "desc": "Has scroll direction changed since event was last emitted?"
+            },
+            "inflexionPosition": {
+              "type": "Number",
+              "desc": "Last scroll offset where scroll direction has changed",
+              "examples": [ 575 ]
+            }
+          }
+        }
+      }
+    },
+
+    "scroll-height": {
+      "desc": "Emitted when the scroll size of layout changes",
+      "params": {
+        "height": {
+          "type": "Number",
+          "desc": "New scroll height of layout",
+          "examples": [ 1442 ]
+        }
+      }
+    }
+  }
+}

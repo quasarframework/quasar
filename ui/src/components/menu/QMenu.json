@@ -1,0 +1,136 @@
+{
+  "mixins": [ "mixins/model-toggle", "mixins/portal", "mixins/anchor" ],
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "fit": {
+      "type": "Boolean",
+      "desc": "Allows the menu to match at least the full width of its target",
+      "category": "behavior"
+    },
+
+    "cover": {
+      "type": "Boolean",
+      "desc": "Allows the menu to cover its target. When used, the 'self' and 'fit' props are no longer effective",
+      "category": "position"
+    },
+
+    "anchor": {
+      "type": "String",
+      "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom middle", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position"
+    },
+
+    "self": {
+      "type": "String",
+      "desc": "Two values setting the menu's own position relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom middle", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position"
+    },
+
+    "offset": {
+      "type": "Array",
+      "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
+      "examples": [ "[8, 8]", "[5, 10]" ],
+      "category": "position"
+    },
+
+    "no-parent-event":{
+      "type": "Boolean",
+      "desc": "Skips attaching events to the target DOM element (that trigger the menu to get shown)",
+      "category": "behavior"
+    },
+
+    "touch-position": {
+      "type": "Boolean",
+      "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched",
+      "category": "behavior"
+    },
+
+    "persistent": {
+      "type": "Boolean",
+      "desc": "Allows the menu to not be dismissed by a click/tap outside of the menu or by hitting the ESC key",
+      "category": "behavior"
+    },
+
+    "auto-close": {
+      "type": "Boolean",
+      "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap",
+      "category": "behavior"
+    },
+
+    "square": {
+      "type": "Boolean",
+      "desc": "Forces content to have squared borders",
+      "category": "style"
+    },
+
+    "no-refocus": {
+      "type": "Boolean",
+      "desc": "(Accessibility) When Menu gets hidden, do not refocus on the DOM element that previously had focus",
+      "category": "behavior"
+    },
+
+    "no-focus": {
+      "type": "Boolean",
+      "desc": "(Accessibility) When Menu gets shown, do not switch focus on it",
+      "category": "behavior"
+    },
+
+    "max-height": {
+      "extends": "size",
+      "desc": "The maximimum height of the menu; Size in CSS units, including unit name",
+      "category": "style"
+    },
+
+    "max-width": {
+      "extends": "size",
+      "desc": "The maximimum width of the menu; Size in CSS units, including unit name",
+      "category": "style"
+    },
+
+    "transition-show": {
+      "extends": "transition",
+      "default": "fade",
+      "category": "behavior"
+    },
+
+    "transition-hide": {
+      "extends": "transition",
+      "default": "fade",
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  },
+
+  "events": {
+    "escape-key": {
+      "desc": "Emitted when ESC key is pressed; Does not gets emitted if Menu is 'persistent'"
+    }
+  },
+
+  "methods": {
+    "updatePosition": {
+      "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the menu without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
+    }
+  }
+}
