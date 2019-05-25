@@ -18,7 +18,7 @@ module.exports = function (chain, cfg) {
 
       chunksSortMode: 'none',
       // inject script tags for bundle
-      inject: true,
+      inject: cfg.ctx.mode !== 'webview',
       cache: true
     }])
 

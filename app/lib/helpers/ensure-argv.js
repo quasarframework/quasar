@@ -1,7 +1,7 @@
 const warn = require('./logger')('app:ensure-argv', 'red')
 
 module.exports = function (argv, cmd) {
-  if (!['spa', 'pwa', 'cordova', 'electron', 'ssr'].includes(argv.mode)) {
+  if (!['spa', 'pwa', 'cordova', 'electron', 'ssr', 'webview'].includes(argv.mode)) {
     warn(`⚠️  Unknown mode "${ argv.mode }"`)
     warn()
     process.exit(1)

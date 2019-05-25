@@ -97,6 +97,9 @@ function finalize (mode, quasarConfig) {
     if (mode === 'electron') {
       return require('../lib/electron').build(quasarConfig)
     }
+    if (mode === 'webview') {
+      return require('../lib/webview').build(quasarConfig)
+    }
   }
 
   return Promise.resolve()

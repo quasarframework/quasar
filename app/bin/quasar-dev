@@ -32,7 +32,7 @@ if (argv.help) {
   Usage
     $ quasar dev -p <port number>
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|cordova|electron|webview] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
@@ -173,7 +173,9 @@ async function goLive () {
   const
     generator = new Generator(quasarConfig),
     Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
-    Electron = argv.mode === 'electron' ? require('../lib/electron') : false
+    Electron = argv.mode === 'electron' ? require('../lib/electron') : false,
+    WebView = argv.mode === 'webview' ? require('../lib/webview') : false
+  console.log(argv.mode)
 
   function startDev (oldDevServer) {
     let devServer
@@ -185,6 +187,7 @@ async function goLive () {
       .then(() => devServer.listen()) // Start listening
       .then(() => Electron && Electron.run(quasarConfig))
       .then(() => Cordova && Cordova.run(quasarConfig))
+      .then(() => WebView && WebView.run(quasarConfig))
       .then(() => devServer) // Pass new builder to watch chain
   }
 

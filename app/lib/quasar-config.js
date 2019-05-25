@@ -538,7 +538,7 @@ class QuasarConfig {
       if (this.ctx.mode.ssr) {
         cfg.devServer.contentBase = false
       }
-      else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
+      else if (this.ctx.mode.cordova || this.ctx.mode.electron || this.ctx.mode.webview) {
         cfg.devServer.open = false
 
         if (this.ctx.mode.electron) {

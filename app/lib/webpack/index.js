@@ -71,6 +71,19 @@ async function getCordova (cfg) {
   })
 }
 
+async function getWebView(cfg) {
+  const chain = createChain(cfg, 'WebView')
+  require('./webview')(chain, cfg)
+  return await getWebpackConfig(chain, cfg, {
+    name: 'WebView',
+    hot: true,
+    invokeParams: {
+      isClient: true,
+      isServer: false
+    }
+  })
+}
+
 async function getElectron (cfg) {
   const
     rendererChain = createChain(cfg, 'Renderer process'),
@@ -131,6 +144,9 @@ module.exports = async function (cfg) {
   }
   else if (mode.pwa) {
     return await getPWA(cfg)
+  }
+  else if (mode.webview) {
+    return await getWebView(cfg)
   }
   else {
     return await getSPA(cfg)
