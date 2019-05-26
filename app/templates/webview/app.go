@@ -9,6 +9,13 @@ import (
 	"path/filepath"
 )
 
+type Webview struct {
+}
+
+func (c *Webview) Open(url string) {
+	webview.Open("Opened URL", url, 800, 600, true)
+}
+
 func check(e error) {
     if e != nil {
         panic(e)
@@ -66,6 +73,10 @@ func main() {
 			}
 		})
 	}
+
+	w.Dispatch(func () {
+		w.Bind("webview", &Webview{})
+	})
 
 	w.Run()
 }

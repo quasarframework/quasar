@@ -17,6 +17,9 @@ export default (url, reject) => {
   else if (Vue.prototype.$q.electron !== void 0) {
     return Vue.prototype.$q.electron.shell.openExternal(url)
   }
+  else if (webview !== void 0) {
+    return webview.open(url)
+  }
 
   let win = open(url, '_blank')
 
