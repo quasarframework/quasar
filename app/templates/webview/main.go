@@ -4,19 +4,33 @@ import (
 	"github.com/zserge/webview"
 )
 
-var w webview.WebView
 var open string
 var debug bool
 
 type Webview struct {
+	window webview.WebView
+}
+
+func initWebViewInstance(window webview.WebView) {
+	window.Dispatch(func () {
+		window.Bind("webview", &Webview{window})
+		window.Eval("webview.setTitle(document.title)")
+	})
 }
 
 func (c *Webview) Open(url string) {
-	webview.Open("Opened URL", url, 800, 600, true)
+	window := webview.New(webview.Settings {
+		Title: " ",
+		URL: url,
+		Width: 800,
+		Height: 600,
+		Resizable: true,
+	})
+	initWebViewInstance(window)
 }
 
 func (c *Webview) SetTitle(title string) {
-	w.SetTitle(title)
+	c.window.SetTitle(title)
 }
 
 func check(e error) {
@@ -28,8 +42,8 @@ func check(e error) {
 func main() {
 	initialize()
 
-	w = webview.New(webview.Settings {
-		Title: "Quasar",
+	w := webview.New(webview.Settings {
+		Title: " ",
 		URL: open,
 		Width: 800,
 		Height: 600,
@@ -43,9 +57,7 @@ func main() {
 	
 	setup(w)
 
-	w.Dispatch(func () {
-		w.Bind("webview", &Webview{})
-	})
+	initWebViewInstance(w)
 
 	w.Run()
 }
