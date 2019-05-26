@@ -54,9 +54,7 @@ if (argv.mode !== 'spa') {
   require('../lib/mode/install-missing')(argv.mode, argv.target)
 }
 
-const
-  ensureDeps = require('../lib/helpers/ensure-deps'),
-  findPort = require('../lib/helpers/net').findClosestOpenPort
+const findPort = require('../lib/helpers/net').findClosestOpenPort
 
 async function parseAddress ({ host, port }) {
   if (this.chosenHost) {
@@ -113,8 +111,6 @@ async function parseAddress ({ host, port }) {
 }
 
 async function goLive () {
-  ensureDeps()
-
   const
     DevServer = require('../lib/dev-server'),
     QuasarConfig = require('../lib/quasar-config'),
