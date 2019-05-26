@@ -1,10 +1,11 @@
 const path = require('path')
 
-module.exports = (context, opts) => {
+module.exports = (_, opts) => {
   const presetEnv = {
     modules: false,
     loose: false,
-    useBuiltIns: 'usage'
+    useBuiltIns: 'usage',
+    corejs: 3
   }
 
   if (opts !== void 0 && opts.presetEnv !== void 0) {
@@ -68,6 +69,20 @@ module.exports = (context, opts) => {
       pluginTransformRuntime
     ]
   ]
+
+  // use @babel/runtime-corejs3 so that helpers will reference core-js instead
+  if (presetEnv.useBuiltIns === 'usage') {
+    plugins.push([
+      require('babel-plugin-module-resolver'), {
+        alias: {
+          '@babel/runtime': '@babel/runtime-corejs3',
+          [pluginTransformRuntime.absoluteRuntime]: path.dirname(
+            require.resolve('@babel/runtime-corejs3/package.json')
+          )
+        }
+      }
+    ])
+  }
 
   return {
     presets,
