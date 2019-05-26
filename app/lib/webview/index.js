@@ -4,7 +4,9 @@ const
     spawn
   } = require('../helpers/spawn'),
   onShutdown = require('../helpers/on-shutdown'),
-  appPaths = require('../app-paths')
+  appPaths = require('../app-paths'),
+  fs = require('fs'),
+  path = require('path')
 
 class WebViewRunner {
   constructor() {
@@ -59,8 +61,29 @@ class WebViewRunner {
   }
 
   __runWebViewCommand(cfg, args) {
-    const appExecutable = 'app',
-      buildArgs = ['build', '-o', appExecutable]
+    let executeAppCommand, output
+    const buildArgs = ['build']
+
+    if (process.platform === 'darwin') {
+      const appName = 'app.app/Contents/MacOS'
+        appDir = appPaths.resolve.webviewDir(appName)
+      if (!fs.existsSync(appDir)) {
+        fs.mkdirSync(appDir)
+      }
+      output = path.join(appName, 'app')
+      executeAppCommand = 'open'
+      args.unshift('app.app')
+    } else if (process.platform === 'win32') {
+      buildArgs.push('-ldflags="-H windowsgui"')
+      output = executeAppCommand = 'app.exe'
+    }
+    else {
+      output = 'app'
+      executeAppCommand = './app'
+    }
+
+    buildArgs.push('-o')
+    buildArgs.push(output)
 
     return new Promise(resolve => {
       spawn('go',
@@ -71,7 +94,7 @@ class WebViewRunner {
             warn(`⚠️  [FAIL] go command has failed`)
             process.exit(1)
           }
-          spawn(`./${appExecutable}`, 
+          spawn(`${executeAppCommand}`,
             args, 
             appPaths.webviewDir,
             code => {
