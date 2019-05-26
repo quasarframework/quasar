@@ -32,10 +32,11 @@ class WebViewRunner {
 
     this.url = url
 
-    const args = ['--url', url, '--debug']
+    const args = ['--url', url]
 
     return this.__runWebViewCommand(
       cfg,
+      ['-tags', 'dev'],
       args
     )
   }
@@ -46,6 +47,7 @@ class WebViewRunner {
     // TODO: pass index filename to the executable
     return this.__runWebViewCommand(
       cfg,
+      [],
       cfg.ctx.debug ? ['--debug'] : []
     )
   }
@@ -60,9 +62,9 @@ class WebViewRunner {
     })
   }
 
-  __runWebViewCommand(cfg, args) {
+  __runWebViewCommand(cfg, buildArgs, args) {
     let executeAppCommand, output
-    const buildArgs = ['build']
+    buildArgs.unshift('build')
 
     if (process.platform === 'darwin') {
       const appName = 'app.app/Contents/MacOS'
