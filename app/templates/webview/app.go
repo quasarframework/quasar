@@ -32,7 +32,8 @@ func main() {
 	var openUrl = flag.String("url", "", "URL for dev env")
 	var debug = flag.Bool("debug", false, "Debug mode")
 	flag.Parse()
-	if *openUrl == "" {
+	var production = *openUrl == ""
+	if production {
 		html, err := ioutil.ReadFile("../dist/webview/index.html")
 		check(err)
 		*openUrl = `data:text/html,` + url.PathEscape(string(html))
@@ -50,19 +51,21 @@ func main() {
 	defer w.Exit()
 
 	// TODO: bundle assets into executable with go-bindata like here https://github.com/zserge/webview/blob/master/examples/counter-go/vue.go#L5
-	// TODO how to load images
-	w.Dispatch(func () {
-		for _, file := range getAssets("../dist/webview/css") {
-			css, err := ioutil.ReadFile(file)
-			check(err)
-			w.InjectCSS(string(css))
-		}
-		for _, file := range getAssets("../dist/webview/js") {
-			js, err := ioutil.ReadFile(file)
-			check(err)
-			w.Eval(string(js))
-		}
-	})
+	
+	if production {
+		w.Dispatch(func () {
+			for _, file := range getAssets("../dist/webview/css") {
+				css, err := ioutil.ReadFile(file)
+				check(err)
+				w.InjectCSS(string(css))
+			}
+			for _, file := range getAssets("../dist/webview/js") {
+				js, err := ioutil.ReadFile(file)
+				check(err)
+				w.Eval(string(js))
+			}
+		})
+	}
 
 	w.Run()
 }
