@@ -706,6 +706,14 @@
     js-levenshtein "^1.1.3"
     semver "^5.5.0"
 
+"@babel/runtime-corejs2@7.4.5":
+  version "7.4.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs2/-/runtime-corejs2-7.4.5.tgz#3d892f0560df21bafb384dd7727e33853e95d3c9"
+  integrity sha512-5yLuwzvIDecKwYMzJtiarky4Fb5643H3Ao5jwX0HrMR5oM5mn2iHH9wSZonxwNK0oAjAFUQAiOd4jT7/9Y2jMQ==
+  dependencies:
+    core-js "^2.6.5"
+    regenerator-runtime "^0.13.2"
+
 "@babel/runtime-corejs3@7.4.5":
   version "7.4.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.4.5.tgz#7df89702351c5fdc34b5555544fcf11b4ea7051c"
@@ -798,12 +806,12 @@
   resolved "https://registry.yarnpkg.com/@positron/stack-trace/-/stack-trace-1.0.0.tgz#14fcc712a530038ef9be1ce6952315a839f466a8"
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
-"@quasar/app@^1.0.0-beta.25":
-  version "1.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.0.0-rc.2.tgz#46f4694c3c95e31976b37fe28363ebd68b4f137f"
-  integrity sha512-HA1CE/upF9w5HqEvVa1w8yJopHqCQzcagKMJNh7t5+ocMJfcuICYknn2ass1hEOdhrKizTDLsBE/oTmF6AUelg==
+"@quasar/app@^1.0.0-beta.0":
+  version "1.0.0-rc.4"
+  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.0.0-rc.4.tgz#ad01b169ba0dbec579a1f96dc7ec48f6af89c9b9"
+  integrity sha512-m4DrZ38oyYVN4TsLVmlSX174c0Px3BVjVeORnRg3Xl/KiGdHVPv0PRTLnAcG5bWZ2Pnm1lgNXhflB/PTxFgn/w==
   dependencies:
-    "@quasar/babel-preset-app" "1.1.0"
+    "@quasar/babel-preset-app" "1.1.2"
     "@vue/preload-webpack-plugin" "1.1.0"
     autoprefixer "9.5.1"
     chalk "2.4.2"
@@ -865,10 +873,10 @@
     webpack-node-externals "1.7.2"
     workbox-webpack-plugin "4.3.1"
 
-"@quasar/babel-preset-app@1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@quasar/babel-preset-app/-/babel-preset-app-1.1.0.tgz#034f077793d30b26748316a3deb3646f297409c5"
-  integrity sha512-RBkYtvkDltBd75woiVSZciMW39eZm9ju0vwAQ3dJCvtahBj5dMjznx5GMEFqe8KSGBUIAQk93ekzgJ+WFhbaQg==
+"@quasar/babel-preset-app@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@quasar/babel-preset-app/-/babel-preset-app-1.1.2.tgz#ee8389a49c08941577ce8187fc90474b11e6672e"
+  integrity sha512-/g7y9oXiD+M3W+EitFKhaGRhxPxHOXjl/Fc8Y2aTd9uo2V2zkCw9T2uBpVqPxfQaFBV/zFXOS51Sp4DXS321wQ==
   dependencies:
     "@babel/core" "7.4.5"
     "@babel/plugin-proposal-class-properties" "7.4.4"
@@ -883,12 +891,12 @@
     "@babel/plugin-transform-runtime" "7.4.4"
     "@babel/preset-env" "7.4.5"
     "@babel/runtime" "7.4.5"
+    "@babel/runtime-corejs2" "7.4.5"
     "@babel/runtime-corejs3" "7.4.5"
     babel-loader "8.0.6"
     babel-plugin-dynamic-import-node "2.2.0"
     babel-plugin-module-resolver "3.2.0"
     babel-plugin-transform-imports "1.5.1"
-    core-js "3.1.2"
 
 "@quasar/extras@^1.1.2":
   version "1.1.2"
@@ -2536,12 +2544,7 @@ core-js-pure@3.1.2, core-js-pure@^3.0.0:
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.1.2.tgz#62fc435f35b7374b9b782013cdcb2f97e9f6dffa"
   integrity sha512-5ckIdBF26B3ldK9PM177y2ZcATP2oweam9RskHSoqfZCrJ2As6wVg8zJ1zTriFsZf6clj/N1ThDFRGaomMsh9w==
 
-core-js@3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.1.2.tgz#2549a2cfb3ca1a5d851c9f7838e8b282cef2f3ba"
-  integrity sha512-3poRGjbu56leCtZCZCzCgQ7GcKOflDFnjWIepaPFUsM0IXUBrne10sl3aa2Bkcz3+FjRdIxBe9dAMhIJmEnQNA==
-
-core-js@^2.4.0:
+core-js@^2.4.0, core-js@^2.6.5:
   version "2.6.8"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.8.tgz#dc3a1e633a04267944e0cb850d3880f340248139"
   integrity sha512-RWlREFU74TEkdXzyl1bka66O3kYp8jeTXrvJZDzVVMH8AiHUSOFpL1yfhQJ+wHocAm1m+4971W1PPzfLuCv1vg==
@@ -7785,7 +7788,7 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-quasar@^1.0.0-beta.23:
+quasar@^1.0.0-beta.0:
   version "1.0.0-rc.2"
   resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.0.0-rc.2.tgz#7569fa273b1834ece0a60eec473063d00127abfb"
   integrity sha512-Gknx7NKM77kyOGGnJAKp60erUeUcOECESbCdVTAscg4A068ZrzCiWv5/GkEdsQP9jzf2ckQ470u5yobpeDswgA==
