@@ -175,7 +175,6 @@ async function goLive () {
     Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
     Electron = argv.mode === 'electron' ? require('../lib/electron') : false,
     WebView = argv.mode === 'webview' ? require('../lib/webview') : false
-  console.log(argv.mode)
 
   function startDev (oldDevServer) {
     let devServer
