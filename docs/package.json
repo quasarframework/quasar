@@ -18,11 +18,11 @@
     "@quasar/extras": "^1.1.2",
     "docsearch.js": "^2.6.2",
     "prismjs": "^1.15.0",
-    "quasar": "^1.0.0-beta.23",
+    "quasar": "^1.0.0-beta.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0-beta.25",
+    "@quasar/app": "^1.0.0-beta.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
@@ -34,7 +34,6 @@
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
     "raw-loader": "^1.0.0",
-    "strip-ansi": "=3.0.1",
     "toml": "^2.3.5"
   },
   "engines": {
@@ -44,8 +43,5 @@
   },
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
-  ],
-  "resolutions": {
-    "ajv": "6.8.1"
-  }
+  ]
 }

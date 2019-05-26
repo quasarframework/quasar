@@ -657,8 +657,8 @@ const formatter = {
   },
 
   // Day of week: Su, Mo, ...
-  dd (date) {
-    return this.dddd(date).slice(0, 2)
+  dd (date, dateLocale) {
+    return this.dddd(date, dateLocale).slice(0, 2)
   },
 
   // Day of week: Sun, Mon, ...
