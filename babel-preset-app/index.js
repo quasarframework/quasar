@@ -14,7 +14,7 @@ module.exports = (_, opts) => {
 
   const pluginTransformRuntime = {
     regenerator: true,
-    corejs: presetEnv.useBuiltIns !== false ? false : 2,
+    corejs: false, // included by preset, no need to do it again
     helpers: presetEnv.useBuiltIns === 'usage',
     absoluteRuntime: path.dirname(require.resolve('@babel/runtime/package.json'))
   }
