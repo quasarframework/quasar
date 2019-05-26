@@ -75,8 +75,8 @@ module.exports = class DevServer {
         if (alreadyNotified) { return }
         alreadyNotified = true
 
-        if (cfg.devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
-          openBrowser(cfg.build.APP_URL, cfg.__openOptions)
+        if (cfg.__devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
+          openBrowser(cfg.build.APP_URL, cfg.__devServer.openOptions)
         }
       })
     })
@@ -265,8 +265,8 @@ module.exports = class DevServer {
     readyPromise.then(() => {
       server.listen(cfg.devServer.port, cfg.devServer.host, () => {
         resolve()
-        if (cfg.devServer.open) {
-          openBrowser(cfg.build.APP_URL, cfg.__openOptions)
+        if (cfg.__devServer.open) {
+          openBrowser(cfg.build.APP_URL, cfg.__devServer.openOptions)
         }
       })
     })

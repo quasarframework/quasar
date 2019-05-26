@@ -1,5 +1,5 @@
 ---
-title: Why to donate
+title: Why Donate?
 components:
   - sponsors-and-backers/DonatingButtons
 ---
@@ -14,7 +14,7 @@ The dream of open source is a noble cause, where communities grow and code is nu
 
 This means that Quasar is and always will be free and open source, a self-managed place where everyone who abides by the community rules is invited and encouraged to participate.
 
-![What do we sustain](https://cdn.quasar-framework.org/img/what-do-we-sustain.png)
+![What do we sustain](https://cdn.quasar.dev/img/what-do-we-sustain.png)
 
 ### Participation is a Form of Collaborative Appreciation
 
@@ -22,7 +22,7 @@ Many open source projects, like the Quasar Framework and Vue.js, have been devel
 
 So who are these people? They are people, like you, in need of a certain feature and have found an open source solution, like Quasar. They are people who use the software and decided to contribute by helping to improve it.
 
-Possibly they are passionate about coding and want a project to occupy their talents. There are many reasons to get involved in an community around an open source project. But the majority have one thing in common:
+Possibly they are passionate about coding and want a project to occupy their talents. There are many reasons to get involved in a community around an open source project. But the majority have one thing in common:
 
 > They find free time in their busy schedules of jobs, families and commitments in order to participate because it makes them feel good to be part of something bigger than any one individual.
 
@@ -36,7 +36,7 @@ Nothing is certain, other than the fact that `node_modules` is still the heavies
 
 That point in time for Quasar is right now and your support will make the difference.
 
-![Sustain with money](https://cdn.quasar-framework.org/img/sustain-people-code.png)
+![Sustain with money](https://cdn.quasar.dev/img/sustain-people-code.png)
 
 If your business relies on open source you can hedge the risk of it disappearing by financially supporting it so that you can rest assured that the software will continue to be available for you.
 

@@ -30,7 +30,7 @@ src-electron/
     StoreLogo.png
 ```
 
-<img src="https://cdn.quasar-framework.org/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
+<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
 
 ## The Icon Factory
 

@@ -45,8 +45,7 @@ Except for `src/index.js`, all the other files are optional. You can manually ad
 We need to create a Quasar project folder to be able to test it while we develop the extension:
 
 ```bash
-# "-b dev" is temporary until final 1.0 build
-$ quasar create test-app -b dev
+$ quasar create test-app
 ```
 
 ### Install and prompts scripts

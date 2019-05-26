@@ -14,7 +14,7 @@ If you have found a potential security threat, vulnerability or exploit in Quasa
 or one of its upstream dependencies, please DON’T create a pull-request, DON’T
 file an issue on GitHub, DON’T mention it on Discord and DON’T create a forum thread.
 
-DO reach out to the team by sending an email to security@quasar-framework.org - we
+DO reach out to the team by sending an email to security@quasar.dev - we
 will investigate and work with you to triage this issue and help you to report it
 if appropriate. At the current time we do not have the financial ability to reward
 bounties, but in extreme cases will at our discretion consider a reward.
@@ -25,8 +25,8 @@ You can apply to book the Quasar team’s security experts to perform a Security
 for your project. Contact us to find out more about how to acquire, validate and publish
 an official timestamped and version-locked audit badge.
 
-security@quasar-framework.org
+security@quasar.dev
 
 ## Security Documentation
 
-https://v1.quasar-framework.org/security/
+https://quasar.dev/security/

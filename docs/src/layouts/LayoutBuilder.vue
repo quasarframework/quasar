@@ -12,7 +12,7 @@
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
           </q-avatar>
           Layout Builder
         </q-toolbar-title>
@@ -376,10 +376,10 @@
         </div>
       </q-scroll-area>
 
-      <q-img class="absolute-top" src="https://cdn.quasar-framework.org/img/material.png" style="height: 204px">
+      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 204px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           <div class="text-weight-bold">Razvan Stoenescu</div>
           <div>@rstoenescu</div>
@@ -515,7 +515,7 @@ export default {
 ` : ''}
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
           </q-avatar>
           Title
         </q-toolbar-title>${this.pick.right ? `
@@ -560,7 +560,7 @@ export default {
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
           </q-avatar>
           Title
         </q-toolbar-title>

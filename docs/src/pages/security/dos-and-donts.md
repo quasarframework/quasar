@@ -5,7 +5,7 @@ title: Security DO's and DON'Ts
 
 We have collected some best practices for those of you new to the security theater and a few insights for security professionals new to the Vue ecosystem. We will be revising and adding to this document as we become aware of risks through our own research and the publications of the amazing security community.
 
-![Quasar Audited - Gold](https://cdn.quasar-framework.org/img/secure-gold-hero.jpg "Quasar Audited - Gold")
+![Quasar Audited - Gold](https://cdn.quasar.dev/img/secure-gold-hero.jpg "Quasar Audited - Gold")
 
 ## Vue Security Risks
 
@@ -26,7 +26,7 @@ The quasi-official internationali(s/z)ation package for Vue allows you to store 
 ### eval()
 Although you may be tempted to use `eval()`, even if you know what you are doing, just **DON'T**.
 
-![Don't be eval()](https://cdn.quasar-framework.org/img/dont-be-eval.png "Don't be eval()")
+![Don't be eval()](https://cdn.quasar.dev/img/dont-be-eval.png "Don't be eval()")
 
 ## Quasar Components
 Two Quasar components and two Plugins can be empowered to prevent the rendering of "insecure content". This is an opt-in feature (available starting in `quasar@1.0.0-beta.10`) that is performed by adding a `sanitize` type of boolean prop to the component. These components are discussed below.
@@ -119,7 +119,7 @@ When you generate your project with the SSR mode, you are provided with a minima
 ## Environmental Safety
 Being more safe means taking many things into consideration, and the more of the following guidelines you respect, the smaller the attack footprint will be.
 
-![Valid SSL certificate](https://cdn.quasar-framework.org/img/lets-encrypt.jpg "Valid SSL certificate")
+![Valid SSL certificate](https://cdn.quasar.dev/img/lets-encrypt.jpg "Valid SSL certificate")
 
 ### Operational Security
 Audit how your development systems work:

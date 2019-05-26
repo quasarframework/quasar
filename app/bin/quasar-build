@@ -75,7 +75,6 @@ const
   QuasarConfig = require('../lib/quasar-config'),
   Generator = require('../lib/generator'),
   artifacts = require('../lib/artifacts'),
-  ensureDeps = require('../lib/helpers/ensure-deps'),
   getQuasarCtx = require('../lib/helpers/get-quasar-ctx'),
   extensionRunner = require('../lib/app-extension/extensions-runner')
 
@@ -201,5 +200,4 @@ async function build () {
   })
 }
 
-ensureDeps()
 build()

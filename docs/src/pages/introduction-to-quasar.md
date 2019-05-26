@@ -2,7 +2,7 @@
 title: Introduction to Quasar Framework
 ---
 
-![Quasar - Empowering your websites and apps](https://cdn.quasar-framework.org/img/responsive.png)
+![Quasar - Empowering your websites and apps](https://cdn.quasar.dev/img/responsive.png)
 
 ## What is Quasar?
 Quasar (pronounced `/ˈkweɪ.zɑɹ/`) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to quickly create responsive++ websites/apps in many flavours:
@@ -69,7 +69,7 @@ The top-class project intitialization feature of the CLI makes getting started v
 Quasar projects have the ability to add Unit and End to End testing harnesses out of the box, as well as an ever-growing suite of product quality auditing tools. All this to ensure that your websites/apps have the highest quality possible.
 
 #### Awesome ever-growing community
-When developers encounter a problem they can’t solve, they can visit the Quasar [forum](https://forum.quasar-framework.org/) or our [Discord chat server](https://discord.gg/5TDhbDg). The community is there to help you. You can also get updates on new versions and features by following us on [Twitter](https://twitter.com/quasarframework). You can also get special service as a [Patreon](https://www.patreon.com/quasarframework) and help make sure Quasar stays relevant for you in the future too!
+When developers encounter a problem they can’t solve, they can visit the Quasar [forum](https://forum.quasar.dev/) or our [Discord chat server](https://chat.quasar.dev). The community is there to help you. You can also get updates on new versions and features by following us on [Twitter](https://twitter.com/quasarframework). You can also get special service as a [Patreon](https://www.patreon.com/quasarframework) and help make sure Quasar stays relevant for you in the future too!
 
 #### A wide range of platform support
 Google Chrome, Firefox, IE11/Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry, MacOS, Linux, Windows.

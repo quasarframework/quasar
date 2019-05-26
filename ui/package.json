@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "1.0.0-beta.24",
+  "version": "1.0.0-rc.2",
   "description": "High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase",
   "module": "src/index.esm.js",
   "typings": "dist/types/index.d.ts",
@@ -42,13 +42,13 @@
   "author": {
     "name": "Razvan Stoenescu",
     "email": "razvan.stoenescu@gmail.com",
-    "url": "http://quasar-framework.org"
+    "url": "https://quasar.dev"
   },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/quasarframework/quasar/issues"
   },
-  "homepage": "http://quasar-framework.org",
+  "homepage": "https://quasar.dev",
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@quasar/babel-preset-app": "^1.0.2",

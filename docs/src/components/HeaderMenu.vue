@@ -3,14 +3,7 @@ div
   q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, :label="`v${$q.version}`", auto-close)
     q-list
       q-item(
-        clickable
-        tag="a"
-        :href="`https://quasar-framework.org/`"
-        target="_blank"
-      )
-        q-item-section v0.17
-      q-item(
-        v-for="version in ['16', '15', '14', '13']"
+        v-for="version in ['17', '16', '15', '14', '13']"
         :key="version"
         clickable
         tag="a"
@@ -62,7 +55,7 @@ div
 
       q-item-label(header) Social
 
-      q-item(clickable, tag="a", href="https://forum.quasar-framework.org/category/1/announcements", target="_blank")
+      q-item(clickable, tag="a", href="https://forum.quasar.dev/category/1/announcements", target="_blank")
         q-item-section.text-purple(avatar)
           q-icon(name="announcement")
         q-item-section Announcements
@@ -75,12 +68,12 @@ div
   q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, label="Support", auto-close)
     q-list
 
-      q-item(clickable, tag="a", href="https://discord.gg/5TDhbDg", target="_blank")
+      q-item(clickable, tag="a", href="https://chat.quasar.dev", target="_blank")
         q-item-section.text-primary(avatar)
           q-icon(name="fab fa-discord")
         q-item-section Chat
 
-      q-item(clickable, tag="a", href="https://forum.quasar-framework.org/", target="_blank")
+      q-item(clickable, tag="a", href="https://forum.quasar.dev/", target="_blank")
         q-item-section.text-secondary(avatar)
           q-icon(name="fas fa-comments")
         q-item-section Forum

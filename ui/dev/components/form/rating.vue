@@ -14,7 +14,7 @@
         <br>
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="favorite_border" />
         <br>
-        <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="img:https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg" />
+        <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
       </div>
 
       <p class="caption">

@@ -3,7 +3,7 @@
     <q-banner rounded class="bg-grey-3">
       <template v-slot:avatar>
         <img
-          src="https://cdn.quasar-framework.org/img/mountains.jpg"
+          src="https://cdn.quasar.dev/img/mountains.jpg"
           style="width: 100px; height: 64px"
         >
       </template>

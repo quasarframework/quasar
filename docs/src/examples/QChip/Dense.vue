@@ -30,7 +30,7 @@
       </q-chip>
       <q-chip dense>
         <q-avatar>
-          <img src="https://cdn.quasar-framework.org/img/avatar3.jpg">
+          <img src="https://cdn.quasar.dev/img/avatar3.jpg">
         </q-avatar>
         Mary
       </q-chip>

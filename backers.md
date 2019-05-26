@@ -7,12 +7,12 @@ Quasar Framework is an MIT licensed open source project and completely free to u
     <tr>
       <td align="center" valign="middle">
         <a>
-          <img width="200px" src="https://cdn.quasar-framework.org/sponsors/think-health-data.png">
+          <img width="200px" src="https://cdn.quasar.dev/sponsors/think-health-data.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="https://truelogic.com" target="_blank">
-          <img width="200px" src="https://cdn.quasar-framework.org/sponsors/truelogic.png">
+          <img width="200px" src="https://cdn.quasar.dev/sponsors/truelogic.png">
         </a>
       </td>
     </tr>
@@ -21,7 +21,7 @@ Quasar Framework is an MIT licensed open source project and completely free to u
       <tr>
       <td align="center" valign="middle">
         <a href="https://www.tayloredtechnology.net" target="_blank">
-          <img width="200px" src="https://cdn.quasar-framework.org/sponsors/taylored-technology-big.jpeg">
+          <img width="200px" src="https://cdn.quasar.dev/sponsors/taylored-technology-big.jpeg">
         </a>
       </td>
     </tr>
@@ -39,7 +39,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
     <tr>
       <td align="center" valign="middle">
         <a href="http://campuscloudservices.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/campus-cloud-services.png">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/campus-cloud-services.png">
         </a>
       </td>
     </tr>
@@ -53,7 +53,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
     <tr>
       <td align="center" valign="middle">
         <a href="https://www.jugglestreet.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/juggle-street.png">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/juggle-street.png">
         </a>
       </td>
     </tr>
@@ -67,12 +67,12 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
     <tr>
       <td align="center" valign="middle">
         <a href="http://comcomservices.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/com-com-services.png">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/com-com-services.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="http://www.kalisio.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/kalisio.png">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/kalisio.png">
         </a>
       </td>
     </tr>
@@ -80,12 +80,12 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
     <tr>
       <td align="center" valign="middle">
         <a href="http://platformpurple.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/platform-purple.png">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/platform-purple.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="http://www.bgasoft.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/bgasoft.png">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/bgasoft.png">
         </a>
       </td>
     </tr>
@@ -93,12 +93,12 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
     <tr>
       <td align="center" valign="middle">
         <a href="https://www.letsbutterfly.com/" target="_blank">
-          <img width="170px" src="https://cdn.quasar-framework.org/sponsors/letsbutterfly.png">
+          <img width="170px" src="https://cdn.quasar.dev/sponsors/letsbutterfly.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="https://www.projectfinance.io/" target="_blank">
-          <img width="222px" height="150px" src="https://cdn.quasar-framework.org/sponsors/project-finance.png">
+          <img width="222px" height="150px" src="https://cdn.quasar.dev/sponsors/project-finance.png">
         </a>
       </td>
     </tr>
@@ -143,6 +143,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - G Edwards ($20)
 - Martin Thompson ($20)
 - Shapovalov Pavel ($20)
+- RAKOTOSEHENO Alain ($20)
 - Shone Radulovic ($15)
 - Sam Cassar ($15)
 - Francis Vithayathil ($15)
@@ -207,7 +208,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - David Flasterstein
 - Jay McGuinness
 - Jesse Sudich (Outflank Pay Tracker)
-- Controle Digital 
+- Controle Digital
 - Tobias Mesquita
 - Volentix
 - Pascual Strømsnæs
@@ -252,6 +253,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - James
 - VHCI Business Development SRL
 - Fergus Meiklejohn
+- Aydin Sakar
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
