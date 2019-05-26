@@ -568,6 +568,9 @@ class QuasarConfig {
         }
         cfg.devServer.open = false
       }
+      else {
+        cfg.__devServer = {}
+      }
     }
 
     if (cfg.build.gzip) {
