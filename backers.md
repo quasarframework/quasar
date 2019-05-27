@@ -209,7 +209,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jay McGuinness
 - Jesse Sudich (Outflank Pay Tracker)
 - Controle Digital
-- Tobias Mesquita
 - Volentix
 - Pascual Strømsnæs
 - Taillefer Brice
