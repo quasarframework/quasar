@@ -40,7 +40,7 @@
 
     "maximized": {
       "type": "Boolean",
-      "desc": "Put Dialog into maximized mode; Cannot be used together with `position`, in this case use `transition-show` and `transition-hide` instead of `position`",
+      "desc": "Put Dialog into maximized mode",
       "category": "content"
     },
 
@@ -58,7 +58,7 @@
 
     "position": {
       "type": "String",
-      "desc": "The position from where the Dialog should show up; Cannot be used together with `maximized`, in this case use `transition-show` and `transition-hide` instead of `position`",
+      "desc": "Stick dialog to one of the sides (top, right, bottom or left)",
       "default": "standard",
       "values": [ "standard", "top", "right", "bottom", "left" ],
       "examples": [ "top", "right" ],
