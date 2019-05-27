@@ -15,6 +15,7 @@
         <q-btn label="Scroll 3 bottom" flat color="primary" @click="scroll3 = true" />
         <q-btn label="Maximized" flat color="primary" @click="maximized = true" />
         <q-btn label="Positioned" flat color="primary" @click="positioned = true" />
+        <q-btn label="Maximized & positioned" flat color="primary" @click="maxiPositioned = true" />
         <q-btn label="Seamless" flat color="primary" @click="seamless = true" />
         <q-btn label="Layout" flat color="primary" @click="layout = true" />
         <q-btn label="Inception" flat color="primary" @click="inception = true" />
@@ -312,6 +313,28 @@
           <q-btn flat round icon="pause" />
           <q-btn flat round icon="fast_forward" />
         </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="maxiPositioned" position="bottom" maximized>
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">
+            Alert
+          </div>
+        </q-card-section>
+
+        <q-card-section>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+        </q-card-section>
+
+        <q-card-section>
+          <q-toggle v-model="preventCloseToggle" label="Prevent closing with button" />
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="OK" color="primary" v-close-popup="!preventCloseToggle" :disable="preventCloseToggle" />
+        </q-card-actions>
       </q-card>
     </q-dialog>
 
@@ -675,6 +698,7 @@ export default {
       scroll3: false,
       maximized: false,
       positioned: false,
+      maxiPositioned: false,
       seamless: false,
       layout: false,
       inception: false,
