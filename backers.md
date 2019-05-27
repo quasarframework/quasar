@@ -134,6 +134,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Shawn Makinson ($25)
 - Jim O'Quinn ($25)
 - Elad Yaniv ($25)
+- Agilus Informática ($25)
 - Max Matteo Staack ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
