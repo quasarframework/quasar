@@ -79,6 +79,10 @@ $ quasar upgrade
 $ quasar upgrade --install
 ```
 
+::: warning
+**Note for WebStorm Users on Windows 10** - If you run `quasar upgrade` and get an error *Command not found*, you will need to go to Settings | Terminal and untick the option *Add 'node_modules/.bin' from the project root to %PATH%* then restart WebStorm.
+:::
+
 ## info
 The Quasar CLI is equipped with a stable combination of multiple NPM build packages (Webpack, Vue, etc) which gets updated frequently after heavy testing.
 
