@@ -153,7 +153,7 @@ QUploader currently supports uploading through the HTTP protocol. But you can ex
 Below is an example with the API that you need to supply. You'll be creating a new Vue component that extends the Base of QUploader that you can then import and use in your website/app.
 
 ::: tip
-For the default XHR implementation, check out [source code](https://github.com/quasarframework/quasar/blob/dev/quasar/src/components/uploader/uploader-xhr-mixin.js).
+For the default XHR implementation, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/uploader-xhr-mixin.js).
 :::
 
 ::: warning Help appreciated
