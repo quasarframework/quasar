@@ -24,6 +24,9 @@ $ quasar upgrade
 # do the actual upgrade
 $ quasar upgrade --install
 ```
+::: warning
+**Note for WebStorm Users on Windows 10** - If you run `quasar upgrade` and get an error *Command not found*, you will need to go to Settings | Terminal and untick the option *Add 'node_modules/.bin' from the project root to %PATH%* then restart WebStorm.
+:::
 
 ### With Vue CLI
 ```bash
