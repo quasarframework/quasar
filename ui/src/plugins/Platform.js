@@ -215,7 +215,9 @@ export function hasWebStorage () {
 function getClientProperties () {
   return {
     has: {
-      touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)(),
+      touch: (() => 'ontouchstart' in window ||
+        window.navigator.maxTouchPoints > 0
+      )(),
       webStorage: hasWebStorage()
     },
     within: {
