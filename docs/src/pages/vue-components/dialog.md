@@ -30,8 +30,8 @@ When the user hits the phone/tablet back button (only for Cordova apps), the Dia
 ### Positioning
 <doc-example title="Positions" file="QDialog/Positioning" />
 
-::: warning
-Please note that when you want to use `position` together with `maximized`, you should use `transition-show` and `transition-hide` instead of `position`! See the example below:
+::: tip
+Do not mistake "position" prop with the show/hide animation. If you want a custom animation, you should use `transition-show` and `transition-hide` which can be applied regardless of "position" or "maximized".
 :::
 
 <doc-example title="Maximized" file="QDialog/Maximized" />
