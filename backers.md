@@ -183,7 +183,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Kévin Marrec
 - 良平 勝目
 - Jörg Walter
-- Christian Kyony
 - Mast
 - altShiftDev
 - Simon Kimber
