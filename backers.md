@@ -254,6 +254,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Fergus Meiklejohn
 - Aydin Sakar
 - Mike Ryan
+- synMedico
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
