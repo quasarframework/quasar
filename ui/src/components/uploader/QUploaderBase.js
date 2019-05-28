@@ -355,7 +355,7 @@ export default {
       return [
         h('input', {
           ref: 'input',
-          staticClass: 'q-uploader__input absolute-full',
+          staticClass: 'q-uploader__input overflow-hidden absolute-full',
           attrs: {
             type: 'file',
             title: '', // try to remove default tooltip
