@@ -342,6 +342,7 @@ export default {
       if (show === true) {
         return h(QBtn, {
           props: {
+            type: 'a',
             icon: this.$q.iconSet.uploader[icon],
             flat: true,
             dense: true

@@ -89,6 +89,10 @@ In the example below we're showing the equivalent of the default header. Also no
 Notice that you must install and use one more component (QUploaderAddTrigger) in order to be able to add files to the queue. This component needs to be placed under a DOM node which has `position: relative` (hint: QBtn has it already) and will automatically inject the necessary events when user clicks on its parent (do NOT manually add `@click="scope.pickFiles"`).
 :::
 
+::: tip IE11 Support with custom header
+For the file picker to work on IE11 when wrapping QUploaderAddTrigger with a QBtn, make sure that this button has `type="a"` specified.
+:::
+
 <doc-example title="Custom header" file="QUploader/SlotHeader" />
 
 <doc-example title="Custom files list" file="QUploader/SlotList" />
