@@ -55,6 +55,8 @@ $ quasar build -m pwa
 
 # Mobile App
 $ quasar build -m cordova -T [android|ios]
+# or the short form:
+$ quasar build -m [android|ios]
 
 # Electron App
 $ quasar build -m electron
