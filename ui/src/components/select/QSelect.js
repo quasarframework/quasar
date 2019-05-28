@@ -294,7 +294,9 @@ export default Vue.extend({
 
       const optValue = this.__getOptionValue(opt)
 
-      this.multiple !== true && this.updateInputValue(this.fillInput === true ? this.__getOptionLabel(opt) : '', true)
+      this.multiple !== true && this.updateInputValue(
+        this.fillInput === true ? this.__getOptionLabel(opt) : '', true
+      )
       this.focus()
 
       if (this.multiple !== true) {
