@@ -281,6 +281,10 @@ export default Vue.extend({
 
   beforeDestroy () {
     // When the menu is destroyed while open we can only emit the event on anchorEl
-    this.value === true && this.anchorEl !== void 0 && this.anchorEl.dispatchEvent(create('popup-hide', { bubbles: true }))
+    if (this.value === true && this.anchorEl !== void 0) {
+      this.anchorEl.dispatchEvent(
+        create('popup-hide', { bubbles: true })
+      )
+    }
   }
 })
