@@ -79,8 +79,8 @@ $ quasar upgrade
 $ quasar upgrade --install
 ```
 
-::: warning
-**Note for WebStorm Users on Windows 10** - If you run `quasar upgrade` and get an error *Command not found*, you will need to go to Settings | Terminal and untick the option *Add 'node_modules/.bin' from the project root to %PATH%* then restart WebStorm.
+::: warning Note for code editor terminals
+If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%* then restart your code editor.
 :::
 
 ## info
