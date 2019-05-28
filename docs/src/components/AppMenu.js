@@ -5,7 +5,21 @@ export default {
   name: 'AppMenu',
 
   methods: {
-    getDrawerMenu (h, menu, path, level) {
+    matchCurrentPath (path, menu, listPath) {
+      let pathsToMatch
+      if (listPath !== void 0) {
+        pathsToMatch = menu.children.map(item => item.path)
+      }
+      else {
+        pathsToMatch = path.split('/')
+        pathsToMatch.shift()
+      }
+      let currentPath = this.$router.history.current.fullPath.split('/')
+      currentPath.shift()
+      return currentPath.some(item => pathsToMatch.includes(item))
+    },
+
+    getDrawerMenu (h, menu, path, listPath, level) {
       if (menu.children !== void 0) {
         return h(
           'q-expansion-item',
@@ -15,7 +29,7 @@ export default {
               label: menu.name,
               dense: level > 0,
               icon: menu.icon,
-              defaultOpened: menu.opened,
+              defaultOpened: this.matchCurrentPath(path, menu, listPath),
               expandSeparator: true,
               switchToggleSide: level > 0,
               denseToggle: level > 0
@@ -25,6 +39,7 @@ export default {
             h,
             item,
             path + (item.path !== void 0 ? '/' + item.path : ''),
+            listPath,
             level + 1
           ))
         )
@@ -56,7 +71,7 @@ export default {
   },
   render (h) {
     return h('q-list', { staticClass: 'app-menu' }, Menu.map(
-      item => this.getDrawerMenu(h, item, '/' + item.path, 0)
+      item => this.getDrawerMenu(h, item, '/' + item.path, item.listPath, 0)
     ))
   }
 }
