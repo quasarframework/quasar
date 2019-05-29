@@ -48,7 +48,8 @@ export default Vue.extend({
 
   computed: {
     thumbHidden () {
-      return this.scrollSize <= this.containerSize || (!this.active && !this.hover)
+      return this.scrollSize <= this.containerSize ||
+        (this.active === false && this.hover === false)
     },
 
     thumbSize () {
@@ -89,7 +90,9 @@ export default Vue.extend({
     },
 
     direction () {
-      return this.horizontal ? 'right' : 'down'
+      return this.horizontal === true
+        ? 'right'
+        : 'down'
     },
 
     containerSize () {
@@ -111,13 +114,22 @@ export default Vue.extend({
   },
 
   methods: {
+    getScrollTarget () {
+      return this.$refs.target
+    },
+
+    getScrollPosition () {
+      return this.$q.platform.is.desktop === true
+        ? this.scrollPosition
+        : this.$refs.target[this.dirProps.el]
+    },
+
     setScrollPosition (offset, duration) {
-      if (this.horizontal === true) {
-        setHorizontalScrollPosition(this.$refs.target, offset, duration)
-      }
-      else {
-        setScrollPosition(this.$refs.target, offset, duration)
-      }
+      const fn = this.horizontal === true
+        ? setHorizontalScrollPosition
+        : setScrollPosition
+
+      fn(this.$refs.target, offset, duration)
     },
 
     __updateContainer ({ height, width }) {
@@ -125,6 +137,7 @@ export default Vue.extend({
         this.containerWidth = width
         this.__setActive(true, true)
       }
+
       if (this.containerHeight !== height) {
         this.containerHeight = height
         this.__setActive(true, true)
@@ -154,12 +167,12 @@ export default Vue.extend({
     },
 
     __panThumb (e) {
-      if (e.isFirst) {
+      if (e.isFirst === true) {
         this.refPos = this.scrollPosition
         this.__setActive(true, true)
       }
 
-      if (e.isFinal) {
+      if (e.isFinal === true) {
         this.__setActive(false)
       }
 
@@ -170,16 +183,18 @@ export default Vue.extend({
     },
 
     __panContainer (e) {
-      if (e.isFirst) {
+      if (e.isFirst === true) {
         this.refPos = this.scrollPosition
         this.__setActive(true, true)
       }
-      if (e.isFinal) {
+      if (e.isFinal === true) {
         this.__setActive(false)
       }
 
-      const distance = this.horizontal ? e.distance.x : e.distance.y
-      const pos = this.refPos + (e.direction === this.direction ? -1 : 1) * distance
+      const distance = e.distance[this.horizontal === true ? 'x' : 'y']
+      const pos = this.refPos +
+        (e.direction === this.direction ? -1 : 1) * distance
+
       this.__setScroll(pos)
 
       if (pos > 0 && pos + this.containerSize < this.scrollSize) {
@@ -191,7 +206,11 @@ export default Vue.extend({
       const el = this.$refs.target
 
       el[this.dirProps.el] += getMouseWheelDistance(e)[this.dirProps.wheel]
-      if (el[this.dirProps.el] > 0 && el[this.dirProps.el] + this.containerSize < this.scrollSize) {
+
+      if (
+        el[this.dirProps.el] > 0 &&
+        el[this.dirProps.el] + this.containerSize < this.scrollSize
+      ) {
         prevent(e)
       }
     },
@@ -224,13 +243,13 @@ export default Vue.extend({
       }, this.delay)
     },
 
-    __setScroll (scroll) {
-      this.$refs.target[this.dirProps.el] = scroll
+    __setScroll (offset) {
+      this.$refs.target[this.dirProps.el] = offset
     }
   },
 
   render (h) {
-    if (!this.$q.platform.is.desktop) {
+    if (this.$q.platform.is.desktop !== true) {
       return h('div', {
         staticClass: 'q-scroll-area',
         style: this.contentStyle
@@ -275,6 +294,7 @@ export default Vue.extend({
           }),
           slot(this, 'default')
         ]),
+
         h(QScrollObserver, {
           props: { horizontal: this.horizontal },
           on: { scroll: this.__updateScroll }
