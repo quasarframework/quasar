@@ -1,15 +1,14 @@
 const gettingStarted = [
   {
-    name: 'Pick Quasar Flavour',
+    name: 'Pick a Quasar Flavour',
     path: 'pick-quasar-flavour'
   },
   {
     name: 'Quasar Flavours',
-    opened: true,
     children: [
       {
         name: 'Quasar CLI',
-        path: 'quasar-cli'
+        path: 'quasar-cli-intro'
       },
       {
         name: 'UMD / Standalone',
@@ -444,7 +443,6 @@ const layout = [
   {
     name: 'Flex Grid',
     path: 'grid',
-    opened: true,
     children: [
       {
         name: 'Introduction to Flexbox',
@@ -899,7 +897,6 @@ const appExtensions = [
   {
     name: 'Development Guide',
     path: 'development-guide',
-    opened: true,
     children: [
       {
         name: 'Introduction',

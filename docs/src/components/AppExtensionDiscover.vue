@@ -12,7 +12,6 @@
       :error="errorMessage !== null"
       :error-message="errorMessage"
       hint="Discover official and community App Extensions"
-      bottom-slots
       ref="searchInput"
     >
       <template v-slot:append>
@@ -34,7 +33,9 @@
         v-for="item in results"
         :key="item.name"
         clickable
-        @click="onPackageClick(item)"
+        tag="a"
+        :href="item.links"
+        target="_blank"
       >
         <q-item-section>
           <q-item-label class="q-gutter-sm">
@@ -42,8 +43,11 @@
             <q-badge>{{ item.version }}</q-badge>
             <q-badge v-if="item.official" color="purple">official</q-badge>
           </q-item-label>
-          <q-item-label caption>
+          <q-item-label>
             {{ item.description }}
+          </q-item-label>
+          <q-item-label caption>
+            <em>by {{ item.author }}</em>
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -52,8 +56,6 @@
 </template>
 
 <script>
-import { openURL } from 'quasar'
-
 export default {
   data () {
     return {
@@ -75,10 +77,6 @@ export default {
   },
 
   methods: {
-    onPackageClick (item) {
-      openURL(item.links.homepage || item.links.repository || item.links.npm)
-    },
-
     searchIconClick () {
       if (this.filter !== '') {
         this.filter = ''
@@ -119,8 +117,14 @@ export default {
         self.errorMessage = null
         self.results = json.results.map(item => {
           item = item.package
+
           item.official = item.name.startsWith('@quasar/')
           item.extId = item.name.replace('quasar-app-extension-', '')
+          item.author = Object(item.author) === item.author
+            ? item.author.name
+            : item.author
+          item.links = item.links.homepage || item.links.repository || item.links.npm
+
           return item
         })
       })

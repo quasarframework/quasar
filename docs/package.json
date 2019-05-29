@@ -10,7 +10,7 @@
     "dev": "quasar dev",
     "dev:ssr": "quasar dev -m ssr",
     "build": "quasar build -m ssr",
-    "deploy": "yarn build && cd dist/ssr && now --public",
+    "deploy": "yarn build && cd dist/ssr && now --public --target production",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
   },

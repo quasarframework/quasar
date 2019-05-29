@@ -5,21 +5,34 @@ export default {
   name: 'AppMenu',
 
   methods: {
-    matchCurrentPath (path, menu, listPath) {
-      let pathsToMatch
-      if (listPath !== void 0) {
+    matchCurrentPath (path, menu) {
+      let pathToMatch = ''
+      let pathsToMatch = []
+      let currentMenuPath = path.split('/')
+      currentMenuPath.shift()
+
+      // get the current visited path
+      let currentPath = this.$router.history.current.fullPath.split('/')
+      currentPath.shift()
+
+      // if we are looking at a sub-menu, use the children paths
+      // to see if the sub-menu needs to be expanded
+      if (typeof menu.path === 'undefined') {
         pathsToMatch = menu.children.map(item => item.path)
       }
       else {
-        pathsToMatch = path.split('/')
-        pathsToMatch.shift()
+        pathToMatch = currentMenuPath[currentMenuPath.length - 1]
       }
-      let currentPath = this.$router.history.current.fullPath.split('/')
-      currentPath.shift()
-      return currentPath.some(item => pathsToMatch.includes(item))
+      // console.log(pathsToMatch, pathToMatch, currentPath, pathsToMatch.some(item => currentPath.includes(item)))
+      if (pathToMatch) {
+        return currentPath.includes(pathToMatch)
+      }
+      else {
+        return pathsToMatch.some(item => currentPath.includes(item))
+      }
     },
 
-    getDrawerMenu (h, menu, path, listPath, level) {
+    getDrawerMenu (h, menu, path, level) {
       if (menu.children !== void 0) {
         return h(
           'q-expansion-item',
@@ -29,7 +42,7 @@ export default {
               label: menu.name,
               dense: level > 0,
               icon: menu.icon,
-              defaultOpened: this.matchCurrentPath(path, menu, listPath),
+              defaultOpened: this.matchCurrentPath(path, menu),
               expandSeparator: true,
               switchToggleSide: level > 0,
               denseToggle: level > 0
@@ -39,7 +52,6 @@ export default {
             h,
             item,
             path + (item.path !== void 0 ? '/' + item.path : ''),
-            listPath,
             level + 1
           ))
         )
@@ -71,7 +83,7 @@ export default {
   },
   render (h) {
     return h('q-list', { staticClass: 'app-menu' }, Menu.map(
-      item => this.getDrawerMenu(h, item, '/' + item.path, item.listPath, 0)
+      item => this.getDrawerMenu(h, item, '/' + item.path, 0)
     ))
   }
 }

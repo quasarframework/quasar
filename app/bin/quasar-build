@@ -23,8 +23,19 @@ if (argv.help) {
   console.log(`
   Description
     Builds distributables of your app.
+
   Usage
+    $ quasar build
     $ quasar build -p <port number>
+
+    $ quasar build -m ssr
+
+    # alias for "quasar build -m cordova -T ios"
+    $ quasar build -m ios
+
+    # alias for "quasar build -m cordova -T android"
+    $ quasar build -m android
+
   Options
     --mode, -m      App mode [spa|ssr|pwa|cordova|electron] (default: spa)
     --target, -T    App target
