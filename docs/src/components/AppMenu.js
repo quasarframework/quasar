@@ -4,13 +4,27 @@ import './AppMenu.styl'
 export default {
   name: 'AppMenu',
 
+  watch: {
+    $route (route) {
+      this.showMenu(this.$refs[route.path])
+    }
+  },
+
   methods: {
+    showMenu (comp) {
+      if (comp !== void 0 && comp !== this) {
+        this.showMenu(comp.$parent)
+        comp.show !== void 0 && comp.show()
+      }
+    },
+
     getDrawerMenu (h, menu, path, level) {
       if (menu.children !== void 0) {
         return h(
           'q-expansion-item',
           {
             staticClass: 'non-selectable',
+            ref: path,
             props: {
               label: menu.name,
               dense: level > 0,
@@ -31,6 +45,7 @@ export default {
       }
 
       return h('q-item', {
+        ref: path,
         props: {
           to: path,
           dense: level > 0,
@@ -54,9 +69,14 @@ export default {
       ])
     }
   },
+
   render (h) {
     return h('q-list', { staticClass: 'app-menu' }, Menu.map(
       item => this.getDrawerMenu(h, item, '/' + item.path, 0)
     ))
+  },
+
+  mounted () {
+    this.showMenu(this.$refs[this.$route.path])
   }
 }
