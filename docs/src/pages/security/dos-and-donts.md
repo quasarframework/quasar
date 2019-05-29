@@ -5,7 +5,7 @@ title: Security DO's and DON'Ts
 
 We have collected some best practices for those of you new to the security theater and a few insights for security professionals new to the Vue ecosystem. We will be revising and adding to this document as we become aware of risks through our own research and the publications of the amazing security community.
 
-![Quasar Audited - Gold](https://cdn.quasar-framework.org/img/secure-gold-hero.jpg "Quasar Audited - Gold")
+![Quasar Audited - Gold](https://cdn.quasar.dev/img/secure-gold-hero.jpg "Quasar Audited - Gold")
 
 ## Vue Security Risks
 
@@ -26,10 +26,10 @@ The quasi-official internationali(s/z)ation package for Vue allows you to store 
 ### eval()
 Although you may be tempted to use `eval()`, even if you know what you are doing, just **DON'T**.
 
-![Don't be eval()](https://cdn.quasar-framework.org/img/dont-be-eval.png "Don't be eval()")
+![Don't be eval()](https://cdn.quasar.dev/img/dont-be-eval.png "Don't be eval()")
 
 ## Quasar Components
-Two Quasar components and one Plugin can be empowered to prevent the rendering of "insecure content". This is an opt-in feature (available starting in `quasar@1.0.0-beta.10`) that is performed by adding a `sanitize` type of boolean prop to the component. These components are discussed below.
+Two Quasar components and two Plugins can be empowered to prevent the rendering of "insecure content". This is an opt-in feature (available starting in `quasar@1.0.0-beta.10`) that is performed by adding a `sanitize` type of boolean prop to the component. These components are discussed below.
 
 ### QSelect
 If you are not customizing menu-related scoped-slots (i.e. `option` scoped slot), **DO** prevent the component from rendering HTML in the labels and sublabels with one or more of the `sanitize` properties. Generally speaking, this is not user-supplied data. If you are customizing this slot, it is your responsibility to do sanitization yourself.
@@ -43,6 +43,9 @@ There have been a number of recent exploits (especially for older Android and iO
 
 ### Loading
 Many developers have asked that the Loading plugin be able to display HTML, so this was enabled by default, but if you are worried, **DO** add `sanitize: true` and you removed the vector.
+
+### Notify
+Being able to style the Notify plugin with HTML is not enabled by default (because it is not Spec compliant with Material Design), but if you do set the boolean prop `html: true` then you are responsible for sanitizing it.
 
 ### QInput
 Any field that enables users to enter keystrokes, paste from the buffer or drop a file is a security risk. We won't go into the nitty-gritty details of this, but just remember it is YOUR responsibility to maintain safety. Only you can prevent help-desk fires!
@@ -116,7 +119,7 @@ When you generate your project with the SSR mode, you are provided with a minima
 ## Environmental Safety
 Being more safe means taking many things into consideration, and the more of the following guidelines you respect, the smaller the attack footprint will be.
 
-![Valid SSL certificate](https://cdn.quasar-framework.org/img/lets-encrypt.jpg "Valid SSL certificate")
+![Valid SSL certificate](https://cdn.quasar.dev/img/lets-encrypt.jpg "Valid SSL certificate")
 
 ### Operational Security
 Audit how your development systems work:

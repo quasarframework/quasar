@@ -51,14 +51,14 @@ UMD is all about adding Quasar style and javascript tags. This is a full list. C
     Notice "pt-br" in "i18n.pt-br.umd.min.js" for Brazilian Portuguese language pack.
     Replace version below (1.0.0-beta.0) with your desired version of Quasar.
     Also check final <script> tag below to enable the language
-    Language pack list: https://github.com/quasarframework/quasar/tree/dev/quasar/lang
+    Language pack list: https://github.com/quasarframework/quasar/tree/dev/ui/lang
   -->
   <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/lang/pt-br.umd.min.js"></script>
 
   <!--
     If you want to make Quasar components (not your own) use a specific set of icons (unless you're using Material Icons already).
     Replace version below (1.0.0-beta.0) with your desired version of Quasar.
-    Icon sets list: https://github.com/quasarframework/quasar/tree/dev/quasar/icon-set
+    Icon sets list: https://github.com/quasarframework/quasar/tree/dev/ui/icon-set
   -->
   <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/icon-set/fontawesome-v5.umd.min.js"></script>
 
@@ -203,7 +203,7 @@ Quasar.plugins.bottomSheet.create({...})
 An example.
 
 ```js
-Quasar.utils.openURL('https://quasar-framework.org')
+Quasar.utils.openURL('https://quasar.dev')
 ```
 
 ### Changing Quasar Icon Set
@@ -213,7 +213,7 @@ Assuming you have already included the CDN link to your favorite Quasar Icon Set
 Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
 ```
 
-The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/quasar/icon-set).
+The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set).
 
 ### Changing Quasar Language Pack
 Assuming you have already included the CDN link to your desired Quasar I18n Language (unless you want "en-us" language pack which is used by default), you can then tell Quasar to use it:
@@ -227,4 +227,4 @@ Quasar.lang.set(Quasar.lang.de)
 Quasar.lang.set(Quasar.lang.ptBr)
 ```
 
-The list of available languages can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/quasar/lang). **If your desired language pack is not available yet, you can help by providing a PR.** We welcome any languages!
+The list of available languages can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang). **If your desired language pack is not available yet, you can help by providing a PR.** We welcome any languages!

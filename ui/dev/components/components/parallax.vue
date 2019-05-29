@@ -13,7 +13,7 @@
 
     <q-parallax>
       <template v-slot:media>
-        <img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+        <img src="https://cdn.quasar.dev/img/parallax2.jpg">
       </template>
 
       <h1 class="text-white">
@@ -29,7 +29,7 @@
 
     <q-parallax class="q-mt-xl">
       <template v-slot:media>
-        <img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+        <img src="https://cdn.quasar.dev/img/parallax2.jpg">
       </template>
 
       <template v-slot:content="scope">
@@ -42,7 +42,7 @@
             right: 0
           }"
         >
-          <img src="https://cdn.quasar-framework.org/img/quasar-logo.png" style="width: 150px; height: 150px">
+          <img src="https://cdn.quasar.dev/img/quasar-logo.png" style="width: 150px; height: 150px">
           <div class="text-h3 text-white text-center">
             Quasar Framework
           </div>
@@ -78,7 +78,7 @@
       </p>
     </div>
 
-    <q-toggle v-model="imgSrc" true-value="https://cdn.quasar-framework.org/img/parallax1.jpg" false-value="https://cdn.quasar-framework.org/img/mountains.jpg" label="Toggle Image" />
+    <q-toggle v-model="imgSrc" true-value="https://cdn.quasar.dev/img/parallax1.jpg" false-value="https://cdn.quasar.dev/img/mountains.jpg" label="Toggle Image" />
     <q-parallax :src="imgSrc" :height="200">
       <h1 class="text-white">
         Parallax  Title
@@ -91,7 +91,7 @@
       </p>
     </div>
 
-    <q-parallax src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+    <q-parallax src="https://cdn.quasar.dev/img/parallax2.jpg">
       <h1 class="text-white">
         Bridge
       </h1>
@@ -103,7 +103,7 @@
       </p>
     </div>
 
-    <q-parallax src="https://cdn.quasar-framework.org/img/parallax1.jpg">
+    <q-parallax src="https://cdn.quasar.dev/img/parallax1.jpg">
       <h1 class="text-white">
         Title
       </h1>
@@ -115,7 +115,7 @@
       </p>
     </div>
 
-    <q-parallax src="https://cdn.quasar-framework.org/img/mountains.jpg" :height="200">
+    <q-parallax src="https://cdn.quasar.dev/img/mountains.jpg" :height="200">
       <h1 class="text-white">
         Mountains
       </h1>
@@ -164,7 +164,7 @@
 export default {
   data () {
     return {
-      imgSrc: 'https://cdn.quasar-framework.org/img/parallax1.jpg',
+      imgSrc: 'https://cdn.quasar.dev/img/parallax1.jpg',
       loremipsum: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
     }
   }

@@ -11,7 +11,7 @@
         J
       </q-avatar>
       <q-avatar>
-        <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+        <img src="https://cdn.quasar.dev/img/boy-avatar.png">
       </q-avatar>
     </div>
 
@@ -26,7 +26,7 @@
         J
       </q-avatar>
       <q-avatar square>
-        <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+        <img src="https://cdn.quasar.dev/img/boy-avatar.png">
       </q-avatar>
     </div>
 
@@ -41,7 +41,7 @@
         J
       </q-avatar>
       <q-avatar rounded>
-        <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+        <img src="https://cdn.quasar.dev/img/boy-avatar.png">
       </q-avatar>
     </div>
   </div>

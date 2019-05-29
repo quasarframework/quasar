@@ -179,6 +179,7 @@ export default {
   /* bg color is important for th; just specify one */
   thead tr:first-child th:first-child
     background-color #fff
+    opacity 1
 
   td:first-child
     background-color #f5f5dc

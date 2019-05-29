@@ -52,7 +52,10 @@ export default Vue.extend({
         }
 
       checkFunction(current, route) && this.__activateRoute({ ...params, redirected })
-      redirected === true && checkFunction(current, location) && this.__activateRoute(params)
+      redirected === true && checkFunction(current, {
+        path: route.redirectedFrom,
+        ...location
+      }) && this.__activateRoute(params)
       this.isActive && this.__activateRoute()
     }
   },

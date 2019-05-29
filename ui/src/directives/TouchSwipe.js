@@ -1,38 +1,7 @@
 import Platform from '../plugins/Platform.js'
-import { setObserver, removeObserver } from '../utils/touch-observer.js'
+import { setObserver, removeObserver, getModifierDirections, updateModifiers } from '../utils/touch.js'
 import { position, leftClick, stopAndPrevent, listenOpts } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
-
-function getDirection (mod) {
-  let dir = {}
-
-  ;['left', 'right', 'up', 'down', 'horizontal', 'vertical'].forEach(direction => {
-    if (mod[direction]) {
-      dir[direction] = true
-    }
-  })
-
-  if (Object.keys(dir).length === 0) {
-    return {
-      left: true, right: true, up: true, down: true, horizontal: true, vertical: true
-    }
-  }
-
-  if (dir.horizontal) {
-    dir.left = dir.right = true
-  }
-  if (dir.vertical) {
-    dir.up = dir.down = true
-  }
-  if (dir.left && dir.right) {
-    dir.horizontal = true
-  }
-  if (dir.up && dir.down) {
-    dir.vertical = true
-  }
-
-  return dir
-}
 
 function parseArg (arg) {
   // delta (min velocity -- dist / time)
@@ -53,14 +22,22 @@ function parseArg (arg) {
 export default {
   name: 'touch-swipe',
 
-  bind (el, binding) {
-    const mouse = binding.modifiers.mouse === true
+  bind (el, { value, arg, modifiers }) {
+    if (el.__qtouchswipe) {
+      el.__qtouchswipe_old = el.__qtouchswipe
+    }
+
+    // early return, we don't need to do anything
+    if (modifiers.mouse !== true && Platform.has.touch !== true) {
+      return
+    }
 
     let ctx = {
-      handler: binding.value,
-      sensitivity: parseArg(binding.arg),
-      mod: binding.modifiers,
-      direction: getDirection(binding.modifiers),
+      handler: value,
+      sensitivity: parseArg(arg),
+
+      modifiers: modifiers,
+      direction: getModifierDirections(modifiers),
 
       mouseStart (evt) {
         if (leftClick(evt)) {
@@ -82,6 +59,7 @@ export default {
 
         const pos = position(evt)
 
+        ctx.mouse = mouseEvent
         ctx.event = {
           x: pos.left,
           y: pos.top,
@@ -114,7 +92,7 @@ export default {
           distY = pos.top - ctx.event.y,
           absY = Math.abs(distY)
 
-        if (Platform.is.mobile) {
+        if (Platform.is.mobile === true) {
           if (absX < ctx.sensitivity[1] && absY < ctx.sensitivity[1]) {
             ctx.event.abort = true
             return
@@ -129,7 +107,7 @@ export default {
           velY = absY / time
 
         if (
-          ctx.direction.vertical &&
+          ctx.direction.vertical === true &&
           absX < absY &&
           absX < 100 &&
           velY > ctx.sensitivity[0]
@@ -138,7 +116,7 @@ export default {
         }
 
         if (
-          ctx.direction.horizontal &&
+          ctx.direction.horizontal === true &&
           absX > absY &&
           absY < 100 &&
           velX > ctx.sensitivity[0]
@@ -147,7 +125,7 @@ export default {
         }
 
         if (
-          ctx.direction.up &&
+          ctx.direction.up === true &&
           absX < absY &&
           distY < 0 &&
           absX < 100 &&
@@ -157,7 +135,7 @@ export default {
         }
 
         if (
-          ctx.direction.down &&
+          ctx.direction.down === true &&
           absX < absY &&
           distY > 0 &&
           absX < 100 &&
@@ -167,7 +145,7 @@ export default {
         }
 
         if (
-          ctx.direction.left &&
+          ctx.direction.left === true &&
           absX > absY &&
           distX < 0 &&
           absY < 100 &&
@@ -177,7 +155,7 @@ export default {
         }
 
         if (
-          ctx.direction.right &&
+          ctx.direction.right === true &&
           absX > absY &&
           distX > 0 &&
           absY < 100 &&
@@ -193,6 +171,8 @@ export default {
 
           ctx.handler({
             evt,
+            touch: ctx.mouse !== true,
+            mouse: ctx.mouse === true,
             direction: ctx.event.dir,
             duration: time,
             distance: {
@@ -222,43 +202,51 @@ export default {
       }
     }
 
-    if (el.__qtouchswipe) {
-      el.__qtouchswipe_old = el.__qtouchswipe
-    }
-
     el.__qtouchswipe = ctx
 
-    if (mouse === true) {
-      el.addEventListener('mousedown', ctx.mouseStart)
+    if (modifiers.mouse === true) {
+      el.addEventListener('mousedown', ctx.mouseStart, modifiers.mouseCapture)
     }
 
-    el.addEventListener('touchstart', ctx.start, listenOpts.notPassive)
-    el.addEventListener('touchmove', ctx.move, listenOpts.notPassive)
-    el.addEventListener('touchcancel', ctx.end)
-    el.addEventListener('touchend', ctx.end)
+    if (Platform.has.touch === true) {
+      const opts = listenOpts['notPassive' + (modifiers.capture === true ? 'Capture' : '')]
+
+      el.addEventListener('touchstart', ctx.start, opts)
+      el.addEventListener('touchmove', ctx.move, opts)
+      el.addEventListener('touchcancel', ctx.end, opts)
+      el.addEventListener('touchend', ctx.end, opts)
+    }
   },
 
   update (el, binding) {
-    if (binding.oldValue !== binding.value) {
-      el.__qtouchswipe.handler = binding.value
+    const ctx = el.__qtouchswipe
+
+    if (ctx !== void 0) {
+      updateModifiers(ctx, binding)
     }
   },
 
-  unbind (el, binding) {
+  unbind (el, { modifiers }) {
     const ctx = el.__qtouchswipe_old || el.__qtouchswipe
+
     if (ctx !== void 0) {
       removeObserver(ctx)
       document.body.classList.remove('no-pointer-events')
 
-      if (binding.modifiers.mouse === true) {
-        el.removeEventListener('mousedown', ctx.mouseStart)
+      if (modifiers.mouse === true) {
+        el.removeEventListener('mousedown', ctx.mouseStart, modifiers.mouseCapture)
         document.removeEventListener('mousemove', ctx.move, true)
         document.removeEventListener('mouseup', ctx.mouseEnd, true)
       }
-      el.removeEventListener('touchstart', ctx.start, listenOpts.notPassive)
-      el.removeEventListener('touchmove', ctx.move, listenOpts.notPassive)
-      el.removeEventListener('touchcancel', ctx.end)
-      el.removeEventListener('touchend', ctx.end)
+
+      if (Platform.has.touch === true) {
+        const opts = listenOpts['notPassive' + (modifiers.capture === true ? 'Capture' : '')]
+
+        el.removeEventListener('touchstart', ctx.start, opts)
+        el.removeEventListener('touchmove', ctx.move, opts)
+        el.removeEventListener('touchcancel', ctx.end, opts)
+        el.removeEventListener('touchend', ctx.end, opts)
+      }
 
       delete el[el.__qtouchswipe_old ? '__qtouchswipe_old' : '__qtouchswipe']
     }

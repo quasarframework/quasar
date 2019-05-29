@@ -191,7 +191,7 @@ export default {
   },
   mounted () {
     // Preserve the previous state if it was injected from the server
-    store.registerModule('foo', fooStoreModule, { preserveState: true })
+    this.$store.registerModule('foo', fooStoreModule, { preserveState: true })
   },
   // IMPORTANT: avoid duplicate module registration on the client
   // when the route is visited multiple times.

@@ -695,6 +695,7 @@ export default {
       this.interval = setInterval(() => {
         this.percentage += Math.floor(Math.random() * 8 + 10)
         if (this.percentage >= 100) {
+          this.percentage = 0
           clearInterval(this.interval)
           this.loading2 = false
         }

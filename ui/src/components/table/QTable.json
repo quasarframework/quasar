@@ -87,6 +87,10 @@
       "extends": "bordered"
     },
 
+    "square": {
+      "extends": "square"
+    },
+
     "separator": {
       "type": "String",
       "desc": "Use a separator/border between rows, columns or all cells",
@@ -197,6 +201,46 @@
     "table-class": {
       "type": [ "String", "Array", "Object" ],
       "desc": "CSS classes to apply to native HTML <table> element's wrapper (which is a DIV)",
+      "examples": [
+        "my-special-class",
+        ":table-class=\"{ 'my-special-class': [Boolean condition] }\""
+      ],
+      "category": "style"
+    },
+
+    "table-header-style": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS style to apply to header of native HTML <table> (which is a TR)",
+      "examples": [
+        "background-color: #ff0000",
+        ":table-header-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "table-header-class": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS classes to apply to header of native HTML <table> (which is a TR)",
+      "examples": [
+        "my-special-class",
+        ":table-header-class=\"{ 'my-special-class': [Boolean condition] }\""
+      ],
+      "category": "style"
+    },
+
+    "card-style": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS style to apply to the card",
+      "examples": [
+        "background-color: #ff0000",
+        ":table-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "card-class": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS classes to apply to the card",
       "examples": [
         "my-special-class",
         ":table-class=\"{ 'my-special-class': [Boolean condition] }\""

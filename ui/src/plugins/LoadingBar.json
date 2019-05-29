@@ -37,6 +37,18 @@
           "examples": [ 0.22 ]
         }
       }
+    },
+
+    "setDefaults": {
+      "desc": "Set the inner QAjaxBar's props",
+      "params": {
+        "...props": {
+          "type": "Object",
+          "desc": "QAjaxBar component props",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      }
     }
   }
 }

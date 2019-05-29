@@ -10,10 +10,10 @@ const
 
 const
   electronDeps = {
-    'electron': '4.0.5',
-    'electron-debug': '2.1.0',
-    'electron-devtools-installer': '2.2.4',
-    'devtron': '1.4.0'
+    'electron': '^4.0.5',
+    'electron-debug': '^2.1.0',
+    'electron-devtools-installer': '^2.2.4',
+    'devtron': '^1.4.0'
   }
 
 class Mode {
@@ -21,7 +21,7 @@ class Mode {
     return fs.existsSync(appPaths.electronDir)
   }
 
-  add (params) {
+  add () {
     if (this.isInstalled) {
       warn(`Electron support detected already. Aborting.`)
       return
@@ -57,7 +57,7 @@ class Mode {
 
     const cmdParam = nodePackager === 'npm'
       ? ['uninstall', '--save-dev']
-      : ['remove', '--dev']
+      : ['remove']
 
     log(`Uninstalling Electron dependencies...`)
     spawnSync(

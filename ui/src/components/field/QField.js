@@ -106,8 +106,12 @@ export default Vue.extend({
         )
     },
 
-    hasBottom () {
-      return this.bottomSlots === true || this.hint !== void 0 || this.rules !== void 0 || this.counter === true
+    shouldRenderBottom () {
+      return this.bottomSlots === true ||
+        this.hint !== void 0 ||
+        this.rules !== void 0 ||
+        this.counter === true ||
+        this.error !== null
     },
 
     classes () {
@@ -128,7 +132,7 @@ export default Vue.extend({
 
         'q-field--auto-height': this.__getControl === void 0,
 
-        'q-field--with-bottom': this.hideBottomSpace !== true && this.hasBottom,
+        'q-field--with-bottom': this.hideBottomSpace !== true && this.shouldRenderBottom === true,
         'q-field--error': this.hasError,
 
         'q-field--readonly': this.readonly,
@@ -147,7 +151,7 @@ export default Vue.extend({
     contentClass () {
       const cls = []
 
-      if (this.hasError) {
+      if (this.hasError === true) {
         cls.push('text-negative')
       }
       else if (typeof this.standout === 'string' && this.standout.length > 0 && this.focused === true) {
@@ -167,6 +171,11 @@ export default Vue.extend({
 
   methods: {
     focus () {
+      if (this.showPopup !== void 0 && this.$q.platform.is.desktop !== true) {
+        this.showPopup()
+        return
+      }
+
       let target = this.$refs.target
       if (target !== void 0) {
         target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
@@ -296,8 +305,6 @@ export default Vue.extend({
     },
 
     __getBottom (h) {
-      if (this.hideBottomSpace !== true && this.hasBottom !== true) { return }
-
       let msg, key
 
       if (this.hasError === true) {
@@ -323,13 +330,13 @@ export default Vue.extend({
 
       const hasCounter = this.counter === true || this.$scopedSlots.counter !== void 0
 
-      if (this.hideBottomSpace === true && hasCounter === false && !msg) {
+      if (this.hideBottomSpace === true && hasCounter === false && msg === void 0) {
         return
       }
 
       const main = h('div', {
-        staticClass: 'q-field__messages col',
-        key
+        key,
+        staticClass: 'q-field__messages col'
       }, msg)
 
       return h('div', {
@@ -342,9 +349,11 @@ export default Vue.extend({
             main
           ]),
 
-        hasCounter === true ? h('div', {
-          staticClass: 'q-field__counter'
-        }, this.$scopedSlots.counter !== void 0 ? this.$scopedSlots.counter() : [ this.computedCounter ]) : null
+        hasCounter === true
+          ? h('div', {
+            staticClass: 'q-field__counter'
+          }, this.$scopedSlots.counter !== void 0 ? this.$scopedSlots.counter() : [ this.computedCounter ])
+          : null
       ])
     },
 
@@ -355,17 +364,29 @@ export default Vue.extend({
       }, content)
     },
 
+    __onControlPopupShow (e) {
+      this.hasPopupOpen = true
+      this.__onControlFocusin(e)
+    },
+
+    __onControlPopupHide (e) {
+      this.hasPopupOpen = false
+      this.__onControlFocusout(e)
+    },
+
     __onControlFocusin (e) {
       if (this.editable === true && this.focused === false) {
         this.focused = true
-        this.$listeners.focus !== void 0 && this.$emit('focus', e)
+        this.$emit('focus', e)
       }
     },
 
-    __onControlFocusout (e) {
-      setTimeout(() => {
+    __onControlFocusout (e, then) {
+      clearTimeout(this.focusoutTimer)
+      this.focusoutTimer = setTimeout(() => {
         if (
           document.hasFocus() === true && (
+            this.hasPopupOpen === true ||
             this.$refs === void 0 ||
             this.$refs.control === void 0 ||
             this.$refs.control.contains(document.activeElement) !== false
@@ -376,8 +397,10 @@ export default Vue.extend({
 
         if (this.focused === true) {
           this.focused = false
-          this.$listeners.blur !== void 0 && this.$emit('blur', e)
+          this.$emit('blur', e)
         }
+
+        then !== void 0 && then()
       })
     },
 
@@ -410,7 +433,9 @@ export default Vue.extend({
           on: this.controlEvents
         }, this.__getContent(h)),
 
-        this.__getBottom(h)
+        this.shouldRenderBottom === true
+          ? this.__getBottom(h)
+          : null
       ]),
 
       this.$scopedSlots.after !== void 0 ? h('div', {
@@ -427,11 +452,17 @@ export default Vue.extend({
       : {
         focus: this.focus,
         focusin: this.__onControlFocusin,
-        focusout: this.__onControlFocusout
+        focusout: this.__onControlFocusout,
+        'popup-show': this.__onControlPopupShow,
+        'popup-hide': this.__onControlPopupHide
       }
   },
 
   mounted () {
     this.autofocus === true && setTimeout(this.focus)
+  },
+
+  beforeDestroy () {
+    clearTimeout(this.focusoutTimer)
   }
 })

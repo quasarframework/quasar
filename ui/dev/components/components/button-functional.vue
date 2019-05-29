@@ -41,6 +41,7 @@
       </div>
 
       <div class="row flex-center q-my-md">
+        <span class="q-mr-sm">TouchRepeat:</span>
         <q-btn round class="on-left" icon="remove" v-touch-repeat:300:600.mouse.enter.space="() => { testN -= 1 }" @click="onClick" />
         <q-btn push round class="on-left" icon="remove" v-touch-repeat.mouse.enter.space="() => { testN -= 1 }" @click="onClick" />
         <q-input type="number" v-model="testN" align="right" />

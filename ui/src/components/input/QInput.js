@@ -79,6 +79,10 @@ export default Vue.extend({
       this.$refs.input.focus()
     },
 
+    select () {
+      this.$refs.input.select()
+    },
+
     __onInput (e) {
       if (this.type === 'file') {
         this.$emit('input', e.target.files)
@@ -157,7 +161,7 @@ export default Vue.extend({
 
       return h(this.isTextarea ? 'textarea' : 'input', {
         ref: 'input',
-        staticClass: 'q-field__native',
+        staticClass: 'q-field__native q-placeholder',
         style: this.inputStyle,
         class: this.inputClass,
         attrs,

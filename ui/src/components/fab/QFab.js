@@ -50,13 +50,9 @@ export default Vue.extend({
       h(QBtn, {
         ref: 'trigger',
         props: {
-          fab: true,
-          outline: this.outline,
-          push: this.push,
-          flat: this.flat,
-          color: this.color,
-          textColor: this.textColor,
-          glossy: this.glossy
+          ...this.$props,
+          icon: void 0,
+          fab: true
         },
         on: {
           click: this.toggle
@@ -80,6 +76,8 @@ export default Vue.extend({
   },
 
   created () {
-    this.value === true && (this.showing = true)
+    if (this.value === true && this.disable !== true) {
+      this.showing = true
+    }
   }
 })

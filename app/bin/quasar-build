@@ -23,8 +23,19 @@ if (argv.help) {
   console.log(`
   Description
     Builds distributables of your app.
+
   Usage
+    $ quasar build
     $ quasar build -p <port number>
+
+    $ quasar build -m ssr
+
+    # alias for "quasar build -m cordova -T ios"
+    $ quasar build -m ios
+
+    # alias for "quasar build -m cordova -T android"
+    $ quasar build -m android
+
   Options
     --mode, -m      App mode [spa|ssr|pwa|cordova|electron] (default: spa)
     --target, -T    App target
@@ -75,7 +86,6 @@ const
   QuasarConfig = require('../lib/quasar-config'),
   Generator = require('../lib/generator'),
   artifacts = require('../lib/artifacts'),
-  ensureDeps = require('../lib/helpers/ensure-deps'),
   getQuasarCtx = require('../lib/helpers/get-quasar-ctx'),
   extensionRunner = require('../lib/app-extension/extensions-runner')
 
@@ -143,8 +153,8 @@ async function build () {
 
   // run possible beforeBuild hooks
   await extensionRunner.runHook('beforeBuild', async hook => {
-    log(`Extension(${hook.extId}): Running beforeBuild hook...`)
-    await hook.fn()
+    log(`Extension(${hook.api.extId}): Running beforeBuild hook...`)
+    await hook.fn(hook.api)
   })
 
   log(chalk.bold(`Building...`))
@@ -194,12 +204,11 @@ async function build () {
 
       // run possible beforeBuild hooks
       await extensionRunner.runHook('afterBuild', async hook => {
-        log(`Extension(${hook.extId}): Running afterBuild hook...`)
-        await hook.fn()
+        log(`Extension(${hook.api.extId}): Running afterBuild hook...`)
+        await hook.fn(hook.api)
       })
     })
   })
 }
 
-ensureDeps()
 build()

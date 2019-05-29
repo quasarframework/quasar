@@ -61,17 +61,17 @@ export default {
     __updateSelection (keys, rows, added) {
       this.$emit('selection', { rows, added, keys })
 
-      if (this.singleSelection === true) {
-        this.$emit('update:selected', added ? rows : [])
-      }
-      else {
-        this.$emit('update:selected', added
-          ? this.selected.concat(rows)
-          : this.selected.filter(
-            row => keys.includes(row[this.rowKey]) === false
-          )
+      const payload = this.singleSelection === true
+        ? (added === true ? rows : [])
+        : (
+          added === true
+            ? this.selected.concat(rows)
+            : this.selected.filter(
+              row => keys.includes(row[this.rowKey]) === false
+            )
         )
-      }
+
+      this.$emit('update:selected', payload)
     }
   }
 }

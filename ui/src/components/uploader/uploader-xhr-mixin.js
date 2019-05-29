@@ -16,7 +16,6 @@ export default {
       default: file => file.name
     },
     headers: [Function, Array],
-    fields: [Function, Array], /* TODO remove in v1 final */
     formFields: [Function, Array],
     withCredentials: [Function, Boolean],
     sendRaw: [Function, Boolean],
@@ -39,7 +38,6 @@ export default {
         url: getFn(this.url),
         method: getFn(this.method),
         headers: getFn(this.headers),
-        fields: getFn(this.fields),
         formFields: getFn(this.formFields),
         fieldName: getFn(this.fieldName),
         withCredentials: getFn(this.withCredentials),
@@ -60,7 +58,10 @@ export default {
   methods: {
     abort () {
       this.xhrs.forEach(x => { x.abort() })
-      this.promises.forEach(p => { p.abort() })
+
+      if (this.promises.length > 0) {
+        this.abortPromises = true
+      }
     },
 
     upload () {
@@ -102,14 +103,13 @@ export default {
       else if (typeof res.catch === 'function' && typeof res.then === 'function') {
         this.promises.push(res)
 
-        res.then(factory => {
-          if (this.isDestroyed !== true) {
+        const failed = err => {
+          if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
             this.promises = this.promises.filter(p => p !== res)
-            this.__uploadFiles(files, factory)
-          }
-        }).catch(err => {
-          if (this.isDestroyed !== true) {
-            this.promises = this.promises.filter(p => p !== res)
+
+            if (this.promises.length === 0) {
+              this.abortPromises = false
+            }
 
             this.queuedFiles = this.queuedFiles.concat(files)
             files.forEach(f => { this.__updateFile(f, 'failed') })
@@ -117,7 +117,17 @@ export default {
             this.$emit('factory-failed', err, files)
             this.workingThreads--
           }
-        })
+        }
+
+        res.then(factory => {
+          if (this.abortPromises === true) {
+            failed(new Error('Aborted'))
+          }
+          else if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
+            this.promises = this.promises.filter(p => p !== res)
+            this.__uploadFiles(files, factory)
+          }
+        }).catch(failed)
       }
       else {
         this.__uploadFiles(files, res || {})
@@ -143,10 +153,7 @@ export default {
         return
       }
 
-      const fields = (
-        getProp('formFields', files) ||
-        /* TODO remove in v1 final */ getProp('fields', files)
-      )
+      const fields = getProp('formFields', files)
       fields !== void 0 && fields.forEach(field => {
         form.append(field.name, field.value)
       })
@@ -241,16 +248,6 @@ export default {
       }
       else {
         xhr.send(form)
-      }
-    }
-  },
-
-  // TODO remove in v1 final
-  mounted () {
-    if (this.fields !== void 0) {
-      const p = process.env
-      if (p.PROD !== true) {
-        console.info('\n\n[Quasar] QUploader: please rename "fields" prop to "form-fields"')
       }
     }
   }

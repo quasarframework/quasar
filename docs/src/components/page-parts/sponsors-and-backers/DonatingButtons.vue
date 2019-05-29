@@ -27,5 +27,15 @@
       />
       <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
     </form>
+
+    <q-btn
+      push
+      disable
+      color="black"
+      style="height: 50px;"
+      icon="fab fa-github"
+      label="Github Sponsorship (coming soon)"
+      no-caps
+    />
   </div>
 </template>

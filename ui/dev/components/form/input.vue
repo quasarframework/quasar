@@ -9,12 +9,13 @@
         <q-toggle :dark="dark" v-model="bottomSlots" label="Bottom Slots" />
         <q-toggle :dark="dark" v-model="hideBottomSpace" label="hide-bottom-space" />
         <q-toggle :dark="dark" v-model="prefSuf" label="Prefix + Suffix" />
+        <q-toggle :dark="dark" v-model="placeholder" label="Placeholder" />
         <q-toggle :dark="dark" v-model="hideHint" label="Hide Hint" />
         <q-toggle :dark="dark" v-model="textarea" label="Textarea" />
         <q-toggle :dark="dark" v-model="autogrow" label="Auto Grow (converts to textarea)" />
         <q-toggle :dark="dark" v-model="square" label="Force square borders" />
         <q-input :dark="dark" v-model="rows" :disable="textarea !== true || autogrow === true" label="Rows (for textarea)" class="inline" />
-        <q-slider class="q-mt-lg" v-model="fontSize" :min="8" :max="24" label-always />
+        <q-slider class="q-mt-lg" :dark="dark" v-model="fontSize" :min="8" :max="24" label-always />
       </div>
 
       <div class="text-h6">
@@ -201,7 +202,7 @@
       <q-input v-bind="props" standout v-model="text" label="Label">
         <q-icon slot="prepend" name="event" />
         <q-avatar slot="append">
-          <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+          <img src="https://cdn.quasar.dev/img/quasar-logo.png">
         </q-avatar>
       </q-input>
 
@@ -421,6 +422,7 @@ export default {
       disable: false,
       readonly: false,
       prefSuf: false,
+      placeholder: false,
       hideHint: false,
       bottomSlots: true,
       hideBottomSpace: false,
@@ -472,6 +474,7 @@ export default {
         readonly: this.readonly,
         prefix: this.prefix,
         suffix: this.suffix,
+        placeholder: this.placeholder === true ? 'Placeholder text' : null,
         dense: this.dense,
         clearable: true,
         square: this.square,

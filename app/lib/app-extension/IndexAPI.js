@@ -1,13 +1,15 @@
 const
   path = require('path'),
-  semver = require('semver')
+  semver = require('semver'),
+  merge = require('webpack-merge')
 
 const
   appPaths = require('../app-paths'),
   logger = require('../helpers/logger'),
   warn = logger('app:extension(index)', 'red'),
   getPackageJson = require('../helpers/get-package-json'),
-  getCallerPath = require('../helpers/get-caller-path')
+  getCallerPath = require('../helpers/get-caller-path'),
+  extensionJson = require('./extension-json')
 
 /**
  * API for extension's /index.js script
@@ -32,6 +34,38 @@ module.exports = class IndexAPI {
       commands: {},
       describeApi: {}
     }
+  }
+
+  /**
+   * Get the internal persistent config of this extension.
+   * Returns empty object if it has none.
+   *
+   * @return {object} cfg
+   */
+  getPersistentConf () {
+    return extensionJson.getInternal(this.extId)
+  }
+
+  /**
+   * Set the internal persistent config of this extension.
+   * If it already exists, it is overwritten.
+   *
+   * @param {object} cfg
+   */
+  setPersistentConf (cfg) {
+    extensionJson.setInternal(this.extId, cfg || {})
+  }
+
+  /**
+   * Deep merge into the internal persistent config of this extension.
+   * If extension does not have any config already set, this is
+   * essentially equivalent to setting it for the first time.
+   *
+   * @param {object} cfg
+   */
+  mergePersistentConf (cfg = {}) {
+    const currentCfg = this.getPersistentConf()
+    this.setPersistentConf(merge(currentCfg, cfg))
   }
 
   /**
@@ -60,18 +94,6 @@ module.exports = class IndexAPI {
       warn(`⚠️  Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`)
       process.exit(1)
     }
-  }
-
-  /**
-   * DEPRECATED
-   * Alias to compatibleWith('@quasar/app', semverCondition)
-   * TODO: remove in rc.1
-   *
-   * @param {string} semverCondition
-   */
-  compatibleWithQuasarApp (semverCondition) {
-    warn(`⚠️  Extension(${this.extId}): using deprecated compatibleWithQuasarApp() instead of compatibleWith()`)
-    this.compatibleWith('@quasar/app', semverCondition)
   }
 
   /**
@@ -105,7 +127,6 @@ module.exports = class IndexAPI {
    * @return {boolean} has the extension installed & invoked
    */
   hasExtension (extId) {
-    const extensionJson = require('./extension-json')
     return extensionJson.has(extId)
   }
 
@@ -129,7 +150,7 @@ module.exports = class IndexAPI {
    *   (cfg: Object, ctx: Object) => undefined
    */
   extendQuasarConf (fn) {
-    this.__hooks.extendQuasarConf.push({ extId: this.extId, fn })
+    this.__addHook('extendQuasarConf', fn)
   }
 
   /**
@@ -139,7 +160,7 @@ module.exports = class IndexAPI {
    *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
    */
   chainWebpack (fn) {
-    this.__hooks.chainWebpack.push({ extId: this.extId, fn })
+    this.__addHook('chainWebpack', fn)
   }
 
   /**
@@ -149,7 +170,7 @@ module.exports = class IndexAPI {
    *   (cfg: Object, invoke: Object {isClient, isServer}) => undefined
    */
   extendWebpack (fn) {
-    this.__hooks.extendWebpack.push({ extId: this.extId, fn })
+    this.__addHook('extendWebpack', fn)
   }
 
   /**
@@ -159,7 +180,7 @@ module.exports = class IndexAPI {
    *   (cfg: ChainObject) => undefined
    */
   chainWebpackMainElectronProcess (fn) {
-    this.__hooks.chainWebpackMainElectronProcess.push({ extId: this.extId, fn })
+    this.__addHook('chainWebpackMainElectronProcess', fn)
   }
 
   /**
@@ -169,7 +190,7 @@ module.exports = class IndexAPI {
    *   (cfg: Object) => undefined
    */
   extendWebpackMainElectronProcess (fn) {
-    this.__hooks.extendWebpackMainElectronProcess.push({ extId: this.extId, fn })
+    this.__addHook('extendWebpackMainElectronProcess', fn)
   }
 
   /**
@@ -203,19 +224,7 @@ module.exports = class IndexAPI {
    *   () => ?Promise
    */
   beforeDev (fn) {
-    this.__hooks.beforeDev.push({ extId: this.extId, fn })
-  }
-
-  /**
-   * Alias to beforeDev
-   * TODO: remove in rc.1
-   *
-   * @param {function} fn
-   *   () => ?Promise
-   */
-  beforeDevStart (fn) {
-    warn(`⚠️  Extension(${this.extId}): using deprecated beforeDevStart() instead of beforeDev()`)
-    this.beforeDev(fn)
+    this.__addHook('beforeDev', fn)
   }
 
   /**
@@ -226,7 +235,7 @@ module.exports = class IndexAPI {
    *   () => ?Promise
    */
   beforeBuild (fn) {
-    this.__hooks.beforeBuild.push({ extId: this.extId, fn })
+    this.__addHook('beforeBuild', fn)
   }
 
   /**
@@ -238,7 +247,7 @@ module.exports = class IndexAPI {
    *   () => ?Promise
    */
   afterBuild (fn) {
-    this.__hooks.afterBuild.push({ extId: this.extId, fn })
+    this.__addHook('afterBuild', fn)
   }
 
   /**
@@ -247,5 +256,9 @@ module.exports = class IndexAPI {
 
   __getHooks () {
     return this.__hooks
+  }
+
+  __addHook (name, fn) {
+    this.__hooks[name].push({ fn, api: this })
   }
 }

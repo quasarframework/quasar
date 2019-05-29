@@ -23,11 +23,18 @@
       "desc": "Side to place the timeline entry; Works only if QTimeline layout is loose.",
       "default": "right",
       "values": [ "left", "right" ],
-      "category": "content"
+      "category": "behavior"
     },
 
     "icon": {
       "extends": "icon"
+    },
+
+    "avatar": {
+      "type": "String",
+      "desc": "URL to the avatar image; Icon takes precedence if used, so it replaces avatar; Suggestion: use a static resource",
+      "examples": [ "statics/boy-avatar.png", "statics/linux-avatar.png" ],
+      "category": "content"
     },
 
     "color": {

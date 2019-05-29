@@ -44,6 +44,7 @@ export default Vue.extend({
 
     hideSelected: Boolean,
     hideDropdownIcon: Boolean,
+    fillInput: Boolean,
 
     maxValues: [Number, String],
 
@@ -94,6 +95,26 @@ export default Vue.extend({
   },
 
   watch: {
+    innerValue: {
+      handler () {
+        if (
+          this.useInput === true &&
+          this.fillInput === true &&
+          this.multiple !== true &&
+          // Prevent re-entering in filter while filtering
+          // Also prevent clearing inputValue while filtering
+          this.innerLoading !== true &&
+          ((this.dialog !== true && this.menu !== true) || this.hasValue !== true)
+        ) {
+          this.__resetInputValue()
+          if (this.dialog === true || this.menu === true) {
+            this.filter('')
+          }
+        }
+      },
+      immediate: true
+    },
+
     menu (show) {
       this.__updateMenu(show)
     }
@@ -271,13 +292,15 @@ export default Vue.extend({
         return
       }
 
-      this.multiple !== true && this.updateInputValue('', true)
-      this.focus()
-
       const optValue = this.__getOptionValue(opt)
 
+      this.multiple !== true && this.updateInputValue(
+        this.fillInput === true ? this.__getOptionLabel(opt) : '', true
+      )
+      this.focus()
+
       if (this.multiple !== true) {
-        this.__closePopup()
+        this.hidePopup()
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
@@ -387,14 +410,7 @@ export default Vue.extend({
         this.menu === false
       ) {
         stopAndPrevent(e)
-
-        if (this.$listeners.filter !== void 0) {
-          this.filter(this.inputValue)
-        }
-        else {
-          this.menu = true
-        }
-
+        this.showPopup()
         return
       }
 
@@ -456,35 +472,37 @@ export default Vue.extend({
         return
       }
 
-      if (this.inputValue.length > 0) {
-        if (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0) {
-          const done = (val, mode) => {
-            if (mode) {
-              if (validateNewValueMode(mode) !== true) {
-                console.error('QSelect: invalid new value mode - ' + mode)
-                return
-              }
+      // below is meant for multiple mode only
+      if (
+        this.inputValue.length > 0 &&
+        (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0)
+      ) {
+        const done = (val, mode) => {
+          if (mode) {
+            if (validateNewValueMode(mode) !== true) {
+              console.error('QSelect: invalid new value mode - ' + mode)
+              return
             }
-            else {
-              mode = this.newValueMode
-            }
-
-            if (val !== void 0 && val !== null) {
-              this[mode === 'toggle' ? 'toggleOption' : 'add'](
-                val,
-                mode === 'add-unique'
-              )
-            }
-
-            this.updateInputValue('')
-          }
-
-          if (this.$listeners['new-value'] !== void 0) {
-            this.$emit('new-value', this.inputValue, done)
           }
           else {
-            done(this.inputValue)
+            mode = this.newValueMode
           }
+
+          if (val !== void 0 && val !== null) {
+            this[mode === 'toggle' ? 'toggleOption' : 'add'](
+              val,
+              mode === 'add-unique'
+            )
+          }
+
+          this.updateInputValue('')
+        }
+
+        if (this.$listeners['new-value'] !== void 0) {
+          this.$emit('new-value', this.inputValue, done)
+        }
+        else {
+          done(this.inputValue)
         }
       }
 
@@ -492,10 +510,7 @@ export default Vue.extend({
         this.dialog !== true && this.__closeMenu()
       }
       else if (this.innerLoading !== true) {
-        this.updateInputValue('')
-        if (this.$listeners.filter === void 0) {
-          this.menu = true
-        }
+        this.showPopup()
       }
     },
 
@@ -641,7 +656,7 @@ export default Vue.extend({
     __getInput (h) {
       return h('input', {
         ref: 'target',
-        staticClass: 'q-select__input col',
+        staticClass: 'q-select__input q-placeholder col',
         class: this.hideSelected !== true && this.innerValue.length > 0
           ? 'q-select__input--padding'
           : null,
@@ -665,20 +680,22 @@ export default Vue.extend({
 
       if (this.$listeners.filter !== void 0) {
         this.inputTimer = setTimeout(() => {
-          this.filter(this.inputValue)
+          this.filter(this.inputValue, true)
         }, this.inputDebounce)
       }
     },
 
     updateInputValue (val, noFiltering) {
-      if (this.inputValue !== val) {
-        this.inputValue = val
-      }
+      if (this.useInput === true) {
+        if (this.inputValue !== val) {
+          this.inputValue = val
+        }
 
-      noFiltering !== true && this.filter(val)
+        noFiltering !== true && this.filter(val)
+      }
     },
 
-    filter (val) {
+    filter (val, userInput) {
       if (this.$listeners.filter === void 0 || this.focused !== true) {
         return
       }
@@ -688,6 +705,16 @@ export default Vue.extend({
       }
       else {
         this.innerLoading = true
+      }
+
+      if (
+        val !== '' &&
+        this.multiple !== true &&
+        this.innerValue.length > 0 &&
+        userInput !== true &&
+        val === this.__getOptionLabel(this.innerValue[0])
+      ) {
+        val = ''
       }
 
       const filterId = setTimeout(() => {
@@ -725,79 +752,33 @@ export default Vue.extend({
     },
 
     __getControlEvents () {
+      const focusout = e => {
+        this.__onControlFocusout(e, () => {
+          this.__resetInputValue()
+          this.__closeMenu()
+        })
+      }
+
       return {
         focus: e => {
           this.hasDialog !== true && this.focus(e)
         },
-        focusin: e => {
-          this.hasDialog !== true && this.__onControlFocusin(e)
-        },
-        focusout: e => {
-          this.hasDialog !== true && this.__onControlFocusout(e)
+        focusin: this.__onControlFocusin,
+        focusout,
+        'popup-show': this.__onControlPopupShow,
+        'popup-hide': e => {
+          this.hasPopupOpen = false
+          focusout(e)
         },
         click: e => {
-          if (this.hasDialog === true) {
-            this.focused = true
-            this.dialog = true
-
-            this.$emit('focus', e)
-          }
-          else if (this.menu === true) {
+          if (this.hasDialog !== true && this.menu === true) {
             this.__closeMenu()
-            return
           }
-
-          if (this.$listeners.filter !== void 0) {
-            this.filter(this.inputValue)
-          }
-          else if (this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
-            this.menu = true
+          else {
+            this.showPopup(e)
           }
         }
       }
-    },
-
-    __hasInnerFocus () {
-      let menu
-
-      return (
-        document.hasFocus() === true &&
-        this.$refs !== void 0 && (
-          (this.$refs.control !== void 0 && this.$refs.control.contains(document.activeElement) !== false) ||
-          ((menu = this.__getMenuContentEl()) !== void 0 && menu.contains(document.activeElement) !== false)
-        )
-      )
-    },
-
-    __onControlFocusin (e) {
-      if (this.editable !== true || this.focused === true) {
-        return
-      }
-
-      if (this.__hasInnerFocus() === false) {
-        return
-      }
-
-      this.focused = true
-      this.$emit('focus', e)
-    },
-
-    __onControlFocusout (e) {
-      setTimeout(() => {
-        clearTimeout(this.inputTimer)
-
-        if (this.__hasInnerFocus() === true) {
-          return
-        }
-
-        if (this.focused === true) {
-          this.focused = false
-          this.$emit('blur', e)
-        }
-
-        this.updateInputValue('', true)
-        this.__closeMenu()
-      }, 100)
     },
 
     __getPopup (h) {
@@ -838,7 +819,7 @@ export default Vue.extend({
         },
         on: {
           '&scroll': this.__hydrateOptions,
-          hide: this.__closeMenu
+          'before-hide': this.__closeMenu
         }
       }, child)
     },
@@ -852,7 +833,8 @@ export default Vue.extend({
             dark: this.optionsDark,
             square: true,
             loading: this.innerLoading,
-            filled: true
+            filled: true,
+            stackLabel: this.inputValue.length > 0
           },
           on: {
             ...this.$listeners,
@@ -901,9 +883,9 @@ export default Vue.extend({
             this.focused = false
           },
           hide: e => {
-            this.__closePopup()
+            this.hidePopup()
             this.$emit('blur', e)
-            this.updateInputValue('', true)
+            this.__resetInputValue()
           },
           show: () => {
             this.$refs.target.focus()
@@ -919,18 +901,46 @@ export default Vue.extend({
     __closeMenu () {
       this.menu = false
 
-      clearTimeout(this.filterId)
-      this.filterId = void 0
+      if (this.focused === false) {
+        clearTimeout(this.filterId)
+        this.filterId = void 0
 
-      if (this.innerLoading === true) {
-        this.$emit('filter-abort')
-        this.innerLoading = false
+        if (this.innerLoading === true) {
+          this.$emit('filter-abort')
+          this.innerLoading = false
+        }
       }
     },
 
-    __closePopup () {
+    showPopup (e) {
+      if (this.hasDialog === true) {
+        this.__onControlFocusin(e)
+        this.dialog = true
+      }
+      else {
+        this.focus(e)
+      }
+
+      if (this.$listeners.filter !== void 0) {
+        this.filter(this.inputValue)
+      }
+      else if (this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
+        this.menu = true
+      }
+    },
+
+    hidePopup () {
       this.dialog = false
       this.__closeMenu()
+    },
+
+    __resetInputValue () {
+      this.useInput === true && this.updateInputValue(
+        this.multiple !== true && this.fillInput === true && this.innerValue.length > 0
+          ? this.__getOptionLabel(this.innerValue[0]) || ''
+          : '',
+        true
+      )
     },
 
     __updateMenu (show) {

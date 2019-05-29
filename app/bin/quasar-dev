@@ -29,8 +29,19 @@ if (argv.help) {
   Description
     Starts the app in development mode (hot-code reloading, error
     reporting, etc)
+
   Usage
+    $ quasar dev
     $ quasar dev -p <port number>
+
+    $ quasar dev -m ssr
+
+    # alias for "quasar dev -m cordova -T ios"
+    $ quasar dev -m ios
+
+    # alias for "quasar dev -m cordova -T android"
+    $ quasar dev -m android
+
   Options
     --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
     --port, -p       A port number on which to start the application
@@ -54,9 +65,7 @@ if (argv.mode !== 'spa') {
   require('../lib/mode/install-missing')(argv.mode, argv.target)
 }
 
-const
-  ensureDeps = require('../lib/helpers/ensure-deps'),
-  findPort = require('../lib/helpers/net').findClosestOpenPort
+const findPort = require('../lib/helpers/net').findClosestOpenPort
 
 async function parseAddress ({ host, port }) {
   if (this.chosenHost) {
@@ -113,8 +122,6 @@ async function parseAddress ({ host, port }) {
 }
 
 async function goLive () {
-  ensureDeps()
-
   const
     DevServer = require('../lib/dev-server'),
     QuasarConfig = require('../lib/quasar-config'),
@@ -166,8 +173,8 @@ async function goLive () {
 
   // run possible beforeDev hooks
   await extensionRunner.runHook('beforeDev', async hook => {
-    log(`Extension(${hook.extId}): Running beforeDev hook...`)
-    await hook.fn()
+    log(`Extension(${hook.api.extId}): Running beforeDev hook...`)
+    await hook.fn(hook.api)
   })
 
   const

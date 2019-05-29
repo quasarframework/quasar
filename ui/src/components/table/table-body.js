@@ -35,7 +35,7 @@ export default {
               ? this.computedCols.map(col => bodyCell(this.addBodyCellMetaData({ row, col })))
               : this.computedCols.map(col => {
                 const slot = this.$scopedSlots[`body-cell-${col.name}`]
-                return slot
+                return slot !== void 0
                   ? slot(this.addBodyCellMetaData({ row, col: col }))
                   : h('td', {
                     staticClass: col.__tdClass,
@@ -44,8 +44,8 @@ export default {
                   }, this.getCellValue(col, row))
               })
 
-          if (this.hasSelectionMode) {
-            child.unshift(h('td', { staticClass: 'q-table--col-auto-width' }, [
+          this.hasSelectionMode === true && child.unshift(
+            h('td', { staticClass: 'q-table--col-auto-width' }, [
               h(QCheckbox, {
                 props: {
                   value: selected,
@@ -59,8 +59,8 @@ export default {
                   }
                 }
               })
-            ]))
-          }
+            ])
+          )
 
           return h('tr', { key, class: { selected } }, child)
         })
@@ -77,14 +77,12 @@ export default {
     },
 
     addBodyRowMeta (data) {
-      if (this.hasSelectionMode) {
-        Object.defineProperty(data, 'selected', {
-          get: () => this.isRowSelected(data.key),
-          set: adding => {
-            this.__updateSelection([data.key], [data.row], adding)
-          }
-        })
-      }
+      this.hasSelectionMode === true && Object.defineProperty(data, 'selected', {
+        get: () => this.isRowSelected(data.key),
+        set: adding => {
+          this.__updateSelection([data.key], [data.row], adding)
+        }
+      })
 
       Object.defineProperty(data, 'expand', {
         get: () => this.rowsExpanded[data.key] === true,

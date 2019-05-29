@@ -50,6 +50,16 @@ const options = [
     path: 'vue-prototype-injections'
   },
   {
+    name: 'App Icons',
+    path: 'app-icons',
+    badge: 'new'
+  },
+  {
+    name: 'SEO',
+    path: 'seo',
+    badge: 'new'
+  },
+  {
     name: 'Quasar Language Packs',
     path: 'quasar-language-packs'
   },
@@ -114,6 +124,11 @@ const cli = [
   {
     name: 'quasar.conf.js',
     path: 'quasar-conf-js'
+  },
+  {
+    name: 'App Icons',
+    path: 'app-icons',
+    badge: 'new'
   },
   {
     name: 'Testing & Auditing',
@@ -191,6 +206,11 @@ const cli = [
         path: 'introduction'
       },
       {
+        name: 'App Icons for SPA',
+        path: 'app-icons-spa',
+        badge: 'new'
+      },
+      {
         name: 'Build Commands',
         path: 'build-commands'
       },
@@ -215,6 +235,16 @@ const cli = [
       {
         name: 'Configuring SSR',
         path: 'configuring-ssr'
+      },
+      {
+        name: 'App Icons for SSR',
+        path: 'app-icons-ssr',
+        badge: 'new'
+      },
+      {
+        name: 'SEO for SSR',
+        path: 'seo-for-ssr',
+        badge: 'new'
       },
       {
         name: 'Client Side Hydration',
@@ -255,6 +285,11 @@ const cli = [
         path: 'configuring-pwa'
       },
       {
+        name: 'App Icons for PWA',
+        path: 'app-icons-pwa',
+        badge: 'new'
+      },
+      {
         name: 'Handling Service Worker',
         path: 'handling-service-worker'
       },
@@ -279,6 +314,11 @@ const cli = [
       {
         name: 'Configuring Cordova',
         path: 'configuring-cordova'
+      },
+      {
+        name: 'App Icons for Cordova',
+        path: 'app-icons-cordova',
+        badge: 'new'
       },
       {
         name: 'Cordova Plugins',
@@ -317,6 +357,11 @@ const cli = [
       {
         name: 'Configuring Electron',
         path: 'configuring-electron'
+      },
+      {
+        name: 'App Icons for Electron',
+        path: 'app-icons-electron',
+        badge: 'new'
       },
       {
         name: 'Electron Packages',
@@ -459,14 +504,6 @@ const directives = [
     name: 'Close Popup',
     path: 'close-popup',
     badge: 'new'
-  },
-  {
-    name: 'Close Dialog',
-    path: 'close-dialog'
-  },
-  {
-    name: 'Close Menu',
-    path: 'close-menu'
   },
   {
     name: 'Go Back (Handling Back Button)',
@@ -925,6 +962,11 @@ module.exports = [
     name: 'Sponsors and Backers',
     icon: 'favorite',
     path: 'sponsors-and-backers'
+  },
+  {
+    name: 'Why Donations Are Important',
+    icon: 'assignment_late',
+    path: 'why-donate'
   },
   {
     name: 'Getting Started',

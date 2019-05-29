@@ -19,6 +19,10 @@
       "extends": "icon"
     },
 
+    "disable": {
+      "extends": "disable"
+    },
+
     "direction": {
       "type": "String",
       "desc": "Direction to expand Fab Actions to",
@@ -32,6 +36,16 @@
       "type": "Boolean",
       "desc": "By default, Fab Actions are hidden when user navigates to another route and this prop disables this behavior",
       "category": "behavior"
+    },
+
+    "type":{
+      "type": "String",
+      "desc": "Define the button HTML DOM type",
+      "default": "a",
+      "values": [
+        "a", "submit", "button", "reset"
+      ],
+      "category": "general"
     },
 
     "outline": {

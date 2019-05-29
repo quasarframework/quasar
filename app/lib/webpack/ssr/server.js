@@ -21,11 +21,11 @@ module.exports = function (chain, cfg) {
     .tap(args => {
       const { 'process.env': env, ...rest } = args[0]
       return [{
-        'process.env': Object.assign(
-          {},
-          env,
-          { CLIENT: false, SERVER: true }
-        ),
+        'process.env': {
+          ...env,
+          CLIENT: false,
+          SERVER: true
+        },
         ...rest
       }]
     })

@@ -91,7 +91,7 @@
       v-model="slide4"
       height="400px"
     >
-      <q-carousel-slide name="first" img-src="https://cdn.quasar-framework.org/img/mountains.jpg">
+      <q-carousel-slide name="first" img-src="https://cdn.quasar.dev/img/mountains.jpg">
         <div class="absolute-bottom custom-caption">
           <div class="text-h2">
             First stop
@@ -101,7 +101,7 @@
           </div>
         </div>
       </q-carousel-slide>
-      <q-carousel-slide name="second" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg">
+      <q-carousel-slide name="second" img-src="https://cdn.quasar.dev/img/parallax1.jpg">
         <div class="absolute-bottom custom-caption">
           <div class="text-h2">
             Second stop
@@ -111,7 +111,7 @@
           </div>
         </div>
       </q-carousel-slide>
-      <q-carousel-slide name="third" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      <q-carousel-slide name="third" img-src="https://cdn.quasar.dev/img/parallax2.jpg">
         <div class="absolute-bottom custom-caption">
           <div class="text-h2">
             Third stop
@@ -134,11 +134,13 @@
       :autoplay="autoplay"
       navigation
       infinite
+      transition-prev="slide-right"
+      transition-next="slide-left"
     >
-      <q-carousel-slide :name="0" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
-      <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
-      <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
-      <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
+      <q-carousel-slide :name="0" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
+      <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
+      <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
+      <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
 
       <q-carousel-control
         slot="control"
@@ -163,10 +165,10 @@
       infinite
       :fullscreen.sync="full"
     >
-      <q-carousel-slide :name="0" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
-      <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
-      <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
-      <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
+      <q-carousel-slide :name="0" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
+      <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
+      <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
+      <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
 
       <template v-slot:control>
         <q-carousel-control
@@ -193,18 +195,18 @@
       navigation-icon="favorite"
       v-model="slide2"
     >
-      <q-carousel-slide :name="0" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
-      <q-carousel-slide :name="1" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
-      <q-carousel-slide :name="2" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
-      <q-carousel-slide :name="3" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
-      <q-carousel-slide :name="4" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
-      <q-carousel-slide :name="5" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
-      <q-carousel-slide :name="6" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
-      <q-carousel-slide :name="7" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
-      <q-carousel-slide :name="8" img-src="https://cdn.quasar-framework.org/img/mountains.jpg" />
-      <q-carousel-slide :name="9" img-src="https://cdn.quasar-framework.org/img/parallax1.jpg" />
-      <q-carousel-slide :name="10" img-src="https://cdn.quasar-framework.org/img/parallax2.jpg" />
-      <q-carousel-slide :name="11" img-src="https://cdn.quasar-framework.org/img/quasar.jpg" />
+      <q-carousel-slide :name="0" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
+      <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
+      <q-carousel-slide :name="2" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
+      <q-carousel-slide :name="3" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
+      <q-carousel-slide :name="4" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
+      <q-carousel-slide :name="5" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
+      <q-carousel-slide :name="6" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
+      <q-carousel-slide :name="7" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
+      <q-carousel-slide :name="8" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
+      <q-carousel-slide :name="9" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
+      <q-carousel-slide :name="10" img-src="https://cdn.quasar.dev/img/parallax2.jpg" />
+      <q-carousel-slide :name="11" img-src="https://cdn.quasar.dev/img/quasar.jpg" />
 
       <q-carousel-control slot="control" position="bottom" :offset="[0, 0]">
         <q-linear-progress :value="(slide2 - 1) / 11" height="6px" stripe color="amber" />
