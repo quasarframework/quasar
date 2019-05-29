@@ -43,6 +43,24 @@
   },
 
   "methods": {
+    "getScrollTarget": {
+      "desc": "Get the scrolling DOM element target",
+      "returns": {
+        "type": "Object",
+        "desc": "DOM element upon which scrolling takes place",
+        "__exemption": [ "examples" ]
+      }
+    },
+
+    "getScrollPosition": {
+      "desc": "Get current scroll position",
+      "returns": {
+        "type": "Number",
+        "desc": "Scroll position offset from top (in pixels)",
+        "examples": [ 110 ]
+      }
+    },
+
     "setScrollPosition": {
       "desc": "Set scroll position to an offset; If a duration (in milliseconds) is specified then the scroll is animated",
       "params": {
