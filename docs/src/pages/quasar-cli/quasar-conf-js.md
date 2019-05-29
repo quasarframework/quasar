@@ -157,7 +157,7 @@ return {
 More on cssAddon [here](/layout/grid/introduction-to-flexbox#Flex-Addons).
 
 ### devServer Property
-Webpack devServer options. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options. Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL.
+**Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options. Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL.
 
 Most used properties are:
 
@@ -167,7 +167,6 @@ Most used properties are:
 | host | String | Local IP/Host to use for dev server |
 | open | Boolean/String | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. If specifying a String then see explanations below. |
 | public | String | Public address of the application (for use with reverse proxies) |
-| watchOptions | Object | A set of options used to customize watch mode |
 
 Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open/blob/master/test.js) based on the host OS):
 
@@ -195,21 +194,6 @@ devServer: {
   }
 }
 ```
-
-If you need to develop/debug an app/component/package that exists in your `node_modules` (like a linked App Extension) and you want HMR (hot module reload) capabilities, then you will need the `watchOptions` setting. Your `quasar.conf.js > devServer > watchOptions` would look like this:
-
-```js
-  // quasar.conf.js
-  devServer: {
-    watchOptions: {
-      ignored: [
-        'node_modules',
-        '!node_modules/my-app'
-      ]
-    }
-  }
-```
-Be sure to change the `my-app` to the appropriate path and name of the application you want to debug/develop.
 
 ### build Property
 | Property | Type | Description |
