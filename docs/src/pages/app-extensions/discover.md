@@ -4,6 +4,12 @@ title: Discover App Extensions
 
 <app-extension-discover />
 
+## Community App Extensions
+
+Review submitted [Community App Extensions](https://github.com/quasarframework/quasar-awesome/blob/master/README.md#community-app-extensions).
+
+> And please don't forget to submit your own! Learn what Quasar [App Extensions](/app-extensions/introduction) are and how to [create one](/app-extensions/development-guide/introduction).
+
 
 ## Official App Extensions
 Below is a list of official app-extensions created by members of the Quasar team.

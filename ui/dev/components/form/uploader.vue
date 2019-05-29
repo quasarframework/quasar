@@ -29,6 +29,8 @@
           @removed="onRemoved"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
 
         <q-uploader
@@ -40,6 +42,8 @@
           @removed="onRemoved"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
 
         <q-uploader
@@ -53,6 +57,8 @@
           @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
 
         <q-uploader
@@ -66,6 +72,8 @@
           @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
 
         <q-uploader
@@ -80,6 +88,8 @@
           @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
 
         <q-uploader
@@ -93,6 +103,8 @@
           @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
 
         <div>
@@ -106,6 +118,8 @@
           @removed="onRemoved"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         >
           <template v-slot:header="scope">
             <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
@@ -140,6 +154,8 @@
           @removed="onRemoved"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
       </div>
     </div>
@@ -207,6 +223,12 @@ export default {
     },
     onFinish () {
       console.log(`@finish`)
+    },
+    onUpload () {
+      console.log('@uploaded')
+    },
+    onFail () {
+      console.log('@failed')
     },
     promiseFn (files) {
       return new Promise((resolve) => {
