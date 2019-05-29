@@ -134,6 +134,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Shawn Makinson ($25)
 - Jim O'Quinn ($25)
 - Elad Yaniv ($25)
+- Agilus Informática ($25)
 - Max Matteo Staack ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
@@ -183,7 +184,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Kévin Marrec
 - 良平 勝目
 - Jörg Walter
-- Christian Kyony
 - Mast
 - altShiftDev
 - Simon Kimber
@@ -209,7 +209,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jay McGuinness
 - Jesse Sudich (Outflank Pay Tracker)
 - Controle Digital
-- Tobias Mesquita
 - Volentix
 - Pascual Strømsnæs
 - Taillefer Brice
@@ -254,6 +253,10 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - VHCI Business Development SRL
 - Fergus Meiklejohn
 - Aydin Sakar
+- Mike Ryan
+- synMedico
+- Andrew Heim
+- Andre Alexandre Duarte
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
@@ -289,3 +292,4 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Martin Beaudet $30
 - Jomo Daniels $30
 - Daniel Connell $20
+- Jens Lück $20

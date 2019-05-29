@@ -29,8 +29,19 @@ if (argv.help) {
   Description
     Starts the app in development mode (hot-code reloading, error
     reporting, etc)
+
   Usage
+    $ quasar dev
     $ quasar dev -p <port number>
+
+    $ quasar dev -m ssr
+
+    # alias for "quasar dev -m cordova -T ios"
+    $ quasar dev -m ios
+
+    # alias for "quasar dev -m cordova -T android"
+    $ quasar dev -m android
+
   Options
     --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
     --port, -p       A port number on which to start the application

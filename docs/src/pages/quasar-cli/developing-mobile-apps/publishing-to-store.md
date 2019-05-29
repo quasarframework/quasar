@@ -9,6 +9,8 @@ To generate a release build for Android, we can use the following Quasar CLI com
 
 ```bash
 $ quasar build -m cordova -T android
+# or the short form:
+$ quasar build -m android
 ```
 
 This will generate a release build based on the settings in your `/src-cordova/config.xml`.
@@ -97,7 +99,9 @@ You can learn more about managing your app in iTunes Connect from the [official 
 ### Building the app for production
 
 ```bash
-$ quasar build -m cordova -T [android|ios]
+$ quasar build -m cordova -T ios
+# or the short form:
+$ quasar build -m ios
 ```
 
 If everything went well you’ll see the `BUILD SUCCEEDED` output in the console.
