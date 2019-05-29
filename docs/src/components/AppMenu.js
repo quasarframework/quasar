@@ -23,7 +23,7 @@ export default {
       else {
         pathToMatch = currentMenuPath[currentMenuPath.length - 1]
       }
-      // console.log(pathsToMatch, pathToMatch, currentPath, pathsToMatch.some(item => currentPath.includes(item)))
+
       if (pathToMatch) {
         return currentPath.includes(pathToMatch)
       }
