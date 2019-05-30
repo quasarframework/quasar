@@ -7,7 +7,8 @@ For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
 :::
 
 ## Determine scrolling container
-Might be worthwhile to read how this is done [here](/components/scroll-observable.html#Determining-Scrolling-Container)
+Might be worthwhile to read how this is done [here](/vue-components/scroll-observer#Determining-Scrolling-Container).
+
 ```js
 import { scroll } from 'quasar'
 const { getScrollTarget } = scroll
@@ -22,6 +23,7 @@ This method searches for a parent DOM element which has one of the `scroll` or `
 Please note that simply attaching `scroll` CSS class to a DOM element or on a Vue component will have no effect if the respective element is not overflowed (example, with: CSS `overflow: hidden` and a height smaller than its inner content height).
 
 Example of good container:
+
 ```html
 <!--
   Quasar CSS helper 'overflow-hidden' is
