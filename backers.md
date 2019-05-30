@@ -257,6 +257,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - synMedico
 - Andrew Heim
 - Andre Alexandre Duarte
+- Patrick Pinheiro Monteiro
+- Stuart Petersmann
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
@@ -289,6 +291,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Polaris Microsystems, L.L.C. $50
 - Jochen Geiger $50
 - Nikolay Ivanov Teofilov $50
+- Rohit Chatterjee $50
 - Martin Beaudet $30
 - Jomo Daniels $30
 - Daniel Connell $20
