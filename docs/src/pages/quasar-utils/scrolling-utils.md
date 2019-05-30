@@ -7,7 +7,7 @@ For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
 :::
 
 ## Determine scrolling container
-Might be worthwhile to read how this is done [here](/components/scroll-observable.html#Determining-Scrolling-Container)
+Might be worthwhile to read how this is done [here](https://github.com/quasarframework/quasar/blob/86f1c7825b36957032314b3dcf51964338afb545/docs/src/pages/vue-components/scroll-observer.md#determining-scrolling-container)
 ```js
 import { scroll } from 'quasar'
 const { getScrollTarget } = scroll
