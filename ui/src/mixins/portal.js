@@ -56,8 +56,10 @@ export default {
   },
 
   beforeDestroy () {
-    this.__portal.$destroy()
-    this.__portal.$el.remove()
-    this.__portal = void 0
+    if (this.__portal !== void 0) {
+      this.__portal.$destroy()
+      this.__portal.$el.remove()
+      this.__portal = void 0
+    }
   }
 }

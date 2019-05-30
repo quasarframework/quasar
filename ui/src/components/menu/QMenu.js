@@ -110,7 +110,7 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      let node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
+      let node = this.__portal !== void 0 && this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
 
       if (node !== void 0 && node.contains(document.activeElement) !== true) {
         node = node.querySelector('[autofocus]') || node
@@ -215,7 +215,7 @@ export default Vue.extend({
     },
 
     updatePosition () {
-      const el = this.__portal.$el
+      const el = this.__portal === void 0 ? { nodeType: 8 } : this.__portal.$el
 
       if (el.nodeType === 8) { // IE replaces the comment with delay
         setTimeout(() => {

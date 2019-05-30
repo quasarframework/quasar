@@ -10,6 +10,11 @@ export default {
     const ctx = {
       trigger: value,
       handler (evt) {
+        // Don't activate of the first focus in IE
+        if (document.body.preventIEfocusout === true) {
+          return
+        }
+
         const target = evt && evt.target
 
         if (target && target !== document.body) {

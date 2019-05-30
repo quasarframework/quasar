@@ -41,14 +41,14 @@ export default {
 
       if (this.$q.platform.is.ie === true) {
         // IE sometimes performs a focus on body after click;
-        // the delay prevents the click-outside to trigger on this focus
+        // Prevents click-outside to trigger on this focus
+        document.body.preventIEfocusout = true
         setTimeout(() => {
-          this.showing = true
-        }, 0)
+          document.body.preventIEfocusout = false
+        }, 100)
       }
-      else {
-        this.showing = true
-      }
+
+      this.showing = true
 
       this.$emit('input', true)
 

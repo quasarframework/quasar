@@ -135,7 +135,7 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      let node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
+      let node = this.__portal !== void 0 && this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
 
       if (node === void 0 || node.contains(document.activeElement) === true) {
         return
@@ -155,7 +155,7 @@ export default Vue.extend({
     shake () {
       this.focus()
 
-      const node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
+      const node = this.__portal !== void 0 && this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
 
       if (node !== void 0) {
         node.classList.remove('q-animate--scale')
