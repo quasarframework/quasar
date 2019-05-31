@@ -3,13 +3,13 @@ title: PreFetch Feature
 related:
   - /quasar-cli/quasar-conf-js
 ---
-The PreFetch is a feature **available when using Quasar CLI** that allows a way for the components picked up by Vue Router (defined in `/src/router/routes.js`) to:
+The PreFetch is a feature (**only available when using Quasar CLI**) which allows the components picked up by Vue Router (defined in `/src/router/routes.js`) to:
 * pre-fetch data
 * validate the route
-* redirect to another route should some conditions are not met (like user should be logged in)
+* redirect to another route, when some conditions aren't met (like user isn't logged in)
 * can help in initializing the Store state
 
-All the above will run before the actual route component gets to be rendered.
+All the above will run before the actual route component is rendered.
 
 **It is designed to work with all Quasar modes** (SPA, PWA, SSR, Cordova, Electron), but it is especially useful for SSR builds.
 
@@ -25,9 +25,9 @@ When you use it to pre-fetch data, you are required to use a Vuex Store, so make
 :::
 
 ## How PreFetch Helps SSR Mode
-This feature is especially useful for the SSR mode (but not limited to it only). During SSR, we are essentially rendering a "snapshot" of our app, so if the app relies on some asynchronous data, **these data need to be pre-fetched and resolved before we start the rendering process**.
+This feature is especially useful for the SSR mode (but not limited to it only). During SSR, we are essentially rendering a "snapshot" of our app, so if the app relies on some asynchronous data, **then this data needs to be pre-fetched and resolved before we start the rendering process**.
 
-Another concern is that on the client, the same data needs to be available before we mount the client side app - otherwise the client app would render using different state and the hydration would fail.
+Another concern is that on the client, the same data needs to be available before we mount the client side app - otherwise the client app would render using a different state and the hydration would fail.
 
 To address this, the fetched data needs to live outside the view components, in a dedicated data store, or a "state container". On the server, we can pre-fetch and fill data into the store before rendering. The client-side store will directly pick up the server state before we mount the app.
 
@@ -68,7 +68,7 @@ Let's take an example in order to understand when the hook is being called. Let'
 ]
 ```
 
-Now, let's see how the hooks are called when user visits these routes in the order specified below, one after another.
+Now, let's see how the hooks are called when the user visits these routes in the order specified below, one after another.
 
 | Route being visited | Hooks called from | Observations |
 | --- | --- | --- |
@@ -116,7 +116,7 @@ export default {
 ```
 
 ### Redirecting Example
-Example of redirecting the user under some circumstances, like when they try to access a page that only an authenticated user should see.
+Below is an example of redirecting the user under some circumstances, like when they try to access a page that only an authenticated user should see.
 
 ```js
 // We assume here we already wrote the authentication logic
