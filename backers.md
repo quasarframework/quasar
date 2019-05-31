@@ -259,6 +259,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Andre Alexandre Duarte
 - Patrick Pinheiro Monteiro
 - Stuart Petersmann
+- Jonathan Labéjof
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
