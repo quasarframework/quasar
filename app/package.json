@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app",
-  "version": "1.0.0-rc.5",
+  "version": "1.0.0-rc.6",
   "description": "Quasar Framework App CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -92,7 +92,7 @@
     "webpack": "4.32.2",
     "webpack-bundle-analyzer": "3.3.2",
     "webpack-chain": "6.0.0",
-    "webpack-dev-server": "3.4.1",
+    "webpack-dev-server": "3.3.1",
     "webpack-merge": "4.2.1",
     "webpack-node-externals": "1.7.2",
     "workbox-webpack-plugin": "4.3.1"
