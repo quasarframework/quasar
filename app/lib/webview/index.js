@@ -76,7 +76,7 @@ class WebViewRunner {
       executeAppCommand = 'open'
       args.unshift('app.app')
     } else if (process.platform === 'win32') {
-      buildArgs.push('-ldflags="-H windowsgui"')
+      buildArgs.push('-ldflags=-H windowsgui')
       output = executeAppCommand = 'app.exe'
     }
     else {
