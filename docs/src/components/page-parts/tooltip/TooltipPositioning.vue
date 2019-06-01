@@ -69,7 +69,7 @@ export default {
     tooltipExport () {
       return `<q-tooltip anchor="${this.anchor}" self="${this.self}">
   Here I am!
-</q-menu>`
+</q-tooltip>`
     }
   }
 }

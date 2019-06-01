@@ -25,6 +25,10 @@ $ quasar upgrade
 $ quasar upgrade --install
 ```
 
+::: warning Note for code editor terminals
+If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%* then restart your code editor.
+:::
+
 ### With Vue CLI
 ```bash
 $ yarn upgrade quasar@latest
@@ -499,7 +503,7 @@ The structure looks the same, but some functions have been renamed.
 ### QAlert
 
 - **replaced** by [QBanner](/vue-components/banner)
-- The properties `type` and `color` are now managed by a [background css class](https://v1.quasar-framework.org/style/color-palette#Using-as-CSS-Classes).
+- The properties `type` and `color` are now managed by a [background css class](/style/color-palette#Using-as-CSS-Classes).
 
 <div class="row">
   <div class="inline-block q-pa-md">
@@ -2189,7 +2193,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 ### QToggle
 
 - Type of `val` was changed from `object` to `any`
-- `checked-icon` and `indeterminate-icon` were dropped to make `QCheckbox` more compliant with Material Standards. If you still need similar functionality, consider using `QToggle` with [icons](https://v1.quasar-framework.org/vue-components/toggle#Example--Icons).
+- `checked-icon` and `indeterminate-icon` were dropped to make `QCheckbox` more compliant with Material Standards. If you still need similar functionality, consider using `QToggle` with [icons](/vue-components/toggle#Example--Icons).
 
 <div class="row">
   <div class="inline-block q-pa-md">

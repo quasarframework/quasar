@@ -54,11 +54,7 @@ module.exports = function (cfg, configName) {
       layouts: appPaths.resolve.src(`layouts`),
       pages: appPaths.resolve.src(`pages`),
       assets: appPaths.resolve.src(`assets`),
-      boot: appPaths.resolve.src(`boot`),
-
-      // TODO: remove in final v1.0
-      // (no longer needed; automatically injects Stylus variables)
-      'quasar-variables': appPaths.resolve.cli(`templates/app/empty.styl`)
+      boot: appPaths.resolve.src(`boot`)
     })
 
   if (cfg.framework.all === true) {

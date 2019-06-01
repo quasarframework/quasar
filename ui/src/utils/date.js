@@ -128,8 +128,10 @@ function getRegexData (mask, dateLocale) {
         return '(Z|[+-]\\d{2}\\d{2})'
 
       case 'X':
+        map.X = index
         return '(-?\\d+)'
       case 'x':
+        map.x = index
         return '(-?\\d{4,})'
 
       default:
@@ -200,68 +202,87 @@ export function __splitDate (str, mask, dateLocale, calendar) {
     return date
   }
 
-  if (map.YYYY !== void 0) {
-    date.year = parseInt(match[map.YYYY], 10)
-  }
-  else if (map.YY !== void 0) {
-    const y = parseInt(match[map.YY], 10)
-    date.year = y < 0 ? y : 2000 + y
-  }
+  if (map.X !== void 0 || map.x !== void 0) {
+    const stamp = parseInt(match[map.X !== void 0 ? map.X : map.x], 10)
 
-  if (map.M !== void 0) {
-    date.month = parseInt(match[map.M], 10)
-    if (date.month < 1 || date.month > 12) {
-      return date
-    }
-  }
-  else if (map.MMM !== void 0) {
-    date.month = monthsShort.indexOf(match[map.MMM]) + 1
-  }
-  else if (map.MMMM !== void 0) {
-    date.month = months.indexOf(match[map.MMMM]) + 1
-  }
-
-  if (map.D !== void 0) {
-    date.day = parseInt(match[map.D], 10)
-
-    if (date.year === null || date.month === null || date.day < 1) {
+    if (isNaN(stamp) === true || stamp < 0) {
       return date
     }
 
-    const maxDay = calendar !== 'persian'
-      ? (new Date(date.year, date.month, 0)).getDate()
-      : jalaaliMonthLength(date.year, date.month)
+    const d = new Date(stamp * (map.X !== void 0 ? 1000 : 1))
 
-    if (date.day > maxDay) {
-      return date
+    date.year = d.getFullYear()
+    date.month = d.getMonth() + 1
+    date.day = d.getDate()
+    date.hour = d.getHours()
+    date.minute = d.getMinutes()
+    date.second = d.getSeconds()
+    date.millisecond = d.getMilliseconds()
+  }
+  else {
+    if (map.YYYY !== void 0) {
+      date.year = parseInt(match[map.YYYY], 10)
     }
-  }
-
-  if (map.H !== void 0) {
-    date.hour = parseInt(match[map.H], 10) % 24
-  }
-  else if (map.h !== void 0) {
-    date.hour = parseInt(match[map.h], 10)
-    if (
-      (map.A && match[map.A] === 'PM') ||
-      (map.a && match[map.a] === 'pm') ||
-      (map.aa && match[map.aa] === 'p.m.')
-    ) {
-      date.hour += 12
+    else if (map.YY !== void 0) {
+      const y = parseInt(match[map.YY], 10)
+      date.year = y < 0 ? y : 2000 + y
     }
-    date.hour = date.hour % 12 || 12
-  }
 
-  if (map.m !== void 0) {
-    date.minute = parseInt(match[map.m], 10) % 60
-  }
+    if (map.M !== void 0) {
+      date.month = parseInt(match[map.M], 10)
+      if (date.month < 1 || date.month > 12) {
+        return date
+      }
+    }
+    else if (map.MMM !== void 0) {
+      date.month = monthsShort.indexOf(match[map.MMM]) + 1
+    }
+    else if (map.MMMM !== void 0) {
+      date.month = months.indexOf(match[map.MMMM]) + 1
+    }
 
-  if (map.s !== void 0) {
-    date.second = parseInt(match[map.s], 10) % 60
-  }
+    if (map.D !== void 0) {
+      date.day = parseInt(match[map.D], 10)
 
-  if (map.S !== void 0) {
-    date.millisecond = parseInt(match[map.S], 10) * 10 ** (3 - match[map.S].length)
+      if (date.year === null || date.month === null || date.day < 1) {
+        return date
+      }
+
+      const maxDay = calendar !== 'persian'
+        ? (new Date(date.year, date.month, 0)).getDate()
+        : jalaaliMonthLength(date.year, date.month)
+
+      if (date.day > maxDay) {
+        return date
+      }
+    }
+
+    if (map.H !== void 0) {
+      date.hour = parseInt(match[map.H], 10) % 24
+    }
+    else if (map.h !== void 0) {
+      date.hour = parseInt(match[map.h], 10)
+      if (
+        (map.A && match[map.A] === 'PM') ||
+        (map.a && match[map.a] === 'pm') ||
+        (map.aa && match[map.aa] === 'p.m.')
+      ) {
+        date.hour += 12
+      }
+      date.hour = date.hour % 12 || 12
+    }
+
+    if (map.m !== void 0) {
+      date.minute = parseInt(match[map.m], 10) % 60
+    }
+
+    if (map.s !== void 0) {
+      date.second = parseInt(match[map.s], 10) % 60
+    }
+
+    if (map.S !== void 0) {
+      date.millisecond = parseInt(match[map.S], 10) * 10 ** (3 - match[map.S].length)
+    }
   }
 
   date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
@@ -636,8 +657,8 @@ const formatter = {
   },
 
   // Day of week: Su, Mo, ...
-  dd (date) {
-    return this.dddd(date).slice(0, 2)
+  dd (date, dateLocale) {
+    return this.dddd(date, dateLocale).slice(0, 2)
   },
 
   // Day of week: Sun, Mon, ...

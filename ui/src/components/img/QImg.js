@@ -76,13 +76,18 @@ export default Vue.extend({
   },
 
   methods: {
-    __onLoad () {
+    __onLoad (img) {
+      this.isLoading = false
+      this.hasError = false
+      this.__computeRatio(img)
       this.__updateSrc()
       this.__updateWatcher(this.srcset)
       this.$emit('load', this.currentSrc)
     },
 
     __onError (err) {
+      clearTimeout(this.ratioTimer)
+      this.isLoading = false
       this.hasError = true
       this.currentSrc = ''
       this.$emit('error', err)
@@ -110,7 +115,7 @@ export default Vue.extend({
     },
 
     __load () {
-      clearTimeout(this.timer)
+      clearTimeout(this.ratioTimer)
       this.hasError = false
 
       if (!this.src) {
@@ -127,25 +132,34 @@ export default Vue.extend({
 
       img.onerror = err => {
         // if we are still rendering same image
-        if (this.image === img) {
-          this.isLoading = false
+        if (this.image === img && this.destroyed !== true) {
           this.__onError(err)
         }
       }
 
       img.onload = () => {
+        if (this.destroyed === true) {
+          return
+        }
+
         // if we are still rendering same image
         if (this.image === img) {
-          this.isLoading = false
-
-          if (this.image.decode) {
-            this.image
+          if (img.decode !== void 0) {
+            img
               .decode()
-              .catch(this.__onError)
-              .then(this.__onLoad)
+              .catch(err => {
+                if (this.image === img && this.destroyed !== true) {
+                  this.__onError(err)
+                }
+              })
+              .then(() => {
+                if (this.image === img && this.destroyed !== true) {
+                  this.__onLoad(img)
+                }
+              })
           }
           else {
-            this.__onLoad()
+            this.__onLoad(img)
           }
         }
       }
@@ -155,22 +169,25 @@ export default Vue.extend({
       if (this.srcset) {
         img.srcset = this.srcset
       }
+
       if (this.sizes) {
         img.sizes = this.sizes
       }
-
-      this.__computeRatio(img)
     },
 
     __computeRatio (img) {
       const { naturalHeight, naturalWidth } = img
 
       if (naturalHeight || naturalWidth) {
-        this.naturalRatio = naturalWidth / naturalHeight
+        this.naturalRatio = naturalHeight === 0
+          ? 1
+          : naturalWidth / naturalHeight
       }
       else {
-        this.timer = setTimeout(() => {
-          this.__computeRatio(img)
+        this.ratioTimer = setTimeout(() => {
+          if (this.image === img && this.destroyed !== true) {
+            this.__computeRatio(img)
+          }
         }, 100)
       }
     },
@@ -250,7 +267,8 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
-    clearTimeout(this.timer)
+    this.destroyed = true
+    clearTimeout(this.ratioTimer)
     this.unwatch !== void 0 && this.unwatch()
   }
 })

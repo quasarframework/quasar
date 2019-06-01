@@ -7,7 +7,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
         q-avatar.doc-layout-avatar
-          img(src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg")
+          img(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
         q-toolbar-title(shrink) Quasar
 
       q-space
@@ -237,7 +237,8 @@ export default {
       },
       handleSelected: (a, b, suggestion, c, context) => {
         const url = suggestion.url
-          .replace('https://v1.quasar-framework.org', '')
+          .replace('https://v1.quasar-framework.org', '') // TODO remove when Algolia is updated
+          .replace('https://quasar.dev', '')
 
         this.search = ''
         this.$router.push(url)

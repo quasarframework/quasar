@@ -1,3 +1,13 @@
+// leave NAMED_MASKS at top of file (code referenced from docs)
+const NAMED_MASKS = {
+  date: '####/##/##',
+  datetime: '####/##/## ##:##',
+  time: '##:##',
+  fulltime: '##:##:##',
+  phone: '(###) ### - ####',
+  card: '#### #### #### ####'
+}
+
 const TOKENS = {
   '#': { pattern: '[\\d]', negate: '[^\\d]' },
 
@@ -19,15 +29,6 @@ KEYS.forEach(key => {
 const
   tokenRegexMask = new RegExp('\\\\([^.*+?^${}()|([\\]])|([.*+?^${}()|[\\]])|([' + KEYS.join('') + '])|(.)', 'g'),
   escRegex = /[.*+?^${}()|[\]\\]/g
-
-const NAMED_MASKS = {
-  date: '####/##/##',
-  datetime: '####/##/## ##:##',
-  time: '##:##',
-  fulltime: '##:##:##',
-  phone: '(###) ### - ####',
-  card: '#### #### #### ####'
-}
 
 const MARKER = String.fromCharCode(1)
 

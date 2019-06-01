@@ -17,7 +17,7 @@
       <q-select standout v-model="model" :options="options" :dense="dense" :options-dense="denseOpts">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
           </q-avatar>
         </template>
       </q-select>
@@ -53,7 +53,7 @@
       <q-select filled bottom-slots v-model="model" :options="options" label="Label" counter maxlength="12" :dense="dense" :options-dense="denseOpts">
         <template v-slot:before>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/avatar5.jpg">
+            <img src="https://cdn.quasar.dev/img/avatar5.jpg">
           </q-avatar>
         </template>
 

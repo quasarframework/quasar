@@ -54,7 +54,7 @@
 
       <q-banner :dense="dense" class="q-my-md">
         <q-avatar slot="avatar">
-          <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+          <img src="https://cdn.quasar.dev/img/boy-avatar.png">
         </q-avatar>
 
         You have lost connection to the internet. This app is offline.
@@ -64,7 +64,7 @@
       </q-banner>
 
       <q-banner :dense="dense" class="q-my-md">
-        <img slot="avatar" src="https://cdn.quasar-framework.org/img/mountains.jpg" style="width: 100px; height: 64px">
+        <img slot="avatar" src="https://cdn.quasar.dev/img/mountains.jpg" style="width: 100px; height: 64px">
 
         You have lost connection to the internet. This app is offline.
       </q-banner>

@@ -11,6 +11,8 @@ You can install multiple icon libraries, but you must choose only one to use on 
 
 Quasar currently supports: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/) and [Eva Icons](https://akveo.github.io/eva-icons).
 
+It is also possible to use your own icons (as images in any format) with any Quasar component, see the [QIcon page](/vue-components/icon#Images-instead-of-webfont) for more info on this.
+
 ::: tip
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [QIcon component](/vue-components/icon).
 :::

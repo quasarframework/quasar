@@ -79,6 +79,10 @@ export default Vue.extend({
       this.$refs.input.focus()
     },
 
+    select () {
+      this.$refs.input.select()
+    },
+
     __onInput (e) {
       if (this.type === 'file') {
         this.$emit('input', e.target.files)

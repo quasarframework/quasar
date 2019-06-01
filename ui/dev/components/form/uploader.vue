@@ -29,6 +29,8 @@
           @removed="onRemoved"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
 
         <q-uploader
@@ -40,39 +42,69 @@
           @removed="onRemoved"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
 
         <q-uploader
           :dark="dark"
           label="Fn returning immediately"
           multiple
-          :factory="files => ({ batch, url: 'http://localhost:4444/upload' })"
+          :batch="batch"
+          :factory="files => ({ url: 'http://localhost:4444/upload' })"
           @added="onAdded"
           @removed="onRemoved"
+          @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
 
         <q-uploader
           :dark="dark"
           label="Fn returning promise"
           multiple
+          :batch="batch"
           :factory="promiseFn"
           @added="onAdded"
           @removed="onRemoved"
+          @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
+        />
+
+        <q-uploader
+          ref="aborter"
+          :dark="dark"
+          label="Aborting & fn returning promise"
+          multiple
+          :batch="batch"
+          :factory="promiseFnAbort"
+          @added="onAdded"
+          @removed="onRemoved"
+          @factory-failed="onFactoryFailed"
+          @start="onStart"
+          @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
 
         <q-uploader
           :dark="dark"
           label="Fn returning promise - reject"
           multiple
+          :batch="batch"
           :factory="rejectFn"
           @added="onAdded"
           @removed="onRemoved"
+          @factory-failed="onFactoryFailed"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
 
         <div>
@@ -86,6 +118,8 @@
           @removed="onRemoved"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         >
           <template v-slot:header="scope">
             <div class="row no-wrap items-center q-pa-sm q-gutter-xs">
@@ -120,6 +154,8 @@
           @removed="onRemoved"
           @start="onStart"
           @finish="onFinish"
+          @uploaded="onUpload"
+          @failed="onFail"
         />
       </div>
     </div>
@@ -179,13 +215,36 @@ export default {
       console.log(`@removed ${files.length || 0} files`)
       console.log(files)
     },
+    onFactoryFailed (err) {
+      console.log(`@factory-failed`, err)
+    },
     onStart () {
       console.log(`@start`)
     },
     onFinish () {
       console.log(`@finish`)
     },
+    onUpload () {
+      console.log('@uploaded')
+    },
+    onFail () {
+      console.log('@failed')
+    },
     promiseFn (files) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log('resolving promise', this.batch)
+          resolve({
+            batch: this.batch,
+            url: 'http://localhost:4444/upload'
+          })
+        }, 2000)
+      })
+    },
+    promiseFnAbort (files) {
+      setTimeout(() => {
+        this.$refs.aborter.abort()
+      }, 100)
       return new Promise((resolve) => {
         setTimeout(() => {
           console.log('resolving promise', this.batch)

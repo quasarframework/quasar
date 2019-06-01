@@ -58,7 +58,7 @@
 
     "position": {
       "type": "String",
-      "desc": "",
+      "desc": "Stick dialog to one of the sides (top, right, bottom or left)",
       "default": "standard",
       "values": [ "standard", "top", "right", "bottom", "left" ],
       "examples": [ "top", "right" ],

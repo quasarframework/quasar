@@ -1,5 +1,5 @@
 ---
-title: App Icon Details
+title: App Icons
 ---
 
 If you were to target all platforms that Quasar currently supports, you will need to make around 80 different files of 4 different media types (png, ico, icns and svg). If you just use a tool like Gimp, Photoshop or Affinity Designer, you will find that these files are rather large and the process of making them and naming them is prone to operator error. You will probably want to compress the PNG files at least, and also remove unnecessary app-metadata from the SVG.
@@ -7,12 +7,12 @@ If you were to target all platforms that Quasar currently supports, you will nee
 This page documents all of the icons you will need for each of the build targets.
 
 
-<img src="https://cdn.quasar-framework.org/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
+<img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
 
 ## The Icon Factory
 
 ::: tip
-We highly recommend using the Icon Factory app extension, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When you change this source file (or some of the extension's settings) the icons will be automatically rebuilt on the next dev or build command.
+We highly recommend using the Quasar Icon Factory app extension, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When you change this source file (or some of the extension's settings) the icons will be automatically rebuilt on the next dev or build command.
 :::
 
 
@@ -126,7 +126,7 @@ And here is what your config.xml should look like:
 <platform name="android">
     <icon density="ldpi" src="res/android/icon-36-ldpi.png" />
     <icon density="mdpi" src="res/android/icon-48-mdpi.png" />
-    <icon density="hppi" src="res/android/icon-72-hdpi.png" />
+    <icon density="hdpi" src="res/android/icon-72-hdpi.png" />
     <icon density="xhdpi" src="res/android/icon-96-xhdpi.png" />
     <icon density="xxhdpi" src="res/android/icon-144-xxhdpi.png" />
     <icon density="xxxhdpi" src="res/android/icon-192-xxxhdpi.png" />

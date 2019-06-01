@@ -47,6 +47,14 @@ The default model mask is `HH:mm` (or `HH:mm:ss` when using `with-seconds` prop)
 
 The `mask` prop tokens can be found at [Quasar Utils > Date utils](/quasar-utils/date-utils#Format-for-display).
 
+::: warning Note on SSR
+Using `x` or `X` (timestamps) in the mask may cause hydration errors on the client, because decoding the model String must be done with `new Date()` which takes into account the local timezone. As a result, if the server is in a different timezone than the client, then the rendered output of the server will differ than the one on the client so hydration will fail.
+:::
+
+::: danger Note on persian calendar
+When using the persian calendar, the mask for QTime is forced to `HH:mm` or `HH:mm:ss` (if `with-seconds` is specified).
+:::
+
 <doc-example title="Simple mask" file="QTime/MaskSimple" />
 
 If you want to insert strings into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.
@@ -75,13 +83,20 @@ If, for some reason, you need to use a custom ad-hoc locale rather than the curr
 
 <doc-example title="Options" file="QTime/Options" />
 
-### Using with QInput
+### With QInput
 
 <doc-example title="Input" file="QTime/Input" />
 
 Connecting a QDate and QTime with same model on a QInput:
 
 <doc-example title="QDate and QTime with QInput" file="QTime/InputFull" />
+
+The following are **helpers** for QInput `mask` and `rules` props. You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#Mask).
+
+* Property `mask` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/mixins/mask.js#L2).
+* Property `rules` helpers: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns.js).
+
+Examples: "date", "time", "fulltime".
 
 More info: [QInput](/vue-components/input).
 

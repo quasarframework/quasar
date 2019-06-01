@@ -2,7 +2,7 @@
 title: Introduction to Quasar Framework
 ---
 
-![Quasar - Empowering your websites and apps](https://cdn.quasar-framework.org/img/responsive.png)
+![Quasar - Empowering your websites and apps](https://cdn.quasar.dev/img/responsive.png)
 
 ## What is Quasar?
 Quasar (pronounced `/ˈkweɪ.zɑɹ/`) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to quickly create responsive++ websites/apps in many flavours:
@@ -24,14 +24,14 @@ Below is a non-exhaustive list of Quasar's great aspects and features.
 #### All Platforms in One Go
 One authoritative source of code for all platforms, simultaneously: responsive desktop/mobile websites (SPA, SSR + SPA client takeover, SSR + PWA client takeover), PWAs (Progressive Web Apps), mobile apps (that look native) and multi-platform desktop apps (through Electron).
 
-#### The largest sets of Top-Class, fast and responsive web components
+#### The largest sets of top-class, fast and responsive web components
 There’s a component for almost every web development need within Quasar. Each of Quasar's components is carefully crafted to offer you the best possible experience for your users. Quasar is **designed with performance & responsiveness in mind** – so the overhead of using Quasar is barely noticeable. This attention to performance and good design is something that gives us special pride.
 
 #### Best practices integrated by default
 Quasar was also built to encourage developers to follow web development best practices. To do this, Quasar is packed full of great features out of the box.
  - HTML/CSS/JS minification
  - Cache busting
- - Tree shaking
+ - **Tree shaking**
  - Sourcemapping
  - Code-splitting with lazy loading
  - ES6 transpiling
@@ -39,6 +39,11 @@ Quasar was also built to encourage developers to follow web development best pra
  - Accessibility features
 
 Quasar takes care of all these web develoment best parctices and more - **with no configuration needed**.
+
+#### App extensions support
+Quasar App Extensions are a way to painlessly inject complicated (or simple) setups into your websites/apps. And also, it's a way for our big community to contribute and to help you get up to speed even faster. **The patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there** - limited only by your imagination and innovation.
+
+One example is our official Icon Factory app extension with which you get the ability to seamlessly auto-generate all website/app icons (sometimes 80+ at different sizes and formats to cover latest standards for SPA, SSR, PWA, Cordova and Electron).
 
 #### Full RTL Support
 RTL (right to left) support for both Quasar components & the developer’s own code. Developer-written website/app CSS code gets automatically converted to RTL if an RTL language pack is used.
@@ -60,8 +65,11 @@ When using Quasar’s CLI, developers benefit from:
 #### Get up to speed fast
 The top-class project intitialization feature of the CLI makes getting started very easy for you, as a developer. You can get your idea to reality in record time. In other words, Quasar does the heavy lifting for you, so you are free to focus on your features and not on boilerplate.
 
+#### Automated testing & Audit
+Quasar projects have the ability to add Unit and End to End testing harnesses out of the box, as well as an ever-growing suite of product quality auditing tools. All this to ensure that your websites/apps have the highest quality possible.
+
 #### Awesome ever-growing community
-When developers encounter a problem they can’t solve, they can visit the Quasar [forum](https://forum.quasar-framework.org/) or our [Discord chat server](https://discord.gg/5TDhbDg). The community is there to help you. You can also get updates on new versions and features by following us on [Twitter](https://twitter.com/quasarframework). You can also get special service as a [Patreon](https://www.patreon.com/quasarframework) and help make sure Quasar stays relevant for you in the future too!
+When developers encounter a problem they can’t solve, they can visit the Quasar [forum](https://forum.quasar.dev/) or our [Discord chat server](https://chat.quasar.dev). The community is there to help you. You can also get updates on new versions and features by following us on [Twitter](https://twitter.com/quasarframework). You can also get special service as a [Patreon](https://www.patreon.com/quasarframework) and help make sure Quasar stays relevant for you in the future too!
 
 #### A wide range of platform support
 Google Chrome, Firefox, IE11/Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry, MacOS, Linux, Windows.

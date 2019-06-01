@@ -68,8 +68,56 @@
       </div>
 
       <p class="caption">
-        For desktops, you can configure to avoid capturing mouse swipes if you wish.
+        Swipe test (preventing it from inner square)
       </p>
+      <div
+        v-touch-swipe.mouse="handleSwipeTest"
+        @click="onClick"
+        class="row flex-center"
+      >
+        <div @touchstart="handleEvt" @mousedown="handleEvt" style="padding: 24px" class="cursor-pointer bg-primary text-white rounded-borders shadow-2">
+          <div>
+            <q-toggle dark color="black" v-model="swipeTestStopPropagation" label="Stop propagation" />
+          </div>
+          <div v-if="infoTest" class="custom-info">
+            <pre>{{ infoTest }}</pre>
+          </div>
+          <div v-else class="text-center q-pa-xl custom-area-placeholder">
+            <q-icon name="arrow_upward" />
+            <div class="row items-center">
+              <q-icon name="arrow_back" />
+              <div>Swipe in any direction</div>
+              <q-icon name="arrow_forward" />
+            </div>
+            <q-icon name="arrow_downward" />
+          </div>
+        </div>
+      </div>
+
+      <p class="caption">
+        Swipe test (capture + preventing it from inner square)
+        -- should still work
+      </p>
+      <div
+        v-touch-swipe.capture.mouse.mouseCapture="handleSwipeTestCapture"
+        @click="onClick"
+        class="row flex-center"
+      >
+        <div @touchstart.stop @mousedown.stop style="padding: 24px" class="cursor-pointer bg-primary text-white rounded-borders shadow-2">
+          <div v-if="infoTestCapture" class="custom-info">
+            <pre>{{ infoTestCapture }}</pre>
+          </div>
+          <div v-else class="text-center q-pa-xl custom-area-placeholder">
+            <q-icon name="arrow_upward" />
+            <div class="row items-center">
+              <q-icon name="arrow_back" />
+              <div>Swipe in any direction</div>
+              <q-icon name="arrow_forward" />
+            </div>
+            <q-icon name="arrow_downward" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -82,24 +130,50 @@ export default {
     return {
       info: null,
       infoRight: null,
-      infoCustom: null
+      infoCustom: null,
+      infoTest: null,
+      infoTestCapture: null,
+      swipeTestStopPropagation: true
     }
   },
   methods: {
-    handleSwipe ({ direction, duration, distance, evt }) {
-      this.info = { direction, duration, distance }
+    handleSwipe ({ evt, ...info }) {
+      this.info = info
 
       // native Javascript event
       console.log(evt)
     },
-    swipeToRight ({ direction, duration, distance }) {
-      this.infoRight = { direction, duration, distance }
+
+    handleSwipeTest ({ evt, ...info }) {
+      this.infoTest = info
+
+      // native Javascript event
+      console.log(evt)
     },
-    swipeToCustom ({ direction, duration, distance }) {
-      this.infoCustom = { direction, duration, distance }
+
+    handleSwipeTestCapture ({ evt, ...info }) {
+      this.infoTestCapture = info
+
+      // native Javascript event
+      console.log(evt)
     },
+
+    swipeToRight ({ evt, ...info }) {
+      this.infoRight = info
+    },
+
+    swipeToCustom ({ evt, ...info }) {
+      this.infoCustom = info
+    },
+
     onClick () {
       console.log('onClick')
+    },
+
+    handleEvt (e) {
+      if (this.swipeTestStopPropagation) {
+        e.stopPropagation()
+      }
     }
   }
 }

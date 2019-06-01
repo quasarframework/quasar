@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md row items-start q-gutter-md">
     <q-card class="my-card">
-      <img src="https://cdn.quasar-framework.org/img/mountains.jpg">
+      <img src="https://cdn.quasar.dev/img/mountains.jpg">
 
       <q-card-section>
         <div class="text-h6">Our Changing Planet</div>
@@ -15,7 +15,7 @@
 
     <q-card class="my-card">
       <q-img
-        src="https://cdn.quasar-framework.org/img/parallax2.jpg"
+        src="https://cdn.quasar.dev/img/parallax2.jpg"
         basic
       >
         <div class="absolute-bottom text-subtitle2 text-center">
@@ -26,7 +26,7 @@
 
     <q-card class="my-card">
       <q-img
-        src="https://cdn.quasar-framework.org/img/parallax2.jpg"
+        src="https://cdn.quasar.dev/img/parallax2.jpg"
         basic
       >
         <div class="absolute-bottom text-h6">
@@ -40,7 +40,7 @@
     </q-card>
 
     <q-card class="my-card">
-      <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
         <div class="text-subtitle2 absolute-top text-center">
           Title
         </div>
@@ -48,7 +48,7 @@
     </q-card>
 
     <q-card class="my-card">
-      <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
         <div class="text-h5 absolute-bottom text-right">
           Title
         </div>
@@ -59,7 +59,7 @@
       <q-item>
         <q-item-section avatar>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/avatar2.jpg">
+            <img src="https://cdn.quasar.dev/img/avatar2.jpg">
           </q-avatar>
         </q-item-section>
 
@@ -69,11 +69,11 @@
         </q-item-section>
       </q-item>
 
-      <img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      <img src="https://cdn.quasar.dev/img/parallax2.jpg">
     </q-card>
 
     <q-card class="my-card">
-      <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+      <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
         <div class="absolute-bottom">
           <div class="text-h6">Our Changing Planet</div>
           <div class="text-subtitle2">by John Doe</div>

@@ -12,9 +12,9 @@ Hi! I’m really excited that you are interested in contributing to Quasar. Befo
 
 - The issue list of this repo is **exclusively** for bug reports and feature requests. Non-conforming issues will be closed immediately.
 
-  - For simple beginner questions, you can get quick answers from the [Quasar Discord chat](http://chat.quasar-framework.org).
+  - For simple beginner questions, you can get quick answers from the [Quasar Discord chat](https://chat.quasar.dev).
 
-  - For more complicated questions, you can use [the official forum](https://forum.quasar-framework.org/). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!
+  - For more complicated questions, you can use [the official forum](https://forum.quasar.dev/). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!
 
 - Try to search for your issue, it may have already been answered or even fixed in the development branch (`dev`).
 
