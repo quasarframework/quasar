@@ -126,7 +126,7 @@ And here is what your config.xml should look like:
 <platform name="android">
     <icon density="ldpi" src="res/android/icon-36-ldpi.png" />
     <icon density="mdpi" src="res/android/icon-48-mdpi.png" />
-    <icon density="hppi" src="res/android/icon-72-hdpi.png" />
+    <icon density="hdpi" src="res/android/icon-72-hdpi.png" />
     <icon density="xhdpi" src="res/android/icon-96-xhdpi.png" />
     <icon density="xxhdpi" src="res/android/icon-144-xxhdpi.png" />
     <icon density="xxxhdpi" src="res/android/icon-192-xxxhdpi.png" />
