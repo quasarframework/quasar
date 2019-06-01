@@ -26,7 +26,8 @@ module.exports = {
     'ga': true, // Google Analytics
     'cordova': true,
     '__statics': true,
-    'Prism': true
+    'Prism': true,
+    'webview': true
   },
 
   // add your custom rules here
