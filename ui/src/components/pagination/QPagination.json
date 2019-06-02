@@ -38,6 +38,26 @@
       "extends": "text-color"
     },
 
+    "input-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the input when input property is true",
+      "examples": [
+        "background-color: #ff0000",
+        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "input-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the input when input property is true",
+      "examples": [
+        "my-special-class",
+        ":input-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style"
+    },
+
     "size": {
       "type": "String",
       "desc": "Button size in CSS units, including unit name",
