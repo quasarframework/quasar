@@ -16,6 +16,7 @@
     "options": {
       "type": "Array",
       "desc": "Array of Objects defining each option",
+      "required": true,
       "definition": {
         "label": {
           "type": "String",
