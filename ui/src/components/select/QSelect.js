@@ -968,6 +968,10 @@ export default Vue.extend({
       if (this.dialog === false && this.$refs.menu !== void 0) {
         this.$refs.menu.updatePosition()
       }
+    },
+
+    updateMenuPosition () {
+      this.__onPostRender()
     }
   },
 
