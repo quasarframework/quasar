@@ -151,6 +151,30 @@ app.listen(port, () => {
 })
 ```
 
+::: tip
+Spring exemple see: [Spring](https://spring.io/guides/gs/uploading-files/).
+Attribute fieldName="file" is mapping with @RequestPart(value = "file").
+:::
+
+```java
+@RestController
+public class UploadRest {
+	@PostMapping("/upload")
+	public void handleFileUpload(@RequestPart(value = "file") final MultipartFile uploadfile) throws IOException {
+		saveUploadedFiles(uploadfile);
+	}
+
+	private String saveUploadedFiles(final MultipartFile file) throws IOException {
+		final byte[] bytes = file.getBytes();
+		final Path path = Paths.get("YOUR_ABSOLUTE_PATH" + file.getOriginalFilename());
+		Files.write(path, bytes);
+	}
+}
+```
+```html
+<q-uploader fieldName="file" url="YOUR_URL_BACK/upload" with-credentials />
+```
+
 ## Supporting other services
 QUploader currently supports uploading through the HTTP protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
