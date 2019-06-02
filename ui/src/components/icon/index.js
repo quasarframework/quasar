@@ -1,5 +1,5 @@
-import QIcon from './QIcon.js'
+import WIcon from './QIcon.js'
 
 export {
-  QIcon
+  WIcon
 }

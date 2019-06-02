@@ -3,7 +3,7 @@ import Vue from 'vue'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QIcon',
+  name: 'WIcon',
 
   props: {
     name: String,
@@ -62,6 +62,9 @@ export default Vue.extend({
       }
       else if (icon.startsWith('ti-') === true) {
         cls = `themify-icon ${icon}`
+      }
+      else if (icon.startsWith('ao-') === true) {
+        cls = `ao ${icon}`
       }
       else {
         cls = 'material-icons'
