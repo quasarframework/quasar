@@ -40,7 +40,7 @@
 
     "input-style": {
       "type": [ "Array", "String", "Object" ],
-      "desc": "Style definitions to be attributed to the input when input property is true",
+      "desc": "Style definitions to be attributed to the input (if using one)",
       "examples": [
         "background-color: #ff0000",
         ":input-style=\"{ backgroundColor: '#ff0000' }\""
@@ -50,7 +50,7 @@
 
     "input-class": {
       "type": [ "Array", "String", "Object" ],
-      "desc": "Class definitions to be attributed to the input when input property is true",
+      "desc": "Class definitions to be attributed to the input (if using one)",
       "examples": [
         "my-special-class",
         ":input-class=\"{ 'my-special-class': <condition> }\""
