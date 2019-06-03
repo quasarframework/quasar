@@ -2,7 +2,8 @@
 
 const
   glob = require('glob'),
-  path = require('path')
+  path = require('path'),
+  { renameComponents } = require('./build.rename')
 
 const
   root = path.resolve(__dirname, '..'),
@@ -15,7 +16,7 @@ function relative (name) {
 
 function getWithoutExtension (filename) {
   const insertionPoint = filename.lastIndexOf('.')
-  return filename.slice(0, insertionPoint)
+  return renameComponents(filename.slice(0, insertionPoint))
 }
 
 function lowerCamelCase (name) {
