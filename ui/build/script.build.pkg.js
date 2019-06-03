@@ -31,4 +31,4 @@ function copyToOutput (name, isFolder) {
   })
 }
 
-console.log(`Copied output to ${outputFolder}.`)
+console.log(`\n 💥 Copied package-related files to ${outputFolder}.\n`)

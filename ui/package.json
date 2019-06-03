@@ -1,5 +1,5 @@
 {
-  "name": "quasar",
+  "name": "@withyouwithme/quasar",
   "version": "1.0.0-rc.4",
   "description": "High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase",
   "module": "src/index.esm.js",
@@ -17,7 +17,8 @@
     "dev:ssr": "node build/script.dev.ssr.js",
     "dev:umd": "node build/script.test-umd.js",
     "dev:quploader": "cd dev/upload-server && yarn && cd ../.. && node dev/upload-server/server.js",
-  "build": "node build/script.build.js && node build/script.build.pkg.js",
+    "build": "node build/script.build.js && node build/script.build.pkg.js",
+    "rename": "node build/script.rename.js",
     "test": "eslint --ext .js,.vue src dev",
     "lint": "eslint --ext .js,.vue src dev",
     "lint-fix": "eslint --ext .js,.vue src dev --fix"
@@ -72,6 +73,7 @@
     "file-loader": "^3.0.1",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "fs-extra": "^8.0.1",
+    "glob": "^7.1.4",
     "html-webpack-plugin": "^3.2.0",
     "json-beautify": "^1.0.1",
     "lru-cache": "^5.1.1",
