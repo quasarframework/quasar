@@ -1,5 +1,5 @@
-import QVideo from './QVideo.js'
+import WVideo from './QVideo.js'
 
 export {
-  QVideo
+  WVideo
 }

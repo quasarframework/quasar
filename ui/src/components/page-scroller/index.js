@@ -1,5 +1,5 @@
-import QPageScroller from './QPageScroller.js'
+import WPageScroller from './QPageScroller.js'
 
 export {
-  QPageScroller
+  WPageScroller
 }

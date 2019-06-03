@@ -1,19 +1,19 @@
 import Vue from 'vue'
 
-import QResizeObserver from '../observer/QResizeObserver.js'
+import WResizeObserver from '../observer/QResizeObserver.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import slot from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
-  name: 'QHeader',
+  name: 'WHeader',
 
   mixins: [ CanRenderMixin ],
 
   inject: {
     layout: {
       default () {
-        console.error('QHeader needs to be child of QLayout')
+        console.error('WHeader needs to be child of WLayout')
       }
     }
   },
@@ -115,7 +115,7 @@ export default Vue.extend({
 
   render (h) {
     const child = [
-      h(QResizeObserver, {
+      h(WResizeObserver, {
         props: { debounce: 0 },
         on: { resize: this.__onResize }
       })

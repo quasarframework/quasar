@@ -1,13 +1,13 @@
 import Vue from 'vue'
 
-import QSlideTransition from '../slide-transition/QSlideTransition.js'
+import WSlideTransition from '../slide-transition/QSlideTransition.js'
 import { PanelChildMixin } from '../../mixins/panel.js'
 import StepHeader from './StepHeader.js'
 
 import slot from '../../utils/slot.js'
 
 const StepWrapper = Vue.extend({
-  name: 'QStepWrapper',
+  name: 'WStepWrapper',
 
   render (h) {
     return h('div', {
@@ -21,12 +21,12 @@ const StepWrapper = Vue.extend({
 })
 
 export default Vue.extend({
-  name: 'QStep',
+  name: 'WStep',
 
   inject: {
     stepper: {
       default () {
-        console.error('QStep needs to be child of QStepper')
+        console.error('WStep needs to be child of WStepper')
       }
     }
   },
@@ -95,7 +95,7 @@ export default Vue.extend({
           }),
 
           this.stepper.animated === true
-            ? h(QSlideTransition, [ content ])
+            ? h(WSlideTransition, [ content ])
             : content
         ]
         : [ content ]

@@ -1,14 +1,14 @@
 import Vue from 'vue'
 
-import QMenu from '../menu/QMenu.js'
-import QBtn from '../btn/QBtn.js'
+import WMenu from '../menu/QMenu.js'
+import WBtn from '../btn/QBtn.js'
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
 
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QPopupEdit',
+  name: 'WPopupEdit',
 
   props: {
     value: {
@@ -95,7 +95,7 @@ export default Vue.extend({
 
       this.buttons === true && child.push(
         h('div', { staticClass: 'q-popup-edit__buttons row justify-center no-wrap' }, [
-          h(QBtn, {
+          h(WBtn, {
             props: {
               flat: true,
               color: this.color,
@@ -103,7 +103,7 @@ export default Vue.extend({
             },
             on: { click: this.cancel }
           }),
-          h(QBtn, {
+          h(WBtn, {
             props: {
               flat: true,
               color: this.color,
@@ -121,7 +121,7 @@ export default Vue.extend({
   render (h) {
     if (this.disable === true) { return }
 
-    return h(QMenu, {
+    return h(WMenu, {
       ref: 'menu',
       props: {
         contentClass: this.classes,

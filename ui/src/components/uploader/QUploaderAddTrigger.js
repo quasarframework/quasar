@@ -1,12 +1,12 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'QUploaderAddTrigger',
+  name: 'WUploaderAddTrigger',
 
   inject: {
     __qUploaderGetInput: {
       default () {
-        console.error('QUploaderAddTrigger needs to be child of QUploader')
+        console.error('WUploaderAddTrigger needs to be child of WUploader')
       }
     }
   },

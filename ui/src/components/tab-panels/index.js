@@ -1,7 +1,7 @@
-import QTabPanels from './QTabPanels.js'
-import QTabPanel from './QTabPanel.js'
+import WTabPanels from './QTabPanels.js'
+import WTabPanel from './QTabPanel.js'
 
 export {
-  QTabPanels,
-  QTabPanel
+  WTabPanels,
+  WTabPanel
 }

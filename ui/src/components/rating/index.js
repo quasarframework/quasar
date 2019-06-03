@@ -1,5 +1,5 @@
-import QRating from './QRating.js'
+import WRating from './QRating.js'
 
 export {
-  QRating
+  WRating
 }

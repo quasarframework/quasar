@@ -1,5 +1,5 @@
-import QAvatar from './QAvatar.js'
+import WAvatar from './QAvatar.js'
 
 export {
-  QAvatar
+  WAvatar
 }

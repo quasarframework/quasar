@@ -1,6 +1,6 @@
-import QLinearProgress from '../linear-progress/QLinearProgress.js'
-import QCheckbox from '../checkbox/QCheckbox.js'
-import QSeparator from '../separator/QSeparator.js'
+import WLinearProgress from '../linear-progress/QLinearProgress.js'
+import WCheckbox from '../checkbox/QCheckbox.js'
+import WSeparator from '../separator/QSeparator.js'
 
 export default {
   methods: {
@@ -17,7 +17,7 @@ export default {
 
           this.hasSelectionMode === true && child.unshift(
             h('div', { staticClass: 'q-table__grid-item-row' }, [
-              h(QCheckbox, {
+              h(WCheckbox, {
                 props: {
                   value: scope.selected,
                   color: this.color,
@@ -32,7 +32,7 @@ export default {
               })
             ]),
 
-            h(QSeparator, { props: { dark: this.dark } })
+            h(WSeparator, { props: { dark: this.dark } })
           )
 
           return h('div', {
@@ -51,7 +51,7 @@ export default {
         this.hideHeader === false
           ? h('div', { staticClass: 'q-table__middle' }, [
             this.loading === true
-              ? h(QLinearProgress, {
+              ? h(WLinearProgress, {
                 staticClass: 'q-table__linear-progress',
                 props: {
                   color: this.color,

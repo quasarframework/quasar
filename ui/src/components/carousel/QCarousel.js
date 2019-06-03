@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import QBtn from '../btn/QBtn.js'
+import WBtn from '../btn/QBtn.js'
 
 import { PanelParentMixin } from '../../mixins/panel.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
@@ -9,7 +9,7 @@ import { isNumber } from '../../utils/is.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QCarousel',
+  name: 'WCarousel',
 
   mixins: [ PanelParentMixin, FullscreenMixin ],
 
@@ -112,12 +112,12 @@ export default Vue.extend({
 
       if (this.arrows === true) {
         node.push(
-          h(QBtn, {
+          h(WBtn, {
             staticClass: 'q-carousel__control q-carousel__prev-arrow absolute',
             props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
             on: { click: this.previous }
           }),
-          h(QBtn, {
+          h(WBtn, {
             staticClass: 'q-carousel__control q-carousel__next-arrow absolute',
             props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
             on: { click: this.next }
@@ -129,7 +129,7 @@ export default Vue.extend({
         node.push(this.__getNavigationContainer(h, 'buttons', panel => {
           const name = panel.componentOptions.propsData.name
 
-          return h(QBtn, {
+          return h(WBtn, {
             key: name,
             staticClass: 'q-carousel__navigation-icon',
             class: { 'q-carousel__navigation-icon--active': name === this.value },

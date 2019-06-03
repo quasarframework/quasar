@@ -1,12 +1,12 @@
 import Vue from 'vue'
 
-import QIcon from '../icon/QIcon.js'
+import WIcon from '../icon/QIcon.js'
 import RippleMixin from '../../mixins/ripple.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QChip',
+  name: 'WChip',
 
   mixins: [ RippleMixin ],
 
@@ -100,7 +100,7 @@ export default Vue.extend({
       )
 
       this.hasLeftIcon && child.push(
-        h(QIcon, {
+        h(WIcon, {
           staticClass: 'q-chip__icon q-chip__icon--left',
           props: { name: this.selected === true ? this.$q.iconSet.chip.selected : this.icon }
         })
@@ -113,14 +113,14 @@ export default Vue.extend({
       )
 
       this.iconRight && child.push(
-        h(QIcon, {
+        h(WIcon, {
           staticClass: 'q-chip__icon q-chip__icon--right',
           props: { name: this.iconRight }
         })
       )
 
       this.removable && child.push(
-        h(QIcon, {
+        h(WIcon, {
           staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
           props: { name: this.$q.iconSet.chip.remove },
           attrs: { tabindex: this.computedTabindex },

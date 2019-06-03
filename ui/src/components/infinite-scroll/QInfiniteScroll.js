@@ -7,7 +7,7 @@ import { listenOpts } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QInfiniteScroll',
+  name: 'WInfiniteScroll',
 
   props: {
     offset: {

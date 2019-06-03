@@ -1,5 +1,5 @@
-import QSplitter from './QSplitter.js'
+import WSplitter from './QSplitter.js'
 
 export {
-  QSplitter
+  WSplitter
 }

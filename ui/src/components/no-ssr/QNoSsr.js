@@ -4,7 +4,7 @@ import CanRenderMixin from '../../mixins/can-render.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QNoSsr',
+  name: 'WNoSsr',
 
   mixins: [ CanRenderMixin ],
 

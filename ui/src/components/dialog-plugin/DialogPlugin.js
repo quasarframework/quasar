@@ -1,16 +1,16 @@
 import Vue from 'vue'
 
-import QDialog from '../dialog/QDialog.js'
-import QBtn from '../btn/QBtn.js'
+import WDialog from '../dialog/QDialog.js'
+import WBtn from '../btn/QBtn.js'
 
 import clone from '../../utils/clone.js'
 
-import QCard from '../card/QCard.js'
-import QCardSection from '../card/QCardSection.js'
-import QCardActions from '../card/QCardActions.js'
+import WCard from '../card/QCard.js'
+import WCardSection from '../card/QCardSection.js'
+import WCardActions from '../card/QCardActions.js'
 
-import QInput from '../input/QInput.js'
-import QOptionGroup from '../option-group/QOptionGroup.js'
+import WInput from '../input/QInput.js'
+import WOptionGroup from '../option-group/QOptionGroup.js'
 
 export default Vue.extend({
   name: 'DialogPlugin',
@@ -103,7 +103,7 @@ export default Vue.extend({
 
     getPrompt (h) {
       return [
-        h(QInput, {
+        h(WInput, {
           props: {
             value: this.prompt.model,
             type: this.prompt.type || 'text',
@@ -127,7 +127,7 @@ export default Vue.extend({
 
     getOptions (h) {
       return [
-        h(QOptionGroup, {
+        h(WOptionGroup, {
           props: {
             value: this.options.model,
             type: this.options.type,
@@ -147,14 +147,14 @@ export default Vue.extend({
       const child = []
 
       if (this.cancel) {
-        child.push(h(QBtn, {
+        child.push(h(WBtn, {
           props: this.cancelProps,
           attrs: { autofocus: !this.prompt && !this.ok },
           on: { click: this.onCancel }
         }))
       }
       if (this.ok) {
-        child.push(h(QBtn, {
+        child.push(h(WBtn, {
           props: this.okProps,
           attrs: { autofocus: !this.prompt },
           on: { click: this.onOk }
@@ -162,7 +162,7 @@ export default Vue.extend({
       }
 
       if (child.length > 0) {
-        return h(QCardActions, {
+        return h(WCardActions, {
           staticClass: this.stackButtons === true ? 'items-end' : null,
           props: {
             vertical: this.stackButtons,
@@ -196,7 +196,7 @@ export default Vue.extend({
 
     if (this.title) {
       child.push(
-        h(QCardSection, {
+        h(WCardSection, {
           staticClass: 'q-dialog__title'
         }, [ this.title ])
       )
@@ -204,7 +204,7 @@ export default Vue.extend({
 
     if (this.message) {
       child.push(
-        h(QCardSection, {
+        h(WCardSection, {
           staticClass: 'q-dialog__message scroll'
         }, [ this.message ])
       )
@@ -213,7 +213,7 @@ export default Vue.extend({
     if (this.hasForm) {
       child.push(
         h(
-          QCardSection,
+          WCardSection,
           { staticClass: 'scroll' },
           this.prompt ? this.getPrompt(h) : this.getOptions(h)
         )
@@ -224,7 +224,7 @@ export default Vue.extend({
       child.push(this.getButtons(h))
     }
 
-    return h(QDialog, {
+    return h(WDialog, {
       ref: 'dialog',
 
       props: {
@@ -238,7 +238,7 @@ export default Vue.extend({
         }
       }
     }, [
-      h(QCard, {
+      h(WCard, {
         staticClass: 'q-dialog-plugin' +
           (this.dark === true ? ' q-dialog-plugin--dark' : ''),
         style: this.cardStyle,

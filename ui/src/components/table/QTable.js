@@ -14,7 +14,7 @@ import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
 export default Vue.extend({
-  name: 'QTable',
+  name: 'WTable',
 
   mixins: [
     FullscreenMixin,

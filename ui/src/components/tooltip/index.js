@@ -1,5 +1,5 @@
-import QTooltip from './QTooltip.js'
+import WTooltip from './QTooltip.js'
 
 export {
-  QTooltip
+  WTooltip
 }

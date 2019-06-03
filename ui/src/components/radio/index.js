@@ -1,5 +1,5 @@
-import QRadio from './QRadio.js'
+import WRadio from './QRadio.js'
 
 export {
-  QRadio
+  WRadio
 }

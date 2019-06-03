@@ -2,10 +2,10 @@ import Vue from 'vue'
 
 import slot from '../../utils/slot.js'
 
-import QIcon from '../icon/QIcon.js'
+import WIcon from '../icon/QIcon.js'
 
 export default Vue.extend({
-  name: 'QAvatar',
+  name: 'WAvatar',
 
   props: {
     size: String,
@@ -45,7 +45,7 @@ export default Vue.extend({
   methods: {
     __getContent (h) {
       return this.icon !== void 0
-        ? [ h(QIcon, { props: { name: this.icon } }) ].concat(slot(this, 'default'))
+        ? [ h(WIcon, { props: { name: this.icon } }) ].concat(slot(this, 'default'))
         : slot(this, 'default')
     }
   },

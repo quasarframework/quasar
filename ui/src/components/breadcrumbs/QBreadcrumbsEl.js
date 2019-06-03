@@ -2,11 +2,11 @@ import Vue from 'vue'
 
 import slot from '../../utils/slot.js'
 
-import QIcon from '../icon/QIcon.js'
+import WIcon from '../icon/QIcon.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 
 export default Vue.extend({
-  name: 'QBreadcrumbsEl',
+  name: 'WBreadcrumbsEl',
 
   mixins: [ RouterLinkMixin ],
 
@@ -23,7 +23,7 @@ export default Vue.extend({
     }, [
 
       this.icon !== void 0
-        ? h(QIcon, {
+        ? h(WIcon, {
           staticClass: 'q-breadcrumbs__el-icon',
           class: this.label !== void 0 ? 'q-breadcrumbs__el-icon--with-label' : null,
           props: { name: this.icon }

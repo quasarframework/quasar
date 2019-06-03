@@ -5,7 +5,7 @@ import CheckboxMixin from '../../mixins/checkbox.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QCheckbox',
+  name: 'WCheckbox',
 
   mixins: [ CheckboxMixin ],
 

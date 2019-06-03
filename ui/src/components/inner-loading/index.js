@@ -1,5 +1,5 @@
-import QInnerLoading from './QInnerLoading.js'
+import WInnerLoading from './QInnerLoading.js'
 
 export {
-  QInnerLoading
+  WInnerLoading
 }

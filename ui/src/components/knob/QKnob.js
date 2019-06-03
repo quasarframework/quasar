@@ -4,17 +4,17 @@ import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 import slot from '../../utils/slot.js'
 
-import QCircularProgress from '../circular-progress/QCircularProgress.js'
+import WCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 const keyCodes = [34, 37, 40, 33, 39, 38]
 
 export default Vue.extend({
-  name: 'QKnob',
+  name: 'WKnob',
 
   mixins: [{
-    props: QCircularProgress.options.props
+    props: WCircularProgress.options.props
   }],
 
   directives: {
@@ -229,6 +229,6 @@ export default Vue.extend({
       }]
     }
 
-    return h(QCircularProgress, data, slot(this, 'default'))
+    return h(WCircularProgress, data, slot(this, 'default'))
   }
 })

@@ -5,7 +5,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QSlideItem',
+  name: 'WSlideItem',
 
   props: {
     leftColor: String,

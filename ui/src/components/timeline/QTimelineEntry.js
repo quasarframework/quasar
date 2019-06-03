@@ -1,14 +1,14 @@
 import Vue from 'vue'
 
-import QIcon from '../icon/QIcon.js'
+import WIcon from '../icon/QIcon.js'
 
 export default Vue.extend({
-  name: 'QTimelineEntry',
+  name: 'WTimelineEntry',
 
   inject: {
     __timeline: {
       default () {
-        console.error('QTimelineEntry needs to be child of QTimeline')
+        console.error('WTimelineEntry needs to be child of WTimeline')
       }
     }
   },
@@ -80,7 +80,7 @@ export default Vue.extend({
 
     if (this.icon !== void 0) {
       dot = [
-        h(QIcon, {
+        h(WIcon, {
           staticClass: 'row items-center justify-center',
           props: { name: this.icon }
         })

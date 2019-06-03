@@ -1,5 +1,5 @@
-import QOptionGroup from './QOptionGroup.js'
+import WOptionGroup from './QOptionGroup.js'
 
 export {
-  QOptionGroup
+  WOptionGroup
 }

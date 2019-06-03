@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import QBtn from '../btn/QBtn.js'
+import WBtn from '../btn/QBtn.js'
 import DateTimeMixin from './datetime-mixin.js'
 
 import { formatDate, __splitDate } from '../../utils/date.js'
@@ -10,7 +10,7 @@ import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
 const yearsInterval = 20
 
 export default Vue.extend({
-  name: 'QDate',
+  name: 'WDate',
 
   mixins: [ DateTimeMixin ],
 
@@ -357,7 +357,7 @@ export default Vue.extend({
             ])
           ]),
 
-          this.todayBtn === true ? h(QBtn, {
+          this.todayBtn === true ? h(WBtn, {
             staticClass: 'q-date__header-today',
             props: {
               icon: this.$q.iconSet.datetime.today,
@@ -379,7 +379,7 @@ export default Vue.extend({
         h('div', {
           staticClass: 'row items-center q-date__arrow'
         }, [
-          h(QBtn, {
+          h(WBtn, {
             props: {
               round: true,
               dense: true,
@@ -403,7 +403,7 @@ export default Vue.extend({
             }
           }, [
             h('div', { key }, [
-              h(QBtn, {
+              h(WBtn, {
                 props: {
                   flat: true,
                   dense: true,
@@ -422,7 +422,7 @@ export default Vue.extend({
         h('div', {
           staticClass: 'row items-center q-date__arrow'
         }, [
-          h(QBtn, {
+          h(WBtn, {
             props: {
               round: true,
               dense: true,
@@ -482,7 +482,7 @@ export default Vue.extend({
                 staticClass: `q-date__calendar-item q-date__calendar-item--${day.in === true ? 'in' : 'out'}`
               }, [
                 day.in === true
-                  ? h(QBtn, {
+                  ? h(WBtn, {
                     staticClass: day.today === true ? 'q-date__today' : null,
                     props: {
                       dense: true,
@@ -516,7 +516,7 @@ export default Vue.extend({
         return h('div', {
           staticClass: 'q-date__months-item flex flex-center'
         }, [
-          h(QBtn, {
+          h(WBtn, {
             staticClass: currentYear === true && this.today.month === i + 1 ? 'q-date__today' : null,
             props: {
               flat: !active,
@@ -556,7 +556,7 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-date__years-item flex flex-center'
           }, [
-            h(QBtn, {
+            h(WBtn, {
               staticClass: this.today.year === i ? 'q-date__today' : null,
               props: {
                 flat: !active,
@@ -581,7 +581,7 @@ export default Vue.extend({
         h('div', {
           staticClass: 'col-auto'
         }, [
-          h(QBtn, {
+          h(WBtn, {
             props: {
               round: true,
               dense: true,
@@ -602,7 +602,7 @@ export default Vue.extend({
         h('div', {
           staticClass: 'col-auto'
         }, [
-          h(QBtn, {
+          h(WBtn, {
             props: {
               round: true,
               dense: true,

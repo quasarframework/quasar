@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
-import QIcon from '../icon/QIcon.js'
-import QSpinner from '../spinner/QSpinner.js'
+import WIcon from '../icon/QIcon.js'
+import WSpinner from '../spinner/QSpinner.js'
 
 import BtnMixin from './btn-mixin.js'
 
@@ -9,7 +9,7 @@ import slot from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
 export default Vue.extend({
-  name: 'QBtn',
+  name: 'WBtn',
 
   mixins: [ BtnMixin ],
 
@@ -146,7 +146,7 @@ export default Vue.extend({
 
     if (this.icon !== void 0) {
       inner.unshift(
-        h(QIcon, {
+        h(WIcon, {
           props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
         })
       )
@@ -154,7 +154,7 @@ export default Vue.extend({
 
     if (this.iconRight !== void 0 && this.isRound === false) {
       inner.push(
-        h(QIcon, {
+        h(WIcon, {
           props: { name: this.iconRight, right: this.stack === false && this.hasLabel === true }
         })
       )
@@ -187,7 +187,7 @@ export default Vue.extend({
           h('div', {
             key: 'loading',
             staticClass: 'absolute-full flex flex-center'
-          }, this.$scopedSlots.loading !== void 0 ? this.$scopedSlots.loading() : [ h(QSpinner) ])
+          }, this.$scopedSlots.loading !== void 0 ? this.$scopedSlots.loading() : [ h(WSpinner) ])
         ] : void 0)
         : null
     ])

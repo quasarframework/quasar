@@ -7,7 +7,7 @@ const
   strokeDashArray = Math.round(circumference * 1000) / 1000
 
 export default Vue.extend({
-  name: 'QCircularProgress',
+  name: 'WCircularProgress',
 
   props: {
     value: {
@@ -47,7 +47,7 @@ export default Vue.extend({
     showValue: Boolean,
     reverse: Boolean,
 
-    instantFeedback: Boolean // used by QKnob, private
+    instantFeedback: Boolean // used by WKnob, private
   },
 
   computed: {

@@ -1,5 +1,5 @@
-import QSeparator from './QSeparator.js'
+import WSeparator from './QSeparator.js'
 
 export {
-  QSeparator
+  WSeparator
 }

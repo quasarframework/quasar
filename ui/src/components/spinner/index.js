@@ -1,45 +1,45 @@
-import QSpinner from './QSpinner.js'
+import WSpinner from './QSpinner.js'
 
-import QSpinnerAudio from './QSpinnerAudio.js'
-import QSpinnerBall from './QSpinnerBall.js'
-import QSpinnerBars from './QSpinnerBars.js'
-import QSpinnerComment from './QSpinnerComment.js'
-import QSpinnerCube from './QSpinnerCube.js'
-import QSpinnerDots from './QSpinnerDots.js'
-import QSpinnerFacebook from './QSpinnerFacebook.js'
-import QSpinnerGears from './QSpinnerGears.js'
-import QSpinnerGrid from './QSpinnerGrid.js'
-import QSpinnerHearts from './QSpinnerHearts.js'
-import QSpinnerHourglass from './QSpinnerHourglass.js'
-import QSpinnerInfinity from './QSpinnerInfinity.js'
-import QSpinnerIos from './QSpinnerIos.js'
-import QSpinnerOval from './QSpinnerOval.js'
-import QSpinnerPie from './QSpinnerPie.js'
-import QSpinnerPuff from './QSpinnerPuff.js'
-import QSpinnerRadio from './QSpinnerRadio.js'
-import QSpinnerRings from './QSpinnerRings.js'
-import QSpinnerTail from './QSpinnerTail.js'
+import WSpinnerAudio from './QSpinnerAudio.js'
+import WSpinnerBall from './QSpinnerBall.js'
+import WSpinnerBars from './QSpinnerBars.js'
+import WSpinnerComment from './QSpinnerComment.js'
+import WSpinnerCube from './QSpinnerCube.js'
+import WSpinnerDots from './QSpinnerDots.js'
+import WSpinnerFacebook from './QSpinnerFacebook.js'
+import WSpinnerGears from './QSpinnerGears.js'
+import WSpinnerGrid from './QSpinnerGrid.js'
+import WSpinnerHearts from './QSpinnerHearts.js'
+import WSpinnerHourglass from './QSpinnerHourglass.js'
+import WSpinnerInfinity from './QSpinnerInfinity.js'
+import WSpinnerIos from './QSpinnerIos.js'
+import WSpinnerOval from './QSpinnerOval.js'
+import WSpinnerPie from './QSpinnerPie.js'
+import WSpinnerPuff from './QSpinnerPuff.js'
+import WSpinnerRadio from './QSpinnerRadio.js'
+import WSpinnerRings from './QSpinnerRings.js'
+import WSpinnerTail from './QSpinnerTail.js'
 
 export {
-  QSpinner,
+  WSpinner,
 
-  QSpinnerAudio,
-  QSpinnerBall,
-  QSpinnerBars,
-  QSpinnerComment,
-  QSpinnerCube,
-  QSpinnerDots,
-  QSpinnerFacebook,
-  QSpinnerGears,
-  QSpinnerGrid,
-  QSpinnerHearts,
-  QSpinnerHourglass,
-  QSpinnerInfinity,
-  QSpinnerIos,
-  QSpinnerOval,
-  QSpinnerPie,
-  QSpinnerPuff,
-  QSpinnerRadio,
-  QSpinnerRings,
-  QSpinnerTail
+  WSpinnerAudio,
+  WSpinnerBall,
+  WSpinnerBars,
+  WSpinnerComment,
+  WSpinnerCube,
+  WSpinnerDots,
+  WSpinnerFacebook,
+  WSpinnerGears,
+  WSpinnerGrid,
+  WSpinnerHearts,
+  WSpinnerHourglass,
+  WSpinnerInfinity,
+  WSpinnerIos,
+  WSpinnerOval,
+  WSpinnerPie,
+  WSpinnerPuff,
+  WSpinnerRadio,
+  WSpinnerRings,
+  WSpinnerTail
 }

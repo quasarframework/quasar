@@ -3,7 +3,7 @@ import Vue from 'vue'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QBar',
+  name: 'WBar',
 
   props: {
     dense: Boolean,

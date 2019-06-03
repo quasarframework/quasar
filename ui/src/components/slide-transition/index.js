@@ -1,5 +1,5 @@
-import QSlideTransition from './QSlideTransition.js'
+import WSlideTransition from './QSlideTransition.js'
 
 export {
-  QSlideTransition
+  WSlideTransition
 }

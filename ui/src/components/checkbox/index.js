@@ -1,5 +1,5 @@
-import QCheckbox from './QCheckbox.js'
+import WCheckbox from './QCheckbox.js'
 
 export {
-  QCheckbox
+  WCheckbox
 }

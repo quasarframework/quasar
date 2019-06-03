@@ -1,5 +1,5 @@
-import QScrollArea from './QScrollArea.js'
+import WScrollArea from './QScrollArea.js'
 
 export {
-  QScrollArea
+  WScrollArea
 }

@@ -1,11 +1,11 @@
 import Vue from 'vue'
 
-import QIcon from '../icon/QIcon.js'
+import WIcon from '../icon/QIcon.js'
 
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QTh',
+  name: 'WTh',
 
   props: {
     props: Object,
@@ -38,7 +38,7 @@ export default Vue.extend({
         : 'push'
 
       child[action](
-        h(QIcon, {
+        h(WIcon, {
           props: { name: this.$q.iconSet.table.arrowUp },
           staticClass: col.__iconClass
         })

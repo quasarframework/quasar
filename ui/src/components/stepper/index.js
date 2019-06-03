@@ -1,9 +1,9 @@
-import QStep from './QStep.js'
-import QStepper from './QStepper.js'
-import QStepperNavigation from './QStepperNavigation.js'
+import WStep from './QStep.js'
+import WStepper from './QStepper.js'
+import WStepperNavigation from './QStepperNavigation.js'
 
 export {
-  QStep,
-  QStepper,
-  QStepperNavigation
+  WStep,
+  WStepper,
+  WStepperNavigation
 }

@@ -1,5 +1,5 @@
-import QField from './QField.js'
+import WField from './QField.js'
 
 export {
-  QField
+  WField
 }

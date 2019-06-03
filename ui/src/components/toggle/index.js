@@ -1,5 +1,5 @@
-import QToggle from './QToggle.js'
+import WToggle from './QToggle.js'
 
 export {
-  QToggle
+  WToggle
 }

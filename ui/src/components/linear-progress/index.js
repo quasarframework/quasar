@@ -1,5 +1,5 @@
-import QLinearProgress from './QLinearProgress.js'
+import WLinearProgress from './QLinearProgress.js'
 
 export {
-  QLinearProgress
+  WLinearProgress
 }

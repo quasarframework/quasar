@@ -1,5 +1,5 @@
-import QBanner from './QBanner.js'
+import WBanner from './QBanner.js'
 
 export {
-  QBanner
+  WBanner
 }

@@ -1,5 +1,5 @@
-import QNoSsr from './QNoSsr.js'
+import WNoSsr from './QNoSsr.js'
 
 export {
-  QNoSsr
+  WNoSsr
 }

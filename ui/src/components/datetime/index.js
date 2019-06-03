@@ -1,7 +1,7 @@
-import QDate from './QDate.js'
-import QTime from './QTime.js'
+import WDate from './QDate.js'
+import WTime from './QTime.js'
 
 export {
-  QDate,
-  QTime
+  WDate,
+  WTime
 }

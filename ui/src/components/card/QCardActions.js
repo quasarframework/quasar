@@ -5,7 +5,7 @@ import AlignMixin from '../../mixins/align.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QCardActions',
+  name: 'WCardActions',
 
   mixins: [ AlignMixin ],
 

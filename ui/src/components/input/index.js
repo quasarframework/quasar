@@ -1,5 +1,5 @@
-import QInput from './QInput.js'
+import WInput from './QInput.js'
 
 export {
-  QInput
+  WInput
 }

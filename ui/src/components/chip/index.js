@@ -1,5 +1,5 @@
-import QChip from './QChip.js'
+import WChip from './QChip.js'
 
 export {
-  QChip
+  WChip
 }

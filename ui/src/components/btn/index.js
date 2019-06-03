@@ -1,11 +1,11 @@
-import QBtn from './QBtn.js'
-import QBtnGroup from './QBtnGroup.js'
-import QBtnDropdown from './QBtnDropdown.js'
-import QBtnToggle from './QBtnToggle.js'
+import WBtn from './QBtn.js'
+import WBtnGroup from './QBtnGroup.js'
+import WBtnDropdown from './QBtnDropdown.js'
+import WBtnToggle from './QBtnToggle.js'
 
 export {
-  QBtn,
-  QBtnGroup,
-  QBtnDropdown,
-  QBtnToggle
+  WBtn,
+  WBtnGroup,
+  WBtnDropdown,
+  WBtnToggle
 }

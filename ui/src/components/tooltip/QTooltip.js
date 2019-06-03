@@ -13,7 +13,7 @@ import {
 } from '../../utils/position-engine.js'
 
 export default Vue.extend({
-  name: 'QTooltip',
+  name: 'WTooltip',
 
   mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
 

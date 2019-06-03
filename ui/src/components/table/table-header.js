@@ -1,6 +1,6 @@
-import QLinearProgress from '../linear-progress/QLinearProgress.js'
-import QCheckbox from '../checkbox/QCheckbox.js'
-import QTh from './QTh.js'
+import WLinearProgress from '../linear-progress/QLinearProgress.js'
+import WCheckbox from '../checkbox/QCheckbox.js'
+import WTh from './QTh.js'
 
 export default {
   methods: {
@@ -10,7 +10,7 @@ export default {
       this.loading === true && child.push(
         h('tr', { staticClass: 'q-table__progress' }, [
           h('td', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
-            h(QLinearProgress, {
+            h(WLinearProgress, {
               staticClass: 'q-table__linear-progress',
               props: {
                 color: this.color,
@@ -44,7 +44,7 @@ export default {
         })
       }
       else {
-        mapFn = col => h(QTh, {
+        mapFn = col => h(WTh, {
           key: col.name,
           props: {
             props: {
@@ -65,7 +65,7 @@ export default {
       }
       else if (this.multipleSelection === true) {
         child.unshift(h('th', { staticClass: 'q-table--col-auto-width' }, [
-          h(QCheckbox, {
+          h(WCheckbox, {
             props: {
               color: this.color,
               value: this.someRowsSelected ? null : this.allRowsSelected,

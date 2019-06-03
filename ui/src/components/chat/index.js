@@ -1,5 +1,5 @@
-import QChatMessage from './QChatMessage.js'
+import WChatMessage from './QChatMessage.js'
 
 export {
-  QChatMessage
+  WChatMessage
 }

@@ -1,5 +1,5 @@
-import QBadge from './QBadge.js'
+import WBadge from './QBadge.js'
 
 export {
-  QBadge
+  WBadge
 }

@@ -1,7 +1,7 @@
-import QTimeline from './QTimeline.js'
-import QTimelineEntry from './QTimelineEntry.js'
+import WTimeline from './QTimeline.js'
+import WTimelineEntry from './QTimelineEntry.js'
 
 export {
-  QTimeline,
-  QTimelineEntry
+  WTimeline,
+  WTimelineEntry
 }

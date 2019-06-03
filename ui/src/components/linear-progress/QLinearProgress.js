@@ -7,7 +7,7 @@ function width (val) {
 }
 
 export default Vue.extend({
-  name: 'QLinearProgress',
+  name: 'WLinearProgress',
 
   props: {
     value: {

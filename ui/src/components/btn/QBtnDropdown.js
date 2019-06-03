@@ -2,15 +2,15 @@ import Vue from 'vue'
 
 import BtnMixin from './btn-mixin.js'
 
-import QIcon from '../icon/QIcon.js'
-import QBtn from './QBtn.js'
-import QBtnGroup from './QBtnGroup.js'
-import QMenu from '../menu/QMenu.js'
+import WIcon from '../icon/QIcon.js'
+import WBtn from './QBtn.js'
+import WBtnGroup from './QBtnGroup.js'
+import WMenu from '../menu/QMenu.js'
 
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QBtnDropdown',
+  name: 'WBtnDropdown',
 
   mixins: [ BtnMixin ],
 
@@ -55,7 +55,7 @@ export default Vue.extend({
       : []
 
     const Arrow = [
-      h(QIcon, {
+      h(WIcon, {
         props: {
           name: this.$q.iconSet.arrow.dropdown
         },
@@ -68,7 +68,7 @@ export default Vue.extend({
     ]
 
     this.disableDropdown !== true && Arrow.push(
-      h(QMenu, {
+      h(WMenu, {
         ref: 'menu',
         props: {
           cover: this.cover,
@@ -102,7 +102,7 @@ export default Vue.extend({
     )
 
     if (this.split === false) {
-      return h(QBtn, {
+      return h(WBtn, {
         class: 'q-btn-dropdown q-btn-dropdown--simple',
         props: {
           ...this.$props,
@@ -117,7 +117,7 @@ export default Vue.extend({
       }, label.concat(Arrow))
     }
 
-    const Btn = h(QBtn, {
+    const Btn = h(WBtn, {
       class: 'q-btn-dropdown--current',
       props: {
         ...this.$props,
@@ -133,7 +133,7 @@ export default Vue.extend({
       }
     }, label)
 
-    return h(QBtnGroup, {
+    return h(WBtnGroup, {
       props: {
         outline: this.outline,
         flat: this.flat,
@@ -147,7 +147,7 @@ export default Vue.extend({
     }, [
       Btn,
 
-      h(QBtn, {
+      h(WBtn, {
         staticClass: 'q-btn-dropdown__arrow-container',
         props: {
           disable: this.disable === true || this.disableDropdown === true,

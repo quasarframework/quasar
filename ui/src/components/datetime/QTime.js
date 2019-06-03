@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import QBtn from '../btn/QBtn.js'
+import WBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 import { formatDate, __splitDate } from '../../utils/date.js'
@@ -9,7 +9,7 @@ import { pad } from '../../utils/format.js'
 import DateTimeMixin from './datetime-mixin.js'
 
 export default Vue.extend({
-  name: 'QTime',
+  name: 'WTime',
 
   mixins: [ DateTimeMixin ],
 
@@ -525,7 +525,7 @@ export default Vue.extend({
           ])
         ]),
 
-        this.nowBtn === true ? h(QBtn, {
+        this.nowBtn === true ? h(WBtn, {
           staticClass: 'q-time__now-button absolute',
           props: {
             icon: this.$q.iconSet.datetime.now,

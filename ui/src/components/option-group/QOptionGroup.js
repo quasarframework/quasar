@@ -1,17 +1,17 @@
 import Vue from 'vue'
 
-import QRadio from '../radio/QRadio.js'
-import QCheckbox from '../checkbox/QCheckbox.js'
-import QToggle from '../toggle/QToggle.js'
+import WRadio from '../radio/QRadio.js'
+import WCheckbox from '../checkbox/QCheckbox.js'
+import WToggle from '../toggle/QToggle.js'
 
 const components = {
-  radio: QRadio,
-  checkbox: QCheckbox,
-  toggle: QToggle
+  radio: WRadio,
+  checkbox: WCheckbox,
+  toggle: WToggle
 }
 
 export default Vue.extend({
-  name: 'QOptionGroup',
+  name: 'WOptionGroup',
 
   props: {
     value: {

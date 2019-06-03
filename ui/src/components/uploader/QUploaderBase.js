@@ -1,7 +1,7 @@
-import QBtn from '../btn/QBtn.js'
-import QIcon from '../icon/QIcon.js'
-import QSpinner from '../spinner/QSpinner.js'
-import QCircularProgress from '../circular-progress/QCircularProgress.js'
+import WBtn from '../btn/QBtn.js'
+import WIcon from '../icon/QIcon.js'
+import WSpinner from '../spinner/QSpinner.js'
+import WCircularProgress from '../circular-progress/QCircularProgress.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
@@ -340,7 +340,7 @@ export default {
 
     __getBtn (h, show, icon, fn) {
       if (show === true) {
-        return h(QBtn, {
+        return h(WBtn, {
           props: {
             type: 'a',
             icon: this.$q.iconSet.uploader[icon],
@@ -382,7 +382,7 @@ export default {
         this.__getBtn(h, this.uploadedFiles.length > 0, 'removeUploaded', this.removeUploadedFiles),
 
         this.isUploading === true
-          ? h(QSpinner, { staticClass: 'q-uploader__spinner' })
+          ? h(WSpinner, { staticClass: 'q-uploader__spinner' })
           : null,
 
         h('div', { staticClass: 'col column justify-center' }, [
@@ -422,7 +422,7 @@ export default {
           staticClass: 'q-uploader__file-header row flex-center no-wrap'
         }, [
           file.__status === 'failed'
-            ? h(QIcon, {
+            ? h(WIcon, {
               staticClass: 'q-uploader__file-status',
               props: {
                 name: this.$q.iconSet.type.negative,
@@ -441,7 +441,7 @@ export default {
           ]),
 
           file.__status === 'uploading'
-            ? h(QCircularProgress, {
+            ? h(WCircularProgress, {
               props: {
                 value: file.__progress,
                 min: 0,
@@ -449,7 +449,7 @@ export default {
                 indeterminate: file.__progress === 0
               }
             })
-            : h(QBtn, {
+            : h(WBtn, {
               props: {
                 round: true,
                 dense: true,
@@ -507,7 +507,7 @@ export default {
       this.isBusy === true ? h('div', {
         staticClass: 'q-uploader__overlay absolute-full flex flex-center'
       }, [
-        h(QSpinner)
+        h(WSpinner)
       ]) : null
     ])
   }

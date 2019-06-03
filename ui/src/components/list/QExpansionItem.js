@@ -1,11 +1,11 @@
 import Vue from 'vue'
 
-import QItem from '../list/QItem.js'
-import QItemSection from '../list/QItemSection.js'
-import QItemLabel from '../list/QItemLabel.js'
-import QIcon from '../icon/QIcon.js'
-import QSlideTransition from '../slide-transition/QSlideTransition.js'
-import QSeparator from '../separator/QSeparator.js'
+import WItem from '../list/QItem.js'
+import WItemSection from '../list/QItemSection.js'
+import WItemLabel from '../list/QItemLabel.js'
+import WIcon from '../icon/QIcon.js'
+import WSlideTransition from '../slide-transition/QSlideTransition.js'
+import WSeparator from '../separator/QSeparator.js'
 
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
@@ -15,7 +15,7 @@ import slot from '../../utils/slot.js'
 const eventName = 'q:expansion-item:close'
 
 export default Vue.extend({
-  name: 'QExpansionItem',
+  name: 'WExpansionItem',
 
   mixins: [ RouterLinkMixin, ModelToggleMixin ],
 
@@ -108,7 +108,7 @@ export default Vue.extend({
     },
 
     __getToggleIcon (h) {
-      return h(QItemSection, {
+      return h(WItemSection, {
         staticClass: `cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
         class: this.expandIconClass,
         props: {
@@ -120,7 +120,7 @@ export default Vue.extend({
           keyup: this.__toggleIconKeyboard
         } : void 0
       }, [
-        h(QIcon, {
+        h(WIcon, {
           staticClass: 'q-expansion-item__toggle-icon q-focusable',
           class: {
             'rotate-180': this.showing,
@@ -150,13 +150,13 @@ export default Vue.extend({
       }
       else {
         child = [
-          h(QItemSection, [
-            h(QItemLabel, {
+          h(WItemSection, [
+            h(WItemLabel, {
               props: { lines: this.labelLines }
             }, [ this.label || '' ]),
 
             this.caption
-              ? h(QItemLabel, {
+              ? h(WItemLabel, {
                 props: { lines: this.captionLines, caption: true }
               }, [ this.caption ])
               : null
@@ -164,13 +164,13 @@ export default Vue.extend({
         ]
 
         this.icon && child[this.switchToggleSide === true ? 'push' : 'unshift'](
-          h(QItemSection, {
+          h(WItemSection, {
             props: {
               side: this.switchToggleSide === true,
               avatar: this.switchToggleSide !== true
             }
           }, [
-            h(QIcon, {
+            h(WIcon, {
               props: { name: this.icon }
             })
           ])
@@ -206,14 +206,14 @@ export default Vue.extend({
         )
       }
 
-      return h(QItem, data, child)
+      return h(WItem, data, child)
     },
 
     __getContent (h) {
       const node = [
         this.__getHeader(h),
 
-        h(QSlideTransition, {
+        h(WSlideTransition, {
           props: { duration: this.duration }
         }, [
           h('div', {
@@ -226,11 +226,11 @@ export default Vue.extend({
 
       if (this.expandSeparator) {
         node.push(
-          h(QSeparator, {
+          h(WSeparator, {
             staticClass: 'q-expansion-item__border q-expansion-item__border--top absolute-top',
             props: { dark: this.dark }
           }),
-          h(QSeparator, {
+          h(WSeparator, {
             staticClass: 'q-expansion-item__border q-expansion-item__border--bottom absolute-bottom',
             props: { dark: this.dark }
           })

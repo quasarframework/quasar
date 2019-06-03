@@ -2,10 +2,10 @@ import Vue from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
-import QIcon from '../icon/QIcon.js'
+import WIcon from '../icon/QIcon.js'
 
 export default Vue.extend({
-  name: 'QRating',
+  name: 'WRating',
 
   props: {
     value: {
@@ -99,7 +99,7 @@ export default Vue.extend({
 
     for (let i = 1; i <= this.max; i++) {
       child.push(
-        h(QIcon, {
+        h(WIcon, {
           key: i,
           ref: `rt${i}`,
           staticClass: 'q-rating__icon',

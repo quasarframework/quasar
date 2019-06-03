@@ -1,12 +1,12 @@
 import Vue from 'vue'
 
-import QBtn from './QBtn.js'
-import QBtnGroup from './QBtnGroup.js'
+import WBtn from './QBtn.js'
+import WBtnGroup from './QBtnGroup.js'
 
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QBtnToggle',
+  name: 'WBtnToggle',
 
   props: {
     value: {
@@ -71,7 +71,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h(QBtnGroup, {
+    return h(WBtnGroup, {
       staticClass: 'q-btn-toggle',
       props: {
         outline: this.outline,
@@ -86,7 +86,7 @@ export default Vue.extend({
       on: this.$listeners
     },
     this.options.map(
-      (opt, i) => h(QBtn, {
+      (opt, i) => h(WBtn, {
         key: i,
         on: { click: () => this.set(opt.value, opt) },
         props: {

@@ -1,14 +1,14 @@
 import Vue from 'vue'
 
-import QIcon from '../icon/QIcon.js'
-import QSpinner from '../spinner/QSpinner.js'
+import WIcon from '../icon/QIcon.js'
+import WSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
 import slot from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
-  name: 'QField',
+  name: 'WField',
 
   inheritAttrs: false,
 
@@ -53,15 +53,15 @@ export default Vue.extend({
     autofocus: Boolean,
 
     maxlength: [Number, String],
-    maxValues: [Number, String] // do not add to JSON, internally needed by QSelect
+    maxValues: [Number, String] // do not add to JSON, internally needed by WSelect
   },
 
   data () {
     return {
       focused: false,
 
-      // used internally by validation for QInput
-      // or menu handling for QSelect
+      // used internally by validation for WInput
+      // or menu handling for WSelect
       innerLoading: false
     }
   },
@@ -206,7 +206,7 @@ export default Vue.extend({
 
       this.hasError === true && this.noErrorIcon === false && node.push(
         this.__getInnerAppendNode(h, 'error', [
-          h(QIcon, { props: { name: this.$q.iconSet.field.error, color: 'negative' } })
+          h(WIcon, { props: { name: this.$q.iconSet.field.error, color: 'negative' } })
         ])
       )
 
@@ -217,7 +217,7 @@ export default Vue.extend({
             'inner-loading-append',
             this.$scopedSlots.loading !== void 0
               ? this.$scopedSlots.loading()
-              : [ h(QSpinner, { props: { color: this.color } }) ]
+              : [ h(WSpinner, { props: { color: this.color } }) ]
           )
         )
       }
@@ -225,7 +225,7 @@ export default Vue.extend({
       if (this.clearable === true && this.hasValue === true && this.editable === true) {
         node.push(
           this.__getInnerAppendNode(h, 'inner-clearable-append', [
-            h(QIcon, {
+            h(WIcon, {
               staticClass: 'cursor-pointer',
               props: { name: this.clearIcon || this.$q.iconSet.field.clear },
               on: {

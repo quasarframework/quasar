@@ -1,15 +1,15 @@
 import Vue from 'vue'
 
-import QField from '../field/QField.js'
-import QIcon from '../icon/QIcon.js'
-import QChip from '../chip/QChip.js'
+import WField from '../field/QField.js'
+import WIcon from '../icon/QIcon.js'
+import WChip from '../chip/QChip.js'
 
-import QItem from '../list/QItem.js'
-import QItemSection from '../list/QItemSection.js'
-import QItemLabel from '../list/QItemLabel.js'
+import WItem from '../list/QItem.js'
+import WItemSection from '../list/QItemSection.js'
+import WItemLabel from '../list/QItemLabel.js'
 
-import QMenu from '../menu/QMenu.js'
-import QDialog from '../dialog/QDialog.js'
+import WMenu from '../menu/QMenu.js'
+import WDialog from '../dialog/QDialog.js'
 
 import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
@@ -18,9 +18,9 @@ import { normalizeToInterval } from '../../utils/format.js'
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 
 export default Vue.extend({
-  name: 'QSelect',
+  name: 'WSelect',
 
-  mixins: [ QField ],
+  mixins: [ WField ],
 
   props: {
     value: {
@@ -480,7 +480,7 @@ export default Vue.extend({
         const done = (val, mode) => {
           if (mode) {
             if (validateNewValueMode(mode) !== true) {
-              console.error('QSelect: invalid new value mode - ' + mode)
+              console.error('WSelect: invalid new value mode - ' + mode)
               return
             }
           }
@@ -565,7 +565,7 @@ export default Vue.extend({
       if (this.useChips === true) {
         const tabindex = this.focused === true ? 0 : -1
 
-        return this.selectedScope.map((scope, i) => h(QChip, {
+        return this.selectedScope.map((scope, i) => h(WChip, {
           key: 'option-' + i,
           props: {
             removable: this.__isDisabled(scope.opt) !== true,
@@ -625,13 +625,13 @@ export default Vue.extend({
     __getOptions (h) {
       const fn = this.$scopedSlots.option !== void 0
         ? this.$scopedSlots.option
-        : scope => h(QItem, {
+        : scope => h(WItem, {
           key: scope.index,
           props: scope.itemProps,
           on: scope.itemEvents
         }, [
-          h(QItemSection, [
-            h(QItemLabel, {
+          h(WItemSection, [
+            h(WItemLabel, {
               domProps: {
                 [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.__getOptionLabel(scope.opt)
               }
@@ -645,7 +645,7 @@ export default Vue.extend({
     __getInnerAppend (h) {
       return this.hideDropdownIcon !== true
         ? [
-          h(QIcon, {
+          h(WIcon, {
             staticClass: 'q-select__dropdown-icon',
             props: { name: this.dropdownArrowIcon }
           })
@@ -802,7 +802,7 @@ export default Vue.extend({
         )
         : this.__getOptions(h)
 
-      return h(QMenu, {
+      return h(WMenu, {
         ref: 'menu',
         props: {
           value: this.menu,
@@ -826,7 +826,7 @@ export default Vue.extend({
 
     __getDialog (h) {
       const content = [
-        h(QField, {
+        h(WField, {
           staticClass: `col-auto ${this.fieldClass}`,
           props: {
             ...this.$props,
@@ -871,7 +871,7 @@ export default Vue.extend({
         ))
       )
 
-      return h(QDialog, {
+      return h(WDialog, {
         props: {
           value: this.dialog,
           noRefocus: true,

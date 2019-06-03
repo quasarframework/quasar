@@ -16,7 +16,7 @@ const dragType = {
 }
 
 export default Vue.extend({
-  name: 'QRange',
+  name: 'WRange',
 
   mixins: [ SliderMixin ],
 

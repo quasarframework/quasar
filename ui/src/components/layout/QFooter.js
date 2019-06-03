@@ -1,20 +1,20 @@
 import Vue from 'vue'
 
-import QResizeObserver from '../observer/QResizeObserver.js'
+import WResizeObserver from '../observer/QResizeObserver.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import { onSSR } from '../../plugins/Platform.js'
 import slot from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
-  name: 'QFooter',
+  name: 'WFooter',
 
   mixins: [ CanRenderMixin ],
 
   inject: {
     layout: {
       default () {
-        console.error('QFooter needs to be child of QLayout')
+        console.error('WFooter needs to be child of WLayout')
       }
     }
   },
@@ -128,7 +128,7 @@ export default Vue.extend({
 
   render (h) {
     const child = [
-      h(QResizeObserver, {
+      h(WResizeObserver, {
         props: { debounce: 0 },
         on: { resize: this.__onResize }
       })

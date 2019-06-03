@@ -1,19 +1,19 @@
-import QList from './QList.js'
+import WList from './QList.js'
 
-import QItem from './QItem.js'
-import QItemSection from './QItemSection.js'
-import QItemLabel from './QItemLabel.js'
+import WItem from './QItem.js'
+import WItemSection from './QItemSection.js'
+import WItemLabel from './QItemLabel.js'
 
-import QExpansionItem from './QExpansionItem.js'
-import QSlideItem from './QSlideItem.js'
+import WExpansionItem from './QExpansionItem.js'
+import WSlideItem from './QSlideItem.js'
 
 export {
-  QList,
+  WList,
 
-  QItem,
-  QItemSection,
-  QItemLabel,
+  WItem,
+  WItemSection,
+  WItemLabel,
 
-  QExpansionItem,
-  QSlideItem
+  WExpansionItem,
+  WSlideItem
 }

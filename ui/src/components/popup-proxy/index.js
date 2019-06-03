@@ -1,5 +1,5 @@
-import QPopupProxy from './QPopupProxy.js'
+import WPopupProxy from './QPopupProxy.js'
 
 export {
-  QPopupProxy
+  WPopupProxy
 }

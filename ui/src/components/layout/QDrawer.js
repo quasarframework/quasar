@@ -9,12 +9,12 @@ import slot from '../../utils/slot.js'
 const duration = 150
 
 export default Vue.extend({
-  name: 'QDrawer',
+  name: 'WDrawer',
 
   inject: {
     layout: {
       default () {
-        console.error('QDrawer needs to be child of QLayout')
+        console.error('WDrawer needs to be child of WLayout')
       }
     }
   },

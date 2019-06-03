@@ -1,9 +1,9 @@
-import QCard from './QCard.js'
-import QCardSection from './QCardSection.js'
-import QCardActions from './QCardActions.js'
+import WCard from './QCard.js'
+import WCardSection from './QCardSection.js'
+import WCardActions from './QCardActions.js'
 
 export {
-  QCard,
-  QCardSection,
-  QCardActions
+  WCard,
+  WCardSection,
+  WCardActions
 }

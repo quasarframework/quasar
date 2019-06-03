@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'QSeparator',
+  name: 'WSeparator',
 
   props: {
     dark: Boolean,

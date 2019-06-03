@@ -1,5 +1,5 @@
-import QForm from './QForm.js'
+import WForm from './QForm.js'
 
 export {
-  QForm
+  WForm
 }

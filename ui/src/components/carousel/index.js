@@ -1,9 +1,9 @@
-import QCarousel from './QCarousel.js'
-import QCarouselSlide from './QCarouselSlide.js'
-import QCarouselControl from './QCarouselControl.js'
+import WCarousel from './QCarousel.js'
+import WCarouselSlide from './QCarouselSlide.js'
+import WCarouselControl from './QCarouselControl.js'
 
 export {
-  QCarousel,
-  QCarouselSlide,
-  QCarouselControl
+  WCarousel,
+  WCarouselSlide,
+  WCarouselControl
 }

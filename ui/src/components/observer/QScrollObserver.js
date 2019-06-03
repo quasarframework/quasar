@@ -4,7 +4,7 @@ import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from 
 import { listenOpts } from '../../utils/event.js'
 
 export default Vue.extend({
-  name: 'QScrollObserver',
+  name: 'WScrollObserver',
 
   props: {
     debounce: [String, Number],

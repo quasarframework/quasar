@@ -3,12 +3,12 @@ import Vue from 'vue'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QPageSticky',
+  name: 'WPageSticky',
 
   inject: {
     layout: {
       default () {
-        console.error('QPageSticky needs to be child of QLayout')
+        console.error('WPageSticky needs to be child of WLayout')
       }
     }
   },

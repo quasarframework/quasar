@@ -1,6 +1,6 @@
-import QSelect from '../select/QSelect.js'
-import QBtn from '../btn/QBtn.js'
-import QIcon from '../icon/QIcon.js'
+import WSelect from '../select/QSelect.js'
+import WBtn from '../btn/QBtn.js'
+import WIcon from '../icon/QIcon.js'
 
 export default {
   computed: {
@@ -22,7 +22,7 @@ export default {
           : (this.loading === true ? this.loadingLabel || this.$q.lang.table.loading : this.noDataLabel || this.$q.lang.table.noData)
 
         return h('div', { staticClass: 'q-table__bottom row items-center q-table__bottom--nodata' }, [
-          h(QIcon, { props: { name: this.$q.iconSet.table.warning } }),
+          h(WIcon, { props: { name: this.$q.iconSet.table.warning } }),
           message
         ])
       }
@@ -57,7 +57,7 @@ export default {
             h('span', { staticClass: 'q-table__bottom-item' }, [
               this.rowsPerPageLabel || this.$q.lang.table.recordsPerPage
             ]),
-            h(QSelect, {
+            h(WSelect, {
               staticClass: 'inline q-table__bottom-item',
               props: {
                 color: this.color,
@@ -92,7 +92,7 @@ export default {
                   ? paginationLabel(this.firstRowIndex + 1, Math.min(this.lastRowIndex, this.computedRowsNumber), this.computedRowsNumber)
                   : paginationLabel(1, this.computedRowsNumber, this.computedRowsNumber)
               ]),
-              h(QBtn, {
+              h(WBtn, {
                 props: {
                   color: this.color,
                   round: true,
@@ -103,7 +103,7 @@ export default {
                 },
                 on: { click: this.prevPage }
               }),
-              h(QBtn, {
+              h(WBtn, {
                 props: {
                   color: this.color,
                   round: true,

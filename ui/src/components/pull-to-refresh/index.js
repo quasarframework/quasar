@@ -1,5 +1,5 @@
-import QPullToRefresh from './QPullToRefresh.js'
+import WPullToRefresh from './QPullToRefresh.js'
 
 export {
-  QPullToRefresh
+  WPullToRefresh
 }

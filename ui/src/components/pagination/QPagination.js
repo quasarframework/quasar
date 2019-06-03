@@ -1,13 +1,13 @@
 import Vue from 'vue'
 
-import QBtn from '../btn/QBtn.js'
-import QInput from '../input/QInput.js'
+import WBtn from '../btn/QBtn.js'
+import WInput from '../input/QInput.js'
 
 import { stop } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 
 export default Vue.extend({
-  name: 'QPagination',
+  name: 'WPagination',
 
   props: {
     value: {
@@ -145,7 +145,7 @@ export default Vue.extend({
         size: this.size,
         ...props
       }
-      return h(QBtn, data)
+      return h(WBtn, data)
     }
   },
 
@@ -198,7 +198,7 @@ export default Vue.extend({
     }
 
     if (this.input === true) {
-      contentMiddle.push(h(QInput, {
+      contentMiddle.push(h(WInput, {
         staticClass: 'inline',
         style: {
           width: `${this.inputPlaceholder.length / 2}em`

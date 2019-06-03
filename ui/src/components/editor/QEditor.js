@@ -10,7 +10,7 @@ import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
 
 export default Vue.extend({
-  name: 'QEditor',
+  name: 'WEditor',
 
   mixins: [ FullscreenMixin ],
 
@@ -109,7 +109,7 @@ export default Vue.extend({
         link: { cmd: 'link', icon: i.hyperlink, tip: e.hyperlink, key: 76 },
         fullscreen: { cmd: 'fullscreen', icon: i.toggleFullscreen, tip: e.toggleFullscreen, key: 70 },
 
-        quote: { cmd: 'formatBlock', param: 'BLOCKQUOTE', icon: i.quote, tip: e.quote, key: 81 },
+        quote: { cmd: 'formatBlock', param: 'BLOCKWUOTE', icon: i.quote, tip: e.quote, key: 81 },
         left: { cmd: 'justifyLeft', icon: i.left, tip: e.left },
         center: { cmd: 'justifyCenter', icon: i.center, tip: e.center },
         right: { cmd: 'justifyRight', icon: i.right, tip: e.right },

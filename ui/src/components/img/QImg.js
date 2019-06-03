@@ -1,11 +1,11 @@
 import Vue from 'vue'
 
-import QSpinner from '../spinner/QSpinner.js'
+import WSpinner from '../spinner/QSpinner.js'
 
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QImg',
+  name: 'WImg',
 
   props: {
     src: String,
@@ -225,7 +225,7 @@ export default Vue.extend({
           key: 'placeholder',
           staticClass: 'q-img__loading absolute-full flex flex-center'
         }, this.$scopedSlots.loading !== void 0 ? this.$scopedSlots.loading() : [
-          h(QSpinner, {
+          h(WSpinner, {
             props: {
               color: this.spinnerColor,
               size: this.spinnerSize

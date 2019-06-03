@@ -1,15 +1,15 @@
-import QTable from './QTable.js'
-import QTh from './QTh.js'
-import QTr from './QTr.js'
-import QTd from './QTd.js'
+import WTable from './QTable.js'
+import WTh from './QTh.js'
+import WTr from './QTr.js'
+import WTd from './QTd.js'
 
-import QMarkupTable from './QMarkupTable.js'
+import WMarkupTable from './QMarkupTable.js'
 
 export {
-  QTable,
-  QTh,
-  QTr,
-  QTd,
+  WTable,
+  WTh,
+  WTr,
+  WTd,
 
-  QMarkupTable
+  WMarkupTable
 }

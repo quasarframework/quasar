@@ -4,7 +4,7 @@ import { PanelChildMixin } from '../../mixins/panel.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QTabPanel',
+  name: 'WTabPanel',
 
   mixins: [ PanelChildMixin ],
 

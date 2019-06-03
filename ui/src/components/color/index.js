@@ -1,5 +1,5 @@
-import QColor from './QColor.js'
+import WColor from './QColor.js'
 
 export {
-  QColor
+  WColor
 }

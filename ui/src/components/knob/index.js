@@ -1,5 +1,5 @@
-import QKnob from './QKnob.js'
+import WKnob from './QKnob.js'
 
 export {
-  QKnob
+  WKnob
 }

@@ -1,11 +1,11 @@
 import Vue from 'vue'
 
 import CheckboxMixin from '../../mixins/checkbox.js'
-import QIcon from '../icon/QIcon.js'
+import WIcon from '../icon/QIcon.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QToggle',
+  name: 'WToggle',
 
   mixins: [ CheckboxMixin ],
 
@@ -67,7 +67,7 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-toggle__thumb row flex-center'
           }, this.computedIcon !== void 0
-            ? [ h(QIcon, { props: { name: this.computedIcon } }) ]
+            ? [ h(WIcon, { props: { name: this.computedIcon } }) ]
             : null
           )
         ])

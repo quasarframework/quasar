@@ -6,13 +6,13 @@ import { hexToRgb, rgbToHex, rgbToString, stringToRgb, rgbToHsv, hsvToRgb, lumin
 
 import TouchPan from '../../directives/TouchPan.js'
 
-import QSlider from '../slider/QSlider.js'
-import QIcon from '../icon/QIcon.js'
+import WSlider from '../slider/QSlider.js'
+import WIcon from '../icon/QIcon.js'
 
-import QTabs from '../tabs/QTabs.js'
-import QTab from '../tabs/QTab.js'
-import QTabPanels from '../tab-panels/QTabPanels.js'
-import QTabPanel from '../tab-panels/QTabPanel.js'
+import WTabs from '../tabs/QTabs.js'
+import WTab from '../tabs/QTab.js'
+import WTabPanels from '../tab-panels/QTabPanels.js'
+import WTabPanel from '../tab-panels/QTabPanel.js'
 
 const palette = [
   'rgb(255,204,204)', 'rgb(255,230,204)', 'rgb(255,255,204)', 'rgb(204,255,204)', 'rgb(204,255,230)', 'rgb(204,255,255)', 'rgb(204,230,255)', 'rgb(204,204,255)', 'rgb(230,204,255)', 'rgb(255,204,255)',
@@ -28,7 +28,7 @@ const palette = [
 ]
 
 export default Vue.extend({
-  name: 'QColor',
+  name: 'WColor',
 
   directives: {
     TouchPan
@@ -196,7 +196,7 @@ export default Vue.extend({
           class: this.headerClass,
           style: this.currentBgColor
         }, [
-          h(QTabs, {
+          h(WTabs, {
             props: {
               value: this.topView,
               dense: true,
@@ -206,7 +206,7 @@ export default Vue.extend({
               input: val => { this.topView = val }
             }
           }, [
-            h(QTab, {
+            h(WTab, {
               props: {
                 label: 'HEX' + (this.hasAlpha === true ? 'A' : ''),
                 name: 'hex',
@@ -214,7 +214,7 @@ export default Vue.extend({
               }
             }),
 
-            h(QTab, {
+            h(WTab, {
               props: {
                 label: 'RGB' + (this.hasAlpha === true ? 'A' : ''),
                 name: 'rgb',
@@ -243,7 +243,7 @@ export default Vue.extend({
               }
             }),
 
-            h(QIcon, {
+            h(WIcon, {
               ref: 'errorIcon',
               staticClass: 'q-color-picker__error-icon absolute no-pointer-events',
               props: { name: this.$q.iconSet.type.negative }
@@ -254,23 +254,23 @@ export default Vue.extend({
     },
 
     __getContent (h) {
-      return h(QTabPanels, {
+      return h(WTabPanels, {
         props: {
           value: this.view,
           animated: true
         }
       }, [
-        h(QTabPanel, {
+        h(WTabPanel, {
           staticClass: 'q-color-picker__spectrum-tab',
           props: { name: 'spectrum' }
         }, this.__getSpectrumTab(h)),
 
-        h(QTabPanel, {
+        h(WTabPanel, {
           staticClass: 'q-pa-md q-color-picker__tune-tab',
           props: { name: 'tune' }
         }, this.__getTuneTab(h)),
 
-        h(QTabPanel, {
+        h(WTabPanel, {
           staticClass: 'q-pa-sm q-color-picker__palette-tab',
           props: { name: 'palette' }
         }, this.__getPaletteTab(h))
@@ -278,7 +278,7 @@ export default Vue.extend({
     },
 
     __getFooter (h) {
-      return h(QTabs, {
+      return h(WTabs, {
         staticClass: 'q-color-picker__footer',
         props: {
           value: this.view,
@@ -289,7 +289,7 @@ export default Vue.extend({
           input: val => { this.view = val }
         }
       }, [
-        h(QTab, {
+        h(WTab, {
           props: {
             icon: this.$q.iconSet.colorPicker.spectrum,
             name: 'spectrum',
@@ -297,7 +297,7 @@ export default Vue.extend({
           }
         }),
 
-        h(QTab, {
+        h(WTab, {
           props: {
             icon: this.$q.iconSet.colorPicker.tune,
             name: 'tune',
@@ -305,7 +305,7 @@ export default Vue.extend({
           }
         }),
 
-        h(QTab, {
+        h(WTab, {
           props: {
             icon: this.$q.iconSet.colorPicker.palette,
             name: 'palette',
@@ -352,7 +352,7 @@ export default Vue.extend({
           staticClass: 'q-color-picker__sliders'
         }, [
           h('div', { staticClass: 'q-color-picker__hue q-mx-sm non-selectable' }, [
-            h(QSlider, {
+            h(WSlider, {
               props: {
                 value: this.model.h,
                 min: 0,
@@ -368,7 +368,7 @@ export default Vue.extend({
           ]),
           this.hasAlpha === true
             ? h('div', { staticClass: 'q-mx-sm q-color-picker__alpha non-selectable' }, [
-              h(QSlider, {
+              h(WSlider, {
                 props: {
                   value: this.model.a,
                   min: 0,
@@ -391,7 +391,7 @@ export default Vue.extend({
       return [
         h('div', { staticClass: 'row items-center no-wrap' }, [
           h('div', ['R']),
-          h(QSlider, {
+          h(WSlider, {
             props: {
               value: this.model.r,
               min: 0,
@@ -421,7 +421,7 @@ export default Vue.extend({
 
         h('div', { staticClass: 'row items-center no-wrap' }, [
           h('div', ['G']),
-          h(QSlider, {
+          h(WSlider, {
             props: {
               value: this.model.g,
               min: 0,
@@ -451,7 +451,7 @@ export default Vue.extend({
 
         h('div', { staticClass: 'row items-center no-wrap' }, [
           h('div', ['B']),
-          h(QSlider, {
+          h(WSlider, {
             props: {
               value: this.model.b,
               min: 0,
@@ -481,7 +481,7 @@ export default Vue.extend({
 
         this.hasAlpha === true ? h('div', { staticClass: 'row items-center no-wrap' }, [
           h('div', ['A']),
-          h(QSlider, {
+          h(WSlider, {
             props: {
               value: this.model.a,
               color: 'grey',

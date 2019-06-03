@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import QIcon from '../icon/QIcon.js'
+import WIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/Ripple.js'
 
 export default Vue.extend({
@@ -122,7 +122,7 @@ export default Vue.extend({
         h('span', { staticClass: 'row flex-center' }, [
           this.hasPrefix === true
             ? this.step.prefix
-            : h(QIcon, { props: { name: this.icon } })
+            : h(WIcon, { props: { name: this.icon } })
         ])
       ]),
 

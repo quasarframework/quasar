@@ -1,5 +1,5 @@
-import QInfiniteScroll from './QInfiniteScroll.js'
+import WInfiniteScroll from './QInfiniteScroll.js'
 
 export {
-  QInfiniteScroll
+  WInfiniteScroll
 }

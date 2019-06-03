@@ -1,13 +1,13 @@
 import Vue from 'vue'
 
-import QDialog from '../dialog/QDialog.js'
-import QMenu from '../menu/QMenu.js'
+import WDialog from '../dialog/QDialog.js'
+import WMenu from '../menu/QMenu.js'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QPopupProxy',
+  name: 'WPopupProxy',
 
   mixins: [ AnchorMixin ],
 
@@ -92,7 +92,7 @@ export default Vue.extend({
       child[0].componentOptions !== void 0 &&
       child[0].componentOptions.Ctor !== void 0 &&
       child[0].componentOptions.Ctor.sealedOptions !== void 0 &&
-      ['QDate', 'QTime', 'QCarousel', 'QColor'].includes(
+      ['WDate', 'WTime', 'WCarousel', 'WColor'].includes(
         child[0].componentOptions.Ctor.sealedOptions.name
       )
     ) ? { cover: true, maxHeight: '99vh' } : {}
@@ -109,10 +109,10 @@ export default Vue.extend({
     let component
 
     if (this.type === 'dialog') {
-      component = QDialog
+      component = WDialog
     }
     else {
-      component = QMenu
+      component = WMenu
       data.props.contextMenu = this.contextMenu
       data.props.noParentEvent = true
     }

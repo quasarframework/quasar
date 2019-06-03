@@ -1,13 +1,13 @@
 import Vue from 'vue'
 
-import QTab from './QTab.js'
+import WTab from './QTab.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import { isSameRoute, isIncludedRoute } from '../../utils/router.js'
 
 export default Vue.extend({
-  name: 'QRouteTab',
+  name: 'WRouteTab',
 
-  mixins: [ QTab, RouterLinkMixin ],
+  mixins: [ WTab, RouterLinkMixin ],
 
   props: {
     to: { required: true }

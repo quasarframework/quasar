@@ -1,7 +1,7 @@
-import QResizeObserver from './QResizeObserver.js'
-import QScrollObserver from './QScrollObserver.js'
+import WResizeObserver from './QResizeObserver.js'
+import WScrollObserver from './QScrollObserver.js'
 
 export {
-  QResizeObserver,
-  QScrollObserver
+  WResizeObserver,
+  WScrollObserver
 }

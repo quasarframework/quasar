@@ -1,17 +1,17 @@
-import QLayout from './QLayout.js'
-import QDrawer from './QDrawer.js'
-import QFooter from './QFooter.js'
-import QHeader from './QHeader.js'
-import QPage from './QPage.js'
-import QPageContainer from './QPageContainer.js'
-import QPageSticky from './QPageSticky.js'
+import WLayout from './QLayout.js'
+import WDrawer from './QDrawer.js'
+import WFooter from './QFooter.js'
+import WHeader from './QHeader.js'
+import WPage from './QPage.js'
+import WPageContainer from './QPageContainer.js'
+import WPageSticky from './QPageSticky.js'
 
 export {
-  QLayout,
-  QDrawer,
-  QFooter,
-  QHeader,
-  QPage,
-  QPageContainer,
-  QPageSticky
+  WLayout,
+  WDrawer,
+  WFooter,
+  WHeader,
+  WPage,
+  WPageContainer,
+  WPageSticky
 }

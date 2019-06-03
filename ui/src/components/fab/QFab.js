@@ -1,13 +1,13 @@
 import Vue from 'vue'
 
-import QBtn from '../btn/QBtn.js'
-import QIcon from '../icon/QIcon.js'
+import WBtn from '../btn/QBtn.js'
+import WIcon from '../icon/QIcon.js'
 import FabMixin from './fab-mixin.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QFab',
+  name: 'WFab',
 
   mixins: [ FabMixin, ModelToggleMixin ],
 
@@ -47,7 +47,7 @@ export default Vue.extend({
       class: this.showing === true ? 'q-fab--opened' : null,
       on: this.$listeners
     }, [
-      h(QBtn, {
+      h(WBtn, {
         ref: 'trigger',
         props: {
           ...this.$props,
@@ -58,11 +58,11 @@ export default Vue.extend({
           click: this.toggle
         }
       }, tooltip.concat([
-        h(QIcon, {
+        h(WIcon, {
           staticClass: 'q-fab__icon absolute-full',
           props: { name: this.icon || this.$q.iconSet.fab.icon }
         }),
-        h(QIcon, {
+        h(WIcon, {
           staticClass: 'q-fab__active-icon absolute-full',
           props: { name: this.activeIcon || this.$q.iconSet.fab.activeIcon }
         })

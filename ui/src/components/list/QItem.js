@@ -5,7 +5,7 @@ import slot from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
 export default Vue.extend({
-  name: 'QItem',
+  name: 'WItem',
 
   mixins: [ RouterLinkMixin ],
 

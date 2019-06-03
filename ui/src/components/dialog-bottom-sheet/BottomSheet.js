@@ -1,15 +1,15 @@
 import Vue from 'vue'
 
-import QDialog from '../dialog/QDialog.js'
+import WDialog from '../dialog/QDialog.js'
 
-import QIcon from '../icon/QIcon.js'
-import QSeparator from '../separator/QSeparator.js'
+import WIcon from '../icon/QIcon.js'
+import WSeparator from '../separator/QSeparator.js'
 
-import QCard from '../card/QCard.js'
-import QCardSection from '../card/QCardSection.js'
+import WCard from '../card/QCard.js'
+import WCardSection from '../card/QCardSection.js'
 
-import QItem from '../list/QItem.js'
-import QItemSection from '../list/QItemSection.js'
+import WItem from '../list/QItem.js'
+import WItemSection from '../list/QItemSection.js'
 
 export default Vue.extend({
   name: 'BottomSheetPlugin',
@@ -48,7 +48,7 @@ export default Vue.extend({
         const img = action.avatar || action.img
 
         return action.label === void 0
-          ? h(QSeparator, {
+          ? h(WSeparator, {
             staticClass: 'col-all',
             props: { dark: this.dark }
           })
@@ -66,7 +66,7 @@ export default Vue.extend({
             h('div', { staticClass: 'q-focus-helper' }),
 
             action.icon
-              ? h(QIcon, { props: { name: action.icon, color: action.color } })
+              ? h(WIcon, { props: { name: action.icon, color: action.color } })
               : (
                 img
                   ? h('img', {
@@ -86,8 +86,8 @@ export default Vue.extend({
         const img = action.avatar || action.img
 
         return action.label === void 0
-          ? h(QSeparator, { props: { spaced: true, dark: this.dark } })
-          : h(QItem, {
+          ? h(WSeparator, { props: { spaced: true, dark: this.dark } })
+          : h(WItem, {
             staticClass: 'q-bottom-sheet__item',
             class: action.classes,
             props: {
@@ -102,9 +102,9 @@ export default Vue.extend({
               }
             }
           }, [
-            h(QItemSection, { props: { avatar: true } }, [
+            h(WItemSection, { props: { avatar: true } }, [
               action.icon
-                ? h(QIcon, { props: { name: action.icon, color: action.color } })
+                ? h(WIcon, { props: { name: action.icon, color: action.color } })
                 : (
                   img
                     ? h('img', {
@@ -114,7 +114,7 @@ export default Vue.extend({
                     : null
                 )
             ]),
-            h(QItemSection, [ action.label ])
+            h(WItemSection, [ action.label ])
           ])
       })
     }
@@ -125,7 +125,7 @@ export default Vue.extend({
 
     if (this.title) {
       child.push(
-        h(QCardSection, {
+        h(WCardSection, {
           staticClass: 'q-dialog__title'
         }, [ this.title ])
       )
@@ -133,7 +133,7 @@ export default Vue.extend({
 
     if (this.message) {
       child.push(
-        h(QCardSection, {
+        h(WCardSection, {
           staticClass: 'q-dialog__message scroll'
         }, [ this.message ])
       )
@@ -147,7 +147,7 @@ export default Vue.extend({
         : h('div', { staticClass: 'scroll' }, this.__getList(h))
     )
 
-    return h(QDialog, {
+    return h(WDialog, {
       ref: 'dialog',
 
       props: {
@@ -161,7 +161,7 @@ export default Vue.extend({
         }
       }
     }, [
-      h(QCard, {
+      h(WCard, {
         staticClass: `q-bottom-sheet q-bottom-sheet--${this.grid === true ? 'grid' : 'list'}` +
           (this.dark === true ? ' q-bottom-sheet--dark' : ''),
         style: this.cardStyle,

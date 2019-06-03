@@ -1,21 +1,21 @@
 import Vue from 'vue'
 
 import uid from '../../utils/uid.js'
-import QIcon from '../icon/QIcon.js'
+import WIcon from '../icon/QIcon.js'
 import RippleMixin from '../../mixins/ripple.js'
 
 import { stop } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QTab',
+  name: 'WTab',
 
   mixins: [ RippleMixin ],
 
   inject: {
     tabs: {
       default () {
-        console.error('QTab/QRouteTab components need to be child of QTabsBar')
+        console.error('WTab/WRouteTab components need to be child of WTabsBar')
       }
     },
     __activateTab: {}
@@ -83,7 +83,7 @@ export default Vue.extend({
           class: this.tabs.indicatorClass
         })
 
-      this.icon !== void 0 && content.push(h(QIcon, {
+      this.icon !== void 0 && content.push(h(WIcon, {
         staticClass: 'q-tab__icon',
         props: { name: this.icon }
       }))

@@ -95,7 +95,7 @@ export default {
       if (!res) {
         this.$emit(
           'factory-failed',
-          new Error('QUploader: factory() does not return properly'),
+          new Error('WUploader: factory() does not return properly'),
           files
         )
         this.workingThreads--

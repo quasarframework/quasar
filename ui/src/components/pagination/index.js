@@ -1,5 +1,5 @@
-import QPagination from './QPagination.js'
+import WPagination from './QPagination.js'
 
 export {
-  QPagination
+  WPagination
 }

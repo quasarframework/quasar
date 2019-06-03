@@ -4,7 +4,7 @@ import { stopAndPrevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QRadio',
+  name: 'WRadio',
 
   props: {
     value: {

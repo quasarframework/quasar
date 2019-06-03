@@ -1,5 +1,5 @@
-import QSpace from './QSpace.js'
+import WSpace from './QSpace.js'
 
 export {
-  QSpace
+  WSpace
 }

@@ -1,5 +1,5 @@
-import QCircularProgress from './QCircularProgress.js'
+import WCircularProgress from './QCircularProgress.js'
 
 export {
-  QCircularProgress
+  WCircularProgress
 }

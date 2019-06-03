@@ -1,5 +1,5 @@
-import QAjaxBar from './QAjaxBar.js'
+import WAjaxBar from './QAjaxBar.js'
 
 export {
-  QAjaxBar
+  WAjaxBar
 }

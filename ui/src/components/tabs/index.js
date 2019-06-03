@@ -1,9 +1,9 @@
-import QTabs from './QTabs.js'
-import QTab from './QTab.js'
-import QRouteTab from './QRouteTab.js'
+import WTabs from './QTabs.js'
+import WTab from './QTab.js'
+import WRouteTab from './QRouteTab.js'
 
 export {
-  QTabs,
-  QTab,
-  QRouteTab
+  WTabs,
+  WTab,
+  WRouteTab
 }

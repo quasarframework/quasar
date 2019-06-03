@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
-import QIcon from '../icon/QIcon.js'
-import QResizeObserver from '../observer/QResizeObserver.js'
+import WIcon from '../icon/QIcon.js'
+import WResizeObserver from '../observer/QResizeObserver.js'
 
 import { stop } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
@@ -40,7 +40,7 @@ const
   bufferFiltersLen = bufferFilters.length
 
 export default Vue.extend({
-  name: 'QTabs',
+  name: 'WTabs',
 
   provide () {
     return {
@@ -356,11 +356,11 @@ export default Vue.extend({
       },
       attrs: { role: 'tablist' }
     }, [
-      h(QResizeObserver, {
+      h(WResizeObserver, {
         on: { resize: this.__updateContainer }
       }),
 
-      h(QIcon, {
+      h(WIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--left q-tab__icon',
         class: this.leftArrow === true ? '' : 'q-tabs__arrow--faded',
         props: { name: this.leftIcon || (this.vertical === true ? this.$q.iconSet.tabs.up : this.$q.iconSet.tabs.left) },
@@ -379,7 +379,7 @@ export default Vue.extend({
         class: this.alignClass
       }, slot(this, 'default')),
 
-      h(QIcon, {
+      h(WIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--right q-tab__icon',
         class: this.rightArrow === true ? '' : 'q-tabs__arrow--faded',
         props: { name: this.rightIcon || (this.vertical === true ? this.$q.iconSet.tabs.down : this.$q.iconSet.tabs.right) },

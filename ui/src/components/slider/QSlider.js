@@ -11,7 +11,7 @@ import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
 export default Vue.extend({
-  name: 'QSlider',
+  name: 'WSlider',
 
   mixins: [ SliderMixin ],
 

@@ -1,5 +1,5 @@
-import QTree from './QTree.js'
+import WTree from './QTree.js'
 
 export {
-  QTree
+  WTree
 }

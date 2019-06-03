@@ -1,11 +1,11 @@
-import QBtn from '../btn/QBtn.js'
-import QBtnDropdown from '../btn/QBtnDropdown.js'
-import QInput from '../input/QInput.js'
-import QIcon from '../icon/QIcon.js'
-import QTooltip from '../tooltip/QTooltip.js'
-import QList from '../list/QList.js'
-import QItem from '../list/QItem.js'
-import QItemSection from '../list/QItemSection.js'
+import WBtn from '../btn/QBtn.js'
+import WBtnDropdown from '../btn/QBtnDropdown.js'
+import WInput from '../input/QInput.js'
+import WIcon from '../icon/QIcon.js'
+import WTooltip from '../tooltip/QTooltip.js'
+import WList from '../list/QList.js'
+import WItem from '../list/QItem.js'
+import WItemSection from '../list/QItemSection.js'
 
 import { prevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
@@ -43,14 +43,14 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
       ? h('div', [h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)])
       : null
     child.push(
-      h(QTooltip, { props: { delay: 1000 } }, [
+      h(WTooltip, { props: { delay: 1000 } }, [
         h('div', { domProps: { innerHTML: btn.tip } }),
         Key
       ])
     )
   }
 
-  return h(QBtn, {
+  return h(WBtn, {
     props: {
       ...vm.buttonProps,
       icon: btn.icon,
@@ -115,7 +115,7 @@ function getDropdown (h, vm, btn) {
       const htmlTip = btn.htmlTip
 
       return h(
-        QItem,
+        WItem,
         {
           props: { active, activeClass, clickable: true, disable: disable, dense: true },
           on: {
@@ -130,14 +130,14 @@ function getDropdown (h, vm, btn) {
         [
           btn.list === 'no-icons'
             ? null
-            : h(QItemSection, {
+            : h(WItemSection, {
               class: active ? activeClass : inactiveClass,
               props: { side: true }
             }, [
-              h(QIcon, { props: { name: btn.icon } })
+              h(WIcon, { props: { name: btn.icon } })
             ]),
 
-          h(QItemSection, [
+          h(WItemSection, [
             htmlTip
               ? h('div', {
                 domProps: { innerHTML: btn.htmlTip }
@@ -149,13 +149,13 @@ function getDropdown (h, vm, btn) {
     })
     contentClass = [vm.toolbarBackgroundClass, inactiveClass]
     Items = [
-      h(QList, [ Items ])
+      h(WList, [ Items ])
     ]
   }
 
   const highlight = btn.highlight && label !== btn.label
   const Dropdown = h(
-    QBtnDropdown,
+    WBtnDropdown,
     {
       props: {
         ...vm.buttonProps,
@@ -235,7 +235,7 @@ export function getLinkEditor (h, vm) {
 
     return [
       h('div', { staticClass: 'q-mx-xs', 'class': `text-${color}` }, [`${vm.$q.lang.editor.url}: `]),
-      h(QInput, {
+      h(WInput, {
         key: 'qedt_btm_input',
         staticClass: 'q-ma-none q-pa-none col q-editor-input',
         props: {
@@ -263,7 +263,7 @@ export function getLinkEditor (h, vm) {
         }
       }),
       __getGroup(h, [
-        h(QBtn, {
+        h(WBtn, {
           key: 'qedt_btm_rem',
           attrs: { tabindex: -1 },
           props: {
@@ -279,7 +279,7 @@ export function getLinkEditor (h, vm) {
             }
           }
         }),
-        h(QBtn, {
+        h(WBtn, {
           key: 'qedt_btm_upd',
           props: {
             ...vm.buttonProps,

@@ -30,13 +30,13 @@ export default {
   watch: {
     mask () {
       this.$nextTick(() => {
-        this.__updateValue({}, /* reason for QDate only */ 'mask')
+        this.__updateValue({}, /* reason for WDate only */ 'mask')
       })
     },
 
     computedLocale () {
       this.$nextTick(() => {
-        this.__updateValue({}, /* reason for QDate only */ 'locale')
+        this.__updateValue({}, /* reason for WDate only */ 'locale')
       })
     }
   },

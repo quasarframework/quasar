@@ -1,10 +1,10 @@
 import Vue from 'vue'
 
 import TransitionMixin from '../../mixins/transition.js'
-import QSpinner from '../spinner/QSpinner.js'
+import WSpinner from '../spinner/QSpinner.js'
 
 export default Vue.extend({
-  name: 'QInnerLoading',
+  name: 'WInnerLoading',
 
   mixins: [ TransitionMixin ],
 
@@ -24,7 +24,7 @@ export default Vue.extend({
     const content = this.$scopedSlots.default !== void 0
       ? this.$scopedSlots.default()
       : [
-        h(QSpinner, {
+        h(WSpinner, {
           props: {
             size: this.size,
             color: this.color

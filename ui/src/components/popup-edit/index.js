@@ -1,5 +1,5 @@
-import QPopupEdit from './QPopupEdit.js'
+import WPopupEdit from './QPopupEdit.js'
 
 export {
-  QPopupEdit
+  WPopupEdit
 }

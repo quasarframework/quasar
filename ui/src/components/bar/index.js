@@ -1,5 +1,5 @@
-import QBar from './QBar.js'
+import WBar from './QBar.js'
 
 export {
-  QBar
+  WBar
 }

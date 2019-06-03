@@ -1,5 +1,5 @@
-import QParallax from './QParallax.js'
+import WParallax from './QParallax.js'
 
 export {
-  QParallax
+  WParallax
 }

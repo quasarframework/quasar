@@ -1,5 +1,5 @@
-import QSelect from './QSelect.js'
+import WSelect from './QSelect.js'
 
 export {
-  QSelect
+  WSelect
 }

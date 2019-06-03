@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
-import QIcon from '../icon/QIcon.js'
-import QSpinner from '../spinner/QSpinner.js'
+import WIcon from '../icon/QIcon.js'
+import WSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
@@ -14,7 +14,7 @@ const
   OFFSET_TOP = 20
 
 export default Vue.extend({
-  name: 'QPullToRefresh',
+  name: 'WPullToRefresh',
 
   directives: {
     TouchPan
@@ -169,14 +169,14 @@ export default Vue.extend({
           class: this.animating ? 'q-pull-to-refresh__puller--animating' : null
         }, [
           this.state !== 'refreshing'
-            ? h(QIcon, {
+            ? h(WIcon, {
               props: {
                 name: this.icon || this.$q.iconSet.pullToRefresh.icon,
                 color: this.color,
                 size: '32px'
               }
             })
-            : h(QSpinner, {
+            : h(WSpinner, {
               props: {
                 size: '24px',
                 color: this.color

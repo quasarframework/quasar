@@ -4,12 +4,12 @@ import { between } from '../../utils/format.js'
 import { getMouseWheelDistance, prevent } from '../../utils/event.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import slot from '../../utils/slot.js'
-import QResizeObserver from '../observer/QResizeObserver.js'
-import QScrollObserver from '../observer/QScrollObserver.js'
+import WResizeObserver from '../observer/QResizeObserver.js'
+import WScrollObserver from '../observer/QScrollObserver.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 export default Vue.extend({
-  name: 'QScrollArea',
+  name: 'WScrollArea',
 
   directives: {
     TouchPan
@@ -289,19 +289,19 @@ export default Vue.extend({
           style: this.mainStyle,
           class: `full-${this.horizontal === true ? 'height' : 'width'}`
         }, [
-          h(QResizeObserver, {
+          h(WResizeObserver, {
             on: { resize: this.__updateScrollSize }
           }),
           slot(this, 'default')
         ]),
 
-        h(QScrollObserver, {
+        h(WScrollObserver, {
           props: { horizontal: this.horizontal },
           on: { scroll: this.__updateScroll }
         })
       ]),
 
-      h(QResizeObserver, {
+      h(WResizeObserver, {
         on: { resize: this.__updateContainer }
       }),
 

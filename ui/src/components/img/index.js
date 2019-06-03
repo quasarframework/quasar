@@ -1,5 +1,5 @@
-import QImg from './QImg.js'
+import WImg from './QImg.js'
 
 export {
-  QImg
+  WImg
 }

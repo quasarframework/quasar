@@ -1,7 +1,7 @@
-import QBreadcrumbs from './QBreadcrumbs.js'
-import QBreadcrumbsEl from './QBreadcrumbsEl.js'
+import WBreadcrumbs from './QBreadcrumbs.js'
+import WBreadcrumbsEl from './QBreadcrumbsEl.js'
 
 export {
-  QBreadcrumbs,
-  QBreadcrumbsEl
+  WBreadcrumbs,
+  WBreadcrumbsEl
 }

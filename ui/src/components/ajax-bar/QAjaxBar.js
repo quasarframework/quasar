@@ -80,7 +80,7 @@ function restoreAjax (start, stop) {
 }
 
 export default Vue.extend({
-  name: 'QAjaxBar',
+  name: 'WAjaxBar',
 
   props: {
     position: {

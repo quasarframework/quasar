@@ -5,7 +5,7 @@ import slot from '../../utils/slot.js'
 import { getAllChildren } from '../../utils/vm.js'
 
 export default Vue.extend({
-  name: 'QForm',
+  name: 'WForm',
 
   props: {
     autofocus: Boolean,

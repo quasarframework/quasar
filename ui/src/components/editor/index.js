@@ -1,5 +1,5 @@
-import QEditor from './QEditor.js'
+import WEditor from './QEditor.js'
 
 export {
-  QEditor
+  WEditor
 }

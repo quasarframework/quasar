@@ -1,7 +1,7 @@
-import QToolbar from './QToolbar.js'
-import QToolbarTitle from './QToolbarTitle.js'
+import WToolbar from './QToolbar.js'
+import WToolbarTitle from './QToolbarTitle.js'
 
 export {
-  QToolbar,
-  QToolbarTitle
+  WToolbar,
+  WToolbarTitle
 }

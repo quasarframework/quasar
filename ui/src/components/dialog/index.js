@@ -1,5 +1,5 @@
-import QDialog from './QDialog.js'
+import WDialog from './QDialog.js'
 
 export {
-  QDialog
+  WDialog
 }

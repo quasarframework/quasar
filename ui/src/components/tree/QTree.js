@@ -1,13 +1,13 @@
 import Vue from 'vue'
 
-import QIcon from '../icon/QIcon.js'
-import QCheckbox from '../checkbox/QCheckbox.js'
-import QSlideTransition from '../slide-transition/QSlideTransition.js'
-import QSpinner from '../spinner/QSpinner.js'
+import WIcon from '../icon/QIcon.js'
+import WCheckbox from '../checkbox/QCheckbox.js'
+import WSlideTransition from '../slide-transition/QSlideTransition.js'
+import WSpinner from '../spinner/QSpinner.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
 export default Vue.extend({
-  name: 'QTree',
+  name: 'WTree',
 
   props: {
     nodes: {
@@ -415,7 +415,7 @@ export default Vue.extend({
 
     __getNodeMedia (h, node) {
       if (node.icon !== void 0) {
-        return h(QIcon, {
+        return h(WIcon, {
           staticClass: `q-tree__icon q-mr-sm`,
           props: { name: node.icon, color: node.iconColor }
         })
@@ -485,13 +485,13 @@ export default Vue.extend({
           h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: `blurTarget_${meta.key}` }),
 
           meta.lazy === 'loading'
-            ? h(QSpinner, {
+            ? h(WSpinner, {
               staticClass: 'q-tree__spinner q-mr-xs',
               props: { color: this.computedControlColor }
             })
             : (
               isParent === true
-                ? h(QIcon, {
+                ? h(WIcon, {
                   staticClass: 'q-tree__arrow q-mr-xs',
                   class: { 'q-tree__arrow--rotate': meta.expanded },
                   props: { name: this.computedIcon },
@@ -505,7 +505,7 @@ export default Vue.extend({
             ),
 
           meta.hasTicking && !meta.noTick
-            ? h(QCheckbox, {
+            ? h(WCheckbox, {
               staticClass: 'q-mr-xs',
               props: {
                 value: meta.indeterminate ? null : meta.ticked,
@@ -538,7 +538,7 @@ export default Vue.extend({
         ]),
 
         isParent === true
-          ? h(QSlideTransition, {
+          ? h(WSlideTransition, {
             props: { duration: this.duration }
           }, [
             h('div', {

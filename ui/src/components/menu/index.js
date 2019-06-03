@@ -1,5 +1,5 @@
-import QMenu from './QMenu.js'
+import WMenu from './QMenu.js'
 
 export {
-  QMenu
+  WMenu
 }

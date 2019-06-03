@@ -19,7 +19,7 @@ import {
 } from '../../utils/position-engine.js'
 
 export default Vue.extend({
-  name: 'QMenu',
+  name: 'WMenu',
 
   mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, MenuTreeMixin, TransitionMixin ],
 

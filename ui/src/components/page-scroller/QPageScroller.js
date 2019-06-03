@@ -1,12 +1,12 @@
 import Vue from 'vue'
 
-import QPageSticky from '../layout/QPageSticky.js'
+import WPageSticky from '../layout/QPageSticky.js'
 import { getScrollTarget, setScrollPosition } from '../../utils/scroll.js'
 
 export default Vue.extend({
-  name: 'QPageScroller',
+  name: 'WPageScroller',
 
-  mixins: [ QPageSticky ],
+  mixins: [ WPageSticky ],
 
   props: {
     scrollOffset: {
@@ -27,7 +27,7 @@ export default Vue.extend({
   inject: {
     layout: {
       default () {
-        console.error('QPageScroller needs to be used within a QLayout')
+        console.error('WPageScroller needs to be used within a WLayout')
       }
     }
   },
@@ -75,7 +75,7 @@ export default Vue.extend({
             click: this.__onClick
           }
         }, [
-          QPageSticky.options.render.call(this, h)
+          WPageSticky.options.render.call(this, h)
         ])
       ]
       : null

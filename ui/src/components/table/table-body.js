@@ -1,4 +1,4 @@
-import QCheckbox from '../checkbox/QCheckbox.js'
+import WCheckbox from '../checkbox/QCheckbox.js'
 
 export default {
   methods: {
@@ -46,7 +46,7 @@ export default {
 
           this.hasSelectionMode === true && child.unshift(
             h('td', { staticClass: 'q-table--col-auto-width' }, [
-              h(QCheckbox, {
+              h(WCheckbox, {
                 props: {
                   value: selected,
                   color: this.color,

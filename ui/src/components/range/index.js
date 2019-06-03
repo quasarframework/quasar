@@ -1,5 +1,5 @@
-import QRange from './QRange.js'
+import WRange from './QRange.js'
 
 export {
-  QRange
+  WRange
 }

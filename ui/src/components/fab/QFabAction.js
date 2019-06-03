@@ -1,11 +1,11 @@
 import Vue from 'vue'
 
-import QBtn from '../btn/QBtn.js'
+import WBtn from '../btn/QBtn.js'
 import FabMixin from './fab-mixin.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QFabAction',
+  name: 'WFabAction',
 
   mixins: [ FabMixin ],
 
@@ -22,7 +22,7 @@ export default Vue.extend({
   inject: {
     __qFabClose: {
       default () {
-        console.error('QFabAction needs to be child of QFab')
+        console.error('WFabAction needs to be child of WFab')
       }
     }
   },
@@ -35,7 +35,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h(QBtn, {
+    return h(WBtn, {
       props: {
         ...this.$props,
         fabMini: true

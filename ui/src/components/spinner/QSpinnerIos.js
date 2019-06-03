@@ -3,7 +3,7 @@ import Vue from 'vue'
 import mixin from './spinner-mixin.js'
 
 export default Vue.extend({
-  name: 'QSpinnerIos',
+  name: 'WSpinnerIos',
 
   mixins: [mixin],
 

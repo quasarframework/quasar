@@ -3,7 +3,7 @@ import Vue from 'vue'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'QTr',
+  name: 'WTr',
 
   props: {
     props: Object

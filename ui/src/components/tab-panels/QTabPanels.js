@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { PanelParentMixin } from '../../mixins/panel.js'
 
 export default Vue.extend({
-  name: 'QTabPanels',
+  name: 'WTabPanels',
 
   mixins: [ PanelParentMixin ],
 

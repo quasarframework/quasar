@@ -1,9 +1,9 @@
-import QUploader from './QUploader.js'
-import QUploaderBase from './QUploaderBase.js'
-import QUploaderAddTrigger from './QUploaderAddTrigger.js'
+import WUploader from './QUploader.js'
+import WUploaderBase from './QUploaderBase.js'
+import WUploaderAddTrigger from './QUploaderAddTrigger.js'
 
 export {
-  QUploader,
-  QUploaderBase,
-  QUploaderAddTrigger
+  WUploader,
+  WUploaderBase,
+  WUploaderAddTrigger
 }
