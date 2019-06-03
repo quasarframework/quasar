@@ -5,8 +5,7 @@
       :max="5"
       input
       input-class="text-orange-10"
-    >
-    </q-pagination>
+    />
   </div>
 </template>
 
