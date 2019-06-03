@@ -3,8 +3,8 @@
     <q-pagination
       v-model="current"
       :max="5"
-      :input="true"
-      :input-class="inputClass"
+      input
+      input-class="text-orange-10"
     >
     </q-pagination>
   </div>
@@ -14,8 +14,7 @@
 export default {
   data () {
     return {
-      current: 3,
-      inputClass: 'text-orange-10'
+      current: 3
     }
   }
 }
