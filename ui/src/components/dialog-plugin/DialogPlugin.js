@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import WDialog from '../dialog/QDialog.js'
+import QDialog from '../dialog/QDialog.js'
 import WBtn from '../btn/QBtn.js'
 
 import clone from '../../utils/clone.js'
@@ -224,7 +224,7 @@ export default Vue.extend({
       child.push(this.getButtons(h))
     }
 
-    return h(WDialog, {
+    return h(QDialog, {
       ref: 'dialog',
 
       props: {

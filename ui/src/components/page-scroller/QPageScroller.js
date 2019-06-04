@@ -27,7 +27,7 @@ export default Vue.extend({
   inject: {
     layout: {
       default () {
-        console.error('WPageScroller needs to be used within a WLayout')
+        console.error('WPageScroller needs to be used within a QLayout')
       }
     }
   },

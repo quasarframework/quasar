@@ -6,7 +6,7 @@ import slot from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
-  name: 'WStepper',
+  name: 'QStepper',
 
   provide () {
     return {

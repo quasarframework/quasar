@@ -14,7 +14,7 @@ export default Vue.extend({
   inject: {
     layout: {
       default () {
-        console.error('WFooter needs to be child of WLayout')
+        console.error('WFooter needs to be child of QLayout')
       }
     }
   },

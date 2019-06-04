@@ -26,7 +26,7 @@ export default Vue.extend({
   inject: {
     stepper: {
       default () {
-        console.error('WStep needs to be child of WStepper')
+        console.error('WStep needs to be child of QStepper')
       }
     }
   },

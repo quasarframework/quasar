@@ -1,5 +1,5 @@
 <template lang="pug">
-  w-page.w-page
+  q-page.w-page
     .row
       div(:class="{ 'offset-md-2': offset, 'col-md-8': offset }")
         .row.justify-between.items-end
@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import { WPage, WPageScroller } from "quasar";
+import { QPage, WPageScroller } from "quasar";
 
 export default {
-  name: "WAppPage",
+  name: "WPage",
   props: {
     offset: {
       type: Boolean,

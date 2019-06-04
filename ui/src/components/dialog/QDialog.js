@@ -26,7 +26,7 @@ const transitions = {
 }
 
 export default Vue.extend({
-  name: 'WDialog',
+  name: 'QDialog',
 
   mixins: [ ModelToggleMixin, PortalMixin, PreventScrollMixin ],
 

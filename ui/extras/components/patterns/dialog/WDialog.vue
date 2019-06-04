@@ -16,7 +16,7 @@
 <script>
 
 export default {
-  name: "WAppialog",
+  name: "WDialog",
   props: {
     title: {
       type: String,

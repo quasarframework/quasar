@@ -10,11 +10,11 @@
 </template>
 
 <script>
-import { WStepper } from "quasar";
+import { QStepper } from "quasar";
 
 export default {
-  name: "WAppStepper",
-  mixins: [ WStepper ],
+  name: "WStepper",
+  mixins: [ QStepper ],
   props: {
     flat: {
       type: Boolean,

@@ -7,9 +7,9 @@ export default {
     { name: "WActionCard", friendlyName: "Action card", standalone: true },
     { name: "WInfoCard", friendlyName: "Action card", standalone: true },
     { name: "WCollapsible", friendlyName: "Collapsible", standalone: true },
-    { name: "WAppDialog", friendlyName: "Dialog", standalone: true },
-    { name: "WAppLayout", friendlyName: "Layout", standalone: true },
-    { name: "WAppPage", friendlyName: "Page", standalone: true },
+    { name: "WDialog", friendlyName: "Dialog", standalone: true },
+    { name: "WLayout", friendlyName: "Layout", standalone: true },
+    { name: "WPage", friendlyName: "Page", standalone: true },
     { name: "WSidebar", friendlyName: "Sidebar", standalone: true },
   ],
   templates: [

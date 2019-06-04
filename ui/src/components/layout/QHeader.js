@@ -13,7 +13,7 @@ export default Vue.extend({
   inject: {
     layout: {
       default () {
-        console.error('WHeader needs to be child of WLayout')
+        console.error('WHeader needs to be child of QLayout')
       }
     }
   },

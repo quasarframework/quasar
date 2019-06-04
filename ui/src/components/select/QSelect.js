@@ -9,7 +9,7 @@ import WItemSection from '../list/QItemSection.js'
 import WItemLabel from '../list/QItemLabel.js'
 
 import WMenu from '../menu/QMenu.js'
-import WDialog from '../dialog/QDialog.js'
+import QDialog from '../dialog/QDialog.js'
 
 import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
@@ -871,7 +871,7 @@ export default Vue.extend({
         ))
       )
 
-      return h(WDialog, {
+      return h(QDialog, {
         props: {
           value: this.dialog,
           noRefocus: true,

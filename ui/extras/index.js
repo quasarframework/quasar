@@ -2,15 +2,15 @@ import Bubble from "./directives/bubble";
 
 // Elements
 import WLogotype from "./components/elements/logotype/WLogotype";
-import WAppStepper from "./components/elements/stepper/WAppStepper";
+import WStepper from "./components/elements/stepper/WStepper";
 
 // Patterns
 import WActionCard from "./components/patterns/card/WActionCard";
 import WCollapsible from "./components/patterns/collapsible/WCollapsible";
 import WInfoCard from "./components/patterns/card/WInfoCard";
-import WAppDialog from "./components/patterns/app-dialog/WAppDialog";
-import WAppLayout from "./components/patterns/app-layout/WAppLayout";
-import WAppPage from "./components/patterns/app-page/WAppPage";
+import WDialog from "./components/patterns/dialog/WDialog";
+import WLayout from "./components/patterns/layout/WLayout";
+import WPage from "./components/patterns/page/WPage";
 import WSidebar from "./components/patterns/sidebar/WSidebar";
 
 // Templates
@@ -24,15 +24,15 @@ function install(Vue) {
 
   // Elements
   Vue.component("WLogotype", WLogotype);
-  Vue.component("WAppStepper", WAppStepper);
+  Vue.component("WStepper", WStepper);
 
   // Patterns
   Vue.component("WActionCard", WActionCard);
   Vue.component("WInfoCard", WInfoCard);
   Vue.component("WCollapsible", WCollapsible);
-  Vue.component("WAppDialog", WAppDialog);
-  Vue.component("WAppLayout", WAppLayout);
-  Vue.component("WAppPage", WAppPage);
+  Vue.component("WDialog", WDialog);
+  Vue.component("WLayout", WLayout);
+  Vue.component("WPage", WPage);
   Vue.component("WSidebar", WSidebar);
 
   // Templates

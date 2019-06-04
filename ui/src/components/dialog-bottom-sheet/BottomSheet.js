@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import WDialog from '../dialog/QDialog.js'
+import QDialog from '../dialog/QDialog.js'
 
 import WIcon from '../icon/QIcon.js'
 import WSeparator from '../separator/QSeparator.js'
@@ -147,7 +147,7 @@ export default Vue.extend({
         : h('div', { staticClass: 'scroll' }, this.__getList(h))
     )
 
-    return h(WDialog, {
+    return h(QDialog, {
       ref: 'dialog',
 
       props: {

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import WDialog from '../dialog/QDialog.js'
+import QDialog from '../dialog/QDialog.js'
 import WMenu from '../menu/QMenu.js'
 
 import AnchorMixin from '../../mixins/anchor.js'
@@ -109,7 +109,7 @@ export default Vue.extend({
     let component
 
     if (this.type === 'dialog') {
-      component = WDialog
+      component = QDialog
     }
     else {
       component = WMenu

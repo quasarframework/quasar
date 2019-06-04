@@ -7,7 +7,7 @@ import { getScrollbarWidth } from '../../utils/scroll.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'WLayout',
+  name: 'QLayout',
 
   provide () {
     return {

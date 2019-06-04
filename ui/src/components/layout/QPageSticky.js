@@ -8,7 +8,7 @@ export default Vue.extend({
   inject: {
     layout: {
       default () {
-        console.error('WPageSticky needs to be child of WLayout')
+        console.error('WPageSticky needs to be child of QLayout')
       }
     }
   },

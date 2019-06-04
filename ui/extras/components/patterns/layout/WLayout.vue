@@ -1,5 +1,5 @@
 <template lang="pug">
-  w-layout.w-layout(view="hHh LpR fFf")
+  q-layout.w-layout(view="hHh LpR fFf")
     w-header.header(elevated)
       w-toolbar
         w-btn(flat dense round @click="toggleLeftDrawer()" aria-label="Menu")
@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import { WLayout, WHeader, WToolbar, WToolbarTitle, WDrawer, WPageContainer } from "quasar";
+import { QLayout, WHeader, WToolbar, WToolbarTitle, WDrawer, WPageContainer } from "quasar";
 
 export default {
-  name: "WAppLayout",
+  name: "WLayout",
   props: {
     productName: {
       type: String,
