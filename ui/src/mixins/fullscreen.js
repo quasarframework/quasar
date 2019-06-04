@@ -1,4 +1,5 @@
 import History from '../history.js'
+import EscapeKey from '../utils/escape-key.js'
 
 export default {
   props: {
@@ -43,6 +44,10 @@ export default {
         return
       }
 
+      EscapeKey.register(this, () => {
+        this.exitFullscreen()
+      })
+
       this.inFullscreen = true
       this.container = this.$el.parentNode
       this.container.replaceChild(this.fullscreenFillerNode, this.$el)
@@ -59,6 +64,8 @@ export default {
       if (this.inFullscreen !== true) {
         return
       }
+
+      EscapeKey.pop(this)
 
       if (this.__historyFullscreen !== void 0) {
         History.remove(this.__historyFullscreen)
