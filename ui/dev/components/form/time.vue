@@ -114,6 +114,24 @@
           </q-icon>
         </q-input>
       </div>
+
+      <div class="text-h6">
+        Input AM/PM: {{ input2 }}
+      </div>
+      <div class="q-gutter-md">
+        <q-input :dark="dark" filled v-model="input2">
+          <q-icon slot="append" name="access_time" class="cursor-pointer">
+            <q-popup-proxy>
+              <q-time
+                v-model="input2"
+                mask="hh:mm A"
+                v-bind="props"
+                :style="style"
+              />
+            </q-popup-proxy>
+          </q-icon>
+        </q-input>
+      </div>
     </div>
   </div>
 </template>
@@ -133,6 +151,7 @@ export default {
       time: '10:56',
       nullTime: null,
       input: null,
+      input2: '12:35 PM',
 
       timeLimit: '10:56',
       hourOptions: [9, 10, 11, 13, 15],
