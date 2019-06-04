@@ -3,12 +3,12 @@ import Vue from 'vue'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
-  name: 'WPage',
+  name: 'QPage',
 
   inject: {
     pageContainer: {
       default () {
-        console.error('WPage needs to be child of WPageContainer')
+        console.error('QPage needs to be child of WPageContainer')
       }
     },
     layout: {}
