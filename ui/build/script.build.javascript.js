@@ -15,18 +15,18 @@ const
   }
 
 const builds = [
-  {
-    rollup: {
-      input: {
-        input: resolve(`src/index.esm.js`)
-      },
-      output: {
-        file: resolve(`dist/quasar.esm.js`),
-        format: 'es'
-      }
-    },
-    build: { minified: true, minExt: false }
-  },
+  // {
+  //   rollup: {
+  //     input: {
+  //       input: resolve(`src/index.esm.js`)
+  //     },
+  //     output: {
+  //       file: resolve(`dist/quasar.esm.js`),
+  //       format: 'es'
+  //     }
+  //   },
+  //   build: { minified: true, minExt: false }
+  // },
   {
     rollup: {
       input: {
@@ -53,35 +53,35 @@ const builds = [
       }
     },
     build: { minified: true, minExt: false }
-  },
-  {
-    rollup: {
-      input: {
-        input: resolve('src/ie-compat/ie.js')
-      },
-      output: {
-        file: resolve('dist/quasar.ie.polyfills.umd.js'),
-        format: 'umd'
-      }
-    },
-    build: { minified: true }
-  },
-  {
-    rollup: {
-      input: {
-        input: resolve(`src/index.umd.js`)
-      },
-      output: {
-        file: resolve(`dist/quasar.umd.js`),
-        format: 'umd'
-      }
-    },
-    build: {
-      requireVue: true,
-      unminified: true,
-      minified: true
-    }
   }
+  // {
+  //   rollup: {
+  //     input: {
+  //       input: resolve('src/ie-compat/ie.js')
+  //     },
+  //     output: {
+  //       file: resolve('dist/quasar.ie.polyfills.umd.js'),
+  //       format: 'umd'
+  //     }
+  //   },
+  //   build: { minified: true }
+  // },
+  // {
+  //   rollup: {
+  //     input: {
+  //       input: resolve(`src/index.umd.js`)
+  //     },
+  //     output: {
+  //       file: resolve(`dist/quasar.umd.js`),
+  //       format: 'umd'
+  //     }
+  //   },
+  //   build: {
+  //     requireVue: true,
+  //     unminified: true,
+  //     minified: true
+  //   }
+  // }
 ]
 
 addAssets(builds, 'lang', 'lang')

@@ -25,7 +25,19 @@ export default Vue.extend({
     autogrow: Boolean, // makes a textarea
 
     inputClass: [Array, String, Object],
-    inputStyle: [Array, String, Object]
+    inputStyle: [Array, String, Object],
+    outlined: {
+      type: Boolean,
+      default: true
+    },
+    stackLabel: {
+      type: Boolean,
+      default: true
+    },
+    bgColor: {
+      type: String,
+      default: 'white'
+    }
   },
 
   watch: {

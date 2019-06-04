@@ -35,7 +35,10 @@ export default {
 
     color: String,
     textColor: String,
-    noCaps: Boolean,
+    noCaps: {
+      type: Boolean,
+      default: true
+    },
     noWrap: Boolean,
     dense: Boolean,
 

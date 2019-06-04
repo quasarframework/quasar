@@ -5,7 +5,7 @@ const
   outputFolder = path.resolve(root, '..', 'ui.pkg'),
   resolvePath = (dir, file) => path.resolve(dir, file)
 
-fs.removeSync(outputFolder)
+fs.emptydirSync(outputFolder)
 createFolder(outputFolder)
 copyToOutput('dist', true)
 copyToOutput('icon-set', true)
