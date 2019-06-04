@@ -1,9 +1,9 @@
 <template lang="pug">
-  q-stepper(v-bind="$props" ref="stepper__" :flat="flat" v-bubble.input :class="{ 'hide-header-navigation': hideHeaderNavigation }")
+  q-stepper.w-stepper(v-bind="$props" ref="stepper__" :flat="flat" v-bubble.input :class="{ 'hide-header-navigation': hideHeaderNavigation }")
     template(v-slot)
       slot
     template(v-slot:message)
-      w-linear-progress(v-if="hideHeaderNavigation" :value="progress__")
+      w-linear-progress.progress(v-if="hideHeaderNavigation" :value="progress__")
       slot(name="message")
     template(v-slot:navigation)
       slot(name="navigation")
