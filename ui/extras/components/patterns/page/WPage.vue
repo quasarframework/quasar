@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page.w-page
+  q-page.w-page(:padding="padding")
     .row
       div(:class="{ 'offset-md-2': offset, 'col-md-8': offset }")
         .row.justify-between.items-end
@@ -14,6 +14,7 @@
 import { QPage, WPageScroller } from "quasar";
 
 export default {
+  components: { QPage },
   name: "WPage",
   props: {
     offset: {
@@ -23,6 +24,10 @@ export default {
     title: {
       type: String,
       default: "",
+    },
+    padding: {
+      type: Boolean,
+      default: false,
     },
   },
 };

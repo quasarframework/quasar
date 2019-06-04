@@ -1,5 +1,5 @@
 <template lang="pug">
-  w-dialog.w-sidebar(position="right" v-model="visible__" full-height)
+  q-dialog.w-sidebar(position="right" v-model="visible__" full-height)
     w-card.w-sidebar-content.full-height(:style="style")
       w-card-section.row.items-center.justify-between
         .text-h6 {{title}}
@@ -9,7 +9,10 @@
 </template>
 
 <script>
+import { QDialog } from "quasar";
+
 export default {
+  components: { QDialog },
   props: {
     value: {
       type: Boolean,

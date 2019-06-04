@@ -1,7 +1,7 @@
 export default {
   elements: [
     { name: "WLogotype", friendlyName: "Logotype", standalone: true },
-    { name: "WAppStepper", friendlyName: "Stepper", standalone: true },
+    { name: "WStepper", friendlyName: "Stepper", standalone: true },
   ],
   patterns: [
     { name: "WActionCard", friendlyName: "Action card", standalone: true },

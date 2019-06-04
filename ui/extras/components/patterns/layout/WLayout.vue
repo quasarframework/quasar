@@ -3,7 +3,7 @@
     w-header.header(elevated)
       w-toolbar
         w-btn(flat dense round @click="toggleLeftDrawer()" aria-label="Menu")
-          w-icon(:name="leftDrawerOpen && !leftDrawerMini ? 'ao-close' : 'ao-equal'")
+          w-icon(:name="leftDrawerOpen && !leftDrawerMini ? 'ao-times' : 'mdi-equal'")
         w-logotype.gt-sm.q-ma-md(:text="productName" orientation="horizontal" :class="{ 'cursor-pointer': logotypeClickable }" @click.native="$emit('logotype-click')")
         w-toolbar-title {{toolbarTitle}}
     w-drawer(v-model="leftDrawerOpen" :mini="leftDrawerMini" elevated content-class="left-drawer")
@@ -16,6 +16,7 @@
 import { QLayout, WHeader, WToolbar, WToolbarTitle, WDrawer, WPageContainer } from "quasar";
 
 export default {
+  components: { QLayout },
   name: "WLayout",
   props: {
     productName: {

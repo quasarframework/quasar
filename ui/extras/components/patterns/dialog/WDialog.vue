@@ -1,5 +1,5 @@
 <template lang="pug">
-  w-dialog(v-model="visible__")
+  q-dialog(v-model="visible__")
     w-card.q-pa-sm.q-ma-xl.relative-position(style="overflow: visible")
       w-card-section
         .row.justify-between.items-center
@@ -14,8 +14,10 @@
 </template>
 
 <script>
+import { QDialog } from "quasar";
 
 export default {
+  components: { QDialog },
   name: "WDialog",
   props: {
     title: {

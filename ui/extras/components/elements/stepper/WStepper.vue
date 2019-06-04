@@ -1,5 +1,5 @@
 <template lang="pug">
-  w-stepper(v-bind="$props" ref="stepper__" :flat="flat" v-bubble.input :class="{ 'hide-header-navigation': hideHeaderNavigation }")
+  q-stepper(v-bind="$props" ref="stepper__" :flat="flat" v-bubble.input :class="{ 'hide-header-navigation': hideHeaderNavigation }")
     template(v-slot)
       slot
     template(v-slot:message)
