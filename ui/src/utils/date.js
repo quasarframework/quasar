@@ -269,7 +269,7 @@ export function __splitDate (str, mask, dateLocale, calendar) {
       ) {
         date.hour += 12
       }
-      date.hour = date.hour % 12 || 12
+      // date.hour = date.hour % 12 || 12
     }
 
     if (map.m !== void 0) {

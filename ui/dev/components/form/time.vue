@@ -114,6 +114,43 @@
           </q-icon>
         </q-input>
       </div>
+
+      <div class="text-h6">
+        Input with Mask (AM/PM): {{ input2 }}
+      </div>
+      <div class="q-gutter-md">
+        <q-input :dark="dark" filled v-model="input2">
+          <q-icon slot="append" name="access_time" class="cursor-pointer">
+            <q-popup-proxy>
+              <q-time
+                v-model="input2"
+                mask="hh:mm A"
+                v-bind="props"
+                :style="style"
+              />
+            </q-popup-proxy>
+          </q-icon>
+        </q-input>
+      </div>
+
+      <div class="text-h6">
+        Input with Mask (24h): {{ input3 }}
+      </div>
+      <div class="q-gutter-md">
+        <q-input :dark="dark" filled v-model="input3">
+          <q-icon slot="append" name="access_time" class="cursor-pointer">
+            <q-popup-proxy>
+              <q-time
+                v-model="input3"
+                mask="hh:mm"
+                format24h
+                v-bind="props"
+                :style="style"
+              />
+            </q-popup-proxy>
+          </q-icon>
+        </q-input>
+      </div>
     </div>
   </div>
 </template>
@@ -133,6 +170,8 @@ export default {
       time: '10:56',
       nullTime: null,
       input: null,
+      input2: '08:00 PM',
+      input3: '20:00',
 
       timeLimit: '10:56',
       hourOptions: [9, 10, 11, 13, 15],
