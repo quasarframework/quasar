@@ -1,0 +1,19 @@
+$logotype-margin             ?= 5px
+$logotype-separator          ?= 3px
+$logotype-separator-color    ?= $grey-4
+$logotype-product-name-color ?= $grey-6
+
+.w-logotype
+  .text-product-name
+    color $logotype-product-name-color
+  .separator
+    border-left $logotype-separator solid $logotype-separator-color
+    margin-left $logotype-margin
+    margin-right $logotype-margin
+    
+  &.logotype-margin
+    .column > img
+      margin-bottom $logotype-margin
+    .row > img
+      margin-top $logotype-margin
+      margin-bottom $logotype-margin

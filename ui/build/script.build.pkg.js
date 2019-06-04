@@ -8,6 +8,7 @@ const
 fs.emptydirSync(outputFolder)
 createFolder(outputFolder)
 copyToOutput('dist', true)
+copyToOutput('extras', true)
 copyToOutput('icon-set', true)
 copyToOutput('lang', true)
 copyToOutput('src', true)
