@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-layout.w-layout(view="hHh LpR fFf")
+  q-layout.w-layout(view="hHh LpR fFf" :container="container")
     w-header.header(elevated)
       w-toolbar
         w-btn(v-if="hasLeftDrawer" flat dense round @click="toggleLeftDrawer()" aria-label="Menu" :icon="leftDrawerOpen && !leftDrawerMini ? 'ao-times' : 'mdi-equal'")
@@ -30,7 +30,11 @@ export default {
     logotypeClickable: {
       type: Boolean,
       default: false,
-    }
+    },
+    container: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {

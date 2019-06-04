@@ -5,7 +5,7 @@ export default {
   ],
   patterns: [
     { name: "WActionCard", friendlyName: "Action card", standalone: true },
-    { name: "WInfoCard", friendlyName: "Action card", standalone: true },
+    { name: "WInfoCard", friendlyName: "Info card", standalone: true },
     { name: "WCollapsible", friendlyName: "Collapsible", standalone: true },
     { name: "WDialog", friendlyName: "Dialog", standalone: true },
     { name: "WLayout", friendlyName: "Layout", standalone: true },
