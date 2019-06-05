@@ -53,6 +53,11 @@ div
           q-icon(name="fab fa-jsfiddle")
         q-item-section jsFiddle
 
+      q-item(clickable, tag="a", href="https://codesandbox.io/s/github/quasarframework/quasar-codesandbox", target="_blank")
+        q-item-section.text-black(avatar)
+          q-icon(name="fas fa-cubes")
+        q-item-section Codesandbox
+
       q-item-label(header) Social
 
       q-item(clickable, tag="a", href="https://forum.quasar.dev/category/1/announcements", target="_blank")
