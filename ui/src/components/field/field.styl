@@ -124,6 +124,13 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     .q-field__control
       pointer-events none
 
+  &--disabled
+    .q-field__control
+      opacity .6 !important
+
+      &, * // @stylint ignore
+        outline 0 !important
+
   &__label
     left 0
     right 0
