@@ -677,6 +677,7 @@ export default Vue.extend({
     __onInputValue (e) {
       clearTimeout(this.inputTimer)
       this.inputValue = e.target.value || ''
+      this.$emit('input-value', this.inputValue)
 
       if (this.$listeners.filter !== void 0) {
         this.inputTimer = setTimeout(() => {

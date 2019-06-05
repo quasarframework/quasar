@@ -120,6 +120,7 @@
             multiple
             use-input
             input-debounce="0"
+            @input-value="updateInputValue"
             label="Multiple filter - useInput"
             :options="multipleFilterInputOptions"
             @filter="multipleFilterInputFn"
@@ -138,6 +139,7 @@
             <q-icon slot="append" name="delete" />
             <q-icon slot="after" color="green" name="delete" />
           </q-select>
+          {{ inputValue }}
 
           <q-select
             v-bind="props"
@@ -476,6 +478,7 @@ for (let i = 0; i <= 10000; i++) {
 export default {
   data () {
     return {
+      inputValue: '',
       type: 'filled',
       readonly: false,
       disable: false,
@@ -576,6 +579,9 @@ export default {
   },
 
   methods: {
+    updateInputValue (val) {
+      this.inputValue = val
+    },
     setGoogle () {
       this.simpleFilter = this.simpleFilterInput = this.minFilterInput = this.chipFilterInput = this.delayedFilterInput = 'Google'
     },
