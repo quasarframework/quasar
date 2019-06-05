@@ -79,6 +79,10 @@ When `map-options` is used, the model can contain only the `value`, and it will 
 
 By default, QSelect looks at `label`, `value`, `disable` and `sanitize` props of each option from the options array Objects. But you can override those:
 
+::: warning
+If you use functions for custom props always check if the option is null. These functions are used both for options in the list and for the selected options.
+:::
+
 <doc-example title="Custom label, value and disable props" file="QSelect/OptionCustomProps" />
 
 ### Customizing menu options

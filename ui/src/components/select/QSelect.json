@@ -46,7 +46,7 @@
       "default": "value",
       "examples": [
         "option-value=\"modelNumber\"",
-        ":option-value=\"(item) => item.modelNumber\""
+        ":option-value=\"(item) => item === null ? null : item.modelNumber\""
       ],
       "category": "options"
     },
@@ -57,7 +57,7 @@
       "default": "label",
       "examples": [
         "option-label=\"itemName\"",
-        ":option-label=\"(item) => item.itemName\""
+        ":option-label=\"(item) => item === null ? 'Null value' : item.itemName\""
       ],
       "category": "options"
     },
@@ -68,7 +68,7 @@
       "default": "disable",
       "examples": [
         "option-disable=\"cannotSelect\"",
-        ":option-disable=\"(item) => item.cannotSelect\""
+        ":option-disable=\"(item) => item === null ? true : item.cannotSelect\""
       ],
       "category": "options"
     },
