@@ -117,6 +117,8 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 <doc-example title="Lazy autocomplete" file="QSelect/InputFilterLazy" />
 
+<doc-example title="Text Value" file="QSelect/InputValueEvent" />
+
 ## Create new values
 
 ::: tip

@@ -444,6 +444,17 @@
       }
     },
 
+    "input-value": {
+      "desc": "Emitted when user types into the input field",
+      "params": {
+        "inputValue": {
+          "type": "String",
+          "desc": "What the user typed",
+          "examples": [ "united" ]
+        }
+      }
+    },
+
     "filter-abort": {
       "desc": "Emitted when a filtering was aborted; Probably a new one was requested?"
     }
