@@ -16,4 +16,4 @@ Make sure to read [about it](/start/umd) before diving in. When you use jsFiddle
 | --- | --- |
 | Codesandbox | [https://codesandbox.io/s/github/quasarframework/quasar-codesandbox](https://codesandbox.io/s/github/quasarframework/quasar-codesandbox) |
 
-Use the [Codesandbox template](https://codesandbox.io/s/github/quasarframework/quasar-codesandbox)) for more intricate Quasar code examples, like when using boot files, Vuex, etc.
+Use the [Codesandbox template](https://codesandbox.io/s/github/quasarframework/quasar-codesandbox) for more intricate Quasar code examples, like when using boot files, Vuex, etc. |
