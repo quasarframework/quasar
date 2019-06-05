@@ -261,6 +261,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Stuart Petersmann
 - Jonathan Labéjof
 - Vesa Laitinen
+- Bryan Kim
+- Jérémy R.
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
@@ -270,6 +272,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Hugo Ramses Moreno Ramos (5$)
 - Louis Ameline ($5)
 - Peter Dzurcanin ($5)
+- LeeDy ($5)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)
