@@ -472,7 +472,6 @@ export default Vue.extend({
         return
       }
 
-      // below is meant for multiple mode only
       if (
         this.inputValue.length > 0 &&
         (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0)
@@ -495,7 +494,8 @@ export default Vue.extend({
             )
           }
 
-          this.updateInputValue('')
+          // clear filter but filter only if in multiple mode
+          this.updateInputValue('', this.multiple !== true)
         }
 
         if (this.$listeners['new-value'] !== void 0) {
