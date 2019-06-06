@@ -24,7 +24,7 @@
 
     "reverse": {
       "type": "Boolean",
-      "desc": "Scroll area should behave like a messenger - starting scrolled to bottom and loading whean reaching the top",
+      "desc": "Scroll area should behave like a messenger - starting scrolled to bottom and loading when reaching the top",
       "category": "behavior"
     }
   },
