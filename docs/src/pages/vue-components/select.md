@@ -158,6 +158,11 @@ Filters new values (in the example below the value to be added requires at least
 
 <doc-example title="Filtering without adding to menu" file="QSelect/FilteringNoAddToMenu" />
 
+### Keyboard acceleration for new / unique values
+When filtering, you can 'accept' a single filtered value in the list when the `Enter` key is pressed, or 'save' a new value when tabbing to the next control using a combination of the `@new-value` event, and the `@keydown.native.tab` event:
+
+<doc-example title="Keyboard acceleration for new / unique values" file="QSelect/KeyboardAcceleration" />
+
 ## Sanitization
 
 ::: warning
