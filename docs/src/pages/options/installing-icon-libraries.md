@@ -22,7 +22,7 @@ extras: [
 ]
 ```
 
-Icon sets are available through [@quasar/extras](https://github.com/quasarframework/quasar/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
+Icon sets are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
 
 Adding more than one set (showing all options):
 ```js
