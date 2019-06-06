@@ -58,7 +58,17 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 
 ## Basic features
 
+### Native input/textarea field attributes
+
+All the attributes set on `QInput` that are not in the list of `props` in the **API** will be passed to the native field (`input` or `textarea`).
+
+Please check this resources for more informations about native attributes (for input check also the specific attributes for each type):
+
+* [input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+* [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
+
 ### Clearable
+
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QInput in the example below is the equivalent of using `clearable`.
 
 <doc-example title="Clearable" file="QInput/Clearable" />
