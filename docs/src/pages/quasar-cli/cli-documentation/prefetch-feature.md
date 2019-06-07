@@ -114,6 +114,18 @@ export default {
 }
 </script>
 ```
+```
+// related action for Promise example
+...
+actions: {
+  fetchItem ({ commit }, id) {
+    return axiosInstance.get(url, id).then(({ data }) => {
+      commit('mutation', data)
+    })
+  }
+}
+...
+```
 
 ### Redirecting Example
 Below is an example of redirecting the user under some circumstances, like when they try to access a page that only an authenticated user should see.
