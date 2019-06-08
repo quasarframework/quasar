@@ -251,6 +251,7 @@ The dist folder now strips out the `-mat` and `-ios` suffixes because there's on
 ## Misc
 
 - `this.$q.i18n` was changed to `this.$q.lang`
+- `import(`quasar-framework/i18n/${lang}`) was changed to `import(`quasar/lang/${lang}`)` where `${lang}` would be `en-us` etc.
 - `this.$q.icons` was changed to `this.$q.iconSet`
 - In previous versions you would access an imported language packs isoName with:
 
