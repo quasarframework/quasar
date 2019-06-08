@@ -113,7 +113,7 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 ## Filtering and autocomplete
 
-### Native input field attributes when using `use-input`
+### Native attributes with `use-input`
 
 All the attributes set on `QSelect` that are not in the list of `props` in the **API** will be passed to the native `input` field used for filtering / autocomplete / adding new value.
 
