@@ -252,6 +252,21 @@ The dist folder now strips out the `-mat` and `-ios` suffixes because there's on
 
 - `this.$q.i18n` was changed to `this.$q.lang`
 - `this.$q.icons` was changed to `this.$q.iconSet`
+- In previous versions you would access an imported language packs isoName with:
+
+```js
+ import(`quasar/lang/${locale}`).then(lang => {
+   // Access the isoName with - lang.default.lang
+ })
+```
+
+This now needs changing to
+
+```js
+ import(`quasar/lang/${locale}`).then(lang => {
+   // Access the isoName with - lang.default.isoName
+ })
+```
 
 ## Color Palette
 
