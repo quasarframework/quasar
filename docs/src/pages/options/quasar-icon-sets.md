@@ -49,6 +49,17 @@ framework: {
 
 This will enable you to use both Ionicons & Fontawesome in your app, and all Quasar components will display Fontawesome icons.
 
+#### Changing Icon Set Dynamically
+Quasar Icon Set is reactive, so all components will update properly if you change the $q.iconSet object. Here is a example:
+
+```js
+methods: {
+  changeIconSetToFontAwesome () {
+    this.$q.iconSet = require('quasar/icon-set/fontawesome-v5.js').default
+  }
+}
+```
+
 ### UMD Way
 Include the Quasar Icon Set tag for your Quasar version and also tell Quasar to use it. Example:
 
