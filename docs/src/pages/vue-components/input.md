@@ -58,7 +58,7 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 
 ## Basic features
 
-### Native input/textarea field attributes
+### Native attributes
 
 All the attributes set on `QInput` that are not in the list of `props` in the **API** will be passed to the native field (`input` or `textarea`).
 
