@@ -113,6 +113,15 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 ## Filtering and autocomplete
 
+### Native attributes with `use-input`
+
+All the attributes set on `QSelect` that are not in the list of `props` in the **API** will be passed to the native `input` field used for filtering / autocomplete / adding new value.
+
+Please check this resources for more informations about native attributes (for input check also the specific attributes for each type):
+
+* [input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+* [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
+
 <doc-example title="Filtering options" file="QSelect/InputFilter" />
 
 <doc-example title="Basic autocomplete" file="QSelect/InputAutocomplete" />

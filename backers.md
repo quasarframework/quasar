@@ -133,7 +133,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Jim O'Quinn ($25)
-- Elad Yaniv ($25)
 - Agilus Informática ($25)
 - Max Matteo Staack ($20)
 - Carlos Tulloch ($20)
@@ -187,7 +186,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Mast
 - altShiftDev
 - Simon Kimber
-- Arjan Dhupia
 - RED CAD Solutions AG
 - Yatima Kagurazaka
 - Matyáš Racek
@@ -263,6 +261,9 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Vesa Laitinen
 - Bryan Kim
 - Jérémy R.
+- Luciano Pereira
+- Ioan Mircea Ciuchea
+- Elad Yaniv
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
