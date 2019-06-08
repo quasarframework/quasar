@@ -23,6 +23,8 @@ export default Vue.extend({
     prompt: Object,
     options: Object,
 
+    html: Boolean,
+
     ok: {
       type: [String, Object, Boolean],
       default: true
@@ -188,6 +190,17 @@ export default Vue.extend({
       if (this.options) {
         return this.options.model
       }
+    },
+
+    getSection (h, staticClass, text) {
+      return this.html === true
+        ? h(QCardSection, {
+          staticClass,
+          domProps: {
+            innerHTML: text
+          }
+        })
+        : h(QCardSection, { staticClass }, [ text ])
     }
   },
 
@@ -196,17 +209,13 @@ export default Vue.extend({
 
     if (this.title) {
       child.push(
-        h(QCardSection, {
-          staticClass: 'q-dialog__title'
-        }, [ this.title ])
+        this.getSection(h, 'q-dialog__title', this.title)
       )
     }
 
     if (this.message) {
       child.push(
-        h(QCardSection, {
-          staticClass: 'q-dialog__message scroll'
-        }, [ this.message ])
+        this.getSection(h, 'q-dialog__message scroll', this.message)
       )
     }
 
