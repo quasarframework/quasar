@@ -45,7 +45,8 @@ export default Vue.extend({
       type: String,
       default: 'Calendar',
       validator: v => ['Calendar', 'Years', 'Months'].includes(v)
-    }
+    },
+    noYears: Boolean
   },
 
   data () {
@@ -340,12 +341,12 @@ export default Vue.extend({
           }, [
             h('div', {
               key: 'h-yr-' + this.headerSubtitle,
-              staticClass: 'q-date__header-subtitle q-date__header-link',
-              class: this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
+              staticClass: `q-date__header-subtitle ${this.noYears === true ? '' : 'q-date__header-link'}`,
+              class: this.noYears === true ? '' : (this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer'),
               attrs: { tabindex: this.computedTabindex },
               on: {
-                click: () => { this.view = 'Years' },
-                keyup: e => { e.keyCode === 13 && (this.view = 'Years') }
+                click: () => { this.noYears !== true && (this.view = 'Years') },
+                keyup: e => { this.noYears !== true && e.keyCode === 13 && (this.view = 'Years') }
               }
             }, [ this.headerSubtitle ])
           ])
@@ -420,7 +421,10 @@ export default Vue.extend({
               name: 'q-transition--jump-' + dir
             }
           }, [
-            h('div', { key }, [
+            h('div', {
+              key,
+              staticClass: 'full-width'
+            }, [
               h(QBtn, {
                 props: {
                   flat: true,
@@ -429,6 +433,7 @@ export default Vue.extend({
                   label,
                   tabindex: this.computedTabindex
                 },
+                staticClass: 'full-width',
                 on: {
                   click: () => { this.view = view }
                 }
@@ -472,7 +477,7 @@ export default Vue.extend({
             dir: this.monthDirection,
             goTo: this.__goToMonth,
             cls: ' col'
-          }).concat(this.__getNavigation(h, {
+          }).concat(this.noYears === true ? [] : this.__getNavigation(h, {
             label: this.innerModel.year,
             view: 'Years',
             key: this.innerModel.year,

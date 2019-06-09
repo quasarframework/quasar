@@ -252,6 +252,18 @@
           </template>
         </q-input>
       </div>
+
+      <div class="text-h6">
+        No years
+      </div>
+      <div class="q-gutter-md column">
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :style="style"
+          no-years
+        />
+      </div>
     </div>
   </div>
 </template>
