@@ -46,7 +46,11 @@ export default Vue.extend({
       default: 'Calendar',
       validator: v => ['Calendar', 'Years', 'Months'].includes(v)
     },
-    noYears: Boolean
+    noYears: Boolean,
+    noForwardMonthNavigation: Boolean,
+    noBackwardMonthNavigation: Boolean,
+    noForwardYearNavigation: Boolean,
+    noBackwardYearNavigation: Boolean
   },
 
   data () {
@@ -273,6 +277,9 @@ export default Vue.extend({
       }
 
       return res
+    },
+    yearsViewDisabled () {
+      return this.noYears === true || (this.noForwardMonthNavigation === true && this.noBackwardMonthNavigation === true)
     }
   },
 
@@ -341,12 +348,12 @@ export default Vue.extend({
           }, [
             h('div', {
               key: 'h-yr-' + this.headerSubtitle,
-              staticClass: `q-date__header-subtitle ${this.noYears === true ? '' : 'q-date__header-link'}`,
-              class: this.noYears === true ? '' : (this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer'),
+              staticClass: `q-date__header-subtitle ${this.yearsViewDisabled === true ? '' : 'q-date__header-link'}`,
+              class: this.yearsViewDisabled === true ? '' : (this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer'),
               attrs: { tabindex: this.computedTabindex },
               on: {
-                click: () => { this.noYears !== true && (this.view = 'Years') },
-                keyup: e => { this.noYears !== true && e.keyCode === 13 && (this.view = 'Years') }
+                click: () => { this.yearsViewDisabled !== true && (this.view = 'Years') },
+                keyup: e => { this.yearsViewDisabled !== true && e.keyCode === 13 && (this.view = 'Years') }
               }
             }, [ this.headerSubtitle ])
           ])
@@ -393,7 +400,7 @@ export default Vue.extend({
       ])
     },
 
-    __getNavigation (h, { label, view, key, dir, goTo, cls }) {
+    __getNavigation (h, { label, view, key, dir, goTo, cls, forwardNavigation, backwardNavigation }) {
       return [
         h('div', {
           staticClass: 'row items-center q-date__arrow'
@@ -405,7 +412,8 @@ export default Vue.extend({
               size: 'sm',
               flat: true,
               icon: this.dateArrow[0],
-              tabindex: this.computedTabindex
+              tabindex: this.computedTabindex,
+              disable: !backwardNavigation
             },
             on: {
               click () { goTo(-1) }
@@ -452,7 +460,8 @@ export default Vue.extend({
               size: 'sm',
               flat: true,
               icon: this.dateArrow[1],
-              tabindex: this.computedTabindex
+              tabindex: this.computedTabindex,
+              disable: !forwardNavigation
             },
             on: {
               click () { goTo(1) }
@@ -476,14 +485,18 @@ export default Vue.extend({
             key: this.innerModel.month,
             dir: this.monthDirection,
             goTo: this.__goToMonth,
-            cls: ' col'
+            cls: ' col',
+            forwardNavigation: this.noForwardMonthNavigation !== true,
+            backwardNavigation: this.noBackwardMonthNavigation !== true
           }).concat(this.noYears === true ? [] : this.__getNavigation(h, {
             label: this.innerModel.year,
             view: 'Years',
             key: this.innerModel.year,
             dir: this.yearDirection,
             goTo: this.__goToYear,
-            cls: ''
+            cls: '',
+            forwardNavigation: this.noForwardYearNavigation !== true,
+            backwardNavigation: this.noBackwardYearNavigation !== true
           }))),
 
           h('div', {
@@ -534,23 +547,27 @@ export default Vue.extend({
       const currentYear = this.innerModel.year === this.today.year
 
       const content = this.computedLocale.monthsShort.map((month, i) => {
-        const active = this.innerModel.month === i + 1
+        const monthNumber = i + 1,
+          active = this.innerModel.month === monthNumber,
+          disable = (this.noForwardMonthNavigation === true && (monthNumber > this.innerModel.month || this.innerModel.year > this.extModel.year)) ||
+            (this.noBackwardMonthNavigation === true && monthNumber < (this.innerModel.month || this.innerModel.year < this.extModel.year))
 
         return h('div', {
           staticClass: 'q-date__months-item flex flex-center'
         }, [
           h(QBtn, {
-            staticClass: currentYear === true && this.today.month === i + 1 ? 'q-date__today' : null,
+            staticClass: currentYear === true && this.today.month === monthNumber ? 'q-date__today' : null,
             props: {
               flat: !active,
               label: month,
               unelevated: active,
               color: active ? this.computedColor : null,
               textColor: active ? this.computedTextColor : null,
-              tabindex: this.computedTabindex
+              tabindex: this.computedTabindex,
+              disable
             },
             on: {
-              click: () => { this.__setMonth(i + 1) }
+              click: () => { this.__setMonth(monthNumber) }
             }
           })
         ])
@@ -574,7 +591,11 @@ export default Vue.extend({
 
       for (let i = start; i <= stop; i++) {
         const active = this.innerModel.year === i,
-          disable = (this.years !== void 0 || this.disabledYears !== void 0) && !this.isYearInSelection(i)
+          disable = (this.noForwardYearNavigation === true && i > this.extModel.year) ||
+            (this.noBackwardYearNavigation === true && i < this.extModel.year) ||
+            (this.noForwardMonthNavigation === true && i > this.extModel.year) ||
+            (this.noBackwardMonthNavigation === true && i < this.extModel.year) ||
+            ((this.years !== void 0 || this.disabledYears !== void 0) && !this.isYearInSelection(i))
 
         years.push(
           h('div', {

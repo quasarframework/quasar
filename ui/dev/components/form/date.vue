@@ -264,6 +264,44 @@
           no-years
         />
       </div>
+
+      <div class="text-h6">
+        No forward navigation
+      </div>
+      <div class="q-gutter-md column">
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :style="style"
+          no-forward-year-navigation
+        />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :style="style"
+          no-forward-month-navigation
+        />
+      </div>
+
+      <div class="text-h6">
+        No backward navigation
+      </div>
+      <div class="q-gutter-md column">
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :style="style"
+          no-backward-year-navigation
+        />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :style="style"
+          no-backward-month-navigation
+        />
+      </div>
     </div>
   </div>
 </template>
