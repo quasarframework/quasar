@@ -89,6 +89,52 @@
       "category": "model"
     },
 
+    "years": {
+      "type": [ "Array", "Function" ],
+      "desc": "Optionally configure the years that are selectable; If using a function, it receives the year as an integer and must return a Boolean (is year acceptable or not). If the year is not acceptable, every day of the year will be disabled.",
+      "examples": [
+        ":years=\"[2019, 2018]\"",
+        ":years=\"year => year >= 2015 && year <= 2020\""
+      ],
+      "category": "model"
+    },
+
+    "disabled-years": {
+      "type": [ "Array", "Function" ],
+      "desc": "Optionally configure the years that are disabled; If using a function, it receives the year as an integer and must return a Boolean (is year disabled or not). If the year is disabled, every day of the year will be disabled.",
+      "examples": [
+        ":disabled-years=\"[2015, 2016, 2020]\"",
+        ":disabled-years=\"year => year <= 2010\""
+      ],
+      "category": "model"
+    },
+
+    "months": {
+      "type": [ "Array", "Function" ],
+      "desc": "Optionally configure the months that are selectable; If using a function, it receives the year and the month as an integer and must return a Boolean (is month acceptable or not). If the month is not acceptable, every day of the month will be disabled.",
+      "examples": [
+        ":months=\"['2017/05', '2018/05']\"",
+        ":months=\"(year, month) => year >= 2015 && year <= 2020 && month === 5\""
+      ],
+      "category": "model"
+    },
+
+    "disabled-months": {
+      "type": [ "Array", "Function" ],
+      "desc": "Optionally configure the months that are disabled; If using a function, it receives the year and the month as an integer and must return a Boolean (is month disabled or not). If the month is disabled, every day of the month will be disabled.",
+      "examples": [
+        ":disabled-months=\"['2015/05', '2016/04', '2020/10']\"",
+        ":disabled-months=\"(year, month) => year <= 2010 && month >= 5 && month <= 10\""
+      ],
+      "category": "model"
+    },
+
+    "no-years": {
+      "type": "Boolean",
+      "desc": "Disables the Years view",
+      "category": "behavior"
+    },
+
     "first-day-of-week": {
       "type": [ "String", "Number" ],
       "desc": "Sets the day of the week that is considered the first day (0 - Sunday, 1 - Monday, ...); This day will show in the left-most column of the calendar",
