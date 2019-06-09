@@ -127,6 +127,22 @@
           :options="optionsFn2"
           :style="style"
         />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :years="years"
+          :style="style"
+          default-view="Years"
+        />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :years="yearsFn"
+          :style="style"
+          default-view="Years"
+        />
       </div>
 
       <div class="text-h6">
@@ -292,6 +308,11 @@ export default {
         ? ['1397/08/14', '1397/08/15', '1397/08/18', '1397/08/28']
         : ['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']
     },
+    years () {
+      return this.persian === true
+        ? [1397, 1398]
+        : [2018, 2020, 2015]
+    },
     props () {
       return {
         dark: this.dark,
@@ -349,6 +370,10 @@ export default {
       return this.persian === true
         ? date >= '1397/08/12' && date <= '1397/08/24'
         : date >= '2018/11/03' && date <= '2018/11/15'
+    },
+
+    yearsFn (year) {
+      return year >= 2019 && year <= 2020
     },
 
     inputLog (value, reason, date) {

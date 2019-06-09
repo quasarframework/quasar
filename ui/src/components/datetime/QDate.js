@@ -35,6 +35,8 @@ export default Vue.extend({
     eventColor: [String, Function],
 
     options: [Array, Function],
+    years: [Array, Function],
+    disabledYears: [Array, Function],
 
     firstDayOfWeek: [String, Number],
     todayBtn: Boolean,
@@ -180,6 +182,22 @@ export default Vue.extend({
       return typeof this.options === 'function'
         ? this.options
         : date => this.options.includes(date)
+    },
+
+    isYearActive () {
+      return typeof this.years === 'function'
+        ? this.years
+        : year => this.years.includes(year)
+    },
+
+    isYearDisabled () {
+      return typeof this.disabledYears === 'function'
+        ? this.disabledYears
+        : year => this.disabledYears.includes(year)
+    },
+
+    isYearInSelection () {
+      return year => (this.years !== void 0 && this.isYearActive(year)) || (this.disabledYears !== void 0 && !this.isYearDisabled(year))
     },
 
     days () {
@@ -550,7 +568,8 @@ export default Vue.extend({
         years = []
 
       for (let i = start; i <= stop; i++) {
-        const active = this.innerModel.year === i
+        const active = this.innerModel.year === i,
+          disable = (this.years !== void 0 || this.disabledYears !== void 0) && !this.isYearInSelection(i)
 
         years.push(
           h('div', {
@@ -562,13 +581,14 @@ export default Vue.extend({
                 flat: !active,
                 label: i,
                 dense: true,
+                disable,
                 unelevated: active,
                 color: active ? this.computedColor : null,
                 textColor: active ? this.computedTextColor : null,
                 tabindex: this.computedTabindex
               },
               on: {
-                click: () => { this.__setYear(i) }
+                click: () => { !disable && this.__setYear(i) }
               }
             })
           ])
