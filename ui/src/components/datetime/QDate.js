@@ -488,15 +488,15 @@ export default Vue.extend({
             cls: ' col',
             forwardNavigation: this.noForwardMonthNavigation !== true,
             backwardNavigation: this.noBackwardMonthNavigation !== true
-          }).concat(this.noYears === true ? [] : this.__getNavigation(h, {
+          }).concat(this.__getNavigation(h, {
             label: this.innerModel.year,
             view: 'Years',
             key: this.innerModel.year,
             dir: this.yearDirection,
             goTo: this.__goToYear,
             cls: '',
-            forwardNavigation: this.noForwardYearNavigation !== true,
-            backwardNavigation: this.noBackwardYearNavigation !== true
+            forwardNavigation: this.noYears !== true && this.noForwardYearNavigation !== true,
+            backwardNavigation: this.noYears !== true && this.noBackwardYearNavigation !== true
           }))),
 
           h('div', {
