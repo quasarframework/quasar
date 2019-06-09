@@ -37,6 +37,8 @@ export default Vue.extend({
     options: [Array, Function],
     years: [Array, Function],
     disabledYears: [Array, Function],
+    months: [Array, Function],
+    disabledMonths: [Array, Function],
 
     firstDayOfWeek: [String, Number],
     todayBtn: Boolean,
@@ -46,11 +48,7 @@ export default Vue.extend({
       default: 'Calendar',
       validator: v => ['Calendar', 'Years', 'Months'].includes(v)
     },
-    noYears: Boolean,
-    noForwardMonthNavigation: Boolean,
-    noBackwardMonthNavigation: Boolean,
-    noForwardYearNavigation: Boolean,
-    noBackwardYearNavigation: Boolean
+    noYears: Boolean
   },
 
   data () {
@@ -201,8 +199,33 @@ export default Vue.extend({
         : year => this.disabledYears.includes(year)
     },
 
+    disablesYears () {
+      return this.years !== void 0 || this.disabledYears !== void 0
+    },
+
     isYearInSelection () {
       return year => (this.years !== void 0 && this.isYearActive(year)) || (this.disabledYears !== void 0 && !this.isYearDisabled(year))
+    },
+
+    isMonthActive () {
+      return typeof this.months === 'function'
+        ? this.months
+        : (year, month) => this.months.includes(`${year}/${pad(month)}`)
+    },
+
+    isMonthDisabled () {
+      return typeof this.disabledMonths === 'function'
+        ? this.disabledMonths
+        : (year, month) => this.disabledMonths.includes(`${year}/${pad(month)}`)
+    },
+
+    disablesMonths () {
+      return this.months !== void 0 || this.disabledMonths !== void 0
+    },
+
+    isMonthInSelection () {
+      return (year, month) => (!this.disablesYears || this.isYearInSelection(year)) &&
+        ((this.months !== void 0 && this.isMonthActive(year, month)) || (this.disabledMonths !== void 0 && !this.isMonthDisabled(year, month)))
     },
 
     days () {
@@ -242,7 +265,10 @@ export default Vue.extend({
       for (let i = 1; i <= this.daysInMonth; i++) {
         const day = prefix + pad(i)
 
-        if (this.options !== void 0 && this.isInSelection(day) !== true) {
+        if ((this.options !== void 0 && this.isInSelection(day) !== true) ||
+          (this.disablesYears && !this.isYearInSelection(this.innerModel.year)) ||
+          (this.disablesMonths && !this.isMonthInSelection(this.innerModel.year, this.innerModel.month))
+        ) {
           res.push({ i })
         }
         else {
@@ -279,7 +305,7 @@ export default Vue.extend({
       return res
     },
     yearsViewDisabled () {
-      return this.noYears === true || (this.noForwardMonthNavigation === true && this.noBackwardMonthNavigation === true)
+      return this.noYears === true
     }
   },
 
@@ -400,7 +426,7 @@ export default Vue.extend({
       ])
     },
 
-    __getNavigation (h, { label, view, key, dir, goTo, cls, forwardNavigation, backwardNavigation }) {
+    __getNavigation (h, { label, view, key, dir, goTo, cls }) {
       return [
         h('div', {
           staticClass: 'row items-center q-date__arrow'
@@ -412,8 +438,7 @@ export default Vue.extend({
               size: 'sm',
               flat: true,
               icon: this.dateArrow[0],
-              tabindex: this.computedTabindex,
-              disable: !backwardNavigation
+              tabindex: this.computedTabindex
             },
             on: {
               click () { goTo(-1) }
@@ -460,8 +485,7 @@ export default Vue.extend({
               size: 'sm',
               flat: true,
               icon: this.dateArrow[1],
-              tabindex: this.computedTabindex,
-              disable: !forwardNavigation
+              tabindex: this.computedTabindex
             },
             on: {
               click () { goTo(1) }
@@ -485,18 +509,14 @@ export default Vue.extend({
             key: this.innerModel.month,
             dir: this.monthDirection,
             goTo: this.__goToMonth,
-            cls: ' col',
-            forwardNavigation: this.noForwardMonthNavigation !== true,
-            backwardNavigation: this.noBackwardMonthNavigation !== true
+            cls: ' col'
           }).concat(this.__getNavigation(h, {
             label: this.innerModel.year,
             view: 'Years',
             key: this.innerModel.year,
             dir: this.yearDirection,
             goTo: this.__goToYear,
-            cls: '',
-            forwardNavigation: this.noYears !== true && this.noForwardYearNavigation !== true,
-            backwardNavigation: this.noYears !== true && this.noBackwardYearNavigation !== true
+            cls: ''
           }))),
 
           h('div', {
@@ -549,8 +569,7 @@ export default Vue.extend({
       const content = this.computedLocale.monthsShort.map((month, i) => {
         const monthNumber = i + 1,
           active = this.innerModel.month === monthNumber,
-          disable = (this.noForwardMonthNavigation === true && (monthNumber > this.innerModel.month || this.innerModel.year > this.extModel.year)) ||
-            (this.noBackwardMonthNavigation === true && monthNumber < (this.innerModel.month || this.innerModel.year < this.extModel.year))
+          disable = this.disablesMonths && !this.isMonthInSelection(this.innerModel.year, monthNumber)
 
         return h('div', {
           staticClass: 'q-date__months-item flex flex-center'
@@ -591,11 +610,7 @@ export default Vue.extend({
 
       for (let i = start; i <= stop; i++) {
         const active = this.innerModel.year === i,
-          disable = (this.noForwardYearNavigation === true && i > this.extModel.year) ||
-            (this.noBackwardYearNavigation === true && i < this.extModel.year) ||
-            (this.noForwardMonthNavigation === true && i > this.extModel.year) ||
-            (this.noBackwardMonthNavigation === true && i < this.extModel.year) ||
-            ((this.years !== void 0 || this.disabledYears !== void 0) && !this.isYearInSelection(i))
+          disable = this.disablesYears && !this.isYearInSelection(i)
 
         years.push(
           h('div', {

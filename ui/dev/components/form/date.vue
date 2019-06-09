@@ -143,6 +143,22 @@
           :style="style"
           default-view="Years"
         />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :months="months"
+          :style="style"
+          default-view="Months"
+        />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :months="monthsFn"
+          :style="style"
+          default-view="Months"
+        />
       </div>
 
       <div class="text-h6">
@@ -264,44 +280,6 @@
           no-years
         />
       </div>
-
-      <div class="text-h6">
-        No forward navigation
-      </div>
-      <div class="q-gutter-md column">
-        <q-date
-          v-model="date"
-          v-bind="props"
-          :style="style"
-          no-forward-year-navigation
-        />
-
-        <q-date
-          v-model="date"
-          v-bind="props"
-          :style="style"
-          no-forward-month-navigation
-        />
-      </div>
-
-      <div class="text-h6">
-        No backward navigation
-      </div>
-      <div class="q-gutter-md column">
-        <q-date
-          v-model="date"
-          v-bind="props"
-          :style="style"
-          no-backward-year-navigation
-        />
-
-        <q-date
-          v-model="date"
-          v-bind="props"
-          :style="style"
-          no-backward-month-navigation
-        />
-      </div>
     </div>
   </div>
 </template>
@@ -362,6 +340,11 @@ export default {
       return this.persian === true
         ? [1397, 1398]
         : [2018, 2020, 2015]
+    },
+    months () {
+      return this.persian === true
+        ? ['1397/08']
+        : ['2018/11', '2018/12']
     },
     props () {
       return {
@@ -424,6 +407,10 @@ export default {
 
     yearsFn (year) {
       return year >= 2019 && year <= 2020
+    },
+
+    monthsFn (year, month) {
+      return year === 2019 && month >= 4 && month <= 6
     },
 
     inputLog (value, reason, date) {
