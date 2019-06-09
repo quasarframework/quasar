@@ -678,13 +678,11 @@ export default Vue.extend({
       if (month === 13) {
         month = 1
         this.innerModel.year++
-        this.extModel.year++
         yearDir = 'left'
       }
       else if (month === 0) {
         month = 12
         this.innerModel.year--
-        this.extModel.year--
         yearDir = 'right'
       }
 
