@@ -597,7 +597,9 @@ export default Vue.extend({
     },
 
     __getControl (h, fromDialog) {
-      let data = {}
+      let data = {
+        attrs: {}
+      }
       const child = this.__getSelection(h, fromDialog)
 
       if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
@@ -608,14 +610,15 @@ export default Vue.extend({
           ref: 'target',
           attrs: {
             tabindex: 0,
-            autofocus: this.autofocus,
-            ...this.$attrs
+            autofocus: this.autofocus
           },
           on: {
             keydown: this.__onTargetKeydown
           }
         }
       }
+
+      data.attrs = Object.assign(data.attrs, this.$attrs)
 
       data.staticClass = 'q-field__native row items-center'
 
