@@ -202,10 +202,11 @@ export default Vue.extend({
 
     __updateContainer ({ width, height }) {
       const scroll = this.vertical === true
-        ? this.$refs.content.scrollHeight > height
-        : this.$refs.content.scrollWidth > width
+        ? this.$refs.content.scrollHeight > height + 1
+        : this.$refs.content.scrollWidth > width + 1
 
       if (this.scrollable !== scroll) {
+        console.log(width, this.$refs.content.scrollWidth, scroll)
         this.scrollable = scroll
       }
 
