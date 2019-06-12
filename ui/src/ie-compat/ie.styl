@@ -27,13 +27,19 @@ ie_style = @block
     flex-basis auto
     min-width 100%
 
+  .row, .flex
+    min-height 0%
+
+  .column
+    min-width 0%
+
   for $name, $size in $sizes
     $noProcNotZero = $size > 0
     @media (min-width $size)
       {fe('.col<name>', s('-%s', unquote($name)), $noProcNotZero)}
         .row > &, .flex > &
           flex-basis auto
-          width 0%
+          min-width 0%
 
   /* QBtn */
   .q-btn
@@ -48,6 +54,11 @@ ie_style = @block
   /* QCarousel */
   .q-carousel__slide > *
     max-width 100%
+
+  /* QTabs */
+  .q-tabs--vertical
+    .q-tab__indicator
+      height auto
 
   /* QFab */
   .q-fab--opened .q-fab__actions
@@ -79,6 +90,11 @@ ie_style = @block
     > .q-date__view
       width 0
       min-width 100%
+
+  /* QField */
+  .q-field
+    &__prefix, &__suffix
+      flex 1 0 auto
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
   {ie_style}
