@@ -333,11 +333,13 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
 
         &::-webkit-input-placeholder
           color transparent
-
         &::-moz-placeholder
           color transparent
-
         &:-ms-input-placeholder
+          color transparent !important
+        &::-ms-input-placeholder
+          color transparent
+        &::placeholder
           color transparent
 
     &.q-field--dense
