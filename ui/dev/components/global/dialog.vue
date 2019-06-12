@@ -6,6 +6,7 @@
         <q-btn label="Confirm" flat color="primary" @click="confirm = true" />
         <q-btn label="Prompt" flat color="primary" @click="prompt = true" />
         <q-btn label="Persistent" flat color="primary" @click="persistent = true" />
+        <q-btn label="Form" flat color="primary" @click="form = true" />
         <q-btn label="Close Icon" flat color="primary" @click="icon = true" />
         <q-btn label="Bar" flat color="primary" @click="bar = true" />
         <q-btn label="Bar 2 (auto-close)" flat color="primary" @click="bar2 = true" />
@@ -185,6 +186,20 @@
           <q-btn flat label="Cancel" v-close-popup />
           <q-btn flat label="Add address" v-close-popup />
         </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="form" persistent>
+      <q-card style="min-width: 300px">
+        <form @submit.prevent="onSubmit" class="q-pa-md q-my-sm row items-center">
+          <div class="col row items-center q-gutter-md">
+            <div class="col">
+              <q-input v-model="address" type="text" />
+            </div>
+          </div>
+          <q-btn fab-mini outline color="negative" icon="undo" type="button" class="on-right" title="Button" @click="onClick" />
+          <q-btn fab outline color="primary" icon="send" type="submit" class="on-right" title="Submit" @click="onClick" />
+        </form>
       </q-card>
     </q-dialog>
 
@@ -706,6 +721,7 @@ export default {
       complexCard: false,
       sliders: false,
       layoutBottom: false,
+      form: false,
 
       maximizedToggle: true,
       preventCloseToggle: false,
@@ -759,6 +775,14 @@ export default {
 
     closePopupBtnHandler () {
       console.log('closePopupBtnHandler')
+    },
+
+    onClick () {
+      this.$q.notify('click')
+    },
+
+    onSubmit () {
+      this.$q.notify('submit')
     }
   }
 }

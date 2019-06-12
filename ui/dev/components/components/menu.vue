@@ -63,6 +63,26 @@
           </q-menu>
         </q-btn>
 
+        <q-btn color="primary" label="Form">
+          <q-menu
+            v-model="form"
+            persistent
+            transition-show="jump-down"
+          >
+            <form @submit.prevent="onSubmit" class="q-pa-md q-my-sm row items-center" style="min-width: 300px">
+              <div class="col row items-center q-gutter-md">
+                <div class="col">
+                  <q-input v-model="terms" type="text" />
+                </div>
+              </div>
+              <q-btn fab-mini outline color="negative" icon="undo" type="button" class="on-right" title="Button" @click="onClick" />
+              <div tabindex="1">
+                <q-btn fab outline color="primary" icon="send" type="submit" class="on-right" title="Submit" @click="onClick" />
+              </div>
+            </form>
+          </q-menu>
+        </q-btn>
+
         <q-btn @click="dialog = true" label="Dialog" />
         <q-dialog v-model="dialog">
           <q-card class="q-pa-xl">
@@ -482,7 +502,8 @@ export default {
       targetEl: '#target-img-1',
 
       dialog: false,
-      dialog2: false
+      dialog2: false,
+      form: false
     }
   },
   computed: {
@@ -497,8 +518,17 @@ export default {
     showNotify () {
       this.$q.notify((this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a QMenu item')
     },
+
     log (msg) {
       console.log(msg)
+    },
+
+    onClick () {
+      this.$q.notify('click')
+    },
+
+    onSubmit () {
+      this.$q.notify('submit')
     }
   }
 }

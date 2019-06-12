@@ -7,6 +7,7 @@ import BtnMixin from './btn-mixin.js'
 
 import slot from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
+import { parent } from '../../utils/dom.js'
 
 export default Vue.extend({
   name: 'QBtn',
@@ -35,8 +36,14 @@ export default Vue.extend({
         // focus button if it came from ENTER on form
         // prevent the new submit (already done)
         if (this.type === 'submit') {
+          const { activeElement } = document
           if (
-            (document.activeElement !== document.body && this.$el.contains(document.activeElement) === false) ||
+            (
+              activeElement !== document.body &&
+              this.$el.contains(activeElement) === false &&
+              // iOS fix: the focus goes to the first parent with tabindex
+              activeElement !== parent(this.$el, el => el.hasAttribute('tabindex'))
+            ) ||
             (this.$q.platform.is.ie === true && e.clientX < 0)
           ) {
             stopAndPrevent(e)

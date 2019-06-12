@@ -46,6 +46,23 @@ export function ready (fn) {
   document.addEventListener('DOMContentLoaded', fn, false)
 }
 
+export function parent (el, fn) {
+  if (el === document.body) {
+    return
+  }
+
+  if (fn === void 0) {
+    fn = () => true
+  }
+
+  do {
+    el = el.parentNode
+    if (fn(el) === true) {
+      return el
+    }
+  } while (el !== document.body)
+}
+
 export default {
   offset,
   style,
@@ -53,5 +70,6 @@ export default {
   width,
   css,
   cssBatch,
-  ready
+  ready,
+  parent
 }
