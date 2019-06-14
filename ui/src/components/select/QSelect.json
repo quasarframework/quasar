@@ -193,14 +193,14 @@
 
     "transition-show": {
       "extends": "transition",
-      "desc": "Transition when showing the menu; One of Quasar's embedded transitions; Works only if \"cover-options\" is not used",
+      "desc": "Transition when showing the menu; One of Quasar's embedded transitions; Works only if \"options-cover\" is not used",
       "default": "fade",
       "category": "behavior"
     },
 
     "transition-hide": {
       "extends": "transition",
-      "desc": "Transition when hiding the menu; One of Quasar's embedded transitions; Works only if \"cover-options\" is not used",
+      "desc": "Transition when hiding the menu; One of Quasar's embedded transitions; Works only if \"options-cover\" is not used",
       "default": "fade",
       "category": "behavior"
     }
