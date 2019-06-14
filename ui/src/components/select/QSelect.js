@@ -597,9 +597,7 @@ export default Vue.extend({
     },
 
     __getControl (h, fromDialog) {
-      let data = {
-        attrs: {}
-      }
+      let data = { attrs: {} }
       const child = this.__getSelection(h, fromDialog)
 
       if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
@@ -618,8 +616,7 @@ export default Vue.extend({
         }
       }
 
-      data.attrs = Object.assign(data.attrs, this.$attrs)
-
+      Object.assign(data.attrs, this.$attrs)
       data.staticClass = 'q-field__native row items-center'
 
       return h('div', data, child)
