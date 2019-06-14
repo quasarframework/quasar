@@ -206,7 +206,6 @@ export default Vue.extend({
         : this.$refs.content.scrollWidth > width + 1
 
       if (this.scrollable !== scroll) {
-        console.log(width, this.$refs.content.scrollWidth, scroll)
         this.scrollable = scroll
       }
 
