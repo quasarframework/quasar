@@ -47,7 +47,7 @@ export default {
     strikethrough: 'mdi-format-strikethrough-variant',
     underline: 'mdi-format-underline',
     unorderedList: 'mdi-format-list-bulleted',
-    orderedList: 'mdi-format-list-numbers',
+    orderedList: 'mdi-format-list-numbered',
     subscript: 'mdi-format-subscript',
     superscript: 'mdi-format-superscript',
     hyperlink: 'mdi-link',
