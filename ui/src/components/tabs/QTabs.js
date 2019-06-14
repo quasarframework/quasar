@@ -105,7 +105,7 @@ export default Vue.extend({
 
   watch: {
     value (name) {
-      this.__activateTab(name)
+      this.__activateTab(name, true, true)
     },
 
     activeColor (v) {
@@ -159,11 +159,13 @@ export default Vue.extend({
   },
 
   methods: {
-    __activateTab (name) {
+    __activateTab (name, setCurrent, skipEmit) {
       if (this.tabs.current !== name) {
-        this.__animate(this.tabs.current, name)
-        this.tabs.current = name
-        this.$emit('input', name)
+        skipEmit !== true && this.$emit('input', name)
+        if (setCurrent === true || this.$listeners.input === void 0) {
+          this.__animate(this.tabs.current, name)
+          this.tabs.current = name
+        }
       }
     },
 
@@ -193,7 +195,7 @@ export default Vue.extend({
           }
 
           tabs.sort(bufferPrioritySort)
-          this.__activateTab(tabs.length === 0 ? null : tabs[0].name)
+          this.__activateTab(tabs.length === 0 ? null : tabs[0].name, true)
           this.buffer = this.buffer.map(bufferCleanSelected)
           this.bufferTimer = void 0
         }, 1)
