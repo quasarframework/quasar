@@ -233,7 +233,7 @@ api.registerCommand('start', (args, params) => {
 
   // this registers the "start" command
   // and this handler is executed when running
-  // "$ quasar run <ext-id> start
+  // $ quasar run <ext-id> start
 })
 ```
 
