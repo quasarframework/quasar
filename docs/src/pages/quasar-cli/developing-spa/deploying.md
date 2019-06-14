@@ -178,4 +178,4 @@ Now you can build and deploy your application using:
 $ quasar build
 $ yarn deploy
 ```
-which will push the content of your build directory to your master branch on your Github Pages repository.
+which will push the content of your build directory to your master branch on your GitHub Pages repository.

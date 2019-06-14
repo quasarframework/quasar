@@ -11,8 +11,8 @@ async function getWebpackConfig (chain, cfg, {
   invokeParams
 }) {
   await extensionRunner.runHook('chainWebpack' + hookSuffix, async hook => {
-    log(`Extension(${hook.extId}): Chaining ${name ? name + ' ' : ''}Webpack config`)
-    await hook.fn(chain, invokeParams)
+    log(`Extension(${hook.api.extId}): Chaining ${name ? name + ' ' : ''}Webpack config`)
+    await hook.fn(chain, invokeParams, hook.api)
   })
 
   if (typeof cfgExtendBase.chainWebpack === 'function') {
@@ -23,8 +23,8 @@ async function getWebpackConfig (chain, cfg, {
   const webpackConfig = chain.toConfig()
 
   await extensionRunner.runHook('extendWebpack' + hookSuffix, async hook => {
-    log(`Extension(${hook.extId}): Extending ${name ? name + ' ' : ''}Webpack config`)
-    await hook.fn(webpackConfig, invokeParams)
+    log(`Extension(${hook.api.extId}): Extending ${name ? name + ' ' : ''}Webpack config`)
+    await hook.fn(webpackConfig, invokeParams, hook.api)
   })
 
   if (typeof cfgExtendBase.extendWebpack === 'function') {

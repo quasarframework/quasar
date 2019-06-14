@@ -59,12 +59,12 @@ $ quasar [command name] --help
 
 Creates an App folder with initial project boilerplate.
 
-``` bash
-# currently installs v0.17, for v1 see below
+```bash
+## for Quasar v1:
 $ quasar create <folder_name>
 
-## for Quasar v1.0-beta, run this instead:
-$ quasar create <folder_name> -b dev
+# for v0.17, run this instead:
+$ quasar create <folder_name> -b v0.17
 ```
 
 ## upgrade
@@ -78,6 +78,10 @@ $ quasar upgrade
 # do the actual upgrade
 $ quasar upgrade --install
 ```
+
+::: warning Note for code editor terminals
+If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%* then restart your code editor.
+:::
 
 ## info
 The Quasar CLI is equipped with a stable combination of multiple NPM build packages (Webpack, Vue, etc) which gets updated frequently after heavy testing.
@@ -285,6 +289,41 @@ $ quasar mode remove pwa
 This command is useful to describe the API of any Quasar components/directives/plugins that your project is using. **It is specific to your Quasar version installed in your project folder.**
 
 Examples: `$ quasar describe QIcon`, `$ quasar describe TouchPan`, `$ quasar describe Cookies`.
+
+```bash
+$ quasar describe -h
+
+  Description
+    Describes a component API for project's Quasar version being used
+
+  Usage
+    $ quasar describe <component/directive/Quasar plugin>
+
+    # display everything:
+    $ quasar describe QIcon
+
+    # displaying only props:
+    $ quasar describe QIcon -p
+    # displaying props and methods only:
+    $ quasar describe QIcon -p -m
+    # filtering by "si":
+    $ quasar describe QIcon -f si
+    # filtering only props by "co":
+    $ quasar describe QIcon -p -f co
+
+  Options
+    --filter, -f <filter> Filters the API
+    --props, -p           Displays the API props
+    --slots, -s           Displays the API slots
+    --methods, -m         Displays the API methods
+    --events, -e          Displays the API events
+    --value, -v           Displays the API value
+    --arg, -a             Displays the API arg
+    --modifiers, -M       Displays the API modifiers
+    --injection, -i       Displays the API injection
+    --quasar, -q          Displays the API quasar conf options
+    --help, -h            Displays this message
+```
 
 ```bash
 $ quasar describe QIcon

@@ -36,11 +36,12 @@ export default {
 
 <style lang="stylus" scoped>
 .custom-area
-  width 80%
-  height 200px
+  width 90%
+  height 220px
   border-radius 3px
+  padding 8px
 
 .custom-info pre
-  width 250px
+  width 180px
   font-size 12px
 </style>

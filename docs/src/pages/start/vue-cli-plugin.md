@@ -48,13 +48,11 @@ Cross-platform support with Vue CLI 3 is handled by community plugins. These are
 ```bash
 $ cd my-app
 
-# for v1.0 ONLY
-# (temporary until v1.0 final build)
-$ vue add quasar@beta
-$ vue invoke quasar
+# for v1+ ONLY
+$ vue add quasar
 
 # for v0.17 ONLY:
-$ vue add quasar
+$ vue add quasar@^0.17.x
 ```
 
 The CLI will ask you if you want the plugin to replace some existing files. It is recommended that you do this, if you wish to have an example, so you can quickly develop your app.

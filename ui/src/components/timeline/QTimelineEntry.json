@@ -1,0 +1,79 @@
+{
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "heading": {
+      "type": "Boolean",
+      "desc": "Defines a heading timeline item",
+      "category": "content"
+    },
+
+    "tag": {
+      "type": "String",
+      "desc": "Tag to use, if of type 'heading' only",
+      "default": "h3",
+      "examples": [ "h1" ],
+      "category": "content"
+    },
+
+    "side": {
+      "type": "String",
+      "desc": "Side to place the timeline entry; Works only if QTimeline layout is loose.",
+      "default": "right",
+      "values": [ "left", "right" ],
+      "category": "behavior"
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "avatar": {
+      "type": "String",
+      "desc": "URL to the avatar image; Icon takes precedence if used, so it replaces avatar; Suggestion: use a static resource",
+      "examples": [ "statics/boy-avatar.png", "statics/linux-avatar.png" ],
+      "category": "content"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "title": {
+      "type": "String",
+      "desc": "Title of timeline entry; Is overriden if using 'title' slot",
+      "examples": [ "December party" ],
+      "category": "content"
+    },
+
+    "subtitle": {
+      "type": "String",
+      "desc": "Subtitle of timeline entry; Is overriden if using 'subtitle' slot",
+      "examples": [ "All invited" ],
+      "category": "content"
+    },
+
+    "body": {
+      "type": "String",
+      "desc": "Body content of timeline entry; Use this prop or the default slot",
+      "examples": [ "Lorem ipsum dolor sit amet, consectetur adipisicing elit." ],
+      "category": "content"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Timeline entry content (body)"
+    },
+
+    "title": {
+      "desc": "Optional slot for title; When used, it overrides 'title' prop"
+    },
+
+    "subtitle": {
+      "desc": "Optional slot for subtitle; When used, it overrides 'subtitle' prop"
+    }
+  }
+}

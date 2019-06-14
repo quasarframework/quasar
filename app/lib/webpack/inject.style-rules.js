@@ -1,8 +1,11 @@
 const ExtractLoader = require('mini-css-extract-plugin').loader
 
 const
+  { join } = require('path'),
   appPaths = require('../app-paths'),
   postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
+
+const QuasarStylusVariablesLoader = join(__dirname, 'loader.quasar-stylus-variables')
 
 function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
@@ -71,7 +74,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
         })
     }
 
-    const postCssOpts = Object.assign({ sourceMap: pref.sourceMap }, postCssConfig)
+    const postCssOpts = { sourceMap: pref.sourceMap, ...postCssConfig }
 
     pref.rtl && postCssOpts.plugins.push(
       require('postcss-rtl')(pref.rtl === true ? {} : pref.rtl)
@@ -84,20 +87,14 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
     if (loader) {
       rule.use(loader)
         .loader(loader)
-        .options(Object.assign(
-          { sourceMap: pref.sourceMap },
-          loaderOptions
-        ))
+        .options({
+          sourceMap: pref.sourceMap,
+          ...loaderOptions
+        })
 
       if (loader === 'stylus-loader') {
-        // inject Stylus variables automatically
-        rule.use('style-resources-loader')
-          .loader('style-resources-loader')
-          .options({
-            patterns: [
-              appPaths.resolve.app(`.quasar/app.quasar-variables.styl`)
-            ]
-          })
+        rule.use('quasar-stylus-variables-loader')
+          .loader(QuasarStylusVariablesLoader)
       }
     }
   }
@@ -106,11 +103,13 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 module.exports = function (chain, pref) {
   injectRule(chain, pref, 'css', /\.css$/)
   injectRule(chain, pref, 'stylus', /\.styl(us)?$/, 'stylus-loader', {
-    preferPathResolver: 'webpack'
+    preferPathResolver: 'webpack',
+    ...pref.stylusLoaderOptions
   })
-  injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader')
+  injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader', pref.scssLoaderOptions)
   injectRule(chain, pref, 'sass', /\.sass$/, 'sass-loader', {
-    indentedSyntax: true
+    indentedSyntax: true,
+    ...pref.sassLoaderOptions
   })
-  injectRule(chain, pref, 'less', /\.less$/, 'less-loader')
+  injectRule(chain, pref, 'less', /\.less$/, 'less-loader', pref.lessLoaderOptions)
 }

@@ -12,7 +12,7 @@ Use Google Chrome's emulator from Developer Tools. It's a fantastic tool. You ca
 If you change from desktop to mobile emulator or backwards, hit the refresh button as Quasar Platform detection is not dynamic (nor it should be).
 :::
 
-![Google Chrome emulator](https://cdn.quasar-framework.org/img/browser-simulator.png "Google Chrome emulator")
+![Google Chrome emulator](https://cdn.quasar.dev/img/browser-simulator.png "Google Chrome emulator")
 
 ## Android Tips
 
@@ -21,8 +21,8 @@ If you are debugging Android Apps, you can use Google Chrome [Remote Debugging](
 
 This way you have Chrome Dev Tools directly for your App running on the emulator/phone/table. Inspect elements, check console output, and so on and so forth.
 
-![Android Remote Debugging](https://cdn.quasar-framework.org/img/remote-debug.png "Android Remote Debugging")
-![Android Remote Debugging](https://cdn.quasar-framework.org/img/remote-debug-2.png "Android Remote Debugging")
+![Android Remote Debugging](https://cdn.quasar.dev/img/remote-debug.png "Android Remote Debugging")
+![Android Remote Debugging](https://cdn.quasar.dev/img/remote-debug-2.png "Android Remote Debugging")
 
 ### Android SDK not found after installation of the SDK
 Some newer Debian-based OS (e.g. ubuntu, elementary OS) might leave you with a `Android SDK not found.` after you installed and (correctly) configured the environment. The output might look similar to this:

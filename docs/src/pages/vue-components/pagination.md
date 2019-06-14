@@ -13,6 +13,8 @@ There are two modes in which QPagination operates: with buttons only or with an 
 
 <doc-example title="With input" file="QPagination/Input" />
 
+<doc-example title="With input color" file="QPagination/InputColor" />
+
 <doc-example title="Maximum pages shown" file="QPagination/MaxPages" />
 
 <doc-example title="Removing ellipses" file="QPagination/Ellipses" />

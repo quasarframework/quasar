@@ -15,6 +15,10 @@ process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
 
 ## Usage
 
+::: danger
+Please take notice of the Boolean `keep-alive` prop for QStepper, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QStep.
+:::
+
 <doc-example title="Horizontal" file="QStepper/TypeHorizontal" />
 
 <doc-example title="Vertical" file="QStepper/TypeVertical" />
@@ -43,6 +47,10 @@ More info: [Quasar Screen Plugin](/options/screen-plugin).
 Play with coloring using the `*-icon` and `*-color` props (on QStepper or override on specific QStep).
 
 <doc-example title="Coloring" file="QStepper/Coloring" />
+
+You can also use `prefix` prop (max 2 characters) instead of an icon for each step's header. This will be displayed if the step is not currently being edited and it isn't marked with error or as "done".
+
+<doc-example title="Step prefix" file="QStepper/Prefix" />
 
 <doc-example title="Dark" file="QStepper/Dark" />
 

@@ -1,0 +1,146 @@
+{
+  "mixins": [ "components/datetime/datetime-mixin" ],
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "value": {
+      "extends": "value",
+      "required": true,
+      "desc": "Date of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [
+        "v-model=\"myDate\""
+      ],
+      "category": "model"
+    },
+
+    "title": {
+      "type": "String",
+      "desc": "When specified, it overrides the default header title; Makes sense when not in 'minimal' mode",
+      "examples": [ "Birthday" ],
+      "category": "content"
+    },
+
+    "subtitle": {
+      "type": "String",
+      "desc": "When specified, it overrides the default header subtitle; Makes sense when not in 'minimal' mode",
+      "examples": [ "John Doe" ],
+      "category": "content"
+    },
+
+    "emit-immediately": {
+      "type": "Boolean",
+      "desc": "Emit model when user browses month and year too",
+      "category": "model"
+    },
+
+    "default-year-month": {
+      "type": "String",
+      "desc": "The default year and month to display (in YYYY/MM format) when model is unfilled (undefined or null)",
+      "examples": [
+        "1986/02"
+      ],
+      "category": "model"
+    },
+
+    "mask": {
+      "default": "YYYY/MM/DD",
+      "examples": [ "YYYY-MM-DD", "MMMM Do, YYYY", "YYYY-MM-DD HH:mm:ss" ]
+    },
+
+    "default-view": {
+      "type": "String",
+      "desc": "The view which will be displayed by default",
+      "default": "Calendar",
+      "values": [ "Calendar", "Months", "Years" ],
+      "category": "model"
+    },
+
+    "events": {
+      "type": [ "Array", "Function" ],
+      "desc": "A list of events to highlight on the calendar; If using a function, it receives the date as a String and must return a Boolean (matches or not)",
+      "examples": [
+        ":events=\"['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']\"",
+        ":events=\"date => date[9] % 3 === 0\""
+      ],
+      "category": "model"
+    },
+
+    "event-color": {
+      "type": [ "String", "Function" ],
+      "desc": "Color name (from the Quasar Color Palette); If using a function, it receives the date as a String and must return a String (color for the received date)",
+      "examples": [
+        "teal-10",
+        ":event-color=\"(date) => date[9] % 2 === 0 ? 'teal' : 'orange'\""
+      ],
+      "category": "style"
+    },
+
+    "options": {
+      "type": [ "Array", "Function" ],
+      "desc": "Optionally configure the days that are selectable; If using a function, it receives the date as a String and must return a Boolean (is date acceptable or not)",
+      "examples": [
+        ":options=\"['2018/11/05', '2018/11/12', '2018/11/19', '2018/11/26' ]\"",
+        ":options=\"date => date[9] % 3 === 0\"",
+        ":options=\"date => date >= '2018/11/03' && date <= '2018/11/15'\""
+      ],
+      "category": "model"
+    },
+
+    "first-day-of-week": {
+      "type": [ "String", "Number" ],
+      "desc": "Sets the day of the week that is considered the first day (0 - Sunday, 1 - Monday, ...); This day will show in the left-most column of the calendar",
+      "default": "(based on configured Quasar lang language)",
+      "examples": [
+        "first-day-of-week=\"1\"",
+        ":first-day-of-week=\"selectedFirstDayOfTheWeek\""
+      ],
+      "category": "model"
+    },
+
+    "today-btn": {
+      "type": "Boolean",
+      "desc": "Display a button that selects the current day",
+      "category": "content"
+    },
+
+    "minimal": {
+      "type": "Boolean",
+      "desc": "Don’t display the header",
+      "category": "content"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input",
+      "params": {
+        "value": {
+          "type": "String"
+        },
+        "reason": {
+          "type": "String",
+          "desc": "Reason of the user interaction (what was picked)",
+          "values": [ "year", "month", "day", "today", "locale", "mask" ]
+        },
+        "details": {
+          "type": "Object",
+          "desc": "Object of properties on the new model",
+          "definition": {
+            "year": {
+              "type": "Number"
+            },
+            "month": {
+              "type": "Number"
+            },
+            "day": {
+              "type": "Number"
+            }
+          }
+        }
+      }
+    }
+  }
+}

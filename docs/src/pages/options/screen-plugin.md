@@ -1,7 +1,7 @@
 ---
 title: Screen Plugin
 ---
-The Quasar Screen plugin allows you to have a dynamic and responsive UI when dealing with your Javascript code. When possible, it is recommended to use the responsive CSS classes instead, for performance reasons.
+The Quasar Screen plugin allows you to have a dynamic and responsive UI when dealing with your Javascript code. When possible, it is recommended to use the [responsive CSS classes](/style/visibility#Window-Width-Related) instead, for performance reasons.
 
 ## Installation
 You don't need to do anything. The Screen plugin gets installed automatically.

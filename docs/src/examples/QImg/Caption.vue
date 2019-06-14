@@ -3,7 +3,7 @@
     <div class="q-col-gutter-md row items-start">
       <div class="col-6">
         <q-img
-          src="https://cdn.quasar-framework.org/img/parallax2.jpg"
+          src="https://cdn.quasar.dev/img/parallax2.jpg"
           style="width: 100%"
         >
           <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
@@ -13,7 +13,7 @@
       </div>
 
       <div class="col-6">
-        <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
           <div class="absolute-top text-center q-pa-xs">
             Caption
           </div>
@@ -21,7 +21,7 @@
       </div>
 
       <div class="col-6">
-        <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
           <div class="absolute-bottom-right text-subtitle2">
             Caption
           </div>
@@ -29,7 +29,7 @@
       </div>
 
       <div class="col-6">
-        <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg">
+        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
           <div class="absolute-full text-subtitle2 flex flex-center">
             Caption
           </div>

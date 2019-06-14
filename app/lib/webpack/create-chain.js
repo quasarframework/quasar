@@ -54,17 +54,7 @@ module.exports = function (cfg, configName) {
       layouts: appPaths.resolve.src(`layouts`),
       pages: appPaths.resolve.src(`pages`),
       assets: appPaths.resolve.src(`assets`),
-      boot: appPaths.resolve.src(`boot`),
-
-      // TODO: remove in final v1.0
-      // (no longer needed; automatically injects Stylus variables)
-      'quasar-variables': appPaths.resolve.app(`.quasar/app.quasar-variables.styl`),
-
-      // CLI/App using this one:
-      'quasar-styl': appPaths.resolve.app(`.quasar/app.quasar.styl`),
-      'quasar-addon-styl': cfg.framework.cssAddon
-        ? `quasar/src/css/flex-addon.styl`
-        : appPaths.resolve.app(`.quasar/empty.styl`)
+      boot: appPaths.resolve.src(`boot`)
     })
 
   if (cfg.framework.all === true) {
@@ -173,7 +163,11 @@ module.exports = function (cfg, configName) {
     rtl: cfg.build.rtl,
     sourceMap: cfg.build.sourceMap,
     extract: cfg.build.extractCSS,
-    minify: cfg.build.minify
+    minify: cfg.build.minify,
+    stylusLoaderOptions: cfg.build.stylusLoaderOptions,
+    sassLoaderOptions: cfg.build.sassLoaderOptions,
+    scssLoaderOptions: cfg.build.scssLoaderOptions,
+    lessLoaderOptions: cfg.build.lessLoaderOptions
   })
 
   chain.plugin('vue-loader')

@@ -1,7 +1,7 @@
 const
   log = require('../helpers/logger')('app:cordova'),
   CordovaConfig = require('./cordova-config'),
-  spawn = require('../helpers/spawn'),
+  { spawn } = require('../helpers/spawn'),
   onShutdown = require('../helpers/on-shutdown'),
   appPaths = require('../app-paths')
 
@@ -66,17 +66,17 @@ class CordovaRunner {
       args.push(`--buildFlag=-UseModernBuildSystem=0`)
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.pid = spawn(
         'cordova',
         args,
         appPaths.cordovaDir,
         code => {
+          this.__cleanup()
           if (code) {
             warn(`⚠️  [FAIL] Cordova CLI has failed`)
             process.exit(1)
           }
-          this.__cleanup()
           resolve(code)
         }
       )

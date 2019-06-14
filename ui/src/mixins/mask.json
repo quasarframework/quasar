@@ -1,0 +1,31 @@
+{
+  "props": {
+    "mask": {
+      "type": "String",
+      "desc": "Custom mask or one of the predefined mask names",
+      "examples": [
+        "###-##", "date", "datetime", "time", "fulltime", "phone", "card"
+      ],
+      "category": "behavior"
+    },
+
+    "fill-mask": {
+      "type": [ "Boolean", "String" ],
+      "desc": "Fills string with specified characters (or underscore if value is not string) to fill mask's length",
+      "examples": [ "true", "'0'", "'_'" ],
+      "category": "behavior"
+    },
+
+    "reverse-fill-mask": {
+      "type": "Boolean",
+      "desc": "Fills string from the right side of the mask",
+      "category": "behavior"
+    },
+
+    "unmasked-value": {
+      "type": "Boolean",
+      "desc": "Model will be unmasked (won't contain tokens/separation characters)",
+      "category": "behavior"
+    }
+  }
+}

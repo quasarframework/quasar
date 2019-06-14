@@ -78,6 +78,9 @@ columns: [ // array of Objects
 
 ## Usage
 
+
+### Basic
+
 <doc-example title="Basic" file="QTable/Basic" />
 
 <doc-example title="Dark" file="QTable/Dark" />
@@ -88,13 +91,31 @@ columns: [ // array of Objects
 You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md`. More info: [Screen Plugin](/options/screen-plugin).
 :::
 
+### Sticky header/column
+
+::: warning
+Sticky headers and columns are achieved through CSS with `position: sticky`. This is NOT supported on all browsers. Check [caniuse.com](https://caniuse.com/#search=sticky) before using this technique.
+:::
+
+<doc-example title="Sticky header" file="QTable/StickyHeader" />
+
+<doc-example title="Sticky column" file="QTable/StickyColumn" />
+
+<doc-example title="Sticky header and column" file="QTable/StickyHeaderAndColumn" />
+
+### Separators
+
 <doc-example title="Separators" file="QTable/Separators" />
+
+### Styling
 
 <doc-example title="Custom column" file="QTable/CustomColumn" />
 
-<doc-example title="Custom color" file="QTable/CustomColor" />
+<doc-example title="Custom coloring" file="QTable/CustomColor" />
 
 <doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
+
+### Selection
 
 ::: warning
 The property `row-key` must be set in order for selection to work properly.
@@ -104,7 +125,15 @@ The property `row-key` must be set in order for selection to work properly.
 
 <doc-example title="Multiple selection and custom selected rows label" file="QTable/MultipleSelection" />
 
+### Visible columns, custom top, fullscreen
+
 <doc-example title="Visible columns, custom top and fullscreen" file="QTable/VisibleColumns" />
+
+Another example:
+
+<doc-example title="Visible columns" file="QTable/VisibleColumns2" />
+
+### Popup editing
 
 ::: tip
 Below is an example with the user being able to edit “in place” with the help of **QPopupEdit** component. Please note that we are using the `body` scoped slot. **QPopupEdit** won’t work with cell scoped slots.
@@ -112,16 +141,33 @@ Below is an example with the user being able to edit “in place” with the hel
 
 <doc-example title="Popup editing" file="QTable/PopupEditing" />
 
-In the example below:
-  * We’re using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
-  * We hide the header, but you can show it should you want – the user will be able to sort the data by columns etc.
-  * We are supporting multiple selection.
+### Grid style
 
-<doc-example title="Grid style with selection and search (filter)" file="QTable/GridStyle" />
+::: tip
+You can use the `grid` prop along with `$q.screen` to create a responsive behavior. Example: `:grid="$q.screen.lt.md`. More info: [Screen Plugin](/options/screen-plugin).
+:::
+
+In the example below, we let QTable deal with displaying the grid mode (not using the specific slot):
+
+<doc-example title="Grid style" file="QTable/GridStyle" />
+
+<doc-example title="Colored grid style" file="QTable/GridStyleColored" />
+
+However, if you want to fully customize the content, check the example below, where:
+  * We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
+  * We are using multiple selection.
+
+<doc-example title="Grid style with slot" file="QTable/GridStyleSlot" />
+
+### Expanding rows
 
 <doc-example title="Expanded row and custom selector" file="QTable/ExpandedRow" />
 
+### Before/after slots
+
 <doc-example title="Before/After slots (header/footer)" file="QTable/BeforeAfterHeaderFooter" />
+
+### Pagination
 
 ::: tip
 If you want to control Table’s pagination, use `pagination` prop, but don’t forget to add the `.sync` modifier
@@ -133,11 +179,29 @@ When `pagination` has a property named `rowsNumber`, then this means that you’
 
 <doc-example title="Pagination with initial sort and rows per page" file="QTable/Pagination" />
 
+### Loading state
+
 <doc-example title="Loading" file="QTable/Loading" />
+
+### Custom top
 
 <doc-example title="Custom top with add/remove row" file="QTable/CustomTop" />
 
+### Custom sorting
+
 <doc-example title="Custom sorting" file="QTable/CustomSorting" />
+
+### Responsive tables
+
+In order to create responsive tables, we have two tools at our disposal: `dense` and `grid` properties. We can connect these with `$q.screen`. More info: [Screen Plugin](/options/screen-plugin).
+
+First example below uses `$q.screen.lt.md` (for enabling dense mode) and the second examples uses `$q.screen.xs` to enable grid mode, so play with browser width to see them in action.
+
+<doc-example title="Using dense prop" file="QTable/ResponsiveDense" />
+
+<doc-example title="Using grid prop" file="QTable/ResponsiveGrid" />
+
+The example above is essentially mimicking the earlier Quasar versions of the table behavior.
 
 ### Server side pagination, filter and sorting
 

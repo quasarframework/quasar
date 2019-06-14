@@ -26,12 +26,7 @@ export default {
       this.$q.dialog({
         title: 'Confirm',
         message: 'Would you like to turn on the wifi?',
-        ok: {
-          push: true
-        },
-        cancel: {
-          color: 'negative'
-        },
+        cancel: true,
         persistent: true
       }).onOk(() => {
         console.log('>>>> OK')
@@ -53,8 +48,7 @@ export default {
           type: 'text' // optional
         },
         cancel: true,
-        persistent: true,
-        color: 'secondary'
+        persistent: true
       }).onOk(data => {
         console.log('>>>> OK, received', data)
       }).onCancel(() => {

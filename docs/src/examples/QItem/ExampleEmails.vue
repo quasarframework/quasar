@@ -6,7 +6,7 @@
       <q-item clickable v-ripple>
         <q-item-section avatar>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/avatar2.jpg">
+            <img src="https://cdn.quasar.dev/img/avatar2.jpg">
           </q-avatar>
         </q-item-section>
 
@@ -29,7 +29,7 @@
       <q-item clickable v-ripple>
         <q-item-section avatar>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/avatar4.jpg">
+            <img src="https://cdn.quasar.dev/img/avatar4.jpg">
           </q-avatar>
         </q-item-section>
 
@@ -56,19 +56,19 @@
         </q-item-section>
 
         <q-item-section top class="col-2 gt-sm">
-          <q-item-label class="q-mt-sm">Github</q-item-label>
+          <q-item-label class="q-mt-sm">GitHub</q-item-label>
         </q-item-section>
 
         <q-item-section top>
           <q-item-label lines="1">
             <span class="text-weight-medium">[quasarframework/quasar]</span>
-            <span class="text-grey-8"> - Github repository</span>
+            <span class="text-grey-8"> - GitHub repository</span>
           </q-item-label>
           <q-item-label caption lines="1">
             @rstoenescu in #3: > Generic type parameter for props
           </q-item-label>
           <q-item-label lines="1" class="q-mt-xs text-body2 text-weight-bold text-primary text-uppercase">
-            <span class="cursor-pointer">Open in Github</span>
+            <span class="cursor-pointer">Open in GitHub</span>
           </q-item-label>
         </q-item-section>
 
@@ -89,19 +89,19 @@
         </q-item-section>
 
         <q-item-section top class="col-2 gt-sm">
-          <q-item-label class="q-mt-sm">Github</q-item-label>
+          <q-item-label class="q-mt-sm">GitHub</q-item-label>
         </q-item-section>
 
         <q-item-section top>
           <q-item-label lines="1">
             <span class="text-weight-medium">[quasarframework/quasar]</span>
-            <span class="text-grey-8"> - Github repository</span>
+            <span class="text-grey-8"> - GitHub repository</span>
           </q-item-label>
           <q-item-label caption lines="1">
             @rstoenescu in #1: > The build system
           </q-item-label>
           <q-item-label lines="1" class="q-mt-xs text-body2 text-weight-bold text-primary text-uppercase">
-            <span class="cursor-pointer">Open in Github</span>
+            <span class="cursor-pointer">Open in GitHub</span>
           </q-item-label>
         </q-item-section>
 

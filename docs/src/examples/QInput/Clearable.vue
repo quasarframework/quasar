@@ -9,6 +9,16 @@
           <q-icon name="cancel" @click.stop="text = null" class="cursor-pointer" />
         </template>
       </q-input>
+
+      <!-- clear-icon -->
+      <q-input
+        clearable
+        clear-icon="close"
+        filled
+        color="purple-12"
+        v-model="text"
+        label="Label"
+      />
     </div>
   </div>
 </template>

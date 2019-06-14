@@ -5,7 +5,7 @@ const
   logger = require('../helpers/logger'),
   log = logger('app:mode-cordova'),
   warn = logger('app:mode-cordova', 'red'),
-  spawn = require('../helpers/spawn')
+  { spawnSync } = require('../helpers/spawn')
 
 function ensureNpmInstalled () {
   if (fs.existsSync(appPaths.resolve.cordova('node_modules'))) {
@@ -13,7 +13,7 @@ function ensureNpmInstalled () {
   }
 
   log('Installing dependencies in /src-cordova')
-  spawn.sync(
+  spawnSync(
     'npm',
     [ 'install' ],
     appPaths.cordovaDir,
@@ -39,9 +39,17 @@ class Mode {
       pkg = require(appPaths.resolve.app('package.json')),
       appName = pkg.productName || pkg.name || 'Quasar App'
 
+    if (/^[0-9]/.test(appName)) {
+      warn(
+        `⚠️  App product name cannot start with a number. ` +
+        `Please change the "productName" prop in your /package.json then try again.`
+      )
+      return
+    }
+
     log('Creating Cordova source folder...')
 
-    spawn.sync(
+    spawnSync(
       'cordova',
       ['create', 'src-cordova', pkg.cordovaId || 'org.quasar.cordova.app', appName],
       appPaths.appDir,
@@ -79,7 +87,7 @@ class Mode {
     }
 
     log(`Adding Cordova platform "${target}"`)
-    spawn.sync(
+    spawnSync(
       'cordova',
       ['platform', 'add', target],
       appPaths.cordovaDir,

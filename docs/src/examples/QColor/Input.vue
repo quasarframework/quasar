@@ -8,7 +8,7 @@
       >
         <template v-slot:append>
           <q-icon name="colorize" class="cursor-pointer">
-            <q-popup-proxy>
+            <q-popup-proxy transition-show="scale" transition-hide="scale">
               <q-color v-model="color" />
             </q-popup-proxy>
           </q-icon>
@@ -24,7 +24,7 @@
       >
         <template v-slot:append>
           <q-icon name="colorize" class="cursor-pointer">
-            <q-popup-proxy>
+            <q-popup-proxy transition-show="scale" transition-hide="scale">
               <q-color v-model="secondColor" />
             </q-popup-proxy>
           </q-icon>
