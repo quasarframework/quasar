@@ -196,6 +196,10 @@ $ quasar build -h
                           [ia32|x64|armv7l|arm64|mips64el|all]
                       - with "electron-builder" bundler:
                           [ia32|x64|armv7l|arm64|all]
+                          
+    ONLY when using electron-builder (optional):
+    --publish, -P   Publish options [onTag|onTagOrDraft|always|never]
+                      - see https://www.electron.build/configuration/publish                          
 ```
 
 The Quasar CLI can pack everything together and optimize your App for production. It minifies source code, extracts vendor components, leverages browser cache and much more.
