@@ -172,8 +172,7 @@ export default Vue.extend({
         'aria-label': this.label,
         type: this.type,
         maxlength: this.maxlength,
-        disabled: this.disable,
-        readonly: this.readonly
+        disabled: this.editable !== true
       }
 
       if (this.autogrow === true) {
