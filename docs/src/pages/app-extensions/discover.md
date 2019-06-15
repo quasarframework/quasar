@@ -26,14 +26,14 @@ Below is a list of official app-extensions created by members of the Quasar team
 | Alias | Description |
 | --- | --- |
 | [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) | A slightly opinionated management tool to use dotenv in your application |
-| [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) | A less slightly opinionated management tool to propogate variables to the browser for a variety of unlimited environments (dev, prod, test, etc) for use in your application |
+| [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) | A less slightly opinionated management tool to propagate variables to the browser for a variety of unlimited environments (dev, prod, test, etc) for use in your application |
 | [@quasar/icon-factory](https://github.com/quasarframework/app-extension-icon-factory) | Cross-platform construction kit to generate all app-icons (favicons, .ico, .icns) for distributables |
 
 ### Components
 
 | Alias | Description |
 | --- | --- |
-| [@quasar/qmediaplayer](https://github.com/quasarframework/app-extension-qmediaplayer) | HTML5 Video and Audio player |
+| [@quasar/qmediaplayer](https://github.com/quasarframework/app-extension-qmediaplayer) | HTML5 video and audio player |
 | [@quasar/qflashcard](https://github.com/quasarframework/app-extension-qflashcard) | Show some information and reveal more with CSS Transition Mashups |
 | [@quasar/qoverlay](https://github.com/quasarframework/app-extension-qoverlay) | Overlays simplified. Add any component on top of the overlay |
 | [@quasar/qactivity](https://github.com/quasarframework/app-extension-qactivity) | Create activity timelines |

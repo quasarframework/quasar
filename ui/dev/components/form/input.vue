@@ -28,6 +28,16 @@
 
       <q-input v-bind="props" v-model="text" label="Label" />
 
+      <q-input v-bind="props" v-model="text" required label="Required" placeholder="Write something" />
+
+      <q-input v-bind="props" v-model="invalid" pattern="[a-z]*" label="Only [a-z]" placeholder="Write something" />
+
+      <q-input v-bind="props" v-model="number" type="number" label="Number" placeholder="Write a number" />
+
+      <q-input v-bind="props" v-model="number" type="number" step="0.1" label="Number - step 0.1" placeholder="Write a number" />
+
+      <q-input v-bind="props" v-model="email" type="email" label="eMail" placeholder="Write an email address" />
+
       <q-input v-bind="props" v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
@@ -440,6 +450,10 @@ export default {
 
       pass: '',
       password: true,
+
+      invalid: '123',
+      number: 1.1,
+      email: 'a',
 
       prefix: null,
       suffix: null,

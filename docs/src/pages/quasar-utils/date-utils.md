@@ -361,12 +361,17 @@ console.log(newDate.getDate() === clonedDate.getDate()) // false
 
 ### Extract Date
 
-Using locale set by current Quasar language pack:
+Using locale set by current Quasar language pack, this allows you to parse any string into a date object based on the format passed:
 
 ```js
 import { date } from 'quasar'
 
+// Example 1
 const date = date.extractDate('2019-10-29 --- 23:12', 'YYYY-MM-DD --- HH:mm')
+// date is a new Date() object
+
+Example 2
+const date = date.extractDate('21/03/1985', 'DD/MM/YYYY')
 // date is a new Date() object
 ```
 

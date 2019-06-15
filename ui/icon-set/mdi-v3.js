@@ -3,7 +3,7 @@ export default {
   type: {
     positive: 'mdi-check-circle',
     negative: 'mdi-alert',
-    info: 'mdi-info',
+    info: 'mdi-information',
     warning: 'mdi-exclamation'
   },
   arrow: {
@@ -47,7 +47,7 @@ export default {
     strikethrough: 'mdi-format-strikethrough-variant',
     underline: 'mdi-format-underline',
     unorderedList: 'mdi-format-list-bulleted',
-    orderedList: 'mdi-format-list-numbers',
+    orderedList: 'mdi-format-list-numbered',
     subscript: 'mdi-format-subscript',
     superscript: 'mdi-format-superscript',
     hyperlink: 'mdi-link',
@@ -68,7 +68,7 @@ export default {
     undo: 'mdi-undo',
     redo: 'mdi-redo',
     header: 'mdi-format-size',
-    code: 'mdi-code',
+    code: 'mdi-code-tags',
     size: 'mdi-format-size',
     font: 'mdi-format-font'
   },

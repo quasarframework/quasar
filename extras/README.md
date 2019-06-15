@@ -18,7 +18,7 @@
 | Roboto Font Latin Extended | `roboto-font-latin-ext` | CDN v19 | Recommended font along Material theme |
 | [Material Icons](https://material.io/icons/) | `material-icons` | CDN v47 | Material icons font |
 | [MDI](https://materialdesignicons.com/) (Material Design Icons) | `mdi-v3` | 3.6.95 | Extended Material Design icons font |
-| [Font Awesome](https://fontawesome.com/icons?d=gallery) | `fontawesome-v5` | 5.8.1 | Fontawesome icons font |
+| [Font Awesome](https://fontawesome.com/icons?d=gallery) | `fontawesome-v5` | 5.9.0 | Fontawesome icons font |
 | [Ionicons](http://ionicons.com/) | `ionicons-v4` | 4.5.5 | Ionicons font |
 | [Eva Icons](https://akveo.github.io/eva-icons) | `eva-icons` | 1.1.1 | Eva Icons font |
 | [Themify Icons](https://themify.me/themify-icons) | `themify` | 1.0.0 | Themify Icons font |

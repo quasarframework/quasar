@@ -264,6 +264,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Luciano Pereira
 - Ioan Mircea Ciuchea
 - Elad Yaniv
+- Robert Willie
+- Noel Costa
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)

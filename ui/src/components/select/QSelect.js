@@ -472,7 +472,6 @@ export default Vue.extend({
         return
       }
 
-      // below is meant for multiple mode only
       if (
         this.inputValue.length > 0 &&
         (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0)
@@ -495,11 +494,15 @@ export default Vue.extend({
             )
           }
 
-          this.updateInputValue('')
+          this.updateInputValue('', this.multiple !== true)
         }
 
         if (this.$listeners['new-value'] !== void 0) {
           this.$emit('new-value', this.inputValue, done)
+
+          if (this.multiple !== true) {
+            return
+          }
         }
         else {
           done(this.inputValue)
@@ -597,7 +600,7 @@ export default Vue.extend({
     },
 
     __getControl (h, fromDialog) {
-      let data = {}
+      let data = { attrs: {} }
       const child = this.__getSelection(h, fromDialog)
 
       if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
@@ -608,8 +611,7 @@ export default Vue.extend({
           ref: 'target',
           attrs: {
             tabindex: 0,
-            autofocus: this.autofocus,
-            ...this.$attrs
+            autofocus: this.autofocus
           },
           on: {
             keydown: this.__onTargetKeydown
@@ -617,6 +619,7 @@ export default Vue.extend({
         }
       }
 
+      Object.assign(data.attrs, this.$attrs)
       data.staticClass = 'q-field__native row items-center'
 
       return h('div', data, child)
@@ -643,7 +646,7 @@ export default Vue.extend({
     },
 
     __getInnerAppend (h) {
-      return this.hideDropdownIcon !== true
+      return this.loading !== true && this.innerLoading !== true && this.hideDropdownIcon !== true
         ? [
           h(QIcon, {
             staticClass: 'q-select__dropdown-icon',
