@@ -646,7 +646,7 @@ export default Vue.extend({
     },
 
     __getInnerAppend (h) {
-      return this.hideDropdownIcon !== true
+      return this.loading !== true && this.innerLoading !== true && this.hideDropdownIcon !== true
         ? [
           h(QIcon, {
             staticClass: 'q-select__dropdown-icon',

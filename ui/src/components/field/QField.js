@@ -204,6 +204,13 @@ export default Vue.extend({
         }, this.__getControlContainer(h))
       )
 
+      this.$scopedSlots.append !== void 0 && node.push(
+        h('div', {
+          staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
+          key: 'append'
+        }, this.$scopedSlots.append())
+      )
+
       this.hasError === true && this.noErrorIcon === false && node.push(
         this.__getInnerAppendNode(h, 'error', [
           h(QIcon, { props: { name: this.$q.iconSet.field.error, color: 'negative' } })
@@ -221,8 +228,7 @@ export default Vue.extend({
           )
         )
       }
-
-      if (this.clearable === true && this.hasValue === true && this.editable === true) {
+      else if (this.clearable === true && this.hasValue === true && this.editable === true) {
         node.push(
           this.__getInnerAppendNode(h, 'inner-clearable-append', [
             h(QIcon, {
@@ -235,13 +241,6 @@ export default Vue.extend({
           ])
         )
       }
-
-      this.$scopedSlots.append !== void 0 && node.push(
-        h('div', {
-          staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
-          key: 'append'
-        }, this.$scopedSlots.append())
-      )
 
       this.__getInnerAppend !== void 0 && node.push(
         this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
@@ -358,7 +357,7 @@ export default Vue.extend({
     },
 
     __getInnerAppendNode (h, key, content) {
-      return h('div', {
+      return content === null ? null : h('div', {
         staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip',
         key
       }, content)
