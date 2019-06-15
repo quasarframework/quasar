@@ -54,3 +54,7 @@ Quasar.lang.getLocale() // returns a string
 // inside of a Vue file
 this.$q.lang.getLocale() // returns a string
 ```
+
+::: warning
+If you use i18n setLocale method (`this.$q.lang.setLocale()`), this will not be reflected by Quasar's getLocale above. The reason for this is that `getLocale()` will always return the *users* locale (based on browser settings), i18n on the other hand will set its own internal locale used to determine which language file to use. If you would like to see which langauge has been set using `setLocale()` you can use `this.$q.lang.isoName`
+:::
