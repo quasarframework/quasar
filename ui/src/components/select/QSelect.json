@@ -117,7 +117,7 @@
 
     "options-cover": {
       "type": "Boolean",
-      "desc": "Expanded menu will cover the component",
+      "desc": "Expanded menu will cover the component (will not work along with 'use-input' prop for obvious reasons)",
       "category": "options"
     },
 
