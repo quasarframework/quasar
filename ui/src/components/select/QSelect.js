@@ -494,12 +494,15 @@ export default Vue.extend({
             )
           }
 
-          // clear filter but filter only if in multiple mode
           this.updateInputValue('', this.multiple !== true)
         }
 
         if (this.$listeners['new-value'] !== void 0) {
           this.$emit('new-value', this.inputValue, done)
+
+          if (this.multiple !== true) {
+            return
+          }
         }
         else {
           done(this.inputValue)

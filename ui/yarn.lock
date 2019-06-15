@@ -787,10 +787,10 @@
     babel-plugin-module-resolver "3.2.0"
     babel-plugin-transform-imports "1.5.1"
 
-"@quasar/extras@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.1.2.tgz#8b3a5faa52a824ffe53d233b9dffa2de15377f37"
-  integrity sha512-gas3jD/ArAtRNwUgvosUNl8ueWZJD4ULd7n6nWrWIH3I+I3A1u3CJbwVlsR1czlY7eawMFXmhJ3KKnx3IbkASg==
+"@quasar/extras@^1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.1.3.tgz#2d5250ef5b8529875a72ee62a73a06af13d294a3"
+  integrity sha512-ICdnCQkPvTogW19dlQpFlXwDug08kjxRdUqjJKr+Njtdn0PZySiN5FXcCRAIag4ri9sfA1o2OH487HjJGpub6Q==
 
 "@types/estree@0.0.39":
   version "0.0.39"
