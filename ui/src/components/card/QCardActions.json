@@ -6,7 +6,7 @@
   "props": {
     "align": {
       "type": "String",
-      "desc": "Specify how to align the actions",
+      "desc": "Specify how to align the actions; Works only with horizontal mode",
       "default": "left",
       "values": [ "left", "center", "right", "between", "around" ],
       "examples": [ "between" ],
