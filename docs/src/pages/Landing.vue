@@ -126,40 +126,16 @@
 
   section.padding.bg-white.text-grey-10.text-center
     div
-      .text-h6.text-primary.q-mb-xl Proudly sponsored by
-      .q-gutter-md.flex.flex-center
-        a
-          img(width='200px', src='https://cdn.quasar.dev/sponsors/think-health-data.png')
-        a(href='https://truelogic.com', target='_blank')
-          img(width='200px', src='https://cdn.quasar.dev/sponsors/truelogic.png')
-        a(href='https://www.tayloredtechnology.net', target='_blank')
-          img(width='200px', src='https://cdn.quasar.dev/sponsors/taylored-technology-big.jpeg')
-        a(href='http://campuscloudservices.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar.dev/sponsors/campus-cloud-services.png')
-        a(href='https://www.jugglestreet.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar.dev/sponsors/juggle-street.png')
-        a(href='http://comcomservices.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar.dev/sponsors/com-com-services.png')
-        a(href='http://www.kalisio.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar.dev/sponsors/kalisio.png')
-        a(href='http://platformpurple.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar.dev/sponsors/platform-purple.png')
-        a(href='http://www.bgasoft.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar.dev/sponsors/bgasoft.png')
-        a(href='https://www.letsbutterfly.com/', target='_blank')
-          img(width='170px', src='https://cdn.quasar.dev/sponsors/letsbutterfly.png')
+      .text-h6.text-primary.q-mb-xl Silver, Gold and Platinum Sponsors:
 
-      .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Partners
+      sponsor-list.justify-center
+
+      .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Our partners:
       .q-gutter-md.flex.flex-center
 
-        a(href='https://utopian.io/', target='_blank')
-          img(width='170px', src='https://cdn.quasar.dev/sponsors/utopian.png')
-
-        a(href='https://wallabyjs.com/', target='_blank')
-          img(width='110px', src='https://cdn.quasar.dev/sponsors/wallaby.png')
-
-        a(href='https://snyk.io/', target='_blank')
-          img(width='170px', src='https://cdn.quasar.dev/sponsors/snyk.png')
+        sponsor(img="utopian.png" name="Utopian" url="https://utopian.io/")
+        sponsor(img="wallaby.png" name="Wallabyjs" url="https://wallabyjs.com/")
+        sponsor(img="snyk.png" name="Snyk" url="https://snyk.io/")
 
   section.landing__footer
     div.text-center
@@ -204,8 +180,16 @@
 </template>
 
 <script>
+import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
+import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
+
 export default {
   name: 'Landing',
+
+  components: {
+    Sponsor,
+    SponsorList
+  },
 
   meta: {
     title: 'Quasar Framework'
