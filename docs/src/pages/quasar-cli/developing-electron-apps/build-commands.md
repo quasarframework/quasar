@@ -25,6 +25,9 @@ $ quasar build --mode electron
 
 It builds your app for production and then uses electron-packager to pack it into an executable. Check how to configure this on [Configuring Electron](/quasar-cli/developing-electron-apps/configuring-electron) page.
 
+### A note for non-Windows users
+If you want to build for Windows with a custom icon using a non-Windows platform, you must have [wine](https://www.winehq.org/) installed. [More Info](https://github.com/electron-userland/electron-packager#building-windows-apps-from-non-windows-platforms).
+
 ## Publishing (electron-builder only)
 ```bash
 $ quasar build -m electron -P always 
@@ -35,11 +38,12 @@ $ quasar dev --mode electron --publish always
 
 You can specify using `electron-builder` to build your app either directly on the command line (`--bundler builder`) or by setting it explicitly within `quasar.conf.js` at `electron.bundler`. This flag has no effect when using `electron-packager`.
 
-Currently (June 2019) supported publishing destinations include Github, Bintray, S3, Digital Ocean Spaces, or a generic HTTPS server. More information, including how to create valid publishing instructions, can be found at https://www.electron.build/configuration/publish.
+Currently (June 2019) supported publishing destinations include Github, Bintray, S3, Digital Ocean Spaces, or a generic HTTPS server. More information, including how to create valid publishing instructions, can be found [here](https://www.electron.build/configuration/publish).
 
-Valid options for `-P` are ["onTag", "onTagOrDraft", "always", "never"] which are explained at the above link. In addition, you must have valid `publish` configuration instructions in your `quasar.conf.js` at `electron.builder`
+Valid options for `-P` are "onTag", "onTagOrDraft", "always" and "never" which are explained at the above link. In addition, you must have valid `publish` configuration instructions in your `quasar.conf.js` at `electron.builder`.
 
 A very basic configuration to publish a Windows EXE setup file to Amazon S3 might look like this:
+
 ```
 electron: {
   bundler: 'builder', // set here instead of using command line flag --bundler
@@ -54,6 +58,3 @@ electron: {
     }
   }
 ```
-
-### A note for non-Windows users
-If you want to build for Windows with a custom icon using a non-Windows platform, you must have [wine](https://www.winehq.org/) installed. [More Info](https://github.com/electron-userland/electron-packager#building-windows-apps-from-non-windows-platforms).
