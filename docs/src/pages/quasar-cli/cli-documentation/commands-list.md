@@ -165,14 +165,25 @@ If there appears to be an issue with hot reload, you can try two fixes:
   sudo quasar dev
   ```
 
-## build / clean
+## build
 ```bash
 $ quasar build -h
 
   Description
     Builds distributables of your app.
+
   Usage
+    $ quasar build
     $ quasar build -p <port number>
+
+    $ quasar build -m ssr
+
+    # alias for "quasar build -m cordova -T ios"
+    $ quasar build -m ios
+
+    # alias for "quasar build -m cordova -T android"
+    $ quasar build -m android
+
   Options
     --mode, -m      App mode [spa|ssr|pwa|cordova|electron] (default: spa)
     --target, -T    App target
@@ -182,6 +193,9 @@ $ quasar build -h
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
+    --publish, -P   Also trigger publishing hooks (if any are specified)
+                      - Has special meaning when building with Electron mode and using
+                        electron-builder as bundler
     --debug, -d     Build for debugging purposes
     --skip-pkg, -s  Build only UI (skips creating Cordova/Electron executables)
                       - Cordova (it only fills in /src/cordova/www folder with the UI code)
@@ -196,10 +210,10 @@ $ quasar build -h
                           [ia32|x64|armv7l|arm64|mips64el|all]
                       - with "electron-builder" bundler:
                           [ia32|x64|armv7l|arm64|all]
-                          
-    ONLY when using electron-builder (optional):
-    --publish, -P   Publish options [onTag|onTagOrDraft|always|never]
-                      - see https://www.electron.build/configuration/publish                          
+
+    ONLY for electron-builder (when using "publish" parameter):
+    --publish, -P  Publish options [onTag|onTagOrDraft|always|never]
+                     - see https://www.electron.build/configuration/publish
 ```
 
 The Quasar CLI can pack everything together and optimize your App for production. It minifies source code, extracts vendor components, leverages browser cache and much more.
@@ -216,7 +230,8 @@ $ quasar build -m pwa
 $ quasar build -d
 ```
 
-You can also clean up all the build assets:
+## clean
+Cleans up all the build assets:
 ``` bash
 $ quasar clean
 ```

@@ -46,6 +46,9 @@ if (argv.help) {
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
+    --publish, -P   Also trigger publishing hooks (if any are specified)
+                      - Has special meaning when building with Electron mode and using
+                        electron-builder as bundler
     --debug, -d     Build for debugging purposes
     --skip-pkg, -s  Build only UI (skips creating Cordova/Electron executables)
                       - Cordova (it only fills in /src/cordova/www folder with the UI code)
@@ -61,7 +64,7 @@ if (argv.help) {
                       - with "electron-builder" bundler:
                           [ia32|x64|armv7l|arm64|all]
 
-    ONLY for electron-builder (optional):
+    ONLY for electron-builder (when using "publish" parameter):
     --publish, -P  Publish options [onTag|onTagOrDraft|always|never]
                      - see https://www.electron.build/configuration/publish
 
@@ -148,8 +151,9 @@ async function build () {
   const
     generator = new Generator(quasarConfig),
     webpackConfig = quasarConfig.getWebpackConfig(),
-    buildConfig = quasarConfig.getBuildConfig(),
-    outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
+    buildConfig = quasarConfig.getBuildConfig()
+
+  let outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
 
   artifacts.clean(outputFolder)
   generator.build()
@@ -199,11 +203,11 @@ async function build () {
     })
 
     finalize(argv.mode, quasarConfig).then(async () => {
-      banner(argv, 'build', {
-        outputFolder: argv.mode === 'cordova'
-          ? path.join(outputFolder, '..')
-          : outputFolder
-      })
+      outputFolder = argv.mode === 'cordova'
+        ? path.join(outputFolder, '..')
+        : outputFolder
+
+      banner(argv, 'build', { outputFolder })
 
       if (typeof buildConfig.build.afterBuild === 'function') {
         await buildConfig.build.afterBuild()
@@ -214,6 +218,23 @@ async function build () {
         log(`Extension(${hook.api.extId}): Running afterBuild hook...`)
         await hook.fn(hook.api)
       })
+
+      if (argv.publish !== void 0) {
+        const opts = {
+          arg: argv.publish,
+          distDir: outputFolder
+        }
+
+        if (typeof buildConfig.build.onPublish === 'function') {
+          await buildConfig.build.onPublish(opts)
+        }
+
+        // run possible beforeBuild hooks
+        await extensionRunner.runHook('onPublish', async hook => {
+          log(`Extension(${hook.api.extId}): Running onPublish hook...`)
+          await hook.fn(hook.api, opts)
+        })
+      }
     })
   })
 }
