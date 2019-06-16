@@ -226,9 +226,9 @@ Register a command that will become available as `quasar run <ext-id> <cmd> [arg
 /**
  * @param {string} commandName
  * @param {function} fn
- *   (args: { [ string ] }, params: {object} }) => ?Promise
+ *   ({ args: [ string, ... ], params: {object} }) => ?Promise
  */
-api.registerCommand('start', (args, params) => {
+api.registerCommand('start', ({ args, params }) => {
   // do something here
 
   // this registers the "start" command

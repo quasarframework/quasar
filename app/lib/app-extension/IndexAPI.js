@@ -200,7 +200,7 @@ module.exports = class IndexAPI {
    *
    * @param {string} commandName
    * @param {function} fn
-   *   (args: { [ string ] }, params: {object} }) => ?Promise
+   *   ({ args: [ string, ... ], params: {object} }) => ?Promise
    */
   registerCommand (commandName, fn) {
     this.__hooks.commands[commandName] = fn
