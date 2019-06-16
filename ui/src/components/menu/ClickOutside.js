@@ -12,7 +12,16 @@ export default {
       handler (evt) {
         const target = evt && evt.target
 
-        if (target && target !== document.body) {
+        if (
+          !target ||
+          // IE wrongfully triggers focusin event with target set to body
+          // when clicking, so we need this workaround:
+          (Platform.is.ie && evt.type === 'focusin' && target === document.body)
+        ) {
+          return
+        }
+
+        if (target !== document.body) {
           const related = arg !== void 0
             ? [ ...arg, el ]
             : [ el ]
