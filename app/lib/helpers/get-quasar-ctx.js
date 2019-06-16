@@ -12,7 +12,7 @@ module.exports = function (opts) {
     bundler: {},
     bundlerName: opts.bundler,
     debug: opts.debug || false,
-    publish: opts.publish || ''
+    publish: opts.publish
   }
   ctx.mode[opts.mode] = true
 
