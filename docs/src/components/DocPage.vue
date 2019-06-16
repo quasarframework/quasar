@@ -78,6 +78,8 @@ q-page.doc-page
 <script>
 import { copyHeading } from 'assets/page-utils'
 
+const year = (new Date()).getFullYear()
+
 export default {
   name: 'DocPage',
 
@@ -90,7 +92,7 @@ export default {
 
   data () {
     return {
-      year: (new Date()).getFullYear()
+      year
     }
   },
 

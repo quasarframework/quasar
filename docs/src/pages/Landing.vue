@@ -35,7 +35,7 @@
         q-btn(color="orange", push, no-caps, no-wrap, icon-right="launch", label="Hybrid Mobile App", to="/quasar-cli/developing-mobile-apps/introduction")
         q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
 
-      div.q-mt-lg Write code once and simultaneously deploy it as a website, a Mobile App and/or an Electron App. Yes, <strong>same codebase for all</strong>, helping you develop an app in record time by using a state of the art CLI and backed by well-written, very fast Quasar web components.
+      div.q-mt-lg Write code once and simultaneously deploy it as a website, a Mobile App and/or an Electron App. Yes, <strong>same codebase for all</strong>, helping you develop an app in record time by using a state of the art CLI and backed by well-written, performance-oriented Quasar web components.
 
   section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
@@ -54,6 +54,13 @@
 
   section.padding.bg-primary.landing__swirl-bg
     .landing__features.row.justify-between.items-start.q-col-gutter-xl
+
+      .col-xs-12.col-sm-5
+        .feature-item
+          q-icon(name="fas fa-chart-line")
+          h6 Quasar's goal
+          p What we want to achieve with Quasar is to raise the bar for web development as a whole. Make it go forward, evolve. Change minds. Point out when there’s a better alternative to current establishment. You deserve a stellar development experience.
+
       .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fab fa-google")
@@ -108,9 +115,15 @@
 
       .col-xs-12.col-sm-5
         .feature-item
+          q-icon(name="fas fa-shield-alt")
+          h6 We care deeply about Security
+          p We are always paranoid about the security of Quasar and the security of apps built with Quasar. We are on a constant lookout to inform you about any security threats that you might need to know about. We have Security guidelines and we are even offering our security expertise through the Quasar Audit program.
+
+      .col-xs-12.col-sm-5
+        .feature-item
           q-icon(name="fas fa-sign-in-alt")
           h6 Progressively migrate your existing project
-          p Quasar offers a UMD (Unified Module Definition) version, which you add as a CSS and JS HTML tag into an existing project and you're ready to use it. No build step is required.
+          p Quasar offers a UMD (Unified Module Definition) version, which you add as a CSS and a JS HTML tags into an existing project and you're ready to use it. No build step is required.
 
       .col-xs-12.col-sm-5
         .feature-item
@@ -249,6 +262,7 @@ export default {
   &__features
     .q-icon
       font-size 64px
+      padding-left 16px
 
     h4, h6
       margin 26px 0
