@@ -10,10 +10,11 @@ const argv = parseArgs(process.argv.slice(2), {
     b: 'bundler',
     s: 'skip-pkg',
     d: 'debug',
-    h: 'help'
+    h: 'help',
+    P: 'publish'
   },
   boolean: ['h', 'd', 'u'],
-  string: ['m', 'T'],
+  string: ['m', 'T', 'P'],
   default: {
     m: 'spa'
   }
@@ -59,6 +60,11 @@ if (argv.help) {
                           [ia32|x64|armv7l|arm64|mips64el|all]
                       - with "electron-builder" bundler:
                           [ia32|x64|armv7l|arm64|all]
+
+    ONLY for electron-builder (optional):
+    --publish, -P  Publish options [onTag|onTagOrDraft|always|never]
+                     - see https://www.electron.build/configuration/publish
+
   `)
   process.exit(0)
 }
@@ -119,7 +125,8 @@ async function build () {
     arch: argv.arch,
     bundler: argv.bundler,
     debug: argv.debug,
-    prod: true
+    prod: true,
+    publish: argv.publish
   })
 
   // register app extensions

@@ -110,6 +110,11 @@ class ElectronRunner {
         log(`Bundling app with electron-${bundlerName}...`)
         log()
 
+        if (cfg.ctx.debug) {
+          console.log(`DEBUG MODE - bundlerConfig:`)
+          console.log(bundlerConfig)
+        }        
+        
         const bundlePromise = bundlerName === 'packager'
           ? bundler({
             ...bundlerConfig,
