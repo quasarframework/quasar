@@ -13,7 +13,7 @@ const argv = parseArgs(process.argv.slice(2), {
 const extId = argv._[0]
 const cmd = argv._[1]
 
-if (!extId || argv.help) {
+if (!extId && argv.help) {
   console.log(`
   Description
     Run app extension provided commands
