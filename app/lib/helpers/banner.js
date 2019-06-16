@@ -19,6 +19,10 @@ module.exports = function (argv, cmd, details) {
  Pkg @quasar/app... ${green('v' + cliAppVersion)}
  Debugging......... ${cmd === 'dev' || argv.debug ? green('enabled') : grey('no')}`
 
+  if (cmd === 'build') {
+    banner += `\n Publishing........ ${argv.publish !== void 0 ? green('yes') : grey('no')}`
+  }
+
   if (details) {
     banner += `
  ==================
