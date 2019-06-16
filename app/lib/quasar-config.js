@@ -749,7 +749,9 @@ class QuasarConfig {
             arch: cfg.ctx.archName,
             config: cfg.electron.builder
           }
-          if (cfg.ctx.publish != null && cfg.ctx.publish.length > 0) cfg.electron.builder.publish = cfg.ctx.publish
+          if (cfg.ctx.publish) {
+            cfg.electron.builder.publish = cfg.ctx.publish
+          }
 
           bundler.ensureBuilderCompatibility()
         }
