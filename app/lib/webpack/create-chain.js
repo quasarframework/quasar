@@ -271,7 +271,12 @@ module.exports = function (cfg, configName) {
             from: appPaths.resolve.src('statics'),
             to: 'statics',
             ignore: ['.*']
-          }]
+          }].concat(cfg.ctx.mode.webview ? [{
+            from: require.resolve('quasar/dist/quasar.ie.polyfills.js', {
+              paths: [appPaths.srcDir]
+            }),
+            to: 'js'
+          }] : [])
         ])
     }
 

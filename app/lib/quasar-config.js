@@ -314,7 +314,9 @@ class QuasarConfig {
     // make sure it exists
     cfg.supportIE = this.ctx.mode.electron
       ? false
-      : (cfg.supportIE || false)
+      : this.ctx.mode.webview
+        ? this.ctx.dev
+        : (cfg.supportIE || false)
 
     cfg.vendor.add = cfg.vendor.add.filter(v => v).join('|')
     if (cfg.vendor.add) {

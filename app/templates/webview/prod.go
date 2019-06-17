@@ -9,6 +9,8 @@ import (
 	"os"
 	"path/filepath"
 	"flag"
+	"strings"
+	"runtime"
 )
 
 func getAssets(dirPath string) []string {
@@ -42,6 +44,9 @@ func setup(w webview.WebView) {
 			w.InjectCSS(string(css))
 		}
 		for _, file := range getAssets("../dist/webview/js") {
+			if (strings.Contains(file, "ie.polyfills") && runtime.GOOS != "windows") {
+				continue
+			}
 			js, err := ioutil.ReadFile(file)
 			check(err)
 			w.Eval(string(js))
