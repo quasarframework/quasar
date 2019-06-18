@@ -23,21 +23,8 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a>
-          <img width="300px" src="https://cdn.quasar.dev/sponsors/think-health-data.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://truelogic.com" target="_blank">
           <img width="300px" src="https://cdn.quasar.dev/sponsors/truelogic.png">
-        </a>
-      </td>
-    </tr>
-    <tr></tr>
-    <tr>
-      <td align="center" valign="middle">
-        <a href="https://www.tayloredtechnology.net" target="_blank">
-          <img width="300px" src="https://cdn.quasar.dev/sponsors/taylored-technology-big.jpeg">
         </a>
       </td>
       <td align="center" valign="middle">
