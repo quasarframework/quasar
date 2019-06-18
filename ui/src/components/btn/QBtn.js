@@ -44,7 +44,7 @@ export default Vue.extend({
               // required for iOS and desktop Safari
               el.contains(this.$el) === false
             ) ||
-            (this.$q.platform.is.ie === true && e.clientX < 0)
+            (this.$q.platform.is.ie === true && (e.clientX < 0 || e.clientY < 0))
           ) {
             stopAndPrevent(e)
             this.$el.focus()
