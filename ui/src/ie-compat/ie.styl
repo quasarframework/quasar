@@ -99,6 +99,15 @@ ie_style = @block
     ::-ms-clear
       display none
 
+    &__bottom--stale
+      .q-field__messages
+        left 12px
+
+    &--borderless, &--standard
+      .q-field__bottom--stale
+        .q-field__messages
+          left 0
+
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
   {ie_style}
 
