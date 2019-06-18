@@ -126,14 +126,17 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Flippen Group
 - Ryan Hill
 
-### $10+
+### $25+
 
 - David Watson ($30)
 - 上田 進也(合同会社サンドボックス) (Sandbox Gmbh) ($30)
-- Valerian Cure ($25)
-- Shawn Makinson ($25)
-- Jim O'Quinn ($25)
-- Elad Yaniv ($25)
+- Valerian Cure
+- Shawn Makinson
+- Jim O'Quinn
+- Agilus Informática
+
+### $15+
+
 - Max Matteo Staack ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
@@ -144,9 +147,13 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Martin Thompson ($20)
 - Shapovalov Pavel ($20)
 - RAKOTOSEHENO Alain ($20)
-- Shone Radulovic ($15)
-- Sam Cassar ($15)
-- Francis Vithayathil ($15)
+- Shone Radulovic
+- Sam Cassar
+- Francis Vithayathil
+- Michael Svendsen
+
+### $10+
+
 - Vaidotas Beržinskas ($13.37)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
@@ -183,11 +190,9 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Kévin Marrec
 - 良平 勝目
 - Jörg Walter
-- Christian Kyony
 - Mast
 - altShiftDev
 - Simon Kimber
-- Arjan Dhupia
 - RED CAD Solutions AG
 - Yatima Kagurazaka
 - Matyáš Racek
@@ -209,7 +214,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jay McGuinness
 - Jesse Sudich (Outflank Pay Tracker)
 - Controle Digital
-- Tobias Mesquita
 - Volentix
 - Pascual Strømsnæs
 - Taillefer Brice
@@ -254,6 +258,22 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - VHCI Business Development SRL
 - Fergus Meiklejohn
 - Aydin Sakar
+- Mike Ryan
+- synMedico
+- Andrew Heim
+- Andre Alexandre Duarte
+- Patrick Pinheiro Monteiro
+- Stuart Petersmann
+- Jonathan Labéjof
+- Vesa Laitinen
+- Bryan Kim
+- Jérémy R.
+- Luciano Pereira
+- Ioan Mircea Ciuchea
+- Elad Yaniv
+- Robert Willie
+- Noel Costa
+- Ievgen Iaroslavtsev
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
@@ -263,6 +283,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Hugo Ramses Moreno Ramos (5$)
 - Louis Ameline ($5)
 - Peter Dzurcanin ($5)
+- LeeDy ($5)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)
@@ -286,6 +307,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Polaris Microsystems, L.L.C. $50
 - Jochen Geiger $50
 - Nikolay Ivanov Teofilov $50
+- Rohit Chatterjee $50
 - Martin Beaudet $30
 - Jomo Daniels $30
 - Daniel Connell $20
+- Jens Lück $20

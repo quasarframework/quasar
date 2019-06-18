@@ -56,6 +56,11 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 
 <doc-example title="Other options" file="Dialog/OtherOptions" />
 
+### Using HTML
+You can use HTML on title and message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
+
+<doc-example title="Unsafe HTML message" file="Dialog/UnsafeHtml" />
+
 ### Invoking custom component
 
 You can also invoke your own custom component rather than relying on the default one that the Dialog plugin comes with out of the box. But in this case you will be responsible for handling everything (including your own component props).

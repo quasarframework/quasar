@@ -98,7 +98,12 @@ export default Vue.extend({
     innerValue: {
       handler () {
         if (
-          this.useInput === true && this.fillInput === true && this.multiple !== true &&
+          this.useInput === true &&
+          this.fillInput === true &&
+          this.multiple !== true &&
+          // Prevent re-entering in filter while filtering
+          // Also prevent clearing inputValue while filtering
+          this.innerLoading !== true &&
           ((this.dialog !== true && this.menu !== true) || this.hasValue !== true)
         ) {
           this.__resetInputValue()
@@ -289,7 +294,9 @@ export default Vue.extend({
 
       const optValue = this.__getOptionValue(opt)
 
-      this.multiple !== true && this.updateInputValue(this.fillInput === true ? optValue : '', true)
+      this.multiple !== true && this.updateInputValue(
+        this.fillInput === true ? this.__getOptionLabel(opt) : '', true
+      )
       this.focus()
 
       if (this.multiple !== true) {
@@ -465,7 +472,6 @@ export default Vue.extend({
         return
       }
 
-      // below is meant for multiple mode only
       if (
         this.inputValue.length > 0 &&
         (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0)
@@ -488,11 +494,15 @@ export default Vue.extend({
             )
           }
 
-          this.updateInputValue('')
+          this.updateInputValue('', this.multiple !== true)
         }
 
         if (this.$listeners['new-value'] !== void 0) {
           this.$emit('new-value', this.inputValue, done)
+
+          if (this.multiple !== true) {
+            return
+          }
         }
         else {
           done(this.inputValue)
@@ -590,7 +600,7 @@ export default Vue.extend({
     },
 
     __getControl (h, fromDialog) {
-      let data = {}
+      let data = { attrs: {} }
       const child = this.__getSelection(h, fromDialog)
 
       if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
@@ -601,8 +611,7 @@ export default Vue.extend({
           ref: 'target',
           attrs: {
             tabindex: 0,
-            autofocus: this.autofocus,
-            ...this.$attrs
+            autofocus: this.autofocus
           },
           on: {
             keydown: this.__onTargetKeydown
@@ -610,6 +619,7 @@ export default Vue.extend({
         }
       }
 
+      Object.assign(data.attrs, this.$attrs)
       data.staticClass = 'q-field__native row items-center'
 
       return h('div', data, child)
@@ -636,7 +646,7 @@ export default Vue.extend({
     },
 
     __getInnerAppend (h) {
-      return this.hideDropdownIcon !== true
+      return this.loading !== true && this.innerLoading !== true && this.hideDropdownIcon !== true
         ? [
           h(QIcon, {
             staticClass: 'q-select__dropdown-icon',
@@ -673,7 +683,7 @@ export default Vue.extend({
 
       if (this.$listeners.filter !== void 0) {
         this.inputTimer = setTimeout(() => {
-          this.filter(this.inputValue)
+          this.filter(this.inputValue, true)
         }, this.inputDebounce)
       }
     },
@@ -688,7 +698,7 @@ export default Vue.extend({
       }
     },
 
-    filter (val) {
+    filter (val, userInput) {
       if (this.$listeners.filter === void 0 || this.focused !== true) {
         return
       }
@@ -704,6 +714,7 @@ export default Vue.extend({
         val !== '' &&
         this.multiple !== true &&
         this.innerValue.length > 0 &&
+        userInput !== true &&
         val === this.__getOptionLabel(this.innerValue[0])
       ) {
         val = ''
@@ -825,7 +836,8 @@ export default Vue.extend({
             dark: this.optionsDark,
             square: true,
             loading: this.innerLoading,
-            filled: true
+            filled: true,
+            stackLabel: this.inputValue.length > 0
           },
           on: {
             ...this.$listeners,
@@ -959,6 +971,10 @@ export default Vue.extend({
       if (this.dialog === false && this.$refs.menu !== void 0) {
         this.$refs.menu.updatePosition()
       }
+    },
+
+    updateMenuPosition () {
+      this.__onPostRender()
     }
   },
 

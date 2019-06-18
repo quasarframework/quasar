@@ -1,6 +1,23 @@
 const warn = require('./logger')('app:ensure-argv', 'red')
 
 module.exports = function (argv, cmd) {
+  if (argv.mode) {
+    if (argv.mode === 'ios') {
+      argv.m = argv.mode = 'cordova'
+      argv.T = argv.target = 'ios'
+
+      console.log()
+      console.log(` Converting to long form: -m cordova -T ios`)
+    }
+    else if (argv.mode === 'android') {
+      argv.m = argv.mode = 'cordova'
+      argv.T = argv.target = 'android'
+
+      console.log()
+      console.log(` Converting to long form: -m cordova -T android`)
+    }
+  }
+
   if (!['spa', 'pwa', 'cordova', 'electron', 'ssr'].includes(argv.mode)) {
     warn(`⚠️  Unknown mode "${ argv.mode }"`)
     warn()

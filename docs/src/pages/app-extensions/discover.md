@@ -4,6 +4,12 @@ title: Discover App Extensions
 
 <app-extension-discover />
 
+## Community App Extensions
+
+Review submitted [Community App Extensions](https://github.com/quasarframework/quasar-awesome/blob/master/README.md#community-app-extensions).
+
+> And please don't forget to submit your own! Learn what Quasar [App Extensions](/app-extensions/introduction) are and how to [create one](/app-extensions/development-guide/introduction).
+
 
 ## Official App Extensions
 Below is a list of official app-extensions created by members of the Quasar team.
@@ -20,14 +26,14 @@ Below is a list of official app-extensions created by members of the Quasar team
 | Alias | Description |
 | --- | --- |
 | [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) | A slightly opinionated management tool to use dotenv in your application |
-| [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) | A less slightly opinionated management tool to propogate variables to the browser for a variety of unlimited environments (dev, prod, test, etc) for use in your application |
+| [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) | A less slightly opinionated management tool to propagate variables to the browser for a variety of unlimited environments (dev, prod, test, etc) for use in your application |
 | [@quasar/icon-factory](https://github.com/quasarframework/app-extension-icon-factory) | Cross-platform construction kit to generate all app-icons (favicons, .ico, .icns) for distributables |
 
 ### Components
 
 | Alias | Description |
 | --- | --- |
-| [@quasar/qmediaplayer](https://github.com/quasarframework/app-extension-qmediaplayer) | HTML5 Video and Audio player |
+| [@quasar/qmediaplayer](https://github.com/quasarframework/app-extension-qmediaplayer) | HTML5 video and audio player |
 | [@quasar/qflashcard](https://github.com/quasarframework/app-extension-qflashcard) | Show some information and reveal more with CSS Transition Mashups |
 | [@quasar/qoverlay](https://github.com/quasarframework/app-extension-qoverlay) | Overlays simplified. Add any component on top of the overlay |
 | [@quasar/qactivity](https://github.com/quasarframework/app-extension-qactivity) | Create activity timelines |
@@ -35,6 +41,7 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/qpdfviewer](https://github.com/quasarframework/app-extension-qpdfviewer) | View PDF documents in your Quasar app |
 | [@quasar/qcalendar](https://github.com/quasarframework/app-extension-qcalendar) | Calendar for Quasar |
 | [@quasar/qscroller](https://github.com/quasarframework/app-extension-qscroller) | Many scrolling components, including QScroller, QTimeScroller, QDateScroller, QDateTimeScroller and scrolling time ranges |
+| [@quasar/qiconpicker](https://github.com/quasarframework/app-extension-qiconpicker) | Icon Picker for your Quasar apps |
 
 ### In Development
 

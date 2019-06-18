@@ -19,6 +19,7 @@
                     :boundary-links="boundaryLinks"
                     :direction-links="directionLinks"
                     :input="inputType"
+                    :input-class="inputClass"
       />
 
       <p class="caption">
@@ -30,6 +31,7 @@
                     :boundary-links="boundaryLinks"
                     :direction-links="directionLinks"
                     :input="inputType"
+                    :input-class="inputClass"
       />
       <q-pagination class="inline" @change="onChange" @input="onInput" v-model="page"
                     :min="min"
@@ -37,6 +39,7 @@
                     :boundary-links="boundaryLinks"
                     :direction-links="directionLinks"
                     :input="inputType"
+                    :input-class="inputClass"
       />
 
       <p class="caption">
@@ -48,6 +51,7 @@
                     :boundary-links="boundaryLinks"
                     :direction-links="directionLinks"
                     :input="inputType"
+                    :input-class="inputClass"
       />
 
       <p class="caption">
@@ -62,6 +66,7 @@
                     :ellipses="ellipses"
                     :max-pages="maxPages"
                     :input="inputType"
+                    :input-style="inputStyle"
       />
 
       <p class="caption">
@@ -76,6 +81,7 @@
                     :ellipses="ellipses"
                     :max-pages="maxPages"
                     :input="inputType"
+                    :input-style="inputStyle"
       />
 
       <p class="caption">
@@ -128,7 +134,9 @@ export default {
         { label: 'Yes', value: true },
         { label: 'No', value: false },
         { label: 'Default', value: null }
-      ]
+      ],
+      inputClass: 'text-orange-10',
+      inputStyle: 'color: purple'
     }
   },
   methods: {

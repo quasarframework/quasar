@@ -25,6 +25,10 @@ $ quasar upgrade
 $ quasar upgrade --install
 ```
 
+::: warning Note for code editor terminals
+If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%* then restart your code editor.
+:::
+
 ### With Vue CLI
 ```bash
 $ yarn upgrade quasar@latest
@@ -247,7 +251,23 @@ The dist folder now strips out the `-mat` and `-ios` suffixes because there's on
 ## Misc
 
 - `this.$q.i18n` was changed to `this.$q.lang`
+- `import(`quasar-framework/i18n/${lang}`) was changed to `import(`quasar/lang/${lang}`)` where `${lang}` would be `en-us` etc.
 - `this.$q.icons` was changed to `this.$q.iconSet`
+- In previous versions you would access an imported language packs isoName with:
+
+```js
+ import(`quasar/lang/${locale}`).then(lang => {
+   // Access the isoName with - lang.default.lang
+ })
+```
+
+This now needs changing to
+
+```js
+ import(`quasar/lang/${locale}`).then(lang => {
+   // Access the isoName with - lang.default.isoName
+ })
+```
 
 ## Color Palette
 

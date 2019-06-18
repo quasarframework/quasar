@@ -894,6 +894,7 @@ const appExtensions = [
   },
   {
     name: 'Discover App Extensions',
+    badge: 'new',
     path: 'discover'
   },
   {

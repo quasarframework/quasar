@@ -27,12 +27,12 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       .row.justify-center.q-my-lg
         q-btn(
           type="a"
-          href="https://www.patreon.com/quasarframework"
+          href="https://github.com/users/rstoenescu/sponsorship"
           target="_blank"
           size="13px"
           color="primary"
-          icon="fab fa-patreon"
-          label="Become a Patron"
+          icon="favorite_border"
+          label="Donate to Quasar"
         )
 
       app-menu.q-my-lg

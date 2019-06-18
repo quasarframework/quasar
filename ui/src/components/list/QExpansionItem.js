@@ -52,7 +52,7 @@ export default Vue.extend({
 
   watch: {
     showing (val) {
-      if (val && this.group) {
+      if (val === true && this.group) {
         this.$root.$emit(eventName, this)
       }
     }

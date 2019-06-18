@@ -35,7 +35,7 @@
         q-btn(color="orange", push, no-caps, no-wrap, icon-right="launch", label="Hybrid Mobile App", to="/quasar-cli/developing-mobile-apps/introduction")
         q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
 
-      div.q-mt-lg Write code once and simultaneously deploy it as a website, a Mobile App and/or an Electron App. Yes, <strong>same codebase for all</strong>, helping you develop an app in record time by using a state of the art CLI and backed by well-written, very fast Quasar web components.
+      div.q-mt-lg Write code once and simultaneously deploy it as a website, a Mobile App and/or an Electron App. Yes, <strong>same codebase for all</strong>, helping you develop an app in record time by using a state of the art CLI and backed by well-written, performance-oriented Quasar web components.
 
   section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
@@ -54,6 +54,13 @@
 
   section.padding.bg-primary.landing__swirl-bg
     .landing__features.row.justify-between.items-start.q-col-gutter-xl
+
+      .col-xs-12.col-sm-5
+        .feature-item
+          q-icon(name="fas fa-chart-line")
+          h6 Quasar's goal
+          p What we want to achieve with Quasar is to raise the bar for web development as a whole. Make it go forward, evolve. Change minds. Point out when there’s a better alternative to current establishment. You deserve a stellar development experience.
+
       .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fab fa-google")
@@ -108,9 +115,15 @@
 
       .col-xs-12.col-sm-5
         .feature-item
+          q-icon(name="fas fa-shield-alt")
+          h6 We care deeply about Security
+          p We are always paranoid about the security of Quasar and the security of apps built with Quasar. We are on a constant lookout to inform you about any security threats that you might need to know about. We have Security guidelines and we are even offering our security expertise through the Quasar Audit program.
+
+      .col-xs-12.col-sm-5
+        .feature-item
           q-icon(name="fas fa-sign-in-alt")
           h6 Progressively migrate your existing project
-          p Quasar offers a UMD (Unified Module Definition) version, which you add as a CSS and JS HTML tag into an existing project and you're ready to use it. No build step is required.
+          p Quasar offers a UMD (Unified Module Definition) version, which you add as a CSS and a JS HTML tags into an existing project and you're ready to use it. No build step is required.
 
       .col-xs-12.col-sm-5
         .feature-item
@@ -126,40 +139,16 @@
 
   section.padding.bg-white.text-grey-10.text-center
     div
-      .text-h6.text-primary.q-mb-xl Proudly sponsored by
-      .q-gutter-md.flex.flex-center
-        a
-          img(width='200px', src='https://cdn.quasar.dev/sponsors/think-health-data.png')
-        a(href='https://truelogic.com', target='_blank')
-          img(width='200px', src='https://cdn.quasar.dev/sponsors/truelogic.png')
-        a(href='https://www.tayloredtechnology.net', target='_blank')
-          img(width='200px', src='https://cdn.quasar.dev/sponsors/taylored-technology-big.jpeg')
-        a(href='http://campuscloudservices.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar.dev/sponsors/campus-cloud-services.png')
-        a(href='https://www.jugglestreet.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar.dev/sponsors/juggle-street.png')
-        a(href='http://comcomservices.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar.dev/sponsors/com-com-services.png')
-        a(href='http://www.kalisio.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar.dev/sponsors/kalisio.png')
-        a(href='http://platformpurple.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar.dev/sponsors/platform-purple.png')
-        a(href='http://www.bgasoft.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar.dev/sponsors/bgasoft.png')
-        a(href='https://www.letsbutterfly.com/', target='_blank')
-          img(width='170px', src='https://cdn.quasar.dev/sponsors/letsbutterfly.png')
+      .text-h6.text-primary.q-mb-xl Silver, Gold and Platinum Sponsors:
 
-      .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Partners
+      sponsor-list.justify-center
+
+      .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Our partners:
       .q-gutter-md.flex.flex-center
 
-        a(href='https://utopian.io/', target='_blank')
-          img(width='170px', src='https://cdn.quasar.dev/sponsors/utopian.png')
-
-        a(href='https://wallabyjs.com/', target='_blank')
-          img(width='110px', src='https://cdn.quasar.dev/sponsors/wallaby.png')
-
-        a(href='https://snyk.io/', target='_blank')
-          img(width='170px', src='https://cdn.quasar.dev/sponsors/snyk.png')
+        sponsor(img="utopian.png" name="Utopian" url="https://utopian.io/")
+        sponsor(img="wallaby.png" name="Wallabyjs" url="https://wallabyjs.com/")
+        sponsor(img="snyk.png" name="Snyk" url="https://snyk.io/")
 
   section.landing__footer
     div.text-center
@@ -204,8 +193,16 @@
 </template>
 
 <script>
+import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
+import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
+
 export default {
   name: 'Landing',
+
+  components: {
+    Sponsor,
+    SponsorList
+  },
 
   meta: {
     title: 'Quasar Framework'
@@ -265,6 +262,7 @@ export default {
   &__features
     .q-icon
       font-size 64px
+      padding-left 16px
 
     h4, h6
       margin 26px 0

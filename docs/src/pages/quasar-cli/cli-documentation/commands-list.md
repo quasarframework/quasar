@@ -79,6 +79,10 @@ $ quasar upgrade
 $ quasar upgrade --install
 ```
 
+::: warning Note for code editor terminals
+If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%* then restart your code editor.
+:::
+
 ## info
 The Quasar CLI is equipped with a stable combination of multiple NPM build packages (Webpack, Vue, etc) which gets updated frequently after heavy testing.
 
@@ -161,14 +165,25 @@ If there appears to be an issue with hot reload, you can try two fixes:
   sudo quasar dev
   ```
 
-## build / clean
+## build
 ```bash
 $ quasar build -h
 
   Description
     Builds distributables of your app.
+
   Usage
+    $ quasar build
     $ quasar build -p <port number>
+
+    $ quasar build -m ssr
+
+    # alias for "quasar build -m cordova -T ios"
+    $ quasar build -m ios
+
+    # alias for "quasar build -m cordova -T android"
+    $ quasar build -m android
+
   Options
     --mode, -m      App mode [spa|ssr|pwa|cordova|electron] (default: spa)
     --target, -T    App target
@@ -178,6 +193,9 @@ $ quasar build -h
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
+    --publish, -P   Also trigger publishing hooks (if any are specified)
+                      - Has special meaning when building with Electron mode and using
+                        electron-builder as bundler
     --debug, -d     Build for debugging purposes
     --skip-pkg, -s  Build only UI (skips creating Cordova/Electron executables)
                       - Cordova (it only fills in /src/cordova/www folder with the UI code)
@@ -192,6 +210,10 @@ $ quasar build -h
                           [ia32|x64|armv7l|arm64|mips64el|all]
                       - with "electron-builder" bundler:
                           [ia32|x64|armv7l|arm64|all]
+
+    ONLY for electron-builder (when using "publish" parameter):
+    --publish, -P  Publish options [onTag|onTagOrDraft|always|never]
+                     - see https://www.electron.build/configuration/publish
 ```
 
 The Quasar CLI can pack everything together and optimize your App for production. It minifies source code, extracts vendor components, leverages browser cache and much more.
@@ -208,7 +230,8 @@ $ quasar build -m pwa
 $ quasar build -d
 ```
 
-You can also clean up all the build assets:
+## clean
+Cleans up all the build assets:
 ``` bash
 $ quasar clean
 ```
@@ -397,7 +420,7 @@ $ quasar inspect -h
 ```
 
 ## ext
-This command is used to manage [App Extensions](/quasar-cli/app-extensions/introduction).
+This command is used to manage [App Extensions](/app-extensions/introduction).
 
 ```bash
 $ quasar ext -h
@@ -429,7 +452,7 @@ $ quasar ext -h
 ```
 
 ## run
-This command is used to run commands supplied by the [App Extensions](/quasar-cli/app-extensions/introduction) that you've installed into your project folder.
+This command is used to run commands supplied by the [App Extensions](/app-extensions/introduction) that you've installed into your project folder.
 
 ```bash
 $ quasar run -h
@@ -440,12 +463,12 @@ $ quasar run -h
   Usage
     $ quasar run <extension-id> <cmd> [args, params]
 
-    $ quasar run iconify create -s
+    $ quasar run iconify create pic -s --mark some_file
         # Note: "iconify" is an example and not a real extension.
         # Looks for installed extension called "iconify"
         # (quasar-app-extension-iconify extension package)
         # and runs its custom defined "create" command
-        # with "-s --mark some_file" params
+        # with "pic" argument and "-s --mark some_file" params
 
   Options
     --help, -h       Displays this message

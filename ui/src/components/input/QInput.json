@@ -109,6 +109,10 @@
 
     "blur": {
       "desc": "Lose focus on underlying input tag"
+    },
+
+    "select": {
+      "desc": "Select input text"
     }
   }
 }

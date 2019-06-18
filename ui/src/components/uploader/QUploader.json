@@ -117,7 +117,7 @@
       },
       "returns": {
         "type": [ "Object", "Promise" ],
-        "desc": "Optional configuration for the upload process; You can override QUploader props in this Object (url, method, headers, fields, fieldName, withCredentials, sendRaw); Props of these Object can also be Functions with the form of (file[s]) => value",
+        "desc": "Optional configuration for the upload process; You can override QUploader props in this Object (url, method, headers, formFields, fieldName, withCredentials, sendRaw); Props of these Object can also be Functions with the form of (file[s]) => value",
         "__exemption": [ "examples" ]
       },
       "category": "upload"

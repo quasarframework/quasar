@@ -261,7 +261,7 @@ export function __splitDate (str, mask, dateLocale, calendar) {
       date.hour = parseInt(match[map.H], 10) % 24
     }
     else if (map.h !== void 0) {
-      date.hour = parseInt(match[map.h], 10)
+      date.hour = parseInt(match[map.h], 10) % 12
       if (
         (map.A && match[map.A] === 'PM') ||
         (map.a && match[map.a] === 'pm') ||
@@ -269,7 +269,7 @@ export function __splitDate (str, mask, dateLocale, calendar) {
       ) {
         date.hour += 12
       }
-      date.hour = date.hour % 12 || 12
+      date.hour = date.hour % 24
     }
 
     if (map.m !== void 0) {
