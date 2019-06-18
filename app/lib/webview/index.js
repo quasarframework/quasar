@@ -36,7 +36,7 @@ class WebViewRunner {
 
     return this.__runWebViewCommand(
       cfg,
-      ['-tags', 'dev'],
+      ['run', '--features', 'dev'],
       args
     )
   }
@@ -47,7 +47,7 @@ class WebViewRunner {
     // TODO: pass index filename to the executable
     return this.__runWebViewCommand(
       cfg,
-      [],
+      ['build'],
       cfg.ctx.debug ? ['--debug'] : []
     )
   }
@@ -63,6 +63,24 @@ class WebViewRunner {
   }
 
   __runWebViewCommand(cfg, buildArgs, args) {
+    return new Promise(resolve => {
+      this.pid = spawn(
+        'cargo',
+        buildArgs.concat(['--']).concat(args),
+        path.join(appPaths.webviewDir, 'rust-app'),
+        code => {
+          this.__cleanup()
+          if (code) {
+            warn(`⚠️  [FAIL] WebView CLI has failed`)
+            process.exit(1)
+          }
+          resolve(code)
+        }
+      )
+    })
+  }
+
+  /**__runWebViewCommand(cfg, buildArgs, args) {
     let executeAppCommand, output
     buildArgs.unshift('build')
 
@@ -123,7 +141,7 @@ class WebViewRunner {
         }
       )
     })
-  }
+  }*/
 
   __stopWebView () {
     const pid = this.pid
