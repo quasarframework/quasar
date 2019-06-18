@@ -89,17 +89,12 @@ div
           q-icon(name="fab fa-stack-overflow")
         q-item-section Stack Overflow
 
-      q-separator.q-my-md
+      q-separator.q-my-sm
 
       q-item(clickable, tag="a", href="https://github.com/users/rstoenescu/sponsorship", target="_blank")
         q-item-section(avatar)
           q-icon(name="fab fa-github")
         q-item-section Github Sponsorship
-
-      q-item(clickable, tag="a", href="https://www.patreon.com/quasarframework", target="_blank")
-        q-item-section.text-red(avatar)
-          q-icon(name="fab fa-patreon")
-        q-item-section Patreon
 </template>
 
 <script>
